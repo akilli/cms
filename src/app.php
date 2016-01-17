@@ -19,9 +19,6 @@ use InvalidArgumentException;
  */
 function run(array $data = [])
 {
-    // Reset registry
-    registry();
-
     // Dispatch action event
     $event = 'action.' . http\request('id');
 
@@ -45,24 +42,16 @@ function run(array $data = [])
 /**
  * Internal registry
  *
- * Behaviour:
- * - resets whole data if id is null and returns a reference to $data
- * - sets value for id if value is set or id key does not exist yet and returns reference to $data[$id]
+ * Sets value for id if value is set or id key does not exist yet and returns reference to $data[$id]
  *
  * @param string $id
  * @param array $value
  *
  * @return array|null
  */
-function & registry(string $id = null, array $value = null)
+function & registry(string $id, array $value = null)
 {
     static $data = [];
-
-    if ($id === null) {
-        $data = [];
-
-        return $data;
-    }
 
     if ($value !== null || !array_key_exists($id, $data)) {
         $data[$id] = $value;
