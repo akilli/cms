@@ -8,7 +8,7 @@ use config;
  * Translate
  *
  * @param string $key
- * @param string ...$params
+ * @param string[] ...$params
  *
  * @return string
  */
