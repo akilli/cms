@@ -1,0 +1,11 @@
+<form action="<?=url\path('*/*');?>" method="post" class="search">
+    <fieldset class="data">
+        <div class="element">
+            <label for="data-terms"><?=i18n\translate('Search Terms');?></label>
+            <input id="data-terms" type="search" name="data[terms]" title="<?=i18n\translate('Please enter your search terms');?>" />
+            <input type="submit" name="action[search]" title="<?=i18n\translate('Search');?>" value="<?=i18n\translate('Search');?>" />
+            <input type="hidden" name="token" value="<?=session\token();?>" />
+            <p class="message"><?=i18n\translate('Please enter your search terms');?></p>
+        </div>
+    </fieldset>
+</form>

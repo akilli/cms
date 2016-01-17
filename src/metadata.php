@@ -1,0 +1,192 @@
+<?php
+namespace metadata;
+
+use app;
+use i18n;
+use RuntimeException;
+
+/**
+ * Entity
+ *
+ * @param array $data
+ *
+ * @return array
+ *
+ * @throws RuntimeException
+ */
+function entity(array $data)
+{
+    // Check minimum requirements
+    if (empty($data['id']) || empty($data['name']) || empty($data['table']) || empty($data['attributes'])) {
+        throw new RuntimeException(i18n\translate('Entity metadata does not meet the minimum requirements'));
+    }
+
+    // Clean up
+    foreach (array_keys($data) as $key) {
+        if (strpos($key, '_') === 0) {
+            unset($data[$key]);
+        }
+    }
+
+    // Model
+    $skeleton = app\data('skeleton', 'entity');
+    $model = empty($data['model']) ? $skeleton['model'] : $data['model'];
+    $data = array_replace_recursive($skeleton, (array) app\data('skeleton', 'entity.' . $model), $data);
+
+    // Actions
+    if (!is_array($data['actions'])) {
+        $data['actions'] = [];
+    }
+
+    // Attributes
+    $sortOrder = 0;
+
+    foreach ($data['attributes'] as $id => & $attribute) {
+        $attribute['id'] = $id;
+        $attribute['entity_id'] = $data['id'];
+
+        // Replace placeholders
+        if (strpos($attribute['type'], ':') === 0
+            && ($code = substr($attribute['type'], 1))
+            && !empty($data['attributes'][$code]['type'])
+        ) {
+            $attribute['type'] = $data['attributes'][$code]['type'];
+        }
+
+        if (!empty($attribute['foreign_entity_id']) && $attribute['foreign_entity_id'] === ':entity_id') {
+            $attribute['foreign_entity_id'] = $data['id'];
+        }
+
+        $attribute = attribute($attribute);
+
+        if (!is_numeric($attribute['sort_order'])) {
+            $attribute['sort_order'] = $sortOrder;
+            $sortOrder += 100;
+        }
+    }
+
+    return $data;
+}
+
+/**
+ * Attribute
+ *
+ * @param array $data
+ *
+ * @return array
+ *
+ * @throws RuntimeException
+ */
+function attribute(array $data)
+{
+    // Check minimum requirements
+    if (empty($data['id']) || empty($data['name']) || empty($data['type'])) {
+        throw new RuntimeException(i18n\translate('Attribute metadata does not meet the minimum requirements'));
+    }
+
+    // Clean up
+    foreach (array_keys($data) as $key) {
+        if (strpos($key, '_') === 0) {
+            unset($data[$key]);
+        }
+    }
+
+    // Type, Backend, Frontend
+    $type = app\data('type', $data['type']);
+
+    if (!$type || empty($type['backend']) || empty($type['frontend'])) {
+        throw new RuntimeException(
+            i18n\translate('Invalid type %s configured for attribute %s', $data['type'], $data['id'])
+        );
+    }
+
+    $data['backend'] = $type['backend'];
+    $data['frontend'] = $type['frontend'];
+    $backend = app\data('backend', $data['backend']);
+    $frontend = app\data('frontend', $data['frontend']);
+
+    // Model
+    $data = array_replace(
+        app\data('skeleton', 'attribute'),
+        !empty($backend['default']) ? $backend['default'] : [],
+        !empty($frontend['default']) ? $frontend['default'] : [],
+        !empty($type['default']) ? $type['default'] : [],
+        $data
+    );
+
+    // Actions
+    if (!is_array($data['actions'])) {
+        $data['actions'] = [];
+    }
+
+    // Correct invalid values
+    $data['is_required'] = !empty($data['null']) ? false : $data['is_required'];
+    $data['is_unique'] = in_array($data['backend'], ['bool', 'text']) ? false : $data['is_unique'];
+    $data['is_multiple'] = in_array($data['type'], ['multicheckbox', 'multiselect']) ? true : false;
+
+    return $data;
+}
+
+/**
+ * Check wheter entity or attribute supports at least one of provided actions
+ *
+ * @param string|array $action
+ * @param array $data
+ *
+ * @return bool
+ */
+function action($action, array $data)
+{
+    if (!isset($data['actions'])
+        || !is_array($data['actions']) && !($data['actions'] = json_decode($data['actions'], true))
+        || empty($data['actions'])
+    ) {
+        // No actions supported
+        return false;
+    } elseif (in_array('all', $data['actions']) && ($action !== 'edit' || empty($data['auto']))) {
+        // All actions supported
+        return true;
+    }
+
+    foreach ((array) $action as $key) {
+        if (in_array($key, $data['actions']) && ($key !== 'edit' || empty($data['auto']))) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Retrieve empty entity
+ *
+ * @param string $entity
+ * @param int $number
+ *
+ * @return array
+ */
+function skeleton($entity, $number = null)
+{
+    $metadata = app\data('metadata', $entity);
+    $item = ['_metadata' => $metadata, '_original' => null, '_id' => null, 'id' => null, 'name' => null];
+
+    foreach ($metadata['attributes'] as $code => $attribute) {
+        if (action('edit', $attribute)) {
+            $item[$code] = null;
+        }
+    }
+
+    if ($number === null) {
+        return $item;
+    }
+
+    $data = array_fill_keys(range(-1, -1 * max(1, (int) $number)), $item);
+    array_walk(
+        $data,
+        function (array & $value, $key) {
+            $value['_id'] = $key;
+        }
+    );
+
+    return $data;
+}

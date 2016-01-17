@@ -1,0 +1,17 @@
+<?php if ($item = $block['data']('item')):?>
+<article class="block block-view">
+    <?php foreach ($item['_metadata']['attributes'] as $code => $attribute):?>
+        <?php $attribute['action'] = 'view';?>
+        <?php if (!$html = $attribute['view']($attribute, $item)) continue;?>
+        <?php if ($code === 'name'):?>
+    <header>
+        <h1><?=$html;?></h1>
+    </header>
+        <?php else:?>
+    <div class="attribute-<?=$attribute['id'];?>">
+        <?=$html;?>
+    </div>
+        <?php endif;?>
+    <?php endforeach;?>
+</article>
+<?php endif;?>

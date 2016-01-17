@@ -1,0 +1,462 @@
+/**
+ * Section
+ */
+body {
+    line-height: 1.5;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+}
+
+h1 {
+    font-size: 1.4rem;
+}
+
+h2 {
+    font-size: 1.3rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+}
+
+/**
+ * Group
+ */
+p,
+figure {
+    margin: 0 0 1rem;
+}
+
+figcaption {
+    font-size: 0.9rem;
+}
+
+pre {
+    padding: 1rem;
+}
+
+dl,
+ol,
+ul {
+    margin: 1rem 0;
+}
+
+ol,
+ul {
+    padding-left: 2rem;
+}
+
+li ol,
+li ul {
+    margin: 0;
+}
+
+ol {
+    list-style: decimal;
+}
+
+ul {
+    list-style: disc;
+}
+
+li ul {
+    list-style: square;
+}
+
+nav ol,
+nav ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+/**
+ * Text
+ */
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/**
+ * Table
+ */
+table {
+    width: 100%;
+    margin: 1rem 0;
+}
+
+th,
+td {
+    padding: 0.25rem 0.375rem;
+    border: thin solid;
+}
+
+/* Data types */
+th[data-type^='bool.'],
+th[data-type^='datetime.'],
+th[data-type^='decimal.'],
+th[data-type^='int.'] {
+    width: 1px;
+}
+
+th[data-type='int.select'] {
+    width: auto;
+}
+
+/**
+ * Form
+ */
+legend {
+    width: 100%;
+    border-bottom: thin solid;
+}
+
+label em {
+    font-size: 0.9rem;
+}
+
+fieldset.data label {
+    display: block;
+}
+
+fieldset.data table label,
+fieldset.data label.inline {
+    display: inline;
+}
+
+.element .message {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+[role=button],
+button,
+input,
+select,
+textarea {
+    vertical-align: middle;
+    padding: 0.125rem 0.25rem;
+    border: thin solid;
+}
+
+[role=button]:hover {
+    text-decoration: none;
+}
+
+select {
+    padding: 0;
+}
+
+option {
+    padding: 0.125rem 0.25rem;
+    border-bottom: thin solid;
+}
+
+option.empty {
+    font-weight: bold;
+    font-style: italic;
+}
+
+option.group {
+    font-weight: bold;
+}
+
+option[data-level='2'] {
+    padding-left: 1rem;
+}
+
+option[data-level='3'] {
+    padding-left: 2rem;
+}
+
+option[data-level='4'] {
+    padding-left: 3rem;
+}
+
+option[data-level='5'] {
+    padding-left: 4rem;
+}
+
+textarea {
+    vertical-align: top;
+}
+
+textarea.editor {
+}
+
+/**
+ * Color Scheme
+ */
+body {
+    color: #231f20;
+    background: #fff;
+}
+
+[role=button],
+[type=button],
+[type=reset],
+[type=submit],
+button,
+pre,
+thead th,
+thead td,
+tfoot th,
+tfoot td,
+#toolbar {
+    color: #fff;
+    background: #231f20;
+}
+
+/* Color */
+option[selected],
+option.empty,
+main > .block > header > h1,
+#toolbar .toolbar > ul > li > span {
+    color: #e14b28;
+}
+
+label em.required,
+.element .error {
+    color: #901913;
+}
+
+label em.unique {
+    color: #727c25;
+}
+
+/* Background */
+input[name="action[delete]"] {
+    background: #901913;
+}
+
+tbody tr:nth-of-type(even) > * {
+    background: #ededed;
+}
+
+mark,
+#message {
+    background: #e14b28;
+}
+
+#toolbar .toolbar > ul {
+    background: #231f20;
+}
+
+/* Link */
+a {
+    color: #901913;
+}
+
+main .toolbar li li a {
+    color: #231f20;
+}
+
+thead a,
+#toolbar a {
+    color: #fff;
+}
+
+/* Pseudo Elements + Classes */
+::input-placeholder {
+    color: #999;
+}
+
+/* Border */
+input,
+select,
+textarea,
+option,
+th,
+td,
+main .toolbar > ul > li {
+    border-color: #d3d3d3;
+}
+
+[role=button],
+[type=button],
+[type=reset],
+[type=submit],
+button,
+legend,
+#toolbar .toolbar > ul > li {
+    border-color: #000;
+}
+
+/* Box Shadow */
+[role=button]:focus,
+[role=button]:hover,
+button:focus,
+button:hover,
+input:focus,
+input:hover,
+select:focus,
+select:hover,
+textarea:focus,
+textarea:hover  {
+    box-shadow: 0 0 10px #d3d3d3;
+}
+
+/**
+ * Layout
+ */
+body > * {
+    width: 100%;
+    min-width: 755px;
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
+body > *:not(:first-child),
+#content > * > *:not(:first-child),
+form > fieldset:not(:first-child),
+fieldset.data > *:not(:first-child) {
+    margin-top: 1rem;
+}
+
+#toolbar {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    margin: 0 auto;
+}
+
+/**
+ * Messages
+ */
+#message h1,
+#message p {
+    padding: 0.25rem 0.5rem;
+}
+
+/**
+ * Main
+ */
+main > .block > header > h1 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+main .block-list article {
+    margin: 0 0 1rem;
+}
+
+/**
+ * Pager
+ */
+.pager > div {
+    display: inline-block;
+}
+
+.pager .links {
+    float: right;
+}
+
+/**
+ * Index
+ */
+.block-index form.create,
+.block-index form.search {
+    width: 49.8%;
+    float: left;
+}
+
+.block-index .pager {
+    margin-top: 1rem;
+}
+
+.block-index fieldset.data > table {
+    margin: 0;
+}
+
+/**
+ * Toolbar
+ */
+.toolbar > ul > li {
+    padding: 1rem 0;
+}
+
+.toolbar li li {
+    display: inline;
+    margin-right: 2rem;
+}
+
+/* Content */
+main .toolbar > ul > li {
+    border-bottom: thin solid;
+}
+
+main .toolbar > ul > li:first-child {
+    padding-top: 0;
+}
+
+main .toolbar > ul > li > span {
+    display: block;
+    font-size: 1.25rem;
+}
+
+/* Menu */
+#toolbar > ul > li {
+    display: block;
+    float: left;
+    margin: 0 1rem;
+    padding: 1rem 0;
+}
+
+#toolbar .toolbar > ul {
+    position: absolute;
+    left: 0;
+    top: auto;
+    z-index: 10;
+    display: none;
+    width: 100%;
+}
+
+#toolbar .toolbar:hover > ul {
+    display: block;
+}
+
+#toolbar .toolbar > ul > li {
+    margin: 0 1rem;
+    border-bottom: thin dashed;
+}
+
+#toolbar .toolbar ul a {
+    font-size: 0.9rem;
+}
+
+/**
+ * Display
+ */
+.cf:after {
+    overflow: hidden;
+    content: "";
+    display: block;
+    height: 0;
+    line-height: 0;
+    clear: both;
+    font-size: 0;
+}
+
+/**
+ * Media Queries
+ */
+@media handheld, only screen and (max-width: 767px) {
+    body > * {
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        margin: 0 auto;
+    }
+
+    #toolbar > ul > li {
+        float: none;
+        margin: 0;
+    }
+
+    #toolbar .toolbar:hover > ul {
+        display: none;
+    }
+}

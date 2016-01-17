@@ -1,0 +1,11 @@
+<form action="<?=url\path('*/create');?>" method="post" class="create">
+    <fieldset class="data">
+        <div class="element">
+            <label for="data-number"><?=i18n\translate('Number');?></label>
+            <input id="data-number" type="number" name="data[number]" value="1" title="<?=i18n\translate('Please enter the number of items you want to create');?>" />
+            <input type="submit" name="action[create]" title="<?=i18n\translate('Create');?>" value="<?=i18n\translate('Create');?>" />
+            <input type="hidden" name="token" value="<?=session\token();?>" />
+            <p class="message"><?=i18n\translate('Please enter the number of items you want to create');?></p>
+        </div>
+    </fieldset>
+</form>

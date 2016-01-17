@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="<?=config\value('i18n.language');?>">
+    <head>
+        <?=view\render('head');?>
+    </head>
+    <body class="<?=$block['data']('class');?>">
+        <?=view\render('top');?>
+        <?=view\render('message');?>
+        <div id="content" class="cf">
+            <aside id="left">
+                <?=view\render('left');?>
+            </aside>
+            <main>
+                <?=view\render('content');?>
+            </main>
+            <aside id="right">
+                <?=view\render('right');?>
+            </aside>
+        </div>
+        <?=view\render('bottom');?>
+    </body>
+</html>

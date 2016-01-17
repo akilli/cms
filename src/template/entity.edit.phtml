@@ -1,0 +1,25 @@
+<section class="block block-edit">
+    <header>
+        <h1><?=$block['data']('header');?></h1>
+    </header>
+    <form action="<?=url\path('*/*');?>" method="post" enctype="multipart/form-data" class="edit">
+        <?php foreach ($block['data']('data') as $id => $item):?>
+        <fieldset class="data">
+            <legend><?=$item['name'] ? $item['name'] : $block['data']('header');?></legend>
+            <?php foreach ($item['_metadata']['attributes'] as $code => $attribute):?>
+                <?php if (!$html = $attribute['edit']($attribute, $item)) continue;?>
+            <div class="element attribute-<?=$attribute['id'];?>">
+                <?=$html;?>
+            </div>
+            <?php endforeach;?>
+        </fieldset>
+        <?php endforeach;?>
+        <fieldset class="action">
+            <?php if (role\allowed('index')):?>
+            <a role="button" href="<?=url\path('*/index');?>" title="<?=i18n\translate('Back');?>"><?=i18n\translate('Back');?></a>
+            <?php endif;?>
+            <input type="submit" name="action[save]" title="<?=i18n\translate('Save');?>" value="<?=i18n\translate('Save');?>" />
+            <input type="hidden" name="token" value="<?=session\token();?>" />
+        </fieldset>
+    </form>
+</section>

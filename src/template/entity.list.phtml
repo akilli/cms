@@ -1,0 +1,32 @@
+<section class="block block-list">
+    <header>
+        <h1><?=$block['data']('header');?></h1>
+        <?=view\render('search');?>
+    </header>
+<?php if ($block['data']('data')):?>
+    <?php foreach ($block['data']('data') as $id => $item):?>
+    <article>
+        <?php foreach ($block['data']('attributes') as $code => $attribute):?>
+            <?php $attribute['action'] = 'list';?>
+            <?php if (!$html = $attribute['view']($attribute, $item)) continue;?>
+            <?php if ($code === 'name'):?>
+        <header>
+                <?php if (role\allowed('view')):?>
+            <h2><a href="<?=url\path('*/view', ['id' => $id]);?>" title="<?=i18n\translate('View this item');?>"><?=$html;?></a></h2>
+                <?php else:?>
+            <h2><?=$html;?></h2>
+                <?php endif;?>
+        </header>
+            <?php else:?>
+        <div class="attribute-<?=$attribute['id'];?>">
+            <?=$html;?>
+        </div>
+            <?php endif;?>
+        <?php endforeach;?>
+    </article>
+        <?php endforeach;?>
+    <?=view\render('pager');?>
+<?php else:;?>
+    <p><?=i18n\translate('Nothing created yet');?></p>
+<?php endif;?>
+</section>

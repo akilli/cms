@@ -1,0 +1,4 @@
+<meta charset="<?=config\value('i18n.charset');?>" />
+<?php foreach (array_replace(config\value('meta'), $block['data']()) as $name => $content):?>
+<meta name="<?=$name;?>" content="<?=$content;?>" />
+<?php endforeach;?>

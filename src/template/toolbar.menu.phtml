@@ -1,0 +1,11 @@
+<nav id="toolbar" class="cf">
+    <ul>
+        <li class="toolbar">
+            <a href="<?=url\path('account/dashboard');?>" title="<?=i18n\translate('Dashboard');?>"><?=i18n\translate('Dashboard');?></a>
+            <?=view\render('toolbar.menu');?>
+        </li>
+        <li><a href="<?=url\path();?>" title="<?=i18n\translate('Homepage');?>"><?=i18n\translate('Homepage');?></a></li>
+        <li><a href="<?=url\path('account/profile');?>" title="<?=i18n\translate('Profile');?>"><?=i18n\translate('Profile');?></a></li>
+        <li><a href="<?=url\path('account/logout');?>" title="<?=i18n\translate('Logout');?>"><?=i18n\translate('Logout');?></a></li>
+    </ul>
+</nav>

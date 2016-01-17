@@ -1,0 +1,6 @@
+<section id="message">
+    <h1><?=i18n\translate('Message');?></h1>
+    <?php foreach ((array) $block['data']('data') as $item):?>
+    <p><?=$item;?></p>
+    <?php endforeach;?>
+</section>

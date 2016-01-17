@@ -1,0 +1,24 @@
+<section class="block block-profile">
+    <header>
+        <h1><?=i18n\translate('Profile');?></h1>
+    </header>
+    <form action="<?=url\path('*/*');?>" method="post" enctype="multipart/form-data" class="edit">
+        <fieldset class="data">
+            <legend><?=i18n\translate('Credentials');?></legend>
+            <div class="element attribute-name">
+                <label for="data-name"><?=i18n\translate('Name');?> <em class="required"><?=i18n\translate('Required');?></em> <em class="unique"><?=i18n\translate('Unique');?></em></label>
+                <input id="data-name" type="text" name="data[name]" value="<?=$block['data']('item')['name'];?>" required="required" title="<?=i18n\translate('Your name');?>" />
+                <p class="message"><?=i18n\translate('Your name');?></p>
+            </div>
+            <div class="element attribute-password">
+                <label for="data-password"><?=i18n\translate('Password');?></label>
+                <input id="data-password" type="password" name="data[password]" title="<?=i18n\translate('Your password');?>" autocomplete="off" />
+                <p class="message"><?=i18n\translate('Your password');?></p>
+            </div>
+        </fieldset>
+        <fieldset class="action">
+            <input type="submit" name="action[save]" title="<?=i18n\translate('Save');?>" value="<?=i18n\translate('Save');?>" />
+            <input type="hidden" name="token" value="<?=session\token();?>" />
+        </fieldset>
+    </form>
+</section>

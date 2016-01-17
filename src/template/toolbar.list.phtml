@@ -1,0 +1,12 @@
+<ul>
+    <?php foreach ((array) $block['data']('data') as $item):?>
+    <li>
+        <?php if ($item['url']):?>
+        <a href="<?=$item['url'];?>" title="<?=i18n\translate($item['description']);?>"><?=i18n\translate($item['name']);?></a>
+        <?php else:?>
+        <span title="<?=i18n\translate($item['description']);?>"><?=i18n\translate($item['name']);?></span>
+        <?php endif;?>
+        <?=$item['children'];?>
+    </li>
+    <?php endforeach;?>
+</ul>

@@ -1,0 +1,24 @@
+<section class="block block-login">
+    <header>
+        <h1><?=i18n\translate('Login');?></h1>
+    </header>
+    <form action="<?=url\path('*/*');?>" method="post" class="login">
+        <fieldset class="data">
+            <legend><?=i18n\translate('Credentials');?></legend>
+            <div class="element attribute-name">
+                <label for="data-name"><?=i18n\translate('Name');?> <em class="required"><?=i18n\translate('Required');?></em></label>
+                <input id="data-name" type="text" name="data[name]" required="required" title="<?=i18n\translate('Please enter your name');?>" />
+                <p class="message"><?=i18n\translate('Please enter your name');?></p>
+            </div>
+            <div class="element attribute-password">
+                <label for="data-password"><?=i18n\translate('Password');?> <em class="required"><?=i18n\translate('Required');?></em></label>
+                <input id="data-password" type="password" name="data[password]" required="required" title="<?=i18n\translate('Please enter your password');?>" />
+                <p class="message"><?=i18n\translate('Please enter your password');?></p>
+            </div>
+        </fieldset>
+        <fieldset class="action">
+            <input type="submit" name="action[login]" value="<?=i18n\translate('Login');?>" />
+            <input type="hidden" name="token" value="<?=session\token();?>" />
+        </fieldset>
+    </form>
+</section>
