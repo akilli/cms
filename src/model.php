@@ -8,6 +8,7 @@ use db;
 use i18n;
 use log;
 use metadata;
+use PDO;
 use session;
 use sql;
 use Exception;
@@ -351,6 +352,7 @@ function delete($entity, array $criteria = null, $index = null, array $order = n
 function sql_size($entity, array $criteria = null, $search = false)
 {
     $metadata = sql\meta($entity);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
 
     // Prepare statement
@@ -383,6 +385,7 @@ function sql_size($entity, array $criteria = null, $search = false)
 function sql_load($entity, array $criteria = null, $index = null, array $order = null, $limit = null)
 {
     $metadata = sql\meta($entity);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
 
     // Prepare statement
@@ -416,6 +419,7 @@ function sql_create(array & $item)
     }
 
     $metadata = sql\meta($item['_metadata']);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
 
     // Columns
@@ -459,6 +463,7 @@ function sql_save(array & $item)
     }
 
     $metadata = sql\meta($item['_metadata']);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
 
     // Columns
@@ -504,6 +509,7 @@ function sql_delete(array & $item)
     }
 
     $metadata = sql\meta($item['_metadata']);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
 
     // Prepare statement
@@ -552,6 +558,7 @@ function nestedset_size($entity, array $criteria = null, $search = false)
 function nestedset_load($entity, array $criteria = null, $index = null, array $order = null, $limit = null)
 {
     $metadata = sql\meta($entity);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
     $attributes = $orderAttributes = $metadata['attributes'];
     $root = !empty($attributes['root_id']);
@@ -625,6 +632,7 @@ function nestedset_create(array & $item)
     }
 
     $metadata = sql\meta($item['_metadata']);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
     $attributes = $metadata['attributes'];
     $root = !empty($attributes['root_id']);
@@ -724,6 +732,7 @@ function nestedset_save(array & $item)
     }
 
     $metadata = sql\meta($item['_metadata']);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
     $attributes = $metadata['attributes'];
     $root = !empty($attributes['root_id']);
@@ -869,6 +878,7 @@ function nestedset_delete(array & $item)
     }
 
     $metadata = sql\meta($item['_metadata']);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
     $attributes = $metadata['attributes'];
     $root = !empty($attributes['root_id']);
@@ -915,6 +925,7 @@ function nestedset_delete(array & $item)
 function eav_size($entity, array $criteria = null, $search = false)
 {
     $metadata = sql\meta($entity);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
     $contentMetadata = sql\meta('eav_content');
     $valueMetadata = sql\meta('eav_value');
@@ -980,6 +991,7 @@ function eav_size($entity, array $criteria = null, $search = false)
 function eav_load($entity, array $criteria = null, $index = null, array $order = null, $limit = null)
 {
     $metadata = sql\meta($entity);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
     $contentMetadata = sql\meta('eav_content');
     $valueMetadata = sql\meta('eav_value');
@@ -1048,6 +1060,7 @@ function eav_create(array & $item)
     }
 
     $metadata = sql\meta($item['_metadata']);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
     $contentMetadata = sql\meta('eav_content');
     $attributes = $metadata['attributes'];
@@ -1129,6 +1142,7 @@ function eav_save(array & $item)
     }
 
     $metadata = sql\meta($item['_metadata']);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
     $contentMetadata = sql\meta('eav_content');
     $attributes = $metadata['attributes'];

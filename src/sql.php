@@ -188,6 +188,7 @@ function type(array $attribute, $value)
 function meta($entity)
 {
     $metadata = is_array($entity) ? $entity : app\data('metadata', $entity);
+    /** @var PDO $db */
     $db = db\factory($metadata['db']);
 
     if ($db->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql'
