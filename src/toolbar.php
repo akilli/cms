@@ -11,7 +11,7 @@ use url;
  *
  * @return array
  */
-function data()
+function data(): array
 {
     $data = app\data('toolbar');
 
@@ -34,7 +34,7 @@ function data()
  *
  * @return array
  */
-function prepare(array & $data)
+function prepare(array & $data): array
 {
     foreach ($data as $key => & $item) {
         if (empty($item['name'])) {
@@ -50,13 +50,8 @@ function prepare(array & $data)
             prepare($item['children']);
         }
 
-        if (!isset($item['url'])) {
-            $item['url'] = null;
-        }
-
-        if (!isset($item['description'])) {
-            $item['description'] = '';
-        }
+        $item['url'] = $item['url'] ?? null;
+        $item['description'] = $item['description'] ?? null;
     }
 
     return data\order($data, 'sort_order');

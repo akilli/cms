@@ -12,7 +12,7 @@ use config;
  *
  * @return string
  */
-function translate($key, ...$params)
+function translate(string $key, string ...$params): string
 {
     static $data;
 

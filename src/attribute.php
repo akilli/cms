@@ -76,15 +76,15 @@ function value(array $attribute, array $item)
  *
  * @return bool
  */
-function ignore(array $attribute, array $item)
+function ignore(array $attribute, array $item): bool
 {
     $code = $attribute['id'];
     $mustEdit = empty($item[$code]) || $attribute['action'] === 'edit' && !empty($item[$code]);
 
     return !empty($item['_original'])
-    && empty($item['__reset'][$code])
-    && $mustEdit
-    && in_array($attribute['frontend'], ['password', 'file']);
+        && empty($item['__reset'][$code])
+        && $mustEdit
+        && in_array($attribute['frontend'], ['password', 'file']);
 }
 
 /**
@@ -95,7 +95,7 @@ function ignore(array $attribute, array $item)
  *
  * @return bool
  */
-function is_edit(array & $attribute, array $item)
+function is_edit(array & $attribute, array $item): bool
 {
     if (!metadata\action('edit', $attribute)) {
         return false;
@@ -116,12 +116,12 @@ function is_edit(array & $attribute, array $item)
  *
  * @param array $attribute
  *
- * @return string
+ * @return bool
  */
-function is_view(array & $attribute)
+function is_view(array & $attribute): bool
 {
     return $attribute['action'] === 'system'
-    || $attribute['action'] && metadata\action($attribute['action'], $attribute);
+        || $attribute['action'] && metadata\action($attribute['action'], $attribute);
 }
 
 /**
@@ -133,7 +133,7 @@ function is_view(array & $attribute)
  *
  * @return array
  */
-function options(array $attribute, array $item = null, $cache = false)
+function options(array $attribute, array $item = null, bool $cache = false): array
 {
     static $data = [];
 
@@ -192,7 +192,7 @@ function options(array $attribute, array $item = null, $cache = false)
  *
  * @return array
  */
-function options_translate(array $options)
+function options_translate(array $options): array
 {
     if (!$options) {
         return $options;
@@ -220,15 +220,15 @@ function options_translate(array $options)
  *
  * @return string
  */
-function option_name($id, $value)
+function option_name($id, $value): string
 {
     if (is_array($value) && !empty($value['name'])) {
         return $value['name'];
     } elseif (is_scalar($value)) {
-        return $value;
+        return (string) $value;
     }
 
-    return $id;
+    return (string) $id;
 }
 
 /**
@@ -238,7 +238,7 @@ function option_name($id, $value)
  *
  * @return array
  */
-function options_menubasis($entity)
+function options_menubasis(string $entity): array
 {
     $metadata = app\data('metadata', $entity);
     $root = !empty($metadata['attributes']['root_id']);
@@ -278,7 +278,7 @@ function options_menubasis($entity)
  */
 function load(array $attribute, array $item)
 {
-    return type($attribute, isset($item[$attribute['id']]) ? $item[$attribute['id']] : null);
+    return type($attribute, $item[$attribute['id']] ?? null);
 }
 
 /**
@@ -287,7 +287,7 @@ function load(array $attribute, array $item)
  * @param array $attribute
  * @param array $item
  *
- * @return array
+ * @return mixed
  */
 function load_datetime(array $attribute, array $item)
 {
@@ -304,7 +304,7 @@ function load_datetime(array $attribute, array $item)
  *
  * @return array
  */
-function load_json(array $attribute, array $item)
+function load_json(array $attribute, array $item): array
 {
     $code = $attribute['id'];
 
@@ -322,7 +322,7 @@ function load_json(array $attribute, array $item)
  *
  * @return bool
  */
-function save()
+function save(): bool
 {
     return true;
 }
@@ -335,7 +335,7 @@ function save()
  *
  * @return bool
  */
-function save_password(array $attribute, array & $item)
+function save_password(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
 
@@ -354,7 +354,7 @@ function save_password(array $attribute, array & $item)
  *
  * @return bool
  */
-function save_multiple(array $attribute, array & $item)
+function save_multiple(array $attribute, array & $item): bool
 {
     $item[$attribute['id']] = json_encode(array_filter(array_map('trim', (array) $item[$attribute['id']])));
 
@@ -366,7 +366,7 @@ function save_multiple(array $attribute, array & $item)
  *
  * @return bool
  */
-function delete()
+function delete(): bool
 {
     return true;
 }
@@ -379,7 +379,7 @@ function delete()
  *
  * @return bool
  */
-function delete_file(array $attribute, array & $item)
+function delete_file(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
 
@@ -401,7 +401,7 @@ function delete_file(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate(array $attribute, array & $item)
+function validate(array $attribute, array & $item): bool
 {
     // Skip attributes that need no validation or are uneditable (unless required and new)
     if (!empty($attribute['auto'])
@@ -421,10 +421,10 @@ function validate(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_string(array $attribute, array & $item)
+function validate_string(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $item[$code] = type($attribute, isset($item[$code]) ? $item[$code] : null);
+    $item[$code] = type($attribute, $item[$code] ?? null);
     $item[$code] = trim((string) filter_var($item[$code], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
 
     return validate($attribute, $item);
@@ -438,10 +438,10 @@ function validate_string(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_email(array $attribute, array & $item)
+function validate_email(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $item[$code] = type($attribute, isset($item[$code]) ? $item[$code] : null);
+    $item[$code] = type($attribute, $item[$code] ?? null);
 
     if ($item[$code] && !$item[$code] = filter_var($item[$code], FILTER_VALIDATE_EMAIL)) {
         $item[$code] = null;
@@ -461,10 +461,10 @@ function validate_email(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_url(array $attribute, array & $item)
+function validate_url(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $item[$code] = type($attribute, isset($item[$code]) ? $item[$code] : null);
+    $item[$code] = type($attribute, $item[$code] ?? null);
 
     if ($item[$code] && !$item[$code] = filter_var($item[$code], FILTER_VALIDATE_URL)) {
         $item[$code] = null;
@@ -484,7 +484,7 @@ function validate_url(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_file(array $attribute, array & $item)
+function validate_file(array $attribute, array & $item): bool
 {
     static $files;
 
@@ -495,7 +495,7 @@ function validate_file(array $attribute, array & $item)
 
     $code = $attribute['id'];
     $item[$code] = null;
-    $file = (!empty($files[$item['_id']][$code])) ? $files[$item['_id']][$code] : null;
+    $file = !empty($files[$item['_id']][$code]) ? $files[$item['_id']][$code] : null;
 
     // Delete old file
     if (!empty($item['_original'][$code])
@@ -541,10 +541,10 @@ function validate_file(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_datetime(array $attribute, array & $item)
+function validate_datetime(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $item[$code] = type($attribute, isset($item[$code]) ? $item[$code] : null);
+    $item[$code] = type($attribute, $item[$code] ?? null);
     $timezone = $attribute['frontend'] === 'datetime' ? timezone_open('UTC') : null;
     $format = $attribute['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d H:i:s';
 
@@ -570,10 +570,10 @@ function validate_datetime(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_number(array $attribute, array & $item)
+function validate_number(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $item[$code] = type($attribute, isset($item[$code]) ? $item[$code] : null);
+    $item[$code] = type($attribute, $item[$code] ?? null);
 
     return validate($attribute, $item);
 }
@@ -586,10 +586,10 @@ function validate_number(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_editor(array $attribute, array & $item)
+function validate_editor(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $item[$code] = type($attribute, isset($item[$code]) ? $item[$code] : null);
+    $item[$code] = type($attribute, $item[$code] ?? null);
 
     if ($item[$code]) {
         $item[$code] = filter\html($item[$code]);
@@ -606,11 +606,11 @@ function validate_editor(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_option(array $attribute, array & $item)
+function validate_option(array $attribute, array & $item): bool
 {
     $attribute['options'] = options($attribute, $item);
     $code = $attribute['id'];
-    $item[$code] = type($attribute, isset($item[$code]) ? $item[$code] : null);
+    $item[$code] = type($attribute, $item[$code] ?? null);
 
     if (is_array($item[$code])) {
         $item[$code] = array_filter(
@@ -645,13 +645,13 @@ function validate_option(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_menubasis(array $attribute, array & $item)
+function validate_menubasis(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
     $metadata = app\data('metadata', $attribute['entity_id']);
 
     if (empty($metadata['attributes']['root_id'])) {
-        $item['basis'] = (!empty($item[$code])) ? $item[$code] : null;
+        $item['basis'] = !empty($item[$code]) ? $item[$code] : null;
         $item['basis'] = type($metadata['attributes']['id'], $item['basis']);
     } elseif (!empty($item[$code]) && strpos($item[$code], ':') > 0) {
         $parts = explode(':', $item[$code]);
@@ -674,7 +674,7 @@ function validate_menubasis(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_callback(array $attribute, array & $item)
+function validate_callback(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
 
@@ -696,7 +696,7 @@ function validate_callback(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_json(array $attribute, array & $item)
+function validate_json(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
 
@@ -718,7 +718,7 @@ function validate_json(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_required(array $attribute, array & $item)
+function validate_required(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
 
@@ -743,7 +743,7 @@ function validate_required(array $attribute, array & $item)
  *
  * @return bool
  */
-function validate_unique(array $attribute, array & $item)
+function validate_unique(array $attribute, array & $item): bool
 {
     static $data = [];
 
@@ -783,8 +783,10 @@ function validate_unique(array $attribute, array & $item)
         $item[$code] = $attribute['unique_callback']($base, $data[$entity][$code], $item['_id']);
 
         return true;
-    } elseif (!empty($item[$code]) && (array_search($item[$code], $data[$entity][$code]) === $item['_id']
-            || !in_array($item[$code], $data[$entity][$code]))
+    } elseif (!empty($item[$code])
+        && (array_search($item[$code], $data[$entity][$code]) === $item['_id']
+            || !in_array($item[$code], $data[$entity][$code])
+        )
     ) {
         // Provided value is unique
         $data[$entity][$code][$item['_id']] = $item[$code];
@@ -802,7 +804,7 @@ function validate_unique(array $attribute, array & $item)
  *
  * @return string
  */
-function edit()
+function edit(): string
 {
     return '';
 }
@@ -815,7 +817,7 @@ function edit()
  *
  * @return string
  */
-function edit_varchar(array $attribute, array $item)
+function edit_varchar(array $attribute, array $item): string
 {
     if (!is_edit($attribute, $item)) {
         return '';
@@ -836,7 +838,7 @@ function edit_varchar(array $attribute, array $item)
  *
  * @return string
  */
-function edit_select(array $attribute, array $item)
+function edit_select(array $attribute, array $item): string
 {
     if (!is_edit($attribute, $item)) {
         return '';
@@ -889,7 +891,7 @@ function edit_select(array $attribute, array $item)
  *
  * @return string
  */
-function edit_input_option(array $attribute, array $item)
+function edit_input_option(array $attribute, array $item): string
 {
     if (!is_edit($attribute, $item)) {
         return '';
@@ -925,7 +927,6 @@ function edit_input_option(array $attribute, array $item)
         }
     }
 
-
     return html_label($attribute, $item) . $html . html_flag($attribute, $item) . html_message($attribute, $item);
 }
 
@@ -937,7 +938,7 @@ function edit_input_option(array $attribute, array $item)
  *
  * @return string
  */
-function edit_password(array $attribute, array $item)
+function edit_password(array $attribute, array $item): string
 {
     if (!is_edit($attribute, $item)) {
         return '';
@@ -959,7 +960,7 @@ function edit_password(array $attribute, array $item)
  *
  * @return string
  */
-function edit_file(array $attribute, array $item)
+function edit_file(array $attribute, array $item): string
 {
     if (!is_edit($attribute, $item)) {
         return '';
@@ -981,7 +982,7 @@ function edit_file(array $attribute, array $item)
  *
  * @return string
  */
-function edit_datetime(array $attribute, array $item)
+function edit_datetime(array $attribute, array $item): string
 {
     if (!is_edit($attribute, $item)) {
         return '';
@@ -1021,7 +1022,7 @@ function edit_datetime(array $attribute, array $item)
  *
  * @return string
  */
-function edit_number(array $attribute, array $item)
+function edit_number(array $attribute, array $item): string
 {
     if (!is_edit($attribute, $item)) {
         return '';
@@ -1061,7 +1062,7 @@ function edit_number(array $attribute, array $item)
  *
  * @return string
  */
-function edit_textarea(array $attribute, array $item)
+function edit_textarea(array $attribute, array $item): string
 {
     if (!is_edit($attribute, $item)) {
         return '';
@@ -1082,7 +1083,7 @@ function edit_textarea(array $attribute, array $item)
  *
  * @return string
  */
-function edit_json(array $attribute, array $item)
+function edit_json(array $attribute, array $item): string
 {
     if (!is_edit($attribute, $item)) {
         return '';
@@ -1103,7 +1104,7 @@ function edit_json(array $attribute, array $item)
  *
  * @return string
  */
-function view()
+function view(): string
 {
     return '';
 }
@@ -1116,7 +1117,7 @@ function view()
  *
  * @return string
  */
-function view_default(array $attribute, array $item)
+function view_default(array $attribute, array $item): string
 {
     return is_view($attribute) ? filter\encode(value($attribute, $item)) : '';
 }
@@ -1127,10 +1128,9 @@ function view_default(array $attribute, array $item)
  * @param array $attribute
  * @param array $item
  *
- *
  * @return string
  */
-function view_file(array $attribute, array $item)
+function view_file(array $attribute, array $item): string
 {
     if (!is_view($attribute)) {
         return '';
@@ -1161,16 +1161,16 @@ function view_file(array $attribute, array $item)
 
     if ($attribute['type'] === 'image') {
         return '<img src="' . media\image($file, $attribute['action']) . '" alt="' . $value . '" title="'
-        . $value . '" class="' . $class . '" />';
+            . $value . '" class="' . $class . '" />';
     } elseif ($attribute['type'] === 'audio') {
         return '<audio src="' . $url . '" title="' . $value . '" controls="controls" class="' . $class . '"'
-        . $style . '>' . $link . '</audio>';
+            . $style . '>' . $link . '</audio>';
     } elseif ($attribute['type'] === 'video') {
         return '<video src="' . $url . '" title="' . $value . '" controls="controls" class="' . $class . '"'
-        . $style . '>' . $link . '</video>';
+            . $style . '>' . $link . '</video>';
     } elseif ($attribute['type'] === 'embed') {
         return '<embed src="' . $url . '" title="' . $value . '" autoplay="no" loop="no" class="' . $class . '"'
-        . $style . ' />';
+            . $style . ' />';
     }
 
     return $link;
@@ -1184,7 +1184,7 @@ function view_file(array $attribute, array $item)
  *
  * @return string
  */
-function view_datetime(array $attribute, array $item)
+function view_datetime(array $attribute, array $item): string
 {
     static $formats, $tz;
 
@@ -1223,7 +1223,7 @@ function view_datetime(array $attribute, array $item)
  *
  * @return string
  */
-function view_editor(array $attribute, array $item)
+function view_editor(array $attribute, array $item): string
 {
     return is_view($attribute) ? value($attribute, $item) : '';
 }
@@ -1236,7 +1236,7 @@ function view_editor(array $attribute, array $item)
  *
  * @return string
  */
-function view_option(array $attribute, array $item)
+function view_option(array $attribute, array $item): string
 {
     if (!is_view($attribute)) {
         return '';
@@ -1271,7 +1271,7 @@ function view_option(array $attribute, array $item)
  *
  * @return string
  */
-function html_label(array $attribute, array $item)
+function html_label(array $attribute, array $item): string
 {
     $message = '';
 
@@ -1284,7 +1284,7 @@ function html_label(array $attribute, array $item)
     }
 
     return '<label for="' . html_id($attribute, $item) . '">' . i18n\translate($attribute['name']) . $message
-    . '</label>';
+        . '</label>';
 }
 
 /**
@@ -1295,7 +1295,7 @@ function html_label(array $attribute, array $item)
  *
  * @return string
  */
-function html_flag(array $attribute, array $item)
+function html_flag(array $attribute, array $item): string
 {
     $html = '';
 
@@ -1320,7 +1320,7 @@ function html_flag(array $attribute, array $item)
  *
  * @return string
  */
-function html_id(array $attribute, array $item)
+function html_id(array $attribute, array $item): string
 {
     return 'data-' . $item['_id'] . '-' . $attribute['id'];
 }
@@ -1333,7 +1333,7 @@ function html_id(array $attribute, array $item)
  *
  * @return string
  */
-function html_name(array $attribute, array $item)
+function html_name(array $attribute, array $item): string
 {
     return 'data[' . $item['_id'] . '][' . $attribute['id'] . ']' . (!empty($attribute['is_multiple']) ? '[]' : '');
 }
@@ -1346,7 +1346,7 @@ function html_name(array $attribute, array $item)
  *
  * @return string
  */
-function html_required(array $attribute, array $item)
+function html_required(array $attribute, array $item): string
 {
     return !empty($attribute['is_required']) && !ignore($attribute, $item) ? ' required="required"' : '';
 }
@@ -1358,7 +1358,7 @@ function html_required(array $attribute, array $item)
  *
  * @return string
  */
-function html_class(array $attribute)
+function html_class(array $attribute): string
 {
     if (empty($attribute['class'])) {
         return '';
@@ -1376,7 +1376,7 @@ function html_class(array $attribute)
  *
  * @return string
  */
-function html_title(array $attribute)
+function html_title(array $attribute): string
 {
     return !empty($attribute['description']) ? ' title="' . i18n\translate($attribute['description']) . '"' : '';
 }
@@ -1389,7 +1389,7 @@ function html_title(array $attribute)
  *
  * @return string
  */
-function html_message(array $attribute, array $item)
+function html_message(array $attribute, array $item): string
 {
     $message = '';
 
@@ -1409,11 +1409,11 @@ function html_message(array $attribute, array $item)
  *
  * @param string $needle
  * @param array $haystack
- * @param int $id
+ * @param int|string $id
  *
- * @return mixed
+ * @return string
  */
-function unique($needle, array & $haystack, $id)
+function unique(string $needle, array & $haystack, $id): string
 {
     $needle = trim(preg_replace(['#/#', '#[-]+#i'], '-', filter\identifier($needle)), '-_');
 
@@ -1425,8 +1425,7 @@ function unique($needle, array & $haystack, $id)
 
     $needle .= '-';
 
-    for ($i = 1; in_array($needle . $i, $haystack) && array_search($needle . $i, $haystack) !== $id; $i++) {
-    }
+    for ($i = 1; in_array($needle . $i, $haystack) && array_search($needle . $i, $haystack) !== $id; $i++);
 
     $haystack[$id] = $needle . $i;
 
@@ -1441,7 +1440,7 @@ function unique($needle, array & $haystack, $id)
  *
  * @return string
  */
-function unique_file($str, $path)
+function unique_file(string $str, string $path): string
 {
     $parts = explode('.', $str);
     $ext = array_pop($parts);
@@ -1450,8 +1449,7 @@ function unique_file($str, $path)
     if (file_exists($path . '/' . $str . '.' . $ext)) {
         $str .= '-';
 
-        for ($i = 1; file_exists($path . '/' . $str . $i . '.' . $ext); $i++) {
-        }
+        for ($i = 1; file_exists($path . '/' . $str . $i . '.' . $ext); $i++);
 
         $str .= $i;
     }

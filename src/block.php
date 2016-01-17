@@ -19,7 +19,7 @@ use view;
  *
  * @return string
  */
-function template(array & $block)
+function template(array & $block): string
 {
     $block['template_path'] = app\template($block['template']);
 
@@ -32,7 +32,7 @@ function template(array & $block)
             return isset($block['vars']) && is_array($block['vars']) ? $block['vars'] : [];
         }
 
-        return isset($block['vars'][$key]) ? $block['vars'][$key] : $default;
+        return $block['vars'][$key] ?? $default;
     };
 
     // Output
@@ -50,7 +50,7 @@ function template(array & $block)
  *
  * @return string
  */
-function container(array & $block)
+function container(array & $block): string
 {
     $html = '';
 
@@ -72,7 +72,7 @@ function container(array & $block)
  *
  * @return string
  */
-function entity(array & $block)
+function entity(array & $block): string
 {
     if (empty($block['vars']['entity']) || !($metadata = app\data('metadata', $block['vars']['entity']))) {
         return '';
@@ -101,7 +101,7 @@ function entity(array & $block)
  *
  * @return string
  */
-function pager(array & $block)
+function pager(array & $block): string
 {
     if (empty($block['vars']['pages']) || $block['vars']['pages'] < 1 || empty($block['vars']['page'])) {
         return '';
@@ -150,7 +150,7 @@ function pager(array & $block)
  *
  * @return string
  */
-function menu(array & $block)
+function menu(array & $block): string
 {
     if (empty($block['vars']['entity']) || !($metadata = app\data('metadata', $block['vars']['entity']))) {
         return '';
@@ -209,7 +209,7 @@ function menu(array & $block)
  *
  * @return string
  */
-function message(array & $block)
+function message(array & $block): string
 {
     if (!$block['vars']['data'] = session\data('message')) {
         return '';
@@ -227,7 +227,7 @@ function message(array & $block)
  *
  * @return string
  */
-function toolbar(array & $block)
+function toolbar(array & $block): string
 {
     if (!isset($block['vars']['data'])) {
         $block['vars']['data'] = toolbar\data();

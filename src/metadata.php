@@ -14,7 +14,7 @@ use RuntimeException;
  *
  * @throws RuntimeException
  */
-function entity(array $data)
+function entity(array $data): array
 {
     // Check minimum requirements
     if (empty($data['id']) || empty($data['name']) || empty($data['table']) || empty($data['attributes'])) {
@@ -30,7 +30,7 @@ function entity(array $data)
 
     // Model
     $skeleton = app\data('skeleton', 'entity');
-    $model = empty($data['model']) ? $skeleton['model'] : $data['model'];
+    $model = !empty($data['model']) ? $data['model'] : $skeleton['model'];
     $data = array_replace_recursive($skeleton, (array) app\data('skeleton', 'entity.' . $model), $data);
 
     // Actions
@@ -77,7 +77,7 @@ function entity(array $data)
  *
  * @throws RuntimeException
  */
-function attribute(array $data)
+function attribute(array $data): array
 {
     // Check minimum requirements
     if (empty($data['id']) || empty($data['name']) || empty($data['type'])) {
@@ -120,9 +120,9 @@ function attribute(array $data)
     }
 
     // Correct invalid values
-    $data['is_required'] = !empty($data['null']) ? false : $data['is_required'];
-    $data['is_unique'] = in_array($data['backend'], ['bool', 'text']) ? false : $data['is_unique'];
-    $data['is_multiple'] = in_array($data['type'], ['multicheckbox', 'multiselect']) ? true : false;
+    $data['is_required'] = empty($data['null']) && $data['is_required'];
+    $data['is_unique'] = !in_array($data['backend'], ['bool', 'text']) && $data['is_unique'];
+    $data['is_multiple'] = in_array($data['type'], ['multicheckbox', 'multiselect']);
 
     return $data;
 }
@@ -135,7 +135,7 @@ function attribute(array $data)
  *
  * @return bool
  */
-function action($action, array $data)
+function action($action, array $data): bool
 {
     if (!isset($data['actions'])
         || !is_array($data['actions']) && !($data['actions'] = json_decode($data['actions'], true))
@@ -165,7 +165,7 @@ function action($action, array $data)
  *
  * @return array
  */
-function skeleton($entity, $number = null)
+function skeleton(string $entity, int $number = null): array
 {
     $metadata = app\data('metadata', $entity);
     $item = ['_metadata' => $metadata, '_original' => null, '_id' => null, 'id' => null, 'name' => null];

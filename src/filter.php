@@ -48,7 +48,7 @@ function decode($var)
  *
  * @return string
  */
-function html($string)
+function html(string $string): string
 {
     static $allowed;
 
@@ -66,7 +66,7 @@ function html($string)
  *
  * @return string
  */
-function path($path)
+function path(string $path): string
 {
     return strpos($path, '\\') !== false ? str_replace('\\', '/', $path) : $path;
 }
@@ -78,7 +78,7 @@ function path($path)
  *
  * @return string
  */
-function identifier($id)
+function identifier(string $id): string
 {
     static $data, $keys, $charset;
 

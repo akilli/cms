@@ -20,7 +20,7 @@ use InvalidArgumentException;
 function run(array $data = [])
 {
     // Reset registry
-    registry(null);
+    registry();
 
     // Dispatch action event
     $event = 'action.' . http\request('id');
@@ -54,7 +54,7 @@ function run(array $data = [])
  *
  * @return array|null
  */
-function & registry($id, array $value = null)
+function & registry(string $id = null, array $value = null)
 {
     static $data = [];
 
@@ -81,7 +81,7 @@ function & registry($id, array $value = null)
  *
  * @throws InvalidArgumentException
  */
-function path($dir, $subpath = null)
+function path(string $dir, string $subpath = null): string
 {
     $data = & registry('path');
 
@@ -139,7 +139,7 @@ function event($event, array & $data)
  *
  * @return array
  */
-function listener($event)
+function listener(string $event): array
 {
     $data = & registry('listener');
 
@@ -151,7 +151,7 @@ function listener($event)
         }
     }
 
-    return isset($data[$event]) ? $data[$event] : [];
+    return $data[$event] ?? [];
 }
 
 /**
@@ -161,7 +161,7 @@ function listener($event)
  *
  * @return string|null
  */
-function template($id)
+function template(string $id)
 {
     $file = path('template', $id);
 
@@ -176,7 +176,7 @@ function template($id)
  *
  * @return mixed
  */
-function data($section, $id = null)
+function data(string $section, string $id = null)
 {
     $data = & registry('data.' . $section);
 
@@ -196,5 +196,5 @@ function data($section, $id = null)
         return $data;
     }
 
-    return isset($data[$id]) ? $data[$id] : null;
+    return $data[$id] ?? null;
 }

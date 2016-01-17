@@ -10,7 +10,7 @@ use app;
  *
  * @return mixed
  */
-function value($key = null)
+function value(string $key = null)
 {
     $data = app\data('config');
 
@@ -18,5 +18,5 @@ function value($key = null)
         return $data;
     }
 
-    return isset($data[$key]) ? $data[$key] : null;
+    return $data[$key] ?? null;
 }

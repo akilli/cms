@@ -10,7 +10,7 @@ namespace session;
  *
  * @return mixed
  */
-function & data($key = null, $value = null, $reset = false)
+function & data(string $key = null, $value = null, bool $reset = false)
 {
     static $data;
 
@@ -49,7 +49,7 @@ function & data($key = null, $value = null, $reset = false)
  *
  * @return void
  */
-function message($message)
+function message(string $message)
 {
     $data = & data('message');
 
@@ -63,7 +63,7 @@ function message($message)
  *
  * @return string
  */
-function token()
+function token(): string
 {
     $token = & data('token');
 

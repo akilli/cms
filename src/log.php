@@ -24,7 +24,7 @@ const DEBUG = 'debug';
  *
  * @return void
  */
-function emergency($message, array $context = [])
+function emergency(string $message, array $context = [])
 {
     log(EMERGENCY, $message, $context);
 }
@@ -39,7 +39,7 @@ function emergency($message, array $context = [])
  *
  * @return void
  */
-function alert($message, array $context = [])
+function alert(string $message, array $context = [])
 {
     log(ALERT, $message, $context);
 }
@@ -54,7 +54,7 @@ function alert($message, array $context = [])
  *
  * @return void
  */
-function critical($message, array $context = [])
+function critical(string $message, array $context = [])
 {
     log(CRITICAL, $message, $context);
 }
@@ -67,7 +67,7 @@ function critical($message, array $context = [])
  *
  * @return void
  */
-function error($message, array $context = [])
+function error(string $message, array $context = [])
 {
     log(ERROR, $message, $context);
 }
@@ -82,7 +82,7 @@ function error($message, array $context = [])
  *
  * @return void
  */
-function warning($message, array $context = [])
+function warning(string $message, array $context = [])
 {
     log(WARNING, $message, $context);
 }
@@ -95,7 +95,7 @@ function warning($message, array $context = [])
  *
  * @return void
  */
-function notice($message, array $context = [])
+function notice(string $message, array $context = [])
 {
     log(NOTICE, $message, $context);
 }
@@ -110,7 +110,7 @@ function notice($message, array $context = [])
  *
  * @return void
  */
-function info($message, array $context = [])
+function info(string $message, array $context = [])
 {
     log(INFO, $message, $context);
 }
@@ -123,7 +123,7 @@ function info($message, array $context = [])
  *
  * @return void
  */
-function debug($message, array $context = [])
+function debug(string $message, array $context = [])
 {
     log(DEBUG, $message, $context);
 }
@@ -131,13 +131,13 @@ function debug($message, array $context = [])
 /**
  * Logs with an arbitrary level.
  *
- * @param int $level
+ * @param string $level
  * @param string $message
  * @param array $context
  *
  * @return void
  */
-function log($level, $message, array $context = [])
+function log(string $level, string $message, array $context = [])
 {
     if (empty($context['file'])) {
         $context['file'] = 'qnd.log';

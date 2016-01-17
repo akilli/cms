@@ -14,7 +14,7 @@ use RuntimeException;
  *
  * @throws RuntimeException
  */
-function factory($key)
+function factory(string $key)
 {
     $db = & app\registry('db');
 
@@ -40,7 +40,7 @@ function factory($key)
  *
  * @return bool
  */
-function transaction($key, callable $callback)
+function transaction(string $key, callable $callback): bool
 {
     static $data;
 

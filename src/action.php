@@ -258,7 +258,7 @@ function index()
  *
  * @return array
  */
-function meta()
+function meta(): array
 {
     $metadata = app\data('metadata', http\request('entity'));
 

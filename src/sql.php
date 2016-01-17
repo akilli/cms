@@ -16,7 +16,7 @@ use RuntimeException;
  *
  * @return PDO
  */
-function factory(array $data)
+function factory(array $data): PDO
 {
     $data = prepare($data);
 
@@ -48,7 +48,7 @@ function factory(array $data)
  *
  * @throws RuntimeException
  */
-function prepare(array $data)
+function prepare(array $data): array
 {
     if (empty($data['driver'])
         || empty($data['host'])
@@ -74,7 +74,7 @@ function prepare(array $data)
  *
  * @return bool
  */
-function transaction(PDO $db, callable $callback)
+function transaction(PDO $db, callable $callback): bool
 {
     static $data = [];
 
@@ -146,7 +146,7 @@ function quote($value, $backend = null)
  *
  * @return string
  */
-function quote_identifier(PDO $db, $identifier)
+function quote_identifier(PDO $db, string $identifier = null): string
 {
     $char = $db->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql' ? '`' : '"';
 
@@ -161,7 +161,7 @@ function quote_identifier(PDO $db, $identifier)
  *
  * @return int
  */
-function type(array $attribute, $value)
+function type(array $attribute, $value): int
 {
     if ($value === null && !empty($attribute['null'])) {
         return PDO::PARAM_NULL;
@@ -183,9 +183,9 @@ function type(array $attribute, $value)
  *
  * @param string|array $entity
  *
- * @return bool
+ * @return array
  */
-function meta($entity)
+function meta($entity): array
 {
     $metadata = is_array($entity) ? $entity : app\data('metadata', $entity);
     /** @var PDO $db */
@@ -220,7 +220,7 @@ function meta($entity)
  *
  * @return bool
  */
-function columns(array $attributes, array $item, array & $columns, array & $params, array & $sets, array $skip = [])
+function columns(array $attributes, array $item, array & $columns, array & $params, array & $sets, array $skip = []): bool
 {
     if (empty($item)) {
         return false;
@@ -250,7 +250,7 @@ function columns(array $attributes, array $item, array & $columns, array & $para
  *
  * @return string
  */
-function select(PDO $db, array $attributes, $alias = null, $add = false)
+function select(PDO $db, array $attributes, string $alias = null, bool $add = false): string
 {
     $columns = [];
     $alias = ($alias) ? quote_identifier($db, $alias) . '.' : '';
@@ -279,7 +279,7 @@ function select(PDO $db, array $attributes, $alias = null, $add = false)
  *
  * @return string
  */
-function from(PDO $db, $table, $alias = null)
+function from(PDO $db, string $table, string $alias = null): string
 {
     return ' FROM ' . $table . ($alias ? ' as ' . quote_identifier($db, $alias) : '');
 }
@@ -296,7 +296,7 @@ function from(PDO $db, $table, $alias = null)
  *
  * @return string
  */
-function where(PDO $db, array $criteria, array $attributes, $alias = null, $add = false, $search = false)
+function where(PDO $db, array $criteria, array $attributes, string $alias = null, bool $add = false, bool $search = false): string
 {
     $columns = [];
     $alias = $alias ? quote_identifier($db, $alias) . '.' : '';
@@ -338,7 +338,7 @@ function where(PDO $db, array $criteria, array $attributes, $alias = null, $add 
  *
  * @return string
  */
-function order(PDO $db, array $order, array $attributes = null, $add = false)
+function order(PDO $db, array $order, array $attributes = null, bool $add = false): string
 {
     $columns = [];
 
@@ -365,7 +365,7 @@ function order(PDO $db, array $order, array $attributes = null, $add = false)
  *
  * @return string
  */
-function limit($limit)
+function limit($limit): string
 {
     $isArray = is_array($limit);
     $offset = $isArray && !empty($limit[1]) ? (int) $limit[1] : 0;

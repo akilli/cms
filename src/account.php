@@ -11,7 +11,7 @@ use session;
  *
  * @return mixed
  */
-function user($key = null)
+function user(string $key = null)
 {
     static $data;
 
@@ -34,7 +34,7 @@ function user($key = null)
         return $data;
     }
 
-    return isset($data[$key]) ? $data[$key] : null;
+    return $data[$key] ?? null;
 }
 
 /**
@@ -42,7 +42,7 @@ function user($key = null)
  *
  * @return bool
  */
-function registered()
+function registered(): bool
 {
     return user('id') > 0;
 }

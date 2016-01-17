@@ -14,7 +14,7 @@ use model;
  *
  * @return string
  */
-function path($path = '', array $params = [])
+function path(string $path = '', array $params = []): string
 {
     $isFullPath = false;
 
@@ -39,7 +39,7 @@ function path($path = '', array $params = [])
  *
  * @return string
  */
-function asset($path)
+function asset(string $path): string
 {
     static $base;
 
@@ -58,7 +58,7 @@ function asset($path)
  *
  * @return string
  */
-function media($path)
+function media(string $path): string
 {
     return asset('media/' . trim($path, '/'));
 }
@@ -70,7 +70,7 @@ function media($path)
  *
  * @return string
  */
-function cache($path)
+function cache(string $path): string
 {
     return asset('cache/' . trim($path, '/'));
 }
@@ -83,7 +83,7 @@ function cache($path)
  *
  * @return string
  */
-function query(array $params, $isFullPath = false)
+function query(array $params, bool $isFullPath = false): string
 {
     if (!$params) {
         return '';
@@ -115,7 +115,7 @@ function query(array $params, $isFullPath = false)
  *
  * @return string
  */
-function resolve($key = '')
+function resolve(string $key = ''): string
 {
     if (!$key) {
         return http\request('id');
@@ -143,7 +143,7 @@ function resolve($key = '')
  *
  * @return string
  */
-function rewrite($path)
+function rewrite(string $path): string
 {
     $path = $path ?: 'http-base';
     $item = model\load('rewrite', ['id' => $path], false);
@@ -167,7 +167,7 @@ function rewrite($path)
  *
  * @return string
  */
-function unrewrite($path, $query = null)
+function unrewrite(string $path, string $query = null): string
 {
     static $data;
 

@@ -16,7 +16,7 @@ use url;
  *
  * @return mixed
  */
-function request($key, $value = null)
+function request(string $key, $value = null)
 {
     $data = & app\registry('request');
 
@@ -38,7 +38,7 @@ function request($key, $value = null)
         $data[$key] = $value;
     }
 
-    return isset($data[$key]) ? $data[$key] : null;
+    return $data[$key] ?? null;
 }
 
 /**
@@ -46,11 +46,11 @@ function request($key, $value = null)
  *
  * @return array
  */
-function init()
+function init(): array
 {
     $data = app\data('skeleton', 'request');
     $data['base'] = rtrim(filter\path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
-    $data['url'] = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $data['base'];
+    $data['url'] = $_SERVER['REQUEST_URI'] ?? $data['base'];
     $data['original_path'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');
     $data['path'] = url\rewrite($data['original_path']);
     $data['host'] = $_SERVER['HTTP_HOST'];
@@ -70,7 +70,7 @@ function init()
  *
  * @return array
  */
-function prepare(array $data)
+function prepare(array $data): array
 {
     // Entity, Action and Get Params
     $parts = $data['path'] ? explode('/', $data['path']) : [];
@@ -105,10 +105,8 @@ function prepare(array $data)
  * @param array $params
  *
  * @return void
- *
- * @SuppressWarnings(PHPMD.ExitExpression)
  */
-function redirect($url = '', array $params = [])
+function redirect(string $url = '', array $params = [])
 {
     header('Location:' . url\path($url, $params));
     exit;
@@ -121,7 +119,7 @@ function redirect($url = '', array $params = [])
  *
  * @return mixed
  */
-function get($key = null)
+function get(string $key = null)
 {
     $data = request('get');
 
@@ -129,7 +127,7 @@ function get($key = null)
         return $data;
     }
 
-    return isset($data[$key]) ? $data[$key] : null;
+    return $data[$key] ?? null;
 }
 
 /**
@@ -139,7 +137,7 @@ function get($key = null)
  *
  * @return mixed
  */
-function post($key = null)
+function post(string $key = null)
 {
     $data = request('post');
 
@@ -147,7 +145,7 @@ function post($key = null)
         return $data;
     }
 
-    return isset($data[$key]) ? $data[$key] : null;
+    return $data[$key] ?? null;
 }
 
 /**
@@ -157,7 +155,7 @@ function post($key = null)
  *
  * @return bool
  */
-function post_validate($token)
+function post_validate(string $token): bool
 {
     $session = session\data('token');
     $success = !empty($session) && !empty($token) && $session === $token;
@@ -186,7 +184,7 @@ function post_action()
  *
  * @return mixed
  */
-function post_data($action, $key = null)
+function post_data(string $action, string $key = null)
 {
     if ($action !== post_action()) {
         return null;
@@ -198,7 +196,7 @@ function post_data($action, $key = null)
         return $data;
     }
 
-    return isset($data[$key]) ? $data[$key] : null;
+    return $data[$key] ?? null;
 }
 
 /**
@@ -208,7 +206,7 @@ function post_data($action, $key = null)
  *
  * @return mixed
  */
-function files($key = null)
+function files(string $key = null)
 {
     $data = request('files');
 
@@ -216,7 +214,7 @@ function files($key = null)
         return $data;
     }
 
-    return isset($data[$key]) ? $data[$key] : null;
+    return $data[$key] ?? null;
 }
 
 /**
@@ -226,7 +224,7 @@ function files($key = null)
  *
  * @return array
  */
-function files_validate(array $data)
+function files_validate(array $data): array
 {
     $extensions = file\extensions('file');
 
@@ -259,12 +257,12 @@ function files_validate(array $data)
  *
  * @return array
  */
-function files_convert(array $data)
+function files_convert(array $data): array
 {
     $files = [];
 
     foreach ($data as $id => $item) {
-        $files[$id] = files_fix($item);
+        $files[$id] = is_array($item) ? files_fix($item) : $item;
     }
 
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
@@ -290,25 +288,19 @@ function files_convert(array $data)
 /**
  * Fixes a malformed PHP $_FILES array.
  *
- * PHP has a bug that the format of the $_FILES array differs, depending on
- * whether the uploaded file fields had normal field names or array-like
- * field names ("normal" vs. "parent[child]").
+ * PHP has a bug that the format of the $_FILES array differs, depending on whether the uploaded file fields had normal
+ * field names or array-like field names ("normal" vs. "parent[child]").
  *
  * This method fixes the array to look like the "normal" $_FILES array.
  *
- * It's safe to pass an already converted array, in which case this method
- * just returns the original array unmodified.
+ * It's safe to pass an already converted array, in which case this method just returns the original array unmodified.
  *
  * @param array $data
  *
  * @return array
  */
-function files_fix($data)
+function files_fix(array $data): array
 {
-    if (!is_array($data)) {
-        return $data;
-    }
-
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
     $ids = array_keys($data);
     sort($ids);

@@ -12,7 +12,7 @@ use url;
  *
  * @return array|null
  */
-function load($key = null)
+function load(string $key = null)
 {
     static $data;
 
@@ -24,7 +24,7 @@ function load($key = null)
         return $data;
     }
 
-    return isset($data[$key]) ? $data[$key] : null;
+    return $data[$key] ?? null;
 }
 
 /**
@@ -34,10 +34,10 @@ function load($key = null)
  *
  * @return bool
  */
-function delete($id)
+function delete(string $id): bool
 {
     return file\remove(app\path('cache', 'media/' . $id))
-    && (!$id || !($media = load($id)) || file\remove($media['path']));
+        && (!$id || !($media = load($id)) || file\remove($media['path']));
 }
 
 /**
@@ -46,9 +46,9 @@ function delete($id)
  * @param array $media
  * @param string $class
  *
- * @return string|bool
+ * @return string
  */
-function image(array $media, $class)
+function image(array $media, string $class): string
 {
     if (!($config = app\data('media', $class))
         || !file_exists($media['path'])

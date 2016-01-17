@@ -21,7 +21,7 @@ use RuntimeException;
  *
  * @return bool
  */
-function validate(array & $item)
+function validate(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {
@@ -47,7 +47,7 @@ function validate(array & $item)
  *
  * @return int
  */
-function size($entity, array $criteria = null, $search = false)
+function size(string $entity, array $criteria = null, bool $search = false): int
 {
     $metadata = app\data('metadata', $entity);
     $callback = 'model\\' . $metadata['model'] . '_size';
@@ -76,7 +76,7 @@ function size($entity, array $criteria = null, $search = false)
  *
  * @return array
  */
-function load($entity, array $criteria = null, $index = null, array $order = null, $limit = null)
+function load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
 {
     $metadata = app\data('metadata', $entity);
     $callback = 'model\\' . $metadata['model'] . '_load';
@@ -154,7 +154,7 @@ function load($entity, array $criteria = null, $index = null, array $order = nul
  *
  * @return bool
  */
-function save($entity, array & $data)
+function save(string $entity, array & $data): bool
 {
     $metadata = app\data('metadata', $entity);
     $original = load($entity);
@@ -261,7 +261,7 @@ function save($entity, array & $data)
  *
  * @return bool
  */
-function delete($entity, array $criteria = null, $index = null, array $order = null, $limit = null, $system = false)
+function delete(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null, bool $system = false): bool
 {
     $metadata = app\data('metadata', $entity);
     $callback = 'model\\' . $metadata['model'] . '_delete';
@@ -349,7 +349,7 @@ function delete($entity, array $criteria = null, $index = null, array $order = n
  *
  * @return int
  */
-function sql_size($entity, array $criteria = null, $search = false)
+function sql_size(string $entity, array $criteria = null, bool $search = false): int
 {
     $metadata = sql\meta($entity);
     /** @var PDO $db */
@@ -382,7 +382,7 @@ function sql_size($entity, array $criteria = null, $search = false)
  *
  * @return array
  */
-function sql_load($entity, array $criteria = null, $index = null, array $order = null, $limit = null)
+function sql_load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
 {
     $metadata = sql\meta($entity);
     /** @var PDO $db */
@@ -411,7 +411,7 @@ function sql_load($entity, array $criteria = null, $index = null, array $order =
  *
  * @return bool
  */
-function sql_create(array & $item)
+function sql_create(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {
@@ -455,7 +455,7 @@ function sql_create(array & $item)
  *
  * @return bool
  */
-function sql_save(array & $item)
+function sql_save(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {
@@ -501,7 +501,7 @@ function sql_save(array & $item)
  *
  * @return bool
  */
-function sql_delete(array & $item)
+function sql_delete(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {
@@ -539,7 +539,7 @@ function sql_delete(array & $item)
  *
  * @return int
  */
-function nestedset_size($entity, array $criteria = null, $search = false)
+function nestedset_size(string $entity, array $criteria = null, bool $search = false): int
 {
     return sql_size($entity, $criteria, $search);
 }
@@ -555,7 +555,7 @@ function nestedset_size($entity, array $criteria = null, $search = false)
  *
  * @return array
  */
-function nestedset_load($entity, array $criteria = null, $index = null, array $order = null, $limit = null)
+function nestedset_load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
 {
     $metadata = sql\meta($entity);
     /** @var PDO $db */
@@ -608,7 +608,7 @@ function nestedset_load($entity, array $criteria = null, $index = null, array $o
 
     // Result
     return array_map(
-        function ($item) use ($root) {
+        function (array $item) use ($root) {
             $item['menubasis'] = $root ? $item['root_id'] . ':' . $item['id'] : $item['id'];
 
             return $item;
@@ -624,7 +624,7 @@ function nestedset_load($entity, array $criteria = null, $index = null, array $o
  *
  * @return bool
  */
-function nestedset_create(array & $item)
+function nestedset_create(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {
@@ -724,7 +724,7 @@ function nestedset_create(array & $item)
  *
  * @return bool
  */
-function nestedset_save(array & $item)
+function nestedset_save(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {
@@ -870,7 +870,7 @@ function nestedset_save(array & $item)
  *
  * @return bool
  */
-function nestedset_delete(array & $item)
+function nestedset_delete(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {
@@ -922,7 +922,7 @@ function nestedset_delete(array & $item)
  *
  * @return int
  */
-function eav_size($entity, array $criteria = null, $search = false)
+function eav_size(string $entity, array $criteria = null, bool $search = false): int
 {
     $metadata = sql\meta($entity);
     /** @var PDO $db */
@@ -988,7 +988,7 @@ function eav_size($entity, array $criteria = null, $search = false)
  *
  * @return array
  */
-function eav_load($entity, array $criteria = null, $index = null, array $order = null, $limit = null)
+function eav_load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
 {
     $metadata = sql\meta($entity);
     /** @var PDO $db */
@@ -1052,7 +1052,7 @@ function eav_load($entity, array $criteria = null, $index = null, array $order =
  *
  * @throws RuntimeException
  */
-function eav_create(array & $item)
+function eav_create(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {
@@ -1134,7 +1134,7 @@ function eav_create(array & $item)
  *
  * @throws RuntimeException
  */
-function eav_save(array & $item)
+function eav_save(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {
@@ -1221,7 +1221,7 @@ function eav_save(array & $item)
  *
  * @return bool
  */
-function eav_delete(array $item)
+function eav_delete(array $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata']) || $item['_metadata']['id'] !== $item['entity_id']) {

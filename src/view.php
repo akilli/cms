@@ -16,7 +16,7 @@ use role;
  *
  * @return array
  */
-function type($key = null)
+function type(string $key = null): array
 {
     static $data;
 
@@ -42,7 +42,7 @@ function type($key = null)
  *
  * @return array
  */
-function handles(array $handles = null)
+function handles(array $handles = null): array
 {
     static $data;
 
@@ -83,7 +83,7 @@ function handles(array $handles = null)
  *
  * @return string
  */
-function render($id)
+function render(string $id): string
 {
     $block = & layout($id);
 
@@ -114,7 +114,7 @@ function render($id)
  *
  * @return mixed
  */
-function & layout($id, array $block = null)
+function & layout(string $id, array $block = null)
 {
     $data = & app\registry('layout');
 
@@ -192,7 +192,7 @@ function add(array $block)
  *
  * @return void
  */
-function vars($id, array $vars)
+function vars(string $id, array $vars)
 {
     $block = & layout($id);
 
@@ -209,7 +209,7 @@ function vars($id, array $vars)
  *
  * @return void
  */
-function parent(array $block, $oldId)
+function parent(array $block, string $oldId)
 {
     $oldParent = layout($oldId);
     $parent = layout($block['parent']);

@@ -13,7 +13,7 @@ use http;
  *
  * @return bool
  */
-function allowed($key = null)
+function allowed(string $key = null): bool
 {
     $data = app\data('privilege');
     $key = privilege($key);
@@ -27,9 +27,9 @@ function allowed($key = null)
     $allKey = strstr($key, '.', true) . '.all';
 
     return empty($data[$key]['is_active'])
-    || admin()
-    || !empty($data[$key]['callback']) && is_callable($data[$key]['callback']) && $data[$key]['callback']()
-    || $privileges && (in_array($allKey, $privileges) || in_array($key, $privileges));
+        || admin()
+        || !empty($data[$key]['callback']) && is_callable($data[$key]['callback']) && $data[$key]['callback']()
+        || $privileges && (in_array($allKey, $privileges) || in_array($key, $privileges));
 }
 
 /**
@@ -39,7 +39,7 @@ function allowed($key = null)
  *
  * @return string
  */
-function privilege($key = null)
+function privilege(string $key = null): string
 {
     if (!is_string($key) || empty($key)) {
         return http\request('id');
@@ -53,7 +53,7 @@ function privilege($key = null)
  *
  * @return array
  */
-function privileges()
+function privileges(): array
 {
     static $data;
 
@@ -78,7 +78,7 @@ function privileges()
  *
  * @return bool
  */
-function admin()
+function admin(): bool
 {
-    return account\registered() && ($privileges = account\user('privilege')) && in_array('all', $privileges);
+    return account\registered() && in_array('all', account\user('privilege'));
 }

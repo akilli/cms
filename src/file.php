@@ -20,7 +20,7 @@ use SplFileInfo;
  *
  * @return array
  */
-function scan($path, array $criteria = null, $index = null, array $order = null, $limit = null)
+function scan(string $path, array $criteria = null, $index = null, array $order = null, $limit = null): array
 {
     if (!is_dir($path)) {
         return [];
@@ -111,7 +111,7 @@ function scan($path, array $criteria = null, $index = null, array $order = null,
  *
  * @return bool
  */
-function make($path, $mode = 0775, $recursive = true)
+function make(string $path, int $mode = 0775, bool $recursive = true): bool
 {
     if (!writable($path)) {
         return false;
@@ -136,7 +136,7 @@ function make($path, $mode = 0775, $recursive = true)
  *
  * @return bool
  */
-function remove($path, $preserve = false)
+function remove(string $path, bool $preserve = false): bool
 {
     if (!file_exists($path)) {
         return true;
@@ -181,7 +181,7 @@ function remove($path, $preserve = false)
  *
  * @return bool
  */
-function duplicate($source, $destination, $criteria = null)
+function duplicate(string $source, string $destination, $criteria = null): bool
 {
     if (!($isFile = is_file($source)) && !is_dir($source) || !make(dirname($destination))) {
         return false;
@@ -216,7 +216,7 @@ function duplicate($source, $destination, $criteria = null)
  *
  * @return bool
  */
-function upload($source, $destination)
+function upload(string $source, string $destination): bool
 {
     if (!is_uploaded_file($source) || !make(dirname($destination))) {
         return false;
@@ -239,7 +239,7 @@ function upload($source, $destination)
  *
  * @return int|bool
  */
-function put($destination, $content, $flags = 0, $context = null)
+function put(string $destination, string $content, int $flags = 0, $context = null)
 {
     if (!make(dirname($destination))) {
         return false;
@@ -259,7 +259,7 @@ function put($destination, $content, $flags = 0, $context = null)
  *
  * @return bool
  */
-function writable($path)
+function writable(string $path): bool
 {
     static $pattern;
 
@@ -279,7 +279,7 @@ function writable($path)
  *
  * @todo Remove or move to filter and split file attribute validators
  */
-function extensions($key)
+function extensions(string $key): array
 {
     static $data;
 
@@ -291,5 +291,5 @@ function extensions($key)
         $data['video'] = config\value('file.video');
     }
 
-    return isset($data[$key]) ? $data[$key] : [];
+    return $data[$key] ?? [];
 }
