@@ -1118,7 +1118,7 @@ function view()
  */
 function view_default(array $attribute, array $item)
 {
-    return is_view($attribute, $item) ? filter\encode(value($attribute, $item)) : '';
+    return is_view($attribute) ? filter\encode(value($attribute, $item)) : '';
 }
 
 /**
@@ -1132,7 +1132,7 @@ function view_default(array $attribute, array $item)
  */
 function view_file(array $attribute, array $item)
 {
-    if (!is_view($attribute, $item)) {
+    if (!is_view($attribute)) {
         return '';
     }
 
@@ -1188,7 +1188,7 @@ function view_datetime(array $attribute, array $item)
 {
     static $formats, $tz;
 
-    if (!is_view($attribute, $item)) {
+    if (!is_view($attribute)) {
         return '';
     }
 
@@ -1225,7 +1225,7 @@ function view_datetime(array $attribute, array $item)
  */
 function view_editor(array $attribute, array $item)
 {
-    return is_view($attribute, $item) ? value($attribute, $item) : '';
+    return is_view($attribute) ? value($attribute, $item) : '';
 }
 
 /**
@@ -1238,7 +1238,7 @@ function view_editor(array $attribute, array $item)
  */
 function view_option(array $attribute, array $item)
 {
-    if (!is_view($attribute, $item)) {
+    if (!is_view($attribute)) {
         return '';
     }
 
