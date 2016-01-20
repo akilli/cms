@@ -1,5 +1,12 @@
 <?php
 /**
+ * Initialize application
+ */
+foreach (glob(__DIR__ . '/../src/*.php') as $file) {
+    include_once $file;
+}
+
+/**
  * Error handler
  */
 set_error_handler(
@@ -24,10 +31,6 @@ register_shutdown_function(
 );
 
 /**
- * Init and run application
+ * Run application
  */
-foreach (glob(__DIR__ . '/../src/*.php') as $file) {
-    include_once $file;
-}
-
 app\run();
