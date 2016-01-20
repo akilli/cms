@@ -42,19 +42,16 @@ function run(array $data = [])
 /**
  * Internal registry
  *
- * Sets value for id if value is set or id key does not exist yet and returns reference to $data[$id]
- *
  * @param string $id
- * @param array $value
  *
  * @return array|null
  */
-function & registry(string $id, array $value = null)
+function & registry(string $id)
 {
     static $data = [];
 
-    if ($value !== null || !array_key_exists($id, $data)) {
-        $data[$id] = $value;
+    if (!array_key_exists($id, $data)) {
+        $data[$id] = null;
     }
 
     return $data[$id];
