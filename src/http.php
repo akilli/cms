@@ -12,30 +12,18 @@ use url;
  * Request
  *
  * @param string $key
- * @param mixed $value
  *
  * @return mixed
  */
-function request(string $key, $value = null)
+function request(string $key)
 {
     $data = & app\registry('request');
 
     if ($data === null) {
         $data = [];
-
-        // Initialize request data
         $data = init();
-
-        // Dispatch init event
         app\event('http.request', $data);
-
-        // Prepare request data for current request
         $data = prepare($data);
-    }
-
-    // If $value is provided, set $value for $key
-    if ($value !== null) {
-        $data[$key] = $value;
     }
 
     return $data[$key] ?? null;
@@ -278,7 +266,7 @@ function files_convert(array $data): array
         if ($ids != $keys) {
             $files[$id] = files_convert($item);
         } elseif ($item['error'] === UPLOAD_ERR_NO_FILE || !is_uploaded_file($item['tmp_name'])) {
-            $files[$id] = null;
+            unset($files[$id]);
         }
     }
 
