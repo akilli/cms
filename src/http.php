@@ -225,7 +225,7 @@ function files_validate(array $data): array
 
                 $ext = pathinfo($attribute['name'], PATHINFO_EXTENSION);
 
-                if (!in_array($ext, $extensions)) {
+                if (empty($extensions[$ext])) {
                     session\message(i18n\translate('Invalid file %s was rejected', $attribute['name']));
                     unset($item[$code]);
                 } else {

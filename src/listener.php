@@ -21,14 +21,12 @@ function config(array & $data)
 {
     // Set auto values
     $data['i18n.language'] = locale_get_primary_language($data['i18n.locale']);
-    $data['file.all'] = array_unique(
-        array_merge(
-            $data['file.audio'],
-            $data['file.embed'],
-            $data['file.image'],
-            $data['file.misc'],
-            $data['file.video']
-        )
+    $data['file.all'] = array_merge(
+        $data['file.audio'],
+        $data['file.embed'],
+        $data['file.image'],
+        $data['file.misc'],
+        $data['file.video']
     );
 
     // Configure PHP, @todo Remove dynamic configuration?

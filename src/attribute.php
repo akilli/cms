@@ -513,7 +513,7 @@ function validate_file(array $attribute, array & $item): bool
     }
 
     // Invalid file
-    if (!in_array($file['extension'], file\extensions($attribute['type']))) {
+    if (empty(file\extensions($attribute['type'])[$file['extension']])) {
         $item['__error'][$code] = i18n\translate('Invalid file');
 
         return false;
@@ -1142,7 +1142,7 @@ function view_file(array $attribute, array $item): string
         return $value;
     } elseif (!$value
         || !($file = media\load($value))
-        || !in_array($file['extension'], file\extensions($attribute['type']))
+        || empty(file\extensions($attribute['type'])[$file['extension']])
     ) {
         return '';
     }
