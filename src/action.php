@@ -85,7 +85,7 @@ function delete_action()
 
     if ($data) {
         // Data posted, perform delete callback
-        delete($metadata['id'], ['id' => array_keys($data)]);
+        model\delete($metadata['id'], ['id' => array_keys($data)]);
     } else {
         // No data posted
         session\message(i18n\translate('You did not select anything to delete'));
