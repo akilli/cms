@@ -115,6 +115,9 @@ function image(array $media, string $class): string
             } elseif ($info[2] === IMAGETYPE_GIF) {
                 $create = 'imagecreatefromgif';
                 $output = 'imagegif';
+            } elseif ($media['extension'] = 'webp') {
+                $create = 'imagecreatefromwebp';
+                $output = 'imagewebp';
             }
 
             if (!empty($create) && !empty($output)) {
