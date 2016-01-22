@@ -1,9 +1,23 @@
 <?php
 return [
     // action
-    'action.attribute' => ['all', 'edit', 'view', 'index', 'list', 'block'],
-    'action.entity' => ['all', 'create', 'edit', 'delete', 'view', 'index', 'list'],
-    'action.unsecure' => ['view', 'list'],
+    'action.attribute' => [
+        'all' => 'all',
+        'edit' => 'edit',
+        'view' => 'view',
+        'index' => 'index',
+        'list' => 'list',
+        'block' => 'block',
+    ],
+    'action.entity' => [
+        'all' => 'all',
+        'create' => 'create',
+        'edit' => 'edit',
+        'delete' => 'delete',
+        'view' => 'view',
+        'index' => 'index',
+        'list' => 'list',
+    ],
     // file
     'file.audio' => ['mp3', 'oga', 'ogg', 'weba'],
     'file.embed' => ['avi', 'mov', 'mpg', 'ra', 'rm', 'swf', 'wav', 'wma', 'wmv'],
