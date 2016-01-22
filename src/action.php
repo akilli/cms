@@ -328,7 +328,7 @@ function account_profile_action()
 
     // View
     view\load();
-    view\vars('account.dashboard', ['item' => $item]);
+    view\vars('account.profile', ['item' => $item]);
 }
 
 /**
