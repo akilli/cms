@@ -41,7 +41,7 @@ function entity(array $data): array
     // Attributes
     $sortOrder = 0;
 
-    foreach ($data['attributes'] as $id => & $attribute) {
+    foreach ($data['attributes'] as $id => $attribute) {
         $attribute['id'] = $id;
         $attribute['entity_id'] = $data['id'];
 
@@ -63,6 +63,8 @@ function entity(array $data): array
             $attribute['sort_order'] = $sortOrder;
             $sortOrder += 100;
         }
+
+        $data['attributes'][$id] = $attribute;
     }
 
     return $data;
