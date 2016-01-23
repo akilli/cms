@@ -216,9 +216,9 @@ function files_validate(array $data): array
 {
     $extensions = file\extensions('file');
 
-    foreach ($data as & $items) {
-        foreach ($items as & $item) {
-            foreach ($item as $code => & $attribute) {
+    foreach ($data as $key => $items) {
+        foreach ($items as $id => $item) {
+            foreach ($item as $code => $attribute) {
                 if (empty($attribute)) {
                     continue;
                 }
@@ -227,9 +227,9 @@ function files_validate(array $data): array
 
                 if (empty($extensions[$ext])) {
                     session\message(i18n\translate('Invalid file %s was rejected', $attribute['name']));
-                    unset($item[$code]);
+                    unset($data[$key][$id][$code]);
                 } else {
-                    $attribute['extension'] = $ext;
+                    $data[$key][$id][$code]['extension'] = $ext;
                 }
             }
         }
