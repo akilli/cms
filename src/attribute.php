@@ -545,11 +545,10 @@ function validate_datetime(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
     $item[$code] = type($attribute, $item[$code] ?? null);
-    $timezone = $attribute['frontend'] === 'datetime' ? timezone_open('UTC') : null;
     $format = $attribute['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d H:i:s';
 
     if (!empty($item[$code])) {
-        if (($datetime = date_create($item[$code], $timezone)) && ($datetime = date_format($datetime, $format))) {
+        if ($datetime = date_format(date_create($item[$code]), $format)) {
             $item[$code] = $datetime;
         } else {
             $item[$code] = null;
@@ -990,20 +989,9 @@ function edit_datetime(array $attribute, array $item): string
 
     $code = $attribute['id'];
     $item[$code] = value($attribute, $item);
-    $timezone = $attribute['frontend'] === 'datetime' ? timezone_open('UTC') : null;
+    $format = $attribute['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d\TH:i:s';
 
-    if ($attribute['frontend'] === 'date') {
-        $format = 'Y-m-d';
-    } elseif ($attribute['frontend'] === 'datetime') {
-        $format = 'Y-m-d\TH:i:s\Z';
-    } else {
-        $format = 'Y-m-d\TH:i:s';
-    }
-
-    if (!empty($item[$code])
-        && ($datetime = date_create($item[$code], $timezone))
-        && ($datetime = date_format($datetime, $format))
-    ) {
+    if (!empty($item[$code]) && ($datetime = date_format(date_create($item[$code]), $format))) {
         $item[$code] = $datetime;
     } else {
         $item[$code] = null;
@@ -1186,33 +1174,14 @@ function view_file(array $attribute, array $item): string
  */
 function view_datetime(array $attribute, array $item): string
 {
-    static $formats, $tz;
-
     if (!is_view($attribute)) {
         return '';
     }
 
-    if ($formats === null) {
-        $formats = [
-            'date' => config\value('i18n.date_format'),
-            'datetime' => config\value('i18n.datetime_format')
-        ];
-        $tz = timezone_open(config\value('i18n.timezone'));
-    }
-
     $code = $attribute['id'];
-    $timezone = $attribute['frontend'] === 'datetime' ? timezone_open('UTC') : null;
-    $format = $attribute['frontend'] === 'date' ? $formats['date'] : $formats['datetime'];
+    $format = $attribute['frontend'] === 'date' ? config\value('i18n.date_format') : config\value('i18n.datetime_format');
 
-    if (empty($item[$code]) || !$datetime = date_create($item[$code], $timezone)) {
-        return '';
-    }
-
-    if (timezone_name_get(date_timezone_get($datetime)) !== timezone_name_get($tz)) {
-        date_timezone_set($datetime, $tz);
-    }
-
-    return date_format($datetime, $format) ?: '';
+    return empty($item[$code]) ? '' : date_format(date_create($item[$code]), $format);
 }
 
 /**

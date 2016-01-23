@@ -17,8 +17,8 @@ return [
         'id' => 'date',
         'name' => 'Date',
     ],
-    'datetime' => [
-        'id' => 'datetime',
+    'datetime-local' => [
+        'id' => 'datetime-local',
         'name' => 'Datetime',
     ],
     'email' => [

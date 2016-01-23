@@ -37,7 +37,7 @@ return [
         'id' => 'datetime',
         'name' => 'Datetime',
         'backend' => 'datetime',
-        'frontend' => 'datetime',
+        'frontend' => 'datetime-local',
     ],
     'decimal' => [
         'id' => 'decimal',
