@@ -36,7 +36,7 @@ function data(): array
  */
 function prepare(array & $data): array
 {
-    foreach ($data as $key => & $item) {
+    foreach ($data as $key => $item) {
         if (empty($item['name'])) {
             unset($data[$key]);
             continue;
@@ -52,6 +52,7 @@ function prepare(array & $data): array
 
         $item['url'] = $item['url'] ?? null;
         $item['description'] = $item['description'] ?? null;
+        $data[$key] = $item;
     }
 
     return data\order($data, 'sort_order');

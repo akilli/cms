@@ -276,7 +276,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
         $data = [$data['id'] => $data];
     }
 
-    foreach ($data as $id => & $item) {
+    foreach ($data as $id => $item) {
         // Filter system items
         if (!$system && !empty($item['is_system'])) {
             session\message(i18n\translate('You must not delete system items! Therefore skipped ID %s', $id));
@@ -332,6 +332,8 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
         if (!$success) {
             $error = true;
         }
+
+        $data[$id] = $item;
     }
 
     // Message
@@ -935,19 +937,19 @@ function eav_size(string $entity, array $criteria = null, bool $search = false):
     $criteria['entity_id'] = $metadata['id'];
 
     // Prepare attributes
-    foreach ($attributes as $code => & $attribute) {
+    foreach ($attributes as $code => $attribute) {
         if (empty($attribute['column'])) {
             continue;
         } elseif (!empty($valueAttributes[$code])) {
             $alias = sql\quote_identifier($db, $code);
-            $attribute['column'] = $alias . '.' . $attribute['column'];
+            $attributes[$code]['column'] = $alias . '.' . $attribute['column'];
             $params[$code] = ':__attribute__' . str_replace('-', '_', $code);
             $joins[$code] = 'LEFT JOIN ' . $valueMetadata['table'] . ' ' . $alias . ' ON '
                 . $alias . '.' . $valueMetadata['attributes']['content_id']['column']
                 . ' = e.' . $metadata['attributes']['id']['column'] . ' AND '
                 . $alias . '.' . $valueMetadata['attributes']['attribute_id']['column'] . ' = ' . $params[$code];
         } else {
-            $attribute['column'] = 'e.' . $attribute['column'];
+            $attributes[$code]['column'] = 'e.' . $attribute['column'];
         }
     }
 
@@ -1001,19 +1003,19 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
     $criteria['entity_id'] = $metadata['id'];
 
     // Prepare attributes
-    foreach ($attributes as $code => & $attribute) {
+    foreach ($attributes as $code => $attribute) {
         if (empty($attribute['column'])) {
             continue;
         } elseif (!empty($valueAttributes[$code])) {
             $alias = sql\quote_identifier($db, $code);
-            $attribute['column'] = $alias . '.' . $attribute['column'];
+            $attributes[$code]['column'] = $alias . '.' . $attribute['column'];
             $params[$code] = ':__attribute__' . str_replace('-', '_', $code);
             $joins[$code] = 'LEFT JOIN ' . $valueMetadata['table'] . ' ' . $alias . ' ON '
                 . $alias . '.' . $valueMetadata['attributes']['content_id']['column']
                 . ' = e.' . $metadata['attributes']['id']['column'] . ' AND '
                 . $alias . '.' . $valueMetadata['attributes']['attribute_id']['column'] . ' = ' . $params[$code];
         } else {
-            $attribute['column'] = 'e.' . $attribute['column'];
+            $attributes[$code]['column'] = 'e.' . $attribute['column'];
         }
     }
 

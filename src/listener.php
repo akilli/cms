@@ -127,8 +127,8 @@ function model_save(array & $data)
         } elseif ($data['id'] !== $data['_original']['id']
             && ($searchItems = model\load('search', ['entity_id' => $data['_original']['id']]))
         ) {
-            foreach ($searchItems as & $searchItem) {
-                $searchItem['entity_id'] = $data['id'];
+            foreach ($searchItems as $searchItemId => $searchItem) {
+                $searchItems[$searchItemId]['entity_id'] = $data['id'];
             }
 
             model\save('search', $searchItems);
@@ -143,8 +143,8 @@ function model_save(array & $data)
             && $data['id'] !== $data['_original']['id']
             && ($rewrites = model\load('rewrite', $criteria, 'search'))
         ) {
-            foreach ($rewrites as & $rewrite) {
-                $rewrite['target'] = preg_replace(
+            foreach ($rewrites as $rewriteId => $rewrite) {
+                $rewrites[$rewriteId]['target'] = preg_replace(
                     '#^' . $data['_original']['id'] . '/#',
                     $data['id'] . '/',
                     $rewrite['target']

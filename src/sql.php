@@ -201,8 +201,8 @@ function meta($entity): array
     $metadata['sequence'] = quote_identifier($db, $metadata['sequence']);
     $metadata['table'] = quote_identifier($db, $metadata['table']);
 
-    foreach ($metadata['attributes'] as & $attribute) {
-        $attribute['column'] = quote_identifier($db, $attribute['column']);
+    foreach ($metadata['attributes'] as $code => $attribute) {
+        $metadata['attributes'][$code]['column'] = quote_identifier($db, $attribute['column']);
     }
 
     return $metadata;
