@@ -1,24 +1,25 @@
+<?php namespace akilli;?>
 <section class="block block-login">
     <header>
-        <h1><?= akilli\_('Login');?></h1>
+        <h1><?= _('Login');?></h1>
     </header>
-    <form action="<?= akilli\url('*/*');?>" method="post" class="login">
+    <form action="<?= url('*/*');?>" method="post" class="login">
         <fieldset class="data">
-            <legend><?= akilli\_('Credentials');?></legend>
+            <legend><?= _('Credentials');?></legend>
             <div class="element attribute-name">
-                <label for="data-name"><?= akilli\_('Name');?> <em class="required"><?= akilli\_('Required');?></em></label>
-                <input id="data-name" type="text" name="data[name]" required="required" title="<?= akilli\_('Please enter your name');?>" />
-                <p class="message"><?= akilli\_('Please enter your name');?></p>
+                <label for="data-name"><?= _('Name');?> <em class="required"><?= _('Required');?></em></label>
+                <input id="data-name" type="text" name="data[name]" required="required" title="<?= _('Please enter your name');?>" />
+                <p class="message"><?= _('Please enter your name');?></p>
             </div>
             <div class="element attribute-password">
-                <label for="data-password"><?= akilli\_('Password');?> <em class="required"><?= akilli\_('Required');?></em></label>
-                <input id="data-password" type="password" name="data[password]" required="required" title="<?= akilli\_('Please enter your password');?>" />
-                <p class="message"><?= akilli\_('Please enter your password');?></p>
+                <label for="data-password"><?= _('Password');?> <em class="required"><?= _('Required');?></em></label>
+                <input id="data-password" type="password" name="data[password]" required="required" title="<?= _('Please enter your password');?>" />
+                <p class="message"><?= _('Please enter your password');?></p>
             </div>
         </fieldset>
         <fieldset class="action">
-            <input type="submit" name="action[login]" value="<?= akilli\_('Login');?>" />
-            <input type="hidden" name="token" value="<?= akilli\token();?>" />
+            <input type="submit" name="action[login]" value="<?= _('Login');?>" />
+            <input type="hidden" name="token" value="<?= token();?>" />
         </fieldset>
     </form>
 </section>

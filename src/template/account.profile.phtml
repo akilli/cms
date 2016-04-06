@@ -1,24 +1,25 @@
+<?php namespace akilli;?>
 <section class="block block-profile">
     <header>
-        <h1><?= akilli\_('Profile');?></h1>
+        <h1><?= _('Profile');?></h1>
     </header>
-    <form action="<?= akilli\url('*/*');?>" method="post" enctype="multipart/form-data" class="edit">
+    <form action="<?= url('*/*');?>" method="post" enctype="multipart/form-data" class="edit">
         <fieldset class="data">
-            <legend><?= akilli\_('Credentials');?></legend>
+            <legend><?= _('Credentials');?></legend>
             <div class="element attribute-name">
-                <label for="data-name"><?= akilli\_('Name');?> <em class="required"><?= akilli\_('Required');?></em> <em class="unique"><?= akilli\_('Unique');?></em></label>
-                <input id="data-name" type="text" name="data[name]" value="<?=$block['data']('item')['name'];?>" required="required" title="<?= akilli\_('Your name');?>" />
-                <p class="message"><?= akilli\_('Your name');?></p>
+                <label for="data-name"><?= _('Name');?> <em class="required"><?= _('Required');?></em> <em class="unique"><?= _('Unique');?></em></label>
+                <input id="data-name" type="text" name="data[name]" value="<?=$block['data']('item')['name'];?>" required="required" title="<?= _('Your name');?>" />
+                <p class="message"><?= _('Your name');?></p>
             </div>
             <div class="element attribute-password">
-                <label for="data-password"><?= akilli\_('Password');?></label>
-                <input id="data-password" type="password" name="data[password]" title="<?= akilli\_('Your password');?>" autocomplete="off" />
-                <p class="message"><?= akilli\_('Your password');?></p>
+                <label for="data-password"><?= _('Password');?></label>
+                <input id="data-password" type="password" name="data[password]" title="<?= _('Your password');?>" autocomplete="off" />
+                <p class="message"><?= _('Your password');?></p>
             </div>
         </fieldset>
         <fieldset class="action">
-            <input type="submit" name="action[save]" title="<?= akilli\_('Save');?>" value="<?= akilli\_('Save');?>" />
-            <input type="hidden" name="token" value="<?= akilli\token();?>" />
+            <input type="submit" name="action[save]" title="<?= _('Save');?>" value="<?= _('Save');?>" />
+            <input type="hidden" name="token" value="<?= token();?>" />
         </fieldset>
     </form>
 </section>

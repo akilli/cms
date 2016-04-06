@@ -1,8 +1,9 @@
+<?php namespace akilli;?>
 <section class="block block-edit">
     <header>
         <h1><?=$block['data']('header');?></h1>
     </header>
-    <form action="<?= akilli\url('*/*');?>" method="post" enctype="multipart/form-data" class="edit">
+    <form action="<?= url('*/*');?>" method="post" enctype="multipart/form-data" class="edit">
         <?php foreach ($block['data']('data') as $id => $item):?>
         <fieldset class="data">
             <legend><?=$item['name'] ? $item['name'] : $block['data']('header');?></legend>
@@ -15,11 +16,11 @@
         </fieldset>
         <?php endforeach;?>
         <fieldset class="action">
-            <?php if (akilli\allowed('index')):?>
-            <a role="button" href="<?= akilli\url('*/index');?>" title="<?= akilli\_('Back');?>"><?= akilli\_('Back');?></a>
+            <?php if (allowed('index')):?>
+            <a role="button" href="<?= url('*/index');?>" title="<?= _('Back');?>"><?= _('Back');?></a>
             <?php endif;?>
-            <input type="submit" name="action[save]" title="<?= akilli\_('Save');?>" value="<?= akilli\_('Save');?>" />
-            <input type="hidden" name="token" value="<?= akilli\token();?>" />
+            <input type="submit" name="action[save]" title="<?= _('Save');?>" value="<?= _('Save');?>" />
+            <input type="hidden" name="token" value="<?= token();?>" />
         </fieldset>
     </form>
 </section>

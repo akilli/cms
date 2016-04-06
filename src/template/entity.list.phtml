@@ -1,7 +1,8 @@
+<?php namespace akilli;?>
 <section class="block block-list">
     <header>
         <h1><?=$block['data']('header');?></h1>
-        <?= akilli\view_render('search');?>
+        <?= view_render('search');?>
     </header>
 <?php if ($block['data']('data')):?>
     <?php foreach ($block['data']('data') as $id => $item):?>
@@ -11,8 +12,8 @@
             <?php if (!$html = $attribute['view']($attribute, $item)) continue;?>
             <?php if ($code === 'name'):?>
         <header>
-                <?php if (akilli\allowed('view')):?>
-            <h2><a href="<?= akilli\url('*/view', ['id' => $id]);?>" title="<?= akilli\_('View this item');?>"><?=$html;?></a></h2>
+                <?php if (allowed('view')):?>
+            <h2><a href="<?= url('*/view', ['id' => $id]);?>" title="<?= _('View this item');?>"><?=$html;?></a></h2>
                 <?php else:?>
             <h2><?=$html;?></h2>
                 <?php endif;?>
@@ -25,8 +26,8 @@
         <?php endforeach;?>
     </article>
         <?php endforeach;?>
-    <?= akilli\view_render('pager');?>
+    <?= view_render('pager');?>
 <?php else:;?>
-    <p><?= akilli\_('Nothing created yet');?></p>
+    <p><?= _('Nothing created yet');?></p>
 <?php endif;?>
 </section>

@@ -1,11 +1,12 @@
+<?php namespace akilli;?>
 <nav id="toolbar" class="cf">
     <ul>
         <li class="toolbar">
-            <a href="<?= akilli\url('account/dashboard');?>" title="<?= akilli\_('Dashboard');?>"><?= akilli\_('Dashboard');?></a>
-            <?= akilli\view_render('toolbar.menu');?>
+            <a href="<?= url('account/dashboard');?>" title="<?= _('Dashboard');?>"><?= _('Dashboard');?></a>
+            <?= view_render('toolbar.menu');?>
         </li>
-        <li><a href="<?= akilli\url();?>" title="<?= akilli\_('Homepage');?>"><?= akilli\_('Homepage');?></a></li>
-        <li><a href="<?= akilli\url('account/profile');?>" title="<?= akilli\_('Profile');?>"><?= akilli\_('Profile');?></a></li>
-        <li><a href="<?= akilli\url('account/logout');?>" title="<?= akilli\_('Logout');?>"><?= akilli\_('Logout');?></a></li>
+        <li><a href="<?= url();?>" title="<?= _('Homepage');?>"><?= _('Homepage');?></a></li>
+        <li><a href="<?= url('account/profile');?>" title="<?= _('Profile');?>"><?= _('Profile');?></a></li>
+        <li><a href="<?= url('account/logout');?>" title="<?= _('Logout');?>"><?= _('Logout');?></a></li>
     </ul>
 </nav>

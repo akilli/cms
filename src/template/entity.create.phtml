@@ -1,11 +1,12 @@
-<form action="<?= akilli\url('*/create');?>" method="post" class="create">
+<?php namespace akilli;?>
+<form action="<?= url('*/create');?>" method="post" class="create">
     <fieldset class="data">
         <div class="element">
-            <label for="data-number"><?= akilli\_('Number');?></label>
-            <input id="data-number" type="number" name="data[number]" value="1" title="<?= akilli\_('Please enter the number of items you want to create');?>" />
-            <input type="submit" name="action[create]" title="<?= akilli\_('Create');?>" value="<?= akilli\_('Create');?>" />
-            <input type="hidden" name="token" value="<?= akilli\token();?>" />
-            <p class="message"><?= akilli\_('Please enter the number of items you want to create');?></p>
+            <label for="data-number"><?= _('Number');?></label>
+            <input id="data-number" type="number" name="data[number]" value="1" title="<?= _('Please enter the number of items you want to create');?>" />
+            <input type="submit" name="action[create]" title="<?= _('Create');?>" value="<?= _('Create');?>" />
+            <input type="hidden" name="token" value="<?= token();?>" />
+            <p class="message"><?= _('Please enter the number of items you want to create');?></p>
         </div>
     </fieldset>
 </form>

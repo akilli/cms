@@ -1,11 +1,12 @@
-<form action="<?= akilli\url('*/*');?>" method="post" class="search">
+<?php namespace akilli;?>
+<form action="<?= url('*/*');?>" method="post" class="search">
     <fieldset class="data">
         <div class="element">
-            <label for="data-terms"><?= akilli\_('Search Terms');?></label>
-            <input id="data-terms" type="search" name="data[terms]" title="<?= akilli\_('Please enter your search terms');?>" />
-            <input type="submit" name="action[search]" title="<?= akilli\_('Search');?>" value="<?= akilli\_('Search');?>" />
-            <input type="hidden" name="token" value="<?= akilli\token();?>" />
-            <p class="message"><?= akilli\_('Please enter your search terms');?></p>
+            <label for="data-terms"><?= _('Search Terms');?></label>
+            <input id="data-terms" type="search" name="data[terms]" title="<?= _('Please enter your search terms');?>" />
+            <input type="submit" name="action[search]" title="<?= _('Search');?>" value="<?= _('Search');?>" />
+            <input type="hidden" name="token" value="<?= token();?>" />
+            <p class="message"><?= _('Please enter your search terms');?></p>
         </div>
     </fieldset>
 </form>
