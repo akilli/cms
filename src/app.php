@@ -134,20 +134,6 @@ function listener(string $event): array
 }
 
 /**
- * Template registry
- *
- * @param string $id
- *
- * @return string|null
- */
-function template(string $id)
-{
-    $file = path('template', $id);
-
-    return is_readable($file) ? $file : null;
-}
-
-/**
  * Config
  *
  * @param string $key

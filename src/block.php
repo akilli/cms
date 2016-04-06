@@ -10,12 +10,6 @@ namespace akilli;
  */
 function block_template(array & $block): string
 {
-    $block['template_path'] = template($block['template']);
-
-    if (!$block['template'] || !$block['template_path']) {
-        return '';
-    }
-
     $block['data'] = function ($key = null, $default = null) use ($block) {
         if ($key === null) {
             return isset($block['vars']) && is_array($block['vars']) ? $block['vars'] : [];
@@ -26,8 +20,7 @@ function block_template(array & $block): string
 
     // Output
     ob_start();
-
-    include $block['template_path'];
+    include path('template', $block['template']);
 
     return ob_get_clean();
 }
