@@ -2,7 +2,6 @@
 namespace role;
 
 use akilli;
-use account;
 use data;
 use http;
 
@@ -23,7 +22,7 @@ function allowed(string $key = null): bool
         return false;
     }
 
-    $privileges = account\account('privilege');
+    $privileges = akilli\account('privilege');
     $allKey = strstr($key, '.', true) . '.all';
 
     return empty($data[$key]['is_active'])
@@ -80,5 +79,5 @@ function privileges(): array
  */
 function admin(): bool
 {
-    return account\registered() && in_array('all', account\account('privilege'));
+    return akilli\registered() && in_array('all', akilli\account('privilege'));
 }

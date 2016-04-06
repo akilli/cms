@@ -1,7 +1,6 @@
 <?php
 namespace view;
 
-use account;
 use akilli;
 use data;
 use http;
@@ -54,7 +53,7 @@ function handles(array $handles = null): array
             $handles[] = 'view-base';
         }
 
-        $handles[] = account\registered() ? 'account-registered' : 'account-anonymous';
+        $handles[] = akilli\registered() ? 'account-registered' : 'account-anonymous';
 
         if (role\admin()) {
             $handles[] = 'role-admin';

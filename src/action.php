@@ -1,7 +1,6 @@
 <?php
 namespace action;
 
-use account;
 use akilli;
 use config;
 use data;
@@ -309,9 +308,9 @@ function account_dashboard_action()
  */
 function account_profile_action()
 {
-    $account = account\account();
+    $account = akilli\account();
 
-    if (!$account || !account\registered()) {
+    if (!$account || !akilli\registered()) {
         http\redirect();
     }
 
@@ -322,7 +321,7 @@ function account_profile_action()
         model\save('account', $data);
     }
 
-    if (!$item = account\account()) {
+    if (!$item = akilli\account()) {
         http\redirect();
     }
 
@@ -338,7 +337,7 @@ function account_profile_action()
  */
 function account_login_action()
 {
-    if (account\registered()) {
+    if (akilli\registered()) {
         http\redirect('*/dashboard');
     }
 

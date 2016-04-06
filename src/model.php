@@ -1,7 +1,6 @@
 <?php
 namespace model;
 
-use account;
 use akilli;
 use attribute;
 use db;
@@ -165,7 +164,7 @@ function save(string $entity, array & $data): bool
         $data[$id] = $item;
         $callback = 'model\\' . $metadata['model'] . '_' . (empty($original[$id]) ? 'create' : 'save');
         $item['modified'] = date_format(date_create('now'), 'Y-m-d H:i:s');
-        $item['modifier'] = account\account('id');
+        $item['modifier'] = akilli\account('id');
 
         if (empty($original[$id])) {
             $item['created'] = $item['modified'];
