@@ -1,7 +1,6 @@
 <?php
-namespace toolbar;
+namespace akilli;
 
-use akilli;
 use data;
 use metadata;
 use url;
@@ -11,11 +10,11 @@ use url;
  *
  * @return array
  */
-function data(): array
+function toolbar(): array
 {
-    $data = akilli\data('toolbar');
+    $data = data('toolbar');
 
-    foreach (akilli\data('metadata') as $entity => $meta) {
+    foreach (data('metadata') as $entity => $meta) {
         if (metadata\action('index', $meta) && !empty($meta['toolbar']) && !empty($data[$meta['toolbar']])) {
             $data[$meta['toolbar']]['children'][$entity]['name'] = $meta['name'];
             $data[$meta['toolbar']]['children'][$entity]['description'] = $meta['description'];
@@ -24,7 +23,7 @@ function data(): array
         }
     }
 
-    return prepare($data);
+    return toolbar_prepare($data);
 }
 
 /**
@@ -34,7 +33,7 @@ function data(): array
  *
  * @return array
  */
-function prepare(array & $data): array
+function toolbar_prepare(array & $data): array
 {
     foreach ($data as $key => $item) {
         if (empty($item['name'])) {
@@ -47,7 +46,7 @@ function prepare(array & $data): array
         }
 
         if (!empty($item['children'])) {
-            prepare($item['children']);
+            toolbar_prepare($item['children']);
         }
 
         $item['url'] = $item['url'] ?? null;

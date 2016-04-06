@@ -4,7 +4,6 @@ namespace block;
 use akilli;
 use http;
 use model;
-use toolbar;
 use url;
 use view;
 
@@ -226,7 +225,7 @@ function message(array & $block): string
 function toolbar(array & $block): string
 {
     if (!isset($block['vars']['data'])) {
-        $block['vars']['data'] = toolbar\data();
+        $block['vars']['data'] = akilli\toolbar();
     } elseif (empty($block['vars']['data'])) {
         return '';
     }
