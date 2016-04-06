@@ -45,7 +45,7 @@ function model_validate(array & $item): bool
 function model_size(string $entity, array $criteria = null, bool $search = false): int
 {
     $metadata = data('metadata', $entity);
-    $callback = 'model\\' . $metadata['model'] . '_size';
+    $callback = 'akilli\\' . $metadata['model'] . '_size';
 
     try {
         return $callback($entity, $criteria, $search);
@@ -74,7 +74,7 @@ function model_size(string $entity, array $criteria = null, bool $search = false
 function model_load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
 {
     $metadata = data('metadata', $entity);
-    $callback = 'model\\' . $metadata['model'] . '_load';
+    $callback = 'akilli\\' . $metadata['model'] . '_load';
     $single = $index === false;
     $data = [];
 
@@ -158,7 +158,7 @@ function model_save(string $entity, array & $data): bool
         $item['_id'] = $id;
         $item = array_replace(empty($original[$id]) ? metadata\skeleton($entity) : $original[$id], $item);
         $data[$id] = $item;
-        $callback = 'model\\' . $metadata['model'] . '_' . (empty($original[$id]) ? 'create' : 'save');
+        $callback = 'akilli\\' . $metadata['model'] . '_' . (empty($original[$id]) ? 'create' : 'save');
         $item['modified'] = date_format(date_create('now'), 'Y-m-d H:i:s');
         $item['modifier'] = account('id');
 
@@ -259,7 +259,7 @@ function model_save(string $entity, array & $data): bool
 function model_delete(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null, bool $system = false): bool
 {
     $metadata = data('metadata', $entity);
-    $callback = 'model\\' . $metadata['model'] . '_delete';
+    $callback = 'akilli\\' . $metadata['model'] . '_delete';
 
     // Check if anything is there to delete
     if (!$data = model_load($entity, $criteria, $index, $order, $limit)) {
