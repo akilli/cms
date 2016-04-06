@@ -52,5 +52,5 @@ function toolbar_prepare(array & $data): array
         $data[$key] = $item;
     }
 
-    return data\order($data, 'sort_order');
+    return data\data_order($data, 'sort_order');
 }

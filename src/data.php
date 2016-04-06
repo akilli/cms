@@ -8,7 +8,7 @@ namespace data;
  *
  * @return array
  */
-function load(string $file): array
+function data_load(string $file): array
 {
     if (!is_readable($file)) {
         return [];
@@ -28,7 +28,7 @@ function load(string $file): array
  *
  * @return array
  */
-function filter(array $data, array $criteria = null, bool $search = false): array
+function data_filter(array $data, array $criteria = null, bool $search = false): array
 {
     if (!$criteria) {
         return $data;
@@ -40,7 +40,7 @@ function filter(array $data, array $criteria = null, bool $search = false): arra
 
             if (!array_key_exists($key, $item)
                 || !$search && !in_array($item[$key], $value)
-                || $search && !filter_match($item[$key], $value)
+                || $search && !data_filter_match($item[$key], $value)
             ) {
                 unset($data[$id]);
             }
@@ -58,7 +58,7 @@ function filter(array $data, array $criteria = null, bool $search = false): arra
  *
  * @return bool
  */
-function filter_match(string $str, array $patterns): bool
+function data_filter_match(string $str, array $patterns): bool
 {
     foreach ($patterns as $pattern) {
         if (strpos((string) $str, (string) $pattern) !== false) {
@@ -77,7 +77,7 @@ function filter_match(string $str, array $patterns): bool
  *
  * @return array
  */
-function order(array $data, $order = null): array
+function data_order(array $data, $order = null): array
 {
     if (!$order) {
         return $data;
@@ -88,7 +88,7 @@ function order(array $data, $order = null): array
     uasort(
         $data,
         function (array $item1, array $item2) use ($order) {
-            return order_compare($order, $item1, $item2);
+            return data_order_compare($order, $item1, $item2);
         }
     );
 
@@ -104,7 +104,7 @@ function order(array $data, $order = null): array
  *
  * @return int
  */
-function order_compare(array $order, array $item1, array $item2): int
+function data_order_compare(array $order, array $item1, array $item2): int
 {
     foreach ($order as $key => $direction) {
         $factor = $direction === 'desc' ? -1 : 1;
@@ -126,7 +126,7 @@ function order_compare(array $order, array $item1, array $item2): int
  *
  * @return array
  */
-function limit(array $data, $limit = null): array
+function data_limit(array $data, $limit = null): array
 {
     $isArray = is_array($limit);
     $offset = $isArray && !empty($limit[1]) ? (int) $limit[1] : 0;

@@ -129,7 +129,7 @@ function listener(string $event): array
     if ($data === null) {
         $data = [];
 
-        foreach (data\order(data('listener'), 'sort_order') as $listener) {
+        foreach (data\data_order(data('listener'), 'sort_order') as $listener) {
             $data[$listener['event']][] = $listener['id'];
         }
     }
@@ -167,7 +167,7 @@ function data(string $section, string $id = null)
         $data = [];
 
         // Load data from file
-        $data = data\load(path('data', $section . '.php'));
+        $data = data\data_load(path('data', $section . '.php'));
 
         // Dispatch load event
         if ($section !== 'listener') {

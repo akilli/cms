@@ -56,7 +56,7 @@ function privileges(): array
     static $data;
 
     if ($data === null) {
-        $data = data\order(
+        $data = data\data_order(
             array_filter(
                 data('privilege'),
                 function ($item) {

@@ -85,17 +85,17 @@ function scan(string $path, array $criteria = null, $index = null, array $order 
 
     // Criteria
     if ($criteria) {
-        $data = data\filter($data, $criteria, !empty($search));
+        $data = data\data_filter($data, $criteria, !empty($search));
     }
 
     // Order
     if ($order) {
-        $data = data\order($data, $order);
+        $data = data\data_order($data, $order);
     }
 
     // Limit
     if ($limit) {
-        $data = data\limit($data, $limit);
+        $data = data\data_limit($data, $limit);
     }
 
     return $data;

@@ -56,7 +56,7 @@ function listener_metadata(array & $data)
         }
 
         $item = metadata_entity($item);
-        $item['attributes'] = data\order($item['attributes'], 'sort_order');
+        $item['attributes'] = data\data_order($item['attributes'], 'sort_order');
         $data[$id] = $item;
     }
 
@@ -99,7 +99,7 @@ function listener_metadata(array & $data)
         }
 
         $item = metadata_entity($item);
-        $item['attributes'] = data\order($item['attributes'], 'sort_order');
+        $item['attributes'] = data\data_order($item['attributes'], 'sort_order');
         $data[$id] = $item;
     }
 }

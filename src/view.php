@@ -138,7 +138,7 @@ function view_load(array $handles = null)
     $layout = data('layout');
 
     foreach ($handles as $handle) {
-        foreach (data\filter($layout, ['handle' => $handle]) as $block) {
+        foreach (data\data_filter($layout, ['handle' => $handle]) as $block) {
             view_add($block);
         }
     }
