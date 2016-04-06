@@ -2,7 +2,6 @@
 namespace file;
 
 use akilli;
-use filter;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;

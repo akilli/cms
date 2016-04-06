@@ -3,7 +3,6 @@ namespace attribute;
 
 use akilli;
 use file;
-use filter;
 use http;
 use media;
 
@@ -586,7 +585,7 @@ function validate_editor(array $attribute, array & $item): bool
     $item[$code] = type($attribute, $item[$code] ?? null);
 
     if ($item[$code]) {
-        $item[$code] = filter\html($item[$code]);
+        $item[$code] = akilli\filter_html($item[$code]);
     }
 
     return validate($attribute, $item);
@@ -818,7 +817,7 @@ function edit_varchar(array $attribute, array $item): string
     }
 
     $html = '<input id="' . html_id($attribute, $item) . '" type="' . $attribute['frontend'] . '" name="'
-        . html_name($attribute, $item) . '" value="' . filter\encode(value($attribute, $item))
+        . html_name($attribute, $item) . '" value="' . akilli\encode(value($attribute, $item))
         . '"' . html_required($attribute, $item) . html_title($attribute) . html_class($attribute) . ' />';
 
     return html_label($attribute, $item) . $html . html_flag($attribute, $item) . html_message($attribute, $item);
@@ -1053,7 +1052,7 @@ function edit_textarea(array $attribute, array $item): string
 
     $html = '<textarea id="' . html_id($attribute, $item) . '" name="' . html_name($attribute, $item) . '"'
         . html_required($attribute, $item) . html_title($attribute) . html_class($attribute) . '>'
-        . filter\encode(value($attribute, $item)) . '</textarea>';
+        . akilli\encode(value($attribute, $item)) . '</textarea>';
 
     return html_label($attribute, $item) . $html . html_flag($attribute, $item) . html_message($attribute, $item);
 }
@@ -1102,7 +1101,7 @@ function view(): string
  */
 function view_default(array $attribute, array $item): string
 {
-    return is_view($attribute) ? filter\encode(value($attribute, $item)) : '';
+    return is_view($attribute) ? akilli\encode(value($attribute, $item)) : '';
 }
 
 /**
@@ -1224,7 +1223,7 @@ function view_option(array $attribute, array $item): string
         }
     }
 
-    return filter\encode(implode(', ', $values));
+    return akilli\encode(implode(', ', $values));
 }
 
 /**
@@ -1379,7 +1378,7 @@ function html_message(array $attribute, array $item): string
  */
 function unique(string $needle, array & $haystack, $id): string
 {
-    $needle = trim(preg_replace(['#/#', '#[-]+#i'], '-', filter\identifier($needle)), '-_');
+    $needle = trim(preg_replace(['#/#', '#[-]+#i'], '-', akilli\filter_identifier($needle)), '-_');
 
     if (array_search($needle, $haystack) === $id || !in_array($needle, $haystack)) {
         $haystack[$id] = $needle;
@@ -1408,7 +1407,7 @@ function unique_file(string $str, string $path): string
 {
     $parts = explode('.', $str);
     $ext = array_pop($parts);
-    $str = filter\identifier(implode('-', $parts));
+    $str = akilli\filter_identifier(implode('-', $parts));
 
     if (file_exists($path . '/' . $str . '.' . $ext)) {
         $str .= '-';

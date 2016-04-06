@@ -2,7 +2,6 @@
 namespace akilli;
 
 use file;
-use filter;
 use http;
 use InvalidArgumentException;
 
@@ -69,7 +68,7 @@ function path(string $dir, string $subpath = null): string
 
     if ($data === null) {
         $data = [];
-        $data['root'] = filter\path(realpath(__DIR__ . '/..'));
+        $data['root'] = filter_path(realpath(__DIR__ . '/..'));
         // Local
         $data['app'] = $data['root'] . '/app';
         $data['db'] = $data['app'] . '/db';
@@ -79,7 +78,7 @@ function path(string $dir, string $subpath = null): string
         $data['data'] = $data['src'] . '/data';
         $data['template'] = $data['src'] . '/template';
         // Public
-        $data['public'] = filter\path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
+        $data['public'] = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
         $data['asset'] = $data['public'] . '/asset';
         $data['cache'] = $data['asset'] . '/cache';
         $data['css'] = $data['asset'] . '/css';
@@ -197,4 +196,26 @@ function _(string $key, string ...$params): string
     }
 
     return vsprintf($key, $params) ?: $key;
+}
+
+/**
+ * Encode
+ *
+ * @param string|array $var
+ *
+ * @return string|array
+ */
+function encode($var)
+{
+    static $charset;
+
+    if ($charset === null) {
+        $charset = config('i18n.charset');
+    }
+
+    if (is_array($var)) {
+        return array_map(__FUNCTION__, $var);
+    }
+
+    return is_string($var) ? htmlspecialchars($var, ENT_QUOTES, $charset, false) : $var;
 }
