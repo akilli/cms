@@ -6,7 +6,6 @@ use data;
 use http;
 use metadata;
 use model;
-use view;
 
 /**
  * Create Action
@@ -30,7 +29,7 @@ function create_action()
 
     // View
     view($metadata);
-    view\vars('entity.create', ['data' => $data, 'header' => akilli\_($metadata['name'])]);
+    akilli\view_vars('entity.create', ['data' => $data, 'header' => akilli\_($metadata['name'])]);
 }
 
 /**
@@ -64,7 +63,7 @@ function edit_action()
 
     // View
     view($metadata);
-    view\vars('entity.edit', ['data' => $data, 'header' => akilli\_($metadata['name'])]);
+    akilli\view_vars('entity.edit', ['data' => $data, 'header' => akilli\_($metadata['name'])]);
 }
 
 /**
@@ -109,7 +108,7 @@ function view_action()
 
     // View
     view($metadata, $item);
-    view\vars('entity.view', ['item' => $item]);
+    akilli\view_vars('entity.view', ['item' => $item]);
 }
 
 /**
@@ -231,11 +230,11 @@ function index()
 
     // View
     view($metadata);
-    view\vars(
+    akilli\view_vars(
         'entity.' . $action,
         ['data' => $data, 'header' => akilli\_($metadata['name']), 'attributes' => $attributes]
     );
-    view\vars(
+    akilli\view_vars(
         'entity.' . $action . '.pager',
         [
             'pages' => $pages,
@@ -277,11 +276,11 @@ function view(array $metadata, array $item = null)
     $title = ($item ? $item['name'] : akilli\_($metadata['name']))
         . ' ' . akilli\config('meta.separator')
         . ' ' . akilli\config('meta.title');
-    view\load();
-    view\vars('title', ['title' => $title]);
+    akilli\view_load();
+    akilli\view_vars('title', ['title' => $title]);
 
     if ($item && !empty($item['meta']) && is_array($item['meta'])) {
-        view\vars('meta', $item['meta']);
+        akilli\view_vars('meta', $item['meta']);
     }
 }
 
@@ -292,8 +291,8 @@ function view(array $metadata, array $item = null)
  */
 function account_dashboard_action()
 {
-    view\load();
-    view\vars('title', ['title' => akilli\_('Dashboard')]);
+    akilli\view_load();
+    akilli\view_vars('title', ['title' => akilli\_('Dashboard')]);
 }
 
 /**
@@ -321,8 +320,8 @@ function account_profile_action()
     }
 
     // View
-    view\load();
-    view\vars('account.profile', ['item' => $item]);
+    akilli\view_load();
+    akilli\view_vars('account.profile', ['item' => $item]);
 }
 
 /**
@@ -353,7 +352,7 @@ function account_login_action()
         akilli\message(akilli\_('Invalid name and password combination'));
     }
 
-    view\load();
+    akilli\view_load();
 }
 
 /**
@@ -375,5 +374,5 @@ function account_logout_action()
  */
 function http_index_action()
 {
-    view\load();
+    akilli\view_load();
 }

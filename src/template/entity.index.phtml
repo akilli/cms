@@ -2,10 +2,10 @@
     <header>
         <h1><?=$block['data']('header');?></h1>
         <div class="tools cf">
-            <?=view\render('entity.index.create');?>
-            <?=view\render('entity.index.search');?>
+            <?= akilli\view_render('entity.index.create');?>
+            <?= akilli\view_render('entity.index.search');?>
         </div>
-        <?=view\render('pager');?>
+        <?= akilli\view_render('pager');?>
     </header>
     <?php if ($block['data']('data')):?>
     <form action="<?= akilli\url('*/*');?>" method="post" class="index">

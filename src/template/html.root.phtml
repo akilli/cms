@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="<?= akilli\config('i18n.language');?>">
     <head>
-        <?=view\render('head');?>
+        <?= akilli\view_render('head');?>
     </head>
     <body class="<?=$block['data']('class');?>">
-        <?=view\render('top');?>
-        <?=view\render('message');?>
+        <?= akilli\view_render('top');?>
+        <?= akilli\view_render('message');?>
         <div id="content" class="cf">
             <aside id="left">
-                <?=view\render('left');?>
+                <?= akilli\view_render('left');?>
             </aside>
             <main>
-                <?=view\render('content');?>
+                <?= akilli\view_render('content');?>
             </main>
             <aside id="right">
-                <?=view\render('right');?>
+                <?= akilli\view_render('right');?>
             </aside>
         </div>
-        <?=view\render('bottom');?>
+        <?= akilli\view_render('bottom');?>
     </body>
 </html>

@@ -5,8 +5,6 @@ use data;
 use file;
 use filter;
 use http;
-use akilli;
-use view;
 use InvalidArgumentException;
 
 /**
@@ -28,14 +26,14 @@ function run(array $data = [])
 
     if (!$listeners) {
         $event = 'action.error';
-    } elseif (!akilli\allowed()) {
+    } elseif (!allowed()) {
         $event = 'action.denied';
     }
 
     event($event, $data);
 
     // Send response
-    echo view\render('root');
+    echo view_render('root');
 }
 
 /**

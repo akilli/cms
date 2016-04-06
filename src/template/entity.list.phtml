@@ -1,7 +1,7 @@
 <section class="block block-list">
     <header>
         <h1><?=$block['data']('header');?></h1>
-        <?=view\render('search');?>
+        <?= akilli\view_render('search');?>
     </header>
 <?php if ($block['data']('data')):?>
     <?php foreach ($block['data']('data') as $id => $item):?>
@@ -25,7 +25,7 @@
         <?php endforeach;?>
     </article>
         <?php endforeach;?>
-    <?=view\render('pager');?>
+    <?= akilli\view_render('pager');?>
 <?php else:;?>
     <p><?= akilli\_('Nothing created yet');?></p>
 <?php endif;?>

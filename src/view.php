@@ -1,11 +1,63 @@
 <?php
-namespace view;
+namespace akilli;
 
-use akilli;
 use data;
 use http;
 use InvalidArgumentException;
 use metadata;
+
+/**
+ * Render block
+ *
+ * @param string $id
+ *
+ * @return string
+ */
+function view_render(string $id): string
+{
+    $block = & view_layout($id);
+
+    // Skip empty, inactive or invalid blocks
+    if (!$block
+        || empty($block['is_active'])
+        || empty($block['type'])
+        || !($type = view_type($block['type']))
+        || !empty($block['privilege']) && !allowed($block['privilege'])
+    ) {
+        return '';
+    }
+
+    // Block Render Events
+    event(
+        ['block.type.' . $block['type'], 'block.render.' . $id],
+        $block
+    );
+
+    return $type['callback']($block);
+}
+
+/**
+ * Layout
+ *
+ * @param string $id
+ * @param array $block
+ *
+ * @return mixed
+ */
+function & view_layout(string $id, array $block = null)
+{
+    $data = & registry('layout');
+
+    if ($data === null) {
+        $data = [];
+    }
+
+    if ($block !== null || !array_key_exists($id, $data)) {
+        $data[$id] = $block;
+    }
+
+    return $data[$id];
+}
 
 /**
  * Block Type
@@ -14,12 +66,12 @@ use metadata;
  *
  * @return array
  */
-function type(string $key = null): array
+function view_type(string $key = null): array
 {
     static $data;
 
     if ($data === null) {
-        foreach (akilli\data('block') as $type => $config) {
+        foreach (data('block') as $type => $config) {
             if (!empty($config['callback']) && is_callable($config['callback'])) {
                 $data[$type] = $config;
             }
@@ -40,21 +92,21 @@ function type(string $key = null): array
  *
  * @return array
  */
-function handles(array $handles = null): array
+function view_handles(array $handles = null): array
 {
     static $data;
 
     if ($data === null || $handles !== null) {
         $data = [];
-        $metadata = akilli\data('metadata', http\request('entity'));
+        $metadata = data('metadata', http\request('entity'));
 
         if ($handles === null) {
             $handles[] = 'view-base';
         }
 
-        $handles[] = akilli\registered() ? 'account-registered' : 'account-anonymous';
+        $handles[] = registered() ? 'account-registered' : 'account-anonymous';
 
-        if (akilli\admin()) {
+        if (admin()) {
             $handles[] = 'role-admin';
         }
 
@@ -75,73 +127,20 @@ function handles(array $handles = null): array
 }
 
 /**
- * Render block
- *
- * @param string $id
- *
- * @return string
- */
-function render(string $id): string
-{
-    $block = & layout($id);
-
-    // Skip empty, inactive or invalid blocks
-    if (!$block
-        || empty($block['is_active'])
-        || empty($block['type'])
-        || !($type = type($block['type']))
-        || !empty($block['privilege']) && !akilli\allowed($block['privilege'])
-    ) {
-        return '';
-    }
-
-    // Block Render Events
-    akilli\event(
-        ['block.type.' . $block['type'], 'block.render.' . $id],
-        $block
-    );
-
-    return $type['callback']($block);
-}
-
-/**
- * Layout
- *
- * @param string $id
- * @param array $block
- *
- * @return mixed
- */
-function & layout(string $id, array $block = null)
-{
-    $data = & akilli\registry('layout');
-
-    if ($data === null) {
-        $data = [];
-    }
-
-    if ($block !== null || !array_key_exists($id, $data)) {
-        $data[$id] = $block;
-    }
-
-    return $data[$id];
-}
-
-/**
  * Load view by handles
  *
  * @param array $handles
  *
  * @return void
  */
-function load(array $handles = null)
+function view_load(array $handles = null)
 {
-    $handles = handles($handles);
-    $layout = akilli\data('layout');
+    $handles = view_handles($handles);
+    $layout = data('layout');
 
     foreach ($handles as $handle) {
         foreach (data\filter($layout, ['handle' => $handle]) as $block) {
-            add($block);
+            view_add($block);
         }
     }
 }
@@ -155,19 +154,19 @@ function load(array $handles = null)
  *
  * @throws InvalidArgumentException
  */
-function add(array $block)
+function view_add(array $block)
 {
     if (empty($block['id'])) {
         throw new InvalidArgumentException('No block ID given');
     }
 
-    $oldBlock = & layout($block['id']);
+    $oldBlock = & view_layout($block['id']);
 
     // New blocks
     if ($oldBlock === null) {
-        $oldBlock = akilli\data('skeleton', 'block');
+        $oldBlock = data('skeleton', 'block');
 
-        if (empty($block['type']) || !type($block['type'])) {
+        if (empty($block['type']) || !view_type($block['type'])) {
             throw new InvalidArgumentException('No or invalid block type given for block with ID ' . $block['id']);
         }
     }
@@ -175,7 +174,7 @@ function add(array $block)
     if ($block['id'] === 'root') {
         $block['parent'] = '';
     } elseif (!empty($block['parent']) && $block['parent'] !== $oldBlock['parent']) {
-        parent($block, $oldBlock['parent']);
+        view_parent($block, $oldBlock['parent']);
     }
 
     // Add or update block
@@ -190,9 +189,9 @@ function add(array $block)
  *
  * @return void
  */
-function vars(string $id, array $vars)
+function view_vars(string $id, array $vars)
 {
-    $block = & layout($id);
+    $block = & view_layout($id);
 
     foreach ($vars as $var => $value) {
         $block['vars'][$var] = $value;
@@ -207,20 +206,20 @@ function vars(string $id, array $vars)
  *
  * @return void
  */
-function parent(array $block, string $oldId)
+function view_parent(array $block, string $oldId)
 {
-    $oldParent = layout($oldId);
-    $parent = layout($block['parent']);
+    $oldParent = view_layout($oldId);
+    $parent = view_layout($block['parent']);
 
     // Pemove block from old parent block if it exists
     if ($oldParent) {
-        $oldParent = & layout($oldId);
+        $oldParent = & view_layout($oldId);
         unset($oldParent['children'][$block['id']]);
     }
 
     // Add block to new parent block if it exists
     if ($parent) {
-        $parent = & layout($block['parent']);
+        $parent = & view_layout($block['parent']);
         $parent['children'][$block['id']] = isset($block['sort_order']) ? (int) $block['sort_order'] : 0;
     }
 }
