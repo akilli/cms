@@ -1,7 +1,6 @@
 <?php
-namespace listener;
+namespace akilli;
 
-use akilli;
 use data;
 use metadata;
 use model;
@@ -15,7 +14,7 @@ use url;
  *
  * @return void
  */
-function config(array & $data)
+function listener_config(array & $data)
 {
     // Set auto values
     $data['i18n.language'] = locale_get_primary_language($data['i18n.locale']);
@@ -40,9 +39,9 @@ function config(array & $data)
  *
  * @return void
  */
-function eav(array & $data)
+function listener_eav(array & $data)
 {
-    $data['_metadata'] = akilli\data('metadata', $data['entity_id']);
+    $data['_metadata'] = data('metadata', $data['entity_id']);
 }
 
 /**
@@ -52,7 +51,7 @@ function eav(array & $data)
  *
  * @return void
  */
-function metadata(array & $data)
+function listener_metadata(array & $data)
 {
     foreach ($data as $id => $item) {
         if (empty($item['id'])) {
@@ -72,7 +71,7 @@ function metadata(array & $data)
         ['entity_id' => 'ASC', 'sort_order' => 'ASC']
     );
     $attributes = model\load('attribute');
-    $types = akilli\data('type');
+    $types = data('type');
 
     foreach (model\load('entity') as $id => $item) {
         $item = array_replace($data['eav_content'], $item);
@@ -92,7 +91,7 @@ function metadata(array & $data)
 
                     if (empty($data['eav_value']['attributes'][$type]['column'])) {
                         throw new RuntimeException(
-                            akilli\_('Entity %s: Invalid value type %s for attribute %s', $id, $type, $code)
+                            _('Entity %s: Invalid value type %s for attribute %s', $id, $type, $code)
                         );
                     }
 
@@ -115,7 +114,7 @@ function metadata(array & $data)
  *
  * @return void
  */
-function model_save(array & $data)
+function listener_model_save(array & $data)
 {
     // Entity
     if ($data['_metadata']['id'] === 'entity' && !empty($data['_original'])) {
@@ -195,7 +194,7 @@ function model_save(array & $data)
  *
  * @return void
  */
-function model_delete(array & $data)
+function listener_model_delete(array & $data)
 {
     // Entity
     if ($data['_metadata']['id'] === 'entity') {
@@ -228,10 +227,10 @@ function model_delete(array & $data)
  *
  * @return void
  */
-function privilege(array & $data)
+function listener_privilege(array & $data)
 {
-    $metadata = akilli\data('metadata');
-    $config = akilli\config('action.entity');
+    $metadata = data('metadata');
+    $config = config('action.entity');
     $key = array_search('all', $config);
 
     if ($key) {

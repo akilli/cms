@@ -68,33 +68,33 @@ return [
     ],
     // data
     [
-        'id' => 'listener\config',
+        'id' => 'akilli\listener_config',
         'event' => 'data.load.config',
         'sort_order' => -200,
     ],
     [
-        'id' => 'listener\metadata',
+        'id' => 'akilli\listener_metadata',
         'event' => 'data.load.metadata',
         'sort_order' => -200,
     ],
     [
-        'id' => 'listener\privilege',
+        'id' => 'akilli\listener_privilege',
         'event' => 'data.load.privilege',
         'sort_order' => -100,
     ],
     // model
     [
-        'id' => 'listener\model_save',
+        'id' => 'akilli\listener_model_save',
         'event' => 'model.save_after',
         'sort_order' => -100,
     ],
     [
-        'id' => 'listener\model_delete',
+        'id' => 'akilli\listener_model_delete',
         'event' => 'model.delete_after',
         'sort_order' => -100,
     ],
     [
-        'id' => 'listener\eav',
+        'id' => 'akilli\listener_eav',
         'event' => 'model.load.eav',
         'sort_order' => -100,
     ],
