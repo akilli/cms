@@ -1,4 +1,4 @@
-<?php namespace akilli;?>
+<?php namespace akilli; /** @var array $block */?>
 <meta charset="<?= config('i18n.charset');?>" />
 <?php foreach (array_replace(config('meta'), $block['data']()) as $name => $content):?>
 <meta name="<?=$name;?>" content="<?=$content;?>" />

@@ -1,4 +1,4 @@
-<?php namespace akilli;?>
+<?php namespace akilli; /** @var array $block */?>
 <div class="pager cf">
     <div class="info">
         <?= _('Results %d to %d of %d', $block['data']('offset') + 1, min($block['data']('offset') + $block['data']('limit'), $block['data']('size')), $block['data']('size'));?>
