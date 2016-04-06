@@ -2,7 +2,6 @@
 namespace listener;
 
 use akilli;
-use config;
 use data;
 use i18n;
 use metadata;
@@ -233,7 +232,7 @@ function model_delete(array & $data)
 function privilege(array & $data)
 {
     $metadata = akilli\data('metadata');
-    $config = config\value('action.entity');
+    $config = akilli\config('action.entity');
     $key = array_search('all', $config);
 
     if ($key) {

@@ -2,7 +2,6 @@
 namespace url;
 
 use akilli;
-use config;
 use http;
 use model;
 
@@ -21,7 +20,7 @@ function path(string $path = '', array $params = []): string
     if (strpos($path, 'http') === 0) {
         $base = '';
     } else {
-        $base = config\value('url.base') ?: http\request('base');
+        $base = akilli\config('url.base') ?: http\request('base');
     }
 
     if ($path && strpos($path, 'http') !== 0) {
@@ -44,7 +43,7 @@ function asset(string $path): string
     static $base;
 
     if ($base === null) {
-        $base = config\value('url.asset') ?: path('asset');
+        $base = akilli\config('url.asset') ?: path('asset');
         $base = rtrim($base, '/');
     }
 

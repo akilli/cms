@@ -2,7 +2,6 @@
 namespace attribute;
 
 use akilli;
-use config;
 use file;
 use filter;
 use http;
@@ -1179,7 +1178,7 @@ function view_datetime(array $attribute, array $item): string
     }
 
     $code = $attribute['id'];
-    $format = $attribute['frontend'] === 'date' ? config\value('i18n.date_format') : config\value('i18n.datetime_format');
+    $format = $attribute['frontend'] === 'date' ? akilli\config('i18n.date_format') : akilli\config('i18n.datetime_format');
 
     return empty($item[$code]) ? '' : date_format(date_create($item[$code]), $format);
 }

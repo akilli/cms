@@ -2,7 +2,6 @@
 namespace file;
 
 use akilli;
-use config;
 use data;
 use filter;
 use RecursiveDirectoryIterator;
@@ -284,11 +283,11 @@ function extensions(string $key): array
     static $data;
 
     if ($data === null) {
-        $data['file'] = config\value('file.all');
-        $data['audio'] = config\value('file.audio');
-        $data['embed'] = config\value('file.embed');
-        $data['image'] = config\value('file.image');
-        $data['video'] = config\value('file.video');
+        $data['file'] = akilli\config('file.all');
+        $data['audio'] = akilli\config('file.audio');
+        $data['embed'] = akilli\config('file.embed');
+        $data['image'] = akilli\config('file.image');
+        $data['video'] = akilli\config('file.video');
     }
 
     return $data[$key] ?? [];

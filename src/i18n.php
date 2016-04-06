@@ -2,7 +2,6 @@
 namespace i18n;
 
 use akilli;
-use config;
 
 /**
  * Translate
@@ -18,8 +17,8 @@ function translate(string $key, string ...$params): string
 
     if ($data === null) {
         $data = array_replace(
-            akilli\data('i18n.' . config\value('i18n.language')),
-            akilli\data('i18n.' . config\value('i18n.locale'))
+            akilli\data('i18n.' . akilli\config('i18n.language')),
+            akilli\data('i18n.' . akilli\config('i18n.locale'))
         );
     }
 

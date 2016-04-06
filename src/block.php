@@ -2,7 +2,6 @@
 namespace block;
 
 use akilli;
-use config;
 use i18n;
 use http;
 use model;
@@ -79,7 +78,7 @@ function entity(array & $block): string
     }
 
     $block['vars'] = array_replace(
-        ['criteria' => null, 'index' => null, 'order' => null, 'limit' => config\value('limit.block')],
+        ['criteria' => null, 'index' => null, 'order' => null, 'limit' => akilli\config('limit.block')],
         $block['vars']
     );
     $block['vars']['data'] = model\load(

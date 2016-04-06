@@ -1,7 +1,7 @@
 <?php
 namespace filter;
 
-use config;
+use akilli;
 
 /**
  * Encode
@@ -15,7 +15,7 @@ function encode($var)
     static $charset;
 
     if ($charset === null) {
-        $charset = config\value('i18n.charset');
+        $charset = akilli\config('i18n.charset');
     }
 
     if (is_array($var)) {
@@ -53,7 +53,7 @@ function html(string $string): string
     static $allowed;
 
     if ($allowed === null) {
-        $allowed = config\value('filter.html');
+        $allowed = akilli\config('filter.html');
     }
 
     return strip_tags(trim($string), $allowed);
@@ -83,9 +83,9 @@ function identifier(string $id): string
     static $data, $keys, $charset;
 
     if ($data === null) {
-        $data = config\value('filter.identifier');
+        $data = akilli\config('filter.identifier');
         $keys = array_keys($data);
-        $charset = config\value('i18n.charset');
+        $charset = akilli\config('i18n.charset');
     }
 
     return trim(preg_replace($keys, $data, mb_strtolower($id, $charset)), '-');

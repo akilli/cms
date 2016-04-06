@@ -184,3 +184,21 @@ function data(string $section, string $id = null)
 
     return $data[$id] ?? null;
 }
+
+/**
+ * Config
+ *
+ * @param string $key
+ *
+ * @return mixed
+ */
+function config(string $key = null)
+{
+    $data = data('config');
+
+    if ($key === null) {
+        return $data;
+    }
+
+    return $data[$key] ?? null;
+}

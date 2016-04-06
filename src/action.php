@@ -2,7 +2,6 @@
 namespace action;
 
 use akilli;
-use config;
 use data;
 use http;
 use i18n;
@@ -199,7 +198,7 @@ function index()
     }
 
     $size = model\size($metadata['id'], $criteria);
-    $limit = (int) config\value('limit.' . $action);
+    $limit = (int) akilli\config('limit.' . $action);
     $page = max((int) http\get('page'), 1);
     $offset = ($page - 1) * $limit;
     $pages = (int) ceil($size / $limit);
@@ -280,8 +279,8 @@ function meta(): array
 function view(array $metadata, array $item = null)
 {
     $title = ($item ? $item['name'] : i18n\translate($metadata['name']))
-        . ' ' . config\value('meta.separator')
-        . ' ' . config\value('meta.title');
+        . ' ' . akilli\config('meta.separator')
+        . ' ' . akilli\config('meta.title');
     view\load();
     view\vars('title', ['title' => $title]);
 
