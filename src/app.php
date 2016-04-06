@@ -154,15 +154,9 @@ function template(string $id)
  *
  * @return mixed
  */
-function config(string $key = null)
+function config(string $key)
 {
-    $data = data('config');
-
-    if ($key === null) {
-        return $data;
-    }
-
-    return $data[$key] ?? null;
+    return data('config')[$key] ?? null;
 }
 
 /**
