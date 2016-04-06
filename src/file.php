@@ -1,7 +1,6 @@
 <?php
-namespace file;
+namespace akilli;
 
-use akilli;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -17,7 +16,7 @@ use SplFileInfo;
  *
  * @return array
  */
-function scan(string $path, array $criteria = null, $index = null, array $order = null, $limit = null): array
+function file_load(string $path, array $criteria = null, $index = null, array $order = null, $limit = null): array
 {
     if (!is_dir($path)) {
         return [];
@@ -83,41 +82,40 @@ function scan(string $path, array $criteria = null, $index = null, array $order 
 
     // Criteria
     if ($criteria) {
-        $data = akilli\data_filter($data, $criteria, !empty($search));
+        $data = data_filter($data, $criteria, !empty($search));
     }
 
     // Order
     if ($order) {
-        $data = akilli\data_order($data, $order);
+        $data = data_order($data, $order);
     }
 
     // Limit
     if ($limit) {
-        $data = akilli\data_limit($data, $limit);
+        $data = data_limit($data, $limit);
     }
 
     return $data;
 }
 
 /**
- * Makes a directory if it doesn't exist
+ * Create file
  *
- * @param string $path
- * @param int $mode
- * @param bool $recursive
+ * @param string $destination
+ * @param string $content
+ * @param int $flags
+ * @param resource $context
  *
- * @return bool
+ * @return int|bool
  */
-function make(string $path, int $mode = 0775, bool $recursive = true): bool
+function file_save(string $destination, string $content, int $flags = 0, $context = null)
 {
-    if (!writable($path)) {
+    if (!file_dir(dirname($destination))) {
         return false;
-    } elseif (is_dir($path)) {
-        return true;
     }
 
     $umask = umask(0);
-    $result = mkdir($path, $mode, $recursive);
+    $result = file_put_contents($destination, $content, $flags, $context);
     umask($umask);
 
     return $result;
@@ -133,11 +131,11 @@ function make(string $path, int $mode = 0775, bool $recursive = true): bool
  *
  * @return bool
  */
-function remove(string $path, bool $preserve = false): bool
+function file_delete(string $path, bool $preserve = false): bool
 {
     if (!file_exists($path)) {
         return true;
-    } elseif (!writable($path)) {
+    } elseif (!file_writable($path)) {
         return false;
     } elseif (is_file($path)) {
         return unlink($path);
@@ -178,9 +176,9 @@ function remove(string $path, bool $preserve = false): bool
  *
  * @return bool
  */
-function duplicate(string $source, string $destination, $criteria = null): bool
+function file_copy(string $source, string $destination, $criteria = null): bool
 {
-    if (!($isFile = is_file($source)) && !is_dir($source) || !make(dirname($destination))) {
+    if (!($isFile = is_file($source)) && !is_dir($source) || !file_dir(dirname($destination))) {
         return false;
     }
 
@@ -191,10 +189,10 @@ function duplicate(string $source, string $destination, $criteria = null): bool
         copy($source, $destination);
     } else {
         // Directory
-        $files = scan($source, $criteria);
+        $files = file_load($source, $criteria);
 
         foreach ($files as $id => $file) {
-            if (make(dirname($destination . '/' . $id))) {
+            if (file_dir(dirname($destination . '/' . $id))) {
                 copy($file['path'], $destination . '/' . $id);
             }
         }
@@ -213,9 +211,9 @@ function duplicate(string $source, string $destination, $criteria = null): bool
  *
  * @return bool
  */
-function upload(string $source, string $destination): bool
+function file_upload(string $source, string $destination): bool
 {
-    if (!is_uploaded_file($source) || !make(dirname($destination))) {
+    if (!is_uploaded_file($source) || !file_dir(dirname($destination))) {
         return false;
     }
 
@@ -227,23 +225,24 @@ function upload(string $source, string $destination): bool
 }
 
 /**
- * Create file
+ * Makes a directory if it doesn't exist
  *
- * @param string $destination
- * @param string $content
- * @param int $flags
- * @param resource $context
+ * @param string $path
+ * @param int $mode
+ * @param bool $recursive
  *
- * @return int|bool
+ * @return bool
  */
-function put(string $destination, string $content, int $flags = 0, $context = null)
+function file_dir(string $path, int $mode = 0775, bool $recursive = true): bool
 {
-    if (!make(dirname($destination))) {
+    if (!file_writable($path)) {
         return false;
+    } elseif (is_dir($path)) {
+        return true;
     }
 
     $umask = umask(0);
-    $result = file_put_contents($destination, $content, $flags, $context);
+    $result = mkdir($path, $mode, $recursive);
     umask($umask);
 
     return $result;
@@ -256,12 +255,12 @@ function put(string $destination, string $content, int $flags = 0, $context = nu
  *
  * @return bool
  */
-function writable(string $path): bool
+function file_writable(string $path): bool
 {
     static $pattern;
 
     if ($pattern === null) {
-        $pattern = '#^(file://)?(' . akilli\path('app') . '|' . akilli\path('cache') . ')#';
+        $pattern = '#^(file://)?(' . path('app') . '|' . path('cache') . ')#';
     }
 
     return (bool) preg_match($pattern, $path);
@@ -276,16 +275,16 @@ function writable(string $path): bool
  *
  * @todo Remove or move to filter and split file attribute validators
  */
-function extensions(string $key): array
+function file_ext(string $key): array
 {
     static $data;
 
     if ($data === null) {
-        $data['file'] = akilli\config('file.all');
-        $data['audio'] = akilli\config('file.audio');
-        $data['embed'] = akilli\config('file.embed');
-        $data['image'] = akilli\config('file.image');
-        $data['video'] = akilli\config('file.video');
+        $data['file'] = config('file.all');
+        $data['audio'] = config('file.audio');
+        $data['embed'] = config('file.embed');
+        $data['image'] = config('file.image');
+        $data['video'] = config('file.video');
     }
 
     return $data[$key] ?? [];

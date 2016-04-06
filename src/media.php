@@ -2,7 +2,6 @@
 namespace media;
 
 use akilli;
-use file;
 
 /**
  * Media load
@@ -16,7 +15,7 @@ function load(string $key = null)
     static $data;
 
     if ($data === null) {
-        $data = file\scan(akilli\path('media'));
+        $data = akilli\file_load(akilli\path('media'));
     }
 
     if ($key === null) {
@@ -35,8 +34,8 @@ function load(string $key = null)
  */
 function delete(string $id): bool
 {
-    return file\remove(akilli\path('cache', 'media/' . $id))
-        && (!$id || !($media = load($id)) || file\remove($media['path']));
+    return akilli\file_delete(akilli\path('cache', 'media/' . $id))
+        && (!$id || !($media = load($id)) || akilli\file_delete($media['path']));
 }
 
 /**
@@ -93,7 +92,7 @@ function image(array $media, string $class): string
     // Generate cache file
     if (!file_exists($cachePath) || $media['modified'] >= filemtime($cachePath)) {
         if ($info[0] === $width && $info[1] === $height) {
-            file\duplicate($media['path'], $cachePath);
+            akilli\file_copy($media['path'], $cachePath);
         } else {
             // Callbacks
             if ($info[2] === IMAGETYPE_JPEG) {
@@ -121,7 +120,7 @@ function image(array $media, string $class): string
 
             if (!empty($create) && !empty($output)) {
                 // Make cache directory
-                file\make(dirname($cachePath));
+                akilli\file_dir(dirname($cachePath));
 
                 // Resource
                 $source = $create($media['path']);

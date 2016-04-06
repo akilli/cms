@@ -1,7 +1,6 @@
 <?php
 namespace akilli;
 
-use file;
 use http;
 use InvalidArgumentException;
 
@@ -12,7 +11,7 @@ use InvalidArgumentException;
  *
  * @return void
  */
-function run(array $data = [])
+function app(array $data = [])
 {
     // Dispatch action event
     $event = 'action.' . http\request('id');

@@ -2,7 +2,6 @@
 namespace http;
 
 use akilli;
-use file;
 
 /**
  * Request
@@ -210,7 +209,7 @@ function files(string $key = null)
  */
 function files_validate(array $data): array
 {
-    $extensions = file\extensions('file');
+    $extensions = akilli\file_ext('file');
 
     foreach ($data as $key => $items) {
         foreach ($items as $id => $item) {

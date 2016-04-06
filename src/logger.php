@@ -1,8 +1,6 @@
 <?php
 namespace akilli;
 
-use file;
-
 /**
  * Log levels
  */
@@ -143,5 +141,5 @@ function logger(string $level, string $message, array $context = [])
     }
 
     $file = path('log', $context['file']);
-    file\put($file, '[' . $level . '][' . date('r') . '] ' . $message . "\n\n", FILE_APPEND);
+    file_save($file, '[' . $level . '][' . date('r') . '] ' . $message . "\n\n", FILE_APPEND);
 }

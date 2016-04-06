@@ -2,7 +2,6 @@
 namespace attribute;
 
 use akilli;
-use file;
 use http;
 use media;
 
@@ -507,7 +506,7 @@ function validate_file(array $attribute, array & $item): bool
     }
 
     // Invalid file
-    if (empty(file\extensions($attribute['type'])[$file['extension']])) {
+    if (empty(akilli\file_ext($attribute['type'])[$file['extension']])) {
         $item['__error'][$code] = akilli\_('Invalid file');
 
         return false;
@@ -516,7 +515,7 @@ function validate_file(array $attribute, array & $item): bool
     $value = unique_file($file['name'], akilli\path('media'));
 
     // Upload failed
-    if (!file\upload($file['tmp_name'], akilli\path('media', $value))) {
+    if (!akilli\file_upload($file['tmp_name'], akilli\path('media', $value))) {
         $item['__error'][$code] = akilli\_('File upload failed');
 
         return false;
@@ -1124,7 +1123,7 @@ function view_file(array $attribute, array $item): string
         return $value;
     } elseif (!$value
         || !($file = media\load($value))
-        || empty(file\extensions($attribute['type'])[$file['extension']])
+        || empty(akilli\file_ext($attribute['type'])[$file['extension']])
     ) {
         return '';
     }
