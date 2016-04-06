@@ -16,9 +16,9 @@ function request(string $key)
 
     if ($data === null) {
         $data = [];
-        $data = init();
+        $data = request_init();
         akilli\event('http.request', $data);
-        $data = prepare($data);
+        $data = request_prepare($data);
     }
 
     return $data[$key] ?? null;
@@ -29,7 +29,7 @@ function request(string $key)
  *
  * @return array
  */
-function init(): array
+function request_init(): array
 {
     $data = akilli\data('skeleton', 'request');
     $data['base'] = rtrim(akilli\filter_path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
@@ -53,7 +53,7 @@ function init(): array
  *
  * @return array
  */
-function prepare(array $data): array
+function request_prepare(array $data): array
 {
     // Entity, Action and Get Params
     $parts = $data['path'] ? explode('/', $data['path']) : [];
