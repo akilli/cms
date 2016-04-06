@@ -1,7 +1,6 @@
 <?php
-namespace block;
+namespace akilli;
 
-use akilli;
 use http;
 use model;
 
@@ -12,9 +11,9 @@ use model;
  *
  * @return string
  */
-function template(array & $block): string
+function block_template(array & $block): string
 {
-    $block['template_path'] = akilli\template($block['template']);
+    $block['template_path'] = template($block['template']);
 
     if (!$block['template'] || !$block['template_path']) {
         return '';
@@ -43,7 +42,7 @@ function template(array & $block): string
  *
  * @return string
  */
-function container(array & $block): string
+function block_container(array & $block): string
 {
     $html = '';
 
@@ -51,7 +50,7 @@ function container(array & $block): string
         asort($block['children'], SORT_NUMERIC);
 
         foreach (array_keys($block['children']) as $id) {
-            $html .= akilli\view_render($id);
+            $html .= view_render($id);
         }
     }
 
@@ -65,14 +64,14 @@ function container(array & $block): string
  *
  * @return string
  */
-function entity(array & $block): string
+function block_entity(array & $block): string
 {
-    if (empty($block['vars']['entity']) || !($metadata = akilli\data('metadata', $block['vars']['entity']))) {
+    if (empty($block['vars']['entity']) || !($metadata = data('metadata', $block['vars']['entity']))) {
         return '';
     }
 
     $block['vars'] = array_replace(
-        ['criteria' => null, 'index' => null, 'order' => null, 'limit' => akilli\config('limit.block')],
+        ['criteria' => null, 'index' => null, 'order' => null, 'limit' => config('limit.block')],
         $block['vars']
     );
     $block['vars']['data'] = model\load(
@@ -82,9 +81,9 @@ function entity(array & $block): string
         $block['vars']['order'],
         $block['vars']['limit']
     );
-    $block['vars']['header'] = akilli\_($metadata['name']);
+    $block['vars']['header'] = _($metadata['name']);
 
-    return template($block);
+    return block_template($block);
 }
 
 /**
@@ -94,7 +93,7 @@ function entity(array & $block): string
  *
  * @return string
  */
-function pager(array & $block): string
+function block_pager(array & $block): string
 {
     if (empty($block['vars']['pages']) || $block['vars']['pages'] < 1 || empty($block['vars']['page'])) {
         return '';
@@ -104,12 +103,12 @@ function pager(array & $block): string
         $block['vars']['params'] = [];
     }
 
-    $block['vars']['first'] = akilli\url('*/*', $block['vars']['params']);
+    $block['vars']['first'] = url('*/*', $block['vars']['params']);
 
     if ($block['vars']['pages'] === 1) {
         $block['vars']['last'] = $block['vars']['first'];
     } else {
-        $block['vars']['last'] = akilli\url(
+        $block['vars']['last'] = url(
             '*/*',
             array_replace($block['vars']['params'], ['page' => $block['vars']['pages']])
         );
@@ -118,22 +117,22 @@ function pager(array & $block): string
     $block['vars']['previous'] = $block['vars']['next'] = '#';
 
     if ($block['vars']['page'] < $block['vars']['pages']) {
-        $block['vars']['next'] = akilli\url(
+        $block['vars']['next'] = url(
             '*/*',
             array_replace($block['vars']['params'], ['page' => $block['vars']['page'] + 1])
         );
     }
 
     if ($block['vars']['page'] === 2) {
-        $block['vars']['previous'] = akilli\url('*/*', $block['vars']['params']);
+        $block['vars']['previous'] = url('*/*', $block['vars']['params']);
     } elseif ($block['vars']['page'] > 2) {
-        $block['vars']['previous'] = akilli\url(
+        $block['vars']['previous'] = url(
             '*/*',
             array_replace($block['vars']['params'], ['page' => $block['vars']['page'] - 1])
         );
     }
 
-    return template($block);
+    return block_template($block);
 }
 
 /**
@@ -143,9 +142,9 @@ function pager(array & $block): string
  *
  * @return string
  */
-function menu(array & $block): string
+function block_menu(array & $block): string
 {
-    if (empty($block['vars']['entity']) || !($metadata = akilli\data('metadata', $block['vars']['entity']))) {
+    if (empty($block['vars']['entity']) || !($metadata = data('metadata', $block['vars']['entity']))) {
         return '';
     }
 
@@ -186,7 +185,7 @@ function menu(array & $block): string
                 $start = '</li><li' . $current . '>';
             }
 
-            $html .= $start . '<a href="' . akilli\url($item['target']) . '" title="' . $description . '"'
+            $html .= $start . '<a href="' . url($item['target']) . '" title="' . $description . '"'
                 . $current . '>' . $item['name'] . '</a>' . $end;
             $level = $item['level'];
         }
@@ -202,15 +201,15 @@ function menu(array & $block): string
  *
  * @return string
  */
-function message(array & $block): string
+function block_message(array & $block): string
 {
-    if (!$block['vars']['data'] = akilli\session('message')) {
+    if (!$block['vars']['data'] = session('message')) {
         return '';
     }
 
-    akilli\session('message', null, true);
+    session('message', null, true);
 
-    return template($block);
+    return block_template($block);
 }
 
 /**
@@ -220,10 +219,10 @@ function message(array & $block): string
  *
  * @return string
  */
-function toolbar(array & $block): string
+function block_toolbar(array & $block): string
 {
     if (!isset($block['vars']['data'])) {
-        $block['vars']['data'] = akilli\toolbar();
+        $block['vars']['data'] = toolbar();
     } elseif (empty($block['vars']['data'])) {
         return '';
     }
@@ -234,17 +233,17 @@ function toolbar(array & $block): string
             $child['id'] .= '.' . uniqid(mt_rand(), true);
             $child['parent'] = $block['id'];
             $child['vars']['data'] = $item['children'];
-            $item['children'] = $block['vars']['data'][$key]['children'] = toolbar($child);
+            $item['children'] = $block['vars']['data'][$key]['children'] = block_toolbar($child);
         } else {
             $item['children'] = $block['vars']['data'][$key]['children'] = '';
         }
 
-        if (!empty($item['controller']) && !akilli\allowed($item['controller'])
+        if (!empty($item['controller']) && !allowed($item['controller'])
             || empty($item['url']) && empty($item['children'])
         ) {
             unset($block['vars']['data'][$key]);
         }
     }
 
-    return !empty($block['vars']['data']) ? template($block) : '';
+    return !empty($block['vars']['data']) ? block_template($block) : '';
 }

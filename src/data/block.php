@@ -4,40 +4,40 @@ return [
     'entity' => [
         'id' => 'entity',
         'name' => 'Entity',
-        'callback' => 'block\entity',
+        'callback' => 'akilli\block_entity',
     ],
     'pager' => [
         'id' => 'pager',
         'name' => 'Pager',
-        'callback' => 'block\pager',
+        'callback' => 'akilli\block_pager',
     ],
     // nestedset
     'menu' => [
         'id' => 'menu',
         'name' => 'Menu',
-        'callback' => 'block\menu',
+        'callback' => 'akilli\block_menu',
     ],
     // session
     'message' => [
         'id' => 'message',
         'name' => 'Message',
-        'callback' => 'block\message',
+        'callback' => 'akilli\block_message',
     ],
     // toolbar
     'toolbar' => [
         'id' => 'toolbar',
         'name' => 'Toolbar',
-        'callback' => 'block\toolbar',
+        'callback' => 'akilli\block_toolbar',
     ],
     // view
     'template' => [
         'id' => 'template',
         'name' => 'Template',
-        'callback' => 'block\template',
+        'callback' => 'akilli\block_template',
     ],
     'container' => [
         'id' => 'container',
         'name' => 'Container',
-        'callback' => 'block\container',
+        'callback' => 'akilli\block_container',
     ],
 ];
