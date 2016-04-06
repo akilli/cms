@@ -1,7 +1,7 @@
 <?php
 namespace toolbar;
 
-use app;
+use akilli;
 use data;
 use metadata;
 use url;
@@ -13,9 +13,9 @@ use url;
  */
 function data(): array
 {
-    $data = app\data('toolbar');
+    $data = akilli\data('toolbar');
 
-    foreach (app\data('metadata') as $entity => $meta) {
+    foreach (akilli\data('metadata') as $entity => $meta) {
         if (metadata\action('index', $meta) && !empty($meta['toolbar']) && !empty($data[$meta['toolbar']])) {
             $data[$meta['toolbar']]['children'][$entity]['name'] = $meta['name'];
             $data[$meta['toolbar']]['children'][$entity]['description'] = $meta['description'];

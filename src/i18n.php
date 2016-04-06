@@ -1,7 +1,7 @@
 <?php
 namespace i18n;
 
-use app;
+use akilli;
 use config;
 
 /**
@@ -18,8 +18,8 @@ function translate(string $key, string ...$params): string
 
     if ($data === null) {
         $data = array_replace(
-            app\data('i18n.' . config\value('i18n.language')),
-            app\data('i18n.' . config\value('i18n.locale'))
+            akilli\data('i18n.' . config\value('i18n.language')),
+            akilli\data('i18n.' . config\value('i18n.locale'))
         );
     }
 

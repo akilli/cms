@@ -2,7 +2,7 @@
 namespace view;
 
 use account;
-use app;
+use akilli;
 use data;
 use http;
 use InvalidArgumentException;
@@ -21,7 +21,7 @@ function type(string $key = null): array
     static $data;
 
     if ($data === null) {
-        foreach (app\data('block') as $type => $config) {
+        foreach (akilli\data('block') as $type => $config) {
             if (!empty($config['callback']) && is_callable($config['callback'])) {
                 $data[$type] = $config;
             }
@@ -48,7 +48,7 @@ function handles(array $handles = null): array
 
     if ($data === null || $handles !== null) {
         $data = [];
-        $metadata = app\data('metadata', http\request('entity'));
+        $metadata = akilli\data('metadata', http\request('entity'));
 
         if ($handles === null) {
             $handles[] = 'view-base';
@@ -98,7 +98,7 @@ function render(string $id): string
     }
 
     // Block Render Events
-    app\event(
+    akilli\event(
         ['block.type.' . $block['type'], 'block.render.' . $id],
         $block
     );
@@ -116,7 +116,7 @@ function render(string $id): string
  */
 function & layout(string $id, array $block = null)
 {
-    $data = & app\registry('layout');
+    $data = & akilli\registry('layout');
 
     if ($data === null) {
         $data = [];
@@ -139,7 +139,7 @@ function & layout(string $id, array $block = null)
 function load(array $handles = null)
 {
     $handles = handles($handles);
-    $layout = app\data('layout');
+    $layout = akilli\data('layout');
 
     foreach ($handles as $handle) {
         foreach (data\filter($layout, ['handle' => $handle]) as $block) {
@@ -167,7 +167,7 @@ function add(array $block)
 
     // New blocks
     if ($oldBlock === null) {
-        $oldBlock = app\data('skeleton', 'block');
+        $oldBlock = akilli\data('skeleton', 'block');
 
         if (empty($block['type']) || !type($block['type'])) {
             throw new InvalidArgumentException('No or invalid block type given for block with ID ' . $block['id']);

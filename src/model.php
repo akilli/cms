@@ -2,7 +2,7 @@
 namespace model;
 
 use account;
-use app;
+use akilli;
 use attribute;
 use db;
 use i18n;
@@ -49,7 +49,7 @@ function validate(array & $item): bool
  */
 function size(string $entity, array $criteria = null, bool $search = false): int
 {
-    $metadata = app\data('metadata', $entity);
+    $metadata = akilli\data('metadata', $entity);
     $callback = 'model\\' . $metadata['model'] . '_size';
 
     try {
@@ -78,7 +78,7 @@ function size(string $entity, array $criteria = null, bool $search = false): int
  */
 function load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
 {
-    $metadata = app\data('metadata', $entity);
+    $metadata = akilli\data('metadata', $entity);
     $callback = 'model\\' . $metadata['model'] . '_load';
     $single = $index === false;
     $data = [];
@@ -108,7 +108,7 @@ function load(string $entity, array $criteria = null, $index = null, array $orde
             $item['_id'] = $item['id'];
 
             // Entity load events
-            app\event(
+            akilli\event(
                 ['model.load', 'model.load.' . $metadata['model'], 'entity.load.' . $entity],
                 $item
             );
@@ -156,7 +156,7 @@ function load(string $entity, array $criteria = null, $index = null, array $orde
  */
 function save(string $entity, array & $data): bool
 {
-    $metadata = app\data('metadata', $entity);
+    $metadata = akilli\data('metadata', $entity);
     $original = load($entity);
 
     foreach ($data as $id => $item) {
@@ -209,7 +209,7 @@ function save(string $entity, array & $data): bool
             $metadata['db'],
             function () use ($entity, & $item, $callback, $metadata) {
                 // Entity before save events
-                app\event(
+                akilli\event(
                     [
                         'model.save_before',
                         'model.save_before.' . $metadata['model'],
@@ -224,7 +224,7 @@ function save(string $entity, array & $data): bool
                 }
 
                 // Entity after save events
-                app\event(
+                akilli\event(
                     [
                         'model.save_after',
                         'model.save_after.' . $metadata['model'],
@@ -263,7 +263,7 @@ function save(string $entity, array & $data): bool
  */
 function delete(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null, bool $system = false): bool
 {
-    $metadata = app\data('metadata', $entity);
+    $metadata = akilli\data('metadata', $entity);
     $callback = 'model\\' . $metadata['model'] . '_delete';
 
     // Check if anything is there to delete
@@ -303,7 +303,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
             $metadata['db'],
             function () use ($entity, & $item, $callback, $metadata) {
                 // Entity before delete events
-                app\event(
+                akilli\event(
                     [
                         'model.delete_before',
                         'model.delete_before.' . $metadata['model'],
@@ -318,7 +318,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
                 }
 
                 // Entity after delete events
-                app\event(
+                akilli\event(
                     [
                         'model.delete_after',
                         'model.delete_after.' . $metadata['model'],

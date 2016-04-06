@@ -1,7 +1,7 @@
 <?php
 namespace media;
 
-use app;
+use akilli;
 use file;
 use url;
 
@@ -17,7 +17,7 @@ function load(string $key = null)
     static $data;
 
     if ($data === null) {
-        $data = file\scan(app\path('media'));
+        $data = file\scan(akilli\path('media'));
     }
 
     if ($key === null) {
@@ -36,7 +36,7 @@ function load(string $key = null)
  */
 function delete(string $id): bool
 {
-    return file\remove(app\path('cache', 'media/' . $id))
+    return file\remove(akilli\path('cache', 'media/' . $id))
         && (!$id || !($media = load($id)) || file\remove($media['path']));
 }
 
@@ -50,7 +50,7 @@ function delete(string $id): bool
  */
 function image(array $media, string $class): string
 {
-    if (!($config = app\data('media', $class))
+    if (!($config = akilli\data('media', $class))
         || !file_exists($media['path'])
         || !$info = getimagesize($media['path'])
     ) {
@@ -89,7 +89,7 @@ function image(array $media, string $class): string
 
     // Cache
     $cacheId = $media['id'] . '/' . $width . '-' . $height . ($crop ? '-crop' : '') . '.' . $media['extension'];
-    $cachePath = app\path('cache', 'media/' . $cacheId);
+    $cachePath = akilli\path('cache', 'media/' . $cacheId);
 
     // Generate cache file
     if (!file_exists($cachePath) || $media['modified'] >= filemtime($cachePath)) {

@@ -1,7 +1,7 @@
 <?php
 namespace listener;
 
-use app;
+use akilli;
 use config;
 use data;
 use i18n;
@@ -44,7 +44,7 @@ function config(array & $data)
  */
 function eav(array & $data)
 {
-    $data['_metadata'] = app\data('metadata', $data['entity_id']);
+    $data['_metadata'] = akilli\data('metadata', $data['entity_id']);
 }
 
 /**
@@ -74,7 +74,7 @@ function metadata(array & $data)
         ['entity_id' => 'ASC', 'sort_order' => 'ASC']
     );
     $attributes = model\load('attribute');
-    $types = app\data('type');
+    $types = akilli\data('type');
 
     foreach (model\load('entity') as $id => $item) {
         $item = array_replace($data['eav_content'], $item);
@@ -232,7 +232,7 @@ function model_delete(array & $data)
  */
 function privilege(array & $data)
 {
-    $metadata = app\data('metadata');
+    $metadata = akilli\data('metadata');
     $config = config\value('action.entity');
     $key = array_search('all', $config);
 

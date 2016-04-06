@@ -1,7 +1,7 @@
 <?php
 namespace role;
 
-use app;
+use akilli;
 use account;
 use data;
 use http;
@@ -15,7 +15,7 @@ use http;
  */
 function allowed(string $key = null): bool
 {
-    $data = app\data('privilege');
+    $data = akilli\data('privilege');
     $key = privilege($key);
 
     // Privilege does not exist
@@ -60,7 +60,7 @@ function privileges(): array
     if ($data === null) {
         $data = data\order(
             array_filter(
-                app\data('privilege'),
+                akilli\data('privilege'),
                 function ($item) {
                     return (!isset($item['is_active']) || $item['is_active'] !== false)
                     && (empty($item['callback']) || !is_callable($item['callback']));

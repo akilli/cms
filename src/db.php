@@ -1,7 +1,7 @@
 <?php
 namespace db;
 
-use app;
+use akilli;
 use i18n;
 use RuntimeException;
 
@@ -16,11 +16,11 @@ use RuntimeException;
  */
 function factory(string $key)
 {
-    $db = & app\registry('db');
+    $db = & akilli\registry('db');
 
     if (!isset($db[$key])) {
         $db[$key] = [];
-        $data = app\data('db', $key);
+        $data = akilli\data('db', $key);
 
         if (empty($data['callback']) || !is_callable($data['callback'])) {
             throw new RuntimeException(i18n\translate('Invalid database configuration'));
@@ -46,7 +46,7 @@ function transaction(string $key, callable $callback): bool
 
     // Load config
     if ($data === null) {
-        $data = app\data('db');
+        $data = akilli\data('db');
     }
 
     return !empty($data[$key]['transaction']) ? $data[$key]['transaction'](factory($key), $callback) : $callback();

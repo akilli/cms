@@ -1,7 +1,7 @@
 <?php
 namespace sql;
 
-use app;
+use akilli;
 use db;
 use i18n;
 use log;
@@ -24,7 +24,7 @@ function factory(array $data): PDO
         $data['dsn'] .= ';charset=' . $data['charset'];
     } elseif ($data['driver'] === 'sqlite') {
         if (strpos($data['dbname'], '/') !== 0) {
-            $data['dbname'] = app\path('db', 'sqlite/' . $data['dbname']);
+            $data['dbname'] = akilli\path('db', 'sqlite/' . $data['dbname']);
         }
 
         $data['dsn'] = $data['driver'] . ':' . $data['dbname'];
@@ -187,7 +187,7 @@ function type(array $attribute, $value): int
  */
 function meta($entity): array
 {
-    $metadata = is_array($entity) ? $entity : app\data('metadata', $entity);
+    $metadata = is_array($entity) ? $entity : akilli\data('metadata', $entity);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
 

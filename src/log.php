@@ -1,7 +1,7 @@
 <?php
 namespace log;
 
-use app;
+use akilli;
 use file;
 
 /**
@@ -143,6 +143,6 @@ function log(string $level, string $message, array $context = [])
         $context['file'] = 'qnd.log';
     }
 
-    $file = app\path('log', $context['file']);
+    $file = akilli\path('log', $context['file']);
     file\put($file, '[' . $level . '][' . date('r') . '] ' . $message . "\n\n", FILE_APPEND);
 }

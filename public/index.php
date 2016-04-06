@@ -33,4 +33,4 @@ register_shutdown_function(
 /**
  * Run application
  */
-app\run();
+akilli\run();

@@ -1,7 +1,7 @@
 <?php
 namespace file;
 
-use app;
+use akilli;
 use config;
 use data;
 use filter;
@@ -264,7 +264,7 @@ function writable(string $path): bool
     static $pattern;
 
     if ($pattern === null) {
-        $pattern = '#^(file://)?(' . app\path('app') . '|' . app\path('cache') . ')#';
+        $pattern = '#^(file://)?(' . akilli\path('app') . '|' . akilli\path('cache') . ')#';
     }
 
     return (bool) preg_match($pattern, $path);

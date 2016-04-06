@@ -1,7 +1,7 @@
 <?php
 namespace metadata;
 
-use app;
+use akilli;
 use i18n;
 use RuntimeException;
 
@@ -29,9 +29,9 @@ function entity(array $data): array
     }
 
     // Model
-    $skeleton = app\data('skeleton', 'entity');
+    $skeleton = akilli\data('skeleton', 'entity');
     $model = !empty($data['model']) ? $data['model'] : $skeleton['model'];
-    $data = array_replace_recursive($skeleton, (array) app\data('skeleton', 'entity.' . $model), $data);
+    $data = array_replace_recursive($skeleton, (array) akilli\data('skeleton', 'entity.' . $model), $data);
 
     // Actions
     if (!is_array($data['actions'])) {
@@ -94,7 +94,7 @@ function attribute(array $data): array
     }
 
     // Type, Backend, Frontend
-    $type = app\data('type', $data['type']);
+    $type = akilli\data('type', $data['type']);
 
     if (!$type || empty($type['backend']) || empty($type['frontend'])) {
         throw new RuntimeException(
@@ -104,12 +104,12 @@ function attribute(array $data): array
 
     $data['backend'] = $type['backend'];
     $data['frontend'] = $type['frontend'];
-    $backend = app\data('backend', $data['backend']);
-    $frontend = app\data('frontend', $data['frontend']);
+    $backend = akilli\data('backend', $data['backend']);
+    $frontend = akilli\data('frontend', $data['frontend']);
 
     // Model
     $data = array_replace(
-        app\data('skeleton', 'attribute'),
+        akilli\data('skeleton', 'attribute'),
         !empty($backend['default']) ? $backend['default'] : [],
         !empty($frontend['default']) ? $frontend['default'] : [],
         !empty($type['default']) ? $type['default'] : [],
@@ -169,7 +169,7 @@ function action($action, array $data): bool
  */
 function skeleton(string $entity, int $number = null): array
 {
-    $metadata = app\data('metadata', $entity);
+    $metadata = akilli\data('metadata', $entity);
     $item = ['_metadata' => $metadata, '_original' => null, '_id' => null, 'id' => null, 'name' => null];
 
     foreach ($metadata['attributes'] as $code => $attribute) {

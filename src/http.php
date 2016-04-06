@@ -1,7 +1,7 @@
 <?php
 namespace http;
 
-use app;
+use akilli;
 use file;
 use filter;
 use i18n;
@@ -17,12 +17,12 @@ use url;
  */
 function request(string $key)
 {
-    $data = & app\registry('request');
+    $data = & akilli\registry('request');
 
     if ($data === null) {
         $data = [];
         $data = init();
-        app\event('http.request', $data);
+        akilli\event('http.request', $data);
         $data = prepare($data);
     }
 
@@ -36,7 +36,7 @@ function request(string $key)
  */
 function init(): array
 {
-    $data = app\data('skeleton', 'request');
+    $data = akilli\data('skeleton', 'request');
     $data['base'] = rtrim(filter\path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
     $data['url'] = $_SERVER['REQUEST_URI'] ?? $data['base'];
     $data['original_path'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');

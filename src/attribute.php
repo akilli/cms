@@ -1,7 +1,7 @@
 <?php
 namespace attribute;
 
-use app;
+use akilli;
 use config;
 use file;
 use filter;
@@ -240,7 +240,7 @@ function option_name($id, $value): string
  */
 function options_menubasis(string $entity): array
 {
-    $metadata = app\data('metadata', $entity);
+    $metadata = akilli\data('metadata', $entity);
     $root = !empty($metadata['attributes']['root_id']);
     $collection = $root ? model\load($metadata['attributes']['root_id']['foreign_entity_id']) : null;
     $data = [];
@@ -519,10 +519,10 @@ function validate_file(array $attribute, array & $item): bool
         return false;
     }
 
-    $value = unique_file($file['name'], app\path('media'));
+    $value = unique_file($file['name'], akilli\path('media'));
 
     // Upload failed
-    if (!file\upload($file['tmp_name'], app\path('media', $value))) {
+    if (!file\upload($file['tmp_name'], akilli\path('media', $value))) {
         $item['__error'][$code] = i18n\translate('File upload failed');
 
         return false;
@@ -647,7 +647,7 @@ function validate_option(array $attribute, array & $item): bool
 function validate_menubasis(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $metadata = app\data('metadata', $attribute['entity_id']);
+    $metadata = akilli\data('metadata', $attribute['entity_id']);
 
     if (empty($metadata['attributes']['root_id'])) {
         $item['basis'] = !empty($item[$code]) ? $item[$code] : null;
@@ -757,8 +757,8 @@ function validate_unique(array $attribute, array & $item): bool
     if (!isset($data[$entity])) {
         $data[$entity] = model\load($entity, null, 'unique');
 
-        if ($entity === 'entity' && ($ids = array_keys(app\data('metadata')))
-            || $entity === 'attribute' && ($ids = array_keys(app\data('metadata', 'eav_content')['attributes']))
+        if ($entity === 'entity' && ($ids = array_keys(akilli\data('metadata')))
+            || $entity === 'attribute' && ($ids = array_keys(akilli\data('metadata', 'eav_content')['attributes']))
         ) {
             $ids = array_combine($ids, $ids);
             $data[$entity]['id'] = !empty($data[$entity]['id']) ? array_replace($data[$entity]['id'], $ids) : $ids;
@@ -1136,7 +1136,7 @@ function view_file(array $attribute, array $item): string
     }
 
     $class = 'file-' . $attribute['type'] . ' media-' . $attribute['action'];
-    $config = app\data('media', $attribute['action']);
+    $config = akilli\data('media', $attribute['action']);
 
     if ($config) {
         $style = ' style="max-width:' . $config['width'] . 'px;max-height:' . $config['height'] . 'px;"';

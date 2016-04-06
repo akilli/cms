@@ -1,7 +1,7 @@
 <?php
 namespace config;
 
-use app;
+use akilli;
 
 /**
  * Value
@@ -12,7 +12,7 @@ use app;
  */
 function value(string $key = null)
 {
-    $data = app\data('config');
+    $data = akilli\data('config');
 
     if ($key === null) {
         return $data;

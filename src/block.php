@@ -1,7 +1,7 @@
 <?php
 namespace block;
 
-use app;
+use akilli;
 use config;
 use i18n;
 use http;
@@ -21,7 +21,7 @@ use view;
  */
 function template(array & $block): string
 {
-    $block['template_path'] = app\template($block['template']);
+    $block['template_path'] = akilli\template($block['template']);
 
     if (!$block['template'] || !$block['template_path']) {
         return '';
@@ -74,7 +74,7 @@ function container(array & $block): string
  */
 function entity(array & $block): string
 {
-    if (empty($block['vars']['entity']) || !($metadata = app\data('metadata', $block['vars']['entity']))) {
+    if (empty($block['vars']['entity']) || !($metadata = akilli\data('metadata', $block['vars']['entity']))) {
         return '';
     }
 
@@ -152,7 +152,7 @@ function pager(array & $block): string
  */
 function menu(array & $block): string
 {
-    if (empty($block['vars']['entity']) || !($metadata = app\data('metadata', $block['vars']['entity']))) {
+    if (empty($block['vars']['entity']) || !($metadata = akilli\data('metadata', $block['vars']['entity']))) {
         return '';
     }
 

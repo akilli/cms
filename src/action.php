@@ -2,7 +2,7 @@
 namespace action;
 
 use account;
-use app;
+use akilli;
 use config;
 use data;
 use http;
@@ -260,7 +260,7 @@ function index()
  */
 function meta(): array
 {
-    $metadata = app\data('metadata', http\request('entity'));
+    $metadata = akilli\data('metadata', http\request('entity'));
 
     // Check if action is allowed for entity
     if (!metadata\action(http\request('action'), $metadata)) {
