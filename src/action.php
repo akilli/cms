@@ -4,7 +4,6 @@ namespace action;
 use akilli;
 use data;
 use http;
-use i18n;
 use metadata;
 use model;
 use role;
@@ -34,7 +33,7 @@ function create_action()
 
     // View
     view($metadata);
-    view\vars('entity.create', ['data' => $data, 'header' => i18n\translate($metadata['name'])]);
+    view\vars('entity.create', ['data' => $data, 'header' => akilli\_($metadata['name'])]);
 }
 
 /**
@@ -62,13 +61,13 @@ function edit_action()
 
     // If $data is empty, there haven't been any matching records to edit
     if (empty($data)) {
-        session\message(i18n\translate('You did not select anything to edit'));
+        session\message(akilli\_('You did not select anything to edit'));
         http\redirect(role\allowed('index') ? '*/index' : '');
     }
 
     // View
     view($metadata);
-    view\vars('entity.edit', ['data' => $data, 'header' => i18n\translate($metadata['name'])]);
+    view\vars('entity.edit', ['data' => $data, 'header' => akilli\_($metadata['name'])]);
 }
 
 /**
@@ -86,7 +85,7 @@ function delete_action()
         model\delete($metadata['id'], ['id' => array_keys($data)]);
     } else {
         // No data posted
-        session\message(i18n\translate('You did not select anything to delete'));
+        session\message(akilli\_('You did not select anything to delete'));
     }
 
     http\redirect(role\allowed('index') ? '*/index' : '');
@@ -108,7 +107,7 @@ function view_action()
         error_action();
     } elseif (!empty($metadata['attributes']['is_active']) && empty($item['is_active'])) {
         // Preview
-        session\message(i18n\translate('Preview'));
+        session\message(akilli\_('Preview'));
     }
 
     // View
@@ -143,7 +142,7 @@ function list_action()
  */
 function error_action()
 {
-    session\message(i18n\translate('The page %s does not exist', http\request('path')));
+    session\message(akilli\_('The page %s does not exist', http\request('path')));
     http\redirect();
 }
 
@@ -154,7 +153,7 @@ function error_action()
  */
 function denied_action()
 {
-    session\message(i18n\translate('Access denied'));
+    session\message(akilli\_('Access denied'));
     http\redirect('account/login');
 }
 
@@ -193,7 +192,7 @@ function index()
             $criteria['id'] = $ids;
             $params['terms'] = urlencode(implode(' ', $content));
         } else {
-            session\message(i18n\translate('No results for provided search terms %s', implode(', ', $content)));
+            session\message(akilli\_('No results for provided search terms %s', implode(', ', $content)));
         }
     }
 
@@ -237,7 +236,7 @@ function index()
     view($metadata);
     view\vars(
         'entity.' . $action,
-        ['data' => $data, 'header' => i18n\translate($metadata['name']), 'attributes' => $attributes]
+        ['data' => $data, 'header' => akilli\_($metadata['name']), 'attributes' => $attributes]
     );
     view\vars(
         'entity.' . $action . '.pager',
@@ -278,7 +277,7 @@ function meta(): array
  */
 function view(array $metadata, array $item = null)
 {
-    $title = ($item ? $item['name'] : i18n\translate($metadata['name']))
+    $title = ($item ? $item['name'] : akilli\_($metadata['name']))
         . ' ' . akilli\config('meta.separator')
         . ' ' . akilli\config('meta.title');
     view\load();
@@ -297,7 +296,7 @@ function view(array $metadata, array $item = null)
 function account_dashboard_action()
 {
     view\load();
-    view\vars('title', ['title' => i18n\translate('Dashboard')]);
+    view\vars('title', ['title' => akilli\_('Dashboard')]);
 }
 
 /**
@@ -348,13 +347,13 @@ function account_login_action()
             && ($item = model\load('account', ['name' => $data['name'], 'is_active' => true], false))
             && password_verify($data['password'], $item['password'])
         ) {
-            session\message(i18n\translate('Welcome %s', $item['name']));
+            session\message(akilli\_('Welcome %s', $item['name']));
             session_regenerate_id(true);
             session\data('account', $item['id']);
             http\redirect('*/dashboard');
         }
 
-        session\message(i18n\translate('Invalid name and password combination'));
+        session\message(akilli\_('Invalid name and password combination'));
     }
 
     view\load();

@@ -2,7 +2,6 @@
 namespace db;
 
 use akilli;
-use i18n;
 use RuntimeException;
 
 /**
@@ -23,7 +22,7 @@ function factory(string $key)
         $data = akilli\data('db', $key);
 
         if (empty($data['callback']) || !is_callable($data['callback'])) {
-            throw new RuntimeException(i18n\translate('Invalid database configuration'));
+            throw new RuntimeException(akilli\_('Invalid database configuration'));
         }
 
         $db[$key] = $data['callback']($data);

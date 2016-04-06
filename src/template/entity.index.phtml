@@ -14,21 +14,21 @@
                 <thead>
                     <tr>
                         <th data-type="bool.checkbox">
-                            <input type="checkbox" name="gui[checkall]" value="1" title="<?=i18n\translate('Select all');?>" />
+                            <input type="checkbox" name="gui[checkall]" value="1" title="<?= akilli\_('Select all');?>" />
                         </th>
                         <?php foreach ($block['data']('attributes') as $code => $attribute):?>
                         <th data-type="<?=$attribute['backend'];?>.<?=$attribute['frontend'];?>">
-                            <a href="<?=$attribute['url'];?>"><?=i18n\translate($attribute['name']);?></a>
+                            <a href="<?=$attribute['url'];?>"><?= akilli\_($attribute['name']);?></a>
                         </th>
                         <?php endforeach;?>
                         <?php if (role\allowed('edit')):?>
                         <th data-type="bool.checkbox">
-                            <?=i18n\translate('Edit');?>
+                            <?= akilli\_('Edit');?>
                         </th>
                         <?php endif;?>
                         <?php if (role\allowed('view')):?>
                         <th data-type="bool.checkbox">
-                            <?=i18n\translate('View');?>
+                            <?= akilli\_('View');?>
                         </th>
                         <?php endif;?>
                     </tr>
@@ -47,12 +47,12 @@
                         <?php endforeach;?>
                         <?php if (role\allowed('edit')):?>
                         <td>
-                            <a href="<?=url\path('*/edit', ['id' => $id]);?>" title="<?=i18n\translate('Edit this item');?>"><?=i18n\translate('Edit');?></a>
+                            <a href="<?=url\path('*/edit', ['id' => $id]);?>" title="<?= akilli\_('Edit this item');?>"><?= akilli\_('Edit');?></a>
                         </td>
                         <?php endif;?>
                         <?php if (role\allowed('view')):?>
                         <td>
-                            <a href="<?=url\path('*/view', ['id' => $id]);?>" title="<?=i18n\translate('View this item');?>"><?=i18n\translate('View');?></a>
+                            <a href="<?=url\path('*/view', ['id' => $id]);?>" title="<?= akilli\_('View this item');?>"><?= akilli\_('View');?></a>
                         </td>
                         <?php endif;?>
                     </tr>
@@ -63,16 +63,16 @@
         <?php if (role\allowed('delete') || role\allowed('edit')):?>
         <fieldset class="action">
             <?php if (role\allowed('delete')):?>
-            <input type="submit" name="action[delete]" title="<?=i18n\translate('Delete');?>" value="<?=i18n\translate('Delete');?>" formaction="<?=url\path('*/delete');?>" />
+            <input type="submit" name="action[delete]" title="<?= akilli\_('Delete');?>" value="<?= akilli\_('Delete');?>" formaction="<?=url\path('*/delete');?>" />
             <?php endif;?>
             <?php if (role\allowed('edit')):?>
-            <input type="submit" name="action[edit]" title="<?=i18n\translate('Edit');?>" value="<?=i18n\translate('Edit');?>" formaction="<?=url\path('*/edit');?>" />
+            <input type="submit" name="action[edit]" title="<?= akilli\_('Edit');?>" value="<?= akilli\_('Edit');?>" formaction="<?=url\path('*/edit');?>" />
             <?php endif;?>
             <input type="hidden" name="token" value="<?=session\token();?>" />
         </fieldset>
         <?php endif;?>
     </form>
     <?php else:;?>
-    <p><?=i18n\translate('Nothing created yet');?></p>
+    <p><?= akilli\_('Nothing created yet');?></p>
     <?php endif;?>
 </section>

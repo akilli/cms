@@ -2,9 +2,9 @@
     <?php foreach ((array) $block['data']('data') as $item):?>
     <li>
         <?php if ($item['url']):?>
-        <a href="<?=$item['url'];?>" title="<?=i18n\translate($item['description']);?>"><?=i18n\translate($item['name']);?></a>
+        <a href="<?=$item['url'];?>" title="<?= akilli\_($item['description']);?>"><?= akilli\_($item['name']);?></a>
         <?php else:?>
-        <span title="<?=i18n\translate($item['description']);?>"><?=i18n\translate($item['name']);?></span>
+        <span title="<?= akilli\_($item['description']);?>"><?= akilli\_($item['name']);?></span>
         <?php endif;?>
         <?=$item['children'];?>
     </li>

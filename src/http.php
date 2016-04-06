@@ -4,7 +4,6 @@ namespace http;
 use akilli;
 use file;
 use filter;
-use i18n;
 use session;
 use url;
 
@@ -226,7 +225,7 @@ function files_validate(array $data): array
                 $ext = pathinfo($attribute['name'], PATHINFO_EXTENSION);
 
                 if (empty($extensions[$ext])) {
-                    session\message(i18n\translate('Invalid file %s was rejected', $attribute['name']));
+                    session\message(akilli\_('Invalid file %s was rejected', $attribute['name']));
                     unset($data[$key][$id][$code]);
                 } else {
                     $data[$key][$id][$code]['extension'] = $ext;

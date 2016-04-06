@@ -5,7 +5,6 @@ use akilli;
 use file;
 use filter;
 use http;
-use i18n;
 use media;
 use metadata;
 use model;
@@ -141,7 +140,7 @@ function options(array $attribute, array $item = null, bool $cache = false): arr
     }
 
     if ($attribute['backend'] === 'bool') {
-        $options = [i18n\translate('No'), i18n\translate('Yes')];
+        $options = [akilli\_('No'), akilli\_('Yes')];
     } elseif (!empty($attribute['foreign_entity_id'])) {
         $options = model\load($attribute['foreign_entity_id']);
     } elseif (!empty($attribute['options_callback'])) {
@@ -200,9 +199,9 @@ function options_translate(array $options): array
     return array_map(
         function ($value) {
             if (is_scalar($value)) {
-                $value = i18n\translate($value);
+                $value = akilli\_($value);
             } elseif (is_array($value) && !empty($value['name'])) {
-                $value['name'] = i18n\translate($value['name']);
+                $value['name'] = akilli\_($value['name']);
             }
 
             return $value;
@@ -384,7 +383,7 @@ function delete_file(array $attribute, array & $item): bool
 
     // Delete old file
     if (!empty($item[$code]) && !media\delete($item[$code])) {
-        $item['__error'][$code] = i18n\translate('Could not delete old file %s', $item[$code]);
+        $item['__error'][$code] = akilli\_('Could not delete old file %s', $item[$code]);
 
         return false;
     }
@@ -444,7 +443,7 @@ function validate_email(array $attribute, array & $item): bool
 
     if ($item[$code] && !$item[$code] = filter_var($item[$code], FILTER_VALIDATE_EMAIL)) {
         $item[$code] = null;
-        $item['__error'][$code] = i18n\translate('Invalid email');
+        $item['__error'][$code] = akilli\_('Invalid email');
 
         return false;
     }
@@ -467,7 +466,7 @@ function validate_url(array $attribute, array & $item): bool
 
     if ($item[$code] && !$item[$code] = filter_var($item[$code], FILTER_VALIDATE_URL)) {
         $item[$code] = null;
-        $item['__error'][$code] = i18n\translate('Invalid URL');
+        $item['__error'][$code] = akilli\_('Invalid URL');
 
         return false;
     }
@@ -501,7 +500,7 @@ function validate_file(array $attribute, array & $item): bool
         && ($file || !empty($item['__reset'][$code]))
         && !media\delete($item['_original'][$code])
     ) {
-        $item['__error'][$code] = i18n\translate('Could not delete old file %s', $item['_original'][$code]);
+        $item['__error'][$code] = akilli\_('Could not delete old file %s', $item['_original'][$code]);
 
         return false;
     }
@@ -513,7 +512,7 @@ function validate_file(array $attribute, array & $item): bool
 
     // Invalid file
     if (empty(file\extensions($attribute['type'])[$file['extension']])) {
-        $item['__error'][$code] = i18n\translate('Invalid file');
+        $item['__error'][$code] = akilli\_('Invalid file');
 
         return false;
     }
@@ -522,7 +521,7 @@ function validate_file(array $attribute, array & $item): bool
 
     // Upload failed
     if (!file\upload($file['tmp_name'], akilli\path('media', $value))) {
-        $item['__error'][$code] = i18n\translate('File upload failed');
+        $item['__error'][$code] = akilli\_('File upload failed');
 
         return false;
     }
@@ -551,7 +550,7 @@ function validate_datetime(array $attribute, array & $item): bool
             $item[$code] = $datetime;
         } else {
             $item[$code] = null;
-            $item['__error'][$code] = i18n\translate('Invalid date');
+            $item['__error'][$code] = akilli\_('Invalid date');
 
             return false;
         }
@@ -623,7 +622,7 @@ function validate_option(array $attribute, array & $item): bool
         foreach ((array) $item[$code] as $v) {
             if (!isset($attribute['options'][$v])) {
                 $item[$code] = null;
-                $item['__error'][$code] = i18n\translate('Invalid option for attribute %s', $code);
+                $item['__error'][$code] = akilli\_('Invalid option for attribute %s', $code);
 
                 return false;
             }
@@ -656,7 +655,7 @@ function validate_menubasis(array $attribute, array & $item): bool
         $item['root_id'] = type($metadata['attributes']['root_id'], $parts[0]);
         $item['basis'] = type($metadata['attributes']['id'], $parts[1]);
     } else {
-        $item['__error'][$code] = i18n\translate('%s is a mandatory field', $attribute['name']);
+        $item['__error'][$code] = akilli\_('%s is a mandatory field', $attribute['name']);
 
         return false;
     }
@@ -678,7 +677,7 @@ function validate_callback(array $attribute, array & $item): bool
 
     if (!empty($item[$code]) && !is_callable($item[$code])) {
         $item[$code] = null;
-        $item['__error'][$code] = i18n\translate('Invalid callback');
+        $item['__error'][$code] = akilli\_('Invalid callback');
 
         return false;
     }
@@ -700,7 +699,7 @@ function validate_json(array $attribute, array & $item): bool
 
     if (!empty($item[$code]) && json_decode($item[$code], true) === null) {
         $item[$code] = null;
-        $item['__error'][$code] = i18n\translate('Invalid JSON notation');
+        $item['__error'][$code] = akilli\_('Invalid JSON notation');
 
         return false;
     }
@@ -725,7 +724,7 @@ function validate_required(array $attribute, array & $item): bool
         && !options($attribute, $item)
         && !ignore($attribute, $item)
     ) {
-        $item['__error'][$code] = i18n\translate('%s is a mandatory field', $attribute['name']);
+        $item['__error'][$code] = akilli\_('%s is a mandatory field', $attribute['name']);
 
         return false;
     }
@@ -792,7 +791,7 @@ function validate_unique(array $attribute, array & $item): bool
         return true;
     }
 
-    $item['__error'][$code] = i18n\translate('%s must be unique', $attribute['name']);
+    $item['__error'][$code] = akilli\_('%s must be unique', $attribute['name']);
 
     return false;
 }
@@ -853,9 +852,9 @@ function edit_select(array $attribute, array $item): string
     }
 
     if (empty($attribute['options'])) {
-        $html = '<optgroup label="' . i18n\translate('No options configured') . '"></optgroup>';
+        $html = '<optgroup label="' . akilli\_('No options configured') . '"></optgroup>';
     } else {
-        $html = '<option value="" class="empty">' . i18n\translate('Please choose') . '</option>';
+        $html = '<option value="" class="empty">' . akilli\_('Please choose') . '</option>';
 
         foreach ($attribute['options'] as $optionId => $optionValue) {
             $selected = in_array($optionId, $value) ? ' selected="selected"' : '';
@@ -898,7 +897,7 @@ function edit_input_option(array $attribute, array $item): string
     $value = value($attribute, $item);
 
     if ($attribute['backend'] === 'bool' && $attribute['frontend'] === 'checkbox') {
-        $attribute['options'] = [1 => i18n\translate('Yes')];
+        $attribute['options'] = [1 => akilli\_('Yes')];
     } else {
         $attribute['options'] = options($attribute, $item);
     }
@@ -914,7 +913,7 @@ function edit_input_option(array $attribute, array $item): string
     }
 
     if (empty($attribute['options'])) {
-        $html .= '<span id="' . $htmlId . '">' .  i18n\translate('No options configured') . '</span>';
+        $html .= '<span id="' . $htmlId . '">' .  akilli\_('No options configured') . '</span>';
     } else {
         foreach ($attribute['options'] as $optionId => $optionValue) {
             $checked = in_array($optionId, $value) ? ' checked="checked"' : '';
@@ -1244,14 +1243,14 @@ function html_label(array $attribute, array $item): string
     $message = '';
 
     if (!empty($attribute['is_required']) && !ignore($attribute, $item)) {
-        $message .= ' <em class="required">' . i18n\translate('Required') . '</em>';
+        $message .= ' <em class="required">' . akilli\_('Required') . '</em>';
     }
 
     if (!empty($attribute['is_unique'])) {
-        $message .= ' <em class="unique">' . i18n\translate('Unique') . '</em>';
+        $message .= ' <em class="unique">' . akilli\_('Unique') . '</em>';
     }
 
-    return '<label for="' . html_id($attribute, $item) . '">' . i18n\translate($attribute['name']) . $message
+    return '<label for="' . html_id($attribute, $item) . '">' . akilli\_($attribute['name']) . $message
         . '</label>';
 }
 
@@ -1272,8 +1271,8 @@ function html_flag(array $attribute, array $item): string
             $htmlId =  'data-' . $item['_id'] . '-' . $flag . '-' . $attribute['id'];
             $htmlName =  'data[' . $item['_id'] . '][' . $flag . ']' . '[' . $attribute['id'] . ']';
             $html .= ' <input id="' .  $htmlId . '" type="checkbox" name="' . $htmlName . '" value="1" title="'
-                . i18n\translate($name) . '" /> <label for="' . $htmlId . '" class="inline">'
-                . i18n\translate($name) . '</label>';
+                . akilli\_($name) . '" /> <label for="' . $htmlId . '" class="inline">'
+                . akilli\_($name) . '</label>';
         }
     }
 
@@ -1346,7 +1345,7 @@ function html_class(array $attribute): string
  */
 function html_title(array $attribute): string
 {
-    return !empty($attribute['description']) ? ' title="' . i18n\translate($attribute['description']) . '"' : '';
+    return !empty($attribute['description']) ? ' title="' . akilli\_($attribute['description']) . '"' : '';
 }
 
 /**
@@ -1362,7 +1361,7 @@ function html_message(array $attribute, array $item): string
     $message = '';
 
     if (!empty($attribute['description'])) {
-        $message .= '<p class="message">' . i18n\translate($attribute['description']) . '</p>';
+        $message .= '<p class="message">' . akilli\_($attribute['description']) . '</p>';
     }
 
     if (!empty($item['__error'][$attribute['id']])) {

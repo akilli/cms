@@ -3,7 +3,6 @@ namespace listener;
 
 use akilli;
 use data;
-use i18n;
 use metadata;
 use model;
 use RuntimeException;
@@ -93,7 +92,7 @@ function metadata(array & $data)
 
                     if (empty($data['eav_value']['attributes'][$type]['column'])) {
                         throw new RuntimeException(
-                            i18n\translate('Entity %s: Invalid value type %s for attribute %s', $id, $type, $code)
+                            akilli\_('Entity %s: Invalid value type %s for attribute %s', $id, $type, $code)
                         );
                     }
 

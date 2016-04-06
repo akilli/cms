@@ -3,7 +3,6 @@ namespace sql;
 
 use akilli;
 use db;
-use i18n;
 use log;
 use PDO;
 use Exception;
@@ -56,7 +55,7 @@ function prepare(array $data): array
         || empty($data['username'])
         || !isset($data['password'])
     ) {
-        throw new RuntimeException(i18n\translate('Invalid database configuration'));
+        throw new RuntimeException(akilli\_('Invalid database configuration'));
     }
 
     $data['charset'] = !empty($data['charset']) ? $data['charset'] : 'utf8';

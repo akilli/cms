@@ -12,7 +12,7 @@
             <?php if (!$html = $attribute['view']($attribute, $item)) continue;?>
             <?php if ($code === 'name'):?>
         <header>
-            <h2><a href="<?=url\path($item['_metadata']['id'] . '/view', ['id' => $id]);?>" title="<?=i18n\translate('View this item');?>"><?=$html;?></a></h2>
+            <h2><a href="<?=url\path($item['_metadata']['id'] . '/view', ['id' => $id]);?>" title="<?= akilli\_('View this item');?>"><?=$html;?></a></h2>
         </header>
             <?php else:?>
         <div class="attribute-<?=$attribute['id'];?>">

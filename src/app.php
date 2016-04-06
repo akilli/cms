@@ -5,7 +5,6 @@ use data;
 use file;
 use filter;
 use http;
-use i18n;
 use role;
 use view;
 use InvalidArgumentException;
@@ -92,7 +91,7 @@ function path(string $dir, string $subpath = null): string
     }
 
     if (empty($data[$dir])) {
-        throw new InvalidArgumentException(i18n\translate('Invalid path %s', $dir));
+        throw new InvalidArgumentException(_('Invalid path %s', $dir));
     }
 
     return rtrim($data[$dir] . '/' . $subpath, '/');
@@ -201,4 +200,35 @@ function config(string $key = null)
     }
 
     return $data[$key] ?? null;
+}
+
+/**
+ * Translate
+ *
+ * @param string $key
+ * @param string[] ...$params
+ *
+ * @return string
+ */
+function _(string $key, string ...$params): string
+{
+    static $data;
+
+    if ($data === null) {
+        $data = array_replace(data('i18n.' . config('i18n.language')), data('i18n.' . config('i18n.locale')));
+    }
+
+    if (!$key) {
+        return '';
+    }
+
+    if (isset($data[$key])) {
+        $key = $data[$key];
+    }
+
+    if (!$params) {
+        return $key;
+    }
+
+    return vsprintf($key, $params) ?: $key;
 }

@@ -4,7 +4,6 @@ namespace model;
 use akilli;
 use attribute;
 use db;
-use i18n;
 use log;
 use metadata;
 use PDO;
@@ -55,7 +54,7 @@ function size(string $entity, array $criteria = null, bool $search = false): int
         return $callback($entity, $criteria, $search);
     } catch (Exception $e) {
         log\error($e);
-        session\message(i18n\translate('Data could not be loaded'));
+        session\message(akilli\_('Data could not be loaded'));
     }
 
     return 0;
@@ -139,7 +138,7 @@ function load(string $entity, array $criteria = null, $index = null, array $orde
         }
     } catch (Exception $e) {
         log\error($e);
-        session\message(i18n\translate('Data could not be loaded'));
+        session\message(akilli\_('Data could not be loaded'));
     }
 
     return $data;
@@ -243,7 +242,7 @@ function save(string $entity, array & $data): bool
     }
 
     // Message
-    session\message(i18n\translate(empty($error) ? 'Data successfully saved' : 'Data could not be saved'));
+    session\message(akilli\_(empty($error) ? 'Data successfully saved' : 'Data could not be saved'));
 
     return empty($error);
 }
@@ -278,7 +277,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
     foreach ($data as $id => $item) {
         // Filter system items
         if (!$system && !empty($item['is_system'])) {
-            session\message(i18n\translate('You must not delete system items! Therefore skipped ID %s', $id));
+            session\message(akilli\_('You must not delete system items! Therefore skipped ID %s', $id));
             unset($data[$id]);
             continue;
         }
@@ -336,7 +335,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
     }
 
     // Message
-    session\message(i18n\translate(empty($error) ? 'Data successfully deleted' : 'Data could not be deleted'));
+    session\message(akilli\_(empty($error) ? 'Data successfully deleted' : 'Data could not be deleted'));
 
     return empty($error);
 }

@@ -2,7 +2,6 @@
 namespace metadata;
 
 use akilli;
-use i18n;
 use RuntimeException;
 
 /**
@@ -18,7 +17,7 @@ function entity(array $data): array
 {
     // Check minimum requirements
     if (empty($data['id']) || empty($data['name']) || empty($data['table']) || empty($data['attributes'])) {
-        throw new RuntimeException(i18n\translate('Entity metadata does not meet the minimum requirements'));
+        throw new RuntimeException(akilli\_('Entity metadata does not meet the minimum requirements'));
     }
 
     // Clean up
@@ -83,7 +82,7 @@ function attribute(array $data): array
 {
     // Check minimum requirements
     if (empty($data['id']) || empty($data['name']) || empty($data['type'])) {
-        throw new RuntimeException(i18n\translate('Attribute metadata does not meet the minimum requirements'));
+        throw new RuntimeException(akilli\_('Attribute metadata does not meet the minimum requirements'));
     }
 
     // Clean up
@@ -98,7 +97,7 @@ function attribute(array $data): array
 
     if (!$type || empty($type['backend']) || empty($type['frontend'])) {
         throw new RuntimeException(
-            i18n\translate('Invalid type %s configured for attribute %s', $data['type'], $data['id'])
+            akilli\_('Invalid type %s configured for attribute %s', $data['type'], $data['id'])
         );
     }
 

@@ -2,7 +2,6 @@
 namespace block;
 
 use akilli;
-use i18n;
 use http;
 use model;
 use role;
@@ -88,7 +87,7 @@ function entity(array & $block): string
         $block['vars']['order'],
         $block['vars']['limit']
     );
-    $block['vars']['header'] = i18n\translate($metadata['name']);
+    $block['vars']['header'] = akilli\_($metadata['name']);
 
     return template($block);
 }

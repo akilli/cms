@@ -12,7 +12,7 @@
             <?php if ($code === 'name'):?>
         <header>
                 <?php if (role\allowed('view')):?>
-            <h2><a href="<?=url\path('*/view', ['id' => $id]);?>" title="<?=i18n\translate('View this item');?>"><?=$html;?></a></h2>
+            <h2><a href="<?=url\path('*/view', ['id' => $id]);?>" title="<?= akilli\_('View this item');?>"><?=$html;?></a></h2>
                 <?php else:?>
             <h2><?=$html;?></h2>
                 <?php endif;?>
@@ -27,6 +27,6 @@
         <?php endforeach;?>
     <?=view\render('pager');?>
 <?php else:;?>
-    <p><?=i18n\translate('Nothing created yet');?></p>
+    <p><?= akilli\_('Nothing created yet');?></p>
 <?php endif;?>
 </section>

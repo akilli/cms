@@ -16,9 +16,9 @@
         <?php endforeach;?>
         <fieldset class="action">
             <?php if (role\allowed('index')):?>
-            <a role="button" href="<?=url\path('*/index');?>" title="<?=i18n\translate('Back');?>"><?=i18n\translate('Back');?></a>
+            <a role="button" href="<?=url\path('*/index');?>" title="<?= akilli\_('Back');?>"><?= akilli\_('Back');?></a>
             <?php endif;?>
-            <input type="submit" name="action[save]" title="<?=i18n\translate('Save');?>" value="<?=i18n\translate('Save');?>" />
+            <input type="submit" name="action[save]" title="<?= akilli\_('Save');?>" value="<?= akilli\_('Save');?>" />
             <input type="hidden" name="token" value="<?=session\token();?>" />
         </fieldset>
     </form>
