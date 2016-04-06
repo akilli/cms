@@ -2,6 +2,37 @@
 namespace akilli;
 
 /**
+ * Data
+ *
+ * @param string $section
+ * @param string $id
+ *
+ * @return mixed
+ */
+function data(string $section, string $id = null)
+{
+    $data = & registry('data.' . $section);
+
+    if ($data === null) {
+        $data = [];
+
+        // Load data from file
+        $data = data_load(path('data', $section . '.php'));
+
+        // Dispatch load event
+        if ($section !== 'listener') {
+            event('data.load.' . $section, $data);
+        }
+    }
+
+    if ($id === null) {
+        return $data;
+    }
+
+    return $data[$id] ?? null;
+}
+
+/**
  * Load file data
  *
  * @param string $file
