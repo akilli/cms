@@ -2,7 +2,6 @@
 namespace action;
 
 use akilli;
-use data;
 use http;
 
 /**

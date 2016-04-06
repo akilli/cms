@@ -1,5 +1,5 @@
 <?php
-namespace data;
+namespace akilli;
 
 /**
  * Load file data

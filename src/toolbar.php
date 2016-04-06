@@ -1,8 +1,6 @@
 <?php
 namespace akilli;
 
-use data;
-
 /**
  * Toolbar
  *
@@ -52,5 +50,5 @@ function toolbar_prepare(array & $data): array
         $data[$key] = $item;
     }
 
-    return data\data_order($data, 'sort_order');
+    return data_order($data, 'sort_order');
 }

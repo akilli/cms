@@ -1,7 +1,6 @@
 <?php
 namespace akilli;
 
-use data;
 use RuntimeException;
 
 /**
@@ -56,7 +55,7 @@ function listener_metadata(array & $data)
         }
 
         $item = metadata_entity($item);
-        $item['attributes'] = data\data_order($item['attributes'], 'sort_order');
+        $item['attributes'] = data_order($item['attributes'], 'sort_order');
         $data[$id] = $item;
     }
 
@@ -99,7 +98,7 @@ function listener_metadata(array & $data)
         }
 
         $item = metadata_entity($item);
-        $item['attributes'] = data\data_order($item['attributes'], 'sort_order');
+        $item['attributes'] = data_order($item['attributes'], 'sort_order');
         $data[$id] = $item;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 namespace akilli;
 
-use data;
 use http;
 
 /**
@@ -56,7 +55,7 @@ function privileges(): array
     static $data;
 
     if ($data === null) {
-        $data = data\data_order(
+        $data = data_order(
             array_filter(
                 data('privilege'),
                 function ($item) {

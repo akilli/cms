@@ -2,7 +2,6 @@
 namespace file;
 
 use akilli;
-use data;
 use filter;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -85,17 +84,17 @@ function scan(string $path, array $criteria = null, $index = null, array $order 
 
     // Criteria
     if ($criteria) {
-        $data = data\data_filter($data, $criteria, !empty($search));
+        $data = akilli\data_filter($data, $criteria, !empty($search));
     }
 
     // Order
     if ($order) {
-        $data = data\data_order($data, $order);
+        $data = akilli\data_order($data, $order);
     }
 
     // Limit
     if ($limit) {
-        $data = data\data_limit($data, $limit);
+        $data = akilli\data_limit($data, $limit);
     }
 
     return $data;
