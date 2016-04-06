@@ -1,7 +1,6 @@
 <?php
-namespace log;
+namespace akilli;
 
-use akilli;
 use file;
 
 /**
@@ -26,7 +25,7 @@ const DEBUG = 'debug';
  */
 function emergency(string $message, array $context = [])
 {
-    log(EMERGENCY, $message, $context);
+    logger(EMERGENCY, $message, $context);
 }
 
 /**
@@ -41,7 +40,7 @@ function emergency(string $message, array $context = [])
  */
 function alert(string $message, array $context = [])
 {
-    log(ALERT, $message, $context);
+    logger(ALERT, $message, $context);
 }
 
 /**
@@ -56,7 +55,7 @@ function alert(string $message, array $context = [])
  */
 function critical(string $message, array $context = [])
 {
-    log(CRITICAL, $message, $context);
+    logger(CRITICAL, $message, $context);
 }
 
 /**
@@ -69,7 +68,7 @@ function critical(string $message, array $context = [])
  */
 function error(string $message, array $context = [])
 {
-    log(ERROR, $message, $context);
+    logger(ERROR, $message, $context);
 }
 
 /**
@@ -84,7 +83,7 @@ function error(string $message, array $context = [])
  */
 function warning(string $message, array $context = [])
 {
-    log(WARNING, $message, $context);
+    logger(WARNING, $message, $context);
 }
 
 /**
@@ -97,7 +96,7 @@ function warning(string $message, array $context = [])
  */
 function notice(string $message, array $context = [])
 {
-    log(NOTICE, $message, $context);
+    logger(NOTICE, $message, $context);
 }
 
 /**
@@ -112,7 +111,7 @@ function notice(string $message, array $context = [])
  */
 function info(string $message, array $context = [])
 {
-    log(INFO, $message, $context);
+    logger(INFO, $message, $context);
 }
 
 /**
@@ -125,7 +124,7 @@ function info(string $message, array $context = [])
  */
 function debug(string $message, array $context = [])
 {
-    log(DEBUG, $message, $context);
+    logger(DEBUG, $message, $context);
 }
 
 /**
@@ -137,12 +136,12 @@ function debug(string $message, array $context = [])
  *
  * @return void
  */
-function log(string $level, string $message, array $context = [])
+function logger(string $level, string $message, array $context = [])
 {
     if (empty($context['file'])) {
         $context['file'] = 'qnd.log';
     }
 
-    $file = akilli\path('log', $context['file']);
+    $file = path('log', $context['file']);
     file\put($file, '[' . $level . '][' . date('r') . '] ' . $message . "\n\n", FILE_APPEND);
 }

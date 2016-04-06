@@ -3,7 +3,6 @@ namespace sql;
 
 use akilli;
 use db;
-use log;
 use PDO;
 use Exception;
 use RuntimeException;
@@ -109,7 +108,7 @@ function transaction(PDO $db, callable $callback): bool
         }
 
         --$data[$hash];
-        log\error($e);
+        akilli\error($e);
         $error = true;
     }
 

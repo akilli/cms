@@ -4,7 +4,6 @@ namespace model;
 use akilli;
 use attribute;
 use db;
-use log;
 use metadata;
 use PDO;
 use sql;
@@ -52,7 +51,7 @@ function size(string $entity, array $criteria = null, bool $search = false): int
     try {
         return $callback($entity, $criteria, $search);
     } catch (Exception $e) {
-        log\error($e);
+        akilli\error($e);
         akilli\message(akilli\_('Data could not be loaded'));
     }
 
@@ -136,7 +135,7 @@ function load(string $entity, array $criteria = null, $index = null, array $orde
             }
         }
     } catch (Exception $e) {
-        log\error($e);
+        akilli\error($e);
         akilli\message(akilli\_('Data could not be loaded'));
     }
 
