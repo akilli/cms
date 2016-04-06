@@ -1,7 +1,5 @@
 <?php
-namespace http;
-
-use akilli;
+namespace akilli;
 
 /**
  * Request
@@ -12,12 +10,12 @@ use akilli;
  */
 function request(string $key)
 {
-    $data = & akilli\registry('request');
+    $data = & registry('request');
 
     if ($data === null) {
         $data = [];
         $data = request_init();
-        akilli\event('http.request', $data);
+        event('http.request', $data);
         $data = request_prepare($data);
     }
 
@@ -31,11 +29,11 @@ function request(string $key)
  */
 function request_init(): array
 {
-    $data = akilli\data('skeleton', 'request');
-    $data['base'] = rtrim(akilli\filter_path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
+    $data = data('skeleton', 'request');
+    $data['base'] = rtrim(filter_path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
     $data['url'] = $_SERVER['REQUEST_URI'] ?? $data['base'];
     $data['original_path'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');
-    $data['path'] = akilli\url_rewrite($data['original_path']);
+    $data['path'] = url_rewrite($data['original_path']);
     $data['host'] = $_SERVER['HTTP_HOST'];
     $data['scheme'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
     $data['is_secure'] = $data['scheme'] === 'https';
@@ -91,7 +89,7 @@ function request_prepare(array $data): array
  */
 function redirect(string $url = '', array $params = [])
 {
-    header('Location:' . akilli\url($url, $params));
+    header('Location:' . url($url, $params));
     exit;
 }
 
@@ -140,9 +138,9 @@ function post(string $key = null)
  */
 function post_validate(string $token): bool
 {
-    $session = akilli\session('token');
+    $session = session('token');
     $success = !empty($session) && !empty($token) && $session === $token;
-    akilli\session('token', null, true);
+    session('token', null, true);
 
     return $success;
 }
@@ -209,7 +207,7 @@ function files(string $key = null)
  */
 function files_validate(array $data): array
 {
-    $extensions = akilli\file_ext('file');
+    $extensions = file_ext('file');
 
     foreach ($data as $key => $items) {
         foreach ($items as $id => $item) {
@@ -221,7 +219,7 @@ function files_validate(array $data): array
                 $ext = pathinfo($attribute['name'], PATHINFO_EXTENSION);
 
                 if (empty($extensions[$ext])) {
-                    akilli\message(akilli\_('Invalid file %s was rejected', $attribute['name']));
+                    message(_('Invalid file %s was rejected', $attribute['name']));
                     unset($data[$key][$id][$code]);
                 } else {
                     $data[$key][$id][$code]['extension'] = $ext;

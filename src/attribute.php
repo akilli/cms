@@ -2,7 +2,6 @@
 namespace attribute;
 
 use akilli;
-use http;
 use media;
 
 /**
@@ -483,7 +482,7 @@ function validate_file(array $attribute, array & $item): bool
 
     // Init files and config
     if ($files === null) {
-        $files = (array) http\files('data');
+        $files = (array) akilli\files('data');
     }
 
     $code = $attribute['id'];

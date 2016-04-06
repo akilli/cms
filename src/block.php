@@ -1,8 +1,6 @@
 <?php
 namespace akilli;
 
-use http;
-
 /**
  * HTML Block
  *
@@ -172,7 +170,7 @@ function block_menu(array & $block): string
 
         foreach ($data as $item) {
             $i++;
-            $current = $item['target'] === http\request('path') ? ' class="current"' : '';
+            $current = $item['target'] === request('path') ? ' class="current"' : '';
             $end = $i === $count ? str_repeat('</li></ul>', $item['level']) : '';
             $description = !empty($item['description']) ? $item['description'] : $item['name'];
 

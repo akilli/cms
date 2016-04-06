@@ -1,8 +1,6 @@
 <?php
 namespace akilli;
 
-use http;
-
 /**
  * Generate URL by given path and params
  *
@@ -18,7 +16,7 @@ function url(string $path = '', array $params = []): string
     if (strpos($path, 'http') === 0) {
         $base = '';
     } else {
-        $base = config('url.base') ?: http\request('base');
+        $base = config('url.base') ?: request('base');
     }
 
     if ($path && strpos($path, 'http') !== 0) {
@@ -115,19 +113,19 @@ function url_query(array $params, bool $isFullPath = false): string
 function url_resolve(string $key = ''): string
 {
     if (!$key) {
-        return http\request('id');
+        return request('id');
     }
 
     $parts = explode('/', $key);
 
     // Wildcard for Entity Part
     if (!empty($parts[0]) && $parts[0] === '*') {
-        $parts[0] = http\request('entity');
+        $parts[0] = request('entity');
     }
 
     // Wildcard for Action Part
     if (!empty($parts[1]) && $parts[1] === '*') {
-        $parts[1] = http\request('action');
+        $parts[1] = request('action');
     }
 
     return implode('/', $parts);
@@ -150,7 +148,7 @@ function url_rewrite(string $path): string
     }
 
     if (!empty($item['is_redirect'])) {
-        http\redirect($item['target']);
+        redirect($item['target']);
     }
 
     return $item['target'];

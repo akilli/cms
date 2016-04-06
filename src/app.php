@@ -1,7 +1,6 @@
 <?php
 namespace akilli;
 
-use http;
 use InvalidArgumentException;
 
 /**
@@ -14,10 +13,10 @@ use InvalidArgumentException;
 function app(array $data = [])
 {
     // Dispatch action event
-    $event = 'action.' . http\request('id');
+    $event = 'action.' . request('id');
 
     if (!$listeners = listener($event)) {
-        $event = 'action.' . http\request('action');
+        $event = 'action.' . request('action');
         $listeners = listener($event);
     }
 

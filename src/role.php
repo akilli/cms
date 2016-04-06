@@ -1,8 +1,6 @@
 <?php
 namespace akilli;
 
-use http;
-
 /**
  * Check access
  *
@@ -39,10 +37,10 @@ function allowed(string $key = null): bool
 function privilege(string $key = null): string
 {
     if (!is_string($key) || empty($key)) {
-        return http\request('id');
+        return request('id');
     }
 
-    return substr_count($key, '.') === 0 ? http\request('entity') . '.' . $key : $key;
+    return substr_count($key, '.') === 0 ? request('entity') . '.' . $key : $key;
 }
 
 /**

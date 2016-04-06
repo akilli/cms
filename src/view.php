@@ -1,7 +1,6 @@
 <?php
 namespace akilli;
 
-use http;
 use InvalidArgumentException;
 
 /**
@@ -96,7 +95,7 @@ function view_handles(array $handles = null): array
 
     if ($data === null || $handles !== null) {
         $data = [];
-        $metadata = data('metadata', http\request('entity'));
+        $metadata = data('metadata', request('entity'));
 
         if ($handles === null) {
             $handles[] = 'view-base';
@@ -108,16 +107,16 @@ function view_handles(array $handles = null): array
             $handles[] = 'role-admin';
         }
 
-        if (http\request('base') === http\request('url')) {
+        if (request('base') === request('url')) {
             $handles[] = 'http-base';
         }
 
-        if ($metadata && metadata_action(http\request('action'), $metadata)) {
-            $handles[] = 'action-' . http\request('action');
+        if ($metadata && metadata_action(request('action'), $metadata)) {
+            $handles[] = 'action-' . request('action');
         }
 
-        $handles[] = http\request('entity');
-        $handles[] = http\request('id');
+        $handles[] = request('entity');
+        $handles[] = request('id');
         $data = array_unique($handles);
     }
 
