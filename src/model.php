@@ -1,7 +1,6 @@
 <?php
 namespace akilli;
 
-use attribute;
 use db;
 use PDO;
 use sql;
@@ -193,7 +192,7 @@ function model_save(string $entity, array & $data): bool
             }
 
             // Ignored attributes
-            if (attribute\ignore($metadata['attributes'][$code], $item)) {
+            if (attribute_ignore($metadata['attributes'][$code], $item)) {
                 unset($item[$code]);
             }
         }
@@ -797,7 +796,7 @@ function nestedset_save(array & $item): bool
         $diff = $newLft - $lft;
     }
 
-    $idValue = sql\quote(attribute\type($attributes['id'], $item['_original']['id']), $attributes['id']['backend']);
+    $idValue = sql\quote(attribute_type($attributes['id'], $item['_original']['id']), $attributes['id']['backend']);
     $rootId = null;
     $oldRootCond = '';
     $rootCond = '';
@@ -811,11 +810,11 @@ function nestedset_save(array & $item): bool
 
     if ($root) {
         $oldRootId = sql\quote(
-            attribute\type($attributes['root_id'], $item['_original']['root_id']),
+            attribute_type($attributes['root_id'], $item['_original']['root_id']),
             $attributes['root_id']['backend']
         );
         $rootId = sql\quote(
-            attribute\type($attributes['root_id'], $item['root_id']),
+            attribute_type($attributes['root_id'], $item['root_id']),
             $attributes['root_id']['backend']
         );
         $oldRootCond = ' AND ' . $attributes['root_id']['column'] . ' = ' . $oldRootId ;

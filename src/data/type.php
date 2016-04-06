@@ -24,7 +24,7 @@ return [
         'backend' => 'varchar',
         'frontend' => 'text',
         'default' => [
-            'validate' => 'attribute\validate_callback',
+            'validate' => 'akilli\attribute_validate_callback',
         ],
     ],
     'date' => [
@@ -51,8 +51,8 @@ return [
         'backend' => 'text',
         'frontend' => 'textarea',
         'default' => [
-            'validate' => 'attribute\validate_editor',
-            'view' => 'attribute\view_editor',
+            'validate' => 'akilli\attribute_validate_editor',
+            'view' => 'akilli\attribute_view_editor',
             'class' => ['editor'],
         ],
     ],
@@ -110,9 +110,9 @@ return [
         'backend' => 'text',
         'frontend' => 'textarea',
         'default' => [
-            'load' => 'attribute\load_json',
-            'validate' => 'attribute\validate_json',
-            'edit' => 'attribute\edit_json',
+            'load' => 'akilli\attribute_load_json',
+            'validate' => 'akilli\attribute_validate_json',
+            'edit' => 'akilli\attribute_edit_json',
         ],
     ],
     'multicheckbox' => [
@@ -122,8 +122,8 @@ return [
         'frontend' => 'checkbox',
         'default' => [
             'is_multiple' => true,
-            'load' => 'attribute\load_json',
-            'save' => 'attribute\save_multiple',
+            'load' => 'akilli\attribute_load_json',
+            'save' => 'akilli\attribute_save_multiple',
         ],
     ],
     'multiselect' => [
@@ -133,8 +133,8 @@ return [
         'frontend' => 'select',
         'default' => [
             'is_multiple' => true,
-            'load' => 'attribute\load_json',
-            'save' => 'attribute\save_multiple',
+            'load' => 'akilli\attribute_load_json',
+            'save' => 'akilli\attribute_save_multiple',
         ],
     ],
     'password' => [

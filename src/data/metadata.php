@@ -78,7 +78,7 @@ return [
                 'actions' => ['index'],
                 'is_required' => true,
                 'is_unique' => true,
-                'unique_callback' => 'attribute\unique',
+                'unique_callback' => 'akilli\attribute_unique',
                 'unique_base' => 'name',
             ],
             'name' => [
@@ -228,7 +228,7 @@ return [
                 'type' => 'bool.checkbox',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'attribute\validate',
+                'validate' => 'akilli\attribute_validate',
             ],
             'value_datetime' => [
                 'name' => 'Value Datetime',
@@ -237,7 +237,7 @@ return [
                 'type' => 'datetime',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'attribute\validate',
+                'validate' => 'akilli\attribute_validate',
             ],
             'value_decimal' => [
                 'name' => 'Value Decimal',
@@ -246,7 +246,7 @@ return [
                 'type' => 'decimal',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'attribute\validate',
+                'validate' => 'akilli\attribute_validate',
             ],
             'value_int' => [
                 'name' => 'Value Int',
@@ -255,7 +255,7 @@ return [
                 'type' => 'int',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'attribute\validate',
+                'validate' => 'akilli\attribute_validate',
             ],
             'value_text' => [
                 'name' => 'Value Text',
@@ -264,7 +264,7 @@ return [
                 'type' => 'textarea',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'attribute\validate',
+                'validate' => 'akilli\attribute_validate',
             ],
             'value_varchar' => [
                 'name' => 'Value Varchar',
@@ -273,7 +273,7 @@ return [
                 'type' => 'text',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'attribute\validate',
+                'validate' => 'akilli\attribute_validate',
             ],
         ],
     ],
@@ -295,7 +295,7 @@ return [
                 'actions' => ['index'],
                 'is_required' => true,
                 'is_unique' => true,
-                'unique_callback' => 'attribute\unique',
+                'unique_callback' => 'akilli\attribute_unique',
                 'unique_base' => 'name',
             ],
             'name' => [
@@ -419,7 +419,7 @@ return [
                 'actions' => ['index'],
                 'is_required' => true,
                 'is_unique' => true,
-                'unique_callback' => 'attribute\unique',
+                'unique_callback' => 'akilli\attribute_unique',
                 'unique_base' => 'name',
             ],
             'name' => [
@@ -526,7 +526,7 @@ return [
                 'actions' => ['all'],
                 'is_required' => true,
                 'is_unique' => true,
-                'unique_callback' => 'attribute\unique',
+                'unique_callback' => 'akilli\attribute_unique',
             ],
             'target' => [
                 'name' => 'Target',

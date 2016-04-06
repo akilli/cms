@@ -4,9 +4,9 @@ return [
         'id' => 'checkbox',
         'name' => 'Checkbox',
         'default' => [
-            'validate' => 'attribute\validate_option',
-            'edit' => 'attribute\edit_input_option',
-            'view' => 'attribute\view_option',
+            'validate' => 'akilli\attribute_validate_option',
+            'edit' => 'akilli\attribute_edit_input_option',
+            'view' => 'akilli\attribute_view_option',
         ],
     ],
     'color' => [
@@ -25,17 +25,17 @@ return [
         'id' => 'email',
         'name' => 'Email',
         'default' => [
-            'validate' => 'attribute\validate_email',
+            'validate' => 'akilli\attribute_validate_email',
         ],
     ],
     'file' => [
         'id' => 'file',
         'name' => 'File',
         'default' => [
-            'delete' => 'attribute\delete_file',
-            'validate' => 'attribute\validate_file',
-            'edit' => 'attribute\edit_file',
-            'view' => 'attribute\view_file',
+            'delete' => 'akilli\attribute_delete_file',
+            'validate' => 'akilli\attribute_validate_file',
+            'edit' => 'akilli\attribute_edit_file',
+            'view' => 'akilli\attribute_view_file',
             'flag' => ['__reset' => 'Reset'],
         ],
     ],
@@ -47,8 +47,8 @@ return [
         'id' => 'number',
         'name' => 'Number',
         'default' => [
-            'validate' => 'attribute\validate_number',
-            'edit' => 'attribute\edit_number',
+            'validate' => 'akilli\attribute_validate_number',
+            'edit' => 'akilli\attribute_edit_number',
         ],
     ],
     'password' => [
@@ -56,18 +56,18 @@ return [
         'name' => 'Password',
         'default' => [
             'is_searchable' => false,
-            'save' => 'attribute\save_password',
-            'edit' => 'attribute\edit_password',
-            'view' => 'attribute\view',
+            'save' => 'akilli\attribute_save_password',
+            'edit' => 'akilli\attribute_edit_password',
+            'view' => 'akilli\attribute_view',
         ],
     ],
     'radio' => [
         'id' => 'radio',
         'name' => 'Radio',
         'default' => [
-            'validate' => 'attribute\validate_option',
-            'edit' => 'attribute\edit_input_option',
-            'view' => 'attribute\view_option',
+            'validate' => 'akilli\attribute_validate_option',
+            'edit' => 'akilli\attribute_edit_input_option',
+            'view' => 'akilli\attribute_view_option',
         ],
     ],
     'range' => [
@@ -82,9 +82,9 @@ return [
         'id' => 'select',
         'name' => 'Select',
         'default' => [
-            'validate' => 'attribute\validate_option',
-            'edit' => 'attribute\edit_select',
-            'view' => 'attribute\view_option',
+            'validate' => 'akilli\attribute_validate_option',
+            'edit' => 'akilli\attribute_edit_select',
+            'view' => 'akilli\attribute_view_option',
         ],
     ],
     'tel' => [
@@ -99,7 +99,7 @@ return [
         'id' => 'textarea',
         'name' => 'Textarea',
         'default' => [
-            'edit' => 'attribute\edit_textarea',
+            'edit' => 'akilli\attribute_edit_textarea',
         ],
     ],
     'time' => [
@@ -110,7 +110,7 @@ return [
         'id' => 'url',
         'name' => 'URL',
         'default' => [
-            'validate' => 'attribute\validate_url',
+            'validate' => 'akilli\attribute_validate_url',
         ],
     ],
     'week' => [
