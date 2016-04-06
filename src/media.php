@@ -1,7 +1,5 @@
 <?php
-namespace media;
-
-use akilli;
+namespace akilli;
 
 /**
  * Media load
@@ -10,12 +8,12 @@ use akilli;
  *
  * @return array|null
  */
-function load(string $key = null)
+function media_load(string $key = null)
 {
     static $data;
 
     if ($data === null) {
-        $data = akilli\file_load(akilli\path('media'));
+        $data = file_load(path('media'));
     }
 
     if ($key === null) {
@@ -32,10 +30,10 @@ function load(string $key = null)
  *
  * @return bool
  */
-function delete(string $id): bool
+function media_delete(string $id): bool
 {
-    return akilli\file_delete(akilli\path('cache', 'media/' . $id))
-        && (!$id || !($media = load($id)) || akilli\file_delete($media['path']));
+    return file_delete(path('cache', 'media/' . $id))
+        && (!$id || !($media = media_load($id)) || file_delete($media['path']));
 }
 
 /**
@@ -46,13 +44,13 @@ function delete(string $id): bool
  *
  * @return string
  */
-function image(array $media, string $class): string
+function media_image(array $media, string $class): string
 {
-    if (!($config = akilli\data('media', $class))
+    if (!($config = data('media', $class))
         || !file_exists($media['path'])
         || !$info = getimagesize($media['path'])
     ) {
-        return akilli\url_media($media['id']);
+        return url_media($media['id']);
     }
 
     // Dimensions
@@ -87,12 +85,12 @@ function image(array $media, string $class): string
 
     // Cache
     $cacheId = $media['id'] . '/' . $width . '-' . $height . ($crop ? '-crop' : '') . '.' . $media['extension'];
-    $cachePath = akilli\path('cache', 'media/' . $cacheId);
+    $cachePath = path('cache', 'media/' . $cacheId);
 
     // Generate cache file
     if (!file_exists($cachePath) || $media['modified'] >= filemtime($cachePath)) {
         if ($info[0] === $width && $info[1] === $height) {
-            akilli\file_copy($media['path'], $cachePath);
+            file_copy($media['path'], $cachePath);
         } else {
             // Callbacks
             if ($info[2] === IMAGETYPE_JPEG) {
@@ -120,7 +118,7 @@ function image(array $media, string $class): string
 
             if (!empty($create) && !empty($output)) {
                 // Make cache directory
-                akilli\file_dir(dirname($cachePath));
+                file_dir(dirname($cachePath));
 
                 // Resource
                 $source = $create($media['path']);
@@ -145,5 +143,5 @@ function image(array $media, string $class): string
         }
     }
 
-    return file_exists($cachePath) ? akilli\url_cache('media/' . $cacheId) : akilli\url_media($media['id']);
+    return file_exists($cachePath) ? url_cache('media/' . $cacheId) : url_media($media['id']);
 }

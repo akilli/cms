@@ -2,7 +2,6 @@
 namespace attribute;
 
 use akilli;
-use media;
 
 /**
  * Set appropriate php type
@@ -376,7 +375,7 @@ function delete_file(array $attribute, array & $item): bool
     $code = $attribute['id'];
 
     // Delete old file
-    if (!empty($item[$code]) && !media\delete($item[$code])) {
+    if (!empty($item[$code]) && !akilli\media_delete($item[$code])) {
         $item['__error'][$code] = akilli\_('Could not delete old file %s', $item[$code]);
 
         return false;
@@ -492,7 +491,7 @@ function validate_file(array $attribute, array & $item): bool
     // Delete old file
     if (!empty($item['_original'][$code])
         && ($file || !empty($item['__reset'][$code]))
-        && !media\delete($item['_original'][$code])
+        && !akilli\media_delete($item['_original'][$code])
     ) {
         $item['__error'][$code] = akilli\_('Could not delete old file %s', $item['_original'][$code]);
 
@@ -1121,7 +1120,7 @@ function view_file(array $attribute, array $item): string
     if ($attribute['action'] === 'system') {
         return $value;
     } elseif (!$value
-        || !($file = media\load($value))
+        || !($file = akilli\media_load($value))
         || empty(akilli\file_ext($attribute['type'])[$file['extension']])
     ) {
         return '';
@@ -1140,7 +1139,7 @@ function view_file(array $attribute, array $item): string
     $link = '<a href="' . $url . '" title="' . $value . '" class="' . $class . '">' . $value . '</a>';
 
     if ($attribute['type'] === 'image') {
-        return '<img src="' . media\image($file, $attribute['action']) . '" alt="' . $value . '" title="'
+        return '<img src="' . akilli\media_image($file, $attribute['action']) . '" alt="' . $value . '" title="'
             . $value . '" class="' . $class . '" />';
     } elseif ($attribute['type'] === 'audio') {
         return '<audio src="' . $url . '" title="' . $value . '" controls="controls" class="' . $class . '"'
