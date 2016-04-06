@@ -8,7 +8,6 @@ use http;
 use media;
 use metadata;
 use model;
-use url;
 
 /**
  * Set appropriate php type
@@ -1142,7 +1141,7 @@ function view_file(array $attribute, array $item): string
         $style = '';
     }
 
-    $url = url\media($value);
+    $url = akilli\url_media($value);
     $link = '<a href="' . $url . '" title="' . $value . '" class="' . $class . '">' . $value . '</a>';
 
     if ($attribute['type'] === 'image') {

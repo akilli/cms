@@ -5,7 +5,6 @@ use data;
 use metadata;
 use model;
 use RuntimeException;
-use url;
 
 /**
  * Data

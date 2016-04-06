@@ -8,7 +8,7 @@
         <?=view\render('pager');?>
     </header>
     <?php if ($block['data']('data')):?>
-    <form action="<?=url\path('*/*');?>" method="post" class="index">
+    <form action="<?= akilli\url('*/*');?>" method="post" class="index">
         <fieldset class="data">
             <table>
                 <thead>
@@ -47,12 +47,12 @@
                         <?php endforeach;?>
                         <?php if (akilli\allowed('edit')):?>
                         <td>
-                            <a href="<?=url\path('*/edit', ['id' => $id]);?>" title="<?= akilli\_('Edit this item');?>"><?= akilli\_('Edit');?></a>
+                            <a href="<?= akilli\url('*/edit', ['id' => $id]);?>" title="<?= akilli\_('Edit this item');?>"><?= akilli\_('Edit');?></a>
                         </td>
                         <?php endif;?>
                         <?php if (akilli\allowed('view')):?>
                         <td>
-                            <a href="<?=url\path('*/view', ['id' => $id]);?>" title="<?= akilli\_('View this item');?>"><?= akilli\_('View');?></a>
+                            <a href="<?= akilli\url('*/view', ['id' => $id]);?>" title="<?= akilli\_('View this item');?>"><?= akilli\_('View');?></a>
                         </td>
                         <?php endif;?>
                     </tr>
@@ -63,10 +63,10 @@
         <?php if (akilli\allowed('delete') || akilli\allowed('edit')):?>
         <fieldset class="action">
             <?php if (akilli\allowed('delete')):?>
-            <input type="submit" name="action[delete]" title="<?= akilli\_('Delete');?>" value="<?= akilli\_('Delete');?>" formaction="<?=url\path('*/delete');?>" />
+            <input type="submit" name="action[delete]" title="<?= akilli\_('Delete');?>" value="<?= akilli\_('Delete');?>" formaction="<?= akilli\url('*/delete');?>" />
             <?php endif;?>
             <?php if (akilli\allowed('edit')):?>
-            <input type="submit" name="action[edit]" title="<?= akilli\_('Edit');?>" value="<?= akilli\_('Edit');?>" formaction="<?=url\path('*/edit');?>" />
+            <input type="submit" name="action[edit]" title="<?= akilli\_('Edit');?>" value="<?= akilli\_('Edit');?>" formaction="<?= akilli\url('*/edit');?>" />
             <?php endif;?>
             <input type="hidden" name="token" value="<?= akilli\token();?>" />
         </fieldset>

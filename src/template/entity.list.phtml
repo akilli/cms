@@ -12,7 +12,7 @@
             <?php if ($code === 'name'):?>
         <header>
                 <?php if (akilli\allowed('view')):?>
-            <h2><a href="<?=url\path('*/view', ['id' => $id]);?>" title="<?= akilli\_('View this item');?>"><?=$html;?></a></h2>
+            <h2><a href="<?= akilli\url('*/view', ['id' => $id]);?>" title="<?= akilli\_('View this item');?>"><?=$html;?></a></h2>
                 <?php else:?>
             <h2><?=$html;?></h2>
                 <?php endif;?>

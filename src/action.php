@@ -6,7 +6,6 @@ use data;
 use http;
 use metadata;
 use model;
-use url;
 use view;
 
 /**
@@ -222,7 +221,7 @@ function index()
                 $direction = 'asc';
             }
 
-            $attribute['url'] = url\path(
+            $attribute['url'] = akilli\url(
                 '*/*',
                 array_replace($params, ['sort' => $code, 'direction' => $direction])
             );

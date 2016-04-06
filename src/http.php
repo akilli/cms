@@ -4,7 +4,6 @@ namespace http;
 use akilli;
 use file;
 use filter;
-use url;
 
 /**
  * Request
@@ -38,7 +37,7 @@ function init(): array
     $data['base'] = rtrim(filter\path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
     $data['url'] = $_SERVER['REQUEST_URI'] ?? $data['base'];
     $data['original_path'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');
-    $data['path'] = url\rewrite($data['original_path']);
+    $data['path'] = akilli\url_rewrite($data['original_path']);
     $data['host'] = $_SERVER['HTTP_HOST'];
     $data['scheme'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
     $data['is_secure'] = $data['scheme'] === 'https';
@@ -94,7 +93,7 @@ function prepare(array $data): array
  */
 function redirect(string $url = '', array $params = [])
 {
-    header('Location:' . url\path($url, $params));
+    header('Location:' . akilli\url($url, $params));
     exit;
 }
 

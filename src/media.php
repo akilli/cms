@@ -3,7 +3,6 @@ namespace media;
 
 use akilli;
 use file;
-use url;
 
 /**
  * Media load
@@ -54,7 +53,7 @@ function image(array $media, string $class): string
         || !file_exists($media['path'])
         || !$info = getimagesize($media['path'])
     ) {
-        return url\media($media['id']);
+        return akilli\url_media($media['id']);
     }
 
     // Dimensions
@@ -147,5 +146,5 @@ function image(array $media, string $class): string
         }
     }
 
-    return file_exists($cachePath) ? url\cache('media/' . $cacheId) : url\media($media['id']);
+    return file_exists($cachePath) ? akilli\url_cache('media/' . $cacheId) : akilli\url_media($media['id']);
 }

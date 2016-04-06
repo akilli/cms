@@ -4,7 +4,6 @@ namespace block;
 use akilli;
 use http;
 use model;
-use url;
 use view;
 
 /**
@@ -106,12 +105,12 @@ function pager(array & $block): string
         $block['vars']['params'] = [];
     }
 
-    $block['vars']['first'] = url\path('*/*', $block['vars']['params']);
+    $block['vars']['first'] = akilli\url('*/*', $block['vars']['params']);
 
     if ($block['vars']['pages'] === 1) {
         $block['vars']['last'] = $block['vars']['first'];
     } else {
-        $block['vars']['last'] = url\path(
+        $block['vars']['last'] = akilli\url(
             '*/*',
             array_replace($block['vars']['params'], ['page' => $block['vars']['pages']])
         );
@@ -120,16 +119,16 @@ function pager(array & $block): string
     $block['vars']['previous'] = $block['vars']['next'] = '#';
 
     if ($block['vars']['page'] < $block['vars']['pages']) {
-        $block['vars']['next'] = url\path(
+        $block['vars']['next'] = akilli\url(
             '*/*',
             array_replace($block['vars']['params'], ['page' => $block['vars']['page'] + 1])
         );
     }
 
     if ($block['vars']['page'] === 2) {
-        $block['vars']['previous'] = url\path('*/*', $block['vars']['params']);
+        $block['vars']['previous'] = akilli\url('*/*', $block['vars']['params']);
     } elseif ($block['vars']['page'] > 2) {
-        $block['vars']['previous'] = url\path(
+        $block['vars']['previous'] = akilli\url(
             '*/*',
             array_replace($block['vars']['params'], ['page' => $block['vars']['page'] - 1])
         );
@@ -188,7 +187,7 @@ function menu(array & $block): string
                 $start = '</li><li' . $current . '>';
             }
 
-            $html .= $start . '<a href="' . url\path($item['target']) . '" title="' . $description . '"'
+            $html .= $start . '<a href="' . akilli\url($item['target']) . '" title="' . $description . '"'
                 . $current . '>' . $item['name'] . '</a>' . $end;
             $level = $item['level'];
         }

@@ -3,7 +3,6 @@ namespace akilli;
 
 use data;
 use metadata;
-use url;
 
 /**
  * Toolbar
@@ -42,7 +41,7 @@ function toolbar_prepare(array & $data): array
         }
 
         if (isset($item['url'])) {
-            $item['url'] = url\path($item['url']);
+            $item['url'] = url($item['url']);
         }
 
         if (!empty($item['children'])) {

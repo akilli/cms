@@ -1,7 +1,6 @@
 <?php
-namespace url;
+namespace akilli;
 
-use akilli;
 use http;
 use model;
 
@@ -13,22 +12,22 @@ use model;
  *
  * @return string
  */
-function path(string $path = '', array $params = []): string
+function url(string $path = '', array $params = []): string
 {
     $isFullPath = false;
 
     if (strpos($path, 'http') === 0) {
         $base = '';
     } else {
-        $base = akilli\config('url.base') ?: http\request('base');
+        $base = config('url.base') ?: http\request('base');
     }
 
     if ($path && strpos($path, 'http') !== 0) {
-        $path = resolve($path);
+        $path = url_resolve($path);
         $isFullPath = true;
     }
 
-    return $base . unrewrite($path, query($params, $isFullPath));
+    return $base . url_unrewrite($path, url_query($params, $isFullPath));
 }
 
 /**
@@ -38,12 +37,12 @@ function path(string $path = '', array $params = []): string
  *
  * @return string
  */
-function asset(string $path): string
+function url_asset(string $path): string
 {
     static $base;
 
     if ($base === null) {
-        $base = akilli\config('url.asset') ?: path('asset');
+        $base = config('url.asset') ?: url('asset');
         $base = rtrim($base, '/');
     }
 
@@ -57,9 +56,9 @@ function asset(string $path): string
  *
  * @return string
  */
-function media(string $path): string
+function url_media(string $path): string
 {
-    return asset('media/' . trim($path, '/'));
+    return url_asset('media/' . trim($path, '/'));
 }
 
 /**
@@ -69,9 +68,9 @@ function media(string $path): string
  *
  * @return string
  */
-function cache(string $path): string
+function url_cache(string $path): string
 {
-    return asset('cache/' . trim($path, '/'));
+    return url_asset('cache/' . trim($path, '/'));
 }
 
 /**
@@ -82,7 +81,7 @@ function cache(string $path): string
  *
  * @return string
  */
-function query(array $params, bool $isFullPath = false): string
+function url_query(array $params, bool $isFullPath = false): string
 {
     if (!$params) {
         return '';
@@ -114,7 +113,7 @@ function query(array $params, bool $isFullPath = false): string
  *
  * @return string
  */
-function resolve(string $key = ''): string
+function url_resolve(string $key = ''): string
 {
     if (!$key) {
         return http\request('id');
@@ -142,7 +141,7 @@ function resolve(string $key = ''): string
  *
  * @return string
  */
-function rewrite(string $path): string
+function url_rewrite(string $path): string
 {
     $path = $path ?: 'http-base';
     $item = model\load('rewrite', ['id' => $path], false);
@@ -166,7 +165,7 @@ function rewrite(string $path): string
  *
  * @return string
  */
-function unrewrite(string $path, string $query = null): string
+function url_unrewrite(string $path, string $query = null): string
 {
     static $data;
 
