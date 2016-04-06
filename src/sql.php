@@ -1,7 +1,6 @@
 <?php
 namespace akilli;
 
-use db;
 use PDO;
 use Exception;
 use RuntimeException;
@@ -186,7 +185,7 @@ function sql_meta($entity): array
 {
     $metadata = is_array($entity) ? $entity : data('metadata', $entity);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
 
     if ($db->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql'
         && $metadata['sequence'] === null

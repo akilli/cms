@@ -1,7 +1,6 @@
 <?php
-namespace db;
+namespace akilli;
 
-use akilli;
 use RuntimeException;
 
 /**
@@ -13,16 +12,16 @@ use RuntimeException;
  *
  * @throws RuntimeException
  */
-function factory(string $key)
+function db(string $key)
 {
-    $db = & akilli\registry('db');
+    $db = & registry('db');
 
     if (!isset($db[$key])) {
         $db[$key] = [];
-        $data = akilli\data('db', $key);
+        $data = data('db', $key);
 
         if (empty($data['callback']) || !is_callable($data['callback'])) {
-            throw new RuntimeException(akilli\_('Invalid database configuration'));
+            throw new RuntimeException(_('Invalid database configuration'));
         }
 
         $db[$key] = $data['callback']($data);
@@ -39,14 +38,14 @@ function factory(string $key)
  *
  * @return bool
  */
-function transaction(string $key, callable $callback): bool
+function db_transaction(string $key, callable $callback): bool
 {
     static $data;
 
     // Load config
     if ($data === null) {
-        $data = akilli\data('db');
+        $data = data('db');
     }
 
-    return !empty($data[$key]['transaction']) ? $data[$key]['transaction'](factory($key), $callback) : $callback();
+    return !empty($data[$key]['transaction']) ? $data[$key]['transaction'](db($key), $callback) : $callback();
 }

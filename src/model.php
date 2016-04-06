@@ -1,7 +1,6 @@
 <?php
 namespace akilli;
 
-use db;
 use PDO;
 use Exception;
 use RuntimeException;
@@ -197,7 +196,7 @@ function model_save(string $entity, array & $data): bool
         }
 
         // Transaction
-        $success = db\transaction(
+        $success = db_transaction(
             $metadata['db'],
             function () use ($entity, & $item, $callback, $metadata) {
                 // Entity before save events
@@ -291,7 +290,7 @@ function model_delete(string $entity, array $criteria = null, $index = null, arr
         }
 
         // Transaction
-        $success = db\transaction(
+        $success = db_transaction(
             $metadata['db'],
             function () use ($entity, & $item, $callback, $metadata) {
                 // Entity before delete events
@@ -347,7 +346,7 @@ function sql_size(string $entity, array $criteria = null, bool $search = false):
 {
     $metadata = sql_meta($entity);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
 
     // Prepare statement
     $stmt = $db->prepare(
@@ -380,7 +379,7 @@ function sql_load(string $entity, array $criteria = null, $index = null, array $
 {
     $metadata = sql_meta($entity);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
 
     // Prepare statement
     $stmt = $db->prepare(
@@ -414,7 +413,7 @@ function sql_create(array & $item): bool
 
     $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
 
     // Columns
     $columns = $params = $sets = [];
@@ -458,7 +457,7 @@ function sql_save(array & $item): bool
 
     $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
 
     // Columns
     $columns = $params = $sets = [];
@@ -504,7 +503,7 @@ function sql_delete(array & $item): bool
 
     $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
 
     // Prepare statement
     $stmt = $db->prepare(
@@ -553,7 +552,7 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
 {
     $metadata = sql_meta($entity);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
     $attributes = $orderAttributes = $metadata['attributes'];
     $root = !empty($attributes['root_id']);
     $where = 'b.lft < e.lft AND b.rgt > e.rgt'
@@ -627,7 +626,7 @@ function nestedset_create(array & $item): bool
 
     $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
     $attributes = $metadata['attributes'];
     $root = !empty($attributes['root_id']);
 
@@ -727,7 +726,7 @@ function nestedset_save(array & $item): bool
 
     $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
     $attributes = $metadata['attributes'];
     $root = !empty($attributes['root_id']);
     $basisItem = [];
@@ -873,7 +872,7 @@ function nestedset_delete(array & $item): bool
 
     $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
     $attributes = $metadata['attributes'];
     $root = !empty($attributes['root_id']);
     $lft = $item['_original']['lft'];
@@ -920,7 +919,7 @@ function eav_size(string $entity, array $criteria = null, bool $search = false):
 {
     $metadata = sql_meta($entity);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
     $contentMetadata = sql_meta('eav_content');
     $valueMetadata = sql_meta('eav_value');
     $attributes = $metadata['attributes'];
@@ -986,7 +985,7 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
 {
     $metadata = sql_meta($entity);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
     $contentMetadata = sql_meta('eav_content');
     $valueMetadata = sql_meta('eav_value');
     $attributes = $metadata['attributes'];
@@ -1055,7 +1054,7 @@ function eav_create(array & $item): bool
 
     $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
     $contentMetadata = sql_meta('eav_content');
     $attributes = $metadata['attributes'];
     $contentAttributes = $contentMetadata['attributes'];
@@ -1137,7 +1136,7 @@ function eav_save(array & $item): bool
 
     $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
-    $db = db\factory($metadata['db']);
+    $db = db($metadata['db']);
     $contentMetadata = sql_meta('eav_content');
     $attributes = $metadata['attributes'];
     $contentAttributes = $contentMetadata['attributes'];
