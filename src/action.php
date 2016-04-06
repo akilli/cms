@@ -1,31 +1,29 @@
 <?php
-namespace action;
-
-use akilli;
+namespace akilli;
 
 /**
  * Create Action
  *
  * @return void
  */
-function create_action()
+function action_create()
 {
-    $metadata = meta();
-    $data = akilli\post_data('save');
+    $metadata = action_internal_meta();
+    $data = post_data('save');
 
     if ($data) {
         // Perform create callback
-        if (akilli\model_save($metadata['id'], $data)) {
-            akilli\redirect(akilli\allowed('index') ? '*/index' : '');
+        if (model_save($metadata['id'], $data)) {
+            redirect(allowed('index') ? '*/index' : '');
         }
     } else {
         // Initial create action call
-        $data = akilli\metadata_skeleton($metadata['id'], (int) akilli\post_data('create', 'number'));
+        $data = metadata_skeleton($metadata['id'], (int) post_data('create', 'number'));
     }
 
     // View
-    view($metadata);
-    akilli\view_vars('entity.create', ['data' => $data, 'header' => akilli\_($metadata['name'])]);
+    action_internal_view($metadata);
+    view_vars('entity.create', ['data' => $data, 'header' => _($metadata['name'])]);
 }
 
 /**
@@ -33,33 +31,33 @@ function create_action()
  *
  * @return void
  */
-function edit_action()
+function action_edit()
 {
-    $metadata = meta();
-    $data = akilli\post_data('save');
+    $metadata = action_internal_meta();
+    $data = post_data('save');
 
     if ($data) {
         // Perform save callback and redirect to index on success
-        if (akilli\model_save($metadata['id'], $data)) {
-            akilli\redirect(akilli\allowed('index') ? '*/index' : '');
+        if (model_save($metadata['id'], $data)) {
+            redirect(allowed('index') ? '*/index' : '');
         }
-    } elseif (($id = akilli\get('id')) !== null) {
+    } elseif (($id = get('id')) !== null) {
         // We just clicked on an edit link, p.e. on the index page
-        $data = akilli\model_load($metadata['id'], ['id' => $id]);
-    } elseif (($data = akilli\post_data('edit'))) {
+        $data = model_load($metadata['id'], ['id' => $id]);
+    } elseif (($data = post_data('edit'))) {
         // We just selected multiple items to edit on the index page
-        $data = akilli\model_load($metadata['id'], ['id' => array_keys($data)]);
+        $data = model_load($metadata['id'], ['id' => array_keys($data)]);
     }
 
     // If $data is empty, there haven't been any matching records to edit
     if (empty($data)) {
-        akilli\message(akilli\_('You did not select anything to edit'));
-        akilli\redirect(akilli\allowed('index') ? '*/index' : '');
+        message(_('You did not select anything to edit'));
+        redirect(allowed('index') ? '*/index' : '');
     }
 
     // View
-    view($metadata);
-    akilli\view_vars('entity.edit', ['data' => $data, 'header' => akilli\_($metadata['name'])]);
+    action_internal_view($metadata);
+    view_vars('entity.edit', ['data' => $data, 'header' => _($metadata['name'])]);
 }
 
 /**
@@ -67,20 +65,20 @@ function edit_action()
  *
  * @return void
  */
-function delete_action()
+function action_delete()
 {
-    $metadata = meta();
-    $data = akilli\post_data('delete');
+    $metadata = action_internal_meta();
+    $data = post_data('delete');
 
     if ($data) {
         // Data posted, perform delete callback
-        akilli\model_delete($metadata['id'], ['id' => array_keys($data)]);
+        model_delete($metadata['id'], ['id' => array_keys($data)]);
     } else {
         // No data posted
-        akilli\message(akilli\_('You did not select anything to delete'));
+        message(_('You did not select anything to delete'));
     }
 
-    akilli\redirect(akilli\allowed('index') ? '*/index' : '');
+    redirect(allowed('index') ? '*/index' : '');
 }
 
 /**
@@ -88,23 +86,23 @@ function delete_action()
  *
  * @return void
  */
-function view_action()
+function action_view()
 {
-    $metadata = meta();
+    $metadata = action_internal_meta();
 
-    if (!($item = akilli\model_load($metadata['id'], ['id' => akilli\get('id')], false))
-        || !empty($metadata['attributes']['is_active']) && empty($item['is_active']) && !akilli\allowed('edit')
+    if (!($item = model_load($metadata['id'], ['id' => get('id')], false))
+        || !empty($metadata['attributes']['is_active']) && empty($item['is_active']) && !allowed('edit')
     ) {
         // Item does not exist or is inactive
-        error_action();
+        action_error();
     } elseif (!empty($metadata['attributes']['is_active']) && empty($item['is_active'])) {
         // Preview
-        akilli\message(akilli\_('Preview'));
+        message(_('Preview'));
     }
 
     // View
-    view($metadata, $item);
-    akilli\view_vars('entity.view', ['item' => $item]);
+    action_internal_view($metadata, $item);
+    view_vars('entity.view', ['item' => $item]);
 }
 
 /**
@@ -112,56 +110,14 @@ function view_action()
  *
  * @return void
  */
-function index_action()
+function action_index()
 {
-    index();
-}
-
-/**
- * List Action
- *
- * @return void
- */
-function list_action()
-{
-    index();
-}
-
-/**
- * Error Action
- *
- * @return void
- */
-function error_action()
-{
-    akilli\message(akilli\_('The page %s does not exist', akilli\request('path')));
-    akilli\redirect();
-}
-
-/**
- * Denied Action
- *
- * @return void
- */
-function denied_action()
-{
-    akilli\message(akilli\_('Access denied'));
-    akilli\redirect('account/login');
-}
-
-/**
- * Internal index action
- *
- * @return void
- */
-function index()
-{
-    $metadata = meta();
-    $action = akilli\request('action');
+    $metadata = action_internal_meta();
+    $action = request('action');
     $attributes = array_filter(
         $metadata['attributes'],
         function ($attribute) use ($action) {
-            return akilli\metadata_action($action, $attribute);
+            return metadata_action($action, $attribute);
         }
     );
     $criteria = empty($metadata['attributes']['is_active']) || $action === 'index' ? [] : ['is_active' => true];
@@ -169,11 +125,11 @@ function index()
     $params = [];
 
     // Search
-    if (($terms = akilli\post_data('search', 'terms'))
-        || ($terms = akilli\get('terms')) && ($terms = urldecode($terms))
+    if (($terms = post_data('search', 'terms'))
+        || ($terms = get('terms')) && ($terms = urldecode($terms))
     ) {
         if (($content = array_filter(explode(' ', $terms)))
-            && $searchItems = akilli\model_load('search', ['entity_id' => $metadata['id'], 'content' => $content], 'search')
+            && $searchItems = model_load('search', ['entity_id' => $metadata['id'], 'content' => $content], 'search')
         ) {
             $ids = [];
 
@@ -184,13 +140,13 @@ function index()
             $criteria['id'] = $ids;
             $params['terms'] = urlencode(implode(' ', $content));
         } else {
-            akilli\message(akilli\_('No results for provided search terms %s', implode(', ', $content)));
+            message(_('No results for provided search terms %s', implode(', ', $content)));
         }
     }
 
-    $size = akilli\model_size($metadata['id'], $criteria);
-    $limit = (int) akilli\config('limit.' . $action);
-    $page = max((int) akilli\get('page'), 1);
+    $size = model_size($metadata['id'], $criteria);
+    $limit = (int) config('limit.' . $action);
+    $page = max((int) get('page'), 1);
     $offset = ($page - 1) * $limit;
     $pages = (int) ceil($size / $limit);
 
@@ -199,14 +155,14 @@ function index()
     }
 
     // Order
-    if (($sort = akilli\get('sort')) && !empty($attributes[$sort])) {
-        $direction = akilli\get('direction') === 'desc' ? 'desc' : 'asc';
+    if (($sort = get('sort')) && !empty($attributes[$sort])) {
+        $direction = get('direction') === 'desc' ? 'desc' : 'asc';
         $order = [$sort => $direction];
         $params['sort'] = $sort;
         $params['direction'] = $direction;
     }
 
-    $data = akilli\model_load($metadata['id'], $criteria, null, $order, [$limit, $offset]);
+    $data = model_load($metadata['id'], $criteria, null, $order, [$limit, $offset]);
     array_walk(
         $attributes,
         function (& $attribute, $code) use ($params) {
@@ -216,7 +172,7 @@ function index()
                 $direction = 'asc';
             }
 
-            $attribute['url'] = akilli\url(
+            $attribute['url'] = url(
                 '*/*',
                 array_replace($params, ['sort' => $code, 'direction' => $direction])
             );
@@ -225,12 +181,12 @@ function index()
     unset($params['page']);
 
     // View
-    view($metadata);
-    akilli\view_vars(
+    action_internal_view($metadata);
+    view_vars(
         'entity.' . $action,
-        ['data' => $data, 'header' => akilli\_($metadata['name']), 'attributes' => $attributes]
+        ['data' => $data, 'header' => _($metadata['name']), 'attributes' => $attributes]
     );
-    akilli\view_vars(
+    view_vars(
         'entity.' . $action . '.pager',
         [
             'pages' => $pages,
@@ -243,17 +199,142 @@ function index()
 }
 
 /**
+ * List Action
+ *
+ * @return void
+ */
+function action_list()
+{
+    action_index();
+}
+
+/**
+ * Error Action
+ *
+ * @return void
+ */
+function action_error()
+{
+    message(_('The page %s does not exist', request('path')));
+    redirect();
+}
+
+/**
+ * Denied Action
+ *
+ * @return void
+ */
+function action_denied()
+{
+    message(_('Access denied'));
+    redirect('account/login');
+}
+
+/**
+ * Dashboard Action
+ *
+ * @return void
+ */
+function action_account_dashboard()
+{
+    view_load();
+    view_vars('title', ['title' => _('Dashboard')]);
+}
+
+/**
+ * Profile Action
+ *
+ * @return void
+ */
+function action_account_profile()
+{
+    $account = account();
+
+    if (!$account || !registered()) {
+        redirect();
+    }
+
+    $item = post_data('save');
+
+    if ($item) {
+        $data = [$account['id'] => array_replace($account, $item)];
+        model_save('account', $data);
+    }
+
+    if (!$item = account()) {
+        redirect();
+    }
+
+    // View
+    view_load();
+    view_vars('account.profile', ['item' => $item]);
+}
+
+/**
+ * Login Action
+ *
+ * @return void
+ */
+function action_account_login()
+{
+    if (registered()) {
+        redirect('*/dashboard');
+    }
+
+    $data = post_data('login');
+
+    if ($data) {
+        if (!empty($data['name'])
+            && !empty($data['password'])
+            && ($item = model_load('account', ['name' => $data['name'], 'is_active' => true], false))
+            && password_verify($data['password'], $item['password'])
+        ) {
+            message(_('Welcome %s', $item['name']));
+            session_regenerate_id(true);
+            session('account', $item['id']);
+            redirect('*/dashboard');
+        }
+
+        message(_('Invalid name and password combination'));
+    }
+
+    view_load();
+}
+
+/**
+ * Logout Action
+ *
+ * @return void
+ */
+function action_account_logout()
+{
+    session_regenerate_id(true);
+    session_destroy();
+    redirect();
+}
+
+/**
+ * Index Action
+ *
+ * @return void
+ */
+function action_http_index()
+{
+    view_load();
+}
+
+/**
  * Retrieve entity from request and validate metadata and action
  *
  * @return array
  */
-function meta(): array
+function action_internal_meta(): array
 {
-    $metadata = akilli\data('metadata', akilli\request('entity'));
+    $metadata = data('metadata', request('entity'));
 
     // Check if action is allowed for entity
-    if (!akilli\metadata_action(akilli\request('action'), $metadata)) {
-        error_action();
+    if (!metadata_action(request('action'), $metadata)) {
+        action_error();
     }
 
     return $metadata;
@@ -267,108 +348,15 @@ function meta(): array
  *
  * @return void
  */
-function view(array $metadata, array $item = null)
+function action_internal_view(array $metadata, array $item = null)
 {
-    $title = ($item ? $item['name'] : akilli\_($metadata['name']))
-        . ' ' . akilli\config('meta.separator')
-        . ' ' . akilli\config('meta.title');
-    akilli\view_load();
-    akilli\view_vars('title', ['title' => $title]);
+    $title = ($item ? $item['name'] : _($metadata['name']))
+        . ' ' . config('meta.separator')
+        . ' ' . config('meta.title');
+    view_load();
+    view_vars('title', ['title' => $title]);
 
     if ($item && !empty($item['meta']) && is_array($item['meta'])) {
-        akilli\view_vars('meta', $item['meta']);
+        view_vars('meta', $item['meta']);
     }
-}
-
-/**
- * Dashboard Action
- *
- * @return void
- */
-function account_dashboard_action()
-{
-    akilli\view_load();
-    akilli\view_vars('title', ['title' => akilli\_('Dashboard')]);
-}
-
-/**
- * Profile Action
- *
- * @return void
- */
-function account_profile_action()
-{
-    $account = akilli\account();
-
-    if (!$account || !akilli\registered()) {
-        akilli\redirect();
-    }
-
-    $item = akilli\post_data('save');
-
-    if ($item) {
-        $data = [$account['id'] => array_replace($account, $item)];
-        akilli\model_save('account', $data);
-    }
-
-    if (!$item = akilli\account()) {
-        akilli\redirect();
-    }
-
-    // View
-    akilli\view_load();
-    akilli\view_vars('account.profile', ['item' => $item]);
-}
-
-/**
- * Login Action
- *
- * @return void
- */
-function account_login_action()
-{
-    if (akilli\registered()) {
-        akilli\redirect('*/dashboard');
-    }
-
-    $data = akilli\post_data('login');
-
-    if ($data) {
-        if (!empty($data['name'])
-            && !empty($data['password'])
-            && ($item = akilli\model_load('account', ['name' => $data['name'], 'is_active' => true], false))
-            && password_verify($data['password'], $item['password'])
-        ) {
-            akilli\message(akilli\_('Welcome %s', $item['name']));
-            session_regenerate_id(true);
-            akilli\session('account', $item['id']);
-            akilli\redirect('*/dashboard');
-        }
-
-        akilli\message(akilli\_('Invalid name and password combination'));
-    }
-
-    akilli\view_load();
-}
-
-/**
- * Logout Action
- *
- * @return void
- */
-function account_logout_action()
-{
-    session_regenerate_id(true);
-    session_destroy();
-    akilli\redirect();
-}
-
-/**
- * Index Action
- *
- * @return void
- */
-function http_index_action()
-{
-    akilli\view_load();
 }
