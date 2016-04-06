@@ -2,8 +2,8 @@
 return [
     'sql' => [
         'id' => 'sql',
-        'callback' => 'sql\factory',
-        'transaction' => 'sql\transaction',
+        'callback' => 'akilli\sql_factory',
+        'transaction' => 'akilli\sql_transaction',
         'driver' => 'mysql',
         'host' => 'mysql',
         'dbname' => 'akilli',

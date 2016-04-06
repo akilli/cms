@@ -3,7 +3,6 @@ namespace akilli;
 
 use db;
 use PDO;
-use sql;
 use Exception;
 use RuntimeException;
 
@@ -346,15 +345,15 @@ function model_delete(string $entity, array $criteria = null, $index = null, arr
  */
 function sql_size(string $entity, array $criteria = null, bool $search = false): int
 {
-    $metadata = sql\meta($entity);
+    $metadata = sql_meta($entity);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
 
     // Prepare statement
     $stmt = $db->prepare(
         'SELECT COUNT(*) as total'
-        . sql\from($db, $metadata['table'])
-        . sql\where($db, (array) $criteria, $metadata['attributes'], null, false, $search)
+        . sql_from($db, $metadata['table'])
+        . sql_where($db, (array) $criteria, $metadata['attributes'], null, false, $search)
     );
 
     // Execute statement
@@ -379,17 +378,17 @@ function sql_size(string $entity, array $criteria = null, bool $search = false):
  */
 function sql_load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
 {
-    $metadata = sql\meta($entity);
+    $metadata = sql_meta($entity);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
 
     // Prepare statement
     $stmt = $db->prepare(
-        sql\select($db, $metadata['attributes'])
-        . sql\from($db, $metadata['table'])
-        . sql\where($db, (array) $criteria, $metadata['attributes'], null, false, $index === 'search')
-        . sql\order($db, (array) $order, $metadata['attributes'])
-        . sql\limit($limit)
+        sql_select($db, $metadata['attributes'])
+        . sql_from($db, $metadata['table'])
+        . sql_where($db, (array) $criteria, $metadata['attributes'], null, false, $index === 'search')
+        . sql_order($db, (array) $order, $metadata['attributes'])
+        . sql_limit($limit)
     );
 
     // Execute statement
@@ -413,13 +412,13 @@ function sql_create(array & $item): bool
         return false;
     }
 
-    $metadata = sql\meta($item['_metadata']);
+    $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
 
     // Columns
     $columns = $params = $sets = [];
-    sql\columns($metadata['attributes'], $item, $columns, $params, $sets);
+    sql_columns($metadata['attributes'], $item, $columns, $params, $sets);
 
     // Prepare statement
     $stmt = $db->prepare(
@@ -429,7 +428,7 @@ function sql_create(array & $item): bool
 
     // Bind values
     foreach ($params as $code => $param) {
-        $stmt->bindValue($param, $item[$code], sql\type($metadata['attributes'][$code], $item[$code]));
+        $stmt->bindValue($param, $item[$code], sql_type($metadata['attributes'][$code], $item[$code]));
     }
 
     // Execute statement
@@ -457,13 +456,13 @@ function sql_save(array & $item): bool
         return false;
     }
 
-    $metadata = sql\meta($item['_metadata']);
+    $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
 
     // Columns
     $columns = $params = $sets = [];
-    sql\columns($metadata['attributes'], $item, $columns, $params, $sets);
+    sql_columns($metadata['attributes'], $item, $columns, $params, $sets);
 
     // Prepare statement
     $stmt = $db->prepare(
@@ -474,13 +473,13 @@ function sql_save(array & $item): bool
 
     // Bind values
     foreach ($params as $code => $param) {
-        $stmt->bindValue($param, $item[$code], sql\type($metadata['attributes'][$code], $item[$code]));
+        $stmt->bindValue($param, $item[$code], sql_type($metadata['attributes'][$code], $item[$code]));
     }
 
     $stmt->bindValue(
         ':id',
         $item['_original']['id'],
-        sql\type($metadata['attributes']['id'], $item['_original']['id'])
+        sql_type($metadata['attributes']['id'], $item['_original']['id'])
     );
 
     // Execute statement
@@ -503,7 +502,7 @@ function sql_delete(array & $item): bool
         return false;
     }
 
-    $metadata = sql\meta($item['_metadata']);
+    $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
 
@@ -516,7 +515,7 @@ function sql_delete(array & $item): bool
     $stmt->bindValue(
         ':id',
         $item['_original']['id'],
-        sql\type($metadata['attributes']['id'], $item['_original']['id'])
+        sql_type($metadata['attributes']['id'], $item['_original']['id'])
     );
 
     // Execute statement
@@ -552,7 +551,7 @@ function nestedset_size(string $entity, array $criteria = null, bool $search = f
  */
 function nestedset_load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
 {
-    $metadata = sql\meta($entity);
+    $metadata = sql_meta($entity);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
     $attributes = $orderAttributes = $metadata['attributes'];
@@ -568,7 +567,7 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
 
     // Order attributes
     if (empty($orderAttributes['level']['column'])) {
-        $code = sql\quote_identifier($db, 'level');
+        $code = sql_quote_identifier($db, 'level');
         $orderAttributes['level']['column'] =  $code;
         $selectLevel = ', ('
             . 'SELECT COUNT(b.' . $attributes['id']['column'] . ') + 1'
@@ -578,7 +577,7 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
     }
 
     if (empty($orderAttributes['parent_id']['column'])) {
-        $code = sql\quote_identifier($db, 'parent_id');
+        $code = sql_quote_identifier($db, 'parent_id');
         $orderAttributes['parent_id']['column'] =  $code;
         $selectParentId = ', ('
             . 'SELECT b.' . $attributes['id']['column']
@@ -591,11 +590,11 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
 
     // Prepare statement
     $stmt = $db->prepare(
-        sql\select($db, $attributes, 'e') . $selectLevel . $selectParentId
-        . sql\from($db, $metadata['table'], 'e')
-        . sql\where($db, (array) $criteria, $attributes, 'e', false, $index === 'search')
-        . sql\order($db, $order, $orderAttributes)
-        . sql\limit($limit)
+        sql_select($db, $attributes, 'e') . $selectLevel . $selectParentId
+        . sql_from($db, $metadata['table'], 'e')
+        . sql_where($db, (array) $criteria, $attributes, 'e', false, $index === 'search')
+        . sql_order($db, $order, $orderAttributes)
+        . sql_limit($limit)
     );
 
     // Execute statement
@@ -626,7 +625,7 @@ function nestedset_create(array & $item): bool
         return false;
     }
 
-    $metadata = sql\meta($item['_metadata']);
+    $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
     $attributes = $metadata['attributes'];
@@ -634,7 +633,7 @@ function nestedset_create(array & $item): bool
 
     // Columns
     $columns = $params = $sets = [];
-    sql\columns($attributes, $item, $columns, $params, $sets);
+    sql_columns($attributes, $item, $columns, $params, $sets);
 
     if (empty($item['basis']) || !($basisItem = model_load($metadata['id'], ['id' => $item['basis']], false))) {
         // No basis given so append node
@@ -670,7 +669,7 @@ function nestedset_create(array & $item): bool
         );
 
         if ($root) {
-            $stmt->bindValue(':root_id', $item['root_id'], sql\type($attributes['root_id'], $item['root_id']));
+            $stmt->bindValue(':root_id', $item['root_id'], sql_type($attributes['root_id'], $item['root_id']));
         }
 
         $stmt->execute();
@@ -690,15 +689,15 @@ function nestedset_create(array & $item): bool
 
     // Bind values
     foreach ($params as $code => $param) {
-        $stmt->bindValue($param, $item[$code], sql\type($attributes[$code], $item[$code]));
+        $stmt->bindValue($param, $item[$code], sql_type($attributes[$code], $item[$code]));
     }
 
     if ($root) {
-        $stmt->bindValue(':root_id', $item['root_id'], sql\type($attributes['root_id'], $item['root_id']));
+        $stmt->bindValue(':root_id', $item['root_id'], sql_type($attributes['root_id'], $item['root_id']));
     }
 
     if (!empty($item['basis'])) {
-        $stmt->bindValue(':basis', $item['basis'], sql\type($attributes['id'], $item['basis']));
+        $stmt->bindValue(':basis', $item['basis'], sql_type($attributes['id'], $item['basis']));
     }
 
     // Execute statement
@@ -726,7 +725,7 @@ function nestedset_save(array & $item): bool
         return false;
     }
 
-    $metadata = sql\meta($item['_metadata']);
+    $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
     $attributes = $metadata['attributes'];
@@ -735,7 +734,7 @@ function nestedset_save(array & $item): bool
 
     // Columns
     $columns = $params = $sets = [];
-    sql\columns($attributes, $item, $columns, $params, $sets, ['root_id']);
+    sql_columns($attributes, $item, $columns, $params, $sets, ['root_id']);
 
     if (!empty($item['basis']) && ($item['basis'] === $item['_original']['id']
             || !($basisItem = model_load($metadata['id'], ['id' => $item['basis']], false))
@@ -749,11 +748,11 @@ function nestedset_save(array & $item): bool
         );
 
         // Bind values
-        $stmt->bindValue(':id', $item['_original']['id'], sql\type($attributes['id'], $item['_original']['id']));
+        $stmt->bindValue(':id', $item['_original']['id'], sql_type($attributes['id'], $item['_original']['id']));
 
         // Execute statement
         foreach ($params as $code => $param) {
-            $stmt->bindValue($param, $item[$code], sql\type($attributes[$code], $item[$code]));
+            $stmt->bindValue($param, $item[$code], sql_type($attributes[$code], $item[$code]));
         }
 
         // Execute statement
@@ -773,7 +772,7 @@ function nestedset_save(array & $item): bool
         );
 
         if ($root) {
-            $stmt->bindValue(':root_id', $item['root_id'], sql\type($attributes['root_id'], $item['root_id']));
+            $stmt->bindValue(':root_id', $item['root_id'], sql_type($attributes['root_id'], $item['root_id']));
         }
 
         $stmt->execute();
@@ -796,7 +795,7 @@ function nestedset_save(array & $item): bool
         $diff = $newLft - $lft;
     }
 
-    $idValue = sql\quote(attribute_type($attributes['id'], $item['_original']['id']), $attributes['id']['backend']);
+    $idValue = sql_quote(attribute_type($attributes['id'], $item['_original']['id']), $attributes['id']['backend']);
     $rootId = null;
     $oldRootCond = '';
     $rootCond = '';
@@ -809,11 +808,11 @@ function nestedset_save(array & $item): bool
     }
 
     if ($root) {
-        $oldRootId = sql\quote(
+        $oldRootId = sql_quote(
             attribute_type($attributes['root_id'], $item['_original']['root_id']),
             $attributes['root_id']['backend']
         );
-        $rootId = sql\quote(
+        $rootId = sql_quote(
             attribute_type($attributes['root_id'], $item['root_id']),
             $attributes['root_id']['backend']
         );
@@ -849,7 +848,7 @@ function nestedset_save(array & $item): bool
 
     // Bind values
     foreach ($params as $code => $param) {
-        $stmt->bindValue($param, $item[$code], sql\type($attributes[$code], $item[$code]));
+        $stmt->bindValue($param, $item[$code], sql_type($attributes[$code], $item[$code]));
     }
 
     // Execute statement
@@ -872,7 +871,7 @@ function nestedset_delete(array & $item): bool
         return false;
     }
 
-    $metadata = sql\meta($item['_metadata']);
+    $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
     $attributes = $metadata['attributes'];
@@ -896,7 +895,7 @@ function nestedset_delete(array & $item): bool
         $stmt->bindValue(
             ':root_id',
             $item['_original']['root_id'],
-            sql\type($attributes['root_id'], $item['_original']['root_id'])
+            sql_type($attributes['root_id'], $item['_original']['root_id'])
         );
     }
 
@@ -919,11 +918,11 @@ function nestedset_delete(array & $item): bool
  */
 function eav_size(string $entity, array $criteria = null, bool $search = false): int
 {
-    $metadata = sql\meta($entity);
+    $metadata = sql_meta($entity);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
-    $contentMetadata = sql\meta('eav_content');
-    $valueMetadata = sql\meta('eav_value');
+    $contentMetadata = sql_meta('eav_content');
+    $valueMetadata = sql_meta('eav_value');
     $attributes = $metadata['attributes'];
     $valueAttributes = array_diff_key($attributes, $contentMetadata['attributes']);
     $joins = $params = [];
@@ -934,7 +933,7 @@ function eav_size(string $entity, array $criteria = null, bool $search = false):
         if (empty($attribute['column'])) {
             continue;
         } elseif (!empty($valueAttributes[$code])) {
-            $alias = sql\quote_identifier($db, $code);
+            $alias = sql_quote_identifier($db, $code);
             $attributes[$code]['column'] = $alias . '.' . $attribute['column'];
             $params[$code] = ':__attribute__' . str_replace('-', '_', $code);
             $joins[$code] = 'LEFT JOIN ' . $valueMetadata['table'] . ' ' . $alias . ' ON '
@@ -949,9 +948,9 @@ function eav_size(string $entity, array $criteria = null, bool $search = false):
     // Prepare statement
     $stmt = $db->prepare(
         'SELECT COUNT(*) as total'
-        . sql\from($db, $metadata['table'], 'e')
+        . sql_from($db, $metadata['table'], 'e')
         . (!empty($joins) ? implode(' ', $joins) : '')
-        . sql\where($db, $criteria, $attributes, null, false, $search)
+        . sql_where($db, $criteria, $attributes, null, false, $search)
     );
 
     // Bind values
@@ -959,7 +958,7 @@ function eav_size(string $entity, array $criteria = null, bool $search = false):
         $stmt->bindValue(
             $param,
             $attributes[$code]['id'],
-            sql\type($valueMetadata['attributes']['attribute_id'], $attributes[$code]['id'])
+            sql_type($valueMetadata['attributes']['attribute_id'], $attributes[$code]['id'])
         );
     }
 
@@ -985,11 +984,11 @@ function eav_size(string $entity, array $criteria = null, bool $search = false):
  */
 function eav_load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
 {
-    $metadata = sql\meta($entity);
+    $metadata = sql_meta($entity);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
-    $contentMetadata = sql\meta('eav_content');
-    $valueMetadata = sql\meta('eav_value');
+    $contentMetadata = sql_meta('eav_content');
+    $valueMetadata = sql_meta('eav_value');
     $attributes = $metadata['attributes'];
     $valueAttributes = array_diff_key($attributes, $contentMetadata['attributes']);
     $joins = $params = [];
@@ -1000,7 +999,7 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
         if (empty($attribute['column'])) {
             continue;
         } elseif (!empty($valueAttributes[$code])) {
-            $alias = sql\quote_identifier($db, $code);
+            $alias = sql_quote_identifier($db, $code);
             $attributes[$code]['column'] = $alias . '.' . $attribute['column'];
             $params[$code] = ':__attribute__' . str_replace('-', '_', $code);
             $joins[$code] = 'LEFT JOIN ' . $valueMetadata['table'] . ' ' . $alias . ' ON '
@@ -1014,12 +1013,12 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
 
     // Prepare statement
     $stmt = $db->prepare(
-        sql\select($db, $attributes)
-        . sql\from($db, $metadata['table'], 'e')
+        sql_select($db, $attributes)
+        . sql_from($db, $metadata['table'], 'e')
         . (!empty($joins) ? implode(' ', $joins) : '')
-        . sql\where($db, $criteria, $attributes, null, false, $index === 'search')
-        . sql\order($db, (array) $order, $attributes)
-        . sql\limit($limit)
+        . sql_where($db, $criteria, $attributes, null, false, $index === 'search')
+        . sql_order($db, (array) $order, $attributes)
+        . sql_limit($limit)
     );
 
     // Bind values
@@ -1027,7 +1026,7 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
         $stmt->bindValue(
             $param,
             $attributes[$code]['id'],
-            sql\type($valueMetadata['attributes']['attribute_id'], $attributes[$code]['id'])
+            sql_type($valueMetadata['attributes']['attribute_id'], $attributes[$code]['id'])
         );
     }
 
@@ -1054,10 +1053,10 @@ function eav_create(array & $item): bool
         return false;
     }
 
-    $metadata = sql\meta($item['_metadata']);
+    $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
-    $contentMetadata = sql\meta('eav_content');
+    $contentMetadata = sql_meta('eav_content');
     $attributes = $metadata['attributes'];
     $contentAttributes = $contentMetadata['attributes'];
     $valueAttributes = array_diff_key($attributes, $contentAttributes);
@@ -1068,7 +1067,7 @@ function eav_create(array & $item): bool
 
     // Columns
     $columns = $params = $sets = [];
-    sql\columns($contentAttributes, $item, $columns, $params, $sets);
+    sql_columns($contentAttributes, $item, $columns, $params, $sets);
 
     // Prepare statement
     $stmt = $db->prepare(
@@ -1078,7 +1077,7 @@ function eav_create(array & $item): bool
 
     // Bind values
     foreach ($params as $code => $param) {
-        $stmt->bindValue($param, $item[$code], sql\type($attributes[$code], $item[$code]));
+        $stmt->bindValue($param, $item[$code], sql_type($attributes[$code], $item[$code]));
     }
 
     // Execute statement
@@ -1136,10 +1135,10 @@ function eav_save(array & $item): bool
         return false;
     }
 
-    $metadata = sql\meta($item['_metadata']);
+    $metadata = sql_meta($item['_metadata']);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
-    $contentMetadata = sql\meta('eav_content');
+    $contentMetadata = sql_meta('eav_content');
     $attributes = $metadata['attributes'];
     $contentAttributes = $contentMetadata['attributes'];
     $valueAttributes = array_diff_key($attributes, $contentAttributes);
@@ -1156,7 +1155,7 @@ function eav_save(array & $item): bool
 
     // Columns
     $columns = $params = $sets = [];
-    sql\columns($contentAttributes, $item, $columns, $params, $sets);
+    sql_columns($contentAttributes, $item, $columns, $params, $sets);
 
     // Prepare statement
     $stmt = $db->prepare(
@@ -1167,10 +1166,10 @@ function eav_save(array & $item): bool
 
     // Bind values
     foreach ($params as $code => $param) {
-        $stmt->bindValue($param, $item[$code], sql\type($attributes[$code], $item[$code]));
+        $stmt->bindValue($param, $item[$code], sql_type($attributes[$code], $item[$code]));
     }
 
-    $stmt->bindValue(':id', $item['_original']['id'], sql\type($attributes['id'], $item['_original']['id']));
+    $stmt->bindValue(':id', $item['_original']['id'], sql_type($attributes['id'], $item['_original']['id']));
 
     // Execute statement
     $stmt->execute();

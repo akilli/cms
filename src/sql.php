@@ -1,7 +1,6 @@
 <?php
-namespace sql;
+namespace akilli;
 
-use akilli;
 use db;
 use PDO;
 use Exception;
@@ -14,15 +13,15 @@ use RuntimeException;
  *
  * @return PDO
  */
-function factory(array $data): PDO
+function sql_factory(array $data): PDO
 {
-    $data = prepare($data);
+    $data = sql_prepare($data);
 
     if ($data['driver'] === 'mysql') {
         $data['dsn'] .= ';charset=' . $data['charset'];
     } elseif ($data['driver'] === 'sqlite') {
         if (strpos($data['dbname'], '/') !== 0) {
-            $data['dbname'] = akilli\path('db', 'sqlite/' . $data['dbname']);
+            $data['dbname'] = path('db', 'sqlite/' . $data['dbname']);
         }
 
         $data['dsn'] = $data['driver'] . ':' . $data['dbname'];
@@ -31,7 +30,7 @@ function factory(array $data): PDO
     $db = new PDO($data['dsn'], $data['username'], $data['password'], $data['driver_options']);
 
     if ($data['driver'] === 'pgsql') {
-        $db->exec('SET NAMES ' . quote($data['charset']));
+        $db->exec('SET NAMES ' . sql_quote($data['charset']));
     }
 
     return $db;
@@ -46,7 +45,7 @@ function factory(array $data): PDO
  *
  * @throws RuntimeException
  */
-function prepare(array $data): array
+function sql_prepare(array $data): array
 {
     if (empty($data['driver'])
         || empty($data['host'])
@@ -54,7 +53,7 @@ function prepare(array $data): array
         || empty($data['username'])
         || !isset($data['password'])
     ) {
-        throw new RuntimeException(akilli\_('Invalid database configuration'));
+        throw new RuntimeException(_('Invalid database configuration'));
     }
 
     $data['charset'] = !empty($data['charset']) ? $data['charset'] : 'utf8';
@@ -72,7 +71,7 @@ function prepare(array $data): array
  *
  * @return bool
  */
-function transaction(PDO $db, callable $callback): bool
+function sql_transaction(PDO $db, callable $callback): bool
 {
     static $data = [];
 
@@ -108,7 +107,7 @@ function transaction(PDO $db, callable $callback): bool
         }
 
         --$data[$hash];
-        akilli\error($e);
+        error($e);
         $error = true;
     }
 
@@ -123,7 +122,7 @@ function transaction(PDO $db, callable $callback): bool
  *
  * @return mixed
  */
-function quote($value, $backend = null)
+function sql_quote($value, $backend = null)
 {
     if ($backend === 'bool') {
         $value = $value ? '1' : '0';
@@ -144,7 +143,7 @@ function quote($value, $backend = null)
  *
  * @return string
  */
-function quote_identifier(PDO $db, string $identifier = null): string
+function sql_quote_identifier(PDO $db, string $identifier = null): string
 {
     $char = $db->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql' ? '`' : '"';
 
@@ -159,7 +158,7 @@ function quote_identifier(PDO $db, string $identifier = null): string
  *
  * @return int
  */
-function type(array $attribute, $value): int
+function sql_type(array $attribute, $value): int
 {
     if ($value === null && !empty($attribute['null'])) {
         return PDO::PARAM_NULL;
@@ -183,9 +182,9 @@ function type(array $attribute, $value): int
  *
  * @return array
  */
-function meta($entity): array
+function sql_meta($entity): array
 {
-    $metadata = is_array($entity) ? $entity : akilli\data('metadata', $entity);
+    $metadata = is_array($entity) ? $entity : data('metadata', $entity);
     /** @var PDO $db */
     $db = db\factory($metadata['db']);
 
@@ -196,11 +195,11 @@ function meta($entity): array
         $metadata['sequence'] = $metadata['table'] . '_id_seq';
     }
 
-    $metadata['sequence'] = quote_identifier($db, $metadata['sequence']);
-    $metadata['table'] = quote_identifier($db, $metadata['table']);
+    $metadata['sequence'] = sql_quote_identifier($db, $metadata['sequence']);
+    $metadata['table'] = sql_quote_identifier($db, $metadata['table']);
 
     foreach ($metadata['attributes'] as $code => $attribute) {
-        $metadata['attributes'][$code]['column'] = quote_identifier($db, $attribute['column']);
+        $metadata['attributes'][$code]['column'] = sql_quote_identifier($db, $attribute['column']);
     }
 
     return $metadata;
@@ -218,7 +217,7 @@ function meta($entity): array
  *
  * @return bool
  */
-function columns(array $attributes, array $item, array & $columns, array & $params, array & $sets, array $skip = []): bool
+function sql_columns(array $attributes, array $item, array & $columns, array & $params, array & $sets, array $skip = []): bool
 {
     if (empty($item)) {
         return false;
@@ -248,17 +247,17 @@ function columns(array $attributes, array $item, array & $columns, array & $para
  *
  * @return string
  */
-function select(PDO $db, array $attributes, string $alias = null, bool $add = false): string
+function sql_select(PDO $db, array $attributes, string $alias = null, bool $add = false): string
 {
     $columns = [];
-    $alias = ($alias) ? quote_identifier($db, $alias) . '.' : '';
+    $alias = ($alias) ? sql_quote_identifier($db, $alias) . '.' : '';
 
     foreach ($attributes as $code => $attribute) {
         if (empty($attribute['column'])) {
             continue;
         }
 
-        $columns[$code] = $alias . $attribute['column'] . ' as ' . quote_identifier($db, $code);
+        $columns[$code] = $alias . $attribute['column'] . ' as ' . sql_quote_identifier($db, $code);
     }
 
     if (empty($columns)) {
@@ -277,9 +276,9 @@ function select(PDO $db, array $attributes, string $alias = null, bool $add = fa
  *
  * @return string
  */
-function from(PDO $db, string $table, string $alias = null): string
+function sql_from(PDO $db, string $table, string $alias = null): string
 {
-    return ' FROM ' . $table . ($alias ? ' as ' . quote_identifier($db, $alias) : '');
+    return ' FROM ' . $table . ($alias ? ' as ' . sql_quote_identifier($db, $alias) : '');
 }
 
 /**
@@ -294,10 +293,10 @@ function from(PDO $db, string $table, string $alias = null): string
  *
  * @return string
  */
-function where(PDO $db, array $criteria, array $attributes, string $alias = null, bool $add = false, bool $search = false): string
+function sql_where(PDO $db, array $criteria, array $attributes, string $alias = null, bool $add = false, bool $search = false): string
 {
     $columns = [];
-    $alias = $alias ? quote_identifier($db, $alias) . '.' : '';
+    $alias = $alias ? sql_quote_identifier($db, $alias) . '.' : '';
     $operator = $search ? 'LIKE' : '=';
 
     foreach ($criteria as $code => $value) {
@@ -313,7 +312,7 @@ function where(PDO $db, array $criteria, array $attributes, string $alias = null
             }
 
             $r[] = $alias . $attributes[$code]['column'] . ' ' . $operator . ' '
-                . quote($v, $attributes[$code]['backend']);
+                . sql_quote($v, $attributes[$code]['backend']);
         }
 
         $columns[$code] = '(' . implode(' OR ', $r) . ')';
@@ -336,7 +335,7 @@ function where(PDO $db, array $criteria, array $attributes, string $alias = null
  *
  * @return string
  */
-function order(PDO $db, array $order, array $attributes = null, bool $add = false): string
+function sql_order(PDO $db, array $order, array $attributes = null, bool $add = false): string
 {
     $columns = [];
 
@@ -346,7 +345,7 @@ function order(PDO $db, array $order, array $attributes = null, bool $add = fals
         }
 
         $direction = (strtoupper($direction) === 'DESC') ? 'DESC' : 'ASC';
-        $columns[$code] = quote_identifier($db, $code) . ' ' . $direction;
+        $columns[$code] = sql_quote_identifier($db, $code) . ' ' . $direction;
     }
 
     if (empty($columns)) {
@@ -363,7 +362,7 @@ function order(PDO $db, array $order, array $attributes = null, bool $add = fals
  *
  * @return string
  */
-function limit($limit): string
+function sql_limit($limit): string
 {
     $isArray = is_array($limit);
     $offset = $isArray && !empty($limit[1]) ? (int) $limit[1] : 0;
