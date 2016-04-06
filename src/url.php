@@ -2,7 +2,6 @@
 namespace akilli;
 
 use http;
-use model;
 
 /**
  * Generate URL by given path and params
@@ -144,7 +143,7 @@ function url_resolve(string $key = ''): string
 function url_rewrite(string $path): string
 {
     $path = $path ?: 'http-base';
-    $item = model\load('rewrite', ['id' => $path], false);
+    $item = model_load('rewrite', ['id' => $path], false);
 
     if (!$item) {
         return $path;
@@ -170,7 +169,7 @@ function url_unrewrite(string $path, string $query = null): string
     static $data;
 
     if ($data === null) {
-        $data = model\load('rewrite', null, 'target', ['is_system' => 'desc']);
+        $data = model_load('rewrite', null, 'target', ['is_system' => 'desc']);
     }
 
     $url = !empty($data[$path . $query]) ? $data[$path . $query]['id'] : $path . $query;

@@ -5,7 +5,6 @@ use akilli;
 use data;
 use http;
 use metadata;
-use model;
 
 /**
  * Create Action
@@ -19,7 +18,7 @@ function create_action()
 
     if ($data) {
         // Perform create callback
-        if (model\save($metadata['id'], $data)) {
+        if (akilli\model_save($metadata['id'], $data)) {
             http\redirect(akilli\allowed('index') ? '*/index' : '');
         }
     } else {
@@ -44,15 +43,15 @@ function edit_action()
 
     if ($data) {
         // Perform save callback and redirect to index on success
-        if (model\save($metadata['id'], $data)) {
+        if (akilli\model_save($metadata['id'], $data)) {
             http\redirect(akilli\allowed('index') ? '*/index' : '');
         }
     } elseif (($id = http\get('id')) !== null) {
         // We just clicked on an edit link, p.e. on the index page
-        $data = model\load($metadata['id'], ['id' => $id]);
+        $data = akilli\model_load($metadata['id'], ['id' => $id]);
     } elseif (($data = http\post_data('edit'))) {
         // We just selected multiple items to edit on the index page
-        $data = model\load($metadata['id'], ['id' => array_keys($data)]);
+        $data = akilli\model_load($metadata['id'], ['id' => array_keys($data)]);
     }
 
     // If $data is empty, there haven't been any matching records to edit
@@ -78,7 +77,7 @@ function delete_action()
 
     if ($data) {
         // Data posted, perform delete callback
-        model\delete($metadata['id'], ['id' => array_keys($data)]);
+        akilli\model_delete($metadata['id'], ['id' => array_keys($data)]);
     } else {
         // No data posted
         akilli\message(akilli\_('You did not select anything to delete'));
@@ -96,7 +95,7 @@ function view_action()
 {
     $metadata = meta();
 
-    if (!($item = model\load($metadata['id'], ['id' => http\get('id')], false))
+    if (!($item = akilli\model_load($metadata['id'], ['id' => http\get('id')], false))
         || !empty($metadata['attributes']['is_active']) && empty($item['is_active']) && !akilli\allowed('edit')
     ) {
         // Item does not exist or is inactive
@@ -177,7 +176,7 @@ function index()
         || ($terms = http\get('terms')) && ($terms = urldecode($terms))
     ) {
         if (($content = array_filter(explode(' ', $terms)))
-            && $searchItems = model\load('search', ['entity_id' => $metadata['id'], 'content' => $content], 'search')
+            && $searchItems = akilli\model_load('search', ['entity_id' => $metadata['id'], 'content' => $content], 'search')
         ) {
             $ids = [];
 
@@ -192,7 +191,7 @@ function index()
         }
     }
 
-    $size = model\size($metadata['id'], $criteria);
+    $size = akilli\model_size($metadata['id'], $criteria);
     $limit = (int) akilli\config('limit.' . $action);
     $page = max((int) http\get('page'), 1);
     $offset = ($page - 1) * $limit;
@@ -210,7 +209,7 @@ function index()
         $params['direction'] = $direction;
     }
 
-    $data = model\load($metadata['id'], $criteria, null, $order, [$limit, $offset]);
+    $data = akilli\model_load($metadata['id'], $criteria, null, $order, [$limit, $offset]);
     array_walk(
         $attributes,
         function (& $attribute, $code) use ($params) {
@@ -312,7 +311,7 @@ function account_profile_action()
 
     if ($item) {
         $data = [$account['id'] => array_replace($account, $item)];
-        model\save('account', $data);
+        akilli\model_save('account', $data);
     }
 
     if (!$item = akilli\account()) {
@@ -340,7 +339,7 @@ function account_login_action()
     if ($data) {
         if (!empty($data['name'])
             && !empty($data['password'])
-            && ($item = model\load('account', ['name' => $data['name'], 'is_active' => true], false))
+            && ($item = akilli\model_load('account', ['name' => $data['name'], 'is_active' => true], false))
             && password_verify($data['password'], $item['password'])
         ) {
             akilli\message(akilli\_('Welcome %s', $item['name']));

@@ -7,7 +7,6 @@ use filter;
 use http;
 use media;
 use metadata;
-use model;
 
 /**
  * Set appropriate php type
@@ -141,7 +140,7 @@ function options(array $attribute, array $item = null, bool $cache = false): arr
     if ($attribute['backend'] === 'bool') {
         $options = [akilli\_('No'), akilli\_('Yes')];
     } elseif (!empty($attribute['foreign_entity_id'])) {
-        $options = model\load($attribute['foreign_entity_id']);
+        $options = akilli\model_load($attribute['foreign_entity_id']);
     } elseif (!empty($attribute['options_callback'])) {
         if (empty($attribute['options_callback_param'])) {
             $options = $attribute['options_callback']();
@@ -239,10 +238,10 @@ function options_menubasis(string $entity): array
 {
     $metadata = akilli\data('metadata', $entity);
     $root = !empty($metadata['attributes']['root_id']);
-    $collection = $root ? model\load($metadata['attributes']['root_id']['foreign_entity_id']) : null;
+    $collection = $root ? akilli\model_load($metadata['attributes']['root_id']['foreign_entity_id']) : null;
     $data = [];
 
-    foreach (model\load($entity) as $item) {
+    foreach (akilli\model_load($entity) as $item) {
         if ($root && empty($data[$item['root_id']  . ':0'])) {
             $data[$item['root_id']  . ':0']['name'] = $collection[$item['root_id']]['name'];
             $data[$item['root_id']  . ':0']['class'] = 'group';
@@ -752,7 +751,7 @@ function validate_unique(array $attribute, array & $item): bool
 
     // Existing values
     if (!isset($data[$entity])) {
-        $data[$entity] = model\load($entity, null, 'unique');
+        $data[$entity] = akilli\model_load($entity, null, 'unique');
 
         if ($entity === 'entity' && ($ids = array_keys(akilli\data('metadata')))
             || $entity === 'attribute' && ($ids = array_keys(akilli\data('metadata', 'eav_content')['attributes']))

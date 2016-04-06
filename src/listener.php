@@ -3,7 +3,6 @@ namespace akilli;
 
 use data;
 use metadata;
-use model;
 use RuntimeException;
 
 /**
@@ -63,16 +62,16 @@ function listener_metadata(array & $data)
     }
 
     // EAV
-    $meta = model\load(
+    $meta = model_load(
         'metadata',
         null,
         ['entity_id', 'attribute_id'],
         ['entity_id' => 'ASC', 'sort_order' => 'ASC']
     );
-    $attributes = model\load('attribute');
+    $attributes = model_load('attribute');
     $types = data('type');
 
-    foreach (model\load('entity') as $id => $item) {
+    foreach (model_load('entity') as $id => $item) {
         $item = array_replace($data['eav_content'], $item);
         $item['model'] = 'eav';
 
@@ -119,25 +118,25 @@ function listener_model_save(array & $data)
     if ($data['_metadata']['id'] === 'entity' && !empty($data['_original'])) {
         // Search
         if (!metadata\action(['view', 'index', 'list'], $data)) {
-            model\delete('search', ['entity_id' => $data['_original']['id']], null, null, null, true);
+           model_delete('search', ['entity_id' => $data['_original']['id']], null, null, null, true);
         } elseif ($data['id'] !== $data['_original']['id']
-            && ($searchItems = model\load('search', ['entity_id' => $data['_original']['id']]))
+            && ($searchItems = model_load('search', ['entity_id' => $data['_original']['id']]))
         ) {
             foreach ($searchItems as $searchItemId => $searchItem) {
                 $searchItems[$searchItemId]['entity_id'] = $data['id'];
             }
 
-            model\save('search', $searchItems);
+            model_save('search', $searchItems);
         }
 
         // Rewrite
         $criteria = ['target' => $data['_original']['id'] . '/view/id/'];
 
         if (!metadata\action('view', $data)) {
-            model\delete('rewrite', $criteria, 'search', null, null, true);
+            model_delete('rewrite', $criteria, 'search', null, null, true);
         } elseif (metadata\action('view', $data)
             && $data['id'] !== $data['_original']['id']
-            && ($rewrites = model\load('rewrite', $criteria, 'search'))
+            && ($rewrites = model_load('rewrite', $criteria, 'search'))
         ) {
             foreach ($rewrites as $rewriteId => $rewrite) {
                 $rewrites[$rewriteId]['target'] = preg_replace(
@@ -147,7 +146,7 @@ function listener_model_save(array & $data)
                 );
             }
 
-            model\save('rewrite', $rewrites);
+            model_save('rewrite', $rewrites);
         }
     }
 
@@ -171,18 +170,18 @@ function listener_model_save(array & $data)
         }
 
         $searchItem = ['entity_id' => $data['_metadata']['id'], 'content_id' => $data['id'], 'content' => $content];
-        $old = model\load('search', ['entity_id' => $data['_metadata']['id'], 'content_id' => $data['id']], false);
+        $old = model_load('search', ['entity_id' => $data['_metadata']['id'], 'content_id' => $data['id']], false);
         $searchItems = $old ? [$old['id'] => $searchItem] : [-1 => $searchItem];
-        model\save('search', $searchItems);
+        model_save('search', $searchItems);
     }
 
     // Rewrite
     if ($data['_metadata']['id'] !== 'rewrite' && metadata\action('view', $data['_metadata'])) {
         $target = $data['_metadata']['id'] . '/view/id/' . $data['id'];
         $rewrite = ['id' => $data['name'], 'target' => $target, 'is_system' => true];
-        $old = model\load('rewrite', ['target' => $target, 'is_system' => true], false);
+        $old = model_load('rewrite', ['target' => $target, 'is_system' => true], false);
         $rewrites = $old ? [$old['id'] => $rewrite] : [-1 => $rewrite];
-        model\save('rewrite', $rewrites);
+       model_save('rewrite', $rewrites);
     }
 }
 
@@ -197,11 +196,11 @@ function listener_model_delete(array & $data)
 {
     // Entity
     if ($data['_metadata']['id'] === 'entity') {
-        model\delete('search', ['entity_id' => $data['id']], null, null, null, true);
-        model\delete('rewrite', ['target' => $data['id'] . '/view/id/'], 'search', null, null, true);
+        model_delete('search', ['entity_id' => $data['id']], null, null, null, true);
+        model_delete('rewrite', ['target' => $data['id'] . '/view/id/'], 'search', null, null, true);
     }
 
-    model\delete(
+    model_delete(
         'search',
         ['entity_id' => $data['_metadata']['id'], 'content_id' => $data['id']],
         null,
@@ -209,7 +208,7 @@ function listener_model_delete(array & $data)
         null,
         true
     );
-    model\delete(
+    model_delete(
         'rewrite',
         ['target' => $data['_metadata']['id'] . '/view/id/' . $data['id']],
         null,

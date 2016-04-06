@@ -1,7 +1,6 @@
 <?php
-namespace model;
+namespace akilli;
 
-use akilli;
 use attribute;
 use db;
 use metadata;
@@ -17,7 +16,7 @@ use RuntimeException;
  *
  * @return bool
  */
-function validate(array & $item): bool
+function model_validate(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {
@@ -43,16 +42,16 @@ function validate(array & $item): bool
  *
  * @return int
  */
-function size(string $entity, array $criteria = null, bool $search = false): int
+function model_size(string $entity, array $criteria = null, bool $search = false): int
 {
-    $metadata = akilli\data('metadata', $entity);
+    $metadata = data('metadata', $entity);
     $callback = 'model\\' . $metadata['model'] . '_size';
 
     try {
         return $callback($entity, $criteria, $search);
     } catch (Exception $e) {
-        akilli\error($e);
-        akilli\message(akilli\_('Data could not be loaded'));
+        error($e);
+        message(_('Data could not be loaded'));
     }
 
     return 0;
@@ -72,9 +71,9 @@ function size(string $entity, array $criteria = null, bool $search = false): int
  *
  * @return array
  */
-function load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
+function model_load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
 {
-    $metadata = akilli\data('metadata', $entity);
+    $metadata = data('metadata', $entity);
     $callback = 'model\\' . $metadata['model'] . '_load';
     $single = $index === false;
     $data = [];
@@ -104,7 +103,7 @@ function load(string $entity, array $criteria = null, $index = null, array $orde
             $item['_id'] = $item['id'];
 
             // Entity load events
-            akilli\event(
+            event(
                 ['model.load', 'model.load.' . $metadata['model'], 'entity.load.' . $entity],
                 $item
             );
@@ -135,8 +134,8 @@ function load(string $entity, array $criteria = null, $index = null, array $orde
             }
         }
     } catch (Exception $e) {
-        akilli\error($e);
-        akilli\message(akilli\_('Data could not be loaded'));
+        error($e);
+        message(_('Data could not be loaded'));
     }
 
     return $data;
@@ -150,10 +149,10 @@ function load(string $entity, array $criteria = null, $index = null, array $orde
  *
  * @return bool
  */
-function save(string $entity, array & $data): bool
+function model_save(string $entity, array & $data): bool
 {
-    $metadata = akilli\data('metadata', $entity);
-    $original = load($entity);
+    $metadata = data('metadata', $entity);
+    $original = model_load($entity);
 
     foreach ($data as $id => $item) {
         $item['_id'] = $id;
@@ -161,7 +160,7 @@ function save(string $entity, array & $data): bool
         $data[$id] = $item;
         $callback = 'model\\' . $metadata['model'] . '_' . (empty($original[$id]) ? 'create' : 'save');
         $item['modified'] = date_format(date_create('now'), 'Y-m-d H:i:s');
-        $item['modifier'] = akilli\account('id');
+        $item['modifier'] = account('id');
 
         if (empty($original[$id])) {
             $item['created'] = $item['modified'];
@@ -169,7 +168,7 @@ function save(string $entity, array & $data): bool
         }
 
         // Validate
-        if (!validate($item)) {
+        if (!model_validate($item)) {
             if (!empty($item['__error'])) {
                 $data[$id]['__error'] = $item['__error'];
             }
@@ -205,7 +204,7 @@ function save(string $entity, array & $data): bool
             $metadata['db'],
             function () use ($entity, & $item, $callback, $metadata) {
                 // Entity before save events
-                akilli\event(
+                event(
                     [
                         'model.save_before',
                         'model.save_before.' . $metadata['model'],
@@ -220,7 +219,7 @@ function save(string $entity, array & $data): bool
                 }
 
                 // Entity after save events
-                akilli\event(
+                event(
                     [
                         'model.save_after',
                         'model.save_after.' . $metadata['model'],
@@ -240,7 +239,7 @@ function save(string $entity, array & $data): bool
     }
 
     // Message
-    akilli\message(akilli\_(empty($error) ? 'Data successfully saved' : 'Data could not be saved'));
+    message(_(empty($error) ? 'Data successfully saved' : 'Data could not be saved'));
 
     return empty($error);
 }
@@ -257,13 +256,13 @@ function save(string $entity, array & $data): bool
  *
  * @return bool
  */
-function delete(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null, bool $system = false): bool
+function model_delete(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null, bool $system = false): bool
 {
-    $metadata = akilli\data('metadata', $entity);
+    $metadata = data('metadata', $entity);
     $callback = 'model\\' . $metadata['model'] . '_delete';
 
     // Check if anything is there to delete
-    if (!$data = load($entity, $criteria, $index, $order, $limit)) {
+    if (!$data = model_load($entity, $criteria, $index, $order, $limit)) {
         return false;
     }
 
@@ -275,7 +274,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
     foreach ($data as $id => $item) {
         // Filter system items
         if (!$system && !empty($item['is_system'])) {
-            akilli\message(akilli\_('You must not delete system items! Therefore skipped ID %s', $id));
+            message(_('You must not delete system items! Therefore skipped ID %s', $id));
             unset($data[$id]);
             continue;
         }
@@ -286,7 +285,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
                 && !$metadata['attributes'][$code]['delete']($metadata['attributes'][$code], $item)
             ) {
                 if (!empty($item['__error'][$code])) {
-                    akilli\message($item['__error'][$code]);
+                    message($item['__error'][$code]);
                 }
 
                 $error = true;
@@ -299,7 +298,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
             $metadata['db'],
             function () use ($entity, & $item, $callback, $metadata) {
                 // Entity before delete events
-                akilli\event(
+                event(
                     [
                         'model.delete_before',
                         'model.delete_before.' . $metadata['model'],
@@ -314,7 +313,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
                 }
 
                 // Entity after delete events
-                akilli\event(
+                event(
                     [
                         'model.delete_after',
                         'model.delete_after.' . $metadata['model'],
@@ -333,7 +332,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
     }
 
     // Message
-    akilli\message(akilli\_(empty($error) ? 'Data successfully deleted' : 'Data could not be deleted'));
+    message(_(empty($error) ? 'Data successfully deleted' : 'Data could not be deleted'));
 
     return empty($error);
 }
@@ -639,7 +638,7 @@ function nestedset_create(array & $item): bool
     $columns = $params = $sets = [];
     sql\columns($attributes, $item, $columns, $params, $sets);
 
-    if (empty($item['basis']) || !($basisItem = load($metadata['id'], ['id' => $item['basis']], false))) {
+    if (empty($item['basis']) || !($basisItem = model_load($metadata['id'], ['id' => $item['basis']], false))) {
         // No basis given so append node
         $curLft = 'COALESCE(MAX(rgt), 0) + 1';
         $curRgt = 'COALESCE(MAX(rgt), 0) + 2';
@@ -741,7 +740,7 @@ function nestedset_save(array & $item): bool
     sql\columns($attributes, $item, $columns, $params, $sets, ['root_id']);
 
     if (!empty($item['basis']) && ($item['basis'] === $item['_original']['id']
-            || !($basisItem = load($metadata['id'], ['id' => $item['basis']], false))
+            || !($basisItem = model_load($metadata['id'], ['id' => $item['basis']], false))
             || $item['_original']['lft'] < $basisItem['lft'] && $item['_original']['rgt'] > $basisItem['rgt'])
     ) {
         // No change in position or wrong basis given
@@ -1115,7 +1114,7 @@ function eav_create(array & $item): bool
         }
 
         // Create Values
-        if (count($save) > 0 && !save('eav_value', $save)) {
+        if (count($save) > 0 && !model_save('eav_value', $save)) {
             throw new RuntimeException('Save call failed');
         }
     }
@@ -1149,7 +1148,7 @@ function eav_save(array & $item): bool
     $valueModel = metadata\skeleton('eav_value');
 
     if ($valueAttributes) {
-        $values = load('eav_value', ['content_id' => $item['_original']['id']], 'attribute_id');
+        $values = model_load('eav_value', ['content_id' => $item['_original']['id']], 'attribute_id');
     } else {
         $values = [];
     }
@@ -1204,7 +1203,7 @@ function eav_save(array & $item): bool
         }
 
         // Save Values
-        if (!save('eav_value', $save)) {
+        if (!model_save('eav_value', $save)) {
             throw new RuntimeException('Save call failed');
         }
     }

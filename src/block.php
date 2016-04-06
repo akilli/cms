@@ -2,7 +2,6 @@
 namespace akilli;
 
 use http;
-use model;
 
 /**
  * HTML Block
@@ -74,7 +73,7 @@ function block_entity(array & $block): string
         ['criteria' => null, 'index' => null, 'order' => null, 'limit' => config('limit.block')],
         $block['vars']
     );
-    $block['vars']['data'] = model\load(
+    $block['vars']['data'] = model_load(
         $block['vars']['entity'],
         $block['vars']['criteria'],
         $block['vars']['index'],
@@ -151,11 +150,11 @@ function block_menu(array & $block): string
     $root = !empty($metadata['attributes']['root_id']);
 
     if ($root) {
-        $collection = model\load($metadata['attributes']['root_id']['foreign_entity_id']);
+        $collection = model_load($metadata['attributes']['root_id']['foreign_entity_id']);
         $criteria = !empty($block['vars']['root_id']) ? ['root_id' => $block['vars']['root_id']] : null;
-        $roots = model\load($block['vars']['entity'], $criteria, ['root_id', 'id']);
+        $roots = model_load($block['vars']['entity'], $criteria, ['root_id', 'id']);
     } else {
-        $roots[] = model\load($block['vars']['entity']);
+        $roots[] = model_load($block['vars']['entity']);
     }
 
     $html = '';

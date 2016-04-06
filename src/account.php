@@ -1,8 +1,6 @@
 <?php
 namespace akilli;
 
-use model;
-
 /**
  * User
  *
@@ -16,10 +14,10 @@ function account(string $key = null)
 
     if ($data === null) {
         $id = (int) session('account');
-        $data = model\load('account', ['id' => $id, 'is_active' => true], false);
+        $data = model_load('account', ['id' => $id, 'is_active' => true], false);
 
         if ($data) {
-            $role = model\load('role', ['id' => $data['role_id'], 'is_active' => true], false);
+            $role = model_load('role', ['id' => $data['role_id'], 'is_active' => true], false);
             $data['privilege'] = $role ? $role['privilege'] : [];
         }
 
