@@ -3,7 +3,6 @@ namespace akilli;
 
 use attribute;
 use db;
-use metadata;
 use PDO;
 use sql;
 use Exception;
@@ -156,7 +155,7 @@ function model_save(string $entity, array & $data): bool
 
     foreach ($data as $id => $item) {
         $item['_id'] = $id;
-        $item = array_replace(empty($original[$id]) ? metadata\skeleton($entity) : $original[$id], $item);
+        $item = array_replace(empty($original[$id]) ? metadata_skeleton($entity) : $original[$id], $item);
         $data[$id] = $item;
         $callback = 'akilli\\' . $metadata['model'] . '_' . (empty($original[$id]) ? 'create' : 'save');
         $item['modified'] = date_format(date_create('now'), 'Y-m-d H:i:s');
@@ -1063,7 +1062,7 @@ function eav_create(array & $item): bool
     $attributes = $metadata['attributes'];
     $contentAttributes = $contentMetadata['attributes'];
     $valueAttributes = array_diff_key($attributes, $contentAttributes);
-    $valueModel = metadata\skeleton('eav_value');
+    $valueModel = metadata_skeleton('eav_value');
 
     // Entity
     $item['entity_id'] = $metadata['id'];
@@ -1145,7 +1144,7 @@ function eav_save(array & $item): bool
     $attributes = $metadata['attributes'];
     $contentAttributes = $contentMetadata['attributes'];
     $valueAttributes = array_diff_key($attributes, $contentAttributes);
-    $valueModel = metadata\skeleton('eav_value');
+    $valueModel = metadata_skeleton('eav_value');
 
     if ($valueAttributes) {
         $values = model_load('eav_value', ['content_id' => $item['_original']['id']], 'attribute_id');

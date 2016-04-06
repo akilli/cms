@@ -4,7 +4,6 @@ namespace action;
 use akilli;
 use data;
 use http;
-use metadata;
 
 /**
  * Create Action
@@ -23,7 +22,7 @@ function create_action()
         }
     } else {
         // Initial create action call
-        $data = metadata\skeleton($metadata['id'], (int) http\post_data('create', 'number'));
+        $data = akilli\metadata_skeleton($metadata['id'], (int) http\post_data('create', 'number'));
     }
 
     // View
@@ -164,7 +163,7 @@ function index()
     $attributes = array_filter(
         $metadata['attributes'],
         function ($attribute) use ($action) {
-            return metadata\action($action, $attribute);
+            return akilli\metadata_action($action, $attribute);
         }
     );
     $criteria = empty($metadata['attributes']['is_active']) || $action === 'index' ? [] : ['is_active' => true];
@@ -255,7 +254,7 @@ function meta(): array
     $metadata = akilli\data('metadata', http\request('entity'));
 
     // Check if action is allowed for entity
-    if (!metadata\action(http\request('action'), $metadata)) {
+    if (!akilli\metadata_action(http\request('action'), $metadata)) {
         error_action();
     }
 

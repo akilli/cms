@@ -4,7 +4,6 @@ namespace akilli;
 use data;
 use http;
 use InvalidArgumentException;
-use metadata;
 
 /**
  * Render block
@@ -114,7 +113,7 @@ function view_handles(array $handles = null): array
             $handles[] = 'http-base';
         }
 
-        if ($metadata && metadata\action(http\request('action'), $metadata)) {
+        if ($metadata && metadata_action(http\request('action'), $metadata)) {
             $handles[] = 'action-' . http\request('action');
         }
 

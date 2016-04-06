@@ -1,8 +1,5 @@
 <?php
-namespace metadata;
-
-use akilli;
-use RuntimeException;
+namespace akilli;
 
 /**
  * Entity
@@ -11,13 +8,13 @@ use RuntimeException;
  *
  * @return array
  *
- * @throws RuntimeException
+ * @throws \RuntimeException
  */
-function entity(array $data): array
+function metadata_entity(array $data): array
 {
     // Check minimum requirements
     if (empty($data['id']) || empty($data['name']) || empty($data['table']) || empty($data['attributes'])) {
-        throw new RuntimeException(akilli\_('Entity metadata does not meet the minimum requirements'));
+        throw new \RuntimeException(_('Entity metadata does not meet the minimum requirements'));
     }
 
     // Clean up
@@ -28,9 +25,9 @@ function entity(array $data): array
     }
 
     // Model
-    $skeleton = akilli\data('skeleton', 'entity');
+    $skeleton = data('skeleton', 'entity');
     $model = !empty($data['model']) ? $data['model'] : $skeleton['model'];
-    $data = array_replace_recursive($skeleton, (array) akilli\data('skeleton', 'entity.' . $model), $data);
+    $data = array_replace_recursive($skeleton, (array) data('skeleton', 'entity.' . $model), $data);
 
     // Actions
     if (!is_array($data['actions'])) {
@@ -56,7 +53,7 @@ function entity(array $data): array
             $attribute['foreign_entity_id'] = $data['id'];
         }
 
-        $attribute = attribute($attribute);
+        $attribute = metadata_attribute($attribute);
 
         if (!is_numeric($attribute['sort_order'])) {
             $attribute['sort_order'] = $sortOrder;
@@ -76,13 +73,13 @@ function entity(array $data): array
  *
  * @return array
  *
- * @throws RuntimeException
+ * @throws \RuntimeException
  */
-function attribute(array $data): array
+function metadata_attribute(array $data): array
 {
     // Check minimum requirements
     if (empty($data['id']) || empty($data['name']) || empty($data['type'])) {
-        throw new RuntimeException(akilli\_('Attribute metadata does not meet the minimum requirements'));
+        throw new \RuntimeException(_('Attribute metadata does not meet the minimum requirements'));
     }
 
     // Clean up
@@ -93,22 +90,20 @@ function attribute(array $data): array
     }
 
     // Type, Backend, Frontend
-    $type = akilli\data('type', $data['type']);
+    $type = data('type', $data['type']);
 
     if (!$type || empty($type['backend']) || empty($type['frontend'])) {
-        throw new RuntimeException(
-            akilli\_('Invalid type %s configured for attribute %s', $data['type'], $data['id'])
-        );
+        throw new \RuntimeException(_('Invalid type %s configured for attribute %s', $data['type'], $data['id']));
     }
 
     $data['backend'] = $type['backend'];
     $data['frontend'] = $type['frontend'];
-    $backend = akilli\data('backend', $data['backend']);
-    $frontend = akilli\data('frontend', $data['frontend']);
+    $backend = data('backend', $data['backend']);
+    $frontend = data('frontend', $data['frontend']);
 
     // Model
     $data = array_replace(
-        akilli\data('skeleton', 'attribute'),
+        data('skeleton', 'attribute'),
         !empty($backend['default']) ? $backend['default'] : [],
         !empty($frontend['default']) ? $frontend['default'] : [],
         !empty($type['default']) ? $type['default'] : [],
@@ -136,7 +131,7 @@ function attribute(array $data): array
  *
  * @return bool
  */
-function action($action, array $data): bool
+function metadata_action($action, array $data): bool
 {
     if (!isset($data['actions'])
         || !is_array($data['actions']) && !($data['actions'] = json_decode($data['actions'], true))
@@ -166,13 +161,13 @@ function action($action, array $data): bool
  *
  * @return array
  */
-function skeleton(string $entity, int $number = null): array
+function metadata_skeleton(string $entity, int $number = null): array
 {
-    $metadata = akilli\data('metadata', $entity);
+    $metadata = data('metadata', $entity);
     $item = ['_metadata' => $metadata, '_original' => null, '_id' => null, 'id' => null, 'name' => null];
 
     foreach ($metadata['attributes'] as $code => $attribute) {
-        if (action('edit', $attribute)) {
+        if (metadata_action('edit', $attribute)) {
             $item[$code] = null;
         }
     }

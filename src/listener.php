@@ -2,7 +2,6 @@
 namespace akilli;
 
 use data;
-use metadata;
 use RuntimeException;
 
 /**
@@ -56,7 +55,7 @@ function listener_metadata(array & $data)
             continue;
         }
 
-        $item = metadata\entity($item);
+        $item = metadata_entity($item);
         $item['attributes'] = data\order($item['attributes'], 'sort_order');
         $data[$id] = $item;
     }
@@ -99,7 +98,7 @@ function listener_metadata(array & $data)
             }
         }
 
-        $item = metadata\entity($item);
+        $item = metadata_entity($item);
         $item['attributes'] = data\order($item['attributes'], 'sort_order');
         $data[$id] = $item;
     }
@@ -117,7 +116,7 @@ function listener_model_save(array & $data)
     // Entity
     if ($data['_metadata']['id'] === 'entity' && !empty($data['_original'])) {
         // Search
-        if (!metadata\action(['view', 'index', 'list'], $data)) {
+        if (!metadata_action(['view', 'index', 'list'], $data)) {
            model_delete('search', ['entity_id' => $data['_original']['id']], null, null, null, true);
         } elseif ($data['id'] !== $data['_original']['id']
             && ($searchItems = model_load('search', ['entity_id' => $data['_original']['id']]))
@@ -132,9 +131,9 @@ function listener_model_save(array & $data)
         // Rewrite
         $criteria = ['target' => $data['_original']['id'] . '/view/id/'];
 
-        if (!metadata\action('view', $data)) {
+        if (!metadata_action('view', $data)) {
             model_delete('rewrite', $criteria, 'search', null, null, true);
-        } elseif (metadata\action('view', $data)
+        } elseif (metadata_action('view', $data)
             && $data['id'] !== $data['_original']['id']
             && ($rewrites = model_load('rewrite', $criteria, 'search'))
         ) {
@@ -151,7 +150,7 @@ function listener_model_save(array & $data)
     }
 
     // Search
-    if ($data['_metadata']['id'] !== 'search' && metadata\action(['view', 'index', 'list'], $data['_metadata'])) {
+    if ($data['_metadata']['id'] !== 'search' && metadata_action(['view', 'index', 'list'], $data['_metadata'])) {
         $content = '';
 
         foreach ($data as $code => $value) {
@@ -176,7 +175,7 @@ function listener_model_save(array & $data)
     }
 
     // Rewrite
-    if ($data['_metadata']['id'] !== 'rewrite' && metadata\action('view', $data['_metadata'])) {
+    if ($data['_metadata']['id'] !== 'rewrite' && metadata_action('view', $data['_metadata'])) {
         $target = $data['_metadata']['id'] . '/view/id/' . $data['id'];
         $rewrite = ['id' => $data['name'], 'target' => $target, 'is_system' => true];
         $old = model_load('rewrite', ['target' => $target, 'is_system' => true], false);

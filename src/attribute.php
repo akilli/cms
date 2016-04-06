@@ -6,7 +6,6 @@ use file;
 use filter;
 use http;
 use media;
-use metadata;
 
 /**
  * Set appropriate php type
@@ -93,7 +92,7 @@ function ignore(array $attribute, array $item): bool
  */
 function is_edit(array & $attribute, array $item): bool
 {
-    if (!metadata\action('edit', $attribute)) {
+    if (!akilli\metadata_action('edit', $attribute)) {
         return false;
     }
 
@@ -117,7 +116,7 @@ function is_edit(array & $attribute, array $item): bool
 function is_view(array & $attribute): bool
 {
     return $attribute['action'] === 'system'
-        || $attribute['action'] && metadata\action($attribute['action'], $attribute);
+        || $attribute['action'] && akilli\metadata_action($attribute['action'], $attribute);
 }
 
 /**
@@ -401,7 +400,7 @@ function validate(array $attribute, array & $item): bool
 {
     // Skip attributes that need no validation or are uneditable (unless required and new)
     if (!empty($attribute['auto'])
-        || !metadata\action('edit', $attribute) && (empty($attribute['is_required']) || !empty($item['_original']))
+        || !akilli\metadata_action('edit', $attribute) && (empty($attribute['is_required']) || !empty($item['_original']))
     ) {
         return true;
     }
