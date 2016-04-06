@@ -67,15 +67,15 @@ function path(string $dir, string $subpath = null): string
     if ($data === null) {
         $data = [];
         $data['root'] = filter_path(realpath(__DIR__ . '/..'));
-        // Local
+        // app
         $data['app'] = $data['root'] . '/app';
         $data['db'] = $data['app'] . '/db';
         $data['log'] = $data['app'] . '/log';
-        // Source
+        // src
         $data['src'] = __DIR__;
         $data['data'] = $data['src'] . '/data';
         $data['template'] = $data['src'] . '/template';
-        // Public
+        // public
         $data['public'] = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
         $data['asset'] = $data['public'] . '/asset';
         $data['cache'] = $data['asset'] . '/cache';
