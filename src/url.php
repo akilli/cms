@@ -47,6 +47,30 @@ function url_asset(string $path): string
 }
 
 /**
+ * CSS URL
+ *
+ * @param string $path
+ *
+ * @return string
+ */
+function url_css(string $path): string
+{
+    return url_asset('css/' . trim($path, '/'));
+}
+
+/**
+ * JavaScript URL
+ *
+ * @param string $path
+ *
+ * @return string
+ */
+function url_js(string $path): string
+{
+    return url_asset('js/' . trim($path, '/'));
+}
+
+/**
  * Media URL
  *
  * @param string $path
