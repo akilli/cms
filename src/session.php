@@ -1,5 +1,5 @@
 <?php
-namespace session;
+namespace akilli;
 
 /**
  * Session data
@@ -10,7 +10,7 @@ namespace session;
  *
  * @return mixed
  */
-function & data(string $key = null, $value = null, bool $reset = false)
+function & session(string $key = null, $value = null, bool $reset = false)
 {
     static $data;
 
@@ -51,7 +51,7 @@ function & data(string $key = null, $value = null, bool $reset = false)
  */
 function message(string $message)
 {
-    $data = & data('message');
+    $data = & session('message');
 
     if ($message && (!$data || !in_array($message, $data))) {
         $data[] = $message;
@@ -65,7 +65,7 @@ function message(string $message)
  */
 function token(): string
 {
-    $token = & data('token');
+    $token = & session('token');
 
     if (empty($token)) {
         $token = md5(uniqid(mt_rand(), true));

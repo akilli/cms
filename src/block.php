@@ -5,7 +5,6 @@ use akilli;
 use http;
 use model;
 use role;
-use session;
 use toolbar;
 use url;
 use view;
@@ -209,11 +208,11 @@ function menu(array & $block): string
  */
 function message(array & $block): string
 {
-    if (!$block['vars']['data'] = session\data('message')) {
+    if (!$block['vars']['data'] = akilli\session('message')) {
         return '';
     }
 
-    session\data('message', null, true);
+    akilli\session('message', null, true);
 
     return template($block);
 }

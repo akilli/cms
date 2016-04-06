@@ -7,7 +7,6 @@ use db;
 use log;
 use metadata;
 use PDO;
-use session;
 use sql;
 use Exception;
 use RuntimeException;
@@ -54,7 +53,7 @@ function size(string $entity, array $criteria = null, bool $search = false): int
         return $callback($entity, $criteria, $search);
     } catch (Exception $e) {
         log\error($e);
-        session\message(akilli\_('Data could not be loaded'));
+        akilli\message(akilli\_('Data could not be loaded'));
     }
 
     return 0;
@@ -138,7 +137,7 @@ function load(string $entity, array $criteria = null, $index = null, array $orde
         }
     } catch (Exception $e) {
         log\error($e);
-        session\message(akilli\_('Data could not be loaded'));
+        akilli\message(akilli\_('Data could not be loaded'));
     }
 
     return $data;
@@ -242,7 +241,7 @@ function save(string $entity, array & $data): bool
     }
 
     // Message
-    session\message(akilli\_(empty($error) ? 'Data successfully saved' : 'Data could not be saved'));
+    akilli\message(akilli\_(empty($error) ? 'Data successfully saved' : 'Data could not be saved'));
 
     return empty($error);
 }
@@ -277,7 +276,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
     foreach ($data as $id => $item) {
         // Filter system items
         if (!$system && !empty($item['is_system'])) {
-            session\message(akilli\_('You must not delete system items! Therefore skipped ID %s', $id));
+            akilli\message(akilli\_('You must not delete system items! Therefore skipped ID %s', $id));
             unset($data[$id]);
             continue;
         }
@@ -288,7 +287,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
                 && !$metadata['attributes'][$code]['delete']($metadata['attributes'][$code], $item)
             ) {
                 if (!empty($item['__error'][$code])) {
-                    session\message($item['__error'][$code]);
+                    akilli\message($item['__error'][$code]);
                 }
 
                 $error = true;
@@ -335,7 +334,7 @@ function delete(string $entity, array $criteria = null, $index = null, array $or
     }
 
     // Message
-    session\message(akilli\_(empty($error) ? 'Data successfully deleted' : 'Data could not be deleted'));
+    akilli\message(akilli\_(empty($error) ? 'Data successfully deleted' : 'Data could not be deleted'));
 
     return empty($error);
 }

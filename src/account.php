@@ -2,7 +2,6 @@
 namespace akilli;
 
 use model;
-use session;
 
 /**
  * User
@@ -16,7 +15,7 @@ function account(string $key = null)
     static $data;
 
     if ($data === null) {
-        $id = (int) session\data('account');
+        $id = (int) session('account');
         $data = model\load('account', ['id' => $id, 'is_active' => true], false);
 
         if ($data) {
@@ -25,7 +24,7 @@ function account(string $key = null)
         }
 
         if ($id <= 0 || !$data) {
-            session\data('account', null, true);
+            session('account', null, true);
         }
     }
 

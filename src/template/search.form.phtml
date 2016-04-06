@@ -4,7 +4,7 @@
             <label for="data-terms"><?= akilli\_('Search Terms');?></label>
             <input id="data-terms" type="search" name="data[terms]" title="<?= akilli\_('Please enter your search terms');?>" />
             <input type="submit" name="action[search]" title="<?= akilli\_('Search');?>" value="<?= akilli\_('Search');?>" />
-            <input type="hidden" name="token" value="<?=session\token();?>" />
+            <input type="hidden" name="token" value="<?= akilli\token();?>" />
             <p class="message"><?= akilli\_('Please enter your search terms');?></p>
         </div>
     </fieldset>

@@ -4,7 +4,6 @@ namespace http;
 use akilli;
 use file;
 use filter;
-use session;
 use url;
 
 /**
@@ -144,9 +143,9 @@ function post(string $key = null)
  */
 function post_validate(string $token): bool
 {
-    $session = session\data('token');
+    $session = akilli\session('token');
     $success = !empty($session) && !empty($token) && $session === $token;
-    session\data('token', null, true);
+    akilli\session('token', null, true);
 
     return $success;
 }
@@ -225,7 +224,7 @@ function files_validate(array $data): array
                 $ext = pathinfo($attribute['name'], PATHINFO_EXTENSION);
 
                 if (empty($extensions[$ext])) {
-                    session\message(akilli\_('Invalid file %s was rejected', $attribute['name']));
+                    akilli\message(akilli\_('Invalid file %s was rejected', $attribute['name']));
                     unset($data[$key][$id][$code]);
                 } else {
                     $data[$key][$id][$code]['extension'] = $ext;

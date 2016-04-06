@@ -7,7 +7,6 @@ use http;
 use metadata;
 use model;
 use role;
-use session;
 use url;
 use view;
 
@@ -61,7 +60,7 @@ function edit_action()
 
     // If $data is empty, there haven't been any matching records to edit
     if (empty($data)) {
-        session\message(akilli\_('You did not select anything to edit'));
+        akilli\message(akilli\_('You did not select anything to edit'));
         http\redirect(role\allowed('index') ? '*/index' : '');
     }
 
@@ -85,7 +84,7 @@ function delete_action()
         model\delete($metadata['id'], ['id' => array_keys($data)]);
     } else {
         // No data posted
-        session\message(akilli\_('You did not select anything to delete'));
+        akilli\message(akilli\_('You did not select anything to delete'));
     }
 
     http\redirect(role\allowed('index') ? '*/index' : '');
@@ -107,7 +106,7 @@ function view_action()
         error_action();
     } elseif (!empty($metadata['attributes']['is_active']) && empty($item['is_active'])) {
         // Preview
-        session\message(akilli\_('Preview'));
+        akilli\message(akilli\_('Preview'));
     }
 
     // View
@@ -142,7 +141,7 @@ function list_action()
  */
 function error_action()
 {
-    session\message(akilli\_('The page %s does not exist', http\request('path')));
+    akilli\message(akilli\_('The page %s does not exist', http\request('path')));
     http\redirect();
 }
 
@@ -153,7 +152,7 @@ function error_action()
  */
 function denied_action()
 {
-    session\message(akilli\_('Access denied'));
+    akilli\message(akilli\_('Access denied'));
     http\redirect('account/login');
 }
 
@@ -192,7 +191,7 @@ function index()
             $criteria['id'] = $ids;
             $params['terms'] = urlencode(implode(' ', $content));
         } else {
-            session\message(akilli\_('No results for provided search terms %s', implode(', ', $content)));
+            akilli\message(akilli\_('No results for provided search terms %s', implode(', ', $content)));
         }
     }
 
@@ -347,13 +346,13 @@ function account_login_action()
             && ($item = model\load('account', ['name' => $data['name'], 'is_active' => true], false))
             && password_verify($data['password'], $item['password'])
         ) {
-            session\message(akilli\_('Welcome %s', $item['name']));
+            akilli\message(akilli\_('Welcome %s', $item['name']));
             session_regenerate_id(true);
-            session\data('account', $item['id']);
+            akilli\session('account', $item['id']);
             http\redirect('*/dashboard');
         }
 
-        session\message(akilli\_('Invalid name and password combination'));
+        akilli\message(akilli\_('Invalid name and password combination'));
     }
 
     view\load();

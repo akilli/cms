@@ -4,7 +4,7 @@
             <label for="data-number"><?= akilli\_('Number');?></label>
             <input id="data-number" type="number" name="data[number]" value="1" title="<?= akilli\_('Please enter the number of items you want to create');?>" />
             <input type="submit" name="action[create]" title="<?= akilli\_('Create');?>" value="<?= akilli\_('Create');?>" />
-            <input type="hidden" name="token" value="<?=session\token();?>" />
+            <input type="hidden" name="token" value="<?= akilli\token();?>" />
             <p class="message"><?= akilli\_('Please enter the number of items you want to create');?></p>
         </div>
     </fieldset>

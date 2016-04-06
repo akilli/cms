@@ -68,7 +68,7 @@
             <?php if (role\allowed('edit')):?>
             <input type="submit" name="action[edit]" title="<?= akilli\_('Edit');?>" value="<?= akilli\_('Edit');?>" formaction="<?=url\path('*/edit');?>" />
             <?php endif;?>
-            <input type="hidden" name="token" value="<?=session\token();?>" />
+            <input type="hidden" name="token" value="<?= akilli\token();?>" />
         </fieldset>
         <?php endif;?>
     </form>
