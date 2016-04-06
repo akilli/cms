@@ -309,7 +309,7 @@ function account_dashboard_action()
  */
 function account_profile_action()
 {
-    $account = account\user();
+    $account = account\account();
 
     if (!$account || !account\registered()) {
         http\redirect();
@@ -322,7 +322,7 @@ function account_profile_action()
         model\save('account', $data);
     }
 
-    if (!$item = account\user()) {
+    if (!$item = account\account()) {
         http\redirect();
     }
 

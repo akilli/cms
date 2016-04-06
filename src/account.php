@@ -11,7 +11,7 @@ use session;
  *
  * @return mixed
  */
-function user(string $key = null)
+function account(string $key = null)
 {
     static $data;
 
@@ -44,5 +44,5 @@ function user(string $key = null)
  */
 function registered(): bool
 {
-    return user('id') > 0;
+    return account('id') > 0;
 }
