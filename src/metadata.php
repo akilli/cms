@@ -1,6 +1,8 @@
 <?php
 namespace akilli;
 
+use RuntimeException;
+
 /**
  * Entity
  *
@@ -8,13 +10,13 @@ namespace akilli;
  *
  * @return array
  *
- * @throws \RuntimeException
+ * @throws RuntimeException
  */
 function metadata_entity(array $data): array
 {
     // Check minimum requirements
     if (empty($data['id']) || empty($data['name']) || empty($data['table']) || empty($data['attributes'])) {
-        throw new \RuntimeException(_('Entity metadata does not meet the minimum requirements'));
+        throw new RuntimeException(_('Entity metadata does not meet the minimum requirements'));
     }
 
     // Clean up
@@ -73,13 +75,13 @@ function metadata_entity(array $data): array
  *
  * @return array
  *
- * @throws \RuntimeException
+ * @throws RuntimeException
  */
 function metadata_attribute(array $data): array
 {
     // Check minimum requirements
     if (empty($data['id']) || empty($data['name']) || empty($data['type'])) {
-        throw new \RuntimeException(_('Attribute metadata does not meet the minimum requirements'));
+        throw new RuntimeException(_('Attribute metadata does not meet the minimum requirements'));
     }
 
     // Clean up
@@ -93,7 +95,7 @@ function metadata_attribute(array $data): array
     $type = data('type', $data['type']);
 
     if (!$type || empty($type['backend']) || empty($type['frontend'])) {
-        throw new \RuntimeException(_('Invalid type %s configured for attribute %s', $data['type'], $data['id']));
+        throw new RuntimeException(_('Invalid type %s configured for attribute %s', $data['type'], $data['id']));
     }
 
     $data['backend'] = $type['backend'];

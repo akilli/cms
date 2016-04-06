@@ -1,6 +1,9 @@
 <?php
 namespace akilli;
 
+use ErrorException;
+use Throwable;
+
 /**
  * Initialize application
  */
@@ -13,11 +16,11 @@ foreach (glob(__DIR__ . '/../src/*.php') as $file) {
  */
 set_error_handler(
     function ($severity, $message, $file, $line) {
-        throw new \ErrorException($message, 0, $severity, $file, $line);
+        throw new ErrorException($message, 0, $severity, $file, $line);
     }
 );
 set_exception_handler(
-    function (\Throwable $e) {
+    function (Throwable $e) {
         echo '<pre>' . (string) $e . '</pre>';
     }
 );
@@ -35,4 +38,4 @@ register_shutdown_function(
 /**
  * Run application
  */
-run();
+app();
