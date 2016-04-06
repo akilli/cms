@@ -6,7 +6,6 @@ use data;
 use http;
 use metadata;
 use model;
-use role;
 use url;
 use view;
 
@@ -23,7 +22,7 @@ function create_action()
     if ($data) {
         // Perform create callback
         if (model\save($metadata['id'], $data)) {
-            http\redirect(role\allowed('index') ? '*/index' : '');
+            http\redirect(akilli\allowed('index') ? '*/index' : '');
         }
     } else {
         // Initial create action call
@@ -48,7 +47,7 @@ function edit_action()
     if ($data) {
         // Perform save callback and redirect to index on success
         if (model\save($metadata['id'], $data)) {
-            http\redirect(role\allowed('index') ? '*/index' : '');
+            http\redirect(akilli\allowed('index') ? '*/index' : '');
         }
     } elseif (($id = http\get('id')) !== null) {
         // We just clicked on an edit link, p.e. on the index page
@@ -61,7 +60,7 @@ function edit_action()
     // If $data is empty, there haven't been any matching records to edit
     if (empty($data)) {
         akilli\message(akilli\_('You did not select anything to edit'));
-        http\redirect(role\allowed('index') ? '*/index' : '');
+        http\redirect(akilli\allowed('index') ? '*/index' : '');
     }
 
     // View
@@ -87,7 +86,7 @@ function delete_action()
         akilli\message(akilli\_('You did not select anything to delete'));
     }
 
-    http\redirect(role\allowed('index') ? '*/index' : '');
+    http\redirect(akilli\allowed('index') ? '*/index' : '');
 }
 
 /**
@@ -100,7 +99,7 @@ function view_action()
     $metadata = meta();
 
     if (!($item = model\load($metadata['id'], ['id' => http\get('id')], false))
-        || !empty($metadata['attributes']['is_active']) && empty($item['is_active']) && !role\allowed('edit')
+        || !empty($metadata['attributes']['is_active']) && empty($item['is_active']) && !akilli\allowed('edit')
     ) {
         // Item does not exist or is inactive
         error_action();

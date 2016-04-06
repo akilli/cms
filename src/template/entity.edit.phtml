@@ -15,7 +15,7 @@
         </fieldset>
         <?php endforeach;?>
         <fieldset class="action">
-            <?php if (role\allowed('index')):?>
+            <?php if (akilli\allowed('index')):?>
             <a role="button" href="<?=url\path('*/index');?>" title="<?= akilli\_('Back');?>"><?= akilli\_('Back');?></a>
             <?php endif;?>
             <input type="submit" name="action[save]" title="<?= akilli\_('Save');?>" value="<?= akilli\_('Save');?>" />

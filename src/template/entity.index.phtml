@@ -21,12 +21,12 @@
                             <a href="<?=$attribute['url'];?>"><?= akilli\_($attribute['name']);?></a>
                         </th>
                         <?php endforeach;?>
-                        <?php if (role\allowed('edit')):?>
+                        <?php if (akilli\allowed('edit')):?>
                         <th data-type="bool.checkbox">
                             <?= akilli\_('Edit');?>
                         </th>
                         <?php endif;?>
-                        <?php if (role\allowed('view')):?>
+                        <?php if (akilli\allowed('view')):?>
                         <th data-type="bool.checkbox">
                             <?= akilli\_('View');?>
                         </th>
@@ -45,12 +45,12 @@
                             <?=$attribute['view']($attribute, $item);?>
                         </td>
                         <?php endforeach;?>
-                        <?php if (role\allowed('edit')):?>
+                        <?php if (akilli\allowed('edit')):?>
                         <td>
                             <a href="<?=url\path('*/edit', ['id' => $id]);?>" title="<?= akilli\_('Edit this item');?>"><?= akilli\_('Edit');?></a>
                         </td>
                         <?php endif;?>
-                        <?php if (role\allowed('view')):?>
+                        <?php if (akilli\allowed('view')):?>
                         <td>
                             <a href="<?=url\path('*/view', ['id' => $id]);?>" title="<?= akilli\_('View this item');?>"><?= akilli\_('View');?></a>
                         </td>
@@ -60,12 +60,12 @@
                 </tbody>
             </table>
         </fieldset>
-        <?php if (role\allowed('delete') || role\allowed('edit')):?>
+        <?php if (akilli\allowed('delete') || akilli\allowed('edit')):?>
         <fieldset class="action">
-            <?php if (role\allowed('delete')):?>
+            <?php if (akilli\allowed('delete')):?>
             <input type="submit" name="action[delete]" title="<?= akilli\_('Delete');?>" value="<?= akilli\_('Delete');?>" formaction="<?=url\path('*/delete');?>" />
             <?php endif;?>
-            <?php if (role\allowed('edit')):?>
+            <?php if (akilli\allowed('edit')):?>
             <input type="submit" name="action[edit]" title="<?= akilli\_('Edit');?>" value="<?= akilli\_('Edit');?>" formaction="<?=url\path('*/edit');?>" />
             <?php endif;?>
             <input type="hidden" name="token" value="<?= akilli\token();?>" />

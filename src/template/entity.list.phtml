@@ -11,7 +11,7 @@
             <?php if (!$html = $attribute['view']($attribute, $item)) continue;?>
             <?php if ($code === 'name'):?>
         <header>
-                <?php if (role\allowed('view')):?>
+                <?php if (akilli\allowed('view')):?>
             <h2><a href="<?=url\path('*/view', ['id' => $id]);?>" title="<?= akilli\_('View this item');?>"><?=$html;?></a></h2>
                 <?php else:?>
             <h2><?=$html;?></h2>

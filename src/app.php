@@ -5,7 +5,7 @@ use data;
 use file;
 use filter;
 use http;
-use role;
+use akilli;
 use view;
 use InvalidArgumentException;
 
@@ -28,7 +28,7 @@ function run(array $data = [])
 
     if (!$listeners) {
         $event = 'action.error';
-    } elseif (!role\allowed()) {
+    } elseif (!akilli\allowed()) {
         $event = 'action.denied';
     }
 

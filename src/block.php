@@ -4,7 +4,6 @@ namespace block;
 use akilli;
 use http;
 use model;
-use role;
 use toolbar;
 use url;
 use view;
@@ -243,7 +242,7 @@ function toolbar(array & $block): string
             $item['children'] = $block['vars']['data'][$key]['children'] = '';
         }
 
-        if (!empty($item['controller']) && !role\allowed($item['controller'])
+        if (!empty($item['controller']) && !akilli\allowed($item['controller'])
             || empty($item['url']) && empty($item['children'])
         ) {
             unset($block['vars']['data'][$key]);

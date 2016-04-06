@@ -1,7 +1,6 @@
 <?php
-namespace role;
+namespace akilli;
 
-use akilli;
 use data;
 use http;
 
@@ -14,7 +13,7 @@ use http;
  */
 function allowed(string $key = null): bool
 {
-    $data = akilli\data('privilege');
+    $data = data('privilege');
     $key = privilege($key);
 
     // Privilege does not exist
@@ -22,7 +21,7 @@ function allowed(string $key = null): bool
         return false;
     }
 
-    $privileges = akilli\account('privilege');
+    $privileges = account('privilege');
     $allKey = strstr($key, '.', true) . '.all';
 
     return empty($data[$key]['is_active'])
@@ -59,7 +58,7 @@ function privileges(): array
     if ($data === null) {
         $data = data\order(
             array_filter(
-                akilli\data('privilege'),
+                data('privilege'),
                 function ($item) {
                     return (!isset($item['is_active']) || $item['is_active'] !== false)
                     && (empty($item['callback']) || !is_callable($item['callback']));
@@ -79,5 +78,5 @@ function privileges(): array
  */
 function admin(): bool
 {
-    return akilli\registered() && in_array('all', akilli\account('privilege'));
+    return registered() && in_array('all', account('privilege'));
 }

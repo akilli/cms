@@ -6,7 +6,6 @@ use data;
 use http;
 use InvalidArgumentException;
 use metadata;
-use role;
 
 /**
  * Block Type
@@ -55,7 +54,7 @@ function handles(array $handles = null): array
 
         $handles[] = akilli\registered() ? 'account-registered' : 'account-anonymous';
 
-        if (role\admin()) {
+        if (akilli\admin()) {
             $handles[] = 'role-admin';
         }
 
@@ -91,7 +90,7 @@ function render(string $id): string
         || empty($block['is_active'])
         || empty($block['type'])
         || !($type = type($block['type']))
-        || !empty($block['privilege']) && !role\allowed($block['privilege'])
+        || !empty($block['privilege']) && !akilli\allowed($block['privilege'])
     ) {
         return '';
     }
