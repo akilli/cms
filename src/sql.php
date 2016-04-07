@@ -19,7 +19,7 @@ function sql_size(string $entity, array $criteria = null, array $options = []): 
     $stmt = $db->prepare(
         'SELECT COUNT(*) as total'
         . db_from($db, $metadata['table'])
-        . db_where($db, (array) $criteria, $metadata['attributes'], null, false, $options)
+        . db_where($db, (array) $criteria, $metadata['attributes'], $options)
     );
 
     // Execute statement
@@ -52,7 +52,7 @@ function sql_load(string $entity, array $criteria = null, $index = null, array $
     $stmt = $db->prepare(
         db_select($db, $metadata['attributes'])
         . db_from($db, $metadata['table'])
-        . db_where($db, (array) $criteria, $metadata['attributes'], null, false, $options)
+        . db_where($db, (array) $criteria, $metadata['attributes'], $options)
         . db_order($db, (array) $order, $metadata['attributes'])
         . db_limit($limit)
     );

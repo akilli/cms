@@ -247,16 +247,14 @@ function db_from(PDO $db, string $table, string $alias = null): string
  * @param PDO $db
  * @param array $criteria
  * @param array $attributes
- * @param string $alias
- * @param bool $add
  * @param array $options
  *
  * @return string
  */
-function db_where(PDO $db, array $criteria, array $attributes, string $alias = null, bool $add = false, array $options = []): string
+function db_where(PDO $db, array $criteria, array $attributes, array $options = []): string
 {
     $columns = [];
-    $alias = $alias ? db_quote_identifier($db, $alias) . '.' : '';
+    $alias = !empty($options['alias']) ? db_quote_identifier($db, $options['alias']) . '.' : '';
     $search = !empty($options['search']);
     $operator = $search ? 'LIKE' : '=';
 
@@ -283,7 +281,7 @@ function db_where(PDO $db, array $criteria, array $attributes, string $alias = n
         return '';
     }
 
-    return ($add ? ' AND ' : ' WHERE ') . implode(' AND ', $columns);
+    return ' WHERE ' . implode(' AND ', $columns);
 }
 
 /**

@@ -35,7 +35,7 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
     $where = 'b.lft < e.lft AND b.rgt > e.rgt'
         . ($root ? ' AND b.' . $attributes['root_id']['column'] . ' = e.' . $attributes['root_id']['column'] : '');
     $selectLevel = $selectParentId = '';
-    $options = ['search' => $index === 'search'];
+    $options = ['search' => $index === 'search', 'alias' => 'e'];
 
     // Set hierarchy as default order
     if (empty($order)) {
@@ -69,7 +69,7 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
     $stmt = $db->prepare(
         db_select($db, $attributes, 'e') . $selectLevel . $selectParentId
         . db_from($db, $metadata['table'], 'e')
-        . db_where($db, (array) $criteria, $attributes, 'e', false, $options)
+        . db_where($db, (array) $criteria, $attributes, $options)
         . db_order($db, $order, $orderAttributes)
         . db_limit($limit)
     );
