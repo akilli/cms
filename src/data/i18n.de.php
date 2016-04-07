@@ -45,6 +45,7 @@ return [
     'Datetime' => 'Datum + Uhrzeit',
     'Decimal' => 'Dezimalzahl',
     'Description' => 'Beschreibung',
+    'EAV' => 'EAV',
     'Edit' => 'Bearbeiten',
     'Edit Elements' => 'Änderungselemente',
     'Editor' => 'Editor',

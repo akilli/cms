@@ -211,7 +211,7 @@ return [
     ],
     'eav' => [
         'id' => 'eav',
-        'name' => 'Value',
+        'name' => 'EAV',
         'table' => 'eav',
         'description' => '',
         'attributes' => [
