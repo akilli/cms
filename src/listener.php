@@ -114,19 +114,6 @@ function listener_model_save(array & $data)
 {
     // Entity
     if ($data['_metadata']['id'] === 'entity' && !empty($data['_original'])) {
-        // Search
-        if (!metadata_action(['view', 'index', 'list'], $data)) {
-           model_delete('search', ['entity_id' => $data['_original']['id']], null, true);
-        } elseif ($data['id'] !== $data['_original']['id']
-            && ($searchItems = model_load('search', ['entity_id' => $data['_original']['id']]))
-        ) {
-            foreach ($searchItems as $searchItemId => $searchItem) {
-                $searchItems[$searchItemId]['entity_id'] = $data['id'];
-            }
-
-            model_save('search', $searchItems);
-        }
-
         // Rewrite
         $criteria = ['target' => $data['_original']['id'] . '/view/id/'];
 
@@ -146,31 +133,6 @@ function listener_model_save(array & $data)
 
             model_save('rewrite', $rewrites);
         }
-    }
-
-    // Search
-    if ($data['_metadata']['id'] !== 'search' && metadata_action(['view', 'index', 'list'], $data['_metadata'])) {
-        $content = '';
-
-        foreach ($data as $code => $value) {
-            if (!$value || empty($data['_metadata']['attributes'][$code]['is_searchable'])) {
-                continue;
-            }
-
-            $data['_metadata']['attributes'][$code]['action'] = 'system';
-            $content .= ' ' . str_replace(
-                "\n",
-                '',
-                strip_tags(
-                    $data['_metadata']['attributes'][$code]['view']($data['_metadata']['attributes'][$code], $data)
-                )
-            );
-        }
-
-        $searchItem = ['entity_id' => $data['_metadata']['id'], 'content_id' => $data['id'], 'content' => $content];
-        $old = model_load('search', ['entity_id' => $data['_metadata']['id'], 'content_id' => $data['id']], false);
-        $searchItems = $old ? [$old['id'] => $searchItem] : [-1 => $searchItem];
-        model_save('search', $searchItems);
     }
 
     // Rewrite
@@ -194,11 +156,9 @@ function listener_model_delete(array & $data)
 {
     // Entity
     if ($data['_metadata']['id'] === 'entity') {
-        model_delete('search', ['entity_id' => $data['id']], null, true);
         model_delete('rewrite', ['target' => $data['id'] . '/view/id/'], 'search', true);
     }
 
-    model_delete('search', ['entity_id' => $data['_metadata']['id'], 'content_id' => $data['id']], null, true);
     model_delete('rewrite', ['target' => $data['_metadata']['id'] . '/view/id/' . $data['id']], null, true);
 }
 

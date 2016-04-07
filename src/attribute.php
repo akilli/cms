@@ -351,6 +351,28 @@ function attribute_save_multiple(array $attribute, array & $item): bool
 }
 
 /**
+ * Save search index
+ *
+ * @param array $attribute
+ * @param array $item
+ *
+ * @return bool
+ */
+function attribute_save_index(array $attribute, array & $item): bool
+{
+    $code = $attribute['id'];
+    $item[$code] = '';
+
+    foreach ($item['_metadata']['attributes'] as $a) {
+        if ($a['is_searchable']) {
+            $item[$code] .= ' ' . str_replace("\n", '', strip_tags($a['view']($a, $item)));
+        }
+    }
+
+    return true;
+}
+
+/**
  * Delete
  *
  * @return bool

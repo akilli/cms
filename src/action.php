@@ -127,12 +127,12 @@ function action_index()
     // Search
     if (($terms = post_data('search', 'terms')) || ($terms = get('terms')) && ($terms = urldecode($terms))) {
         if (($content = array_filter(explode(' ', $terms)))
-            && $searchItems = model_load('search', ['entity_id' => $metadata['id'], 'content' => $content], 'search')
+            && $searchItems = model_load('content', ['entity_id' => $metadata['id'], 'search' => $content], 'search')
         ) {
             $ids = [];
 
             foreach ($searchItems as $item) {
-                $ids[] = $item['content_id'];
+                $ids[] = $item['id'];
             }
 
             $criteria['id'] = $ids;

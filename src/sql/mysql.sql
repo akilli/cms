@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `content` (
     `entity_id` VARCHAR(100) NOT NULL,
     `is_active` BOOLEAN NOT NULL DEFAULT '0',
     `meta` TEXT DEFAULT NULL,
+    `search` TEXT DEFAULT NULL,
     `created` DATETIME NOT NULL,
     `creator` INTEGER(11) DEFAULT NULL,
     `modified` DATETIME NOT NULL,
@@ -78,7 +79,8 @@ CREATE TABLE IF NOT EXISTS `content` (
     KEY `idx_content_created` (`created`),
     KEY `idx_content_creator` (`creator`),
     KEY `idx_content_modified` (`modified`),
-    KEY `idx_content_modifier` (`modifier`)
+    KEY `idx_content_modifier` (`modifier`),
+    FULLTEXT `idx_content_search` (`search`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -237,24 +239,6 @@ CREATE TABLE IF NOT EXISTS `role` (
 INSERT INTO `role` (`id`, `name`, `privilege`, `is_active`, `is_system`) VALUES
 (0, 'Anonymous', NULL, '1', '1'),
 (1, 'Administrator', '["all"]', '1', '1');
-
--- --------------------------------------------------------
-
---
--- Structure for table `search`
---
-
-DROP TABLE IF EXISTS `search`;
-CREATE TABLE IF NOT EXISTS `search` (
-    `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-    `entity_id` VARCHAR(100) NOT NULL,
-    `content_id` VARCHAR(255) NOT NULL,
-    `content` TEXT NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `uni_search_content` (`entity_id`,`content_id`),
-    KEY `idx_search_entity` (`entity_id`),
-    KEY `idx_search_content` (`content_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
