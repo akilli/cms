@@ -164,17 +164,7 @@ function view_add(array $block)
 
     // New blocks
     if ($oldBlock === null) {
-        $oldBlock = [
-            'id' => null,
-            'type' => null,
-            'template' => null,
-            'vars' => [],
-            'is_active' => true,
-            'privilege' => null,
-            'parent' => 'root',
-            'sort_order' => 0,
-            'children' => [],
-        ];
+        $oldBlock = data('skeleton', 'block');
 
         if (empty($block['type']) || !view_type($block['type'])) {
             throw new InvalidArgumentException('No or invalid block type given for block with ID ' . $block['id']);

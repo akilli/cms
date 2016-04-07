@@ -30,6 +30,18 @@ return [
         'edit' => 'akilli\attribute_edit_varchar',
         'view' => 'akilli\attribute_view_default',
     ],
+    // block
+    'block' => [
+        'id' => null,
+        'type' => null,
+        'template' => null,
+        'vars' => [],
+        'is_active' => true,
+        'privilege' => null,
+        'parent' => 'root',
+        'sort_order' => 0,
+        'children' => [],
+    ],
     // entity
     'entity' => [
         'id' => null,
