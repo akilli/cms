@@ -203,11 +203,10 @@ function db_columns(array $attributes, array $item, array & $columns, array & $p
  * @param PDO $db
  * @param array $attributes
  * @param string $alias
- * @param bool $add
  *
  * @return string
  */
-function select(PDO $db, array $attributes, string $alias = null, bool $add = false): string
+function select(PDO $db, array $attributes, string $alias = null): string
 {
     $columns = [];
     $alias = ($alias) ? db_quote_identifier($db, $alias) . '.' : '';
@@ -224,7 +223,7 @@ function select(PDO $db, array $attributes, string $alias = null, bool $add = fa
         return '';
     }
 
-    return ($add ? ', ' : 'SELECT ') . implode(', ', $columns);
+    return 'SELECT ' . implode(', ', $columns);
 }
 
 /**
