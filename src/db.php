@@ -290,11 +290,10 @@ function where(PDO $db, array $criteria, array $attributes, array $options = [])
  * @param PDO $db
  * @param array $order
  * @param array $attributes
- * @param bool $add
  *
  * @return string
  */
-function order(PDO $db, array $order, array $attributes = null, bool $add = false): string
+function order(PDO $db, array $order, array $attributes = null): string
 {
     $columns = [];
 
@@ -311,7 +310,7 @@ function order(PDO $db, array $order, array $attributes = null, bool $add = fals
         return '';
     }
 
-    return ($add ? ', ' : ' ORDER BY ') . implode(', ', $columns);
+    return ' ORDER BY ' . implode(', ', $columns);
 }
 
 /**
