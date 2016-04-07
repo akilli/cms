@@ -16,7 +16,7 @@ function attribute_type(array $attribute, $value)
     }
 
     if ($attribute['backend'] === 'bool') {
-        return !empty($value);
+        return boolval($value);
     }
 
     if ($attribute['backend'] === 'int') {
