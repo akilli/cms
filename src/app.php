@@ -29,7 +29,7 @@ function app(array $data = [])
     event($event, $data);
 
     // Send response
-    echo view_render('root');
+    echo view('root');
 }
 
 /**

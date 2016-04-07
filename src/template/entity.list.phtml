@@ -2,7 +2,7 @@
 <section class="block block-list">
     <header>
         <h1><?=$block['data']('header');?></h1>
-        <?= view_render('search');?>
+        <?= view('search');?>
     </header>
 <?php if ($block['data']('data')):?>
     <?php foreach ($block['data']('data') as $id => $item):?>
@@ -26,7 +26,7 @@
         <?php endforeach;?>
     </article>
         <?php endforeach;?>
-    <?= view_render('pager');?>
+    <?= view('pager');?>
 <?php else:;?>
     <p><?= _('Nothing created yet');?></p>
 <?php endif;?>

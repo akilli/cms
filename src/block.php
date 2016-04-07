@@ -40,7 +40,7 @@ function block_container(array & $block): string
         asort($block['children'], SORT_NUMERIC);
 
         foreach (array_keys($block['children']) as $id) {
-            $html .= view_render($id);
+            $html .= view($id);
         }
     }
 

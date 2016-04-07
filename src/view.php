@@ -10,7 +10,7 @@ use InvalidArgumentException;
  *
  * @return string
  */
-function view_render(string $id): string
+function view(string $id): string
 {
     $block = & view_layout($id);
 

@@ -3,10 +3,10 @@
     <header>
         <h1><?=$block['data']('header');?></h1>
         <div class="tools cf">
-            <?= view_render('entity.index.create');?>
-            <?= view_render('entity.index.search');?>
+            <?= view('entity.index.create');?>
+            <?= view('entity.index.search');?>
         </div>
-        <?= view_render('pager');?>
+        <?= view('pager');?>
     </header>
     <?php if ($block['data']('data')):?>
     <form action="<?= url('*/*');?>" method="post" class="index">

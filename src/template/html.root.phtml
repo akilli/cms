@@ -2,22 +2,22 @@
 <!DOCTYPE html>
 <html lang="<?= config('i18n.language');?>">
     <head>
-        <?= view_render('head');?>
+        <?= view('head');?>
     </head>
     <body class="<?=$block['data']('class');?>">
-        <?= view_render('top');?>
-        <?= view_render('message');?>
+        <?= view('top');?>
+        <?= view('message');?>
         <div id="content" class="cf">
             <aside id="left">
-                <?= view_render('left');?>
+                <?= view('left');?>
             </aside>
             <main>
-                <?= view_render('content');?>
+                <?= view('content');?>
             </main>
             <aside id="right">
-                <?= view_render('right');?>
+                <?= view('right');?>
             </aside>
         </div>
-        <?= view_render('bottom');?>
+        <?= view('bottom');?>
     </body>
 </html>
