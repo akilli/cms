@@ -146,21 +146,4 @@ return [
             ],
         ],
     ],
-    // request
-    'request' => [
-        'id' => 'http.index',
-        'action' => 'index',
-        'entity' => 'http',
-        'base' => '',
-        'url' => '',
-        'original_path' => '',
-        'path' => '',
-        'host' => '',
-        'scheme' => 'http',
-        'is_secure' => false,
-        'files' => [],
-        'get' => [],
-        'post' => [],
-        '_original' => [],
-    ],
 ];
