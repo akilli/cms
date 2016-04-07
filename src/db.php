@@ -11,7 +11,7 @@ use PDO;
  *
  * @return PDO
  */
-function db(string $key)
+function db(string $key): PDO
 {
     $db = & registry('db');
 
