@@ -29,10 +29,7 @@ function request(string $key)
  */
 function request_init(): array
 {
-    $data = [];
-    $data['id'] = 'http.index';
-    $data['action'] = 'index';
-    $data['entity'] = 'http';
+    $data = data('skeleton', 'request');
     $data['base'] = rtrim(filter_path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
     $data['url'] = $_SERVER['REQUEST_URI'] ?? $data['base'];
     $data['original_path'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');
