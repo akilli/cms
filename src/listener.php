@@ -116,7 +116,7 @@ function listener_model_save(array & $data)
     if ($data['_metadata']['id'] === 'entity' && !empty($data['_original'])) {
         // Search
         if (!metadata_action(['view', 'index', 'list'], $data)) {
-           model_delete('search', ['entity_id' => $data['_original']['id']], null, null, null, true);
+           model_delete('search', ['entity_id' => $data['_original']['id']], null, true);
         } elseif ($data['id'] !== $data['_original']['id']
             && ($searchItems = model_load('search', ['entity_id' => $data['_original']['id']]))
         ) {
@@ -131,7 +131,7 @@ function listener_model_save(array & $data)
         $criteria = ['target' => $data['_original']['id'] . '/view/id/'];
 
         if (!metadata_action('view', $data)) {
-            model_delete('rewrite', $criteria, 'search', null, null, true);
+            model_delete('rewrite', $criteria, 'search', true);
         } elseif (metadata_action('view', $data)
             && $data['id'] !== $data['_original']['id']
             && ($rewrites = model_load('rewrite', $criteria, 'search'))
@@ -194,26 +194,12 @@ function listener_model_delete(array & $data)
 {
     // Entity
     if ($data['_metadata']['id'] === 'entity') {
-        model_delete('search', ['entity_id' => $data['id']], null, null, null, true);
-        model_delete('rewrite', ['target' => $data['id'] . '/view/id/'], 'search', null, null, true);
+        model_delete('search', ['entity_id' => $data['id']], null, true);
+        model_delete('rewrite', ['target' => $data['id'] . '/view/id/'], 'search', true);
     }
 
-    model_delete(
-        'search',
-        ['entity_id' => $data['_metadata']['id'], 'content_id' => $data['id']],
-        null,
-        null,
-        null,
-        true
-    );
-    model_delete(
-        'rewrite',
-        ['target' => $data['_metadata']['id'] . '/view/id/' . $data['id']],
-        null,
-        null,
-        null,
-        true
-    );
+    model_delete('search', ['entity_id' => $data['_metadata']['id'], 'content_id' => $data['id']], null, true);
+    model_delete('rewrite', ['target' => $data['_metadata']['id'] . '/view/id/' . $data['id']], null, true);
 }
 
 /**

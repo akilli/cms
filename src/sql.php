@@ -38,11 +38,11 @@ function sql_size(string $entity, array $criteria = null, array $options = []): 
  * @param array $criteria
  * @param mixed $index
  * @param array $order
- * @param int|array $limit
+ * @param int[] $limit
  *
  * @return array
  */
-function sql_load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
+function sql_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
     $metadata = db_meta($entity);
     $db = db($metadata['db']);

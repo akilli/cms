@@ -62,11 +62,11 @@ function model_size(string $entity, array $criteria = null, array $options = [])
  * @param array $criteria
  * @param mixed $index
  * @param array $order
- * @param int|array $limit
+ * @param int[] $limit
  *
  * @return array
  */
-function model_load(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null): array
+function model_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
     $metadata = data('metadata', $entity);
     $callback =  __NAMESPACE__ . '\\' . $metadata['model'] . '_load';
@@ -249,19 +249,17 @@ function model_save(string $entity, array & $data): bool
  * @param string $entity
  * @param array $criteria
  * @param mixed $index
- * @param array $order
- * @param int|array $limit
  * @param bool $system
  *
  * @return bool
  */
-function model_delete(string $entity, array $criteria = null, $index = null, array $order = null, $limit = null, bool $system = false): bool
+function model_delete(string $entity, array $criteria = null, $index = null, bool $system = false): bool
 {
     $metadata = data('metadata', $entity);
     $callback =  __NAMESPACE__ . '\\' . $metadata['model'] . '_delete';
 
     // Check if anything is there to delete
-    if (!$data = model_load($entity, $criteria, $index, $order, $limit)) {
+    if (!$data = model_load($entity, $criteria, $index)) {
         return false;
     }
 

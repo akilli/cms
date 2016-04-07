@@ -301,7 +301,7 @@ function order(PDO $db, array $order, array $attributes = null): string
             continue;
         }
 
-        $direction = (strtoupper($direction) === 'DESC') ? 'DESC' : 'ASC';
+        $direction = strtoupper($direction) === 'DESC' ? 'DESC' : 'ASC';
         $columns[$code] = db_quote_identifier($db, $code) . ' ' . $direction;
     }
 
@@ -315,15 +315,14 @@ function order(PDO $db, array $order, array $attributes = null): string
 /**
  * Limit part
  *
- * @param int|array $limit
+ * @param int[] $limit
  *
  * @return string
  */
-function limit($limit): string
+function limit(array $limit = null): string
 {
-    $isArray = is_array($limit);
-    $offset = $isArray && !empty($limit[1]) ? (int) $limit[1] : 0;
-    $limit = $isArray && !empty($limit[0]) ? (int) $limit[0] : (int) $limit;
+    $limit[0] = !empty($limit[0]) ? (int) $limit[0] : 0;
+    $limit[1] = !empty($limit[1]) ? (int) $limit[1] : 0;
 
-    return $limit > 0 ? ' LIMIT ' . $limit . ' OFFSET ' . $offset : '';
+    return $limit[0] > 0 ? ' LIMIT ' . $limit[0] . ' OFFSET ' . $limit[1] : '';
 }

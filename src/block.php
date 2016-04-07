@@ -69,7 +69,7 @@ function block_entity(array & $block): string
         $block['vars']['criteria'],
         $block['vars']['index'],
         $block['vars']['order'],
-        $block['vars']['limit']
+        $block['vars']['limit'] ? (array) $block['vars']['limit'] : null
     );
     $block['vars']['header'] = _($metadata['name']);
 
