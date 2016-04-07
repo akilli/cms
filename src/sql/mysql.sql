@@ -163,11 +163,11 @@ CREATE TABLE IF NOT EXISTS `entity` (
 -- --------------------------------------------------------
 
 --
--- Structure for table `menu_item`
+-- Structure for table `menu`
 --
 
-DROP TABLE IF EXISTS `menu_item`;
-CREATE TABLE IF NOT EXISTS `menu_item` (
+DROP TABLE IF EXISTS `menu`;
+CREATE TABLE IF NOT EXISTS `menu` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `target` VARCHAR(255) NOT NULL,
@@ -180,17 +180,17 @@ CREATE TABLE IF NOT EXISTS `menu_item` (
     `modified` DATETIME NOT NULL,
     `modifier` INTEGER(11) DEFAULT NULL,
     PRIMARY KEY (`id`),
-    KEY `idx_menu_item_name` (`name`),
-    KEY `idx_menu_item_target` (`target`),
-    KEY `idx_menu_item_root` (`root_id`),
-    KEY `idx_menu_item_lft` (`lft`),
-    KEY `idx_menu_item_rgt` (`rgt`),
-    KEY `idx_menu_item_menu` (`root_id`,`lft`,`rgt`),
-    KEY `idx_menu_item_system` (`is_system`),
-    KEY `idx_menu_item_created` (`created`),
-    KEY `idx_menu_item_creator` (`creator`),
-    KEY `idx_menu_item_modified` (`modified`),
-    KEY `idx_menu_item_modifier` (`modifier`)
+    KEY `idx_menu_name` (`name`),
+    KEY `idx_menu_target` (`target`),
+    KEY `idx_menu_root` (`root_id`),
+    KEY `idx_menu_lft` (`lft`),
+    KEY `idx_menu_rgt` (`rgt`),
+    KEY `idx_menu_item` (`root_id`,`lft`,`rgt`),
+    KEY `idx_menu_system` (`is_system`),
+    KEY `idx_menu_created` (`created`),
+    KEY `idx_menu_creator` (`creator`),
+    KEY `idx_menu_modified` (`modified`),
+    KEY `idx_menu_modifier` (`modifier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -379,12 +379,12 @@ ALTER TABLE `entity`
     ADD CONSTRAINT `con_entity_modifier` FOREIGN KEY (`modifier`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `menu_item`
+-- Constraints for table `menu`
 --
-ALTER TABLE `menu_item`
-    ADD CONSTRAINT `con_menu_item_root` FOREIGN KEY (`root_id`) REFERENCES `menu_root` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_menu_item_creator` FOREIGN KEY (`creator`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_menu_item_modifier` FOREIGN KEY (`modifier`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `menu`
+    ADD CONSTRAINT `con_menu_root` FOREIGN KEY (`root_id`) REFERENCES `menu_root` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_menu_creator` FOREIGN KEY (`creator`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_menu_modifier` FOREIGN KEY (`modifier`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `menu_root`

@@ -345,10 +345,10 @@ return [
             ],
         ],
     ],
-    'menu_item' => [
-        'id' => 'menu_item',
-        'name' => 'Menu Item',
-        'table' => 'menu_item',
+    'menu' => [
+        'id' => 'menu',
+        'name' => 'Menu',
+        'table' => 'menu',
         'model' => 'nestedset',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'description' => '',

@@ -91,7 +91,6 @@ return [
     'Login' => 'Anmelden',
     'Logout' => 'Abmelden',
     'Menu' => 'Menü',
-    'Menu Item' => 'Menüpunkt',
     'Menu Root' => 'Menübaum',
     'Meta Tags' => 'Meta Angaben',
     'Merge Asset Files' => 'Asset Dateien zusammenführen',

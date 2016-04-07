@@ -194,11 +194,11 @@ CREATE INDEX "idx_entity_modifier" ON "entity" ("modifier");
 -- --------------------------------------------------------
 
 --
--- Structure for table "menu_item"
+-- Structure for table "menu"
 --
 
-DROP TABLE IF EXISTS "menu_item";
-CREATE TABLE "menu_item" (
+DROP TABLE IF EXISTS "menu";
+CREATE TABLE "menu" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "target" VARCHAR(255) NOT NULL,
@@ -216,20 +216,20 @@ CREATE TABLE "menu_item" (
 );
 
 --
--- Indexes for table "menu_item"
+-- Indexes for table "menu"
 --
 
-CREATE INDEX "idx_menu_item_name" ON "menu_item" ("name");
-CREATE INDEX "idx_menu_item_target" ON "menu_item" ("target");
-CREATE INDEX "idx_menu_item_root" ON "menu_item" ("root_id");
-CREATE INDEX "idx_menu_item_lft" ON "menu_item" ("lft");
-CREATE INDEX "idx_menu_item_rgt" ON "menu_item" ("rgt");
-CREATE INDEX "idx_menu_item_menu" ON "menu_item" ("root_id", "lft", "rgt");
-CREATE INDEX "idx_menu_item_system" ON "menu_item" ("is_system");
-CREATE INDEX "idx_menu_item_created" ON "menu_item" ("created");
-CREATE INDEX "idx_menu_item_creator" ON "menu_item" ("creator");
-CREATE INDEX "idx_menu_item_modified" ON "menu_item" ("modified");
-CREATE INDEX "idx_menu_item_modifier" ON "menu_item" ("modifier");
+CREATE INDEX "idx_menu_name" ON "menu" ("name");
+CREATE INDEX "idx_menu_target" ON "menu" ("target");
+CREATE INDEX "idx_menu_root" ON "menu" ("root_id");
+CREATE INDEX "idx_menu_lft" ON "menu" ("lft");
+CREATE INDEX "idx_menu_rgt" ON "menu" ("rgt");
+CREATE INDEX "idx_menu_item" ON "menu" ("root_id", "lft", "rgt");
+CREATE INDEX "idx_menu_system" ON "menu" ("is_system");
+CREATE INDEX "idx_menu_created" ON "menu" ("created");
+CREATE INDEX "idx_menu_creator" ON "menu" ("creator");
+CREATE INDEX "idx_menu_modified" ON "menu" ("modified");
+CREATE INDEX "idx_menu_modifier" ON "menu" ("modifier");
 
 -- --------------------------------------------------------
 
