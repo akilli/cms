@@ -44,13 +44,13 @@ function action_edit()
     } elseif (($id = get('id')) !== null) {
         // We just clicked on an edit link, p.e. on the index page
         $data = model_load($metadata['id'], ['id' => $id]);
-    } elseif (($data = post_data('edit'))) {
+    } elseif ($data = post_data('edit')) {
         // We just selected multiple items to edit on the index page
         $data = model_load($metadata['id'], ['id' => array_keys($data)]);
     }
 
     // If $data is empty, there haven't been any matching records to edit
-    if (empty($data)) {
+    if (!$data) {
         message(_('You did not select anything to edit'));
         redirect(allowed('index') ? '*/index' : '');
     }
@@ -125,9 +125,7 @@ function action_index()
     $params = [];
 
     // Search
-    if (($terms = post_data('search', 'terms'))
-        || ($terms = get('terms')) && ($terms = urldecode($terms))
-    ) {
+    if (($terms = post_data('search', 'terms')) || ($terms = get('terms')) && ($terms = urldecode($terms))) {
         if (($content = array_filter(explode(' ', $terms)))
             && $searchItems = model_load('search', ['entity_id' => $metadata['id'], 'content' => $content], 'search')
         ) {
