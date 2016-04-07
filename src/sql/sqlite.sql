@@ -82,11 +82,11 @@ CREATE INDEX "idx_attribute_modifier" ON "attribute" ("modifier");
 -- --------------------------------------------------------
 
 --
--- Structure for table "eav_content"
+-- Structure for table "content"
 --
 
-DROP TABLE IF EXISTS "eav_content";
-CREATE TABLE "eav_content" (
+DROP TABLE IF EXISTS "content";
+CREATE TABLE "content" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "entity_id" VARCHAR(100) NOT NULL,
@@ -102,25 +102,25 @@ CREATE TABLE "eav_content" (
 );
 
 --
--- Indexes for table "eav_content"
+-- Indexes for table "content"
 --
 
-CREATE INDEX "idx_eav_content_name" ON "eav_content" ("name");
-CREATE INDEX "idx_eav_content_entity" ON "eav_content" ("entity_id");
-CREATE INDEX "idx_eav_content_active" ON "eav_content" ("is_active");
-CREATE INDEX "idx_eav_content_created" ON "eav_content" ("created");
-CREATE INDEX "idx_eav_content_creator" ON "eav_content" ("creator");
-CREATE INDEX "idx_eav_content_modified" ON "eav_content" ("modified");
-CREATE INDEX "idx_eav_content_modifier" ON "eav_content" ("modifier");
+CREATE INDEX "idx_content_name" ON "content" ("name");
+CREATE INDEX "idx_content_entity" ON "content" ("entity_id");
+CREATE INDEX "idx_content_active" ON "content" ("is_active");
+CREATE INDEX "idx_content_created" ON "content" ("created");
+CREATE INDEX "idx_content_creator" ON "content" ("creator");
+CREATE INDEX "idx_content_modified" ON "content" ("modified");
+CREATE INDEX "idx_content_modifier" ON "content" ("modifier");
 
 -- --------------------------------------------------------
 
 --
--- Structure for table "eav_value"
+-- Structure for table "eav"
 --
 
-DROP TABLE IF EXISTS "eav_value";
-CREATE TABLE "eav_value" (
+DROP TABLE IF EXISTS "eav";
+CREATE TABLE "eav" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     "entity_id" VARCHAR(100) NOT NULL,
     "attribute_id" VARCHAR(100) NOT NULL,
@@ -138,22 +138,22 @@ CREATE TABLE "eav_value" (
     UNIQUE ("attribute_id", "content_id"),
     FOREIGN KEY ("entity_id") REFERENCES "entity" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY ("attribute_id") REFERENCES "attribute" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY ("content_id") REFERENCES "eav_content" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY ("content_id") REFERENCES "content" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY ("creator") REFERENCES "account" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     FOREIGN KEY ("modifier") REFERENCES "account" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 --
--- Indexes for table "eav_value"
+-- Indexes for table "eav"
 --
 
-CREATE INDEX "idx_eav_value_entity" ON "eav_value" ("entity_id");
-CREATE INDEX "idx_eav_value_attribute" ON "eav_value" ("attribute_id");
-CREATE INDEX "idx_eav_value_content" ON "eav_value" ("content_id");
-CREATE INDEX "idx_eav_value_created" ON "eav_value" ("created");
-CREATE INDEX "idx_eav_value_creator" ON "eav_value" ("creator");
-CREATE INDEX "idx_eav_value_modified" ON "eav_value" ("modified");
-CREATE INDEX "idx_eav_value_modifier" ON "eav_value" ("modifier");
+CREATE INDEX "idx_eav_entity" ON "eav" ("entity_id");
+CREATE INDEX "idx_eav_attribute" ON "eav" ("attribute_id");
+CREATE INDEX "idx_eav_content" ON "eav" ("content_id");
+CREATE INDEX "idx_eav_created" ON "eav" ("created");
+CREATE INDEX "idx_eav_creator" ON "eav" ("creator");
+CREATE INDEX "idx_eav_modified" ON "eav" ("modified");
+CREATE INDEX "idx_eav_modifier" ON "eav" ("modifier");
 
 -- --------------------------------------------------------
 

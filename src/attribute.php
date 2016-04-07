@@ -747,7 +747,7 @@ function attribute_validate_unique(array $attribute, array & $item): bool
         $data[$entity] = model_load($entity, null, 'unique');
 
         if ($entity === 'entity' && ($ids = array_keys(data('metadata')))
-            || $entity === 'attribute' && ($ids = array_keys(data('metadata', 'eav_content')['attributes']))
+            || $entity === 'attribute' && ($ids = array_keys(data('metadata', 'content')['attributes']))
         ) {
             $ids = array_combine($ids, $ids);
             $data[$entity]['id'] = !empty($data[$entity]['id']) ? array_replace($data[$entity]['id'], $ids) : $ids;

@@ -16,8 +16,8 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
 {
     $metadata = db_meta($entity);
     $db = db($metadata['db']);
-    $contentMetadata = db_meta('eav_content');
-    $valueMetadata = db_meta('eav_value');
+    $contentMetadata = db_meta('content');
+    $valueMetadata = db_meta('eav');
     $attributes = $metadata['attributes'];
     $valueAttributes = array_diff_key($attributes, $contentMetadata['attributes']);
     $joins = $params = [];
@@ -81,8 +81,8 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
 {
     $metadata = db_meta($entity);
     $db = db($metadata['db']);
-    $contentMetadata = db_meta('eav_content');
-    $valueMetadata = db_meta('eav_value');
+    $contentMetadata = db_meta('content');
+    $valueMetadata = db_meta('eav');
     $attributes = $metadata['attributes'];
     $valueAttributes = array_diff_key($attributes, $contentMetadata['attributes']);
     $joins = $params = [];
@@ -150,11 +150,11 @@ function eav_create(array & $item): bool
 
     $metadata = db_meta($item['_metadata']);
     $db = db($metadata['db']);
-    $contentMetadata = db_meta('eav_content');
+    $contentMetadata = db_meta('content');
     $attributes = $metadata['attributes'];
     $contentAttributes = $contentMetadata['attributes'];
     $valueAttributes = array_diff_key($attributes, $contentAttributes);
-    $valueModel = metadata_skeleton('eav_value');
+    $valueModel = metadata_skeleton('eav');
 
     // Entity
     $item['entity_id'] = $metadata['id'];
@@ -204,7 +204,7 @@ function eav_create(array & $item): bool
         }
 
         // Create Values
-        if (count($save) > 0 && !model_save('eav_value', $save)) {
+        if (count($save) > 0 && !model_save('eav', $save)) {
             throw new RuntimeException('Save call failed');
         }
     }
@@ -230,14 +230,14 @@ function eav_save(array & $item): bool
 
     $metadata = db_meta($item['_metadata']);
     $db = db($metadata['db']);
-    $contentMetadata = db_meta('eav_content');
+    $contentMetadata = db_meta('content');
     $attributes = $metadata['attributes'];
     $contentAttributes = $contentMetadata['attributes'];
     $valueAttributes = array_diff_key($attributes, $contentAttributes);
-    $valueModel = metadata_skeleton('eav_value');
+    $valueModel = metadata_skeleton('eav');
 
     if ($valueAttributes) {
-        $values = model_load('eav_value', ['content_id' => $item['_original']['id']], 'attribute_id');
+        $values = model_load('eav', ['content_id' => $item['_original']['id']], 'attribute_id');
     } else {
         $values = [];
     }
@@ -291,7 +291,7 @@ function eav_save(array & $item): bool
         }
 
         // Save Values
-        if (!model_save('eav_value', $save)) {
+        if (!model_save('eav', $save)) {
             throw new RuntimeException('Save call failed');
         }
     }

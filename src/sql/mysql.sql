@@ -73,11 +73,11 @@ CREATE TABLE IF NOT EXISTS `attribute` (
 -- --------------------------------------------------------
 
 --
--- Structure for table `eav_content`
+-- Structure for table `content`
 --
 
-DROP TABLE IF EXISTS `eav_content`;
-CREATE TABLE IF NOT EXISTS `eav_content` (
+DROP TABLE IF EXISTS `content`;
+CREATE TABLE IF NOT EXISTS `content` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `entity_id` VARCHAR(100) NOT NULL,
@@ -88,23 +88,23 @@ CREATE TABLE IF NOT EXISTS `eav_content` (
     `modified` DATETIME NOT NULL,
     `modifier` INTEGER(11) DEFAULT NULL,
     PRIMARY KEY (`id`),
-    KEY `idx_eav_content_name` (`name`),
-    KEY `idx_eav_content_entity` (`entity_id`),
-    KEY `idx_eav_content_active` (`is_active`),
-    KEY `idx_eav_content_created` (`created`),
-    KEY `idx_eav_content_creator` (`creator`),
-    KEY `idx_eav_content_modified` (`modified`),
-    KEY `idx_eav_content_modifier` (`modifier`)
+    KEY `idx_content_name` (`name`),
+    KEY `idx_content_entity` (`entity_id`),
+    KEY `idx_content_active` (`is_active`),
+    KEY `idx_content_created` (`created`),
+    KEY `idx_content_creator` (`creator`),
+    KEY `idx_content_modified` (`modified`),
+    KEY `idx_content_modifier` (`modifier`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Structure for table `eav_value`
+-- Structure for table `eav`
 --
 
-DROP TABLE IF EXISTS `eav_value`;
-CREATE TABLE IF NOT EXISTS `eav_value` (
+DROP TABLE IF EXISTS `eav`;
+CREATE TABLE IF NOT EXISTS `eav` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `entity_id` VARCHAR(100) NOT NULL,
     `attribute_id` VARCHAR(100) NOT NULL,
@@ -120,14 +120,14 @@ CREATE TABLE IF NOT EXISTS `eav_value` (
     `modified` DATETIME NOT NULL,
     `modifier` INTEGER(11) DEFAULT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `uni_eav_value_value` (`attribute_id`, `content_id`),
-    KEY `idx_eav_value_entity` (`entity_id`),
-    KEY `idx_eav_value_attribute` (`attribute_id`),
-    KEY `idx_eav_value_content` (`content_id`),
-    KEY `idx_eav_value_created` (`created`),
-    KEY `idx_eav_value_creator` (`creator`),
-    KEY `idx_eav_value_modified` (`modified`),
-    KEY `idx_eav_value_modifier` (`modifier`)
+    UNIQUE KEY `uni_eav_value` (`attribute_id`, `content_id`),
+    KEY `idx_eav_entity` (`entity_id`),
+    KEY `idx_eav_attribute` (`attribute_id`),
+    KEY `idx_eav_content` (`content_id`),
+    KEY `idx_eav_created` (`created`),
+    KEY `idx_eav_creator` (`creator`),
+    KEY `idx_eav_modified` (`modified`),
+    KEY `idx_eav_modifier` (`modifier`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -354,22 +354,22 @@ ALTER TABLE `attribute`
     ADD CONSTRAINT `con_attribute_modifier` FOREIGN KEY (`modifier`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `eav_content`
+-- Constraints for table `content`
 --
-ALTER TABLE `eav_content`
-    ADD CONSTRAINT `con_eav_content_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_eav_content_creator` FOREIGN KEY (`creator`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_eav_content_modifier` FOREIGN KEY (`modifier`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `content`
+    ADD CONSTRAINT `con_content_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_content_creator` FOREIGN KEY (`creator`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_content_modifier` FOREIGN KEY (`modifier`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `eav_value`
+-- Constraints for table `eav`
 --
-ALTER TABLE `eav_value`
-    ADD CONSTRAINT `con_eav_value_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_eav_value_attribute` FOREIGN KEY (`attribute_id`) REFERENCES `attribute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_eav_value_content` FOREIGN KEY (`content_id`) REFERENCES `eav_content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_eav_value_creator` FOREIGN KEY (`creator`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_eav_value_modifier` FOREIGN KEY (`modifier`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `eav`
+    ADD CONSTRAINT `con_eav_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_eav_attribute` FOREIGN KEY (`attribute_id`) REFERENCES `attribute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_eav_content` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_eav_creator` FOREIGN KEY (`creator`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_eav_modifier` FOREIGN KEY (`modifier`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `entity`

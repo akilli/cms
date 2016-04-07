@@ -1,6 +1,5 @@
 <?php
 return [
-    // account
     'account' => [
         'id' => 'account',
         'name' => 'Account',
@@ -60,7 +59,6 @@ return [
             ],
         ],
     ],
-    // attribute
     'attribute' => [
         'id' => 'attribute',
         'name' => 'Attribute',
@@ -133,11 +131,10 @@ return [
             ],
         ],
     ],
-    // eav
-    'eav_content' => [
-        'id' => 'eav_content',
+    'content' => [
+        'id' => 'content',
         'name' => 'Content',
-        'table' => 'eav_content',
+        'table' => 'content',
         'description' => '',
         'attributes' => [
             'id' => [
@@ -180,10 +177,10 @@ return [
             ],
         ],
     ],
-    'eav_value' => [
-        'id' => 'eav_value',
+    'eav' => [
+        'id' => 'eav',
         'name' => 'Value',
-        'table' => 'eav_value',
+        'table' => 'eav',
         'description' => '',
         'attributes' => [
             'id' => [
@@ -217,7 +214,7 @@ return [
                 'column' => 'content_id',
                 'type' => 'int.select',
                 'description' => '',
-                'foreign_entity_id' => 'eav_content',
+                'foreign_entity_id' => 'content',
                 'actions' => ['edit', 'index'],
                 'is_required' => true,
             ],
@@ -277,7 +274,6 @@ return [
             ],
         ],
     ],
-    // entity
     'entity' => [
         'id' => 'entity',
         'name' => 'Entity',
@@ -349,7 +345,6 @@ return [
             ],
         ],
     ],
-    // menu
     'menu_item' => [
         'id' => 'menu_item',
         'name' => 'Menu Item',
@@ -439,7 +434,6 @@ return [
             ],
         ],
     ],
-    // metadata
     'metadata' => [
         'id' => 'metadata',
         'name' => 'Metadata',
@@ -508,7 +502,6 @@ return [
             ],
         ],
     ],
-    // rewrite
     'rewrite' => [
         'id' => 'rewrite',
         'name' => 'Rewrite',
@@ -552,7 +545,6 @@ return [
             ],
         ],
     ],
-    // role
     'role' => [
         'id' => 'role',
         'name' => 'Role',
@@ -604,7 +596,6 @@ return [
             ],
         ],
     ],
-    // search
     'search' => [
         'id' => 'search',
         'name' => 'Search',

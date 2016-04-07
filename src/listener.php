@@ -70,7 +70,7 @@ function listener_metadata(array & $data)
     $types = data('type');
 
     foreach (model_load('entity') as $id => $item) {
-        $item = array_replace($data['eav_content'], $item);
+        $item = array_replace($data['content'], $item);
         $item['model'] = 'eav';
 
         if (!empty($meta[$id])) {
@@ -85,13 +85,13 @@ function listener_metadata(array & $data)
                 if (empty($item['attributes'][$code])) {
                     $type = 'value_' . $types[$attribute['type']]['backend'];
 
-                    if (empty($data['eav_value']['attributes'][$type]['column'])) {
+                    if (empty($data['eav']['attributes'][$type]['column'])) {
                         throw new RuntimeException(
                             _('Entity %s: Invalid value type %s for attribute %s', $id, $type, $code)
                         );
                     }
 
-                    $attribute['column'] = $data['eav_value']['attributes'][$type]['column'];
+                    $attribute['column'] = $data['eav']['attributes'][$type]['column'];
                     $item['attributes'][$code] = $attribute;
                 }
             }
