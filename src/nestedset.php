@@ -67,11 +67,11 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
 
     // Prepare statement
     $stmt = $db->prepare(
-        db_select($db, $attributes, 'e') . $selectLevel . $selectParentId
-        . db_from($db, $metadata['table'], 'e')
-        . db_where($db, (array) $criteria, $attributes, $options)
-        . db_order($db, $order, $orderAttributes)
-        . db_limit($limit)
+        select($db, $attributes, 'e') . $selectLevel . $selectParentId
+        . from($db, $metadata['table'], 'e')
+        . where($db, (array) $criteria, $attributes, $options)
+        . order($db, $order, $orderAttributes)
+        . limit($limit)
     );
 
     // Execute statement

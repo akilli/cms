@@ -207,7 +207,7 @@ function db_columns(array $attributes, array $item, array & $columns, array & $p
  *
  * @return string
  */
-function db_select(PDO $db, array $attributes, string $alias = null, bool $add = false): string
+function select(PDO $db, array $attributes, string $alias = null, bool $add = false): string
 {
     $columns = [];
     $alias = ($alias) ? db_quote_identifier($db, $alias) . '.' : '';
@@ -236,7 +236,7 @@ function db_select(PDO $db, array $attributes, string $alias = null, bool $add =
  *
  * @return string
  */
-function db_from(PDO $db, string $table, string $alias = null): string
+function from(PDO $db, string $table, string $alias = null): string
 {
     return ' FROM ' . $table . ($alias ? ' as ' . db_quote_identifier($db, $alias) : '');
 }
@@ -251,7 +251,7 @@ function db_from(PDO $db, string $table, string $alias = null): string
  *
  * @return string
  */
-function db_where(PDO $db, array $criteria, array $attributes, array $options = []): string
+function where(PDO $db, array $criteria, array $attributes, array $options = []): string
 {
     $columns = [];
     $alias = !empty($options['alias']) ? db_quote_identifier($db, $options['alias']) . '.' : '';
@@ -294,7 +294,7 @@ function db_where(PDO $db, array $criteria, array $attributes, array $options = 
  *
  * @return string
  */
-function db_order(PDO $db, array $order, array $attributes = null, bool $add = false): string
+function order(PDO $db, array $order, array $attributes = null, bool $add = false): string
 {
     $columns = [];
 
@@ -321,7 +321,7 @@ function db_order(PDO $db, array $order, array $attributes = null, bool $add = f
  *
  * @return string
  */
-function db_limit($limit): string
+function limit($limit): string
 {
     $isArray = is_array($limit);
     $offset = $isArray && !empty($limit[1]) ? (int) $limit[1] : 0;

@@ -43,9 +43,9 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
     // Prepare statement
     $stmt = $db->prepare(
         'SELECT COUNT(*) as total'
-        . db_from($db, $metadata['table'], 'e')
+        . from($db, $metadata['table'], 'e')
         . (!empty($joins) ? implode(' ', $joins) : '')
-        . db_where($db, $criteria, $attributes, $options)
+        . where($db, $criteria, $attributes, $options)
     );
 
     // Bind values
@@ -108,12 +108,12 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
 
     // Prepare statement
     $stmt = $db->prepare(
-        db_select($db, $attributes)
-        . db_from($db, $metadata['table'], 'e')
+        select($db, $attributes)
+        . from($db, $metadata['table'], 'e')
         . (!empty($joins) ? implode(' ', $joins) : '')
-        . db_where($db, $criteria, $attributes, $options)
-        . db_order($db, (array) $order, $attributes)
-        . db_limit($limit)
+        . where($db, $criteria, $attributes, $options)
+        . order($db, (array) $order, $attributes)
+        . limit($limit)
     );
 
     // Bind values
