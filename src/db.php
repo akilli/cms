@@ -249,14 +249,15 @@ function db_from(PDO $db, string $table, string $alias = null): string
  * @param array $attributes
  * @param string $alias
  * @param bool $add
- * @param bool $search
+ * @param array $options
  *
  * @return string
  */
-function db_where(PDO $db, array $criteria, array $attributes, string $alias = null, bool $add = false, bool $search = false): string
+function db_where(PDO $db, array $criteria, array $attributes, string $alias = null, bool $add = false, array $options = []): string
 {
     $columns = [];
     $alias = $alias ? db_quote_identifier($db, $alias) . '.' : '';
+    $search = !empty($options['search']);
     $operator = $search ? 'LIKE' : '=';
 
     foreach ($criteria as $code => $value) {

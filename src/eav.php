@@ -45,7 +45,7 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
         'SELECT COUNT(*) as total'
         . db_from($db, $metadata['table'], 'e')
         . (!empty($joins) ? implode(' ', $joins) : '')
-        . db_where($db, $criteria, $attributes, null, false, !empty($options['search']))
+        . db_where($db, $criteria, $attributes, null, false, $options)
     );
 
     // Bind values
@@ -87,6 +87,7 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
     $valueAttributes = array_diff_key($attributes, $contentMetadata['attributes']);
     $joins = $params = [];
     $criteria['entity_id'] = $metadata['id'];
+    $options = ['search' => $index === 'search'];
 
     // Prepare attributes
     foreach ($attributes as $code => $attribute) {
@@ -110,7 +111,7 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
         db_select($db, $attributes)
         . db_from($db, $metadata['table'], 'e')
         . (!empty($joins) ? implode(' ', $joins) : '')
-        . db_where($db, $criteria, $attributes, null, false, $index === 'search')
+        . db_where($db, $criteria, $attributes, null, false, $options)
         . db_order($db, (array) $order, $attributes)
         . db_limit($limit)
     );
