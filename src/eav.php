@@ -8,11 +8,11 @@ use RuntimeException;
  *
  * @param string $entity
  * @param array $criteria
- * @param bool $search
+ * @param array $options
  *
  * @return int
  */
-function eav_size(string $entity, array $criteria = null, bool $search = false): int
+function eav_size(string $entity, array $criteria = null, array $options = []): int
 {
     $metadata = db_meta($entity);
     $db = db($metadata['db']);
@@ -45,7 +45,7 @@ function eav_size(string $entity, array $criteria = null, bool $search = false):
         'SELECT COUNT(*) as total'
         . db_from($db, $metadata['table'], 'e')
         . (!empty($joins) ? implode(' ', $joins) : '')
-        . db_where($db, $criteria, $attributes, null, false, $search)
+        . db_where($db, $criteria, $attributes, null, false, !empty($options['search']))
     );
 
     // Bind values

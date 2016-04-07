@@ -6,13 +6,13 @@ namespace akilli;
  *
  * @param string $entity
  * @param array $criteria
- * @param bool $search
+ * @param array $options
  *
  * @return int
  */
-function nestedset_size(string $entity, array $criteria = null, bool $search = false): int
+function nestedset_size(string $entity, array $criteria = null, array $options = []): int
 {
-    return sql_size($entity, $criteria, $search);
+    return sql_size($entity, $criteria, $options);
 }
 
 /**

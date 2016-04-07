@@ -33,17 +33,17 @@ function model_validate(array & $item): bool
  *
  * @param string $entity
  * @param array $criteria
- * @param bool $search
+ * @param array $options
  *
  * @return int
  */
-function model_size(string $entity, array $criteria = null, bool $search = false): int
+function model_size(string $entity, array $criteria = null, array $options = []): int
 {
     $metadata = data('metadata', $entity);
     $callback = __NAMESPACE__ . '\\' . $metadata['model'] . '_size';
 
     try {
-        return $callback($entity, $criteria, $search);
+        return $callback($entity, $criteria, $options);
     } catch (Exception $e) {
         error($e);
         message(_('Data could not be loaded'));

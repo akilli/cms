@@ -6,11 +6,11 @@ namespace akilli;
  *
  * @param string $entity
  * @param array $criteria
- * @param bool $search
+ * @param array $options
  *
  * @return int
  */
-function sql_size(string $entity, array $criteria = null, bool $search = false): int
+function sql_size(string $entity, array $criteria = null, array $options = []): int
 {
     $metadata = db_meta($entity);
     $db = db($metadata['db']);
@@ -19,7 +19,7 @@ function sql_size(string $entity, array $criteria = null, bool $search = false):
     $stmt = $db->prepare(
         'SELECT COUNT(*) as total'
         . db_from($db, $metadata['table'])
-        . db_where($db, (array) $criteria, $metadata['attributes'], null, false, $search)
+        . db_where($db, (array) $criteria, $metadata['attributes'], null, false, !empty($options['search']))
     );
 
     // Execute statement
