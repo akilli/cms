@@ -276,11 +276,7 @@ function where(PDO $db, array $criteria, array $attributes, array $options = [])
         $columns[$code] = '(' . implode(' OR ', $r) . ')';
     }
 
-    if (empty($columns)) {
-        return '';
-    }
-
-    return ' WHERE ' . implode(' AND ', $columns);
+    return $columns ? ' WHERE ' . implode(' AND ', $columns) : '';
 }
 
 /**
@@ -305,11 +301,7 @@ function order(PDO $db, array $order, array $attributes = null): string
         $columns[$code] = db_quote_identifier($db, $code) . ' ' . $direction;
     }
 
-    if (empty($columns)) {
-        return '';
-    }
-
-    return ' ORDER BY ' . implode(', ', $columns);
+    return $columns ? ' ORDER BY ' . implode(', ', $columns) : '';
 }
 
 /**
