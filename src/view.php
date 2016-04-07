@@ -26,7 +26,10 @@ function view(string $id): string
 
     // Block Render Events
     event(
-        ['block.type.' . $block['type'], 'block.render.' . $id],
+        [
+            'block.type.' . $block['type'],
+            'block.render.' . $id
+        ],
         $block
     );
 

@@ -99,7 +99,11 @@ function model_load(string $entity, array $criteria = null, $index = null, array
 
             // Entity load events
             event(
-                ['model.load', 'model.load.' . $metadata['model'], 'entity.load.' . $entity],
+                [
+                    'model.load',
+                    'model.load.' . $metadata['model'],
+                    'entity.load.' . $entity
+                ],
                 $item
             );
 
