@@ -170,31 +170,25 @@ function db_meta($entity): array
  *
  * @param array $attributes
  * @param array $item
- * @param array $columns
- * @param array $params
- * @param array $sets
  * @param array $skip
  *
- * @return bool
+ * @return array
  */
-function db_columns(array $attributes, array $item, array & $columns, array & $params, array & $sets, array $skip = []): bool
+function db_columns(array $attributes, array $item, array $skip = []): array
 {
-    if (empty($item)) {
-        return false;
-    }
+    $data = ['col' => [], 'param' => [], 'set' => []];
 
     foreach (array_keys($item) as $code) {
         if (empty($attributes[$code]['column']) || !empty($attributes[$code]['auto']) || in_array($code, $skip)) {
             continue;
         }
 
-        $param = ':__attribute__' . str_replace('-', '_', $code);
-        $columns[$code] = $attributes[$code]['column'];
-        $params[$code] = $param;
-        $sets[$code] = $attributes[$code]['column'] . ' = ' . $param;
+        $data['col'][$code] = $attributes[$code]['column'];
+        $data['param'][$code] = ':__attribute__' . str_replace('-', '_', $code);
+        $data['set'][$code] = $data['col'][$code] . ' = ' . $data['param'][$code];
     }
 
-    return true;
+    return $data;
 }
 
 /**

@@ -108,8 +108,7 @@ function nestedset_create(array & $item): bool
     $root = !empty($attributes['root_id']);
 
     // Columns
-    $columns = $params = $sets = [];
-    db_columns($attributes, $item, $columns, $params, $sets);
+    $cols = db_columns($attributes, $item);
 
     if (empty($item['basis']) || !($basisItem = model_load($metadata['id'], ['id' => $item['basis']], false))) {
         // No basis given so append node
@@ -157,14 +156,14 @@ function nestedset_create(array & $item): bool
 
     // Prepare statement
     $stmt = $db->prepare(
-        'INSERT INTO ' . $metadata['table'] . ' (' . implode(', ', $columns) . ', lft, rgt)'
-        . ' SELECT ' . implode(', ', $params) . ', ' . $curLft . ', ' . $curRgt
+        'INSERT INTO ' . $metadata['table'] . ' (' . implode(', ', $cols['col']) . ', lft, rgt)'
+        . ' SELECT ' . implode(', ', $cols['param']) . ', ' . $curLft . ', ' . $curRgt
         . ' FROM ' . $metadata['table']
         . $where
     );
 
     // Bind values
-    foreach ($params as $code => $param) {
+    foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attributes[$code], $item[$code]));
     }
 
@@ -208,8 +207,7 @@ function nestedset_save(array & $item): bool
     $basisItem = [];
 
     // Columns
-    $columns = $params = $sets = [];
-    db_columns($attributes, $item, $columns, $params, $sets, ['root_id']);
+    $cols = db_columns($attributes, $item, ['root_id']);
 
     if (!empty($item['basis']) && ($item['basis'] === $item['_original']['id']
             || !($basisItem = model_load($metadata['id'], ['id' => $item['basis']], false))
@@ -218,7 +216,7 @@ function nestedset_save(array & $item): bool
         // No change in position or wrong basis given
         $stmt = $db->prepare(
             'UPDATE ' . $metadata['table']
-            . ' SET ' . implode(', ', $sets)
+            . ' SET ' . implode(', ', $cols['set'])
             . ' WHERE ' . $attributes['id']['column'] . ' = :id'
         );
 
@@ -226,7 +224,7 @@ function nestedset_save(array & $item): bool
         $stmt->bindValue(':id', $item['_original']['id'], db_type($attributes['id'], $item['_original']['id']));
 
         // Execute statement
-        foreach ($params as $code => $param) {
+        foreach ($cols['param'] as $code => $param) {
             $stmt->bindValue($param, $item[$code], db_type($attributes[$code], $item[$code]));
         }
 
@@ -277,9 +275,9 @@ function nestedset_save(array & $item): bool
     $setExpr = '';
     $setRoot = '';
 
-    foreach (array_keys($sets) as $code) {
-        $setExpr .= ', ' . $columns[$code] . ' = CASE WHEN ' . $attributes['id']['column'] . ' = ' . $idValue
-            . ' THEN ' . $params[$code] . ' ELSE ' . $columns[$code] . ' END';
+    foreach (array_keys($cols['set']) as $code) {
+        $setExpr .= ', ' . $cols['col'][$code] . ' = CASE WHEN ' . $attributes['id']['column'] . ' = ' . $idValue
+            . ' THEN ' . $cols['param'][$code] . ' ELSE ' . $cols['col'][$code] . ' END';
     }
 
     if ($root) {
@@ -322,7 +320,7 @@ function nestedset_save(array & $item): bool
     );
 
     // Bind values
-    foreach ($params as $code => $param) {
+    foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attributes[$code], $item[$code]));
     }
 

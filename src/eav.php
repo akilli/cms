@@ -160,17 +160,16 @@ function eav_create(array & $item): bool
     $item['entity_id'] = $metadata['id'];
 
     // Columns
-    $columns = $params = $sets = [];
-    db_columns($contentAttributes, $item, $columns, $params, $sets);
+    $cols = db_columns($contentAttributes, $item);
 
     // Prepare statement
     $stmt = $db->prepare(
         'INSERT INTO ' . $metadata['table']
-        . ' (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $params) . ')'
+        . ' (' . implode(', ', $cols['col']) . ') VALUES (' . implode(', ', $cols['param']) . ')'
     );
 
     // Bind values
-    foreach ($params as $code => $param) {
+    foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attributes[$code], $item[$code]));
     }
 
@@ -247,18 +246,17 @@ function eav_save(array & $item): bool
     $item['entity_id'] = $metadata['id'];
 
     // Columns
-    $columns = $params = $sets = [];
-    db_columns($contentAttributes, $item, $columns, $params, $sets);
+    $cols = db_columns($contentAttributes, $item);
 
     // Prepare statement
     $stmt = $db->prepare(
         'UPDATE ' . $metadata['table']
-        . ' SET ' . implode(', ', $sets)
+        . ' SET ' . implode(', ', $cols['set'])
         . ' WHERE ' . $attributes['id']['column'] . '  = :id'
     );
 
     // Bind values
-    foreach ($params as $code => $param) {
+    foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attributes[$code], $item[$code]));
     }
 
