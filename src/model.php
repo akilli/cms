@@ -92,7 +92,7 @@ function model_load(string $entity, array $criteria = null, $index = null, array
             }
 
             $item['name'] = !isset($item['name']) ? $item['id'] : $item['name'];
-            $item['_original'] = $item;
+            $item['_old'] = $item;
             $item['_meta'] = empty($item['_meta']) ? $meta : $item['_meta'];
             $item['_id'] = $item['id'];
 
@@ -165,9 +165,9 @@ function model_save(string $entity, array & $data): bool
             $item['creator'] = $item['modifier'];
         }
 
-        if (empty($item['_original']) && !empty($original[$id])) {
-            $item['_original'] = $original[$id];
-            unset($item['_original']['_id'], $item['_original']['_meta'], $item['_original']['_original']);
+        if (empty($item['_old']) && !empty($original[$id])) {
+            $item['_old'] = $original[$id];
+            unset($item['_old']['_id'], $item['_old']['_meta'], $item['_old']['_old']);
         }
 
         // Validate

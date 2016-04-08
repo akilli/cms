@@ -74,7 +74,7 @@ function request_prepare(array $data): array
     }
 
     $data['id'] = $data['entity'] . '.' . $data['action'];
-    $data['_original'] = $data;
+    $data['_old'] = $data;
 
     return $data;
 }

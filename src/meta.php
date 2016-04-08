@@ -166,7 +166,7 @@ function meta_action($action, array $data): bool
 function meta_skeleton(string $entity, int $number = null): array
 {
     $meta = data('meta', $entity);
-    $item = ['_meta' => $meta, '_original' => null, '_id' => null, 'id' => null, 'name' => null];
+    $item = ['_meta' => $meta, '_old' => null, '_id' => null, 'id' => null, 'name' => null];
 
     foreach ($meta['attributes'] as $code => $attribute) {
         if (meta_action('edit', $attribute)) {

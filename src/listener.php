@@ -113,19 +113,19 @@ function listener_meta(array & $data)
 function listener_model_save(array & $data)
 {
     // Entity
-    if ($data['_meta']['id'] === 'entity' && !empty($data['_original'])) {
+    if ($data['_meta']['id'] === 'entity' && !empty($data['_old'])) {
         // Rewrite
-        $criteria = ['target' => $data['_original']['id'] . '/view/id/'];
+        $criteria = ['target' => $data['_old']['id'] . '/view/id/'];
 
         if (!meta_action('view', $data)) {
             model_delete('rewrite', $criteria, 'search', true);
         } elseif (meta_action('view', $data)
-            && $data['id'] !== $data['_original']['id']
+            && $data['id'] !== $data['_old']['id']
             && ($rewrites = model_load('rewrite', $criteria, 'search'))
         ) {
             foreach ($rewrites as $rewriteId => $rewrite) {
                 $rewrites[$rewriteId]['target'] = preg_replace(
-                    '#^' . $data['_original']['id'] . '/#',
+                    '#^' . $data['_old']['id'] . '/#',
                     $data['id'] . '/',
                     $rewrite['target']
                 );

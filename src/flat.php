@@ -130,8 +130,8 @@ function flat_save(array & $item): bool
 
     $stmt->bindValue(
         ':id',
-        $item['_original']['id'],
-        db_type($meta['attributes']['id'], $item['_original']['id'])
+        $item['_old']['id'],
+        db_type($meta['attributes']['id'], $item['_old']['id'])
     );
 
     // Execute statement
@@ -163,8 +163,8 @@ function flat_delete(array & $item): bool
     // Bind values
     $stmt->bindValue(
         ':id',
-        $item['_original']['id'],
-        db_type($meta['attributes']['id'], $item['_original']['id'])
+        $item['_old']['id'],
+        db_type($meta['attributes']['id'], $item['_old']['id'])
     );
 
     // Execute statement

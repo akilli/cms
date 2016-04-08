@@ -227,7 +227,7 @@ function eav_save(array & $item): bool
     $valueModel = meta_skeleton('eav');
 
     if ($valueAttributes) {
-        $values = model_load('eav', ['content_id' => $item['_original']['id']], 'attribute_id');
+        $values = model_load('eav', ['content_id' => $item['_old']['id']], 'attribute_id');
     } else {
         $values = [];
     }
@@ -247,7 +247,7 @@ function eav_save(array & $item): bool
         $stmt->bindValue($param, $item[$code], db_type($attributes[$code], $item[$code]));
     }
 
-    $stmt->bindValue(':id', $item['_original']['id'], db_type($attributes['id'], $item['_original']['id']));
+    $stmt->bindValue(':id', $item['_old']['id'], db_type($attributes['id'], $item['_old']['id']));
 
     // Execute statement
     $stmt->execute();

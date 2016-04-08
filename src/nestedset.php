@@ -200,9 +200,9 @@ function nestedset_save(array & $item): bool
     $basisItem = [];
     $cols = db_columns($attributes, $item, ['root_id']);
 
-    if (!empty($item['basis']) && ($item['basis'] === $item['_original']['id']
+    if (!empty($item['basis']) && ($item['basis'] === $item['_old']['id']
             || !($basisItem = model_load($meta['id'], ['id' => $item['basis']], false))
-            || $item['_original']['lft'] < $basisItem['lft'] && $item['_original']['rgt'] > $basisItem['rgt'])
+            || $item['_old']['lft'] < $basisItem['lft'] && $item['_old']['rgt'] > $basisItem['rgt'])
     ) {
         // No change in position or wrong basis given
         $stmt = db()->prepare(
@@ -212,7 +212,7 @@ function nestedset_save(array & $item): bool
         );
 
         // Bind values
-        $stmt->bindValue(':id', $item['_original']['id'], db_type($attributes['id'], $item['_original']['id']));
+        $stmt->bindValue(':id', $item['_old']['id'], db_type($attributes['id'], $item['_old']['id']));
 
         // Execute statement
         foreach ($cols['param'] as $code => $param) {
@@ -225,8 +225,8 @@ function nestedset_save(array & $item): bool
         return true;
     }
 
-    $lft = $item['_original']['lft'];
-    $rgt = $item['_original']['rgt'];
+    $lft = $item['_old']['lft'];
+    $rgt = $item['_old']['rgt'];
 
     if (empty($item['basis'])) {
         $stmt = db()->prepare(
@@ -250,7 +250,7 @@ function nestedset_save(array & $item): bool
     }
 
     if ($newLft > $lft) {
-        if ($root && $item['_original']['root_id'] !== $item['root_id']) {
+        if ($root && $item['_old']['root_id'] !== $item['root_id']) {
             $diff = $newLft - $rgt + 1;
         } else {
             $diff = $newLft - $rgt - 1;
@@ -259,7 +259,7 @@ function nestedset_save(array & $item): bool
         $diff = $newLft - $lft;
     }
 
-    $idValue = db_quote(attribute_type($attributes['id'], $item['_original']['id']), $attributes['id']['backend']);
+    $idValue = db_quote(attribute_type($attributes['id'], $item['_old']['id']), $attributes['id']['backend']);
     $rootId = null;
     $oldRootCond = '';
     $rootCond = '';
@@ -273,7 +273,7 @@ function nestedset_save(array & $item): bool
 
     if ($root) {
         $oldRootId = db_quote(
-            attribute_type($attributes['root_id'], $item['_original']['root_id']),
+            attribute_type($attributes['root_id'], $item['_old']['root_id']),
             $attributes['root_id']['backend']
         );
         $rootId = db_quote(
@@ -337,8 +337,8 @@ function nestedset_delete(array & $item): bool
     $meta = db_meta($item['_meta']);
     $attributes = $meta['attributes'];
     $root = !empty($attributes['root_id']);
-    $lft = $item['_original']['lft'];
-    $rgt = $item['_original']['rgt'];
+    $lft = $item['_old']['lft'];
+    $rgt = $item['_old']['rgt'];
 
     // Update
     $stmt = db()->prepare(
@@ -355,8 +355,8 @@ function nestedset_delete(array & $item): bool
     if ($root) {
         $stmt->bindValue(
             ':root_id',
-            $item['_original']['root_id'],
-            db_type($attributes['root_id'], $item['_original']['root_id'])
+            $item['_old']['root_id'],
+            db_type($attributes['root_id'], $item['_old']['root_id'])
         );
     }
 
