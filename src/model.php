@@ -172,8 +172,8 @@ function model_save(string $entity, array & $data): bool
 
         // Validate
         if (!model_validate($item)) {
-            if (!empty($item['__error'])) {
-                $data[$id]['__error'] = $item['__error'];
+            if (!empty($item['_error'])) {
+                $data[$id]['_error'] = $item['_error'];
             }
 
             $error = true;
@@ -188,8 +188,8 @@ function model_save(string $entity, array & $data): bool
 
             // Attribute save callback
             if (!$meta['attributes'][$code]['save']($meta['attributes'][$code], $item)) {
-                if (!empty($item['__error'])) {
-                    $data[$id]['__error'] = $item['__error'];
+                if (!empty($item['_error'])) {
+                    $data[$id]['_error'] = $item['_error'];
                 }
 
                 $error = true;
@@ -284,8 +284,8 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
             if (isset($meta['attributes'][$code])
                 && !$meta['attributes'][$code]['delete']($meta['attributes'][$code], $item)
             ) {
-                if (!empty($item['__error'][$code])) {
-                    message($item['__error'][$code]);
+                if (!empty($item['_error'][$code])) {
+                    message($item['_error'][$code]);
                 }
 
                 $error = true;

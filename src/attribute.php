@@ -90,7 +90,7 @@ function attribute_editable(array & $attribute, array $item): bool
         return false;
     }
 
-    if (!empty($item['__error'][$attribute['id']])) {
+    if (!empty($item['_error'][$attribute['id']])) {
         $attribute['class'] = empty($attribute['class']) ? [] : (array) $attribute['class'];
         $attribute['class'][] = 'invalid';
     }
@@ -396,7 +396,7 @@ function attribute_delete_file(array $attribute, array & $item): bool
 
     // Delete old file
     if (!empty($item[$code]) && !media_delete($item[$code])) {
-        $item['__error'][$code] = _('Could not delete old file %s', $item[$code]);
+        $item['_error'][$code] = _('Could not delete old file %s', $item[$code]);
 
         return false;
     }
@@ -456,7 +456,7 @@ function attribute_validate_email(array $attribute, array & $item): bool
 
     if ($item[$code] && !$item[$code] = filter_var($item[$code], FILTER_VALIDATE_EMAIL)) {
         $item[$code] = null;
-        $item['__error'][$code] = _('Invalid email');
+        $item['_error'][$code] = _('Invalid email');
 
         return false;
     }
@@ -479,7 +479,7 @@ function attribute_validate_url(array $attribute, array & $item): bool
 
     if ($item[$code] && !$item[$code] = filter_var($item[$code], FILTER_VALIDATE_URL)) {
         $item[$code] = null;
-        $item['__error'][$code] = _('Invalid URL');
+        $item['_error'][$code] = _('Invalid URL');
 
         return false;
     }
@@ -513,7 +513,7 @@ function attribute_validate_file(array $attribute, array & $item): bool
         && ($file || !empty($item['__reset'][$code]))
         && !media_delete($item['_old'][$code])
     ) {
-        $item['__error'][$code] = _('Could not delete old file %s', $item['_old'][$code]);
+        $item['_error'][$code] = _('Could not delete old file %s', $item['_old'][$code]);
 
         return false;
     }
@@ -525,7 +525,7 @@ function attribute_validate_file(array $attribute, array & $item): bool
 
     // Invalid file
     if (empty(file_ext($attribute['type'])[$file['extension']])) {
-        $item['__error'][$code] = _('Invalid file');
+        $item['_error'][$code] = _('Invalid file');
 
         return false;
     }
@@ -534,7 +534,7 @@ function attribute_validate_file(array $attribute, array & $item): bool
 
     // Upload failed
     if (!file_upload($file['tmp_name'], path('media', $value))) {
-        $item['__error'][$code] = _('File upload failed');
+        $item['_error'][$code] = _('File upload failed');
 
         return false;
     }
@@ -563,7 +563,7 @@ function attribute_validate_datetime(array $attribute, array & $item): bool
             $item[$code] = $datetime;
         } else {
             $item[$code] = null;
-            $item['__error'][$code] = _('Invalid date');
+            $item['_error'][$code] = _('Invalid date');
 
             return false;
         }
@@ -635,7 +635,7 @@ function attribute_validate_option(array $attribute, array & $item): bool
         foreach ((array) $item[$code] as $v) {
             if (!isset($attribute['options'][$v])) {
                 $item[$code] = null;
-                $item['__error'][$code] = _('Invalid option for attribute %s', $code);
+                $item['_error'][$code] = _('Invalid option for attribute %s', $code);
 
                 return false;
             }
@@ -668,7 +668,7 @@ function attribute_validate_menubasis(array $attribute, array & $item): bool
         $item['root_id'] = attribute_type($meta['attributes']['root_id'], $parts[0]);
         $item['basis'] = attribute_type($meta['attributes']['id'], $parts[1]);
     } else {
-        $item['__error'][$code] = _('%s is a mandatory field', $attribute['name']);
+        $item['_error'][$code] = _('%s is a mandatory field', $attribute['name']);
 
         return false;
     }
@@ -690,7 +690,7 @@ function attribute_validate_callback(array $attribute, array & $item): bool
 
     if (!empty($item[$code]) && !is_callable($item[$code])) {
         $item[$code] = null;
-        $item['__error'][$code] = _('Invalid callback');
+        $item['_error'][$code] = _('Invalid callback');
 
         return false;
     }
@@ -712,7 +712,7 @@ function attribute_validate_json(array $attribute, array & $item): bool
 
     if (!empty($item[$code]) && json_decode($item[$code], true) === null) {
         $item[$code] = null;
-        $item['__error'][$code] = _('Invalid JSON notation');
+        $item['_error'][$code] = _('Invalid JSON notation');
 
         return false;
     }
@@ -737,7 +737,7 @@ function attribute_validate_required(array $attribute, array & $item): bool
         && !attribute_options($attribute, $item)
         && !attribute_ignore($attribute, $item)
     ) {
-        $item['__error'][$code] = _('%s is a mandatory field', $attribute['name']);
+        $item['_error'][$code] = _('%s is a mandatory field', $attribute['name']);
 
         return false;
     }
@@ -804,7 +804,7 @@ function attribute_validate_unique(array $attribute, array & $item): bool
         return true;
     }
 
-    $item['__error'][$code] = _('%s must be unique', $attribute['name']);
+    $item['_error'][$code] = _('%s must be unique', $attribute['name']);
 
     return false;
 }
@@ -1432,8 +1432,8 @@ function html_message(array $attribute, array $item): string
         $message .= '<p class="message">' . _($attribute['description']) . '</p>';
     }
 
-    if (!empty($item['__error'][$attribute['id']])) {
-        $message .= '<p class="message error">' . $item['__error'][$attribute['id']] . '</p>';
+    if (!empty($item['_error'][$attribute['id']])) {
+        $message .= '<p class="message error">' . $item['_error'][$attribute['id']] . '</p>';
     }
 
     return $message;
