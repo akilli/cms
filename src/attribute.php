@@ -48,13 +48,7 @@ function attribute_cast(array $attribute, $value)
  */
 function attribute_value(array $attribute, array $item)
 {
-    if (array_key_exists($attribute['id'], $item)) {
-        return $item[$attribute['id']];
-    } elseif (array_key_exists('default', $attribute)) {
-        return $attribute['default'];
-    }
-
-    return null;
+    return $item[$attribute['id']] ?? $attribute['default'] ?? null;
 }
 
 /**
@@ -109,8 +103,7 @@ function attribute_editable(array & $attribute, array $item): bool
  */
 function attribute_viewable(array & $attribute): bool
 {
-    return $attribute['action'] === 'system'
-        || $attribute['action'] && meta_action($attribute['action'], $attribute);
+    return $attribute['action'] === 'system' || $attribute['action'] && meta_action($attribute['action'], $attribute);
 }
 
 /**
@@ -118,60 +111,69 @@ function attribute_viewable(array & $attribute): bool
  *
  * @param array $attribute
  * @param array $item
- * @param bool $cache
  *
  * @return array
  */
-function attribute_options(array $attribute, array $item = null, bool $cache = false): array
+function attribute_options(array $attribute, array $item): array
 {
-    static $data = [];
-
-    if (isset($data[$attribute['entity_id']][$attribute['id']]) && $cache) {
-        return $data[$attribute['entity_id']][$attribute['id']];
-    }
-
     if ($attribute['backend'] === 'bool') {
-        $options = [_('No'), _('Yes')];
+        return attribute_options_bool();
     } elseif (!empty($attribute['foreign_entity_id'])) {
-        $options = model_load($attribute['foreign_entity_id']);
+        return attribute_options_foreign($attribute);
     } elseif (!empty($attribute['options_callback'])) {
-        if (empty($attribute['options_callback_param'])) {
-            $options = $attribute['options_callback']();
+        return attribute_options_callback($attribute, $item);
+    }
+
+    return attribute_options_translate($attribute['options']);
+}
+
+/**
+ * Retrieve bool options
+ *
+ * @return array
+ */
+function attribute_options_bool(): array
+{
+    return attribute_options_translate([_('No'), _('Yes')]);
+}
+
+/**
+ * Retrieve foreign entity options
+ *
+ * @param array $attribute
+ *
+ * @return array
+ */
+function attribute_options_foreign(array $attribute): array
+{
+    return attribute_options_translate(model_load($attribute['foreign_entity_id']));
+}
+
+/**
+ * Retrieve callback options
+ *
+ * @param array $attribute
+ * @param array $item
+ *
+ * @return array
+ */
+function attribute_options_callback(array $attribute, array $item): array
+{
+    $params = [];
+
+    foreach ($attribute['options_callback_param'] as $param) {
+        if (preg_match('#^:(attribute|item)(\.(.+))?#', $param, $match)) {
+            if (empty($match[2])) {
+                $params[] = ${$match[1]};
+            } else {
+                $params[] = ${$match[1]}[$match[3]] ?? null;
+            }
         } else {
-            $options = call_user_func_array(
-                $attribute['options_callback'],
-                array_map(
-                    function ($param) use ($attribute, $item, & $cache) {
-                        // Replace placeholders
-                        if ($param === ':attribute') {
-                            return $attribute;
-                        } elseif ($param === ':item') {
-                            $cache = false;
-
-                            return $item;
-                        } elseif (preg_match('#^:(attribute|item)_(.+)#', $param, $match)) {
-                            $cache = $cache && ${$match[1]} !== 'item';
-
-                            return array_key_exists($match[2], ${$match[1]}) ? ${$match[1]}[$match[2]] : null;
-                        }
-
-                        return $param;
-                    },
-                    $attribute['options_callback_param']
-                )
-            );
+            $params[] = $param;
         }
-    } else {
-        $options = (array) $attribute['options'];
     }
 
-    $options = attribute_options_translate($options);
-
-    if ($cache) {
-        $data[$attribute['entity_id']][$attribute['id']] = $options;
-    }
-
-    return $options;
+    return attribute_options_translate($attribute['options_callback'](...$params));
 }
 
 /**
@@ -1224,7 +1226,7 @@ function attribute_view_option(array $attribute, array $item): string
 
     $value = attribute_value($attribute, $item);
 
-    if (!$attribute['options'] = attribute_options($attribute, $item, true)) {
+    if (!$attribute['options'] = attribute_options($attribute, $item)) {
         return '';
     }
 
