@@ -17,9 +17,9 @@ function model_validate(array & $item): bool
         return false;
     }
 
-    foreach ($item['_meta']['attributes'] as $attribute) {
+    foreach ($item['_meta']['attributes'] as $attr) {
         // Validate attribute
-        if (!$attribute['validate']($attribute, $item)) {
+        if (!$attr['validate']($attr, $item)) {
             $error = true;
         }
     }

@@ -17,25 +17,25 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
     $meta = db_meta($entity);
     $contentMeta = db_meta('content');
     $valueMeta = db_meta('eav');
-    $attributes = $meta['attributes'];
-    $valueAttributes = array_diff_key($attributes, $contentMeta['attributes']);
+    $attrs = $meta['attributes'];
+    $valueAttributes = array_diff_key($attrs, $contentMeta['attributes']);
     $joins = $params = [];
     $criteria['entity_id'] = $meta['id'];
 
     // Prepare attributes
-    foreach ($attributes as $code => $attribute) {
-        if (empty($attribute['column'])) {
+    foreach ($attrs as $code => $attr) {
+        if (empty($attr['column'])) {
             continue;
         } elseif (!empty($valueAttributes[$code])) {
             $alias = db_quote_identifier($code);
-            $attributes[$code]['column'] = $alias . '.' . $attribute['column'];
+            $attrs[$code]['column'] = $alias . '.' . $attr['column'];
             $params[$code] = ':__attribute__' . str_replace('-', '_', $code);
             $joins[$code] = 'LEFT JOIN ' . $valueMeta['table'] . ' ' . $alias . ' ON '
                 . $alias . '.' . $valueMeta['attributes']['content_id']['column']
                 . ' = e.' . $meta['attributes']['id']['column'] . ' AND '
                 . $alias . '.' . $valueMeta['attributes']['attribute_id']['column'] . ' = ' . $params[$code];
         } else {
-            $attributes[$code]['column'] = 'e.' . $attribute['column'];
+            $attrs[$code]['column'] = 'e.' . $attr['column'];
         }
     }
 
@@ -44,15 +44,15 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
         'SELECT COUNT(*) as total'
         . from($meta['table'], 'e')
         . (!empty($joins) ? implode(' ', $joins) : '')
-        . where($criteria, $attributes, $options)
+        . where($criteria, $attrs, $options)
     );
 
     // Bind values
     foreach ($params as $code => $param) {
         $stmt->bindValue(
             $param,
-            $attributes[$code]['id'],
-            db_type($valueMeta['attributes']['attribute_id'], $attributes[$code]['id'])
+            $attrs[$code]['id'],
+            db_type($valueMeta['attributes']['attribute_id'], $attrs[$code]['id'])
         );
     }
 
@@ -81,36 +81,36 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
     $meta = db_meta($entity);
     $contentMeta = db_meta('content');
     $valueMeta = db_meta('eav');
-    $attributes = $meta['attributes'];
-    $valueAttributes = array_diff_key($attributes, $contentMeta['attributes']);
+    $attrs = $meta['attributes'];
+    $valueAttributes = array_diff_key($attrs, $contentMeta['attributes']);
     $joins = $params = [];
     $criteria['entity_id'] = $meta['id'];
     $options = ['search' => $index === 'search'];
 
     // Prepare attributes
-    foreach ($attributes as $code => $attribute) {
-        if (empty($attribute['column'])) {
+    foreach ($attrs as $code => $attr) {
+        if (empty($attr['column'])) {
             continue;
         } elseif (!empty($valueAttributes[$code])) {
             $alias = db_quote_identifier($code);
-            $attributes[$code]['column'] = $alias . '.' . $attribute['column'];
+            $attrs[$code]['column'] = $alias . '.' . $attr['column'];
             $params[$code] = ':__attribute__' . str_replace('-', '_', $code);
             $joins[$code] = 'LEFT JOIN ' . $valueMeta['table'] . ' ' . $alias . ' ON '
                 . $alias . '.' . $valueMeta['attributes']['content_id']['column']
                 . ' = e.' . $meta['attributes']['id']['column'] . ' AND '
                 . $alias . '.' . $valueMeta['attributes']['attribute_id']['column'] . ' = ' . $params[$code];
         } else {
-            $attributes[$code]['column'] = 'e.' . $attribute['column'];
+            $attrs[$code]['column'] = 'e.' . $attr['column'];
         }
     }
 
     // Prepare statement
     $stmt = db()->prepare(
-        select($attributes)
+        select($attrs)
         . from($meta['table'], 'e')
         . (!empty($joins) ? implode(' ', $joins) : '')
-        . where($criteria, $attributes, $options)
-        . order((array) $order, $attributes)
+        . where($criteria, $attrs, $options)
+        . order((array) $order, $attrs)
         . limit($limit)
     );
 
@@ -118,8 +118,8 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
     foreach ($params as $code => $param) {
         $stmt->bindValue(
             $param,
-            $attributes[$code]['id'],
-            db_type($valueMeta['attributes']['attribute_id'], $attributes[$code]['id'])
+            $attrs[$code]['id'],
+            db_type($valueMeta['attributes']['attribute_id'], $attrs[$code]['id'])
         );
     }
 
@@ -147,9 +147,9 @@ function eav_create(array & $item): bool
 
     $meta = db_meta($item['_meta']);
     $contentMeta = db_meta('content');
-    $attributes = $meta['attributes'];
+    $attrs = $meta['attributes'];
     $contentAttributes = $contentMeta['attributes'];
-    $valueAttributes = array_diff_key($attributes, $contentAttributes);
+    $valueAttributes = array_diff_key($attrs, $contentAttributes);
     $valueModel = meta_skeleton('eav');
     $item['entity_id'] = $meta['id'];
     $cols = db_columns($contentAttributes, $item);
@@ -162,14 +162,14 @@ function eav_create(array & $item): bool
 
     // Bind values
     foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($attributes[$code], $item[$code]));
+        $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
 
     // Execute statement
     $stmt->execute();
 
     // Add DB generated id
-    if (!empty($attributes['id']['auto'])) {
+    if (!empty($attrs['id']['auto'])) {
         $item['id'] = (int) db()->lastInsertId($meta['sequence']);
     }
 
@@ -178,17 +178,17 @@ function eav_create(array & $item): bool
         $save = [];
         $i = 0;
 
-        foreach ($valueAttributes as $code => $attribute) {
+        foreach ($valueAttributes as $code => $attr) {
             if (!array_key_exists($code, $item)) {
                 continue;
             }
 
-            $valueCode = 'value_' . $attribute['backend'];
+            $valueCode = 'value_' . $attr['backend'];
             $save[--$i] = array_replace(
                 $valueModel,
                 [
                     'entity_id' => $item['entity_id'],
-                    'attribute_id' => $attribute['id'],
+                    'attribute_id' => $attr['id'],
                     'content_id' => $item['id'],
                     $valueCode => $item[$code]
                 ]
@@ -221,9 +221,9 @@ function eav_save(array & $item): bool
 
     $meta = db_meta($item['_meta']);
     $contentMeta = db_meta('content');
-    $attributes = $meta['attributes'];
+    $attrs = $meta['attributes'];
     $contentAttributes = $contentMeta['attributes'];
-    $valueAttributes = array_diff_key($attributes, $contentAttributes);
+    $valueAttributes = array_diff_key($attrs, $contentAttributes);
     $valueModel = meta_skeleton('eav');
 
     if ($valueAttributes) {
@@ -239,15 +239,15 @@ function eav_save(array & $item): bool
     $stmt = db()->prepare(
         'UPDATE ' . $meta['table']
         . ' SET ' . implode(', ', $cols['set'])
-        . ' WHERE ' . $attributes['id']['column'] . '  = :id'
+        . ' WHERE ' . $attrs['id']['column'] . '  = :id'
     );
 
     // Bind values
     foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($attributes[$code], $item[$code]));
+        $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
 
-    $stmt->bindValue(':id', $item['_old']['id'], db_type($attributes['id'], $item['_old']['id']));
+    $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
 
     // Execute statement
     $stmt->execute();
@@ -257,15 +257,15 @@ function eav_save(array & $item): bool
         $save = [];
         $i = 0;
 
-        foreach ($valueAttributes as $code => $attribute) {
+        foreach ($valueAttributes as $code => $attr) {
             if (!array_key_exists($code, $item)) {
                 continue;
             }
 
-            $valueCode = 'value_' . $attribute['backend'];
+            $valueCode = 'value_' . $attr['backend'];
             $valueItem = [
                 'entity_id' => $item['entity_id'],
-                'attribute_id' => $attribute['id'],
+                'attribute_id' => $attr['id'],
                 'content_id' => $item['id'],
                 $valueCode => $item[$code]
             ];

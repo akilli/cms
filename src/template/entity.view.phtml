@@ -1,15 +1,15 @@
 <?php namespace akilli; /** @var array $block */?>
 <?php if ($item = $block['data']('item')):?>
 <article class="block block-view">
-    <?php foreach ($item['_meta']['attributes'] as $code => $attribute):?>
-        <?php $attribute['action'] = 'view';?>
-        <?php if (!$html = $attribute['view']($attribute, $item)) continue;?>
+    <?php foreach ($item['_meta']['attributes'] as $code => $attr):?>
+        <?php $attr['action'] = 'view';?>
+        <?php if (!$html = $attr['view']($attr, $item)) continue;?>
         <?php if ($code === 'name'):?>
     <header>
         <h1><?=$html;?></h1>
     </header>
         <?php else:?>
-    <div class="attribute-<?=$attribute['id'];?>">
+    <div class="attribute-<?=$attr['id'];?>">
         <?=$html;?>
     </div>
         <?php endif;?>

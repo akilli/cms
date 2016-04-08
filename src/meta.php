@@ -39,30 +39,30 @@ function meta_entity(array $data): array
     // Attributes
     $sortOrder = 0;
 
-    foreach ($data['attributes'] as $id => $attribute) {
-        $attribute['id'] = $id;
-        $attribute['entity_id'] = $data['id'];
+    foreach ($data['attributes'] as $id => $attr) {
+        $attr['id'] = $id;
+        $attr['entity_id'] = $data['id'];
 
         // Replace placeholders
-        if (strpos($attribute['type'], ':') === 0
-            && ($code = substr($attribute['type'], 1))
+        if (strpos($attr['type'], ':') === 0
+            && ($code = substr($attr['type'], 1))
             && !empty($data['attributes'][$code]['type'])
         ) {
-            $attribute['type'] = $data['attributes'][$code]['type'];
+            $attr['type'] = $data['attributes'][$code]['type'];
         }
 
-        if (!empty($attribute['foreign_entity_id']) && $attribute['foreign_entity_id'] === ':entity_id') {
-            $attribute['foreign_entity_id'] = $data['id'];
+        if (!empty($attr['foreign_entity_id']) && $attr['foreign_entity_id'] === ':entity_id') {
+            $attr['foreign_entity_id'] = $data['id'];
         }
 
-        $attribute = meta_attribute($attribute);
+        $attr = meta_attribute($attr);
 
-        if (!is_numeric($attribute['sort_order'])) {
-            $attribute['sort_order'] = $sortOrder;
+        if (!is_numeric($attr['sort_order'])) {
+            $attr['sort_order'] = $sortOrder;
             $sortOrder += 100;
         }
 
-        $data['attributes'][$id] = $attribute;
+        $data['attributes'][$id] = $attr;
     }
 
     return $data;
@@ -168,8 +168,8 @@ function meta_skeleton(string $entity, int $number = null): array
     $meta = data('meta', $entity);
     $item = ['_meta' => $meta, '_old' => null, '_id' => null, 'id' => null, 'name' => null];
 
-    foreach ($meta['attributes'] as $code => $attribute) {
-        if (meta_action('edit', $attribute)) {
+    foreach ($meta['attributes'] as $code => $attr) {
+        if (meta_action('edit', $attr)) {
             $item[$code] = null;
         }
     }

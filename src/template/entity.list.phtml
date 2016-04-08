@@ -7,9 +7,9 @@
 <?php if ($block['data']('data')):?>
     <?php foreach ($block['data']('data') as $id => $item):?>
     <article>
-        <?php foreach ($block['data']('attributes') as $code => $attribute):?>
-            <?php $attribute['action'] = 'list';?>
-            <?php if (!$html = $attribute['view']($attribute, $item)) continue;?>
+        <?php foreach ($block['data']('attributes') as $code => $attr):?>
+            <?php $attr['action'] = 'list';?>
+            <?php if (!$html = $attr['view']($attr, $item)) continue;?>
             <?php if ($code === 'name'):?>
         <header>
                 <?php if (allowed('view')):?>
@@ -19,7 +19,7 @@
                 <?php endif;?>
         </header>
             <?php else:?>
-        <div class="attribute-<?=$attribute['id'];?>">
+        <div class="attribute-<?=$attr['id'];?>">
             <?=$html;?>
         </div>
             <?php endif;?>

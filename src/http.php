@@ -211,15 +211,15 @@ function files_validate(array $data): array
 
     foreach ($data as $key => $items) {
         foreach ($items as $id => $item) {
-            foreach ($item as $code => $attribute) {
-                if (empty($attribute)) {
+            foreach ($item as $code => $attr) {
+                if (empty($attr)) {
                     continue;
                 }
 
-                $ext = pathinfo($attribute['name'], PATHINFO_EXTENSION);
+                $ext = pathinfo($attr['name'], PATHINFO_EXTENSION);
 
                 if (empty($extensions[$ext])) {
-                    message(_('Invalid file %s was rejected', $attribute['name']));
+                    message(_('Invalid file %s was rejected', $attr['name']));
                     unset($data[$key][$id][$code]);
                 } else {
                     $data[$key][$id][$code]['extension'] = $ext;

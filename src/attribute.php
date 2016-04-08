@@ -4,32 +4,32 @@ namespace akilli;
 /**
  * Set appropriate php type
  *
- * @param array $attribute
+ * @param array $attr
  * @param mixed $value
  *
  * @return mixed
  */
-function attribute_cast(array $attribute, $value)
+function attribute_cast(array $attr, $value)
 {
-    if ($value === null && !empty($attribute['null'])) {
+    if ($value === null && !empty($attr['null'])) {
         return null;
     }
 
-    if ($attribute['backend'] === 'bool') {
+    if ($attr['backend'] === 'bool') {
         return boolval($value);
     }
 
-    if ($attribute['backend'] === 'int') {
+    if ($attr['backend'] === 'int') {
         return intval($value);
     }
 
-    if ($attribute['backend'] === 'decimal') {
+    if ($attr['backend'] === 'decimal') {
         return floatval($value);
     }
 
-    if (!empty($attribute['is_multiple']) && is_array($value)) {
+    if (!empty($attr['is_multiple']) && is_array($value)) {
         foreach ($value as $k => $v) {
-            $value[$k] = attribute_cast($attribute, $v);
+            $value[$k] = attribute_cast($attr, $v);
         }
 
         return $value;
@@ -41,55 +41,55 @@ function attribute_cast(array $attribute, $value)
 /**
  * Retrieve value
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return mixed
  */
-function attribute_value(array $attribute, array $item)
+function attribute_value(array $attr, array $item)
 {
-    return $item[$attribute['id']] ?? $attribute['default'] ?? null;
+    return $item[$attr['id']] ?? $attr['default'] ?? null;
 }
 
 /**
  * Check wheter attribute can be ignored
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_ignore(array $attribute, array $item): bool
+function attribute_ignore(array $attr, array $item): bool
 {
-    $code = $attribute['id'];
-    $mustEdit = empty($item[$code]) || $attribute['action'] === 'edit' && !empty($item[$code]);
+    $code = $attr['id'];
+    $mustEdit = empty($item[$code]) || $attr['action'] === 'edit' && !empty($item[$code]);
 
     return !empty($item['_old'])
         && empty($item['_reset'][$code])
         && $mustEdit
-        && in_array($attribute['frontend'], ['password', 'file']);
+        && in_array($attr['frontend'], ['password', 'file']);
 }
 
 /**
  * Prepare attribute if edit action is allowed
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_editable(array & $attribute, array $item): bool
+function attribute_editable(array & $attr, array $item): bool
 {
-    if (!meta_action('edit', $attribute)) {
+    if (!meta_action('edit', $attr)) {
         return false;
     }
 
-    if (!empty($item['_error'][$attribute['id']])) {
-        $attribute['class'] = empty($attribute['class']) ? [] : (array) $attribute['class'];
-        $attribute['class'][] = 'invalid';
+    if (!empty($item['_error'][$attr['id']])) {
+        $attr['class'] = empty($attr['class']) ? [] : (array) $attr['class'];
+        $attr['class'][] = 'invalid';
     }
 
-    $attribute['action'] = 'edit';
+    $attr['action'] = 'edit';
 
     return true;
 }
@@ -97,34 +97,34 @@ function attribute_editable(array & $attribute, array $item): bool
 /**
  * Prepare attribute if view action is allowed
  *
- * @param array $attribute
+ * @param array $attr
  *
  * @return bool
  */
-function attribute_viewable(array & $attribute): bool
+function attribute_viewable(array & $attr): bool
 {
-    return $attribute['action'] === 'system' || $attribute['action'] && meta_action($attribute['action'], $attribute);
+    return $attr['action'] === 'system' || $attr['action'] && meta_action($attr['action'], $attr);
 }
 
 /**
  * Retrieve attribute options
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return array
  */
-function attribute_options(array $attribute, array $item): array
+function attribute_options(array $attr, array $item): array
 {
-    if ($attribute['backend'] === 'bool') {
+    if ($attr['backend'] === 'bool') {
         return attribute_options_bool();
-    } elseif (!empty($attribute['foreign_entity_id'])) {
-        return attribute_options_foreign($attribute);
-    } elseif (!empty($attribute['options_callback'])) {
-        return attribute_options_callback($attribute, $item);
+    } elseif (!empty($attr['foreign_entity_id'])) {
+        return attribute_options_foreign($attr);
+    } elseif (!empty($attr['options_callback'])) {
+        return attribute_options_callback($attr, $item);
     }
 
-    return attribute_options_translate($attribute['options']);
+    return attribute_options_translate($attr['options']);
 }
 
 /**
@@ -140,30 +140,30 @@ function attribute_options_bool(): array
 /**
  * Retrieve foreign entity options
  *
- * @param array $attribute
+ * @param array $attr
  *
  * @return array
  */
-function attribute_options_foreign(array $attribute): array
+function attribute_options_foreign(array $attr): array
 {
-    return attribute_options_translate(model_load($attribute['foreign_entity_id']));
+    return attribute_options_translate(model_load($attr['foreign_entity_id']));
 }
 
 /**
  * Retrieve callback options
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return array
  */
-function attribute_options_callback(array $attribute, array $item): array
+function attribute_options_callback(array $attr, array $item): array
 {
     $params = [];
 
-    foreach ($attribute['options_callback_param'] as $param) {
+    foreach ($attr['options_callback_param'] as $param) {
         if ($param === ':attribute') {
-            $params[] = $attribute;
+            $params[] = $attr;
         } elseif ($param === ':item') {
             $params[] = $item;
         } elseif (preg_match('#^:(attribute|item)\.(.+)#', $param, $match)) {
@@ -173,7 +173,7 @@ function attribute_options_callback(array $attribute, array $item): array
         }
     }
 
-    return attribute_options_translate($attribute['options_callback'](...$params));
+    return attribute_options_translate($attr['options_callback'](...$params));
 }
 
 /**
@@ -252,27 +252,27 @@ function attribute_options_menubasis(string $entity): array
 /**
  * Load
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return mixed
  */
-function attribute_load(array $attribute, array $item)
+function attribute_load(array $attr, array $item)
 {
-    return attribute_cast($attribute, $item[$attribute['id']] ?? null);
+    return attribute_cast($attr, $item[$attr['id']] ?? null);
 }
 
 /**
  * Load datetime
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return mixed
  */
-function attribute_load_datetime(array $attribute, array $item)
+function attribute_load_datetime(array $attr, array $item)
 {
-    $code = $attribute['id'];
+    $code = $attr['id'];
 
     return empty($item[$code]) || $item[$code] === '0000-00-00 00:00:00' ? null : $item[$code];
 }
@@ -280,14 +280,14 @@ function attribute_load_datetime(array $attribute, array $item)
 /**
  * Load JSON
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return array
  */
-function attribute_load_json(array $attribute, array $item): array
+function attribute_load_json(array $attr, array $item): array
 {
-    $code = $attribute['id'];
+    $code = $attr['id'];
 
     if (empty($item[$code])) {
         return [];
@@ -311,14 +311,14 @@ function attribute_save(): bool
 /**
  * Save password
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_save_password(array $attribute, array & $item): bool
+function attribute_save_password(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
+    $code = $attr['id'];
 
     if (!empty($item[$code]) && is_string($item[$code])) {
         $item[$code] = password_hash($item[$code], PASSWORD_DEFAULT);
@@ -330,14 +330,14 @@ function attribute_save_password(array $attribute, array & $item): bool
 /**
  * Save multiple
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_save_multiple(array $attribute, array & $item): bool
+function attribute_save_multiple(array $attr, array & $item): bool
 {
-    $item[$attribute['id']] = json_encode(array_filter(array_map('trim', (array) $item[$attribute['id']])));
+    $item[$attr['id']] = json_encode(array_filter(array_map('trim', (array) $item[$attr['id']])));
 
     return true;
 }
@@ -345,14 +345,14 @@ function attribute_save_multiple(array $attribute, array & $item): bool
 /**
  * Save search index
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_save_index(array $attribute, array & $item): bool
+function attribute_save_index(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
+    $code = $attr['id'];
     $item[$code] = '';
 
     foreach ($item['_meta']['attributes'] as $a) {
@@ -377,14 +377,14 @@ function attribute_delete(): bool
 /**
  * Delete file
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_delete_file(array $attribute, array & $item): bool
+function attribute_delete_file(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
+    $code = $attr['id'];
 
     if (!empty($item[$code]) && !media_delete($item[$code])) {
         $item['_error'][$code] = _('Could not delete old file %s', $item[$code]);
@@ -398,50 +398,50 @@ function attribute_delete_file(array $attribute, array & $item): bool
 /**
  * Validate
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate(array $attribute, array & $item): bool
+function attribute_validate(array $attr, array & $item): bool
 {
     // Skip attributes that need no validation or are uneditable (unless required and new)
-    if (!empty($attribute['auto']) || !meta_action('edit', $attribute) && (empty($attribute['is_required']) || !empty($item['_old']))) {
+    if (!empty($attr['auto']) || !meta_action('edit', $attr) && (empty($attr['is_required']) || !empty($item['_old']))) {
         return true;
     }
 
-    return attribute_validate_unique($attribute, $item) && attribute_validate_required($attribute, $item);
+    return attribute_validate_unique($attr, $item) && attribute_validate_required($attr, $item);
 }
 
 /**
  * Validate string
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_string(array $attribute, array & $item): bool
+function attribute_validate_string(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
-    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
+    $code = $attr['id'];
+    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
     $item[$code] = trim((string) filter_var($item[$code], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
 
-    return attribute_validate($attribute, $item);
+    return attribute_validate($attr, $item);
 }
 
 /**
  * Validate email
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_email(array $attribute, array & $item): bool
+function attribute_validate_email(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
-    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
+    $code = $attr['id'];
+    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
 
     if ($item[$code] && !$item[$code] = filter_var($item[$code], FILTER_VALIDATE_EMAIL)) {
         $item[$code] = null;
@@ -450,21 +450,21 @@ function attribute_validate_email(array $attribute, array & $item): bool
         return false;
     }
 
-    return attribute_validate($attribute, $item);
+    return attribute_validate($attr, $item);
 }
 
 /**
  * Validate url
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_url(array $attribute, array & $item): bool
+function attribute_validate_url(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
-    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
+    $code = $attr['id'];
+    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
 
     if ($item[$code] && !$item[$code] = filter_var($item[$code], FILTER_VALIDATE_URL)) {
         $item[$code] = null;
@@ -473,20 +473,20 @@ function attribute_validate_url(array $attribute, array & $item): bool
         return false;
     }
 
-    return attribute_validate($attribute, $item);
+    return attribute_validate($attr, $item);
 }
 
 /**
  * Validate file
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_file(array $attribute, array & $item): bool
+function attribute_validate_file(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
+    $code = $attr['id'];
     $item[$code] = null;
     $file = files('data')[$item['_id']][$code] ?? null;
 
@@ -502,11 +502,11 @@ function attribute_validate_file(array $attribute, array & $item): bool
 
     // No upload
     if (!$file) {
-        return attribute_validate($attribute, $item);
+        return attribute_validate($attr, $item);
     }
 
     // Invalid file
-    if (empty(file_ext($attribute['type'])[$file['extension']])) {
+    if (empty(file_ext($attr['type'])[$file['extension']])) {
         $item['_error'][$code] = _('Invalid file');
 
         return false;
@@ -523,22 +523,22 @@ function attribute_validate_file(array $attribute, array & $item): bool
 
     $item[$code] = $value;
 
-    return attribute_validate($attribute, $item);
+    return attribute_validate($attr, $item);
 }
 
 /**
  * Validate datetime
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_datetime(array $attribute, array & $item): bool
+function attribute_validate_datetime(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
-    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
-    $format = $attribute['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d H:i:s';
+    $code = $attr['id'];
+    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
+    $format = $attr['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d H:i:s';
 
     if (!empty($item[$code])) {
         if ($datetime = date_format(date_create($item[$code]), $format)) {
@@ -551,58 +551,58 @@ function attribute_validate_datetime(array $attribute, array & $item): bool
         }
     }
 
-    return attribute_validate($attribute, $item);
+    return attribute_validate($attr, $item);
 }
 
 /**
  * Validate number
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_number(array $attribute, array & $item): bool
+function attribute_validate_number(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
-    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
+    $code = $attr['id'];
+    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
 
-    return attribute_validate($attribute, $item);
+    return attribute_validate($attr, $item);
 }
 
 /**
  * Validate editor
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_editor(array $attribute, array & $item): bool
+function attribute_validate_editor(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
-    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
+    $code = $attr['id'];
+    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
 
     if ($item[$code]) {
         $item[$code] = filter_html($item[$code]);
     }
 
-    return attribute_validate($attribute, $item);
+    return attribute_validate($attr, $item);
 }
 
 /**
  * Validate option
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_option(array $attribute, array & $item): bool
+function attribute_validate_option(array $attr, array & $item): bool
 {
-    $attribute['options'] = attribute_options($attribute, $item);
-    $code = $attribute['id'];
-    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
+    $attr['options'] = attribute_options($attr, $item);
+    $code = $attr['id'];
+    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
 
     if (is_array($item[$code])) {
         $item[$code] = array_filter(
@@ -615,57 +615,57 @@ function attribute_validate_option(array $attribute, array & $item): bool
 
     if (!empty($item[$code]) || is_scalar($item[$code]) && !is_string($item[$code])) {
         foreach ((array) $item[$code] as $v) {
-            if (!isset($attribute['options'][$v])) {
+            if (!isset($attr['options'][$v])) {
                 $item[$code] = null;
                 $item['_error'][$code] = _('Invalid option for attribute %s', $code);
 
                 return false;
             }
         }
-    } elseif (!empty($attribute['null'])) {
+    } elseif (!empty($attr['null'])) {
         $item[$code] = null;
     }
 
-    return attribute_validate($attribute, $item);
+    return attribute_validate($attr, $item);
 }
 
 /**
  * Validate menubasis
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_menubasis(array $attribute, array & $item): bool
+function attribute_validate_menubasis(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
-    $meta = data('meta', $attribute['entity_id']);
+    $code = $attr['id'];
+    $meta = data('meta', $attr['entity_id']);
 
     if (!empty($item[$code]) && strpos($item[$code], ':') > 0) {
         $parts = explode(':', $item[$code]);
         $item['root_id'] = attribute_cast($meta['attributes']['root_id'], $parts[0]);
         $item['basis'] = attribute_cast($meta['attributes']['id'], $parts[1]);
     } else {
-        $item['_error'][$code] = _('%s is a mandatory field', $attribute['name']);
+        $item['_error'][$code] = _('%s is a mandatory field', $attr['name']);
 
         return false;
     }
 
-    return attribute_validate($attribute, $item);
+    return attribute_validate($attr, $item);
 }
 
 /**
  * Validate callback
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_callback(array $attribute, array & $item): bool
+function attribute_validate_callback(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
+    $code = $attr['id'];
 
     if (!empty($item[$code]) && !is_callable($item[$code])) {
         $item[$code] = null;
@@ -674,20 +674,20 @@ function attribute_validate_callback(array $attribute, array & $item): bool
         return false;
     }
 
-    return attribute_validate($attribute, $item);
+    return attribute_validate($attr, $item);
 }
 
 /**
  * Validate option
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_json(array $attribute, array & $item): bool
+function attribute_validate_json(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
+    $code = $attr['id'];
 
     if (!empty($item[$code]) && json_decode($item[$code], true) === null) {
         $item[$code] = null;
@@ -696,27 +696,27 @@ function attribute_validate_json(array $attribute, array & $item): bool
         return false;
     }
 
-    return attribute_validate($attribute, $item);
+    return attribute_validate($attr, $item);
 }
 
 /**
  * Validate required
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_required(array $attribute, array & $item): bool
+function attribute_validate_required(array $attr, array & $item): bool
 {
-    $code = $attribute['id'];
+    $code = $attr['id'];
 
-    if (!empty($attribute['is_required'])
+    if (!empty($attr['is_required'])
         && empty($item[$code])
-        && !attribute_options($attribute, $item)
-        && !attribute_ignore($attribute, $item)
+        && !attribute_options($attr, $item)
+        && !attribute_ignore($attr, $item)
     ) {
-        $item['_error'][$code] = _('%s is a mandatory field', $attribute['name']);
+        $item['_error'][$code] = _('%s is a mandatory field', $attr['name']);
 
         return false;
     }
@@ -727,21 +727,21 @@ function attribute_validate_required(array $attribute, array & $item): bool
 /**
  * Validate unique
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function attribute_validate_unique(array $attribute, array & $item): bool
+function attribute_validate_unique(array $attr, array & $item): bool
 {
     static $data = [];
 
-    if (empty($attribute['is_unique'])) {
+    if (empty($attr['is_unique'])) {
         return true;
     }
 
-    $code = $attribute['id'];
-    $entity = $attribute['entity_id'];
+    $code = $attr['id'];
+    $entity = $attr['entity_id'];
 
     // Existing values
     if (!isset($data[$entity])) {
@@ -760,16 +760,16 @@ function attribute_validate_unique(array $attribute, array & $item): bool
     }
 
     // Generate unique value
-    if (!empty($attribute['unique_callback']) && is_callable($attribute['unique_callback'])) {
+    if (!empty($attr['unique_callback']) && is_callable($attr['unique_callback'])) {
         if (!empty($item[$code])) {
             $base = $item[$code];
-        } elseif (!empty($attribute['unique_base']) && !empty($item[$attribute['unique_base']])) {
-            $base = $item[$attribute['unique_base']];
+        } elseif (!empty($attr['unique_base']) && !empty($item[$attr['unique_base']])) {
+            $base = $item[$attr['unique_base']];
         } else {
             $base = null;
         }
 
-        $item[$code] = $attribute['unique_callback']($base, $data[$entity][$code], $item['_id']);
+        $item[$code] = $attr['unique_callback']($base, $data[$entity][$code], $item['_id']);
 
         return true;
     } elseif (!empty($item[$code])
@@ -783,7 +783,7 @@ function attribute_validate_unique(array $attribute, array & $item): bool
         return true;
     }
 
-    $item['_error'][$code] = _('%s must be unique', $attribute['name']);
+    $item['_error'][$code] = _('%s must be unique', $attr['name']);
 
     return false;
 }
@@ -801,54 +801,54 @@ function attribute_edit(): string
 /**
  * Edit varchar
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_edit_varchar(array $attribute, array $item): string
+function attribute_edit_varchar(array $attr, array $item): string
 {
-    if (!attribute_editable($attribute, $item)) {
+    if (!attribute_editable($attr, $item)) {
         return '';
     }
 
-    $html = '<input id="' . html_id($attribute, $item) . '" type="' . $attribute['frontend'] . '" name="'
-        . html_name($attribute, $item) . '" value="' . encode(attribute_value($attribute, $item))
-        . '"' . html_required($attribute, $item) . html_title($attribute) . html_class($attribute) . ' />';
+    $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
+        . html_name($attr, $item) . '" value="' . encode(attribute_value($attr, $item))
+        . '"' . html_required($attr, $item) . html_title($attr) . html_class($attr) . ' />';
 
-    return html_label($attribute, $item) . $html . html_flag($attribute, $item) . html_message($attribute, $item);
+    return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
 
 /**
  * Edit select
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_edit_select(array $attribute, array $item): string
+function attribute_edit_select(array $attr, array $item): string
 {
-    if (!attribute_editable($attribute, $item)) {
+    if (!attribute_editable($attr, $item)) {
         return '';
     }
 
-    $value = attribute_value($attribute, $item);
-    $attribute['options'] = attribute_options($attribute, $item);
-    $htmlId =  html_id($attribute, $item);
-    $htmlName =  html_name($attribute, $item);
-    $multiple = !empty($attribute['is_multiple']) ? ' multiple="multiple"' : '';
+    $value = attribute_value($attr, $item);
+    $attr['options'] = attribute_options($attr, $item);
+    $htmlId =  html_id($attr, $item);
+    $htmlName =  html_name($attr, $item);
+    $multiple = !empty($attr['is_multiple']) ? ' multiple="multiple"' : '';
 
     if (!is_array($value)) {
         $value = empty($value) && !is_numeric($value) ? [] : [$value];
     }
 
-    if (empty($attribute['options'])) {
+    if (empty($attr['options'])) {
         $html = '<optgroup label="' . _('No options configured') . '"></optgroup>';
     } else {
         $html = '<option value="" class="empty">' . _('Please choose') . '</option>';
 
-        foreach ($attribute['options'] as $optionId => $optionValue) {
+        foreach ($attr['options'] as $optionId => $optionValue) {
             $selected = in_array($optionId, $value) ? ' selected="selected"' : '';
             $class = '';
             $level = '';
@@ -866,120 +866,120 @@ function attribute_edit_select(array $attribute, array $item): string
         }
     }
 
-    $html = '<select id="' . $htmlId . '" name="' . $htmlName . '"' . html_required($attribute, $item)
-        . html_title($attribute) . html_class($attribute) . $multiple . '>' . $html . '</select>';
+    $html = '<select id="' . $htmlId . '" name="' . $htmlName . '"' . html_required($attr, $item)
+        . html_title($attr) . html_class($attr) . $multiple . '>' . $html . '</select>';
 
-    return html_label($attribute, $item) . $html . html_flag($attribute, $item) . html_message($attribute, $item);
+    return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
 
 /**
  * Edit input checkbox and radio
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_edit_input_option(array $attribute, array $item): string
+function attribute_edit_input_option(array $attr, array $item): string
 {
-    if (!attribute_editable($attribute, $item)) {
+    if (!attribute_editable($attr, $item)) {
         return '';
     }
 
-    $value = attribute_value($attribute, $item);
+    $value = attribute_value($attr, $item);
 
-    if ($attribute['backend'] === 'bool' && $attribute['frontend'] === 'checkbox') {
-        $attribute['options'] = [1 => _('Yes')];
+    if ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
+        $attr['options'] = [1 => _('Yes')];
     } else {
-        $attribute['options'] = attribute_options($attribute, $item);
+        $attr['options'] = attribute_options($attr, $item);
     }
 
-    $htmlId =  html_id($attribute, $item);
-    $htmlName =  html_name($attribute, $item);
+    $htmlId =  html_id($attr, $item);
+    $htmlName =  html_name($attr, $item);
     $html = '';
 
-    if ($attribute['backend'] === 'bool') {
+    if ($attr['backend'] === 'bool') {
         $value = [(int) $value];
     } elseif (!is_array($value)) {
         $value = empty($value) && !is_numeric($value) ? [] : [$value];
     }
 
-    if (empty($attribute['options'])) {
+    if (empty($attr['options'])) {
         $html .= '<span id="' . $htmlId . '">' .  _('No options configured') . '</span>';
     } else {
-        foreach ($attribute['options'] as $optionId => $optionValue) {
+        foreach ($attr['options'] as $optionId => $optionValue) {
             $checked = in_array($optionId, $value) ? ' checked="checked"' : '';
-            $html .= '<input id="' . $htmlId . '-' . $optionId . '" type="' . $attribute['frontend']
-                . '" name="' . $htmlName . '" value="' . $optionId . '"' . html_required($attribute, $item)
-                . html_title($attribute) . html_class($attribute) . $checked . ' /> <label for="' . $htmlId . '-'
+            $html .= '<input id="' . $htmlId . '-' . $optionId . '" type="' . $attr['frontend']
+                . '" name="' . $htmlName . '" value="' . $optionId . '"' . html_required($attr, $item)
+                . html_title($attr) . html_class($attr) . $checked . ' /> <label for="' . $htmlId . '-'
                 . $optionId . '" class="inline">' . attribute_option_name($optionId, $optionValue) . '</label>';
         }
     }
 
-    return html_label($attribute, $item) . $html . html_flag($attribute, $item) . html_message($attribute, $item);
+    return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
 
 /**
  * Edit password
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_edit_password(array $attribute, array $item): string
+function attribute_edit_password(array $attr, array $item): string
 {
-    if (!attribute_editable($attribute, $item)) {
+    if (!attribute_editable($attr, $item)) {
         return '';
     }
 
-    $html = '<input id="' . html_id($attribute, $item) . '" type="' . $attribute['frontend']
-        . '" name="' . html_name($attribute, $item) . '"  autocomplete="off"'
-        . html_required($attribute, $item) . html_title($attribute)
-        . html_class($attribute) . ' />';
+    $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend']
+        . '" name="' . html_name($attr, $item) . '"  autocomplete="off"'
+        . html_required($attr, $item) . html_title($attr)
+        . html_class($attr) . ' />';
 
-    return html_label($attribute, $item) . $html . html_flag($attribute, $item) . html_message($attribute, $item);
+    return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
 
 /**
  * Edit file
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_edit_file(array $attribute, array $item): string
+function attribute_edit_file(array $attr, array $item): string
 {
-    if (!attribute_editable($attribute, $item)) {
+    if (!attribute_editable($attr, $item)) {
         return '';
     }
 
-    $html = '<div>' . $attribute['view']($attribute, $item) . '</div>'
-        . '<input id="' . html_id($attribute, $item) . '" type="file" name="'
-        . html_name($attribute, $item) . '"' . html_required($attribute, $item)
-        . html_title($attribute) . html_class($attribute) . ' />';
+    $html = '<div>' . $attr['view']($attr, $item) . '</div>'
+        . '<input id="' . html_id($attr, $item) . '" type="file" name="'
+        . html_name($attr, $item) . '"' . html_required($attr, $item)
+        . html_title($attr) . html_class($attr) . ' />';
 
-    return html_label($attribute, $item) . $html . html_flag($attribute, $item) . html_message($attribute, $item);
+    return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
 
 /**
  * Edit datetime
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_edit_datetime(array $attribute, array $item): string
+function attribute_edit_datetime(array $attr, array $item): string
 {
-    if (!attribute_editable($attribute, $item)) {
+    if (!attribute_editable($attr, $item)) {
         return '';
     }
 
-    $code = $attribute['id'];
-    $item[$code] = attribute_value($attribute, $item);
-    $format = $attribute['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d\TH:i:s';
+    $code = $attr['id'];
+    $item[$code] = attribute_value($attr, $item);
+    $format = $attr['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d\TH:i:s';
 
     if (!empty($item[$code]) && ($datetime = date_format(date_create($item[$code]), $format))) {
         $item[$code] = $datetime;
@@ -987,7 +987,7 @@ function attribute_edit_datetime(array $attribute, array $item): string
         $item[$code] = null;
     }
 
-    return attribute_edit_varchar($attribute, $item);
+    return attribute_edit_varchar($attr, $item);
 }
 
 /**
@@ -995,86 +995,86 @@ function attribute_edit_datetime(array $attribute, array $item): string
  *
  * Renders input type range if min and max are set, otherwise input type number
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_edit_number(array $attribute, array $item): string
+function attribute_edit_number(array $attr, array $item): string
 {
-    if (!attribute_editable($attribute, $item)) {
+    if (!attribute_editable($attr, $item)) {
         return '';
     }
 
-    $value = attribute_value($attribute, $item);
+    $value = attribute_value($attr, $item);
     $step = '';
     $min = '';
     $max = '';
 
-    if (!empty($attribute['step']) && is_numeric($attribute['step'])) {
-        $step = ' step="' . $attribute['step'] . '"';
+    if (!empty($attr['step']) && is_numeric($attr['step'])) {
+        $step = ' step="' . $attr['step'] . '"';
     }
 
-    if (isset($attribute['min']) && is_numeric($attribute['min'])) {
-        $min = ' min="' . $attribute['min'] . '"';
+    if (isset($attr['min']) && is_numeric($attr['min'])) {
+        $min = ' min="' . $attr['min'] . '"';
     }
 
-    if (isset($attribute['max']) && is_numeric($attribute['max'])) {
-        $max = ' max="' . $attribute['max'] . '"';
+    if (isset($attr['max']) && is_numeric($attr['max'])) {
+        $max = ' max="' . $attr['max'] . '"';
     }
 
     $type = $min && $max ? 'range' : 'number';
-    $html = '<input id="' . html_id($attribute, $item) . '" type="' . $type
-        . '" name="' . html_name($attribute, $item) . '" value="' . $value . '"'
-        . html_required($attribute, $item) . html_title($attribute) . html_class($attribute) . $step . $min
+    $html = '<input id="' . html_id($attr, $item) . '" type="' . $type
+        . '" name="' . html_name($attr, $item) . '" value="' . $value . '"'
+        . html_required($attr, $item) . html_title($attr) . html_class($attr) . $step . $min
         . $max . ' />';
 
-    return html_label($attribute, $item) . $html . html_flag($attribute, $item) . html_message($attribute, $item);
+    return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
 
 /**
  * Edit textarea
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_edit_textarea(array $attribute, array $item): string
+function attribute_edit_textarea(array $attr, array $item): string
 {
-    if (!attribute_editable($attribute, $item)) {
+    if (!attribute_editable($attr, $item)) {
         return '';
     }
 
-    $html = '<textarea id="' . html_id($attribute, $item) . '" name="' . html_name($attribute, $item) . '"'
-        . html_required($attribute, $item) . html_title($attribute) . html_class($attribute) . '>'
-        . encode(attribute_value($attribute, $item)) . '</textarea>';
+    $html = '<textarea id="' . html_id($attr, $item) . '" name="' . html_name($attr, $item) . '"'
+        . html_required($attr, $item) . html_title($attr) . html_class($attr) . '>'
+        . encode(attribute_value($attr, $item)) . '</textarea>';
 
-    return html_label($attribute, $item) . $html . html_flag($attribute, $item) . html_message($attribute, $item);
+    return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
 
 /**
  * Edit JSON
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_edit_json(array $attribute, array $item): string
+function attribute_edit_json(array $attr, array $item): string
 {
-    if (!attribute_editable($attribute, $item)) {
+    if (!attribute_editable($attr, $item)) {
         return '';
     }
 
-    $code = $attribute['id'];
-    $item[$code] = attribute_value($attribute, $item);
+    $code = $attr['id'];
+    $item[$code] = attribute_value($attr, $item);
 
     if (is_array($item[$code])) {
         $item[$code] = !empty($item[$code]) ? json_encode($item[$code]) : '';
     }
 
-    return attribute_edit_textarea($attribute, $item);
+    return attribute_edit_textarea($attr, $item);
 }
 
 /**
@@ -1090,40 +1090,40 @@ function attribute_view(): string
 /**
  * View default
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_view_default(array $attribute, array $item): string
+function attribute_view_default(array $attr, array $item): string
 {
-    return attribute_viewable($attribute) ? encode(attribute_value($attribute, $item)) : '';
+    return attribute_viewable($attr) ? encode(attribute_value($attr, $item)) : '';
 }
 
 /**
  * View file
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_view_file(array $attribute, array $item): string
+function attribute_view_file(array $attr, array $item): string
 {
-    if (!attribute_viewable($attribute)) {
+    if (!attribute_viewable($attr)) {
         return '';
     }
 
-    $value = attribute_value($attribute, $item);
+    $value = attribute_value($attr, $item);
 
-    if ($attribute['action'] === 'system') {
+    if ($attr['action'] === 'system') {
         return $value;
-    } elseif (!$value || !($file = media_load($value)) || empty(file_ext($attribute['type'])[$file['extension']])) {
+    } elseif (!$value || !($file = media_load($value)) || empty(file_ext($attr['type'])[$file['extension']])) {
         return '';
     }
 
-    $class = 'file-' . $attribute['type'] . ' media-' . $attribute['action'];
-    $config = data('media', $attribute['action']);
+    $class = 'file-' . $attr['type'] . ' media-' . $attr['action'];
+    $config = data('media', $attr['action']);
 
     if ($config) {
         $style = ' style="max-width:' . $config['width'] . 'px;max-height:' . $config['height'] . 'px;"';
@@ -1134,16 +1134,16 @@ function attribute_view_file(array $attribute, array $item): string
     $url = url_media($value);
     $link = '<a href="' . $url . '" title="' . $value . '" class="' . $class . '">' . $value . '</a>';
 
-    if ($attribute['type'] === 'image') {
-        return '<img src="' . media_image($file, $attribute['action']) . '" alt="' . $value . '" title="'
+    if ($attr['type'] === 'image') {
+        return '<img src="' . media_image($file, $attr['action']) . '" alt="' . $value . '" title="'
             . $value . '" class="' . $class . '" />';
-    } elseif ($attribute['type'] === 'audio') {
+    } elseif ($attr['type'] === 'audio') {
         return '<audio src="' . $url . '" title="' . $value . '" controls="controls" class="' . $class . '"'
             . $style . '>' . $link . '</audio>';
-    } elseif ($attribute['type'] === 'video') {
+    } elseif ($attr['type'] === 'video') {
         return '<video src="' . $url . '" title="' . $value . '" controls="controls" class="' . $class . '"'
             . $style . '>' . $link . '</video>';
-    } elseif ($attribute['type'] === 'embed') {
+    } elseif ($attr['type'] === 'embed') {
         return '<embed src="' . $url . '" title="' . $value . '" autoplay="no" loop="no" class="' . $class . '"'
             . $style . ' />';
     }
@@ -1154,19 +1154,19 @@ function attribute_view_file(array $attribute, array $item): string
 /**
  * View datetime
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_view_datetime(array $attribute, array $item): string
+function attribute_view_datetime(array $attr, array $item): string
 {
-    if (!attribute_viewable($attribute)) {
+    if (!attribute_viewable($attr)) {
         return '';
     }
 
-    $code = $attribute['id'];
-    $format = $attribute['frontend'] === 'date' ? config('i18n.date_format') : config('i18n.datetime_format');
+    $code = $attr['id'];
+    $format = $attr['frontend'] === 'date' ? config('i18n.date_format') : config('i18n.datetime_format');
 
     return empty($item[$code]) ? '' : date_format(date_create($item[$code]), $format);
 }
@@ -1174,44 +1174,44 @@ function attribute_view_datetime(array $attribute, array $item): string
 /**
  * View editor
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_view_editor(array $attribute, array $item): string
+function attribute_view_editor(array $attr, array $item): string
 {
-    return attribute_viewable($attribute) ? attribute_value($attribute, $item) : '';
+    return attribute_viewable($attr) ? attribute_value($attr, $item) : '';
 }
 
 /**
  * View option
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_view_option(array $attribute, array $item): string
+function attribute_view_option(array $attr, array $item): string
 {
-    if (!attribute_viewable($attribute)) {
+    if (!attribute_viewable($attr)) {
         return '';
     }
 
-    $value = attribute_value($attribute, $item);
+    $value = attribute_value($attr, $item);
 
-    if (!$attribute['options'] = attribute_options($attribute, $item)) {
+    if (!$attr['options'] = attribute_options($attr, $item)) {
         return '';
     }
 
     $values = [];
 
     foreach ((array) $value as $v) {
-        if (!empty($attribute['options'][$v])) {
-            if (is_array($attribute['options'][$v]) && !empty($attribute['options'][$v]['name'])) {
-                $values[] = $attribute['options'][$v]['name'];
-            } elseif (is_scalar($attribute['options'][$v])) {
-                $values[] = $attribute['options'][$v];
+        if (!empty($attr['options'][$v])) {
+            if (is_array($attr['options'][$v]) && !empty($attr['options'][$v]['name'])) {
+                $values[] = $attr['options'][$v]['name'];
+            } elseif (is_scalar($attr['options'][$v])) {
+                $values[] = $attr['options'][$v];
             }
         }
     }
@@ -1277,43 +1277,43 @@ function attribute_unique_file(string $str, string $path): string
 /**
  * Label
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function html_label(array $attribute, array $item): string
+function html_label(array $attr, array $item): string
 {
     $message = '';
 
-    if (!empty($attribute['is_required']) && !attribute_ignore($attribute, $item)) {
+    if (!empty($attr['is_required']) && !attribute_ignore($attr, $item)) {
         $message .= ' <em class="required">' . _('Required') . '</em>';
     }
 
-    if (!empty($attribute['is_unique'])) {
+    if (!empty($attr['is_unique'])) {
         $message .= ' <em class="unique">' . _('Unique') . '</em>';
     }
 
-    return '<label for="' . html_id($attribute, $item) . '">' . _($attribute['name']) . $message
+    return '<label for="' . html_id($attr, $item) . '">' . _($attr['name']) . $message
         . '</label>';
 }
 
 /**
  * Flag
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function html_flag(array $attribute, array $item): string
+function html_flag(array $attr, array $item): string
 {
     $html = '';
 
-    if (!empty($attribute['flag']) && is_array($attribute['flag'])) {
-        foreach ($attribute['flag'] as $flag => $name) {
-            $htmlId =  'data-' . $item['_id'] . '-' . $flag . '-' . $attribute['id'];
-            $htmlName =  'data[' . $item['_id'] . '][' . $flag . ']' . '[' . $attribute['id'] . ']';
+    if (!empty($attr['flag']) && is_array($attr['flag'])) {
+        foreach ($attr['flag'] as $flag => $name) {
+            $htmlId =  'data-' . $item['_id'] . '-' . $flag . '-' . $attr['id'];
+            $htmlName =  'data[' . $item['_id'] . '][' . $flag . ']' . '[' . $attr['id'] . ']';
             $html .= ' <input id="' .  $htmlId . '" type="checkbox" name="' . $htmlName . '" value="1" title="'
                 . _($name) . '" /> <label for="' . $htmlId . '" class="inline">'
                 . _($name) . '</label>';
@@ -1326,56 +1326,56 @@ function html_flag(array $attribute, array $item): string
 /**
  * HTML id attribute
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function html_id(array $attribute, array $item): string
+function html_id(array $attr, array $item): string
 {
-    return 'data-' . $item['_id'] . '-' . $attribute['id'];
+    return 'data-' . $item['_id'] . '-' . $attr['id'];
 }
 
 /**
  * HTML name attribute
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function html_name(array $attribute, array $item): string
+function html_name(array $attr, array $item): string
 {
-    return 'data[' . $item['_id'] . '][' . $attribute['id'] . ']' . (!empty($attribute['is_multiple']) ? '[]' : '');
+    return 'data[' . $item['_id'] . '][' . $attr['id'] . ']' . (!empty($attr['is_multiple']) ? '[]' : '');
 }
 
 /**
  * HTML required attribute
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function html_required(array $attribute, array $item): string
+function html_required(array $attr, array $item): string
 {
-    return !empty($attribute['is_required']) && !attribute_ignore($attribute, $item) ? ' required="required"' : '';
+    return !empty($attr['is_required']) && !attribute_ignore($attr, $item) ? ' required="required"' : '';
 }
 
 /**
  * HTML class attribute
  *
- * @param array $attribute
+ * @param array $attr
  *
  * @return string
  */
-function html_class(array $attribute): string
+function html_class(array $attr): string
 {
-    if (empty($attribute['class'])) {
+    if (empty($attr['class'])) {
         return '';
     }
 
-    $class = is_array($attribute['class']) ? implode(' ', $attribute['class']) : $attribute['class'];
+    $class = is_array($attr['class']) ? implode(' ', $attr['class']) : $attr['class'];
 
     return ' class="' . $class . '"';
 }
@@ -1383,33 +1383,33 @@ function html_class(array $attribute): string
 /**
  * HTML title attribute
  *
- * @param array $attribute
+ * @param array $attr
  *
  * @return string
  */
-function html_title(array $attribute): string
+function html_title(array $attr): string
 {
-    return !empty($attribute['description']) ? ' title="' . _($attribute['description']) . '"' : '';
+    return !empty($attr['description']) ? ' title="' . _($attr['description']) . '"' : '';
 }
 
 /**
  * Message
  *
- * @param array $attribute
+ * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function html_message(array $attribute, array $item): string
+function html_message(array $attr, array $item): string
 {
     $message = '';
 
-    if (!empty($attribute['description'])) {
-        $message .= '<p class="message">' . _($attribute['description']) . '</p>';
+    if (!empty($attr['description'])) {
+        $message .= '<p class="message">' . _($attr['description']) . '</p>';
     }
 
-    if (!empty($item['_error'][$attribute['id']])) {
-        $message .= '<p class="message error">' . $item['_error'][$attribute['id']] . '</p>';
+    if (!empty($item['_error'][$attr['id']])) {
+        $message .= '<p class="message error">' . $item['_error'][$attr['id']] . '</p>';
     }
 
     return $message;

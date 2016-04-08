@@ -17,9 +17,9 @@
                         <th data-type="bool.checkbox">
                             <input type="checkbox" name="gui[checkall]" value="1" title="<?= _('Select all');?>" />
                         </th>
-                        <?php foreach ($block['data']('attributes') as $code => $attribute):?>
-                        <th data-type="<?=$attribute['backend'];?>.<?=$attribute['frontend'];?>">
-                            <a href="<?=$attribute['url'];?>"><?= _($attribute['name']);?></a>
+                        <?php foreach ($block['data']('attributes') as $code => $attr):?>
+                        <th data-type="<?=$attr['backend'];?>.<?=$attr['frontend'];?>">
+                            <a href="<?=$attr['url'];?>"><?= _($attr['name']);?></a>
                         </th>
                         <?php endforeach;?>
                         <?php if (allowed('edit')):?>
@@ -40,10 +40,10 @@
                         <td>
                             <input id="data-<?=$id;?>-name" type="checkbox" name="data[<?=$id;?>]" value="1" />
                         </td>
-                        <?php foreach ($block['data']('attributes') as $code => $attribute):?>
-                            <?php $attribute['action'] = 'index';?>
+                        <?php foreach ($block['data']('attributes') as $code => $attr):?>
+                            <?php $attr['action'] = 'index';?>
                         <td>
-                            <?=$attribute['view']($attribute, $item);?>
+                            <?=$attr['view']($attr, $item);?>
                         </td>
                         <?php endforeach;?>
                         <?php if (allowed('edit')):?>

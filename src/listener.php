@@ -66,7 +66,7 @@ function listener_meta(array & $data)
         ['entity_id', 'attribute_id'],
         ['entity_id' => 'ASC', 'sort_order' => 'ASC']
     );
-    $attributes = model_load('attribute');
+    $attrs = model_load('attribute');
     $types = data('type');
 
     foreach (model_load('entity') as $id => $item) {
@@ -74,16 +74,16 @@ function listener_meta(array & $data)
         $item['model'] = 'eav';
 
         if (!empty($meta[$id])) {
-            foreach ($meta[$id] as $code => $attribute) {
-                if (empty($attributes[$code])) {
+            foreach ($meta[$id] as $code => $attr) {
+                if (empty($attrs[$code])) {
                     continue;
                 }
 
-                $attribute = array_replace($attribute, $attributes[$code]);
-                unset($attribute['attribute_id']);
+                $attr = array_replace($attr, $attrs[$code]);
+                unset($attr['attribute_id']);
 
                 if (empty($item['attributes'][$code])) {
-                    $type = 'value_' . $types[$attribute['type']]['backend'];
+                    $type = 'value_' . $types[$attr['type']]['backend'];
 
                     if (empty($data['eav']['attributes'][$type]['column'])) {
                         throw new RuntimeException(
@@ -91,8 +91,8 @@ function listener_meta(array & $data)
                         );
                     }
 
-                    $attribute['column'] = $data['eav']['attributes'][$type]['column'];
-                    $item['attributes'][$code] = $attribute;
+                    $attr['column'] = $data['eav']['attributes'][$type]['column'];
+                    $item['attributes'][$code] = $attr;
                 }
             }
         }

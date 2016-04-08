@@ -66,22 +66,22 @@ function db_transaction(callable $callback): bool
 /**
  * Set appropriate parameter type
  *
- * @param array $attribute
+ * @param array $attr
  * @param mixed $value
  *
  * @return int
  */
-function db_type(array $attribute, $value): int
+function db_type(array $attr, $value): int
 {
-    if ($value === null && !empty($attribute['null'])) {
+    if ($value === null && !empty($attr['null'])) {
         return PDO::PARAM_NULL;
     }
 
-    if ($attribute['backend'] === 'bool') {
+    if ($attr['backend'] === 'bool') {
         return PDO::PARAM_BOOL;
     }
 
-    if ($attribute['backend'] === 'int' || $attribute['backend'] === 'decimal') {
+    if ($attr['backend'] === 'int' || $attr['backend'] === 'decimal') {
         return PDO::PARAM_INT;
     }
 
@@ -144,8 +144,8 @@ function db_meta($entity): array
     $meta['sequence'] = db_quote_identifier($meta['sequence']);
     $meta['table'] = db_quote_identifier($meta['table']);
 
-    foreach ($meta['attributes'] as $code => $attribute) {
-        $meta['attributes'][$code]['column'] = db_quote_identifier($attribute['column']);
+    foreach ($meta['attributes'] as $code => $attr) {
+        $meta['attributes'][$code]['column'] = db_quote_identifier($attr['column']);
     }
 
     return $meta;
@@ -154,22 +154,22 @@ function db_meta($entity): array
 /**
  * Prepare columns
  *
- * @param array $attributes
+ * @param array $attrs
  * @param array $item
  * @param array $skip
  *
  * @return array
  */
-function db_columns(array $attributes, array $item, array $skip = []): array
+function db_columns(array $attrs, array $item, array $skip = []): array
 {
     $data = ['col' => [], 'param' => [], 'set' => []];
 
     foreach (array_keys($item) as $code) {
-        if (empty($attributes[$code]['column']) || !empty($attributes[$code]['auto']) || in_array($code, $skip)) {
+        if (empty($attrs[$code]['column']) || !empty($attrs[$code]['auto']) || in_array($code, $skip)) {
             continue;
         }
 
-        $data['col'][$code] = $attributes[$code]['column'];
+        $data['col'][$code] = $attrs[$code]['column'];
         $data['param'][$code] = ':__attribute__' . str_replace('-', '_', $code);
         $data['set'][$code] = $data['col'][$code] . ' = ' . $data['param'][$code];
     }
@@ -180,22 +180,22 @@ function db_columns(array $attributes, array $item, array $skip = []): array
 /**
  * Select part
  *
- * @param array $attributes
+ * @param array $attrs
  * @param string $alias
  *
  * @return string
  */
-function select(array $attributes, string $alias = null): string
+function select(array $attrs, string $alias = null): string
 {
     $columns = [];
     $alias = ($alias) ? db_quote_identifier($alias) . '.' : '';
 
-    foreach ($attributes as $code => $attribute) {
-        if (empty($attribute['column'])) {
+    foreach ($attrs as $code => $attr) {
+        if (empty($attr['column'])) {
             continue;
         }
 
-        $columns[$code] = $alias . $attribute['column'] . ' as ' . db_quote_identifier($code);
+        $columns[$code] = $alias . $attr['column'] . ' as ' . db_quote_identifier($code);
     }
 
     if (empty($columns)) {
@@ -222,12 +222,12 @@ function from(string $table, string $alias = null): string
  * Where part
  *
  * @param array $criteria
- * @param array $attributes
+ * @param array $attrs
  * @param array $options
  *
  * @return string
  */
-function where(array $criteria, array $attributes, array $options = []): string
+function where(array $criteria, array $attrs, array $options = []): string
 {
     $columns = [];
     $alias = !empty($options['alias']) ? db_quote_identifier($options['alias']) . '.' : '';
@@ -235,7 +235,7 @@ function where(array $criteria, array $attributes, array $options = []): string
     $operator = $search ? 'LIKE' : '=';
 
     foreach ($criteria as $code => $value) {
-        if (empty($attributes[$code]['column'])) {
+        if (empty($attrs[$code]['column'])) {
             continue;
         }
 
@@ -246,8 +246,8 @@ function where(array $criteria, array $attributes, array $options = []): string
                 $v = '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
             }
 
-            $r[] = $alias . $attributes[$code]['column'] . ' ' . $operator . ' '
-                . db_quote($v, $attributes[$code]['backend']);
+            $r[] = $alias . $attrs[$code]['column'] . ' ' . $operator . ' '
+                . db_quote($v, $attrs[$code]['backend']);
         }
 
         $columns[$code] = '(' . implode(' OR ', $r) . ')';
@@ -260,16 +260,16 @@ function where(array $criteria, array $attributes, array $options = []): string
  * Order By part
  *
  * @param array $order
- * @param array $attributes
+ * @param array $attrs
  *
  * @return string
  */
-function order(array $order, array $attributes = null): string
+function order(array $order, array $attrs = null): string
 {
     $columns = [];
 
     foreach ($order as $code => $direction) {
-        if ($attributes !== null && empty($attributes[$code]['column'])) {
+        if ($attrs !== null && empty($attrs[$code]['column'])) {
             continue;
         }
 

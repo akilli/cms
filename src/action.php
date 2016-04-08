@@ -114,10 +114,10 @@ function action_index()
 {
     $meta = action_internal_meta();
     $action = request('action');
-    $attributes = array_filter(
+    $attrs = array_filter(
         $meta['attributes'],
-        function ($attribute) use ($action) {
-            return meta_action($action, $attribute);
+        function ($attr) use ($action) {
+            return meta_action($action, $attr);
         }
     );
     $criteria = empty($meta['attributes']['is_active']) || $action === 'index' ? [] : ['is_active' => true];
@@ -153,7 +153,7 @@ function action_index()
     }
 
     // Order
-    if (($sort = get('sort')) && !empty($attributes[$sort])) {
+    if (($sort = get('sort')) && !empty($attrs[$sort])) {
         $direction = get('direction') === 'desc' ? 'desc' : 'asc';
         $order = [$sort => $direction];
         $params['sort'] = $sort;
@@ -162,15 +162,15 @@ function action_index()
 
     $data = model_load($meta['id'], $criteria, null, $order, [$limit, $offset]);
     array_walk(
-        $attributes,
-        function (& $attribute, $code) use ($params) {
+        $attrs,
+        function (& $attr, $code) use ($params) {
             if (!empty($params['sort']) && $params['sort'] === $code && $params['direction'] === 'asc') {
                 $direction = 'desc';
             } else {
                 $direction = 'asc';
             }
 
-            $attribute['url'] = url(
+            $attr['url'] = url(
                 '*/*',
                 array_replace($params, ['sort' => $code, 'direction' => $direction])
             );
@@ -182,7 +182,7 @@ function action_index()
     action_internal_view($meta);
     view_vars(
         'entity.' . $action,
-        ['data' => $data, 'header' => _($meta['name']), 'attributes' => $attributes]
+        ['data' => $data, 'header' => _($meta['name']), 'attributes' => $attrs]
     );
     view_vars(
         'entity.' . $action . '.pager',
