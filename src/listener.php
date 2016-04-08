@@ -171,7 +171,7 @@ function listener_model_delete(array & $data)
  */
 function listener_privilege(array & $data)
 {
-    $metadata = data('metadata');
+    $meta = data('metadata');
     $config = config('action.entity');
     $key = array_search('all', $config);
 
@@ -179,8 +179,8 @@ function listener_privilege(array & $data)
         unset($config[$key]);
     }
 
-    foreach ($metadata as $entity => $meta) {
-        $actions = in_array('all', $meta) ? $config : $meta['actions'];
+    foreach ($meta as $entity => $item) {
+        $actions = in_array('all', $item) ? $config : $item['actions'];
 
         if (!$actions) {
             continue;
@@ -188,7 +188,7 @@ function listener_privilege(array & $data)
 
         $data[$entity . '.all'] = [
             'id' => $entity . '.all',
-            'name' => $meta['name'],
+            'name' => $item['name'],
             'is_active' => true,
             'sort_order' => 1000,
             'class' => 'group',
@@ -198,7 +198,7 @@ function listener_privilege(array & $data)
             if (in_array($action, $config)) {
                 $data[$entity . '.' . $action] = [
                     'id' => $entity . '.' . $action,
-                    'name' => $meta['name'] . ' ' . ucwords($action),
+                    'name' => $item['name'] . ' ' . ucwords($action),
                     'is_active' => true,
                     'sort_order' => 1000,
                 ];
