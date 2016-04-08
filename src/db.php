@@ -5,110 +5,62 @@ use Exception;
 use PDO;
 
 /**
- * Database factory
- *
- * @param string $key
+ * Database
  *
  * @return PDO
  */
-function db(string $key): PDO
+function db(): PDO
 {
-    $db = & registry('db');
+    static $db;
 
-    if (!isset($db[$key])) {
-        $data = data('db', $key);
-        $db[$key] = new PDO($data['dsn'], $data['username'], $data['password'], $data['driver_options']);
+    if ($db === null) {
+        $data = data('db');
+        $db = new PDO($data['dsn'], $data['username'], $data['password'], $data['driver_options']);
     }
 
-    return $db[$key];
+    return $db;
 }
 
 /**
  * Transaction
  *
- * @param string $key
  * @param callable $callback
  *
  * @return bool
  */
-function db_transaction(string $key, callable $callback): bool
+function db_transaction(callable $callback): bool
 {
-    static $data = [];
+    static $level = 0;
 
-    $db = db($key);
-    $hash = spl_object_hash($db);
-
-    // Begin transaction
-    $data[$hash] = !isset($data[$hash]) ? 1 : ++$data[$hash];
-
-    if ($data[$hash] === 1) {
-        $db->beginTransaction();
+    if (++$level === 1) {
+        db()->beginTransaction();
     } else {
-        $db->exec('SAVEPOINT LEVEL_' . $data[$hash]);
+        db()->exec('SAVEPOINT LEVEL_' . $level);
     }
 
     try {
-        // Perform callback
         $callback();
 
-        // Commit transaction
-        if ($data[$hash] === 1) {
-            $db->commit();
+        if ($level === 1) {
+            db()->commit();
         } else {
-            $db->exec('RELEASE SAVEPOINT LEVEL_' . $data[$hash]);
+            db()->exec('RELEASE SAVEPOINT LEVEL_' . $level);
         }
 
-        --$data[$hash];
+        --$level;
     } catch (Exception $e) {
-        // Rollback transaction
-        if ($data[$hash] === 1) {
-            $db->rollBack();
+        if ($level === 1) {
+            db()->rollBack();
         } else {
-            $db->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $data[$hash]);
+            db()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
         }
 
-        --$data[$hash];
+        --$level;
         error($e);
         $error = true;
     }
 
     return empty($error);
-}
-
-/**
- * Quotes value
- *
- * @param mixed $value
- * @param mixed $backend
- *
- * @return mixed
- */
-function db_quote($value, $backend = null)
-{
-    if ($backend === 'bool') {
-        $value = $value ? '1' : '0';
-    } elseif ($backend === 'int') {
-        return (int) $value;
-    } elseif ($backend === 'decimal') {
-        return sprintf('%F', $value);
-    }
-
-    return "'" . addcslashes($value, "\000\n\r\\'\"\032") . "'";
-}
-
-/**
- * Quotes identifier
- *
- * @param PDO $db
- * @param string $identifier
- *
- * @return string
- */
-function db_quote_identifier(PDO $db, string $identifier = null): string
-{
-    $char = $db->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql' ? '`' : '"';
-
-    return !empty($identifier) ? $char . str_replace($char, '', $identifier) . $char : '';
 }
 
 /**
@@ -137,6 +89,41 @@ function db_type(array $attribute, $value): int
 }
 
 /**
+ * Quotes value
+ *
+ * @param mixed $value
+ * @param mixed $backend
+ *
+ * @return mixed
+ */
+function db_quote($value, $backend = null)
+{
+    if ($backend === 'bool') {
+        $value = $value ? '1' : '0';
+    } elseif ($backend === 'int') {
+        return (int) $value;
+    } elseif ($backend === 'decimal') {
+        return sprintf('%F', $value);
+    }
+
+    return "'" . addcslashes($value, "\000\n\r\\'\"\032") . "'";
+}
+
+/**
+ * Quotes identifier
+ *
+ * @param string $identifier
+ *
+ * @return string
+ */
+function db_quote_identifier(string $identifier = null): string
+{
+    $char = db()->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql' ? '`' : '"';
+
+    return !empty($identifier) ? $char . str_replace($char, '', $identifier) . $char : '';
+}
+
+/**
  * Retrieve metadata with quoted table and columns
  *
  * @param string|array $entity
@@ -146,20 +133,19 @@ function db_type(array $attribute, $value): int
 function db_meta($entity): array
 {
     $metadata = is_array($entity) ? $entity : data('metadata', $entity);
-    $db = db($metadata['db']);
 
-    if ($db->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql'
+    if (db()->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql'
         && $metadata['sequence'] === null
         && !empty($metadata['attributes']['id']['auto'])
     ) {
         $metadata['sequence'] = $metadata['table'] . '_id_seq';
     }
 
-    $metadata['sequence'] = db_quote_identifier($db, $metadata['sequence']);
-    $metadata['table'] = db_quote_identifier($db, $metadata['table']);
+    $metadata['sequence'] = db_quote_identifier($metadata['sequence']);
+    $metadata['table'] = db_quote_identifier($metadata['table']);
 
     foreach ($metadata['attributes'] as $code => $attribute) {
-        $metadata['attributes'][$code]['column'] = db_quote_identifier($db, $attribute['column']);
+        $metadata['attributes'][$code]['column'] = db_quote_identifier($attribute['column']);
     }
 
     return $metadata;
@@ -194,23 +180,22 @@ function db_columns(array $attributes, array $item, array $skip = []): array
 /**
  * Select part
  *
- * @param PDO $db
  * @param array $attributes
  * @param string $alias
  *
  * @return string
  */
-function select(PDO $db, array $attributes, string $alias = null): string
+function select(array $attributes, string $alias = null): string
 {
     $columns = [];
-    $alias = ($alias) ? db_quote_identifier($db, $alias) . '.' : '';
+    $alias = ($alias) ? db_quote_identifier($alias) . '.' : '';
 
     foreach ($attributes as $code => $attribute) {
         if (empty($attribute['column'])) {
             continue;
         }
 
-        $columns[$code] = $alias . $attribute['column'] . ' as ' . db_quote_identifier($db, $code);
+        $columns[$code] = $alias . $attribute['column'] . ' as ' . db_quote_identifier($code);
     }
 
     if (empty($columns)) {
@@ -223,31 +208,29 @@ function select(PDO $db, array $attributes, string $alias = null): string
 /**
  * From part
  *
- * @param PDO $db
  * @param string $table
  * @param string $alias
  *
  * @return string
  */
-function from(PDO $db, string $table, string $alias = null): string
+function from(string $table, string $alias = null): string
 {
-    return ' FROM ' . $table . ($alias ? ' as ' . db_quote_identifier($db, $alias) : '');
+    return ' FROM ' . $table . ($alias ? ' as ' . db_quote_identifier($alias) : '');
 }
 
 /**
  * Where part
  *
- * @param PDO $db
  * @param array $criteria
  * @param array $attributes
  * @param array $options
  *
  * @return string
  */
-function where(PDO $db, array $criteria, array $attributes, array $options = []): string
+function where(array $criteria, array $attributes, array $options = []): string
 {
     $columns = [];
-    $alias = !empty($options['alias']) ? db_quote_identifier($db, $options['alias']) . '.' : '';
+    $alias = !empty($options['alias']) ? db_quote_identifier($options['alias']) . '.' : '';
     $search = !empty($options['search']);
     $operator = $search ? 'LIKE' : '=';
 
@@ -276,13 +259,12 @@ function where(PDO $db, array $criteria, array $attributes, array $options = [])
 /**
  * Order By part
  *
- * @param PDO $db
  * @param array $order
  * @param array $attributes
  *
  * @return string
  */
-function order(PDO $db, array $order, array $attributes = null): string
+function order(array $order, array $attributes = null): string
 {
     $columns = [];
 
@@ -292,7 +274,7 @@ function order(PDO $db, array $order, array $attributes = null): string
         }
 
         $direction = strtoupper($direction) === 'DESC' ? 'DESC' : 'ASC';
-        $columns[$code] = db_quote_identifier($db, $code) . ' ' . $direction;
+        $columns[$code] = db_quote_identifier($code) . ' ' . $direction;
     }
 
     return $columns ? ' ORDER BY ' . implode(', ', $columns) : '';

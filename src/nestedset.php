@@ -29,7 +29,6 @@ function nestedset_size(string $entity, array $criteria = null, array $options =
 function nestedset_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
     $metadata = db_meta($entity);
-    $db = db($metadata['db']);
     $attributes = $orderAttributes = $metadata['attributes'];
     $root = !empty($attributes['root_id']);
     $where = 'b.lft < e.lft AND b.rgt > e.rgt'
@@ -44,7 +43,7 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
 
     // Order attributes
     if (empty($orderAttributes['level']['column'])) {
-        $code = db_quote_identifier($db, 'level');
+        $code = db_quote_identifier('level');
         $orderAttributes['level']['column'] =  $code;
         $selectLevel = ', ('
             . 'SELECT COUNT(b.' . $attributes['id']['column'] . ') + 1'
@@ -54,7 +53,7 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
     }
 
     if (empty($orderAttributes['parent_id']['column'])) {
-        $code = db_quote_identifier($db, 'parent_id');
+        $code = db_quote_identifier('parent_id');
         $orderAttributes['parent_id']['column'] =  $code;
         $selectParentId = ', ('
             . 'SELECT b.' . $attributes['id']['column']
@@ -66,11 +65,11 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
     }
 
     // Prepare statement
-    $stmt = $db->prepare(
-        select($db, $attributes, 'e') . $selectLevel . $selectParentId
-        . from($db, $metadata['table'], 'e')
-        . where($db, (array) $criteria, $attributes, $options)
-        . order($db, $order, $orderAttributes)
+    $stmt = db()->prepare(
+        select($attributes, 'e') . $selectLevel . $selectParentId
+        . from($metadata['table'], 'e')
+        . where((array) $criteria, $attributes, $options)
+        . order($order, $orderAttributes)
         . limit($limit)
     );
 
@@ -103,11 +102,8 @@ function nestedset_create(array & $item): bool
     }
 
     $metadata = db_meta($item['_metadata']);
-    $db = db($metadata['db']);
     $attributes = $metadata['attributes'];
     $root = !empty($attributes['root_id']);
-
-    // Columns
     $cols = db_columns($attributes, $item);
 
     if (empty($item['basis']) || !($basisItem = model_load($metadata['id'], ['id' => $item['basis']], false))) {
@@ -135,7 +131,7 @@ function nestedset_create(array & $item): bool
         }
 
         // Update position
-        $stmt = $db->prepare(
+        $stmt = db()->prepare(
             'UPDATE ' . $metadata['table']
             . ' SET lft = CASE WHEN ' . $lft . ' THEN lft + 2 ELSE lft END,'
             . ' rgt = CASE WHEN ' . $rgt . ' THEN rgt + 2 ELSE rgt END'
@@ -155,7 +151,7 @@ function nestedset_create(array & $item): bool
     }
 
     // Prepare statement
-    $stmt = $db->prepare(
+    $stmt = db()->prepare(
         'INSERT INTO ' . $metadata['table'] . ' (' . implode(', ', $cols['col']) . ', lft, rgt)'
         . ' SELECT ' . implode(', ', $cols['param']) . ', ' . $curLft . ', ' . $curRgt
         . ' FROM ' . $metadata['table']
@@ -180,7 +176,7 @@ function nestedset_create(array & $item): bool
 
     // Add DB generated id
     if (!empty($attributes['id']['auto'])) {
-        $item['id'] = (int) $db->lastInsertId($metadata['sequence']);
+        $item['id'] = (int) db()->lastInsertId($metadata['sequence']);
     }
 
     return true;
@@ -201,12 +197,9 @@ function nestedset_save(array & $item): bool
     }
 
     $metadata = db_meta($item['_metadata']);
-    $db = db($metadata['db']);
     $attributes = $metadata['attributes'];
     $root = !empty($attributes['root_id']);
     $basisItem = [];
-
-    // Columns
     $cols = db_columns($attributes, $item, ['root_id']);
 
     if (!empty($item['basis']) && ($item['basis'] === $item['_original']['id']
@@ -214,7 +207,7 @@ function nestedset_save(array & $item): bool
             || $item['_original']['lft'] < $basisItem['lft'] && $item['_original']['rgt'] > $basisItem['rgt'])
     ) {
         // No change in position or wrong basis given
-        $stmt = $db->prepare(
+        $stmt = db()->prepare(
             'UPDATE ' . $metadata['table']
             . ' SET ' . implode(', ', $cols['set'])
             . ' WHERE ' . $attributes['id']['column'] . ' = :id'
@@ -238,7 +231,7 @@ function nestedset_save(array & $item): bool
     $rgt = $item['_original']['rgt'];
 
     if (empty($item['basis'])) {
-        $stmt = $db->prepare(
+        $stmt = db()->prepare(
             'SELECT COALESCE(MAX(rgt), 0) + 1 as newlft'
             . ' FROM ' . $metadata['table']
             . ($root ? ' WHERE ' . $attributes['root_id']['column'] . ' = :root_id' : '')
@@ -306,7 +299,7 @@ function nestedset_save(array & $item): bool
     }
 
     // Prepare statement
-    $stmt = $db->prepare(
+    $stmt = db()->prepare(
         'UPDATE ' . $metadata['table']
         . ' SET lft = CASE WHEN ' . $oldAfter . ' AND NOT ' . $newAfter . ' THEN lft - ' . $length
         . ' WHEN ' . $isChild . ' THEN lft + ' . $diff
@@ -345,14 +338,13 @@ function nestedset_delete(array & $item): bool
     }
 
     $metadata = db_meta($item['_metadata']);
-    $db = db($metadata['db']);
     $attributes = $metadata['attributes'];
     $root = !empty($attributes['root_id']);
     $lft = $item['_original']['lft'];
     $rgt = $item['_original']['rgt'];
 
     // Update
-    $stmt = $db->prepare(
+    $stmt = db()->prepare(
         'UPDATE ' . $metadata['table']
         . ' SET lft = CASE WHEN lft > ' . $rgt . ' THEN lft - (' . $rgt . ' - ' . $lft . ' + 1)'
         . ' WHEN lft BETWEEN ' . $lft . ' AND ' . $rgt . ' THEN -1 * lft ELSE lft END,'
@@ -374,7 +366,7 @@ function nestedset_delete(array & $item): bool
     $stmt->execute();
 
     // Delete
-    $db->exec('DELETE FROM ' . $metadata['table'] . ' WHERE lft < 0');
+    db()->exec('DELETE FROM ' . $metadata['table'] . ' WHERE lft < 0');
 
     return true;
 }

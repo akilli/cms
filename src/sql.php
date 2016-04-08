@@ -13,13 +13,12 @@ namespace akilli;
 function sql_size(string $entity, array $criteria = null, array $options = []): int
 {
     $metadata = db_meta($entity);
-    $db = db($metadata['db']);
 
     // Prepare statement
-    $stmt = $db->prepare(
+    $stmt = db()->prepare(
         'SELECT COUNT(*) as total'
-        . from($db, $metadata['table'])
-        . where($db, (array) $criteria, $metadata['attributes'], $options)
+        . from($metadata['table'])
+        . where((array) $criteria, $metadata['attributes'], $options)
     );
 
     // Execute statement
@@ -45,15 +44,14 @@ function sql_size(string $entity, array $criteria = null, array $options = []): 
 function sql_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
     $metadata = db_meta($entity);
-    $db = db($metadata['db']);
     $options = ['search' => $index === 'search'];
 
     // Prepare statement
-    $stmt = $db->prepare(
-        select($db, $metadata['attributes'])
-        . from($db, $metadata['table'])
-        . where($db, (array) $criteria, $metadata['attributes'], $options)
-        . order($db, (array) $order, $metadata['attributes'])
+    $stmt = db()->prepare(
+        select($metadata['attributes'])
+        . from($metadata['table'])
+        . where((array) $criteria, $metadata['attributes'], $options)
+        . order((array) $order, $metadata['attributes'])
         . limit($limit)
     );
 
@@ -79,13 +77,10 @@ function sql_create(array & $item): bool
     }
 
     $metadata = db_meta($item['_metadata']);
-    $db = db($metadata['db']);
-
-    // Columns
     $cols = db_columns($metadata['attributes'], $item);
 
     // Prepare statement
-    $stmt = $db->prepare(
+    $stmt = db()->prepare(
         'INSERT INTO ' . $metadata['table']
         . ' (' . implode(', ', $cols['col']) . ') VALUES (' . implode(', ', $cols['param']) . ')'
     );
@@ -100,7 +95,7 @@ function sql_create(array & $item): bool
 
     // Add DB generated id
     if (!empty($metadata['attributes']['id']['auto'])) {
-        $item['id'] = (int) $db->lastInsertId($metadata['sequence']);
+        $item['id'] = (int) db()->lastInsertId($metadata['sequence']);
     }
 
     return true;
@@ -121,13 +116,10 @@ function sql_save(array & $item): bool
     }
 
     $metadata = db_meta($item['_metadata']);
-    $db = db($metadata['db']);
-
-    // Columns
     $cols = db_columns($metadata['attributes'], $item);
 
     // Prepare statement
-    $stmt = $db->prepare(
+    $stmt = db()->prepare(
         'UPDATE ' . $metadata['table']
         . ' SET ' . implode(', ', $cols['set'])
         . ' WHERE ' . $metadata['attributes']['id']['column'] . '  = :id'
@@ -165,10 +157,9 @@ function sql_delete(array & $item): bool
     }
 
     $metadata = db_meta($item['_metadata']);
-    $db = db($metadata['db']);
 
     // Prepare statement
-    $stmt = $db->prepare(
+    $stmt = db()->prepare(
         'DELETE FROM ' . $metadata['table'] . ' WHERE ' . $metadata['attributes']['id']['column'] . '  = :id'
     );
 

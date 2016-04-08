@@ -205,7 +205,6 @@ function model_save(string $entity, array & $data): bool
 
         // Transaction
         $success = db_transaction(
-            $metadata['db'],
             function () use ($entity, & $item, $callback, $metadata) {
                 // Entity before save events
                 event(
@@ -297,7 +296,6 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
 
         // Transaction
         $success = db_transaction(
-            $metadata['db'],
             function () use ($entity, & $item, $callback, $metadata) {
                 // Entity before delete events
                 event(
