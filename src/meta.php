@@ -179,12 +179,10 @@ function meta_skeleton(string $entity, int $number = null): array
     }
 
     $data = array_fill_keys(range(-1, -1 * max(1, (int) $number)), $item);
-    array_walk(
-        $data,
-        function (array & $value, $key) {
-            $value['_id'] = $key;
-        }
-    );
+
+    foreach ($data as $key => $value) {
+        $data[$key]['_id'] = $key;
+    }
 
     return $data;
 }
