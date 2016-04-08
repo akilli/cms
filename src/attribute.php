@@ -185,22 +185,15 @@ function attribute_options_callback(array $attribute, array $item): array
  */
 function attribute_options_translate(array $options): array
 {
-    if (!$options) {
-        return $options;
+    foreach ($options as $key => $value) {
+        if (is_scalar($value)) {
+            $options[$key] = _($value);
+        } elseif (is_array($value) && !empty($value['name'])) {
+            $options[$key]['name'] = _($value['name']);
+        }
     }
 
-    return array_map(
-        function ($value) {
-            if (is_scalar($value)) {
-                $value = _($value);
-            } elseif (is_array($value) && !empty($value['name'])) {
-                $value['name'] = _($value['name']);
-            }
-
-            return $value;
-        },
-        $options
-    );
+    return $options;
 }
 
 /**
