@@ -98,7 +98,7 @@ function view_handles(array $handles = null): array
 
     if ($data === null || $handles !== null) {
         $data = [];
-        $metadata = data('metadata', request('entity'));
+        $meta = data('metadata', request('entity'));
 
         if ($handles === null) {
             $handles[] = 'view-base';
@@ -114,7 +114,7 @@ function view_handles(array $handles = null): array
             $handles[] = 'http-base';
         }
 
-        if ($metadata && metadata_action(request('action'), $metadata)) {
+        if ($meta && metadata_action(request('action'), $meta)) {
             $handles[] = 'action-' . request('action');
         }
 

@@ -229,9 +229,9 @@ function attribute_option_name($id, $value): string
  */
 function attribute_options_menubasis(string $entity): array
 {
-    $metadata = data('metadata', $entity);
-    $root = !empty($metadata['attributes']['root_id']);
-    $collection = $root ? model_load($metadata['attributes']['root_id']['foreign_entity_id']) : null;
+    $meta = data('metadata', $entity);
+    $root = !empty($meta['attributes']['root_id']);
+    $collection = $root ? model_load($meta['attributes']['root_id']['foreign_entity_id']) : null;
     $data = [];
 
     foreach (model_load($entity) as $item) {
@@ -658,15 +658,15 @@ function attribute_validate_option(array $attribute, array & $item): bool
 function attribute_validate_menubasis(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $metadata = data('metadata', $attribute['entity_id']);
+    $meta = data('metadata', $attribute['entity_id']);
 
-    if (empty($metadata['attributes']['root_id'])) {
+    if (empty($meta['attributes']['root_id'])) {
         $item['basis'] = !empty($item[$code]) ? $item[$code] : null;
-        $item['basis'] = attribute_type($metadata['attributes']['id'], $item['basis']);
+        $item['basis'] = attribute_type($meta['attributes']['id'], $item['basis']);
     } elseif (!empty($item[$code]) && strpos($item[$code], ':') > 0) {
         $parts = explode(':', $item[$code]);
-        $item['root_id'] = attribute_type($metadata['attributes']['root_id'], $parts[0]);
-        $item['basis'] = attribute_type($metadata['attributes']['id'], $parts[1]);
+        $item['root_id'] = attribute_type($meta['attributes']['root_id'], $parts[0]);
+        $item['basis'] = attribute_type($meta['attributes']['id'], $parts[1]);
     } else {
         $item['__error'][$code] = _('%s is a mandatory field', $attribute['name']);
 

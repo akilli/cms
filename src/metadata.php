@@ -165,10 +165,10 @@ function metadata_action($action, array $data): bool
  */
 function metadata_skeleton(string $entity, int $number = null): array
 {
-    $metadata = data('metadata', $entity);
-    $item = ['_metadata' => $metadata, '_original' => null, '_id' => null, 'id' => null, 'name' => null];
+    $meta = data('metadata', $entity);
+    $item = ['_metadata' => $meta, '_original' => null, '_id' => null, 'id' => null, 'name' => null];
 
-    foreach ($metadata['attributes'] as $code => $attribute) {
+    foreach ($meta['attributes'] as $code => $attribute) {
         if (metadata_action('edit', $attribute)) {
             $item[$code] = null;
         }

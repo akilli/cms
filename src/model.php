@@ -39,8 +39,8 @@ function model_validate(array & $item): bool
  */
 function model_size(string $entity, array $criteria = null, array $options = []): int
 {
-    $metadata = data('metadata', $entity);
-    $callback = __NAMESPACE__ . '\\' . $metadata['model'] . '_size';
+    $meta = data('metadata', $entity);
+    $callback = __NAMESPACE__ . '\\' . $meta['model'] . '_size';
 
     try {
         return $callback($entity, $criteria, $options);
@@ -68,8 +68,8 @@ function model_size(string $entity, array $criteria = null, array $options = [])
  */
 function model_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
-    $metadata = data('metadata', $entity);
-    $callback =  __NAMESPACE__ . '\\' . $metadata['model'] . '_load';
+    $meta = data('metadata', $entity);
+    $callback =  __NAMESPACE__ . '\\' . $meta['model'] . '_load';
     $single = $index === false;
     $data = [];
 
@@ -79,7 +79,7 @@ function model_load(string $entity, array $criteria = null, $index = null, array
 
         if (!$index
             || $index === 'search'
-            || !is_array($index) && empty($metadata['attributes'][$index]) && $index !== 'unique'
+            || !is_array($index) && empty($meta['attributes'][$index]) && $index !== 'unique'
         ) {
             $index = 'id';
         }
@@ -87,21 +87,21 @@ function model_load(string $entity, array $criteria = null, $index = null, array
         foreach ($result as $item) {
             // Attribute load callback
             foreach ($item as $code => $value) {
-                if (isset($metadata['attributes'][$code])) {
-                    $item[$code] = $metadata['attributes'][$code]['load']($metadata['attributes'][$code], $item);
+                if (isset($meta['attributes'][$code])) {
+                    $item[$code] = $meta['attributes'][$code]['load']($meta['attributes'][$code], $item);
                 }
             }
 
             $item['name'] = !isset($item['name']) ? $item['id'] : $item['name'];
             $item['_original'] = $item;
-            $item['_metadata'] = empty($item['_metadata']) ? $metadata : $item['_metadata'];
+            $item['_metadata'] = empty($item['_metadata']) ? $meta : $item['_metadata'];
             $item['_id'] = $item['id'];
 
             // Entity load events
             event(
                 [
                     'model.load',
-                    'model.load.' . $metadata['model'],
+                    'model.load.' . $meta['model'],
                     'entity.load.' . $entity
                 ],
                 $item
@@ -115,7 +115,7 @@ function model_load(string $entity, array $criteria = null, $index = null, array
             if ($index === 'unique') {
                 // Index unique
                 foreach ($item as $code => $value) {
-                    if (!empty($metadata['attributes'][$code]['is_unique'])) {
+                    if (!empty($meta['attributes'][$code]['is_unique'])) {
                         $data[$code][$item['id']] = $value;
                     }
                 }
@@ -150,14 +150,14 @@ function model_load(string $entity, array $criteria = null, $index = null, array
  */
 function model_save(string $entity, array & $data): bool
 {
-    $metadata = data('metadata', $entity);
+    $meta = data('metadata', $entity);
     $original = model_load($entity);
 
     foreach ($data as $id => $item) {
         $item['_id'] = $id;
         $item = array_replace(empty($original[$id]) ? metadata_skeleton($entity) : $original[$id], $item);
         $data[$id] = $item;
-        $callback =  __NAMESPACE__ . '\\' . $metadata['model'] . '_' . (empty($original[$id]) ? 'create' : 'save');
+        $callback =  __NAMESPACE__ . '\\' . $meta['model'] . '_' . (empty($original[$id]) ? 'create' : 'save');
         $item['modified'] = date_format(date_create('now'), 'Y-m-d H:i:s');
         $item['modifier'] = account('id');
 
@@ -183,12 +183,12 @@ function model_save(string $entity, array & $data): bool
 
         // Attributes
         foreach (array_keys($item) as $code) {
-            if (!isset($metadata['attributes'][$code])) {
+            if (!isset($meta['attributes'][$code])) {
                 continue;
             }
 
             // Attribute save callback
-            if (!$metadata['attributes'][$code]['save']($metadata['attributes'][$code], $item)) {
+            if (!$meta['attributes'][$code]['save']($meta['attributes'][$code], $item)) {
                 if (!empty($item['__error'])) {
                     $data[$id]['__error'] = $item['__error'];
                 }
@@ -198,19 +198,19 @@ function model_save(string $entity, array & $data): bool
             }
 
             // Ignored attributes
-            if (attribute_ignore($metadata['attributes'][$code], $item)) {
+            if (attribute_ignore($meta['attributes'][$code], $item)) {
                 unset($item[$code]);
             }
         }
 
         // Transaction
         $success = db_transaction(
-            function () use ($entity, & $item, $callback, $metadata) {
+            function () use ($entity, & $item, $callback, $meta) {
                 // Entity before save events
                 event(
                     [
                         'model.save_before',
-                        'model.save_before.' . $metadata['model'],
+                        'model.save_before.' . $meta['model'],
                         'entity.save_before.' . $entity
                     ],
                     $item
@@ -225,7 +225,7 @@ function model_save(string $entity, array & $data): bool
                 event(
                     [
                         'model.save_after',
-                        'model.save_after.' . $metadata['model'],
+                        'model.save_after.' . $meta['model'],
                         'entity.save_after.' . $entity
                     ],
                     $item
@@ -259,8 +259,8 @@ function model_save(string $entity, array & $data): bool
  */
 function model_delete(string $entity, array $criteria = null, $index = null, bool $system = false): bool
 {
-    $metadata = data('metadata', $entity);
-    $callback =  __NAMESPACE__ . '\\' . $metadata['model'] . '_delete';
+    $meta = data('metadata', $entity);
+    $callback =  __NAMESPACE__ . '\\' . $meta['model'] . '_delete';
 
     // Check if anything is there to delete
     if (!$data = model_load($entity, $criteria, $index)) {
@@ -282,8 +282,8 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
 
         // Attribute delete callback
         foreach (array_keys($item) as $code) {
-            if (isset($metadata['attributes'][$code])
-                && !$metadata['attributes'][$code]['delete']($metadata['attributes'][$code], $item)
+            if (isset($meta['attributes'][$code])
+                && !$meta['attributes'][$code]['delete']($meta['attributes'][$code], $item)
             ) {
                 if (!empty($item['__error'][$code])) {
                     message($item['__error'][$code]);
@@ -296,12 +296,12 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
 
         // Transaction
         $success = db_transaction(
-            function () use ($entity, & $item, $callback, $metadata) {
+            function () use ($entity, & $item, $callback, $meta) {
                 // Entity before delete events
                 event(
                     [
                         'model.delete_before',
-                        'model.delete_before.' . $metadata['model'],
+                        'model.delete_before.' . $meta['model'],
                         'entity.delete_before.' . $entity
                     ],
                     $item
@@ -316,7 +316,7 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
                 event(
                     [
                         'model.delete_after',
-                        'model.delete_after.' . $metadata['model'],
+                        'model.delete_after.' . $meta['model'],
                         'entity.delete_after.' . $entity
                     ],
                     $item

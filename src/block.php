@@ -56,7 +56,7 @@ function block_container(array & $block): string
  */
 function block_entity(array & $block): string
 {
-    if (empty($block['vars']['entity']) || !($metadata = data('metadata', $block['vars']['entity']))) {
+    if (empty($block['vars']['entity']) || !($meta = data('metadata', $block['vars']['entity']))) {
         return '';
     }
 
@@ -71,7 +71,7 @@ function block_entity(array & $block): string
         $block['vars']['order'],
         $block['vars']['limit'] ? (array) $block['vars']['limit'] : null
     );
-    $block['vars']['header'] = _($metadata['name']);
+    $block['vars']['header'] = _($meta['name']);
 
     return block_template($block);
 }
@@ -134,14 +134,14 @@ function block_pager(array & $block): string
  */
 function block_menu(array & $block): string
 {
-    if (empty($block['vars']['entity']) || !($metadata = data('metadata', $block['vars']['entity']))) {
+    if (empty($block['vars']['entity']) || !($meta = data('metadata', $block['vars']['entity']))) {
         return '';
     }
 
-    $root = !empty($metadata['attributes']['root_id']);
+    $root = !empty($meta['attributes']['root_id']);
 
     if ($root) {
-        $collection = model_load($metadata['attributes']['root_id']['foreign_entity_id']);
+        $collection = model_load($meta['attributes']['root_id']['foreign_entity_id']);
         $criteria = !empty($block['vars']['root_id']) ? ['root_id' => $block['vars']['root_id']] : null;
         $roots = model_load($block['vars']['entity'], $criteria, ['root_id', 'id']);
     } else {

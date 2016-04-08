@@ -132,23 +132,23 @@ function db_quote_identifier(string $identifier = null): string
  */
 function db_meta($entity): array
 {
-    $metadata = is_array($entity) ? $entity : data('metadata', $entity);
+    $meta = is_array($entity) ? $entity : data('metadata', $entity);
 
     if (db()->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql'
-        && $metadata['sequence'] === null
-        && !empty($metadata['attributes']['id']['auto'])
+        && $meta['sequence'] === null
+        && !empty($meta['attributes']['id']['auto'])
     ) {
-        $metadata['sequence'] = $metadata['table'] . '_id_seq';
+        $meta['sequence'] = $meta['table'] . '_id_seq';
     }
 
-    $metadata['sequence'] = db_quote_identifier($metadata['sequence']);
-    $metadata['table'] = db_quote_identifier($metadata['table']);
+    $meta['sequence'] = db_quote_identifier($meta['sequence']);
+    $meta['table'] = db_quote_identifier($meta['table']);
 
-    foreach ($metadata['attributes'] as $code => $attribute) {
-        $metadata['attributes'][$code]['column'] = db_quote_identifier($attribute['column']);
+    foreach ($meta['attributes'] as $code => $attribute) {
+        $meta['attributes'][$code]['column'] = db_quote_identifier($attribute['column']);
     }
 
-    return $metadata;
+    return $meta;
 }
 
 /**

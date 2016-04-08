@@ -8,22 +8,22 @@ namespace akilli;
  */
 function action_create()
 {
-    $metadata = action_internal_meta();
+    $meta = action_internal_meta();
     $data = post_data('save');
 
     if ($data) {
         // Perform create callback
-        if (model_save($metadata['id'], $data)) {
+        if (model_save($meta['id'], $data)) {
             redirect(allowed('index') ? '*/index' : '');
         }
     } else {
         // Initial create action call
-        $data = metadata_skeleton($metadata['id'], (int) post_data('create', 'number'));
+        $data = metadata_skeleton($meta['id'], (int) post_data('create', 'number'));
     }
 
     // View
-    action_internal_view($metadata);
-    view_vars('entity.create', ['data' => $data, 'header' => _($metadata['name'])]);
+    action_internal_view($meta);
+    view_vars('entity.create', ['data' => $data, 'header' => _($meta['name'])]);
 }
 
 /**
@@ -33,20 +33,20 @@ function action_create()
  */
 function action_edit()
 {
-    $metadata = action_internal_meta();
+    $meta = action_internal_meta();
     $data = post_data('save');
 
     if ($data) {
         // Perform save callback and redirect to index on success
-        if (model_save($metadata['id'], $data)) {
+        if (model_save($meta['id'], $data)) {
             redirect(allowed('index') ? '*/index' : '');
         }
     } elseif (($id = get('id')) !== null) {
         // We just clicked on an edit link, p.e. on the index page
-        $data = model_load($metadata['id'], ['id' => $id]);
+        $data = model_load($meta['id'], ['id' => $id]);
     } elseif ($data = post_data('edit')) {
         // We just selected multiple items to edit on the index page
-        $data = model_load($metadata['id'], ['id' => array_keys($data)]);
+        $data = model_load($meta['id'], ['id' => array_keys($data)]);
     }
 
     // If $data is empty, there haven't been any matching records to edit
@@ -56,8 +56,8 @@ function action_edit()
     }
 
     // View
-    action_internal_view($metadata);
-    view_vars('entity.edit', ['data' => $data, 'header' => _($metadata['name'])]);
+    action_internal_view($meta);
+    view_vars('entity.edit', ['data' => $data, 'header' => _($meta['name'])]);
 }
 
 /**
@@ -67,12 +67,12 @@ function action_edit()
  */
 function action_delete()
 {
-    $metadata = action_internal_meta();
+    $meta = action_internal_meta();
     $data = post_data('delete');
 
     if ($data) {
         // Data posted, perform delete callback
-        model_delete($metadata['id'], ['id' => array_keys($data)]);
+        model_delete($meta['id'], ['id' => array_keys($data)]);
     } else {
         // No data posted
         message(_('You did not select anything to delete'));
@@ -88,20 +88,20 @@ function action_delete()
  */
 function action_view()
 {
-    $metadata = action_internal_meta();
+    $meta = action_internal_meta();
 
-    if (!($item = model_load($metadata['id'], ['id' => get('id')], false))
-        || !empty($metadata['attributes']['is_active']) && empty($item['is_active']) && !allowed('edit')
+    if (!($item = model_load($meta['id'], ['id' => get('id')], false))
+        || !empty($meta['attributes']['is_active']) && empty($item['is_active']) && !allowed('edit')
     ) {
         // Item does not exist or is inactive
         action_error();
-    } elseif (!empty($metadata['attributes']['is_active']) && empty($item['is_active'])) {
+    } elseif (!empty($meta['attributes']['is_active']) && empty($item['is_active'])) {
         // Preview
         message(_('Preview'));
     }
 
     // View
-    action_internal_view($metadata, $item);
+    action_internal_view($meta, $item);
     view_vars('entity.view', ['item' => $item]);
 }
 
@@ -112,22 +112,22 @@ function action_view()
  */
 function action_index()
 {
-    $metadata = action_internal_meta();
+    $meta = action_internal_meta();
     $action = request('action');
     $attributes = array_filter(
-        $metadata['attributes'],
+        $meta['attributes'],
         function ($attribute) use ($action) {
             return metadata_action($action, $attribute);
         }
     );
-    $criteria = empty($metadata['attributes']['is_active']) || $action === 'index' ? [] : ['is_active' => true];
+    $criteria = empty($meta['attributes']['is_active']) || $action === 'index' ? [] : ['is_active' => true];
     $order = null;
     $params = [];
 
     // Search
     if (($terms = post_data('search', 'terms')) || ($terms = get('terms')) && ($terms = urldecode($terms))) {
         if (($content = array_filter(explode(' ', $terms)))
-            && $searchItems = model_load('content', ['entity_id' => $metadata['id'], 'search' => $content], 'search')
+            && $searchItems = model_load('content', ['entity_id' => $meta['id'], 'search' => $content], 'search')
         ) {
             $ids = [];
 
@@ -142,7 +142,7 @@ function action_index()
         }
     }
 
-    $size = model_size($metadata['id'], $criteria);
+    $size = model_size($meta['id'], $criteria);
     $limit = (int) config('limit.' . $action);
     $page = max((int) get('page'), 1);
     $offset = ($page - 1) * $limit;
@@ -160,7 +160,7 @@ function action_index()
         $params['direction'] = $direction;
     }
 
-    $data = model_load($metadata['id'], $criteria, null, $order, [$limit, $offset]);
+    $data = model_load($meta['id'], $criteria, null, $order, [$limit, $offset]);
     array_walk(
         $attributes,
         function (& $attribute, $code) use ($params) {
@@ -179,10 +179,10 @@ function action_index()
     unset($params['page']);
 
     // View
-    action_internal_view($metadata);
+    action_internal_view($meta);
     view_vars(
         'entity.' . $action,
-        ['data' => $data, 'header' => _($metadata['name']), 'attributes' => $attributes]
+        ['data' => $data, 'header' => _($meta['name']), 'attributes' => $attributes]
     );
     view_vars(
         'entity.' . $action . '.pager',
@@ -328,27 +328,27 @@ function action_http_index()
  */
 function action_internal_meta(): array
 {
-    $metadata = data('metadata', request('entity'));
+    $meta = data('metadata', request('entity'));
 
     // Check if action is allowed for entity
-    if (!metadata_action(request('action'), $metadata)) {
+    if (!metadata_action(request('action'), $meta)) {
         action_error();
     }
 
-    return $metadata;
+    return $meta;
 }
 
 /**
  * Load View
  *
- * @param array $metadata
+ * @param array $meta
  * @param array $item
  *
  * @return void
  */
-function action_internal_view(array $metadata, array $item = null)
+function action_internal_view(array $meta, array $item = null)
 {
-    $title = ($item ? $item['name'] : _($metadata['name']))
+    $title = ($item ? $item['name'] : _($meta['name']))
         . ' ' . config('meta.separator')
         . ' ' . config('meta.title');
     view_load();

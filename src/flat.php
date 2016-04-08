@@ -12,13 +12,13 @@ namespace akilli;
  */
 function flat_size(string $entity, array $criteria = null, array $options = []): int
 {
-    $metadata = db_meta($entity);
+    $meta = db_meta($entity);
 
     // Prepare statement
     $stmt = db()->prepare(
         'SELECT COUNT(*) as total'
-        . from($metadata['table'])
-        . where((array) $criteria, $metadata['attributes'], $options)
+        . from($meta['table'])
+        . where((array) $criteria, $meta['attributes'], $options)
     );
 
     // Execute statement
@@ -43,15 +43,15 @@ function flat_size(string $entity, array $criteria = null, array $options = []):
  */
 function flat_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
-    $metadata = db_meta($entity);
+    $meta = db_meta($entity);
     $options = ['search' => $index === 'search'];
 
     // Prepare statement
     $stmt = db()->prepare(
-        select($metadata['attributes'])
-        . from($metadata['table'])
-        . where((array) $criteria, $metadata['attributes'], $options)
-        . order((array) $order, $metadata['attributes'])
+        select($meta['attributes'])
+        . from($meta['table'])
+        . where((array) $criteria, $meta['attributes'], $options)
+        . order((array) $order, $meta['attributes'])
         . limit($limit)
     );
 
@@ -76,26 +76,26 @@ function flat_create(array & $item): bool
         return false;
     }
 
-    $metadata = db_meta($item['_metadata']);
-    $cols = db_columns($metadata['attributes'], $item);
+    $meta = db_meta($item['_metadata']);
+    $cols = db_columns($meta['attributes'], $item);
 
     // Prepare statement
     $stmt = db()->prepare(
-        'INSERT INTO ' . $metadata['table']
+        'INSERT INTO ' . $meta['table']
         . ' (' . implode(', ', $cols['col']) . ') VALUES (' . implode(', ', $cols['param']) . ')'
     );
 
     // Bind values
     foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($metadata['attributes'][$code], $item[$code]));
+        $stmt->bindValue($param, $item[$code], db_type($meta['attributes'][$code], $item[$code]));
     }
 
     // Execute statement
     $stmt->execute();
 
     // Add DB generated id
-    if (!empty($metadata['attributes']['id']['auto'])) {
-        $item['id'] = (int) db()->lastInsertId($metadata['sequence']);
+    if (!empty($meta['attributes']['id']['auto'])) {
+        $item['id'] = (int) db()->lastInsertId($meta['sequence']);
     }
 
     return true;
@@ -115,25 +115,25 @@ function flat_save(array & $item): bool
         return false;
     }
 
-    $metadata = db_meta($item['_metadata']);
-    $cols = db_columns($metadata['attributes'], $item);
+    $meta = db_meta($item['_metadata']);
+    $cols = db_columns($meta['attributes'], $item);
 
     // Prepare statement
     $stmt = db()->prepare(
-        'UPDATE ' . $metadata['table']
+        'UPDATE ' . $meta['table']
         . ' SET ' . implode(', ', $cols['set'])
-        . ' WHERE ' . $metadata['attributes']['id']['column'] . '  = :id'
+        . ' WHERE ' . $meta['attributes']['id']['column'] . '  = :id'
     );
 
     // Bind values
     foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($metadata['attributes'][$code], $item[$code]));
+        $stmt->bindValue($param, $item[$code], db_type($meta['attributes'][$code], $item[$code]));
     }
 
     $stmt->bindValue(
         ':id',
         $item['_original']['id'],
-        db_type($metadata['attributes']['id'], $item['_original']['id'])
+        db_type($meta['attributes']['id'], $item['_original']['id'])
     );
 
     // Execute statement
@@ -156,18 +156,18 @@ function flat_delete(array & $item): bool
         return false;
     }
 
-    $metadata = db_meta($item['_metadata']);
+    $meta = db_meta($item['_metadata']);
 
     // Prepare statement
     $stmt = db()->prepare(
-        'DELETE FROM ' . $metadata['table'] . ' WHERE ' . $metadata['attributes']['id']['column'] . '  = :id'
+        'DELETE FROM ' . $meta['table'] . ' WHERE ' . $meta['attributes']['id']['column'] . '  = :id'
     );
 
     // Bind values
     $stmt->bindValue(
         ':id',
         $item['_original']['id'],
-        db_type($metadata['attributes']['id'], $item['_original']['id'])
+        db_type($meta['attributes']['id'], $item['_original']['id'])
     );
 
     // Execute statement
