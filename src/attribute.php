@@ -71,7 +71,7 @@ function attribute_ignore(array $attribute, array $item): bool
     $mustEdit = empty($item[$code]) || $attribute['action'] === 'edit' && !empty($item[$code]);
 
     return !empty($item['_old'])
-        && empty($item['__reset'][$code])
+        && empty($item['_reset'][$code])
         && $mustEdit
         && in_array($attribute['frontend'], ['password', 'file']);
 }
@@ -510,7 +510,7 @@ function attribute_validate_file(array $attribute, array & $item): bool
 
     // Delete old file
     if (!empty($item['_old'][$code])
-        && ($file || !empty($item['__reset'][$code]))
+        && ($file || !empty($item['_reset'][$code]))
         && !media_delete($item['_old'][$code])
     ) {
         $item['_error'][$code] = _('Could not delete old file %s', $item['_old'][$code]);

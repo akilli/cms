@@ -36,7 +36,7 @@ return [
             'validate' => 'akilli\attribute_validate_file',
             'edit' => 'akilli\attribute_edit_file',
             'view' => 'akilli\attribute_view_file',
-            'flag' => ['__reset' => 'Reset'],
+            'flag' => ['_reset' => 'Reset'],
         ],
     ],
     'month' => [
