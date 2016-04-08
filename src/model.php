@@ -151,7 +151,7 @@ function model_load(string $entity, array $criteria = null, $index = null, array
 function model_save(string $entity, array & $data): bool
 {
     $metadata = data('metadata', $entity);
-    $original = model_load($entity, ['id' => array_keys($data)]);
+    $original = model_load($entity);
 
     foreach ($data as $id => $item) {
         $item['_id'] = $id;
@@ -164,6 +164,11 @@ function model_save(string $entity, array & $data): bool
         if (empty($original[$id])) {
             $item['created'] = $item['modified'];
             $item['creator'] = $item['modifier'];
+        }
+
+        if (empty($item['_original']) && !empty($original[$id])) {
+            $item['_original'] = $original[$id];
+            unset($item['_original']['_id'], $item['_original']['_metadata'], $item['_original']['_original']);
         }
 
         // Validate
