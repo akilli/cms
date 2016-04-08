@@ -151,7 +151,7 @@ function model_load(string $entity, array $criteria = null, $index = null, array
 function model_save(string $entity, array & $data): bool
 {
     $metadata = data('metadata', $entity);
-    $original = model_load($entity);
+    $original = model_load($entity, ['id' => array_keys($data)]);
 
     foreach ($data as $id => $item) {
         $item['_id'] = $id;
