@@ -151,7 +151,7 @@ function eav_create(array & $item): bool
     $attributes = $meta['attributes'];
     $contentAttributes = $contentMetadata['attributes'];
     $valueAttributes = array_diff_key($attributes, $contentAttributes);
-    $valueModel = metadata_skeleton('eav');
+    $valueModel = meta_skeleton('eav');
     $item['entity_id'] = $meta['id'];
     $cols = db_columns($contentAttributes, $item);
 
@@ -226,7 +226,7 @@ function eav_save(array & $item): bool
     $attributes = $meta['attributes'];
     $contentAttributes = $contentMetadata['attributes'];
     $valueAttributes = array_diff_key($attributes, $contentAttributes);
-    $valueModel = metadata_skeleton('eav');
+    $valueModel = meta_skeleton('eav');
 
     if ($valueAttributes) {
         $values = model_load('eav', ['content_id' => $item['_original']['id']], 'attribute_id');

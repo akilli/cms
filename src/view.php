@@ -114,7 +114,7 @@ function view_handles(array $handles = null): array
             $handles[] = 'http-base';
         }
 
-        if ($meta && metadata_action(request('action'), $meta)) {
+        if ($meta && meta_action(request('action'), $meta)) {
             $handles[] = 'action-' . request('action');
         }
 

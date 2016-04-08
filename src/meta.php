@@ -12,7 +12,7 @@ use RuntimeException;
  *
  * @throws RuntimeException
  */
-function metadata_entity(array $data): array
+function meta_entity(array $data): array
 {
     // Check minimum requirements
     if (empty($data['id']) || empty($data['name']) || empty($data['table']) || empty($data['attributes'])) {
@@ -55,7 +55,7 @@ function metadata_entity(array $data): array
             $attribute['foreign_entity_id'] = $data['id'];
         }
 
-        $attribute = metadata_attribute($attribute);
+        $attribute = meta_attribute($attribute);
 
         if (!is_numeric($attribute['sort_order'])) {
             $attribute['sort_order'] = $sortOrder;
@@ -77,7 +77,7 @@ function metadata_entity(array $data): array
  *
  * @throws RuntimeException
  */
-function metadata_attribute(array $data): array
+function meta_attribute(array $data): array
 {
     // Check minimum requirements
     if (empty($data['id']) || empty($data['name']) || empty($data['type'])) {
@@ -133,7 +133,7 @@ function metadata_attribute(array $data): array
  *
  * @return bool
  */
-function metadata_action($action, array $data): bool
+function meta_action($action, array $data): bool
 {
     if (!isset($data['actions'])
         || !is_array($data['actions']) && !($data['actions'] = json_decode($data['actions'], true))
@@ -163,13 +163,13 @@ function metadata_action($action, array $data): bool
  *
  * @return array
  */
-function metadata_skeleton(string $entity, int $number = null): array
+function meta_skeleton(string $entity, int $number = null): array
 {
     $meta = data('metadata', $entity);
     $item = ['_metadata' => $meta, '_original' => null, '_id' => null, 'id' => null, 'name' => null];
 
     foreach ($meta['attributes'] as $code => $attribute) {
-        if (metadata_action('edit', $attribute)) {
+        if (meta_action('edit', $attribute)) {
             $item[$code] = null;
         }
     }

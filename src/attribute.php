@@ -86,7 +86,7 @@ function attribute_ignore(array $attribute, array $item): bool
  */
 function attribute_editable(array & $attribute, array $item): bool
 {
-    if (!metadata_action('edit', $attribute)) {
+    if (!meta_action('edit', $attribute)) {
         return false;
     }
 
@@ -110,7 +110,7 @@ function attribute_editable(array & $attribute, array $item): bool
 function attribute_viewable(array & $attribute): bool
 {
     return $attribute['action'] === 'system'
-        || $attribute['action'] && metadata_action($attribute['action'], $attribute);
+        || $attribute['action'] && meta_action($attribute['action'], $attribute);
 }
 
 /**
@@ -364,7 +364,7 @@ function attribute_save_index(array $attribute, array & $item): bool
     $item[$code] = '';
 
     foreach ($item['_metadata']['attributes'] as $a) {
-        if ($a['is_searchable'] || metadata_action(['view', 'index', 'list'], $a)) {
+        if ($a['is_searchable'] || meta_action(['view', 'index', 'list'], $a)) {
             $item[$code] .= ' ' . str_replace("\n", '', strip_tags($item[$a['id']]));
         }
     }
@@ -416,7 +416,7 @@ function attribute_validate(array $attribute, array & $item): bool
 {
     // Skip attributes that need no validation or are uneditable (unless required and new)
     if (!empty($attribute['auto'])
-        || !metadata_action('edit', $attribute) && (empty($attribute['is_required']) || !empty($item['_original']))
+        || !meta_action('edit', $attribute) && (empty($attribute['is_required']) || !empty($item['_original']))
     ) {
         return true;
     }

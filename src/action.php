@@ -18,7 +18,7 @@ function action_create()
         }
     } else {
         // Initial create action call
-        $data = metadata_skeleton($meta['id'], (int) post_data('create', 'number'));
+        $data = meta_skeleton($meta['id'], (int) post_data('create', 'number'));
     }
 
     // View
@@ -117,7 +117,7 @@ function action_index()
     $attributes = array_filter(
         $meta['attributes'],
         function ($attribute) use ($action) {
-            return metadata_action($action, $attribute);
+            return meta_action($action, $attribute);
         }
     );
     $criteria = empty($meta['attributes']['is_active']) || $action === 'index' ? [] : ['is_active' => true];
@@ -331,7 +331,7 @@ function action_internal_meta(): array
     $meta = data('metadata', request('entity'));
 
     // Check if action is allowed for entity
-    if (!metadata_action(request('action'), $meta)) {
+    if (!meta_action(request('action'), $meta)) {
         action_error();
     }
 

@@ -11,7 +11,7 @@ function toolbar(): array
     $data = data('toolbar');
 
     foreach (data('metadata') as $entity => $meta) {
-        if (metadata_action('index', $meta) && !empty($meta['toolbar']) && !empty($data[$meta['toolbar']])) {
+        if (meta_action('index', $meta) && !empty($meta['toolbar']) && !empty($data[$meta['toolbar']])) {
             $data[$meta['toolbar']]['children'][$entity]['name'] = $meta['name'];
             $data[$meta['toolbar']]['children'][$entity]['description'] = $meta['description'];
             $data[$meta['toolbar']]['children'][$entity]['url'] = $entity . '/index';

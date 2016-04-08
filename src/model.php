@@ -155,7 +155,7 @@ function model_save(string $entity, array & $data): bool
 
     foreach ($data as $id => $item) {
         $item['_id'] = $id;
-        $item = array_replace(empty($original[$id]) ? metadata_skeleton($entity) : $original[$id], $item);
+        $item = array_replace(empty($original[$id]) ? meta_skeleton($entity) : $original[$id], $item);
         $data[$id] = $item;
         $callback =  __NAMESPACE__ . '\\' . $meta['model'] . '_' . (empty($original[$id]) ? 'create' : 'save');
         $item['modified'] = date_format(date_create('now'), 'Y-m-d H:i:s');
