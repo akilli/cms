@@ -229,7 +229,7 @@ function attribute_option_name($id, $value): string
  */
 function attribute_options_menubasis(string $entity): array
 {
-    $meta = data('metadata', $entity);
+    $meta = data('meta', $entity);
     $root = !empty($meta['attributes']['root_id']);
     $collection = $root ? model_load($meta['attributes']['root_id']['foreign_entity_id']) : null;
     $data = [];
@@ -363,7 +363,7 @@ function attribute_save_index(array $attribute, array & $item): bool
     $code = $attribute['id'];
     $item[$code] = '';
 
-    foreach ($item['_metadata']['attributes'] as $a) {
+    foreach ($item['_meta']['attributes'] as $a) {
         if ($a['is_searchable'] || meta_action(['view', 'index', 'list'], $a)) {
             $item[$code] .= ' ' . str_replace("\n", '', strip_tags($item[$a['id']]));
         }
@@ -658,7 +658,7 @@ function attribute_validate_option(array $attribute, array & $item): bool
 function attribute_validate_menubasis(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $meta = data('metadata', $attribute['entity_id']);
+    $meta = data('meta', $attribute['entity_id']);
 
     if (empty($meta['attributes']['root_id'])) {
         $item['basis'] = !empty($item[$code]) ? $item[$code] : null;
@@ -768,8 +768,8 @@ function attribute_validate_unique(array $attribute, array & $item): bool
     if (!isset($data[$entity])) {
         $data[$entity] = model_load($entity, null, 'unique');
 
-        if ($entity === 'entity' && ($ids = array_keys(data('metadata')))
-            || $entity === 'attribute' && ($ids = array_keys(data('metadata', 'content')['attributes']))
+        if ($entity === 'entity' && ($ids = array_keys(data('meta')))
+            || $entity === 'attribute' && ($ids = array_keys(data('meta', 'content')['attributes']))
         ) {
             $ids = array_combine($ids, $ids);
             $data[$entity]['id'] = !empty($data[$entity]['id']) ? array_replace($data[$entity]['id'], $ids) : $ids;

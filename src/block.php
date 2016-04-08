@@ -56,7 +56,7 @@ function block_container(array & $block): string
  */
 function block_entity(array & $block): string
 {
-    if (empty($block['vars']['entity']) || !($meta = data('metadata', $block['vars']['entity']))) {
+    if (empty($block['vars']['entity']) || !($meta = data('meta', $block['vars']['entity']))) {
         return '';
     }
 
@@ -134,7 +134,7 @@ function block_pager(array & $block): string
  */
 function block_menu(array & $block): string
 {
-    if (empty($block['vars']['entity']) || !($meta = data('metadata', $block['vars']['entity']))) {
+    if (empty($block['vars']['entity']) || !($meta = data('meta', $block['vars']['entity']))) {
         return '';
     }
 

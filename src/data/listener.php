@@ -73,8 +73,8 @@ return [
         'sort_order' => -200,
     ],
     [
-        'id' => 'akilli\listener_metadata',
-        'event' => 'data.load.metadata',
+        'id' => 'akilli\listener_meta',
+        'event' => 'data.load.meta',
         'sort_order' => -200,
     ],
     [

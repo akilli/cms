@@ -96,12 +96,11 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
  */
 function nestedset_create(array & $item): bool
 {
-    // No metadata provided
-    if (empty($item['_metadata'])) {
+    if (empty($item['_meta'])) {
         return false;
     }
 
-    $meta = db_meta($item['_metadata']);
+    $meta = db_meta($item['_meta']);
     $attributes = $meta['attributes'];
     $root = !empty($attributes['root_id']);
     $cols = db_columns($attributes, $item);
@@ -191,12 +190,11 @@ function nestedset_create(array & $item): bool
  */
 function nestedset_save(array & $item): bool
 {
-    // No metadata provided
-    if (empty($item['_metadata'])) {
+    if (empty($item['_meta'])) {
         return false;
     }
 
-    $meta = db_meta($item['_metadata']);
+    $meta = db_meta($item['_meta']);
     $attributes = $meta['attributes'];
     $root = !empty($attributes['root_id']);
     $basisItem = [];
@@ -332,12 +330,11 @@ function nestedset_save(array & $item): bool
  */
 function nestedset_delete(array & $item): bool
 {
-    // No metadata provided
-    if (empty($item['_metadata'])) {
+    if (empty($item['_meta'])) {
         return false;
     }
 
-    $meta = db_meta($item['_metadata']);
+    $meta = db_meta($item['_meta']);
     $attributes = $meta['attributes'];
     $root = !empty($attributes['root_id']);
     $lft = $item['_original']['lft'];

@@ -132,7 +132,7 @@ function db_quote_identifier(string $identifier = null): string
  */
 function db_meta($entity): array
 {
-    $meta = is_array($entity) ? $entity : data('metadata', $entity);
+    $meta = is_array($entity) ? $entity : data('meta', $entity);
 
     if (db()->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql'
         && $meta['sequence'] === null

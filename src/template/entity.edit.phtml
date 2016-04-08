@@ -7,7 +7,7 @@
         <?php foreach ($block['data']('data') as $id => $item):?>
         <fieldset class="data">
             <legend><?=$item['name'] ? $item['name'] : $block['data']('header');?></legend>
-            <?php foreach ($item['_metadata']['attributes'] as $code => $attribute):?>
+            <?php foreach ($item['_meta']['attributes'] as $code => $attribute):?>
                 <?php if (!$html = $attribute['edit']($attribute, $item)) continue;?>
             <div class="element attribute-<?=$attribute['id'];?>">
                 <?=$html;?>

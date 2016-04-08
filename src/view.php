@@ -98,7 +98,7 @@ function view_handles(array $handles = null): array
 
     if ($data === null || $handles !== null) {
         $data = [];
-        $meta = data('metadata', request('entity'));
+        $meta = data('meta', request('entity'));
 
         if ($handles === null) {
             $handles[] = 'view-base';

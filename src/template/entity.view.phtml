@@ -1,7 +1,7 @@
 <?php namespace akilli; /** @var array $block */?>
 <?php if ($item = $block['data']('item')):?>
 <article class="block block-view">
-    <?php foreach ($item['_metadata']['attributes'] as $code => $attribute):?>
+    <?php foreach ($item['_meta']['attributes'] as $code => $attribute):?>
         <?php $attribute['action'] = 'view';?>
         <?php if (!$html = $attribute['view']($attribute, $item)) continue;?>
         <?php if ($code === 'name'):?>

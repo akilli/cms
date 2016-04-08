@@ -328,7 +328,7 @@ function action_http_index()
  */
 function action_internal_meta(): array
 {
-    $meta = data('metadata', request('entity'));
+    $meta = data('meta', request('entity'));
 
     // Check if action is allowed for entity
     if (!meta_action(request('action'), $meta)) {

@@ -13,12 +13,11 @@ use RuntimeException;
  */
 function model_validate(array & $item): bool
 {
-    // No metadata provided
-    if (empty($item['_metadata'])) {
+    if (empty($item['_meta'])) {
         return false;
     }
 
-    foreach ($item['_metadata']['attributes'] as $attribute) {
+    foreach ($item['_meta']['attributes'] as $attribute) {
         // Validate attribute
         if (!$attribute['validate']($attribute, $item)) {
             $error = true;
@@ -39,7 +38,7 @@ function model_validate(array & $item): bool
  */
 function model_size(string $entity, array $criteria = null, array $options = []): int
 {
-    $meta = data('metadata', $entity);
+    $meta = data('meta', $entity);
     $callback = __NAMESPACE__ . '\\' . $meta['model'] . '_size';
 
     try {
@@ -68,7 +67,7 @@ function model_size(string $entity, array $criteria = null, array $options = [])
  */
 function model_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
-    $meta = data('metadata', $entity);
+    $meta = data('meta', $entity);
     $callback =  __NAMESPACE__ . '\\' . $meta['model'] . '_load';
     $single = $index === false;
     $data = [];
@@ -94,7 +93,7 @@ function model_load(string $entity, array $criteria = null, $index = null, array
 
             $item['name'] = !isset($item['name']) ? $item['id'] : $item['name'];
             $item['_original'] = $item;
-            $item['_metadata'] = empty($item['_metadata']) ? $meta : $item['_metadata'];
+            $item['_meta'] = empty($item['_meta']) ? $meta : $item['_meta'];
             $item['_id'] = $item['id'];
 
             // Entity load events
@@ -150,7 +149,7 @@ function model_load(string $entity, array $criteria = null, $index = null, array
  */
 function model_save(string $entity, array & $data): bool
 {
-    $meta = data('metadata', $entity);
+    $meta = data('meta', $entity);
     $original = model_load($entity);
 
     foreach ($data as $id => $item) {
@@ -168,7 +167,7 @@ function model_save(string $entity, array & $data): bool
 
         if (empty($item['_original']) && !empty($original[$id])) {
             $item['_original'] = $original[$id];
-            unset($item['_original']['_id'], $item['_original']['_metadata'], $item['_original']['_original']);
+            unset($item['_original']['_id'], $item['_original']['_meta'], $item['_original']['_original']);
         }
 
         // Validate
@@ -259,7 +258,7 @@ function model_save(string $entity, array & $data): bool
  */
 function model_delete(string $entity, array $criteria = null, $index = null, bool $system = false): bool
 {
-    $meta = data('metadata', $entity);
+    $meta = data('meta', $entity);
     $callback =  __NAMESPACE__ . '\\' . $meta['model'] . '_delete';
 
     // Check if anything is there to delete

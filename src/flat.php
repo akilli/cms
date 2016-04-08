@@ -71,12 +71,11 @@ function flat_load(string $entity, array $criteria = null, $index = null, array 
  */
 function flat_create(array & $item): bool
 {
-    // No metadata provided
-    if (empty($item['_metadata'])) {
+    if (empty($item['_meta'])) {
         return false;
     }
 
-    $meta = db_meta($item['_metadata']);
+    $meta = db_meta($item['_meta']);
     $cols = db_columns($meta['attributes'], $item);
 
     // Prepare statement
@@ -110,12 +109,11 @@ function flat_create(array & $item): bool
  */
 function flat_save(array & $item): bool
 {
-    // No metadata provided
-    if (empty($item['_metadata'])) {
+    if (empty($item['_meta'])) {
         return false;
     }
 
-    $meta = db_meta($item['_metadata']);
+    $meta = db_meta($item['_meta']);
     $cols = db_columns($meta['attributes'], $item);
 
     // Prepare statement
@@ -151,12 +149,11 @@ function flat_save(array & $item): bool
  */
 function flat_delete(array & $item): bool
 {
-    // No metadata provided
-    if (empty($item['_metadata'])) {
+    if (empty($item['_meta'])) {
         return false;
     }
 
-    $meta = db_meta($item['_metadata']);
+    $meta = db_meta($item['_meta']);
 
     // Prepare statement
     $stmt = db()->prepare(

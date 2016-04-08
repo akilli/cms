@@ -10,7 +10,7 @@ function toolbar(): array
 {
     $data = data('toolbar');
 
-    foreach (data('metadata') as $entity => $meta) {
+    foreach (data('meta') as $entity => $meta) {
         if (meta_action('index', $meta) && !empty($meta['toolbar']) && !empty($data[$meta['toolbar']])) {
             $data[$meta['toolbar']]['children'][$entity]['name'] = $meta['name'];
             $data[$meta['toolbar']]['children'][$entity]['description'] = $meta['description'];

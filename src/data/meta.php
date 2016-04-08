@@ -111,7 +111,7 @@ return [
                 'type' => 'varchar.select',
                 'description' => '',
                 'options_callback' => 'akilli\data',
-                'options_callback_param' => ['metadata'],
+                'options_callback_param' => ['meta'],
                 'actions' => ['edit'],
             ],
             'options_callback' => [
@@ -481,10 +481,10 @@ return [
             ],
         ],
     ],
-    'metadata' => [
-        'id' => 'metadata',
+    'meta' => [
+        'id' => 'meta',
         'name' => 'Metadata',
-        'table' => 'metadata',
+        'table' => 'meta',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'description' => '',
         'toolbar' => 'types',

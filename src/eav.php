@@ -141,12 +141,11 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
  */
 function eav_create(array & $item): bool
 {
-    // No metadata provided
-    if (empty($item['_metadata'])) {
+    if (empty($item['_meta'])) {
         return false;
     }
 
-    $meta = db_meta($item['_metadata']);
+    $meta = db_meta($item['_meta']);
     $contentMetadata = db_meta('content');
     $attributes = $meta['attributes'];
     $contentAttributes = $contentMetadata['attributes'];
@@ -216,12 +215,11 @@ function eav_create(array & $item): bool
  */
 function eav_save(array & $item): bool
 {
-    // No metadata provided
-    if (empty($item['_metadata'])) {
+    if (empty($item['_meta'])) {
         return false;
     }
 
-    $meta = db_meta($item['_metadata']);
+    $meta = db_meta($item['_meta']);
     $contentMetadata = db_meta('content');
     $attributes = $meta['attributes'];
     $contentAttributes = $contentMetadata['attributes'];
@@ -297,8 +295,7 @@ function eav_save(array & $item): bool
  */
 function eav_delete(array $item): bool
 {
-    // No metadata provided
-    if (empty($item['_metadata']) || $item['_metadata']['id'] !== $item['entity_id']) {
+    if (empty($item['_meta']) || $item['_meta']['id'] !== $item['entity_id']) {
         return false;
     }
 

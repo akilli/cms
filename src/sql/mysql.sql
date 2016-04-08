@@ -127,8 +127,8 @@ CREATE TABLE IF NOT EXISTS `menu_root` (
     KEY `idx_menu_root_system` (`is_system`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `metadata`;
-CREATE TABLE IF NOT EXISTS `metadata` (
+DROP TABLE IF EXISTS `meta`;
+CREATE TABLE IF NOT EXISTS `meta` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `entity_id` VARCHAR(100) NOT NULL,
     `attribute_id` VARCHAR(100) NOT NULL,
@@ -137,12 +137,12 @@ CREATE TABLE IF NOT EXISTS `metadata` (
     `is_required` BOOLEAN NOT NULL DEFAULT '0',
     `is_unique` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `uni_metadata_attribute` (`entity_id`,`attribute_id`),
-    KEY `idx_metadata_entity` (`entity_id`),
-    KEY `idx_metadata_attribute` (`attribute_id`),
-    KEY `idx_metadata_sort` (`sort_order`),
-    KEY `idx_metadata_required` (`is_required`),
-    KEY `idx_metadata_unique` (`is_unique`)
+    UNIQUE KEY `uni_meta_attribute` (`entity_id`,`attribute_id`),
+    KEY `idx_meta_entity` (`entity_id`),
+    KEY `idx_meta_attribute` (`attribute_id`),
+    KEY `idx_meta_sort` (`sort_order`),
+    KEY `idx_meta_required` (`is_required`),
+    KEY `idx_meta_unique` (`is_unique`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `rewrite`;
@@ -190,9 +190,9 @@ ALTER TABLE `eav`
 ALTER TABLE `menu`
     ADD CONSTRAINT `con_menu_root` FOREIGN KEY (`root_id`) REFERENCES `menu_root` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE `metadata`
-    ADD CONSTRAINT `con_metadata_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_metadata_attribute` FOREIGN KEY (`attribute_id`) REFERENCES `attribute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `meta`
+    ADD CONSTRAINT `con_meta_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_meta_attribute` FOREIGN KEY (`attribute_id`) REFERENCES `attribute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- --------------------------------------------------------
 -- Data
