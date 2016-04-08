@@ -12,7 +12,7 @@ namespace akilli;
  */
 function nestedset_size(string $entity, array $criteria = null, array $options = []): int
 {
-    return sql_size($entity, $criteria, $options);
+    return flat_size($entity, $criteria, $options);
 }
 
 /**

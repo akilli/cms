@@ -10,7 +10,7 @@ namespace akilli;
  *
  * @return int
  */
-function sql_size(string $entity, array $criteria = null, array $options = []): int
+function flat_size(string $entity, array $criteria = null, array $options = []): int
 {
     $metadata = db_meta($entity);
 
@@ -41,7 +41,7 @@ function sql_size(string $entity, array $criteria = null, array $options = []): 
  *
  * @return array
  */
-function sql_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
+function flat_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
     $metadata = db_meta($entity);
     $options = ['search' => $index === 'search'];
@@ -69,7 +69,7 @@ function sql_load(string $entity, array $criteria = null, $index = null, array $
  *
  * @return bool
  */
-function sql_create(array & $item): bool
+function flat_create(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {
@@ -108,7 +108,7 @@ function sql_create(array & $item): bool
  *
  * @return bool
  */
-function sql_save(array & $item): bool
+function flat_save(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {
@@ -149,7 +149,7 @@ function sql_save(array & $item): bool
  *
  * @return bool
  */
-function sql_delete(array & $item): bool
+function flat_delete(array & $item): bool
 {
     // No metadata provided
     if (empty($item['_metadata'])) {

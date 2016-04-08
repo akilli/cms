@@ -302,5 +302,5 @@ function eav_delete(array $item): bool
         return false;
     }
 
-    return sql_delete($item);
+    return flat_delete($item);
 }
