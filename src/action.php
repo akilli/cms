@@ -37,6 +37,12 @@ function action_edit()
     $data = post_data('save');
 
     if ($data) {
+        $skeleton = metadata_skeleton($metadata['id']);
+
+        foreach ($data as $id => $item) {
+            $data[$id] = array_replace($skeleton, $item);
+        }
+
         // Perform save callback and redirect to index on success
         if (model_save($metadata['id'], $data)) {
             redirect(allowed('index') ? '*/index' : '');
