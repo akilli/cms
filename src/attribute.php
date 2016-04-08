@@ -386,7 +386,6 @@ function attribute_delete_file(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
 
-    // Delete old file
     if (!empty($item[$code]) && !media_delete($item[$code])) {
         $item['_error'][$code] = _('Could not delete old file %s', $item[$code]);
 
@@ -407,9 +406,7 @@ function attribute_delete_file(array $attribute, array & $item): bool
 function attribute_validate(array $attribute, array & $item): bool
 {
     // Skip attributes that need no validation or are uneditable (unless required and new)
-    if (!empty($attribute['auto'])
-        || !meta_action('edit', $attribute) && (empty($attribute['is_required']) || !empty($item['_old']))
-    ) {
+    if (!empty($attribute['auto']) || !meta_action('edit', $attribute) && (empty($attribute['is_required']) || !empty($item['_old']))) {
         return true;
     }
 
@@ -489,16 +486,9 @@ function attribute_validate_url(array $attribute, array & $item): bool
  */
 function attribute_validate_file(array $attribute, array & $item): bool
 {
-    static $files;
-
-    // Init files and config
-    if ($files === null) {
-        $files = (array) files('data');
-    }
-
     $code = $attribute['id'];
     $item[$code] = null;
-    $file = !empty($files[$item['_id']][$code]) ? $files[$item['_id']][$code] : null;
+    $file = files('data')[$item['_id']][$code] ?? null;
 
     // Delete old file
     if (!empty($item['_old'][$code])
@@ -1128,10 +1118,7 @@ function attribute_view_file(array $attribute, array $item): string
 
     if ($attribute['action'] === 'system') {
         return $value;
-    } elseif (!$value
-        || !($file = media_load($value))
-        || empty(file_ext($attribute['type'])[$file['extension']])
-    ) {
+    } elseif (!$value || !($file = media_load($value)) || empty(file_ext($attribute['type'])[$file['extension']])) {
         return '';
     }
 
