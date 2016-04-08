@@ -167,6 +167,13 @@ return [
                 'description' => '',
                 'actions' => ['edit', 'index'],
             ],
+            'is_system' => [
+                'name' => 'System',
+                'column' => 'is_system',
+                'type' => 'bool.checkbox',
+                'description' => '',
+                'actions' => ['index'],
+            ],
             'meta' => [
                 'name' => 'Meta Tags',
                 'column' => 'meta',
