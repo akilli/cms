@@ -5,10 +5,8 @@ SET time_zone = "+00:00";
 START TRANSACTION;
 
 -- --------------------------------------------------------
-
---
--- Structure for table `account`
---
+-- Tables
+-- --------------------------------------------------------
 
 DROP TABLE IF EXISTS `account`;
 CREATE TABLE IF NOT EXISTS `account` (
@@ -25,20 +23,6 @@ CREATE TABLE IF NOT EXISTS `account` (
     KEY `idx_account_system` (`is_system`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
---
--- Data for table `account`
---
-
-INSERT INTO `account` (`id`, `name`, `password`, `role_id`, `is_active`, `is_system`) VALUES
-(0, 'Anonymous', '', 0, '1', '1'),
-(1, 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
-
--- --------------------------------------------------------
-
---
--- Structure for table `attribute`
---
-
 DROP TABLE IF EXISTS `attribute`;
 CREATE TABLE IF NOT EXISTS `attribute` (
     `id` VARCHAR(100) NOT NULL,
@@ -53,12 +37,6 @@ CREATE TABLE IF NOT EXISTS `attribute` (
     KEY `idx_attribute_type` (`type`),
     KEY `idx_attribute_foreign` (`foreign_entity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure for table `content`
---
 
 DROP TABLE IF EXISTS `content`;
 CREATE TABLE IF NOT EXISTS `content` (
@@ -83,12 +61,6 @@ CREATE TABLE IF NOT EXISTS `content` (
     FULLTEXT `idx_content_search` (`search`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Structure for table `eav`
---
-
 DROP TABLE IF EXISTS `eav`;
 CREATE TABLE IF NOT EXISTS `eav` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
@@ -108,12 +80,6 @@ CREATE TABLE IF NOT EXISTS `eav` (
     KEY `idx_eav_content` (`content_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Structure for table `entity`
---
-
 DROP TABLE IF EXISTS `entity`;
 CREATE TABLE IF NOT EXISTS `entity` (
     `id` VARCHAR(100) NOT NULL,
@@ -129,12 +95,6 @@ CREATE TABLE IF NOT EXISTS `entity` (
     KEY `idx_entity_sort` (`sort_order`),
     KEY `idx_entity_system` (`is_system`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure for table `menu`
---
 
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
@@ -155,12 +115,6 @@ CREATE TABLE IF NOT EXISTS `menu` (
     KEY `idx_menu_system` (`is_system`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Structure for table `menu_root`
---
-
 DROP TABLE IF EXISTS `menu_root`;
 CREATE TABLE IF NOT EXISTS `menu_root` (
     `id` VARCHAR(100) NOT NULL,
@@ -170,12 +124,6 @@ CREATE TABLE IF NOT EXISTS `menu_root` (
     KEY `idx_menu_root_name` (`name`),
     KEY `idx_menu_root_system` (`is_system`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure for table `metadata`
---
 
 DROP TABLE IF EXISTS `metadata`;
 CREATE TABLE IF NOT EXISTS `metadata` (
@@ -195,12 +143,6 @@ CREATE TABLE IF NOT EXISTS `metadata` (
     KEY `idx_metadata_unique` (`is_unique`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Structure for table `rewrite`
---
-
 DROP TABLE IF EXISTS `rewrite`;
 CREATE TABLE IF NOT EXISTS `rewrite` (
     `id` VARCHAR(255) NOT NULL,
@@ -212,12 +154,6 @@ CREATE TABLE IF NOT EXISTS `rewrite` (
     KEY `idx_rewrite_redirect` (`is_redirect`),
     KEY `idx_rewrite_system` (`is_system`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure for table `role`
---
 
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
@@ -232,9 +168,37 @@ CREATE TABLE IF NOT EXISTS `role` (
     KEY `idx_role_system` (`is_system`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
---
--- Data for table `role`
---
+-- --------------------------------------------------------
+-- Constraints
+-- --------------------------------------------------------
+
+ALTER TABLE `account`
+    ADD CONSTRAINT `con_account_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
+
+ALTER TABLE `content`
+    ADD CONSTRAINT `con_content_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_content_creator` FOREIGN KEY (`creator`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_content_modifier` FOREIGN KEY (`modifier`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE `eav`
+    ADD CONSTRAINT `con_eav_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_eav_attribute` FOREIGN KEY (`attribute_id`) REFERENCES `attribute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_eav_content` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `menu`
+    ADD CONSTRAINT `con_menu_root` FOREIGN KEY (`root_id`) REFERENCES `menu_root` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `metadata`
+    ADD CONSTRAINT `con_metadata_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_metadata_attribute` FOREIGN KEY (`attribute_id`) REFERENCES `attribute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- --------------------------------------------------------
+-- Data
+-- --------------------------------------------------------
+
+INSERT INTO `account` (`id`, `name`, `password`, `role_id`, `is_active`, `is_system`) VALUES
+(0, 'Anonymous', '', 0, '1', '1'),
+(1, 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
 
 INSERT INTO `role` (`id`, `name`, `privilege`, `is_active`, `is_system`) VALUES
 (0, 'Anonymous', NULL, '1', '1'),
@@ -242,42 +206,6 @@ INSERT INTO `role` (`id`, `name`, `privilege`, `is_active`, `is_system`) VALUES
 
 -- --------------------------------------------------------
 
---
--- Constraints for table `account`
---
-ALTER TABLE `account`
-    ADD CONSTRAINT `con_account_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
-
---
--- Constraints for table `content`
---
-ALTER TABLE `content`
-    ADD CONSTRAINT `con_content_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_content_creator` FOREIGN KEY (`creator`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_content_modifier` FOREIGN KEY (`modifier`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `eav`
---
-ALTER TABLE `eav`
-    ADD CONSTRAINT `con_eav_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_eav_attribute` FOREIGN KEY (`attribute_id`) REFERENCES `attribute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_eav_content` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `menu`
---
-ALTER TABLE `menu`
-    ADD CONSTRAINT `con_menu_root` FOREIGN KEY (`root_id`) REFERENCES `menu_root` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `metadata`
---
-ALTER TABLE `metadata`
-    ADD CONSTRAINT `con_metadata_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_metadata_attribute` FOREIGN KEY (`attribute_id`) REFERENCES `attribute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- --------------------------------------------------------
-
 COMMIT;
+
 SET FOREIGN_KEY_CHECKS=1;
