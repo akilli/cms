@@ -167,7 +167,7 @@ function attribute_options_callback(array $attribute, array $item): array
         } elseif ($param === ':item') {
             $params[] = $item;
         } elseif (preg_match('#^:(attribute|item)\.(.+)#', $param, $match)) {
-            $params[] = ${$match[1]}[$match[3]] ?? null;
+            $params[] = ${$match[1]}[$match[2]] ?? null;
         } else {
             $params[] = $param;
         }
@@ -225,12 +225,11 @@ function attribute_option_name($id, $value): string
 function attribute_options_menubasis(string $entity): array
 {
     $meta = data('meta', $entity);
-    $root = !empty($meta['attributes']['root_id']);
-    $collection = $root ? model_load($meta['attributes']['root_id']['foreign_entity_id']) : null;
+    $collection = model_load($meta['attributes']['root_id']['foreign_entity_id']);
     $data = [];
 
     foreach (model_load($entity) as $item) {
-        if ($root && empty($data[$item['root_id']  . ':0'])) {
+        if (empty($data[$item['root_id']  . ':0'])) {
             $data[$item['root_id']  . ':0']['name'] = $collection[$item['root_id']]['name'];
             $data[$item['root_id']  . ':0']['class'] = 'group';
         }
@@ -240,12 +239,10 @@ function attribute_options_menubasis(string $entity): array
     }
 
     // Add roots without items to index menubasis
-    if ($root) {
-        foreach ($collection as $id => $item) {
-            if (empty($data[$id  . ':0'])) {
-                $data[$id  . ':0']['name'] = $item['name'];
-                $data[$id  . ':0']['class'] = 'group';
-            }
+    foreach ($collection as $id => $item) {
+        if (empty($data[$id  . ':0'])) {
+            $data[$id  . ':0']['name'] = $item['name'];
+            $data[$id  . ':0']['class'] = 'group';
         }
     }
 
@@ -655,10 +652,7 @@ function attribute_validate_menubasis(array $attribute, array & $item): bool
     $code = $attribute['id'];
     $meta = data('meta', $attribute['entity_id']);
 
-    if (empty($meta['attributes']['root_id'])) {
-        $item['basis'] = !empty($item[$code]) ? $item[$code] : null;
-        $item['basis'] = attribute_cast($meta['attributes']['id'], $item['basis']);
-    } elseif (!empty($item[$code]) && strpos($item[$code], ':') > 0) {
+    if (!empty($item[$code]) && strpos($item[$code], ':') > 0) {
         $parts = explode(':', $item[$code]);
         $item['root_id'] = attribute_cast($meta['attributes']['root_id'], $parts[0]);
         $item['basis'] = attribute_cast($meta['attributes']['id'], $parts[1]);

@@ -138,16 +138,9 @@ function block_menu(array & $block): string
         return '';
     }
 
-    $root = !empty($meta['attributes']['root_id']);
-
-    if ($root) {
-        $collection = model_load($meta['attributes']['root_id']['foreign_entity_id']);
-        $criteria = !empty($block['vars']['root_id']) ? ['root_id' => $block['vars']['root_id']] : null;
-        $roots = model_load($block['vars']['entity'], $criteria, ['root_id', 'id']);
-    } else {
-        $roots[] = model_load($block['vars']['entity']);
-    }
-
+    $collection = model_load($meta['attributes']['root_id']['foreign_entity_id']);
+    $criteria = !empty($block['vars']['root_id']) ? ['root_id' => $block['vars']['root_id']] : null;
+    $roots = model_load($block['vars']['entity'], $criteria, ['root_id', 'id']);
     $html = '';
     $class = empty($block['vars']['class']) ? '' : ' class="' . $block['vars']['class'] . '"';
     $rootsCount = count($roots);
@@ -157,7 +150,7 @@ function block_menu(array & $block): string
         $count = count($data);
         $i = 0;
 
-        if ($root && $rootsCount > 1 && !empty($collection[$rootId]['name'])) {
+        if ($rootsCount > 1 && !empty($collection[$rootId]['name'])) {
             $html .= '<h1>' . $collection[$rootId]['name'] . '</h1>';
         }
 
