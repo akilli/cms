@@ -9,7 +9,7 @@ namespace akilli;
  *
  * @return mixed
  */
-function attribute_type(array $attribute, $value)
+function attribute_cast(array $attribute, $value)
 {
     if ($value === null && !empty($attribute['null'])) {
         return null;
@@ -29,7 +29,7 @@ function attribute_type(array $attribute, $value)
 
     if (!empty($attribute['is_multiple']) && is_array($value)) {
         foreach ($value as $k => $v) {
-            $value[$k] = attribute_type($attribute, $v);
+            $value[$k] = attribute_cast($attribute, $v);
         }
 
         return $value;
@@ -267,7 +267,7 @@ function attribute_options_menubasis(string $entity): array
  */
 function attribute_load(array $attribute, array $item)
 {
-    return attribute_type($attribute, $item[$attribute['id']] ?? null);
+    return attribute_cast($attribute, $item[$attribute['id']] ?? null);
 }
 
 /**
@@ -435,7 +435,7 @@ function attribute_validate(array $attribute, array & $item): bool
 function attribute_validate_string(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $item[$code] = attribute_type($attribute, $item[$code] ?? null);
+    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
     $item[$code] = trim((string) filter_var($item[$code], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
 
     return attribute_validate($attribute, $item);
@@ -452,7 +452,7 @@ function attribute_validate_string(array $attribute, array & $item): bool
 function attribute_validate_email(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $item[$code] = attribute_type($attribute, $item[$code] ?? null);
+    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
 
     if ($item[$code] && !$item[$code] = filter_var($item[$code], FILTER_VALIDATE_EMAIL)) {
         $item[$code] = null;
@@ -475,7 +475,7 @@ function attribute_validate_email(array $attribute, array & $item): bool
 function attribute_validate_url(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $item[$code] = attribute_type($attribute, $item[$code] ?? null);
+    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
 
     if ($item[$code] && !$item[$code] = filter_var($item[$code], FILTER_VALIDATE_URL)) {
         $item[$code] = null;
@@ -555,7 +555,7 @@ function attribute_validate_file(array $attribute, array & $item): bool
 function attribute_validate_datetime(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $item[$code] = attribute_type($attribute, $item[$code] ?? null);
+    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
     $format = $attribute['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d H:i:s';
 
     if (!empty($item[$code])) {
@@ -583,7 +583,7 @@ function attribute_validate_datetime(array $attribute, array & $item): bool
 function attribute_validate_number(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $item[$code] = attribute_type($attribute, $item[$code] ?? null);
+    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
 
     return attribute_validate($attribute, $item);
 }
@@ -599,7 +599,7 @@ function attribute_validate_number(array $attribute, array & $item): bool
 function attribute_validate_editor(array $attribute, array & $item): bool
 {
     $code = $attribute['id'];
-    $item[$code] = attribute_type($attribute, $item[$code] ?? null);
+    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
 
     if ($item[$code]) {
         $item[$code] = filter_html($item[$code]);
@@ -620,7 +620,7 @@ function attribute_validate_option(array $attribute, array & $item): bool
 {
     $attribute['options'] = attribute_options($attribute, $item);
     $code = $attribute['id'];
-    $item[$code] = attribute_type($attribute, $item[$code] ?? null);
+    $item[$code] = attribute_cast($attribute, $item[$code] ?? null);
 
     if (is_array($item[$code])) {
         $item[$code] = array_filter(
@@ -662,11 +662,11 @@ function attribute_validate_menubasis(array $attribute, array & $item): bool
 
     if (empty($meta['attributes']['root_id'])) {
         $item['basis'] = !empty($item[$code]) ? $item[$code] : null;
-        $item['basis'] = attribute_type($meta['attributes']['id'], $item['basis']);
+        $item['basis'] = attribute_cast($meta['attributes']['id'], $item['basis']);
     } elseif (!empty($item[$code]) && strpos($item[$code], ':') > 0) {
         $parts = explode(':', $item[$code]);
-        $item['root_id'] = attribute_type($meta['attributes']['root_id'], $parts[0]);
-        $item['basis'] = attribute_type($meta['attributes']['id'], $parts[1]);
+        $item['root_id'] = attribute_cast($meta['attributes']['root_id'], $parts[0]);
+        $item['basis'] = attribute_cast($meta['attributes']['id'], $parts[1]);
     } else {
         $item['_error'][$code] = _('%s is a mandatory field', $attribute['name']);
 
