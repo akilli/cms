@@ -162,12 +162,12 @@ function attribute_options_callback(array $attribute, array $item): array
     $params = [];
 
     foreach ($attribute['options_callback_param'] as $param) {
-        if (preg_match('#^:(attribute|item)(\.(.+))?#', $param, $match)) {
-            if (empty($match[2])) {
-                $params[] = ${$match[1]};
-            } else {
-                $params[] = ${$match[1]}[$match[3]] ?? null;
-            }
+        if ($param === ':attribute') {
+            $params[] = $attribute;
+        } elseif ($param === ':item') {
+            $params[] = $item;
+        } elseif (preg_match('#^:(attribute|item)\.(.+)#', $param, $match)) {
+            $params[] = ${$match[1]}[$match[3]] ?? null;
         } else {
             $params[] = $param;
         }
