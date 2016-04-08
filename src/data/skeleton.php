@@ -22,7 +22,7 @@ return [
         'is_required' => false,
         'is_unique' => false,
         'is_multiple' => false,
-        'is_searchable' => true,
+        'is_searchable' => false,
         'load' => 'akilli\attribute_load',
         'save' => 'akilli\attribute_save',
         'delete' => 'akilli\attribute_delete',

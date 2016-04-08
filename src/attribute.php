@@ -364,8 +364,8 @@ function attribute_save_index(array $attribute, array & $item): bool
     $item[$code] = '';
 
     foreach ($item['_metadata']['attributes'] as $a) {
-        if ($a['is_searchable']) {
-            $item[$code] .= ' ' . str_replace("\n", '', strip_tags($a['view']($a, $item)));
+        if ($a['is_searchable'] || metadata_action(['view', 'index', 'list'], $a)) {
+            $item[$code] .= ' ' . str_replace("\n", '', strip_tags($item[$a['id']]));
         }
     }
 

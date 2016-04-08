@@ -178,7 +178,6 @@ return [
             'search' => [
                 'name' => 'Search Index',
                 'column' => 'search',
-                'auto' => true,
                 'null' => true,
                 'type' => 'textarea',
                 'description' => '',
