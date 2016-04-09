@@ -1,51 +1,51 @@
 <?php
 return [
-    // view-base
+    // layout-base
     [
         'id' => 'root',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'template',
         'template' => 'html.root.phtml',
     ],
     [
         'id' => 'head',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'container',
     ],
     [
         'id' => 'top',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'container',
     ],
     [
         'id' => 'left',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'container',
     ],
     [
         'id' => 'message',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'message',
         'template' => 'session.message.phtml',
     ],
     [
         'id' => 'content',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'container',
     ],
     [
         'id' => 'right',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'container',
     ],
     [
         'id' => 'bottom',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'container',
     ],
     [
         'id' => 'meta',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'template',
         'template' => 'html.meta.phtml',
         'parent' => 'head',
@@ -53,7 +53,7 @@ return [
     ],
     [
         'id' => 'title',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'template',
         'template' => 'html.title.phtml',
         'parent' => 'head',
@@ -61,7 +61,7 @@ return [
     ],
     [
         'id' => 'css',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'template',
         'template' => 'html.css.phtml',
         'parent' => 'head',
@@ -69,7 +69,7 @@ return [
     ],
     [
         'id' => 'icon',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'template',
         'template' => 'html.icon.phtml',
         'parent' => 'head',
@@ -77,7 +77,7 @@ return [
     ],
     [
         'id' => 'js',
-        'handle' => 'view-base',
+        'handle' => 'layout-base',
         'type' => 'template',
         'template' => 'html.js.phtml',
         'parent' => 'head',

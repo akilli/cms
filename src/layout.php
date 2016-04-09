@@ -10,15 +10,15 @@ use InvalidArgumentException;
  *
  * @return string
  */
-function view(string $id): string
+function render(string $id): string
 {
-    $block = & view_layout($id);
+    $block = & layout($id);
 
     // Skip empty, inactive or invalid blocks
     if (!$block
         || empty($block['is_active'])
         || empty($block['type'])
-        || !($type = view_type($block['type']))
+        || !($type = data('block', $block['type']))
         || !empty($block['privilege']) && !allowed($block['privilege'])
     ) {
         return '';
@@ -37,6 +37,23 @@ function view(string $id): string
 }
 
 /**
+ * Set block variables
+ *
+ * @param string $id
+ * @param array $vars
+ *
+ * @return void
+ */
+function vars(string $id, array $vars)
+{
+    $block = & layout($id);
+
+    foreach ($vars as $var => $value) {
+        $block['vars'][$var] = $value;
+    }
+}
+
+/**
  * Layout
  *
  * @param string $id
@@ -44,7 +61,7 @@ function view(string $id): string
  *
  * @return mixed
  */
-function & view_layout(string $id, array $block = null)
+function & layout(string $id, array $block = null)
 {
     $data = & registry('layout');
 
@@ -60,39 +77,13 @@ function & view_layout(string $id, array $block = null)
 }
 
 /**
- * Block Type
- *
- * @param string $key
- *
- * @return array
- */
-function view_type(string $key = null): array
-{
-    static $data;
-
-    if ($data === null) {
-        foreach (data('block') as $type => $config) {
-            if (!empty($config['callback']) && is_callable($config['callback'])) {
-                $data[$type] = $config;
-            }
-        }
-    }
-
-    if ($key === null) {
-        return $data;
-    }
-
-    return isset($data[$key]) ? $data[$key] : null;
-}
-
-/**
- * Handles
+ * Layout handles
  *
  * @param array $handles
  *
  * @return array
  */
-function view_handles(array $handles = null): array
+function layout_handles(array $handles = null): array
 {
     static $data;
 
@@ -101,7 +92,7 @@ function view_handles(array $handles = null): array
         $meta = data('meta', request('entity'));
 
         if ($handles === null) {
-            $handles[] = 'view-base';
+            $handles[] = 'layout-base';
         }
 
         $handles[] = registered() ? 'account-registered' : 'account-anonymous';
@@ -127,26 +118,26 @@ function view_handles(array $handles = null): array
 }
 
 /**
- * Load view by handles
+ * Load layout by handles
  *
  * @param array $handles
  *
  * @return void
  */
-function view_load(array $handles = null)
+function layout_load(array $handles = null)
 {
-    $handles = view_handles($handles);
+    $handles = layout_handles($handles);
     $layout = data('layout');
 
     foreach ($handles as $handle) {
         foreach (data_filter($layout, ['handle' => $handle]) as $block) {
-            view_add($block);
+            layout_add($block);
         }
     }
 }
 
 /**
- * Add block
+ * Add block to layout
  *
  * @param array $block
  *
@@ -154,19 +145,19 @@ function view_load(array $handles = null)
  *
  * @throws InvalidArgumentException
  */
-function view_add(array $block)
+function layout_add(array $block)
 {
     if (empty($block['id'])) {
         throw new InvalidArgumentException('No block ID given');
     }
 
-    $oldBlock = & view_layout($block['id']);
+    $oldBlock = & layout($block['id']);
 
     // New blocks
     if ($oldBlock === null) {
         $oldBlock = data('skeleton', 'block');
 
-        if (empty($block['type']) || !view_type($block['type'])) {
+        if (empty($block['type']) || !data('block', $block['type'])) {
             throw new InvalidArgumentException('No or invalid block type given for block with ID ' . $block['id']);
         }
     }
@@ -174,28 +165,11 @@ function view_add(array $block)
     if ($block['id'] === 'root') {
         $block['parent'] = '';
     } elseif (!empty($block['parent']) && $block['parent'] !== $oldBlock['parent']) {
-        view_parent($block, $oldBlock['parent']);
+        layout_parent($block, $oldBlock['parent']);
     }
 
     // Add or update block
     $oldBlock = array_replace($oldBlock, $block);
-}
-
-/**
- * Set block variables
- *
- * @param string $id
- * @param array $vars
- *
- * @return void
- */
-function view_vars(string $id, array $vars)
-{
-    $block = & view_layout($id);
-
-    foreach ($vars as $var => $value) {
-        $block['vars'][$var] = $value;
-    }
 }
 
 /**
@@ -206,20 +180,20 @@ function view_vars(string $id, array $vars)
  *
  * @return void
  */
-function view_parent(array $block, string $oldId)
+function layout_parent(array $block, string $oldId)
 {
-    $oldParent = view_layout($oldId);
-    $parent = view_layout($block['parent']);
+    $oldParent = layout($oldId);
+    $parent = layout($block['parent']);
 
     // Pemove block from old parent block if it exists
     if ($oldParent) {
-        $oldParent = & view_layout($oldId);
+        $oldParent = & layout($oldId);
         unset($oldParent['children'][$block['id']]);
     }
 
     // Add block to new parent block if it exists
     if ($parent) {
-        $parent = & view_layout($block['parent']);
+        $parent = & layout($block['parent']);
         $parent['children'][$block['id']] = isset($block['sort_order']) ? (int) $block['sort_order'] : 0;
     }
 }

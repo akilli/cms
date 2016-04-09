@@ -23,7 +23,7 @@ function action_create()
 
     // View
     action_internal_view($meta);
-    view_vars('entity.create', ['data' => $data, 'header' => _($meta['name'])]);
+    vars('entity.create', ['data' => $data, 'header' => _($meta['name'])]);
 }
 
 /**
@@ -57,7 +57,7 @@ function action_edit()
 
     // View
     action_internal_view($meta);
-    view_vars('entity.edit', ['data' => $data, 'header' => _($meta['name'])]);
+    vars('entity.edit', ['data' => $data, 'header' => _($meta['name'])]);
 }
 
 /**
@@ -102,7 +102,7 @@ function action_view()
 
     // View
     action_internal_view($meta, $item);
-    view_vars('entity.view', ['item' => $item]);
+    vars('entity.view', ['item' => $item]);
 }
 
 /**
@@ -180,11 +180,11 @@ function action_index()
 
     // View
     action_internal_view($meta);
-    view_vars(
+    vars(
         'entity.' . $action,
         ['data' => $data, 'header' => _($meta['name']), 'attributes' => $attrs]
     );
-    view_vars(
+    vars(
         'entity.' . $action . '.pager',
         [
             'pages' => $pages,
@@ -235,8 +235,8 @@ function action_denied()
  */
 function action_account_dashboard()
 {
-    view_load();
-    view_vars('title', ['title' => _('Dashboard')]);
+    layout_load();
+    vars('title', ['title' => _('Dashboard')]);
 }
 
 /**
@@ -264,8 +264,8 @@ function action_account_profile()
     }
 
     // View
-    view_load();
-    view_vars('account.profile', ['item' => $item]);
+    layout_load();
+    vars('account.profile', ['item' => $item]);
 }
 
 /**
@@ -296,7 +296,7 @@ function action_account_login()
         message(_('Invalid name and password combination'));
     }
 
-    view_load();
+    layout_load();
 }
 
 /**
@@ -318,7 +318,7 @@ function action_account_logout()
  */
 function action_http_index()
 {
-    view_load();
+    layout_load();
 }
 
 /**
@@ -351,10 +351,10 @@ function action_internal_view(array $meta, array $item = null)
     $title = ($item ? $item['name'] : _($meta['name']))
         . ' ' . config('meta.separator')
         . ' ' . config('meta.title');
-    view_load();
-    view_vars('title', ['title' => $title]);
+    layout_load();
+    vars('title', ['title' => $title]);
 
     if ($item && !empty($item['meta']) && is_array($item['meta'])) {
-        view_vars('meta', $item['meta']);
+        vars('meta', $item['meta']);
     }
 }
