@@ -636,14 +636,14 @@ function attribute_view_datetime(array $attr, array $item): string
 }
 
 /**
- * View editor
+ * View rich text editor
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_view_editor(array $attr, array $item): string
+function attribute_view_rte(array $attr, array $item): string
 {
     return viewable($attr) ? value($attr, $item) : '';
 }

@@ -176,14 +176,14 @@ function validator_number(array $attr, array & $item): bool
 }
 
 /**
- * Editor validator
+ * Rich text editor validator
  *
  * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function validator_editor(array $attr, array & $item): bool
+function validator_rte(array $attr, array & $item): bool
 {
     $code = $attr['id'];
     $item[$code] = cast($attr, $item[$code] ?? null);

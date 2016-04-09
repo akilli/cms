@@ -45,15 +45,15 @@ return [
         'backend' => 'decimal',
         'frontend' => 'number',
     ],
-    'editor' => [
-        'id' => 'editor',
-        'name' => 'Editor',
+    'rte' => [
+        'id' => 'rte',
+        'name' => 'Rich Text Editor',
         'backend' => 'text',
         'frontend' => 'textarea',
         'default' => [
-            'validate' => 'akilli\validator_editor',
-            'view' => 'akilli\attribute_view_editor',
-            'class' => ['editor'],
+            'validate' => 'akilli\validator_rte',
+            'view' => 'akilli\attribute_view_rte',
+            'class' => ['rte'],
         ],
     ],
     'email' => [
