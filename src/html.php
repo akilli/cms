@@ -13,7 +13,7 @@ function html_label(array $attr, array $item): string
 {
     $message = '';
 
-    if (!empty($attr['is_required']) && !attribute_ignore($attr, $item)) {
+    if (!empty($attr['is_required']) && !ignorable($attr, $item)) {
         $message .= ' <em class="required">' . _('Required') . '</em>';
     }
 
@@ -85,7 +85,7 @@ function html_name(array $attr, array $item): string
  */
 function html_required(array $attr, array $item): string
 {
-    return !empty($attr['is_required']) && !attribute_ignore($attr, $item) ? ' required="required"' : '';
+    return !empty($attr['is_required']) && !ignorable($attr, $item) ? ' required="required"' : '';
 }
 
 /**

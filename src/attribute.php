@@ -2,14 +2,14 @@
 namespace akilli;
 
 /**
- * Set appropriate php type
+ * Cast to appropriate php type
  *
  * @param array $attr
  * @param mixed $value
  *
  * @return mixed
  */
-function attribute_cast(array $attr, $value)
+function cast(array $attr, $value)
 {
     if ($value === null && !empty($attr['null'])) {
         return null;
@@ -29,7 +29,7 @@ function attribute_cast(array $attr, $value)
 
     if (!empty($attr['is_multiple']) && is_array($value)) {
         foreach ($value as $k => $v) {
-            $value[$k] = attribute_cast($attr, $v);
+            $value[$k] = cast($attr, $v);
         }
 
         return $value;
@@ -46,7 +46,7 @@ function attribute_cast(array $attr, $value)
  *
  * @return mixed
  */
-function attribute_value(array $attr, array $item)
+function value(array $attr, array $item)
 {
     return $item[$attr['id']] ?? $attr['default'] ?? null;
 }
@@ -59,7 +59,7 @@ function attribute_value(array $attr, array $item)
  *
  * @return bool
  */
-function attribute_ignore(array $attr, array $item): bool
+function ignorable(array $attr, array $item): bool
 {
     $code = $attr['id'];
     $mustEdit = empty($item[$code]) || $attr['action'] === 'edit' && !empty($item[$code]);
@@ -78,7 +78,7 @@ function attribute_ignore(array $attr, array $item): bool
  *
  * @return bool
  */
-function attribute_editable(array & $attr, array $item): bool
+function editable(array & $attr, array $item): bool
 {
     if (!meta_action('edit', $attr)) {
         return false;
@@ -101,7 +101,7 @@ function attribute_editable(array & $attr, array $item): bool
  *
  * @return bool
  */
-function attribute_viewable(array & $attr): bool
+function viewable(array & $attr): bool
 {
     return $attr['action'] === 'system' || $attr['action'] && meta_action($attr['action'], $attr);
 }
@@ -116,7 +116,7 @@ function attribute_viewable(array & $attr): bool
  */
 function attribute_load(array $attr, array $item)
 {
-    return attribute_cast($attr, $item[$attr['id']] ?? null);
+    return cast($attr, $item[$attr['id']] ?? null);
 }
 
 /**
@@ -272,12 +272,12 @@ function attribute_edit(): string
  */
 function attribute_edit_varchar(array $attr, array $item): string
 {
-    if (!attribute_editable($attr, $item)) {
+    if (!editable($attr, $item)) {
         return '';
     }
 
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
-        . html_name($attr, $item) . '" value="' . encode(attribute_value($attr, $item))
+        . html_name($attr, $item) . '" value="' . encode(value($attr, $item))
         . '"' . html_required($attr, $item) . html_title($attr) . html_class($attr) . ' />';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
@@ -293,11 +293,11 @@ function attribute_edit_varchar(array $attr, array $item): string
  */
 function attribute_edit_select(array $attr, array $item): string
 {
-    if (!attribute_editable($attr, $item)) {
+    if (!editable($attr, $item)) {
         return '';
     }
 
-    $value = attribute_value($attr, $item);
+    $value = value($attr, $item);
     $attr['options'] = option($attr, $item);
     $htmlId =  html_id($attr, $item);
     $htmlName =  html_name($attr, $item);
@@ -346,11 +346,11 @@ function attribute_edit_select(array $attr, array $item): string
  */
 function attribute_edit_input_option(array $attr, array $item): string
 {
-    if (!attribute_editable($attr, $item)) {
+    if (!editable($attr, $item)) {
         return '';
     }
 
-    $value = attribute_value($attr, $item);
+    $value = value($attr, $item);
 
     if ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
         $attr['options'] = [1 => _('Yes')];
@@ -393,7 +393,7 @@ function attribute_edit_input_option(array $attr, array $item): string
  */
 function attribute_edit_password(array $attr, array $item): string
 {
-    if (!attribute_editable($attr, $item)) {
+    if (!editable($attr, $item)) {
         return '';
     }
 
@@ -415,7 +415,7 @@ function attribute_edit_password(array $attr, array $item): string
  */
 function attribute_edit_file(array $attr, array $item): string
 {
-    if (!attribute_editable($attr, $item)) {
+    if (!editable($attr, $item)) {
         return '';
     }
 
@@ -437,12 +437,12 @@ function attribute_edit_file(array $attr, array $item): string
  */
 function attribute_edit_datetime(array $attr, array $item): string
 {
-    if (!attribute_editable($attr, $item)) {
+    if (!editable($attr, $item)) {
         return '';
     }
 
     $code = $attr['id'];
-    $item[$code] = attribute_value($attr, $item);
+    $item[$code] = value($attr, $item);
     $format = $attr['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d\TH:i:s';
 
     if (!empty($item[$code]) && ($datetime = date_format(date_create($item[$code]), $format))) {
@@ -466,11 +466,11 @@ function attribute_edit_datetime(array $attr, array $item): string
  */
 function attribute_edit_number(array $attr, array $item): string
 {
-    if (!attribute_editable($attr, $item)) {
+    if (!editable($attr, $item)) {
         return '';
     }
 
-    $value = attribute_value($attr, $item);
+    $value = value($attr, $item);
     $step = '';
     $min = '';
     $max = '';
@@ -506,13 +506,13 @@ function attribute_edit_number(array $attr, array $item): string
  */
 function attribute_edit_textarea(array $attr, array $item): string
 {
-    if (!attribute_editable($attr, $item)) {
+    if (!editable($attr, $item)) {
         return '';
     }
 
     $html = '<textarea id="' . html_id($attr, $item) . '" name="' . html_name($attr, $item) . '"'
         . html_required($attr, $item) . html_title($attr) . html_class($attr) . '>'
-        . encode(attribute_value($attr, $item)) . '</textarea>';
+        . encode(value($attr, $item)) . '</textarea>';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
@@ -527,12 +527,12 @@ function attribute_edit_textarea(array $attr, array $item): string
  */
 function attribute_edit_json(array $attr, array $item): string
 {
-    if (!attribute_editable($attr, $item)) {
+    if (!editable($attr, $item)) {
         return '';
     }
 
     $code = $attr['id'];
-    $item[$code] = attribute_value($attr, $item);
+    $item[$code] = value($attr, $item);
 
     if (is_array($item[$code])) {
         $item[$code] = !empty($item[$code]) ? json_encode($item[$code]) : '';
@@ -561,7 +561,7 @@ function attribute_view(): string
  */
 function attribute_view_default(array $attr, array $item): string
 {
-    return attribute_viewable($attr) ? encode(attribute_value($attr, $item)) : '';
+    return viewable($attr) ? encode(value($attr, $item)) : '';
 }
 
 /**
@@ -574,11 +574,11 @@ function attribute_view_default(array $attr, array $item): string
  */
 function attribute_view_file(array $attr, array $item): string
 {
-    if (!attribute_viewable($attr)) {
+    if (!viewable($attr)) {
         return '';
     }
 
-    $value = attribute_value($attr, $item);
+    $value = value($attr, $item);
 
     if ($attr['action'] === 'system') {
         return $value;
@@ -625,7 +625,7 @@ function attribute_view_file(array $attr, array $item): string
  */
 function attribute_view_datetime(array $attr, array $item): string
 {
-    if (!attribute_viewable($attr)) {
+    if (!viewable($attr)) {
         return '';
     }
 
@@ -645,7 +645,7 @@ function attribute_view_datetime(array $attr, array $item): string
  */
 function attribute_view_editor(array $attr, array $item): string
 {
-    return attribute_viewable($attr) ? attribute_value($attr, $item) : '';
+    return viewable($attr) ? value($attr, $item) : '';
 }
 
 /**
@@ -658,11 +658,11 @@ function attribute_view_editor(array $attr, array $item): string
  */
 function attribute_view_option(array $attr, array $item): string
 {
-    if (!attribute_viewable($attr)) {
+    if (!viewable($attr)) {
         return '';
     }
 
-    $value = attribute_value($attr, $item);
+    $value = value($attr, $item);
 
     if (!$attr['options'] = option($attr, $item)) {
         return '';

@@ -29,7 +29,7 @@ function validator(array $attr, array & $item): bool
 function validator_string(array $attr, array & $item): bool
 {
     $code = $attr['id'];
-    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
+    $item[$code] = cast($attr, $item[$code] ?? null);
     $item[$code] = trim((string) filter_var($item[$code], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
 
     return validator($attr, $item);
@@ -46,7 +46,7 @@ function validator_string(array $attr, array & $item): bool
 function validator_email(array $attr, array & $item): bool
 {
     $code = $attr['id'];
-    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
+    $item[$code] = cast($attr, $item[$code] ?? null);
 
     if ($item[$code] && !$item[$code] = filter_var($item[$code], FILTER_VALIDATE_EMAIL)) {
         $item[$code] = null;
@@ -69,7 +69,7 @@ function validator_email(array $attr, array & $item): bool
 function validator_url(array $attr, array & $item): bool
 {
     $code = $attr['id'];
-    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
+    $item[$code] = cast($attr, $item[$code] ?? null);
 
     if ($item[$code] && !$item[$code] = filter_var($item[$code], FILTER_VALIDATE_URL)) {
         $item[$code] = null;
@@ -142,7 +142,7 @@ function validator_file(array $attr, array & $item): bool
 function validator_datetime(array $attr, array & $item): bool
 {
     $code = $attr['id'];
-    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
+    $item[$code] = cast($attr, $item[$code] ?? null);
     $format = $attr['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d H:i:s';
 
     if (!empty($item[$code])) {
@@ -170,7 +170,7 @@ function validator_datetime(array $attr, array & $item): bool
 function validator_number(array $attr, array & $item): bool
 {
     $code = $attr['id'];
-    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
+    $item[$code] = cast($attr, $item[$code] ?? null);
 
     return validator($attr, $item);
 }
@@ -186,7 +186,7 @@ function validator_number(array $attr, array & $item): bool
 function validator_editor(array $attr, array & $item): bool
 {
     $code = $attr['id'];
-    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
+    $item[$code] = cast($attr, $item[$code] ?? null);
 
     if ($item[$code]) {
         $item[$code] = filter_html($item[$code]);
@@ -207,7 +207,7 @@ function validator_option(array $attr, array & $item): bool
 {
     $attr['options'] = option($attr, $item);
     $code = $attr['id'];
-    $item[$code] = attribute_cast($attr, $item[$code] ?? null);
+    $item[$code] = cast($attr, $item[$code] ?? null);
 
     if (is_array($item[$code])) {
         $item[$code] = array_filter(
@@ -248,8 +248,8 @@ function validator_menubasis(array $attr, array & $item): bool
 
     if (!empty($item[$code]) && strpos($item[$code], ':') > 0) {
         $parts = explode(':', $item[$code]);
-        $item['root_id'] = attribute_cast($item['_meta']['attributes']['root_id'], $parts[0]);
-        $item['basis'] = attribute_cast($item['_meta']['attributes']['id'], $parts[1]);
+        $item['root_id'] = cast($item['_meta']['attributes']['root_id'], $parts[0]);
+        $item['basis'] = cast($item['_meta']['attributes']['id'], $parts[1]);
     } else {
         $item['_error'][$code] = _('%s is a mandatory field', $attr['name']);
 
@@ -315,11 +315,7 @@ function validator_required(array $attr, array & $item): bool
 {
     $code = $attr['id'];
 
-    if (!empty($attr['is_required'])
-        && empty($item[$code])
-        && !option($attr, $item)
-        && !attribute_ignore($attr, $item)
-    ) {
+    if (!empty($attr['is_required']) && empty($item[$code]) && !option($attr, $item) && !ignorable($attr, $item)) {
         $item['_error'][$code] = _('%s is a mandatory field', $attr['name']);
 
         return false;

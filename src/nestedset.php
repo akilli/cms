@@ -243,7 +243,7 @@ function nestedset_save(array & $item): bool
         $diff = $newLft - $lft;
     }
 
-    $idValue = db_quote(attribute_cast($attrs['id'], $item['_old']['id']), $attrs['id']['backend']);
+    $idValue = db_quote(cast($attrs['id'], $item['_old']['id']), $attrs['id']['backend']);
     $setExpr = '';
 
     foreach (array_keys($cols['set']) as $code) {
@@ -252,11 +252,11 @@ function nestedset_save(array & $item): bool
     }
 
     $oldRootId = db_quote(
-        attribute_cast($attrs['root_id'], $item['_old']['root_id']),
+        cast($attrs['root_id'], $item['_old']['root_id']),
         $attrs['root_id']['backend']
     );
     $rootId = db_quote(
-        attribute_cast($attrs['root_id'], $item['root_id']),
+        cast($attrs['root_id'], $item['root_id']),
         $attrs['root_id']['backend']
     );
     $oldRootCond = ' AND ' . $attrs['root_id']['column'] . ' = ' . $oldRootId ;

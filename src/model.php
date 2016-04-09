@@ -197,7 +197,7 @@ function model_save(string $entity, array & $data): bool
             }
 
             // Ignored attributes
-            if (attribute_ignore($meta['attributes'][$code], $item)) {
+            if (ignorable($meta['attributes'][$code], $item)) {
                 unset($item[$code]);
             }
         }
