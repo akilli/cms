@@ -18,7 +18,6 @@ function block_template(array & $block): string
         return $block['vars'][$key] ?? $default;
     };
 
-    // Output
     ob_start();
     include path('template', $block['template']);
 

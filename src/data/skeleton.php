@@ -1,6 +1,5 @@
 <?php
 return [
-    // attribute
     'attribute' => [
         'id' => null,
         'name' => null,
@@ -29,7 +28,6 @@ return [
         'edit' => 'akilli\attribute_edit_varchar',
         'view' => 'akilli\attribute_view_default',
     ],
-    // block
     'block' => [
         'id' => null,
         'type' => null,
@@ -41,7 +39,6 @@ return [
         'sort_order' => 0,
         'children' => [],
     ],
-    // entity
     'entity' => [
         'id' => null,
         'name' => null,
@@ -110,7 +107,6 @@ return [
             ],
         ],
     ],
-    // request
     'request' => [
         'id' => 'http.index',
         'action' => 'index',

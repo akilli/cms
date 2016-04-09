@@ -14,7 +14,6 @@ function & session(string $key = null, $value = null, bool $reset = false)
 {
     static $data;
 
-    // Init data
     if ($data === null) {
         // Start session if it was not started before
         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -24,7 +23,6 @@ function & session(string $key = null, $value = null, bool $reset = false)
         $data = & $_SESSION;
     }
 
-    // If $key is null, return whole data
     if ($key === null) {
         return $data;
     }

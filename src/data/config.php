@@ -1,6 +1,5 @@
 <?php
 return [
-    // action
     'action.attribute' => [
         'all' => 'all',
         'edit' => 'edit',
@@ -18,7 +17,6 @@ return [
         'index' => 'index',
         'list' => 'list',
     ],
-    // file
     'file.audio' => [
         'mp3' => 'mp3',
         'oga' => 'oga',
@@ -62,7 +60,6 @@ return [
         'ogg' => 'ogg',
         'webm' => 'webm',
     ],
-    // filter
     'filter.html' => '<address><article><aside><footer><h1><h2><h3><h4><h5><h6><header><nav><section>'
         . '<blockquote><dd><div><dl><dt><figcaption><figure><hr><li><ol><p><pre><ul>'
         . '<a><abbr><b><bdi><bdo><br><cite><code><dfn><em><i><kbd><mark><q><rp><rt><ruby><s><samp><small>'
@@ -83,17 +80,14 @@ return [
         '#[^0-9a-z\/_-]+#i' => '-',
         '#[-]+#i' => '-',
     ],
-    // i18n
     'i18n.charset' => 'utf-8',
     'i18n.locale' => 'de-DE',
     'i18n.timezone' => 'Europe/Berlin',
     'i18n.date_format' => 'd.m.Y',
     'i18n.datetime_format' => 'd.m.Y H:i',
-    // limit
     'limit.block' => 5,
     'limit.index' => 20,
     'limit.list' => 10,
-    // meta
     'meta.title' => 'Akilli CMS',
     'meta.separator' => '|',
     'meta' => [
@@ -101,7 +95,6 @@ return [
         'description' => "Akilli CMS Quick'n'Dirty",
         'viewport' => 'width=device-width, initial-scale=1, maximum-scale=1',
     ],
-    // url
     'url.asset' => '',
     'url.base' => '',
 ];

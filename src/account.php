@@ -26,7 +26,6 @@ function account(string $key = null)
         }
     }
 
-    // If $key is null, return whole data
     if ($key === null) {
         return $data;
     }

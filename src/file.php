@@ -25,19 +25,16 @@ function file_load(string $path, array $criteria = null, $index = null, array $o
     $data = [];
     $single = $index === false;
 
-    // Index
     if (!$index || $index === 'search') {
         $search = $index === 'search';
         $index = 'id';
     }
 
-    // Iterator
     $iterator = new RecursiveDirectoryIterator(
         $path,
         RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS
     );
 
-    // Recursive flag
     if (!empty($criteria['is_recursive'])) {
         $iterator = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::LEAVES_ONLY);
         unset($criteria['is_recursive']);
@@ -58,13 +55,11 @@ function file_load(string $path, array $criteria = null, $index = null, array $o
             'modified' => $item->getMTime()
         ];
 
-        // Single result
         if ($single) {
             return $item;
         }
 
         if ($index === 'unique') {
-            // Index unique
             $data['id'][$item['id']] = $item['id'];
         } elseif (is_array($index)
             && !empty($index[0])
@@ -72,25 +67,20 @@ function file_load(string $path, array $criteria = null, $index = null, array $o
             && !empty($item[$index[0]])
             && !empty($item[$index[1]])
         ) {
-            // Array index
             $data[$item[$index[0]]][$item[$index[1]]] = $item;
         } else {
-            // Default index
             $data[$item[$index]] = $item;
         }
     }
 
-    // Criteria
     if ($criteria) {
         $data = data_filter($data, $criteria, !empty($search));
     }
 
-    // Order
     if ($order) {
         $data = data_order($data, $order);
     }
 
-    // Limit
     if ($limit) {
         $data = data_limit($data, $limit);
     }
@@ -185,10 +175,8 @@ function file_copy(string $source, string $destination, $criteria = null): bool
     $umask = umask(0);
 
     if ($isFile) {
-        // File
         copy($source, $destination);
     } else {
-        // Directory
         $files = file_load($source, $criteria);
 
         foreach ($files as $id => $file) {

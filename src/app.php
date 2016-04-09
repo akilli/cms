@@ -12,7 +12,6 @@ use InvalidArgumentException;
  */
 function app(array $data = [])
 {
-    // Dispatch action event
     $event = 'action.' . request('id');
 
     if (!$listeners = listener($event)) {
@@ -28,7 +27,6 @@ function app(array $data = [])
 
     event($event, $data);
 
-    // Send response
     echo render('root');
 }
 
@@ -67,15 +65,12 @@ function path(string $dir, string $subpath = null): string
     if ($data === null) {
         $data = [];
         $data['root'] = filter_path(realpath(__DIR__ . '/..'));
-        // app
         $data['app'] = $data['root'] . '/app';
         $data['db'] = $data['app'] . '/db';
         $data['log'] = $data['app'] . '/log';
-        // src
         $data['src'] = __DIR__;
         $data['data'] = $data['src'] . '/data';
         $data['template'] = $data['src'] . '/template';
-        // public
         $data['public'] = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
         $data['asset'] = $data['public'] . '/asset';
         $data['cache'] = $data['asset'] . '/cache';

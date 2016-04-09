@@ -14,7 +14,6 @@ function render(string $id): string
 {
     $block = & layout($id);
 
-    // Skip empty, inactive or invalid blocks
     if (!$block
         || empty($block['is_active'])
         || empty($block['type'])
@@ -24,7 +23,6 @@ function render(string $id): string
         return '';
     }
 
-    // Block Render Events
     event(['block.type.' . $block['type'], 'block.render.' . $id], $block);
 
     return $type['callback']($block);
@@ -169,7 +167,7 @@ function layout_parent(array $block, string $oldId)
     $oldParent = layout($oldId);
     $parent = layout($block['parent']);
 
-    // Pemove block from old parent block if it exists
+    // Remove block from old parent block if it exists
     if ($oldParent) {
         $oldParent = & layout($oldId);
         unset($oldParent['children'][$block['id']]);

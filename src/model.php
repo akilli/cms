@@ -18,7 +18,6 @@ function model_validate(array & $item): bool
     }
 
     foreach ($item['_meta']['attributes'] as $attr) {
-        // Validate attribute
         if (!$attr['validate']($attr, $item)) {
             $error = true;
         }
@@ -72,7 +71,6 @@ function model_load(string $entity, array $criteria = null, $index = null, array
     $single = $index === false;
     $data = [];
 
-    // Result
     try {
         $result = $callback($entity, $criteria, $index, $order, $limit);
 
@@ -84,7 +82,6 @@ function model_load(string $entity, array $criteria = null, $index = null, array
         }
 
         foreach ($result as $item) {
-            // Attribute load callback
             foreach ($item as $code => $value) {
                 if (isset($meta['attributes'][$code])) {
                     $item[$code] = $meta['attributes'][$code]['load']($meta['attributes'][$code], $item);
@@ -96,16 +93,13 @@ function model_load(string $entity, array $criteria = null, $index = null, array
             $item['_meta'] = empty($item['_meta']) ? $meta : $item['_meta'];
             $item['_id'] = $item['id'];
 
-            // Entity load events
             event(['model.load', 'model.load.' . $meta['model'], 'entity.load.' . $entity], $item);
 
-            // Single result
             if ($single) {
                 return $item;
             }
 
             if ($index === 'unique') {
-                // Index unique
                 foreach ($item as $code => $value) {
                     if (!empty($meta['attributes'][$code]['is_unique'])) {
                         $data[$code][$item['id']] = $value;
@@ -117,10 +111,8 @@ function model_load(string $entity, array $criteria = null, $index = null, array
                 && !empty($item[$index[0]])
                 && !empty($item[$index[1]])
             ) {
-                // Array index
                 $data[$item[$index[0]]][$item[$index[1]]] = $item;
             } else {
-                // Default index
                 $data[$item[$index]] = $item;
             }
         }
@@ -163,7 +155,6 @@ function model_save(string $entity, array & $data): bool
             unset($item['_old']['_id'], $item['_old']['_meta'], $item['_old']['_old']);
         }
 
-        // Validate
         if (!model_validate($item)) {
             if (!empty($item['_error'])) {
                 $data[$id]['_error'] = $item['_error'];
@@ -173,13 +164,11 @@ function model_save(string $entity, array & $data): bool
             continue;
         }
 
-        // Attributes
         foreach (array_keys($item) as $code) {
             if (!isset($meta['attributes'][$code])) {
                 continue;
             }
 
-            // Attribute save callback
             if (!$meta['attributes'][$code]['save']($meta['attributes'][$code], $item)) {
                 if (!empty($item['_error'])) {
                     $data[$id]['_error'] = $item['_error'];
@@ -189,27 +178,22 @@ function model_save(string $entity, array & $data): bool
                 continue 2;
             }
 
-            // Ignored attributes
             if (ignorable($meta['attributes'][$code], $item)) {
                 unset($item[$code]);
             }
         }
 
-        // Transaction
         $success = trans(
             function () use ($entity, & $item, $callback, $meta) {
-                // Entity before save events
                 event(
                     ['model.save_before', 'model.save_before.' . $meta['model'], 'entity.save_before.' . $entity],
                     $item
                 );
 
-                // Execute
                 if (!$callback($item)) {
                     throw new RuntimeException('Save call failed');
                 }
 
-                // Entity after save events
                 event(
                     ['model.save_after', 'model.save_after.' . $meta['model'], 'entity.save_after.' . $entity],
                     $item
@@ -217,7 +201,6 @@ function model_save(string $entity, array & $data): bool
             }
         );
 
-        // Unset item
         if (!$success) {
             $error = true;
         } else {
@@ -225,7 +208,6 @@ function model_save(string $entity, array & $data): bool
         }
     }
 
-    // Message
     message(_(empty($error) ? 'Data successfully saved' : 'Data could not be saved'));
 
     return empty($error);
@@ -246,25 +228,21 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
     $meta = data('meta', $entity);
     $callback =  __NAMESPACE__ . '\\' . $meta['model'] . '_delete';
 
-    // Check if anything is there to delete
     if (!$data = model_load($entity, $criteria, $index)) {
         return false;
     }
 
-    // Check if single result
     if ($index === false) {
         $data = [$data['id'] => $data];
     }
 
     foreach ($data as $id => $item) {
-        // Filter system items
         if (!$system && !empty($item['is_system'])) {
             message(_('You must not delete system items! Therefore skipped ID %s', $id));
             unset($data[$id]);
             continue;
         }
 
-        // Attribute delete callback
         foreach (array_keys($item) as $code) {
             if (isset($meta['attributes'][$code])
                 && !$meta['attributes'][$code]['delete']($meta['attributes'][$code], $item)
@@ -278,21 +256,17 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
             }
         }
 
-        // Transaction
         $success = trans(
             function () use ($entity, & $item, $callback, $meta) {
-                // Entity before delete events
                 event(
                     ['model.delete_before', 'model.delete_before.' . $meta['model'], 'entity.delete_before.' . $entity],
                     $item
                 );
 
-                // Execute
                 if (!$callback($item)) {
                     throw new RuntimeException('Delete call failed');
                 }
 
-                // Entity after delete events
                 event(
                     ['model.delete_after', 'model.delete_after.' . $meta['model'], 'entity.delete_after.' . $entity],
                     $item
@@ -307,7 +281,6 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
         $data[$id] = $item;
     }
 
-    // Message
     message(_(empty($error) ? 'Data successfully deleted' : 'Data could not be deleted'));
 
     return empty($error);

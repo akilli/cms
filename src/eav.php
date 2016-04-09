@@ -22,7 +22,6 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
     $joins = $params = [];
     $criteria['entity_id'] = $meta['id'];
 
-    // Prepare attributes
     foreach ($attrs as $code => $attr) {
         if (empty($attr['column'])) {
             continue;
@@ -81,7 +80,6 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
     $criteria['entity_id'] = $meta['id'];
     $options = ['search' => $index === 'search'];
 
-    // Prepare attributes
     foreach ($attrs as $code => $attr) {
         if (empty($attr['column'])) {
             continue;

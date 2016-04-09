@@ -31,11 +31,6 @@ function meta_entity(array $data): array
     $model = !empty($data['model']) ? $data['model'] : $skeleton['model'];
     $data = array_replace_recursive($skeleton, (array) data('skeleton', 'entity.' . $model), $data);
 
-    // Actions
-    if (!is_array($data['actions'])) {
-        $data['actions'] = [];
-    }
-
     // Attributes
     $sortOrder = 0;
 
@@ -110,11 +105,6 @@ function meta_attribute(array $data): array
         !empty($type['default']) ? $type['default'] : [],
         $data
     );
-
-    // Actions
-    if (!is_array($data['actions'])) {
-        $data['actions'] = [];
-    }
 
     // Correct invalid values
     $data['is_required'] = empty($data['null']) && $data['is_required'];

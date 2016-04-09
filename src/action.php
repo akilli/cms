@@ -21,7 +21,6 @@ function action_create()
         $data = meta_skeleton($meta['id'], (int) post_data('create', 'number'));
     }
 
-    // View
     action_internal_view($meta);
     vars('entity.create', ['data' => $data, 'header' => _($meta['name'])]);
 }
@@ -49,13 +48,11 @@ function action_edit()
         $data = model_load($meta['id'], ['id' => array_keys($data)]);
     }
 
-    // If $data is empty, there haven't been any matching records to edit
     if (!$data) {
         message(_('You did not select anything to edit'));
         redirect(allowed('index') ? '*/index' : '');
     }
 
-    // View
     action_internal_view($meta);
     vars('entity.edit', ['data' => $data, 'header' => _($meta['name'])]);
 }
@@ -71,10 +68,8 @@ function action_delete()
     $data = post_data('delete');
 
     if ($data) {
-        // Data posted, perform delete callback
         model_delete($meta['id'], ['id' => array_keys($data)]);
     } else {
-        // No data posted
         message(_('You did not select anything to delete'));
     }
 
@@ -100,7 +95,6 @@ function action_view()
         message(_('Preview'));
     }
 
-    // View
     action_internal_view($meta, $item);
     vars('entity.view', ['item' => $item]);
 }
@@ -124,7 +118,6 @@ function action_index()
     $order = null;
     $params = [];
 
-    // Search
     if (($terms = post_data('search', 'terms')) || ($terms = get('terms')) && ($terms = urldecode($terms))) {
         if (($content = array_filter(explode(' ', $terms)))
             && $searchItems = model_load($meta['id'], ['name' => $content], 'search')
@@ -152,7 +145,6 @@ function action_index()
         $params['page'] = $page;
     }
 
-    // Order
     if (($sort = get('sort')) && !empty($attrs[$sort])) {
         $direction = get('direction') === 'desc' ? 'desc' : 'asc';
         $order = [$sort => $direction];
@@ -175,7 +167,6 @@ function action_index()
     );
     unset($params['page']);
 
-    // View
     action_internal_view($meta);
     vars('entity.' . $action, ['data' => $data, 'header' => _($meta['name']), 'attributes' => $attrs]);
     vars(
@@ -257,7 +248,6 @@ function action_account_profile()
         redirect();
     }
 
-    // View
     layout_load();
     vars('account.profile', ['item' => $item]);
 }
