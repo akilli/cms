@@ -138,7 +138,7 @@ function block_menu(array & $block): string
         return '';
     }
 
-    $collection = model_load($meta['attributes']['root_id']['foreign_entity_id']);
+    $collection = model_load($meta['attributes']['root_id']['options_entity']);
     $criteria = !empty($block['vars']['root_id']) ? ['root_id' => $block['vars']['root_id']] : null;
     $roots = model_load($block['vars']['entity'], $criteria, ['root_id', 'id']);
     $html = '';

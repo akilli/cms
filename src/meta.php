@@ -50,8 +50,8 @@ function meta_entity(array $data): array
             $attr['type'] = $data['attributes'][$code]['type'];
         }
 
-        if (!empty($attr['foreign_entity_id']) && $attr['foreign_entity_id'] === ':entity_id') {
-            $attr['foreign_entity_id'] = $data['id'];
+        if (!empty($attr['options_entity']) && $attr['options_entity'] === ':entity_id') {
+            $attr['options_entity'] = $data['id'];
         }
 
         $attr = meta_attribute($attr);

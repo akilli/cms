@@ -29,13 +29,12 @@ CREATE TABLE IF NOT EXISTS `attribute` (
     `name` VARCHAR(255) NOT NULL,
     `type` VARCHAR(100) NOT NULL,
     `description` TEXT NOT NULL,
-    `foreign_entity_id` VARCHAR(100) DEFAULT NULL,
+    `options_entity` VARCHAR(100) DEFAULT NULL,
     `options_callback` VARCHAR(255) DEFAULT NULL,
     `options` TEXT DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `idx_attribute_name` (`name`),
-    KEY `idx_attribute_type` (`type`),
-    KEY `idx_attribute_foreign` (`foreign_entity_id`)
+    KEY `idx_attribute_type` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `content`;

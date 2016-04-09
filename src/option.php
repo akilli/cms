@@ -13,8 +13,8 @@ function option(array $attr, array $item): array
 {
     if ($attr['backend'] === 'bool') {
         return option_bool();
-    } elseif (!empty($attr['foreign_entity_id'])) {
-        return option_foreign($attr);
+    } elseif (!empty($attr['options_entity'])) {
+        return option_entity($attr);
     } elseif (!empty($attr['options_callback'])) {
         return option_callback($attr, $item);
     }
@@ -33,15 +33,15 @@ function option_bool(): array
 }
 
 /**
- * Retrieve foreign entity options
+ * Retrieve entity options
  *
  * @param array $attr
  *
  * @return array
  */
-function option_foreign(array $attr): array
+function option_entity(array $attr): array
 {
-    return option_translate(model_load($attr['foreign_entity_id']));
+    return option_translate(model_load($attr['options_entity']));
 }
 
 /**
@@ -78,7 +78,7 @@ function option_callback(array $attr, array $item): array
  */
 function option_menubasis(array $item): array
 {
-    $roots = model_load($item['_meta']['attributes']['root_id']['foreign_entity_id']);
+    $roots = model_load($item['_meta']['attributes']['root_id']['options_entity']);
     $data = [];
 
     foreach (model_load($item['_meta']['id']) as $menu) {
