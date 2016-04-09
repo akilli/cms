@@ -46,7 +46,6 @@ return [
         'id' => null,
         'name' => null,
         'table' => null,
-        'sequence' => null,
         'model' => 'flat',
         'controller' => 'entity',
         'actions' => [],

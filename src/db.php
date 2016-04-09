@@ -133,15 +133,6 @@ function qi(string $identifier = null): string
 function db_meta($entity): array
 {
     $meta = is_array($entity) ? $entity : data('meta', $entity);
-
-    if (db()->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql'
-        && $meta['sequence'] === null
-        && !empty($meta['attributes']['id']['auto'])
-    ) {
-        $meta['sequence'] = $meta['table'] . '_id_seq';
-    }
-
-    $meta['sequence'] = qi($meta['sequence']);
     $meta['table'] = qi($meta['table']);
 
     foreach ($meta['attributes'] as $code => $attr) {

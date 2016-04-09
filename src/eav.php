@@ -157,7 +157,7 @@ function eav_create(array & $item): bool
 
     // Set DB generated id
     if (!empty($attrs['id']['auto'])) {
-        $item['id'] = (int) db()->lastInsertId($meta['sequence']);
+        $item['id'] = (int) db()->lastInsertId();
     }
 
     // Insert values

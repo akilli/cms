@@ -81,7 +81,7 @@ function flat_create(array & $item): bool
 
     // Set DB generated id
     if (!empty($meta['attributes']['id']['auto'])) {
-        $item['id'] = (int) db()->lastInsertId($meta['sequence']);
+        $item['id'] = (int) db()->lastInsertId();
     }
 
     return true;
