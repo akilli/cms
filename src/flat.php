@@ -76,7 +76,7 @@ function flat_create(array & $item): bool
     }
 
     $meta = db_meta($item['_meta']);
-    $cols = db_columns($meta['attributes'], $item);
+    $cols = cols($meta['attributes'], $item);
 
     // Prepare statement
     $stmt = db()->prepare(
@@ -114,7 +114,7 @@ function flat_save(array & $item): bool
     }
 
     $meta = db_meta($item['_meta']);
-    $cols = db_columns($meta['attributes'], $item);
+    $cols = cols($meta['attributes'], $item);
 
     // Prepare statement
     $stmt = db()->prepare(

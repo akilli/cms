@@ -27,7 +27,7 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
         if (empty($attr['column'])) {
             continue;
         } elseif (!empty($valueAttributes[$code])) {
-            $alias = db_quote_identifier($code);
+            $alias = qi($code);
             $attrs[$code]['column'] = $alias . '.' . $attr['column'];
             $params[$code] = ':__attribute__' . str_replace('-', '_', $code);
             $joins[$code] = 'LEFT JOIN ' . $valueMeta['table'] . ' ' . $alias . ' ON '
@@ -92,7 +92,7 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
         if (empty($attr['column'])) {
             continue;
         } elseif (!empty($valueAttributes[$code])) {
-            $alias = db_quote_identifier($code);
+            $alias = qi($code);
             $attrs[$code]['column'] = $alias . '.' . $attr['column'];
             $params[$code] = ':__attribute__' . str_replace('-', '_', $code);
             $joins[$code] = 'LEFT JOIN ' . $valueMeta['table'] . ' ' . $alias . ' ON '
@@ -152,7 +152,7 @@ function eav_create(array & $item): bool
     $valueAttributes = array_diff_key($attrs, $contentAttributes);
     $valueModel = meta_skeleton('eav');
     $item['entity_id'] = $meta['id'];
-    $cols = db_columns($contentAttributes, $item);
+    $cols = cols($contentAttributes, $item);
 
     // Prepare statement
     $stmt = db()->prepare(
@@ -233,7 +233,7 @@ function eav_save(array & $item): bool
     }
 
     $item['entity_id'] = $meta['id'];
-    $cols = db_columns($contentAttributes, $item);
+    $cols = cols($contentAttributes, $item);
 
     // Prepare statement
     $stmt = db()->prepare(

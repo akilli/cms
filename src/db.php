@@ -28,7 +28,7 @@ function db(): PDO
  *
  * @return bool
  */
-function db_transaction(callable $callback): bool
+function trans(callable $callback): bool
 {
     static $level = 0;
 
@@ -96,7 +96,7 @@ function db_type(array $attr, $value): int
  *
  * @return mixed
  */
-function db_quote($value, $backend = null)
+function qv($value, $backend = null)
 {
     if ($backend === 'bool') {
         $value = $value ? '1' : '0';
@@ -116,7 +116,7 @@ function db_quote($value, $backend = null)
  *
  * @return string
  */
-function db_quote_identifier(string $identifier = null): string
+function qi(string $identifier = null): string
 {
     $char = db()->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql' ? '`' : '"';
 
@@ -141,11 +141,11 @@ function db_meta($entity): array
         $meta['sequence'] = $meta['table'] . '_id_seq';
     }
 
-    $meta['sequence'] = db_quote_identifier($meta['sequence']);
-    $meta['table'] = db_quote_identifier($meta['table']);
+    $meta['sequence'] = qi($meta['sequence']);
+    $meta['table'] = qi($meta['table']);
 
     foreach ($meta['attributes'] as $code => $attr) {
-        $meta['attributes'][$code]['column'] = db_quote_identifier($attr['column']);
+        $meta['attributes'][$code]['column'] = qi($attr['column']);
     }
 
     return $meta;
@@ -160,7 +160,7 @@ function db_meta($entity): array
  *
  * @return array
  */
-function db_columns(array $attrs, array $item, array $skip = []): array
+function cols(array $attrs, array $item, array $skip = []): array
 {
     $data = ['col' => [], 'param' => [], 'set' => []];
 
@@ -188,14 +188,14 @@ function db_columns(array $attrs, array $item, array $skip = []): array
 function select(array $attrs, string $alias = null): string
 {
     $columns = [];
-    $alias = ($alias) ? db_quote_identifier($alias) . '.' : '';
+    $alias = ($alias) ? qi($alias) . '.' : '';
 
     foreach ($attrs as $code => $attr) {
         if (empty($attr['column'])) {
             continue;
         }
 
-        $columns[$code] = $alias . $attr['column'] . ' as ' . db_quote_identifier($code);
+        $columns[$code] = $alias . $attr['column'] . ' as ' . qi($code);
     }
 
     if (empty($columns)) {
@@ -215,7 +215,7 @@ function select(array $attrs, string $alias = null): string
  */
 function from(string $table, string $alias = null): string
 {
-    return ' FROM ' . $table . ($alias ? ' as ' . db_quote_identifier($alias) : '');
+    return ' FROM ' . $table . ($alias ? ' as ' . qi($alias) : '');
 }
 
 /**
@@ -230,7 +230,7 @@ function from(string $table, string $alias = null): string
 function where(array $criteria, array $attrs, array $options = []): string
 {
     $columns = [];
-    $alias = !empty($options['alias']) ? db_quote_identifier($options['alias']) . '.' : '';
+    $alias = !empty($options['alias']) ? qi($options['alias']) . '.' : '';
     $search = !empty($options['search']);
     $operator = $search ? 'LIKE' : '=';
 
@@ -247,7 +247,7 @@ function where(array $criteria, array $attrs, array $options = []): string
             }
 
             $r[] = $alias . $attrs[$code]['column'] . ' ' . $operator . ' '
-                . db_quote($v, $attrs[$code]['backend']);
+                . qv($v, $attrs[$code]['backend']);
         }
 
         $columns[$code] = '(' . implode(' OR ', $r) . ')';
@@ -274,7 +274,7 @@ function order(array $order, array $attrs = null): string
         }
 
         $direction = strtoupper($direction) === 'DESC' ? 'DESC' : 'ASC';
-        $columns[$code] = db_quote_identifier($code) . ' ' . $direction;
+        $columns[$code] = qi($code) . ' ' . $direction;
     }
 
     return $columns ? ' ORDER BY ' . implode(', ', $columns) : '';

@@ -41,7 +41,7 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
 
     // Order attributes
     if (empty($orderAttributes['level']['column'])) {
-        $code = db_quote_identifier('level');
+        $code = qi('level');
         $orderAttributes['level']['column'] =  $code;
         $selectLevel = ', ('
             . 'SELECT COUNT(b.' . $attrs['id']['column'] . ') + 1'
@@ -51,7 +51,7 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
     }
 
     if (empty($orderAttributes['parent_id']['column'])) {
-        $code = db_quote_identifier('parent_id');
+        $code = qi('parent_id');
         $orderAttributes['parent_id']['column'] =  $code;
         $selectParentId = ', ('
             . 'SELECT b.' . $attrs['id']['column']
@@ -100,7 +100,7 @@ function nestedset_create(array & $item): bool
 
     $meta = db_meta($item['_meta']);
     $attrs = $meta['attributes'];
-    $cols = db_columns($attrs, $item);
+    $cols = cols($attrs, $item);
 
     if (empty($item['basis']) || !($basisItem = model_load($meta['id'], ['id' => $item['basis']], false))) {
         // No basis given so append node
@@ -186,7 +186,7 @@ function nestedset_save(array & $item): bool
     $meta = db_meta($item['_meta']);
     $attrs = $meta['attributes'];
     $basisItem = [];
-    $cols = db_columns($attrs, $item, ['root_id']);
+    $cols = cols($attrs, $item, ['root_id']);
 
     if (!empty($item['basis']) && ($item['basis'] === $item['_old']['id']
             || !($basisItem = model_load($meta['id'], ['id' => $item['basis']], false))
@@ -243,7 +243,7 @@ function nestedset_save(array & $item): bool
         $diff = $newLft - $lft;
     }
 
-    $idValue = db_quote(cast($attrs['id'], $item['_old']['id']), $attrs['id']['backend']);
+    $idValue = qv(cast($attrs['id'], $item['_old']['id']), $attrs['id']['backend']);
     $setExpr = '';
 
     foreach (array_keys($cols['set']) as $code) {
@@ -251,11 +251,11 @@ function nestedset_save(array & $item): bool
             . ' THEN ' . $cols['param'][$code] . ' ELSE ' . $cols['col'][$code] . ' END';
     }
 
-    $oldRootId = db_quote(
+    $oldRootId = qv(
         cast($attrs['root_id'], $item['_old']['root_id']),
         $attrs['root_id']['backend']
     );
-    $rootId = db_quote(
+    $rootId = qv(
         cast($attrs['root_id'], $item['root_id']),
         $attrs['root_id']['backend']
     );
