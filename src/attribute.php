@@ -497,12 +497,11 @@ function attribute_validate_option(array $attr, array & $item): bool
 function attribute_validate_menubasis(array $attr, array & $item): bool
 {
     $code = $attr['id'];
-    $meta = data('meta', $attr['entity_id']);
 
     if (!empty($item[$code]) && strpos($item[$code], ':') > 0) {
         $parts = explode(':', $item[$code]);
-        $item['root_id'] = attribute_cast($meta['attributes']['root_id'], $parts[0]);
-        $item['basis'] = attribute_cast($meta['attributes']['id'], $parts[1]);
+        $item['root_id'] = attribute_cast($item['_meta']['attributes']['root_id'], $parts[0]);
+        $item['basis'] = attribute_cast($item['_meta']['attributes']['id'], $parts[1]);
     } else {
         $item['_error'][$code] = _('%s is a mandatory field', $attr['name']);
 
@@ -598,7 +597,7 @@ function attribute_validate_unique(array $attr, array & $item): bool
     }
 
     $code = $attr['id'];
-    $entity = $attr['entity_id'];
+    $entity = $item['_meta']['id'];
 
     // Existing values
     if (!isset($data[$entity])) {

@@ -61,8 +61,6 @@ function option_callback(array $attr, array $item): array
             $params[] = $attr;
         } elseif ($param === ':item') {
             $params[] = $item;
-        } elseif (preg_match('#^:(attribute|item)\.(.+)#', $param, $match)) {
-            $params[] = ${$match[1]}[$match[2]] ?? null;
         } else {
             $params[] = $param;
         }
@@ -74,30 +72,29 @@ function option_callback(array $attr, array $item): array
 /**
  * Menubasis
  *
- * @param string $entity
+ * @param array $item
  *
  * @return array
  */
-function option_menubasis(string $entity): array
+function option_menubasis(array $item): array
 {
-    $meta = data('meta', $entity);
-    $collection = model_load($meta['attributes']['root_id']['foreign_entity_id']);
+    $roots = model_load($item['_meta']['attributes']['root_id']['foreign_entity_id']);
     $data = [];
 
-    foreach (model_load($entity) as $item) {
-        if (empty($data[$item['root_id']  . ':0'])) {
-            $data[$item['root_id']  . ':0']['name'] = $collection[$item['root_id']]['name'];
-            $data[$item['root_id']  . ':0']['class'] = 'group';
+    foreach (model_load($item['_meta']['id']) as $menu) {
+        if (empty($data[$menu['root_id']  . ':0'])) {
+            $data[$menu['root_id']  . ':0']['name'] = $roots[$menu['root_id']]['name'];
+            $data[$menu['root_id']  . ':0']['class'] = 'group';
         }
 
-        $data[$item['menubasis']]['name'] = $item['name'];
-        $data[$item['menubasis']]['level'] = $item['level'];
+        $data[$menu['menubasis']]['name'] = $menu['name'];
+        $data[$menu['menubasis']]['level'] = $menu['level'];
     }
 
     // Add roots without items to index menubasis
-    foreach ($collection as $id => $item) {
+    foreach ($roots as $id => $root) {
         if (empty($data[$id  . ':0'])) {
-            $data[$id  . ':0']['name'] = $item['name'];
+            $data[$id  . ':0']['name'] = $root['name'];
             $data[$id  . ':0']['class'] = 'group';
         }
     }

@@ -41,7 +41,6 @@ function meta_entity(array $data): array
 
     foreach ($data['attributes'] as $id => $attr) {
         $attr['id'] = $id;
-        $attr['entity_id'] = $data['id'];
 
         // Replace placeholders
         if (strpos($attr['type'], ':') === 0
