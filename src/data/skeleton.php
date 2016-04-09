@@ -87,7 +87,7 @@ return [
                 'sort_order' => 9930,
                 'type' => 'varchar.select',
                 'description' => '',
-                'options_callback' => 'akilli\attribute_options_menubasis',
+                'options_callback' => 'akilli\option_menubasis',
                 'options_callback_param' => [':attribute.entity_id'],
                 'actions' => ['edit'],
                 'is_required' => true,

@@ -107,149 +107,6 @@ function attribute_viewable(array & $attr): bool
 }
 
 /**
- * Retrieve attribute options
- *
- * @param array $attr
- * @param array $item
- *
- * @return array
- */
-function attribute_options(array $attr, array $item): array
-{
-    if ($attr['backend'] === 'bool') {
-        return attribute_options_bool();
-    } elseif (!empty($attr['foreign_entity_id'])) {
-        return attribute_options_foreign($attr);
-    } elseif (!empty($attr['options_callback'])) {
-        return attribute_options_callback($attr, $item);
-    }
-
-    return attribute_options_translate($attr['options']);
-}
-
-/**
- * Retrieve bool options
- *
- * @return array
- */
-function attribute_options_bool(): array
-{
-    return attribute_options_translate([_('No'), _('Yes')]);
-}
-
-/**
- * Retrieve foreign entity options
- *
- * @param array $attr
- *
- * @return array
- */
-function attribute_options_foreign(array $attr): array
-{
-    return attribute_options_translate(model_load($attr['foreign_entity_id']));
-}
-
-/**
- * Retrieve callback options
- *
- * @param array $attr
- * @param array $item
- *
- * @return array
- */
-function attribute_options_callback(array $attr, array $item): array
-{
-    $params = [];
-
-    foreach ($attr['options_callback_param'] as $param) {
-        if ($param === ':attribute') {
-            $params[] = $attr;
-        } elseif ($param === ':item') {
-            $params[] = $item;
-        } elseif (preg_match('#^:(attribute|item)\.(.+)#', $param, $match)) {
-            $params[] = ${$match[1]}[$match[2]] ?? null;
-        } else {
-            $params[] = $param;
-        }
-    }
-
-    return attribute_options_translate($attr['options_callback'](...$params));
-}
-
-/**
- * Translate options
- *
- * @param array $options
- *
- * @return array
- */
-function attribute_options_translate(array $options): array
-{
-    foreach ($options as $key => $value) {
-        if (is_scalar($value)) {
-            $options[$key] = _($value);
-        } elseif (is_array($value) && !empty($value['name'])) {
-            $options[$key]['name'] = _($value['name']);
-        }
-    }
-
-    return $options;
-}
-
-/**
- * Option name
- *
- * @param int|string $id
- * @param mixed $value
- *
- * @return string
- */
-function attribute_option_name($id, $value): string
-{
-    if (is_array($value) && !empty($value['name'])) {
-        return $value['name'];
-    } elseif (is_scalar($value)) {
-        return (string) $value;
-    }
-
-    return (string) $id;
-}
-
-/**
- * Menubasis
- *
- * @param string $entity
- *
- * @return array
- */
-function attribute_options_menubasis(string $entity): array
-{
-    $meta = data('meta', $entity);
-    $collection = model_load($meta['attributes']['root_id']['foreign_entity_id']);
-    $data = [];
-
-    foreach (model_load($entity) as $item) {
-        if (empty($data[$item['root_id']  . ':0'])) {
-            $data[$item['root_id']  . ':0']['name'] = $collection[$item['root_id']]['name'];
-            $data[$item['root_id']  . ':0']['class'] = 'group';
-        }
-
-        $data[$item['menubasis']]['name'] = $item['name'];
-        $data[$item['menubasis']]['level'] = $item['level'];
-    }
-
-    // Add roots without items to index menubasis
-    foreach ($collection as $id => $item) {
-        if (empty($data[$id  . ':0'])) {
-            $data[$id  . ':0']['name'] = $item['name'];
-            $data[$id  . ':0']['class'] = 'group';
-        }
-    }
-
-    return $data;
-}
-
-/**
  * Load
  *
  * @param array $attr
@@ -600,7 +457,7 @@ function attribute_validate_editor(array $attr, array & $item): bool
  */
 function attribute_validate_option(array $attr, array & $item): bool
 {
-    $attr['options'] = attribute_options($attr, $item);
+    $attr['options'] = option($attr, $item);
     $code = $attr['id'];
     $item[$code] = attribute_cast($attr, $item[$code] ?? null);
 
@@ -713,7 +570,7 @@ function attribute_validate_required(array $attr, array & $item): bool
 
     if (!empty($attr['is_required'])
         && empty($item[$code])
-        && !attribute_options($attr, $item)
+        && !option($attr, $item)
         && !attribute_ignore($attr, $item)
     ) {
         $item['_error'][$code] = _('%s is a mandatory field', $attr['name']);
@@ -834,7 +691,7 @@ function attribute_edit_select(array $attr, array $item): string
     }
 
     $value = attribute_value($attr, $item);
-    $attr['options'] = attribute_options($attr, $item);
+    $attr['options'] = option($attr, $item);
     $htmlId =  html_id($attr, $item);
     $htmlName =  html_name($attr, $item);
     $multiple = !empty($attr['is_multiple']) ? ' multiple="multiple"' : '';
@@ -862,7 +719,7 @@ function attribute_edit_select(array $attr, array $item): string
             }
 
             $html .= '<option value="' . $optionId . '"' . $selected . $class . $level . '>'
-                . attribute_option_name($optionId, $optionValue) . '</option>';
+                . option_name($optionId, $optionValue) . '</option>';
         }
     }
 
@@ -891,7 +748,7 @@ function attribute_edit_input_option(array $attr, array $item): string
     if ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
         $attr['options'] = [1 => _('Yes')];
     } else {
-        $attr['options'] = attribute_options($attr, $item);
+        $attr['options'] = option($attr, $item);
     }
 
     $htmlId =  html_id($attr, $item);
@@ -912,7 +769,7 @@ function attribute_edit_input_option(array $attr, array $item): string
             $html .= '<input id="' . $htmlId . '-' . $optionId . '" type="' . $attr['frontend']
                 . '" name="' . $htmlName . '" value="' . $optionId . '"' . html_required($attr, $item)
                 . html_title($attr) . html_class($attr) . $checked . ' /> <label for="' . $htmlId . '-'
-                . $optionId . '" class="inline">' . attribute_option_name($optionId, $optionValue) . '</label>';
+                . $optionId . '" class="inline">' . option_name($optionId, $optionValue) . '</label>';
         }
     }
 
@@ -1200,7 +1057,7 @@ function attribute_view_option(array $attr, array $item): string
 
     $value = attribute_value($attr, $item);
 
-    if (!$attr['options'] = attribute_options($attr, $item)) {
+    if (!$attr['options'] = option($attr, $item)) {
         return '';
     }
 
