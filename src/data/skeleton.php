@@ -25,7 +25,7 @@ return [
         'load' => 'akilli\attribute_load',
         'save' => 'akilli\attribute_save',
         'delete' => 'akilli\attribute_delete',
-        'validate' => 'akilli\attribute_validate_string',
+        'validate' => 'akilli\validator_string',
         'edit' => 'akilli\attribute_edit_varchar',
         'view' => 'akilli\attribute_view_default',
     ],
@@ -90,7 +90,7 @@ return [
                 'options_callback_param' => [':item'],
                 'actions' => ['edit'],
                 'is_required' => true,
-                'validate' => 'akilli\attribute_validate_menubasis',
+                'validate' => 'akilli\validator_menubasis',
             ],
             'level' => [
                 'name' => 'Level',

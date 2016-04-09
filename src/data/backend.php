@@ -12,7 +12,7 @@ return [
         'name' => 'Datetime',
         'default' => [
             'load' => 'akilli\attribute_load_datetime',
-            'validate' => 'akilli\attribute_validate_datetime',
+            'validate' => 'akilli\validator_datetime',
             'edit' => 'akilli\attribute_edit_datetime',
             'view' => 'akilli\attribute_view_datetime',
         ],

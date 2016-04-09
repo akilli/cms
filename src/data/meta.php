@@ -272,7 +272,7 @@ return [
                 'type' => 'bool.checkbox',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'akilli\attribute_validate',
+                'validate' => 'akilli\validator',
             ],
             'value_datetime' => [
                 'name' => 'Value Datetime',
@@ -281,7 +281,7 @@ return [
                 'type' => 'datetime',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'akilli\attribute_validate',
+                'validate' => 'akilli\validator',
             ],
             'value_decimal' => [
                 'name' => 'Value Decimal',
@@ -290,7 +290,7 @@ return [
                 'type' => 'decimal',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'akilli\attribute_validate',
+                'validate' => 'akilli\validator',
             ],
             'value_int' => [
                 'name' => 'Value Int',
@@ -299,7 +299,7 @@ return [
                 'type' => 'int',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'akilli\attribute_validate',
+                'validate' => 'akilli\validator',
             ],
             'value_text' => [
                 'name' => 'Value Text',
@@ -308,7 +308,7 @@ return [
                 'type' => 'textarea',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'akilli\attribute_validate',
+                'validate' => 'akilli\validator',
             ],
             'value_varchar' => [
                 'name' => 'Value Varchar',
@@ -317,7 +317,7 @@ return [
                 'type' => 'text',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'akilli\attribute_validate',
+                'validate' => 'akilli\validator',
             ],
         ],
     ],

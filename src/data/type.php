@@ -24,7 +24,7 @@ return [
         'backend' => 'varchar',
         'frontend' => 'text',
         'default' => [
-            'validate' => 'akilli\attribute_validate_callback',
+            'validate' => 'akilli\validator_callback',
         ],
     ],
     'date' => [
@@ -51,7 +51,7 @@ return [
         'backend' => 'text',
         'frontend' => 'textarea',
         'default' => [
-            'validate' => 'akilli\attribute_validate_editor',
+            'validate' => 'akilli\validator_editor',
             'view' => 'akilli\attribute_view_editor',
             'class' => ['editor'],
         ],
@@ -111,7 +111,7 @@ return [
         'frontend' => 'textarea',
         'default' => [
             'load' => 'akilli\attribute_load_json',
-            'validate' => 'akilli\attribute_validate_json',
+            'validate' => 'akilli\validator_json',
             'edit' => 'akilli\attribute_edit_json',
         ],
     ],

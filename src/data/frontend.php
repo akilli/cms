@@ -4,7 +4,7 @@ return [
         'id' => 'checkbox',
         'name' => 'Checkbox',
         'default' => [
-            'validate' => 'akilli\attribute_validate_option',
+            'validate' => 'akilli\validator_option',
             'edit' => 'akilli\attribute_edit_input_option',
             'view' => 'akilli\attribute_view_option',
         ],
@@ -25,7 +25,7 @@ return [
         'id' => 'email',
         'name' => 'Email',
         'default' => [
-            'validate' => 'akilli\attribute_validate_email',
+            'validate' => 'akilli\validator_email',
         ],
     ],
     'file' => [
@@ -33,7 +33,7 @@ return [
         'name' => 'File',
         'default' => [
             'delete' => 'akilli\attribute_delete_file',
-            'validate' => 'akilli\attribute_validate_file',
+            'validate' => 'akilli\validator_file',
             'edit' => 'akilli\attribute_edit_file',
             'view' => 'akilli\attribute_view_file',
             'flag' => ['_reset' => 'Reset'],
@@ -47,7 +47,7 @@ return [
         'id' => 'number',
         'name' => 'Number',
         'default' => [
-            'validate' => 'akilli\attribute_validate_number',
+            'validate' => 'akilli\validator_number',
             'edit' => 'akilli\attribute_edit_number',
         ],
     ],
@@ -65,7 +65,7 @@ return [
         'id' => 'radio',
         'name' => 'Radio',
         'default' => [
-            'validate' => 'akilli\attribute_validate_option',
+            'validate' => 'akilli\validator_option',
             'edit' => 'akilli\attribute_edit_input_option',
             'view' => 'akilli\attribute_view_option',
         ],
@@ -82,7 +82,7 @@ return [
         'id' => 'select',
         'name' => 'Select',
         'default' => [
-            'validate' => 'akilli\attribute_validate_option',
+            'validate' => 'akilli\validator_option',
             'edit' => 'akilli\attribute_edit_select',
             'view' => 'akilli\attribute_view_option',
         ],
@@ -110,7 +110,7 @@ return [
         'id' => 'url',
         'name' => 'URL',
         'default' => [
-            'validate' => 'akilli\attribute_validate_url',
+            'validate' => 'akilli\validator_url',
         ],
     ],
     'week' => [
