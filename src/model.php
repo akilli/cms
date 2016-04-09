@@ -97,14 +97,7 @@ function model_load(string $entity, array $criteria = null, $index = null, array
             $item['_id'] = $item['id'];
 
             // Entity load events
-            event(
-                [
-                    'model.load',
-                    'model.load.' . $meta['model'],
-                    'entity.load.' . $entity
-                ],
-                $item
-            );
+            event(['model.load', 'model.load.' . $meta['model'], 'entity.load.' . $entity], $item);
 
             // Single result
             if ($single) {
@@ -207,11 +200,7 @@ function model_save(string $entity, array & $data): bool
             function () use ($entity, & $item, $callback, $meta) {
                 // Entity before save events
                 event(
-                    [
-                        'model.save_before',
-                        'model.save_before.' . $meta['model'],
-                        'entity.save_before.' . $entity
-                    ],
+                    ['model.save_before', 'model.save_before.' . $meta['model'], 'entity.save_before.' . $entity],
                     $item
                 );
 
@@ -222,11 +211,7 @@ function model_save(string $entity, array & $data): bool
 
                 // Entity after save events
                 event(
-                    [
-                        'model.save_after',
-                        'model.save_after.' . $meta['model'],
-                        'entity.save_after.' . $entity
-                    ],
+                    ['model.save_after', 'model.save_after.' . $meta['model'], 'entity.save_after.' . $entity],
                     $item
                 );
             }
@@ -298,11 +283,7 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
             function () use ($entity, & $item, $callback, $meta) {
                 // Entity before delete events
                 event(
-                    [
-                        'model.delete_before',
-                        'model.delete_before.' . $meta['model'],
-                        'entity.delete_before.' . $entity
-                    ],
+                    ['model.delete_before', 'model.delete_before.' . $meta['model'], 'entity.delete_before.' . $entity],
                     $item
                 );
 
@@ -313,11 +294,7 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
 
                 // Entity after delete events
                 event(
-                    [
-                        'model.delete_after',
-                        'model.delete_after.' . $meta['model'],
-                        'entity.delete_after.' . $entity
-                    ],
+                    ['model.delete_after', 'model.delete_after.' . $meta['model'], 'entity.delete_after.' . $entity],
                     $item
                 );
             }

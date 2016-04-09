@@ -94,6 +94,8 @@ function path(string $dir, string $subpath = null): string
 /**
  * Dispatches one or multiple events
  *
+ * Calls all listeners for given event until one listener returns true
+ *
  * @param string|array $event
  * @param array $data
  *
@@ -102,7 +104,6 @@ function path(string $dir, string $subpath = null): string
 function event($event, array & $data)
 {
     foreach ((array) $event as $id) {
-        // Calls all listeners for given event until one listener returns true
         foreach (listener($id) as $listener) {
             if (is_callable($listener) && $listener($data)) {
                 break;

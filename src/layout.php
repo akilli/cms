@@ -25,13 +25,7 @@ function render(string $id): string
     }
 
     // Block Render Events
-    event(
-        [
-            'block.type.' . $block['type'],
-            'block.render.' . $id
-        ],
-        $block
-    );
+    event(['block.type.' . $block['type'], 'block.render.' . $id], $block);
 
     return $type['callback']($block);
 }
