@@ -87,7 +87,7 @@ function layout_handles(): array
 
     if ($data === null) {
         $data = ['layout-base'];
-        $data[] = registered() ? 'account-registered' : 'account-anonymous';
+        $data[] = 'account-' . (registered() ? 'registered' : 'anonymous');
 
         if (admin()) {
             $data[] = 'role-admin';
