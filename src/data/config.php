@@ -86,7 +86,7 @@ return [
     'i18n.date_format' => 'd.m.Y',
     'i18n.datetime_format' => 'd.m.Y H:i',
     'limit.block' => 5,
-    'limit.index' => 20,
+    'limit.index' => 10,
     'limit.list' => 10,
     'meta.title' => 'Akilli CMS',
     'meta.separator' => '|',
