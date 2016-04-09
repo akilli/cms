@@ -103,7 +103,7 @@ function editable(array & $attr, array $item): bool
  */
 function viewable(array & $attr): bool
 {
-    return $attr['action'] === 'system' || $attr['action'] && meta_action($attr['action'], $attr);
+    return $attr['action'] && meta_action($attr['action'], $attr);
 }
 
 /**
@@ -131,7 +131,7 @@ function attribute_load_datetime(array $attr, array $item)
 {
     $code = $attr['id'];
 
-    return empty($item[$code]) || $item[$code] === '0000-00-00 00:00:00' ? null : $item[$code];
+    return empty($item[$code]) ? null : $item[$code];
 }
 
 /**
@@ -580,9 +580,7 @@ function attribute_view_file(array $attr, array $item): string
 
     $value = value($attr, $item);
 
-    if ($attr['action'] === 'system') {
-        return $value;
-    } elseif (!$value || !($file = media_load($value)) || empty(file_ext($attr['type'])[$file['extension']])) {
+    if (!$value || !($file = media_load($value)) || empty(file_ext($attr['type'])[$file['extension']])) {
         return '';
     }
 

@@ -170,20 +170,14 @@ function action_index()
                 $direction = 'asc';
             }
 
-            $attr['url'] = url(
-                '*/*',
-                array_replace($params, ['sort' => $code, 'direction' => $direction])
-            );
+            $attr['url'] = url('*/*', array_replace($params, ['sort' => $code, 'direction' => $direction]));
         }
     );
     unset($params['page']);
 
     // View
     action_internal_view($meta);
-    vars(
-        'entity.' . $action,
-        ['data' => $data, 'header' => _($meta['name']), 'attributes' => $attrs]
-    );
+    vars('entity.' . $action, ['data' => $data, 'header' => _($meta['name']), 'attributes' => $attrs]);
     vars(
         'entity.' . $action . '.pager',
         [
@@ -348,9 +342,7 @@ function action_internal_meta(): array
  */
 function action_internal_view(array $meta, array $item = null)
 {
-    $title = ($item ? $item['name'] : _($meta['name']))
-        . ' ' . config('meta.separator')
-        . ' ' . config('meta.title');
+    $title = ($item['name'] ?? _($meta['name'])) . ' ' . config('meta.separator') . ' ' . config('meta.title');
     layout_load();
     vars('title', ['title' => $title]);
 
