@@ -29,9 +29,7 @@ function nestedset_size(string $entity, array $criteria = null, array $options =
 function nestedset_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
     $meta = db_meta($entity);
-    $attrs = $orderAttributes = $meta['attributes'];
-    $where = 'b.lft < e.lft AND b.rgt > e.rgt AND b.' . $attrs['root_id']['column'] . ' = e.' . $attrs['root_id']['column'];
-    $selectLevel = $selectParentId = '';
+    $attrs = $orderAttrs = $meta['attributes'];
     $options = ['search' => $index === 'search', 'alias' => 'e'];
 
     // Set hierarchy as default order
@@ -40,33 +38,42 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
     }
 
     // Order attributes
-    if (empty($orderAttributes['level']['column'])) {
-        $code = qi('level');
-        $orderAttributes['level']['column'] =  $code;
-        $selectLevel = ', ('
-            . 'SELECT COUNT(b.' . $attrs['id']['column'] . ') + 1'
-            . ' FROM ' . $meta['table'] . ' b'
-            . ' WHERE ' . $where
-            . ') as ' . $code;
-    }
+    $code = qi('level');
+    $orderAttrs['level']['column'] =  $code;
+    $selectLevel = ", (
+        SELECT 
+            COUNT(b.{$attrs['id']['column']}) + 1
+        FROM
+            {$meta['table']} b
+        WHERE 
+            b.lft < e.lft 
+            AND b.rgt > e.rgt 
+            AND b.{$attrs['root_id']['column']} = e.{$attrs['root_id']['column']}
+        ) as $code";
 
-    if (empty($orderAttributes['parent_id']['column'])) {
-        $code = qi('parent_id');
-        $orderAttributes['parent_id']['column'] =  $code;
-        $selectParentId = ', ('
-            . 'SELECT b.' . $attrs['id']['column']
-            . ' FROM ' . $meta['table'] . ' b'
-            . ' WHERE ' . $where
-            . ' ORDER BY b.' . $attrs['lft']['column'] . ' DESC'
-            . ' LIMIT 1'
-            . ')' . ($attrs['id']['backend'] === 'int' ? ' + 0 ' : '') . ' as ' . $code;
-    }
+    $code = qi('parent_id');
+    $orderAttrs['parent_id']['column'] =  $code;
+    $x = $attrs['id']['backend'] === 'int' ? ' + 0 ' : '';
+    $selectParentId = ", (
+        SELECT 
+            b.{$attrs['id']['column']}
+        FROM
+            {$meta['table']} b
+        WHERE 
+            b.lft < e.lft 
+            AND b.rgt > e.rgt 
+            AND b.{$attrs['root_id']['column']} = e.{$attrs['root_id']['column']}
+        ORDER BY 
+            b.{$attrs['lft']['column']} DESC
+        LIMIT 
+            1
+        ) $x as $code";
 
     $stmt = db()->prepare(
         select($attrs, 'e') . $selectLevel . $selectParentId
         . from($meta['table'], 'e')
         . where((array) $criteria, $attrs, $options)
-        . order($order, $orderAttributes)
+        . order($order, $orderAttrs)
         . limit($limit)
     );
     $stmt->execute();
@@ -123,12 +130,16 @@ function nestedset_create(array & $item): bool
         }
 
         // Update position
-        $stmt = db()->prepare(
-            'UPDATE ' . $meta['table']
-            . ' SET lft = CASE WHEN ' . $lft . ' THEN lft + 2 ELSE lft END,'
-            . ' rgt = CASE WHEN ' . $rgt . ' THEN rgt + 2 ELSE rgt END'
-            . ' WHERE (' . $lft . ' OR ' . $rgt . ') AND ' . $attrs['root_id']['column'] . ' = :root_id'
-        );
+        $stmt = db()->prepare("
+            UPDATE 
+                {$meta['table']}
+            SET 
+                lft = CASE WHEN $lft THEN lft + 2 ELSE lft END,
+                rgt = CASE WHEN $rgt THEN rgt + 2 ELSE rgt END
+            WHERE 
+                ($lft OR $rgt) 
+                AND {$attrs['root_id']['column']} = :root_id
+        ");
         $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
         $stmt->execute();
 
@@ -136,12 +147,20 @@ function nestedset_create(array & $item): bool
         $where = ' WHERE ' . $attrs['id']['column'] . ' = :basis AND ' . $attrs['root_id']['column'] . ' = :root_id';
     }
 
-    $stmt = db()->prepare(
-        'INSERT INTO ' . $meta['table'] . ' (' . implode(', ', $cols['col']) . ', lft, rgt)'
-        . ' SELECT ' . implode(', ', $cols['param']) . ', ' . $curLft . ', ' . $curRgt
-        . ' FROM ' . $meta['table']
-        . $where
-    );
+    $colList = implode(', ', $cols['col']);
+    $paramList = implode(', ', $cols['param']);
+    $stmt = db()->prepare("
+        INSERT INTO 
+            {$meta['table']}
+            ($colList, lft, rgt)
+        SELECT 
+            $paramList, 
+            $curLft, 
+            $curRgt
+        FROM 
+            {$meta['table']}
+        $where
+    ");
 
     foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
@@ -186,12 +205,15 @@ function nestedset_save(array & $item): bool
             || $item['_old']['lft'] < $basisItem['lft'] && $item['_old']['rgt'] > $basisItem['rgt'])
     ) {
         // No change in position or wrong basis given
-        $stmt = db()->prepare(
-            'UPDATE ' . $meta['table']
-            . ' SET ' . implode(', ', $cols['set'])
-            . ' WHERE ' . $attrs['id']['column'] . ' = :id'
-        );
-
+        $setList = implode(', ', $cols['set']);
+        $stmt = db()->prepare("
+            UPDATE 
+                {$meta['table']}
+            SET 
+                $setList
+            WHERE 
+                {$attrs['id']['column']} = :id
+        ");
         $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
 
         foreach ($cols['param'] as $code => $param) {
@@ -207,11 +229,14 @@ function nestedset_save(array & $item): bool
     $rgt = $item['_old']['rgt'];
 
     if (empty($item['basis'])) {
-        $stmt = db()->prepare(
-            'SELECT COALESCE(MAX(rgt), 0) + 1 as newlft'
-            . ' FROM ' . $meta['table']
-            . ' WHERE ' . $attrs['root_id']['column'] . ' = :root_id'
-        );
+        $stmt = db()->prepare("
+            SELECT 
+                COALESCE(MAX(rgt), 0) + 1 as newlft
+            FROM 
+                {$meta['table']}
+            WHERE 
+                {$attrs['root_id']['column']} = :root_id
+        ");
         $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
         $stmt->execute();
         $newLft = (int) $stmt->fetchColumn();
@@ -237,8 +262,11 @@ function nestedset_save(array & $item): bool
     $setExpr = '';
 
     foreach (array_keys($cols['set']) as $code) {
-        $setExpr .= ', ' . $cols['col'][$code] . ' = CASE WHEN ' . $attrs['id']['column'] . ' = ' . $idValue
-            . ' THEN ' . $cols['param'][$code] . ' ELSE ' . $cols['col'][$code] . ' END';
+        $setExpr .= ", 
+            {$cols['col'][$code]} = CASE 
+                WHEN {$attrs['id']['column']} = $idValue THEN {$cols['param'][$code]} 
+                ELSE {$cols['col'][$code]}
+             END";
     }
 
     $oldRootId = qv(cast($attrs['root_id'], $item['_old']['root_id']), $attrs['root_id']['backend']);
@@ -252,24 +280,41 @@ function nestedset_save(array & $item): bool
     $newParent = '(rgt >= ' . $newLft . $rootCond . ')';
     $length = $rgt - $lft + 1;
 
-    $stmt = db()->prepare(
-        'UPDATE ' . $meta['table']
-        . ' SET lft = CASE WHEN ' . $oldAfter . ' AND NOT ' . $newAfter . ' THEN lft - ' . $length
-        . ' WHEN ' . $isChild . ' THEN lft + ' . $diff
-        . ' WHEN ' . $newAfter . ' AND NOT ' . $oldAfter . ' THEN lft + ' . $length . ' ELSE lft END,'
-        . ' rgt = CASE WHEN ' . $oldParent . ' AND NOT ' . $newParent . ' THEN rgt - ' . $length
-        . ' WHEN ' . $isChild . ' THEN rgt + ' . $diff
-        . ' WHEN ' . $newParent . ' AND NOT ' . $oldParent . ' THEN rgt + ' . $length . ' ELSE rgt END,'
-        . $attrs['root_id']['column'] . ' = CASE WHEN ' . $isChild . ' THEN ' . $rootId . ' ELSE ' . $attrs['root_id']['column'] . ' END'
-        . $setExpr
-        . ' WHERE ' . $isChild . ' OR ' . $oldAfter . ' OR ' . $oldParent . ' OR ' . $newAfter . ' OR ' . $newParent
-    );
+    $stmt = db()->prepare("
+        UPDATE 
+            {$meta['table']}
+        SET 
+            lft = CASE 
+                WHEN $oldAfter AND NOT $newAfter THEN lft - $length
+                WHEN $isChild THEN lft + $diff
+                WHEN $newAfter AND NOT $oldAfter THEN lft + $length
+                ELSE lft 
+            END,
+            rgt = CASE 
+                WHEN $oldParent AND NOT $newParent THEN rgt - $length
+                WHEN $isChild THEN rgt + $diff
+                WHEN $newParent AND NOT $oldParent THEN rgt + $length 
+                ELSE rgt 
+            END,
+            {$attrs['root_id']['column']} = CASE 
+                WHEN $isChild THEN $rootId 
+                ELSE {$attrs['root_id']['column']}
+            END
+            $setExpr
+        WHERE 
+            $isChild 
+            OR $oldAfter 
+            OR $oldParent 
+            OR $newAfter 
+            OR $newParent
+    ");
 
     foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
 
     $stmt->execute();
+    message($stmt->queryString);
 
     return true;
 }
@@ -292,15 +337,24 @@ function nestedset_delete(array & $item): bool
     $lft = $item['_old']['lft'];
     $rgt = $item['_old']['rgt'];
 
-    $stmt = db()->prepare(
-        'UPDATE ' . $meta['table']
-        . ' SET lft = CASE WHEN lft > ' . $rgt . ' THEN lft - (' . $rgt . ' - ' . $lft . ' + 1)'
-        . ' WHEN lft BETWEEN ' . $lft . ' AND ' . $rgt . ' THEN -1 * lft ELSE lft END,'
-        . ' rgt = CASE WHEN rgt > ' . $rgt . ' THEN rgt - (' . $rgt . ' - ' . $lft . ' + 1)'
-        . ' WHEN lft BETWEEN ' . $lft . ' AND ' . $rgt . ' THEN -1 * rgt ELSE rgt END'
-        . ' WHERE (lft > ' . $rgt . ' OR rgt > ' . $rgt . ' OR lft BETWEEN ' . $lft . ' AND ' . $rgt . ')'
-        . ' AND ' .  $attrs['root_id']['column'] . ' = :root_id'
-    );
+    $stmt = db()->prepare("
+        UPDATE
+            {$meta['table']}
+        SET 
+            lft = CASE 
+                WHEN lft > $rgt THEN lft - ($rgt - $lft + 1)
+                WHEN lft BETWEEN $lft AND $rgt THEN -1 * lft 
+                ELSE lft 
+            END,
+            rgt = CASE 
+                WHEN rgt > $rgt THEN rgt - ($rgt - $lft + 1)
+                WHEN lft BETWEEN $lft AND $rgt THEN -1 * rgt 
+                ELSE rgt 
+            END
+        WHERE 
+            (lft > $rgt OR rgt > $rgt OR lft BETWEEN $lft AND $rgt)
+            AND {$attrs['root_id']['column']} = :root_id
+    ");
     $stmt->bindValue(':root_id', $item['_old']['root_id'], db_type($attrs['root_id'], $item['_old']['root_id']));
     $stmt->execute();
 
