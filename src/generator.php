@@ -12,7 +12,7 @@ namespace akilli;
  */
 function generator_id(string $needle, array & $haystack, $id): string
 {
-    $needle = trim(preg_replace(['#/#', '#[-]+#i'], '-', filter_identifier($needle)), '-_');
+    $needle = trim(preg_replace(['#/#', '#[-]+#i'], '-', filter_id($needle)), '-_');
 
     if (array_search($needle, $haystack) === $id || !in_array($needle, $haystack)) {
         $haystack[$id] = $needle;
@@ -41,7 +41,7 @@ function generator_file(string $str, string $path): string
 {
     $parts = explode('.', $str);
     $ext = array_pop($parts);
-    $str = filter_identifier(implode('-', $parts));
+    $str = filter_id(implode('-', $parts));
 
     if (file_exists($path . '/' . $str . '.' . $ext)) {
         $str .= '-';

@@ -38,7 +38,7 @@ function filter_path(string $path): string
  *
  * @return string
  */
-function filter_identifier(string $id): string
+function filter_id(string $id): string
 {
     static $data, $keys, $charset;
 
