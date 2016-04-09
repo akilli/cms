@@ -175,25 +175,3 @@ function _(string $key, string ...$params): string
 
     return vsprintf($key, $params) ?: $key;
 }
-
-/**
- * Encode
- *
- * @param string|array $var
- *
- * @return string|array
- */
-function encode($var)
-{
-    static $charset;
-
-    if ($charset === null) {
-        $charset = config('i18n.charset');
-    }
-
-    if (is_array($var)) {
-        return array_map(__FUNCTION__, $var);
-    }
-
-    return is_string($var) ? htmlspecialchars($var, ENT_QUOTES, $charset, false) : $var;
-}
