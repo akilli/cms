@@ -1,5 +1,5 @@
-<?php namespace akilli; /** @var array $block */?>
+<?php namespace akilli; /** @var callable $ƒ */?>
 <meta charset="<?= config('i18n.charset');?>" />
-<?php foreach (array_replace(config('meta'), $block['data']()) as $name => $content):?>
+<?php foreach (array_replace(config('meta'), $ƒ()) as $name => $content):?>
 <meta name="<?=$name;?>" content="<?=$content;?>" />
 <?php endforeach;?>

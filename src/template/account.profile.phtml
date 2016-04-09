@@ -1,4 +1,4 @@
-<?php namespace akilli; /** @var array $block */?>
+<?php namespace akilli; /** @var callable $ƒ */?>
 <section class="block block-profile">
     <header>
         <h1><?= _('Profile');?></h1>
@@ -8,7 +8,7 @@
             <legend><?= _('Credentials');?></legend>
             <div class="element attribute-name">
                 <label for="data-name"><?= _('Name');?> <em class="required"><?= _('Required');?></em> <em class="unique"><?= _('Unique');?></em></label>
-                <input id="data-name" type="text" name="data[name]" value="<?=$block['data']('item')['name'];?>" required="required" title="<?= _('Your name');?>" />
+                <input id="data-name" type="text" name="data[name]" value="<?=$ƒ('item')['name'];?>" required="required" title="<?= _('Your name');?>" />
                 <p class="message"><?= _('Your name');?></p>
             </div>
             <div class="element attribute-password">

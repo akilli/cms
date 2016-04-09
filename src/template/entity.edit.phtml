@@ -1,12 +1,12 @@
-<?php namespace akilli; /** @var array $block */?>
+<?php namespace akilli; /** @var callable $ƒ */?>
 <section class="block block-edit">
     <header>
-        <h1><?=$block['data']('header');?></h1>
+        <h1><?=$ƒ('header');?></h1>
     </header>
     <form action="<?= url('*/*');?>" method="post" enctype="multipart/form-data" class="edit">
-        <?php foreach ($block['data']('data') as $id => $item):?>
+        <?php foreach ($ƒ('data') as $id => $item):?>
         <fieldset class="data">
-            <legend><?=$item['name'] ? $item['name'] : $block['data']('header');?></legend>
+            <legend><?=$item['name'] ? $item['name'] : $ƒ('header');?></legend>
             <?php foreach ($item['_meta']['attributes'] as $code => $attr):?>
                 <?php if (!$html = $attr['edit']($attr, $item)) continue;?>
             <div class="element attribute-<?=$attr['id'];?>">

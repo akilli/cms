@@ -1,13 +1,13 @@
-<?php namespace akilli; /** @var array $block */?>
+<?php namespace akilli; /** @var callable $ƒ */?>
 <div class="pager cf">
     <div class="info">
-        <?= _('Results %d to %d of %d', $block['data']('offset') + 1, min($block['data']('offset') + $block['data']('limit'), $block['data']('size')), $block['data']('size'));?>
+        <?= _('Results %d to %d of %d', $ƒ('offset') + 1, min($ƒ('offset') + $ƒ('limit'), $ƒ('size')), $ƒ('size'));?>
     </div>
     <div class="links">
-        <a href="<?=$block['data']('first');?>" title="<?= _('First Page');?>"><?= _('First Page');?></a>
-        <a href="<?=$block['data']('previous');?>" title="<?= _('Previous Page');?>"><?= _('Previous Page');?></a>
-        <span><?= _('Page %d of %d', $block['data']('page'), $block['data']('pages'));?></span>
-        <a href="<?=$block['data']('next');?>" title="<?= _('Next Page');?>"><?= _('Next Page');?></a>
-        <a href="<?=$block['data']('last');?>" title="<?= _('Last Page');?>"><?= _('Last Page');?></a>
+        <a href="<?=$ƒ('first');?>" title="<?= _('First Page');?>"><?= _('First Page');?></a>
+        <a href="<?=$ƒ('previous');?>" title="<?= _('Previous Page');?>"><?= _('Previous Page');?></a>
+        <span><?= _('Page %d of %d', $ƒ('page'), $ƒ('pages'));?></span>
+        <a href="<?=$ƒ('next');?>" title="<?= _('Next Page');?>"><?= _('Next Page');?></a>
+        <a href="<?=$ƒ('last');?>" title="<?= _('Last Page');?>"><?= _('Last Page');?></a>
     </div>
 </div>

@@ -1,14 +1,14 @@
-<?php namespace akilli; /** @var array $block */?>
+<?php namespace akilli; /** @var callable $ƒ */?>
 <section class="block block-index">
     <header>
-        <h1><?=$block['data']('header');?></h1>
+        <h1><?=$ƒ('header');?></h1>
         <div class="tools cf">
             <?= render('entity.index.create');?>
             <?= render('entity.index.search');?>
         </div>
         <?= render('pager');?>
     </header>
-    <?php if ($block['data']('data')):?>
+    <?php if ($ƒ('data')):?>
     <form action="<?= url('*/*');?>" method="post" class="index">
         <fieldset class="data">
             <table>
@@ -17,7 +17,7 @@
                         <th data-type="bool.checkbox">
                             <input type="checkbox" name="gui[checkall]" value="1" title="<?= _('Select all');?>" />
                         </th>
-                        <?php foreach ($block['data']('attributes') as $code => $attr):?>
+                        <?php foreach ($ƒ('attributes') as $code => $attr):?>
                         <th data-type="<?=$attr['backend'];?>.<?=$attr['frontend'];?>">
                             <a href="<?=$attr['url'];?>"><?= _($attr['name']);?></a>
                         </th>
@@ -35,12 +35,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($block['data']('data') as $id => $item):?>
+                    <?php foreach ($ƒ('data') as $id => $item):?>
                     <tr>
                         <td>
                             <input id="data-<?=$id;?>-name" type="checkbox" name="data[<?=$id;?>]" value="1" />
                         </td>
-                        <?php foreach ($block['data']('attributes') as $code => $attr):?>
+                        <?php foreach ($ƒ('attributes') as $code => $attr):?>
                             <?php $attr['action'] = 'index';?>
                         <td>
                             <?=$attr['view']($attr, $item);?>
