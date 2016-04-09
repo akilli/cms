@@ -76,7 +76,7 @@ return [
                 'actions' => ['index'],
                 'is_required' => true,
                 'is_unique' => true,
-                'unique_callback' => 'akilli\attribute_unique',
+                'unique_callback' => 'akilli\generator_id',
                 'unique_base' => 'name',
             ],
             'name' => [
@@ -338,7 +338,7 @@ return [
                 'actions' => ['index'],
                 'is_required' => true,
                 'is_unique' => true,
-                'unique_callback' => 'akilli\attribute_unique',
+                'unique_callback' => 'akilli\generator_id',
                 'unique_base' => 'name',
             ],
             'name' => [
@@ -461,7 +461,7 @@ return [
                 'actions' => ['index'],
                 'is_required' => true,
                 'is_unique' => true,
-                'unique_callback' => 'akilli\attribute_unique',
+                'unique_callback' => 'akilli\generator_id',
                 'unique_base' => 'name',
             ],
             'name' => [
@@ -566,7 +566,7 @@ return [
                 'actions' => ['all'],
                 'is_required' => true,
                 'is_unique' => true,
-                'unique_callback' => 'akilli\attribute_unique',
+                'unique_callback' => 'akilli\generator_id',
             ],
             'target' => [
                 'name' => 'Target',

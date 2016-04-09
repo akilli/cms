@@ -117,7 +117,7 @@ function validator_file(array $attr, array & $item): bool
         return false;
     }
 
-    $value = attribute_unique_file($file['name'], path('media'));
+    $value = generator_file($file['name'], path('media'));
 
     // Upload failed
     if (!file_upload($file['tmp_name'], path('media', $value))) {
