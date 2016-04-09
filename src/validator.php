@@ -4,6 +4,8 @@ namespace akilli;
 /**
  * Validator
  *
+ * Skips attributes that need no validation or are uneditable (unless required and new)
+ *
  * @param array $attr
  * @param array $item
  *
@@ -11,12 +13,9 @@ namespace akilli;
  */
 function validator(array $attr, array & $item): bool
 {
-    // Skip attributes that need no validation or are uneditable (unless required and new)
-    if (!empty($attr['auto']) || !meta_action('edit', $attr) && (empty($attr['is_required']) || !empty($item['_old']))) {
-        return true;
-    }
-
-    return validator_unique($attr, $item) && validator_required($attr, $item);
+    return !empty($attr['auto'])
+        || !meta_action('edit', $attr) && (empty($attr['is_required']) || !empty($item['_old']))
+        || validator_unique($attr, $item) && validator_required($attr, $item);
 }
 
 /**
