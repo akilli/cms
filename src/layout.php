@@ -79,39 +79,32 @@ function & layout(string $id, array $block = null)
 /**
  * Layout handles
  *
- * @param array $handles
- *
  * @return array
  */
-function layout_handles(array $handles = null): array
+function layout_handles(): array
 {
     static $data;
 
-    if ($data === null || $handles !== null) {
-        $data = [];
-        $meta = data('meta', request('entity'));
-
-        if ($handles === null) {
-            $handles[] = 'layout-base';
-        }
-
-        $handles[] = registered() ? 'account-registered' : 'account-anonymous';
+    if ($data === null) {
+        $data = ['layout-base'];
+        $data[] = registered() ? 'account-registered' : 'account-anonymous';
 
         if (admin()) {
-            $handles[] = 'role-admin';
+            $data[] = 'role-admin';
         }
 
         if (request('base') === request('url')) {
-            $handles[] = 'http-base';
+            $data[] = 'http-base';
         }
+
+        $meta = data('meta', request('entity'));
 
         if ($meta && meta_action(request('action'), $meta)) {
-            $handles[] = 'action-' . request('action');
+            $data[] = 'action-' . request('action');
         }
 
-        $handles[] = request('entity');
-        $handles[] = request('id');
-        $data = array_unique($handles);
+        $data[] = request('entity');
+        $data[] = request('id');
     }
 
     return $data;
@@ -120,16 +113,13 @@ function layout_handles(array $handles = null): array
 /**
  * Load layout by handles
  *
- * @param array $handles
- *
  * @return void
  */
-function layout_load(array $handles = null)
+function layout_load()
 {
-    $handles = layout_handles($handles);
     $layout = data('layout');
 
-    foreach ($handles as $handle) {
+    foreach (layout_handles() as $handle) {
         foreach (data_filter($layout, ['handle' => $handle]) as $block) {
             layout_add($block);
         }
