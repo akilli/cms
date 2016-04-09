@@ -39,7 +39,6 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
         }
     }
 
-    // Prepare statement
     $stmt = db()->prepare(
         'SELECT COUNT(*) as total'
         . from($meta['table'], 'e')
@@ -47,7 +46,6 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
         . where($criteria, $attrs, $options)
     );
 
-    // Bind values
     foreach ($params as $code => $param) {
         $stmt->bindValue(
             $param,
@@ -56,13 +54,9 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
         );
     }
 
-    // Execute statement
     $stmt->execute();
 
-    // Result
-    $item = $stmt->fetch();
-
-    return (int) $item['total'];
+    return (int) $stmt->fetch()['total'];
 }
 
 /**
@@ -104,7 +98,6 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
         }
     }
 
-    // Prepare statement
     $stmt = db()->prepare(
         select($attrs)
         . from($meta['table'], 'e')
@@ -114,7 +107,6 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
         . limit($limit)
     );
 
-    // Bind values
     foreach ($params as $code => $param) {
         $stmt->bindValue(
             $param,
@@ -123,10 +115,8 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
         );
     }
 
-    // Execute statement
     $stmt->execute();
 
-    // Result
     return $stmt->fetchAll();
 }
 
@@ -154,26 +144,23 @@ function eav_create(array & $item): bool
     $item['entity_id'] = $meta['id'];
     $cols = cols($contentAttributes, $item);
 
-    // Prepare statement
     $stmt = db()->prepare(
         'INSERT INTO ' . $meta['table']
         . ' (' . implode(', ', $cols['col']) . ') VALUES (' . implode(', ', $cols['param']) . ')'
     );
 
-    // Bind values
     foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
 
-    // Execute statement
     $stmt->execute();
 
-    // Add DB generated id
+    // Set DB generated id
     if (!empty($attrs['id']['auto'])) {
         $item['id'] = (int) db()->lastInsertId($meta['sequence']);
     }
 
-    // Values
+    // Insert values
     if ($valueAttributes) {
         $save = [];
         $i = 0;
@@ -195,7 +182,6 @@ function eav_create(array & $item): bool
             );
         }
 
-        // Create Values
         if (count($save) > 0 && !model_save('eav', $save)) {
             throw new RuntimeException('Save call failed');
         }
@@ -235,24 +221,20 @@ function eav_save(array & $item): bool
     $item['entity_id'] = $meta['id'];
     $cols = cols($contentAttributes, $item);
 
-    // Prepare statement
     $stmt = db()->prepare(
         'UPDATE ' . $meta['table']
         . ' SET ' . implode(', ', $cols['set'])
         . ' WHERE ' . $attrs['id']['column'] . '  = :id'
     );
 
-    // Bind values
     foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
 
     $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
-
-    // Execute statement
     $stmt->execute();
 
-    // Values
+    // Save values
     if ($valueAttributes) {
         $save = [];
         $i = 0;
@@ -277,7 +259,6 @@ function eav_save(array & $item): bool
             }
         }
 
-        // Save Values
         if (!model_save('eav', $save)) {
             throw new RuntimeException('Save call failed');
         }
@@ -295,9 +276,5 @@ function eav_save(array & $item): bool
  */
 function eav_delete(array $item): bool
 {
-    if (empty($item['_meta']) || $item['_meta']['id'] !== $item['entity_id']) {
-        return false;
-    }
-
-    return flat_delete($item);
+    return !empty($item['_meta']['id']) && $item['_meta']['id'] === $item['entity_id'] && flat_delete($item);
 }

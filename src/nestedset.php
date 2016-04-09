@@ -62,7 +62,6 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
             . ')' . ($attrs['id']['backend'] === 'int' ? ' + 0 ' : '') . ' as ' . $code;
     }
 
-    // Prepare statement
     $stmt = db()->prepare(
         select($attrs, 'e') . $selectLevel . $selectParentId
         . from($meta['table'], 'e')
@@ -70,11 +69,8 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
         . order($order, $orderAttributes)
         . limit($limit)
     );
-
-    // Execute statement
     $stmt->execute();
 
-    // Result
     return array_map(
         function (array $item) {
             $item['menubasis'] = $item['root_id'] . ':' . $item['id'];
@@ -140,7 +136,6 @@ function nestedset_create(array & $item): bool
         $where = ' WHERE ' . $attrs['id']['column'] . ' = :basis AND ' . $attrs['root_id']['column'] . ' = :root_id';
     }
 
-    // Prepare statement
     $stmt = db()->prepare(
         'INSERT INTO ' . $meta['table'] . ' (' . implode(', ', $cols['col']) . ', lft, rgt)'
         . ' SELECT ' . implode(', ', $cols['param']) . ', ' . $curLft . ', ' . $curRgt
@@ -148,7 +143,6 @@ function nestedset_create(array & $item): bool
         . $where
     );
 
-    // Bind values
     foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
@@ -159,10 +153,9 @@ function nestedset_create(array & $item): bool
         $stmt->bindValue(':basis', $item['basis'], db_type($attrs['id'], $item['basis']));
     }
 
-    // Execute statement
     $stmt->execute();
 
-    // Add DB generated id
+    // Set DB generated id
     if (!empty($attrs['id']['auto'])) {
         $item['id'] = (int) db()->lastInsertId($meta['sequence']);
     }
@@ -199,15 +192,12 @@ function nestedset_save(array & $item): bool
             . ' WHERE ' . $attrs['id']['column'] . ' = :id'
         );
 
-        // Bind values
         $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
 
-        // Execute statement
         foreach ($cols['param'] as $code => $param) {
             $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
         }
 
-        // Execute statement
         $stmt->execute();
 
         return true;
@@ -251,14 +241,8 @@ function nestedset_save(array & $item): bool
             . ' THEN ' . $cols['param'][$code] . ' ELSE ' . $cols['col'][$code] . ' END';
     }
 
-    $oldRootId = qv(
-        cast($attrs['root_id'], $item['_old']['root_id']),
-        $attrs['root_id']['backend']
-    );
-    $rootId = qv(
-        cast($attrs['root_id'], $item['root_id']),
-        $attrs['root_id']['backend']
-    );
+    $oldRootId = qv(cast($attrs['root_id'], $item['_old']['root_id']), $attrs['root_id']['backend']);
+    $rootId = qv(cast($attrs['root_id'], $item['root_id']), $attrs['root_id']['backend']);
     $oldRootCond = ' AND ' . $attrs['root_id']['column'] . ' = ' . $oldRootId ;
     $rootCond = ' AND ' . $attrs['root_id']['column'] . ' = ' . $rootId;
     $isChild = '(lft BETWEEN ' . $lft . ' AND ' . $rgt . $oldRootCond . ')';
@@ -268,7 +252,6 @@ function nestedset_save(array & $item): bool
     $newParent = '(rgt >= ' . $newLft . $rootCond . ')';
     $length = $rgt - $lft + 1;
 
-    // Prepare statement
     $stmt = db()->prepare(
         'UPDATE ' . $meta['table']
         . ' SET lft = CASE WHEN ' . $oldAfter . ' AND NOT ' . $newAfter . ' THEN lft - ' . $length
@@ -282,12 +265,10 @@ function nestedset_save(array & $item): bool
         . ' WHERE ' . $isChild . ' OR ' . $oldAfter . ' OR ' . $oldParent . ' OR ' . $newAfter . ' OR ' . $newParent
     );
 
-    // Bind values
     foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
 
-    // Execute statement
     $stmt->execute();
 
     return true;
@@ -311,7 +292,6 @@ function nestedset_delete(array & $item): bool
     $lft = $item['_old']['lft'];
     $rgt = $item['_old']['rgt'];
 
-    // Update
     $stmt = db()->prepare(
         'UPDATE ' . $meta['table']
         . ' SET lft = CASE WHEN lft > ' . $rgt . ' THEN lft - (' . $rgt . ' - ' . $lft . ' + 1)'
@@ -321,17 +301,9 @@ function nestedset_delete(array & $item): bool
         . ' WHERE (lft > ' . $rgt . ' OR rgt > ' . $rgt . ' OR lft BETWEEN ' . $lft . ' AND ' . $rgt . ')'
         . ' AND ' .  $attrs['root_id']['column'] . ' = :root_id'
     );
-
-    // Execute update
-    $stmt->bindValue(
-        ':root_id',
-        $item['_old']['root_id'],
-        db_type($attrs['root_id'], $item['_old']['root_id'])
-    );
-
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], db_type($attrs['root_id'], $item['_old']['root_id']));
     $stmt->execute();
 
-    // Delete
     db()->exec('DELETE FROM ' . $meta['table'] . ' WHERE lft < 0');
 
     return true;
