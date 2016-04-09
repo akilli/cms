@@ -72,45 +72,6 @@ function option_callback(array $attr, array $item): array
 }
 
 /**
- * Translate options
- *
- * @param array $options
- *
- * @return array
- */
-function option_translate(array $options): array
-{
-    foreach ($options as $key => $value) {
-        if (is_scalar($value)) {
-            $options[$key] = _($value);
-        } elseif (is_array($value) && !empty($value['name'])) {
-            $options[$key]['name'] = _($value['name']);
-        }
-    }
-
-    return $options;
-}
-
-/**
- * Option name
- *
- * @param int|string $id
- * @param mixed $value
- *
- * @return string
- */
-function option_name($id, $value): string
-{
-    if (is_array($value) && !empty($value['name'])) {
-        return $value['name'];
-    } elseif (is_scalar($value)) {
-        return (string) $value;
-    }
-
-    return (string) $id;
-}
-
-/**
  * Menubasis
  *
  * @param string $entity
@@ -142,4 +103,43 @@ function option_menubasis(string $entity): array
     }
 
     return $data;
+}
+
+/**
+ * Option name
+ *
+ * @param int|string $id
+ * @param mixed $value
+ *
+ * @return string
+ */
+function option_name($id, $value): string
+{
+    if (is_array($value) && !empty($value['name'])) {
+        return $value['name'];
+    } elseif (is_scalar($value)) {
+        return (string) $value;
+    }
+
+    return (string) $id;
+}
+
+/**
+ * Translate options
+ *
+ * @param array $options
+ *
+ * @return array
+ */
+function option_translate(array $options): array
+{
+    foreach ($options as $key => $value) {
+        if (is_scalar($value)) {
+            $options[$key] = _($value);
+        } elseif (is_array($value) && !empty($value['name'])) {
+            $options[$key]['name'] = _($value['name']);
+        }
+    }
+
+    return $options;
 }
