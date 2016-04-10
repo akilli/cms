@@ -4,7 +4,7 @@ namespace akilli;
 use InvalidArgumentException;
 
 /**
- * Render block
+ * Render section
  *
  * @param string $id
  *
@@ -12,24 +12,24 @@ use InvalidArgumentException;
  */
 function §(string $id): string
 {
-    $block = & layout($id);
+    $section = & layout($id);
 
-    if (!$block
-        || empty($block['is_active'])
-        || empty($block['type'])
-        || !($type = data('block', $block['type']))
-        || !empty($block['privilege']) && !allowed($block['privilege'])
+    if (!$section
+        || empty($section['is_active'])
+        || empty($section['type'])
+        || !($type = data('section', $section['type']))
+        || !empty($section['privilege']) && !allowed($section['privilege'])
     ) {
         return '';
     }
 
-    event(['block.type.' . $block['type'], 'block.render.' . $id], $block);
+    event(['section.type.' . $section['type'], 'section.' . $id], $section);
 
-    return $type['callback']($block);
+    return $type['callback']($section);
 }
 
 /**
- * Set block variables
+ * Set section variables
  *
  * @param string $id
  * @param array $vars
@@ -38,10 +38,10 @@ function §(string $id): string
  */
 function vars(string $id, array $vars)
 {
-    $block = & layout($id);
+    $section = & layout($id);
 
     foreach ($vars as $var => $value) {
-        $block['vars'][$var] = $value;
+        $section['vars'][$var] = $value;
     }
 }
 
@@ -49,11 +49,11 @@ function vars(string $id, array $vars)
  * Layout
  *
  * @param string $id
- * @param array $block
+ * @param array $section
  *
  * @return mixed
  */
-function & layout(string $id, array $block = null)
+function & layout(string $id, array $section = null)
 {
     $data = & registry('layout');
 
@@ -61,8 +61,8 @@ function & layout(string $id, array $block = null)
         $data = [];
     }
 
-    if ($block !== null || !array_key_exists($id, $data)) {
-        $data[$id] = $block;
+    if ($section !== null || !array_key_exists($id, $data)) {
+        $data[$id] = $section;
     }
 
     return $data[$id];
@@ -112,70 +112,70 @@ function layout_load()
     $layout = data('layout');
 
     foreach (layout_handles() as $handle) {
-        foreach (data_filter($layout, ['handle' => $handle]) as $block) {
-            layout_add($block);
+        foreach (data_filter($layout, ['handle' => $handle]) as $section) {
+            layout_add($section);
         }
     }
 }
 
 /**
- * Add block to layout
+ * Add section to layout
  *
- * @param array $block
+ * @param array $section
  *
  * @return void
  *
  * @throws InvalidArgumentException
  */
-function layout_add(array $block)
+function layout_add(array $section)
 {
-    if (empty($block['id'])) {
-        throw new InvalidArgumentException('No block ID given');
+    if (empty($section['id'])) {
+        throw new InvalidArgumentException('No section ID given');
     }
 
-    $oldBlock = & layout($block['id']);
+    $data = & layout($section['id']);
 
-    // New blocks
-    if ($oldBlock === null) {
-        $oldBlock = data('skeleton', 'block');
+    // New section
+    if ($data === null) {
+        $data = data('skeleton', 'section');
 
-        if (empty($block['type']) || !data('block', $block['type'])) {
-            throw new InvalidArgumentException('No or invalid block type given for block with ID ' . $block['id']);
+        if (empty($section['type']) || !data('section', $section['type'])) {
+            throw new InvalidArgumentException('No or invalid section type given for section with ID ' . $section['id']);
         }
     }
 
-    if ($block['id'] === 'root') {
-        $block['parent'] = '';
-    } elseif (!empty($block['parent']) && $block['parent'] !== $oldBlock['parent']) {
-        layout_parent($block, $oldBlock['parent']);
+    if ($section['id'] === 'root') {
+        $section['parent'] = '';
+    } elseif (!empty($section['parent']) && $section['parent'] !== $data['parent']) {
+        layout_parent($section, $data['parent']);
     }
 
-    // Add or update block
-    $oldBlock = array_replace($oldBlock, $block);
+    // Add or update section
+    $data = array_replace($data, $section);
 }
 
 /**
- * Sets or updates parent block
+ * Sets or updates parent section
  *
- * @param array $block
+ * @param array $section
  * @param string $oldId
  *
  * @return void
  */
-function layout_parent(array $block, string $oldId)
+function layout_parent(array $section, string $oldId)
 {
     $oldParent = layout($oldId);
-    $parent = layout($block['parent']);
+    $parent = layout($section['parent']);
 
-    // Remove block from old parent block if it exists
+    // Remove section from old parent section if it exists
     if ($oldParent) {
         $oldParent = & layout($oldId);
-        unset($oldParent['children'][$block['id']]);
+        unset($oldParent['children'][$section['id']]);
     }
 
-    // Add block to new parent block if it exists
+    // Add section to new parent section if it exists
     if ($parent) {
-        $parent = & layout($block['parent']);
-        $parent['children'][$block['id']] = isset($block['sort_order']) ? (int) $block['sort_order'] : 0;
+        $parent = & layout($section['parent']);
+        $parent['children'][$section['id']] = isset($section['sort_order']) ? (int) $section['sort_order'] : 0;
     }
 }

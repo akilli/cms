@@ -1,6 +1,6 @@
 <?php namespace akilli; /** @var callable $§ */?>
 <?php if ($item = $§('item')):?>
-<article class="block block-view">
+<article class="section section-view">
     <?php foreach ($item['_meta']['attributes'] as $code => $attr):?>
         <?php $attr['action'] = 'view';?>
         <?php if (!$html = $attr['view']($attr, $item)) continue;?>

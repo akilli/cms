@@ -6,7 +6,7 @@ return [
         'view' => 'view',
         'index' => 'index',
         'list' => 'list',
-        'block' => 'block',
+        'section' => 'section',
     ],
     'action.entity' => [
         'all' => 'all',
@@ -85,9 +85,9 @@ return [
     'i18n.timezone' => 'Europe/Berlin',
     'i18n.date_format' => 'd.m.Y',
     'i18n.datetime_format' => 'd.m.Y H:i',
-    'limit.block' => 5,
     'limit.index' => 10,
     'limit.list' => 10,
+    'limit.section' => 5,
     'meta.title' => 'Akilli CMS',
     'meta.separator' => '|',
     'meta' => [

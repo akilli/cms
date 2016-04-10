@@ -213,7 +213,7 @@ tfoot td,
 /* Color */
 option[selected],
 option.empty,
-main > .block > header > h1,
+main > .section > header > h1,
 #toolbar .toolbar > ul > li > span {
     color: #e14b28;
 }
@@ -334,12 +334,12 @@ fieldset.data > *:not(:first-child) {
 /**
  * Main
  */
-main > .block > header > h1 {
+main > .section > header > h1 {
     margin-bottom: 1rem;
     font-size: 2rem;
 }
 
-main .block-list article {
+main .section-list article {
     margin: 0 0 1rem;
 }
 
@@ -357,17 +357,17 @@ main .block-list article {
 /**
  * Index
  */
-.block-index form.create,
-.block-index form.search {
+.section-index form.create,
+.section-index form.search {
     width: 49.8%;
     float: left;
 }
 
-.block-index .pager {
+.section-index .pager {
     margin-top: 1rem;
 }
 
-.block-index fieldset.data > table {
+.section-index fieldset.data > table {
     margin: 0;
 }
 

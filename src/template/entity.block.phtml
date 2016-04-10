@@ -1,6 +1,6 @@
 <?php namespace akilli; /** @var callable $§ */?>
 <?php if ($§('data')):?>
-<section class="block block-entity">
+<section class="section section-entity">
     <?php if ($§('header')):?>
     <header>
         <h1><?=$§('header');?></h1>
@@ -9,7 +9,7 @@
     <?php foreach ($§('data') as $id => $item):?>
     <article>
         <?php foreach ($item['_meta']['attributes'] as $code => $attr):?>
-            <?php $attr['action'] = 'block';?>
+            <?php $attr['action'] = 'section';?>
             <?php if (!$html = $attr['view']($attr, $item)) continue;?>
             <?php if ($code === 'name'):?>
         <header>

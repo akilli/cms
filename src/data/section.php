@@ -3,36 +3,36 @@ return [
     'container' => [
         'id' => 'container',
         'name' => 'Container',
-        'callback' => 'akilli\block_container',
+        'callback' => 'akilli\section_container',
     ],
     'entity' => [
         'id' => 'entity',
         'name' => 'Entity',
-        'callback' => 'akilli\block_entity',
+        'callback' => 'akilli\section_entity',
     ],
     'menu' => [
         'id' => 'menu',
         'name' => 'Menu',
-        'callback' => 'akilli\block_menu',
+        'callback' => 'akilli\section_menu',
     ],
     'message' => [
         'id' => 'message',
         'name' => 'Message',
-        'callback' => 'akilli\block_message',
+        'callback' => 'akilli\section_message',
     ],
     'pager' => [
         'id' => 'pager',
         'name' => 'Pager',
-        'callback' => 'akilli\block_pager',
+        'callback' => 'akilli\section_pager',
     ],
     'template' => [
         'id' => 'template',
         'name' => 'Template',
-        'callback' => 'akilli\block_template',
+        'callback' => 'akilli\section_template',
     ],
     'toolbar' => [
         'id' => 'toolbar',
         'name' => 'Toolbar',
-        'callback' => 'akilli\block_toolbar',
+        'callback' => 'akilli\section_toolbar',
     ],
 ];
