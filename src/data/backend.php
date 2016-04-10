@@ -11,10 +11,10 @@ return [
         'id' => 'datetime',
         'name' => 'Datetime',
         'default' => [
-            'load' => 'akilli\attribute_load_datetime',
+            'load' => 'akilli\loader_datetime',
             'validate' => 'akilli\validator_datetime',
-            'edit' => 'akilli\attribute_edit_datetime',
-            'view' => 'akilli\attribute_view_datetime',
+            'edit' => 'akilli\editor_datetime',
+            'view' => 'akilli\viewer_datetime',
         ],
     ],
     'decimal' => [

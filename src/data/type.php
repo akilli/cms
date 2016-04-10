@@ -52,7 +52,7 @@ return [
         'frontend' => 'textarea',
         'default' => [
             'validate' => 'akilli\validator_rte',
-            'view' => 'akilli\attribute_view_rte',
+            'view' => 'akilli\viewer_rte',
             'class' => ['rte'],
         ],
     ],
@@ -110,9 +110,9 @@ return [
         'backend' => 'text',
         'frontend' => 'textarea',
         'default' => [
-            'load' => 'akilli\attribute_load_json',
+            'load' => 'akilli\loader_json',
             'validate' => 'akilli\validator_json',
-            'edit' => 'akilli\attribute_edit_json',
+            'edit' => 'akilli\editor_json',
         ],
     ],
     'multicheckbox' => [
@@ -122,8 +122,8 @@ return [
         'frontend' => 'checkbox',
         'default' => [
             'is_multiple' => true,
-            'load' => 'akilli\attribute_load_json',
-            'save' => 'akilli\attribute_save_multiple',
+            'load' => 'akilli\loader_json',
+            'save' => 'akilli\saver_multiple',
         ],
     ],
     'multiselect' => [
@@ -133,8 +133,8 @@ return [
         'frontend' => 'select',
         'default' => [
             'is_multiple' => true,
-            'load' => 'akilli\attribute_load_json',
-            'save' => 'akilli\attribute_save_multiple',
+            'load' => 'akilli\loader_json',
+            'save' => 'akilli\saver_multiple',
         ],
     ],
     'password' => [

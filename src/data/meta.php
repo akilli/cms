@@ -188,7 +188,7 @@ return [
                 'null' => true,
                 'type' => 'textarea',
                 'description' => '',
-                'save' => 'akilli\attribute_save_index',
+                'save' => 'akilli\saver_index',
             ],
             'created' => [
                 'name' => 'Created',

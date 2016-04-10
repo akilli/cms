@@ -5,8 +5,8 @@ return [
         'name' => 'Checkbox',
         'default' => [
             'validate' => 'akilli\validator_option',
-            'edit' => 'akilli\attribute_edit_input_option',
-            'view' => 'akilli\attribute_view_option',
+            'edit' => 'akilli\editor_input_option',
+            'view' => 'akilli\viewer_option',
         ],
     ],
     'color' => [
@@ -32,10 +32,10 @@ return [
         'id' => 'file',
         'name' => 'File',
         'default' => [
-            'delete' => 'akilli\attribute_delete_file',
+            'delete' => 'akilli\deleter_file',
             'validate' => 'akilli\validator_file',
-            'edit' => 'akilli\attribute_edit_file',
-            'view' => 'akilli\attribute_view_file',
+            'edit' => 'akilli\editor_file',
+            'view' => 'akilli\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -48,7 +48,7 @@ return [
         'name' => 'Number',
         'default' => [
             'validate' => 'akilli\validator_number',
-            'edit' => 'akilli\attribute_edit_number',
+            'edit' => 'akilli\editor_number',
         ],
     ],
     'password' => [
@@ -56,9 +56,9 @@ return [
         'name' => 'Password',
         'default' => [
             'is_searchable' => false,
-            'save' => 'akilli\attribute_save_password',
-            'edit' => 'akilli\attribute_edit_password',
-            'view' => 'akilli\attribute_view',
+            'save' => 'akilli\saver_password',
+            'edit' => 'akilli\editor_password',
+            'view' => 'akilli\viewer',
         ],
     ],
     'radio' => [
@@ -66,8 +66,8 @@ return [
         'name' => 'Radio',
         'default' => [
             'validate' => 'akilli\validator_option',
-            'edit' => 'akilli\attribute_edit_input_option',
-            'view' => 'akilli\attribute_view_option',
+            'edit' => 'akilli\editor_input_option',
+            'view' => 'akilli\viewer_option',
         ],
     ],
     'range' => [
@@ -83,8 +83,8 @@ return [
         'name' => 'Select',
         'default' => [
             'validate' => 'akilli\validator_option',
-            'edit' => 'akilli\attribute_edit_select',
-            'view' => 'akilli\attribute_view_option',
+            'edit' => 'akilli\editor_select',
+            'view' => 'akilli\viewer_option',
         ],
     ],
     'tel' => [
@@ -99,7 +99,7 @@ return [
         'id' => 'textarea',
         'name' => 'Textarea',
         'default' => [
-            'edit' => 'akilli\attribute_edit_textarea',
+            'edit' => 'akilli\editor_textarea',
         ],
     ],
     'time' => [
