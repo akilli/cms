@@ -1,6 +1,8 @@
 <?php
 namespace akilli;
 
+use PDO;
+
 /**
  * Size
  *
@@ -103,75 +105,79 @@ function nestedset_create(array & $item): bool
 
     $meta = db_meta($item['_meta']);
     $attrs = $meta['attributes'];
-    $cols = cols($attrs, $item);
+    $cols = cols($attrs, $item, ['root_id']);
+    $rootId = $item['root_id'];
 
     if (empty($item['basis']) || !($basisItem = model_load($meta['id'], ['id' => $item['basis']], false))) {
-        // No basis given so append node
-        $curLft = 'COALESCE(MAX(rgt), 0) + 1';
-        $curRgt = 'COALESCE(MAX(rgt), 0) + 2';
-        $where = 'WHERE ' . $attrs['root_id']['column'] . ' = :root_id';
-    } else {
-        // Basis given so insert new node depending on mode
-        if ($item['mode'] === 'before') {
-            $lft = 'lft >= ' . $basisItem['lft'];
-            $rgt = 'rgt > ' . $basisItem['lft'];
-            $curLft = 'lft - 2';
-            $curRgt = 'lft - 1';
-        } elseif ($item['mode'] === 'child') {
-            $lft = 'lft > ' . $basisItem['rgt'];
-            $rgt = 'rgt >= ' . $basisItem['rgt'];
-            $curLft = 'rgt - 2';
-            $curRgt = 'rgt - 1';
-        } else {
-            $lft = 'lft > ' . $basisItem['rgt'];
-            $rgt = 'rgt > ' . $basisItem['rgt'];
-            $curLft = 'rgt + 1';
-            $curRgt = 'rgt + 2';
-        }
-
-        // Update position
+        // No or wrong basis given so append node
         $stmt = db()->prepare("
-            UPDATE 
+            SELECT 
+                COALESCE(MAX(rgt), 0) + 1 as newlft
+            FROM 
                 {$meta['table']}
-            SET 
-                lft = CASE WHEN $lft THEN lft + 2 ELSE lft END,
-                rgt = CASE WHEN $rgt THEN rgt + 2 ELSE rgt END
             WHERE 
-                ($lft OR $rgt) 
-                AND {$attrs['root_id']['column']} = :root_id
+                {$attrs['root_id']['column']} = :root_id
         ");
-        $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
+        $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
         $stmt->execute();
-
-        // Insert
-        $where = ' WHERE ' . $attrs['id']['column'] . ' = :basis AND ' . $attrs['root_id']['column'] . ' = :root_id';
+        $baseLft = (int) $stmt->fetchColumn();
+    } elseif ($item['mode'] === 'before') {
+        $baseLft = $basisItem['lft'];
+    } elseif ($item['mode'] === 'child') {
+        $baseLft = $basisItem['rgt'];
+    } else {
+        $baseLft = $basisItem['rgt'] + 1;
     }
 
+    $length = 2;
+
+    // Make space in the new tree
+    $stmt = db()->prepare("
+        UPDATE 
+            {$meta['table']}
+        SET
+            lft = lft + :length
+        WHERE
+            {$attrs['root_id']['column']} = :root_id
+            AND lft >= :base_lft 
+    ");
+    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':base_lft', $baseLft, PDO::PARAM_INT);
+    $stmt->bindValue(':length', $length, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $stmt = db()->prepare("
+        UPDATE 
+            {$meta['table']}
+        SET
+            rgt = rgt + :length
+        WHERE
+            {$attrs['root_id']['column']} = :root_id
+            AND rgt >= :base_lft 
+    ");
+    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':base_lft', $baseLft, PDO::PARAM_INT);
+    $stmt->bindValue(':length', $length, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Insert new node
     $colList = implode(', ', $cols['col']);
     $paramList = implode(', ', $cols['param']);
     $stmt = db()->prepare("
         INSERT INTO 
             {$meta['table']}
-            ($colList, lft, rgt)
-        SELECT 
-            $paramList, 
-            $curLft, 
-            $curRgt
-        FROM 
-            {$meta['table']}
-        $where
+            (root_id, lft, rgt, $colList)
+        VALUES 
+            (:root_id, :lft, :rgt, $paramList)
     ");
 
     foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
 
-    $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
-
-    if (!empty($item['basis'])) {
-        $stmt->bindValue(':basis', $item['basis'], db_type($attrs['id'], $item['basis']));
-    }
-
+    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':lft', $baseLft, PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $baseLft + 1, PDO::PARAM_INT);
     $stmt->execute();
 
     // Set DB generated id
@@ -197,37 +203,41 @@ function nestedset_save(array & $item): bool
 
     $meta = db_meta($item['_meta']);
     $attrs = $meta['attributes'];
+    $id = $item['_old']['id'];
+    $rootId = $item['root_id'];
+    $oldRootId = $item['_old']['root_id'];
+    $lft = $item['_old']['lft'];
+    $rgt = $item['_old']['rgt'];
     $basisItem = [];
+
+    // Update all attributes that are not involved with the tree
     $cols = cols($attrs, $item, ['root_id']);
+    $setList = implode(', ', $cols['set']);
+    $stmt = db()->prepare("
+        UPDATE 
+            {$meta['table']}
+        SET 
+            $setList
+        WHERE 
+            {$attrs['id']['column']} = :id
+    ");
+    $stmt->bindValue(':id', $id, db_type($attrs['id'], $id));
 
-    if (!empty($item['basis']) && ($item['basis'] === $item['_old']['id']
+    foreach ($cols['param'] as $code => $param) {
+        $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
+    }
+
+    $stmt->execute();
+
+    // No change in position or wrong basis given
+    if (!empty($item['basis']) && ($item['basis'] === $id
             || !($basisItem = model_load($meta['id'], ['id' => $item['basis']], false))
-            || $item['_old']['lft'] < $basisItem['lft'] && $item['_old']['rgt'] > $basisItem['rgt'])
+            || $lft < $basisItem['lft'] && $rgt > $basisItem['rgt'])
     ) {
-        // No change in position or wrong basis given
-        $setList = implode(', ', $cols['set']);
-        $stmt = db()->prepare("
-            UPDATE 
-                {$meta['table']}
-            SET 
-                $setList
-            WHERE 
-                {$attrs['id']['column']} = :id
-        ");
-        $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
-
-        foreach ($cols['param'] as $code => $param) {
-            $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
-        }
-
-        $stmt->execute();
-
         return true;
     }
 
-    $lft = $item['_old']['lft'];
-    $rgt = $item['_old']['rgt'];
-
+    // Calculate new lft position
     if (empty($item['basis'])) {
         $stmt = db()->prepare("
             SELECT 
@@ -237,84 +247,116 @@ function nestedset_save(array & $item): bool
             WHERE 
                 {$attrs['root_id']['column']} = :root_id
         ");
-        $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
+        $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
         $stmt->execute();
-        $newLft = (int) $stmt->fetchColumn();
+        $baseLft = (int) $stmt->fetchColumn();
     } elseif ($item['mode'] === 'before') {
-        $newLft = $basisItem['lft'];
+        $baseLft = $basisItem['lft'];
     } elseif ($item['mode'] === 'child') {
-        $newLft = $basisItem['rgt'];
+        $baseLft = $basisItem['rgt'];
     } else {
-        $newLft = $basisItem['rgt'] + 1;
+        $baseLft = $basisItem['rgt'] + 1;
     }
 
-    if ($newLft > $lft) {
-        if ($item['_old']['root_id'] !== $item['root_id']) {
-            $diff = $newLft - $rgt + 1;
-        } else {
-            $diff = $newLft - $rgt - 1;
-        }
+    if ($baseLft > $lft) {
+        $diff = $oldRootId !== $rootId ? $baseLft - $rgt + 1 : $baseLft - $rgt - 1;
     } else {
-        $diff = $newLft - $lft;
+        $diff = $baseLft - $lft;
     }
 
-    $idValue = qv(cast($attrs['id'], $item['_old']['id']), $attrs['id']['backend']);
-    $setExpr = '';
-
-    foreach (array_keys($cols['set']) as $code) {
-        $setExpr .= ", 
-            {$cols['col'][$code]} = CASE 
-                WHEN {$attrs['id']['column']} = $idValue THEN {$cols['param'][$code]} 
-                ELSE {$cols['col'][$code]}
-             END";
-    }
-
-    $oldRootId = qv(cast($attrs['root_id'], $item['_old']['root_id']), $attrs['root_id']['backend']);
-    $rootId = qv(cast($attrs['root_id'], $item['root_id']), $attrs['root_id']['backend']);
-    $oldRootCond = ' AND ' . $attrs['root_id']['column'] . ' = ' . $oldRootId ;
-    $rootCond = ' AND ' . $attrs['root_id']['column'] . ' = ' . $rootId;
-    $isChild = '(lft BETWEEN ' . $lft . ' AND ' . $rgt . $oldRootCond . ')';
-    $oldAfter = '(lft > ' . $rgt . $oldRootCond . ')';
-    $oldParent = '(rgt > ' . $rgt . $oldRootCond . ')';
-    $newAfter = '(lft >= ' . $newLft . $rootCond . ')';
-    $newParent = '(rgt >= ' . $newLft . $rootCond . ')';
     $length = $rgt - $lft + 1;
+
+    // Move all affected nodes from old tree and update their positions for the new tree without adding them yet
+    $stmt = db()->prepare("
+        UPDATE 
+            {$meta['table']}
+        SET
+            {$attrs['root_id']['column']} = :root_id,
+            lft = -1 * (lft + :lft_diff),
+            rgt = -1 * (rgt + :rgt_diff)
+        WHERE
+            {$attrs['root_id']['column']} = :old_root_id
+            AND lft BETWEEN :lft AND :rgt
+    ");
+    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':old_root_id', $oldRootId, db_type($attrs['root_id'], $oldRootId));
+    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
+    $stmt->bindValue(':lft_diff', $diff, PDO::PARAM_INT);
+    $stmt->bindValue(':rgt_diff', $diff, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Close gap in old tree
+    $stmt = db()->prepare("
+        UPDATE 
+            {$meta['table']}
+        SET
+            lft = lft - :length
+        WHERE
+            {$attrs['root_id']['column']} = :old_root_id
+            AND lft > :rgt
+    ");
+    $stmt->bindValue(':old_root_id', $oldRootId, db_type($attrs['root_id'], $oldRootId));
+    $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
+    $stmt->bindValue(':length', $length, PDO::PARAM_INT);
+    $stmt->execute();
 
     $stmt = db()->prepare("
         UPDATE 
             {$meta['table']}
-        SET 
-            lft = CASE 
-                WHEN $oldAfter AND NOT $newAfter THEN lft - $length
-                WHEN $isChild THEN lft + $diff
-                WHEN $newAfter AND NOT $oldAfter THEN lft + $length
-                ELSE lft 
-            END,
-            rgt = CASE 
-                WHEN $oldParent AND NOT $newParent THEN rgt - $length
-                WHEN $isChild THEN rgt + $diff
-                WHEN $newParent AND NOT $oldParent THEN rgt + $length 
-                ELSE rgt 
-            END,
-            {$attrs['root_id']['column']} = CASE 
-                WHEN $isChild THEN $rootId 
-                ELSE {$attrs['root_id']['column']}
-            END
-            $setExpr
-        WHERE 
-            $isChild 
-            OR $oldAfter 
-            OR $oldParent 
-            OR $newAfter 
-            OR $newParent
+        SET
+            rgt = rgt - :length
+        WHERE
+            {$attrs['root_id']['column']} = :old_root_id
+            AND rgt > :rgt
     ");
-
-    foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
-    }
-
+    $stmt->bindValue(':old_root_id', $oldRootId, db_type($attrs['root_id'], $oldRootId));
+    $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
+    $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
-    message($stmt->queryString);
+
+    // Make space in the new tree
+    $stmt = db()->prepare("
+        UPDATE 
+            {$meta['table']}
+        SET
+            lft = lft + :length
+        WHERE
+            {$attrs['root_id']['column']} = :root_id
+            AND lft >= :base_lft 
+    ");
+    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':base_lft', $baseLft, PDO::PARAM_INT);
+    $stmt->bindValue(':length', $length, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $stmt = db()->prepare("
+        UPDATE 
+            {$meta['table']}
+        SET
+            rgt = rgt + :length
+        WHERE
+            {$attrs['root_id']['column']} = :root_id
+            AND rgt >= :base_lft 
+    ");
+    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':base_lft', $baseLft, PDO::PARAM_INT);
+    $stmt->bindValue(':length', $length, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Finally add the affected nodes to new tree
+    $stmt = db()->prepare("
+        UPDATE 
+            {$meta['table']}
+        SET
+            lft = -1 * lft,
+            rgt = -1 * rgt
+        WHERE
+            {$attrs['root_id']['column']} = :root_id
+            AND lft < 0
+    ");
+    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->execute();
 
     return true;
 }
@@ -334,28 +376,52 @@ function nestedset_delete(array & $item): bool
 
     $meta = db_meta($item['_meta']);
     $attrs = $meta['attributes'];
+    $rootId = $item['_old']['root_id'];
     $lft = $item['_old']['lft'];
     $rgt = $item['_old']['rgt'];
+    $diff = $rgt - $lft + 1;
+
+    $stmt = db()->prepare("
+        UPDATE
+            {$meta['table']}
+        SET
+            lft = -1 * lft,
+            rgt = -1 * rgt 
+        WHERE 
+            {$attrs['root_id']['column']} = :root_id
+            AND lft BETWEEN :lft AND :rgt
+    ");
+    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
+    $stmt->execute();
 
     $stmt = db()->prepare("
         UPDATE
             {$meta['table']}
         SET 
-            lft = CASE 
-                WHEN lft > $rgt THEN lft - ($rgt - $lft + 1)
-                WHEN lft BETWEEN $lft AND $rgt THEN -1 * lft 
-                ELSE lft 
-            END,
-            rgt = CASE 
-                WHEN rgt > $rgt THEN rgt - ($rgt - $lft + 1)
-                WHEN lft BETWEEN $lft AND $rgt THEN -1 * rgt 
-                ELSE rgt 
-            END
+            lft = lft - :diff
         WHERE 
-            (lft > $rgt OR rgt > $rgt OR lft BETWEEN $lft AND $rgt)
-            AND {$attrs['root_id']['column']} = :root_id
+            {$attrs['root_id']['column']} = :root_id
+            AND lft > :rgt
     ");
-    $stmt->bindValue(':root_id', $item['_old']['root_id'], db_type($attrs['root_id'], $item['_old']['root_id']));
+    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
+    $stmt->bindValue(':diff', $diff, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $stmt = db()->prepare("
+        UPDATE
+            {$meta['table']}
+        SET 
+            rgt = rgt - :diff
+        WHERE 
+            {$attrs['root_id']['column']} = :root_id
+            AND rgt > :rgt
+    ");
+    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
+    $stmt->bindValue(':diff', $diff, PDO::PARAM_INT);
     $stmt->execute();
 
     db()->exec('DELETE FROM ' . $meta['table'] . ' WHERE lft < 0');
