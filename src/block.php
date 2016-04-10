@@ -10,16 +10,16 @@ namespace akilli;
  */
 function block_template(array & $block): string
 {
-    $ƒ = function ($key = null, $default = null) use ($block) {
+    $§ = function ($key = null, $default = null) use ($block) {
         if ($key === null) {
             return isset($block['vars']) && is_array($block['vars']) ? $block['vars'] : [];
         }
 
         return $block['vars'][$key] ?? $default;
     };
-    $output = function (string $§) use ($ƒ) {
+    $output = function (string $ţ) use ($§) {
         ob_start();
-        include path('template', $§);
+        include path('template', $ţ);
 
         return ob_get_clean();
     };

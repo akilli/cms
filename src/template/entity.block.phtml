@@ -1,12 +1,12 @@
-<?php namespace akilli; /** @var callable $ƒ */?>
-<?php if ($ƒ('data')):?>
+<?php namespace akilli; /** @var callable $§ */?>
+<?php if ($§('data')):?>
 <section class="block block-entity">
-    <?php if ($ƒ('header')):?>
+    <?php if ($§('header')):?>
     <header>
-        <h1><?=$ƒ('header');?></h1>
+        <h1><?=$§('header');?></h1>
     </header>
     <?php endif;?>
-    <?php foreach ($ƒ('data') as $id => $item):?>
+    <?php foreach ($§('data') as $id => $item):?>
     <article>
         <?php foreach ($item['_meta']['attributes'] as $code => $attr):?>
             <?php $attr['action'] = 'block';?>

@@ -1,13 +1,13 @@
-<?php namespace akilli; /** @var callable $ƒ */?>
+<?php namespace akilli; /** @var callable $§ */?>
 <section class="block block-list">
     <header>
-        <h1><?=$ƒ('header');?></h1>
+        <h1><?=$§('header');?></h1>
         <?= render('entity.list.search');?>
     </header>
-<?php if ($ƒ('data')):?>
-    <?php foreach ($ƒ('data') as $id => $item):?>
+<?php if ($§('data')):?>
+    <?php foreach ($§('data') as $id => $item):?>
     <article>
-        <?php foreach ($ƒ('attributes') as $code => $attr):?>
+        <?php foreach ($§('attributes') as $code => $attr):?>
             <?php $attr['action'] = 'list';?>
             <?php if (!$html = $attr['view']($attr, $item)) continue;?>
             <?php if ($code === 'name'):?>
