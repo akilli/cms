@@ -2,7 +2,7 @@
 <section class="block block-list">
     <header>
         <h1><?=$ƒ('header');?></h1>
-        <?= render('search');?>
+        <?= render('entity.list.search');?>
     </header>
 <?php if ($ƒ('data')):?>
     <?php foreach ($ƒ('data') as $id => $item):?>
@@ -26,7 +26,7 @@
         <?php endforeach;?>
     </article>
         <?php endforeach;?>
-    <?= render('pager');?>
+    <?= render('entity.list.pager');?>
 <?php else:;?>
     <p><?= _('Nothing created yet');?></p>
 <?php endif;?>
