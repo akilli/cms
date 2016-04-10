@@ -3,10 +3,10 @@
     <header>
         <h1><?=$§('header');?></h1>
         <div class="tools cf">
-            <?= render('entity.index.create');?>
-            <?= render('entity.index.search');?>
+            <?= §('entity.index.create');?>
+            <?= §('entity.index.search');?>
         </div>
-        <?= render('entity.index.pager');?>
+        <?= §('entity.index.pager');?>
     </header>
     <?php if ($§('data')):?>
     <form action="<?= url('*/*');?>" method="post" class="index">

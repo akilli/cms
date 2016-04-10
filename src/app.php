@@ -27,7 +27,7 @@ function app(array $data = [])
 
     event($event, $data);
 
-    echo render('root');
+    echo §('root');
 }
 
 /**

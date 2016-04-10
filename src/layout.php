@@ -10,7 +10,7 @@ use InvalidArgumentException;
  *
  * @return string
  */
-function render(string $id): string
+function §(string $id): string
 {
     $block = & layout($id);
 
