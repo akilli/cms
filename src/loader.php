@@ -11,7 +11,7 @@ namespace akilli;
  */
 function loader(array $attr, array $item)
 {
-    return $attr['load'] ? $attr['load']($attr, $item) : cast($attr, $item[$attr['id']] ?? null);
+    return $attr['loader'] ? $attr['loader']($attr, $item) : cast($attr, $item[$attr['id']] ?? null);
 }
 
 /**

@@ -23,7 +23,7 @@ return [
         'action' => null,
         'unique_callback' => null,
         'unique_base' => null,
-        'load' => null,
+        'loader' => null,
         'save' => null,
         'delete' => null,
         'validate' => null,

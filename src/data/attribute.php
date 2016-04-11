@@ -53,7 +53,7 @@ return [
         'backend' => 'datetime',
         'frontend' => 'date',
         'default' => [
-            'load' => 'akilli\loader_datetime',
+            'loader' => 'akilli\loader_datetime',
             'validate' => 'akilli\validator_datetime',
             'edit' => 'akilli\editor_datetime',
             'view' => 'akilli\viewer_datetime',
@@ -65,7 +65,7 @@ return [
         'backend' => 'datetime',
         'frontend' => 'datetime-local',
         'default' => [
-            'load' => 'akilli\loader_datetime',
+            'loader' => 'akilli\loader_datetime',
             'validate' => 'akilli\validator_datetime',
             'edit' => 'akilli\editor_datetime',
             'view' => 'akilli\viewer_datetime',
@@ -192,7 +192,7 @@ return [
         'backend' => 'text',
         'frontend' => 'textarea',
         'default' => [
-            'load' => 'akilli\loader_json',
+            'loader' => 'akilli\loader_json',
             'validate' => 'akilli\validator_json',
             'edit' => 'akilli\editor_json',
         ],
@@ -204,7 +204,7 @@ return [
         'frontend' => 'checkbox',
         'default' => [
             'is_multiple' => true,
-            'load' => 'akilli\loader_json',
+            'loader' => 'akilli\loader_json',
             'save' => 'akilli\saver_multiple',
             'validate' => 'akilli\validator_option',
             'edit' => 'akilli\editor_input_option',
@@ -218,7 +218,7 @@ return [
         'frontend' => 'select',
         'default' => [
             'is_multiple' => true,
-            'load' => 'akilli\loader_json',
+            'loader' => 'akilli\loader_json',
             'save' => 'akilli\saver_multiple',
             'validate' => 'akilli\validator_option',
             'edit' => 'akilli\editor_select',
