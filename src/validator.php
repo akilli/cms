@@ -370,7 +370,7 @@ function validator_unique(array $attr, array & $item): bool
     }
 
     // Generate unique value
-    if (!empty($attr['unique_callback']) && is_callable($attr['unique_callback'])) {
+    if ($attr['unique_callback']) {
         if (!empty($item[$code])) {
             $base = $item[$code];
         } elseif (!empty($attr['unique_base']) && !empty($item[$attr['unique_base']])) {

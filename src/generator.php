@@ -16,17 +16,15 @@ function generator_id(string $needle, array & $haystack, $id): string
 
     if (array_search($needle, $haystack) === $id || !in_array($needle, $haystack)) {
         $haystack[$id] = $needle;
+    } else {
+        $needle .= '-';
 
-        return $needle;
+        for ($i = 1; in_array($needle . $i, $haystack) && array_search($needle . $i, $haystack) !== $id; $i++);
+    
+        $haystack[$id] = $needle . $i;
     }
 
-    $needle .= '-';
-
-    for ($i = 1; in_array($needle . $i, $haystack) && array_search($needle . $i, $haystack) !== $id; $i++);
-
-    $haystack[$id] = $needle . $i;
-
-    return $needle . $i;
+    return $haystack[$id];
 }
 
 /**
@@ -51,7 +49,5 @@ function generator_file(string $str, string $path): string
         $str .= $i;
     }
 
-    $str .= '.' . $ext;
-
-    return $str;
+    return $str . '.' . $ext;
 }
