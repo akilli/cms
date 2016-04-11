@@ -6,28 +6,21 @@ use InvalidArgumentException;
 /**
  * Runs application
  *
- * @param array $data
- *
  * @return void
  */
-function app(array $data = [])
+function app()
 {
-    $event = 'action.' . request('id');
+    $prefix = __NAMESPACE__ . '\action_';
 
-    if (!$listeners = listener($event)) {
-        $event = 'action.' . request('action');
-        $listeners = listener($event);
+    foreach ([$prefix . request('entity') . '_' . request('action'), $prefix . request('action')] as $action) {
+        if (is_callable($action)) {
+            allowed() ? $action() : action_denied();
+            goto response;
+        }
     }
 
-    if (!$listeners) {
-        $event = 'action.error';
-    } elseif (!allowed()) {
-        $event = 'action.denied';
-    }
-
-    event($event, $data);
-
-    echo §('root');
+    action_error();
+    response: echo §('root');
 }
 
 /**
