@@ -15,7 +15,7 @@ use RuntimeException;
 function meta_entity(array $data): array
 {
     // Check minimum requirements
-    if (empty($data['id']) || empty($data['name']) || empty($data['table']) || empty($data['attributes'])) {
+    if (empty($data['id']) || empty($data['name']) || empty($data['attributes'])) {
         throw new RuntimeException(_('Entity metadata does not meet the minimum requirements'));
     }
 
@@ -30,6 +30,9 @@ function meta_entity(array $data): array
     $skeleton = data('skeleton', 'entity');
     $model = !empty($data['model']) ? $data['model'] : $skeleton['model'];
     $data = array_replace_recursive($skeleton, (array) data('skeleton', 'entity.' . $model), $data);
+
+     // Set quoted table name from ID
+    $data['table'] = qi($data['id']);
 
     // Attributes
     $sortOrder = 0;
@@ -98,6 +101,9 @@ function meta_attribute(array $data): array
     // Model
     $data = array_replace(data('skeleton', 'attribute'), $type['default'], $data);
 
+    // Quote column name
+    $data['column'] = $data['column'] ? qi($data['column']) : null;
+
     // Correct invalid values
     $data['is_required'] = empty($data['null']) && $data['is_required'];
     $data['is_unique'] = !in_array($data['backend'], ['bool', 'text']) && $data['is_unique'];
@@ -116,10 +122,7 @@ function meta_attribute(array $data): array
  */
 function meta_action($action, array $data): bool
 {
-    if (!isset($data['actions'])
-        || !is_array($data['actions']) && !($data['actions'] = json_decode($data['actions'], true))
-        || empty($data['actions'])
-    ) {
+    if (empty($data['actions']) || !is_array($data['actions']) && !($data['actions'] = json_decode($data['actions'], true))) {
         // No actions supported
         return false;
     } elseif (in_array('all', $data['actions']) && ($action !== 'edit' || empty($data['auto']))) {

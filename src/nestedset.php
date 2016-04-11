@@ -30,7 +30,7 @@ function nestedset_size(string $entity, array $criteria = null, array $options =
  */
 function nestedset_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
-    $meta = db_meta($entity);
+    $meta = data('meta', $entity);
     $attrs = $orderAttrs = $meta['attributes'];
     $options = ['search' => $index === 'search', 'alias' => 'e'];
 
@@ -103,7 +103,7 @@ function nestedset_create(array & $item): bool
         return false;
     }
 
-    $meta = db_meta($item['_meta']);
+    $meta = $item['_meta'];
     $attrs = $meta['attributes'];
     $cols = cols($attrs, $item, ['root_id']);
     $rootId = $item['root_id'];
@@ -201,7 +201,7 @@ function nestedset_save(array & $item): bool
         return false;
     }
 
-    $meta = db_meta($item['_meta']);
+    $meta = $item['_meta'];
     $attrs = $meta['attributes'];
     $id = $item['_old']['id'];
     $rootId = $item['root_id'];
@@ -375,7 +375,7 @@ function nestedset_delete(array & $item): bool
         return false;
     }
 
-    $meta = db_meta($item['_meta']);
+    $meta = $item['_meta'];
     $attrs = $meta['attributes'];
     $rootId = $item['_old']['root_id'];
     $lft = $item['_old']['lft'];

@@ -14,9 +14,9 @@ use RuntimeException;
  */
 function eav_size(string $entity, array $criteria = null, array $options = []): int
 {
-    $meta = db_meta($entity);
-    $contentMeta = db_meta('content');
-    $valueMeta = db_meta('eav');
+    $meta = data('meta', $entity);
+    $contentMeta = data('meta', 'content');
+    $valueMeta = data('meta', 'eav');
     $attrs = $meta['attributes'];
     $valueAttributes = array_diff_key($attrs, $contentMeta['attributes']);
     $joins = $params = [];
@@ -71,9 +71,9 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
  */
 function eav_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
-    $meta = db_meta($entity);
-    $contentMeta = db_meta('content');
-    $valueMeta = db_meta('eav');
+    $meta = data('meta', $entity);
+    $contentMeta = data('meta', 'content');
+    $valueMeta = data('meta', 'eav');
     $attrs = $meta['attributes'];
     $valueAttributes = array_diff_key($attrs, $contentMeta['attributes']);
     $joins = $params = [];
@@ -133,8 +133,8 @@ function eav_create(array & $item): bool
         return false;
     }
 
-    $meta = db_meta($item['_meta']);
-    $contentMeta = db_meta('content');
+    $meta = $item['_meta'];
+    $contentMeta = data('meta', 'content');
     $attrs = $meta['attributes'];
     $contentAttributes = $contentMeta['attributes'];
     $valueAttributes = array_diff_key($attrs, $contentAttributes);
@@ -203,8 +203,8 @@ function eav_save(array & $item): bool
         return false;
     }
 
-    $meta = db_meta($item['_meta']);
-    $contentMeta = db_meta('content');
+    $meta = $item['_meta'];
+    $contentMeta = data('meta', 'content');
     $attrs = $meta['attributes'];
     $contentAttributes = $contentMeta['attributes'];
     $valueAttributes = array_diff_key($attrs, $contentAttributes);

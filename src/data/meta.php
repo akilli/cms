@@ -3,7 +3,6 @@ return [
     'account' => [
         'id' => 'account',
         'name' => 'Account',
-        'table' => 'account',
         'actions' => ['create', 'edit', 'delete',  'index'],
         'description' => '',
         'toolbar' => 'acl',
@@ -62,7 +61,6 @@ return [
     'attribute' => [
         'id' => 'attribute',
         'name' => 'Attribute',
-        'table' => 'attribute',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'description' => '',
         'toolbar' => 'types',
@@ -134,7 +132,6 @@ return [
     'content' => [
         'id' => 'content',
         'name' => 'Content',
-        'table' => 'content',
         'description' => '',
         'attributes' => [
             'id' => [
@@ -227,7 +224,6 @@ return [
     'eav' => [
         'id' => 'eav',
         'name' => 'EAV',
-        'table' => 'eav',
         'description' => '',
         'attributes' => [
             'id' => [
@@ -324,7 +320,6 @@ return [
     'entity' => [
         'id' => 'entity',
         'name' => 'Entity',
-        'table' => 'entity',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'description' => '',
         'toolbar' => 'types',
@@ -395,7 +390,6 @@ return [
     'menu' => [
         'id' => 'menu',
         'name' => 'Menu',
-        'table' => 'menu',
         'model' => 'nestedset',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'description' => '',
@@ -447,7 +441,6 @@ return [
     'menu_root' => [
         'id' => 'menu_root',
         'name' => 'Menu Root',
-        'table' => 'menu_root',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'description' => '',
         'toolbar' => 'structure',
@@ -484,7 +477,6 @@ return [
     'meta' => [
         'id' => 'meta',
         'name' => 'Metadata',
-        'table' => 'meta',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'description' => '',
         'toolbar' => 'types',
@@ -552,7 +544,6 @@ return [
     'rewrite' => [
         'id' => 'rewrite',
         'name' => 'Rewrite',
-        'table' => 'rewrite',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'description' => '',
         'toolbar' => 'system',
@@ -595,7 +586,6 @@ return [
     'role' => [
         'id' => 'role',
         'name' => 'Role',
-        'table' => 'role',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'description' => '',
         'toolbar' => 'acl',

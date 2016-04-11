@@ -124,25 +124,6 @@ function qi(string $identifier = null): string
 }
 
 /**
- * Retrieve metadata with quoted table and columns
- *
- * @param string|array $entity
- *
- * @return array
- */
-function db_meta($entity): array
-{
-    $meta = is_array($entity) ? $entity : data('meta', $entity);
-    $meta['table'] = qi($meta['table']);
-
-    foreach ($meta['attributes'] as $code => $attr) {
-        $meta['attributes'][$code]['column'] = qi($attr['column']);
-    }
-
-    return $meta;
-}
-
-/**
  * Prepare columns
  *
  * @param array $attrs

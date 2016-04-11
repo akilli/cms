@@ -12,7 +12,7 @@ namespace akilli;
  */
 function flat_size(string $entity, array $criteria = null, array $options = []): int
 {
-    $meta = db_meta($entity);
+    $meta = data('meta', $entity);
 
     $stmt = db()->prepare(
         'SELECT COUNT(*) as total'
@@ -37,7 +37,7 @@ function flat_size(string $entity, array $criteria = null, array $options = []):
  */
 function flat_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
-    $meta = db_meta($entity);
+    $meta = data('meta', $entity);
     $options = ['search' => $index === 'search'];
 
     $stmt = db()->prepare(
@@ -65,7 +65,7 @@ function flat_create(array & $item): bool
         return false;
     }
 
-    $meta = db_meta($item['_meta']);
+    $meta = $item['_meta'];
     $cols = cols($meta['attributes'], $item);
 
     $stmt = db()->prepare(
@@ -100,7 +100,7 @@ function flat_save(array & $item): bool
         return false;
     }
 
-    $meta = db_meta($item['_meta']);
+    $meta = $item['_meta'];
     $cols = cols($meta['attributes'], $item);
 
     $stmt = db()->prepare(
@@ -132,7 +132,7 @@ function flat_delete(array & $item): bool
         return false;
     }
 
-    $meta = db_meta($item['_meta']);
+    $meta = $item['_meta'];
 
     $stmt = db()->prepare(
         'DELETE FROM ' . $meta['table'] . ' WHERE ' . $meta['attributes']['id']['column'] . '  = :id'
