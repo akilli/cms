@@ -6,7 +6,7 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'delete' => 'akilli\deleter_file',
+            'deleter' => 'akilli\deleter_file',
             'validate' => 'akilli\validator_file',
             'edit' => 'akilli\editor_file',
             'view' => 'akilli\viewer_file',
@@ -110,7 +110,7 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'delete' => 'akilli\deleter_file',
+            'deleter' => 'akilli\deleter_file',
             'validate' => 'akilli\validator_file',
             'edit' => 'akilli\editor_file',
             'view' => 'akilli\viewer_file',
@@ -123,7 +123,7 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'delete' => 'akilli\deleter_file',
+            'deleter' => 'akilli\deleter_file',
             'validate' => 'akilli\validator_file',
             'edit' => 'akilli\editor_file',
             'view' => 'akilli\viewer_file',
@@ -136,7 +136,7 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'delete' => 'akilli\deleter_file',
+            'deleter' => 'akilli\deleter_file',
             'validate' => 'akilli\validator_file',
             'edit' => 'akilli\editor_file',
             'view' => 'akilli\viewer_file',
@@ -306,7 +306,7 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'delete' => 'akilli\deleter_file',
+            'deleter' => 'akilli\deleter_file',
             'validate' => 'akilli\validator_file',
             'edit' => 'akilli\editor_file',
             'view' => 'akilli\viewer_file',

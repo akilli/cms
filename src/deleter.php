@@ -11,7 +11,7 @@ namespace akilli;
  */
 function deleter(array $attr, array & $item): bool
 {
-    return $attr['save'] ? $attr['save']($attr, $item) : true;
+    return $attr['deleter'] ? $attr['deleter']($attr, $item) : true;
 }
 
 /**

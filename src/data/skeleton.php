@@ -25,7 +25,7 @@ return [
         'unique_base' => null,
         'loader' => null,
         'saver' => null,
-        'delete' => null,
+        'deleter' => null,
         'validate' => null,
         'edit' => null,
         'view' => null,
