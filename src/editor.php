@@ -2,17 +2,20 @@
 namespace akilli;
 
 /**
- * Edit
+ * Editor
+ *
+ * @param array $attr
+ * @param array $item
  *
  * @return string
  */
-function editor(): string
+function editor(array $attr, array $item): string
 {
-    return '';
+    return $attr['edit'] ? $attr['edit']($attr, $item) : '';
 }
 
 /**
- * Edit varchar
+ * Varchar editor
  *
  * @param array $attr
  * @param array $item
@@ -33,7 +36,7 @@ function editor_varchar(array $attr, array $item): string
 }
 
 /**
- * Edit select
+ * Select editor
  *
  * @param array $attr
  * @param array $item
@@ -86,7 +89,7 @@ function editor_select(array $attr, array $item): string
 }
 
 /**
- * Edit input checkbox and radio
+ * Input option editor
  *
  * @param array $attr
  * @param array $item
@@ -133,7 +136,7 @@ function editor_input_option(array $attr, array $item): string
 }
 
 /**
- * Edit password
+ * Password editor
  *
  * @param array $attr
  * @param array $item
@@ -155,7 +158,7 @@ function editor_password(array $attr, array $item): string
 }
 
 /**
- * Edit file
+ * File editor
  *
  * @param array $attr
  * @param array $item
@@ -168,7 +171,7 @@ function editor_file(array $attr, array $item): string
         return '';
     }
 
-    $html = '<div>' . $attr['view']($attr, $item) . '</div>'
+    $html = '<div>' . viewer($attr, $item) . '</div>'
         . '<input id="' . html_id($attr, $item) . '" type="file" name="'
         . html_name($attr, $item) . '"' . html_required($attr, $item)
         . html_title($attr) . html_class($attr) . ' />';
@@ -177,7 +180,7 @@ function editor_file(array $attr, array $item): string
 }
 
 /**
- * Edit datetime
+ * Datetime editor
  *
  * @param array $attr
  * @param array $item
@@ -204,7 +207,7 @@ function editor_datetime(array $attr, array $item): string
 }
 
 /**
- * Edit number
+ * Number editor
  *
  * Renders input type range if min and max are set, otherwise input type number
  *
@@ -246,7 +249,7 @@ function editor_number(array $attr, array $item): string
 }
 
 /**
- * Edit textarea
+ * Textarea editor
  *
  * @param array $attr
  * @param array $item
@@ -267,7 +270,7 @@ function editor_textarea(array $attr, array $item): string
 }
 
 /**
- * Edit JSON
+ * JSON editor
  *
  * @param array $attr
  * @param array $item

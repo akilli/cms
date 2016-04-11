@@ -4,8 +4,6 @@ namespace akilli;
 /**
  * Validator
  *
- * Skips attributes that need no validation or are uneditable (unless required and new)
- *
  * @param array $attr
  * @param array $item
  *
@@ -13,9 +11,7 @@ namespace akilli;
  */
 function validator(array $attr, array & $item): bool
 {
-    return !empty($attr['auto'])
-        || !meta_action('edit', $attr) && (empty($attr['is_required']) || !empty($item['_old']))
-        || validator_unique($attr, $item) && validator_required($attr, $item);
+    return (!$attr['validate'] || $attr['validate']($attr, $item)) && validator_default($attr, $item);
 }
 
 /**
@@ -32,7 +28,7 @@ function validator_string(array $attr, array & $item): bool
     $item[$code] = cast($attr, $item[$code] ?? null);
     $item[$code] = trim((string) filter_var($item[$code], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
 
-    return validator($attr, $item);
+    return true;
 }
 
 /**
@@ -55,7 +51,7 @@ function validator_email(array $attr, array & $item): bool
         return false;
     }
 
-    return validator($attr, $item);
+    return true;
 }
 
 /**
@@ -78,7 +74,7 @@ function validator_url(array $attr, array & $item): bool
         return false;
     }
 
-    return validator($attr, $item);
+    return true;
 }
 
 /**
@@ -96,10 +92,7 @@ function validator_file(array $attr, array & $item): bool
     $file = files('data')[$item['_id']][$code] ?? null;
 
     // Delete old file
-    if (!empty($item['_old'][$code])
-        && ($file || !empty($item['_reset'][$code]))
-        && !media_delete($item['_old'][$code])
-    ) {
+    if (!empty($item['_old'][$code]) && ($file || !empty($item['_reset'][$code])) && !media_delete($item['_old'][$code])) {
         $item['_error'][$code] = _('Could not delete old file %s', $item['_old'][$code]);
 
         return false;
@@ -107,7 +100,7 @@ function validator_file(array $attr, array & $item): bool
 
     // No upload
     if (!$file) {
-        return validator($attr, $item);
+        return true;
     }
 
     // Invalid file
@@ -128,7 +121,7 @@ function validator_file(array $attr, array & $item): bool
 
     $item[$code] = $value;
 
-    return validator($attr, $item);
+    return true;
 }
 
 /**
@@ -156,7 +149,7 @@ function validator_datetime(array $attr, array & $item): bool
         }
     }
 
-    return validator($attr, $item);
+    return true;
 }
 
 /**
@@ -172,7 +165,7 @@ function validator_number(array $attr, array & $item): bool
     $code = $attr['id'];
     $item[$code] = cast($attr, $item[$code] ?? null);
 
-    return validator($attr, $item);
+    return true;
 }
 
 /**
@@ -192,7 +185,7 @@ function validator_rte(array $attr, array & $item): bool
         $item[$code] = filter_html($item[$code]);
     }
 
-    return validator($attr, $item);
+    return true;
 }
 
 /**
@@ -231,7 +224,7 @@ function validator_option(array $attr, array & $item): bool
         $item[$code] = null;
     }
 
-    return validator($attr, $item);
+    return true;
 }
 
 /**
@@ -256,7 +249,7 @@ function validator_menubasis(array $attr, array & $item): bool
         return false;
     }
 
-    return validator($attr, $item);
+    return true;
 }
 
 /**
@@ -278,7 +271,7 @@ function validator_callback(array $attr, array & $item): bool
         return false;
     }
 
-    return validator($attr, $item);
+    return true;
 }
 
 /**
@@ -300,7 +293,24 @@ function validator_json(array $attr, array & $item): bool
         return false;
     }
 
-    return validator($attr, $item);
+    return true;
+}
+
+/**
+ * Default validator
+ *
+ * Skips attributes that need no validation or are uneditable (unless required and new)
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return bool
+ */
+function validator_default(array $attr, array & $item): bool
+{
+    return !empty($attr['auto'])
+        || !meta_action('edit', $attr) && (empty($attr['is_required']) || !empty($item['_old']))
+        || validator_unique($attr, $item) && validator_required($attr, $item);
 }
 
 /**

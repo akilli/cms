@@ -2,30 +2,24 @@
 namespace akilli;
 
 /**
- * View
- *
- * @return string
- */
-function viewer(): string
-{
-    return '';
-}
-
-/**
- * View default
+ * Viewer
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function viewer_default(array $attr, array $item): string
+function viewer(array $attr, array $item): string
 {
-    return viewable($attr) ? encode(value($attr, $item)) : '';
+    if (!viewable($attr)) {
+        return '';
+    }
+
+    return $attr['view'] ? $attr['view']($attr, $item) : encode(value($attr, $item));
 }
 
 /**
- * View file
+ * File viewer
  *
  * @param array $attr
  * @param array $item
@@ -34,10 +28,6 @@ function viewer_default(array $attr, array $item): string
  */
 function viewer_file(array $attr, array $item): string
 {
-    if (!viewable($attr)) {
-        return '';
-    }
-
     $value = value($attr, $item);
 
     if (!$value || !($file = media_load($value)) || empty(file_ext($attr['type'])[$file['extension']])) {
@@ -74,7 +64,7 @@ function viewer_file(array $attr, array $item): string
 }
 
 /**
- * View datetime
+ * Datetime viewer
  *
  * @param array $attr
  * @param array $item
@@ -83,10 +73,6 @@ function viewer_file(array $attr, array $item): string
  */
 function viewer_datetime(array $attr, array $item): string
 {
-    if (!viewable($attr)) {
-        return '';
-    }
-
     $code = $attr['id'];
     $format = $attr['frontend'] === 'date' ? config('i18n.date_format') : config('i18n.datetime_format');
 
@@ -94,7 +80,7 @@ function viewer_datetime(array $attr, array $item): string
 }
 
 /**
- * View rich text editor
+ * Rich text editor viewer
  *
  * @param array $attr
  * @param array $item
@@ -103,11 +89,11 @@ function viewer_datetime(array $attr, array $item): string
  */
 function viewer_rte(array $attr, array $item): string
 {
-    return viewable($attr) ? value($attr, $item) : '';
+    return value($attr, $item);
 }
 
 /**
- * View option
+ * Option viewer
  *
  * @param array $attr
  * @param array $item
@@ -116,10 +102,6 @@ function viewer_rte(array $attr, array $item): string
  */
 function viewer_option(array $attr, array $item): string
 {
-    if (!viewable($attr)) {
-        return '';
-    }
-
     $value = value($attr, $item);
 
     if (!$attr['options'] = option($attr, $item)) {

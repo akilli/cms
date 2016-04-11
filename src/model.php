@@ -18,7 +18,7 @@ function model_validate(array & $item): bool
     }
 
     foreach ($item['_meta']['attributes'] as $attr) {
-        if (!$attr['validate']($attr, $item)) {
+        if (!validator($attr, $item)) {
             $error = true;
         }
     }
@@ -84,7 +84,7 @@ function model_load(string $entity, array $criteria = null, $index = null, array
         foreach ($result as $item) {
             foreach ($item as $code => $value) {
                 if (isset($meta['attributes'][$code])) {
-                    $item[$code] = $meta['attributes'][$code]['load']($meta['attributes'][$code], $item);
+                    $item[$code] = loader($meta['attributes'][$code], $item);
                 }
             }
 
@@ -169,7 +169,7 @@ function model_save(string $entity, array & $data): bool
                 continue;
             }
 
-            if (!$meta['attributes'][$code]['save']($meta['attributes'][$code], $item)) {
+            if (!saver($meta['attributes'][$code], $item)) {
                 if (!empty($item['_error'])) {
                     $data[$id]['_error'] = $item['_error'];
                 }
@@ -244,9 +244,7 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
         }
 
         foreach (array_keys($item) as $code) {
-            if (isset($meta['attributes'][$code])
-                && !$meta['attributes'][$code]['delete']($meta['attributes'][$code], $item)
-            ) {
+            if (isset($meta['attributes'][$code]) && !deleter($meta['attributes'][$code], $item)) {
                 if (!empty($item['_error'][$code])) {
                     message($item['_error'][$code]);
                 }

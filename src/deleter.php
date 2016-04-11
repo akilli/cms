@@ -2,17 +2,20 @@
 namespace akilli;
 
 /**
- * Delete
+ * Deleter
+ *
+ * @param array $attr
+ * @param array $item
  *
  * @return bool
  */
-function deleter(): bool
+function deleter(array $attr, array & $item): bool
 {
-    return true;
+    return $attr['save'] ? $attr['save']($attr, $item) : true;
 }
 
 /**
- * Delete file
+ * File deleter
  *
  * @param array $attr
  * @param array $item

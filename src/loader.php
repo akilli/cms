@@ -2,7 +2,7 @@
 namespace akilli;
 
 /**
- * Load
+ * Loader
  *
  * @param array $attr
  * @param array $item
@@ -11,11 +11,11 @@ namespace akilli;
  */
 function loader(array $attr, array $item)
 {
-    return cast($attr, $item[$attr['id']] ?? null);
+    return $attr['load'] ? $attr['load']($attr, $item) : cast($attr, $item[$attr['id']] ?? null);
 }
 
 /**
- * Load datetime
+ * Datetime loader
  *
  * @param array $attr
  * @param array $item
@@ -30,7 +30,7 @@ function loader_datetime(array $attr, array $item)
 }
 
 /**
- * Load JSON
+ * JSON loader
  *
  * @param array $attr
  * @param array $item

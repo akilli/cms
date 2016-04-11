@@ -9,7 +9,7 @@
     <article>
         <?php foreach ($§('attributes') as $code => $attr):?>
             <?php $attr['action'] = 'list';?>
-            <?php if (!$html = $attr['view']($attr, $item)) continue;?>
+            <?php if (!$html = viewer($attr, $item)) continue;?>
             <?php if ($code === 'name'):?>
         <header>
                 <?php if (allowed('view')):?>

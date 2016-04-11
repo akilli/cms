@@ -2,17 +2,20 @@
 namespace akilli;
 
 /**
- * Save
+ * Saver
+ *
+ * @param array $attr
+ * @param array $item
  *
  * @return bool
  */
-function saver(): bool
+function saver(array $attr, array & $item): bool
 {
-    return true;
+    return $attr['save'] ? $attr['save']($attr, $item) : true;
 }
 
 /**
- * Save password
+ * Password saver
  *
  * @param array $attr
  * @param array $item
@@ -31,7 +34,7 @@ function saver_password(array $attr, array & $item): bool
 }
 
 /**
- * Save multiple
+ * Multiple saver
  *
  * @param array $attr
  * @param array $item
@@ -46,7 +49,7 @@ function saver_multiple(array $attr, array & $item): bool
 }
 
 /**
- * Save search index
+ * Search index saver
  *
  * @param array $attr
  * @param array $item

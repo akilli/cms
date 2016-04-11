@@ -44,6 +44,7 @@ return [
         'frontend' => 'text',
         'default' => [
             'validate' => 'akilli\validator_callback',
+            'edit' => 'akilli\editor_varchar',
         ],
     ],
     'date' => [
@@ -100,6 +101,7 @@ return [
         'frontend' => 'email',
         'default' => [
             'validate' => 'akilli\validator_email',
+            'edit' => 'akilli\editor_varchar',
         ],
     ],
     'embed' => [
@@ -231,23 +233,19 @@ return [
         'default' => [
             'is_searchable' => false,
             'save' => 'akilli\saver_password',
+            'validate' => 'akilli\validator_string',
             'edit' => 'akilli\editor_password',
-            'view' => 'akilli\viewer',
         ],
-    ],
-    'tel' => [
-        'id' => 'tel',
-        'name' => 'Telephone Number',
-        'backend' => 'varchar',
-        'frontend' => 'tel',
-        'default' => [],
     ],
     'text' => [
         'id' => 'text',
         'name' => 'Text',
         'backend' => 'varchar',
         'frontend' => 'text',
-        'default' => [],
+        'default' => [
+            'validate' => 'akilli\validator_string',
+            'edit' => 'akilli\editor_varchar',
+        ],
     ],
     'textarea' => [
         'id' => 'textarea',
@@ -255,6 +253,7 @@ return [
         'backend' => 'text',
         'frontend' => 'textarea',
         'default' => [
+            'validate' => 'akilli\validator_string',
             'edit' => 'akilli\editor_textarea',
         ],
     ],
@@ -265,6 +264,7 @@ return [
         'frontend' => 'url',
         'default' => [
             'validate' => 'akilli\validator_url',
+            'edit' => 'akilli\editor_varchar',
         ],
     ],
     'varchar.checkbox' => [

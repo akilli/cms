@@ -268,7 +268,6 @@ return [
                 'description' => '',
                 'is_nullable' => true,
                 'actions' => ['edit'],
-                'validate' => 'akilli\validator',
             ],
             'value_datetime' => [
                 'name' => 'Value Datetime',
@@ -277,7 +276,6 @@ return [
                 'type' => 'datetime',
                 'description' => '',
                 'actions' => ['edit'],
-                'validate' => 'akilli\validator',
             ],
             'value_decimal' => [
                 'name' => 'Value Decimal',
@@ -286,7 +284,6 @@ return [
                 'description' => '',
                 'is_nullable' => true,
                 'actions' => ['edit'],
-                'validate' => 'akilli\validator',
             ],
             'value_int' => [
                 'name' => 'Value Int',
@@ -295,7 +292,6 @@ return [
                 'description' => '',
                 'is_nullable' => true,
                 'actions' => ['edit'],
-                'validate' => 'akilli\validator',
             ],
             'value_text' => [
                 'name' => 'Value Text',
@@ -304,7 +300,6 @@ return [
                 'description' => '',
                 'is_nullable' => true,
                 'actions' => ['edit'],
-                'validate' => 'akilli\validator',
             ],
             'value_varchar' => [
                 'name' => 'Value Varchar',
@@ -313,7 +308,6 @@ return [
                 'description' => '',
                 'is_nullable' => true,
                 'actions' => ['edit'],
-                'validate' => 'akilli\validator',
             ],
         ],
     ],
