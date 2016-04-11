@@ -105,7 +105,7 @@ function meta_attribute(array $data): array
     $data['column'] = $data['column'] ? qi($data['column']) : null;
 
     // Correct invalid values
-    $data['is_required'] = empty($data['null']) && $data['is_required'];
+    $data['is_required'] = empty($data['is_nullable']) && $data['is_required'];
     $data['is_unique'] = !in_array($data['backend'], ['bool', 'text']) && $data['is_unique'];
     $data['is_multiple'] = in_array($data['type'], ['multicheckbox', 'multiselect']);
 

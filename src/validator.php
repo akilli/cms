@@ -227,7 +227,7 @@ function validator_option(array $attr, array & $item): bool
                 return false;
             }
         }
-    } elseif (!empty($attr['null'])) {
+    } elseif (!empty($attr['is_nullable'])) {
         $item[$code] = null;
     }
 

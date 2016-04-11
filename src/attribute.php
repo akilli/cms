@@ -11,7 +11,7 @@ namespace akilli;
  */
 function cast(array $attr, $value)
 {
-    if ($value === null && !empty($attr['null'])) {
+    if ($value === null && !empty($attr['is_nullable'])) {
         return null;
     }
 
