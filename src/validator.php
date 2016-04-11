@@ -11,7 +11,7 @@ namespace akilli;
  */
 function validator(array $attr, array & $item): bool
 {
-    return (!$attr['validate'] || $attr['validate']($attr, $item)) && validator_default($attr, $item);
+    return (!$attr['validator'] || $attr['validator']($attr, $item)) && validator_default($attr, $item);
 }
 
 /**

@@ -26,7 +26,7 @@ return [
         'loader' => null,
         'saver' => null,
         'deleter' => null,
-        'validate' => null,
+        'validator' => null,
         'edit' => null,
         'view' => null,
         'flag' => [],
@@ -82,7 +82,7 @@ return [
                 'options_callback' => 'akilli\option_menubasis',
                 'options_callback_param' => [':item'],
                 'actions' => ['edit'],
-                'validate' => 'akilli\validator_menubasis',
+                'validator' => 'akilli\validator_menubasis',
             ],
             'level' => [
                 'name' => 'Level',
