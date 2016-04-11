@@ -15,7 +15,7 @@ function viewer(array $attr, array $item): string
         return '';
     }
 
-    return $attr['view'] ? $attr['view']($attr, $item) : encode(value($attr, $item));
+    return $attr['viewer'] ? $attr['viewer']($attr, $item) : encode(value($attr, $item));
 }
 
 /**

@@ -9,7 +9,7 @@ return [
             'deleter' => 'akilli\deleter_file',
             'validator' => 'akilli\validator_file',
             'editor' => 'akilli\editor_file',
-            'view' => 'akilli\viewer_file',
+            'viewer' => 'akilli\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -22,7 +22,7 @@ return [
             'options' => ['No', 'Yes'],
             'validator' => 'akilli\validator_option',
             'editor' => 'akilli\editor_input_option',
-            'view' => 'akilli\viewer_option',
+            'viewer' => 'akilli\viewer_option',
         ],
     ],
     'bool.radio' => [
@@ -34,7 +34,7 @@ return [
             'options' => ['No', 'Yes'],
             'validator' => 'akilli\validator_option',
             'editor' => 'akilli\editor_input_option',
-            'view' => 'akilli\viewer_option',
+            'viewer' => 'akilli\viewer_option',
         ],
     ],
     'callback' => [
@@ -56,7 +56,7 @@ return [
             'loader' => 'akilli\loader_datetime',
             'validator' => 'akilli\validator_datetime',
             'editor' => 'akilli\editor_datetime',
-            'view' => 'akilli\viewer_datetime',
+            'viewer' => 'akilli\viewer_datetime',
         ],
     ],
     'datetime' => [
@@ -68,7 +68,7 @@ return [
             'loader' => 'akilli\loader_datetime',
             'validator' => 'akilli\validator_datetime',
             'editor' => 'akilli\editor_datetime',
-            'view' => 'akilli\viewer_datetime',
+            'viewer' => 'akilli\viewer_datetime',
         ],
     ],
     'decimal' => [
@@ -90,7 +90,7 @@ return [
         'default' => [
             'validator' => 'akilli\validator_rte',
             'editor' => 'akilli\editor_textarea',
-            'view' => 'akilli\viewer_rte',
+            'viewer' => 'akilli\viewer_rte',
             'class' => ['rte'],
         ],
     ],
@@ -113,7 +113,7 @@ return [
             'deleter' => 'akilli\deleter_file',
             'validator' => 'akilli\validator_file',
             'editor' => 'akilli\editor_file',
-            'view' => 'akilli\viewer_file',
+            'viewer' => 'akilli\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -126,7 +126,7 @@ return [
             'deleter' => 'akilli\deleter_file',
             'validator' => 'akilli\validator_file',
             'editor' => 'akilli\editor_file',
-            'view' => 'akilli\viewer_file',
+            'viewer' => 'akilli\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -139,7 +139,7 @@ return [
             'deleter' => 'akilli\deleter_file',
             'validator' => 'akilli\validator_file',
             'editor' => 'akilli\editor_file',
-            'view' => 'akilli\viewer_file',
+            'viewer' => 'akilli\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -161,7 +161,7 @@ return [
         'default' => [
             'validator' => 'akilli\validator_option',
             'editor' => 'akilli\editor_input_option',
-            'view' => 'akilli\viewer_option',
+            'viewer' => 'akilli\viewer_option',
         ]
     ],
     'int.radio' => [
@@ -172,7 +172,7 @@ return [
         'default' => [
             'validator' => 'akilli\validator_option',
             'editor' => 'akilli\editor_input_option',
-            'view' => 'akilli\viewer_option',
+            'viewer' => 'akilli\viewer_option',
         ],
     ],
     'int.select' => [
@@ -183,7 +183,7 @@ return [
         'default' => [
             'validator' => 'akilli\validator_option',
             'editor' => 'akilli\editor_select',
-            'view' => 'akilli\viewer_option',
+            'viewer' => 'akilli\viewer_option',
         ],
     ],
     'json' => [
@@ -208,7 +208,7 @@ return [
             'saver' => 'akilli\saver_multiple',
             'validator' => 'akilli\validator_option',
             'editor' => 'akilli\editor_input_option',
-            'view' => 'akilli\viewer_option',
+            'viewer' => 'akilli\viewer_option',
         ],
     ],
     'multiselect' => [
@@ -222,7 +222,7 @@ return [
             'saver' => 'akilli\saver_multiple',
             'validator' => 'akilli\validator_option',
             'editor' => 'akilli\editor_select',
-            'view' => 'akilli\viewer_option',
+            'viewer' => 'akilli\viewer_option',
         ],
     ],
     'password' => [
@@ -275,7 +275,7 @@ return [
         'default' => [
             'validator' => 'akilli\validator_option',
             'editor' => 'akilli\editor_input_option',
-            'view' => 'akilli\viewer_option',
+            'viewer' => 'akilli\viewer_option',
         ]
     ],
     'varchar.radio' => [
@@ -286,7 +286,7 @@ return [
         'default' => [
             'validator' => 'akilli\validator_option',
             'editor' => 'akilli\editor_input_option',
-            'view' => 'akilli\viewer_option',
+            'viewer' => 'akilli\viewer_option',
         ],
     ],
     'varchar.select' => [
@@ -297,7 +297,7 @@ return [
         'default' => [
             'validator' => 'akilli\validator_option',
             'editor' => 'akilli\editor_select',
-            'view' => 'akilli\viewer_option',
+            'viewer' => 'akilli\viewer_option',
         ],
     ],
     'video' => [
@@ -309,7 +309,7 @@ return [
             'deleter' => 'akilli\deleter_file',
             'validator' => 'akilli\validator_file',
             'editor' => 'akilli\editor_file',
-            'view' => 'akilli\viewer_file',
+            'viewer' => 'akilli\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
