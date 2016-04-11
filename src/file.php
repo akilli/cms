@@ -260,8 +260,6 @@ function file_writable(string $path): bool
  * @param string $key
  *
  * @return array
- *
- * @todo Remove or move to filter and split file attribute validators
  */
 function file_ext(string $key): array
 {
