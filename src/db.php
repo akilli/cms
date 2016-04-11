@@ -32,35 +32,21 @@ function trans(callable $callback): bool
 {
     static $level = 0;
 
-    if (++$level === 1) {
-        db()->beginTransaction();
-    } else {
-        db()->exec('SAVEPOINT LEVEL_' . $level);
-    }
+    ++$level === 1 ? db()->beginTransaction() : db()->exec('SAVEPOINT LEVEL_' . $level);
 
     try {
         $callback();
-
-        if ($level === 1) {
-            db()->commit();
-        } else {
-            db()->exec('RELEASE SAVEPOINT LEVEL_' . $level);
-        }
-
+        $level === 1 ? db()->commit() : db()->exec('RELEASE SAVEPOINT LEVEL_' . $level);
         --$level;
     } catch (Exception $e) {
-        if ($level === 1) {
-            db()->rollBack();
-        } else {
-            db()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
-        }
-
+        $level === 1 ? db()->rollBack() : db()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
         --$level;
         error($e);
-        $error = true;
+        
+        return false;
     }
 
-    return empty($error);
+    return true;
 }
 
 /**
