@@ -2,41 +2,6 @@
 namespace akilli;
 
 /**
- * Media load
- *
- * @param string $key
- *
- * @return array|null
- */
-function media_load(string $key = null)
-{
-    static $data;
-
-    if ($data === null) {
-        $data = file_load(path('media'));
-    }
-
-    if ($key === null) {
-        return $data;
-    }
-
-    return $data[$key] ?? null;
-}
-
-/**
- * Media delete
- *
- * @param string $id
- *
- * @return bool
- */
-function media_delete(string $id): bool
-{
-    return file_delete(path('cache', 'media/' . $id))
-        && (!$id || !($media = media_load($id)) || file_delete($media['path']));
-}
-
-/**
  * Media image
  *
  * @param array $media
@@ -44,7 +9,7 @@ function media_delete(string $id): bool
  *
  * @return string
  */
-function media_image(array $media, string $class): string
+function image(array $media, string $class): string
 {
     if (!($config = data('media', $class))
         || !file_exists($media['path'])
@@ -144,4 +109,39 @@ function media_image(array $media, string $class): string
     }
 
     return file_exists($cachePath) ? url_cache('media/' . $cacheId) : url_media($media['id']);
+}
+
+/**
+ * Media load
+ *
+ * @param string $key
+ *
+ * @return array|null
+ */
+function media_load(string $key = null)
+{
+    static $data;
+
+    if ($data === null) {
+        $data = file_load(path('media'));
+    }
+
+    if ($key === null) {
+        return $data;
+    }
+
+    return $data[$key] ?? null;
+}
+
+/**
+ * Media delete
+ *
+ * @param string $id
+ *
+ * @return bool
+ */
+function media_delete(string $id): bool
+{
+    return file_delete(path('cache', 'media/' . $id))
+        && (!$id || !($media = media_load($id)) || file_delete($media['path']));
 }

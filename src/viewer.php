@@ -57,7 +57,7 @@ function viewer_file(array $attr, array $item): string
     $link = '<a href="' . $url . '" title="' . $value . '" class="' . $class . '">' . $value . '</a>';
 
     if ($attr['type'] === 'image') {
-        return '<img src="' . media_image($file, $attr['action']) . '" alt="' . $value . '" title="'
+        return '<img src="' . image($file, $attr['action']) . '" alt="' . $value . '" title="'
             . $value . '" class="' . $class . '" />';
     } elseif ($attr['type'] === 'audio') {
         return '<audio src="' . $url . '" title="' . $value . '" controls="controls" class="' . $class . '"'
