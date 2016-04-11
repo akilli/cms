@@ -61,7 +61,7 @@ function listener_meta(array & $data)
 
     $meta = model_load('meta', null, ['entity_id', 'attribute_id'], ['entity_id' => 'ASC', 'sort_order' => 'ASC']);
     $attrs = model_load('attribute');
-    $types = data('type');
+    $types = data('attribute');
 
     foreach (model_load('entity') as $id => $item) {
         $item = array_replace($data['content'], $item);

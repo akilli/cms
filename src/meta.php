@@ -86,7 +86,7 @@ function meta_attribute(array $data): array
     }
 
     // Type, Backend, Frontend
-    $type = data('type', $data['type']);
+    $type = data('attribute', $data['type']);
 
     if (!$type || empty($type['backend']) || empty($type['frontend'])) {
         throw new RuntimeException(_('Invalid type %s configured for attribute %s', $data['type'], $data['id']));
