@@ -11,7 +11,7 @@ namespace akilli;
  */
 function saver(array $attr, array & $item): bool
 {
-    return $attr['save'] ? $attr['save']($attr, $item) : true;
+    return $attr['saver'] ? $attr['saver']($attr, $item) : true;
 }
 
 /**

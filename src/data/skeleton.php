@@ -24,7 +24,7 @@ return [
         'unique_callback' => null,
         'unique_base' => null,
         'loader' => null,
-        'save' => null,
+        'saver' => null,
         'delete' => null,
         'validate' => null,
         'edit' => null,

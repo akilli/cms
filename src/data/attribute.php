@@ -205,7 +205,7 @@ return [
         'default' => [
             'is_multiple' => true,
             'loader' => 'akilli\loader_json',
-            'save' => 'akilli\saver_multiple',
+            'saver' => 'akilli\saver_multiple',
             'validate' => 'akilli\validator_option',
             'edit' => 'akilli\editor_input_option',
             'view' => 'akilli\viewer_option',
@@ -219,7 +219,7 @@ return [
         'default' => [
             'is_multiple' => true,
             'loader' => 'akilli\loader_json',
-            'save' => 'akilli\saver_multiple',
+            'saver' => 'akilli\saver_multiple',
             'validate' => 'akilli\validator_option',
             'edit' => 'akilli\editor_select',
             'view' => 'akilli\viewer_option',
@@ -232,7 +232,7 @@ return [
         'frontend' => 'password',
         'default' => [
             'is_searchable' => false,
-            'save' => 'akilli\saver_password',
+            'saver' => 'akilli\saver_password',
             'validate' => 'akilli\validator_string',
             'edit' => 'akilli\editor_password',
         ],

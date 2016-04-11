@@ -185,7 +185,7 @@ return [
                 'type' => 'textarea',
                 'description' => '',
                 'is_nullable' => true,
-                'save' => 'akilli\saver_index',
+                'saver' => 'akilli\saver_index',
             ],
             'created' => [
                 'name' => 'Created',
