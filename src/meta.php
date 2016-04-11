@@ -94,17 +94,9 @@ function meta_attribute(array $data): array
 
     $data['backend'] = $type['backend'];
     $data['frontend'] = $type['frontend'];
-    $backend = data('backend', $data['backend']);
-    $frontend = data('frontend', $data['frontend']);
 
     // Model
-    $data = array_replace(
-        data('skeleton', 'attribute'),
-        !empty($backend['default']) ? $backend['default'] : [],
-        !empty($frontend['default']) ? $frontend['default'] : [],
-        !empty($type['default']) ? $type['default'] : [],
-        $data
-    );
+    $data = array_replace(data('skeleton', 'attribute'), $type['default'], $data);
 
     // Correct invalid values
     $data['is_required'] = empty($data['null']) && $data['is_required'];
