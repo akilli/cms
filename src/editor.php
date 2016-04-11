@@ -11,7 +11,7 @@ namespace akilli;
  */
 function editor(array $attr, array $item): string
 {
-    return $attr['edit'] ? $attr['edit']($attr, $item) : '';
+    return $attr['editor'] ? $attr['editor']($attr, $item) : '';
 }
 
 /**

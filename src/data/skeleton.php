@@ -27,7 +27,7 @@ return [
         'saver' => null,
         'deleter' => null,
         'validator' => null,
-        'edit' => null,
+        'editor' => null,
         'view' => null,
         'flag' => [],
         'min' => null,

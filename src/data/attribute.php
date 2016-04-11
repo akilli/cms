@@ -8,7 +8,7 @@ return [
         'default' => [
             'deleter' => 'akilli\deleter_file',
             'validator' => 'akilli\validator_file',
-            'edit' => 'akilli\editor_file',
+            'editor' => 'akilli\editor_file',
             'view' => 'akilli\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
@@ -21,7 +21,7 @@ return [
         'default' => [
             'options' => ['No', 'Yes'],
             'validator' => 'akilli\validator_option',
-            'edit' => 'akilli\editor_input_option',
+            'editor' => 'akilli\editor_input_option',
             'view' => 'akilli\viewer_option',
         ],
     ],
@@ -33,7 +33,7 @@ return [
         'default' => [
             'options' => ['No', 'Yes'],
             'validator' => 'akilli\validator_option',
-            'edit' => 'akilli\editor_input_option',
+            'editor' => 'akilli\editor_input_option',
             'view' => 'akilli\viewer_option',
         ],
     ],
@@ -44,7 +44,7 @@ return [
         'frontend' => 'text',
         'default' => [
             'validator' => 'akilli\validator_callback',
-            'edit' => 'akilli\editor_varchar',
+            'editor' => 'akilli\editor_varchar',
         ],
     ],
     'date' => [
@@ -55,7 +55,7 @@ return [
         'default' => [
             'loader' => 'akilli\loader_datetime',
             'validator' => 'akilli\validator_datetime',
-            'edit' => 'akilli\editor_datetime',
+            'editor' => 'akilli\editor_datetime',
             'view' => 'akilli\viewer_datetime',
         ],
     ],
@@ -67,7 +67,7 @@ return [
         'default' => [
             'loader' => 'akilli\loader_datetime',
             'validator' => 'akilli\validator_datetime',
-            'edit' => 'akilli\editor_datetime',
+            'editor' => 'akilli\editor_datetime',
             'view' => 'akilli\viewer_datetime',
         ],
     ],
@@ -78,7 +78,7 @@ return [
         'frontend' => 'number',
         'default' => [
             'validator' => 'akilli\validator_number',
-            'edit' => 'akilli\editor_number',
+            'editor' => 'akilli\editor_number',
             'step' => 0.01,
         ],
     ],
@@ -89,7 +89,7 @@ return [
         'frontend' => 'textarea',
         'default' => [
             'validator' => 'akilli\validator_rte',
-            'edit' => 'akilli\editor_textarea',
+            'editor' => 'akilli\editor_textarea',
             'view' => 'akilli\viewer_rte',
             'class' => ['rte'],
         ],
@@ -101,7 +101,7 @@ return [
         'frontend' => 'email',
         'default' => [
             'validator' => 'akilli\validator_email',
-            'edit' => 'akilli\editor_varchar',
+            'editor' => 'akilli\editor_varchar',
         ],
     ],
     'embed' => [
@@ -112,7 +112,7 @@ return [
         'default' => [
             'deleter' => 'akilli\deleter_file',
             'validator' => 'akilli\validator_file',
-            'edit' => 'akilli\editor_file',
+            'editor' => 'akilli\editor_file',
             'view' => 'akilli\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
@@ -125,7 +125,7 @@ return [
         'default' => [
             'deleter' => 'akilli\deleter_file',
             'validator' => 'akilli\validator_file',
-            'edit' => 'akilli\editor_file',
+            'editor' => 'akilli\editor_file',
             'view' => 'akilli\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
@@ -138,7 +138,7 @@ return [
         'default' => [
             'deleter' => 'akilli\deleter_file',
             'validator' => 'akilli\validator_file',
-            'edit' => 'akilli\editor_file',
+            'editor' => 'akilli\editor_file',
             'view' => 'akilli\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
@@ -150,7 +150,7 @@ return [
         'frontend' => 'number',
         'default' => [
             'validator' => 'akilli\validator_number',
-            'edit' => 'akilli\editor_number',
+            'editor' => 'akilli\editor_number',
         ],
     ],
     'int.checkbox' => [
@@ -160,7 +160,7 @@ return [
         'frontend' => 'checkbox',
         'default' => [
             'validator' => 'akilli\validator_option',
-            'edit' => 'akilli\editor_input_option',
+            'editor' => 'akilli\editor_input_option',
             'view' => 'akilli\viewer_option',
         ]
     ],
@@ -171,7 +171,7 @@ return [
         'frontend' => 'radio',
         'default' => [
             'validator' => 'akilli\validator_option',
-            'edit' => 'akilli\editor_input_option',
+            'editor' => 'akilli\editor_input_option',
             'view' => 'akilli\viewer_option',
         ],
     ],
@@ -182,7 +182,7 @@ return [
         'frontend' => 'select',
         'default' => [
             'validator' => 'akilli\validator_option',
-            'edit' => 'akilli\editor_select',
+            'editor' => 'akilli\editor_select',
             'view' => 'akilli\viewer_option',
         ],
     ],
@@ -194,7 +194,7 @@ return [
         'default' => [
             'loader' => 'akilli\loader_json',
             'validator' => 'akilli\validator_json',
-            'edit' => 'akilli\editor_json',
+            'editor' => 'akilli\editor_json',
         ],
     ],
     'multicheckbox' => [
@@ -207,7 +207,7 @@ return [
             'loader' => 'akilli\loader_json',
             'saver' => 'akilli\saver_multiple',
             'validator' => 'akilli\validator_option',
-            'edit' => 'akilli\editor_input_option',
+            'editor' => 'akilli\editor_input_option',
             'view' => 'akilli\viewer_option',
         ],
     ],
@@ -221,7 +221,7 @@ return [
             'loader' => 'akilli\loader_json',
             'saver' => 'akilli\saver_multiple',
             'validator' => 'akilli\validator_option',
-            'edit' => 'akilli\editor_select',
+            'editor' => 'akilli\editor_select',
             'view' => 'akilli\viewer_option',
         ],
     ],
@@ -234,7 +234,7 @@ return [
             'is_searchable' => false,
             'saver' => 'akilli\saver_password',
             'validator' => 'akilli\validator_string',
-            'edit' => 'akilli\editor_password',
+            'editor' => 'akilli\editor_password',
         ],
     ],
     'text' => [
@@ -244,7 +244,7 @@ return [
         'frontend' => 'text',
         'default' => [
             'validator' => 'akilli\validator_string',
-            'edit' => 'akilli\editor_varchar',
+            'editor' => 'akilli\editor_varchar',
         ],
     ],
     'textarea' => [
@@ -254,7 +254,7 @@ return [
         'frontend' => 'textarea',
         'default' => [
             'validator' => 'akilli\validator_string',
-            'edit' => 'akilli\editor_textarea',
+            'editor' => 'akilli\editor_textarea',
         ],
     ],
     'url' => [
@@ -264,7 +264,7 @@ return [
         'frontend' => 'url',
         'default' => [
             'validator' => 'akilli\validator_url',
-            'edit' => 'akilli\editor_varchar',
+            'editor' => 'akilli\editor_varchar',
         ],
     ],
     'varchar.checkbox' => [
@@ -274,7 +274,7 @@ return [
         'frontend' => 'checkbox',
         'default' => [
             'validator' => 'akilli\validator_option',
-            'edit' => 'akilli\editor_input_option',
+            'editor' => 'akilli\editor_input_option',
             'view' => 'akilli\viewer_option',
         ]
     ],
@@ -285,7 +285,7 @@ return [
         'frontend' => 'radio',
         'default' => [
             'validator' => 'akilli\validator_option',
-            'edit' => 'akilli\editor_input_option',
+            'editor' => 'akilli\editor_input_option',
             'view' => 'akilli\viewer_option',
         ],
     ],
@@ -296,7 +296,7 @@ return [
         'frontend' => 'select',
         'default' => [
             'validator' => 'akilli\validator_option',
-            'edit' => 'akilli\editor_select',
+            'editor' => 'akilli\editor_select',
             'view' => 'akilli\viewer_option',
         ],
     ],
@@ -308,7 +308,7 @@ return [
         'default' => [
             'deleter' => 'akilli\deleter_file',
             'validator' => 'akilli\validator_file',
-            'edit' => 'akilli\editor_file',
+            'editor' => 'akilli\editor_file',
             'view' => 'akilli\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
