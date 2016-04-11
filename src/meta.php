@@ -31,8 +31,8 @@ function meta_entity(array $data): array
     $model = !empty($data['model']) ? $data['model'] : $skeleton['model'];
     $data = array_replace_recursive($skeleton, (array) data('skeleton', 'entity.' . $model), $data);
 
-     // Set quoted table name from ID
-    $data['table'] = qi($data['id']);
+     // Set table name from ID if it is not set already and quote it
+    $data['table'] = $data['table'] ? qi($data['table']) : qi($data['id']);
 
     // Attributes
     $sortOrder = 0;
