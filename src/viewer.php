@@ -19,48 +19,34 @@ function viewer(array $attr, array $item): string
 }
 
 /**
- * File viewer
+ * Option viewer
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function viewer_file(array $attr, array $item): string
+function viewer_option(array $attr, array $item): string
 {
     $value = value($attr, $item);
 
-    if (!$value || !($file = media_load($value)) || empty(file_ext($attr['type'])[$file['extension']])) {
+    if (!$attr['options'] = option($attr, $item)) {
         return '';
     }
 
-    $class = 'file-' . $attr['type'] . ' media-' . $attr['action'];
-    $config = data('media', $attr['action']);
+    $values = [];
 
-    if ($config) {
-        $style = ' style="max-width:' . $config['width'] . 'px;max-height:' . $config['height'] . 'px;"';
-    } else {
-        $style = '';
+    foreach ((array) $value as $v) {
+        if (!empty($attr['options'][$v])) {
+            if (is_array($attr['options'][$v]) && !empty($attr['options'][$v]['name'])) {
+                $values[] = $attr['options'][$v]['name'];
+            } elseif (is_scalar($attr['options'][$v])) {
+                $values[] = $attr['options'][$v];
+            }
+        }
     }
 
-    $url = url_media($value);
-    $link = '<a href="' . $url . '" title="' . $value . '" class="' . $class . '">' . $value . '</a>';
-
-    if ($attr['type'] === 'image') {
-        return '<img src="' . image($file, $attr['action']) . '" alt="' . $value . '" title="'
-            . $value . '" class="' . $class . '" />';
-    } elseif ($attr['type'] === 'audio') {
-        return '<audio src="' . $url . '" title="' . $value . '" controls="controls" class="' . $class . '"'
-            . $style . '>' . $link . '</audio>';
-    } elseif ($attr['type'] === 'video') {
-        return '<video src="' . $url . '" title="' . $value . '" controls="controls" class="' . $class . '"'
-            . $style . '>' . $link . '</video>';
-    } elseif ($attr['type'] === 'embed') {
-        return '<embed src="' . $url . '" title="' . $value . '" autoplay="no" loop="no" class="' . $class . '"'
-            . $style . ' />';
-    }
-
-    return $link;
+    return encode(implode(', ', $values));
 }
 
 /**
@@ -93,32 +79,86 @@ function viewer_rte(array $attr, array $item): string
 }
 
 /**
- * Option viewer
+ * Audio viewer
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function viewer_option(array $attr, array $item): string
+function viewer_audio(array $attr, array $item): string
 {
-    $value = value($attr, $item);
-
-    if (!$attr['options'] = option($attr, $item)) {
-        return '';
+    if (($value = value($attr, $item)) && media_load($value)) {
+        return '<audio src="' . url_media($value) . '" controls="controls"></audio>';
     }
 
-    $values = [];
+    return '';
+}
 
-    foreach ((array) $value as $v) {
-        if (!empty($attr['options'][$v])) {
-            if (is_array($attr['options'][$v]) && !empty($attr['options'][$v]['name'])) {
-                $values[] = $attr['options'][$v]['name'];
-            } elseif (is_scalar($attr['options'][$v])) {
-                $values[] = $attr['options'][$v];
-            }
-        }
+/**
+ * Embed viewer
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function viewer_embed(array $attr, array $item): string
+{
+    if (($value = value($attr, $item)) && media_load($value)) {
+        return '<embed src="' . url_media($value) . '" autoplay="no" loop="no" />';
     }
 
-    return encode(implode(', ', $values));
+    return '';
+}
+
+/**
+ * File viewer
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function viewer_file(array $attr, array $item): string
+{
+    if (($value = value($attr, $item)) && media_load($value)) {
+        return '<a href="' . url_media($value) . '">' . $value . '</a>';
+    }
+
+    return '';
+}
+
+/**
+ * Image viewer
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function viewer_image(array $attr, array $item): string
+{
+    if (($value = value($attr, $item)) && ($file = media_load($value))) {
+        return '<img src="' . image($file, $attr['action']) . '" alt="' . $value . '" />';
+    }
+
+    return '';
+}
+
+/**
+ * Video viewer
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function viewer_video(array $attr, array $item): string
+{
+    if (($value = value($attr, $item)) && media_load($value)) {
+        return '<video src="' . url_media($value) . '" controls="controls"></video>';
+    }
+
+    return '';
 }
