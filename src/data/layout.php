@@ -10,7 +10,8 @@ return [
     [
         'id' => 'head',
         'handle' => 'layout-base',
-        'type' => 'container',
+        'type' => 'template',
+        'template' => 'html.head.phtml',
     ],
     [
         'id' => 'top',
@@ -42,46 +43,6 @@ return [
         'id' => 'bottom',
         'handle' => 'layout-base',
         'type' => 'container',
-    ],
-    [
-        'id' => 'meta',
-        'handle' => 'layout-base',
-        'type' => 'template',
-        'template' => 'html.meta.phtml',
-        'parent' => 'head',
-        'sort_order' => 100,
-    ],
-    [
-        'id' => 'title',
-        'handle' => 'layout-base',
-        'type' => 'template',
-        'template' => 'html.title.phtml',
-        'parent' => 'head',
-        'sort_order' => 200,
-    ],
-    [
-        'id' => 'css',
-        'handle' => 'layout-base',
-        'type' => 'template',
-        'template' => 'html.css.phtml',
-        'parent' => 'head',
-        'sort_order' => 300,
-    ],
-    [
-        'id' => 'icon',
-        'handle' => 'layout-base',
-        'type' => 'template',
-        'template' => 'html.icon.phtml',
-        'parent' => 'head',
-        'sort_order' => 400,
-    ],
-    [
-        'id' => 'js',
-        'handle' => 'layout-base',
-        'type' => 'template',
-        'template' => 'html.js.phtml',
-        'parent' => 'head',
-        'sort_order' => 500,
     ],
     // account-registered
     [

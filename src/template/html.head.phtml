@@ -3,3 +3,7 @@
 <?php foreach (array_replace(config('meta'), $§()) as $name => $content):?>
 <meta name="<?=$name;?>" content="<?=$content;?>" />
 <?php endforeach;?>
+<title><?=$§('title', config('meta.title'));?></title>
+<link rel="stylesheet" href="<?=url_css('base.css');?>" />
+<link rel="stylesheet" href="<?=url_css('theme.css');?>" />
+<link rel="shortcut icon" href="<?= url_media('favicon.png');?>" />

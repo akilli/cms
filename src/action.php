@@ -221,7 +221,7 @@ function action_denied()
 function action_account_dashboard()
 {
     layout_load();
-    vars('title', ['title' => _('Dashboard')]);
+    vars('head', ['title' => _('Dashboard')]);
 }
 
 /**
@@ -334,9 +334,9 @@ function action_internal_view(array $meta, array $item = null)
 {
     $title = ($item['name'] ?? _($meta['name'])) . ' ' . config('meta.separator') . ' ' . config('meta.title');
     layout_load();
-    vars('title', ['title' => $title]);
+    vars('head', ['title' => $title]);
 
     if ($item && !empty($item['meta']) && is_array($item['meta'])) {
-        vars('meta', $item['meta']);
+        vars('head', $item['meta']);
     }
 }
