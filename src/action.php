@@ -337,6 +337,6 @@ function action_internal_view(array $meta, array $item = null)
     vars('head', ['title' => $title]);
 
     if ($item && !empty($item['meta']) && is_array($item['meta'])) {
-        vars('head', $item['meta']);
+        vars('head', ['meta' => $item['meta']]);
     }
 }
