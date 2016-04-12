@@ -250,6 +250,7 @@ function action_account_profile()
 
     layout_load();
     vars('account.profile', ['item' => $item]);
+    vars('head', ['title' => _('Account Profile')]);
 }
 
 /**
@@ -281,6 +282,7 @@ function action_account_login()
     }
 
     layout_load();
+    vars('head', ['title' => _('Account Login')]);
 }
 
 /**
@@ -332,9 +334,8 @@ function action_internal_meta(): array
  */
 function action_internal_view(array $meta, array $item = null)
 {
-    $title = ($item['name'] ?? _($meta['name'])) . ' ' . config('meta.separator') . ' ' . config('meta.title');
     layout_load();
-    vars('head', ['title' => $title]);
+    vars('head', ['title' => $item['name'] ?? _($meta['name']) . ' ' . _(ucfirst(request('action')))]);
 
     if ($item && !empty($item['meta']) && is_array($item['meta'])) {
         vars('head', ['meta' => $item['meta']]);

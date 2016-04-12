@@ -89,7 +89,7 @@ return [
     'limit.list' => 10,
     'limit.section' => 5,
     'meta.title' => 'Akilli CMS',
-    'meta.separator' => '|',
+    'meta.separator' => '-',
     'meta' => [
         'keywords' => 'Akilli CMS',
         'description' => "Akilli CMS Quick'n'Dirty",
