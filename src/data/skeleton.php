@@ -114,10 +114,10 @@ return [
         'host' => '',
         'scheme' => 'http',
         'is_secure' => false,
-        'files' => [],
+        'params' => [],
         'get' => [],
         'post' => [],
-        '_old' => [],
+        'files' => [],
     ],
     'section' => [
         'id' => null,

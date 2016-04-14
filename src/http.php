@@ -45,7 +45,7 @@ function request_init(): array
 }
 
 /**
- * Prepare request data for current request
+ * Prepare request data for current request, i.e. entity, action, id and params
  *
  * @param array $data
  *
@@ -53,7 +53,6 @@ function request_init(): array
  */
 function request_prepare(array $data): array
 {
-    // Entity, Action and Get Params
     $parts = $data['path'] ? explode('/', $data['path']) : [];
     $entity = array_shift($parts);
 
@@ -67,7 +66,7 @@ function request_prepare(array $data): array
 
             for ($i = 0; $i < $count; $i += 2) {
                 if (!empty($parts[$i]) && isset($parts[$i + 1])) {
-                    $data['get'][$parts[$i]] = $parts[$i + 1];
+                    $data['params'][$parts[$i]] = $parts[$i + 1];
                 }
             }
         }
@@ -94,21 +93,27 @@ function redirect(string $url = '', array $params = [])
 }
 
 /**
+ * Parameters
+ *
+ * @param string $key
+ *
+ * @return mixed
+ */
+function param(string $key = null)
+{
+    return request('params')[$key] ?? null;
+}
+
+/**
  * Get
  *
  * @param string $key
  *
  * @return mixed
  */
-function get(string $key = null)
+function get(string $key)
 {
-    $data = request('get');
-
-    if ($key === null) {
-        return $data;
-    }
-
-    return $data[$key] ?? null;
+    return request('get')[$key] ?? null;
 }
 
 /**
@@ -118,15 +123,9 @@ function get(string $key = null)
  *
  * @return mixed
  */
-function post(string $key = null)
+function post(string $key)
 {
-    $data = request('post');
-
-    if ($key === null) {
-        return $data;
-    }
-
-    return $data[$key] ?? null;
+    return request('post')[$key] ?? null;
 }
 
 /**
@@ -187,15 +186,9 @@ function post_data(string $action, string $key = null)
  *
  * @return mixed
  */
-function files(string $key = null)
+function files(string $key)
 {
-    $data = request('files');
-
-    if ($key === null) {
-        return $data;
-    }
-
-    return $data[$key] ?? null;
+    return request('files')[$key] ?? null;
 }
 
 /**

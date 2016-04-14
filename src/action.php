@@ -40,7 +40,7 @@ function action_edit()
         if (model_save($meta['id'], $data)) {
             redirect(allowed('index') ? '*/index' : '');
         }
-    } elseif (($id = get('id')) !== null) {
+    } elseif (($id = param('id')) !== null) {
         // We just clicked on an edit link, p.e. on the index page
         $data = model_load($meta['id'], ['id' => $id]);
     } elseif ($data = post_data('edit')) {
@@ -85,7 +85,7 @@ function action_view()
 {
     $meta = action_internal_meta();
 
-    if (!($item = model_load($meta['id'], ['id' => get('id')], false))
+    if (!($item = model_load($meta['id'], ['id' => param('id')], false))
         || !empty($meta['attributes']['is_active']) && empty($item['is_active']) && !allowed('edit')
     ) {
         // Item does not exist or is inactive
@@ -118,7 +118,7 @@ function action_index()
     $order = null;
     $params = [];
 
-    if (($terms = post_data('search', 'terms')) || ($terms = get('terms')) && ($terms = urldecode($terms))) {
+    if (($terms = post_data('search', 'terms')) || ($terms = param('terms')) && ($terms = urldecode($terms))) {
         if (($content = array_filter(explode(' ', $terms)))
             && $searchItems = model_load($meta['id'], ['name' => $content], 'search')
         ) {
@@ -137,7 +137,7 @@ function action_index()
 
     $size = model_size($meta['id'], $criteria);
     $limit = (int) config('limit.' . $action);
-    $page = max((int) get('page'), 1);
+    $page = max((int) param('page'), 1);
     $offset = ($page - 1) * $limit;
     $pages = (int) ceil($size / $limit);
 
@@ -145,8 +145,8 @@ function action_index()
         $params['page'] = $page;
     }
 
-    if (($sort = get('sort')) && !empty($attrs[$sort])) {
-        $direction = get('direction') === 'desc' ? 'desc' : 'asc';
+    if (($sort = param('sort')) && !empty($attrs[$sort])) {
+        $direction = param('direction') === 'desc' ? 'desc' : 'asc';
         $order = [$sort => $direction];
         $params['sort'] = $sort;
         $params['direction'] = $direction;
