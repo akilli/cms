@@ -9,16 +9,18 @@ namespace akilli;
 function action_create()
 {
     $meta = action_internal_meta();
-    $data = post_data('save');
+    $data = post('data');
 
     if ($data) {
-        // Perform create callback
-        if (model_save($meta['id'], $data)) {
+        $isSave = is_array(current($data));
+
+        if ($isSave && model_save($meta['id'], $data)) {
+            // Perform save callback and redirect to index on success
             redirect(allowed('index') ? '*/index' : '');
+        } elseif (!$isSave) {
+            // Initial create action call
+            $data = meta_skeleton($meta['id'], (int) $data['number']);
         }
-    } else {
-        // Initial create action call
-        $data = meta_skeleton($meta['id'], (int) post_data('create', 'number'));
     }
 
     action_internal_view($meta);
@@ -33,19 +35,21 @@ function action_create()
 function action_edit()
 {
     $meta = action_internal_meta();
-    $data = post_data('save');
+    $data = post('data');
 
     if ($data) {
-        // Perform save callback and redirect to index on success
-        if (model_save($meta['id'], $data)) {
+        $isSave = is_array(current($data));
+
+        if ($isSave && model_save($meta['id'], $data)) {
+            // Perform save callback and redirect to index on success
             redirect(allowed('index') ? '*/index' : '');
+        } elseif (!$isSave) {
+            // We just selected multiple items to edit on the index page
+            $data = model_load($meta['id'], ['id' => array_keys($data)]);
         }
     } elseif (($id = param('id')) !== null) {
         // We just clicked on an edit link, p.e. on the index page
         $data = model_load($meta['id'], ['id' => $id]);
-    } elseif ($data = post_data('edit')) {
-        // We just selected multiple items to edit on the index page
-        $data = model_load($meta['id'], ['id' => array_keys($data)]);
     }
 
     if (!$data) {
@@ -65,7 +69,7 @@ function action_edit()
 function action_delete()
 {
     $meta = action_internal_meta();
-    $data = post_data('delete');
+    $data = post('data');
 
     if ($data) {
         model_delete($meta['id'], ['id' => array_keys($data)]);
@@ -117,8 +121,9 @@ function action_index()
     $criteria = empty($meta['attributes']['is_active']) || $action === 'index' ? [] : ['is_active' => true];
     $order = null;
     $params = [];
+    $terms = post('data')['terms'] ?? null;
 
-    if (($terms = post_data('search', 'terms')) || ($terms = param('terms')) && ($terms = urldecode($terms))) {
+    if ($terms || ($terms = param('terms')) && ($terms = urldecode($terms))) {
         if (($content = array_filter(explode(' ', $terms)))
             && $searchItems = model_load($meta['id'], ['name' => $content], 'search')
         ) {
@@ -237,7 +242,7 @@ function action_account_profile()
         redirect();
     }
 
-    $item = post_data('save');
+    $item = post('data');
 
     if ($item) {
         $data = [$account['id'] => array_replace($account, $item)];
@@ -264,7 +269,7 @@ function action_account_login()
         redirect('*/dashboard');
     }
 
-    $data = post_data('login');
+    $data = post('data');
 
     if ($data) {
         if (!empty($data['name'])

@@ -64,10 +64,10 @@
         <?php if (allowed('delete') || allowed('edit')):?>
         <fieldset class="action">
             <?php if (allowed('delete')):?>
-            <input type="submit" name="action[delete]" title="<?= _('Delete');?>" value="<?= _('Delete');?>" formaction="<?= url('*/delete');?>" />
+            <input type="submit" value="<?= _('Delete');?>" formaction="<?= url('*/delete');?>" />
             <?php endif;?>
             <?php if (allowed('edit')):?>
-            <input type="submit" name="action[edit]" title="<?= _('Edit');?>" value="<?= _('Edit');?>" formaction="<?= url('*/edit');?>" />
+            <input type="submit" value="<?= _('Edit');?>" formaction="<?= url('*/edit');?>" />
             <?php endif;?>
             <input type="hidden" name="token" value="<?= token();?>" />
         </fieldset>

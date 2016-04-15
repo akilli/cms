@@ -225,7 +225,7 @@ label em.unique {
 }
 
 /* Background */
-input[name="action[delete]"] {
+input[formaction$="/delete"] {
     background: #901913;
 }
 

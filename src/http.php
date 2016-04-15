@@ -37,9 +37,9 @@ function request_init(): array
     $data['host'] = $_SERVER['HTTP_HOST'];
     $data['scheme'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
     $data['is_secure'] = $data['scheme'] === 'https';
-    $data['files'] = $_FILES ? files_validate(files_convert($_FILES)) : [];
     $data['get'] = $_GET;
     $data['post'] = !empty($_POST['token']) && post_validate($_POST['token']) ? $_POST : [];
+    $data['files'] = $_FILES ? files_validate(files_convert($_FILES)) : [];
 
     return $data;
 }
@@ -142,41 +142,6 @@ function post_validate(string $token): bool
     session('token', null, true);
 
     return $success;
-}
-
-/**
- * Post action
- *
- * @return mixed
- */
-function post_action()
-{
-    $data = post('action');
-
-    return !empty($data) && is_array($data) ? key($data) : null;
-}
-
-/**
- * Post data
- *
- * @param string $action
- * @param string $key
- *
- * @return mixed
- */
-function post_data(string $action, string $key = null)
-{
-    if ($action !== post_action()) {
-        return null;
-    }
-
-    $data = post('data');
-
-    if ($key === null) {
-        return $data;
-    }
-
-    return $data[$key] ?? null;
 }
 
 /**
