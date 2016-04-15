@@ -42,7 +42,7 @@ function trans(callable $callback): bool
         $level === 1 ? db()->rollBack() : db()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
         --$level;
         error($e);
-        
+
         return false;
     }
 
@@ -204,8 +204,7 @@ function where(array $criteria, array $attrs, array $options = []): string
                 $v = '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
             }
 
-            $r[] = $alias . $attrs[$code]['column'] . ' ' . $operator . ' '
-                . qv($v, $attrs[$code]['backend']);
+            $r[] = $alias . $attrs[$code]['column'] . ' ' . $operator . ' ' . qv($v, $attrs[$code]['backend']);
         }
 
         $columns[$code] = '(' . implode(' OR ', $r) . ')';
