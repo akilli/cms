@@ -57,8 +57,7 @@ function privileges(): array
             array_filter(
                 data('privilege'),
                 function ($item) {
-                    return (!isset($item['is_active']) || $item['is_active'] !== false)
-                    && (empty($item['callback']) || !is_callable($item['callback']));
+                    return !empty($item['is_active']) && empty($item['callback']);
                 }
             ),
             ['sort_order' => 'asc', 'name' => 'asc']

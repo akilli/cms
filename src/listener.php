@@ -163,11 +163,7 @@ function listener_privilege(array & $data)
 {
     $meta = data('meta');
     $config = config('action.entity');
-    $key = array_search('all', $config);
-
-    if ($key) {
-        unset($config[$key]);
-    }
+    unset($config['all']);
 
     foreach ($meta as $entity => $item) {
         $actions = in_array('all', $item) ? $config : $item['actions'];
