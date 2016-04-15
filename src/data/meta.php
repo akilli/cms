@@ -423,13 +423,6 @@ return [
                 'options_entity' => 'menu_root',
                 'actions' => ['index'],
             ],
-            'is_system' => [
-                'name' => 'System',
-                'column' => 'is_system',
-                'type' => 'bool.checkbox',
-                'description' => '',
-                'actions' => ['index'],
-            ],
         ],
     ],
     'menu_root' => [
@@ -443,13 +436,10 @@ return [
             'id' => [
                 'name' => 'ID',
                 'column' => 'id',
-                'type' => 'text',
+                'auto' => true,
+                'type' => 'int',
                 'description' => '',
-                'is_required' => true,
-                'is_unique' => true,
                 'actions' => ['index'],
-                'unique_callback' => 'akilli\generator_id',
-                'unique_base' => 'name',
             ],
             'name' => [
                 'name' => 'Name',

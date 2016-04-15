@@ -102,23 +102,21 @@ CREATE TABLE IF NOT EXISTS `menu` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `target` VARCHAR(255) NOT NULL,
-    `root_id` VARCHAR(100) NOT NULL,
+    `root_id` INTEGER(11) NOT NULL,
     `lft` INTEGER(11) NOT NULL,
     `rgt` INTEGER(11) NOT NULL,
-    `is_system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     KEY `idx_menu_name` (`name`),
     KEY `idx_menu_target` (`target`),
     KEY `idx_menu_root` (`root_id`),
     KEY `idx_menu_lft` (`lft`),
     KEY `idx_menu_rgt` (`rgt`),
-    KEY `idx_menu_item` (`root_id`,`lft`,`rgt`),
-    KEY `idx_menu_system` (`is_system`)
+    KEY `idx_menu_item` (`root_id`,`lft`,`rgt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `menu_root`;
 CREATE TABLE IF NOT EXISTS `menu_root` (
-    `id` VARCHAR(100) NOT NULL,
+    `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
     `is_system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
