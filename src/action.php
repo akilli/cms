@@ -11,14 +11,12 @@ function action_create()
     $meta = action_internal_meta();
     $data = post('data');
 
-    if (is_array($data) && is_array(current($data))) {
+    if ($data && model_save($meta['id'], $data)) {
         // Perform save callback and redirect to index on success
-        if (model_save($meta['id'], $data)) {
-            redirect(allowed('index') ? '*/index' : '');
-        }
-    } else {
+        redirect(allowed('index') ? '*/index' : '');
+    } elseif (!$data) {
         // Initial create action call
-        $data = meta_skeleton($meta['id'], $data['number'] ?? 1);
+        $data = meta_skeleton($meta['id'], (int) post('create'));
     }
 
     action_internal_view($meta);
@@ -35,19 +33,15 @@ function action_edit()
     $meta = action_internal_meta();
     $data = post('data');
 
-    if ($data) {
-        $isSave = is_array(current($data));
-
-        if ($isSave && model_save($meta['id'], $data)) {
-            // Perform save callback and redirect to index on success
-            redirect(allowed('index') ? '*/index' : '');
-        } elseif (!$isSave) {
-            // We just selected multiple items to edit on the index page
-            $data = model_load($meta['id'], ['id' => array_keys($data)]);
-        }
-    } elseif (($id = param('id')) !== null) {
+    if ($data && model_save($meta['id'], $data)) {
+        // Perform save callback and redirect to index on success
+        redirect(allowed('index') ? '*/index' : '');
+    } elseif (!$data && is_array(post('edit'))) {
+        // We just selected multiple items to edit on the index page
+        $data = model_load($meta['id'], ['id' => array_keys(post('edit'))]);
+    } elseif (!$data && param('id') !== null) {
         // We just clicked on an edit link, p.e. on the index page
-        $data = model_load($meta['id'], ['id' => $id]);
+        $data = model_load($meta['id'], ['id' => param('id')]);
     }
 
     if (!$data) {
@@ -119,22 +113,20 @@ function action_index()
     $criteria = empty($meta['attributes']['is_active']) || $action === 'index' ? [] : ['is_active' => true];
     $order = null;
     $params = [];
-    $terms = post('data')['terms'] ?? null;
+    $search = post('search');
 
-    if ($terms || ($terms = param('terms')) && ($terms = urldecode($terms))) {
-        if (($content = array_filter(explode(' ', $terms)))
-            && $searchItems = model_load($meta['id'], ['name' => $content], 'search')
-        ) {
-            $ids = [];
+    if (!$search && param('search')) {
+        $search = urldecode(param('search'));
+    }
 
-            foreach ($searchItems as $item) {
-                $ids[] = $item['id'];
-            }
+    if ($search) {
+        $content = array_filter(explode(' ', $search));
 
-            $criteria['id'] = $ids;
-            $params['terms'] = urlencode(implode(' ', $content));
+        if ($content && ($items = model_load($meta['id'], ['name' => $content], 'search'))) {
+            $criteria['id'] = array_keys($items);
+            $params['search'] = urlencode(implode(' ', $content));
         } else {
-            message(_('No results for provided search terms %s', implode(', ', $content)));
+            message(_('No results for provided search terms %s', $search));
         }
     }
 
@@ -149,23 +141,18 @@ function action_index()
     }
 
     if (($sort = param('sort')) && !empty($attrs[$sort])) {
-        $direction = param('direction') === 'desc' ? 'desc' : 'asc';
+        $direction = param('dir') === 'desc' ? 'desc' : 'asc';
         $order = [$sort => $direction];
         $params['sort'] = $sort;
-        $params['direction'] = $direction;
+        $params['dir'] = $direction;
     }
 
     $data = model_load($meta['id'], $criteria, null, $order, [$limit, $offset]);
     array_walk(
         $attrs,
         function (& $attr, $code) use ($params) {
-            if (!empty($params['sort']) && $params['sort'] === $code && $params['direction'] === 'asc') {
-                $direction = 'desc';
-            } else {
-                $direction = 'asc';
-            }
-
-            $attr['url'] = url('*/*', array_replace($params, ['sort' => $code, 'direction' => $direction]));
+            $dir = !empty($params['sort']) && $params['sort'] === $code && $params['dir'] === 'asc' ? 'desc' : 'asc';
+            $attr['url'] = url('*/*', array_replace($params, ['sort' => $code, 'dir' => $dir]));
         }
     );
     unset($params['page']);
@@ -180,7 +167,8 @@ function action_index()
             'limit' => $limit,
             'offset' => $offset,
             'size' => $size,
-            'params' => $params]
+            'params' => $params
+        ]
     );
 }
 

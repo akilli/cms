@@ -1,12 +1,8 @@
 <?php namespace akilli; /** @var callable $§ */?>
-<form action="<?= url('*/create');?>" method="post" class="create">
-    <fieldset class="data">
-        <div class="element">
-            <label for="data-number"><?= _('Number');?></label>
-            <input id="data-number" type="number" name="data[number]" value="1" title="<?= _('Please enter the number of items you want to create');?>" />
-            <input type="submit" value="<?= _('Create');?>" />
-            <input type="hidden" name="token" value="<?= token();?>" />
-            <p class="message"><?= _('Please enter the number of items you want to create');?></p>
-        </div>
-    </fieldset>
+<form action="<?= url('*/create');?>" method="post">
+    <label for="create"><?= _('Number');?></label>
+    <input id="create" type="number" name="create" value="1" title="<?= _('Please enter the number of items you want to create');?>" />
+    <input type="submit" value="<?= _('Create');?>" />
+    <input type="hidden" name="token" value="<?= token();?>" />
+    <p class="message"><?= _('Please enter the number of items you want to create');?></p>
 </form>

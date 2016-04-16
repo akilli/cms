@@ -114,20 +114,20 @@ legend {
     border-bottom: thin solid;
 }
 
+label {
+    display: block;
+}
+
+table label,
+label.inline {
+    display: inline;
+}
+
 label em {
     font-size: 0.9rem;
 }
 
-fieldset.data label {
-    display: block;
-}
-
-fieldset.data table label,
-fieldset.data label.inline {
-    display: inline;
-}
-
-.element .message {
+.message {
     margin: 0;
     font-size: 0.9rem;
 }
@@ -307,10 +307,13 @@ body > * {
 }
 
 body > *:not(:first-child),
-#content > * > *:not(:first-child),
-form > fieldset:not(:first-child),
-fieldset.data > *:not(:first-child) {
+fieldset:not(:first-child) {
     margin-top: 1rem;
+}
+
+body > *:empty,
+body > *:blank {
+    display: none;
 }
 
 #toolbar {
@@ -341,31 +344,24 @@ main .section-list article {
 }
 
 /**
- * Pager
+ * Index
  */
-.pager > div {
-    display: inline-block;
+.section-index > header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
-.pager .links {
-    float: right;
+.section-index > header > *:not(form) {
+    flex: 0 0 100%;
 }
 
 /**
- * Index
+ * Pager
  */
-.section-index form.create,
-.section-index form.search {
-    width: 49.8%;
-    float: left;
-}
-
-.section-index .pager {
-    margin-top: 1rem;
-}
-
-.section-index fieldset.data > table {
-    margin: 0;
+.pager {
+    display: flex;
+    justify-content: space-between;
 }
 
 /**
@@ -395,10 +391,13 @@ main .toolbar > ul > li > span {
 }
 
 /* Menu */
+#toolbar > ul {
+    display: flex;
+    justify-content: flex-start;
+}
+
 #toolbar > ul > li {
-    display: block;
-    float: left;
-    margin: 0 1rem;
+    margin: 0 1em;
     padding: 1rem 0;
 }
 
@@ -425,19 +424,6 @@ main .toolbar > ul > li > span {
 }
 
 /**
- * Display
- */
-.cf:after {
-    overflow: hidden;
-    content: "";
-    display: block;
-    height: 0;
-    line-height: 0;
-    clear: both;
-    font-size: 0;
-}
-
-/**
  * Media Queries
  */
 @media handheld, only screen and (max-width: 767px) {
@@ -449,7 +435,6 @@ main .toolbar > ul > li > span {
     }
 
     #toolbar > ul > li {
-        float: none;
         margin: 0;
     }
 

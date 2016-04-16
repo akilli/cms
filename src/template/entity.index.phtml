@@ -2,20 +2,18 @@
 <section class="section section-index">
     <header>
         <h1><?=$§('header');?></h1>
-        <div class="tools cf">
-            <?= §('entity.index.create');?>
-            <?= §('entity.index.search');?>
-        </div>
+        <?= §('entity.index.create');?>
+        <?= §('entity.index.search');?>
         <?= §('entity.index.pager');?>
     </header>
     <?php if ($§('data')):?>
-    <form action="<?= url('*/*');?>" method="post" class="index">
-        <fieldset class="data">
+    <form action="<?= url('*/*');?>" method="post">
+        <fieldset>
             <table>
                 <thead>
                     <tr>
                         <th data-type="bool.checkbox">
-                            <input type="checkbox" name="gui[checkall]" value="1" title="<?= _('Select all');?>" />
+                            <input type="checkbox" name="checkall" value="1" title="<?= _('Select all');?>" />
                         </th>
                         <?php foreach ($§('attributes') as $code => $attr):?>
                         <th data-type="<?=$attr['backend'];?>.<?=$attr['frontend'];?>">
@@ -38,7 +36,7 @@
                     <?php foreach ($§('data') as $id => $item):?>
                     <tr>
                         <td>
-                            <input id="data-<?=$id;?>-name" type="checkbox" name="data[<?=$id;?>]" value="1" />
+                            <input id="edit-<?=$id;?>-name" type="checkbox" name="edit[<?=$id;?>]" value="1" />
                         </td>
                         <?php foreach ($§('attributes') as $code => $attr):?>
                             <?php $attr['action'] = 'index';?>
