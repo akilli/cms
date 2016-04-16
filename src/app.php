@@ -10,7 +10,7 @@ use InvalidArgumentException;
  */
 function app()
 {
-    $prefix = __NAMESPACE__ . '\action_';
+    $prefix = fqn('action_');
 
     foreach ([$prefix . request('entity') . '_' . request('action'), $prefix . request('action')] as $action) {
         if (is_callable($action)) {
@@ -21,6 +21,18 @@ function app()
 
     action_error();
     response: echo §('root');
+}
+
+/**
+ * Returns fully qualified name
+ *
+ * @param string $name
+ *
+ * @return string
+ */
+function fqn(string $name): string
+{
+    return __NAMESPACE__ . '\\' . $name;
 }
 
 /**
