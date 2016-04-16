@@ -11,16 +11,14 @@ function action_create()
     $meta = action_internal_meta();
     $data = post('data');
 
-    if ($data) {
-        $isSave = is_array(current($data));
-
-        if ($isSave && model_save($meta['id'], $data)) {
-            // Perform save callback and redirect to index on success
+    if (is_array($data) && is_array(current($data))) {
+        // Perform save callback and redirect to index on success
+        if (model_save($meta['id'], $data)) {
             redirect(allowed('index') ? '*/index' : '');
-        } elseif (!$isSave) {
-            // Initial create action call
-            $data = meta_skeleton($meta['id'], (int) $data['number']);
         }
+    } else {
+        // Initial create action call
+        $data = meta_skeleton($meta['id'], $data['number'] ?? 1);
     }
 
     action_internal_view($meta);
