@@ -3,14 +3,14 @@ return [
     'account.dashboard' => [
         'id' => 'account.dashboard',
         'name' => 'Account Dashboard',
-        'callback' => 'akilli\registered',
+        'callback' => 'qnd\registered',
         'is_active' => true,
         'sort_order' => 1000,
     ],
     'account.profile' => [
         'id' => 'account.profile',
         'name' => 'Account Profile',
-        'callback' => 'akilli\registered',
+        'callback' => 'qnd\registered',
         'is_active' => true,
         'sort_order' => 1000,
     ],
@@ -23,7 +23,7 @@ return [
     'account.logout' => [
         'id' => 'account.logout',
         'name' => 'Account Logout',
-        'callback' => 'akilli\registered',
+        'callback' => 'qnd\registered',
         'is_active' => true,
         'sort_order' => 1000,
     ],

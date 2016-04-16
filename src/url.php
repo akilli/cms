@@ -1,5 +1,5 @@
 <?php
-namespace akilli;
+namespace qnd;
 
 /**
  * Generate URL by given path and params

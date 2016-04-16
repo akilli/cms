@@ -1,6 +1,6 @@
 <?php
 return [
-    'dsn' => 'mysql:host=mysql;dbname=akilli;charset=utf8',
+    'dsn' => 'mysql:host=mysql;dbname=qnd;charset=utf8',
     'username' => 'root',
     'password' => '',
     'driver_options' => [

@@ -1,5 +1,5 @@
 <?php
-namespace akilli;
+namespace qnd;
 
 /**
  * Editor

@@ -1,5 +1,5 @@
 <?php
-namespace akilli;
+namespace qnd;
 
 /**
  * Cast to appropriate php type

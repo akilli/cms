@@ -6,10 +6,10 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'deleter' => 'akilli\deleter_file',
-            'validator' => 'akilli\validator_file',
-            'editor' => 'akilli\editor_file',
-            'viewer' => 'akilli\viewer_audio',
+            'deleter' => 'qnd\deleter_file',
+            'validator' => 'qnd\validator_file',
+            'editor' => 'qnd\editor_file',
+            'viewer' => 'qnd\viewer_audio',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -20,9 +20,9 @@ return [
         'frontend' => 'checkbox',
         'default' => [
             'options' => ['No', 'Yes'],
-            'validator' => 'akilli\validator_option',
-            'editor' => 'akilli\editor_input_option',
-            'viewer' => 'akilli\viewer_option',
+            'validator' => 'qnd\validator_option',
+            'editor' => 'qnd\editor_input_option',
+            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'bool.radio' => [
@@ -32,9 +32,9 @@ return [
         'frontend' => 'radio',
         'default' => [
             'options' => ['No', 'Yes'],
-            'validator' => 'akilli\validator_option',
-            'editor' => 'akilli\editor_input_option',
-            'viewer' => 'akilli\viewer_option',
+            'validator' => 'qnd\validator_option',
+            'editor' => 'qnd\editor_input_option',
+            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'callback' => [
@@ -43,8 +43,8 @@ return [
         'backend' => 'varchar',
         'frontend' => 'text',
         'default' => [
-            'validator' => 'akilli\validator_callback',
-            'editor' => 'akilli\editor_varchar',
+            'validator' => 'qnd\validator_callback',
+            'editor' => 'qnd\editor_varchar',
         ],
     ],
     'date' => [
@@ -53,10 +53,10 @@ return [
         'backend' => 'datetime',
         'frontend' => 'date',
         'default' => [
-            'loader' => 'akilli\loader_datetime',
-            'validator' => 'akilli\validator_datetime',
-            'editor' => 'akilli\editor_datetime',
-            'viewer' => 'akilli\viewer_datetime',
+            'loader' => 'qnd\loader_datetime',
+            'validator' => 'qnd\validator_datetime',
+            'editor' => 'qnd\editor_datetime',
+            'viewer' => 'qnd\viewer_datetime',
         ],
     ],
     'datetime' => [
@@ -65,10 +65,10 @@ return [
         'backend' => 'datetime',
         'frontend' => 'datetime-local',
         'default' => [
-            'loader' => 'akilli\loader_datetime',
-            'validator' => 'akilli\validator_datetime',
-            'editor' => 'akilli\editor_datetime',
-            'viewer' => 'akilli\viewer_datetime',
+            'loader' => 'qnd\loader_datetime',
+            'validator' => 'qnd\validator_datetime',
+            'editor' => 'qnd\editor_datetime',
+            'viewer' => 'qnd\viewer_datetime',
         ],
     ],
     'decimal' => [
@@ -77,8 +77,8 @@ return [
         'backend' => 'decimal',
         'frontend' => 'number',
         'default' => [
-            'validator' => 'akilli\validator_number',
-            'editor' => 'akilli\editor_number',
+            'validator' => 'qnd\validator_number',
+            'editor' => 'qnd\editor_number',
             'step' => 0.01,
         ],
     ],
@@ -88,9 +88,9 @@ return [
         'backend' => 'text',
         'frontend' => 'textarea',
         'default' => [
-            'validator' => 'akilli\validator_rte',
-            'editor' => 'akilli\editor_textarea',
-            'viewer' => 'akilli\viewer_rte',
+            'validator' => 'qnd\validator_rte',
+            'editor' => 'qnd\editor_textarea',
+            'viewer' => 'qnd\viewer_rte',
             'class' => ['rte'],
         ],
     ],
@@ -100,8 +100,8 @@ return [
         'backend' => 'varchar',
         'frontend' => 'email',
         'default' => [
-            'validator' => 'akilli\validator_email',
-            'editor' => 'akilli\editor_varchar',
+            'validator' => 'qnd\validator_email',
+            'editor' => 'qnd\editor_varchar',
         ],
     ],
     'embed' => [
@@ -110,10 +110,10 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'deleter' => 'akilli\deleter_file',
-            'validator' => 'akilli\validator_file',
-            'editor' => 'akilli\editor_file',
-            'viewer' => 'akilli\viewer_embed',
+            'deleter' => 'qnd\deleter_file',
+            'validator' => 'qnd\validator_file',
+            'editor' => 'qnd\editor_file',
+            'viewer' => 'qnd\viewer_embed',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -123,10 +123,10 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'deleter' => 'akilli\deleter_file',
-            'validator' => 'akilli\validator_file',
-            'editor' => 'akilli\editor_file',
-            'viewer' => 'akilli\viewer_file',
+            'deleter' => 'qnd\deleter_file',
+            'validator' => 'qnd\validator_file',
+            'editor' => 'qnd\editor_file',
+            'viewer' => 'qnd\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -136,10 +136,10 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'deleter' => 'akilli\deleter_file',
-            'validator' => 'akilli\validator_file',
-            'editor' => 'akilli\editor_file',
-            'viewer' => 'akilli\viewer_image',
+            'deleter' => 'qnd\deleter_file',
+            'validator' => 'qnd\validator_file',
+            'editor' => 'qnd\editor_file',
+            'viewer' => 'qnd\viewer_image',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -149,8 +149,8 @@ return [
         'backend' => 'int',
         'frontend' => 'number',
         'default' => [
-            'validator' => 'akilli\validator_number',
-            'editor' => 'akilli\editor_number',
+            'validator' => 'qnd\validator_number',
+            'editor' => 'qnd\editor_number',
         ],
     ],
     'int.checkbox' => [
@@ -159,9 +159,9 @@ return [
         'backend' => 'int',
         'frontend' => 'checkbox',
         'default' => [
-            'validator' => 'akilli\validator_option',
-            'editor' => 'akilli\editor_input_option',
-            'viewer' => 'akilli\viewer_option',
+            'validator' => 'qnd\validator_option',
+            'editor' => 'qnd\editor_input_option',
+            'viewer' => 'qnd\viewer_option',
         ]
     ],
     'int.radio' => [
@@ -170,9 +170,9 @@ return [
         'backend' => 'int',
         'frontend' => 'radio',
         'default' => [
-            'validator' => 'akilli\validator_option',
-            'editor' => 'akilli\editor_input_option',
-            'viewer' => 'akilli\viewer_option',
+            'validator' => 'qnd\validator_option',
+            'editor' => 'qnd\editor_input_option',
+            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'int.select' => [
@@ -181,9 +181,9 @@ return [
         'backend' => 'int',
         'frontend' => 'select',
         'default' => [
-            'validator' => 'akilli\validator_option',
-            'editor' => 'akilli\editor_select',
-            'viewer' => 'akilli\viewer_option',
+            'validator' => 'qnd\validator_option',
+            'editor' => 'qnd\editor_select',
+            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'json' => [
@@ -192,9 +192,9 @@ return [
         'backend' => 'text',
         'frontend' => 'textarea',
         'default' => [
-            'loader' => 'akilli\loader_json',
-            'validator' => 'akilli\validator_json',
-            'editor' => 'akilli\editor_json',
+            'loader' => 'qnd\loader_json',
+            'validator' => 'qnd\validator_json',
+            'editor' => 'qnd\editor_json',
         ],
     ],
     'multicheckbox' => [
@@ -204,11 +204,11 @@ return [
         'frontend' => 'checkbox',
         'default' => [
             'is_multiple' => true,
-            'loader' => 'akilli\loader_json',
-            'saver' => 'akilli\saver_multiple',
-            'validator' => 'akilli\validator_option',
-            'editor' => 'akilli\editor_input_option',
-            'viewer' => 'akilli\viewer_option',
+            'loader' => 'qnd\loader_json',
+            'saver' => 'qnd\saver_multiple',
+            'validator' => 'qnd\validator_option',
+            'editor' => 'qnd\editor_input_option',
+            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'multiselect' => [
@@ -218,11 +218,11 @@ return [
         'frontend' => 'select',
         'default' => [
             'is_multiple' => true,
-            'loader' => 'akilli\loader_json',
-            'saver' => 'akilli\saver_multiple',
-            'validator' => 'akilli\validator_option',
-            'editor' => 'akilli\editor_select',
-            'viewer' => 'akilli\viewer_option',
+            'loader' => 'qnd\loader_json',
+            'saver' => 'qnd\saver_multiple',
+            'validator' => 'qnd\validator_option',
+            'editor' => 'qnd\editor_select',
+            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'password' => [
@@ -232,9 +232,9 @@ return [
         'frontend' => 'password',
         'default' => [
             'is_searchable' => false,
-            'saver' => 'akilli\saver_password',
-            'validator' => 'akilli\validator_string',
-            'editor' => 'akilli\editor_password',
+            'saver' => 'qnd\saver_password',
+            'validator' => 'qnd\validator_string',
+            'editor' => 'qnd\editor_password',
         ],
     ],
     'text' => [
@@ -243,8 +243,8 @@ return [
         'backend' => 'varchar',
         'frontend' => 'text',
         'default' => [
-            'validator' => 'akilli\validator_string',
-            'editor' => 'akilli\editor_varchar',
+            'validator' => 'qnd\validator_string',
+            'editor' => 'qnd\editor_varchar',
         ],
     ],
     'textarea' => [
@@ -253,8 +253,8 @@ return [
         'backend' => 'text',
         'frontend' => 'textarea',
         'default' => [
-            'validator' => 'akilli\validator_string',
-            'editor' => 'akilli\editor_textarea',
+            'validator' => 'qnd\validator_string',
+            'editor' => 'qnd\editor_textarea',
         ],
     ],
     'url' => [
@@ -263,8 +263,8 @@ return [
         'backend' => 'varchar',
         'frontend' => 'url',
         'default' => [
-            'validator' => 'akilli\validator_url',
-            'editor' => 'akilli\editor_varchar',
+            'validator' => 'qnd\validator_url',
+            'editor' => 'qnd\editor_varchar',
         ],
     ],
     'varchar.checkbox' => [
@@ -273,9 +273,9 @@ return [
         'backend' => 'varchar',
         'frontend' => 'checkbox',
         'default' => [
-            'validator' => 'akilli\validator_option',
-            'editor' => 'akilli\editor_input_option',
-            'viewer' => 'akilli\viewer_option',
+            'validator' => 'qnd\validator_option',
+            'editor' => 'qnd\editor_input_option',
+            'viewer' => 'qnd\viewer_option',
         ]
     ],
     'varchar.radio' => [
@@ -284,9 +284,9 @@ return [
         'backend' => 'varchar',
         'frontend' => 'radio',
         'default' => [
-            'validator' => 'akilli\validator_option',
-            'editor' => 'akilli\editor_input_option',
-            'viewer' => 'akilli\viewer_option',
+            'validator' => 'qnd\validator_option',
+            'editor' => 'qnd\editor_input_option',
+            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'varchar.select' => [
@@ -295,9 +295,9 @@ return [
         'backend' => 'varchar',
         'frontend' => 'select',
         'default' => [
-            'validator' => 'akilli\validator_option',
-            'editor' => 'akilli\editor_select',
-            'viewer' => 'akilli\viewer_option',
+            'validator' => 'qnd\validator_option',
+            'editor' => 'qnd\editor_select',
+            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'video' => [
@@ -306,10 +306,10 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'deleter' => 'akilli\deleter_file',
-            'validator' => 'akilli\validator_file',
-            'editor' => 'akilli\editor_file',
-            'viewer' => 'akilli\viewer_video',
+            'deleter' => 'qnd\deleter_file',
+            'validator' => 'qnd\validator_file',
+            'editor' => 'qnd\editor_file',
+            'viewer' => 'qnd\viewer_video',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
