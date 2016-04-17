@@ -34,14 +34,9 @@ pre {
     padding: 1rem;
 }
 
-dl,
 ol,
 ul {
     margin: 1rem 0;
-}
-
-ol,
-ul {
     padding-left: 2rem;
 }
 
@@ -311,11 +306,6 @@ fieldset:not(:first-child) {
     margin-top: 1rem;
 }
 
-body > *:empty,
-body > *:blank {
-    display: none;
-}
-
 #toolbar {
     width: 100%;
     min-width: 0;
@@ -421,24 +411,4 @@ main .toolbar > ul > li > span {
 
 #toolbar .toolbar ul a {
     font-size: 0.9rem;
-}
-
-/**
- * Media Queries
- */
-@media handheld, only screen and (max-width: 767px) {
-    body > * {
-        width: 100%;
-        min-width: 0;
-        max-width: none;
-        margin: 0 auto;
-    }
-
-    #toolbar > ul > li {
-        margin: 0;
-    }
-
-    #toolbar .toolbar:hover > ul {
-        display: none;
-    }
 }
