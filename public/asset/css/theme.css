@@ -1,4 +1,12 @@
 /**
+ * Root
+ */
+:root {
+    --color-fg: #231f20;
+    --color-bg: #fff;
+}
+
+/**
  * Section
  */
 body {
@@ -183,8 +191,8 @@ textarea {
  * Color Scheme
  */
 body {
-    color: #231f20;
-    background: #fff;
+    color: var(--color-fg);
+    background: var(--color-bg);
 }
 
 [role=button],
@@ -198,8 +206,8 @@ thead td,
 tfoot th,
 tfoot td,
 #toolbar {
-    color: #fff;
-    background: #231f20;
+    color: var(--color-bg);
+    background: var(--color-fg);
 }
 
 /* Color */
@@ -234,7 +242,7 @@ mark,
 }
 
 #toolbar .toolbar > ul {
-    background: #231f20;
+    background: var(--color-fg);
 }
 
 /* Link */
@@ -243,12 +251,12 @@ a {
 }
 
 main .toolbar li li a {
-    color: #231f20;
+    color: var(--color-fg);
 }
 
 thead a,
 #toolbar a {
-    color: #fff;
+    color: var(--color-bg);
 }
 
 /* Pseudo Elements + Classes */
