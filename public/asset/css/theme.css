@@ -1,17 +1,22 @@
 /**
- * Root
- */
-:root {
-    --color-fg: #231f20;
-    --color-bg: #fff;
-}
-
-/**
  * Section
  */
 body {
     line-height: 1.5;
     font-family: Arial, Verdana, Helvetica, sans-serif;
+    color: #231f20;
+    background: #fff;
+}
+
+body > * {
+    width: 100%;
+    min-width: 755px;
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
+body > *:not(:first-child) {
+    margin-top: 1rem;
 }
 
 h1 {
@@ -40,6 +45,8 @@ figcaption {
 
 pre {
     padding: 1rem;
+    color: #fff;
+    background: #231f20;
 }
 
 ol,
@@ -77,10 +84,15 @@ nav ul {
  */
 a {
     text-decoration: none;
+    color: #901913;
 }
 
 a:hover {
     text-decoration: underline;
+}
+
+mark {
+    background: #e14b28;
 }
 
 /**
@@ -94,7 +106,20 @@ table {
 th,
 td {
     padding: 0.25rem 0.375rem;
-    border: thin solid;
+    border: thin solid #d3d3d3;
+}
+
+thead th,
+thead td,
+tfoot th,
+tfoot td {
+    color: #fff;
+    background: #231f20;
+}
+
+thead a,
+tfoot a {
+    color: #fff;
 }
 
 /* Data types */
@@ -109,9 +134,74 @@ th[data-type='int.select'] {
     width: auto;
 }
 
+tbody tr:nth-of-type(even) > * {
+    background: #ededed;
+}
+
 /**
  * Form
  */
+::input-placeholder {
+    color: #999;
+}
+
+.message {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+fieldset:not(:first-child) {
+    margin-top: 1rem;
+}
+
+[role=button],
+[type=button],
+[type=reset],
+[type=submit],
+button,
+legend {
+    border-color: #000;
+}
+
+[role=button]:focus,
+[role=button]:hover,
+button:focus,
+button:hover,
+input:focus,
+input:hover,
+select:focus,
+select:hover,
+textarea:focus,
+textarea:hover  {
+    box-shadow: 0 0 10px #d3d3d3;
+}
+
+[role=button],
+[type=button],
+[type=reset],
+[type=submit],
+button {
+    color: #fff;
+    background: #231f20;
+}
+
+[role=button],
+button,
+input,
+select,
+textarea {
+    vertical-align: middle;
+    padding: 0.125rem 0.25rem;
+    border: thin solid;
+}
+
+input,
+select,
+textarea,
+option {
+    border-color: #d3d3d3;
+}
+
 legend {
     width: 100%;
     border-bottom: thin solid;
@@ -130,23 +220,21 @@ label em {
     font-size: 0.9rem;
 }
 
-.message {
-    margin: 0;
-    font-size: 0.9rem;
+label em.required,
+.element .error {
+    color: #901913;
 }
 
-[role=button],
-button,
-input,
-select,
-textarea {
-    vertical-align: middle;
-    padding: 0.125rem 0.25rem;
-    border: thin solid;
+label em.unique {
+    color: #727c25;
 }
 
 [role=button]:hover {
     text-decoration: none;
+}
+
+input[formaction$="/delete"] {
+    background: #901913;
 }
 
 select {
@@ -156,6 +244,11 @@ select {
 option {
     padding: 0.125rem 0.25rem;
     border-bottom: thin solid;
+}
+
+option[selected],
+option.empty {
+    color: #e14b28;
 }
 
 option.empty {
@@ -188,142 +281,12 @@ textarea {
 }
 
 /**
- * Color Scheme
+ * Messages
  */
-body {
-    color: var(--color-fg);
-    background: var(--color-bg);
-}
-
-[role=button],
-[type=button],
-[type=reset],
-[type=submit],
-button,
-pre,
-thead th,
-thead td,
-tfoot th,
-tfoot td,
-#toolbar {
-    color: var(--color-bg);
-    background: var(--color-fg);
-}
-
-/* Color */
-option[selected],
-option.empty,
-main > .section > header > h1,
-#toolbar .toolbar > ul > li > span {
-    color: #e14b28;
-}
-
-label em.required,
-.element .error {
-    color: #901913;
-}
-
-label em.unique {
-    color: #727c25;
-}
-
-/* Background */
-input[formaction$="/delete"] {
-    background: #901913;
-}
-
-tbody tr:nth-of-type(even) > * {
-    background: #ededed;
-}
-
-mark,
 #message {
     background: #e14b28;
 }
 
-#toolbar .toolbar > ul {
-    background: var(--color-fg);
-}
-
-/* Link */
-a {
-    color: #901913;
-}
-
-main .toolbar li li a {
-    color: var(--color-fg);
-}
-
-thead a,
-#toolbar a {
-    color: var(--color-bg);
-}
-
-/* Pseudo Elements + Classes */
-::input-placeholder {
-    color: #999;
-}
-
-/* Border */
-input,
-select,
-textarea,
-option,
-th,
-td,
-main .toolbar > ul > li {
-    border-color: #d3d3d3;
-}
-
-[role=button],
-[type=button],
-[type=reset],
-[type=submit],
-button,
-legend,
-#toolbar .toolbar > ul > li {
-    border-color: #000;
-}
-
-/* Box Shadow */
-[role=button]:focus,
-[role=button]:hover,
-button:focus,
-button:hover,
-input:focus,
-input:hover,
-select:focus,
-select:hover,
-textarea:focus,
-textarea:hover  {
-    box-shadow: 0 0 10px #d3d3d3;
-}
-
-/**
- * Layout
- */
-body > * {
-    width: 100%;
-    min-width: 755px;
-    max-width: 1140px;
-    margin: 0 auto;
-}
-
-body > *:not(:first-child),
-fieldset:not(:first-child) {
-    margin-top: 1rem;
-}
-
-#toolbar {
-    width: 100%;
-    min-width: 0;
-    max-width: none;
-    margin: 0 auto;
-}
-
-/**
- * Messages
- */
 #message h1,
 #message p {
     padding: 0.25rem 0.5rem;
@@ -335,6 +298,7 @@ fieldset:not(:first-child) {
 main > .section > header > h1 {
     margin-bottom: 1rem;
     font-size: 2rem;
+    color: #e14b28;
 }
 
 main .section-list article {
@@ -376,7 +340,7 @@ main .section-list article {
 
 /* Content */
 main .toolbar > ul > li {
-    border-bottom: thin solid;
+    border-bottom: thin solid #d3d3d3;
 }
 
 main .toolbar > ul > li:first-child {
@@ -388,14 +352,27 @@ main .toolbar > ul > li > span {
     font-size: 1.25rem;
 }
 
+main .toolbar li li a {
+    color: #231f20;
+}
+
 /* Menu */
+#toolbar {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    margin: 0 auto;
+    color: #fff;
+    background: #231f20;
+}
+
 #toolbar > ul {
     display: flex;
     justify-content: flex-start;
 }
 
 #toolbar > ul > li {
-    margin: 0 1em;
+    margin: 0 1rem;
     padding: 1rem 0;
 }
 
@@ -406,6 +383,7 @@ main .toolbar > ul > li > span {
     z-index: 10;
     display: none;
     width: 100%;
+    background: #231f20;
 }
 
 #toolbar .toolbar:hover > ul {
@@ -414,7 +392,15 @@ main .toolbar > ul > li > span {
 
 #toolbar .toolbar > ul > li {
     margin: 0 1rem;
-    border-bottom: thin dashed;
+    border-bottom: thin dashed #000;
+}
+
+#toolbar .toolbar > ul > li > span {
+    color: #e14b28;
+}
+
+#toolbar a {
+    color: #fff;
 }
 
 #toolbar .toolbar ul a {
