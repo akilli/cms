@@ -211,6 +211,9 @@ INSERT INTO `account` (`id`, `name`, `password`, `role_id`, `is_active`, `is_sys
 (0, 'anonymous', '', 0, '1', '1'),
 (1, 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
 
+INSERT INTO `project` (`id`, `name`, `host`, `is_active`, `is_system`) VALUES
+(0, 'global', NULL, '1', '1');
+
 INSERT INTO `role` (`id`, `name`, `privilege`, `is_active`, `is_system`) VALUES
 (0, 'anonymous', NULL, '1', '1'),
 (1, 'admin', '["all"]', '1', '1');

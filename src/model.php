@@ -191,7 +191,7 @@ function model_save(string $entity, array & $data): bool
                 );
 
                 if (!$callback($item)) {
-                    throw new RuntimeException('Save call failed');
+                    throw new RuntimeException(_('Data could not be saved'));
                 }
 
                 event(
@@ -262,7 +262,7 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
                 );
 
                 if (!$callback($item)) {
-                    throw new RuntimeException('Delete call failed');
+                    throw new RuntimeException(_('Data could not be deleted'));
                 }
 
                 event(

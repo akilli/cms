@@ -181,7 +181,7 @@ function eav_create(array & $item): bool
         }
 
         if (count($save) > 0 && !model_save('eav', $save)) {
-            throw new RuntimeException('Save call failed');
+            throw new RuntimeException(_('Data could not be saved'));
         }
     }
 
@@ -258,7 +258,7 @@ function eav_save(array & $item): bool
         }
 
         if (!model_save('eav', $save)) {
-            throw new RuntimeException('Save call failed');
+            throw new RuntimeException(_('Data could not be saved'));
         }
     }
 

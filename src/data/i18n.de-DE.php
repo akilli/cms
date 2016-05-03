@@ -61,7 +61,7 @@ return [
     'Grouping Elements' => 'Gruppierungselemente',
     'Handles' => 'Identifikatoren',
     'Homepage' => 'Startseite',
-    'Host' => 'Host',
+    'Host' => 'Startseite',
     'I18n' => 'I18n',
     'ID' => 'ID',
     'Ignore' => 'Ignorieren',
