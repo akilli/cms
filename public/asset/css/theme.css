@@ -1,9 +1,19 @@
 /**
+ * Font
+ */
+@font-face {
+    font-family: Ubuntu;
+    font-weight: normal;
+    font-style: normal;
+    src: url('../font/Ubuntu.woff') format('woff');
+}
+
+/**
  * Section
  */
 body {
     line-height: 1.5;
-    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-family: Ubuntu, sans-serif;
     color: #231f20;
     background: #fff;
 }
@@ -123,14 +133,14 @@ tfoot a {
 }
 
 /* Data types */
-th[data-type^='bool.'],
-th[data-type^='datetime.'],
-th[data-type^='decimal.'],
-th[data-type^='int.'] {
+th[data-type$='.bool'],
+th[data-type$='.datetime'],
+th[data-type$='.decimal'],
+th[data-type$='.int'] {
     width: 1px;
 }
 
-th[data-type='int.select'] {
+th[data-type='select.int'] {
     width: auto;
 }
 

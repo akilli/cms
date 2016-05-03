@@ -68,7 +68,7 @@ return [
             'mode' => [
                 'name' => 'Mode',
                 'sort_order' => 9920,
-                'type' => 'varchar.select',
+                'type' => 'select.varchar',
                 'description' => '',
                 'options' => ['after' => 'After', 'before' => 'Before', 'child' => 'Child'],
                 'actions' => ['edit'],
@@ -76,7 +76,7 @@ return [
             'menubasis' => [
                 'name' => 'Basis',
                 'sort_order' => 9930,
-                'type' => 'varchar.select',
+                'type' => 'select.varchar',
                 'description' => '',
                 'is_required' => true,
                 'options_callback' => 'qnd\option_menubasis',
