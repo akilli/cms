@@ -62,13 +62,12 @@ function filter_path(string $path): string
  */
 function filter_id(string $id): string
 {
-    static $data, $keys, $charset;
+    static $data, $keys;
 
     if ($data === null) {
         $data = config('filter.identifier');
         $keys = array_keys($data);
-        $charset = config('i18n.charset');
     }
 
-    return trim(preg_replace($keys, $data, mb_strtolower($id, $charset)), '-');
+    return trim(preg_replace($keys, $data, strtolower($id)), '-');
 }
