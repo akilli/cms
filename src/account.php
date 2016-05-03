@@ -2,7 +2,7 @@
 namespace qnd;
 
 /**
- * User
+ * Account
  *
  * @param string $key
  *
@@ -10,9 +10,10 @@ namespace qnd;
  */
 function account(string $key = null)
 {
-    static $data;
+    $data = & registry('account');
 
     if ($data === null) {
+        $data = [];
         $id = (int) session('account');
         $data = model_load('account', ['id' => $id, 'is_active' => true], false);
 
