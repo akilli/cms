@@ -382,6 +382,9 @@ function validator_unique(array $attr, array & $item): bool
         $item[$code] = $attr['unique_callback']($base, $data[$entity][$code], $item['_id']);
 
         return true;
+    } elseif (!empty($attr['is_nullable']) && $item[$code] == '') {
+        $item[$code] = null;
+        return true;
     } elseif (!empty($item[$code])
         && (array_search($item[$code], $data[$entity][$code]) === $item['_id']
             || !in_array($item[$code], $data[$entity][$code])

@@ -144,10 +144,12 @@ DROP TABLE IF EXISTS `project`;
 CREATE TABLE IF NOT EXISTS `project` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
+    `host` VARCHAR(255) DEFAULT NULL,
     `is_active` BOOLEAN NOT NULL DEFAULT '0',
     `is_system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `uni_project_name` (`name`),
+    UNIQUE KEY `uni_project_host` (`host`),
+    KEY `idx_project_name` (`name`),
     KEY `idx_project_active` (`is_active`),
     KEY `idx_project_system` (`is_system`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

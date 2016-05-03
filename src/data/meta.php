@@ -469,8 +469,15 @@ return [
                 'column' => 'name',
                 'type' => 'text',
                 'is_required' => true,
-                'is_unique' => true,
                 'actions' => ['all'],
+            ],
+            'host' => [
+                'name' => 'Host',
+                'column' => 'host',
+                'type' => 'text',
+                'is_nullable' => true,
+                'is_unique' => true,
+                'actions' => ['edit', 'index'],
             ],
             'is_active' => [
                 'name' => 'Active',
