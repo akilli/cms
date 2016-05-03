@@ -61,7 +61,7 @@ function action_edit()
 function action_delete()
 {
     $meta = action_internal_meta();
-    $data = post('data');
+    $data = post('edit');
 
     if ($data) {
         model_delete($meta['id'], ['id' => array_keys($data)]);
