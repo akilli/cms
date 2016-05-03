@@ -19,6 +19,13 @@ return [
                 'column' => 'name',
                 'type' => 'text',
                 'is_required' => true,
+                'actions' => ['all'],
+            ],
+            'email' => [
+                'name' => 'E-Mail',
+                'column' => 'email',
+                'type' => 'email',
+                'is_required' => true,
                 'is_unique' => true,
                 'actions' => ['all'],
             ],

@@ -6,15 +6,13 @@
     <form action="<?= url('*/*');?>" method="post" class="login">
         <fieldset class="data">
             <legend><?= _('Credentials');?></legend>
-            <div class="element attribute-name">
-                <label for="data-name"><?= _('Name');?> <em class="required"><?= _('Required');?></em></label>
-                <input id="data-name" type="text" name="data[name]" required="required" title="<?= _('Please enter your name');?>" />
-                <p class="message"><?= _('Please enter your name');?></p>
+            <div class="element attribute-email">
+                <label for="data-email"><?= _('Email');?> <em class="required"><?= _('Required');?></em></label>
+                <input id="data-email" type="email" name="data[email]" required="required" />
             </div>
             <div class="element attribute-password">
                 <label for="data-password"><?= _('Password');?> <em class="required"><?= _('Required');?></em></label>
-                <input id="data-password" type="password" name="data[password]" required="required" title="<?= _('Please enter your password');?>" />
-                <p class="message"><?= _('Please enter your password');?></p>
+                <input id="data-password" type="password" name="data[password]" required="required" />
             </div>
         </fieldset>
         <fieldset class="action">

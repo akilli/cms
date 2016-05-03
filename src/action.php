@@ -258,9 +258,9 @@ function action_account_login()
     $data = post('data');
 
     if ($data) {
-        if (!empty($data['name'])
+        if (!empty($data['email'])
             && !empty($data['password'])
-            && ($item = model_load('account', ['name' => $data['name'], 'is_active' => true], false))
+            && ($item = model_load('account', ['email' => $data['email'], 'is_active' => true], false))
             && password_verify($data['password'], $item['password'])
         ) {
             message(_('Welcome %s', $item['name']));
@@ -269,7 +269,7 @@ function action_account_login()
             redirect('*/dashboard');
         }
 
-        message(_('Invalid name and password combination'));
+        message(_('Invalid email and password combination'));
     }
 
     layout_load();

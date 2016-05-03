@@ -12,12 +12,14 @@ DROP TABLE IF EXISTS `account`;
 CREATE TABLE IF NOT EXISTS `account` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     `role_id` INTEGER(11) NOT NULL,
     `is_active` BOOLEAN NOT NULL DEFAULT '0',
     `is_system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `uni_account_name` (`name`),
+    UNIQUE KEY `uni_account_email` (`email`),
+    KEY `idx_account_name` (`name`),
     KEY `idx_account_role` (`role_id`),
     KEY `idx_account_active` (`is_active`),
     KEY `idx_account_system` (`is_system`)
@@ -207,9 +209,9 @@ ALTER TABLE `meta`
 -- Data
 -- --------------------------------------------------------
 
-INSERT INTO `account` (`id`, `name`, `password`, `role_id`, `is_active`, `is_system`) VALUES
-(0, 'anonymous', '', 0, '1', '1'),
-(1, 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
+INSERT INTO `account` (`id`, `name`, `email`, `password`, `role_id`, `is_active`, `is_system`) VALUES
+(0, 'anonymous', '', '', 0, '1', '1'),
+(1, 'admin', 'admin@example.com', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
 
 INSERT INTO `project` (`id`, `name`, `host`, `is_active`, `is_system`) VALUES
 (0, 'global', NULL, '1', '1');

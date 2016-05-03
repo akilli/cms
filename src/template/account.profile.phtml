@@ -7,14 +7,16 @@
         <fieldset class="data">
             <legend><?= _('Credentials');?></legend>
             <div class="element attribute-name">
-                <label for="data-name"><?= _('Name');?> <em class="required"><?= _('Required');?></em> <em class="unique"><?= _('Unique');?></em></label>
-                <input id="data-name" type="text" name="data[name]" value="<?=$§('item')['name'];?>" required="required" title="<?= _('Your name');?>" />
-                <p class="message"><?= _('Your name');?></p>
+                <label for="data-name"><?= _('Name');?> <em class="required"><?= _('Required');?></em></label>
+                <input id="data-name" type="text" name="data[name]" value="<?=$§('item')['name'];?>" required="required" />
+            </div>
+            <div class="element attribute-email">
+                <label for="data-email"><?= _('Email');?> <em class="required"><?= _('Required');?></em> <em class="unique"><?= _('Unique');?></em></label>
+                <input id="data-email" type="email" name="data[email]" value="<?=$§('item')['email'];?>" required="required" />
             </div>
             <div class="element attribute-password">
                 <label for="data-password"><?= _('Password');?></label>
-                <input id="data-password" type="password" name="data[password]" title="<?= _('Your password');?>" autocomplete="off" />
-                <p class="message"><?= _('Your password');?></p>
+                <input id="data-password" type="password" name="data[password]" autocomplete="off" />
             </div>
         </fieldset>
         <fieldset class="action">
