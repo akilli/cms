@@ -4,7 +4,7 @@ namespace qnd;
 use RuntimeException;
 
 /**
- * Data
+ * Config data listener
  *
  * @param array $data
  *
@@ -13,7 +13,6 @@ use RuntimeException;
 function listener_config(array & $data)
 {
     // Set auto values
-    $data['i18n.language'] = locale_get_primary_language($data['i18n.locale']);
     $data['file.all'] = array_merge(
         $data['file.audio'],
         $data['file.embed'],
@@ -29,25 +28,13 @@ function listener_config(array & $data)
 }
 
 /**
- * EAV Model load listener
+ * Meta data listener
  *
  * @param array $data
  *
  * @return void
  */
-function listener_eav(array & $data)
-{
-    $data['_meta'] = data('meta', $data['entity_id']);
-}
-
-/**
- * Metadata listener
- *
- * @param array $data
- *
- * @return void
- */
-function listener_meta(array & $data)
+function listener_data_meta(array & $data)
 {
     foreach ($data as $id => $item) {
         if (empty($item['id'])) {
@@ -98,7 +85,84 @@ function listener_meta(array & $data)
 }
 
 /**
- * Save listener
+ * Privilege data listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_data_privilege(array & $data)
+{
+    $meta = data('meta');
+    $config = config('action.entity');
+    unset($config['all']);
+
+    foreach ($meta as $entity => $item) {
+        $actions = in_array('all', $item) ? $config : $item['actions'];
+
+        if (!$actions) {
+            continue;
+        }
+
+        $data[$entity . '.all'] = [
+            'id' => $entity . '.all',
+            'name' => $item['name'],
+            'is_active' => true,
+            'sort_order' => 1000,
+            'class' => 'group',
+        ];
+
+        foreach ($actions as $action) {
+            if (in_array($action, $config)) {
+                $data[$entity . '.' . $action] = [
+                    'id' => $entity . '.' . $action,
+                    'name' => $item['name'] . ' ' . ucwords($action),
+                    'is_active' => true,
+                    'sort_order' => 1000,
+                ];
+            }
+        }
+    }
+}
+
+/**
+ * Toolbar data listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_data_toolbar(array & $data)
+{
+    foreach (data('meta') as $entity => $meta) {
+        if (meta_action('index', $meta) && !empty($meta['toolbar']) && !empty($data[$meta['toolbar']])) {
+            $data[$meta['toolbar']]['children'][$entity]['name'] = $meta['name'];
+            $data[$meta['toolbar']]['children'][$entity]['description'] = $meta['description'];
+            $data[$meta['toolbar']]['children'][$entity]['url'] = url($entity . '/index');
+            $data[$meta['toolbar']]['children'][$entity]['sort_order'] = (int) $meta['sort_order'];
+        }
+    }
+
+    foreach ($data as $key => $item) {
+        $data[$key]['name'] = _($item['name']);
+        $data[$key]['children'] = data_order($item['children'], 'sort_order');
+    }
+}
+
+/**
+ * EAV model load listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_model_eav(array & $data)
+{
+    $data['_meta'] = data('meta', $data['entity_id']);
+}
+
+/**
+ * Model save listener
  *
  * @param array $data
  *
@@ -137,7 +201,7 @@ function listener_model_save(array & $data)
 }
 
 /**
- * Model delete
+ * Model delete listener
  *
  * @param array $data
  *
@@ -150,45 +214,4 @@ function listener_model_delete(array & $data)
     }
 
     model_delete('rewrite', ['target' => $data['_meta']['id'] . '/view/id/' . $data['id']], null, true);
-}
-
-/**
- * Auto-generate privileges
- *
- * @param array $data
- *
- * @return void
- */
-function listener_privilege(array & $data)
-{
-    $meta = data('meta');
-    $config = config('action.entity');
-    unset($config['all']);
-
-    foreach ($meta as $entity => $item) {
-        $actions = in_array('all', $item) ? $config : $item['actions'];
-
-        if (!$actions) {
-            continue;
-        }
-
-        $data[$entity . '.all'] = [
-            'id' => $entity . '.all',
-            'name' => $item['name'],
-            'is_active' => true,
-            'sort_order' => 1000,
-            'class' => 'group',
-        ];
-
-        foreach ($actions as $action) {
-            if (in_array($action, $config)) {
-                $data[$entity . '.' . $action] = [
-                    'id' => $entity . '.' . $action,
-                    'name' => $item['name'] . ' ' . ucwords($action),
-                    'is_active' => true,
-                    'sort_order' => 1000,
-                ];
-            }
-        }
-    }
 }

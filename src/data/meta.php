@@ -5,7 +5,7 @@ return [
         'name' => 'Account',
         'actions' => ['create', 'edit', 'delete',  'index'],
         'description' => '',
-        'toolbar' => 'acl',
+        'toolbar' => 'system',
         'sort_order' => 200,
         'attributes' => [
             'id' => [
@@ -525,13 +525,54 @@ return [
             ],
         ],
     ],
+    'project' => [
+        'id' => 'project',
+        'name' => 'Project',
+        'actions' => ['create', 'edit', 'delete',  'index'],
+        'description' => '',
+        'toolbar' => 'system',
+        'sort_order' => 100,
+        'attributes' => [
+            'id' => [
+                'name' => 'ID',
+                'column' => 'id',
+                'auto' => true,
+                'type' => 'int',
+                'description' => '',
+                'actions' => ['index'],
+            ],
+            'name' => [
+                'name' => 'Name',
+                'column' => 'name',
+                'type' => 'text',
+                'description' => '',
+                'is_required' => true,
+                'is_unique' => true,
+                'actions' => ['all'],
+            ],
+            'is_active' => [
+                'name' => 'Active',
+                'column' => 'is_active',
+                'type' => 'checkbox.bool',
+                'description' => '',
+                'actions' => ['edit', 'index'],
+            ],
+            'is_system' => [
+                'name' => 'System',
+                'column' => 'is_system',
+                'type' => 'checkbox.bool',
+                'description' => '',
+                'actions' => ['index'],
+            ],
+        ],
+    ],
     'rewrite' => [
         'id' => 'rewrite',
         'name' => 'Rewrite',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'description' => '',
         'toolbar' => 'system',
-        'sort_order' => 100,
+        'sort_order' => 400,
         'attributes' => [
             'id' => [
                 'name' => 'ID',
@@ -572,8 +613,8 @@ return [
         'name' => 'Role',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'description' => '',
-        'toolbar' => 'acl',
-        'sort_order' => 100,
+        'toolbar' => 'system',
+        'sort_order' => 300,
         'attributes' => [
             'id' => [
                 'name' => 'ID',

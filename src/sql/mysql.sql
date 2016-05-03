@@ -142,6 +142,18 @@ CREATE TABLE IF NOT EXISTS `meta` (
     KEY `idx_meta_unique` (`is_unique`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `project`;
+CREATE TABLE IF NOT EXISTS `project` (
+    `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NOT NULL,
+    `is_active` BOOLEAN NOT NULL DEFAULT '0',
+    `is_system` BOOLEAN NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uni_project_name` (`name`),
+    KEY `idx_project_active` (`is_active`),
+    KEY `idx_project_system` (`is_system`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `rewrite`;
 CREATE TABLE IF NOT EXISTS `rewrite` (
     `id` VARCHAR(255) NOT NULL,

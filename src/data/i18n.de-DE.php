@@ -2,7 +2,6 @@
 return [
     '%s is a mandatory field' => '%s ist ein Pflichtfeld',
     '%s must be unique' => '%s muß eindeutig sein',
-    'Access Control' => 'Zugriffskontrolle',
     'Access denied' => 'Zugriff verweigert',
     'Account' => 'Benutzer',
     'Account Dashboard' => 'Benutzer Übersicht',
@@ -124,6 +123,7 @@ return [
     'Privilege' => 'Privileg',
     'Privileges' => 'Privilegien',
     'Profile' => 'Profil',
+    'Project' => 'Projekt',
     'Radio (Boolean)' => 'Radio (Boolean)',
     'Radio (Integer)' => 'Radio (Ganzzahl)',
     'Radio (Varchar)' => 'Radio (Varchar)',

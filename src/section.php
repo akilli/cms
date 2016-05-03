@@ -194,7 +194,7 @@ function section_message(array & $section): string
 function section_toolbar(array & $section): string
 {
     if (!isset($section['vars']['data'])) {
-        $section['vars']['data'] = toolbar();
+        $section['vars']['data'] = data('toolbar');
     } elseif (empty($section['vars']['data'])) {
         return '';
     }

@@ -1,33 +1,31 @@
 <?php
 return [
     'content' => [
-        'id' => 'content',
         'name' => 'Content',
         'description' => '',
+        'url' => null,
         'sort_order' => 100,
+        'children' => [],
     ],
     'types' => [
-        'id' => 'types',
         'name' => 'Content Types',
         'description' => '',
+        'url' => null,
         'sort_order' => 200,
+        'children' => [],
     ],
     'structure' => [
-        'id' => 'structure',
         'name' => 'Structure',
         'description' => '',
+        'url' => null,
         'sort_order' => 300,
-    ],
-    'acl' => [
-        'id' => 'acl',
-        'name' => 'Access Control',
-        'description' => '',
-        'sort_order' => 400,
+        'children' => [],
     ],
     'system' => [
-        'id' => 'system',
         'name' => 'System',
         'description' => '',
-        'sort_order' => 500,
+        'url' => null,
+        'sort_order' => 400,
+        'children' => [],
     ],
 ];

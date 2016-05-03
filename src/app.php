@@ -156,10 +156,11 @@ function config(string $key)
  */
 function _(string $key, string ...$params): string
 {
-    static $data;
+    $data = & registry('i18n');
 
     if ($data === null) {
-        $data = array_replace(data('i18n.' . config('i18n.language')), data('i18n.' . config('i18n.locale')));
+        $data = [];
+        $data = data('i18n.' . config('i18n.locale'));
     }
 
     if (!$key) {
