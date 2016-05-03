@@ -92,7 +92,7 @@ return [
                 'description' => '',
                 'is_required' => true,
                 'options_callback' => 'qnd\data',
-                'options_callback_param' => ['type'],
+                'options_callback_param' => ['attribute'],
                 'actions' => ['edit', 'index'],
             ],
             'description' => [
