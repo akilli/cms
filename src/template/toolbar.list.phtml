@@ -3,7 +3,7 @@
     <?php foreach ((array) $§('data') as $item):?>
     <li>
         <?php if ($item['url']):?>
-        <a href="<?=$item['url'];?>"><?= _($item['name']);?></a>
+        <a href="<?= url($item['url']);?>"><?= _($item['name']);?></a>
         <?php else:?>
         <span><?= _($item['name']);?></span>
         <?php endif;?>

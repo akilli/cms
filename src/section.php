@@ -210,9 +210,7 @@ function section_toolbar(array & $section): string
             $item['children'] = $section['vars']['data'][$key]['children'] = '';
         }
 
-        if (!empty($item['controller']) && !allowed($item['controller'])
-            || empty($item['url']) && empty($item['children'])
-        ) {
+        if (!empty($item['privilege']) && !allowed($item['privilege']) || empty($item['url']) && empty($item['children'])) {
             unset($section['vars']['data'][$key]);
         }
     }
