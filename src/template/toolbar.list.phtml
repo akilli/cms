@@ -3,9 +3,9 @@
     <?php foreach ((array) $§('data') as $item):?>
     <li>
         <?php if ($item['url']):?>
-        <a href="<?=$item['url'];?>" title="<?= _($item['description']);?>"><?= _($item['name']);?></a>
+        <a href="<?=$item['url'];?>"><?= _($item['name']);?></a>
         <?php else:?>
-        <span title="<?= _($item['description']);?>"><?= _($item['name']);?></span>
+        <span><?= _($item['name']);?></span>
         <?php endif;?>
         <?=$item['children'];?>
     </li>

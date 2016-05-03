@@ -30,7 +30,7 @@ function editor_varchar(array $attr, array $item): string
 
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
         . html_name($attr, $item) . '" value="' . encode(value($attr, $item))
-        . '"' . html_required($attr, $item) . html_title($attr) . html_class($attr) . ' />';
+        . '"' . html_required($attr, $item) . html_class($attr) . ' />';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
@@ -83,7 +83,7 @@ function editor_select(array $attr, array $item): string
     }
 
     $html = '<select id="' . $htmlId . '" name="' . $htmlName . '"' . html_required($attr, $item)
-        . html_title($attr) . html_class($attr) . $multiple . '>' . $html . '</select>';
+        . html_class($attr) . $multiple . '>' . $html . '</select>';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
@@ -127,8 +127,8 @@ function editor_input_option(array $attr, array $item): string
             $checked = in_array($optionId, $value) ? ' checked="checked"' : '';
             $html .= '<input id="' . $htmlId . '-' . $optionId . '" type="' . $attr['frontend']
                 . '" name="' . $htmlName . '" value="' . $optionId . '"' . html_required($attr, $item)
-                . html_title($attr) . html_class($attr) . $checked . ' /> <label for="' . $htmlId . '-'
-                . $optionId . '" class="inline">' . option_name($optionId, $optionValue) . '</label>';
+                . html_class($attr) . $checked . ' /> <label for="' . $htmlId . '-' . $optionId . '" class="inline">'
+                . option_name($optionId, $optionValue) . '</label>';
         }
     }
 
@@ -151,8 +151,7 @@ function editor_password(array $attr, array $item): string
 
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend']
         . '" name="' . html_name($attr, $item) . '"  autocomplete="off"'
-        . html_required($attr, $item) . html_title($attr)
-        . html_class($attr) . ' />';
+        . html_required($attr, $item) . html_class($attr) . ' />';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
@@ -172,9 +171,8 @@ function editor_file(array $attr, array $item): string
     }
 
     $html = '<div>' . viewer($attr, $item) . '</div>'
-        . '<input id="' . html_id($attr, $item) . '" type="file" name="'
-        . html_name($attr, $item) . '"' . html_required($attr, $item)
-        . html_title($attr) . html_class($attr) . ' />';
+        . '<input id="' . html_id($attr, $item) . '" type="file" name="' . html_name($attr, $item) . '"'
+        . html_required($attr, $item) . html_class($attr) . ' />';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
@@ -242,7 +240,7 @@ function editor_number(array $attr, array $item): string
     $type = $min && $max ? 'range' : 'number';
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $type
         . '" name="' . html_name($attr, $item) . '" value="' . $value . '"'
-        . html_required($attr, $item) . html_title($attr) . html_class($attr) . $step . $min
+        . html_required($attr, $item) . html_class($attr) . $step . $min
         . $max . ' />';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
@@ -263,7 +261,7 @@ function editor_textarea(array $attr, array $item): string
     }
 
     $html = '<textarea id="' . html_id($attr, $item) . '" name="' . html_name($attr, $item) . '"'
-        . html_required($attr, $item) . html_title($attr) . html_class($attr) . '>'
+        . html_required($attr, $item) . html_class($attr) . '>'
         . encode(value($attr, $item)) . '</textarea>';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);

@@ -107,18 +107,6 @@ function html_class(array $attr): string
 }
 
 /**
- * HTML title attribute
- *
- * @param array $attr
- *
- * @return string
- */
-function html_title(array $attr): string
-{
-    return !empty($attr['description']) ? ' title="' . _($attr['description']) . '"' : '';
-}
-
-/**
  * Message
  *
  * @param array $attr
@@ -128,15 +116,9 @@ function html_title(array $attr): string
  */
 function html_message(array $attr, array $item): string
 {
-    $message = '';
-
-    if (!empty($attr['description'])) {
-        $message .= '<p class="message">' . _($attr['description']) . '</p>';
+    if (empty($item['_error'][$attr['id']])) {
+        return '';
     }
 
-    if (!empty($item['_error'][$attr['id']])) {
-        $message .= '<p class="message error">' . $item['_error'][$attr['id']] . '</p>';
-    }
-
-    return $message;
+    return '<p class="message error">' . $item['_error'][$attr['id']] . '</p>';
 }

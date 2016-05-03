@@ -137,14 +137,12 @@ function listener_data_toolbar(array & $data)
     foreach (data('meta') as $entity => $meta) {
         if (meta_action('index', $meta) && !empty($meta['toolbar']) && !empty($data[$meta['toolbar']])) {
             $data[$meta['toolbar']]['children'][$entity]['name'] = $meta['name'];
-            $data[$meta['toolbar']]['children'][$entity]['description'] = $meta['description'];
             $data[$meta['toolbar']]['children'][$entity]['url'] = url($entity . '/index');
             $data[$meta['toolbar']]['children'][$entity]['sort_order'] = (int) $meta['sort_order'];
         }
     }
 
     foreach ($data as $key => $item) {
-        $data[$key]['name'] = _($item['name']);
         $data[$key]['children'] = data_order($item['children'], 'sort_order');
     }
 }

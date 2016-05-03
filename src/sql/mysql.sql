@@ -28,7 +28,6 @@ CREATE TABLE IF NOT EXISTS `attribute` (
     `id` VARCHAR(100) NOT NULL,
     `name` VARCHAR(255) NOT NULL,
     `type` VARCHAR(100) NOT NULL,
-    `description` TEXT NOT NULL,
     `options_entity` VARCHAR(100) DEFAULT NULL,
     `options_callback` VARCHAR(255) DEFAULT NULL,
     `options` TEXT DEFAULT NULL,
@@ -85,7 +84,6 @@ DROP TABLE IF EXISTS `entity`;
 CREATE TABLE IF NOT EXISTS `entity` (
     `id` VARCHAR(100) NOT NULL,
     `name` VARCHAR(255) NOT NULL,
-    `description` TEXT NOT NULL,
     `actions` TEXT DEFAULT NULL,
     `toolbar` VARCHAR(255) NOT NULL,
     `sort_order` INTEGER(11) NOT NULL DEFAULT '0',
