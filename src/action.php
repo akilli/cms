@@ -205,7 +205,17 @@ function action_denied()
 }
 
 /**
- * Dashboard Action
+ * Home Action
+ *
+ * @return void
+ */
+function action_http_index()
+{
+    layout_load();
+}
+
+/**
+ * Account Dashboard Action
  *
  * @return void
  */
@@ -216,7 +226,7 @@ function action_account_dashboard()
 }
 
 /**
- * Profile Action
+ * Account Profile Action
  *
  * @return void
  */
@@ -245,7 +255,7 @@ function action_account_profile()
 }
 
 /**
- * Login Action
+ * Account Login Action
  *
  * @return void
  */
@@ -277,7 +287,7 @@ function action_account_login()
 }
 
 /**
- * Logout Action
+ * Account Logout Action
  *
  * @return void
  */
@@ -289,13 +299,19 @@ function action_account_logout()
 }
 
 /**
- * Index Action
+ * Project Switch Action
  *
  * @return void
  */
-function action_http_index()
+function action_project_switch()
 {
-    layout_load();
+    $id = (int) param('id');
+
+    if (model_size('project', ['id' => $id])) {
+        session('project', $id);
+    }
+
+    redirect();
 }
 
 /**

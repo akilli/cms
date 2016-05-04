@@ -23,7 +23,9 @@ function project(string $key = null)
             $data = model_load('project', ['id' => 0], false);
         }
 
-        session('project', $data['id'] ?? null);
+        if ($id <= 0 || !$data) {
+            session('project', null, true);
+        }
     }
 
     if ($key === null) {

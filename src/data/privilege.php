@@ -39,4 +39,10 @@ return [
         'is_active' => false,
         'sort_order' => 200,
     ],
+    'project.switch' => [
+        'id' => 'project.switch',
+        'name' => 'Project Switch',
+        'is_active' => true,
+        'sort_order' => 1000,
+    ],
 ];

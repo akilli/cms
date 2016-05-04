@@ -123,6 +123,7 @@ return [
     'Privileges' => 'Privilegien',
     'Profile' => 'Profil',
     'Project' => 'Projekt',
+    'Project Switch' => 'Projekt Wechseln',
     'Radio (Boolean)' => 'Radio (Boolean)',
     'Radio (Integer)' => 'Radio (Ganzzahl)',
     'Radio (Varchar)' => 'Radio (Varchar)',
