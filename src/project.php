@@ -20,7 +20,7 @@ function project(string $key = null)
         $data = model_load('project', $criteria, false);
 
         if (!$data) {
-            $data = model_load('project', ['id' => 0], false);
+            $data = model_load('project', ['id' => 0, 'is_active' => true], false);
         }
 
         if ($id <= 0 || !$data) {
