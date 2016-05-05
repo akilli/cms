@@ -53,7 +53,7 @@ function editor_select(array $attr, array $item): string
     $attr['options'] = option($attr, $item);
     $htmlId =  html_id($attr, $item);
     $htmlName =  html_name($attr, $item);
-    $multiple = !empty($attr['is_multiple']) ? ' multiple="multiple"' : '';
+    $multiple = !empty($attr['multiple']) ? ' multiple="multiple"' : '';
 
     if (!is_array($value)) {
         $value = empty($value) && !is_numeric($value) ? [] : [$value];

@@ -12,7 +12,7 @@ return [
         'is_nullable' => false,
         'required' => false,
         'is_unique' => false,
-        'is_multiple' => false,
+        'multiple' => false,
         'searchable' => false,
         'options_entity' => null,
         'options_callback' => null,

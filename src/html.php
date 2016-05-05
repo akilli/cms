@@ -72,7 +72,7 @@ function html_id(array $attr, array $item): string
  */
 function html_name(array $attr, array $item): string
 {
-    return 'data[' . $item['_id'] . '][' . $attr['id'] . ']' . (!empty($attr['is_multiple']) ? '[]' : '');
+    return 'data[' . $item['_id'] . '][' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
 }
 
 /**

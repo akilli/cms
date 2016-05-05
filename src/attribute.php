@@ -27,7 +27,7 @@ function cast(array $attr, $value)
         return floatval($value);
     }
 
-    if (!empty($attr['is_multiple']) && is_array($value)) {
+    if (!empty($attr['multiple']) && is_array($value)) {
         foreach ($value as $k => $v) {
             $value[$k] = cast($attr, $v);
         }

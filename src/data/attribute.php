@@ -241,7 +241,7 @@ return [
         'backend' => 'text',
         'frontend' => 'checkbox',
         'default' => [
-            'is_multiple' => true,
+            'multiple' => true,
             'loader' => 'qnd\loader_json',
             'saver' => 'qnd\saver_multiple',
             'validator' => 'qnd\validator_option',
@@ -313,7 +313,7 @@ return [
         'backend' => 'text',
         'frontend' => 'select',
         'default' => [
-            'is_multiple' => true,
+            'multiple' => true,
             'loader' => 'qnd\loader_json',
             'saver' => 'qnd\saver_multiple',
             'validator' => 'qnd\validator_option',
