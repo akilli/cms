@@ -465,9 +465,9 @@ return [
                 'required' => true,
                 'actions' => ['edit', 'index'],
             ],
-            'is_redirect' => [
+            'redirect' => [
                 'name' => 'Redirect',
-                'column' => 'is_redirect',
+                'column' => 'redirect',
                 'type' => 'checkbox.bool',
                 'actions' => ['edit', 'index'],
             ],

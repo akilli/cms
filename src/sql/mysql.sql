@@ -143,11 +143,11 @@ DROP TABLE IF EXISTS `rewrite`;
 CREATE TABLE IF NOT EXISTS `rewrite` (
     `id` VARCHAR(255) NOT NULL,
     `target` VARCHAR(255) NOT NULL,
-    `is_redirect` BOOLEAN NOT NULL DEFAULT '0',
+    `redirect` BOOLEAN NOT NULL DEFAULT '0',
     `system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     KEY `idx_rewrite_target` (`target`),
-    KEY `idx_rewrite_redirect` (`is_redirect`),
+    KEY `idx_rewrite_redirect` (`redirect`),
     KEY `idx_rewrite_system` (`system`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

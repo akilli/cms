@@ -171,7 +171,7 @@ function url_rewrite(string $path): string
         return $path;
     }
 
-    if (!empty($item['is_redirect'])) {
+    if (!empty($item['redirect'])) {
         redirect($item['target']);
     }
 
