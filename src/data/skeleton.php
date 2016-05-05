@@ -105,7 +105,7 @@ return [
         'path' => '',
         'host' => '',
         'scheme' => 'http',
-        'is_secure' => false,
+        'secure' => false,
         'params' => [],
         'get' => [],
         'post' => [],

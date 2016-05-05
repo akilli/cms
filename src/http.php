@@ -36,7 +36,7 @@ function request_init(): array
     $data['path'] = url_rewrite($data['original_path']);
     $data['host'] = $_SERVER['HTTP_HOST'];
     $data['scheme'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-    $data['is_secure'] = $data['scheme'] === 'https';
+    $data['secure'] = $data['scheme'] === 'https';
     $data['get'] = $_GET;
     $data['post'] = !empty($_POST['token']) && post_validate($_POST['token']) ? $_POST : [];
     $data['files'] = $_FILES ? files_validate(files_convert($_FILES)) : [];
