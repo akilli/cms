@@ -237,7 +237,7 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
     }
 
     foreach ($data as $id => $item) {
-        if (!$system && !empty($item['is_system'])) {
+        if (!$system && !empty($item['system'])) {
             message(_('You must not delete system items! Therefore skipped ID %s', $id));
             unset($data[$id]);
             continue;

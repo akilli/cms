@@ -82,11 +82,11 @@ function action_view()
     $meta = action_internal_meta();
 
     if (!($item = model_load($meta['id'], ['id' => param('id')], false))
-        || !empty($meta['attributes']['is_active']) && empty($item['is_active']) && !allowed('edit')
+        || !empty($meta['attributes']['active']) && empty($item['active']) && !allowed('edit')
     ) {
         // Item does not exist or is inactive
         action_error();
-    } elseif (!empty($meta['attributes']['is_active']) && empty($item['is_active'])) {
+    } elseif (!empty($meta['attributes']['active']) && empty($item['active'])) {
         // Preview
         message(_('Preview'));
     }
@@ -110,7 +110,7 @@ function action_index()
             return meta_action($action, $attr);
         }
     );
-    $criteria = empty($meta['attributes']['is_active']) || $action === 'index' ? [] : ['is_active' => true];
+    $criteria = empty($meta['attributes']['active']) || $action === 'index' ? [] : ['active' => true];
     $order = null;
     $params = [];
     $search = post('search');
@@ -286,7 +286,7 @@ function action_user_login()
     if ($data) {
         if (!empty($data['email'])
             && !empty($data['password'])
-            && ($item = model_load('user', ['email' => $data['email'], 'is_active' => true], false))
+            && ($item = model_load('user', ['email' => $data['email'], 'active' => true], false))
             && password_verify($data['password'], $item['password'])
         ) {
             message(_('Welcome %s', $item['name']));

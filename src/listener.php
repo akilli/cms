@@ -107,7 +107,7 @@ function listener_data_privilege(array & $data)
         $data[$entity . '.all'] = [
             'id' => $entity . '.all',
             'name' => $item['name'],
-            'is_active' => true,
+            'active' => true,
             'sort_order' => 1000,
             'class' => 'group',
         ];
@@ -117,7 +117,7 @@ function listener_data_privilege(array & $data)
                 $data[$entity . '.' . $action] = [
                     'id' => $entity . '.' . $action,
                     'name' => $item['name'] . ' ' . ucwords($action),
-                    'is_active' => true,
+                    'active' => true,
                     'sort_order' => 1000,
                 ];
             }
@@ -192,8 +192,8 @@ function listener_model_save(array & $data)
 
     if ($data['_meta']['id'] !== 'rewrite' && meta_action('view', $data['_meta'])) {
         $target = $data['_meta']['id'] . '/view/id/' . $data['id'];
-        $rewrite = ['id' => $data['name'], 'target' => $target, 'is_system' => true];
-        $old = model_load('rewrite', ['target' => $target, 'is_system' => true], false);
+        $rewrite = ['id' => $data['name'], 'target' => $target, 'system' => true];
+        $old = model_load('rewrite', ['target' => $target, 'system' => true], false);
         $rewrites = $old ? [$old['id'] => $rewrite] : [-1 => $rewrite];
        model_save('rewrite', $rewrites);
     }

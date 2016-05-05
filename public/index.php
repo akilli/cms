@@ -39,3 +39,5 @@ register_shutdown_function(
  * Run application
  */
 app();
+
+echo '<pre>' . print_r(session(), 1) . '</pre>';

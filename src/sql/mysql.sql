@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS `content` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `entity_id` VARCHAR(100) NOT NULL,
-    `is_active` BOOLEAN NOT NULL DEFAULT '0',
-    `is_system` BOOLEAN NOT NULL DEFAULT '0',
+    `active` BOOLEAN NOT NULL DEFAULT '0',
+    `system` BOOLEAN NOT NULL DEFAULT '0',
     `meta` TEXT DEFAULT NULL,
     `search` TEXT DEFAULT NULL,
     `created` DATETIME NOT NULL,
@@ -37,8 +37,8 @@ CREATE TABLE IF NOT EXISTS `content` (
     PRIMARY KEY (`id`),
     KEY `idx_content_name` (`name`),
     KEY `idx_content_entity` (`entity_id`),
-    KEY `idx_content_active` (`is_active`),
-    KEY `idx_content_system` (`is_system`),
+    KEY `idx_content_active` (`active`),
+    KEY `idx_content_system` (`system`),
     KEY `idx_content_created` (`created`),
     KEY `idx_content_creator` (`creator`),
     KEY `idx_content_modified` (`modified`),
@@ -72,12 +72,12 @@ CREATE TABLE IF NOT EXISTS `entity` (
     `actions` TEXT DEFAULT NULL,
     `toolbar` VARCHAR(255) NOT NULL,
     `sort_order` INTEGER(11) NOT NULL DEFAULT '0',
-    `is_system` BOOLEAN NOT NULL DEFAULT '0',
+    `system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     KEY `idx_entity_name` (`name`),
     KEY `idx_entity_toolbar` (`toolbar`),
     KEY `idx_entity_sort` (`sort_order`),
-    KEY `idx_entity_system` (`is_system`)
+    KEY `idx_entity_system` (`system`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `menu`;
@@ -101,10 +101,10 @@ DROP TABLE IF EXISTS `menu_root`;
 CREATE TABLE IF NOT EXISTS `menu_root` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
-    `is_system` BOOLEAN NOT NULL DEFAULT '0',
+    `system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     KEY `idx_menu_root_name` (`name`),
-    KEY `idx_menu_root_system` (`is_system`)
+    KEY `idx_menu_root_system` (`system`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `meta`;
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `meta` (
     `entity_id` VARCHAR(100) NOT NULL,
     `attribute_id` VARCHAR(100) NOT NULL,
     `sort_order` INTEGER(11) NOT NULL DEFAULT '0',
-    `is_required` BOOLEAN NOT NULL DEFAULT '0',
+    `required` BOOLEAN NOT NULL DEFAULT '0',
     `is_unique` BOOLEAN NOT NULL DEFAULT '0',
     `actions` TEXT DEFAULT NULL,
     PRIMARY KEY (`id`),
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `meta` (
     KEY `idx_meta_entity` (`entity_id`),
     KEY `idx_meta_attribute` (`attribute_id`),
     KEY `idx_meta_sort` (`sort_order`),
-    KEY `idx_meta_required` (`is_required`),
+    KEY `idx_meta_required` (`required`),
     KEY `idx_meta_unique` (`is_unique`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
@@ -130,13 +130,13 @@ CREATE TABLE IF NOT EXISTS `project` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `host` VARCHAR(255) DEFAULT NULL,
-    `is_active` BOOLEAN NOT NULL DEFAULT '0',
-    `is_system` BOOLEAN NOT NULL DEFAULT '0',
+    `active` BOOLEAN NOT NULL DEFAULT '0',
+    `system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     UNIQUE KEY `uni_project_host` (`host`),
     KEY `idx_project_name` (`name`),
-    KEY `idx_project_active` (`is_active`),
-    KEY `idx_project_system` (`is_system`)
+    KEY `idx_project_active` (`active`),
+    KEY `idx_project_system` (`system`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `rewrite`;
@@ -144,11 +144,11 @@ CREATE TABLE IF NOT EXISTS `rewrite` (
     `id` VARCHAR(255) NOT NULL,
     `target` VARCHAR(255) NOT NULL,
     `is_redirect` BOOLEAN NOT NULL DEFAULT '0',
-    `is_system` BOOLEAN NOT NULL DEFAULT '0',
+    `system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     KEY `idx_rewrite_target` (`target`),
     KEY `idx_rewrite_redirect` (`is_redirect`),
-    KEY `idx_rewrite_system` (`is_system`)
+    KEY `idx_rewrite_system` (`system`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `role`;
@@ -156,12 +156,12 @@ CREATE TABLE IF NOT EXISTS `role` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `privilege` TEXT DEFAULT NULL,
-    `is_active` BOOLEAN NOT NULL DEFAULT '0',
-    `is_system` BOOLEAN NOT NULL DEFAULT '0',
+    `active` BOOLEAN NOT NULL DEFAULT '0',
+    `system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     UNIQUE KEY `uni_role_name` (`name`),
-    KEY `idx_role_active` (`is_active`),
-    KEY `idx_role_system` (`is_system`)
+    KEY `idx_role_active` (`active`),
+    KEY `idx_role_system` (`system`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `user`;
@@ -171,14 +171,14 @@ CREATE TABLE IF NOT EXISTS `user` (
     `email` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     `role_id` INTEGER(11) NOT NULL,
-    `is_active` BOOLEAN NOT NULL DEFAULT '0',
-    `is_system` BOOLEAN NOT NULL DEFAULT '0',
+    `active` BOOLEAN NOT NULL DEFAULT '0',
+    `system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     UNIQUE KEY `uni_user_email` (`email`),
     KEY `idx_user_name` (`name`),
     KEY `idx_user_role` (`role_id`),
-    KEY `idx_user_active` (`is_active`),
-    KEY `idx_user_system` (`is_system`)
+    KEY `idx_user_active` (`active`),
+    KEY `idx_user_system` (`system`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -209,14 +209,14 @@ ALTER TABLE `user`
 -- Data
 -- --------------------------------------------------------
 
-INSERT INTO `project` (`id`, `name`, `host`, `is_active`, `is_system`) VALUES
+INSERT INTO `project` (`id`, `name`, `host`, `active`, `system`) VALUES
 (0, 'global', NULL, '1', '1');
 
-INSERT INTO `role` (`id`, `name`, `privilege`, `is_active`, `is_system`) VALUES
+INSERT INTO `role` (`id`, `name`, `privilege`, `active`, `system`) VALUES
 (0, 'anonymous', NULL, '1', '1'),
 (1, 'admin', '["all"]', '1', '1');
 
-INSERT INTO `user` (`id`, `name`, `email`, `password`, `role_id`, `is_active`, `is_system`) VALUES
+INSERT INTO `user` (`id`, `name`, `email`, `password`, `role_id`, `active`, `system`) VALUES
 (0, 'anonymous', '', '', 0, '1', '1'),
 (1, 'admin', 'admin@example.com', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
 

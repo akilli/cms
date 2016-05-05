@@ -15,7 +15,7 @@ function §(string $id): string
     $section = & layout($id);
 
     if (!$section
-        || empty($section['is_active'])
+        || empty($section['active'])
         || empty($section['type'])
         || !($type = data('section', $section['type']))
         || !empty($section['privilege']) && !allowed($section['privilege'])

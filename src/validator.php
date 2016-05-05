@@ -309,7 +309,7 @@ function validator_json(array $attr, array & $item): bool
 function validator_default(array $attr, array & $item): bool
 {
     return !empty($attr['auto'])
-        || !meta_action('edit', $attr) && (empty($attr['is_required']) || !empty($item['_old']))
+        || !meta_action('edit', $attr) && (empty($attr['required']) || !empty($item['_old']))
         || validator_unique($attr, $item) && validator_required($attr, $item);
 }
 
@@ -325,7 +325,7 @@ function validator_required(array $attr, array & $item): bool
 {
     $code = $attr['id'];
 
-    if (!empty($attr['is_required']) && empty($item[$code]) && !option($attr, $item) && !ignorable($attr, $item)) {
+    if (!empty($attr['required']) && empty($item[$code]) && !option($attr, $item) && !ignorable($attr, $item)) {
         $item['_error'][$code] = _('%s is a mandatory field', $attr['name']);
 
         return false;

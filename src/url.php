@@ -191,7 +191,7 @@ function url_unrewrite(string $path, string $query = null): string
     static $data;
 
     if ($data === null) {
-        $data = model_load('rewrite', null, 'target', ['is_system' => 'desc']);
+        $data = model_load('rewrite', null, 'target', ['system' => 'desc']);
     }
 
     $url = !empty($data[$path . $query]) ? $data[$path . $query]['id'] : $path . $query;
