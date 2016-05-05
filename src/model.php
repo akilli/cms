@@ -76,7 +76,7 @@ function model_load(string $entity, array $criteria = null, $index = null, array
 
         if (!$index
             || $index === 'search'
-            || !is_array($index) && empty($meta['attributes'][$index]) && $index !== 'unique'
+            || !is_array($index) && empty($meta['attributes'][$index]) && $index !== 'unambiguous'
         ) {
             $index = 'id';
         }
@@ -99,9 +99,9 @@ function model_load(string $entity, array $criteria = null, $index = null, array
                 return $item;
             }
 
-            if ($index === 'unique') {
+            if ($index === 'unambiguous') {
                 foreach ($item as $code => $value) {
-                    if (!empty($meta['attributes'][$code]['is_unique'])) {
+                    if (!empty($meta['attributes'][$code]['unambiguous'])) {
                         $data[$code][$item['id']] = $value;
                     }
                 }

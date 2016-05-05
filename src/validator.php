@@ -310,7 +310,7 @@ function validator_default(array $attr, array & $item): bool
 {
     return !empty($attr['auto'])
         || !meta_action('edit', $attr) && (empty($attr['required']) || !empty($item['_old']))
-        || validator_unique($attr, $item) && validator_required($attr, $item);
+        || validator_unambiguous($attr, $item) && validator_required($attr, $item);
 }
 
 /**
@@ -335,18 +335,18 @@ function validator_required(array $attr, array & $item): bool
 }
 
 /**
- * Unique validator
+ * Unambiguous validator
  *
  * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function validator_unique(array $attr, array & $item): bool
+function validator_unambiguous(array $attr, array & $item): bool
 {
     static $data = [];
 
-    if (empty($attr['is_unique'])) {
+    if (empty($attr['unambiguous'])) {
         return true;
     }
 
@@ -355,7 +355,7 @@ function validator_unique(array $attr, array & $item): bool
 
     // Existing values
     if (!isset($data[$entity])) {
-        $data[$entity] = model_load($entity, null, 'unique');
+        $data[$entity] = model_load($entity, null, 'unambiguous');
 
         if ($entity === 'entity' && ($ids = array_keys(data('meta')))
             || $entity === 'attribute' && ($ids = array_keys(data('meta', 'content')['attributes']))
@@ -369,17 +369,17 @@ function validator_unique(array $attr, array & $item): bool
         $data[$entity][$code] = [];
     }
 
-    // Generate unique value
-    if ($attr['unique_callback']) {
+    // Generate unambiguous value
+    if ($attr['generator']) {
         if (!empty($item[$code])) {
             $base = $item[$code];
-        } elseif (!empty($attr['unique_base']) && !empty($item[$attr['unique_base']])) {
-            $base = $item[$attr['unique_base']];
+        } elseif (!empty($attr['generator_base']) && !empty($item[$attr['generator_base']])) {
+            $base = $item[$attr['generator_base']];
         } else {
             $base = null;
         }
 
-        $item[$code] = $attr['unique_callback']($base, $data[$entity][$code], $item['_id']);
+        $item[$code] = $attr['generator']($base, $data[$entity][$code], $item['_id']);
 
         return true;
     } elseif (!empty($attr['nullable']) && $item[$code] == '') {
@@ -390,13 +390,13 @@ function validator_unique(array $attr, array & $item): bool
             || !in_array($item[$code], $data[$entity][$code])
         )
     ) {
-        // Provided value is unique
+        // Provided value is unambiguous
         $data[$entity][$code][$item['_id']] = $item[$code];
 
         return true;
     }
 
-    $item['_error'][$code] = _('%s must be unique', $attr['name']);
+    $item['_error'][$code] = _('%s must be unambiguous', $attr['name']);
 
     return false;
 }

@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `meta` (
     `attribute_id` VARCHAR(100) NOT NULL,
     `sort_order` INTEGER(11) NOT NULL DEFAULT '0',
     `required` BOOLEAN NOT NULL DEFAULT '0',
-    `is_unique` BOOLEAN NOT NULL DEFAULT '0',
+    `unambiguous` BOOLEAN NOT NULL DEFAULT '0',
     `actions` TEXT DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `uni_meta_attribute` (`entity_id`,`attribute_id`),
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `meta` (
     KEY `idx_meta_attribute` (`attribute_id`),
     KEY `idx_meta_sort` (`sort_order`),
     KEY `idx_meta_required` (`required`),
-    KEY `idx_meta_unique` (`is_unique`)
+    KEY `idx_meta_unambiguous` (`unambiguous`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `project`;

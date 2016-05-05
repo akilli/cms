@@ -17,8 +17,8 @@ function html_label(array $attr, array $item): string
         $message .= ' <em class="required">' . _('Required') . '</em>';
     }
 
-    if (!empty($attr['is_unique'])) {
-        $message .= ' <em class="unique">' . _('Unique') . '</em>';
+    if (!empty($attr['unambiguous'])) {
+        $message .= ' <em class="unambiguous">' . _('Unambiguous') . '</em>';
     }
 
     return '<label for="' . html_id($attr, $item) . '">' . _($attr['name']) . $message . '</label>';

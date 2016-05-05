@@ -2,7 +2,7 @@
 namespace qnd;
 
 /**
- * Generates a unique id for given base id
+ * Generates a unambiguous id for given base id
  *
  * @param string $needle
  * @param array $haystack
@@ -20,7 +20,7 @@ function generator_id(string $needle, array & $haystack, $id): string
         $needle .= '-';
 
         for ($i = 1; in_array($needle . $i, $haystack) && array_search($needle . $i, $haystack) !== $id; $i++);
-    
+
         $haystack[$id] = $needle . $i;
     }
 
@@ -28,7 +28,7 @@ function generator_id(string $needle, array & $haystack, $id): string
 }
 
 /**
- * Generates a unique file name in given path
+ * Generates a unambiguous file name in given path
  *
  * @param string $str
  * @param string $path
