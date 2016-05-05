@@ -183,6 +183,17 @@ function action_list()
 }
 
 /**
+ * Denied Action
+ *
+ * @return void
+ */
+function action_denied()
+{
+    message(_('Access denied'));
+    redirect('user/login');
+}
+
+/**
  * Error Action
  *
  * @return void
@@ -194,17 +205,6 @@ function action_error()
 }
 
 /**
- * Denied Action
- *
- * @return void
- */
-function action_denied()
-{
-    message(_('Access denied'));
-    redirect('account/login');
-}
-
-/**
  * Home Action
  *
  * @return void
@@ -212,90 +212,6 @@ function action_denied()
 function action_http_index()
 {
     layout_load();
-}
-
-/**
- * Account Dashboard Action
- *
- * @return void
- */
-function action_account_dashboard()
-{
-    layout_load();
-    vars('head', ['title' => _('Dashboard')]);
-}
-
-/**
- * Account Profile Action
- *
- * @return void
- */
-function action_account_profile()
-{
-    $account = account();
-
-    if (!$account || !registered()) {
-        redirect();
-    }
-
-    $item = post('data');
-
-    if ($item) {
-        $data = [$account['id'] => array_replace($account, $item)];
-        model_save('account', $data);
-    }
-
-    if (!$item = account()) {
-        redirect();
-    }
-
-    layout_load();
-    vars('account.profile', ['item' => $item]);
-    vars('head', ['title' => _('Account Profile')]);
-}
-
-/**
- * Account Login Action
- *
- * @return void
- */
-function action_account_login()
-{
-    if (registered()) {
-        redirect('*/dashboard');
-    }
-
-    $data = post('data');
-
-    if ($data) {
-        if (!empty($data['email'])
-            && !empty($data['password'])
-            && ($item = model_load('account', ['email' => $data['email'], 'is_active' => true], false))
-            && password_verify($data['password'], $item['password'])
-        ) {
-            message(_('Welcome %s', $item['name']));
-            session_regenerate_id(true);
-            session('account', $item['id']);
-            redirect('*/dashboard');
-        }
-
-        message(_('Invalid email and password combination'));
-    }
-
-    layout_load();
-    vars('head', ['title' => _('Account Login')]);
-}
-
-/**
- * Account Logout Action
- *
- * @return void
- */
-function action_account_logout()
-{
-    session_regenerate_id(true);
-    session_destroy();
-    redirect();
 }
 
 /**
@@ -311,6 +227,90 @@ function action_project_switch()
         session('project', $id);
     }
 
+    redirect();
+}
+
+/**
+ * User Dashboard Action
+ *
+ * @return void
+ */
+function action_user_dashboard()
+{
+    layout_load();
+    vars('head', ['title' => _('Dashboard')]);
+}
+
+/**
+ * User Profile Action
+ *
+ * @return void
+ */
+function action_user_profile()
+{
+    $user = user();
+
+    if (!$user || !registered()) {
+        redirect();
+    }
+
+    $item = post('data');
+
+    if ($item) {
+        $data = [$user['id'] => array_replace($user, $item)];
+        model_save('user', $data);
+    }
+
+    if (!$item = user()) {
+        redirect();
+    }
+
+    layout_load();
+    vars('user.profile', ['item' => $item]);
+    vars('head', ['title' => _('User Profile')]);
+}
+
+/**
+ * User Login Action
+ *
+ * @return void
+ */
+function action_user_login()
+{
+    if (registered()) {
+        redirect('*/dashboard');
+    }
+
+    $data = post('data');
+
+    if ($data) {
+        if (!empty($data['email'])
+            && !empty($data['password'])
+            && ($item = model_load('user', ['email' => $data['email'], 'is_active' => true], false))
+            && password_verify($data['password'], $item['password'])
+        ) {
+            message(_('Welcome %s', $item['name']));
+            session_regenerate_id(true);
+            session('user', $item['id']);
+            redirect('*/dashboard');
+        }
+
+        message(_('Invalid email and password combination'));
+    }
+
+    layout_load();
+    vars('head', ['title' => _('User Login')]);
+}
+
+/**
+ * User Logout Action
+ *
+ * @return void
+ */
+function action_user_logout()
+{
+    session_regenerate_id(true);
+    session_destroy();
     redirect();
 }
 

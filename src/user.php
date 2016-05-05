@@ -2,20 +2,20 @@
 namespace qnd;
 
 /**
- * Account
+ * User
  *
  * @param string $key
  *
  * @return mixed
  */
-function account(string $key = null)
+function user(string $key = null)
 {
-    $data = & registry('account');
+    $data = & registry('user');
 
     if ($data === null) {
         $data = [];
-        $id = (int) session('account');
-        $data = model_load('account', ['id' => $id, 'is_active' => true], false);
+        $id = (int) session('user');
+        $data = model_load('user', ['id' => $id, 'is_active' => true], false);
 
         if ($data) {
             $role = model_load('role', ['id' => $data['role_id'], 'is_active' => true], false);
@@ -23,7 +23,7 @@ function account(string $key = null)
         }
 
         if ($id <= 0 || !$data) {
-            session('account', null, true);
+            session('user', null, true);
         }
     }
 
@@ -41,5 +41,5 @@ function account(string $key = null)
  */
 function registered(): bool
 {
-    return account('id') > 0;
+    return user('id') > 0;
 }

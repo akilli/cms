@@ -18,7 +18,7 @@ function allowed(string $key = null): bool
         return false;
     }
 
-    $privileges = account('privilege');
+    $privileges = user('privilege');
     $allKey = strstr($key, '.', true) . '.all';
 
     return empty($data[$key]['is_active'])
@@ -74,5 +74,5 @@ function privileges(): array
  */
 function admin(): bool
 {
-    return registered() && in_array('all', account('privilege'));
+    return registered() && in_array('all', user('privilege'));
 }

@@ -44,22 +44,6 @@ return [
         'handle' => 'layout-base',
         'type' => 'container',
     ],
-    // account-registered
-    [
-        'id' => 'toolbar',
-        'handle' => 'account-registered',
-        'type' => 'template',
-        'template' => 'toolbar.menu.phtml',
-        'parent' => 'top',
-        'sort_order' => -100,
-    ],
-    [
-        'id' => 'toolbar.menu',
-        'handle' => 'account-registered',
-        'type' => 'toolbar',
-        'template' => 'toolbar.list.phtml',
-        'parent' => 'toolbar',
-    ],
     // action-create
     [
         'id' => 'entity.create',
@@ -129,35 +113,51 @@ return [
         'template' => 'entity.pager.phtml',
         'parent' => 'entity.list',
     ],
-    // account.dashboard
+    // user-registered
     [
-        'id' => 'account.dashboard',
-        'handle' => 'account.dashboard',
+        'id' => 'toolbar',
+        'handle' => 'user-registered',
         'type' => 'template',
-        'template' => 'account.dashboard.phtml',
-        'parent' => 'content',
+        'template' => 'toolbar.menu.phtml',
+        'parent' => 'top',
+        'sort_order' => -100,
     ],
     [
-        'id' => 'account.dashboard.toolbar',
-        'handle' => 'account.dashboard',
+        'id' => 'toolbar.menu',
+        'handle' => 'user-registered',
         'type' => 'toolbar',
         'template' => 'toolbar.list.phtml',
-        'parent' => 'account.dashboard',
+        'parent' => 'toolbar',
     ],
-    // account.profile
+    // user.dashboard
     [
-        'id' => 'account.profile',
-        'handle' => 'account.profile',
+        'id' => 'user.dashboard',
+        'handle' => 'user.dashboard',
         'type' => 'template',
-        'template' => 'account.profile.phtml',
+        'template' => 'user.dashboard.phtml',
         'parent' => 'content',
     ],
-    // account-login
     [
-        'id' => 'account.login',
-        'handle' => 'account.login',
+        'id' => 'user.dashboard.toolbar',
+        'handle' => 'user.dashboard',
+        'type' => 'toolbar',
+        'template' => 'toolbar.list.phtml',
+        'parent' => 'user.dashboard',
+    ],
+    // user.profile
+    [
+        'id' => 'user.profile',
+        'handle' => 'user.profile',
         'type' => 'template',
-        'template' => 'account.login.phtml',
+        'template' => 'user.profile.phtml',
+        'parent' => 'content',
+    ],
+    // user-login
+    [
+        'id' => 'user.login',
+        'handle' => 'user.login',
+        'type' => 'template',
+        'template' => 'user.login.phtml',
         'parent' => 'content',
     ],
 ];

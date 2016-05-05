@@ -8,23 +8,6 @@ START TRANSACTION;
 -- Tables
 -- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `account`;
-CREATE TABLE IF NOT EXISTS `account` (
-    `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(255) NOT NULL,
-    `email` VARCHAR(255) NOT NULL,
-    `password` VARCHAR(255) NOT NULL,
-    `role_id` INTEGER(11) NOT NULL,
-    `is_active` BOOLEAN NOT NULL DEFAULT '0',
-    `is_system` BOOLEAN NOT NULL DEFAULT '0',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `uni_account_email` (`email`),
-    KEY `idx_account_name` (`name`),
-    KEY `idx_account_role` (`role_id`),
-    KEY `idx_account_active` (`is_active`),
-    KEY `idx_account_system` (`is_system`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `attribute`;
 CREATE TABLE IF NOT EXISTS `attribute` (
     `id` VARCHAR(100) NOT NULL,
@@ -181,17 +164,31 @@ CREATE TABLE IF NOT EXISTS `role` (
     KEY `idx_role_system` (`is_system`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+    `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
+    `role_id` INTEGER(11) NOT NULL,
+    `is_active` BOOLEAN NOT NULL DEFAULT '0',
+    `is_system` BOOLEAN NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uni_user_email` (`email`),
+    KEY `idx_user_name` (`name`),
+    KEY `idx_user_role` (`role_id`),
+    KEY `idx_user_active` (`is_active`),
+    KEY `idx_user_system` (`is_system`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 -- --------------------------------------------------------
 -- Constraints
 -- --------------------------------------------------------
 
-ALTER TABLE `account`
-    ADD CONSTRAINT `con_account_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
-
 ALTER TABLE `content`
     ADD CONSTRAINT `con_content_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_content_creator` FOREIGN KEY (`creator`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    ADD CONSTRAINT `con_content_modifier` FOREIGN KEY (`modifier`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+    ADD CONSTRAINT `con_content_creator` FOREIGN KEY (`creator`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    ADD CONSTRAINT `con_content_modifier` FOREIGN KEY (`modifier`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 ALTER TABLE `eav`
     ADD CONSTRAINT `con_eav_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -205,13 +202,12 @@ ALTER TABLE `meta`
     ADD CONSTRAINT `con_meta_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT `con_meta_attribute` FOREIGN KEY (`attribute_id`) REFERENCES `attribute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE `user`
+    ADD CONSTRAINT `con_user_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
+
 -- --------------------------------------------------------
 -- Data
 -- --------------------------------------------------------
-
-INSERT INTO `account` (`id`, `name`, `email`, `password`, `role_id`, `is_active`, `is_system`) VALUES
-(0, 'anonymous', '', '', 0, '1', '1'),
-(1, 'admin', 'admin@example.com', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
 
 INSERT INTO `project` (`id`, `name`, `host`, `is_active`, `is_system`) VALUES
 (0, 'global', NULL, '1', '1');
@@ -219,6 +215,10 @@ INSERT INTO `project` (`id`, `name`, `host`, `is_active`, `is_system`) VALUES
 INSERT INTO `role` (`id`, `name`, `privilege`, `is_active`, `is_system`) VALUES
 (0, 'anonymous', NULL, '1', '1'),
 (1, 'admin', '["all"]', '1', '1');
+
+INSERT INTO `user` (`id`, `name`, `email`, `password`, `role_id`, `is_active`, `is_system`) VALUES
+(0, 'anonymous', '', '', 0, '1', '1'),
+(1, 'admin', 'admin@example.com', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
 
 -- --------------------------------------------------------
 
