@@ -35,9 +35,9 @@ function file_load(string $path, array $criteria = null, $index = null, array $o
         RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS
     );
 
-    if (!empty($criteria['is_recursive'])) {
+    if (!empty($criteria['recursive'])) {
         $iterator = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::LEAVES_ONLY);
-        unset($criteria['is_recursive']);
+        unset($criteria['recursive']);
     }
 
     /* @var SplFileInfo $item */
