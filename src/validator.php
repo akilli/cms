@@ -220,7 +220,7 @@ function validator_option(array $attr, array & $item): bool
                 return false;
             }
         }
-    } elseif (!empty($attr['is_nullable'])) {
+    } elseif (!empty($attr['nullable'])) {
         $item[$code] = null;
     }
 
@@ -382,7 +382,7 @@ function validator_unique(array $attr, array & $item): bool
         $item[$code] = $attr['unique_callback']($base, $data[$entity][$code], $item['_id']);
 
         return true;
-    } elseif (!empty($attr['is_nullable']) && $item[$code] == '') {
+    } elseif (!empty($attr['nullable']) && $item[$code] == '') {
         $item[$code] = null;
         return true;
     } elseif (!empty($item[$code])

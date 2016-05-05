@@ -11,7 +11,7 @@ namespace qnd;
  */
 function cast(array $attr, $value)
 {
-    if ($value === null && !empty($attr['is_nullable'])) {
+    if ($value === null && !empty($attr['nullable'])) {
         return null;
     }
 

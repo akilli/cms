@@ -59,7 +59,7 @@ function trans(callable $callback): bool
  */
 function db_type(array $attr, $value): int
 {
-    if ($value === null && !empty($attr['is_nullable'])) {
+    if ($value === null && !empty($attr['nullable'])) {
         return PDO::PARAM_NULL;
     }
 
