@@ -62,7 +62,7 @@ function saver_index(array $attr, array & $item): bool
     $item[$code] = '';
 
     foreach ($item['_meta']['attributes'] as $a) {
-        if ($a['is_searchable'] || meta_action(['view', 'index', 'list'], $a)) {
+        if ($a['searchable'] || meta_action(['view', 'index', 'list'], $a)) {
             $item[$code] .= ' ' . str_replace("\n", '', strip_tags($item[$a['id']]));
         }
     }
