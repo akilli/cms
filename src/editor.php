@@ -11,7 +11,13 @@ namespace qnd;
  */
 function editor(array $attr, array $item): string
 {
-    return $attr['editor'] ? $attr['editor']($attr, $item) : '';
+    if (!editable($attr, $item) || !$attr['editor']) {
+        return '';
+    }
+
+    $item[$attr['id']] = value($attr, $item);
+
+    return $attr['editor']($attr, $item);
 }
 
 /**
@@ -24,12 +30,8 @@ function editor(array $attr, array $item): string
  */
 function editor_varchar(array $attr, array $item): string
 {
-    if (!editable($attr, $item)) {
-        return '';
-    }
-
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
-        . html_name($attr, $item) . '" value="' . encode(value($attr, $item))
+        . html_name($attr, $item) . '" value="' . encode($item[$attr['id']])
         . '"' . html_required($attr, $item) . html_class($attr) . ' />';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
@@ -45,18 +47,14 @@ function editor_varchar(array $attr, array $item): string
  */
 function editor_select(array $attr, array $item): string
 {
-    if (!editable($attr, $item)) {
-        return '';
-    }
-
-    $value = value($attr, $item);
+    $value = $item[$attr['id']];
     $attr['options'] = option($attr, $item);
     $htmlId =  html_id($attr, $item);
     $htmlName =  html_name($attr, $item);
     $multiple = !empty($attr['multiple']) ? ' multiple="multiple"' : '';
 
     if (!is_array($value)) {
-        $value = empty($value) && !is_numeric($value) ? [] : [$value];
+        $value = !$value && !is_numeric($value) ? [] : [$value];
     }
 
     if (empty($attr['options'])) {
@@ -98,18 +96,13 @@ function editor_select(array $attr, array $item): string
  */
 function editor_input_option(array $attr, array $item): string
 {
-    if (!editable($attr, $item)) {
-        return '';
-    }
-
-    $value = value($attr, $item);
-
     if ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
         $attr['options'] = [1 => _('Yes')];
     } else {
         $attr['options'] = option($attr, $item);
     }
 
+    $value = $item[$attr['id']];
     $htmlId =  html_id($attr, $item);
     $htmlName =  html_name($attr, $item);
     $html = '';
@@ -145,10 +138,6 @@ function editor_input_option(array $attr, array $item): string
  */
 function editor_password(array $attr, array $item): string
 {
-    if (!editable($attr, $item)) {
-        return '';
-    }
-
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend']
         . '" name="' . html_name($attr, $item) . '"  autocomplete="off"'
         . html_required($attr, $item) . html_class($attr) . ' />';
@@ -166,15 +155,32 @@ function editor_password(array $attr, array $item): string
  */
 function editor_file(array $attr, array $item): string
 {
-    if (!editable($attr, $item)) {
-        return '';
-    }
-
     $html = '<div>' . viewer($attr, $item) . '</div>'
         . '<input id="' . html_id($attr, $item) . '" type="file" name="' . html_name($attr, $item) . '"'
         . html_required($attr, $item) . html_class($attr) . ' />';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
+}
+
+/**
+ * Date editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function editor_date(array $attr, array $item): string
+{
+    $code = $attr['id'];
+
+    if (!empty($item[$code]) && ($datetime = date_format(date_create($item[$code]), 'Y-m-d'))) {
+        $item[$code] = $datetime;
+    } else {
+        $item[$code] = null;
+    }
+
+    return editor_varchar($attr, $item);
 }
 
 /**
@@ -187,15 +193,9 @@ function editor_file(array $attr, array $item): string
  */
 function editor_datetime(array $attr, array $item): string
 {
-    if (!editable($attr, $item)) {
-        return '';
-    }
-
     $code = $attr['id'];
-    $item[$code] = value($attr, $item);
-    $format = $attr['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d\TH:i:s';
 
-    if (!empty($item[$code]) && ($datetime = date_format(date_create($item[$code]), $format))) {
+    if (!empty($item[$code]) && ($datetime = date_format(date_create($item[$code]), 'Y-m-d\TH:i:s'))) {
         $item[$code] = $datetime;
     } else {
         $item[$code] = null;
@@ -216,11 +216,6 @@ function editor_datetime(array $attr, array $item): string
  */
 function editor_number(array $attr, array $item): string
 {
-    if (!editable($attr, $item)) {
-        return '';
-    }
-
-    $value = value($attr, $item);
     $step = '';
     $min = '';
     $max = '';
@@ -239,7 +234,7 @@ function editor_number(array $attr, array $item): string
 
     $type = $min && $max ? 'range' : 'number';
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $type
-        . '" name="' . html_name($attr, $item) . '" value="' . $value . '"'
+        . '" name="' . html_name($attr, $item) . '" value="' . $item[$attr['id']] . '"'
         . html_required($attr, $item) . html_class($attr) . $step . $min
         . $max . ' />';
 
@@ -256,13 +251,9 @@ function editor_number(array $attr, array $item): string
  */
 function editor_textarea(array $attr, array $item): string
 {
-    if (!editable($attr, $item)) {
-        return '';
-    }
-
     $html = '<textarea id="' . html_id($attr, $item) . '" name="' . html_name($attr, $item) . '"'
         . html_required($attr, $item) . html_class($attr) . '>'
-        . encode(value($attr, $item)) . '</textarea>';
+        . encode($item[$attr['id']]) . '</textarea>';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
@@ -277,12 +268,7 @@ function editor_textarea(array $attr, array $item): string
  */
 function editor_json(array $attr, array $item): string
 {
-    if (!editable($attr, $item)) {
-        return '';
-    }
-
     $code = $attr['id'];
-    $item[$code] = value($attr, $item);
 
     if (is_array($item[$code])) {
         $item[$code] = !empty($item[$code]) ? json_encode($item[$code]) : '';

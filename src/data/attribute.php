@@ -84,8 +84,8 @@ return [
         'default' => [
             'loader' => 'qnd\loader_datetime',
             'validator' => 'qnd\validator_datetime',
-            'editor' => 'qnd\editor_datetime',
-            'viewer' => 'qnd\viewer_datetime',
+            'editor' => 'qnd\editor_date',
+            'viewer' => 'qnd\viewer_date',
         ],
     ],
     'datetime' => [
