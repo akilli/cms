@@ -12,21 +12,21 @@
             <table>
                 <thead>
                     <tr>
-                        <th data-type="bool.checkbox">
+                        <th>
                             <input type="checkbox" name="checkall" value="1" title="<?= _('Select all');?>" />
                         </th>
                         <?php foreach ($§('attributes') as $code => $attr):?>
-                        <th data-type="<?=$attr['backend'];?>.<?=$attr['frontend'];?>">
+                        <th>
                             <a href="<?=$attr['url'];?>"><?= _($attr['name']);?></a>
                         </th>
                         <?php endforeach;?>
                         <?php if (allowed('edit')):?>
-                        <th data-type="bool.checkbox">
+                        <th>
                             <?= _('Edit');?>
                         </th>
                         <?php endif;?>
                         <?php if (allowed('view')):?>
-                        <th data-type="bool.checkbox">
+                        <th>
                             <?= _('View');?>
                         </th>
                         <?php endif;?>
