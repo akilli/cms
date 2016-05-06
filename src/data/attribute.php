@@ -75,6 +75,16 @@ return [
             'step' => 0.01,
         ],
     ],
+    'range' => [
+        'id' => 'range',
+        'name' => 'Range',
+        'backend' => 'int',
+        'frontend' => 'range',
+        'default' => [
+            'validator' => 'qnd\validator_number',
+            'editor' => 'qnd\editor_number',
+        ],
+    ],
     // Input Date
     'date' => [
         'id' => 'date',
@@ -84,8 +94,8 @@ return [
         'default' => [
             'loader' => 'qnd\loader_datetime',
             'validator' => 'qnd\validator_datetime',
-            'editor' => 'qnd\editor_date',
-            'viewer' => 'qnd\viewer_date',
+            'editor' => 'qnd\editor_datetime',
+            'viewer' => 'qnd\viewer_datetime',
         ],
     ],
     'datetime' => [

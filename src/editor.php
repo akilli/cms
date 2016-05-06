@@ -30,9 +30,11 @@ function editor(array $attr, array $item): string
  */
 function editor_varchar(array $attr, array $item): string
 {
+    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' data-min="' . $attr['min'] . '"' : '';
+    $max = isset($attr['max']) && is_numeric($attr['max']) ? ' maxlength="' . $attr['max'] . '"' : '';
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
-        . html_name($attr, $item) . '" value="' . encode($item[$attr['id']])
-        . '"' . html_required($attr, $item) . html_class($attr) . ' />';
+        . html_name($attr, $item) . '" value="' . encode($item[$attr['id']]) . '"' . html_required($attr, $item)
+        . html_class($attr) . $min . $max . ' />';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
@@ -80,8 +82,8 @@ function editor_select(array $attr, array $item): string
         }
     }
 
-    $html = '<select id="' . $htmlId . '" name="' . $htmlName . '"' . html_required($attr, $item)
-        . html_class($attr) . $multiple . '>' . $html . '</select>';
+    $html = '<select id="' . $htmlId . '" name="' . $htmlName . '"' . html_required($attr, $item) . html_class($attr)
+        . $multiple . '>' . $html . '</select>';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
@@ -118,9 +120,9 @@ function editor_input_option(array $attr, array $item): string
     } else {
         foreach ($attr['options'] as $optionId => $optionValue) {
             $checked = in_array($optionId, $value) ? ' checked="checked"' : '';
-            $html .= '<input id="' . $htmlId . '-' . $optionId . '" type="' . $attr['frontend']
-                . '" name="' . $htmlName . '" value="' . $optionId . '"' . html_required($attr, $item)
-                . html_class($attr) . $checked . ' /> <label for="' . $htmlId . '-' . $optionId . '" class="inline">'
+            $html .= '<input id="' . $htmlId . '-' . $optionId . '" type="' . $attr['frontend'] . '" name="' . $htmlName
+                . '" value="' . $optionId . '"' . html_required($attr, $item) . html_class($attr) . $checked
+                . ' /> <label for="' . $htmlId . '-' . $optionId . '" class="inline">'
                 . option_name($optionId, $optionValue) . '</label>';
         }
     }
@@ -138,9 +140,10 @@ function editor_input_option(array $attr, array $item): string
  */
 function editor_password(array $attr, array $item): string
 {
-    $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend']
-        . '" name="' . html_name($attr, $item) . '"  autocomplete="off"'
-        . html_required($attr, $item) . html_class($attr) . ' />';
+    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' data-min="' . $attr['min'] . '"' : '';
+    $max = isset($attr['max']) && is_numeric($attr['max']) ? ' maxlength="' . $attr['max'] . '"' : '';
+    $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="' . html_name($attr, $item)
+        . '"  autocomplete="off"' . html_required($attr, $item) . html_class($attr) . $min . $max . ' />';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
@@ -163,27 +166,6 @@ function editor_file(array $attr, array $item): string
 }
 
 /**
- * Date editor
- *
- * @param array $attr
- * @param array $item
- *
- * @return string
- */
-function editor_date(array $attr, array $item): string
-{
-    $code = $attr['id'];
-
-    if (!empty($item[$code]) && ($datetime = date_format(date_create($item[$code]), 'Y-m-d'))) {
-        $item[$code] = $datetime;
-    } else {
-        $item[$code] = null;
-    }
-
-    return editor_varchar($attr, $item);
-}
-
-/**
  * Datetime editor
  *
  * @param array $attr
@@ -194,14 +176,22 @@ function editor_date(array $attr, array $item): string
 function editor_datetime(array $attr, array $item): string
 {
     $code = $attr['id'];
+    $format = $attr['type'] === 'date' ? 'Y-m-d' : 'Y-m-d\TH:i:s';
 
-    if (!empty($item[$code]) && ($datetime = date_format(date_create($item[$code]), 'Y-m-d\TH:i:s'))) {
+    if (!empty($item[$code]) && ($datetime = date_format(date_create($item[$code]), $format))) {
         $item[$code] = $datetime;
     } else {
         $item[$code] = null;
     }
 
-    return editor_varchar($attr, $item);
+    $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
+    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
+    $max = isset($attr['max']) && is_numeric($attr['max']) ? ' max="' . $attr['max'] . '"' : '';
+    $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
+        . html_name($attr, $item) . '" value="' . encode($item[$attr['id']]) . '"' . html_required($attr, $item)
+        . html_class($attr) . $step . $min . $max . ' />';
+
+    return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
 
 /**
@@ -216,27 +206,12 @@ function editor_datetime(array $attr, array $item): string
  */
 function editor_number(array $attr, array $item): string
 {
-    $step = '';
-    $min = '';
-    $max = '';
-
-    if (!empty($attr['step']) && is_numeric($attr['step'])) {
-        $step = ' step="' . $attr['step'] . '"';
-    }
-
-    if (isset($attr['min']) && is_numeric($attr['min'])) {
-        $min = ' min="' . $attr['min'] . '"';
-    }
-
-    if (isset($attr['max']) && is_numeric($attr['max'])) {
-        $max = ' max="' . $attr['max'] . '"';
-    }
-
-    $type = $min && $max ? 'range' : 'number';
-    $html = '<input id="' . html_id($attr, $item) . '" type="' . $type
+    $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
+    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
+    $max = isset($attr['max']) && is_numeric($attr['max']) ? ' max="' . $attr['max'] . '"' : '';
+    $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend']
         . '" name="' . html_name($attr, $item) . '" value="' . $item[$attr['id']] . '"'
-        . html_required($attr, $item) . html_class($attr) . $step . $min
-        . $max . ' />';
+        . html_required($attr, $item) . html_class($attr) . $step . $min . $max . ' />';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }
@@ -251,9 +226,11 @@ function editor_number(array $attr, array $item): string
  */
 function editor_textarea(array $attr, array $item): string
 {
+    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' data-min="' . $attr['min'] . '"' : '';
+    $max = isset($attr['max']) && is_numeric($attr['max']) ? ' maxlength="' . $attr['max'] . '"' : '';
     $html = '<textarea id="' . html_id($attr, $item) . '" name="' . html_name($attr, $item) . '"'
-        . html_required($attr, $item) . html_class($attr) . '>'
-        . encode($item[$attr['id']]) . '</textarea>';
+        . html_required($attr, $item) . html_class($attr) . $min . $max . '>' . encode($item[$attr['id']])
+        . '</textarea>';
 
     return html_label($attr, $item) . $html . html_flag($attr, $item) . html_message($attr, $item);
 }

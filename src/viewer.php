@@ -50,19 +50,6 @@ function viewer_option(array $attr, array $item): string
 }
 
 /**
- * Date viewer
- *
- * @param array $attr
- * @param array $item
- *
- * @return string
- */
-function viewer_date(array $attr, array $item): string
-{
-    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), config('i18n.date'));
-}
-
-/**
  * Datetime viewer
  *
  * @param array $attr
@@ -72,7 +59,9 @@ function viewer_date(array $attr, array $item): string
  */
 function viewer_datetime(array $attr, array $item): string
 {
-    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), config('i18n.datetime'));
+    $format = $attr['type'] === 'date' ? 'i18n.date' : 'i18n.datetime';
+
+    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), config($format));
 }
 
 /**
