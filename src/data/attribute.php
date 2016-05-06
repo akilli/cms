@@ -285,6 +285,17 @@ return [
         ],
     ],
     // Select
+    'select.bool' => [
+        'id' => 'select.bool',
+        'name' => 'Select (Boolean)',
+        'backend' => 'bool',
+        'frontend' => 'select',
+        'default' => [
+            'validator' => 'qnd\validator_option',
+            'editor' => 'qnd\editor_select',
+            'viewer' => 'qnd\viewer_option',
+        ],
+    ],
     'select.int' => [
         'id' => 'select.int',
         'name' => 'Select (Integer)',

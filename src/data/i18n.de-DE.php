@@ -134,6 +134,7 @@ return [
     'Search' => 'Suchen',
     'Search Terms' => 'Suchbegriffe',
     'Sectioning Elements' => 'Strukturierende Elemente',
+    'Select (Boolean)' => 'Auswahlliste (Boolean)',
     'Select (Integer)' => 'Auswahlliste (Ganzzahl)',
     'Select (Varchar)' => 'Auswahlliste (Varchar)',
     'Select all' => 'Alle auswählen',
