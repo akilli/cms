@@ -30,7 +30,7 @@ function editor(array $attr, array $item): string
  */
 function editor_varchar(array $attr, array $item): string
 {
-    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' data-min="' . $attr['min'] . '"' : '';
+    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' minlength="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' maxlength="' . $attr['max'] . '"' : '';
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
         . html_name($attr, $item) . '" value="' . encode($item[$attr['id']]) . '"' . html_required($attr, $item)
@@ -140,7 +140,7 @@ function editor_input_option(array $attr, array $item): string
  */
 function editor_password(array $attr, array $item): string
 {
-    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' data-min="' . $attr['min'] . '"' : '';
+    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' minlength="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' maxlength="' . $attr['max'] . '"' : '';
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="' . html_name($attr, $item)
         . '"  autocomplete="off"' . html_required($attr, $item) . html_class($attr) . $min . $max . ' />';
@@ -226,7 +226,7 @@ function editor_number(array $attr, array $item): string
  */
 function editor_textarea(array $attr, array $item): string
 {
-    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' data-min="' . $attr['min'] . '"' : '';
+    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' minlength="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' maxlength="' . $attr['max'] . '"' : '';
     $html = '<textarea id="' . html_id($attr, $item) . '" name="' . html_name($attr, $item) . '"'
         . html_required($attr, $item) . html_class($attr) . $min . $max . '>' . encode($item[$attr['id']])
