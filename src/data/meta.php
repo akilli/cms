@@ -388,6 +388,12 @@ return [
                 'type' => 'checkbox.bool',
                 'actions' => ['edit'],
             ],
+            'searchable' => [
+                'name' => 'Searchable',
+                'column' => 'searchable',
+                'type' => 'checkbox.bool',
+                'actions' => ['edit'],
+            ],
             'actions' => [
                 'name' => 'Actions',
                 'column' => 'actions',
