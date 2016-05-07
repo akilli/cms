@@ -8,7 +8,7 @@ return [
         'frontend' => 'text',
         'default' => [
             'validator' => 'qnd\validator_callback',
-            'editor' => 'qnd\editor_varchar',
+            'editor' => 'qnd\attribute_editor_varchar',
         ],
     ],
     'email' => [
@@ -18,7 +18,7 @@ return [
         'frontend' => 'email',
         'default' => [
             'validator' => 'qnd\validator_email',
-            'editor' => 'qnd\editor_varchar',
+            'editor' => 'qnd\attribute_editor_varchar',
         ],
     ],
     'password' => [
@@ -28,7 +28,7 @@ return [
         'frontend' => 'password',
         'default' => [
             'validator' => 'qnd\validator_string',
-            'editor' => 'qnd\editor_password',
+            'editor' => 'qnd\attribute_editor_password',
         ],
     ],
     'text' => [
@@ -38,7 +38,7 @@ return [
         'frontend' => 'text',
         'default' => [
             'validator' => 'qnd\validator_string',
-            'editor' => 'qnd\editor_varchar',
+            'editor' => 'qnd\attribute_editor_varchar',
         ],
     ],
     'url' => [
@@ -48,7 +48,7 @@ return [
         'frontend' => 'url',
         'default' => [
             'validator' => 'qnd\validator_url',
-            'editor' => 'qnd\editor_varchar',
+            'editor' => 'qnd\attribute_editor_varchar',
         ],
     ],
     // Input Number
@@ -59,7 +59,7 @@ return [
         'frontend' => 'number',
         'default' => [
             'validator' => 'qnd\validator_number',
-            'editor' => 'qnd\editor_number',
+            'editor' => 'qnd\attribute_editor_number',
         ],
     ],
     'decimal' => [
@@ -69,7 +69,7 @@ return [
         'frontend' => 'number',
         'default' => [
             'validator' => 'qnd\validator_number',
-            'editor' => 'qnd\editor_number',
+            'editor' => 'qnd\attribute_editor_number',
             'step' => 0.01,
         ],
     ],
@@ -80,7 +80,7 @@ return [
         'frontend' => 'range',
         'default' => [
             'validator' => 'qnd\validator_number',
-            'editor' => 'qnd\editor_number',
+            'editor' => 'qnd\attribute_editor_number',
         ],
     ],
     // Input Date
@@ -91,7 +91,7 @@ return [
         'frontend' => 'date',
         'default' => [
             'validator' => 'qnd\validator_datetime',
-            'editor' => 'qnd\editor_datetime',
+            'editor' => 'qnd\attribute_editor_datetime',
         ],
     ],
     'datetime' => [
@@ -101,7 +101,7 @@ return [
         'frontend' => 'datetime-local',
         'default' => [
             'validator' => 'qnd\validator_datetime',
-            'editor' => 'qnd\editor_datetime',
+            'editor' => 'qnd\attribute_editor_datetime',
         ],
     ],
     // Input File
@@ -112,8 +112,6 @@ return [
         'frontend' => 'file',
         'default' => [
             'validator' => 'qnd\validator_file',
-            'editor' => 'qnd\editor_file',
-            'flag' => ['_reset' => 'Reset'],
         ],
     ],
     'embed' => [
@@ -123,8 +121,6 @@ return [
         'frontend' => 'file',
         'default' => [
             'validator' => 'qnd\validator_file',
-            'editor' => 'qnd\editor_file',
-            'flag' => ['_reset' => 'Reset'],
         ],
     ],
     'file' => [
@@ -134,8 +130,6 @@ return [
         'frontend' => 'file',
         'default' => [
             'validator' => 'qnd\validator_file',
-            'editor' => 'qnd\editor_file',
-            'flag' => ['_reset' => 'Reset'],
         ],
     ],
     'image' => [
@@ -145,8 +139,6 @@ return [
         'frontend' => 'file',
         'default' => [
             'validator' => 'qnd\validator_file',
-            'editor' => 'qnd\editor_file',
-            'flag' => ['_reset' => 'Reset'],
         ],
     ],
     'video' => [
@@ -156,8 +148,6 @@ return [
         'frontend' => 'file',
         'default' => [
             'validator' => 'qnd\validator_file',
-            'editor' => 'qnd\editor_file',
-            'flag' => ['_reset' => 'Reset'],
         ],
     ],
     // Textarea
@@ -168,7 +158,7 @@ return [
         'frontend' => 'textarea',
         'default' => [
             'validator' => 'qnd\validator_string',
-            'editor' => 'qnd\editor_textarea',
+            'editor' => 'qnd\attribute_editor_textarea',
         ],
     ],
     'json' => [
@@ -178,7 +168,7 @@ return [
         'frontend' => 'textarea',
         'default' => [
             'validator' => 'qnd\validator_json',
-            'editor' => 'qnd\editor_json',
+            'editor' => 'qnd\attribute_editor_json',
         ],
     ],
     'rte' => [
@@ -188,7 +178,7 @@ return [
         'frontend' => 'textarea',
         'default' => [
             'validator' => 'qnd\validator_rte',
-            'editor' => 'qnd\editor_textarea',
+            'editor' => 'qnd\attribute_editor_textarea',
             'class' => ['rte'],
         ],
     ],
@@ -199,7 +189,7 @@ return [
         'frontend' => 'textarea',
         'default' => [
             'validator' => 'qnd\validator_string',
-            'editor' => 'qnd\editor_textarea',
+            'editor' => 'qnd\attribute_editor_textarea',
         ],
     ],
     // Checkbox
@@ -211,7 +201,7 @@ return [
         'default' => [
             'options' => ['No', 'Yes'],
             'validator' => 'qnd\validator_option',
-            'editor' => 'qnd\editor_input_option',
+            'editor' => 'qnd\attribute_editor_input_option',
         ],
     ],
     'checkbox.int' => [
@@ -221,7 +211,7 @@ return [
         'frontend' => 'checkbox',
         'default' => [
             'validator' => 'qnd\validator_option',
-            'editor' => 'qnd\editor_input_option',
+            'editor' => 'qnd\attribute_editor_input_option',
         ]
     ],
     'checkbox.varchar' => [
@@ -231,7 +221,7 @@ return [
         'frontend' => 'checkbox',
         'default' => [
             'validator' => 'qnd\validator_option',
-            'editor' => 'qnd\editor_input_option',
+            'editor' => 'qnd\attribute_editor_input_option',
         ]
     ],
     'multicheckbox' => [
@@ -242,7 +232,7 @@ return [
         'default' => [
             'multiple' => true,
             'validator' => 'qnd\validator_option',
-            'editor' => 'qnd\editor_input_option',
+            'editor' => 'qnd\attribute_editor_input_option',
         ],
     ],
     // Radio
@@ -254,7 +244,7 @@ return [
         'default' => [
             'options' => ['No', 'Yes'],
             'validator' => 'qnd\validator_option',
-            'editor' => 'qnd\editor_input_option',
+            'editor' => 'qnd\attribute_editor_input_option',
         ],
     ],
     'radio.int' => [
@@ -264,7 +254,7 @@ return [
         'frontend' => 'radio',
         'default' => [
             'validator' => 'qnd\validator_option',
-            'editor' => 'qnd\editor_input_option',
+            'editor' => 'qnd\attribute_editor_input_option',
         ],
     ],
     'radio.varchar' => [
@@ -274,7 +264,7 @@ return [
         'frontend' => 'radio',
         'default' => [
             'validator' => 'qnd\validator_option',
-            'editor' => 'qnd\editor_input_option',
+            'editor' => 'qnd\attribute_editor_input_option',
         ],
     ],
     // Select
@@ -285,7 +275,7 @@ return [
         'frontend' => 'select',
         'default' => [
             'validator' => 'qnd\validator_option',
-            'editor' => 'qnd\editor_select',
+            'editor' => 'qnd\attribute_editor_select',
         ],
     ],
     'select.int' => [
@@ -295,7 +285,7 @@ return [
         'frontend' => 'select',
         'default' => [
             'validator' => 'qnd\validator_option',
-            'editor' => 'qnd\editor_select',
+            'editor' => 'qnd\attribute_editor_select',
         ],
     ],
     'select.varchar' => [
@@ -305,7 +295,7 @@ return [
         'frontend' => 'select',
         'default' => [
             'validator' => 'qnd\validator_option',
-            'editor' => 'qnd\editor_select',
+            'editor' => 'qnd\attribute_editor_select',
         ],
     ],
     'multiselect' => [
@@ -316,7 +306,7 @@ return [
         'default' => [
             'multiple' => true,
             'validator' => 'qnd\validator_option',
-            'editor' => 'qnd\editor_select',
+            'editor' => 'qnd\attribute_editor_select',
         ],
     ],
 ];

@@ -25,31 +25,6 @@ function html_label(array $attr, array $item): string
 }
 
 /**
- * Flag
- *
- * @param array $attr
- * @param array $item
- *
- * @return string
- */
-function html_flag(array $attr, array $item): string
-{
-    $html = '';
-
-    if (!empty($attr['flag']) && is_array($attr['flag'])) {
-        foreach ($attr['flag'] as $flag => $name) {
-            $htmlId =  'data-' . $item['_id'] . '-' . $flag . '-' . $attr['id'];
-            $htmlName =  'data[' . $item['_id'] . '][' . $flag . ']' . '[' . $attr['id'] . ']';
-            $html .= ' <input id="' .  $htmlId . '" type="checkbox" name="' . $htmlName . '" value="1" title="'
-                . _($name) . '" /> <label for="' . $htmlId . '" class="inline">'
-                . _($name) . '</label>';
-        }
-    }
-
-    return $html;
-}
-
-/**
  * HTML id attribute
  *
  * @param array $attr

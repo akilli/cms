@@ -24,7 +24,6 @@ return [
         'generator_base' => null,
         'validator' => null,
         'editor' => null,
-        'flag' => [],
         'min' => null,
         'max' => null,
         'step' => null,
