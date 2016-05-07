@@ -204,7 +204,7 @@ function validator_rte(array $attr, array & $item): bool
  */
 function validator_option(array $attr, array & $item): bool
 {
-    $attr['options'] = option($attr, $item);
+    $attr['options'] = option($attr);
     $code = $attr['id'];
     $item[$code] = cast($attr, $item[$code] ?? null);
 
@@ -331,7 +331,7 @@ function validator_required(array $attr, array & $item): bool
 {
     $code = $attr['id'];
 
-    if (!empty($attr['required']) && empty($item[$code]) && !option($attr, $item) && !ignorable($attr, $item)) {
+    if (!empty($attr['required']) && empty($item[$code]) && !option($attr) && !ignorable($attr, $item)) {
         $item['_error'][$code] = _('%s is a mandatory field', $attr['name']);
 
         return false;

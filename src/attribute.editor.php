@@ -50,7 +50,7 @@ function editor_varchar(array $attr, array $item): string
 function editor_select(array $attr, array $item): string
 {
     $value = $item[$attr['id']];
-    $attr['options'] = option($attr, $item);
+    $attr['options'] = option($attr);
     $htmlId =  html_id($attr, $item);
     $htmlName =  html_name($attr, $item);
     $multiple = !empty($attr['multiple']) ? ' multiple="multiple"' : '';
@@ -101,7 +101,7 @@ function editor_input_option(array $attr, array $item): string
     if ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
         $attr['options'] = [1 => _('Yes')];
     } else {
-        $attr['options'] = option($attr, $item);
+        $attr['options'] = option($attr);
     }
 
     $value = $item[$attr['id']];

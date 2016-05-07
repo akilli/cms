@@ -15,28 +15,34 @@ function attribute_viewer(array $attr, array $item): string
         return '';
     }
 
-    return $attr['viewer'] ? $attr['viewer']($attr, $item) : (string) encode(value($attr, $item));
+    $item[$attr['id']] = value($attr, $item);
+
+    if (in_array($attr['frontend'], ['checkbox', 'radio', 'select'])) {
+        return attribute_viewer_option($attr, $item);
+    }
+
+    $callback = fqn('attribute_viewer_' . $attr['type']);
+
+    return is_callable($callback) ? $callback($attr, $item) : (string) encode($item[$attr['id']]);
 }
 
 /**
- * Option viewer
+ * Option attribute viewer
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function viewer_option(array $attr, array $item): string
+function attribute_viewer_option(array $attr, array $item): string
 {
-    $value = value($attr, $item);
-
-    if (!$attr['options'] = option($attr, $item)) {
+    if (!$attr['options'] = option($attr)) {
         return '';
     }
 
     $values = [];
 
-    foreach ((array) $value as $v) {
+    foreach ((array) $item[$attr['id']] as $v) {
         if (!empty($attr['options'][$v])) {
             if (is_array($attr['options'][$v]) && !empty($attr['options'][$v]['name'])) {
                 $values[] = $attr['options'][$v]['name'];
@@ -50,113 +56,124 @@ function viewer_option(array $attr, array $item): string
 }
 
 /**
- * Datetime viewer
+ * Date attribute viewer
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function viewer_datetime(array $attr, array $item): string
+function attribute_viewer_date(array $attr, array $item): string
 {
-    $format = $attr['type'] === 'date' ? 'i18n.date' : 'i18n.datetime';
-
-    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), config($format));
+    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), config('i18n.date'));
 }
 
 /**
- * Rich text editor viewer
+ * Datetime attribute viewer
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function viewer_rte(array $attr, array $item): string
+function attribute_viewer_datetime(array $attr, array $item): string
 {
-    return value($attr, $item);
+    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), config('i18n.datetime'));
 }
 
 /**
- * Audio viewer
+ * Rich text editor attribute viewer
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function viewer_audio(array $attr, array $item): string
+function attribute_viewer_rte(array $attr, array $item): string
 {
-    if (($value = value($attr, $item)) && media_load($value)) {
-        return '<audio src="' . url_media($value) . '" controls="controls"></audio>';
+    return $item[$attr['id']];
+}
+
+/**
+ * Audio attribute viewer
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function attribute_viewer_audio(array $attr, array $item): string
+{
+    if ($item[$attr['id']] && media_load($item[$attr['id']])) {
+        return '<audio src="' . url_media($item[$attr['id']]) . '" controls="controls"></audio>';
     }
 
     return '';
 }
 
 /**
- * Embed viewer
+ * Embed attribute viewer
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function viewer_embed(array $attr, array $item): string
+function attribute_viewer_embed(array $attr, array $item): string
 {
-    if (($value = value($attr, $item)) && media_load($value)) {
-        return '<embed src="' . url_media($value) . '" autoplay="no" loop="no" />';
+    if ($item[$attr['id']] && media_load($item[$attr['id']])) {
+        return '<embed src="' . url_media($item[$attr['id']]) . '" autoplay="no" loop="no" />';
     }
 
     return '';
 }
 
 /**
- * File viewer
+ * File attribute viewer
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function viewer_file(array $attr, array $item): string
+function attribute_viewer_file(array $attr, array $item): string
 {
-    if (($value = value($attr, $item)) && media_load($value)) {
-        return '<a href="' . url_media($value) . '">' . $value . '</a>';
+    if ($item[$attr['id']] && media_load($item[$attr['id']])) {
+        return '<a href="' . url_media($item[$attr['id']]) . '">' . $item[$attr['id']] . '</a>';
     }
 
     return '';
 }
 
 /**
- * Image viewer
+ * Image attribute viewer
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function viewer_image(array $attr, array $item): string
+function attribute_viewer_image(array $attr, array $item): string
 {
-    if (($value = value($attr, $item)) && ($file = media_load($value))) {
-        return '<img src="' . image($file, $attr['action']) . '" alt="' . $value . '" />';
+    if ($item[$attr['id']] && ($file = media_load($item[$attr['id']]))) {
+        return '<img src="' . image($file, $attr['action']) . '" alt="' . $item[$attr['id']] . '" />';
     }
 
     return '';
 }
 
 /**
- * Video viewer
+ * Video attribute viewer
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function viewer_video(array $attr, array $item): string
+function attribute_viewer_video(array $attr, array $item): string
 {
-    if (($value = value($attr, $item)) && media_load($value)) {
-        return '<video src="' . url_media($value) . '" controls="controls"></video>';
+    if ($item[$attr['id']] && media_load($item[$attr['id']])) {
+        return '<video src="' . url_media($item[$attr['id']]) . '" controls="controls"></video>';
     }
 
     return '';

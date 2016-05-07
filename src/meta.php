@@ -26,32 +26,14 @@ function meta_entity(array $data): array
         }
     }
 
-    // Type
-    $skeleton = data('skeleton', 'entity');
-    $type = !empty($data['type']) ? $data['type'] : $skeleton['type'];
-    $data = array_replace_recursive($skeleton, (array) data('skeleton', 'entity.' . $type), $data);
-
+    $data = array_replace_recursive(data('skeleton', 'entity'), $data);
      // Set table name from ID if it is not set already and quote it
     $data['table'] = $data['table'] ? qi($data['table']) : qi($data['id']);
-
     // Attributes
     $sortOrder = 0;
 
     foreach ($data['attributes'] as $id => $attr) {
         $attr['id'] = $id;
-
-        // Replace placeholders
-        if (strpos($attr['type'], ':') === 0
-            && ($code = substr($attr['type'], 1))
-            && !empty($data['attributes'][$code]['type'])
-        ) {
-            $attr['type'] = $data['attributes'][$code]['type'];
-        }
-
-        if (!empty($attr['options_entity']) && $attr['options_entity'] === ':entity_id') {
-            $attr['options_entity'] = $data['id'];
-        }
-
         $attr = meta_attribute($attr);
 
         if (!is_numeric($attr['sort_order'])) {
@@ -97,10 +79,7 @@ function meta_attribute(array $data): array
 
     $data['backend'] = $type['backend'];
     $data['frontend'] = $type['frontend'];
-
-    // Model
     $data = array_replace(data('skeleton', 'attribute'), $type['default'], $data);
-
     // Quote column name
     $data['column'] = $data['column'] ? qi($data['column']) : null;
 

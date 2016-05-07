@@ -92,7 +92,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_datetime',
             'editor' => 'qnd\editor_datetime',
-            'viewer' => 'qnd\viewer_datetime',
         ],
     ],
     'datetime' => [
@@ -103,7 +102,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_datetime',
             'editor' => 'qnd\editor_datetime',
-            'viewer' => 'qnd\viewer_datetime',
         ],
     ],
     // Input File
@@ -115,7 +113,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_file',
             'editor' => 'qnd\editor_file',
-            'viewer' => 'qnd\viewer_audio',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -127,7 +124,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_file',
             'editor' => 'qnd\editor_file',
-            'viewer' => 'qnd\viewer_embed',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -139,7 +135,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_file',
             'editor' => 'qnd\editor_file',
-            'viewer' => 'qnd\viewer_file',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -151,7 +146,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_file',
             'editor' => 'qnd\editor_file',
-            'viewer' => 'qnd\viewer_image',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -163,7 +157,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_file',
             'editor' => 'qnd\editor_file',
-            'viewer' => 'qnd\viewer_video',
             'flag' => ['_reset' => 'Reset'],
         ],
     ],
@@ -196,7 +189,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_rte',
             'editor' => 'qnd\editor_textarea',
-            'viewer' => 'qnd\viewer_rte',
             'class' => ['rte'],
         ],
     ],
@@ -220,7 +212,6 @@ return [
             'options' => ['No', 'Yes'],
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_input_option',
-            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'checkbox.int' => [
@@ -231,7 +222,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_input_option',
-            'viewer' => 'qnd\viewer_option',
         ]
     ],
     'checkbox.varchar' => [
@@ -242,7 +232,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_input_option',
-            'viewer' => 'qnd\viewer_option',
         ]
     ],
     'multicheckbox' => [
@@ -254,7 +243,6 @@ return [
             'multiple' => true,
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_input_option',
-            'viewer' => 'qnd\viewer_option',
         ],
     ],
     // Radio
@@ -267,7 +255,6 @@ return [
             'options' => ['No', 'Yes'],
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_input_option',
-            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'radio.int' => [
@@ -278,7 +265,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_input_option',
-            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'radio.varchar' => [
@@ -289,7 +275,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_input_option',
-            'viewer' => 'qnd\viewer_option',
         ],
     ],
     // Select
@@ -301,7 +286,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_select',
-            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'select.int' => [
@@ -312,7 +296,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_select',
-            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'select.varchar' => [
@@ -323,7 +306,6 @@ return [
         'default' => [
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_select',
-            'viewer' => 'qnd\viewer_option',
         ],
     ],
     'multiselect' => [
@@ -335,7 +317,6 @@ return [
             'multiple' => true,
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_select',
-            'viewer' => 'qnd\viewer_option',
         ],
     ],
 ];

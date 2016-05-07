@@ -5,18 +5,17 @@ namespace qnd;
  * Retrieve attribute options
  *
  * @param array $attr
- * @param array $item
  *
  * @return array
  */
-function option(array $attr, array $item): array
+function option(array $attr): array
 {
     if ($attr['backend'] === 'bool') {
         return option_bool();
     } elseif (!empty($attr['options_entity'])) {
         return option_entity($attr);
     } elseif (!empty($attr['options_callback'])) {
-        return option_callback($attr, $item);
+        return option_callback($attr);
     }
 
     return option_translate($attr['options']);
@@ -48,40 +47,25 @@ function option_entity(array $attr): array
  * Retrieve callback options
  *
  * @param array $attr
- * @param array $item
  *
  * @return array
  */
-function option_callback(array $attr, array $item): array
+function option_callback(array $attr): array
 {
-    $params = [];
-
-    foreach ($attr['options_callback_param'] as $param) {
-        if ($param === ':attribute') {
-            $params[] = $attr;
-        } elseif ($param === ':item') {
-            $params[] = $item;
-        } else {
-            $params[] = $param;
-        }
-    }
-
-    return option_translate($attr['options_callback'](...$params));
+    return option_translate($attr['options_callback'](...$attr['options_callback_param']));
 }
 
 /**
  * Menubasis
  *
- * @param array $item
- *
  * @return array
  */
-function option_menubasis(array $item): array
+function option_menubasis(): array
 {
-    $roots = entity_load($item['_meta']['attributes']['root_id']['options_entity']);
+    $roots = entity_load('menu_root');
     $data = [];
 
-    foreach (entity_load($item['_meta']['id']) as $menu) {
+    foreach (entity_load('menu') as $menu) {
         if (empty($data[$menu['root_id']  . ':0'])) {
             $data[$menu['root_id']  . ':0']['name'] = $roots[$menu['root_id']]['name'];
             $data[$menu['root_id']  . ':0']['class'] = 'group';
