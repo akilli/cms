@@ -132,6 +132,7 @@ return [
     'Role Admin' => 'Rolle Admin',
     'Save' => 'Speichern',
     'Search' => 'Suchen',
+    'Search Index' => 'Suchindex',
     'Search Terms' => 'Suchbegriffe',
     'Sectioning Elements' => 'Strukturierende Elemente',
     'Select (Boolean)' => 'Auswahlliste (Boolean)',

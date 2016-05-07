@@ -177,6 +177,17 @@ return [
         ],
     ],
     // Textarea
+    'index' => [
+        'id' => 'index',
+        'name' => 'Search Index',
+        'backend' => 'text',
+        'frontend' => 'textarea',
+        'default' => [
+            'saver' => 'qnd\saver_index',
+            'validator' => 'qnd\validator_string',
+            'editor' => 'qnd\editor_textarea',
+        ],
+    ],
     'json' => [
         'id' => 'json',
         'name' => 'JSON',

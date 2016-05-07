@@ -103,9 +103,8 @@ return [
             'search' => [
                 'name' => 'Search Index',
                 'column' => 'search',
-                'type' => 'textarea',
+                'type' => 'index',
                 'nullable' => true,
-                'saver' => 'qnd\saver_index',
             ],
             'created' => [
                 'name' => 'Created',
