@@ -2,14 +2,14 @@
 namespace qnd;
 
 /**
- * Editor
+ * Attribute editor
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function editor(array $attr, array $item): string
+function attribute_editor(array $attr, array $item): string
 {
     if (!editable($attr, $item) || !$attr['editor']) {
         return '';
@@ -158,7 +158,7 @@ function editor_password(array $attr, array $item): string
  */
 function editor_file(array $attr, array $item): string
 {
-    $html = '<div>' . viewer($attr, $item) . '</div>'
+    $html = '<div>' . attribute_viewer($attr, $item) . '</div>'
         . '<input id="' . html_id($attr, $item) . '" type="file" name="' . html_name($attr, $item) . '"'
         . html_required($attr, $item) . html_class($attr) . ' />';
 

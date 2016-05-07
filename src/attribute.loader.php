@@ -2,42 +2,29 @@
 namespace qnd;
 
 /**
- * Loader
+ * Attribute loader
  *
  * @param array $attr
  * @param array $item
  *
  * @return mixed
  */
-function loader(array $attr, array $item)
+function attribute_loader(array $attr, array $item)
 {
-    return $attr['loader'] ? $attr['loader']($attr, $item) : cast($attr, $item[$attr['id']] ?? null);
+    $callback = fqn('attribute_loader_' . $attr['type']);
+
+    return is_callable($callback) ? $callback($attr, $item) : cast($attr, $item[$attr['id']] ?? null);
 }
 
 /**
- * Datetime loader
- *
- * @param array $attr
- * @param array $item
- *
- * @return mixed
- */
-function loader_datetime(array $attr, array $item)
-{
-    $code = $attr['id'];
-
-    return empty($item[$code]) ? null : $item[$code];
-}
-
-/**
- * JSON loader
+ * JSON attribute loader
  *
  * @param array $attr
  * @param array $item
  *
  * @return array
  */
-function loader_json(array $attr, array $item): array
+function attribute_loader_json(array $attr, array $item): array
 {
     $code = $attr['id'];
 
@@ -48,4 +35,30 @@ function loader_json(array $attr, array $item): array
     }
 
     return json_decode($item[$code], true) ?: [];
+}
+
+/**
+ * Multicheckbox attribute loader
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return array
+ */
+function attribute_loader_multicheckbox(array $attr, array $item): array
+{
+    return attribute_loader_json($attr, $item);
+}
+
+/**
+ * Multiselect attribute loader
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return array
+ */
+function attribute_loader_multiselect(array $attr, array $item): array
+{
+    return attribute_loader_json($attr, $item);
 }

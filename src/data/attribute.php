@@ -27,7 +27,6 @@ return [
         'backend' => 'varchar',
         'frontend' => 'password',
         'default' => [
-            'saver' => 'qnd\saver_password',
             'validator' => 'qnd\validator_string',
             'editor' => 'qnd\editor_password',
         ],
@@ -91,7 +90,6 @@ return [
         'backend' => 'datetime',
         'frontend' => 'date',
         'default' => [
-            'loader' => 'qnd\loader_datetime',
             'validator' => 'qnd\validator_datetime',
             'editor' => 'qnd\editor_datetime',
             'viewer' => 'qnd\viewer_datetime',
@@ -103,7 +101,6 @@ return [
         'backend' => 'datetime',
         'frontend' => 'datetime-local',
         'default' => [
-            'loader' => 'qnd\loader_datetime',
             'validator' => 'qnd\validator_datetime',
             'editor' => 'qnd\editor_datetime',
             'viewer' => 'qnd\viewer_datetime',
@@ -116,7 +113,6 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'deleter' => 'qnd\deleter_file',
             'validator' => 'qnd\validator_file',
             'editor' => 'qnd\editor_file',
             'viewer' => 'qnd\viewer_audio',
@@ -129,7 +125,6 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'deleter' => 'qnd\deleter_file',
             'validator' => 'qnd\validator_file',
             'editor' => 'qnd\editor_file',
             'viewer' => 'qnd\viewer_embed',
@@ -142,7 +137,6 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'deleter' => 'qnd\deleter_file',
             'validator' => 'qnd\validator_file',
             'editor' => 'qnd\editor_file',
             'viewer' => 'qnd\viewer_file',
@@ -155,7 +149,6 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'deleter' => 'qnd\deleter_file',
             'validator' => 'qnd\validator_file',
             'editor' => 'qnd\editor_file',
             'viewer' => 'qnd\viewer_image',
@@ -168,7 +161,6 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
         'default' => [
-            'deleter' => 'qnd\deleter_file',
             'validator' => 'qnd\validator_file',
             'editor' => 'qnd\editor_file',
             'viewer' => 'qnd\viewer_video',
@@ -182,7 +174,6 @@ return [
         'backend' => 'text',
         'frontend' => 'textarea',
         'default' => [
-            'saver' => 'qnd\saver_index',
             'validator' => 'qnd\validator_string',
             'editor' => 'qnd\editor_textarea',
         ],
@@ -193,7 +184,6 @@ return [
         'backend' => 'text',
         'frontend' => 'textarea',
         'default' => [
-            'loader' => 'qnd\loader_json',
             'validator' => 'qnd\validator_json',
             'editor' => 'qnd\editor_json',
         ],
@@ -262,8 +252,6 @@ return [
         'frontend' => 'checkbox',
         'default' => [
             'multiple' => true,
-            'loader' => 'qnd\loader_json',
-            'saver' => 'qnd\saver_multiple',
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_input_option',
             'viewer' => 'qnd\viewer_option',
@@ -345,8 +333,6 @@ return [
         'frontend' => 'select',
         'default' => [
             'multiple' => true,
-            'loader' => 'qnd\loader_json',
-            'saver' => 'qnd\saver_multiple',
             'validator' => 'qnd\validator_option',
             'editor' => 'qnd\editor_select',
             'viewer' => 'qnd\viewer_option',

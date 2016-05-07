@@ -2,14 +2,14 @@
 namespace qnd;
 
 /**
- * Viewer
+ * Attribute viewer
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function viewer(array $attr, array $item): string
+function attribute_viewer(array $attr, array $item): string
 {
     if (!viewable($attr)) {
         return '';

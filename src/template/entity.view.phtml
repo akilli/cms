@@ -3,7 +3,7 @@
 <article class="section section-view">
     <?php foreach ($item['_meta']['attributes'] as $code => $attr):?>
         <?php $attr['action'] = 'view';?>
-        <?php if (!$html = viewer($attr, $item)) continue;?>
+        <?php if (!$html = attribute_viewer($attr, $item)) continue;?>
         <?php if ($code === 'name'):?>
     <header>
         <h1><?=$html;?></h1>

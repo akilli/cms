@@ -41,7 +41,7 @@
                         <?php foreach ($§('attributes') as $code => $attr):?>
                             <?php $attr['action'] = 'index';?>
                         <td>
-                            <?=viewer($attr, $item);?>
+                            <?=attribute_viewer($attr, $item);?>
                         </td>
                         <?php endforeach;?>
                         <?php if (allowed('edit')):?>

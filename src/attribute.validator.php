@@ -2,14 +2,14 @@
 namespace qnd;
 
 /**
- * Validator
+ * Attribute validator
  *
  * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function validator(array $attr, array & $item): bool
+function attribute_validator(array $attr, array & $item): bool
 {
     return (!$attr['validator'] || $attr['validator']($attr, $item)) && validator_default($attr, $item);
 }

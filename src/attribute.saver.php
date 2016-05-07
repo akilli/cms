@@ -2,27 +2,29 @@
 namespace qnd;
 
 /**
- * Saver
+ * Attribute saver
  *
  * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function saver(array $attr, array & $item): bool
+function attribute_saver(array $attr, array & $item): bool
 {
-    return $attr['saver'] ? $attr['saver']($attr, $item) : true;
+    $callback = fqn('attribute_saver_' . $attr['type']);
+
+    return is_callable($callback) ? $callback($attr, $item) : true;
 }
 
 /**
- * Password saver
+ * Password attribute saver
  *
  * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function saver_password(array $attr, array & $item): bool
+function attribute_saver_password(array $attr, array & $item): bool
 {
     $code = $attr['id'];
 
@@ -34,14 +36,14 @@ function saver_password(array $attr, array & $item): bool
 }
 
 /**
- * Multiple saver
+ * Multicheckbox attribute saver
  *
  * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function saver_multiple(array $attr, array & $item): bool
+function attribute_saver_multicheckbox(array $attr, array & $item): bool
 {
     $item[$attr['id']] = json_encode(array_filter(array_map('trim', (array) $item[$attr['id']])));
 
@@ -49,14 +51,27 @@ function saver_multiple(array $attr, array & $item): bool
 }
 
 /**
- * Search index saver
+ * Multiselect attribute saver
  *
  * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function saver_index(array $attr, array & $item): bool
+function attribute_saver_multiselect(array $attr, array & $item): bool
+{
+    return attribute_saver_multicheckbox($attr, $item);
+}
+
+/**
+ * Index attribute saver
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return bool
+ */
+function attribute_saver_index(array $attr, array & $item): bool
 {
     $code = $attr['id'];
     $item[$code] = '';

@@ -10,7 +10,7 @@
     <article>
         <?php foreach ($item['_meta']['attributes'] as $code => $attr):?>
             <?php $attr['action'] = 'section';?>
-            <?php if (!$html = viewer($attr, $item)) continue;?>
+            <?php if (!$html = attribute_viewer($attr, $item)) continue;?>
             <?php if ($code === 'name'):?>
         <header>
             <h2><a href="<?= url($item['_meta']['id'] . '/view', ['id' => $id]);?>" title="<?= _('View this item');?>"><?=$html;?></a></h2>
