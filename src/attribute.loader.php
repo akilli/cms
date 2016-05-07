@@ -26,15 +26,13 @@ function attribute_loader(array $attr, array $item)
  */
 function attribute_loader_json(array $attr, array $item): array
 {
-    $code = $attr['id'];
-
-    if (empty($item[$code])) {
+    if (empty($item[$attr['id']])) {
         return [];
-    } elseif (is_array($item[$code])) {
-        return $item[$code];
+    } elseif (is_array($item[$attr['id']])) {
+        return $item[$attr['id']];
     }
 
-    return json_decode($item[$code], true) ?: [];
+    return json_decode($item[$attr['id']], true) ?: [];
 }
 
 /**

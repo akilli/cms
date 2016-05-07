@@ -61,11 +61,10 @@ function value(array $attr, array $item)
  */
 function ignorable(array $attr, array $item): bool
 {
-    $code = $attr['id'];
-    $mustEdit = empty($item[$code]) || $attr['action'] === 'edit' && !empty($item[$code]);
+    $mustEdit = empty($item[$attr['id']]) || $attr['action'] === 'edit' && !empty($item[$attr['id']]);
 
     return !empty($item['_old'])
-        && empty($item['_reset'][$code])
+        && empty($item['_reset'][$attr['id']])
         && $mustEdit
         && in_array($attr['frontend'], ['password', 'file']);
 }

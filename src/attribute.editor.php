@@ -175,13 +175,12 @@ function editor_file(array $attr, array $item): string
  */
 function editor_datetime(array $attr, array $item): string
 {
-    $code = $attr['id'];
     $format = $attr['type'] === 'date' ? 'Y-m-d' : 'Y-m-d\TH:i:s';
 
-    if (!empty($item[$code]) && ($datetime = date_format(date_create($item[$code]), $format))) {
-        $item[$code] = $datetime;
+    if (!empty($item[$attr['id']]) && ($datetime = date_format(date_create($item[$attr['id']]), $format))) {
+        $item[$attr['id']] = $datetime;
     } else {
-        $item[$code] = null;
+        $item[$attr['id']] = null;
     }
 
     $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
@@ -245,10 +244,8 @@ function editor_textarea(array $attr, array $item): string
  */
 function editor_json(array $attr, array $item): string
 {
-    $code = $attr['id'];
-
-    if (is_array($item[$code])) {
-        $item[$code] = !empty($item[$code]) ? json_encode($item[$code]) : '';
+    if (is_array($item[$attr['id']])) {
+        $item[$attr['id']] = !empty($item[$attr['id']]) ? json_encode($item[$attr['id']]) : '';
     }
 
     return editor_textarea($attr, $item);

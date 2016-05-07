@@ -26,11 +26,8 @@ function attribute_deleter(array $attr, array & $item): bool
  */
 function attribute_deleter_file(array $attr, array & $item): bool
 {
-    $code = $attr['id'];
-
-    if (!empty($item[$code]) && !media_delete($item[$code])) {
-        $item['_error'][$code] = _('Could not delete old file %s', $item[$code]);
-
+    if (!empty($item[$attr['id']]) && !media_delete($item[$attr['id']])) {
+        $item['_error'][$attr['id']] = _('Could not delete old file %s', $item[$attr['id']]);
         return false;
     }
 

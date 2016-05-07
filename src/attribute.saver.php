@@ -26,10 +26,8 @@ function attribute_saver(array $attr, array & $item): bool
  */
 function attribute_saver_password(array $attr, array & $item): bool
 {
-    $code = $attr['id'];
-
-    if (!empty($item[$code]) && is_string($item[$code])) {
-        $item[$code] = password_hash($item[$code], PASSWORD_DEFAULT);
+    if (!empty($item[$attr['id']]) && is_string($item[$attr['id']])) {
+        $item[$attr['id']] = password_hash($item[$attr['id']], PASSWORD_DEFAULT);
     }
 
     return true;
@@ -73,12 +71,11 @@ function attribute_saver_multiselect(array $attr, array & $item): bool
  */
 function attribute_saver_index(array $attr, array & $item): bool
 {
-    $code = $attr['id'];
-    $item[$code] = '';
+    $item[$attr['id']] = '';
 
     foreach ($item['_meta']['attributes'] as $a) {
         if ($a['searchable']) {
-            $item[$code] .= ' ' . str_replace("\n", '', strip_tags($item[$a['id']]));
+            $item[$attr['id']] .= ' ' . str_replace("\n", '', strip_tags($item[$a['id']]));
         }
     }
 
