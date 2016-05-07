@@ -108,7 +108,7 @@ function nestedset_create(array & $item): bool
     $cols = cols($attrs, $item, ['root_id']);
     $rootId = $item['root_id'];
 
-    if (empty($item['basis']) || !($basisItem = model_load($meta['id'], ['id' => $item['basis']], false))) {
+    if (empty($item['basis']) || !($basisItem = entity_load($meta['id'], ['id' => $item['basis']], false))) {
         // No or wrong basis given so append node
         $stmt = db()->prepare("
             SELECT 
@@ -231,7 +231,7 @@ function nestedset_save(array & $item): bool
 
     // No change in position or wrong basis given
     if (!empty($item['basis']) && ($item['basis'] === $id
-            || !($basisItem = model_load($meta['id'], ['id' => $item['basis']], false))
+            || !($basisItem = entity_load($meta['id'], ['id' => $item['basis']], false))
             || $lft < $basisItem['lft'] && $rgt > $basisItem['rgt'])
     ) {
         return true;

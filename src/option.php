@@ -41,7 +41,7 @@ function option_bool(): array
  */
 function option_entity(array $attr): array
 {
-    return option_translate(model_load($attr['options_entity']));
+    return option_translate(entity_load($attr['options_entity']));
 }
 
 /**
@@ -78,10 +78,10 @@ function option_callback(array $attr, array $item): array
  */
 function option_menubasis(array $item): array
 {
-    $roots = model_load($item['_meta']['attributes']['root_id']['options_entity']);
+    $roots = entity_load($item['_meta']['attributes']['root_id']['options_entity']);
     $data = [];
 
-    foreach (model_load($item['_meta']['id']) as $menu) {
+    foreach (entity_load($item['_meta']['id']) as $menu) {
         if (empty($data[$menu['root_id']  . ':0'])) {
             $data[$menu['root_id']  . ':0']['name'] = $roots[$menu['root_id']]['name'];
             $data[$menu['root_id']  . ':0']['class'] = 'group';

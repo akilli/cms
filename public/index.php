@@ -39,3 +39,13 @@ register_shutdown_function(
  * Run application
  */
 app();
+
+/**
+ * Debug
+ */
+printf(
+    '<pre>Request Time: %s | Memory Usage: %s | Peak Memory Usage: %s</pre>',
+    number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 4, ',', '.'),
+    number_format(memory_get_usage(), 0, ',', '.'),
+    number_format(memory_get_peak_usage(), 0, ',', '.')
+);

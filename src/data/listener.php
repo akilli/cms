@@ -21,20 +21,20 @@ return [
         'event' => 'data.load.toolbar',
         'sort_order' => -100,
     ],
-    // model
+    // Entity
     [
-        'id' => 'qnd\listener_model_eav',
-        'event' => 'model.load.eav',
+        'id' => 'qnd\listener_entity_eav',
+        'event' => 'entity.load.eav',
         'sort_order' => -100,
     ],
     [
-        'id' => 'qnd\listener_model_save',
-        'event' => 'model.save_after',
+        'id' => 'qnd\listener_entity_save',
+        'event' => 'entity.postSave',
         'sort_order' => -100,
     ],
     [
-        'id' => 'qnd\listener_model_delete',
-        'event' => 'model.delete_after',
+        'id' => 'qnd\listener_entity_delete',
+        'event' => 'entity.postDelete',
         'sort_order' => -100,
     ],
 ];

@@ -11,7 +11,7 @@ function action_create()
     $meta = action_internal_meta();
     $data = post('data');
 
-    if ($data && model_save($meta['id'], $data)) {
+    if ($data && entity_save($meta['id'], $data)) {
         // Perform save callback and redirect to index on success
         redirect(allowed('index') ? '*/index' : '');
     } elseif (!$data) {
@@ -33,15 +33,15 @@ function action_edit()
     $meta = action_internal_meta();
     $data = post('data');
 
-    if ($data && model_save($meta['id'], $data)) {
+    if ($data && entity_save($meta['id'], $data)) {
         // Perform save callback and redirect to index on success
         redirect(allowed('index') ? '*/index' : '');
     } elseif (!$data && is_array(post('edit'))) {
         // We just selected multiple items to edit on the index page
-        $data = model_load($meta['id'], ['id' => array_keys(post('edit'))]);
+        $data = entity_load($meta['id'], ['id' => array_keys(post('edit'))]);
     } elseif (!$data && param('id') !== null) {
         // We just clicked on an edit link, p.e. on the index page
-        $data = model_load($meta['id'], ['id' => param('id')]);
+        $data = entity_load($meta['id'], ['id' => param('id')]);
     }
 
     if (!$data) {
@@ -64,7 +64,7 @@ function action_delete()
     $data = post('edit');
 
     if ($data) {
-        model_delete($meta['id'], ['id' => array_keys($data)]);
+        entity_delete($meta['id'], ['id' => array_keys($data)]);
     } else {
         message(_('You did not select anything to delete'));
     }
@@ -81,7 +81,7 @@ function action_view()
 {
     $meta = action_internal_meta();
 
-    if (!($item = model_load($meta['id'], ['id' => param('id')], false))
+    if (!($item = entity_load($meta['id'], ['id' => param('id')], false))
         || !empty($meta['attributes']['active']) && empty($item['active']) && !allowed('edit')
     ) {
         // Item does not exist or is inactive
@@ -122,7 +122,7 @@ function action_index()
     if ($search) {
         $content = array_filter(explode(' ', $search));
 
-        if ($content && ($items = model_load($meta['id'], ['name' => $content], 'search'))) {
+        if ($content && ($items = entity_load($meta['id'], ['name' => $content], 'search'))) {
             $criteria['id'] = array_keys($items);
             $params['search'] = urlencode(implode(' ', $content));
         } else {
@@ -130,7 +130,7 @@ function action_index()
         }
     }
 
-    $size = model_size($meta['id'], $criteria);
+    $size = entity_size($meta['id'], $criteria);
     $limit = (int) config('limit.' . $action);
     $page = max((int) param('page'), 1);
     $offset = ($page - 1) * $limit;
@@ -147,7 +147,7 @@ function action_index()
         $params['dir'] = $direction;
     }
 
-    $data = model_load($meta['id'], $criteria, null, $order, [$limit, $offset]);
+    $data = entity_load($meta['id'], $criteria, null, $order, [$limit, $offset]);
     array_walk(
         $attrs,
         function (& $attr, $code) use ($params) {
@@ -223,7 +223,7 @@ function action_project_switch()
 {
     $id = (int) param('id');
 
-    if (model_size('project', ['id' => $id])) {
+    if (entity_size('project', ['id' => $id])) {
         session('project', $id);
     }
 
@@ -258,7 +258,7 @@ function action_user_profile()
 
     if ($item) {
         $data = [$user['id'] => array_replace($user, $item)];
-        model_save('user', $data);
+        entity_save('user', $data);
     }
 
     if (!$item = user()) {
@@ -286,7 +286,7 @@ function action_user_login()
     if ($data) {
         if (!empty($data['email'])
             && !empty($data['password'])
-            && ($item = model_load('user', ['email' => $data['email'], 'active' => true], false))
+            && ($item = entity_load('user', ['email' => $data['email'], 'active' => true], false))
             && password_verify($data['password'], $item['password'])
         ) {
             message(_('Welcome %s', $item['name']));

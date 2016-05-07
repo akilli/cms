@@ -46,13 +46,13 @@ function listener_data_meta(array & $data)
         $data[$id] = $item;
     }
 
-    $meta = model_load('meta', null, ['entity_id', 'attribute_id'], ['entity_id' => 'ASC', 'sort_order' => 'ASC']);
-    $attrs = model_load('attribute');
+    $meta = entity_load('meta', null, ['entity_id', 'attribute_id'], ['entity_id' => 'ASC', 'sort_order' => 'ASC']);
+    $attrs = entity_load('attribute');
     $types = data('attribute');
 
-    foreach (model_load('entity') as $id => $item) {
+    foreach (entity_load('entity') as $id => $item) {
         $item = array_replace($data['content'], $item);
-        $item['model'] = 'eav';
+        $item['type'] = 'eav';
 
         if (!empty($meta[$id])) {
             foreach ($meta[$id] as $code => $attr) {
@@ -149,34 +149,34 @@ function listener_data_toolbar(array & $data)
 }
 
 /**
- * EAV model load listener
+ * EAV entity load listener
  *
  * @param array $data
  *
  * @return void
  */
-function listener_model_eav(array & $data)
+function listener_entity_eav(array & $data)
 {
     $data['_meta'] = data('meta', $data['entity_id']);
 }
 
 /**
- * Model save listener
+ * Entity save listener
  *
  * @param array $data
  *
  * @return void
  */
-function listener_model_save(array & $data)
+function listener_entity_save(array & $data)
 {
     if ($data['_meta']['id'] === 'entity' && !empty($data['_old'])) {
         $criteria = ['target' => $data['_old']['id'] . '/view/id/'];
 
         if (!meta_action('view', $data)) {
-            model_delete('rewrite', $criteria, 'search', true);
+            entity_delete('rewrite', $criteria, 'search', true);
         } elseif (meta_action('view', $data)
             && $data['id'] !== $data['_old']['id']
-            && ($rewrites = model_load('rewrite', $criteria, 'search'))
+            && ($rewrites = entity_load('rewrite', $criteria, 'search'))
         ) {
             foreach ($rewrites as $rewriteId => $rewrite) {
                 $rewrites[$rewriteId]['target'] = preg_replace(
@@ -186,31 +186,31 @@ function listener_model_save(array & $data)
                 );
             }
 
-            model_save('rewrite', $rewrites);
+            entity_save('rewrite', $rewrites);
         }
     }
 
     if ($data['_meta']['id'] !== 'rewrite' && meta_action('view', $data['_meta'])) {
         $target = $data['_meta']['id'] . '/view/id/' . $data['id'];
         $rewrite = ['id' => $data['name'], 'target' => $target, 'system' => true];
-        $old = model_load('rewrite', ['target' => $target, 'system' => true], false);
+        $old = entity_load('rewrite', ['target' => $target, 'system' => true], false);
         $rewrites = $old ? [$old['id'] => $rewrite] : [-1 => $rewrite];
-       model_save('rewrite', $rewrites);
+       entity_save('rewrite', $rewrites);
     }
 }
 
 /**
- * Model delete listener
+ * Entity delete listener
  *
  * @param array $data
  *
  * @return void
  */
-function listener_model_delete(array & $data)
+function listener_entity_delete(array & $data)
 {
     if ($data['_meta']['id'] === 'entity') {
-        model_delete('rewrite', ['target' => $data['id'] . '/view/id/'], 'search', true);
+        entity_delete('rewrite', ['target' => $data['id'] . '/view/id/'], 'search', true);
     }
 
-    model_delete('rewrite', ['target' => $data['_meta']['id'] . '/view/id/' . $data['id']], null, true);
+    entity_delete('rewrite', ['target' => $data['_meta']['id'] . '/view/id/' . $data['id']], null, true);
 }

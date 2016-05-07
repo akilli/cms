@@ -5,13 +5,13 @@ use Exception;
 use RuntimeException;
 
 /**
- * Validate
+ * Validate entity
  *
  * @param array $item
  *
  * @return bool
  */
-function model_validate(array & $item): bool
+function entity_validate(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;
@@ -27,7 +27,7 @@ function model_validate(array & $item): bool
 }
 
 /**
- * Size
+ * Size entity
  *
  * @param string $entity
  * @param array $criteria
@@ -35,10 +35,10 @@ function model_validate(array & $item): bool
  *
  * @return int
  */
-function model_size(string $entity, array $criteria = null, array $options = []): int
+function entity_size(string $entity, array $criteria = null, array $options = []): int
 {
     $meta = data('meta', $entity);
-    $callback = fqn($meta['model'] . '_size');
+    $callback = fqn($meta['type'] . '_size');
 
     try {
         return $callback($entity, $criteria, $options);
@@ -51,10 +51,9 @@ function model_size(string $entity, array $criteria = null, array $options = [])
 }
 
 /**
- * Load data
+ * Load entity
  *
- * Combined entity and collection loader.
- * By default it will load a collection, unless $index is explicitly set to (bool) false
+ * By default it will load a collection, unless $index is explicitly set to (bool) false.
  *
  * @param string $entity
  * @param array $criteria
@@ -64,10 +63,10 @@ function model_size(string $entity, array $criteria = null, array $options = [])
  *
  * @return array
  */
-function model_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
+function entity_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
     $meta = data('meta', $entity);
-    $callback = fqn($meta['model'] . '_load');
+    $callback = fqn($meta['type'] . '_load');
     $single = $index === false;
     $data = [];
 
@@ -93,7 +92,7 @@ function model_load(string $entity, array $criteria = null, $index = null, array
             $item['_meta'] = empty($item['_meta']) ? $meta : $item['_meta'];
             $item['_id'] = $item['id'];
 
-            event(['model.load', 'model.load.' . $meta['model'], 'entity.load.' . $entity], $item);
+            event(['entity.load', 'entity.' . $meta['type'] . '.load', 'entity.load.' . $entity], $item);
 
             if ($single) {
                 return $item;
@@ -125,23 +124,23 @@ function model_load(string $entity, array $criteria = null, $index = null, array
 }
 
 /**
- * Save data
+ * Save entity
  *
  * @param string $entity
  * @param array $data
  *
  * @return bool
  */
-function model_save(string $entity, array & $data): bool
+function entity_save(string $entity, array & $data): bool
 {
     $meta = data('meta', $entity);
-    $original = model_load($entity);
+    $original = entity_load($entity);
 
     foreach ($data as $id => $item) {
         $item['_id'] = $id;
         $item = array_replace(empty($original[$id]) ? meta_skeleton($entity) : $original[$id], $item);
         $data[$id] = $item;
-        $callback = fqn($meta['model'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
+        $callback = fqn($meta['type'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
         $item['modified'] = date_format(date_create('now'), 'Y-m-d H:i:s');
         $item['modifier'] = user('id');
 
@@ -155,7 +154,7 @@ function model_save(string $entity, array & $data): bool
             unset($item['_old']['_id'], $item['_old']['_meta'], $item['_old']['_old']);
         }
 
-        if (!model_validate($item)) {
+        if (!entity_validate($item)) {
             if (!empty($item['_error'])) {
                 $data[$id]['_error'] = $item['_error'];
             }
@@ -186,7 +185,7 @@ function model_save(string $entity, array & $data): bool
         $success = trans(
             function () use ($entity, & $item, $callback, $meta) {
                 event(
-                    ['model.save_before', 'model.save_before.' . $meta['model'], 'entity.save_before.' . $entity],
+                    ['entity.preSave', 'entity.' . $meta['type'] . '.preSave', 'entity.preSave.' . $entity],
                     $item
                 );
 
@@ -195,7 +194,7 @@ function model_save(string $entity, array & $data): bool
                 }
 
                 event(
-                    ['model.save_after', 'model.save_after.' . $meta['model'], 'entity.save_after.' . $entity],
+                    ['entity.postSave', 'entity.' . $meta['type'] . '.postSave', 'entity.postSave.' . $entity],
                     $item
                 );
             }
@@ -214,7 +213,7 @@ function model_save(string $entity, array & $data): bool
 }
 
 /**
- * Delete data
+ * Delete entity
  *
  * @param string $entity
  * @param array $criteria
@@ -223,12 +222,12 @@ function model_save(string $entity, array & $data): bool
  *
  * @return bool
  */
-function model_delete(string $entity, array $criteria = null, $index = null, bool $system = false): bool
+function entity_delete(string $entity, array $criteria = null, $index = null, bool $system = false): bool
 {
     $meta = data('meta', $entity);
-    $callback = fqn($meta['model'] . '_delete');
+    $callback = fqn($meta['type'] . '_delete');
 
-    if (!$data = model_load($entity, $criteria, $index)) {
+    if (!$data = entity_load($entity, $criteria, $index)) {
         return false;
     }
 
@@ -257,7 +256,7 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
         $success = trans(
             function () use ($entity, & $item, $callback, $meta) {
                 event(
-                    ['model.delete_before', 'model.delete_before.' . $meta['model'], 'entity.delete_before.' . $entity],
+                    ['entity.preDelete', 'entity.' . $meta['type'] . '.preDelete', 'entity.preDelete.' . $entity],
                     $item
                 );
 
@@ -266,7 +265,7 @@ function model_delete(string $entity, array $criteria = null, $index = null, boo
                 }
 
                 event(
-                    ['model.delete_after', 'model.delete_after.' . $meta['model'], 'entity.delete_after.' . $entity],
+                    ['entity.postDelete', 'entity.' . $meta['type'] . '.postDelete', 'entity.postDelete.' . $entity],
                     $item
                 );
             }

@@ -275,7 +275,7 @@ return [
     'menu' => [
         'id' => 'menu',
         'name' => 'Menu',
-        'model' => 'nestedset',
+        'type' => 'nestedset',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
         'sort_order' => 200,

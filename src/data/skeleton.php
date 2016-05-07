@@ -38,7 +38,7 @@ return [
         'id' => null,
         'name' => null,
         'table' => null,
-        'model' => 'flat',
+        'type' => 'flat',
         'controller' => 'entity',
         'actions' => [],
         'toolbar' => null,

@@ -66,7 +66,7 @@ function section_entity(array & $section): string
         ['criteria' => null, 'index' => null, 'order' => null, 'limit' => config('limit.section')],
         $section['vars']
     );
-    $section['vars']['data'] = model_load(
+    $section['vars']['data'] = entity_load(
         $section['vars']['entity'],
         $section['vars']['criteria'],
         $section['vars']['index'],
@@ -140,7 +140,7 @@ function section_menu(array & $section): string
         return '';
     }
 
-    $data = model_load($section['vars']['entity'], ['root_id' => $section['vars']['root_id']], ['root_id', 'id']);
+    $data = entity_load($section['vars']['entity'], ['root_id' => $section['vars']['root_id']], ['root_id', 'id']);
     $count = count($data);
     $level = 0;
     $i = 0;

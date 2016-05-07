@@ -180,7 +180,7 @@ function eav_create(array & $item): bool
             );
         }
 
-        if (count($save) > 0 && !model_save('eav', $save)) {
+        if (count($save) > 0 && !entity_save('eav', $save)) {
             throw new RuntimeException(_('Data could not be saved'));
         }
     }
@@ -211,7 +211,7 @@ function eav_save(array & $item): bool
     $valueModel = meta_skeleton('eav');
 
     if ($valueAttributes) {
-        $values = model_load('eav', ['content_id' => $item['_old']['id']], 'attribute_id');
+        $values = entity_load('eav', ['content_id' => $item['_old']['id']], 'attribute_id');
     } else {
         $values = [];
     }
@@ -257,7 +257,7 @@ function eav_save(array & $item): bool
             }
         }
 
-        if (!model_save('eav', $save)) {
+        if (!entity_save('eav', $save)) {
             throw new RuntimeException(_('Data could not be saved'));
         }
     }
