@@ -27,7 +27,6 @@ return [
         'backend' => 'varchar',
         'frontend' => 'password',
         'default' => [
-            'searchable' => false,
             'saver' => 'qnd\saver_password',
             'validator' => 'qnd\validator_string',
             'editor' => 'qnd\editor_password',

@@ -73,6 +73,7 @@ return [
                 'column' => 'name',
                 'type' => 'text',
                 'required' => true,
+                'searchable' => true,
                 'actions' => ['all'],
             ],
             'entity_id' => [
