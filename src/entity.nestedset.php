@@ -4,7 +4,7 @@ namespace qnd;
 use PDO;
 
 /**
- * Size
+ * Size nested set entity
  *
  * @param string $entity
  * @param array $criteria
@@ -12,13 +12,13 @@ use PDO;
  *
  * @return int
  */
-function nestedset_size(string $entity, array $criteria = null, array $options = []): int
+function entity_nestedset_size(string $entity, array $criteria = null, array $options = []): int
 {
-    return flat_size($entity, $criteria, $options);
+    return entity_flat_size($entity, $criteria, $options);
 }
 
 /**
- * Load data
+ * Load nested set entity
  *
  * @param string $entity
  * @param array $criteria
@@ -28,7 +28,7 @@ function nestedset_size(string $entity, array $criteria = null, array $options =
  *
  * @return array
  */
-function nestedset_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
+function entity_nestedset_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
     $meta = data('meta', $entity);
     $attrs = $orderAttrs = $meta['attributes'];
@@ -91,13 +91,13 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
 }
 
 /**
- * Create
+ * Create nested set entity
  *
  * @param array $item
  *
  * @return bool
  */
-function nestedset_create(array & $item): bool
+function entity_nestedset_create(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;
@@ -189,13 +189,13 @@ function nestedset_create(array & $item): bool
 }
 
 /**
- * Save
+ * Save nested set entity
  *
  * @param array $item
  *
  * @return bool
  */
-function nestedset_save(array & $item): bool
+function entity_nestedset_save(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;
@@ -363,13 +363,13 @@ function nestedset_save(array & $item): bool
 }
 
 /**
- * Delete data
+ * Delete nested set entity
  *
  * @param array $item
  *
  * @return bool
  */
-function nestedset_delete(array & $item): bool
+function entity_nestedset_delete(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;

@@ -4,7 +4,7 @@ namespace qnd;
 use RuntimeException;
 
 /**
- * Size
+ * Size EAV entity
  *
  * @param string $entity
  * @param array $criteria
@@ -12,7 +12,7 @@ use RuntimeException;
  *
  * @return int
  */
-function eav_size(string $entity, array $criteria = null, array $options = []): int
+function entity_eav_size(string $entity, array $criteria = null, array $options = []): int
 {
     $meta = data('meta', $entity);
     $contentMeta = data('meta', 'content');
@@ -59,7 +59,7 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
 }
 
 /**
- * Load data
+ * Load EAV entity
  *
  * @param string $entity
  * @param array $criteria
@@ -69,7 +69,7 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
  *
  * @return array
  */
-function eav_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
+function entity_eav_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
     $meta = data('meta', $entity);
     $contentMeta = data('meta', 'content');
@@ -119,7 +119,7 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
 }
 
 /**
- * Create
+ * Create EAV entity
  *
  * @param array $item
  *
@@ -127,7 +127,7 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
  *
  * @throws RuntimeException
  */
-function eav_create(array & $item): bool
+function entity_eav_create(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;
@@ -189,7 +189,7 @@ function eav_create(array & $item): bool
 }
 
 /**
- * Save
+ * Save EAV entity
  *
  * @param array $item
  *
@@ -197,7 +197,7 @@ function eav_create(array & $item): bool
  *
  * @throws RuntimeException
  */
-function eav_save(array & $item): bool
+function entity_eav_save(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;
@@ -266,13 +266,13 @@ function eav_save(array & $item): bool
 }
 
 /**
- * Delete data
+ * Delete EAV entity
  *
  * @param array $item
  *
  * @return bool
  */
-function eav_delete(array $item): bool
+function entity_eav_delete(array $item): bool
 {
-    return !empty($item['_meta']['id']) && $item['_meta']['id'] === $item['entity_id'] && flat_delete($item);
+    return !empty($item['_meta']['id']) && $item['_meta']['id'] === $item['entity_id'] && entity_flat_delete($item);
 }

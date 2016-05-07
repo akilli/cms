@@ -38,7 +38,7 @@ function entity_validate(array & $item): bool
 function entity_size(string $entity, array $criteria = null, array $options = []): int
 {
     $meta = data('meta', $entity);
-    $callback = fqn($meta['type'] . '_size');
+    $callback = fqn('entity_' . $meta['type'] . '_size');
 
     try {
         return $callback($entity, $criteria, $options);
@@ -66,7 +66,7 @@ function entity_size(string $entity, array $criteria = null, array $options = []
 function entity_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
     $meta = data('meta', $entity);
-    $callback = fqn($meta['type'] . '_load');
+    $callback = fqn('entity_' . $meta['type'] . '_load');
     $single = $index === false;
     $data = [];
 
@@ -140,7 +140,7 @@ function entity_save(string $entity, array & $data): bool
         $item['_id'] = $id;
         $item = array_replace(empty($original[$id]) ? meta_skeleton($entity) : $original[$id], $item);
         $data[$id] = $item;
-        $callback = fqn($meta['type'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
+        $callback = fqn('entity_' . $meta['type'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
         $item['modified'] = date_format(date_create('now'), 'Y-m-d H:i:s');
         $item['modifier'] = user('id');
 
@@ -225,7 +225,7 @@ function entity_save(string $entity, array & $data): bool
 function entity_delete(string $entity, array $criteria = null, $index = null, bool $system = false): bool
 {
     $meta = data('meta', $entity);
-    $callback = fqn($meta['type'] . '_delete');
+    $callback = fqn('entity_' . $meta['type'] . '_delete');
 
     if (!$data = entity_load($entity, $criteria, $index)) {
         return false;
