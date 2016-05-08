@@ -77,9 +77,7 @@ function meta_attribute(array $data): array
         throw new RuntimeException(_('Invalid type %s configured for attribute %s', $data['type'], $data['id']));
     }
 
-    $data['backend'] = $type['backend'];
-    $data['frontend'] = $type['frontend'];
-    $data = array_replace(data('skeleton', 'attribute'), $type['default'], $data);
+    $data = array_replace(data('skeleton', 'attribute'), $type, $data);
     // Quote column name
     $data['column'] = $data['column'] ? qi($data['column']) : null;
 

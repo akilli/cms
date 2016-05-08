@@ -99,12 +99,15 @@ function entity_nestedset_load(string $entity, array $criteria = null, $index = 
  */
 function entity_nestedset_create(array & $item): bool
 {
-    if (empty($item['_meta'])) {
+    if (empty($item['_meta']) || empty($item['menubasis']) || strpos($item['menubasis'], ':') <= 0) {
         return false;
     }
 
     $meta = $item['_meta'];
     $attrs = $meta['attributes'];
+    $parts = explode(':', $item['menubasis']);
+    $item['root_id'] = cast($attrs['root_id'], $parts[0]);
+    $item['basis'] = cast($attrs['id'], $parts[1]);
     $cols = cols($attrs, $item, ['root_id']);
     $rootId = $item['root_id'];
 
@@ -197,12 +200,15 @@ function entity_nestedset_create(array & $item): bool
  */
 function entity_nestedset_save(array & $item): bool
 {
-    if (empty($item['_meta'])) {
+    if (empty($item['_meta']) || empty($item['menubasis']) || strpos($item['menubasis'], ':') <= 0) {
         return false;
     }
 
     $meta = $item['_meta'];
     $attrs = $meta['attributes'];
+    $parts = explode(':', $item['menubasis']);
+    $item['root_id'] = cast($attrs['root_id'], $parts[0]);
+    $item['basis'] = cast($attrs['id'], $parts[1]);
     $id = $item['_old']['id'];
     $rootId = $item['root_id'];
     $oldRootId = $item['_old']['root_id'];

@@ -335,9 +335,8 @@ return [
                 'sort_order' => 9930,
                 'type' => 'select.varchar',
                 'required' => true,
-                'options_callback' => 'qnd\option_menubasis',
+                'options_callback' => 'qnd\attribute_option_menubasis',
                 'actions' => ['edit'],
-                'validator' => 'qnd\validator_menubasis',
             ],
             'level' => [
                 'name' => 'Level',

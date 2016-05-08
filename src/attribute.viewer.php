@@ -36,7 +36,7 @@ function attribute_viewer(array $attr, array $item): string
  */
 function attribute_viewer_option(array $attr, array $item): string
 {
-    if (!$attr['options'] = option($attr)) {
+    if (!$attr['options'] = attribute_option($attr)) {
         return '';
     }
 

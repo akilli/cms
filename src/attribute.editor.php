@@ -39,7 +39,7 @@ function attribute_editor(array $attr, array $item): string
 function attribute_editor_select(array $attr, array $item): string
 {
     $value = $item[$attr['id']];
-    $attr['options'] = option($attr);
+    $attr['options'] = attribute_option($attr);
     $htmlId =  html_id($attr, $item);
     $htmlName =  html_name($attr, $item);
     $multiple = !empty($attr['multiple']) ? ' multiple="multiple"' : '';
@@ -67,7 +67,7 @@ function attribute_editor_select(array $attr, array $item): string
             }
 
             $html .= '<option value="' . $optionId . '"' . $selected . $class . $level . '>'
-                . option_name($optionId, $optionValue) . '</option>';
+                . attribute_option_name($optionId, $optionValue) . '</option>';
         }
     }
 
@@ -90,7 +90,7 @@ function attribute_editor_option(array $attr, array $item): string
     if ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
         $attr['options'] = [1 => _('Yes')];
     } else {
-        $attr['options'] = option($attr);
+        $attr['options'] = attribute_option($attr);
     }
 
     $value = $item[$attr['id']];
@@ -112,7 +112,7 @@ function attribute_editor_option(array $attr, array $item): string
             $html .= '<input id="' . $htmlId . '-' . $optionId . '" type="' . $attr['frontend'] . '" name="' . $htmlName
                 . '" value="' . $optionId . '"' . html_required($attr, $item) . html_class($attr) . $checked
                 . ' /> <label for="' . $htmlId . '-' . $optionId . '" class="inline">'
-                . option_name($optionId, $optionValue) . '</label>';
+                . attribute_option_name($optionId, $optionValue) . '</label>';
         }
     }
 
