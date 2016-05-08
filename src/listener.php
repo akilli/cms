@@ -105,7 +105,6 @@ function listener_data_privilege(array & $data)
         }
 
         $data[$entity . '.all'] = [
-            'id' => $entity . '.all',
             'name' => $item['name'],
             'active' => true,
             'sort_order' => 1000,
@@ -115,7 +114,6 @@ function listener_data_privilege(array & $data)
         foreach ($actions as $action) {
             if (in_array($action, $config)) {
                 $data[$entity . '.' . $action] = [
-                    'id' => $entity . '.' . $action,
                     'name' => $item['name'] . ' ' . ucwords($action),
                     'active' => true,
                     'sort_order' => 1000,
