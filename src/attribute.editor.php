@@ -23,7 +23,7 @@ function attribute_editor(array $attr, array $item): string
         return attribute_editor_option($attr, $item);
     }
 
-    $callback = fqn('attribute_deleter_' . $attr['type']);
+    $callback = fqn('attribute_editor_' . $attr['type']);
 
     return is_callable($callback) ? $callback($attr, $item) : '';
 }
