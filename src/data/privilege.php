@@ -4,7 +4,7 @@ return [
         'id' => 'all',
         'name' => 'All Privileges',
         'active' => true,
-        'class' => 'group',
+        'class' => ['group'],
     ],
     'http.index' => [
         'id' => 'http.index',

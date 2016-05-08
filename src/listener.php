@@ -109,7 +109,7 @@ function listener_data_privilege(array & $data)
             'name' => $item['name'],
             'active' => true,
             'sort_order' => 1000,
-            'class' => 'group',
+            'class' => ['group'],
         ];
 
         foreach ($actions as $action) {

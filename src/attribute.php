@@ -84,7 +84,6 @@ function editable(array & $attr, array $item): bool
     }
 
     if (!empty($item['_error'][$attr['id']])) {
-        $attr['class'] = empty($attr['class']) ? [] : (array) $attr['class'];
         $attr['class'][] = 'invalid';
     }
 

@@ -72,13 +72,7 @@ function html_required(array $attr, array $item): string
  */
 function html_class(array $attr): string
 {
-    if (empty($attr['class'])) {
-        return '';
-    }
-
-    $class = is_array($attr['class']) ? implode(' ', $attr['class']) : $attr['class'];
-
-    return ' class="' . $class . '"';
+    return $attr['class'] ? ' class="' . implode(' ', $attr['class']) . '"' : '';
 }
 
 /**

@@ -107,7 +107,7 @@ function attribute_option_menubasis(): array
     foreach (entity_load('menu') as $menu) {
         if (empty($data[$menu['root_id']  . ':0'])) {
             $data[$menu['root_id']  . ':0']['name'] = $roots[$menu['root_id']]['name'];
-            $data[$menu['root_id']  . ':0']['class'] = 'group';
+            $data[$menu['root_id']  . ':0']['class'] = ['group'];
         }
 
         $data[$menu['menubasis']]['name'] = $menu['name'];
@@ -118,7 +118,7 @@ function attribute_option_menubasis(): array
     foreach ($roots as $id => $root) {
         if (empty($data[$id  . ':0'])) {
             $data[$id  . ':0']['name'] = $root['name'];
-            $data[$id  . ':0']['class'] = 'group';
+            $data[$id  . ':0']['class'] = ['group'];
         }
     }
 

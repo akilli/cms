@@ -59,7 +59,7 @@ function attribute_editor_select(array $attr, array $item): string
             $level = '';
 
             if (is_array($optionValue) && !empty($optionValue['class'])) {
-                $class = ' class="' . $optionValue['class'] . '"';
+                $class = ' class="' . implode(' ', $optionValue['class']) . '"';
             }
 
             if (is_array($optionValue) && !empty($optionValue['level'])) {
