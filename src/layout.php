@@ -15,17 +15,17 @@ function §(string $id): string
     $section = & layout($id);
 
     if (!$section
-        || empty($section['active'])
-        || empty($section['type'])
-        || !($type = data('section', $section['type']))
-        || !empty($section['privilege']) && !allowed($section['privilege'])
+        || !$section['active']
+        || !$section['type']
+        || ($callback = fqn('section_' . $section['type'])) && !is_callable($callback)
+        || $section['privilege'] && !allowed($section['privilege'])
     ) {
         return '';
     }
 
     event(['section.type.' . $section['type'], 'section.' . $id], $section);
 
-    return $type['callback']($section);
+    return $callback($section);
 }
 
 /**
@@ -139,7 +139,7 @@ function layout_add(array $section)
     if ($data === null) {
         $data = data('skeleton', 'section');
 
-        if (empty($section['type']) || !data('section', $section['type'])) {
+        if (empty($section['type']) || !is_callable(fqn('section_' . $section['type']))) {
             throw new InvalidArgumentException('No or invalid section type given for section with ID ' . $section['id']);
         }
     }
