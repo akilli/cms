@@ -11,7 +11,7 @@ namespace qnd;
  */
 function attribute_validator(array $attr, array & $item): bool
 {
-    $callback = fqn('attribute_editor_' . $attr['type']);
+    $callback = fqn('attribute_validator_' . $attr['type']);
 
     if (in_array($attr['frontend'], ['checkbox', 'radio', 'select'])) {
         return attribute_validator_option($attr, $item) && attribute_validator_default($attr, $item);
