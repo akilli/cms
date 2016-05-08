@@ -147,7 +147,7 @@ function attribute_validator_option(array $attr, array & $item): bool
         foreach ((array) $item[$attr['id']] as $v) {
             if (!isset($attr['options'][$v])) {
                 $item[$attr['id']] = null;
-                $item['_error'][$attr['id']] = _('Invalid option for attribute %s', $attr['id']);
+                $item['_error'][$attr['id']] = _('Invalid option for attribute %s', $attr['name']);
 
                 return false;
             }
