@@ -11,13 +11,21 @@ namespace qnd;
  */
 function attribute_editor(array $attr, array $item): string
 {
-    if (!editable($attr, $item) || !$attr['editor']) {
+    if (!editable($attr, $item)) {
         return '';
     }
 
     $item[$attr['id']] = value($attr, $item);
 
-    return $attr['editor']($attr, $item);
+    if ($attr['frontend'] === 'select') {
+        return attribute_editor_select($attr, $item);
+    } elseif (in_array($attr['frontend'], ['checkbox', 'radio'])) {
+        return attribute_editor_option($attr, $item);
+    }
+
+    $callback = fqn('attribute_deleter_' . $attr['type']);
+
+    return is_callable($callback) ? $callback($attr, $item) : '';
 }
 
 /**
@@ -70,14 +78,14 @@ function attribute_editor_select(array $attr, array $item): string
 }
 
 /**
- * Input option editor
+ * Option editor
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_editor_input_option(array $attr, array $item): string
+function attribute_editor_option(array $attr, array $item): string
 {
     if ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
         $attr['options'] = [1 => _('Yes')];
@@ -112,14 +120,14 @@ function attribute_editor_input_option(array $attr, array $item): string
 }
 
 /**
- * Varchar editor
+ * Text editor
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function attribute_editor_varchar(array $attr, array $item): string
+function attribute_editor_text(array $attr, array $item): string
 {
     $min = isset($attr['min']) && is_numeric($attr['min']) ? ' minlength="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' maxlength="' . $attr['max'] . '"' : '';
@@ -128,6 +136,32 @@ function attribute_editor_varchar(array $attr, array $item): string
         . html_class($attr) . $min . $max . ' />';
 
     return html_label($attr, $item) . $html . html_message($attr, $item);
+}
+
+/**
+ * Callback editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function attribute_editor_callback(array $attr, array $item): string
+{
+    return attribute_editor_text($attr, $item);
+}
+
+/**
+ * Email editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function attribute_editor_email(array $attr, array $item): string
+{
+    return attribute_editor_text($attr, $item);
 }
 
 /**
@@ -149,7 +183,20 @@ function attribute_editor_password(array $attr, array $item): string
 }
 
 /**
- * Number attribute editor
+ * URL editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function attribute_editor_url(array $attr, array $item): string
+{
+    return attribute_editor_text($attr, $item);
+}
+
+/**
+ * Number editor
  *
  * @param array $attr
  * @param array $item
@@ -166,6 +213,32 @@ function attribute_editor_number(array $attr, array $item): string
         . html_required($attr, $item) . html_class($attr) . $step . $min . $max . ' />';
 
     return html_label($attr, $item) . $html . html_message($attr, $item);
+}
+
+/**
+ * Decimal editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function attribute_editor_decimal(array $attr, array $item): string
+{
+    return attribute_editor_number($attr, $item);
+}
+
+/**
+ * Range editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function attribute_editor_range(array $attr, array $item): string
+{
+    return attribute_editor_number($attr, $item);
 }
 
 /**
@@ -197,7 +270,20 @@ function attribute_editor_datetime(array $attr, array $item): string
 }
 
 /**
- * Textarea attribute editor
+ * Date editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function attribute_editor_date(array $attr, array $item): string
+{
+    return attribute_editor_datetime($attr, $item);
+}
+
+/**
+ * Textarea editor
  *
  * @param array $attr
  * @param array $item
@@ -216,7 +302,20 @@ function attribute_editor_textarea(array $attr, array $item): string
 }
 
 /**
- * JSON attribute editor
+ * Index editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function attribute_editor_index(array $attr, array $item): string
+{
+    return attribute_editor_textarea($attr, $item);
+}
+
+/**
+ * JSON editor
  *
  * @param array $attr
  * @param array $item
@@ -233,7 +332,20 @@ function attribute_editor_json(array $attr, array $item): string
 }
 
 /**
- * File attribute editor
+ * Rich text editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function attribute_editor_rte(array $attr, array $item): string
+{
+    return attribute_editor_textarea($attr, $item);
+}
+
+/**
+ * File editor
  *
  * @param array $attr
  * @param array $item
@@ -254,7 +366,7 @@ function attribute_editor_file(array $attr, array $item): string
 }
 
 /**
- * Audio attribute editor
+ * Audio editor
  *
  * @param array $attr
  * @param array $item
@@ -267,7 +379,7 @@ function attribute_editor_audio(array $attr, array $item): string
 }
 
 /**
- * Embed attribute editor
+ * Embed editor
  *
  * @param array $attr
  * @param array $item
@@ -280,7 +392,7 @@ function attribute_editor_embed(array $attr, array $item): string
 }
 
 /**
- * Image attribute editor
+ * Image editor
  *
  * @param array $attr
  * @param array $item
@@ -293,7 +405,7 @@ function attribute_editor_image(array $attr, array $item): string
 }
 
 /**
- * Video attribute editor
+ * Video editor
  *
  * @param array $attr
  * @param array $item

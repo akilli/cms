@@ -27,7 +27,7 @@ function attribute_viewer(array $attr, array $item): string
 }
 
 /**
- * Option attribute viewer
+ * Option viewer
  *
  * @param array $attr
  * @param array $item
@@ -56,7 +56,7 @@ function attribute_viewer_option(array $attr, array $item): string
 }
 
 /**
- * Date attribute viewer
+ * Date viewer
  *
  * @param array $attr
  * @param array $item
@@ -69,7 +69,7 @@ function attribute_viewer_date(array $attr, array $item): string
 }
 
 /**
- * Datetime attribute viewer
+ * Datetime viewer
  *
  * @param array $attr
  * @param array $item
@@ -82,7 +82,7 @@ function attribute_viewer_datetime(array $attr, array $item): string
 }
 
 /**
- * Rich text editor attribute viewer
+ * Rich text viewer
  *
  * @param array $attr
  * @param array $item
@@ -95,7 +95,7 @@ function attribute_viewer_rte(array $attr, array $item): string
 }
 
 /**
- * Audio attribute viewer
+ * Audio viewer
  *
  * @param array $attr
  * @param array $item
@@ -112,7 +112,7 @@ function attribute_viewer_audio(array $attr, array $item): string
 }
 
 /**
- * Embed attribute viewer
+ * Embed viewer
  *
  * @param array $attr
  * @param array $item
@@ -129,7 +129,7 @@ function attribute_viewer_embed(array $attr, array $item): string
 }
 
 /**
- * File attribute viewer
+ * File viewer
  *
  * @param array $attr
  * @param array $item
@@ -146,7 +146,7 @@ function attribute_viewer_file(array $attr, array $item): string
 }
 
 /**
- * Image attribute viewer
+ * Image viewer
  *
  * @param array $attr
  * @param array $item
@@ -163,7 +163,7 @@ function attribute_viewer_image(array $attr, array $item): string
 }
 
 /**
- * Video attribute viewer
+ * Video viewer
  *
  * @param array $attr
  * @param array $item

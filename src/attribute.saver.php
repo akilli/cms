@@ -17,7 +17,7 @@ function attribute_saver(array $attr, array & $item): bool
 }
 
 /**
- * Password attribute saver
+ * Password saver
  *
  * @param array $attr
  * @param array $item
@@ -34,7 +34,7 @@ function attribute_saver_password(array $attr, array & $item): bool
 }
 
 /**
- * Multicheckbox attribute saver
+ * Multicheckbox saver
  *
  * @param array $attr
  * @param array $item
@@ -49,7 +49,7 @@ function attribute_saver_multicheckbox(array $attr, array & $item): bool
 }
 
 /**
- * Multiselect attribute saver
+ * Multiselect saver
  *
  * @param array $attr
  * @param array $item
@@ -62,7 +62,7 @@ function attribute_saver_multiselect(array $attr, array & $item): bool
 }
 
 /**
- * Index attribute saver
+ * Index saver
  *
  * @param array $attr
  * @param array $item

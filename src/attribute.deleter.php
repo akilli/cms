@@ -17,7 +17,7 @@ function attribute_deleter(array $attr, array & $item): bool
 }
 
 /**
- * File attribute deleter
+ * File deleter
  *
  * @param array $attr
  * @param array $item
@@ -35,7 +35,7 @@ function attribute_deleter_file(array $attr, array & $item): bool
 }
 
 /**
- * Audio attribute deleter
+ * Audio deleter
  *
  * @param array $attr
  * @param array $item
@@ -48,7 +48,7 @@ function attribute_deleter_audio(array $attr, array & $item): bool
 }
 
 /**
- * Embed attribute deleter
+ * Embed deleter
  *
  * @param array $attr
  * @param array $item
@@ -61,7 +61,7 @@ function attribute_deleter_embed(array $attr, array & $item): bool
 }
 
 /**
- * Image attribute deleter
+ * Image deleter
  *
  * @param array $attr
  * @param array $item
@@ -74,7 +74,7 @@ function attribute_deleter_image(array $attr, array & $item): bool
 }
 
 /**
- * Video attribute deleter
+ * Video deleter
  *
  * @param array $attr
  * @param array $item

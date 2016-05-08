@@ -23,7 +23,6 @@ return [
         'generator' => null,
         'generator_base' => null,
         'validator' => null,
-        'editor' => null,
         'min' => null,
         'max' => null,
         'step' => null,

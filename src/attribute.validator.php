@@ -171,7 +171,7 @@ function validator_number(array $attr, array & $item): bool
 }
 
 /**
- * Rich text editor validator
+ * Rich text validator
  *
  * @param array $attr
  * @param array $item

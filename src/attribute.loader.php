@@ -17,7 +17,7 @@ function attribute_loader(array $attr, array $item)
 }
 
 /**
- * JSON attribute loader
+ * JSON loader
  *
  * @param array $attr
  * @param array $item
@@ -36,7 +36,7 @@ function attribute_loader_json(array $attr, array $item): array
 }
 
 /**
- * Multicheckbox attribute loader
+ * Multicheckbox loader
  *
  * @param array $attr
  * @param array $item
@@ -49,7 +49,7 @@ function attribute_loader_multicheckbox(array $attr, array $item): array
 }
 
 /**
- * Multiselect attribute loader
+ * Multiselect loader
  *
  * @param array $attr
  * @param array $item
