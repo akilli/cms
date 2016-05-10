@@ -82,7 +82,7 @@ function entity_tree_load(string $entity, array $criteria = null, $index = null,
 
     return array_map(
         function (array $item) {
-            $item['menubasis'] = $item['root_id'] . ':' . $item['id'];
+            $item['position'] = $item['root_id'] . ':' . $item['id'];
 
             return $item;
         },
@@ -99,13 +99,13 @@ function entity_tree_load(string $entity, array $criteria = null, $index = null,
  */
 function entity_tree_create(array & $item): bool
 {
-    if (empty($item['_meta']) || empty($item['menubasis']) || strpos($item['menubasis'], ':') <= 0) {
+    if (empty($item['_meta']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
         return false;
     }
 
     $meta = $item['_meta'];
     $attrs = $meta['attributes'];
-    $parts = explode(':', $item['menubasis']);
+    $parts = explode(':', $item['position']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
     $item['basis'] = cast($attrs['id'], $parts[1]);
     $cols = cols($attrs, $item, ['root_id']);
@@ -200,13 +200,13 @@ function entity_tree_create(array & $item): bool
  */
 function entity_tree_save(array & $item): bool
 {
-    if (empty($item['_meta']) || empty($item['menubasis']) || strpos($item['menubasis'], ':') <= 0) {
+    if (empty($item['_meta']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
         return false;
     }
 
     $meta = $item['_meta'];
     $attrs = $meta['attributes'];
-    $parts = explode(':', $item['menubasis']);
+    $parts = explode(':', $item['position']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
     $item['basis'] = cast($attrs['id'], $parts[1]);
     $id = $item['_old']['id'];

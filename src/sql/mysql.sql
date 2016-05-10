@@ -80,33 +80,6 @@ CREATE TABLE IF NOT EXISTS `entity` (
     KEY `idx_entity_system` (`system`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `menu`;
-CREATE TABLE IF NOT EXISTS `menu` (
-    `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(255) NOT NULL,
-    `target` VARCHAR(255) NOT NULL,
-    `root_id` INTEGER(11) NOT NULL,
-    `lft` INTEGER(11) NOT NULL,
-    `rgt` INTEGER(11) NOT NULL,
-    PRIMARY KEY (`id`),
-    KEY `idx_menu_name` (`name`),
-    KEY `idx_menu_target` (`target`),
-    KEY `idx_menu_root` (`root_id`),
-    KEY `idx_menu_lft` (`lft`),
-    KEY `idx_menu_rgt` (`rgt`),
-    KEY `idx_menu_item` (`root_id`,`lft`,`rgt`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `menu_root`;
-CREATE TABLE IF NOT EXISTS `menu_root` (
-    `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(100) NOT NULL,
-    `system` BOOLEAN NOT NULL DEFAULT '0',
-    PRIMARY KEY (`id`),
-    KEY `idx_menu_root_name` (`name`),
-    KEY `idx_menu_root_system` (`system`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `meta`;
 CREATE TABLE IF NOT EXISTS `meta` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
@@ -166,6 +139,33 @@ CREATE TABLE IF NOT EXISTS `role` (
     KEY `idx_role_system` (`system`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `tree`;
+CREATE TABLE IF NOT EXISTS `tree` (
+    `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NOT NULL,
+    `target` VARCHAR(255) NOT NULL,
+    `root_id` INTEGER(11) NOT NULL,
+    `lft` INTEGER(11) NOT NULL,
+    `rgt` INTEGER(11) NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_tree_name` (`name`),
+    KEY `idx_tree_target` (`target`),
+    KEY `idx_tree_root` (`root_id`),
+    KEY `idx_tree_lft` (`lft`),
+    KEY `idx_tree_rgt` (`rgt`),
+    KEY `idx_tree_item` (`root_id`,`lft`,`rgt`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `tree_root`;
+CREATE TABLE IF NOT EXISTS `tree_root` (
+    `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    `system` BOOLEAN NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    KEY `idx_tree_root_name` (`name`),
+    KEY `idx_tree_root_system` (`system`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
@@ -197,12 +197,12 @@ ALTER TABLE `eav`
     ADD CONSTRAINT `con_eav_attribute` FOREIGN KEY (`attribute_id`) REFERENCES `attribute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT `con_eav_content` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE `menu`
-    ADD CONSTRAINT `con_menu_root` FOREIGN KEY (`root_id`) REFERENCES `menu_root` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
 ALTER TABLE `meta`
     ADD CONSTRAINT `con_meta_entity` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT `con_meta_attribute` FOREIGN KEY (`attribute_id`) REFERENCES `attribute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `tree`
+    ADD CONSTRAINT `con_tree_root` FOREIGN KEY (`root_id`) REFERENCES `tree_root` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `user`
     ADD CONSTRAINT `con_user_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);

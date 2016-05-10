@@ -128,45 +128,6 @@ function section_pager(array & $section): string
 }
 
 /**
- * Menu section
- *
- * @param array $section
- *
- * @return string
- */
-function section_menu(array & $section): string
-{
-    if (empty($section['vars']['root_id']) || empty($section['vars']['entity'])) {
-        return '';
-    }
-
-    $data = entity_load($section['vars']['entity'], ['root_id' => $section['vars']['root_id']], ['root_id', 'id']);
-    $count = count($data);
-    $level = 0;
-    $i = 0;
-    $html = '';
-
-    foreach ($data as $item) {
-        $i++;
-        $class = $item['target'] === request('path') ? ' class="current"' : '';
-        $end = $i === $count ? str_repeat('</li></ul>', $item['level']) : '';
-
-        if ($item['level'] > $level) {
-            $start = '<ul><li' . $class . '>';
-        } elseif ($item['level'] < $level) {
-            $start = '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>';
-        } else {
-            $start = '</li><li' . $class . '>';
-        }
-
-        $html .= $start . '<a href="' . url($item['target']) . '"' . $class . '>' . $item['name'] . '</a>' . $end;
-        $level = $item['level'];
-    }
-
-    return $html ? '<nav id="' . $section['id'] . '">' . $html . '</nav>' : '';
-}
-
-/**
  * Message section
  *
  * @param array $section
@@ -216,4 +177,43 @@ function section_toolbar(array & $section): string
     }
 
     return !empty($section['vars']['data']) ? section_template($section) : '';
+}
+
+/**
+ * Tree section
+ *
+ * @param array $section
+ *
+ * @return string
+ */
+function section_tree(array & $section): string
+{
+    if (empty($section['vars']['root_id']) || empty($section['vars']['entity'])) {
+        return '';
+    }
+
+    $data = entity_load($section['vars']['entity'], ['root_id' => $section['vars']['root_id']], ['root_id', 'id']);
+    $count = count($data);
+    $level = 0;
+    $i = 0;
+    $html = '';
+
+    foreach ($data as $item) {
+        $i++;
+        $class = $item['target'] === request('path') ? ' class="current"' : '';
+        $end = $i === $count ? str_repeat('</li></ul>', $item['level']) : '';
+
+        if ($item['level'] > $level) {
+            $start = '<ul><li' . $class . '>';
+        } elseif ($item['level'] < $level) {
+            $start = '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>';
+        } else {
+            $start = '</li><li' . $class . '>';
+        }
+
+        $html .= $start . '<a href="' . url($item['target']) . '"' . $class . '>' . $item['name'] . '</a>' . $end;
+        $level = $item['level'];
+    }
+
+    return $html ? '<nav id="' . $section['id'] . '">' . $html . '</nav>' : '';
 }

@@ -2,7 +2,7 @@
 namespace qnd;
 
 /**
- * Retrieve attribute options
+ * Attribute options
  *
  * @param array $attr
  *
@@ -61,7 +61,7 @@ function attribute_option_translate(array $options): array
 }
 
 /**
- * Retrieve bool options
+ * Bool options
  *
  * @return array
  */
@@ -71,7 +71,7 @@ function attribute_option_bool(): array
 }
 
 /**
- * Retrieve entity options
+ * Entity options
  *
  * @param array $attr
  *
@@ -83,7 +83,7 @@ function attribute_option_entity(array $attr): array
 }
 
 /**
- * Retrieve callback options
+ * Options callback
  *
  * @param array $attr
  *
@@ -95,26 +95,26 @@ function attribute_option_callback(array $attr): array
 }
 
 /**
- * Menubasis
+ * Tree options
  *
  * @return array
  */
-function attribute_option_menubasis(): array
+function attribute_option_position(): array
 {
-    $roots = entity_load('menu_root');
+    $roots = entity_load('tree_root');
     $data = [];
 
-    foreach (entity_load('menu') as $menu) {
-        if (empty($data[$menu['root_id']  . ':0'])) {
-            $data[$menu['root_id']  . ':0']['name'] = $roots[$menu['root_id']]['name'];
-            $data[$menu['root_id']  . ':0']['class'] = ['group'];
+    foreach (entity_load('tree') as $item) {
+        if (empty($data[$item['root_id']  . ':0'])) {
+            $data[$item['root_id']  . ':0']['name'] = $roots[$item['root_id']]['name'];
+            $data[$item['root_id']  . ':0']['class'] = ['group'];
         }
 
-        $data[$menu['menubasis']]['name'] = $menu['name'];
-        $data[$menu['menubasis']]['level'] = $menu['level'];
+        $data[$item['position']]['name'] = $item['name'];
+        $data[$item['position']]['level'] = $item['level'];
     }
 
-    // Add roots without items to index menubasis
+    // Add roots without items
     foreach ($roots as $id => $root) {
         if (empty($data[$id  . ':0'])) {
             $data[$id  . ':0']['name'] = $root['name'];
