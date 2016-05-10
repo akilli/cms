@@ -2,7 +2,7 @@
 namespace qnd;
 
 /**
- * Size flat entity
+ * Size entity
  *
  * @param string $entity
  * @param array $criteria
@@ -25,7 +25,7 @@ function entity_flat_size(string $entity, array $criteria = null, array $options
 }
 
 /**
- * Load flat entity
+ * Load entity
  *
  * @param string $entity
  * @param array $criteria
@@ -53,7 +53,7 @@ function entity_flat_load(string $entity, array $criteria = null, $index = null,
 }
 
 /**
- * Create flat entity
+ * Create entity
  *
  * @param array $item
  *
@@ -88,7 +88,7 @@ function entity_flat_create(array & $item): bool
 }
 
 /**
- * Save flat entity
+ * Save entity
  *
  * @param array $item
  *
@@ -120,7 +120,7 @@ function entity_flat_save(array & $item): bool
 }
 
 /**
- * Delete flat entity
+ * Delete entity
  *
  * @param array $item
  *

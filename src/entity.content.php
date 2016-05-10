@@ -4,7 +4,7 @@ namespace qnd;
 use RuntimeException;
 
 /**
- * Size content entity
+ * Size entity
  *
  * @param string $entity
  * @param array $criteria
@@ -18,7 +18,7 @@ function entity_content_size(string $entity, array $criteria = null, array $opti
 }
 
 /**
- * Load content entity
+ * Load entity
  *
  * @param string $entity
  * @param array $criteria
@@ -34,7 +34,7 @@ function entity_content_load(string $entity, array $criteria = null, $index = nu
 }
 
 /**
- * Create content entity
+ * Create entity
  *
  * @param array $item
  *
@@ -48,7 +48,7 @@ function entity_content_create(array & $item): bool
 }
 
 /**
- * Save content entity
+ * Save entity
  *
  * @param array $item
  *
@@ -62,7 +62,7 @@ function entity_content_save(array & $item): bool
 }
 
 /**
- * Delete content entity
+ * Delete entity
  *
  * @param array $item
  *

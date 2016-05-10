@@ -4,7 +4,7 @@ namespace qnd;
 use RuntimeException;
 
 /**
- * Size EAV entity
+ * Size entity
  *
  * @param string $entity
  * @param array $criteria
@@ -59,7 +59,7 @@ function entity_eav_size(string $entity, array $criteria = null, array $options 
 }
 
 /**
- * Load EAV entity
+ * Load entity
  *
  * @param string $entity
  * @param array $criteria
@@ -119,7 +119,7 @@ function entity_eav_load(string $entity, array $criteria = null, $index = null, 
 }
 
 /**
- * Create EAV entity
+ * Create entity
  *
  * @param array $item
  *
@@ -189,7 +189,7 @@ function entity_eav_create(array & $item): bool
 }
 
 /**
- * Save EAV entity
+ * Save entity
  *
  * @param array $item
  *
@@ -266,7 +266,7 @@ function entity_eav_save(array & $item): bool
 }
 
 /**
- * Delete EAV entity
+ * Delete entity
  *
  * @param array $item
  *
