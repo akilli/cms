@@ -284,9 +284,9 @@ function action_user_login()
     $data = post('data');
 
     if ($data) {
-        if (!empty($data['email'])
+        if (!empty($data['username'])
             && !empty($data['password'])
-            && ($item = entity_load('user', ['email' => $data['email'], 'active' => true], false))
+            && ($item = entity_load('user', ['username' => $data['username'], 'active' => true], false))
             && password_verify($data['password'], $item['password'])
         ) {
             message(_('Welcome %s', $item['name']));
@@ -295,7 +295,7 @@ function action_user_login()
             redirect('*/dashboard');
         }
 
-        message(_('Invalid email and password combination'));
+        message(_('Invalid username and password combination'));
     }
 
     layout_load();

@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `meta` (
     `sort_order` INTEGER(11) NOT NULL DEFAULT '0',
     `required` BOOLEAN NOT NULL DEFAULT '0',
     `unambiguous` BOOLEAN NOT NULL DEFAULT '0',
-    `searchable` BOOLEAN NOT NULL DEFAULT '0'
+    `searchable` BOOLEAN NOT NULL DEFAULT '0',
     `actions` TEXT DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `uni_meta_attribute` (`entity_id`,`attribute_id`),
@@ -170,13 +170,13 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
-    `email` VARCHAR(255) NOT NULL,
+    `username` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     `role_id` INTEGER(11) NOT NULL,
     `active` BOOLEAN NOT NULL DEFAULT '0',
     `system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `uni_user_email` (`email`),
+    UNIQUE KEY `uni_user_username` (`username`),
     KEY `idx_user_name` (`name`),
     KEY `idx_user_role` (`role_id`),
     KEY `idx_user_active` (`active`),
@@ -218,9 +218,9 @@ INSERT INTO `role` (`id`, `name`, `privilege`, `active`, `system`) VALUES
 (0, 'anonymous', NULL, '1', '1'),
 (1, 'admin', '["all"]', '1', '1');
 
-INSERT INTO `user` (`id`, `name`, `email`, `password`, `role_id`, `active`, `system`) VALUES
+INSERT INTO `user` (`id`, `name`, `username`, `password`, `role_id`, `active`, `system`) VALUES
 (0, 'anonymous', '', '', 0, '1', '1'),
-(1, 'admin', 'admin@example.com', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
+(1, 'admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
 
 -- --------------------------------------------------------
 

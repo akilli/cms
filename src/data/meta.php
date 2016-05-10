@@ -593,10 +593,10 @@ return [
                 'required' => true,
                 'actions' => ['all'],
             ],
-            'email' => [
-                'name' => 'E-Mail',
-                'column' => 'email',
-                'type' => 'email',
+            'username' => [
+                'name' => 'Username',
+                'column' => 'username',
+                'type' => 'text',
                 'required' => true,
                 'unambiguous' => true,
                 'actions' => ['all'],
