@@ -153,7 +153,7 @@ function select(array $attrs, string $alias = null): string
             continue;
         }
 
-        $columns[$code] = $alias . $attr['column'] . ' as ' . qi($code);
+        $columns[$code] = $alias . $attr['column'] . ' AS ' . qi($code);
     }
 
     if (empty($columns)) {
