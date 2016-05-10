@@ -40,8 +40,7 @@ function entity_tree_load(string $entity, array $criteria = null, $index = null,
     }
 
     // Order attributes
-    $code = qi('level');
-    $orderAttrs['level']['column'] =  $code;
+    $orderAttrs['level']['column'] =  'level';
     $selectLevel = ", (
         SELECT 
             COUNT(b.{$attrs['id']['column']}) + 1
@@ -51,10 +50,9 @@ function entity_tree_load(string $entity, array $criteria = null, $index = null,
             b.lft < e.lft 
             AND b.rgt > e.rgt 
             AND b.{$attrs['root_id']['column']} = e.{$attrs['root_id']['column']}
-        ) as $code";
+        ) as level";
 
-    $code = qi('parent_id');
-    $orderAttrs['parent_id']['column'] =  $code;
+    $orderAttrs['parent_id']['column'] =  'parent_id';
     $x = $attrs['id']['backend'] === 'int' ? ' + 0 ' : '';
     $selectParentId = ", (
         SELECT 
@@ -69,7 +67,7 @@ function entity_tree_load(string $entity, array $criteria = null, $index = null,
             b.{$attrs['lft']['column']} DESC
         LIMIT 
             1
-        ) $x as $code";
+        ) $x as parent_id";
 
     $stmt = db()->prepare(
         select($attrs, 'e') . $selectLevel . $selectParentId
