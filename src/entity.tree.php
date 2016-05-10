@@ -4,7 +4,7 @@ namespace qnd;
 use PDO;
 
 /**
- * Size nested set entity
+ * Size entity
  *
  * @param string $entity
  * @param array $criteria
@@ -12,13 +12,13 @@ use PDO;
  *
  * @return int
  */
-function entity_nestedset_size(string $entity, array $criteria = null, array $options = []): int
+function entity_tree_size(string $entity, array $criteria = null, array $options = []): int
 {
     return entity_flat_size($entity, $criteria, $options);
 }
 
 /**
- * Load nested set entity
+ * Load entity
  *
  * @param string $entity
  * @param array $criteria
@@ -28,7 +28,7 @@ function entity_nestedset_size(string $entity, array $criteria = null, array $op
  *
  * @return array
  */
-function entity_nestedset_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
+function entity_tree_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
 {
     $meta = data('meta', $entity);
     $attrs = $orderAttrs = $meta['attributes'];
@@ -91,13 +91,13 @@ function entity_nestedset_load(string $entity, array $criteria = null, $index = 
 }
 
 /**
- * Create nested set entity
+ * Create entity
  *
  * @param array $item
  *
  * @return bool
  */
-function entity_nestedset_create(array & $item): bool
+function entity_tree_create(array & $item): bool
 {
     if (empty($item['_meta']) || empty($item['menubasis']) || strpos($item['menubasis'], ':') <= 0) {
         return false;
@@ -192,13 +192,13 @@ function entity_nestedset_create(array & $item): bool
 }
 
 /**
- * Save nested set entity
+ * Save entity
  *
  * @param array $item
  *
  * @return bool
  */
-function entity_nestedset_save(array & $item): bool
+function entity_tree_save(array & $item): bool
 {
     if (empty($item['_meta']) || empty($item['menubasis']) || strpos($item['menubasis'], ':') <= 0) {
         return false;
@@ -369,13 +369,13 @@ function entity_nestedset_save(array & $item): bool
 }
 
 /**
- * Delete nested set entity
+ * Delete entity
  *
  * @param array $item
  *
  * @return bool
  */
-function entity_nestedset_delete(array & $item): bool
+function entity_tree_delete(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;
