@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS content (
     entity_id VARCHAR(100) NOT NULL,
     active BOOLEAN NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
+    content TEXT DEFAULT NULL,
     meta TEXT DEFAULT NULL,
     search TEXT DEFAULT NULL,
     created DATETIME NOT NULL,

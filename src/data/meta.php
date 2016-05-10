@@ -94,6 +94,13 @@ return [
                 'type' => 'checkbox.bool',
                 'actions' => ['index'],
             ],
+            'content' => [
+                'name' => 'Content',
+                'column' => 'content',
+                'type' => 'rte',
+                'nullable' => true,
+                'actions' => ['edit', 'view'],
+            ],
             'meta' => [
                 'name' => 'Meta Tags',
                 'column' => 'meta',
