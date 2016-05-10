@@ -4,8 +4,8 @@ namespace qnd;
 /**
  * Joins array values or keys + values with a string and optionally
  *
- * - prepends a string to each value
- * - appends a string to each value
+ * - prepends a string to each element
+ * - appends a string to each element
  * - applies a callback to each value
  *
  * @param string $glue
@@ -22,7 +22,7 @@ function stringify(string $glue, array $pieces, array $options = null): string
         $sep = $options['sep'] ?? ' => ';
         $k = !empty($options['keys']) ? $key . $sep : '';
         $value = !empty($options['call']) ? $options['call']($value) : $value;
-        $pieces[$key] = $k . $pre . string($value) . $post;
+        $pieces[$key] = $pre . $k . string($value) . $post;
     }
 
     return implode($glue, $pieces);
