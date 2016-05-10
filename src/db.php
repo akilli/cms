@@ -153,7 +153,7 @@ function select(array $attrs, string $alias = null): string
             continue;
         }
 
-        $columns[$code] = $alias . $attr['column'] . ' AS ' . qi($code);
+        $columns[$code] = $alias . $attr['column'] . ($code !== $attr['column'] ? ' AS ' . qi($code) : '');
     }
 
     if (empty($columns)) {
@@ -204,7 +204,7 @@ function join(string $table, string $alias, array $cols): string
 function where(array $criteria, array $attrs, array $options = []): string
 {
     $columns = [];
-    $alias = !empty($options['alias']) ? qi($options['alias']) . '.' : '';
+    $alias = !empty($options['alias']) ? $options['alias'] . '.' : '';
     $search = !empty($options['search']);
     $operator = $search ? 'LIKE' : '=';
 
