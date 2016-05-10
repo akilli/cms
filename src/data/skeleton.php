@@ -33,7 +33,6 @@ return [
         'name' => null,
         'table' => null,
         'type' => 'flat',
-        'controller' => 'entity',
         'actions' => [],
         'toolbar' => null,
         'sort' => null,
