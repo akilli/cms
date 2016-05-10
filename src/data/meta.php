@@ -277,7 +277,7 @@ return [
         'name' => 'Metadata',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
-        'sort' => 300,
+        'sort' => 500,
         'attributes' => [
             'id' => [
                 'name' => 'ID',
