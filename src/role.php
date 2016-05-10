@@ -60,7 +60,7 @@ function privileges(): array
                     return !empty($item['active']) && empty($item['callback']);
                 }
             ),
-            ['sort_order' => 'asc', 'name' => 'asc']
+            ['sort' => 'asc', 'name' => 'asc']
         );
     }
 

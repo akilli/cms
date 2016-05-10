@@ -5,7 +5,7 @@ return [
         'name' => null,
         'column' => null,
         'auto' => false,
-        'sort_order' => null,
+        'sort' => null,
         'type' => null,
         'backend' => null,
         'frontend' => null,
@@ -36,7 +36,7 @@ return [
         'controller' => 'entity',
         'actions' => [],
         'toolbar' => null,
-        'sort_order' => null,
+        'sort' => null,
         'attributes' => [],
     ],
     'request' => [
@@ -63,7 +63,7 @@ return [
         'active' => true,
         'privilege' => null,
         'parent' => 'root',
-        'sort_order' => 0,
+        'sort' => 0,
         'children' => [],
     ],
 ];

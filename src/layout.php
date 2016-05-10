@@ -176,6 +176,6 @@ function layout_parent(array $section, string $oldId)
     // Add section to new parent section if it exists
     if ($parent) {
         $parent = & layout($section['parent']);
-        $parent['children'][$section['id']] = isset($section['sort_order']) ? (int) $section['sort_order'] : 0;
+        $parent['children'][$section['id']] = intval($section['sort'] ?? 0);
     }
 }

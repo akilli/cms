@@ -8,34 +8,34 @@ return [
     'http.index' => [
         'name' => 'Homepage',
         'active' => false,
-        'sort_order' => 200,
+        'sort' => 200,
     ],
     'project.switch' => [
         'name' => 'Project Switch',
         'active' => true,
-        'sort_order' => 1000,
+        'sort' => 1000,
     ],
     'user.dashboard' => [
         'name' => 'User Dashboard',
         'callback' => 'qnd\registered',
         'active' => true,
-        'sort_order' => 1000,
+        'sort' => 1000,
     ],
     'user.profile' => [
         'name' => 'User Profile',
         'callback' => 'qnd\registered',
         'active' => true,
-        'sort_order' => 1000,
+        'sort' => 1000,
     ],
     'user.login' => [
         'name' => 'User Login',
         'active' => false,
-        'sort_order' => 1000,
+        'sort' => 1000,
     ],
     'user.logout' => [
         'name' => 'User Logout',
         'callback' => 'qnd\registered',
         'active' => true,
-        'sort_order' => 1000,
+        'sort' => 1000,
     ],
 ];

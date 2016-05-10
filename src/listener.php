@@ -42,11 +42,11 @@ function listener_data_meta(array & $data)
         }
 
         $item = meta_entity($item);
-        $item['attributes'] = data_order($item['attributes'], 'sort_order');
+        $item['attributes'] = data_order($item['attributes'], 'sort');
         $data[$id] = $item;
     }
 
-    $meta = entity_load('meta', null, ['entity_id', 'attribute_id'], ['entity_id' => 'ASC', 'sort_order' => 'ASC']);
+    $meta = entity_load('meta', null, ['entity_id', 'attribute_id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
     $attrs = entity_load('attribute');
     $types = data('attribute');
 
@@ -79,7 +79,7 @@ function listener_data_meta(array & $data)
         }
 
         $item = meta_entity($item);
-        $item['attributes'] = data_order($item['attributes'], 'sort_order');
+        $item['attributes'] = data_order($item['attributes'], 'sort');
         $data[$id] = $item;
     }
 }
@@ -107,7 +107,7 @@ function listener_data_privilege(array & $data)
         $data[$entity . '.all'] = [
             'name' => $item['name'],
             'active' => true,
-            'sort_order' => 1000,
+            'sort' => 1000,
             'class' => ['group'],
         ];
 
@@ -116,7 +116,7 @@ function listener_data_privilege(array & $data)
                 $data[$entity . '.' . $action] = [
                     'name' => $item['name'] . ' ' . ucwords($action),
                     'active' => true,
-                    'sort_order' => 1000,
+                    'sort' => 1000,
                 ];
             }
         }
@@ -137,12 +137,12 @@ function listener_data_toolbar(array & $data)
             $data[$meta['toolbar']]['children'][$entity]['name'] = $meta['name'];
             $data[$meta['toolbar']]['children'][$entity]['url'] = $entity . '/index';
             $data[$meta['toolbar']]['children'][$entity]['privilege'] = $entity . '.index';
-            $data[$meta['toolbar']]['children'][$entity]['sort_order'] = (int) $meta['sort_order'];
+            $data[$meta['toolbar']]['children'][$entity]['sort'] = (int) $meta['sort'];
         }
     }
 
     foreach ($data as $key => $item) {
-        $data[$key]['children'] = data_order($item['children'], 'sort_order');
+        $data[$key]['children'] = data_order($item['children'], 'sort');
     }
 }
 

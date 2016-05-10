@@ -120,7 +120,7 @@ return [
         'type' => 'template',
         'template' => 'toolbar.nav.phtml',
         'parent' => 'top',
-        'sort_order' => -100,
+        'sort' => -100,
     ],
     [
         'id' => 'toolbar.list',

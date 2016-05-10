@@ -30,15 +30,15 @@ function meta_entity(array $data): array
      // Set table name from ID if it is not set already and quote it
     $data['table'] = $data['table'] ? qi($data['table']) : qi($data['id']);
     // Attributes
-    $sortOrder = 0;
+    $sort = 0;
 
     foreach ($data['attributes'] as $id => $attr) {
         $attr['id'] = $id;
         $attr = meta_attribute($attr);
 
-        if (!is_numeric($attr['sort_order'])) {
-            $attr['sort_order'] = $sortOrder;
-            $sortOrder += 100;
+        if (!is_numeric($attr['sort'])) {
+            $attr['sort'] = $sort;
+            $sort += 100;
         }
 
         $data['attributes'][$id] = $attr;

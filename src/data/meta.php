@@ -5,7 +5,7 @@ return [
         'name' => 'Attribute',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
-        'sort_order' => 400,
+        'sort' => 400,
         'attributes' => [
             'id' => [
                 'name' => 'ID',
@@ -110,13 +110,13 @@ return [
             'created' => [
                 'name' => 'Created',
                 'column' => 'created',
-                'sort_order' => 10000,
+                'sort' => 10000,
                 'type' => 'datetime',
             ],
             'creator' => [
                 'name' => 'Creator',
                 'column' => 'creator',
-                'sort_order' => 10010,
+                'sort' => 10010,
                 'type' => 'select.int',
                 'nullable' => true,
                 'options_entity' => 'user',
@@ -124,13 +124,13 @@ return [
             'modified' => [
                 'name' => 'Modified',
                 'column' => 'modified',
-                'sort_order' => 10020,
+                'sort' => 10020,
                 'type' => 'datetime',
             ],
             'modifier' => [
                 'name' => 'Modifier',
                 'column' => 'modifier',
-                'sort_order' => 10030,
+                'sort' => 10030,
                 'type' => 'select.int',
                 'nullable' => true,
                 'options_entity' => 'user',
@@ -221,7 +221,7 @@ return [
         'name' => 'Entity',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
-        'sort_order' => 300,
+        'sort' => 300,
         'attributes' => [
             'id' => [
                 'name' => 'ID',
@@ -258,9 +258,9 @@ return [
                 'options_callback_param' => ['toolbar'],
                 'actions' => ['edit'],
             ],
-            'sort_order' => [
-                'name' => 'Order',
-                'column' => 'sort_order',
+            'sort' => [
+                'name' => 'Sort',
+                'column' => 'sort',
                 'type' => 'int',
                 'actions' => ['edit'],
             ],
@@ -277,7 +277,7 @@ return [
         'name' => 'Metadata',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
-        'sort_order' => 300,
+        'sort' => 300,
         'attributes' => [
             'id' => [
                 'name' => 'ID',
@@ -302,9 +302,9 @@ return [
                 'options_entity' => 'attribute',
                 'actions' => ['edit', 'index'],
             ],
-            'sort_order' => [
-                'name' => 'Order',
-                'column' => 'sort_order',
+            'sort' => [
+                'name' => 'Sort',
+                'column' => 'sort',
                 'type' => 'int',
                 'actions' => ['edit', 'index'],
             ],
@@ -342,7 +342,7 @@ return [
         'name' => 'Project',
         'actions' => ['create', 'edit', 'delete',  'index'],
         'toolbar' => 'system',
-        'sort_order' => 100,
+        'sort' => 100,
         'attributes' => [
             'id' => [
                 'name' => 'ID',
@@ -385,7 +385,7 @@ return [
         'name' => 'Rewrite',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'system',
-        'sort_order' => 400,
+        'sort' => 400,
         'attributes' => [
             'id' => [
                 'name' => 'ID',
@@ -422,7 +422,7 @@ return [
         'name' => 'Role',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'system',
-        'sort_order' => 300,
+        'sort' => 300,
         'attributes' => [
             'id' => [
                 'name' => 'ID',
@@ -467,7 +467,7 @@ return [
         'type' => 'tree',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
-        'sort_order' => 200,
+        'sort' => 200,
         'attributes' => [
             'id' => [
                 'name' => 'ID',
@@ -502,26 +502,26 @@ return [
                 'name' => 'Position Left',
                 'column' => 'lft',
                 'auto' => true,
-                'sort_order' => 9900,
+                'sort' => 9900,
                 'type' => 'int',
             ],
             'rgt' => [
                 'name' => 'Position Right',
                 'column' => 'rgt',
                 'auto' => true,
-                'sort_order' => 9910,
+                'sort' => 9910,
                 'type' => 'int',
             ],
             'mode' => [
                 'name' => 'Mode',
-                'sort_order' => 9920,
+                'sort' => 9920,
                 'type' => 'select.varchar',
                 'options' => ['after' => 'After', 'before' => 'Before', 'child' => 'Child'],
                 'actions' => ['edit'],
             ],
             'position' => [
                 'name' => 'Position',
-                'sort_order' => 9930,
+                'sort' => 9930,
                 'type' => 'select.varchar',
                 'required' => true,
                 'options_callback' => 'qnd\attribute_option_position',
@@ -529,13 +529,13 @@ return [
             ],
             'level' => [
                 'name' => 'Level',
-                'sort_order' => 9940,
+                'sort' => 9940,
                 'type' => 'int',
                 'actions' => ['index'],
             ],
             'parent_id' => [
                 'name' => 'Parent',
-                'sort_order' => 9950,
+                'sort' => 9950,
                 'type' => 'select.int',
                 'nullable' => true,
                 'options_entity' => 'tree',
@@ -548,7 +548,7 @@ return [
         'name' => 'Menu Tree Root',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
-        'sort_order' => 100,
+        'sort' => 100,
         'attributes' => [
             'id' => [
                 'name' => 'ID',
@@ -577,7 +577,7 @@ return [
         'name' => 'User',
         'actions' => ['create', 'edit', 'delete',  'index'],
         'toolbar' => 'system',
-        'sort_order' => 200,
+        'sort' => 200,
         'attributes' => [
             'id' => [
                 'name' => 'ID',

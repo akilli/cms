@@ -71,12 +71,12 @@ CREATE TABLE IF NOT EXISTS `entity` (
     `name` VARCHAR(255) NOT NULL,
     `actions` TEXT DEFAULT NULL,
     `toolbar` VARCHAR(255) NOT NULL,
-    `sort_order` INTEGER(11) NOT NULL DEFAULT '0',
+    `sort` INTEGER(11) NOT NULL DEFAULT '0',
     `system` BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     KEY `idx_entity_name` (`name`),
     KEY `idx_entity_toolbar` (`toolbar`),
-    KEY `idx_entity_sort` (`sort_order`),
+    KEY `idx_entity_sort` (`sort`),
     KEY `idx_entity_system` (`system`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `meta` (
     `id` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `entity_id` VARCHAR(100) NOT NULL,
     `attribute_id` VARCHAR(100) NOT NULL,
-    `sort_order` INTEGER(11) NOT NULL DEFAULT '0',
+    `sort` INTEGER(11) NOT NULL DEFAULT '0',
     `required` BOOLEAN NOT NULL DEFAULT '0',
     `unambiguous` BOOLEAN NOT NULL DEFAULT '0',
     `searchable` BOOLEAN NOT NULL DEFAULT '0',
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `meta` (
     UNIQUE KEY `uni_meta_attribute` (`entity_id`,`attribute_id`),
     KEY `idx_meta_entity` (`entity_id`),
     KEY `idx_meta_attribute` (`attribute_id`),
-    KEY `idx_meta_sort` (`sort_order`),
+    KEY `idx_meta_sort` (`sort`),
     KEY `idx_meta_required` (`required`),
     KEY `idx_meta_unambiguous` (`unambiguous`),
     KEY `idx_meta_searchable` (`searchable`)
