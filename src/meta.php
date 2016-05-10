@@ -27,8 +27,8 @@ function meta_entity(array $data): array
     }
 
     $data = array_replace_recursive(data('skeleton', 'entity'), $data);
-     // Set table name from ID if it is not set already and quote it
-    $data['table'] = $data['table'] ? qi($data['table']) : qi($data['id']);
+     // Set table name from ID if it is not set already
+    $data['table'] = $data['table'] ?: $data['id'];
     // Attributes
     $sort = 0;
 
@@ -78,9 +78,6 @@ function meta_attribute(array $data): array
     }
 
     $data = array_replace(data('skeleton', 'attribute'), $type, $data);
-    // Quote column name
-    $data['column'] = $data['column'] ? qi($data['column']) : null;
-
     // Correct invalid values
     $data['required'] = empty($data['nullable']) && $data['required'];
     $data['unambiguous'] = !in_array($data['backend'], ['bool', 'text']) && $data['unambiguous'];
