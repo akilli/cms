@@ -14,7 +14,6 @@ CREATE TABLE IF NOT EXISTS attribute (
     name VARCHAR(255) NOT NULL,
     type VARCHAR(100) NOT NULL,
     options_entity VARCHAR(100) DEFAULT NULL,
-    options_callback VARCHAR(255) DEFAULT NULL,
     options TEXT DEFAULT NULL,
     PRIMARY KEY (id),
     KEY idx_attribute_name (name),

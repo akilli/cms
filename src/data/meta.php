@@ -42,13 +42,6 @@ return [
                 'options_callback_param' => ['meta'],
                 'actions' => ['edit'],
             ],
-            'options_callback' => [
-                'name' => 'Options Callback',
-                'column' => 'options_callback',
-                'type' => 'callback',
-                'nullable' => true,
-                'actions' => ['edit'],
-            ],
             'options' => [
                 'name' => 'Options',
                 'column' => 'options',
