@@ -177,26 +177,6 @@ function attribute_validator_text(array $attr, array & $item): bool
 }
 
 /**
- * Callback validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function attribute_validator_callback(array $attr, array & $item): bool
-{
-    if (!empty($item[$attr['id']]) && !is_callable($item[$attr['id']])) {
-        $item[$attr['id']] = null;
-        $item['_error'][$attr['id']] = _('Invalid callback');
-
-        return false;
-    }
-
-    return true;
-}
-
-/**
  * Email validator
  *
  * @param array $attr

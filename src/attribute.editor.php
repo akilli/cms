@@ -139,19 +139,6 @@ function attribute_editor_text(array $attr, array $item): string
 }
 
 /**
- * Callback editor
- *
- * @param array $attr
- * @param array $item
- *
- * @return string
- */
-function attribute_editor_callback(array $attr, array $item): string
-{
-    return attribute_editor_text($attr, $item);
-}
-
-/**
  * Email editor
  *
  * @param array $attr

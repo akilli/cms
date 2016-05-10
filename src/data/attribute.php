@@ -1,11 +1,6 @@
 <?php
 return [
     // Input
-    'callback' => [
-        'name' => 'Callback',
-        'backend' => 'varchar',
-        'frontend' => 'text',
-    ],
     'email' => [
         'name' => 'Email',
         'backend' => 'varchar',
