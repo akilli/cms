@@ -4,8 +4,8 @@ return [
         'id' => 'attribute',
         'name' => 'Attribute',
         'actions' => ['create', 'edit', 'delete', 'index'],
-        'toolbar' => 'types',
-        'sort_order' => 200,
+        'toolbar' => 'structure',
+        'sort_order' => 400,
         'attributes' => [
             'id' => [
                 'name' => 'ID',
@@ -220,8 +220,8 @@ return [
         'id' => 'entity',
         'name' => 'Entity',
         'actions' => ['create', 'edit', 'delete', 'index'],
-        'toolbar' => 'types',
-        'sort_order' => 100,
+        'toolbar' => 'structure',
+        'sort_order' => 300,
         'attributes' => [
             'id' => [
                 'name' => 'ID',
@@ -276,7 +276,7 @@ return [
         'id' => 'meta',
         'name' => 'Metadata',
         'actions' => ['create', 'edit', 'delete', 'index'],
-        'toolbar' => 'types',
+        'toolbar' => 'structure',
         'sort_order' => 300,
         'attributes' => [
             'id' => [

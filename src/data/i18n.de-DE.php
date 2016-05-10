@@ -21,7 +21,6 @@ return [
     'Child' => 'Kind',
     'Configuration' => 'Konfiguration',
     'Content' => 'Inhalt',
-    'Content Types' => 'Inhaltstypen',
     'Could not delete old file %s' => 'Konnte alte Datei %s nicht löschen',
     'Create' => 'Anlegen',
     'Credentials' => 'Zugangsdaten',
