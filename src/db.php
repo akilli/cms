@@ -136,7 +136,7 @@ function cols(array $attrs, array $item, array $skip = []): array
 }
 
 /**
- * Select part
+ * SELECT part
  *
  * @param array $attrs
  * @param string $alias
@@ -146,7 +146,7 @@ function cols(array $attrs, array $item, array $skip = []): array
 function select(array $attrs, string $alias = null): string
 {
     $columns = [];
-    $alias = ($alias) ? qi($alias) . '.' : '';
+    $alias = $alias ? $alias . '.' : '';
 
     foreach ($attrs as $code => $attr) {
         if (empty($attr['column'])) {
@@ -164,7 +164,7 @@ function select(array $attrs, string $alias = null): string
 }
 
 /**
- * From part
+ * FROM part
  *
  * @param string $table
  * @param string $alias
@@ -173,11 +173,27 @@ function select(array $attrs, string $alias = null): string
  */
 function from(string $table, string $alias = null): string
 {
-    return ' FROM ' . $table . ($alias ? ' as ' . qi($alias) : '');
+    return ' FROM ' . $table . ($alias ? ' ' . $alias : '');
 }
 
 /**
- * Where part
+ * JOIN part
+ *
+ * @param string $table
+ * @param string $alias
+ * @param array $cols
+ *
+ * @return string
+ */
+function join(string $table, string $alias, array $cols): string
+{
+    $cond = stringify(' AND ', $cols, ['keys' => true, 'sep' => ' = ']);
+
+    return $cond ? ' INNER JOIN ' . $table . ' ' . $alias . ' ON ' . $cond : '';
+}
+
+/**
+ * WHERE part
  *
  * @param array $criteria
  * @param array $attrs
@@ -214,7 +230,7 @@ function where(array $criteria, array $attrs, array $options = []): string
 }
 
 /**
- * Order By part
+ * ORDER BY part
  *
  * @param array $order
  * @param array $attrs
@@ -238,7 +254,7 @@ function order(array $order, array $attrs = null): string
 }
 
 /**
- * Limit part
+ * LIMIT part
  *
  * @param int[] $limit
  *
