@@ -182,7 +182,7 @@ function tree_create(array & $item): bool
     $stmt->execute();
 
     // Set DB generated id
-    if (!empty($attrs['id']['auto'])) {
+    if ($attrs['id']['generator'] === 'auto') {
         $item['id'] = (int) db()->lastInsertId();
     }
 

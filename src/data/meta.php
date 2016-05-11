@@ -50,7 +50,7 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
+                'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],
             ],
@@ -121,7 +121,7 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
+                'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],
             ],
@@ -242,7 +242,7 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
+                'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],
             ],
@@ -309,7 +309,7 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
+                'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],
             ],
@@ -380,7 +380,7 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
+                'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],
             ],
@@ -420,7 +420,7 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
+                'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],
             ],
@@ -445,12 +445,12 @@ return [
             ],
             'lft' => [
                 'name' => 'Position Left',
-                'auto' => true,
+                'generator' => 'auto',
                 'type' => 'int',
             ],
             'rgt' => [
                 'name' => 'Position Right',
-                'auto' => true,
+                'generator' => 'auto',
                 'type' => 'int',
             ],
             'mode' => [
@@ -493,7 +493,7 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
+                'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],
             ],
@@ -519,7 +519,7 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
+                'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],
             ],

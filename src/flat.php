@@ -66,7 +66,8 @@ function flat_create(array & $item): bool
     }
 
     $meta = $item['_meta'];
-    $cols = cols($meta['attributes'], $item);
+    $attrs = $meta['attributes'];
+    $cols = cols($attrs, $item);
 
     $stmt = db()->prepare(
         'INSERT INTO ' . $meta['table']
@@ -74,13 +75,13 @@ function flat_create(array & $item): bool
     );
 
     foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($meta['attributes'][$code], $item[$code]));
+        $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
 
     $stmt->execute();
 
     // Set DB generated id
-    if (!empty($meta['attributes']['id']['auto'])) {
+    if ($attrs['id']['generator'] === 'auto') {
         $item['id'] = (int) db()->lastInsertId();
     }
 

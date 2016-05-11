@@ -32,7 +32,7 @@ function validator(array $attr, array & $item): bool
  */
 function validator_default(array $attr, array & $item): bool
 {
-    return !empty($attr['auto'])
+    return $attr['generator'] === 'auto'
         || !meta_action('edit', $attr) && (empty($attr['required']) || !empty($item['_old']))
         || validator_unambiguous($attr, $item) && validator_required($attr, $item);
 }

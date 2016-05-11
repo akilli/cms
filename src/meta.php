@@ -107,13 +107,13 @@ function meta_action($action, array $data): bool
     if (empty($data['actions']) || !is_array($data['actions']) && !($data['actions'] = json_decode($data['actions'], true))) {
         // No actions supported
         return false;
-    } elseif (in_array('all', $data['actions']) && ($action !== 'edit' || empty($data['auto']))) {
+    } elseif (in_array('all', $data['actions']) && ($action !== 'edit' || empty($data['generator']) || $data['generator'] !== 'auto')) {
         // All actions supported
         return true;
     }
 
     foreach ((array) $action as $key) {
-        if (in_array($key, $data['actions']) && ($key !== 'edit' || empty($data['auto']))) {
+        if (in_array($key, $data['actions']) && ($key !== 'edit' || empty($data['generator']) || $data['generator'] !== 'auto')) {
             return true;
         }
     }

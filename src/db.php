@@ -127,7 +127,7 @@ function cols(array $attrs, array $item, array $skip = []): array
     $data = ['col' => [], 'param' => [], 'set' => []];
 
     foreach (array_keys($item) as $code) {
-        if (empty($attrs[$code]['column']) || !empty($attrs[$code]['auto']) || in_array($code, $skip)) {
+        if (empty($attrs[$code]['column']) || $attrs[$code]['generator'] === 'auto' || in_array($code, $skip)) {
             continue;
         }
 
