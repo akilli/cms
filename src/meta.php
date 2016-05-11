@@ -78,6 +78,14 @@ function meta_attribute(array $data): array
     }
 
     $data = array_replace(data('skeleton', 'attribute'), $type, $data);
+
+    // Column
+    if (!empty($data['virtual'])) {
+        $data['column'] = null;
+    } elseif (empty($data['column'])) {
+        $data['column'] = $data['id'];
+    }
+
     // Correct invalid values
     $data['required'] = empty($data['nullable']) && $data['required'];
     $data['unambiguous'] = !in_array($data['backend'], ['bool', 'text']) && $data['unambiguous'];

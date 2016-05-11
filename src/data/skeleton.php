@@ -4,6 +4,7 @@ return [
         'id' => null,
         'name' => null,
         'column' => null,
+        'virtual' => false,
         'auto' => false,
         'sort' => null,
         'type' => null,

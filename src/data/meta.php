@@ -9,7 +9,6 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'column' => 'id',
                 'type' => 'text',
                 'required' => true,
                 'unambiguous' => true,
@@ -19,14 +18,12 @@ return [
             ],
             'name' => [
                 'name' => 'Name',
-                'column' => 'name',
                 'type' => 'text',
                 'required' => true,
                 'actions' => ['all'],
             ],
             'type' => [
                 'name' => 'Type',
-                'column' => 'type',
                 'type' => 'select.varchar',
                 'required' => true,
                 'options_callback' => 'qnd\data',
@@ -35,7 +32,6 @@ return [
             ],
             'options_entity' => [
                 'name' => 'Options Entity',
-                'column' => 'options_entity',
                 'type' => 'select.varchar',
                 'nullable' => true,
                 'options_callback' => 'qnd\data',
@@ -44,7 +40,6 @@ return [
             ],
             'options' => [
                 'name' => 'Options',
-                'column' => 'options',
                 'type' => 'json',
                 'actions' => ['edit'],
             ],
@@ -56,14 +51,12 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'column' => 'id',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['index'],
             ],
             'name' => [
                 'name' => 'Name',
-                'column' => 'name',
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
@@ -71,62 +64,52 @@ return [
             ],
             'entity_id' => [
                 'name' => 'Entity',
-                'column' => 'entity_id',
                 'type' => 'select.varchar',
                 'options_entity' => 'entity',
             ],
             'active' => [
                 'name' => 'Active',
-                'column' => 'active',
                 'type' => 'checkbox.bool',
                 'actions' => ['edit', 'index'],
             ],
             'system' => [
                 'name' => 'System',
-                'column' => 'system',
                 'type' => 'checkbox.bool',
                 'actions' => ['index'],
             ],
             'content' => [
                 'name' => 'Content',
-                'column' => 'content',
                 'type' => 'rte',
                 'nullable' => true,
                 'actions' => ['edit', 'view'],
             ],
             'meta' => [
                 'name' => 'Meta Tags',
-                'column' => 'meta',
                 'type' => 'json',
                 'nullable' => true,
                 'actions' => ['edit'],
             ],
             'search' => [
                 'name' => 'Search Index',
-                'column' => 'search',
                 'type' => 'index',
                 'nullable' => true,
             ],
             'created' => [
                 'name' => 'Created',
-                'column' => 'created',
                 'type' => 'datetime',
             ],
             'creator' => [
                 'name' => 'Creator',
-                'column' => 'creator',
                 'type' => 'select.int',
                 'nullable' => true,
                 'options_entity' => 'user',
             ],
             'modified' => [
                 'name' => 'Modified',
-                'column' => 'modified',
                 'type' => 'datetime',
             ],
             'modifier' => [
                 'name' => 'Modifier',
-                'column' => 'modifier',
                 'type' => 'select.int',
                 'nullable' => true,
                 'options_entity' => 'user',
@@ -139,14 +122,12 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'column' => 'id',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['index'],
             ],
             'entity_id' => [
                 'name' => 'Entity',
-                'column' => 'entity_id',
                 'type' => 'select.varchar',
                 'required' => true,
                 'options_entity' => 'entity',
@@ -154,7 +135,6 @@ return [
             ],
             'attribute_id' => [
                 'name' => 'Attribute',
-                'column' => 'attribute_id',
                 'type' => 'select.varchar',
                 'required' => true,
                 'options_entity' => 'attribute',
@@ -162,7 +142,6 @@ return [
             ],
             'content_id' => [
                 'name' => 'Content',
-                'column' => 'content_id',
                 'type' => 'select.int',
                 'required' => true,
                 'options_entity' => 'content',
@@ -170,42 +149,36 @@ return [
             ],
             'value_bool' => [
                 'name' => 'Value Boolean',
-                'column' => 'value_bool',
                 'type' => 'checkbox.bool',
                 'nullable' => true,
                 'actions' => ['edit'],
             ],
             'value_datetime' => [
                 'name' => 'Value Datetime',
-                'column' => 'value_datetime',
                 'nullable' => true,
                 'type' => 'datetime',
                 'actions' => ['edit'],
             ],
             'value_decimal' => [
                 'name' => 'Value Decimal',
-                'column' => 'value_decimal',
                 'type' => 'decimal',
                 'nullable' => true,
                 'actions' => ['edit'],
             ],
             'value_int' => [
                 'name' => 'Value Int',
-                'column' => 'value_int',
                 'type' => 'int',
                 'nullable' => true,
                 'actions' => ['edit'],
             ],
             'value_text' => [
                 'name' => 'Value Text',
-                'column' => 'value_text',
                 'type' => 'textarea',
                 'nullable' => true,
                 'actions' => ['edit'],
             ],
             'value_varchar' => [
                 'name' => 'Value Varchar',
-                'column' => 'value_varchar',
                 'type' => 'text',
                 'nullable' => true,
                 'actions' => ['edit'],
@@ -221,7 +194,6 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'column' => 'id',
                 'type' => 'text',
                 'required' => true,
                 'unambiguous' => true,
@@ -231,14 +203,12 @@ return [
             ],
             'name' => [
                 'name' => 'Name',
-                'column' => 'name',
                 'type' => 'text',
                 'required' => true,
                 'actions' => ['all'],
             ],
             'actions' => [
                 'name' => 'Actions',
-                'column' => 'actions',
                 'type' => 'multiselect',
                 'nullable' => true,
                 'options_callback' => 'qnd\config',
@@ -247,7 +217,6 @@ return [
             ],
             'toolbar' => [
                 'name' => 'Toolbar',
-                'column' => 'toolbar',
                 'type' => 'select.varchar',
                 'required' => true,
                 'options_callback' => 'qnd\data',
@@ -256,13 +225,11 @@ return [
             ],
             'sort' => [
                 'name' => 'Sort',
-                'column' => 'sort',
                 'type' => 'int',
                 'actions' => ['edit'],
             ],
             'system' => [
                 'name' => 'System',
-                'column' => 'system',
                 'type' => 'checkbox.bool',
                 'actions' => ['index'],
             ],
@@ -277,14 +244,12 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'column' => 'id',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['index'],
             ],
             'entity_id' => [
                 'name' => 'Entity',
-                'column' => 'entity_id',
                 'type' => 'select.varchar',
                 'required' => true,
                 'options_entity' => 'entity',
@@ -292,7 +257,6 @@ return [
             ],
             'attribute_id' => [
                 'name' => 'Attribute',
-                'column' => 'attribute_id',
                 'type' => 'select.varchar',
                 'required' => true,
                 'options_entity' => 'attribute',
@@ -300,31 +264,26 @@ return [
             ],
             'sort' => [
                 'name' => 'Sort',
-                'column' => 'sort',
                 'type' => 'int',
                 'actions' => ['edit', 'index'],
             ],
             'required' => [
                 'name' => 'Required',
-                'column' => 'required',
                 'type' => 'checkbox.bool',
                 'actions' => ['edit'],
             ],
             'unambiguous' => [
                 'name' => 'Unambiguous',
-                'column' => 'unambiguous',
                 'type' => 'checkbox.bool',
                 'actions' => ['edit'],
             ],
             'searchable' => [
                 'name' => 'Searchable',
-                'column' => 'searchable',
                 'type' => 'checkbox.bool',
                 'actions' => ['edit'],
             ],
             'actions' => [
                 'name' => 'Actions',
-                'column' => 'actions',
                 'type' => 'multiselect',
                 'nullable' => true,
                 'options_callback' => 'qnd\config',
@@ -342,21 +301,18 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'column' => 'id',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['index'],
             ],
             'name' => [
                 'name' => 'Name',
-                'column' => 'name',
                 'type' => 'text',
                 'required' => true,
                 'actions' => ['all'],
             ],
             'host' => [
                 'name' => 'Host',
-                'column' => 'host',
                 'type' => 'text',
                 'nullable' => true,
                 'unambiguous' => true,
@@ -364,13 +320,11 @@ return [
             ],
             'active' => [
                 'name' => 'Active',
-                'column' => 'active',
                 'type' => 'checkbox.bool',
                 'actions' => ['edit', 'index'],
             ],
             'system' => [
                 'name' => 'System',
-                'column' => 'system',
                 'type' => 'checkbox.bool',
                 'actions' => ['index'],
             ],
@@ -385,7 +339,6 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'column' => 'id',
                 'type' => 'text',
                 'required' => true,
                 'unambiguous' => true,
@@ -394,20 +347,17 @@ return [
             ],
             'target' => [
                 'name' => 'Target',
-                'column' => 'target',
                 'type' => 'text',
                 'required' => true,
                 'actions' => ['edit', 'index'],
             ],
             'redirect' => [
                 'name' => 'Redirect',
-                'column' => 'redirect',
                 'type' => 'checkbox.bool',
                 'actions' => ['edit', 'index'],
             ],
             'system' => [
                 'name' => 'System',
-                'column' => 'system',
                 'type' => 'checkbox.bool',
                 'actions' => ['index'],
             ],
@@ -422,14 +372,12 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'column' => 'id',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['index'],
             ],
             'name' => [
                 'name' => 'Name',
-                'column' => 'name',
                 'type' => 'text',
                 'required' => true,
                 'unambiguous' => true,
@@ -437,7 +385,6 @@ return [
             ],
             'privilege' => [
                 'name' => 'Privileges',
-                'column' => 'privilege',
                 'type' => 'multiselect',
                 'nullable' => true,
                 'options_callback' => 'qnd\privileges',
@@ -445,13 +392,11 @@ return [
             ],
             'active' => [
                 'name' => 'Active',
-                'column' => 'active',
                 'type' => 'checkbox.bool',
                 'actions' => ['edit', 'index'],
             ],
             'system' => [
                 'name' => 'System',
-                'column' => 'system',
                 'type' => 'checkbox.bool',
                 'actions' => ['index'],
             ],
@@ -467,28 +412,24 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'column' => 'id',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['index'],
             ],
             'name' => [
                 'name' => 'Name',
-                'column' => 'name',
                 'type' => 'text',
                 'required' => true,
                 'actions' => ['all'],
             ],
             'target' => [
                 'name' => 'Target',
-                'column' => 'target',
                 'type' => 'text',
                 'required' => true,
                 'actions' => ['edit', 'index'],
             ],
             'root_id' => [
                 'name' => 'Menu Tree Root',
-                'column' => 'root_id',
                 'type' => 'select.varchar',
                 'required' => true,
                 'options_entity' => 'tree_root',
@@ -496,24 +437,24 @@ return [
             ],
             'lft' => [
                 'name' => 'Position Left',
-                'column' => 'lft',
                 'auto' => true,
                 'type' => 'int',
             ],
             'rgt' => [
                 'name' => 'Position Right',
-                'column' => 'rgt',
                 'auto' => true,
                 'type' => 'int',
             ],
             'mode' => [
                 'name' => 'Mode',
+                'virtual' => true,
                 'type' => 'select.varchar',
                 'options' => ['after' => 'After', 'before' => 'Before', 'child' => 'Child'],
                 'actions' => ['edit'],
             ],
             'position' => [
                 'name' => 'Position',
+                'virtual' => true,
                 'type' => 'select.varchar',
                 'required' => true,
                 'options_callback' => 'qnd\attribute_option_position',
@@ -521,11 +462,13 @@ return [
             ],
             'level' => [
                 'name' => 'Level',
+                'virtual' => true,
                 'type' => 'int',
                 'actions' => ['index'],
             ],
             'parent_id' => [
                 'name' => 'Parent',
+                'virtual' => true,
                 'type' => 'select.int',
                 'nullable' => true,
                 'options_entity' => 'tree',
@@ -542,21 +485,18 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'column' => 'id',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['index'],
             ],
             'name' => [
                 'name' => 'Name',
-                'column' => 'name',
                 'type' => 'text',
                 'actions' => ['all'],
                 'required' => true,
             ],
             'system' => [
                 'name' => 'System',
-                'column' => 'system',
                 'type' => 'checkbox.bool',
                 'actions' => ['index'],
             ],
@@ -571,21 +511,18 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'column' => 'id',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['index'],
             ],
             'name' => [
                 'name' => 'Name',
-                'column' => 'name',
                 'type' => 'text',
                 'required' => true,
                 'actions' => ['all'],
             ],
             'username' => [
                 'name' => 'Username',
-                'column' => 'username',
                 'type' => 'text',
                 'required' => true,
                 'unambiguous' => true,
@@ -593,14 +530,12 @@ return [
             ],
             'password' => [
                 'name' => 'Password',
-                'column' => 'password',
                 'type' => 'password',
                 'required' => true,
                 'actions' => ['edit'],
             ],
             'role_id' => [
                 'name' => 'Role',
-                'column' => 'role_id',
                 'type' => 'select.int',
                 'required' => true,
                 'options_entity' => 'role',
@@ -608,13 +543,11 @@ return [
             ],
             'active' => [
                 'name' => 'Active',
-                'column' => 'active',
                 'type' => 'checkbox.bool',
                 'actions' => ['edit', 'index'],
             ],
             'system' => [
                 'name' => 'System',
-                'column' => 'system',
                 'type' => 'checkbox.bool',
                 'actions' => ['index'],
             ],
