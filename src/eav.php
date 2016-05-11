@@ -1,6 +1,7 @@
 <?php
 namespace qnd;
 
+use PDO;
 use RuntimeException;
 
 /**
@@ -138,7 +139,6 @@ function eav_create(array & $item): bool
     $attrs = $meta['attributes'];
     $contentAttrs = $contentMeta['attributes'];
     $valueAttrs = array_diff_key($attrs, $contentAttrs);
-    $valueModel = meta_skeleton('eav');
     $item['entity_id'] = $meta['id'];
     $cols = cols($contentAttrs, $item);
 
@@ -159,29 +159,23 @@ function eav_create(array & $item): bool
     }
 
     // Insert values
-    if ($valueAttrs) {
-        $save = [];
-        $i = 0;
+    $stmt = db()->prepare(
+        'INSERT INTO eav
+         (entity_id, attribute_id, content_id, value) 
+         VALUES 
+         (:__entity_id__, :__attribute_id__, :__content_id__, :__value__)'
+    );
 
-        foreach ($valueAttrs as $code => $attr) {
-            if (!array_key_exists($code, $item)) {
-                continue;
-            }
-
-            $save[--$i] = array_replace(
-                $valueModel,
-                [
-                    'entity_id' => $item['entity_id'],
-                    'attribute_id' => $attr['id'],
-                    'content_id' => $item['id'],
-                    'value' => $item[$code]
-                ]
-            );
+    foreach ($valueAttrs as $code => $attr) {
+        if (!array_key_exists($code, $item)) {
+            continue;
         }
 
-        if (count($save) > 0 && !entity_save('eav', $save)) {
-            throw new RuntimeException(_('Data could not be saved'));
-        }
+        $stmt->bindValue(':__entity_id__', $item['entity_id'], db_type($attrs['entity_id'], $item['entity_id']));
+        $stmt->bindValue(':__attribute_id__', $attr['id'], db_type($attr, $attr['id']));
+        $stmt->bindValue(':__content_id__', $item['id'], db_type($attrs['id'], $item['id']));
+        $stmt->bindValue(':__value__', $item[$code], db_type($attr, $item[$code]));
+        $stmt->execute();
     }
 
     return true;
