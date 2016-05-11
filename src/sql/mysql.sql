@@ -89,8 +89,8 @@ CREATE TABLE IF NOT EXISTS meta (
     required BOOLEAN NOT NULL DEFAULT '0',
     unambiguous BOOLEAN NOT NULL DEFAULT '0',
     searchable BOOLEAN NOT NULL DEFAULT '0',
-    filterable BOOLEAN NOT NULL DEFAULT '0'
-    sortable BOOLEAN NOT NULL DEFAULT '0'
+    filterable BOOLEAN NOT NULL DEFAULT '0',
+    sortable BOOLEAN NOT NULL DEFAULT '0',
     actions TEXT DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY uni_meta_attribute (entity_id,attribute_id),
