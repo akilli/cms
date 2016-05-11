@@ -9,12 +9,12 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
+                'generator' => 'qnd\generator_id',
+                'generator_base' => 'name',
                 'type' => 'text',
                 'required' => true,
                 'unambiguous' => true,
                 'actions' => ['index'],
-                'generator' => 'qnd\generator_id',
-                'generator_base' => 'name',
             ],
             'name' => [
                 'name' => 'Name',
@@ -194,12 +194,12 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
+                'generator' => 'qnd\generator_id',
+                'generator_base' => 'name',
                 'type' => 'text',
                 'required' => true,
                 'unambiguous' => true,
                 'actions' => ['index'],
-                'generator' => 'qnd\generator_id',
-                'generator_base' => 'name',
             ],
             'name' => [
                 'name' => 'Name',
@@ -349,11 +349,11 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
+                'generator' => 'qnd\generator_id',
                 'type' => 'text',
                 'required' => true,
                 'unambiguous' => true,
                 'actions' => ['all'],
-                'generator' => 'qnd\generator_id',
             ],
             'target' => [
                 'name' => 'Target',
