@@ -262,8 +262,8 @@ function order(array $order, array $attrs = null): string
  */
 function limit(array $limit = null): string
 {
-    $limit[0] = !empty($limit[0]) ? (int) $limit[0] : 0;
-    $limit[1] = !empty($limit[1]) ? (int) $limit[1] : 0;
+    $limit[0] = intval($limit[0] ?? 0);
+    $limit[1] = intval($limit[1] ?? 0);
 
     return $limit[0] > 0 ? ' LIMIT ' . $limit[0] . ' OFFSET ' . $limit[1] : '';
 }
