@@ -111,7 +111,7 @@ function action_index()
         }
     );
     $criteria = empty($meta['attributes']['active']) || $action === 'index' ? [] : ['active' => true];
-    $order = null;
+    $order = [];
     $params = [];
     $search = post('search');
 
