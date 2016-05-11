@@ -91,7 +91,10 @@ function option_entity(array $attr): array
  */
 function option_callback(array $attr): array
 {
-    return option_translate($attr['options_callback'](...$attr['options_callback_param']));
+    $callback = $attr['options_callback'][0];
+    $params = $attr['options_callback'][1] ?? [];
+    
+    return option_translate($callback(...$params));
 }
 
 /**
