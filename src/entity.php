@@ -133,7 +133,7 @@ function entity_load(string $entity, array $criteria = null, $index = null, arra
  */
 function entity_save(string $entity, array & $data): bool
 {
-    $original = entity_load($entity);
+    $original = entity_load($entity, ['id' => array_keys($data)]);
     $skeleton = meta_skeleton($entity);
     $editable = meta_skeleton($entity, null, true);
 
