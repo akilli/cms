@@ -15,6 +15,8 @@ return [
         'unambiguous' => false,
         'multiple' => false,
         'searchable' => false,
+        'filterable' => false,
+        'sortable' => false,
         'default' => null,
         'options_entity' => null,
         'options_callback' => null,

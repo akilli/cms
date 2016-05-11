@@ -89,6 +89,8 @@ CREATE TABLE IF NOT EXISTS meta (
     required BOOLEAN NOT NULL DEFAULT '0',
     unambiguous BOOLEAN NOT NULL DEFAULT '0',
     searchable BOOLEAN NOT NULL DEFAULT '0',
+    filterable BOOLEAN NOT NULL DEFAULT '0'
+    sortable BOOLEAN NOT NULL DEFAULT '0'
     actions TEXT DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY uni_meta_attribute (entity_id,attribute_id),
@@ -97,7 +99,9 @@ CREATE TABLE IF NOT EXISTS meta (
     KEY idx_meta_sort (sort),
     KEY idx_meta_required (required),
     KEY idx_meta_unambiguous (unambiguous),
-    KEY idx_meta_searchable (searchable)
+    KEY idx_meta_searchable (searchable),
+    KEY idx_meta_filterable (filterable),
+    KEY idx_meta_sortable (sortable)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS project;
