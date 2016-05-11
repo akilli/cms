@@ -78,11 +78,11 @@ function db_type(array $attr, $value): int
  * Quotes value
  *
  * @param mixed $value
- * @param mixed $backend
+ * @param string $backend
  *
  * @return mixed
  */
-function qv($value, $backend = null)
+function qv($value, string $backend = null)
 {
     if ($backend === 'bool') {
         return $value ? '1' : '0';
