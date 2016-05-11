@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS content (
     KEY idx_content_modified (modified),
     KEY idx_content_modifier (modifier),
     FULLTEXT idx_content_search (search)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS eav;
 CREATE TABLE IF NOT EXISTS eav (
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS eav (
     KEY idx_eav_entity (entity_id),
     KEY idx_eav_attribute (attribute_id),
     KEY idx_eav_content (content_id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS entity;
 CREATE TABLE IF NOT EXISTS entity (
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS meta (
     KEY idx_meta_required (required),
     KEY idx_meta_unambiguous (unambiguous),
     KEY idx_meta_searchable (searchable)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS project;
 CREATE TABLE IF NOT EXISTS project (
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS project (
     KEY idx_project_name (name),
     KEY idx_project_active (active),
     KEY idx_project_system (system)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS rewrite;
 CREATE TABLE IF NOT EXISTS rewrite (
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS role (
     UNIQUE KEY uni_role_name (name),
     KEY idx_role_active (active),
     KEY idx_role_system (system)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS tree;
 CREATE TABLE IF NOT EXISTS tree (
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS user (
     KEY idx_user_role (role_id),
     KEY idx_user_active (active),
     KEY idx_user_system (system)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 -- Constraints
