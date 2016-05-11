@@ -6,7 +6,7 @@
     <form action="<?= url('*/*');?>" method="post" enctype="multipart/form-data" class="edit">
         <?php foreach ($§('data') as $id => $item):?>
         <fieldset class="data">
-            <legend><?=$item['name'] ? $item['name'] : $§('header');?></legend>
+            <legend><?=$item['name'] ?? $§('header');?></legend>
             <?php foreach ($item['_meta']['attributes'] as $code => $attr):?>
                 <?php if (!$html = editor($attr, $item)) continue;?>
             <div class="element attribute-<?=$attr['id'];?>">
