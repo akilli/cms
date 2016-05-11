@@ -110,13 +110,11 @@ return [
             'created' => [
                 'name' => 'Created',
                 'column' => 'created',
-                'sort' => 10000,
                 'type' => 'datetime',
             ],
             'creator' => [
                 'name' => 'Creator',
                 'column' => 'creator',
-                'sort' => 10010,
                 'type' => 'select.int',
                 'nullable' => true,
                 'options_entity' => 'user',
@@ -124,13 +122,11 @@ return [
             'modified' => [
                 'name' => 'Modified',
                 'column' => 'modified',
-                'sort' => 10020,
                 'type' => 'datetime',
             ],
             'modifier' => [
                 'name' => 'Modifier',
                 'column' => 'modifier',
-                'sort' => 10030,
                 'type' => 'select.int',
                 'nullable' => true,
                 'options_entity' => 'user',
@@ -502,26 +498,22 @@ return [
                 'name' => 'Position Left',
                 'column' => 'lft',
                 'auto' => true,
-                'sort' => 9900,
                 'type' => 'int',
             ],
             'rgt' => [
                 'name' => 'Position Right',
                 'column' => 'rgt',
                 'auto' => true,
-                'sort' => 9910,
                 'type' => 'int',
             ],
             'mode' => [
                 'name' => 'Mode',
-                'sort' => 9920,
                 'type' => 'select.varchar',
                 'options' => ['after' => 'After', 'before' => 'Before', 'child' => 'Child'],
                 'actions' => ['edit'],
             ],
             'position' => [
                 'name' => 'Position',
-                'sort' => 9930,
                 'type' => 'select.varchar',
                 'required' => true,
                 'options_callback' => 'qnd\attribute_option_position',
@@ -529,13 +521,11 @@ return [
             ],
             'level' => [
                 'name' => 'Level',
-                'sort' => 9940,
                 'type' => 'int',
                 'actions' => ['index'],
             ],
             'parent_id' => [
                 'name' => 'Parent',
-                'sort' => 9950,
                 'type' => 'select.int',
                 'nullable' => true,
                 'options_entity' => 'tree',
