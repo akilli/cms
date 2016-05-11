@@ -9,9 +9,9 @@ namespace qnd;
  *
  * @return mixed
  */
-function attribute_loader(array $attr, array $item)
+function loader(array $attr, array $item)
 {
-    $callback = fqn('attribute_loader_' . $attr['type']);
+    $callback = fqn('loader_' . $attr['type']);
 
     return is_callable($callback) ? $callback($attr, $item) : cast($attr, $item[$attr['id']] ?? null);
 }
@@ -24,7 +24,7 @@ function attribute_loader(array $attr, array $item)
  *
  * @return array
  */
-function attribute_loader_json(array $attr, array $item): array
+function loader_json(array $attr, array $item): array
 {
     if (empty($item[$attr['id']])) {
         return [];
@@ -43,9 +43,9 @@ function attribute_loader_json(array $attr, array $item): array
  *
  * @return array
  */
-function attribute_loader_multicheckbox(array $attr, array $item): array
+function loader_multicheckbox(array $attr, array $item): array
 {
-    return attribute_loader_json($attr, $item);
+    return loader_json($attr, $item);
 }
 
 /**
@@ -56,7 +56,7 @@ function attribute_loader_multicheckbox(array $attr, array $item): array
  *
  * @return array
  */
-function attribute_loader_multiselect(array $attr, array $item): array
+function loader_multiselect(array $attr, array $item): array
 {
-    return attribute_loader_json($attr, $item);
+    return loader_json($attr, $item);
 }

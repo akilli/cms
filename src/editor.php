@@ -9,7 +9,7 @@ namespace qnd;
  *
  * @return string
  */
-function attribute_editor(array $attr, array $item): string
+function editor(array $attr, array $item): string
 {
     if (!editable($attr, $item)) {
         return '';
@@ -18,12 +18,12 @@ function attribute_editor(array $attr, array $item): string
     $item[$attr['id']] = value($attr, $item);
 
     if ($attr['frontend'] === 'select') {
-        return attribute_editor_select($attr, $item);
+        return editor_select($attr, $item);
     } elseif (in_array($attr['frontend'], ['checkbox', 'radio'])) {
-        return attribute_editor_option($attr, $item);
+        return editor_option($attr, $item);
     }
 
-    $callback = fqn('attribute_editor_' . $attr['type']);
+    $callback = fqn('editor_' . $attr['type']);
 
     return is_callable($callback) ? $callback($attr, $item) : '';
 }
@@ -36,10 +36,10 @@ function attribute_editor(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_select(array $attr, array $item): string
+function editor_select(array $attr, array $item): string
 {
     $value = $item[$attr['id']];
-    $attr['options'] = attribute_option($attr);
+    $attr['options'] = option($attr);
     $htmlId =  html_id($attr, $item);
     $htmlName =  html_name($attr, $item);
     $multiple = !empty($attr['multiple']) ? ' multiple="multiple"' : '';
@@ -67,7 +67,7 @@ function attribute_editor_select(array $attr, array $item): string
             }
 
             $html .= '<option value="' . $optionId . '"' . $selected . $class . $level . '>'
-                . attribute_option_name($optionId, $optionValue) . '</option>';
+                . option_name($optionId, $optionValue) . '</option>';
         }
     }
 
@@ -85,12 +85,12 @@ function attribute_editor_select(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_option(array $attr, array $item): string
+function editor_option(array $attr, array $item): string
 {
     if ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
         $attr['options'] = [1 => _('Yes')];
     } else {
-        $attr['options'] = attribute_option($attr);
+        $attr['options'] = option($attr);
     }
 
     $value = $item[$attr['id']];
@@ -112,7 +112,7 @@ function attribute_editor_option(array $attr, array $item): string
             $html .= '<input id="' . $htmlId . '-' . $optionId . '" type="' . $attr['frontend'] . '" name="' . $htmlName
                 . '" value="' . $optionId . '"' . html_required($attr, $item) . html_class($attr) . $checked
                 . ' /> <label for="' . $htmlId . '-' . $optionId . '" class="inline">'
-                . attribute_option_name($optionId, $optionValue) . '</label>';
+                . option_name($optionId, $optionValue) . '</label>';
         }
     }
 
@@ -127,7 +127,7 @@ function attribute_editor_option(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_text(array $attr, array $item): string
+function editor_text(array $attr, array $item): string
 {
     $min = isset($attr['min']) && is_numeric($attr['min']) ? ' minlength="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' maxlength="' . $attr['max'] . '"' : '';
@@ -146,9 +146,9 @@ function attribute_editor_text(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_email(array $attr, array $item): string
+function editor_email(array $attr, array $item): string
 {
-    return attribute_editor_text($attr, $item);
+    return editor_text($attr, $item);
 }
 
 /**
@@ -159,7 +159,7 @@ function attribute_editor_email(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_password(array $attr, array $item): string
+function editor_password(array $attr, array $item): string
 {
     $min = isset($attr['min']) && is_numeric($attr['min']) ? ' minlength="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' maxlength="' . $attr['max'] . '"' : '';
@@ -177,9 +177,9 @@ function attribute_editor_password(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_url(array $attr, array $item): string
+function editor_url(array $attr, array $item): string
 {
-    return attribute_editor_text($attr, $item);
+    return editor_text($attr, $item);
 }
 
 /**
@@ -190,7 +190,7 @@ function attribute_editor_url(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_number(array $attr, array $item): string
+function editor_number(array $attr, array $item): string
 {
     $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
     $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
@@ -210,9 +210,9 @@ function attribute_editor_number(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_decimal(array $attr, array $item): string
+function editor_decimal(array $attr, array $item): string
 {
-    return attribute_editor_number($attr, $item);
+    return editor_number($attr, $item);
 }
 
 /**
@@ -223,9 +223,9 @@ function attribute_editor_decimal(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_range(array $attr, array $item): string
+function editor_range(array $attr, array $item): string
 {
-    return attribute_editor_number($attr, $item);
+    return editor_number($attr, $item);
 }
 
 /**
@@ -236,7 +236,7 @@ function attribute_editor_range(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_datetime(array $attr, array $item): string
+function editor_datetime(array $attr, array $item): string
 {
     $format = $attr['type'] === 'date' ? 'Y-m-d' : 'Y-m-d\TH:i:s';
 
@@ -264,9 +264,9 @@ function attribute_editor_datetime(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_date(array $attr, array $item): string
+function editor_date(array $attr, array $item): string
 {
-    return attribute_editor_datetime($attr, $item);
+    return editor_datetime($attr, $item);
 }
 
 /**
@@ -277,7 +277,7 @@ function attribute_editor_date(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_textarea(array $attr, array $item): string
+function editor_textarea(array $attr, array $item): string
 {
     $min = isset($attr['min']) && is_numeric($attr['min']) ? ' minlength="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' maxlength="' . $attr['max'] . '"' : '';
@@ -296,9 +296,9 @@ function attribute_editor_textarea(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_index(array $attr, array $item): string
+function editor_index(array $attr, array $item): string
 {
-    return attribute_editor_textarea($attr, $item);
+    return editor_textarea($attr, $item);
 }
 
 /**
@@ -309,13 +309,13 @@ function attribute_editor_index(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_json(array $attr, array $item): string
+function editor_json(array $attr, array $item): string
 {
     if (is_array($item[$attr['id']])) {
         $item[$attr['id']] = !empty($item[$attr['id']]) ? json_encode($item[$attr['id']]) : '';
     }
 
-    return attribute_editor_textarea($attr, $item);
+    return editor_textarea($attr, $item);
 }
 
 /**
@@ -326,9 +326,9 @@ function attribute_editor_json(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_rte(array $attr, array $item): string
+function editor_rte(array $attr, array $item): string
 {
-    return attribute_editor_textarea($attr, $item);
+    return editor_textarea($attr, $item);
 }
 
 /**
@@ -339,11 +339,11 @@ function attribute_editor_rte(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_file(array $attr, array $item): string
+function editor_file(array $attr, array $item): string
 {
     $resetId =  'data-' . $item['_id'] . '-_reset-' . $attr['id'];
     $resetName =  'data[' . $item['_id'] . '][_reset]' . '[' . $attr['id'] . ']';
-    $html = '<div>' . attribute_viewer($attr, $item) . '</div>'
+    $html = '<div>' . viewer($attr, $item) . '</div>'
         . '<input id="' . html_id($attr, $item) . '" type="file" name="' . html_name($attr, $item) . '"'
         . html_required($attr, $item) . html_class($attr) . ' />'
         . ' <input id="' .  $resetId . '" type="checkbox" name="' . $resetName . '" value="1" title="'
@@ -360,9 +360,9 @@ function attribute_editor_file(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_audio(array $attr, array $item): string
+function editor_audio(array $attr, array $item): string
 {
-    return attribute_editor_file($attr, $item);
+    return editor_file($attr, $item);
 }
 
 /**
@@ -373,9 +373,9 @@ function attribute_editor_audio(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_embed(array $attr, array $item): string
+function editor_embed(array $attr, array $item): string
 {
-    return attribute_editor_file($attr, $item);
+    return editor_file($attr, $item);
 }
 
 /**
@@ -386,9 +386,9 @@ function attribute_editor_embed(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_image(array $attr, array $item): string
+function editor_image(array $attr, array $item): string
 {
-    return attribute_editor_file($attr, $item);
+    return editor_file($attr, $item);
 }
 
 /**
@@ -399,7 +399,7 @@ function attribute_editor_image(array $attr, array $item): string
  *
  * @return string
  */
-function attribute_editor_video(array $attr, array $item): string
+function editor_video(array $attr, array $item): string
 {
-    return attribute_editor_file($attr, $item);
+    return editor_file($attr, $item);
 }

@@ -8,17 +8,17 @@ namespace qnd;
  *
  * @return array
  */
-function attribute_option(array $attr): array
+function option(array $attr): array
 {
     if ($attr['backend'] === 'bool') {
-        return attribute_option_bool();
+        return option_bool();
     } elseif (!empty($attr['options_entity'])) {
-        return attribute_option_entity($attr);
+        return option_entity($attr);
     } elseif (!empty($attr['options_callback'])) {
-        return attribute_option_callback($attr);
+        return option_callback($attr);
     }
 
-    return attribute_option_translate($attr['options']);
+    return option_translate($attr['options']);
 }
 
 /**
@@ -29,7 +29,7 @@ function attribute_option(array $attr): array
  *
  * @return string
  */
-function attribute_option_name($id, $value): string
+function option_name($id, $value): string
 {
     if (is_array($value) && !empty($value['name'])) {
         return $value['name'];
@@ -47,7 +47,7 @@ function attribute_option_name($id, $value): string
  *
  * @return array
  */
-function attribute_option_translate(array $options): array
+function option_translate(array $options): array
 {
     foreach ($options as $key => $value) {
         if (is_scalar($value)) {
@@ -65,9 +65,9 @@ function attribute_option_translate(array $options): array
  *
  * @return array
  */
-function attribute_option_bool(): array
+function option_bool(): array
 {
-    return attribute_option_translate([_('No'), _('Yes')]);
+    return option_translate([_('No'), _('Yes')]);
 }
 
 /**
@@ -77,9 +77,9 @@ function attribute_option_bool(): array
  *
  * @return array
  */
-function attribute_option_entity(array $attr): array
+function option_entity(array $attr): array
 {
-    return attribute_option_translate(entity_load($attr['options_entity']));
+    return option_translate(entity_load($attr['options_entity']));
 }
 
 /**
@@ -89,9 +89,9 @@ function attribute_option_entity(array $attr): array
  *
  * @return array
  */
-function attribute_option_callback(array $attr): array
+function option_callback(array $attr): array
 {
-    return attribute_option_translate($attr['options_callback'](...$attr['options_callback_param']));
+    return option_translate($attr['options_callback'](...$attr['options_callback_param']));
 }
 
 /**
@@ -99,7 +99,7 @@ function attribute_option_callback(array $attr): array
  *
  * @return array
  */
-function attribute_option_position(): array
+function option_position(): array
 {
     $roots = entity_load('tree_root');
     $data = [];

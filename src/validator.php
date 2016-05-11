@@ -9,15 +9,15 @@ namespace qnd;
  *
  * @return bool
  */
-function attribute_validator(array $attr, array & $item): bool
+function validator(array $attr, array & $item): bool
 {
-    $callback = fqn('attribute_validator_' . $attr['type']);
+    $callback = fqn('validator_' . $attr['type']);
 
     if (in_array($attr['frontend'], ['checkbox', 'radio', 'select'])) {
-        return attribute_validator_option($attr, $item) && attribute_validator_default($attr, $item);
+        return validator_option($attr, $item) && validator_default($attr, $item);
     }
 
-    return (!is_callable($callback) || $callback($attr, $item)) && attribute_validator_default($attr, $item);
+    return (!is_callable($callback) || $callback($attr, $item)) && validator_default($attr, $item);
 }
 
 /**
@@ -30,11 +30,11 @@ function attribute_validator(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_default(array $attr, array & $item): bool
+function validator_default(array $attr, array & $item): bool
 {
     return !empty($attr['auto'])
         || !meta_action('edit', $attr) && (empty($attr['required']) || !empty($item['_old']))
-        || attribute_validator_unambiguous($attr, $item) && attribute_validator_required($attr, $item);
+        || validator_unambiguous($attr, $item) && validator_required($attr, $item);
 }
 
 /**
@@ -45,9 +45,9 @@ function attribute_validator_default(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_required(array $attr, array & $item): bool
+function validator_required(array $attr, array & $item): bool
 {
-    if (!empty($attr['required']) && empty($item[$attr['id']]) && !attribute_option($attr) && !ignorable($attr, $item)) {
+    if (!empty($attr['required']) && empty($item[$attr['id']]) && !option($attr) && !ignorable($attr, $item)) {
         $item['_error'][$attr['id']] = _('%s is a mandatory field', $attr['name']);
         return false;
     }
@@ -63,7 +63,7 @@ function attribute_validator_required(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_unambiguous(array $attr, array & $item): bool
+function validator_unambiguous(array $attr, array & $item): bool
 {
     static $data = [];
 
@@ -129,9 +129,9 @@ function attribute_validator_unambiguous(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_option(array $attr, array & $item): bool
+function validator_option(array $attr, array & $item): bool
 {
-    $attr['options'] = attribute_option($attr);
+    $attr['options'] = option($attr);
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
     if (is_array($item[$attr['id']])) {
@@ -167,7 +167,7 @@ function attribute_validator_option(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_text(array $attr, array & $item): bool
+function validator_text(array $attr, array & $item): bool
 {
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
     $item[$attr['id']] = trim((string) filter_var($item[$attr['id']], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
@@ -184,7 +184,7 @@ function attribute_validator_text(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_email(array $attr, array & $item): bool
+function validator_email(array $attr, array & $item): bool
 {
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
@@ -207,9 +207,9 @@ function attribute_validator_email(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_password(array $attr, array & $item): bool
+function validator_password(array $attr, array & $item): bool
 {
-    return attribute_validator_text($attr, $item);
+    return validator_text($attr, $item);
 }
 
 /**
@@ -220,7 +220,7 @@ function attribute_validator_password(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_url(array $attr, array & $item): bool
+function validator_url(array $attr, array & $item): bool
 {
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
@@ -243,9 +243,9 @@ function attribute_validator_url(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_index(array $attr, array & $item): bool
+function validator_index(array $attr, array & $item): bool
 {
-    return attribute_validator_text($attr, $item);
+    return validator_text($attr, $item);
 }
 
 /**
@@ -256,7 +256,7 @@ function attribute_validator_index(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_json(array $attr, array & $item): bool
+function validator_json(array $attr, array & $item): bool
 {
     if (!empty($item[$attr['id']]) && json_decode($item[$attr['id']], true) === null) {
         $item[$attr['id']] = null;
@@ -276,7 +276,7 @@ function attribute_validator_json(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_rte(array $attr, array & $item): bool
+function validator_rte(array $attr, array & $item): bool
 {
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
@@ -296,9 +296,9 @@ function attribute_validator_rte(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_textarea(array $attr, array & $item): bool
+function validator_textarea(array $attr, array & $item): bool
 {
-    return attribute_validator_text($attr, $item);
+    return validator_text($attr, $item);
 }
 
 /**
@@ -309,7 +309,7 @@ function attribute_validator_textarea(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_int(array $attr, array & $item): bool
+function validator_int(array $attr, array & $item): bool
 {
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
@@ -325,9 +325,9 @@ function attribute_validator_int(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_decimal(array $attr, array & $item): bool
+function validator_decimal(array $attr, array & $item): bool
 {
-    return attribute_validator_int($attr, $item);
+    return validator_int($attr, $item);
 }
 
 /**
@@ -338,9 +338,9 @@ function attribute_validator_decimal(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_range(array $attr, array & $item): bool
+function validator_range(array $attr, array & $item): bool
 {
-    return attribute_validator_int($attr, $item);
+    return validator_int($attr, $item);
 }
 
 /**
@@ -351,7 +351,7 @@ function attribute_validator_range(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_datetime(array $attr, array & $item): bool
+function validator_datetime(array $attr, array & $item): bool
 {
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
     $format = $attr['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d H:i:s';
@@ -379,9 +379,9 @@ function attribute_validator_datetime(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_date(array $attr, array & $item): bool
+function validator_date(array $attr, array & $item): bool
 {
-    return attribute_validator_datetime($attr, $item);
+    return validator_datetime($attr, $item);
 }
 
 /**
@@ -392,7 +392,7 @@ function attribute_validator_date(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_file(array $attr, array & $item): bool
+function validator_file(array $attr, array & $item): bool
 {
     $item[$attr['id']] = null;
     $file = files('data')[$item['_id']][$attr['id']] ?? null;
@@ -441,9 +441,9 @@ function attribute_validator_file(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_audio(array $attr, array & $item): bool
+function validator_audio(array $attr, array & $item): bool
 {
-    return attribute_validator_file($attr, $item);
+    return validator_file($attr, $item);
 }
 
 /**
@@ -454,9 +454,9 @@ function attribute_validator_audio(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_embed(array $attr, array & $item): bool
+function validator_embed(array $attr, array & $item): bool
 {
-    return attribute_validator_file($attr, $item);
+    return validator_file($attr, $item);
 }
 
 /**
@@ -467,9 +467,9 @@ function attribute_validator_embed(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_image(array $attr, array & $item): bool
+function validator_image(array $attr, array & $item): bool
 {
-    return attribute_validator_file($attr, $item);
+    return validator_file($attr, $item);
 }
 
 /**
@@ -480,7 +480,7 @@ function attribute_validator_image(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_validator_video(array $attr, array & $item): bool
+function validator_video(array $attr, array & $item): bool
 {
-    return attribute_validator_file($attr, $item);
+    return validator_file($attr, $item);
 }

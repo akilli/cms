@@ -9,9 +9,9 @@ namespace qnd;
  *
  * @return bool
  */
-function attribute_deleter(array $attr, array & $item): bool
+function deleter(array $attr, array & $item): bool
 {
-    $callback = fqn('attribute_deleter_' . $attr['type']);
+    $callback = fqn('deleter_' . $attr['type']);
 
     return is_callable($callback) ? $callback($attr, $item) : true;
 }
@@ -24,7 +24,7 @@ function attribute_deleter(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_deleter_file(array $attr, array & $item): bool
+function deleter_file(array $attr, array & $item): bool
 {
     if (!empty($item[$attr['id']]) && !media_delete($item[$attr['id']])) {
         $item['_error'][$attr['id']] = _('Could not delete old file %s', $item[$attr['id']]);
@@ -42,9 +42,9 @@ function attribute_deleter_file(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_deleter_audio(array $attr, array & $item): bool
+function deleter_audio(array $attr, array & $item): bool
 {
-    return attribute_deleter_file($attr, $item);
+    return deleter_file($attr, $item);
 }
 
 /**
@@ -55,9 +55,9 @@ function attribute_deleter_audio(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_deleter_embed(array $attr, array & $item): bool
+function deleter_embed(array $attr, array & $item): bool
 {
-    return attribute_deleter_file($attr, $item);
+    return deleter_file($attr, $item);
 }
 
 /**
@@ -68,9 +68,9 @@ function attribute_deleter_embed(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_deleter_image(array $attr, array & $item): bool
+function deleter_image(array $attr, array & $item): bool
 {
-    return attribute_deleter_file($attr, $item);
+    return deleter_file($attr, $item);
 }
 
 /**
@@ -81,7 +81,7 @@ function attribute_deleter_image(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_deleter_video(array $attr, array & $item): bool
+function deleter_video(array $attr, array & $item): bool
 {
-    return attribute_deleter_file($attr, $item);
+    return deleter_file($attr, $item);
 }

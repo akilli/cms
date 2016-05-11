@@ -9,9 +9,9 @@ namespace qnd;
  *
  * @return bool
  */
-function attribute_saver(array $attr, array & $item): bool
+function saver(array $attr, array & $item): bool
 {
-    $callback = fqn('attribute_saver_' . $attr['type']);
+    $callback = fqn('saver_' . $attr['type']);
 
     return is_callable($callback) ? $callback($attr, $item) : true;
 }
@@ -24,7 +24,7 @@ function attribute_saver(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_saver_password(array $attr, array & $item): bool
+function saver_password(array $attr, array & $item): bool
 {
     if (!empty($item[$attr['id']]) && is_string($item[$attr['id']])) {
         $item[$attr['id']] = password_hash($item[$attr['id']], PASSWORD_DEFAULT);
@@ -41,7 +41,7 @@ function attribute_saver_password(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_saver_multicheckbox(array $attr, array & $item): bool
+function saver_multicheckbox(array $attr, array & $item): bool
 {
     $item[$attr['id']] = json_encode(array_filter(array_map('trim', (array) $item[$attr['id']])));
 
@@ -56,9 +56,9 @@ function attribute_saver_multicheckbox(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_saver_multiselect(array $attr, array & $item): bool
+function saver_multiselect(array $attr, array & $item): bool
 {
-    return attribute_saver_multicheckbox($attr, $item);
+    return saver_multicheckbox($attr, $item);
 }
 
 /**
@@ -69,7 +69,7 @@ function attribute_saver_multiselect(array $attr, array & $item): bool
  *
  * @return bool
  */
-function attribute_saver_index(array $attr, array & $item): bool
+function saver_index(array $attr, array & $item): bool
 {
     $item[$attr['id']] = '';
 

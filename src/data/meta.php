@@ -467,7 +467,7 @@ return [
                 'virtual' => true,
                 'type' => 'select.varchar',
                 'required' => true,
-                'options_callback' => 'qnd\attribute_option_position',
+                'options_callback' => 'qnd\option_position',
                 'actions' => ['edit'],
             ],
             'level' => [

@@ -18,7 +18,7 @@ function entity_validate(array & $item): bool
     }
 
     foreach ($item['_meta']['attributes'] as $attr) {
-        if (!attribute_validator($attr, $item)) {
+        if (!validator($attr, $item)) {
             $error = true;
         }
     }
@@ -83,7 +83,7 @@ function entity_load(string $entity, array $criteria = null, $index = null, arra
         foreach ($result as $item) {
             foreach ($item as $code => $value) {
                 if (isset($meta['attributes'][$code])) {
-                    $item[$code] = attribute_loader($meta['attributes'][$code], $item);
+                    $item[$code] = loader($meta['attributes'][$code], $item);
                 }
             }
 
@@ -168,7 +168,7 @@ function entity_save(string $entity, array & $data): bool
                 continue;
             }
 
-            if (!attribute_saver($meta['attributes'][$code], $item)) {
+            if (!saver($meta['attributes'][$code], $item)) {
                 if (!empty($item['_error'])) {
                     $data[$id]['_error'] = $item['_error'];
                 }
@@ -243,7 +243,7 @@ function entity_delete(string $entity, array $criteria = null, $index = null, bo
         }
 
         foreach (array_keys($item) as $code) {
-            if (isset($meta['attributes'][$code]) && !attribute_deleter($meta['attributes'][$code], $item)) {
+            if (isset($meta['attributes'][$code]) && !deleter($meta['attributes'][$code], $item)) {
                 if (!empty($item['_error'][$code])) {
                     message($item['_error'][$code]);
                 }
