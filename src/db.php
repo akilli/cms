@@ -85,10 +85,14 @@ function db_type(array $attr, $value): int
 function qv($value, $backend = null)
 {
     if ($backend === 'bool') {
-        $value = $value ? '1' : '0';
-    } elseif ($backend === 'int') {
+        return $value ? '1' : '0';
+    }
+
+    if ($backend === 'int') {
         return (int) $value;
-    } elseif ($backend === 'decimal') {
+    }
+
+    if ($backend === 'decimal') {
         return sprintf('%F', $value);
     }
 
@@ -106,7 +110,7 @@ function qi(string $identifier = null): string
 {
     $char = db()->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql' ? '`' : '"';
 
-    return !empty($identifier) ? $char . str_replace($char, '', $identifier) . $char : '';
+    return $identifier ? $char . str_replace($char, '', $identifier) . $char : '';
 }
 
 /**
@@ -145,7 +149,7 @@ function cols(array $attrs, array $item, array $skip = []): array
  */
 function select(array $attrs, string $alias = null): string
 {
-    $columns = [];
+    $cols = [];
     $alias = $alias ? $alias . '.' : '';
 
     foreach ($attrs as $code => $attr) {
@@ -153,14 +157,10 @@ function select(array $attrs, string $alias = null): string
             continue;
         }
 
-        $columns[$code] = $alias . $attr['column'] . ($code !== $attr['column'] ? ' AS ' . qi($code) : '');
+        $cols[$code] = $alias . $attr['column'] . ($code !== $attr['column'] ? ' AS ' . qi($code) : '');
     }
 
-    if (empty($columns)) {
-        return '';
-    }
-
-    return 'SELECT ' . implode(', ', $columns);
+    return $cols ? 'SELECT ' . implode(', ', $cols) : '';
 }
 
 /**
@@ -203,7 +203,7 @@ function join(string $table, string $alias, array $cols): string
  */
 function where(array $criteria, array $attrs, array $options = []): string
 {
-    $columns = [];
+    $cols = [];
     $alias = !empty($options['alias']) ? $options['alias'] . '.' : '';
     $search = !empty($options['search']);
     $operator = $search ? 'LIKE' : '=';
@@ -223,10 +223,10 @@ function where(array $criteria, array $attrs, array $options = []): string
             $r[] = $alias . $attrs[$code]['column'] . ' ' . $operator . ' ' . qv($v, $attrs[$code]['backend']);
         }
 
-        $columns[$code] = '(' . implode(' OR ', $r) . ')';
+        $cols[$code] = '(' . implode(' OR ', $r) . ')';
     }
 
-    return $columns ? ' WHERE ' . implode(' AND ', $columns) : '';
+    return $cols ? ' WHERE ' . implode(' AND ', $cols) : '';
 }
 
 /**
@@ -239,18 +239,18 @@ function where(array $criteria, array $attrs, array $options = []): string
  */
 function order(array $order, array $attrs = null): string
 {
-    $columns = [];
+    $cols = [];
 
-    foreach ($order as $code => $direction) {
+    foreach ($order as $code => $dir) {
         if ($attrs !== null && empty($attrs[$code]['column'])) {
             continue;
         }
 
-        $direction = strtoupper($direction) === 'DESC' ? 'DESC' : 'ASC';
-        $columns[$code] = qi($code) . ' ' . $direction;
+        $dir = strtoupper($dir) === 'DESC' ? 'DESC' : 'ASC';
+        $cols[$code] = qi($code) . ' ' . $dir;
     }
 
-    return $columns ? ' ORDER BY ' . implode(', ', $columns) : '';
+    return $cols ? ' ORDER BY ' . implode(', ', $cols) : '';
 }
 
 /**
