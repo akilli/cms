@@ -176,27 +176,17 @@ function entity_save(string $entity, array & $data): bool
                 $error = true;
                 continue 2;
             }
-
-            if (ignorable($meta['attributes'][$code], $item)) {
-                unset($item[$code]);
-            }
         }
 
         $success = trans(
             function () use ($entity, & $item, $callback, $meta) {
-                event(
-                    ['entity.preSave', 'entity.' . $meta['type'] . '.preSave', 'entity.preSave.' . $entity],
-                    $item
-                );
+                event(['entity.preSave', 'entity.' . $meta['type'] . '.preSave', 'entity.preSave.' . $entity], $item);
 
                 if (!$callback($item)) {
                     throw new RuntimeException(_('Data could not be saved'));
                 }
 
-                event(
-                    ['entity.postSave', 'entity.' . $meta['type'] . '.postSave', 'entity.postSave.' . $entity],
-                    $item
-                );
+                event(['entity.postSave', 'entity.' . $meta['type'] . '.postSave', 'entity.postSave.' . $entity], $item);
             }
         );
 
@@ -255,19 +245,13 @@ function entity_delete(string $entity, array $criteria = null, $index = null, bo
 
         $success = trans(
             function () use ($entity, & $item, $callback, $meta) {
-                event(
-                    ['entity.preDelete', 'entity.' . $meta['type'] . '.preDelete', 'entity.preDelete.' . $entity],
-                    $item
-                );
+                event(['entity.preDelete', 'entity.' . $meta['type'] . '.preDelete', 'entity.preDelete.' . $entity], $item);
 
                 if (!$callback($item)) {
                     throw new RuntimeException(_('Data could not be deleted'));
                 }
 
-                event(
-                    ['entity.postDelete', 'entity.' . $meta['type'] . '.postDelete', 'entity.postDelete.' . $entity],
-                    $item
-                );
+                event(['entity.postDelete', 'entity.' . $meta['type'] . '.postDelete', 'entity.postDelete.' . $entity], $item);
             }
         );
 
