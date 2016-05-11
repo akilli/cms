@@ -12,9 +12,9 @@ use PDO;
  *
  * @return int
  */
-function entity_tree_size(string $entity, array $criteria = null, array $options = []): int
+function tree_size(string $entity, array $criteria = null, array $options = []): int
 {
-    return entity_flat_size($entity, $criteria, $options);
+    return flat_size($entity, $criteria, $options);
 }
 
 /**
@@ -28,7 +28,7 @@ function entity_tree_size(string $entity, array $criteria = null, array $options
  *
  * @return array
  */
-function entity_tree_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
+function tree_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
 {
     $meta = data('meta', $entity);
     $attrs = $orderAttrs = $meta['attributes'];
@@ -95,7 +95,7 @@ function entity_tree_load(string $entity, array $criteria = null, $index = null,
  *
  * @return bool
  */
-function entity_tree_create(array & $item): bool
+function tree_create(array & $item): bool
 {
     if (empty($item['_meta']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
         return false;
@@ -196,7 +196,7 @@ function entity_tree_create(array & $item): bool
  *
  * @return bool
  */
-function entity_tree_save(array & $item): bool
+function tree_save(array & $item): bool
 {
     if (empty($item['_meta']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
         return false;
@@ -373,7 +373,7 @@ function entity_tree_save(array & $item): bool
  *
  * @return bool
  */
-function entity_tree_delete(array & $item): bool
+function tree_delete(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;

@@ -10,7 +10,7 @@ namespace qnd;
  *
  * @return int
  */
-function entity_flat_size(string $entity, array $criteria = null, array $options = []): int
+function flat_size(string $entity, array $criteria = null, array $options = []): int
 {
     $meta = data('meta', $entity);
 
@@ -35,7 +35,7 @@ function entity_flat_size(string $entity, array $criteria = null, array $options
  *
  * @return array
  */
-function entity_flat_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
+function flat_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
 {
     $meta = data('meta', $entity);
     $options = ['search' => $index === 'search'];
@@ -59,7 +59,7 @@ function entity_flat_load(string $entity, array $criteria = null, $index = null,
  *
  * @return bool
  */
-function entity_flat_create(array & $item): bool
+function flat_create(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;
@@ -94,7 +94,7 @@ function entity_flat_create(array & $item): bool
  *
  * @return bool
  */
-function entity_flat_save(array & $item): bool
+function flat_save(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;
@@ -126,7 +126,7 @@ function entity_flat_save(array & $item): bool
  *
  * @return bool
  */
-function entity_flat_delete(array & $item): bool
+function flat_delete(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;

@@ -12,7 +12,7 @@ use RuntimeException;
  *
  * @return int
  */
-function entity_eav_size(string $entity, array $criteria = null, array $options = []): int
+function eav_size(string $entity, array $criteria = null, array $options = []): int
 {
     $meta = data('meta', $entity);
     $contentMeta = data('meta', 'content');
@@ -69,7 +69,7 @@ function entity_eav_size(string $entity, array $criteria = null, array $options 
  *
  * @return array
  */
-function entity_eav_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
+function eav_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
 {
     $meta = data('meta', $entity);
     $contentMeta = data('meta', 'content');
@@ -127,7 +127,7 @@ function entity_eav_load(string $entity, array $criteria = null, $index = null, 
  *
  * @throws RuntimeException
  */
-function entity_eav_create(array & $item): bool
+function eav_create(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;
@@ -197,7 +197,7 @@ function entity_eav_create(array & $item): bool
  *
  * @throws RuntimeException
  */
-function entity_eav_save(array & $item): bool
+function eav_save(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;
@@ -272,7 +272,7 @@ function entity_eav_save(array & $item): bool
  *
  * @return bool
  */
-function entity_eav_delete(array $item): bool
+function eav_delete(array $item): bool
 {
-    return !empty($item['_meta']['id']) && $item['_meta']['id'] === $item['entity_id'] && entity_flat_delete($item);
+    return !empty($item['_meta']['id']) && $item['_meta']['id'] === $item['entity_id'] && flat_delete($item);
 }

@@ -12,7 +12,7 @@ use RuntimeException;
  *
  * @return int
  */
-function entity_content_size(string $entity, array $criteria = null, array $options = []): int
+function content_size(string $entity, array $criteria = null, array $options = []): int
 {
     return 0;
 }
@@ -28,7 +28,7 @@ function entity_content_size(string $entity, array $criteria = null, array $opti
  *
  * @return array
  */
-function entity_content_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = []): array
+function content_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = []): array
 {
     return [];
 }
@@ -42,7 +42,7 @@ function entity_content_load(string $entity, array $criteria = null, $index = nu
  *
  * @throws RuntimeException
  */
-function entity_content_create(array & $item): bool
+function content_create(array & $item): bool
 {
     return true;
 }
@@ -56,7 +56,7 @@ function entity_content_create(array & $item): bool
  *
  * @throws RuntimeException
  */
-function entity_content_save(array & $item): bool
+function content_save(array & $item): bool
 {
     return true;
 }
@@ -68,7 +68,7 @@ function entity_content_save(array & $item): bool
  *
  * @return bool
  */
-function entity_content_delete(array $item): bool
+function content_delete(array $item): bool
 {
     return true;
 }
