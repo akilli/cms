@@ -389,7 +389,6 @@ return [
             'privilege' => [
                 'name' => 'Privileges',
                 'type' => 'multiselect',
-                'nullable' => true,
                 'options_callback' => ['qnd\privileges'],
                 'actions' => ['edit'],
             ],

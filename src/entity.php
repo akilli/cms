@@ -133,14 +133,16 @@ function entity_load(string $entity, array $criteria = null, $index = null, arra
  */
 function entity_save(string $entity, array & $data): bool
 {
-    $meta = data('meta', $entity);
     $original = entity_load($entity);
+    $skeleton = meta_skeleton($entity);
+    $editable = meta_skeleton($entity, null, true);
 
     foreach ($data as $id => $item) {
         $item['_id'] = $id;
-        $item = array_replace(empty($original[$id]) ? meta_skeleton($entity) : $original[$id], $item);
+        $base = empty($original[$id]) ? $skeleton : $original[$id];
+        $item = array_replace($base, $editable, $item);
         $data[$id] = $item;
-        $callback = fqn($meta['type'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
+        $callback = fqn($item['_meta']['type'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
         $item['modified'] = date_format(date_create('now'), 'Y-m-d H:i:s');
         $item['modifier'] = user('id');
 
@@ -164,11 +166,11 @@ function entity_save(string $entity, array & $data): bool
         }
 
         foreach (array_keys($item) as $code) {
-            if (!isset($meta['attributes'][$code])) {
+            if (!isset($item['_meta']['attributes'][$code])) {
                 continue;
             }
 
-            if (!saver($meta['attributes'][$code], $item)) {
+            if (!saver($item['_meta']['attributes'][$code], $item)) {
                 if (!empty($item['_error'])) {
                     $data[$id]['_error'] = $item['_error'];
                 }
@@ -179,14 +181,14 @@ function entity_save(string $entity, array & $data): bool
         }
 
         $success = trans(
-            function () use ($entity, & $item, $callback, $meta) {
-                event(['entity.preSave', 'entity.' . $meta['type'] . '.preSave', 'entity.preSave.' . $entity], $item);
+            function () use ($entity, & $item, $callback) {
+                event(['entity.preSave', 'entity.' . $item['_meta']['type'] . '.preSave', 'entity.preSave.' . $entity], $item);
 
                 if (!$callback($item)) {
                     throw new RuntimeException(_('Data could not be saved'));
                 }
 
-                event(['entity.postSave', 'entity.' . $meta['type'] . '.postSave', 'entity.postSave.' . $entity], $item);
+                event(['entity.postSave', 'entity.' . $item['_meta']['type'] . '.postSave', 'entity.postSave.' . $entity], $item);
             }
         );
 

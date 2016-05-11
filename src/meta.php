@@ -126,19 +126,22 @@ function meta_action($action, array $data): bool
  *
  * @param string $entity
  * @param int $number
+ * @param bool $bare
  *
  * @return array
  */
-function meta_skeleton(string $entity, int $number = null): array
+function meta_skeleton(string $entity, int $number = null, bool $bare = false): array
 {
     $meta = data('meta', $entity);
-    $item = ['_meta' => $meta, '_old' => null, '_id' => null, 'id' => null, 'name' => null];
+    $item = [];
 
     foreach ($meta['attributes'] as $code => $attr) {
         if (meta_action('edit', $attr)) {
             $item[$code] = null;
         }
     }
+
+    $item += $bare ? [] : ['_old' => null, '_meta' => $meta, '_id' => null];
 
     if ($number === null) {
         return $item;

@@ -134,7 +134,7 @@ DROP TABLE IF EXISTS role;
 CREATE TABLE IF NOT EXISTS role (
     id INTEGER(11) NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    privilege TEXT DEFAULT NULL,
+    privilege TEXT NOT NULL,
     active BOOLEAN NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (id),
@@ -219,7 +219,7 @@ INSERT INTO project (id, name, host, active, system) VALUES
 (0, 'global', NULL, '1', '1');
 
 INSERT INTO role (id, name, privilege, active, system) VALUES
-(0, 'anonymous', NULL, '1', '1'),
+(0, 'anonymous', '[]', '1', '1'),
 (1, 'admin', '["all"]', '1', '1');
 
 INSERT INTO user (id, name, username, password, role_id, active, system) VALUES
