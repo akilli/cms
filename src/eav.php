@@ -29,7 +29,7 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
             $alias = qi($code);
             $attrs[$code]['column'] = $alias . '.' . $attr['column'];
             $params[$code] = ':__attribute__' . str_replace('-', '_', $code);
-            $joins[$code] = 'LEFT JOIN ' . $valueMeta['table'] . ' ' . $alias . ' ON '
+            $joins[$code] = ' LEFT JOIN ' . $valueMeta['table'] . ' ' . $alias . ' ON '
                 . $alias . '.' . $valueMeta['attributes']['content_id']['column']
                 . ' = e.' . $meta['attributes']['id']['column'] . ' AND '
                 . $alias . '.' . $valueMeta['attributes']['attribute_id']['column'] . ' = ' . $params[$code];
@@ -87,7 +87,7 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
             $alias = qi($code);
             $attrs[$code]['column'] = $alias . '.' . $attr['column'];
             $params[$code] = ':__attribute__' . str_replace('-', '_', $code);
-            $joins[$code] = 'LEFT JOIN ' . $valueMeta['table'] . ' ' . $alias . ' ON '
+            $joins[$code] = ' LEFT JOIN ' . $valueMeta['table'] . ' ' . $alias . ' ON '
                 . $alias . '.' . $valueMeta['attributes']['content_id']['column']
                 . ' = e.' . $meta['attributes']['id']['column'] . ' AND '
                 . $alias . '.' . $valueMeta['attributes']['attribute_id']['column'] . ' = ' . $params[$code];
@@ -168,14 +168,13 @@ function eav_create(array & $item): bool
                 continue;
             }
 
-            $valueCode = 'value_' . $attr['backend'];
             $save[--$i] = array_replace(
                 $valueModel,
                 [
                     'entity_id' => $item['entity_id'],
                     'attribute_id' => $attr['id'],
                     'content_id' => $item['id'],
-                    $valueCode => $item[$code]
+                    'value' => $item[$code]
                 ]
             );
         }
@@ -242,12 +241,11 @@ function eav_save(array & $item): bool
                 continue;
             }
 
-            $valueCode = 'value_' . $attr['backend'];
             $valueItem = [
                 'entity_id' => $item['entity_id'],
                 'attribute_id' => $attr['id'],
                 'content_id' => $item['id'],
-                $valueCode => $item[$code]
+                'value' => $item[$code]
             ];
 
             if (!empty($values[$code])) {

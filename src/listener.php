@@ -48,7 +48,6 @@ function listener_data_meta(array & $data)
 
     $meta = entity_load('meta', null, ['entity_id', 'attribute_id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
     $attrs = entity_load('attribute');
-    $types = data('attribute');
 
     foreach (entity_load('entity') as $id => $item) {
         $item = array_replace($data['content'], $item);
@@ -64,15 +63,7 @@ function listener_data_meta(array & $data)
                 unset($attr['attribute_id']);
 
                 if (empty($item['attributes'][$code])) {
-                    $type = 'value_' . $types[$attr['type']]['backend'];
-
-                    if (empty($data['eav']['attributes'][$type]['column'])) {
-                        throw new RuntimeException(
-                            _('Entity %s: Invalid value type %s for attribute %s', $id, $type, $code)
-                        );
-                    }
-
-                    $attr['column'] = $data['eav']['attributes'][$type]['column'];
+                    $attr['column'] = $data['eav']['attributes']['value']['column'];
                     $item['attributes'][$code] = $attr;
                 }
             }

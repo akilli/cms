@@ -40,7 +40,6 @@ return [
     'Email' => 'E-Mail',
     'Embed' => 'Eingebetteter Inhalt',
     'Entity' => 'Entity',
-    'Entity %s: Invalid value type %s for attribute %s' => 'Entity %s: Ungültiger Value Typ %s für Attribut %s',
     'Entity metadata does not meet the minimum requirements' => 'Entity Metadaten erfüllen die Mindestanforderungen nicht',
     'File' => 'Datei',
     'File upload failed' => 'Datei konnte nicht hochgeladen werden',

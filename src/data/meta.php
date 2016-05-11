@@ -144,40 +144,9 @@ return [
                 'options_entity' => 'content',
                 'actions' => ['edit', 'index'],
             ],
-            'value_bool' => [
-                'name' => 'Value Boolean',
-                'type' => 'checkbox.bool',
-                'nullable' => true,
-                'actions' => ['edit'],
-            ],
-            'value_datetime' => [
-                'name' => 'Value Datetime',
-                'nullable' => true,
-                'type' => 'datetime',
-                'actions' => ['edit'],
-            ],
-            'value_decimal' => [
-                'name' => 'Value Decimal',
-                'type' => 'decimal',
-                'nullable' => true,
-                'actions' => ['edit'],
-            ],
-            'value_int' => [
-                'name' => 'Value Int',
-                'type' => 'int',
-                'nullable' => true,
-                'actions' => ['edit'],
-            ],
-            'value_text' => [
-                'name' => 'Value Text',
+            'value' => [
+                'name' => 'Value',
                 'type' => 'textarea',
-                'nullable' => true,
-                'actions' => ['edit'],
-            ],
-            'value_varchar' => [
-                'name' => 'Value Varchar',
-                'type' => 'text',
-                'nullable' => true,
                 'actions' => ['edit'],
             ],
         ],
