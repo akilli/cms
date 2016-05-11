@@ -2,7 +2,7 @@
 namespace qnd;
 
 /**
- * Attribute options
+ * Option
  *
  * @param array $attr
  *

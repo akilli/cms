@@ -2,7 +2,7 @@
 namespace qnd;
 
 /**
- * Attribute deleter
+ * Deleter
  *
  * @param array $attr
  * @param array $item

@@ -2,7 +2,7 @@
 namespace qnd;
 
 /**
- * Attribute loader
+ * Loader
  *
  * @param array $attr
  * @param array $item

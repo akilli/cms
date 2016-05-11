@@ -2,7 +2,7 @@
 namespace qnd;
 
 /**
- * Attribute editor
+ * Editor
  *
  * @param array $attr
  * @param array $item

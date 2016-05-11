@@ -2,7 +2,7 @@
 namespace qnd;
 
 /**
- * Attribute validator
+ * Validator
  *
  * @param array $attr
  * @param array $item

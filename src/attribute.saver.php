@@ -2,7 +2,7 @@
 namespace qnd;
 
 /**
- * Attribute saver
+ * Saver
  *
  * @param array $attr
  * @param array $item
