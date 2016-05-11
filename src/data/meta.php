@@ -9,8 +9,7 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'generator' => 'qnd\generator_id',
-                'generator_base' => 'name',
+                'generator' => 'id',
                 'type' => 'text',
                 'required' => true,
                 'unambiguous' => true,
@@ -194,8 +193,7 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'generator' => 'qnd\generator_id',
-                'generator_base' => 'name',
+                'generator' => 'id',
                 'type' => 'text',
                 'required' => true,
                 'unambiguous' => true,
@@ -349,7 +347,7 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'generator' => 'qnd\generator_id',
+                'generator' => 'id',
                 'type' => 'text',
                 'required' => true,
                 'unambiguous' => true,

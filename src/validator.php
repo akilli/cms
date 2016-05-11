@@ -90,29 +90,29 @@ function validator_unambiguous(array $attr, array & $item): bool
     }
 
     // Generate unambiguous value
-    if ($attr['generator']) {
-        if (!empty($item[$attr['id']])) {
-            $base = $item[$attr['id']];
-        } elseif (!empty($attr['generator_base']) && !empty($item[$attr['generator_base']])) {
-            $base = $item[$attr['generator_base']];
-        } else {
-            $base = null;
+    if ($attr['generator'] === 'id') {
+        $base = meta_action('edit', $attr) ? $attr['id'] : 'name';
+
+        if (empty($item[$base]) && !$item[$base]) {
+            return false;
         }
 
-        $item[$attr['id']] = $attr['generator']($base, $data[$entity][$attr['id']], $item['_id']);
-
+        $item[$attr['id']] = generator_id($item[$base], $data[$entity][$attr['id']], $item['_id']);
         return true;
-    } elseif (!empty($attr['nullable']) && $item[$attr['id']] == '') {
+    }
+
+    if (!empty($attr['nullable']) && $item[$attr['id']] == '') {
         $item[$attr['id']] = null;
         return true;
-    } elseif (!empty($item[$attr['id']])
+    }
+
+    if (!empty($item[$attr['id']])
         && (array_search($item[$attr['id']], $data[$entity][$attr['id']]) === $item['_id']
             || !in_array($item[$attr['id']], $data[$entity][$attr['id']])
         )
     ) {
         // Provided value is unambiguous
         $data[$entity][$attr['id']][$item['_id']] = $item[$attr['id']];
-
         return true;
     }
 

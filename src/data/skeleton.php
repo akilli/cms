@@ -7,7 +7,6 @@ return [
         'virtual' => false,
         'auto' => false,
         'generator' => null,
-        'generator_base' => null,
         'sort' => null,
         'type' => null,
         'backend' => null,
