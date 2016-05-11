@@ -23,12 +23,12 @@ function entity_content_size(string $entity, array $criteria = null, array $opti
  * @param string $entity
  * @param array $criteria
  * @param mixed $index
- * @param array $order
+ * @param string[] $order
  * @param int[] $limit
  *
  * @return array
  */
-function entity_content_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
+function entity_content_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = []): array
 {
     return [];
 }

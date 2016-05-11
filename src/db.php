@@ -232,12 +232,12 @@ function where(array $criteria, array $attrs, array $options = []): string
 /**
  * ORDER BY part
  *
- * @param array $order
+ * @param string[] $order
  * @param array $attrs
  *
  * @return string
  */
-function order(array $order, array $attrs = null): string
+function order(array $order, array $attrs = []): string
 {
     $cols = [];
 
@@ -260,7 +260,7 @@ function order(array $order, array $attrs = null): string
  *
  * @return string
  */
-function limit(array $limit = null): string
+function limit(array $limit): string
 {
     $limit[0] = intval($limit[0] ?? 0);
     $limit[1] = intval($limit[1] ?? 0);

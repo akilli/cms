@@ -58,12 +58,12 @@ function entity_size(string $entity, array $criteria = null, array $options = []
  * @param string $entity
  * @param array $criteria
  * @param mixed $index
- * @param array $order
+ * @param string[] $order
  * @param int[] $limit
  *
  * @return array
  */
-function entity_load(string $entity, array $criteria = null, $index = null, array $order = null, array $limit = null): array
+function entity_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
 {
     $meta = data('meta', $entity);
     $callback = fqn('entity_' . $meta['type'] . '_load');
