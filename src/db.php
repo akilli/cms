@@ -242,7 +242,7 @@ function order(array $order, array $attrs = []): string
     $cols = [];
 
     foreach ($order as $code => $dir) {
-        if ($attrs !== null && empty($attrs[$code]['column'])) {
+        if (empty($attrs[$code]['column'])) {
             continue;
         }
 
