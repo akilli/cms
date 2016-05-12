@@ -48,10 +48,13 @@ function listener_data_meta(array & $data)
     $attrs = entity_load('attribute');
 
     foreach (entity_load('entity') as $id => $item) {
-        $item = array_replace($data['content'], $item);
-        $item['type'] = 'eav';
+        if (in_array($item['type'], ['flat', 'node'])) {
+            continue;
+        }
 
-        if (!empty($meta[$id])) {
+        $item = array_replace($data['content'], $item);
+
+        if ($item['type'] === 'eav' && !empty($meta[$id])) {
             foreach ($meta[$id] as $code => $attr) {
                 if (empty($attrs[$code])) {
                     continue;
@@ -61,7 +64,7 @@ function listener_data_meta(array & $data)
                 unset($attr['attribute_id']);
 
                 if (empty($item['attributes'][$code])) {
-                    $attr['column'] = $data['eav']['attributes']['value']['column'];
+                    $attr['column'] = 'value';
                     $item['attributes'][$code] = $attr;
                 }
             }

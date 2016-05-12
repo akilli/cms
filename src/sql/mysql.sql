@@ -43,33 +43,36 @@ CREATE TABLE IF NOT EXISTS content (
     KEY idx_content_creator (creator),
     KEY idx_content_modified (modified),
     KEY idx_content_modifier (modifier),
-    FULLTEXT idx_content_search (search)
+    FULLTEXT idx_content_search (search),
+    CONSTRAINT con_content_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT con_content_creator FOREIGN KEY (creator) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT con_content_modifier FOREIGN KEY (modifier) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS eav;
 CREATE TABLE IF NOT EXISTS eav (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
-    entity_id VARCHAR(100) NOT NULL,
     attribute_id VARCHAR(100) NOT NULL,
     content_id INTEGER(11) NOT NULL,
     value TEXT NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY uni_eav_value (attribute_id, content_id),
-    KEY idx_eav_entity (entity_id),
+    PRIMARY KEY (attribute_id, content_id),
     KEY idx_eav_attribute (attribute_id),
-    KEY idx_eav_content (content_id)
+    KEY idx_eav_content (content_id),
+    CONSTRAINT con_eav_attribute FOREIGN KEY (attribute_id) REFERENCES attribute (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT con_eav_content FOREIGN KEY (content_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS entity;
 CREATE TABLE IF NOT EXISTS entity (
     id VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
+    type VARCHAR(255) NOT NULL,
     actions TEXT DEFAULT NULL,
     toolbar VARCHAR(255) NOT NULL,
     sort INTEGER(11) NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (id),
     KEY idx_entity_name (name),
+    KEY idx_entity_type (type),
     KEY idx_entity_toolbar (toolbar),
     KEY idx_entity_sort (sort),
     KEY idx_entity_system (system)
@@ -96,7 +99,9 @@ CREATE TABLE IF NOT EXISTS meta (
     KEY idx_meta_unambiguous (unambiguous),
     KEY idx_meta_searchable (searchable),
     KEY idx_meta_filterable (filterable),
-    KEY idx_meta_sortable (sortable)
+    KEY idx_meta_sortable (sortable),
+    CONSTRAINT con_meta_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT con_meta_attribute FOREIGN KEY (attribute_id) REFERENCES attribute (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS node;
@@ -113,7 +118,9 @@ CREATE TABLE IF NOT EXISTS node (
     KEY idx_node_root (root_id),
     KEY idx_node_lft (lft),
     KEY idx_node_rgt (rgt),
-    KEY idx_node_item (root_id,lft,rgt)
+    KEY idx_node_item (root_id,lft,rgt),
+    CONSTRAINT con_node_id FOREIGN KEY (id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT con_node_root FOREIGN KEY (root_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS project;
@@ -169,40 +176,35 @@ CREATE TABLE IF NOT EXISTS user (
     KEY idx_user_name (name),
     KEY idx_user_role (role_id),
     KEY idx_user_active (active),
-    KEY idx_user_system (system)
+    KEY idx_user_system (system),
+    CONSTRAINT con_user_role FOREIGN KEY (role_id) REFERENCES role (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
--- Constraints
--- --------------------------------------------------------
-
-ALTER TABLE content
-    ADD CONSTRAINT con_content_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT con_content_creator FOREIGN KEY (creator) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE,
-    ADD CONSTRAINT con_content_modifier FOREIGN KEY (modifier) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE;
-
-ALTER TABLE eav
-    ADD CONSTRAINT con_eav_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT con_eav_attribute FOREIGN KEY (attribute_id) REFERENCES attribute (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT con_eav_content FOREIGN KEY (content_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE meta
-    ADD CONSTRAINT con_meta_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT con_meta_attribute FOREIGN KEY (attribute_id) REFERENCES attribute (id) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE node
-    ADD CONSTRAINT con_node_root FOREIGN KEY (root_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE user
-    ADD CONSTRAINT con_user_role FOREIGN KEY (role_id) REFERENCES role (id);
 
 -- --------------------------------------------------------
 -- Data
 -- --------------------------------------------------------
 
--- System
+INSERT INTO content (id, name, entity_id, active, system, content) VALUES
+(1, 'Home', 'page', 1, 0, 'Hello World');
+
+INSERT INTO entity (id, name, type, actions, toolbar, sort, system) VALUES
+('attribute', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', 'structure', 400, '1'),
+('content', 'Content', 'flat', '[]', 'content', 0, '1'),
+('entity', 'Entity', 'flat', '["create", "edit", "delete", "index"]', 'structure', 300, '1'),
+('meta', 'Metadata', 'flat', '["create", "edit", "delete", "index"]', 'structure', 500, '1'),
+('project', 'Project', 'flat', '["create", "edit", "delete", "index"]', 'system', 100, '1'),
+('rewrite', 'Rewrite', 'flat', '["create", "edit", "delete", "index"]', 'system', 400, '1'),
+('role', 'Role', 'flat', '["create", "edit", "delete", "index"]', 'system', 300, '1'),
+('user', 'User', 'flat', '["create", "edit", "delete", "index"]', 'system', 200, '1'),
+('node', 'Menu Node', 'node', '["create", "edit", "delete", "index"]', 'structure', 200, '1'),
+('menu', 'Menu', 'content', '["create", "edit", "delete", "index"]', 'structure', 100, '1'),
+('page', 'Page', 'eav', '["all"]', 'content', 100, '1');
+
 INSERT INTO project (id, name, host, active, system) VALUES
 (0, 'global', NULL, '1', '1');
+
+INSERT INTO rewrite (id, target) VALUES
+('http-base', 'page/view/id/1');
 
 INSERT INTO role (id, name, privilege, active, system) VALUES
 (0, 'anonymous', '["page.list", "page.view"]', '1', '1'),
@@ -211,18 +213,6 @@ INSERT INTO role (id, name, privilege, active, system) VALUES
 INSERT INTO user (id, name, username, password, role_id, active, system) VALUES
 (0, 'Anonymous', 'anonymous', '', 0, '1', '1'),
 (1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
-
--- Structure
-INSERT INTO entity (id, name, actions, toolbar, sort, system) VALUES
-('menu', 'Menu', '["create", "edit", "delete", "index"]', 'structure', 100, '1'),
-('page', 'Page', '["all"]', 'content', 100, '1');
-
--- Content
-INSERT INTO content (id, name, entity_id, active, system, content) VALUES
-(1, 'Home', 'page', 1, 0, 'Hello World');
-
-INSERT INTO rewrite (id, target) VALUES
-('http-base', 'page/view/id/1');
 
 -- --------------------------------------------------------
 

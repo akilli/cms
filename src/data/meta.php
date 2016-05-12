@@ -115,37 +115,6 @@ return [
             ],
         ],
     ],
-    'eav' => [
-        'id' => 'eav',
-        'name' => 'EAV',
-        'attributes' => [
-            'id' => [
-                'name' => 'ID',
-                'generator' => 'auto',
-                'type' => 'int',
-                'actions' => ['index'],
-            ],
-            'attribute_id' => [
-                'name' => 'Attribute',
-                'type' => 'select.varchar',
-                'required' => true,
-                'options_entity' => 'attribute',
-                'actions' => ['edit', 'index'],
-            ],
-            'content_id' => [
-                'name' => 'Content',
-                'type' => 'select.int',
-                'required' => true,
-                'options_entity' => 'content',
-                'actions' => ['edit', 'index'],
-            ],
-            'value' => [
-                'name' => 'Value',
-                'type' => 'textarea',
-                'actions' => ['edit'],
-            ],
-        ],
-    ],
     'entity' => [
         'id' => 'entity',
         'name' => 'Entity',
@@ -268,7 +237,7 @@ return [
     ],
     'node' => [
         'id' => 'node',
-        'name' => 'Node',
+        'name' => 'Menu Node',
         'type' => 'node',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
