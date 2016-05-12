@@ -122,6 +122,7 @@ function eav_create(array & $item): bool
         return false;
     }
 
+    $item['entity_id'] = $item['_meta']['id'];
     $attrs = $item['_meta']['attributes'];
     $conAttrs = data('meta', 'content')['attributes'];
     $valAttrs = array_diff_key($attrs, $conAttrs);
@@ -180,6 +181,7 @@ function eav_save(array & $item): bool
         return false;
     }
 
+    $item['entity_id'] = $item['_meta']['id'];
     $attrs = $item['_meta']['attributes'];
     $conAttrs = data('meta', 'content')['attributes'];
     $valAttrs = array_diff_key($attrs, $conAttrs);
