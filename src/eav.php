@@ -40,7 +40,7 @@ function eav_size(string $entity, array $criteria = [], array $options = []): in
     }
 
     $stmt = prep(
-        'SELECT COUNT(*) as total FROM content e %s %s',
+        'SELECT COUNT(*) AS total FROM content e %s %s',
         implode(' ', $joins),
         where($criteria, $attrs, $options)
     );

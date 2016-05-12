@@ -14,10 +14,10 @@ function flat_size(string $entity, array $criteria = [], array $options = []): i
 {
     $meta = data('meta', $entity);
 
-    $stmt = db()->prepare(
-        'SELECT COUNT(*) as total'
-        . from($meta['table'])
-        . where($criteria, $meta['attributes'], $options)
+    $stmt = prep(
+        'SELECT COUNT(*) AS total FROM %s %s',
+        $meta['table'],
+        where($criteria, $meta['attributes'], $options)
     );
     $stmt->execute();
 
