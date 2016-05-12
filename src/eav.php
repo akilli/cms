@@ -25,7 +25,7 @@ function eav_size(string $eId, array $criteria = [], array $options = []): int
         if (empty($attr['column'])) {
             continue;
         } elseif (!empty($valAttrs[$code])) {
-            $alias = qi($code);
+            $alias = '_' . $code;
             $attrs[$code]['column'] = $alias . '.' . $attr['column'];
             $params[$code] = ':' . str_replace('-', '_', $code);
             $joins[$code] = sprintf(
@@ -78,7 +78,7 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
         if (empty($attr['column'])) {
             continue;
         } elseif (!empty($valAttrs[$code])) {
-            $alias = qi($code);
+            $alias = '_' . $code;
             $attrs[$code]['column'] = $alias . '.' . $attr['column'];
             $params[$code] = ':' . str_replace('-', '_', $code);
             $joins[$code] = sprintf(
