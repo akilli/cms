@@ -12,7 +12,7 @@ use PDO;
  *
  * @return int
  */
-function nestedset_size(string $entity, array $criteria = [], array $options = []): int
+function node_size(string $entity, array $criteria = [], array $options = []): int
 {
     return flat_size($entity, $criteria, $options);
 }
@@ -28,7 +28,7 @@ function nestedset_size(string $entity, array $criteria = [], array $options = [
  *
  * @return array
  */
-function nestedset_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
+function node_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
     $meta = data('meta', $entity);
     $attrs = $orderAttrs = $meta['attributes'];
@@ -53,7 +53,6 @@ function nestedset_load(string $entity, array $criteria = [], $index = null, arr
         ) as level";
 
     $orderAttrs['parent_id']['column'] =  'parent_id';
-    $x = $attrs['id']['backend'] === 'int' ? ' + 0 ' : '';
     $selectParentId = ", (
         SELECT 
             b.id
@@ -67,7 +66,7 @@ function nestedset_load(string $entity, array $criteria = [], $index = null, arr
             b.lft DESC
         LIMIT 
             1
-        ) $x as parent_id";
+        ) + 0 as parent_id";
 
     $stmt = db()->prepare(
         select($attrs, 'e') . $selectLevel . $selectParentId
@@ -81,7 +80,6 @@ function nestedset_load(string $entity, array $criteria = [], $index = null, arr
     return array_map(
         function (array $item) {
             $item['position'] = $item['root_id'] . ':' . $item['id'];
-
             return $item;
         },
         $stmt->fetchAll()
@@ -95,7 +93,7 @@ function nestedset_load(string $entity, array $criteria = [], $index = null, arr
  *
  * @return bool
  */
-function nestedset_create(array & $item): bool
+function node_create(array & $item): bool
 {
     if (empty($item['_meta']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
         return false;
@@ -196,7 +194,7 @@ function nestedset_create(array & $item): bool
  *
  * @return bool
  */
-function nestedset_save(array & $item): bool
+function node_save(array & $item): bool
 {
     if (empty($item['_meta']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
         return false;
@@ -368,7 +366,7 @@ function nestedset_save(array & $item): bool
  *
  * @return bool
  */
-function nestedset_delete(array & $item): bool
+function node_delete(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;

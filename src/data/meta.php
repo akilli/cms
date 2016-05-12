@@ -378,7 +378,7 @@ return [
     'node' => [
         'id' => 'node',
         'name' => 'Menu Node',
-        'type' => 'nestedset',
+        'type' => 'node',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
         'sort' => 200,
