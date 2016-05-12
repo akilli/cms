@@ -183,14 +183,14 @@ function editor_url(array $attr, array $item): string
 }
 
 /**
- * Number editor
+ * Int editor
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function editor_number(array $attr, array $item): string
+function editor_int(array $attr, array $item): string
 {
     $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
     $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
@@ -212,7 +212,7 @@ function editor_number(array $attr, array $item): string
  */
 function editor_decimal(array $attr, array $item): string
 {
-    return editor_number($attr, $item);
+    return editor_int($attr, $item);
 }
 
 /**
@@ -225,7 +225,7 @@ function editor_decimal(array $attr, array $item): string
  */
 function editor_range(array $attr, array $item): string
 {
-    return editor_number($attr, $item);
+    return editor_int($attr, $item);
 }
 
 /**
