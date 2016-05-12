@@ -403,8 +403,8 @@ return [
             ],
             'root_id' => [
                 'name' => 'Menu',
-                'type' => 'select.varchar',
-                'required' => true,
+                'generator' => 'auto',
+                'type' => 'select.int',
                 'options_entity' => 'menu',
                 'actions' => ['index'],
             ],

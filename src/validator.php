@@ -11,6 +11,10 @@ namespace qnd;
  */
 function validator(array $attr, array & $item): bool
 {
+    if ($attr['generator'] === 'auto') {
+        return true;
+    }
+
     $callback = fqn('validator_' . $attr['type']);
 
     if (in_array($attr['frontend'], ['checkbox', 'radio', 'select'])) {
@@ -32,8 +36,7 @@ function validator(array $attr, array & $item): bool
  */
 function validator_default(array $attr, array & $item): bool
 {
-    return $attr['generator'] === 'auto'
-        || !meta_action('edit', $attr) && (empty($attr['required']) || !empty($item['_old']))
+    return !meta_action('edit', $attr) && (empty($attr['required']) || !empty($item['_old']))
         || validator_unambiguous($attr, $item) && validator_required($attr, $item);
 }
 
