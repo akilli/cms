@@ -132,21 +132,20 @@ function qi(string $identifier = null): string
  *
  * @param array $attrs
  * @param array $item
- * @param array $skip
  *
  * @return array
  */
-function cols(array $attrs, array $item, array $skip = []): array
+function cols(array $attrs, array $item): array
 {
     $data = ['col' => [], 'param' => [], 'set' => []];
 
     foreach (array_keys($item) as $code) {
-        if (empty($attrs[$code]['column']) || $attrs[$code]['generator'] === 'auto' || in_array($code, $skip)) {
+        if (empty($attrs[$code]['column']) || $attrs[$code]['generator'] === 'auto') {
             continue;
         }
 
         $data['col'][$code] = $attrs[$code]['column'];
-        $data['param'][$code] = ':__attribute__' . str_replace('-', '_', $code);
+        $data['param'][$code] = ':' . str_replace('-', '_', $code);
         $data['set'][$code] = $data['col'][$code] . ' = ' . $data['param'][$code];
     }
 

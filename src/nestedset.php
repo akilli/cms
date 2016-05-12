@@ -43,28 +43,28 @@ function nestedset_load(string $entity, array $criteria = [], $index = null, arr
     $orderAttrs['level']['column'] =  'level';
     $selectLevel = ", (
         SELECT 
-            COUNT(b.{$attrs['id']['column']}) + 1
+            COUNT(b.id) + 1
         FROM
-            {$meta['table']} b
+            node b
         WHERE 
             b.lft < e.lft 
             AND b.rgt > e.rgt 
-            AND b.{$attrs['root_id']['column']} = e.{$attrs['root_id']['column']}
+            AND b.root_id = e.root_id
         ) as level";
 
     $orderAttrs['parent_id']['column'] =  'parent_id';
     $x = $attrs['id']['backend'] === 'int' ? ' + 0 ' : '';
     $selectParentId = ", (
         SELECT 
-            b.{$attrs['id']['column']}
+            b.id
         FROM
-            {$meta['table']} b
+            node b
         WHERE 
             b.lft < e.lft 
             AND b.rgt > e.rgt 
-            AND b.{$attrs['root_id']['column']} = e.{$attrs['root_id']['column']}
+            AND b.root_id = e.root_id
         ORDER BY 
-            b.{$attrs['lft']['column']} DESC
+            b.lft DESC
         LIMIT 
             1
         ) $x as parent_id";
@@ -106,7 +106,6 @@ function nestedset_create(array & $item): bool
     $parts = explode(':', $item['position']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
     $item['basis'] = cast($attrs['id'], $parts[1]);
-    $cols = cols($attrs, $item, ['root_id']);
     $rootId = $item['root_id'];
 
     if (empty($item['basis']) || !($basisItem = entity_load($meta['id'], ['id' => $item['basis']], false))) {
@@ -115,11 +114,11 @@ function nestedset_create(array & $item): bool
             SELECT 
                 COALESCE(MAX(rgt), 0) + 1
             FROM 
-                {$meta['table']}
+                node
             WHERE 
-                {$attrs['root_id']['column']} = :root_id
+                root_id = :root_id
         ");
-        $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+        $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
         $stmt->execute();
         $baseLft = (int) $stmt->fetchColumn();
     } elseif ($item['mode'] === 'before') {
@@ -135,38 +134,39 @@ function nestedset_create(array & $item): bool
     // Make space in the new tree
     $stmt = db()->prepare("
         UPDATE 
-            {$meta['table']}
+            node
         SET
-            lft = lft + :__length__
+            lft = lft + :length
         WHERE
-            {$attrs['root_id']['column']} = :root_id
-            AND lft >= :__lft__ 
+            root_id = :root_id
+            AND lft >= :lft 
     ");
-    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
-    $stmt->bindValue(':__lft__', $baseLft, PDO::PARAM_INT);
-    $stmt->bindValue(':__length__', $length, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $baseLft, PDO::PARAM_INT);
+    $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
 
     $stmt = db()->prepare("
         UPDATE 
-            {$meta['table']}
+            node
         SET
-            rgt = rgt + :__length__
+            rgt = rgt + :length
         WHERE
-            {$attrs['root_id']['column']} = :root_id
-            AND rgt >= :__lft__ 
+            root_id = :root_id
+            AND rgt >= :lft 
     ");
-    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
-    $stmt->bindValue(':__lft__', $baseLft, PDO::PARAM_INT);
-    $stmt->bindValue(':__length__', $length, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $baseLft, PDO::PARAM_INT);
+    $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
 
     // Insert new node
+    $cols = cols($attrs, $item);
     $colList = implode(', ', $cols['col']);
     $paramList = implode(', ', $cols['param']);
     $stmt = db()->prepare("
         INSERT INTO 
-            {$meta['table']}
+            node
             (root_id, lft, rgt, $colList)
         VALUES 
             (:root_id, :lft, :rgt, $paramList)
@@ -176,7 +176,7 @@ function nestedset_create(array & $item): bool
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
 
-    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
     $stmt->bindValue(':lft', $baseLft, PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $baseLft + 1, PDO::PARAM_INT);
     $stmt->execute();
@@ -213,19 +213,14 @@ function nestedset_save(array & $item): bool
     $lft = $item['_old']['lft'];
     $rgt = $item['_old']['rgt'];
     $basisItem = [];
+    $cols = cols($attrs, $item);
 
     // Update all attributes that are not involved with the tree
-    $cols = cols($attrs, $item, ['root_id']);
-    $setList = implode(', ', $cols['set']);
-    $stmt = db()->prepare("
-        UPDATE 
-            {$meta['table']}
-        SET 
-            $setList
-        WHERE 
-            {$attrs['id']['column']} = :id
-    ");
-    $stmt->bindValue(':id', $id, db_type($attrs['id'], $id));
+    $stmt = prep(
+        'UPDATE node SET %s WHERE id = :_id',
+        implode(', ', $cols['set'])
+    );
+    $stmt->bindValue(':_id', $id, PDO::PARAM_INT);
 
     foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
@@ -247,11 +242,11 @@ function nestedset_save(array & $item): bool
             SELECT 
                 COALESCE(MAX(rgt), 0) + 1
             FROM 
-                {$meta['table']}
+                node
             WHERE 
-                {$attrs['root_id']['column']} = :root_id
+                root_id = :root_id
         ");
-        $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+        $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
         $stmt->execute();
         $baseLft = (int) $stmt->fetchColumn();
     } elseif ($item['mode'] === 'before') {
@@ -274,93 +269,93 @@ function nestedset_save(array & $item): bool
     // Move all affected nodes from old tree and update their positions for the new tree without adding them yet
     $stmt = db()->prepare("
         UPDATE 
-            {$meta['table']}
+            node
         SET
-            {$attrs['root_id']['column']} = :root_id,
-            lft = -1 * (lft + :__lft_diff__),
-            rgt = -1 * (rgt + :__rgt_diff__)
+            root_id = :root_id,
+            lft = -1 * (lft + :lft_diff),
+            rgt = -1 * (rgt + :rgt_diff)
         WHERE
-            {$attrs['root_id']['column']} = :__root_id__
+            root_id = :root_id
             AND lft BETWEEN :lft AND :rgt
     ");
-    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
-    $stmt->bindValue(':__root_id__', $oldRootId, db_type($attrs['root_id'], $oldRootId));
+    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $oldRootId, PDO::PARAM_INT);
     $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
-    $stmt->bindValue(':__lft_diff__', $diff, PDO::PARAM_INT);
-    $stmt->bindValue(':__rgt_diff__', $diff, PDO::PARAM_INT);
+    $stmt->bindValue(':lft_diff', $diff, PDO::PARAM_INT);
+    $stmt->bindValue(':rgt_diff', $diff, PDO::PARAM_INT);
     $stmt->execute();
 
     // Close gap in old tree
     $stmt = db()->prepare("
         UPDATE 
-            {$meta['table']}
+            node
         SET
-            lft = lft - :__length__
+            lft = lft - :length
         WHERE
-            {$attrs['root_id']['column']} = :__root_id__
+            root_id = :root_id
             AND lft > :rgt
     ");
-    $stmt->bindValue(':__root_id__', $oldRootId, db_type($attrs['root_id'], $oldRootId));
+    $stmt->bindValue(':root_id', $oldRootId, PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
-    $stmt->bindValue(':__length__', $length, PDO::PARAM_INT);
+    $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
 
     $stmt = db()->prepare("
         UPDATE 
-            {$meta['table']}
+            node
         SET
-            rgt = rgt - :__length__
+            rgt = rgt - :length
         WHERE
-            {$attrs['root_id']['column']} = :__root_id__
+            root_id = :root_id
             AND rgt > :rgt
     ");
-    $stmt->bindValue(':__root_id__', $oldRootId, db_type($attrs['root_id'], $oldRootId));
+    $stmt->bindValue(':root_id', $oldRootId, PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
-    $stmt->bindValue(':__length__', $length, PDO::PARAM_INT);
+    $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
 
     // Make space in the new tree
     $stmt = db()->prepare("
         UPDATE 
-            {$meta['table']}
+            node
         SET
-            lft = lft + :__length__
+            lft = lft + :length
         WHERE
-            {$attrs['root_id']['column']} = :root_id
-            AND lft >= :__lft__ 
+            root_id = :root_id
+            AND lft >= :lft 
     ");
-    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
-    $stmt->bindValue(':__lft__', $newLft, PDO::PARAM_INT);
-    $stmt->bindValue(':__length__', $length, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $newLft, PDO::PARAM_INT);
+    $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
 
     $stmt = db()->prepare("
         UPDATE 
-            {$meta['table']}
+            node
         SET
-            rgt = rgt + :__length__
+            rgt = rgt + :length
         WHERE
-            {$attrs['root_id']['column']} = :root_id
-            AND rgt >= :__lft__ 
+            root_id = :root_id
+            AND rgt >= :lft 
     ");
-    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
-    $stmt->bindValue(':__lft__', $newLft, PDO::PARAM_INT);
-    $stmt->bindValue(':__length__', $length, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $newLft, PDO::PARAM_INT);
+    $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
 
     // Finally add the affected nodes to new tree
     $stmt = db()->prepare("
         UPDATE 
-            {$meta['table']}
+            node
         SET
             lft = -1 * lft,
             rgt = -1 * rgt
         WHERE
-            {$attrs['root_id']['column']} = :root_id
+            root_id = :root_id
             AND lft < 0
     ");
-    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
     $stmt->execute();
 
     return true;
@@ -379,8 +374,6 @@ function nestedset_delete(array & $item): bool
         return false;
     }
 
-    $meta = $item['_meta'];
-    $attrs = $meta['attributes'];
     $rootId = $item['_old']['root_id'];
     $lft = $item['_old']['lft'];
     $rgt = $item['_old']['rgt'];
@@ -388,48 +381,53 @@ function nestedset_delete(array & $item): bool
 
     $stmt = db()->prepare("
         UPDATE
-            {$meta['table']}
+            node
         SET
             lft = -1 * lft,
             rgt = -1 * rgt 
         WHERE 
-            {$attrs['root_id']['column']} = :root_id
+            root_id = :root_id
             AND lft BETWEEN :lft AND :rgt
     ");
-    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
     $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
     $stmt->execute();
 
     $stmt = db()->prepare("
         UPDATE
-            {$meta['table']}
+            node
         SET 
-            lft = lft - :__diff__
+            lft = lft - :diff
         WHERE 
-            {$attrs['root_id']['column']} = :root_id
+            root_id = :root_id
             AND lft > :rgt
     ");
-    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
-    $stmt->bindValue(':__diff__', $diff, PDO::PARAM_INT);
+    $stmt->bindValue(':diff', $diff, PDO::PARAM_INT);
     $stmt->execute();
 
     $stmt = db()->prepare("
         UPDATE
-            {$meta['table']}
+            node
         SET 
-            rgt = rgt - :__diff__
+            rgt = rgt - :diff
         WHERE 
-            {$attrs['root_id']['column']} = :root_id
+            root_id = :root_id
             AND rgt > :rgt
     ");
-    $stmt->bindValue(':root_id', $rootId, db_type($attrs['root_id'], $rootId));
+    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
-    $stmt->bindValue(':__diff__', $diff, PDO::PARAM_INT);
+    $stmt->bindValue(':diff', $diff, PDO::PARAM_INT);
     $stmt->execute();
 
-    db()->exec('DELETE FROM ' . $meta['table'] . ' WHERE lft < 0');
+    db()->exec('
+        DELETE FROM 
+            node 
+        WHERE 
+            lft < 0
+    ');
 
     return true;
 }

@@ -28,7 +28,7 @@ function eav_size(string $entity, array $criteria = [], array $options = []): in
         } elseif (!empty($valAttrs[$code])) {
             $alias = qi($code);
             $attrs[$code]['column'] = $alias . '.' . $attr['column'];
-            $params[$code] = ':__attribute__' . str_replace('-', '_', $code);
+            $params[$code] = ':' . str_replace('-', '_', $code);
             $joins[$code] = ' LEFT JOIN ' . $valMeta['table'] . ' ' . $alias . ' ON '
                 . $alias . '.' . $valMeta['attributes']['content_id']['column']
                 . ' = e.' . $meta['attributes']['id']['column'] . ' AND '
@@ -86,7 +86,7 @@ function eav_load(string $entity, array $criteria = [], $index = null, array $or
         } elseif (!empty($valAttrs[$code])) {
             $alias = qi($code);
             $attrs[$code]['column'] = $alias . '.' . $attr['column'];
-            $params[$code] = ':__attribute__' . str_replace('-', '_', $code);
+            $params[$code] = ':' . str_replace('-', '_', $code);
             $joins[$code] = ' LEFT JOIN ' . $valMeta['table'] . ' ' . $alias . ' ON '
                 . $alias . '.' . $valMeta['attributes']['content_id']['column']
                 . ' = e.' . $meta['attributes']['id']['column'] . ' AND '
@@ -194,7 +194,7 @@ function eav_save(array & $item): bool
     $cols = cols($conAttrs, $item);
 
     $stmt = prep(
-        'UPDATE content SET %s WHERE id = :id',
+        'UPDATE content SET %s WHERE id = :_id',
         implode(', ', $cols['set'])
     );
 
@@ -202,7 +202,7 @@ function eav_save(array & $item): bool
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
 
-    $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
+    $stmt->bindValue(':_id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
     $stmt->execute();
 
     // Save values

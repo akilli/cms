@@ -107,14 +107,14 @@ function flat_save(array & $item): bool
     $stmt = db()->prepare(
         'UPDATE ' . $meta['table']
         . ' SET ' . implode(', ', $cols['set'])
-        . ' WHERE ' . $meta['attributes']['id']['column'] . '  = :id'
+        . ' WHERE ' . $meta['attributes']['id']['column'] . '  = :_id'
     );
 
     foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($meta['attributes'][$code], $item[$code]));
     }
 
-    $stmt->bindValue(':id', $item['_old']['id'], db_type($meta['attributes']['id'], $item['_old']['id']));
+    $stmt->bindValue(':_id', $item['_old']['id'], db_type($meta['attributes']['id'], $item['_old']['id']));
     $stmt->execute();
 
     return true;
