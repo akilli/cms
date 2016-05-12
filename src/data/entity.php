@@ -75,6 +75,7 @@ return [
             'options' => [
                 'name' => 'Options',
                 'type' => 'json',
+                'nullable' => true,
                 'actions' => ['edit'],
             ],
             'actions' => [

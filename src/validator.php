@@ -261,6 +261,10 @@ function validator_index(array $attr, array & $item): bool
  */
 function validator_json(array $attr, array & $item): bool
 {
+    if (isset($item[$attr['id']]) && trim($item[$attr['id']]) === '') {
+        $item[$attr['id']] = null;
+    }
+
     if (!empty($item[$attr['id']]) && json_decode($item[$attr['id']], true) === null) {
         $item[$attr['id']] = null;
         $item['_error'][$attr['id']] = _('Invalid JSON notation');
