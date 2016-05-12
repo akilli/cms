@@ -12,7 +12,7 @@ use PDO;
  *
  * @return int
  */
-function tree_size(string $entity, array $criteria = null, array $options = []): int
+function nestedset_size(string $entity, array $criteria = null, array $options = []): int
 {
     return flat_size($entity, $criteria, $options);
 }
@@ -28,7 +28,7 @@ function tree_size(string $entity, array $criteria = null, array $options = []):
  *
  * @return array
  */
-function tree_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
+function nestedset_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
 {
     $meta = data('meta', $entity);
     $attrs = $orderAttrs = $meta['attributes'];
@@ -95,7 +95,7 @@ function tree_load(string $entity, array $criteria = null, $index = null, array 
  *
  * @return bool
  */
-function tree_create(array & $item): bool
+function nestedset_create(array & $item): bool
 {
     if (empty($item['_meta']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
         return false;
@@ -196,7 +196,7 @@ function tree_create(array & $item): bool
  *
  * @return bool
  */
-function tree_save(array & $item): bool
+function nestedset_save(array & $item): bool
 {
     if (empty($item['_meta']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
         return false;
@@ -373,7 +373,7 @@ function tree_save(array & $item): bool
  *
  * @return bool
  */
-function tree_delete(array & $item): bool
+function nestedset_delete(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;

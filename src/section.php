@@ -180,13 +180,13 @@ function section_toolbar(array & $section): string
 }
 
 /**
- * Tree section
+ * Node section
  *
  * @param array $section
  *
  * @return string
  */
-function section_tree(array & $section): string
+function section_node(array & $section): string
 {
     if (empty($section['vars']['root_id']) || empty($section['vars']['entity'])) {
         return '';

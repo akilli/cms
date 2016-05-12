@@ -373,10 +373,10 @@ return [
             ],
         ],
     ],
-    'tree' => [
-        'id' => 'tree',
-        'name' => 'Menu Tree',
-        'type' => 'tree',
+    'node' => [
+        'id' => 'node',
+        'name' => 'Menu Node',
+        'type' => 'nestedset',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
         'sort' => 200,
@@ -400,10 +400,10 @@ return [
                 'actions' => ['edit', 'index'],
             ],
             'root_id' => [
-                'name' => 'Menu Tree Root',
+                'name' => 'Menu',
                 'type' => 'select.varchar',
                 'required' => true,
-                'options_entity' => 'tree_root',
+                'options_entity' => 'menu',
                 'actions' => ['index'],
             ],
             'lft' => [
@@ -442,33 +442,7 @@ return [
                 'virtual' => true,
                 'type' => 'select.int',
                 'nullable' => true,
-                'options_entity' => 'tree',
-                'actions' => ['index'],
-            ],
-        ],
-    ],
-    'tree_root' => [
-        'id' => 'tree_root',
-        'name' => 'Menu Tree Root',
-        'actions' => ['create', 'edit', 'delete', 'index'],
-        'toolbar' => 'structure',
-        'sort' => 100,
-        'attributes' => [
-            'id' => [
-                'name' => 'ID',
-                'generator' => 'auto',
-                'type' => 'int',
-                'actions' => ['index'],
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'actions' => ['all'],
-                'required' => true,
-            ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'checkbox.bool',
+                'options_entity' => 'node',
                 'actions' => ['index'],
             ],
         ],

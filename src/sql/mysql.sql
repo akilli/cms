@@ -99,6 +99,23 @@ CREATE TABLE IF NOT EXISTS meta (
     KEY idx_meta_sortable (sortable)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS node;
+CREATE TABLE IF NOT EXISTS node (
+    id INTEGER(11) NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    target VARCHAR(255) NOT NULL,
+    root_id INTEGER(11) NOT NULL,
+    lft INTEGER(11) NOT NULL,
+    rgt INTEGER(11) NOT NULL,
+    PRIMARY KEY (id),
+    KEY idx_node_name (name),
+    KEY idx_node_target (target),
+    KEY idx_node_root (root_id),
+    KEY idx_node_lft (lft),
+    KEY idx_node_rgt (rgt),
+    KEY idx_node_item (root_id,lft,rgt)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS project;
 CREATE TABLE IF NOT EXISTS project (
     id INTEGER(11) NOT NULL AUTO_INCREMENT,
@@ -138,33 +155,6 @@ CREATE TABLE IF NOT EXISTS role (
     KEY idx_role_system (system)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS tree;
-CREATE TABLE IF NOT EXISTS tree (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    target VARCHAR(255) NOT NULL,
-    root_id INTEGER(11) NOT NULL,
-    lft INTEGER(11) NOT NULL,
-    rgt INTEGER(11) NOT NULL,
-    PRIMARY KEY (id),
-    KEY idx_tree_name (name),
-    KEY idx_tree_target (target),
-    KEY idx_tree_root (root_id),
-    KEY idx_tree_lft (lft),
-    KEY idx_tree_rgt (rgt),
-    KEY idx_tree_item (root_id,lft,rgt)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS tree_root;
-CREATE TABLE IF NOT EXISTS tree_root (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    system BOOLEAN NOT NULL DEFAULT '0',
-    PRIMARY KEY (id),
-    KEY idx_tree_root_name (name),
-    KEY idx_tree_root_system (system)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS user;
 CREATE TABLE IF NOT EXISTS user (
     id INTEGER(11) NOT NULL AUTO_INCREMENT,
@@ -200,8 +190,8 @@ ALTER TABLE meta
     ADD CONSTRAINT con_meta_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT con_meta_attribute FOREIGN KEY (attribute_id) REFERENCES attribute (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE tree
-    ADD CONSTRAINT con_tree_root FOREIGN KEY (root_id) REFERENCES tree_root (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE node
+    ADD CONSTRAINT con_node_root FOREIGN KEY (root_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE user
     ADD CONSTRAINT con_user_role FOREIGN KEY (role_id) REFERENCES role (id);
@@ -209,6 +199,9 @@ ALTER TABLE user
 -- --------------------------------------------------------
 -- Data
 -- --------------------------------------------------------
+
+INSERT INTO entity (id, name, actions, toolbar, sort, system) VALUES
+('menu', 'Menu', '["create", "edit", "delete", "index"]', 'structure', 100, '1');
 
 INSERT INTO project (id, name, host, active, system) VALUES
 (0, 'global', NULL, '1', '1');
@@ -218,8 +211,8 @@ INSERT INTO role (id, name, privilege, active, system) VALUES
 (1, 'admin', '["all"]', '1', '1');
 
 INSERT INTO user (id, name, username, password, role_id, active, system) VALUES
-(0, 'anonymous', '', '', 0, '1', '1'),
-(1, 'admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
+(0, 'Anonymous', 'anonymous', '', 0, '1', '1'),
+(1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
 
 -- --------------------------------------------------------
 

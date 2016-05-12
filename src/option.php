@@ -93,7 +93,7 @@ function option_callback(array $attr): array
 {
     $callback = $attr['options_callback'][0];
     $params = $attr['options_callback'][1] ?? [];
-    
+
     return option_translate($callback(...$params));
 }
 
@@ -104,10 +104,10 @@ function option_callback(array $attr): array
  */
 function option_position(): array
 {
-    $roots = entity_load('tree_root');
+    $roots = entity_load('menu');
     $data = [];
 
-    foreach (entity_load('tree') as $item) {
+    foreach (entity_load('node') as $item) {
         if (empty($data[$item['root_id']  . ':0'])) {
             $data[$item['root_id']  . ':0']['name'] = $roots[$item['root_id']]['name'];
             $data[$item['root_id']  . ':0']['class'] = ['group'];
