@@ -2,6 +2,18 @@
 namespace qnd;
 
 /**
+ * Returns fully qualified name
+ *
+ * @param string $name
+ *
+ * @return string
+ */
+function fqn(string $name): string
+{
+    return __NAMESPACE__ . '\\' . $name;
+}
+
+/**
  * Joins array values or keys + values with a string and optionally
  *
  * - prepends a string to each element

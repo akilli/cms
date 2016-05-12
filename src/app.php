@@ -24,18 +24,6 @@ function app()
 }
 
 /**
- * Returns fully qualified name
- *
- * @param string $name
- *
- * @return string
- */
-function fqn(string $name): string
-{
-    return __NAMESPACE__ . '\\' . $name;
-}
-
-/**
  * Internal registry
  *
  * @param string $id
