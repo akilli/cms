@@ -377,7 +377,7 @@ return [
     ],
     'node' => [
         'id' => 'node',
-        'name' => 'Menu Node',
+        'name' => 'Node',
         'type' => 'node',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
