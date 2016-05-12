@@ -16,7 +16,6 @@ function eav_size(string $entity, array $criteria = [], array $options = []): in
 {
     $meta = data('meta', $entity);
     $conMeta = data('meta', 'content');
-    $valMeta = data('meta', 'eav');
     $attrs = $meta['attributes'];
     $valAttrs = array_diff_key($attrs, $conMeta['attributes']);
     $joins = $params = [];
@@ -46,11 +45,7 @@ function eav_size(string $entity, array $criteria = [], array $options = []): in
     );
 
     foreach ($params as $code => $param) {
-        $stmt->bindValue(
-            $param,
-            $attrs[$code]['id'],
-            db_type($valMeta['attributes']['attribute_id'], $attrs[$code]['id'])
-        );
+        $stmt->bindValue($param, $attrs[$code]['id'], PDO::PARAM_STR);
     }
 
     $stmt->execute();
@@ -73,7 +68,6 @@ function eav_load(string $entity, array $criteria = [], $index = null, array $or
 {
     $meta = data('meta', $entity);
     $conAttrs = data('meta', 'content')['attributes'];
-    $valMeta = data('meta', 'eav');
     $attrs = $meta['attributes'];
     $valAttrs = array_diff_key($attrs, $conAttrs);
     $joins = $params = [];
@@ -107,7 +101,7 @@ function eav_load(string $entity, array $criteria = [], $index = null, array $or
     );
 
     foreach ($params as $code => $param) {
-        $stmt->bindValue($param, $attrs[$code]['id'], db_type($valMeta['attributes']['attribute_id'], $attrs[$code]['id']));
+        $stmt->bindValue($param, $attrs[$code]['id'], PDO::PARAM_STR);
     }
 
     $stmt->execute();
@@ -131,7 +125,6 @@ function eav_create(array & $item): bool
     $attrs = $item['_meta']['attributes'];
     $conAttrs = data('meta', 'content')['attributes'];
     $valAttrs = array_diff_key($attrs, $conAttrs);
-    $item['entity_id'] = $item['_meta']['id'];
     $cols = cols($conAttrs, $item);
 
     $stmt = prep(
@@ -155,9 +148,9 @@ function eav_create(array & $item): bool
     $stmt = db()->prepare('
         INSERT INTO 
             eav
-            (entity_id, attribute_id, content_id, value) 
+            (attribute_id, content_id, value) 
          VALUES 
-            (:entity_id, :attribute_id, :content_id, :value)
+            (:attribute_id, :content_id, :value)
     ');
 
     foreach ($valAttrs as $code => $attr) {
@@ -165,7 +158,6 @@ function eav_create(array & $item): bool
             continue;
         }
 
-        $stmt->bindValue(':entity_id', $item['entity_id'], PDO::PARAM_STR);
         $stmt->bindValue(':attribute_id', $attr['id'], PDO::PARAM_STR);
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
         $stmt->bindValue(':value', $item[$code], PDO::PARAM_STR);
@@ -191,7 +183,6 @@ function eav_save(array & $item): bool
     $attrs = $item['_meta']['attributes'];
     $conAttrs = data('meta', 'content')['attributes'];
     $valAttrs = array_diff_key($attrs, $conAttrs);
-    $item['entity_id'] = $item['_meta']['id'];
     $cols = cols($conAttrs, $item);
 
     $stmt = prep(
@@ -211,7 +202,6 @@ function eav_save(array & $item): bool
         INSERT INTO 
             eav
         SET
-            entity_id = :entity_id,
             attribute_id = :attribute_id,
             content_id = :content_id,
             value = :value
@@ -224,7 +214,6 @@ function eav_save(array & $item): bool
             continue;
         }
 
-        $stmt->bindValue(':entity_id', $item['entity_id'], PDO::PARAM_STR);
         $stmt->bindValue(':attribute_id', $attr['id'], PDO::PARAM_STR);
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
         $stmt->bindValue(':value', $item[$code], PDO::PARAM_STR);
