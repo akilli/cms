@@ -115,7 +115,7 @@ return [
     ],
     'multicheckbox' => [
         'name' => 'Multicheckbox',
-        'backend' => 'text',
+        'backend' => 'json',
         'frontend' => 'checkbox',
         'multiple' => true,
     ],
@@ -153,7 +153,7 @@ return [
     ],
     'multiselect' => [
         'name' => 'Multiselect',
-        'backend' => 'text',
+        'backend' => 'json',
         'frontend' => 'select',
         'multiple' => true,
     ],
