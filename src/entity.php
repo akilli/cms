@@ -35,7 +35,7 @@ function entity_validate(array & $item): bool
  *
  * @return int
  */
-function entity_size(string $entity, array $criteria = null, array $options = []): int
+function entity_size(string $entity, array $criteria = [], array $options = []): int
 {
     $meta = data('meta', $entity);
     $callback = fqn($meta['type'] . '_size');
@@ -63,7 +63,7 @@ function entity_size(string $entity, array $criteria = null, array $options = []
  *
  * @return array
  */
-function entity_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
+function entity_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
     $meta = data('meta', $entity);
     $callback = fqn($meta['type'] . '_load');
@@ -214,7 +214,7 @@ function entity_save(string $entity, array & $data): bool
  *
  * @return bool
  */
-function entity_delete(string $entity, array $criteria = null, $index = null, bool $system = false): bool
+function entity_delete(string $entity, array $criteria = [], $index = null, bool $system = false): bool
 {
     $meta = data('meta', $entity);
     $callback = fqn($meta['type'] . '_delete');

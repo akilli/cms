@@ -10,7 +10,7 @@ namespace qnd;
  *
  * @return int
  */
-function eav_size(string $entity, array $criteria = null, array $options = []): int
+function eav_size(string $entity, array $criteria = [], array $options = []): int
 {
     $meta = data('meta', $entity);
     $conMeta = data('meta', 'content');
@@ -67,7 +67,7 @@ function eav_size(string $entity, array $criteria = null, array $options = []): 
  *
  * @return array
  */
-function eav_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
+function eav_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
     $meta = data('meta', $entity);
     $conMeta = data('meta', 'content');

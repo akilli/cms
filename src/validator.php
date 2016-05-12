@@ -75,7 +75,7 @@ function validator_unambiguous(array $attr, array & $item): bool
 
     // Existing values
     if (!isset($data[$entity])) {
-        $data[$entity] = entity_load($entity, null, 'unambiguous');
+        $data[$entity] = entity_load($entity, [], 'unambiguous');
 
         if ($entity === 'entity' && ($ids = array_keys(data('meta')))
             || $entity === 'attribute' && ($ids = array_keys(data('meta', 'content')['attributes']))

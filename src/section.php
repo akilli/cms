@@ -63,7 +63,7 @@ function section_entity(array & $section): string
     }
 
     $section['vars'] = array_replace(
-        ['criteria' => null, 'index' => null, 'order' => null, 'limit' => config('limit.section')],
+        ['criteria' => [], 'index' => null, 'order' => [], 'limit' => [config('limit.section')]],
         $section['vars']
     );
     $section['vars']['data'] = entity_load(
@@ -71,7 +71,7 @@ function section_entity(array & $section): string
         $section['vars']['criteria'],
         $section['vars']['index'],
         $section['vars']['order'],
-        $section['vars']['limit'] ? (array) $section['vars']['limit'] : null
+        $section['vars']['limit']
     );
     $section['vars']['header'] = _($meta['name']);
 

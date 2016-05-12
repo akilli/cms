@@ -12,7 +12,7 @@ use PDO;
  *
  * @return int
  */
-function nestedset_size(string $entity, array $criteria = null, array $options = []): int
+function nestedset_size(string $entity, array $criteria = [], array $options = []): int
 {
     return flat_size($entity, $criteria, $options);
 }
@@ -28,7 +28,7 @@ function nestedset_size(string $entity, array $criteria = null, array $options =
  *
  * @return array
  */
-function nestedset_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
+function nestedset_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
     $meta = data('meta', $entity);
     $attrs = $orderAttrs = $meta['attributes'];
@@ -72,7 +72,7 @@ function nestedset_load(string $entity, array $criteria = null, $index = null, a
     $stmt = db()->prepare(
         select($attrs, 'e') . $selectLevel . $selectParentId
         . from($meta['table'], 'e')
-        . where((array) $criteria, $attrs, $options)
+        . where($criteria, $attrs, $options)
         . order($order, $orderAttrs)
         . limit($limit)
     );

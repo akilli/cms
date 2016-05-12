@@ -46,7 +46,7 @@ function listener_data_meta(array & $data)
         $data[$id] = $item;
     }
 
-    $meta = entity_load('meta', null, ['entity_id', 'attribute_id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
+    $meta = entity_load('meta', [], ['entity_id', 'attribute_id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
     $attrs = entity_load('attribute');
 
     foreach (entity_load('entity') as $id => $item) {

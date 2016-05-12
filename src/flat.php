@@ -10,14 +10,14 @@ namespace qnd;
  *
  * @return int
  */
-function flat_size(string $entity, array $criteria = null, array $options = []): int
+function flat_size(string $entity, array $criteria = [], array $options = []): int
 {
     $meta = data('meta', $entity);
 
     $stmt = db()->prepare(
         'SELECT COUNT(*) as total'
         . from($meta['table'])
-        . where((array) $criteria, $meta['attributes'], $options)
+        . where($criteria, $meta['attributes'], $options)
     );
     $stmt->execute();
 
@@ -35,7 +35,7 @@ function flat_size(string $entity, array $criteria = null, array $options = []):
  *
  * @return array
  */
-function flat_load(string $entity, array $criteria = null, $index = null, array $order = [], array $limit = []): array
+function flat_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
     $meta = data('meta', $entity);
     $options = ['search' => $index === 'search'];
@@ -43,7 +43,7 @@ function flat_load(string $entity, array $criteria = null, $index = null, array 
     $stmt = db()->prepare(
         select($meta['attributes'])
         . from($meta['table'])
-        . where((array) $criteria, $meta['attributes'], $options)
+        . where($criteria, $meta['attributes'], $options)
         . order($order, $meta['attributes'])
         . limit($limit)
     );
