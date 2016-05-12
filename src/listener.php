@@ -1,8 +1,6 @@
 <?php
 namespace qnd;
 
-use RuntimeException;
-
 /**
  * Config data listener
  *
@@ -89,7 +87,7 @@ function listener_data_privilege(array & $data)
     unset($config['all']);
 
     foreach ($meta as $entity => $item) {
-        $actions = in_array('all', $item) ? $config : $item['actions'];
+        $actions = in_array('all', $item['actions']) ? $config : $item['actions'];
 
         if (!$actions) {
             continue;
