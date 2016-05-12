@@ -3,6 +3,7 @@ namespace qnd;
 
 use Exception;
 use PDO;
+use PDOStatement;
 
 /**
  * Database
@@ -47,6 +48,19 @@ function trans(callable $callback): bool
     }
 
     return true;
+}
+
+/**
+ * Prepare statement with replacing placeholders
+ *
+ * @param string $sql
+ * @param string[] ...$args
+ *
+ * @return PDOStatement
+ */
+function prep(string $sql, string ...$args): PDOStatement
+{
+    return db()->prepare(vsprintf($sql, $args));
 }
 
 /**
