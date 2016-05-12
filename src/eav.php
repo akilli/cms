@@ -1,6 +1,8 @@
 <?php
 namespace qnd;
 
+use PDO;
+
 /**
  * Size entity
  *
@@ -70,10 +72,10 @@ function eav_size(string $entity, array $criteria = [], array $options = []): in
 function eav_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
     $meta = data('meta', $entity);
-    $conMeta = data('meta', 'content');
+    $conAttrs = data('meta', 'content')['attributes'];
     $valMeta = data('meta', 'eav');
     $attrs = $meta['attributes'];
-    $valAttrs = array_diff_key($attrs, $conMeta['attributes']);
+    $valAttrs = array_diff_key($attrs, $conAttrs);
     $joins = $params = [];
     $criteria['entity_id'] = $meta['id'];
     $options = ['search' => $index === 'search'];
@@ -131,13 +133,11 @@ function eav_create(array & $item): bool
     $item['entity_id'] = $item['_meta']['id'];
     $cols = cols($conAttrs, $item);
 
-    $stmt = db()->prepare('
-        INSERT INTO 
-            ' . $item['_meta']['table'] . ' 
-            (' . implode(', ', $cols['col']) . ') 
-        VALUES 
-            (' . implode(', ', $cols['param']) . ')
-    ');
+    $stmt = prep(
+        'INSERT INTO content (%s) VALUES (%s)',
+        implode(', ', $cols['col']),
+        implode(', ', $cols['param'])
+    );
 
     foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
@@ -164,10 +164,10 @@ function eav_create(array & $item): bool
             continue;
         }
 
-        $stmt->bindValue(':entity_id', $item['entity_id'], db_type($attrs['entity_id'], $item['entity_id']));
-        $stmt->bindValue(':attribute_id', $attr['id'], db_type($attr, $attr['id']));
-        $stmt->bindValue(':content_id', $item['id'], db_type($attrs['id'], $item['id']));
-        $stmt->bindValue(':value', $item[$code], db_type($attr, $item[$code]));
+        $stmt->bindValue(':entity_id', $item['entity_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':attribute_id', $attr['id'], PDO::PARAM_STR);
+        $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
+        $stmt->bindValue(':value', $item[$code], PDO::PARAM_STR);
         $stmt->execute();
     }
 
@@ -193,14 +193,10 @@ function eav_save(array & $item): bool
     $item['entity_id'] = $item['_meta']['id'];
     $cols = cols($conAttrs, $item);
 
-    $stmt = db()->prepare('
-        UPDATE 
-            content 
-        SET 
-            ' . implode(', ', $cols['set']) . ' 
-        WHERE 
-            ' . $attrs['id']['column'] . '  = :id
-    ');
+    $stmt = prep(
+        'UPDATE content SET %s WHERE id = :id',
+        implode(', ', $cols['set'])
+    );
 
     foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
@@ -227,10 +223,10 @@ function eav_save(array & $item): bool
             continue;
         }
 
-        $stmt->bindValue(':entity_id', $item['entity_id'], db_type($attrs['entity_id'], $item['entity_id']));
-        $stmt->bindValue(':attribute_id', $attr['id'], db_type($attr, $attr['id']));
-        $stmt->bindValue(':content_id', $item['id'], db_type($attrs['id'], $item['id']));
-        $stmt->bindValue(':value', $item[$code], db_type($attr, $item[$code]));
+        $stmt->bindValue(':entity_id', $item['entity_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':attribute_id', $attr['id'], PDO::PARAM_STR);
+        $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
+        $stmt->bindValue(':value', $item[$code], PDO::PARAM_STR);
         $stmt->execute();
     }
 
