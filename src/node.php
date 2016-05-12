@@ -2,7 +2,6 @@
 namespace qnd;
 
 use PDO;
-use RuntimeException;
 
 /**
  * Size entity
@@ -12,15 +11,9 @@ use RuntimeException;
  * @param array $options
  *
  * @return int
- *
- * @throws RuntimeException
  */
 function node_size(string $entity, array $criteria = [], array $options = []): int
 {
-    if ($entity !== 'node') {
-        throw new RuntimeException(_('Invalid entity: %s', $entity));
-    }
-
     return flat_size($entity, $criteria, $options);
 }
 
@@ -34,15 +27,9 @@ function node_size(string $entity, array $criteria = [], array $options = []): i
  * @param int[] $limit
  *
  * @return array
- *
- * @throws RuntimeException
  */
 function node_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
-    if ($entity !== 'node') {
-        throw new RuntimeException(_('Invalid entity: %s', $entity));
-    }
-
     $meta = data('meta', $entity);
     $attrs = $orderAttrs = $meta['attributes'];
     $options = ['search' => $index === 'search', 'alias' => 'e'];
@@ -105,17 +92,11 @@ function node_load(string $entity, array $criteria = [], $index = null, array $o
  * @param array $item
  *
  * @return bool
- *
- * @throws RuntimeException
  */
 function node_create(array & $item): bool
 {
     if (empty($item['_meta']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
         return false;
-    }
-
-    if ($item['_meta']['id'] !== 'node') {
-        throw new RuntimeException(_('Invalid entity: %s', $item['_meta']['id']));
     }
 
     $meta = $item['_meta'];
@@ -212,17 +193,11 @@ function node_create(array & $item): bool
  * @param array $item
  *
  * @return bool
- *
- * @throws RuntimeException
  */
 function node_save(array & $item): bool
 {
     if (empty($item['_meta']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
         return false;
-    }
-
-    if ($item['_meta']['id'] !== 'node') {
-        throw new RuntimeException(_('Invalid entity: %s', $item['_meta']['id']));
     }
 
     $meta = $item['_meta'];
@@ -390,17 +365,11 @@ function node_save(array & $item): bool
  * @param array $item
  *
  * @return bool
- *
- * @throws RuntimeException
  */
 function node_delete(array & $item): bool
 {
     if (empty($item['_meta'])) {
         return false;
-    }
-
-    if ($item['_meta']['id'] !== 'node') {
-        throw new RuntimeException(_('Invalid entity: %s', $item['_meta']['id']));
     }
 
     $rootId = $item['_old']['root_id'];
