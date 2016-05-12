@@ -91,6 +91,7 @@ return [
     'Number' => 'Anzahl',
     'Options' => 'Optionen',
     'Options Entity' => 'Optionen Entity',
+    'Page' => 'Seite',
     'Page %d of %d' => 'Seite %d von %d',
     'Parent' => 'Elter',
     'Password' => 'Passwort',

@@ -200,19 +200,29 @@ ALTER TABLE user
 -- Data
 -- --------------------------------------------------------
 
-INSERT INTO entity (id, name, actions, toolbar, sort, system) VALUES
-('menu', 'Menu', '["create", "edit", "delete", "index"]', 'structure', 100, '1');
-
+-- System
 INSERT INTO project (id, name, host, active, system) VALUES
 (0, 'global', NULL, '1', '1');
 
 INSERT INTO role (id, name, privilege, active, system) VALUES
-(0, 'anonymous', '[]', '1', '1'),
+(0, 'anonymous', '["page.list", "page.view"]', '1', '1'),
 (1, 'admin', '["all"]', '1', '1');
 
 INSERT INTO user (id, name, username, password, role_id, active, system) VALUES
 (0, 'Anonymous', 'anonymous', '', 0, '1', '1'),
 (1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
+
+-- Structure
+INSERT INTO entity (id, name, actions, toolbar, sort, system) VALUES
+('menu', 'Menu', '["create", "edit", "delete", "index"]', 'structure', 100, '1'),
+('page', 'Page', '["all"]', 'content', 100, '1');
+
+-- Content
+INSERT INTO content (id, name, entity_id, active, system, content) VALUES
+(1, 'Home', 'page', 1, 0, 'Hello World');
+
+INSERT INTO rewrite (id, target) VALUES
+('http-base', 'page/view/id/1');
 
 -- --------------------------------------------------------
 
