@@ -1,9 +1,6 @@
 <?php
 namespace qnd;
 
-use PDO;
-use RuntimeException;
-
 /**
  * Size entity
  *
@@ -121,8 +118,6 @@ function eav_load(string $entity, array $criteria = null, $index = null, array $
  * @param array $item
  *
  * @return bool
- *
- * @throws RuntimeException
  */
 function eav_create(array & $item): bool
 {
@@ -185,8 +180,6 @@ function eav_create(array & $item): bool
  * @param array $item
  *
  * @return bool
- *
- * @throws RuntimeException
  */
 function eav_save(array & $item): bool
 {
@@ -197,7 +190,6 @@ function eav_save(array & $item): bool
     $attrs = $item['_meta']['attributes'];
     $conAttrs = data('meta', 'content')['attributes'];
     $valAttrs = array_diff_key($attrs, $conAttrs);
-    $values = $valAttrs ? entity_load('eav', ['content_id' => $item['_old']['id']], 'attribute_id') : [];
     $item['entity_id'] = $item['_meta']['id'];
     $cols = cols($conAttrs, $item);
 
@@ -218,20 +210,16 @@ function eav_save(array & $item): bool
     $stmt->execute();
 
     // Save values
-    $insert = db()->prepare('
+    $stmt = db()->prepare('
         INSERT INTO 
             eav
-            (entity_id, attribute_id, content_id, value) 
-         VALUES 
-            (:entity_id, :attribute_id, :content_id, :value)
-    ');
-    $update = db()->prepare('
-        UPDATE 
-            eav
         SET
+            entity_id = :entity_id,
+            attribute_id = :attribute_id,
+            content_id = :content_id,
             value = :value
-        WHERE
-            id = :id
+        ON DUPLICATE KEY UPDATE
+            value = VALUES(value)
     ');
 
     foreach ($valAttrs as $code => $attr) {
@@ -239,17 +227,11 @@ function eav_save(array & $item): bool
             continue;
         }
 
-        if (!empty($values[$code])) {
-            $update->bindValue(':id', $values[$code]['id'], PDO::PARAM_INT);
-            $update->bindValue(':value', $item[$code], db_type($attr, $item[$code]));
-            $update->execute();
-        } else {
-            $insert->bindValue(':entity_id', $item['entity_id'], db_type($attrs['entity_id'], $item['entity_id']));
-            $insert->bindValue(':attribute_id', $attr['id'], db_type($attr, $attr['id']));
-            $insert->bindValue(':content_id', $item['id'], db_type($attrs['id'], $item['id']));
-            $insert->bindValue(':value', $item[$code], db_type($attr, $item[$code]));
-            $insert->execute();
-        }
+        $stmt->bindValue(':entity_id', $item['entity_id'], db_type($attrs['entity_id'], $item['entity_id']));
+        $stmt->bindValue(':attribute_id', $attr['id'], db_type($attr, $attr['id']));
+        $stmt->bindValue(':content_id', $item['id'], db_type($attrs['id'], $item['id']));
+        $stmt->bindValue(':value', $item[$code], db_type($attr, $item[$code]));
+        $stmt->execute();
     }
 
     return true;
