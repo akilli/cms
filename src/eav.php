@@ -6,20 +6,20 @@ use PDO;
 /**
  * Size entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param array $options
  *
  * @return int
  */
-function eav_size(string $entity, array $criteria = [], array $options = []): int
+function eav_size(string $eId, array $criteria = [], array $options = []): int
 {
-    $meta = data('meta', $entity);
-    $conMeta = data('meta', 'content');
-    $attrs = $meta['attributes'];
+    $entity = data('entity', $eId);
+    $conMeta = data('entity', 'content');
+    $attrs = $entity['attributes'];
     $valAttrs = array_diff_key($attrs, $conMeta['attributes']);
     $joins = $params = [];
-    $criteria['entity_id'] = $meta['id'];
+    $criteria['entity_id'] = $entity['id'];
 
     foreach ($attrs as $code => $attr) {
         if (empty($attr['column'])) {
@@ -56,7 +56,7 @@ function eav_size(string $entity, array $criteria = [], array $options = []): in
 /**
  * Load entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param mixed $index
  * @param string[] $order
@@ -64,14 +64,14 @@ function eav_size(string $entity, array $criteria = [], array $options = []): in
  *
  * @return array
  */
-function eav_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
+function eav_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
-    $meta = data('meta', $entity);
-    $conAttrs = data('meta', 'content')['attributes'];
-    $attrs = $meta['attributes'];
+    $entity = data('entity', $eId);
+    $conAttrs = data('entity', 'content')['attributes'];
+    $attrs = $entity['attributes'];
     $valAttrs = array_diff_key($attrs, $conAttrs);
     $joins = $params = [];
-    $criteria['entity_id'] = $meta['id'];
+    $criteria['entity_id'] = $entity['id'];
     $options = ['search' => $index === 'search'];
 
     foreach ($attrs as $code => $attr) {
@@ -93,7 +93,7 @@ function eav_load(string $entity, array $criteria = [], $index = null, array $or
 
     $stmt = db()->prepare(
         select($attrs)
-        . from($meta['table'], 'e')
+        . from($entity['table'], 'e')
         . (!empty($joins) ? ' ' . implode(' ', $joins) : '')
         . where($criteria, $attrs, $options)
         . order($order, $attrs)
@@ -118,13 +118,13 @@ function eav_load(string $entity, array $criteria = [], $index = null, array $or
  */
 function eav_create(array & $item): bool
 {
-    if (empty($item['_meta'])) {
+    if (empty($item['_entity'])) {
         return false;
     }
 
-    $item['entity_id'] = $item['_meta']['id'];
-    $attrs = $item['_meta']['attributes'];
-    $conAttrs = data('meta', 'content')['attributes'];
+    $item['entity_id'] = $item['_entity']['id'];
+    $attrs = $item['_entity']['attributes'];
+    $conAttrs = data('entity', 'content')['attributes'];
     $valAttrs = array_diff_key($attrs, $conAttrs);
     $cols = cols($conAttrs, $item);
 
@@ -177,13 +177,13 @@ function eav_create(array & $item): bool
  */
 function eav_save(array & $item): bool
 {
-    if (empty($item['_meta'])) {
+    if (empty($item['_entity'])) {
         return false;
     }
 
-    $item['entity_id'] = $item['_meta']['id'];
-    $attrs = $item['_meta']['attributes'];
-    $conAttrs = data('meta', 'content')['attributes'];
+    $item['entity_id'] = $item['_entity']['id'];
+    $attrs = $item['_entity']['attributes'];
+    $conAttrs = data('entity', 'content')['attributes'];
     $valAttrs = array_diff_key($attrs, $conAttrs);
     $cols = cols($conAttrs, $item);
 
@@ -234,5 +234,5 @@ function eav_save(array & $item): bool
  */
 function eav_delete(array $item): bool
 {
-    return !empty($item['_meta']['id']) && $item['_meta']['id'] === $item['entity_id'] && flat_delete($item);
+    return !empty($item['_entity']['id']) && $item['_entity']['id'] === $item['entity_id'] && flat_delete($item);
 }

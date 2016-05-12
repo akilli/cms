@@ -7,8 +7,8 @@ return [
         'sort' => -100,
     ],
     [
-        'id' => 'qnd\listener_data_meta',
-        'event' => 'data.load.meta',
+        'id' => 'qnd\listener_data_entity',
+        'event' => 'data.load.entity',
         'sort' => -100,
     ],
     [

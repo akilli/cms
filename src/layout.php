@@ -89,9 +89,9 @@ function layout_handles(): array
             $data[] = 'http-base';
         }
 
-        $meta = data('meta', request('entity'));
+        $entity = data('entity', request('entity'));
 
-        if ($meta && meta_action(request('action'), $meta)) {
+        if ($entity && data_action(request('action'), $entity)) {
             $data[] = 'action-' . request('action');
         }
 

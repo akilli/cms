@@ -12,12 +12,28 @@ DROP TABLE IF EXISTS attribute;
 CREATE TABLE IF NOT EXISTS attribute (
     id VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
+    entity_id VARCHAR(100) NOT NULL,
+    sort INTEGER(11) NOT NULL DEFAULT '0',
     type VARCHAR(100) NOT NULL,
+    required BOOLEAN NOT NULL DEFAULT '0',
+    unambiguous BOOLEAN NOT NULL DEFAULT '0',
+    searchable BOOLEAN NOT NULL DEFAULT '0',
+    filterable BOOLEAN NOT NULL DEFAULT '0',
+    sortable BOOLEAN NOT NULL DEFAULT '0',
     options_entity VARCHAR(100) DEFAULT NULL,
     options JSON DEFAULT NULL,
+    actions JSON DEFAULT NULL,
     PRIMARY KEY (id),
     KEY idx_attribute_name (name),
-    KEY idx_attribute_type (type)
+    KEY idx_attribute_entity (entity_id),
+    KEY idx_attribute_type (type),
+    KEY idx_attribute_sort (sort),
+    KEY idx_attribute_required (required),
+    KEY idx_attribute_unambiguous (unambiguous),
+    KEY idx_attribute_searchable (searchable),
+    KEY idx_attribute_filterable (filterable),
+    KEY idx_attribute_sortable (sortable),
+    CONSTRAINT con_attribute_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS content;
@@ -76,32 +92,6 @@ CREATE TABLE IF NOT EXISTS entity (
     KEY idx_entity_toolbar (toolbar),
     KEY idx_entity_sort (sort),
     KEY idx_entity_system (system)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS meta;
-CREATE TABLE IF NOT EXISTS meta (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
-    entity_id VARCHAR(100) NOT NULL,
-    attribute_id VARCHAR(100) NOT NULL,
-    sort INTEGER(11) NOT NULL DEFAULT '0',
-    required BOOLEAN NOT NULL DEFAULT '0',
-    unambiguous BOOLEAN NOT NULL DEFAULT '0',
-    searchable BOOLEAN NOT NULL DEFAULT '0',
-    filterable BOOLEAN NOT NULL DEFAULT '0',
-    sortable BOOLEAN NOT NULL DEFAULT '0',
-    actions JSON DEFAULT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY uni_meta_attribute (entity_id,attribute_id),
-    KEY idx_meta_entity (entity_id),
-    KEY idx_meta_attribute (attribute_id),
-    KEY idx_meta_sort (sort),
-    KEY idx_meta_required (required),
-    KEY idx_meta_unambiguous (unambiguous),
-    KEY idx_meta_searchable (searchable),
-    KEY idx_meta_filterable (filterable),
-    KEY idx_meta_sortable (sortable),
-    CONSTRAINT con_meta_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT con_meta_attribute FOREIGN KEY (attribute_id) REFERENCES attribute (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS node;
@@ -191,7 +181,6 @@ INSERT INTO entity (id, name, type, actions, toolbar, sort, system) VALUES
 ('attribute', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', 'structure', 400, '1'),
 ('content', 'Content', 'flat', '[]', 'content', 0, '1'),
 ('entity', 'Entity', 'flat', '["create", "edit", "delete", "index"]', 'structure', 300, '1'),
-('meta', 'Metadata', 'flat', '["create", "edit", "delete", "index"]', 'structure', 500, '1'),
 ('project', 'Project', 'flat', '["create", "edit", "delete", "index"]', 'system', 100, '1'),
 ('rewrite', 'Rewrite', 'flat', '["create", "edit", "delete", "index"]', 'system', 400, '1'),
 ('role', 'Role', 'flat', '["create", "edit", "delete", "index"]', 'system', 300, '1'),

@@ -6,21 +6,21 @@ use PDO;
 /**
  * Size entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param array $options
  *
  * @return int
  */
-function node_size(string $entity, array $criteria = [], array $options = []): int
+function node_size(string $eId, array $criteria = [], array $options = []): int
 {
-    return flat_size($entity, $criteria, $options);
+    return flat_size($eId, $criteria, $options);
 }
 
 /**
  * Load entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param mixed $index
  * @param string[] $order
@@ -28,10 +28,10 @@ function node_size(string $entity, array $criteria = [], array $options = []): i
  *
  * @return array
  */
-function node_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
+function node_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
-    $meta = data('meta', $entity);
-    $attrs = $orderAttrs = $meta['attributes'];
+    $entity = data('entity', $eId);
+    $attrs = $orderAttrs = $entity['attributes'];
     $options = ['search' => $index === 'search', 'alias' => 'e'];
 
     // Order
@@ -101,18 +101,18 @@ function node_load(string $entity, array $criteria = [], $index = null, array $o
  */
 function node_create(array & $item): bool
 {
-    if (empty($item['_meta']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
+    if (empty($item['_entity']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
         return false;
     }
 
-    $meta = $item['_meta'];
-    $attrs = $meta['attributes'];
+    $entity = $item['_entity'];
+    $attrs = $entity['attributes'];
     $parts = explode(':', $item['position']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
     $item['basis'] = cast($attrs['id'], $parts[1]);
     $rootId = $item['root_id'];
 
-    if (empty($item['basis']) || !($basisItem = entity_load($meta['id'], ['id' => $item['basis']], false))) {
+    if (empty($item['basis']) || !($basisItem = entity_load($entity['id'], ['id' => $item['basis']], false))) {
         // No or wrong basis given so append node
         $stmt = db()->prepare('
             SELECT 
@@ -199,12 +199,12 @@ function node_create(array & $item): bool
  */
 function node_save(array & $item): bool
 {
-    if (empty($item['_meta']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
+    if (empty($item['_entity']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
         return false;
     }
 
-    $meta = $item['_meta'];
-    $attrs = $meta['attributes'];
+    $entity = $item['_entity'];
+    $attrs = $entity['attributes'];
     $parts = explode(':', $item['position']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
     $item['basis'] = cast($attrs['id'], $parts[1]);
@@ -231,7 +231,7 @@ function node_save(array & $item): bool
 
     // No change in position or wrong basis given
     if (!empty($item['basis']) && ($item['basis'] === $id
-            || !($basisItem = entity_load($meta['id'], ['id' => $item['basis']], false))
+            || !($basisItem = entity_load($entity['id'], ['id' => $item['basis']], false))
             || $lft < $basisItem['lft'] && $rgt > $basisItem['rgt'])
     ) {
         return true;
@@ -371,7 +371,7 @@ function node_save(array & $item): bool
  */
 function node_delete(array & $item): bool
 {
-    if (empty($item['_meta'])) {
+    if (empty($item['_entity'])) {
         return false;
     }
 

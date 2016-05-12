@@ -4,13 +4,13 @@ namespace qnd;
 /**
  * Size entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param array $options
  *
  * @return int
  */
-function joined_size(string $entity, array $criteria = [], array $options = []): int
+function joined_size(string $eId, array $criteria = [], array $options = []): int
 {
     return 0;
 }
@@ -18,7 +18,7 @@ function joined_size(string $entity, array $criteria = [], array $options = []):
 /**
  * Load entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param mixed $index
  * @param string[] $order
@@ -26,7 +26,7 @@ function joined_size(string $entity, array $criteria = [], array $options = []):
  *
  * @return array
  */
-function joined_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
+function joined_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
     return [];
 }

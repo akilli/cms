@@ -36,7 +36,7 @@ function validator(array $attr, array & $item): bool
  */
 function validator_default(array $attr, array & $item): bool
 {
-    return !meta_action('edit', $attr) && (empty($attr['required']) || !empty($item['_old']))
+    return !data_action('edit', $attr) && (empty($attr['required']) || !empty($item['_old']))
         || validator_unambiguous($attr, $item) && validator_required($attr, $item);
 }
 
@@ -74,33 +74,33 @@ function validator_unambiguous(array $attr, array & $item): bool
         return true;
     }
 
-    $entity = $item['_meta']['id'];
+    $eId = $item['_entity']['id'];
 
     // Existing values
-    if (!isset($data[$entity])) {
-        $data[$entity] = entity_load($entity, [], 'unambiguous');
+    if (!isset($data[$eId])) {
+        $data[$eId] = entity_load($eId, [], 'unambiguous');
 
-        if ($entity === 'entity' && ($ids = array_keys(data('meta')))
-            || $entity === 'attribute' && ($ids = array_keys(data('meta', 'content')['attributes']))
+        if ($eId === 'entity' && ($ids = array_keys(data('entity')))
+            || $eId === 'attribute' && ($ids = array_keys(data('entity', 'content')['attributes']))
         ) {
             $ids = array_combine($ids, $ids);
-            $data[$entity]['id'] = !empty($data[$entity]['id']) ? array_replace($data[$entity]['id'], $ids) : $ids;
+            $data[$eId]['id'] = !empty($data[$eId]['id']) ? array_replace($data[$eId]['id'], $ids) : $ids;
         }
     }
 
-    if (!isset($data[$entity][$attr['id']])) {
-        $data[$entity][$attr['id']] = [];
+    if (!isset($data[$eId][$attr['id']])) {
+        $data[$eId][$attr['id']] = [];
     }
 
     // Generate unambiguous value
     if ($attr['generator'] === 'id') {
-        $base = meta_action('edit', $attr) ? $attr['id'] : 'name';
+        $base = data_action('edit', $attr) ? $attr['id'] : 'name';
 
         if (empty($item[$base]) && !$item[$base]) {
             return false;
         }
 
-        $item[$attr['id']] = generator_id($item[$base], $data[$entity][$attr['id']], $item['_id']);
+        $item[$attr['id']] = generator_id($item[$base], $data[$eId][$attr['id']], $item['_id']);
         return true;
     }
 
@@ -110,12 +110,12 @@ function validator_unambiguous(array $attr, array & $item): bool
     }
 
     if (!empty($item[$attr['id']])
-        && (array_search($item[$attr['id']], $data[$entity][$attr['id']]) === $item['_id']
-            || !in_array($item[$attr['id']], $data[$entity][$attr['id']])
+        && (array_search($item[$attr['id']], $data[$eId][$attr['id']]) === $item['_id']
+            || !in_array($item[$attr['id']], $data[$eId][$attr['id']])
         )
     ) {
         // Provided value is unambiguous
-        $data[$entity][$attr['id']][$item['_id']] = $item[$attr['id']];
+        $data[$eId][$attr['id']][$item['_id']] = $item[$attr['id']];
         return true;
     }
 

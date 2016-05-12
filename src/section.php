@@ -58,7 +58,7 @@ function section_container(array & $section): string
  */
 function section_entity(array & $section): string
 {
-    if (empty($section['vars']['entity']) || !($meta = data('meta', $section['vars']['entity']))) {
+    if (empty($section['vars']['entity']) || !($entity = data('entity', $section['vars']['entity']))) {
         return '';
     }
 
@@ -73,7 +73,7 @@ function section_entity(array & $section): string
         $section['vars']['order'],
         $section['vars']['limit']
     );
-    $section['vars']['header'] = _($meta['name']);
+    $section['vars']['header'] = _($entity['name']);
 
     return section_template($section);
 }

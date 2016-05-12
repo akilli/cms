@@ -4,20 +4,20 @@ namespace qnd;
 /**
  * Size entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param array $options
  *
  * @return int
  */
-function flat_size(string $entity, array $criteria = [], array $options = []): int
+function flat_size(string $eId, array $criteria = [], array $options = []): int
 {
-    $meta = data('meta', $entity);
+    $entity = data('entity', $eId);
 
     $stmt = prep(
         'SELECT COUNT(*) AS total FROM %s %s',
-        $meta['table'],
-        where($criteria, $meta['attributes'], $options)
+        $entity['table'],
+        where($criteria, $entity['attributes'], $options)
     );
     $stmt->execute();
 
@@ -27,7 +27,7 @@ function flat_size(string $entity, array $criteria = [], array $options = []): i
 /**
  * Load entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param mixed $index
  * @param string[] $order
@@ -35,16 +35,17 @@ function flat_size(string $entity, array $criteria = [], array $options = []): i
  *
  * @return array
  */
-function flat_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
+function flat_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
-    $meta = data('meta', $entity);
+    $entity = data('entity', $eId);
+    $attrs = $entity['attributes'];
     $options = ['search' => $index === 'search'];
 
     $stmt = db()->prepare(
-        select($meta['attributes'])
-        . from($meta['table'])
-        . where($criteria, $meta['attributes'], $options)
-        . order($order, $meta['attributes'])
+        select($attrs)
+        . from($entity['table'])
+        . where($criteria, $attrs, $options)
+        . order($order, $attrs)
         . limit($limit)
     );
     $stmt->execute();
@@ -61,17 +62,17 @@ function flat_load(string $entity, array $criteria = [], $index = null, array $o
  */
 function flat_create(array & $item): bool
 {
-    if (empty($item['_meta'])) {
+    if (empty($item['_entity'])) {
         return false;
     }
 
-    $meta = $item['_meta'];
-    $attrs = $meta['attributes'];
+    $entity = $item['_entity'];
+    $attrs = $entity['attributes'];
     $cols = cols($attrs, $item);
 
     $stmt = prep(
         'INSERT INTO %s (%s) VALUES (%s)',
-        $meta['table'],
+        $entity['table'],
         implode(', ', $cols['col']),
         implode(', ', $cols['param'])
     );
@@ -99,17 +100,17 @@ function flat_create(array & $item): bool
  */
 function flat_save(array & $item): bool
 {
-    if (empty($item['_meta'])) {
+    if (empty($item['_entity'])) {
         return false;
     }
 
-    $meta = $item['_meta'];
-    $attrs = $meta['attributes'];
+    $entity = $item['_entity'];
+    $attrs = $entity['attributes'];
     $cols = cols($attrs, $item);
 
     $stmt = prep(
         'UPDATE %s SET %s WHERE %s = :_id',
-        $meta['table'],
+        $entity['table'],
         implode(', ', $cols['set']),
         $attrs['id']['column']
     );
@@ -133,16 +134,16 @@ function flat_save(array & $item): bool
  */
 function flat_delete(array & $item): bool
 {
-    if (empty($item['_meta'])) {
+    if (empty($item['_entity'])) {
         return false;
     }
 
-    $meta = $item['_meta'];
-    $attrs = $meta['attributes'];
+    $entity = $item['_entity'];
+    $attrs = $entity['attributes'];
 
     $stmt = prep(
         'DELETE FROM %s WHERE %s = :id',
-        $meta['table'],
+        $entity['table'],
         $attrs['id']['column']
     );
     $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));

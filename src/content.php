@@ -4,15 +4,15 @@ namespace qnd;
 /**
  * Size entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param array $options
  *
  * @return int
  */
-function content_size(string $entity, array $criteria = [], array $options = []): int
+function content_size(string $eId, array $criteria = [], array $options = []): int
 {
-    $criteria['entity_id'] = $entity;
+    $criteria['entity_id'] = $eId;
 
     return flat_size('content', $criteria, $options);
 }
@@ -20,7 +20,7 @@ function content_size(string $entity, array $criteria = [], array $options = [])
 /**
  * Load entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param mixed $index
  * @param string[] $order
@@ -28,11 +28,11 @@ function content_size(string $entity, array $criteria = [], array $options = [])
  *
  * @return array
  */
-function content_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
+function content_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
-    $criteria['entity_id'] = $entity;
+    $criteria['entity_id'] = $eId;
 
-    return flat_load($entity, $criteria, $index, $order, $limit);
+    return flat_load($eId, $criteria, $index, $order, $limit);
 }
 
 /**
@@ -44,7 +44,7 @@ function content_load(string $entity, array $criteria = [], $index = null, array
  */
 function content_create(array & $item): bool
 {
-    $item['entity_id'] = $item['_meta']['id'];
+    $item['entity_id'] = $item['_entity']['id'];
 
     return flat_create($item);
 }
@@ -58,7 +58,7 @@ function content_create(array & $item): bool
  */
 function content_save(array & $item): bool
 {
-    $item['entity_id'] = $item['_meta']['id'];
+    $item['entity_id'] = $item['_entity']['id'];
 
     return flat_save($item);
 }
@@ -72,5 +72,5 @@ function content_save(array & $item): bool
  */
 function content_delete(array $item): bool
 {
-    return !empty($item['_meta']['id']) && $item['_meta']['id'] === $item['entity_id'] && flat_delete($item);
+    return !empty($item['_entity']['id']) && $item['_entity']['id'] === $item['entity_id'] && flat_delete($item);
 }

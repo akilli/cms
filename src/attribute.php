@@ -79,7 +79,7 @@ function ignorable(array $attr, array $item): bool
  */
 function editable(array & $attr, array $item): bool
 {
-    if (!meta_action('edit', $attr)) {
+    if (!data_action('edit', $attr)) {
         return false;
     }
 
@@ -101,5 +101,5 @@ function editable(array & $attr, array $item): bool
  */
 function viewable(array & $attr): bool
 {
-    return $attr['action'] && meta_action($attr['action'], $attr);
+    return $attr['action'] && data_action($attr['action'], $attr);
 }

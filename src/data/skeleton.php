@@ -6,6 +6,7 @@ return [
         'column' => null,
         'virtual' => false,
         'generator' => null,
+        'entity_id' => null,
         'sort' => null,
         'type' => null,
         'backend' => null,

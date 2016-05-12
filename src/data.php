@@ -1,6 +1,8 @@
 <?php
 namespace qnd;
 
+use RuntimeException;
+
 /**
  * Data
  *
@@ -161,4 +163,158 @@ function data_limit(array $data, $limit = null): array
     $limit = $isArray && !empty($limit[0]) ? (int) $limit[0] : (int) $limit;
 
     return $limit > 0 ? array_slice($data, $offset, $limit, true) : $data;
+}
+
+/**
+ * Entity data
+ *
+ * @param array $data
+ *
+ * @return array
+ *
+ * @throws RuntimeException
+ */
+function data_entity(array $data): array
+{
+    // Check minimum requirements
+    if (empty($data['id']) || empty($data['name']) || empty($data['attributes'])) {
+        throw new RuntimeException(_('Entity data does not meet the minimum requirements'));
+    }
+
+    // Clean up
+    foreach (array_keys($data) as $key) {
+        if (strpos($key, '_') === 0) {
+            unset($data[$key]);
+        }
+    }
+
+    $data = array_replace_recursive(data('skeleton', 'entity'), $data);
+     // Set table name from ID if it is not set already
+    $data['table'] = $data['table'] ?: $data['id'];
+    // Attributes
+    $sort = 0;
+
+    foreach ($data['attributes'] as $id => $attr) {
+        $attr['id'] = $id;
+        $attr['entity_id'] = $data['id'];
+        $attr = data_attribute($attr);
+
+        if (!is_numeric($attr['sort'])) {
+            $attr['sort'] = $sort;
+            $sort += 100;
+        }
+
+        $data['attributes'][$id] = $attr;
+    }
+
+    return $data;
+}
+
+/**
+ * Attribute data
+ *
+ * @param array $data
+ *
+ * @return array
+ *
+ * @throws RuntimeException
+ */
+function data_attribute(array $data): array
+{
+    // Check minimum requirements
+    if (empty($data['id']) || empty($data['name']) || empty($data['type'])) {
+        throw new RuntimeException(_('Attribute data does not meet the minimum requirements'));
+    }
+
+    // Clean up
+    foreach (array_keys($data) as $key) {
+        if (strpos($key, '_') === 0) {
+            unset($data[$key]);
+        }
+    }
+
+    // Type, Backend, Frontend
+    $type = data('attribute', $data['type']);
+
+    if (!$type || empty($type['backend']) || empty($type['frontend'])) {
+        throw new RuntimeException(_('Invalid type %s configured for attribute %s', $data['type'], $data['id']));
+    }
+
+    $data = array_replace(data('skeleton', 'attribute'), $type, $data);
+
+    // Column
+    if (!empty($data['virtual'])) {
+        $data['column'] = null;
+    } elseif (empty($data['column'])) {
+        $data['column'] = $data['id'];
+    }
+
+    // Correct invalid values
+    $data['required'] = empty($data['nullable']) && $data['required'];
+    $data['unambiguous'] = !in_array($data['backend'], ['bool', 'text']) && $data['unambiguous'];
+    $data['multiple'] = in_array($data['type'], ['multicheckbox', 'multiselect']);
+
+    return $data;
+}
+
+/**
+ * Check wheter entity or attribute supports at least one of provided actions
+ *
+ * @param string|array $action
+ * @param array $data
+ *
+ * @return bool
+ */
+function data_action($action, array $data): bool
+{
+    if (empty($data['actions']) || !is_array($data['actions']) && !($data['actions'] = json_decode($data['actions'], true))) {
+        // No actions supported
+        return false;
+    } elseif (in_array('all', $data['actions']) && ($action !== 'edit' || empty($data['generator']) || $data['generator'] !== 'auto')) {
+        // All actions supported
+        return true;
+    }
+
+    foreach ((array) $action as $key) {
+        if (in_array($key, $data['actions']) && ($key !== 'edit' || empty($data['generator']) || $data['generator'] !== 'auto')) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Retrieve empty entity
+ *
+ * @param string $eId
+ * @param int $number
+ * @param bool $bare
+ *
+ * @return array
+ */
+function skeleton(string $eId, int $number = null, bool $bare = false): array
+{
+    $entity = data('entity', $eId);
+    $item = [];
+
+    foreach ($entity['attributes'] as $code => $attr) {
+        if (data_action('edit', $attr)) {
+            $item[$code] = null;
+        }
+    }
+
+    $item += $bare ? [] : ['_old' => null, '_entity' => $entity, '_id' => null];
+
+    if ($number === null) {
+        return $item;
+    }
+
+    $data = array_fill_keys(range(-1, -1 * max(1, (int) $number)), $item);
+
+    foreach ($data as $key => $value) {
+        $data[$key]['_id'] = $key;
+    }
+
+    return $data;
 }

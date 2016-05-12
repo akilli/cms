@@ -13,11 +13,11 @@ use RuntimeException;
  */
 function entity_validate(array & $item): bool
 {
-    if (empty($item['_meta'])) {
+    if (empty($item['_entity'])) {
         return false;
     }
 
-    foreach ($item['_meta']['attributes'] as $attr) {
+    foreach ($item['_entity']['attributes'] as $attr) {
         if (!validator($attr, $item)) {
             $error = true;
         }
@@ -29,19 +29,19 @@ function entity_validate(array & $item): bool
 /**
  * Size entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param array $options
  *
  * @return int
  */
-function entity_size(string $entity, array $criteria = [], array $options = []): int
+function entity_size(string $eId, array $criteria = [], array $options = []): int
 {
-    $meta = data('meta', $entity);
-    $callback = fqn($meta['type'] . '_size');
+    $entity = data('entity', $eId);
+    $callback = fqn($entity['type'] . '_size');
 
     try {
-        return $callback($entity, $criteria, $options);
+        return $callback($eId, $criteria, $options);
     } catch (Exception $e) {
         error($e);
         message(_('Data could not be loaded'));
@@ -55,7 +55,7 @@ function entity_size(string $entity, array $criteria = [], array $options = []):
  *
  * By default it will load a collection, unless $index is explicitly set to (bool) false.
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param mixed $index
  * @param string[] $order
@@ -63,36 +63,36 @@ function entity_size(string $entity, array $criteria = [], array $options = []):
  *
  * @return array
  */
-function entity_load(string $entity, array $criteria = [], $index = null, array $order = [], array $limit = []): array
+function entity_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
-    $meta = data('meta', $entity);
-    $callback = fqn($meta['type'] . '_load');
+    $entity = data('entity', $eId);
+    $callback = fqn($entity['type'] . '_load');
     $single = $index === false;
     $data = [];
 
     try {
-        $result = $callback($entity, $criteria, $index, $order, $limit);
+        $result = $callback($eId, $criteria, $index, $order, $limit);
 
         if (!$index
             || $index === 'search'
-            || !is_array($index) && empty($meta['attributes'][$index]) && $index !== 'unambiguous'
+            || !is_array($index) && empty($entity['attributes'][$index]) && $index !== 'unambiguous'
         ) {
             $index = 'id';
         }
 
         foreach ($result as $item) {
             foreach ($item as $code => $value) {
-                if (isset($meta['attributes'][$code])) {
-                    $item[$code] = loader($meta['attributes'][$code], $item);
+                if (isset($entity['attributes'][$code])) {
+                    $item[$code] = loader($entity['attributes'][$code], $item);
                 }
             }
 
             $item['name'] = !isset($item['name']) ? $item['id'] : $item['name'];
             $item['_old'] = $item;
-            $item['_meta'] = empty($item['_meta']) ? $meta : $item['_meta'];
+            $item['_entity'] = empty($item['_entity']) ? $entity : $item['_entity'];
             $item['_id'] = $item['id'];
 
-            event(['entity.load', 'entity.' . $meta['type'] . '.load', 'entity.load.' . $entity], $item);
+            event(['entity.load', 'entity.' . $entity['type'] . '.load', 'entity.load.' . $eId], $item);
 
             if ($single) {
                 return $item;
@@ -100,7 +100,7 @@ function entity_load(string $entity, array $criteria = [], $index = null, array 
 
             if ($index === 'unambiguous') {
                 foreach ($item as $code => $value) {
-                    if (!empty($meta['attributes'][$code]['unambiguous'])) {
+                    if (!empty($entity['attributes'][$code]['unambiguous'])) {
                         $data[$code][$item['id']] = $value;
                     }
                 }
@@ -126,23 +126,23 @@ function entity_load(string $entity, array $criteria = [], $index = null, array 
 /**
  * Save entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $data
  *
  * @return bool
  */
-function entity_save(string $entity, array & $data): bool
+function entity_save(string $eId, array & $data): bool
 {
-    $original = entity_load($entity, ['id' => array_keys($data)]);
-    $skeleton = meta_skeleton($entity);
-    $editable = meta_skeleton($entity, null, true);
+    $original = entity_load($eId, ['id' => array_keys($data)]);
+    $skeleton = skeleton($eId);
+    $editable = skeleton($eId, null, true);
 
     foreach ($data as $id => $item) {
         $item['_id'] = $id;
         $base = empty($original[$id]) ? $skeleton : $original[$id];
         $item = array_replace($base, $editable, $item);
         $data[$id] = $item;
-        $callback = fqn($item['_meta']['type'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
+        $callback = fqn($item['_entity']['type'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
         $item['modifier'] = user('id');
 
         if (empty($original[$id])) {
@@ -151,7 +151,7 @@ function entity_save(string $entity, array & $data): bool
 
         if (empty($item['_old']) && !empty($original[$id])) {
             $item['_old'] = $original[$id];
-            unset($item['_old']['_id'], $item['_old']['_meta'], $item['_old']['_old']);
+            unset($item['_old']['_id'], $item['_old']['_entity'], $item['_old']['_old']);
         }
 
         if (!entity_validate($item)) {
@@ -164,11 +164,11 @@ function entity_save(string $entity, array & $data): bool
         }
 
         foreach (array_keys($item) as $code) {
-            if (!isset($item['_meta']['attributes'][$code])) {
+            if (!isset($item['_entity']['attributes'][$code])) {
                 continue;
             }
 
-            if (!saver($item['_meta']['attributes'][$code], $item)) {
+            if (!saver($item['_entity']['attributes'][$code], $item)) {
                 if (!empty($item['_error'])) {
                     $data[$id]['_error'] = $item['_error'];
                 }
@@ -179,14 +179,14 @@ function entity_save(string $entity, array & $data): bool
         }
 
         $success = trans(
-            function () use ($entity, & $item, $callback) {
-                event(['entity.preSave', 'entity.' . $item['_meta']['type'] . '.preSave', 'entity.preSave.' . $entity], $item);
+            function () use ($eId, & $item, $callback) {
+                event(['entity.preSave', 'entity.' . $item['_entity']['type'] . '.preSave', 'entity.preSave.' . $eId], $item);
 
                 if (!$callback($item)) {
                     throw new RuntimeException(_('Data could not be saved'));
                 }
 
-                event(['entity.postSave', 'entity.' . $item['_meta']['type'] . '.postSave', 'entity.postSave.' . $entity], $item);
+                event(['entity.postSave', 'entity.' . $item['_entity']['type'] . '.postSave', 'entity.postSave.' . $eId], $item);
             }
         );
 
@@ -205,19 +205,19 @@ function entity_save(string $entity, array & $data): bool
 /**
  * Delete entity
  *
- * @param string $entity
+ * @param string $eId
  * @param array $criteria
  * @param mixed $index
  * @param bool $system
  *
  * @return bool
  */
-function entity_delete(string $entity, array $criteria = [], $index = null, bool $system = false): bool
+function entity_delete(string $eId, array $criteria = [], $index = null, bool $system = false): bool
 {
-    $meta = data('meta', $entity);
-    $callback = fqn($meta['type'] . '_delete');
+    $entity = data('entity', $eId);
+    $callback = fqn($entity['type'] . '_delete');
 
-    if (!$data = entity_load($entity, $criteria, $index)) {
+    if (!$data = entity_load($eId, $criteria, $index)) {
         return false;
     }
 
@@ -233,7 +233,7 @@ function entity_delete(string $entity, array $criteria = [], $index = null, bool
         }
 
         foreach (array_keys($item) as $code) {
-            if (isset($meta['attributes'][$code]) && !deleter($meta['attributes'][$code], $item)) {
+            if (isset($entity['attributes'][$code]) && !deleter($entity['attributes'][$code], $item)) {
                 if (!empty($item['_error'][$code])) {
                     message($item['_error'][$code]);
                 }
@@ -244,14 +244,14 @@ function entity_delete(string $entity, array $criteria = [], $index = null, bool
         }
 
         $success = trans(
-            function () use ($entity, & $item, $callback, $meta) {
-                event(['entity.preDelete', 'entity.' . $meta['type'] . '.preDelete', 'entity.preDelete.' . $entity], $item);
+            function () use ($eId, & $item, $callback, $entity) {
+                event(['entity.preDelete', 'entity.' . $entity['type'] . '.preDelete', 'entity.preDelete.' . $eId], $item);
 
                 if (!$callback($item)) {
                     throw new RuntimeException(_('Data could not be deleted'));
                 }
 
-                event(['entity.postDelete', 'entity.' . $meta['type'] . '.postDelete', 'entity.postDelete.' . $entity], $item);
+                event(['entity.postDelete', 'entity.' . $entity['type'] . '.postDelete', 'entity.postDelete.' . $eId], $item);
             }
         );
 

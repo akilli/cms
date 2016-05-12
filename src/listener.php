@@ -26,43 +26,31 @@ function listener_config(array & $data)
 }
 
 /**
- * Meta data listener
+ * Entity data listener
  *
  * @param array $data
  *
  * @return void
  */
-function listener_data_meta(array & $data)
+function listener_data_entity(array & $data)
 {
     foreach ($data as $id => $item) {
         if (empty($item['id'])) {
             continue;
         }
 
-        $item = meta_entity($item);
+        $item = data_entity($item);
         $item['attributes'] = data_order($item['attributes'], 'sort');
         $data[$id] = $item;
     }
 
-    $meta = entity_load('meta', [], ['entity_id', 'attribute_id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
-    $attrs = entity_load('attribute');
+    $attrs = entity_load('attribute', [], ['entity_id', 'id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
 
-    foreach (entity_load('entity') as $id => $item) {
-        if (in_array($item['type'], ['flat', 'node'])) {
-            continue;
-        }
-
+    foreach (entity_load('entity', ['type' => ['content', 'eav', 'joined']]) as $id => $item) {
         $item = array_replace($data['content'], $item);
 
-        if ($item['type'] === 'eav' && !empty($meta[$id])) {
-            foreach ($meta[$id] as $code => $attr) {
-                if (empty($attrs[$code])) {
-                    continue;
-                }
-
-                $attr = array_replace($attr, $attrs[$code]);
-                unset($attr['attribute_id']);
-
+        if ($item['type'] === 'eav' && !empty($attrs[$id])) {
+            foreach ($attrs[$id] as $code => $attr) {
                 if (empty($item['attributes'][$code])) {
                     $attr['column'] = 'value';
                     $item['attributes'][$code] = $attr;
@@ -70,7 +58,7 @@ function listener_data_meta(array & $data)
             }
         }
 
-        $item = meta_entity($item);
+        $item = data_entity($item);
         $item['attributes'] = data_order($item['attributes'], 'sort');
         $data[$id] = $item;
     }
@@ -85,19 +73,18 @@ function listener_data_meta(array & $data)
  */
 function listener_data_privilege(array & $data)
 {
-    $meta = data('meta');
     $config = config('action.entity');
     unset($config['all']);
 
-    foreach ($meta as $entity => $item) {
-        $actions = in_array('all', $item['actions']) ? $config : $item['actions'];
+    foreach (data('entity') as $eId => $entity) {
+        $actions = in_array('all', $entity['actions']) ? $config : $entity['actions'];
 
         if (!$actions) {
             continue;
         }
 
-        $data[$entity . '.all'] = [
-            'name' => $item['name'],
+        $data[$eId . '.all'] = [
+            'name' => $entity['name'],
             'active' => true,
             'sort' => 1000,
             'class' => ['group'],
@@ -105,8 +92,8 @@ function listener_data_privilege(array & $data)
 
         foreach ($actions as $action) {
             if (in_array($action, $config)) {
-                $data[$entity . '.' . $action] = [
-                    'name' => $item['name'] . ' ' . ucwords($action),
+                $data[$eId . '.' . $action] = [
+                    'name' => $entity['name'] . ' ' . ucwords($action),
                     'active' => true,
                     'sort' => 1000,
                 ];
@@ -124,12 +111,12 @@ function listener_data_privilege(array & $data)
  */
 function listener_data_toolbar(array & $data)
 {
-    foreach (data('meta') as $entity => $meta) {
-        if (meta_action('index', $meta) && !empty($meta['toolbar']) && !empty($data[$meta['toolbar']])) {
-            $data[$meta['toolbar']]['children'][$entity]['name'] = $meta['name'];
-            $data[$meta['toolbar']]['children'][$entity]['url'] = $entity . '/index';
-            $data[$meta['toolbar']]['children'][$entity]['privilege'] = $entity . '.index';
-            $data[$meta['toolbar']]['children'][$entity]['sort'] = (int) $meta['sort'];
+    foreach (data('entity') as $eId => $entity) {
+        if (data_action('index', $entity) && !empty($entity['toolbar']) && !empty($data[$entity['toolbar']])) {
+            $data[$entity['toolbar']]['children'][$eId]['name'] = $entity['name'];
+            $data[$entity['toolbar']]['children'][$eId]['url'] = $eId . '/index';
+            $data[$entity['toolbar']]['children'][$eId]['privilege'] = $eId . '.index';
+            $data[$entity['toolbar']]['children'][$eId]['sort'] = (int) $entity['sort'];
         }
     }
 
@@ -147,7 +134,7 @@ function listener_data_toolbar(array & $data)
  */
 function listener_entity_eav(array & $data)
 {
-    $data['_meta'] = data('meta', $data['entity_id']);
+    $data['_entity'] = data('entity', $data['entity_id']);
 }
 
 /**
@@ -159,12 +146,12 @@ function listener_entity_eav(array & $data)
  */
 function listener_entity_save(array & $data)
 {
-    if ($data['_meta']['id'] === 'entity' && !empty($data['_old'])) {
+    if ($data['_entity']['id'] === 'entity' && !empty($data['_old'])) {
         $criteria = ['target' => $data['_old']['id'] . '/view/id/'];
 
-        if (!meta_action('view', $data)) {
+        if (!data_action('view', $data)) {
             entity_delete('rewrite', $criteria, 'search', true);
-        } elseif (meta_action('view', $data)
+        } elseif (data_action('view', $data)
             && $data['id'] !== $data['_old']['id']
             && ($rewrites = entity_load('rewrite', $criteria, 'search'))
         ) {
@@ -180,8 +167,8 @@ function listener_entity_save(array & $data)
         }
     }
 
-    if ($data['_meta']['id'] !== 'rewrite' && meta_action('view', $data['_meta'])) {
-        $target = $data['_meta']['id'] . '/view/id/' . $data['id'];
+    if ($data['_entity']['id'] !== 'rewrite' && data_action('view', $data['_entity'])) {
+        $target = $data['_entity']['id'] . '/view/id/' . $data['id'];
         $rewrite = ['id' => $data['name'], 'target' => $target, 'system' => true];
         $old = entity_load('rewrite', ['target' => $target, 'system' => true], false);
         $rewrites = $old ? [$old['id'] => $rewrite] : [-1 => $rewrite];
@@ -198,9 +185,9 @@ function listener_entity_save(array & $data)
  */
 function listener_entity_delete(array & $data)
 {
-    if ($data['_meta']['id'] === 'entity') {
+    if ($data['_entity']['id'] === 'entity') {
         entity_delete('rewrite', ['target' => $data['id'] . '/view/id/'], 'search', true);
     }
 
-    entity_delete('rewrite', ['target' => $data['_meta']['id'] . '/view/id/' . $data['id']], null, true);
+    entity_delete('rewrite', ['target' => $data['_entity']['id'] . '/view/id/' . $data['id']], null, true);
 }
