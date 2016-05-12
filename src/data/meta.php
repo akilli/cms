@@ -93,6 +93,7 @@ return [
             ],
             'created' => [
                 'name' => 'Created',
+                'generator' => 'auto',
                 'type' => 'datetime',
             ],
             'creator' => [
@@ -103,6 +104,7 @@ return [
             ],
             'modified' => [
                 'name' => 'Modified',
+                'generator' => 'auto',
                 'type' => 'datetime',
             ],
             'modifier' => [

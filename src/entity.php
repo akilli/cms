@@ -143,11 +143,9 @@ function entity_save(string $entity, array & $data): bool
         $item = array_replace($base, $editable, $item);
         $data[$id] = $item;
         $callback = fqn($item['_meta']['type'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
-        $item['modified'] = date_format(date_create('now'), 'Y-m-d H:i:s');
         $item['modifier'] = user('id');
 
         if (empty($original[$id])) {
-            $item['created'] = $item['modified'];
             $item['creator'] = $item['modifier'];
         }
 
