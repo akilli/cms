@@ -190,22 +190,6 @@ function from(string $table, string $alias = null): string
 }
 
 /**
- * JOIN part
- *
- * @param string $table
- * @param string $alias
- * @param array $cols
- *
- * @return string
- */
-function join(string $table, string $alias, array $cols): string
-{
-    $cond = stringify(' AND ', $cols, ['keys' => true, 'sep' => ' = ']);
-
-    return $cond ? ' INNER JOIN ' . $table . ' ' . $alias . ' ON ' . $cond : '';
-}
-
-/**
  * WHERE part
  *
  * @param array $criteria

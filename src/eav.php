@@ -29,20 +29,20 @@ function eav_size(string $entity, array $criteria = [], array $options = []): in
             $alias = qi($code);
             $attrs[$code]['column'] = $alias . '.' . $attr['column'];
             $params[$code] = ':' . str_replace('-', '_', $code);
-            $joins[$code] = ' LEFT JOIN ' . $valMeta['table'] . ' ' . $alias . ' ON '
-                . $alias . '.' . $valMeta['attributes']['content_id']['column']
-                . ' = e.' . $meta['attributes']['id']['column'] . ' AND '
-                . $alias . '.' . $valMeta['attributes']['attribute_id']['column'] . ' = ' . $params[$code];
+            $joins[$code] = sprintf(
+                'LEFT JOIN eav %1$s ON %1$s.content_id = e.id AND %1$s.attribute_id = %2$s',
+                $alias,
+                $params[$code]
+            );
         } else {
             $attrs[$code]['column'] = 'e.' . $attr['column'];
         }
     }
 
-    $stmt = db()->prepare(
-        'SELECT COUNT(*) as total'
-        . from($meta['table'], 'e')
-        . (!empty($joins) ? implode(' ', $joins) : '')
-        . where($criteria, $attrs, $options)
+    $stmt = prep(
+        'SELECT COUNT(*) as total FROM content e %s %s',
+        implode(' ', $joins),
+        where($criteria, $attrs, $options)
     );
 
     foreach ($params as $code => $param) {
@@ -87,10 +87,11 @@ function eav_load(string $entity, array $criteria = [], $index = null, array $or
             $alias = qi($code);
             $attrs[$code]['column'] = $alias . '.' . $attr['column'];
             $params[$code] = ':' . str_replace('-', '_', $code);
-            $joins[$code] = ' LEFT JOIN ' . $valMeta['table'] . ' ' . $alias . ' ON '
-                . $alias . '.' . $valMeta['attributes']['content_id']['column']
-                . ' = e.' . $meta['attributes']['id']['column'] . ' AND '
-                . $alias . '.' . $valMeta['attributes']['attribute_id']['column'] . ' = ' . $params[$code];
+            $joins[$code] = sprintf(
+                'LEFT JOIN eav %1$s ON %1$s.content_id = e.id AND %1$s.attribute_id = %2$s',
+                $alias,
+                $params[$code]
+            );
         } else {
             $attrs[$code]['column'] = 'e.' . $attr['column'];
         }
@@ -99,7 +100,7 @@ function eav_load(string $entity, array $criteria = [], $index = null, array $or
     $stmt = db()->prepare(
         select($attrs)
         . from($meta['table'], 'e')
-        . (!empty($joins) ? implode(' ', $joins) : '')
+        . (!empty($joins) ? ' ' . implode(' ', $joins) : '')
         . where($criteria, $attrs, $options)
         . order($order, $attrs)
         . limit($limit)
