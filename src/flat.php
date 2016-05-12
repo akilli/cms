@@ -69,9 +69,11 @@ function flat_create(array & $item): bool
     $attrs = $meta['attributes'];
     $cols = cols($attrs, $item);
 
-    $stmt = db()->prepare(
-        'INSERT INTO ' . $meta['table']
-        . ' (' . implode(', ', $cols['col']) . ') VALUES (' . implode(', ', $cols['param']) . ')'
+    $stmt = prep(
+        'INSERT INTO %s (%s) VALUES (%s)',
+        $meta['table'],
+        implode(', ', $cols['col']),
+        implode(', ', $cols['param'])
     );
 
     foreach ($cols['param'] as $code => $param) {
@@ -102,19 +104,21 @@ function flat_save(array & $item): bool
     }
 
     $meta = $item['_meta'];
-    $cols = cols($meta['attributes'], $item);
+    $attrs = $meta['attributes'];
+    $cols = cols($attrs, $item);
 
-    $stmt = db()->prepare(
-        'UPDATE ' . $meta['table']
-        . ' SET ' . implode(', ', $cols['set'])
-        . ' WHERE ' . $meta['attributes']['id']['column'] . '  = :_id'
+    $stmt = prep(
+        'UPDATE %s SET %s WHERE %s = :_id',
+        $meta['table'],
+        implode(', ', $cols['set']),
+        $attrs['id']['column']
     );
 
     foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($meta['attributes'][$code], $item[$code]));
+        $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
 
-    $stmt->bindValue(':_id', $item['_old']['id'], db_type($meta['attributes']['id'], $item['_old']['id']));
+    $stmt->bindValue(':_id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
     $stmt->execute();
 
     return true;
@@ -134,11 +138,14 @@ function flat_delete(array & $item): bool
     }
 
     $meta = $item['_meta'];
+    $attrs = $meta['attributes'];
 
-    $stmt = db()->prepare(
-        'DELETE FROM ' . $meta['table'] . ' WHERE ' . $meta['attributes']['id']['column'] . '  = :id'
+    $stmt = prep(
+        'DELETE FROM %s WHERE %s = :id',
+        $meta['table'],
+        $attrs['id']['column']
     );
-    $stmt->bindValue(':id', $item['_old']['id'], db_type($meta['attributes']['id'], $item['_old']['id']));
+    $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
     $stmt->execute();
 
     return true;
