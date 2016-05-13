@@ -32,16 +32,18 @@ function node_load(string $eId, array $criteria = [], $index = null, array $orde
 {
     $entity = data('entity', $eId);
     $attrs = $orderAttrs = $entity['attributes'];
+    $order = $order ?: ['root_id' => 'ASC', 'lft' => 'ASC'];
     $options = ['search' => $index === 'search', 'alias' => 'e'];
+    $having = [];
 
-    // Order
-    if (empty($order)) {
-        $order = ['root_id' => 'ASC', 'lft' => 'ASC'];
+    foreach (['position', 'level', 'parent_id'] as $a) {
+        $orderAttrs[$a]['column'] =  $a;
+
+        if (!empty($criteria[$a])) {
+            $having[$a] = $criteria[$a];
+            unset($criteria[$a]);
+        }
     }
-
-    $orderAttrs['position']['column'] =  'position';
-    $orderAttrs['level']['column'] =  'level';
-    $orderAttrs['parent_id']['column'] =  'parent_id';
 
     $stmt = prep(
         "
@@ -84,6 +86,7 @@ function node_load(string $eId, array $criteria = [], $index = null, array $orde
         %s
         ",
         where($criteria, $attrs, $options),
+        having($having, $attrs, $options),
         order($order, $orderAttrs),
         limit($limit)
     );
