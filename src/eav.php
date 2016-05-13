@@ -15,33 +15,37 @@ use PDO;
 function eav_size(string $eId, array $criteria = [], array $options = []): int
 {
     $entity = data('entity', $eId);
-    $conMeta = data('entity', 'content');
     $attrs = $entity['attributes'];
-    $valAttrs = array_diff_key($attrs, $conMeta['attributes']);
-    $joins = $params = [];
+    $conAttrs = data('entity', 'content')['attributes'];
+    $valAttrs = array_diff_key($attrs, $conAttrs);
     $criteria['entity_id'] = $entity['id'];
+    $list = [];
+    $params = [];
 
     foreach ($attrs as $code => $attr) {
-        if (empty($attr['column'])) {
+        if (empty($attr['column']) || empty($valAttrs[$code]) || empty($criteria[$code])) {
             continue;
-        } elseif (!empty($valAttrs[$code])) {
-            $alias = '_' . $code;
-            $attrs[$code]['column'] = $alias . '.' . $attr['column'];
-            $params[$code] = ':' . str_replace('-', '_', $code);
-            $joins[$code] = sprintf(
-                'LEFT JOIN eav %1$s ON %1$s.content_id = e.id AND %1$s.attribute_id = %2$s',
-                $alias,
-                $params[$code]
-            );
-        } else {
-            $attrs[$code]['column'] = 'e.' . $attr['column'];
         }
+
+        $val = array_map(
+            function ($v) use ($attr) {
+                return qv($v, $attr['backend']);
+            },
+            (array) $criteria[$code]
+        );
+        $params[$code] = ':' . str_replace('-', '_', $code);
+        $list[] = sprintf(
+            '(id IN (SELECT content_id FROM eav WHERE attribute_id = %s AND CAST(value AS %s) IN (%s)))',
+            $params[$code],
+            db_cast($attr),
+            implode(', ', $val)
+        );
     }
 
     $stmt = prep(
-        'SELECT COUNT(*) AS total FROM content e %s %s',
-        implode(' ', $joins),
-        where($criteria, $attrs, $options)
+        'SELECT COUNT(*) FROM content %s %s',
+        where($criteria, $conAttrs, $options),
+        $list ? ' AND ' . implode(' AND ', $list) : ''
     );
 
     foreach ($params as $code => $param) {
@@ -50,7 +54,7 @@ function eav_size(string $eId, array $criteria = [], array $options = []): int
 
     $stmt->execute();
 
-    return (int) $stmt->fetch()['total'];
+    return $stmt->fetchColumn();
 }
 
 /**
@@ -70,32 +74,39 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
     $conAttrs = data('entity', 'content')['attributes'];
     $attrs = $entity['attributes'];
     $valAttrs = array_diff_key($attrs, $conAttrs);
-    $joins = $params = [];
     $criteria['entity_id'] = $entity['id'];
-    $options = ['search' => $index === 'search'];
+    $options = ['alias' => 'e', 'search' => $index === 'search'];
+    $list = [];
+    $params = [];
+    $having = [];
 
     foreach ($attrs as $code => $attr) {
-        if (empty($attr['column'])) {
+        if (empty($attr['column']) || empty($valAttrs[$code])) {
             continue;
-        } elseif (!empty($valAttrs[$code])) {
-            $alias = '_' . $code;
-            $attrs[$code]['column'] = $alias . '.' . $attr['column'];
-            $params[$code] = ':' . str_replace('-', '_', $code);
-            $joins[$code] = sprintf(
-                'LEFT JOIN eav %1$s ON %1$s.content_id = e.id AND %1$s.attribute_id = %2$s',
-                $alias,
-                $params[$code]
-            );
-        } else {
-            $attrs[$code]['column'] = 'e.' . $attr['column'];
+        }
+
+        $params[$code] = ':' . str_replace('-', '_', $code);
+        $list[] = sprintf(
+            'MAX(CASE WHEN a.attribute_id = %s THEN CAST(a.value AS %s) END) AS %s',
+            $params[$code],
+            db_cast($attr),
+            qi($code)
+        );
+
+        if (isset($criteria[$code])) {
+            $having[$code] = $criteria[$code];
+            unset($criteria[$code]);
         }
     }
 
     $stmt = db()->prepare(
-        select($attrs)
-        . from($entity['table'], 'e')
-        . (!empty($joins) ? ' ' . implode(' ', $joins) : '')
-        . where($criteria, $attrs, $options)
+        select($conAttrs, 'e')
+        . ($list ? ', ' . implode(', ', $list) : '')
+        . ' FROM content e'
+        . ($list ? ' LEFT JOIN eav a ON a.content_id = e.id' : '')
+        . where($criteria, $conAttrs, $options)
+        . ' GROUP BY e.id'
+        . having($having, $attrs, $options)
         . order($order, $attrs)
         . limit($limit)
     );

@@ -64,6 +64,33 @@ function prep(string $sql, string ...$args): PDOStatement
 }
 
 /**
+ * Determine appropriate DB type
+ *
+ * @param array $attr
+ *
+ * @return string
+ */
+function db_cast(array $attr): string
+{
+    switch ($attr['backend']) {
+        case 'bool':
+            return 'UNSIGNED';
+        case 'date':
+            return 'DATE';
+        case 'datetime':
+            return 'DATETIME';
+        case 'decimal':
+            return 'DECIMAL';
+        case 'int':
+            return 'SIGNED';
+        case 'json':
+            return 'JSON';
+    }
+
+    return 'CHAR';
+}
+
+/**
  * Set appropriate parameter type
  *
  * @param array $attr
@@ -170,7 +197,9 @@ function select(array $attrs, string $alias = null): string
             continue;
         }
 
-        $cols[$code] = $alias . $attr['column'] . ($code !== $attr['column'] ? ' AS ' . qi($code) : '');
+        $pre = strpos($attr['column'], '.') !== false ? '' : $alias;
+        $post = $code !== $attr['column'] ? ' AS ' . qi($code) : '';
+        $cols[$code] = $pre . $attr['column'] . $post;
     }
 
     return $cols ? 'SELECT ' . implode(', ', $cols) : '';
@@ -203,10 +232,48 @@ function where(array $criteria, array $attrs, array $options = []): string
     $cols = [];
     $alias = !empty($options['alias']) ? $options['alias'] . '.' : '';
     $search = !empty($options['search']);
-    $operator = $search ? 'LIKE' : '=';
+    $op = $search ? 'LIKE' : '=';
 
     foreach ($criteria as $code => $value) {
         if (empty($attrs[$code]['column'])) {
+            continue;
+        }
+
+        $attr = $attrs[$code];
+        $pre = strpos($attr['column'], '.') !== false ? '' : $alias;
+        $r = [];
+
+        foreach ((array) $value as $v) {
+            if ($search) {
+                $v = '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
+            }
+
+            $r[] = $pre . $attr['column'] . ' ' . $op . ' ' . qv($v, $attr['backend']);
+        }
+
+        $cols[$code] = '(' . implode(' OR ', $r) . ')';
+    }
+
+    return $cols ? ' WHERE ' . implode(' AND ', $cols) : '';
+}
+
+/**
+ * HAVING part
+ *
+ * @param array $criteria
+ * @param array $attrs
+ * @param array $options
+ *
+ * @return string
+ */
+function having(array $criteria, array $attrs, array $options = []): string
+{
+    $cols = [];
+    $search = !empty($options['search']);
+    $op = $search ? 'LIKE' : '=';
+
+    foreach ($criteria as $code => $value) {
+        if (empty($attrs[$code])) {
             continue;
         }
 
@@ -217,13 +284,13 @@ function where(array $criteria, array $attrs, array $options = []): string
                 $v = '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
             }
 
-            $r[] = $alias . $attrs[$code]['column'] . ' ' . $operator . ' ' . qv($v, $attrs[$code]['backend']);
+            $r[] = qi($code) . ' ' . $op . ' ' . qv($v, $attrs[$code]['backend']);
         }
 
         $cols[$code] = '(' . implode(' OR ', $r) . ')';
     }
 
-    return $cols ? ' WHERE ' . implode(' AND ', $cols) : '';
+    return $cols ? ' HAVING ' . implode(' AND ', $cols) : '';
 }
 
 /**
