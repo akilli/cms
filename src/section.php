@@ -188,32 +188,35 @@ function section_toolbar(array & $section): string
  */
 function section_node(array & $section): string
 {
-    if (empty($section['vars']['root_id']) || empty($section['vars']['entity'])) {
+    if (empty($section['vars']['root_id']) || !$data = entity_load('node', ['root_id' => $section['vars']['root_id']])) {
         return '';
     }
 
-    $data = entity_load($section['vars']['entity'], ['root_id' => $section['vars']['root_id']], ['root_id', 'id']);
     $count = count($data);
     $level = 0;
     $i = 0;
     $html = '';
 
     foreach ($data as $item) {
-        $i++;
-        $class = $item['target'] === request('path') ? ' class="current"' : '';
-        $end = $i === $count ? str_repeat('</li></ul>', $item['level']) : '';
+        $class = $item['target'] && $item['target'] === request('path') ? ' class="current"' : '';
 
         if ($item['level'] > $level) {
-            $start = '<ul><li' . $class . '>';
+             $html .= '<ul><li' . $class . '>';
         } elseif ($item['level'] < $level) {
-            $start = '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>';
+             $html .= '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>';
         } else {
-            $start = '</li><li' . $class . '>';
+             $html .= '</li><li' . $class . '>';
         }
 
-        $html .= $start . '<a href="' . url($item['target']) . '"' . $class . '>' . $item['name'] . '</a>' . $end;
+        if ($item['target']) {
+            $html .= '<a href="' . url($item['target']) . '"' . $class . '>' . $item['name'] . '</a>';
+        } else {
+            $html .= '<span>' . $item['name'] . '</span>';
+        }
+
+        $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
         $level = $item['level'];
     }
 
-    return $html ? '<nav id="' . $section['id'] . '">' . $html . '</nav>' : '';
+    return '<nav id="' . $section['id'] . '">' . $html . '</nav>';
 }

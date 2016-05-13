@@ -233,7 +233,7 @@ return [
             'target' => [
                 'name' => 'Target',
                 'type' => 'text',
-                'required' => true,
+                'nullable' => true,
                 'actions' => ['edit', 'index'],
             ],
             'root_id' => [
