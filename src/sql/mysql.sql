@@ -109,7 +109,6 @@ CREATE TABLE IF NOT EXISTS node (
     KEY idx_node_lft (lft),
     KEY idx_node_rgt (rgt),
     KEY idx_node_item (root_id,lft,rgt),
-    CONSTRAINT con_node_id FOREIGN KEY (id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT con_node_root FOREIGN KEY (root_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
