@@ -67,14 +67,14 @@ CREATE TABLE IF NOT EXISTS content (
 
 DROP TABLE IF EXISTS eav;
 CREATE TABLE IF NOT EXISTS eav (
-    attribute_id VARCHAR(100) NOT NULL,
     content_id INTEGER(11) NOT NULL,
+    attribute_id VARCHAR(100) NOT NULL,
     value TEXT NOT NULL,
-    PRIMARY KEY (attribute_id, content_id),
-    KEY idx_eav_attribute (attribute_id),
+    PRIMARY KEY (content_id, attribute_id),
     KEY idx_eav_content (content_id),
-    CONSTRAINT con_eav_attribute FOREIGN KEY (attribute_id) REFERENCES attribute (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT con_eav_content FOREIGN KEY (content_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE
+    KEY idx_eav_attribute (attribute_id),
+    CONSTRAINT con_eav_content FOREIGN KEY (content_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT con_eav_attribute FOREIGN KEY (attribute_id) REFERENCES attribute (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS entity;
@@ -184,6 +184,7 @@ INSERT INTO content (id, name, entity_id, active, system, content) VALUES
 INSERT INTO entity (id, name, type, actions, toolbar, sort, system) VALUES
 ('attribute', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', 'structure', 400, '1'),
 ('content', 'Content', 'flat', '[]', 'content', 0, '1'),
+('eav', 'EAV', 'flat', '[]', 'content', 0, '1'),
 ('entity', 'Entity', 'flat', '["create", "edit", "delete", "index"]', 'structure', 300, '1'),
 ('project', 'Project', 'flat', '["create", "edit", "delete", "index"]', 'system', 100, '1'),
 ('rewrite', 'Rewrite', 'flat', '["create", "edit", "delete", "index"]', 'system', 400, '1'),
