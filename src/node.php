@@ -30,36 +30,15 @@ function node_size(string $eId, array $criteria = [], array $options = []): int
  */
 function node_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
-    $entity = data('entity', $eId);
-    $attrs = $orderAttrs = $entity['attributes'];
     $order = $order ?: ['root_id' => 'ASC', 'lft' => 'ASC'];
-    $options = ['search' => $index === 'search'];
 
-    $stmt = prep(
-        "
-        SELECT
-            id,
-            name,
-            target,
-            root_id,
-            lft,
-            rgt,
-            parent_id,
-            level,
-            CONCAT(root_id, ':', id) AS position
-        FROM 
-            node
-        %s
-        %s
-        %s
-        ",
-        where($criteria, $attrs, $options),
-        order($order, $orderAttrs),
-        limit($limit)
+    return array_map(
+        function ($item) {
+            $item['position'] = $item['root_id'] . ':' . $item['id'];
+            return $item;
+        },
+        flat_load($eId, $criteria, $index, $order, $limit)
     );
-    $stmt->execute();
-
-    return $stmt->fetchAll();
 }
 
 /**
