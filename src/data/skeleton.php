@@ -18,7 +18,7 @@ return [
         'searchable' => false,
         'filterable' => false,
         'sortable' => false,
-        'default' => null,
+        'value' => null,
         'options_entity' => null,
         'options_callback' => [],
         'options' => [],

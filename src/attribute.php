@@ -48,7 +48,7 @@ function cast(array $attr, $value)
  */
 function value(array $attr, array $item)
 {
-    return $item[$attr['id']] ?? $attr['default'] ?? null;
+    return $item[$attr['id']] ?? $attr['value'] ?? null;
 }
 
 /**
