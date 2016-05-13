@@ -152,9 +152,7 @@ function eav_create(array & $item): bool
     $stmt->execute();
 
     // Set DB generated id
-    if ($attrs['id']['generator'] === 'auto') {
-        $item['id'] = (int) db()->lastInsertId();
-    }
+    $item['id'] = (int) db()->lastInsertId();
 
     // Insert values
     $stmt = db()->prepare('
