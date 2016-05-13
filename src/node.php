@@ -14,7 +14,7 @@ use PDO;
  */
 function node_size(string $eId, array $criteria = [], array $options = []): int
 {
-    return count(node_load($eId, $criteria, !empty($options['search']) ? 'search' : null));
+    return flat_size($eId, $criteria, $options);
 }
 
 /**
@@ -33,60 +33,27 @@ function node_load(string $eId, array $criteria = [], $index = null, array $orde
     $entity = data('entity', $eId);
     $attrs = $orderAttrs = $entity['attributes'];
     $order = $order ?: ['root_id' => 'ASC', 'lft' => 'ASC'];
-    $options = ['search' => $index === 'search', 'alias' => 'e'];
-    $having = [];
-
-    foreach (['position', 'level', 'parent_id'] as $a) {
-        $orderAttrs[$a]['column'] =  $a;
-
-        if (!empty($criteria[$a])) {
-            $having[$a] = $criteria[$a];
-            unset($criteria[$a]);
-        }
-    }
+    $options = ['search' => $index === 'search'];
 
     $stmt = prep(
         "
         SELECT
-            e.id,
-            e.name,
-            e.target,
-            e.root_id,
-            e.lft,
-            e.rgt,
-            CONCAT(e.root_id, ':', e.id) AS position,
-            (
-                SELECT 
-                    COUNT(b.id) + 1
-                FROM
-                    node b
-                WHERE 
-                    b.lft < e.lft 
-                    AND b.rgt > e.rgt 
-                    AND b.root_id = e.root_id
-            ) AS level,
-            (
-                SELECT 
-                    b.id
-                FROM
-                    node b
-                WHERE 
-                    b.lft < e.lft 
-                    AND b.rgt > e.rgt 
-                    AND b.root_id = e.root_id
-                ORDER BY 
-                    b.lft DESC
-                LIMIT 
-                    1
-            ) + 0 AS parent_id
+            id,
+            name,
+            target,
+            root_id,
+            lft,
+            rgt,
+            parent_id,
+            level,
+            CONCAT(root_id, ':', id) AS position
         FROM 
-            node e
+            node
         %s
         %s
         %s
         ",
         where($criteria, $attrs, $options),
-        having($having, $attrs, $options),
         order($order, $orderAttrs),
         limit($limit)
     );
@@ -128,12 +95,20 @@ function node_create(array & $item): bool
         $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
         $stmt->execute();
         $baseLft = (int) $stmt->fetchColumn();
+        $item['parent_id'] = null;
+        $item['level'] = 1;
     } elseif ($item['mode'] === 'before') {
         $baseLft = $basisItem['lft'];
+        $item['parent_id'] = $basisItem['parent_id'];
+        $item['level'] = $basisItem['level'];
     } elseif ($item['mode'] === 'child') {
         $baseLft = $basisItem['rgt'];
+        $item['parent_id'] = $basisItem['id'];
+        $item['level'] = $basisItem['level'] + 1;
     } else {
         $baseLft = $basisItem['rgt'] + 1;
+        $item['parent_id'] = $basisItem['parent_id'];
+        $item['level'] = $basisItem['level'];
     }
 
     $length = 2;
@@ -171,7 +146,7 @@ function node_create(array & $item): bool
     $cols = cols($attrs, $item);
 
     $stmt = prep(
-        'INSERT INTO node (root_id, lft, rgt, %s) VALUES (:root_id, :lft, :rgt, %s)',
+        'INSERT INTO node (%s, root_id, lft, rgt, parent_id, level) VALUES (%s, :root_id, :lft, :rgt, :parent_id, :level)',
         implode(', ', $cols['col']),
         implode(', ', $cols['param'])
     );
@@ -183,6 +158,8 @@ function node_create(array & $item): bool
     $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
     $stmt->bindValue(':lft', $baseLft, PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $baseLft + 1, PDO::PARAM_INT);
+    $stmt->bindValue(':parent_id', $item['parent_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':level', $item['level'], PDO::PARAM_INT);
     $stmt->execute();
 
     // Set DB generated id
@@ -251,12 +228,20 @@ function node_save(array & $item): bool
         $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
         $stmt->execute();
         $baseLft = (int) $stmt->fetchColumn();
+        $item['parent_id'] = null;
+        $item['level'] = 1;
     } elseif ($item['mode'] === 'before') {
         $baseLft = $basisItem['lft'];
+        $item['parent_id'] = $basisItem['parent_id'];
+        $item['level'] = $basisItem['level'];
     } elseif ($item['mode'] === 'child') {
         $baseLft = $basisItem['rgt'];
+        $item['parent_id'] = $basisItem['id'];
+        $item['level'] = $basisItem['level'] + 1;
     } else {
         $baseLft = $basisItem['rgt'] + 1;
+        $item['parent_id'] = $basisItem['parent_id'];
+        $item['level'] = $basisItem['level'];
     }
 
     if ($baseLft > $lft) {
@@ -347,17 +332,22 @@ function node_save(array & $item): bool
     $stmt->execute();
 
     // Finally add the affected nodes to new tree
-    $stmt = db()->prepare('
+    $stmt = db()->prepare("
         UPDATE 
             node
         SET
             lft = -1 * lft,
-            rgt = -1 * rgt
+            rgt = -1 * rgt,
+            parent_id = IF(id = :id, :parent_id, parent_id),
+            level = level + :level
         WHERE
             root_id = :root_id
             AND lft < 0
-    ');
+    ");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
     $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
+    $stmt->bindValue(':parent_id', $item['parent_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':level', $item['level'] - $item['_old']['level'], PDO::PARAM_INT);
     $stmt->execute();
 
     return true;

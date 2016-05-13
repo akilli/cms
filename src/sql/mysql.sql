@@ -102,14 +102,19 @@ CREATE TABLE IF NOT EXISTS node (
     root_id INTEGER(11) NOT NULL,
     lft INTEGER(11) NOT NULL,
     rgt INTEGER(11) NOT NULL,
+    parent_id INTEGER(11) DEFAULT NULL,
+    level TINYINT(4) NOT NULL,
     PRIMARY KEY (id),
     KEY idx_node_name (name),
     KEY idx_node_target (target),
     KEY idx_node_root (root_id),
     KEY idx_node_lft (lft),
     KEY idx_node_rgt (rgt),
+    KEY idx_node_parent (parent_id),
+    KEY idx_node_level (level),
     KEY idx_node_item (root_id,lft,rgt),
-    CONSTRAINT con_node_root FOREIGN KEY (root_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT con_node_root FOREIGN KEY (root_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT con_node_parent FOREIGN KEY (parent_id) REFERENCES node (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS project;
