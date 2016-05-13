@@ -14,7 +14,7 @@ use PDO;
  */
 function node_size(string $eId, array $criteria = [], array $options = []): int
 {
-    return flat_size($eId, $criteria, $options);
+    return count(node_load($eId, $criteria, !empty($options['search']) ? 'search' : null));
 }
 
 /**
