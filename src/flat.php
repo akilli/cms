@@ -15,13 +15,13 @@ function flat_size(string $eId, array $criteria = [], array $options = []): int
     $entity = data('entity', $eId);
 
     $stmt = prep(
-        'SELECT COUNT(*) AS total FROM %s %s',
+        'SELECT COUNT(*) FROM %s %s',
         $entity['table'],
         where($criteria, $entity['attributes'], $options)
     );
     $stmt->execute();
 
-    return (int) $stmt->fetch()['total'];
+    return (int) $stmt->fetchColumn();
 }
 
 /**
