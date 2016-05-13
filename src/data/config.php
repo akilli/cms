@@ -18,11 +18,11 @@ return [
         'list' => 'list',
     ],
     'entity.type' => [
-        'flat' => 'Flat Table',
-        'content' => 'Content Table',
-        'joined' => 'Joined Table',
-        'eav' => 'EAV',
-        'node' => 'Node'
+        'flat' => 'flat',
+        'content' => 'content',
+        'joined' => 'joined',
+        'eav' => 'eav',
+        'node' => 'node'
     ],
     'file.audio' => [
         'mp3' => 'mp3',
