@@ -62,7 +62,7 @@ function joined_save(array & $item): bool
  *
  * @return bool
  */
-function joined_delete(array $item): bool
+function joined_delete(array & $item): bool
 {
     return true;
 }

@@ -70,7 +70,7 @@ function content_save(array & $item): bool
  *
  * @return bool
  */
-function content_delete(array $item): bool
+function content_delete(array & $item): bool
 {
     return !empty($item['_entity']['id']) && $item['_entity']['id'] === $item['entity_id'] && flat_delete($item);
 }
