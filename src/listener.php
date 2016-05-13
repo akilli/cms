@@ -35,10 +35,7 @@ function listener_config(array & $data)
 function listener_data_entity(array & $data)
 {
     foreach ($data as $id => $item) {
-        if (empty($item['id'])) {
-            continue;
-        }
-
+        $item['id'] = $id;
         $item = data_entity($item);
         $item['attributes'] = data_order($item['attributes'], 'sort');
         $data[$id] = $item;

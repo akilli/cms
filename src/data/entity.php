@@ -1,7 +1,6 @@
 <?php
 return [
     'attribute' => [
-        'id' => 'attribute',
         'name' => 'Attribute',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
@@ -88,7 +87,6 @@ return [
         ],
     ],
     'content' => [
-        'id' => 'content',
         'name' => 'Content',
         'attributes' => [
             'id' => [
@@ -161,7 +159,6 @@ return [
         ],
     ],
     'entity' => [
-        'id' => 'entity',
         'name' => 'Entity',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
@@ -215,7 +212,6 @@ return [
         ],
     ],
     'node' => [
-        'id' => 'node',
         'name' => 'Menu Node',
         'type' => 'node',
         'actions' => ['create', 'edit', 'delete', 'index'],
@@ -289,7 +285,6 @@ return [
         ],
     ],
     'project' => [
-        'id' => 'project',
         'name' => 'Project',
         'actions' => ['create', 'edit', 'delete',  'index'],
         'toolbar' => 'system',
@@ -327,7 +322,6 @@ return [
         ],
     ],
     'rewrite' => [
-        'id' => 'rewrite',
         'name' => 'Rewrite',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'system',
@@ -360,7 +354,6 @@ return [
         ],
     ],
     'role' => [
-        'id' => 'role',
         'name' => 'Role',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'system',
@@ -398,7 +391,6 @@ return [
         ],
     ],
     'user' => [
-        'id' => 'user',
         'name' => 'User',
         'actions' => ['create', 'edit', 'delete',  'index'],
         'toolbar' => 'system',
