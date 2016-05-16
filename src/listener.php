@@ -50,6 +50,7 @@ function listener_data_entity(array & $data)
 
     foreach (entity_load('entity') as $id => $item) {
         $item = array_replace($data['content'], $item);
+        $item['type'] = 'eav';
 
         if (!empty($attrs[$id])) {
             foreach ($attrs[$id] as $code => $attr) {
