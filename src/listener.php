@@ -36,6 +36,11 @@ function listener_data_entity(array & $data)
 {
     foreach ($data as $id => $item) {
         $item['id'] = $id;
+
+        if (!empty($item['type']) && $item['type'] === 'content') {
+            $item = array_replace($data['content'], $item);
+        }
+
         $item = data_entity($item);
         $item['attributes'] = data_order($item['attributes'], 'sort');
         $data[$id] = $item;
@@ -43,10 +48,10 @@ function listener_data_entity(array & $data)
 
     $attrs = entity_load('attribute', [], ['entity_id', 'id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
 
-    foreach (entity_load('entity', ['type' => ['content', 'eav', 'joined']]) as $id => $item) {
+    foreach (entity_load('entity') as $id => $item) {
         $item = array_replace($data['content'], $item);
 
-        if ($item['type'] === 'eav' && !empty($attrs[$id])) {
+        if (!empty($attrs[$id])) {
             foreach ($attrs[$id] as $code => $attr) {
                 if (empty($item['attributes'][$code])) {
                     $attr['column'] = 'value';

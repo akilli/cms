@@ -81,14 +81,12 @@ DROP TABLE IF EXISTS entity;
 CREATE TABLE IF NOT EXISTS entity (
     id VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    type VARCHAR(255) NOT NULL,
     actions JSON DEFAULT NULL,
     toolbar VARCHAR(255) NOT NULL,
     sort INTEGER(11) NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (id),
     KEY idx_entity_name (name),
-    KEY idx_entity_type (type),
     KEY idx_entity_toolbar (toolbar),
     KEY idx_entity_sort (sort),
     KEY idx_entity_system (system)
@@ -181,18 +179,8 @@ CREATE TABLE IF NOT EXISTS user (
 INSERT INTO content (id, name, entity_id, active, system, content) VALUES
 (1, 'Home', 'page', 1, 0, 'Hello World');
 
-INSERT INTO entity (id, name, type, actions, toolbar, sort, system) VALUES
-('attribute', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', 'structure', 400, '1'),
-('content', 'Content', 'flat', '[]', 'content', 0, '1'),
-('eav', 'EAV', 'flat', '[]', 'content', 0, '1'),
-('entity', 'Entity', 'flat', '["create", "edit", "delete", "index"]', 'structure', 300, '1'),
-('project', 'Project', 'flat', '["create", "edit", "delete", "index"]', 'system', 100, '1'),
-('rewrite', 'Rewrite', 'flat', '["create", "edit", "delete", "index"]', 'system', 400, '1'),
-('role', 'Role', 'flat', '["create", "edit", "delete", "index"]', 'system', 300, '1'),
-('user', 'User', 'flat', '["create", "edit", "delete", "index"]', 'system', 200, '1'),
-('node', 'Menu Node', 'node', '["create", "edit", "delete", "index"]', 'structure', 200, '1'),
-('menu', 'Menu', 'content', '["create", "edit", "delete", "index"]', 'structure', 100, '1'),
-('page', 'Page', 'eav', '["all"]', 'content', 100, '1');
+INSERT INTO entity (id, name, actions, toolbar, sort, system) VALUES
+('page', 'Page', '["all"]', 'content', 100, '1');
 
 INSERT INTO project (id, name, host, active, system) VALUES
 (0, 'global', NULL, '1', '1');

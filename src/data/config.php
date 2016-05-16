@@ -17,13 +17,6 @@ return [
         'index' => 'index',
         'list' => 'list',
     ],
-    'entity.type' => [
-        'flat' => 'flat',
-        'content' => 'content',
-        'joined' => 'joined',
-        'eav' => 'eav',
-        'node' => 'node'
-    ],
     'file.audio' => [
         'mp3' => 'mp3',
         'oga' => 'oga',

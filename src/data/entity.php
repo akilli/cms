@@ -190,13 +190,6 @@ return [
                 'required' => true,
                 'actions' => ['all'],
             ],
-            'type' => [
-                'name' => 'Type',
-                'type' => 'select.varchar',
-                'required' => true,
-                'options_callback' => ['qnd\config', ['entity.type']],
-                'actions' => ['all'],
-            ],
             'actions' => [
                 'name' => 'Actions',
                 'type' => 'multiselect',
@@ -222,6 +215,13 @@ return [
                 'actions' => ['index'],
             ],
         ],
+    ],
+    'menu' => [
+        'name' => 'Menu',
+        'type' => 'content',
+        'actions' => ['create', 'edit', 'delete', 'index'],
+        'toolbar' => 'structure',
+        'sort' => 100,
     ],
     'node' => [
         'name' => 'Menu Node',
