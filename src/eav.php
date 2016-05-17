@@ -16,13 +16,13 @@ function eav_size(string $eId, array $criteria = [], array $options = []): int
 {
     $entity = data('entity', $eId);
     $attrs = $entity['attributes'];
-    $conAttrs = data('entity', 'content')['attributes'];
-    $valAttrs = array_diff_key($attrs, $conAttrs);
+    $mainAttrs = data('entity', 'content')['attributes'];
+    $addAttrs = array_diff_key($attrs, $mainAttrs);
     $criteria['entity_id'] = $entity['id'];
     $list = [];
     $params = [];
 
-    foreach ($valAttrs as $code => $attr) {
+    foreach ($addAttrs as $code => $attr) {
         if (empty($attr['column']) || empty($criteria[$code])) {
             continue;
         }
@@ -44,7 +44,7 @@ function eav_size(string $eId, array $criteria = [], array $options = []): int
 
     $stmt = prep(
         'SELECT COUNT(*) FROM content %s %s',
-        where($criteria, $conAttrs, $options),
+        where($criteria, $mainAttrs, $options),
         $list ? ' AND ' . implode(' AND ', $list) : ''
     );
 
@@ -71,16 +71,16 @@ function eav_size(string $eId, array $criteria = [], array $options = []): int
 function eav_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
     $entity = data('entity', $eId);
-    $conAttrs = data('entity', 'content')['attributes'];
     $attrs = $entity['attributes'];
-    $valAttrs = array_diff_key($attrs, $conAttrs);
+    $mainAttrs = data('entity', 'content')['attributes'];
+    $addAttrs = array_diff_key($attrs, $mainAttrs);
     $criteria['entity_id'] = $entity['id'];
     $options = ['alias' => 'e', 'search' => $index === 'search'];
     $list = [];
     $params = [];
     $having = [];
 
-    foreach ($valAttrs as $code => $attr) {
+    foreach ($addAttrs as $code => $attr) {
         if (empty($attr['column'])) {
             continue;
         }
@@ -100,11 +100,11 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
     }
 
     $stmt = db()->prepare(
-        select($conAttrs, 'e')
+        select($mainAttrs, 'e')
         . ($list ? ', ' . implode(', ', $list) : '')
         . ' FROM content e'
         . ($list ? ' LEFT JOIN eav a ON a.content_id = e.id' : '')
-        . where($criteria, $conAttrs, $options)
+        . where($criteria, $mainAttrs, $options)
         . ' GROUP BY e.id'
         . having($having, $attrs, $options)
         . order($order, $attrs)
@@ -135,9 +135,9 @@ function eav_create(array & $item): bool
 
     $item['entity_id'] = $item['_entity']['id'];
     $attrs = $item['_entity']['attributes'];
-    $conAttrs = data('entity', 'content')['attributes'];
-    $valAttrs = array_diff_key($attrs, $conAttrs);
-    $cols = cols($conAttrs, $item);
+    $mainAttrs = data('entity', 'content')['attributes'];
+    $addAttrs = array_diff_key($attrs, $mainAttrs);
+    $cols = cols($mainAttrs, $item);
 
     $stmt = prep(
         'INSERT INTO content (%s) VALUES (%s)',
@@ -163,7 +163,7 @@ function eav_create(array & $item): bool
             (:attribute_id, :content_id, :value)
     ');
 
-    foreach ($valAttrs as $code => $attr) {
+    foreach ($addAttrs as $code => $attr) {
         if (!array_key_exists($code, $item)) {
             continue;
         }
@@ -192,9 +192,9 @@ function eav_save(array & $item): bool
 
     $item['entity_id'] = $item['_entity']['id'];
     $attrs = $item['_entity']['attributes'];
-    $conAttrs = data('entity', 'content')['attributes'];
-    $valAttrs = array_diff_key($attrs, $conAttrs);
-    $cols = cols($conAttrs, $item);
+    $mainAttrs = data('entity', 'content')['attributes'];
+    $addAttrs = array_diff_key($attrs, $mainAttrs);
+    $cols = cols($mainAttrs, $item);
 
     $stmt = prep(
         'UPDATE content SET %s WHERE id = :_id',
@@ -220,7 +220,7 @@ function eav_save(array & $item): bool
             value = VALUES(value)
     ');
 
-    foreach ($valAttrs as $code => $attr) {
+    foreach ($addAttrs as $code => $attr) {
         if (!array_key_exists($code, $item)) {
             continue;
         }
