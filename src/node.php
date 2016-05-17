@@ -50,10 +50,6 @@ function node_load(string $eId, array $criteria = [], $index = null, array $orde
  */
 function node_create(array & $item): bool
 {
-    if (empty($item['_entity']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
-        return false;
-    }
-
     $entity = $item['_entity'];
     $attrs = $entity['attributes'];
     $parts = explode(':', $item['position']);
@@ -156,10 +152,6 @@ function node_create(array & $item): bool
  */
 function node_save(array & $item): bool
 {
-    if (empty($item['_entity']) || empty($item['position']) || strpos($item['position'], ':') <= 0) {
-        return false;
-    }
-
     $entity = $item['_entity'];
     $attrs = $entity['attributes'];
     $parts = explode(':', $item['position']);
@@ -341,10 +333,6 @@ function node_save(array & $item): bool
  */
 function node_delete(array & $item): bool
 {
-    if (empty($item['_entity'])) {
-        return false;
-    }
-
     $rootId = $item['_old']['root_id'];
     $lft = $item['_old']['lft'];
     $rgt = $item['_old']['rgt'];

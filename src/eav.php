@@ -129,10 +129,6 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
  */
 function eav_create(array & $item): bool
 {
-    if (empty($item['_entity'])) {
-        return false;
-    }
-
     $item['entity_id'] = $item['_entity']['id'];
     $attrs = $item['_entity']['attributes'];
     $mainAttrs = data('entity', 'content')['attributes'];
@@ -150,11 +146,9 @@ function eav_create(array & $item): bool
     }
 
     $stmt->execute();
-
-    // Set DB generated id
     $item['id'] = (int) db()->lastInsertId();
 
-    // Insert values
+    // Save additional attributes
     $stmt = db()->prepare('
         INSERT INTO 
             eav
@@ -186,10 +180,6 @@ function eav_create(array & $item): bool
  */
 function eav_save(array & $item): bool
 {
-    if (empty($item['_entity'])) {
-        return false;
-    }
-
     $item['entity_id'] = $item['_entity']['id'];
     $attrs = $item['_entity']['attributes'];
     $mainAttrs = data('entity', 'content')['attributes'];
@@ -208,7 +198,7 @@ function eav_save(array & $item): bool
     $stmt->bindValue(':_id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
     $stmt->execute();
 
-    // Save values
+    // Save additional attributes
     $stmt = db()->prepare('
         INSERT INTO 
             eav

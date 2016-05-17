@@ -62,17 +62,12 @@ function flat_load(string $eId, array $criteria = [], $index = null, array $orde
  */
 function flat_create(array & $item): bool
 {
-    if (empty($item['_entity'])) {
-        return false;
-    }
-
-    $entity = $item['_entity'];
-    $attrs = $entity['attributes'];
+    $attrs = $item['_entity']['attributes'];
     $cols = cols($attrs, $item);
 
     $stmt = prep(
         'INSERT INTO %s (%s) VALUES (%s)',
-        $entity['table'],
+        $item['_entity']['table'],
         implode(', ', $cols['col']),
         implode(', ', $cols['param'])
     );
@@ -100,17 +95,12 @@ function flat_create(array & $item): bool
  */
 function flat_save(array & $item): bool
 {
-    if (empty($item['_entity'])) {
-        return false;
-    }
-
-    $entity = $item['_entity'];
-    $attrs = $entity['attributes'];
+    $attrs = $item['_entity']['attributes'];
     $cols = cols($attrs, $item);
 
     $stmt = prep(
         'UPDATE %s SET %s WHERE %s = :_id',
-        $entity['table'],
+        $item['_entity']['table'],
         implode(', ', $cols['set']),
         $attrs['id']['column']
     );
@@ -134,16 +124,11 @@ function flat_save(array & $item): bool
  */
 function flat_delete(array & $item): bool
 {
-    if (empty($item['_entity'])) {
-        return false;
-    }
-
-    $entity = $item['_entity'];
-    $attrs = $entity['attributes'];
+    $attrs = $item['_entity']['attributes'];
 
     $stmt = prep(
         'DELETE FROM %s WHERE %s = :id',
-        $entity['table'],
+        $item['_entity']['table'],
         $attrs['id']['column']
     );
     $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
