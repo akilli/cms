@@ -50,14 +50,13 @@ function node_load(string $eId, array $criteria = [], $index = null, array $orde
  */
 function node_create(array & $item): bool
 {
-    $entity = $item['_entity'];
-    $attrs = $entity['attributes'];
+    $attrs = $item['_entity']['attributes'];
     $parts = explode(':', $item['position']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
     $item['basis'] = cast($attrs['id'], $parts[1]);
     $rootId = $item['root_id'];
 
-    if (empty($item['basis']) || !($basisItem = entity_load($entity['id'], ['id' => $item['basis']], false))) {
+    if (empty($item['basis']) || !($basisItem = entity_load($item['_entity']['id'], ['id' => $item['basis']], false))) {
         // No or wrong basis given so append node
         $stmt = db()->prepare('
             SELECT 
@@ -152,16 +151,10 @@ function node_create(array & $item): bool
  */
 function node_save(array & $item): bool
 {
-    $entity = $item['_entity'];
-    $attrs = $entity['attributes'];
+    $attrs = $item['_entity']['attributes'];
     $parts = explode(':', $item['position']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
     $item['basis'] = cast($attrs['id'], $parts[1]);
-    $id = $item['_old']['id'];
-    $rootId = $item['root_id'];
-    $oldRootId = $item['_old']['root_id'];
-    $lft = $item['_old']['lft'];
-    $rgt = $item['_old']['rgt'];
     $basisItem = [];
     $cols = cols($attrs, $item);
 
@@ -170,7 +163,7 @@ function node_save(array & $item): bool
         'UPDATE node SET %s WHERE id = :_id',
         implode(', ', $cols['set'])
     );
-    $stmt->bindValue(':_id', $id, PDO::PARAM_INT);
+    $stmt->bindValue(':_id', $item['_old']['id'], PDO::PARAM_INT);
 
     foreach ($cols['param'] as $code => $param) {
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
@@ -179,9 +172,9 @@ function node_save(array & $item): bool
     $stmt->execute();
 
     // No change in position or wrong basis given
-    if (!empty($item['basis']) && ($item['basis'] === $id
-            || !($basisItem = entity_load($entity['id'], ['id' => $item['basis']], false))
-            || $lft < $basisItem['lft'] && $rgt > $basisItem['rgt'])
+    if (!empty($item['basis']) && ($item['basis'] === $item['_old']['id']
+            || !($basisItem = entity_load($item['_entity']['id'], ['id' => $item['basis']], false))
+            || $item['_old']['lft'] < $basisItem['lft'] && $item['_old']['rgt'] > $basisItem['rgt'])
     ) {
         return true;
     }
@@ -196,7 +189,7 @@ function node_save(array & $item): bool
             WHERE 
                 root_id = :root_id
         ');
-        $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
+        $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
         $stmt->execute();
         $baseLft = (int) $stmt->fetchColumn();
         $item['parent_id'] = null;
@@ -215,14 +208,14 @@ function node_save(array & $item): bool
         $item['level'] = $basisItem['level'];
     }
 
-    if ($baseLft > $lft) {
-        $diff = $oldRootId !== $rootId ? $baseLft - $rgt + 1 : $baseLft - $rgt - 1;
+    if ($baseLft > $item['_old']['lft']) {
+        $diff = $item['_old']['root_id'] !== $item['root_id'] ? $baseLft - $item['_old']['rgt'] + 1 : $baseLft - $item['_old']['rgt'] - 1;
     } else {
-        $diff = $baseLft - $lft;
+        $diff = $baseLft - $item['_old']['lft'];
     }
 
-    $length = $rgt - $lft + 1;
-    $newLft = $lft + $diff;
+    $length = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
+    $newLft = $item['_old']['lft'] + $diff;
 
     // Move all affected nodes from old tree and update their positions for the new tree without adding them yet
     $stmt = db()->prepare('
@@ -236,10 +229,10 @@ function node_save(array & $item): bool
             root_id = :root_id
             AND lft BETWEEN :lft AND :rgt
     ');
-    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
-    $stmt->bindValue(':root_id', $oldRootId, PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':lft_diff', $diff, PDO::PARAM_INT);
     $stmt->bindValue(':rgt_diff', $diff, PDO::PARAM_INT);
     $stmt->execute();
@@ -254,8 +247,8 @@ function node_save(array & $item): bool
             root_id = :root_id
             AND lft > :rgt
     ');
-    $stmt->bindValue(':root_id', $oldRootId, PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -268,8 +261,8 @@ function node_save(array & $item): bool
             root_id = :root_id
             AND rgt > :rgt
     ');
-    $stmt->bindValue(':root_id', $oldRootId, PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -283,7 +276,7 @@ function node_save(array & $item): bool
             root_id = :root_id
             AND lft >= :lft 
     ');
-    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
     $stmt->bindValue(':lft', $newLft, PDO::PARAM_INT);
     $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
@@ -297,7 +290,7 @@ function node_save(array & $item): bool
             root_id = :root_id
             AND rgt >= :lft 
     ');
-    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
     $stmt->bindValue(':lft', $newLft, PDO::PARAM_INT);
     $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
@@ -315,8 +308,8 @@ function node_save(array & $item): bool
             root_id = :root_id
             AND lft < 0
     ");
-    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
+    $stmt->bindValue(':id', $item['_old']['id'], PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
     $stmt->bindValue(':parent_id', $item['parent_id'], PDO::PARAM_INT);
     $stmt->bindValue(':level', $item['level'] - $item['_old']['level'], PDO::PARAM_INT);
     $stmt->execute();
@@ -333,10 +326,7 @@ function node_save(array & $item): bool
  */
 function node_delete(array & $item): bool
 {
-    $rootId = $item['_old']['root_id'];
-    $lft = $item['_old']['lft'];
-    $rgt = $item['_old']['rgt'];
-    $diff = $rgt - $lft + 1;
+    $diff = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
 
     $stmt = db()->prepare('
         UPDATE
@@ -348,9 +338,9 @@ function node_delete(array & $item): bool
             root_id = :root_id
             AND lft BETWEEN :lft AND :rgt
     ');
-    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->execute();
 
     $stmt = db()->prepare('
@@ -362,8 +352,8 @@ function node_delete(array & $item): bool
             root_id = :root_id
             AND lft > :rgt
     ');
-    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':diff', $diff, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -376,8 +366,8 @@ function node_delete(array & $item): bool
             root_id = :root_id
             AND rgt > :rgt
     ');
-    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $rgt, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':diff', $diff, PDO::PARAM_INT);
     $stmt->execute();
 
