@@ -219,6 +219,65 @@ function from(string $table, string $alias = null): string
 }
 
 /**
+ * NATURAL JOIN part
+ *
+ * @param string $table
+ * @param string $alias
+ *
+ * @return string
+ */
+function njoin(string $table, string $alias): string
+{
+    return sprintf(' NATURAL JOIN %s %s', $table, $alias);
+}
+
+/**
+ * INNER JOIN part
+ *
+ * @param string $table
+ * @param string $alias
+ * @param string[] $cols
+ *
+ * @return string
+ */
+function ijoin(string $table, string $alias, array $cols): string
+{
+    if (!$cols) {
+        return '';
+    }
+
+    return sprintf(
+        ' INNER JOIN %s %s ON %s',
+        $table,
+        $alias,
+        stringify(' AND ', $cols, ['keys' => true, 'sep' => ' = '])
+    );
+}
+
+/**
+ * LEFT JOIN part
+ *
+ * @param string $table
+ * @param string $alias
+ * @param string[] $cols
+ *
+ * @return string
+ */
+function ljoin(string $table, string $alias, array $cols): string
+{
+    if (!$cols) {
+        return '';
+    }
+
+    return sprintf(
+        ' LEFT JOIN %s %s ON %s',
+        $table,
+        $alias,
+        stringify(' AND ', $cols, ['keys' => true, 'sep' => ' = '])
+    );
+}
+
+/**
  * WHERE part
  *
  * @param array $criteria
@@ -255,6 +314,18 @@ function where(array $criteria, array $attrs, array $options = []): string
     }
 
     return $cols ? ' WHERE ' . implode(' AND ', $cols) : '';
+}
+
+/**
+ * GROUP BY part
+ *
+ * @param string[] $cols
+ *
+ * @return string
+ */
+function group(array $cols): string
+{
+    return $cols ? ' GROUP BY ' . implode(', ' , $cols) : '';
 }
 
 /**

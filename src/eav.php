@@ -105,7 +105,7 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
         . ' FROM content e'
         . ($list ? ' LEFT JOIN eav a ON a.content_id = e.id' : '')
         . where($criteria, $mainAttrs, $options)
-        . ' GROUP BY e.id'
+        . group(['id'])
         . having($having, $attrs, $options)
         . order($order, $attrs)
         . limit($limit)
