@@ -44,7 +44,11 @@ function listener_data_entity(array & $data)
     $attrs = entity_load('attribute', [], ['entity_id', 'id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
 
     foreach (entity_load('entity', ['type' => ['content', 'eav', 'joined']]) as $id => $item) {
-        $item = array_replace($data['content'], $item);
+        if ($item['type'] === 'joined' && !empty($data[$id])) {
+            $item = array_replace_recursive($data['content'], $data[$id], $item);
+        } else {
+            $item = array_replace($data['content'], $item);
+        }
 
         if ($item['type'] === 'eav' && !empty($attrs[$id])) {
             foreach ($attrs[$id] as $code => $attr) {
