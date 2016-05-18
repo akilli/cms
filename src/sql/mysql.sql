@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS node (
     lft INTEGER(11) NOT NULL,
     rgt INTEGER(11) NOT NULL,
     parent_id INTEGER(11) DEFAULT NULL,
-    level TINYINT(4) NOT NULL,
+    level INTEGER(11) NOT NULL,
     PRIMARY KEY (id),
     KEY idx_node_name (name),
     KEY idx_node_target (target),
