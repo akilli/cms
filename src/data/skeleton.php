@@ -16,8 +16,6 @@ return [
         'unambiguous' => false,
         'multiple' => false,
         'searchable' => false,
-        'filterable' => false,
-        'sortable' => false,
         'value' => null,
         'options' => [],
         'actions' => [],

@@ -54,16 +54,6 @@ return [
                 'type' => 'checkbox.bool',
                 'actions' => ['edit'],
             ],
-            'filterable' => [
-                'name' => 'Filterable',
-                'type' => 'checkbox.bool',
-                'actions' => ['edit'],
-            ],
-            'sortable' => [
-                'name' => 'Sortable',
-                'type' => 'checkbox.bool',
-                'actions' => ['edit'],
-            ],
             'options' => [
                 'name' => 'Options',
                 'type' => 'json',
