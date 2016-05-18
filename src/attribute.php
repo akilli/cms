@@ -39,19 +39,6 @@ function cast(array $attr, $value)
 }
 
 /**
- * Retrieve value
- *
- * @param array $attr
- * @param array $item
- *
- * @return mixed
- */
-function value(array $attr, array $item)
-{
-    return $item[$attr['id']] ?? $attr['value'] ?? null;
-}
-
-/**
  * Check wheter attribute can be ignored
  *
  * @param array $attr
@@ -67,39 +54,4 @@ function ignorable(array $attr, array $item): bool
         && empty($item['_reset'][$attr['id']])
         && $mustEdit
         && in_array($attr['frontend'], ['password', 'file']);
-}
-
-/**
- * Prepare attribute if edit action is allowed
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function editable(array & $attr, array $item): bool
-{
-    if (!data_action('edit', $attr)) {
-        return false;
-    }
-
-    if (!empty($item['_error'][$attr['id']])) {
-        $attr['class'][] = 'invalid';
-    }
-
-    $attr['context'] = 'edit';
-
-    return true;
-}
-
-/**
- * Prepare attribute if view action is allowed
- *
- * @param array $attr
- *
- * @return bool
- */
-function viewable(array & $attr): bool
-{
-    return $attr['context'] && data_action($attr['context'], $attr);
 }

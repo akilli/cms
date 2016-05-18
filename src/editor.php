@@ -11,11 +11,16 @@ namespace qnd;
  */
 function editor(array $attr, array $item): string
 {
-    if (!editable($attr, $item)) {
+    if (!data_action('edit', $attr)) {
         return '';
     }
+    
+    if (!empty($item['_error'][$attr['id']])) {
+        $attr['class'][] = 'invalid';
+    }
 
-    $item[$attr['id']] = value($attr, $item);
+    $attr['context'] = 'edit';
+    $item[$attr['id']] = $item[$attr['id']] ?? $attr['value'];
 
     if ($attr['frontend'] === 'select') {
         return editor_select($attr, $item);

@@ -11,11 +11,13 @@ namespace qnd;
  */
 function viewer(array $attr, array $item): string
 {
-    if (!viewable($attr)) {
+    $attr['context'] = $attr['context'] ?? 'view';
+    
+    if (!data_action($attr['context'], $attr)) {
         return '';
     }
 
-    $item[$attr['id']] = value($attr, $item);
+    $item[$attr['id']] = $item[$attr['id']] ?? $attr['value'];
 
     if (in_array($attr['frontend'], ['checkbox', 'radio', 'select'])) {
         return viewer_option($attr, $item);
