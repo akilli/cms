@@ -24,7 +24,7 @@ return [
                 'name' => 'Entity',
                 'type' => 'select.varchar',
                 'required' => true,
-                'options_entity' => 'entity',
+                'options_entity' => ['entity', ['type' => 'eav']],
                 'actions' => ['edit', 'index'],
             ],
             'sort' => [
@@ -66,9 +66,14 @@ return [
             ],
             'options_entity' => [
                 'name' => 'Options Entity',
-                'type' => 'select.varchar',
+                'type' => 'json',
                 'nullable' => true,
-                'options_callback' => ['qnd\data', ['entity']],
+                'actions' => ['edit'],
+            ],
+            'options_callback' => [
+                'name' => 'Options Callback',
+                'type' => 'json',
+                'nullable' => true,
                 'actions' => ['edit'],
             ],
             'options' => [
@@ -108,7 +113,7 @@ return [
                 'name' => 'Entity',
                 'sort' => -1000,
                 'type' => 'select.varchar',
-                'options_entity' => 'entity',
+                'options_entity' => ['entity'],
             ],
             'active' => [
                 'name' => 'Active',
@@ -153,7 +158,7 @@ return [
                 'sort' => -300,
                 'type' => 'select.int',
                 'nullable' => true,
-                'options_entity' => 'user',
+                'options_entity' => ['user'],
             ],
             'modified' => [
                 'name' => 'Modified',
@@ -166,7 +171,7 @@ return [
                 'sort' => -100,
                 'type' => 'select.int',
                 'nullable' => true,
-                'options_entity' => 'user',
+                'options_entity' => ['user'],
             ],
         ],
     ],
@@ -177,14 +182,14 @@ return [
                 'name' => 'Content',
                 'type' => 'select.int',
                 'required' => true,
-                'options_entity' => 'content',
+                'options_entity' => ['content'],
                 'actions' => ['edit', 'index'],
             ],
             'attribute_id' => [
                 'name' => 'Attribute',
                 'type' => 'select.varchar',
                 'required' => true,
-                'options_entity' => 'attribute',
+                'options_entity' => ['attribute'],
                 'actions' => ['edit', 'index'],
             ],
             'value' => [
@@ -276,7 +281,7 @@ return [
                 'name' => 'Menu',
                 'generator' => 'auto',
                 'type' => 'select.int',
-                'options_entity' => 'menu',
+                'options_entity' => ['menu'],
                 'actions' => ['index'],
             ],
             'lft' => [
@@ -294,7 +299,7 @@ return [
                 'generator' => 'auto',
                 'type' => 'select.int',
                 'nullable' => true,
-                'options_entity' => 'node',
+                'options_entity' => ['node'],
                 'actions' => ['index'],
             ],
             'level' => [
@@ -461,7 +466,7 @@ return [
                 'name' => 'Role',
                 'type' => 'select.int',
                 'required' => true,
-                'options_entity' => 'role',
+                'options_entity' => ['role'],
                 'actions' => ['edit', 'index'],
             ],
             'active' => [

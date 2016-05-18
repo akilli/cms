@@ -19,7 +19,7 @@ return [
         'filterable' => false,
         'sortable' => false,
         'value' => null,
-        'options_entity' => null,
+        'options_entity' => [],
         'options_callback' => [],
         'options' => [],
         'actions' => [],

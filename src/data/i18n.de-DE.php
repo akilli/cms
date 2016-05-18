@@ -89,6 +89,7 @@ return [
     'Nothing created yet' => 'Noch nichts angelegt',
     'Number' => 'Anzahl',
     'Options' => 'Optionen',
+    'Options Callback' => 'Optionen Callback',
     'Options Entity' => 'Optionen Entity',
     'Page' => 'Seite',
     'Page %d of %d' => 'Seite %d von %d',

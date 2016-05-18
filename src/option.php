@@ -79,7 +79,7 @@ function option_bool(): array
  */
 function option_entity(array $attr): array
 {
-    return option_translate(entity_load($attr['options_entity']));
+    return option_translate(entity_load(...$attr['options_entity']));
 }
 
 /**
