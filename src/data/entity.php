@@ -24,7 +24,7 @@ return [
                 'name' => 'Entity',
                 'type' => 'select.varchar',
                 'required' => true,
-                'options_entity' => ['entity', ['type' => 'eav']],
+                'options' => ['qnd\entity_load', ['entity', ['type' => 'eav']]],
                 'actions' => ['edit', 'index'],
             ],
             'sort' => [
@@ -36,7 +36,7 @@ return [
                 'name' => 'Type',
                 'type' => 'select.varchar',
                 'required' => true,
-                'options_callback' => ['qnd\data', ['attribute']],
+                'options' => ['qnd\data', ['attribute']],
                 'actions' => ['edit', 'index'],
             ],
             'required' => [
@@ -64,18 +64,6 @@ return [
                 'type' => 'checkbox.bool',
                 'actions' => ['edit'],
             ],
-            'options_entity' => [
-                'name' => 'Options Entity',
-                'type' => 'json',
-                'nullable' => true,
-                'actions' => ['edit'],
-            ],
-            'options_callback' => [
-                'name' => 'Options Callback',
-                'type' => 'json',
-                'nullable' => true,
-                'actions' => ['edit'],
-            ],
             'options' => [
                 'name' => 'Options',
                 'type' => 'json',
@@ -86,7 +74,7 @@ return [
                 'name' => 'Actions',
                 'type' => 'multiselect',
                 'nullable' => true,
-                'options_callback' => ['qnd\config', ['action.attribute']],
+                'options' => ['qnd\config', ['action.attribute']],
                 'actions' => ['edit', 'index'],
             ],
         ],
@@ -113,7 +101,7 @@ return [
                 'name' => 'Entity',
                 'sort' => -1000,
                 'type' => 'select.varchar',
-                'options_entity' => ['entity'],
+                'options' => ['qnd\entity_load', ['entity']],
             ],
             'active' => [
                 'name' => 'Active',
@@ -158,7 +146,7 @@ return [
                 'sort' => -300,
                 'type' => 'select.int',
                 'nullable' => true,
-                'options_entity' => ['user'],
+                'options' => ['qnd\entity_load', ['user']],
             ],
             'modified' => [
                 'name' => 'Modified',
@@ -171,7 +159,7 @@ return [
                 'sort' => -100,
                 'type' => 'select.int',
                 'nullable' => true,
-                'options_entity' => ['user'],
+                'options' => ['qnd\entity_load', ['user']],
             ],
         ],
     ],
@@ -182,14 +170,14 @@ return [
                 'name' => 'Content',
                 'type' => 'select.int',
                 'required' => true,
-                'options_entity' => ['content'],
+                'options' => ['qnd\entity_load', ['content']],
                 'actions' => ['edit', 'index'],
             ],
             'attribute_id' => [
                 'name' => 'Attribute',
                 'type' => 'select.varchar',
                 'required' => true,
-                'options_entity' => ['attribute'],
+                'options' => ['qnd\entity_load', ['attribute']],
                 'actions' => ['edit', 'index'],
             ],
             'value' => [
@@ -223,21 +211,21 @@ return [
                 'name' => 'Type',
                 'type' => 'select.varchar',
                 'required' => true,
-                'options_callback' => ['qnd\config', ['entity.type']],
+                'options' => ['qnd\config', ['entity.type']],
                 'actions' => ['all'],
             ],
             'actions' => [
                 'name' => 'Actions',
                 'type' => 'multiselect',
                 'nullable' => true,
-                'options_callback' => ['qnd\config', ['action.entity']],
+                'options' => ['qnd\config', ['action.entity']],
                 'actions' => ['edit', 'index'],
             ],
             'toolbar' => [
                 'name' => 'Toolbar',
                 'type' => 'select.varchar',
                 'required' => true,
-                'options_callback' => ['qnd\data', ['toolbar']],
+                'options' => ['qnd\data', ['toolbar']],
                 'actions' => ['edit'],
             ],
             'sort' => [
@@ -281,7 +269,7 @@ return [
                 'name' => 'Menu',
                 'generator' => 'auto',
                 'type' => 'select.int',
-                'options_entity' => ['menu'],
+                'options' => ['qnd\entity_load', ['menu']],
                 'actions' => ['index'],
             ],
             'lft' => [
@@ -299,7 +287,7 @@ return [
                 'generator' => 'auto',
                 'type' => 'select.int',
                 'nullable' => true,
-                'options_entity' => ['node'],
+                'options' => ['qnd\entity_load', ['node']],
                 'actions' => ['index'],
             ],
             'level' => [
@@ -312,7 +300,7 @@ return [
                 'name' => 'Mode',
                 'virtual' => true,
                 'type' => 'select.varchar',
-                'options' => ['after' => 'After', 'before' => 'Before', 'child' => 'Child'],
+                'options' => [['after' => 'After', 'before' => 'Before', 'child' => 'Child']],
                 'actions' => ['edit'],
             ],
             'position' => [
@@ -320,7 +308,7 @@ return [
                 'virtual' => true,
                 'type' => 'select.varchar',
                 'required' => true,
-                'options_callback' => ['qnd\option_position'],
+                'options' => ['qnd\option_position'],
                 'actions' => ['edit'],
             ],
         ],
@@ -416,7 +404,7 @@ return [
             'privilege' => [
                 'name' => 'Privileges',
                 'type' => 'multiselect',
-                'options_callback' => ['qnd\privileges'],
+                'options' => ['qnd\privileges'],
                 'actions' => ['edit'],
             ],
             'active' => [
@@ -466,7 +454,7 @@ return [
                 'name' => 'Role',
                 'type' => 'select.int',
                 'required' => true,
-                'options_entity' => ['role'],
+                'options' => ['qnd\entity_load', ['role']],
                 'actions' => ['edit', 'index'],
             ],
             'active' => [

@@ -20,8 +20,6 @@ CREATE TABLE IF NOT EXISTS attribute (
     searchable BOOLEAN NOT NULL DEFAULT '0',
     filterable BOOLEAN NOT NULL DEFAULT '0',
     sortable BOOLEAN NOT NULL DEFAULT '0',
-    options_entity JSON DEFAULT NULL,
-    options_callback JSON DEFAULT NULL,
     options JSON DEFAULT NULL,
     actions JSON DEFAULT NULL,
     PRIMARY KEY (id),

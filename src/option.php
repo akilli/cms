@@ -11,14 +11,19 @@ namespace qnd;
 function option(array $attr): array
 {
     if ($attr['backend'] === 'bool') {
-        return option_bool();
-    } elseif (!empty($attr['options_entity'])) {
-        return option_entity($attr);
-    } elseif (!empty($attr['options_callback'])) {
-        return option_callback($attr);
+        return option_translate([_('No'), _('Yes')]);
+    }
+    
+    if (empty($attr['options'][0]) || !is_string($attr['options'][0]) && !is_array($attr['options'][0])) {
+        return [];
     }
 
-    return option_translate($attr['options']);
+    if (is_string($attr['options'][0])) {
+        $params = $attr['options'][1] ?? [];
+        return option_translate($attr['options'][0](...$params));
+    }
+
+    return option_translate($attr['options'][0]);
 }
 
 /**
@@ -33,7 +38,9 @@ function option_name($id, $value): string
 {
     if (is_array($value) && !empty($value['name'])) {
         return $value['name'];
-    } elseif (is_scalar($value)) {
+    }
+
+    if (is_scalar($value)) {
         return (string) $value;
     }
 
@@ -58,43 +65,6 @@ function option_translate(array $options): array
     }
 
     return $options;
-}
-
-/**
- * Bool options
- *
- * @return array
- */
-function option_bool(): array
-{
-    return option_translate([_('No'), _('Yes')]);
-}
-
-/**
- * Entity options
- *
- * @param array $attr
- *
- * @return array
- */
-function option_entity(array $attr): array
-{
-    return option_translate(entity_load(...$attr['options_entity']));
-}
-
-/**
- * Options callback
- *
- * @param array $attr
- *
- * @return array
- */
-function option_callback(array $attr): array
-{
-    $callback = $attr['options_callback'][0];
-    $params = $attr['options_callback'][1] ?? [];
-
-    return option_translate($callback(...$params));
 }
 
 /**
