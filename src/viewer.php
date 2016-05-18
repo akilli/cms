@@ -156,7 +156,7 @@ function viewer_file(array $attr, array $item): string
 function viewer_image(array $attr, array $item): string
 {
     if ($item[$attr['id']] && ($file = media_load($item[$attr['id']]))) {
-        return '<img src="' . image($file, $attr['action']) . '" alt="' . $item[$attr['id']] . '" />';
+        return '<img src="' . image($file, $attr['context']) . '" alt="' . $item[$attr['id']] . '" />';
     }
 
     return '';

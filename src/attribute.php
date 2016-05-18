@@ -61,7 +61,7 @@ function value(array $attr, array $item)
  */
 function ignorable(array $attr, array $item): bool
 {
-    $mustEdit = empty($item[$attr['id']]) || $attr['action'] === 'edit' && !empty($item[$attr['id']]);
+    $mustEdit = empty($item[$attr['id']]) || $attr['context'] === 'edit' && !empty($item[$attr['id']]);
 
     return !empty($item['_old'])
         && empty($item['_reset'][$attr['id']])
@@ -87,7 +87,7 @@ function editable(array & $attr, array $item): bool
         $attr['class'][] = 'invalid';
     }
 
-    $attr['action'] = 'edit';
+    $attr['context'] = 'edit';
 
     return true;
 }
@@ -101,5 +101,5 @@ function editable(array & $attr, array $item): bool
  */
 function viewable(array & $attr): bool
 {
-    return $attr['action'] && data_action($attr['action'], $attr);
+    return $attr['context'] && data_action($attr['context'], $attr);
 }

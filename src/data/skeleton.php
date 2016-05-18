@@ -23,7 +23,7 @@ return [
         'options_callback' => [],
         'options' => [],
         'actions' => [],
-        'action' => null,
+        'context' => null,
         'min' => null,
         'max' => null,
         'step' => null,

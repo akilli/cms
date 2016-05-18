@@ -39,7 +39,7 @@
                             <input id="edit-<?=$id;?>-name" type="checkbox" name="edit[<?=$id;?>]" value="1" />
                         </td>
                         <?php foreach ($§('attributes') as $code => $attr):?>
-                            <?php $attr['action'] = 'index';?>
+                            <?php $attr['context'] = 'index';?>
                         <td>
                             <?=viewer($attr, $item);?>
                         </td>
