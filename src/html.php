@@ -89,5 +89,5 @@ function html_message(array $attr, array $item): string
         return '';
     }
 
-    return '<p class="message error">' . $item['_error'][$attr['id']] . '</p>';
+    return '<div class="message error">' . $item['_error'][$attr['id']] . '</div>';
 }
