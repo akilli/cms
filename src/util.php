@@ -31,10 +31,11 @@ function stringify(string $glue, array $pieces, array $options = null): string
     foreach ($pieces as $key => $value) {
         $pre = $options['pre'] ?? '';
         $post = $options['post'] ?? '';
+        $quote = $options['quote'] ?? '';
         $sep = $options['sep'] ?? ' => ';
         $k = !empty($options['keys']) ? $key . $sep : '';
         $value = !empty($options['call']) ? $options['call']($value) : $value;
-        $pieces[$key] = $pre . $k . string($value) . $post;
+        $pieces[$key] = $pre . $k . $quote . string($value) . $quote . $post;
     }
 
     return implode($glue, $pieces);
