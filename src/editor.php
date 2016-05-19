@@ -234,35 +234,6 @@ function editor_range(array $attr, array $item): string
 }
 
 /**
- * Datetime editor
- *
- * @param array $attr
- * @param array $item
- *
- * @return string
- */
-function editor_datetime(array $attr, array $item): string
-{
-    $item[$attr['id']] = $item[$attr['id']] ?? null;
-
-    if ($item[$attr['id']]
-        && ($value = date_create_from_format('Y-m-d H:i:s', $item[$attr['id']]))
-        && ($value = date_format($value, 'Y-m-d\TH:i'))
-    ) {
-        $item[$attr['id']] = $value;
-    }
-
-    $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
-    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
-    $max = isset($attr['max']) && is_numeric($attr['max']) ? ' max="' . $attr['max'] . '"' : '';
-    $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
-        . html_name($attr, $item) . '" value="' . encode($item[$attr['id']]) . '"' . html_required($attr, $item)
-        . html_class($attr) . $step . $min . $max . ' />';
-
-    return html_label($attr, $item) . $html . html_message($attr, $item);
-}
-
-/**
  * Date editor
  *
  * @param array $attr
@@ -285,7 +256,36 @@ function editor_date(array $attr, array $item): string
     $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' max="' . $attr['max'] . '"' : '';
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
-        . html_name($attr, $item) . '" value="' . encode($item[$attr['id']]) . '"' . html_required($attr, $item)
+        . html_name($attr, $item) . '" value="' . $item[$attr['id']] . '"' . html_required($attr, $item)
+        . html_class($attr) . $step . $min . $max . ' />';
+
+    return html_label($attr, $item) . $html . html_message($attr, $item);
+}
+
+/**
+ * Datetime editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function editor_datetime(array $attr, array $item): string
+{
+    $item[$attr['id']] = $item[$attr['id']] ?? null;
+
+    if ($item[$attr['id']]
+        && ($value = date_create_from_format('Y-m-d H:i:s', $item[$attr['id']]))
+        && ($value = date_format($value, 'Y-m-d\TH:i'))
+    ) {
+        $item[$attr['id']] = $value;
+    }
+
+    $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
+    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
+    $max = isset($attr['max']) && is_numeric($attr['max']) ? ' max="' . $attr['max'] . '"' : '';
+    $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
+        . html_name($attr, $item) . '" value="' . $item[$attr['id']] . '"' . html_required($attr, $item)
         . html_class($attr) . $step . $min . $max . ' />';
 
     return html_label($attr, $item) . $html . html_message($attr, $item);
@@ -304,7 +304,7 @@ function editor_time(array $attr, array $item): string
     $item[$attr['id']] = $item[$attr['id']] ?? null;
 
     if ($item[$attr['id']]
-        && ($value = date_create_from_format('H:i', $item[$attr['id']]))
+        && ($value = date_create_from_format('H:i:s', $item[$attr['id']]))
         && ($value = date_format($value, 'H:i'))
     ) {
         $item[$attr['id']] = $value;
@@ -314,7 +314,7 @@ function editor_time(array $attr, array $item): string
     $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' max="' . $attr['max'] . '"' : '';
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
-        . html_name($attr, $item) . '" value="' . encode($item[$attr['id']]) . '"' . html_required($attr, $item)
+        . html_name($attr, $item) . '" value="' . $item[$attr['id']] . '"' . html_required($attr, $item)
         . html_class($attr) . $step . $min . $max . ' />';
 
     return html_label($attr, $item) . $html . html_message($attr, $item);
