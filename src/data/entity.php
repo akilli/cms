@@ -8,11 +8,10 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'generator' => 'id',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['index'],
+                'actions' => ['edit', 'index'],
             ],
             'name' => [
                 'name' => 'Name',
@@ -185,11 +184,10 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'ID',
-                'generator' => 'id',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['index'],
+                'actions' => ['edit', 'index'],
             ],
             'name' => [
                 'name' => 'Name',
