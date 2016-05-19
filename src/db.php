@@ -235,52 +235,6 @@ function njoin(string $table, string $alias): string
 }
 
 /**
- * INNER JOIN part
- *
- * @param string $table
- * @param string $alias
- * @param string[] $cols
- *
- * @return string
- */
-function ijoin(string $table, string $alias, array $cols): string
-{
-    if (!$cols) {
-        return '';
-    }
-
-    return sprintf(
-        ' INNER JOIN %s %s ON %s',
-        $table,
-        $alias,
-        stringify($cols, ['del' => ' AND ', 'sep' => ' = '])
-    );
-}
-
-/**
- * LEFT JOIN part
- *
- * @param string $table
- * @param string $alias
- * @param string[] $cols
- *
- * @return string
- */
-function ljoin(string $table, string $alias, array $cols): string
-{
-    if (!$cols) {
-        return '';
-    }
-
-    return sprintf(
-        ' LEFT JOIN %s %s ON %s',
-        $table,
-        $alias,
-        stringify($cols, ['del' => ' AND ', 'sep' => ' = '])
-    );
-}
-
-/**
  * WHERE part
  *
  * @param array $criteria
