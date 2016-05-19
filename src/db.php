@@ -253,7 +253,7 @@ function ijoin(string $table, string $alias, array $cols): string
         ' INNER JOIN %s %s ON %s',
         $table,
         $alias,
-        stringify(' AND ', $cols, ['sep' => ' = '])
+        stringify($cols, ['del' => ' AND ', 'sep' => ' = '])
     );
 }
 
@@ -276,7 +276,7 @@ function ljoin(string $table, string $alias, array $cols): string
         ' LEFT JOIN %s %s ON %s',
         $table,
         $alias,
-        stringify(' AND ', $cols, ['sep' => ' = '])
+        stringify($cols, ['del' => ' AND ', 'sep' => ' = '])
     );
 }
 

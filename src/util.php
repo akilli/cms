@@ -21,13 +21,12 @@ function fqn(string $name): string
  * - applies a callback to each value
  * - quotes each value
  *
- * @param string $glue
  * @param array $pieces
  * @param array $options
  *
  * @return string
  */
-function stringify(string $glue, array $pieces, array $options = null): string
+function stringify(array $pieces, array $options = null): string
 {
     foreach ($pieces as $key => $value) {
         $pre = $options['pre'] ?? '';
@@ -39,7 +38,7 @@ function stringify(string $glue, array $pieces, array $options = null): string
         $pieces[$key] = $pre . $k . $quote . string($value) . $quote . $post;
     }
 
-    return implode($glue, $pieces);
+    return implode($options['del'] ?? ', ', $pieces);
 }
 
 /**
@@ -52,7 +51,7 @@ function stringify(string $glue, array $pieces, array $options = null): string
 function string($var): string
 {
     if (is_array($var)) {
-        return '[' . stringify(', ', $var) . ']';
+        return '[' . stringify($var) . ']';
     } elseif (is_object($var) && !is_callable($var, '__toString')) {
         return get_class($var);
     } elseif (is_resource($var)) {
