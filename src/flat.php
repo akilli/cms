@@ -102,7 +102,7 @@ function flat_save(array & $item): bool
         'UPDATE %s SET %s WHERE %s = :_id',
         $item['_entity']['table'],
         implode(', ', $cols['set']),
-        $attrs['id']['column']
+        $attrs['id']['col']
     );
 
     foreach ($cols['param'] as $code => $param) {
@@ -129,7 +129,7 @@ function flat_delete(array & $item): bool
     $stmt = prep(
         'DELETE FROM %s WHERE %s = :id',
         $item['_entity']['table'],
-        $attrs['id']['column']
+        $attrs['id']['col']
     );
     $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
     $stmt->execute();

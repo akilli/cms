@@ -244,9 +244,9 @@ function data_attribute(array $data): array
 
     // Column
     if (!empty($data['virtual'])) {
-        $data['column'] = null;
-    } elseif (empty($data['column'])) {
-        $data['column'] = $data['id'];
+        $data['col'] = null;
+    } elseif (empty($data['col'])) {
+        $data['col'] = $data['id'];
     }
 
     // Correct invalid values

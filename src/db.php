@@ -167,11 +167,11 @@ function cols(array $attrs, array $item): array
     $data = ['col' => [], 'param' => [], 'set' => []];
 
     foreach (array_keys($item) as $code) {
-        if (empty($attrs[$code]['column']) || $attrs[$code]['generator'] === 'auto') {
+        if (empty($attrs[$code]['col']) || $attrs[$code]['generator'] === 'auto') {
             continue;
         }
 
-        $data['col'][$code] = $attrs[$code]['column'];
+        $data['col'][$code] = $attrs[$code]['col'];
         $data['param'][$code] = ':' . str_replace('-', '_', $code);
         $data['set'][$code] = $data['col'][$code] . ' = ' . $data['param'][$code];
     }
@@ -193,13 +193,13 @@ function select(array $attrs, string $alias = null): string
     $alias = $alias ? $alias . '.' : '';
 
     foreach ($attrs as $code => $attr) {
-        if (empty($attr['column'])) {
+        if (empty($attr['col'])) {
             continue;
         }
 
-        $pre = strpos($attr['column'], '.') !== false ? '' : $alias;
-        $post = $code !== $attr['column'] ? ' AS ' . qi($code) : '';
-        $cols[$code] = $pre . $attr['column'] . $post;
+        $pre = strpos($attr['col'], '.') !== false ? '' : $alias;
+        $post = $code !== $attr['col'] ? ' AS ' . qi($code) : '';
+        $cols[$code] = $pre . $attr['col'] . $post;
     }
 
     return $cols ? 'SELECT ' . implode(', ', $cols) : '';
@@ -294,12 +294,12 @@ function where(array $criteria, array $attrs, array $options = []): string
     $op = $search ? 'LIKE' : '=';
 
     foreach ($criteria as $code => $value) {
-        if (empty($attrs[$code]['column'])) {
+        if (empty($attrs[$code]['col'])) {
             continue;
         }
 
         $attr = $attrs[$code];
-        $pre = strpos($attr['column'], '.') !== false ? '' : $alias;
+        $pre = strpos($attr['col'], '.') !== false ? '' : $alias;
         $r = [];
 
         foreach ((array) $value as $v) {
@@ -307,7 +307,7 @@ function where(array $criteria, array $attrs, array $options = []): string
                 $v = '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
             }
 
-            $r[] = $pre . $attr['column'] . ' ' . $op . ' ' . qv($v, $attr['backend']);
+            $r[] = $pre . $attr['col'] . ' ' . $op . ' ' . qv($v, $attr['backend']);
         }
 
         $cols[$code] = '(' . implode(' OR ', $r) . ')';
@@ -377,7 +377,7 @@ function order(array $order, array $attrs = []): string
     $cols = [];
 
     foreach ($order as $code => $dir) {
-        if (empty($attrs[$code]['column'])) {
+        if (empty($attrs[$code]['col'])) {
             continue;
         }
 

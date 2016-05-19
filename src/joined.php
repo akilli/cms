@@ -144,7 +144,7 @@ function joined_save(array & $item): bool
         'UPDATE %s SET %s WHERE %s = :_id',
         $item['_entity']['table'],
         implode(', ', $cols['set']),
-        $attrs['id']['column']
+        $attrs['id']['col']
     );
 
     foreach ($cols['param'] as $code => $param) {

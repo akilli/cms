@@ -3,7 +3,7 @@ return [
     'attribute' => [
         'id' => null,
         'name' => null,
-        'column' => null,
+        'col' => null,
         'virtual' => false,
         'generator' => null,
         'entity_id' => null,

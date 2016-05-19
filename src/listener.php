@@ -54,7 +54,7 @@ function listener_data_entity(array & $data)
         if ($item['type'] === 'eav' && !empty($attrs[$id])) {
             foreach ($attrs[$id] as $code => $attr) {
                 if (empty($item['attributes'][$code])) {
-                    $attr['column'] = 'value';
+                    $attr['col'] = 'value';
                     $item['attributes'][$code] = $attr;
                 }
             }

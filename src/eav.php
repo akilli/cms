@@ -23,7 +23,7 @@ function eav_size(string $eId, array $criteria = [], array $options = []): int
     $params = [];
 
     foreach ($addAttrs as $code => $attr) {
-        if (empty($attr['column']) || empty($criteria[$code])) {
+        if (empty($attr['col']) || empty($criteria[$code])) {
             continue;
         }
 
@@ -81,7 +81,7 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
     $having = [];
 
     foreach ($addAttrs as $code => $attr) {
-        if (empty($attr['column'])) {
+        if (empty($attr['col'])) {
             continue;
         }
 
