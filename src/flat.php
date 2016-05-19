@@ -16,7 +16,7 @@ function flat_size(string $eId, array $criteria = [], array $options = []): int
 
     $stmt = prep(
         'SELECT COUNT(*) FROM %s %s',
-        $entity['table'],
+        $entity['tab'],
         where($criteria, $entity['attributes'], $options)
     );
     $stmt->execute();
@@ -43,7 +43,7 @@ function flat_load(string $eId, array $criteria = [], $index = null, array $orde
 
     $stmt = db()->prepare(
         select($attrs)
-        . from($entity['table'])
+        . from($entity['tab'])
         . where($criteria, $attrs, $options)
         . order($order, $attrs)
         . limit($limit)
@@ -67,7 +67,7 @@ function flat_create(array & $item): bool
 
     $stmt = prep(
         'INSERT INTO %s (%s) VALUES (%s)',
-        $item['_entity']['table'],
+        $item['_entity']['tab'],
         implode(', ', $cols['col']),
         implode(', ', $cols['param'])
     );
@@ -100,7 +100,7 @@ function flat_save(array & $item): bool
 
     $stmt = prep(
         'UPDATE %s SET %s WHERE %s = :_id',
-        $item['_entity']['table'],
+        $item['_entity']['tab'],
         implode(', ', $cols['set']),
         $attrs['id']['col']
     );
@@ -128,7 +128,7 @@ function flat_delete(array & $item): bool
 
     $stmt = prep(
         'DELETE FROM %s WHERE %s = :id',
-        $item['_entity']['table'],
+        $item['_entity']['tab'],
         $attrs['id']['col']
     );
     $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));

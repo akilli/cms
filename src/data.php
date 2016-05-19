@@ -190,7 +190,7 @@ function data_entity(array $data): array
 
     $data = array_replace_recursive(data('skeleton', 'entity'), $data);
      // Set table name from ID if it is not set already
-    $data['table'] = $data['table'] ?: $data['id'];
+    $data['tab'] = $data['tab'] ?: $data['id'];
     // Attributes
     $sort = 0;
 

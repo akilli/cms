@@ -27,7 +27,7 @@ return [
     'entity' => [
         'id' => null,
         'name' => null,
-        'table' => null,
+        'tab' => null,
         'type' => 'flat',
         'actions' => [],
         'toolbar' => null,

@@ -186,21 +186,21 @@ function cols(array $attrs, array $item): array
  * SELECT part
  *
  * @param array $attrs
- * @param string $alias
+ * @param string $as
  *
  * @return string
  */
-function select(array $attrs, string $alias = null): string
+function select(array $attrs, string $as = null): string
 {
     $cols = [];
-    $alias = $alias ? $alias . '.' : '';
+    $as = $as ? $as . '.' : '';
 
     foreach ($attrs as $code => $attr) {
         if (empty($attr['col'])) {
             continue;
         }
 
-        $pre = strpos($attr['col'], '.') !== false ? '' : $alias;
+        $pre = strpos($attr['col'], '.') !== false ? '' : $as;
         $post = $code !== $attr['col'] ? ' AS ' . qi($code) : '';
         $cols[$code] = $pre . $attr['col'] . $post;
     }
@@ -211,27 +211,27 @@ function select(array $attrs, string $alias = null): string
 /**
  * FROM part
  *
- * @param string $table
- * @param string $alias
+ * @param string $tab
+ * @param string $as
  *
  * @return string
  */
-function from(string $table, string $alias = null): string
+function from(string $tab, string $as = null): string
 {
-    return ' FROM ' . $table . ($alias ? ' ' . $alias : '');
+    return ' FROM ' . $tab . ($as ? ' ' . $as : '');
 }
 
 /**
  * NATURAL JOIN part
  *
- * @param string $table
- * @param string $alias
+ * @param string $tab
+ * @param string $as
  *
  * @return string
  */
-function njoin(string $table, string $alias): string
+function njoin(string $tab, string $as): string
 {
-    return sprintf(' NATURAL JOIN %s %s', $table, $alias);
+    return sprintf(' NATURAL JOIN %s %s', $tab, $as);
 }
 
 /**
@@ -246,7 +246,7 @@ function njoin(string $table, string $alias): string
 function where(array $criteria, array $attrs, array $options = []): string
 {
     $cols = [];
-    $alias = !empty($options['alias']) ? $options['alias'] . '.' : '';
+    $as = !empty($options['as']) ? $options['as'] . '.' : '';
     $search = !empty($options['search']);
     $op = $search ? 'LIKE' : '=';
 
@@ -256,7 +256,7 @@ function where(array $criteria, array $attrs, array $options = []): string
         }
 
         $attr = $attrs[$code];
-        $pre = strpos($attr['col'], '.') !== false ? '' : $alias;
+        $pre = strpos($attr['col'], '.') !== false ? '' : $as;
         $r = [];
 
         foreach ((array) $value as $v) {

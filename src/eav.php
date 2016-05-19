@@ -75,7 +75,7 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
     $mainAttrs = data('entity', 'content')['attributes'];
     $addAttrs = array_diff_key($attrs, $mainAttrs);
     $criteria['entity_id'] = $entity['id'];
-    $options = ['alias' => 'e', 'search' => $index === 'search'];
+    $options = ['as' => 'e', 'search' => $index === 'search'];
     $list = [];
     $params = [];
     $having = [];

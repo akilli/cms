@@ -17,7 +17,7 @@ function joined_size(string $eId, array $criteria = [], array $options = []): in
 
     $stmt = prep(
         'SELECT COUNT(*) FROM content c NATURAL JOIN %s j %s',
-        $entity['table'],
+        $entity['tab'],
         where($criteria, $entity['attributes'], $options)
     );
     $stmt->execute();
@@ -46,7 +46,7 @@ function joined_load(string $eId, array $criteria = [], $index = null, array $or
     $stmt = db()->prepare(
         select($attrs)
         . from('content', 'c')
-        . njoin($entity['table'], 'j')
+        . njoin($entity['tab'], 'j')
         . where($criteria, $attrs, $options)
         . order($order, $attrs)
         . limit($limit)
@@ -95,7 +95,7 @@ function joined_create(array & $item): bool
     $cols = cols($addAttrs, $item);
     $stmt = prep(
         'INSERT INTO %s (%s) VALUES (%s)',
-        $item['_entity']['table'],
+        $item['_entity']['tab'],
         implode(', ', $cols['col']),
         implode(', ', $cols['param'])
     );
@@ -142,7 +142,7 @@ function joined_save(array & $item): bool
     $cols = cols($addAttrs, $item);
     $stmt = prep(
         'UPDATE %s SET %s WHERE %s = :_id',
-        $item['_entity']['table'],
+        $item['_entity']['tab'],
         implode(', ', $cols['set']),
         $attrs['id']['col']
     );
@@ -166,7 +166,7 @@ function joined_save(array & $item): bool
  */
 function joined_delete(array & $item): bool
 {
-    $item['_entity']['table'] = 'content';
+    $item['_entity']['tab'] = 'content';
 
     return !empty($item['_entity']['id']) && $item['_entity']['id'] === $item['entity_id'] && flat_delete($item);
 }
