@@ -19,6 +19,7 @@ function fqn(string $name): string
  * - prepends a string to each element
  * - appends a string to each element
  * - applies a callback to each value
+ * - quotes each value
  *
  * @param string $glue
  * @param array $pieces
@@ -33,7 +34,7 @@ function stringify(string $glue, array $pieces, array $options = null): string
         $post = $options['post'] ?? '';
         $quote = $options['quote'] ?? '';
         $sep = $options['sep'] ?? ' => ';
-        $k = !empty($options['keys']) ? $key . $sep : '';
+        $k = empty($options['vals']) ? $key . $sep : '';
         $value = !empty($options['call']) ? $options['call']($value) : $value;
         $pieces[$key] = $pre . $k . $quote . string($value) . $quote . $post;
     }
@@ -51,7 +52,7 @@ function stringify(string $glue, array $pieces, array $options = null): string
 function string($var): string
 {
     if (is_array($var)) {
-        return '[' . stringify(', ', $var, ['keys' => true]) . ']';
+        return '[' . stringify(', ', $var) . ']';
     } elseif (is_object($var) && !is_callable($var, '__toString')) {
         return get_class($var);
     } elseif (is_resource($var)) {
