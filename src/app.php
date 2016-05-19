@@ -165,3 +165,15 @@ function _(string $key, string ...$params): string
 
     return vsprintf($key, $params) ?: $key;
 }
+
+/**
+ * Returns fully qualified name
+ *
+ * @param string $name
+ *
+ * @return string
+ */
+function fqn(string $name): string
+{
+    return __NAMESPACE__ . '\\' . $name;
+}
