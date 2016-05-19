@@ -363,8 +363,10 @@ function validator_datetime(array $attr, array & $item): bool
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
     if (!empty($item[$attr['id']])) {
-        if ($datetime = date_format(date_create_from_format('Y-m-d\TH:i', $item[$attr['id']]), 'Y-m-d H:i:s')) {
-            $item[$attr['id']] = $datetime;
+        $value = date_create_from_format('Y-m-d\TH:i', $item[$attr['id']]);
+
+        if ($value && ($value = date_format($value, 'Y-m-d H:i:s'))) {
+            $item[$attr['id']] = $value;
         } else {
             $item[$attr['id']] = null;
             $item['_error'][$attr['id']] = _('Invalid date');
@@ -390,8 +392,10 @@ function validator_date(array $attr, array & $item): bool
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
     if (!empty($item[$attr['id']])) {
-        if ($datetime = date_format(date_create_from_format('Y-m-d', $item[$attr['id']]), 'Y-m-d')) {
-            $item[$attr['id']] = $datetime;
+        $value = date_create_from_format('Y-m-d', $item[$attr['id']]);
+
+        if ($value && ($value = date_format($value, 'Y-m-d'))) {
+            $item[$attr['id']] = $value;
         } else {
             $item[$attr['id']] = null;
             $item['_error'][$attr['id']] = _('Invalid date');
@@ -417,8 +421,10 @@ function validator_time(array $attr, array & $item): bool
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
     if (!empty($item[$attr['id']])) {
-        if ($datetime = date_format(date_create_from_format('H:i', $item[$attr['id']]), 'H:i')) {
-            $item[$attr['id']] = $datetime;
+        $value = date_create_from_format('H:i', $item[$attr['id']]);
+
+        if ($value && ($value = date_format($value, 'H:i'))) {
+            $item[$attr['id']] = $value;
         } else {
             $item[$attr['id']] = null;
             $item['_error'][$attr['id']] = _('Invalid date');

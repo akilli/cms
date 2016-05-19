@@ -246,9 +246,10 @@ function editor_datetime(array $attr, array $item): string
     $item[$attr['id']] = $item[$attr['id']] ?? null;
 
     if ($item[$attr['id']]
-        && ($datetime = date_format(date_create_from_format('Y-m-d H:i:s', $item[$attr['id']]), 'Y-m-d\TH:i'))
+        && ($value = date_create_from_format('Y-m-d H:i:s', $item[$attr['id']]))
+        && ($value = date_format($value, 'Y-m-d\TH:i'))
     ) {
-        $item[$attr['id']] = $datetime;
+        $item[$attr['id']] = $value;
     }
 
     $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
@@ -273,8 +274,11 @@ function editor_date(array $attr, array $item): string
 {
     $item[$attr['id']] = $item[$attr['id']] ?? null;
 
-    if ($item[$attr['id']] && ($datetime = date_format(date_create_from_format('Y-m-d', $item[$attr['id']]), 'Y-m-d'))) {
-        $item[$attr['id']] = $datetime;
+    if ($item[$attr['id']]
+        && ($value = date_create_from_format('Y-m-d', $item[$attr['id']]))
+        && ($value = date_format($value, 'Y-m-d'))
+    ) {
+        $item[$attr['id']] = $value;
     }
 
     $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
@@ -299,8 +303,11 @@ function editor_time(array $attr, array $item): string
 {
     $item[$attr['id']] = $item[$attr['id']] ?? null;
 
-    if ($item[$attr['id']] && ($datetime = date_format(date_create_from_format('H:i', $item[$attr['id']]), 'H:i'))) {
-        $item[$attr['id']] = $datetime;
+    if ($item[$attr['id']]
+        && ($value = date_create_from_format('H:i', $item[$attr['id']]))
+        && ($value = date_format($value, 'H:i'))
+    ) {
+        $item[$attr['id']] = $value;
     }
 
     $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
