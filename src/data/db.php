@@ -1,6 +1,9 @@
 <?php
 return [
-    'dsn' => 'mysql:host=mysql;dbname=qnd;charset=utf8',
+    'driver' => 'mysql',
+    'host' => 'mysql',
+    'db' => 'qnd',
+    'charset' => 'utf8',
     'username' => 'root',
     'password' => '',
     'driver_options' => [

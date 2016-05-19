@@ -16,7 +16,8 @@ function db(): PDO
 
     if ($db === null) {
         $data = data('db');
-        $db = new PDO($data['dsn'], $data['username'], $data['password'], $data['driver_options']);
+        $dsn = sprintf('%s:host=%s;dbname=%s;charset=%s', $data['driver'], $data['host'], $data['db'], $data['charset']);
+        $db = new PDO($dsn, $data['username'], $data['password'], $data['driver_options']);
     }
 
     return $db;
