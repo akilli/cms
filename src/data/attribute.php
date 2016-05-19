@@ -41,7 +41,7 @@ return [
     // Input Date
     'date' => [
         'name' => 'Date',
-        'backend' => 'datetime',
+        'backend' => 'date',
         'frontend' => 'date',
     ],
     'datetime' => [
