@@ -38,7 +38,7 @@ return [
         'backend' => 'int',
         'frontend' => 'range',
     ],
-    // Input Date
+    // Input Date + Time
     'date' => [
         'name' => 'Date',
         'backend' => 'date',
@@ -48,6 +48,11 @@ return [
         'name' => 'Datetime',
         'backend' => 'datetime',
         'frontend' => 'datetime-local',
+    ],
+    'time' => [
+        'name' => 'Time',
+        'backend' => 'time',
+        'frontend' => 'time',
     ],
     // Input File
     'audio' => [

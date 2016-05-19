@@ -361,10 +361,9 @@ function validator_range(array $attr, array & $item): bool
 function validator_datetime(array $attr, array & $item): bool
 {
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
-    $format = $attr['frontend'] === 'date' ? 'Y-m-d' : 'Y-m-d H:i:s';
 
     if (!empty($item[$attr['id']])) {
-        if ($datetime = date_format(date_create($item[$attr['id']]), $format)) {
+        if ($datetime = date_format(date_create_from_format('Y-m-d\TH:i', $item[$attr['id']]), 'Y-m-d H:i:s')) {
             $item[$attr['id']] = $datetime;
         } else {
             $item[$attr['id']] = null;
@@ -388,7 +387,48 @@ function validator_datetime(array $attr, array & $item): bool
  */
 function validator_date(array $attr, array & $item): bool
 {
-    return validator_datetime($attr, $item);
+    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
+
+    if (!empty($item[$attr['id']])) {
+        if ($datetime = date_format(date_create_from_format('Y-m-d', $item[$attr['id']]), 'Y-m-d')) {
+            $item[$attr['id']] = $datetime;
+        } else {
+            $item[$attr['id']] = null;
+            $item['_error'][$attr['id']] = _('Invalid date');
+
+            return false;
+        }
+    }
+
+    return (!isset($attr['min']) || $attr['min'] <= $item[$attr['id']])
+        && (!isset($attr['max']) || $attr['max'] >= $item[$attr['id']]);
+}
+
+/**
+ * Time validator
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return bool
+ */
+function validator_time(array $attr, array & $item): bool
+{
+    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
+
+    if (!empty($item[$attr['id']])) {
+        if ($datetime = date_format(date_create_from_format('H:i', $item[$attr['id']]), 'H:i')) {
+            $item[$attr['id']] = $datetime;
+        } else {
+            $item[$attr['id']] = null;
+            $item['_error'][$attr['id']] = _('Invalid date');
+
+            return false;
+        }
+    }
+
+    return (!isset($attr['min']) || $attr['min'] <= $item[$attr['id']])
+        && (!isset($attr['max']) || $attr['max'] >= $item[$attr['id']]);
 }
 
 /**

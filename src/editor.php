@@ -14,7 +14,7 @@ function editor(array $attr, array $item): string
     if (!data_action('edit', $attr)) {
         return '';
     }
-    
+
     if (!empty($item['_error'][$attr['id']])) {
         $attr['class'][] = 'invalid';
     }
@@ -243,12 +243,12 @@ function editor_range(array $attr, array $item): string
  */
 function editor_datetime(array $attr, array $item): string
 {
-    $format = $attr['type'] === 'date' ? 'Y-m-d' : 'Y-m-d\TH:i:s';
+    $item[$attr['id']] = $item[$attr['id']] ?? null;
 
-    if (!empty($item[$attr['id']]) && ($datetime = date_format(date_create($item[$attr['id']]), $format))) {
+    if ($item[$attr['id']]
+        && ($datetime = date_format(date_create_from_format('Y-m-d H:i:s', $item[$attr['id']]), 'Y-m-d\TH:i'))
+    ) {
         $item[$attr['id']] = $datetime;
-    } else {
-        $item[$attr['id']] = null;
     }
 
     $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
@@ -271,7 +271,46 @@ function editor_datetime(array $attr, array $item): string
  */
 function editor_date(array $attr, array $item): string
 {
-    return editor_datetime($attr, $item);
+    $item[$attr['id']] = $item[$attr['id']] ?? null;
+
+    if ($item[$attr['id']] && ($datetime = date_format(date_create_from_format('Y-m-d', $item[$attr['id']]), 'Y-m-d'))) {
+        $item[$attr['id']] = $datetime;
+    }
+
+    $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
+    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
+    $max = isset($attr['max']) && is_numeric($attr['max']) ? ' max="' . $attr['max'] . '"' : '';
+    $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
+        . html_name($attr, $item) . '" value="' . encode($item[$attr['id']]) . '"' . html_required($attr, $item)
+        . html_class($attr) . $step . $min . $max . ' />';
+
+    return html_label($attr, $item) . $html . html_message($attr, $item);
+}
+
+/**
+ * Time editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function editor_time(array $attr, array $item): string
+{
+    $item[$attr['id']] = $item[$attr['id']] ?? null;
+
+    if ($item[$attr['id']] && ($datetime = date_format(date_create_from_format('H:i', $item[$attr['id']]), 'H:i'))) {
+        $item[$attr['id']] = $datetime;
+    }
+
+    $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
+    $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
+    $max = isset($attr['max']) && is_numeric($attr['max']) ? ' max="' . $attr['max'] . '"' : '';
+    $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
+        . html_name($attr, $item) . '" value="' . encode($item[$attr['id']]) . '"' . html_required($attr, $item)
+        . html_class($attr) . $step . $min . $max . ' />';
+
+    return html_label($attr, $item) . $html . html_message($attr, $item);
 }
 
 /**

@@ -85,6 +85,8 @@ function db_cast(array $attr): string
             return 'SIGNED';
         case 'json':
             return 'JSON';
+        case 'time':
+            return 'TIME';
     }
 
     return 'CHAR';

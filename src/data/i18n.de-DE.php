@@ -133,6 +133,7 @@ return [
     'Text' => 'Text',
     'Textarea' => 'Textarea',
     'The page %s does not exist' => 'Die Seite %s existiert nicht',
+    'Time' => 'Uhrzeit',
     'Toolbar' => 'Toolbar',
     'Type' => 'Typ',
     'Unambiguous' => 'Eindeutig',
