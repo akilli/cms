@@ -4,6 +4,21 @@ namespace qnd;
 /**
  * HTML attributes
  *
+ * @param string $name
+ * @param array $attrs
+ * @param string $value
+ * @param bool $empty
+ *
+ * @return string
+ */
+function html_tag(string $name, array $attrs = [], string $value = null, bool $empty = false): string
+{
+    return '<' . $name . html_attr($attrs) . ($empty ? ' />' : '>' . $value . '</' . $name . '>');
+}
+
+/**
+ * HTML attributes
+ *
  * @param array $attrs
  *
  * @return string
@@ -37,17 +52,17 @@ function html_attr(array $attrs): string
  */
 function html_label(array $attr, array $item): string
 {
-    $message = '';
+    $label = _($attr['name']);
 
     if (!empty($attr['required']) && !ignorable($attr, $item)) {
-        $message .= ' <em class="required">' . _('Required') . '</em>';
+        $label .= ' ' . html_tag('em', ['class' => 'required'], _('Required'));
     }
 
     if (!empty($attr['uniq'])) {
-        $message .= ' <em class="uniq">' . _('Unique') . '</em>';
+        $label .= ' ' . html_tag('em', ['class' => 'uniq'], _('Unique'));
     }
 
-    return '<label for="' . html_id($attr, $item) . '">' . _($attr['name']) . $message . '</label>';
+    return html_tag('label', ['for' => html_id($attr, $item)], $label);
 }
 
 /**
@@ -86,7 +101,7 @@ function html_name(array $attr, array $item): string
  */
 function html_required(array $attr, array $item): string
 {
-    return !empty($attr['required']) && !ignorable($attr, $item) ? ' required="required"' : '';
+    return !empty($attr['required']) && !ignorable($attr, $item) ? html_attr(['required' => true]) : '';
 }
 
 /**
@@ -98,7 +113,7 @@ function html_required(array $attr, array $item): string
  */
 function html_class(array $attr): string
 {
-    return !empty($attr['html']['class']) ? ' class="' . implode(' ', $attr['html']['class']) . '"' : '';
+    return !empty($attr['html']['class']) ? html_attr(['class' => $attr['html']['class']]) : '';
 }
 
 /**
@@ -115,5 +130,5 @@ function html_message(array $attr, array $item): string
         return '';
     }
 
-    return '<div class="message error">' . $item['_error'][$attr['id']] . '</div>';
+    return html_tag('div', ['class' => 'message error'], $item['_error'][$attr['id']]);
 }
