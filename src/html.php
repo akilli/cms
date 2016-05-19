@@ -2,6 +2,36 @@
 namespace qnd;
 
 /**
+ * HTML attributes
+ *
+ * @param array $attrs
+ *
+ * @return string
+ */
+function html_attr(array $attrs): string
+{
+    $cfg['default'] = ['del' => '', 'start' => '', 'end' => '', 'pre' => '', 'post' => '', 'sep' => ''];
+    $cfg['array'] = ['del' => ', ', 'start' => '[', 'end' => ']', 'sep' => ' => '];
+    $cfg['attr'] = ['del' => ' ', 'sep' => '='];
+
+    $data = [];
+
+    foreach ($attrs as $key => $val) {
+        if (is_array($val)) {
+            $val = implode(' ', $val);
+        } elseif ($val === false) {
+            continue;
+        } elseif ($val === true) {
+            $val = $key;
+        }
+
+        $data[$key] = $key . '="' . addcslashes($val, '"') . '"';
+    }
+
+    return implode(' ', $data);
+}
+
+/**
  * Label
  *
  * @param array $attr
