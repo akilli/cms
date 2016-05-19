@@ -10,25 +10,21 @@ namespace qnd;
  */
 function html_attr(array $attrs): string
 {
-    $cfg['default'] = ['del' => '', 'start' => '', 'end' => '', 'pre' => '', 'post' => '', 'sep' => ''];
-    $cfg['array'] = ['del' => ', ', 'start' => '[', 'end' => ']', 'sep' => ' => '];
-    $cfg['attr'] = ['del' => ' ', 'sep' => '='];
-
-    $data = [];
+    $html = '';
 
     foreach ($attrs as $key => $val) {
-        if (is_array($val)) {
-            $val = implode(' ', $val);
-        } elseif ($val === false) {
+        if ($val === false) {
             continue;
         } elseif ($val === true) {
             $val = $key;
+        } elseif (is_array($val)) {
+            $val = implode(' ', $val);
         }
 
-        $data[$key] = $key . '="' . addcslashes($val, '"') . '"';
+        $html .= ' ' . $key . '="' . addcslashes($val, '"') . '"';
     }
 
-    return implode(' ', $data);
+    return $html;
 }
 
 /**
