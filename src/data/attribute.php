@@ -31,7 +31,6 @@ return [
         'name' => 'Decimal',
         'backend' => 'decimal',
         'frontend' => 'number',
-        'step' => 0.01,
     ],
     'range' => [
         'name' => 'Range',
