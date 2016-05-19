@@ -1,7 +1,7 @@
 <?php
 return [
     '%s is a mandatory field' => '%s ist ein Pflichtfeld',
-    '%s must be unambiguous' => '%s muß eindeutig sein',
+    '%s must be unique' => '%s muß eindeutig sein',
     'Access denied' => 'Zugriff verweigert',
     'Actions' => 'Aktionen',
     'Active' => 'Aktiv',
@@ -138,7 +138,7 @@ return [
     'Time' => 'Uhrzeit',
     'Toolbar' => 'Toolbar',
     'Type' => 'Typ',
-    'Unambiguous' => 'Eindeutig',
+    'Unique' => 'Eindeutig',
     'URL' => 'URL',
     'User' => 'Benutzer',
     'User Dashboard' => 'Benutzer Übersicht',

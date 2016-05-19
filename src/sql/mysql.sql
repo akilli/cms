@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS attribute (
     sort INTEGER(11) NOT NULL DEFAULT '0',
     type VARCHAR(100) NOT NULL,
     required BOOLEAN NOT NULL DEFAULT '0',
-    unambiguous BOOLEAN NOT NULL DEFAULT '0',
+    uniq BOOLEAN NOT NULL DEFAULT '0',
     searchable BOOLEAN NOT NULL DEFAULT '0',
     options JSON DEFAULT NULL,
     actions JSON DEFAULT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS attribute (
     KEY idx_attribute_type (type),
     KEY idx_attribute_sort (sort),
     KEY idx_attribute_required (required),
-    KEY idx_attribute_unambiguous (unambiguous),
+    KEY idx_attribute_uniq (uniq),
     KEY idx_attribute_searchable (searchable),
     CONSTRAINT con_attribute_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

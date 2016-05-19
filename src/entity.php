@@ -75,7 +75,7 @@ function entity_load(string $eId, array $criteria = [], $index = null, array $or
 
         if (!$index
             || $index === 'search'
-            || !is_array($index) && empty($entity['attributes'][$index]) && $index !== 'unambiguous'
+            || !is_array($index) && empty($entity['attributes'][$index]) && $index !== 'uniq'
         ) {
             $index = 'id';
         }
@@ -98,9 +98,9 @@ function entity_load(string $eId, array $criteria = [], $index = null, array $or
                 return $item;
             }
 
-            if ($index === 'unambiguous') {
+            if ($index === 'uniq') {
                 foreach ($item as $code => $value) {
-                    if (!empty($entity['attributes'][$code]['unambiguous'])) {
+                    if (!empty($entity['attributes'][$code]['uniq'])) {
                         $data[$code][$item['id']] = $value;
                     }
                 }

@@ -251,7 +251,7 @@ function data_attribute(array $data): array
 
     // Correct invalid values
     $data['required'] = empty($data['nullable']) && $data['required'];
-    $data['unambiguous'] = !in_array($data['backend'], ['bool', 'text']) && $data['unambiguous'];
+    $data['uniq'] = !in_array($data['backend'], ['bool', 'text']) && $data['uniq'];
     $data['multiple'] = in_array($data['type'], ['multicheckbox', 'multiselect']);
 
     return $data;

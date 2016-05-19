@@ -223,7 +223,7 @@ label em.required,
     color: #901913;
 }
 
-label em.unambiguous {
+label em.uniq {
     color: #727c25;
 }
 

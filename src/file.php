@@ -59,7 +59,7 @@ function file_load(string $path, array $criteria = null, $index = null, array $o
             return $item;
         }
 
-        if ($index === 'unambiguous') {
+        if ($index === 'uniq') {
             $data['id'][$item['id']] = $item['id'];
         } elseif (is_array($index)
             && !empty($index[0])

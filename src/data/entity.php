@@ -11,7 +11,7 @@ return [
                 'generator' => 'id',
                 'type' => 'text',
                 'required' => true,
-                'unambiguous' => true,
+                'uniq' => true,
                 'actions' => ['index'],
             ],
             'name' => [
@@ -44,8 +44,8 @@ return [
                 'type' => 'checkbox.bool',
                 'actions' => ['edit'],
             ],
-            'unambiguous' => [
-                'name' => 'Unambiguous',
+            'uniq' => [
+                'name' => 'Unique',
                 'type' => 'checkbox.bool',
                 'actions' => ['edit'],
             ],
@@ -188,7 +188,7 @@ return [
                 'generator' => 'id',
                 'type' => 'text',
                 'required' => true,
-                'unambiguous' => true,
+                'uniq' => true,
                 'actions' => ['index'],
             ],
             'name' => [
@@ -325,7 +325,7 @@ return [
                 'name' => 'Host',
                 'type' => 'text',
                 'nullable' => true,
-                'unambiguous' => true,
+                'uniq' => true,
                 'actions' => ['edit', 'index'],
             ],
             'active' => [
@@ -351,7 +351,7 @@ return [
                 'generator' => 'id',
                 'type' => 'text',
                 'required' => true,
-                'unambiguous' => true,
+                'uniq' => true,
                 'actions' => ['all'],
             ],
             'target' => [
@@ -388,7 +388,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'unambiguous' => true,
+                'uniq' => true,
                 'actions' => ['all'],
             ],
             'privilege' => [
@@ -431,7 +431,7 @@ return [
                 'name' => 'Username',
                 'type' => 'text',
                 'required' => true,
-                'unambiguous' => true,
+                'uniq' => true,
                 'actions' => ['all'],
             ],
             'password' => [

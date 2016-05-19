@@ -13,7 +13,7 @@ return [
         'frontend' => null,
         'nullable' => false,
         'required' => false,
-        'unambiguous' => false,
+        'uniq' => false,
         'multiple' => false,
         'searchable' => false,
         'value' => null,

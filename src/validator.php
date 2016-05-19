@@ -37,7 +37,7 @@ function validator(array $attr, array & $item): bool
 function validator_default(array $attr, array & $item): bool
 {
     return !data_action('edit', $attr) && (empty($attr['required']) || !empty($item['_old']))
-        || validator_unambiguous($attr, $item) && validator_required($attr, $item) && validator_boundary($attr, $item);
+        || validator_uniq($attr, $item) && validator_required($attr, $item) && validator_boundary($attr, $item);
 }
 
 /**
@@ -59,18 +59,18 @@ function validator_required(array $attr, array & $item): bool
 }
 
 /**
- * Unambiguous validator
+ * Unique validator
  *
  * @param array $attr
  * @param array $item
  *
  * @return bool
  */
-function validator_unambiguous(array $attr, array & $item): bool
+function validator_uniq(array $attr, array & $item): bool
 {
     static $data = [];
 
-    if (empty($attr['unambiguous'])) {
+    if (empty($attr['uniq'])) {
         return true;
     }
 
@@ -78,7 +78,7 @@ function validator_unambiguous(array $attr, array & $item): bool
 
     // Existing values
     if (!isset($data[$eId])) {
-        $data[$eId] = entity_load($eId, [], 'unambiguous');
+        $data[$eId] = entity_load($eId, [], 'uniq');
 
         if ($eId === 'entity' && ($ids = array_keys(data('entity')))
             || $eId === 'attribute' && ($ids = array_keys(data('entity', 'content')['attributes']))
@@ -92,7 +92,7 @@ function validator_unambiguous(array $attr, array & $item): bool
         $data[$eId][$attr['id']] = [];
     }
 
-    // Generate unambiguous value
+    // Generate unique value
     if ($attr['generator'] === 'id') {
         $base = data_action('edit', $attr) ? $attr['id'] : 'name';
 
@@ -114,12 +114,12 @@ function validator_unambiguous(array $attr, array & $item): bool
             || !in_array($item[$attr['id']], $data[$eId][$attr['id']])
         )
     ) {
-        // Provided value is unambiguous
+        // Provided value is unique
         $data[$eId][$attr['id']][$item['_id']] = $item[$attr['id']];
         return true;
     }
 
-    $item['_error'][$attr['id']] = _('%s must be unambiguous', $attr['name']);
+    $item['_error'][$attr['id']] = _('%s must be unique', $attr['name']);
 
     return false;
 }
