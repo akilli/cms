@@ -37,7 +37,7 @@ function validator(array $attr, array & $item): bool
 function validator_default(array $attr, array & $item): bool
 {
     return !data_action('edit', $attr) && (empty($attr['required']) || !empty($item['_old']))
-        || validator_unambiguous($attr, $item) && validator_required($attr, $item);
+        || validator_unambiguous($attr, $item) && validator_required($attr, $item) && validator_boundary($attr, $item);
 }
 
 /**
@@ -125,6 +125,21 @@ function validator_unambiguous(array $attr, array & $item): bool
 }
 
 /**
+ * Boundary validator
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return bool
+ */
+function validator_boundary(array $attr, array & $item): bool
+{
+    $value = in_array($attr['backend'], ['json', 'text', 'varchar']) ? strlen($item[$attr['id']]) : $item[$attr['id']];
+
+    return (!isset($attr['min']) || $attr['min'] <= $value) && (!isset($attr['max']) || $attr['max'] >= $value);
+}
+
+/**
  * Option validator
  *
  * @param array $attr
@@ -175,8 +190,7 @@ function validator_text(array $attr, array & $item): bool
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
     $item[$attr['id']] = trim((string) filter_var($item[$attr['id']], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
 
-    return (!isset($attr['min']) || $attr['min'] <= strlen($item[$attr['id']]))
-        && (!isset($attr['max']) || $attr['max'] >= strlen($item[$attr['id']]));
+    return true;
 }
 
 /**
@@ -198,8 +212,7 @@ function validator_email(array $attr, array & $item): bool
         return false;
     }
 
-    return (!isset($attr['min']) || $attr['min'] <= strlen($item[$attr['id']]))
-        && (!isset($attr['max']) || $attr['max'] >= strlen($item[$attr['id']]));
+    return true;
 }
 
 /**
@@ -234,8 +247,7 @@ function validator_url(array $attr, array & $item): bool
         return false;
     }
 
-    return (!isset($attr['min']) || $attr['min'] <= strlen($item[$attr['id']]))
-        && (!isset($attr['max']) || $attr['max'] >= strlen($item[$attr['id']]));
+    return true;
 }
 
 /**
@@ -291,8 +303,7 @@ function validator_rte(array $attr, array & $item): bool
         $item[$attr['id']] = filter_html($item[$attr['id']]);
     }
 
-    return (!isset($attr['min']) || $attr['min'] <= strlen($item[$attr['id']]))
-        && (!isset($attr['max']) || $attr['max'] >= strlen($item[$attr['id']]));
+    return true;
 }
 
 /**
@@ -320,8 +331,7 @@ function validator_int(array $attr, array & $item): bool
 {
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
-    return (!isset($attr['min']) || $attr['min'] <= $item[$attr['id']])
-        && (!isset($attr['max']) || $attr['max'] >= $item[$attr['id']]);
+    return true;
 }
 
 /**
@@ -375,8 +385,7 @@ function validator_datetime(array $attr, array & $item): bool
         }
     }
 
-    return (!isset($attr['min']) || $attr['min'] <= $item[$attr['id']])
-        && (!isset($attr['max']) || $attr['max'] >= $item[$attr['id']]);
+    return true;
 }
 
 /**
@@ -404,8 +413,7 @@ function validator_date(array $attr, array & $item): bool
         }
     }
 
-    return (!isset($attr['min']) || $attr['min'] <= $item[$attr['id']])
-        && (!isset($attr['max']) || $attr['max'] >= $item[$attr['id']]);
+    return true;
 }
 
 /**
@@ -433,8 +441,7 @@ function validator_time(array $attr, array & $item): bool
         }
     }
 
-    return (!isset($attr['min']) || $attr['min'] <= $item[$attr['id']])
-        && (!isset($attr['max']) || $attr['max'] >= $item[$attr['id']]);
+    return true;
 }
 
 /**
