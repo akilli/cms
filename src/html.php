@@ -98,7 +98,7 @@ function html_required(array $attr, array $item): string
  */
 function html_class(array $attr): string
 {
-    return $attr['class'] ? ' class="' . implode(' ', $attr['class']) . '"' : '';
+    return $attr['html']['class'] ? ' class="' . implode(' ', $attr['html']['class']) . '"' : '';
 }
 
 /**

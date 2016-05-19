@@ -22,8 +22,7 @@ return [
         'context' => null,
         'min' => null,
         'max' => null,
-        'step' => null,
-        'class' => [],
+        'html' => [],
     ],
     'entity' => [
         'id' => null,

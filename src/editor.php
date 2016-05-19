@@ -16,7 +16,7 @@ function editor(array $attr, array $item): string
     }
 
     if (!empty($item['_error'][$attr['id']])) {
-        $attr['class'][] = 'invalid';
+        $attr['html']['class'][] = 'invalid';
     }
 
     $attr['context'] = 'edit';
@@ -197,7 +197,7 @@ function editor_url(array $attr, array $item): string
  */
 function editor_int(array $attr, array $item): string
 {
-    $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
+    $step = !empty($attr['html']['step']) && is_numeric($attr['html']['step']) ? ' step="' . $attr['html']['step'] . '"' : '';
     $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' max="' . $attr['max'] . '"' : '';
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend']
@@ -252,7 +252,7 @@ function editor_date(array $attr, array $item): string
         $item[$attr['id']] = $value;
     }
 
-    $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
+    $step = !empty($attr['html']['step']) && is_numeric($attr['html']['step']) ? ' step="' . $attr['html']['step'] . '"' : '';
     $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' max="' . $attr['max'] . '"' : '';
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
@@ -281,7 +281,7 @@ function editor_datetime(array $attr, array $item): string
         $item[$attr['id']] = $value;
     }
 
-    $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
+    $step = !empty($attr['html']['step']) && is_numeric($attr['html']['step']) ? ' step="' . $attr['html']['step'] . '"' : '';
     $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' max="' . $attr['max'] . '"' : '';
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'
@@ -310,7 +310,7 @@ function editor_time(array $attr, array $item): string
         $item[$attr['id']] = $value;
     }
 
-    $step = !empty($attr['step']) && is_numeric($attr['step']) ? ' step="' . $attr['step'] . '"' : '';
+    $step = !empty($attr['html']['step']) && is_numeric($attr['html']['step']) ? ' step="' . $attr['html']['step'] . '"' : '';
     $min = isset($attr['min']) && is_numeric($attr['min']) ? ' min="' . $attr['min'] . '"' : '';
     $max = isset($attr['max']) && is_numeric($attr['max']) ? ' max="' . $attr['max'] . '"' : '';
     $html = '<input id="' . html_id($attr, $item) . '" type="' . $attr['frontend'] . '" name="'

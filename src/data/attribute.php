@@ -94,7 +94,6 @@ return [
         'name' => 'Rich Text Editor',
         'backend' => 'text',
         'frontend' => 'textarea',
-        'class' => ['rte'],
     ],
     'textarea' => [
         'name' => 'Textarea',
