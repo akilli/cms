@@ -53,10 +53,9 @@ function node_create(array & $item): bool
     $attrs = $item['_entity']['attributes'];
     $parts = explode(':', $item['position']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
-    $item['basis'] = cast($attrs['id'], $parts[1]);
-    $rootId = $item['root_id'];
+    $basis = cast($attrs['id'], $parts[1]);
 
-    if (empty($item['basis']) || !($basisItem = entity_load($item['_entity']['id'], ['id' => $item['basis']], false))) {
+    if (!$basisItem = entity_load($item['_entity']['id'], ['id' => $basis], false)) {
         // No or wrong basis given so append node
         $stmt = db()->prepare('
             SELECT 
@@ -66,28 +65,28 @@ function node_create(array & $item): bool
             WHERE 
                 root_id = :root_id
         ');
-        $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
+        $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
         $stmt->execute();
-        $baseLft = (int) $stmt->fetchColumn();
+        $basisLft = (int) $stmt->fetchColumn();
         $item['parent_id'] = null;
         $item['level'] = 1;
     } elseif ($item['mode'] === 'before') {
-        $baseLft = $basisItem['lft'];
+        $basisLft = $basisItem['lft'];
         $item['parent_id'] = $basisItem['parent_id'];
         $item['level'] = $basisItem['level'];
     } elseif ($item['mode'] === 'child') {
-        $baseLft = $basisItem['rgt'];
+        $basisLft = $basisItem['rgt'];
         $item['parent_id'] = $basisItem['id'];
         $item['level'] = $basisItem['level'] + 1;
     } else {
-        $baseLft = $basisItem['rgt'] + 1;
+        $basisLft = $basisItem['rgt'] + 1;
         $item['parent_id'] = $basisItem['parent_id'];
         $item['level'] = $basisItem['level'];
     }
 
+    // Make space in the new tree
     $length = 2;
 
-    // Make space in the new tree
     $stmt = db()->prepare('
         UPDATE 
             node
@@ -97,8 +96,8 @@ function node_create(array & $item): bool
             root_id = :root_id
             AND lft >= :lft 
     ');
-    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $baseLft, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $basisLft, PDO::PARAM_INT);
     $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -111,8 +110,8 @@ function node_create(array & $item): bool
             root_id = :root_id
             AND rgt >= :lft 
     ');
-    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $baseLft, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $basisLft, PDO::PARAM_INT);
     $stmt->bindValue(':length', $length, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -129,9 +128,9 @@ function node_create(array & $item): bool
         $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
     }
 
-    $stmt->bindValue(':root_id', $rootId, PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $baseLft, PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $baseLft + 1, PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $basisLft, PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $basisLft + 1, PDO::PARAM_INT);
     $stmt->bindValue(':parent_id', $item['parent_id'], PDO::PARAM_INT);
     $stmt->bindValue(':level', $item['level'], PDO::PARAM_INT);
     $stmt->execute();
@@ -154,11 +153,11 @@ function node_save(array & $item): bool
     $attrs = $item['_entity']['attributes'];
     $parts = explode(':', $item['position']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
-    $item['basis'] = cast($attrs['id'], $parts[1]);
-    $basisItem = [];
-    $cols = cols($attrs, $item);
+    $basis = cast($attrs['id'], $parts[1]);
 
     // Update all attributes that are not involved with the tree
+    $cols = cols($attrs, $item);
+
     $stmt = prep(
         'UPDATE node SET %s WHERE id = :_id',
         implode(', ', $cols['set'])
@@ -172,15 +171,15 @@ function node_save(array & $item): bool
     $stmt->execute();
 
     // No change in position or wrong basis given
-    if (!empty($item['basis']) && ($item['basis'] === $item['_old']['id']
-            || !($basisItem = entity_load($item['_entity']['id'], ['id' => $item['basis']], false))
-            || $item['_old']['lft'] < $basisItem['lft'] && $item['_old']['rgt'] > $basisItem['rgt'])
+    if ($basis === $item['_old']['id']
+        || !($basisItem = entity_load($item['_entity']['id'], ['id' => $basis], false))
+        || $item['_old']['lft'] < $basisItem['lft'] && $item['_old']['rgt'] > $basisItem['rgt']
     ) {
         return true;
     }
 
     // Calculate lft position
-    if (empty($item['basis'])) {
+    if (!$basis) {
         $stmt = db()->prepare('
             SELECT 
                 COALESCE(MAX(rgt), 0) + 1
@@ -191,27 +190,27 @@ function node_save(array & $item): bool
         ');
         $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
         $stmt->execute();
-        $baseLft = (int) $stmt->fetchColumn();
+        $basisLft = (int) $stmt->fetchColumn();
         $item['parent_id'] = null;
         $item['level'] = 1;
     } elseif ($item['mode'] === 'before') {
-        $baseLft = $basisItem['lft'];
+        $basisLft = $basisItem['lft'];
         $item['parent_id'] = $basisItem['parent_id'];
         $item['level'] = $basisItem['level'];
     } elseif ($item['mode'] === 'child') {
-        $baseLft = $basisItem['rgt'];
+        $basisLft = $basisItem['rgt'];
         $item['parent_id'] = $basisItem['id'];
         $item['level'] = $basisItem['level'] + 1;
     } else {
-        $baseLft = $basisItem['rgt'] + 1;
+        $basisLft = $basisItem['rgt'] + 1;
         $item['parent_id'] = $basisItem['parent_id'];
         $item['level'] = $basisItem['level'];
     }
 
-    if ($baseLft > $item['_old']['lft']) {
-        $diff = $item['_old']['root_id'] !== $item['root_id'] ? $baseLft - $item['_old']['rgt'] + 1 : $baseLft - $item['_old']['rgt'] - 1;
+    if ($basisLft > $item['_old']['lft']) {
+        $diff = $item['_old']['root_id'] !== $item['root_id'] ? $basisLft - $item['_old']['rgt'] + 1 : $basisLft - $item['_old']['rgt'] - 1;
     } else {
-        $diff = $baseLft - $item['_old']['lft'];
+        $diff = $basisLft - $item['_old']['lft'];
     }
 
     $length = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
