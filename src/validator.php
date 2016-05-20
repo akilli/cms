@@ -15,13 +15,34 @@ function validator(array $attr, array & $item): bool
         return true;
     }
 
+    $valid = true;
     $callback = fqn('validator_' . $attr['type']);
 
-    if (in_array($attr['frontend'], ['checkbox', 'radio', 'select'])) {
-        return validator_option($attr, $item) && validator_default($attr, $item);
+    if (is_callable($callback)) {
+        $valid = $callback($attr, $item);
+    } else {
+        // Temporary
+        switch ($attr['frontend']) {
+            case 'checkbox':
+            case 'radio':
+            case 'select':
+                $valid = validator_option($attr, $item);
+                break;
+            case 'password':
+            case 'textarea':
+                $valid = validator_text($attr, $item);
+                break;
+            case 'number':
+            case 'range':
+                $valid = validator_int($attr, $item);
+                break;
+            case 'file':
+                $valid = validator_file($attr, $item);
+                break;
+        }
     }
 
-    return (!is_callable($callback) || $callback($attr, $item)) && validator_default($attr, $item);
+    return $valid && validator_default($attr, $item);
 }
 
 /**
@@ -216,19 +237,6 @@ function validator_email(array $attr, array & $item): bool
 }
 
 /**
- * Password validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_password(array $attr, array & $item): bool
-{
-    return validator_text($attr, $item);
-}
-
-/**
  * URL validator
  *
  * @param array $attr
@@ -248,19 +256,6 @@ function validator_url(array $attr, array & $item): bool
     }
 
     return true;
-}
-
-/**
- * Index validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_index(array $attr, array & $item): bool
-{
-    return validator_text($attr, $item);
 }
 
 /**
@@ -307,19 +302,6 @@ function validator_rte(array $attr, array & $item): bool
 }
 
 /**
- * Textarea validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_textarea(array $attr, array & $item): bool
-{
-    return validator_text($attr, $item);
-}
-
-/**
  * Int validator
  *
  * @param array $attr
@@ -332,32 +314,6 @@ function validator_int(array $attr, array & $item): bool
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
     return true;
-}
-
-/**
- * Decimal validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_decimal(array $attr, array & $item): bool
-{
-    return validator_int($attr, $item);
-}
-
-/**
- * Range validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_range(array $attr, array & $item): bool
-{
-    return validator_int($attr, $item);
 }
 
 /**
@@ -491,56 +447,4 @@ function validator_file(array $attr, array & $item): bool
     $item[$attr['id']] = $value;
 
     return true;
-}
-
-/**
- * Audio validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_audio(array $attr, array & $item): bool
-{
-    return validator_file($attr, $item);
-}
-
-/**
- * Embed validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_embed(array $attr, array & $item): bool
-{
-    return validator_file($attr, $item);
-}
-
-/**
- * Image validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_image(array $attr, array & $item): bool
-{
-    return validator_file($attr, $item);
-}
-
-/**
- * Video validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_video(array $attr, array & $item): bool
-{
-    return validator_file($attr, $item);
 }
