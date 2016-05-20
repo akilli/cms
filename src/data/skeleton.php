@@ -19,9 +19,9 @@ return [
         'value' => null,
         'options' => [],
         'actions' => [],
-        'context' => null,
         'min' => null,
         'max' => null,
+        'context' => null,
         'html' => [],
     ],
     'entity' => [
