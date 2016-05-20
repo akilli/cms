@@ -7,7 +7,7 @@ return [
         'sort' => 400,
         'attributes' => [
             'id' => [
-                'name' => 'ID',
+                'name' => 'Id',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
@@ -72,7 +72,7 @@ return [
         'name' => 'Content',
         'attributes' => [
             'id' => [
-                'name' => 'ID',
+                'name' => 'Id',
                 'generator' => 'auto',
                 'sort' => -1200,
                 'type' => 'int',
@@ -183,7 +183,7 @@ return [
         'sort' => 300,
         'attributes' => [
             'id' => [
-                'name' => 'ID',
+                'name' => 'Id',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
@@ -236,7 +236,7 @@ return [
         'sort' => 200,
         'attributes' => [
             'id' => [
-                'name' => 'ID',
+                'name' => 'Id',
                 'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],
@@ -308,7 +308,7 @@ return [
         'sort' => 100,
         'attributes' => [
             'id' => [
-                'name' => 'ID',
+                'name' => 'Id',
                 'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],
@@ -345,7 +345,7 @@ return [
         'sort' => 400,
         'attributes' => [
             'id' => [
-                'name' => 'ID',
+                'name' => 'Id',
                 'generator' => 'id',
                 'type' => 'text',
                 'required' => true,
@@ -377,7 +377,7 @@ return [
         'sort' => 300,
         'attributes' => [
             'id' => [
-                'name' => 'ID',
+                'name' => 'Id',
                 'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],
@@ -414,7 +414,7 @@ return [
         'sort' => 200,
         'attributes' => [
             'id' => [
-                'name' => 'ID',
+                'name' => 'Id',
                 'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],

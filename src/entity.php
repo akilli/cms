@@ -227,7 +227,7 @@ function entity_delete(string $eId, array $criteria = [], $index = null, bool $s
 
     foreach ($data as $id => $item) {
         if (!$system && !empty($item['system'])) {
-            message(_('You must not delete system items! Therefore skipped ID %s', $id));
+            message(_('You must not delete system items! Therefore skipped Id %s', $id));
             unset($data[$id]);
             continue;
         }

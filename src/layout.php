@@ -130,7 +130,7 @@ function layout_load()
 function layout_add(array $section)
 {
     if (empty($section['id'])) {
-        throw new InvalidArgumentException('No section ID given');
+        throw new InvalidArgumentException(_('No section Id given'));
     }
 
     $data = & layout($section['id']);
@@ -140,7 +140,7 @@ function layout_add(array $section)
         $data = data('skeleton', 'section');
 
         if (empty($section['type']) || !is_callable(fqn('section_' . $section['type']))) {
-            throw new InvalidArgumentException('No or invalid section type given for section with ID ' . $section['id']);
+            throw new InvalidArgumentException(_('No or invalid type given for section with Id %s', $section['id']));
         }
     }
 
