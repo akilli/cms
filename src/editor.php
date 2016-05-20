@@ -39,35 +39,35 @@ function editor(array $attr, array $item): string
 
     if (is_callable($callback)) {
         $html = $callback($attr, $item);
-    }
-
-    /// Temporary
-    switch ($attr['frontend']) {
-        case 'select':
-            $html = editor_select($attr, $item);
-            break;
-        case 'checkbox':
-        case 'radio':
-            $html = editor_option($attr, $item);
-            break;
-        case 'email':
-        case 'url':
-            $html = editor_text($attr, $item);
-            break;
-        case 'number':
-        case 'range':
-            $html = editor_int($attr, $item);
-            break;
-        case 'date':
-        case 'time':
-            $html = editor_datetime($attr, $item);
-            break;
-        case 'file':
-            $html = editor_file($attr, $item);
-            break;
-        case 'textarea':
-            $html = editor_textarea($attr, $item);
-            break;
+    } else {
+        // Temporary
+        switch ($attr['frontend']) {
+            case 'select':
+                $html = editor_select($attr, $item);
+                break;
+            case 'checkbox':
+            case 'radio':
+                $html = editor_option($attr, $item);
+                break;
+            case 'email':
+            case 'url':
+                $html = editor_text($attr, $item);
+                break;
+            case 'number':
+            case 'range':
+                $html = editor_int($attr, $item);
+                break;
+            case 'date':
+            case 'time':
+                $html = editor_datetime($attr, $item);
+                break;
+            case 'file':
+                $html = editor_file($attr, $item);
+                break;
+            case 'textarea':
+                $html = editor_textarea($attr, $item);
+                break;
+        }
     }
 
     return $html ? html_label($attr, $item) . $html . html_message($attr, $item) : '';
