@@ -75,7 +75,7 @@ function validator_default(array $attr, array & $item): bool
  */
 function validator_required(array $attr, array & $item): bool
 {
-    if (!empty($attr['required']) && empty($item[$attr['id']]) && !option($attr) && !ignorable($attr, $item)) {
+    if ($attr['required'] && empty($item[$attr['id']]) && !option($attr) && !ignorable($attr, $item)) {
         $item['_error'][$attr['id']] = _('%s is a mandatory field', $attr['name']);
         return false;
     }

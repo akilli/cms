@@ -80,7 +80,7 @@ function html_label(array $attr, array $item): string
 {
     $label = _($attr['name']);
 
-    if (!empty($attr['required']) && !ignorable($attr, $item)) {
+    if ($attr['required'] && !ignorable($attr, $item)) {
         $label .= ' ' . html_tag('em', ['class' => 'required'], _('Required'));
     }
 
