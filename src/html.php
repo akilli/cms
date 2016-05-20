@@ -43,29 +43,6 @@ function html_attr(array $attrs): string
 }
 
 /**
- * Label
- *
- * @param array $attr
- * @param array $item
- *
- * @return string
- */
-function html_label(array $attr, array $item): string
-{
-    $label = _($attr['name']);
-
-    if (!empty($attr['required']) && !ignorable($attr, $item)) {
-        $label .= ' ' . html_tag('em', ['class' => 'required'], _('Required'));
-    }
-
-    if (!empty($attr['uniq'])) {
-        $label .= ' ' . html_tag('em', ['class' => 'uniq'], _('Unique'));
-    }
-
-    return html_tag('label', ['for' => html_id($attr, $item)], $label);
-}
-
-/**
  * HTML id attribute
  *
  * @param array $attr
@@ -92,28 +69,26 @@ function html_name(array $attr, array $item): string
 }
 
 /**
- * HTML required attribute
+ * Label
  *
  * @param array $attr
  * @param array $item
  *
  * @return string
  */
-function html_required(array $attr, array $item): string
+function html_label(array $attr, array $item): string
 {
-    return !empty($attr['required']) && !ignorable($attr, $item) ? html_attr(['required' => true]) : '';
-}
+    $label = _($attr['name']);
 
-/**
- * HTML class attribute
- *
- * @param array $attr
- *
- * @return string
- */
-function html_class(array $attr): string
-{
-    return !empty($attr['html']['class']) ? html_attr(['class' => $attr['html']['class']]) : '';
+    if (!empty($attr['required']) && !ignorable($attr, $item)) {
+        $label .= ' ' . html_tag('em', ['class' => 'required'], _('Required'));
+    }
+
+    if (!empty($attr['uniq'])) {
+        $label .= ' ' . html_tag('em', ['class' => 'uniq'], _('Unique'));
+    }
+
+    return html_tag('label', ['for' => html_id($attr, $item)], $label);
 }
 
 /**

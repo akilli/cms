@@ -87,7 +87,7 @@ return [
     ],
     'json' => [
         'name' => 'JSON',
-        'backend' => 'text',
+        'backend' => 'json',
         'frontend' => 'textarea',
     ],
     'rte' => [

@@ -36,6 +36,10 @@ function validator(array $attr, array & $item): bool
             case 'range':
                 $valid = validator_int($attr, $item);
                 break;
+            case 'date':
+            case 'time':
+                $valid = validator_datetime($attr, $item);
+                break;
             case 'file':
                 $valid = validator_file($attr, $item);
                 break;
@@ -317,34 +321,6 @@ function validator_int(array $attr, array & $item): bool
 }
 
 /**
- * Date validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_date(array $attr, array & $item): bool
-{
-    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
-
-    if (!empty($item[$attr['id']])) {
-        $value = date_create_from_format('Y-m-d', $item[$attr['id']]);
-
-        if ($value && ($value = date_format($value, 'Y-m-d'))) {
-            $item[$attr['id']] = $value;
-        } else {
-            $item[$attr['id']] = null;
-            $item['_error'][$attr['id']] = _('Invalid date');
-
-            return false;
-        }
-    }
-
-    return true;
-}
-
-/**
  * Datetime validator
  *
  * @param array $attr
@@ -354,44 +330,25 @@ function validator_date(array $attr, array & $item): bool
  */
 function validator_datetime(array $attr, array & $item): bool
 {
-    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
-
-    if (!empty($item[$attr['id']])) {
-        $value = date_create_from_format('Y-m-d\TH:i', $item[$attr['id']]);
-
-        if ($value && ($value = date_format($value, 'Y-m-d H:i:s'))) {
-            $item[$attr['id']] = $value;
-        } else {
-            $item[$attr['id']] = null;
-            $item['_error'][$attr['id']] = _('Invalid datetime');
-
-            return false;
-        }
+    if ($attr['frontend'] === 'date') {
+        $in = 'Y-m-d';
+        $out = 'Y-m-d';
+    } elseif ($attr['frontend'] === 'time') {
+        $in = 'H:i';
+        $out = 'H:i:s';
+    } else {
+        $in = 'Y-m-d\TH:i';
+        $out = 'Y-m-d H:i:s';
     }
 
-    return true;
-}
-
-/**
- * Time validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_time(array $attr, array & $item): bool
-{
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
-    if (!empty($item[$attr['id']])) {
-        $value = date_create_from_format('H:i', $item[$attr['id']]);
-
-        if ($value && ($value = date_format($value, 'H:i:s'))) {
+    if ($item[$attr['id']]) {
+        if ($value = date_format(date_create_from_format($in, $item[$attr['id']]), $out)) {
             $item[$attr['id']] = $value;
         } else {
             $item[$attr['id']] = null;
-            $item['_error'][$attr['id']] = _('Invalid time');
+            $item['_error'][$attr['id']] = _('Invalid value');
 
             return false;
         }
