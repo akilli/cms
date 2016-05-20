@@ -13,7 +13,16 @@ function deleter(array $attr, array & $item): bool
 {
     $callback = fqn('deleter_' . $attr['type']);
 
-    return is_callable($callback) ? $callback($attr, $item) : true;
+    if (is_callable($callback)) {
+        return $callback($attr, $item);
+    }
+
+    // Temporary
+    if ($attr['frontend'] === 'file') {
+        return deleter_file($attr, $item);
+    }
+
+    return true;
 }
 
 /**
@@ -32,56 +41,4 @@ function deleter_file(array $attr, array & $item): bool
     }
 
     return true;
-}
-
-/**
- * Audio deleter
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function deleter_audio(array $attr, array & $item): bool
-{
-    return deleter_file($attr, $item);
-}
-
-/**
- * Embed deleter
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function deleter_embed(array $attr, array & $item): bool
-{
-    return deleter_file($attr, $item);
-}
-
-/**
- * Image deleter
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function deleter_image(array $attr, array & $item): bool
-{
-    return deleter_file($attr, $item);
-}
-
-/**
- * Video deleter
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function deleter_video(array $attr, array & $item): bool
-{
-    return deleter_file($attr, $item);
 }
