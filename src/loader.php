@@ -13,7 +13,16 @@ function loader(array $attr, array $item)
 {
     $callback = fqn('loader_' . $attr['type']);
 
-    return is_callable($callback) ? $callback($attr, $item) : cast($attr, $item[$attr['id']] ?? null);
+    if (is_callable($callback)) {
+        return $callback($attr, $item);
+    }
+
+    // Temporary
+    if ($attr['multiple']) {
+        return loader_json($attr, $item);
+    }
+
+    return cast($attr, $item[$attr['id']] ?? null);
 }
 
 /**
@@ -33,30 +42,4 @@ function loader_json(array $attr, array $item): array
     }
 
     return json_decode($item[$attr['id']], true) ?: [];
-}
-
-/**
- * Multicheckbox loader
- *
- * @param array $attr
- * @param array $item
- *
- * @return array
- */
-function loader_multicheckbox(array $attr, array $item): array
-{
-    return loader_json($attr, $item);
-}
-
-/**
- * Multiselect loader
- *
- * @param array $attr
- * @param array $item
- *
- * @return array
- */
-function loader_multiselect(array $attr, array $item): array
-{
-    return loader_json($attr, $item);
 }
