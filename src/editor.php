@@ -127,17 +127,18 @@ function editor_select(array $attr, array $item): string
  */
 function editor_option(array $attr, array $item): string
 {
-    $attr['options'] = option($attr);
-    $value = $item[$attr['id']];
+    if (!$attr['options'] = option($attr)) {
+        return html_tag('span', ['id' => $attr['html']['id']], _('No options configured'));
+    } elseif ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
+        $attr['options'] = [1 => _('Yes')];
+    }
 
+    $value = $item[$attr['id']];
+    
     if ($attr['backend'] === 'bool') {
         $value = [(int) $value];
     } elseif (!is_array($value)) {
-        $value = empty($value) && !is_numeric($value) ? [] : [$value];
-    }
-
-    if (empty($attr['options'])) {
-        return html_tag('span', ['id' => $attr['html']['id']], _('No options configured'));
+        $value = !$value && !is_numeric($value) ? [] : [$value];
     }
 
     $html = '';

@@ -11,7 +11,7 @@ namespace qnd;
 function option(array $attr): array
 {
     if ($attr['backend'] === 'bool') {
-        return option_translate($attr['frontend'] === 'checkbox' ? [1 => 'Yes'] : ['No', 'Yes']);
+        return option_translate(['No', 'Yes']);
     }
 
     if (empty($attr['options'][0]) || !is_string($attr['options'][0]) && !is_array($attr['options'][0])) {
