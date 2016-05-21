@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS node (
     rgt INTEGER(11) NOT NULL,
     parent_id INTEGER(11) DEFAULT NULL,
     level INTEGER(11) NOT NULL,
-    position VARCHAR(255) AS (CONCAT(root_id, ':', lft)) STORED,
+    position VARCHAR(255) AS (CONCAT(root_id, ':', lft)) STORED NOT NULL,
     PRIMARY KEY (id),
     KEY idx_node_name (name),
     KEY idx_node_target (target),
