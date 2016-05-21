@@ -3,7 +3,7 @@ return [
     'all' => [
         'name' => 'All Privileges',
         'active' => true,
-        'class' => ['group'],
+        'class' => 'group',
     ],
     'http.index' => [
         'name' => 'Homepage',

@@ -31,7 +31,7 @@ function editor(array $attr, array $item): string
     }
 
     if (!empty($item['_error'][$attr['id']])) {
-        $attr['html']['class'][] = 'invalid';
+        $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
     }
 
     // Callback
@@ -134,7 +134,7 @@ function editor_option(array $attr, array $item): string
     }
 
     $value = $item[$attr['id']];
-    
+
     if ($attr['backend'] === 'bool') {
         $value = [(int) $value];
     } elseif (!is_array($value)) {

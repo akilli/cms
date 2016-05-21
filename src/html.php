@@ -32,8 +32,6 @@ function html_attr(array $attrs): string
             continue;
         } elseif ($val === true) {
             $val = $key;
-        } elseif (is_array($val)) {
-            $val = implode(' ', $val);
         }
 
         $html .= ' ' . $key . '="' . addcslashes($val, '"') . '"';

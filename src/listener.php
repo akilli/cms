@@ -89,7 +89,7 @@ function listener_data_privilege(array & $data)
             'name' => $entity['name'],
             'active' => true,
             'sort' => 1000,
-            'class' => ['group'],
+            'class' => 'group',
         ];
 
         foreach ($actions as $action) {

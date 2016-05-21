@@ -80,7 +80,7 @@ function option_position(): array
     foreach (entity_load('node') as $item) {
         if (empty($data[$item['root_id']  . ':0'])) {
             $data[$item['root_id']  . ':0']['name'] = $roots[$item['root_id']]['name'];
-            $data[$item['root_id']  . ':0']['class'] = ['group'];
+            $data[$item['root_id']  . ':0']['class'] = 'group';
         }
 
         $data[$item['position']]['name'] = $item['name'];
@@ -91,7 +91,7 @@ function option_position(): array
     foreach ($roots as $id => $root) {
         if (empty($data[$id  . ':0'])) {
             $data[$id  . ':0']['name'] = $root['name'];
-            $data[$id  . ':0']['class'] = ['group'];
+            $data[$id  . ':0']['class'] = 'group';
         }
     }
 
