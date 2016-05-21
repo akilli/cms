@@ -346,6 +346,12 @@ return [
         'attributes' => [
             'id' => [
                 'name' => 'Id',
+                'generator' => 'auto',
+                'type' => 'int',
+                'actions' => ['index'],
+            ],
+            'name' => [
+                'name' => 'Name',
                 'generator' => 'id',
                 'type' => 'text',
                 'required' => true,

@@ -130,11 +130,13 @@ CREATE TABLE IF NOT EXISTS project (
 
 DROP TABLE IF EXISTS rewrite;
 CREATE TABLE IF NOT EXISTS rewrite (
-    id VARCHAR(255) NOT NULL,
+    id INTEGER(11) NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
     target VARCHAR(255) NOT NULL,
     redirect BOOLEAN NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (id),
+    UNIQUE KEY uni_rewrite_name (name),
     KEY idx_rewrite_target (target),
     KEY idx_rewrite_redirect (redirect),
     KEY idx_rewrite_system (system)
@@ -194,8 +196,8 @@ INSERT INTO entity (id, name, type, actions, toolbar, sort, system) VALUES
 INSERT INTO project (id, name, host, active, system) VALUES
 (0, 'global', NULL, '1', '1');
 
-INSERT INTO rewrite (id, target) VALUES
-('http-base', 'page/view/id/1');
+INSERT INTO rewrite (id, name, target, system) VALUES
+(1, 'http-base', 'page/view/id/1', '1');
 
 INSERT INTO role (id, name, privilege, active, system) VALUES
 (0, 'anonymous', '["page.list", "page.view"]', '1', '1'),

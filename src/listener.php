@@ -153,28 +153,21 @@ function listener_entity_save(array & $data)
 
         if (!data_action('view', $data)) {
             entity_delete('rewrite', $criteria, 'search', true);
-        } elseif (data_action('view', $data)
-            && $data['id'] !== $data['_old']['id']
-            && ($rewrites = entity_load('rewrite', $criteria, 'search'))
-        ) {
-            foreach ($rewrites as $rewriteId => $rewrite) {
-                $rewrites[$rewriteId]['target'] = preg_replace(
-                    '#^' . $data['_old']['id'] . '/#',
-                    $data['id'] . '/',
-                    $rewrite['target']
-                );
+        } elseif (data_action('view', $data) && $data['id'] !== $data['_old']['id'] && ($rw = entity_load('rewrite', $criteria, 'search'))) {
+            foreach ($rw as $rId => $r) {
+                $rw[$rId]['target'] = preg_replace('#^' . $data['_old']['id'] . '/#', $data['id'] . '/', $r['target']);
             }
 
-            entity_save('rewrite', $rewrites);
+            entity_save('rewrite', $rw);
         }
     }
 
     if ($data['_entity']['id'] !== 'rewrite' && data_action('view', $data['_entity'])) {
         $target = $data['_entity']['id'] . '/view/id/' . $data['id'];
-        $rewrite = ['id' => $data['name'], 'target' => $target, 'system' => true];
+        $r = ['name' => $data['name'], 'target' => $target, 'system' => true];
         $old = entity_load('rewrite', ['target' => $target, 'system' => true], false);
-        $rewrites = $old ? [$old['id'] => $rewrite] : [-1 => $rewrite];
-       entity_save('rewrite', $rewrites);
+        $rw = $old ? [$old['id'] => $r] : [-1 => $r];
+       entity_save('rewrite', $rw);
     }
 }
 
