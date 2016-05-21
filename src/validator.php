@@ -11,7 +11,7 @@ namespace qnd;
  */
 function validator(array $attr, array & $item): bool
 {
-    if ($attr['generator'] === 'auto') {
+    if (!data_action('edit', $attr)) {
         return true;
     }
 
@@ -46,23 +46,7 @@ function validator(array $attr, array & $item): bool
         }
     }
 
-    return $valid && validator_default($attr, $item);
-}
-
-/**
- * Default validator
- *
- * Skips attributes that need no validation or are uneditable (unless required and new)
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_default(array $attr, array & $item): bool
-{
-    return !data_action('edit', $attr) && (empty($attr['required']) || !empty($item['_old']))
-        || validator_uniq($attr, $item) && validator_required($attr, $item) && validator_boundary($attr, $item);
+    return $valid && validator_uniq($attr, $item) && validator_required($attr, $item) && validator_boundary($attr, $item);
 }
 
 /**

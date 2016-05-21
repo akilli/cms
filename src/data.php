@@ -270,13 +270,13 @@ function data_action($action, array $data): bool
     if (empty($data['actions']) || !is_array($data['actions']) && !($data['actions'] = json_decode($data['actions'], true))) {
         // No actions supported
         return false;
-    } elseif (in_array('all', $data['actions']) && ($action !== 'edit' || empty($data['generator']) || $data['generator'] !== 'auto')) {
+    } elseif (in_array('all', $data['actions'])) {
         // All actions supported
         return true;
     }
 
     foreach ((array) $action as $key) {
-        if (in_array($key, $data['actions']) && ($key !== 'edit' || empty($data['generator']) || $data['generator'] !== 'auto')) {
+        if (in_array($key, $data['actions'])) {
             return true;
         }
     }

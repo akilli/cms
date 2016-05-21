@@ -293,7 +293,7 @@ return [
             ],
             'position' => [
                 'name' => 'Position',
-                'virtual' => true,
+                'generator' => 'auto',
                 'type' => 'select.varchar',
                 'required' => true,
                 'options' => ['qnd\option_position'],

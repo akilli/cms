@@ -99,6 +99,7 @@ CREATE TABLE IF NOT EXISTS node (
     rgt INTEGER(11) NOT NULL,
     parent_id INTEGER(11) DEFAULT NULL,
     level INTEGER(11) NOT NULL,
+    position VARCHAR(255) AS (CONCAT(root_id, ':', lft)) STORED,
     PRIMARY KEY (id),
     KEY idx_node_name (name),
     KEY idx_node_target (target),
@@ -107,6 +108,7 @@ CREATE TABLE IF NOT EXISTS node (
     KEY idx_node_rgt (rgt),
     KEY idx_node_parent (parent_id),
     KEY idx_node_level (level),
+    KEY idx_node_position (position),
     KEY idx_node_item (root_id,lft,rgt),
     CONSTRAINT con_node_root FOREIGN KEY (root_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT con_node_parent FOREIGN KEY (parent_id) REFERENCES node (id) ON DELETE CASCADE ON UPDATE CASCADE

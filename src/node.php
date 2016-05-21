@@ -32,13 +32,7 @@ function node_load(string $eId, array $criteria = [], $index = null, array $orde
 {
     $order = $order ?: ['root_id' => 'ASC', 'lft' => 'ASC'];
 
-    return array_map(
-        function ($item) {
-            $item['position'] = $item['root_id'] . ':' . $item['id'];
-            return $item;
-        },
-        flat_load($eId, $criteria, $index, $order, $limit)
-    );
+    return flat_load($eId, $criteria, $index, $order, $limit);
 }
 
 /**
@@ -53,9 +47,9 @@ function node_create(array & $item): bool
     $attrs = $item['_entity']['attributes'];
     $parts = explode(':', $item['position']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
-    $basis = cast($attrs['id'], $parts[1]);
+    $basis = cast($attrs['lft'], $parts[1]);
 
-    if (!$basisItem = entity_load($item['_entity']['id'], ['id' => $basis], false)) {
+    if (!$basisItem = entity_load($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $basis], false)) {
         // No or wrong basis given so append node
         $stmt = db()->prepare('
             SELECT 
@@ -153,7 +147,8 @@ function node_save(array & $item): bool
     $attrs = $item['_entity']['attributes'];
     $parts = explode(':', $item['position']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
-    $basis = cast($attrs['id'], $parts[1]);
+    $basis = cast($attrs['lft'], $parts[1]);
+    $basisItem = [];
 
     // Update all attributes that are not involved with the tree
     $cols = cols($attrs, $item);
@@ -171,9 +166,9 @@ function node_save(array & $item): bool
     $stmt->execute();
 
     // No change in position or wrong basis given
-    if ($basis === $item['_old']['id']
-        || !($basisItem = entity_load($item['_entity']['id'], ['id' => $basis], false))
-        || $item['_old']['lft'] < $basisItem['lft'] && $item['_old']['rgt'] > $basisItem['rgt']
+    if ($basis && ($basis === $item['_old']['id']
+            || !($basisItem = entity_load($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $basis], false))
+            || $item['_old']['lft'] < $basisItem['lft'] && $item['_old']['rgt'] > $basisItem['rgt'])
     ) {
         return true;
     }
