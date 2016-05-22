@@ -46,8 +46,8 @@ function node_create(array & $item): bool
 {
     $attrs = $item['_entity']['attributes'];
     $parts = explode(':', $item['position']);
-    $item['root_id'] = cast($attrs['root_id'], $parts[0]);
-    $basis = cast($attrs['lft'], $parts[1]);
+    $item['root_id'] = (int) $parts[0];
+    $basis = (int) $parts[1];
 
     if (!$basisItem = entity_load($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $basis], false)) {
         // No or wrong basis given so append node
@@ -146,8 +146,8 @@ function node_save(array & $item): bool
 {
     $attrs = $item['_entity']['attributes'];
     $parts = explode(':', $item['position']);
-    $item['root_id'] = cast($attrs['root_id'], $parts[0]);
-    $basis = cast($attrs['lft'], $parts[1]);
+    $item['root_id'] = (int) $parts[0];
+    $basis = (int) $parts[1];
     $basisItem = [];
 
     // Update all attributes that are not involved with the tree
