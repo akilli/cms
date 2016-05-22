@@ -196,8 +196,8 @@ INSERT INTO entity (id, name, type, actions, toolbar, sort, system) VALUES
 INSERT INTO project (id, name, host, active, system) VALUES
 (0, 'global', NULL, '1', '1');
 
-INSERT INTO rewrite (id, name, target, system) VALUES
-(1, 'http-base', 'page/view/id/1', '1');
+INSERT INTO rewrite (id, name, target) VALUES
+(1, 'http-base', 'page/view/id/1');
 
 INSERT INTO role (id, name, privilege, active, system) VALUES
 (0, 'anonymous', '["page.list", "page.view"]', '1', '1'),
