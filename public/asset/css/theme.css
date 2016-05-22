@@ -327,34 +327,6 @@ main .section-list article {
 /**
  * Toolbar
  */
-.toolbar > ul > li {
-    padding: 1rem 0;
-}
-
-.toolbar li li {
-    display: inline;
-    margin-right: 2rem;
-}
-
-/* Content */
-main .toolbar > ul > li {
-    border-bottom: thin solid #d3d3d3;
-}
-
-main .toolbar > ul > li:first-child {
-    padding-top: 0;
-}
-
-main .toolbar > ul > li > span {
-    display: block;
-    font-size: 1.25rem;
-}
-
-main .toolbar li li a {
-    color: #231f20;
-}
-
-/* Navigation */
 #toolbar {
     width: 100%;
     min-width: 0;
@@ -390,11 +362,17 @@ main .toolbar li li a {
 
 #toolbar .toolbar > ul > li {
     margin: 0 1rem;
+    padding: 1rem 0;
     border-bottom: thin dashed #000;
 }
 
 #toolbar .toolbar > ul > li > span {
     color: #e14b28;
+}
+
+#toolbar .toolbar li li {
+    display: inline;
+    margin-right: 2rem;
 }
 
 #toolbar a {

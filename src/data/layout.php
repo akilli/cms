@@ -137,13 +137,6 @@ return [
         'template' => 'user.dashboard.phtml',
         'parent' => 'content',
     ],
-    [
-        'id' => 'user.dashboard.toolbar',
-        'handle' => 'user.dashboard',
-        'type' => 'toolbar',
-        'template' => 'toolbar.list.phtml',
-        'parent' => 'user.dashboard',
-    ],
     // user.profile
     [
         'id' => 'user.profile',
