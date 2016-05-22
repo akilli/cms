@@ -212,6 +212,11 @@ label {
 table label,
 label.inline {
     display: inline;
+    vertical-align: middle;
+}
+
+input + label.inline {
+    margin-left: 0.25rem;
 }
 
 label em {
