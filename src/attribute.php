@@ -11,7 +11,7 @@ namespace qnd;
  */
 function cast(array $attr, $value)
 {
-    if ($value === null && !empty($attr['nullable'])) {
+    if ($value === null && !empty($attr['nullable']) || $value === '' && $attr['backend'] === 'json') {
         return null;
     }
 
@@ -48,10 +48,5 @@ function cast(array $attr, $value)
  */
 function ignorable(array $attr, array $item): bool
 {
-    $mustEdit = empty($item[$attr['id']]) || $attr['context'] === 'edit' && !empty($item[$attr['id']]);
-
-    return !empty($item['_old'])
-        && empty($item['_reset'][$attr['id']])
-        && $mustEdit
-        && in_array($attr['frontend'], ['password', 'file']);
+    return !empty($item['_old'][$attr['id']]) && empty($item['_reset'][$attr['id']]) && in_array($attr['frontend'], ['password', 'file']);
 }

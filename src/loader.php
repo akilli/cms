@@ -11,6 +11,7 @@ namespace qnd;
  */
 function loader(array $attr, array $item)
 {
+    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
     $callback = fqn('loader_' . $attr['type']);
 
     if (is_callable($callback)) {
@@ -22,7 +23,7 @@ function loader(array $attr, array $item)
         return loader_json($attr, $item);
     }
 
-    return cast($attr, $item[$attr['id']] ?? null);
+    return $item[$attr['id']];
 }
 
 /**

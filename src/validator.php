@@ -15,35 +15,28 @@ function validator(array $attr, array & $item): bool
         return true;
     }
 
-    $valid = true;
+    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
     $callback = fqn('validator_' . $attr['type']);
+    $valid = !is_callable($callback) || $callback($attr, $item);
 
-    if (is_callable($callback)) {
-        $valid = $callback($attr, $item);
-    } else {
-        // Temporary
-        switch ($attr['frontend']) {
-            case 'checkbox':
-            case 'radio':
-            case 'select':
-                $valid = validator_option($attr, $item);
-                break;
-            case 'password':
-            case 'textarea':
-                $valid = validator_text($attr, $item);
-                break;
-            case 'number':
-            case 'range':
-                $valid = validator_int($attr, $item);
-                break;
-            case 'date':
-            case 'time':
-                $valid = validator_datetime($attr, $item);
-                break;
-            case 'file':
-                $valid = validator_file($attr, $item);
-                break;
-        }
+    // Temporary
+    switch ($attr['frontend']) {
+        case 'checkbox':
+        case 'radio':
+        case 'select':
+            $valid = validator_option($attr, $item);
+            break;
+        case 'password':
+        case 'textarea':
+            $valid = validator_text($attr, $item);
+            break;
+        case 'date':
+        case 'time':
+            $valid = validator_datetime($attr, $item);
+            break;
+        case 'file':
+            $valid = validator_file($attr, $item);
+            break;
     }
 
     return $valid && validator_uniq($attr, $item) && validator_required($attr, $item) && validator_boundary($attr, $item);
@@ -110,6 +103,7 @@ function validator_uniq(array $attr, array & $item): bool
         }
 
         $item[$attr['id']] = generator_id($item[$base], $data[$eId][$attr['id']], $item['_id']);
+
         return true;
     }
 
@@ -120,8 +114,7 @@ function validator_uniq(array $attr, array & $item): bool
 
     if (!empty($item[$attr['id']])
         && (array_search($item[$attr['id']], $data[$eId][$attr['id']]) === $item['_id']
-            || !in_array($item[$attr['id']], $data[$eId][$attr['id']])
-        )
+            || !in_array($item[$attr['id']], $data[$eId][$attr['id']]))
     ) {
         // Provided value is unique
         $data[$eId][$attr['id']][$item['_id']] = $item[$attr['id']];
@@ -159,7 +152,6 @@ function validator_boundary(array $attr, array & $item): bool
 function validator_option(array $attr, array & $item): bool
 {
     $attr['options'] = option($attr);
-    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
     if (is_array($item[$attr['id']])) {
         $item[$attr['id']] = array_filter(
@@ -196,7 +188,6 @@ function validator_option(array $attr, array & $item): bool
  */
 function validator_text(array $attr, array & $item): bool
 {
-    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
     $item[$attr['id']] = trim((string) filter_var($item[$attr['id']], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
 
     return true;
@@ -212,8 +203,6 @@ function validator_text(array $attr, array & $item): bool
  */
 function validator_email(array $attr, array & $item): bool
 {
-    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
-
     if ($item[$attr['id']] && !$item[$attr['id']] = filter_var($item[$attr['id']], FILTER_VALIDATE_EMAIL)) {
         $item[$attr['id']] = null;
         $item['_error'][$attr['id']] = _('Invalid email');
@@ -234,8 +223,6 @@ function validator_email(array $attr, array & $item): bool
  */
 function validator_url(array $attr, array & $item): bool
 {
-    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
-
     if ($item[$attr['id']] && !$item[$attr['id']] = filter_var($item[$attr['id']], FILTER_VALIDATE_URL)) {
         $item[$attr['id']] = null;
         $item['_error'][$attr['id']] = _('Invalid URL');
@@ -256,10 +243,6 @@ function validator_url(array $attr, array & $item): bool
  */
 function validator_json(array $attr, array & $item): bool
 {
-    if (isset($item[$attr['id']]) && trim($item[$attr['id']]) === '') {
-        $item[$attr['id']] = null;
-    }
-
     if (!empty($item[$attr['id']]) && json_decode($item[$attr['id']], true) === null) {
         $item[$attr['id']] = null;
         $item['_error'][$attr['id']] = _('Invalid JSON notation');
@@ -280,26 +263,9 @@ function validator_json(array $attr, array & $item): bool
  */
 function validator_rte(array $attr, array & $item): bool
 {
-    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
-
     if ($item[$attr['id']]) {
         $item[$attr['id']] = filter_html($item[$attr['id']]);
     }
-
-    return true;
-}
-
-/**
- * Int validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function validator_int(array $attr, array & $item): bool
-{
-    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
     return true;
 }
@@ -324,8 +290,6 @@ function validator_datetime(array $attr, array & $item): bool
         $in = 'Y-m-d\TH:i';
         $out = 'Y-m-d H:i:s';
     }
-
-    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
     if ($item[$attr['id']]) {
         if ($value = date_format(date_create_from_format($in, $item[$attr['id']]), $out)) {
@@ -360,7 +324,6 @@ function validator_file(array $attr, array & $item): bool
         && !media_delete($item['_old'][$attr['id']])
     ) {
         $item['_error'][$attr['id']] = _('Could not delete old file %s', $item['_old'][$attr['id']]);
-
         return false;
     }
 
@@ -372,7 +335,6 @@ function validator_file(array $attr, array & $item): bool
     // Invalid file
     if (empty(file_ext($attr['type'])[$file['extension']])) {
         $item['_error'][$attr['id']] = _('Invalid file');
-
         return false;
     }
 
@@ -381,7 +343,6 @@ function validator_file(array $attr, array & $item): bool
     // Upload failed
     if (!file_upload($file['tmp_name'], path('media', $value))) {
         $item['_error'][$attr['id']] = _('File upload failed');
-
         return false;
     }
 
