@@ -49,7 +49,7 @@ function node_create(array & $item): bool
     $item['root_id'] = (int) $parts[0];
     $basis = (int) $parts[1];
 
-    if (!$basisItem = entity_load($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $basis], false)) {
+    if (!$basisItem = load($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $basis], false)) {
         // No or wrong basis given so append node
         $stmt = db()->prepare('
             SELECT 
@@ -167,7 +167,7 @@ function node_save(array & $item): bool
 
     // No change in position or wrong basis given
     if ($basis && ($basis === $item['_old']['id']
-            || !($basisItem = entity_load($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $basis], false))
+            || !($basisItem = load($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $basis], false))
             || $item['_old']['lft'] < $basisItem['lft'] && $item['_old']['rgt'] > $basisItem['rgt'])
     ) {
         return true;

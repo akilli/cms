@@ -74,10 +74,10 @@ function option_translate(array $options): array
  */
 function option_position(): array
 {
-    $roots = entity_load('menu');
+    $roots = load('menu');
     $data = [];
 
-    foreach (entity_load('node') as $item) {
+    foreach (load('node') as $item) {
         if (empty($data[$item['root_id']  . ':0'])) {
             $data[$item['root_id']  . ':0']['name'] = $roots[$item['root_id']]['name'];
             $data[$item['root_id']  . ':0']['class'] = 'group';

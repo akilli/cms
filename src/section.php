@@ -66,7 +66,7 @@ function section_entity(array & $section): string
         ['criteria' => [], 'index' => null, 'order' => [], 'limit' => [config('limit.section')]],
         $section['vars']
     );
-    $section['vars']['data'] = entity_load(
+    $section['vars']['data'] = load(
         $section['vars']['entity'],
         $section['vars']['criteria'],
         $section['vars']['index'],
@@ -188,7 +188,7 @@ function section_toolbar(array & $section): string
  */
 function section_node(array & $section): string
 {
-    if (empty($section['vars']['root_id']) || !$data = entity_load('node', ['root_id' => $section['vars']['root_id']])) {
+    if (empty($section['vars']['root_id']) || !$data = load('node', ['root_id' => $section['vars']['root_id']])) {
         return '';
     }
 

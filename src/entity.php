@@ -11,7 +11,7 @@ use RuntimeException;
  *
  * @return bool
  */
-function entity_validate(array & $item): bool
+function validate(array & $item): bool
 {
     if (empty($item['_entity'])) {
         return false;
@@ -35,7 +35,7 @@ function entity_validate(array & $item): bool
  *
  * @return int
  */
-function entity_size(string $eId, array $criteria = [], array $options = []): int
+function size(string $eId, array $criteria = [], array $options = []): int
 {
     $entity = data('entity', $eId);
     $callback = fqn($entity['type'] . '_size');
@@ -63,7 +63,7 @@ function entity_size(string $eId, array $criteria = [], array $options = []): in
  *
  * @return array
  */
-function entity_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
+function load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
     $entity = data('entity', $eId);
     $callback = fqn($entity['type'] . '_load');
@@ -131,9 +131,9 @@ function entity_load(string $eId, array $criteria = [], $index = null, array $or
  *
  * @return bool
  */
-function entity_save(string $eId, array & $data): bool
+function save(string $eId, array & $data): bool
 {
-    $original = entity_load($eId, ['id' => array_keys($data)]);
+    $original = load($eId, ['id' => array_keys($data)]);
     $skeleton = skeleton($eId);
     $editable = skeleton($eId, null, true);
 
@@ -154,7 +154,7 @@ function entity_save(string $eId, array & $data): bool
             unset($item['_old']['_id'], $item['_old']['_entity'], $item['_old']['_old']);
         }
 
-        if (!entity_validate($item)) {
+        if (!validate($item)) {
             if (!empty($item['_error'])) {
                 $data[$id]['_error'] = $item['_error'];
             }
@@ -212,12 +212,12 @@ function entity_save(string $eId, array & $data): bool
  *
  * @return bool
  */
-function entity_delete(string $eId, array $criteria = [], $index = null, bool $system = false): bool
+function delete(string $eId, array $criteria = [], $index = null, bool $system = false): bool
 {
     $entity = data('entity', $eId);
     $callback = fqn($entity['type'] . '_delete');
 
-    if (!$data = entity_load($eId, $criteria, $index)) {
+    if (!$data = load($eId, $criteria, $index)) {
         return false;
     }
 

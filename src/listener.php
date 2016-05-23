@@ -45,9 +45,9 @@ function listener_data_entity(array & $data)
         $data[$id] = $item;
     }
 
-    $attrs = entity_load('attr', [], ['entity_id', 'id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
+    $attrs = load('attr', [], ['entity_id', 'id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
 
-    foreach (entity_load('entity', ['type' => ['content', 'eav', 'joined']]) as $id => $item) {
+    foreach (load('entity', ['type' => ['content', 'eav', 'joined']]) as $id => $item) {
         $base = $item['type'] === 'joined' && !empty($data[$id]) ? $data[$id] : $data['content'];
         $item = array_replace($base, $item);
 
@@ -152,22 +152,22 @@ function listener_entity_save(array & $data)
         $criteria = ['target' => $data['_old']['id'] . '/view/id/'];
 
         if (!data_action('view', $data)) {
-            entity_delete('rewrite', $criteria, 'search', true);
-        } elseif (data_action('view', $data) && $data['id'] !== $data['_old']['id'] && ($rw = entity_load('rewrite', $criteria, 'search'))) {
+            delete('rewrite', $criteria, 'search', true);
+        } elseif (data_action('view', $data) && $data['id'] !== $data['_old']['id'] && ($rw = load('rewrite', $criteria, 'search'))) {
             foreach ($rw as $rId => $r) {
                 $rw[$rId]['target'] = preg_replace('#^' . $data['_old']['id'] . '/#', $data['id'] . '/', $r['target']);
             }
 
-            entity_save('rewrite', $rw);
+            save('rewrite', $rw);
         }
     }
 
     if ($data['_entity']['id'] !== 'rewrite' && data_action('view', $data['_entity'])) {
         $target = $data['_entity']['id'] . '/view/id/' . $data['id'];
         $r = ['name' => $data['name'], 'target' => $target, 'system' => true];
-        $old = entity_load('rewrite', ['target' => $target, 'system' => true], false);
+        $old = load('rewrite', ['target' => $target, 'system' => true], false);
         $rw = $old ? [$old['id'] => $r] : [-1 => $r];
-       entity_save('rewrite', $rw);
+       save('rewrite', $rw);
     }
 }
 
@@ -181,8 +181,8 @@ function listener_entity_save(array & $data)
 function listener_entity_delete(array & $data)
 {
     if ($data['_entity']['id'] === 'entity') {
-        entity_delete('rewrite', ['target' => $data['id'] . '/view/id/'], 'search', true);
+        delete('rewrite', ['target' => $data['id'] . '/view/id/'], 'search', true);
     }
 
-    entity_delete('rewrite', ['target' => $data['_entity']['id'] . '/view/id/' . $data['id']], null, true);
+    delete('rewrite', ['target' => $data['_entity']['id'] . '/view/id/' . $data['id']], null, true);
 }

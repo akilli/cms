@@ -17,10 +17,10 @@ function project(string $key = null)
         $id = session('project');
         $criteria = $id === null ? ['host' => request('host')] : ['id' => $id];
         $criteria['active'] = true;
-        $data = entity_load('project', $criteria, false);
+        $data = load('project', $criteria, false);
 
         if (!$data) {
-            $data = entity_load('project', ['id' => 0, 'active' => true], false);
+            $data = load('project', ['id' => 0, 'active' => true], false);
         }
 
         if ($id <= 0 || !$data) {
