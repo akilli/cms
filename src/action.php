@@ -141,10 +141,10 @@ function action_index()
     }
 
     if (($sort = param('sort')) && !empty($attrs[$sort])) {
-        $direction = param('dir') === 'desc' ? 'desc' : 'asc';
-        $order = [$sort => $direction];
+        $dir = param('dir') === 'desc' ? 'desc' : 'asc';
+        $order = [$sort => $dir];
         $params['sort'] = $sort;
-        $params['dir'] = $direction;
+        $params['dir'] = $dir;
     }
 
     $data = load($entity['id'], $crit, null, $order, [$limit, $offset]);
