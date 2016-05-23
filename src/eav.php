@@ -6,19 +6,17 @@ use PDO;
 /**
  * Size entity
  *
- * @param string $eId
+ * @param array $entity
  * @param array $crit
  * @param array $opts
  *
  * @return int
  */
-function eav_size(string $eId, array $crit = [], array $opts = []): int
+function eav_size(array $entity, array $crit = [], array $opts = []): int
 {
-    $entity = data('entity', $eId);
-    $attrs = $entity['attr'];
     $mainAttrs = data('entity', 'content')['attr'];
-    $addAttrs = array_diff_key($attrs, $mainAttrs);
-    $crit['entity_id'] = $eId;
+    $addAttrs = array_diff_key($entity['attr'], $mainAttrs);
+    $crit['entity_id'] = $entity['id'];
     $list = [];
     $params = [];
 
@@ -49,7 +47,7 @@ function eav_size(string $eId, array $crit = [], array $opts = []): int
     );
 
     foreach ($params as $code => $param) {
-        $stmt->bindValue($param, $attrs[$code]['id'], PDO::PARAM_STR);
+        $stmt->bindValue($param, $addAttrs[$code]['id'], PDO::PARAM_STR);
     }
 
     $stmt->execute();
@@ -60,19 +58,17 @@ function eav_size(string $eId, array $crit = [], array $opts = []): int
 /**
  * Load entity
  *
- * @param string $eId
+ * @param array $entity
  * @param array $crit
  * @param array $opts
  *
  * @return array
  */
-function eav_load(string $eId, array $crit = [], array $opts = []): array
+function eav_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $entity = data('entity', $eId);
-    $attrs = $entity['attr'];
     $mainAttrs = data('entity', 'content')['attr'];
-    $addAttrs = array_diff_key($attrs, $mainAttrs);
-    $crit['entity_id'] = $eId;
+    $addAttrs = array_diff_key($entity['attr'], $mainAttrs);
+    $crit['entity_id'] = $entity['id'];
     $opts['as'] = 'e';
     $list = [];
     $params = [];
@@ -104,13 +100,13 @@ function eav_load(string $eId, array $crit = [], array $opts = []): array
         . ($list ? ' LEFT JOIN eav a ON a.content_id = e.id' : '')
         . where($crit, $mainAttrs, $opts)
         . group(['id'])
-        . having($having, $attrs, $opts)
-        . order($opts['order'] ?? [], $attrs)
+        . having($having, $entity['attr'], $opts)
+        . order($opts['order'] ?? [], $entity['attr'])
         . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
     );
 
     foreach ($params as $code => $param) {
-        $stmt->bindValue($param, $attrs[$code]['id'], PDO::PARAM_STR);
+        $stmt->bindValue($param, $addAttrs[$code]['id'], PDO::PARAM_STR);
     }
 
     $stmt->execute();

@@ -41,7 +41,7 @@ function size(string $eId, array $crit = [], array $opts = []): int
     $callback = fqn($entity['model'] . '_size');
 
     try {
-        return $callback($eId, $crit, $opts);
+        return $callback($entity, $crit, $opts);
     } catch (Exception $e) {
         error($e);
         message(_('Data could not be loaded'));
@@ -67,7 +67,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
     $opts = array_replace($opts, ['one' => true, 'limit' => 1]);
 
     try {
-        if ($item = $callback($eId, $crit, $opts)) {
+        if ($item = $callback($entity, $crit, $opts)) {
             $item = _load($entity, $item);
         }
     } catch (Exception $e) {
@@ -99,7 +99,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        $result = $callback($eId, $crit, $opts);
+        $result = $callback($entity, $crit, $opts);
 
         foreach ($result as $item) {
             $item = _load($entity, $item);

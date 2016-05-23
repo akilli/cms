@@ -4,16 +4,14 @@ namespace qnd;
 /**
  * Size entity
  *
- * @param string $eId
+ * @param array $entity
  * @param array $crit
  * @param array $opts
  *
  * @return int
  */
-function flat_size(string $eId, array $crit = [], array $opts = []): int
+function flat_size(array $entity, array $crit = [], array $opts = []): int
 {
-    $entity = data('entity', $eId);
-
     $stmt = prep(
         'SELECT COUNT(*) FROM %s %s',
         $entity['tab'],
@@ -27,22 +25,19 @@ function flat_size(string $eId, array $crit = [], array $opts = []): int
 /**
  * Load entity
  *
- * @param string $eId
+ * @param array $entity
  * @param array $crit
  * @param array $opts
  *
  * @return array
  */
-function flat_load(string $eId, array $crit = [], array $opts = []): array
+function flat_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $entity = data('entity', $eId);
-    $attrs = $entity['attr'];
-
     $stmt = db()->prepare(
-        select($attrs)
+        select($entity['attr'])
         . from($entity['tab'])
-        . where($crit, $attrs, $opts)
-        . order($opts['order'] ?? [], $attrs)
+        . where($crit, $entity['attr'], $opts)
+        . order($opts['order'] ?? [], $entity['attr'])
         . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
     );
     $stmt->execute();

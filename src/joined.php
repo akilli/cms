@@ -4,16 +4,15 @@ namespace qnd;
 /**
  * Size entity
  *
- * @param string $eId
+ * @param array $entity
  * @param array $crit
  * @param array $opts
  *
  * @return int
  */
-function joined_size(string $eId, array $crit = [], array $opts = []): int
+function joined_size(array $entity, array $crit = [], array $opts = []): int
 {
-    $entity = data('entity', $eId);
-    $crit['entity_id'] = $eId;
+    $crit['entity_id'] = $entity['id'];
 
     $stmt = prep(
         'SELECT COUNT(*) FROM content c NATURAL JOIN %s j %s',
@@ -28,24 +27,22 @@ function joined_size(string $eId, array $crit = [], array $opts = []): int
 /**
  * Load entity
  *
- * @param string $eId
+ * @param array $entity
  * @param array $crit
  * @param array $opts
  *
  * @return array
  */
-function joined_load(string $eId, array $crit = [], array $opts = []): array
+function joined_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $entity = data('entity', $eId);
-    $crit['entity_id'] = $eId;
-    $attrs = $entity['attr'];
+    $crit['entity_id'] = $entity['id'];
 
     $stmt = db()->prepare(
-        select($attrs)
+        select($entity['attr'])
         . from('content', 'c')
         . njoin($entity['tab'], 'j')
-        . where($crit, $attrs, $opts)
-        . order($opts['order'] ?? [], $attrs)
+        . where($crit, $entity['attr'], $opts)
+        . order($opts['order'] ?? [], $entity['attr'])
         . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
     );
     $stmt->execute();

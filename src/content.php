@@ -4,33 +4,33 @@ namespace qnd;
 /**
  * Size entity
  *
- * @param string $eId
+ * @param array $entity
  * @param array $crit
  * @param array $opts
  *
  * @return int
  */
-function content_size(string $eId, array $crit = [], array $opts = []): int
+function content_size(array $entity, array $crit = [], array $opts = []): int
 {
-    $crit['entity_id'] = $eId;
+    $crit['entity_id'] = $entity['id'];
 
-    return flat_size('content', $crit, $opts);
+    return flat_size($entity, $crit, $opts);
 }
 
 /**
  * Load entity
  *
- * @param string $eId
+ * @param array $entity
  * @param array $crit
  * @param array $opts
  *
  * @return array
  */
-function content_load(string $eId, array $crit = [], array $opts = []): array
+function content_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $crit['entity_id'] = $eId;
+    $crit['entity_id'] = $entity['id'];
 
-    return flat_load($eId, $crit, $opts);
+    return flat_load($entity, $crit, $opts);
 }
 
 /**

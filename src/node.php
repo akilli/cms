@@ -6,31 +6,31 @@ use PDO;
 /**
  * Size entity
  *
- * @param string $eId
+ * @param array $entity
  * @param array $crit
  * @param array $opts
  *
  * @return int
  */
-function node_size(string $eId, array $crit = [], array $opts = []): int
+function node_size(array $entity, array $crit = [], array $opts = []): int
 {
-    return flat_size($eId, $crit, $opts);
+    return flat_size($entity, $crit, $opts);
 }
 
 /**
  * Load entity
  *
- * @param string $eId
+ * @param array $entity
  * @param array $crit
  * @param array $opts
  *
  * @return array
  */
-function node_load(string $eId, array $crit = [], array $opts = []): array
+function node_load(array $entity, array $crit = [], array $opts = []): array
 {
     $opts['order'] = $opts['order'] ?? ['root_id' => 'asc', 'lft' => 'asc'];
 
-    return flat_load($eId, $crit, $opts);
+    return flat_load($entity, $crit, $opts);
 }
 
 /**
