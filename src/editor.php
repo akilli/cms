@@ -80,18 +80,18 @@ function editor(array $attr, array $item): string
 function editor_select(array $attr, array $item): string
 {
     $value = $item[$attr['id']];
-    $attr['options'] = option($attr);
+    $attr['opt'] = option($attr);
 
     if (!is_array($value)) {
         $value = !$value && !is_numeric($value) ? [] : [$value];
     }
 
-    if (empty($attr['options'])) {
+    if (empty($attr['opt'])) {
         $html = html_tag('optgroup', ['label' => _('No options configured')]);
     } else {
         $html = html_tag('option', ['value' => '', 'class' => 'empty'], _('Please choose'));
 
-        foreach ($attr['options'] as $optId => $optVal) {
+        foreach ($attr['opt'] as $optId => $optVal) {
             $a = ['value' => $optId];
 
             if (in_array($optId, $value)) {
@@ -123,10 +123,10 @@ function editor_select(array $attr, array $item): string
  */
 function editor_option(array $attr, array $item): string
 {
-    if (!$attr['options'] = option($attr)) {
+    if (!$attr['opt'] = option($attr)) {
         return html_tag('span', ['id' => $attr['html']['id']], _('No options configured'));
     } elseif ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
-        $attr['options'] = [1 => _('Yes')];
+        $attr['opt'] = [1 => _('Yes')];
     }
 
     $value = $item[$attr['id']];
@@ -139,7 +139,7 @@ function editor_option(array $attr, array $item): string
 
     $html = '';
 
-    foreach ($attr['options'] as $optId => $optVal) {
+    foreach ($attr['opt'] as $optId => $optVal) {
         $htmlId = $attr['html']['id'] . '-' . $optId;
         $a = ['id' => $htmlId, 'name' => $attr['html']['name'], 'type' => $attr['frontend'], 'value' => $optId];
 

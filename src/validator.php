@@ -151,7 +151,7 @@ function validator_boundary(array $attr, array & $item): bool
  */
 function validator_option(array $attr, array & $item): bool
 {
-    $attr['options'] = option($attr);
+    $attr['opt'] = option($attr);
 
     if (is_array($item[$attr['id']])) {
         $item[$attr['id']] = array_filter(
@@ -164,7 +164,7 @@ function validator_option(array $attr, array & $item): bool
 
     if (!empty($item[$attr['id']]) || is_scalar($item[$attr['id']]) && !is_string($item[$attr['id']])) {
         foreach ((array) $item[$attr['id']] as $v) {
-            if (!isset($attr['options'][$v])) {
+            if (!isset($attr['opt'][$v])) {
                 $item[$attr['id']] = null;
                 $item['_error'][$attr['id']] = _('Invalid option for attribute %s', $attr['name']);
 

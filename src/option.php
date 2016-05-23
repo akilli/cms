@@ -14,16 +14,16 @@ function option(array $attr): array
         return option_translate(['No', 'Yes']);
     }
 
-    if (empty($attr['options'][0]) || !is_string($attr['options'][0]) && !is_array($attr['options'][0])) {
+    if (empty($attr['opt'][0]) || !is_string($attr['opt'][0]) && !is_array($attr['opt'][0])) {
         return [];
     }
 
-    if (is_string($attr['options'][0])) {
-        $params = $attr['options'][1] ?? [];
-        return option_translate($attr['options'][0](...$params));
+    if (is_string($attr['opt'][0])) {
+        $params = $attr['opt'][1] ?? [];
+        return option_translate($attr['opt'][0](...$params));
     }
 
-    return option_translate($attr['options'][0]);
+    return option_translate($attr['opt'][0]);
 }
 
 /**

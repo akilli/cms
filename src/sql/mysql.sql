@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS attr (
     required BOOLEAN NOT NULL DEFAULT '0',
     uniq BOOLEAN NOT NULL DEFAULT '0',
     searchable BOOLEAN NOT NULL DEFAULT '0',
-    options JSON DEFAULT NULL,
+    opt JSON DEFAULT NULL,
     actions JSON DEFAULT NULL,
     PRIMARY KEY (id),
     KEY idx_attr_name (name),

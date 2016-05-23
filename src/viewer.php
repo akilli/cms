@@ -38,18 +38,18 @@ function viewer(array $attr, array $item): string
  */
 function viewer_option(array $attr, array $item): string
 {
-    if (!$attr['options'] = option($attr)) {
+    if (!$attr['opt'] = option($attr)) {
         return '';
     }
 
     $values = [];
 
     foreach ((array) $item[$attr['id']] as $v) {
-        if (!empty($attr['options'][$v])) {
-            if (is_array($attr['options'][$v]) && !empty($attr['options'][$v]['name'])) {
-                $values[] = $attr['options'][$v]['name'];
-            } elseif (is_scalar($attr['options'][$v])) {
-                $values[] = $attr['options'][$v];
+        if (!empty($attr['opt'][$v])) {
+            if (is_array($attr['opt'][$v]) && !empty($attr['opt'][$v]['name'])) {
+                $values[] = $attr['opt'][$v]['name'];
+            } elseif (is_scalar($attr['opt'][$v])) {
+                $values[] = $attr['opt'][$v];
             }
         }
     }

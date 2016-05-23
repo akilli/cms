@@ -16,7 +16,7 @@ return [
         'uniq' => false,
         'multiple' => false,
         'searchable' => false,
-        'options' => [],
+        'opt' => [],
         'actions' => [],
         'value' => null,
         'min' => null,
