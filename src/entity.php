@@ -51,7 +51,7 @@ function size(string $eId, array $crit = [], array $opts = []): int
 }
 
 /**
- * Load one entity optionally by criteria
+ * Load entity
  *
  * @param string $eId
  * @param array $crit
@@ -61,14 +61,25 @@ function size(string $eId, array $crit = [], array $opts = []): int
  */
 function one(string $eId, array $crit = [], array $opts = []): array
 {
-    $opts['one'] = true;
-    $opts['limit'] = 1;
+    $entity = data('entity', $eId);
+    $callback = fqn($entity['model'] . '_load');
+    $item = [];
+    $opts = array_replace($opts, ['one' => true, 'limit' => 1]);
 
-    return load($eId, $crit, $opts);
+    try {
+        if ($item = $callback($eId, $crit, $opts)) {
+            $item = _load($entity, $item);
+        }
+    } catch (Exception $e) {
+        error($e);
+        message(_('Data could not be loaded'));
+    }
+
+    return $item;
 }
 
 /**
- * Load entity collection optionally by criteria
+ * Load entity collection
  *
  * @param string $eId
  * @param array $crit
@@ -78,51 +89,20 @@ function one(string $eId, array $crit = [], array $opts = []): array
  */
 function all(string $eId, array $crit = [], array $opts = []): array
 {
-    unset($opts['one']);
-
-    return load($eId, $crit, $opts);
-}
-
-/**
- * Load entity
- *
- * @internal
- *
- * @param string $eId
- * @param array $crit
- * @param array $opts
- *
- * @return array
- */
-function load(string $eId, array $crit = [], array $opts = []): array
-{
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_load');
     $data = [];
+    unset($opts['one']);
+
+    if (empty($opts['index']) || is_array($opts['index']) && (empty($opts['index'][0]) || empty($opts['index'][1]))) {
+        $opts['index'] = 'id';
+    }
 
     try {
         $result = $callback($eId, $crit, $opts);
 
-        if (empty($opts['index']) || is_array($opts['index']) && (empty($opts['index'][0]) || empty($opts['index'][1]))) {
-            $opts['index'] = 'id';
-        }
-
         foreach ($result as $item) {
-            foreach ($item as $code => $value) {
-                if (isset($entity['attr'][$code])) {
-                    $item[$code] = loader($entity['attr'][$code], $item);
-                }
-            }
-
-            $item['_old'] = $item;
-            $item['_entity'] = $entity;
-            $item['_id'] = $item['id'];
-
-            event(['entity.load', 'entity.' . $entity['model'] . '.load', 'entity.load.' . $eId], $item);
-
-            if (!empty($opts['one'])) {
-                return $item;
-            }
+            $item = _load($entity, $item);
 
             if ($opts['index'] === 'uniq') {
                 foreach ($item as $code => $value) {
@@ -142,6 +122,33 @@ function load(string $eId, array $crit = [], array $opts = []): array
     }
 
     return $data;
+}
+
+/**
+ * Internal entity loader
+ *
+ * @internal
+ *
+ * @param array $entity
+ * @param array $item
+ *
+ * @return array
+ */
+function _load(array $entity, array $item): array
+{
+    foreach ($item as $code => $value) {
+        if (isset($entity['attr'][$code])) {
+            $item[$code] = loader($entity['attr'][$code], $item);
+        }
+    }
+
+    $item['_old'] = $item;
+    $item['_entity'] = $entity;
+    $item['_id'] = $item['id'];
+
+    event(['entity.load', 'entity.' . $entity['model'] . '.load', 'entity.load.' . $entity['id']], $item);
+
+    return $item;
 }
 
 /**

@@ -47,6 +47,10 @@ function flat_load(string $eId, array $crit = [], array $opts = []): array
     );
     $stmt->execute();
 
+    if (!empty($opts['one'])) {
+        return $stmt->fetch() ?: [];
+    }
+
     return $stmt->fetchAll();
 }
 
