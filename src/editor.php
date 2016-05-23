@@ -44,7 +44,7 @@ function editor(array $attr, array $item): string
             break;
         case 'checkbox':
         case 'radio':
-            $html = editor_option($attr, $item);
+            $html = editor_opt($attr, $item);
             break;
         case 'email':
         case 'url':
@@ -80,7 +80,7 @@ function editor(array $attr, array $item): string
 function editor_select(array $attr, array $item): string
 {
     $value = $item[$attr['id']];
-    $attr['opt'] = option($attr);
+    $attr['opt'] = opt($attr);
 
     if (!is_array($value)) {
         $value = !$value && !is_numeric($value) ? [] : [$value];
@@ -106,7 +106,7 @@ function editor_select(array $attr, array $item): string
                 $a['data-level'] = $optVal['level'];
             }
 
-            $html .= html_tag('option', $a, option_name($optId, $optVal));
+            $html .= html_tag('option', $a, opt_name($optId, $optVal));
         }
     }
 
@@ -121,9 +121,9 @@ function editor_select(array $attr, array $item): string
  *
  * @return string
  */
-function editor_option(array $attr, array $item): string
+function editor_opt(array $attr, array $item): string
 {
-    if (!$attr['opt'] = option($attr)) {
+    if (!$attr['opt'] = opt($attr)) {
         return html_tag('span', ['id' => $attr['html']['id']], _('No options configured'));
     } elseif ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
         $attr['opt'] = [1 => _('Yes')];
@@ -156,7 +156,7 @@ function editor_option(array $attr, array $item): string
         }
 
         $html .= html_tag('input', $a, null, true);
-        $html .= html_tag('label', ['for' => $htmlId, 'class' => 'inline'], option_name($optId, $optVal));
+        $html .= html_tag('label', ['for' => $htmlId, 'class' => 'inline'], opt_name($optId, $optVal));
     }
 
     return $html;

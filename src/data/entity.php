@@ -296,7 +296,7 @@ return [
                 'generator' => 'auto',
                 'type' => 'select.varchar',
                 'required' => true,
-                'opt' => ['qnd\option_position'],
+                'opt' => ['qnd\opt_position'],
                 'actions' => ['edit'],
             ],
         ],

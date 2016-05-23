@@ -24,7 +24,7 @@ function validator(array $attr, array & $item): bool
         case 'checkbox':
         case 'radio':
         case 'select':
-            $valid = validator_option($attr, $item);
+            $valid = validator_opt($attr, $item);
             break;
         case 'password':
         case 'textarea':
@@ -52,7 +52,7 @@ function validator(array $attr, array & $item): bool
  */
 function validator_required(array $attr, array & $item): bool
 {
-    if ($attr['required'] && empty($item[$attr['id']]) && !option($attr) && !ignorable($attr, $item)) {
+    if ($attr['required'] && empty($item[$attr['id']]) && !opt($attr) && !ignorable($attr, $item)) {
         $item['_error'][$attr['id']] = _('%s is a mandatory field', $attr['name']);
         return false;
     }
@@ -149,9 +149,9 @@ function validator_boundary(array $attr, array & $item): bool
  *
  * @return bool
  */
-function validator_option(array $attr, array & $item): bool
+function validator_opt(array $attr, array & $item): bool
 {
-    $attr['opt'] = option($attr);
+    $attr['opt'] = opt($attr);
 
     if (is_array($item[$attr['id']])) {
         $item[$attr['id']] = array_filter(

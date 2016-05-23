@@ -20,7 +20,7 @@ function viewer(array $attr, array $item): string
     $item[$attr['id']] = $item[$attr['id']] ?? $attr['value'];
 
     if (in_array($attr['frontend'], ['checkbox', 'radio', 'select'])) {
-        return viewer_option($attr, $item);
+        return viewer_opt($attr, $item);
     }
 
     $callback = fqn('viewer_' . $attr['type']);
@@ -36,9 +36,9 @@ function viewer(array $attr, array $item): string
  *
  * @return string
  */
-function viewer_option(array $attr, array $item): string
+function viewer_opt(array $attr, array $item): string
 {
-    if (!$attr['opt'] = option($attr)) {
+    if (!$attr['opt'] = opt($attr)) {
         return '';
     }
 

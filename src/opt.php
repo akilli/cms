@@ -8,10 +8,10 @@ namespace qnd;
  *
  * @return array
  */
-function option(array $attr): array
+function opt(array $attr): array
 {
     if ($attr['backend'] === 'bool') {
-        return option_translate(['No', 'Yes']);
+        return opt_translate(['No', 'Yes']);
     }
 
     if (empty($attr['opt'][0]) || !is_string($attr['opt'][0]) && !is_array($attr['opt'][0])) {
@@ -20,10 +20,10 @@ function option(array $attr): array
 
     if (is_string($attr['opt'][0])) {
         $params = $attr['opt'][1] ?? [];
-        return option_translate($attr['opt'][0](...$params));
+        return opt_translate($attr['opt'][0](...$params));
     }
 
-    return option_translate($attr['opt'][0]);
+    return opt_translate($attr['opt'][0]);
 }
 
 /**
@@ -34,7 +34,7 @@ function option(array $attr): array
  *
  * @return string
  */
-function option_name($id, $value): string
+function opt_name($id, $value): string
 {
     if (is_array($value) && !empty($value['name'])) {
         return $value['name'];
@@ -54,7 +54,7 @@ function option_name($id, $value): string
  *
  * @return array
  */
-function option_translate(array $opts): array
+function opt_translate(array $opts): array
 {
     foreach ($opts as $key => $value) {
         if (is_scalar($value)) {
@@ -72,7 +72,7 @@ function option_translate(array $opts): array
  *
  * @return array
  */
-function option_position(): array
+function opt_position(): array
 {
     $roots = load('menu');
     $data = [];
