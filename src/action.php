@@ -8,7 +8,7 @@ namespace qnd;
  */
 function action_create()
 {
-    $entity = action_internal_entity();
+    $entity = _action_entity();
     $data = post('data');
 
     if ($data && save($entity['id'], $data)) {
@@ -19,7 +19,7 @@ function action_create()
         $data = skeleton($entity['id'], (int) post('create'));
     }
 
-    action_internal_view($entity);
+    _action_view($entity);
     vars('entity.create', ['data' => $data, 'header' => _($entity['name'])]);
 }
 
@@ -30,7 +30,7 @@ function action_create()
  */
 function action_edit()
 {
-    $entity = action_internal_entity();
+    $entity = _action_entity();
     $data = post('data');
 
     if ($data && save($entity['id'], $data)) {
@@ -49,7 +49,7 @@ function action_edit()
         redirect(allowed('index') ? '*/index' : '');
     }
 
-    action_internal_view($entity);
+    _action_view($entity);
     vars('entity.edit', ['data' => $data, 'header' => _($entity['name'])]);
 }
 
@@ -60,7 +60,7 @@ function action_edit()
  */
 function action_delete()
 {
-    $entity = action_internal_entity();
+    $entity = _action_entity();
     $data = post('edit');
 
     if ($data) {
@@ -79,7 +79,7 @@ function action_delete()
  */
 function action_view()
 {
-    $entity = action_internal_entity();
+    $entity = _action_entity();
 
     if (!($item = one($entity['id'], ['id' => param('id')]))
         || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')
@@ -91,7 +91,7 @@ function action_view()
         message(_('Preview'));
     }
 
-    action_internal_view($entity, $item);
+    _action_view($entity, $item);
     vars('entity.view', ['item' => $item]);
 }
 
@@ -102,7 +102,7 @@ function action_view()
  */
 function action_index()
 {
-    $entity = action_internal_entity();
+    $entity = _action_entity();
     $action = request('action');
     $attrs = array_filter(
         $entity['attr'],
@@ -156,7 +156,7 @@ function action_index()
     );
     unset($params['page']);
 
-    action_internal_view($entity);
+    _action_view($entity);
     vars('entity.' . $action, ['data' => $data, 'header' => _($entity['name']), 'attr' => $attrs]);
     vars(
         'entity.' . $action . '.pager',
@@ -316,9 +316,11 @@ function action_user_logout()
 /**
  * Retrieve entity from request and validate entity and action
  *
+ * @internal
+ *
  * @return array
  */
-function action_internal_entity(): array
+function _action_entity(): array
 {
     $entity = data('entity', request('entity'));
 
@@ -333,12 +335,14 @@ function action_internal_entity(): array
 /**
  * Load View
  *
+ * @internal
+ *
  * @param array $entity
  * @param array $item
  *
  * @return void
  */
-function action_internal_view(array $entity, array $item = null)
+function _action_view(array $entity, array $item = null)
 {
     layout_load();
     vars('head', ['title' => $item['name'] ?? _($entity['name']) . ' ' . _(ucfirst(request('action')))]);
