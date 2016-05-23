@@ -342,7 +342,11 @@ function _node_position(array & $item): int
     }
 
     // Recursion
-    if (!empty($item['_old']) && $item['_old']['lft'] < $basisItem['lft'] && $item['_old']['rgt'] > $basisItem['rgt']) {
+    if (!empty($item['_old'])
+        && $item['root_id'] === $item['_old']['root_id']
+        && $item['_old']['lft'] < $basisItem['lft']
+        && $item['_old']['rgt'] > $basisItem['rgt']
+    ) {
         throw new LogicException(_('Menu Node can not be child of itself'));
     }
 
