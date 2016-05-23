@@ -28,7 +28,7 @@ function node_size(string $eId, array $crit = [], array $opts = []): int
  */
 function node_load(string $eId, array $crit = [], array $opts = []): array
 {
-    $opts['order'] = $opts['order'] ?? ['root_id' => 'ASC', 'lft' => 'ASC'];
+    $opts['order'] = $opts['order'] ?? ['root_id' => 'asc', 'lft' => 'asc'];
 
     return flat_load($eId, $crit, $opts);
 }
