@@ -8,11 +8,11 @@ use PDO;
  *
  * @param string $eId
  * @param array $criteria
- * @param array $options
+ * @param array $opts
  *
  * @return int
  */
-function eav_size(string $eId, array $criteria = [], array $options = []): int
+function eav_size(string $eId, array $criteria = [], array $opts = []): int
 {
     $entity = data('entity', $eId);
     $attrs = $entity['attr'];
@@ -44,7 +44,7 @@ function eav_size(string $eId, array $criteria = [], array $options = []): int
 
     $stmt = prep(
         'SELECT COUNT(*) FROM content %s %s',
-        where($criteria, $mainAttrs, $options),
+        where($criteria, $mainAttrs, $opts),
         $list ? ' AND ' . implode(' AND ', $list) : ''
     );
 
@@ -75,7 +75,7 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
     $mainAttrs = data('entity', 'content')['attr'];
     $addAttrs = array_diff_key($attrs, $mainAttrs);
     $criteria['entity_id'] = $entity['id'];
-    $options = ['as' => 'e', 'search' => $index === 'search'];
+    $opts = ['as' => 'e', 'search' => $index === 'search'];
     $list = [];
     $params = [];
     $having = [];
@@ -104,9 +104,9 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
         . ($list ? ', ' . implode(', ', $list) : '')
         . ' FROM content e'
         . ($list ? ' LEFT JOIN eav a ON a.content_id = e.id' : '')
-        . where($criteria, $mainAttrs, $options)
+        . where($criteria, $mainAttrs, $opts)
         . group(['id'])
-        . having($having, $attrs, $options)
+        . having($having, $attrs, $opts)
         . order($order, $attrs)
         . limit($limit)
     );

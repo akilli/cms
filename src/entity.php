@@ -31,17 +31,17 @@ function validate(array & $item): bool
  *
  * @param string $eId
  * @param array $criteria
- * @param array $options
+ * @param array $opts
  *
  * @return int
  */
-function size(string $eId, array $criteria = [], array $options = []): int
+function size(string $eId, array $criteria = [], array $opts = []): int
 {
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_size');
 
     try {
-        return $callback($eId, $criteria, $options);
+        return $callback($eId, $criteria, $opts);
     } catch (Exception $e) {
         error($e);
         message(_('Data could not be loaded'));

@@ -50,21 +50,21 @@ function option_name($id, $value): string
 /**
  * Translate options
  *
- * @param array $options
+ * @param array $opts
  *
  * @return array
  */
-function option_translate(array $options): array
+function option_translate(array $opts): array
 {
-    foreach ($options as $key => $value) {
+    foreach ($opts as $key => $value) {
         if (is_scalar($value)) {
-            $options[$key] = _($value);
+            $opts[$key] = _($value);
         } elseif (is_array($value) && !empty($value['name'])) {
-            $options[$key]['name'] = _($value['name']);
+            $opts[$key]['name'] = _($value['name']);
         }
     }
 
-    return $options;
+    return $opts;
 }
 
 /**

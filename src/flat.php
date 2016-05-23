@@ -6,18 +6,18 @@ namespace qnd;
  *
  * @param string $eId
  * @param array $criteria
- * @param array $options
+ * @param array $opts
  *
  * @return int
  */
-function flat_size(string $eId, array $criteria = [], array $options = []): int
+function flat_size(string $eId, array $criteria = [], array $opts = []): int
 {
     $entity = data('entity', $eId);
 
     $stmt = prep(
         'SELECT COUNT(*) FROM %s %s',
         $entity['tab'],
-        where($criteria, $entity['attr'], $options)
+        where($criteria, $entity['attr'], $opts)
     );
     $stmt->execute();
 
@@ -39,12 +39,12 @@ function flat_load(string $eId, array $criteria = [], $index = null, array $orde
 {
     $entity = data('entity', $eId);
     $attrs = $entity['attr'];
-    $options = ['search' => $index === 'search'];
+    $opts = ['search' => $index === 'search'];
 
     $stmt = db()->prepare(
         select($attrs)
         . from($entity['tab'])
-        . where($criteria, $attrs, $options)
+        . where($criteria, $attrs, $opts)
         . order($order, $attrs)
         . limit($limit)
     );

@@ -6,11 +6,11 @@ namespace qnd;
  *
  * @param string $eId
  * @param array $criteria
- * @param array $options
+ * @param array $opts
  *
  * @return int
  */
-function joined_size(string $eId, array $criteria = [], array $options = []): int
+function joined_size(string $eId, array $criteria = [], array $opts = []): int
 {
     $entity = data('entity', $eId);
     $criteria['entity_id'] = $eId;
@@ -18,7 +18,7 @@ function joined_size(string $eId, array $criteria = [], array $options = []): in
     $stmt = prep(
         'SELECT COUNT(*) FROM content c NATURAL JOIN %s j %s',
         $entity['tab'],
-        where($criteria, $entity['attr'], $options)
+        where($criteria, $entity['attr'], $opts)
     );
     $stmt->execute();
 
@@ -41,13 +41,13 @@ function joined_load(string $eId, array $criteria = [], $index = null, array $or
     $entity = data('entity', $eId);
     $criteria['entity_id'] = $eId;
     $attrs = $entity['attr'];
-    $options = ['search' => $index === 'search'];
+    $opts = ['search' => $index === 'search'];
 
     $stmt = db()->prepare(
         select($attrs)
         . from('content', 'c')
         . njoin($entity['tab'], 'j')
-        . where($criteria, $attrs, $options)
+        . where($criteria, $attrs, $opts)
         . order($order, $attrs)
         . limit($limit)
     );

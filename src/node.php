@@ -8,13 +8,13 @@ use PDO;
  *
  * @param string $eId
  * @param array $criteria
- * @param array $options
+ * @param array $opts
  *
  * @return int
  */
-function node_size(string $eId, array $criteria = [], array $options = []): int
+function node_size(string $eId, array $criteria = [], array $opts = []): int
 {
-    return flat_size($eId, $criteria, $options);
+    return flat_size($eId, $criteria, $opts);
 }
 
 /**

@@ -6,15 +6,15 @@ namespace qnd;
  *
  * @param string $eId
  * @param array $criteria
- * @param array $options
+ * @param array $opts
  *
  * @return int
  */
-function content_size(string $eId, array $criteria = [], array $options = []): int
+function content_size(string $eId, array $criteria = [], array $opts = []): int
 {
     $criteria['entity_id'] = $eId;
 
-    return flat_size('content', $criteria, $options);
+    return flat_size('content', $criteria, $opts);
 }
 
 /**
