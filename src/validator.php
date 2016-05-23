@@ -17,27 +17,31 @@ function validator(array $attr, array & $item): bool
 
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
     $attr['opt'] = opt($attr);
+    $valid = true;
     $callback = fqn('validator_' . $attr['type']);
-    $valid = !is_callable($callback) || $callback($attr, $item);
 
-    // Temporary
-    switch ($attr['frontend']) {
-        case 'checkbox':
-        case 'radio':
-        case 'select':
-            $valid = validator_opt($attr, $item);
-            break;
-        case 'password':
-        case 'textarea':
-            $valid = validator_text($attr, $item);
-            break;
-        case 'date':
-        case 'time':
-            $valid = validator_datetime($attr, $item);
-            break;
-        case 'file':
-            $valid = validator_file($attr, $item);
-            break;
+    if (is_callable($callback)) {
+        $valid = $callback($attr, $item);
+    } else {
+        // Temporary
+        switch ($attr['frontend']) {
+            case 'checkbox':
+            case 'radio':
+            case 'select':
+                $valid = validator_opt($attr, $item);
+                break;
+            case 'password':
+            case 'textarea':
+                $valid = validator_text($attr, $item);
+                break;
+            case 'date':
+            case 'time':
+                $valid = validator_datetime($attr, $item);
+                break;
+            case 'file':
+                $valid = validator_file($attr, $item);
+                break;
+        }
     }
 
     return $valid && validator_uniq($attr, $item) && validator_required($attr, $item) && validator_boundary($attr, $item);

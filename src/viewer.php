@@ -11,22 +11,25 @@ namespace qnd;
  */
 function viewer(array $attr, array $item): string
 {
-    $attr['opt'] = opt($attr);
-    $attr['context'] = $attr['context'] ?? 'view';
-
-    if (!data_action($attr['context'], $attr)) {
+    if ($attr['context'] && !data_action($attr['context'], $attr)) {
         return '';
     }
 
     $item[$attr['id']] = $item[$attr['id']] ?? $attr['value'];
+    $attr['opt'] = opt($attr);
+    $attr['context'] = $attr['context'] ?? 'view';
+    $callback = fqn('viewer_' . $attr['type']);
 
+    if (is_callable($callback)) {
+        return $callback($attr, $item);
+    }
+
+    // Temporary
     if (in_array($attr['frontend'], ['checkbox', 'radio', 'select'])) {
         return viewer_opt($attr, $item);
     }
 
-    $callback = fqn('viewer_' . $attr['type']);
-
-    return is_callable($callback) ? $callback($attr, $item) : (string) encode($item[$attr['id']]);
+    return (string) encode($item[$attr['id']]);
 }
 
 /**
