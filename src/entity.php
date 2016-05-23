@@ -5,28 +5,6 @@ use Exception;
 use RuntimeException;
 
 /**
- * Validate entity
- *
- * @param array $item
- *
- * @return bool
- */
-function validate(array & $item): bool
-{
-    if (empty($item['_entity'])) {
-        return false;
-    }
-
-    foreach ($item['_entity']['attr'] as $attr) {
-        if (!validator($attr, $item)) {
-            $error = true;
-        }
-    }
-
-    return empty($error);
-}
-
-/**
  * Size entity
  *
  * @param string $eId
@@ -122,33 +100,6 @@ function all(string $eId, array $crit = [], array $opts = []): array
     }
 
     return $data;
-}
-
-/**
- * Internal entity loader
- *
- * @internal
- *
- * @param array $entity
- * @param array $item
- *
- * @return array
- */
-function _load(array $entity, array $item): array
-{
-    foreach ($item as $code => $value) {
-        if (isset($entity['attr'][$code])) {
-            $item[$code] = loader($entity['attr'][$code], $item);
-        }
-    }
-
-    $item['_old'] = $item;
-    $item['_entity'] = $entity;
-    $item['_id'] = $item['id'];
-
-    event(['entity.load', 'entity.' . $entity['model'] . '.load', 'entity.load.' . $entity['id']], $item);
-
-    return $item;
 }
 
 /**
@@ -288,4 +239,53 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
     message(_(empty($error) ? 'Data successfully deleted' : 'Data could not be deleted'));
 
     return empty($error);
+}
+
+/**
+ * Validate entity
+ *
+ * @param array $item
+ *
+ * @return bool
+ */
+function validate(array & $item): bool
+{
+    if (empty($item['_entity'])) {
+        return false;
+    }
+
+    foreach ($item['_entity']['attr'] as $attr) {
+        if (!validator($attr, $item)) {
+            $error = true;
+        }
+    }
+
+    return empty($error);
+}
+
+/**
+ * Internal entity loader
+ *
+ * @internal
+ *
+ * @param array $entity
+ * @param array $item
+ *
+ * @return array
+ */
+function _load(array $entity, array $item): array
+{
+    foreach ($item as $code => $value) {
+        if (isset($entity['attr'][$code])) {
+            $item[$code] = loader($entity['attr'][$code], $item);
+        }
+    }
+
+    $item['_old'] = $item;
+    $item['_entity'] = $entity;
+    $item['_id'] = $item['id'];
+
+    event(['entity.load', 'entity.' . $entity['model'] . '.load', 'entity.load.' . $entity['id']], $item);
+
+    return $item;
 }
