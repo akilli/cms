@@ -86,6 +86,8 @@ function all(string $eId, array $crit = [], array $opts = []): array
 /**
  * Load entity
  *
+ * @internal
+ *
  * @param string $eId
  * @param array $crit
  * @param array $opts
