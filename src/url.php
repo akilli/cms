@@ -165,7 +165,7 @@ function url_resolve(string $key = ''): string
 function url_rewrite(string $path): string
 {
     $path = $path ?: 'http-base';
-    $item = load('rewrite', ['name' => $path], false);
+    $item = load('rewrite', ['name' => $path], ['one' => true]);
 
     if (!$item) {
         return $path;
@@ -191,7 +191,7 @@ function url_unrewrite(string $path, string $query = null): string
     static $data;
 
     if ($data === null) {
-        $data = load('rewrite', [], 'target', ['system' => 'desc']);
+        $data = load('rewrite', [], ['index' => 'target', 'order' => ['system' => 'desc']]);
     }
 
     $url = !empty($data[$path . $query]) ? $data[$path . $query]['name'] : $path . $query;

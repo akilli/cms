@@ -53,31 +53,23 @@ function size(string $eId, array $crit = [], array $opts = []): int
 /**
  * Load entity
  *
- * By default it will load a collection, unless $index is explicitly set to (bool) false.
- *
  * @param string $eId
  * @param array $crit
- * @param mixed $index
- * @param string[] $order
- * @param int[] $limit
+ * @param array $opts
  *
  * @return array
  */
-function load(string $eId, array $crit = [], $index = null, array $order = [], array $limit = []): array
+function load(string $eId, array $crit = [], array $opts = []): array
 {
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_load');
-    $single = $index === false;
     $data = [];
 
     try {
-        $result = $callback($eId, $crit, $index, $order, $limit);
+        $result = $callback($eId, $crit, $opts);
 
-        if (!$index
-            || $index === 'search'
-            || !is_array($index) && empty($entity['attr'][$index]) && $index !== 'uniq'
-        ) {
-            $index = 'id';
+        if (empty($opts['index']) || is_array($opts['index']) && (empty($opts['index'][0]) || empty($opts['index'][1]))) {
+            $opts['index'] = 'id';
         }
 
         foreach ($result as $item) {
@@ -93,25 +85,20 @@ function load(string $eId, array $crit = [], $index = null, array $order = [], a
 
             event(['entity.load', 'entity.' . $entity['model'] . '.load', 'entity.load.' . $eId], $item);
 
-            if ($single) {
+            if (!empty($opts['one'])) {
                 return $item;
             }
 
-            if ($index === 'uniq') {
+            if ($opts['index'] === 'uniq') {
                 foreach ($item as $code => $value) {
                     if (!empty($entity['attr'][$code]['uniq'])) {
                         $data[$code][$item['id']] = $value;
                     }
                 }
-            } elseif (is_array($index)
-                && !empty($index[0])
-                && !empty($index[1])
-                && !empty($item[$index[0]])
-                && !empty($item[$index[1]])
-            ) {
-                $data[$item[$index[0]]][$item[$index[1]]] = $item;
+            } elseif (is_array($opts['index'])) {
+                $data[$item[$opts['index'][0]]][$item[$opts['index'][1]]] = $item;
             } else {
-                $data[$item[$index]] = $item;
+                $data[$item[$opts['index']]] = $item;
             }
         }
     } catch (Exception $e) {
@@ -206,26 +193,25 @@ function save(string $eId, array & $data): bool
  *
  * @param string $eId
  * @param array $crit
- * @param mixed $index
- * @param bool $system
+ * @param array $opts
  *
  * @return bool
  */
-function delete(string $eId, array $crit = [], $index = null, bool $system = false): bool
+function delete(string $eId, array $crit = [], array $opts = []): bool
 {
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_delete');
 
-    if (!$data = load($eId, $crit, $index)) {
+    if (!$data = load($eId, $crit, $opts)) {
         return false;
     }
 
-    if ($index === false) {
+    if (!empty($opts['one'])) {
         $data = [$data['id'] => $data];
     }
 
     foreach ($data as $id => $item) {
-        if (!$system && !empty($item['system'])) {
+        if (empty($opts['system']) && !empty($item['system'])) {
             message(_('You must not delete system items! Therefore skipped Id %s', $id));
             unset($data[$id]);
             continue;

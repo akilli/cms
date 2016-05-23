@@ -81,7 +81,7 @@ function action_view()
 {
     $entity = action_internal_entity();
 
-    if (!($item = load($entity['id'], ['id' => param('id')], false))
+    if (!($item = load($entity['id'], ['id' => param('id')], ['one' => true]))
         || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')
     ) {
         // Item does not exist or is inactive
@@ -122,7 +122,7 @@ function action_index()
     if ($search) {
         $content = array_filter(explode(' ', $search));
 
-        if ($content && ($items = load($entity['id'], ['name' => $content], 'search'))) {
+        if ($content && ($items = load($entity['id'], ['name' => $content], ['search' => true]))) {
             $crit['id'] = array_keys($items);
             $params['search'] = urlencode(implode(' ', $content));
         } else {
@@ -147,7 +147,7 @@ function action_index()
         $params['dir'] = $dir;
     }
 
-    $data = load($entity['id'], $crit, null, $order, [$limit, $offset]);
+    $data = load($entity['id'], $crit, ['order' => $order, 'limit' => $limit, 'offset' => $offset]);
     array_walk(
         $attrs,
         function (& $attr, $code) use ($params) {
@@ -286,7 +286,7 @@ function action_user_login()
     if ($data) {
         if (!empty($data['username'])
             && !empty($data['password'])
-            && ($item = load('user', ['username' => $data['username'], 'active' => true], false))
+            && ($item = load('user', ['username' => $data['username'], 'active' => true], ['one' => true]))
             && password_verify($data['password'], $item['password'])
         ) {
             message(_('Welcome %s', $item['name']));

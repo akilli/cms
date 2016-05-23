@@ -17,10 +17,10 @@ function project(string $key = null)
         $id = session('project');
         $crit = $id === null ? ['host' => request('host')] : ['id' => $id];
         $crit['active'] = true;
-        $data = load('project', $crit, false);
+        $data = load('project', $crit, ['one' => true]);
 
         if (!$data) {
-            $data = load('project', ['id' => 0, 'active' => true], false);
+            $data = load('project', ['id' => 0, 'active' => true], ['one' => true]);
         }
 
         if ($id <= 0 || !$data) {

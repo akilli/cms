@@ -46,7 +46,7 @@ function listener_data_entity(array & $data)
         $data[$id] = $item;
     }
 
-    $attrs = load('attr', [], ['entity_id', 'id'], ['entity_id' => 'asc', 'sort' => 'asc']);
+    $attrs = load('attr', [], ['index' => ['entity_id', 'id']]);
 
     foreach (load('entity', ['model' => ['content', 'eav', 'joined']]) as $id => $item) {
         $base = $item['model'] === 'joined' && !empty($data[$id]) ? $data[$id] : $data['content'];
@@ -141,8 +141,11 @@ function listener_entity_save(array & $data)
         $crit = ['target' => $data['_old']['id'] . '/view/id/'];
 
         if (!data_action('view', $data)) {
-            delete('rewrite', $crit, 'search', true);
-        } elseif (data_action('view', $data) && $data['id'] !== $data['_old']['id'] && ($rw = load('rewrite', $crit, 'search'))) {
+            delete('rewrite', $crit, ['search' => true, 'system' => true]);
+        } elseif (data_action('view', $data)
+            && $data['id'] !== $data['_old']['id']
+            && ($rw = load('rewrite', $crit, ['search' => true]))
+        ) {
             foreach ($rw as $rId => $r) {
                 $rw[$rId]['target'] = preg_replace('#^' . $data['_old']['id'] . '/#', $data['id'] . '/', $r['target']);
             }
@@ -154,7 +157,7 @@ function listener_entity_save(array & $data)
     if ($data['_entity']['id'] !== 'rewrite' && data_action('view', $data['_entity'])) {
         $target = $data['_entity']['id'] . '/view/id/' . $data['id'];
         $r = ['name' => $data['name'], 'target' => $target, 'system' => true];
-        $old = load('rewrite', ['target' => $target, 'system' => true], false);
+        $old = load('rewrite', ['target' => $target, 'system' => true], ['one' => true]);
         $rw = $old ? [$old['id'] => $r] : [-1 => $r];
        save('rewrite', $rw);
     }
@@ -170,8 +173,8 @@ function listener_entity_save(array & $data)
 function listener_entity_delete(array & $data)
 {
     if ($data['_entity']['id'] === 'entity') {
-        delete('rewrite', ['target' => $data['id'] . '/view/id/'], 'search', true);
+        delete('rewrite', ['target' => $data['id'] . '/view/id/'], ['search' => true, 'system' => true]);
     }
 
-    delete('rewrite', ['target' => $data['_entity']['id'] . '/view/id/' . $data['id']], null, true);
+    delete('rewrite', ['target' => $data['_entity']['id'] . '/view/id/' . $data['id']], ['system' => true]);
 }

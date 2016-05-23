@@ -19,7 +19,6 @@ return [
     ],
     'entity.index' => 10,
     'entity.list' => 10,
-    'entity.section' => 5,
     'entity.model' => [
         'flat' => 'flat',
         'content' => 'content',

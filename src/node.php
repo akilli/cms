@@ -22,17 +22,15 @@ function node_size(string $eId, array $crit = [], array $opts = []): int
  *
  * @param string $eId
  * @param array $crit
- * @param mixed $index
- * @param string[] $order
- * @param int[] $limit
+ * @param array $opts
  *
  * @return array
  */
-function node_load(string $eId, array $crit = [], $index = null, array $order = [], array $limit = []): array
+function node_load(string $eId, array $crit = [], array $opts = []): array
 {
-    $order = $order ?: ['root_id' => 'ASC', 'lft' => 'ASC'];
+    $opts['order'] = $opts['order'] ?? ['root_id' => 'ASC', 'lft' => 'ASC'];
 
-    return flat_load($eId, $crit, $index, $order, $limit);
+    return flat_load($eId, $crit, $opts);
 }
 
 /**
@@ -49,7 +47,7 @@ function node_create(array & $item): bool
     $item['root_id'] = (int) $parts[0];
     $basis = (int) $parts[1];
 
-    if (!$basisItem = load($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $basis], false)) {
+    if (!$basisItem = load($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $basis], ['one' => true])) {
         // No or wrong basis given so append node
         $stmt = db()->prepare('
             SELECT 
@@ -167,7 +165,7 @@ function node_save(array & $item): bool
 
     // No change in position or wrong basis given
     if ($basis && ($basis === $item['_old']['id']
-            || !($basisItem = load($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $basis], false))
+            || !($basisItem = load($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $basis], ['one' => true]))
             || $item['_old']['lft'] < $basisItem['lft'] && $item['_old']['rgt'] > $basisItem['rgt'])
     ) {
         return true;

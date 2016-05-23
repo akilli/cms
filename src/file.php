@@ -10,26 +10,21 @@ use SplFileInfo;
  *
  * @param string $path
  * @param array $crit
- * @param mixed $index
- * @param string[] $order
- * @param int[] $limit
+ * @param array $opts
  *
  * @return array
  */
-function file_load(string $path, array $crit = [], $index = null, array $order = [], array $limit = []): array
+function file_load(string $path, array $crit = [], array $opts = []): array
 {
     if (!is_dir($path)) {
         return [];
     }
 
-    $data = [];
-    $single = $index === false;
-
-    if (!$index || $index === 'search') {
-        $search = $index === 'search';
-        $index = 'id';
+    if (empty($opts['index']) || is_array($opts['index']) && (empty($opts['index'][0]) || empty($opts['index'][1]))) {
+        $opts['index'] = 'id';
     }
 
+    $data = [];
     $iterator = new RecursiveDirectoryIterator(
         $path,
         RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS
@@ -40,49 +35,44 @@ function file_load(string $path, array $crit = [], $index = null, array $order =
         unset($crit['recursive']);
     }
 
-    /* @var SplFileInfo $item */
-    foreach ($iterator as $item) {
-        if (!$item->isFile()) {
+    /* @var SplFileInfo $file */
+    foreach ($iterator as $file) {
+        if (!$file->isFile()) {
             continue;
         }
 
         $item = [
             'id' => $iterator->getSubPathname(),
             'name' => $iterator->getSubPathname(),
-            'path' => $item->getRealPath(),
-            'extension' => $item->getExtension(),
-            'size' => $item->getSize(),
-            'modified' => $item->getMTime()
+            'path' => $file->getRealPath(),
+            'extension' => $file->getExtension(),
+            'size' => $file->getSize(),
+            'modified' => $file->getMTime()
         ];
 
-        if ($single) {
+        if (!empty($opts['one'])) {
             return $item;
         }
 
-        if ($index === 'uniq') {
+        if ($opts['index'] === 'uniq') {
             $data['id'][$item['id']] = $item['id'];
-        } elseif (is_array($index)
-            && !empty($index[0])
-            && !empty($index[1])
-            && !empty($item[$index[0]])
-            && !empty($item[$index[1]])
-        ) {
-            $data[$item[$index[0]]][$item[$index[1]]] = $item;
+        } elseif (is_array($opts['index'])) {
+            $data[$item[$opts['index'][0]]][$item[$opts['index'][1]]] = $item;
         } else {
-            $data[$item[$index]] = $item;
+            $data[$item[$opts['index']]] = $item;
         }
     }
 
     if ($crit) {
-        $data = data_filter($data, $crit, !empty($search));
+        $data = data_filter($data, $crit, !empty($opts['search']));
     }
 
-    if ($order) {
-        $data = data_order($data, $order);
+    if (!empty($opts['order'])) {
+        $data = data_order($data, $opts['order']);
     }
 
-    if ($limit) {
-        $data = data_limit($data, $limit);
+    if (!empty($opts['limit'])) {
+        $data = data_limit($data, $opts['limit'], $opts['offset'] ?? 0);
     }
 
     return $data;

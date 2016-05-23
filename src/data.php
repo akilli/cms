@@ -150,16 +150,14 @@ function data_order_compare(array $order, array $a, array $b): int
  * Limit
  *
  * @param array $data
- * @param int[] $limit
+ * @param int $limit
+ * @param int $offset
  *
  * @return array
  */
-function data_limit(array $data, array $limit): array
+function data_limit(array $data, int $limit, int $offset = 0): array
 {
-    $limit[0] = intval($limit[0] ?? 0);
-    $limit[1] = intval($limit[1] ?? 0);
-
-    return $limit[0] > 0 ? array_slice($data, $limit[1], $limit[0], true) : $data;
+    return $limit > 0 ? array_slice($data, $offset, $limit, true) : $data;
 }
 
 /**

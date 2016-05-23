@@ -22,17 +22,15 @@ function content_size(string $eId, array $crit = [], array $opts = []): int
  *
  * @param string $eId
  * @param array $crit
- * @param mixed $index
- * @param string[] $order
- * @param int[] $limit
+ * @param array $opts
  *
  * @return array
  */
-function content_load(string $eId, array $crit = [], $index = null, array $order = [], array $limit = []): array
+function content_load(string $eId, array $crit = [], array $opts = []): array
 {
     $crit['entity_id'] = $eId;
 
-    return flat_load($eId, $crit, $index, $order, $limit);
+    return flat_load($eId, $crit, $opts);
 }
 
 /**

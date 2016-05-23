@@ -15,10 +15,10 @@ function user(string $key = null)
     if ($data === null) {
         $data = [];
         $id = (int) session('user');
-        $data = load('user', ['id' => $id, 'active' => true], false);
+        $data = load('user', ['id' => $id, 'active' => true], ['one' => true]);
 
         if ($data) {
-            $role = load('role', ['id' => $data['role_id'], 'active' => true], false);
+            $role = load('role', ['id' => $data['role_id'], 'active' => true], ['one' => true]);
             $data['privilege'] = $role ? $role['privilege'] : [];
         }
 

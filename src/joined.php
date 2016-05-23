@@ -30,26 +30,23 @@ function joined_size(string $eId, array $crit = [], array $opts = []): int
  *
  * @param string $eId
  * @param array $crit
- * @param mixed $index
- * @param string[] $order
- * @param int[] $limit
+ * @param array $opts
  *
  * @return array
  */
-function joined_load(string $eId, array $crit = [], $index = null, array $order = [], array $limit = []): array
+function joined_load(string $eId, array $crit = [], array $opts = []): array
 {
     $entity = data('entity', $eId);
     $crit['entity_id'] = $eId;
     $attrs = $entity['attr'];
-    $opts = ['search' => $index === 'search'];
 
     $stmt = db()->prepare(
         select($attrs)
         . from('content', 'c')
         . njoin($entity['tab'], 'j')
         . where($crit, $attrs, $opts)
-        . order($order, $attrs)
-        . limit($limit)
+        . order($opts['order'] ?? [], $attrs)
+        . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
     );
     $stmt->execute();
 

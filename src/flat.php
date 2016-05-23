@@ -29,24 +29,21 @@ function flat_size(string $eId, array $crit = [], array $opts = []): int
  *
  * @param string $eId
  * @param array $crit
- * @param mixed $index
- * @param string[] $order
- * @param int[] $limit
+ * @param array $opts
  *
  * @return array
  */
-function flat_load(string $eId, array $crit = [], $index = null, array $order = [], array $limit = []): array
+function flat_load(string $eId, array $crit = [], array $opts = []): array
 {
     $entity = data('entity', $eId);
     $attrs = $entity['attr'];
-    $opts = ['search' => $index === 'search'];
 
     $stmt = db()->prepare(
         select($attrs)
         . from($entity['tab'])
         . where($crit, $attrs, $opts)
-        . order($order, $attrs)
-        . limit($limit)
+        . order($opts['order'] ?? [], $attrs)
+        . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
     );
     $stmt->execute();
 

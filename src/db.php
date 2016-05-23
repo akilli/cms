@@ -247,8 +247,7 @@ function where(array $crit, array $attrs, array $opts = []): string
 {
     $cols = [];
     $as = !empty($opts['as']) ? $opts['as'] . '.' : '';
-    $search = !empty($opts['search']);
-    $op = $search ? 'LIKE' : '=';
+    $op = !empty($opts['search']) ? 'LIKE' : '=';
 
     foreach ($crit as $code => $value) {
         if (empty($attrs[$code]['col'])) {
@@ -260,7 +259,7 @@ function where(array $crit, array $attrs, array $opts = []): string
         $r = [];
 
         foreach ((array) $value as $v) {
-            if ($search) {
+            if (!empty($opts['search'])) {
                 $v = '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
             }
 
@@ -297,8 +296,7 @@ function group(array $cols): string
 function having(array $crit, array $attrs, array $opts = []): string
 {
     $cols = [];
-    $search = !empty($opts['search']);
-    $op = $search ? 'LIKE' : '=';
+    $op = !empty($opts['search']) ? 'LIKE' : '=';
 
     foreach ($crit as $code => $value) {
         if (empty($attrs[$code])) {
@@ -308,7 +306,7 @@ function having(array $crit, array $attrs, array $opts = []): string
         $r = [];
 
         foreach ((array) $value as $v) {
-            if ($search) {
+            if (!empty($opts['search'])) {
                 $v = '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
             }
 
@@ -348,14 +346,12 @@ function order(array $order, array $attrs = []): string
 /**
  * LIMIT part
  *
- * @param int[] $limit
+ * @param int $limit
+ * @param int $offset
  *
  * @return string
  */
-function limit(array $limit): string
+function limit(int $limit, int $offset = 0): string
 {
-    $limit[0] = intval($limit[0] ?? 0);
-    $limit[1] = intval($limit[1] ?? 0);
-
-    return $limit[0] > 0 ? ' LIMIT ' . $limit[0] . ' OFFSET ' . $limit[1] : '';
+    return $limit > 0 ? ' LIMIT ' . $limit . ' OFFSET ' . $offset : '';
 }
