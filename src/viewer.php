@@ -11,13 +11,14 @@ namespace qnd;
  */
 function viewer(array $attr, array $item): string
 {
-    if (!data_action('view', $attr) || $attr['context'] && !data_action($attr['context'], $attr)) {
+    $attr['context'] = $attr['context'] ?? 'view';
+
+    if (!data_action($attr['context'], $attr)) {
         return '';
     }
 
     $item[$attr['id']] = $item[$attr['id']] ?? $attr['value'];
     $attr['opt'] = opt($attr);
-    $attr['context'] = $attr['context'] ?? 'view';
     $callback = fqn('viewer_' . $attr['type']);
 
     if (is_callable($callback)) {
