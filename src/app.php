@@ -148,7 +148,7 @@ function _(string $key, string ...$params): string
 
     if ($data === null) {
         $data = [];
-        $data = data('i18n.' . config('i18n.locale'));
+        $data = array_replace(data('i18n.' . config('i18n.lang')), data('i18n.' . config('i18n.locale')));
     }
 
     if (!$key) {

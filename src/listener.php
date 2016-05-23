@@ -8,8 +8,10 @@ namespace qnd;
  *
  * @return void
  */
-function listener_config(array & $data)
+function listener_data_config(array & $data)
 {
+    // Set language from locale
+    $data['i18n.lang'] = locale_get_primary_language($data['i18n.locale']);
     // Add allowed media extensions to allowed file extensions
     $data['ext.file'] = array_merge(
         $data['ext.file'],
@@ -18,7 +20,6 @@ function listener_config(array & $data)
         $data['ext.image'],
         $data['ext.video']
     );
-
     // Configure PHP
     ini_set('default_charset', $data['i18n.charset']);
     ini_set('intl.default_locale', $data['i18n.locale']);
