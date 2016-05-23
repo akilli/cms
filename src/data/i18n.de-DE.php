@@ -78,6 +78,7 @@ return [
     'Merge Asset Files' => 'Asset Dateien zusammenführen',
     'Message' => 'Meldung',
     'Mode' => 'Modus',
+    'Model' => 'Modell',
     'Multicheckbox' => 'Mehrfach-Checkbox',
     'Multiselect' => 'Mehrfachauswahlfeld',
     'Name' => 'Name',

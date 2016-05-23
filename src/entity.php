@@ -38,7 +38,7 @@ function validate(array & $item): bool
 function size(string $eId, array $criteria = [], array $options = []): int
 {
     $entity = data('entity', $eId);
-    $callback = fqn($entity['type'] . '_size');
+    $callback = fqn($entity['model'] . '_size');
 
     try {
         return $callback($eId, $criteria, $options);
@@ -66,7 +66,7 @@ function size(string $eId, array $criteria = [], array $options = []): int
 function load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
     $entity = data('entity', $eId);
-    $callback = fqn($entity['type'] . '_load');
+    $callback = fqn($entity['model'] . '_load');
     $single = $index === false;
     $data = [];
 
@@ -92,7 +92,7 @@ function load(string $eId, array $criteria = [], $index = null, array $order = [
             $item['_entity'] = empty($item['_entity']) ? $entity : $item['_entity'];
             $item['_id'] = $item['id'];
 
-            event(['entity.load', 'entity.' . $entity['type'] . '.load', 'entity.load.' . $eId], $item);
+            event(['entity.load', 'entity.' . $entity['model'] . '.load', 'entity.load.' . $eId], $item);
 
             if ($single) {
                 return $item;
@@ -142,7 +142,7 @@ function save(string $eId, array & $data): bool
         $base = empty($original[$id]) ? $skeleton : $original[$id];
         $item = array_replace($base, $editable, $item);
         $data[$id] = $item;
-        $callback = fqn($item['_entity']['type'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
+        $callback = fqn($item['_entity']['model'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
         $item['modifier'] = user('id');
 
         if (empty($original[$id])) {
@@ -180,13 +180,13 @@ function save(string $eId, array & $data): bool
 
         $success = trans(
             function () use ($eId, & $item, $callback) {
-                event(['entity.preSave', 'entity.' . $item['_entity']['type'] . '.preSave', 'entity.preSave.' . $eId], $item);
+                event(['entity.preSave', 'entity.' . $item['_entity']['model'] . '.preSave', 'entity.preSave.' . $eId], $item);
 
                 if (!$callback($item)) {
                     throw new RuntimeException(_('Data could not be saved'));
                 }
 
-                event(['entity.postSave', 'entity.' . $item['_entity']['type'] . '.postSave', 'entity.postSave.' . $eId], $item);
+                event(['entity.postSave', 'entity.' . $item['_entity']['model'] . '.postSave', 'entity.postSave.' . $eId], $item);
             }
         );
 
@@ -215,7 +215,7 @@ function save(string $eId, array & $data): bool
 function delete(string $eId, array $criteria = [], $index = null, bool $system = false): bool
 {
     $entity = data('entity', $eId);
-    $callback = fqn($entity['type'] . '_delete');
+    $callback = fqn($entity['model'] . '_delete');
 
     if (!$data = load($eId, $criteria, $index)) {
         return false;
@@ -245,13 +245,13 @@ function delete(string $eId, array $criteria = [], $index = null, bool $system =
 
         $success = trans(
             function () use ($eId, & $item, $callback, $entity) {
-                event(['entity.preDelete', 'entity.' . $entity['type'] . '.preDelete', 'entity.preDelete.' . $eId], $item);
+                event(['entity.preDelete', 'entity.' . $entity['model'] . '.preDelete', 'entity.preDelete.' . $eId], $item);
 
                 if (!$callback($item)) {
                     throw new RuntimeException(_('Data could not be deleted'));
                 }
 
-                event(['entity.postDelete', 'entity.' . $entity['type'] . '.postDelete', 'entity.postDelete.' . $eId], $item);
+                event(['entity.postDelete', 'entity.' . $entity['model'] . '.postDelete', 'entity.postDelete.' . $eId], $item);
             }
         );
 

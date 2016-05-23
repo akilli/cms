@@ -17,7 +17,7 @@ return [
         'index' => 'index',
         'list' => 'list',
     ],
-    'entity.type' => [
+    'model' => [
         'flat' => 'flat',
         'content' => 'content',
         'joined' => 'joined',

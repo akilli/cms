@@ -35,7 +35,7 @@ function listener_config(array & $data)
 function listener_data_entity(array & $data)
 {
     foreach ($data as $id => $item) {
-        if (!empty($item['type']) && $item['type'] === 'joined') {
+        if (!empty($item['model']) && $item['model'] === 'joined') {
             $item = array_replace_recursive($data['content'], $item);
         }
 
@@ -47,11 +47,11 @@ function listener_data_entity(array & $data)
 
     $attrs = load('attr', [], ['entity_id', 'id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
 
-    foreach (load('entity', ['type' => ['content', 'eav', 'joined']]) as $id => $item) {
-        $base = $item['type'] === 'joined' && !empty($data[$id]) ? $data[$id] : $data['content'];
+    foreach (load('entity', ['model' => ['content', 'eav', 'joined']]) as $id => $item) {
+        $base = $item['model'] === 'joined' && !empty($data[$id]) ? $data[$id] : $data['content'];
         $item = array_replace($base, $item);
 
-        if ($item['type'] === 'eav' && !empty($attrs[$id])) {
+        if ($item['model'] === 'eav' && !empty($attrs[$id])) {
             foreach ($attrs[$id] as $code => $attr) {
                 if (empty($item['attr'][$code])) {
                     $attr['col'] = 'value';

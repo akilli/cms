@@ -28,7 +28,7 @@ return [
         'id' => null,
         'name' => null,
         'tab' => null,
-        'type' => 'flat',
+        'model' => 'flat',
         'actions' => [],
         'toolbar' => null,
         'sort' => null,

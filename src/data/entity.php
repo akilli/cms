@@ -23,7 +23,7 @@ return [
                 'name' => 'Entity',
                 'type' => 'select.varchar',
                 'required' => true,
-                'options' => ['qnd\load', ['entity', ['type' => 'eav']]],
+                'options' => ['qnd\load', ['entity', ['model' => 'eav']]],
                 'actions' => ['edit', 'index'],
             ],
             'sort' => [
@@ -195,11 +195,11 @@ return [
                 'required' => true,
                 'actions' => ['all'],
             ],
-            'type' => [
-                'name' => 'Type',
+            'model' => [
+                'name' => 'Model',
                 'type' => 'select.varchar',
                 'required' => true,
-                'options' => ['qnd\config', ['entity.type']],
+                'options' => ['qnd\config', ['model']],
                 'actions' => ['all'],
             ],
             'actions' => [
@@ -230,7 +230,7 @@ return [
     ],
     'node' => [
         'name' => 'Menu Node',
-        'type' => 'node',
+        'model' => 'node',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
         'sort' => 200,
