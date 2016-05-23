@@ -197,7 +197,7 @@ function data_entity(array $data): array
     foreach ($data['attr'] as $id => $attr) {
         $attr['id'] = $id;
         $attr['entity_id'] = $data['id'];
-        $attr = data_attribute($attr);
+        $attr = data_attr($attr);
 
         if (!is_numeric($attr['sort'])) {
             $attr['sort'] = $sort;
@@ -219,7 +219,7 @@ function data_entity(array $data): array
  *
  * @throws RuntimeException
  */
-function data_attribute(array $data): array
+function data_attr(array $data): array
 {
     // Check minimum requirements
     if (empty($data['id']) || empty($data['name']) || empty($data['type'])) {
