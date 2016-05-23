@@ -198,6 +198,7 @@ function editor_text(array $attr, array $item): string
  */
 function editor_password(array $attr, array $item): string
 {
+    $item[$attr['id']] = null;
     $attr['html']['autocomplete'] = 'off';
 
     return editor_text($attr, $item);
