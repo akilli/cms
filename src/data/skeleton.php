@@ -1,6 +1,6 @@
 <?php
 return [
-    'attribute' => [
+    'attr' => [
         'id' => null,
         'name' => null,
         'col' => null,

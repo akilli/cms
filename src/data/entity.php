@@ -35,7 +35,7 @@ return [
                 'name' => 'Type',
                 'type' => 'select.varchar',
                 'required' => true,
-                'options' => ['qnd\data', ['attribute']],
+                'options' => ['qnd\data', ['attr']],
                 'actions' => ['edit', 'index'],
             ],
             'required' => [
