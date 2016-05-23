@@ -11,7 +11,7 @@ namespace qnd;
  */
 function viewer(array $attr, array $item): string
 {
-    if ($attr['context'] && !data_action($attr['context'], $attr)) {
+    if (!data_action('view', $attr) || $attr['context'] && !data_action($attr['context'], $attr)) {
         return '';
     }
 
