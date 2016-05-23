@@ -18,7 +18,7 @@ function eav_size(string $eId, array $crit = [], array $opts = []): int
     $attrs = $entity['attr'];
     $mainAttrs = data('entity', 'content')['attr'];
     $addAttrs = array_diff_key($attrs, $mainAttrs);
-    $crit['entity_id'] = $entity['id'];
+    $crit['entity_id'] = $eId;
     $list = [];
     $params = [];
 
@@ -74,7 +74,7 @@ function eav_load(string $eId, array $crit = [], $index = null, array $order = [
     $attrs = $entity['attr'];
     $mainAttrs = data('entity', 'content')['attr'];
     $addAttrs = array_diff_key($attrs, $mainAttrs);
-    $crit['entity_id'] = $entity['id'];
+    $crit['entity_id'] = $eId;
     $opts = ['as' => 'e', 'search' => $index === 'search'];
     $list = [];
     $params = [];

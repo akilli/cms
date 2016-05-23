@@ -87,9 +87,8 @@ function load(string $eId, array $crit = [], $index = null, array $order = [], a
                 }
             }
 
-            $item['name'] = !isset($item['name']) ? $item['id'] : $item['name'];
             $item['_old'] = $item;
-            $item['_entity'] = empty($item['_entity']) ? $entity : $item['_entity'];
+            $item['_entity'] = $entity;
             $item['_id'] = $item['id'];
 
             event(['entity.load', 'entity.' . $entity['model'] . '.load', 'entity.load.' . $eId], $item);

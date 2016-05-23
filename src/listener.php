@@ -129,18 +129,6 @@ function listener_data_toolbar(array & $data)
 }
 
 /**
- * EAV entity load listener
- *
- * @param array $data
- *
- * @return void
- */
-function listener_entity_eav(array & $data)
-{
-    $data['_entity'] = data('entity', $data['entity_id']);
-}
-
-/**
  * Entity save listener
  *
  * @param array $data

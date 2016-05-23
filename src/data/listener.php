@@ -23,11 +23,6 @@ return [
     ],
     // Entity
     [
-        'id' => 'qnd\listener_entity_eav',
-        'event' => 'entity.load.eav',
-        'sort' => -100,
-    ],
-    [
         'id' => 'qnd\listener_entity_save',
         'event' => 'entity.postSave',
         'sort' => -100,
