@@ -1,6 +1,6 @@
 <?php
 return [
-    'attribute' => [
+    'attr' => [
         'name' => 'Attribute',
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
@@ -63,7 +63,7 @@ return [
                 'name' => 'Actions',
                 'type' => 'multiselect',
                 'nullable' => true,
-                'options' => ['qnd\config', ['action.attribute']],
+                'options' => ['qnd\config', ['action.attr']],
                 'actions' => ['edit', 'index'],
             ],
         ],
@@ -162,11 +162,11 @@ return [
                 'options' => ['qnd\entity_load', ['content']],
                 'actions' => ['edit', 'index'],
             ],
-            'attribute_id' => [
+            'attr_id' => [
                 'name' => 'Attribute',
                 'type' => 'select.varchar',
                 'required' => true,
-                'options' => ['qnd\entity_load', ['attribute']],
+                'options' => ['qnd\entity_load', ['attr']],
                 'actions' => ['edit', 'index'],
             ],
             'value' => [

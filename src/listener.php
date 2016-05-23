@@ -45,7 +45,7 @@ function listener_data_entity(array & $data)
         $data[$id] = $item;
     }
 
-    $attrs = entity_load('attribute', [], ['entity_id', 'id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
+    $attrs = entity_load('attr', [], ['entity_id', 'id'], ['entity_id' => 'ASC', 'sort' => 'ASC']);
 
     foreach (entity_load('entity', ['type' => ['content', 'eav', 'joined']]) as $id => $item) {
         $base = $item['type'] === 'joined' && !empty($data[$id]) ? $data[$id] : $data['content'];

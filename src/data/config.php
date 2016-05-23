@@ -1,6 +1,6 @@
 <?php
 return [
-    'action.attribute' => [
+    'action.attr' => [
         'all' => 'all',
         'edit' => 'edit',
         'view' => 'view',

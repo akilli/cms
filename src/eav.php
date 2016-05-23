@@ -35,7 +35,7 @@ function eav_size(string $eId, array $criteria = [], array $options = []): int
         );
         $params[$code] = ':' . str_replace('-', '_', $code);
         $list[] = sprintf(
-            '(id IN (SELECT content_id FROM eav WHERE attribute_id = %s AND CAST(value AS %s) IN (%s)))',
+            '(id IN (SELECT content_id FROM eav WHERE attr_id = %s AND CAST(value AS %s) IN (%s)))',
             $params[$code],
             db_cast($attr),
             implode(', ', $val)
@@ -87,7 +87,7 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
 
         $params[$code] = ':' . str_replace('-', '_', $code);
         $list[] = sprintf(
-            'MAX(CASE WHEN a.attribute_id = %s THEN CAST(a.value AS %s) END) AS %s',
+            'MAX(CASE WHEN a.attr_id = %s THEN CAST(a.value AS %s) END) AS %s',
             $params[$code],
             db_cast($attr),
             qi($code)
@@ -154,9 +154,9 @@ function eav_create(array & $item): bool
     $stmt = db()->prepare('
         INSERT INTO 
             eav
-            (attribute_id, content_id, value) 
+            (attr_id, content_id, value) 
          VALUES 
-            (:attribute_id, :content_id, :value)
+            (:attr_id, :content_id, :value)
     ');
 
     foreach ($addAttrs as $code => $attr) {
@@ -164,7 +164,7 @@ function eav_create(array & $item): bool
             continue;
         }
 
-        $stmt->bindValue(':attribute_id', $attr['id'], PDO::PARAM_STR);
+        $stmt->bindValue(':attr_id', $attr['id'], PDO::PARAM_STR);
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
         $stmt->bindValue(':value', $item[$code], PDO::PARAM_STR);
         $stmt->execute();
@@ -205,7 +205,7 @@ function eav_save(array & $item): bool
         INSERT INTO 
             eav
         SET
-            attribute_id = :attribute_id,
+            attr_id = :attr_id,
             content_id = :content_id,
             value = :value
         ON DUPLICATE KEY UPDATE
@@ -217,7 +217,7 @@ function eav_save(array & $item): bool
             continue;
         }
 
-        $stmt->bindValue(':attribute_id', $attr['id'], PDO::PARAM_STR);
+        $stmt->bindValue(':attr_id', $attr['id'], PDO::PARAM_STR);
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
         $stmt->bindValue(':value', $item[$code], PDO::PARAM_STR);
         $stmt->execute();

@@ -83,7 +83,7 @@ function validator_uniq(array $attr, array & $item): bool
         $data[$eId] = entity_load($eId, [], 'uniq');
 
         if ($eId === 'entity' && ($ids = array_keys(data('entity')))
-            || $eId === 'attribute' && ($ids = array_keys(data('entity', 'content')['attr']))
+            || $eId === 'attr' && ($ids = array_keys(data('entity', 'content')['attr']))
         ) {
             $ids = array_combine($ids, $ids);
             $data[$eId]['id'] = !empty($data[$eId]['id']) ? array_replace($data[$eId]['id'], $ids) : $ids;

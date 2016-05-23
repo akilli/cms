@@ -8,8 +8,8 @@ START TRANSACTION;
 -- Tables
 -- --------------------------------------------------------
 
-DROP TABLE IF EXISTS attribute;
-CREATE TABLE IF NOT EXISTS attribute (
+DROP TABLE IF EXISTS attr;
+CREATE TABLE IF NOT EXISTS attr (
     id VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
     entity_id VARCHAR(100) NOT NULL,
@@ -21,14 +21,14 @@ CREATE TABLE IF NOT EXISTS attribute (
     options JSON DEFAULT NULL,
     actions JSON DEFAULT NULL,
     PRIMARY KEY (id),
-    KEY idx_attribute_name (name),
-    KEY idx_attribute_entity (entity_id),
-    KEY idx_attribute_type (type),
-    KEY idx_attribute_sort (sort),
-    KEY idx_attribute_required (required),
-    KEY idx_attribute_uniq (uniq),
-    KEY idx_attribute_searchable (searchable),
-    CONSTRAINT con_attribute_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE
+    KEY idx_attr_name (name),
+    KEY idx_attr_entity (entity_id),
+    KEY idx_attr_type (type),
+    KEY idx_attr_sort (sort),
+    KEY idx_attr_required (required),
+    KEY idx_attr_uniq (uniq),
+    KEY idx_attr_searchable (searchable),
+    CONSTRAINT con_attr_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS content;
@@ -63,13 +63,13 @@ CREATE TABLE IF NOT EXISTS content (
 DROP TABLE IF EXISTS eav;
 CREATE TABLE IF NOT EXISTS eav (
     content_id INTEGER(11) NOT NULL,
-    attribute_id VARCHAR(100) NOT NULL,
+    attr_id VARCHAR(100) NOT NULL,
     value TEXT NOT NULL,
-    PRIMARY KEY (content_id, attribute_id),
+    PRIMARY KEY (content_id, attr_id),
     KEY idx_eav_content (content_id),
-    KEY idx_eav_attribute (attribute_id),
+    KEY idx_eav_attr (attr_id),
     CONSTRAINT con_eav_content FOREIGN KEY (content_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT con_eav_attribute FOREIGN KEY (attribute_id) REFERENCES attribute (id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT con_eav_attr FOREIGN KEY (attr_id) REFERENCES attr (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS entity;
@@ -181,7 +181,7 @@ INSERT INTO content (id, name, entity_id, active, system, content) VALUES
 (1, 'Home', 'page', 1, 0, 'Hello World');
 
 INSERT INTO entity (id, name, type, actions, toolbar, sort, system) VALUES
-('attribute', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', 'structure', 400, '1'),
+('attr', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', 'structure', 400, '1'),
 ('content', 'Content', 'flat', '[]', 'content', 0, '1'),
 ('eav', 'EAV', 'flat', '[]', 'content', 0, '1'),
 ('entity', 'Entity', 'flat', '["create", "edit", "delete", "index"]', 'structure', 300, '1'),

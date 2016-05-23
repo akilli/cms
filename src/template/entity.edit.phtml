@@ -9,7 +9,7 @@
             <legend><?=$item['name'] ?? $§('header');?></legend>
             <?php foreach ($item['_entity']['attr'] as $code => $attr):?>
                 <?php if (!$html = editor($attr, $item)) continue;?>
-            <div class="element attribute-<?=$attr['id'];?>">
+            <div class="element attr-<?=$attr['id'];?>">
                 <?=$html;?>
             </div>
             <?php endforeach;?>
