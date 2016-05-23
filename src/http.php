@@ -165,7 +165,7 @@ function files(string $key)
  */
 function files_validate(array $data): array
 {
-    $extensions = file_ext('file');
+    $exts = config('ext.file');
 
     foreach ($data as $key => $items) {
         foreach ($items as $id => $item) {
@@ -176,7 +176,7 @@ function files_validate(array $data): array
 
                 $ext = pathinfo($attr['name'], PATHINFO_EXTENSION);
 
-                if (empty($extensions[$ext])) {
+                if (empty($exts[$ext])) {
                     message(_('Invalid file %s was rejected', $attr['name']));
                     unset($data[$key][$id][$code]);
                 } else {

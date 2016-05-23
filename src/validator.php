@@ -332,7 +332,7 @@ function validator_file(array $attr, array & $item): bool
     }
 
     // Invalid file
-    if (empty(file_ext($attr['type'])[$file['extension']])) {
+    if (empty(config('ext.' . $attr['type'])[$file['extension']])) {
         $item['_error'][$attr['id']] = _('Invalid file');
         return false;
     }

@@ -114,7 +114,7 @@ function listener(string $event): array
     if ($data === null) {
         $data = [];
 
-        foreach (data_order(data('listener'), 'sort') as $listener) {
+        foreach (data_order(data('listener'), ['sort' => 'asc']) as $listener) {
             $data[$listener['event']][] = $listener['id'];
         }
     }

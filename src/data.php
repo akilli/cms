@@ -58,7 +58,7 @@ function data_load(string $file): array
  *
  * @return array
  */
-function data_filter(array $data, array $crit = null, bool $search = false): array
+function data_filter(array $data, array $crit, bool $search = false): array
 {
     if (!$crit) {
         return $data;
@@ -103,22 +103,20 @@ function data_filter_match(string $str, array $patterns): bool
  * Sort order
  *
  * @param array $data
- * @param string|array $order
+ * @param array $order
  *
  * @return array
  */
-function data_order(array $data, $order = null): array
+function data_order(array $data, array $order): array
 {
     if (!$order) {
         return $data;
-    } elseif (!is_array($order)) {
-        $order = [$order => 'asc'];
     }
 
     uasort(
         $data,
-        function (array $item1, array $item2) use ($order) {
-            return data_order_compare($order, $item1, $item2);
+        function (array $a, array $b) use ($order) {
+            return data_order_compare($order, $a, $b);
         }
     );
 
@@ -129,16 +127,16 @@ function data_order(array $data, $order = null): array
  * Sort order compare
  *
  * @param array $order
- * @param array $item1
- * @param array $item2
+ * @param array $a
+ * @param array $b
  *
  * @return int
  */
-function data_order_compare(array $order, array $item1, array $item2): int
+function data_order_compare(array $order, array $a, array $b): int
 {
     foreach ($order as $key => $direction) {
         $factor = $direction === 'desc' ? -1 : 1;
-        $result = ($item1[$key] ?? null) <=> ($item2[$key] ?? null);
+        $result = ($a[$key] ?? null) <=> ($b[$key] ?? null);
 
         if ($result) {
             return $result * $factor;
@@ -152,17 +150,16 @@ function data_order_compare(array $order, array $item1, array $item2): int
  * Limit
  *
  * @param array $data
- * @param int|array $limit
+ * @param int[] $limit
  *
  * @return array
  */
-function data_limit(array $data, $limit = null): array
+function data_limit(array $data, array $limit): array
 {
-    $isArray = is_array($limit);
-    $offset = $isArray && !empty($limit[1]) ? (int) $limit[1] : 0;
-    $limit = $isArray && !empty($limit[0]) ? (int) $limit[0] : (int) $limit;
+    $limit[0] = intval($limit[0] ?? 0);
+    $limit[1] = intval($limit[1] ?? 0);
 
-    return $limit > 0 ? array_slice($data, $offset, $limit, true) : $data;
+    return $limit[0] > 0 ? array_slice($data, $limit[1], $limit[0], true) : $data;
 }
 
 /**

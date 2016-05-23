@@ -199,7 +199,7 @@ return [
                 'name' => 'Model',
                 'type' => 'select.varchar',
                 'required' => true,
-                'opt' => ['qnd\config', ['model']],
+                'opt' => ['qnd\config', ['entity.model']],
                 'actions' => ['all'],
             ],
             'actions' => [

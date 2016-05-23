@@ -11,12 +11,12 @@ use SplFileInfo;
  * @param string $path
  * @param array $crit
  * @param mixed $index
- * @param array $order
- * @param int|array $limit
+ * @param string[] $order
+ * @param int[] $limit
  *
  * @return array
  */
-function file_load(string $path, array $crit = null, $index = null, array $order = null, $limit = null): array
+function file_load(string $path, array $crit = [], $index = null, array $order = [], array $limit = []): array
 {
     if (!is_dir($path)) {
         return [];
@@ -91,24 +91,24 @@ function file_load(string $path, array $crit = null, $index = null, array $order
 /**
  * Create file
  *
- * @param string $destination
+ * @param string $dest
  * @param string $content
  * @param int $flags
  * @param resource $context
  *
- * @return int|bool
+ * @return bool
  */
-function file_save(string $destination, string $content, int $flags = 0, $context = null)
+function file_save(string $dest, string $content, int $flags = 0, $context = null): bool
 {
-    if (!file_dir(dirname($destination))) {
+    if (!file_dir(dirname($dest))) {
         return false;
     }
 
     $umask = umask(0);
-    $result = file_put_contents($destination, $content, $flags, $context);
+    $result = file_put_contents($dest, $content, $flags, $context);
     umask($umask);
 
-    return $result;
+    return $result !== false;
 }
 
 /**
@@ -160,56 +160,56 @@ function file_delete(string $path, bool $preserve = false): bool
 /**
  * Copies a file or directory
  *
- * @param string $source
- * @param string $destination
- * @param string|array $crit
+ * @param string $src
+ * @param string $dest
+ * @param array $crit
  *
  * @return bool
  */
-function file_copy(string $source, string $destination, $crit = null): bool
+function file_copy(string $src, string $dest, array $crit = []): bool
 {
-    if (!($isFile = is_file($source)) && !is_dir($source) || !file_dir(dirname($destination))) {
+    if (!($isFile = is_file($src)) && !is_dir($src) || !file_dir(dirname($dest))) {
         return false;
     }
 
     $umask = umask(0);
 
     if ($isFile) {
-        copy($source, $destination);
+        copy($src, $dest);
     } else {
-        $files = file_load($source, $crit);
+        $files = file_load($src, $crit);
 
         foreach ($files as $id => $file) {
-            if (file_dir(dirname($destination . '/' . $id))) {
-                copy($file['path'], $destination . '/' . $id);
+            if (file_dir(dirname($dest . '/' . $id))) {
+                copy($file['path'], $dest . '/' . $id);
             }
         }
     }
 
     umask($umask);
 
-    return $isFile ? is_file($destination) : is_dir($destination);
+    return $isFile ? is_file($dest) : is_dir($dest);
 }
 
 /**
  * Upload file
  *
- * @param string $source
- * @param string $destination
+ * @param string $src
+ * @param string $dest
  *
  * @return bool
  */
-function file_upload(string $source, string $destination): bool
+function file_upload(string $src, string $dest): bool
 {
-    if (!is_uploaded_file($source) || !file_dir(dirname($destination))) {
+    if (!is_uploaded_file($src) || !file_dir(dirname($dest))) {
         return false;
     }
 
     $umask = umask(0);
-    move_uploaded_file($source, $destination);
+    move_uploaded_file($src, $dest);
     umask($umask);
 
-    return is_file($destination);
+    return is_file($dest);
 }
 
 /**
@@ -252,26 +252,4 @@ function file_writable(string $path): bool
     }
 
     return (bool) preg_match($pattern, $path);
-}
-
-/**
- * Retrieve configured extensions
- *
- * @param string $key
- *
- * @return array
- */
-function file_ext(string $key): array
-{
-    static $data;
-
-    if ($data === null) {
-        $data['file'] = config('file.all');
-        $data['audio'] = config('file.audio');
-        $data['embed'] = config('file.embed');
-        $data['image'] = config('file.image');
-        $data['video'] = config('file.video');
-    }
-
-    return $data[$key] ?? [];
 }

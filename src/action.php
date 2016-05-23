@@ -131,7 +131,7 @@ function action_index()
     }
 
     $size = size($entity['id'], $crit);
-    $limit = (int) config('limit.' . $action);
+    $limit = $action === 'index' ? config('entity.index') : config('entity.list');
     $page = max((int) param('page'), 1);
     $offset = ($page - 1) * $limit;
     $pages = (int) ceil($size / $limit);

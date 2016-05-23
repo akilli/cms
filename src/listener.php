@@ -10,13 +10,13 @@ namespace qnd;
  */
 function listener_config(array & $data)
 {
-    // Set auto values
-    $data['file.all'] = array_merge(
-        $data['file.audio'],
-        $data['file.embed'],
-        $data['file.image'],
-        $data['file.misc'],
-        $data['file.video']
+    // Add allowed media extensions to allowed file extensions
+    $data['ext.file'] = array_merge(
+        $data['ext.file'],
+        $data['ext.audio'],
+        $data['ext.embed'],
+        $data['ext.image'],
+        $data['ext.video']
     );
 
     // Configure PHP
@@ -41,7 +41,7 @@ function listener_data_entity(array & $data)
 
         $item['id'] = $id;
         $item = data_entity($item);
-        $item['attr'] = data_order($item['attr'], 'sort');
+        $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
         $data[$id] = $item;
     }
 
@@ -61,7 +61,7 @@ function listener_data_entity(array & $data)
         }
 
         $item = data_entity($item);
-        $item['attr'] = data_order($item['attr'], 'sort');
+        $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
         $data[$id] = $item;
     }
 }
@@ -123,7 +123,7 @@ function listener_data_toolbar(array & $data)
     }
 
     foreach ($data as $key => $item) {
-        $data[$key]['children'] = data_order($item['children'], 'sort');
+        $data[$key]['children'] = data_order($item['children'], ['sort' => 'asc']);
     }
 }
 
