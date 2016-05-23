@@ -11,6 +11,7 @@ namespace qnd;
  */
 function viewer(array $attr, array $item): string
 {
+    $attr['opt'] = opt($attr);
     $attr['context'] = $attr['context'] ?? 'view';
 
     if (!data_action($attr['context'], $attr)) {
@@ -38,7 +39,7 @@ function viewer(array $attr, array $item): string
  */
 function viewer_opt(array $attr, array $item): string
 {
-    if (!$attr['opt'] = opt($attr)) {
+    if (!$attr['opt']) {
         return '';
     }
 

@@ -16,6 +16,7 @@ function validator(array $attr, array & $item): bool
     }
 
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
+    $attr['opt'] = opt($attr);
     $callback = fqn('validator_' . $attr['type']);
     $valid = !is_callable($callback) || $callback($attr, $item);
 
@@ -52,7 +53,7 @@ function validator(array $attr, array & $item): bool
  */
 function validator_required(array $attr, array & $item): bool
 {
-    if ($attr['required'] && empty($item[$attr['id']]) && !opt($attr) && !ignorable($attr, $item)) {
+    if ($attr['required'] && empty($item[$attr['id']]) && !$attr['opt'] && !ignorable($attr, $item)) {
         $item['_error'][$attr['id']] = _('%s is a mandatory field', $attr['name']);
         return false;
     }
@@ -151,8 +152,6 @@ function validator_boundary(array $attr, array & $item): bool
  */
 function validator_opt(array $attr, array & $item): bool
 {
-    $attr['opt'] = opt($attr);
-
     if (is_array($item[$attr['id']])) {
         $item[$attr['id']] = array_filter(
             $item[$attr['id']],

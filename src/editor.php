@@ -15,8 +15,8 @@ function editor(array $attr, array $item): string
         return '';
     }
 
-    // Common
     $item[$attr['id']] = $item[$attr['id']] ?? $attr['value'];
+    $attr['opt'] = opt($attr);
     $attr['context'] = 'edit';
     $attr['html']['id'] =  html_id($attr, $item);
     $attr['html']['name'] =  html_name($attr, $item);
@@ -80,7 +80,6 @@ function editor(array $attr, array $item): string
 function editor_select(array $attr, array $item): string
 {
     $value = $item[$attr['id']];
-    $attr['opt'] = opt($attr);
 
     if (!is_array($value)) {
         $value = !$value && !is_numeric($value) ? [] : [$value];
@@ -123,7 +122,7 @@ function editor_select(array $attr, array $item): string
  */
 function editor_opt(array $attr, array $item): string
 {
-    if (!$attr['opt'] = opt($attr)) {
+    if (!$attr['opt']) {
         return html_tag('span', ['id' => $attr['html']['id']], _('No options configured'));
     } elseif ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
         $attr['opt'] = [1 => _('Yes')];
