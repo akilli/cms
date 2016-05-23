@@ -8,7 +8,7 @@
     <?php endif;?>
     <?php foreach ($§('data') as $id => $item):?>
     <article>
-        <?php foreach ($item['_entity']['attributes'] as $code => $attr):?>
+        <?php foreach ($item['_entity']['attr'] as $code => $attr):?>
             <?php $attr['context'] = 'section';?>
             <?php if (!$html = viewer($attr, $item)) continue;?>
             <?php if ($code === 'name'):?>

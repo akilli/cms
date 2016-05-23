@@ -73,7 +73,7 @@ function saver_index(array $attr, array & $item): bool
 {
     $item[$attr['id']] = '';
 
-    foreach ($item['_entity']['attributes'] as $a) {
+    foreach ($item['_entity']['attr'] as $a) {
         if ($a['searchable']) {
             $item[$attr['id']] .= ' ' . str_replace("\n", '', strip_tags($item[$a['id']]));
         }

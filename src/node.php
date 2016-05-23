@@ -44,7 +44,7 @@ function node_load(string $eId, array $criteria = [], $index = null, array $orde
  */
 function node_create(array & $item): bool
 {
-    $attrs = $item['_entity']['attributes'];
+    $attrs = $item['_entity']['attr'];
     $parts = explode(':', $item['position']);
     $item['root_id'] = (int) $parts[0];
     $basis = (int) $parts[1];
@@ -144,7 +144,7 @@ function node_create(array & $item): bool
  */
 function node_save(array & $item): bool
 {
-    $attrs = $item['_entity']['attributes'];
+    $attrs = $item['_entity']['attr'];
     $parts = explode(':', $item['position']);
     $item['root_id'] = (int) $parts[0];
     $basis = (int) $parts[1];

@@ -15,7 +15,7 @@
                         <th>
                             <input type="checkbox" name="checkall" value="1" title="<?= _('Select all');?>" />
                         </th>
-                        <?php foreach ($§('attributes') as $code => $attr):?>
+                        <?php foreach ($§('attr') as $code => $attr):?>
                         <th>
                             <a href="<?=$attr['url'];?>"><?= _($attr['name']);?></a>
                         </th>
@@ -38,7 +38,7 @@
                         <td>
                             <input id="edit-<?=$id;?>-name" type="checkbox" name="edit[<?=$id;?>]" value="1" />
                         </td>
-                        <?php foreach ($§('attributes') as $code => $attr):?>
+                        <?php foreach ($§('attr') as $code => $attr):?>
                             <?php $attr['context'] = 'index';?>
                         <td>
                             <?=viewer($attr, $item);?>

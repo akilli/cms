@@ -15,8 +15,8 @@ use PDO;
 function eav_size(string $eId, array $criteria = [], array $options = []): int
 {
     $entity = data('entity', $eId);
-    $attrs = $entity['attributes'];
-    $mainAttrs = data('entity', 'content')['attributes'];
+    $attrs = $entity['attr'];
+    $mainAttrs = data('entity', 'content')['attr'];
     $addAttrs = array_diff_key($attrs, $mainAttrs);
     $criteria['entity_id'] = $entity['id'];
     $list = [];
@@ -71,8 +71,8 @@ function eav_size(string $eId, array $criteria = [], array $options = []): int
 function eav_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
 {
     $entity = data('entity', $eId);
-    $attrs = $entity['attributes'];
-    $mainAttrs = data('entity', 'content')['attributes'];
+    $attrs = $entity['attr'];
+    $mainAttrs = data('entity', 'content')['attr'];
     $addAttrs = array_diff_key($attrs, $mainAttrs);
     $criteria['entity_id'] = $entity['id'];
     $options = ['as' => 'e', 'search' => $index === 'search'];
@@ -130,8 +130,8 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
 function eav_create(array & $item): bool
 {
     $item['entity_id'] = $item['_entity']['id'];
-    $attrs = $item['_entity']['attributes'];
-    $mainAttrs = data('entity', 'content')['attributes'];
+    $attrs = $item['_entity']['attr'];
+    $mainAttrs = data('entity', 'content')['attr'];
     $cols = cols($mainAttrs, $item);
 
     $stmt = prep(
@@ -183,8 +183,8 @@ function eav_create(array & $item): bool
 function eav_save(array & $item): bool
 {
     $item['entity_id'] = $item['_entity']['id'];
-    $attrs = $item['_entity']['attributes'];
-    $mainAttrs = data('entity', 'content')['attributes'];
+    $attrs = $item['_entity']['attr'];
+    $mainAttrs = data('entity', 'content')['attr'];
     $cols = cols($mainAttrs, $item);
 
     $stmt = prep(

@@ -18,7 +18,7 @@ function joined_size(string $eId, array $criteria = [], array $options = []): in
     $stmt = prep(
         'SELECT COUNT(*) FROM content c NATURAL JOIN %s j %s',
         $entity['tab'],
-        where($criteria, $entity['attributes'], $options)
+        where($criteria, $entity['attr'], $options)
     );
     $stmt->execute();
 
@@ -40,7 +40,7 @@ function joined_load(string $eId, array $criteria = [], $index = null, array $or
 {
     $entity = data('entity', $eId);
     $criteria['entity_id'] = $eId;
-    $attrs = $entity['attributes'];
+    $attrs = $entity['attr'];
     $options = ['search' => $index === 'search'];
 
     $stmt = db()->prepare(
@@ -66,10 +66,10 @@ function joined_load(string $eId, array $criteria = [], $index = null, array $or
 function joined_create(array & $item): bool
 {
     $item['entity_id'] = $item['_entity']['id'];
-    $attrs = $item['_entity']['attributes'];
+    $attrs = $item['_entity']['attr'];
 
     // Save main attributes
-    $mainAttrs = data('entity', 'content')['attributes'];
+    $mainAttrs = data('entity', 'content')['attr'];
     $cols = cols($mainAttrs, $item);
 
     $stmt = prep(
@@ -119,10 +119,10 @@ function joined_create(array & $item): bool
 function joined_save(array & $item): bool
 {
     $item['entity_id'] = $item['_entity']['id'];
-    $attrs = $item['_entity']['attributes'];
+    $attrs = $item['_entity']['attr'];
 
     // Save main attributes
-    $mainAttrs = data('entity', 'content')['attributes'];
+    $mainAttrs = data('entity', 'content')['attr'];
     $cols = cols($mainAttrs, $item);
 
     $stmt = prep(

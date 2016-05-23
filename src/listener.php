@@ -41,7 +41,7 @@ function listener_data_entity(array & $data)
 
         $item['id'] = $id;
         $item = data_entity($item);
-        $item['attributes'] = data_order($item['attributes'], 'sort');
+        $item['attr'] = data_order($item['attr'], 'sort');
         $data[$id] = $item;
     }
 
@@ -53,15 +53,15 @@ function listener_data_entity(array & $data)
 
         if ($item['type'] === 'eav' && !empty($attrs[$id])) {
             foreach ($attrs[$id] as $code => $attr) {
-                if (empty($item['attributes'][$code])) {
+                if (empty($item['attr'][$code])) {
                     $attr['col'] = 'value';
-                    $item['attributes'][$code] = $attr;
+                    $item['attr'][$code] = $attr;
                 }
             }
         }
 
         $item = data_entity($item);
-        $item['attributes'] = data_order($item['attributes'], 'sort');
+        $item['attr'] = data_order($item['attr'], 'sort');
         $data[$id] = $item;
     }
 }

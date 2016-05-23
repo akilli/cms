@@ -177,7 +177,7 @@ function data_limit(array $data, $limit = null): array
 function data_entity(array $data): array
 {
     // Check minimum requirements
-    if (empty($data['id']) || empty($data['name']) || empty($data['attributes'])) {
+    if (empty($data['id']) || empty($data['name']) || empty($data['attr'])) {
         throw new RuntimeException(_('Entity data does not meet the minimum requirements'));
     }
 
@@ -194,7 +194,7 @@ function data_entity(array $data): array
     // Attributes
     $sort = 0;
 
-    foreach ($data['attributes'] as $id => $attr) {
+    foreach ($data['attr'] as $id => $attr) {
         $attr['id'] = $id;
         $attr['entity_id'] = $data['id'];
         $attr = data_attribute($attr);
@@ -204,7 +204,7 @@ function data_entity(array $data): array
             $sort += 100;
         }
 
-        $data['attributes'][$id] = $attr;
+        $data['attr'][$id] = $attr;
     }
 
     return $data;
@@ -298,7 +298,7 @@ function skeleton(string $eId, int $number = null, bool $bare = false): array
     $entity = data('entity', $eId);
     $item = [];
 
-    foreach ($entity['attributes'] as $code => $attr) {
+    foreach ($entity['attr'] as $code => $attr) {
         if (data_action('edit', $attr)) {
             $item[$code] = null;
         }

@@ -32,7 +32,7 @@ return [
         'actions' => [],
         'toolbar' => null,
         'sort' => null,
-        'attributes' => [],
+        'attr' => [],
     ],
     'request' => [
         'id' => 'http.index',

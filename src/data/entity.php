@@ -5,7 +5,7 @@ return [
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
         'sort' => 400,
-        'attributes' => [
+        'attr' => [
             'id' => [
                 'name' => 'Id',
                 'type' => 'text',
@@ -70,7 +70,7 @@ return [
     ],
     'content' => [
         'name' => 'Content',
-        'attributes' => [
+        'attr' => [
             'id' => [
                 'name' => 'Id',
                 'generator' => 'auto',
@@ -154,7 +154,7 @@ return [
     ],
     'eav' => [
         'name' => 'EAV',
-        'attributes' => [
+        'attr' => [
             'content_id' => [
                 'name' => 'Content',
                 'type' => 'select.int',
@@ -181,7 +181,7 @@ return [
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
         'sort' => 300,
-        'attributes' => [
+        'attr' => [
             'id' => [
                 'name' => 'Id',
                 'type' => 'text',
@@ -234,7 +234,7 @@ return [
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'structure',
         'sort' => 200,
-        'attributes' => [
+        'attr' => [
             'id' => [
                 'name' => 'Id',
                 'generator' => 'auto',
@@ -306,7 +306,7 @@ return [
         'actions' => ['create', 'edit', 'delete',  'index'],
         'toolbar' => 'system',
         'sort' => 100,
-        'attributes' => [
+        'attr' => [
             'id' => [
                 'name' => 'Id',
                 'generator' => 'auto',
@@ -343,7 +343,7 @@ return [
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'system',
         'sort' => 400,
-        'attributes' => [
+        'attr' => [
             'id' => [
                 'name' => 'Id',
                 'generator' => 'auto',
@@ -381,7 +381,7 @@ return [
         'actions' => ['create', 'edit', 'delete', 'index'],
         'toolbar' => 'system',
         'sort' => 300,
-        'attributes' => [
+        'attr' => [
             'id' => [
                 'name' => 'Id',
                 'generator' => 'auto',
@@ -418,7 +418,7 @@ return [
         'actions' => ['create', 'edit', 'delete',  'index'],
         'toolbar' => 'system',
         'sort' => 200,
-        'attributes' => [
+        'attr' => [
             'id' => [
                 'name' => 'Id',
                 'generator' => 'auto',

@@ -17,7 +17,7 @@ function entity_validate(array & $item): bool
         return false;
     }
 
-    foreach ($item['_entity']['attributes'] as $attr) {
+    foreach ($item['_entity']['attr'] as $attr) {
         if (!validator($attr, $item)) {
             $error = true;
         }
@@ -75,15 +75,15 @@ function entity_load(string $eId, array $criteria = [], $index = null, array $or
 
         if (!$index
             || $index === 'search'
-            || !is_array($index) && empty($entity['attributes'][$index]) && $index !== 'uniq'
+            || !is_array($index) && empty($entity['attr'][$index]) && $index !== 'uniq'
         ) {
             $index = 'id';
         }
 
         foreach ($result as $item) {
             foreach ($item as $code => $value) {
-                if (isset($entity['attributes'][$code])) {
-                    $item[$code] = loader($entity['attributes'][$code], $item);
+                if (isset($entity['attr'][$code])) {
+                    $item[$code] = loader($entity['attr'][$code], $item);
                 }
             }
 
@@ -100,7 +100,7 @@ function entity_load(string $eId, array $criteria = [], $index = null, array $or
 
             if ($index === 'uniq') {
                 foreach ($item as $code => $value) {
-                    if (!empty($entity['attributes'][$code]['uniq'])) {
+                    if (!empty($entity['attr'][$code]['uniq'])) {
                         $data[$code][$item['id']] = $value;
                     }
                 }
@@ -164,11 +164,11 @@ function entity_save(string $eId, array & $data): bool
         }
 
         foreach (array_keys($item) as $code) {
-            if (!isset($item['_entity']['attributes'][$code])) {
+            if (!isset($item['_entity']['attr'][$code])) {
                 continue;
             }
 
-            if (!saver($item['_entity']['attributes'][$code], $item)) {
+            if (!saver($item['_entity']['attr'][$code], $item)) {
                 if (!empty($item['_error'])) {
                     $data[$id]['_error'] = $item['_error'];
                 }
@@ -233,7 +233,7 @@ function entity_delete(string $eId, array $criteria = [], $index = null, bool $s
         }
 
         foreach (array_keys($item) as $code) {
-            if (isset($entity['attributes'][$code]) && !deleter($entity['attributes'][$code], $item)) {
+            if (isset($entity['attr'][$code]) && !deleter($entity['attr'][$code], $item)) {
                 if (!empty($item['_error'][$code])) {
                     message($item['_error'][$code]);
                 }

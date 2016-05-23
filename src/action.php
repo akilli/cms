@@ -82,11 +82,11 @@ function action_view()
     $entity = action_internal_entity();
 
     if (!($item = entity_load($entity['id'], ['id' => param('id')], false))
-        || !empty($entity['attributes']['active']) && empty($item['active']) && !allowed('edit')
+        || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')
     ) {
         // Item does not exist or is inactive
         action_error();
-    } elseif (!empty($entity['attributes']['active']) && empty($item['active'])) {
+    } elseif (!empty($entity['attr']['active']) && empty($item['active'])) {
         // Preview
         message(_('Preview'));
     }
@@ -105,12 +105,12 @@ function action_index()
     $entity = action_internal_entity();
     $action = request('action');
     $attrs = array_filter(
-        $entity['attributes'],
+        $entity['attr'],
         function ($attr) use ($action) {
             return data_action($action, $attr);
         }
     );
-    $criteria = empty($entity['attributes']['active']) || $action === 'index' ? [] : ['active' => true];
+    $criteria = empty($entity['attr']['active']) || $action === 'index' ? [] : ['active' => true];
     $order = [];
     $params = [];
     $search = post('search');
@@ -158,7 +158,7 @@ function action_index()
     unset($params['page']);
 
     action_internal_view($entity);
-    vars('entity.' . $action, ['data' => $data, 'header' => _($entity['name']), 'attributes' => $attrs]);
+    vars('entity.' . $action, ['data' => $data, 'header' => _($entity['name']), 'attr' => $attrs]);
     vars(
         'entity.' . $action . '.pager',
         [
