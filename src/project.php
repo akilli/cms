@@ -15,9 +15,9 @@ function project(string $key = null)
     if ($data === null) {
         $data = [];
         $id = session('project');
-        $criteria = $id === null ? ['host' => request('host')] : ['id' => $id];
-        $criteria['active'] = true;
-        $data = load('project', $criteria, false);
+        $crit = $id === null ? ['host' => request('host')] : ['id' => $id];
+        $crit['active'] = true;
+        $data = load('project', $crit, false);
 
         if (!$data) {
             $data = load('project', ['id' => 0, 'active' => true], false);

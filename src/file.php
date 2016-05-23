@@ -9,14 +9,14 @@ use SplFileInfo;
  * List files recursively inside the specified path
  *
  * @param string $path
- * @param array $criteria
+ * @param array $crit
  * @param mixed $index
  * @param array $order
  * @param int|array $limit
  *
  * @return array
  */
-function file_load(string $path, array $criteria = null, $index = null, array $order = null, $limit = null): array
+function file_load(string $path, array $crit = null, $index = null, array $order = null, $limit = null): array
 {
     if (!is_dir($path)) {
         return [];
@@ -35,9 +35,9 @@ function file_load(string $path, array $criteria = null, $index = null, array $o
         RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS
     );
 
-    if (!empty($criteria['recursive'])) {
+    if (!empty($crit['recursive'])) {
         $iterator = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::LEAVES_ONLY);
-        unset($criteria['recursive']);
+        unset($crit['recursive']);
     }
 
     /* @var SplFileInfo $item */
@@ -73,8 +73,8 @@ function file_load(string $path, array $criteria = null, $index = null, array $o
         }
     }
 
-    if ($criteria) {
-        $data = data_filter($data, $criteria, !empty($search));
+    if ($crit) {
+        $data = data_filter($data, $crit, !empty($search));
     }
 
     if ($order) {
@@ -162,11 +162,11 @@ function file_delete(string $path, bool $preserve = false): bool
  *
  * @param string $source
  * @param string $destination
- * @param string|array $criteria
+ * @param string|array $crit
  *
  * @return bool
  */
-function file_copy(string $source, string $destination, $criteria = null): bool
+function file_copy(string $source, string $destination, $crit = null): bool
 {
     if (!($isFile = is_file($source)) && !is_dir($source) || !file_dir(dirname($destination))) {
         return false;
@@ -177,7 +177,7 @@ function file_copy(string $source, string $destination, $criteria = null): bool
     if ($isFile) {
         copy($source, $destination);
     } else {
-        $files = file_load($source, $criteria);
+        $files = file_load($source, $crit);
 
         foreach ($files as $id => $file) {
             if (file_dir(dirname($destination . '/' . $id))) {

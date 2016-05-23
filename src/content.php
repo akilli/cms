@@ -5,34 +5,34 @@ namespace qnd;
  * Size entity
  *
  * @param string $eId
- * @param array $criteria
+ * @param array $crit
  * @param array $opts
  *
  * @return int
  */
-function content_size(string $eId, array $criteria = [], array $opts = []): int
+function content_size(string $eId, array $crit = [], array $opts = []): int
 {
-    $criteria['entity_id'] = $eId;
+    $crit['entity_id'] = $eId;
 
-    return flat_size('content', $criteria, $opts);
+    return flat_size('content', $crit, $opts);
 }
 
 /**
  * Load entity
  *
  * @param string $eId
- * @param array $criteria
+ * @param array $crit
  * @param mixed $index
  * @param string[] $order
  * @param int[] $limit
  *
  * @return array
  */
-function content_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
+function content_load(string $eId, array $crit = [], $index = null, array $order = [], array $limit = []): array
 {
-    $criteria['entity_id'] = $eId;
+    $crit['entity_id'] = $eId;
 
-    return flat_load($eId, $criteria, $index, $order, $limit);
+    return flat_load($eId, $crit, $index, $order, $limit);
 }
 
 /**

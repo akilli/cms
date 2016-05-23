@@ -110,7 +110,7 @@ function action_index()
             return data_action($action, $attr);
         }
     );
-    $criteria = empty($entity['attr']['active']) || $action === 'index' ? [] : ['active' => true];
+    $crit = empty($entity['attr']['active']) || $action === 'index' ? [] : ['active' => true];
     $order = [];
     $params = [];
     $search = post('search');
@@ -123,14 +123,14 @@ function action_index()
         $content = array_filter(explode(' ', $search));
 
         if ($content && ($items = load($entity['id'], ['name' => $content], 'search'))) {
-            $criteria['id'] = array_keys($items);
+            $crit['id'] = array_keys($items);
             $params['search'] = urlencode(implode(' ', $content));
         } else {
             message(_('No results for provided search terms %s', $search));
         }
     }
 
-    $size = size($entity['id'], $criteria);
+    $size = size($entity['id'], $crit);
     $limit = (int) config('limit.' . $action);
     $page = max((int) param('page'), 1);
     $offset = ($page - 1) * $limit;
@@ -147,7 +147,7 @@ function action_index()
         $params['dir'] = $direction;
     }
 
-    $data = load($entity['id'], $criteria, null, $order, [$limit, $offset]);
+    $data = load($entity['id'], $crit, null, $order, [$limit, $offset]);
     array_walk(
         $attrs,
         function (& $attr, $code) use ($params) {

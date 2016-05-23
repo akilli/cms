@@ -149,11 +149,11 @@ function listener_entity_eav(array & $data)
 function listener_entity_save(array & $data)
 {
     if ($data['_entity']['id'] === 'entity' && !empty($data['_old'])) {
-        $criteria = ['target' => $data['_old']['id'] . '/view/id/'];
+        $crit = ['target' => $data['_old']['id'] . '/view/id/'];
 
         if (!data_action('view', $data)) {
-            delete('rewrite', $criteria, 'search', true);
-        } elseif (data_action('view', $data) && $data['id'] !== $data['_old']['id'] && ($rw = load('rewrite', $criteria, 'search'))) {
+            delete('rewrite', $crit, 'search', true);
+        } elseif (data_action('view', $data) && $data['id'] !== $data['_old']['id'] && ($rw = load('rewrite', $crit, 'search'))) {
             foreach ($rw as $rId => $r) {
                 $rw[$rId]['target'] = preg_replace('#^' . $data['_old']['id'] . '/#', $data['id'] . '/', $r['target']);
             }

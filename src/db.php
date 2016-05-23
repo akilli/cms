@@ -237,20 +237,20 @@ function njoin(string $tab, string $as): string
 /**
  * WHERE part
  *
- * @param array $criteria
+ * @param array $crit
  * @param array $attrs
  * @param array $opts
  *
  * @return string
  */
-function where(array $criteria, array $attrs, array $opts = []): string
+function where(array $crit, array $attrs, array $opts = []): string
 {
     $cols = [];
     $as = !empty($opts['as']) ? $opts['as'] . '.' : '';
     $search = !empty($opts['search']);
     $op = $search ? 'LIKE' : '=';
 
-    foreach ($criteria as $code => $value) {
+    foreach ($crit as $code => $value) {
         if (empty($attrs[$code]['col'])) {
             continue;
         }
@@ -288,19 +288,19 @@ function group(array $cols): string
 /**
  * HAVING part
  *
- * @param array $criteria
+ * @param array $crit
  * @param array $attrs
  * @param array $opts
  *
  * @return string
  */
-function having(array $criteria, array $attrs, array $opts = []): string
+function having(array $crit, array $attrs, array $opts = []): string
 {
     $cols = [];
     $search = !empty($opts['search']);
     $op = $search ? 'LIKE' : '=';
 
-    foreach ($criteria as $code => $value) {
+    foreach ($crit as $code => $value) {
         if (empty($attrs[$code])) {
             continue;
         }

@@ -7,23 +7,23 @@ use PDO;
  * Size entity
  *
  * @param string $eId
- * @param array $criteria
+ * @param array $crit
  * @param array $opts
  *
  * @return int
  */
-function eav_size(string $eId, array $criteria = [], array $opts = []): int
+function eav_size(string $eId, array $crit = [], array $opts = []): int
 {
     $entity = data('entity', $eId);
     $attrs = $entity['attr'];
     $mainAttrs = data('entity', 'content')['attr'];
     $addAttrs = array_diff_key($attrs, $mainAttrs);
-    $criteria['entity_id'] = $entity['id'];
+    $crit['entity_id'] = $entity['id'];
     $list = [];
     $params = [];
 
     foreach ($addAttrs as $code => $attr) {
-        if (empty($attr['col']) || empty($criteria[$code])) {
+        if (empty($attr['col']) || empty($crit[$code])) {
             continue;
         }
 
@@ -31,7 +31,7 @@ function eav_size(string $eId, array $criteria = [], array $opts = []): int
             function ($v) use ($attr) {
                 return qv($v, $attr['backend']);
             },
-            (array) $criteria[$code]
+            (array) $crit[$code]
         );
         $params[$code] = ':' . str_replace('-', '_', $code);
         $list[] = sprintf(
@@ -44,7 +44,7 @@ function eav_size(string $eId, array $criteria = [], array $opts = []): int
 
     $stmt = prep(
         'SELECT COUNT(*) FROM content %s %s',
-        where($criteria, $mainAttrs, $opts),
+        where($crit, $mainAttrs, $opts),
         $list ? ' AND ' . implode(' AND ', $list) : ''
     );
 
@@ -61,20 +61,20 @@ function eav_size(string $eId, array $criteria = [], array $opts = []): int
  * Load entity
  *
  * @param string $eId
- * @param array $criteria
+ * @param array $crit
  * @param mixed $index
  * @param string[] $order
  * @param int[] $limit
  *
  * @return array
  */
-function eav_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
+function eav_load(string $eId, array $crit = [], $index = null, array $order = [], array $limit = []): array
 {
     $entity = data('entity', $eId);
     $attrs = $entity['attr'];
     $mainAttrs = data('entity', 'content')['attr'];
     $addAttrs = array_diff_key($attrs, $mainAttrs);
-    $criteria['entity_id'] = $entity['id'];
+    $crit['entity_id'] = $entity['id'];
     $opts = ['as' => 'e', 'search' => $index === 'search'];
     $list = [];
     $params = [];
@@ -93,9 +93,9 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
             qi($code)
         );
 
-        if (isset($criteria[$code])) {
-            $having[$code] = $criteria[$code];
-            unset($criteria[$code]);
+        if (isset($crit[$code])) {
+            $having[$code] = $crit[$code];
+            unset($crit[$code]);
         }
     }
 
@@ -104,7 +104,7 @@ function eav_load(string $eId, array $criteria = [], $index = null, array $order
         . ($list ? ', ' . implode(', ', $list) : '')
         . ' FROM content e'
         . ($list ? ' LEFT JOIN eav a ON a.content_id = e.id' : '')
-        . where($criteria, $mainAttrs, $opts)
+        . where($crit, $mainAttrs, $opts)
         . group(['id'])
         . having($having, $attrs, $opts)
         . order($order, $attrs)

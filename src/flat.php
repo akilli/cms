@@ -5,19 +5,19 @@ namespace qnd;
  * Size entity
  *
  * @param string $eId
- * @param array $criteria
+ * @param array $crit
  * @param array $opts
  *
  * @return int
  */
-function flat_size(string $eId, array $criteria = [], array $opts = []): int
+function flat_size(string $eId, array $crit = [], array $opts = []): int
 {
     $entity = data('entity', $eId);
 
     $stmt = prep(
         'SELECT COUNT(*) FROM %s %s',
         $entity['tab'],
-        where($criteria, $entity['attr'], $opts)
+        where($crit, $entity['attr'], $opts)
     );
     $stmt->execute();
 
@@ -28,14 +28,14 @@ function flat_size(string $eId, array $criteria = [], array $opts = []): int
  * Load entity
  *
  * @param string $eId
- * @param array $criteria
+ * @param array $crit
  * @param mixed $index
  * @param string[] $order
  * @param int[] $limit
  *
  * @return array
  */
-function flat_load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
+function flat_load(string $eId, array $crit = [], $index = null, array $order = [], array $limit = []): array
 {
     $entity = data('entity', $eId);
     $attrs = $entity['attr'];
@@ -44,7 +44,7 @@ function flat_load(string $eId, array $criteria = [], $index = null, array $orde
     $stmt = db()->prepare(
         select($attrs)
         . from($entity['tab'])
-        . where($criteria, $attrs, $opts)
+        . where($crit, $attrs, $opts)
         . order($order, $attrs)
         . limit($limit)
     );

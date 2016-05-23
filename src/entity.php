@@ -30,18 +30,18 @@ function validate(array & $item): bool
  * Size entity
  *
  * @param string $eId
- * @param array $criteria
+ * @param array $crit
  * @param array $opts
  *
  * @return int
  */
-function size(string $eId, array $criteria = [], array $opts = []): int
+function size(string $eId, array $crit = [], array $opts = []): int
 {
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_size');
 
     try {
-        return $callback($eId, $criteria, $opts);
+        return $callback($eId, $crit, $opts);
     } catch (Exception $e) {
         error($e);
         message(_('Data could not be loaded'));
@@ -56,14 +56,14 @@ function size(string $eId, array $criteria = [], array $opts = []): int
  * By default it will load a collection, unless $index is explicitly set to (bool) false.
  *
  * @param string $eId
- * @param array $criteria
+ * @param array $crit
  * @param mixed $index
  * @param string[] $order
  * @param int[] $limit
  *
  * @return array
  */
-function load(string $eId, array $criteria = [], $index = null, array $order = [], array $limit = []): array
+function load(string $eId, array $crit = [], $index = null, array $order = [], array $limit = []): array
 {
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_load');
@@ -71,7 +71,7 @@ function load(string $eId, array $criteria = [], $index = null, array $order = [
     $data = [];
 
     try {
-        $result = $callback($eId, $criteria, $index, $order, $limit);
+        $result = $callback($eId, $crit, $index, $order, $limit);
 
         if (!$index
             || $index === 'search'
@@ -206,18 +206,18 @@ function save(string $eId, array & $data): bool
  * Delete entity
  *
  * @param string $eId
- * @param array $criteria
+ * @param array $crit
  * @param mixed $index
  * @param bool $system
  *
  * @return bool
  */
-function delete(string $eId, array $criteria = [], $index = null, bool $system = false): bool
+function delete(string $eId, array $crit = [], $index = null, bool $system = false): bool
 {
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_delete');
 
-    if (!$data = load($eId, $criteria, $index)) {
+    if (!$data = load($eId, $crit, $index)) {
         return false;
     }
 

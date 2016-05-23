@@ -53,19 +53,19 @@ function data_load(string $file): array
  * Filter data by given criteria
  *
  * @param array $data
- * @param array $criteria
+ * @param array $crit
  * @param bool $search
  *
  * @return array
  */
-function data_filter(array $data, array $criteria = null, bool $search = false): array
+function data_filter(array $data, array $crit = null, bool $search = false): array
 {
-    if (!$criteria) {
+    if (!$crit) {
         return $data;
     }
 
     foreach ($data as $id => $item) {
-        foreach ($criteria as $key => $value) {
+        foreach ($crit as $key => $value) {
             $value = (array) $value;
 
             if (!array_key_exists($key, $item)
