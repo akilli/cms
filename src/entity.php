@@ -51,6 +51,39 @@ function size(string $eId, array $crit = [], array $opts = []): int
 }
 
 /**
+ * Load one entity optionally by criteria
+ *
+ * @param string $eId
+ * @param array $crit
+ * @param array $opts
+ *
+ * @return array
+ */
+function one(string $eId, array $crit = [], array $opts = []): array
+{
+    $opts['one'] = true;
+    $opts['limit'] = 1;
+
+    return load($eId, $crit, $opts);
+}
+
+/**
+ * Load entity collection optionally by criteria
+ *
+ * @param string $eId
+ * @param array $crit
+ * @param array $opts
+ *
+ * @return array
+ */
+function all(string $eId, array $crit = [], array $opts = []): array
+{
+    unset($opts['one']);
+
+    return load($eId, $crit, $opts);
+}
+
+/**
  * Load entity
  *
  * @param string $eId
@@ -119,7 +152,7 @@ function load(string $eId, array $crit = [], array $opts = []): array
  */
 function save(string $eId, array & $data): bool
 {
-    $original = load($eId, ['id' => array_keys($data)]);
+    $original = all($eId, ['id' => array_keys($data)]);
     $skeleton = skeleton($eId);
     $editable = skeleton($eId, null, true);
 
@@ -202,12 +235,8 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_delete');
 
-    if (!$data = load($eId, $crit, $opts)) {
+    if (!$data = all($eId, $crit, $opts)) {
         return false;
-    }
-
-    if (!empty($opts['one'])) {
-        $data = [$data['id'] => $data];
     }
 
     foreach ($data as $id => $item) {

@@ -74,10 +74,10 @@ function opt_translate(array $opts): array
  */
 function opt_position(): array
 {
-    $roots = load('menu');
+    $roots = all('menu');
     $data = [];
 
-    foreach (load('node') as $item) {
+    foreach (all('node') as $item) {
         if (empty($data[$item['root_id']  . ':0'])) {
             $data[$item['root_id']  . ':0']['name'] = $roots[$item['root_id']]['name'];
             $data[$item['root_id']  . ':0']['class'] = 'group';

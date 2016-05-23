@@ -38,10 +38,10 @@ function action_edit()
         redirect(allowed('index') ? '*/index' : '');
     } elseif (!$data && is_array(post('edit'))) {
         // We just selected multiple items to edit on the index page
-        $data = load($entity['id'], ['id' => array_keys(post('edit'))]);
+        $data = all($entity['id'], ['id' => array_keys(post('edit'))]);
     } elseif (!$data && param('id') !== null) {
         // We just clicked on an edit link, p.e. on the index page
-        $data = load($entity['id'], ['id' => param('id')]);
+        $data = all($entity['id'], ['id' => param('id')]);
     }
 
     if (!$data) {
@@ -81,7 +81,7 @@ function action_view()
 {
     $entity = action_internal_entity();
 
-    if (!($item = load($entity['id'], ['id' => param('id')], ['one' => true]))
+    if (!($item = one($entity['id'], ['id' => param('id')]))
         || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')
     ) {
         // Item does not exist or is inactive
@@ -111,7 +111,7 @@ function action_index()
         }
     );
     $crit = empty($entity['attr']['active']) || $action === 'index' ? [] : ['active' => true];
-    $order = [];
+    $opts = [];
     $params = [];
     $search = post('search');
 
@@ -122,7 +122,7 @@ function action_index()
     if ($search) {
         $content = array_filter(explode(' ', $search));
 
-        if ($content && ($items = load($entity['id'], ['name' => $content], ['search' => true]))) {
+        if ($content && ($items = all($entity['id'], ['name' => $content], ['search' => true]))) {
             $crit['id'] = array_keys($items);
             $params['search'] = urlencode(implode(' ', $content));
         } else {
@@ -131,10 +131,9 @@ function action_index()
     }
 
     $size = size($entity['id'], $crit);
-    $limit = $action === 'index' ? config('entity.index') : config('entity.list');
+    $opts['limit'] = $action === 'index' ? config('entity.index') : config('entity.list');
     $page = max((int) param('page'), 1);
-    $offset = ($page - 1) * $limit;
-    $pages = (int) ceil($size / $limit);
+    $opts['offset'] = ($page - 1) * $opts['limit'];
 
     if ($page > 1) {
         $params['page'] = $page;
@@ -142,12 +141,12 @@ function action_index()
 
     if (($sort = param('sort')) && !empty($attrs[$sort])) {
         $dir = param('dir') === 'desc' ? 'desc' : 'asc';
-        $order = [$sort => $dir];
+        $opts['order'] = [$sort => $dir];
         $params['sort'] = $sort;
         $params['dir'] = $dir;
     }
 
-    $data = load($entity['id'], $crit, ['order' => $order, 'limit' => $limit, 'offset' => $offset]);
+    $data = all($entity['id'], $crit, $opts);
     array_walk(
         $attrs,
         function (& $attr, $code) use ($params) {
@@ -162,10 +161,10 @@ function action_index()
     vars(
         'entity.' . $action . '.pager',
         [
-            'pages' => $pages,
+            'pages' => (int) ceil($size / $opts['limit']),
             'page' => $page,
-            'limit' => $limit,
-            'offset' => $offset,
+            'limit' => $opts['limit'],
+            'offset' => $opts['offset'],
             'size' => $size,
             'params' => $params
         ]
@@ -286,7 +285,7 @@ function action_user_login()
     if ($data) {
         if (!empty($data['username'])
             && !empty($data['password'])
-            && ($item = load('user', ['username' => $data['username'], 'active' => true], ['one' => true]))
+            && ($item = one('user', ['username' => $data['username'], 'active' => true]))
             && password_verify($data['password'], $item['password'])
         ) {
             message(_('Welcome %s', $item['name']));

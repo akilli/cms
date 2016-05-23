@@ -85,7 +85,7 @@ function validator_uniq(array $attr, array & $item): bool
 
     // Existing values
     if (!isset($data[$eId])) {
-        $data[$eId] = load($eId, [], ['index' => 'uniq']);
+        $data[$eId] = all($eId, [], ['index' => 'uniq']);
 
         if ($eId === 'entity' && ($ids = array_keys(data('entity')))
             || $eId === 'attr' && ($ids = array_keys(data('entity', 'content')['attr']))

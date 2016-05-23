@@ -63,7 +63,7 @@ function section_entity(array & $section): string
     }
 
     $section['vars'] = array_replace(['crit' => [], 'opts' => []], $section['vars']);
-    $section['vars']['data'] = load($section['vars']['entity'], $section['vars']['crit'], $section['vars']['opts']);
+    $section['vars']['data'] = all($section['vars']['entity'], $section['vars']['crit'], $section['vars']['opts']);
     $section['vars']['header'] = _($entity['name']);
 
     return section_template($section);
@@ -179,7 +179,7 @@ function section_toolbar(array & $section): string
  */
 function section_node(array & $section): string
 {
-    if (empty($section['vars']['root_id']) || !$data = load('node', ['root_id' => $section['vars']['root_id']])) {
+    if (empty($section['vars']['root_id']) || !$data = all('node', ['root_id' => $section['vars']['root_id']])) {
         return '';
     }
 

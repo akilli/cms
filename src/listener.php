@@ -46,9 +46,9 @@ function listener_data_entity(array & $data)
         $data[$id] = $item;
     }
 
-    $attrs = load('attr', [], ['index' => ['entity_id', 'id']]);
+    $attrs = all('attr', [], ['index' => ['entity_id', 'id']]);
 
-    foreach (load('entity', ['model' => ['content', 'eav', 'joined']]) as $id => $item) {
+    foreach (all('entity', ['model' => ['content', 'eav', 'joined']]) as $id => $item) {
         $base = $item['model'] === 'joined' && !empty($data[$id]) ? $data[$id] : $data['content'];
         $item = array_replace($base, $item);
 
@@ -144,7 +144,7 @@ function listener_entity_save(array & $data)
             delete('rewrite', $crit, ['search' => true, 'system' => true]);
         } elseif (data_action('view', $data)
             && $data['id'] !== $data['_old']['id']
-            && ($rw = load('rewrite', $crit, ['search' => true]))
+            && ($rw = all('rewrite', $crit, ['search' => true]))
         ) {
             foreach ($rw as $rId => $r) {
                 $rw[$rId]['target'] = preg_replace('#^' . $data['_old']['id'] . '/#', $data['id'] . '/', $r['target']);
@@ -157,7 +157,7 @@ function listener_entity_save(array & $data)
     if ($data['_entity']['id'] !== 'rewrite' && data_action('view', $data['_entity'])) {
         $target = $data['_entity']['id'] . '/view/id/' . $data['id'];
         $r = ['name' => $data['name'], 'target' => $target, 'system' => true];
-        $old = load('rewrite', ['target' => $target, 'system' => true], ['one' => true]);
+        $old = one('rewrite', ['target' => $target, 'system' => true]);
         $rw = $old ? [$old['id'] => $r] : [-1 => $r];
        save('rewrite', $rw);
     }

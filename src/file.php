@@ -50,10 +50,6 @@ function file_load(string $path, array $crit = [], array $opts = []): array
             'modified' => $file->getMTime()
         ];
 
-        if (!empty($opts['one'])) {
-            return $item;
-        }
-
         if ($opts['index'] === 'uniq') {
             $data['id'][$item['id']] = $item['id'];
         } elseif (is_array($opts['index'])) {
