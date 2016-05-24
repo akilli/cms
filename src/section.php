@@ -154,6 +154,10 @@ function section_node(array & $section): string
     $i = 0;
     $html = '';
 
+    if (!empty($section['vars']['title'])) {
+        $html .= '<h1>' . $section['vars']['title'] . '</h1>';
+    }
+
     foreach ($data as $item) {
         $class = $item['target'] && $item['target'] === request('path') ? ' class="current"' : '';
 
