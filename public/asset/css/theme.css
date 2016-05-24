@@ -351,7 +351,7 @@ main .section-list article {
     padding: 1rem 0;
 }
 
-#toolbar .toolbar > ul {
+#toolbar > ul > li > ul {
     position: absolute;
     left: 0;
     top: auto;
@@ -361,21 +361,21 @@ main .section-list article {
     background: #231f20;
 }
 
-#toolbar .toolbar:hover > ul {
+#toolbar > ul > li:hover > ul {
     display: block;
 }
 
-#toolbar .toolbar > ul > li {
+#toolbar > ul > li > ul > li {
     margin: 0 1rem;
     padding: 1rem 0;
     border-bottom: thin dashed #000;
 }
 
-#toolbar .toolbar > ul > li > span {
+#toolbar > ul > li > ul > li > span {
     color: #e14b28;
 }
 
-#toolbar .toolbar li li {
+#toolbar > ul > li li li {
     display: inline;
     margin-right: 2rem;
 }
@@ -384,6 +384,6 @@ main .section-list article {
     color: #fff;
 }
 
-#toolbar .toolbar ul a {
+#toolbar > ul > li ul a {
     font-size: 0.9rem;
 }
