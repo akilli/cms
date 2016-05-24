@@ -120,7 +120,7 @@ return [
         'type' => 'node',
         'parent' => 'top',
         'sort' => -100,
-        'vars' => ['title' => 'Toolbar', 'root_id' => 2],
+        'vars' => ['root_id' => 2],
     ],
     // user.dashboard
     [
