@@ -192,22 +192,22 @@ INSERT INTO entity (id, name, model, actions, system) VALUES
 ('page', 'Page', 'eav', '["all"]', '1');
 
 INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level) VALUES
-(1, 'Home', 'page/view/id/1', 2, 25, 26, NULL, 1),
-(2, 'Dashboard', 'user/dashboard', 2, 27, 28, NULL, 1),
-(3, 'Profile', 'user/profile', 2, 29, 30, NULL, 1),
-(4, 'Logout', 'user/logout', 2, 31, 32, NULL, 1),
-(5, 'Content', '', 2, 1, 4, NULL, 1),
-(6, 'Structure', '', 2, 5, 14, NULL, 1),
-(7, 'System', '', 2, 15, 24, NULL, 1),
-(8, 'Page', 'page/index', 2, 2, 3, 5, 2),
-(9, 'Project', 'project/index', 2, 16, 17, 7, 2),
-(10, 'User', 'user/index', 2, 18, 19, 7, 2),
-(11, 'Role', 'role/index', 2, 20, 21, 7, 2),
-(12, 'Rewrite', 'rewrite/index', 2, 22, 23, 7, 2),
-(13, 'Menu', 'menu/index', 2, 6, 7, 6, 2),
-(14, 'Menu Node', 'node/index', 2, 8, 9, 6, 2),
-(15, 'Entity', 'entity/index', 2, 10, 11, 6, 2),
-(16, 'Attribute', 'attr/index', 2, 12, 13, 6, 2);
+(1, 'Home', 'page/view/id/1', 2, 1, 2, NULL, 1),
+(2, 'Dashboard', 'user/dashboard', 2, 3, 4, NULL, 1),
+(3, 'Profile', 'user/profile', 2, 5, 6, NULL, 1),
+(4, 'Logout', 'user/logout', 2, 7, 8, NULL, 1),
+(5, 'Content', '', 2, 9, 12, NULL, 1),
+(6, 'Structure', '', 2, 13, 22, NULL, 1),
+(7, 'System', '', 2, 23, 32, NULL, 1),
+(8, 'Page', 'page/index', 2, 10, 11, 5, 2),
+(9, 'Project', 'project/index', 2, 24, 25, 7, 2),
+(10, 'User', 'user/index', 2, 26, 27, 7, 2),
+(11, 'Role', 'role/index', 2, 28, 29, 7, 2),
+(12, 'Rewrite', 'rewrite/index', 2, 30, 31, 7, 2),
+(13, 'Menu', 'menu/index', 2, 14, 15, 6, 2),
+(14, 'Menu Node', 'node/index', 2, 16, 17, 6, 2),
+(15, 'Entity', 'entity/index', 2, 18, 19, 6, 2),
+(16, 'Attribute', 'attr/index', 2, 20, 21, 6, 2);
 
 INSERT INTO project (id, name, host, active, system) VALUES
 (0, 'global', NULL, '1', '1');
