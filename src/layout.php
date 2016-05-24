@@ -89,12 +89,7 @@ function layout_handles(): array
             $data[] = 'http-base';
         }
 
-        $entity = data('entity', request('entity'));
-
-        if ($entity && data_action(request('action'), $entity)) {
-            $data[] = 'action-' . request('action');
-        }
-
+        $data[] = 'action-' . request('action');
         $data[] = request('entity');
         $data[] = request('id');
     }
