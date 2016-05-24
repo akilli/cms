@@ -341,12 +341,12 @@ main .section-list article {
     background: #231f20;
 }
 
-#toolbar > ul {
+#toolbar ul {
     display: flex;
     justify-content: flex-start;
 }
 
-#toolbar > ul > li {
+#toolbar li {
     margin: 0 1rem;
     padding: 1rem 0;
 }
@@ -362,21 +362,10 @@ main .section-list article {
 }
 
 #toolbar > ul > li:hover > ul {
-    display: block;
+    display: flex;
 }
 
-#toolbar > ul > li > ul > li {
-    margin: 0 1rem;
-    padding: 1rem 0;
-    border-bottom: thin dashed #000;
-}
-
-#toolbar > ul > li > ul > li > span {
-    color: #e14b28;
-}
-
-#toolbar > ul > li li li {
-    display: inline;
+#toolbar li li {
     margin-right: 2rem;
 }
 
@@ -384,6 +373,10 @@ main .section-list article {
     color: #fff;
 }
 
-#toolbar > ul > li ul a {
+#toolbar li li a {
     font-size: 0.9rem;
+}
+
+#toolbar span {
+    cursor: s-resize;
 }
