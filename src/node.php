@@ -43,38 +43,13 @@ function node_load(array $entity, array $crit = [], array $opts = []): array
  */
 function node_create(array & $item): bool
 {
+    // Position
     $lft = _node_position($item);
     $rgt = $lft + 1;
     $range = $rgt - $lft +1;
 
     // Make space in the new tree
-    $stmt = db()->prepare('
-        UPDATE 
-            node
-        SET
-            lft = lft + :range
-        WHERE
-            root_id = :root_id
-            AND lft >= :lft 
-    ');
-    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
-    $stmt->execute();
-
-    $stmt = db()->prepare('
-        UPDATE 
-            node
-        SET
-            rgt = rgt + :range
-        WHERE
-            root_id = :root_id
-            AND rgt >= :lft 
-    ');
-    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
-    $stmt->execute();
+    _node_insert($item, $lft, $range);
 
     // Insert new node
     $cols = cols($item['_entity']['attr'], $item);
@@ -135,13 +110,13 @@ function node_save(array & $item): bool
     $basisLft = _node_position($item);
 
     if ($basisLft > $item['_old']['lft']) {
-        $diff = $item['_old']['root_id'] !== $item['root_id'] ? $basisLft - $item['_old']['rgt'] + 1 : $basisLft - $item['_old']['rgt'] - 1;
+        $diff = $basisLft - $item['_old']['rgt'] + ($item['_old']['root_id'] !== $item['root_id'] ? 1 : -1);
     } else {
         $diff = $basisLft - $item['_old']['lft'];
     }
 
-    $range = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
     $lft = $item['_old']['lft'] + $diff;
+    $range = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
 
     // Move all affected nodes from old tree and update their positions for the new tree without adding them yet
     $stmt = db()->prepare('
@@ -164,62 +139,10 @@ function node_save(array & $item): bool
     $stmt->execute();
 
     // Close gap in old tree
-    $stmt = db()->prepare('
-        UPDATE 
-            node
-        SET
-            lft = lft - :range
-        WHERE
-            root_id = :old_root_id
-            AND lft > :old_rgt
-    ');
-    $stmt->bindValue(':old_root_id', $item['_old']['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':old_rgt', $item['_old']['rgt'], PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
-    $stmt->execute();
-
-    $stmt = db()->prepare('
-        UPDATE 
-            node
-        SET
-            rgt = rgt - :range
-        WHERE
-            root_id = :old_root_id
-            AND rgt > :old_rgt
-    ');
-    $stmt->bindValue(':old_root_id', $item['_old']['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':old_rgt', $item['_old']['rgt'], PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
-    $stmt->execute();
+    _node_remove($item);
 
     // Make space in the new tree
-    $stmt = db()->prepare('
-        UPDATE 
-            node
-        SET
-            lft = lft + :range
-        WHERE
-            root_id = :root_id
-            AND lft >= :lft 
-    ');
-    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
-    $stmt->execute();
-
-    $stmt = db()->prepare('
-        UPDATE 
-            node
-        SET
-            rgt = rgt + :range
-        WHERE
-            root_id = :root_id
-            AND rgt >= :lft 
-    ');
-    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
-    $stmt->execute();
+    _node_insert($item, $lft, $range);
 
     // Finally add the affected nodes to new tree
     $stmt = db()->prepare("
@@ -252,14 +175,9 @@ function node_save(array & $item): bool
  */
 function node_delete(array & $item): bool
 {
-    $range = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
-
     $stmt = db()->prepare('
-        UPDATE
-            node
-        SET
-            lft = -1 * lft,
-            rgt = -1 * rgt 
+        DELETE FROM 
+            node 
         WHERE 
             root_id = :root_id
             AND lft BETWEEN :lft AND :rgt
@@ -269,46 +187,16 @@ function node_delete(array & $item): bool
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->execute();
 
-    $stmt = db()->prepare('
-        UPDATE
-            node
-        SET 
-            lft = lft - :range
-        WHERE 
-            root_id = :root_id
-            AND lft > :rgt
-    ');
-    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
-    $stmt->execute();
-
-    $stmt = db()->prepare('
-        UPDATE
-            node
-        SET 
-            rgt = rgt - :range
-        WHERE 
-            root_id = :root_id
-            AND rgt > :rgt
-    ');
-    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
-    $stmt->execute();
-
-    db()->exec('
-        DELETE FROM 
-            node 
-        WHERE 
-            lft < 0
-    ');
+    // Close gap in old tree
+    _node_remove($item);
 
     return true;
 }
 
 /**
  * Calculate node postion
+ *
+ * @internal
  *
  * @param array $item
  *
@@ -365,4 +253,84 @@ function _node_position(array & $item): int
     }
 
     return $pos;
+}
+
+/**
+ * Make space in the new tree
+ *
+ * @param array $item
+ * @param int $lft
+ * @param int $range
+ *
+ * @return void
+ */
+function _node_insert(array $item, int $lft, int $range)
+{
+    $stmt = db()->prepare('
+        UPDATE 
+            node
+        SET
+            lft = lft + :range
+        WHERE
+            root_id = :root_id
+            AND lft >= :lft 
+    ');
+    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
+    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $stmt = db()->prepare('
+        UPDATE 
+            node
+        SET
+            rgt = rgt + :range
+        WHERE
+            root_id = :root_id
+            AND rgt >= :lft 
+    ');
+    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
+    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
+/**
+ * Close gap in old tree
+ *
+ * @param array $item
+ *
+ * @return void
+ */
+function _node_remove(array $item)
+{
+    $range = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
+
+    $stmt = db()->prepare('
+        UPDATE 
+            node
+        SET
+            lft = lft - :range
+        WHERE
+            root_id = :root_id
+            AND lft > :rgt
+    ');
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
+    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $stmt = db()->prepare('
+        UPDATE 
+            node
+        SET
+            rgt = rgt - :range
+        WHERE
+            root_id = :root_id
+            AND rgt > :rgt
+    ');
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
+    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
+    $stmt->execute();
 }
