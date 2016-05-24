@@ -1,14 +1,4 @@
 /**
- * Font
- */
-@font-face {
-    font-family: Ubuntu;
-    font-weight: normal;
-    font-style: normal;
-    src: url('../font/Ubuntu.woff') format('woff');
-}
-
-/**
  * Section
  */
 body {
@@ -327,56 +317,4 @@ main .section-list article {
 .pager {
     display: flex;
     justify-content: space-between;
-}
-
-/**
- * Toolbar
- */
-#toolbar {
-    width: 100%;
-    min-width: 0;
-    max-width: none;
-    margin: 0 auto;
-    color: #fff;
-    background: #231f20;
-}
-
-#toolbar ul {
-    display: flex;
-    justify-content: flex-start;
-}
-
-#toolbar li {
-    margin: 0 1rem;
-    padding: 1rem 0;
-}
-
-#toolbar > ul > li > ul {
-    position: absolute;
-    left: 0;
-    top: auto;
-    z-index: 10;
-    display: none;
-    width: 100%;
-    background: #231f20;
-}
-
-#toolbar > ul > li:hover > ul {
-    display: flex;
-}
-
-#toolbar li li {
-    margin-right: 2rem;
-}
-
-#toolbar a {
-    color: #fff;
-}
-
-#toolbar li li a {
-    font-size: 0.9rem;
-}
-
-#toolbar span {
-    cursor: s-resize;
 }
