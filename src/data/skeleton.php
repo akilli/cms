@@ -30,8 +30,6 @@ return [
         'tab' => null,
         'model' => 'flat',
         'actions' => [],
-        'toolbar' => null,
-        'sort' => null,
         'attr' => [],
     ],
     'request' => [

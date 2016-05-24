@@ -3,8 +3,6 @@ return [
     'attr' => [
         'name' => 'Attribute',
         'actions' => ['create', 'edit', 'delete', 'index'],
-        'toolbar' => 'structure',
-        'sort' => 400,
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -179,8 +177,6 @@ return [
     'entity' => [
         'name' => 'Entity',
         'actions' => ['create', 'edit', 'delete', 'index'],
-        'toolbar' => 'structure',
-        'sort' => 300,
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -209,18 +205,6 @@ return [
                 'opt' => ['qnd\config', ['action.entity']],
                 'actions' => ['edit', 'index'],
             ],
-            'toolbar' => [
-                'name' => 'Toolbar',
-                'type' => 'select.varchar',
-                'required' => true,
-                'opt' => ['qnd\data', ['toolbar']],
-                'actions' => ['edit'],
-            ],
-            'sort' => [
-                'name' => 'Sort',
-                'type' => 'int',
-                'actions' => ['edit'],
-            ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox.bool',
@@ -232,8 +216,6 @@ return [
         'name' => 'Menu Node',
         'model' => 'node',
         'actions' => ['create', 'edit', 'delete', 'index'],
-        'toolbar' => 'structure',
-        'sort' => 200,
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -304,8 +286,6 @@ return [
     'project' => [
         'name' => 'Project',
         'actions' => ['create', 'edit', 'delete',  'index'],
-        'toolbar' => 'system',
-        'sort' => 100,
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -341,8 +321,6 @@ return [
     'rewrite' => [
         'name' => 'Rewrite',
         'actions' => ['create', 'edit', 'delete', 'index'],
-        'toolbar' => 'system',
-        'sort' => 400,
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -379,8 +357,6 @@ return [
     'role' => [
         'name' => 'Role',
         'actions' => ['create', 'edit', 'delete', 'index'],
-        'toolbar' => 'system',
-        'sort' => 300,
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -416,8 +392,6 @@ return [
     'user' => [
         'name' => 'User',
         'actions' => ['create', 'edit', 'delete',  'index'],
-        'toolbar' => 'system',
-        'sort' => 200,
         'attr' => [
             'id' => [
                 'name' => 'Id',

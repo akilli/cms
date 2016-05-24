@@ -117,17 +117,10 @@ return [
     [
         'id' => 'toolbar',
         'handle' => 'user-registered',
-        'type' => 'template',
-        'template' => 'toolbar.nav.phtml',
+        'type' => 'node',
         'parent' => 'top',
         'sort' => -100,
-    ],
-    [
-        'id' => 'toolbar.list',
-        'handle' => 'user-registered',
-        'type' => 'toolbar',
-        'template' => 'toolbar.list.phtml',
-        'parent' => 'toolbar',
+        'vars' => ['root_id' => 2],
     ],
     // user.dashboard
     [

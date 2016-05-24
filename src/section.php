@@ -137,40 +137,6 @@ function section_message(array & $section): string
 }
 
 /**
- * Toolbar section
- *
- * @param array $section
- *
- * @return string
- */
-function section_toolbar(array & $section): string
-{
-    if (!isset($section['vars']['data'])) {
-        $section['vars']['data'] = data('toolbar');
-    } elseif (empty($section['vars']['data'])) {
-        return '';
-    }
-
-    foreach ($section['vars']['data'] as $key => $item) {
-        if (!empty($item['children'])) {
-            $child = $section;
-            $child['id'] .= '.' . uniqid(mt_rand(), true);
-            $child['parent'] = $section['id'];
-            $child['vars']['data'] = $item['children'];
-            $item['children'] = $section['vars']['data'][$key]['children'] = section_toolbar($child);
-        } else {
-            $item['children'] = $section['vars']['data'][$key]['children'] = '';
-        }
-
-        if (!empty($item['privilege']) && !allowed($item['privilege']) || empty($item['url']) && empty($item['children'])) {
-            unset($section['vars']['data'][$key]);
-        }
-    }
-
-    return !empty($section['vars']['data']) ? section_template($section) : '';
-}
-
-/**
  * Node section
  *
  * @param array $section

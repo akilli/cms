@@ -78,14 +78,10 @@ CREATE TABLE IF NOT EXISTS entity (
     name VARCHAR(255) NOT NULL,
     model VARCHAR(255) NOT NULL,
     actions JSON DEFAULT NULL,
-    toolbar VARCHAR(255) NOT NULL,
-    sort INTEGER(11) NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (id),
     KEY idx_entity_name (name),
     KEY idx_entity_model (model),
-    KEY idx_entity_toolbar (toolbar),
-    KEY idx_entity_sort (sort),
     KEY idx_entity_system (system)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -178,20 +174,40 @@ CREATE TABLE IF NOT EXISTS user (
 -- --------------------------------------------------------
 
 INSERT INTO content (id, name, entity_id, active, system, content) VALUES
-(1, 'Home', 'page', 1, 0, 'Hello World');
+(1, 'Home', 'page', '1', '0', 'Hello World'),
+(2, 'Toolbar', 'menu', '1', '1', NULL),
+(3, 'Main Navigation', 'menu', '1', '1', NULL);
 
-INSERT INTO entity (id, name, model, actions, toolbar, sort, system) VALUES
-('attr', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', 'structure', 400, '1'),
-('content', 'Content', 'flat', '[]', 'content', 0, '1'),
-('eav', 'EAV', 'flat', '[]', 'content', 0, '1'),
-('entity', 'Entity', 'flat', '["create", "edit", "delete", "index"]', 'structure', 300, '1'),
-('project', 'Project', 'flat', '["create", "edit", "delete", "index"]', 'system', 100, '1'),
-('rewrite', 'Rewrite', 'flat', '["create", "edit", "delete", "index"]', 'system', 400, '1'),
-('role', 'Role', 'flat', '["create", "edit", "delete", "index"]', 'system', 300, '1'),
-('user', 'User', 'flat', '["create", "edit", "delete", "index"]', 'system', 200, '1'),
-('node', 'Menu Node', 'node', '["create", "edit", "delete", "index"]', 'structure', 200, '1'),
-('menu', 'Menu', 'content', '["create", "edit", "delete", "index"]', 'structure', 100, '1'),
-('page', 'Page', 'eav', '["all"]', 'content', 100, '1');
+INSERT INTO entity (id, name, model, actions, system) VALUES
+('attr', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', '1'),
+('content', 'Content', 'flat', '[]', '1'),
+('eav', 'EAV', 'flat', '[]', '1'),
+('entity', 'Entity', 'flat', '["create", "edit", "delete", "index"]', '1'),
+('project', 'Project', 'flat', '["create", "edit", "delete", "index"]', '1'),
+('rewrite', 'Rewrite', 'flat', '["create", "edit", "delete", "index"]', '1'),
+('role', 'Role', 'flat', '["create", "edit", "delete", "index"]', '1'),
+('user', 'User', 'flat', '["create", "edit", "delete", "index"]', '1'),
+('node', 'Menu Node', 'node', '["create", "edit", "delete", "index"]', '1'),
+('menu', 'Menu', 'content', '["create", "edit", "delete", "index"]', '1'),
+('page', 'Page', 'eav', '["all"]', '1');
+
+INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level) VALUES
+(1, 'Home', 'page/view/id/1', 2, 25, 26, NULL, 1),
+(2, 'Dashboard', 'user/dashboard', 2, 27, 28, NULL, 1),
+(3, 'Profile', 'user/profile', 2, 29, 30, NULL, 1),
+(4, 'Logout', 'user/logout', 2, 31, 32, NULL, 1),
+(5, 'Content', '', 2, 1, 4, NULL, 1),
+(6, 'Structure', '', 2, 5, 14, NULL, 1),
+(7, 'System', '', 2, 15, 24, NULL, 1),
+(8, 'Page', 'page/index', 2, 2, 3, 5, 2),
+(9, 'Project', 'project/index', 2, 16, 17, 7, 2),
+(10, 'User', 'user/index', 2, 18, 19, 7, 2),
+(11, 'Role', 'role/index', 2, 20, 21, 7, 2),
+(12, 'Rewrite', 'rewrite/index', 2, 22, 23, 7, 2),
+(13, 'Menu', 'menu/index', 2, 6, 7, 6, 2),
+(14, 'Menu Node', 'node/index', 2, 8, 9, 6, 2),
+(15, 'Entity', 'entity/index', 2, 10, 11, 6, 2),
+(16, 'Attribute', 'attr/index', 2, 12, 13, 6, 2);
 
 INSERT INTO project (id, name, host, active, system) VALUES
 (0, 'global', NULL, '1', '1');

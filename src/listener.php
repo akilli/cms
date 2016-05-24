@@ -106,29 +106,6 @@ function listener_data_privilege(array & $data)
 }
 
 /**
- * Toolbar data listener
- *
- * @param array $data
- *
- * @return void
- */
-function listener_data_toolbar(array & $data)
-{
-    foreach (data('entity') as $eId => $entity) {
-        if (data_action('index', $entity) && !empty($entity['toolbar']) && !empty($data[$entity['toolbar']])) {
-            $data[$entity['toolbar']]['children'][$eId]['name'] = $entity['name'];
-            $data[$entity['toolbar']]['children'][$eId]['url'] = $eId . '/index';
-            $data[$entity['toolbar']]['children'][$eId]['privilege'] = $eId . '.index';
-            $data[$entity['toolbar']]['children'][$eId]['sort'] = (int) $entity['sort'];
-        }
-    }
-
-    foreach ($data as $key => $item) {
-        $data[$key]['children'] = data_order($item['children'], ['sort' => 'asc']);
-    }
-}
-
-/**
  * Entity save listener
  *
  * @param array $data
