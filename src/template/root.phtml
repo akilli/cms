@@ -7,15 +7,19 @@
     <body>
         <?= §('top');?>
         <?= §('message');?>
+        <?php if ($html = §('left')):?>
         <aside id="left">
-            <?= §('left');?>
+            <?= $html;?>
         </aside>
+        <?php endif;?>
         <main>
             <?= §('content');?>
         </main>
+        <?php if ($html = §('right')):?>
         <aside id="right">
-            <?= §('right');?>
+            <?= $html;?>
         </aside>
+        <?php endif;?>
         <?= §('bottom');?>
     </body>
 </html>

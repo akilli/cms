@@ -5,13 +5,13 @@ return [
         'id' => 'root',
         'handle' => 'layout-base',
         'type' => 'template',
-        'template' => 'html.root.phtml',
+        'template' => 'root.phtml',
     ],
     [
         'id' => 'head',
         'handle' => 'layout-base',
         'type' => 'template',
-        'template' => 'html.head.phtml',
+        'template' => 'head.phtml',
     ],
     [
         'id' => 'top',
@@ -27,7 +27,7 @@ return [
         'id' => 'message',
         'handle' => 'layout-base',
         'type' => 'message',
-        'template' => 'session.message.phtml',
+        'template' => 'message.phtml',
     ],
     [
         'id' => 'content',
@@ -88,14 +88,14 @@ return [
         'id' => 'entity.index.pager',
         'handle' => 'action-index',
         'type' => 'pager',
-        'template' => 'entity.pager.phtml',
+        'template' => 'pager.phtml',
         'parent' => 'entity.index',
     ],
     [
         'id' => 'entity.index.search',
         'handle' => 'action-index',
         'type' => 'template',
-        'template' => 'search.form.phtml',
+        'template' => 'search.phtml',
         'parent' => 'main',
     ],
     // action-list
@@ -110,7 +110,7 @@ return [
         'id' => 'entity.list.pager',
         'handle' => 'action-list',
         'type' => 'pager',
-        'template' => 'entity.pager.phtml',
+        'template' => 'pager.phtml',
         'parent' => 'entity.list',
     ],
     // user-registered
