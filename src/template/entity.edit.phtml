@@ -1,12 +1,12 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <section class="section section-edit">
     <header>
-        <h1><?=$§('header');?></h1>
+        <h1><?=$§('title');?></h1>
     </header>
     <form action="<?= url('*/*');?>" method="post" enctype="multipart/form-data" class="edit">
         <?php foreach ($§('data') as $id => $item):?>
         <fieldset class="data">
-            <legend><?=$item['name'] ?? $§('header');?></legend>
+            <legend><?=$item['name'] ?? $§('title');?></legend>
             <?php foreach ($item['_entity']['attr'] as $code => $attr):?>
                 <?php if (!$html = editor($attr, $item)) continue;?>
             <div class="element attr-<?=$attr['id'];?>">

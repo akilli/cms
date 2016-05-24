@@ -20,7 +20,7 @@ function action_create()
     }
 
     _action_view($entity);
-    vars('entity.create', ['data' => $data, 'header' => _($entity['name'])]);
+    vars('entity.create', ['data' => $data, 'title' => _($entity['name'])]);
 }
 
 /**
@@ -50,7 +50,7 @@ function action_edit()
     }
 
     _action_view($entity);
-    vars('entity.edit', ['data' => $data, 'header' => _($entity['name'])]);
+    vars('entity.edit', ['data' => $data, 'title' => _($entity['name'])]);
 }
 
 /**
@@ -157,7 +157,7 @@ function action_index()
     unset($params['page']);
 
     _action_view($entity);
-    vars('entity.' . $action, ['data' => $data, 'header' => _($entity['name']), 'attr' => $attrs]);
+    vars('entity.' . $action, ['data' => $data, 'title' => _($entity['name']), 'attr' => $attrs]);
     vars(
         'entity.' . $action . '.pager',
         [

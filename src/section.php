@@ -64,7 +64,7 @@ function section_entity(array & $section): string
 
     $section['vars'] = array_replace(['crit' => [], 'opts' => []], $section['vars']);
     $section['vars']['data'] = all($section['vars']['entity'], $section['vars']['crit'], $section['vars']['opts']);
-    $section['vars']['header'] = _($entity['name']);
+    $section['vars']['title'] = _($entity['name']);
 
     return section_template($section);
 }
