@@ -152,11 +152,11 @@ function node_save(array & $item): bool
             lft = -1 * (lft + :lft_diff),
             rgt = -1 * (rgt + :rgt_diff)
         WHERE
-            root_id = :root_id
+            root_id = :old_root_id
             AND lft BETWEEN :lft AND :rgt
     ');
     $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':old_root_id', $item['_old']['root_id'], PDO::PARAM_INT);
     $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':lft_diff', $diff, PDO::PARAM_INT);
@@ -170,11 +170,11 @@ function node_save(array & $item): bool
         SET
             lft = lft - :range
         WHERE
-            root_id = :root_id
-            AND lft > :rgt
+            root_id = :old_root_id
+            AND lft > :old_rgt
     ');
-    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
+    $stmt->bindValue(':old_root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':old_rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -184,11 +184,11 @@ function node_save(array & $item): bool
         SET
             rgt = rgt - :range
         WHERE
-            root_id = :root_id
-            AND rgt > :rgt
+            root_id = :old_root_id
+            AND rgt > :old_rgt
     ');
-    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
+    $stmt->bindValue(':old_root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':old_rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
 
