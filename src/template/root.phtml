@@ -6,13 +6,13 @@
     </head>
     <body>
         <?= §('top');?>
-        <?= §('message');?>
         <?php if ($html = §('left')):?>
         <aside id="left">
             <?= $html;?>
         </aside>
         <?php endif;?>
         <main>
+            <?= §('message');?>
             <?= §('content');?>
         </main>
         <?php if ($html = §('right')):?>

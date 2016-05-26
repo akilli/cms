@@ -159,7 +159,7 @@ function section_node(array & $section): string
     }
 
     foreach ($data as $item) {
-        $class = $item['target'] && $item['target'] === request('path') ? ' class="current"' : '';
+        $class = $item['target'] && $item['target'] === request('path') ? ' class="active"' : '';
 
         if ($item['level'] > $level) {
              $html .= '<ul><li' . $class . '>';

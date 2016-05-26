@@ -1,22 +1,27 @@
 /**
- * Section
+ * Font
  */
+@font-face {
+    font-family: fontawesome;
+    src: url('../font/fontawesome.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/**
+ * Elements
+ */
+html {
+    height: 100%;
+}
+
 body {
+    display: flex;
+    min-height: 100%;
     line-height: 1.5;
     font-family: Ubuntu, sans-serif;
     color: #231f20;
     background: #fff;
-}
-
-body > * {
-    width: 100%;
-    min-width: 755px;
-    max-width: 1140px;
-    margin: 0 auto;
-}
-
-body > *:not(:first-child) {
-    margin-top: 1rem;
 }
 
 h1 {
@@ -31,9 +36,14 @@ h3 {
     font-size: 1.2rem;
 }
 
-/**
- * Group
- */
+/* Group */
+main {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
 p,
 figure {
     margin: 0 0 1rem;
@@ -79,9 +89,7 @@ nav ul {
     list-style: none;
 }
 
-/**
- * Text
- */
+/* Text */
 a {
     text-decoration: none;
     color: #901913;
@@ -95,9 +103,7 @@ mark {
     background: #e14b28;
 }
 
-/**
- * Table
- */
+/* Table */
 table {
     width: 100%;
     margin: 1rem 0;
@@ -126,9 +132,7 @@ tbody tr:nth-of-type(even) > * {
     background: #ededed;
 }
 
-/**
- * Form
- */
+/* Form */
 ::input-placeholder {
     color: #999;
 }
@@ -274,70 +278,6 @@ textarea {
 }
 
 /**
- * Toolbar
- */
-#toolbar {
-    width: 100%;
-    min-width: 0;
-    max-width: none;
-    margin: 0 auto;
-    color: #fff;
-    background: #231f20;
-}
-
-#toolbar ul {
-    display: flex;
-    justify-content: flex-start;
-}
-
-#toolbar li {
-    margin: 0 1rem;
-    padding: 1rem 0;
-}
-
-#toolbar > ul > li > ul {
-    position: absolute;
-    left: 0;
-    top: auto;
-    z-index: 10;
-    display: none;
-    width: 100%;
-    background: #231f20;
-}
-
-#toolbar > ul > li:hover > ul {
-    display: flex;
-}
-
-#toolbar li li {
-    margin-right: 2rem;
-}
-
-#toolbar a {
-    color: #fff;
-}
-
-#toolbar li li a {
-    font-size: 0.9rem;
-}
-
-#toolbar span {
-    cursor: s-resize;
-}
-
-/**
- * Messages
- */
-#message {
-    background: #e14b28;
-}
-
-#message h1,
-#message p {
-    padding: 0.25rem 0.5rem;
-}
-
-/**
  * Main
  */
 main > .section > header > h1 {
@@ -369,4 +309,67 @@ main .section-list article {
 .pager {
     display: flex;
     justify-content: space-between;
+}
+
+/**
+ * Messages
+ */
+#message {
+    background: #e14b28;
+}
+
+#message h1,
+#message p {
+    padding: 0.25rem 0.5rem;
+}
+
+/**
+ * Toolbar
+ */
+#toolbar {
+    width: 13.75rem;
+    color: #fff;
+    background: #333;
+}
+
+#toolbar h1 {
+    line-height: 3.125rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.4375rem;
+    color: #eee;
+    background: #2a2a2a;
+    border-bottom: thin solid #222;
+}
+
+#toolbar li span {
+    display: block;
+    padding: 0.9375rem 0.9375rem 0 3.125rem;
+}
+
+#toolbar li a {
+    position: relative;
+    display: block;
+    padding: 0.9375rem 0.9375rem 0.9375rem 3.125rem;
+    text-decoration: none;
+    font-size: 0.75rem;
+    color: #eee;
+    border-bottom: thin solid #222;
+}
+
+#toolbar li a:before {
+    position: absolute;
+    top: 1rem;
+    left: 1.25rem;
+    font: 0.875rem fontawesome;
+    content: '\f00a';
+}
+
+#toolbar li a:hover {
+    background: #444;
+}
+
+#toolbar li a.active {
+    box-shadow: inset 0.3125rem 0 0 #5b5, inset 0.375rem 0 0 #222;
+    background: #444;
 }
