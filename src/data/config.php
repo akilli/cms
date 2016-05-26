@@ -95,12 +95,9 @@ return [
     'i18n.locale' => 'de-DE',
     'i18n.time' => 'H:i',
     'i18n.timezone' => 'Europe/Berlin',
-    'meta.title' => "quick'n'dirty",
-    'meta.separator' => '-',
     'meta' => [
         'keywords' => "quick'n'dirty",
         'description' => "quick'n'dirty",
-        'viewport' => 'width=device-width, initial-scale=1, maximum-scale=1',
     ],
     'url.asset' => '',
     'url.base' => '',

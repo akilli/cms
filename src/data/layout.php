@@ -46,7 +46,7 @@ return [
     ],
     // action-create
     [
-        'id' => 'entity.create',
+        'id' => 'entity',
         'handle' => 'action-create',
         'type' => 'template',
         'template' => 'entity.edit.phtml',
@@ -54,7 +54,7 @@ return [
     ],
     // action-edit
     [
-        'id' => 'entity.edit',
+        'id' => 'entity',
         'handle' => 'action-edit',
         'type' => 'template',
         'template' => 'entity.edit.phtml',
@@ -62,7 +62,7 @@ return [
     ],
     // action-view
     [
-        'id' => 'entity.view',
+        'id' => 'entity',
         'handle' => 'action-view',
         'type' => 'template',
         'template' => 'entity.view.phtml',
@@ -70,48 +70,48 @@ return [
     ],
     // action-index
     [
-        'id' => 'entity.index',
+        'id' => 'entity',
         'handle' => 'action-index',
         'type' => 'template',
         'template' => 'entity.index.phtml',
         'parent' => 'content',
     ],
     [
-        'id' => 'entity.index.create',
+        'id' => 'create',
         'handle' => 'action-index',
         'type' => 'template',
         'template' => 'entity.create.phtml',
         'privilege' => 'create',
-        'parent' => 'entity.index',
+        'parent' => 'entity',
     ],
     [
-        'id' => 'entity.index.pager',
+        'id' => 'pager',
         'handle' => 'action-index',
         'type' => 'pager',
         'template' => 'pager.phtml',
-        'parent' => 'entity.index',
+        'parent' => 'entity',
     ],
     [
-        'id' => 'entity.index.search',
+        'id' => 'search',
         'handle' => 'action-index',
         'type' => 'template',
         'template' => 'search.phtml',
-        'parent' => 'main',
+        'parent' => 'entity',
     ],
     // action-list
     [
-        'id' => 'entity.list',
+        'id' => 'entity',
         'handle' => 'action-list',
         'type' => 'template',
         'template' => 'entity.list.phtml',
         'parent' => 'content',
     ],
     [
-        'id' => 'entity.list.pager',
+        'id' => 'pager',
         'handle' => 'action-list',
         'type' => 'pager',
         'template' => 'pager.phtml',
-        'parent' => 'entity.list',
+        'parent' => 'entity',
     ],
     // user-registered
     [
@@ -124,7 +124,7 @@ return [
     ],
     // user.dashboard
     [
-        'id' => 'user.dashboard',
+        'id' => 'dashboard',
         'handle' => 'user.dashboard',
         'type' => 'template',
         'template' => 'user.dashboard.phtml',
@@ -132,7 +132,7 @@ return [
     ],
     // user.profile
     [
-        'id' => 'user.profile',
+        'id' => 'profile',
         'handle' => 'user.profile',
         'type' => 'template',
         'template' => 'user.profile.phtml',
@@ -140,7 +140,7 @@ return [
     ],
     // user-login
     [
-        'id' => 'user.login',
+        'id' => 'login',
         'handle' => 'user.login',
         'type' => 'template',
         'template' => 'user.login.phtml',

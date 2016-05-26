@@ -20,8 +20,9 @@ function action_create(array $entity)
         $data = skeleton($entity['id'], (int) post('create'));
     }
 
-    _action_view($entity);
-    vars('entity.create', ['data' => $data, 'title' => _($entity['name'])]);
+    layout_load();
+    vars('entity', ['data' => $data, 'title' => _($entity['name'])]);
+    vars('head', ['title' => _($entity['name'])]);
 }
 
 /**
@@ -51,8 +52,9 @@ function action_edit(array $entity)
         redirect(allowed('index') ? '*/index' : '');
     }
 
-    _action_view($entity);
-    vars('entity.edit', ['data' => $data, 'title' => _($entity['name'])]);
+    layout_load();
+    vars('entity', ['data' => $data, 'title' => _($entity['name'])]);
+    vars('head', ['title' => _($entity['name'])]);
 }
 
 /**
@@ -84,18 +86,26 @@ function action_delete(array $entity)
  */
 function action_view(array $entity)
 {
+    // Item does not exist or is inactive
     if (!($item = one($entity['id'], ['id' => param('id')]))
         || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')
     ) {
-        // Item does not exist or is inactive
         action_error();
-    } elseif (!empty($entity['attr']['active']) && empty($item['active'])) {
-        // Preview
+        return;
+    }
+
+    // Preview
+    if (!empty($entity['attr']['active']) && empty($item['active'])) {
         message(_('Preview'));
     }
 
-    _action_view($entity, $item);
-    vars('entity.view', ['item' => $item]);
+    layout_load();
+    vars('entity', ['item' => $item]);
+    vars('head', ['title' => $item['name']]);
+
+    if (!empty($item['meta']) && is_array($item['meta'])) {
+        vars('head', ['meta' => $item['meta']]);
+    }
 }
 
 /**
@@ -160,10 +170,10 @@ function action_index(array $entity)
     );
     unset($params['page']);
 
-    _action_view($entity);
-    vars('entity.' . $action, ['data' => $data, 'title' => _($entity['name']), 'attr' => $attrs]);
+    layout_load();
+    vars('entity', ['data' => $data, 'title' => _($entity['name']), 'attr' => $attrs]);
     vars(
-        'entity.' . $action . '.pager',
+        'pager',
         [
             'pages' => (int) ceil($size / $opts['limit']),
             'page' => $page,
@@ -173,6 +183,7 @@ function action_index(array $entity)
             'params' => $params
         ]
     );
+    vars('head', ['title' => _($entity['name'])]);
 }
 
 /**
@@ -271,7 +282,7 @@ function action_user_profile()
     }
 
     layout_load();
-    vars('user.profile', ['item' => $item]);
+    vars('profile', ['item' => $item]);
     vars('head', ['title' => _('User Profile')]);
 }
 
@@ -317,24 +328,4 @@ function action_user_logout()
     session_regenerate_id(true);
     session_destroy();
     redirect();
-}
-
-/**
- * Load View
- *
- * @internal
- *
- * @param array $entity
- * @param array $item
- *
- * @return void
- */
-function _action_view(array $entity, array $item = null)
-{
-    layout_load();
-    vars('head', ['title' => $item['name'] ?? _($entity['name']) . ' ' . _(ucfirst(request('action')))]);
-
-    if ($item && !empty($item['meta']) && is_array($item['meta'])) {
-        vars('head', ['meta' => $item['meta']]);
-    }
 }

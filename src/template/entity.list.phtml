@@ -2,7 +2,6 @@
 <section class="section section-list">
     <header>
         <h1><?=$§('title');?></h1>
-        <?= §('entity.list.search');?>
     </header>
 <?php if ($§('data')):?>
     <?php foreach ($§('data') as $id => $item):?>
@@ -26,7 +25,7 @@
         <?php endforeach;?>
     </article>
         <?php endforeach;?>
-    <?= §('entity.list.pager');?>
+    <?= §('pager');?>
 <?php else:;?>
     <p><?= _('Nothing created yet');?></p>
 <?php endif;?>
