@@ -14,9 +14,9 @@ function request(string $key)
 
     if ($data === null) {
         $data = [];
-        $data = request_init();
+        request_init($data);
         event('http.request', $data);
-        $data = request_prepare($data);
+        request_prepare($data);
     }
 
     return $data[$key] ?? null;
@@ -25,23 +25,23 @@ function request(string $key)
 /**
  * Initialize request data
  *
- * @return array
+ * @param array $data
+ *
+ * @return void
  */
-function request_init(): array
+function request_init(array & $data)
 {
     $data = data('skeleton', 'request');
     $data['base'] = rtrim(filter_path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
     $data['url'] = $_SERVER['REQUEST_URI'] ?? $data['base'];
-    $data['original_path'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');
-    $data['path'] = url_rewrite($data['original_path']);
     $data['host'] = $_SERVER['HTTP_HOST'];
     $data['scheme'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
     $data['secure'] = $data['scheme'] === 'https';
     $data['get'] = $_GET;
     $data['post'] = !empty($_POST['token']) && post_validate($_POST['token']) ? $_POST : [];
     $data['files'] = $_FILES ? files_validate(files_convert($_FILES)) : [];
-
-    return $data;
+    $data['origpath'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');
+    $data['path'] = url_rewrite($data['origpath']);
 }
 
 /**
@@ -49,9 +49,9 @@ function request_init(): array
  *
  * @param array $data
  *
- * @return array
+ * @return void
  */
-function request_prepare(array $data): array
+function request_prepare(array & $data)
 {
     $parts = $data['path'] ? explode('/', $data['path']) : [];
     $entity = array_shift($parts);
@@ -74,8 +74,6 @@ function request_prepare(array $data): array
 
     $data['id'] = $data['entity'] . '.' . $data['action'];
     $data['_old'] = $data;
-
-    return $data;
 }
 
 /**

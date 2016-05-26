@@ -38,7 +38,7 @@ return [
         'entity' => 'http',
         'base' => '',
         'url' => '',
-        'original_path' => '',
+        'origpath' => '',
         'path' => '',
         'host' => '',
         'scheme' => 'http',
