@@ -344,7 +344,7 @@ main .section-list article {
 
 #toolbar li span {
     display: block;
-    padding: 0.9375rem 0.9375rem 0 3.125rem;
+    padding: 0.9375rem 0.9375rem 0 1.25rem;
 }
 
 #toolbar li a {
