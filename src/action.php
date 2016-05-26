@@ -4,11 +4,12 @@ namespace qnd;
 /**
  * Create Action
  *
+ * @param array $entity
+ *
  * @return void
  */
-function action_create()
+function action_create(array $entity)
 {
-    $entity = _action_entity();
     $data = post('data');
 
     if ($data && save($entity['id'], $data)) {
@@ -26,11 +27,12 @@ function action_create()
 /**
  * Edit Action
  *
+ * @param array $entity
+ *
  * @return void
  */
-function action_edit()
+function action_edit(array $entity)
 {
-    $entity = _action_entity();
     $data = post('data');
 
     if ($data && save($entity['id'], $data)) {
@@ -56,11 +58,12 @@ function action_edit()
 /**
  * Delete Action
  *
+ * @param array $entity
+ *
  * @return void
  */
-function action_delete()
+function action_delete(array $entity)
 {
-    $entity = _action_entity();
     $data = post('edit');
 
     if ($data) {
@@ -75,12 +78,12 @@ function action_delete()
 /**
  * View Action
  *
+ * @param array $entity
+ *
  * @return void
  */
-function action_view()
+function action_view(array $entity)
 {
-    $entity = _action_entity();
-
     if (!($item = one($entity['id'], ['id' => param('id')]))
         || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')
     ) {
@@ -98,11 +101,12 @@ function action_view()
 /**
  * Index Action
  *
+ * @param array $entity
+ *
  * @return void
  */
-function action_index()
+function action_index(array $entity)
 {
-    $entity = _action_entity();
     $action = request('action');
     $attrs = array_filter(
         $entity['attr'],
@@ -174,11 +178,13 @@ function action_index()
 /**
  * List Action
  *
+ * @param array $entity
+ *
  * @return void
  */
-function action_list()
+function action_list(array $entity)
 {
-    action_index();
+    action_index($entity);
 }
 
 /**
@@ -311,25 +317,6 @@ function action_user_logout()
     session_regenerate_id(true);
     session_destroy();
     redirect();
-}
-
-/**
- * Retrieve entity from request and validate entity and action
- *
- * @internal
- *
- * @return array
- */
-function _action_entity(): array
-{
-    $entity = data('entity', request('entity'));
-
-    // Check if action is allowed for entity
-    if (!data_action(request('action'), $entity)) {
-        action_error();
-    }
-
-    return $entity;
 }
 
 /**

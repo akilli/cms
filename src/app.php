@@ -10,12 +10,15 @@ use InvalidArgumentException;
  */
 function app()
 {
-    $prefix = fqn('action_');
+    if ($entity = data('entity', request('entity'))) {
+        $prefix = fqn('action_');
+        $action = request('action');
 
-    foreach ([$prefix . request('entity') . '_' . request('action'), $prefix . request('action')] as $action) {
-        if (is_callable($action)) {
-            allowed() ? $action() : action_denied();
-            goto response;
+        foreach ([$prefix . $entity['id'] . '_' . $action, $prefix . $action] as $callback) {
+            if (is_callable($callback)) {
+                allowed() ? $callback($entity) : action_denied();
+                goto response;
+            }
         }
     }
 
