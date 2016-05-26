@@ -247,26 +247,25 @@ function where(array $crit, array $attrs, array $opts = []): string
 {
     $cols = [];
     $as = !empty($opts['as']) ? $opts['as'] . '.' : '';
-    $op = !empty($opts['search']) ? 'LIKE' : '=';
 
-    foreach ($crit as $code => $value) {
-        if (empty($attrs[$code]['col'])) {
+    foreach ($crit as $id => $value) {
+        if (empty($attrs[$id]['col'])) {
             continue;
         }
 
-        $attr = $attrs[$code];
-        $pre = strpos($attr['col'], '.') !== false ? '' : $as;
+        $pre = strpos($attrs[$id]['col'], '.') !== false ? '' : $as;
+        $op = !empty($opts['search']) && in_array($attrs[$id]['backend'], ['varchar', 'text']) ? 'LIKE' : '=';
         $r = [];
 
         foreach ((array) $value as $v) {
-            if (!empty($opts['search'])) {
+            if ($op === 'LIKE') {
                 $v = '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
             }
 
-            $r[] = $pre . $attr['col'] . ' ' . $op . ' ' . qv($v, $attr['backend']);
+            $r[] = $pre . $attrs[$id]['col'] . ' ' . $op . ' ' . qv($v, $attrs[$id]['backend']);
         }
 
-        $cols[$code] = '(' . implode(' OR ', $r) . ')';
+        $cols[$id] = '(' . implode(' OR ', $r) . ')';
     }
 
     return $cols ? ' WHERE ' . implode(' AND ', $cols) : '';
@@ -296,24 +295,24 @@ function group(array $cols): string
 function having(array $crit, array $attrs, array $opts = []): string
 {
     $cols = [];
-    $op = !empty($opts['search']) ? 'LIKE' : '=';
 
-    foreach ($crit as $code => $value) {
-        if (empty($attrs[$code])) {
+    foreach ($crit as $id => $value) {
+        if (empty($attrs[$id])) {
             continue;
         }
 
+        $op = !empty($opts['search']) && in_array($attrs[$id]['backend'], ['varchar', 'text']) ? 'LIKE' : '=';
         $r = [];
 
         foreach ((array) $value as $v) {
-            if (!empty($opts['search'])) {
+            if ($op === 'LIKE') {
                 $v = '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
             }
 
-            $r[] = qi($code) . ' ' . $op . ' ' . qv($v, $attrs[$code]['backend']);
+            $r[] = qi($id) . ' ' . $op . ' ' . qv($v, $attrs[$id]['backend']);
         }
 
-        $cols[$code] = '(' . implode(' OR ', $r) . ')';
+        $cols[$id] = '(' . implode(' OR ', $r) . ')';
     }
 
     return $cols ? ' HAVING ' . implode(' AND ', $cols) : '';
