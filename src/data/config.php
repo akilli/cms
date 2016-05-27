@@ -99,6 +99,6 @@ return [
         'keywords' => "quick'n'dirty",
         'description' => "quick'n'dirty",
     ],
-    'url.asset' => '',
-    'url.base' => '',
+    'url.asset' => null,
+    'url.base' => null,
 ];
