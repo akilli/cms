@@ -145,7 +145,7 @@ function section_message(array & $section): string
  */
 function section_node(array & $section): string
 {
-    if (empty($section['vars']['root_id']) || !$data = all('node', ['root_id' => $section['vars']['root_id']])) {
+    if (empty($section['vars']['crit']) || !$data = all('node', $section['vars']['crit'])) {
         return '';
     }
 
