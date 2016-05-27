@@ -75,54 +75,13 @@ function validator_required(array $attr, array & $item): bool
  */
 function validator_uniq(array $attr, array & $item): bool
 {
-    static $data = [];
-
-    if (empty($attr['uniq'])) {
+    if (empty($attr['uniq']) || !empty($attr['nullable']) && $item[$attr['id']] == null) {
         return true;
     }
 
-    $eId = $item['_entity']['id'];
+    $old = all($item['_entity']['id'], [$attr['id'] => $item[$attr['id']]]);
 
-    // Existing values
-    if (!isset($data[$eId])) {
-        $data[$eId] = all($eId, [], ['index' => 'uniq']);
-
-        if ($eId === 'entity' && ($ids = array_keys(data('entity')))
-            || $eId === 'attr' && ($ids = array_keys(data('entity', 'content')['attr']))
-        ) {
-            $ids = array_combine($ids, $ids);
-            $data[$eId]['id'] = !empty($data[$eId]['id']) ? array_replace($data[$eId]['id'], $ids) : $ids;
-        }
-    }
-
-    if (!isset($data[$eId][$attr['id']])) {
-        $data[$eId][$attr['id']] = [];
-    }
-
-    // Generate unique value
-    if ($attr['generator'] === 'id') {
-        $base = data_action('edit', $attr) ? $attr['id'] : 'name';
-
-        if (empty($item[$base]) && !$item[$base]) {
-            return false;
-        }
-
-        $item[$attr['id']] = generator_id($item[$base], $data[$eId][$attr['id']], $item['_id']);
-
-        return true;
-    }
-
-    if (!empty($attr['nullable']) && $item[$attr['id']] == '') {
-        $item[$attr['id']] = null;
-        return true;
-    }
-
-    if (!empty($item[$attr['id']])
-        && (array_search($item[$attr['id']], $data[$eId][$attr['id']]) === $item['_id']
-            || !in_array($item[$attr['id']], $data[$eId][$attr['id']]))
-    ) {
-        // Provided value is unique
-        $data[$eId][$attr['id']][$item['_id']] = $item[$attr['id']];
+    if (!$old || count($old) === 1 && !empty($old[$item['_id']])) {
         return true;
     }
 
