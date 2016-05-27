@@ -20,6 +20,7 @@ function editor(array $attr, array $item): string
     $attr['context'] = 'edit';
     $attr['html']['id'] =  html_id($attr, $item);
     $attr['html']['name'] =  html_name($attr, $item);
+    $attr['html']['data-type'] =  $attr['type'];
 
     if ($attr['required'] && !ignorable($attr, $item)) {
         $attr['html']['required'] = true;
@@ -143,20 +144,14 @@ function editor_opt(array $attr, array $item): string
 
     foreach ($attr['opt'] as $optId => $optVal) {
         $htmlId = $attr['html']['id'] . '-' . $optId;
-        $a = ['id' => $htmlId, 'name' => $attr['html']['name'], 'type' => $attr['frontend'], 'value' => $optId];
-
-        if (in_array($optId, $value)) {
-            $a['checked'] = true;
-        }
-
-        if (!empty($attr['html']['required'])) {
-            $a['required'] = true;
-        }
-
-        if (!empty($attr['html']['class'])) {
-            $a['class'] = $attr['html']['class'];
-        }
-
+        $a = [
+            'id' => $htmlId,
+            'name' => $attr['html']['name'],
+            'type' => $attr['frontend'],
+            'value' => $optId,
+            'checked' => in_array($optId, $value)
+        ];
+        $a = array_replace($attr['html'], $a);
         $html .= html_tag('input', $a, null, true);
         $html .= html_tag('label', ['for' => $htmlId, 'class' => 'inline'], opt_name($optId, $optVal));
     }
