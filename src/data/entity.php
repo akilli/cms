@@ -148,6 +148,11 @@ return [
                 'nullable' => true,
                 'opt' => ['qnd\all', ['user']],
             ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'select.int',
+                'opt' => ['qnd\all', ['project']],
+            ],
         ],
     ],
     'eav' => [
@@ -232,7 +237,6 @@ return [
             'target' => [
                 'name' => 'Target',
                 'type' => 'text',
-                'nullable' => true,
                 'actions' => ['edit', 'index'],
             ],
             'root_id' => [
@@ -280,6 +284,11 @@ return [
                 'required' => true,
                 'opt' => ['qnd\opt_position'],
                 'actions' => ['edit'],
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'select.int',
+                'opt' => ['qnd\all', ['project']],
             ],
         ],
     ],
@@ -330,9 +339,7 @@ return [
             ],
             'name' => [
                 'name' => 'Name',
-                'generator' => 'id',
                 'type' => 'text',
-                'required' => true,
                 'uniq' => true,
                 'actions' => ['all'],
             ],
@@ -351,6 +358,11 @@ return [
                 'name' => 'System',
                 'type' => 'checkbox.bool',
                 'actions' => ['index'],
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'select.int',
+                'opt' => ['qnd\all', ['project']],
             ],
         ],
     ],
@@ -386,6 +398,11 @@ return [
                 'name' => 'System',
                 'type' => 'checkbox.bool',
                 'actions' => ['index'],
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'select.int',
+                'opt' => ['qnd\all', ['project']],
             ],
         ],
     ],
@@ -434,6 +451,11 @@ return [
                 'name' => 'System',
                 'type' => 'checkbox.bool',
                 'actions' => ['index'],
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'select.int',
+                'opt' => ['qnd\all', ['project']],
             ],
         ],
     ],

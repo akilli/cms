@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS content (
     creator INTEGER(11) DEFAULT NULL,
     modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     modifier INTEGER(11) DEFAULT NULL,
+    project_id INTEGER(11) NOT NULL,
     PRIMARY KEY (id),
     KEY idx_content_name (name),
     KEY idx_content_entity (entity_id),
@@ -54,10 +55,12 @@ CREATE TABLE IF NOT EXISTS content (
     KEY idx_content_creator (creator),
     KEY idx_content_modified (modified),
     KEY idx_content_modifier (modifier),
+    KEY idx_content_project (project_id),
     FULLTEXT idx_content_search (search),
     CONSTRAINT con_content_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT con_content_creator FOREIGN KEY (creator) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT con_content_modifier FOREIGN KEY (modifier) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT con_content_modifier FOREIGN KEY (modifier) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT con_content_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS eav;
@@ -89,13 +92,14 @@ DROP TABLE IF EXISTS node;
 CREATE TABLE IF NOT EXISTS node (
     id INTEGER(11) NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    target VARCHAR(255) DEFAULT NULL,
+    target VARCHAR(255) NOT NULL,
     root_id INTEGER(11) NOT NULL,
     lft INTEGER(11) NOT NULL,
     rgt INTEGER(11) NOT NULL,
     parent_id INTEGER(11) DEFAULT NULL,
     level INTEGER(11) NOT NULL,
     position VARCHAR(255) AS (CONCAT(root_id, ':', lft)) STORED NOT NULL,
+    project_id INTEGER(11) NOT NULL,
     PRIMARY KEY (id),
     KEY idx_node_name (name),
     KEY idx_node_target (target),
@@ -105,9 +109,11 @@ CREATE TABLE IF NOT EXISTS node (
     KEY idx_node_parent (parent_id),
     KEY idx_node_level (level),
     KEY idx_node_position (position),
+    KEY idx_node_project (project_id),
     KEY idx_node_item (root_id,lft,rgt),
     CONSTRAINT con_node_root FOREIGN KEY (root_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT con_node_parent FOREIGN KEY (parent_id) REFERENCES node (id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT con_node_parent FOREIGN KEY (parent_id) REFERENCES node (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT con_node_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS project;
@@ -131,11 +137,15 @@ CREATE TABLE IF NOT EXISTS rewrite (
     target VARCHAR(255) NOT NULL,
     redirect BOOLEAN NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
+    project_id INTEGER(11) NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY uni_rewrite_name (name),
+    UNIQUE KEY uni_rewrite_name (project_id, name),
+    KEY idx_rewrite_name (name),
     KEY idx_rewrite_target (target),
     KEY idx_rewrite_redirect (redirect),
-    KEY idx_rewrite_system (system)
+    KEY idx_rewrite_system (system),
+    KEY idx_rewrite_project (project_id),
+    CONSTRAINT con_rewrite_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS role;
@@ -145,10 +155,14 @@ CREATE TABLE IF NOT EXISTS role (
     privilege JSON NOT NULL,
     active BOOLEAN NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
+    project_id INTEGER(11) NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY uni_role_name (name),
+    UNIQUE KEY uni_role_name (project_id, name),
+    KEY idx_role_name (name),
     KEY idx_role_active (active),
-    KEY idx_role_system (system)
+    KEY idx_role_system (system),
+    KEY idx_role_project (project_id),
+    CONSTRAINT con_role_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS user;
@@ -160,23 +174,25 @@ CREATE TABLE IF NOT EXISTS user (
     role_id INTEGER(11) NOT NULL,
     active BOOLEAN NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
+    project_id INTEGER(11) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY uni_user_username (username),
     KEY idx_user_name (name),
     KEY idx_user_role (role_id),
     KEY idx_user_active (active),
     KEY idx_user_system (system),
-    CONSTRAINT con_user_role FOREIGN KEY (role_id) REFERENCES role (id)
+    KEY idx_user_project (project_id),
+    CONSTRAINT con_user_role FOREIGN KEY (role_id) REFERENCES role (id),
+    CONSTRAINT con_user_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 -- Data
 -- --------------------------------------------------------
 
-INSERT INTO content (id, name, entity_id, active, system, content) VALUES
-(1, 'Home', 'page', '1', '0', 'Hello World'),
-(2, 'Toolbar', 'menu', '1', '1', NULL),
-(3, 'Main Navigation', 'menu', '1', '1', NULL);
+INSERT INTO content (id, name, entity_id, active, system, content, project_id) VALUES
+(1, 'Home', 'page', '1', '0', 'Hello World', 0),
+(2, 'Toolbar', 'menu', '1', '1', NULL, 0);
 
 INSERT INTO entity (id, name, model, actions, system) VALUES
 ('attr', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', '1'),
@@ -191,37 +207,37 @@ INSERT INTO entity (id, name, model, actions, system) VALUES
 ('menu', 'Menu', 'content', '["create", "edit", "delete", "index"]', '1'),
 ('page', 'Page', 'eav', '["all"]', '1');
 
-INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level) VALUES
-(1, 'Home', 'page/view/id/1', 2, 1, 2, NULL, 1),
-(2, 'Dashboard', 'user/dashboard', 2, 3, 4, NULL, 1),
-(3, 'Profile', 'user/profile', 2, 5, 6, NULL, 1),
-(4, 'Logout', 'user/logout', 2, 7, 8, NULL, 1),
-(5, 'Content', '', 2, 9, 12, NULL, 1),
-(6, 'Structure', '', 2, 13, 22, NULL, 1),
-(7, 'System', '', 2, 23, 32, NULL, 1),
-(8, 'Page', 'page/index', 2, 10, 11, 5, 2),
-(9, 'Project', 'project/index', 2, 24, 25, 7, 2),
-(10, 'User', 'user/index', 2, 26, 27, 7, 2),
-(11, 'Role', 'role/index', 2, 28, 29, 7, 2),
-(12, 'Rewrite', 'rewrite/index', 2, 30, 31, 7, 2),
-(13, 'Menu', 'menu/index', 2, 14, 15, 6, 2),
-(14, 'Menu Node', 'node/index', 2, 16, 17, 6, 2),
-(15, 'Entity', 'entity/index', 2, 18, 19, 6, 2),
-(16, 'Attribute', 'attr/index', 2, 20, 21, 6, 2);
+INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project_id) VALUES
+(1, 'Home', '', 2, 1, 2, NULL, 1, 0),
+(2, 'Dashboard', 'user/dashboard', 2, 3, 4, NULL, 1, 0),
+(3, 'Profile', 'user/profile', 2, 5, 6, NULL, 1, 0),
+(4, 'Logout', 'user/logout', 2, 7, 8, NULL, 1, 0),
+(5, 'Content', '#', 2, 9, 12, NULL, 1, 0),
+(6, 'Structure', '#', 2, 13, 22, NULL, 1, 0),
+(7, 'System', '#', 2, 23, 32, NULL, 1, 0),
+(8, 'Page', 'page', 2, 10, 11, 5, 2, 0),
+(9, 'Project', 'project', 2, 24, 25, 7, 2, 0),
+(10, 'User', 'user', 2, 26, 27, 7, 2, 0),
+(11, 'Role', 'role', 2, 28, 29, 7, 2, 0),
+(12, 'Rewrite', 'rewrite', 2, 30, 31, 7, 2, 0),
+(13, 'Menu', 'menu', 2, 14, 15, 6, 2, 0),
+(14, 'Menu Node', 'node', 2, 16, 17, 6, 2, 0),
+(15, 'Entity', 'entity', 2, 18, 19, 6, 2, 0),
+(16, 'Attribute', 'attr', 2, 20, 21, 6, 2, 0);
 
 INSERT INTO project (id, name, host, active, system) VALUES
 (0, 'global', NULL, '1', '1');
 
-INSERT INTO rewrite (id, name, target) VALUES
-(1, 'http-base', 'page/view/id/1');
+INSERT INTO rewrite (id, name, target, project_id) VALUES
+(1, '', 'page/view/id/1', 0);
 
-INSERT INTO role (id, name, privilege, active, system) VALUES
-(0, 'anonymous', '["page.list", "page.view"]', '1', '1'),
-(1, 'admin', '["all"]', '1', '1');
+INSERT INTO role (id, name, privilege, active, system, project_id) VALUES
+(0, 'anonymous', '["page.list", "page.view"]', '1', '1', 0),
+(1, 'admin', '["all"]', '1', '1', 0);
 
-INSERT INTO user (id, name, username, password, role_id, active, system) VALUES
-(0, 'Anonymous', 'anonymous', '', 0, '1', '1'),
-(1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1');
+INSERT INTO user (id, name, username, password, role_id, active, system, project_id) VALUES
+(0, 'Anonymous', 'anonymous', '', 0, '1', '1', 0),
+(1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 0);
 
 -- --------------------------------------------------------
 

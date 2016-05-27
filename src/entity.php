@@ -18,6 +18,10 @@ function size(string $eId, array $crit = [], array $opts = []): int
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_size');
 
+    if (!empty($entity['attr']['project_id']) && !isset($crit['project_id'])) {
+        $crit['project_id'] = project('id');
+    }
+
     try {
         return $callback($entity, $crit, $opts);
     } catch (Exception $e) {
@@ -43,6 +47,10 @@ function one(string $eId, array $crit = [], array $opts = []): array
     $callback = fqn($entity['model'] . '_load');
     $item = [];
     $opts = array_replace($opts, ['one' => true, 'limit' => 1]);
+
+    if (!empty($entity['attr']['project_id']) && !isset($crit['project_id'])) {
+        $crit['project_id'] = project('id');
+    }
 
     try {
         if ($item = $callback($entity, $crit, $opts)) {
@@ -74,6 +82,10 @@ function all(string $eId, array $crit = [], array $opts = []): array
 
     if (empty($opts['index']) || is_array($opts['index']) && (empty($opts['index'][0]) || empty($opts['index'][1]))) {
         $opts['index'] = 'id';
+    }
+
+    if (!empty($entity['attr']['project_id']) && !isset($crit['project_id'])) {
+        $crit['project_id'] = project('id');
     }
 
     try {
@@ -126,6 +138,7 @@ function save(string $eId, array & $data): bool
 
         if (empty($original[$id])) {
             $item['creator'] = $item['modifier'];
+            $item['project_id'] = project('id');
         }
 
         if (empty($item['_old']) && !empty($original[$id])) {
