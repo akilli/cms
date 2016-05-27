@@ -23,7 +23,7 @@ function project(string $key = null)
             $data = one('project', ['id' => 0, 'active' => true]);
         }
 
-        if ($id <= 0 || !$data) {
+        if ($id < 0 || !$data) {
             session('project', null, true);
         }
     }
