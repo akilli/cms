@@ -86,7 +86,7 @@ function layout_handles(): array
         }
 
         if (request('base') === request('url')) {
-            $data[] = 'http-base';
+            $data[] = 'app-home';
         }
 
         $data[] = 'action-' . request('action');
