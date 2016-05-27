@@ -94,13 +94,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
         foreach ($result as $item) {
             $item = _load($entity, $item);
 
-            if ($opts['index'] === 'uniq') {
-                foreach ($item as $code => $value) {
-                    if (!empty($entity['attr'][$code]['uniq'])) {
-                        $data[$code][$item['id']] = $value;
-                    }
-                }
-            } elseif (is_array($opts['index'])) {
+            if (is_array($opts['index'])) {
                 $data[$item[$opts['index'][0]]][$item[$opts['index'][1]]] = $item;
             } else {
                 $data[$item[$opts['index']]] = $item;
