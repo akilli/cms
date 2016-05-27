@@ -17,13 +17,14 @@ function app()
         foreach ([$prefix . $entity['id'] . '_' . $action, $prefix . $action] as $callback) {
             if (is_callable($callback)) {
                 allowed() ? $callback($entity) : action_denied();
-                goto response;
+                echo §('root');
+                return;
             }
         }
     }
 
     action_error();
-    response: echo §('root');
+    echo §('root');
 }
 
 /**
