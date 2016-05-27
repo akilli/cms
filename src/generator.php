@@ -10,21 +10,19 @@ namespace qnd;
  *
  * @return string
  */
-function generator_id(string $needle, array & $haystack, $id): string
+function generator_id(string $needle, array $haystack, $id): string
 {
     $needle = trim(preg_replace(['#/#', '#[-]+#i'], '-', filter_id($needle)), '-_');
 
     if (array_search($needle, $haystack) === $id || !in_array($needle, $haystack)) {
-        $haystack[$id] = $needle;
-    } else {
-        $needle .= '-';
-
-        for ($i = 1; in_array($needle . $i, $haystack) && array_search($needle . $i, $haystack) !== $id; $i++);
-
-        $haystack[$id] = $needle . $i;
+        return $needle;
     }
 
-    return $haystack[$id];
+    $needle .= '-';
+
+    for ($i = 1; in_array($needle . $i, $haystack) && array_search($needle . $i, $haystack) !== $id; $i++);
+
+    return $needle . $i;
 }
 
 /**
