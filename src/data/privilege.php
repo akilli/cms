@@ -5,7 +5,7 @@ return [
         'active' => true,
         'class' => 'group',
     ],
-    'http.index' => [
+    'index.index' => [
         'name' => 'Homepage',
         'active' => false,
         'sort' => 200,

@@ -225,7 +225,7 @@ function action_error()
  *
  * @return void
  */
-function action_http_index()
+function action_index_index()
 {
     layout_load();
 }
