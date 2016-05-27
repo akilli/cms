@@ -217,7 +217,7 @@ function action_denied()
 function action_error()
 {
     message(_('The page %s does not exist', request('path')));
-    redirect();
+    layout_load();
 }
 
 /**
