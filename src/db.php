@@ -254,6 +254,12 @@ function where(array $crit, array $attrs, array $opts = []): string
         }
 
         $pre = strpos($attrs[$id]['col'], '.') !== false ? '' : $as;
+
+        if ($attrs[$id]['nullable'] && $value === null) {
+            $cols[$id] = '(' . $pre . $attrs[$id]['col'] . ' IS NULL)';
+            continue;
+        }
+
         $op = !empty($opts['search']) && in_array($attrs[$id]['backend'], ['varchar', 'text']) ? 'LIKE' : '=';
         $r = [];
 
@@ -298,6 +304,11 @@ function having(array $crit, array $attrs, array $opts = []): string
 
     foreach ($crit as $id => $value) {
         if (empty($attrs[$id])) {
+            continue;
+        }
+
+        if ($attrs[$id]['nullable'] && $value === null) {
+            $cols[$id] = '(' . qi($id) . ' IS NULL)';
             continue;
         }
 
