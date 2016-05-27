@@ -85,10 +85,6 @@ function layout_handles(): array
             $data[] = 'role-admin';
         }
 
-        if (request('base') === request('url')) {
-            $data[] = 'app-home';
-        }
-
         $data[] = 'action-' . request('action');
         $data[] = request('entity');
         $data[] = request('id');
