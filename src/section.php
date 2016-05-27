@@ -155,11 +155,17 @@ function section_node(array & $section): string
     $html = '';
 
     if (!empty($section['vars']['title'])) {
-        $html .= '<h1>' . $section['vars']['title'] . '</h1>';
+        $html .= html_tag('h1', [], $section['vars']['title']);
     }
 
     foreach ($data as $item) {
-        $class = $item['target'] && $item['target'] === request('path') ? ' class="active"' : '';
+        $attrs = [];
+        $class = '';
+
+        if ($item['target'] === request('path')) {
+            $attrs['class'] = 'active';
+            $class .= ' class="active"';
+        }
 
         if ($item['level'] > $level) {
              $html .= '<ul><li' . $class . '>';
@@ -170,14 +176,15 @@ function section_node(array & $section): string
         }
 
         if ($item['target'] !== '#') {
-            $html .= '<a href="' . url($item['target']) . '"' . $class . '>' . $item['name'] . '</a>';
+            $attrs['href'] = url($item['target']);
+            $html .= html_tag('a', $attrs, $item['name']);
         } else {
-            $html .= '<span>' . $item['name'] . '</span>';
+            $html .= html_tag('span', [], $item['name']);
         }
 
         $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
         $level = $item['level'];
     }
 
-    return '<nav id="' . $section['id'] . '">' . $html . '</nav>';
+    return html_tag('nav', ['id' => $section['id']], $html);
 }
