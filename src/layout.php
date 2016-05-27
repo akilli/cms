@@ -80,11 +80,6 @@ function layout_handles(): array
     if ($data === null) {
         $data = ['layout-base'];
         $data[] = 'user-' . (registered() ? 'registered' : 'anonymous');
-
-        if (admin()) {
-            $data[] = 'role-admin';
-        }
-
         $data[] = 'action-' . request('action');
         $data[] = request('entity');
         $data[] = request('id');
