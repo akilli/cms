@@ -133,10 +133,12 @@ function listener_entity_save(array & $data)
 
     if ($data['_entity']['id'] !== 'rewrite' && data_action('view', $data['_entity'])) {
         $target = $data['_entity']['id'] . '/view/id/' . $data['id'];
-        $r = ['name' => $data['name'], 'target' => $target, 'system' => true];
         $old = one('rewrite', ['target' => $target, 'system' => true]);
-        $rw = $old ? [$old['id'] => $r] : [-1 => $r];
-       save('rewrite', $rw);
+        $rId = $old['id'] ?? -1;
+        $all = all('rewrite', [], ['index' => 'name']);
+        $name = generator_id($data['name'], array_column($all, 'name', 'id'), $rId);
+        $rw = [$rId => ['name' => $name, 'target' => $target, 'system' => true]];
+        save('rewrite', $rw);
     }
 }
 
