@@ -270,9 +270,7 @@ function action_user_profile()
         redirect();
     }
 
-    $item = post('data');
-
-    if ($item) {
+    if ($item = post('data')) {
         $data = [$user['id'] => array_replace($user, $item)];
         save('user', $data);
     }
@@ -297,9 +295,7 @@ function action_user_login()
         redirect('*/dashboard');
     }
 
-    $data = post('data');
-
-    if ($data) {
+    if ($data = post('data')) {
         if (!empty($data['username'])
             && !empty($data['password'])
             && ($item = one('user', ['username' => $data['username'], 'active' => true]))
