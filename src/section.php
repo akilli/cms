@@ -169,7 +169,7 @@ function section_node(array & $section): string
              $html .= '</li><li' . $class . '>';
         }
 
-        if ($item['target']) {
+        if ($item['target'] !== '#') {
             $html .= '<a href="' . url($item['target']) . '"' . $class . '>' . $item['name'] . '</a>';
         } else {
             $html .= '<span>' . $item['name'] . '</span>';
