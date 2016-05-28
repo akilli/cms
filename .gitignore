@@ -1,10 +1,4 @@
 #
-# Application
-#
-/app/*
-!/app/README.md
-
-#
 # DEV
 #
 .buildpath
