@@ -2,6 +2,91 @@
 namespace qnd;
 
 /**
+ * Session data
+ *
+ * @param string $key
+ * @param mixed $value
+ * @param bool $reset
+ *
+ * @return mixed
+ */
+function & session(string $key = null, $value = null, bool $reset = false)
+{
+    static $data;
+
+    if ($data === null) {
+        // Start session if it was not started before
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        $data = & $_SESSION;
+    }
+
+    if ($key === null) {
+        return $data;
+    }
+
+    // If $value is provided, set $value for $key
+    if ($value !== null) {
+        $data[$key] = $value;
+    }
+
+    // Reset value or set $key in first call, so we have something to return
+    if (isset($data[$key]) && $reset || !isset($data[$key])) {
+        $data[$key] = null;
+    }
+
+    return $data[$key];
+}
+
+/**
+ * Add message
+ *
+ * @param string $message
+ *
+ * @return void
+ */
+function message(string $message)
+{
+    $data = & session('message');
+
+    if ($message && (!$data || !in_array($message, $data))) {
+        $data[] = $message;
+    }
+}
+
+/**
+ * Token
+ *
+ * @return string
+ */
+function token(): string
+{
+    $token = & session('token');
+
+    if (empty($token)) {
+        $token = md5(uniqid(mt_rand(), true));
+    }
+
+    return $token;
+}
+
+/**
+ * Redirect
+ *
+ * @param string $url
+ * @param array $params
+ *
+ * @return void
+ */
+function redirect(string $url = '', array $params = [])
+{
+    header('Location:' . url($url, $params));
+    exit;
+}
+
+/**
  * Request
  *
  * @param string $key
@@ -14,12 +99,60 @@ function request(string $key)
 
     if ($data === null) {
         $data = [];
-        request_init($data);
+        _http_request_init($data);
         event('http.request', $data);
-        request_prepare($data);
+        _http_request_prepare($data);
     }
 
     return $data[$key] ?? null;
+}
+
+/**
+ * Parameters
+ *
+ * @param string $key
+ *
+ * @return mixed
+ */
+function http_param(string $key = null)
+{
+    return request('params')[$key] ?? null;
+}
+
+/**
+ * Get
+ *
+ * @param string $key
+ *
+ * @return mixed
+ */
+function http_get(string $key)
+{
+    return request('get')[$key] ?? null;
+}
+
+/**
+ * Post
+ *
+ * @param string $key
+ *
+ * @return mixed
+ */
+function http_post(string $key)
+{
+    return request('post')[$key] ?? null;
+}
+
+/**
+ * Files
+ *
+ * @param string $key
+ *
+ * @return mixed
+ */
+function http_files(string $key)
+{
+    return request('files')[$key] ?? null;
 }
 
 /**
@@ -29,7 +162,7 @@ function request(string $key)
  *
  * @return void
  */
-function request_init(array & $data)
+function _http_request_init(array & $data)
 {
     $data = data('skeleton', 'request');
     $data['base'] = rtrim(filter_path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
@@ -38,8 +171,8 @@ function request_init(array & $data)
     $data['scheme'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
     $data['secure'] = $data['scheme'] === 'https';
     $data['get'] = $_GET;
-    $data['post'] = !empty($_POST['token']) && post_validate($_POST['token']) ? $_POST : [];
-    $data['files'] = $_FILES ? files_validate(files_convert($_FILES)) : [];
+    $data['post'] = !empty($_POST['token']) && _http_post_validate($_POST['token']) ? $_POST : [];
+    $data['files'] = $_FILES ? _http_files_validate(_http_files_convert($_FILES)) : [];
     $data['origpath'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');
     $data['path'] = url_rewrite($data['origpath']);
 }
@@ -51,7 +184,7 @@ function request_init(array & $data)
  *
  * @return void
  */
-function request_prepare(array & $data)
+function _http_request_prepare(array & $data)
 {
     $parts = $data['path'] ? explode('/', $data['path']) : [];
     $entity = array_shift($parts);
@@ -77,63 +210,13 @@ function request_prepare(array & $data)
 }
 
 /**
- * Redirect
- *
- * @param string $url
- * @param array $params
- *
- * @return void
- */
-function redirect(string $url = '', array $params = [])
-{
-    header('Location:' . url($url, $params));
-    exit;
-}
-
-/**
- * Parameters
- *
- * @param string $key
- *
- * @return mixed
- */
-function param(string $key = null)
-{
-    return request('params')[$key] ?? null;
-}
-
-/**
- * Get
- *
- * @param string $key
- *
- * @return mixed
- */
-function get(string $key)
-{
-    return request('get')[$key] ?? null;
-}
-
-/**
- * Post
- *
- * @param string $key
- *
- * @return mixed
- */
-function post(string $key)
-{
-    return request('post')[$key] ?? null;
-}
-
-/**
  * Post validation
  *
  * @param string $token
  *
  * @return bool
  */
-function post_validate(string $token): bool
+function _http_post_validate(string $token): bool
 {
     $session = session('token');
     $success = !empty($session) && !empty($token) && $session === $token;
@@ -143,25 +226,13 @@ function post_validate(string $token): bool
 }
 
 /**
- * Files
- *
- * @param string $key
- *
- * @return mixed
- */
-function files(string $key)
-{
-    return request('files')[$key] ?? null;
-}
-
-/**
  * Validate uploads
  *
  * @param array $data
  *
  * @return array
  */
-function files_validate(array $data): array
+function _http_files_validate(array $data): array
 {
     $exts = config('ext.file');
 
@@ -194,12 +265,12 @@ function files_validate(array $data): array
  *
  * @return array
  */
-function files_convert(array $data): array
+function _http_files_convert(array $data): array
 {
     $files = [];
 
     foreach ($data as $id => $item) {
-        $files[$id] = is_array($item) ? files_fix($item) : $item;
+        $files[$id] = is_array($item) ? _http_files_fix($item) : $item;
     }
 
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
@@ -213,7 +284,7 @@ function files_convert(array $data): array
         sort($ids);
 
         if ($ids != $keys) {
-            $files[$id] = files_convert($item);
+            $files[$id] = _http_files_convert($item);
         } elseif ($item['error'] === UPLOAD_ERR_NO_FILE || !is_uploaded_file($item['tmp_name'])) {
             unset($files[$id]);
         }
@@ -236,7 +307,7 @@ function files_convert(array $data): array
  *
  * @return array
  */
-function files_fix(array $data): array
+function _http_files_fix(array $data): array
 {
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
     $ids = array_keys($data);
@@ -253,7 +324,7 @@ function files_fix(array $data): array
     }
 
     foreach (array_keys($data['name']) as $id) {
-        $files[$id] = files_fix(
+        $files[$id] = _http_files_fix(
             [
                 'error' => $data['error'][$id],
                 'name' => $data['name'][$id],

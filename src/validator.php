@@ -282,7 +282,7 @@ function validator_datetime(array $attr, array & $item): bool
 function validator_file(array $attr, array & $item): bool
 {
     $item[$attr['id']] = null;
-    $file = files('data')[$item['_id']][$attr['id']] ?? null;
+    $file = http_files('data')[$item['_id']][$attr['id']] ?? null;
 
     // Delete old file
     if (!empty($item['_old'][$attr['id']])

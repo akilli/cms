@@ -10,14 +10,14 @@ namespace qnd;
  */
 function action_create(array $entity)
 {
-    $data = post('data');
+    $data = http_post('data');
 
     if ($data && save($entity['id'], $data)) {
         // Perform save callback and redirect to index on success
         redirect(allowed('index') ? '*/index' : '');
     } elseif (!$data) {
         // Initial create action call
-        $data = skeleton($entity['id'], (int) post('create'));
+        $data = skeleton($entity['id'], (int) http_post('create'));
     }
 
     layout_load();
@@ -34,17 +34,17 @@ function action_create(array $entity)
  */
 function action_edit(array $entity)
 {
-    $data = post('data');
+    $data = http_post('data');
 
     if ($data && save($entity['id'], $data)) {
         // Perform save callback and redirect to index on success
         redirect(allowed('index') ? '*/index' : '');
-    } elseif (!$data && is_array(post('edit'))) {
+    } elseif (!$data && is_array(http_post('edit'))) {
         // We just selected multiple items to edit on the index page
-        $data = all($entity['id'], ['id' => array_keys(post('edit'))]);
-    } elseif (!$data && param('id') !== null) {
+        $data = all($entity['id'], ['id' => array_keys(http_post('edit'))]);
+    } elseif (!$data && http_param('id') !== null) {
         // We just clicked on an edit link, p.e. on the index page
-        $data = all($entity['id'], ['id' => param('id')]);
+        $data = all($entity['id'], ['id' => http_param('id')]);
     }
 
     if (!$data) {
@@ -66,7 +66,7 @@ function action_edit(array $entity)
  */
 function action_delete(array $entity)
 {
-    $data = post('edit');
+    $data = http_post('edit');
 
     if ($data) {
         delete($entity['id'], ['id' => array_keys($data)]);
@@ -87,7 +87,7 @@ function action_delete(array $entity)
 function action_view(array $entity)
 {
     // Item does not exist or is inactive
-    if (!($item = one($entity['id'], ['id' => param('id')]))
+    if (!($item = one($entity['id'], ['id' => http_param('id')]))
         || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')
     ) {
         action_error();
@@ -127,10 +127,10 @@ function action_index(array $entity)
     $crit = empty($entity['attr']['active']) || $action === 'index' ? [] : ['active' => true];
     $opts = [];
     $params = [];
-    $search = post('search');
+    $search = http_post('search');
 
-    if (!$search && param('search')) {
-        $search = urldecode(param('search'));
+    if (!$search && http_param('search')) {
+        $search = urldecode(http_param('search'));
     }
 
     if ($search) {
@@ -146,15 +146,15 @@ function action_index(array $entity)
 
     $size = size($entity['id'], $crit);
     $opts['limit'] = $action === 'index' ? config('entity.index') : config('entity.list');
-    $page = max((int) param('page'), 1);
+    $page = max((int) http_param('page'), 1);
     $opts['offset'] = ($page - 1) * $opts['limit'];
 
     if ($page > 1) {
         $params['page'] = $page;
     }
 
-    if (($sort = param('sort')) && !empty($attrs[$sort])) {
-        $dir = param('dir') === 'desc' ? 'desc' : 'asc';
+    if (($sort = http_param('sort')) && !empty($attrs[$sort])) {
+        $dir = http_param('dir') === 'desc' ? 'desc' : 'asc';
         $opts['order'] = [$sort => $dir];
         $params['sort'] = $sort;
         $params['dir'] = $dir;
@@ -237,7 +237,7 @@ function action_index_index()
  */
 function action_project_switch()
 {
-    $id = (int) param('id');
+    $id = (int) http_param('id');
 
     if (size('project', ['id' => $id])) {
         session('project', $id);
@@ -270,7 +270,7 @@ function action_user_profile()
         redirect();
     }
 
-    if ($item = post('data')) {
+    if ($item = http_post('data')) {
         $data = [$user['id'] => array_replace($user, $item)];
         save('user', $data);
     }
@@ -295,7 +295,7 @@ function action_user_login()
         redirect('*/dashboard');
     }
 
-    if ($data = post('data')) {
+    if ($data = http_post('data')) {
         if (!empty($data['username'])
             && !empty($data['password'])
             && ($item = one('user', ['username' => $data['username'], 'active' => true, 'project_id' => [0, project('id')]]))
