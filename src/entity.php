@@ -273,8 +273,6 @@ function validate(array & $item): bool
 /**
  * Internal entity loader
  *
- * @internal
- *
  * @param array $entity
  * @param array $item
  *

@@ -193,8 +193,6 @@ function node_delete(array & $item): bool
 /**
  * Calculate node postion
  *
- * @internal
- *
  * @param array $item
  *
  * @return int
