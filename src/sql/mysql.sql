@@ -215,15 +215,15 @@ INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project
 (5, 'Content', '#', 2, 9, 12, NULL, 1, 0),
 (6, 'Structure', '#', 2, 13, 22, NULL, 1, 0),
 (7, 'System', '#', 2, 23, 32, NULL, 1, 0),
-(8, 'Page', 'page', 2, 10, 11, 5, 2, 0),
-(9, 'Project', 'project', 2, 24, 25, 7, 2, 0),
-(10, 'User', 'user', 2, 26, 27, 7, 2, 0),
-(11, 'Role', 'role', 2, 28, 29, 7, 2, 0),
-(12, 'Rewrite', 'rewrite', 2, 30, 31, 7, 2, 0),
-(13, 'Menu', 'menu', 2, 14, 15, 6, 2, 0),
-(14, 'Menu Node', 'node', 2, 16, 17, 6, 2, 0),
-(15, 'Entity', 'entity', 2, 18, 19, 6, 2, 0),
-(16, 'Attribute', 'attr', 2, 20, 21, 6, 2, 0);
+(8, 'Page', 'page/index', 2, 10, 11, 5, 2, 0),
+(9, 'Project', 'project/index', 2, 24, 25, 7, 2, 0),
+(10, 'User', 'user/index', 2, 26, 27, 7, 2, 0),
+(11, 'Role', 'role/index', 2, 28, 29, 7, 2, 0),
+(12, 'Rewrite', 'rewrite/index', 2, 30, 31, 7, 2, 0),
+(13, 'Menu', 'menu/index', 2, 14, 15, 6, 2, 0),
+(14, 'Menu Node', 'node/index', 2, 16, 17, 6, 2, 0),
+(15, 'Entity', 'entity/index', 2, 18, 19, 6, 2, 0),
+(16, 'Attribute', 'attr/index', 2, 20, 21, 6, 2, 0);
 
 INSERT INTO project (id, name, host, active, system) VALUES
 (0, 'global', NULL, '1', '1');
