@@ -25,25 +25,23 @@ function file_load(string $path, array $crit = [], array $opts = []): array
     }
 
     $data = [];
-    $iterator = new RecursiveDirectoryIterator(
-        $path,
-        RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS
-    );
+    $flags = RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS;
+    $it = new RecursiveDirectoryIterator($path, $flags);
 
     if (!empty($crit['recursive'])) {
-        $iterator = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::LEAVES_ONLY);
+        $it = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::LEAVES_ONLY);
         unset($crit['recursive']);
     }
 
     /* @var SplFileInfo $file */
-    foreach ($iterator as $file) {
+    foreach ($it as $file) {
         if (!$file->isFile()) {
             continue;
         }
 
         $item = [
-            'id' => $iterator->getSubPathname(),
-            'name' => $iterator->getSubPathname(),
+            'id' => $it->getSubPathname(),
+            'name' => $it->getSubPathname(),
             'path' => $file->getRealPath(),
             'extension' => $file->getExtension(),
             'size' => $file->getSize(),
