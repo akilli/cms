@@ -12,8 +12,17 @@ namespace qnd;
 function saver(array $attr, array & $item): bool
 {
     $callback = fqn('saver_' . $attr['type']);
+    
+    if (is_callable($callback)) {
+        return $callback($attr, $item);
+    }
+    
+    // Temporary
+    if ($attr['frontend'] === 'file') {
+        return saver_file($attr, $item);
+    }
 
-    return is_callable($callback) ? $callback($attr, $item) : true;
+    return true;
 }
 
 /**
@@ -59,6 +68,46 @@ function saver_multicheckbox(array $attr, array & $item): bool
 function saver_multiselect(array $attr, array & $item): bool
 {
     return saver_multicheckbox($attr, $item);
+}
+
+/**
+ * File saver
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return bool
+ */
+function saver_file(array $attr, array & $item): bool
+{
+    $item[$attr['id']] = null;
+    $file = http_files('data')[$item['_id']][$attr['id']] ?? null;
+
+    // Delete old file
+    if (!empty($item['_old'][$attr['id']])
+        && ($file || !empty($item['_reset'][$attr['id']]))
+        && !media_delete($item['_old'][$attr['id']])
+    ) {
+        $item['_error'][$attr['id']] = _('Could not delete old file %s', $item['_old'][$attr['id']]);
+        return false;
+    }
+
+    // No upload
+    if (!$file) {
+        return true;
+    }
+
+    $value = generator_file($file['name'], path('media'));
+
+    // Upload failed
+    if (!file_upload($file['tmp_name'], path('media', $value))) {
+        $item['_error'][$attr['id']] = _('File upload failed');
+        return false;
+    }
+
+    $item[$attr['id']] = $value;
+
+    return true;
 }
 
 /**

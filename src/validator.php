@@ -281,38 +281,13 @@ function validator_datetime(array $attr, array & $item): bool
  */
 function validator_file(array $attr, array & $item): bool
 {
-    $item[$attr['id']] = null;
     $file = http_files('data')[$item['_id']][$attr['id']] ?? null;
 
-    // Delete old file
-    if (!empty($item['_old'][$attr['id']])
-        && ($file || !empty($item['_reset'][$attr['id']]))
-        && !media_delete($item['_old'][$attr['id']])
-    ) {
-        $item['_error'][$attr['id']] = _('Could not delete old file %s', $item['_old'][$attr['id']]);
-        return false;
-    }
-
-    // No upload
-    if (!$file) {
-        return true;
-    }
-
     // Invalid file
-    if (empty(config('ext.' . $attr['type'])[$file['extension']])) {
+    if ($file  && empty(config('ext.' . $attr['type'])[$file['extension']])) {
         $item['_error'][$attr['id']] = _('Invalid file');
         return false;
     }
-
-    $value = generator_file($file['name'], path('media'));
-
-    // Upload failed
-    if (!file_upload($file['tmp_name'], path('media', $value))) {
-        $item['_error'][$attr['id']] = _('File upload failed');
-        return false;
-    }
-
-    $item[$attr['id']] = $value;
 
     return true;
 }
