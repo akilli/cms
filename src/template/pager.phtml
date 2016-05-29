@@ -4,10 +4,10 @@
         <?= _('Results %d to %d of %d', $§('offset') + 1, min($§('offset') + $§('limit'), $§('size')), $§('size'));?>
     </div>
     <div class="links">
-        <a href="<?=$§('first');?>" title="<?= _('First Page');?>"><?= _('First Page');?></a>
-        <a href="<?=$§('previous');?>" title="<?= _('Previous Page');?>" rel="prev"><?= _('Previous Page');?></a>
+        <a href="<?=$§('first');?>"><?= _('First Page');?></a>
+        <a href="<?=$§('previous');?>" rel="prev"><?= _('Previous Page');?></a>
         <span><?= _('Page %d of %d', $§('page'), $§('pages'));?></span>
-        <a href="<?=$§('next');?>" title="<?= _('Next Page');?>" rel="next"><?= _('Next Page');?></a>
-        <a href="<?=$§('last');?>" title="<?= _('Last Page');?>"><?= _('Last Page');?></a>
+        <a href="<?=$§('next');?>" rel="next"><?= _('Next Page');?></a>
+        <a href="<?=$§('last');?>"><?= _('Last Page');?></a>
     </div>
 </div>
