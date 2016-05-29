@@ -16,7 +16,7 @@
             <h2><a href="<?= url($item['_entity']['id'] . '/view', ['id' => $id]);?>"><?=$html;?></a></h2>
         </header>
             <?php else:?>
-        <div class="attr-<?=$attr['id'];?>">
+        <div data-attr="<?=$attr['id'];?>">
             <?=$html;?>
         </div>
             <?php endif;?>

@@ -225,7 +225,7 @@ label em {
 }
 
 label em.required,
-.element .error {
+.error {
     color: #901913;
 }
 
