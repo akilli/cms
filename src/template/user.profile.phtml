@@ -4,7 +4,7 @@
         <h1><?= _('Profile');?></h1>
     </header>
     <form action="<?= url('*/*');?>" method="post" enctype="multipart/form-data" class="edit">
-        <fieldset class="data">
+        <fieldset>
             <legend><?= _('Credentials');?></legend>
             <div data-attr="name">
                 <label for="data-name"><?= _('Name');?> <em class="required"><?= _('Required');?></em></label>
@@ -19,9 +19,7 @@
                 <input id="data-password" type="password" name="data[password]" autocomplete="off" />
             </div>
         </fieldset>
-        <fieldset class="action">
-            <input type="submit" value="<?= _('Save');?>" />
-            <input type="hidden" name="token" value="<?= token();?>" />
-        </fieldset>
+        <input type="submit" value="<?= _('Save');?>" />
+        <input type="hidden" name="token" value="<?= token();?>" />
     </form>
 </section>

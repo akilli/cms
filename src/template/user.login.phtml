@@ -4,7 +4,7 @@
         <h1><?= _('Login');?></h1>
     </header>
     <form action="<?= url('*/*');?>" method="post" class="login">
-        <fieldset class="data">
+        <fieldset>
             <legend><?= _('Credentials');?></legend>
             <div data-attr="username">
                 <label for="data-username"><?= _('Username');?> <em class="required"><?= _('Required');?></em></label>
@@ -15,9 +15,7 @@
                 <input id="data-password" type="password" name="data[password]" required="required" />
             </div>
         </fieldset>
-        <fieldset class="action">
-            <input type="submit" value="<?= _('Login');?>" />
-            <input type="hidden" name="token" value="<?= token();?>" />
-        </fieldset>
+        <input type="submit" value="<?= _('Login');?>" />
+        <input type="hidden" name="token" value="<?= token();?>" />
     </form>
 </section>

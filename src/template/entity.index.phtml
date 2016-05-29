@@ -59,16 +59,14 @@
                 </tbody>
             </table>
         </fieldset>
+        <?php if (allowed('delete')):?>
+        <input type="submit" value="<?= _('Delete');?>" formaction="<?= url('*/delete');?>" />
+        <?php endif;?>
+        <?php if (allowed('edit')):?>
+        <input type="submit" value="<?= _('Edit');?>" formaction="<?= url('*/edit');?>" />
+        <?php endif;?>
         <?php if (allowed('delete') || allowed('edit')):?>
-        <fieldset class="action">
-            <?php if (allowed('delete')):?>
-            <input type="submit" value="<?= _('Delete');?>" formaction="<?= url('*/delete');?>" />
-            <?php endif;?>
-            <?php if (allowed('edit')):?>
-            <input type="submit" value="<?= _('Edit');?>" formaction="<?= url('*/edit');?>" />
-            <?php endif;?>
-            <input type="hidden" name="token" value="<?= token();?>" />
-        </fieldset>
+        <input type="hidden" name="token" value="<?= token();?>" />
         <?php endif;?>
     </form>
     <?php else:;?>

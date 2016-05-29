@@ -149,8 +149,8 @@ tbody tr:nth-of-type(even) > * {
     font-size: 0.9rem;
 }
 
-fieldset:not(:first-child) {
-    margin-top: 1rem;
+fieldset {
+    margin-bottom: 1rem;
 }
 
 [role=button],

@@ -5,8 +5,8 @@
     </header>
     <form action="<?= url('*/*');?>" method="post" enctype="multipart/form-data" class="edit">
         <?php foreach ($§('data') as $id => $item):?>
-        <fieldset class="data">
-            <legend><?=$item['name'] ?? $§('title');?></legend>
+        <fieldset>
+            <legend><?=$item['name'] ?? _('New Entry');?></legend>
             <?php foreach ($item['_entity']['attr'] as $code => $attr):?>
                 <?php if (!$html = editor($attr, $item)) continue;?>
             <div data-attr="<?=$attr['id'];?>">
@@ -15,12 +15,10 @@
             <?php endforeach;?>
         </fieldset>
         <?php endforeach;?>
-        <fieldset class="action">
-            <?php if (allowed('index')):?>
-            <a role="button" href="<?= url('*/index');?>"><?= _('Back');?></a>
-            <?php endif;?>
-            <input type="submit" value="<?= _('Save');?>" />
-            <input type="hidden" name="token" value="<?= token();?>" />
-        </fieldset>
+        <?php if (allowed('index')):?>
+        <a role="button" href="<?= url('*/index');?>"><?= _('Back');?></a>
+        <?php endif;?>
+        <input type="submit" value="<?= _('Save');?>" />
+        <input type="hidden" name="token" value="<?= token();?>" />
     </form>
 </section>

@@ -81,6 +81,7 @@ return [
     'Multicheckbox' => 'Mehrfach-Checkbox',
     'Multiselect' => 'Mehrfachauswahlfeld',
     'Name' => 'Name',
+    'New Entry' => 'Neuer Eintrag',
     'Next Page' => 'Nächste Seite',
     'No' => 'Nein',
     'No options configured' => 'Keine Optionen konfiguriert',
