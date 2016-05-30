@@ -30,6 +30,7 @@ return [
         'tab' => null,
         'model' => 'flat',
         'actions' => [],
+        'system' => false,
         'attr' => [],
     ],
     'request' => [
