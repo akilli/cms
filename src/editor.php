@@ -170,7 +170,7 @@ function editor_opt(array $attr, array $item): string
 function editor_text(array $attr, array $item): string
 {
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['id']] ? encode($item[$attr['id']]) : '';
+    $attr['html']['value'] = $item[$attr['id']] ? encode($item[$attr['id']]) : $item[$attr['id']];
 
     if ($attr['min'] > 0 && $attr['min'] <= $attr['max']) {
         $attr['html']['minlength'] = $attr['min'];
@@ -296,7 +296,7 @@ function editor_file(array $attr, array $item): string
  */
 function editor_textarea(array $attr, array $item): string
 {
-    $item[$attr['id']] = $item[$attr['id']] ? encode($item[$attr['id']]) : '';
+    $item[$attr['id']] = $item[$attr['id']] ? encode($item[$attr['id']]) : $item[$attr['id']];
 
     if ($attr['min'] > 0 && $attr['min'] <= $attr['max']) {
         $attr['html']['minlength'] = $attr['min'];
