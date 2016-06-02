@@ -30,7 +30,7 @@ function viewer(array $attr, array $item): string
         return viewer_opt($attr, $item);
     }
 
-    return (string) encode($item[$attr['id']]);
+    return $item[$attr['id']] ? encode($item[$attr['id']]) : '';
 }
 
 /**
@@ -59,7 +59,7 @@ function viewer_opt(array $attr, array $item): string
         }
     }
 
-    return encode(implode(', ', $values));
+    return $values ? encode(implode(', ', $values)) : '';
 }
 
 /**
