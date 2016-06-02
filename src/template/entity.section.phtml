@@ -2,9 +2,7 @@
 <?php if ($§('data')):?>
 <section class="section section-entity">
     <?php if ($§('title')):?>
-    <header>
-        <h1><?=$§('title');?></h1>
-    </header>
+    <h1><?=$§('title');?></h1>
     <?php endif;?>
     <?php foreach ($§('data') as $id => $item):?>
     <article>
@@ -12,9 +10,7 @@
             <?php $attr['context'] = 'section';?>
             <?php if (!$html = viewer($attr, $item)) continue;?>
             <?php if ($code === 'name'):?>
-        <header>
-            <h2><a href="<?= url($item['_entity']['id'] . '/view', ['id' => $id]);?>"><?=$html;?></a></h2>
-        </header>
+        <h1><a href="<?= url($item['_entity']['id'] . '/view', ['id' => $id]);?>"><?=$html;?></a></h1>
             <?php else:?>
         <div data-attr="<?=$attr['id'];?>">
             <?=$html;?>

@@ -4,9 +4,7 @@
     <?php foreach ($item['_entity']['attr'] as $code => $attr):?>
         <?php if (!$html = viewer($attr, $item)) continue;?>
         <?php if ($code === 'name'):?>
-    <header>
-        <h1><?=$html;?></h1>
-    </header>
+    <h1><?=$html;?></h1>
         <?php else:?>
     <div data-attr="<?=$attr['id'];?>">
         <?=$html;?>

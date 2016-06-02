@@ -1,8 +1,6 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <section class="section section-edit">
-    <header>
-        <h1><?=$§('title');?></h1>
-    </header>
+    <h1><?=$§('title');?></h1>
     <form action="<?= url('*/*');?>" method="post" enctype="multipart/form-data" class="edit">
         <?php foreach ($§('data') as $id => $item):?>
         <fieldset>
