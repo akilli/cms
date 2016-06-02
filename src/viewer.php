@@ -30,7 +30,7 @@ function viewer(array $attr, array $item): string
         return viewer_opt($attr, $item);
     }
 
-    return $item[$attr['id']] ? encode($item[$attr['id']]) : $item[$attr['id']];
+    return $item[$attr['id']] ? encode($item[$attr['id']]) : (string) $item[$attr['id']];
 }
 
 /**
