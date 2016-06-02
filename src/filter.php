@@ -4,11 +4,11 @@ namespace qnd;
 /**
  * Encode
  *
- * @param string|array $var
+ * @param string $var
  *
- * @return string|array
+ * @return string
  */
-function encode($var)
+function encode(string $var)
 {
     static $charset;
 
@@ -16,11 +16,7 @@ function encode($var)
         $charset = config('i18n.charset');
     }
 
-    if (is_array($var)) {
-        return array_map(__FUNCTION__, $var);
-    }
-
-    return is_string($var) ? htmlspecialchars($var, ENT_QUOTES, $charset, false) : $var;
+    return htmlspecialchars($var, ENT_QUOTES, $charset, false);
 }
 
 /**
