@@ -114,7 +114,7 @@ function request(string $key)
  *
  * @return mixed
  */
-function http_param(string $key = null)
+function http_param(string $key)
 {
     return request('params')[$key] ?? null;
 }
