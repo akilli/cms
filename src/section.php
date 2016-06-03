@@ -72,33 +72,16 @@ function section_pager(array & $§): string
         $§['vars']['params'] = [];
     }
 
-    $§['vars']['first'] = url('*/*', $§['vars']['params']);
-
-    if ($§['vars']['pages'] === 1) {
-        $§['vars']['last'] = $§['vars']['first'];
-    } else {
-        $§['vars']['last'] = url(
-            '*/*',
-            array_replace($§['vars']['params'], ['page' => $§['vars']['pages']])
-        );
-    }
-
     $§['vars']['prev'] = $§['vars']['next'] = '#';
 
     if ($§['vars']['page'] < $§['vars']['pages']) {
-        $§['vars']['next'] = url(
-            '*/*',
-            array_replace($§['vars']['params'], ['page' => $§['vars']['page'] + 1])
-        );
+        $§['vars']['next'] = url('*/*', array_replace($§['vars']['params'], ['page' => $§['vars']['page'] + 1]));
     }
 
     if ($§['vars']['page'] === 2) {
         $§['vars']['prev'] = url('*/*', $§['vars']['params']);
     } elseif ($§['vars']['page'] > 2) {
-        $§['vars']['prev'] = url(
-            '*/*',
-            array_replace($§['vars']['params'], ['page' => $§['vars']['page'] - 1])
-        );
+        $§['vars']['prev'] = url('*/*', array_replace($§['vars']['params'], ['page' => $§['vars']['page'] - 1]));
     }
 
     return render($§);
