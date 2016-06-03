@@ -29,6 +29,28 @@ function §(string $id): string
 }
 
 /**
+ * Render template
+ *
+ * @param array $§
+ *
+ * @return string
+ */
+function render(array $§): string
+{
+    $§ = function ($key) use ($§) {
+        if ($key === '§') {
+            return $§;
+        }
+
+        return $§['vars'][$key] ?? null;
+    };
+    ob_start();
+    include path('template', $§('§')['template']);
+
+    return ob_get_clean();
+}
+
+/**
  * Set section variables
  *
  * @param string $id

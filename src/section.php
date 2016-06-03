@@ -2,7 +2,7 @@
 namespace qnd;
 
 /**
- * HTML section
+ * Template section
  *
  * @param array $section
  *
@@ -10,21 +10,7 @@ namespace qnd;
  */
 function section_template(array & $section): string
 {
-    $§ = function ($key = null, $default = null) use ($section) {
-        if ($key === null) {
-            return isset($section['vars']) && is_array($section['vars']) ? $section['vars'] : [];
-        }
-
-        return $section['vars'][$key] ?? $default;
-    };
-    $output = function (string $ţ) use ($§) {
-        ob_start();
-        include path('template', $ţ);
-
-        return ob_get_clean();
-    };
-
-    return $output($section['template']);
+    return render($section);
 }
 
 /**
@@ -66,7 +52,7 @@ function section_entity(array & $section): string
     $section['vars']['data'] = all($section['vars']['entity'], $section['vars']['crit'], $section['vars']['opts']);
     $section['vars']['title'] = _($entity['name']);
 
-    return section_template($section);
+    return render($section);
 }
 
 /**
@@ -97,7 +83,7 @@ function section_pager(array & $section): string
         );
     }
 
-    $section['vars']['previous'] = $section['vars']['next'] = '#';
+    $section['vars']['prev'] = $section['vars']['next'] = '#';
 
     if ($section['vars']['page'] < $section['vars']['pages']) {
         $section['vars']['next'] = url(
@@ -107,15 +93,15 @@ function section_pager(array & $section): string
     }
 
     if ($section['vars']['page'] === 2) {
-        $section['vars']['previous'] = url('*/*', $section['vars']['params']);
+        $section['vars']['prev'] = url('*/*', $section['vars']['params']);
     } elseif ($section['vars']['page'] > 2) {
-        $section['vars']['previous'] = url(
+        $section['vars']['prev'] = url(
             '*/*',
             array_replace($section['vars']['params'], ['page' => $section['vars']['page'] - 1])
         );
     }
 
-    return section_template($section);
+    return render($section);
 }
 
 /**
@@ -133,7 +119,7 @@ function section_message(array & $section): string
 
     session('message', null, true);
 
-    return section_template($section);
+    return render($section);
 }
 
 /**

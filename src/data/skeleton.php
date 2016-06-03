@@ -59,5 +59,6 @@ return [
         'parent' => 'root',
         'sort' => 0,
         'children' => [],
+        'html' => null,
     ],
 ];
