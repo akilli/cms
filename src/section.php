@@ -4,30 +4,30 @@ namespace qnd;
 /**
  * Template section
  *
- * @param array $section
+ * @param array $§
  *
  * @return string
  */
-function section_template(array & $section): string
+function section_template(array & $§): string
 {
-    return render($section);
+    return render($§);
 }
 
 /**
  * Container section
  *
- * @param array $section
+ * @param array $§
  *
  * @return string
  */
-function section_container(array & $section): string
+function section_container(array & $§): string
 {
     $html = '';
 
-    if (!empty($section['children']) && is_array($section['children'])) {
-        asort($section['children'], SORT_NUMERIC);
+    if (!empty($§['children']) && is_array($§['children'])) {
+        asort($§['children'], SORT_NUMERIC);
 
-        foreach (array_keys($section['children']) as $id) {
+        foreach (array_keys($§['children']) as $id) {
             $html .= §($id);
         }
     }
@@ -38,100 +38,100 @@ function section_container(array & $section): string
 /**
  * Entity section
  *
- * @param array $section
+ * @param array $§
  *
  * @return string
  */
-function section_entity(array & $section): string
+function section_entity(array & $§): string
 {
-    if (empty($section['vars']['entity']) || !($entity = data('entity', $section['vars']['entity']))) {
+    if (empty($§['vars']['entity']) || !($entity = data('entity', $§['vars']['entity']))) {
         return '';
     }
 
-    $section['vars'] = array_replace(['crit' => [], 'opts' => []], $section['vars']);
-    $section['vars']['data'] = all($section['vars']['entity'], $section['vars']['crit'], $section['vars']['opts']);
-    $section['vars']['title'] = _($entity['name']);
+    $§['vars'] = array_replace(['crit' => [], 'opts' => []], $§['vars']);
+    $§['vars']['data'] = all($§['vars']['entity'], $§['vars']['crit'], $§['vars']['opts']);
+    $§['vars']['title'] = _($entity['name']);
 
-    return render($section);
+    return render($§);
 }
 
 /**
  * Pager section
  *
- * @param array $section
+ * @param array $§
  *
  * @return string
  */
-function section_pager(array & $section): string
+function section_pager(array & $§): string
 {
-    if (empty($section['vars']['pages']) || $section['vars']['pages'] < 1 || empty($section['vars']['page'])) {
+    if (empty($§['vars']['pages']) || $§['vars']['pages'] < 1 || empty($§['vars']['page'])) {
         return '';
     }
 
-    if (empty($section['vars']['params'])) {
-        $section['vars']['params'] = [];
+    if (empty($§['vars']['params'])) {
+        $§['vars']['params'] = [];
     }
 
-    $section['vars']['first'] = url('*/*', $section['vars']['params']);
+    $§['vars']['first'] = url('*/*', $§['vars']['params']);
 
-    if ($section['vars']['pages'] === 1) {
-        $section['vars']['last'] = $section['vars']['first'];
+    if ($§['vars']['pages'] === 1) {
+        $§['vars']['last'] = $§['vars']['first'];
     } else {
-        $section['vars']['last'] = url(
+        $§['vars']['last'] = url(
             '*/*',
-            array_replace($section['vars']['params'], ['page' => $section['vars']['pages']])
+            array_replace($§['vars']['params'], ['page' => $§['vars']['pages']])
         );
     }
 
-    $section['vars']['prev'] = $section['vars']['next'] = '#';
+    $§['vars']['prev'] = $§['vars']['next'] = '#';
 
-    if ($section['vars']['page'] < $section['vars']['pages']) {
-        $section['vars']['next'] = url(
+    if ($§['vars']['page'] < $§['vars']['pages']) {
+        $§['vars']['next'] = url(
             '*/*',
-            array_replace($section['vars']['params'], ['page' => $section['vars']['page'] + 1])
+            array_replace($§['vars']['params'], ['page' => $§['vars']['page'] + 1])
         );
     }
 
-    if ($section['vars']['page'] === 2) {
-        $section['vars']['prev'] = url('*/*', $section['vars']['params']);
-    } elseif ($section['vars']['page'] > 2) {
-        $section['vars']['prev'] = url(
+    if ($§['vars']['page'] === 2) {
+        $§['vars']['prev'] = url('*/*', $§['vars']['params']);
+    } elseif ($§['vars']['page'] > 2) {
+        $§['vars']['prev'] = url(
             '*/*',
-            array_replace($section['vars']['params'], ['page' => $section['vars']['page'] - 1])
+            array_replace($§['vars']['params'], ['page' => $§['vars']['page'] - 1])
         );
     }
 
-    return render($section);
+    return render($§);
 }
 
 /**
  * Message section
  *
- * @param array $section
+ * @param array $§
  *
  * @return string
  */
-function section_message(array & $section): string
+function section_message(array & $§): string
 {
-    if (!$section['vars']['data'] = session('message')) {
+    if (!$§['vars']['data'] = session('message')) {
         return '';
     }
 
     session('message', null, true);
 
-    return render($section);
+    return render($§);
 }
 
 /**
  * Node section
  *
- * @param array $section
+ * @param array $§
  *
  * @return string
  */
-function section_node(array & $section): string
+function section_node(array & $§): string
 {
-    if (empty($section['vars']['crit']) || !$data = all('node', $section['vars']['crit'])) {
+    if (empty($§['vars']['crit']) || !$data = all('node', $§['vars']['crit'])) {
         return '';
     }
 
@@ -140,8 +140,8 @@ function section_node(array & $section): string
     $i = 0;
     $html = '';
 
-    if (!empty($section['vars']['title'])) {
-        $html .= html_tag('h1', [], $section['vars']['title']);
+    if (!empty($§['vars']['title'])) {
+        $html .= html_tag('h1', [], $§['vars']['title']);
     }
 
     foreach ($data as $item) {
@@ -172,5 +172,5 @@ function section_node(array & $section): string
         $level = $item['level'];
     }
 
-    return html_tag('nav', ['id' => $section['id']], $html);
+    return html_tag('nav', ['id' => $§['id']], $html);
 }
