@@ -21,7 +21,7 @@ function action_create(array $entity)
     }
 
     layout_load();
-    vars('entity', ['data' => $data, 'title' => _($entity['name'])]);
+    vars('content', ['data' => $data, 'title' => _($entity['name'])]);
     vars('head', ['title' => _($entity['name'])]);
 }
 
@@ -53,7 +53,7 @@ function action_edit(array $entity)
     }
 
     layout_load();
-    vars('entity', ['data' => $data, 'title' => _($entity['name'])]);
+    vars('content', ['data' => $data, 'title' => _($entity['name'])]);
     vars('head', ['title' => _($entity['name'])]);
 }
 
@@ -100,7 +100,7 @@ function action_view(array $entity)
     }
 
     layout_load();
-    vars('entity', ['item' => $item]);
+    vars('content', ['item' => $item]);
     vars('head', ['title' => $item['name']]);
 
     if (!empty($item['meta']) && is_array($item['meta'])) {
@@ -171,7 +171,7 @@ function action_index(array $entity)
     unset($params['page']);
 
     layout_load();
-    vars('entity', ['data' => $data, 'title' => _($entity['name']), 'attr' => $attrs]);
+    vars('content', ['data' => $data, 'title' => _($entity['name']), 'attr' => $attrs]);
     vars(
         'pager',
         [
@@ -280,7 +280,7 @@ function action_user_profile()
     }
 
     layout_load();
-    vars('profile', ['item' => $item]);
+    vars('content', ['item' => $item]);
     vars('head', ['title' => _('User Profile')]);
 }
 

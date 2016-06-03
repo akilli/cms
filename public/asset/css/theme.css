@@ -359,10 +359,7 @@ textarea {
 /**
  * Main
  */
-[data-id=entity] > h1,
-[data-id=dashboard] > h1,
-[data-id=login] > h1,
-[data-id=profile] > h1 {
+[data-id=content] > h1 {
     margin: 0 0 1rem;
     font-size: 2rem;
     color: #e14b28;

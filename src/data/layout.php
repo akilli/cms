@@ -46,7 +46,7 @@ return [
     ],
     // action-create
     [
-        'id' => 'entity',
+        'id' => 'content',
         'handle' => 'action-create',
         'type' => 'template',
         'template' => 'entity.edit.phtml',
@@ -54,7 +54,7 @@ return [
     ],
     // action-edit
     [
-        'id' => 'entity',
+        'id' => 'content',
         'handle' => 'action-edit',
         'type' => 'template',
         'template' => 'entity.edit.phtml',
@@ -62,7 +62,7 @@ return [
     ],
     // action-view
     [
-        'id' => 'entity',
+        'id' => 'content',
         'handle' => 'action-view',
         'type' => 'template',
         'template' => 'entity.view.phtml',
@@ -70,7 +70,7 @@ return [
     ],
     // action-index
     [
-        'id' => 'entity',
+        'id' => 'content',
         'handle' => 'action-index',
         'type' => 'template',
         'template' => 'entity.index.phtml',
@@ -81,18 +81,18 @@ return [
         'handle' => 'action-index',
         'type' => 'pager',
         'template' => 'pager.phtml',
-        'parent' => 'entity',
+        'parent' => 'content',
     ],
     [
         'id' => 'search',
         'handle' => 'action-index',
         'type' => 'template',
         'template' => 'search.phtml',
-        'parent' => 'entity',
+        'parent' => 'content',
     ],
     // action-list
     [
-        'id' => 'entity',
+        'id' => 'content',
         'handle' => 'action-list',
         'type' => 'template',
         'template' => 'entity.list.phtml',
@@ -103,14 +103,14 @@ return [
         'handle' => 'action-list',
         'type' => 'pager',
         'template' => 'pager.phtml',
-        'parent' => 'entity',
+        'parent' => 'content',
     ],
     [
         'id' => 'search',
         'handle' => 'action-list',
         'type' => 'template',
         'template' => 'search.phtml',
-        'parent' => 'entity',
+        'parent' => 'content',
     ],
     // user-registered
     [
@@ -123,7 +123,7 @@ return [
     ],
     // user.dashboard
     [
-        'id' => 'dashboard',
+        'id' => 'content',
         'handle' => 'user.dashboard',
         'type' => 'template',
         'template' => 'user.dashboard.phtml',
@@ -131,7 +131,7 @@ return [
     ],
     // user.profile
     [
-        'id' => 'profile',
+        'id' => 'content',
         'handle' => 'user.profile',
         'type' => 'template',
         'template' => 'user.profile.phtml',
@@ -139,7 +139,7 @@ return [
     ],
     // user-login
     [
-        'id' => 'login',
+        'id' => 'content',
         'handle' => 'user.login',
         'type' => 'template',
         'template' => 'user.login.phtml',
