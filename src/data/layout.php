@@ -77,14 +77,6 @@ return [
         'parent' => 'content',
     ],
     [
-        'id' => 'create',
-        'handle' => 'action-index',
-        'type' => 'template',
-        'template' => 'entity.create.phtml',
-        'privilege' => 'create',
-        'parent' => 'entity',
-    ],
-    [
         'id' => 'pager',
         'handle' => 'action-index',
         'type' => 'pager',
@@ -111,6 +103,13 @@ return [
         'handle' => 'action-list',
         'type' => 'pager',
         'template' => 'pager.phtml',
+        'parent' => 'entity',
+    ],
+    [
+        'id' => 'search',
+        'handle' => 'action-list',
+        'type' => 'template',
+        'template' => 'search.phtml',
         'parent' => 'entity',
     ],
     // user-registered
