@@ -30,7 +30,7 @@ return [
         'template' => 'message.phtml',
     ],
     [
-        'id' => 'content',
+        'id' => 'main',
         'handle' => 'layout-base',
         'type' => 'container',
     ],
@@ -50,7 +50,7 @@ return [
         'handle' => 'action-create',
         'type' => 'template',
         'template' => 'entity.edit.phtml',
-        'parent' => 'content',
+        'parent' => 'main',
     ],
     // action-edit
     [
@@ -58,7 +58,7 @@ return [
         'handle' => 'action-edit',
         'type' => 'template',
         'template' => 'entity.edit.phtml',
-        'parent' => 'content',
+        'parent' => 'main',
     ],
     // action-view
     [
@@ -66,7 +66,7 @@ return [
         'handle' => 'action-view',
         'type' => 'template',
         'template' => 'entity.view.phtml',
-        'parent' => 'content',
+        'parent' => 'main',
     ],
     // action-index
     [
@@ -74,7 +74,7 @@ return [
         'handle' => 'action-index',
         'type' => 'template',
         'template' => 'entity.index.phtml',
-        'parent' => 'content',
+        'parent' => 'main',
     ],
     [
         'id' => 'pager',
@@ -96,7 +96,7 @@ return [
         'handle' => 'action-list',
         'type' => 'template',
         'template' => 'entity.list.phtml',
-        'parent' => 'content',
+        'parent' => 'main',
     ],
     [
         'id' => 'pager',
@@ -127,7 +127,7 @@ return [
         'handle' => 'user.dashboard',
         'type' => 'template',
         'template' => 'user.dashboard.phtml',
-        'parent' => 'content',
+        'parent' => 'main',
     ],
     // user.profile
     [
@@ -135,7 +135,7 @@ return [
         'handle' => 'user.profile',
         'type' => 'template',
         'template' => 'user.profile.phtml',
-        'parent' => 'content',
+        'parent' => 'main',
     ],
     // user-login
     [
@@ -143,6 +143,6 @@ return [
         'handle' => 'user.login',
         'type' => 'template',
         'template' => 'user.login.phtml',
-        'parent' => 'content',
+        'parent' => 'main',
     ],
 ];
