@@ -1,8 +1,8 @@
 <?php namespace qnd; /** @var callable $§ */?>
-<section data-id="<?=$§('§')['id'];?>" class="index">
+<section id="<?=$§('§')['as'];?>" class="index">
     <h1><?=$§('title');?></h1>
     <div class="tool">
-        <form action="<?= url('*/create');?>" method="post" data-id="<?=$§('§')['id'];?>">
+        <form action="<?= url('*/create');?>" method="post">
             <label for="create"><?= _('New Entry');?></label>
             <input id="create" type="number" name="create" value="1" />
             <input type="submit" value="<?= _('Create');?>" />

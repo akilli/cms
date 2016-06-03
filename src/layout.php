@@ -7,10 +7,11 @@ use InvalidArgumentException;
  * Render section
  *
  * @param string $id
+ * @param string $as
  *
  * @return string
  */
-function §(string $id): string
+function §(string $id, string $as = null): string
 {
     $§ = & layout($id);
 
@@ -19,9 +20,11 @@ function §(string $id): string
     }
 
     if (!isset($§['html'])) {
+        $§['as'] = $as ?? $id;
         event(['section.type.' . $§['type'], 'section.' . $id], $§);
         $callback = fqn('section_' . $§['type']);
         $§['html'] = $callback($§);
+        $§['as'] = null;
     }
 
     return $§['html'];

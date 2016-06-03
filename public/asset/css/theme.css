@@ -338,19 +338,19 @@ textarea {
 /**
  * Messages
  */
-[data-id=message] {
+#message {
     background: #e14b28;
 }
 
-[data-id=message] h1,
-[data-id=message] p {
+#message h1,
+#message p {
     padding: 0.25rem 0.5rem;
 }
 
 /**
  * Pager
  */
-[data-id=pager] {
+#pager {
     display: flex;
     justify-content: space-between;
     font-size: 0.9rem;
@@ -359,7 +359,7 @@ textarea {
 /**
  * Main
  */
-[data-id=content] > h1 {
+#content > h1 {
     margin: 0 0 1rem;
     font-size: 2rem;
     color: #e14b28;
@@ -368,20 +368,20 @@ textarea {
 /**
  * Index
  */
-.index .tool {
+#content.index .tool {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 0 0 0.5rem;
 }
 
-.index .pager {
+#content.index .pager {
     margin: 0 0 0.25rem;
 }
 
 /**
  * List
  */
-.list article {
+#content.list article {
     margin: 0 0 1rem;
 }

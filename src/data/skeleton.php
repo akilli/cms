@@ -51,6 +51,7 @@ return [
     ],
     'section' => [
         'id' => null,
+        'as' => null,
         'type' => null,
         'template' => null,
         'vars' => [],

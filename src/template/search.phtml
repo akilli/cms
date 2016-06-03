@@ -1,7 +1,7 @@
 <?php namespace qnd; /** @var callable $§ */?>
-<form action="<?= url('*/*');?>" method="post" data-id="<?=$§('§')['id'];?>">
-    <label for="search"><?= _('Search');?></label>
-    <input id="search" type="search" name="search" />
+<form id="<?=$§('§')['as'];?>" action="<?= url('*/*');?>" method="post">
+    <label for="q"><?= _('Query');?></label>
+    <input id="q" type="search" name="q" />
     <input type="submit" value="<?= _('Search');?>" />
     <input type="hidden" name="token" value="<?= token();?>" />
 </form>

@@ -127,20 +127,20 @@ function action_index(array $entity)
     $crit = empty($entity['attr']['active']) || $action === 'index' ? [] : ['active' => true];
     $opts = [];
     $params = [];
-    $search = http_post('search');
+    $q = http_post('q');
 
-    if (!$search && http_param('search')) {
-        $search = urldecode(http_param('search'));
+    if (!$q && http_param('q')) {
+        $q = urldecode(http_param('q'));
     }
 
-    if ($search) {
-        $content = array_filter(explode(' ', $search));
+    if ($q) {
+        $content = array_filter(explode(' ', $q));
 
         if ($content && ($items = all($entity['id'], ['name' => $content], ['search' => true]))) {
             $crit['id'] = array_keys($items);
-            $params['search'] = urlencode(implode(' ', $content));
+            $params['q'] = urlencode(implode(' ', $content));
         } else {
-            message(_('No results for provided search terms %s', $search));
+            message(_('No results for provided query %s', $q));
         }
     }
 
