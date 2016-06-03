@@ -49,7 +49,7 @@ return [
         'id' => 'content',
         'handle' => 'action-create',
         'type' => 'template',
-        'template' => 'entity.edit.phtml',
+        'template' => 'edit.phtml',
         'parent' => 'main',
     ],
     // action-edit
@@ -57,7 +57,7 @@ return [
         'id' => 'content',
         'handle' => 'action-edit',
         'type' => 'template',
-        'template' => 'entity.edit.phtml',
+        'template' => 'edit.phtml',
         'parent' => 'main',
     ],
     // action-view
@@ -65,7 +65,7 @@ return [
         'id' => 'content',
         'handle' => 'action-view',
         'type' => 'template',
-        'template' => 'entity.view.phtml',
+        'template' => 'view.phtml',
         'parent' => 'main',
     ],
     // action-index
@@ -73,7 +73,7 @@ return [
         'id' => 'content',
         'handle' => 'action-index',
         'type' => 'template',
-        'template' => 'entity.index.phtml',
+        'template' => 'index.phtml',
         'parent' => 'main',
     ],
     [
@@ -95,7 +95,7 @@ return [
         'id' => 'content',
         'handle' => 'action-list',
         'type' => 'template',
-        'template' => 'entity.list.phtml',
+        'template' => 'list.phtml',
         'parent' => 'main',
     ],
     [
@@ -126,7 +126,7 @@ return [
         'id' => 'content',
         'handle' => 'user.dashboard',
         'type' => 'template',
-        'template' => 'user.dashboard.phtml',
+        'template' => 'dashboard.phtml',
         'parent' => 'main',
     ],
     // user.profile
@@ -134,7 +134,7 @@ return [
         'id' => 'content',
         'handle' => 'user.profile',
         'type' => 'template',
-        'template' => 'user.profile.phtml',
+        'template' => 'profile.phtml',
         'parent' => 'main',
     ],
     // user-login
@@ -142,7 +142,7 @@ return [
         'id' => 'content',
         'handle' => 'user.login',
         'type' => 'template',
-        'template' => 'user.login.phtml',
+        'template' => 'login.phtml',
         'parent' => 'main',
     ],
 ];
