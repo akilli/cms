@@ -14,18 +14,17 @@ function §(string $id): string
 {
     $§ = & layout($id);
 
-    if (!$§
-        || !$§['active']
-        || !$§['type']
-        || ($callback = fqn('section_' . $§['type'])) && !is_callable($callback)
-        || $§['privilege'] && !allowed($§['privilege'])
-    ) {
+    if (!$§ || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
         return '';
     }
 
-    event(['section.type.' . $§['type'], 'section.' . $id], $§);
+    if (!isset($§['html'])) {
+        event(['section.type.' . $§['type'], 'section.' . $id], $§);
+        $callback = fqn('section_' . $§['type']);
+        $§['html'] = $callback($§);
+    }
 
-    return $callback($§);
+    return $§['html'];
 }
 
 /**
