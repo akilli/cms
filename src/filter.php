@@ -8,7 +8,7 @@ namespace qnd;
  *
  * @return string
  */
-function encode(string $var)
+function encode(string $var): string
 {
     static $charset;
 
