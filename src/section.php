@@ -64,38 +64,33 @@ function section_entity(array & $§): string
  */
 function section_pager(array & $§): string
 {
-    if (empty($§['vars']['size']) || $§['vars']['size'] < 1 || empty($§['vars']['limit']) || $§['vars']['limit'] < 1) {
+    $§['vars'] += ['size' => 0, 'limit' => 0, 'links' => [], 'params' => []];
+    
+    if ($§['vars']['size'] < 1 || $§['vars']['limit'] < 1) {
         return '';
     }
-
-    $§['vars'] += ['links' => [], 'params' => []];
+    
     $§['vars']['pages'] = (int) ceil($§['vars']['size'] / $§['vars']['limit']);
     $§['vars']['page'] = max($§['vars']['params']['page'] ?? 0, 1);
     $§['vars']['offset'] = ($§['vars']['page'] - 1) * $§['vars']['limit'];
     unset($§['vars']['params']['page']);
     $c = max(0, config('entity.pager'));
-    $min = max(1, $§['vars']['page'] - $c);
-    $max = min($§['vars']['pages'], $§['vars']['page'] + $c);
-    $min = $max - $min < 2 * $c && $max - 2 * $c >= 1 ? $max - 2 * $c : $min;
-    $max = $max - $min < 2 * $c && $min + 2 * $c <= $§['vars']['pages'] ? $min + 2 * $c : $max;
+    $min = max(1, min($§['vars']['page'] - intdiv($c, 2), $§['vars']['pages'] - $c + 1));
+    $max = min($min + $c - 1, $§['vars']['pages']);
 
     if ($§['vars']['page'] >= 2) {
         $p = $§['vars']['page'] === 2 ? $§['vars']['params'] : ['page' => $§['vars']['page'] - 1] + $§['vars']['params'];
-        $§['vars']['links'][] = html_tag('a', ['href' => url('*/*', $p)], _('Previous'));
+        $§['vars']['links'][] = ['name' => _('Previous'), 'params' => $p];
     }
 
-    for ($i = $min; $i <= $max; $i++) {
-        if ($i === $§['vars']['page']) {
-            $§['vars']['links'][] = html_tag('span', [], $i);
-        } else {
-            $p = $i > 1 ? ['page' => $i] : [];
-            $§['vars']['links'][] = html_tag('a', ['href' => url('*/*', $p + $§['vars']['params'])], $i);
-        }
+    for ($i = $min; $min < $max && $i <= $max; $i++) {
+        $p = $i > 1 ? ['page' => $i] + $§['vars']['params'] : $§['vars']['params'];
+        $§['vars']['links'][] = ['name' => $i, 'params' => $p, 'active' => $i === $§['vars']['page']];
     }
 
     if ($§['vars']['page'] < $§['vars']['pages']) {
-        $next = url('*/*', ['page' => $§['vars']['page'] + 1] + $§['vars']['params']);
-        $§['vars']['links'][] = html_tag('a', ['href' => $next], _('Next'));
+        $p = ['page' => $§['vars']['page'] + 1] + $§['vars']['params'];
+        $§['vars']['links'][] = ['name' => _('Next'), 'params' => $p];
     }
 
     return render($§);

@@ -18,7 +18,7 @@ return [
         'list' => 'list',
     ],
     'entity.limit' => 10,
-    'entity.pager' => 2,
+    'entity.pager' => 5,
     'entity.model' => [
         'flat' => 'flat',
         'content' => 'content',

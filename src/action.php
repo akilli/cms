@@ -141,8 +141,11 @@ function action_index(array $entity)
         }
     }
 
-    $p['page'] = max((int) http_param('page'), 1);
-    $opts = ['limit' => config('entity.limit'), 'offset' => ($p['page'] - 1) * config('entity.limit')];
+    $opts = ['limit' => abs((int) config('entity.limit')) ?: 10];
+    $size = size($entity['id'], $crit);
+    $pages = (int) ceil($size / $opts['limit']);
+    $p['page'] = min(max((int) http_param('page'), 1), $pages);
+    $opts['offset'] = ($p['page'] - 1) * $opts['limit'];
 
     if (($sort = http_param('sort')) && !empty($attrs[$sort])) {
         $p['sort'] = $sort;
@@ -152,7 +155,7 @@ function action_index(array $entity)
 
     layout_load();
     vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => _($entity['name']), 'attr' => $attrs, 'params' => $p]);
-    vars('pager', ['size' => size($entity['id'], $crit), 'limit' => $opts['limit'], 'params' => $p]);
+    vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $p]);
     vars('head', ['title' => _($entity['name'])]);
 }
 

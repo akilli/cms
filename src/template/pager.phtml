@@ -5,7 +5,11 @@
     </div>
     <div class="links">
         <?php foreach ($§('links') as $link):?>
-            <?=$link;?>
+            <?php if (!empty($link['active'])):?>
+        <span><?=$link['name'];?></span>
+            <?php else:?>
+        <a href="<?= url('*/*', $link['params']);?>"><?=$link['name'];?></a>
+            <?php endif;?>
         <?php endforeach;?>
     </div>
 </div>
