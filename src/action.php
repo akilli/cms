@@ -125,7 +125,6 @@ function action_index(array $entity)
         }
     );
     $crit = empty($entity['attr']['active']) || $action === 'index' ? [] : ['active' => true];
-    $opts = [];
     $params = [];
     $q = http_post('q');
 
@@ -134,55 +133,31 @@ function action_index(array $entity)
     }
 
     if ($q) {
-        $content = array_filter(explode(' ', $q));
-
-        if ($content && ($items = all($entity['id'], ['name' => $content], ['search' => true]))) {
-            $crit['id'] = array_keys($items);
-            $params['q'] = urlencode(implode(' ', $content));
+        if (($s = array_filter(explode(' ', $q))) && ($all = all($entity['id'], ['name' => $s], ['search' => true]))) {
+            $crit['id'] = array_keys($all);
+            $params['q'] = urlencode(implode(' ', $s));
         } else {
             message(_('No results for provided query %s', $q));
         }
     }
 
-    $size = size($entity['id'], $crit);
-    $opts['limit'] = $action === 'index' ? config('entity.index') : config('entity.list');
-    $page = max((int) http_param('page'), 1);
-    $opts['offset'] = ($page - 1) * $opts['limit'];
-
-    if ($page > 1) {
-        $params['page'] = $page;
-    }
+    $params['page'] = max((int) http_param('page'), 1);
+    $key = $action === 'index' ? 'entity.index' : 'entity.list';
+    $opts = ['limit' => config($key)];
+    $opts['offset'] = ($params['page'] - 1) * $opts['limit'];
 
     if (($sort = http_param('sort')) && !empty($attrs[$sort])) {
-        $dir = http_param('dir') === 'desc' ? 'desc' : 'asc';
-        $opts['order'] = [$sort => $dir];
         $params['sort'] = $sort;
-        $params['dir'] = $dir;
+        $params['dir'] = http_param('dir') === 'desc' ? 'desc' : 'asc';
+        $opts['order'] = [$params['sort'] => $params['dir']];
     }
 
+    $size = size($entity['id'], $crit);
     $data = all($entity['id'], $crit, $opts);
-    array_walk(
-        $attrs,
-        function (& $attr, $code) use ($params) {
-            $dir = !empty($params['sort']) && $params['sort'] === $code && $params['dir'] === 'asc' ? 'desc' : 'asc';
-            $attr['url'] = url('*/*', array_replace($params, ['sort' => $code, 'dir' => $dir]));
-        }
-    );
-    unset($params['page']);
 
     layout_load();
-    vars('content', ['data' => $data, 'title' => _($entity['name']), 'attr' => $attrs]);
-    vars(
-        'pager',
-        [
-            'pages' => (int) ceil($size / $opts['limit']),
-            'page' => $page,
-            'limit' => $opts['limit'],
-            'offset' => $opts['offset'],
-            'size' => $size,
-            'params' => $params
-        ]
-    );
+    vars('content', ['data' => $data, 'title' => _($entity['name']), 'attr' => $attrs, 'params' => $params]);
+    vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $params]);
     vars('head', ['title' => _($entity['name'])]);
 }
 

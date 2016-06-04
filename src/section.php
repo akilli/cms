@@ -64,15 +64,14 @@ function section_entity(array & $§): string
  */
 function section_pager(array & $§): string
 {
-    if (empty($§['vars']['pages']) || $§['vars']['pages'] < 1 || empty($§['vars']['page'])) {
+    if (empty($§['vars']['size']) || $§['vars']['size'] < 1 || empty($§['vars']['limit']) || $§['vars']['limit'] < 1) {
         return '';
     }
 
-    if (empty($§['vars']['params'])) {
-        $§['vars']['params'] = [];
-    }
-
-    $§['vars']['prev'] = $§['vars']['next'] = '#';
+    $§['vars'] = array_replace(['prev' => '#', 'next' => '#', 'params' => []], $§['vars']);
+    $§['vars']['pages'] = (int) ceil($§['vars']['size'] / $§['vars']['limit']);
+    $§['vars']['page'] = max($§['vars']['params']['page'] ?? 0, 1);
+    unset($§['vars']['params']['page']);
 
     if ($§['vars']['page'] < $§['vars']['pages']) {
         $§['vars']['next'] = url('*/*', array_replace($§['vars']['params'], ['page' => $§['vars']['page'] + 1]));
