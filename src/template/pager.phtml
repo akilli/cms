@@ -4,8 +4,8 @@
         <?= _('Results %d to %d of %d', $§('offset') + 1, min($§('offset') + $§('limit'), $§('size')), $§('size'));?>
     </div>
     <div class="links">
-        <a href="<?=$§('prev');?>" rel="prev"><?= _('Previous');?></a>
-        <span><?= _('Page %d of %d', $§('page'), $§('pages'));?></span>
-        <a href="<?=$§('next');?>" rel="next"><?= _('Next');?></a>
+        <?php foreach ($§('links') as $link):?>
+            <?=$link;?>
+        <?php endforeach;?>
     </div>
 </div>

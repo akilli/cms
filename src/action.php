@@ -125,7 +125,7 @@ function action_index(array $entity)
         }
     );
     $crit = empty($entity['attr']['active']) || $action === 'index' ? [] : ['active' => true];
-    $params = [];
+    $p = [];
     $q = http_post('q');
 
     if (!$q && http_param('q')) {
@@ -135,29 +135,24 @@ function action_index(array $entity)
     if ($q) {
         if (($s = array_filter(explode(' ', $q))) && ($all = all($entity['id'], ['name' => $s], ['search' => true]))) {
             $crit['id'] = array_keys($all);
-            $params['q'] = urlencode(implode(' ', $s));
+            $p['q'] = urlencode(implode(' ', $s));
         } else {
             message(_('No results for provided query %s', $q));
         }
     }
 
-    $params['page'] = max((int) http_param('page'), 1);
-    $key = $action === 'index' ? 'entity.index' : 'entity.list';
-    $opts = ['limit' => config($key)];
-    $opts['offset'] = ($params['page'] - 1) * $opts['limit'];
+    $p['page'] = max((int) http_param('page'), 1);
+    $opts = ['limit' => config('entity.limit'), 'offset' => ($p['page'] - 1) * config('entity.limit')];
 
     if (($sort = http_param('sort')) && !empty($attrs[$sort])) {
-        $params['sort'] = $sort;
-        $params['dir'] = http_param('dir') === 'desc' ? 'desc' : 'asc';
-        $opts['order'] = [$params['sort'] => $params['dir']];
+        $p['sort'] = $sort;
+        $p['dir'] = http_param('dir') === 'desc' ? 'desc' : 'asc';
+        $opts['order'] = [$p['sort'] => $p['dir']];
     }
 
-    $size = size($entity['id'], $crit);
-    $data = all($entity['id'], $crit, $opts);
-
     layout_load();
-    vars('content', ['data' => $data, 'title' => _($entity['name']), 'attr' => $attrs, 'params' => $params]);
-    vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $params]);
+    vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => _($entity['name']), 'attr' => $attrs, 'params' => $p]);
+    vars('pager', ['size' => size($entity['id'], $crit), 'limit' => $opts['limit'], 'params' => $p]);
     vars('head', ['title' => _($entity['name'])]);
 }
 

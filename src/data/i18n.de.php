@@ -89,7 +89,6 @@ return [
     'Nothing created yet' => 'Noch nichts angelegt',
     'Options' => 'Optionen',
     'Page' => 'Seite',
-    'Page %d of %d' => 'Seite %d von %d',
     'Parent' => 'Elter',
     'Password' => 'Passwort',
     'Please choose' => 'Bitte auswählen',

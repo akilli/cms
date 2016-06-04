@@ -68,20 +68,41 @@ function section_pager(array & $§): string
         return '';
     }
 
-    $§['vars'] = array_replace(['prev' => '#', 'next' => '#', 'params' => []], $§['vars']);
+    $§['vars'] += ['links' => [], 'params' => []];
     $§['vars']['pages'] = (int) ceil($§['vars']['size'] / $§['vars']['limit']);
     $§['vars']['page'] = max($§['vars']['params']['page'] ?? 0, 1);
+    $§['vars']['offset'] = ($§['vars']['page'] - 1) * $§['vars']['limit'];
     unset($§['vars']['params']['page']);
-
-    if ($§['vars']['page'] < $§['vars']['pages']) {
-        $§['vars']['next'] = url('*/*', array_replace($§['vars']['params'], ['page' => $§['vars']['page'] + 1]));
-    }
+    $c = max(0, config('entity.pager'));
+    $min = max(1, $§['vars']['page'] - $c);
+    $max = min($§['vars']['pages'], $§['vars']['page'] + $c);
+    $min = $max - $min < 2 * $c && $max - 2 * $c >= 1 ? $max - 2 * $c : $min;
+    $max = $max - $min < 2 * $c && $min + 2 * $c <= $§['vars']['pages'] ? $min + 2 * $c : $max;
+    $prev = '#';
+    $next = '#';
 
     if ($§['vars']['page'] === 2) {
-        $§['vars']['prev'] = url('*/*', $§['vars']['params']);
+        $prev = url('*/*', $§['vars']['params']);
     } elseif ($§['vars']['page'] > 2) {
-        $§['vars']['prev'] = url('*/*', array_replace($§['vars']['params'], ['page' => $§['vars']['page'] - 1]));
+        $prev = url('*/*', ['page' => $§['vars']['page'] - 1] + $§['vars']['params']);
     }
+
+    if ($§['vars']['page'] < $§['vars']['pages']) {
+        $next = url('*/*', ['page' => $§['vars']['page'] + 1] + $§['vars']['params']);
+    }
+
+    $§['vars']['links'][] = html_tag('a', ['href' => $prev], _('Previous'));
+
+    for ($i = $min; $i <= $max; $i++) {
+        if ($i === $§['vars']['page']) {
+            $§['vars']['links'][] = html_tag('span', [], $i);
+        } else {
+            $p = $i > 1 ? ['page' => $i] : [];
+            $§['vars']['links'][] = html_tag('a', ['href' => url('*/*', $p + $§['vars']['params'])], $i);
+        }
+    }
+
+    $§['vars']['links'][] = html_tag('a', ['href' => $next], _('Next'));
 
     return render($§);
 }

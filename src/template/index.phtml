@@ -13,8 +13,8 @@
     <?= §('pager');?>
     <?php if ($§('data')):?>
         <?php
-        $params = array_replace(['sort' => null, 'dir' => null], $§('params'));
-        if (array_key_exists('page', $params) && $params['page'] <= 1) unset($params['page']);
+        $p = $§('params') + ['sort' => null, 'dir' => null];
+        if (array_key_exists('page', $p) && $p['page'] <= 1) unset($p['page']);
         ?>
     <form action="<?= url('*/*');?>" method="post">
         <fieldset>
@@ -25,9 +25,9 @@
                             <input type="checkbox" name="checkall" value="1" title="<?= _('Select all');?>" />
                         </th>
                         <?php foreach ($§('attr') as $code => $attr):?>
-                            <?php $dir = $params['sort'] === $code && $params['dir'] === 'asc' ? 'desc' : 'asc'; ?>
+                            <?php $dir = $p['sort'] === $code && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
                         <th>
-                            <a href="<?= url('*/*', array_replace($params, ['sort' => $code, 'dir' => $dir]));?>"><?= _($attr['name']);?></a>
+                            <a href="<?= url('*/*', ['sort' => $code, 'dir' => $dir] + $p);?>"><?= _($attr['name']);?></a>
                         </th>
                         <?php endforeach;?>
                         <?php if (allowed('edit')):?>
