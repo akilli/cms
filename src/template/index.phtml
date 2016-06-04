@@ -2,9 +2,8 @@
 <section id="<?=$§('§')['as'];?>" class="index">
     <h1><?=$§('title');?></h1>
     <div class="tool">
-        <form action="<?= url('*/create');?>" method="post">
-            <label for="create"><?= _('New Entry');?></label>
-            <input id="create" type="number" name="create" value="1" />
+        <form id="create" action="<?= url('*/create');?>" method="post">
+            <input type="number" name="create" value="1" />
             <input type="submit" value="<?= _('Create');?>" />
             <input type="hidden" name="token" value="<?= token();?>" />
         </form>
