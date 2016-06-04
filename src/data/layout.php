@@ -119,7 +119,7 @@ return [
         'type' => 'node',
         'parent' => 'top',
         'sort' => -100,
-        'vars' => ['title' => 'Toolbar', 'crit' => ['root_id' => 2, 'project_id' => 0]],
+        'vars' => ['crit' => ['root_id' => 2, 'project_id' => 0]],
     ],
     // user.dashboard
     [

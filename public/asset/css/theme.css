@@ -293,16 +293,6 @@ textarea {
     background: #333;
 }
 
-#toolbar h1 {
-    line-height: 3.125rem;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.4375rem;
-    color: #eee;
-    background: #2a2a2a;
-    border-bottom: thin solid #222;
-}
-
 #toolbar li span {
     display: block;
     padding: 0.9375rem 0.9375rem 0 1.25rem;
