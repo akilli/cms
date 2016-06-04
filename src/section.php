@@ -78,20 +78,11 @@ function section_pager(array & $§): string
     $max = min($§['vars']['pages'], $§['vars']['page'] + $c);
     $min = $max - $min < 2 * $c && $max - 2 * $c >= 1 ? $max - 2 * $c : $min;
     $max = $max - $min < 2 * $c && $min + 2 * $c <= $§['vars']['pages'] ? $min + 2 * $c : $max;
-    $prev = '#';
-    $next = '#';
 
-    if ($§['vars']['page'] === 2) {
-        $prev = url('*/*', $§['vars']['params']);
-    } elseif ($§['vars']['page'] > 2) {
-        $prev = url('*/*', ['page' => $§['vars']['page'] - 1] + $§['vars']['params']);
+    if ($§['vars']['page'] >= 2) {
+        $p = $§['vars']['page'] === 2 ? $§['vars']['params'] : ['page' => $§['vars']['page'] - 1] + $§['vars']['params'];
+        $§['vars']['links'][] = html_tag('a', ['href' => url('*/*', $p)], _('Previous'));
     }
-
-    if ($§['vars']['page'] < $§['vars']['pages']) {
-        $next = url('*/*', ['page' => $§['vars']['page'] + 1] + $§['vars']['params']);
-    }
-
-    $§['vars']['links'][] = html_tag('a', ['href' => $prev], _('Previous'));
 
     for ($i = $min; $i <= $max; $i++) {
         if ($i === $§['vars']['page']) {
@@ -102,7 +93,10 @@ function section_pager(array & $§): string
         }
     }
 
-    $§['vars']['links'][] = html_tag('a', ['href' => $next], _('Next'));
+    if ($§['vars']['page'] < $§['vars']['pages']) {
+        $next = url('*/*', ['page' => $§['vars']['page'] + 1] + $§['vars']['params']);
+        $§['vars']['links'][] = html_tag('a', ['href' => $next], _('Next'));
+    }
 
     return render($§);
 }
