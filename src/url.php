@@ -16,7 +16,7 @@ function url(string $path = '', array $params = []): string
     if (strpos($path, 'http') === 0) {
         $base = '';
     } else {
-        $base = config('url.base') ?: request('base');
+        $base = config('url.base') ?? request('base');
     }
 
     if ($path && strpos($path, 'http') !== 0) {
