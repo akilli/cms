@@ -144,7 +144,7 @@ function action_index(array $entity)
     $opts = ['limit' => abs((int) config('entity.limit')) ?: 10];
     $size = size($entity['id'], $crit);
     $pages = (int) ceil($size / $opts['limit']);
-    $p['page'] = min(max((int) http_param('page'), 1), $pages);
+    $p['page'] = min(max((int) http_param('page'), 1), $pages ?: 1);
     $opts['offset'] = ($p['page'] - 1) * $opts['limit'];
 
     if (($sort = http_param('sort')) && !empty($attrs[$sort])) {
