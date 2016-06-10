@@ -363,5 +363,7 @@ function order(array $order, array $attrs = []): string
  */
 function limit(int $limit, int $offset = 0): string
 {
+    $offset = $offset >= 0 ? $offset : 0;
+    
     return $limit > 0 ? ' LIMIT ' . $limit . ' OFFSET ' . $offset : '';
 }
