@@ -133,6 +133,8 @@ function action_index(array $entity)
     }
 
     if ($q) {
+        $q = filter_var($q, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR);
+
         if (($s = array_filter(explode(' ', $q))) && ($all = all($entity['id'], ['name' => $s], ['search' => true]))) {
             $crit['id'] = array_keys($all);
             $p['q'] = urlencode(implode(' ', $s));
