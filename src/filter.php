@@ -61,7 +61,7 @@ function filter_id(string $id): string
     static $data, $keys;
 
     if ($data === null) {
-        $data = config('filter.identifier');
+        $data = config('filter.id');
         $keys = array_keys($data);
     }
 

@@ -75,7 +75,7 @@ return [
         . '<span><strong><sub><sup><time><u><var><wbr><del><ins>'
         . '<area><audio><canvas><embed><iframe><img><map><object><param><source><track><video>'
         . '<caption><col><colgroup><table><tbody><tfoot><thead><td><th><tr>',
-    'filter.identifier' => [
+    'filter.id' => [
         '#ä|á|à|â|å|ã#i' => 'a',
         '#é|è|ê|ë#i' => 'e',
         '#í|ì|î|ï#i' =>  'i',
