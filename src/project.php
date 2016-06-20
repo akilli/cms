@@ -4,7 +4,7 @@ namespace qnd;
 /**
  * Constants
  */
-const PROJECT_GLOBAL = 0;
+const PROJECT_GLOBAL = 1;
 
 /**
  * Project
@@ -19,8 +19,8 @@ function project(string $key = null)
 
     if ($data === null) {
         $data = [];
-        $id = session('project');
-        $crit = $id === null ? ['host' => request('host')] : ['id' => $id];
+        $id = (int) session('project');
+        $crit = $id ? ['id' => $id] : ['host' => request('host')];
         $crit['active'] = true;
         $data = one('project', $crit);
 
@@ -28,7 +28,7 @@ function project(string $key = null)
             $data = one('project', ['id' => PROJECT_GLOBAL, 'active' => true]);
         }
 
-        if ($id < 0 || !$data) {
+        if (!$id || !$data) {
             session('project', null, true);
         }
     }

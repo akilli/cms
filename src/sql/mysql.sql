@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS attr (
     searchable BOOLEAN NOT NULL DEFAULT '0',
     opt JSON DEFAULT NULL,
     actions JSON DEFAULT NULL,
+    project_id INTEGER(11) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY uni_attr_entity (entity_id, uid),
     KEY idx_attr_entity (entity_id),
@@ -31,7 +32,9 @@ CREATE TABLE IF NOT EXISTS attr (
     KEY idx_attr_required (required),
     KEY idx_attr_uniq (uniq),
     KEY idx_attr_searchable (searchable),
-    CONSTRAINT con_attr_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE
+    KEY idx_attr_project (project_id),
+    CONSTRAINT con_attr_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT con_attr_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS content;
@@ -85,10 +88,13 @@ CREATE TABLE IF NOT EXISTS entity (
     model VARCHAR(255) NOT NULL,
     actions JSON DEFAULT NULL,
     system BOOLEAN NOT NULL DEFAULT '0',
+    project_id INTEGER(11) NOT NULL,
     PRIMARY KEY (id),
     KEY idx_entity_name (name),
     KEY idx_entity_model (model),
-    KEY idx_entity_system (system)
+    KEY idx_entity_system (system),
+    KEY idx_entity_project (project_id),
+    CONSTRAINT con_entity_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS node;
@@ -179,6 +185,7 @@ CREATE TABLE IF NOT EXISTS user (
     system BOOLEAN NOT NULL DEFAULT '0',
     project_id INTEGER(11) NOT NULL,
     PRIMARY KEY (id),
+    UNIQUE KEY uni_user_name (project_id, name),
     UNIQUE KEY uni_user_username (username),
     KEY idx_user_name (name),
     KEY idx_user_role (role_id),
@@ -194,51 +201,51 @@ CREATE TABLE IF NOT EXISTS user (
 -- --------------------------------------------------------
 
 INSERT INTO content (id, name, entity_id, active, system, content, project_id) VALUES
-(1, 'Home', 'page', '1', '0', 'Hello World', 0),
-(2, 'Toolbar', 'menu', '1', '1', NULL, 0);
+(1, 'Home', 'page', '1', '0', 'Hello World', 1),
+(2, 'Toolbar', 'menu', '1', '1', NULL, 1);
 
-INSERT INTO entity (id, name, model, actions, system) VALUES
-('attr', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', '1'),
-('content', 'Content', 'flat', '[]', '1'),
-('eav', 'EAV', 'flat', '[]', '1'),
-('entity', 'Entity', 'flat', '["create", "edit", "delete", "index"]', '1'),
-('project', 'Project', 'flat', '["create", "edit", "delete", "index"]', '1'),
-('rewrite', 'Rewrite', 'flat', '["create", "edit", "delete", "index"]', '1'),
-('role', 'Role', 'flat', '["create", "edit", "delete", "index"]', '1'),
-('user', 'User', 'flat', '["create", "edit", "delete", "index"]', '1'),
-('node', 'Menu Node', 'node', '["create", "edit", "delete", "index"]', '1'),
-('menu', 'Menu', 'content', '["create", "edit", "delete", "index"]', '1'),
-('page', 'Page', 'eav', '["all"]', '1');
+INSERT INTO entity (id, name, model, actions, system, project_id) VALUES
+('attr', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', '1', 1),
+('content', 'Content', 'flat', '[]', '1', 1),
+('eav', 'EAV', 'flat', '[]', '1', 1),
+('entity', 'Entity', 'flat', '["create", "edit", "delete", "index"]', '1', 1),
+('project', 'Project', 'flat', '["create", "edit", "delete", "index"]', '1', 1),
+('rewrite', 'Rewrite', 'flat', '["create", "edit", "delete", "index"]', '1', 1),
+('role', 'Role', 'flat', '["create", "edit", "delete", "index"]', '1', 1),
+('user', 'User', 'flat', '["create", "edit", "delete", "index"]', '1', 1),
+('node', 'Menu Node', 'node', '["create", "edit", "delete", "index"]', '1', 1),
+('menu', 'Menu', 'content', '["create", "edit", "delete", "index"]', '1', 1),
+('page', 'Page', 'eav', '["all"]', '1', 1);
 
 INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project_id) VALUES
-(1, 'Home', '', 2, 1, 2, NULL, 1, 0),
-(2, 'Dashboard', 'user/dashboard', 2, 3, 4, NULL, 1, 0),
-(3, 'Profile', 'user/profile', 2, 5, 6, NULL, 1, 0),
-(4, 'Logout', 'user/logout', 2, 7, 8, NULL, 1, 0),
-(5, 'Content', '#', 2, 9, 12, NULL, 1, 0),
-(6, 'Structure', '#', 2, 13, 22, NULL, 1, 0),
-(7, 'System', '#', 2, 23, 32, NULL, 1, 0),
-(8, 'Page', 'page/index', 2, 10, 11, 5, 2, 0),
-(9, 'Project', 'project/index', 2, 24, 25, 7, 2, 0),
-(10, 'User', 'user/index', 2, 26, 27, 7, 2, 0),
-(11, 'Role', 'role/index', 2, 28, 29, 7, 2, 0),
-(12, 'Rewrite', 'rewrite/index', 2, 30, 31, 7, 2, 0),
-(13, 'Menu', 'menu/index', 2, 14, 15, 6, 2, 0),
-(14, 'Menu Node', 'node/index', 2, 16, 17, 6, 2, 0),
-(15, 'Entity', 'entity/index', 2, 18, 19, 6, 2, 0),
-(16, 'Attribute', 'attr/index', 2, 20, 21, 6, 2, 0);
+(1, 'Home', '', 2, 1, 2, NULL, 1, 1),
+(2, 'Dashboard', 'user/dashboard', 2, 3, 4, NULL, 1, 1),
+(3, 'Profile', 'user/profile', 2, 5, 6, NULL, 1, 1),
+(4, 'Logout', 'user/logout', 2, 7, 8, NULL, 1, 1),
+(5, 'Content', '#', 2, 9, 12, NULL, 1, 1),
+(6, 'Structure', '#', 2, 13, 22, NULL, 1, 1),
+(7, 'System', '#', 2, 23, 32, NULL, 1, 1),
+(8, 'Page', 'page/index', 2, 10, 11, 5, 2, 1),
+(9, 'Project', 'project/index', 2, 24, 25, 7, 2, 1),
+(10, 'User', 'user/index', 2, 26, 27, 7, 2, 1),
+(11, 'Role', 'role/index', 2, 28, 29, 7, 2, 1),
+(12, 'Rewrite', 'rewrite/index', 2, 30, 31, 7, 2, 1),
+(13, 'Menu', 'menu/index', 2, 14, 15, 6, 2, 1),
+(14, 'Menu Node', 'node/index', 2, 16, 17, 6, 2, 1),
+(15, 'Entity', 'entity/index', 2, 18, 19, 6, 2, 1),
+(16, 'Attribute', 'attr/index', 2, 20, 21, 6, 2, 1);
 
 INSERT INTO project (id, name, host, active, system) VALUES
-(0, 'global', NULL, '1', '1');
+(1, 'global', NULL, '1', '1');
 
 INSERT INTO rewrite (id, name, target, project_id) VALUES
-(1, '', 'page/view/id/1', 0);
+(1, '', 'page/view/id/1', 1);
 
 INSERT INTO role (id, name, privilege, active, system, project_id) VALUES
-(1, 'admin', '["all"]', '1', '1', 0);
+(1, 'admin', '["all"]', '1', '1', 1);
 
 INSERT INTO user (id, name, username, password, role_id, active, system, project_id) VALUES
-(1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 0);
+(1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 1);
 
 -- --------------------------------------------------------
 

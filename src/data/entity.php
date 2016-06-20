@@ -68,6 +68,11 @@ return [
                 'opt' => ['qnd\config', ['action.attr']],
                 'actions' => ['edit', 'index'],
             ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'select.int',
+                'opt' => ['qnd\all', ['project']],
+            ],
         ],
     ],
     'content' => [
@@ -218,6 +223,11 @@ return [
                 'name' => 'System',
                 'type' => 'checkbox.bool',
                 'actions' => ['index'],
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'select.int',
+                'opt' => ['qnd\all', ['project']],
             ],
         ],
     ],
@@ -424,6 +434,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
+                'uniq' => true,
                 'actions' => ['all'],
             ],
             'username' => [

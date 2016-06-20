@@ -46,9 +46,10 @@ function listener_data_entity(array & $data)
         $data[$id] = $item;
     }
 
-    $attrs = all('attr', [], ['index' => ['entity_id', 'uid']]);
+    $projects = [PROJECT_GLOBAL, project('id')];
+    $attrs = all('attr', ['project_id' => $projects], ['index' => ['entity_id', 'uid']]);
 
-    foreach (all('entity', ['model' => ['content', 'eav', 'joined']]) as $id => $item) {
+    foreach (all('entity', ['model' => ['content', 'eav', 'joined'], 'project_id' => $projects]) as $id => $item) {
         $base = $item['model'] === 'joined' && !empty($data[$id]) ? $data[$id] : $data['content'];
         $item = array_replace($base, $item);
 
@@ -57,12 +58,13 @@ function listener_data_entity(array & $data)
                 if (empty($item['attr'][$uid])) {
                     $attr['col'] = 'value';
                     $attr['eav_id'] = $attr['id'];
-                    unset($attr['id'], $attr['uid']);
+                    unset($attr['id'], $attr['uid'], $attr['project_id']);
                     $item['attr'][$uid] = $attr;
                 }
             }
         }
 
+        unset($item['project_id']);
         $item = data_entity($item);
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
         $data[$id] = $item;
