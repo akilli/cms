@@ -169,14 +169,14 @@ function cols(array $attrs, array $item): array
 {
     $data = ['col' => [], 'param' => [], 'set' => []];
 
-    foreach (array_keys($item) as $code) {
-        if (empty($attrs[$code]['col']) || $attrs[$code]['generator'] === 'auto') {
+    foreach (array_keys($item) as $uid) {
+        if (empty($attrs[$uid]['col']) || $attrs[$uid]['generator'] === 'auto') {
             continue;
         }
 
-        $data['col'][$code] = $attrs[$code]['col'];
-        $data['param'][$code] = ':' . str_replace('-', '_', $code);
-        $data['set'][$code] = $data['col'][$code] . ' = ' . $data['param'][$code];
+        $data['col'][$uid] = $attrs[$uid]['col'];
+        $data['param'][$uid] = ':' . str_replace('-', '_', $uid);
+        $data['set'][$uid] = $data['col'][$uid] . ' = ' . $data['param'][$uid];
     }
 
     return $data;
@@ -195,14 +195,14 @@ function select(array $attrs, string $as = null): string
     $cols = [];
     $as = $as ? $as . '.' : '';
 
-    foreach ($attrs as $code => $attr) {
+    foreach ($attrs as $uid => $attr) {
         if (empty($attr['col'])) {
             continue;
         }
 
         $pre = strpos($attr['col'], '.') !== false ? '' : $as;
-        $post = $code !== $attr['col'] ? ' AS ' . qi($code) : '';
-        $cols[$code] = $pre . $attr['col'] . $post;
+        $post = $uid !== $attr['col'] ? ' AS ' . qi($uid) : '';
+        $cols[$uid] = $pre . $attr['col'] . $post;
     }
 
     return $cols ? 'SELECT ' . implode(', ', $cols) : '';
@@ -341,13 +341,13 @@ function order(array $order, array $attrs = []): string
 {
     $cols = [];
 
-    foreach ($order as $code => $dir) {
-        if (empty($attrs[$code]['col'])) {
+    foreach ($order as $uid => $dir) {
+        if (empty($attrs[$uid]['col'])) {
             continue;
         }
 
         $dir = strtoupper($dir) === 'DESC' ? 'DESC' : 'ASC';
-        $cols[$code] = qi($code) . ' ' . $dir;
+        $cols[$uid] = qi($uid) . ' ' . $dir;
     }
 
     return $cols ? ' ORDER BY ' . implode(', ', $cols) : '';
@@ -364,6 +364,6 @@ function order(array $order, array $attrs = []): string
 function limit(int $limit, int $offset = 0): string
 {
     $offset = $offset >= 0 ? $offset : 0;
-    
+
     return $limit > 0 ? ' LIMIT ' . $limit . ' OFFSET ' . $offset : '';
 }

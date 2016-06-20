@@ -238,7 +238,7 @@ function _http_files_validate(array $data): array
 
     foreach ($data as $key => $items) {
         foreach ($items as $id => $item) {
-            foreach ($item as $code => $attr) {
+            foreach ($item as $uid => $attr) {
                 if (empty($attr)) {
                     continue;
                 }
@@ -247,9 +247,9 @@ function _http_files_validate(array $data): array
 
                 if (empty($exts[$ext])) {
                     message(_('Invalid file %s was rejected', $attr['name']));
-                    unset($data[$key][$id][$code]);
+                    unset($data[$key][$id][$uid]);
                 } else {
-                    $data[$key][$id][$code]['extension'] = $ext;
+                    $data[$key][$id][$uid]['extension'] = $ext;
                 }
             }
         }

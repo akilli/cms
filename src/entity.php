@@ -149,12 +149,12 @@ function save(string $eId, array & $data): bool
             continue;
         }
 
-        foreach (array_keys($item) as $code) {
-            if (!isset($item['_entity']['attr'][$code])) {
+        foreach (array_keys($item) as $uid) {
+            if (!isset($item['_entity']['attr'][$uid])) {
                 continue;
             }
 
-            if (!saver($item['_entity']['attr'][$code], $item)) {
+            if (!saver($item['_entity']['attr'][$uid], $item)) {
                 if (!empty($item['_error'])) {
                     $data[$id]['_error'] = $item['_error'];
                 }
@@ -213,10 +213,10 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
             continue;
         }
 
-        foreach (array_keys($item) as $code) {
-            if (isset($entity['attr'][$code]) && !deleter($entity['attr'][$code], $item)) {
-                if (!empty($item['_error'][$code])) {
-                    message($item['_error'][$code]);
+        foreach (array_keys($item) as $uid) {
+            if (isset($entity['attr'][$uid]) && !deleter($entity['attr'][$uid], $item)) {
+                if (!empty($item['_error'][$uid])) {
+                    message($item['_error'][$uid]);
                 }
 
                 $error = true;
@@ -280,9 +280,9 @@ function validate(array & $item): bool
  */
 function _load(array $entity, array $item): array
 {
-    foreach ($item as $code => $value) {
-        if (isset($entity['attr'][$code])) {
-            $item[$code] = loader($entity['attr'][$code], $item);
+    foreach ($item as $uid => $value) {
+        if (isset($entity['attr'][$uid])) {
+            $item[$uid] = loader($entity['attr'][$uid], $item);
         }
     }
 

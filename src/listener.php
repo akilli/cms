@@ -53,10 +53,10 @@ function listener_data_entity(array & $data)
         $item = array_replace($base, $item);
 
         if ($item['model'] === 'eav' && !empty($attrs[$id])) {
-            foreach ($attrs[$id] as $code => $attr) {
-                if (empty($item['attr'][$code])) {
+            foreach ($attrs[$id] as $uid => $attr) {
+                if (empty($item['attr'][$uid])) {
                     $attr['col'] = 'value';
-                    $item['attr'][$code] = $attr;
+                    $item['attr'][$uid] = $attr;
                 }
             }
         }

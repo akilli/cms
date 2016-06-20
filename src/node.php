@@ -59,8 +59,8 @@ function node_create(array & $item): bool
         implode(', ', $cols['param'])
     );
 
-    foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($item['_entity']['attr'][$code], $item[$code]));
+    foreach ($cols['param'] as $uid => $param) {
+        $stmt->bindValue($param, $item[$uid], db_type($item['_entity']['attr'][$uid], $item[$uid]));
     }
 
     $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
@@ -94,8 +94,8 @@ function node_save(array & $item): bool
     );
     $stmt->bindValue(':_id', $item['_old']['id'], PDO::PARAM_INT);
 
-    foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($item['_entity']['attr'][$code], $item[$code]));
+    foreach ($cols['param'] as $uid => $param) {
+        $stmt->bindValue($param, $item[$uid], db_type($item['_entity']['attr'][$uid], $item[$uid]));
     }
 
     $stmt->execute();

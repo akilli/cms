@@ -68,8 +68,8 @@ function flat_create(array & $item): bool
         implode(', ', $cols['param'])
     );
 
-    foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
+    foreach ($cols['param'] as $uid => $param) {
+        $stmt->bindValue($param, $item[$uid], db_type($attrs[$uid], $item[$uid]));
     }
 
     $stmt->execute();
@@ -101,8 +101,8 @@ function flat_save(array & $item): bool
         $attrs['id']['col']
     );
 
-    foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
+    foreach ($cols['param'] as $uid => $param) {
+        $stmt->bindValue($param, $item[$uid], db_type($attrs[$uid], $item[$uid]));
     }
 
     $stmt->bindValue(':_id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));

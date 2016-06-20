@@ -293,9 +293,9 @@ function skeleton(string $eId, int $number = null, bool $bare = false): array
     $entity = data('entity', $eId);
     $item = [];
 
-    foreach ($entity['attr'] as $code => $attr) {
+    foreach ($entity['attr'] as $uid => $attr) {
         if (data_action('edit', $attr)) {
-            $item[$code] = null;
+            $item[$uid] = null;
         }
     }
 

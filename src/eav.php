@@ -20,8 +20,8 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
     $list = [];
     $params = [];
 
-    foreach ($addAttrs as $code => $attr) {
-        if (empty($attr['col']) || empty($crit[$code])) {
+    foreach ($addAttrs as $uid => $attr) {
+        if (empty($attr['col']) || empty($crit[$uid])) {
             continue;
         }
 
@@ -29,12 +29,12 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
             function ($v) use ($attr) {
                 return qv($v, $attr['backend']);
             },
-            (array) $crit[$code]
+            (array) $crit[$uid]
         );
-        $params[$code] = ':' . str_replace('-', '_', $code);
+        $params[$uid] = ':' . str_replace('-', '_', $uid);
         $list[] = sprintf(
             '(id IN (SELECT content_id FROM eav WHERE attr_id = %s AND CAST(value AS %s) IN (%s)))',
-            $params[$code],
+            $params[$uid],
             db_cast($attr),
             implode(', ', $val)
         );
@@ -46,8 +46,8 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
         $list ? ' AND ' . implode(' AND ', $list) : ''
     );
 
-    foreach ($params as $code => $param) {
-        $stmt->bindValue($param, $addAttrs[$code]['id'], PDO::PARAM_STR);
+    foreach ($params as $uid => $param) {
+        $stmt->bindValue($param, $addAttrs[$uid]['id'], PDO::PARAM_STR);
     }
 
     $stmt->execute();
@@ -74,22 +74,22 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     $params = [];
     $having = [];
 
-    foreach ($addAttrs as $code => $attr) {
+    foreach ($addAttrs as $uid => $attr) {
         if (empty($attr['col'])) {
             continue;
         }
 
-        $params[$code] = ':' . str_replace('-', '_', $code);
+        $params[$uid] = ':' . str_replace('-', '_', $uid);
         $list[] = sprintf(
             'MAX(CASE WHEN a.attr_id = %s THEN CAST(a.value AS %s) END) AS %s',
-            $params[$code],
+            $params[$uid],
             db_cast($attr),
-            qi($code)
+            qi($uid)
         );
 
-        if (isset($crit[$code])) {
-            $having[$code] = $crit[$code];
-            unset($crit[$code]);
+        if (isset($crit[$uid])) {
+            $having[$uid] = $crit[$uid];
+            unset($crit[$uid]);
         }
     }
 
@@ -105,8 +105,8 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
     );
 
-    foreach ($params as $code => $param) {
-        $stmt->bindValue($param, $addAttrs[$code]['id'], PDO::PARAM_STR);
+    foreach ($params as $uid => $param) {
+        $stmt->bindValue($param, $addAttrs[$uid]['id'], PDO::PARAM_STR);
     }
 
     $stmt->execute();
@@ -138,8 +138,8 @@ function eav_create(array & $item): bool
         implode(', ', $cols['param'])
     );
 
-    foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
+    foreach ($cols['param'] as $uid => $param) {
+        $stmt->bindValue($param, $item[$uid], db_type($attrs[$uid], $item[$uid]));
     }
 
     $stmt->execute();
@@ -157,14 +157,14 @@ function eav_create(array & $item): bool
             (:content_id, :attr_id, :value)
     ');
 
-    foreach ($addAttrs as $code => $attr) {
-        if (!array_key_exists($code, $item)) {
+    foreach ($addAttrs as $uid => $attr) {
+        if (!array_key_exists($uid, $item)) {
             continue;
         }
 
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
         $stmt->bindValue(':attr_id', $attr['id'], PDO::PARAM_STR);
-        $stmt->bindValue(':value', $item[$code], PDO::PARAM_STR);
+        $stmt->bindValue(':value', $item[$uid], PDO::PARAM_STR);
         $stmt->execute();
     }
 
@@ -190,8 +190,8 @@ function eav_save(array & $item): bool
         implode(', ', $cols['set'])
     );
 
-    foreach ($cols['param'] as $code => $param) {
-        $stmt->bindValue($param, $item[$code], db_type($attrs[$code], $item[$code]));
+    foreach ($cols['param'] as $uid => $param) {
+        $stmt->bindValue($param, $item[$uid], db_type($attrs[$uid], $item[$uid]));
     }
 
     $stmt->bindValue(':_id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
@@ -210,14 +210,14 @@ function eav_save(array & $item): bool
             value = VALUES(value)
     ');
 
-    foreach ($addAttrs as $code => $attr) {
-        if (!array_key_exists($code, $item)) {
+    foreach ($addAttrs as $uid => $attr) {
+        if (!array_key_exists($uid, $item)) {
             continue;
         }
 
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
         $stmt->bindValue(':attr_id', $attr['id'], PDO::PARAM_STR);
-        $stmt->bindValue(':value', $item[$code], PDO::PARAM_STR);
+        $stmt->bindValue(':value', $item[$uid], PDO::PARAM_STR);
         $stmt->execute();
     }
 
