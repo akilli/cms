@@ -152,9 +152,9 @@ function eav_create(array & $item): bool
     $stmt = db()->prepare('
         INSERT INTO 
             eav
-            (attr_id, content_id, value) 
+            (content_id, attr_id, value) 
          VALUES 
-            (:attr_id, :content_id, :value)
+            (:content_id, :attr_id, :value)
     ');
 
     foreach ($addAttrs as $code => $attr) {
@@ -162,8 +162,8 @@ function eav_create(array & $item): bool
             continue;
         }
 
-        $stmt->bindValue(':attr_id', $attr['id'], PDO::PARAM_STR);
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
+        $stmt->bindValue(':attr_id', $attr['id'], PDO::PARAM_STR);
         $stmt->bindValue(':value', $item[$code], PDO::PARAM_STR);
         $stmt->execute();
     }
@@ -203,8 +203,8 @@ function eav_save(array & $item): bool
         INSERT INTO 
             eav
         SET
-            attr_id = :attr_id,
             content_id = :content_id,
+            attr_id = :attr_id,
             value = :value
         ON DUPLICATE KEY UPDATE
             value = VALUES(value)
@@ -215,8 +215,8 @@ function eav_save(array & $item): bool
             continue;
         }
 
-        $stmt->bindValue(':attr_id', $attr['id'], PDO::PARAM_STR);
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
+        $stmt->bindValue(':attr_id', $attr['id'], PDO::PARAM_STR);
         $stmt->bindValue(':value', $item[$code], PDO::PARAM_STR);
         $stmt->execute();
     }
