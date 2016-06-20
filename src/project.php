@@ -2,6 +2,11 @@
 namespace qnd;
 
 /**
+ * Constants
+ */
+const PROJECT_GLOBAL = 0;
+
+/**
  * Project
  *
  * @param string $key
@@ -20,7 +25,7 @@ function project(string $key = null)
         $data = one('project', $crit);
 
         if (!$data) {
-            $data = one('project', ['id' => 0, 'active' => true]);
+            $data = one('project', ['id' => PROJECT_GLOBAL, 'active' => true]);
         }
 
         if ($id < 0 || !$data) {
