@@ -15,15 +15,11 @@ function user(string $key = null)
     if ($data === null) {
         $data = [];
         $id = (int) session('user');
-        $projects = [0, project('id')];
-        $data = one('user', ['id' => $id, 'active' => true, 'project_id' => $projects]);
 
-        if ($data) {
-            $role = one('role', ['id' => $data['role_id'], 'active' => true, 'project_id' => $projects]);
+        if ($id > 0 && ($data = one('user', ['id' => $id, 'active' => true, 'project_id' => [0, project('id')]]))) {
+            $role = one('role', ['id' => $data['role_id'], 'active' => true, 'project_id' => $data['project_id']]);
             $data['privilege'] = $role ? $role['privilege'] : [];
-        }
-
-        if ($id <= 0 || !$data) {
+        } else {
             session('user', null, true);
         }
     }

@@ -232,11 +232,9 @@ INSERT INTO rewrite (id, name, target, project_id) VALUES
 (1, '', 'page/view/id/1', 0);
 
 INSERT INTO role (id, name, privilege, active, system, project_id) VALUES
-(0, 'anonymous', '["page.list", "page.view"]', '1', '1', 0),
 (1, 'admin', '["all"]', '1', '1', 0);
 
 INSERT INTO user (id, name, username, password, role_id, active, system, project_id) VALUES
-(0, 'Anonymous', 'anonymous', '', 0, '1', '1', 0),
 (1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 0);
 
 -- --------------------------------------------------------
