@@ -6,16 +6,8 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'Id',
-                'type' => 'text',
-                'required' => true,
-                'uniq' => true,
-                'actions' => ['edit', 'index'],
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'actions' => ['all'],
+                'generator' => 'auto',
+                'type' => 'int',
             ],
             'entity_id' => [
                 'name' => 'Entity',
@@ -23,6 +15,18 @@ return [
                 'required' => true,
                 'opt' => ['qnd\all', ['entity', ['model' => 'eav']]],
                 'actions' => ['edit', 'index'],
+            ],
+            'uid' => [
+                'name' => 'Id',
+                'type' => 'text',
+                'required' => true,
+                'actions' => ['edit', 'index'],
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'actions' => ['all'],
             ],
             'sort' => [
                 'name' => 'Sort',

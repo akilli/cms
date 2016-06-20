@@ -47,7 +47,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
     );
 
     foreach ($params as $uid => $param) {
-        $stmt->bindValue($param, $addAttrs[$uid]['id'], PDO::PARAM_STR);
+        $stmt->bindValue($param, $addAttrs[$uid]['eav_id'], PDO::PARAM_INT);
     }
 
     $stmt->execute();
@@ -106,7 +106,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     );
 
     foreach ($params as $uid => $param) {
-        $stmt->bindValue($param, $addAttrs[$uid]['id'], PDO::PARAM_STR);
+        $stmt->bindValue($param, $addAttrs[$uid]['eav_id'], PDO::PARAM_INT);
     }
 
     $stmt->execute();
@@ -163,7 +163,7 @@ function eav_create(array & $item): bool
         }
 
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
-        $stmt->bindValue(':attr_id', $attr['id'], PDO::PARAM_STR);
+        $stmt->bindValue(':attr_id', $attr['eav_id'], PDO::PARAM_INT);
         $stmt->bindValue(':value', $item[$uid], PDO::PARAM_STR);
         $stmt->execute();
     }
@@ -216,7 +216,7 @@ function eav_save(array & $item): bool
         }
 
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
-        $stmt->bindValue(':attr_id', $attr['id'], PDO::PARAM_STR);
+        $stmt->bindValue(':attr_id', $attr['eav_id'], PDO::PARAM_INT);
         $stmt->bindValue(':value', $item[$uid], PDO::PARAM_STR);
         $stmt->execute();
     }

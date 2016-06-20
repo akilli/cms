@@ -10,9 +10,10 @@ START TRANSACTION;
 
 DROP TABLE IF EXISTS attr;
 CREATE TABLE IF NOT EXISTS attr (
-    id VARCHAR(100) NOT NULL,
-    name VARCHAR(255) NOT NULL,
+    id INTEGER(11) NOT NULL AUTO_INCREMENT,
     entity_id VARCHAR(100) NOT NULL,
+    uid VARCHAR(100) NOT NULL,
+    name VARCHAR(255) NOT NULL,
     sort INTEGER(11) NOT NULL DEFAULT '0',
     type VARCHAR(100) NOT NULL,
     required BOOLEAN NOT NULL DEFAULT '0',
@@ -21,8 +22,10 @@ CREATE TABLE IF NOT EXISTS attr (
     opt JSON DEFAULT NULL,
     actions JSON DEFAULT NULL,
     PRIMARY KEY (id),
-    KEY idx_attr_name (name),
+    UNIQUE KEY uni_attr_entity (entity_id, uid),
     KEY idx_attr_entity (entity_id),
+    KEY idx_attr_uid (uid),
+    KEY idx_attr_name (name),
     KEY idx_attr_type (type),
     KEY idx_attr_sort (sort),
     KEY idx_attr_required (required),
@@ -66,7 +69,7 @@ CREATE TABLE IF NOT EXISTS content (
 DROP TABLE IF EXISTS eav;
 CREATE TABLE IF NOT EXISTS eav (
     content_id INTEGER(11) NOT NULL,
-    attr_id VARCHAR(100) NOT NULL,
+    attr_id INTEGER(11) NOT NULL,
     value TEXT NOT NULL,
     PRIMARY KEY (content_id, attr_id),
     KEY idx_eav_content (content_id),

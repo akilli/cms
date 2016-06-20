@@ -46,7 +46,7 @@ function listener_data_entity(array & $data)
         $data[$id] = $item;
     }
 
-    $attrs = all('attr', [], ['index' => ['entity_id', 'id']]);
+    $attrs = all('attr', [], ['index' => ['entity_id', 'uid']]);
 
     foreach (all('entity', ['model' => ['content', 'eav', 'joined']]) as $id => $item) {
         $base = $item['model'] === 'joined' && !empty($data[$id]) ? $data[$id] : $data['content'];
@@ -56,6 +56,8 @@ function listener_data_entity(array & $data)
             foreach ($attrs[$id] as $uid => $attr) {
                 if (empty($item['attr'][$uid])) {
                     $attr['col'] = 'value';
+                    $attr['eav_id'] = $attr['id'];
+                    unset($attr['id'], $attr['uid']);
                     $item['attr'][$uid] = $attr;
                 }
             }
