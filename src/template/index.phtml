@@ -23,10 +23,10 @@
                         <th>
                             <input type="checkbox" name="checkall" value="1" title="<?= _('Select all');?>" />
                         </th>
-                        <?php foreach ($§('attr') as $code => $attr):?>
-                            <?php $dir = $p['sort'] === $code && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
+                        <?php foreach ($§('attr') as $attr):?>
+                            <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
                         <th>
-                            <a href="<?= url('*/*', ['sort' => $code, 'dir' => $dir] + $p);?>"><?= _($attr['name']);?></a>
+                            <a href="<?= url('*/*', ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?= _($attr['name']);?></a>
                         </th>
                         <?php endforeach;?>
                         <?php if (allowed('edit')):?>
@@ -47,7 +47,7 @@
                         <td>
                             <input id="edit-<?=$id;?>-name" type="checkbox" name="edit[<?=$id;?>]" value="1" />
                         </td>
-                        <?php foreach ($§('attr') as $code => $attr):?>
+                        <?php foreach ($§('attr') as $attr):?>
                             <?php $attr['context'] = 'index';?>
                         <td>
                             <?=viewer($attr, $item);?>

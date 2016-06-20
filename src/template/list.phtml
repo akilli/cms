@@ -5,10 +5,10 @@
     <?= §('search');?>
     <?php foreach ($§('data') as $id => $item):?>
     <article>
-        <?php foreach ($§('attr') as $code => $attr):?>
+        <?php foreach ($§('attr') as $attr):?>
             <?php $attr['context'] = 'list';?>
             <?php if (!$html = viewer($attr, $item)) continue;?>
-            <?php if ($code === 'name'):?>
+            <?php if ($attr['id'] === 'name'):?>
                 <?php if (allowed('view')):?>
         <h1><a href="<?= url('*/view', ['id' => $id]);?>"><?=$html;?></a></h1>
                 <?php else:?>
