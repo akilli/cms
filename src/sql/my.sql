@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS user (
 -- --------------------------------------------------------
 
 INSERT INTO content (id, name, entity_id, active, system, content, project_id) VALUES
-(1, 'Home', 'page', '1', '0', 'Hello World', 1);
+(1, 'Homepage', 'page', '1', '0', 'Hello World', 1);
 
 INSERT INTO entity (id, name, model, actions, system, project_id) VALUES
 ('attr', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', '1', 1),
@@ -236,7 +236,7 @@ INSERT INTO menu (id, uid, name, system, project_id) VALUES
 (1, 'toolbar', 'Toolbar', '1', 1);
 
 INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project_id) VALUES
-(1, 'Home', '', 1, 1, 2, NULL, 1, 1),
+(1, 'Homepage', '', 1, 1, 2, NULL, 1, 1),
 (2, 'Dashboard', 'user/dashboard', 1, 3, 4, NULL, 1, 1),
 (3, 'Profile', 'user/profile', 1, 5, 6, NULL, 1, 1),
 (4, 'Logout', 'user/logout', 1, 7, 8, NULL, 1, 1),
