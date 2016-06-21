@@ -65,11 +65,11 @@ function section_entity(array & $§): string
 function section_pager(array & $§): string
 {
     $§['vars'] += ['size' => 0, 'limit' => 0, 'links' => [], 'params' => []];
-    
+
     if ($§['vars']['size'] < 1 || $§['vars']['limit'] < 1) {
         return '';
     }
-    
+
     $§['vars']['pages'] = (int) ceil($§['vars']['size'] / $§['vars']['limit']);
     $§['vars']['page'] = max($§['vars']['params']['page'] ?? 0, 1);
     $§['vars']['offset'] = ($§['vars']['page'] - 1) * $§['vars']['limit'];
@@ -123,7 +123,10 @@ function section_message(array & $§): string
  */
 function section_node(array & $§): string
 {
-    if (empty($§['vars']['crit']) || !$data = all('node', $§['vars']['crit'])) {
+    if (empty($§['vars']['menu'])
+        || !($menu = one('menu', ['uid' => $§['vars']['menu'], 'project_id' => [PROJECT_GLOBAL, project('id')]]))
+        || !($data = all('node', ['root_id' => $menu['id'], 'project_id' => $menu['project_id']]))
+    ) {
         return '';
     }
 

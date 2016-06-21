@@ -231,6 +231,40 @@ return [
             ],
         ],
     ],
+    'menu' => [
+        'name' => 'Menu',
+        'actions' => ['create', 'edit', 'delete', 'index'],
+        'attr' => [
+            'id' => [
+                'name' => 'Id',
+                'generator' => 'auto',
+                'type' => 'int',
+            ],
+            'uid' => [
+                'name' => 'Id',
+                'type' => 'text',
+                'required' => true,
+                'uniq' => true,
+                'actions' => ['edit', 'index'],
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'actions' => ['all'],
+            ],
+            'system' => [
+                'name' => 'System',
+                'type' => 'checkbox.bool',
+                'actions' => ['index'],
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'select.int',
+                'opt' => ['qnd\all', ['project']],
+            ],
+        ],
+    ],
     'node' => [
         'name' => 'Menu Node',
         'model' => 'node',
