@@ -233,18 +233,14 @@ function _node_position(array & $item): int
         throw new LogicException(_('Menu Node can not be child of itself'));
     }
 
-    if ($item['mode'] === 'before') {
-        $item['parent_id'] = $basisItem['parent_id'];
-        $item['level'] = $basisItem['level'];
-        $pos = $basisItem['lft'];
-    } elseif ($item['mode'] === 'child') {
+    if ($item['mode'] === 'child') {
         $item['parent_id'] = $basisItem['id'];
         $item['level'] = $basisItem['level'] + 1;
         $pos = $basisItem['rgt'];
     } else {
         $item['parent_id'] = $basisItem['parent_id'];
         $item['level'] = $basisItem['level'];
-        $pos = $basisItem['rgt'] + 1;
+        $pos = $item['mode'] === 'before' ? $basisItem['lft'] : $basisItem['rgt'] + 1;
     }
 
     return $pos;
