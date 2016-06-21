@@ -124,7 +124,7 @@ function section_message(array & $§): string
 function section_node(array & $§): string
 {
     if (empty($§['vars']['menu'])
-        || !($menu = one('menu', ['uid' => $§['vars']['menu'], 'project_id' => [PROJECT_GLOBAL, project('id')]]))
+        || !($menu = one('menu', ['uid' => $§['vars']['menu'], 'project_id' => [PROJECT_GLOBAL, project('id')]], ['order' => ['project_id' => 'desc']]))
         || !($data = all('node', ['root_id' => $menu['id'], 'project_id' => $menu['project_id']]))
     ) {
         return '';
