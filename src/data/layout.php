@@ -128,7 +128,7 @@ return [
         'handle' => 'user-registered',
         'type' => 'node',
         'parent' => 'toolbar',
-        'vars' => ['crit' => ['uid' => 'toolbar', 'project_id' => PROJECT_GLOBAL], 'translate' => true],
+        'vars' => ['crit' => ['uid' => 'toolbar', 'project_id' => PROJECT_DEFAULT], 'translate' => true],
     ],
     // user.dashboard
     [

@@ -4,7 +4,7 @@ namespace qnd;
 /**
  * Constants
  */
-const PROJECT_GLOBAL = 1;
+const PROJECT_DEFAULT = 1;
 
 /**
  * Project
@@ -25,7 +25,7 @@ function project(string $key = null)
         $data = one('project', $crit);
 
         if (!$data) {
-            $data = one('project', ['id' => PROJECT_GLOBAL, 'active' => true]);
+            $data = one('project', ['id' => PROJECT_DEFAULT, 'active' => true]);
         }
 
         if (!$id || !$data) {

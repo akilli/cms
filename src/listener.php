@@ -46,7 +46,7 @@ function listener_data_entity(array & $data)
         $data[$id] = $item;
     }
 
-    $projects = [PROJECT_GLOBAL, project('id')];
+    $projects = [PROJECT_DEFAULT, project('id')];
     $attrs = all('attr', ['project_id' => $projects], ['index' => ['entity_id', 'uid']]);
 
     foreach (all('entity', ['model' => ['content', 'eav', 'joined'], 'project_id' => $projects]) as $id => $item) {

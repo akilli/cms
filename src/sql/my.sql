@@ -144,11 +144,13 @@ CREATE TABLE IF NOT EXISTS node (
 DROP TABLE IF EXISTS project;
 CREATE TABLE IF NOT EXISTS project (
     id INTEGER(11) NOT NULL AUTO_INCREMENT,
+    uid VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
     host VARCHAR(255) DEFAULT NULL,
     active BOOLEAN NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (id),
+    UNIQUE KEY uni_project_uid (uid),
     UNIQUE KEY uni_project_host (host),
     KEY idx_project_name (name),
     KEY idx_project_active (active),
@@ -253,8 +255,8 @@ INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project
 (15, 'Entity', 'entity/index', 1, 18, 19, 6, 2, 1),
 (16, 'Attribute', 'attr/index', 1, 20, 21, 6, 2, 1);
 
-INSERT INTO project (id, name, host, active, system) VALUES
-(1, 'GLOBAL', NULL, '1', '1');
+INSERT INTO project (id, uid, name, host, active, system) VALUES
+(1, 'default', 'DEFAULT', NULL, '1', '1');
 
 INSERT INTO rewrite (id, name, target, project_id) VALUES
 (1, '', 'page/view/id/1', 1);

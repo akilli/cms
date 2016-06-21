@@ -348,7 +348,13 @@ return [
                 'name' => 'Id',
                 'generator' => 'auto',
                 'type' => 'int',
-                'actions' => ['index'],
+            ],
+            'uid' => [
+                'name' => 'Id',
+                'type' => 'text',
+                'required' => true,
+                'uniq' => true,
+                'actions' => ['edit', 'index'],
             ],
             'name' => [
                 'name' => 'Name',
