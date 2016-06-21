@@ -95,7 +95,4 @@ return [
     'i18n.locale' => 'de-DE',
     'i18n.time' => 'H:i',
     'i18n.timezone' => 'Europe/Berlin',
-    'meta' => [],
-    'url.asset' => null,
-    'url.base' => null,
 ];

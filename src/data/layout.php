@@ -14,6 +14,7 @@ return [
         'handle' => 'layout-base',
         'type' => 'template',
         'template' => 'head.phtml',
+        'vars' => ['meta' => []],
     ],
     [
         'id' => 'top',

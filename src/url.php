@@ -12,12 +12,7 @@ namespace qnd;
 function url(string $path = '', array $params = []): string
 {
     $isFullPath = false;
-
-    if (strpos($path, 'http') === 0) {
-        $base = '';
-    } else {
-        $base = config('url.base') ?? request('base');
-    }
+    $base = strpos($path, 'http') === 0 ? '' : request('base');
 
     if ($path && strpos($path, 'http') !== 0) {
         $path = url_resolve($path);
@@ -25,25 +20,6 @@ function url(string $path = '', array $params = []): string
     }
 
     return $base . url_unrewrite($path, url_query($params, $isFullPath));
-}
-
-/**
- * Asset URL
- *
- * @param string $path
- *
- * @return string
- */
-function url_asset(string $path): string
-{
-    static $base;
-
-    if ($base === null) {
-        $base = config('url.asset') ?: url('asset');
-        $base = rtrim($base, '/');
-    }
-
-    return strpos($path, 'http') === 0 ? $path : $base . '/' . trim($path, '/');
 }
 
 /**
@@ -55,7 +31,7 @@ function url_asset(string $path): string
  */
 function url_css(string $path): string
 {
-    return url_asset('css/' . trim($path, '/'));
+    return url('asset/css/' . trim($path, '/'));
 }
 
 /**
@@ -67,7 +43,7 @@ function url_css(string $path): string
  */
 function url_js(string $path): string
 {
-    return url_asset('js/' . trim($path, '/'));
+    return url('asset/js/' . trim($path, '/'));
 }
 
 /**
@@ -79,7 +55,7 @@ function url_js(string $path): string
  */
 function url_media(string $path): string
 {
-    return url_asset('media/' . trim($path, '/'));
+    return url('asset/media/' . trim($path, '/'));
 }
 
 /**
@@ -91,7 +67,7 @@ function url_media(string $path): string
  */
 function url_cache(string $path): string
 {
-    return url_asset('cache/' . trim($path, '/'));
+    return url('asset/cache/' . trim($path, '/'));
 }
 
 /**
