@@ -254,7 +254,7 @@ INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project
 (16, 'Attribute', 'attr/index', 1, 20, 21, 6, 2, 1);
 
 INSERT INTO project (id, name, host, active, system) VALUES
-(1, 'global', NULL, '1', '1');
+(1, 'GLOBAL', NULL, '1', '1');
 
 INSERT INTO rewrite (id, name, target, project_id) VALUES
 (1, '', 'page/view/id/1', 1);
