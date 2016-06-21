@@ -123,6 +123,7 @@ return [
     'Select (Varchar)' => 'Auswahlliste (Varchar)',
     'Select all' => 'Alle auswählen',
     'Sort' => 'Sortierung',
+    'Structure' => 'Struktur',
     'Switch' => 'Wechseln',
     'System' => 'System',
     'Target' => 'Ziel',
