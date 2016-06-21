@@ -17,15 +17,18 @@
     background: #333;
 }
 
-#toolbar > * {
-    margin-top: 1rem;
-}
-
 /**
  * Project
  */
 #toolbar-project {
-    padding: 0 1.25rem;
+    padding: 1rem 1.25rem;
+    border-bottom: thin solid #222;
+}
+
+#toolbar-project-id {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5rem;
 }
 
 /**
