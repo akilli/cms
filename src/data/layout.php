@@ -118,9 +118,15 @@ return [
     [
         'id' => 'toolbar',
         'handle' => 'user-registered',
-        'type' => 'node',
+        'type' => 'template',
+        'template' => 'toolbar.phtml',
         'parent' => 'top',
-        'sort' => -100,
+    ],
+    [
+        'id' => 'toolbar.nav',
+        'handle' => 'user-registered',
+        'type' => 'node',
+        'parent' => 'toolbar',
         'vars' => ['crit' => ['uid' => 'toolbar', 'project_id' => PROJECT_GLOBAL]],
     ],
     // user.dashboard

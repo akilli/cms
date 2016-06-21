@@ -135,10 +135,6 @@ function section_node(array & $§): string
     $i = 0;
     $html = '';
 
-    if (!empty($§['vars']['title'])) {
-        $html .= html_tag('h1', [], $§['vars']['title']);
-    }
-
     foreach ($data as $item) {
         $attrs = [];
         $class = '';
@@ -167,5 +163,5 @@ function section_node(array & $§): string
         $level = $item['level'];
     }
 
-    return html_tag('nav', ['id' => $§['id']], $html);
+    return $html;
 }

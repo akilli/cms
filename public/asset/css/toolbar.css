@@ -9,7 +9,7 @@
 }
 
 /**
- * Navigation
+ * Toolbar
  */
 #toolbar {
     width: 13.75rem;
@@ -17,6 +17,20 @@
     background: #333;
 }
 
+#toolbar > * {
+    margin-top: 1rem;
+}
+
+/**
+ * Project
+ */
+#toolbar-project {
+    padding: 0 1.25rem;
+}
+
+/**
+ * Menu
+ */
 #toolbar li span {
     display: block;
     padding: 0.9375rem 0.9375rem 0 1.25rem;

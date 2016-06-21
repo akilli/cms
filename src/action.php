@@ -212,9 +212,9 @@ function action_index_index()
  */
 function action_project_switch()
 {
-    $id = (int) http_param('id');
+    $id = (int) http_post('id');
 
-    if (size('project', ['id' => $id])) {
+    if (size('project', ['id' => $id, 'active' => true])) {
         session('project', $id);
     }
 
