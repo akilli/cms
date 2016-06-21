@@ -1,4 +1,6 @@
 <?php
+namespace qnd;
+
 return [
     // layout-base
     [
@@ -119,7 +121,7 @@ return [
         'type' => 'node',
         'parent' => 'top',
         'sort' => -100,
-        'vars' => ['menu' => 'toolbar'],
+        'vars' => ['crit' => ['uid' => 'toolbar', 'project_id' => PROJECT_GLOBAL]],
     ],
     // user.dashboard
     [
