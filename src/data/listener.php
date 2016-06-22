@@ -2,28 +2,28 @@
 return [
     // data
     [
-        'id' => 'qnd\listener_data_config',
+        'id' => 'data_config',
         'event' => 'data.load.config',
         'sort' => -100,
     ],
     [
-        'id' => 'qnd\listener_data_entity',
+        'id' => 'data_entity',
         'event' => 'data.load.entity',
         'sort' => -100,
     ],
     [
-        'id' => 'qnd\listener_data_privilege',
+        'id' => 'data_privilege',
         'event' => 'data.load.privilege',
         'sort' => -100,
     ],
     // Entity
     [
-        'id' => 'qnd\listener_entity_save',
+        'id' => 'entity_save',
         'event' => 'entity.postSave',
         'sort' => -100,
     ],
     [
-        'id' => 'qnd\listener_entity_delete',
+        'id' => 'entity_delete',
         'event' => 'entity.postDelete',
         'sort' => -100,
     ],
