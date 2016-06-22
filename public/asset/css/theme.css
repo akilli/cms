@@ -39,8 +39,6 @@ h3 {
 /* Group */
 main {
     width: 100%;
-    max-width: 1140px;
-    margin: 0 auto;
     padding: 1rem;
 }
 
@@ -326,4 +324,20 @@ textarea {
  */
 #content.list article {
     margin: 0 0 1rem;
+}
+
+/**
+ * Login
+ */
+html[data-id='user.login'] body {
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background: #231f20;
+}
+
+html[data-id='user.login'] main {
+    width: auto;
+    padding: 0;
 }
