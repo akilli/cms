@@ -177,5 +177,5 @@ function _(string $key, string ...$params): string
  */
 function fqn(string $name): string
 {
-    return __NAMESPACE__ . '\\' . $name;
+    return strpos($name, '\\') === false ? __NAMESPACE__ . '\\' . $name : $name;
 }

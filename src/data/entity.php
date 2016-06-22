@@ -13,7 +13,7 @@ return [
                 'name' => 'Entity',
                 'type' => 'select.varchar',
                 'required' => true,
-                'opt' => ['qnd\all', ['entity', ['model' => 'eav']]],
+                'opt' => ['all', ['entity', ['model' => 'eav']]],
                 'actions' => ['edit', 'index'],
             ],
             'uid' => [
@@ -37,7 +37,7 @@ return [
                 'name' => 'Type',
                 'type' => 'select.varchar',
                 'required' => true,
-                'opt' => ['qnd\data', ['attr']],
+                'opt' => ['data', ['attr']],
                 'actions' => ['edit', 'index'],
             ],
             'required' => [
@@ -65,13 +65,13 @@ return [
                 'name' => 'Actions',
                 'type' => 'multiselect',
                 'nullable' => true,
-                'opt' => ['qnd\config', ['action.attr']],
+                'opt' => ['config', ['action.attr']],
                 'actions' => ['edit', 'index'],
             ],
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'select.int',
-                'opt' => ['qnd\all', ['project']],
+                'opt' => ['all', ['project']],
             ],
         ],
     ],
@@ -97,7 +97,7 @@ return [
                 'name' => 'Entity',
                 'sort' => -1000,
                 'type' => 'select.varchar',
-                'opt' => ['qnd\all', ['entity']],
+                'opt' => ['all', ['entity']],
             ],
             'active' => [
                 'name' => 'Active',
@@ -142,7 +142,7 @@ return [
                 'sort' => -300,
                 'type' => 'select.int',
                 'nullable' => true,
-                'opt' => ['qnd\all', ['user']],
+                'opt' => ['all', ['user']],
             ],
             'modified' => [
                 'name' => 'Modified',
@@ -155,12 +155,12 @@ return [
                 'sort' => -100,
                 'type' => 'select.int',
                 'nullable' => true,
-                'opt' => ['qnd\all', ['user']],
+                'opt' => ['all', ['user']],
             ],
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'select.int',
-                'opt' => ['qnd\all', ['project']],
+                'opt' => ['all', ['project']],
             ],
         ],
     ],
@@ -171,14 +171,14 @@ return [
                 'name' => 'Content',
                 'type' => 'select.int',
                 'required' => true,
-                'opt' => ['qnd\all', ['content']],
+                'opt' => ['all', ['content']],
                 'actions' => ['edit', 'index'],
             ],
             'attr_id' => [
                 'name' => 'Attribute',
                 'type' => 'select.varchar',
                 'required' => true,
-                'opt' => ['qnd\all', ['attr']],
+                'opt' => ['all', ['attr']],
                 'actions' => ['edit', 'index'],
             ],
             'value' => [
@@ -209,14 +209,14 @@ return [
                 'name' => 'Model',
                 'type' => 'select.varchar',
                 'required' => true,
-                'opt' => ['qnd\config', ['entity.model']],
+                'opt' => ['config', ['entity.model']],
                 'actions' => ['all'],
             ],
             'actions' => [
                 'name' => 'Actions',
                 'type' => 'multiselect',
                 'nullable' => true,
-                'opt' => ['qnd\config', ['action.entity']],
+                'opt' => ['config', ['action.entity']],
                 'actions' => ['edit', 'index'],
             ],
             'system' => [
@@ -227,7 +227,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'select.int',
-                'opt' => ['qnd\all', ['project']],
+                'opt' => ['all', ['project']],
             ],
         ],
     ],
@@ -261,7 +261,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'select.int',
-                'opt' => ['qnd\all', ['project']],
+                'opt' => ['all', ['project']],
             ],
         ],
     ],
@@ -291,7 +291,7 @@ return [
                 'name' => 'Menu',
                 'generator' => 'auto',
                 'type' => 'select.int',
-                'opt' => ['qnd\all', ['menu']],
+                'opt' => ['all', ['menu']],
                 'actions' => ['index'],
             ],
             'lft' => [
@@ -309,7 +309,7 @@ return [
                 'generator' => 'auto',
                 'type' => 'select.int',
                 'nullable' => true,
-                'opt' => ['qnd\all', ['node']],
+                'opt' => ['all', ['node']],
                 'actions' => ['index'],
             ],
             'level' => [
@@ -330,13 +330,13 @@ return [
                 'generator' => 'auto',
                 'type' => 'select.varchar',
                 'required' => true,
-                'opt' => ['qnd\opt_position'],
+                'opt' => ['opt_position'],
                 'actions' => ['edit'],
             ],
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'select.int',
-                'opt' => ['qnd\all', ['project']],
+                'opt' => ['all', ['project']],
             ],
         ],
     ],
@@ -416,7 +416,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'select.int',
-                'opt' => ['qnd\all', ['project']],
+                'opt' => ['all', ['project']],
             ],
         ],
     ],
@@ -440,7 +440,7 @@ return [
             'privilege' => [
                 'name' => 'Privileges',
                 'type' => 'multiselect',
-                'opt' => ['qnd\privileges'],
+                'opt' => ['privileges'],
                 'actions' => ['edit'],
             ],
             'active' => [
@@ -456,7 +456,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'select.int',
-                'opt' => ['qnd\all', ['project']],
+                'opt' => ['all', ['project']],
             ],
         ],
     ],
@@ -494,7 +494,7 @@ return [
                 'name' => 'Role',
                 'type' => 'select.int',
                 'required' => true,
-                'opt' => ['qnd\all', ['role']],
+                'opt' => ['all', ['role']],
                 'actions' => ['edit', 'index'],
             ],
             'active' => [
@@ -510,7 +510,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'select.int',
-                'opt' => ['qnd\all', ['project']],
+                'opt' => ['all', ['project']],
             ],
         ],
     ],

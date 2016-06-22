@@ -244,6 +244,11 @@ function data_attr(array $data): array
         $data['col'] = $data['id'];
     }
 
+    // Options callback
+    if (!empty($data['opt'][0]) && is_string($data['opt'][0])) {
+        $data['opt'][0] = fqn($data['opt'][0]);
+    }
+
     // Correct invalid values
     $data['required'] = empty($data['nullable']) && $data['required'];
     $data['uniq'] = !in_array($data['backend'], ['bool', 'text']) && $data['uniq'];
