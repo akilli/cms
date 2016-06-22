@@ -15,27 +15,7 @@ function cast(array $attr, $value)
         return null;
     }
 
-    if ($attr['backend'] === 'bool') {
-        return boolval($value);
-    }
-
-    if ($attr['backend'] === 'int') {
-        return intval($value);
-    }
-
-    if ($attr['backend'] === 'decimal') {
-        return floatval($value);
-    }
-
-    if ($attr['multiple'] && is_array($value)) {
-        foreach ($value as $k => $v) {
-            $value[$k] = cast($attr, $v);
-        }
-
-        return $value;
-    }
-
-    return strval($value);
+    return $attr['multiple'] && is_array($value) ? array_map($attr['cast'], $value) : $attr['cast']($value);
 }
 
 /**
