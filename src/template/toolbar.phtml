@@ -1,6 +1,6 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <nav id="<?=$§('§')['as'];?>">
-    <?php if (true || allowed('project/switch')):?>
+    <?php if (allowed('project.switch')):?>
     <form id="toolbar-project" action="<?= url('project/switch');?>" method="post">
         <label for="toolbar-project-id"><?= _('Project');?></label>
         <select id="toolbar-project-id" name="id">
