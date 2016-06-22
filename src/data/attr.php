@@ -1,6 +1,11 @@
 <?php
 return [
     // Input
+    'color' => [
+        'name' => 'Color',
+        'backend' => 'varchar',
+        'frontend' => 'color',
+    ],
     'email' => [
         'name' => 'Email',
         'backend' => 'varchar',

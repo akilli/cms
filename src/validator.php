@@ -160,6 +160,19 @@ function validator_text(array $attr, array & $item): bool
 }
 
 /**
+ * Color validator
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return bool
+ */
+function validator_color(array $attr, array & $item): bool
+{
+    return (bool) preg_match('/#[a-f0-9]{6}/', $item[$attr['id']]);
+}
+
+/**
  * Email validator
  *
  * @param array $attr

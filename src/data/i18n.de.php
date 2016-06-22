@@ -18,6 +18,7 @@ return [
     'Checkbox (Integer)' => 'Checkbox (Ganzzahl)',
     'Checkbox (Varchar)' => 'Checkbox (Varchar)',
     'Child' => 'Kind',
+    'Color' => 'Farbe',
     'Configuration' => 'Konfiguration',
     'Content' => 'Inhalt',
     'Could not delete old file %s' => 'Konnte alte Datei %s nicht löschen',

@@ -49,6 +49,7 @@ function editor(array $attr, array $item): string
             case 'radio':
                 $html = editor_opt($attr, $item);
                 break;
+            case 'color':
             case 'email':
             case 'url':
                 $html = editor_text($attr, $item);
