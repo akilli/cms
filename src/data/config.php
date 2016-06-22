@@ -6,7 +6,6 @@ return [
         'view' => 'view',
         'index' => 'index',
         'list' => 'list',
-        'section' => 'section',
     ],
     'action.entity' => [
         'all' => 'all',
