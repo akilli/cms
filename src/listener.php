@@ -78,6 +78,12 @@ function listener_data_entity(array & $data)
  */
 function listener_data_privilege(array & $data)
 {
+    foreach ($data as $id => $item) {
+        if (!empty($item['callback'])) {
+            $data[$id]['callback'] = fqn($item['callback']);
+        }
+    }
+
     $config = config('action.entity');
     unset($config['all']);
 

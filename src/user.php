@@ -73,7 +73,7 @@ function allowed(string $key = null): bool
 
     return empty($data[$key]['active'])
         || admin()
-        || !empty($data[$key]['callback']) && is_callable($data[$key]['callback']) && $data[$key]['callback']()
+        || !empty($data[$key]['callback']) && $data[$key]['callback']()
         || $privileges && (in_array($allKey, $privileges) || in_array($key, $privileges));
 }
 

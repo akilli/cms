@@ -17,13 +17,13 @@ return [
     ],
     'user.dashboard' => [
         'name' => 'User Dashboard',
-        'callback' => 'qnd\registered',
+        'callback' => 'registered',
         'active' => true,
         'sort' => 1000,
     ],
     'user.profile' => [
         'name' => 'User Profile',
-        'callback' => 'qnd\registered',
+        'callback' => 'registered',
         'active' => true,
         'sort' => 1000,
     ],
@@ -34,7 +34,7 @@ return [
     ],
     'user.logout' => [
         'name' => 'User Logout',
-        'callback' => 'qnd\registered',
+        'callback' => 'registered',
         'active' => true,
         'sort' => 1000,
     ],
