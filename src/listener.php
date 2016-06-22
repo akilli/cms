@@ -10,8 +10,6 @@ namespace qnd;
  */
 function listener_data_config(array & $data)
 {
-    // Set language from locale
-    $data['i18n.lang'] = locale_get_primary_language($data['i18n.locale']);
     // Add allowed media extensions to allowed file extensions
     $data['ext.file'] = array_merge(
         $data['ext.file'],

@@ -91,6 +91,7 @@ return [
     'i18n.charset' => 'utf-8',
     'i18n.date' => 'd.m.Y',
     'i18n.datetime' => 'd.m.Y H:i',
+    'i18n.lang' => 'de',
     'i18n.locale' => 'de-DE',
     'i18n.time' => 'H:i',
     'i18n.timezone' => 'Europe/Berlin',
