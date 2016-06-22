@@ -38,7 +38,7 @@ h3 {
 
 /* Group */
 main {
-    width: 100%;
+    flex: 2 0;
     padding: 1rem;
 }
 
@@ -330,7 +330,6 @@ textarea {
  * Login
  */
 html[data-id='user.login'] body {
-    flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
     color: #fff;
@@ -338,6 +337,5 @@ html[data-id='user.login'] body {
 }
 
 html[data-id='user.login'] main {
-    width: auto;
-    padding: 0;
+    flex: 0 0;
 }
