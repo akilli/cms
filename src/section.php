@@ -130,6 +130,30 @@ function section_node(array & $§): string
         return '';
     }
 
+    $data = array_filter(
+        $data,
+        function ($item) use ($data) {
+            if (!empty($item['privilege']) && !allowed($item['privilege'])) {
+                return false;
+            }
+
+            if ($item['target'] !== '#') {
+                return true;
+            }
+
+            foreach ($data as $i) {
+                if ($i['lft'] > $item['lft']
+                    && $i['rgt'] < $item['rgt']
+                    && $i['target'] !== '#'
+                    && (empty($i['privilege']) || allowed($i['privilege']))
+                ) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    );
     $count = count($data);
     $level = 0;
     $i = 0;
