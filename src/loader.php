@@ -38,7 +38,9 @@ function loader_json(array $attr, array $item): array
 {
     if (empty($item[$attr['id']])) {
         return [];
-    } elseif (is_array($item[$attr['id']])) {
+    }
+
+    if (is_array($item[$attr['id']])) {
         return $item[$attr['id']];
     }
 
