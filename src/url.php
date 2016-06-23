@@ -141,17 +141,21 @@ function url_resolve(string $key = ''): string
  */
 function url_rewrite(string $path, bool $redirect = false): string
 {
-    $item = one('rewrite', ['name' => $path]);
+    static $data;
 
-    if (!$item) {
+    if ($data === null) {
+        $data = all('rewrite', [], ['index' => 'name']);
+    }
+
+    if (!isset($data[$path])) {
         return $path;
     }
 
-    if (!empty($item['redirect']) && $redirect) {
-        redirect($item['target']);
+    if (!empty($data[$path]['redirect']) && $redirect) {
+        redirect($data[$path]['target']);
     }
 
-    return $item['target'];
+    return $data[$path]['target'];
 }
 
 /**
