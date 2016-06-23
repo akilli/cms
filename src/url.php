@@ -135,10 +135,11 @@ function url_resolve(string $key = ''): string
  * Rewrite request path
  *
  * @param string $path
+ * @param bool $redirect
  *
  * @return string
  */
-function url_rewrite(string $path): string
+function url_rewrite(string $path, bool $redirect = false): string
 {
     $item = one('rewrite', ['name' => $path]);
 
@@ -146,7 +147,7 @@ function url_rewrite(string $path): string
         return $path;
     }
 
-    if (!empty($item['redirect'])) {
+    if (!empty($item['redirect']) && $redirect) {
         redirect($item['target']);
     }
 

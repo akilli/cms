@@ -174,7 +174,7 @@ function _http_request_init(array & $data)
     $data['post'] = !empty($_POST['token']) && _http_post_validate($_POST['token']) ? $_POST : [];
     $data['files'] = $_FILES ? _http_files_validate(_http_files_convert($_FILES)) : [];
     $data['origpath'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');
-    $data['path'] = url_rewrite($data['origpath']);
+    $data['path'] = url_rewrite($data['origpath'], true);
 }
 
 /**
