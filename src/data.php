@@ -249,11 +249,6 @@ function data_attr(array $data): array
         $data['opt'][0] = fqn($data['opt'][0]);
     }
 
-    // Correct invalid values
-    $data['required'] = empty($data['nullable']) && $data['required'];
-    $data['uniq'] = !in_array($data['backend'], ['bool', 'text']) && $data['uniq'];
-    $data['multiple'] = in_array($data['type'], ['multicheckbox', 'multiselect']);
-
     return $data;
 }
 
