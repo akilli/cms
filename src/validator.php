@@ -100,7 +100,7 @@ function validator_uniq(array $attr, array & $item): bool
  */
 function validator_boundary(array $attr, array & $item): bool
 {
-    $values = $attr['multiple'] ? $item[$attr['id']] : [$item[$attr['id']]];
+    $values = $attr['multiple'] && is_array($item[$attr['id']]) ? $item[$attr['id']] : [$item[$attr['id']]];
 
     foreach ($values as $value) {
         if (in_array($attr['backend'], ['json', 'text', 'varchar'])) {
