@@ -100,13 +100,19 @@ function validator_uniq(array $attr, array & $item): bool
  */
 function validator_boundary(array $attr, array & $item): bool
 {
-    if ($attr['multiple']) {
-        return true;
+    $values = $attr['multiple'] ? $item[$attr['id']] : [$item[$attr['id']]];
+
+    foreach ($values as $value) {
+        if (in_array($attr['backend'], ['json', 'text', 'varchar'])) {
+            $value = strlen($value);
+        }
+
+        if (isset($attr['min']) && $value < $attr['min'] || isset($attr['max']) && $value > $attr['max']) {
+            return false;
+        }
     }
 
-    $value = in_array($attr['backend'], ['json', 'text', 'varchar']) ? strlen($item[$attr['id']]) : $item[$attr['id']];
-
-    return (!isset($attr['min']) || $attr['min'] <= $value) && (!isset($attr['max']) || $attr['max'] >= $value);
+    return true;
 }
 
 /**
