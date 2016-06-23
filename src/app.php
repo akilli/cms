@@ -63,6 +63,7 @@ function path(string $dir, string $subpath = null): string
         $data['app'] = $data['root'] . '/app';
         $data['db'] = $data['app'] . '/db';
         $data['log'] = $data['app'] . '/log';
+        $data['tmp'] = $data['app'] . '/tmp';
         $data['src'] = __DIR__;
         $data['data'] = $data['src'] . '/data';
         $data['template'] = $data['src'] . '/template';
