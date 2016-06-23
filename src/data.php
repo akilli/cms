@@ -235,7 +235,7 @@ function data_attr(array $data): array
         throw new RuntimeException(_('Invalid type %s configured for attribute %s', $data['type'], $data['id']));
     }
 
-    $data = array_replace(data('skeleton', 'attr'), data('backend', $type['backend']), $type, $data);
+    $data = array_replace(data('skeleton', 'attr'), $type, $data);
 
     // Column
     if (!empty($data['virtual'])) {

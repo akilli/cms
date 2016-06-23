@@ -65,6 +65,35 @@ function prep(string $sql, string ...$args): PDOStatement
 }
 
 /**
+ * Determine appropriate DB type
+ *
+ * @param array $attr
+ *
+ * @return string
+ */
+function db_cast(array $attr): string
+{
+    switch ($attr['backend']) {
+        case 'bool':
+            return 'UNSIGNED';
+        case 'date':
+            return 'DATE';
+        case 'datetime':
+            return 'DATETIME';
+        case 'decimal':
+            return 'DECIMAL';
+        case 'int':
+            return 'SIGNED';
+        case 'json':
+            return 'JSON';
+        case 'time':
+            return 'TIME';
+    }
+
+    return 'CHAR';
+}
+
+/**
  * Set appropriate parameter type
  *
  * @param array $attr
@@ -74,7 +103,19 @@ function prep(string $sql, string ...$args): PDOStatement
  */
 function db_type(array $attr, $value): int
 {
-    return $value === null && !empty($attr['nullable']) ? PDO::PARAM_NULL : $attr['db_type'];
+    if ($value === null && !empty($attr['nullable'])) {
+        return PDO::PARAM_NULL;
+    }
+
+    if ($attr['backend'] === 'bool') {
+        return PDO::PARAM_BOOL;
+    }
+
+    if ($attr['backend'] === 'int' || $attr['backend'] === 'decimal') {
+        return PDO::PARAM_INT;
+    }
+
+    return PDO::PARAM_STR;
 }
 
 /**
