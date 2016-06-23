@@ -287,13 +287,6 @@ return [
                 'type' => 'text',
                 'actions' => ['edit', 'index'],
             ],
-            'privilege' => [
-                'name' => 'Privilege',
-                'type' => 'select.varchar',
-                'nullable' => true,
-                'opt' => ['privileges'],
-                'actions' => ['edit', 'index'],
-            ],
             'root_id' => [
                 'name' => 'Menu',
                 'generator' => 'auto',

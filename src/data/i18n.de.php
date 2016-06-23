@@ -61,6 +61,7 @@ return [
     'Invalid JSON notation' => 'Ungültige JSON Notation',
     'Invalid option for attribute %s' => 'Ungültige Option für Attribut %s',
     'Invalid path %s' => 'Ungültiger Pfad %s',
+    'Invalid request path %s' => 'Ungültiger Request Pfad %s',
     'Invalid type %s configured for attribute %s' => 'Ungültiger Typ %s für Attribut %s konfiguriert',
     'Invalid URL' => 'Ungültige URL',
     'Invalid username and password combination' => 'Ungültige Kombination aus Benutzername und Passwort',

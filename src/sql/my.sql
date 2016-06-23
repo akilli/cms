@@ -118,7 +118,6 @@ CREATE TABLE IF NOT EXISTS node (
     id INTEGER(11) NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     target VARCHAR(255) NOT NULL,
-    privilege VARCHAR(255) DEFAULT NULL,
     root_id INTEGER(11) NOT NULL,
     lft INTEGER(11) NOT NULL,
     rgt INTEGER(11) NOT NULL,
@@ -129,7 +128,6 @@ CREATE TABLE IF NOT EXISTS node (
     PRIMARY KEY (id),
     KEY idx_node_name (name),
     KEY idx_node_target (target),
-    KEY idx_node_privilege (privilege),
     KEY idx_node_root (root_id),
     KEY idx_node_lft (lft),
     KEY idx_node_rgt (rgt),
@@ -239,23 +237,23 @@ INSERT INTO entity (id, name, model, actions, system, project_id) VALUES
 INSERT INTO menu (id, uid, name, system, project_id) VALUES
 (1, 'toolbar', 'Toolbar', '1', 1);
 
-INSERT INTO node (id, name, target, privilege, root_id, lft, rgt, parent_id, level, project_id) VALUES
-(1, 'Homepage', '', 'index.index', 1, 1, 2, NULL, 1, 1),
-(2, 'Dashboard', 'user/dashboard', 'user.dashboard', 1, 3, 4, NULL, 1, 1),
-(3, 'Profile', 'user/profile', 'user.profile', 1, 5, 6, NULL, 1, 1),
-(4, 'Logout', 'user/logout', 'user.logout', 1, 7, 8, NULL, 1, 1),
-(5, 'Content', '#', NULL, 1, 9, 12, NULL, 1, 1),
-(6, 'Structure', '#', NULL, 1, 13, 22, NULL, 1, 1),
-(7, 'System', '#', NULL, 1, 23, 32, NULL, 1, 1),
-(8, 'Page', 'page/index', 'page.index', 1, 10, 11, 5, 2, 1),
-(9, 'Project', 'project/index', 'project.index', 1, 24, 25, 7, 2, 1),
-(10, 'User', 'user/index', 'user.index', 1, 26, 27, 7, 2, 1),
-(11, 'Role', 'role/index', 'role.index', 1, 28, 29, 7, 2, 1),
-(12, 'Rewrite', 'rewrite/index', 'rewrite.index', 1, 30, 31, 7, 2, 1),
-(13, 'Menu', 'menu/index', 'menu.index', 1, 14, 15, 6, 2, 1),
-(14, 'Menu Node', 'node/index', 'node.index', 1, 16, 17, 6, 2, 1),
-(15, 'Entity', 'entity/index', 'entity.index', 1, 18, 19, 6, 2, 1),
-(16, 'Attribute', 'attr/index', 'attr.index', 1, 20, 21, 6, 2, 1);
+INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project_id) VALUES
+(1, 'Homepage', '', 1, 1, 2, NULL, 1, 1),
+(2, 'Dashboard', 'user/dashboard', 1, 3, 4, NULL, 1, 1),
+(3, 'Profile', 'user/profile', 1, 5, 6, NULL, 1, 1),
+(4, 'Logout', 'user/logout', 1, 7, 8, NULL, 1, 1),
+(5, 'Content', '#', 1, 9, 12, NULL, 1, 1),
+(6, 'Structure', '#', 1, 13, 22, NULL, 1, 1),
+(7, 'System', '#', 1, 23, 32, NULL, 1, 1),
+(8, 'Page', 'page/index', 1, 10, 11, 5, 2, 1),
+(9, 'Project', 'project/index', 1, 24, 25, 7, 2, 1),
+(10, 'User', 'user/index', 1, 26, 27, 7, 2, 1),
+(11, 'Role', 'role/index', 1, 28, 29, 7, 2, 1),
+(12, 'Rewrite', 'rewrite/index', 1, 30, 31, 7, 2, 1),
+(13, 'Menu', 'menu/index', 1, 14, 15, 6, 2, 1),
+(14, 'Menu Node', 'node/index', 1, 16, 17, 6, 2, 1),
+(15, 'Entity', 'entity/index', 1, 18, 19, 6, 2, 1),
+(16, 'Attribute', 'attr/index', 1, 20, 21, 6, 2, 1);
 
 INSERT INTO project (id, uid, name, host, active, system) VALUES
 (1, 'default', 'DEFAULT', NULL, '1', '1');

@@ -1,6 +1,8 @@
 <?php
 namespace qnd;
 
+use InvalidArgumentException;
+
 /**
  * User
  *
@@ -91,6 +93,27 @@ function privilege(string $key = null): string
     }
 
     return substr_count($key, '.') === 0 ? request('entity') . '.' . $key : $key;
+}
+
+/**
+ * Retrieve full privilege id from given request path considering rewrites
+ *
+ * @param string $path
+ *
+ * @return string
+ *
+ * @throws InvalidArgumentException
+ */
+function privilege_url(string $path): string
+{
+    if (strpos($path, 'http') === 0) {
+        throw new InvalidArgumentException(_('Invalid request path %s', $path));
+    }
+
+    $parts = explode('/', url_rewrite($path));
+    $parts[1] = $parts[1] ?? data('skeleton', 'request')['action'];
+
+    return implode('.', array_slice($parts, 0, 2));
 }
 
 /**

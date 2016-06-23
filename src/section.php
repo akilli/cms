@@ -133,19 +133,19 @@ function section_node(array & $§): string
     $data = array_filter(
         $data,
         function ($item) use ($data) {
-            if (!empty($item['privilege']) && !allowed($item['privilege'])) {
-                return false;
+            if (strpos($item['target'], 'http') === 0) {
+                return true;
             }
 
             if ($item['target'] !== '#') {
-                return true;
+                return allowed(privilege_url($item['target']));
             }
 
             foreach ($data as $i) {
                 if ($i['lft'] > $item['lft']
                     && $i['rgt'] < $item['rgt']
                     && $i['target'] !== '#'
-                    && (empty($i['privilege']) || allowed($i['privilege']))
+                    && allowed(privilege_url($i['target']))
                 ) {
                     return true;
                 }
