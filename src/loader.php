@@ -19,7 +19,7 @@ function loader(array $attr, array $item)
     }
 
     // Temporary
-    if ($attr['multiple']) {
+    if ($attr['backend'] === 'json') {
         return loader_json($attr, $item);
     }
 
