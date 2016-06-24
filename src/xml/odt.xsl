@@ -28,18 +28,8 @@
     xmlns:int="http://opendocumentfellowship.org/internal"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:php="http://php.net/xsl"
-    exclude-result-prefixes="office meta config text table draw presentation dr3d chart form script style number anim dc xlink math xforms fo svg smil ooo ooow oooc int #default php"
 >
-    <xsl:output
-        method="xml"
-        indent="yes"
-        omit-xml-declaration="yes"
-        encoding="utf-8"
-        standalone="no"
-        doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
-        doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-    />
+    <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" encoding="utf-8" standalone="no"/>
 
     <!-- Body -->
     <xsl:template match="office:document-content">
@@ -108,12 +98,7 @@
             <!-- Quotations -->
             <xsl:when test="@text:style-name='Quotations' and node()">
                 <xsl:element name="blockquote">
-                    <xsl:element name="p">
-                        <xsl:attribute name="class">
-                            <xsl:value-of select="translate(@text:style-name,'.','_')"/>
-                        </xsl:attribute>
-                        <xsl:apply-templates/>
-                    </xsl:element>
+                    <xsl:apply-templates/>
                 </xsl:element>
             </xsl:when>
             <!-- Default -->
@@ -129,7 +114,7 @@
     <xsl:template match="text:a">
         <xsl:element name="a">
             <xsl:attribute name="href">
-                <xsl:value-of select="php:functionString('importLink', @xlink:href)"/>
+                <xsl:value-of select="@xlink:href"/>
             </xsl:attribute>
             <xsl:apply-templates/>
         </xsl:element>
@@ -252,17 +237,10 @@
     </xsl:template>
 
     <!-- Image -->
-    <xsl:template match="draw:text-box">
-        <xsl:element name="div">
-            <xsl:attribute name="class">media</xsl:attribute>
-            <xsl:apply-templates/>
-        </xsl:element>
-    </xsl:template>
-
     <xsl:template match="draw:image">
         <xsl:element name="img">
             <xsl:attribute name="src">
-                <xsl:value-of select="php:functionString('importLink', @xlink:href)"/>
+                <xsl:value-of select="@xlink:href"/>
             </xsl:attribute>
             <xsl:attribute name="alt">
                 <xsl:value-of select="../@draw:name"/>
@@ -291,7 +269,7 @@
     <xsl:template match="draw:plugin">
         <xsl:element name="a">
             <xsl:attribute name="href">
-                <xsl:value-of select="php:functionString('importLink', @xlink:href)"/>
+                <xsl:value-of select="@xlink:href"/>
             </xsl:attribute>
             <xsl:attribute name="title">
                 <xsl:value-of select="../@draw:name"/>
@@ -332,11 +310,41 @@
     <!-- Bold, Italic, Underline -->
     <xsl:template match="text:span">
         <xsl:choose>
-            <xsl:when test="contains(@text:style-name, 'fett') or contains(@text:style-name, 'kursiv') or contains(@text:style-name, 'unterstrichen')">
-                <xsl:element name="span">
-                    <xsl:attribute name="class">
-                        <xsl:value-of select="translate(@text:style-name,'.','_')"/>
-                    </xsl:attribute>
+            <xsl:when test="contains(@text:style-name, 'fett') and contains(@text:style-name, 'kursiv') and contains(@text:style-name, 'unterstrichen')">
+                <xsl:element name="b">
+                    <xsl:element name="i">
+                        <xsl:element name="u">
+                            <xsl:apply-templates/>
+                        </xsl:element>
+                    </xsl:element>
+                </xsl:element>
+            </xsl:when>
+            <xsl:when test="contains(@text:style-name, 'fett') and contains(@text:style-name, 'unterstrichen')">
+                <xsl:element name="b">
+                    <xsl:element name="u">
+                        <xsl:apply-templates/>
+                    </xsl:element>
+                </xsl:element>
+            </xsl:when>
+            <xsl:when test="contains(@text:style-name, 'kursiv') and contains(@text:style-name, 'unterstrichen')">
+                <xsl:element name="i">
+                    <xsl:element name="u">
+                        <xsl:apply-templates/>
+                    </xsl:element>
+                </xsl:element>
+            </xsl:when>
+            <xsl:when test="contains(@text:style-name, 'fett')">
+                <xsl:element name="b">
+                    <xsl:apply-templates/>
+                </xsl:element>
+            </xsl:when>
+            <xsl:when test="contains(@text:style-name, 'kursiv')">
+                <xsl:element name="i">
+                    <xsl:apply-templates/>
+                </xsl:element>
+            </xsl:when>
+            <xsl:when test="contains(@text:style-name, 'unterstrichen')">
+                <xsl:element name="u">
                     <xsl:apply-templates/>
                 </xsl:element>
             </xsl:when>
