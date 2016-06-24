@@ -172,7 +172,7 @@ function _http_request_init(array & $data)
     $data['secure'] = $data['scheme'] === 'https';
     $data['get'] = $_GET;
     $data['post'] = !empty($_POST['token']) && _http_post_validate($_POST['token']) ? $_POST : [];
-    $data['files'] = $_FILES ? _http_files_validate(_http_files_convert($_FILES)) : [];
+    $data['files'] = $_FILES ? _http_files_convert($_FILES) : [];
     $data['origpath'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');
     $data['path'] = url_rewrite($data['origpath'], true);
 }
@@ -226,40 +226,7 @@ function _http_post_validate(string $token): bool
 }
 
 /**
- * Validate uploads
- *
- * @param array $data
- *
- * @return array
- */
-function _http_files_validate(array $data): array
-{
-    $exts = config('ext.file');
-
-    foreach ($data as $key => $items) {
-        foreach ($items as $id => $item) {
-            foreach ($item as $uid => $attr) {
-                if (empty($attr)) {
-                    continue;
-                }
-
-                $ext = pathinfo($attr['name'], PATHINFO_EXTENSION);
-
-                if (empty($exts[$ext])) {
-                    message(_('Invalid file %s was rejected', $attr['name']));
-                    unset($data[$key][$id][$uid]);
-                } else {
-                    $data[$key][$id][$uid]['extension'] = $ext;
-                }
-            }
-        }
-    }
-
-    return $data;
-}
-
-/**
- * Converts uploaded files
+ * Converts and validates uploaded files
  *
  * @param array $data
  *
@@ -274,6 +241,7 @@ function _http_files_convert(array $data): array
     }
 
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
+    $exts = config('ext.file');
 
     foreach ($files as $id => $item) {
         if (!is_array($item)) {
@@ -287,6 +255,13 @@ function _http_files_convert(array $data): array
             $files[$id] = _http_files_convert($item);
         } elseif ($item['error'] === UPLOAD_ERR_NO_FILE || !is_uploaded_file($item['tmp_name'])) {
             unset($files[$id]);
+        } else {
+            $files[$id]['ext'] = pathinfo($item['name'], PATHINFO_EXTENSION);
+
+            if (empty($exts[$files[$id]['ext']])) {
+                message(_('Invalid file %s was rejected', $item['name']));
+                unset($files[$id]);
+            }
         }
     }
 
