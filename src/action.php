@@ -206,6 +206,28 @@ function action_index_index()
 }
 
 /**
+ * Project Import Action
+ *
+ * @return void
+ */
+function action_project_import()
+{
+    if (!$file = http_files('import')) {
+        message(_('No file to import'));
+        redirect(allowed('index') ? '*/index' : '');
+    }
+}
+
+/**
+ * Project Export Action
+ *
+ * @return void
+ */
+function action_project_export()
+{
+}
+
+/**
  * Project Switch Action
  *
  * @return void
