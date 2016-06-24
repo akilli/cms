@@ -102,4 +102,6 @@ return [
     'i18n.locale' => 'de-DE',
     'i18n.time' => 'H:i',
     'i18n.timezone' => 'Europe/Berlin',
+    'import.end' => '<!-- IMPORT_END -->',
+    'import.start' => '<!-- IMPORT_START -->',
 ];
