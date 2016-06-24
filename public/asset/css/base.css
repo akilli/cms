@@ -188,11 +188,6 @@ label {
     display: inline-block;
 }
 
-select[multiple],
-textarea {
-    resize: vertical;
-}
-
 optgroup {
     font-weight: bold;
     font-style: italic;

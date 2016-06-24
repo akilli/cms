@@ -192,6 +192,12 @@ option {
     border-color: #d3d3d3;
 }
 
+
+select[multiple],
+textarea {
+    resize: both;
+}
+
 legend {
     width: 100%;
     border-bottom: thin solid;
