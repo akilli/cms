@@ -167,13 +167,13 @@ function save(string $eId, array & $data): bool
 
         $trans = trans(
             function () use ($eId, & $item, $callback) {
-                event(['entity.preSave', 'entity.' . $item['_entity']['model'] . '.preSave', 'entity.preSave.' . $eId], $item);
+                event(['entity.preSave', 'model.preSave.' . $item['_entity']['model'], 'entity.preSave.' . $eId], $item);
 
                 if (!$callback($item)) {
                     throw new RuntimeException(_('Could not save %s', $item['_id']));
                 }
 
-                event(['entity.postSave', 'entity.' . $item['_entity']['model'] . '.postSave', 'entity.postSave.' . $eId], $item);
+                event(['entity.postSave', 'model.postSave.' . $item['_entity']['model'], 'entity.postSave.' . $eId], $item);
             }
         );
 
@@ -234,13 +234,13 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
 
         $trans = trans(
             function () use ($eId, & $item, $callback, $entity) {
-                event(['entity.preDelete', 'entity.' . $entity['model'] . '.preDelete', 'entity.preDelete.' . $eId], $item);
+                event(['entity.preDelete', 'model.preDelete.' . $entity['model'], 'entity.preDelete.' . $eId], $item);
 
                 if (!$callback($item)) {
                     throw new RuntimeException(_('Could not delete %s', $item['_id']));
                 }
 
-                event(['entity.postDelete', 'entity.' . $entity['model'] . '.postDelete', 'entity.postDelete.' . $eId], $item);
+                event(['entity.postDelete', 'model.postDelete.' . $entity['model'], 'entity.postDelete.' . $eId], $item);
             }
         );
 
@@ -304,7 +304,7 @@ function _load(array $entity, array $item): array
     $item['_entity'] = $entity;
     $item['_id'] = $item['id'];
 
-    event(['entity.load', 'entity.' . $entity['model'] . '.load', 'entity.load.' . $entity['id']], $item);
+    event(['entity.load', 'model.load.' . $entity['model'], 'entity.load.' . $entity['id']], $item);
 
     return $item;
 }
