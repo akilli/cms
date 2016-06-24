@@ -15,6 +15,8 @@ return [
         'view' => 'view',
         'index' => 'index',
         'list' => 'list',
+        'import' => 'import',
+        'export' => 'export',
     ],
     'entity.limit' => 10,
     'entity.pager' => 5,

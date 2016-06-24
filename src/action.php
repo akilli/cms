@@ -174,6 +174,24 @@ function action_list(array $entity)
 }
 
 /**
+ * Import Action
+ *
+ * @return void
+ */
+function action_import()
+{
+}
+
+/**
+ * Export Action
+ *
+ * @return void
+ */
+function action_export()
+{
+}
+
+/**
  * Denied Action
  *
  * @return void
@@ -216,6 +234,21 @@ function action_project_import()
         message(_('No file to import'));
         redirect(allowed('index') ? '*/index' : '');
     }
+
+    $path = path('tmp', basename($file['name'], '.zip'));
+
+    if (file_exists($path)) {
+        file_delete($path);
+    }
+
+    try {
+        unzip($file['tmp_name'], $path);
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+
+    $toc = file_one($path, ['name' => 'toc.csv', 'recursive' => true]);
+    echo '<pre>' . print_r(csv_unserialize(file_get_contents($toc['path']), ['keys' => ['pos', 'name', 'file']]), 1) . '</pre>';
 }
 
 /**
