@@ -36,9 +36,7 @@ function import_zip($file): bool
 
     // Menu
     if (!one('menu', ['uid' => 'page'])) {
-        $menu = skeleton('menu', 1);
-        $menu[-1]['uid'] = 'page';
-        $menu[-1]['name'] = 'Page';
+        $menu = [-1 => ['uid' => 'page', 'name' => 'Page']];
 
         if (!save('menu', $menu)) {
             return false;
@@ -46,17 +44,22 @@ function import_zip($file): bool
     }
 
     // Menu Nodes + Pages
-    $pages = skeleton('page', count($import));
+    foreach ($import as $item) {
+        if (!$item['file'] || !$pages = all('page', ['oid' => $item['file']])) {
+            $pages = [-1 => []];
+        }
 
-    foreach ($import as $key => $item) {
-        $i = -$key - 1;
-        $pages[$i]['name'] = $item['name'];
-        $pages[$i]['active'] = true;
-        $pages[$i]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
-        $pages[$i]['oid'] = $item['file'] ?: null;
+        foreach (array_keys($pages) as $id) {
+            $pages[$id]['name'] = $item['name'];
+            $pages[$id]['active'] = true;
+            $pages[$id]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
+            $pages[$id]['oid'] = $item['file'] ?: null;
+        }
+
+        save('page', $pages);
     }
 
-    return save('page', $pages);
+    return true;
 }
 
 /**

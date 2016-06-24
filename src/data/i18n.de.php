@@ -73,7 +73,6 @@ return [
     'Menu' => 'Menü',
     'Menu Node' => 'Menüknoten',
     'Menu Node can not be child of itself' => 'Menüknoten kann nicht Kind von sich selber sein',
-    'Meta Tags' => 'Meta Angaben',
     'Merge Asset Files' => 'Asset Dateien zusammenführen',
     'Message' => 'Meldung',
     'Mode' => 'Modus',

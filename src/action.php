@@ -102,10 +102,6 @@ function action_view(array $entity)
     layout_load();
     vars('content', ['item' => $item]);
     vars('head', ['title' => $item['name']]);
-
-    if (!empty($item['meta']) && is_array($item['meta'])) {
-        vars('head', ['meta' => $item['meta']]);
-    }
 }
 
 /**
