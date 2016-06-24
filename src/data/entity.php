@@ -374,12 +374,6 @@ return [
                 'type' => 'checkbox.bool',
                 'actions' => ['edit', 'index'],
             ],
-            'import' => [
-                'name' => 'Import ZIP file',
-                'virtual' => true,
-                'type' => 'file',
-                'actions' => ['edit'],
-            ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox.bool',
