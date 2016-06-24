@@ -342,7 +342,7 @@ return [
     ],
     'project' => [
         'name' => 'Project',
-        'actions' => ['create', 'edit', 'delete',  'index'],
+        'actions' => ['create', 'edit', 'delete', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -462,7 +462,7 @@ return [
     ],
     'user' => [
         'name' => 'User',
-        'actions' => ['create', 'edit', 'delete',  'index'],
+        'actions' => ['create', 'edit', 'delete', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
