@@ -123,7 +123,7 @@ function media_load(string $key = null)
     static $data;
 
     if ($data === null) {
-        $data = file_load(path('media'));
+        $data = file_all(path('media'));
     }
 
     if ($key === null) {

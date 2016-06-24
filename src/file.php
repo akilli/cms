@@ -6,7 +6,7 @@ use RecursiveIteratorIterator;
 use SplFileInfo;
 
 /**
- * List files recursively inside the specified path
+ * Load file
  *
  * @param string $path
  * @param array $crit
@@ -14,7 +14,21 @@ use SplFileInfo;
  *
  * @return array
  */
-function file_load(string $path, array $crit = [], array $opts = []): array
+function file_one(string $path, array $crit = [], array $opts = []): array
+{
+    return ($all = file_all($path, $crit, $opts)) ? array_shift($all) : [];
+}
+
+/**
+ * Load file collection
+ *
+ * @param string $path
+ * @param array $crit
+ * @param array $opts
+ *
+ * @return array
+ */
+function file_all(string $path, array $crit = [], array $opts = []): array
 {
     if (!is_dir($path)) {
         return [];
@@ -41,9 +55,10 @@ function file_load(string $path, array $crit = [], array $opts = []): array
 
         $item = [
             'id' => $it->getSubPathname(),
-            'name' => $it->getSubPathname(),
+            'name' => $it->getBasename(),
             'path' => $file->getRealPath(),
             'extension' => $file->getExtension(),
+            'dir' => dirname($it->getSubPathname()),
             'size' => $file->getSize(),
             'modified' => $file->getMTime()
         ];
@@ -159,7 +174,7 @@ function file_copy(string $src, string $dest, array $crit = []): bool
     if ($isFile) {
         copy($src, $dest);
     } else {
-        $files = file_load($src, $crit);
+        $files = file_all($src, $crit);
 
         foreach ($files as $id => $file) {
             if (file_dir(dirname($dest . '/' . $id))) {
