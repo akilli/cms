@@ -53,6 +53,7 @@ function import_zip($file): bool
         $pages[$i]['name'] = $item['name'];
         $pages[$i]['active'] = true;
         $pages[$i]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
+        $pages[$i]['oid'] = $item['file'] ?: null;
     }
 
     return save('page', $pages);

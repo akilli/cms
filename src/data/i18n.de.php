@@ -91,6 +91,7 @@ return [
     'No section Id given' => 'Keine Id für den Layoutbereich vorhanden',
     'Nothing created yet' => 'Noch nichts angelegt',
     'Options' => 'Optionen',
+    'Original Id' => 'Original Id',
     'Page' => 'Seite',
     'Parent' => 'Elter',
     'Password' => 'Passwort',
