@@ -49,7 +49,7 @@ function image(array $media, string $class): string
     }
 
     // Cache
-    $cacheId = $media['id'] . '/' . $width . '-' . $height . ($crop ? '-crop' : '') . '.' . $media['extension'];
+    $cacheId = $media['id'] . '/' . $width . '-' . $height . ($crop ? '-crop' : '') . '.' . $media['ext'];
     $cachePath = path('cache', 'media/' . $cacheId);
 
     // Generate cache file
@@ -76,7 +76,7 @@ function image(array $media, string $class): string
             } elseif ($info[2] === IMAGETYPE_GIF) {
                 $create = 'imagecreatefromgif';
                 $output = 'imagegif';
-            } elseif ($media['extension'] = 'webp') {
+            } elseif ($media['ext'] = 'webp') {
                 $create = 'imagecreatefromwebp';
                 $output = 'imagewebp';
             }
