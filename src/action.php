@@ -1,6 +1,8 @@
 <?php
 namespace qnd;
 
+use Exception;
+
 /**
  * Create Action
  *
@@ -180,6 +182,7 @@ function action_list(array $entity)
  */
 function action_import()
 {
+    action_error();
 }
 
 /**
@@ -189,6 +192,7 @@ function action_import()
  */
 function action_export()
 {
+    action_error();
 }
 
 /**
@@ -243,8 +247,8 @@ function action_project_import()
 
     try {
         unzip($file['tmp_name'], $path);
-    } catch (\Exception $e) {
-        echo $e->getMessage();
+    } catch (Exception $e) {
+        message($e->getMessage());
     }
 
     $toc = file_one($path, ['name' => 'toc.csv', 'recursive' => true]);
@@ -258,6 +262,7 @@ function action_project_import()
  */
 function action_project_export()
 {
+    action_error();
 }
 
 /**
