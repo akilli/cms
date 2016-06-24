@@ -53,6 +53,7 @@ return [
     'Id' => 'Id',
     'Ignore' => 'Ignorieren',
     'Image' => 'Bild',
+    'Import ZIP file' => 'Import ZIP Datei',
     'Index' => 'Index',
     'Integer' => 'Ganzzahl',
     'Invalid database configuration' => 'Ungültige Datenbank Konfiguration',
