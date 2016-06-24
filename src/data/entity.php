@@ -2,7 +2,7 @@
 return [
     'attr' => [
         'name' => 'Attribute',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'edit', 'delete', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -190,7 +190,7 @@ return [
     ],
     'entity' => [
         'name' => 'Entity',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'edit', 'delete', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -233,7 +233,7 @@ return [
     ],
     'menu' => [
         'name' => 'Menu',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'edit', 'delete', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -268,7 +268,7 @@ return [
     'node' => [
         'name' => 'Menu Node',
         'model' => 'node',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'edit', 'delete', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -383,7 +383,7 @@ return [
     ],
     'rewrite' => [
         'name' => 'Rewrite',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'edit', 'delete', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -422,7 +422,7 @@ return [
     ],
     'role' => [
         'name' => 'Role',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'edit', 'delete', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -462,7 +462,7 @@ return [
     ],
     'user' => [
         'name' => 'User',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'edit', 'delete', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',

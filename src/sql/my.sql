@@ -222,17 +222,17 @@ INSERT INTO content (id, name, entity_id, active, system, content, project_id) V
 (1, 'Homepage', 'page', '1', '0', 'Hello World', 1);
 
 INSERT INTO entity (id, name, model, actions, system, project_id) VALUES
-('attr', 'Attribute', 'flat', '["create", "edit", "delete", "index", "import", "export"]', '1', 1),
+('attr', 'Attribute', 'flat', '["create", "edit", "delete", "index"]', '1', 1),
 ('content', 'Content', 'flat', '[]', '1', 1),
 ('eav', 'EAV', 'flat', '[]', '1', 1),
-('entity', 'Entity', 'flat', '["create", "edit", "delete", "index", "import", "export"]', '1', 1),
-('menu', 'Menu', 'flat', '["create", "edit", "delete", "index", "import", "export"]', '1', 1),
-('node', 'Menu Node', 'node', '["create", "edit", "delete", "index", "import", "export"]', '1', 1),
+('entity', 'Entity', 'flat', '["create", "edit", "delete", "index"]', '1', 1),
+('menu', 'Menu', 'flat', '["create", "edit", "delete", "index"]', '1', 1),
+('node', 'Menu Node', 'node', '["create", "edit", "delete", "index"]', '1', 1),
 ('page', 'Page', 'eav', '["all"]', '1', 1),
 ('project', 'Project', 'flat', '["create", "edit", "delete", "index", "import", "export"]', '1', 1),
-('rewrite', 'Rewrite', 'flat', '["create", "edit", "delete", "index", "import", "export"]', '1', 1),
-('role', 'Role', 'flat', '["create", "edit", "delete", "index", "import", "export"]', '1', 1),
-('user', 'User', 'flat', '["create", "edit", "delete", "index", "import", "export"]', '1', 1);
+('rewrite', 'Rewrite', 'flat', '["create", "edit", "delete", "index"]', '1', 1),
+('role', 'Role', 'flat', '["create", "edit", "delete", "index"]', '1', 1),
+('user', 'User', 'flat', '["create", "edit", "delete", "index"]', '1', 1);
 
 INSERT INTO menu (id, uid, name, system, project_id) VALUES
 (1, 'toolbar', 'Toolbar', '1', 1);
