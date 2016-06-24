@@ -56,9 +56,10 @@ function file_all(string $path, array $crit = [], array $opts = []): array
         $item = [
             'id' => $it->getSubPathname(),
             'name' => $it->getBasename(),
-            'path' => $file->getRealPath(),
             'extension' => $file->getExtension(),
             'dir' => dirname($it->getSubPathname()),
+            'path' => $file->getRealPath(),
+            'parent' => $file->getPathInfo()->getRealPath(),
             'size' => $file->getSize(),
             'modified' => $file->getMTime()
         ];
