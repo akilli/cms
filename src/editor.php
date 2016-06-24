@@ -274,17 +274,20 @@ function editor_datetime(array $attr, array $item): string
 function editor_file(array $attr, array $item): string
 {
     $attr['html']['type'] = $attr['frontend'];
-    $reset = [
-        'id' => 'data-' . $item['_id'] . '-_reset-' . $attr['id'],
-        'name' => 'data[' . $item['_id'] . '][_reset]' . '[' . $attr['id'] . ']',
-        'type' => 'checkbox',
-        'value' => 1,
-    ];
+    $resetHtml = '';
 
-    return html_tag('div', [], viewer($attr, $item))
-        . html_tag('input', $attr['html'], null, true)
-        . html_tag('input', $reset, null, true)
-        . html_tag('label', ['for' => $reset['id'], 'class' => 'inline'], _('Reset'));
+    if ($item['_id'] >= 0 && !$attr['virtual']) {
+        $reset = [
+            'id' => 'data-' . $item['_id'] . '-_reset-' . $attr['id'],
+            'name' => 'data[' . $item['_id'] . '][_reset]' . '[' . $attr['id'] . ']',
+            'type' => 'checkbox',
+            'value' => 1,
+        ];
+        $resetHtml = html_tag('input', $reset, null, true)
+            . html_tag('label', ['for' => $reset['id'], 'class' => 'inline'], _('Reset'));
+    }
+
+    return html_tag('div', [], viewer($attr, $item)) . html_tag('input', $attr['html'], null, true) . $resetHtml;
 }
 
 /**
