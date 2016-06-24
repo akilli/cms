@@ -26,14 +26,19 @@ return [
         'node' => 'node'
     ],
     'ext.file' => [
+        'csv' => 'csv',
         'doc' => 'doc',
         'docx' => 'docx',
         'flv' => 'flv',
         'gz' => 'gz',
+        'html' => 'html',
+        'ini' => 'ini',
+        'json' => 'json',
         'odt' => 'odt',
         'pdf' => 'pdf',
         'rar' => 'rar',
         'tar' => 'tar',
+        'xml' => 'xml',
         'zip' => 'zip',
     ],
     'ext.audio' => [
