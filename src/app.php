@@ -67,6 +67,7 @@ function path(string $dir, string $subpath = null): string
         $data['src'] = __DIR__;
         $data['data'] = $data['src'] . '/data';
         $data['template'] = $data['src'] . '/template';
+        $data['xml'] = $data['src'] . '/xml';
         $data['public'] = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
         $data['asset'] = $data['public'] . '/asset';
         $data['cache'] = $data['asset'] . '/cache';
