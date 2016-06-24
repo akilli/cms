@@ -10,6 +10,7 @@ const CSV_OPTS = [
     'escape' => '\\',
     'single_item' => false,
     'first_row_as_keys' => false,
+    'keys' => [],
 ];
 
 /**
@@ -54,18 +55,34 @@ function csv_serialize(array $data, array $opts = []): string
 function csv_unserialize(string $src, array $opts = []): array
 {
     $opts = array_replace(CSV_OPTS, $opts);
-    $rows = str_getcsv($src, "\n");
-    $data = [];
 
-    foreach ($rows as $row => & $item) {
+    if (!$rows = str_getcsv($src, "\n")) {
+        return [];
+    }
+
+    $data = [];
+    $keys = [];
+
+    if ($opts['first_row_as_keys']) {
+        $keys = $rows[0];
+        unset($rows[0]);
+    } elseif ($opts['keys'] && is_array($opts['keys'])) {
+        $keys = $opts['keys'];
+    }
+
+    $k = count($keys);
+    $skel = array_fill(0, $k, null);
+
+    foreach ($rows as $row => $item) {
         $item = str_getcsv($item, $opts['delimiter'], $opts['enclosure'], $opts['escape']);
 
         if ($opts['single_item']) {
             $data[$item[0]] = $item[1];
-        } elseif (!$opts['first_row_as_keys']) {
+        } elseif ($keys) {
+            $item = $k >= count($item) ? array_replace($skel, $item) : array_slice($item, 0, $k);
+            $data[] = array_combine($keys, $item);
+        } else {
             $data[] = $item;
-        } elseif ($row > 0) {
-            $data[] = array_combine($rows[0], $item);
         }
     }
 
