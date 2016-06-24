@@ -121,6 +121,7 @@ function save(string $eId, array & $data): bool
     $original = all($eId, ['id' => array_keys($data)]);
     $skeleton = skeleton($eId);
     $editable = skeleton($eId, null, true);
+    $error = [];
 
     foreach ($data as $id => $item) {
         $item['_id'] = $id;
@@ -145,7 +146,7 @@ function save(string $eId, array & $data): bool
                 $data[$id]['_error'] = $item['_error'];
             }
 
-            $error = true;
+            $error[$id] = true;
             continue;
         }
 
@@ -159,33 +160,39 @@ function save(string $eId, array & $data): bool
                     $data[$id]['_error'] = $item['_error'];
                 }
 
-                $error = true;
+                $error[$id] = true;
                 continue 2;
             }
         }
 
-        $success = trans(
+        $trans = trans(
             function () use ($eId, & $item, $callback) {
                 event(['entity.preSave', 'entity.' . $item['_entity']['model'] . '.preSave', 'entity.preSave.' . $eId], $item);
 
                 if (!$callback($item)) {
-                    throw new RuntimeException(_('Data could not be saved'));
+                    throw new RuntimeException(_('Could not save %s', $item['_id']));
                 }
 
                 event(['entity.postSave', 'entity.' . $item['_entity']['model'] . '.postSave', 'entity.postSave.' . $eId], $item);
             }
         );
 
-        if (!$success) {
-            $error = true;
+        if (!$trans) {
+            $error[$id] = true;
         } else {
             unset($data[$id]);
         }
     }
 
-    message(_(empty($error) ? 'Data successfully saved' : 'Data could not be saved'));
+    if ($success = array_diff(array_keys($data), array_keys($error))) {
+        message(_('Successfully saved %s', implode(', ', $success)));
+    }
 
-    return empty($error);
+    if ($error) {
+        message(_('Could not save %s', implode(', ', array_keys($error))));
+    }
+
+    return !$error;
 }
 
 /**
@@ -201,6 +208,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
 {
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_delete');
+    $error = [];
 
     if (!$data = all($eId, $crit, $opts)) {
         return false;
@@ -219,33 +227,39 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
                     message($item['_error'][$uid]);
                 }
 
-                $error = true;
+                $error[$id] = true;
                 continue 2;
             }
         }
 
-        $success = trans(
+        $trans = trans(
             function () use ($eId, & $item, $callback, $entity) {
                 event(['entity.preDelete', 'entity.' . $entity['model'] . '.preDelete', 'entity.preDelete.' . $eId], $item);
 
                 if (!$callback($item)) {
-                    throw new RuntimeException(_('Data could not be deleted'));
+                    throw new RuntimeException(_('Could not delete %s', $item['_id']));
                 }
 
                 event(['entity.postDelete', 'entity.' . $entity['model'] . '.postDelete', 'entity.postDelete.' . $eId], $item);
             }
         );
 
-        if (!$success) {
-            $error = true;
+        if (!$trans) {
+            $error[$id] = true;
         }
 
         $data[$id] = $item;
     }
 
-    message(_(empty($error) ? 'Data successfully deleted' : 'Data could not be deleted'));
+    if ($success = array_diff(array_keys($data), array_keys($error))) {
+        message(_('Successfully deleted %s', implode(', ', $success)));
+    }
 
-    return empty($error);
+    if ($error) {
+        message(_('Could not delete %s', implode(', ', array_keys($error))));
+    }
+
+    return !$error;
 }
 
 /**

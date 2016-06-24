@@ -18,7 +18,7 @@ return [
         'import' => 'import',
         'export' => 'export',
     ],
-    'entity.limit' => 10,
+    'entity.limit' => 20,
     'entity.pager' => 5,
     'entity.model' => [
         'flat' => 'flat',
@@ -104,4 +104,5 @@ return [
     'i18n.timezone' => 'Europe/Berlin',
     'import.end' => '<!-- IMPORT_END -->',
     'import.start' => '<!-- IMPORT_START -->',
+    'import.toc' => 'import.csv',
 ];
