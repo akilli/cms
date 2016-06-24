@@ -111,7 +111,7 @@ function viewer_time(array $attr, array $item): string
  */
 function viewer_rte(array $attr, array $item): string
 {
-    return $item[$attr['id']];
+    return (string) $item[$attr['id']];
 }
 
 /**
