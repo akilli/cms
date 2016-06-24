@@ -1,8 +1,6 @@
 <?php
 namespace qnd;
 
-use Exception;
-
 /**
  * Create Action
  *
@@ -236,23 +234,11 @@ function action_project_import()
 {
     if (!$file = http_files('import')) {
         message(_('No file to import'));
-        redirect(allowed('index') ? '*/index' : '');
+    } else {
+        import_zip($file['tmp_name']);
     }
 
-    $path = path('tmp', basename($file['name'], '.zip'));
-
-    if (file_exists($path)) {
-        file_delete($path);
-    }
-
-    try {
-        unzip($file['tmp_name'], $path);
-    } catch (Exception $e) {
-        message($e->getMessage());
-    }
-
-    $toc = file_one($path, ['name' => 'toc.csv', 'recursive' => true]);
-    echo '<pre>' . print_r(csv_unserialize(file_get_contents($toc['path']), ['keys' => ['pos', 'name', 'file']]), 1) . '</pre>';
+    redirect(allowed('index') ? '*/index' : '');
 }
 
 /**
