@@ -29,9 +29,9 @@ function url(string $path = '', array $params = []): string
  *
  * @return string
  */
-function url_css(string $path): string
+function url_css(string $path = ''): string
 {
-    return url('asset/css/' . trim($path, '/'));
+    return url('asset/css' . ($path ? '/' . $path : ''));
 }
 
 /**
@@ -41,9 +41,9 @@ function url_css(string $path): string
  *
  * @return string
  */
-function url_js(string $path): string
+function url_js(string $path = ''): string
 {
-    return url('asset/js/' . trim($path, '/'));
+    return url('asset/js' . ($path ? '/' . $path : ''));
 }
 
 /**
@@ -53,9 +53,9 @@ function url_js(string $path): string
  *
  * @return string
  */
-function url_media(string $path): string
+function url_media(string $path = ''): string
 {
-    return url('asset/media/' . trim($path, '/'));
+    return url('asset/media' . ($path ? '/' . $path : ''));
 }
 
 /**
@@ -65,9 +65,9 @@ function url_media(string $path): string
  *
  * @return string
  */
-function url_cache(string $path): string
+function url_cache(string $path = ''): string
 {
-    return url('asset/cache/' . trim($path, '/'));
+    return url('asset/cache' . ($path ? '/' . $path : ''));
 }
 
 /**
