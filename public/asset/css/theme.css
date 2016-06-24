@@ -177,7 +177,7 @@ button {
 
 [role=button],
 button,
-input,
+input:not([type=file]),
 select,
 textarea {
     vertical-align: middle;
@@ -185,7 +185,7 @@ textarea {
     border: thin solid;
 }
 
-input,
+input:not([type=file]),
 select,
 textarea,
 option {
