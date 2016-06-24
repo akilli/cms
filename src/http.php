@@ -259,7 +259,7 @@ function _http_files_convert(array $data): array
             $files[$id]['ext'] = pathinfo($item['name'], PATHINFO_EXTENSION);
 
             if (empty($exts[$files[$id]['ext']])) {
-                message(_('Invalid file %s was rejected', $item['name']));
+                message(_('Invalid file %s', $item['name']));
                 unset($files[$id]);
             }
         }
