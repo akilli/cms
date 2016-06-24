@@ -10,16 +10,6 @@ return [
         'active' => false,
         'sort' => 200,
     ],
-    'project.import' => [
-        'name' => 'Project Import',
-        'active' => true,
-        'sort' => 1000,
-    ],
-    'project.export' => [
-        'name' => 'Project Export',
-        'active' => true,
-        'sort' => 1000,
-    ],
     'project.switch' => [
         'name' => 'Project Switch',
         'active' => true,

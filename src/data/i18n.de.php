@@ -108,8 +108,6 @@ return [
     'Privileges' => 'Privilegien',
     'Profile' => 'Profil',
     'Project' => 'Projekt',
-    'Project Export' => 'Projekt-Export',
-    'Project Import' => 'Projekt-Import',
     'Project Switch' => 'Projekt Wechseln',
     'Radio (Boolean)' => 'Radio (Boolean)',
     'Radio (Integer)' => 'Radio (Ganzzahl)',
