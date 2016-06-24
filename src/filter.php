@@ -67,15 +67,3 @@ function filter_id(string $id): string
 
     return trim(preg_replace($keys, $data, strtolower($id)), '-');
 }
-
-/**
- * Line break
- *
- * @param string $str
- *
- * @return string
- */
-function filter_linebreak(string $str): string
-{
-    return str_replace(["\015\012", "\015", "\012"], "\n", $str);
-}
