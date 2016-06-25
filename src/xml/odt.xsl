@@ -33,9 +33,7 @@
 
     <!-- Body -->
     <xsl:template match="office:document-content">
-        <body>
-            <xsl:apply-templates/>
-        </body>
+        <xsl:apply-templates/>
     </xsl:template>
 
     <!-- Linebreak -->
@@ -110,16 +108,6 @@
         </xsl:choose>
     </xsl:template>
 
-    <!-- Link -->
-    <xsl:template match="text:a">
-        <xsl:element name="a">
-            <xsl:attribute name="href">
-                <xsl:value-of select="@xlink:href"/>
-            </xsl:attribute>
-            <xsl:apply-templates/>
-        </xsl:element>
-    </xsl:template>
-
     <!-- List -->
     <xsl:template match="text:list">
         <xsl:variable name="level" select="count(ancestor::text:list)+1"/>
@@ -157,7 +145,9 @@
 
     <!-- List Item -->
     <xsl:template match="text:list-item">
-        <xsl:element name="li"><xsl:apply-templates/></xsl:element>
+        <xsl:element name="li">
+            <xsl:apply-templates/>
+        </xsl:element>
     </xsl:template>
 
     <!-- Table -->
@@ -236,6 +226,17 @@
         </xsl:if>
     </xsl:template>
 
+    <!-- Link -->
+    <xsl:template match="text:a">
+        <xsl:variable name="link" select="@xlink:href"/>
+        <xsl:element name="a">
+            <xsl:attribute name="href">
+                <xsl:value-of select="@xlink:href"/>
+            </xsl:attribute>
+            <xsl:apply-templates/>
+        </xsl:element>
+    </xsl:template>
+
     <!-- Image -->
     <xsl:template match="draw:image">
         <xsl:element name="img">
@@ -274,7 +275,6 @@
             <xsl:attribute name="title">
                 <xsl:value-of select="../@draw:name"/>
             </xsl:attribute>
-            <xsl:attribute name="class">media</xsl:attribute>
             <xsl:value-of select="../@draw:name"/>
         </xsl:element>
     </xsl:template>
