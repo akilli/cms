@@ -16,7 +16,7 @@ const PROJECT_THEME = 'base';
  *
  * @return mixed
  */
-function project(string $key = null)
+function project(string $key)
 {
     static $data;
 
@@ -29,10 +29,6 @@ function project(string $key = null)
         $data['ids'] = array_unique([PROJECT_ID, $data['id']]);
         $data['theme'] = $data['theme'] ?: PROJECT_THEME;
         session('project', $data['id']);
-    }
-
-    if ($key === null) {
-        return $data;
     }
 
     return $data[$key] ?? null;
