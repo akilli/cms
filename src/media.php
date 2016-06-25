@@ -48,14 +48,14 @@ function image(array $media, string $class): string
         }
     }
 
-    // Cache
-    $cacheId = $media['id'] . '/' . $width . '-' . $height . ($crop ? '-crop' : '') . '.' . $media['ext'];
-    $cachePath = path('cache', 'media/' . $cacheId);
+    // Asset
+    $assetId = $media['id'] . '/' . $width . '-' . $height . ($crop ? '-crop' : '') . '.' . $media['ext'];
+    $assetPath = path('asset', 'media/' . $assetId);
 
-    // Generate cache file
-    if (!file_exists($cachePath) || $media['modified'] >= filemtime($cachePath)) {
+    // Generate asset file
+    if (!file_exists($assetPath) || $media['modified'] >= filemtime($assetPath)) {
         if ($info[0] === $width && $info[1] === $height) {
-            file_copy($media['path'], $cachePath);
+            file_copy($media['path'], $assetPath);
         } else {
             // Callbacks
             if ($info[2] === IMAGETYPE_JPEG) {
@@ -82,8 +82,8 @@ function image(array $media, string $class): string
             }
 
             if (!empty($create) && !empty($output)) {
-                // Make cache directory
-                file_dir(dirname($cachePath));
+                // Make asset directory
+                file_dir(dirname($assetPath));
 
                 // Resource
                 $source = $create($media['path']);
@@ -98,7 +98,7 @@ function image(array $media, string $class): string
                 // Output
                 imagecopyresampled($image, $source, 0, 0, $x, $y, $width, $height, $sourceWidth, $sourceHeight);
                 $umask = umask(0);
-                $output($image, $cachePath, $quality);
+                $output($image, $assetPath, $quality);
                 umask($umask);
 
                 // Destroy
@@ -108,7 +108,7 @@ function image(array $media, string $class): string
         }
     }
 
-    return file_exists($cachePath) ? url_cache('media/' . $cacheId) : url_media($media['id']);
+    return file_exists($assetPath) ? url_asset('media/' . $assetId) : url_media($media['id']);
 }
 
 /**
@@ -142,6 +142,6 @@ function media_load(string $key = null)
  */
 function media_delete(string $id): bool
 {
-    return file_delete(path('cache', 'media/' . $id))
+    return file_delete(path('asset', 'media/' . $id))
         && (!$id || !($media = media_load($id)) || file_delete($media['path']));
 }

@@ -23,15 +23,15 @@ function url(string $path = '', array $params = []): string
 }
 
 /**
- * Cache URL
+ * Asset URL
  *
  * @param string $path
  *
  * @return string
  */
-function url_cache(string $path = ''): string
+function url_asset(string $path = ''): string
 {
-    return url('cache' . ($path ? '/' . $path : ''));
+    return url('asset' . ($path ? '/' . $path : ''));
 }
 
 /**
