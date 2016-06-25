@@ -44,7 +44,7 @@ function listener_data_entity(array & $data)
         $data[$id] = $item;
     }
 
-    if (!$entities = all('entity', ['project_id' => [PROJECT_DEFAULT, project('id')]])) {
+    if (!$entities = all('entity', ['project_id' => project_all()])) {
         return;
     }
 

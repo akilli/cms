@@ -14,7 +14,7 @@ use XSLTProcessor;
  */
 function import_zip($file): bool
 {
-    $path = path('tmp', 'import_' . project('id'));
+    $path = project_path('tmp', 'import');
 
     if (file_exists($path)) {
         file_delete($path);
@@ -115,7 +115,7 @@ function import_html($file)
 function import_odt($file)
 {
     $html = '';
-    $path = path('tmp', uniqid(basename($file), true));
+    $path = project_path('tmp', uniqid(basename($file), true));
     $mediaPath = $path . '/Pictures';
     $contentXML = $path . '/content.xml';
     $xslFile = path('xml', 'odt.xsl');
@@ -146,7 +146,7 @@ function import_odt($file)
 
     // Copy images and fix url
     if (is_dir($mediaPath)) {
-        file_copy($mediaPath, path('media'));
+        file_copy($mediaPath, project_path('media'));
     }
 
     file_delete($path);

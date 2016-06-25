@@ -12,11 +12,11 @@ namespace qnd;
 function saver(array $attr, array & $item): bool
 {
     $callback = fqn('saver_' . $attr['type']);
-    
+
     if (is_callable($callback)) {
         return $callback($attr, $item);
     }
-    
+
     // Temporary
     if ($attr['frontend'] === 'file') {
         return saver_file($attr, $item);
@@ -97,10 +97,10 @@ function saver_file(array $attr, array & $item): bool
         return true;
     }
 
-    $value = generator_file($file['name'], path('media'));
+    $value = generator_file($file['name'], project_path('media'));
 
     // Upload failed
-    if (!file_upload($file['tmp_name'], path('media', $value))) {
+    if (!file_upload($file['tmp_name'], project_path('media', $value))) {
         $item['_error'][$attr['id']] = _('File upload failed');
         return false;
     }

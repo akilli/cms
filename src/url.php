@@ -31,7 +31,13 @@ function url(string $path = '', array $params = []): string
  */
 function url_asset(string $path = ''): string
 {
-    return url('asset' . ($path ? '/' . $path : ''));
+    static $base;
+
+    if ($base === null) {
+        $base = project('id') . '/asset';
+    }
+
+    return url($base . ($path ? '/' . $path : ''));
 }
 
 /**
@@ -43,7 +49,13 @@ function url_asset(string $path = ''): string
  */
 function url_media(string $path = ''): string
 {
-    return url('media' . ($path ? '/' . $path : ''));
+    static $base;
+
+    if ($base === null) {
+        $base = project('id') . '/media';
+    }
+
+    return url($base . ($path ? '/' . $path : ''));
 }
 
 /**

@@ -61,14 +61,14 @@ function path(string $dir, string $subpath = null): string
         $data = [];
         $root = filter_path(realpath(__DIR__ . '/..'));
         $public = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
-        $data['log'] = $root . '/app/log';
-        $data['tmp'] = $root . '/app/tmp';
-        $data['data'] = __DIR__ . '/data';
-        $data['template'] = __DIR__ . '/template';
-        $data['xml'] = __DIR__ . '/xml';
         $data['asset'] = $public . '/asset';
+        $data['data'] = __DIR__ . '/data';
+        $data['log'] = $root . '/app/log';
         $data['media'] = $public . '/media';
+        $data['template'] = __DIR__ . '/template';
         $data['theme'] = $public . '/theme';
+        $data['tmp'] = $root . '/app/tmp';
+        $data['xml'] = __DIR__ . '/xml';
     }
 
     if (empty($data[$dir])) {

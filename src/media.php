@@ -50,7 +50,7 @@ function image(array $media, string $class): string
 
     // Asset
     $assetId = $media['id'] . '/' . $width . '-' . $height . ($crop ? '-crop' : '') . '.' . $media['ext'];
-    $assetPath = path('asset', 'media/' . $assetId);
+    $assetPath = project_path('asset', 'media/' . $assetId);
 
     // Generate asset file
     if (!file_exists($assetPath) || $media['modified'] >= filemtime($assetPath)) {
@@ -123,7 +123,7 @@ function media_load(string $key = null)
     static $data;
 
     if ($data === null) {
-        $data = file_all(path('media'));
+        $data = file_all(project_path('media'));
     }
 
     if ($key === null) {
@@ -142,6 +142,6 @@ function media_load(string $key = null)
  */
 function media_delete(string $id): bool
 {
-    return file_delete(path('asset', 'media/' . $id))
+    return file_delete(project_path('asset', 'media/' . $id))
         && (!$id || !($media = media_load($id)) || file_delete($media['path']));
 }
