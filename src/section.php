@@ -36,26 +36,6 @@ function section_container(array & $§): string
 }
 
 /**
- * Entity section
- *
- * @param array $§
- *
- * @return string
- */
-function section_entity(array & $§): string
-{
-    if (empty($§['vars']['entity']) || !($entity = data('entity', $§['vars']['entity']))) {
-        return '';
-    }
-
-    $§['vars'] = array_replace(['crit' => [], 'opts' => []], $§['vars']);
-    $§['vars']['data'] = all($§['vars']['entity'], $§['vars']['crit'], $§['vars']['opts']);
-    $§['vars']['title'] = $entity['name'];
-
-    return render($§);
-}
-
-/**
  * Pager section
  *
  * @param array $§
