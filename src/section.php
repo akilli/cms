@@ -143,10 +143,6 @@ function section_node(array & $§): string
         $attrs = [];
         $class = '';
 
-        if (!empty($§['vars']['translate'])) {
-            $item['name'] = _($item['name']);
-        }
-
         if ($item['target'] === request('path')) {
             $attrs['class'] = 'active';
             $class .= ' class="active"';
