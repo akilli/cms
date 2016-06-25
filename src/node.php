@@ -230,7 +230,7 @@ function _node_position(array & $item): int
         && $item['_old']['lft'] < $basisItem['lft']
         && $item['_old']['rgt'] > $basisItem['rgt']
     ) {
-        throw new LogicException(_('Menu Node can not be child of itself'));
+        throw new LogicException(_('Node can not be child of itself'));
     }
 
     if ($item['mode'] === 'child') {

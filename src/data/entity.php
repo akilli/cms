@@ -243,7 +243,7 @@ return [
         ],
     ],
     'node' => [
-        'name' => 'Menu Node',
+        'name' => 'Node',
         'model' => 'node',
         'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
         'attr' => [

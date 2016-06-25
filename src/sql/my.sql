@@ -243,7 +243,7 @@ INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project
 (11, 'Role', 'role/index', 1, 28, 29, 7, 2, 'base'),
 (12, 'Rewrite', 'rewrite/index', 1, 30, 31, 7, 2, 'base'),
 (13, 'Menu', 'menu/index', 1, 14, 15, 6, 2, 'base'),
-(14, 'Menu Node', 'node/index', 1, 16, 17, 6, 2, 'base'),
+(14, 'Node', 'node/index', 1, 16, 17, 6, 2, 'base'),
 (15, 'Entity', 'entity/index', 1, 18, 19, 6, 2, 'base'),
 (16, 'Attribute', 'attr/index', 1, 20, 21, 6, 2, 'base');
 

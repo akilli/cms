@@ -43,7 +43,7 @@ function import_zip($file): bool
         }
     }
 
-    // Menu Nodes + Pages
+    // Nodes + Pages
     foreach ($import as $item) {
         if (!$item['file'] || !$pages = all('page', ['oid' => $item['file']])) {
             $pages = [-1 => []];
