@@ -315,7 +315,7 @@ function action_user_login()
     if ($data = http_post('data')) {
         if (!empty($data['username'])
             && !empty($data['password'])
-            && ($item = one('user', ['username' => $data['username'], 'active' => true, 'project_id' => project_all()]))
+            && ($item = one('user', ['username' => $data['username'], 'active' => true, 'project_id' => project('ids')]))
             && password_verify($data['password'], $item['password'])
         ) {
             message(_('Welcome %s', $item['name']));

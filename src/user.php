@@ -18,7 +18,7 @@ function user(string $key = null)
         $data = [];
         $id = (int) session('user');
 
-        if ($id && ($data = one('user', ['id' => $id, 'active' => true, 'project_id' => project_all()]))) {
+        if ($id && ($data = one('user', ['id' => $id, 'active' => true, 'project_id' => project('ids')]))) {
             $role = one('role', ['id' => $data['role_id'], 'active' => true, 'project_id' => $data['project_id']]);
             $data['privilege'] = $role ? $role['privilege'] : [];
         } else {

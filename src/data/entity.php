@@ -346,6 +346,13 @@ return [
                 'uniq' => true,
                 'actions' => ['edit', 'index'],
             ],
+            'theme' => [
+                'name' => 'Theme',
+                'type' => 'select.varchar',
+                'nullable' => true,
+                'opt' => ['opt_theme'],
+                'actions' => ['edit', 'index'],
+            ],
             'active' => [
                 'name' => 'Active',
                 'type' => 'checkbox.bool',

@@ -67,7 +67,13 @@ function url_media(string $path = ''): string
  */
 function url_theme(string $path = ''): string
 {
-    return url('theme/base' . ($path ? '/' . $path : ''));
+    static $base;
+
+    if ($base === null) {
+        $base = 'theme/' . project('theme');
+    }
+
+    return url($base . ($path ? '/' . $path : ''));
 }
 
 /**

@@ -68,7 +68,24 @@ function opt_translate(array $opts): array
 }
 
 /**
- * Tree options
+ * Theme options
+ *
+ * @return array
+ */
+function opt_theme(): array
+{
+    $data = [];
+
+    foreach (glob(path('theme', '*'), GLOB_ONLYDIR) as $dir) {
+        $theme = basename($dir);
+        $data[$theme] = $theme;
+    }
+
+    return $data;
+}
+
+/**
+ * Menu options
  *
  * @return array
  */

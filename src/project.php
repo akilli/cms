@@ -6,7 +6,8 @@ use InvalidArgumentException;
 /**
  * Constants
  */
-const PROJECT_DEFAULT = 1;
+const PROJECT_ID = 1;
+const PROJECT_THEME = 'base';
 
 /**
  * Project
@@ -24,7 +25,9 @@ function project(string $key = null)
         $id = (int) session('project');
         $crit = $id ? ['id' => $id] : ['host' => request('host')];
         $crit['active'] = true;
-        $data = one('project', $crit) ?: one('project', ['id' => PROJECT_DEFAULT]);
+        $data = one('project', $crit) ?: one('project', ['id' => PROJECT_ID]);
+        $data['ids'] = array_unique([PROJECT_ID, $data['id']]);
+        $data['theme'] = $data['theme'] ?: PROJECT_THEME;
         session('project', $data['id']);
     }
 
@@ -36,32 +39,16 @@ function project(string $key = null)
 }
 
 /**
- * Current and default project Ids
- *
- * @return array
- */
-function project_all(): array
-{
-    static $data;
-
-    if ($data === null) {
-        $data = array_unique([PROJECT_DEFAULT, project('id')]);
-    }
-
-    return $data;
-}
-
-/**
  * Gets project-specific absolute path to specified subpath in given directory
  *
  * @param string $dir
  * @param string $subpath
  *
- * @return string[]|string
+ * @return string
  *
  * @throws InvalidArgumentException
  */
-function project_path(string $dir = null, string $subpath = null)
+function project_path(string $dir, string $subpath = null): string
 {
     $data = & registry('project.path');
 
@@ -72,10 +59,6 @@ function project_path(string $dir = null, string $subpath = null)
         $data['log'] = path('log', $id);
         $data['media'] = path('media', $id);
         $data['tmp'] = path('tmp', $id);
-    }
-
-    if ($dir === null) {
-        return $data;
     }
 
     if (empty($data[$dir])) {

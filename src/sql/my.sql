@@ -149,12 +149,14 @@ CREATE TABLE IF NOT EXISTS project (
     uid VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
     host VARCHAR(255) DEFAULT NULL,
+    theme VARCHAR(100) DEFAULT NULL,
     active BOOLEAN NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (id),
     UNIQUE KEY uni_project_uid (uid),
     UNIQUE KEY uni_project_host (host),
     KEY idx_project_name (name),
+    KEY idx_project_theme (theme),
     KEY idx_project_active (active),
     KEY idx_project_system (system)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
