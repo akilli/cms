@@ -39,15 +39,8 @@ function listener_data_entity(array & $data)
         }
 
         $item['id'] = $id;
-        $item['name'] = _($item['name']);
         $item = data_entity($item);
-        $item['attr'] = array_map(
-            function ($a) {
-                $a['name'] = _($a['name']);
-                return $a;
-            },
-            data_order($item['attr'], ['sort' => 'asc'])
-        );
+        $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
         $data[$id] = $item;
     }
 
@@ -128,28 +121,6 @@ function listener_data_privilege(array & $data)
                 ];
             }
         }
-    }
-}
-
-/**
- * Load listener
- *
- * @param array $data
- *
- * @return void
- */
-function listener_load(array & $data)
-{
-    static $toolbar;
-
-    if ($data['_entity']['id'] === 'node' && $toolbar === null) {
-        $toolbar = one('menu', ['uid' => 'toolbar']);
-    }
-
-    if (in_array($data['_entity']['id'], ['attr', 'entity'])
-        || $data['_entity']['id'] === 'node' && $data['root_id'] === $toolbar['id']
-    ) {
-        $data['name'] = _($data['name']);
     }
 }
 

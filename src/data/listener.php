@@ -18,11 +18,6 @@ return [
     ],
     // Entity
     [
-        'id' => 'load',
-        'event' => 'entity.load',
-        'sort' => -100,
-    ],
-    [
         'id' => 'save',
         'event' => 'entity.postSave',
         'sort' => -100,
