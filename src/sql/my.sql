@@ -224,7 +224,7 @@ INSERT INTO content (id, name, entity_id, active, system, content, project_id) V
 (1, 'Homepage', 'page', '1', '0', 'Hello World', 'base');
 
 INSERT INTO entity (id, name, model, actions, system, project_id) VALUES
-('page', 'Page', 'eav', '["all"]', '1', 'base');
+('page', 'Page', 'eav', '["create", "delete", "edit", "export", "import", "index", "list", "view"]', '1', 'base');
 
 INSERT INTO menu (id, uid, name, system, project_id) VALUES
 (1, 'toolbar', 'Toolbar', '1', 'base');

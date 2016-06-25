@@ -76,12 +76,11 @@ function allowed(string $key = null): bool
     }
 
     $privileges = user('privilege');
-    $allKey = strstr($key, '.', true) . '.all';
 
     return empty($data[$key]['active'])
         || admin()
         || !empty($data[$key]['callback']) && $data[$key]['callback']()
-        || $privileges && (in_array($allKey, $privileges) || in_array($key, $privileges));
+        || $privileges && in_array($key, $privileges);
 }
 
 /**

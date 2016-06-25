@@ -96,23 +96,9 @@ function listener_data_privilege(array & $data)
     }
 
     $config = config('action.entity');
-    unset($config['all']);
 
     foreach (data('entity') as $eId => $entity) {
-        $actions = in_array('all', $entity['actions']) ? $config : $entity['actions'];
-
-        if (!$actions) {
-            continue;
-        }
-
-        $data[$eId . '.all'] = [
-            'name' => $entity['name'],
-            'active' => true,
-            'sort' => 1000,
-            'class' => 'group',
-        ];
-
-        foreach ($actions as $action) {
+        foreach ($entity['actions'] as $action) {
             if (in_array($action, $config)) {
                 $data[$eId . '.' . $action] = [
                     'name' => $entity['name'] . ' ' . ucwords($action),

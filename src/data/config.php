@@ -1,22 +1,20 @@
 <?php
 return [
     'action.attr' => [
-        'all' => 'all',
         'edit' => 'edit',
-        'view' => 'view',
         'index' => 'index',
         'list' => 'list',
+        'view' => 'view',
     ],
     'action.entity' => [
-        'all' => 'all',
         'create' => 'create',
-        'edit' => 'edit',
         'delete' => 'delete',
-        'view' => 'view',
+        'edit' => 'edit',
+        'export' => 'export',
+        'import' => 'import',
         'index' => 'index',
         'list' => 'list',
-        'import' => 'import',
-        'export' => 'export',
+        'view' => 'view',
     ],
     'entity.limit' => 20,
     'entity.pager' => 5,

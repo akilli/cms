@@ -2,7 +2,7 @@
 return [
     'attr' => [
         'name' => 'Attribute',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -26,7 +26,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['all'],
+                'actions' => ['edit', 'index', 'list', 'view'],
             ],
             'sort' => [
                 'name' => 'Sort',
@@ -91,7 +91,7 @@ return [
                 'sort' => -1100,
                 'required' => true,
                 'searchable' => true,
-                'actions' => ['all'],
+                'actions' => ['edit', 'index', 'list', 'view'],
             ],
             'entity_id' => [
                 'name' => 'Entity',
@@ -167,7 +167,7 @@ return [
     ],
     'entity' => [
         'name' => 'Entity',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -180,14 +180,14 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['all'],
+                'actions' => ['edit', 'index', 'list', 'view'],
             ],
             'model' => [
                 'name' => 'Model',
                 'type' => 'select.varchar',
                 'required' => true,
                 'opt' => [['eav' => 'eav', 'joined' => 'joined']],
-                'actions' => ['all'],
+                'actions' => ['edit', 'index', 'list', 'view'],
             ],
             'actions' => [
                 'name' => 'Actions',
@@ -210,7 +210,7 @@ return [
     ],
     'menu' => [
         'name' => 'Menu',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -228,7 +228,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['all'],
+                'actions' => ['edit', 'index', 'list', 'view'],
             ],
             'system' => [
                 'name' => 'System',
@@ -245,7 +245,7 @@ return [
     'node' => [
         'name' => 'Node',
         'model' => 'node',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -257,7 +257,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['all'],
+                'actions' => ['edit', 'index', 'list', 'view'],
             ],
             'target' => [
                 'name' => 'Target',
@@ -319,7 +319,7 @@ return [
     ],
     'project' => [
         'name' => 'Project',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -332,7 +332,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['all'],
+                'actions' => ['edit', 'index', 'list', 'view'],
             ],
             'host' => [
                 'name' => 'Host',
@@ -362,7 +362,7 @@ return [
     ],
     'rewrite' => [
         'name' => 'Rewrite',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -374,7 +374,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'uniq' => true,
-                'actions' => ['all'],
+                'actions' => ['edit', 'index', 'list', 'view'],
             ],
             'target' => [
                 'name' => 'Target',
@@ -401,7 +401,7 @@ return [
     ],
     'role' => [
         'name' => 'Role',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -414,7 +414,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['all'],
+                'actions' => ['edit', 'index', 'list', 'view'],
             ],
             'privilege' => [
                 'name' => 'Privileges',
@@ -441,7 +441,7 @@ return [
     ],
     'user' => [
         'name' => 'User',
-        'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
+        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -454,14 +454,14 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['all'],
+                'actions' => ['edit', 'index', 'list', 'view'],
             ],
             'username' => [
                 'name' => 'Username',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['all'],
+                'actions' => ['edit', 'index', 'list', 'view'],
             ],
             'password' => [
                 'name' => 'Password',
