@@ -262,19 +262,19 @@ option.group {
 }
 
 option[data-level='2'] {
-    padding-left: 1rem;
+    padding-left: 1.5rem;
 }
 
 option[data-level='3'] {
-    padding-left: 2rem;
-}
-
-option[data-level='4'] {
     padding-left: 3rem;
 }
 
+option[data-level='4'] {
+    padding-left: 4.5rem;
+}
+
 option[data-level='5'] {
-    padding-left: 4rem;
+    padding-left: 6rem;
 }
 
 textarea {
