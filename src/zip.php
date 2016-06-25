@@ -18,7 +18,7 @@ use ZipArchive;
 function unzip(string $file, string $path): bool
 {
     if (!is_file($file)) {
-        throw new InvalidArgumentException(_('File %s does not exist', $file));
+        throw new InvalidArgumentException(_('File %s not found', $file));
     }
 
     if (!file_writable($path)) {
