@@ -21,8 +21,8 @@ function action_create(array $entity)
     }
 
     layout_load();
-    vars('content', ['data' => $data, 'title' => $entity['name']]);
-    vars('head', ['title' => $entity['name']]);
+    vars('content', ['data' => $data, 'title' => _($entity['name'])]);
+    vars('head', ['title' => _($entity['name'])]);
 }
 
 /**
@@ -53,8 +53,8 @@ function action_edit(array $entity)
     }
 
     layout_load();
-    vars('content', ['data' => $data, 'title' => $entity['name']]);
-    vars('head', ['title' => $entity['name']]);
+    vars('content', ['data' => $data, 'title' => _($entity['name'])]);
+    vars('head', ['title' => _($entity['name'])]);
 }
 
 /**
@@ -94,16 +94,14 @@ function action_view(array $entity)
         return;
     }
 
-    $title = $item['name'];
-
     // Preview
     if (!empty($entity['attr']['active']) && empty($item['active'])) {
-        $title = _('Preview') . ' ' . $item['name'];
+        message(_('Preview'));
     }
 
     layout_load();
     vars('content', ['item' => $item]);
-    vars('head', ['title' => $title]);
+    vars('head', ['title' => $item['name']]);
 }
 
 /**
@@ -154,9 +152,9 @@ function action_index(array $entity)
     }
 
     layout_load();
-    vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => $entity['name'], 'attr' => $attrs, 'params' => $p]);
+    vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => _($entity['name']), 'attr' => $attrs, 'params' => $p]);
     vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $p]);
-    vars('head', ['title' => $entity['name']]);
+    vars('head', ['title' => _($entity['name'])]);
 }
 
 /**

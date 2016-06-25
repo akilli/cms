@@ -11,7 +11,7 @@ namespace qnd;
 function opt(array $attr): array
 {
     if ($attr['backend'] === 'bool') {
-        return [_('No'), _('Yes')];
+        return opt_translate(['No', 'Yes']);
     }
 
     if (empty($attr['opt'][0]) || !is_string($attr['opt'][0]) && !is_array($attr['opt'][0])) {
@@ -20,10 +20,10 @@ function opt(array $attr): array
 
     if (is_string($attr['opt'][0])) {
         $params = $attr['opt'][1] ?? [];
-        return $attr['opt'][0](...$params);
+        return opt_translate($attr['opt'][0](...$params));
     }
 
-    return $attr['opt'][0];
+    return opt_translate($attr['opt'][0]);
 }
 
 /**
@@ -45,6 +45,26 @@ function opt_name($id, $value): string
     }
 
     return (string) $id;
+}
+
+/**
+ * Translate options
+ *
+ * @param array $opts
+ *
+ * @return array
+ */
+function opt_translate(array $opts): array
+{
+    foreach ($opts as $key => $value) {
+        if (is_scalar($value)) {
+            $opts[$key] = _($value);
+        } elseif (is_array($value) && !empty($value['name'])) {
+            $opts[$key]['name'] = _($value['name']);
+        }
+    }
+
+    return $opts;
 }
 
 /**

@@ -50,7 +50,7 @@ function section_entity(array & $§): string
 
     $§['vars'] = array_replace(['crit' => [], 'opts' => []], $§['vars']);
     $§['vars']['data'] = all($§['vars']['entity'], $§['vars']['crit'], $§['vars']['opts']);
-    $§['vars']['title'] = $entity['name'];
+    $§['vars']['title'] = _($entity['name']);
 
     return render($§);
 }
@@ -162,6 +162,10 @@ function section_node(array & $§): string
     foreach ($data as $item) {
         $attrs = [];
         $class = '';
+
+        if (!empty($§['vars']['translate'])) {
+            $item['name'] = _($item['name']);
+        }
 
         if ($item['target'] === request('path')) {
             $attrs['class'] = 'active';
