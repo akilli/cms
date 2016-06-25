@@ -48,7 +48,7 @@ function listener_data_entity(array & $data)
         return;
     }
 
-    $attrs = all('attr', ['entity_id' => array_keys($entities)], ['index' => ['entity_id', 'uid']]);
+    $attrs = all('attr', ['project_id' => project('ids')], ['index' => ['entity_id', 'uid']]);
 
     foreach ($entities as $id => $item) {
         if (!empty($data[$id]) && $item['model'] === 'joined') {
@@ -125,6 +125,40 @@ function listener_data_privilege(array & $data)
 }
 
 /**
+ * Save listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_save(array & $data)
+{
+    if ($data['_entity']['id'] === 'rewrite' || !data_action('view', $data['_entity'])) {
+        return;
+    }
+
+    $target = $data['_entity']['id'] . '/view/id/' . $data['id'];
+    $old = one('rewrite', ['target' => $target, 'system' => true]);
+    $rId = $old['id'] ?? -1;
+    $all = all('rewrite', [], ['index' => 'name']);
+    $name = generator_id($data['name'], array_column($all, 'name', 'id'), $rId);
+    $rw = [$rId => ['name' => $name, 'target' => $target, 'system' => true]];
+    save('rewrite', $rw);
+}
+
+/**
+ * Delete listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_delete(array & $data)
+{
+    delete('rewrite', ['target' => $data['_entity']['id'] . '/view/id/' . $data['id']], ['system' => true]);
+}
+
+/**
  * Entity save listener
  *
  * @param array $data
@@ -133,30 +167,19 @@ function listener_data_privilege(array & $data)
  */
 function listener_entity_save(array & $data)
 {
-    if ($data['_entity']['id'] === 'entity' && !empty($data['_old'])) {
-        $crit = ['target' => $data['_old']['id'] . '/view/id/'];
-
-        if (!data_action('view', $data)) {
-            delete('rewrite', $crit, ['search' => true, 'system' => true]);
-        } elseif (data_action('view', $data)
-            && $data['id'] !== $data['_old']['id']
-            && ($rw = all('rewrite', $crit, ['search' => true]))
-        ) {
-            foreach ($rw as $rId => $r) {
-                $rw[$rId]['target'] = preg_replace('#^' . $data['_old']['id'] . '/#', $data['id'] . '/', $r['target']);
-            }
-
-            save('rewrite', $rw);
-        }
+    if (empty($data['_old'])) {
+        return;
     }
 
-    if ($data['_entity']['id'] !== 'rewrite' && data_action('view', $data['_entity'])) {
-        $target = $data['_entity']['id'] . '/view/id/' . $data['id'];
-        $old = one('rewrite', ['target' => $target, 'system' => true]);
-        $rId = $old['id'] ?? -1;
-        $all = all('rewrite', [], ['index' => 'name']);
-        $name = generator_id($data['name'], array_column($all, 'name', 'id'), $rId);
-        $rw = [$rId => ['name' => $name, 'target' => $target, 'system' => true]];
+    $crit = ['target' => $data['_old']['id'] . '/view/id/'];
+
+    if (!data_action('view', $data)) {
+        delete('rewrite', $crit, ['search' => true, 'system' => true]);
+    } elseif ($data['id'] !== $data['_old']['id'] && ($rw = all('rewrite', $crit, ['search' => true]))) {
+        foreach ($rw as $rId => $r) {
+            $rw[$rId]['target'] = preg_replace('#^' . $data['_old']['id'] . '/#', $data['id'] . '/', $r['target']);
+        }
+
         save('rewrite', $rw);
     }
 }
@@ -170,9 +193,46 @@ function listener_entity_save(array & $data)
  */
 function listener_entity_delete(array & $data)
 {
-    if ($data['_entity']['id'] === 'entity') {
-        delete('rewrite', ['target' => $data['id'] . '/view/id/'], ['search' => true, 'system' => true]);
+    delete('rewrite', ['target' => $data['id'] . '/view/id/'], ['search' => true, 'system' => true]);
+}
+
+/**
+ * Project save listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_project_save(array & $data)
+{
+    if (empty($data['_old']['id']) || $data['id'] === $data['_old']['id']) {
+        return;
     }
 
-    delete('rewrite', ['target' => $data['_entity']['id'] . '/view/id/' . $data['id']], ['system' => true]);
+    foreach (['asset', 'media'] as $dir) {
+        $old = path($dir, $data['_old']['id']);
+        $new = path($dir, $data['id']);
+
+        if (file_exists($old) && !rename($old, $new)) {
+            message(_('Could not move directory %s to %s', $old, $new));
+        }
+    }
+}
+
+/**
+ * Project save listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_project_delete(array & $data)
+{
+    if (!file_delete(path('asset', $data['id']))) {
+        message(_('Could not delete directory %s', path('asset', $data['id'])));
+    }
+
+    if (!file_delete(path('media', $data['id']))) {
+        message(_('Could not delete directory %s', path('asset', $data['id'])));
+    }
 }

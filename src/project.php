@@ -6,7 +6,7 @@ use InvalidArgumentException;
 /**
  * Constants
  */
-const PROJECT_ID = 1;
+const PROJECT_ID = 'default';
 const PROJECT_THEME = 'base';
 
 /**
@@ -22,7 +22,7 @@ function project(string $key)
 
     if ($data === null) {
         $data = [];
-        $id = (int) session('project');
+        $id = (string) session('project');
         $crit = $id ? ['id' => $id] : ['host' => request('host')];
         $crit['active'] = true;
         $data = one('project', $crit) ?: one('project', ['id' => PROJECT_ID]);
@@ -52,9 +52,7 @@ function project_path(string $dir, string $subpath = null): string
         $data = [];
         $id = project('id');
         $data['asset'] = path('asset', $id);
-        $data['log'] = path('log', $id);
         $data['media'] = path('media', $id);
-        $data['tmp'] = path('tmp', $id);
     }
 
     if (empty($data[$dir])) {

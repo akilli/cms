@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS attr (
     searchable BOOLEAN NOT NULL DEFAULT '0',
     opt JSON DEFAULT NULL,
     actions JSON DEFAULT NULL,
-    project_id INTEGER(11) NOT NULL,
+    project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY uni_attr_uid (entity_id, uid),
     KEY idx_attr_entity (entity_id),
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS content (
     creator INTEGER(11) DEFAULT NULL,
     modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     modifier INTEGER(11) DEFAULT NULL,
-    project_id INTEGER(11) NOT NULL,
+    project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY uni_content_oid (project_id, oid),
     KEY idx_content_name (name),
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS entity (
     model VARCHAR(255) NOT NULL,
     actions JSON DEFAULT NULL,
     system BOOLEAN NOT NULL DEFAULT '0',
-    project_id INTEGER(11) NOT NULL,
+    project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
     KEY idx_entity_name (name),
     KEY idx_entity_model (model),
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS menu (
     uid VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
     system BOOLEAN NOT NULL DEFAULT '0',
-    project_id INTEGER(11) NOT NULL,
+    project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY uni_menu_uid (project_id, uid),
     KEY idx_menu_uid (uid),
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS node (
     parent_id INTEGER(11) DEFAULT NULL,
     level INTEGER(11) NOT NULL,
     position VARCHAR(255) AS (CONCAT(root_id, ':', lft)) STORED NOT NULL,
-    project_id INTEGER(11) NOT NULL,
+    project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
     KEY idx_node_name (name),
     KEY idx_node_target (target),
@@ -145,15 +145,13 @@ CREATE TABLE IF NOT EXISTS node (
 
 DROP TABLE IF EXISTS project;
 CREATE TABLE IF NOT EXISTS project (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
-    uid VARCHAR(100) NOT NULL,
+    id VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
     host VARCHAR(255) DEFAULT NULL,
     theme VARCHAR(100) DEFAULT NULL,
     active BOOLEAN NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
     PRIMARY KEY (id),
-    UNIQUE KEY uni_project_uid (uid),
     UNIQUE KEY uni_project_host (host),
     KEY idx_project_name (name),
     KEY idx_project_theme (theme),
@@ -168,7 +166,7 @@ CREATE TABLE IF NOT EXISTS rewrite (
     target VARCHAR(255) NOT NULL,
     redirect BOOLEAN NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
-    project_id INTEGER(11) NOT NULL,
+    project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY uni_rewrite_name (project_id, name),
     KEY idx_rewrite_name (name),
@@ -186,7 +184,7 @@ CREATE TABLE IF NOT EXISTS role (
     privilege JSON NOT NULL,
     active BOOLEAN NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
-    project_id INTEGER(11) NOT NULL,
+    project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY uni_role_name (project_id, name),
     KEY idx_role_name (name),
@@ -205,7 +203,7 @@ CREATE TABLE IF NOT EXISTS user (
     role_id INTEGER(11) NOT NULL,
     active BOOLEAN NOT NULL DEFAULT '0',
     system BOOLEAN NOT NULL DEFAULT '0',
-    project_id INTEGER(11) NOT NULL,
+    project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY uni_user_name (project_id, name),
     UNIQUE KEY uni_user_username (username),
@@ -223,43 +221,43 @@ CREATE TABLE IF NOT EXISTS user (
 -- --------------------------------------------------------
 
 INSERT INTO content (id, name, entity_id, active, system, content, project_id) VALUES
-(1, 'Homepage', 'page', '1', '0', 'Hello World', 1);
+(1, 'Homepage', 'page', '1', '0', 'Hello World', 'default');
 
 INSERT INTO entity (id, name, model, actions, system, project_id) VALUES
-('page', 'Page', 'eav', '["all"]', '1', 1);
+('page', 'Page', 'eav', '["all"]', '1', 'default');
 
 INSERT INTO menu (id, uid, name, system, project_id) VALUES
-(1, 'toolbar', 'Toolbar', '1', 1);
+(1, 'toolbar', 'Toolbar', '1', 'default');
 
 INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project_id) VALUES
-(1, 'Homepage', '', 1, 1, 2, NULL, 1, 1),
-(2, 'Dashboard', 'user/dashboard', 1, 3, 4, NULL, 1, 1),
-(3, 'Profile', 'user/profile', 1, 5, 6, NULL, 1, 1),
-(4, 'Logout', 'user/logout', 1, 7, 8, NULL, 1, 1),
-(5, 'Content', '#', 1, 9, 12, NULL, 1, 1),
-(6, 'Structure', '#', 1, 13, 22, NULL, 1, 1),
-(7, 'System', '#', 1, 23, 32, NULL, 1, 1),
-(8, 'Page', 'page/index', 1, 10, 11, 5, 2, 1),
-(9, 'Project', 'project/index', 1, 24, 25, 7, 2, 1),
-(10, 'User', 'user/index', 1, 26, 27, 7, 2, 1),
-(11, 'Role', 'role/index', 1, 28, 29, 7, 2, 1),
-(12, 'Rewrite', 'rewrite/index', 1, 30, 31, 7, 2, 1),
-(13, 'Menu', 'menu/index', 1, 14, 15, 6, 2, 1),
-(14, 'Menu Node', 'node/index', 1, 16, 17, 6, 2, 1),
-(15, 'Entity', 'entity/index', 1, 18, 19, 6, 2, 1),
-(16, 'Attribute', 'attr/index', 1, 20, 21, 6, 2, 1);
+(1, 'Homepage', '', 1, 1, 2, NULL, 1, 'default'),
+(2, 'Dashboard', 'user/dashboard', 1, 3, 4, NULL, 1, 'default'),
+(3, 'Profile', 'user/profile', 1, 5, 6, NULL, 1, 'default'),
+(4, 'Logout', 'user/logout', 1, 7, 8, NULL, 1, 'default'),
+(5, 'Content', '#', 1, 9, 12, NULL, 1, 'default'),
+(6, 'Structure', '#', 1, 13, 22, NULL, 1, 'default'),
+(7, 'System', '#', 1, 23, 32, NULL, 1, 'default'),
+(8, 'Page', 'page/index', 1, 10, 11, 5, 2, 'default'),
+(9, 'Project', 'project/index', 1, 24, 25, 7, 2, 'default'),
+(10, 'User', 'user/index', 1, 26, 27, 7, 2, 'default'),
+(11, 'Role', 'role/index', 1, 28, 29, 7, 2, 'default'),
+(12, 'Rewrite', 'rewrite/index', 1, 30, 31, 7, 2, 'default'),
+(13, 'Menu', 'menu/index', 1, 14, 15, 6, 2, 'default'),
+(14, 'Menu Node', 'node/index', 1, 16, 17, 6, 2, 'default'),
+(15, 'Entity', 'entity/index', 1, 18, 19, 6, 2, 'default'),
+(16, 'Attribute', 'attr/index', 1, 20, 21, 6, 2, 'default');
 
-INSERT INTO project (id, uid, name, host, active, system) VALUES
-(1, 'default', 'DEFAULT', NULL, '1', '1');
+INSERT INTO project (id, name, host, active, system) VALUES
+('default', 'DEFAULT', NULL, '1', '1');
 
 INSERT INTO rewrite (id, name, target, project_id) VALUES
-(1, '', 'page/view/id/1', 1);
+(1, '', 'page/view/id/1', 'default');
 
 INSERT INTO role (id, name, privilege, active, system, project_id) VALUES
-(1, 'admin', '["all"]', '1', '1', 1);
+(1, 'admin', '["all"]', '1', '1', 'default');
 
 INSERT INTO user (id, name, username, password, role_id, active, system, project_id) VALUES
-(1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 1);
+(1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 'default');
 
 -- --------------------------------------------------------
 

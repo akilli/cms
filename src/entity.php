@@ -18,7 +18,7 @@ function size(string $eId, array $crit = [], array $opts = []): int
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_size');
 
-    if (!empty($entity['attr']['project_id']) && !isset($crit['project_id'])) {
+    if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
         $crit['project_id'] = project('id');
     }
 
@@ -48,7 +48,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
     $item = [];
     $opts = array_replace($opts, ['one' => true, 'limit' => 1]);
 
-    if (!empty($entity['attr']['project_id']) && !isset($crit['project_id'])) {
+    if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
         $crit['project_id'] = project('id');
     }
 
@@ -84,7 +84,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
         $opts['index'] = 'id';
     }
 
-    if (!empty($entity['attr']['project_id']) && !isset($crit['project_id'])) {
+    if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
         $crit['project_id'] = project('id');
     }
 

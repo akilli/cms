@@ -34,7 +34,7 @@ function url_asset(string $path): string
     static $base;
 
     if ($base === null) {
-        $base = project('id') . '/asset';
+        $base = 'asset/' . project('id');
     }
 
     return url($base . '/' . $path);
@@ -52,7 +52,7 @@ function url_media(string $path): string
     static $base;
 
     if ($base === null) {
-        $base = project('id') . '/media';
+        $base = 'media/' . project('id');
     }
 
     return url($base . '/' . $path);

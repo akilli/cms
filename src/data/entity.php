@@ -70,7 +70,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.int',
+                'type' => 'select.varchar',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -160,7 +160,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.int',
+                'type' => 'select.varchar',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -203,7 +203,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.int',
+                'type' => 'select.varchar',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -237,7 +237,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.int',
+                'type' => 'select.varchar',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -312,7 +312,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.int',
+                'type' => 'select.varchar',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -322,11 +322,6 @@ return [
         'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
         'attr' => [
             'id' => [
-                'name' => 'Id',
-                'generator' => 'auto',
-                'type' => 'int',
-            ],
-            'uid' => [
                 'name' => 'Id',
                 'type' => 'text',
                 'required' => true,
@@ -399,7 +394,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.int',
+                'type' => 'select.varchar',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -439,7 +434,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.int',
+                'type' => 'select.varchar',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -493,7 +488,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.int',
+                'type' => 'select.varchar',
                 'opt' => ['all', ['project']],
             ],
         ],

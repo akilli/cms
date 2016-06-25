@@ -140,6 +140,6 @@ function logger(string $level, string $message, array $context = [])
         $context['file'] = 'qnd.log';
     }
 
-    $file = project_path('log', $context['file']);
+    $file = path('log', $context['file']);
     file_save($file, '[' . $level . '][' . date('r') . '] ' . $message . "\n\n", FILE_APPEND);
 }

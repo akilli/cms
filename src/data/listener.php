@@ -18,13 +18,33 @@ return [
     ],
     // Entity
     [
-        'id' => 'entity_save',
+        'id' => 'save',
         'event' => 'entity.postSave',
         'sort' => -100,
     ],
     [
-        'id' => 'entity_delete',
+        'id' => 'delete',
         'event' => 'entity.postDelete',
+        'sort' => -100,
+    ],
+    [
+        'id' => 'entity_save',
+        'event' => 'entity.postSave.entity',
+        'sort' => -100,
+    ],
+    [
+        'id' => 'entity_delete',
+        'event' => 'entity.postDelete.entity',
+        'sort' => -100,
+    ],
+    [
+        'id' => 'project_save',
+        'event' => 'entity.postSave.project',
+        'sort' => -100,
+    ],
+    [
+        'id' => 'project_delete',
+        'event' => 'entity.postDelete.project',
         'sort' => -100,
     ],
 ];

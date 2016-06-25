@@ -254,9 +254,9 @@ function action_project_export()
  */
 function action_project_switch()
 {
-    $id = (int) http_post('id');
+    $id = http_post('id');
 
-    if (size('project', ['id' => $id, 'active' => true])) {
+    if ($id && size('project', ['id' => $id, 'active' => true])) {
         session('project', $id);
     }
 
