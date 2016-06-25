@@ -43,7 +43,6 @@ CREATE TABLE IF NOT EXISTS content (
     name VARCHAR(255) NOT NULL,
     entity_id VARCHAR(100) NOT NULL,
     active BOOLEAN NOT NULL DEFAULT '0',
-    system BOOLEAN NOT NULL DEFAULT '0',
     content TEXT DEFAULT NULL,
     search TEXT DEFAULT NULL,
     oid VARCHAR(255) DEFAULT NULL,
@@ -57,7 +56,6 @@ CREATE TABLE IF NOT EXISTS content (
     KEY idx_content_name (name),
     KEY idx_content_entity (entity_id),
     KEY idx_content_active (active),
-    KEY idx_content_system (system),
     KEY idx_content_oid (oid),
     KEY idx_content_created (created),
     KEY idx_content_creator (creator),
@@ -220,8 +218,8 @@ CREATE TABLE IF NOT EXISTS user (
 -- Data
 -- --------------------------------------------------------
 
-INSERT INTO content (id, name, entity_id, active, system, content, project_id) VALUES
-(1, 'Homepage', 'page', '1', '0', 'Hello World', 'base');
+INSERT INTO content (id, name, entity_id, active, content, project_id) VALUES
+(1, 'Homepage', 'page', '1', 'Hello World', 'base');
 
 INSERT INTO entity (id, name, model, actions, system, project_id) VALUES
 ('page', 'Page', 'eav', '["create", "delete", "edit", "export", "import", "index", "list", "view"]', '1', 'base');
