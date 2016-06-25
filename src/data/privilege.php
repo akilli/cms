@@ -1,10 +1,5 @@
 <?php
 return [
-    'all' => [
-        'name' => 'ALL',
-        'active' => true,
-        'class' => 'group',
-    ],
     'index.index' => [
         'name' => 'Homepage',
         'active' => false,
