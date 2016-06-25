@@ -130,6 +130,7 @@ return [
                 'sort' => -500,
                 'type' => 'text',
                 'nullable' => true,
+                'uniq' => true,
             ],
             'created' => [
                 'name' => 'Created',
