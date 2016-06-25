@@ -44,10 +44,13 @@ function listener_data_entity(array & $data)
         $data[$id] = $item;
     }
 
-    $projects = [PROJECT_DEFAULT, project('id')];
-    $attrs = all('attr', ['project_id' => $projects], ['index' => ['entity_id', 'uid']]);
+    if (!$entities = all('entity', ['project_id' => [PROJECT_DEFAULT, project('id')]])) {
+        return;
+    }
 
-    foreach (all('entity', ['model' => ['content', 'eav', 'joined'], 'project_id' => $projects]) as $id => $item) {
+    $attrs = all('attr', ['entity_id' => array_keys($entities)], ['index' => ['entity_id', 'uid']]);
+
+    foreach ($entities as $id => $item) {
         $base = $item['model'] === 'joined' && !empty($data[$id]) ? $data[$id] : $data['content'];
         $item = array_replace($base, $item);
 

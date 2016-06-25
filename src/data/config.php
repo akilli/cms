@@ -21,11 +21,9 @@ return [
     'entity.limit' => 20,
     'entity.pager' => 5,
     'entity.model' => [
-        'flat' => 'flat',
         'content' => 'content',
         'joined' => 'joined',
         'eav' => 'eav',
-        'node' => 'node'
     ],
     'ext.file' => [
         'csv' => 'csv',
