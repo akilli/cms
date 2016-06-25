@@ -246,7 +246,7 @@ function file_writable(string $path): bool
     static $pattern;
 
     if ($pattern === null) {
-        $pattern = '#^(file://)?(' . path('app') . '|' . path('asset') . ')#';
+        $pattern = '#^(file://)?(' . path('app') . '|' . path('cache') . '|' . path('media') . ')#';
     }
 
     return (bool) preg_match($pattern, $path);

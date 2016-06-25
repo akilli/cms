@@ -23,27 +23,15 @@ function url(string $path = '', array $params = []): string
 }
 
 /**
- * CSS URL
+ * Cache URL
  *
  * @param string $path
  *
  * @return string
  */
-function url_css(string $path = ''): string
+function url_cache(string $path = ''): string
 {
-    return url('asset/css' . ($path ? '/' . $path : ''));
-}
-
-/**
- * JavaScript URL
- *
- * @param string $path
- *
- * @return string
- */
-function url_js(string $path = ''): string
-{
-    return url('asset/js' . ($path ? '/' . $path : ''));
+    return url('cache' . ($path ? '/' . $path : ''));
 }
 
 /**
@@ -55,19 +43,43 @@ function url_js(string $path = ''): string
  */
 function url_media(string $path = ''): string
 {
-    return url('asset/media' . ($path ? '/' . $path : ''));
+    return url('media' . ($path ? '/' . $path : ''));
 }
 
 /**
- * Cache URL
+ * Theme URL
  *
  * @param string $path
  *
  * @return string
  */
-function url_cache(string $path = ''): string
+function url_theme(string $path = ''): string
 {
-    return url('asset/cache' . ($path ? '/' . $path : ''));
+    return url('theme' . ($path ? '/' . $path : ''));
+}
+
+/**
+ * CSS URL
+ *
+ * @param string $path
+ *
+ * @return string
+ */
+function url_css(string $path = ''): string
+{
+    return url_theme('css' . ($path ? '/' . $path : ''));
+}
+
+/**
+ * JavaScript URL
+ *
+ * @param string $path
+ *
+ * @return string
+ */
+function url_js(string $path = ''): string
+{
+    return url_theme('js' . ($path ? '/' . $path : ''));
 }
 
 /**

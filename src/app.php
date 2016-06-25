@@ -69,11 +69,11 @@ function path(string $dir, string $subpath = null): string
         $data['template'] = $data['src'] . '/template';
         $data['xml'] = $data['src'] . '/xml';
         $data['public'] = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
-        $data['asset'] = $data['public'] . '/asset';
-        $data['cache'] = $data['asset'] . '/cache';
-        $data['css'] = $data['asset'] . '/css';
-        $data['js'] = $data['asset'] . '/js';
-        $data['media'] = $data['asset'] . '/media';
+        $data['cache'] = $data['public'] . '/cache';
+        $data['media'] = $data['public'] . '/media';
+        $data['theme'] = $data['public'] . '/theme';
+        $data['css'] = $data['theme'] . '/css';
+        $data['js'] = $data['theme'] . '/js';
     }
 
     if (empty($data[$dir])) {
