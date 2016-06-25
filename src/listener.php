@@ -51,7 +51,15 @@ function listener_data_entity(array & $data)
     $attrs = all('attr', ['entity_id' => array_keys($entities)], ['index' => ['entity_id', 'uid']]);
 
     foreach ($entities as $id => $item) {
-        $base = $item['model'] === 'joined' && !empty($data[$id]) ? $data[$id] : $data['content'];
+        if (!empty($data[$id]) && $item['model'] === 'joined') {
+            $base = $data[$id];
+        } elseif (!empty($data[$id])) {
+            message(_('Can not use reserved Id %s for Entity %s', $id, $item['name']));
+            continue;
+        } else {
+            $base = $data['content'];
+        }
+
         $item = array_replace($base, $item);
 
         if ($item['model'] === 'eav' && !empty($attrs[$id])) {

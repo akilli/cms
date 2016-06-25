@@ -14,6 +14,7 @@ return [
     'Audio' => 'Audio',
     'Back' => 'Zurück',
     'Before' => 'Vor',
+    'Can not use reserved Id %s for Entity %s' => 'Reservierte Id %s kann nicht für Entity %s verwendet werden',
     'Checkbox (Boolean)' => 'Checkbox (Boolean)',
     'Checkbox (Integer)' => 'Checkbox (Ganzzahl)',
     'Checkbox (Varchar)' => 'Checkbox (Varchar)',
