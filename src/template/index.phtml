@@ -35,7 +35,7 @@
                         <?php foreach ($§('attr') as $attr):?>
                             <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
                         <th>
-                            <a href="<?= url('*/*', ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?= _($attr['name']);?></a>
+                            <a href="<?= url('*/*', ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?= $attr['name'];?></a>
                         </th>
                         <?php endforeach;?>
                         <?php if (allowed('edit')):?>
