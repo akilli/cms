@@ -1,7 +1,7 @@
 <?php
 return [
     'all' => [
-        'name' => 'All Privileges',
+        'name' => 'ALL',
         'active' => true,
         'class' => 'group',
     ],

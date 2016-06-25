@@ -298,7 +298,7 @@ function action_user_profile()
 
     layout_load();
     vars('content', ['item' => $item]);
-    vars('head', ['title' => _('User Profile')]);
+    vars('head', ['title' => _('Profile')]);
 }
 
 /**
@@ -328,7 +328,7 @@ function action_user_login()
     }
 
     layout_load();
-    vars('head', ['title' => _('User Login')]);
+    vars('head', ['title' => _('Login')]);
 }
 
 /**
