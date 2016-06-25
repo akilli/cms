@@ -61,7 +61,6 @@ function path(string $dir, string $subpath = null): string
         $data = [];
         $root = filter_path(realpath(__DIR__ . '/..'));
         $public = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
-        $data['cache'] = $root . '/app/cache';
         $data['log'] = $root . '/app/log';
         $data['tmp'] = $root . '/app/tmp';
         $data['data'] = __DIR__ . '/data';
