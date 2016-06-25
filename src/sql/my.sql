@@ -221,43 +221,43 @@ CREATE TABLE IF NOT EXISTS user (
 -- --------------------------------------------------------
 
 INSERT INTO content (id, name, entity_id, active, system, content, project_id) VALUES
-(1, 'Homepage', 'page', '1', '0', 'Hello World', 'default');
+(1, 'Homepage', 'page', '1', '0', 'Hello World', 'base');
 
 INSERT INTO entity (id, name, model, actions, system, project_id) VALUES
-('page', 'Page', 'eav', '["all"]', '1', 'default');
+('page', 'Page', 'eav', '["all"]', '1', 'base');
 
 INSERT INTO menu (id, uid, name, system, project_id) VALUES
-(1, 'toolbar', 'Toolbar', '1', 'default');
+(1, 'toolbar', 'Toolbar', '1', 'base');
 
 INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project_id) VALUES
-(1, 'Homepage', '', 1, 1, 2, NULL, 1, 'default'),
-(2, 'Dashboard', 'user/dashboard', 1, 3, 4, NULL, 1, 'default'),
-(3, 'Profile', 'user/profile', 1, 5, 6, NULL, 1, 'default'),
-(4, 'Logout', 'user/logout', 1, 7, 8, NULL, 1, 'default'),
-(5, 'Content', '#', 1, 9, 12, NULL, 1, 'default'),
-(6, 'Structure', '#', 1, 13, 22, NULL, 1, 'default'),
-(7, 'System', '#', 1, 23, 32, NULL, 1, 'default'),
-(8, 'Page', 'page/index', 1, 10, 11, 5, 2, 'default'),
-(9, 'Project', 'project/index', 1, 24, 25, 7, 2, 'default'),
-(10, 'User', 'user/index', 1, 26, 27, 7, 2, 'default'),
-(11, 'Role', 'role/index', 1, 28, 29, 7, 2, 'default'),
-(12, 'Rewrite', 'rewrite/index', 1, 30, 31, 7, 2, 'default'),
-(13, 'Menu', 'menu/index', 1, 14, 15, 6, 2, 'default'),
-(14, 'Menu Node', 'node/index', 1, 16, 17, 6, 2, 'default'),
-(15, 'Entity', 'entity/index', 1, 18, 19, 6, 2, 'default'),
-(16, 'Attribute', 'attr/index', 1, 20, 21, 6, 2, 'default');
+(1, 'Homepage', '', 1, 1, 2, NULL, 1, 'base'),
+(2, 'Dashboard', 'user/dashboard', 1, 3, 4, NULL, 1, 'base'),
+(3, 'Profile', 'user/profile', 1, 5, 6, NULL, 1, 'base'),
+(4, 'Logout', 'user/logout', 1, 7, 8, NULL, 1, 'base'),
+(5, 'Content', '#', 1, 9, 12, NULL, 1, 'base'),
+(6, 'Structure', '#', 1, 13, 22, NULL, 1, 'base'),
+(7, 'System', '#', 1, 23, 32, NULL, 1, 'base'),
+(8, 'Page', 'page/index', 1, 10, 11, 5, 2, 'base'),
+(9, 'Project', 'project/index', 1, 24, 25, 7, 2, 'base'),
+(10, 'User', 'user/index', 1, 26, 27, 7, 2, 'base'),
+(11, 'Role', 'role/index', 1, 28, 29, 7, 2, 'base'),
+(12, 'Rewrite', 'rewrite/index', 1, 30, 31, 7, 2, 'base'),
+(13, 'Menu', 'menu/index', 1, 14, 15, 6, 2, 'base'),
+(14, 'Menu Node', 'node/index', 1, 16, 17, 6, 2, 'base'),
+(15, 'Entity', 'entity/index', 1, 18, 19, 6, 2, 'base'),
+(16, 'Attribute', 'attr/index', 1, 20, 21, 6, 2, 'base');
 
 INSERT INTO project (id, name, host, active, system) VALUES
-('default', 'DEFAULT', NULL, '1', '1');
+('base', 'BASE', NULL, '1', '1');
 
 INSERT INTO rewrite (id, name, target, project_id) VALUES
-(1, '', 'page/view/id/1', 'default');
+(1, '', 'page/view/id/1', 'base');
 
 INSERT INTO role (id, name, privilege, active, system, project_id) VALUES
-(1, 'admin', '["all"]', '1', '1', 'default');
+(1, 'admin', '["all"]', '1', '1', 'base');
 
 INSERT INTO user (id, name, username, password, role_id, active, system, project_id) VALUES
-(1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 'default');
+(1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 'base');
 
 -- --------------------------------------------------------
 

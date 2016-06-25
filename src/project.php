@@ -6,7 +6,7 @@ use InvalidArgumentException;
 /**
  * Constants
  */
-const PROJECT_ID = 'default';
+const PROJECT_ID = 'base';
 const PROJECT_THEME = 'base';
 
 /**
