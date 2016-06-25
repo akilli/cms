@@ -71,28 +71,12 @@
     content: '\f015';
 }
 
-#toolbar li a[href='/user/dashboard']:before {
-    content: '\f0e4';
+#toolbar li a[href='/attr/index']:before {
+    content: '\f142';
 }
 
-#toolbar li a[href='/user/profile']:before {
-    content: '\f1fa';
-}
-
-#toolbar li a[href='/user/logout']:before {
-    content: '\f08b';
-}
-
-#toolbar li a[href='/user/index']:before {
-    content: '\f007';
-}
-
-#toolbar li a[href='/role/index']:before {
-    content: '\f0c0';
-}
-
-#toolbar li a[href='/page/index']:before {
-    content: '\f15b';
+#toolbar li a[href='/entity/index']:before {
+    content: '\f00a';
 }
 
 #toolbar li a[href='/menu/index']:before {
@@ -103,12 +87,8 @@
     content: '\f0e8';
 }
 
-#toolbar li a[href='/entity/index']:before {
-    content: '\f00a';
-}
-
-#toolbar li a[href='/attr/index']:before {
-    content: '\f142';
+#toolbar li a[href='/page/index']:before {
+    content: '\f15b';
 }
 
 #toolbar li a[href='/project/index']:before {
@@ -117,4 +97,24 @@
 
 #toolbar li a[href='/rewrite/index']:before {
     content: '\f064';
+}
+
+#toolbar li a[href='/role/index']:before {
+    content: '\f0c0';
+}
+
+#toolbar li a[href='/user/dashboard']:before {
+    content: '\f0e4';
+}
+
+#toolbar li a[href='/user/index']:before {
+    content: '\f007';
+}
+
+#toolbar li a[href='/user/logout']:before {
+    content: '\f08b';
+}
+
+#toolbar li a[href='/user/profile']:before {
+    content: '\f1fa';
 }
