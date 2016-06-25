@@ -121,6 +121,7 @@ function save(string $eId, array & $data): bool
     $original = all($eId, ['id' => array_keys($data)]);
     $skeleton = skeleton($eId);
     $editable = skeleton($eId, null, true);
+    $success = [];
     $error = [];
 
     foreach ($data as $id => $item) {
@@ -146,7 +147,7 @@ function save(string $eId, array & $data): bool
                 $data[$id]['_error'] = $item['_error'];
             }
 
-            $error[$id] = true;
+            $error[] = $item['name'];
             continue;
         }
 
@@ -160,7 +161,7 @@ function save(string $eId, array & $data): bool
                     $data[$id]['_error'] = $item['_error'];
                 }
 
-                $error[$id] = true;
+                $error[] = $item['name'];
                 continue 2;
             }
         }
@@ -178,18 +179,19 @@ function save(string $eId, array & $data): bool
         );
 
         if (!$trans) {
-            $error[$id] = true;
+            $error[] = $item['name'];
         } else {
+            $success[] = $item['name'];
             unset($data[$id]);
         }
     }
 
-    if ($success = array_diff(array_keys($data), array_keys($error))) {
+    if ($success) {
         message(_('Successfully saved %s', implode(', ', $success)));
     }
 
     if ($error) {
-        message(_('Could not save %s', implode(', ', array_keys($error))));
+        message(_('Could not save %s', implode(', ', $error)));
     }
 
     return !$error;
@@ -208,6 +210,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
 {
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_delete');
+    $success = [];
     $error = [];
 
     if (!$data = all($eId, $crit, $opts)) {
@@ -227,7 +230,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
                     message($item['_error'][$uid]);
                 }
 
-                $error[$id] = true;
+                $error[] = $item['name'];
                 continue 2;
             }
         }
@@ -245,18 +248,20 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
         );
 
         if (!$trans) {
-            $error[$id] = true;
+            $error[] = $item['name'];
+        } else {
+            $success[] = $item['name'];
         }
 
         $data[$id] = $item;
     }
 
-    if ($success = array_diff(array_keys($data), array_keys($error))) {
+    if ($success) {
         message(_('Successfully deleted %s', implode(', ', $success)));
     }
 
     if ($error) {
-        message(_('Could not delete %s', implode(', ', array_keys($error))));
+        message(_('Could not delete %s', implode(', ', $error)));
     }
 
     return !$error;
