@@ -226,7 +226,6 @@ INSERT INTO content (id, name, entity_id, active, system, content, project_id) V
 INSERT INTO entity (id, name, model, actions, system, project_id) VALUES
 ('attr', 'Attribute', 'flat', '["create", "edit", "delete", "index", "import", "export"]', '1', 1),
 ('content', 'Content', 'flat', '[]', '1', 1),
-('eav', 'EAV', 'flat', '[]', '1', 1),
 ('entity', 'Entity', 'flat', '["create", "edit", "delete", "index", "import", "export"]', '1', 1),
 ('menu', 'Menu', 'flat', '["create", "edit", "delete", "index", "import", "export"]', '1', 1),
 ('node', 'Menu Node', 'node', '["create", "edit", "delete", "index", "import", "export"]', '1', 1),

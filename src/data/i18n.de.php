@@ -34,7 +34,6 @@ return [
     'Date' => 'Datum',
     'Datetime' => 'Datum + Uhrzeit',
     'Decimal' => 'Dezimalzahl',
-    'EAV' => 'EAV',
     'Edit' => 'Bearbeiten',
     'Email' => 'E-Mail',
     'Embed' => 'Eingebetteter Inhalt',

@@ -165,30 +165,6 @@ return [
             ],
         ],
     ],
-    'eav' => [
-        'name' => 'EAV',
-        'attr' => [
-            'content_id' => [
-                'name' => 'Content',
-                'type' => 'select.int',
-                'required' => true,
-                'opt' => ['all', ['content']],
-                'actions' => ['edit', 'index'],
-            ],
-            'attr_id' => [
-                'name' => 'Attribute',
-                'type' => 'select.varchar',
-                'required' => true,
-                'opt' => ['all', ['attr']],
-                'actions' => ['edit', 'index'],
-            ],
-            'value' => [
-                'name' => 'Value',
-                'type' => 'textarea',
-                'actions' => ['edit'],
-            ],
-        ],
-    ],
     'entity' => [
         'name' => 'Entity',
         'actions' => ['create', 'edit', 'delete', 'index', 'import', 'export'],
