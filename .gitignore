@@ -5,6 +5,7 @@
 /composer.phar
 .idea
 *.iml
+/local
 /nbproject
 .project
 .settings
