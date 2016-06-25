@@ -59,30 +59,6 @@ function url_theme(string $path = ''): string
 }
 
 /**
- * CSS URL
- *
- * @param string $path
- *
- * @return string
- */
-function url_css(string $path = ''): string
-{
-    return url_theme('css' . ($path ? '/' . $path : ''));
-}
-
-/**
- * JavaScript URL
- *
- * @param string $path
- *
- * @return string
- */
-function url_js(string $path = ''): string
-{
-    return url_theme('js' . ($path ? '/' . $path : ''));
-}
-
-/**
  * Generate query string for given params
  *
  * @param array $params

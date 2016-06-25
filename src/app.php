@@ -72,8 +72,6 @@ function path(string $dir, string $subpath = null): string
         $data['asset'] = $data['public'] . '/asset';
         $data['media'] = $data['public'] . '/media';
         $data['theme'] = $data['public'] . '/theme';
-        $data['css'] = $data['theme'] . '/css';
-        $data['js'] = $data['theme'] . '/js';
     }
 
     if (empty($data[$dir])) {
