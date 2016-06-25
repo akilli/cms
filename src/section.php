@@ -50,7 +50,7 @@ function section_entity(array & $§): string
 
     $§['vars'] = array_replace(['crit' => [], 'opts' => []], $§['vars']);
     $§['vars']['data'] = all($§['vars']['entity'], $§['vars']['crit'], $§['vars']['opts']);
-    $§['vars']['title'] = _($entity['name']);
+    $§['vars']['title'] = $entity['name'];
 
     return render($§);
 }
