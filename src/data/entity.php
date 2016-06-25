@@ -186,7 +186,7 @@ return [
                 'name' => 'Model',
                 'type' => 'select.varchar',
                 'required' => true,
-                'opt' => [['content' => 'content', 'joined' => 'joined', 'eav' => 'eav']],
+                'opt' => [['eav' => 'eav', 'joined' => 'joined']],
                 'actions' => ['all'],
             ],
             'actions' => [

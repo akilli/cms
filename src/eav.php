@@ -17,6 +17,11 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
     $mainAttrs = data('entity', 'content')['attr'];
     $addAttrs = array_diff_key($entity['attr'], $mainAttrs);
     $crit['entity_id'] = $entity['id'];
+
+    if (!$addAttrs) {
+        return flat_size($entity, $crit, $opts);
+    }
+
     $list = [];
     $params = [];
 
@@ -69,6 +74,11 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     $mainAttrs = data('entity', 'content')['attr'];
     $addAttrs = array_diff_key($entity['attr'], $mainAttrs);
     $crit['entity_id'] = $entity['id'];
+
+    if (!$addAttrs) {
+        return flat_load($entity, $crit, $opts);
+    }
+
     $opts['as'] = 'e';
     $list = [];
     $params = [];
@@ -130,25 +140,18 @@ function eav_create(array & $item): bool
     $item['entity_id'] = $item['_entity']['id'];
     $attrs = $item['_entity']['attr'];
     $mainAttrs = data('entity', 'content')['attr'];
-    $cols = cols($mainAttrs, $item);
+    $addAttrs = array_diff_key($attrs, $mainAttrs);
 
-    $stmt = prep(
-        'INSERT INTO content (%s) VALUES (%s)',
-        implode(', ', $cols['col']),
-        implode(', ', $cols['param'])
-    );
+    // Main attributes
+    $item['_entity']['attr'] = $mainAttrs;
+    $result = flat_create($item);
+    $item['_entity']['attr'] = $attrs;
 
-    foreach ($cols['param'] as $uid => $param) {
-        $stmt->bindValue($param, $item[$uid], db_type($attrs[$uid], $item[$uid]));
+    if (!$result || !$addAttrs) {
+        return $result;
     }
 
-    $stmt->execute();
-
-    // Set DB generated id
-    $item['id'] = (int) db()->lastInsertId();
-
     // Save additional attributes
-    $addAttrs = array_diff_key($attrs, $mainAttrs);
     $stmt = db()->prepare('
         INSERT INTO 
             eav
@@ -183,22 +186,18 @@ function eav_save(array & $item): bool
     $item['entity_id'] = $item['_entity']['id'];
     $attrs = $item['_entity']['attr'];
     $mainAttrs = data('entity', 'content')['attr'];
-    $cols = cols($mainAttrs, $item);
+    $addAttrs = array_diff_key($attrs, $mainAttrs);
 
-    $stmt = prep(
-        'UPDATE content SET %s WHERE id = :_id',
-        implode(', ', $cols['set'])
-    );
+    // Main attributes
+    $item['_entity']['attr'] = $mainAttrs;
+    $result = flat_save($item);
+    $item['_entity']['attr'] = $attrs;
 
-    foreach ($cols['param'] as $uid => $param) {
-        $stmt->bindValue($param, $item[$uid], db_type($attrs[$uid], $item[$uid]));
+    if (!$result || !$addAttrs) {
+        return $result;
     }
 
-    $stmt->bindValue(':_id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
-    $stmt->execute();
-
     // Save additional attributes
-    $addAttrs = array_diff_key($attrs, $mainAttrs);
     $stmt = db()->prepare('
         INSERT INTO 
             eav
