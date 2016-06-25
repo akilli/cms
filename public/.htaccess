@@ -6,7 +6,8 @@
     RewriteBase /
     RewriteCond %{THE_REQUEST} ^GET./index\.php [NC]
     RewriteRule ^index\.php/*(.*) /$1$2 [R=301,L]
-    RewriteRule ^asset/ - [L]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
     RewriteRule .* index.php [L]
 </IfModule>
 
