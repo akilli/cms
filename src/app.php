@@ -59,19 +59,17 @@ function path(string $dir, string $subpath = null): string
 
     if ($data === null) {
         $data = [];
-        $data['root'] = filter_path(realpath(__DIR__ . '/..'));
-        $data['app'] = $data['root'] . '/app';
-        $data['cache'] = $data['app'] . '/cache';
-        $data['log'] = $data['app'] . '/log';
-        $data['tmp'] = $data['app'] . '/tmp';
-        $data['src'] = __DIR__;
-        $data['data'] = $data['src'] . '/data';
-        $data['template'] = $data['src'] . '/template';
-        $data['xml'] = $data['src'] . '/xml';
-        $data['public'] = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
-        $data['asset'] = $data['public'] . '/asset';
-        $data['media'] = $data['public'] . '/media';
-        $data['theme'] = $data['public'] . '/theme';
+        $root = filter_path(realpath(__DIR__ . '/..'));
+        $public = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
+        $data['cache'] = $root . '/app/cache';
+        $data['log'] = $root . '/app/log';
+        $data['tmp'] = $root . '/app/tmp';
+        $data['data'] = __DIR__ . '/data';
+        $data['template'] = __DIR__ . '/template';
+        $data['xml'] = __DIR__ . '/xml';
+        $data['asset'] = $public . '/asset';
+        $data['media'] = $public . '/media';
+        $data['theme'] = $public . '/theme';
     }
 
     if (empty($data[$dir])) {
