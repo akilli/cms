@@ -285,12 +285,12 @@ textarea {
  * Messages
  */
 #message {
+    padding: 0.25rem 0.5rem;
     background: #e14b28;
 }
 
-#message h1,
 #message p {
-    padding: 0.25rem 0.5rem;
+    margin: 0;
 }
 
 /**
