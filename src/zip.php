@@ -1,7 +1,6 @@
 <?php
 namespace qnd;
 
-use InvalidArgumentException;
 use RuntimeException;
 use ZipArchive;
 
@@ -18,7 +17,7 @@ use ZipArchive;
 function unzip(string $file, string $path): bool
 {
     if (!is_file($file)) {
-        throw new InvalidArgumentException(_('File %s not found', $file));
+        throw new RuntimeException(_('File %s not found', $file));
     }
 
     if (!file_writable($path)) {
