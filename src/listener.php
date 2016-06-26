@@ -108,6 +108,8 @@ function listener_data_privilege(array & $data)
             }
         }
     }
+
+    $data = data_order($data, ['sort' => 'asc', 'name' => 'asc']);
 }
 
 /**

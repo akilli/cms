@@ -413,7 +413,7 @@ return [
             'privilege' => [
                 'name' => 'Privileges',
                 'type' => 'multiselect',
-                'opt' => ['privileges'],
+                'opt' => ['opt_privilege'],
                 'actions' => ['edit'],
             ],
             'active' => [

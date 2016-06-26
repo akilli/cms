@@ -119,27 +119,3 @@ function privilege_url(string $path): string
 
     return implode('.', array_slice($parts, 0, 2));
 }
-
-/**
- * Retrieve all applied privileges
- *
- * @return array
- */
-function privileges(): array
-{
-    static $data;
-
-    if ($data === null) {
-        $data = data_order(
-            array_filter(
-                data('privilege'),
-                function ($item) {
-                    return !empty($item['active']) && empty($item['callback']);
-                }
-            ),
-            ['sort' => 'asc', 'name' => 'asc']
-        );
-    }
-
-    return $data;
-}

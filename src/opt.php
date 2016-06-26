@@ -48,6 +48,21 @@ function opt_name($id, $value): string
 }
 
 /**
+ * Privilege options
+ *
+ * @return array
+ */
+function opt_privilege(): array
+{
+    return array_filter(
+        data('privilege'),
+        function ($item) {
+            return !empty($item['active']) && empty($item['callback']);
+        }
+    );
+}
+
+/**
  * Theme options
  *
  * @return array
