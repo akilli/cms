@@ -214,7 +214,7 @@ label.inline {
 }
 
 input + label.inline {
-    margin-left: 0.25rem;
+    margin: 0 0.5rem 0 0.25rem;
 }
 
 label em {
