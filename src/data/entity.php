@@ -63,7 +63,7 @@ return [
             ],
             'actions' => [
                 'name' => 'Actions',
-                'type' => 'multiselect',
+                'type' => 'multicheckbox',
                 'nullable' => true,
                 'opt' => ['config', ['action.attr']],
                 'actions' => ['edit', 'index'],
@@ -185,7 +185,7 @@ return [
             ],
             'actions' => [
                 'name' => 'Actions',
-                'type' => 'multiselect',
+                'type' => 'multicheckbox',
                 'nullable' => true,
                 'opt' => ['config', ['action.entity']],
                 'actions' => ['edit', 'index'],
