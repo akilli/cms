@@ -34,10 +34,6 @@ function listener_data_config(array & $data)
 function listener_data_entity(array & $data)
 {
     foreach ($data as $id => $item) {
-        if (!empty($item['model']) && $item['model'] === 'joined') {
-            $item = array_replace_recursive($data['content'], $item);
-        }
-
         $item['id'] = $id;
         $item = data_entity($item);
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
@@ -51,18 +47,15 @@ function listener_data_entity(array & $data)
     $attrs = all('attr', ['project_id' => project('ids')], ['index' => ['entity_id', 'uid']]);
 
     foreach ($entities as $id => $item) {
-        if (!empty($data[$id]) && $item['model'] === 'joined') {
-            $base = $data[$id];
-        } elseif (!empty($data[$id])) {
+        if (!empty($data[$id])) {
             message(_('Can not use reserved Id %s for Entity %s', $id, $item['name']));
             continue;
-        } else {
-            $base = $data['content'];
         }
 
-        $item = array_replace($base, $item);
+        $item = array_replace($data['content'], $item);
+        $item['model'] = 'eav';
 
-        if ($item['model'] === 'eav' && !empty($attrs[$id])) {
+        if (!empty($attrs[$id])) {
             foreach ($attrs[$id] as $uid => $attr) {
                 if (empty($item['attr'][$uid])) {
                     $attr['col'] = 'value';

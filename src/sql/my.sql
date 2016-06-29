@@ -85,13 +85,11 @@ DROP TABLE IF EXISTS entity;
 CREATE TABLE IF NOT EXISTS entity (
     id VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    model VARCHAR(255) NOT NULL,
     actions JSON DEFAULT NULL,
     system BOOLEAN NOT NULL DEFAULT '0',
     project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
     KEY idx_entity_name (name),
-    KEY idx_entity_model (model),
     KEY idx_entity_system (system),
     KEY idx_entity_project (project_id),
     CONSTRAINT con_entity_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -221,8 +219,8 @@ CREATE TABLE IF NOT EXISTS user (
 INSERT INTO content (id, name, entity_id, active, content, project_id) VALUES
 (1, 'Homepage', 'page', '1', 'Hello World', 'base');
 
-INSERT INTO entity (id, name, model, actions, system, project_id) VALUES
-('page', 'Page', 'eav', '["create", "delete", "edit", "export", "import", "index", "list", "view"]', '1', 'base');
+INSERT INTO entity (id, name, actions, system, project_id) VALUES
+('page', 'Page', '["create", "delete", "edit", "export", "import", "index", "list", "view"]', '1', 'base');
 
 INSERT INTO menu (id, uid, name, system, project_id) VALUES
 (1, 'toolbar', 'Toolbar', '1', 'base');

@@ -13,7 +13,7 @@ return [
                 'name' => 'Entity',
                 'type' => 'select.varchar',
                 'required' => true,
-                'opt' => ['all', ['entity', ['model' => 'eav']]],
+                'opt' => ['all', ['entity']],
                 'actions' => ['edit', 'index'],
             ],
             'uid' => [
@@ -174,13 +174,6 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['edit', 'index', 'list', 'view'],
-            ],
-            'model' => [
-                'name' => 'Model',
-                'type' => 'select.varchar',
-                'required' => true,
-                'opt' => [['eav' => 'eav', 'joined' => 'joined']],
                 'actions' => ['edit', 'index', 'list', 'view'],
             ],
             'actions' => [
