@@ -213,14 +213,9 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
     $success = [];
     $error = [];
 
-    if (!$data = all($eId, $crit, $opts)) {
-        return true;
-    }
-
-    foreach ($data as $id => $item) {
+    foreach (all($eId, $crit, $opts) as $id => $item) {
         if (empty($opts['system']) && !empty($item['system'])) {
             message(_('You must not delete system items! Therefore skipped Id %s', $id));
-            unset($data[$id]);
             continue;
         }
 
@@ -252,8 +247,6 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
         } else {
             $success[] = $item['name'];
         }
-
-        $data[$id] = $item;
     }
 
     if ($success) {
