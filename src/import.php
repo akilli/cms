@@ -34,28 +34,33 @@ function import_zip($file): bool
 
     $import = csv_unserialize(file_get_contents($toc['path']), ['keys' => ['pos', 'name', 'file']]);
 
-    // Delete old menu, nodes and pages + create new menu
-    $menu = [-1 => ['uid' => 'page', 'name' => 'Page']];
+    return trans(
+        function () use ($toc, $import) {
+            // Delete old contents
+            delete('page');
+            delete('menu', ['uid' => 'page']);
 
-    if (!delete('page') || !delete('menu', ['uid' => 'page']) || !save('menu', $menu)) {
-        return false;
-    }
+            // Create new contents
+            $menu = [-1 => ['uid' => 'page', 'name' => 'Page']];
+            save('menu', $menu);
 
-    // Create new nodes + pages
-    $pages = [];
-    $id = 0;
+            foreach ($import as $item) {
+                $pages = [];
+                $pages[-1]['name'] = $item['name'];
+                $pages[-1]['active'] = true;
+                $pages[-1]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
+                $pages[-1]['oid'] = $item['file'] ?: null;
+                save('page', $pages);
 
-    foreach ($import as $item) {
-        --$id;
-        $pages[$id]['name'] = $item['name'];
-        $pages[$id]['active'] = true;
-        $pages[$id]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
-        $pages[$id]['oid'] = $item['file'] ?: null;
-    }
-
-    save('page', $pages);
-
-    return true;
+                $nodes = [];
+                $nodes[-1]['name'] = $item['name'];
+                $nodes[-1]['target'] = 'page/view/id/' . $pages[-1]['id'];
+                $nodes[-1]['mode'] = 'child';
+                $nodes[-1]['position'] = $menu[-1]['id'] . ':0';
+                save('node', $nodes);
+            }
+        }
+    );
 }
 
 /**
