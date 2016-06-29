@@ -214,7 +214,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
     $error = [];
 
     if (!$data = all($eId, $crit, $opts)) {
-        return false;
+        return true;
     }
 
     foreach ($data as $id => $item) {
