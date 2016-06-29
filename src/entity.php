@@ -178,11 +178,12 @@ function save(string $eId, array & $data): bool
             }
         );
 
-        if (!$trans) {
-            $error[] = $item['name'];
-        } else {
+        $data[$id]['_success'] = $trans;
+
+        if ($trans) {
             $success[] = $item['name'];
-            unset($data[$id]);
+        } else {
+            $error[] = $item['name'];
         }
     }
 
@@ -242,10 +243,10 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
             }
         );
 
-        if (!$trans) {
-            $error[] = $item['name'];
-        } else {
+        if ($trans) {
             $success[] = $item['name'];
+        } else {
+            $error[] = $item['name'];
         }
     }
 

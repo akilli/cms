@@ -12,10 +12,19 @@ function action_create(array $entity)
 {
     $data = http_post('data');
 
-    if ($data && save($entity['id'], $data)) {
+    if ($data) {
         // Perform save callback and redirect to index on success
-        redirect(allowed('index') ? '*/index' : '');
-    } elseif (!$data) {
+        if (save($entity['id'], $data)) {
+            redirect(allowed('index') ? '*/index' : '');
+        }
+
+        $data = array_filter(
+            $data,
+            function ($item) {
+                return empty($item['_success']);
+            }
+        );
+    } else {
         // Initial create action call
         $data = skeleton($entity['id'], (int) http_post('create'));
     }
@@ -36,13 +45,22 @@ function action_edit(array $entity)
 {
     $data = http_post('data');
 
-    if ($data && save($entity['id'], $data)) {
+    if ($data) {
         // Perform save callback and redirect to index on success
-        redirect(allowed('index') ? '*/index' : '');
-    } elseif (!$data && is_array(http_post('edit'))) {
+        if (save($entity['id'], $data)) {
+            redirect(allowed('index') ? '*/index' : '');
+        }
+
+        $data = array_filter(
+            $data,
+            function ($item) {
+                return empty($item['_success']);
+            }
+        );
+    } elseif (is_array(http_post('edit'))) {
         // We just selected multiple items to edit on the index page
         $data = all($entity['id'], ['id' => array_keys(http_post('edit'))]);
-    } elseif (!$data && http_param('id') !== null) {
+    } elseif (http_param('id') !== null) {
         // We just clicked on an edit link, p.e. on the index page
         $data = all($entity['id'], ['id' => http_param('id')]);
     }
