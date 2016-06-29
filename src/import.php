@@ -42,20 +42,18 @@ function import_zip($file): bool
     }
 
     // Create new nodes + pages
+    $pages = [];
+    $id = 0;
+
     foreach ($import as $item) {
-        if (!$item['file'] || !$pages = all('page', ['oid' => $item['file']])) {
-            $pages = [-1 => []];
-        }
-
-        foreach (array_keys($pages) as $id) {
-            $pages[$id]['name'] = $item['name'];
-            $pages[$id]['active'] = true;
-            $pages[$id]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
-            $pages[$id]['oid'] = $item['file'] ?: null;
-        }
-
-        save('page', $pages);
+        --$id;
+        $pages[$id]['name'] = $item['name'];
+        $pages[$id]['active'] = true;
+        $pages[$id]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
+        $pages[$id]['oid'] = $item['file'] ?: null;
     }
+
+    save('page', $pages);
 
     return true;
 }
