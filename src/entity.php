@@ -124,11 +124,10 @@ function save(string $eId, array & $data): bool
     $success = [];
     $error = [];
 
-    foreach ($data as $id => $item) {
+    foreach ($data as $id => & $item) {
         $item['_id'] = $id;
         $base = empty($original[$id]) ? $skeleton : $original[$id];
         $item = array_replace($base, $editable, $item);
-        $data[$id] = $item;
         $callback = fqn($item['_entity']['model'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
         $item['modifier'] = user('id');
 
@@ -143,10 +142,6 @@ function save(string $eId, array & $data): bool
         }
 
         if (!validate($item)) {
-            if (!empty($item['_error'])) {
-                $data[$id]['_error'] = $item['_error'];
-            }
-
             $error[] = $item['name'];
             continue;
         }
@@ -157,10 +152,6 @@ function save(string $eId, array & $data): bool
             }
 
             if (!saver($item['_entity']['attr'][$uid], $item)) {
-                if (!empty($item['_error'])) {
-                    $data[$id]['_error'] = $item['_error'];
-                }
-
                 $error[] = $item['name'];
                 continue 2;
             }
@@ -178,7 +169,7 @@ function save(string $eId, array & $data): bool
             }
         );
 
-        $data[$id]['_success'] = $trans;
+        $item['_success'] = $trans;
 
         if ($trans) {
             $success[] = $item['name'];
