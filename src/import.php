@@ -34,16 +34,14 @@ function import_zip($file): bool
 
     $import = csv_unserialize(file_get_contents($toc['path']), ['keys' => ['pos', 'name', 'file']]);
 
-    // Menu
-    if (!one('menu', ['uid' => 'page'])) {
-        $menu = [-1 => ['uid' => 'page', 'name' => 'Page']];
+    // Delete old menu, nodes and pages + create new menu
+    $menu = [-1 => ['uid' => 'page', 'name' => 'Page']];
 
-        if (!save('menu', $menu)) {
-            return false;
-        }
+    if (!delete('page') || !delete('menu', ['uid' => 'page']) || !save('menu', $menu)) {
+        return false;
     }
 
-    // Nodes + Pages
+    // Create new nodes + pages
     foreach ($import as $item) {
         if (!$item['file'] || !$pages = all('page', ['oid' => $item['file']])) {
             $pages = [-1 => []];
