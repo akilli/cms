@@ -11,7 +11,7 @@ namespace qnd;
  */
 function cast(array $attr, $value)
 {
-    if ($value === null && !empty($attr['nullable']) || $value === '' && $attr['backend'] === 'json') {
+    if (in_array($value, [null, '']) && !empty($attr['nullable'])) {
         return null;
     }
 

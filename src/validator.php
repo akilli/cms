@@ -16,6 +16,11 @@ function validator(array $attr, array & $item): bool
     }
 
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
+    
+    if ($item[$attr['id']] === null && !empty($attr['nullable'])) {
+        return true;
+    }
+    
     $attr['opt'] = opt($attr);
     $valid = true;
     $callback = fqn('validator_' . $attr['type']);
@@ -75,7 +80,7 @@ function validator_required(array $attr, array & $item): bool
  */
 function validator_uniq(array $attr, array & $item): bool
 {
-    if (empty($attr['uniq']) || !empty($attr['nullable']) && $item[$attr['id']] == null) {
+    if (empty($attr['uniq']) || !empty($attr['nullable']) && $item[$attr['id']] === null) {
         return true;
     }
 
