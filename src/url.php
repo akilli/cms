@@ -29,7 +29,7 @@ function url(string $path = '', array $params = []): string
  *
  * @return string
  */
-function url_asset(string $path): string
+function url_asset(string $path = ''): string
 {
     static $base;
 
@@ -37,7 +37,7 @@ function url_asset(string $path): string
         $base = 'asset/' . project('id');
     }
 
-    return url($base . '/' . $path);
+    return url($base . ($path ? '/' . $path : ''));
 }
 
 /**
@@ -47,7 +47,7 @@ function url_asset(string $path): string
  *
  * @return string
  */
-function url_media(string $path): string
+function url_media(string $path = ''): string
 {
     static $base;
 
@@ -55,7 +55,7 @@ function url_media(string $path): string
         $base = 'media/' . project('id');
     }
 
-    return url($base . '/' . $path);
+    return url($base . ($path ? '/' . $path : ''));
 }
 
 /**
@@ -65,7 +65,7 @@ function url_media(string $path): string
  *
  * @return string
  */
-function url_theme(string $path): string
+function url_theme(string $path = ''): string
 {
     static $base;
 
@@ -73,7 +73,7 @@ function url_theme(string $path): string
         $base = 'theme/' . project('theme');
     }
 
-    return url($base . '/' . $path);
+    return url($base . ($path ? '/' . $path : ''));
 }
 
 /**
