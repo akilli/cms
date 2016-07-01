@@ -159,7 +159,22 @@ function import_content(string $file): string
         $html = import_odt($file);
     }
 
-    return preg_match('#<body(.*)>(.*)</body>#isU', $html, $match) ? $match[2] : $html;
+    if (preg_match('#<body(.*)>(.*)</body>#isU', $html, $match)) {
+        $html = $match[2];
+    }
+
+    $from = [
+        '#="index.html"#Ui',
+        '#="media/(.+)"#Ui',
+        '#="((.+)\.html)"#Ui'
+    ];
+    $to = [
+        sprintf('="%s"', url()),
+        sprintf('="%s/$1"', url_media()),
+        sprintf('="%s$1"', url())
+    ];
+
+    return preg_replace($from, $to, $html);
 }
 
 /**
