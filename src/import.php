@@ -13,7 +13,7 @@ use XSLTProcessor;
  *
  * @return bool
  */
-function import_zip($file): bool
+function import_zip(string $file): bool
 {
     $path = path('tmp', uniqid('import', true));
 
@@ -33,7 +33,7 @@ function import_zip($file): bool
         return false;
     }
 
-    // Media
+    // Copy media files
     file_copy($toc['dir'] . '/media', project_path('media'));
 
     $trans = trans(
@@ -84,13 +84,39 @@ function import_zip($file): bool
 }
 
 /**
- * Import content
+ * Import page
  *
  * @param string $file
  *
  * @return bool
  */
-function import_content($file)
+function import_page(string $file): bool
+{
+    $oid = basename($file);
+    $content = import_content($file);
+
+    if (!$pages = all('page', ['oid' => $oid])) {
+        $pages = [];
+        $pages[-1]['name'] = $oid;
+        $pages[-1]['active'] = true;
+        $pages[-1]['oid'] = $oid;
+    }
+
+    foreach ($pages as $id => $page) {
+        $pages[$id]['content'] = $content;
+    }
+
+    return save('page', $pages);
+}
+
+/**
+ * Import content
+ *
+ * @param string $file
+ *
+ * @return string
+ */
+function import_content(string $file): string
 {
     if (!file_exists($file)) {
         return '';
@@ -115,7 +141,7 @@ function import_content($file)
  *
  * @return string
  */
-function import_html($file)
+function import_html(string $file): string
 {
     if (!file_exists($file) || !$html = file_get_contents($file)) {
         return '';
@@ -132,8 +158,10 @@ function import_html($file)
  * @param string $file
  *
  * @return string
+ *
+ * @throws RuntimeException
  */
-function import_odt($file)
+function import_odt(string $file): string
 {
     $html = '';
     $path = path('tmp', uniqid(basename($file), true));
@@ -148,8 +176,8 @@ function import_odt($file)
     // Load stylesheet
     $xsl = new DOMDocument;
 
-    if ($xsl->load($xslFile) !== true) {
-        return $html;
+    if (!$xsl->load($xslFile)) {
+        throw new RuntimeException(_('Could not load %s', $xslFile));
     }
 
     // Load XSLT processor
@@ -165,7 +193,7 @@ function import_odt($file)
     $dom->load($contentXML);
     $html = $xslt->transformToXml($dom);
 
-    // Copy images and fix url
+    // Copy media files
     if (is_dir($mediaPath)) {
         file_copy($mediaPath, project_path('media'));
     }

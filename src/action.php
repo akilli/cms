@@ -248,8 +248,13 @@ function action_project_import()
 {
     if (!$file = http_files('import')) {
         message(_('No file to import'));
-    } else {
+    } elseif ($file['ext'] === 'zip') {
         import_zip($file['tmp_name']);
+    } elseif (in_array($file['ext'], ['html', 'odt'])) {
+        $path = path('tmp', uniqid($file['name'], true));
+        file_copy($file['tmp_name'], $path . '/' . $file['name']);
+        import_page($path . '/' . $file['name']);
+        file_delete($path);
     }
 
     redirect(allowed('index') ? '*/index' : '');
