@@ -49,13 +49,20 @@ function import_zip(string $file): bool
 
             // Create new contents
             $levels = [0];
+            $index = false;
 
             foreach ($import as $item) {
+                $oid = pathinfo($item['file'], PATHINFO_FILENAME);
+
+                if ($oid === 'index') {
+                    $index = true;
+                }
+
                 $pages = [];
                 $pages[-1]['name'] = $item['name'];
                 $pages[-1]['active'] = true;
                 $pages[-1]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
-                $pages[-1]['oid'] = $item['file'] ? pathinfo($item['file'], PATHINFO_FILENAME): null;
+                $pages[-1]['oid'] = $item['file'] ? $oid: null;
 
                 if (!save('page', $pages)) {
                     throw new RuntimeException(_('Import error'));
@@ -75,6 +82,27 @@ function import_zip(string $file): bool
                 }
 
                 $levels[$level] = $nodes[-1]['lft'];
+            }
+
+            if (!$index && ($p = glob($toc['dir'] . '/index.{html,odt}', GLOB_BRACE))) {
+                if (!import_page($p[0])) {
+                    throw new RuntimeException(_('Import error'));
+                }
+
+                if (!$rw = all('rewrite', ['name' => ''])) {
+                    $rw = [];
+                    $rw[-1]['name'] = '';
+                }
+
+                $p = one('page', ['oid' => 'index']);
+
+                foreach ($rw as $rId => $r) {
+                    $rw[$rId]['target'] = 'page/view/id/' . $p['id'];
+                }
+
+                if (!save('rewrite', $rw)) {
+                    throw new RuntimeException(_('Import error'));
+                }
             }
         }
     );
