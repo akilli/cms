@@ -4,6 +4,13 @@ namespace qnd;
 use InvalidArgumentException;
 
 /**
+ * Constants
+ */
+const PROJECT = 'base';
+const THEME = 'base';
+const USER = 1;
+
+/**
  * Runs application
  *
  * @return void

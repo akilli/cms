@@ -4,11 +4,6 @@ namespace qnd;
 use InvalidArgumentException;
 
 /**
- * Constants
- */
-const USER_ID = 1;
-
-/**
  * User
  *
  * @param string $key
@@ -55,7 +50,7 @@ function registered(): bool
  */
 function admin(): bool
 {
-    return user('id') === USER_ID;
+    return user('id') === USER;
 }
 
 /**

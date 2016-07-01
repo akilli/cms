@@ -4,12 +4,6 @@ namespace qnd;
 use InvalidArgumentException;
 
 /**
- * Constants
- */
-const PROJECT_ID = 'base';
-const PROJECT_THEME = 'base';
-
-/**
  * Project
  *
  * @param string $key
@@ -25,9 +19,9 @@ function project(string $key)
         $id = (string) session('project');
         $crit = $id ? ['id' => $id] : ['host' => request('host')];
         $crit['active'] = true;
-        $data = one('project', $crit) ?: one('project', ['id' => PROJECT_ID]);
-        $data['ids'] = array_unique([PROJECT_ID, $data['id']]);
-        $data['theme'] = $data['theme'] ?: PROJECT_THEME;
+        $data = one('project', $crit) ?: one('project', ['id' => PROJECT]);
+        $data['ids'] = array_unique([PROJECT, $data['id']]);
+        $data['theme'] = $data['theme'] ?: THEME;
         session('project', $data['id']);
     }
 
