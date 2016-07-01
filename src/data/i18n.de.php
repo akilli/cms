@@ -48,6 +48,7 @@ return [
     'Id' => 'Id',
     'Image' => 'Bild',
     'Import' => 'Import',
+    'Import error' => 'Importfehler',
     'Integer' => 'Ganzzahl',
     'Invalid email' => 'Ungültige E-Mail',
     'Invalid file %s' => 'Ungültige Datei %s',

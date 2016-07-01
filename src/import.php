@@ -44,7 +44,7 @@ function import_zip($file): bool
             $menu = [-1 => ['uid' => 'page', 'name' => 'Page']];
 
             if (!delete('page') || !delete('menu', ['uid' => 'page']) || !save('menu', $menu)) {
-                throw new RuntimeException('Import error');
+                throw new RuntimeException(_('Import error'));
             }
 
             // Create new contents
@@ -58,7 +58,7 @@ function import_zip($file): bool
                 $pages[-1]['oid'] = $item['file'] ?: null;
 
                 if (!save('page', $pages)) {
-                    throw new RuntimeException('Import error');
+                    throw new RuntimeException(_('Import error'));
                 }
 
                 $level = substr_count($item['pos'], '.');
@@ -71,7 +71,7 @@ function import_zip($file): bool
                 $nodes[-1]['position'] = $menu[-1]['id'] . ':' . $basis;
 
                 if (!save('node', $nodes)) {
-                    throw new RuntimeException('Import error');
+                    throw new RuntimeException(_('Import error'));
                 }
 
                 $levels[$level] = $nodes[-1]['lft'];
