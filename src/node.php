@@ -44,11 +44,11 @@ function node_load(array $entity, array $crit = [], array $opts = []): array
 function node_create(array & $item): bool
 {
     // Position
-    $lft = _node_position($item);
-    $range = 2;
+    $item['lft'] = _node_position($item);
+    $item['rgt'] = $item['lft'] + 1;
 
     // Make space in the new tree
-    _node_insert($item, $lft, $range);
+    _node_insert($item);
 
     // Insert new node
     $cols = cols($item['_entity']['attr'], $item);
@@ -64,8 +64,8 @@ function node_create(array & $item): bool
     }
 
     $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $lft + 1, PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $item['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':parent_id', $item['parent_id'], PDO::PARAM_INT);
     $stmt->bindValue(':level', $item['level'], PDO::PARAM_INT);
     $stmt->execute();
@@ -106,14 +106,15 @@ function node_save(array & $item): bool
     }
 
     // Position
-    $lft = _node_position($item);
+    $item['lft'] = _node_position($item);
     $range = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
 
-    if ($item['root_id'] === $item['_old']['root_id'] && $lft > $item['_old']['lft']) {
-        $lft -= $range;
+    if ($item['root_id'] === $item['_old']['root_id'] && $item['lft'] > $item['_old']['lft']) {
+        $item['lft'] -= $range;
     }
 
-    $diff = $lft - $item['_old']['lft'];
+    $item['rgt'] = $item['lft'] + $range - 1;
+    $diff = $item['lft'] - $item['_old']['lft'];
 
     // Move all affected nodes from old tree and update their positions for the new tree without adding them yet
     $stmt = db()->prepare('
@@ -139,7 +140,7 @@ function node_save(array & $item): bool
     _node_remove($item);
 
     // Make space in the new tree
-    _node_insert($item, $lft, $range);
+    _node_insert($item);
 
     // Finally add the affected nodes to new tree
     $stmt = db()->prepare("
@@ -250,13 +251,13 @@ function _node_position(array & $item): int
  * Make space in the new tree
  *
  * @param array $item
- * @param int $lft
- * @param int $range
  *
  * @return void
  */
-function _node_insert(array $item, int $lft, int $range)
+function _node_insert(array $item)
 {
+    $range = $item['rgt'] - $item['lft'] + 1;
+
     $stmt = db()->prepare('
         UPDATE 
             node
@@ -267,7 +268,7 @@ function _node_insert(array $item, int $lft, int $range)
             AND lft >= :lft 
     ');
     $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -281,7 +282,7 @@ function _node_insert(array $item, int $lft, int $range)
             AND rgt >= :lft 
     ');
     $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $lft, PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
 }
