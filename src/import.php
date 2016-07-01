@@ -225,6 +225,7 @@ function import_odt(string $file): string
 
     // Load XSLT processor
     $xslt = new XSLTProcessor;
+    $xslt->registerPHPFunctions();
     $xslt->importStylesheet($xsl);
 
     // Load odf content
@@ -244,4 +245,28 @@ function import_odt(string $file): string
     file_delete($path);
 
     return $html;
+}
+
+/**
+ * Fix link path
+ *
+ * @param string $url
+ *
+ * @return string
+ */
+function import_link(string $url): string
+{
+    $parts = explode('/', filter_path($url));
+    $base = array_pop($parts);
+    $dir = $parts ? array_pop($parts) : '';
+
+    if (strpos($base, 'index') === 0) {
+        return url();
+    }
+
+    if (in_array($dir, ['Pictures', 'media'])) {
+        return url_media($base);
+    }
+
+    return url($base);
 }

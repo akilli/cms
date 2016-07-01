@@ -28,12 +28,16 @@
     xmlns:int="http://opendocumentfellowship.org/internal"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:php="http://php.net/xsl"
+    exclude-result-prefixes="office meta config text table draw presentation dr3d chart form script style number anim dc xlink math xforms fo svg smil ooo ooow oooc int #default php"
 >
     <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" encoding="utf-8" standalone="no"/>
 
     <!-- Body -->
     <xsl:template match="office:document-content">
-        <xsl:apply-templates/>
+        <body>
+            <xsl:apply-templates/>
+        </body>
     </xsl:template>
 
     <!-- Linebreak -->
@@ -228,10 +232,9 @@
 
     <!-- Link -->
     <xsl:template match="text:a">
-        <xsl:variable name="link" select="@xlink:href"/>
         <xsl:element name="a">
             <xsl:attribute name="href">
-                <xsl:value-of select="@xlink:href"/>
+                <xsl:value-of select="php:functionString('qnd\import_link', @xlink:href)"/>
             </xsl:attribute>
             <xsl:apply-templates/>
         </xsl:element>
@@ -241,7 +244,7 @@
     <xsl:template match="draw:image">
         <xsl:element name="img">
             <xsl:attribute name="src">
-                <xsl:value-of select="@xlink:href"/>
+                <xsl:value-of select="php:functionString('qnd\import_link', @xlink:href)"/>
             </xsl:attribute>
             <xsl:attribute name="alt">
                 <xsl:value-of select="../@draw:name"/>
@@ -270,7 +273,7 @@
     <xsl:template match="draw:plugin">
         <xsl:element name="a">
             <xsl:attribute name="href">
-                <xsl:value-of select="@xlink:href"/>
+                <xsl:value-of select="php:functionString('qnd\import_link', @xlink:href)"/>
             </xsl:attribute>
             <xsl:attribute name="title">
                 <xsl:value-of select="../@draw:name"/>
