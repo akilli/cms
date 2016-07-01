@@ -3,6 +3,7 @@ namespace qnd;
 
 use DOMDocument;
 use Exception;
+use RuntimeException;
 use XSLTProcessor;
 
 /**
@@ -32,17 +33,19 @@ function import_zip($file): bool
         return false;
     }
 
-    $import = csv_unserialize(file_get_contents($toc['path']), ['keys' => ['pos', 'name', 'file']]);
-
     return trans(
-        function () use ($toc, $import) {
-            // Delete old contents
-            delete('page');
-            delete('menu', ['uid' => 'page']);
+        function () use ($toc) {
+            $import = csv_unserialize(file_get_contents($toc['path']), ['keys' => ['pos', 'name', 'file']]);
+
+            // Delete old menu, nodes and pages + create new menu
+            $menu = [-1 => ['uid' => 'page', 'name' => 'Page']];
+
+            if (!delete('page') || !delete('menu', ['uid' => 'page']) || !save('menu', $menu)) {
+                throw new RuntimeException('Import error');
+            }
 
             // Create new contents
-            $menu = [-1 => ['uid' => 'page', 'name' => 'Page']];
-            save('menu', $menu);
+            $levels = [0];
 
             foreach ($import as $item) {
                 $pages = [];
@@ -50,14 +53,25 @@ function import_zip($file): bool
                 $pages[-1]['active'] = true;
                 $pages[-1]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
                 $pages[-1]['oid'] = $item['file'] ?: null;
-                save('page', $pages);
+
+                if (!save('page', $pages)) {
+                    throw new RuntimeException('Import error');
+                }
+
+                $level = substr_count($item['pos'], '.');
+                $basis = !empty($levels[$level - 1]) ? $levels[$level - 1] : 0;
 
                 $nodes = [];
                 $nodes[-1]['name'] = $item['name'];
                 $nodes[-1]['target'] = 'page/view/id/' . $pages[-1]['id'];
                 $nodes[-1]['mode'] = 'child';
-                $nodes[-1]['position'] = $menu[-1]['id'] . ':0';
-                save('node', $nodes);
+                $nodes[-1]['position'] = $menu[-1]['id'] . ':' . $basis;
+
+                if (!save('node', $nodes)) {
+                    throw new RuntimeException('Import error');
+                }
+
+                $levels[$level] = $nodes[-1]['lft'];
             }
         }
     );
