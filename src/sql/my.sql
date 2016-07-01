@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS node (
     KEY idx_node_position (position),
     KEY idx_node_project (project_id),
     KEY idx_node_item (root_id,lft,rgt),
-    CONSTRAINT con_node_root FOREIGN KEY (root_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT con_node_root FOREIGN KEY (root_id) REFERENCES menu (id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT con_node_parent FOREIGN KEY (parent_id) REFERENCES node (id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT con_node_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
