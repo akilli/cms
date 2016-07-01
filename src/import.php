@@ -121,7 +121,7 @@ function import_html($file)
         return '';
     }
 
-    $pattern = sprintf('#%s(.*)%s#isU', config('import.start'), config('import.start'));
+    $pattern = sprintf('#%s(.*)%s#isU', config('import.start'), config('import.end'));
 
     return preg_match($pattern, $html, $match) ? $match[1] : $html;
 }
