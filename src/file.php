@@ -166,7 +166,9 @@ function file_delete(string $path, bool $preserve = false): bool
  */
 function file_copy(string $src, string $dest, array $crit = []): bool
 {
-    if (!($isFile = is_file($src)) && !is_dir($src) || !file_dir(dirname($dest))) {
+    $isFile = is_file($src);
+
+    if ((!$isFile || !file_dir(dirname($dest))) && (!is_dir($src) || !file_dir($dest))) {
         return false;
     }
 
@@ -177,9 +179,9 @@ function file_copy(string $src, string $dest, array $crit = []): bool
     } else {
         $files = file_all($src, $crit);
 
-        foreach ($files as $id => $file) {
-            if (file_dir(dirname($dest . '/' . $id))) {
-                copy($file['path'], $dest . '/' . $id);
+        foreach ($files as $file) {
+            if (file_dir(dirname($dest . '/' . $file['id']))) {
+                copy($file['path'], $dest . '/' . $file['id']);
             }
         }
     }

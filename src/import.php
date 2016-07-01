@@ -33,7 +33,10 @@ function import_zip($file): bool
         return false;
     }
 
-    return trans(
+    // Media
+    file_copy($toc['dir'] . '/media', project_path('media'));
+
+    $trans = trans(
         function () use ($toc) {
             $import = csv_unserialize(file_get_contents($toc['path']), ['keys' => ['pos', 'name', 'file']]);
 
@@ -75,6 +78,9 @@ function import_zip($file): bool
             }
         }
     );
+    file_delete($path);
+
+    return $trans;
 }
 
 /**
