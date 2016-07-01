@@ -55,7 +55,7 @@ function import_zip(string $file): bool
                 $pages[-1]['name'] = $item['name'];
                 $pages[-1]['active'] = true;
                 $pages[-1]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
-                $pages[-1]['oid'] = $item['file'] ?: null;
+                $pages[-1]['oid'] = $item['file'] ? pathinfo($item['file'], PATHINFO_FILENAME): null;
 
                 if (!save('page', $pages)) {
                     throw new RuntimeException(_('Import error'));
@@ -92,7 +92,7 @@ function import_zip(string $file): bool
  */
 function import_page(string $file): bool
 {
-    $oid = basename($file);
+    $oid = pathinfo($file, PATHINFO_FILENAME);
     $content = import_content($file);
 
     if (!$pages = all('page', ['oid' => $oid])) {
