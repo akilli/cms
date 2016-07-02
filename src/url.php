@@ -90,23 +90,17 @@ function url_query(array $params, bool $isFullPath = false): string
         return '';
     }
 
-    if ($isFullPath) {
-        $del = '/';
-        $sep = '/';
-        $glue = '/';
-    } else {
-        $del = '?';
-        $sep = '=';
-        $glue = '&';
+    if (!$isFullPath) {
+        return '?' . http_build_query($params);
     }
 
     $query = [];
 
     foreach ($params as $key => $value) {
-        $query[] = $key . $sep . $value;
+        $query[] = $key . '/' . $value;
     }
 
-    return $del . implode($glue, $query);
+    return '/' . implode('/', $query);
 }
 
 /**
