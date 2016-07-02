@@ -76,13 +76,12 @@ function token(): string
  * Redirect
  *
  * @param string $url
- * @param array $params
  *
  * @return void
  */
-function redirect(string $url = '', array $params = [])
+function redirect(string $url = '')
 {
-    header('Location:' . url($url, $params));
+    header('Location:' . url($url));
     exit;
 }
 
