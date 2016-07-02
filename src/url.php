@@ -91,22 +91,22 @@ function url_query(array $params, bool $isFullPath = false): string
     }
 
     if ($isFullPath) {
-        $delimiter = '/';
-        $separator = '/';
-        $paramSeparator = '/';
+        $del = '/';
+        $sep = '/';
+        $glue = '/';
     } else {
-        $delimiter = '?';
-        $separator = '=';
-        $paramSeparator = '&';
+        $del = '?';
+        $sep = '=';
+        $glue = '&';
     }
 
     $query = [];
 
     foreach ($params as $key => $value) {
-        $query[] = $key . $separator . $value;
+        $query[] = $key . $sep . $value;
     }
 
-    return $delimiter . implode($paramSeparator, $query);
+    return $del . implode($glue, $query);
 }
 
 /**
