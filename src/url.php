@@ -112,17 +112,13 @@ function url_query(array $params, bool $isFullPath = false): string
 /**
  * Resolves wildcards, i.e. asterisks, for controller and action part with appropriate values from current request
  *
- * @param string $key
+ * @param string $path
  *
  * @return string
  */
-function url_resolve(string $key = ''): string
+function url_resolve(string $path): string
 {
-    if (!$key) {
-        return request('id');
-    }
-
-    $parts = explode('/', $key);
+    $parts = explode('/', $path);
 
     // Wildcard for Entity Part
     if (!empty($parts[0]) && $parts[0] === '*') {
