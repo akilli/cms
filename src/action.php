@@ -332,7 +332,7 @@ function action_user_profile()
 function action_user_login()
 {
     if (registered()) {
-        redirect('*/dashboard');
+        redirect('user/dashboard');
     }
 
     if ($data = http_post('data')) {
@@ -344,7 +344,7 @@ function action_user_login()
             message(_('Welcome %s', $item['name']));
             session_regenerate_id(true);
             session('user', $item['id']);
-            redirect('*/dashboard');
+            redirect('user/dashboard');
         }
 
         message(_('Invalid username and password combination'));
