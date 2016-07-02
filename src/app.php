@@ -70,11 +70,11 @@ function path(string $dir, string $subpath = null): string
         $public = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
         $data['asset'] = $public . '/asset';
         $data['data'] = __DIR__ . '/data';
-        $data['log'] = $root . '/app/log';
+        $data['log'] = $root . '/var/log';
         $data['media'] = $public . '/media';
         $data['template'] = __DIR__ . '/template';
         $data['theme'] = $public . '/theme';
-        $data['tmp'] = $root . '/app/tmp';
+        $data['tmp'] = $root . '/var/tmp';
         $data['xml'] = __DIR__ . '/xml';
     }
 
