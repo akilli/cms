@@ -9,7 +9,7 @@
             <input type="hidden" name="token" value="<?= token();?>" />
         </form>
         <?php endif;?>
-        <?php if (request('entity') === 'project' && allowed('import')):?>
+        <?php if (allowed('import')):?>
         <form id="import" action="<?= url('*/import');?>" method="post" enctype="multipart/form-data">
             <input type="file" name="import" required="required" />
             <input type="submit" value="<?= _('Import');?>" />

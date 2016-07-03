@@ -220,7 +220,7 @@ INSERT INTO content (id, name, entity_id, active, content, project_id) VALUES
 (1, 'Homepage', 'page', '1', 'Hello World', 'base');
 
 INSERT INTO entity (id, name, actions, system, project_id) VALUES
-('page', 'Page', '["create", "delete", "edit", "export", "import", "index", "list", "view"]', '1', 'base');
+('page', 'Page', '["create", "delete", "edit", "index", "list", "view"]', '1', 'base');
 
 INSERT INTO menu (id, uid, name, system, project_id) VALUES
 (1, 'toolbar', 'Toolbar', '1', 'base');

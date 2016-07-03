@@ -188,26 +188,6 @@ function action_list(array $entity)
 }
 
 /**
- * Import Action
- *
- * @return void
- */
-function action_import()
-{
-    action_error();
-}
-
-/**
- * Export Action
- *
- * @return void
- */
-function action_export()
-{
-    action_error();
-}
-
-/**
  * Denied Action
  *
  * @return void
@@ -258,16 +238,6 @@ function action_project_import()
     }
 
     redirect(allowed('index') ? '*/index' : '');
-}
-
-/**
- * Project Export Action
- *
- * @return void
- */
-function action_project_export()
-{
-    action_error();
 }
 
 /**

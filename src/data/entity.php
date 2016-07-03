@@ -2,7 +2,7 @@
 return [
     'attr' => [
         'name' => 'Attribute',
-        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
+        'actions' => ['create', 'delete', 'edit', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -161,7 +161,7 @@ return [
     ],
     'entity' => [
         'name' => 'Entity',
-        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
+        'actions' => ['create', 'delete', 'edit', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -197,7 +197,7 @@ return [
     ],
     'menu' => [
         'name' => 'Menu',
-        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
+        'actions' => ['create', 'delete', 'edit', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -232,7 +232,7 @@ return [
     'node' => [
         'name' => 'Node',
         'model' => 'node',
-        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
+        'actions' => ['create', 'delete', 'edit', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -306,7 +306,7 @@ return [
     ],
     'project' => [
         'name' => 'Project',
-        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
+        'actions' => ['create', 'delete', 'edit', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -349,7 +349,7 @@ return [
     ],
     'rewrite' => [
         'name' => 'Rewrite',
-        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
+        'actions' => ['create', 'delete', 'edit', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -388,7 +388,7 @@ return [
     ],
     'role' => [
         'name' => 'Role',
-        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
+        'actions' => ['create', 'delete', 'edit', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -428,7 +428,7 @@ return [
     ],
     'user' => [
         'name' => 'User',
-        'actions' => ['create', 'delete', 'edit', 'export', 'import', 'index'],
+        'actions' => ['create', 'delete', 'edit', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',

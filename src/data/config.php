@@ -10,8 +10,6 @@ return [
         'create' => 'create',
         'delete' => 'delete',
         'edit' => 'edit',
-        'export' => 'export',
-        'import' => 'import',
         'index' => 'index',
         'list' => 'list',
         'view' => 'view',
