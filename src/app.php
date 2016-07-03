@@ -137,7 +137,7 @@ function listener(string $event): array
  */
 function config(string $key)
 {
-    return data('config')[$key] ?? null;
+    return data('config', $key);
 }
 
 /**
