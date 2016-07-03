@@ -71,7 +71,32 @@ function editor(array $attr, array $item): string
         }
     }
 
-    return $html ? html_label($attr, $item) . $html . html_message($attr, $item) : '';
+    return $html ? html_label($attr, $item) . $html . editor_delete($attr, $item) . html_message($attr, $item) : '';
+}
+
+/**
+ * Delete editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function editor_delete(array $attr, array $item): string
+{
+    if (!data_action('delete', $attr) || !isset($item['_old'][$attr['id']])) {
+        return '';
+    }
+
+    $input = [
+        'id' => 'data-' . $item['_id'] . '-_delete-' . $attr['id'],
+        'name' => 'data[' . $item['_id'] . '][_delete]' . '[' . $attr['id'] . ']',
+        'type' => 'checkbox',
+        'value' => 1,
+    ];
+    $label = ['for' => $input['id'], 'class' => 'inline'];
+
+    return html_tag('input', $input, null, true) . html_tag('label', $label, _('Reset'));
 }
 
 /**
@@ -274,20 +299,8 @@ function editor_datetime(array $attr, array $item): string
 function editor_file(array $attr, array $item): string
 {
     $attr['html']['type'] = $attr['frontend'];
-    $resetHtml = '';
 
-    if ($item['_id'] >= 0 && !$attr['virtual']) {
-        $reset = [
-            'id' => 'data-' . $item['_id'] . '-_reset-' . $attr['id'],
-            'name' => 'data[' . $item['_id'] . '][_reset]' . '[' . $attr['id'] . ']',
-            'type' => 'checkbox',
-            'value' => 1,
-        ];
-        $resetHtml = html_tag('input', $reset, null, true)
-            . html_tag('label', ['for' => $reset['id'], 'class' => 'inline'], _('Reset'));
-    }
-
-    return html_tag('div', [], viewer($attr, $item)) . html_tag('input', $attr['html'], null, true) . $resetHtml;
+    return html_tag('div', [], viewer($attr, $item)) . html_tag('input', $attr['html'], null, true);
 }
 
 /**
