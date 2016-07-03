@@ -68,7 +68,6 @@ return [
     'Menu' => 'Menü',
     'Message' => 'Meldung',
     'Mode' => 'Modus',
-    'Model' => 'Modell',
     'Modified' => 'Bearbeitet am',
     'Modifier' => 'Bearbeitet von',
     'Multicheckbox' => 'Mehrfach-Checkbox',
