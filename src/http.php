@@ -165,7 +165,7 @@ function _http_request_init(array & $data)
 {
     $data = data('skeleton', 'request');
     $data['base'] = rtrim(filter_path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
-    $data['url'] = $_SERVER['REQUEST_URI'] ?? $data['base'];
+    $data['url'] = urldecode($_SERVER['REQUEST_URI']) ?? $data['base'];
     $data['host'] = $_SERVER['HTTP_HOST'];
     $data['scheme'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
     $data['secure'] = $data['scheme'] === 'https';
