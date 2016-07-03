@@ -135,7 +135,7 @@ function action_index(array $entity)
     $attrs = array_filter(
         $entity['attr'],
         function ($attr) use ($action) {
-            return data_action($action, $attr);
+            return in_array($action, $attr['actions']);
         }
     );
     $crit = empty($entity['attr']['active']) || $action === 'index' ? [] : ['active' => true];

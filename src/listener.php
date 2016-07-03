@@ -110,7 +110,7 @@ function listener_data_privilege(array & $data)
  */
 function listener_save(array & $data)
 {
-    if ($data['_entity']['id'] === 'rewrite' || !data_action('view', $data['_entity'])) {
+    if ($data['_entity']['id'] === 'rewrite' || !in_array('view', $data['_entity']['actions'])) {
         return;
     }
 
@@ -150,7 +150,7 @@ function listener_entity_save(array & $data)
 
     $crit = ['target' => $data['_old']['id'] . '/view/id/'];
 
-    if (!data_action('view', $data)) {
+    if (!in_array('view', $data['actions'])) {
         delete('rewrite', $crit, ['search' => true, 'system' => true]);
     } elseif ($data['id'] !== $data['_old']['id'] && ($rw = all('rewrite', $crit, ['search' => true]))) {
         foreach ($rw as $rId => $r) {

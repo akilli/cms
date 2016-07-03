@@ -106,7 +106,7 @@ function layout_handles(): array
         $data[] = 'user-' . (registered() ? 'registered' : 'anonymous');
         $entity = data('entity', request('entity'));
 
-        if ($entity && data_action(request('action'), $entity)) {
+        if ($entity && in_array(request('action'), $entity['actions'])) {
             $data[] = 'action-' . request('action');
         }
 

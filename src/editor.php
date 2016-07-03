@@ -11,7 +11,7 @@ namespace qnd;
  */
 function editor(array $attr, array $item): string
 {
-    if (!data_action('edit', $attr)) {
+    if (!in_array('edit', $attr['actions'])) {
         return '';
     }
 
@@ -84,7 +84,7 @@ function editor(array $attr, array $item): string
  */
 function editor_delete(array $attr, array $item): string
 {
-    if (!data_action('delete', $attr) || !isset($item['_old'][$attr['id']])) {
+    if (!in_array('delete', $attr['actions']) || !isset($item['_old'][$attr['id']])) {
         return '';
     }
 

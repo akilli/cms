@@ -11,16 +11,16 @@ namespace qnd;
  */
 function validator(array $attr, array & $item): bool
 {
-    if (!data_action('edit', $attr)) {
+    if (!in_array('edit', $attr['actions'])) {
         return true;
     }
 
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
-    
+
     if ($item[$attr['id']] === null && !empty($attr['nullable'])) {
         return true;
     }
-    
+
     $attr['opt'] = opt($attr);
     $valid = true;
     $callback = fqn('validator_' . $attr['type']);

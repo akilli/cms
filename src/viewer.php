@@ -13,7 +13,7 @@ function viewer(array $attr, array $item): string
 {
     $attr['context'] = $attr['context'] ?? 'view';
 
-    if (!data_action($attr['context'], $attr)) {
+    if (!in_array($attr['context'], $attr['actions'])) {
         return '';
     }
 

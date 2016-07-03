@@ -253,30 +253,6 @@ function data_attr(array $data): array
 }
 
 /**
- * Check wheter entity or attribute supports at least one of provided actions
- *
- * @param string|array $action
- * @param array $data
- *
- * @return bool
- */
-function data_action($action, array $data): bool
-{
-    // No actions supported
-    if (empty($data['actions'])) {
-        return false;
-    }
-
-    foreach ((array) $action as $key) {
-        if (in_array($key, $data['actions'])) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-/**
  * Retrieve empty entity
  *
  * @param string $eId
@@ -291,7 +267,7 @@ function skeleton(string $eId, int $number = null, bool $bare = false): array
     $item = [];
 
     foreach ($entity['attr'] as $uid => $attr) {
-        if (data_action('edit', $attr)) {
+        if (in_array('edit', $attr['actions'])) {
             $item[$uid] = null;
         }
     }
