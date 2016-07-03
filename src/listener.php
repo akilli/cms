@@ -88,9 +88,17 @@ function listener_data_privilege(array & $data)
         }
     }
 
+    $config = config('action.entity');
+
     foreach (data('entity') as $eId => $entity) {
         foreach ($entity['actions'] as $action) {
-            $data[$eId . '.' . $action] = ['active' => true, 'sort' => 1000];
+            if (in_array($action, $config)) {
+                $data[$eId . '.' . $action] = [
+                    'name' => $entity['name'] . ' ' . ucwords($action),
+                    'active' => true,
+                    'sort' => 1000,
+                ];
+            }
         }
     }
 
