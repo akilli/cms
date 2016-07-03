@@ -94,16 +94,7 @@ function redirect(string $url = '')
  */
 function request(string $key)
 {
-    $data = & registry('request');
-
-    if ($data === null) {
-        $data = [];
-        http_request_init($data);
-        event('http.request', $data);
-        http_request_prepare($data);
-    }
-
-    return $data[$key] ?? null;
+    return data('request', $key);
 }
 
 /**
@@ -152,60 +143,6 @@ function http_post(string $key)
 function http_files(string $key)
 {
     return request('files')[$key] ?? null;
-}
-
-/**
- * Initialize request data
- *
- * @param array $data
- *
- * @return void
- */
-function http_request_init(array & $data)
-{
-    $data = data('skeleton', 'request');
-    $data['base'] = rtrim(filter_path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
-    $data['url'] = urldecode($_SERVER['REQUEST_URI']) ?? $data['base'];
-    $data['host'] = $_SERVER['HTTP_HOST'];
-    $data['scheme'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-    $data['secure'] = $data['scheme'] === 'https';
-    $data['get'] = $_GET;
-    $data['post'] = !empty($_POST['token']) && http_post_validate($_POST['token']) ? $_POST : [];
-    $data['files'] = $_FILES ? http_files_convert($_FILES) : [];
-    $data['origpath'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');
-    $data['path'] = url_rewrite($data['origpath'], true);
-}
-
-/**
- * Prepare request data for current request, i.e. entity, action, id and params
- *
- * @param array $data
- *
- * @return void
- */
-function http_request_prepare(array & $data)
-{
-    $parts = $data['path'] ? explode('/', $data['path']) : [];
-    $entity = array_shift($parts);
-
-    if ($entity) {
-        $data['entity'] = $entity;
-        $action = array_shift($parts);
-
-        if ($action) {
-            $data['action'] = $action;
-            $count = count($parts);
-
-            for ($i = 0; $i < $count; $i += 2) {
-                if (!empty($parts[$i]) && isset($parts[$i + 1])) {
-                    $data['params'][$parts[$i]] = $parts[$i + 1];
-                }
-            }
-        }
-    }
-
-    $data['id'] = $data['entity'] . '.' . $data['action'];
-    $data['_old'] = $data;
 }
 
 /**

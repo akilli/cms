@@ -110,7 +110,7 @@ function privilege_url(string $path): string
     }
 
     $parts = explode('/', url_rewrite($path));
-    $parts[1] = $parts[1] ?? data('skeleton', 'request')['action'];
+    $parts[1] = $parts[1] ?? 'index';
 
     return implode('.', array_slice($parts, 0, 2));
 }

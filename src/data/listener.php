@@ -16,6 +16,11 @@ return [
         'event' => 'data.load.privilege',
         'sort' => -100,
     ],
+    [
+        'id' => 'data_request',
+        'event' => 'data.load.request',
+        'sort' => -100,
+    ],
     // Entity
     [
         'id' => 'save',
