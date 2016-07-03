@@ -154,7 +154,7 @@ function _(string $key, string ...$params): string
 
     if ($data === null) {
         $data = [];
-        $data = array_replace(data('i18n.' . config('i18n.lang')), data('i18n.' . config('i18n.locale')));
+        $data = data('i18n.' . config('i18n.locale')) ?: data('i18n.' . config('i18n.lang'));
     }
 
     if (!$key) {
