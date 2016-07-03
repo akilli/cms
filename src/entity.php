@@ -54,7 +54,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
 
     try {
         if ($item = $callback($entity, $crit, $opts)) {
-            $item = _load($entity, $item);
+            $item = load($entity, $item);
         }
     } catch (Exception $e) {
         error($e);
@@ -92,7 +92,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
         $result = $callback($entity, $crit, $opts);
 
         foreach ($result as $item) {
-            $item = _load($entity, $item);
+            $item = load($entity, $item);
 
             if (is_array($opts['index'])) {
                 $data[$item[$opts['index'][0]]][$item[$opts['index'][1]]] = $item;
@@ -282,7 +282,7 @@ function validate(array & $item): bool
  *
  * @return array
  */
-function _load(array $entity, array $item): array
+function load(array $entity, array $item): array
 {
     foreach ($item as $uid => $value) {
         if (isset($entity['attr'][$uid])) {

@@ -98,9 +98,9 @@ function request(string $key)
 
     if ($data === null) {
         $data = [];
-        _http_request_init($data);
+        http_request_init($data);
         event('http.request', $data);
-        _http_request_prepare($data);
+        http_request_prepare($data);
     }
 
     return $data[$key] ?? null;
@@ -161,7 +161,7 @@ function http_files(string $key)
  *
  * @return void
  */
-function _http_request_init(array & $data)
+function http_request_init(array & $data)
 {
     $data = data('skeleton', 'request');
     $data['base'] = rtrim(filter_path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
@@ -170,8 +170,8 @@ function _http_request_init(array & $data)
     $data['scheme'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
     $data['secure'] = $data['scheme'] === 'https';
     $data['get'] = $_GET;
-    $data['post'] = !empty($_POST['token']) && _http_post_validate($_POST['token']) ? $_POST : [];
-    $data['files'] = $_FILES ? _http_files_convert($_FILES) : [];
+    $data['post'] = !empty($_POST['token']) && http_post_validate($_POST['token']) ? $_POST : [];
+    $data['files'] = $_FILES ? http_files_convert($_FILES) : [];
     $data['origpath'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');
     $data['path'] = url_rewrite($data['origpath'], true);
 }
@@ -183,7 +183,7 @@ function _http_request_init(array & $data)
  *
  * @return void
  */
-function _http_request_prepare(array & $data)
+function http_request_prepare(array & $data)
 {
     $parts = $data['path'] ? explode('/', $data['path']) : [];
     $entity = array_shift($parts);
@@ -215,7 +215,7 @@ function _http_request_prepare(array & $data)
  *
  * @return bool
  */
-function _http_post_validate(string $token): bool
+function http_post_validate(string $token): bool
 {
     $session = session('token');
     $success = !empty($session) && !empty($token) && $session === $token;
@@ -231,12 +231,12 @@ function _http_post_validate(string $token): bool
  *
  * @return array
  */
-function _http_files_convert(array $data): array
+function http_files_convert(array $data): array
 {
     $files = [];
 
     foreach ($data as $id => $item) {
-        $files[$id] = is_array($item) ? _http_files_fix($item) : $item;
+        $files[$id] = is_array($item) ? http_files_fix($item) : $item;
     }
 
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
@@ -251,7 +251,7 @@ function _http_files_convert(array $data): array
         sort($ids);
 
         if ($ids != $keys) {
-            $files[$id] = _http_files_convert($item);
+            $files[$id] = http_files_convert($item);
         } elseif ($item['error'] === UPLOAD_ERR_NO_FILE || !is_uploaded_file($item['tmp_name'])) {
             unset($files[$id]);
         } else {
@@ -281,7 +281,7 @@ function _http_files_convert(array $data): array
  *
  * @return array
  */
-function _http_files_fix(array $data): array
+function http_files_fix(array $data): array
 {
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
     $ids = array_keys($data);
@@ -298,7 +298,7 @@ function _http_files_fix(array $data): array
     }
 
     foreach (array_keys($data['name']) as $id) {
-        $files[$id] = _http_files_fix(
+        $files[$id] = http_files_fix(
             [
                 'error' => $data['error'][$id],
                 'name' => $data['name'][$id],

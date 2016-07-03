@@ -44,11 +44,11 @@ function node_load(array $entity, array $crit = [], array $opts = []): array
 function node_create(array & $item): bool
 {
     // Position
-    $item['lft'] = _node_position($item);
+    $item['lft'] = node_position($item);
     $item['rgt'] = $item['lft'] + 1;
 
     // Make space in the new tree
-    _node_insert($item);
+    node_insert($item);
 
     // Insert new node
     $cols = cols($item['_entity']['attr'], $item);
@@ -106,7 +106,7 @@ function node_save(array & $item): bool
     }
 
     // Position
-    $item['lft'] = _node_position($item);
+    $item['lft'] = node_position($item);
     $range = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
 
     if ($item['root_id'] === $item['_old']['root_id'] && $item['lft'] > $item['_old']['lft']) {
@@ -137,10 +137,10 @@ function node_save(array & $item): bool
     $stmt->execute();
 
     // Close gap in old tree
-    _node_remove($item);
+    node_remove($item);
 
     // Make space in the new tree
-    _node_insert($item);
+    node_insert($item);
 
     // Finally add the affected nodes to new tree
     $stmt = db()->prepare("
@@ -186,7 +186,7 @@ function node_delete(array & $item): bool
     $stmt->execute();
 
     // Close gap in old tree
-    _node_remove($item);
+    node_remove($item);
 
     return true;
 }
@@ -200,7 +200,7 @@ function node_delete(array & $item): bool
  *
  * @throws LogicException
  */
-function _node_position(array & $item): int
+function node_position(array & $item): int
 {
     $parts = explode(':', $item['position']);
     $item['root_id'] = (int) $parts[0];
@@ -254,7 +254,7 @@ function _node_position(array & $item): int
  *
  * @return void
  */
-function _node_insert(array $item)
+function node_insert(array $item)
 {
     $range = $item['rgt'] - $item['lft'] + 1;
 
@@ -294,7 +294,7 @@ function _node_insert(array $item)
  *
  * @return void
  */
-function _node_remove(array $item)
+function node_remove(array $item)
 {
     $range = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
 
