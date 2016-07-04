@@ -34,7 +34,7 @@ function filter_html(string $string): string
         $allowed = config('filter.html');
     }
 
-    return strip_tags(trim($string), $allowed);
+    return trim(strip_tags($string, $allowed));
 }
 
 /**
