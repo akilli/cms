@@ -16,7 +16,7 @@ function viewer(array $attr, array $item): string
     if (!in_array($attr['context'], $attr['actions'])) {
         return '';
     }
-    
+
     $attr['opt'] = opt($attr);
     $callback = fqn('viewer_' . $attr['type']);
 
@@ -123,7 +123,7 @@ function viewer_rte(array $attr, array $item): string
  */
 function viewer_audio(array $attr, array $item): string
 {
-    if ($item[$attr['id']] && media_load($item[$attr['id']])) {
+    if ($item[$attr['id']]) {
         return html_tag('audio', ['src' => url_media($item[$attr['id']]), 'controls' => true]);
     }
 
@@ -140,7 +140,7 @@ function viewer_audio(array $attr, array $item): string
  */
 function viewer_embed(array $attr, array $item): string
 {
-    if ($item[$attr['id']] && media_load($item[$attr['id']])) {
+    if ($item[$attr['id']]) {
         return html_tag('embed', ['src' => url_media($item[$attr['id']]), 'autoplay' => 'no', 'loop' => 'no'], null, true);
     }
 
@@ -157,7 +157,7 @@ function viewer_embed(array $attr, array $item): string
  */
 function viewer_file(array $attr, array $item): string
 {
-    if ($item[$attr['id']] && media_load($item[$attr['id']])) {
+    if ($item[$attr['id']]) {
         return html_tag('a', ['href' => url_media($item[$attr['id']])], $item[$attr['id']]);
     }
 
@@ -174,8 +174,8 @@ function viewer_file(array $attr, array $item): string
  */
 function viewer_image(array $attr, array $item): string
 {
-    if ($item[$attr['id']] && ($file = media_load($item[$attr['id']]))) {
-        return html_tag('img', ['src' => image($file, $attr['context']), 'alt' => $item[$attr['id']]], null, true);
+    if ($item[$attr['id']] && ($opts = data('media', $attr['context']))) {
+        return html_tag('img', ['src' => image($item[$attr['id']], $opts), 'alt' => $item[$attr['id']]], null, true);
     }
 
     return '';
@@ -191,7 +191,7 @@ function viewer_image(array $attr, array $item): string
  */
 function viewer_video(array $attr, array $item): string
 {
-    if ($item[$attr['id']] && media_load($item[$attr['id']])) {
+    if ($item[$attr['id']]) {
         return html_tag('video', ['src' => url_media($item[$attr['id']]), 'controls' => true]);
     }
 

@@ -4,54 +4,53 @@ namespace qnd;
 /**
  * Media image
  *
- * @param array $media
- * @param string $class
+ * @param string $file
+ * @param array $opts
  *
  * @return string
  */
-function image(array $media, string $class): string
+function image(string $file, array $opts): string
 {
-    if (!($config = data('media', $class)) || !file_exists($media['path']) || !$info = getimagesize($media['path'])) {
-        return url_media($media['id']);
+    $media = media_load($file);
+    $opts = array_replace(['width' => 0, 'height' => 0, 'quality' => 100, 'crop' => false], $opts);
+
+    if (!$media || $opts['width'] <= 0 || $opts['height'] <= 0 || !$info = getimagesize($media['path'])) {
+        return url_media($file);
     }
 
     // Dimensions
-    $width = $config['width'];
-    $height = $config['height'];
-    $quality = $config['quality'];
-    $crop = $config['crop'];
-    $sourceWidth = $info[0];
-    $sourceHeight = $info[1];
+    $width = $info[0];
+    $height = $info[1];
     $x = $y = 0;
 
-    if ($info[0] <= $width && $info[1] <= $height) {
-        $width = $info[0];
-        $height = $info[1];
-    } elseif (!$crop) {
-        if ($info[0] / $info[1] >= $width / $height) {
-            $height = round(($width / $info[0]) * $info[1]);
+    if ($info[0] <= $opts['width'] && $info[1] <= $opts['height']) {
+        $opts['width'] = $info[0];
+        $opts['height'] = $info[1];
+    } elseif (!$opts['crop']) {
+        if ($info[0] / $info[1] >= $opts['width'] / $opts['height']) {
+            $opts['height'] = round(($opts['width'] / $info[0]) * $info[1]);
         } else {
-            $width = round(($height / $info[1]) * $info[0]);
+            $opts['width'] = round(($opts['height'] / $info[1]) * $info[0]);
         }
     } else {
-        if ($info[0] > $width) {
-            $sourceWidth = $width;
-            $x = ($info[0] - $width) / 2;
+        if ($info[0] > $opts['width']) {
+            $width = $opts['width'];
+            $x = ($info[0] - $opts['width']) / 2;
         }
 
-        if ($info[1] > $height) {
-            $sourceHeight = $height;
-            $y = ($info[1] - $height) / 2;
+        if ($info[1] > $opts['height']) {
+            $height = $opts['height'];
+            $y = ($info[1] - $opts['height']) / 2;
         }
     }
 
     // Asset
-    $assetId = $media['id'] . '/' . $width . '-' . $height . ($crop ? '-crop' : '') . '.' . $media['ext'];
+    $assetId = $media['id'] . '/' . $opts['width'] . '-' . $opts['height'] . ($opts['crop'] ? '-crop' : '') . '.' . $media['ext'];
     $assetPath = project_path('asset', 'media/' . $assetId);
 
     // Generate asset file
     if (!file_exists($assetPath) || $media['modified'] >= filemtime($assetPath)) {
-        if ($info[0] === $width && $info[1] === $height) {
+        if ($info[0] === $opts['width'] && $info[1] === $opts['height']) {
             file_copy($media['path'], $assetPath);
         } else {
             // Callbacks
@@ -61,15 +60,15 @@ function image(array $media, string $class): string
             } elseif ($info[2] === IMAGETYPE_PNG) {
                 $create = 'imagecreatefrompng';
                 $output = 'imagepng';
-                $quality = round(($quality / 100) * 10);
+                $opts['quality'] = round(($opts['quality'] / 100) * 10);
 
-                if ($quality < 1) {
-                    $quality = 1;
-                } elseif ($quality > 10) {
-                    $quality = 10;
+                if ($opts['quality'] < 1) {
+                    $opts['quality'] = 1;
+                } elseif ($opts['quality'] > 10) {
+                    $opts['quality'] = 10;
                 }
 
-                $quality = 10 - $quality;
+                $opts['quality'] = 10 - $opts['quality'];
             } elseif ($info[2] === IMAGETYPE_GIF) {
                 $create = 'imagecreatefromgif';
                 $output = 'imagegif';
@@ -84,7 +83,7 @@ function image(array $media, string $class): string
 
                 // Resource
                 $source = $create($media['path']);
-                $image = imagecreatetruecolor($width, $height);
+                $image = imagecreatetruecolor($opts['width'], $opts['height']);
 
                 // Transparency
                 $alpha = imagecolorallocatealpha($image, 0, 0, 0, 127);
@@ -93,9 +92,9 @@ function image(array $media, string $class): string
                 imagesavealpha($image, true);
 
                 // Output
-                imagecopyresampled($image, $source, 0, 0, $x, $y, $width, $height, $sourceWidth, $sourceHeight);
+                imagecopyresampled($image, $source, 0, 0, $x, $y, $opts['width'], $opts['height'], $width, $height);
                 $umask = umask(0);
-                $output($image, $assetPath, $quality);
+                $output($image, $assetPath, $opts['quality']);
                 umask($umask);
 
                 // Destroy
