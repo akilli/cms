@@ -58,13 +58,11 @@ return [
             'opt' => [
                 'name' => 'Options',
                 'type' => 'json',
-                'nullable' => true,
                 'actions' => ['edit'],
             ],
             'actions' => [
                 'name' => 'Actions',
                 'type' => 'multicheckbox',
-                'nullable' => true,
                 'opt' => ['config', ['action.attr']],
                 'actions' => ['edit', 'index'],
             ],
@@ -179,7 +177,6 @@ return [
             'actions' => [
                 'name' => 'Actions',
                 'type' => 'multicheckbox',
-                'nullable' => true,
                 'opt' => ['config', ['action.entity']],
                 'actions' => ['edit', 'index'],
             ],

@@ -94,6 +94,7 @@ return [
         'name' => 'JSON',
         'backend' => 'json',
         'frontend' => 'textarea',
+        'value' => [],
     ],
     'rte' => [
         'name' => 'Rich Text Editor',
@@ -126,6 +127,7 @@ return [
         'backend' => 'json',
         'frontend' => 'checkbox',
         'multiple' => true,
+        'value' => [],
     ],
     // Radio
     'radio.bool' => [
@@ -164,5 +166,6 @@ return [
         'backend' => 'json',
         'frontend' => 'select',
         'multiple' => true,
+        'value' => [],
     ],
 ];
