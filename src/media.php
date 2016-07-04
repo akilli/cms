@@ -11,10 +11,7 @@ namespace qnd;
  */
 function image(array $media, string $class): string
 {
-    if (!($config = data('media', $class))
-        || !file_exists($media['path'])
-        || !$info = getimagesize($media['path'])
-    ) {
+    if (!($config = data('media', $class)) || !file_exists($media['path']) || !$info = getimagesize($media['path'])) {
         return url_media($media['id']);
     }
 
