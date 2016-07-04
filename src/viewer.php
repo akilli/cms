@@ -16,8 +16,7 @@ function viewer(array $attr, array $item): string
     if (!in_array($attr['context'], $attr['actions'])) {
         return '';
     }
-
-    $item[$attr['id']] = $item[$attr['id']] ?? $attr['value'];
+    
     $attr['opt'] = opt($attr);
     $callback = fqn('viewer_' . $attr['type']);
 
