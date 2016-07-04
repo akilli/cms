@@ -1,7 +1,6 @@
 <?php
 return [
     'action.attr' => [
-        'delete' => 'delete',
         'edit' => 'edit',
         'index' => 'index',
         'list' => 'list',

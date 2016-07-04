@@ -71,7 +71,7 @@ function editor(array $attr, array $item): string
         }
     }
 
-    return $html ? html_label($attr, $item) . $html . editor_delete($attr, $item) . html_message($attr, $item) : '';
+    return $html ? html_label($attr, $item) . $html . html_message($attr, $item) : '';
 }
 
 /**
@@ -84,7 +84,7 @@ function editor(array $attr, array $item): string
  */
 function editor_delete(array $attr, array $item): string
 {
-    if (!in_array('delete', $attr['actions']) || !isset($item['_old'][$attr['id']])) {
+    if (!isset($item['_old'][$attr['id']])) {
         return '';
     }
 
@@ -299,8 +299,9 @@ function editor_datetime(array $attr, array $item): string
 function editor_file(array $attr, array $item): string
 {
     $attr['html']['type'] = $attr['frontend'];
+    $delete = editor_delete($attr, $item);
 
-    return html_tag('div', [], viewer($attr, $item)) . html_tag('input', $attr['html'], null, true);
+    return html_tag('div', [], viewer($attr, $item)) . html_tag('input', $attr['html'], null, true) . $delete;
 }
 
 /**
