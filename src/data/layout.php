@@ -7,13 +7,13 @@ return [
         'id' => 'root',
         'handle' => 'layout-base',
         'type' => 'template',
-        'template' => 'root.phtml',
+        'template' => 'layout/root.phtml',
     ],
     [
         'id' => 'head',
         'handle' => 'layout-base',
         'type' => 'template',
-        'template' => 'head.phtml',
+        'template' => 'layout/head.phtml',
         'vars' => ['meta' => []],
     ],
     [
@@ -30,7 +30,7 @@ return [
         'id' => 'message',
         'handle' => 'layout-base',
         'type' => 'message',
-        'template' => 'message.phtml',
+        'template' => 'layout/message.phtml',
     ],
     [
         'id' => 'main',
@@ -52,7 +52,7 @@ return [
         'id' => 'content',
         'handle' => 'action-create',
         'type' => 'template',
-        'template' => 'edit.phtml',
+        'template' => 'entity/edit.phtml',
         'parent' => 'main',
     ],
     // action-edit
@@ -60,7 +60,7 @@ return [
         'id' => 'content',
         'handle' => 'action-edit',
         'type' => 'template',
-        'template' => 'edit.phtml',
+        'template' => 'entity/edit.phtml',
         'parent' => 'main',
     ],
     // action-view
@@ -68,7 +68,7 @@ return [
         'id' => 'content',
         'handle' => 'action-view',
         'type' => 'template',
-        'template' => 'view.phtml',
+        'template' => 'entity/view.phtml',
         'parent' => 'main',
     ],
     // action-index
@@ -76,21 +76,21 @@ return [
         'id' => 'content',
         'handle' => 'action-index',
         'type' => 'template',
-        'template' => 'index.phtml',
+        'template' => 'entity/index.phtml',
         'parent' => 'main',
     ],
     [
         'id' => 'pager',
         'handle' => 'action-index',
         'type' => 'pager',
-        'template' => 'pager.phtml',
+        'template' => 'entity/pager.phtml',
         'parent' => 'content',
     ],
     [
         'id' => 'search',
         'handle' => 'action-index',
         'type' => 'template',
-        'template' => 'search.phtml',
+        'template' => 'entity/search.phtml',
         'parent' => 'content',
     ],
     // action-list
@@ -98,21 +98,21 @@ return [
         'id' => 'content',
         'handle' => 'action-list',
         'type' => 'template',
-        'template' => 'list.phtml',
+        'template' => 'entity/list.phtml',
         'parent' => 'main',
     ],
     [
         'id' => 'pager',
         'handle' => 'action-list',
         'type' => 'pager',
-        'template' => 'pager.phtml',
+        'template' => 'entity/pager.phtml',
         'parent' => 'content',
     ],
     [
         'id' => 'search',
         'handle' => 'action-list',
         'type' => 'template',
-        'template' => 'search.phtml',
+        'template' => 'entity/search.phtml',
         'parent' => 'content',
     ],
     // user-registered
@@ -120,7 +120,7 @@ return [
         'id' => 'toolbar',
         'handle' => 'user-registered',
         'type' => 'template',
-        'template' => 'toolbar.phtml',
+        'template' => 'user/toolbar.phtml',
         'parent' => 'top',
     ],
     [
@@ -135,7 +135,7 @@ return [
         'id' => 'content',
         'handle' => 'user.dashboard',
         'type' => 'template',
-        'template' => 'dashboard.phtml',
+        'template' => 'user/dashboard.phtml',
         'parent' => 'main',
     ],
     // user.profile
@@ -143,7 +143,7 @@ return [
         'id' => 'content',
         'handle' => 'user.profile',
         'type' => 'template',
-        'template' => 'profile.phtml',
+        'template' => 'user/profile.phtml',
         'parent' => 'main',
     ],
     // user-login
@@ -151,7 +151,7 @@ return [
         'id' => 'content',
         'handle' => 'user.login',
         'type' => 'template',
-        'template' => 'login.phtml',
+        'template' => 'user/login.phtml',
         'parent' => 'main',
     ],
 ];
