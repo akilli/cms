@@ -16,7 +16,7 @@ function encode(string $var): string
         $charset = config('i18n.charset');
     }
 
-    return htmlspecialchars($var, ENT_QUOTES, $charset, false);
+    return htmlspecialchars($var, ENT_QUOTES | ENT_HTML5, $charset, false);
 }
 
 /**
