@@ -222,19 +222,6 @@ function from(string $tab, string $as = null): string
 }
 
 /**
- * NATURAL JOIN part
- *
- * @param string $tab
- * @param string $as
- *
- * @return string
- */
-function njoin(string $tab, string $as): string
-{
-    return sprintf(' NATURAL JOIN %s %s', $tab, $as);
-}
-
-/**
  * WHERE part
  *
  * @param array $crit
