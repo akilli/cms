@@ -93,7 +93,6 @@ function listener_data_privilege(array & $data)
             $data[$eId . '.' . $action] = [
                 'name' => $entity['name'] . ' ' . ucwords($action),
                 'active' => true,
-                'sort' => 1000,
             ];
         }
     }
