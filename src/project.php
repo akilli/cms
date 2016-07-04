@@ -12,7 +12,7 @@ use InvalidArgumentException;
  */
 function project(string $key)
 {
-    static $data;
+    $data = & registry('project');
 
     if ($data === null) {
         $data = [];
