@@ -15,7 +15,7 @@ html {
 html,
 address, article, aside, body, footer, h1, h2, h3, h4, h5, h6, header, hgroup, nav, section,
 blockquote, dd, div, dl, dt, figcaption, figure, hr, li, main, ol, p, pre, ul,
-a, abbr, b, cite, code, data, dfn, em, i, kbd, mark, q, ruby, s, samp, small, span, strong, sub, sup, time, u, var,
+a, abbr, b, bdi, bdo, cite, code, data, dfn, em, i, kbd, mark, q, rp, rt, ruby, s, samp, small, span, strong, sub, sup, time, u, var,
 del, ins,
 audio, canvas, embed, iframe, img, object, picture, video,
 caption, table, tbody, td, tfoot, th, thead, tr,

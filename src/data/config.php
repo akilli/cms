@@ -65,12 +65,13 @@ return [
         'ogg' => 'ogg',
         'webm' => 'webm',
     ],
-    'filter.html' => '<address><article><aside><footer><h1><h2><h3><h4><h5><h6><header><nav><section>'
+    'filter.html' => '<address><h1><h2><h3><h4><h5><h6>'
         . '<blockquote><dd><div><dl><dt><figcaption><figure><hr><li><ol><p><pre><ul>'
-        . '<a><abbr><b><bdi><bdo><br><cite><code><dfn><em><i><kbd><mark><q><rp><rt><ruby><s><samp><small>'
-        . '<span><strong><sub><sup><time><u><var><wbr><del><ins>'
-        . '<area><audio><canvas><embed><iframe><img><map><object><param><source><track><video>'
-        . '<caption><col><colgroup><table><tbody><tfoot><thead><td><th><tr>',
+        . '<a><abbr><b><bdi><bdo><br><cite><code><data><dfn><em><i><kbd><mark><q><rp><rt><ruby><s><samp><small><span>'
+        . '<strong><sub><sup><time><u><var><wbr>'
+        . '<del><ins>'
+        . '<area><audio><embed><img><map><object><param><picture><source><track><video>'
+        . '<caption><col><colgroup><table><tbody><td><tfoot><th><thead><tr>',
     'filter.id' => [
         '#ä|á|à|â|å|ã#i' => 'a',
         '#é|è|ê|ë#i' => 'e',
