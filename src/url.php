@@ -23,39 +23,15 @@ function url(string $path = '', array $params = []): string
 }
 
 /**
- * Asset URL
+ * Lib URL
  *
  * @param string $path
  *
  * @return string
  */
-function url_asset(string $path = ''): string
+function url_lib(string $path = ''): string
 {
-    static $base;
-
-    if ($base === null) {
-        $base = 'asset/' . project('id');
-    }
-
-    return url($base . ($path ? '/' . $path : ''));
-}
-
-/**
- * Media URL
- *
- * @param string $path
- *
- * @return string
- */
-function url_media(string $path = ''): string
-{
-    static $base;
-
-    if ($base === null) {
-        $base = 'media/' . project('id');
-    }
-
-    return url($base . ($path ? '/' . $path : ''));
+    return url('lib' . trim($path));
 }
 
 /**
@@ -73,7 +49,43 @@ function url_theme(string $path = ''): string
         $base = 'theme/' . project('theme');
     }
 
-    return url($base . ($path ? '/' . $path : ''));
+    return url($base . trim($path));
+}
+
+/**
+ * Project cache URL
+ *
+ * @param string $path
+ *
+ * @return string
+ */
+function url_cache(string $path = ''): string
+{
+    static $base;
+
+    if ($base === null) {
+        $base = 'asset/' . project('id') . '/cache';
+    }
+
+    return url($base . trim($path));
+}
+
+/**
+ * Project media URL
+ *
+ * @param string $path
+ *
+ * @return string
+ */
+function url_media(string $path = ''): string
+{
+    static $base;
+
+    if ($base === null) {
+        $base = 'asset/' . project('id') . '/media';
+    }
+
+    return url($base . trim($path));
 }
 
 /**

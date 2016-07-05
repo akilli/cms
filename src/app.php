@@ -60,7 +60,7 @@ function & registry(string $id)
  *
  * @throws InvalidArgumentException
  */
-function path(string $dir, string $subpath = null): string
+function path(string $dir, string $subpath = ''): string
 {
     $data = & registry('path');
 
@@ -70,8 +70,8 @@ function path(string $dir, string $subpath = null): string
         $public = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
         $data['asset'] = $public . '/asset';
         $data['data'] = __DIR__ . '/data';
+        $data['lib'] = $public . '/lib';
         $data['log'] = $root . '/var/log';
-        $data['media'] = $public . '/media';
         $data['template'] = __DIR__ . '/template';
         $data['theme'] = $public . '/theme';
         $data['tmp'] = $root . '/var/tmp';
@@ -82,7 +82,7 @@ function path(string $dir, string $subpath = null): string
         throw new InvalidArgumentException(_('Invalid path %s', $dir));
     }
 
-    return rtrim($data[$dir] . '/' . $subpath, '/');
+    return $data[$dir] . '/' . trim($subpath, '/');
 }
 
 /**

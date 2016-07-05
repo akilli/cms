@@ -38,20 +38,20 @@ function project(string $key)
  *
  * @throws InvalidArgumentException
  */
-function project_path(string $dir, string $subpath = null): string
+function project_path(string $dir, string $subpath = ''): string
 {
     $data = & registry('project.path');
 
     if ($data === null) {
         $data = [];
-        $id = project('id');
-        $data['asset'] = path('asset', $id);
-        $data['media'] = path('media', $id);
+        $asset = path('asset', project('id'));
+        $data['cache'] = $asset . '/cache';
+        $data['media'] = $asset . '/media';
     }
 
     if (empty($data[$dir])) {
         throw new InvalidArgumentException(_('Invalid path %s', $dir));
     }
 
-    return rtrim($data[$dir] . '/' . $subpath, '/');
+    return $data[$dir] . '/' . trim($subpath, '/');
 }

@@ -227,13 +227,11 @@ function listener_project_save(array & $data)
         return;
     }
 
-    foreach (['asset', 'media'] as $dir) {
-        $old = path($dir, $data['_old']['id']);
-        $new = path($dir, $data['id']);
+    $old = path('asset', $data['_old']['id']);
+    $new = path('asset', $data['id']);
 
-        if (file_exists($old) && !rename($old, $new)) {
-            message(_('Could not move directory %s to %s', $old, $new));
-        }
+    if (file_exists($old) && !rename($old, $new)) {
+        message(_('Could not move directory %s to %s', $old, $new));
     }
 }
 
@@ -247,10 +245,6 @@ function listener_project_save(array & $data)
 function listener_project_delete(array & $data)
 {
     if (!file_delete(path('asset', $data['id']))) {
-        message(_('Could not delete directory %s', path('asset', $data['id'])));
-    }
-
-    if (!file_delete(path('media', $data['id']))) {
         message(_('Could not delete directory %s', path('asset', $data['id'])));
     }
 }

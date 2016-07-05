@@ -18,7 +18,6 @@ function image(string $file, array $opts): string
         return url_media($file);
     }
 
-    // Dimensions
     $width = $info[0];
     $height = $info[1];
     $x = $y = 0;
@@ -44,19 +43,17 @@ function image(string $file, array $opts): string
         }
     }
 
-    // Cache
     $id = $media['id'] . '/' . $opts['width'] . '-' . $opts['height'] . ($opts['crop'] ? '-crop' : '') . '.' . $media['ext'];
-    $path = project_path('asset', 'media/' . $id);
+    $path = project_path('cache', $id);
 
     if (file_exists($path) && $media['modified'] < filemtime($path)) {
-        return url_asset('media/' . $id);
+        return url_cache($id);
     }
 
     if ($info[0] === $opts['width'] && $info[1] === $opts['height']) {
-        return file_copy($media['path'], $path) ? url_asset('media/' . $id) : url_media($media['id']);
+        return file_copy($media['path'], $path) ? url_cache($id) : url_media($media['id']);
     }
 
-    // Callbacks
     if ($info[2] === IMAGETYPE_JPEG) {
         $create = 'imagecreatefromjpeg';
         $output = 'imagejpeg';
@@ -82,26 +79,21 @@ function image(string $file, array $opts): string
         return url_media($media['id']);
     }
 
-    // Make asset directory
     file_dir(dirname($path));
-    // Resource
     $source = $create($media['path']);
     $image = imagecreatetruecolor($opts['width'], $opts['height']);
-    // Transparency
     $alpha = imagecolorallocatealpha($image, 0, 0, 0, 127);
     imagecolortransparent($image, $alpha);
     imagealphablending($image, false);
     imagesavealpha($image, true);
-    // Output
     imagecopyresampled($image, $source, 0, 0, $x, $y, $opts['width'], $opts['height'], $width, $height);
     $umask = umask(0);
     $output($image, $path, $opts['quality']);
     umask($umask);
-    // Destroy
     imagedestroy($source);
     imagedestroy($image);
 
-    return is_file($path) ? url_asset('media/' . $id) : url_media($media['id']);
+    return is_file($path) ? url_cache($id) : url_media($media['id']);
 }
 
 /**
@@ -135,6 +127,5 @@ function media_load(string $key = null)
  */
 function media_delete(string $id): bool
 {
-    return file_delete(project_path('asset', 'media/' . $id))
-        && (!$id || !($media = media_load($id)) || file_delete($media['path']));
+    return !$id || file_delete(project_path('cache', $id)) && (!($media = media_load($id)) || file_delete($media['path']));
 }
