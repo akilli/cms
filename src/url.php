@@ -31,7 +31,7 @@ function url(string $path = '', array $params = []): string
  */
 function url_lib(string $path = ''): string
 {
-    return url('lib' . trim($path));
+    return url('lib/' . trim($path));
 }
 
 /**
@@ -49,7 +49,7 @@ function url_theme(string $path = ''): string
         $base = 'theme/' . project('theme');
     }
 
-    return url($base . trim($path));
+    return url($base . '/' . trim($path));
 }
 
 /**
@@ -67,7 +67,7 @@ function url_cache(string $path = ''): string
         $base = 'asset/' . project('id') . '/cache';
     }
 
-    return url($base . trim($path));
+    return url($base . '/' . trim($path));
 }
 
 /**
@@ -85,7 +85,7 @@ function url_media(string $path = ''): string
         $base = 'asset/' . project('id') . '/media';
     }
 
-    return url($base . trim($path));
+    return url($base . '/' . trim($path));
 }
 
 /**
