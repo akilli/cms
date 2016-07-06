@@ -82,7 +82,7 @@ function path(string $dir, string $subpath = ''): string
         throw new InvalidArgumentException(_('Invalid path %s', $dir));
     }
 
-    return $data[$dir] . '/' . trim($subpath, '/');
+    return rtrim($data[$dir] . '/' . $subpath, '/');
 }
 
 /**
