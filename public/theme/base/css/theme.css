@@ -144,13 +144,44 @@ fieldset > * {
     margin: 0 0 1rem;
 }
 
-[role=button],
-[type=button],
-[type=reset],
-[type=submit],
-button,
 legend {
-    border-color: #000;
+    width: 100%;
+    border-bottom: thin solid;
+}
+
+label {
+    display: block;
+}
+
+table label,
+label.inline {
+    display: inline;
+    vertical-align: middle;
+}
+
+input + label.inline {
+    margin: 0 0.5rem 0 0.25rem;
+}
+
+label em {
+    font-size: 0.9rem;
+}
+
+label em.required,
+.error {
+    color: #901913;
+}
+
+label em.uniq {
+    color: #727c25;
+}
+
+[role=button],
+button,
+input,
+select,
+textarea {
+    line-height: 2rem;
 }
 
 [role=button]:focus,
@@ -185,49 +216,20 @@ textarea {
     border: thin solid;
 }
 
+[role=button],
+[type=button],
+[type=reset],
+[type=submit],
+button,
+legend {
+    border-color: #000;
+}
+
 input:not([type=file]),
 select,
 textarea,
 option {
     border-color: #d3d3d3;
-}
-
-
-select[multiple],
-textarea {
-    resize: both;
-}
-
-legend {
-    width: 100%;
-    border-bottom: thin solid;
-}
-
-label {
-    display: block;
-}
-
-table label,
-label.inline {
-    display: inline;
-    vertical-align: middle;
-}
-
-input + label.inline {
-    margin: 0 0.5rem 0 0.25rem;
-}
-
-label em {
-    font-size: 0.9rem;
-}
-
-label em.required,
-.error {
-    color: #901913;
-}
-
-label em.uniq {
-    color: #727c25;
 }
 
 [role=button]:hover {
@@ -236,6 +238,32 @@ label em.uniq {
 
 input[formaction$="/delete"] {
     background: #901913;
+}
+
+fieldset [type=email],
+fieldset [type=password],
+fieldset [type=text],
+fieldset [type=url] {
+    width: 20rem;
+    max-width: 100%;
+}
+
+fieldset select {
+    min-width: 20rem;
+    max-width: 100%;
+}
+
+fieldset select[multiple] {
+    width: 100%;
+    height: 15rem;
+    resize: both;
+}
+
+textarea {
+    width: 100%;
+    height: 15rem;
+    resize: both;
+    vertical-align: top;
 }
 
 select {
@@ -275,10 +303,6 @@ option[data-level='4'] {
 
 option[data-level='5'] {
     padding-left: 6rem;
-}
-
-textarea {
-    vertical-align: top;
 }
 
 /**
