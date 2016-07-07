@@ -85,7 +85,6 @@ return [
     'Node can not be child of itself' => 'Menüknoten kann nicht Kind von sich selber sein',
     'Nothing created yet' => 'Noch nichts angelegt',
     'Options' => 'Optionen',
-    'Original Id' => 'Original Id',
     'Page' => 'Seite',
     'Parent' => 'Elter',
     'Password' => 'Passwort',

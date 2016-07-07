@@ -62,7 +62,6 @@ function import_zip(string $file): bool
                 $pages[-1]['name'] = $item['name'];
                 $pages[-1]['active'] = true;
                 $pages[-1]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
-                $pages[-1]['oid'] = $item['file'] ? $oid: null;
 
                 if (!save('page', $pages)) {
                     throw new RuntimeException(_('Import error'));
@@ -84,25 +83,8 @@ function import_zip(string $file): bool
                 $levels[$level] = $nodes[-1]['lft'];
             }
 
-            if (!$index && ($p = glob($toc['dir'] . '/index.{html,odt}', GLOB_BRACE))) {
-                if (!import_page($p[0])) {
-                    throw new RuntimeException(_('Import error'));
-                }
-
-                if (!$rw = all('rewrite', ['name' => ''])) {
-                    $rw = [];
-                    $rw[-1]['name'] = '';
-                }
-
-                $p = one('page', ['oid' => 'index']);
-
-                foreach ($rw as $rId => $r) {
-                    $rw[$rId]['target'] = 'page/view/id/' . $p['id'];
-                }
-
-                if (!save('rewrite', $rw)) {
-                    throw new RuntimeException(_('Import error'));
-                }
+            if (!$index && ($p = glob($toc['dir'] . '/index.{html,odt}', GLOB_BRACE)) && !import_page($p[0])) {
+                throw new RuntimeException(_('Import error'));
             }
         }
     );
@@ -120,19 +102,10 @@ function import_zip(string $file): bool
  */
 function import_page(string $file): bool
 {
-    $oid = pathinfo($file, PATHINFO_FILENAME);
-    $content = import_content($file);
-
-    if (!$pages = all('page', ['oid' => $oid])) {
-        $pages = [];
-        $pages[-1]['name'] = $oid;
-        $pages[-1]['active'] = true;
-        $pages[-1]['oid'] = $oid;
-    }
-
-    foreach ($pages as $id => $page) {
-        $pages[$id]['content'] = $content;
-    }
+    $pages = [];
+    $pages[-1]['name'] = pathinfo($file, PATHINFO_FILENAME);
+    $pages[-1]['active'] = true;
+    $pages[-1]['content'] = import_content($file);
 
     return save('page', $pages);
 }

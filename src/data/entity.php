@@ -117,13 +117,6 @@ return [
                 'type' => 'index',
                 'nullable' => true,
             ],
-            'oid' => [
-                'name' => 'Original Id',
-                'sort' => -500,
-                'type' => 'text',
-                'nullable' => true,
-                'uniq' => true,
-            ],
             'created' => [
                 'name' => 'Created',
                 'generator' => 'auto',
