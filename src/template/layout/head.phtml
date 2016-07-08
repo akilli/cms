@@ -7,4 +7,10 @@
 <title><?=$§('title');?></title>
 <link rel="stylesheet" href="<?=url_theme('css/base.css');?>" />
 <link rel="stylesheet" href="<?=url_theme('css/theme.css');?>" />
+<?php if (registered()):?>
 <link rel="stylesheet" href="<?=url_theme('css/toolbar.css');?>" />
+<script src="<?=url_lib('jquery.js');?>"></script>
+<script src="<?=url_lib('ckeditor/ckeditor.js');?>"></script>
+<script src="<?=url_lib('ckeditor/adapters/jquery.js');?>"></script>
+<script src="<?=url_theme('js/theme.js');?>"></script>
+<?php endif;?>
