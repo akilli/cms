@@ -26,7 +26,7 @@ function action_create(array $entity)
         );
     } else {
         // Initial create action call
-        $data = skeleton($entity['id'], (int) http_post('create'));
+        $data = entity($entity['id'], (int) http_post('create'));
     }
 
     layout_load();

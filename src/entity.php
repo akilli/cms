@@ -119,8 +119,8 @@ function all(string $eId, array $crit = [], array $opts = []): array
 function save(string $eId, array & $data): bool
 {
     $original = all($eId, ['id' => array_keys($data)]);
-    $skeleton = skeleton($eId);
-    $editable = skeleton($eId, null, true);
+    $skeleton = entity($eId);
+    $editable = entity($eId, null, true);
     $success = [];
     $error = [];
 
@@ -297,4 +297,39 @@ function load(array $entity, array $item): array
     event(['entity.load', 'model.load.' . $entity['model'], 'entity.load.' . $entity['id']], $item);
 
     return $item;
+}
+
+/**
+ * Retrieve empty entity
+ *
+ * @param string $eId
+ * @param int $number
+ * @param bool $bare
+ *
+ * @return array
+ */
+function entity(string $eId, int $number = null, bool $bare = false): array
+{
+    $entity = data('entity', $eId);
+    $item = [];
+
+    foreach ($entity['attr'] as $uid => $attr) {
+        if (in_array('edit', $attr['actions'])) {
+            $item[$uid] = null;
+        }
+    }
+
+    $item += $bare ? [] : ['_old' => null, '_entity' => $entity, '_id' => null];
+
+    if ($number === null) {
+        return $item;
+    }
+
+    $data = array_fill_keys(range(-1, -1 * max(1, (int) $number)), $item);
+
+    foreach ($data as $key => $value) {
+        $data[$key]['_id'] = $key;
+    }
+
+    return $data;
 }

@@ -251,38 +251,3 @@ function data_attr(array $data): array
 
     return $data;
 }
-
-/**
- * Retrieve empty entity
- *
- * @param string $eId
- * @param int $number
- * @param bool $bare
- *
- * @return array
- */
-function skeleton(string $eId, int $number = null, bool $bare = false): array
-{
-    $entity = data('entity', $eId);
-    $item = [];
-
-    foreach ($entity['attr'] as $uid => $attr) {
-        if (in_array('edit', $attr['actions'])) {
-            $item[$uid] = null;
-        }
-    }
-
-    $item += $bare ? [] : ['_old' => null, '_entity' => $entity, '_id' => null];
-
-    if ($number === null) {
-        return $item;
-    }
-
-    $data = array_fill_keys(range(-1, -1 * max(1, (int) $number)), $item);
-
-    foreach ($data as $key => $value) {
-        $data[$key]['_id'] = $key;
-    }
-
-    return $data;
-}
