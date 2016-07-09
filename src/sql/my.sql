@@ -152,24 +152,6 @@ CREATE TABLE IF NOT EXISTS project (
     KEY idx_project_system (system)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS rewrite;
-CREATE TABLE IF NOT EXISTS rewrite (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    target VARCHAR(255) NOT NULL,
-    redirect BOOLEAN NOT NULL DEFAULT '0',
-    system BOOLEAN NOT NULL DEFAULT '0',
-    project_id VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY uni_rewrite_name (project_id, name),
-    KEY idx_rewrite_name (name),
-    KEY idx_rewrite_target (target),
-    KEY idx_rewrite_redirect (redirect),
-    KEY idx_rewrite_system (system),
-    KEY idx_rewrite_project (project_id),
-    CONSTRAINT con_rewrite_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS role;
 CREATE TABLE IF NOT EXISTS role (
     id INTEGER(11) NOT NULL AUTO_INCREMENT,
@@ -185,6 +167,24 @@ CREATE TABLE IF NOT EXISTS role (
     KEY idx_role_system (system),
     KEY idx_role_project (project_id),
     CONSTRAINT con_role_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS url;
+CREATE TABLE IF NOT EXISTS url (
+    id INTEGER(11) NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    target VARCHAR(255) NOT NULL,
+    redirect BOOLEAN NOT NULL DEFAULT '0',
+    system BOOLEAN NOT NULL DEFAULT '0',
+    project_id VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uni_url_name (project_id, name),
+    KEY idx_url_name (name),
+    KEY idx_url_target (target),
+    KEY idx_url_redirect (redirect),
+    KEY idx_url_system (system),
+    KEY idx_url_project (project_id),
+    CONSTRAINT con_url_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS user;
@@ -234,7 +234,7 @@ INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project
 (9, 'Project', 'project/index', 1, 24, 25, 7, 2, 'base'),
 (10, 'User', 'user/index', 1, 26, 27, 7, 2, 'base'),
 (11, 'Role', 'role/index', 1, 28, 29, 7, 2, 'base'),
-(12, 'Rewrite', 'rewrite/index', 1, 30, 31, 7, 2, 'base'),
+(12, 'URL', 'url/index', 1, 30, 31, 7, 2, 'base'),
 (13, 'Menu', 'menu/index', 1, 14, 15, 6, 2, 'base'),
 (14, 'Node', 'node/index', 1, 16, 17, 6, 2, 'base'),
 (15, 'Entity', 'entity/index', 1, 18, 19, 6, 2, 'base'),
@@ -243,11 +243,11 @@ INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project
 INSERT INTO project (id, name, host, active, system) VALUES
 ('base', 'BASE', NULL, '1', '1');
 
-INSERT INTO rewrite (id, name, target, project_id) VALUES
-(1, '', 'page/view/id/1', 'base');
-
 INSERT INTO role (id, name, privilege, active, system, project_id) VALUES
 (1, 'admin', '[]', '1', '1', 'base');
+
+INSERT INTO url (id, name, target, project_id) VALUES
+(1, '', 'page/view/id/1', 'base');
 
 INSERT INTO user (id, name, username, password, role_id, active, system, project_id) VALUES
 (1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 'base');

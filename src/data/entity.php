@@ -339,8 +339,8 @@ return [
             ],
         ],
     ],
-    'rewrite' => [
-        'name' => 'Rewrite',
+    'url' => [
+        'name' => 'URL',
         'actions' => ['create', 'delete', 'edit', 'index'],
         'attr' => [
             'id' => [

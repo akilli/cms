@@ -151,17 +151,17 @@ function listener_data_request(array & $data)
  */
 function listener_save(array & $data)
 {
-    if ($data['_entity']['id'] === 'rewrite' || !in_array('view', $data['_entity']['actions'])) {
+    if ($data['_entity']['id'] === 'url' || !in_array('view', $data['_entity']['actions'])) {
         return;
     }
 
     $target = $data['_entity']['id'] . '/view/id/' . $data['id'];
-    $old = one('rewrite', ['target' => $target, 'system' => true]);
-    $rId = $old['id'] ?? -1;
-    $all = all('rewrite', [], ['index' => 'name']);
-    $name = generator_id($data['name'], array_column($all, 'name', 'id'), $rId);
-    $rw = [$rId => ['name' => $name, 'target' => $target, 'system' => true]];
-    save('rewrite', $rw);
+    $old = one('url', ['target' => $target, 'system' => true]);
+    $id = $old['id'] ?? -1;
+    $all = all('url', [], ['index' => 'name']);
+    $name = generator_id($data['name'], array_column($all, 'name', 'id'), $id);
+    $url = [$id => ['name' => $name, 'target' => $target, 'system' => true]];
+    save('url', $url);
 }
 
 /**
@@ -173,7 +173,7 @@ function listener_save(array & $data)
  */
 function listener_delete(array & $data)
 {
-    delete('rewrite', ['target' => $data['_entity']['id'] . '/view/id/' . $data['id']], ['system' => true]);
+    delete('url', ['target' => $data['_entity']['id'] . '/view/id/' . $data['id']], ['system' => true]);
 }
 
 /**
@@ -192,13 +192,13 @@ function listener_entity_save(array & $data)
     $crit = ['target' => $data['_old']['id'] . '/view/id/'];
 
     if (!in_array('view', $data['actions'])) {
-        delete('rewrite', $crit, ['search' => true, 'system' => true]);
-    } elseif ($data['id'] !== $data['_old']['id'] && ($rw = all('rewrite', $crit, ['search' => true]))) {
-        foreach ($rw as $rId => $r) {
-            $rw[$rId]['target'] = preg_replace('#^' . $data['_old']['id'] . '/#', $data['id'] . '/', $r['target']);
+        delete('url', $crit, ['search' => true, 'system' => true]);
+    } elseif ($data['id'] !== $data['_old']['id'] && ($url = all('url', $crit, ['search' => true]))) {
+        foreach ($url as $id => $u) {
+            $url[$id]['target'] = preg_replace('#^' . $data['_old']['id'] . '/#', $data['id'] . '/', $u['target']);
         }
 
-        save('rewrite', $rw);
+        save('url', $url);
     }
 }
 
@@ -211,7 +211,7 @@ function listener_entity_save(array & $data)
  */
 function listener_entity_delete(array & $data)
 {
-    delete('rewrite', ['target' => $data['id'] . '/view/id/'], ['search' => true, 'system' => true]);
+    delete('url', ['target' => $data['id'] . '/view/id/'], ['search' => true, 'system' => true]);
 }
 
 /**

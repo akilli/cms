@@ -95,12 +95,12 @@
     content: '\f085';
 }
 
-#toolbar li a[href='/rewrite/index']:before {
-    content: '\f064';
-}
-
 #toolbar li a[href='/role/index']:before {
     content: '\f0c0';
+}
+
+#toolbar li a[href='/url/index']:before {
+    content: '\f064';
 }
 
 #toolbar li a[href='/user/dashboard']:before {

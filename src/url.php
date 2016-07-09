@@ -152,7 +152,7 @@ function url_rewrite(string $path, bool $redirect = false): string
     static $data;
 
     if ($data === null) {
-        $data = all('rewrite', [], ['index' => 'name']);
+        $data = all('url', [], ['index' => 'name']);
     }
 
     if (!isset($data[$path])) {
@@ -179,7 +179,7 @@ function url_unrewrite(string $path, string $query = null): string
     static $data;
 
     if ($data === null) {
-        $data = all('rewrite', [], ['index' => 'target', 'order' => ['system' => 'desc']]);
+        $data = all('url', [], ['index' => 'target', 'order' => ['system' => 'desc']]);
     }
 
     $url = !empty($data[$path . $query]) ? $data[$path . $query]['name'] : $path . $query;

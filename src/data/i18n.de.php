@@ -107,7 +107,6 @@ return [
     'Required' => 'Erforderlich',
     'Reset' => 'Zurücksetzen',
     'Results %d to %d of %d' => 'Ergebnisse %d bis %d von %d',
-    'Rewrite' => 'Rewrite',
     'Rich Text Editor' => 'Rich Text Editor',
     'Role' => 'Rolle',
     'Save' => 'Speichern',
