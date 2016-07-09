@@ -225,7 +225,7 @@ function import_link(string $url): string
     $base = array_pop($parts);
     $dir = $parts ? array_pop($parts) : '';
 
-    if (strpos($base, 'index') === 0) {
+    if (strpos($base, 'index.') === 0) {
         return url();
     }
 
