@@ -136,16 +136,8 @@ function import_content(string $file): string
         $html = $match[2];
     }
 
-    $from = [
-        '#="index.html"#Ui',
-        '#="media/(.+)"#Ui',
-        '#="((.+)\.html)"#Ui'
-    ];
-    $to = [
-        sprintf('="%s"', url()),
-        sprintf('="%s/$1"', url_media()),
-        sprintf('="%s$1"', url())
-    ];
+    $from = ['#="index.html"#Ui', '#="media/([^"]+)"#Ui', '#="(([^"]+)\.html)"#Ui'];
+    $to = ['="' . url() . '"', '="' . url_media() . '/$1"', '="' . url() . '$1"'];
 
     return preg_replace($from, $to, $html);
 }
