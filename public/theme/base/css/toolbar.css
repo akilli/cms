@@ -71,35 +71,35 @@
     content: '\f015';
 }
 
-#toolbar li a[href='/attr/index']:before {
+#toolbar li a[href^='/attr/']:before {
     content: '\f142';
 }
 
-#toolbar li a[href='/entity/index']:before {
+#toolbar li a[href^='/entity/']:before {
     content: '\f00a';
 }
 
-#toolbar li a[href='/menu/index']:before {
+#toolbar li a[href^='/menu/']:before {
     content: '\f0c9';
 }
 
-#toolbar li a[href='/node/index']:before {
+#toolbar li a[href^='/node/']:before {
     content: '\f0e8';
 }
 
-#toolbar li a[href='/page/index']:before {
+#toolbar li a[href^='/page/']:before {
     content: '\f15b';
 }
 
-#toolbar li a[href='/project/index']:before {
+#toolbar li a[href^='/project/']:before {
     content: '\f085';
 }
 
-#toolbar li a[href='/role/index']:before {
+#toolbar li a[href^='/role/']:before {
     content: '\f0c0';
 }
 
-#toolbar li a[href='/url/index']:before {
+#toolbar li a[href^='/url/']:before {
     content: '\f064';
 }
 
