@@ -94,6 +94,18 @@ function db_cast(array $attr): string
 }
 
 /**
+ * Parameter name
+ *
+ * @param string $name
+ *
+ * @return string
+ */
+function db_param(string $name): string
+{
+    return ':' . str_replace('-', '_', $name);
+}
+
+/**
  * Set appropriate parameter type
  *
  * @param array $attr
@@ -175,7 +187,7 @@ function cols(array $attrs, array $item): array
         }
 
         $data[$uid]['col'] = $attrs[$uid]['col'];
-        $data[$uid]['param'] = ':' . str_replace('-', '_', $uid);
+        $data[$uid]['param'] = db_param($uid);
         $data[$uid]['set'] = $data[$uid]['col'] . ' = ' . $data[$uid]['param'];
         $data[$uid]['val'] = $attrs[$uid]['multiple'] && $attrs[$uid]['backend'] === 'json' ? json_encode($val) : $val;
         $data[$uid]['type'] = db_type($attrs[$uid], $data[$uid]['val']);

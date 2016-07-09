@@ -36,7 +36,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
             },
             (array) $crit[$uid]
         );
-        $params[$uid] = ':' . str_replace('-', '_', $uid);
+        $params[$uid] = db_param($uid);
         $list[] = sprintf(
             '(id IN (SELECT content_id FROM eav WHERE attr_id = %s AND CAST(value AS %s) IN (%s)))',
             $params[$uid],
@@ -89,7 +89,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
             continue;
         }
 
-        $params[$uid] = ':' . str_replace('-', '_', $uid);
+        $params[$uid] = db_param($uid);
         $list[] = sprintf(
             'MAX(CASE WHEN a.attr_id = %s THEN CAST(a.value AS %s) END) AS %s',
             $params[$uid],
