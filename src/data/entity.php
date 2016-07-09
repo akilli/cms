@@ -135,6 +135,7 @@ return [
                 'generator' => 'auto',
                 'sort' => -200,
                 'type' => 'datetime',
+                'actions' => ['index'],
             ],
             'modifier' => [
                 'name' => 'Modifier',
@@ -142,6 +143,7 @@ return [
                 'type' => 'select.int',
                 'nullable' => true,
                 'opt' => ['all', ['user']],
+                'actions' => ['index'],
             ],
             'project_id' => [
                 'name' => 'Project',
