@@ -1,7 +1,7 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <section id="<?=$§('§')['as'];?>" class="edit">
     <h1><?=$§('title');?></h1>
-    <form action="<?= url('*/*');?>" method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
         <?php foreach ($§('data') as $id => $item):?>
         <fieldset>
             <legend><?=$item['name'] ?? _('New Entry');?></legend>
