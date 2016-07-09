@@ -64,12 +64,12 @@ function flat_create(array & $item): bool
     $stmt = prep(
         'INSERT INTO %s (%s) VALUES (%s)',
         $item['_entity']['tab'],
-        implode(', ', $cols['col']),
-        implode(', ', $cols['param'])
+        implode(', ', array_column($cols, 'col')),
+        implode(', ', array_column($cols, 'param'))
     );
 
-    foreach ($cols['param'] as $uid => $param) {
-        $stmt->bindValue($param, $item[$uid], db_type($attrs[$uid], $item[$uid]));
+    foreach ($cols as $uid => $col) {
+        $stmt->bindValue($col['param'], $col['val'], $col['type']);
     }
 
     $stmt->execute();
@@ -97,12 +97,12 @@ function flat_save(array & $item): bool
     $stmt = prep(
         'UPDATE %s SET %s WHERE %s = :_id',
         $item['_entity']['tab'],
-        implode(', ', $cols['set']),
+        implode(', ', array_column($cols, 'set')),
         $attrs['id']['col']
     );
 
-    foreach ($cols['param'] as $uid => $param) {
-        $stmt->bindValue($param, $item[$uid], db_type($attrs[$uid], $item[$uid]));
+    foreach ($cols as $uid => $col) {
+        $stmt->bindValue($col['param'], $col['val'], $col['type']);
     }
 
     $stmt->bindValue(':_id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));

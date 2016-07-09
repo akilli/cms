@@ -43,34 +43,6 @@ function saver_password(array $attr, array & $item): bool
 }
 
 /**
- * Multicheckbox saver
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function saver_multicheckbox(array $attr, array & $item): bool
-{
-    $item[$attr['id']] = json_encode(array_filter(array_map('trim', (array) $item[$attr['id']])));
-
-    return true;
-}
-
-/**
- * Multiselect saver
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function saver_multiselect(array $attr, array & $item): bool
-{
-    return saver_multicheckbox($attr, $item);
-}
-
-/**
  * File saver
  *
  * @param array $attr

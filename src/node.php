@@ -51,29 +51,7 @@ function node_create(array & $item): bool
     node_insert($item);
 
     // Insert new node
-    $cols = cols($item['_entity']['attr'], $item);
-
-    $stmt = prep(
-        'INSERT INTO node (%s, root_id, lft, rgt, parent_id, level) VALUES (%s, :root_id, :lft, :rgt, :parent_id, :level)',
-        implode(', ', $cols['col']),
-        implode(', ', $cols['param'])
-    );
-
-    foreach ($cols['param'] as $uid => $param) {
-        $stmt->bindValue($param, $item[$uid], db_type($item['_entity']['attr'][$uid], $item[$uid]));
-    }
-
-    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $item['rgt'], PDO::PARAM_INT);
-    $stmt->bindValue(':parent_id', $item['parent_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':level', $item['level'], PDO::PARAM_INT);
-    $stmt->execute();
-
-    // Set DB generated id
-    $item['id'] = (int) db()->lastInsertId();
-
-    return true;
+    return flat_create($item);
 }
 
 /**
@@ -86,19 +64,16 @@ function node_create(array & $item): bool
 function node_save(array & $item): bool
 {
     // Update all attributes that are not involved with the tree
-    $cols = cols($item['_entity']['attr'], $item);
-
-    $stmt = prep(
-        'UPDATE node SET %s WHERE id = :_id',
-        implode(', ', $cols['set'])
+    $attrs = $item['_entity']['attr'];
+    unset(
+        $item['_entity']['attr']['root_id'],
+        $item['_entity']['attr']['lft'],
+        $item['_entity']['attr']['rgt'],
+        $item['_entity']['attr']['parent_id'],
+        $item['_entity']['attr']['level']
     );
-    $stmt->bindValue(':_id', $item['_old']['id'], PDO::PARAM_INT);
-
-    foreach ($cols['param'] as $uid => $param) {
-        $stmt->bindValue($param, $item[$uid], db_type($item['_entity']['attr'][$uid], $item[$uid]));
-    }
-
-    $stmt->execute();
+    flat_save($item);
+    $item['_entity']['attr'] = $attrs;
 
     // No change in position, so nothing to do anymore
     if ($item['position'] === $item['_old']['position']) {

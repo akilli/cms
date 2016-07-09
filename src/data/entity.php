@@ -245,24 +245,20 @@ return [
             ],
             'root_id' => [
                 'name' => 'Menu',
-                'generator' => 'auto',
                 'type' => 'select.int',
                 'opt' => ['all', ['menu']],
                 'actions' => ['index'],
             ],
             'lft' => [
                 'name' => 'Position Left',
-                'generator' => 'auto',
                 'type' => 'int',
             ],
             'rgt' => [
                 'name' => 'Position Right',
-                'generator' => 'auto',
                 'type' => 'int',
             ],
             'parent_id' => [
                 'name' => 'Parent',
-                'generator' => 'auto',
                 'type' => 'select.int',
                 'nullable' => true,
                 'opt' => ['all', ['node']],
@@ -270,7 +266,6 @@ return [
             ],
             'level' => [
                 'name' => 'Level',
-                'generator' => 'auto',
                 'type' => 'int',
                 'actions' => ['index'],
             ],

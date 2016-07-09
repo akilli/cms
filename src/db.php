@@ -167,16 +167,18 @@ function qi(string $identifier = null): string
  */
 function cols(array $attrs, array $item): array
 {
-    $data = ['col' => [], 'param' => [], 'set' => []];
+    $data = [];
 
-    foreach (array_keys($item) as $uid) {
+    foreach ($item as $uid => $val) {
         if (empty($attrs[$uid]['col']) || $attrs[$uid]['generator'] === 'auto') {
             continue;
         }
 
-        $data['col'][$uid] = $attrs[$uid]['col'];
-        $data['param'][$uid] = ':' . str_replace('-', '_', $uid);
-        $data['set'][$uid] = $data['col'][$uid] . ' = ' . $data['param'][$uid];
+        $data[$uid]['col'] = $attrs[$uid]['col'];
+        $data[$uid]['param'] = ':' . str_replace('-', '_', $uid);
+        $data[$uid]['set'] = $data[$uid]['col'] . ' = ' . $data[$uid]['param'];
+        $data[$uid]['val'] = $attrs[$uid]['multiple'] && $attrs[$uid]['backend'] === 'json' ? json_encode($val) : $val;
+        $data[$uid]['type'] = db_type($attrs[$uid], $data[$uid]['val']);
     }
 
     return $data;
