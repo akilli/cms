@@ -10,7 +10,7 @@ namespace qnd;
  *
  * @return mixed
  */
-function & session(string $key = null, $value = null, bool $reset = false)
+function & session(string $key, $value = null, bool $reset = false)
 {
     static $data;
 
@@ -21,10 +21,6 @@ function & session(string $key = null, $value = null, bool $reset = false)
         }
 
         $data = & $_SESSION;
-    }
-
-    if ($key === null) {
-        return $data;
     }
 
     // If $value is provided, set $value for $key
