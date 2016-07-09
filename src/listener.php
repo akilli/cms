@@ -139,7 +139,6 @@ function listener_data_request(array & $data)
     }
 
     $data['id'] = $data['entity'] . '.' . $data['action'];
-    $data['_old'] = $data;
 }
 
 /**
