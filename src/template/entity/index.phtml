@@ -30,7 +30,7 @@
                 <thead>
                     <tr>
                         <th>
-                            <input type="checkbox" name="checkall" value="1" title="<?= _('Select all');?>" />
+                            <input type="checkbox" value="1" title="<?= _('Select all');?>" data-toggle="edit" />
                         </th>
                         <?php foreach ($§('attr') as $attr):?>
                             <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
@@ -54,7 +54,7 @@
                     <?php foreach ($§('data') as $id => $item):?>
                     <tr>
                         <td>
-                            <input id="edit-<?=$id;?>-name" type="checkbox" name="edit[<?=$id;?>]" value="1" />
+                            <input id="edit-<?=$id;?>-name" type="checkbox" name="edit[<?=$id;?>]" value="1" data-toggle-id="edit" />
                         </td>
                         <?php foreach ($§('attr') as $attr):?>
                             <?php $attr['context'] = 'index';?>
