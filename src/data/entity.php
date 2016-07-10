@@ -334,45 +334,6 @@ return [
             ],
         ],
     ],
-    'url' => [
-        'name' => 'URL',
-        'actions' => ['create', 'delete', 'edit', 'index'],
-        'attr' => [
-            'id' => [
-                'name' => 'Id',
-                'generator' => 'auto',
-                'type' => 'int',
-                'actions' => ['index'],
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'uniq' => true,
-                'actions' => ['edit', 'index', 'list', 'view'],
-            ],
-            'target' => [
-                'name' => 'Target',
-                'type' => 'text',
-                'required' => true,
-                'actions' => ['edit', 'index'],
-            ],
-            'redirect' => [
-                'name' => 'Redirect',
-                'type' => 'checkbox.bool',
-                'actions' => ['edit', 'index'],
-            ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'checkbox.bool',
-                'actions' => ['index'],
-            ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'select.varchar',
-                'opt' => ['all', ['project']],
-            ],
-        ],
-    ],
     'role' => [
         'name' => 'Role',
         'actions' => ['create', 'delete', 'edit', 'index'],
@@ -398,6 +359,45 @@ return [
             ],
             'active' => [
                 'name' => 'Active',
+                'type' => 'checkbox.bool',
+                'actions' => ['edit', 'index'],
+            ],
+            'system' => [
+                'name' => 'System',
+                'type' => 'checkbox.bool',
+                'actions' => ['index'],
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'select.varchar',
+                'opt' => ['all', ['project']],
+            ],
+        ],
+    ],
+    'url' => [
+        'name' => 'URL',
+        'actions' => ['create', 'delete', 'edit', 'index'],
+        'attr' => [
+            'id' => [
+                'name' => 'Id',
+                'generator' => 'auto',
+                'type' => 'int',
+                'actions' => ['index'],
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'uniq' => true,
+                'actions' => ['edit', 'index', 'list', 'view'],
+            ],
+            'target' => [
+                'name' => 'Target',
+                'type' => 'text',
+                'required' => true,
+                'actions' => ['edit', 'index'],
+            ],
+            'redirect' => [
+                'name' => 'Redirect',
                 'type' => 'checkbox.bool',
                 'actions' => ['edit', 'index'],
             ],
