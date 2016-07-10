@@ -70,7 +70,8 @@ return [
         . '<strong><sub><sup><time><u><var><wbr>'
         . '<del><ins>'
         . '<area><audio><embed><img><map><object><param><picture><source><track><video>'
-        . '<caption><col><colgroup><table><tbody><td><tfoot><th><thead><tr>',
+        . '<caption><col><colgroup><table><tbody><td><tfoot><th><thead><tr>'
+        . '<details><summary>',
     'filter.id' => [
         '#ä|á|à|â|å|ã#i' => 'a',
         '#é|è|ê|ë#i' => 'e',
