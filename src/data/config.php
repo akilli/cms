@@ -1,17 +1,17 @@
 <?php
 return [
     'action.attr' => [
+        'admin' => 'admin',
         'edit' => 'edit',
         'index' => 'index',
-        'list' => 'list',
         'view' => 'view',
     ],
     'action.entity' => [
+        'admin' => 'admin',
         'create' => 'create',
         'delete' => 'delete',
         'edit' => 'edit',
         'index' => 'index',
-        'list' => 'list',
         'view' => 'view',
     ],
     'entity.limit' => 20,

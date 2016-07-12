@@ -71,6 +71,28 @@ return [
         'template' => 'entity/view.phtml',
         'parent' => 'main',
     ],
+    // action-admin
+    [
+        'id' => 'content',
+        'handle' => 'action-admin',
+        'type' => 'template',
+        'template' => 'entity/admin.phtml',
+        'parent' => 'main',
+    ],
+    [
+        'id' => 'pager',
+        'handle' => 'action-admin',
+        'type' => 'pager',
+        'template' => 'entity/pager.phtml',
+        'parent' => 'content',
+    ],
+    [
+        'id' => 'search',
+        'handle' => 'action-admin',
+        'type' => 'template',
+        'template' => 'entity/search.phtml',
+        'parent' => 'content',
+    ],
     // action-index
     [
         'id' => 'content',
@@ -89,28 +111,6 @@ return [
     [
         'id' => 'search',
         'handle' => 'action-index',
-        'type' => 'template',
-        'template' => 'entity/search.phtml',
-        'parent' => 'content',
-    ],
-    // action-list
-    [
-        'id' => 'content',
-        'handle' => 'action-list',
-        'type' => 'template',
-        'template' => 'entity/list.phtml',
-        'parent' => 'main',
-    ],
-    [
-        'id' => 'pager',
-        'handle' => 'action-list',
-        'type' => 'pager',
-        'template' => 'entity/pager.phtml',
-        'parent' => 'content',
-    ],
-    [
-        'id' => 'search',
-        'handle' => 'action-list',
         'type' => 'template',
         'template' => 'entity/search.phtml',
         'parent' => 'content',

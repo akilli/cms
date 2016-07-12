@@ -213,11 +213,8 @@ CREATE TABLE IF NOT EXISTS user (
 -- Data
 -- --------------------------------------------------------
 
-INSERT INTO content (id, name, entity_id, active, content, project_id) VALUES
-(1, 'Homepage', 'page', '1', 'Hello World', 'base');
-
 INSERT INTO entity (id, name, actions, system, project_id) VALUES
-('page', 'Page', '["create", "delete", "edit", "index", "list", "view"]', '1', 'base');
+('page', 'Page', '["admin", "create", "delete", "edit", "index", "view"]', '1', 'base');
 
 INSERT INTO menu (id, uid, name, system, project_id) VALUES
 (1, 'toolbar', 'Toolbar', '1', 'base');
@@ -230,24 +227,21 @@ INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project
 (5, 'Content', '#', 1, 9, 12, NULL, 1, 'base'),
 (6, 'Structure', '#', 1, 13, 22, NULL, 1, 'base'),
 (7, 'System', '#', 1, 23, 32, NULL, 1, 'base'),
-(8, 'Page', 'page/index', 1, 10, 11, 5, 2, 'base'),
-(9, 'Project', 'project/index', 1, 24, 25, 7, 2, 'base'),
-(10, 'User', 'user/index', 1, 26, 27, 7, 2, 'base'),
-(11, 'Role', 'role/index', 1, 28, 29, 7, 2, 'base'),
-(12, 'URL', 'url/index', 1, 30, 31, 7, 2, 'base'),
-(13, 'Menu', 'menu/index', 1, 14, 15, 6, 2, 'base'),
-(14, 'Node', 'node/index', 1, 16, 17, 6, 2, 'base'),
-(15, 'Entity', 'entity/index', 1, 18, 19, 6, 2, 'base'),
-(16, 'Attribute', 'attr/index', 1, 20, 21, 6, 2, 'base');
+(8, 'Page', 'page/admin', 1, 10, 11, 5, 2, 'base'),
+(9, 'Project', 'project/admin', 1, 24, 25, 7, 2, 'base'),
+(10, 'User', 'user/admin', 1, 26, 27, 7, 2, 'base'),
+(11, 'Role', 'role/admin', 1, 28, 29, 7, 2, 'base'),
+(12, 'URL', 'url/admin', 1, 30, 31, 7, 2, 'base'),
+(13, 'Menu', 'menu/admin', 1, 14, 15, 6, 2, 'base'),
+(14, 'Node', 'node/admin', 1, 16, 17, 6, 2, 'base'),
+(15, 'Entity', 'entity/admin', 1, 18, 19, 6, 2, 'base'),
+(16, 'Attribute', 'attr/admin', 1, 20, 21, 6, 2, 'base');
 
 INSERT INTO project (id, name, host, active, system) VALUES
 ('base', 'BASE', NULL, '1', '1');
 
 INSERT INTO role (id, name, privilege, active, system, project_id) VALUES
 (1, 'admin', '[]', '1', '1', 'base');
-
-INSERT INTO url (id, name, target, project_id) VALUES
-(1, '', 'page/view/id/1', 'base');
 
 INSERT INTO user (id, name, username, password, role_id, active, system, project_id) VALUES
 (1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 'base');

@@ -2,7 +2,7 @@
 return [
     'attr' => [
         'name' => 'Attribute',
-        'actions' => ['create', 'delete', 'edit', 'index'],
+        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -14,31 +14,31 @@ return [
                 'type' => 'select.varchar',
                 'required' => true,
                 'opt' => ['all', ['entity']],
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'uid' => [
                 'name' => 'Id',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['edit', 'index', 'list', 'view'],
+                'actions' => ['admin', 'edit', 'index', 'view'],
             ],
             'sort' => [
                 'name' => 'Sort',
                 'type' => 'int',
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'type' => [
                 'name' => 'Type',
                 'type' => 'select.varchar',
                 'required' => true,
                 'opt' => ['data', ['attr']],
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'required' => [
                 'name' => 'Required',
@@ -64,7 +64,7 @@ return [
                 'name' => 'Actions',
                 'type' => 'multicheckbox',
                 'opt' => ['config', ['action.attr']],
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'project_id' => [
                 'name' => 'Project',
@@ -75,13 +75,14 @@ return [
     ],
     'content' => [
         'name' => 'Content',
+        'actions' => ['index'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
                 'generator' => 'auto',
                 'sort' => -1100,
                 'type' => 'int',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'name' => [
                 'name' => 'Name',
@@ -89,7 +90,7 @@ return [
                 'sort' => -1000,
                 'required' => true,
                 'searchable' => true,
-                'actions' => ['edit', 'index', 'list', 'view'],
+                'actions' => ['admin', 'edit', 'index', 'view'],
             ],
             'entity_id' => [
                 'name' => 'Entity',
@@ -101,7 +102,7 @@ return [
                 'name' => 'Active',
                 'sort' => -800,
                 'type' => 'checkbox.bool',
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'content' => [
                 'name' => 'Content',
@@ -135,7 +136,7 @@ return [
                 'generator' => 'auto',
                 'sort' => -200,
                 'type' => 'datetime',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'modifier' => [
                 'name' => 'Modifier',
@@ -143,7 +144,7 @@ return [
                 'type' => 'select.int',
                 'nullable' => true,
                 'opt' => ['all', ['user']],
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'project_id' => [
                 'name' => 'Project',
@@ -154,31 +155,31 @@ return [
     ],
     'entity' => [
         'name' => 'Entity',
-        'actions' => ['create', 'delete', 'edit', 'index'],
+        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['edit', 'index', 'list', 'view'],
+                'actions' => ['admin', 'edit', 'index', 'view'],
             ],
             'actions' => [
                 'name' => 'Actions',
                 'type' => 'multicheckbox',
                 'opt' => ['config', ['action.entity']],
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox.bool',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'project_id' => [
                 'name' => 'Project',
@@ -189,7 +190,7 @@ return [
     ],
     'menu' => [
         'name' => 'Menu',
-        'actions' => ['create', 'delete', 'edit', 'index'],
+        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -201,18 +202,18 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['edit', 'index', 'list', 'view'],
+                'actions' => ['admin', 'edit', 'index', 'view'],
             ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox.bool',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'project_id' => [
                 'name' => 'Project',
@@ -224,30 +225,30 @@ return [
     'node' => [
         'name' => 'Node',
         'model' => 'node',
-        'actions' => ['create', 'delete', 'edit', 'index'],
+        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
                 'generator' => 'auto',
                 'type' => 'int',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['edit', 'index', 'list', 'view'],
+                'actions' => ['admin', 'edit', 'index', 'view'],
             ],
             'target' => [
                 'name' => 'Target',
                 'type' => 'text',
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'root_id' => [
                 'name' => 'Menu',
                 'type' => 'select.int',
                 'opt' => ['all', ['menu']],
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'lft' => [
                 'name' => 'Position Left',
@@ -262,12 +263,12 @@ return [
                 'type' => 'select.int',
                 'nullable' => true,
                 'opt' => ['all', ['node']],
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'level' => [
                 'name' => 'Level',
                 'type' => 'int',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'mode' => [
                 'name' => 'Mode',
@@ -293,63 +294,63 @@ return [
     ],
     'project' => [
         'name' => 'Project',
-        'actions' => ['create', 'delete', 'edit', 'index'],
+        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['edit', 'index', 'list', 'view'],
+                'actions' => ['admin', 'edit', 'index', 'view'],
             ],
             'host' => [
                 'name' => 'Host',
                 'type' => 'text',
                 'nullable' => true,
                 'uniq' => true,
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'theme' => [
                 'name' => 'Theme',
                 'type' => 'select.varchar',
                 'nullable' => true,
                 'opt' => ['opt_theme'],
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'active' => [
                 'name' => 'Active',
                 'type' => 'checkbox.bool',
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox.bool',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
         ],
     ],
     'role' => [
         'name' => 'Role',
-        'actions' => ['create', 'delete', 'edit', 'index'],
+        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
                 'generator' => 'auto',
                 'type' => 'int',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['edit', 'index', 'list', 'view'],
+                'actions' => ['admin', 'edit', 'index', 'view'],
             ],
             'privilege' => [
                 'name' => 'Privileges',
@@ -360,12 +361,12 @@ return [
             'active' => [
                 'name' => 'Active',
                 'type' => 'checkbox.bool',
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox.bool',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'project_id' => [
                 'name' => 'Project',
@@ -376,35 +377,35 @@ return [
     ],
     'url' => [
         'name' => 'URL',
-        'actions' => ['create', 'delete', 'edit', 'index'],
+        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
                 'generator' => 'auto',
                 'type' => 'int',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
                 'uniq' => true,
-                'actions' => ['edit', 'index', 'list', 'view'],
+                'actions' => ['admin', 'edit', 'index', 'view'],
             ],
             'target' => [
                 'name' => 'Target',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'redirect' => [
                 'name' => 'Redirect',
                 'type' => 'checkbox.bool',
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox.bool',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'project_id' => [
                 'name' => 'Project',
@@ -415,27 +416,27 @@ return [
     ],
     'user' => [
         'name' => 'User',
-        'actions' => ['create', 'delete', 'edit', 'index'],
+        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
                 'generator' => 'auto',
                 'type' => 'int',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['edit', 'index', 'list', 'view'],
+                'actions' => ['admin', 'edit', 'index', 'view'],
             ],
             'username' => [
                 'name' => 'Username',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['edit', 'index', 'list', 'view'],
+                'actions' => ['admin', 'edit', 'index', 'view'],
             ],
             'password' => [
                 'name' => 'Password',
@@ -448,17 +449,17 @@ return [
                 'type' => 'select.int',
                 'required' => true,
                 'opt' => ['all', ['role']],
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'active' => [
                 'name' => 'Active',
                 'type' => 'checkbox.bool',
-                'actions' => ['edit', 'index'],
+                'actions' => ['admin', 'edit'],
             ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox.bool',
-                'actions' => ['index'],
+                'actions' => ['admin'],
             ],
             'project_id' => [
                 'name' => 'Project',

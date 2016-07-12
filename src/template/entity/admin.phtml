@@ -1,0 +1,93 @@
+<?php namespace qnd; /** @var callable $§ */?>
+<section id="<?=$§('§')['as'];?>" class="admin">
+    <h1><?=$§('title');?></h1>
+    <div class="tool">
+        <?php if (allowed('create')):?>
+        <form id="create" action="<?= url('*/create');?>" method="post">
+            <input type="number" name="create" value="1" required="required" />
+            <input type="submit" value="<?= _('Create');?>" />
+            <input type="hidden" name="token" value="<?= token();?>" />
+        </form>
+        <?php endif;?>
+        <?php if (allowed('import')):?>
+        <form id="import" action="<?= url('*/import');?>" method="post" enctype="multipart/form-data">
+            <input type="file" name="import" required="required" />
+            <input type="submit" value="<?= _('Import');?>" />
+            <input type="hidden" name="token" value="<?= token();?>" />
+        </form>
+        <?php endif;?>
+        <?= §('search');?>
+    </div>
+    <?= §('pager');?>
+    <?php if ($§('data')):?>
+        <?php
+        $p = $§('params') + ['sort' => null, 'dir' => null];
+        if (array_key_exists('page', $p) && $p['page'] <= 1) unset($p['page']);
+        ?>
+    <form method="post">
+        <fieldset>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" value="1" title="<?= _('Select all');?>" data-toggle="edit" />
+                        </th>
+                        <?php foreach ($§('attr') as $attr):?>
+                            <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
+                        <th>
+                            <a href="<?= url('*/*', ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?= $attr['name'];?></a>
+                        </th>
+                        <?php endforeach;?>
+                        <?php if (allowed('edit')):?>
+                        <th>
+                            <?= _('Edit');?>
+                        </th>
+                        <?php endif;?>
+                        <?php if (allowed('view')):?>
+                        <th>
+                            <?= _('View');?>
+                        </th>
+                        <?php endif;?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($§('data') as $id => $item):?>
+                    <tr>
+                        <td>
+                            <input id="edit-<?=$id;?>-name" type="checkbox" name="edit[<?=$id;?>]" value="1" data-toggle-id="edit" />
+                        </td>
+                        <?php foreach ($§('attr') as $attr):?>
+                            <?php $attr['context'] = 'admin';?>
+                        <td>
+                            <?=viewer($attr, $item);?>
+                        </td>
+                        <?php endforeach;?>
+                        <?php if (allowed('edit')):?>
+                        <td>
+                            <a href="<?= url('*/edit', ['id' => $id]);?>"><?= _('Edit');?></a>
+                        </td>
+                        <?php endif;?>
+                        <?php if (allowed('view')):?>
+                        <td>
+                            <a href="<?= url('*/view', ['id' => $id]);?>"><?= _('View');?></a>
+                        </td>
+                        <?php endif;?>
+                    </tr>
+                    <?php endforeach;?>
+                </tbody>
+            </table>
+        </fieldset>
+        <?php if (allowed('delete')):?>
+        <input type="submit" value="<?= _('Delete');?>" formaction="<?= url('*/delete');?>" />
+        <?php endif;?>
+        <?php if (allowed('edit')):?>
+        <input type="submit" value="<?= _('Edit');?>" formaction="<?= url('*/edit');?>" />
+        <?php endif;?>
+        <?php if (allowed('delete') || allowed('edit')):?>
+        <input type="hidden" name="token" value="<?= token();?>" />
+        <?php endif;?>
+    </form>
+    <?php else:;?>
+    <p><?= _('Nothing created yet');?></p>
+    <?php endif;?>
+</section>

@@ -25,7 +25,7 @@ function url(string $path = '', array $params = []): string
         $isFullPath = true;
     }
 
-    return $b . url_unrewrite($path, url_query($params, $isFullPath));
+    return $b . url_unrewrite($path . url_query($params, $isFullPath));
 }
 
 /**
@@ -164,7 +164,7 @@ function url_rewrite(string $path, bool $redirect = false): string
     static $data;
 
     if ($data === null) {
-        $data = all('url', [], ['index' => 'name']);
+        $data = all('url', [], ['index' => 'name']) + ['' => ['target' => 'content/index']];
     }
 
     if (!isset($data[$path])) {
@@ -182,11 +182,10 @@ function url_rewrite(string $path, bool $redirect = false): string
  * Un-rewrite URL
  *
  * @param string $path
- * @param string $query
  *
  * @return string
  */
-function url_unrewrite(string $path, string $query = null): string
+function url_unrewrite(string $path): string
 {
     static $data;
 
@@ -194,7 +193,5 @@ function url_unrewrite(string $path, string $query = null): string
         $data = all('url', [], ['index' => 'target', 'order' => ['system' => 'desc']]);
     }
 
-    $url = !empty($data[$path . $query]) ? $data[$path . $query]['name'] : $path . $query;
-
-    return $url;
+    return $data[$path]['name'] ?? $path;
 }

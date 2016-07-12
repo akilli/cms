@@ -2,6 +2,18 @@
 namespace qnd;
 
 /**
+ * Admin Action
+ *
+ * @param array $entity
+ *
+ * @return void
+ */
+function action_admin(array $entity)
+{
+    action_index($entity);
+}
+
+/**
  * Create Action
  *
  * @param array $entity
@@ -13,9 +25,9 @@ function action_create(array $entity)
     $data = http_post('data');
 
     if ($data) {
-        // Perform save callback and redirect to index on success
+        // Perform save callback and redirect to admin on success
         if (save($entity['id'], $data)) {
-            redirect(allowed('index') ? '*/index' : '');
+            redirect(allowed('admin') ? '*/admin' : '');
         }
 
         $data = array_filter(
@@ -46,9 +58,9 @@ function action_edit(array $entity)
     $data = http_post('data');
 
     if ($data) {
-        // Perform save callback and redirect to index on success
+        // Perform save callback and redirect to admin on success
         if (save($entity['id'], $data)) {
-            redirect(allowed('index') ? '*/index' : '');
+            redirect(allowed('admin') ? '*/admin' : '');
         }
 
         $data = array_filter(
@@ -58,16 +70,16 @@ function action_edit(array $entity)
             }
         );
     } elseif (is_array(http_post('edit'))) {
-        // We just selected multiple items to edit on the index page
+        // We just selected multiple items to edit on the admin page
         $data = all($entity['id'], ['id' => array_keys(http_post('edit'))]);
     } elseif (http_param('id') !== null) {
-        // We just clicked on an edit link, p.e. on the index page
+        // We just clicked on an edit link, p.e. on the admin page
         $data = all($entity['id'], ['id' => http_param('id')]);
     }
 
     if (!$data) {
         message(_('You did not select anything to edit'));
-        redirect(allowed('index') ? '*/index' : '');
+        redirect(allowed('admin') ? '*/admin' : '');
     }
 
     layout_load();
@@ -92,34 +104,7 @@ function action_delete(array $entity)
         message(_('You did not select anything to delete'));
     }
 
-    redirect(allowed('index') ? '*/index' : '');
-}
-
-/**
- * View Action
- *
- * @param array $entity
- *
- * @return void
- */
-function action_view(array $entity)
-{
-    // Item does not exist or is inactive
-    if (!($item = one($entity['id'], ['id' => http_param('id')]))
-        || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')
-    ) {
-        action_error();
-        return;
-    }
-
-    // Preview
-    if (!empty($entity['attr']['active']) && empty($item['active'])) {
-        message(_('Preview'));
-    }
-
-    layout_load();
-    vars('content', ['item' => $item]);
-    vars('head', ['title' => $item['name']]);
+    redirect(allowed('admin') ? '*/admin' : '');
 }
 
 /**
@@ -138,7 +123,7 @@ function action_index(array $entity)
             return in_array($action, $attr['actions']);
         }
     );
-    $crit = empty($entity['attr']['active']) || $action === 'index' ? [] : ['active' => true];
+    $crit = empty($entity['attr']['active']) || $action === 'admin' ? [] : ['active' => true];
     $p = [];
     $q = http_post('q');
 
@@ -176,15 +161,30 @@ function action_index(array $entity)
 }
 
 /**
- * List Action
+ * View Action
  *
  * @param array $entity
  *
  * @return void
  */
-function action_list(array $entity)
+function action_view(array $entity)
 {
-    action_index($entity);
+    // Item does not exist or is inactive
+    if (!($item = one($entity['id'], ['id' => http_param('id')]))
+        || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')
+    ) {
+        action_error();
+        return;
+    }
+
+    // Preview
+    if (!empty($entity['attr']['active']) && empty($item['active'])) {
+        message(_('Preview'));
+    }
+
+    layout_load();
+    vars('content', ['item' => $item]);
+    vars('head', ['title' => $item['name']]);
 }
 
 /**
@@ -210,16 +210,6 @@ function action_error()
 }
 
 /**
- * Home Action
- *
- * @return void
- */
-function action_index_index()
-{
-    layout_load();
-}
-
-/**
  * Project Import Action
  *
  * @return void
@@ -237,7 +227,7 @@ function action_project_import()
         file_delete($path);
     }
 
-    redirect(allowed('index') ? '*/index' : '');
+    redirect(allowed('admin') ? '*/admin' : '');
 }
 
 /**

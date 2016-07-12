@@ -1,8 +1,8 @@
 <?php
 return [
-    'id' => 'index.index',
+    'id' => 'content.index',
     'action' => 'index',
-    'entity' => 'index',
+    'entity' => 'content',
     'base' => null,
     'url' => null,
     'origpath' => null,

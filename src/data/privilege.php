@@ -1,9 +1,5 @@
 <?php
 return [
-    'index.index' => [
-        'name' => 'Homepage',
-        'active' => false,
-    ],
     'project.import' => [
         'name' => 'Project Import',
         'active' => true,

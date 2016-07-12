@@ -103,12 +103,12 @@
     content: '\f064';
 }
 
-#toolbar li a[href='/user/dashboard']:before {
-    content: '\f0e4';
+#toolbar li a[href='/user/admin']:before {
+    content: '\f007';
 }
 
-#toolbar li a[href='/user/index']:before {
-    content: '\f007';
+#toolbar li a[href='/user/dashboard']:before {
+    content: '\f0e4';
 }
 
 #toolbar li a[href='/user/logout']:before {
