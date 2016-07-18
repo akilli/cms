@@ -92,17 +92,15 @@ function node_save(array & $item): bool
     $diff = $item['lft'] - $item['_old']['lft'];
 
     // Move all affected nodes from old tree and update their positions for the new tree without adding them yet
-    $stmt = db()->prepare('
-        UPDATE 
-            node
-        SET
-            root_id = :root_id,
-            lft = -1 * (lft + :lft_diff),
-            rgt = -1 * (rgt + :rgt_diff)
-        WHERE
-            root_id = :old_root_id
-            AND lft BETWEEN :lft AND :rgt
-    ');
+    $stmt = prep(
+        'UPDATE %1$s
+        SET %2$s = :root_id, %3$s = -1 * (%3$s + :lft_diff), %4$s = -1 * (%4$s + :rgt_diff)
+        WHERE %2$s = :old_root_id AND %3$s BETWEEN :lft AND :rgt',
+        $item['_entity']['tab'],
+        $attrs['root_id']['col'],
+        $attrs['lft']['col'],
+        $attrs['rgt']['col']
+    );
     $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
     $stmt->bindValue(':old_root_id', $item['_old']['root_id'], PDO::PARAM_INT);
     $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
@@ -113,23 +111,22 @@ function node_save(array & $item): bool
 
     // Close gap in old tree
     node_remove($item);
-
     // Make space in the new tree
     node_insert($item);
 
     // Finally add the affected nodes to new tree
-    $stmt = db()->prepare("
-        UPDATE 
-            node
-        SET
-            lft = -1 * lft,
-            rgt = -1 * rgt,
-            parent_id = IF(id = :id, :parent_id, parent_id),
-            level = level + :level
-        WHERE
-            root_id = :root_id
-            AND lft < 0
-    ");
+    $stmt = prep(
+        'UPDATE %1$s
+        SET %3$s = -1 * %3$s, %4$s = -1 * %4$s, %6$s = IF(%5$s = :id, :parent_id, %6$s), %7$s = %7$s + :level
+        WHERE %2$s = :root_id AND %3$s < 0',
+        $item['_entity']['tab'],
+        $attrs['root_id']['col'],
+        $attrs['lft']['col'],
+        $attrs['rgt']['col'],
+        $attrs['id']['col'],
+        $attrs['parent_id']['col'],
+        $attrs['level']['col']
+    );
     $stmt->bindValue(':id', $item['_old']['id'], PDO::PARAM_INT);
     $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
     $stmt->bindValue(':parent_id', $item['parent_id'], PDO::PARAM_INT);
@@ -148,13 +145,14 @@ function node_save(array & $item): bool
  */
 function node_delete(array & $item): bool
 {
-    $stmt = db()->prepare('
-        DELETE FROM 
-            node 
-        WHERE 
-            root_id = :root_id
-            AND lft BETWEEN :lft AND :rgt
-    ');
+    $attrs = $item['_entity']['attr'];
+
+    $stmt = prep(
+        'DELETE FROM %s WHERE %s = :root_id AND %s BETWEEN :lft AND :rgt',
+        $item['_entity']['tab'],
+        $attrs['root_id']['col'],
+        $attrs['lft']['col']
+    );
     $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
     $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
@@ -177,6 +175,7 @@ function node_delete(array & $item): bool
  */
 function node_position(array & $item): int
 {
+    $attrs = $item['_entity']['attr'];
     $parts = explode(':', $item['position']);
     $item['root_id'] = (int) $parts[0];
     $basis = (int) $parts[1];
@@ -186,14 +185,12 @@ function node_position(array & $item): int
         $item['parent_id'] = null;
         $item['level'] = 1;
 
-        $stmt = db()->prepare('
-            SELECT 
-                COALESCE(MAX(rgt), 0) + 1
-            FROM 
-                node
-            WHERE 
-                root_id = :root_id
-        ');
+        $stmt = prep(
+            'SELECT COALESCE(MAX(%s), 0) + 1 FROM %s WHERE %s = :root_id',
+            $attrs['rgt']['col'],
+            $item['_entity']['tab'],
+            $attrs['root_id']['col']
+        );
         $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
         $stmt->execute();
 
@@ -231,31 +228,26 @@ function node_position(array & $item): int
  */
 function node_insert(array $item)
 {
+    $attrs = $item['_entity']['attr'];
     $range = $item['rgt'] - $item['lft'] + 1;
 
-    $stmt = db()->prepare('
-        UPDATE 
-            node
-        SET
-            lft = lft + :range
-        WHERE
-            root_id = :root_id
-            AND lft >= :lft 
-    ');
+    $stmt = prep(
+        'UPDATE %1$s SET %3$s = %3$s + :range WHERE %2$s = :root_id AND %3$s >= :lft',
+        $item['_entity']['tab'],
+        $attrs['root_id']['col'],
+        $attrs['lft']['col']
+    );
     $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
     $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
 
-    $stmt = db()->prepare('
-        UPDATE 
-            node
-        SET
-            rgt = rgt + :range
-        WHERE
-            root_id = :root_id
-            AND rgt >= :lft 
-    ');
+    $stmt = prep(
+        'UPDATE %1$s SET %3$s = %3$s + :range WHERE %2$s = :root_id AND %3$s >= :lft',
+        $item['_entity']['tab'],
+        $attrs['root_id']['col'],
+        $attrs['rgt']['col']
+    );
     $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
     $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
@@ -271,31 +263,26 @@ function node_insert(array $item)
  */
 function node_remove(array $item)
 {
+    $attrs = $item['_entity']['attr'];
     $range = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
 
-    $stmt = db()->prepare('
-        UPDATE 
-            node
-        SET
-            lft = lft - :range
-        WHERE
-            root_id = :root_id
-            AND lft > :rgt
-    ');
+    $stmt = prep(
+        'UPDATE %1$s SET %3$s = %3$s - :range WHERE %2$s = :root_id AND %3$s > :rgt',
+        $item['_entity']['tab'],
+        $attrs['root_id']['col'],
+        $attrs['lft']['col']
+    );
     $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
 
-    $stmt = db()->prepare('
-        UPDATE 
-            node
-        SET
-            rgt = rgt - :range
-        WHERE
-            root_id = :root_id
-            AND rgt > :rgt
-    ');
+    $stmt = prep(
+        'UPDATE %1$s SET %3$s = %3$s - :range WHERE %2$s = :root_id AND %3$s > :rgt',
+        $item['_entity']['tab'],
+        $attrs['root_id']['col'],
+        $attrs['rgt']['col']
+    );
     $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
