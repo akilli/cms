@@ -101,8 +101,8 @@ function node_save(array & $item): bool
         $attrs['lft']['col'],
         $attrs['rgt']['col']
     );
-    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':old_root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
+    $stmt->bindValue(':old_root_id', $item['_old']['root_id'], db_type($attrs['root_id'], $item['_old']['root_id']));
     $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':lft_diff', $diff, PDO::PARAM_INT);
@@ -127,9 +127,9 @@ function node_save(array & $item): bool
         $attrs['parent_id']['col'],
         $attrs['level']['col']
     );
-    $stmt->bindValue(':id', $item['_old']['id'], PDO::PARAM_INT);
-    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
-    $stmt->bindValue(':parent_id', $item['parent_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
+    $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
+    $stmt->bindValue(':parent_id', $item['parent_id'], db_type($attrs['parent_id'], $item['parent_id']));
     $stmt->bindValue(':level', $item['level'] - $item['_old']['level'], PDO::PARAM_INT);
     $stmt->execute();
 
@@ -153,7 +153,7 @@ function node_delete(array & $item): bool
         $attrs['root_id']['col'],
         $attrs['lft']['col']
     );
-    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], db_type($attrs['root_id'], $item['_old']['root_id']));
     $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->execute();
@@ -177,7 +177,7 @@ function node_position(array & $item): int
 {
     $attrs = $item['_entity']['attr'];
     $parts = explode(':', $item['position']);
-    $item['root_id'] = (int) $parts[0];
+    $item['root_id'] = cast($attrs['root_id'], $parts[0]);
     $basis = (int) $parts[1];
 
     // No or wrong basis given so append node
@@ -191,7 +191,7 @@ function node_position(array & $item): int
             $item['_entity']['tab'],
             $attrs['root_id']['col']
         );
-        $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
         $stmt->execute();
 
         return (int) $stmt->fetchColumn();
@@ -237,7 +237,7 @@ function node_insert(array $item)
         $attrs['root_id']['col'],
         $attrs['lft']['col']
     );
-    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
     $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
@@ -248,7 +248,7 @@ function node_insert(array $item)
         $attrs['root_id']['col'],
         $attrs['rgt']['col']
     );
-    $stmt->bindValue(':root_id', $item['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
     $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
@@ -272,7 +272,7 @@ function node_remove(array $item)
         $attrs['root_id']['col'],
         $attrs['lft']['col']
     );
-    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], db_type($attrs['root_id'], $item['_old']['root_id']));
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
@@ -283,7 +283,7 @@ function node_remove(array $item)
         $attrs['root_id']['col'],
         $attrs['rgt']['col']
     );
-    $stmt->bindValue(':root_id', $item['_old']['root_id'], PDO::PARAM_INT);
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], db_type($attrs['root_id'], $item['_old']['root_id']));
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
