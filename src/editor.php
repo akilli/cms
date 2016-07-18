@@ -198,12 +198,12 @@ function editor_text(array $attr, array $item): string
     $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $item[$attr['id']] ? encode($item[$attr['id']]) : $item[$attr['id']];
 
-    if ($attr['min'] > 0 && $attr['min'] <= $attr['max']) {
-        $attr['html']['minlength'] = $attr['min'];
+    if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
+        $attr['html']['minlength'] = $attr['minval'];
     }
 
-    if ($attr['max'] > 0 && $attr['min'] <= $attr['max']) {
-        $attr['html']['maxlength'] = $attr['max'];
+    if ($attr['maxval'] > 0 && $attr['minval'] <= $attr['maxval']) {
+        $attr['html']['maxlength'] = $attr['maxval'];
     }
 
     return html_tag('input', $attr['html'], null, true);
@@ -238,12 +238,12 @@ function editor_int(array $attr, array $item): string
     $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $item[$attr['id']];
 
-    if ($attr['min'] > 0 && $attr['min'] <= $attr['max']) {
-        $attr['html']['min'] = $attr['min'];
+    if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
+        $attr['html']['min'] = $attr['minval'];
     }
 
-    if ($attr['max'] > 0 && $attr['min'] <= $attr['max']) {
-        $attr['html']['max'] = $attr['max'];
+    if ($attr['maxval'] > 0 && $attr['minval'] <= $attr['maxval']) {
+        $attr['html']['max'] = $attr['maxval'];
     }
 
     return html_tag('input', $attr['html'], null, true);
@@ -277,12 +277,12 @@ function editor_datetime(array $attr, array $item): string
     $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $item[$attr['id']];
 
-    if ($attr['min'] > 0 && $attr['min'] <= $attr['max']) {
-        $attr['html']['min'] = $attr['min'];
+    if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
+        $attr['html']['min'] = $attr['minval'];
     }
 
-    if ($attr['max'] > 0 && $attr['min'] <= $attr['max']) {
-        $attr['html']['max'] = $attr['max'];
+    if ($attr['maxval'] > 0 && $attr['minval'] <= $attr['maxval']) {
+        $attr['html']['max'] = $attr['maxval'];
     }
 
     return html_tag('input', $attr['html'], null, true);
@@ -316,12 +316,12 @@ function editor_textarea(array $attr, array $item): string
 {
     $item[$attr['id']] = $item[$attr['id']] ? encode($item[$attr['id']]) : $item[$attr['id']];
 
-    if ($attr['min'] > 0 && $attr['min'] <= $attr['max']) {
-        $attr['html']['minlength'] = $attr['min'];
+    if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
+        $attr['html']['minlength'] = $attr['minval'];
     }
 
-    if ($attr['max'] > 0 && $attr['min'] <= $attr['max']) {
-        $attr['html']['maxlength'] = $attr['max'];
+    if ($attr['maxval'] > 0 && $attr['minval'] <= $attr['maxval']) {
+        $attr['html']['maxlength'] = $attr['maxval'];
     }
 
     return html_tag('textarea', $attr['html'], $item[$attr['id']]);

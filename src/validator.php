@@ -112,7 +112,7 @@ function validator_boundary(array $attr, array & $item): bool
             $value = strlen($value);
         }
 
-        if (isset($attr['min']) && $value < $attr['min'] || isset($attr['max']) && $value > $attr['max']) {
+        if (isset($attr['minval']) && $value < $attr['minval'] || isset($attr['maxval']) && $value > $attr['maxval']) {
             return false;
         }
     }
