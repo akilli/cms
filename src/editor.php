@@ -15,7 +15,7 @@ function editor(array $attr, array $item): string
         return '';
     }
 
-    $item[$attr['id']] = $item[$attr['id']] ?? $attr['value'];
+    $item[$attr['id']] = $item[$attr['id']] ?? $attr['val'];
     $attr['opt'] = opt($attr);
     $attr['context'] = 'edit';
     $attr['html']['id'] =  html_id($attr, $item);

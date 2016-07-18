@@ -18,7 +18,7 @@ return [
         'searchable' => false,
         'opt' => [],
         'actions' => [],
-        'value' => null,
+        'val' => null,
         'minval' => null,
         'maxval' => null,
         'context' => null,
