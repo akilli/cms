@@ -1,11 +1,9 @@
 <?php
 return [
     'id' => 'content.index',
-    'action' => 'index',
     'entity' => 'content',
-    'base' => null,
+    'action' => 'index',
     'url' => null,
-    'origpath' => null,
     'path' => null,
     'host' => null,
     'scheme' => 'http',

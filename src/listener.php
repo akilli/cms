@@ -11,13 +11,7 @@ namespace qnd;
 function listener_data_config(array & $data)
 {
     // Add allowed media extensions to allowed file extensions
-    $data['ext.file'] = array_merge(
-        $data['ext.file'],
-        $data['ext.audio'],
-        $data['ext.embed'],
-        $data['ext.image'],
-        $data['ext.video']
-    );
+    $data['ext.file'] = $data['ext.file'] + $data['ext.audio'] + $data['ext.embed'] + $data['ext.image'] + $data['ext.video'];
     // Configure PHP
     ini_set('default_charset', $data['i18n.charset']);
     ini_set('intl.default_locale', $data['i18n.locale']);
@@ -109,36 +103,31 @@ function listener_data_privilege(array & $data)
  */
 function listener_data_request(array & $data)
 {
-    $data['base'] = rtrim(filter_path(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
-    $data['url'] = urldecode($_SERVER['REQUEST_URI']) ?? $data['base'];
     $data['host'] = $_SERVER['HTTP_HOST'];
     $data['scheme'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
     $data['secure'] = $data['scheme'] === 'https';
     $data['get'] = $_GET;
     $data['post'] = !empty($_POST['token']) && http_post_validate($_POST['token']) ? $_POST : [];
     $data['files'] = $_FILES ? http_files_convert($_FILES) : [];
-    $data['origpath'] = trim(preg_replace('#^' . $data['base'] . '#', '', explode('?', $data['url'])[0]), '/');
-    $data['path'] = url_rewrite($data['origpath'], true);
-    $parts = $data['path'] ? explode('/', $data['path']) : [];
-    $entity = array_shift($parts);
+    $url = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    $data['url'] = preg_replace('#^' . $_SERVER['SCRIPT_NAME'] . '#', '', $url);
+    $data['path'] = url_rewrite($data['url'], true);
 
-    if ($entity) {
-        $data['entity'] = $entity;
-        $action = array_shift($parts);
-
-        if ($action) {
-            $data['action'] = $action;
-            $count = count($parts);
-
-            for ($i = 0; $i < $count; $i += 2) {
-                if (!empty($parts[$i]) && isset($parts[$i + 1])) {
-                    $data['params'][$parts[$i]] = $parts[$i + 1];
-                }
-            }
-        }
+    if (!$p = trim($data['path'], '/')) {
+        return;
     }
 
+    $parts = explode('/', $p);
+    $data['entity'] = array_shift($parts);
+    $data['action'] = array_shift($parts) ?? $data['action'];
     $data['id'] = $data['entity'] . '.' . $data['action'];
+    $count = count($parts);
+
+    for ($i = 0; $i < $count; $i += 2) {
+        if (!empty($parts[$i]) && isset($parts[$i + 1])) {
+            $data['params'][$parts[$i]] = $parts[$i + 1];
+        }
+    }
 }
 
 /**

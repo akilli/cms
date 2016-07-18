@@ -388,6 +388,7 @@ return [
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
+                'required' => true,
                 'uniq' => true,
                 'actions' => ['admin', 'edit', 'index', 'view'],
             ],

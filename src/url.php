@@ -11,21 +11,15 @@ namespace qnd;
  */
 function url(string $path = '', array $params = []): string
 {
-    static $base;
-
-    if ($base === null) {
-        $base = request('base');
-    }
-
     $isFullPath = false;
-    $b = strpos($path, 'http') === 0 ? '' : $base;
+    $base = strpos($path, 'http') === 0 ? '' : '/';
 
     if ($path && strpos($path, 'http') !== 0) {
         $path = url_resolve($path);
         $isFullPath = true;
     }
 
-    return $b . url_unrewrite($path . url_query($params, $isFullPath));
+    return $base . url_unrewrite($path . url_query($params, $isFullPath));
 }
 
 /**
@@ -37,13 +31,7 @@ function url(string $path = '', array $params = []): string
  */
 function url_lib(string $path = ''): string
 {
-    static $base;
-
-    if ($base === null) {
-        $base = request('base') . 'lib';
-    }
-
-    return $base . ($path ? '/' . $path : '');
+    return '/lib' . ($path ? '/' . $path : '');
 }
 
 /**
@@ -58,7 +46,7 @@ function url_theme(string $path = ''): string
     static $base;
 
     if ($base === null) {
-        $base = request('base') . 'theme/' . project('theme');
+        $base = '/theme/' . project('theme');
     }
 
     return $base . ($path ? '/' . $path : '');
@@ -76,7 +64,7 @@ function url_cache(string $path = ''): string
     static $base;
 
     if ($base === null) {
-        $base = request('base') . 'asset/' . project('id') . '/cache';
+        $base = '/asset/' . project('id') . '/cache';
     }
 
     return $base . ($path ? '/' . $path : '');
@@ -94,7 +82,7 @@ function url_media(string $path = ''): string
     static $base;
 
     if ($base === null) {
-        $base = request('base') . 'asset/' . project('id') . '/media';
+        $base = '/asset/' . project('id') . '/media';
     }
 
     return $base . ($path ? '/' . $path : '');
