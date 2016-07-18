@@ -63,13 +63,9 @@ function node_save(array & $item): bool
 {
     // Update all attributes that are not involved with the tree
     $attrs = $item['_entity']['attr'];
-    unset(
-        $item['_entity']['attr']['root_id'],
-        $item['_entity']['attr']['lft'],
-        $item['_entity']['attr']['rgt'],
-        $item['_entity']['attr']['parent_id'],
-        $item['_entity']['attr']['level']
-    );
+    $a = $attrs;
+    unset($a['root_id'], $a['lft'], $a['rgt'], $a['parent_id'], $a['level']);
+    $item['_entity']['attr'] = $a;
     flat_save($item);
     $item['_entity']['attr'] = $attrs;
 
