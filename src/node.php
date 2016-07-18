@@ -44,9 +44,7 @@ function node_load(array $entity, array $crit = [], array $opts = []): array
 function node_create(array & $item): bool
 {
     // Position
-    $item['lft'] = node_position($item);
-    $item['rgt'] = $item['lft'] + 1;
-
+    node_position($item);
     // Make space in the new tree
     node_insert($item);
 
@@ -81,15 +79,7 @@ function node_save(array & $item): bool
     }
 
     // Position
-    $item['lft'] = node_position($item);
-    $range = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
-
-    if ($item['root_id'] === $item['_old']['root_id'] && $item['lft'] > $item['_old']['lft']) {
-        $item['lft'] -= $range;
-    }
-
-    $item['rgt'] = $item['lft'] + $range - 1;
-    $diff = $item['lft'] - $item['_old']['lft'];
+    node_position($item);
 
     // Move all affected nodes from old tree and update their positions for the new tree without adding them yet
     $stmt = prep(
@@ -105,8 +95,8 @@ function node_save(array & $item): bool
     $stmt->bindValue(':old_root_id', $item['_old']['root_id'], db_type($attrs['root_id'], $item['_old']['root_id']));
     $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
-    $stmt->bindValue(':lft_diff', $diff, PDO::PARAM_INT);
-    $stmt->bindValue(':rgt_diff', $diff, PDO::PARAM_INT);
+    $stmt->bindValue(':lft_diff', $item['lft'] - $item['_old']['lft'], PDO::PARAM_INT);
+    $stmt->bindValue(':rgt_diff', $item['lft'] - $item['_old']['lft'], PDO::PARAM_INT);
     $stmt->execute();
 
     // Close gap in old tree
@@ -169,22 +159,21 @@ function node_delete(array & $item): bool
  *
  * @param array $item
  *
- * @return int
+ * @return void
  *
  * @throws LogicException
  */
-function node_position(array & $item): int
+function node_position(array & $item)
 {
     $attrs = $item['_entity']['attr'];
+    $o = $item['_old'] ?? null;
+    $range = $o ? $o['rgt'] - $o['lft'] + 1 : 2;
     $parts = explode(':', $item['position']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
-    $basis = (int) $parts[1];
+    $bLft = (int) $parts[1];
 
-    // No or wrong basis given so append node
-    if (!$basis || !$basisItem = one($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $basis])) {
-        $item['parent_id'] = null;
-        $item['level'] = 1;
-
+    if (!$bLft || !$b = one($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $bLft])) {
+        // No or wrong basis given so append node
         $stmt = prep(
             'SELECT COALESCE(MAX(%s), 0) + 1 FROM %s WHERE %s = :root_id',
             $attrs['rgt']['col'],
@@ -194,29 +183,27 @@ function node_position(array & $item): int
         $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
         $stmt->execute();
 
-        return (int) $stmt->fetchColumn();
-    }
-
-    // Recursion
-    if (!empty($item['_old'])
-        && $item['root_id'] === $item['_old']['root_id']
-        && $item['_old']['lft'] < $basisItem['lft']
-        && $item['_old']['rgt'] > $basisItem['rgt']
-    ) {
+        $item['lft'] = (int) $stmt->fetchColumn();
+        $item['parent_id'] = null;
+        $item['level'] = 1;
+    } elseif ($o && $item['root_id'] === $o['root_id'] && $o['lft'] < $b['lft'] && $o['rgt'] > $b['rgt']) {
+        // Recursion
         throw new LogicException(_('Node can not be child of itself'));
-    }
-
-    if ($item['mode'] === 'child') {
-        $item['parent_id'] = $basisItem['id'];
-        $item['level'] = $basisItem['level'] + 1;
-        $pos = $basisItem['rgt'];
+    } elseif ($item['mode'] === 'child') {
+        $item['lft'] = $b['rgt'];
+        $item['parent_id'] = $b['id'];
+        $item['level'] = $b['level'] + 1;
     } else {
-        $item['parent_id'] = $basisItem['parent_id'];
-        $item['level'] = $basisItem['level'];
-        $pos = $item['mode'] === 'before' ? $basisItem['lft'] : $basisItem['rgt'] + 1;
+        $item['lft'] = $item['mode'] === 'before' ? $b['lft'] : $b['rgt'] + 1;
+        $item['parent_id'] = $b['parent_id'];
+        $item['level'] = $b['level'];
     }
 
-    return $pos;
+    if ($o && $item['root_id'] === $o['root_id'] && $item['lft'] > $o['lft']) {
+        $item['lft'] -= $range;
+    }
+
+    $item['rgt'] = $item['lft'] + $range - 1;
 }
 
 /**
