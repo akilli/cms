@@ -25,6 +25,7 @@ return [
         'id' => 'left',
         'handle' => 'layout-base',
         'type' => 'container',
+        'vars' => ['tag' => 'aside'],
     ],
     [
         'id' => 'message',
@@ -41,6 +42,7 @@ return [
         'id' => 'right',
         'handle' => 'layout-base',
         'type' => 'container',
+        'vars' => ['tag' => 'aside'],
     ],
     [
         'id' => 'bottom',

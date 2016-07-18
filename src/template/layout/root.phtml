@@ -6,20 +6,12 @@
     </head>
     <body>
         <?= §('top');?>
-        <?php if ($html = §('left')):?>
-        <aside id="left">
-            <?= $html;?>
-        </aside>
-        <?php endif;?>
+        <?= §('left');?>
         <main>
             <?= §('message');?>
             <?= §('main');?>
         </main>
-        <?php if ($html = §('right')):?>
-        <aside id="right">
-            <?= $html;?>
-        </aside>
-        <?php endif;?>
+        <?= §('right');?>
         <?= §('bottom');?>
     </body>
 </html>
