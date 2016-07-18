@@ -46,7 +46,8 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
     }
 
     $stmt = prep(
-        'SELECT COUNT(*) FROM content %s %s',
+        'SELECT COUNT(*) FROM %s %s %s',
+        $entity['tab'],
         where($crit, $mainAttrs, $opts),
         $list ? ' AND ' . implode(' AND ', $list) : ''
     );
@@ -106,7 +107,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     $stmt = db()->prepare(
         select($mainAttrs, 'e')
         . ($list ? ', ' . implode(', ', $list) : '')
-        . ' FROM content e'
+        . from($entity['tab'], 'e')
         . ($list ? ' LEFT JOIN eav a ON a.content_id = e.id' : '')
         . where($crit, $mainAttrs, $opts)
         . group(['id'])
