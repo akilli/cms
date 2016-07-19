@@ -220,22 +220,22 @@ INSERT INTO menu (id, uid, name, system, project_id) VALUES
 (1, 'toolbar', 'Toolbar', '1', 'base');
 
 INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project_id) VALUES
-(1, 'Homepage', '', 1, 1, 2, NULL, 1, 'base'),
-(2, 'Dashboard', 'user/dashboard', 1, 3, 4, NULL, 1, 'base'),
-(3, 'Profile', 'user/profile', 1, 5, 6, NULL, 1, 'base'),
-(4, 'Logout', 'user/logout', 1, 7, 8, NULL, 1, 'base'),
-(5, 'Content', '#', 1, 9, 12, NULL, 1, 'base'),
-(6, 'Structure', '#', 1, 13, 22, NULL, 1, 'base'),
-(7, 'System', '#', 1, 23, 32, NULL, 1, 'base'),
-(8, 'Page', 'page/admin', 1, 10, 11, 5, 2, 'base'),
-(9, 'Project', 'project/admin', 1, 24, 25, 7, 2, 'base'),
-(10, 'User', 'user/admin', 1, 26, 27, 7, 2, 'base'),
-(11, 'Role', 'role/admin', 1, 28, 29, 7, 2, 'base'),
-(12, 'URL', 'url/admin', 1, 30, 31, 7, 2, 'base'),
-(13, 'Menu', 'menu/admin', 1, 14, 15, 6, 2, 'base'),
-(14, 'Node', 'node/admin', 1, 16, 17, 6, 2, 'base'),
-(15, 'Entity', 'entity/admin', 1, 18, 19, 6, 2, 'base'),
-(16, 'Attribute', 'attr/admin', 1, 20, 21, 6, 2, 'base');
+(1, 'Homepage', '/', 1, 1, 2, NULL, 1, 'base'),
+(2, 'Dashboard', '/user/dashboard', 1, 3, 4, NULL, 1, 'base'),
+(3, 'Profile', '/user/profile', 1, 5, 6, NULL, 1, 'base'),
+(4, 'Logout', '/user/logout', 1, 7, 8, NULL, 1, 'base'),
+(5, 'Content', '', 1, 9, 12, NULL, 1, 'base'),
+(6, 'Structure', '', 1, 13, 22, NULL, 1, 'base'),
+(7, 'System', '', 1, 23, 32, NULL, 1, 'base'),
+(8, 'Page', '/page/admin', 1, 10, 11, 5, 2, 'base'),
+(9, 'Project', '/project/admin', 1, 24, 25, 7, 2, 'base'),
+(10, 'User', '/user/admin', 1, 26, 27, 7, 2, 'base'),
+(11, 'Role', '/role/admin', 1, 28, 29, 7, 2, 'base'),
+(12, 'URL', '/url/admin', 1, 30, 31, 7, 2, 'base'),
+(13, 'Menu', '/menu/admin', 1, 14, 15, 6, 2, 'base'),
+(14, 'Node', '/node/admin', 1, 16, 17, 6, 2, 'base'),
+(15, 'Entity', '/entity/admin', 1, 18, 19, 6, 2, 'base'),
+(16, 'Attribute', '/attr/admin', 1, 20, 21, 6, 2, 'base');
 
 INSERT INTO project (id, name, host, active, system) VALUES
 ('base', 'BASE', NULL, '1', '1');

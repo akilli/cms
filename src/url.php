@@ -12,14 +12,13 @@ namespace qnd;
 function url(string $path = '', array $params = []): string
 {
     $isFullPath = false;
-    $base = strpos($path, 'http') === 0 ? '' : '/';
 
     if ($path && strpos($path, 'http') !== 0) {
-        $path = url_resolve($path);
+        $path = '/' . url_resolve(ltrim($path, '/'));
         $isFullPath = true;
     }
 
-    return $base . url_unrewrite($path . url_query($params, $isFullPath));
+    return url_unrewrite($path . url_query($params, $isFullPath));
 }
 
 /**
@@ -152,7 +151,7 @@ function url_rewrite(string $path, bool $redirect = false): string
     static $data;
 
     if ($data === null) {
-        $data = all('url', [], ['index' => 'name']) + ['' => ['target' => 'content/index']];
+        $data = all('url', [], ['index' => 'name']) + ['/' => ['target' => '/content/index']];
     }
 
     if (!isset($data[$path])) {

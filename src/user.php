@@ -109,7 +109,7 @@ function privilege_url(string $path): string
         throw new InvalidArgumentException(_('Invalid request path %s', $path));
     }
 
-    $parts = explode('/', url_rewrite($path));
+    $parts = explode('/', ltrim(url_rewrite($path), '/'));
     $parts[1] = $parts[1] ?? 'index';
 
     return implode('.', array_slice($parts, 0, 2));

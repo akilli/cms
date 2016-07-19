@@ -118,16 +118,12 @@ function section_node(array & $§): string
                 return true;
             }
 
-            if ($item['target'] !== '#') {
+            if ($item['target']) {
                 return allowed(privilege_url($item['target']));
             }
 
             foreach ($data as $i) {
-                if ($i['lft'] > $item['lft']
-                    && $i['rgt'] < $item['rgt']
-                    && $i['target'] !== '#'
-                    && allowed(privilege_url($i['target']))
-                ) {
+                if ($i['lft'] > $item['lft'] && $i['rgt'] < $item['rgt'] && $i['target'] && allowed(privilege_url($i['target']))) {
                     return true;
                 }
             }
@@ -157,8 +153,8 @@ function section_node(array & $§): string
              $html .= '</li><li' . $class . '>';
         }
 
-        if ($item['target'] !== '#') {
-            $attrs['href'] = url($item['target']);
+        if ($item['target']) {
+            $attrs['href'] = $item['target'];
             $html .= html_tag('a', $attrs, $item['name']);
         } else {
             $html .= html_tag('span', [], $item['name']);
