@@ -2,18 +2,6 @@
 namespace qnd;
 
 /**
- * Template section
- *
- * @param array $§
- *
- * @return string
- */
-function section_template(array & $§): string
-{
-    return render($§);
-}
-
-/**
  * Container section
  *
  * @param array $§
@@ -34,47 +22,6 @@ function section_container(array & $§): string
     }
 
     return $html && $§['vars']['tag'] ? html_tag($§['vars']['tag'], ['id' => $§['as']], $html) : $html;
-}
-
-/**
- * Pager section
- *
- * @param array $§
- *
- * @return string
- */
-function section_pager(array & $§): string
-{
-    $§['vars'] += ['size' => 0, 'limit' => 0, 'links' => [], 'params' => []];
-
-    if ($§['vars']['size'] < 1 || $§['vars']['limit'] < 1) {
-        return '';
-    }
-
-    $§['vars']['pages'] = (int) ceil($§['vars']['size'] / $§['vars']['limit']);
-    $§['vars']['page'] = max($§['vars']['params']['page'] ?? 0, 1);
-    $§['vars']['offset'] = ($§['vars']['page'] - 1) * $§['vars']['limit'];
-    unset($§['vars']['params']['page']);
-    $c = max(0, config('entity.pager'));
-    $min = max(1, min($§['vars']['page'] - intdiv($c, 2), $§['vars']['pages'] - $c + 1));
-    $max = min($min + $c - 1, $§['vars']['pages']);
-
-    if ($§['vars']['page'] >= 2) {
-        $p = $§['vars']['page'] === 2 ? $§['vars']['params'] : ['page' => $§['vars']['page'] - 1] + $§['vars']['params'];
-        $§['vars']['links'][] = ['name' => _('Previous'), 'params' => $p];
-    }
-
-    for ($i = $min; $min < $max && $i <= $max; $i++) {
-        $p = $i > 1 ? ['page' => $i] + $§['vars']['params'] : $§['vars']['params'];
-        $§['vars']['links'][] = ['name' => $i, 'params' => $p, 'active' => $i === $§['vars']['page']];
-    }
-
-    if ($§['vars']['page'] < $§['vars']['pages']) {
-        $p = ['page' => $§['vars']['page'] + 1] + $§['vars']['params'];
-        $§['vars']['links'][] = ['name' => _('Next'), 'params' => $p];
-    }
-
-    return render($§);
 }
 
 /**
@@ -165,4 +112,57 @@ function section_node(array & $§): string
     }
 
     return $html;
+}
+
+/**
+ * Pager section
+ *
+ * @param array $§
+ *
+ * @return string
+ */
+function section_pager(array & $§): string
+{
+    $§['vars'] += ['size' => 0, 'limit' => 0, 'links' => [], 'params' => []];
+
+    if ($§['vars']['size'] < 1 || $§['vars']['limit'] < 1) {
+        return '';
+    }
+
+    $§['vars']['pages'] = (int) ceil($§['vars']['size'] / $§['vars']['limit']);
+    $§['vars']['page'] = max($§['vars']['params']['page'] ?? 0, 1);
+    $§['vars']['offset'] = ($§['vars']['page'] - 1) * $§['vars']['limit'];
+    unset($§['vars']['params']['page']);
+    $c = max(0, config('entity.pager'));
+    $min = max(1, min($§['vars']['page'] - intdiv($c, 2), $§['vars']['pages'] - $c + 1));
+    $max = min($min + $c - 1, $§['vars']['pages']);
+
+    if ($§['vars']['page'] >= 2) {
+        $p = $§['vars']['page'] === 2 ? $§['vars']['params'] : ['page' => $§['vars']['page'] - 1] + $§['vars']['params'];
+        $§['vars']['links'][] = ['name' => _('Previous'), 'params' => $p];
+    }
+
+    for ($i = $min; $min < $max && $i <= $max; $i++) {
+        $p = $i > 1 ? ['page' => $i] + $§['vars']['params'] : $§['vars']['params'];
+        $§['vars']['links'][] = ['name' => $i, 'params' => $p, 'active' => $i === $§['vars']['page']];
+    }
+
+    if ($§['vars']['page'] < $§['vars']['pages']) {
+        $p = ['page' => $§['vars']['page'] + 1] + $§['vars']['params'];
+        $§['vars']['links'][] = ['name' => _('Next'), 'params' => $p];
+    }
+
+    return render($§);
+}
+
+/**
+ * Template section
+ *
+ * @param array $§
+ *
+ * @return string
+ */
+function section_template(array & $§): string
+{
+    return render($§);
 }
