@@ -161,9 +161,7 @@ function _(string $key, string ...$params): string
         return '';
     }
 
-    if (isset($data[$key])) {
-        $key = $data[$key];
-    }
+    $key = $data[$key] ?? $key;
 
     if (!$params) {
         return $key;
