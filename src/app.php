@@ -17,6 +17,10 @@ const USER = 1;
  */
 function app()
 {
+    // Reset registry
+    registry();
+
+    // Dispatch request
     if ($entity = data('entity', request('entity'))) {
         $prefix = fqn('action_');
         $action = request('action');
@@ -39,9 +43,15 @@ function app()
  *
  * @return array|null
  */
-function & registry(string $id)
+function & registry(string $id = null)
 {
     static $data = [];
+
+    if ($id === null) {
+        $data = [];
+
+        return $data;
+    }
 
     if (!array_key_exists($id, $data)) {
         $data[$id] = null;
