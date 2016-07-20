@@ -82,6 +82,7 @@ function path(string $dir, string $subpath = ''): string
         $public = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
         $data['asset'] = $public . '/asset';
         $data['data'] = __DIR__ . '/data';
+        $data['i18n'] = __DIR__ . '/i18n';
         $data['lib'] = $public . '/lib';
         $data['log'] = $root . '/var/log';
         $data['template'] = __DIR__ . '/template';
@@ -154,7 +155,7 @@ function _(string $key, string ...$params): string
 
     if ($data === null) {
         $data = [];
-        $data = data('i18n.' . data('i18n', 'locale')) ?: data('i18n.' . data('i18n', 'lang'));
+        $data = data_load(path('i18n', data('i18n', 'lang') . '.php'));
     }
 
     if (!$key) {
