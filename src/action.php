@@ -127,8 +127,8 @@ function action_index(array $entity)
     $p = [];
     $q = http_post('q');
 
-    if (!$q && http_param('q')) {
-        $q = urldecode(http_param('q'));
+    if (!$q && http_get('q')) {
+        $q = urldecode(http_get('q'));
     }
 
     if ($q) {
@@ -145,12 +145,12 @@ function action_index(array $entity)
     $opts = ['limit' => abs((int) config('entity.limit')) ?: 10];
     $size = size($entity['id'], $crit);
     $pages = (int) ceil($size / $opts['limit']);
-    $p['page'] = min(max((int) http_param('page'), 1), $pages ?: 1);
+    $p['page'] = min(max((int) http_get('page'), 1), $pages ?: 1);
     $opts['offset'] = ($p['page'] - 1) * $opts['limit'];
 
-    if (($sort = http_param('sort')) && !empty($attrs[$sort])) {
+    if (($sort = http_get('sort')) && !empty($attrs[$sort])) {
         $p['sort'] = $sort;
-        $p['dir'] = http_param('dir') === 'desc' ? 'desc' : 'asc';
+        $p['dir'] = http_get('dir') === 'desc' ? 'desc' : 'asc';
         $opts['order'] = [$p['sort'] => $p['dir']];
     }
 
