@@ -21,15 +21,16 @@ function app()
     registry();
 
     // Dispatch request
-    if ($entity = data('entity', request('entity'))) {
-        $prefix = fqn('action_');
-        $action = request('action');
+    $prefix = fqn('action_');
+    $action = request('action');
+    $eId = request('entity');
+    $entity = data('entity', $eId);
+    $args = $entity ? [$entity] : [];
 
-        foreach ([$prefix . $entity['id'] . '_' . $action, $prefix . $action] as $callback) {
-            if (is_callable($callback)) {
-                allowed() ? $callback($entity) : action_denied();
-                return;
-            }
+    foreach ([$prefix . $eId . '_' . $action, $prefix . $action] as $callback) {
+        if (is_callable($callback)) {
+            allowed() ? $callback(...$args) : action_denied();
+            return;
         }
     }
 
