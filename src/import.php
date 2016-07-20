@@ -49,23 +49,23 @@ function import_zip(string $file): bool
 
             // Create new contents
             $levels = [0];
-            $index = false;
             $base = url();
+            $oids = [];
 
             foreach ($import as $item) {
                 $oid = pathinfo($item['file'], PATHINFO_FILENAME);
 
-                if ($oid === 'index') {
-                    $index = true;
-                }
+                if (empty($oids[$oid])) {
+                    $pages = [];
+                    $pages[-1]['name'] = $item['name'];
+                    $pages[-1]['active'] = true;
+                    $pages[-1]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
 
-                $pages = [];
-                $pages[-1]['name'] = $item['name'];
-                $pages[-1]['active'] = true;
-                $pages[-1]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
+                    if (!save('page', $pages)) {
+                        throw new RuntimeException(_('Import error'));
+                    }
 
-                if (!save('page', $pages)) {
-                    throw new RuntimeException(_('Import error'));
+                    $oids[$oid] = $pages[-1]['id'];
                 }
 
                 $level = substr_count($item['pos'], '.');
@@ -73,7 +73,7 @@ function import_zip(string $file): bool
 
                 $nodes = [];
                 $nodes[-1]['name'] = $item['name'];
-                $nodes[-1]['target'] = $base . 'page/view/' . $pages[-1]['id'];
+                $nodes[-1]['target'] = $base . 'page/view/' . $oids[$oid];
                 $nodes[-1]['mode'] = 'child';
                 $nodes[-1]['position'] = $menu[-1]['id'] . ':' . $basis;
 
@@ -84,7 +84,7 @@ function import_zip(string $file): bool
                 $levels[$level] = $nodes[-1]['lft'];
             }
 
-            if (!$index && ($p = glob($toc['dir'] . '/index.{html,odt}', GLOB_BRACE)) && !import_page($p[0])) {
+            if (!in_array('index', $oids) && ($p = glob($toc['dir'] . '/index.{html,odt}', GLOB_BRACE)) && !import_page($p[0])) {
                 throw new RuntimeException(_('Import error'));
             }
         }
