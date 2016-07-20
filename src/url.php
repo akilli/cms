@@ -9,11 +9,12 @@ namespace qnd;
  *
  * @return string
  */
-function url(string $path = '', array $params = []): string
+function url(string $path = '/', array $params = []): string
 {
+    $path = $path ?: '/';
     $isFullPath = false;
 
-    if ($path && strpos($path, 'http') !== 0) {
+    if (strpos($path, 'http') !== 0) {
         $path = '/' . url_resolve(ltrim($path, '/'));
         $isFullPath = true;
     }

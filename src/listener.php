@@ -143,11 +143,11 @@ function listener_save(array & $data)
         return;
     }
 
-    $target = sprintf('/%s/view/id/%s', $data['_entity']['id'], $data['id']);
+    $target = sprintf('%s%s/view/id/%s', url(), $data['_entity']['id'], $data['id']);
     $old = one('url', ['target' => $target, 'system' => true]);
     $id = $old['id'] ?? -1;
     $all = all('url', [], ['index' => 'name']);
-    $name = '/' . generator_id($data['name'], array_column($all, 'name', 'id'), $id);
+    $name = generator_url($data['name'], array_column($all, 'name', 'id'), $id);
     $url = [$id => ['name' => $name, 'target' => $target, 'system' => true]];
     save('url', $url);
 }
@@ -161,7 +161,7 @@ function listener_save(array & $data)
  */
 function listener_delete(array & $data)
 {
-    delete('url', ['target' => sprintf('/%s/view/id/%s', $data['_entity']['id'], $data['id'])], ['system' => true]);
+    delete('url', ['target' => sprintf('%s%s/view/id/%s', url(), $data['_entity']['id'], $data['id'])], ['system' => true]);
 }
 
 /**
@@ -177,13 +177,16 @@ function listener_entity_save(array & $data)
         return;
     }
 
-    $crit = ['target' => sprintf('/%/view/id/', $data['_old']['id'])];
+    $base = url();
+    $crit = ['target' => sprintf('%s%s/view/id/', $base, $data['_old']['id'])];
 
     if (!in_array('view', $data['actions'])) {
         delete('url', $crit, ['search' => true, 'system' => true]);
     } elseif ($data['id'] !== $data['_old']['id'] && ($url = all('url', $crit, ['search' => true]))) {
         foreach ($url as $id => $u) {
-            $url[$id]['target'] = preg_replace('#^/' . $data['_old']['id'] . '/#', '/' . $data['id'] . '/', $u['target']);
+            $from = sprintf('#^%s%s/#', $base, $data['_old']['id']);
+            $to = sprintf('%s%s/', $base, $data['id']);
+            $url[$id]['target'] = preg_replace($from, $to, $u['target']);
         }
 
         save('url', $url);
@@ -199,7 +202,7 @@ function listener_entity_save(array & $data)
  */
 function listener_entity_delete(array & $data)
 {
-    delete('url', ['target' => sprintf('/%s/view/id/', $data['id'])], ['search' => true, 'system' => true]);
+    delete('url', ['target' => sprintf('%s%s/view/id/', url(), $data['id'])], ['search' => true, 'system' => true]);
 }
 
 /**

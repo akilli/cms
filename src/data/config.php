@@ -96,4 +96,5 @@ return [
     'import.end' => '<!-- IMPORT_END -->',
     'import.start' => '<!-- IMPORT_START -->',
     'import.toc' => 'import.csv',
+    'url.ext' => '.html',
 ];
