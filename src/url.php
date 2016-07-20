@@ -12,7 +12,7 @@ namespace qnd;
 function url(string $path = '/', array $params = []): string
 {
     $path = $path ?: '/';
-    $query = $params ? '?' . http_build_query($params) : '';
+    $query = $params ? '?' . http_build_query($params, '', '&amp;') : '';
 
     if (strpos($path, 'http') !== 0) {
         $path = '/' . url_resolve(ltrim($path, '/'));
