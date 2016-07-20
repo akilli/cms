@@ -75,9 +75,9 @@ function token(): string
  *
  * @return void
  */
-function redirect(string $url = '')
+function redirect(string $url = '/')
 {
-    header('Location:' . url($url));
+    header('Location:' . $url);
     exit;
 }
 

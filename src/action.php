@@ -27,7 +27,7 @@ function action_create(array $entity)
     if ($data) {
         // Perform save callback and redirect to admin on success
         if (save($entity['id'], $data)) {
-            redirect(allowed('admin') ? '*/admin' : '');
+            redirect(url('*/admin'));
         }
 
         $data = array_filter(
@@ -60,7 +60,7 @@ function action_edit(array $entity)
     if ($data) {
         // Perform save callback and redirect to admin on success
         if (save($entity['id'], $data)) {
-            redirect(allowed('admin') ? '*/admin' : '');
+            redirect(url('*/admin'));
         }
 
         $data = array_filter(
@@ -79,7 +79,7 @@ function action_edit(array $entity)
 
     if (!$data) {
         message(_('You did not select anything to edit'));
-        redirect(allowed('admin') ? '*/admin' : '');
+        redirect(url('*/admin'));
     }
 
     layout_load();
@@ -104,7 +104,7 @@ function action_delete(array $entity)
         message(_('You did not select anything to delete'));
     }
 
-    redirect(allowed('admin') ? '*/admin' : '');
+    redirect(url('*/admin'));
 }
 
 /**
@@ -195,7 +195,7 @@ function action_view(array $entity)
 function action_denied()
 {
     message(_('Access denied'));
-    redirect('user/login');
+    redirect(url('user/login'));
 }
 
 /**
@@ -227,7 +227,7 @@ function action_project_import()
         file_delete($path);
     }
 
-    redirect(allowed('admin') ? '*/admin' : '');
+    redirect(url('*/admin'));
 }
 
 /**
@@ -292,7 +292,7 @@ function action_user_profile()
 function action_user_login()
 {
     if (registered()) {
-        redirect('user/dashboard');
+        redirect(url('user/dashboard'));
     }
 
     if ($data = http_post('data')) {
@@ -304,7 +304,7 @@ function action_user_login()
             message(_('Welcome %s', $item['name']));
             session_regenerate_id(true);
             session('user', $item['id']);
-            redirect('user/dashboard');
+            redirect(url('user/dashboard'));
         }
 
         message(_('Invalid username and password combination'));
