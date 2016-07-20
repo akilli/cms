@@ -104,17 +104,17 @@ function layout_handles(): array
     if ($data === null) {
         $data = ['layout-base'];
         $data[] = 'user-' . (registered() ? 'registered' : 'anonymous');
-        $entity = data('entity', request('entity'));
 
-        if ($entity && in_array(request('action'), $entity['actions'])) {
-            $data[] = 'action-' . request('action');
+        if ($entity = data('entity', request('entity'))) {
+            $action = request('action');
+
+            if (in_array($action, $entity['actions'])) {
+                $data[] = 'action-' . $action;
+            }
+
+            $data[] = 'entity-' . $entity['id'];
+            $data[] = $entity['id'] . '.' . $action;
         }
-
-        if ($entity) {
-            $data[] = request('entity');
-        }
-
-        $data[] = request('id');
     }
 
     return $data;

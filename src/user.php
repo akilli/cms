@@ -88,7 +88,7 @@ function allowed(string $key = null): bool
 function privilege(string $key = null): string
 {
     if (!is_string($key) || empty($key)) {
-        return request('id');
+        return request('entity') . '.' . request('action');
     }
 
     return substr_count($key, '.') === 0 ? request('entity') . '.' . $key : $key;

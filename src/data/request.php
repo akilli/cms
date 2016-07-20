@@ -1,6 +1,5 @@
 <?php
 return [
-    'id' => 'content.index',
     'entity' => 'content',
     'action' => 'index',
     'url' => null,

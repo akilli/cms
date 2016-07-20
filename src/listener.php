@@ -120,7 +120,6 @@ function listener_data_request(array & $data)
     $parts = explode('/', $p);
     $data['entity'] = array_shift($parts);
     $data['action'] = array_shift($parts) ?? $data['action'];
-    $data['id'] = $data['entity'] . '.' . $data['action'];
     $count = count($parts);
 
     for ($i = 0; $i < $count; $i += 2) {
