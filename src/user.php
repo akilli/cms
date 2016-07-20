@@ -87,11 +87,15 @@ function allowed(string $key = null): bool
  */
 function privilege(string $key = null): string
 {
-    if (!is_string($key) || empty($key)) {
+    if (!$key) {
         return request('entity') . '.' . request('action');
     }
 
-    return substr_count($key, '.') === 0 ? request('entity') . '.' . $key : $key;
+    $parts = explode('.', $key);
+    $entity = $parts[0] ?: request('entity');
+    $action = !empty($parts[1]) ? $parts[1] : request('action');
+
+    return $entity . '.' . $action;
 }
 
 /**
