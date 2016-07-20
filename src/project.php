@@ -32,13 +32,13 @@ function project(string $key)
  * Gets project-specific absolute path to specified subpath in given directory
  *
  * @param string $dir
- * @param string $subpath
+ * @param string $id
  *
  * @return string
  *
  * @throws InvalidArgumentException
  */
-function project_path(string $dir, string $subpath = ''): string
+function project_path(string $dir, string $id = ''): string
 {
     $data = & registry('project.path');
 
@@ -53,5 +53,5 @@ function project_path(string $dir, string $subpath = ''): string
         throw new InvalidArgumentException(_('Invalid path %s', $dir));
     }
 
-    return rtrim($data[$dir] . '/' . $subpath, '/');
+    return rtrim($data[$dir] . '/' . $id, '/');
 }
