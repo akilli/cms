@@ -52,6 +52,7 @@ return [
     'Import error' => 'Importfehler',
     'Integer' => 'Ganzzahl',
     'Invalid email' => 'Ungültige E-Mail',
+    'Invalid entity %s' => 'Ungültige Entity %s',
     'Invalid file %s' => 'Ungültige Datei %s',
     'Invalid JSON notation' => 'Ungültige JSON Notation',
     'Invalid option for attribute %s' => 'Ungültige Option für Attribut %s',

@@ -117,12 +117,7 @@ function action_delete(array $entity)
 function action_index(array $entity)
 {
     $action = request('action');
-    $attrs = array_filter(
-        $entity['attr'],
-        function ($attr) use ($action) {
-            return in_array($action, $attr['actions']);
-        }
-    );
+    $attrs = entity_attr($entity['id'], $action);
     $crit = empty($entity['attr']['active']) || $action === 'admin' ? [] : ['active' => true];
     $p = [];
     $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : null;

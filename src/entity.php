@@ -307,18 +307,16 @@ function load(array $entity, array $item): array
  * @param bool $bare
  *
  * @return array
+ *
+ * @throws RuntimeException
  */
 function entity(string $eId, int $number = null, bool $bare = false): array
 {
-    $entity = data('entity', $eId);
-    $item = [];
-
-    foreach ($entity['attr'] as $uid => $attr) {
-        if (in_array('edit', $attr['actions'])) {
-            $item[$uid] = null;
-        }
+    if (!$entity = data('entity', $eId)) {
+        throw new RuntimeException(_('Invalid entity %s', $eId));
     }
 
+    $item = array_fill_keys(array_keys(entity_attr($eId, 'edit')), null);
     $item += $bare ? [] : ['_old' => null, '_entity' => $entity, '_id' => null];
 
     if ($number === null) {
@@ -332,4 +330,28 @@ function entity(string $eId, int $number = null, bool $bare = false): array
     }
 
     return $data;
+}
+
+/**
+ * Retrieve entity attributes filtered by given action
+ *
+ * @param string $eId
+ * @param string $action
+ *
+ * @return array
+ *
+ * @throws RuntimeException
+ */
+function entity_attr(string $eId, string $action)
+{
+    if (!$entity = data('entity', $eId)) {
+        throw new RuntimeException(_('Invalid entity %s', $eId));
+    }
+
+    return array_filter(
+        $entity['attr'],
+        function ($attr) use ($action) {
+            return in_array($action, $attr['actions']);
+        }
+    );
 }
