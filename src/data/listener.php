@@ -2,13 +2,18 @@
 return [
     // data
     [
-        'id' => 'data_config',
-        'event' => 'data.load.config',
+        'id' => 'data_entity',
+        'event' => 'data.load.entity',
         'sort' => -100,
     ],
     [
-        'id' => 'data_entity',
-        'event' => 'data.load.entity',
+        'id' => 'data_ext',
+        'event' => 'data.load.ext',
+        'sort' => -100,
+    ],
+    [
+        'id' => 'data_i18n',
+        'event' => 'data.load.i18n',
         'sort' => -100,
     ],
     [

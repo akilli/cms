@@ -36,7 +36,7 @@ function generator_id(string $needle, array $haystack, $id): string
  */
 function generator_url(string $needle, array $haystack, $id): string
 {
-    $ext = config('url.ext');
+    $ext = '.html';
     $base = url();
 
     if ($ext) {

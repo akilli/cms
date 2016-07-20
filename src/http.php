@@ -182,7 +182,7 @@ function http_files_convert(array $data): array
     }
 
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
-    $exts = config('ext.file');
+    $exts = data('ext', 'file');
 
     foreach ($files as $id => $item) {
         if (!is_array($item)) {

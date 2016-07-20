@@ -28,8 +28,8 @@ function import_zip(string $file): bool
         return false;
     }
 
-    if (!$toc = file_one($path, ['name' => config('import.toc'), 'recursive' => true])) {
-        message(_('File %s not found', config('import.toc')));
+    if (!$toc = file_one($path, ['name' => data('import', 'toc'), 'recursive' => true])) {
+        message(_('File %s not found', data('import', 'toc')));
         return false;
     }
 
@@ -156,7 +156,7 @@ function import_html(string $file): string
         return '';
     }
 
-    $pattern = sprintf('#%s(.*)%s#isU', config('import.start'), config('import.end'));
+    $pattern = sprintf('#%s(.*)%s#isU', data('import', 'start'), data('import', 'end'));
 
     return preg_match($pattern, $html, $match) ? $match[1] : $html;
 }

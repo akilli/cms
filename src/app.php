@@ -140,18 +140,6 @@ function listener(string $event): array
 }
 
 /**
- * Config
- *
- * @param string $key
- *
- * @return mixed
- */
-function config(string $key)
-{
-    return data('config', $key);
-}
-
-/**
  * Translate
  *
  * @param string $key
@@ -165,7 +153,7 @@ function _(string $key, string ...$params): string
 
     if ($data === null) {
         $data = [];
-        $data = data('i18n.' . config('i18n.locale')) ?: data('i18n.' . config('i18n.lang'));
+        $data = data('i18n.' . data('i18n', 'locale')) ?: data('i18n.' . data('i18n', 'lang'));
     }
 
     if (!$key) {

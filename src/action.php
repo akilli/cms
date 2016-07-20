@@ -131,7 +131,7 @@ function action_index(array $entity)
         }
     }
 
-    $opts = ['limit' => abs((int) config('entity.limit')) ?: 10];
+    $opts = ['limit' => abs((int) data('limit', $action)) ?: 10];
     $size = size($entity['id'], $crit);
     $pages = (int) ceil($size / $opts['limit']);
     $p['page'] = min(max(http_get('page'), 1), $pages ?: 1);

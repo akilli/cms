@@ -71,7 +71,7 @@ function viewer_opt(array $attr, array $item): string
  */
 function viewer_date(array $attr, array $item): string
 {
-    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), config('i18n.date'));
+    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), data('i18n', 'date'));
 }
 
 /**
@@ -84,7 +84,7 @@ function viewer_date(array $attr, array $item): string
  */
 function viewer_datetime(array $attr, array $item): string
 {
-    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), config('i18n.datetime'));
+    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), data('i18n', 'datetime'));
 }
 
 /**
@@ -97,7 +97,7 @@ function viewer_datetime(array $attr, array $item): string
  */
 function viewer_time(array $attr, array $item): string
 {
-    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), config('i18n.time'));
+    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), data('i18n', 'time'));
 }
 
 /**

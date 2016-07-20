@@ -63,7 +63,7 @@ return [
             'actions' => [
                 'name' => 'Actions',
                 'type' => 'multicheckbox',
-                'opt' => ['config', ['action.attr']],
+                'opt' => ['data', ['action', 'attr']],
                 'actions' => ['admin', 'edit'],
             ],
             'project_id' => [
@@ -173,7 +173,7 @@ return [
             'actions' => [
                 'name' => 'Actions',
                 'type' => 'multicheckbox',
-                'opt' => ['config', ['action.entity']],
+                'opt' => ['data', ['action', 'entity']],
                 'actions' => ['admin', 'edit'],
             ],
             'system' => [

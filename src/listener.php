@@ -2,23 +2,6 @@
 namespace qnd;
 
 /**
- * Config data listener
- *
- * @param array $data
- *
- * @return void
- */
-function listener_data_config(array & $data)
-{
-    // Add allowed media extensions to allowed file extensions
-    $data['ext.file'] = $data['ext.file'] + $data['ext.audio'] + $data['ext.embed'] + $data['ext.image'] + $data['ext.video'];
-    // Configure PHP
-    ini_set('default_charset', $data['i18n.charset']);
-    ini_set('intl.default_locale', $data['i18n.locale']);
-    ini_set('date.timezone', $data['i18n.timezone']);
-}
-
-/**
  * Entity data listener
  *
  * @param array $data
@@ -65,6 +48,34 @@ function listener_data_entity(array & $data)
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
         $data[$id] = $item;
     }
+}
+
+/**
+ * Extension data listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_data_ext(array & $data)
+{
+    // Add allowed media extensions to allowed file extensions
+    $data['file'] += $data['audio'] + $data['embed'] + $data['image'] + $data['video'];
+}
+
+/**
+ * I18n data listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_data_i18n(array & $data)
+{
+    // Configure PHP
+    ini_set('default_charset', $data['charset']);
+    ini_set('intl.default_locale', $data['locale']);
+    ini_set('date.timezone', $data['timezone']);
 }
 
 /**

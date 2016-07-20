@@ -13,7 +13,7 @@ function encode(string $var): string
     static $charset;
 
     if ($charset === null) {
-        $charset = config('i18n.charset');
+        $charset = data('i18n', 'charset');
     }
 
     return htmlspecialchars($var, ENT_QUOTES | ENT_HTML5, $charset, false);
@@ -31,7 +31,7 @@ function filter_html(string $string): string
     static $allowed;
 
     if ($allowed === null) {
-        $allowed = config('filter.html');
+        $allowed = data('filter', 'html');
     }
 
     return trim(strip_tags($string, $allowed));
@@ -61,7 +61,7 @@ function filter_id(string $id): string
     static $data, $keys;
 
     if ($data === null) {
-        $data = config('filter.id');
+        $data = data('filter', 'id');
         $keys = array_keys($data);
     }
 
