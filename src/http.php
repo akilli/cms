@@ -130,6 +130,27 @@ function http_files(string $key)
 }
 
 /**
+ * Converts and validates uploaded files
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+function http_get_filter(array $data): array
+{
+    foreach ($data as $key => $value) {
+        if (!$value = filter_var(urldecode($value), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR)) {
+            unset($data[$key]);
+            continue;
+        }
+
+        $data[$key] = is_numeric($value) ? (int) $value : $value;
+    }
+
+    return $data;
+}
+
+/**
  * Post validation
  *
  * @param string $token

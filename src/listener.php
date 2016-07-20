@@ -106,7 +106,7 @@ function listener_data_request(array & $data)
     $data['host'] = $_SERVER['HTTP_HOST'];
     $data['scheme'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
     $data['secure'] = $data['scheme'] === 'https';
-    $data['get'] = $_GET;
+    $data['get'] = http_get_filter($_GET);
     $data['post'] = !empty($_POST['token']) && http_post_validate($_POST['token']) ? $_POST : [];
     $data['files'] = $_FILES ? http_files_convert($_FILES) : [];
     $url = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));

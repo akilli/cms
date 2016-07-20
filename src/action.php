@@ -125,15 +125,9 @@ function action_index(array $entity)
     );
     $crit = empty($entity['attr']['active']) || $action === 'admin' ? [] : ['active' => true];
     $p = [];
-    $q = http_post('q');
+    $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : null;
 
-    if (!$q && http_get('q')) {
-        $q = urldecode(http_get('q'));
-    }
-
-    if ($q) {
-        $q = filter_var($q, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR);
-
+    if ($q || ($q = http_get('q'))) {
         if (($s = array_filter(explode(' ', $q))) && ($all = all($entity['id'], ['name' => $s], ['search' => true]))) {
             $crit['id'] = array_keys($all);
             $p['q'] = urlencode(implode(' ', $s));
@@ -145,7 +139,7 @@ function action_index(array $entity)
     $opts = ['limit' => abs((int) config('entity.limit')) ?: 10];
     $size = size($entity['id'], $crit);
     $pages = (int) ceil($size / $opts['limit']);
-    $p['page'] = min(max((int) http_get('page'), 1), $pages ?: 1);
+    $p['page'] = min(max(http_get('page'), 1), $pages ?: 1);
     $opts['offset'] = ($p['page'] - 1) * $opts['limit'];
 
     if (($sort = http_get('sort')) && !empty($attrs[$sort])) {
