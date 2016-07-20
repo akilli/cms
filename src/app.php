@@ -49,9 +49,10 @@ function & registry(string $id = null)
     static $data = [];
 
     if ($id === null) {
+        $old = $data;
         $data = [];
 
-        return $data;
+        return $old;
     }
 
     if (!array_key_exists($id, $data)) {
