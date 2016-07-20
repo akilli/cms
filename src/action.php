@@ -72,9 +72,9 @@ function action_edit(array $entity)
     } elseif (is_array(http_post('edit'))) {
         // We just selected multiple items to edit on the admin page
         $data = all($entity['id'], ['id' => array_keys(http_post('edit'))]);
-    } elseif (http_param('id') !== null) {
+    } elseif (request('id') !== null) {
         // We just clicked on an edit link, p.e. on the admin page
-        $data = all($entity['id'], ['id' => http_param('id')]);
+        $data = all($entity['id'], ['id' => request('id')]);
     }
 
     if (!$data) {
@@ -170,7 +170,7 @@ function action_index(array $entity)
 function action_view(array $entity)
 {
     // Item does not exist or is inactive
-    if (!($item = one($entity['id'], ['id' => http_param('id')]))
+    if (!($item = one($entity['id'], ['id' => request('id')]))
         || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')
     ) {
         action_error();

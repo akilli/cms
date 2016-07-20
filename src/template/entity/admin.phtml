@@ -64,12 +64,12 @@
                         <?php endforeach;?>
                         <?php if (allowed('edit')):?>
                         <td>
-                            <a href="<?= url('*/edit', ['id' => $id]);?>"><?= _('Edit');?></a>
+                            <a href="<?= url('*/edit/' . $id);?>"><?= _('Edit');?></a>
                         </td>
                         <?php endif;?>
                         <?php if (allowed('view')):?>
                         <td>
-                            <a href="<?= url('*/view', ['id' => $id]);?>"><?= _('View');?></a>
+                            <a href="<?= url('*/view/' . $id);?>"><?= _('View');?></a>
                         </td>
                         <?php endif;?>
                     </tr>

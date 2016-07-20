@@ -10,7 +10,7 @@
             <?php if (!$html = viewer($attr, $item)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
                 <?php if (allowed('view')):?>
-        <h1><a href="<?= url('*/view', ['id' => $id]);?>"><?=$html;?></a></h1>
+        <h1><a href="<?= url('*/view/' . $id);?>"><?=$html;?></a></h1>
                 <?php else:?>
         <h1><?=$html;?></h1>
                 <?php endif;?>

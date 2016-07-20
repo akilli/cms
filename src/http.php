@@ -94,18 +94,6 @@ function request(string $key)
 }
 
 /**
- * Parameters
- *
- * @param string $key
- *
- * @return mixed
- */
-function http_param(string $key)
-{
-    return request('params')[$key] ?? null;
-}
-
-/**
  * Get
  *
  * @param string $key

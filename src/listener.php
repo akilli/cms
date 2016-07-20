@@ -112,21 +112,10 @@ function listener_data_request(array & $data)
     $url = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     $data['url'] = preg_replace('#^' . $_SERVER['SCRIPT_NAME'] . '#', '', $url);
     $data['path'] = url_rewrite($data['url'], true);
-
-    if (!$p = trim($data['path'], '/')) {
-        return;
-    }
-
-    $parts = explode('/', $p);
-    $data['entity'] = array_shift($parts);
-    $data['action'] = array_shift($parts) ?? $data['action'];
-    $count = count($parts);
-
-    for ($i = 0; $i < $count; $i += 2) {
-        if (!empty($parts[$i]) && isset($parts[$i + 1])) {
-            $data['params'][$parts[$i]] = $parts[$i + 1];
-        }
-    }
+    $parts = explode('/', trim($data['path'], '/'));
+    $data['entity'] = $parts[0] ?? $data['entity'];
+    $data['action'] = $parts[1] ?? $data['action'];
+    $data['id'] = $parts[2] ?? $data['id'];
 }
 
 /**
@@ -142,7 +131,7 @@ function listener_save(array & $data)
         return;
     }
 
-    $target = sprintf('%s%s/view/id/%s', url(), $data['_entity']['id'], $data['id']);
+    $target = sprintf('%s%s/view/%s', url(), $data['_entity']['id'], $data['id']);
     $old = one('url', ['target' => $target, 'system' => true]);
     $id = $old['id'] ?? -1;
     $all = all('url', [], ['index' => 'name']);
@@ -160,7 +149,7 @@ function listener_save(array & $data)
  */
 function listener_delete(array & $data)
 {
-    delete('url', ['target' => sprintf('%s%s/view/id/%s', url(), $data['_entity']['id'], $data['id'])], ['system' => true]);
+    delete('url', ['target' => sprintf('%s%s/view/%s', url(), $data['_entity']['id'], $data['id'])], ['system' => true]);
 }
 
 /**
@@ -177,7 +166,7 @@ function listener_entity_save(array & $data)
     }
 
     $base = url();
-    $crit = ['target' => sprintf('%s%s/view/id/', $base, $data['_old']['id'])];
+    $crit = ['target' => sprintf('%s%s/view/', $base, $data['_old']['id'])];
 
     if (!in_array('view', $data['actions'])) {
         delete('url', $crit, ['search' => true, 'system' => true]);
@@ -201,7 +190,7 @@ function listener_entity_save(array & $data)
  */
 function listener_entity_delete(array & $data)
 {
-    delete('url', ['target' => sprintf('%s%s/view/id/', url(), $data['id'])], ['search' => true, 'system' => true]);
+    delete('url', ['target' => sprintf('%s%s/view/', url(), $data['id'])], ['search' => true, 'system' => true]);
 }
 
 /**

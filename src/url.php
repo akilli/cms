@@ -12,14 +12,13 @@ namespace qnd;
 function url(string $path = '/', array $params = []): string
 {
     $path = $path ?: '/';
-    $isFullPath = false;
+    $query = $params ? '?' . http_build_query($params) : '';
 
     if (strpos($path, 'http') !== 0) {
         $path = '/' . url_resolve(ltrim($path, '/'));
-        $isFullPath = true;
     }
 
-    return url_unrewrite($path . url_query($params, $isFullPath));
+    return url_unrewrite($path) . $query;
 }
 
 /**
@@ -86,33 +85,6 @@ function url_media(string $path = ''): string
     }
 
     return $base . ($path ? '/' . $path : '');
-}
-
-/**
- * Generate query string for given params
- *
- * @param array $params
- * @param bool $isFullPath
- *
- * @return string
- */
-function url_query(array $params, bool $isFullPath = false): string
-{
-    if (!$params) {
-        return '';
-    }
-
-    if (!$isFullPath) {
-        return '?' . http_build_query($params);
-    }
-
-    $query = [];
-
-    foreach ($params as $key => $value) {
-        $query[] = $key . '/' . $value;
-    }
-
-    return '/' . implode('/', $query);
 }
 
 /**

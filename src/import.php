@@ -50,6 +50,7 @@ function import_zip(string $file): bool
             // Create new contents
             $levels = [0];
             $index = false;
+            $base = url();
 
             foreach ($import as $item) {
                 $oid = pathinfo($item['file'], PATHINFO_FILENAME);
@@ -72,7 +73,7 @@ function import_zip(string $file): bool
 
                 $nodes = [];
                 $nodes[-1]['name'] = $item['name'];
-                $nodes[-1]['target'] = 'page/view/id/' . $pages[-1]['id'];
+                $nodes[-1]['target'] = $base . 'page/view/' . $pages[-1]['id'];
                 $nodes[-1]['mode'] = 'child';
                 $nodes[-1]['position'] = $menu[-1]['id'] . ':' . $basis;
 

@@ -1,13 +1,13 @@
 <?php
 return [
-    'entity' => 'content',
+    'id' => null,
     'action' => 'index',
+    'entity' => 'content',
     'url' => null,
     'path' => null,
     'host' => null,
     'scheme' => 'http',
     'secure' => false,
-    'params' => [],
     'get' => [],
     'post' => [],
     'files' => [],
