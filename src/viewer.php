@@ -24,7 +24,7 @@ function viewer(array $attr, array $item): string
         return $callback($attr, $item);
     }
 
-    // Temporary
+    // @todo
     if (in_array($attr['frontend'], ['checkbox', 'radio', 'select'])) {
         return viewer_opt($attr, $item);
     }

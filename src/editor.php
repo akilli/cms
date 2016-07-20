@@ -40,7 +40,7 @@ function editor(array $attr, array $item): string
     if (is_callable($callback)) {
         $html = $callback($attr, $item);
     } else {
-        // Temporary
+        // @todo
         switch ($attr['frontend']) {
             case 'select':
                 $html = editor_select($attr, $item);

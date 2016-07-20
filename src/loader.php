@@ -18,7 +18,7 @@ function loader(array $attr, array $item)
         return $callback($attr, $item);
     }
 
-    // Temporary
+    // @todo
     if ($attr['backend'] === 'json') {
         return loader_json($attr, $item);
     }

@@ -17,7 +17,7 @@ function deleter(array $attr, array & $item): bool
         return $callback($attr, $item);
     }
 
-    // Temporary
+    // @todo
     if ($attr['frontend'] === 'file') {
         return deleter_file($attr, $item);
     }

@@ -28,7 +28,7 @@ function validator(array $attr, array & $item): bool
     if (is_callable($callback)) {
         $valid = $callback($attr, $item);
     } else {
-        // Temporary
+        // @todo
         switch ($attr['frontend']) {
             case 'checkbox':
             case 'radio':
