@@ -92,10 +92,10 @@ function privilege(string $key = null): string
     }
 
     $parts = explode('.', $key);
-    $entity = $parts[0] ?: request('entity');
+    $eId = $parts[0] ?: request('entity');
     $action = !empty($parts[1]) ? $parts[1] : request('action');
 
-    return $entity . '.' . $action;
+    return $eId . '.' . $action;
 }
 
 /**
