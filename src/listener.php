@@ -8,7 +8,7 @@ namespace qnd;
  *
  * @return void
  */
-function listener_data_entity(array & $data)
+function listener_data_entity(array & $data): void
 {
     foreach ($data as $id => $item) {
         $item['id'] = $id;
@@ -57,7 +57,7 @@ function listener_data_entity(array & $data)
  *
  * @return void
  */
-function listener_data_ext(array & $data)
+function listener_data_ext(array & $data): void
 {
     // Add allowed media extensions to allowed file extensions
     $data['file'] += $data['audio'] + $data['embed'] + $data['image'] + $data['video'];
@@ -70,7 +70,7 @@ function listener_data_ext(array & $data)
  *
  * @return void
  */
-function listener_data_i18n(array & $data)
+function listener_data_i18n(array & $data): void
 {
     // Configure PHP
     ini_set('default_charset', $data['charset']);
@@ -85,7 +85,7 @@ function listener_data_i18n(array & $data)
  *
  * @return void
  */
-function listener_data_privilege(array & $data)
+function listener_data_privilege(array & $data): void
 {
     foreach ($data as $id => $item) {
         if (!empty($item['callback'])) {
@@ -112,7 +112,7 @@ function listener_data_privilege(array & $data)
  *
  * @return void
  */
-function listener_data_request(array & $data)
+function listener_data_request(array & $data): void
 {
     $data['host'] = $_SERVER['HTTP_HOST'];
     $data['scheme'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
@@ -136,7 +136,7 @@ function listener_data_request(array & $data)
  *
  * @return void
  */
-function listener_save(array & $data)
+function listener_save(array & $data): void
 {
     if ($data['_entity']['id'] === 'url' || !in_array('view', $data['_entity']['actions'])) {
         return;
@@ -158,7 +158,7 @@ function listener_save(array & $data)
  *
  * @return void
  */
-function listener_delete(array & $data)
+function listener_delete(array & $data): void
 {
     delete('url', ['target' => sprintf('%s%s/view/%s', url(), $data['_entity']['id'], $data['id'])], ['system' => true]);
 }
@@ -170,7 +170,7 @@ function listener_delete(array & $data)
  *
  * @return void
  */
-function listener_entity_save(array & $data)
+function listener_entity_save(array & $data): void
 {
     if (empty($data['_old'])) {
         return;
@@ -199,7 +199,7 @@ function listener_entity_save(array & $data)
  *
  * @return void
  */
-function listener_entity_delete(array & $data)
+function listener_entity_delete(array & $data): void
 {
     delete('url', ['target' => sprintf('%s%s/view/', url(), $data['id'])], ['search' => true, 'system' => true]);
 }
@@ -211,7 +211,7 @@ function listener_entity_delete(array & $data)
  *
  * @return void
  */
-function listener_project_save(array & $data)
+function listener_project_save(array & $data): void
 {
     if (empty($data['_old']['id']) || $data['id'] === $data['_old']['id']) {
         return;
@@ -232,7 +232,7 @@ function listener_project_save(array & $data)
  *
  * @return void
  */
-function listener_project_delete(array & $data)
+function listener_project_delete(array & $data): void
 {
     if (!file_delete(path('asset', $data['id']))) {
         message(_('Could not delete directory %s', path('asset', $data['id'])));

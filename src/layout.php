@@ -60,7 +60,7 @@ function render(array $§): string
  *
  * @return void
  */
-function vars(string $id, array $vars)
+function vars(string $id, array $vars): void
 {
     $§ = & layout($id);
 
@@ -75,9 +75,9 @@ function vars(string $id, array $vars)
  * @param string $id
  * @param array $§
  *
- * @return mixed
+ * @return array|null
  */
-function & layout(string $id, array $§ = null)
+function & layout(string $id, array $§ = null): ?array
 {
     $data = & registry('layout');
 
@@ -125,7 +125,7 @@ function layout_handles(): array
  *
  * @return void
  */
-function layout_load()
+function layout_load(): void
 {
     $layout = data('layout');
 
@@ -145,7 +145,7 @@ function layout_load()
  *
  * @throws InvalidArgumentException
  */
-function layout_add(array $§)
+function layout_add(array $§): void
 {
     if (empty($§['id'])) {
         throw new InvalidArgumentException(_('No section Id given'));
@@ -180,7 +180,7 @@ function layout_add(array $§)
  *
  * @return void
  */
-function layout_parent(array $§, string $oldId)
+function layout_parent(array $§, string $oldId): void
 {
     $oldParent = layout($oldId);
     $parent = layout($§['parent']);

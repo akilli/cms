@@ -342,7 +342,7 @@ function entity(string $eId, int $number = null, bool $bare = false): array
  *
  * @throws RuntimeException
  */
-function entity_attr(string $eId, string $action)
+function entity_attr(string $eId, string $action): array
 {
     if (!$entity = data('entity', $eId)) {
         throw new RuntimeException(_('Invalid entity %s', $eId));

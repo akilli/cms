@@ -43,7 +43,7 @@ function & session(string $key, $value = null, bool $reset = false)
  *
  * @return void
  */
-function message(string $message)
+function message(string $message): void
 {
     $data = & session('message');
 
@@ -75,7 +75,7 @@ function token(): string
  *
  * @return void
  */
-function redirect(string $url = '/')
+function redirect(string $url = '/'): void
 {
     header('Location:' . $url);
     exit;

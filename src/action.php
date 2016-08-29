@@ -8,7 +8,7 @@ namespace qnd;
  *
  * @return void
  */
-function action_admin(array $entity)
+function action_admin(array $entity): void
 {
     action_index($entity);
 }
@@ -20,7 +20,7 @@ function action_admin(array $entity)
  *
  * @return void
  */
-function action_create(array $entity)
+function action_create(array $entity): void
 {
     $data = http_post('data');
 
@@ -53,7 +53,7 @@ function action_create(array $entity)
  *
  * @return void
  */
-function action_edit(array $entity)
+function action_edit(array $entity): void
 {
     $data = http_post('data');
 
@@ -94,7 +94,7 @@ function action_edit(array $entity)
  *
  * @return void
  */
-function action_delete(array $entity)
+function action_delete(array $entity): void
 {
     $data = http_post('edit');
 
@@ -114,7 +114,7 @@ function action_delete(array $entity)
  *
  * @return void
  */
-function action_index(array $entity)
+function action_index(array $entity): void
 {
     $action = request('action');
     $attrs = entity_attr($entity['id'], $action);
@@ -156,7 +156,7 @@ function action_index(array $entity)
  *
  * @return void
  */
-function action_view(array $entity)
+function action_view(array $entity): void
 {
     // Item does not exist or is inactive
     if (!($item = one($entity['id'], ['id' => request('id')]))
@@ -181,7 +181,7 @@ function action_view(array $entity)
  *
  * @return void
  */
-function action_denied()
+function action_denied(): void
 {
     message(_('Access denied'));
     redirect(url('user/login'));
@@ -192,7 +192,7 @@ function action_denied()
  *
  * @return void
  */
-function action_error()
+function action_error(): void
 {
     message(_('The page %s does not exist', request('path')));
     layout_load();
@@ -203,7 +203,7 @@ function action_error()
  *
  * @return void
  */
-function action_project_import()
+function action_project_import(): void
 {
     if (!$file = http_files('import')) {
         message(_('No file to import'));
@@ -224,7 +224,7 @@ function action_project_import()
  *
  * @return void
  */
-function action_project_switch()
+function action_project_switch(): void
 {
     $id = http_post('id');
 
@@ -240,7 +240,7 @@ function action_project_switch()
  *
  * @return void
  */
-function action_user_dashboard()
+function action_user_dashboard(): void
 {
     layout_load();
     vars('head', ['title' => _('Dashboard')]);
@@ -251,7 +251,7 @@ function action_user_dashboard()
  *
  * @return void
  */
-function action_user_profile()
+function action_user_profile(): void
 {
     $user = user();
 
@@ -278,7 +278,7 @@ function action_user_profile()
  *
  * @return void
  */
-function action_user_login()
+function action_user_login(): void
 {
     if (registered()) {
         redirect(url('user/dashboard'));
@@ -308,7 +308,7 @@ function action_user_login()
  *
  * @return void
  */
-function action_user_logout()
+function action_user_logout(): void
 {
     session_regenerate_id(true);
     session_destroy();

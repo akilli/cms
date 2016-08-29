@@ -159,7 +159,7 @@ function node_delete(array & $item): bool
  *
  * @throws LogicException
  */
-function node_position(array & $item)
+function node_position(array & $item): void
 {
     $attrs = $item['_entity']['attr'];
     $o = $item['_old'] ?? null;
@@ -209,7 +209,7 @@ function node_position(array & $item)
  *
  * @return void
  */
-function node_insert(array $item)
+function node_insert(array $item): void
 {
     $attrs = $item['_entity']['attr'];
     $range = $item['rgt'] - $item['lft'] + 1;
@@ -244,7 +244,7 @@ function node_insert(array $item)
  *
  * @return void
  */
-function node_remove(array $item)
+function node_remove(array $item): void
 {
     $attrs = $item['_entity']['attr'];
     $range = $item['_old']['rgt'] - $item['_old']['lft'] + 1;

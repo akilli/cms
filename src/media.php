@@ -103,7 +103,7 @@ function image(string $file, array $opts): string
  *
  * @return array|null
  */
-function media_load(string $key = null)
+function media_load(string $key = null): ?array
 {
     static $data;
 

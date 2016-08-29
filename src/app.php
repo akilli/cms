@@ -15,7 +15,7 @@ const USER = 1;
  *
  * @return void
  */
-function app()
+function app(): void
 {
     // Reset registry
     registry();
@@ -44,7 +44,7 @@ function app()
  *
  * @return array|null
  */
-function & registry(string $id = null)
+function & registry(string $id = null): ?array
 {
     static $data = [];
 
@@ -116,7 +116,7 @@ function path(string $dir, string $id = ''): string
  *
  * @return void
  */
-function event($event, array & $data)
+function event($event, array & $data): void
 {
     foreach ((array) $event as $id) {
         foreach (listener($id) as $listener) {
