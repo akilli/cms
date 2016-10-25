@@ -135,7 +135,7 @@ function editor_select(array $attr, array $item): string
                 $a['data-level'] = $optVal['level'];
             }
 
-            $html .= html_tag('option', $a, opt_name($optId, $optVal));
+            $html .= html_tag('option', $a, editor_opt_name($optId, $optVal));
         }
     }
 
@@ -179,10 +179,31 @@ function editor_opt(array $attr, array $item): string
         ];
         $a = array_replace($attr['html'], $a);
         $html .= html_tag('input', $a, null, true);
-        $html .= html_tag('label', ['for' => $htmlId, 'class' => 'inline'], opt_name($optId, $optVal));
+        $html .= html_tag('label', ['for' => $htmlId, 'class' => 'inline'], editor_opt_name($optId, $optVal));
     }
 
     return $html;
+}
+
+/**
+ * Option name
+ *
+ * @param int|string $id
+ * @param mixed $value
+ *
+ * @return string
+ */
+function editor_opt_name($id, $value): string
+{
+    if (is_array($value) && !empty($value['name'])) {
+        return $value['name'];
+    }
+
+    if (is_scalar($value)) {
+        return (string) $value;
+    }
+
+    return (string) $id;
 }
 
 /**

@@ -27,27 +27,6 @@ function opt(array $attr): array
 }
 
 /**
- * Option name
- *
- * @param int|string $id
- * @param mixed $value
- *
- * @return string
- */
-function opt_name($id, $value): string
-{
-    if (is_array($value) && !empty($value['name'])) {
-        return $value['name'];
-    }
-
-    if (is_scalar($value)) {
-        return (string) $value;
-    }
-
-    return (string) $id;
-}
-
-/**
  * Privilege options
  *
  * @return array
