@@ -30,8 +30,21 @@ function node_size(array $entity, array $crit = [], array $opts = []): int
 function node_load(array $entity, array $crit = [], array $opts = []): array
 {
     $opts['order'] = $opts['order'] ?? ['root_id' => 'asc', 'lft' => 'asc'];
+    $data = flat_load($entity, $crit, $opts);
 
-    return flat_load($entity, $crit, $opts);
+    if (!empty($opts['one'])) {
+        $data['position'] = $data['root_id'] . ':' . $data['lft'];
+    } else {
+        $data = array_map(
+            function ($item) {
+                $item['position'] = $item['root_id'] . ':' . $item['lft'];
+                return $item;
+            },
+            $data
+        );
+    }
+
+    return $data;
 }
 
 /**
@@ -64,7 +77,7 @@ function node_save(array & $item): bool
     // Update all attributes that are not involved with the tree
     $attrs = $item['_entity']['attr'];
     $a = $attrs;
-    unset($a['root_id'], $a['lft'], $a['rgt'], $a['parent_id'], $a['level']);
+    unset($a['root_id'], $a['lft'], $a['rgt'], $a['level']);
     $item['_entity']['attr'] = $a;
     flat_save($item);
     $item['_entity']['attr'] = $attrs;
@@ -103,19 +116,16 @@ function node_save(array & $item): bool
     // Finally add the affected nodes to new tree
     $stmt = prep(
         'UPDATE %1$s
-        SET %3$s = -1 * %3$s, %4$s = -1 * %4$s, %6$s = IF(%5$s = :id, :parent_id, %6$s), %7$s = %7$s + :level
+        SET %3$s = -1 * %3$s, %4$s = -1 * %4$s, %5$s = %5$s + :level
         WHERE %2$s = :root_id AND %3$s < 0',
         $item['_entity']['tab'],
         $attrs['root_id']['col'],
         $attrs['lft']['col'],
         $attrs['rgt']['col'],
-        $attrs['id']['col'],
-        $attrs['parent_id']['col'],
         $attrs['level']['col']
     );
     $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
     $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
-    $stmt->bindValue(':parent_id', $item['parent_id'], db_type($attrs['parent_id'], $item['parent_id']));
     $stmt->bindValue(':level', $item['level'] - $item['_old']['level'], PDO::PARAM_INT);
     $stmt->execute();
 
@@ -180,18 +190,15 @@ function node_position(array & $item): void
         $stmt->execute();
 
         $item['lft'] = (int) $stmt->fetchColumn();
-        $item['parent_id'] = null;
         $item['level'] = 1;
     } elseif ($o && $item['root_id'] === $o['root_id'] && $o['lft'] < $b['lft'] && $o['rgt'] > $b['rgt']) {
         // Recursion
         throw new LogicException(_('Node can not be child of itself'));
     } elseif ($item['mode'] === 'child') {
         $item['lft'] = $b['rgt'];
-        $item['parent_id'] = $b['id'];
         $item['level'] = $b['level'] + 1;
     } else {
         $item['lft'] = $item['mode'] === 'before' ? $b['lft'] : $b['rgt'] + 1;
-        $item['parent_id'] = $b['parent_id'];
         $item['level'] = $b['level'];
     }
 

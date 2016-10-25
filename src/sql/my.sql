@@ -116,9 +116,7 @@ CREATE TABLE IF NOT EXISTS node (
     root_id INTEGER(11) NOT NULL,
     lft INTEGER(11) NOT NULL,
     rgt INTEGER(11) NOT NULL,
-    parent_id INTEGER(11) DEFAULT NULL,
     level INTEGER(11) NOT NULL,
-    position VARCHAR(255) AS (CONCAT(root_id, ':', lft)) STORED NOT NULL,
     project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
     KEY idx_node_name (name),
@@ -126,13 +124,10 @@ CREATE TABLE IF NOT EXISTS node (
     KEY idx_node_root (root_id),
     KEY idx_node_lft (lft),
     KEY idx_node_rgt (rgt),
-    KEY idx_node_parent (parent_id),
     KEY idx_node_level (level),
-    KEY idx_node_position (position),
     KEY idx_node_project (project_id),
     KEY idx_node_item (root_id,lft,rgt),
     CONSTRAINT con_node_root FOREIGN KEY (root_id) REFERENCES menu (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT con_node_parent FOREIGN KEY (parent_id) REFERENCES node (id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT con_node_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -219,23 +214,23 @@ INSERT INTO entity (id, name, actions, system, project_id) VALUES
 INSERT INTO menu (id, uid, name, system, project_id) VALUES
 (1, 'toolbar', 'Toolbar', '1', 'base');
 
-INSERT INTO node (id, name, target, root_id, lft, rgt, parent_id, level, project_id) VALUES
-(1, 'Homepage', '/', 1, 1, 2, NULL, 1, 'base'),
-(2, 'Dashboard', '/user/dashboard', 1, 3, 4, NULL, 1, 'base'),
-(3, 'Profile', '/user/profile', 1, 5, 6, NULL, 1, 'base'),
-(4, 'Logout', '/user/logout', 1, 7, 8, NULL, 1, 'base'),
-(5, 'Content', '', 1, 9, 12, NULL, 1, 'base'),
-(6, 'Structure', '', 1, 13, 22, NULL, 1, 'base'),
-(7, 'System', '', 1, 23, 32, NULL, 1, 'base'),
-(8, 'Page', '/page/admin', 1, 10, 11, 5, 2, 'base'),
-(9, 'Project', '/project/admin', 1, 24, 25, 7, 2, 'base'),
-(10, 'User', '/user/admin', 1, 26, 27, 7, 2, 'base'),
-(11, 'Role', '/role/admin', 1, 28, 29, 7, 2, 'base'),
-(12, 'URL', '/url/admin', 1, 30, 31, 7, 2, 'base'),
-(13, 'Menu', '/menu/admin', 1, 14, 15, 6, 2, 'base'),
-(14, 'Node', '/node/admin', 1, 16, 17, 6, 2, 'base'),
-(15, 'Entity', '/entity/admin', 1, 18, 19, 6, 2, 'base'),
-(16, 'Attribute', '/attr/admin', 1, 20, 21, 6, 2, 'base');
+INSERT INTO node (id, name, target, root_id, lft, rgt, level, project_id) VALUES
+(1, 'Homepage', '/', 1, 1, 2, 1, 'base'),
+(2, 'Dashboard', '/user/dashboard', 1, 3, 4, 1, 'base'),
+(3, 'Profile', '/user/profile', 1, 5, 6, 1, 'base'),
+(4, 'Logout', '/user/logout', 1, 7, 8, 1, 'base'),
+(5, 'Content', '', 1, 9, 12, 1, 'base'),
+(6, 'Page', '/page/admin', 1, 10, 11, 2, 'base'),
+(7, 'Structure', '', 1, 13, 22, 1, 'base'),
+(8, 'Menu', '/menu/admin', 1, 14, 15, 2, 'base'),
+(9, 'Node', '/node/admin', 1, 16, 17, 2, 'base'),
+(10, 'Entity', '/entity/admin', 1, 18, 19, 2, 'base'),
+(11, 'Attribute', '/attr/admin', 1, 20, 21, 2, 'base'),
+(12, 'System', '', 1, 23, 32, 1, 'base'),
+(13, 'Project', '/project/admin', 1, 24, 25, 2, 'base'),
+(14, 'User', '/user/admin', 1, 26, 27, 2, 'base'),
+(15, 'Role', '/role/admin', 1, 28, 29, 2, 'base'),
+(16, 'URL', '/url/admin', 1, 30, 31, 2, 'base');
 
 INSERT INTO project (id, name, host, active, system) VALUES
 ('base', 'BASE', NULL, '1', '1');

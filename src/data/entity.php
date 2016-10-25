@@ -258,13 +258,6 @@ return [
                 'name' => 'Position Right',
                 'type' => 'int',
             ],
-            'parent_id' => [
-                'name' => 'Parent',
-                'type' => 'select.int',
-                'nullable' => true,
-                'opt' => ['all', ['node']],
-                'actions' => ['admin'],
-            ],
             'level' => [
                 'name' => 'Level',
                 'type' => 'int',
@@ -279,7 +272,7 @@ return [
             ],
             'position' => [
                 'name' => 'Position',
-                'generator' => 'auto',
+                'virtual' => true,
                 'type' => 'select.varchar',
                 'required' => true,
                 'opt' => ['opt_position'],
