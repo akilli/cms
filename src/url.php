@@ -12,11 +12,13 @@ namespace qnd;
 function url(string $path = '/', array $params = []): string
 {
     $path = $path ?: '/';
-    $query = $params ? '?' . http_build_query($params, '', '&amp;') : '';
 
-    if (strpos($path, 'http') !== 0) {
-        $path = '/' . url_resolve(ltrim($path, '/'));
+    if ($path[0] === '#' || strpos($path, 'http') !== 0) {
+        return $path;
     }
+
+    $query = $params ? '?' . http_build_query($params, '', '&amp;') : '';
+    $path = '/' . url_resolve(ltrim($path, '/'));
 
     return url_unrewrite($path) . $query;
 }
