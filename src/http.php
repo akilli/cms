@@ -130,16 +130,18 @@ function http_files(string $key)
 }
 
 /**
- * Converts and validates uploaded files
+ * Filters request variables
+ *
+ * @todo urldecode() ?
  *
  * @param array $data
  *
  * @return array
  */
-function http_get_filter(array $data): array
+function http_filter(array $data): array
 {
     foreach ($data as $key => $value) {
-        if (!$value = filter_var(urldecode($value), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR)) {
+        if (!$value = filter_var($value, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR)) {
             unset($data[$key]);
             continue;
         }
@@ -152,6 +154,8 @@ function http_get_filter(array $data): array
 
 /**
  * Post validation
+ *
+ * @todo Filter
  *
  * @param string $token
  *
