@@ -80,7 +80,6 @@ function path(string $dir, string $id = ''): string
         $data = [];
         $root = filter_path(realpath(__DIR__ . '/..'));
         $public = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
-        $data['app'] = $root . '/app';
         $data['asset'] = $public . '/asset';
         $data['data'] = __DIR__ . '/data';
         $data['i18n'] = __DIR__ . '/i18n';
@@ -97,11 +96,6 @@ function path(string $dir, string $id = ''): string
     }
 
     $id = trim($id, '/');
-
-    // @todo
-    if ($id && in_array($dir, ['data', 'i18n', 'template', 'xml']) && is_file($data['app'] . '/' . $dir . '/' . $id)) {
-        return $data['app'] . '/' . $dir . '/' . $id;
-    }
 
     return $data[$dir] . ($id ? '/' . $id : '');
 }
