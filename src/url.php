@@ -9,16 +9,14 @@ namespace qnd;
  *
  * @return string
  */
-function url(string $path = '/', array $params = []): string
+function url(string $path = '', array $params = []): string
 {
-    $path = $path ?: '/';
-
-    if ($path[0] === '#' || strpos($path, 'http') !== 0) {
+    if ($path && ($path[0] === '#' || strpos($path, 'http') === 0)) {
         return $path;
     }
 
+    $path = '/' . url_resolve(trim($path, '/'));
     $query = $params ? '?' . http_build_query($params, '', '&amp;') : '';
-    $path = '/' . url_resolve(ltrim($path, '/'));
 
     return url_unrewrite($path) . $query;
 }
