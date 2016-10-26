@@ -39,6 +39,7 @@
         'link': 1,
         'list': 1,
         'removeformat': 1,
+        'sharedspace': 1,
         'showblocks': 1,
         'sourcearea': 1,
         'table': 1,
