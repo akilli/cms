@@ -181,7 +181,7 @@ button,
 input,
 select,
 textarea {
-    line-height: 2rem;
+    line-height: 2;
 }
 
 [role=button]:focus,
@@ -194,7 +194,7 @@ select:focus,
 select:hover,
 textarea:focus,
 textarea:hover  {
-    box-shadow: 0 0 10px #d3d3d3;
+    box-shadow: 0 0 0.625rem #d3d3d3;
 }
 
 [role=button],
