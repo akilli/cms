@@ -132,8 +132,6 @@ function http_files(string $key)
 /**
  * Filters request variables
  *
- * @todo urldecode() ?
- *
  * @param array $data
  *
  * @return array
@@ -154,8 +152,6 @@ function http_filter(array $data): array
 
 /**
  * Post validation
- *
- * @todo Filter
  *
  * @param string $token
  *
