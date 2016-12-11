@@ -1,4 +1,17 @@
 #
+# App
+#
+/public/asset/*
+!/public/asset/.gitkeep
+/public/theme/*
+!/public/theme/base
+!/public/theme/.gitkeep
+/var/log/*
+!/var/log/.gitkeep
+/var/tmp/*
+!/var/tmp/.gitkeep
+
+#
 # DEV
 #
 .buildpath
