@@ -4,7 +4,7 @@ return [
     'host' => 'mysql',
     'db' => 'qnd',
     'charset' => 'utf8',
-    'username' => 'root',
+    'user' => 'root',
     'password' => '',
     'driver_options' => [
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
