@@ -82,7 +82,7 @@ function redirect(string $url = '/', int $code = 302): void
         $code = 302;
     }
 
-    header('Location:' . $url, true, $code);
+    header('Location: ' . $url, true, $code);
     exit;
 }
 
