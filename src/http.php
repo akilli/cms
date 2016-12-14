@@ -72,12 +72,17 @@ function token(): string
  * Redirect
  *
  * @param string $url
+ * @param int $code
  *
  * @return void
  */
-function redirect(string $url = '/'): void
+function redirect(string $url = '/', int $code = 302): void
 {
-    header('Location:' . $url);
+    if ($code < 300 && $code > 308) {
+        $code = 302;
+    }
+
+    header('Location:' . $url, true, $code);
     exit;
 }
 
