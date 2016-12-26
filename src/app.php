@@ -72,7 +72,7 @@ function & registry(string $id = null): ?array
  *
  * @throws InvalidArgumentException
  */
-function path(string $dir, string $id = ''): string
+function path(string $dir, string $id = null): string
 {
     $data = & registry('path');
 

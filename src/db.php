@@ -16,7 +16,7 @@ function db(): PDO
 
     if ($db === null) {
         $data = data('db');
-        $db = new PDO($data['dsn'], $data['driver_options']);
+        $db = new PDO($data['dsn'], $data['user'], $data['password'], $data['driver_options']);
     }
 
     return $db;
