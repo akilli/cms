@@ -45,7 +45,7 @@ function user_login(string $username, string $password): ?array
 {
     $item = one('user', ['username' => $username, 'active' => true, 'project_id' => project('ids')]);
 
-    if (!password_verify($password, $item['password'])) {
+    if (!$item || !password_verify($password, $item['password'])) {
         return null;
     }
 
