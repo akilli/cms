@@ -290,6 +290,12 @@ function action_user_login(): void
             && ($item = one('user', ['username' => $data['username'], 'active' => true, 'project_id' => project('ids')]))
             && password_verify($data['password'], $item['password'])
         ) {
+            // Automatically rehash password if needed
+            if (password_needs_rehash($item['password'], PASSWORD_DEFAULT)) {
+                $d = [$item['id'] => array_replace($item, ['password' => $data['password']])];
+                save('user', $d);
+            }
+
             message(_('Welcome %s', $item['name']));
             session_regenerate_id(true);
             session('user', $item['id']);
