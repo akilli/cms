@@ -34,6 +34,31 @@ function user(string $key = null)
 }
 
 /**
+ * Returns user if given given credentials are valid and automatically rehashes password if needed
+ *
+ * @param string $username
+ * @param string $password
+ *
+ * @return array|null
+ */
+function user_login(string $username, string $password): ?array
+{
+    $item = one('user', ['username' => $username, 'active' => true, 'project_id' => project('ids')]);
+
+    if (!password_verify($password, $item['password'])) {
+        return null;
+    }
+
+    if (!password_needs_rehash($item['password'], PASSWORD_DEFAULT)) {
+        return $item;
+    }
+
+    $data = [$item['id'] => array_replace($item, ['password' => $password])];
+
+    return save('user', $data) ? $data[$item['id']] : $item;
+}
+
+/**
  * Is registered
  *
  * @return bool

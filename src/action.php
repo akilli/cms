@@ -285,17 +285,7 @@ function action_user_login(): void
     }
 
     if ($data = http_post('data')) {
-        if (!empty($data['username'])
-            && !empty($data['password'])
-            && ($item = one('user', ['username' => $data['username'], 'active' => true, 'project_id' => project('ids')]))
-            && password_verify($data['password'], $item['password'])
-        ) {
-            // Automatically rehash password if needed
-            if (password_needs_rehash($item['password'], PASSWORD_DEFAULT)) {
-                $d = [$item['id'] => array_replace($item, ['password' => $data['password']])];
-                save('user', $d);
-            }
-
+        if (!empty($data['username']) && !empty($data['password']) && ($item = user_login($data['username'], $data['password']))) {
             message(_('Welcome %s', $item['name']));
             session_regenerate_id(true);
             session('user', $item['id']);
