@@ -1,5 +1,5 @@
 ﻿var CKBUILDER_CONFIG = {
-    skin: 'minimalist',
+    skin: 'moono-lisa',
     preset: 'basic',
     ignore: [
         '.bender',
