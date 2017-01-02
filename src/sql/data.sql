@@ -1,5 +1,4 @@
 SET FOREIGN_KEY_CHECKS=0;
-
 START TRANSACTION;
 
 INSERT INTO entity (id, name, actions, system, project_id) VALUES
@@ -35,8 +34,5 @@ INSERT INTO role (id, name, privilege, active, system, project_id) VALUES
 INSERT INTO user (id, name, username, password, role_id, active, system, project_id) VALUES
 (1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 'base');
 
--- --------------------------------------------------------
-
 COMMIT;
-
 SET FOREIGN_KEY_CHECKS=1;
