@@ -23,7 +23,7 @@ CREATE INDEX idx_project_system ON project (system);
 INSERT INTO project
     (id, name, host, active, system)
 VALUES
-    ('base', 'BASE', NULL, '1', '1');
+    ('base', 'BASE', NULL, TRUE, TRUE);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Auth
@@ -53,7 +53,7 @@ ALTER TABLE role
 INSERT INTO role
     (id, name, privilege, active, system, project_id)
 VALUES
-    (1, 'admin', '[]', '1', '1', 'base');
+    (1, 'admin', '[]', TRUE, TRUE, 'base');
 
 -- User
 DROP TABLE IF EXISTS user;
@@ -84,7 +84,7 @@ ALTER TABLE user
 INSERT INTO user
     (id, name, username, password, role_id, active, system, project_id)
 VALUES
-    (1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 'base');
+    (1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, TRUE, TRUE, 'base');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- EAV
@@ -111,7 +111,7 @@ ALTER TABLE entity
 INSERT INTO entity
     (id, name, actions, system, project_id)
 VALUES
-    ('page', 'Page', '["admin", "create", "delete", "edit", "index", "view"]', '1', 'base');
+    ('page', 'Page', '["admin", "create", "delete", "edit", "index", "view"]', TRUE, 'base');
 
 -- Attribute
 DROP TABLE IF EXISTS attr;
@@ -222,7 +222,7 @@ ALTER TABLE menu
 INSERT INTO menu
     (id, uid, name, system, project_id)
 VALUES
-    (1, 'toolbar', 'Toolbar', '1', 'base');
+    (1, 'toolbar', 'Toolbar', TRUE, 'base');
 
 -- Node
 DROP TABLE IF EXISTS node;
