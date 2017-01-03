@@ -1,5 +1,59 @@
 <?php
 return [
+    'account' => [
+        'name' => 'Account',
+        'actions' => ['admin', 'create', 'delete', 'edit'],
+        'attr' => [
+            'id' => [
+                'name' => 'Id',
+                'generator' => 'auto',
+                'type' => 'int',
+                'actions' => ['admin'],
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'uniq' => true,
+                'actions' => ['admin', 'edit', 'index', 'view'],
+            ],
+            'username' => [
+                'name' => 'Username',
+                'type' => 'text',
+                'required' => true,
+                'uniq' => true,
+                'actions' => ['admin', 'edit', 'index', 'view'],
+            ],
+            'password' => [
+                'name' => 'Password',
+                'type' => 'password',
+                'required' => true,
+                'actions' => ['edit'],
+            ],
+            'role_id' => [
+                'name' => 'Role',
+                'type' => 'select.int',
+                'required' => true,
+                'opt' => ['all', ['role']],
+                'actions' => ['admin', 'edit'],
+            ],
+            'active' => [
+                'name' => 'Active',
+                'type' => 'checkbox.bool',
+                'actions' => ['admin', 'edit'],
+            ],
+            'system' => [
+                'name' => 'System',
+                'type' => 'checkbox.bool',
+                'actions' => ['admin'],
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'select.varchar',
+                'opt' => ['all', ['project']],
+            ],
+        ],
+    ],
     'attr' => [
         'name' => 'Attribute',
         'actions' => ['admin', 'create', 'delete', 'edit'],
@@ -393,60 +447,6 @@ return [
             ],
             'redirect' => [
                 'name' => 'Redirect',
-                'type' => 'checkbox.bool',
-                'actions' => ['admin', 'edit'],
-            ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'checkbox.bool',
-                'actions' => ['admin'],
-            ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'select.varchar',
-                'opt' => ['all', ['project']],
-            ],
-        ],
-    ],
-    'account' => [
-        'name' => 'Account',
-        'actions' => ['admin', 'create', 'delete', 'edit'],
-        'attr' => [
-            'id' => [
-                'name' => 'Id',
-                'generator' => 'auto',
-                'type' => 'int',
-                'actions' => ['admin'],
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'uniq' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
-            ],
-            'username' => [
-                'name' => 'Username',
-                'type' => 'text',
-                'required' => true,
-                'uniq' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
-            ],
-            'password' => [
-                'name' => 'Password',
-                'type' => 'password',
-                'required' => true,
-                'actions' => ['edit'],
-            ],
-            'role_id' => [
-                'name' => 'Role',
-                'type' => 'select.int',
-                'required' => true,
-                'opt' => ['all', ['role']],
-                'actions' => ['admin', 'edit'],
-            ],
-            'active' => [
-                'name' => 'Active',
                 'type' => 'checkbox.bool',
                 'actions' => ['admin', 'edit'],
             ],
