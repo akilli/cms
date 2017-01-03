@@ -2,18 +2,6 @@
 namespace qnd;
 
 /**
- * Log levels
- */
-const EMERGENCY = 'emergency';
-const ALERT = 'alert';
-const CRITICAL = 'critical';
-const ERROR = 'error';
-const WARNING = 'warning';
-const NOTICE = 'notice';
-const INFO = 'info';
-const DEBUG = 'debug';
-
-/**
  * System is unusable.
  *
  * @param string $message
@@ -23,7 +11,7 @@ const DEBUG = 'debug';
  */
 function emergency(string $message, array $context = []): void
 {
-    logger(EMERGENCY, $message, $context);
+    logger('emergency', $message, $context);
 }
 
 /**
@@ -38,7 +26,7 @@ function emergency(string $message, array $context = []): void
  */
 function alert(string $message, array $context = []): void
 {
-    logger(ALERT, $message, $context);
+    logger('alert', $message, $context);
 }
 
 /**
@@ -53,7 +41,7 @@ function alert(string $message, array $context = []): void
  */
 function critical(string $message, array $context = []): void
 {
-    logger(CRITICAL, $message, $context);
+    logger('critical', $message, $context);
 }
 
 /**
@@ -66,7 +54,7 @@ function critical(string $message, array $context = []): void
  */
 function error(string $message, array $context = []): void
 {
-    logger(ERROR, $message, $context);
+    logger('error', $message, $context);
 }
 
 /**
@@ -81,7 +69,7 @@ function error(string $message, array $context = []): void
  */
 function warning(string $message, array $context = []): void
 {
-    logger(WARNING, $message, $context);
+    logger('warning', $message, $context);
 }
 
 /**
@@ -94,7 +82,7 @@ function warning(string $message, array $context = []): void
  */
 function notice(string $message, array $context = []): void
 {
-    logger(NOTICE, $message, $context);
+    logger('notice', $message, $context);
 }
 
 /**
@@ -109,7 +97,7 @@ function notice(string $message, array $context = []): void
  */
 function info(string $message, array $context = []): void
 {
-    logger(INFO, $message, $context);
+    logger('info', $message, $context);
 }
 
 /**
@@ -122,7 +110,7 @@ function info(string $message, array $context = []): void
  */
 function debug(string $message, array $context = []): void
 {
-    logger(DEBUG, $message, $context);
+    logger('debug', $message, $context);
 }
 
 /**
