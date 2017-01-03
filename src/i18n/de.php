@@ -134,6 +134,7 @@ return [
     'Time' => 'Uhrzeit',
     'Type' => 'Typ',
     'Unique' => 'Eindeutig',
+    'Unsupported database driver' => 'Datenbanktreiber wird nicht unterstützt',
     'URL' => 'URL',
     'Username' => 'Benutzername',
     'Video' => 'Video',

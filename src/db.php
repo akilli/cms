@@ -10,6 +10,8 @@ use RuntimeException;
  * Database
  *
  * @return PDO
+ *
+ * @throws RuntimeException
  */
 function db(): PDO
 {
@@ -17,7 +19,18 @@ function db(): PDO
 
     if ($db === null) {
         $data = data('db');
-        $db = new PDO($data['dsn'], $data['user'], $data['password'], $data['driver_options']);
+
+        if (!in_array($data['driver'], ['mysql', 'pgsql'])) {
+            throw new RuntimeException(_('Unsupported database driver'));
+        }
+
+        $dsn = sprintf('%s:host=%s;dbname=%s', $data['driver'], $data['host'], $data['db']);
+
+        if ($data['driver'] === 'mysql') {
+            $dsn .= ';charset=' . $data['charset'];
+        }
+
+        $db = new PDO($dsn, $data['user'], $data['password'], $data['driver_options']);
     }
 
     return $db;
@@ -65,14 +78,6 @@ function prep(string $sql, string ...$args): PDOStatement
 }
 
 /**
- * @return string
- */
-function db_driver(): string
-{
-    return db()->getAttribute(PDO::ATTR_DRIVER_NAME);
-}
-
-/**
  * @param array $entity
  *
  * @return int
@@ -81,11 +86,17 @@ function db_driver(): string
  */
 function db_id(array $entity): int
 {
+    static $seq;
+
+    if ($seq === null) {
+        $seq = data('db', 'driver') === 'pgsql';
+    }
+
     if ($entity['attr']['id']['generator'] !== 'auto') {
         throw new RuntimeException(_('Invalid entity %s', $entity['id']));
     }
 
-    return (int) db()->lastInsertId(db_driver() === 'pgsql' ? $entity['tab'] . '_id_seq' : null);
+    return (int) db()->lastInsertId($seq ? $entity['tab'] . '_id_seq' : null);
 }
 
 /**
@@ -188,7 +199,11 @@ function qv($value, string $backend = null)
  */
 function qi(string $identifier = null): string
 {
-    $char = db_driver() === 'mysql' ? '`' : '"';
+    static $char;
+
+    if ($char === null) {
+        $char = data('db', 'driver') === 'mysql' ? '`' : '"';
+    }
 
     return $identifier ? $char . str_replace($char, '', $identifier) . $char : '';
 }
