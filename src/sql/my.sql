@@ -11,10 +11,10 @@ CREATE TABLE project (
     theme VARCHAR(100) DEFAULT NULL,
     active BOOLEAN NOT NULL DEFAULT FALSE,
     system BOOLEAN NOT NULL DEFAULT FALSE,
-    PRIMARY KEY (id),
-    UNIQUE uni_project_host (host)
+    PRIMARY KEY (id)
 );
 
+CREATE UNIQUE INDEX uni_project_host ON project (host);
 CREATE INDEX idx_project_name ON project (name);
 CREATE INDEX idx_project_theme ON project (theme);
 CREATE INDEX idx_project_active ON project (active);
@@ -38,10 +38,10 @@ CREATE TABLE role (
     active BOOLEAN NOT NULL DEFAULT FALSE,
     system BOOLEAN NOT NULL DEFAULT FALSE,
     project_id VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE uni_role_name (project_id, name)
+    PRIMARY KEY (id)
 );
 
+CREATE UNIQUE INDEX uni_role_name ON role (project_id, name);
 CREATE INDEX idx_role_name ON role (name);
 CREATE INDEX idx_role_active ON role (active);
 CREATE INDEX idx_role_system ON role (system);
@@ -66,11 +66,11 @@ CREATE TABLE user (
     active BOOLEAN NOT NULL DEFAULT FALSE,
     system BOOLEAN NOT NULL DEFAULT FALSE,
     project_id VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE uni_user_name (project_id, name),
-    UNIQUE uni_user_username (username)
+    PRIMARY KEY (id)
 );
 
+CREATE UNIQUE INDEX uni_user_name ON user (project_id, name);
+CREATE UNIQUE INDEX uni_user_username ON user (username);
 CREATE INDEX idx_user_name ON user (name);
 CREATE INDEX idx_user_role ON user (role_id);
 CREATE INDEX idx_user_active ON user (active);
@@ -128,10 +128,10 @@ CREATE TABLE attr (
     opt JSON NOT NULL,
     actions JSON NOT NULL,
     project_id VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE uni_attr_uid (entity_id, uid)
+    PRIMARY KEY (id)
 );
 
+CREATE UNIQUE INDEX uni_attr_uid ON attr (entity_id, uid);
 CREATE INDEX idx_attr_entity ON attr (entity_id);
 CREATE INDEX idx_attr_uid ON attr (uid);
 CREATE INDEX idx_attr_name ON attr (name);
@@ -207,10 +207,10 @@ CREATE TABLE menu (
     name VARCHAR(255) NOT NULL,
     system BOOLEAN NOT NULL DEFAULT FALSE,
     project_id VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE uni_menu_uid (project_id, uid)
+    PRIMARY KEY (id)
 );
 
+CREATE UNIQUE INDEX uni_menu_uid ON menu (project_id, uid);
 CREATE INDEX idx_menu_uid ON menu (uid);
 CREATE INDEX idx_menu_name ON menu (name);
 CREATE INDEX idx_menu_system ON menu (system);
@@ -282,10 +282,10 @@ CREATE TABLE url (
     redirect BOOLEAN NOT NULL DEFAULT FALSE,
     system BOOLEAN NOT NULL DEFAULT FALSE,
     project_id VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE uni_url_name (project_id, name)
+    PRIMARY KEY (id)
 );
 
+CREATE UNIQUE INDEX uni_url_name ON url (project_id, name);
 CREATE INDEX idx_url_name ON url (name);
 CREATE INDEX idx_url_target ON url (target);
 CREATE INDEX idx_url_redirect ON url (redirect);
