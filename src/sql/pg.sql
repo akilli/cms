@@ -293,7 +293,7 @@ CREATE INDEX idx_url_system ON url (system);
 CREATE INDEX idx_url_project ON url (project_id);
 
 ALTER TABLE url
-    ADD CONSTRAINT con_url_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
+    ADD CONSTRAINT con_url_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
