@@ -103,18 +103,18 @@
     content: '\f064';
 }
 
-#toolbar li a[href='/user/admin']:before {
+#toolbar li a[href='/account/admin']:before {
     content: '\f007';
 }
 
-#toolbar li a[href='/user/dashboard']:before {
+#toolbar li a[href='/account/dashboard']:before {
     content: '\f0e4';
 }
 
-#toolbar li a[href='/user/logout']:before {
+#toolbar li a[href='/account/logout']:before {
     content: '\f08b';
 }
 
-#toolbar li a[href='/user/profile']:before {
+#toolbar li a[href='/account/profile']:before {
     content: '\f1fa';
 }

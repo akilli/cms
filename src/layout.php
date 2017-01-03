@@ -103,7 +103,7 @@ function layout_handles(): array
 
     if ($data === null) {
         $data = ['layout-base'];
-        $data[] = 'user-' . (registered() ? 'registered' : 'anonymous');
+        $data[] = 'account-' . (registered() ? 'registered' : 'anonymous');
 
         if ($entity = data('entity', request('entity'))) {
             $action = request('action');

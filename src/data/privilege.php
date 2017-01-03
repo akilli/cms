@@ -1,30 +1,30 @@
 <?php
 return [
+    'account.dashboard' => [
+        'name' => 'Account Dashboard',
+        'callback' => 'registered',
+        'active' => true,
+    ],
+    'account.profile' => [
+        'name' => 'Account Profile',
+        'callback' => 'registered',
+        'active' => true,
+    ],
+    'account.login' => [
+        'name' => 'Account Login',
+        'active' => false,
+    ],
+    'account.logout' => [
+        'name' => 'Account Logout',
+        'callback' => 'registered',
+        'active' => true,
+    ],
     'project.import' => [
         'name' => 'Project Import',
         'active' => true,
     ],
     'project.switch' => [
         'name' => 'Project Switch',
-        'active' => true,
-    ],
-    'user.dashboard' => [
-        'name' => 'User Dashboard',
-        'callback' => 'registered',
-        'active' => true,
-    ],
-    'user.profile' => [
-        'name' => 'User Profile',
-        'callback' => 'registered',
-        'active' => true,
-    ],
-    'user.login' => [
-        'name' => 'User Login',
-        'active' => false,
-    ],
-    'user.logout' => [
-        'name' => 'User Logout',
-        'callback' => 'registered',
         'active' => true,
     ],
 ];

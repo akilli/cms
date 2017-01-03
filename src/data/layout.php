@@ -117,43 +117,43 @@ return [
         'template' => 'entity/search.phtml',
         'parent' => 'content',
     ],
-    // user-registered
+    // account-registered
     [
         'id' => 'toolbar',
-        'handle' => 'user-registered',
+        'handle' => 'account-registered',
         'type' => 'template',
-        'template' => 'user/toolbar.phtml',
+        'template' => 'account/toolbar.phtml',
         'parent' => 'top',
     ],
     [
         'id' => 'toolbar.nav',
-        'handle' => 'user-registered',
+        'handle' => 'account-registered',
         'type' => 'node',
         'parent' => 'toolbar',
         'vars' => ['crit' => ['uid' => 'toolbar', 'project_id' => PROJECT]],
     ],
-    // user.dashboard
+    // account.dashboard
     [
         'id' => 'content',
-        'handle' => 'user.dashboard',
+        'handle' => 'account.dashboard',
         'type' => 'template',
-        'template' => 'user/dashboard.phtml',
+        'template' => 'account/dashboard.phtml',
         'parent' => 'main',
     ],
-    // user.profile
+    // account.profile
     [
         'id' => 'content',
-        'handle' => 'user.profile',
+        'handle' => 'account.profile',
         'type' => 'template',
-        'template' => 'user/profile.phtml',
+        'template' => 'account/profile.phtml',
         'parent' => 'main',
     ],
-    // user-login
+    // account.login
     [
         'id' => 'content',
-        'handle' => 'user.login',
+        'handle' => 'account.login',
         'type' => 'template',
-        'template' => 'user/login.phtml',
+        'template' => 'account/login.phtml',
         'parent' => 'main',
     ],
 ];

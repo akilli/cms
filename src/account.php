@@ -4,25 +4,25 @@ namespace qnd;
 use InvalidArgumentException;
 
 /**
- * User
+ * Account
  *
  * @param string $key
  *
  * @return mixed
  */
-function user(string $key = null)
+function account(string $key = null)
 {
-    $data = & registry('user');
+    $data = & registry('account');
 
     if ($data === null) {
         $data = [];
-        $id = (int) session('user');
+        $id = (int) session('account');
 
-        if ($id && ($data = one('user', ['id' => $id, 'active' => true, 'project_id' => project('ids')]))) {
+        if ($id && ($data = one('account', ['id' => $id, 'active' => true, 'project_id' => project('ids')]))) {
             $role = one('role', ['id' => $data['role_id'], 'active' => true, 'project_id' => $data['project_id']]);
             $data['privilege'] = $role ? $role['privilege'] : [];
         } else {
-            session('user', null, true);
+            session('account', null, true);
         }
     }
 
@@ -34,16 +34,16 @@ function user(string $key = null)
 }
 
 /**
- * Returns user if given given credentials are valid and automatically rehashes password if needed
+ * Returns account if given given credentials are valid and automatically rehashes password if needed
  *
  * @param string $username
  * @param string $password
  *
  * @return array|null
  */
-function user_login(string $username, string $password): ?array
+function account_login(string $username, string $password): ?array
 {
-    $item = one('user', ['username' => $username, 'active' => true, 'project_id' => project('ids')]);
+    $item = one('account', ['username' => $username, 'active' => true, 'project_id' => project('ids')]);
 
     if (!$item || !password_verify($password, $item['password'])) {
         return null;
@@ -55,7 +55,7 @@ function user_login(string $username, string $password): ?array
 
     $data = [$item['id'] => array_replace($item, ['password' => $password])];
 
-    return save('user', $data) ? $data[$item['id']] : $item;
+    return save('account', $data) ? $data[$item['id']] : $item;
 }
 
 /**
@@ -65,7 +65,7 @@ function user_login(string $username, string $password): ?array
  */
 function registered(): bool
 {
-    return user('id') > 0;
+    return account('id') > 0;
 }
 
 /**
@@ -75,7 +75,7 @@ function registered(): bool
  */
 function admin(): bool
 {
-    return user('id') === USER;
+    return account('id') === USER;
 }
 
 /**
@@ -95,7 +95,7 @@ function allowed(string $key = null): bool
         return false;
     }
 
-    $privileges = user('privilege');
+    $privileges = account('privilege');
 
     return empty($data[$key]['active'])
         || admin()

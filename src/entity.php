@@ -129,7 +129,7 @@ function save(string $eId, array & $data): bool
         $base = empty($original[$id]) ? $skeleton : $original[$id];
         $item = array_replace($base, $editable, $item);
         $callback = fqn($item['_entity']['model'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
-        $item['modifier'] = user('id');
+        $item['modifier'] = account('id');
 
         if (empty($original[$id])) {
             $item['creator'] = $item['modifier'];

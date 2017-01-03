@@ -32,7 +32,7 @@ VALUES
 -- Role
 DROP TABLE IF EXISTS role;
 CREATE TABLE role (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     privilege JSON NOT NULL,
     active BOOLEAN NOT NULL DEFAULT FALSE,
@@ -55,33 +55,33 @@ INSERT INTO role
 VALUES
     (1, 'admin', '[]', TRUE, TRUE, 'base');
 
--- User
-DROP TABLE IF EXISTS user;
-CREATE TABLE user (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
+-- Account
+DROP TABLE IF EXISTS account;
+CREATE TABLE account (
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role_id INTEGER(11) NOT NULL,
+    role_id INTEGER NOT NULL,
     active BOOLEAN NOT NULL DEFAULT FALSE,
     system BOOLEAN NOT NULL DEFAULT FALSE,
     project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
 );
 
-CREATE UNIQUE INDEX uni_user_name ON user (project_id, name);
-CREATE UNIQUE INDEX uni_user_username ON user (username);
-CREATE INDEX idx_user_name ON user (name);
-CREATE INDEX idx_user_role ON user (role_id);
-CREATE INDEX idx_user_active ON user (active);
-CREATE INDEX idx_user_system ON user (system);
-CREATE INDEX idx_user_project ON user (project_id);
+CREATE UNIQUE INDEX uni_account_name ON account (project_id, name);
+CREATE UNIQUE INDEX uni_account_username ON account (username);
+CREATE INDEX idx_account_name ON account (name);
+CREATE INDEX idx_account_role ON account (role_id);
+CREATE INDEX idx_account_active ON account (active);
+CREATE INDEX idx_account_system ON account (system);
+CREATE INDEX idx_account_project ON account (project_id);
 
-ALTER TABLE user
-    ADD CONSTRAINT con_user_role FOREIGN KEY (role_id) REFERENCES role (id),
-    ADD CONSTRAINT con_user_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE account
+    ADD CONSTRAINT con_account_role FOREIGN KEY (role_id) REFERENCES role (id),
+    ADD CONSTRAINT con_account_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
-INSERT INTO user
+INSERT INTO account
     (id, name, username, password, role_id, active, system, project_id)
 VALUES
     (1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, TRUE, TRUE, 'base');
@@ -116,11 +116,11 @@ VALUES
 -- Attribute
 DROP TABLE IF EXISTS attr;
 CREATE TABLE attr (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     entity_id VARCHAR(100) NOT NULL,
     uid VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    sort INTEGER(11) NOT NULL DEFAULT 0,
+    sort INTEGER NOT NULL DEFAULT 0,
     type VARCHAR(100) NOT NULL,
     required BOOLEAN NOT NULL DEFAULT FALSE,
     uniq BOOLEAN NOT NULL DEFAULT FALSE,
@@ -149,16 +149,16 @@ ALTER TABLE attr
 -- Content
 DROP TABLE IF EXISTS content;
 CREATE TABLE content (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     entity_id VARCHAR(100) NOT NULL,
     active BOOLEAN NOT NULL DEFAULT FALSE,
     content TEXT DEFAULT NULL,
     search TEXT DEFAULT NULL,
     created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    creator INTEGER(11) DEFAULT NULL,
+    creator INTEGER DEFAULT NULL,
     modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    modifier INTEGER(11) DEFAULT NULL,
+    modifier INTEGER DEFAULT NULL,
     project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
 );
@@ -175,15 +175,15 @@ CREATE FULLTEXT INDEX idx_content_search ON content (search);
 
 ALTER TABLE content
     ADD CONSTRAINT con_content_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT con_content_creator FOREIGN KEY (creator) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE,
-    ADD CONSTRAINT con_content_modifier FOREIGN KEY (modifier) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE,
+    ADD CONSTRAINT con_content_creator FOREIGN KEY (creator) REFERENCES account (id) ON DELETE SET NULL ON UPDATE CASCADE,
+    ADD CONSTRAINT con_content_modifier FOREIGN KEY (modifier) REFERENCES account (id) ON DELETE SET NULL ON UPDATE CASCADE,
     ADD CONSTRAINT con_content_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- Value
 DROP TABLE IF EXISTS eav;
 CREATE TABLE eav (
-    content_id INTEGER(11) NOT NULL,
-    attr_id INTEGER(11) NOT NULL,
+    content_id INTEGER NOT NULL,
+    attr_id INTEGER NOT NULL,
     value TEXT NOT NULL,
     PRIMARY KEY (content_id, attr_id)
 );
@@ -202,7 +202,7 @@ ALTER TABLE eav
 -- Menu
 DROP TABLE IF EXISTS menu;
 CREATE TABLE menu (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     uid VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
     system BOOLEAN NOT NULL DEFAULT FALSE,
@@ -227,13 +227,13 @@ VALUES
 -- Node
 DROP TABLE IF EXISTS node;
 CREATE TABLE node (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     target VARCHAR(255) NOT NULL,
-    root_id INTEGER(11) NOT NULL,
-    lft INTEGER(11) NOT NULL,
-    rgt INTEGER(11) NOT NULL,
-    level INTEGER(11) NOT NULL,
+    root_id INTEGER NOT NULL,
+    lft INTEGER NOT NULL,
+    rgt INTEGER NOT NULL,
+    level INTEGER NOT NULL,
     project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
 );
@@ -255,9 +255,9 @@ INSERT INTO node
     (id, name, target, root_id, lft, rgt, level, project_id)
 VALUES
     (1, 'Homepage', '/', 1, 1, 2, 1, 'base'),
-    (2, 'Dashboard', '/user/dashboard', 1, 3, 4, 1, 'base'),
-    (3, 'Profile', '/user/profile', 1, 5, 6, 1, 'base'),
-    (4, 'Logout', '/user/logout', 1, 7, 8, 1, 'base'),
+    (2, 'Dashboard', '/account/dashboard', 1, 3, 4, 1, 'base'),
+    (3, 'Profile', '/account/profile', 1, 5, 6, 1, 'base'),
+    (4, 'Logout', '/account/logout', 1, 7, 8, 1, 'base'),
     (5, 'Content', '', 1, 9, 12, 1, 'base'),
     (6, 'Page', '/page/admin', 1, 10, 11, 2, 'base'),
     (7, 'Structure', '', 1, 13, 22, 1, 'base'),
@@ -267,7 +267,7 @@ VALUES
     (11, 'Attribute', '/attr/admin', 1, 20, 21, 2, 'base'),
     (12, 'System', '', 1, 23, 32, 1, 'base'),
     (13, 'Project', '/project/admin', 1, 24, 25, 2, 'base'),
-    (14, 'User', '/user/admin', 1, 26, 27, 2, 'base'),
+    (14, 'Account', '/account/admin', 1, 26, 27, 2, 'base'),
     (15, 'Role', '/role/admin', 1, 28, 29, 2, 'base'),
     (16, 'URL', '/url/admin', 1, 30, 31, 2, 'base');
 
@@ -276,7 +276,7 @@ VALUES
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS url;
 CREATE TABLE url (
-    id INTEGER(11) NOT NULL AUTO_INCREMENT,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     target VARCHAR(255) NOT NULL,
     redirect BOOLEAN NOT NULL DEFAULT FALSE,

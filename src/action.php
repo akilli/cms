@@ -184,7 +184,7 @@ function action_view(array $entity): void
 function action_denied(): void
 {
     message(_('Access denied'));
-    redirect(url('user/login'));
+    redirect(url('account/login'));
 }
 
 /**
@@ -236,35 +236,35 @@ function action_project_switch(): void
 }
 
 /**
- * User Dashboard Action
+ * Account Dashboard Action
  *
  * @return void
  */
-function action_user_dashboard(): void
+function action_account_dashboard(): void
 {
     layout_load();
     vars('head', ['title' => _('Dashboard')]);
 }
 
 /**
- * User Profile Action
+ * Account Profile Action
  *
  * @return void
  */
-function action_user_profile(): void
+function action_account_profile(): void
 {
-    $user = user();
+    $account = account();
 
-    if (!$user || !registered()) {
+    if (!$account || !registered()) {
         redirect();
     }
 
     if ($item = http_post('data')) {
-        $data = [$user['id'] => array_replace($user, $item)];
-        save('user', $data);
+        $data = [$account['id'] => array_replace($account, $item)];
+        save('account', $data);
     }
 
-    if (!$item = user()) {
+    if (!$item = account()) {
         redirect();
     }
 
@@ -274,22 +274,22 @@ function action_user_profile(): void
 }
 
 /**
- * User Login Action
+ * Account Login Action
  *
  * @return void
  */
-function action_user_login(): void
+function action_account_login(): void
 {
     if (registered()) {
-        redirect(url('user/dashboard'));
+        redirect(url('account/dashboard'));
     }
 
     if ($data = http_post('data')) {
-        if (!empty($data['username']) && !empty($data['password']) && ($item = user_login($data['username'], $data['password']))) {
+        if (!empty($data['username']) && !empty($data['password']) && ($item = account_login($data['username'], $data['password']))) {
             message(_('Welcome %s', $item['name']));
             session_regenerate_id(true);
-            session('user', $item['id']);
-            redirect(url('user/dashboard'));
+            session('account', $item['id']);
+            redirect(url('account/dashboard'));
         }
 
         message(_('Invalid username and password combination'));
@@ -300,11 +300,11 @@ function action_user_login(): void
 }
 
 /**
- * User Logout Action
+ * Account Logout Action
  *
  * @return void
  */
-function action_user_logout(): void
+function action_account_logout(): void
 {
     session_regenerate_id(true);
     session_destroy();

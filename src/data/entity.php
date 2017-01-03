@@ -129,7 +129,7 @@ return [
                 'sort' => -300,
                 'type' => 'select.int',
                 'nullable' => true,
-                'opt' => ['all', ['user']],
+                'opt' => ['all', ['account']],
             ],
             'modified' => [
                 'name' => 'Modified',
@@ -143,7 +143,7 @@ return [
                 'sort' => -100,
                 'type' => 'select.int',
                 'nullable' => true,
-                'opt' => ['all', ['user']],
+                'opt' => ['all', ['account']],
                 'actions' => ['admin'],
             ],
             'project_id' => [
@@ -408,8 +408,8 @@ return [
             ],
         ],
     ],
-    'user' => [
-        'name' => 'User',
+    'account' => [
+        'name' => 'Account',
         'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
