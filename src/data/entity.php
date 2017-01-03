@@ -174,7 +174,6 @@ return [
             ],
             'created' => [
                 'name' => 'Created',
-                'generator' => 'auto',
                 'sort' => -400,
                 'type' => 'datetime',
             ],
@@ -187,7 +186,6 @@ return [
             ],
             'modified' => [
                 'name' => 'Modified',
-                'generator' => 'auto',
                 'sort' => -200,
                 'type' => 'datetime',
                 'actions' => ['admin'],

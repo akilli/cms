@@ -281,14 +281,14 @@ function editor_int(array $attr, array $item): string
 function editor_datetime(array $attr, array $item): string
 {
     if ($attr['frontend'] === 'date') {
-        $in = 'Y-m-d';
-        $out = 'Y-m-d';
+        $in = BACKEND_DATE;
+        $out = FRONTEND_DATE;
     } elseif ($attr['frontend'] === 'time') {
-        $in = 'H:i:s';
-        $out = 'H:i';
+        $in = BACKEND_TIME;
+        $out = FRONTEND_TIME;
     } else {
-        $in = 'Y-m-d H:i:s';
-        $out = 'Y-m-d\TH:i';
+        $in = BACKEND_DATETIME;
+        $out = FRONTEND_DATETIME;
     }
 
     if ($item[$attr['id']] && ($value = date_format(date_create_from_format($in, $item[$attr['id']]), $out))) {

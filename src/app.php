@@ -6,6 +6,12 @@ use InvalidArgumentException;
 /**
  * Constants
  */
+const BACKEND_DATE = 'Y-m-d';
+const BACKEND_DATETIME = 'Y-m-d H:i:s';
+const BACKEND_TIME = 'H:i:s';
+const FRONTEND_DATE = 'Y-m-d';
+const FRONTEND_DATETIME = 'Y-m-d\TH:i';
+const FRONTEND_TIME = 'H:i';
 const PROJECT = 'base';
 const THEME = 'base';
 const USER = 1;

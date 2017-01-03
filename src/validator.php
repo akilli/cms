@@ -271,14 +271,14 @@ function validator_rte(array $attr, array & $item): bool
 function validator_datetime(array $attr, array & $item): bool
 {
     if ($attr['frontend'] === 'date') {
-        $in = 'Y-m-d';
-        $out = 'Y-m-d';
+        $in = FRONTEND_DATE;
+        $out = BACKEND_DATE;
     } elseif ($attr['frontend'] === 'time') {
-        $in = 'H:i';
-        $out = 'H:i:s';
+        $in = FRONTEND_TIME;
+        $out = BACKEND_TIME;
     } else {
-        $in = 'Y-m-d\TH:i';
-        $out = 'Y-m-d H:i:s';
+        $in = FRONTEND_DATETIME;
+        $out = BACKEND_DATETIME;
     }
 
     if ($item[$attr['id']]) {
