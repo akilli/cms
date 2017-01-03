@@ -206,16 +206,16 @@ function eav_save(array & $item): bool
     }
 
     // Save additional attributes
-    $stmt = db()->prepare('
-        INSERT INTO 
-            eav
-        SET
-            content_id = :content_id,
-            attr_id = :attr_id,
-            value = :value
-        ON DUPLICATE KEY UPDATE
-            value = VALUES(value)
-    ');
+    if (data('db', 'driver') === 'mysql') {
+        $conflict = 'ON DUPLICATE KEY UPDATE value = VALUES(value)';
+    } else {
+        $conflict = 'ON CONFLICT (content_id, attr_id) DO UPDATE SET value = EXCLUDED.value';
+    }
+
+    $stmt = prep(
+        'INSERT INTO eav (content_id, attr_id, value) VALUES (:content_id, :attr_id, :value) %s',
+        $conflict
+    );
 
     foreach ($add as $uid => $attr) {
         if (!array_key_exists($uid, $item)) {
