@@ -4,6 +4,7 @@ namespace qnd;
 use Exception;
 use PDO;
 use PDOStatement;
+use RuntimeException;
 
 /**
  * Database
@@ -61,6 +62,30 @@ function trans(callable $callback): bool
 function prep(string $sql, string ...$args): PDOStatement
 {
     return db()->prepare(vsprintf($sql, $args));
+}
+
+/**
+ * @return string
+ */
+function db_driver(): string
+{
+    return db()->getAttribute(PDO::ATTR_DRIVER_NAME);
+}
+
+/**
+ * @param array $entity
+ *
+ * @return int
+ *
+ * @throws RuntimeException
+ */
+function db_id(array $entity): int
+{
+    if ($entity['attr']['id']['generator'] !== 'auto') {
+        throw new RuntimeException(_('Invalid entity %s', $entity['id']));
+    }
+
+    return (int) db()->lastInsertId(db_driver() === 'pgsql' ? $entity['tab'] . '_id_seq' : null);
 }
 
 /**
@@ -163,7 +188,7 @@ function qv($value, string $backend = null)
  */
 function qi(string $identifier = null): string
 {
-    $char = db()->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql' ? '`' : '"';
+    $char = db_driver() === 'mysql' ? '`' : '"';
 
     return $identifier ? $char . str_replace($char, '', $identifier) . $char : '';
 }
