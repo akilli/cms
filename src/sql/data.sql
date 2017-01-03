@@ -1,5 +1,13 @@
-SET FOREIGN_KEY_CHECKS=0;
 START TRANSACTION;
+
+INSERT INTO project (id, name, host, active, system) VALUES
+('base', 'BASE', NULL, '1', '1');
+
+INSERT INTO role (id, name, privilege, active, system, project_id) VALUES
+(1, 'admin', '[]', '1', '1', 'base');
+
+INSERT INTO user (id, name, username, password, role_id, active, system, project_id) VALUES
+(1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 'base');
 
 INSERT INTO entity (id, name, actions, system, project_id) VALUES
 ('page', 'Page', '["admin", "create", "delete", "edit", "index", "view"]', '1', 'base');
@@ -25,14 +33,4 @@ INSERT INTO node (id, name, target, root_id, lft, rgt, level, project_id) VALUES
 (15, 'Role', '/role/admin', 1, 28, 29, 2, 'base'),
 (16, 'URL', '/url/admin', 1, 30, 31, 2, 'base');
 
-INSERT INTO project (id, name, host, active, system) VALUES
-('base', 'BASE', NULL, '1', '1');
-
-INSERT INTO role (id, name, privilege, active, system, project_id) VALUES
-(1, 'admin', '[]', '1', '1', 'base');
-
-INSERT INTO user (id, name, username, password, role_id, active, system, project_id) VALUES
-(1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, '1', '1', 'base');
-
 COMMIT;
-SET FOREIGN_KEY_CHECKS=1;
