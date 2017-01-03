@@ -140,7 +140,7 @@ function db_type(array $attr, $value): int
 function qv($value, string $backend = null)
 {
     if ($backend === 'bool') {
-        return $value ? '1' : '0';
+        return $value ? 'TRUE' : 'FALSE';
     }
 
     if ($backend === 'int') {
