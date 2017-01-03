@@ -1,0 +1,300 @@
+START TRANSACTION;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Project
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS project;
+CREATE TABLE project (
+    id VARCHAR(100) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    host VARCHAR(255) DEFAULT NULL,
+    theme VARCHAR(100) DEFAULT NULL,
+    active BOOLEAN NOT NULL DEFAULT FALSE,
+    system BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (id),
+    UNIQUE uni_project_host (host)
+);
+
+CREATE INDEX idx_project_name ON project (name);
+CREATE INDEX idx_project_theme ON project (theme);
+CREATE INDEX idx_project_active ON project (active);
+CREATE INDEX idx_project_system ON project (system);
+
+INSERT INTO project
+    (id, name, host, active, system)
+VALUES
+    ('base', 'BASE', NULL, TRUE, TRUE);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Auth
+-- ---------------------------------------------------------------------------------------------------------------------
+
+-- Role
+DROP TABLE IF EXISTS role;
+CREATE TABLE role (
+    id SERIAL,
+    name VARCHAR(255) NOT NULL,
+    privilege JSON NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT FALSE,
+    system BOOLEAN NOT NULL DEFAULT FALSE,
+    project_id VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE uni_role_name (project_id, name)
+);
+
+CREATE INDEX idx_role_name ON role (name);
+CREATE INDEX idx_role_active ON role (active);
+CREATE INDEX idx_role_system ON role (system);
+CREATE INDEX idx_role_project ON role (project_id);
+
+ALTER TABLE role
+    ADD CONSTRAINT con_role_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+INSERT INTO role
+    (id, name, privilege, active, system, project_id)
+VALUES
+    (1, 'admin', '[]', TRUE, TRUE, 'base');
+
+-- User
+DROP TABLE IF EXISTS user;
+CREATE TABLE user (
+    id SERIAL,
+    name VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role_id INTEGER(11) NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT FALSE,
+    system BOOLEAN NOT NULL DEFAULT FALSE,
+    project_id VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE uni_user_name (project_id, name),
+    UNIQUE uni_user_username (username)
+);
+
+CREATE INDEX idx_user_name ON user (name);
+CREATE INDEX idx_user_role ON user (role_id);
+CREATE INDEX idx_user_active ON user (active);
+CREATE INDEX idx_user_system ON user (system);
+CREATE INDEX idx_user_project ON user (project_id);
+
+ALTER TABLE user
+    ADD CONSTRAINT con_user_role FOREIGN KEY (role_id) REFERENCES role (id),
+    ADD CONSTRAINT con_user_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+INSERT INTO user
+    (id, name, username, password, role_id, active, system, project_id)
+VALUES
+    (1, 'Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, TRUE, TRUE, 'base');
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- EAV
+-- ---------------------------------------------------------------------------------------------------------------------
+
+-- Entity
+DROP TABLE IF EXISTS entity;
+CREATE TABLE entity (
+    id VARCHAR(100) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    actions JSON NOT NULL,
+    system BOOLEAN NOT NULL DEFAULT FALSE,
+    project_id VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_entity_name ON entity (name);
+CREATE INDEX idx_entity_system ON entity (system);
+CREATE INDEX idx_entity_project ON entity (project_id);
+
+ALTER TABLE entity
+    ADD CONSTRAINT con_entity_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+INSERT INTO entity
+    (id, name, actions, system, project_id)
+VALUES
+    ('page', 'Page', '["admin", "create", "delete", "edit", "index", "view"]', TRUE, 'base');
+
+-- Attribute
+DROP TABLE IF EXISTS attr;
+CREATE TABLE attr (
+    id SERIAL,
+    entity_id VARCHAR(100) NOT NULL,
+    uid VARCHAR(100) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    sort INTEGER(11) NOT NULL DEFAULT 0,
+    type VARCHAR(100) NOT NULL,
+    required BOOLEAN NOT NULL DEFAULT FALSE,
+    uniq BOOLEAN NOT NULL DEFAULT FALSE,
+    searchable BOOLEAN NOT NULL DEFAULT FALSE,
+    opt JSON NOT NULL,
+    actions JSON NOT NULL,
+    project_id VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE uni_attr_uid (entity_id, uid)
+);
+
+CREATE INDEX idx_attr_entity ON attr (entity_id);
+CREATE INDEX idx_attr_uid ON attr (uid);
+CREATE INDEX idx_attr_name ON attr (name);
+CREATE INDEX idx_attr_type ON attr (type);
+CREATE INDEX idx_attr_sort ON attr (sort);
+CREATE INDEX idx_attr_required ON attr (required);
+CREATE INDEX idx_attr_uniq ON attr (uniq);
+CREATE INDEX idx_attr_searchable ON attr (searchable);
+CREATE INDEX idx_attr_project ON attr (project_id);
+
+ALTER TABLE attr
+    ADD CONSTRAINT con_attr_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT con_attr_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Content
+DROP TABLE IF EXISTS content;
+CREATE TABLE content (
+    id SERIAL,
+    name VARCHAR(255) NOT NULL,
+    entity_id VARCHAR(100) NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT FALSE,
+    content TEXT DEFAULT NULL,
+    search TEXT DEFAULT NULL,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    creator INTEGER(11) DEFAULT NULL,
+    modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    modifier INTEGER(11) DEFAULT NULL,
+    project_id VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_content_name ON content (name);
+CREATE INDEX idx_content_entity ON content (entity_id);
+CREATE INDEX idx_content_active ON content (active);
+CREATE INDEX idx_content_created ON content (created);
+CREATE INDEX idx_content_creator ON content (creator);
+CREATE INDEX idx_content_modified ON content (modified);
+CREATE INDEX idx_content_modifier ON content (modifier);
+CREATE INDEX idx_content_project ON content (project_id);
+CREATE INDEX idx_content_search ON content (search);
+
+ALTER TABLE content
+    ADD CONSTRAINT con_content_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT con_content_creator FOREIGN KEY (creator) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE,
+    ADD CONSTRAINT con_content_modifier FOREIGN KEY (modifier) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE,
+    ADD CONSTRAINT con_content_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Value
+DROP TABLE IF EXISTS eav;
+CREATE TABLE eav (
+    content_id INTEGER(11) NOT NULL,
+    attr_id INTEGER(11) NOT NULL,
+    value TEXT NOT NULL,
+    PRIMARY KEY (content_id, attr_id)
+);
+
+CREATE INDEX idx_eav_content ON eav (content_id);
+CREATE INDEX idx_eav_attr ON eav (attr_id);
+
+ALTER TABLE eav
+    ADD CONSTRAINT con_eav_content FOREIGN KEY (content_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT con_eav_attr FOREIGN KEY (attr_id) REFERENCES attr (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Menu
+-- ---------------------------------------------------------------------------------------------------------------------
+
+-- Menu
+DROP TABLE IF EXISTS menu;
+CREATE TABLE menu (
+    id SERIAL,
+    uid VARCHAR(100) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    system BOOLEAN NOT NULL DEFAULT FALSE,
+    project_id VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE uni_menu_uid (project_id, uid)
+);
+
+CREATE INDEX idx_menu_uid ON menu (uid);
+CREATE INDEX idx_menu_name ON menu (name);
+CREATE INDEX idx_menu_system ON menu (system);
+CREATE INDEX idx_menu_project ON menu (project_id);
+
+ALTER TABLE menu
+    ADD CONSTRAINT con_menu_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+INSERT INTO menu
+    (id, uid, name, system, project_id)
+VALUES
+    (1, 'toolbar', 'Toolbar', TRUE, 'base');
+
+-- Node
+DROP TABLE IF EXISTS node;
+CREATE TABLE node (
+    id SERIAL,
+    name VARCHAR(255) NOT NULL,
+    target VARCHAR(255) NOT NULL,
+    root_id INTEGER(11) NOT NULL,
+    lft INTEGER(11) NOT NULL,
+    rgt INTEGER(11) NOT NULL,
+    level INTEGER(11) NOT NULL,
+    project_id VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_node_name ON node (name);
+CREATE INDEX idx_node_target ON node (target);
+CREATE INDEX idx_node_root ON node (root_id);
+CREATE INDEX idx_node_lft ON node (lft);
+CREATE INDEX idx_node_rgt ON node (rgt);
+CREATE INDEX idx_node_level ON node (level);
+CREATE INDEX idx_node_project ON node (project_id);
+CREATE INDEX idx_node_item ON node (root_id,lft,rgt);
+
+ALTER TABLE node
+    ADD CONSTRAINT con_node_root FOREIGN KEY (root_id) REFERENCES menu (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT con_node_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+INSERT INTO node
+    (id, name, target, root_id, lft, rgt, level, project_id)
+VALUES
+    (1, 'Homepage', '/', 1, 1, 2, 1, 'base'),
+    (2, 'Dashboard', '/user/dashboard', 1, 3, 4, 1, 'base'),
+    (3, 'Profile', '/user/profile', 1, 5, 6, 1, 'base'),
+    (4, 'Logout', '/user/logout', 1, 7, 8, 1, 'base'),
+    (5, 'Content', '', 1, 9, 12, 1, 'base'),
+    (6, 'Page', '/page/admin', 1, 10, 11, 2, 'base'),
+    (7, 'Structure', '', 1, 13, 22, 1, 'base'),
+    (8, 'Menu', '/menu/admin', 1, 14, 15, 2, 'base'),
+    (9, 'Node', '/node/admin', 1, 16, 17, 2, 'base'),
+    (10, 'Entity', '/entity/admin', 1, 18, 19, 2, 'base'),
+    (11, 'Attribute', '/attr/admin', 1, 20, 21, 2, 'base'),
+    (12, 'System', '', 1, 23, 32, 1, 'base'),
+    (13, 'Project', '/project/admin', 1, 24, 25, 2, 'base'),
+    (14, 'User', '/user/admin', 1, 26, 27, 2, 'base'),
+    (15, 'Role', '/role/admin', 1, 28, 29, 2, 'base'),
+    (16, 'URL', '/url/admin', 1, 30, 31, 2, 'base');
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- URL
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS url;
+CREATE TABLE url (
+    id SERIAL,
+    name VARCHAR(255) NOT NULL,
+    target VARCHAR(255) NOT NULL,
+    redirect BOOLEAN NOT NULL DEFAULT FALSE,
+    system BOOLEAN NOT NULL DEFAULT FALSE,
+    project_id VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE uni_url_name (project_id, name)
+);
+
+CREATE INDEX idx_url_name ON url (name);
+CREATE INDEX idx_url_target ON url (target);
+CREATE INDEX idx_url_redirect ON url (redirect);
+CREATE INDEX idx_url_system ON url (system);
+CREATE INDEX idx_url_project ON url (project_id);
+
+ALTER TABLE url
+    ADD CONSTRAINT con_url_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE
+
+-- ---------------------------------------------------------------------------------------------------------------------
+
+COMMIT;
