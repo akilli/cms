@@ -1,3 +1,7 @@
+START TRANSACTION;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+
 INSERT INTO
     project
     (id, name, host, active, system)
@@ -21,3 +25,7 @@ INSERT INTO
     (id, name, actions, system, project_id)
 VALUES
     ('page', 'Page', '["admin", "create", "delete", "edit", "index", "view"]', TRUE, 'base');
+
+-- ---------------------------------------------------------------------------------------------------------------------
+
+COMMIT;
