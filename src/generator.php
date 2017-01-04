@@ -2,30 +2,6 @@
 namespace qnd;
 
 /**
- * Generates a unique id for given base id
- *
- * @param string $needle
- * @param array $haystack
- * @param int|string $id
- *
- * @return string
- */
-function generator_id(string $needle, array $haystack, $id): string
-{
-    $needle = trim(preg_replace(['#/#', '#[-]+#i'], '-', filter_id($needle)), '-_');
-
-    if (array_search($needle, $haystack) === $id || !in_array($needle, $haystack)) {
-        return $needle;
-    }
-
-    $needle .= '-';
-
-    for ($i = 1; in_array($needle . $i, $haystack) && array_search($needle . $i, $haystack) !== $id; $i++);
-
-    return $needle . $i;
-}
-
-/**
  * Generates a unique URL for given base id
  *
  * @param string $needle
