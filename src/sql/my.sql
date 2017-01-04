@@ -145,7 +145,7 @@ CREATE INDEX idx_content_creator ON content (creator);
 CREATE INDEX idx_content_modified ON content (modified);
 CREATE INDEX idx_content_modifier ON content (modifier);
 CREATE INDEX idx_content_project ON content (project_id);
-CREATE FULLTEXT INDEX idx_content_search ON content (search);
+CREATE INDEX idx_content_search ON content (search);
 
 ALTER TABLE content
     ADD CONSTRAINT con_content_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
