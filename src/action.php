@@ -255,10 +255,6 @@ function action_account_profile(): void
 {
     $account = account();
 
-    if (!$account || !registered()) {
-        redirect();
-    }
-
     if ($item = http_post('data')) {
         $data = [$account['id'] => array_replace($account, $item)];
         save('account', $data);
