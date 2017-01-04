@@ -91,6 +91,7 @@ function path(string $dir, string $id = null): string
         $data['i18n'] = __DIR__ . '/i18n';
         $data['lib'] = $public . '/lib';
         $data['log'] = $root . '/var/log';
+        $data['sql'] = __DIR__ . '/sql';
         $data['template'] = __DIR__ . '/template';
         $data['theme'] = $public . '/theme';
         $data['tmp'] = $root . '/var/tmp';
