@@ -21,8 +21,6 @@ CREATE INDEX idx_project_system ON project (system);
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Auth
 -- ---------------------------------------------------------------------------------------------------------------------
-
--- Role
 DROP TABLE IF EXISTS role;
 CREATE TABLE role (
     id SERIAL,
@@ -43,7 +41,7 @@ CREATE INDEX idx_role_project ON role (project_id);
 ALTER TABLE role
     ADD CONSTRAINT con_role_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- Account
+-- -----------------------------------------------------------
 DROP TABLE IF EXISTS account;
 CREATE TABLE account (
     id SERIAL,
@@ -72,8 +70,6 @@ ALTER TABLE account
 -- ---------------------------------------------------------------------------------------------------------------------
 -- EAV
 -- ---------------------------------------------------------------------------------------------------------------------
-
--- Entity
 DROP TABLE IF EXISTS entity;
 CREATE TABLE entity (
     id VARCHAR(100) NOT NULL,
@@ -91,7 +87,7 @@ CREATE INDEX idx_entity_project ON entity (project_id);
 ALTER TABLE entity
     ADD CONSTRAINT con_entity_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- Attribute
+-- -----------------------------------------------------------
 DROP TABLE IF EXISTS attr;
 CREATE TABLE attr (
     id SERIAL,
@@ -124,7 +120,7 @@ ALTER TABLE attr
     ADD CONSTRAINT con_attr_entity FOREIGN KEY (entity_id) REFERENCES entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT con_attr_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- Content
+-- -----------------------------------------------------------
 DROP TABLE IF EXISTS content;
 CREATE TABLE content (
     id SERIAL,
@@ -157,7 +153,7 @@ ALTER TABLE content
     ADD CONSTRAINT con_content_modifier FOREIGN KEY (modifier) REFERENCES account (id) ON DELETE SET NULL ON UPDATE CASCADE,
     ADD CONSTRAINT con_content_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- Value
+-- -----------------------------------------------------------
 DROP TABLE IF EXISTS eav;
 CREATE TABLE eav (
     content_id INTEGER NOT NULL,
@@ -176,8 +172,6 @@ ALTER TABLE eav
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Menu
 -- ---------------------------------------------------------------------------------------------------------------------
-
--- Menu
 DROP TABLE IF EXISTS menu;
 CREATE TABLE menu (
     id SERIAL,
@@ -197,7 +191,7 @@ CREATE INDEX idx_menu_project ON menu (project_id);
 ALTER TABLE menu
     ADD CONSTRAINT con_menu_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- Node
+-- -----------------------------------------------------------
 DROP TABLE IF EXISTS node;
 CREATE TABLE node (
     id SERIAL,
