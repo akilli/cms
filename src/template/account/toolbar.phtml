@@ -12,5 +12,26 @@
         <input type="hidden" name="token" value="<?= token();?>" />
     </form>
     <?php endif;?>
-    <?= §('toolbar.nav');?>
+    <?php if ($data = data('toolbar')):?>
+    <ul>
+        <?php foreach ($data as $item):?>
+        <li>
+            <?php if ($item['url']):?>
+            <a href="<?=$item['url'];?>"><?=$item['name'];?></a>
+            <?php else:?>
+            <span><?=$item['name'];?></span>
+            <?php endif;?>
+            <?php if (!empty($item['children'])):?>
+            <ul>
+                <?php foreach ($item['children'] as $child):?>
+                <li>
+                    <a href="<?=$child['url'];?>"><?=$child['name'];?></a>
+                </li>
+                <?php endforeach;?>
+            </ul>
+            <?php endif;?>
+        </li>
+        <?php endforeach;?>
+    </ul>
+    <?php endif;?>
 </nav>

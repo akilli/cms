@@ -138,6 +138,23 @@ function listener_data_request(array & $data): void
 }
 
 /**
+ * Toolbar data listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_data_toolbar(array & $data): void
+{
+    $filter = function (array $item) use (& $filter) {
+        $item['children'] = !empty($item['children']) ? array_filter($item['children'], $filter) : [];
+
+        return !$item['url'] && $item['children'] || $item['url'] && allowed(privilege_url($item['url']));
+    };
+    $data = array_filter($data, $filter);
+}
+
+/**
  * Save listener
  *
  * @param array $data

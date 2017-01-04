@@ -125,13 +125,6 @@ return [
         'template' => 'account/toolbar.phtml',
         'parent' => 'top',
     ],
-    [
-        'id' => 'toolbar.nav',
-        'handle' => 'account-registered',
-        'type' => 'node',
-        'parent' => 'toolbar',
-        'vars' => ['crit' => ['uid' => 'toolbar', 'project_id' => PROJECT]],
-    ],
     // account.dashboard
     [
         'id' => 'content',

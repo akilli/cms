@@ -26,6 +26,11 @@ return [
         'event' => 'data.load.request',
         'sort' => -100,
     ],
+    [
+        'id' => 'data_toolbar',
+        'event' => 'data.load.toolbar',
+        'sort' => -100,
+    ],
     // Entity
     [
         'id' => 'save',
