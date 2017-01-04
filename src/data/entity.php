@@ -276,7 +276,7 @@ return [
     ],
     'node' => [
         'name' => 'Node',
-        'model' => 'node',
+        'model' => 'nestedset',
         'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [

@@ -13,7 +13,7 @@ use PDO;
  *
  * @return int
  */
-function node_size(array $entity, array $crit = [], array $opts = []): int
+function nestedset_size(array $entity, array $crit = [], array $opts = []): int
 {
     return flat_size($entity, $crit, $opts);
 }
@@ -27,7 +27,7 @@ function node_size(array $entity, array $crit = [], array $opts = []): int
  *
  * @return array
  */
-function node_load(array $entity, array $crit = [], array $opts = []): array
+function nestedset_load(array $entity, array $crit = [], array $opts = []): array
 {
     $opts['order'] = $opts['order'] ?? ['root_id' => 'asc', 'lft' => 'asc'];
     $data = flat_load($entity, $crit, $opts);
@@ -54,12 +54,12 @@ function node_load(array $entity, array $crit = [], array $opts = []): array
  *
  * @return bool
  */
-function node_create(array & $item): bool
+function nestedset_create(array & $item): bool
 {
     // Position
-    node_position($item);
+    nestedset_position($item);
     // Make space in the new tree
-    node_insert($item);
+    nestedset_insert($item);
 
     // Insert new node
     return flat_create($item);
@@ -72,7 +72,7 @@ function node_create(array & $item): bool
  *
  * @return bool
  */
-function node_save(array & $item): bool
+function nestedset_save(array & $item): bool
 {
     // Update all attributes that are not involved with the tree
     $attrs = $item['_entity']['attr'];
@@ -88,7 +88,7 @@ function node_save(array & $item): bool
     }
 
     // Position
-    node_position($item);
+    nestedset_position($item);
 
     // Move all affected nodes from old tree and update their positions for the new tree without adding them yet
     $stmt = prep(
@@ -109,9 +109,9 @@ function node_save(array & $item): bool
     $stmt->execute();
 
     // Close gap in old tree
-    node_remove($item);
+    nestedset_remove($item);
     // Make space in the new tree
-    node_insert($item);
+    nestedset_insert($item);
 
     // Finally add the affected nodes to new tree
     $stmt = prep(
@@ -139,7 +139,7 @@ function node_save(array & $item): bool
  *
  * @return bool
  */
-function node_delete(array & $item): bool
+function nestedset_delete(array & $item): bool
 {
     $attrs = $item['_entity']['attr'];
 
@@ -155,7 +155,7 @@ function node_delete(array & $item): bool
     $stmt->execute();
 
     // Close gap in old tree
-    node_remove($item);
+    nestedset_remove($item);
 
     return true;
 }
@@ -169,7 +169,7 @@ function node_delete(array & $item): bool
  *
  * @throws LogicException
  */
-function node_position(array & $item): void
+function nestedset_position(array & $item): void
 {
     $attrs = $item['_entity']['attr'];
     $o = $item['_old'] ?? null;
@@ -216,7 +216,7 @@ function node_position(array & $item): void
  *
  * @return void
  */
-function node_insert(array $item): void
+function nestedset_insert(array $item): void
 {
     $attrs = $item['_entity']['attr'];
     $range = $item['rgt'] - $item['lft'] + 1;
@@ -251,7 +251,7 @@ function node_insert(array $item): void
  *
  * @return void
  */
-function node_remove(array $item): void
+function nestedset_remove(array $item): void
 {
     $attrs = $item['_entity']['attr'];
     $range = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
