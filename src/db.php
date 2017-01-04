@@ -117,24 +117,13 @@ function db_id(array $entity): int
  */
 function db_cast(array $attr): string
 {
-    switch ($attr['backend']) {
-        case 'bool':
-            return 'UNSIGNED';
-        case 'date':
-            return 'DATE';
-        case 'datetime':
-            return 'DATETIME';
-        case 'decimal':
-            return 'DECIMAL';
-        case 'int':
-            return 'SIGNED';
-        case 'json':
-            return 'JSON';
-        case 'time':
-            return 'TIME';
+    static $data;
+
+    if ($data === null) {
+        $data = data('backend', data('db', 'driver'));
     }
 
-    return 'CHAR';
+    return $data[$attr['backend']];
 }
 
 /**
