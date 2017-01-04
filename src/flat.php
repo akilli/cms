@@ -75,7 +75,7 @@ function flat_create(array & $item): bool
     $stmt->execute();
 
     // Set DB generated id
-    if ($attrs['id']['generator'] === 'auto') {
+    if ($attrs['id']['auto']) {
         $item['id'] = db_id($item['_entity']);
     }
 

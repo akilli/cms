@@ -6,7 +6,7 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'Id',
-                'generator' => 'auto',
+                'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
             ],
@@ -60,7 +60,7 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'Id',
-                'generator' => 'auto',
+                'auto' => true,
                 'type' => 'int',
             ],
             'entity_id' => [
@@ -133,7 +133,7 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'Id',
-                'generator' => 'auto',
+                'auto' => true,
                 'sort' => -1100,
                 'type' => 'int',
                 'actions' => ['admin'],
@@ -246,7 +246,7 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'Id',
-                'generator' => 'auto',
+                'auto' => true,
                 'type' => 'int',
             ],
             'uid' => [
@@ -281,7 +281,7 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'Id',
-                'generator' => 'auto',
+                'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
             ],
@@ -386,7 +386,7 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'Id',
-                'generator' => 'auto',
+                'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
             ],
@@ -426,7 +426,7 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'Id',
-                'generator' => 'auto',
+                'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
             ],

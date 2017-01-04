@@ -101,7 +101,7 @@ function db_id(array $entity): int
         $seq = data('db', 'driver') === 'pgsql';
     }
 
-    if ($entity['attr']['id']['generator'] !== 'auto') {
+    if (!$entity['attr']['id']['auto']) {
         throw new RuntimeException(_('Invalid entity %s', $entity['id']));
     }
 
@@ -219,7 +219,7 @@ function cols(array $attrs, array $item): array
     $data = [];
 
     foreach ($item as $uid => $val) {
-        if (empty($attrs[$uid]['col']) || $attrs[$uid]['generator'] === 'auto') {
+        if (empty($attrs[$uid]['col']) || $attrs[$uid]['auto']) {
             continue;
         }
 

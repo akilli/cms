@@ -5,7 +5,7 @@ return [
         'name' => null,
         'col' => null,
         'virtual' => false,
-        'generator' => null,
+        'auto' => false,
         'entity_id' => null,
         'sort' => null,
         'type' => null,
