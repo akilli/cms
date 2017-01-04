@@ -15,14 +15,14 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
+                'actions' => ['admin', 'edit'],
             ],
             'username' => [
                 'name' => 'Username',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
+                'actions' => ['admin', 'edit'],
             ],
             'password' => [
                 'name' => 'Password',
@@ -80,7 +80,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
+                'actions' => ['admin', 'edit'],
             ],
             'sort' => [
                 'name' => 'Sort',
@@ -220,7 +220,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
+                'actions' => ['admin', 'edit'],
             ],
             'actions' => [
                 'name' => 'Actions',
@@ -260,7 +260,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
+                'actions' => ['admin', 'edit'],
             ],
             'system' => [
                 'name' => 'System',
@@ -289,7 +289,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
+                'actions' => ['admin', 'edit'],
             ],
             'target' => [
                 'name' => 'Target',
@@ -352,7 +352,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
+                'actions' => ['admin', 'edit'],
             ],
             'host' => [
                 'name' => 'Host',
@@ -395,7 +395,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
+                'actions' => ['admin', 'edit'],
             ],
             'privilege' => [
                 'name' => 'Privileges',
@@ -435,7 +435,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
+                'actions' => ['admin', 'edit'],
             ],
             'target' => [
                 'name' => 'Target',
