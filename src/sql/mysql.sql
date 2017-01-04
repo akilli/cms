@@ -1,7 +1,6 @@
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Project
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS project;
 CREATE TABLE project (
     id VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
@@ -21,9 +20,8 @@ CREATE INDEX idx_project_system ON project (system);
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Auth
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS role;
 CREATE TABLE role (
-    id SERIAL,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     privilege JSON NOT NULL,
     active BOOLEAN NOT NULL DEFAULT FALSE,
@@ -42,9 +40,8 @@ ALTER TABLE role
     ADD CONSTRAINT con_role_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- -----------------------------------------------------------
-DROP TABLE IF EXISTS account;
 CREATE TABLE account (
-    id SERIAL,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -70,7 +67,6 @@ ALTER TABLE account
 -- ---------------------------------------------------------------------------------------------------------------------
 -- EAV
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS entity;
 CREATE TABLE entity (
     id VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
@@ -88,9 +84,8 @@ ALTER TABLE entity
     ADD CONSTRAINT con_entity_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- -----------------------------------------------------------
-DROP TABLE IF EXISTS attr;
 CREATE TABLE attr (
-    id SERIAL,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     entity_id VARCHAR(100) NOT NULL,
     uid VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
@@ -121,17 +116,16 @@ ALTER TABLE attr
     ADD CONSTRAINT con_attr_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- -----------------------------------------------------------
-DROP TABLE IF EXISTS content;
 CREATE TABLE content (
-    id SERIAL,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     entity_id VARCHAR(100) NOT NULL,
     active BOOLEAN NOT NULL DEFAULT FALSE,
     content TEXT DEFAULT NULL,
     search TEXT DEFAULT NULL,
-    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     creator INTEGER DEFAULT NULL,
-    modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modifier INTEGER DEFAULT NULL,
     project_id VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
@@ -154,7 +148,6 @@ ALTER TABLE content
     ADD CONSTRAINT con_content_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- -----------------------------------------------------------
-DROP TABLE IF EXISTS eav;
 CREATE TABLE eav (
     content_id INTEGER NOT NULL,
     attr_id INTEGER NOT NULL,
@@ -172,9 +165,8 @@ ALTER TABLE eav
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Menu
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS menu;
 CREATE TABLE menu (
-    id SERIAL,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     uid VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
     system BOOLEAN NOT NULL DEFAULT FALSE,
@@ -192,9 +184,8 @@ ALTER TABLE menu
     ADD CONSTRAINT con_menu_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- -----------------------------------------------------------
-DROP TABLE IF EXISTS node;
 CREATE TABLE node (
-    id SERIAL,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     target VARCHAR(255) NOT NULL,
     root_id INTEGER NOT NULL,
@@ -221,9 +212,8 @@ ALTER TABLE node
 -- ---------------------------------------------------------------------------------------------------------------------
 -- URL
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS url;
 CREATE TABLE url (
-    id SERIAL,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     target VARCHAR(255) NOT NULL,
     redirect BOOLEAN NOT NULL DEFAULT FALSE,
