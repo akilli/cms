@@ -87,7 +87,7 @@ function allowed(string $key = null): bool
 
     return empty($data[$key]['active'])
         || !empty($data[$key]['callback']) && $data[$key]['callback']()
-        || array_intersect([PRIVILEGE, $key], account('privilege'));
+        || array_intersect([PRIVILEGE, $key], account('privilege') ?? []);
 }
 
 /**
