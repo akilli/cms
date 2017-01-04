@@ -37,6 +37,15 @@ function db(): PDO
 }
 
 /**
+ * @return void
+ */
+function db_setup(): void
+{
+    db()->exec(file_get_contents(path('sql', data('db', 'driver') . '.sql')));
+    db()->exec(file_get_contents(path('sql', 'data.sql')));
+}
+
+/**
  * Transaction
  *
  * @param callable $callback
