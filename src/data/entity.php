@@ -117,7 +117,7 @@ return [
             'actions' => [
                 'name' => 'Actions',
                 'type' => 'multicheckbox',
-                'opt' => ['data', ['action', 'attr']],
+                'opt' => [['admin' => 'admin', 'edit' => 'edit', 'index' => 'index', 'view' => 'view']],
                 'actions' => ['admin', 'edit'],
             ],
             'project_id' => [
@@ -225,7 +225,7 @@ return [
             'actions' => [
                 'name' => 'Actions',
                 'type' => 'multicheckbox',
-                'opt' => ['data', ['action', 'entity']],
+                'opt' => [['admin' => 'admin', 'create' => 'create', 'delete' => 'delete', 'edit' => 'edit', 'index' => 'index', 'view' => 'view']],
                 'actions' => ['admin', 'edit'],
             ],
             'system' => [
