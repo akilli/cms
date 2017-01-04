@@ -69,16 +69,6 @@ function registered(): bool
 }
 
 /**
- * Is admin
- *
- * @return bool
- */
-function admin(): bool
-{
-    return account('id') === USER;
-}
-
-/**
  * Check access
  *
  * @param string $key
@@ -95,12 +85,9 @@ function allowed(string $key = null): bool
         return false;
     }
 
-    $privileges = account('privilege');
-
     return empty($data[$key]['active'])
-        || admin()
         || !empty($data[$key]['callback']) && $data[$key]['callback']()
-        || $privileges && in_array($key, $privileges);
+        || array_intersect([PRIVILEGE, $key], account('privilege'));
 }
 
 /**

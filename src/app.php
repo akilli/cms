@@ -12,9 +12,9 @@ const BACKEND_TIME = 'H:i:s';
 const FRONTEND_DATE = 'Y-m-d';
 const FRONTEND_DATETIME = 'Y-m-d\TH:i';
 const FRONTEND_TIME = 'H:i';
+const PRIVILEGE = '_all_';
 const PROJECT = 'base';
 const THEME = 'base';
-const USER = 1;
 
 /**
  * Runs application

@@ -1,5 +1,9 @@
 <?php
 return [
+    '_all_' => [
+        'name' => 'ALL PRIVILEGES',
+        'active' => true,
+    ],
     'account.dashboard' => [
         'name' => 'Account Dashboard',
         'callback' => 'registered',
