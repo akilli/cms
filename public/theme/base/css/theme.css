@@ -16,7 +16,6 @@ html {
 }
 
 body {
-    display: flex;
     min-height: 100%;
     line-height: 1.5;
     font-family: Ubuntu, sans-serif;
@@ -38,7 +37,7 @@ h3 {
 
 /* Group */
 main {
-    flex: 2 0;
+    display: flex;
     padding: 1rem;
 }
 
@@ -329,6 +328,10 @@ option[data-level='5'] {
 /**
  * Main
  */
+#content {
+    flex: 2 0;
+}
+
 #content > h1 {
     margin: 0 0 1rem;
     font-size: 2rem;
@@ -360,6 +363,7 @@ option[data-level='5'] {
  * Login
  */
 html[data-entity=account][data-action=login] body {
+    display: flex;
     justify-content: center;
     align-items: center;
     color: #fff;
@@ -368,4 +372,57 @@ html[data-entity=account][data-action=login] body {
 
 html[data-entity=account][data-action=login] main {
     flex: 0 0;
+}
+
+/**
+ * Toolbar
+ */
+#toolbar {
+    color: #fff;
+    background: #231f20;
+}
+
+#toolbar form {
+    display: inline-block;
+}
+
+#toolbar > ul {
+    display: inline-block;
+}
+
+#toolbar li {
+    display: inline-block;
+}
+
+#toolbar > ul > li {
+    margin: 0 1rem;
+    padding: 1rem 0;
+}
+
+#toolbar li ul {
+    position: absolute;
+    left: auto;
+    top: auto;
+    z-index: 10;
+    display: none;
+    background: #231f20;
+}
+
+#toolbar li:hover ul {
+    display: block;
+}
+
+#toolbar li li {
+    margin: 0 1rem;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    border-bottom: thin dashed #000;
+}
+
+#toolbar ul a {
+    color: #fff;
+}
+
+#toolbar ul span {
+    cursor: s-resize;
 }

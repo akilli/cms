@@ -124,7 +124,6 @@ return [
     'Structure' => 'Struktur',
     'Successfully deleted %s' => '%s erfolgreich gelöscht',
     'Successfully saved %s' => '%s erfolgreich gespeichert',
-    'Switch' => 'Wechseln',
     'System' => 'System',
     'Target' => 'Ziel',
     'Text' => 'Text',

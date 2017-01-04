@@ -2,13 +2,12 @@
 <nav id="<?=$§('§')['as'];?>">
     <?php if (allowed('project.switch')):?>
     <form id="toolbar-project" action="<?= url('project/switch');?>" method="post">
-        <label for="toolbar-project-id"><?= _('Project');?></label>
-        <select id="toolbar-project-id" name="id">
+        <label for="toolbar-project-id" class="inline"><?= _('Project');?></label>
+        <select id="toolbar-project-id" name="id" onchange="submit()">
             <?php foreach (all('project', ['active' => true]) as $project):?>
             <option value="<?= $project['id'];?>" <?php if (project('id') === $project['id']):?> selected="selected"<?php endif;?>><?= $project['name'];?></option>
             <?php endforeach;?>
         </select>
-        <input type="submit" value="<?= _('Switch');?>" />
         <input type="hidden" name="token" value="<?= token();?>" />
     </form>
     <?php endif;?>
