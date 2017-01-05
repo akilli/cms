@@ -39,12 +39,12 @@ return [
             ],
             'active' => [
                 'name' => 'Active',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['admin', 'edit'],
             ],
             'system' => [
                 'name' => 'System',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['admin'],
             ],
             'project_id' => [
@@ -96,17 +96,17 @@ return [
             ],
             'required' => [
                 'name' => 'Required',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['edit'],
             ],
             'uniq' => [
                 'name' => 'Unique',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['edit'],
             ],
             'searchable' => [
                 'name' => 'Searchable',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['edit'],
             ],
             'opt' => [
@@ -155,7 +155,7 @@ return [
             'active' => [
                 'name' => 'Active',
                 'sort' => -800,
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['admin', 'edit'],
             ],
             'content' => [
@@ -230,7 +230,7 @@ return [
             ],
             'system' => [
                 'name' => 'System',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['admin'],
             ],
             'project_id' => [
@@ -264,7 +264,7 @@ return [
             ],
             'system' => [
                 'name' => 'System',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['admin'],
             ],
             'project_id' => [
@@ -370,12 +370,12 @@ return [
             ],
             'active' => [
                 'name' => 'Active',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['admin', 'edit'],
             ],
             'system' => [
                 'name' => 'System',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['admin'],
             ],
         ],
@@ -405,12 +405,12 @@ return [
             ],
             'active' => [
                 'name' => 'Active',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['admin', 'edit'],
             ],
             'system' => [
                 'name' => 'System',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['admin'],
             ],
             'project_id' => [
@@ -445,12 +445,12 @@ return [
             ],
             'redirect' => [
                 'name' => 'Redirect',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['admin', 'edit'],
             ],
             'system' => [
                 'name' => 'System',
-                'type' => 'checkbox.bool',
+                'type' => 'checkbox',
                 'actions' => ['admin'],
             ],
             'project_id' => [

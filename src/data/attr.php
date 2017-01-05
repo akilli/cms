@@ -102,19 +102,9 @@ return [
         'frontend' => 'textarea',
     ],
     // Checkbox
-    'checkbox.bool' => [
-        'name' => 'Checkbox (Boolean)',
+    'checkbox' => [
+        'name' => 'Checkbox',
         'backend' => 'bool',
-        'frontend' => 'checkbox',
-    ],
-    'checkbox.int' => [
-        'name' => 'Checkbox (Integer)',
-        'backend' => 'int',
-        'frontend' => 'checkbox',
-    ],
-    'checkbox.varchar' => [
-        'name' => 'Checkbox (Varchar)',
-        'backend' => 'varchar',
         'frontend' => 'checkbox',
     ],
     'multicheckbox' => [
