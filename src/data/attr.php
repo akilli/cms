@@ -85,11 +85,6 @@ return [
         'frontend' => 'file',
     ],
     // Textarea
-    'index' => [
-        'name' => 'Search Index',
-        'backend' => 'text',
-        'frontend' => 'textarea',
-    ],
     'json' => [
         'name' => 'JSON',
         'backend' => 'json',

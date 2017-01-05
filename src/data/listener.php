@@ -43,6 +43,11 @@ return [
         'sort' => -100,
     ],
     [
+        'id' => 'eav_save',
+        'event' => 'model.preSave.eav',
+        'sort' => -100,
+    ],
+    [
         'id' => 'entity_save',
         'event' => 'entity.postSave.entity',
         'sort' => -100,

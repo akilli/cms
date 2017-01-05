@@ -169,7 +169,7 @@ return [
             'search' => [
                 'name' => 'Search Index',
                 'sort' => -600,
-                'type' => 'index',
+                'type' => 'textarea',
                 'nullable' => true,
             ],
             'created' => [

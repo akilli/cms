@@ -188,6 +188,25 @@ function listener_delete(array & $data): void
     delete('url', ['target' => sprintf('%s%s/view/%s', url(), $data['_entity']['id'], $data['id'])], ['system' => true]);
 }
 
+
+/**
+ * EAV save listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_eav_save(array & $data): void
+{
+    $data['search'] = '';
+
+    foreach ($data['_entity']['attr'] as $a) {
+        if ($a['searchable']) {
+            $data['search'] .= ' ' . str_replace("\n", '', strip_tags($data[$a['id']]));
+        }
+    }
+}
+
 /**
  * Entity save listener
  *

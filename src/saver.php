@@ -81,24 +81,3 @@ function saver_file(array $attr, array & $item): bool
 
     return true;
 }
-
-/**
- * Index saver
- *
- * @param array $attr
- * @param array $item
- *
- * @return bool
- */
-function saver_index(array $attr, array & $item): bool
-{
-    $item[$attr['id']] = '';
-
-    foreach ($item['_entity']['attr'] as $a) {
-        if ($a['searchable']) {
-            $item[$attr['id']] .= ' ' . str_replace("\n", '', strip_tags($item[$a['id']]));
-        }
-    }
-
-    return true;
-}
