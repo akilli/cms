@@ -204,7 +204,7 @@ function http_files_convert(array $data): array
         } else {
             $files[$id]['ext'] = pathinfo($item['name'], PATHINFO_EXTENSION);
 
-            if (empty($exts[$files[$id]['ext']])) {
+            if (!in_array($files[$id]['ext'], $exts)) {
                 message(_('Invalid file %s', $item['name']));
                 unset($files[$id]);
             }

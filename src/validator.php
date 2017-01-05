@@ -308,7 +308,7 @@ function validator_file(array $attr, array & $item): bool
     $file = http_files('data')[$item['_id']][$attr['id']] ?? null;
 
     // Invalid file
-    if ($file  && empty(data('ext', $attr['type'])[$file['ext']])) {
+    if ($file  && !in_array($file['ext'], data('ext', $attr['type']))) {
         $item['_error'][$attr['id']] = _('Invalid file %s', $file);
         return false;
     }
