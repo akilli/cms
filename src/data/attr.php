@@ -115,18 +115,8 @@ return [
         'val' => [],
     ],
     // Radio
-    'radio.bool' => [
-        'name' => 'Radio (Boolean)',
-        'backend' => 'bool',
-        'frontend' => 'radio',
-    ],
-    'radio.int' => [
-        'name' => 'Radio (Integer)',
-        'backend' => 'int',
-        'frontend' => 'radio',
-    ],
-    'radio.varchar' => [
-        'name' => 'Radio (Varchar)',
+    'radio' => [
+        'name' => 'Radio',
         'backend' => 'varchar',
         'frontend' => 'radio',
     ],
