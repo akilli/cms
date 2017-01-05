@@ -121,18 +121,8 @@ return [
         'frontend' => 'radio',
     ],
     // Select
-    'select.bool' => [
-        'name' => 'Select (Boolean)',
-        'backend' => 'bool',
-        'frontend' => 'select',
-    ],
-    'select.int' => [
-        'name' => 'Select (Integer)',
-        'backend' => 'int',
-        'frontend' => 'select',
-    ],
-    'select.varchar' => [
-        'name' => 'Select (Varchar)',
+    'select' => [
+        'name' => 'Select',
         'backend' => 'varchar',
         'frontend' => 'select',
     ],

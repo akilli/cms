@@ -32,7 +32,8 @@ return [
             ],
             'role_id' => [
                 'name' => 'Role',
-                'type' => 'select.int',
+                'type' => 'select',
+                'backend' => 'int',
                 'required' => true,
                 'opt' => ['all', ['role']],
                 'actions' => ['admin', 'edit'],
@@ -49,7 +50,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -65,7 +66,7 @@ return [
             ],
             'entity_id' => [
                 'name' => 'Entity',
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'required' => true,
                 'opt' => ['all', ['entity']],
                 'actions' => ['admin', 'edit'],
@@ -89,7 +90,7 @@ return [
             ],
             'type' => [
                 'name' => 'Type',
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'required' => true,
                 'opt' => ['data', ['attr']],
                 'actions' => ['admin', 'edit'],
@@ -122,7 +123,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -149,7 +150,7 @@ return [
             'entity_id' => [
                 'name' => 'Entity',
                 'sort' => -900,
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'opt' => ['all', ['entity']],
             ],
             'active' => [
@@ -180,7 +181,8 @@ return [
             'creator' => [
                 'name' => 'Creator',
                 'sort' => -300,
-                'type' => 'select.int',
+                'type' => 'select',
+                'backend' => 'int',
                 'nullable' => true,
                 'opt' => ['all', ['account']],
             ],
@@ -193,14 +195,15 @@ return [
             'modifier' => [
                 'name' => 'Modifier',
                 'sort' => -100,
-                'type' => 'select.int',
+                'type' => 'select',
+                'backend' => 'int',
                 'nullable' => true,
                 'opt' => ['all', ['account']],
                 'actions' => ['admin'],
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -235,7 +238,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -269,7 +272,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -298,7 +301,8 @@ return [
             ],
             'root_id' => [
                 'name' => 'Menu',
-                'type' => 'select.int',
+                'type' => 'select',
+                'backend' => 'int',
                 'opt' => ['all', ['menu']],
                 'actions' => ['admin'],
             ],
@@ -318,21 +322,21 @@ return [
             'mode' => [
                 'name' => 'Mode',
                 'virtual' => true,
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'opt' => [['after' => 'After', 'before' => 'Before', 'child' => 'Child']],
                 'actions' => ['edit'],
             ],
             'position' => [
                 'name' => 'Position',
                 'virtual' => true,
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'required' => true,
                 'opt' => ['opt_position'],
                 'actions' => ['edit'],
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -363,7 +367,7 @@ return [
             ],
             'theme' => [
                 'name' => 'Theme',
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'nullable' => true,
                 'opt' => ['opt_theme'],
                 'actions' => ['admin', 'edit'],
@@ -415,7 +419,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'opt' => ['all', ['project']],
             ],
         ],
@@ -455,7 +459,7 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select.varchar',
+                'type' => 'select',
                 'opt' => ['all', ['project']],
             ],
         ],
