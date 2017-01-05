@@ -60,7 +60,7 @@ function listener_data_entity(array & $data): void
 function listener_data_ext(array & $data): void
 {
     // Add allowed media extensions to allowed file extensions
-    $data['file'] += $data['audio'] + $data['embed'] + $data['image'] + $data['video'];
+    $data['file'] = array_merge($data['file'], $data['audio'], $data['embed'], $data['image'], $data['video']);
 }
 
 /**
