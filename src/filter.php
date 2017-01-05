@@ -38,18 +38,6 @@ function filter_html(string $string): string
 }
 
 /**
- * Converts backslashes to forward slashes in Windows-style paths
- *
- * @param string $path
- *
- * @return string
- */
-function filter_path(string $path): string
-{
-    return strpos($path, '\\') !== false ? str_replace('\\', '/', $path) : $path;
-}
-
-/**
  * Identifier
  *
  * @param string $id

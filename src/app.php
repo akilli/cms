@@ -84,8 +84,8 @@ function path(string $dir, string $id = null): string
 
     if ($data === null) {
         $data = [];
-        $root = filter_path(realpath(__DIR__ . '/..'));
-        $public = filter_path(realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
+        $root = realpath(__DIR__ . '/..');
+        $public = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
         $data['asset'] = $public . '/asset';
         $data['data'] = __DIR__ . '/data';
         $data['i18n'] = __DIR__ . '/i18n';

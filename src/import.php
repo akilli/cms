@@ -222,7 +222,7 @@ function import_odt(string $file): string
  */
 function import_link(string $url): string
 {
-    $parts = explode('/', filter_path($url));
+    $parts = explode('/', $url);
     $base = array_pop($parts);
     $dir = $parts ? array_pop($parts) : '';
 
