@@ -119,14 +119,14 @@ function all(string $eId, array $crit = [], array $opts = []): array
 function save(string $eId, array & $data): bool
 {
     $original = all($eId, ['id' => array_keys($data)]);
-    $skeleton = entity($eId);
+    $default = entity($eId);
     $editable = entity($eId, null, true);
     $success = [];
     $error = [];
 
     foreach ($data as $id => & $item) {
         $item['_id'] = $id;
-        $base = empty($original[$id]) ? $skeleton : $original[$id];
+        $base = empty($original[$id]) ? $default : $original[$id];
         $item = array_replace($base, $editable, $item);
         $callback = fqn($item['_entity']['model'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
 

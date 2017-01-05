@@ -183,7 +183,7 @@ function data_entity(array $data): array
         }
     }
 
-    $data = array_replace_recursive(data('skeleton', 'entity'), $data);
+    $data = array_replace_recursive(data('default', 'entity'), $data);
      // Set table name from Id if it is not set already
     $data['tab'] = $data['tab'] ?: $data['id'];
     // Attributes
@@ -235,7 +235,7 @@ function data_attr(array $data): array
         throw new RuntimeException(_('Invalid type %s configured for attribute %s', $data['type'], $data['id']));
     }
 
-    $data = array_replace(data('skeleton', 'attr'), $type, $data);
+    $data = array_replace(data('default', 'attr'), $type, $data);
 
     // Column
     if (!empty($data['virtual'])) {
