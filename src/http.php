@@ -187,7 +187,7 @@ function http_files_convert(array $data): array
     }
 
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
-    $exts = data('ext', 'file');
+    $exts = data('file');
 
     foreach ($files as $id => $item) {
         if (!is_array($item)) {
@@ -204,7 +204,7 @@ function http_files_convert(array $data): array
         } else {
             $files[$id]['ext'] = pathinfo($item['name'], PATHINFO_EXTENSION);
 
-            if (!in_array($files[$id]['ext'], $exts)) {
+            if (empty($exts[$files[$id]['ext']])) {
                 message(_('Invalid file %s', $item['name']));
                 unset($files[$id]);
             }

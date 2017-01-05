@@ -7,11 +7,6 @@ return [
         'sort' => -100,
     ],
     [
-        'id' => 'data_ext',
-        'event' => 'data.load.ext',
-        'sort' => -100,
-    ],
-    [
         'id' => 'data_i18n',
         'event' => 'data.load.i18n',
         'sort' => -100,
