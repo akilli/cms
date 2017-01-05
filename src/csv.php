@@ -2,18 +2,6 @@
 namespace qnd;
 
 /**
- * CSV default options
- */
-const CSV_OPTS = [
-    'delimiter' => ';',
-    'enclosure' => '"',
-    'escape' => '\\',
-    'single_item' => false,
-    'first_row_as_keys' => false,
-    'keys' => [],
-];
-
-/**
  * Serializes an array to CSV
  *
  * @param array $data
@@ -23,7 +11,7 @@ const CSV_OPTS = [
  */
 function csv_serialize(array $data, array $opts = []): string
 {
-    $opts = array_replace(CSV_OPTS, $opts);
+    $opts = array_replace(data('csv'), $opts);
     $handle = fopen('php://memory', 'r+');
     $i = 0;
 
@@ -54,7 +42,7 @@ function csv_serialize(array $data, array $opts = []): string
  */
 function csv_unserialize(string $src, array $opts = []): array
 {
-    $opts = array_replace(CSV_OPTS, $opts);
+    $opts = array_replace(data('csv'), $opts);
 
     if (!$rows = str_getcsv($src, "\n")) {
         return [];
