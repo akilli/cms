@@ -124,7 +124,6 @@ function nestedset_save(array & $item): bool
         $attrs['rgt']['col'],
         $attrs['level']['col']
     );
-    $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
     $stmt->bindValue(':root_id', $item['root_id'], db_type($attrs['root_id'], $item['root_id']));
     $stmt->bindValue(':level', $item['level'] - $item['_old']['level'], PDO::PARAM_INT);
     $stmt->execute();
