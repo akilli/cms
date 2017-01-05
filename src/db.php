@@ -283,48 +283,7 @@ function from(string $tab, string $as = null): string
  */
 function where(array $crit, array $attrs, array $opts = []): string
 {
-    $cols = [];
-    $as = !empty($opts['as']) ? $opts['as'] . '.' : '';
-
-    foreach ($crit as $id => $value) {
-        if (empty($attrs[$id]['col'])) {
-            continue;
-        }
-
-        $pre = strpos($attrs[$id]['col'], '.') !== false ? '' : $as;
-
-        if ($attrs[$id]['nullable'] && $value === null) {
-            $cols[$id] = '(' . $pre . $attrs[$id]['col'] . ' IS NULL)';
-            continue;
-        }
-
-        $op = !empty($opts['search']) && in_array($attrs[$id]['backend'], ['varchar', 'text']) ? 'LIKE' : '=';
-        $r = [];
-
-        foreach ((array) $value as $v) {
-            if ($op === 'LIKE') {
-                $v = '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
-            }
-
-            $r[] = $pre . $attrs[$id]['col'] . ' ' . $op . ' ' . qv($v, $attrs[$id]['backend']);
-        }
-
-        $cols[$id] = '(' . implode(' OR ', $r) . ')';
-    }
-
-    return $cols ? ' WHERE ' . implode(' AND ', $cols) : '';
-}
-
-/**
- * GROUP BY part
- *
- * @param string[] $cols
- *
- * @return string
- */
-function group(array $cols): string
-{
-    return $cols ? ' GROUP BY ' . implode(', ' , $cols) : '';
+    return db_crit($crit, $attrs, $opts);
 }
 
 /**
@@ -338,15 +297,38 @@ function group(array $cols): string
  */
 function having(array $crit, array $attrs, array $opts = []): string
 {
+    return db_crit($crit, $attrs, $opts, true);
+}
+
+/**
+ * Internal WHERE and HAVING function
+ *
+ * @param array $crit
+ * @param array $attrs
+ * @param array $opts
+ * @param bool $having
+ *
+ * @return string
+ */
+function db_crit(array $crit, array $attrs, array $opts = [], bool $having = false): string
+{
     $cols = [];
 
     foreach ($crit as $id => $value) {
-        if (empty($attrs[$id])) {
+        if (empty($attrs[$id]['col'])) {
             continue;
         }
 
+        if ($having) {
+            $col = qi($id);
+        } elseif (!empty($opts['as']) && strpos($attrs[$id]['col'], '.') === false) {
+            $col =  $opts['as'] . '.' . $attrs[$id]['col'];
+        } else {
+            $col = $attrs[$id]['col'];
+        }
+
         if ($attrs[$id]['nullable'] && $value === null) {
-            $cols[$id] = '(' . qi($id) . ' IS NULL)';
+            $cols[$id] = '(' . $col . ' IS NULL)';
             continue;
         }
 
@@ -355,16 +337,29 @@ function having(array $crit, array $attrs, array $opts = []): string
 
         foreach ((array) $value as $v) {
             if ($op === 'LIKE') {
-                $v = '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
+                $col = 'LOWER(' . $col . ')';
+                $v = '%' . str_replace(['%', '_'], ['\%', '\_'], strtolower($v)) . '%';
             }
 
-            $r[] = qi($id) . ' ' . $op . ' ' . qv($v, $attrs[$id]['backend']);
+            $r[] = $col . ' ' . $op . ' ' . qv($v, $attrs[$id]['backend']);
         }
 
         $cols[$id] = '(' . implode(' OR ', $r) . ')';
     }
 
-    return $cols ? ' HAVING ' . implode(' AND ', $cols) : '';
+    return $cols ? ($having ? ' HAVING ' : ' WHERE ') . implode(' AND ', $cols) : '';
+}
+
+/**
+ * GROUP BY part
+ *
+ * @param string[] $cols
+ *
+ * @return string
+ */
+function group(array $cols): string
+{
+    return $cols ? ' GROUP BY ' . implode(', ' , $cols) : '';
 }
 
 /**
