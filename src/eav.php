@@ -38,7 +38,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
         );
         $params[$uid] = db_param($uid);
         $list[] = sprintf(
-            '(id IN (SELECT content_id FROM eav WHERE attr_id = %s AND CAST(value AS %s) IN (%s)))',
+            '(id IN (SELECT content_id FROM val WHERE attr_id = %s AND CAST(value AS %s) IN (%s)))',
             $params[$uid],
             db_cast($attr),
             implode(', ', $val)
@@ -107,7 +107,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     $stmt = db()->prepare(
         select($main, 'e') . ($list ? ', ' . implode(', ', $list) : '')
         . from($entity['tab'], 'e')
-        . ($list ? ' LEFT JOIN eav a ON a.content_id = e.id' : '')
+        . ($list ? ' LEFT JOIN val a ON a.content_id = e.id' : '')
         . where($crit, $main, $opts)
         . group(['id'])
         . having($having, $entity['attr'], $opts)
@@ -158,7 +158,7 @@ function eav_create(array & $item): bool
     // Save additional attributes
     $stmt = db()->prepare('
         INSERT INTO 
-            eav
+            val
             (content_id, attr_id, value) 
          VALUES 
             (:content_id, :attr_id, :value)
@@ -212,7 +212,7 @@ function eav_save(array & $item): bool
     }
 
     $stmt = prep(
-        'INSERT INTO eav (content_id, attr_id, value) VALUES (:content_id, :attr_id, :value) %s',
+        'INSERT INTO val (content_id, attr_id, value) VALUES (:content_id, :attr_id, :value) %s',
         $conflict
     );
 
