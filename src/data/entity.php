@@ -168,7 +168,6 @@ return [
                 'name' => 'Search Index',
                 'sort' => -600,
                 'type' => 'textarea',
-                'nullable' => true,
             ],
             'created' => [
                 'name' => 'Created',
