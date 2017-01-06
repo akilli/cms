@@ -22,6 +22,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
         return flat_size($entity, $crit, $opts);
     }
 
+    $backend = data('backend');
     $list = [];
     $params = [];
 
@@ -40,7 +41,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
         $list[] = sprintf(
             '(id IN (SELECT content_id FROM eav WHERE attr_id = %s AND CAST(value AS %s) IN (%s)))',
             $params[$uid],
-            db_cast($attr),
+            $backend[$attr['backend']],
             implode(', ', $val)
         );
     }
@@ -81,6 +82,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     }
 
     $opts['as'] = 'e';
+    $backend = data('backend');
     $list = [];
     $params = [];
     $having = [];
@@ -94,7 +96,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         $list[] = sprintf(
             'MAX(CASE WHEN a.attr_id = %s THEN CAST(a.value AS %s) END) AS %s',
             $params[$uid],
-            db_cast($attr),
+            $backend[$attr['backend']],
             qi($uid)
         );
 
@@ -205,16 +207,17 @@ function eav_save(array & $item): bool
     }
 
     // Save additional attributes
-    if (data('db', 'driver') === 'mysql') {
-        $conflict = 'ON DUPLICATE KEY UPDATE value = VALUES(value)';
-    } else {
-        $conflict = 'ON CONFLICT (content_id, attr_id) DO UPDATE SET value = EXCLUDED.value';
-    }
-
-    $stmt = prep(
-        'INSERT INTO eav (content_id, attr_id, value) VALUES (:content_id, :attr_id, :value) %s',
-        $conflict
-    );
+    $stmt = db()->prepare('
+        INSERT INTO 
+            eav 
+            (content_id, attr_id, value) 
+        VALUES 
+            (:content_id, :attr_id, :value) 
+        ON CONFLICT 
+            (content_id, attr_id) 
+        DO UPDATE SET 
+            value = EXCLUDED.value
+    ');
 
     foreach ($add as $uid => $attr) {
         if (!array_key_exists($uid, $item)) {

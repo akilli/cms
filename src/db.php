@@ -4,14 +4,11 @@ namespace qnd;
 use Exception;
 use PDO;
 use PDOStatement;
-use RuntimeException;
 
 /**
  * Database
  *
  * @return PDO
- *
- * @throws RuntimeException
  */
 function db(): PDO
 {
@@ -19,18 +16,8 @@ function db(): PDO
 
     if ($db === null) {
         $data = data('db');
-
-        if (!in_array($data['driver'], ['mysql', 'pgsql'])) {
-            throw new RuntimeException(_('Unsupported database driver'));
-        }
-
-        $dsn = sprintf('%s:host=%s;dbname=%s', $data['driver'], $data['host'], $data['db']);
-
-        if ($data['driver'] === 'mysql') {
-            $dsn .= ';charset=' . $data['charset'];
-        }
-
-        $db = new PDO($dsn, $data['user'], $data['password'], $data['driver_options']);
+        $dsn = sprintf('pgsql:host=%s;dbname=%s', $data['host'], $data['db']);
+        $db = new PDO($dsn, $data['user'], $data['password'], $data['opt']);
     }
 
     return $db;
@@ -41,7 +28,7 @@ function db(): PDO
  */
 function db_setup(): void
 {
-    db()->exec(file_get_contents(path('sql', data('db', 'driver') . '.sql')));
+    db()->exec(file_get_contents(path('sql', 'schema.sql')));
     db()->exec(file_get_contents(path('sql', 'data.sql')));
 }
 
@@ -84,46 +71,6 @@ function trans(callable $callback): bool
 function prep(string $sql, string ...$args): PDOStatement
 {
     return db()->prepare(vsprintf($sql, $args));
-}
-
-/**
- * @param array $entity
- *
- * @return int
- *
- * @throws RuntimeException
- */
-function db_id(array $entity): int
-{
-    static $seq;
-
-    if ($seq === null) {
-        $seq = data('db', 'driver') === 'pgsql';
-    }
-
-    if (!$entity['attr']['id']['auto']) {
-        throw new RuntimeException(_('Invalid entity %s', $entity['id']));
-    }
-
-    return (int) db()->lastInsertId($seq ? $entity['tab'] . '_id_seq' : null);
-}
-
-/**
- * Determine appropriate DB type
- *
- * @param array $attr
- *
- * @return string
- */
-function db_cast(array $attr): string
-{
-    static $data;
-
-    if ($data === null) {
-        $data = data('backend', data('db', 'driver'));
-    }
-
-    return $data[$attr['backend']];
 }
 
 /**
@@ -191,19 +138,13 @@ function qv($value, string $backend = null)
 /**
  * Quotes identifier
  *
- * @param string $identifier
+ * @param string $id
  *
  * @return string
  */
-function qi(string $identifier = null): string
+function qi(string $id = null): string
 {
-    static $char;
-
-    if ($char === null) {
-        $char = data('db', 'driver') === 'mysql' ? '`' : '"';
-    }
-
-    return $identifier ? $char . str_replace($char, '', $identifier) . $char : '';
+    return $id ? '"' . str_replace('"', '', $id) . '"' : '';
 }
 
 /**
@@ -332,15 +273,11 @@ function db_crit(array $crit, array $attrs, array $opts = [], bool $having = fal
             continue;
         }
 
-        $op = !empty($opts['search']) && in_array($attrs[$id]['backend'], ['varchar', 'text']) ? 'LIKE' : '=';
+        $op = !empty($opts['search']) && in_array($attrs[$id]['backend'], ['varchar', 'text']) ? 'ILIKE' : '=';
         $r = [];
 
         foreach ((array) $value as $v) {
-            if ($op === 'LIKE') {
-                $col = 'LOWER(' . $col . ')';
-                $v = '%' . str_replace(['%', '_'], ['\%', '\_'], strtolower($v)) . '%';
-            }
-
+            $v = $op === 'ILIKE' ? '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%' : $v;
             $r[] = $col . ' ' . $op . ' ' . qv($v, $attrs[$id]['backend']);
         }
 
@@ -375,12 +312,9 @@ function order(array $order, array $attrs = []): string
     $cols = [];
 
     foreach ($order as $uid => $dir) {
-        if (empty($attrs[$uid]['col'])) {
-            continue;
+        if (!empty($attrs[$uid]['col'])) {
+            $cols[$uid] = qi($uid) . ' ' . (strtoupper($dir) === 'DESC' ? 'DESC' : 'ASC');
         }
-
-        $dir = strtoupper($dir) === 'DESC' ? 'DESC' : 'ASC';
-        $cols[$uid] = qi($uid) . ' ' . $dir;
     }
 
     return $cols ? ' ORDER BY ' . implode(', ', $cols) : '';
