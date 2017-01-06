@@ -69,7 +69,7 @@ function saver_file(array $attr, array & $item): bool
         return true;
     }
 
-    $value = generator_file($file['name'], project_path('media'));
+    $value = filter_file($file['name'], project_path('media'));
 
     // Upload failed
     if (!file_upload($file['tmp_name'], project_path('media', $value))) {

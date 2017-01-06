@@ -158,7 +158,7 @@ function listener_save(array & $data): void
     $old = one('url', ['target' => $target, 'system' => true]);
     $id = $old['id'] ?? -1;
     $all = all('url', [], ['index' => 'name']);
-    $name = generator_url($data['name'], array_column($all, 'name', 'id'), $id);
+    $name = filter_url($data['name'], array_column($all, 'name', 'id'), $id);
     $url = [$id => ['name' => $name, 'target' => $target, 'system' => true]];
     save('url', $url);
 }

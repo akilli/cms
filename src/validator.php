@@ -62,12 +62,13 @@ function validator(array $attr, array & $item): bool
  */
 function validator_required(array $attr, array & $item): bool
 {
-    if ($attr['required'] && empty($item[$attr['id']]) && !$attr['opt'] && !ignorable($attr, $item)) {
-        $item['_error'][$attr['id']] = _('%s is a mandatory field', $attr['name']);
-        return false;
+    if (!$attr['required'] || !empty($item[$attr['id']]) || $attr['opt'] || ignorable($attr, $item)) {
+        return true;
     }
 
-    return true;
+    $item['_error'][$attr['id']] = _('%s is a mandatory field', $attr['name']);
+
+    return false;
 }
 
 /**
@@ -193,14 +194,14 @@ function validator_color(array $attr, array & $item): bool
  */
 function validator_email(array $attr, array & $item): bool
 {
-    if ($item[$attr['id']] && !$item[$attr['id']] = filter_var($item[$attr['id']], FILTER_VALIDATE_EMAIL)) {
-        $item[$attr['id']] = null;
-        $item['_error'][$attr['id']] = _('Invalid email');
-
-        return false;
+    if (!$item[$attr['id']] || ($item[$attr['id']] = filter_var($item[$attr['id']], FILTER_VALIDATE_EMAIL))) {
+        return true;
     }
 
-    return true;
+    $item[$attr['id']] = null;
+    $item['_error'][$attr['id']] = _('Invalid email');
+
+    return false;
 }
 
 /**
@@ -213,14 +214,14 @@ function validator_email(array $attr, array & $item): bool
  */
 function validator_url(array $attr, array & $item): bool
 {
-    if ($item[$attr['id']] && !$item[$attr['id']] = filter_var($item[$attr['id']], FILTER_VALIDATE_URL)) {
-        $item[$attr['id']] = null;
-        $item['_error'][$attr['id']] = _('Invalid URL');
-
-        return false;
+    if (!$item[$attr['id']] || ($item[$attr['id']] = filter_var($item[$attr['id']], FILTER_VALIDATE_URL))) {
+        return true;
     }
 
-    return true;
+    $item[$attr['id']] = null;
+    $item['_error'][$attr['id']] = _('Invalid URL');
+
+    return false;
 }
 
 /**
@@ -233,7 +234,7 @@ function validator_url(array $attr, array & $item): bool
  */
 function validator_json(array $attr, array & $item): bool
 {
-    if (empty($item[$attr['id']]) && ($item[$attr['id']] = '[]') || json_decode($item[$attr['id']], true) !== null) {
+    if (!$item[$attr['id']] && ($item[$attr['id']] = '[]') || json_decode($item[$attr['id']], true) !== null) {
         return true;
     }
 
@@ -253,9 +254,7 @@ function validator_json(array $attr, array & $item): bool
  */
 function validator_rte(array $attr, array & $item): bool
 {
-    if ($item[$attr['id']]) {
-        $item[$attr['id']] = filter_html($item[$attr['id']]);
-    }
+    $item[$attr['id']] = $item[$attr['id']] ? filter_html($item[$attr['id']]) : '';
 
     return true;
 }
@@ -281,18 +280,14 @@ function validator_datetime(array $attr, array & $item): bool
         $out = BACKEND_DATETIME;
     }
 
-    if ($item[$attr['id']]) {
-        if ($value = date_format(date_create_from_format($in, $item[$attr['id']]), $out)) {
-            $item[$attr['id']] = $value;
-        } else {
-            $item[$attr['id']] = null;
-            $item['_error'][$attr['id']] = _('Invalid value');
-
-            return false;
-        }
+    if (!$item[$attr['id']] || ($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
+        return true;
     }
 
-    return true;
+    $item[$attr['id']] = null;
+    $item['_error'][$attr['id']] = _('Invalid value');
+
+    return false;
 }
 
 /**

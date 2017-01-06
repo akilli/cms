@@ -291,10 +291,7 @@ function editor_datetime(array $attr, array $item): string
         $out = FRONTEND_DATETIME;
     }
 
-    if ($item[$attr['id']] && ($value = date_format(date_create_from_format($in, $item[$attr['id']]), $out))) {
-        $item[$attr['id']] = $value;
-    }
-
+    $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
     $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $item[$attr['id']];
 
