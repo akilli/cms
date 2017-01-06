@@ -183,7 +183,7 @@ function data_entity(array $data): array
         }
     }
 
-    $data = array_replace_recursive(data('default', 'entity'), $data);
+    $data = array_replace(data('default', 'entity'), $data);
      // Set table name from Id if it is not set already
     $data['tab'] = $data['tab'] ?: $data['id'];
     // Attributes
