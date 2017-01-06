@@ -24,6 +24,14 @@ function db(): PDO
 }
 
 /**
+ * @return void
+ */
+function db_setup(): void
+{
+    db()->exec(file_get_contents(path('sql', 'pg.sql')));
+}
+
+/**
  * Transaction
  *
  * @param callable $callback
