@@ -238,9 +238,9 @@ function data_attr(array $data): array
     $data = array_replace(data('default', 'attr'), $type, $data);
 
     // Column
-    if (!empty($data['virtual'])) {
+    if ($data['col'] === false) {
         $data['col'] = null;
-    } elseif (empty($data['col'])) {
+    } elseif (!$data['col']) {
         $data['col'] = $data['id'];
     }
 

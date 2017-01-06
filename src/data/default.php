@@ -4,7 +4,6 @@ return [
         'id' => null,
         'name' => null,
         'col' => null,
-        'virtual' => false,
         'auto' => false,
         'entity_id' => null,
         'sort' => null,

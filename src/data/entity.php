@@ -314,14 +314,14 @@ return [
             ],
             'mode' => [
                 'name' => 'Mode',
-                'virtual' => true,
+                'col' => false,
                 'type' => 'select',
                 'opt' => [['after' => 'After', 'before' => 'Before', 'child' => 'Child']],
                 'actions' => ['edit'],
             ],
             'position' => [
                 'name' => 'Position',
-                'virtual' => true,
+                'col' => false,
                 'type' => 'select',
                 'required' => true,
                 'opt' => ['opt_position'],
