@@ -150,19 +150,19 @@ ALTER TABLE content
     ADD CONSTRAINT con_content_project FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- -----------------------------------------------------------
-CREATE TABLE val (
+CREATE TABLE eav (
     content_id INTEGER NOT NULL,
     attr_id INTEGER NOT NULL,
     value TEXT NOT NULL,
     PRIMARY KEY (content_id, attr_id)
 );
 
-CREATE INDEX idx_val_content ON val (content_id);
-CREATE INDEX idx_val_attr ON val (attr_id);
+CREATE INDEX idx_eav_content ON eav (content_id);
+CREATE INDEX idx_eav_attr ON eav (attr_id);
 
-ALTER TABLE val
-    ADD CONSTRAINT con_val_content FOREIGN KEY (content_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT con_val_attr FOREIGN KEY (attr_id) REFERENCES attr (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE eav
+    ADD CONSTRAINT con_eav_content FOREIGN KEY (content_id) REFERENCES content (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT con_eav_attr FOREIGN KEY (attr_id) REFERENCES attr (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Menu
