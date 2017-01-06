@@ -2,7 +2,6 @@
 return [
     'account' => [
         'name' => 'Account',
-        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -57,7 +56,6 @@ return [
     ],
     'attr' => [
         'name' => 'Attribute',
-        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -210,7 +208,6 @@ return [
     ],
     'entity' => [
         'name' => 'Entity',
-        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -245,7 +242,6 @@ return [
     ],
     'menu' => [
         'name' => 'Menu',
-        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -280,7 +276,6 @@ return [
     'node' => [
         'name' => 'Node',
         'model' => 'nestedset',
-        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -343,7 +338,6 @@ return [
     ],
     'project' => [
         'name' => 'Project',
-        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -386,7 +380,6 @@ return [
     ],
     'role' => [
         'name' => 'Role',
-        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
@@ -426,7 +419,6 @@ return [
     ],
     'url' => [
         'name' => 'URL',
-        'actions' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'Id',
