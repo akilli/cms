@@ -233,14 +233,14 @@ function validator_url(array $attr, array & $item): bool
  */
 function validator_json(array $attr, array & $item): bool
 {
-    if (!empty($item[$attr['id']]) && json_decode($item[$attr['id']], true) === null) {
-        $item[$attr['id']] = null;
-        $item['_error'][$attr['id']] = _('Invalid JSON notation');
-
-        return false;
+    if (empty($item[$attr['id']]) && ($item[$attr['id']] = '[]') || json_decode($item[$attr['id']], true) !== null) {
+        return true;
     }
 
-    return true;
+    $item[$attr['id']] = null;
+    $item['_error'][$attr['id']] = _('Invalid JSON notation');
+
+    return false;
 }
 
 /**
