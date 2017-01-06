@@ -33,11 +33,11 @@ function nestedset_load(array $entity, array $crit = [], array $opts = []): arra
     $data = flat_load($entity, $crit, $opts);
 
     if (!empty($opts['one'])) {
-        $data['position'] = $data['root_id'] . ':' . $data['lft'];
+        $data['pos'] = $data['root_id'] . ':' . $data['lft'];
     } else {
         $data = array_map(
             function ($item) {
-                $item['position'] = $item['root_id'] . ':' . $item['lft'];
+                $item['pos'] = $item['root_id'] . ':' . $item['lft'];
                 return $item;
             },
             $data
@@ -83,7 +83,7 @@ function nestedset_save(array & $item): bool
     $item['_entity']['attr'] = $attrs;
 
     // No change in position, so nothing to do anymore
-    if ($item['position'] === $item['_old']['position']) {
+    if ($item['pos'] === $item['_old']['pos']) {
         return true;
     }
 
@@ -173,7 +173,7 @@ function nestedset_position(array & $item): void
     $attrs = $item['_entity']['attr'];
     $o = $item['_old'] ?? null;
     $range = $o ? $o['rgt'] - $o['lft'] + 1 : 2;
-    $parts = explode(':', $item['position']);
+    $parts = explode(':', $item['pos']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
     $bLft = (int) $parts[1];
 

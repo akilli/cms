@@ -74,8 +74,8 @@ function opt_position(): array
             $data[$item['root_id']  . ':0']['class'] = 'group';
         }
 
-        $data[$item['position']]['name'] = $item['name'];
-        $data[$item['position']]['level'] = $item['level'];
+        $data[$item['pos']]['name'] = $item['name'];
+        $data[$item['pos']]['level'] = $item['level'];
     }
 
     // Add roots without items

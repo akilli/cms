@@ -75,7 +75,7 @@ function import_zip(string $file): bool
                 $nodes[-1]['name'] = $item['name'];
                 $nodes[-1]['target'] = $base . 'page/view/' . $oids[$oid];
                 $nodes[-1]['mode'] = 'child';
-                $nodes[-1]['position'] = $menu[-1]['id'] . ':' . $basis;
+                $nodes[-1]['pos'] = $menu[-1]['id'] . ':' . $basis;
 
                 if (!save('node', $nodes)) {
                     throw new RuntimeException(_('Import error'));

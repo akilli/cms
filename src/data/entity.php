@@ -319,7 +319,7 @@ return [
                 'opt' => [['after' => 'After', 'before' => 'Before', 'child' => 'Child']],
                 'actions' => ['edit'],
             ],
-            'position' => [
+            'pos' => [
                 'name' => 'Position',
                 'col' => false,
                 'type' => 'select',
