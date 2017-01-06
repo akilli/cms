@@ -123,8 +123,6 @@ function file_delete(string $path, bool $preserve = false): bool
 {
     if (!file_exists($path)) {
         return true;
-    } elseif (!file_writable($path)) {
-        return false;
     } elseif (is_file($path)) {
         return unlink($path);
     }
@@ -223,9 +221,7 @@ function file_upload(string $src, string $dest): bool
  */
 function file_dir(string $path, int $mode = 0775, bool $recursive = true): bool
 {
-    if (!file_writable($path)) {
-        return false;
-    } elseif (is_dir($path)) {
+    if (is_dir($path)) {
         return true;
     }
 
@@ -234,23 +230,4 @@ function file_dir(string $path, int $mode = 0775, bool $recursive = true): bool
     umask($umask);
 
     return $result;
-}
-
-/**
- * Checks whether specified path is writable
- *
- * @param string $path
- *
- * @return bool
- */
-function file_writable(string $path): bool
-{
-    static $pattern;
-
-    if ($pattern === null) {
-        $paths = [path('log'), path('tmp'), project_path('cache'), project_path('media')];
-        $pattern = sprintf('#^(file://)?(%s)#', implode('|', $paths));
-    }
-
-    return (bool) preg_match($pattern, $path);
 }

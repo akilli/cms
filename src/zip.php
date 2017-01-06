@@ -20,7 +20,7 @@ function unzip(string $file, string $path): bool
         throw new RuntimeException(_('File %s not found', $file));
     }
 
-    if (!file_writable($path)) {
+    if (!is_writable($path)) {
         throw new RuntimeException(_('Path %s is not writable', $path));
     }
 
