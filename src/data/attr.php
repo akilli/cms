@@ -1,48 +1,20 @@
 <?php
 return [
-    // Input
+    'audio' => [
+        'name' => 'Audio',
+        'backend' => 'varchar',
+        'frontend' => 'file',
+    ],
+    'checkbox' => [
+        'name' => 'Checkbox',
+        'backend' => 'bool',
+        'frontend' => 'checkbox',
+    ],
     'color' => [
         'name' => 'Color',
         'backend' => 'varchar',
         'frontend' => 'color',
     ],
-    'email' => [
-        'name' => 'Email',
-        'backend' => 'varchar',
-        'frontend' => 'email',
-    ],
-    'password' => [
-        'name' => 'Password',
-        'backend' => 'varchar',
-        'frontend' => 'password',
-    ],
-    'text' => [
-        'name' => 'Text',
-        'backend' => 'varchar',
-        'frontend' => 'text',
-    ],
-    'url' => [
-        'name' => 'URL',
-        'backend' => 'varchar',
-        'frontend' => 'url',
-    ],
-    // Input Number
-    'int' => [
-        'name' => 'Integer',
-        'backend' => 'int',
-        'frontend' => 'number',
-    ],
-    'decimal' => [
-        'name' => 'Decimal',
-        'backend' => 'decimal',
-        'frontend' => 'number',
-    ],
-    'range' => [
-        'name' => 'Range',
-        'backend' => 'int',
-        'frontend' => 'range',
-    ],
-    // Input Date + Time
     'date' => [
         'name' => 'Date',
         'backend' => 'date',
@@ -53,16 +25,15 @@ return [
         'backend' => 'datetime',
         'frontend' => 'datetime-local',
     ],
-    'time' => [
-        'name' => 'Time',
-        'backend' => 'time',
-        'frontend' => 'time',
+    'decimal' => [
+        'name' => 'Decimal',
+        'backend' => 'decimal',
+        'frontend' => 'number',
     ],
-    // Input File
-    'audio' => [
-        'name' => 'Audio',
+    'email' => [
+        'name' => 'Email',
         'backend' => 'varchar',
-        'frontend' => 'file',
+        'frontend' => 'email',
     ],
     'embed' => [
         'name' => 'Embed',
@@ -79,33 +50,16 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
     ],
-    'video' => [
-        'name' => 'Video',
-        'backend' => 'varchar',
-        'frontend' => 'file',
+    'int' => [
+        'name' => 'Integer',
+        'backend' => 'int',
+        'frontend' => 'number',
     ],
-    // Textarea
     'json' => [
         'name' => 'JSON',
         'backend' => 'json',
         'frontend' => 'textarea',
         'val' => [],
-    ],
-    'rte' => [
-        'name' => 'Rich Text Editor',
-        'backend' => 'text',
-        'frontend' => 'textarea',
-    ],
-    'textarea' => [
-        'name' => 'Textarea',
-        'backend' => 'text',
-        'frontend' => 'textarea',
-    ],
-    // Checkbox
-    'checkbox' => [
-        'name' => 'Checkbox',
-        'backend' => 'bool',
-        'frontend' => 'checkbox',
     ],
     'multicheckbox' => [
         'name' => 'Multicheckbox',
@@ -114,23 +68,61 @@ return [
         'multiple' => true,
         'val' => [],
     ],
-    // Radio
-    'radio' => [
-        'name' => 'Radio',
-        'backend' => 'varchar',
-        'frontend' => 'radio',
-    ],
-    // Select
-    'select' => [
-        'name' => 'Select',
-        'backend' => 'varchar',
-        'frontend' => 'select',
-    ],
     'multiselect' => [
         'name' => 'Multiselect',
         'backend' => 'json',
         'frontend' => 'select',
         'multiple' => true,
         'val' => [],
+    ],
+    'password' => [
+        'name' => 'Password',
+        'backend' => 'varchar',
+        'frontend' => 'password',
+    ],
+    'radio' => [
+        'name' => 'Radio',
+        'backend' => 'varchar',
+        'frontend' => 'radio',
+    ],
+    'range' => [
+        'name' => 'Range',
+        'backend' => 'int',
+        'frontend' => 'range',
+    ],
+    'rte' => [
+        'name' => 'Rich Text Editor',
+        'backend' => 'text',
+        'frontend' => 'textarea',
+    ],
+    'select' => [
+        'name' => 'Select',
+        'backend' => 'varchar',
+        'frontend' => 'select',
+    ],
+    'text' => [
+        'name' => 'Text',
+        'backend' => 'varchar',
+        'frontend' => 'text',
+    ],
+    'textarea' => [
+        'name' => 'Textarea',
+        'backend' => 'text',
+        'frontend' => 'textarea',
+    ],
+    'time' => [
+        'name' => 'Time',
+        'backend' => 'time',
+        'frontend' => 'time',
+    ],
+    'url' => [
+        'name' => 'URL',
+        'backend' => 'varchar',
+        'frontend' => 'url',
+    ],
+    'video' => [
+        'name' => 'Video',
+        'backend' => 'varchar',
+        'frontend' => 'file',
     ],
 ];
