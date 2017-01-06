@@ -161,7 +161,6 @@ return [
                 'name' => 'Content',
                 'sort' => -700,
                 'type' => 'rte',
-                'nullable' => true,
                 'searchable' => true,
                 'actions' => ['edit', 'view'],
             ],
