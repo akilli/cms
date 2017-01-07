@@ -88,8 +88,6 @@ return [
     'Page' => 'Seite',
     'Parent' => 'Elter',
     'Password' => 'Passwort',
-    'Path %s already exists' => 'Pfad %s existiert bereits',
-    'Path %s is not writable' => 'Pfad %s ist nicht beschreibbar',
     'Please choose' => 'Bitte auswählen',
     'Position' => 'Position',
     'Position Left' => 'Position Links',
