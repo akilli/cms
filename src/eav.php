@@ -141,7 +141,7 @@ function eav_create(array & $item): bool
 {
     $item['entity_id'] = $item['_entity']['id'];
     $item['modifier'] = account('id');
-    $item['modified'] = date(BACKEND_DATETIME);
+    $item['modified'] = date(data('format', 'datetime.backend'));
     $item['creator'] = $item['modifier'];
     $item['created'] = $item['modified'];
     $attrs = $item['_entity']['attr'];
@@ -192,7 +192,7 @@ function eav_save(array & $item): bool
 {
     $item['entity_id'] = $item['_entity']['id'];
     $item['modifier'] = account('id');
-    $item['modified'] = date(BACKEND_DATETIME);
+    $item['modified'] = date(data('format', 'datetime.backend'));
     $attrs = $item['_entity']['attr'];
     $main = data('entity', 'content')['attr'];
     $add = array_diff_key($attrs, $main);

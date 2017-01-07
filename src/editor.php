@@ -280,15 +280,17 @@ function editor_int(array $attr, array $item): string
  */
 function editor_datetime(array $attr, array $item): string
 {
+    $format = data('format');
+
     if ($attr['frontend'] === 'date') {
-        $in = BACKEND_DATE;
-        $out = FRONTEND_DATE;
+        $in = $format['date.backend'];
+        $out = $format['date.frontend'];
     } elseif ($attr['frontend'] === 'time') {
-        $in = BACKEND_TIME;
-        $out = FRONTEND_TIME;
+        $in = $format['time.backend'];
+        $out = $format['time.frontend'];
     } else {
-        $in = BACKEND_DATETIME;
-        $out = FRONTEND_DATETIME;
+        $in = $format['datetime.backend'];
+        $out = $format['datetime.frontend'];
     }
 
     $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';

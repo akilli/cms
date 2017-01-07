@@ -269,15 +269,17 @@ function validator_rte(array $attr, array & $item): bool
  */
 function validator_datetime(array $attr, array & $item): bool
 {
+    $format = data('format');
+
     if ($attr['frontend'] === 'date') {
-        $in = FRONTEND_DATE;
-        $out = BACKEND_DATE;
+        $in = $format['date.frontend'];
+        $out = $format['date.backend'];
     } elseif ($attr['frontend'] === 'time') {
-        $in = FRONTEND_TIME;
-        $out = BACKEND_TIME;
+        $in = $format['time.frontend'];
+        $out = $format['time.backend'];
     } else {
-        $in = FRONTEND_DATETIME;
-        $out = BACKEND_DATETIME;
+        $in = $format['time.frontend'];
+        $out = $format['datetime.backend'];
     }
 
     if (!$item[$attr['id']] || ($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
