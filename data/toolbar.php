@@ -1,22 +1,6 @@
 <?php
 return [
     [
-        'name' => 'Homepage',
-        'url' => '/',
-    ],
-    [
-        'name' => 'Dashboard',
-        'url' => '/account/dashboard',
-    ],
-    [
-        'name' => 'Profile',
-        'url' => '/account/profile',
-    ],
-    [
-        'name' => 'Logout',
-        'url' => '/account/logout',
-    ],
-    [
         'name' => 'Content',
         'url' => '',
         'children' => [
@@ -69,5 +53,21 @@ return [
                 'url' => '/url/admin',
             ],
         ],
+    ],
+    [
+        'name' => 'Homepage',
+        'url' => '/',
+    ],
+    [
+        'name' => 'Dashboard',
+        'url' => '/account/dashboard',
+    ],
+    [
+        'name' => 'Profile',
+        'url' => '/account/profile',
+    ],
+    [
+        'name' => 'Logout',
+        'url' => '/account/logout',
     ],
 ];
