@@ -4,12 +4,12 @@ START TRANSACTION;
 -- Project
 -- ---------------------------------------------------------------------------------------------------------------------
 CREATE TABLE project (
-    id VARCHAR(100) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    host VARCHAR(255) DEFAULT NULL UNIQUE,
-    theme VARCHAR(100) DEFAULT NULL,
-    active BOOLEAN NOT NULL DEFAULT FALSE,
-    system BOOLEAN NOT NULL DEFAULT FALSE
+    id varchar(100) PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    host varchar(255) DEFAULT NULL UNIQUE,
+    theme varchar(100) DEFAULT NULL,
+    active boolean NOT NULL DEFAULT FALSE,
+    system boolean NOT NULL DEFAULT FALSE
 );
 
 CREATE INDEX idx_project_name ON project (name);
@@ -21,12 +21,12 @@ CREATE INDEX idx_project_system ON project (system);
 -- Auth
 -- ---------------------------------------------------------------------------------------------------------------------
 CREATE TABLE role (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    privilege JSON NOT NULL,
-    active BOOLEAN NOT NULL DEFAULT FALSE,
-    system BOOLEAN NOT NULL DEFAULT FALSE,
-    project_id VARCHAR(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    privilege json NOT NULL,
+    active boolean NOT NULL DEFAULT FALSE,
+    system boolean NOT NULL DEFAULT FALSE,
+    project_id varchar(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (project_id, name)
 );
 
@@ -37,14 +37,14 @@ CREATE INDEX idx_role_project ON role (project_id);
 
 -- -----------------------------------------------------------
 CREATE TABLE account (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    username VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role_id INTEGER NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE,
-    active BOOLEAN NOT NULL DEFAULT FALSE,
-    system BOOLEAN NOT NULL DEFAULT FALSE,
-    project_id VARCHAR(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    username varchar(255) NOT NULL UNIQUE,
+    password varchar(255) NOT NULL,
+    role_id integer NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE,
+    active boolean NOT NULL DEFAULT FALSE,
+    system boolean NOT NULL DEFAULT FALSE,
+    project_id varchar(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (project_id, name)
 );
 
@@ -58,11 +58,11 @@ CREATE INDEX idx_account_project ON account (project_id);
 -- EAV
 -- ---------------------------------------------------------------------------------------------------------------------
 CREATE TABLE entity (
-    id VARCHAR(100) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    actions JSON NOT NULL,
-    system BOOLEAN NOT NULL DEFAULT FALSE,
-    project_id VARCHAR(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
+    id varchar(100) PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    actions json NOT NULL,
+    system boolean NOT NULL DEFAULT FALSE,
+    project_id varchar(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE INDEX idx_entity_name ON entity (name);
@@ -71,18 +71,18 @@ CREATE INDEX idx_entity_project ON entity (project_id);
 
 -- -----------------------------------------------------------
 CREATE TABLE attr (
-    id SERIAL PRIMARY KEY,
-    entity_id VARCHAR(100) NOT NULL REFERENCES entity ON DELETE CASCADE ON UPDATE CASCADE,
-    uid VARCHAR(100) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    sort INTEGER NOT NULL DEFAULT 0,
-    type VARCHAR(100) NOT NULL,
-    required BOOLEAN NOT NULL DEFAULT FALSE,
-    uniq BOOLEAN NOT NULL DEFAULT FALSE,
-    searchable BOOLEAN NOT NULL DEFAULT FALSE,
-    opt JSON NOT NULL,
-    actions JSON NOT NULL,
-    project_id VARCHAR(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
+    id serial PRIMARY KEY,
+    entity_id varchar(100) NOT NULL REFERENCES entity ON DELETE CASCADE ON UPDATE CASCADE,
+    uid varchar(100) NOT NULL,
+    name varchar(255) NOT NULL,
+    sort integer NOT NULL DEFAULT 0,
+    type varchar(100) NOT NULL,
+    required boolean NOT NULL DEFAULT FALSE,
+    uniq boolean NOT NULL DEFAULT FALSE,
+    searchable boolean NOT NULL DEFAULT FALSE,
+    opt json NOT NULL,
+    actions json NOT NULL,
+    project_id varchar(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (entity_id, uid)
 );
 
@@ -98,17 +98,17 @@ CREATE INDEX idx_attr_project ON attr (project_id);
 
 -- -----------------------------------------------------------
 CREATE TABLE content (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    entity_id VARCHAR(100) NOT NULL REFERENCES entity ON DELETE CASCADE ON UPDATE CASCADE,
-    active BOOLEAN NOT NULL DEFAULT FALSE,
-    content TEXT NOT NULL,
-    search TEXT NOT NULL,
-    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    creator INTEGER DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
-    modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modifier INTEGER DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
-    project_id VARCHAR(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    entity_id varchar(100) NOT NULL REFERENCES entity ON DELETE CASCADE ON UPDATE CASCADE,
+    active boolean NOT NULL DEFAULT FALSE,
+    content text NOT NULL,
+    search text NOT NULL,
+    created timestamp NOT NULL DEFAULT current_timestamp,
+    creator integer DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
+    modified timestamp NOT NULL DEFAULT current_timestamp,
+    modifier integer DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
+    project_id varchar(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE INDEX idx_content_name ON content (name);
@@ -123,9 +123,9 @@ CREATE INDEX idx_content_search ON content (search);
 
 -- -----------------------------------------------------------
 CREATE TABLE eav (
-    content_id INTEGER NOT NULL REFERENCES content ON DELETE CASCADE ON UPDATE CASCADE,
-    attr_id INTEGER NOT NULL REFERENCES attr ON DELETE CASCADE ON UPDATE CASCADE,
-    value TEXT NOT NULL,
+    content_id integer NOT NULL REFERENCES content ON DELETE CASCADE ON UPDATE CASCADE,
+    attr_id integer NOT NULL REFERENCES attr ON DELETE CASCADE ON UPDATE CASCADE,
+    value text NOT NULL,
     PRIMARY KEY (content_id, attr_id)
 );
 
@@ -136,11 +136,11 @@ CREATE INDEX idx_eav_attr ON eav (attr_id);
 -- Menu
 -- ---------------------------------------------------------------------------------------------------------------------
 CREATE TABLE menu (
-    id SERIAL PRIMARY KEY,
-    uid VARCHAR(100),
-    name VARCHAR(255) NOT NULL,
-    system BOOLEAN NOT NULL DEFAULT FALSE,
-    project_id VARCHAR(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
+    id serial PRIMARY KEY,
+    uid varchar(100),
+    name varchar(255) NOT NULL,
+    system boolean NOT NULL DEFAULT FALSE,
+    project_id varchar(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (project_id, uid)
 );
 
@@ -151,14 +151,14 @@ CREATE INDEX idx_menu_project ON menu (project_id);
 
 -- -----------------------------------------------------------
 CREATE TABLE node (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    target VARCHAR(255) NOT NULL,
-    root_id INTEGER NOT NULL REFERENCES menu ON DELETE CASCADE ON UPDATE CASCADE,
-    lft INTEGER NOT NULL,
-    rgt INTEGER NOT NULL,
-    level INTEGER NOT NULL,
-    project_id VARCHAR(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    target varchar(255) NOT NULL,
+    root_id integer NOT NULL REFERENCES menu ON DELETE CASCADE ON UPDATE CASCADE,
+    lft integer NOT NULL,
+    rgt integer NOT NULL,
+    level integer NOT NULL,
+    project_id varchar(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE INDEX idx_node_name ON node (name);
@@ -174,12 +174,12 @@ CREATE INDEX idx_node_item ON node (root_id,lft,rgt);
 -- URL
 -- ---------------------------------------------------------------------------------------------------------------------
 CREATE TABLE url (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    target VARCHAR(255) NOT NULL,
-    redirect BOOLEAN NOT NULL DEFAULT FALSE,
-    system BOOLEAN NOT NULL DEFAULT FALSE,
-    project_id VARCHAR(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    target varchar(255) NOT NULL,
+    redirect boolean NOT NULL DEFAULT FALSE,
+    system boolean NOT NULL DEFAULT FALSE,
+    project_id varchar(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (project_id, name)
 );
 
@@ -209,7 +209,7 @@ INSERT INTO
     account
     (name, username, password, role_id, active, system, project_id)
 VALUES
-    ('Admin', 'admin', '$2y$10$9wnkOfY1qLvz0sRXG5G.d.rf2NhCU8a9m.XrLYIgeQA.SioSWwtsW', 1, TRUE, TRUE, 'base');
+    ('Admin', 'admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', 1, TRUE, TRUE, 'base');
 
 INSERT INTO
     entity
