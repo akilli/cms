@@ -87,15 +87,15 @@ function path(string $dir, string $id = null): string
         $root = realpath(__DIR__ . '/..');
         $public = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
         $data['asset'] = $public . '/asset';
-        $data['data'] = __DIR__ . '/data';
-        $data['i18n'] = __DIR__ . '/i18n';
+        $data['data'] = $root . '/data';
+        $data['i18n'] = $root . '/i18n';
         $data['lib'] = $public . '/lib';
         $data['log'] = $root . '/var/log';
-        $data['sql'] = __DIR__ . '/sql';
-        $data['template'] = __DIR__ . '/template';
+        $data['sql'] = $root . '/sql';
+        $data['template'] = $root . '/template';
         $data['theme'] = $public . '/theme';
         $data['tmp'] = $root . '/var/tmp';
-        $data['xml'] = __DIR__ . '/xml';
+        $data['xml'] = $root . '/xml';
     }
 
     if (empty($data[$dir])) {
