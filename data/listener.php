@@ -1,14 +1,13 @@
 <?php
 return [
-    // data
     [
-        'id' => 'data_entity',
-        'event' => 'data.load.entity',
+        'id' => 'data_app',
+        'event' => 'data.load.app',
         'sort' => -100,
     ],
     [
-        'id' => 'data_i18n',
-        'event' => 'data.load.i18n',
+        'id' => 'data_entity',
+        'event' => 'data.load.entity',
         'sort' => -100,
     ],
     [
@@ -26,7 +25,6 @@ return [
         'event' => 'data.load.toolbar',
         'sort' => -100,
     ],
-    // Entity
     [
         'id' => 'save',
         'event' => 'entity.postSave',

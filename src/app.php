@@ -82,7 +82,6 @@ function path(string $dir, string $id = null): string
         $public = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
         $data['asset'] = $public . '/asset';
         $data['data'] = $root . '/data';
-        $data['i18n'] = $root . '/i18n';
         $data['lib'] = $public . '/lib';
         $data['log'] = $root . '/var/log';
         $data['sql'] = $root . '/sql';
@@ -154,18 +153,11 @@ function listener(string $event): array
  */
 function _(string $key, string ...$params): string
 {
-    $data = & registry('i18n');
-
-    if ($data === null) {
-        $data = [];
-        $data = data_load(path('i18n', data('i18n', 'lang') . '.php'));
-    }
-
     if (!$key) {
         return '';
     }
 
-    $key = $data[$key] ?? $key;
+    $key = data('i18n.' . data('app', 'lang'), $key) ?? $key;
 
     if (!$params) {
         return $key;

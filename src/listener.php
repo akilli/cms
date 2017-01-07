@@ -2,6 +2,21 @@
 namespace qnd;
 
 /**
+ * App data listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_data_app(array & $data): void
+{
+    // Configure PHP
+    ini_set('default_charset', $data['charset']);
+    ini_set('intl.default_locale', $data['locale']);
+    ini_set('date.timezone', $data['timezone']);
+}
+
+/**
  * Entity data listener
  *
  * @param array $data
@@ -48,21 +63,6 @@ function listener_data_entity(array & $data): void
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
         $data[$id] = $item;
     }
-}
-
-/**
- * I18n data listener
- *
- * @param array $data
- *
- * @return void
- */
-function listener_data_i18n(array & $data): void
-{
-    // Configure PHP
-    ini_set('default_charset', $data['charset']);
-    ini_set('intl.default_locale', $data['locale']);
-    ini_set('date.timezone', $data['timezone']);
 }
 
 /**

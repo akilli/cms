@@ -13,7 +13,7 @@ function encode(string $var): string
     static $charset;
 
     if ($charset === null) {
-        $charset = data('i18n', 'charset');
+        $charset = data('app', 'charset');
     }
 
     return htmlspecialchars($var, ENT_QUOTES | ENT_HTML5, $charset, false);
@@ -67,7 +67,7 @@ function filter_id(string $id): string
  */
 function filter_url(string $needle, array $haystack, $id): string
 {
-    $ext = data('url', 'ext');
+    $ext = data('filter', 'url');
     $base = url();
 
     if ($ext) {
