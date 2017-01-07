@@ -36,14 +36,14 @@ function account(string $key = null)
 /**
  * Returns account if given given credentials are valid and automatically rehashes password if needed
  *
- * @param string $username
+ * @param string $name
  * @param string $password
  *
  * @return array|null
  */
-function account_login(string $username, string $password): ?array
+function account_login(string $name, string $password): ?array
 {
-    $item = one('account', ['username' => $username, 'active' => true, 'project_id' => project('ids')]);
+    $item = one('account', ['name' => $name, 'active' => true, 'project_id' => project('ids')]);
 
     if (!$item || !password_verify($password, $item['password'])) {
         return null;

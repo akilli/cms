@@ -281,14 +281,14 @@ function action_account_login(): void
     }
 
     if ($data = http_post('data')) {
-        if (!empty($data['username']) && !empty($data['password']) && ($item = account_login($data['username'], $data['password']))) {
+        if (!empty($data['name']) && !empty($data['password']) && ($item = account_login($data['name'], $data['password']))) {
             message(_('Welcome %s', $item['name']));
             session_regenerate_id(true);
             session('account', $item['id']);
             redirect(url('account/dashboard'));
         }
 
-        message(_('Invalid username and password combination'));
+        message(_('Invalid name and password combination'));
     }
 
     layout_load();

@@ -38,8 +38,7 @@ CREATE INDEX idx_role_project ON role (project_id);
 -- -----------------------------------------------------------
 CREATE TABLE account (
     id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    username varchar(255) NOT NULL UNIQUE,
+    name varchar(255) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
     role_id integer NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE,
     active boolean NOT NULL DEFAULT FALSE,
@@ -48,7 +47,6 @@ CREATE TABLE account (
     UNIQUE (project_id, name)
 );
 
-CREATE INDEX idx_account_name ON account (name);
 CREATE INDEX idx_account_role ON account (role_id);
 CREATE INDEX idx_account_active ON account (active);
 CREATE INDEX idx_account_system ON account (system);
@@ -207,9 +205,9 @@ VALUES
 
 INSERT INTO
     account
-    (name, username, password, role_id, active, system, project_id)
+    (name, password, role_id, active, system, project_id)
 VALUES
-    ('Admin', 'admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', 1, TRUE, TRUE, 'base');
+    ('admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', 1, TRUE, TRUE, 'base');
 
 INSERT INTO
     entity

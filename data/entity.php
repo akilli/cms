@@ -16,13 +16,6 @@ return [
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
             ],
-            'username' => [
-                'name' => 'Username',
-                'type' => 'text',
-                'required' => true,
-                'uniq' => true,
-                'actions' => ['admin', 'edit'],
-            ],
             'password' => [
                 'name' => 'Password',
                 'type' => 'password',
