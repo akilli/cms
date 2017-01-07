@@ -3,15 +3,7 @@
     <h1><?= _('Profile');?></h1>
     <form method="post" enctype="multipart/form-data">
         <fieldset>
-            <legend><?= _('Credentials');?></legend>
-            <div data-attr="name">
-                <label for="data-name"><?= _('Name');?> <em class="required"><?= _('Required');?></em></label>
-                <input id="data-name" type="text" name="data[name]" value="<?=$§('item')['name'];?>" required="required" />
-            </div>
-            <div data-attr="username">
-                <label for="data-username"><?= _('Username');?> <em class="required"><?= _('Required');?></em> <em class="uniq"><?= _('Unique');?></em></label>
-                <input id="data-username" type="text" name="data[username]" value="<?=$§('item')['username'];?>" required="required" />
-            </div>
+            <legend><?= _('Profile Data');?></legend>
             <div data-attr="password">
                 <label for="data-password"><?= _('Password');?></label>
                 <input id="data-password" type="password" name="data[password]" autocomplete="off" />
