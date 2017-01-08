@@ -104,26 +104,14 @@ function db_type(array $attr, $value): int
 /**
  * Quotes value
  *
+ * @param array $attr
  * @param mixed $value
- * @param string $backend
  *
- * @return mixed
+ * @return string
  */
-function qv($value, string $backend = null)
+function qv(array $attr, $value): string
 {
-    if ($backend === 'bool') {
-        return $value ? 'TRUE' : 'FALSE';
-    }
-
-    if ($backend === 'int') {
-        return (int) $value;
-    }
-
-    if ($backend === 'decimal') {
-        return sprintf('%F', $value);
-    }
-
-    return "'" . addcslashes($value, "\000\n\r\\'\"\032") . "'";
+    return db()->quote($value, db_type($attr, $value));
 }
 
 /**
@@ -269,7 +257,7 @@ function db_crit(array $crit, array $attrs, array $opts = [], bool $having = fal
 
         foreach ((array) $value as $v) {
             $v = $op === 'ILIKE' ? '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%' : $v;
-            $r[] = $col . ' ' . $op . ' ' . qv($v, $attrs[$id]['backend']);
+            $r[] = $col . ' ' . $op . ' ' . qv($attrs[$id], $v);
         }
 
         $cols[$id] = '(' . implode(' OR ', $r) . ')';

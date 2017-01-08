@@ -33,7 +33,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
 
         $val = array_map(
             function ($v) use ($attr) {
-                return qv($v, $attr['backend']);
+                return qv($attr, $v);
             },
             (array) $crit[$uid]
         );
