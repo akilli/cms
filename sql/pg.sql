@@ -199,15 +199,15 @@ VALUES
 
 INSERT INTO
     role
-    (id, name, privilege, active, system, project_id)
+    (name, privilege, active, system, project_id)
 VALUES
-    (1, 'admin', '["_all_"]', TRUE, TRUE, 'base');
+    ('admin', '["_all_"]', TRUE, TRUE, 'base');
 
 INSERT INTO
     account
     (name, password, role_id, active, system, project_id)
 VALUES
-    ('admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', 1, TRUE, TRUE, 'base');
+    ('admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', CURRVAL('role_id_seq'), TRUE, TRUE, 'base');
 
 INSERT INTO
     entity
