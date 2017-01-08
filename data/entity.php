@@ -158,7 +158,7 @@ return [
                 'actions' => ['edit', 'view'],
             ],
             'search' => [
-                'name' => 'Search Index',
+                'name' => 'Search',
                 'sort' => -600,
                 'type' => 'textarea',
             ],
