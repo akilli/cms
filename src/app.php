@@ -84,7 +84,6 @@ function path(string $dir, string $id = null): string
         $data['data'] = $root . '/data';
         $data['lib'] = $public . '/lib';
         $data['log'] = $root . '/var/log';
-        $data['sql'] = $root . '/sql';
         $data['template'] = $root . '/template';
         $data['theme'] = $public . '/theme';
         $data['tmp'] = $root . '/var/tmp';
