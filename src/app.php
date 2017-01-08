@@ -88,7 +88,6 @@ function path(string $dir, string $id = null): string
         $data['template'] = $root . '/template';
         $data['theme'] = $public . '/theme';
         $data['tmp'] = $root . '/var/tmp';
-        $data['xml'] = $root . '/xml';
     }
 
     if (empty($data[$dir])) {
