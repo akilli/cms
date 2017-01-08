@@ -6,10 +6,8 @@
 /public/theme/*
 !/public/theme/base
 !/public/theme/.gitkeep
-/var/log/*
-!/var/log/.gitkeep
-/var/tmp/*
-!/var/tmp/.gitkeep
+/log/*
+!/log/.gitkeep
 
 #
 # DEV

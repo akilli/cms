@@ -83,10 +83,10 @@ function path(string $dir, string $id = null): string
         $data['asset'] = $public . '/asset';
         $data['data'] = $root . '/data';
         $data['lib'] = $public . '/lib';
-        $data['log'] = $root . '/var/log';
+        $data['log'] = $root . '/log';
         $data['template'] = $root . '/template';
         $data['theme'] = $public . '/theme';
-        $data['tmp'] = $root . '/var/tmp';
+        $data['tmp'] = sys_get_temp_dir();
     }
 
     if (empty($data[$dir])) {
