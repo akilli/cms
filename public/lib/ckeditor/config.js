@@ -18,4 +18,8 @@ CKEDITOR.editorConfig = function (config) {
     config.removeDialogTabs = 'link:advanced;link:target';
     config.height = '30rem';
     config.disableNativeSpellChecker = true;
+    config.entities = false;
+    config.entities_additional = '';
+    config.entities_greek = false;
+    config.entities_latin = false;
 };
