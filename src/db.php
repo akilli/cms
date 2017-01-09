@@ -114,11 +114,7 @@ function db_cols(array $attrs, array $item): array
 {
     $data = [];
 
-    foreach ($item as $uid => $val) {
-        if (empty($attrs[$uid]['col']) || $attrs[$uid]['auto']) {
-            continue;
-        }
-
+    foreach (db_attr($item, true) as $uid => $val) {
         $param = db_param($uid);
         $cast = $attrs[$uid]['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
         $val = $attrs[$uid]['multiple'] && $attrs[$uid]['backend'] === 'json' ? json_encode($val) : $val;
@@ -134,18 +130,19 @@ function db_cols(array $attrs, array $item): array
 }
 
 /**
- * Filter out non-DB columens
+ * Filter out non-DB and optionally auto increment columns
  *
  * @param array $attrs
+ * @param bool $auto
  *
  * @return array
  */
-function db_attr(array $attrs): array
+function db_attr(array $attrs, bool $auto = false): array
 {
     return array_filter(
         $attrs,
-        function (array $attr) {
-            return !empty($attr['col']);
+        function (array $attr) use ($auto) {
+            return !empty($attr['col']) && (!$auto || empty($attr['auto']));
         }
     );
 }
