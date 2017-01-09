@@ -242,10 +242,5 @@ function eav_delete(array & $item): bool
  */
 function eav_attr(array $attrs): array
 {
-    return array_filter(
-        array_diff_key($attrs, data('entity', 'content')['attr']),
-        function (array $attr) {
-            return !empty($attr['col']);
-        }
-    );
+    return db_attr(array_diff_key($attrs, data('entity', 'content')['attr']));
 }

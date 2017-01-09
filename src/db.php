@@ -134,6 +134,23 @@ function db_cols(array $attrs, array $item): array
 }
 
 /**
+ * Filter out non-DB columens
+ *
+ * @param array $attrs
+ *
+ * @return array
+ */
+function db_attr(array $attrs): array
+{
+    return array_filter(
+        $attrs,
+        function (array $attr) {
+            return !empty($attr['col']);
+        }
+    );
+}
+
+/**
  * Quotes identifier
  *
  * @param string $id
