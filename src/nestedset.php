@@ -91,7 +91,7 @@ function nestedset_save(array & $item): bool
     nestedset_position($item);
 
     // Move all affected nodes from old tree and update their positions for the new tree without adding them yet
-    $stmt = prep(
+    $stmt = db_prep(
         'UPDATE %1$s
         SET %2$s = :root_id, %3$s = -1 * (%3$s + :lft_diff), %4$s = -1 * (%4$s + :rgt_diff)
         WHERE %2$s = :old_root_id AND %3$s BETWEEN :lft AND :rgt',
@@ -114,7 +114,7 @@ function nestedset_save(array & $item): bool
     nestedset_insert($item);
 
     // Finally add the affected nodes to new tree
-    $stmt = prep(
+    $stmt = db_prep(
         'UPDATE %1$s
         SET %3$s = -1 * %3$s, %4$s = -1 * %4$s, %5$s = %5$s + :level
         WHERE %2$s = :root_id AND %3$s < 0',
@@ -142,7 +142,7 @@ function nestedset_delete(array & $item): bool
 {
     $attrs = $item['_entity']['attr'];
 
-    $stmt = prep(
+    $stmt = db_prep(
         'DELETE FROM %s WHERE %s = :root_id AND %s BETWEEN :lft AND :rgt',
         $item['_entity']['tab'],
         $attrs['root_id']['col'],
@@ -179,7 +179,7 @@ function nestedset_position(array & $item): void
 
     if (!$bLft || !$b = one($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $bLft])) {
         // No or wrong basis given so append node
-        $stmt = prep(
+        $stmt = db_prep(
             'SELECT COALESCE(MAX(%s), 0) + 1 FROM %s WHERE %s = :root_id',
             $attrs['rgt']['col'],
             $item['_entity']['tab'],
@@ -220,7 +220,7 @@ function nestedset_insert(array $item): void
     $attrs = $item['_entity']['attr'];
     $range = $item['rgt'] - $item['lft'] + 1;
 
-    $stmt = prep(
+    $stmt = db_prep(
         'UPDATE %1$s SET %3$s = %3$s + :range WHERE %2$s = :root_id AND %3$s >= :lft',
         $item['_entity']['tab'],
         $attrs['root_id']['col'],
@@ -231,7 +231,7 @@ function nestedset_insert(array $item): void
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
 
-    $stmt = prep(
+    $stmt = db_prep(
         'UPDATE %1$s SET %3$s = %3$s + :range WHERE %2$s = :root_id AND %3$s >= :lft',
         $item['_entity']['tab'],
         $attrs['root_id']['col'],
@@ -255,7 +255,7 @@ function nestedset_remove(array $item): void
     $attrs = $item['_entity']['attr'];
     $range = $item['_old']['rgt'] - $item['_old']['lft'] + 1;
 
-    $stmt = prep(
+    $stmt = db_prep(
         'UPDATE %1$s SET %3$s = %3$s - :range WHERE %2$s = :root_id AND %3$s > :rgt',
         $item['_entity']['tab'],
         $attrs['root_id']['col'],
@@ -266,7 +266,7 @@ function nestedset_remove(array $item): void
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
 
-    $stmt = prep(
+    $stmt = db_prep(
         'UPDATE %1$s SET %3$s = %3$s - :range WHERE %2$s = :root_id AND %3$s > :rgt',
         $item['_entity']['tab'],
         $attrs['root_id']['col'],

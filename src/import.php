@@ -36,7 +36,7 @@ function import_zip(string $file): bool
     // Copy media files
     file_copy($toc['dir'] . '/media', project_path('media'));
 
-    $trans = trans(
+    $trans = db_trans(
         function () use ($toc) {
             $import = csv_unserialize(file_get_contents($toc['path']), ['keys' => ['pos', 'name', 'file']]);
 

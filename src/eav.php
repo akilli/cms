@@ -14,23 +14,23 @@ use PDO;
  */
 function eav_size(array $entity, array $crit = [], array $opts = []): int
 {
-    $main = data('entity', 'content')['attr'];
-    $add = array_diff_key($entity['attr'], $main);
+    $content = data('entity', 'content')['attr'];
+    $eav = eav_attr($entity['attr']);
     $crit['entity_id'] = $entity['id'];
 
-    if (!$add) {
+    if (!$eav) {
         return flat_size($entity, $crit, $opts);
     }
 
     $list = [];
     $params = [];
 
-    foreach ($add as $uid => $attr) {
-        if (empty($attr['col']) || empty($crit[$uid])) {
+    foreach ($eav as $uid => $attr) {
+        if (empty($crit[$uid])) {
             continue;
         }
 
-        $val = qva($attr, (array) $crit[$uid]);
+        $val = db_qa($attr, (array) $crit[$uid]);
         $params[$uid] = db_param($uid);
         $list[] = sprintf(
             '(id IN (SELECT content_id FROM eav WHERE attr_id = %s AND %s IN (%s)))',
@@ -40,15 +40,15 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
         );
     }
 
-    $stmt = prep(
+    $stmt = db_prep(
         'SELECT COUNT(*) FROM %s %s %s',
         $entity['tab'],
-        where($crit, $main, $opts),
+        where($crit, $content, $opts),
         $list ? ' AND ' . implode(' AND ', $list) : ''
     );
 
     foreach ($params as $uid => $param) {
-        $stmt->bindValue($param, $add[$uid]['eav_id'], PDO::PARAM_INT);
+        $stmt->bindValue($param, $eav[$uid]['eav_id'], PDO::PARAM_INT);
     }
 
     $stmt->execute();
@@ -67,11 +67,11 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
  */
 function eav_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $main = data('entity', 'content')['attr'];
-    $add = array_diff_key($entity['attr'], $main);
+    $content = data('entity', 'content')['attr'];
+    $eav = eav_attr($entity['attr']);
     $crit['entity_id'] = $entity['id'];
 
-    if (!$add) {
+    if (!$eav) {
         return flat_load($entity, $crit, $opts);
     }
 
@@ -80,17 +80,13 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     $params = [];
     $having = [];
 
-    foreach ($add as $uid => $attr) {
-        if (empty($attr['col'])) {
-            continue;
-        }
-
+    foreach ($eav as $uid => $attr) {
         $params[$uid] = db_param($uid);
         $list[] = sprintf(
             'MAX(CASE WHEN a.attr_id = %s THEN %s END) AS %s',
             $params[$uid],
             $attr['backend'] === 'search' ? 'a.value' : db_cast('a.value', $attr['backend']),
-            qi($uid)
+            db_qi($uid)
         );
 
         if (isset($crit[$uid])) {
@@ -100,10 +96,10 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     }
 
     $stmt = db()->prepare(
-        select($main, 'e') . ($list ? ', ' . implode(', ', $list) : '')
+        select($content, 'e') . ($list ? ', ' . implode(', ', $list) : '')
         . from($entity['tab'], 'e')
         . ($list ? ' LEFT JOIN eav a ON a.content_id = e.id' : '')
-        . where($crit, $main, $opts)
+        . where($crit, $content, $opts)
         . group(['id'])
         . having($having, $entity['attr'], $opts)
         . order($opts['order'] ?? [], $entity['attr'])
@@ -111,7 +107,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     );
 
     foreach ($params as $uid => $param) {
-        $stmt->bindValue($param, $add[$uid]['eav_id'], PDO::PARAM_INT);
+        $stmt->bindValue($param, $eav[$uid]['eav_id'], PDO::PARAM_INT);
     }
 
     $stmt->execute();
@@ -138,15 +134,15 @@ function eav_create(array & $item): bool
     $item['creator'] = $item['modifier'];
     $item['created'] = $item['modified'];
     $attrs = $item['_entity']['attr'];
-    $main = data('entity', 'content')['attr'];
-    $add = array_diff_key($attrs, $main);
+    $content = data('entity', 'content')['attr'];
+    $eav = eav_attr($attrs);
 
     // Main attributes
-    $item['_entity']['attr'] = $main;
+    $item['_entity']['attr'] = $content;
     $result = flat_create($item);
     $item['_entity']['attr'] = $attrs;
 
-    if (!$result || !$add) {
+    if (!$result || !$eav) {
         return $result;
     }
 
@@ -159,7 +155,7 @@ function eav_create(array & $item): bool
             (:content_id, :attr_id, :value)
     ');
 
-    foreach ($add as $uid => $attr) {
+    foreach ($eav as $uid => $attr) {
         if (!array_key_exists($uid, $item)) {
             continue;
         }
@@ -187,15 +183,15 @@ function eav_save(array & $item): bool
     $item['modifier'] = account('id');
     $item['modified'] = date(data('format', 'datetime.backend'));
     $attrs = $item['_entity']['attr'];
-    $main = data('entity', 'content')['attr'];
-    $add = array_diff_key($attrs, $main);
+    $content = data('entity', 'content')['attr'];
+    $eav = eav_attr($attrs);
 
     // Main attributes
-    $item['_entity']['attr'] = $main;
+    $item['_entity']['attr'] = $content;
     $result = flat_save($item);
     $item['_entity']['attr'] = $attrs;
 
-    if (!$result || !$add) {
+    if (!$result || !$eav) {
         return $result;
     }
 
@@ -212,7 +208,7 @@ function eav_save(array & $item): bool
             value = EXCLUDED.value
     ');
 
-    foreach ($add as $uid => $attr) {
+    foreach ($eav as $uid => $attr) {
         if (!array_key_exists($uid, $item)) {
             continue;
         }
@@ -237,4 +233,19 @@ function eav_save(array & $item): bool
 function eav_delete(array & $item): bool
 {
     return !empty($item['_entity']['id']) && $item['_entity']['id'] === $item['entity_id'] && flat_delete($item);
+}
+
+/**
+ * @param array $attrs
+ *
+ * @return array
+ */
+function eav_attr(array $attrs): array
+{
+    return array_filter(
+        array_diff_key($attrs, data('entity', 'content')['attr']),
+        function (array $attr) {
+            return !empty($attr['col']);
+        }
+    );
 }

@@ -155,7 +155,7 @@ function save(string $eId, array & $data): bool
             }
         }
 
-        $trans = trans(
+        $trans = db_trans(
             function () use ($eId, & $item, $callback) {
                 event(['entity.preSave', 'model.preSave.' . $item['_entity']['model'], 'entity.preSave.' . $eId], $item);
 
@@ -220,7 +220,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
             }
         }
 
-        $trans = trans(
+        $trans = db_trans(
             function () use ($eId, & $item, $callback, $entity) {
                 event(['entity.preDelete', 'model.preDelete.' . $entity['model'], 'entity.preDelete.' . $eId], $item);
 

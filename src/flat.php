@@ -12,7 +12,7 @@ namespace qnd;
  */
 function flat_size(array $entity, array $crit = [], array $opts = []): int
 {
-    $stmt = prep(
+    $stmt = db_prep(
         'SELECT COUNT(*) FROM %s %s',
         $entity['tab'],
         where($crit, $entity['attr'], $opts)
@@ -59,13 +59,13 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
 function flat_create(array & $item): bool
 {
     $attrs = $item['_entity']['attr'];
-    $cols = cols($attrs, $item);
+    $cols = db_cols($attrs, $item);
 
-    $stmt = prep(
+    $stmt = db_prep(
         'INSERT INTO %s (%s) VALUES (%s)',
         $item['_entity']['tab'],
         implode(', ', array_column($cols, 'col')),
-        implode(', ', array_column($cols, 'insert'))
+        implode(', ', array_column($cols, 'cast'))
     );
 
     foreach ($cols as $col) {
@@ -92,12 +92,12 @@ function flat_create(array & $item): bool
 function flat_save(array & $item): bool
 {
     $attrs = $item['_entity']['attr'];
-    $cols = cols($attrs, $item);
+    $cols = db_cols($attrs, $item);
 
-    $stmt = prep(
+    $stmt = db_prep(
         'UPDATE %s SET %s WHERE %s = :_id',
         $item['_entity']['tab'],
-        implode(', ', array_column($cols, 'update')),
+        implode(', ', array_column($cols, 'set')),
         $attrs['id']['col']
     );
 
@@ -122,7 +122,7 @@ function flat_delete(array & $item): bool
 {
     $attrs = $item['_entity']['attr'];
 
-    $stmt = prep(
+    $stmt = db_prep(
         'DELETE FROM %s WHERE %s = :id',
         $item['_entity']['tab'],
         $attrs['id']['col']

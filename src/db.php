@@ -30,7 +30,7 @@ function db(): PDO
  *
  * @return bool
  */
-function trans(callable $callback): bool
+function db_trans(callable $callback): bool
 {
     static $level = 0;
 
@@ -59,7 +59,7 @@ function trans(callable $callback): bool
  *
  * @return PDOStatement
  */
-function prep(string $sql, string ...$args): PDOStatement
+function db_prep(string $sql, string ...$args): PDOStatement
 {
     return db()->prepare(vsprintf($sql, $args));
 }
@@ -103,49 +103,6 @@ function db_cast(string $col, string $backend): string
 }
 
 /**
- * Quotes value
- *
- * @param array $attr
- * @param mixed $value
- *
- * @return string
- */
-function qv(array $attr, $value): string
-{
-    return db()->quote($value, db_type($attr, $value));
-}
-
-/**
- * Quotes array value
- *
- * @param array $attr
- * @param mixed $value
- *
- * @return array
- */
-function qva(array $attr, array $value): array
-{
-    return array_map(
-        function ($v) use ($attr) {
-            return qv($attr, $v);
-        },
-        $value
-    );
-}
-
-/**
- * Quotes identifier
- *
- * @param string $id
- *
- * @return string
- */
-function qi(string $id = null): string
-{
-    return $id ? '"' . str_replace('"', '', $id) . '"' : '';
-}
-
-/**
  * Prepare columns
  *
  * @param array $attrs
@@ -153,7 +110,7 @@ function qi(string $id = null): string
  *
  * @return array
  */
-function cols(array $attrs, array $item): array
+function db_cols(array $attrs, array $item): array
 {
     $data = [];
 
@@ -167,13 +124,110 @@ function cols(array $attrs, array $item): array
         $val = $attrs[$uid]['multiple'] && $attrs[$uid]['backend'] === 'json' ? json_encode($val) : $val;
         $data[$uid]['col'] = $attrs[$uid]['col'];
         $data[$uid]['param'] = $param;
-        $data[$uid]['insert'] = $cast;
-        $data[$uid]['update'] = $data[$uid]['col'] . ' = ' . $cast;
+        $data[$uid]['cast'] = $cast;
+        $data[$uid]['set'] = $data[$uid]['col'] . ' = ' . $cast;
         $data[$uid]['val'] = $val;
         $data[$uid]['type'] = db_type($attrs[$uid], $val);
     }
 
     return $data;
+}
+
+/**
+ * Quotes identifier
+ *
+ * @param string $id
+ *
+ * @return string
+ */
+function db_qi(string $id = null): string
+{
+    return $id ? '"' . str_replace('"', '', $id) . '"' : '';
+}
+
+/**
+ * Quotes value
+ *
+ * @param array $attr
+ * @param mixed $value
+ *
+ * @return string
+ */
+function db_qv(array $attr, $value): string
+{
+    return db()->quote($value, db_type($attr, $value));
+}
+
+/**
+ * Quotes array value
+ *
+ * @param array $attr
+ * @param mixed $value
+ *
+ * @return array
+ */
+function db_qa(array $attr, array $value): array
+{
+    return array_map(
+        function ($v) use ($attr) {
+            return db_qv($attr, $v);
+        },
+        $value
+    );
+}
+
+/**
+ * Internal WHERE and HAVING function
+ *
+ * @param array $crit
+ * @param array $attrs
+ * @param array $opts
+ * @param bool $having
+ *
+ * @return string
+ */
+function db_crit(array $crit, array $attrs, array $opts = [], bool $having = false): string
+{
+    $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
+    $cols = [];
+
+    foreach ($crit as $id => $value) {
+        if (empty($attrs[$id]['col'])) {
+            continue;
+        }
+
+        $attr = $attrs[$id];
+
+        if ($having) {
+            $col = db_qi($id);
+        } elseif (!empty($opts['as']) && strpos($attr['col'], '.') === false) {
+            $col =  $opts['as'] . '.' . $attr['col'];
+        } else {
+            $col = $attr['col'];
+        }
+
+        if ($attr['nullable'] && $value === null) {
+            $cols[$id] = '(' . $col . ' IS NULL)';
+            continue;
+        }
+
+        $value = (array) $value;
+        $r = [];
+
+        if (!in_array($id, $search)) {
+            $r[] = $col . ' IN (' . implode(', ', db_qa($attr, $value)) . ')';
+        } elseif ($attr['backend'] === 'search') {
+            $r[] = $col . ' @@ TO_TSQUERY(' . db_qv($attr, implode(' | ', $value)) . ')';
+        } else {
+            foreach ($value as $v) {
+                $r[] = $col . ' ILIKE ' . db_qv($attr, '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%');
+            }
+        }
+
+        $cols[$id] = '(' . implode(' OR ', $r) . ')';
+    }
+
+    return $cols ? ($having ? ' HAVING ' : ' WHERE ') . implode(' AND ', $cols) : '';
 }
 
 /**
@@ -195,7 +249,7 @@ function select(array $attrs, string $as = null): string
         }
 
         $pre = strpos($attr['col'], '.') !== false ? '' : $as;
-        $post = $uid !== $attr['col'] ? ' AS ' . qi($uid) : '';
+        $post = $uid !== $attr['col'] ? ' AS ' . db_qi($uid) : '';
         $cols[$uid] = $pre . $attr['col'] . $post;
     }
 
@@ -244,60 +298,6 @@ function having(array $crit, array $attrs, array $opts = []): string
 }
 
 /**
- * Internal WHERE and HAVING function
- *
- * @param array $crit
- * @param array $attrs
- * @param array $opts
- * @param bool $having
- *
- * @return string
- */
-function db_crit(array $crit, array $attrs, array $opts = [], bool $having = false): string
-{
-    $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
-    $cols = [];
-
-    foreach ($crit as $id => $value) {
-        if (empty($attrs[$id]['col'])) {
-            continue;
-        }
-
-        $attr = $attrs[$id];
-
-        if ($having) {
-            $col = qi($id);
-        } elseif (!empty($opts['as']) && strpos($attr['col'], '.') === false) {
-            $col =  $opts['as'] . '.' . $attr['col'];
-        } else {
-            $col = $attr['col'];
-        }
-
-        if ($attr['nullable'] && $value === null) {
-            $cols[$id] = '(' . $col . ' IS NULL)';
-            continue;
-        }
-
-        $value = (array) $value;
-        $r = [];
-
-        if (!in_array($id, $search)) {
-            $r[] = $col . ' IN (' . implode(', ', qva($attr, $value)) . ')';
-        } elseif ($attr['backend'] === 'search') {
-            $r[] = $col . ' @@ TO_TSQUERY(' . qv($attr, implode(' | ', $value)) . ')';
-        } else {
-            foreach ($value as $v) {
-                $r[] = $col . ' ILIKE ' . qv($attr, '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%');
-            }
-        }
-
-        $cols[$id] = '(' . implode(' OR ', $r) . ')';
-    }
-
-    return $cols ? ($having ? ' HAVING ' : ' WHERE ') . implode(' AND ', $cols) : '';
-}
-
-/**
  * GROUP BY part
  *
  * @param string[] $cols
@@ -323,7 +323,7 @@ function order(array $order, array $attrs = []): string
 
     foreach ($order as $uid => $dir) {
         if (!empty($attrs[$uid]['col'])) {
-            $cols[$uid] = qi($uid) . ' ' . (strtoupper($dir) === 'DESC' ? 'DESC' : 'ASC');
+            $cols[$uid] = db_qi($uid) . ' ' . (strtoupper($dir) === 'DESC' ? 'DESC' : 'ASC');
         }
     }
 
