@@ -330,21 +330,22 @@ function group(array $cols): string
  * ORDER BY part
  *
  * @param string[] $order
- * @param array $attrs
  *
  * @return string
  */
-function order(array $order, array $attrs = []): string
+function order(array $order): string
 {
+    if (!$order) {
+        return '';
+    }
+
     $cols = [];
 
     foreach ($order as $uid => $dir) {
-        if (!empty($attrs[$uid]['col'])) {
-            $cols[$uid] = db_qi($uid) . ' ' . (strtoupper($dir) === 'DESC' ? 'DESC' : 'ASC');
-        }
+        $cols[] = db_qi($uid) . ' ' . (strtoupper($dir) === 'DESC' ? 'DESC' : 'ASC');
     }
 
-    return $cols ? ' ORDER BY ' . implode(', ', $cols) : '';
+    return ' ORDER BY ' . implode(', ', $cols);
 }
 
 /**

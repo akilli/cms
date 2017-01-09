@@ -37,7 +37,7 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
         select($entity['attr'])
         . from($entity['tab'])
         . where($crit, $entity['attr'], $opts)
-        . order($opts['order'] ?? [], $entity['attr'])
+        . order($opts['order'] ?? [])
         . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
     );
     $stmt->execute();

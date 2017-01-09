@@ -102,7 +102,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         . where($crit, $content, $opts)
         . group(['id'])
         . having($having, $entity['attr'], $opts)
-        . order($opts['order'] ?? [], $entity['attr'])
+        . order($opts['order'] ?? [])
         . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
     );
 
