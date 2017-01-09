@@ -14,7 +14,6 @@ use PDO;
  */
 function eav_size(array $entity, array $crit = [], array $opts = []): int
 {
-    $content = data('entity', 'content')['attr'];
     $eav = eav_attr($entity['attr']);
     $crit['entity_id'] = $entity['id'];
 
@@ -43,7 +42,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
     $stmt = db_prep(
         'SELECT COUNT(*) FROM %s %s %s',
         $entity['tab'],
-        where($crit, $content, $opts),
+        where($crit, eav_main(), $opts),
         $list ? ' AND ' . implode(' AND ', $list) : ''
     );
 
@@ -67,7 +66,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
  */
 function eav_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $content = data('entity', 'content')['attr'];
+    $main = eav_main();
     $eav = eav_attr($entity['attr']);
     $crit['entity_id'] = $entity['id'];
 
@@ -96,10 +95,10 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     }
 
     $stmt = db()->prepare(
-        select($content, 'e') . ($list ? ', ' . implode(', ', $list) : '')
+        select($main, 'e') . ($list ? ', ' . implode(', ', $list) : '')
         . from($entity['tab'], 'e')
         . ($list ? ' LEFT JOIN eav a ON a.content_id = e.id' : '')
-        . where($crit, $content, $opts)
+        . where($crit, $main, $opts)
         . group(['id'])
         . having($having, $entity['attr'], $opts)
         . order($opts['order'] ?? [])
@@ -134,11 +133,10 @@ function eav_create(array & $item): bool
     $item['creator'] = $item['modifier'];
     $item['created'] = $item['modified'];
     $attrs = $item['_entity']['attr'];
-    $content = data('entity', 'content')['attr'];
     $eav = eav_attr($attrs);
 
     // Main attributes
-    $item['_entity']['attr'] = $content;
+    $item['_entity']['attr'] = data('entity', 'content')['attr'];
     $result = flat_create($item);
     $item['_entity']['attr'] = $attrs;
 
@@ -183,11 +181,10 @@ function eav_save(array & $item): bool
     $item['modifier'] = account('id');
     $item['modified'] = date(data('format', 'datetime.backend'));
     $attrs = $item['_entity']['attr'];
-    $content = data('entity', 'content')['attr'];
     $eav = eav_attr($attrs);
 
     // Main attributes
-    $item['_entity']['attr'] = $content;
+    $item['_entity']['attr'] = data('entity', 'content')['attr'];
     $result = flat_save($item);
     $item['_entity']['attr'] = $attrs;
 
@@ -236,6 +233,18 @@ function eav_delete(array & $item): bool
 }
 
 /**
+ * Main DB attributes
+ *
+ * @return array
+ */
+function eav_main(): array
+{
+    return db_attr(data('entity', 'content')['attr']);
+}
+
+/**
+ * EAV DB attributes
+ *
  * @param array $attrs
  *
  * @return array

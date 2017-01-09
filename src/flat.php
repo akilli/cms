@@ -33,10 +33,11 @@ function flat_size(array $entity, array $crit = [], array $opts = []): int
  */
 function flat_load(array $entity, array $crit = [], array $opts = []): array
 {
+    $attrs = db_attr($entity['attr']);
     $stmt = db()->prepare(
-        select($entity['attr'])
+        select($attrs)
         . from($entity['tab'])
-        . where($crit, $entity['attr'], $opts)
+        . where($crit, $attrs, $opts)
         . order($opts['order'] ?? [])
         . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
     );

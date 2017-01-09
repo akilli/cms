@@ -258,13 +258,8 @@ function select(array $attrs, string $as = null): string
     $as = $as ? $as . '.' : '';
 
     foreach ($attrs as $uid => $attr) {
-        if (empty($attr['col'])) {
-            continue;
-        }
-
-        $pre = strpos($attr['col'], '.') !== false ? '' : $as;
-        $post = $uid !== $attr['col'] ? ' AS ' . db_qi($uid) : '';
-        $cols[$uid] = $pre . $attr['col'] . $post;
+        $pre = !$attr['col'] || strpos($attr['col'], '.') !== false ? '' : $as;
+        $cols[$uid] = $pre . $attr['col'] . ' AS ' . db_qi($uid);
     }
 
     return $cols ? 'SELECT ' . implode(', ', $cols) : '';
