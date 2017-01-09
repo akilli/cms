@@ -148,6 +148,24 @@ function db_attr(array $attrs, bool $auto = false): array
 }
 
 /**
+ * Prefix DB columns
+ *
+ * @param array $cols
+ * @param string $tab
+ *
+ * @return array
+ */
+function db_prefix(array $cols, string $tab)
+{
+    return array_map(
+        function ($col) use ($tab) {
+            return $tab && strpos($col, '.') === false ? $tab . '.' . $col : $col;
+        },
+        $cols
+    );
+}
+
+/**
  * Quotes identifier
  *
  * @param string $id
@@ -247,20 +265,16 @@ function db_crit(array $crit, array $attrs, array $opts = [], bool $having = fal
 /**
  * SELECT part
  *
- * @param array $attrs
- * @param string $as
+ * @param array $select
  *
  * @return string
  */
-function select(array $attrs, string $as = null): string
+function select(array $select): string
 {
     $cols = [];
-    $as = $as ? $as . '.' : '';
 
-    foreach ($attrs as $uid => $attr) {
-        $pre = !$attr['col'] || strpos($attr['col'], '.') !== false ? '' : $as;
-        $post = $uid !== $attr['col'] ? ' AS ' . db_qi($uid) : '';
-        $cols[$uid] = $pre . $attr['col'] . $post;
+    foreach ($select as $as => $col) {
+        $cols[] = $col . ($as && is_string($as) ? ' AS ' . db_qi($as) : '');
     }
 
     return $cols ? 'SELECT ' . implode(', ', $cols) : '';
@@ -328,17 +342,13 @@ function group(array $cols): string
  */
 function order(array $order): string
 {
-    if (!$order) {
-        return '';
-    }
-
     $cols = [];
 
     foreach ($order as $uid => $dir) {
         $cols[] = db_qi($uid) . ' ' . (strtoupper($dir) === 'DESC' ? 'DESC' : 'ASC');
     }
 
-    return ' ORDER BY ' . implode(', ', $cols);
+    return $cols ? ' ORDER BY ' . implode(', ', $cols) : '';
 }
 
 /**

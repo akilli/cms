@@ -95,7 +95,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     }
 
     $stmt = db()->prepare(
-        select($main, 'e') . ($list ? ', ' . implode(', ', $list) : '')
+        select(db_prefix(array_column($main, 'col'), 'e')) . ($list ? ', ' . implode(', ', $list) : '')
         . from($entity['tab'], 'e')
         . ($list ? ' LEFT JOIN eav a ON a.content_id = e.id' : '')
         . where($crit, $main, $opts)

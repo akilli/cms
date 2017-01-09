@@ -35,7 +35,7 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
 {
     $attrs = db_attr($entity['attr']);
     $stmt = db()->prepare(
-        select($attrs)
+        select(array_column($attrs, 'col'))
         . from($entity['tab'])
         . where($crit, $attrs, $opts)
         . order($opts['order'] ?? [])
