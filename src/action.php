@@ -123,7 +123,7 @@ function action_index(array $entity): void
     $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : null;
 
     if ($q || ($q = http_get('q'))) {
-        if (($s = array_filter(explode(' ', $q))) && ($all = all($entity['id'], ['name' => $s], ['search' => true]))) {
+        if (($s = array_filter(explode(' ', $q))) && ($all = all($entity['id'], ['name' => $s], ['search' => ['name']]))) {
             $crit['id'] = array_keys($all);
             $p['q'] = urlencode(implode(' ', $s));
         } else {

@@ -65,10 +65,10 @@ function flat_create(array & $item): bool
         'INSERT INTO %s (%s) VALUES (%s)',
         $item['_entity']['tab'],
         implode(', ', array_column($cols, 'col')),
-        implode(', ', array_column($cols, 'param'))
+        implode(', ', array_column($cols, 'insert'))
     );
 
-    foreach ($cols as $uid => $col) {
+    foreach ($cols as $col) {
         $stmt->bindValue($col['param'], $col['val'], $col['type']);
     }
 
@@ -97,11 +97,11 @@ function flat_save(array & $item): bool
     $stmt = prep(
         'UPDATE %s SET %s WHERE %s = :_id',
         $item['_entity']['tab'],
-        implode(', ', array_column($cols, 'set')),
+        implode(', ', array_column($cols, 'update')),
         $attrs['id']['col']
     );
 
-    foreach ($cols as $uid => $col) {
+    foreach ($cols as $col) {
         $stmt->bindValue($col['param'], $col['val'], $col['type']);
     }
 

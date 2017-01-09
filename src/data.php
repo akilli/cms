@@ -54,23 +54,25 @@ function data_load(string $file): array
  *
  * @param array $data
  * @param array $crit
- * @param bool $search
+ * @param array $opts
  *
  * @return array
  */
-function data_filter(array $data, array $crit, bool $search = false): array
+function data_filter(array $data, array $crit, array $opts = []): array
 {
     if (!$crit) {
         return $data;
     }
+
+    $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
 
     foreach ($data as $id => $item) {
         foreach ($crit as $key => $value) {
             $value = (array) $value;
 
             if (!array_key_exists($key, $item)
-                || !$search && !in_array($item[$key], $value)
-                || $search && !data_filter_match($item[$key], $value)
+                || !in_array($key, $search) && !in_array($item[$key], $value)
+                || in_array($key, $search) && !data_filter_match($item[$key], $value)
             ) {
                 unset($data[$id]);
             }

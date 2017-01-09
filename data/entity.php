@@ -160,7 +160,7 @@ return [
             'search' => [
                 'name' => 'Search',
                 'sort' => -600,
-                'type' => 'textarea',
+                'type' => 'search',
             ],
             'created' => [
                 'name' => 'Created',

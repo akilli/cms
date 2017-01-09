@@ -95,6 +95,11 @@ return [
         'backend' => 'text',
         'frontend' => 'textarea',
     ],
+    'search' => [
+        'name' => 'Search',
+        'backend' => 'search',
+        'frontend' => 'textarea',
+    ],
     'select' => [
         'name' => 'Select',
         'backend' => 'varchar',

@@ -22,7 +22,6 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
         return flat_size($entity, $crit, $opts);
     }
 
-    $backend = data('backend');
     $list = [];
     $params = [];
 
@@ -31,17 +30,12 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
             continue;
         }
 
-        $val = array_map(
-            function ($v) use ($attr) {
-                return qv($attr, $v);
-            },
-            (array) $crit[$uid]
-        );
+        $val = qva($attr, (array) $crit[$uid]);
         $params[$uid] = db_param($uid);
         $list[] = sprintf(
-            '(id IN (SELECT content_id FROM eav WHERE attr_id = %s AND CAST(value AS %s) IN (%s)))',
+            '(id IN (SELECT content_id FROM eav WHERE attr_id = %s AND %s IN (%s)))',
             $params[$uid],
-            $backend[$attr['backend']],
+            db_cast('value', $attr['backend']),
             implode(', ', $val)
         );
     }
@@ -82,7 +76,6 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     }
 
     $opts['as'] = 'e';
-    $backend = data('backend');
     $list = [];
     $params = [];
     $having = [];
@@ -94,9 +87,9 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
 
         $params[$uid] = db_param($uid);
         $list[] = sprintf(
-            'MAX(CASE WHEN a.attr_id = %s THEN CAST(a.value AS %s) END) AS %s',
+            'MAX(CASE WHEN a.attr_id = %s THEN %s END) AS %s',
             $params[$uid],
-            $backend[$attr['backend']],
+            $attr['backend'] === 'search' ? 'a.value' : db_cast('a.value', $attr['backend']),
             qi($uid)
         );
 

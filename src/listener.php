@@ -189,7 +189,7 @@ function listener_eav_save(array & $data): void
 
     foreach ($data['_entity']['attr'] as $a) {
         if ($a['searchable']) {
-            $data['search'] .= ' ' . str_replace("\n", '', strip_tags($data[$a['id']]));
+            $data['search'] .= ' ' . str_replace("\n", ' ', strip_tags($data[$a['id']]));
         }
     }
 }
@@ -211,8 +211,8 @@ function listener_entity_save(array & $data): void
     $crit = ['target' => sprintf('%s%s/view/', $base, $data['_old']['id'])];
 
     if (!in_array('view', $data['actions'])) {
-        delete('url', $crit, ['search' => true, 'system' => true]);
-    } elseif ($data['id'] !== $data['_old']['id'] && ($url = all('url', $crit, ['search' => true]))) {
+        delete('url', $crit, ['search' => ['name'], 'system' => true]);
+    } elseif ($data['id'] !== $data['_old']['id'] && ($url = all('url', $crit, ['search' => ['name']]))) {
         foreach ($url as $id => $u) {
             $from = sprintf('#^%s%s/#', $base, $data['_old']['id']);
             $to = sprintf('%s%s/', $base, $data['id']);
@@ -232,7 +232,7 @@ function listener_entity_save(array & $data): void
  */
 function listener_entity_delete(array & $data): void
 {
-    delete('url', ['target' => sprintf('%s%s/view/', url(), $data['id'])], ['search' => true, 'system' => true]);
+    delete('url', ['target' => sprintf('%s%s/view/', url(), $data['id'])], ['search' => ['name'], 'system' => true]);
 }
 
 /**

@@ -86,19 +86,20 @@ function db_param(string $name): string
  */
 function db_type(array $attr, $value): int
 {
-    if ($value === null && !empty($attr['nullable'])) {
-        return PDO::PARAM_NULL;
-    }
+    return $value === null && !empty($attr['nullable']) ? PDO::PARAM_NULL : data('backend', $attr['backend'])['pdo'];
+}
 
-    if ($attr['backend'] === 'bool') {
-        return PDO::PARAM_BOOL;
-    }
-
-    if ($attr['backend'] === 'int' || $attr['backend'] === 'decimal') {
-        return PDO::PARAM_INT;
-    }
-
-    return PDO::PARAM_STR;
+/**
+ * Cast
+ *
+ * @param string $col
+ * @param string $backend
+ *
+ * @return string
+ */
+function db_cast(string $col, string $backend): string
+{
+    return 'CAST(' . $col . ' AS ' . data('backend', $backend)['db'] . ')';
 }
 
 /**
@@ -112,6 +113,24 @@ function db_type(array $attr, $value): int
 function qv(array $attr, $value): string
 {
     return db()->quote($value, db_type($attr, $value));
+}
+
+/**
+ * Quotes array value
+ *
+ * @param array $attr
+ * @param mixed $value
+ *
+ * @return array
+ */
+function qva(array $attr, array $value): array
+{
+    return array_map(
+        function ($v) use ($attr) {
+            return qv($attr, $v);
+        },
+        $value
+    );
 }
 
 /**
@@ -143,11 +162,15 @@ function cols(array $attrs, array $item): array
             continue;
         }
 
+        $param = db_param($uid);
+        $cast = $attrs[$uid]['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
+        $val = $attrs[$uid]['multiple'] && $attrs[$uid]['backend'] === 'json' ? json_encode($val) : $val;
         $data[$uid]['col'] = $attrs[$uid]['col'];
-        $data[$uid]['param'] = db_param($uid);
-        $data[$uid]['set'] = $data[$uid]['col'] . ' = ' . $data[$uid]['param'];
-        $data[$uid]['val'] = $attrs[$uid]['multiple'] && $attrs[$uid]['backend'] === 'json' ? json_encode($val) : $val;
-        $data[$uid]['type'] = db_type($attrs[$uid], $data[$uid]['val']);
+        $data[$uid]['param'] = $param;
+        $data[$uid]['insert'] = $cast;
+        $data[$uid]['update'] = $data[$uid]['col'] . ' = ' . $cast;
+        $data[$uid]['val'] = $val;
+        $data[$uid]['type'] = db_type($attrs[$uid], $val);
     }
 
     return $data;
@@ -232,6 +255,7 @@ function having(array $crit, array $attrs, array $opts = []): string
  */
 function db_crit(array $crit, array $attrs, array $opts = [], bool $having = false): string
 {
+    $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
     $cols = [];
 
     foreach ($crit as $id => $value) {
@@ -239,25 +263,32 @@ function db_crit(array $crit, array $attrs, array $opts = [], bool $having = fal
             continue;
         }
 
+        $attr = $attrs[$id];
+
         if ($having) {
             $col = qi($id);
-        } elseif (!empty($opts['as']) && strpos($attrs[$id]['col'], '.') === false) {
-            $col =  $opts['as'] . '.' . $attrs[$id]['col'];
+        } elseif (!empty($opts['as']) && strpos($attr['col'], '.') === false) {
+            $col =  $opts['as'] . '.' . $attr['col'];
         } else {
-            $col = $attrs[$id]['col'];
+            $col = $attr['col'];
         }
 
-        if ($attrs[$id]['nullable'] && $value === null) {
+        if ($attr['nullable'] && $value === null) {
             $cols[$id] = '(' . $col . ' IS NULL)';
             continue;
         }
 
-        $op = !empty($opts['search']) && in_array($attrs[$id]['backend'], ['varchar', 'text']) ? 'ILIKE' : '=';
+        $value = (array) $value;
         $r = [];
 
-        foreach ((array) $value as $v) {
-            $v = $op === 'ILIKE' ? '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%' : $v;
-            $r[] = $col . ' ' . $op . ' ' . qv($attrs[$id], $v);
+        if (!in_array($id, $search)) {
+            $r[] = $col . ' IN (' . implode(', ', qva($attr, $value)) . ')';
+        } elseif ($attr['backend'] === 'search') {
+            $r[] = $col . ' @@ TO_TSQUERY(' . qv($attr, implode(' | ', $value)) . ')';
+        } else {
+            foreach ($value as $v) {
+                $r[] = $col . ' ILIKE ' . qv($attr, '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%');
+            }
         }
 
         $cols[$id] = '(' . implode(' OR ', $r) . ')';

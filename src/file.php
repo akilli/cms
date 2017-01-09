@@ -72,7 +72,7 @@ function file_all(string $path, array $crit = [], array $opts = []): array
     }
 
     if ($crit) {
-        $data = data_filter($data, $crit, !empty($opts['search']));
+        $data = data_filter($data, $crit, $opts);
     }
 
     if (!empty($opts['order'])) {

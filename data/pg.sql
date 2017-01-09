@@ -101,7 +101,7 @@ CREATE TABLE content (
     entity_id varchar(100) NOT NULL REFERENCES entity ON DELETE CASCADE ON UPDATE CASCADE,
     active boolean NOT NULL DEFAULT FALSE,
     content text NOT NULL,
-    search text NOT NULL,
+    search tsvector NOT NULL,
     created timestamp NOT NULL DEFAULT current_timestamp,
     creator integer DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
     modified timestamp NOT NULL DEFAULT current_timestamp,
@@ -117,7 +117,7 @@ CREATE INDEX idx_content_creator ON content (creator);
 CREATE INDEX idx_content_modified ON content (modified);
 CREATE INDEX idx_content_modifier ON content (modifier);
 CREATE INDEX idx_content_project ON content (project_id);
-CREATE INDEX idx_content_search ON content (search);
+CREATE INDEX idx_content_search ON content USING GIN (search);
 
 -- -----------------------------------------------------------
 CREATE TABLE eav (
