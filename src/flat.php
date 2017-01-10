@@ -106,7 +106,7 @@ function flat_save(array & $item): bool
         $stmt->bindValue($col['param'], $col['val'], $col['type']);
     }
 
-    $stmt->bindValue(':_id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
+    $stmt->bindValue(':_id', $item['_old']['id'], db_type($item['_old']['id'], $attrs['id']));
     $stmt->execute();
 
     return true;
@@ -128,7 +128,7 @@ function flat_delete(array & $item): bool
         $item['_entity']['tab'],
         $attrs['id']['col']
     );
-    $stmt->bindValue(':id', $item['_old']['id'], db_type($attrs['id'], $item['_old']['id']));
+    $stmt->bindValue(':id', $item['_old']['id'], db_type($item['_old']['id'], $attrs['id']));
     $stmt->execute();
 
     return true;

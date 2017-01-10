@@ -79,12 +79,12 @@ function db_param(string $name): string
 /**
  * Set appropriate parameter type
  *
- * @param array $attr
  * @param mixed $value
+ * @param array $attr
  *
  * @return int
  */
-function db_type(array $attr, $value): int
+function db_type($value, array $attr): int
 {
     return $value === null && !empty($attr['nullable']) ? PDO::PARAM_NULL : data('backend', $attr['backend'])['pdo'];
 }
@@ -123,7 +123,7 @@ function db_cols(array $attrs, array $item): array
         $data[$uid]['cast'] = $cast;
         $data[$uid]['set'] = $data[$uid]['col'] . ' = ' . $cast;
         $data[$uid]['val'] = $val;
-        $data[$uid]['type'] = db_type($attrs[$uid], $val);
+        $data[$uid]['type'] = db_type($val, $attrs[$uid]);
     }
 
     return $data;
@@ -169,7 +169,7 @@ function db_qi(string $id): string
  */
 function db_qv($value, array $attr): string
 {
-    return db()->quote($value, db_type($attr, $value));
+    return db()->quote($value, db_type($value, $attr));
 }
 
 /**
