@@ -112,9 +112,14 @@ function db_cast(string $col, string $backend): string
  */
 function db_cols(array $attrs, array $item): array
 {
+    $attrs = db_attr($attrs, true);
     $data = [];
 
-    foreach (db_attr($item, true) as $uid => $val) {
+    foreach ($item as $uid => $val) {
+        if (empty($attrs[$uid])) {
+            continue;
+        }
+
         $param = db_param($uid);
         $cast = $attrs[$uid]['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
         $val = $attrs[$uid]['multiple'] && $attrs[$uid]['backend'] === 'json' ? json_encode($val) : $val;
