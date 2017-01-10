@@ -35,7 +35,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
             '(id IN (SELECT content_id FROM eav WHERE attr_id = %s AND %s IN (%s)))',
             $params[$uid],
             db_cast('value', $attr['backend']),
-            implode(', ', $val)
+            db_list($val)
         );
     }
 
@@ -43,7 +43,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
         'SELECT COUNT(*) FROM %s %s %s',
         $entity['tab'],
         where($crit, db_attr(data('entity', 'content')['attr']), $opts),
-        $list ? ' AND ' . implode(' AND ', $list) : ''
+        $list ? ' AND ' . db_and($list) : ''
     );
 
     foreach ($params as $uid => $param) {
@@ -74,9 +74,8 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         return flat_load($entity, $crit, $opts);
     }
 
-    $join = '';
     $select = array_column($main, 'col');
-    $list = [];
+    $list = ['id' => 'content_id'];
     $params = [];
 
     foreach ($eav as $uid => $attr) {
@@ -89,15 +88,10 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         );
     }
 
-    if ($list) {
-        $list['id'] = 'content_id';
-        $join = njoin('(' . select($list) . from('eav'). group(['id']) . ')', 'a');
-    }
-
     $stmt = db()->prepare(
         select($select)
         . from($entity['tab'])
-        . $join
+        . njoin('(' . select($list) . from('eav'). group(['id']) . ')', 'a')
         . where($crit, $main, $opts)
         . order($opts['order'] ?? [])
         . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)

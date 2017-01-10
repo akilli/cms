@@ -65,8 +65,8 @@ function flat_create(array & $item): bool
     $stmt = db_prep(
         'INSERT INTO %s (%s) VALUES (%s)',
         $item['_entity']['tab'],
-        implode(', ', array_column($cols, 'col')),
-        implode(', ', array_column($cols, 'cast'))
+        db_list(array_column($cols, 'col')),
+        db_list(array_column($cols, 'cast'))
     );
 
     foreach ($cols as $col) {
@@ -98,7 +98,7 @@ function flat_save(array & $item): bool
     $stmt = db_prep(
         'UPDATE %s SET %s WHERE %s = :_id',
         $item['_entity']['tab'],
-        implode(', ', array_column($cols, 'set')),
+        db_list(array_column($cols, 'set')),
         $attrs['id']['col']
     );
 

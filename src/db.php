@@ -191,6 +191,54 @@ function db_qa(array $value, array $attr): array
 }
 
 /**
+ * AND expression
+ *
+ * @param array $crit
+ *
+ * @return string
+ */
+function db_and(array $crit): string
+{
+    return implode(' AND ', $crit);
+}
+
+/**
+ * OR expression
+ *
+ * @param array $crit
+ *
+ * @return string
+ */
+function db_or(array $crit): string
+{
+    return '(' . implode(' OR ', $crit) . ')';
+}
+
+/**
+ * IS NULL expression
+ *
+ * @param string $col
+ *
+ * @return string
+ */
+function db_null(string $col): string
+{
+    return $col . ' IS NULL';
+}
+
+/**
+ * List columns
+ *
+ * @param array $cols
+ *
+ * @return string
+ */
+function db_list(array $cols): string
+{
+    return implode(', ', $cols);
+}
+
+/**
  * SELECT part
  *
  * @param array $select
@@ -205,7 +253,7 @@ function select(array $select): string
         $cols[] = $col . ($as && is_string($as) ? ' AS ' . db_qi($as) : '');
     }
 
-    return $cols ? 'SELECT ' . implode(', ', $cols) : '';
+    return $cols ? 'SELECT ' . db_list($cols) : '';
 }
 
 /**
@@ -257,7 +305,7 @@ function where(array $crit, array $attrs, array $opts = []): string
         $col = $attr['col'];
 
         if ($value === null) {
-            $cols[$id] = '(' . $col . ' IS NULL)';
+            $cols[$id] = db_null($col);
             continue;
         }
 
@@ -274,10 +322,10 @@ function where(array $crit, array $attrs, array $opts = []): string
             }
         }
 
-        $cols[$id] = '(' . implode(' OR ', $r) . ')';
+        $cols[$id] = db_or($r);
     }
 
-    return $cols ? ' WHERE ' . implode(' AND ', $cols) : '';
+    return $cols ? ' WHERE ' . db_and($cols) : '';
 }
 
 /**
@@ -289,7 +337,7 @@ function where(array $crit, array $attrs, array $opts = []): string
  */
 function group(array $cols): string
 {
-    return $cols ? ' GROUP BY ' . implode(', ' , $cols) : '';
+    return $cols ? ' GROUP BY ' . db_list($cols) : '';
 }
 
 /**
@@ -307,7 +355,7 @@ function order(array $order): string
         $cols[] = db_qi($uid) . ' ' . (strtoupper($dir) === 'DESC' ? 'DESC' : 'ASC');
     }
 
-    return $cols ? ' ORDER BY ' . implode(', ', $cols) : '';
+    return $cols ? ' ORDER BY ' . db_list($cols) : '';
 }
 
 /**
