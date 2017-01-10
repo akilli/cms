@@ -148,31 +148,13 @@ function db_attr(array $attrs, bool $auto = false): array
 }
 
 /**
- * Prefix DB columns
- *
- * @param array $cols
- * @param string $tab
- *
- * @return array
- */
-function db_prefix(array $cols, string $tab)
-{
-    return array_map(
-        function ($col) use ($tab) {
-            return $tab && strpos($col, '.') === false ? $tab . '.' . $col : $col;
-        },
-        $cols
-    );
-}
-
-/**
  * Quotes identifier
  *
  * @param string $id
  *
  * @return string
  */
-function db_qi(string $id = null): string
+function db_qi(string $id): string
 {
     return $id ? '"' . str_replace('"', '', $id) . '"' : '';
 }
@@ -209,60 +191,6 @@ function db_qa(array $attr, array $value): array
 }
 
 /**
- * Internal WHERE and HAVING function
- *
- * @param array $crit
- * @param array $attrs
- * @param array $opts
- * @param bool $having
- *
- * @return string
- */
-function db_crit(array $crit, array $attrs, array $opts = [], bool $having = false): string
-{
-    $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
-    $cols = [];
-
-    foreach ($crit as $id => $value) {
-        if (empty($attrs[$id]['col'])) {
-            continue;
-        }
-
-        $attr = $attrs[$id];
-
-        if ($having) {
-            $col = db_qi($id);
-        } elseif (!empty($opts['as']) && strpos($attr['col'], '.') === false) {
-            $col =  $opts['as'] . '.' . $attr['col'];
-        } else {
-            $col = $attr['col'];
-        }
-
-        if ($attr['nullable'] && $value === null) {
-            $cols[$id] = '(' . $col . ' IS NULL)';
-            continue;
-        }
-
-        $value = (array) $value;
-        $r = [];
-
-        if (!in_array($id, $search)) {
-            $r[] = $col . ' IN (' . implode(', ', db_qa($attr, $value)) . ')';
-        } elseif ($attr['backend'] === 'search') {
-            $r[] = $col . ' @@ TO_TSQUERY(' . db_qv($attr, implode(' | ', $value)) . ')';
-        } else {
-            foreach ($value as $v) {
-                $r[] = $col . ' ILIKE ' . db_qv($attr, '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%');
-            }
-        }
-
-        $cols[$id] = '(' . implode(' OR ', $r) . ')';
-    }
-
-    return $cols ? ($having ? ' HAVING ' : ' WHERE ') . implode(' AND ', $cols) : '';
-}
-
-/**
  * SELECT part
  *
  * @param array $select
@@ -290,7 +218,20 @@ function select(array $select): string
  */
 function from(string $tab, string $as = null): string
 {
-    return ' FROM ' . $tab . ($as ? ' ' . $as : '');
+    return ' FROM ' . $tab . ' ' . $as;
+}
+
+/**
+ * NATURAL JOIN part
+ *
+ * @param string $tab
+ * @param string $as
+ *
+ * @return string
+ */
+function njoin(string $tab, string $as = null): string
+{
+    return $tab ? ' NATURAL JOIN ' . $tab . ' ' . $as : '';
 }
 
 /**
@@ -304,21 +245,39 @@ function from(string $tab, string $as = null): string
  */
 function where(array $crit, array $attrs, array $opts = []): string
 {
-    return db_crit($crit, $attrs, $opts);
-}
+    $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
+    $cols = [];
 
-/**
- * HAVING part
- *
- * @param array $crit
- * @param array $attrs
- * @param array $opts
- *
- * @return string
- */
-function having(array $crit, array $attrs, array $opts = []): string
-{
-    return db_crit($crit, $attrs, $opts, true);
+    foreach ($crit as $id => $value) {
+        if (empty($attrs[$id]['col'])) {
+            continue;
+        }
+
+        $attr = $attrs[$id];
+        $col = $attr['col'];
+
+        if ($value === null) {
+            $cols[$id] = '(' . $col . ' IS NULL)';
+            continue;
+        }
+
+        $value = (array) $value;
+        $r = [];
+
+        if (!in_array($id, $search)) {
+            $r[] = $col . ' IN (' . implode(', ', db_qa($attr, $value)) . ')';
+        } elseif ($attr['backend'] === 'search') {
+            $r[] = $col . ' @@ TO_TSQUERY(' . db_qv($attr, implode(' | ', $value)) . ')';
+        } else {
+            foreach ($value as $v) {
+                $r[] = $col . ' ILIKE ' . db_qv($attr, '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%');
+            }
+        }
+
+        $cols[$id] = '(' . implode(' OR ', $r) . ')';
+    }
+
+    return $cols ? ' WHERE ' . implode(' AND ', $cols) : '';
 }
 
 /**
@@ -361,7 +320,5 @@ function order(array $order): string
  */
 function limit(int $limit, int $offset = 0): string
 {
-    $offset = $offset >= 0 ? $offset : 0;
-
-    return $limit > 0 ? ' LIMIT ' . $limit . ' OFFSET ' . $offset : '';
+    return $limit > 0 ? ' LIMIT ' . $limit . ' OFFSET ' . max(0, $offset) : '';
 }

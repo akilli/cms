@@ -42,7 +42,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
     $stmt = db_prep(
         'SELECT COUNT(*) FROM %s %s %s',
         $entity['tab'],
-        where($crit, eav_main(), $opts),
+        where($crit, db_attr(data('entity', 'content')['attr']), $opts),
         $list ? ' AND ' . implode(' AND ', $list) : ''
     );
 
@@ -66,7 +66,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
  */
 function eav_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $main = eav_main();
+    $main = db_attr(data('entity', 'content')['attr']);
     $eav = eav_attr($entity['attr']);
     $crit['entity_id'] = $entity['id'];
 
@@ -74,33 +74,31 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         return flat_load($entity, $crit, $opts);
     }
 
-    $opts['as'] = 'e';
+    $join = '';
+    $select = array_column($main, 'col');
     $list = [];
     $params = [];
-    $having = [];
 
     foreach ($eav as $uid => $attr) {
+        $select[] = db_qi($uid);
         $params[$uid] = db_param($uid);
-        $list[] = sprintf(
-            'MAX(CASE WHEN a.attr_id = %s THEN %s END) AS %s',
+        $list[$uid] = sprintf(
+            'MAX(CASE WHEN attr_id = %s THEN %s END)',
             $params[$uid],
-            $attr['backend'] === 'search' ? 'a.value' : db_cast('a.value', $attr['backend']),
-            db_qi($uid)
+            $attr['backend'] === 'search' ? 'value' : db_cast('value', $attr['backend'])
         );
+    }
 
-        if (isset($crit[$uid])) {
-            $having[$uid] = $crit[$uid];
-            unset($crit[$uid]);
-        }
+    if ($list) {
+        $list['id'] = 'content_id';
+        $join = njoin('(' . select($list) . from('eav'). group(['id']) . ')', 'a');
     }
 
     $stmt = db()->prepare(
-        select(db_prefix(array_column($main, 'col'), 'e')) . ($list ? ', ' . implode(', ', $list) : '')
-        . from($entity['tab'], 'e')
-        . ($list ? ' LEFT JOIN eav a ON a.content_id = e.id' : '')
+        select($select)
+        . from($entity['tab'])
+        . $join
         . where($crit, $main, $opts)
-        . group(['id'])
-        . having($having, $entity['attr'], $opts)
         . order($opts['order'] ?? [])
         . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
     );
@@ -230,16 +228,6 @@ function eav_save(array & $item): bool
 function eav_delete(array & $item): bool
 {
     return !empty($item['_entity']['id']) && $item['_entity']['id'] === $item['entity_id'] && flat_delete($item);
-}
-
-/**
- * Main DB attributes
- *
- * @return array
- */
-function eav_main(): array
-{
-    return db_attr(data('entity', 'content')['attr']);
 }
 
 /**
