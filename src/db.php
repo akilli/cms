@@ -227,6 +227,45 @@ function db_null(string $col): string
 }
 
 /**
+ * IN expression
+ *
+ * @param string $col
+ * @param array $vals
+ *
+ * @return string
+ */
+function db_in(string $col, array $vals): string
+{
+    return $col . ' IN (' . db_list($vals) . ')';
+}
+
+/**
+ * LIKE expression
+ *
+ * @param string $col
+ * @param string $val
+ *
+ * @return string
+ */
+function db_like(string $col, string $val): string
+{
+    return $col . ' ILIKE ' . $val;
+}
+
+/**
+ * SEARCH expression
+ *
+ * @param string $col
+ * @param string $val
+ *
+ * @return string
+ */
+function db_search(string $col, string $val): string
+{
+    return $col . ' @@ TO_TSQUERY(' . $val . ')';
+}
+
+/**
  * List columns
  *
  * @param array $cols
@@ -313,12 +352,12 @@ function where(array $crit, array $attrs, array $opts = []): string
         $r = [];
 
         if (!in_array($id, $search)) {
-            $r[] = $col . ' IN (' . implode(', ', db_qa($value, $attr)) . ')';
+            $r[] = db_in($col, db_qa($value, $attr));
         } elseif ($attr['backend'] === 'search') {
-            $r[] = $col . ' @@ TO_TSQUERY(' . db_qv(implode(' | ', $value), $attr) . ')';
+            $r[] = db_search($col, db_qv(implode(' | ', $value), $attr));
         } else {
             foreach ($value as $v) {
-                $r[] = $col . ' ILIKE ' . db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr);
+                $r[] = db_like($col, db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr));
             }
         }
 
