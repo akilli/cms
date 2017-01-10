@@ -50,7 +50,7 @@ function nestedset_create(array & $item): bool
     // Position
     nestedset_position($item);
     // Make space in the new tree
-    nestedset_insert($item);
+    nestedset_prepare($item);
 
     // Insert new node
     return flat_create($item);
@@ -80,44 +80,14 @@ function nestedset_save(array & $item): bool
 
     // Position
     nestedset_position($item);
-
     // Move all affected nodes from old tree and update their positions for the new tree without adding them yet
-    $stmt = db_prep(
-        'UPDATE %1$s
-        SET %2$s = :root_id, %3$s = -1 * (%3$s + :lft_diff), %4$s = -1 * (%4$s + :rgt_diff)
-        WHERE %2$s = :old_root_id AND %3$s BETWEEN :lft AND :rgt',
-        $item['_entity']['tab'],
-        $attrs['root_id']['col'],
-        $attrs['lft']['col'],
-        $attrs['rgt']['col']
-    );
-    $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
-    $stmt->bindValue(':old_root_id', $item['_old']['root_id'], db_type($item['_old']['root_id'], $attrs['root_id']));
-    $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
-    $stmt->bindValue(':lft_diff', $item['lft'] - $item['_old']['lft'], PDO::PARAM_INT);
-    $stmt->bindValue(':rgt_diff', $item['lft'] - $item['_old']['lft'], PDO::PARAM_INT);
-    $stmt->execute();
-
+    nestedset_move($item);
     // Close gap in old tree
     nestedset_remove($item);
     // Make space in the new tree
-    nestedset_insert($item);
-
+    nestedset_prepare($item);
     // Finally add the affected nodes to new tree
-    $stmt = db_prep(
-        'UPDATE %1$s
-        SET %3$s = -1 * %3$s, %4$s = -1 * %4$s, %5$s = %5$s + :level
-        WHERE %2$s = :root_id AND %3$s < 0',
-        $item['_entity']['tab'],
-        $attrs['root_id']['col'],
-        $attrs['lft']['col'],
-        $attrs['rgt']['col'],
-        $attrs['level']['col']
-    );
-    $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
-    $stmt->bindValue(':level', $item['level'] - $item['_old']['level'], PDO::PARAM_INT);
-    $stmt->execute();
+    nestedset_insert($item);
 
     return true;
 }
@@ -206,7 +176,7 @@ function nestedset_position(array & $item): void
  *
  * @return void
  */
-function nestedset_insert(array $item): void
+function nestedset_prepare(array $item): void
 {
     $attrs = $item['_entity']['attr'];
     $range = $item['rgt'] - $item['lft'] + 1;
@@ -231,6 +201,35 @@ function nestedset_insert(array $item): void
     $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
     $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
+/**
+ * Move all affected nodes from old tree and update their positions for the new tree without adding them yet
+ *
+ * @param array $item
+ *
+ * @return void
+ */
+function nestedset_move(array $item): void
+{
+    $attrs = $item['_entity']['attr'];
+
+    $stmt = db_prep(
+        'UPDATE %1$s
+        SET %2$s = :root_id, %3$s = -1 * (%3$s + :lft_diff), %4$s = -1 * (%4$s + :rgt_diff)
+        WHERE %2$s = :old_root_id AND %3$s BETWEEN :lft AND :rgt',
+        $item['_entity']['tab'],
+        $attrs['root_id']['col'],
+        $attrs['lft']['col'],
+        $attrs['rgt']['col']
+    );
+    $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':old_root_id', $item['_old']['root_id'], db_type($item['_old']['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
+    $stmt->bindValue(':lft_diff', $item['lft'] - $item['_old']['lft'], PDO::PARAM_INT);
+    $stmt->bindValue(':rgt_diff', $item['lft'] - $item['_old']['lft'], PDO::PARAM_INT);
     $stmt->execute();
 }
 
@@ -266,5 +265,31 @@ function nestedset_remove(array $item): void
     $stmt->bindValue(':root_id', $item['_old']['root_id'], db_type($item['_old']['root_id'], $attrs['root_id']));
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
+/**
+ * Finally add the affected nodes to new tree
+ *
+ * @param array $item
+ *
+ * @return void
+ */
+function nestedset_insert(array $item): void
+{
+    $attrs = $item['_entity']['attr'];
+
+    $stmt = db_prep(
+        'UPDATE %1$s
+        SET %3$s = -1 * %3$s, %4$s = -1 * %4$s, %5$s = %5$s + :level
+        WHERE %2$s = :root_id AND %3$s < 0',
+        $item['_entity']['tab'],
+        $attrs['root_id']['col'],
+        $attrs['lft']['col'],
+        $attrs['rgt']['col'],
+        $attrs['level']['col']
+    );
+    $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':level', $item['level'] - $item['_old']['level'], PDO::PARAM_INT);
     $stmt->execute();
 }
