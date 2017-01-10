@@ -29,7 +29,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
             continue;
         }
 
-        $val = db_qa($attr, (array) $crit[$uid]);
+        $val = db_qa((array) $crit[$uid], $attr);
         $params[$uid] = db_param($uid);
         $list[] = sprintf(
             '(id IN (SELECT content_id FROM eav WHERE attr_id = %s AND %s IN (%s)))',

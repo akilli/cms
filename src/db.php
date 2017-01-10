@@ -175,12 +175,12 @@ function db_qv($value, array $attr): string
 /**
  * Quotes array value
  *
- * @param array $attr
  * @param mixed $value
+ * @param array $attr
  *
  * @return array
  */
-function db_qa(array $attr, array $value): array
+function db_qa(array $value, array $attr): array
 {
     return array_map(
         function ($v) use ($attr) {
@@ -265,7 +265,7 @@ function where(array $crit, array $attrs, array $opts = []): string
         $r = [];
 
         if (!in_array($id, $search)) {
-            $r[] = $col . ' IN (' . implode(', ', db_qa($attr, $value)) . ')';
+            $r[] = $col . ' IN (' . implode(', ', db_qa($value, $attr)) . ')';
         } elseif ($attr['backend'] === 'search') {
             $r[] = $col . ' @@ TO_TSQUERY(' . db_qv(implode(' | ', $value), $attr) . ')';
         } else {
