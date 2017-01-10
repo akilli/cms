@@ -122,6 +122,7 @@ function action_index(array $entity): void
     $p = [];
     $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : null;
 
+    // @todo Replace all() with size()
     if ($q || ($q = http_get('q'))) {
         if (($s = array_filter(explode(' ', $q))) && ($all = all($entity['id'], ['name' => $s], ['search' => ['name']]))) {
             $crit['id'] = array_keys($all);
