@@ -162,12 +162,12 @@ function db_qi(string $id): string
 /**
  * Quotes value
  *
- * @param array $attr
  * @param mixed $value
+ * @param array $attr
  *
  * @return string
  */
-function db_qv(array $attr, $value): string
+function db_qv($value, array $attr): string
 {
     return db()->quote($value, db_type($attr, $value));
 }
@@ -184,7 +184,7 @@ function db_qa(array $attr, array $value): array
 {
     return array_map(
         function ($v) use ($attr) {
-            return db_qv($attr, $v);
+            return db_qv($v, $attr);
         },
         $value
     );
@@ -267,10 +267,10 @@ function where(array $crit, array $attrs, array $opts = []): string
         if (!in_array($id, $search)) {
             $r[] = $col . ' IN (' . implode(', ', db_qa($attr, $value)) . ')';
         } elseif ($attr['backend'] === 'search') {
-            $r[] = $col . ' @@ TO_TSQUERY(' . db_qv($attr, implode(' | ', $value)) . ')';
+            $r[] = $col . ' @@ TO_TSQUERY(' . db_qv(implode(' | ', $value), $attr) . ')';
         } else {
             foreach ($value as $v) {
-                $r[] = $col . ' ILIKE ' . db_qv($attr, '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%');
+                $r[] = $col . ' ILIKE ' . db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr);
             }
         }
 
