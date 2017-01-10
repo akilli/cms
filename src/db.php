@@ -79,14 +79,27 @@ function db_param(string $name): string
 /**
  * Set appropriate parameter type
  *
- * @param mixed $value
+ * @param mixed $val
  * @param array $attr
  *
  * @return int
  */
-function db_type($value, array $attr): int
+function db_type($val, array $attr): int
 {
-    return $value === null && !empty($attr['nullable']) ? PDO::PARAM_NULL : data('backend', $attr['backend'])['pdo'];
+    return $val === null && !empty($attr['nullable']) ? PDO::PARAM_NULL : data('backend', $attr['backend'])['pdo'];
+}
+
+/**
+ * Manipulate value for DB
+ *
+ * @param mixed $val
+ * @param array $attr
+ *
+ * @return mixed
+ */
+function db_val($val, array $attr)
+{
+    return $attr['multiple'] && $attr['backend'] === 'json' ? json_encode($val) : $val;
 }
 
 /**
@@ -122,7 +135,7 @@ function db_cols(array $attrs, array $item): array
 
         $param = db_param($uid);
         $cast = $attrs[$uid]['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
-        $val = $attrs[$uid]['multiple'] && $attrs[$uid]['backend'] === 'json' ? json_encode($val) : $val;
+        $val = db_val($val, $attrs[$uid]);
         $data[$uid]['col'] = $attrs[$uid]['col'];
         $data[$uid]['param'] = $param;
         $data[$uid]['cast'] = $cast;

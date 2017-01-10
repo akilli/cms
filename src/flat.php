@@ -15,7 +15,7 @@ function flat_size(array $entity, array $crit = [], array $opts = []): int
     $stmt = db_prep(
         'SELECT COUNT(*) FROM %s %s',
         $entity['tab'],
-        where($crit, $entity['attr'], $opts)
+        where($crit, db_attr($entity['attr']), $opts)
     );
     $stmt->execute();
 

@@ -150,10 +150,9 @@ function eav_create(array & $item): bool
             continue;
         }
 
-        $val = $attr['multiple'] && $attr['backend'] === 'json' ? json_encode($item[$uid]) : $item[$uid];
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
         $stmt->bindValue(':attr_id', $attr['eav_id'], PDO::PARAM_INT);
-        $stmt->bindValue(':value', $val, PDO::PARAM_STR);
+        $stmt->bindValue(':value', db_val($item[$uid], $attr), PDO::PARAM_STR);
         $stmt->execute();
     }
 
@@ -202,10 +201,9 @@ function eav_save(array & $item): bool
             continue;
         }
 
-        $val = $attr['multiple'] && $attr['backend'] === 'json' ? json_encode($item[$uid]) : $item[$uid];
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
         $stmt->bindValue(':attr_id', $attr['eav_id'], PDO::PARAM_INT);
-        $stmt->bindValue(':value', $val, PDO::PARAM_STR);
+        $stmt->bindValue(':value', db_val($item[$uid], $attr), PDO::PARAM_STR);
         $stmt->execute();
     }
 
