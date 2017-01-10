@@ -346,7 +346,6 @@ return [
             'host' => [
                 'name' => 'Host',
                 'type' => 'text',
-                'nullable' => true,
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
             ],

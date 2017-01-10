@@ -6,7 +6,7 @@ START TRANSACTION;
 CREATE TABLE project (
     id varchar(100) PRIMARY KEY,
     name varchar(255) NOT NULL,
-    host varchar(255) DEFAULT NULL UNIQUE,
+    host varchar(255) NOT NULL UNIQUE,
     theme varchar(100) NOT NULL,
     active boolean NOT NULL DEFAULT FALSE,
     system boolean NOT NULL DEFAULT FALSE
@@ -195,7 +195,7 @@ INSERT INTO
     project
     (id, name, host, theme, active, system)
 VALUES
-    ('base', 'BASE', NULL, 'base', TRUE, TRUE);
+    ('base', 'BASE', '', 'base', TRUE, TRUE);
 
 INSERT INTO
     role
