@@ -16,14 +16,16 @@ use RuntimeException;
 function size(string $eId, array $crit = [], array $opts = []): int
 {
     $entity = data('entity', $eId);
-    $callback = fqn($entity['model'] . '_size');
+    $callback = fqn($entity['model'] . '_load');
+    $opts['mode'] = 'size';
+    unset($opts['order'], $opts['limit'], $opts['offset']);
 
     if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
         $crit['project_id'] = project('id');
     }
 
     try {
-        return $callback($entity, $crit, $opts);
+        return $callback($entity, $crit, $opts)[0];
     } catch (Exception $e) {
         error($e);
         message(_('Data could not be loaded'));
@@ -46,7 +48,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_load');
     $item = [];
-    $opts = array_replace($opts, ['one' => true, 'limit' => 1]);
+    $opts = array_replace($opts, ['mode' => 'one', 'limit' => 1]);
 
     if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
         $crit['project_id'] = project('id');
@@ -78,7 +80,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_load');
     $data = [];
-    unset($opts['one']);
+    $opts['mode'] = 'all';
 
     if (empty($opts['index']) || is_array($opts['index']) && (empty($opts['index'][0]) || empty($opts['index'][1]))) {
         $opts['index'] = 'id';

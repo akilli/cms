@@ -4,58 +4,6 @@ namespace qnd;
 use PDO;
 
 /**
- * Size entity
- *
- * @param array $entity
- * @param array $crit
- * @param array $opts
- *
- * @return int
- */
-function eav_size(array $entity, array $crit = [], array $opts = []): int
-{
-    $eav = eav_attr($entity['attr']);
-    $crit['entity_id'] = $entity['id'];
-
-    if (!$eav) {
-        return flat_size($entity, $crit, $opts);
-    }
-
-    $list = [];
-    $params = [];
-
-    foreach ($eav as $uid => $attr) {
-        if (empty($crit[$uid])) {
-            continue;
-        }
-
-        $val = db_qva((array) $crit[$uid], $attr);
-        $params[$uid] = db_param($uid);
-        $list[] = sprintf(
-            '(id IN (SELECT content_id FROM eav WHERE attr_id = %s AND %s IN (%s)))',
-            $params[$uid],
-            db_cast('value', $attr['backend']),
-            db_list($val)
-        );
-    }
-
-    $stmt = db_prep(
-        'SELECT COUNT(*) FROM %s %s %s',
-        $entity['tab'],
-        where($crit, db_attr(data('entity', 'content')['attr']), $opts),
-        $list ? ' AND ' . db_and($list) : ''
-    );
-
-    foreach ($params as $uid => $param) {
-        $stmt->bindValue($param, $eav[$uid]['eav_id'], PDO::PARAM_INT);
-    }
-
-    $stmt->execute();
-
-    return $stmt->fetchColumn();
-}
-
-/**
  * Load entity
  *
  * @param array $entity
@@ -66,8 +14,6 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
  */
 function eav_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $attrs = db_attr($entity['attr']);
-    $main = db_attr(data('entity', 'content')['attr']);
     $eav = eav_attr($entity['attr']);
     $crit['entity_id'] = $entity['id'];
 
@@ -75,6 +21,9 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         return flat_load($entity, $crit, $opts);
     }
 
+    $mode = $opts['mode'] ?? 'all';
+    $attrs = db_attr($entity['attr']);
+    $main = db_attr(data('entity', 'content')['attr']);
     $select = array_column($main, 'col');
     $list = ['id' => 'content_id'];
     $params = [];
@@ -89,6 +38,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         );
     }
 
+    $select = $mode === 'size' ? ['COUNT(*)'] : $select;
     $stmt = db()->prepare(
         select($select)
         . from($entity['tab'])
@@ -104,7 +54,11 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
 
     $stmt->execute();
 
-    if (!empty($opts['one'])) {
+    if ($mode === 'size') {
+        return [(int) $stmt->fetchColumn()];
+    }
+
+    if ($mode === 'one') {
         return $stmt->fetch() ?: [];
     }
 

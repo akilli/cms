@@ -119,21 +119,18 @@ function action_index(array $entity): void
     $action = request('action');
     $attrs = entity_attr($entity['id'], $action);
     $crit = empty($entity['attr']['active']) || $action === 'admin' ? [] : ['active' => true];
+    $opts = [];
     $p = [];
-    $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : null;
+    $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
 
-    // @todo Replace all() with size()
-    if ($q || ($q = http_get('q'))) {
-        if (($s = array_filter(explode(' ', $q))) && ($all = all($entity['id'], ['name' => $s], ['search' => ['name']]))) {
-            $crit['id'] = array_keys($all);
-            $p['q'] = urlencode(implode(' ', $s));
-        } else {
-            message(_('No results for provided query %s', $q));
-        }
+    if ($q && ($s = array_filter(explode(' ', $q)))) {
+        $crit['name'] = $s;
+        $opts['search'] = ['name'];
+        $p['q'] = urlencode(implode(' ', $s));
     }
 
-    $opts = ['limit' => abs((int) data('limit', $action)) ?: 10];
-    $size = size($entity['id'], $crit);
+    $opts['limit'] = data('limit', $action);
+    $size = size($entity['id'], $crit, $opts);
     $pages = (int) ceil($size / $opts['limit']);
     $p['page'] = min(max(http_get('page'), 1), $pages ?: 1);
     $opts['offset'] = ($p['page'] - 1) * $opts['limit'];
@@ -147,6 +144,7 @@ function action_index(array $entity): void
     layout_load();
     vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => $entity['name'], 'attr' => $attrs, 'params' => $p]);
     vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $p]);
+    vars('search', ['q' => $q]);
     vars('head', ['title' => $entity['name']]);
 }
 

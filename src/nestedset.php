@@ -5,20 +5,6 @@ use LogicException;
 use PDO;
 
 /**
- * Size entity
- *
- * @param array $entity
- * @param array $crit
- * @param array $opts
- *
- * @return int
- */
-function nestedset_size(array $entity, array $crit = [], array $opts = []): int
-{
-    return flat_size($entity, $crit, $opts);
-}
-
-/**
  * Load entity
  *
  * @param array $entity
@@ -29,12 +15,17 @@ function nestedset_size(array $entity, array $crit = [], array $opts = []): int
  */
 function nestedset_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $opts['order'] = $opts['order'] ?? ['root_id' => 'asc', 'lft' => 'asc'];
+    $mode = $opts['mode'] ?? 'all';
+
+    if ($mode !== 'size' && empty($opts['order'])) {
+        $opts['order'] = ['root_id' => 'asc', 'lft' => 'asc'];
+    }
+
     $data = flat_load($entity, $crit, $opts);
 
-    if (!empty($opts['one'])) {
+    if ($mode === 'one') {
         $data['pos'] = $data['root_id'] . ':' . $data['lft'];
-    } else {
+    } elseif ($mode === 'all') {
         $data = array_map(
             function ($item) {
                 $item['pos'] = $item['root_id'] . ':' . $item['lft'];

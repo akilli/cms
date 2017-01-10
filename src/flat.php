@@ -2,27 +2,6 @@
 namespace qnd;
 
 /**
- * Size entity
- *
- * @param array $entity
- * @param array $crit
- * @param array $opts
- *
- * @return int
- */
-function flat_size(array $entity, array $crit = [], array $opts = []): int
-{
-    $stmt = db_prep(
-        'SELECT COUNT(*) FROM %s %s',
-        $entity['tab'],
-        where($crit, db_attr($entity['attr']), $opts)
-    );
-    $stmt->execute();
-
-    return (int) $stmt->fetchColumn();
-}
-
-/**
  * Load entity
  *
  * @param array $entity
@@ -33,9 +12,11 @@ function flat_size(array $entity, array $crit = [], array $opts = []): int
  */
 function flat_load(array $entity, array $crit = [], array $opts = []): array
 {
+    $mode = $opts['mode'] ?? 'all';
     $attrs = db_attr($entity['attr']);
+    $select = $mode === 'size' ? ['COUNT(*)'] : array_column($attrs, 'col');
     $stmt = db()->prepare(
-        select(array_column($attrs, 'col'))
+        select($select)
         . from($entity['tab'])
         . where($crit, $attrs, $opts)
         . order($opts['order'] ?? [])
@@ -43,7 +24,11 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
     );
     $stmt->execute();
 
-    if (!empty($opts['one'])) {
+    if ($mode === 'size') {
+        return [(int) $stmt->fetchColumn()];
+    }
+
+    if ($mode === 'one') {
         return $stmt->fetch() ?: [];
     }
 
