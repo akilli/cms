@@ -178,6 +178,23 @@ function db_qi(string $id): string
 }
 
 /**
+ * Quotes identifiers
+ *
+ * @param array $ids
+ *
+ * @return array
+ */
+function db_qia(array $ids): array
+{
+    return array_map(
+        function (string $id) {
+            return db_qi($id);
+        },
+        $ids
+    );
+}
+
+/**
  * Quotes value
  *
  * @param mixed $value
@@ -193,12 +210,12 @@ function db_qv($value, array $attr): string
 /**
  * Quotes array value
  *
- * @param mixed $value
+ * @param array $value
  * @param array $attr
  *
  * @return array
  */
-function db_qa(array $value, array $attr): array
+function db_qva(array $value, array $attr): array
 {
     return array_map(
         function ($v) use ($attr) {
@@ -241,7 +258,7 @@ function db_or(array $crit): string
  */
 function db_null(string $col): string
 {
-    return $col . ' IS NULL';
+    return db_qi($col) . ' IS NULL';
 }
 
 /**
@@ -254,7 +271,7 @@ function db_null(string $col): string
  */
 function db_in(string $col, array $vals): string
 {
-    return $col . ' IN (' . db_list($vals) . ')';
+    return db_qi($col) . ' IN (' . db_list($vals) . ')';
 }
 
 /**
@@ -267,7 +284,7 @@ function db_in(string $col, array $vals): string
  */
 function db_like(string $col, string $val): string
 {
-    return $col . ' ILIKE ' . $val;
+    return db_qi($col) . ' ILIKE ' . $val;
 }
 
 /**
@@ -280,7 +297,7 @@ function db_like(string $col, string $val): string
  */
 function db_search(string $col, string $val): string
 {
-    return $col . ' @@ TO_TSQUERY(' . $val . ')';
+    return db_qi($col) . ' @@ TO_TSQUERY(' . $val . ')';
 }
 
 /**
@@ -370,7 +387,7 @@ function where(array $crit, array $attrs, array $opts = []): string
         $r = [];
 
         if (!in_array($id, $search)) {
-            $r[] = db_in($col, db_qa($value, $attr));
+            $r[] = db_in($col, db_qva($value, $attr));
         } elseif ($attr['backend'] === 'search') {
             $r[] = db_search($col, db_qv(implode(' | ', $value), $attr));
         } else {
@@ -394,7 +411,7 @@ function where(array $crit, array $attrs, array $opts = []): string
  */
 function group(array $cols): string
 {
-    return $cols ? ' GROUP BY ' . db_list($cols) : '';
+    return $cols ? ' GROUP BY ' . db_list(db_qia($cols)) : '';
 }
 
 /**

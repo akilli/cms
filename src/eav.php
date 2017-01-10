@@ -29,7 +29,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
             continue;
         }
 
-        $val = db_qa((array) $crit[$uid], $attr);
+        $val = db_qva((array) $crit[$uid], $attr);
         $params[$uid] = db_param($uid);
         $list[] = sprintf(
             '(id IN (SELECT content_id FROM eav WHERE attr_id = %s AND %s IN (%s)))',
@@ -66,6 +66,7 @@ function eav_size(array $entity, array $crit = [], array $opts = []): int
  */
 function eav_load(array $entity, array $crit = [], array $opts = []): array
 {
+    $attrs = db_attr($entity['attr']);
     $main = db_attr(data('entity', 'content')['attr']);
     $eav = eav_attr($entity['attr']);
     $crit['entity_id'] = $entity['id'];
@@ -92,7 +93,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         select($select)
         . from($entity['tab'])
         . njoin('(' . select($list) . from('eav'). group(['id']) . ')', 'a')
-        . where($crit, $main, $opts)
+        . where($crit, $attrs, $opts)
         . order($opts['order'] ?? [])
         . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
     );

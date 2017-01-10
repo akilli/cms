@@ -50,7 +50,6 @@ function listener_data_entity(array & $data): void
         if (!empty($attrs[$id])) {
             foreach ($attrs[$id] as $uid => $attr) {
                 if (empty($item['attr'][$uid])) {
-                    $attr['col'] = 'value';
                     $attr['eav_id'] = $attr['id'];
                     unset($attr['id'], $attr['uid'], $attr['project_id']);
                     $item['attr'][$uid] = $attr;
