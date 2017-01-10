@@ -7,7 +7,7 @@ CREATE TABLE project (
     id varchar(100) PRIMARY KEY,
     name varchar(255) NOT NULL,
     host varchar(255) DEFAULT NULL UNIQUE,
-    theme varchar(100) DEFAULT NULL,
+    theme varchar(100) NOT NULL,
     active boolean NOT NULL DEFAULT FALSE,
     system boolean NOT NULL DEFAULT FALSE
 );
@@ -193,9 +193,9 @@ CREATE INDEX idx_url_project ON url (project_id);
 
 INSERT INTO
     project
-    (id, name, host, active, system)
+    (id, name, host, theme, active, system)
 VALUES
-    ('base', 'BASE', NULL, TRUE, TRUE);
+    ('base', 'BASE', NULL, 'base', TRUE, TRUE);
 
 INSERT INTO
     role

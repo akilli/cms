@@ -353,9 +353,9 @@ return [
             'theme' => [
                 'name' => 'Theme',
                 'type' => 'select',
-                'nullable' => true,
                 'opt' => ['opt_theme'],
                 'actions' => ['admin', 'edit'],
+                'val' => 'base',
             ],
             'active' => [
                 'name' => 'Active',
