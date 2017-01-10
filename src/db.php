@@ -262,16 +262,16 @@ function db_null(string $col): string
 }
 
 /**
- * IN expression
+ * Equal expression
  *
  * @param string $col
  * @param array $vals
  *
  * @return string
  */
-function db_in(string $col, array $vals): string
+function db_eq(string $col, array $vals): string
 {
-    return db_qi($col) . ' IN (' . db_list($vals) . ')';
+    return db_qi($col) . (count($vals) === 1 ? ' = ' . current($vals) : ' IN (' . db_list($vals) . ')');
 }
 
 /**
@@ -370,7 +370,7 @@ function where(array $crit, array $attrs, array $opts = []): string
     $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
     $cols = [];
 
-    foreach ($crit as $id => $value) {
+    foreach ($crit as $id => $val) {
         if (empty($attrs[$id]['col'])) {
             continue;
         }
@@ -378,20 +378,22 @@ function where(array $crit, array $attrs, array $opts = []): string
         $attr = $attrs[$id];
         $col = $attr['col'];
 
-        if ($value === null) {
+        if ($val === null) {
             $cols[$id] = db_null($col);
+            continue;
+        } elseif (is_array($val) && !$val) {
             continue;
         }
 
-        $value = (array) $value;
+        $val = (array) $val;
         $r = [];
 
         if (!in_array($id, $search)) {
-            $r[] = db_in($col, db_qva($value, $attr));
+            $r[] = db_eq($col, db_qva($val, $attr));
         } elseif ($attr['backend'] === 'search') {
-            $r[] = db_search($col, db_qv(implode(' | ', $value), $attr));
+            $r[] = db_search($col, db_qv(implode(' | ', $val), $attr));
         } else {
-            foreach ($value as $v) {
+            foreach ($val as $v) {
                 $r[] = db_like($col, db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr));
             }
         }
