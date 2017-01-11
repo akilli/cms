@@ -4,13 +4,6 @@ namespace qnd;
 use InvalidArgumentException;
 
 /**
- * Constants
- */
-const PRIVILEGE = '_all_';
-const PROJECT = 'base';
-const THEME = 'base';
-
-/**
  * Runs application
  *
  * @return void

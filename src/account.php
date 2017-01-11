@@ -4,6 +4,15 @@ namespace qnd;
 use InvalidArgumentException;
 
 /**
+ * Super privilege
+ *
+ * @internal
+ *
+ * @var string
+ */
+const PRIVILEGE = '_all_';
+
+/**
  * Account
  *
  * @param string $key

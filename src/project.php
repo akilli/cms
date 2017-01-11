@@ -4,6 +4,24 @@ namespace qnd;
 use InvalidArgumentException;
 
 /**
+ * Base project
+ *
+ * @internal
+ *
+ * @var string
+ */
+const PROJECT = 'base';
+
+/**
+ * Base theme
+ *
+ * @internal
+ *
+ * @var string
+ */
+const THEME = 'base';
+
+/**
  * Project
  *
  * @param string $key
