@@ -47,9 +47,9 @@ function nestedset_load(array $entity, array $crit = [], array $opts = []): arra
  */
 function nestedset_create(array & $item): bool
 {
-    // Position
+    // Calculate node postion
     nestedset_position($item);
-    // Make space in the new tree
+    // Make space in new tree
     nestedset_prepare($item);
 
     // Insert new node
@@ -78,15 +78,15 @@ function nestedset_save(array & $item): bool
         return true;
     }
 
-    // Position
+    // Calculate node postion
     nestedset_position($item);
-    // Move all affected nodes from old tree and update their positions for the new tree without adding them yet
+    // Move affected nodes
     nestedset_move($item);
     // Close gap in old tree
     nestedset_remove($item);
-    // Make space in the new tree
+    // Make space in new tree
     nestedset_prepare($item);
-    // Finally add the affected nodes to new tree
+    // Add affected nodes
     nestedset_insert($item);
 
     return true;
@@ -216,9 +216,7 @@ function nestedset_move(array $item): void
     $attrs = $item['_entity']['attr'];
 
     $stmt = db_prep(
-        'UPDATE %1$s
-        SET %2$s = :root_id, %3$s = -1 * (%3$s + :lft_diff), %4$s = -1 * (%4$s + :rgt_diff)
-        WHERE %2$s = :old_root_id AND %3$s BETWEEN :lft AND :rgt',
+        'UPDATE %1$s SET %2$s = :root_id, %3$s = -1 * (%3$s + :lft_diff), %4$s = -1 * (%4$s + :rgt_diff) WHERE %2$s = :old_root_id AND %3$s BETWEEN :lft AND :rgt',
         $item['_entity']['tab'],
         $attrs['root_id']['col'],
         $attrs['lft']['col'],
@@ -280,9 +278,7 @@ function nestedset_insert(array $item): void
     $attrs = $item['_entity']['attr'];
 
     $stmt = db_prep(
-        'UPDATE %1$s
-        SET %3$s = -1 * %3$s, %4$s = -1 * %4$s, %5$s = %5$s + :level
-        WHERE %2$s = :root_id AND %3$s < 0',
+        'UPDATE %1$s SET %3$s = -1 * %3$s, %4$s = -1 * %4$s, %5$s = %5$s + :level WHERE %2$s = :root_id AND %3$s < 0',
         $item['_entity']['tab'],
         $attrs['root_id']['col'],
         $attrs['lft']['col'],
