@@ -56,12 +56,12 @@ function nestedset_save(array & $item): bool
     }
 
     // Update all attributes that are not involved with the tree
-    $attrs = $item['_entity']['attr'];
-    $a = $attrs;
-    unset($a['root_id'], $a['lft'], $a['rgt'], $a['level']);
-    $item['_entity']['attr'] = $a;
-    flat_save($item);
-    $item['_entity']['attr'] = $attrs;
+    $temp = $item;
+    $temp['root_id'] = $item['_old']['root_id'];
+    $temp['lft'] = $item['_old']['lft'];
+    $temp['rgt'] = $item['_old']['rgt'];
+    $temp['level'] = $item['_old']['level'];
+    flat_save($temp);
 
     // No change in position, so nothing to do anymore
     if ($item['pos'] === $item['_old']['pos']) {

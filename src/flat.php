@@ -50,14 +50,14 @@ function flat_save(array & $item): bool
     $stmt = db_prep(
         'INSERT INTO %s (%s) VALUES (%s) ON CONFLICT (%s) DO UPDATE SET %s',
         $item['_entity']['tab'],
-        db_list(array_column($cols, 'col')),
-        db_list(array_column($cols, 'cast')),
+        db_list(array_keys($cols['in'])),
+        db_list($cols['in']),
         $attrs['id']['col'],
-        db_list(array_column($cols, 'set'))
+        db_list($cols['up'])
     );
 
-    foreach ($cols as $col) {
-        $stmt->bindValue($col['param'], $col['val'], $col['type']);
+    foreach ($cols['param'] as $param) {
+        $stmt->bindValue(...$param);
     }
 
     $stmt->execute();
