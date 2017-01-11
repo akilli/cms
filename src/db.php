@@ -197,6 +197,18 @@ function db_qia(array $ids): array
  */
 function db_qv($value, array $attr): string
 {
+    if ($attr['backend'] === 'bool') {
+        return $value ? 'TRUE' : 'FALSE';
+    }
+
+    if ($attr['backend'] === 'int') {
+        return (int) $value;
+    }
+
+    if ($attr['backend'] === 'decimal') {
+        return sprintf('%F', $value);
+    }
+
     return db()->quote($value, db_type($value, $attr));
 }
 
