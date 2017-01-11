@@ -66,51 +66,6 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
 }
 
 /**
- * Create entity
- *
- * @param array $item
- *
- * @return bool
- */
-function eav_create(array & $item): bool
-{
-    $item['entity_id'] = $item['_entity']['id'];
-    $item['modifier'] = account('id');
-    $item['modified'] = date(data('format', 'datetime.backend'));
-    $item['creator'] = $item['modifier'];
-    $item['created'] = $item['modified'];
-    $attrs = $item['_entity']['attr'];
-    $eav = eav_attr($attrs);
-
-    // Main attributes
-    $item['_entity']['attr'] = data('entity', 'content')['attr'];
-    $result = flat_create($item);
-    $item['_entity']['attr'] = $attrs;
-
-    if (!$result || !$eav) {
-        return $result;
-    }
-
-    // Save additional attributes
-    $stmt = db()->prepare('
-        INSERT INTO 
-            eav
-            (content_id, attr_id, value) 
-         VALUES 
-            (:content_id, :attr_id, :value)
-    ');
-
-    foreach (array_intersect_key($eav, $item) as $uid => $attr) {
-        $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
-        $stmt->bindValue(':attr_id', $attr['eav_id'], PDO::PARAM_INT);
-        $stmt->bindValue(':value', db_val($item[$uid], $attr), PDO::PARAM_STR);
-        $stmt->execute();
-    }
-
-    return true;
-}
-
-/**
  * Save entity
  *
  * @param array $item
@@ -122,6 +77,12 @@ function eav_save(array & $item): bool
     $item['entity_id'] = $item['_entity']['id'];
     $item['modifier'] = account('id');
     $item['modified'] = date(data('format', 'datetime.backend'));
+
+    if (empty($item['_old'])) {
+        $item['creator'] = $item['modifier'];
+        $item['created'] = $item['modified'];
+    }
+
     $attrs = $item['_entity']['attr'];
     $eav = eav_attr($attrs);
 

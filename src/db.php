@@ -125,22 +125,16 @@ function db_cast(string $col, string $backend): string
  */
 function db_cols(array $attrs, array $item): array
 {
-    $attrs = db_attr($attrs, true);
+    $attrs = db_attr($attrs, empty($item['_old']));
     $data = [];
 
     foreach (array_intersect_key($item, $attrs) as $uid => $val) {
-        $data[$uid]['col'] = $attrs[$uid]['col'];
         $data[$uid]['val'] = db_val($val, $attrs[$uid]);
         $data[$uid]['type'] = db_type($data[$uid]['val'], $attrs[$uid]);
         $data[$uid]['param'] = db_param($uid);
-        $data[$uid]['cast'] = $data[$uid]['param'];
-        $data[$uid]['conflict'] = $data[$uid]['col'] . ' = EXCLUDED.' . $data[$uid]['col'];
-        $data[$uid]['set'] = $data[$uid]['col'] . ' = ' . $data[$uid]['param'];
-
-        if ($attrs[$uid]['backend'] === 'search') {
-            $data[$uid]['cast'] = 'TO_TSVECTOR(' . $data[$uid]['param'] . ')';
-            $data[$uid]['set'] = $data[$uid]['col'] . ' = TO_TSVECTOR(' . $data[$uid]['param'] . ')';
-        }
+        $data[$uid]['col'] = $attrs[$uid]['col'];
+        $data[$uid]['cast'] = $attrs[$uid]['backend'] === 'search' ? 'TO_TSVECTOR(' . $data[$uid]['param'] . ')' : $data[$uid]['param'];
+        $data[$uid]['set'] = $data[$uid]['col'] . ' = EXCLUDED.' . $data[$uid]['col'];
     }
 
     return $data;

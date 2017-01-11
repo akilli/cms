@@ -130,7 +130,7 @@ function save(string $eId, array & $data): bool
         $item['_id'] = $id;
         $base = empty($original[$id]) ? $default : $original[$id];
         $item = array_replace($base, $editable, $item);
-        $callback = fqn($item['_entity']['model'] . '_' . (empty($original[$id]) ? 'create' : 'save'));
+        $callback = fqn($item['_entity']['model'] . '_save');
 
         if (empty($original[$id])) {
             $item['project_id'] = project('id');

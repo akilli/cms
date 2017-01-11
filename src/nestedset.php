@@ -39,24 +39,6 @@ function nestedset_load(array $entity, array $crit = [], array $opts = []): arra
 }
 
 /**
- * Create entity
- *
- * @param array $item
- *
- * @return bool
- */
-function nestedset_create(array & $item): bool
-{
-    // Calculate node postion
-    nestedset_position($item);
-    // Make space in new tree
-    nestedset_prepare($item);
-
-    // Insert new node
-    return flat_create($item);
-}
-
-/**
  * Save entity
  *
  * @param array $item
@@ -65,6 +47,14 @@ function nestedset_create(array & $item): bool
  */
 function nestedset_save(array & $item): bool
 {
+    // New node
+    if (empty($item['_old'])) {
+        nestedset_position($item);
+        nestedset_prepare($item);
+
+        return flat_save($item);
+    }
+
     // Update all attributes that are not involved with the tree
     $attrs = $item['_entity']['attr'];
     $a = $attrs;
@@ -78,15 +68,11 @@ function nestedset_save(array & $item): bool
         return true;
     }
 
-    // Calculate node postion
+    // Handle tree changes
     nestedset_position($item);
-    // Move affected nodes
     nestedset_move($item);
-    // Close gap in old tree
     nestedset_remove($item);
-    // Make space in new tree
     nestedset_prepare($item);
-    // Add affected nodes
     nestedset_insert($item);
 
     return true;

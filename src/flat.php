@@ -36,39 +36,6 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
 }
 
 /**
- * Create entity
- *
- * @param array $item
- *
- * @return bool
- */
-function flat_create(array & $item): bool
-{
-    $attrs = $item['_entity']['attr'];
-    $cols = db_cols($attrs, $item);
-
-    $stmt = db_prep(
-        'INSERT INTO %s (%s) VALUES (%s)',
-        $item['_entity']['tab'],
-        db_list(array_column($cols, 'col')),
-        db_list(array_column($cols, 'cast'))
-    );
-
-    foreach ($cols as $col) {
-        $stmt->bindValue($col['param'], $col['val'], $col['type']);
-    }
-
-    $stmt->execute();
-
-    // Set DB generated id
-    if ($attrs['id']['auto']) {
-        $item['id'] = (int) db()->lastInsertId($item['_entity']['tab'] . '_id_seq');
-    }
-
-    return true;
-}
-
-/**
  * Save entity
  *
  * @param array $item
@@ -81,18 +48,24 @@ function flat_save(array & $item): bool
     $cols = db_cols($attrs, $item);
 
     $stmt = db_prep(
-        'UPDATE %s SET %s WHERE %s = :_id',
+        'INSERT INTO %s (%s) VALUES (%s) ON CONFLICT (%s) DO UPDATE SET %s',
         $item['_entity']['tab'],
-        db_list(array_column($cols, 'set')),
-        $attrs['id']['col']
+        db_list(array_column($cols, 'col')),
+        db_list(array_column($cols, 'cast')),
+        $attrs['id']['col'],
+        db_list(array_column($cols, 'set'))
     );
 
     foreach ($cols as $col) {
         $stmt->bindValue($col['param'], $col['val'], $col['type']);
     }
 
-    $stmt->bindValue(':_id', $item['_old']['id'], db_type($item['_old']['id'], $attrs['id']));
     $stmt->execute();
+
+    // Set DB generated id
+    if (empty($item['_old']) && $attrs['id']['auto']) {
+        $item['id'] = (int) db()->lastInsertId($item['_entity']['tab'] . '_id_seq');
+    }
 
     return true;
 }
