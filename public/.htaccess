@@ -1,34 +1,6 @@
-#
-# Rewrite
-#
-<IfModule mod_rewrite.c>
-    RewriteEngine on
-    RewriteBase /
-    RewriteCond %{THE_REQUEST} ^GET./index\.php [NC]
-    RewriteRule ^index\.php/*(.*) /$1$2 [R=301,L]
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^ - [L]
-    RewriteRule .* index.php [L]
-</IfModule>
-
-#
-# Deflate
-#
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/plain text/css application/json
-    AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript
-    AddOutputFilterByType DEFLATE text/xml application/xml text/x-component
-
-    <FilesMatch "\.(ttf|otf|eot|svg|woff)$" >
-        SetOutputFilter DEFLATE
-    </FilesMatch>
-</IfModule>
-
-#
-# Headers
-#
-<IfModule mod_headers.c>
-    <FilesMatch "\.(ttf|otf|eot|svg|woff)$">
-        Header set Access-Control-Allow-Origin "*"
-    </FilesMatch>
-</IfModule>
+RewriteEngine On
+RewriteBase /
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}./index\.php [NC]
+RewriteRule ^/index\.php/*(.*) /$1$2 [R=301,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*) /index.php/$1[L,QSA]
