@@ -47,14 +47,23 @@ function flat_save(array & $item): bool
     $attrs = $item['_entity']['attr'];
     $cols = db_cols($attrs, $item);
 
-    $stmt = db_prep(
-        'INSERT INTO %s (%s) VALUES (%s) ON CONFLICT (%s) DO UPDATE SET %s',
-        $item['_entity']['tab'],
-        db_list(array_keys($cols['in'])),
-        db_list($cols['in']),
-        $attrs['id']['col'],
-        db_list($cols['up'])
-    );
+    // Insert or update
+    if (empty($item['_old'])) {
+        $stmt = db_prep(
+            'INSERT INTO %s (%s) VALUES (%s)',
+            $item['_entity']['tab'],
+            db_list(array_keys($cols['in'])),
+            db_list($cols['in'])
+        );
+    } else {
+        $stmt = db_prep(
+            'UPDATE %s SET %s WHERE %s = :_id',
+            $item['_entity']['tab'],
+            db_list($cols['up']),
+            $attrs['id']['col']
+        );
+        $stmt->bindValue(':_id', $item['_old']['id'], db_type($item['_old']['id'], $attrs['id']));
+    }
 
     foreach ($cols['param'] as $param) {
         $stmt->bindValue(...$param);

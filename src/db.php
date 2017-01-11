@@ -125,21 +125,15 @@ function db_cast(string $col, string $backend): string
  */
 function db_cols(array $attrs, array $item): array
 {
-    $attrs = db_attr($attrs);
+    $attrs = db_attr($attrs, true);
     $cols = ['in' => [], 'up' => [], 'param' => []];
 
     foreach (array_intersect_key($item, $attrs) as $uid => $val) {
         $col = $attrs[$uid]['col'];
-
-        if (!empty($attrs[$uid]['auto'])) {
-            $cols['in'][$col] = 'DEFAULT';
-            continue;
-        }
-
         $param = db_param($uid);
         $val = db_val($val, $attrs[$uid]);
         $cols['in'][$col] = $attrs[$uid]['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
-        $cols['up'][$col] = $col . ' = EXCLUDED.' . $col;
+        $cols['up'][$col] = $col . ' = ' . $cols['in'][$col];
         $cols['param'][$col] = [$param, $val, db_type($val, $attrs[$uid])];
     }
 
@@ -147,18 +141,19 @@ function db_cols(array $attrs, array $item): array
 }
 
 /**
- * Filter out non-DB columns
+ * Filter out non-DB and optionally auto increment columns
  *
  * @param array $attrs
+ * @param bool $auto
  *
  * @return array
  */
-function db_attr(array $attrs): array
+function db_attr(array $attrs, bool $auto = false): array
 {
     return array_filter(
         $attrs,
-        function (array $attr) {
-            return !empty($attr['col']);
+        function (array $attr) use ($auto) {
+            return !empty($attr['col']) && (!$auto || empty($attr['auto']));
         }
     );
 }
