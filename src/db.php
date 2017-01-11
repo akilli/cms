@@ -135,11 +135,11 @@ function db_cols(array $attrs, array $item): array
         $data[$uid]['in.param'] = db_param('in_' . $uid);
         $data[$uid]['in.val'] = $data[$uid]['in.param'];
         $data[$uid]['up.param'] = db_param('up_' . $uid);
-        $data[$uid]['up.val'] = $data[$uid]['up.param'];
+        $data[$uid]['up.val'] = $data[$uid]['col'] . ' = ' . $data[$uid]['up.param'];
 
         if ($attrs[$uid]['backend'] === 'search') {
             $data[$uid]['in.val'] = 'TO_TSVECTOR(' . $data[$uid]['in.param'] . ')';
-            $data[$uid]['up.val'] = 'TO_TSVECTOR(' . $data[$uid]['up.param'] . ')';
+            $data[$uid]['up.val'] = $data[$uid]['col'] . ' = TO_TSVECTOR(' . $data[$uid]['up.param'] . ')';
         }
     }
 
