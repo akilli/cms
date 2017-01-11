@@ -15,10 +15,9 @@ function url(string $path = '', array $params = []): string
         return $path;
     }
 
-    $path = '/' . url_resolve(trim($path, '/'));
-    $query = $params ? '?' . http_build_query($params, '', '&amp;') : '';
+    $path = ($path = trim($path, '/')) ? url_unrewrite('/' . url_resolve($path)) : '/';
 
-    return url_unrewrite($path) . $query;
+    return $path . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
 }
 
 /**
