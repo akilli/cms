@@ -26,7 +26,7 @@ function editor(array $attr, array $item): string
         $attr['html']['required'] = true;
     }
 
-    if (!empty($attr['multiple'])) {
+    if ($attr['multiple']) {
         $attr['html']['multiple'] = true;
     }
 
