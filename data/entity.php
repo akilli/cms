@@ -216,7 +216,7 @@ return [
             'actions' => [
                 'name' => 'Actions',
                 'type' => 'multicheckbox',
-                'opt' => [['admin' => 'admin', 'create' => 'create', 'delete' => 'delete', 'edit' => 'edit', 'index' => 'index', 'view' => 'view']],
+                'opt' => [['admin' => 'admin', 'delete' => 'delete', 'edit' => 'edit', 'index' => 'index', 'view' => 'view']],
                 'actions' => ['admin', 'edit'],
             ],
             'system' => [

@@ -49,14 +49,6 @@ return [
         'handle' => 'layout-base',
         'type' => 'container',
     ],
-    // action-create
-    [
-        'id' => 'content',
-        'handle' => 'action-create',
-        'type' => 'template',
-        'template' => 'entity/edit.phtml',
-        'parent' => 'main',
-    ],
     // action-edit
     [
         'id' => 'content',

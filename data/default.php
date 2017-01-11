@@ -28,7 +28,7 @@ return [
         'name' => null,
         'tab' => null,
         'model' => 'flat',
-        'actions' => ['admin', 'create', 'delete', 'edit'],
+        'actions' => ['admin', 'delete', 'edit'],
         'system' => false,
         'attr' => [],
     ],

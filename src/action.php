@@ -14,39 +14,6 @@ function action_admin(array $entity): void
 }
 
 /**
- * Create Action
- *
- * @param array $entity
- *
- * @return void
- */
-function action_create(array $entity): void
-{
-    $data = http_post('data');
-
-    if ($data) {
-        // Perform save callback and redirect to admin on success
-        if (save($entity['id'], $data)) {
-            redirect(url('*/admin'));
-        }
-
-        $data = array_filter(
-            $data,
-            function ($item) {
-                return empty($item['_success']);
-            }
-        );
-    } else {
-        // Initial create action call
-        $data = entity($entity['id'], (int) http_post('create'));
-    }
-
-    layout_load();
-    vars('content', ['data' => $data, 'title' => $entity['name']]);
-    vars('head', ['title' => $entity['name']]);
-}
-
-/**
  * Edit Action
  *
  * @param array $entity
@@ -75,11 +42,9 @@ function action_edit(array $entity): void
     } elseif (request('id') !== null) {
         // We just clicked on an edit link, p.e. on the admin page
         $data = all($entity['id'], ['id' => request('id')]);
-    }
-
-    if (!$data) {
-        message(_('You did not select anything to edit'));
-        redirect(url('*/admin'));
+    } else {
+        // Initial create action call
+        $data = entity($entity['id'], (int) http_post('create'));
     }
 
     layout_load();

@@ -223,7 +223,7 @@ INSERT INTO
     entity
     (id, name, actions, system, project_id)
 VALUES
-    ('page', 'Page', '["admin", "create", "delete", "edit", "index", "view"]', TRUE, 'base');
+    ('page', 'Page', '["admin", "delete", "edit", "index", "view"]', TRUE, 'base');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 

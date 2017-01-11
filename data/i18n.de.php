@@ -129,6 +129,5 @@ return [
     'Welcome %s' => 'Willkommen %s',
     'Yes' => 'Ja',
     'You did not select anything to delete' => 'Du hast nichts zum Löschen ausgewählt',
-    'You did not select anything to edit' => 'Du hast nichts zum Bearbeiten ausgewählt',
     'You must not delete system items! Therefore skipped Id %s' => 'Du darfst keine System Einträge löschen! Deshalb wurde Id %s übersprungen',
 ];
