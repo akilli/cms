@@ -124,10 +124,7 @@ function debug(string $message, array $context = []): void
  */
 function logger(string $level, string $message, array $context = []): void
 {
-    if (empty($context['file'])) {
-        $context['file'] = 'qnd.log';
-    }
-
+    $context['file'] = empty($context['file']) ? 'app.log' : $context['file'];
     $file = path('log', $context['file']);
     file_save($file, '[' . $level . '][' . date('r') . '] ' . $message . "\n\n", FILE_APPEND);
 }
