@@ -128,20 +128,19 @@ function db_cols(array $attrs, array $item): array
     $attrs = db_attr($attrs, true);
     $data = [];
 
-    foreach ($item as $uid => $val) {
-        if (empty($attrs[$uid])) {
-            continue;
-        }
-
-        $param = db_param($uid);
-        $cast = $attrs[$uid]['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
-        $val = db_val($val, $attrs[$uid]);
+    foreach (array_intersect_key($item, $attrs) as $uid => $val) {
         $data[$uid]['col'] = $attrs[$uid]['col'];
-        $data[$uid]['param'] = $param;
-        $data[$uid]['cast'] = $cast;
-        $data[$uid]['set'] = $data[$uid]['col'] . ' = ' . $cast;
-        $data[$uid]['val'] = $val;
-        $data[$uid]['type'] = db_type($val, $attrs[$uid]);
+        $data[$uid]['val'] = db_val($data[$uid]['val'], $attrs[$uid]);
+        $data[$uid]['type'] = db_type($data[$uid]['val'], $attrs[$uid]);
+        $data[$uid]['in.param'] = db_param('in_' . $uid);
+        $data[$uid]['in.val'] = $data[$uid]['in.param'];
+        $data[$uid]['up.param'] = db_param('up_' . $uid);
+        $data[$uid]['up.val'] = $data[$uid]['up.param'];
+
+        if ($attrs[$uid]['backend'] === 'search') {
+            $data[$uid]['in.val'] = 'TO_TSVECTOR(' . $data[$uid]['in.param'] . ')';
+            $data[$uid]['up.val'] = 'TO_TSVECTOR(' . $data[$uid]['up.param'] . ')';
+        }
     }
 
     return $data;
