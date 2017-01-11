@@ -130,7 +130,7 @@ function db_cols(array $attrs, array $item): array
 
     foreach (array_intersect_key($item, $attrs) as $uid => $val) {
         $data[$uid]['col'] = $attrs[$uid]['col'];
-        $data[$uid]['val'] = db_val($data[$uid]['val'], $attrs[$uid]);
+        $data[$uid]['val'] = db_val($val, $attrs[$uid]);
         $data[$uid]['type'] = db_type($data[$uid]['val'], $attrs[$uid]);
         $data[$uid]['in.param'] = db_param('in_' . $uid);
         $data[$uid]['in.val'] = $data[$uid]['in.param'];
