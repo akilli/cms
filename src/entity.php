@@ -5,6 +5,22 @@ use Exception;
 use RuntimeException;
 
 /**
+ * Entity load options
+ *
+ * @internal
+ *
+ * @var string
+ */
+const ENTITY_LOAD = [
+    'mode' => 'all',
+    'index' => ['id'],
+    'search' => [],
+    'order' => [],
+    'limit' => 0,
+    'offset' => 0
+];
+
+/**
  * Size entity
  *
  * @param string $eId
@@ -17,8 +33,8 @@ function size(string $eId, array $crit = [], array $opts = []): int
 {
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_load');
-    $opts['mode'] = 'size';
     unset($opts['order'], $opts['limit'], $opts['offset']);
+    $opts = array_replace(entity_opts($opts), ['mode' => 'size']);
 
     if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
         $crit['project_id'] = project('id');
@@ -48,7 +64,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_load');
     $item = [];
-    $opts = array_replace($opts, ['mode' => 'one', 'limit' => 1]);
+    $opts = array_replace(entity_opts($opts), ['mode' => 'one', 'limit' => 1]);
 
     if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
         $crit['project_id'] = project('id');
@@ -80,11 +96,9 @@ function all(string $eId, array $crit = [], array $opts = []): array
     $entity = data('entity', $eId);
     $callback = fqn($entity['model'] . '_load');
     $data = [];
-    $opts['mode'] = 'all';
-
-    if (empty($opts['index']) || is_array($opts['index']) && (empty($opts['index'][0]) || empty($opts['index'][1]))) {
-        $opts['index'] = 'id';
-    }
+    $opts = array_replace(entity_opts($opts), ['mode' => 'all']);
+    $index = $opts['index'][0];
+    $multi = !empty($opts['index'][1]);
 
     if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
         $crit['project_id'] = project('id');
@@ -96,10 +110,10 @@ function all(string $eId, array $crit = [], array $opts = []): array
         foreach ($result as $item) {
             $item = load($entity, $item);
 
-            if (is_array($opts['index'])) {
-                $data[$item[$opts['index'][0]]][$item[$opts['index'][1]]] = $item;
+            if ($multi) {
+                $data[$item[$index]][$item[$opts['index'][1]]] = $item;
             } else {
-                $data[$item[$opts['index']]] = $item;
+                $data[$item[$index]] = $item;
             }
         }
     } catch (Exception $e) {
@@ -350,4 +364,30 @@ function entity_attr(string $eId, string $action): array
             return in_array($action, $attr['actions']);
         }
     );
+}
+
+/**
+ * Filter load options
+ *
+ * @param array $opts
+ *
+ * @return array
+ */
+function entity_opts(array $opts): array
+{
+    foreach (ENTITY_LOAD as $key => $val) {
+        if (array_key_exists($key, $opts) && gettype($val) !== gettype($opts[$key])) {
+            unset($opts[$key]);
+        }
+    }
+
+    if (array_key_exists('mode', $opts) && !in_array($opts['mode'], ['all', 'one', 'size'])) {
+        unset($opts['mode']);
+    }
+
+    if (empty($opts['index'][0])) {
+        unset($opts['index']);
+    }
+
+    return array_replace(ENTITY_LOAD, array_intersect_key($opts, ENTITY_LOAD));
 }

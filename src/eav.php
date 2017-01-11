@@ -21,7 +21,6 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         return flat_load($entity, $crit, $opts);
     }
 
-    $mode = $opts['mode'] ?? 'all';
     $attrs = db_attr($entity['attr']);
     $main = db_attr(data('entity', 'content')['attr']);
     $select = array_column($main, 'col');
@@ -38,14 +37,14 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         );
     }
 
-    $select = $mode === 'size' ? ['COUNT(*)'] : $select;
+    $select = $opts['mode'] === 'size' ? ['COUNT(*)'] : $select;
     $stmt = db()->prepare(
         select($select)
         . from($entity['tab'])
         . njoin('(' . select($list) . from('eav'). group(['id']) . ')', 'a')
         . where($crit, $attrs, $opts)
-        . order($opts['order'] ?? [])
-        . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
+        . order($opts['order'])
+        . limit($opts['limit'], $opts['offset'])
     );
 
     foreach ($params as $uid => $param) {
@@ -54,11 +53,11 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
 
     $stmt->execute();
 
-    if ($mode === 'size') {
+    if ($opts['mode'] === 'size') {
         return [(int) $stmt->fetchColumn()];
     }
 
-    if ($mode === 'one') {
+    if ($opts['mode'] === 'one') {
         return $stmt->fetch() ?: [];
     }
 

@@ -12,23 +12,22 @@ namespace qnd;
  */
 function flat_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $mode = $opts['mode'] ?? 'all';
     $attrs = db_attr($entity['attr']);
-    $select = $mode === 'size' ? ['COUNT(*)'] : array_column($attrs, 'col');
+    $select = $opts['mode'] === 'size' ? ['COUNT(*)'] : array_column($attrs, 'col');
     $stmt = db()->prepare(
         select($select)
         . from($entity['tab'])
         . where($crit, $attrs, $opts)
-        . order($opts['order'] ?? [])
-        . limit($opts['limit'] ?? 0, $opts['offset'] ?? 0)
+        . order($opts['order'])
+        . limit($opts['limit'], $opts['offset'])
     );
     $stmt->execute();
 
-    if ($mode === 'size') {
+    if ($opts['mode'] === 'size') {
         return [(int) $stmt->fetchColumn()];
     }
 
-    if ($mode === 'one') {
+    if ($opts['mode'] === 'one') {
         return $stmt->fetch() ?: [];
     }
 

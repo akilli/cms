@@ -15,17 +15,15 @@ use PDO;
  */
 function nestedset_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $mode = $opts['mode'] ?? 'all';
-
-    if ($mode !== 'size' && empty($opts['order'])) {
+    if ($opts['mode'] !== 'size' && empty($opts['order'])) {
         $opts['order'] = ['root_id' => 'asc', 'lft' => 'asc'];
     }
 
     $data = flat_load($entity, $crit, $opts);
 
-    if ($mode === 'one') {
+    if ($opts['mode'] === 'one') {
         $data['pos'] = $data['root_id'] . ':' . $data['lft'];
-    } elseif ($mode === 'all') {
+    } elseif ($opts['mode'] === 'all') {
         $data = array_map(
             function ($item) {
                 $item['pos'] = $item['root_id'] . ':' . $item['lft'];

@@ -156,7 +156,7 @@ function listener_save(array & $data): void
     $target = sprintf('%s%s/view/%s', url(), $data['_entity']['id'], $data['id']);
     $old = one('url', ['target' => $target, 'system' => true]);
     $id = $old['id'] ?? -1;
-    $all = all('url', [], ['index' => 'name']);
+    $all = all('url', [], ['index' => ['name']]);
     $name = filter_url($data['name'], array_column($all, 'name', 'id'), $id);
     $url = [$id => ['name' => $name, 'target' => $target, 'system' => true]];
     save('url', $url);

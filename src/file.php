@@ -34,10 +34,12 @@ function file_all(string $path, array $crit = [], array $opts = []): array
         return [];
     }
 
-    if (empty($opts['index']) || is_array($opts['index']) && (empty($opts['index'][0]) || empty($opts['index'][1]))) {
-        $opts['index'] = 'id';
+    if (empty($opts['index']) || !is_array($opts['index'])) {
+        $opts['index'] = ['id'];
     }
 
+    $index = $opts['index'][0];
+    $multi = !empty($opts['index'][1]);
     $data = [];
     $flags = RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS;
     $it = new RecursiveDirectoryIterator($path, $flags);
@@ -64,10 +66,10 @@ function file_all(string $path, array $crit = [], array $opts = []): array
             'modified' => $file->getMTime()
         ];
 
-        if (is_array($opts['index'])) {
-            $data[$item[$opts['index'][0]]][$item[$opts['index'][1]]] = $item;
+        if ($multi) {
+            $data[$item[$index]][$item[$opts['index'][1]]] = $item;
         } else {
-            $data[$item[$opts['index']]] = $item;
+            $data[$item[$index]] = $item;
         }
     }
 
