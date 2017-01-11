@@ -6,8 +6,6 @@ use InvalidArgumentException;
 /**
  * Super privilege
  *
- * @internal
- *
  * @var string
  */
 const PRIVILEGE = '_all_';

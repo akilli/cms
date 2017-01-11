@@ -7,8 +7,6 @@ use RuntimeException;
 /**
  * Entity load options
  *
- * @internal
- *
  * @var string
  */
 const ENTITY_LOAD = [
