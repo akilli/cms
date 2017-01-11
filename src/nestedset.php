@@ -176,41 +176,6 @@ function nestedset_position(array & $item): void
 }
 
 /**
- * Make space in new tree
- *
- * @param array $item
- *
- * @return void
- */
-function nestedset_prepare(array $item): void
-{
-    $attrs = $item['_entity']['attr'];
-    $range = $item['rgt'] - $item['lft'] + 1;
-
-    $stmt = db_prep(
-        'UPDATE %1$s SET %3$s = %3$s + :range WHERE %2$s = :root_id AND %3$s >= :lft',
-        $item['_entity']['tab'],
-        $attrs['root_id']['col'],
-        $attrs['lft']['col']
-    );
-    $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
-    $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
-    $stmt->execute();
-
-    $stmt = db_prep(
-        'UPDATE %1$s SET %3$s = %3$s + :range WHERE %2$s = :root_id AND %3$s >= :lft',
-        $item['_entity']['tab'],
-        $attrs['root_id']['col'],
-        $attrs['rgt']['col']
-    );
-    $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
-    $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
-    $stmt->execute();
-}
-
-/**
  * Move all affected nodes from old tree and update their positions for the new tree without adding them yet
  *
  * @param array $item
@@ -273,7 +238,42 @@ function nestedset_remove(array $item): void
 }
 
 /**
- * Finally add the affected nodes to new tree
+ * Make space in new tree
+ *
+ * @param array $item
+ *
+ * @return void
+ */
+function nestedset_prepare(array $item): void
+{
+    $attrs = $item['_entity']['attr'];
+    $range = $item['rgt'] - $item['lft'] + 1;
+
+    $stmt = db_prep(
+        'UPDATE %1$s SET %3$s = %3$s + :range WHERE %2$s = :root_id AND %3$s >= :lft',
+        $item['_entity']['tab'],
+        $attrs['root_id']['col'],
+        $attrs['lft']['col']
+    );
+    $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
+    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $stmt = db_prep(
+        'UPDATE %1$s SET %3$s = %3$s + :range WHERE %2$s = :root_id AND %3$s >= :lft',
+        $item['_entity']['tab'],
+        $attrs['root_id']['col'],
+        $attrs['rgt']['col']
+    );
+    $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
+    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
+/**
+ * Add affected nodes to new tree
  *
  * @param array $item
  *
