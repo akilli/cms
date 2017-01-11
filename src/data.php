@@ -136,8 +136,8 @@ function data_order(array $data, array $order): array
  */
 function data_order_compare(array $order, array $a, array $b): int
 {
-    foreach ($order as $key => $direction) {
-        $factor = $direction === 'desc' ? -1 : 1;
+    foreach ($order as $key => $dir) {
+        $factor = $dir === 'desc' ? -1 : 1;
         $result = ($a[$key] ?? null) <=> ($b[$key] ?? null);
 
         if ($result) {

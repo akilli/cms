@@ -421,7 +421,7 @@ function order(array $order): string
     $cols = [];
 
     foreach ($order as $uid => $dir) {
-        $cols[] = db_qi($uid) . ' ' . (strtoupper($dir) === 'DESC' ? 'DESC' : 'ASC');
+        $cols[] = db_qi($uid) . ' ' . ($dir === 'desc' ? 'DESC' : 'ASC');
     }
 
     return $cols ? ' ORDER BY ' . db_list($cols) : '';

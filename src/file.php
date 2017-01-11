@@ -34,11 +34,7 @@ function file_all(string $path, array $crit = [], array $opts = []): array
         return [];
     }
 
-    if (empty($opts['index']) || !is_array($opts['index'])) {
-        $opts['index'] = ['id'];
-    }
-
-    $index = $opts['index'][0];
+    $opts = entity_opts($opts);
     $multi = !empty($opts['index'][1]);
     $data = [];
     $flags = RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS;
@@ -67,9 +63,9 @@ function file_all(string $path, array $crit = [], array $opts = []): array
         ];
 
         if ($multi) {
-            $data[$item[$index]][$item[$opts['index'][1]]] = $item;
+            $data[$item[$opts['index'][0]]][$item[$opts['index'][1]]] = $item;
         } else {
-            $data[$item[$index]] = $item;
+            $data[$item[$opts['index'][0]]] = $item;
         }
     }
 
@@ -82,7 +78,7 @@ function file_all(string $path, array $crit = [], array $opts = []): array
     }
 
     if (!empty($opts['limit'])) {
-        $data = data_limit($data, $opts['limit'], $opts['offset'] ?? 0);
+        $data = data_limit($data, $opts['limit'], $opts['offset']);
     }
 
     return $data;

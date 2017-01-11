@@ -97,7 +97,6 @@ function all(string $eId, array $crit = [], array $opts = []): array
     $callback = fqn($entity['model'] . '_load');
     $data = [];
     $opts = array_replace(entity_opts($opts), ['mode' => 'all']);
-    $index = $opts['index'][0];
     $multi = !empty($opts['index'][1]);
 
     if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
@@ -111,9 +110,9 @@ function all(string $eId, array $crit = [], array $opts = []): array
             $item = load($entity, $item);
 
             if ($multi) {
-                $data[$item[$index]][$item[$opts['index'][1]]] = $item;
+                $data[$item[$opts['index'][0]]][$item[$opts['index'][1]]] = $item;
             } else {
-                $data[$item[$index]] = $item;
+                $data[$item[$opts['index'][0]]] = $item;
             }
         }
     } catch (Exception $e) {
