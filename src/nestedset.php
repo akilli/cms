@@ -155,10 +155,16 @@ function nestedset_position(array & $item): void
         // Recursion
         throw new LogicException(_('Node can not be child of itself'));
     } elseif ($item['mode'] === 'child') {
+        // Add child
         $item['lft'] = $b['rgt'];
         $item['level'] = $b['level'] + 1;
+    } elseif ($item['mode'] === 'before') {
+        // Ad before
+        $item['lft'] = $b['lft'];
+        $item['level'] = $b['level'];
     } else {
-        $item['lft'] = $item['mode'] === 'before' ? $b['lft'] : $b['rgt'] + 1;
+        // Add after
+        $item['lft'] = $b['rgt'] + 1;
         $item['level'] = $b['level'];
     }
 
@@ -170,7 +176,7 @@ function nestedset_position(array & $item): void
 }
 
 /**
- * Make space in the new tree
+ * Make space in new tree
  *
  * @param array $item
  *
