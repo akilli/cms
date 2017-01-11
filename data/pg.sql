@@ -145,14 +145,12 @@ CREATE TABLE menu (
     id serial PRIMARY KEY,
     uid varchar(100),
     name varchar(255) NOT NULL,
-    system boolean NOT NULL DEFAULT FALSE,
     project_id varchar(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (project_id, uid)
 );
 
 CREATE INDEX idx_menu_uid ON menu (uid);
 CREATE INDEX idx_menu_name ON menu (name);
-CREATE INDEX idx_menu_system ON menu (system);
 CREATE INDEX idx_menu_project ON menu (project_id);
 
 -- -----------------------------------------------------------

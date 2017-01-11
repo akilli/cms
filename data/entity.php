@@ -252,11 +252,6 @@ return [
                 'required' => true,
                 'actions' => ['admin', 'edit'],
             ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'checkbox',
-                'actions' => ['admin'],
-            ],
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'select',
