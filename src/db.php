@@ -132,14 +132,14 @@ function db_cols(array $attrs, array $item): array
         $data[$uid]['col'] = $attrs[$uid]['col'];
         $data[$uid]['val'] = db_val($val, $attrs[$uid]);
         $data[$uid]['type'] = db_type($data[$uid]['val'], $attrs[$uid]);
-        $data[$uid]['in.param'] = db_param('in_' . $uid);
-        $data[$uid]['in.val'] = $data[$uid]['in.param'];
-        $data[$uid]['up.param'] = db_param('up_' . $uid);
-        $data[$uid]['up.val'] = $data[$uid]['col'] . ' = ' . $data[$uid]['up.param'];
+        $data[$uid]['param'] = db_param($uid);
+        $data[$uid]['cast'] = $data[$uid]['param'];
+        $data[$uid]['conflict'] = $data[$uid]['col'] . ' = EXCLUDED.' . $data[$uid]['col'];
+        $data[$uid]['set'] = $data[$uid]['col'] . ' = ' . $data[$uid]['param'];
 
         if ($attrs[$uid]['backend'] === 'search') {
-            $data[$uid]['in.val'] = 'TO_TSVECTOR(' . $data[$uid]['in.param'] . ')';
-            $data[$uid]['up.val'] = $data[$uid]['col'] . ' = TO_TSVECTOR(' . $data[$uid]['up.param'] . ')';
+            $data[$uid]['cast'] = 'TO_TSVECTOR(' . $data[$uid]['param'] . ')';
+            $data[$uid]['set'] = $data[$uid]['col'] . ' = TO_TSVECTOR(' . $data[$uid]['param'] . ')';
         }
     }
 

@@ -51,11 +51,11 @@ function flat_create(array & $item): bool
         'INSERT INTO %s (%s) VALUES (%s)',
         $item['_entity']['tab'],
         db_list(array_column($cols, 'col')),
-        db_list(array_column($cols, 'in.val'))
+        db_list(array_column($cols, 'cast'))
     );
 
     foreach ($cols as $col) {
-        $stmt->bindValue($col['in.param'], $col['val'], $col['type']);
+        $stmt->bindValue($col['param'], $col['val'], $col['type']);
     }
 
     $stmt->execute();
@@ -83,12 +83,12 @@ function flat_save(array & $item): bool
     $stmt = db_prep(
         'UPDATE %s SET %s WHERE %s = :_id',
         $item['_entity']['tab'],
-        db_list(array_column($cols, 'up.val')),
+        db_list(array_column($cols, 'set')),
         $attrs['id']['col']
     );
 
     foreach ($cols as $col) {
-        $stmt->bindValue($col['up.param'], $col['val'], $col['type']);
+        $stmt->bindValue($col['param'], $col['val'], $col['type']);
     }
 
     $stmt->bindValue(':_id', $item['_old']['id'], db_type($item['_old']['id'], $attrs['id']));
