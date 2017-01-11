@@ -3,6 +3,7 @@ START TRANSACTION;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Project
 -- ---------------------------------------------------------------------------------------------------------------------
+
 CREATE TABLE project (
     id varchar(100) PRIMARY KEY,
     name varchar(255) NOT NULL,
@@ -20,6 +21,7 @@ CREATE INDEX idx_project_system ON project (system);
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Auth
 -- ---------------------------------------------------------------------------------------------------------------------
+
 CREATE TABLE role (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
@@ -36,6 +38,7 @@ CREATE INDEX idx_role_system ON role (system);
 CREATE INDEX idx_role_project ON role (project_id);
 
 -- -----------------------------------------------------------
+
 CREATE TABLE account (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL UNIQUE,
@@ -55,6 +58,7 @@ CREATE INDEX idx_account_project ON account (project_id);
 -- ---------------------------------------------------------------------------------------------------------------------
 -- EAV
 -- ---------------------------------------------------------------------------------------------------------------------
+
 CREATE TABLE entity (
     id varchar(100) PRIMARY KEY,
     name varchar(255) NOT NULL,
@@ -68,6 +72,7 @@ CREATE INDEX idx_entity_system ON entity (system);
 CREATE INDEX idx_entity_project ON entity (project_id);
 
 -- -----------------------------------------------------------
+
 CREATE TABLE attr (
     id serial PRIMARY KEY,
     entity_id varchar(100) NOT NULL REFERENCES entity ON DELETE CASCADE ON UPDATE CASCADE,
@@ -95,6 +100,7 @@ CREATE INDEX idx_attr_searchable ON attr (searchable);
 CREATE INDEX idx_attr_project ON attr (project_id);
 
 -- -----------------------------------------------------------
+
 CREATE TABLE content (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
@@ -120,6 +126,7 @@ CREATE INDEX idx_content_project ON content (project_id);
 CREATE INDEX idx_content_search ON content USING GIN (search);
 
 -- -----------------------------------------------------------
+
 CREATE TABLE eav (
     content_id integer NOT NULL REFERENCES content ON DELETE CASCADE ON UPDATE CASCADE,
     attr_id integer NOT NULL REFERENCES attr ON DELETE CASCADE ON UPDATE CASCADE,
@@ -133,6 +140,7 @@ CREATE INDEX idx_eav_attr ON eav (attr_id);
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Menu
 -- ---------------------------------------------------------------------------------------------------------------------
+
 CREATE TABLE menu (
     id serial PRIMARY KEY,
     uid varchar(100),
@@ -148,6 +156,7 @@ CREATE INDEX idx_menu_system ON menu (system);
 CREATE INDEX idx_menu_project ON menu (project_id);
 
 -- -----------------------------------------------------------
+
 CREATE TABLE node (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
@@ -166,11 +175,12 @@ CREATE INDEX idx_node_lft ON node (lft);
 CREATE INDEX idx_node_rgt ON node (rgt);
 CREATE INDEX idx_node_level ON node (level);
 CREATE INDEX idx_node_project ON node (project_id);
-CREATE INDEX idx_node_item ON node (root_id,lft,rgt);
+CREATE INDEX idx_node_item ON node (root_id, lft, rgt);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- URL
 -- ---------------------------------------------------------------------------------------------------------------------
+
 CREATE TABLE url (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
