@@ -150,7 +150,7 @@ function url_unrewrite(string $path): string
     static $data;
 
     if ($data === null) {
-        $data = all('url', [], ['index' => ['target'], 'order' => ['system' => 'desc']]);
+        $data = all('url', ['redirect' => false], ['index' => ['target'], 'order' => ['system' => 'desc']]);
     }
 
     return $data[$path]['name'] ?? $path;
