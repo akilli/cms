@@ -189,11 +189,7 @@ function http_files_convert(array $data): array
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
     $exts = data('file');
 
-    foreach ($files as $id => $item) {
-        if (!is_array($item)) {
-            continue;
-        }
-
+    foreach (array_filter($files, 'is_array') as $id => $item) {
         $ids = array_keys($item);
         sort($ids);
 

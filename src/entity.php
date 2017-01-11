@@ -146,11 +146,7 @@ function save(string $eId, array & $data): bool
             continue;
         }
 
-        foreach (array_keys($item) as $uid) {
-            if (!isset($item['_entity']['attr'][$uid])) {
-                continue;
-            }
-
+        foreach (array_keys(array_intersect_key($item, $item['_entity']['attr'])) as $uid) {
             if (!saver($item['_entity']['attr'][$uid], $item)) {
                 $error[] = $item['name'];
                 continue 2;

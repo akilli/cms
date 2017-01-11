@@ -100,11 +100,7 @@ function eav_create(array & $item): bool
             (:content_id, :attr_id, :value)
     ');
 
-    foreach ($eav as $uid => $attr) {
-        if (!array_key_exists($uid, $item)) {
-            continue;
-        }
-
+    foreach (array_intersect_key($eav, $item) as $uid => $attr) {
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
         $stmt->bindValue(':attr_id', $attr['eav_id'], PDO::PARAM_INT);
         $stmt->bindValue(':value', db_val($item[$uid], $attr), PDO::PARAM_STR);
@@ -151,11 +147,7 @@ function eav_save(array & $item): bool
             value = EXCLUDED.value
     ');
 
-    foreach ($eav as $uid => $attr) {
-        if (!array_key_exists($uid, $item)) {
-            continue;
-        }
-
+    foreach (array_intersect_key($eav, $item) as $uid => $attr) {
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
         $stmt->bindValue(':attr_id', $attr['eav_id'], PDO::PARAM_INT);
         $stmt->bindValue(':value', db_val($item[$uid], $attr), PDO::PARAM_STR);
