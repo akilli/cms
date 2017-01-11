@@ -122,10 +122,10 @@ function action_index(array $entity): void
  */
 function action_view(array $entity): void
 {
+    $item = one($entity['id'], ['id' => request('id')]);
+
     // Item does not exist or is inactive
-    if (!($item = one($entity['id'], ['id' => request('id')]))
-        || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')
-    ) {
+    if (!$item || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')) {
         action_error();
         return;
     }
