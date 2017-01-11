@@ -4,13 +4,6 @@ namespace qnd;
 use InvalidArgumentException;
 
 /**
- * Super privilege
- *
- * @var string
- */
-const PRIVILEGE = '_all_';
-
-/**
  * Account
  *
  * @param string $key
@@ -94,7 +87,7 @@ function allowed(string $key = null): bool
 
     return empty($data[$key]['active'])
         || !empty($data[$key]['callback']) && $data[$key]['callback']()
-        || array_intersect([PRIVILEGE, $key], account('privilege') ?? []);
+        || array_intersect([data('app', 'privilege'), $key], account('privilege') ?? []);
 }
 
 /**

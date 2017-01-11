@@ -32,6 +32,14 @@ return [
         'system' => false,
         'attr' => [],
     ],
+    'load' => [
+        'mode' => 'all',
+        'index' => ['id'],
+        'search' => [],
+        'order' => [],
+        'limit' => 0,
+        'offset' => 0
+    ],
     'section' => [
         'id' => null,
         'as' => null,

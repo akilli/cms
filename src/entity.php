@@ -5,20 +5,6 @@ use Exception;
 use RuntimeException;
 
 /**
- * Entity load options
- *
- * @var string
- */
-const ENTITY_LOAD = [
-    'mode' => 'all',
-    'index' => ['id'],
-    'search' => [],
-    'order' => [],
-    'limit' => 0,
-    'offset' => 0
-];
-
-/**
  * Size entity
  *
  * @param string $eId
@@ -372,7 +358,9 @@ function entity_attr(string $eId, string $action): array
  */
 function entity_opts(array $opts): array
 {
-    foreach (ENTITY_LOAD as $key => $val) {
+    $default = data('default', 'load');
+
+    foreach ($default as $key => $val) {
         if (array_key_exists($key, $opts) && gettype($val) !== gettype($opts[$key])) {
             unset($opts[$key]);
         }
@@ -386,5 +374,5 @@ function entity_opts(array $opts): array
         unset($opts['index']);
     }
 
-    return array_replace(ENTITY_LOAD, array_intersect_key($opts, ENTITY_LOAD));
+    return array_replace($default, array_intersect_key($opts, $default));
 }
