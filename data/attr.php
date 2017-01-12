@@ -23,7 +23,7 @@ return [
     'datetime' => [
         'name' => 'Datetime',
         'backend' => 'datetime',
-        'frontend' => 'datetime-local',
+        'frontend' => 'datetime',
     ],
     'decimal' => [
         'name' => 'Decimal',

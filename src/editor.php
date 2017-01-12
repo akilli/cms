@@ -293,7 +293,7 @@ function editor_datetime(array $attr, array $item): string
     }
 
     $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
-    $attr['html']['type'] = $attr['frontend'];
+    $attr['html']['type'] = $attr['frontend'] === 'datetime' ? 'datetime-local' : $attr['frontend'];
     $attr['html']['value'] = $item[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
