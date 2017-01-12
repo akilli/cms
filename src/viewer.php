@@ -69,7 +69,7 @@ function viewer_opt(array $attr, array $item): string
  */
 function viewer_date(array $attr, array $item): string
 {
-    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), data('format', 'date.view'));
+    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('format', 'date.view')) : '';
 }
 
 /**
@@ -82,7 +82,7 @@ function viewer_date(array $attr, array $item): string
  */
 function viewer_datetime(array $attr, array $item): string
 {
-    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), data('format', 'datetime.view'));
+    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('format', 'datetime.view')) : '';
 }
 
 /**
@@ -95,7 +95,7 @@ function viewer_datetime(array $attr, array $item): string
  */
 function viewer_time(array $attr, array $item): string
 {
-    return empty($item[$attr['id']]) ? '' : date_format(date_create($item[$attr['id']]), data('format', 'time.view'));
+    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('format', 'time.view')) : '';
 }
 
 /**
@@ -121,11 +121,7 @@ function viewer_rte(array $attr, array $item): string
  */
 function viewer_audio(array $attr, array $item): string
 {
-    if ($item[$attr['id']]) {
-        return html_tag('audio', ['src' => url_media($item[$attr['id']]), 'controls' => true]);
-    }
-
-    return '';
+    return $item[$attr['id']] ? html_tag('audio', ['src' => url_media($item[$attr['id']]), 'controls' => true]) : '';
 }
 
 /**
@@ -138,11 +134,7 @@ function viewer_audio(array $attr, array $item): string
  */
 function viewer_embed(array $attr, array $item): string
 {
-    if ($item[$attr['id']]) {
-        return html_tag('embed', ['src' => url_media($item[$attr['id']]), 'autoplay' => 'no', 'loop' => 'no'], null, true);
-    }
-
-    return '';
+    return $item[$attr['id']] ? html_tag('embed', ['src' => url_media($item[$attr['id']])], null, true) : '';
 }
 
 /**
@@ -155,11 +147,7 @@ function viewer_embed(array $attr, array $item): string
  */
 function viewer_file(array $attr, array $item): string
 {
-    if ($item[$attr['id']]) {
-        return html_tag('a', ['href' => url_media($item[$attr['id']])], $item[$attr['id']]);
-    }
-
-    return '';
+    return $item[$attr['id']] ? html_tag('a', ['href' => url_media($item[$attr['id']])], $item[$attr['id']]) : '';
 }
 
 /**
@@ -172,11 +160,7 @@ function viewer_file(array $attr, array $item): string
  */
 function viewer_image(array $attr, array $item): string
 {
-    if ($item[$attr['id']] && ($opts = data('media', $attr['context']))) {
-        return html_tag('img', ['src' => image($item[$attr['id']], $opts), 'alt' => $item[$attr['id']]], null, true);
-    }
-
-    return '';
+    return $item[$attr['id']] ? html_tag('img', ['src' => image($item[$attr['id']], $attr['context']), 'alt' => $item[$attr['id']]], null, true) : '';
 }
 
 /**
@@ -189,9 +173,5 @@ function viewer_image(array $attr, array $item): string
  */
 function viewer_video(array $attr, array $item): string
 {
-    if ($item[$attr['id']]) {
-        return html_tag('video', ['src' => url_media($item[$attr['id']]), 'controls' => true]);
-    }
-
-    return '';
+    return $item[$attr['id']] ? html_tag('video', ['src' => url_media($item[$attr['id']]), 'controls' => true]) : '';
 }

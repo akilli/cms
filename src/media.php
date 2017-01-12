@@ -5,16 +5,13 @@ namespace qnd;
  * Media image
  *
  * @param string $file
- * @param array $opts
+ * @param string $conf
  *
  * @return string
  */
-function image(string $file, array $opts): string
+function image(string $file, string $conf): string
 {
-    $media = media_load($file);
-    $opts = array_replace(['width' => 0, 'height' => 0, 'quality' => 100, 'crop' => false], $opts);
-
-    if (!$media || $opts['width'] <= 0 || $opts['height'] <= 0 || !$info = getimagesize($media['path'])) {
+    if (!($media = media_load($file)) || !($opts = data('media', $conf)) || !($info = getimagesize($media['path']))) {
         return url_media($file);
     }
 
