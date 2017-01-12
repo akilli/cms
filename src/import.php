@@ -16,6 +16,7 @@ use XSLTProcessor;
 function import_zip(string $file): bool
 {
     $path = path('tmp', uniqid('import', true));
+    $toc = $path . '/' . data('import', 'toc');
 
     if (file_exists($path)) {
         file_delete($path);
@@ -28,17 +29,17 @@ function import_zip(string $file): bool
         return false;
     }
 
-    if (!$toc = file_one($path, ['name' => data('import', 'toc'), 'recursive' => true])) {
+    if (!is_file($toc)) {
         message(_('File %s not found', data('import', 'toc')));
         return false;
     }
 
     // Copy media files
-    file_copy($toc['dir'] . '/media', project_path('media'));
+    file_copy($path . '/media', project_path('media'));
 
     $trans = db_trans(
-        function () use ($toc) {
-            $import = csv_unserialize(file_get_contents($toc['path']), ['keys' => ['pos', 'name', 'file']]);
+        function () use ($path, $toc) {
+            $import = csv_unserialize(file_get_contents($toc), ['keys' => ['pos', 'name', 'file']]);
 
             // Delete old menu, nodes and pages + create new menu
             $menu = [-1 => ['uid' => 'page', 'name' => 'Page']];
@@ -59,7 +60,7 @@ function import_zip(string $file): bool
                     $pages = [];
                     $pages[-1]['name'] = $item['name'];
                     $pages[-1]['active'] = true;
-                    $pages[-1]['content'] = $item['file'] ? import_content($toc['dir'] . '/' . $item['file']) : null;
+                    $pages[-1]['content'] = $item['file'] ? import_content($path . '/' . $item['file']) : null;
 
                     if (!save('page', $pages)) {
                         throw new RuntimeException(_('Import error'));
@@ -84,7 +85,7 @@ function import_zip(string $file): bool
                 $levels[$level] = $nodes[-1]['lft'];
             }
 
-            if (!in_array('index', $oids) && ($p = glob($toc['dir'] . '/index.{html,odt}', GLOB_BRACE)) && !import_page($p[0])) {
+            if (!in_array('index', $oids) && ($p = glob($path . '/index.{html,odt}', GLOB_BRACE)) && !import_page($p[0])) {
                 throw new RuntimeException(_('Import error'));
             }
         }

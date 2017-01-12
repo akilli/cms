@@ -6,20 +6,6 @@ use RecursiveIteratorIterator;
 use SplFileInfo;
 
 /**
- * Load file
- *
- * @param string $path
- * @param array $crit
- * @param array $opts
- *
- * @return array
- */
-function file_one(string $path, array $crit = [], array $opts = []): array
-{
-    return ($all = file_all($path, $crit, $opts)) ? array_shift($all) : [];
-}
-
-/**
  * Load file collection
  *
  * @param string $path
@@ -39,11 +25,6 @@ function file_all(string $path, array $crit = [], array $opts = []): array
     $data = [];
     $flags = RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS;
     $it = new RecursiveDirectoryIterator($path, $flags);
-
-    if (!empty($crit['recursive'])) {
-        $it = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::LEAVES_ONLY);
-        unset($crit['recursive']);
-    }
 
     /* @var SplFileInfo $file */
     foreach ($it as $file) {
