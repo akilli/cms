@@ -21,7 +21,7 @@ return [
         'pdo' => PDO::PARAM_INT,
     ],
     'json' => [
-        'db' => 'json',
+        'db' => 'jsonb',
         'pdo' => PDO::PARAM_STR,
     ],
     'search' => [

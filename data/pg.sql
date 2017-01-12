@@ -25,7 +25,7 @@ CREATE INDEX idx_project_system ON project (system);
 CREATE TABLE role (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
-    privilege json NOT NULL,
+    privilege jsonb NOT NULL,
     active boolean NOT NULL DEFAULT FALSE,
     system boolean NOT NULL DEFAULT FALSE,
     project_id varchar(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
@@ -62,7 +62,7 @@ CREATE INDEX idx_account_project ON account (project_id);
 CREATE TABLE entity (
     id varchar(100) PRIMARY KEY,
     name varchar(255) NOT NULL,
-    actions json NOT NULL,
+    actions jsonb NOT NULL,
     system boolean NOT NULL DEFAULT FALSE,
     project_id varchar(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -83,8 +83,8 @@ CREATE TABLE attr (
     required boolean NOT NULL DEFAULT FALSE,
     uniq boolean NOT NULL DEFAULT FALSE,
     searchable boolean NOT NULL DEFAULT FALSE,
-    opt json NOT NULL,
-    actions json NOT NULL,
+    opt jsonb NOT NULL,
+    actions jsonb NOT NULL,
     project_id varchar(100) NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (entity_id, uid)
 );
