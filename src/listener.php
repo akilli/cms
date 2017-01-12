@@ -132,6 +132,12 @@ function listener_data_request(array & $data): void
  */
 function listener_data_toolbar(array & $data): void
 {
+    foreach (all('entity', ['project_id' => project('ids')]) as $entity) {
+        if (in_array('admin', $entity['actions']) && allowed($entity['id'] . '.admin')) {
+            $data['content']['children'][] = ['name' => $entity['name'], 'url' => url($entity['id'] . '/admin')];
+        }
+    }
+
     $filter = function (array $item) use (& $filter) {
         $item['children'] = !empty($item['children']) ? array_filter($item['children'], $filter) : [];
 
