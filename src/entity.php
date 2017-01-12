@@ -316,7 +316,7 @@ function entity(string $eId, int $number = null, bool $bare = false): array
         return $item;
     }
 
-    $data = array_fill_keys(range(-1, -1 * max(1, (int) $number)), $item);
+    $data = array_fill_keys(range(-1, -1 * max(1, $number)), $item);
 
     foreach ($data as $key => $value) {
         $data[$key]['_id'] = $key;
