@@ -39,6 +39,7 @@ function listener_data_entity(array & $data): void
     $attrs = all('attr', ['project_id' => project('ids')], ['index' => ['entity_id', 'uid']]);
 
     foreach ($entities as $id => $item) {
+        // @todo Define custom validator for entity ID and EAV attr uid
         if (!empty($data[$id])) {
             message(_('Can not use reserved Id %s for Entity %s', $id, $item['name']));
             continue;
