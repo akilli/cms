@@ -136,6 +136,7 @@ CREATE TABLE eav (
 
 CREATE INDEX idx_eav_content ON eav (content_id);
 CREATE INDEX idx_eav_attr ON eav (attr_id);
+CREATE INDEX idx_eav_value ON eav (value);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Menu
