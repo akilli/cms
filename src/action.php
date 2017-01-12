@@ -53,6 +53,39 @@ function action_edit(array $entity): void
 }
 
 /**
+ * Form Action
+ *
+ * @param array $entity
+ *
+ * @return void
+ */
+function action_form(array $entity): void
+{
+    $data = http_post('data');
+
+    if ($data) {
+        // Perform save callback and redirect to homepage on success
+        if (save($entity['id'], $data)) {
+            redirect(url());
+        }
+
+        $data = array_filter(
+            $data,
+            function ($item) {
+                return empty($item['_success']);
+            }
+        );
+    } else {
+        // Initial action call
+        $data = entity($entity['id'], 1);
+    }
+
+    layout_load();
+    vars('content', ['data' => $data, 'title' => $entity['name']]);
+    vars('head', ['title' => $entity['name']]);
+}
+
+/**
  * Delete Action
  *
  * @param array $entity

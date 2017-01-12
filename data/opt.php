@@ -3,6 +3,7 @@ return [
     'action.attr' => [
         'admin' => 'admin',
         'edit' => 'edit',
+        'form' => 'form',
         'index' => 'index',
         'view' => 'view',
     ],
@@ -10,6 +11,7 @@ return [
         'admin' => 'admin',
         'delete' => 'delete',
         'edit' => 'edit',
+        'form' => 'form',
         'index' => 'index',
         'view' => 'view',
     ],

@@ -7,7 +7,7 @@
         <?php $eId = $item['_entity']['id'] === 'content' ? $item['entity_id'] : $item['_entity']['id'];?>
     <article>
         <?php foreach ($§('attr') as $attr):?>
-            <?php $attr['context'] = 'index';?>
+            <?php $attr['context'] = $§('context');?>
             <?php if (!$html = viewer($attr, $item)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
                 <?php if (allowed($eId . '.view')):?>

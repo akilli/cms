@@ -2,6 +2,7 @@
 <?php if ($item = $§('item')):?>
 <article id="<?=$§('§')['as'];?>" class="view">
     <?php foreach ($item['_entity']['attr'] as $attr):?>
+        <?php $attr['context'] = $§('context');?>
         <?php if (!$html = viewer($attr, $item)) continue;?>
         <?php if ($attr['id'] === 'name'):?>
     <h1><?=$html;?></h1>

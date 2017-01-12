@@ -57,7 +57,7 @@
                             <input id="edit-<?=$id;?>-name" type="checkbox" name="edit[<?=$id;?>]" value="1" data-toggle-id="edit" />
                         </td>
                         <?php foreach ($§('attr') as $attr):?>
-                            <?php $attr['context'] = 'admin';?>
+                            <?php $attr['context'] = $§('context');?>
                         <td>
                             <?=viewer($attr, $item);?>
                         </td>

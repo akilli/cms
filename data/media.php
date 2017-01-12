@@ -12,6 +12,12 @@ return [
         'quality' => 70,
         'crop' => false,
     ],
+    'form' => [
+        'width' => 128,
+        'height' => 128,
+        'quality' => 70,
+        'crop' => false,
+    ],
     'index' => [
         'width' => 128,
         'height' => 128,

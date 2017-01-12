@@ -11,13 +11,12 @@ namespace qnd;
  */
 function editor(array $attr, array $item): string
 {
-    if (!in_array('edit', $attr['actions'])) {
+    if (!in_array($attr['context'], $attr['actions'])) {
         return '';
     }
 
     $item[$attr['id']] = $item[$attr['id']] ?? $attr['val'];
     $attr['opt'] = opt($attr);
-    $attr['context'] = 'edit';
     $attr['html']['id'] =  html_id($attr, $item);
     $attr['html']['name'] =  html_name($attr, $item);
     $attr['html']['data-type'] =  $attr['type'];

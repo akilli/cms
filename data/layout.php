@@ -55,6 +55,16 @@ return [
         'handle' => 'action-edit',
         'type' => 'template',
         'template' => 'entity/edit.phtml',
+        'vars' => ['context' => 'edit'],
+        'parent' => 'main',
+    ],
+    // action-form
+    [
+        'id' => 'content',
+        'handle' => 'action-form',
+        'type' => 'template',
+        'template' => 'entity/edit.phtml',
+        'vars' => ['context' => 'form'],
         'parent' => 'main',
     ],
     // action-view
@@ -63,6 +73,7 @@ return [
         'handle' => 'action-view',
         'type' => 'template',
         'template' => 'entity/view.phtml',
+        'vars' => ['context' => 'view'],
         'parent' => 'main',
     ],
     // action-admin
@@ -71,6 +82,7 @@ return [
         'handle' => 'action-admin',
         'type' => 'template',
         'template' => 'entity/admin.phtml',
+        'vars' => ['context' => 'admin'],
         'parent' => 'main',
     ],
     [
@@ -93,6 +105,7 @@ return [
         'handle' => 'action-index',
         'type' => 'template',
         'template' => 'entity/index.phtml',
+        'vars' => ['context' => 'index'],
         'parent' => 'main',
     ],
     [
