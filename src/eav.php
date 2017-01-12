@@ -14,10 +14,9 @@ use PDO;
  */
 function eav_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $eav = eav_attr($entity['attr']);
     $crit['entity_id'] = $entity['id'];
 
-    if (!$eav) {
+    if (!$eav = eav_attr($entity['attr'])) {
         return flat_load($entity, $crit, $opts);
     }
 
