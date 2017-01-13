@@ -164,6 +164,19 @@ function viewer_image(array $attr, array $item): string
 }
 
 /**
+ * Object viewer
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function viewer_object(array $attr, array $item): string
+{
+    return $item[$attr['id']] ? html_tag('object', ['data' => url_media($item[$attr['id']])]) : '';
+}
+
+/**
  * Video viewer
  *
  * @param array $attr

@@ -75,6 +75,11 @@ return [
         'multiple' => true,
         'val' => [],
     ],
+    'object' => [
+        'name' => 'Object',
+        'backend' => 'varchar',
+        'frontend' => 'file',
+    ],
     'password' => [
         'name' => 'Password',
         'backend' => 'varchar',
