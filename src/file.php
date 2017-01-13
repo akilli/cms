@@ -9,19 +9,15 @@ use SplFileInfo;
  * Load file collection
  *
  * @param string $path
- * @param array $crit
- * @param array $opts
  *
  * @return array
  */
-function file_all(string $path, array $crit = [], array $opts = []): array
+function file_load(string $path): array
 {
     if (!is_dir($path)) {
         return [];
     }
 
-    $opts = entity_opts($opts);
-    $multi = !empty($opts['index'][1]);
     $data = [];
     $flags = RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS;
     $it = new RecursiveDirectoryIterator($path, $flags);
@@ -42,24 +38,7 @@ function file_all(string $path, array $crit = [], array $opts = []): array
             'size' => $file->getSize(),
             'modified' => $file->getMTime()
         ];
-
-        if ($multi) {
-            $data[$item[$opts['index'][0]]][$item[$opts['index'][1]]] = $item;
-        } else {
-            $data[$item[$opts['index'][0]]] = $item;
-        }
-    }
-
-    if ($crit) {
-        $data = data_filter($data, $crit, $opts);
-    }
-
-    if (!empty($opts['order'])) {
-        $data = data_order($data, $opts['order']);
-    }
-
-    if (!empty($opts['limit'])) {
-        $data = data_limit($data, $opts['limit'], $opts['offset']);
+        $data[$item['id']] = $item;
     }
 
     return $data;
@@ -160,7 +139,7 @@ function file_copy(string $src, string $dest): bool
     if ($isFile) {
         copy($src, $dest);
     } else {
-        $files = file_all($src);
+        $files = file_load($src);
 
         foreach ($files as $file) {
             if (file_dir(dirname($dest . '/' . $file['id']))) {
