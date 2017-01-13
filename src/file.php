@@ -144,11 +144,10 @@ function file_delete_media(string $id): bool
  *
  * @param string $src
  * @param string $dest
- * @param array $crit
  *
  * @return bool
  */
-function file_copy(string $src, string $dest, array $crit = []): bool
+function file_copy(string $src, string $dest): bool
 {
     $isFile = is_file($src);
 
@@ -161,7 +160,7 @@ function file_copy(string $src, string $dest, array $crit = []): bool
     if ($isFile) {
         copy($src, $dest);
     } else {
-        $files = file_all($src, $crit);
+        $files = file_all($src);
 
         foreach ($files as $file) {
             if (file_dir(dirname($dest . '/' . $file['id']))) {
