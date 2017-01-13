@@ -58,7 +58,7 @@ function saver_file(array $attr, array & $item): bool
     // Delete old file
     if (!empty($item['_old'][$attr['id']])
         && ($file || !empty($item['_delete'][$attr['id']]))
-        && !media_delete($item['_old'][$attr['id']])
+        && !file_delete_media($item['_old'][$attr['id']])
     ) {
         $item['_error'][$attr['id']] = _('Could not delete old file %s', $item['_old'][$attr['id']]);
         return false;
