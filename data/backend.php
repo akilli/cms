@@ -23,6 +23,7 @@ return [
     'json' => [
         'db' => 'jsonb',
         'pdo' => PDO::PARAM_STR,
+        'loader' => 'json',
     ],
     'search' => [
         'db' => 'tsvector',

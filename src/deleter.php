@@ -11,18 +11,7 @@ namespace qnd;
  */
 function deleter(array $attr, array & $item): bool
 {
-    $callback = fqn('deleter_' . $attr['type']);
-
-    if (is_callable($callback)) {
-        return $callback($attr, $item);
-    }
-
-    // @todo
-    if ($attr['frontend'] === 'file') {
-        return deleter_file($attr, $item);
-    }
-
-    return true;
+    return !$attr['deleter'] || ($call = fqn('deleter_' . $attr['deleter'])) && $call($attr, $item);
 }
 
 /**

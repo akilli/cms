@@ -25,11 +25,11 @@ function listener_data_app(array & $data): void
  */
 function listener_data_entity(array & $data): void
 {
-    foreach ($data as $id => $item) {
-        $item['id'] = $id;
+    foreach ($data as $eId => $item) {
+        $item['id'] = $eId;
         $item = data_entity($item);
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
-        $data[$id] = $item;
+        $data[$eId] = $item;
     }
 
     if (!$entities = all('entity', ['project_id' => project('ids')])) {
@@ -39,14 +39,15 @@ function listener_data_entity(array & $data): void
     $attrs = all('attr', ['project_id' => project('ids')], ['index' => ['entity_id', 'uid']]);
 
     foreach ($entities as $id => $item) {
-        // @todo Define custom validator for entity ID and EAV attr uid
-        if (!empty($data[$id])) {
-            message(_('Can not use reserved Id %s for Entity %s', $id, $item['name']));
+        $eId = $item['uid'];
+
+        // @todo Define custom validator for entity UID and EAV attr UID
+        if (!empty($data[$eId])) {
+            message(_('Can not use reserved UID %s for Entity %s', $eId, $item['name']));
             continue;
         }
 
-        $item = array_replace($data['content'], $item);
-        $item['model'] = 'eav';
+        $item = array_replace($data['content'], $item, ['id' => $eId, 'eav_id' => $id, 'model' => 'eav']);
 
         if (!empty($attrs[$id])) {
             foreach ($attrs[$id] as $uid => $attr) {
@@ -58,10 +59,10 @@ function listener_data_entity(array & $data): void
             }
         }
 
-        unset($item['project_id']);
+        unset($item['uid'], $item['project_id']);
         $item = data_entity($item);
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
-        $data[$id] = $item;
+        $data[$eId] = $item;
     }
 }
 
@@ -133,7 +134,13 @@ function listener_data_request(array & $data): void
  */
 function listener_data_toolbar(array & $data): void
 {
-    foreach (all('entity', ['project_id' => project('ids')]) as $entity) {
+    $entities = array_filter(
+        data('entity'),
+        function ($item) {
+            return !empty($item['eav_id']);
+        }
+    );
+    foreach ($entities as $entity) {
         if (in_array('admin', $entity['actions']) && allowed($entity['id'] . '.admin')) {
             $data['content']['children'][] = ['name' => $entity['name'], 'url' => url($entity['id'] . '/admin')];
         }

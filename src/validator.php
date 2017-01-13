@@ -22,28 +22,7 @@ function validator(array $attr, array & $item): bool
     }
 
     $attr['opt'] = opt($attr);
-    $valid = true;
-    $callback = fqn('validator_' . $attr['type']);
-
-    if (is_callable($callback)) {
-        $valid = $callback($attr, $item);
-    } else {
-        // @todo
-        switch ($attr['frontend']) {
-            case 'checkbox':
-            case 'radio':
-            case 'select':
-                $valid = validator_opt($attr, $item);
-                break;
-            case 'password':
-            case 'textarea':
-                $valid = validator_text($attr, $item);
-                break;
-            case 'file':
-                $valid = validator_file($attr, $item);
-                break;
-        }
-    }
+    $valid = !$attr['validator'] || ($call = fqn('validator_' . $attr['validator'])) && $call($attr, $item);
 
     return $valid && validator_uniq($attr, $item) && validator_required($attr, $item) && validator_boundary($attr, $item);
 }
@@ -58,7 +37,7 @@ function validator(array $attr, array & $item): bool
  */
 function validator_required(array $attr, array & $item): bool
 {
-    if (!$attr['required'] || !empty($item[$attr['id']]) || $attr['opt'] || ignorable($attr, $item)) {
+    if (!$attr['required'] || $item[$attr['id']] || $attr['opt'] || ignorable($attr, $item)) {
         return true;
     }
 

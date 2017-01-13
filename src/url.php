@@ -62,7 +62,7 @@ function url_cache(string $path = ''): string
     static $base;
 
     if ($base === null) {
-        $base = '/asset/' . project('id') . '/cache';
+        $base = '/asset/' . project('uid') . '/cache';
     }
 
     return $base . ($path ? '/' . $path : '');
@@ -80,7 +80,7 @@ function url_media(string $path = ''): string
     static $base;
 
     if ($base === null) {
-        $base = '/asset/' . project('id') . '/media';
+        $base = '/asset/' . project('uid') . '/media';
     }
 
     return $base . ($path ? '/' . $path : '');

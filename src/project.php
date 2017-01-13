@@ -16,11 +16,12 @@ function project(string $key)
 
     if ($data === null) {
         $data = [];
-        $id = (string) session('project');
+        $base = one('project', ['uid' => data('app', 'project')]);
+        $id = (int) session('project');
         $crit = $id ? ['id' => $id] : ['host' => request('host')];
         $crit['active'] = true;
-        $data = one('project', $crit) ?: one('project', ['id' => data('app', 'project')]);
-        $data['ids'] = array_unique([data('app', 'project'), $data['id']]);
+        $data = one('project', $crit) ?: $base;
+        $data['ids'] = array_unique([$base['id'], $data['id']]);
         $data['theme'] = $data['theme'] ?: data('app', 'theme');
         session('project', $data['id']);
     }
@@ -44,7 +45,7 @@ function project_path(string $dir, string $id = ''): string
 
     if ($data === null) {
         $data = [];
-        $asset = path('asset', project('id'));
+        $asset = path('asset', project('uid'));
         $data['cache'] = $asset . '/cache';
         $data['media'] = $asset . '/media';
     }

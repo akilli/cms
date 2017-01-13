@@ -24,10 +24,9 @@ return [
             ],
             'role_id' => [
                 'name' => 'Role',
-                'type' => 'select',
-                'backend' => 'int',
+                'type' => 'entity',
                 'required' => true,
-                'opt' => ['all', ['role']],
+                'opt' => ['role'],
                 'actions' => ['admin', 'edit'],
             ],
             'active' => [
@@ -42,8 +41,8 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select',
-                'opt' => ['all', ['project']],
+                'type' => 'entity',
+                'opt' => ['project'],
             ],
         ],
     ],
@@ -54,16 +53,17 @@ return [
                 'name' => 'Id',
                 'auto' => true,
                 'type' => 'int',
+                'actions' => ['admin'],
             ],
             'entity_id' => [
                 'name' => 'Entity',
-                'type' => 'select',
+                'type' => 'entity',
                 'required' => true,
-                'opt' => ['all', ['entity']],
+                'opt' => ['entity'],
                 'actions' => ['admin', 'edit'],
             ],
             'uid' => [
-                'name' => 'Id',
+                'name' => 'UID',
                 'type' => 'text',
                 'required' => true,
                 'actions' => ['admin', 'edit'],
@@ -114,8 +114,8 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select',
-                'opt' => ['all', ['project']],
+                'type' => 'entity',
+                'opt' => ['project'],
             ],
         ],
     ],
@@ -141,8 +141,8 @@ return [
             'entity_id' => [
                 'name' => 'Entity',
                 'sort' => -900,
-                'type' => 'select',
-                'opt' => ['all', ['entity']],
+                'type' => 'entity',
+                'opt' => ['entity'],
             ],
             'active' => [
                 'name' => 'Active',
@@ -170,10 +170,9 @@ return [
             'creator' => [
                 'name' => 'Creator',
                 'sort' => -300,
-                'type' => 'select',
-                'backend' => 'int',
+                'type' => 'entity',
                 'nullable' => true,
-                'opt' => ['all', ['account']],
+                'opt' => ['account'],
             ],
             'modified' => [
                 'name' => 'Modified',
@@ -184,16 +183,15 @@ return [
             'modifier' => [
                 'name' => 'Modifier',
                 'sort' => -100,
-                'type' => 'select',
-                'backend' => 'int',
+                'type' => 'entity',
                 'nullable' => true,
-                'opt' => ['all', ['account']],
+                'opt' => ['account'],
                 'actions' => ['admin'],
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select',
-                'opt' => ['all', ['project']],
+                'type' => 'entity',
+                'opt' => ['project'],
             ],
         ],
     ],
@@ -202,6 +200,12 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'Id',
+                'auto' => true,
+                'type' => 'int',
+                'actions' => ['admin'],
+            ],
+            'uid' => [
+                'name' => 'UID',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
@@ -226,8 +230,8 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select',
-                'opt' => ['all', ['project']],
+                'type' => 'entity',
+                'opt' => ['project'],
             ],
         ],
     ],
@@ -238,9 +242,10 @@ return [
                 'name' => 'Id',
                 'auto' => true,
                 'type' => 'int',
+                'actions' => ['admin'],
             ],
             'uid' => [
-                'name' => 'Id',
+                'name' => 'UID',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
@@ -254,8 +259,8 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select',
-                'opt' => ['all', ['project']],
+                'type' => 'entity',
+                'opt' => ['project'],
             ],
         ],
     ],
@@ -282,9 +287,8 @@ return [
             ],
             'root_id' => [
                 'name' => 'Menu',
-                'type' => 'select',
-                'backend' => 'int',
-                'opt' => ['all', ['menu']],
+                'type' => 'entity',
+                'opt' => ['menu'],
                 'actions' => ['admin'],
             ],
             'lft' => [
@@ -317,8 +321,8 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select',
-                'opt' => ['all', ['project']],
+                'type' => 'entity',
+                'opt' => ['project'],
             ],
         ],
     ],
@@ -327,6 +331,12 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'Id',
+                'auto' => true,
+                'type' => 'int',
+                'actions' => ['admin'],
+            ],
+            'uid' => [
+                'name' => 'UID',
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
@@ -397,8 +407,8 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select',
-                'opt' => ['all', ['project']],
+                'type' => 'entity',
+                'opt' => ['project'],
             ],
         ],
     ],
@@ -436,8 +446,8 @@ return [
             ],
             'project_id' => [
                 'name' => 'Project',
-                'type' => 'select',
-                'opt' => ['all', ['project']],
+                'type' => 'entity',
+                'opt' => ['project'],
             ],
         ],
     ],

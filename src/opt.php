@@ -10,6 +10,10 @@ namespace qnd;
  */
 function opt(array $attr): array
 {
+    if ($attr['type'] === 'entity') {
+        return all(...$attr['opt']);
+    }
+
     if ($attr['backend'] === 'bool') {
         return [_('No'), _('Yes')];
     }

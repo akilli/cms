@@ -11,18 +11,7 @@ namespace qnd;
  */
 function saver(array $attr, array & $item): bool
 {
-    $callback = fqn('saver_' . $attr['type']);
-
-    if (is_callable($callback)) {
-        return $callback($attr, $item);
-    }
-
-    // @todo
-    if ($attr['frontend'] === 'file') {
-        return saver_file($attr, $item);
-    }
-
-    return true;
+    return !$attr['saver'] || ($call = fqn('saver_' . $attr['saver'])) && $call($attr, $item);
 }
 
 /**

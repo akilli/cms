@@ -4,6 +4,7 @@ return [
         'name' => 'Audio',
         'backend' => 'varchar',
         'frontend' => 'file',
+        'viewer' => 'audio',
     ],
     'checkbox' => [
         'name' => 'Checkbox',
@@ -39,6 +40,12 @@ return [
         'name' => 'Embed',
         'backend' => 'varchar',
         'frontend' => 'file',
+        'viewer' => 'embed',
+    ],
+    'entity' => [
+        'name' => 'Entity',
+        'backend' => 'int',
+        'frontend' => 'select',
     ],
     'file' => [
         'name' => 'File',
@@ -49,6 +56,7 @@ return [
         'name' => 'Image',
         'backend' => 'varchar',
         'frontend' => 'file',
+        'viewer' => 'image',
     ],
     'int' => [
         'name' => 'Integer',
@@ -60,6 +68,8 @@ return [
         'backend' => 'json',
         'frontend' => 'textarea',
         'val' => [],
+        'editor' => 'json',
+        'validator' => 'json',
     ],
     'multicheckbox' => [
         'name' => 'Multicheckbox',
@@ -79,6 +89,7 @@ return [
         'name' => 'Object',
         'backend' => 'varchar',
         'frontend' => 'file',
+        'viewer' => 'object',
     ],
     'password' => [
         'name' => 'Password',
@@ -99,6 +110,8 @@ return [
         'name' => 'Rich Text Editor',
         'backend' => 'text',
         'frontend' => 'textarea',
+        'viewer' => 'rte',
+        'validator' => 'rte',
     ],
     'search' => [
         'name' => 'Search',
@@ -134,5 +147,6 @@ return [
         'name' => 'Video',
         'backend' => 'varchar',
         'frontend' => 'file',
+        'viewer' => 'video',
     ],
 ];

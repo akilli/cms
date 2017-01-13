@@ -16,18 +16,12 @@ function viewer(array $attr, array $item): string
     }
 
     $attr['opt'] = opt($attr);
-    $callback = fqn('viewer_' . $attr['type']);
 
-    if (is_callable($callback)) {
-        return $callback($attr, $item);
+    if ($attr['viewer'] && ($call = fqn('viewer_' . $attr['viewer']))) {
+        return $call($attr, $item);
     }
 
-    // @todo
-    if (in_array($attr['frontend'], ['checkbox', 'radio', 'select'])) {
-        return viewer_opt($attr, $item);
-    }
-
-    return $item[$attr['id']] ? encode($item[$attr['id']]) : (string) $item[$attr['id']];
+    return $item[$attr['id']] ? encode((string) $item[$attr['id']]) : (string) $item[$attr['id']];
 }
 
 /**

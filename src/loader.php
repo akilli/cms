@@ -12,18 +12,8 @@ namespace qnd;
 function loader(array $attr, array $item)
 {
     $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
-    $callback = fqn('loader_' . $attr['type']);
 
-    if (is_callable($callback)) {
-        return $callback($attr, $item);
-    }
-
-    // @todo
-    if ($attr['backend'] === 'json') {
-        return loader_json($attr, $item);
-    }
-
-    return $item[$attr['id']];
+    return $attr['loader'] && ($call = fqn('loader_' . $attr['loader'])) ? $call($attr, $item) : $item[$attr['id']];
 }
 
 /**

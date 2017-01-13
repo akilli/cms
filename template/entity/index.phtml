@@ -5,7 +5,10 @@
     <?= §('search');?>
     <?= §('pager');?>
     <?php foreach ($§('data') as $id => $item):?>
-        <?php $eId = $item['_entity']['id'] === 'content' ? $item['entity_id'] : $item['_entity']['id'];?>
+        <?php
+        // @todo Remove
+        $eId = $item['_entity']['id'] === 'content' ? array_flip(array_column(data('entity'), 'eav_id', 'id'))[$item['entity_id']] : $item['_entity']['id'];
+        ?>
     <article>
         <?php foreach ($§('attr') as $attr):?>
             <?php $attr['context'] = $§('context');?>

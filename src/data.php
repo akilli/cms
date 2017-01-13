@@ -149,51 +149,29 @@ function data_order_compare(array $order, array $a, array $b): int
 }
 
 /**
- * Limit
- *
- * @param array $data
- * @param int $limit
- * @param int $offset
- *
- * @return array
- */
-function data_limit(array $data, int $limit, int $offset = 0): array
-{
-    return $limit > 0 ? array_slice($data, $offset, $limit, true) : $data;
-}
-
-/**
  * Entity data
  *
- * @param array $data
+ * @param array $entity
  *
  * @return array
  *
  * @throws RuntimeException
  */
-function data_entity(array $data): array
+function data_entity(array $entity): array
 {
     // Check minimum requirements
-    if (empty($data['id']) || empty($data['name']) || empty($data['attr'])) {
-        throw new RuntimeException(_('Entity data does not meet the minimum requirements'));
+    if (empty($entity['id']) || empty($entity['name']) || empty($entity['attr'])) {
+        throw new RuntimeException(_('Invalid entity configuration'));
     }
 
-    // Clean up
-    foreach (array_keys($data) as $key) {
-        if (strpos($key, '_') === 0) {
-            unset($data[$key]);
-        }
-    }
-
-    $data = array_replace(data('default', 'entity'), $data);
+    $entity = array_replace(data('default', 'entity'), $entity);
      // Set table name from Id if it is not set already
-    $data['tab'] = $data['tab'] ?: $data['id'];
+    $entity['tab'] = $entity['tab'] ?: $entity['id'];
     // Attributes
     $sort = 0;
 
-    foreach ($data['attr'] as $id => $attr) {
+    foreach ($entity['attr'] as $id => $attr) {
         $attr['id'] = $id;
-        $attr['entity_id'] = $data['id'];
         $attr = data_attr($attr);
 
         if (!is_numeric($attr['sort'])) {
@@ -201,50 +179,38 @@ function data_entity(array $data): array
             $sort += 100;
         }
 
-        $data['attr'][$id] = $attr;
+        $entity['attr'][$id] = $attr;
     }
 
-    return $data;
+    return $entity;
 }
 
 /**
  * Attribute data
  *
- * @param array $data
+ * @param array $attr
  *
  * @return array
  *
  * @throws RuntimeException
  */
-function data_attr(array $data): array
+function data_attr(array $attr): array
 {
-    // Check minimum requirements
-    if (empty($data['id']) || empty($data['name']) || empty($data['type'])) {
-        throw new RuntimeException(_('Attribute data does not meet the minimum requirements'));
+    if (empty($attr['id']) || empty($attr['name']) || empty($attr['type']) || !($type = data('attr', $attr['type']))) {
+        throw new RuntimeException(_('Invalid attribute configuration'));
     }
 
-    // Clean up
-    foreach (array_keys($data) as $key) {
-        if (strpos($key, '_') === 0) {
-            unset($data[$key]);
-        }
-    }
-
-    // Type, Backend, Frontend
-    $type = data('attr', $data['type']);
-
-    if (!$type || empty($type['backend']) || empty($type['frontend'])) {
-        throw new RuntimeException(_('Invalid type %s configured for attribute %s', $data['type'], $data['id']));
-    }
-
-    $data = array_replace(data('default', 'attr'), $type, $data);
+    $default = data('default', 'attr');
+    $backend = data('backend', $attr['backend'] ?? $type['backend']);
+    $frontend = data('frontend', $attr['frontend'] ?? $type['frontend']);
+    $attr = array_replace($default, $backend, $frontend, $type, $attr);
 
     // Column
-    if ($data['col'] === false) {
-        $data['col'] = null;
-    } elseif (!$data['col']) {
-        $data['col'] = $data['id'];
+    if ($attr['col'] === false) {
+        $attr['col'] = null;
+    } elseif (!$attr['col']) {
+        $attr['col'] = $attr['id'];
     }
 
-    return $data;
+    return $attr;
 }
