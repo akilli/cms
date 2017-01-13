@@ -3,6 +3,7 @@
     <h1><?=$§('title');?></h1>
 <?php if ($§('data')):?>
     <?= §('search');?>
+    <?= §('pager');?>
     <?php foreach ($§('data') as $id => $item):?>
         <?php $eId = $item['_entity']['id'] === 'content' ? $item['entity_id'] : $item['_entity']['id'];?>
     <article>
@@ -23,7 +24,6 @@
         <?php endforeach;?>
     </article>
         <?php endforeach;?>
-    <?= §('pager');?>
 <?php else:;?>
     <p><?= _('No entries found');?></p>
 <?php endif;?>
