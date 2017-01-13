@@ -57,10 +57,6 @@ function editor(array $attr, array $item): string
             case 'range':
                 $html = editor_int($attr, $item);
                 break;
-            case 'date':
-            case 'time':
-                $html = editor_datetime($attr, $item);
-                break;
             case 'file':
                 $html = editor_file($attr, $item);
                 break;
@@ -270,6 +266,33 @@ function editor_int(array $attr, array $item): string
 }
 
 /**
+ * Date editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function editor_date(array $attr, array $item): string
+{
+    $in = data('format', 'date.backend');
+    $out = data('format', 'date.frontend');
+    $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
+    $attr['html']['type'] = $attr['frontend'];
+    $attr['html']['value'] = $item[$attr['id']];
+
+    if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
+        $attr['html']['min'] = $attr['minval'];
+    }
+
+    if ($attr['maxval'] > 0 && $attr['minval'] <= $attr['maxval']) {
+        $attr['html']['max'] = $attr['maxval'];
+    }
+
+    return html_tag('input', $attr['html'], null, true);
+}
+
+/**
  * Datetime editor
  *
  * @param array $attr
@@ -279,21 +302,37 @@ function editor_int(array $attr, array $item): string
  */
 function editor_datetime(array $attr, array $item): string
 {
-    $format = data('format');
+    $in = data('format', 'datetime.backend');
+    $out = data('format', 'datetime.frontend');
+    $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
+    $attr['html']['type'] = 'datetime-local';
+    $attr['html']['value'] = $item[$attr['id']];
 
-    if ($attr['frontend'] === 'date') {
-        $in = $format['date.backend'];
-        $out = $format['date.frontend'];
-    } elseif ($attr['frontend'] === 'time') {
-        $in = $format['time.backend'];
-        $out = $format['time.frontend'];
-    } else {
-        $in = $format['datetime.backend'];
-        $out = $format['datetime.frontend'];
+    if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
+        $attr['html']['min'] = $attr['minval'];
     }
 
+    if ($attr['maxval'] > 0 && $attr['minval'] <= $attr['maxval']) {
+        $attr['html']['max'] = $attr['maxval'];
+    }
+
+    return html_tag('input', $attr['html'], null, true);
+}
+
+/**
+ * Time editor
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function editor_time(array $attr, array $item): string
+{
+    $in = data('format', 'time.backend');
+    $out = data('format', 'time.frontend');
     $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
-    $attr['html']['type'] = $attr['frontend'] === 'datetime' ? 'datetime-local' : $attr['frontend'];
+    $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $item[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
