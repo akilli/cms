@@ -51,10 +51,7 @@ function section_message(array & $§): string
  */
 function section_node(array & $§): string
 {
-    if (empty($§['vars']['crit'])
-        || !($menu = one('menu', $§['vars']['crit']))
-        || !($data = all('node', ['root_id' => $menu['id'], 'project_id' => $menu['project_id']]))
-    ) {
+    if (empty($§['vars']['crit']) || !($menu = one('menu', $§['vars']['crit'])) || !($data = all('node', ['root_id' => $menu['id']]))) {
         return '';
     }
 
