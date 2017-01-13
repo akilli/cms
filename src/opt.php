@@ -18,12 +18,14 @@ function opt(array $attr): array
         return [];
     }
 
-    if (is_string($attr['opt'][0])) {
-        $params = $attr['opt'][1] ?? [];
-        return $attr['opt'][0](...$params);
+    if (is_array($attr['opt'][0])) {
+        return $attr['opt'][0];
     }
 
-    return $attr['opt'][0];
+    $callback = fqn($attr['opt'][0]);
+    $params = $attr['opt'][1] ?? [];
+
+    return $callback(...$params);
 }
 
 /**
