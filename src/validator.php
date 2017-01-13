@@ -39,10 +39,6 @@ function validator(array $attr, array & $item): bool
             case 'textarea':
                 $valid = validator_text($attr, $item);
                 break;
-            case 'date':
-            case 'time':
-                $valid = validator_datetime($attr, $item);
-                break;
             case 'file':
                 $valid = validator_file($attr, $item);
                 break;
@@ -260,6 +256,29 @@ function validator_rte(array $attr, array & $item): bool
 }
 
 /**
+ * Date validator
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return bool
+ */
+function validator_date(array $attr, array & $item): bool
+{
+    $in = data('format', 'date.frontend');
+    $out = data('format', 'date.backend');
+
+    if (!$item[$attr['id']] || ($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
+        return true;
+    }
+
+    $item[$attr['id']] = null;
+    $item['_error'][$attr['id']] = _('Invalid value');
+
+    return false;
+}
+
+/**
  * Datetime validator
  *
  * @param array $attr
@@ -269,18 +288,31 @@ function validator_rte(array $attr, array & $item): bool
  */
 function validator_datetime(array $attr, array & $item): bool
 {
-    $format = data('format');
+    $in = data('format', 'datetime.frontend');
+    $out = data('format', 'datetime.backend');
 
-    if ($attr['frontend'] === 'date') {
-        $in = $format['date.frontend'];
-        $out = $format['date.backend'];
-    } elseif ($attr['frontend'] === 'time') {
-        $in = $format['time.frontend'];
-        $out = $format['time.backend'];
-    } else {
-        $in = $format['time.frontend'];
-        $out = $format['datetime.backend'];
+    if (!$item[$attr['id']] || ($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
+        return true;
     }
+
+    $item[$attr['id']] = null;
+    $item['_error'][$attr['id']] = _('Invalid value');
+
+    return false;
+}
+
+/**
+ * Time validator
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return bool
+ */
+function validator_time(array $attr, array & $item): bool
+{
+    $in = data('format', 'time.frontend');
+    $out = data('format', 'time.backend');
 
     if (!$item[$attr['id']] || ($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
         return true;
