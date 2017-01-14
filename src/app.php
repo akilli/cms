@@ -101,34 +101,16 @@ function path(string $dir, string $id = null): string
 function event($event, array & $data): void
 {
     foreach ((array) $event as $id) {
-        foreach (listener($id) as $listener) {
-            if (is_callable($listener) && $listener($data)) {
+        if (!($listeners = data('listener', $id)) || !asort($listeners, SORT_NUMERIC)) {
+            continue;
+        }
+
+        foreach (array_keys($listeners) as $call) {
+            if (($call = fqn('listener_' . $call)) && $call($data)) {
                 break;
             }
         }
     }
-}
-
-/**
- * Retrieve listeners for specified event
- *
- * @param string $event
- *
- * @return array
- */
-function listener(string $event): array
-{
-    $data = & registry('listener');
-
-    if ($data === null) {
-        $data = [];
-
-        foreach (data_order(data('listener'), ['sort' => 'asc']) as $listener) {
-            $data[$listener['event']][] = fqn('listener_' . $listener['id']);
-        }
-    }
-
-    return $data[$event] ?? [];
 }
 
 /**
