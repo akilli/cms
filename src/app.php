@@ -20,9 +20,9 @@ function app(): void
     $entity = data('entity', $eId);
     $args = $entity ? [$entity] : [];
 
-    foreach ([$prefix . $eId . '_' . $action, $prefix . $action] as $callback) {
-        if (is_callable($callback)) {
-            allowed() ? $callback(...$args) : action_denied();
+    foreach ([$prefix . $eId . '_' . $action, $prefix . $action] as $call) {
+        if (is_callable($call)) {
+            allowed() ? $call(...$args) : action_denied();
             return;
         }
     }

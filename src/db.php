@@ -26,18 +26,18 @@ function db(): PDO
 /**
  * Transaction
  *
- * @param callable $callback
+ * @param callable $call
  *
  * @return bool
  */
-function db_trans(callable $callback): bool
+function db_trans(callable $call): bool
 {
     static $level = 0;
 
     ++$level === 1 ? db()->beginTransaction() : db()->exec('SAVEPOINT LEVEL_' . $level);
 
     try {
-        $callback();
+        $call();
         $level === 1 ? db()->commit() : db()->exec('RELEASE SAVEPOINT LEVEL_' . $level);
         --$level;
     } catch (Exception $e) {

@@ -26,10 +26,10 @@ function opt(array $attr): array
         return $attr['opt'][0];
     }
 
-    $callback = fqn($attr['opt'][0]);
+    $call = fqn($attr['opt'][0]);
     $params = $attr['opt'][1] ?? [];
 
-    return $callback(...$params);
+    return $call(...$params);
 }
 
 /**

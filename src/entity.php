@@ -16,7 +16,7 @@ use RuntimeException;
 function size(string $eId, array $crit = [], array $opts = []): int
 {
     $entity = data('entity', $eId);
-    $callback = fqn($entity['model'] . '_load');
+    $call = fqn($entity['model'] . '_load');
     unset($opts['order'], $opts['limit'], $opts['offset']);
     $opts = array_replace(entity_opts($opts), ['mode' => 'size']);
 
@@ -25,7 +25,7 @@ function size(string $eId, array $crit = [], array $opts = []): int
     }
 
     try {
-        return $callback($entity, $crit, $opts)[0];
+        return $call($entity, $crit, $opts)[0];
     } catch (Exception $e) {
         error($e);
         message(_('Data could not be loaded'));
@@ -46,7 +46,7 @@ function size(string $eId, array $crit = [], array $opts = []): int
 function one(string $eId, array $crit = [], array $opts = []): array
 {
     $entity = data('entity', $eId);
-    $callback = fqn($entity['model'] . '_load');
+    $call = fqn($entity['model'] . '_load');
     $item = [];
     $opts = array_replace(entity_opts($opts), ['mode' => 'one', 'limit' => 1]);
 
@@ -55,7 +55,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        if ($item = $callback($entity, $crit, $opts)) {
+        if ($item = $call($entity, $crit, $opts)) {
             $item = load($entity, $item);
         }
     } catch (Exception $e) {
@@ -78,7 +78,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
 function all(string $eId, array $crit = [], array $opts = []): array
 {
     $entity = data('entity', $eId);
-    $callback = fqn($entity['model'] . '_load');
+    $call = fqn($entity['model'] . '_load');
     $data = [];
     $opts = array_replace(entity_opts($opts), ['mode' => 'all']);
     $multi = !empty($opts['index'][1]);
@@ -88,7 +88,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        $result = $callback($entity, $crit, $opts);
+        $result = $call($entity, $crit, $opts);
 
         foreach ($result as $item) {
             $item = load($entity, $item);
@@ -127,7 +127,7 @@ function save(string $eId, array & $data): bool
         $item['_id'] = $id;
         $base = empty($original[$id]) ? $default : $original[$id];
         $item = array_replace($base, $editable, $item);
-        $callback = fqn($item['_entity']['model'] . '_save');
+        $call = fqn($item['_entity']['model'] . '_save');
 
         if (empty($original[$id])) {
             $item['project_id'] = project('id');
@@ -151,10 +151,10 @@ function save(string $eId, array & $data): bool
         }
 
         $trans = db_trans(
-            function () use ($eId, & $item, $callback) {
+            function () use ($eId, & $item, $call) {
                 event(['entity.preSave', 'model.preSave.' . $item['_entity']['model'], 'entity.preSave.' . $eId], $item);
 
-                if (!$callback($item)) {
+                if (!$call($item)) {
                     throw new RuntimeException(_('Could not save %s', $item['_id']));
                 }
 
@@ -194,7 +194,7 @@ function save(string $eId, array & $data): bool
 function delete(string $eId, array $crit = [], array $opts = []): bool
 {
     $entity = data('entity', $eId);
-    $callback = fqn($entity['model'] . '_delete');
+    $call = fqn($entity['model'] . '_delete');
     $success = [];
     $error = [];
 
@@ -216,10 +216,10 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
         }
 
         $trans = db_trans(
-            function () use ($eId, & $item, $callback, $entity) {
+            function () use ($eId, & $item, $call, $entity) {
                 event(['entity.preDelete', 'model.preDelete.' . $entity['model'], 'entity.preDelete.' . $eId], $item);
 
-                if (!$callback($item)) {
+                if (!$call($item)) {
                     throw new RuntimeException(_('Could not delete %s', $item['_id']));
                 }
 

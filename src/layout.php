@@ -22,8 +22,8 @@ function §(string $id, string $as = null): string
     if (!isset($§['html'])) {
         $§['as'] = $as ?? $id;
         event(['section.type.' . $§['type'], 'section.' . $id], $§);
-        $callback = fqn('section_' . $§['type']);
-        $§['html'] = $callback($§);
+        $call = fqn('section_' . $§['type']);
+        $§['html'] = $call($§);
         $§['as'] = null;
     }
 
