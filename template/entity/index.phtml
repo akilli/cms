@@ -7,7 +7,7 @@
     <?php foreach ($§('data') as $id => $item):?>
         <?php
         // @todo Remove
-        $eUid = $item['_entity']['uid'] === 'content' ? array_flip(array_column(data('entity'), 'id', 'uid'))[$item['entity_id']] : $item['_entity']['uid'];
+        $eUid = $item['_entity']['uid'] === 'content' ? array_column(data('entity'), 'uid', 'id')[$item['entity_id']] : $item['_entity']['uid'];
         ?>
     <article>
         <?php foreach ($§('attr') as $attr):?>
