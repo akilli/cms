@@ -86,7 +86,7 @@ function db_param(string $name): string
  */
 function db_type($val, array $attr): int
 {
-    return $val === null && !empty($attr['nullable']) ? PDO::PARAM_NULL : data('backend', $attr['backend'])['pdo'];
+    return $val === null && !empty($attr['nullable']) ? PDO::PARAM_NULL : $attr['pdo'];
 }
 
 /**
