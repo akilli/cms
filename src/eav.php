@@ -22,12 +22,12 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
 
     $attrs = db_attr($entity['attr']);
     $main = db_attr(data('entity', 'content')['attr']);
-    $select = preg_filter('#^#', 'e.', array_column($main, 'col'));
+    $select = array_column($main, 'col');
     $list = ['content_id'];
     $params = [];
 
     foreach ($eav as $uid => $attr) {
-        $select[] = 'a.' . db_qi($uid);
+        $select[] = db_qi($uid);
         $params[$uid] = db_param($uid);
         $list[$uid] = sprintf(
             'MAX(CASE WHEN attr_id = %s THEN %s END)',
