@@ -10,7 +10,7 @@ namespace qnd;
  *
  * @return mixed
  */
-function & session(string $key, $value = null, bool $reset = false)
+function session(string $key, $value = null, bool $reset = false)
 {
     static $data;
 
@@ -45,10 +45,11 @@ function & session(string $key, $value = null, bool $reset = false)
  */
 function message(string $message): void
 {
-    $data = & session('message');
+    $data = session('message') ?? [];
 
-    if ($message && (!$data || !in_array($message, $data))) {
+    if ($message && !in_array($message, $data)) {
         $data[] = $message;
+        session('message', $data);
     }
 }
 
@@ -59,13 +60,7 @@ function message(string $message): void
  */
 function token(): string
 {
-    $token = & session('token');
-
-    if (empty($token)) {
-        $token = md5(uniqid(mt_rand(), true));
-    }
-
-    return $token;
+    return session('token') ?: session('token', md5(uniqid(mt_rand(), true)));
 }
 
 /**
