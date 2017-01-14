@@ -28,7 +28,7 @@ function §(string $id, string $as = null): string
         layout($id, $§);
     }
 
-    return $§['html'];
+    return $§['html'] ?? '';
 }
 
 /**
