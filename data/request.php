@@ -7,7 +7,7 @@ return [
     'path' => null,
     'host' => null,
     'scheme' => 'http',
-    'secure' => false,
+    'ssl' => false,
     'get' => [],
     'post' => [],
     'files' => [],
