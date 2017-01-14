@@ -8,7 +8,7 @@ namespace qnd;
  *
  * @return string
  */
-function section_container(array & $§): string
+function section_container(array $§): string
 {
     $§['vars']['tag'] = $§['vars']['tag'] ?? null;
     $html = '';
@@ -31,7 +31,7 @@ function section_container(array & $§): string
  *
  * @return string
  */
-function section_message(array & $§): string
+function section_message(array $§): string
 {
     if (!$§['vars']['data'] = session('message')) {
         return '';
@@ -49,7 +49,7 @@ function section_message(array & $§): string
  *
  * @return string
  */
-function section_node(array & $§): string
+function section_node(array $§): string
 {
     if (empty($§['vars']['crit']) || !($menu = one('menu', $§['vars']['crit'])) || !($data = all('node', ['root_id' => $menu['id']]))) {
         return '';
@@ -118,7 +118,7 @@ function section_node(array & $§): string
  *
  * @return string
  */
-function section_pager(array & $§): string
+function section_pager(array $§): string
 {
     $§['vars'] += ['size' => 0, 'limit' => 0, 'links' => [], 'params' => []];
 
@@ -159,7 +159,7 @@ function section_pager(array & $§): string
  *
  * @return string
  */
-function section_template(array & $§): string
+function section_template(array $§): string
 {
     return render($§);
 }

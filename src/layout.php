@@ -20,10 +20,8 @@ function §(string $id): string
 
     event(['section.type.' . $§['type'], 'section.' . $id], $§);
     $call = fqn('section_' . $§['type']);
-    $html = $call($§);
-    layout($id, $§);
 
-    return $html;
+    return $call($§);
 }
 
 /**
