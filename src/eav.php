@@ -22,12 +22,12 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
 
     $attrs = db_attr($entity['attr']);
     $main = db_attr(data('entity', 'content')['attr']);
-    $select = array_column($main, 'col');
+    $select = preg_filter('#^#', 'e.', array_column($main, 'col'));
     $list = ['id' => 'content_id'];
     $params = [];
 
     foreach ($eav as $uid => $attr) {
-        $select[] = db_qi($uid);
+        $select[] = 'a.' . db_qi($uid);
         $params[$uid] = db_param($uid);
         $list[$uid] = sprintf(
             'MAX(CASE WHEN attr_id = %s THEN %s END)',
@@ -39,8 +39,8 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     $select = $opts['mode'] === 'size' ? ['COUNT(*)'] : $select;
     $stmt = db()->prepare(
         select($select)
-        . from($entity['tab'])
-        . njoin('(' . select($list) . from('eav'). group(['id']) . ') a')
+        . from($entity['tab'] . ' e')
+        . ljoin('(' . select($list) . from('eav'). group(['id']) . ') a', ['a.id = e.id'])
         . where($crit, $attrs, $opts)
         . order($opts['order'])
         . limit($opts['limit'], $opts['offset'])
