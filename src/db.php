@@ -77,14 +77,14 @@ function db_param(string $name): string
 }
 
 /**
- * Set appropriate parameter type
+ * Set appropriate PDO parameter type
  *
  * @param mixed $val
  * @param array $attr
  *
  * @return int
  */
-function db_type($val, array $attr): int
+function db_pdo($val, array $attr): int
 {
     return $val === null && !empty($attr['nullable']) ? PDO::PARAM_NULL : $attr['pdo'];
 }
@@ -134,7 +134,7 @@ function db_cols(array $attrs, array $item): array
         $val = db_val($val, $attrs[$uid]);
         $cols['in'][$col] = $attrs[$uid]['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
         $cols['up'][$col] = $col . ' = ' . $cols['in'][$col];
-        $cols['param'][$col] = [$param, $val, db_type($val, $attrs[$uid])];
+        $cols['param'][$col] = [$param, $val, db_pdo($val, $attrs[$uid])];
     }
 
     return $cols;
@@ -209,7 +209,7 @@ function db_qv($value, array $attr): string
         return sprintf('%F', $value);
     }
 
-    return db()->quote($value, db_type($value, $attr));
+    return db()->quote($value, db_pdo($value, $attr));
 }
 
 /**

@@ -75,7 +75,7 @@ function nestedset_delete(array & $item): bool
         $attrs['root_id']['col'],
         $attrs['lft']['col']
     );
-    $stmt->bindValue(':root_id', $item['_old']['root_id'], db_type($item['_old']['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], db_pdo($item['_old']['root_id'], $attrs['root_id']));
     $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->execute();
@@ -112,7 +112,7 @@ function nestedset_position(array & $item): void
             $item['_entity']['tab'],
             $attrs['root_id']['col']
         );
-        $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
+        $stmt->bindValue(':root_id', $item['root_id'], db_pdo($item['root_id'], $attrs['root_id']));
         $stmt->execute();
 
         $item['lft'] = (int) $stmt->fetchColumn();
@@ -159,8 +159,8 @@ function nestedset_move(array $item): void
         $attrs['lft']['col'],
         $attrs['rgt']['col']
     );
-    $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
-    $stmt->bindValue(':old_root_id', $item['_old']['root_id'], db_type($item['_old']['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':root_id', $item['root_id'], db_pdo($item['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':old_root_id', $item['_old']['root_id'], db_pdo($item['_old']['root_id'], $attrs['root_id']));
     $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':lft_diff', $item['lft'] - $item['_old']['lft'], PDO::PARAM_INT);
@@ -186,7 +186,7 @@ function nestedset_remove(array $item): void
         $attrs['root_id']['col'],
         $attrs['lft']['col']
     );
-    $stmt->bindValue(':root_id', $item['_old']['root_id'], db_type($item['_old']['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], db_pdo($item['_old']['root_id'], $attrs['root_id']));
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
@@ -197,7 +197,7 @@ function nestedset_remove(array $item): void
         $attrs['root_id']['col'],
         $attrs['rgt']['col']
     );
-    $stmt->bindValue(':root_id', $item['_old']['root_id'], db_type($item['_old']['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':root_id', $item['_old']['root_id'], db_pdo($item['_old']['root_id'], $attrs['root_id']));
     $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
@@ -221,7 +221,7 @@ function nestedset_prepare(array $item): void
         $attrs['root_id']['col'],
         $attrs['lft']['col']
     );
-    $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':root_id', $item['root_id'], db_pdo($item['root_id'], $attrs['root_id']));
     $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
@@ -232,7 +232,7 @@ function nestedset_prepare(array $item): void
         $attrs['root_id']['col'],
         $attrs['rgt']['col']
     );
-    $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':root_id', $item['root_id'], db_pdo($item['root_id'], $attrs['root_id']));
     $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
     $stmt->bindValue(':range', $range, PDO::PARAM_INT);
     $stmt->execute();
@@ -257,7 +257,7 @@ function nestedset_insert(array $item): void
         $attrs['rgt']['col'],
         $attrs['level']['col']
     );
-    $stmt->bindValue(':root_id', $item['root_id'], db_type($item['root_id'], $attrs['root_id']));
+    $stmt->bindValue(':root_id', $item['root_id'], db_pdo($item['root_id'], $attrs['root_id']));
     $stmt->bindValue(':level', $item['level'] - $item['_old']['level'], PDO::PARAM_INT);
     $stmt->execute();
 }
