@@ -2,51 +2,51 @@
 namespace qnd;
 
 return [
-    // layout-base
+    // _base_
     [
         'id' => 'root',
-        'handle' => 'layout-base',
+        'handle' => '_base_',
         'type' => 'template',
         'template' => 'layout/root.phtml',
     ],
     [
         'id' => 'head',
-        'handle' => 'layout-base',
+        'handle' => '_base_',
         'type' => 'template',
         'template' => 'layout/head.phtml',
         'vars' => ['meta' => []],
     ],
     [
         'id' => 'top',
-        'handle' => 'layout-base',
+        'handle' => '_base_',
         'type' => 'container',
     ],
     [
         'id' => 'left',
-        'handle' => 'layout-base',
+        'handle' => '_base_',
         'type' => 'container',
         'vars' => ['tag' => 'aside'],
     ],
     [
         'id' => 'message',
-        'handle' => 'layout-base',
+        'handle' => '_base_',
         'type' => 'message',
         'template' => 'layout/message.phtml',
     ],
     [
         'id' => 'main',
-        'handle' => 'layout-base',
+        'handle' => '_base_',
         'type' => 'container',
     ],
     [
         'id' => 'right',
-        'handle' => 'layout-base',
+        'handle' => '_base_',
         'type' => 'container',
         'vars' => ['tag' => 'aside'],
     ],
     [
         'id' => 'bottom',
-        'handle' => 'layout-base',
+        'handle' => '_base_',
         'type' => 'container',
     ],
     // action-edit

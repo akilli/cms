@@ -98,7 +98,7 @@ function layout(string $id, array $§ = null): ?array
  */
 function layout_handles(): array
 {
-    $data = ['layout-base'];
+    $data = ['_base_'];
     $data[] = 'account-' . (registered() ? 'registered' : 'unregistered');
 
     if ($entity = data('entity', request('entity'))) {
