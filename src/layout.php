@@ -23,7 +23,7 @@ function §(string $id, string $as = null): string
         $§['as'] = $as ?? $id;
         event(['section.type.' . $§['type'], 'section.' . $id], $§);
         $call = fqn('section_' . $§['type']);
-        $§['html'] = $call($§);
+        $§ = $call($§);
         $§['as'] = null;
         layout($id, $§);
     }
