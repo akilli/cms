@@ -339,13 +339,12 @@ function select(array $select): string
  * FROM part
  *
  * @param string $tab
- * @param string $as
  *
  * @return string
  */
-function from(string $tab, string $as = null): string
+function from(string $tab): string
 {
-    return ' FROM ' . $tab . ' ' . $as;
+    return ' FROM ' . $tab;
 }
 
 /**
@@ -357,7 +356,7 @@ function from(string $tab, string $as = null): string
  */
 function njoin(string $tab): string
 {
-    return $tab ? ' NATURAL JOIN ' . $tab : '';
+    return ' NATURAL JOIN ' . $tab;
 }
 
 /**
@@ -370,7 +369,7 @@ function njoin(string $tab): string
  */
 function ijoin(string $tab, array $cond): string
 {
-    return $tab && $cond ? ' INNER JOIN ' . $tab . ' ON ' . db_and($cond) : '';
+    return ' INNER JOIN ' . $tab . ' ON ' . db_and($cond);
 }
 
 /**
@@ -383,7 +382,7 @@ function ijoin(string $tab, array $cond): string
  */
 function ljoin(string $tab, array $cond): string
 {
-    return $tab && $cond ? ' LEFT JOIN ' . $tab . ' ON ' . db_and($cond) : '';
+    return ' LEFT JOIN ' . $tab . ' ON ' . db_and($cond);
 }
 
 /**
@@ -396,7 +395,7 @@ function ljoin(string $tab, array $cond): string
  */
 function rjoin(string $tab, array $cond): string
 {
-    return $tab && $cond ? ' RIGHT JOIN ' . $tab . ' ON ' . db_and($cond) : '';
+    return ' RIGHT JOIN ' . $tab . ' ON ' . db_and($cond);
 }
 
 /**
@@ -456,7 +455,7 @@ function where(array $crit, array $attrs, array $opts = []): string
  */
 function group(array $cols): string
 {
-    return $cols ? ' GROUP BY ' . db_list(db_qia($cols)) : '';
+    return ' GROUP BY ' . db_list(db_qia($cols));
 }
 
 /**
