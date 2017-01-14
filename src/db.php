@@ -112,7 +112,7 @@ function db_val($val, array $attr)
  */
 function db_cast(string $col, string $backend): string
 {
-    return 'CAST(' . $col . ' AS ' . data('backend', $backend)['db'] . ')';
+    return 'CAST(' . $col . ' AS ' . data('backend', $backend)['db_type'] . ')';
 }
 
 /**

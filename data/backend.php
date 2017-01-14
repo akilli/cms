@@ -1,44 +1,44 @@
 <?php
 return [
     'bool' => [
-        'db' => 'boolean',
+        'db_type' => 'boolean',
         'pdo' => PDO::PARAM_BOOL,
     ],
     'date' => [
-        'db' => 'date',
+        'db_type' => 'date',
         'pdo' => PDO::PARAM_STR,
     ],
     'datetime' => [
-        'db' => 'timestamp',
+        'db_type' => 'timestamp',
         'pdo' => PDO::PARAM_STR,
     ],
     'decimal' => [
-        'db' => 'decimal',
+        'db_type' => 'decimal',
         'pdo' => PDO::PARAM_INT,
     ],
     'int' => [
-        'db' => 'integer',
+        'db_type' => 'integer',
         'pdo' => PDO::PARAM_INT,
     ],
     'json' => [
-        'db' => 'jsonb',
+        'db_type' => 'jsonb',
         'pdo' => PDO::PARAM_STR,
         'loader' => 'json',
     ],
     'search' => [
-        'db' => 'tsvector',
+        'db_type' => 'tsvector',
         'pdo' => PDO::PARAM_STR,
     ],
     'text' => [
-        'db' => 'text',
+        'db_type' => 'text',
         'pdo' => PDO::PARAM_STR,
     ],
     'time' => [
-        'db' => 'time',
+        'db_type' => 'time',
         'pdo' => PDO::PARAM_STR,
     ],
     'varchar' => [
-        'db' => 'varchar',
+        'db_type' => 'varchar',
         'pdo' => PDO::PARAM_STR,
     ],
 ];

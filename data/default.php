@@ -9,7 +9,7 @@ return [
         'type' => null,
         'backend' => null,
         'frontend' => null,
-        'db' => null,
+        'db_type' => null,
         'pdo' => null,
         'nullable' => false,
         'required' => false,
