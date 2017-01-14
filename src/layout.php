@@ -13,7 +13,7 @@ use InvalidArgumentException;
  */
 function §(string $id, string $as = null): string
 {
-    $§ = & layout($id);
+    $§ = layout($id);
 
     if (!$§ || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
         return '';
@@ -25,6 +25,7 @@ function §(string $id, string $as = null): string
         $call = fqn('section_' . $§['type']);
         $§['html'] = $call($§);
         $§['as'] = null;
+        layout($id, $§);
     }
 
     return $§['html'];
@@ -62,11 +63,9 @@ function render(array $§): string
  */
 function vars(string $id, array $vars): void
 {
-    $§ = & layout($id);
-
-    foreach ($vars as $var => $value) {
-        $§['vars'][$var] = $value;
-    }
+    $§ = layout($id);
+    $§['vars'] = array_replace($§['vars'] ?? [], $vars);
+    layout($id, $§);
 }
 
 /**
@@ -77,7 +76,7 @@ function vars(string $id, array $vars): void
  *
  * @return array|null
  */
-function & layout(string $id, array $§ = null): ?array
+function layout(string $id, array $§ = null): ?array
 {
     $data = & registry('layout');
 
@@ -85,11 +84,11 @@ function & layout(string $id, array $§ = null): ?array
         $data = [];
     }
 
-    if ($§ !== null || !array_key_exists($id, $data)) {
+    if ($§ !== null) {
         $data[$id] = $§;
     }
 
-    return $data[$id];
+    return $data[$id] ?? null;
 }
 
 /**
@@ -147,7 +146,7 @@ function layout_add(array $§): void
         throw new InvalidArgumentException(_('No section Id given'));
     }
 
-    $data = & layout($§['id']);
+    $data = layout($§['id']);
 
     // New section
     if ($data === null) {
@@ -165,7 +164,7 @@ function layout_add(array $§): void
     }
 
     // Add or update section
-    $data = array_replace($data, $§);
+    layout($§['id'], array_replace($data, $§));
 }
 
 /**
@@ -178,18 +177,15 @@ function layout_add(array $§): void
  */
 function layout_parent(array $§, string $oldId): void
 {
-    $oldParent = layout($oldId);
-    $parent = layout($§['parent']);
-
     // Remove section from old parent section if it exists
-    if ($oldParent) {
-        $oldParent = & layout($oldId);
+    if ($oldParent = layout($oldId)) {
         unset($oldParent['children'][$§['id']]);
+        layout($oldId, $oldParent);
     }
 
     // Add section to new parent section if it exists
-    if ($parent) {
-        $parent = & layout($§['parent']);
+    if ($parent = layout($§['parent'])) {
         $parent['children'][$§['id']] = intval($§['sort'] ?? 0);
+        layout($§['parent'], $parent);
     }
 }
