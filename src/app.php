@@ -10,9 +10,6 @@ use InvalidArgumentException;
  */
 function app(): void
 {
-    // Reset registry
-    registry();
-
     // Dispatch request
     $prefix = fqn('action_');
     $action = request('action');
@@ -37,7 +34,7 @@ function app(): void
  *
  * @return array|null
  */
-function & registry(string $id = null): ?array
+function & registry(string $id): ?array
 {
     static $data = [];
 
