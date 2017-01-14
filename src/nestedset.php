@@ -32,7 +32,7 @@ function nestedset_save(array & $item): bool
 {
     // New node
     if (empty($item['_old'])) {
-        nestedset_position($item);
+        $item = nestedset_position($item);
         nestedset_prepare($item);
 
         return flat_save($item);
@@ -49,7 +49,7 @@ function nestedset_save(array & $item): bool
     }
 
     // Handle tree changes
-    nestedset_position($item);
+    $item = nestedset_position($item);
     nestedset_move($item);
     nestedset_remove($item);
     nestedset_prepare($item);
@@ -91,11 +91,11 @@ function nestedset_delete(array & $item): bool
  *
  * @param array $item
  *
- * @return void
+ * @return array
  *
  * @throws LogicException
  */
-function nestedset_position(array & $item): void
+function nestedset_position(array $item): array
 {
     $attrs = $item['_entity']['attr'];
     $o = $item['_old'] ?? null;
@@ -139,6 +139,8 @@ function nestedset_position(array & $item): void
     }
 
     $item['rgt'] = $item['lft'] + $range - 1;
+
+    return $item;
 }
 
 /**
