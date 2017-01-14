@@ -7,15 +7,15 @@ use RuntimeException;
 /**
  * Size entity
  *
- * @param string $eId
+ * @param string $eUid
  * @param array $crit
  * @param array $opts
  *
  * @return int
  */
-function size(string $eId, array $crit = [], array $opts = []): int
+function size(string $eUid, array $crit = [], array $opts = []): int
 {
-    $entity = data('entity', $eId);
+    $entity = data('entity', $eUid);
     $call = fqn($entity['model'] . '_load');
     unset($opts['order'], $opts['limit'], $opts['offset']);
     $opts = array_replace(entity_opts($opts), ['mode' => 'size']);
@@ -37,15 +37,15 @@ function size(string $eId, array $crit = [], array $opts = []): int
 /**
  * Load entity
  *
- * @param string $eId
+ * @param string $eUid
  * @param array $crit
  * @param array $opts
  *
  * @return array
  */
-function one(string $eId, array $crit = [], array $opts = []): array
+function one(string $eUid, array $crit = [], array $opts = []): array
 {
-    $entity = data('entity', $eId);
+    $entity = data('entity', $eUid);
     $call = fqn($entity['model'] . '_load');
     $item = [];
     $opts = array_replace(entity_opts($opts), ['mode' => 'one', 'limit' => 1]);
@@ -69,15 +69,15 @@ function one(string $eId, array $crit = [], array $opts = []): array
 /**
  * Load entity collection
  *
- * @param string $eId
+ * @param string $eUid
  * @param array $crit
  * @param array $opts
  *
  * @return array
  */
-function all(string $eId, array $crit = [], array $opts = []): array
+function all(string $eUid, array $crit = [], array $opts = []): array
 {
-    $entity = data('entity', $eId);
+    $entity = data('entity', $eUid);
     $call = fqn($entity['model'] . '_load');
     $data = [];
     $opts = array_replace(entity_opts($opts), ['mode' => 'all']);
@@ -110,16 +110,16 @@ function all(string $eId, array $crit = [], array $opts = []): array
 /**
  * Save entity
  *
- * @param string $eId
+ * @param string $eUid
  * @param array $data
  *
  * @return bool
  */
-function save(string $eId, array & $data): bool
+function save(string $eUid, array & $data): bool
 {
-    $original = all($eId, ['id' => array_keys($data)]);
-    $default = entity($eId);
-    $editable = entity($eId, null, true);
+    $original = all($eUid, ['id' => array_keys($data)]);
+    $default = entity($eUid);
+    $editable = entity($eUid, null, true);
     $success = [];
     $error = [];
 
@@ -151,14 +151,14 @@ function save(string $eId, array & $data): bool
         }
 
         $trans = db_trans(
-            function () use ($eId, & $item, $call) {
-                event(['entity.preSave', 'model.preSave.' . $item['_entity']['model'], 'entity.preSave.' . $eId], $item);
+            function () use ($eUid, & $item, $call) {
+                event(['entity.preSave', 'model.preSave.' . $item['_entity']['model'], 'entity.preSave.' . $eUid], $item);
 
                 if (!$call($item)) {
                     throw new RuntimeException(_('Could not save %s', $item['_id']));
                 }
 
-                event(['entity.postSave', 'model.postSave.' . $item['_entity']['model'], 'entity.postSave.' . $eId], $item);
+                event(['entity.postSave', 'model.postSave.' . $item['_entity']['model'], 'entity.postSave.' . $eUid], $item);
             }
         );
 
@@ -185,20 +185,20 @@ function save(string $eId, array & $data): bool
 /**
  * Delete entity
  *
- * @param string $eId
+ * @param string $eUid
  * @param array $crit
  * @param array $opts
  *
  * @return bool
  */
-function delete(string $eId, array $crit = [], array $opts = []): bool
+function delete(string $eUid, array $crit = [], array $opts = []): bool
 {
-    $entity = data('entity', $eId);
+    $entity = data('entity', $eUid);
     $call = fqn($entity['model'] . '_delete');
     $success = [];
     $error = [];
 
-    foreach (all($eId, $crit, $opts) as $id => $item) {
+    foreach (all($eUid, $crit, $opts) as $id => $item) {
         if (empty($opts['system']) && !empty($item['system'])) {
             message(_('You must not delete system items! Therefore skipped Id %s', $id));
             continue;
@@ -216,14 +216,14 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
         }
 
         $trans = db_trans(
-            function () use ($eId, & $item, $call, $entity) {
-                event(['entity.preDelete', 'model.preDelete.' . $entity['model'], 'entity.preDelete.' . $eId], $item);
+            function () use ($eUid, & $item, $call, $entity) {
+                event(['entity.preDelete', 'model.preDelete.' . $entity['model'], 'entity.preDelete.' . $eUid], $item);
 
                 if (!$call($item)) {
                     throw new RuntimeException(_('Could not delete %s', $item['_id']));
                 }
 
-                event(['entity.postDelete', 'model.postDelete.' . $entity['model'], 'entity.postDelete.' . $eId], $item);
+                event(['entity.postDelete', 'model.postDelete.' . $entity['model'], 'entity.postDelete.' . $eUid], $item);
             }
         );
 
@@ -287,7 +287,7 @@ function load(array $entity, array $item): array
     $item['_entity'] = $entity;
     $item['_id'] = $item['id'];
 
-    event(['entity.load', 'model.load.' . $entity['model'], 'entity.load.' . $entity['id']], $item);
+    event(['entity.load', 'model.load.' . $entity['model'], 'entity.load.' . $entity['uid']], $item);
 
     return $item;
 }
@@ -295,7 +295,7 @@ function load(array $entity, array $item): array
 /**
  * Retrieve empty entity
  *
- * @param string $eId
+ * @param string $eUid
  * @param int $number
  * @param bool $bare
  *
@@ -303,13 +303,13 @@ function load(array $entity, array $item): array
  *
  * @throws RuntimeException
  */
-function entity(string $eId, int $number = null, bool $bare = false): array
+function entity(string $eUid, int $number = null, bool $bare = false): array
 {
-    if (!$entity = data('entity', $eId)) {
-        throw new RuntimeException(_('Invalid entity %s', $eId));
+    if (!$entity = data('entity', $eUid)) {
+        throw new RuntimeException(_('Invalid entity %s', $eUid));
     }
 
-    $item = array_fill_keys(array_keys(entity_attr($eId, 'edit')), null);
+    $item = array_fill_keys(array_keys(entity_attr($eUid, 'edit')), null);
     $item += $bare ? [] : ['_old' => null, '_entity' => $entity, '_id' => null];
 
     if ($number === null) {
@@ -328,17 +328,17 @@ function entity(string $eId, int $number = null, bool $bare = false): array
 /**
  * Retrieve entity attributes filtered by given action
  *
- * @param string $eId
+ * @param string $eUid
  * @param string $action
  *
  * @return array
  *
  * @throws RuntimeException
  */
-function entity_attr(string $eId, string $action): array
+function entity_attr(string $eUid, string $action): array
 {
-    if (!$entity = data('entity', $eId)) {
-        throw new RuntimeException(_('Invalid entity %s', $eId));
+    if (!$entity = data('entity', $eUid)) {
+        throw new RuntimeException(_('Invalid entity %s', $eUid));
     }
 
     return array_filter(

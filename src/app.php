@@ -16,11 +16,11 @@ function app(): void
     // Dispatch request
     $prefix = fqn('action_');
     $action = request('action');
-    $eId = request('entity');
-    $entity = data('entity', $eId);
+    $eUid = request('entity');
+    $entity = data('entity', $eUid);
     $args = $entity ? [$entity] : [];
 
-    foreach ([$prefix . $eId . '_' . $action, $prefix . $action] as $call) {
+    foreach ([$prefix . $eUid . '_' . $action, $prefix . $action] as $call) {
         if (is_callable($call)) {
             allowed() ? $call(...$args) : action_denied();
             return;

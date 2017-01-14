@@ -15,7 +15,7 @@ function editor(array $attr, array $item): string
         return '';
     }
 
-    $item[$attr['id']] = $item[$attr['id']] ?? $attr['val'];
+    $item[$attr['uid']] = $item[$attr['uid']] ?? $attr['val'];
     $attr['opt'] = opt($attr);
     $attr['html']['id'] =  html_id($attr, $item);
     $attr['html']['name'] =  html_name($attr, $item);
@@ -29,7 +29,7 @@ function editor(array $attr, array $item): string
         $attr['html']['multiple'] = true;
     }
 
-    if (!empty($item['_error'][$attr['id']])) {
+    if (!empty($item['_error'][$attr['uid']])) {
         $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
     }
 
@@ -50,13 +50,13 @@ function editor(array $attr, array $item): string
  */
 function editor_delete(array $attr, array $item): string
 {
-    if (!isset($item['_old'][$attr['id']])) {
+    if (!isset($item['_old'][$attr['uid']])) {
         return '';
     }
 
     $input = [
-        'id' => 'data-' . $item['_id'] . '-_delete-' . $attr['id'],
-        'name' => 'data[' . $item['_id'] . '][_delete]' . '[' . $attr['id'] . ']',
+        'id' => 'data-' . $item['_id'] . '-_delete-' . $attr['uid'],
+        'name' => 'data[' . $item['_id'] . '][_delete]' . '[' . $attr['uid'] . ']',
         'type' => 'checkbox',
         'value' => 1,
     ];
@@ -75,7 +75,7 @@ function editor_delete(array $attr, array $item): string
  */
 function editor_select(array $attr, array $item): string
 {
-    $value = $item[$attr['id']];
+    $value = $item[$attr['uid']];
 
     if (!is_array($value)) {
         $value = !$value && !is_numeric($value) ? [] : [$value];
@@ -124,7 +124,7 @@ function editor_opt(array $attr, array $item): string
         $attr['opt'] = [1 => _('Yes')];
     }
 
-    $value = $item[$attr['id']];
+    $value = $item[$attr['uid']];
 
     if ($attr['backend'] === 'bool') {
         $value = [(int) $value];
@@ -183,7 +183,7 @@ function editor_opt_name($id, $value): string
 function editor_text(array $attr, array $item): string
 {
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['id']] ? encode($item[$attr['id']]) : $item[$attr['id']];
+    $attr['html']['value'] = $item[$attr['uid']] ? encode($item[$attr['uid']]) : $item[$attr['uid']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['minlength'] = $attr['minval'];
@@ -206,7 +206,7 @@ function editor_text(array $attr, array $item): string
  */
 function editor_password(array $attr, array $item): string
 {
-    $item[$attr['id']] = null;
+    $item[$attr['uid']] = null;
     $attr['html']['autocomplete'] = 'off';
 
     return editor_text($attr, $item);
@@ -223,7 +223,7 @@ function editor_password(array $attr, array $item): string
 function editor_int(array $attr, array $item): string
 {
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['id']];
+    $attr['html']['value'] = $item[$attr['uid']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['min'] = $attr['minval'];
@@ -248,9 +248,9 @@ function editor_date(array $attr, array $item): string
 {
     $in = data('format', 'date.backend');
     $out = data('format', 'date.frontend');
-    $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
+    $item[$attr['uid']] = $item[$attr['uid']] ? filter_date($item[$attr['uid']], $in, $out) : '';
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['id']];
+    $attr['html']['value'] = $item[$attr['uid']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['min'] = $attr['minval'];
@@ -275,9 +275,9 @@ function editor_datetime(array $attr, array $item): string
 {
     $in = data('format', 'datetime.backend');
     $out = data('format', 'datetime.frontend');
-    $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
+    $item[$attr['uid']] = $item[$attr['uid']] ? filter_date($item[$attr['uid']], $in, $out) : '';
     $attr['html']['type'] = 'datetime-local';
-    $attr['html']['value'] = $item[$attr['id']];
+    $attr['html']['value'] = $item[$attr['uid']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['min'] = $attr['minval'];
@@ -302,9 +302,9 @@ function editor_time(array $attr, array $item): string
 {
     $in = data('format', 'time.backend');
     $out = data('format', 'time.frontend');
-    $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
+    $item[$attr['uid']] = $item[$attr['uid']] ? filter_date($item[$attr['uid']], $in, $out) : '';
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['id']];
+    $attr['html']['value'] = $item[$attr['uid']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['min'] = $attr['minval'];
@@ -343,7 +343,7 @@ function editor_file(array $attr, array $item): string
  */
 function editor_textarea(array $attr, array $item): string
 {
-    $item[$attr['id']] = $item[$attr['id']] ? encode($item[$attr['id']]) : $item[$attr['id']];
+    $item[$attr['uid']] = $item[$attr['uid']] ? encode($item[$attr['uid']]) : $item[$attr['uid']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['minlength'] = $attr['minval'];
@@ -353,7 +353,7 @@ function editor_textarea(array $attr, array $item): string
         $attr['html']['maxlength'] = $attr['maxval'];
     }
 
-    return html_tag('textarea', $attr['html'], $item[$attr['id']]);
+    return html_tag('textarea', $attr['html'], $item[$attr['uid']]);
 }
 
 /**
@@ -366,8 +366,8 @@ function editor_textarea(array $attr, array $item): string
  */
 function editor_json(array $attr, array $item): string
 {
-    if (is_array($item[$attr['id']])) {
-        $item[$attr['id']] = !empty($item[$attr['id']]) ? json_encode($item[$attr['id']]) : '';
+    if (is_array($item[$attr['uid']])) {
+        $item[$attr['uid']] = !empty($item[$attr['uid']]) ? json_encode($item[$attr['uid']]) : '';
     }
 
     return editor_textarea($attr, $item);

@@ -11,9 +11,9 @@ namespace qnd;
  */
 function loader(array $attr, array $item)
 {
-    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
+    $item[$attr['uid']] = cast($attr, $item[$attr['uid']] ?? null);
 
-    return $attr['loader'] && ($call = fqn('loader_' . $attr['loader'])) ? $call($attr, $item) : $item[$attr['id']];
+    return $attr['loader'] && ($call = fqn('loader_' . $attr['loader'])) ? $call($attr, $item) : $item[$attr['uid']];
 }
 
 /**
@@ -26,13 +26,13 @@ function loader(array $attr, array $item)
  */
 function loader_json(array $attr, array $item): array
 {
-    if (empty($item[$attr['id']])) {
+    if (empty($item[$attr['uid']])) {
         return [];
     }
 
-    if (is_array($item[$attr['id']])) {
-        return $item[$attr['id']];
+    if (is_array($item[$attr['uid']])) {
+        return $item[$attr['uid']];
     }
 
-    return json_decode($item[$attr['id']], true) ?: [];
+    return json_decode($item[$attr['uid']], true) ?: [];
 }

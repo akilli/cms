@@ -25,11 +25,11 @@ function listener_data_app(array & $data): void
  */
 function listener_data_entity(array & $data): void
 {
-    foreach ($data as $eId => $item) {
-        $item['id'] = $eId;
+    foreach ($data as $eUid => $item) {
+        $item['uid'] = $eUid;
         $item = data_entity($item);
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
-        $data[$eId] = $item;
+        $data[$eUid] = $item;
     }
 
     if (!$entities = all('entity', ['project_id' => project('ids')])) {
@@ -39,30 +39,27 @@ function listener_data_entity(array & $data): void
     $attrs = all('attr', ['project_id' => project('ids')], ['index' => ['entity_id', 'uid']]);
 
     foreach ($entities as $id => $item) {
-        $eId = $item['uid'];
-
         // @todo Define custom validator for entity UID and EAV attr UID
-        if (!empty($data[$eId])) {
-            message(_('Can not use reserved UID %s for Entity %s', $eId, $item['name']));
+        if (!empty($data[$item['uid']])) {
+            message(_('Can not use reserved UID %s for Entity %s', $item['uid'], $item['name']));
             continue;
         }
 
-        $item = array_replace($data['content'], $item, ['id' => $eId, 'eav_id' => $id, 'model' => 'eav']);
+        $item = array_replace($data['content'], $item, ['model' => 'eav']);
 
         if (!empty($attrs[$id])) {
             foreach ($attrs[$id] as $uid => $attr) {
                 if (empty($item['attr'][$uid])) {
-                    $attr['eav_id'] = $attr['id'];
-                    unset($attr['id'], $attr['uid'], $attr['project_id']);
+                    unset($attr['project_id']);
                     $item['attr'][$uid] = $attr;
                 }
             }
         }
 
-        unset($item['uid'], $item['project_id']);
+        unset($item['project_id']);
         $item = data_entity($item);
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
-        $data[$eId] = $item;
+        $data[$item['uid']] = $item;
     }
 }
 
@@ -81,9 +78,9 @@ function listener_data_privilege(array & $data): void
         }
     }
 
-    foreach (data('entity') as $eId => $entity) {
+    foreach (data('entity') as $eUid => $entity) {
         foreach ($entity['actions'] as $action) {
-            $data[$eId . '.' . $action] = [
+            $data[$eUid . '.' . $action] = [
                 'name' => $entity['name'] . ' ' . ucwords($action),
                 'active' => true,
             ];
@@ -137,12 +134,12 @@ function listener_data_toolbar(array & $data): void
     $entities = array_filter(
         data('entity'),
         function ($item) {
-            return !empty($item['eav_id']);
+            return !empty($item['id']);
         }
     );
     foreach ($entities as $entity) {
-        if (in_array('admin', $entity['actions']) && allowed($entity['id'] . '.admin')) {
-            $data['content']['children'][] = ['name' => $entity['name'], 'url' => url($entity['id'] . '/admin')];
+        if (in_array('admin', $entity['actions']) && allowed($entity['uid'] . '.admin')) {
+            $data['content']['children'][] = ['name' => $entity['name'], 'url' => url($entity['uid'] . '/admin')];
         }
     }
 
@@ -163,11 +160,11 @@ function listener_data_toolbar(array & $data): void
  */
 function listener_save(array & $data): void
 {
-    if ($data['_entity']['id'] === 'url' || !in_array('view', $data['_entity']['actions'])) {
+    if ($data['_entity']['uid'] === 'url' || !in_array('view', $data['_entity']['actions'])) {
         return;
     }
 
-    $target = sprintf('%s%s/view/%s', url(), $data['_entity']['id'], $data['id']);
+    $target = sprintf('%s%s/view/%s', url(), $data['_entity']['uid'], $data['id']);
     $old = one('url', ['target' => $target, 'system' => true]);
     $id = $old['id'] ?? -1;
     $all = all('url', [], ['index' => ['name']]);
@@ -185,7 +182,7 @@ function listener_save(array & $data): void
  */
 function listener_delete(array & $data): void
 {
-    delete('url', ['target' => sprintf('%s%s/view/%s', url(), $data['_entity']['id'], $data['id'])], ['system' => true]);
+    delete('url', ['target' => sprintf('%s%s/view/%s', url(), $data['_entity']['uid'], $data['id'])], ['system' => true]);
 }
 
 
@@ -200,9 +197,9 @@ function listener_eav_save(array & $data): void
 {
     $data['search'] = '';
 
-    foreach ($data['_entity']['attr'] as $a) {
-        if ($a['searchable']) {
-            $data['search'] .= ' ' . str_replace("\n", ' ', strip_tags($data[$a['id']]));
+    foreach ($data['_entity']['attr'] as $attr) {
+        if ($attr['searchable']) {
+            $data['search'] .= ' ' . str_replace("\n", ' ', strip_tags($data[$attr['uid']]));
         }
     }
 }
@@ -221,14 +218,14 @@ function listener_entity_save(array & $data): void
     }
 
     $base = url();
-    $crit = ['target' => sprintf('%s%s/view/', $base, $data['_old']['id'])];
+    $crit = ['target' => sprintf('%s%s/view/', $base, $data['_old']['uid'])];
 
     if (!in_array('view', $data['actions'])) {
         delete('url', $crit, ['search' => ['name'], 'system' => true]);
-    } elseif ($data['id'] !== $data['_old']['id'] && ($url = all('url', $crit, ['search' => ['name']]))) {
+    } elseif ($data['uid'] !== $data['_old']['uid'] && ($url = all('url', $crit, ['search' => ['name']]))) {
         foreach ($url as $id => $u) {
-            $from = sprintf('#^%s%s/#', $base, $data['_old']['id']);
-            $to = sprintf('%s%s/', $base, $data['id']);
+            $from = sprintf('#^%s%s/#', $base, $data['_old']['uid']);
+            $to = sprintf('%s%s/', $base, $data['uid']);
             $url[$id]['target'] = preg_replace($from, $to, $u['target']);
         }
 
@@ -245,7 +242,7 @@ function listener_entity_save(array & $data): void
  */
 function listener_entity_delete(array & $data): void
 {
-    delete('url', ['target' => sprintf('%s%s/view/', url(), $data['id'])], ['search' => ['name'], 'system' => true]);
+    delete('url', ['target' => sprintf('%s%s/view/', url(), $data['uid'])], ['search' => ['name'], 'system' => true]);
 }
 
 /**
@@ -257,12 +254,12 @@ function listener_entity_delete(array & $data): void
  */
 function listener_project_save(array & $data): void
 {
-    if (empty($data['_old']['id']) || $data['id'] === $data['_old']['id']) {
+    if (empty($data['_old']['uid']) || $data['uid'] === $data['_old']['uid']) {
         return;
     }
 
-    $old = path('asset', $data['_old']['id']);
-    $new = path('asset', $data['id']);
+    $old = path('asset', $data['_old']['uid']);
+    $new = path('asset', $data['uid']);
 
     if (file_exists($old) && !rename($old, $new)) {
         message(_('Could not move directory %s to %s', $old, $new));
@@ -278,7 +275,7 @@ function listener_project_save(array & $data): void
  */
 function listener_project_delete(array & $data): void
 {
-    if (!file_delete(path('asset', $data['id']))) {
-        message(_('Could not delete directory %s', path('asset', $data['id'])));
+    if (!file_delete(path('asset', $data['uid']))) {
+        message(_('Could not delete directory %s', path('asset', $data['uid'])));
     }
 }

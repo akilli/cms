@@ -159,19 +159,23 @@ function data_order_compare(array $order, array $a, array $b): int
  */
 function data_entity(array $entity): array
 {
-    // Check minimum requirements
-    if (empty($entity['id']) || empty($entity['name']) || empty($entity['attr'])) {
+    if (empty($entity['uid']) || empty($entity['name']) || empty($entity['attr'])) {
         throw new RuntimeException(_('Invalid entity configuration'));
     }
 
+    // @todo Get rid of this
+    foreach (array_keys($entity) as $key) {
+        if (strpos($key, '_') === 0) {
+            unset($entity[$key]);
+        }
+    }
+
     $entity = array_replace(data('default', 'entity'), $entity);
-     // Set table name from Id if it is not set already
-    $entity['tab'] = $entity['tab'] ?: $entity['id'];
-    // Attributes
+    $entity['tab'] = $entity['tab'] ?: $entity['uid'];
     $sort = 0;
 
     foreach ($entity['attr'] as $id => $attr) {
-        $attr['id'] = $id;
+        $attr['uid'] = $id;
         $attr = data_attr($attr);
 
         if (!is_numeric($attr['sort'])) {
@@ -196,8 +200,15 @@ function data_entity(array $entity): array
  */
 function data_attr(array $attr): array
 {
-    if (empty($attr['id']) || empty($attr['name']) || empty($attr['type']) || !($type = data('attr', $attr['type']))) {
+    if (empty($attr['uid']) || empty($attr['name']) || empty($attr['type']) || !($type = data('attr', $attr['type']))) {
         throw new RuntimeException(_('Invalid attribute configuration'));
+    }
+
+    // @todo Get rid of this
+    foreach (array_keys($attr) as $key) {
+        if (strpos($key, '_') === 0) {
+            unset($attr[$key]);
+        }
     }
 
     $default = data('default', 'attr');
@@ -205,11 +216,10 @@ function data_attr(array $attr): array
     $frontend = data('frontend', $attr['frontend'] ?? $type['frontend']);
     $attr = array_replace($default, $backend, $frontend, $type, $attr);
 
-    // Column
     if ($attr['col'] === false) {
         $attr['col'] = null;
     } elseif (!$attr['col']) {
-        $attr['col'] = $attr['id'];
+        $attr['col'] = $attr['uid'];
     }
 
     return $attr;

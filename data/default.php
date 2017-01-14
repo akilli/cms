@@ -2,6 +2,7 @@
 return [
     'attr' => [
         'id' => null,
+        'uid' => null,
         'name' => null,
         'col' => null,
         'auto' => false,
@@ -32,6 +33,7 @@ return [
     ],
     'entity' => [
         'id' => null,
+        'uid' => null,
         'name' => null,
         'tab' => null,
         'model' => 'flat',

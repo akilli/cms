@@ -32,9 +32,9 @@ function filter_html(string $string): string
  *
  * @return string
  */
-function filter_id(string $id): string
+function filter_uid(string $id): string
 {
-    $data = data('filter', 'id');
+    $data = data('filter', 'uid');
 
     return trim(preg_replace(array_keys($data), $data, strtolower($id)), '-');
 }
@@ -59,7 +59,7 @@ function filter_url(string $needle, array $haystack, $id): string
         }
     }
 
-    $needle = $base . trim(preg_replace(['#/#', '#[-]+#i'], '-', filter_id($needle)), '-_');
+    $needle = $base . trim(preg_replace(['#/#', '#[-]+#i'], '-', filter_uid($needle)), '-_');
 
     if (array_search($needle, $haystack) === $id || !in_array($needle, $haystack)) {
         return $needle . $ext;
@@ -84,7 +84,7 @@ function filter_file(string $str, string $path): string
 {
     $parts = explode('.', $str);
     $ext = array_pop($parts);
-    $str = filter_id(implode('-', $parts));
+    $str = filter_uid(implode('-', $parts));
 
     if (file_exists($path . '/' . $str . '.' . $ext)) {
         $str .= '-';

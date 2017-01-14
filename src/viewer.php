@@ -21,7 +21,7 @@ function viewer(array $attr, array $item): string
         return $call($attr, $item);
     }
 
-    return $item[$attr['id']] ? encode((string) $item[$attr['id']]) : (string) $item[$attr['id']];
+    return $item[$attr['uid']] ? encode((string) $item[$attr['uid']]) : (string) $item[$attr['uid']];
 }
 
 /**
@@ -40,7 +40,7 @@ function viewer_opt(array $attr, array $item): string
 
     $values = [];
 
-    foreach ((array) $item[$attr['id']] as $v) {
+    foreach ((array) $item[$attr['uid']] as $v) {
         if (!empty($attr['opt'][$v])) {
             if (is_array($attr['opt'][$v]) && !empty($attr['opt'][$v]['name'])) {
                 $values[] = $attr['opt'][$v]['name'];
@@ -63,7 +63,7 @@ function viewer_opt(array $attr, array $item): string
  */
 function viewer_date(array $attr, array $item): string
 {
-    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('format', 'date.view')) : '';
+    return $item[$attr['uid']] ? date_format(date_create($item[$attr['uid']]), data('format', 'date.view')) : '';
 }
 
 /**
@@ -76,7 +76,7 @@ function viewer_date(array $attr, array $item): string
  */
 function viewer_datetime(array $attr, array $item): string
 {
-    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('format', 'datetime.view')) : '';
+    return $item[$attr['uid']] ? date_format(date_create($item[$attr['uid']]), data('format', 'datetime.view')) : '';
 }
 
 /**
@@ -89,7 +89,7 @@ function viewer_datetime(array $attr, array $item): string
  */
 function viewer_time(array $attr, array $item): string
 {
-    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('format', 'time.view')) : '';
+    return $item[$attr['uid']] ? date_format(date_create($item[$attr['uid']]), data('format', 'time.view')) : '';
 }
 
 /**
@@ -102,7 +102,7 @@ function viewer_time(array $attr, array $item): string
  */
 function viewer_rte(array $attr, array $item): string
 {
-    return (string) $item[$attr['id']];
+    return (string) $item[$attr['uid']];
 }
 
 /**
@@ -115,7 +115,7 @@ function viewer_rte(array $attr, array $item): string
  */
 function viewer_audio(array $attr, array $item): string
 {
-    return $item[$attr['id']] ? html_tag('audio', ['src' => url_media($item[$attr['id']]), 'controls' => true]) : '';
+    return $item[$attr['uid']] ? html_tag('audio', ['src' => url_media($item[$attr['uid']]), 'controls' => true]) : '';
 }
 
 /**
@@ -128,7 +128,7 @@ function viewer_audio(array $attr, array $item): string
  */
 function viewer_embed(array $attr, array $item): string
 {
-    return $item[$attr['id']] ? html_tag('embed', ['src' => url_media($item[$attr['id']])], null, true) : '';
+    return $item[$attr['uid']] ? html_tag('embed', ['src' => url_media($item[$attr['uid']])], null, true) : '';
 }
 
 /**
@@ -141,7 +141,7 @@ function viewer_embed(array $attr, array $item): string
  */
 function viewer_file(array $attr, array $item): string
 {
-    return $item[$attr['id']] ? html_tag('a', ['href' => url_media($item[$attr['id']])], $item[$attr['id']]) : '';
+    return $item[$attr['uid']] ? html_tag('a', ['href' => url_media($item[$attr['uid']])], $item[$attr['uid']]) : '';
 }
 
 /**
@@ -154,7 +154,7 @@ function viewer_file(array $attr, array $item): string
  */
 function viewer_image(array $attr, array $item): string
 {
-    return $item[$attr['id']] ? html_tag('img', ['src' => image($item[$attr['id']], $attr['context']), 'alt' => $item[$attr['id']]], null, true) : '';
+    return $item[$attr['uid']] ? html_tag('img', ['src' => image($item[$attr['uid']], $attr['context']), 'alt' => $item[$attr['uid']]], null, true) : '';
 }
 
 /**
@@ -167,7 +167,7 @@ function viewer_image(array $attr, array $item): string
  */
 function viewer_object(array $attr, array $item): string
 {
-    return $item[$attr['id']] ? html_tag('object', ['data' => url_media($item[$attr['id']])]) : '';
+    return $item[$attr['uid']] ? html_tag('object', ['data' => url_media($item[$attr['uid']])]) : '';
 }
 
 /**
@@ -180,5 +180,5 @@ function viewer_object(array $attr, array $item): string
  */
 function viewer_video(array $attr, array $item): string
 {
-    return $item[$attr['id']] ? html_tag('video', ['src' => url_media($item[$attr['id']]), 'controls' => true]) : '';
+    return $item[$attr['uid']] ? html_tag('video', ['src' => url_media($item[$attr['uid']]), 'controls' => true]) : '';
 }

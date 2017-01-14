@@ -24,8 +24,8 @@ function deleter(array $attr, array & $item): bool
  */
 function deleter_file(array $attr, array & $item): bool
 {
-    if (!empty($item[$attr['id']]) && !file_delete_media($item[$attr['id']])) {
-        $item['_error'][$attr['id']] = _('Could not delete old file %s', $item[$attr['id']]);
+    if (!empty($item[$attr['uid']]) && !file_delete_media($item[$attr['uid']])) {
+        $item['_error'][$attr['uid']] = _('Could not delete old file %s', $item[$attr['uid']]);
         return false;
     }
 

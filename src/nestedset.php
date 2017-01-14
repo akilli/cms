@@ -104,7 +104,7 @@ function nestedset_position(array & $item): void
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
     $bLft = (int) $parts[1];
 
-    if (!$bLft || !$b = one($item['_entity']['id'], ['root_id' => $item['root_id'], 'lft' => $bLft])) {
+    if (!$bLft || !$b = one($item['_entity']['uid'], ['root_id' => $item['root_id'], 'lft' => $bLft])) {
         // No or wrong basis given so append node
         $stmt = db_prep(
             'SELECT COALESCE(MAX(%s), 0) + 1 FROM %s WHERE %s = :root_id',

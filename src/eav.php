@@ -14,7 +14,7 @@ use PDO;
  */
 function eav_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $crit['entity_id'] = $entity['eav_id'];
+    $crit['entity_id'] = $entity['id'];
 
     if (!$eav = eav_attr($entity['attr'])) {
         return flat_load($entity, $crit, $opts);
@@ -47,7 +47,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     );
 
     foreach ($params as $uid => $param) {
-        $stmt->bindValue($param, $eav[$uid]['eav_id'], PDO::PARAM_INT);
+        $stmt->bindValue($param, $eav[$uid]['id'], PDO::PARAM_INT);
     }
 
     $stmt->execute();
@@ -72,7 +72,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
  */
 function eav_save(array & $item): bool
 {
-    $item['entity_id'] = $item['_entity']['eav_id'];
+    $item['entity_id'] = $item['_entity']['id'];
     $item['modifier'] = account('id');
     $item['modified'] = date(data('format', 'datetime.backend'));
 
@@ -108,7 +108,7 @@ function eav_save(array & $item): bool
 
     foreach (array_intersect_key($eav, $item) as $uid => $attr) {
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
-        $stmt->bindValue(':attr_id', $attr['eav_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':attr_id', $attr['id'], PDO::PARAM_INT);
         $stmt->bindValue(':value', db_val($item[$uid], $attr), PDO::PARAM_STR);
         $stmt->execute();
     }
@@ -125,7 +125,7 @@ function eav_save(array & $item): bool
  */
 function eav_delete(array & $item): bool
 {
-    return !empty($item['_entity']['eav_id']) && $item['_entity']['eav_id'] === $item['entity_id'] && flat_delete($item);
+    return !empty($item['_entity']['id']) && $item['_entity']['id'] === $item['entity_id'] && flat_delete($item);
 }
 
 /**

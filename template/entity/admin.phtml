@@ -33,9 +33,9 @@
                             <input type="checkbox" value="1" title="<?= _('Select all');?>" data-toggle="edit" />
                         </th>
                         <?php foreach ($§('attr') as $attr):?>
-                            <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
+                            <?php $dir = $p['sort'] === $attr['uid'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
                         <th>
-                            <a href="<?= url('*/*', ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?= $attr['name'];?></a>
+                            <a href="<?= url('*/*', ['sort' => $attr['uid'], 'dir' => $dir] + $p);?>"><?= $attr['name'];?></a>
                         </th>
                         <?php endforeach;?>
                         <?php if (allowed('edit')):?>

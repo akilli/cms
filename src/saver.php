@@ -24,8 +24,8 @@ function saver(array $attr, array & $item): bool
  */
 function saver_password(array $attr, array & $item): bool
 {
-    if (!empty($item[$attr['id']]) && is_string($item[$attr['id']])) {
-        $item[$attr['id']] = password_hash($item[$attr['id']], PASSWORD_DEFAULT);
+    if (!empty($item[$attr['uid']]) && is_string($item[$attr['uid']])) {
+        $item[$attr['uid']] = password_hash($item[$attr['uid']], PASSWORD_DEFAULT);
     }
 
     return true;
@@ -41,15 +41,15 @@ function saver_password(array $attr, array & $item): bool
  */
 function saver_file(array $attr, array & $item): bool
 {
-    $item[$attr['id']] = null;
-    $file = http_files('data')[$item['_id']][$attr['id']] ?? null;
+    $item[$attr['uid']] = null;
+    $file = http_files('data')[$item['_id']][$attr['uid']] ?? null;
 
     // Delete old file
-    if (!empty($item['_old'][$attr['id']])
-        && ($file || !empty($item['_delete'][$attr['id']]))
-        && !file_delete_media($item['_old'][$attr['id']])
+    if (!empty($item['_old'][$attr['uid']])
+        && ($file || !empty($item['_delete'][$attr['uid']]))
+        && !file_delete_media($item['_old'][$attr['uid']])
     ) {
-        $item['_error'][$attr['id']] = _('Could not delete old file %s', $item['_old'][$attr['id']]);
+        $item['_error'][$attr['uid']] = _('Could not delete old file %s', $item['_old'][$attr['uid']]);
         return false;
     }
 
@@ -62,11 +62,11 @@ function saver_file(array $attr, array & $item): bool
 
     // Upload failed
     if (!file_upload($file['tmp_name'], project_path('media', $value))) {
-        $item['_error'][$attr['id']] = _('File upload failed');
+        $item['_error'][$attr['uid']] = _('File upload failed');
         return false;
     }
 
-    $item[$attr['id']] = $value;
+    $item[$attr['uid']] = $value;
 
     return true;
 }
