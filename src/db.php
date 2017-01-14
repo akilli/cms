@@ -352,13 +352,51 @@ function from(string $tab, string $as = null): string
  * NATURAL JOIN part
  *
  * @param string $tab
- * @param string $as
  *
  * @return string
  */
-function njoin(string $tab, string $as = null): string
+function njoin(string $tab): string
 {
-    return $tab ? ' NATURAL JOIN ' . $tab . ' ' . $as : '';
+    return $tab ? ' NATURAL JOIN ' . $tab : '';
+}
+
+/**
+ * INNER JOIN part
+ *
+ * @param string $tab
+ * @param array $cond
+ *
+ * @return string
+ */
+function ijoin(string $tab, array $cond): string
+{
+    return $tab && $cond ? ' INNER JOIN ' . $tab . ' ON ' . db_and($cond) : '';
+}
+
+/**
+ * LEFT JOIN part
+ *
+ * @param string $tab
+ * @param array $cond
+ *
+ * @return string
+ */
+function ljoin(string $tab, array $cond): string
+{
+    return $tab && $cond ? ' LEFT JOIN ' . $tab . ' ON ' . db_and($cond) : '';
+}
+
+/**
+ * RIGHT JOIN part
+ *
+ * @param string $tab
+ * @param array $cond
+ *
+ * @return string
+ */
+function rjoin(string $tab, array $cond): string
+{
+    return $tab && $cond ? ' RIGHT JOIN ' . $tab . ' ON ' . db_and($cond) : '';
 }
 
 /**

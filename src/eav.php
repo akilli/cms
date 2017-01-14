@@ -40,7 +40,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     $stmt = db()->prepare(
         select($select)
         . from($entity['tab'])
-        . njoin('(' . select($list) . from('eav'). group(['id']) . ')', 'a')
+        . njoin('(' . select($list) . from('eav'). group(['id']) . ') a')
         . where($crit, $attrs, $opts)
         . order($opts['order'])
         . limit($opts['limit'], $opts['offset'])
