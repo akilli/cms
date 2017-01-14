@@ -20,15 +20,13 @@ function §(string $id, string $as = null): string
     }
 
     if (!isset($§['html'])) {
-        $§['as'] = $as ?? $id;
         event(['section.type.' . $§['type'], 'section.' . $id], $§);
         $call = fqn('section_' . $§['type']);
-        $§ = $call($§);
-        $§['as'] = null;
+        $§['html'] = $call($§);
         layout($id, $§);
     }
 
-    return $§['html'] ?? '';
+    return $§['html'];
 }
 
 /**

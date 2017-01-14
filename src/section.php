@@ -6,24 +6,22 @@ namespace qnd;
  *
  * @param array $§
  *
- * @return array
+ * @return string
  */
-function section_container(array $§): array
+function section_container(array & $§): string
 {
-    $§['html'] = '';
+    $§['vars']['tag'] = $§['vars']['tag'] ?? null;
+    $html = '';
 
     if (!empty($§['children']) && is_array($§['children'])) {
         asort($§['children'], SORT_NUMERIC);
 
         foreach (array_keys($§['children']) as $id) {
-            $§['html'] .= §($id);
+            $html .= §($id);
         }
     }
 
-    $tag = $§['vars']['tag'] ?? null;
-    $§['html'] = $§['html'] && $tag ? html_tag($tag, ['id' => $§['as']], $§['html']) : $§['html'];
-
-    return $§;
+    return $html && $§['vars']['tag'] ? html_tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
 }
 
 /**
@@ -31,16 +29,17 @@ function section_container(array $§): array
  *
  * @param array $§
  *
- * @return array
+ * @return string
  */
-function section_message(array $§): array
+function section_message(array & $§): string
 {
-    if ($§['vars']['data'] = session('message')) {
-        session('message', null, true);
-        $§['html'] = render($§);
+    if (!$§['vars']['data'] = session('message')) {
+        return '';
     }
 
-    return $§;
+    session('message', null, true);
+
+    return render($§);
 }
 
 /**
@@ -48,12 +47,12 @@ function section_message(array $§): array
  *
  * @param array $§
  *
- * @return array
+ * @return string
  */
-function section_node(array $§): array
+function section_node(array & $§): string
 {
     if (empty($§['vars']['crit']) || !($menu = one('menu', $§['vars']['crit'])) || !($data = all('node', ['root_id' => $menu['id']]))) {
-        return $§;
+        return '';
     }
 
     $data = array_filter(
@@ -79,7 +78,7 @@ function section_node(array $§): array
     $count = count($data);
     $level = 0;
     $i = 0;
-    $§['html'] = '';
+    $html = '';
 
     foreach ($data as $item) {
         $attrs = [];
@@ -91,25 +90,25 @@ function section_node(array $§): array
         }
 
         if ($item['level'] > $level) {
-             $§['html'] .= '<ul><li' . $class . '>';
+             $html .= '<ul><li' . $class . '>';
         } elseif ($item['level'] < $level) {
-             $§['html'] .= '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>';
+             $html .= '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>';
         } else {
-             $§['html'] .= '</li><li' . $class . '>';
+             $html .= '</li><li' . $class . '>';
         }
 
         if ($item['target']) {
             $attrs['href'] = $item['target'];
-            $§['html'] .= html_tag('a', $attrs, $item['name']);
+            $html .= html_tag('a', $attrs, $item['name']);
         } else {
-            $§['html'] .= html_tag('span', [], $item['name']);
+            $html .= html_tag('span', [], $item['name']);
         }
 
-        $§['html'] .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
+        $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
         $level = $item['level'];
     }
 
-    return $§;
+    return $html;
 }
 
 /**
@@ -117,14 +116,14 @@ function section_node(array $§): array
  *
  * @param array $§
  *
- * @return array
+ * @return string
  */
-function section_pager(array $§): array
+function section_pager(array & $§): string
 {
     $§['vars'] += ['size' => 0, 'limit' => 0, 'links' => [], 'params' => []];
 
     if ($§['vars']['size'] < 1 || $§['vars']['limit'] < 1) {
-        return $§;
+        return '';
     }
 
     $§['vars']['pages'] = (int) ceil($§['vars']['size'] / $§['vars']['limit']);
@@ -150,9 +149,7 @@ function section_pager(array $§): array
         $§['vars']['links'][] = ['name' => _('Next'), 'params' => $p];
     }
 
-    $§['html'] = render($§);
-
-    return $§;
+    return render($§);
 }
 
 /**
@@ -160,11 +157,9 @@ function section_pager(array $§): array
  *
  * @param array $§
  *
- * @return array
+ * @return string
  */
-function section_template(array $§): array
+function section_template(array & $§): string
 {
-    $§['html'] = render($§);
-
-    return $§;
+    return render($§);
 }
