@@ -7,11 +7,10 @@ use InvalidArgumentException;
  * Render section
  *
  * @param string $id
- * @param string $as
  *
  * @return string
  */
-function §(string $id, string $as = null): string
+function §(string $id): string
 {
     $§ = layout($id);
 
@@ -19,14 +18,12 @@ function §(string $id, string $as = null): string
         return '';
     }
 
-    if (!isset($§['html'])) {
-        event(['section.type.' . $§['type'], 'section.' . $id], $§);
-        $call = fqn('section_' . $§['type']);
-        $§['html'] = $call($§);
-        layout($id, $§);
-    }
+    event(['section.type.' . $§['type'], 'section.' . $id], $§);
+    $call = fqn('section_' . $§['type']);
+    $html = $call($§);
+    layout($id, $§);
 
-    return $§['html'];
+    return $html;
 }
 
 /**

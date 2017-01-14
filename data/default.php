@@ -52,7 +52,6 @@ return [
     ],
     'section' => [
         'id' => null,
-        'as' => null,
         'type' => null,
         'template' => null,
         'vars' => [],
@@ -61,6 +60,5 @@ return [
         'parent' => 'root',
         'sort' => 0,
         'children' => [],
-        'html' => null,
     ],
 ];
