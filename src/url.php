@@ -41,13 +41,7 @@ function url_lib(string $path = ''): string
  */
 function url_theme(string $path = ''): string
 {
-    static $base;
-
-    if ($base === null) {
-        $base = '/theme/' . project('theme');
-    }
-
-    return $base . ($path ? '/' . $path : '');
+    return '/theme/' . project('theme') . ($path ? '/' . $path : '');
 }
 
 /**
@@ -59,13 +53,7 @@ function url_theme(string $path = ''): string
  */
 function url_cache(string $path = ''): string
 {
-    static $base;
-
-    if ($base === null) {
-        $base = '/asset/' . project('uid') . '/cache';
-    }
-
-    return $base . ($path ? '/' . $path : '');
+    return '/asset/' . project('uid') . '/cache' . ($path ? '/' . $path : '');
 }
 
 /**
@@ -77,13 +65,7 @@ function url_cache(string $path = ''): string
  */
 function url_media(string $path = ''): string
 {
-    static $base;
-
-    if ($base === null) {
-        $base = '/asset/' . project('uid') . '/media';
-    }
-
-    return $base . ($path ? '/' . $path : '');
+    return '/asset/' . project('uid') . '/media' . ($path ? '/' . $path : '');
 }
 
 /**
@@ -120,7 +102,7 @@ function url_resolve(string $path): string
  */
 function url_rewrite(string $path, bool $redirect = false): string
 {
-    static $data;
+    $data = & registry('url.rewrite');
 
     if ($data === null) {
         $data = all('url', [], ['index' => ['name']]) + ['/' => ['target' => '/content/index']];
@@ -146,7 +128,7 @@ function url_rewrite(string $path, bool $redirect = false): string
  */
 function url_unrewrite(string $path): string
 {
-    static $data;
+    $data = & registry('url.unrewrite');
 
     if ($data === null) {
         $data = all('url', ['redirect' => false], ['index' => ['target'], 'order' => ['system' => 'desc']]);

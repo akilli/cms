@@ -10,13 +10,7 @@ namespace qnd;
  */
 function encode(string $var): string
 {
-    static $charset;
-
-    if ($charset === null) {
-        $charset = data('app', 'charset');
-    }
-
-    return htmlspecialchars($var, ENT_QUOTES | ENT_HTML5, $charset, false);
+    return htmlspecialchars($var, ENT_QUOTES | ENT_HTML5, data('app', 'charset'), false);
 }
 
 /**
@@ -28,13 +22,7 @@ function encode(string $var): string
  */
 function filter_html(string $string): string
 {
-    static $allowed;
-
-    if ($allowed === null) {
-        $allowed = data('filter', 'html');
-    }
-
-    return trim(strip_tags($string, $allowed));
+    return trim(strip_tags($string, data('filter', 'html')));
 }
 
 /**
@@ -46,14 +34,9 @@ function filter_html(string $string): string
  */
 function filter_id(string $id): string
 {
-    static $data, $keys;
+    $data = data('filter', 'id');
 
-    if ($data === null) {
-        $data = data('filter', 'id');
-        $keys = array_keys($data);
-    }
-
-    return trim(preg_replace($keys, $data, strtolower($id)), '-');
+    return trim(preg_replace(array_keys($data), $data, strtolower($id)), '-');
 }
 
 /**

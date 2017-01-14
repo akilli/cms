@@ -99,22 +99,18 @@ function & layout(string $id, array $§ = null): ?array
  */
 function layout_handles(): array
 {
-    static $data;
+    $data = ['layout-base'];
+    $data[] = 'account-' . (registered() ? 'registered' : 'unregistered');
 
-    if ($data === null) {
-        $data = ['layout-base'];
-        $data[] = 'account-' . (registered() ? 'registered' : 'unregistered');
+    if ($entity = data('entity', request('entity'))) {
+        $action = request('action');
 
-        if ($entity = data('entity', request('entity'))) {
-            $action = request('action');
-
-            if (in_array($action, $entity['actions'])) {
-                $data[] = 'action-' . $action;
-            }
-
-            $data[] = 'entity-' . $entity['id'];
-            $data[] = $entity['id'] . '.' . $action;
+        if (in_array($action, $entity['actions'])) {
+            $data[] = 'action-' . $action;
         }
+
+        $data[] = 'entity-' . $entity['id'];
+        $data[] = $entity['id'] . '.' . $action;
     }
 
     return $data;
