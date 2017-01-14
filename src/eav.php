@@ -23,7 +23,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     $attrs = db_attr($entity['attr']);
     $main = db_attr(data('entity', 'content')['attr']);
     $select = preg_filter('#^#', 'e.', array_column($main, 'col'));
-    $list = ['id' => 'content_id'];
+    $list = ['content_id'];
     $params = [];
 
     foreach ($eav as $uid => $attr) {
@@ -40,7 +40,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     $stmt = db()->prepare(
         select($select)
         . from($entity['tab'] . ' e')
-        . ljoin('(' . select($list) . from('eav'). group(['id']) . ') a', ['a.id = e.id'])
+        . ljoin('(' . select($list) . from('eav'). group(['content_id']) . ') a', ['a.content_id = e.id'])
         . where($crit, $attrs, $opts)
         . order($opts['order'])
         . limit($opts['limit'], $opts['offset'])
