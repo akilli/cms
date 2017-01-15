@@ -221,7 +221,7 @@ function listener_entity_save(array & $data): void
     $old = '/' . $data['_old']['uid'] . '/';
     $targets = [];
 
-    foreach (data('opt', 'action.entity') as $action) {
+    foreach ($data['_old']['actions'] as $action) {
         if (!in_array($action, $data['actions'])) {
             $targets[] = $old . $action;
         }
