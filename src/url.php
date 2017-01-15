@@ -104,7 +104,7 @@ function url_rewrite(string $path, bool $redirect = false): string
 {
     $data = & registry('url.rewrite');
 
-    if (!empty($data[$path])) {
+    if (empty($data[$path])) {
         if ($url = one('url', ['name' => $path])) {
             $data[$path] = ['target' => $url['target'], 'redirect' => $url['redirect']];
         } else {
@@ -130,7 +130,7 @@ function url_unrewrite(string $path): string
 {
     $data = & registry('url.unrewrite');
 
-    if (!empty($data[$path])) {
+    if (empty($data[$path])) {
         $url = one('url', ['target' => $path, 'redirect' => false], ['order' => ['system' => 'desc']]);
         $data[$path] = $url ? $url['name'] : $path;
     }
