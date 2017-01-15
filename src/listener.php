@@ -160,7 +160,8 @@ function listener_save(array & $data): void
     }
 
     $target = '/' . $data['_entity']['uid'] . '/view/' . $data['id'];
-    delete('url', ['target' => $target, 'system' => true], ['system' => true]);
+    $old = one('url', ['target' => $target, 'system' => true]);
+    $id = $old['id'] ?? -1;
     $base = filter_uid($data['name']);
     $ext = data('app', 'url');
     $name = '/' . $base . $ext;
@@ -169,7 +170,7 @@ function listener_save(array & $data): void
         $name = '/' . $base . '-' . $i . $ext;
     }
 
-    $url = [-1 => ['name' => $name, 'target' => $target, 'system' => true]];
+    $url = [$id => ['name' => $name, 'target' => $target, 'system' => true]];
     save('url', $url);
 }
 
