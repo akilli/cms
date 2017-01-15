@@ -50,7 +50,6 @@ function import_zip(string $file): bool
 
             // Create new contents
             $levels = [0];
-            $base = url();
             $oids = [];
 
             foreach ($import as $item) {
@@ -74,7 +73,7 @@ function import_zip(string $file): bool
 
                 $nodes = [];
                 $nodes[-1]['name'] = $item['name'];
-                $nodes[-1]['target'] = $base . 'page/view/' . $oids[$oid];
+                $nodes[-1]['target'] = '/page/view/' . $oids[$oid];
                 $nodes[-1]['mode'] = 'child';
                 $nodes[-1]['pos'] = $menu[-1]['id'] . ':' . $basis;
 
@@ -139,7 +138,7 @@ function import_content(string $file): string
     }
 
     $from = ['#="index\.html"#Ui', '#="media/([^"]+)"#Ui', '#="(([^"]+)\.html)"#Ui'];
-    $to = ['="' . url() . '"', '="' . url_media() . '/$1"', '="' . url() . '$1"'];
+    $to = ['="/"', '="' . url_media() . '/$1"', '="/$1"'];
 
     return preg_replace($from, $to, $html);
 }

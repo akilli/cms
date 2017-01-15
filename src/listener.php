@@ -156,7 +156,7 @@ function listener_save(array & $data): void
         return;
     }
 
-    $target = sprintf('%s%s/view/%s', url(), $data['_entity']['uid'], $data['id']);
+    $target = sprintf('/%s/view/%s', $data['_entity']['uid'], $data['id']);
     $old = one('url', ['target' => $target, 'system' => true]);
     $id = $old['id'] ?? -1;
     $all = all('url', [], ['index' => ['name']]);
@@ -174,7 +174,7 @@ function listener_save(array & $data): void
  */
 function listener_delete(array & $data): void
 {
-    delete('url', ['target' => sprintf('%s%s/view/%s', url(), $data['_entity']['uid'], $data['id'])], ['system' => true]);
+    delete('url', ['target' => sprintf('/%s/view/%s', $data['_entity']['uid'], $data['id'])], ['system' => true]);
 }
 
 
@@ -209,15 +209,14 @@ function listener_entity_save(array & $data): void
         return;
     }
 
-    $base = url();
-    $crit = ['target' => sprintf('%s%s/view/', $base, $data['_old']['uid'])];
+    $crit = ['target' => sprintf('/%s/view/', $data['_old']['uid'])];
 
     if (!in_array('view', $data['actions'])) {
         delete('url', $crit, ['search' => ['name'], 'system' => true]);
     } elseif ($data['uid'] !== $data['_old']['uid'] && ($url = all('url', $crit, ['search' => ['name']]))) {
         foreach ($url as $id => $u) {
-            $from = sprintf('#^%s%s/#', $base, $data['_old']['uid']);
-            $to = sprintf('%s%s/', $base, $data['uid']);
+            $from = sprintf('#^/%s/#', $data['_old']['uid']);
+            $to = sprintf('/%s/', $data['uid']);
             $url[$id]['target'] = preg_replace($from, $to, $u['target']);
         }
 
@@ -234,7 +233,7 @@ function listener_entity_save(array & $data): void
  */
 function listener_entity_delete(array & $data): void
 {
-    delete('url', ['target' => sprintf('%s%s/view/', url(), $data['uid'])], ['search' => ['name'], 'system' => true]);
+    delete('url', ['target' => sprintf('/%s/view/', $data['uid'])], ['search' => ['name'], 'system' => true]);
 }
 
 /**

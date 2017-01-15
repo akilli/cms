@@ -51,7 +51,6 @@ function filter_uid(string $id): string
 function filter_url(string $needle, array $haystack, $id): string
 {
     $ext = data('filter', 'url');
-    $base = url();
 
     if ($ext) {
         foreach ($haystack as $key => $value) {
@@ -59,7 +58,7 @@ function filter_url(string $needle, array $haystack, $id): string
         }
     }
 
-    $needle = $base . trim(preg_replace(['#/#', '#[-]+#i'], '-', filter_uid($needle)), '-_');
+    $needle = '/' . trim(preg_replace(['#/#', '#[-]+#i'], '-', filter_uid($needle)), '-_');
 
     if (array_search($needle, $haystack) === $id || !in_array($needle, $haystack)) {
         return $needle . $ext;
