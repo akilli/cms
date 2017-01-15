@@ -249,7 +249,7 @@ function listener_entity_save(array & $data): void
  */
 function listener_entity_delete(array & $data): void
 {
-    delete('url', ['target' => '/' . $data['uid'] . '/'], ['search' => ['target'], 'system' => true]);
+    delete('url', ['target' => '/' . $data['_old']['uid'] . '/'], ['search' => ['target'], 'system' => true]);
 }
 
 /**
