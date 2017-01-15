@@ -104,15 +104,15 @@ function url_rewrite(string $path, bool $redirect = false): string
 {
     $data = & registry('url.rewrite');
 
-    if ($data === null) {
-        $data = all('url', [], ['index' => ['name']]) + ['/' => ['target' => '/content/index']];
+    if (!empty($data[$path])) {
+        if ($url = one('url', ['name' => $path])) {
+            $data[$path] = ['target' => $url['target'], 'redirect' => $url['redirect']];
+        } else {
+            $data[$path] = ['target' => $path === '/' ? '/content/index' : $path, 'redirect' => false];
+        }
     }
 
-    if (!isset($data[$path])) {
-        return $path;
-    }
-
-    if (!empty($data[$path]['redirect']) && $redirect) {
+    if ($redirect && $data[$path]['redirect']) {
         redirect($data[$path]['target']);
     }
 
@@ -130,9 +130,10 @@ function url_unrewrite(string $path): string
 {
     $data = & registry('url.unrewrite');
 
-    if ($data === null) {
-        $data = all('url', ['redirect' => false], ['index' => ['target'], 'order' => ['system' => 'desc']]);
+    if (!empty($data[$path])) {
+        $url = one('url', ['target' => $path, 'redirect' => false], ['order' => ['system' => 'desc']]);
+        $data[$path] = $url ? $url['name'] : $path;
     }
 
-    return $data[$path]['name'] ?? $path;
+    return $data[$path];
 }
