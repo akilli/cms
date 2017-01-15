@@ -66,7 +66,7 @@ function action_form(array $entity): void
     if ($data) {
         // Perform save callback and redirect to homepage on success
         if (save($entity['uid'], $data)) {
-            redirect(url());
+            redirect();
         }
 
         $data = array_filter(
