@@ -7,4 +7,5 @@ return [
     'project' => 'base',
     'theme' => 'base',
     'timezone' => 'Europe/Berlin',
+    'url' => '.html',
 ];

@@ -2,7 +2,7 @@
 namespace qnd;
 
 /**
- * Encode
+ * Special chars filter
  *
  * @param string $var
  *
@@ -14,7 +14,7 @@ function encode(string $var): string
 }
 
 /**
- * HTML
+ * HTML filter
  *
  * @param string $string
  *
@@ -26,7 +26,7 @@ function filter_html(string $string): string
 }
 
 /**
- * Identifier
+ * UID filter
  *
  * @param string $id
  *
@@ -36,39 +36,7 @@ function filter_uid(string $id): string
 {
     $data = data('filter', 'uid');
 
-    return trim(preg_replace(array_keys($data), $data, strtolower($id)), '-');
-}
-
-/**
- * Generates a unique URL for given base id
- *
- * @param string $needle
- * @param array $haystack
- * @param int|string $id
- *
- * @return string
- */
-function filter_url(string $needle, array $haystack, $id): string
-{
-    $ext = data('filter', 'url');
-
-    if ($ext) {
-        foreach ($haystack as $key => $value) {
-            $haystack[$key] = explode($ext, $value)[0];
-        }
-    }
-
-    $needle = '/' . trim(preg_replace(['#/#', '#[-]+#i'], '-', filter_uid($needle)), '-_');
-
-    if (array_search($needle, $haystack) === $id || !in_array($needle, $haystack)) {
-        return $needle . $ext;
-    }
-
-    $needle .= '-';
-
-    for ($i = 1; in_array($needle . $i, $haystack) && array_search($needle . $i, $haystack) !== $id; $i++);
-
-    return $needle . $i . $ext;
+    return trim(preg_replace(array_keys($data), $data, strtolower($id)), '-_');
 }
 
 /**
