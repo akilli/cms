@@ -206,53 +206,6 @@ function listener_eav_save(array & $data): void
 }
 
 /**
- * Entity save listener
- *
- * @param array $data
- *
- * @return void
- */
-function listener_entity_save(array & $data): void
-{
-    if (empty($data['_old'])) {
-        return;
-    }
-
-    $old = '/' . $data['_old']['uid'] . '/';
-    $targets = [];
-
-    foreach ($data['_old']['actions'] as $action) {
-        if (!in_array($action, $data['actions'])) {
-            $targets[] = $old . $action;
-        }
-    }
-
-    if ($targets) {
-        delete('url', ['target' => $targets], ['search' => ['target'], 'system' => true]);
-    }
-
-    if ($data['uid'] !== $data['_old']['uid'] && ($url = all('url', ['target' => $old], ['search' => ['target']]))) {
-        foreach ($url as $id => $u) {
-            $url[$id]['target'] = preg_replace('#^' . $old . '#', '/' . $data['uid'] . '/', $u['target']);
-        }
-
-        save('url', $url);
-    }
-}
-
-/**
- * Entity delete listener
- *
- * @param array $data
- *
- * @return void
- */
-function listener_entity_delete(array & $data): void
-{
-    delete('url', ['target' => '/' . $data['_old']['uid'] . '/'], ['search' => ['target'], 'system' => true]);
-}
-
-/**
  * Project save listener
  *
  * @param array $data
