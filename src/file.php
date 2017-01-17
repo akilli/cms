@@ -6,6 +6,16 @@ use RecursiveIteratorIterator;
 use SplFileInfo;
 
 /**
+ * @param string $path
+ *
+ * @return array
+ */
+function file_scan(string $path): array
+{
+    return array_diff(scandir($path), ['.', '..']);
+}
+
+/**
  * Load file collection
  *
  * @param string $path
@@ -20,7 +30,7 @@ function file_load(string $path): array
 
     $data = [];
 
-    foreach (array_diff(scandir($path), ['.', '..']) as $id) {
+    foreach (file_scan($path) as $id) {
         if (is_file($path . '/' . $id)) {
             $data[$id] = $path . '/' . $id;
         }
@@ -67,10 +77,8 @@ function file_copy(string $src, string $dest): bool
  */
 function file_delete(string $path): bool
 {
-    if (!file_exists($path)) {
+    if (!file_exists($path) || is_file($path) && unlink($path)) {
         return true;
-    } elseif (is_file($path)) {
-        return unlink($path);
     }
 
     $flags = RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS;
@@ -85,9 +93,7 @@ function file_delete(string $path): bool
         }
     }
 
-    rmdir($path);
-
-    return !file_exists($path);
+    return rmdir($path);
 }
 
 /**
