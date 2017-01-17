@@ -30,6 +30,35 @@ function file_load(string $path): array
 }
 
 /**
+ * Copies a file or directory
+ *
+ * @param string $src
+ * @param string $dest
+ *
+ * @return bool
+ */
+function file_copy(string $src, string $dest): bool
+{
+    if (is_file($src)) {
+        return file_dir(dirname($dest)) && copy($src, $dest);
+    }
+
+    if (!file_dir($dest)) {
+        return false;
+    }
+
+    $success = true;
+
+    foreach (file_load($src) as $id => $file) {
+        if (!file_dir(dirname($dest . '/' . $id)) || !copy($file, $dest . '/' . $id)) {
+            $success = false;
+        }
+    }
+
+    return $success;
+}
+
+/**
  * Removes a file or directory
  *
  * @param string $path
@@ -71,35 +100,6 @@ function file_delete(string $path): bool
 function file_delete_media(string $id): bool
 {
     return !$id || file_delete(project_path('cache', $id)) && file_delete(project_path('media', $id));
-}
-
-/**
- * Copies a file or directory
- *
- * @param string $src
- * @param string $dest
- *
- * @return bool
- */
-function file_copy(string $src, string $dest): bool
-{
-    if (is_file($src)) {
-        return file_dir(dirname($dest)) && copy($src, $dest);
-    }
-
-    if (!file_dir($dest)) {
-        return false;
-    }
-
-    $success = true;
-
-    foreach (file_load($src) as $id => $file) {
-        if (!file_dir(dirname($dest . '/' . $id)) || !copy($file, $dest . '/' . $id)) {
-            $success = false;
-        }
-    }
-
-    return $success;
 }
 
 /**
