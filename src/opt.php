@@ -71,24 +71,16 @@ function opt_theme(): array
  */
 function opt_position(): array
 {
-    $roots = all('menu');
+    $nodes = all('node', [], ['index' => ['root_id', 'id']]);
     $data = [];
 
-    foreach (all('node') as $item) {
-        if (empty($data[$item['root_id']  . ':0'])) {
-            $data[$item['root_id']  . ':0']['name'] = $roots[$item['root_id']]['name'];
-            $data[$item['root_id']  . ':0']['class'] = 'group';
-        }
+    foreach (all('menu') as $id => $menu) {
+        $data[$id  . ':0'] = $menu['name'];
 
-        $data[$item['pos']]['name'] = $item['name'];
-        $data[$item['pos']]['level'] = $item['level'];
-    }
-
-    // Add roots without items
-    foreach ($roots as $id => $root) {
-        if (empty($data[$id  . ':0'])) {
-            $data[$id  . ':0']['name'] = $root['name'];
-            $data[$id  . ':0']['class'] = 'group';
+        if (!empty($nodes[$id])) {
+            foreach ($nodes[$id] as $node) {
+                $data[$node['pos']] = str_repeat(' ', $node['level']) . $node['name'];
+            }
         }
     }
 
