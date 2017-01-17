@@ -413,10 +413,6 @@ function where(array $crit, array $attrs, array $opts = []): string
     $cols = [];
 
     foreach ($crit as $id => $val) {
-        if (empty($attrs[$id]['col'])) {
-            continue;
-        }
-
         $attr = $attrs[$id];
         $col = $attr['col'];
 
