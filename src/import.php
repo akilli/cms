@@ -18,10 +18,6 @@ function import_zip(string $file): bool
     $path = path('tmp', uniqid('import', true));
     $toc = $path . '/' . data('import', 'toc');
 
-    if (file_exists($path)) {
-        file_delete($path);
-    }
-
     try {
         unzip($file, $path);
     } catch (Exception $e) {
