@@ -6,6 +6,8 @@ use RecursiveIteratorIterator;
 use SplFileInfo;
 
 /**
+ * Scandir + skip dots
+ *
  * @param string $path
  *
  * @return array
