@@ -14,31 +14,16 @@ use SplFileInfo;
  */
 function file_load(string $path): array
 {
-    if (!is_dir($path)) {
+    if (!($path = rtrim(realpath($path))) || !is_dir($path)) {
         return [];
     }
 
     $data = [];
-    $flags = RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS;
-    $it = new RecursiveDirectoryIterator($path, $flags);
 
-    /* @var SplFileInfo $file */
-    foreach ($it as $file) {
-        if (!$file->isFile()) {
-            continue;
+    foreach (array_diff(scandir($path), ['.', '..']) as $id) {
+        if (is_file($path . '/' . $id)) {
+            $data[$id] = $path . '/' . $id;
         }
-
-        $item = [
-            'id' => $it->getSubPathname(),
-            'name' => $it->getBasename(),
-            'ext' => $file->getExtension(),
-            'subdir' => dirname($it->getSubPathname()),
-            'path' => $file->getRealPath(),
-            'dir' => $file->getPathInfo()->getRealPath(),
-            'size' => $file->getSize(),
-            'modified' => $file->getMTime()
-        ];
-        $data[$item['id']] = $item;
     }
 
     return $data;
@@ -60,9 +45,7 @@ function file_save(string $dest, string $content, int $flags = 0, $context = nul
         return false;
     }
 
-    $umask = umask(0);
     $result = file_put_contents($dest, $content, $flags, $context);
-    umask($umask);
 
     return $result !== false;
 }
@@ -70,14 +53,11 @@ function file_save(string $dest, string $content, int $flags = 0, $context = nul
 /**
  * Removes a file or directory
  *
- * A directory will be removed recursively, will preserve specified path if $preserve is set to true
- *
  * @param string $path
- * @param bool $preserve
  *
  * @return bool
  */
-function file_delete(string $path, bool $preserve = false): bool
+function file_delete(string $path): bool
 {
     if (!file_exists($path)) {
         return true;
@@ -95,10 +75,6 @@ function file_delete(string $path, bool $preserve = false): bool
         } elseif ($file->isFile() || $file->isLink()) {
             unlink($file->getPathname());
         }
-    }
-
-    if ($preserve) {
-        return true;
     }
 
     rmdir($path);
@@ -128,50 +104,23 @@ function file_delete_media(string $id): bool
  */
 function file_copy(string $src, string $dest): bool
 {
-    $isFile = is_file($src);
+    if (is_file($src)) {
+        return file_dir(dirname($dest)) && copy($src, $dest);
+    }
 
-    if ((!$isFile || !file_dir(dirname($dest))) && (!is_dir($src) || !file_dir($dest))) {
+    if (!file_dir($dest)) {
         return false;
     }
 
-    $umask = umask(0);
+    $success = true;
 
-    if ($isFile) {
-        copy($src, $dest);
-    } else {
-        $files = file_load($src);
-
-        foreach ($files as $file) {
-            if (file_dir(dirname($dest . '/' . $file['id']))) {
-                copy($file['path'], $dest . '/' . $file['id']);
-            }
+    foreach (file_load($src) as $id => $file) {
+        if (!file_dir(dirname($dest . '/' . $id)) || !copy($file, $dest . '/' . $id)) {
+            $success = false;
         }
     }
 
-    umask($umask);
-
-    return $isFile ? is_file($dest) : is_dir($dest);
-}
-
-/**
- * Upload file
- *
- * @param string $src
- * @param string $dest
- *
- * @return bool
- */
-function file_upload(string $src, string $dest): bool
-{
-    if (!is_uploaded_file($src) || !file_dir(dirname($dest))) {
-        return false;
-    }
-
-    $umask = umask(0);
-    move_uploaded_file($src, $dest);
-    umask($umask);
-
-    return is_file($dest);
+    return $success;
 }
 
 /**
@@ -185,15 +134,7 @@ function file_upload(string $src, string $dest): bool
  */
 function file_dir(string $path, int $mode = 0775, bool $recursive = true): bool
 {
-    if (is_dir($path)) {
-        return true;
-    }
-
-    $umask = umask(0);
-    $result = mkdir($path, $mode, $recursive);
-    umask($umask);
-
-    return $result;
+    return is_dir($path) || mkdir($path, $mode, $recursive);
 }
 
 /**
@@ -282,9 +223,7 @@ function image(string $id, string $conf): string
     imagealphablending($img, false);
     imagesavealpha($img, true);
     imagecopyresampled($img, $src, 0, 0, $x, $y, $opts['width'], $opts['height'], $width, $height);
-    $umask = umask(0);
     $output($img, $cache, $opts['quality']);
-    umask($umask);
     imagedestroy($src);
     imagedestroy($img);
 

@@ -61,7 +61,7 @@ function saver_file(array $attr, array & $item): bool
     $value = filter_file($file['name'], project_path('media'));
 
     // Upload failed
-    if (!file_upload($file['tmp_name'], project_path('media', $value))) {
+    if (!move_uploaded_file($file['tmp_name'], project_path('media', $value))) {
         $item['_error'][$attr['uid']] = _('File upload failed');
         return false;
     }
