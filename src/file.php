@@ -43,7 +43,7 @@ function file_copy(string $src, string $dest): bool
         return file_dir(dirname($dest)) && copy($src, $dest);
     }
 
-    if (!file_dir($dest)) {
+    if (!is_dir($src) || !file_dir($dest)) {
         return false;
     }
 
