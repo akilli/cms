@@ -13,7 +13,13 @@ namespace qnd;
 function session(string $key, $value = null, bool $reset = false)
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
+        ini_set('session.use_strict_mode', 1);
         session_start();
+
+        if (!empty($_SESSION['_deleted']) && $_SESSION['_deleted'] < time() - 180) {
+            session_destroy();
+            session_start();
+        }
     }
 
     if ($reset) {
@@ -23,6 +29,29 @@ function session(string $key, $value = null, bool $reset = false)
     }
 
     return $_SESSION[$key] ?? null;
+}
+
+/**
+ * Regenerates session ID
+ *
+ * @see http://php.net/manual/function.session-regenerate-id.php
+ * @see http://php.net/manual/function.session-create-id.php
+ *
+ * @return void
+ */
+function session_regenerate(): void
+{
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+
+    $id = session_create_id();
+    $_SESSION['_deleted'] = time();
+    session_commit();
+    ini_set('session.use_strict_mode', 0);
+    session_id($id);
+    session_start();
+    ini_set('session.use_strict_mode', 1);
 }
 
 /**

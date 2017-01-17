@@ -279,7 +279,7 @@ function action_account_login(): void
     if ($data = http_post('data')) {
         if (!empty($data['name']) && !empty($data['password']) && ($item = account_login($data['name'], $data['password']))) {
             message(_('Welcome %s', $item['name']));
-            session_regenerate_id(true);
+            session_regenerate();
             session('account', $item['id']);
             redirect(url('account/dashboard'));
         }
@@ -298,7 +298,6 @@ function action_account_login(): void
  */
 function action_account_logout(): void
 {
-    session_regenerate_id(true);
-    session_destroy();
+    session_regenerate();
     redirect();
 }
