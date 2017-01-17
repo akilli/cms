@@ -10,7 +10,6 @@ namespace qnd;
  */
 function listener_data_app(array & $data): void
 {
-    // Configure PHP
     ini_set('default_charset', $data['charset']);
     ini_set('intl.default_locale', $data['locale']);
     ini_set('date.timezone', $data['timezone']);
