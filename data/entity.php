@@ -434,11 +434,6 @@ return [
                 'required' => true,
                 'actions' => ['admin', 'edit'],
             ],
-            'redirect' => [
-                'name' => 'Redirect',
-                'type' => 'checkbox',
-                'actions' => ['admin', 'edit'],
-            ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox',

@@ -221,7 +221,6 @@ CREATE TABLE url (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
     target varchar(255) NOT NULL,
-    redirect boolean NOT NULL DEFAULT FALSE,
     system boolean NOT NULL DEFAULT FALSE,
     project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (project_id, name)
@@ -229,7 +228,6 @@ CREATE TABLE url (
 
 CREATE INDEX idx_url_name ON url (name);
 CREATE INDEX idx_url_target ON url (target);
-CREATE INDEX idx_url_redirect ON url (redirect);
 CREATE INDEX idx_url_system ON url (system);
 CREATE INDEX idx_url_project ON url (project_id);
 

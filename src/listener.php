@@ -107,11 +107,11 @@ function listener_data_request(array & $data): void
     $data['files'] = $_FILES ? http_files_convert($_FILES) : [];
     $url = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     $data['url'] = preg_replace('#^' . $_SERVER['SCRIPT_NAME'] . '#', '', $url);
-    $data['path'] = url_rewrite($data['url'], true);
-    $parts = explode('/', trim($data['path'], '/'));
-    $data['entity'] = $parts[0] ?? $data['entity'];
+    $parts = explode('/', trim(url_rewrite($data['url']), '/'));
+    $data['entity'] = $parts[0] ?: $data['entity'];
     $data['action'] = $parts[1] ?? $data['action'];
     $data['id'] = $parts[2] ?? $data['id'];
+    $data['path'] = $data['entity'] . '/' . $data['action'];
 }
 
 /**

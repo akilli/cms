@@ -96,27 +96,24 @@ function url_resolve(string $path): string
  * Rewrite request path
  *
  * @param string $path
- * @param bool $redirect
  *
  * @return string
  */
-function url_rewrite(string $path, bool $redirect = false): string
+function url_rewrite(string $path): string
 {
-    $data = & registry('url.rewrite');
+    $data = & registry('url');
 
     if (empty($data[$path])) {
         if ($url = one('url', ['name' => $path])) {
-            $data[$path] = ['target' => $url['target'], 'redirect' => $url['redirect']];
+            $data[$url['name']] = $url['target'];
+        } elseif($path === '/') {
+            $data[$path] = '/' . data('request', 'entity') . '/' . data('request', 'action');
         } else {
-            $data[$path] = ['target' => $path === '/' ? '/content/index' : $path, 'redirect' => false];
+            $data[$path] = $path;
         }
     }
 
-    if ($redirect && $data[$path]['redirect']) {
-        redirect($data[$path]['target']);
-    }
-
-    return $data[$path]['target'];
+    return $data[$path];
 }
 
 /**
@@ -128,12 +125,15 @@ function url_rewrite(string $path, bool $redirect = false): string
  */
 function url_unrewrite(string $path): string
 {
-    $data = & registry('url.unrewrite');
+    $data = & registry('url');
 
-    if (empty($data[$path])) {
-        $url = one('url', ['target' => $path, 'redirect' => false], ['order' => ['system' => 'desc']]);
-        $data[$path] = $url ? $url['name'] : $path;
+    if (!in_array($path, (array) $data)) {
+        if ($url = one('url', ['target' => $path], ['order' => ['system' => 'desc']])) {
+            $data[$url['name']] = $path;
+        } else {
+            $data[$path] = $path;
+        }
     }
 
-    return $data[$path];
+    return array_search($path, $data);
 }
