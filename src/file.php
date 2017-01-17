@@ -1,30 +1,15 @@
 <?php
 namespace qnd;
 
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use SplFileInfo;
-
-/**
- * Scandir + skip dots
- *
- * @param string $path
- *
- * @return array
- */
-function file_scan(string $path): array
-{
-    return array_diff(scandir($path), ['.', '..']);
-}
-
 /**
  * Load file collection
  *
  * @param string $path
+ * @param bool $dir
  *
  * @return array
  */
-function file_load(string $path): array
+function file_load(string $path, bool $dir = false): array
 {
     if (!($path = rtrim(realpath($path))) || !is_dir($path)) {
         return [];
@@ -32,9 +17,9 @@ function file_load(string $path): array
 
     $data = [];
 
-    foreach (file_scan($path) as $id) {
-        if (is_file($path . '/' . $id)) {
-            $data[$id] = $path . '/' . $id;
+    foreach (array_diff(scandir($path), ['.', '..']) as $id) {
+        if (($file = $path . '/' . $id) && (is_file($file) || $dir && is_dir($file))) {
+            $data[$id] = $file;
         }
     }
 
@@ -83,15 +68,11 @@ function file_delete(string $path): bool
         return true;
     }
 
-    $flags = RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::UNIX_PATHS;
-    $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, $flags), RecursiveIteratorIterator::CHILD_FIRST);
-
-    /* @var SplFileInfo $file */
-    foreach ($it as $file) {
-        if ($file->isDir()) {
-            rmdir($file->getPathname());
-        } elseif ($file->isFile() || $file->isLink()) {
-            unlink($file->getPathname());
+    foreach (file_load($path, true) as $file) {
+        if (is_dir($file)) {
+            file_delete($file);
+        } else {
+            unlink($file);
         }
     }
 
