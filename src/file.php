@@ -30,27 +30,6 @@ function file_load(string $path): array
 }
 
 /**
- * Create file
- *
- * @param string $dest
- * @param string $content
- * @param int $flags
- * @param resource $context
- *
- * @return bool
- */
-function file_save(string $dest, string $content, int $flags = 0, $context = null): bool
-{
-    if (!file_dir(dirname($dest))) {
-        return false;
-    }
-
-    $result = file_put_contents($dest, $content, $flags, $context);
-
-    return $result !== false;
-}
-
-/**
  * Removes a file or directory
  *
  * @param string $path

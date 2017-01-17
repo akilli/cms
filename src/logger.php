@@ -126,5 +126,5 @@ function logger(string $level, string $message, array $context = []): void
 {
     $context['file'] = empty($context['file']) ? 'app.log' : $context['file'];
     $file = path('log', $context['file']);
-    file_save($file, '[' . $level . '][' . date('r') . '] ' . $message . "\n\n", FILE_APPEND);
+    file_put_contents($file, '[' . $level . '][' . date('r') . '] ' . $message . "\n\n", FILE_APPEND);
 }
