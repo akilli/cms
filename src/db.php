@@ -412,12 +412,12 @@ function where(array $crit, array $attrs, array $opts = []): string
     $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
     $cols = [];
 
-    foreach ($crit as $id => $val) {
-        $attr = $attrs[$id];
+    foreach ($crit as $uid => $val) {
+        $attr = $attrs[$uid];
         $col = $attr['col'];
 
         if ($val === null) {
-            $cols[$id] = db_null($col);
+            $cols[$uid] = db_null($col);
             continue;
         } elseif (is_array($val) && !$val) {
             continue;
@@ -426,7 +426,7 @@ function where(array $crit, array $attrs, array $opts = []): string
         $val = (array) $val;
         $r = [];
 
-        if (!in_array($id, $search)) {
+        if (!in_array($uid, $search)) {
             $r[] = db_eq($col, db_qva($val, $attr));
         } elseif ($attr['backend'] === 'search') {
             $r[] = db_search($col, db_qv(implode(' | ', $val), $attr));
@@ -436,7 +436,7 @@ function where(array $crit, array $attrs, array $opts = []): string
             }
         }
 
-        $cols[$id] = db_or($r);
+        $cols[$uid] = db_or($r);
     }
 
     return $cols ? ' WHERE ' . db_and($cols) : '';
