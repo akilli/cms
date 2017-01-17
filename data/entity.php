@@ -83,7 +83,7 @@ return [
                 'name' => 'Type',
                 'type' => 'select',
                 'required' => true,
-                'opt' => ['data', ['attr']],
+                'opt' => ['opt_attr'],
                 'actions' => ['admin', 'edit'],
             ],
             'required' => [

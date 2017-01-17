@@ -11,7 +11,7 @@ namespace qnd;
 function opt(array $attr): array
 {
     if ($attr['type'] === 'entity') {
-        return all(...$attr['opt']);
+        return array_column(all(...$attr['opt']), 'name', 'id');
     }
 
     if ($attr['backend'] === 'bool') {
@@ -33,17 +33,37 @@ function opt(array $attr): array
 }
 
 /**
+ * Attribute options
+ *
+ * @return array
+ */
+function opt_attr(): array
+{
+    return array_map(
+        function ($item) {
+            return $item['name'];
+        },
+        data('attr')
+    );
+}
+
+/**
  * Privilege options
  *
  * @return array
  */
 function opt_privilege(): array
 {
-    return array_filter(
-        data('privilege'),
+    return array_map(
         function ($item) {
-            return !empty($item['active']) && empty($item['callback']);
-        }
+            return $item['name'];
+        },
+        array_filter(
+            data('privilege'),
+            function ($item) {
+                return !empty($item['active']) && empty($item['callback']);
+            }
+        )
     );
 }
 
@@ -79,7 +99,7 @@ function opt_position(): array
 
         if (!empty($nodes[$id])) {
             foreach ($nodes[$id] as $node) {
-                $data[$node['pos']] = str_repeat(' ', $node['level']) . $node['name'];
+                $data[$node['pos']] = str_repeat('&nbsp;', $node['level'] * 4) . $node['name'];
             }
         }
     }

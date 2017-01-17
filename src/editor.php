@@ -84,7 +84,7 @@ function editor_select(array $attr, array $item): string
     if (empty($attr['opt'])) {
         $html = html_tag('optgroup', ['label' => _('No options configured')]);
     } else {
-        $html = html_tag('option', ['value' => '', 'class' => 'empty'], _('Please choose'));
+        $html = html_tag('option', [], _('Please choose'));
 
         foreach ($attr['opt'] as $optId => $optVal) {
             $a = ['value' => $optId];
@@ -93,15 +93,7 @@ function editor_select(array $attr, array $item): string
                 $a['selected'] = true;
             }
 
-            if (is_array($optVal) && !empty($optVal['class'])) {
-                $a['class'] = $optVal['class'];
-            }
-
-            if (is_array($optVal) && !empty($optVal['level'])) {
-                $a['data-level'] = $optVal['level'];
-            }
-
-            $html .= html_tag('option', $a, editor_opt_name($optId, $optVal));
+            $html .= html_tag('option', $a, $optVal);
         }
     }
 
@@ -145,31 +137,10 @@ function editor_opt(array $attr, array $item): string
         ];
         $a = array_replace($attr['html'], $a);
         $html .= html_tag('input', $a, null, true);
-        $html .= html_tag('label', ['for' => $htmlId, 'class' => 'inline'], editor_opt_name($optId, $optVal));
+        $html .= html_tag('label', ['for' => $htmlId, 'class' => 'inline'], $optVal);
     }
 
     return $html;
-}
-
-/**
- * Option name
- *
- * @param int|string $id
- * @param mixed $value
- *
- * @return string
- */
-function editor_opt_name($id, $value): string
-{
-    if (is_array($value) && !empty($value['name'])) {
-        return $value['name'];
-    }
-
-    if (is_scalar($value)) {
-        return (string) $value;
-    }
-
-    return (string) $id;
 }
 
 /**

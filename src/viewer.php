@@ -34,23 +34,11 @@ function viewer(array $attr, array $item): string
  */
 function viewer_opt(array $attr, array $item): string
 {
-    if (!$attr['opt']) {
-        return '';
+    if ($attr['opt'] && $item[$attr['uid']]) {
+        $values = array_intersect_key($attr['opt'], array_fill_keys((array) $item[$attr['uid']], null));
     }
 
-    $values = [];
-
-    foreach ((array) $item[$attr['uid']] as $v) {
-        if (!empty($attr['opt'][$v])) {
-            if (is_array($attr['opt'][$v]) && !empty($attr['opt'][$v]['name'])) {
-                $values[] = $attr['opt'][$v]['name'];
-            } elseif (is_scalar($attr['opt'][$v])) {
-                $values[] = $attr['opt'][$v];
-            }
-        }
-    }
-
-    return $values ? encode(implode(', ', $values)) : '';
+    return !empty($values) ? encode(implode(', ', $values)) : '';
 }
 
 /**
