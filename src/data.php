@@ -176,6 +176,7 @@ function data_entity(array $entity): array
 
     foreach ($entity['attr'] as $id => $attr) {
         $attr['uid'] = $id;
+        $attr['entity'] = $entity['uid'];
         $attr = data_attr($attr);
 
         if (!is_numeric($attr['sort'])) {

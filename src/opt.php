@@ -10,10 +10,6 @@ namespace qnd;
  */
 function opt(array $attr): array
 {
-    if ($attr['type'] === 'entity') {
-        return array_column(all(...$attr['opt']), 'name', 'id');
-    }
-
     if ($attr['backend'] === 'bool') {
         return [_('No'), _('Yes')];
     }
@@ -26,10 +22,23 @@ function opt(array $attr): array
         return $attr['opt'][0];
     }
 
-    $call = fqn($attr['opt'][0]);
-    $params = $attr['opt'][1] ?? [];
+    // Cache
+    $data = & registry('opt');
+    $key = $attr['entity'] . '.' . $attr['uid'];
 
-    return $call(...$params);
+    if (isset($data[$key])) {
+        return $data[$key];
+    }
+
+    if ($attr['type'] === 'entity') {
+        $data[$key] = array_column(all($attr['opt'][0]), 'name', 'id');
+    } else {
+        $call = fqn($attr['opt'][0]);
+        $params = $attr['opt'][1] ?? [];
+        $data[$key] = $call(...$params);
+    }
+
+    return $data[$key];
 }
 
 /**
