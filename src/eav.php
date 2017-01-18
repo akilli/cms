@@ -41,7 +41,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         select($select)
         . from($entity['tab'] . ' e')
         . ljoin('(' . select($list) . from('eav'). group(['content_id']) . ') a', ['a.content_id = e.id'])
-        . where($crit, $attrs, $opts)
+        . where(db_crit($crit, $attrs, $opts))
         . order($opts['order'])
         . limit($opts['limit'], $opts['offset'])
     );

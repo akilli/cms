@@ -159,6 +159,50 @@ function db_attr(array $attrs, bool $auto = false): array
 }
 
 /**
+ * Maps attribute UIDs to DB columns and handles search criteria
+ *
+ * @param array $crit
+ * @param array $attrs
+ * @param array $opts
+ *
+ * @return array
+ */
+function db_crit(array $crit, array $attrs, array $opts = []): array
+{
+    $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
+    $cols = [];
+
+    foreach ($crit as $uid => $val) {
+        $attr = $attrs[$uid];
+        $col = $attr['col'];
+
+        if ($val === null) {
+            $cols[$uid] = db_null($col);
+            continue;
+        } elseif (is_array($val) && !$val) {
+            continue;
+        }
+
+        $val = (array) $val;
+        $r = [];
+
+        if (!in_array($uid, $search)) {
+            $r[] = db_eq($col, db_qva($val, $attr));
+        } elseif ($attr['backend'] === 'search') {
+            $r[] = db_search($col, db_qv(implode(' | ', $val), $attr));
+        } else {
+            foreach ($val as $v) {
+                $r[] = db_like($col, db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr));
+            }
+        }
+
+        $cols[$uid] = db_or($r);
+    }
+
+    return $cols;
+}
+
+/**
  * Quotes value
  *
  * @param mixed $value
@@ -372,44 +416,12 @@ function rjoin(string $tab, array $cond): string
 /**
  * WHERE part
  *
- * @param array $crit
- * @param array $attrs
- * @param array $opts
+ * @param array $cols
  *
  * @return string
  */
-function where(array $crit, array $attrs, array $opts = []): string
+function where(array $cols): string
 {
-    $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
-    $cols = [];
-
-    foreach ($crit as $uid => $val) {
-        $attr = $attrs[$uid];
-        $col = $attr['col'];
-
-        if ($val === null) {
-            $cols[$uid] = db_null($col);
-            continue;
-        } elseif (is_array($val) && !$val) {
-            continue;
-        }
-
-        $val = (array) $val;
-        $r = [];
-
-        if (!in_array($uid, $search)) {
-            $r[] = db_eq($col, db_qva($val, $attr));
-        } elseif ($attr['backend'] === 'search') {
-            $r[] = db_search($col, db_qv(implode(' | ', $val), $attr));
-        } else {
-            foreach ($val as $v) {
-                $r[] = db_like($col, db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr));
-            }
-        }
-
-        $cols[$uid] = db_or($r);
-    }
-
     return $cols ? ' WHERE ' . db_and($cols) : '';
 }
 
