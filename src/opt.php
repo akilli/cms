@@ -31,7 +31,7 @@ function opt(array $attr): array
     }
 
     if ($attr['type'] === 'entity') {
-        $data[$key] = array_column(all($attr['opt'][0]), 'name', 'id');
+        $data[$key] = array_column(all(...$attr['opt']), 'name', 'id');
     } else {
         $call = fqn($attr['opt'][0]);
         $params = $attr['opt'][1] ?? [];
