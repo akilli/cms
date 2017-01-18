@@ -38,9 +38,8 @@ function listener_data_entity(array & $data): void
     $attrs = all('attr', ['project_id' => project('ids')], ['index' => ['entity_id', 'uid']]);
 
     foreach ($entities as $id => $item) {
-        // @todo Define custom validator for entity UID and EAV attr UID
         if (!empty($data[$item['uid']])) {
-            message(_('Can not use reserved UID %s for Entity %s', $item['uid'], $item['name']));
+            message(_('Skipping data for Entity %s because UID %s is already in use', $item['name'], $item['uid']));
             continue;
         }
 
