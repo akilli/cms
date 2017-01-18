@@ -2,7 +2,6 @@
 namespace qnd;
 
 use LogicException;
-use PDO;
 
 /**
  * Load entity
@@ -76,8 +75,8 @@ function nestedset_delete(array & $item): bool
         $attrs['lft']['col']
     );
     $stmt->bindValue(':root_id', $item['_old']['root_id'], $attrs['root_id']['pdo']);
-    $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $item['_old']['lft'], $attrs['lft']['pdo']);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], $attrs['lft']['pdo']);
     $stmt->execute();
 
     // Close gap in old tree
@@ -163,10 +162,10 @@ function nestedset_move(array $item): void
     );
     $stmt->bindValue(':root_id', $item['root_id'], $attrs['root_id']['pdo']);
     $stmt->bindValue(':old_root_id', $item['_old']['root_id'], $attrs['root_id']['pdo']);
-    $stmt->bindValue(':lft', $item['_old']['lft'], PDO::PARAM_INT);
-    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
-    $stmt->bindValue(':lft_diff', $item['lft'] - $item['_old']['lft'], PDO::PARAM_INT);
-    $stmt->bindValue(':rgt_diff', $item['lft'] - $item['_old']['lft'], PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $item['_old']['lft'], $attrs['lft']['pdo']);
+    $stmt->bindValue(':lft_diff', $item['lft'] - $item['_old']['lft'], $attrs['lft']['pdo']);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], $attrs['rgt']['pdo']);
+    $stmt->bindValue(':rgt_diff', $item['lft'] - $item['_old']['lft'], $attrs['rgt']['pdo']);
     $stmt->execute();
 }
 
@@ -189,8 +188,8 @@ function nestedset_remove(array $item): void
         $attrs['lft']['col']
     );
     $stmt->bindValue(':root_id', $item['_old']['root_id'], $attrs['root_id']['pdo']);
-    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], $attrs['lft']['pdo']);
+    $stmt->bindValue(':range', $range, $attrs['lft']['pdo']);
     $stmt->execute();
 
     $stmt = db_prep(
@@ -200,8 +199,8 @@ function nestedset_remove(array $item): void
         $attrs['rgt']['col']
     );
     $stmt->bindValue(':root_id', $item['_old']['root_id'], $attrs['root_id']['pdo']);
-    $stmt->bindValue(':rgt', $item['_old']['rgt'], PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
+    $stmt->bindValue(':rgt', $item['_old']['rgt'], $attrs['rgt']['pdo']);
+    $stmt->bindValue(':range', $range, $attrs['rgt']['pdo']);
     $stmt->execute();
 }
 
@@ -224,8 +223,8 @@ function nestedset_prepare(array $item): void
         $attrs['lft']['col']
     );
     $stmt->bindValue(':root_id', $item['root_id'], $attrs['root_id']['pdo']);
-    $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $item['lft'], $attrs['lft']['pdo']);
+    $stmt->bindValue(':range', $range, $attrs['lft']['pdo']);
     $stmt->execute();
 
     $stmt = db_prep(
@@ -235,8 +234,8 @@ function nestedset_prepare(array $item): void
         $attrs['rgt']['col']
     );
     $stmt->bindValue(':root_id', $item['root_id'], $attrs['root_id']['pdo']);
-    $stmt->bindValue(':lft', $item['lft'], PDO::PARAM_INT);
-    $stmt->bindValue(':range', $range, PDO::PARAM_INT);
+    $stmt->bindValue(':lft', $item['lft'], $attrs['rgt']['pdo']);
+    $stmt->bindValue(':range', $range, $attrs['rgt']['pdo']);
     $stmt->execute();
 }
 
@@ -260,6 +259,6 @@ function nestedset_insert(array $item): void
         $attrs['level']['col']
     );
     $stmt->bindValue(':root_id', $item['root_id'], $attrs['root_id']['pdo']);
-    $stmt->bindValue(':level', $item['level'] - $item['_old']['level'], PDO::PARAM_INT);
+    $stmt->bindValue(':level', $item['level'] - $item['_old']['level'], $attrs['level']['pdo']);
     $stmt->execute();
 }
