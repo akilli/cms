@@ -27,7 +27,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     $params = [];
 
     foreach ($eav as $uid => $attr) {
-        $select[] = db_qi($uid);
+        $select[] = $uid;
         $params[$uid] = db_param($uid);
         $list[$uid] = sprintf(
             'MAX(CASE WHEN attr_id = %s THEN %s END)',

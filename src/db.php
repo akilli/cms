@@ -159,35 +159,6 @@ function db_attr(array $attrs, bool $auto = false): array
 }
 
 /**
- * Quotes identifier
- *
- * @param string $id
- *
- * @return string
- */
-function db_qi(string $id): string
-{
-    return $id ? '"' . str_replace('"', '', $id) . '"' : '';
-}
-
-/**
- * Quotes identifiers
- *
- * @param array $ids
- *
- * @return array
- */
-function db_qia(array $ids): array
-{
-    return array_map(
-        function (string $id) {
-            return db_qi($id);
-        },
-        $ids
-    );
-}
-
-/**
  * Quotes value
  *
  * @param mixed $value
@@ -263,7 +234,7 @@ function db_or(array $crit): string
  */
 function db_null(string $col): string
 {
-    return db_qi($col) . ' IS NULL';
+    return $col . ' IS NULL';
 }
 
 /**
@@ -276,7 +247,7 @@ function db_null(string $col): string
  */
 function db_eq(string $col, array $vals): string
 {
-    return db_qi($col) . (count($vals) === 1 ? ' = ' . current($vals) : ' IN (' . db_list($vals) . ')');
+    return $col . (count($vals) === 1 ? ' = ' . current($vals) : ' IN (' . db_list($vals) . ')');
 }
 
 /**
@@ -289,7 +260,7 @@ function db_eq(string $col, array $vals): string
  */
 function db_like(string $col, string $val): string
 {
-    return db_qi($col) . ' ILIKE ' . $val;
+    return $col . ' ILIKE ' . $val;
 }
 
 /**
@@ -302,7 +273,7 @@ function db_like(string $col, string $val): string
  */
 function db_search(string $col, string $val): string
 {
-    return db_qi($col) . ' @@ TO_TSQUERY(' . $val . ')';
+    return $col . ' @@ TO_TSQUERY(' . $val . ')';
 }
 
 /**
@@ -329,7 +300,7 @@ function select(array $select): string
     $cols = [];
 
     foreach ($select as $as => $col) {
-        $cols[] = $col . ($as && is_string($as) ? ' AS ' . db_qi($as) : '');
+        $cols[] = $col . ($as && is_string($as) ? ' AS ' . $as : '');
     }
 
     return $cols ? 'SELECT ' . db_list($cols) : '';
@@ -451,7 +422,7 @@ function where(array $crit, array $attrs, array $opts = []): string
  */
 function group(array $cols): string
 {
-    return ' GROUP BY ' . db_list(db_qia($cols));
+    return ' GROUP BY ' . db_list($cols);
 }
 
 /**
@@ -466,7 +437,7 @@ function order(array $order): string
     $cols = [];
 
     foreach ($order as $uid => $dir) {
-        $cols[] = db_qi($uid) . ' ' . ($dir === 'desc' ? 'DESC' : 'ASC');
+        $cols[] = $uid . ' ' . ($dir === 'desc' ? 'DESC' : 'ASC');
     }
 
     return $cols ? ' ORDER BY ' . db_list($cols) : '';
