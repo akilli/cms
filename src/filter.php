@@ -16,13 +16,13 @@ function encode(string $var): string
 /**
  * HTML filter
  *
- * @param string $string
+ * @param string $html
  *
  * @return string
  */
-function filter_html(string $string): string
+function filter_html(string $html): string
 {
-    return trim(strip_tags($string, data('filter', 'html')));
+    return $html ? trim(strip_tags($html, data('filter', 'html'))) : '';
 }
 
 /**
