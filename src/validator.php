@@ -97,6 +97,26 @@ function validator_boundary(array $attr, array & $item): bool
 }
 
 /**
+ * Keyword validator
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return bool
+ */
+function validator_keyword(array $attr, array & $item): bool
+{
+    if (!$item[$attr['uid']] || !in_array($item[$attr['uid']], data('sql', 'keyword'))) {
+        return true;
+    }
+
+    $item['_error'][$attr['uid']] = _('Reserved database keywords must not be used');
+    $item[$attr['uid']] = null;
+
+    return false;
+}
+
+/**
  * Option validator
  *
  * @param array $attr
@@ -118,8 +138,8 @@ function validator_opt(array $attr, array & $item): bool
     if (!empty($item[$attr['uid']]) || is_scalar($item[$attr['uid']]) && !is_string($item[$attr['uid']])) {
         foreach ((array) $item[$attr['uid']] as $v) {
             if (!isset($attr['opt'][$v])) {
-                $item[$attr['uid']] = null;
                 $item['_error'][$attr['uid']] = _('Invalid option for attribute %s', $attr['name']);
+                $item[$attr['uid']] = null;
 
                 return false;
             }
@@ -129,6 +149,46 @@ function validator_opt(array $attr, array & $item): bool
     }
 
     return true;
+}
+
+/**
+ * Attribute UID validator
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return bool
+ */
+function validator_attr(array $attr, array & $item): bool
+{
+    if (!$item[$attr['uid']] || !one('attr', ['entity_id' => $item['entity_id'], 'uid' => $item[$attr['uid']]])) {
+        return validator_keyword($attr, $item);
+    }
+
+    $item['_error'][$attr['uid']] = _('UID is already in use');
+    $item[$attr['uid']] = null;
+
+    return false;
+}
+
+/**
+ * Entity UID validator
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return bool
+ */
+function validator_entity(array $attr, array & $item): bool
+{
+    if (!$item[$attr['uid']] || !data('entity', $item[$attr['uid']])) {
+        return validator_keyword($attr, $item);
+    }
+
+    $item['_error'][$attr['uid']] = _('UID is already in use');
+    $item[$attr['uid']] = null;
+
+    return false;
 }
 
 /**
@@ -173,8 +233,8 @@ function validator_email(array $attr, array & $item): bool
         return true;
     }
 
-    $item[$attr['uid']] = null;
     $item['_error'][$attr['uid']] = _('Invalid email');
+    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -193,8 +253,8 @@ function validator_url(array $attr, array & $item): bool
         return true;
     }
 
-    $item[$attr['uid']] = null;
     $item['_error'][$attr['uid']] = _('Invalid URL');
+    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -213,8 +273,8 @@ function validator_json(array $attr, array & $item): bool
         return true;
     }
 
-    $item[$attr['uid']] = null;
     $item['_error'][$attr['uid']] = _('Invalid JSON notation');
+    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -229,7 +289,7 @@ function validator_json(array $attr, array & $item): bool
  */
 function validator_rte(array $attr, array & $item): bool
 {
-    $item[$attr['uid']] = $item[$attr['uid']] ? filter_html($item[$attr['uid']]) : '';
+    $item[$attr['uid']] = filter_html($item[$attr['uid']]);
 
     return true;
 }
@@ -251,8 +311,8 @@ function validator_date(array $attr, array & $item): bool
         return true;
     }
 
-    $item[$attr['uid']] = null;
     $item['_error'][$attr['uid']] = _('Invalid value');
+    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -274,8 +334,8 @@ function validator_datetime(array $attr, array & $item): bool
         return true;
     }
 
-    $item[$attr['uid']] = null;
     $item['_error'][$attr['uid']] = _('Invalid value');
+    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -297,8 +357,8 @@ function validator_time(array $attr, array & $item): bool
         return true;
     }
 
-    $item[$attr['uid']] = null;
     $item['_error'][$attr['uid']] = _('Invalid value');
+    $item[$attr['uid']] = null;
 
     return false;
 }

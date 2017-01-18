@@ -67,6 +67,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'actions' => ['admin', 'edit'],
+                'validator' => 'attr',
             ],
             'name' => [
                 'name' => 'Name',
@@ -210,6 +211,7 @@ return [
                 'required' => true,
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
+                'validator' => 'entity',
             ],
             'name' => [
                 'name' => 'Name',
