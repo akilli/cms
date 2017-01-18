@@ -61,7 +61,7 @@ function flat_save(array & $item): bool
             db_list($cols['up']),
             $attrs['id']['col']
         );
-        $stmt->bindValue(':_id', $item['_old']['id'], db_pdo($item['_old']['id'], $attrs['id']));
+        $stmt->bindValue(':_id', $item['_old']['id'], $attrs['id']['pdo']);
     }
 
     foreach ($cols['param'] as $param) {
@@ -94,7 +94,7 @@ function flat_delete(array & $item): bool
         $item['_entity']['tab'],
         $attrs['id']['col']
     );
-    $stmt->bindValue(':id', $item['_old']['id'], db_pdo($item['_old']['id'], $attrs['id']));
+    $stmt->bindValue(':id', $item['_old']['id'], $attrs['id']['pdo']);
     $stmt->execute();
 
     return true;
