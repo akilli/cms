@@ -10,7 +10,6 @@ use InvalidArgumentException;
  */
 function app(): void
 {
-    // Dispatch request
     $prefix = fqn('action_');
     $action = request('action');
     $eUid = request('entity');
