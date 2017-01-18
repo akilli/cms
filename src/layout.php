@@ -118,8 +118,11 @@ function layout_load(): void
     $layout = data('layout');
 
     foreach (layout_handles() as $handle) {
-        foreach (data_filter($layout, ['handle' => $handle]) as $§) {
-            layout_add($§);
+        if (!empty($layout[$handle])) {
+            foreach ($layout[$handle] as $id => $§) {
+                $§['id'] = $id;
+                layout_add($§);
+            }
         }
     }
 }
