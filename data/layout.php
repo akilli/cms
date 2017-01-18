@@ -1,6 +1,4 @@
 <?php
-namespace qnd;
-
 return [
     // _base_
     [
