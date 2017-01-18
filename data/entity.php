@@ -310,6 +310,7 @@ return [
                 'name' => 'Mode',
                 'col' => false,
                 'type' => 'select',
+                'required' => true,
                 'opt' => ['data', ['opt', 'mode']],
                 'actions' => ['edit'],
             ],
