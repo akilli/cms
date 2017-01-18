@@ -1,10 +1,10 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <nav id="<?=$§('§')['id'];?>">
-    <?php if (allowed('project.switch')  && size('project', ['active' => true]) > 1):?>
+    <?php if ($§('projects')):?>
     <form id="toolbar-project" action="<?= url('project/switch');?>" method="post">
         <label for="toolbar-project-id" class="inline"><?= _('Project');?></label>
         <select id="toolbar-project-id" name="id" onchange="submit()">
-            <?php foreach (all('project', ['active' => true]) as $project):?>
+            <?php foreach ($§('projects') as $project):?>
             <option value="<?= $project['id'];?>" <?php if (project('id') === $project['id']):?> selected="selected"<?php endif;?>><?= $project['name'];?></option>
             <?php endforeach;?>
         </select>

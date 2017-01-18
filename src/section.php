@@ -163,3 +163,18 @@ function section_template(array $§): string
 {
     return render($§);
 }
+
+/**
+ * Toolbar section
+ *
+ * @param array $§
+ *
+ * @return string
+ */
+function section_toolbar(array $§): string
+{
+    $crit = ['active' => true];
+    $§['vars']['projects'] = allowed('project.switch') && size('project', $crit) > 1 ? all('project', $crit) : [];
+
+    return render($§);
+}

@@ -126,7 +126,7 @@ return [
     [
         'id' => 'toolbar',
         'handle' => 'account-registered',
-        'type' => 'template',
+        'type' => 'toolbar',
         'template' => 'account/toolbar.phtml',
         'parent' => 'top',
     ],
