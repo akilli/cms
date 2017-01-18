@@ -34,9 +34,6 @@ function session(string $key, $value = null, bool $reset = false)
 /**
  * Regenerates session ID
  *
- * @see http://php.net/manual/function.session-regenerate-id.php
- * @see http://php.net/manual/function.session-create-id.php
- *
  * @return void
  */
 function session_regenerate(): void
