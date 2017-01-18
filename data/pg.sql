@@ -73,7 +73,7 @@ CREATE INDEX idx_entity_name ON entity (name);
 CREATE INDEX idx_entity_system ON entity (system);
 CREATE INDEX idx_entity_project ON entity (project_id);
 
-CREATE FUNCTION entity_url_update() RETURNS trigger AS
+CREATE FUNCTION entity_update_after() RETURNS trigger AS
 $$
     DECLARE
         _old varchar(255);
@@ -92,7 +92,7 @@ $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION entity_url_delete() RETURNS trigger AS
+CREATE FUNCTION entity_delete_after() RETURNS trigger AS
 $$
     DECLARE
         _old varchar(255);
@@ -105,8 +105,8 @@ $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER entity_url_update AFTER UPDATE ON entity FOR EACH ROW WHEN (OLD.actions != NEW.actions OR OLD.uid != NEW.uid) EXECUTE PROCEDURE entity_url_update();
-CREATE TRIGGER entity_url_delete AFTER DELETE ON entity FOR EACH ROW EXECUTE PROCEDURE entity_url_delete();
+CREATE TRIGGER entity_update_after AFTER UPDATE ON entity FOR EACH ROW WHEN (OLD.actions != NEW.actions OR OLD.uid != NEW.uid) EXECUTE PROCEDURE entity_update_after();
+CREATE TRIGGER entity_delete_after AFTER DELETE ON entity FOR EACH ROW EXECUTE PROCEDURE entity_delete_after();
 
 -- -----------------------------------------------------------
 
@@ -161,6 +161,16 @@ CREATE INDEX idx_content_modified ON content (modified);
 CREATE INDEX idx_content_modifier ON content (modifier);
 CREATE INDEX idx_content_project ON content (project_id);
 CREATE INDEX idx_content_search ON content USING GIN (search);
+
+CREATE FUNCTION content_update_before() RETURNS trigger AS
+$$
+    BEGIN
+        NEW.modified := current_timestamp;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER content_update_before BEFORE UPDATE ON content FOR EACH ROW EXECUTE PROCEDURE content_update_before();
 
 -- -----------------------------------------------------------
 

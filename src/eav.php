@@ -74,11 +74,9 @@ function eav_save(array & $item): bool
 {
     $item['entity_id'] = $item['_entity']['id'];
     $item['modifier'] = account('id');
-    $item['modified'] = date(data('format', 'datetime.backend'));
 
     if (empty($item['_old'])) {
         $item['creator'] = $item['modifier'];
-        $item['created'] = $item['modified'];
     }
 
     $attrs = $item['_entity']['attr'];
