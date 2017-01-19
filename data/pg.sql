@@ -34,6 +34,7 @@ CREATE TABLE role (
 );
 
 CREATE INDEX idx_role_name ON role (name);
+CREATE INDEX idx_role_privilege ON role USING GIN (privilege);
 CREATE INDEX idx_role_active ON role (active);
 CREATE INDEX idx_role_system ON role (system);
 CREATE INDEX idx_role_project ON role (project_id);
@@ -70,6 +71,7 @@ CREATE TABLE entity (
 );
 
 CREATE INDEX idx_entity_name ON entity (name);
+CREATE INDEX idx_entity_actions ON entity USING GIN (actions);
 CREATE INDEX idx_entity_system ON entity (system);
 CREATE INDEX idx_entity_project ON entity (project_id);
 
@@ -129,11 +131,13 @@ CREATE TABLE attr (
 CREATE INDEX idx_attr_entity ON attr (entity_id);
 CREATE INDEX idx_attr_uid ON attr (uid);
 CREATE INDEX idx_attr_name ON attr (name);
-CREATE INDEX idx_attr_type ON attr (type);
 CREATE INDEX idx_attr_sort ON attr (sort);
+CREATE INDEX idx_attr_type ON attr (type);
 CREATE INDEX idx_attr_required ON attr (required);
 CREATE INDEX idx_attr_uniq ON attr (uniq);
 CREATE INDEX idx_attr_searchable ON attr (searchable);
+CREATE INDEX idx_attr_opt ON attr USING GIN (opt);
+CREATE INDEX idx_attr_actions ON attr USING GIN (actions);
 CREATE INDEX idx_attr_project ON attr (project_id);
 
 -- -----------------------------------------------------------
@@ -155,12 +159,13 @@ CREATE TABLE content (
 CREATE INDEX idx_content_name ON content (name);
 CREATE INDEX idx_content_entity ON content (entity_id);
 CREATE INDEX idx_content_active ON content (active);
+CREATE INDEX idx_content_content ON content (content);
+CREATE INDEX idx_content_search ON content USING GIN (search);
 CREATE INDEX idx_content_created ON content (created);
 CREATE INDEX idx_content_creator ON content (creator);
 CREATE INDEX idx_content_modified ON content (modified);
 CREATE INDEX idx_content_modifier ON content (modifier);
 CREATE INDEX idx_content_project ON content (project_id);
-CREATE INDEX idx_content_search ON content USING GIN (search);
 
 CREATE FUNCTION content_update_before() RETURNS trigger AS
 $$
@@ -221,7 +226,6 @@ CREATE INDEX idx_node_lft ON node (lft);
 CREATE INDEX idx_node_rgt ON node (rgt);
 CREATE INDEX idx_node_level ON node (level);
 CREATE INDEX idx_node_project ON node (project_id);
-CREATE INDEX idx_node_item ON node (root_id, lft, rgt);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- URL
