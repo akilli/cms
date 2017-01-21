@@ -97,13 +97,13 @@ function nestedset_delete(array & $item): bool
 function nestedset_position(array $item): array
 {
     $attrs = $item['_entity']['attr'];
-    $o = $item['_old'] ?? null;
-    $range = $o ? $o['rgt'] - $o['lft'] + 1 : 2;
+    $old = $item['_old'] ?? null;
+    $range = $old ? $old['rgt'] - $old['lft'] + 1 : 2;
     $parts = explode(':', $item['pos']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
     $bLft = (int) $parts[1];
 
-    if (!$bLft || !$b = one($item['_entity']['uid'], ['root_id' => $item['root_id'], 'lft' => $bLft])) {
+    if (!$bLft || !($base = one($item['_entity']['uid'], ['root_id' => $item['root_id'], 'lft' => $bLft]))) {
         // No or wrong basis given so append node
         $stmt = db_prep(
             'SELECT COALESCE(MAX(%s), 0) + 1 FROM %s WHERE %s = :root_id',
@@ -116,24 +116,24 @@ function nestedset_position(array $item): array
 
         $item['lft'] = (int) $stmt->fetchColumn();
         $item['level'] = 1;
-    } elseif ($o && $item['root_id'] === $o['root_id'] && $o['lft'] < $b['lft'] && $o['rgt'] > $b['rgt']) {
+    } elseif ($old && $item['root_id'] === $old['root_id'] && $old['lft'] < $base['lft'] && $old['rgt'] > $base['rgt']) {
         // Recursion
         throw new LogicException(_('Node can not be child of itself'));
     } elseif ($item['mode'] === 'child') {
         // Add child
-        $item['lft'] = $b['rgt'];
-        $item['level'] = $b['level'] + 1;
+        $item['lft'] = $base['rgt'];
+        $item['level'] = $base['level'] + 1;
     } elseif ($item['mode'] === 'before') {
         // Ad before
-        $item['lft'] = $b['lft'];
-        $item['level'] = $b['level'];
+        $item['lft'] = $base['lft'];
+        $item['level'] = $base['level'];
     } else {
         // Add after
-        $item['lft'] = $b['rgt'] + 1;
-        $item['level'] = $b['level'];
+        $item['lft'] = $base['rgt'] + 1;
+        $item['level'] = $base['level'];
     }
 
-    if ($o && $item['root_id'] === $o['root_id'] && $item['lft'] > $o['lft']) {
+    if ($old && $item['root_id'] === $old['root_id'] && $item['lft'] > $old['lft']) {
         $item['lft'] -= $range;
     }
 
