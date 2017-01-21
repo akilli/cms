@@ -16,7 +16,6 @@ return [
         'view' => 'view',
     ],
     'mode' => [
-        'after' => 'After',
         'before' => 'Before',
         'child' => 'Child',
     ],

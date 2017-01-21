@@ -104,7 +104,7 @@ function nestedset_position(array $item): array
     $bLft = (int) $parts[1];
 
     if (!$bLft || !($base = one($item['_entity']['uid'], ['root_id' => $item['root_id'], 'lft' => $bLft]))) {
-        // No or wrong basis given so append node
+        // Append
         $stmt = db_prep(
             'SELECT COALESCE(MAX(%s), 0) + 1 FROM %s WHERE %s = :root_id',
             $attrs['rgt']['col'],
@@ -123,13 +123,9 @@ function nestedset_position(array $item): array
         // Add child
         $item['lft'] = $base['rgt'];
         $item['level'] = $base['level'] + 1;
-    } elseif ($item['mode'] === 'before') {
-        // Ad before
-        $item['lft'] = $base['lft'];
-        $item['level'] = $base['level'];
     } else {
-        // Add after
-        $item['lft'] = $base['rgt'] + 1;
+        // Add before
+        $item['lft'] = $base['lft'];
         $item['level'] = $base['level'];
     }
 

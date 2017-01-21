@@ -312,7 +312,7 @@ return [
                 'type' => 'select',
                 'opt' => ['data', ['opt', 'mode']],
                 'actions' => ['edit'],
-                'val' => 'after'
+                'val' => 'before'
             ],
             'pos' => [
                 'name' => 'Position',
