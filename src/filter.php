@@ -41,12 +41,13 @@ function filter_html(string $html): string
  * UID filter
  *
  * @param string $uid
+ * @param string $sep
  *
  * @return string
  */
-function filter_uid(string $uid): string
+function filter_uid(string $uid, string $sep = '-'): string
 {
-    return trim(preg_replace('/([^a-z0-9]|-)+/', '-', strtolower(strtr($uid, data('filter', 'uid')))), '-');
+    return trim(preg_replace('/([^a-z0-9]|-)+/', $sep, strtolower(strtr($uid, data('filter', 'uid')))), $sep);
 }
 
 /**
