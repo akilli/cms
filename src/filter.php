@@ -10,7 +10,19 @@ namespace qnd;
  */
 function encode(string $var): string
 {
-    return htmlspecialchars($var, ENT_QUOTES | ENT_HTML5, data('app', 'charset'), false);
+    return htmlspecialchars($var, ENT_QUOTES, data('app', 'charset'), false);
+}
+
+/**
+ * Decode special chars
+ *
+ * @param string $var
+ *
+ * @return string
+ */
+function decode(string $var): string
+{
+    return htmlspecialchars($var, ENT_QUOTES);
 }
 
 /**
@@ -28,15 +40,13 @@ function filter_html(string $html): string
 /**
  * UID filter
  *
- * @param string $id
+ * @param string $uid
  *
  * @return string
  */
-function filter_uid(string $id): string
+function filter_uid(string $uid): string
 {
-    $data = data('filter', 'uid');
-
-    return trim(preg_replace(array_keys($data), $data, strtolower($id)), '-_');
+    return trim(preg_replace('/([^a-z0-9]|-)+/', '-', strtolower(strtr($uid, data('filter', 'uid')))), '-');
 }
 
 /**
