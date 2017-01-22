@@ -261,7 +261,7 @@ $$
                 RAISE EXCEPTION 'Node can not be child of itself';
             END IF;
 
-            IF (NEW.lft < 0) THEN
+            IF (NEW.lft > 0) THEN
                 _lft := _baseRgt;
                 NEW.level := _baseLevel + 1;
             ELSE

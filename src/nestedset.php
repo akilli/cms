@@ -30,7 +30,7 @@ function nestedset_save(array & $item): bool
     $attrs = $item['_entity']['attr'];
     $parts = explode(':', $item['pos']);
     $item['root_id'] = cast($attrs['root_id'], $parts[0]);
-    $item['lft'] = ($item['mode'] === 'child' ? -1 : 1) * cast($attrs['lft'], $parts[1]);
+    $item['lft'] = ($item['mode'] === 'child' ? 1 : -1) * cast($attrs['lft'], $parts[1]);
 
     return flat_save($item);
 }
