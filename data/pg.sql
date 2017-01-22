@@ -215,6 +215,7 @@ CREATE TABLE node (
     root_id integer NOT NULL REFERENCES menu ON DELETE CASCADE ON UPDATE CASCADE,
     lft integer NOT NULL,
     rgt integer NOT NULL,
+    parent_id integer DEFAULT NULL REFERENCES node ON DELETE SET NULL ON UPDATE CASCADE,
     level integer NOT NULL,
     project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -224,14 +225,17 @@ CREATE INDEX idx_node_target ON node (target);
 CREATE INDEX idx_node_root ON node (root_id);
 CREATE INDEX idx_node_lft ON node (lft);
 CREATE INDEX idx_node_rgt ON node (rgt);
+CREATE INDEX idx_node_parent ON node (parent_id);
 CREATE INDEX idx_node_level ON node (level);
 CREATE INDEX idx_node_project ON node (project_id);
 
 CREATE FUNCTION node_save_before() RETURNS trigger AS
 $$
     DECLARE
+        _baseId integer;
         _baseLevel integer;
         _baseLft integer;
+        _baseParentId integer;
         _baseRgt integer;
         _lft integer;
         _range integer;
@@ -244,14 +248,16 @@ $$
         -- Set tree attributes
         IF (NEW.lft = 0 OR NEW.lft IS NULL) THEN
             SELECT COALESCE(MAX(rgt), 0) + 1 INTO _lft FROM node WHERE root_id = NEW.root_id;
+            NEW.parent_id := NULL;
             NEW.level := 1;
         ELSE
             _baseLft := ABS(NEW.lft);
-            SELECT rgt, level INTO _baseRgt, _baseLevel FROM node WHERE root_id = NEW.root_id AND lft = _baseLft;
+            SELECT id, rgt, parent_id, level INTO _baseId, _baseRgt, _baseParentId, _baseLevel FROM node WHERE root_id = NEW.root_id AND lft = _baseLft;
 
             IF (TG_OP = 'UPDATE' AND OLD.root_id = NEW.root_id AND OLD.lft = _baseLft) THEN
                 NEW.lft := OLD.lft;
                 NEW.rgt := OLD.rgt;
+                NEW.parent_id := OLD.parent_id;
                 NEW.level := OLD.level;
 
                 RETURN NEW;
@@ -263,9 +269,11 @@ $$
 
             IF (NEW.lft > 0) THEN
                 _lft := _baseRgt;
+                NEW.parent_id := _baseId;
                 NEW.level := _baseLevel + 1;
             ELSE
                 _lft := _baseLft;
+                NEW.parent_id := _baseParentId;
                 NEW.level := _baseLevel;
             END IF;
         END IF;

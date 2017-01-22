@@ -301,6 +301,13 @@ return [
                 'name' => 'Position Right',
                 'type' => 'int',
             ],
+            'parent_id' => [
+                'name' => 'Parent',
+                'type' => 'entity',
+                'nullable' => true,
+                'opt' => ['node'],
+                'actions' => ['admin'],
+            ],
             'level' => [
                 'name' => 'Level',
                 'type' => 'int',
