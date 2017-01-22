@@ -14,7 +14,11 @@ function opt(array $attr): array
         return [_('No'), _('Yes')];
     }
 
-    if (empty($attr['opt'][0]) || !is_string($attr['opt'][0]) && !is_array($attr['opt'][0])) {
+    if ($attr['type'] === 'entity') {
+        return array_column(all(...$attr['opt']), 'name', 'id');
+    }
+
+    if (empty($attr['opt'][0])) {
         return [];
     }
 
@@ -22,23 +26,10 @@ function opt(array $attr): array
         return $attr['opt'][0];
     }
 
-    // Cache
-    $data = & registry('opt');
-    $key = $attr['entity'] . '.' . $attr['uid'];
+    $call = fqn($attr['opt'][0]);
+    $params = $attr['opt'][1] ?? [];
 
-    if (isset($data[$key])) {
-        return $data[$key];
-    }
-
-    if ($attr['type'] === 'entity') {
-        $data[$key] = array_column(all(...$attr['opt']), 'name', 'id');
-    } else {
-        $call = fqn($attr['opt'][0]);
-        $params = $attr['opt'][1] ?? [];
-        $data[$key] = $call(...$params);
-    }
-
-    return $data[$key];
+    return $call(...$params);
 }
 
 /**
