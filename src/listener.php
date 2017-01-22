@@ -160,7 +160,7 @@ function listener_save(array & $data): void
     $target = '/' . $data['_entity']['uid'] . '/view/' . $data['id'];
     $old = one('url', ['target' => $target, 'system' => true]);
     $id = $old['id'] ?? -1;
-    $base = filter_uid($data['name']);
+    $base = filter_url($data['name']);
     $ext = data('app', 'url');
     $name = '/' . $base . $ext;
 

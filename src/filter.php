@@ -38,16 +38,16 @@ function filter_html(string $html): string
 }
 
 /**
- * UID filter
+ * URL filter
  *
- * @param string $uid
+ * @param string $url
  * @param string $sep
  *
  * @return string
  */
-function filter_uid(string $uid, string $sep = '-'): string
+function filter_url(string $url, string $sep = '-'): string
 {
-    return trim(preg_replace('/([^a-z0-9]|-)+/', $sep, strtolower(strtr($uid, data('filter', 'uid')))), $sep);
+    return trim(preg_replace('/([^a-z0-9]|-)+/', $sep, strtolower(strtr($url, data('filter', 'uid')))), $sep);
 }
 
 /**
@@ -62,7 +62,7 @@ function filter_file(string $str, string $path): string
 {
     $parts = explode('.', $str);
     $ext = array_pop($parts);
-    $str = filter_uid(implode('-', $parts));
+    $str = filter_url(implode('-', $parts));
 
     if (file_exists($path . '/' . $str . '.' . $ext)) {
         $str .= '-';
