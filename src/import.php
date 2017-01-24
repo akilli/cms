@@ -179,19 +179,19 @@ function import_odt(string $file): string
     }
 
     // Load stylesheet
-    $xsl = new DOMDocument;
+    $xsl = new DOMDocument();
 
     if (!$xsl->load($xslFile)) {
         throw new RuntimeException(_('Could not load %s', $xslFile));
     }
 
     // Load XSLT processor
-    $xslt = new XSLTProcessor;
+    $xslt = new XSLTProcessor();
     $xslt->registerPHPFunctions();
     $xslt->importStylesheet($xsl);
 
     // Load odf content
-    $dom = new DOMDocument;
+    $dom = new DOMDocument();
     $dom->recover = true;
     $dom->strictErrorChecking = false;
     $dom->preserveWhiteSpace = false;
