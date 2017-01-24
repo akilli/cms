@@ -1,0 +1,29 @@
+version: '2'
+volumes:
+    postgres-data: {}
+services:
+    app:
+        image: akilli/base
+        volumes:
+            - .:/app/qnd
+    postgres:
+        image: akilli/postgres
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres-data:/var/lib/postgresql
+    php:
+        image: akilli/php
+        ports:
+            - "9000:9000"
+        volumes_from:
+            - app
+    nginx:
+        image: akilli/nginx
+        depends_on:
+            - php
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes_from:
+            - app
