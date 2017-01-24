@@ -1,11 +1,11 @@
 version: '3'
 volumes:
+    app:
+        driver_opts:
+            device: ${PWD}
+            o: bind
     postgres-data: {}
 services:
-    app:
-        image: akilli/base
-        volumes:
-            - .:/app
     postgres:
         image: akilli/postgres
         ports:
@@ -16,8 +16,8 @@ services:
         image: akilli/php
         ports:
             - "9000:9000"
-        volumes_from:
-            - app
+        volumes:
+            - .:/app
     nginx:
         image: akilli/nginx
         depends_on:
@@ -27,5 +27,4 @@ services:
             - "443:443"
         volumes:
             - ./nginx/default.conf:/etc/nginx/sites-available/default.conf
-        volumes_from:
-            - app
+            - .:/app
