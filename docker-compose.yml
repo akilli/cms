@@ -1,11 +1,11 @@
-version: '2'
+version: '3'
 volumes:
     postgres-data: {}
 services:
     app:
         image: akilli/base
         volumes:
-            - .:/app/qnd
+            - .:/app
     postgres:
         image: akilli/postgres
         ports:
@@ -25,5 +25,7 @@ services:
         ports:
             - "80:80"
             - "443:443"
+        volumes:
+            - ./nginx/default.conf:/etc/nginx/sites-available/default.conf
         volumes_from:
             - app
