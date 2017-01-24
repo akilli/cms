@@ -1,9 +1,5 @@
 version: '3'
 volumes:
-    app:
-        driver_opts:
-            device: ${PWD}
-            o: bind
     postgres-data: {}
 services:
     postgres:
