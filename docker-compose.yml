@@ -10,8 +10,6 @@ services:
             - postgres-data:/var/lib/postgresql
     php:
         image: akilli/php
-        ports:
-            - "9000:9000"
         volumes:
             - .:/app
     nginx:
