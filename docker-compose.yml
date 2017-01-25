@@ -20,5 +20,5 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ./nginx/default.conf:/etc/nginx/sites-available/default.conf
+            - ./nginx.conf:/etc/nginx/sites-available/default.conf
             - .:/app
