@@ -159,7 +159,6 @@ CREATE TABLE content (
 CREATE INDEX idx_content_name ON content (name);
 CREATE INDEX idx_content_entity ON content (entity_id);
 CREATE INDEX idx_content_active ON content (active);
-CREATE INDEX idx_content_content ON content (content);
 CREATE INDEX idx_content_search ON content USING GIN (search);
 CREATE INDEX idx_content_created ON content (created);
 CREATE INDEX idx_content_creator ON content (creator);
@@ -188,7 +187,6 @@ CREATE TABLE eav (
 
 CREATE INDEX idx_eav_content ON eav (content_id);
 CREATE INDEX idx_eav_attr ON eav (attr_id);
-CREATE INDEX idx_eav_value ON eav (value);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Menu
