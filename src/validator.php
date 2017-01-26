@@ -161,7 +161,11 @@ function validator_opt(array $attr, array & $item): bool
  */
 function validator_attr(array $attr, array & $item): bool
 {
-    if (!$item[$attr['uid']] || !one('attr', ['entity_id' => $item['entity_id'], 'uid' => $item[$attr['uid']]])) {
+    if (!$item[$attr['uid']]
+        || !($eUid = array_search($item['entity_id'], array_filter(array_column(data('entity'), 'id', 'uid'))))
+        || !($old = data('entity', $eUid)['attr'][$item[$attr['uid']]] ?? null)
+        || !empty($item['id']) && $item['id'] === $old['id']
+    ) {
         return validator_keyword($attr, $item);
     }
 
@@ -181,7 +185,10 @@ function validator_attr(array $attr, array & $item): bool
  */
 function validator_entity(array $attr, array & $item): bool
 {
-    if (!$item[$attr['uid']] || !data('entity', $item[$attr['uid']])) {
+    if (!$item[$attr['uid']]
+        || !($old = data('entity', $item[$attr['uid']]))
+        || !empty($item['id']) && $item['id'] === $old['id']
+    ) {
         return validator_keyword($attr, $item);
     }
 
