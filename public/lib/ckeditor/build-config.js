@@ -43,8 +43,11 @@
         'showblocks': 1,
         'sourcearea': 1,
         'table': 1,
+        'templates': 1,
         'toolbar': 1,
-        'undo': 1
+        'undo': 1,
+        'uploadfile': 1,
+        'uploadimage': 1
     },
     languages: {
         'de': 1,
