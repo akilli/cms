@@ -1,18 +1,26 @@
-(function ($, window, document)
-{
+(function (document) {
     'use strict';
 
-    $(function()
+    document.addEventListener('DOMContentLoaded', function()
     {
         // Rich Text Editor
-        $('[data-type=rte]').ckeditor();
+        var rte = document.querySelectorAll('[data-type=rte]');
+
+        for (var i = 0; i < rte.length; ++i) {
+            CKEDITOR.replace(rte[i]);
+        }
 
         // Toggle
-        $('[data-toggle]').on('change', function()
-        {
-            var $this = $(this);
-            $('[data-toggle-id=' + $this.data('toggle') + ']').prop('checked', $this.prop('checked'));
+        var toggle = document.querySelectorAll('[data-toggle]');
 
-        });
+        for (var i = 0; i < toggle.length; ++i) {
+            toggle[i].addEventListener('change', function () {
+                var cb = document.querySelectorAll('input[type=checkbox][data-toggle-id=' + this.getAttribute('data-toggle') + ']');
+
+                for (var i = 0; i < cb.length; ++i) {
+                    cb[i].click();
+                }
+            });
+        }
     });
-})(jQuery, window, document);
+})(document);
