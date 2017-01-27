@@ -133,7 +133,7 @@ function RTE(el)
 
             form.addEventListener('submit', function()
             {
-                el.innerHTML = trim(editor.innerHTML);
+                el.innerHTML = trim(strip(decode(editor.innerHTML)));
             });
 
             toolbar(editor);
@@ -146,7 +146,8 @@ function RTE(el)
 
         editor.addEventListener('change', function()
         {
-            editor.innerHTML = editor.getAttribute('data-rte-mode') === 'src' ? encode(editor.innerHTML) : decode(editor.innerHTML);
+            var html = strip(decode(editor.innerHTML));
+            editor.innerHTML = editor.getAttribute('data-rte-mode') === 'src' ? encode(html) : html;
         });
     }
 
