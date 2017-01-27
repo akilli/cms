@@ -1,7 +1,6 @@
 div[contenteditable=true] {
     width: 100%;
-    height: 15rem;
-    resize: both;
+    min-height: 15rem;
     vertical-align: top;
     padding: 0.125rem 0.25rem;
     border: thin solid #d3d3d3;

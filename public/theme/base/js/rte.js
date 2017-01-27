@@ -58,11 +58,19 @@ function RTE(el)
         },
         'link' : function (editor, sel)
         {
-            cmd('createLink', prompt('URL', 'http://'));
+            if (value = prompt('URL', 'http://')) {
+                cmd('createLink', value);
+            }
         },
         'unlink' : function (editor, sel)
         {
             cmd('unlink', null);
+        },
+        'img' : function (editor, sel)
+        {
+            if (value = prompt('URL', 'http://')) {
+                cmd('insertImage', value);
+            }
         },
         'h1' : function (editor, sel)
         {
