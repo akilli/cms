@@ -1,0 +1,25 @@
+div[contenteditable=true] {
+    width: 100%;
+    height: 15rem;
+    resize: both;
+    vertical-align: top;
+    padding: 0.125rem 0.25rem;
+    border: thin solid #d3d3d3;
+}
+
+div[contenteditable=true][data-rte-src=true] {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #fff;
+    background: #231f20;
+}
+
+div[data-rte-toolbar=true] {
+    color: #fff;
+    background: #231f20;
+}
+
+div[data-rte-toolbar=true] button {
+    margin-right: 0.5rem;
+    cursor: pointer;
+}

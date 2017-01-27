@@ -21,18 +21,6 @@ function url(string $path = '', array $params = []): string
 }
 
 /**
- * Lib URL
- *
- * @param string $path
- *
- * @return string
- */
-function url_lib(string $path = ''): string
-{
-    return '/lib' . ($path ? '/' . $path : '');
-}
-
-/**
  * Theme URL
  *
  * @param string $path

@@ -7,7 +7,7 @@
         var rte = document.querySelectorAll('[data-type=rte]');
 
         for (var i = 0; i < rte.length; ++i) {
-            CKEDITOR.replace(rte[i]);
+            new RTE(rte[i]);
         }
 
         // Toggle
