@@ -134,13 +134,15 @@ function RTE(el)
             form.addEventListener('submit', function()
             {
                 el.innerHTML = trim(editor.innerHTML);
-            })
-        }
+            });
 
-        editor.addEventListener('focus', function()
-        {
             toolbar(editor);
-        });
+        } else {
+            editor.addEventListener('focus', function()
+            {
+                toolbar(editor);
+            });
+        }
 
         editor.addEventListener('change', function()
         {
