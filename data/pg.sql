@@ -238,7 +238,7 @@ $$
         _lft integer;
         _range integer;
     BEGIN
-    -- Validate
+        -- Validate
         IF (NEW.root_id IS NULL) THEN
             RAISE EXCEPTION 'Missing root';
         END IF;
