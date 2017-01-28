@@ -22,23 +22,15 @@ function RTE(el)
         },
         'b' : function (editor, sel)
         {
-            insertHtml('b', sel);
+            cmd('bold', null);
         },
         'i' : function (editor, sel)
         {
-            insertHtml('i', sel);
+            cmd('italic', null);
         },
         'u' : function (editor, sel)
         {
             insertHtml('u', sel);
-        },
-        'strong' : function (editor, sel)
-        {
-            insertHtml('strong', sel);
-        },
-        'em' : function (editor, sel)
-        {
-            insertHtml('em', sel);
         },
         'small' : function (editor, sel)
         {
