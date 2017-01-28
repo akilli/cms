@@ -18,7 +18,7 @@ function RTE(el)
         },
         'remove' : function (editor, sel)
         {
-            cmd('removeFormat', null);
+            cmd('removeformat', null);
         },
         'b' : function (editor, sel)
         {
@@ -42,16 +42,16 @@ function RTE(el)
         },
         'sup' : function (editor, sel)
         {
-            insertHtml('sup', sel);
+            cmd('superscript', null);
         },
         'sub' : function (editor, sel)
         {
-            insertHtml('sub', sel);
+            cmd('subscript', null);
         },
         'link' : function (editor, sel)
         {
             if (value = prompt('URL', 'http://')) {
-                cmd('createLink', value);
+                cmd('createlink', value);
             }
         },
         'unlink' : function (editor, sel)
@@ -61,48 +61,48 @@ function RTE(el)
         'img' : function (editor, sel)
         {
             if (value = prompt('URL', 'http://')) {
-                cmd('insertImage', value);
+                cmd('insertimage', value);
             }
         },
         'h1' : function (editor, sel)
         {
-            cmd('formatBlock', '<h1>');
+            cmd('formatblock', '<h1>');
         },
         'h2' : function (editor, sel)
         {
-            cmd('formatBlock', '<h2>');
+            cmd('formatblock', '<h2>');
         },
         'h3' : function (editor, sel)
         {
-            cmd('formatBlock', '<h3>');
+            cmd('formatblock', '<h3>');
         },
         'h4' : function (editor, sel)
         {
-            cmd('formatBlock', '<h4>');
+            cmd('formatblock', '<h4>');
         },
         'h5' : function (editor, sel)
         {
-            cmd('formatBlock', '<h5>');
+            cmd('formatblock', '<h5>');
         },
         'h6' : function (editor, sel)
         {
-            cmd('formatBlock', '<h6>');
+            cmd('formatblock', '<h6>');
         },
         'p' : function (editor, sel)
         {
-            cmd('insertParagraph', null);
+            cmd('insertparagraph', null);
         },
         'blockquote' : function (editor, sel)
         {
-            cmd('formatBlock', '<blockquote>');
+            cmd('formatblock', '<blockquote>');
         },
         'ol' : function (editor, sel)
         {
-            cmd('insertOrderedList', null);
+            cmd('insertorderedlist', null);
         },
         'ul' : function (editor, sel)
         {
-            cmd('insertUnorderedList', null);
+            cmd('insertunorderedlist', null);
         }
     };
 
