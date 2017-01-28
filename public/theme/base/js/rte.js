@@ -2,7 +2,7 @@
 
 function RTE(el)
 {
-    var tags =
+    const tags =
     {
         'mode' : function (editor, sel)
         {
@@ -106,21 +106,21 @@ function RTE(el)
         }
     };
 
-    var allowed = '<b><i><u><strong><em><small><s><sup><sub><a><h1><h2><h3><h4><h5><h6><p><blockquote><ol><ul><li>';
+    const allowed = ['b', 'i', 'u', 'strong', 'em', 'small', 's', 'sup', 'sub', 'a', 'img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'blockquote', 'ol', 'ul', 'li', 'br'];
 
     function init(el)
     {
-        var editor = el;
+        let editor = el;
 
         if (el.nodeName.toLowerCase() === 'textarea') {
-            var editor = document.createElement('div');
+            editor = document.createElement('div');
             editor.setAttribute('contenteditable', true);
             editor.setAttribute('data-rte-mode', 'rte');
             editor.innerHTML = decode(el.innerHTML);
             el.parentNode.appendChild(editor);
             el.setAttribute('hidden', true);
 
-            var f =  el.getAttribute('form'),
+            const f =  el.getAttribute('form'),
                 form = f ? document.getElementById(f) : el.closest('form');
 
             form.addEventListener('submit', function()
@@ -138,7 +138,7 @@ function RTE(el)
 
         editor.addEventListener('change', function()
         {
-            var html = strip(decode(editor.innerHTML));
+            let html = strip(decode(editor.innerHTML));
             editor.innerHTML = editor.getAttribute('data-rte-mode') === 'src' ? encode(html) : html;
         });
     }
@@ -149,21 +149,21 @@ function RTE(el)
             return;
         }
 
-        var toolbar = document.createElement('div');
+        const toolbar = document.createElement('div');
         toolbar.setAttribute('data-rte-toolbar', true);
 
-        for (var key in tags) {
+        for (let key in tags) {
             if (!tags.hasOwnProperty(key)) {
                 continue;
             }
 
-            var button = document.createElement('button');
+            const button = document.createElement('button');
             button.setAttribute('type', 'button');
             button.setAttribute('data-rte-cmd', key);
             button.textContent = key;
             button.addEventListener('click', function()
             {
-                var sel = window.getSelection(),
+                const sel = window.getSelection(),
                     callback = tags[this.getAttribute('data-rte-cmd')] || null;
 
                 // Selection outside element or invalid key
@@ -196,7 +196,7 @@ function RTE(el)
 
     function insertHtml(tag, sel)
     {
-        var html = sel.toString();
+        const html = sel.toString();
 
         if (tag && html.length > 0) {
             cmd('insertHTML', '<' + tag + '>' + html + '</' + tag + '>');
@@ -226,7 +226,7 @@ function RTE(el)
 
         return html.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, function($0, $1)
         {
-            return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+            return allowed.indexOf($1.toLowerCase()) > -1 ? $0 : '';
         });
     }
 
