@@ -30,7 +30,7 @@ function RTE(el)
         },
         'u' : function (editor, sel)
         {
-            insertHtml('u', sel);
+            cmd('underline', null);
         },
         'small' : function (editor, sel)
         {
