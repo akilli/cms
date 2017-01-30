@@ -20,6 +20,22 @@ function RTE(el)
         {
             cmd('removeformat', null);
         },
+        'jl' : function (editor, sel)
+        {
+            cmd('justifyleft', null);
+        },
+        'jc' : function (editor, sel)
+        {
+            cmd('justifycenter', null);
+        },
+        'jr' : function (editor, sel)
+        {
+            cmd('justifyright', null);
+        },
+        'jf' : function (editor, sel)
+        {
+            cmd('justifyfull', null);
+        },
         'b' : function (editor, sel)
         {
             cmd('bold', null);
