@@ -106,7 +106,7 @@ function RTE(el)
         }
     };
 
-    const allowed = ['b', 'i', 'u', 'strong', 'em', 'small', 's', 'sup', 'sub', 'a', 'img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'blockquote', 'ol', 'ul', 'li', 'br'];
+    const allowed = ['a', 'b', 'blockquote', 'br', 'div', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'i', 'img', 'li', 'ol', 'p', 's', 'small', 'strong', 'sub', 'sup', 'u', 'ul'];
 
     function init(el)
     {
