@@ -358,7 +358,7 @@ function entity_attr(string $eUid, string $action): array
  */
 function entity_opts(array $opts): array
 {
-    $default = data('default', 'load');
+    $default = data('default', 'entity.opts');
 
     foreach ($default as $key => $val) {
         if (array_key_exists($key, $opts) && gettype($val) !== gettype($opts[$key])) {

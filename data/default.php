@@ -42,7 +42,7 @@ return [
         'system' => false,
         'attr' => [],
     ],
-    'load' => [
+    'entity.opts' => [
         'mode' => 'all',
         'index' => ['id'],
         'search' => [],
