@@ -47,7 +47,7 @@ function filter_html(string $html): string
  */
 function filter_url(string $url, string $sep = '-'): string
 {
-    return trim(preg_replace('/([^a-z0-9]|-)+/', $sep, strtolower(strtr($url, data('filter', 'uid')))), $sep);
+    return trim(preg_replace('#[^a-z0-9]+#', $sep, strtolower(strtr($url, data('filter', 'uid')))), $sep);
 }
 
 /**
