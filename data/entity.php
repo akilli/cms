@@ -237,6 +237,33 @@ return [
             ],
         ],
     ],
+    'media' => [
+        'name' => 'Media',
+        'model' => 'media',
+        'attr' => [
+            'id' => [
+                'name' => 'Id',
+                'type' => 'file',
+                'actions' => ['admin', 'edit'],
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'actions' => ['edit'],
+            ],
+            'size' => [
+                'name' => 'Size',
+                'type' => 'int',
+                'actions' => ['admin'],
+                'viewer' => 'filesize',
+            ],
+            'modified' => [
+                'name' => 'Modified',
+                'type' => 'datetime',
+                'actions' => ['admin'],
+            ],
+        ],
+    ],
     'menu' => [
         'name' => 'Menu',
         'attr' => [

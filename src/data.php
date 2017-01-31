@@ -149,6 +149,20 @@ function data_order_compare(array $order, array $a, array $b): int
 }
 
 /**
+ * Limit
+ *
+ * @param array $data
+ * @param int $limit
+ * @param int $offset
+ *
+ * @return array
+ */
+function data_limit(array $data, int $limit, int $offset = 0): array
+{
+    return $limit > 0 ? array_slice($data, $offset, $limit, true) : $data;
+}
+
+/**
  * Entity data
  *
  * @param array $entity

@@ -170,3 +170,28 @@ function viewer_video(array $attr, array $item): string
 {
     return $item[$attr['uid']] ? html_tag('video', ['src' => url_media($item[$attr['uid']]), 'controls' => true]) : '';
 }
+
+/**
+ * Filesize viewer
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function viewer_filesize(array $attr, array $item): string
+{
+    if (!$item[$attr['uid']]) {
+        return '';
+    }
+
+    if ($item[$attr['uid']] < 1000) {
+        return $item[$attr['uid']] . ' B';
+    }
+
+    if ($item[$attr['uid']] > 1000000) {
+        return ($item[$attr['uid']] / 1000000) . ' MB';
+    }
+
+    return ($item[$attr['uid']] / 1000) . ' kB';
+}

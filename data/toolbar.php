@@ -1,6 +1,12 @@
 <?php
 return [
-    'content' => ['name' => 'Content', 'url' => ''],
+    'content' => [
+        'name' => 'Content',
+        'url' => '',
+        'children' => [
+            ['name' => 'Media', 'url' => '/media/admin'],
+        ],
+    ],
     'structure' => [
         'name' => 'Structure',
         'url' => '',
