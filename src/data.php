@@ -16,7 +16,6 @@ function data(string $section, string $id = null)
     $data = & registry('data.' . $section);
 
     if ($data === null) {
-        $data = [];
         $data = data_load(path('data', $section . '.php'));
 
         if ($section !== 'listener') {
