@@ -108,6 +108,33 @@ function all(string $eUid, array $crit = [], array $opts = []): array
 }
 
 /**
+ * Internal entity loader
+ *
+ * @param array $entity
+ * @param array $item
+ *
+ * @return array
+ */
+function load(array $entity, array $item): array
+{
+    foreach ($item as $uid => $value) {
+        if (isset($entity['attr'][$uid])) {
+            $item[$uid] = loader($entity['attr'][$uid], $item);
+        }
+    }
+
+    $item['_old'] = $item;
+    $item['_entity'] = $entity;
+    $item['_id'] = $item['id'];
+
+    $item = event('entity.load', $item);
+    $item = event('model.load.' . $entity['model'], $item);
+    $item = event('entity.load.' . $entity['uid'], $item);
+
+    return $item;
+}
+
+/**
  * Save entity
  *
  * @param string $eUid
@@ -273,33 +300,6 @@ function validate(array & $item): bool
     }
 
     return empty($error);
-}
-
-/**
- * Internal entity loader
- *
- * @param array $entity
- * @param array $item
- *
- * @return array
- */
-function load(array $entity, array $item): array
-{
-    foreach ($item as $uid => $value) {
-        if (isset($entity['attr'][$uid])) {
-            $item[$uid] = loader($entity['attr'][$uid], $item);
-        }
-    }
-
-    $item['_old'] = $item;
-    $item['_entity'] = $entity;
-    $item['_id'] = $item['id'];
-
-    $item = event('entity.load', $item);
-    $item = event('model.load.' . $entity['model'], $item);
-    $item = event('entity.load.' . $entity['uid'], $item);
-
-    return $item;
 }
 
 /**
