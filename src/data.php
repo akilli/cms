@@ -40,13 +40,7 @@ function data(string $section, string $id = null)
  */
 function data_load(string $file): array
 {
-    if (!is_readable($file)) {
-        return [];
-    }
-
-    $data = include $file;
-
-    return is_array($data) ? $data : [];
+    return is_readable($file) && ($data = include $file) && is_array($data) ? $data : [];
 }
 
 /**
