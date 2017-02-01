@@ -48,13 +48,13 @@ function listener_data_entity(array & $data): void
         if (!empty($attrs[$id])) {
             foreach ($attrs[$id] as $uid => $attr) {
                 if (empty($item['attr'][$uid])) {
-                    unset($attr['project_id'], $attr['entity_id']);
+                    unset($attr['_old'], $attr['_entity'], $attr['_id'], $attr['project_id'], $attr['entity_id']);
                     $item['attr'][$uid] = $attr;
                 }
             }
         }
 
-        unset($item['project_id']);
+        unset($item['_old'], $item['_entity'], $item['_id'], $item['project_id']);
         $item = data_entity($item);
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
         $data[$item['uid']] = $item;

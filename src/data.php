@@ -177,13 +177,6 @@ function data_entity(array $entity): array
         throw new RuntimeException(_('Invalid entity configuration'));
     }
 
-    // @todo Get rid of this
-    foreach (array_keys($entity) as $key) {
-        if (strpos($key, '_') === 0) {
-            unset($entity[$key]);
-        }
-    }
-
     $entity = array_replace(data('default', 'entity'), $entity);
     $entity['tab'] = $entity['tab'] ?: $entity['uid'];
     $sort = 0;
@@ -217,13 +210,6 @@ function data_attr(array $attr): array
 {
     if (empty($attr['uid']) || empty($attr['name']) || empty($attr['type']) || !($type = data('attr', $attr['type']))) {
         throw new RuntimeException(_('Invalid attribute configuration'));
-    }
-
-    // @todo Get rid of this
-    foreach (array_keys($attr) as $key) {
-        if (strpos($key, '_') === 0) {
-            unset($attr[$key]);
-        }
     }
 
     $default = data('default', 'attr');
