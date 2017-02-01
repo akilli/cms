@@ -1,18 +1,21 @@
 <?php
 return [
-    'data.load.app' => [
+    'data.preLoad.app' => [
         'data_app' => -100,
     ],
-    'data.load.entity' => [
+    'data.preLoad.entity' => [
         'data_entity' => -100,
     ],
-    'data.load.privilege' => [
+    'data.postLoad.entity' => [
+        'data_eav_entity' => -100,
+    ],
+    'data.preLoad.privilege' => [
         'data_privilege' => -100,
     ],
-    'data.load.request' => [
+    'data.preLoad.request' => [
         'data_request' => -100,
     ],
-    'data.load.toolbar' => [
+    'data.preLoad.toolbar' => [
         'data_toolbar' => -100,
     ],
     'entity.load.content' => [

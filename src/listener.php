@@ -33,10 +33,18 @@ function listener_data_entity(array $data): array
         $data[$eUid] = $item;
     }
 
-    // Dirty hack needed for the following all()-call
-    $reg = & registry('data.entity');
-    $reg = $data;
+    return $data;
+}
 
+/**
+ * EAV entity data listener
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+function listener_data_eav_entity(array $data): array
+{
     if (!$entities = all('entity', ['project_id' => project('ids')])) {
         return $data;
     }
