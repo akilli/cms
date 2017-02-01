@@ -1216,8 +1216,8 @@ function viewer_filesize(array $attr, array $item): string
     }
 
     if ($item[$attr['uid']] > 1000000) {
-        return ($item[$attr['uid']] / 1000000) . ' MB';
+        return round($item[$attr['uid']] / 1000000, 1) . ' MB';
     }
 
-    return ($item[$attr['uid']] / 1000) . ' kB';
+    return round($item[$attr['uid']] / 1000, 1) . ' kB';
 }
