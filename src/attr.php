@@ -404,7 +404,6 @@ function validator_keyword(array $attr, array & $item): bool
     }
 
     $item['_error'][$attr['uid']] = _('Reserved database keywords must not be used');
-    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -432,13 +431,9 @@ function validator_opt(array $attr, array & $item): bool
         foreach ((array) $item[$attr['uid']] as $v) {
             if (!isset($attr['opt'][$v])) {
                 $item['_error'][$attr['uid']] = _('Invalid option for attribute %s', $attr['name']);
-                $item[$attr['uid']] = null;
-
                 return false;
             }
         }
-    } elseif (!empty($attr['nullable'])) {
-        $item[$attr['uid']] = null;
     }
 
     return true;
@@ -463,7 +458,6 @@ function validator_attr(array $attr, array & $item): bool
     }
 
     $item['_error'][$attr['uid']] = _('UID is already in use');
-    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -486,7 +480,6 @@ function validator_entity(array $attr, array & $item): bool
     }
 
     $item['_error'][$attr['uid']] = _('UID is already in use');
-    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -534,7 +527,6 @@ function validator_email(array $attr, array & $item): bool
     }
 
     $item['_error'][$attr['uid']] = _('Invalid email');
-    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -554,7 +546,6 @@ function validator_url(array $attr, array & $item): bool
     }
 
     $item['_error'][$attr['uid']] = _('Invalid URL');
-    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -574,7 +565,6 @@ function validator_json(array $attr, array & $item): bool
     }
 
     $item['_error'][$attr['uid']] = _('Invalid JSON notation');
-    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -612,7 +602,6 @@ function validator_date(array $attr, array & $item): bool
     }
 
     $item['_error'][$attr['uid']] = _('Invalid value');
-    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -635,7 +624,6 @@ function validator_datetime(array $attr, array & $item): bool
     }
 
     $item['_error'][$attr['uid']] = _('Invalid value');
-    $item[$attr['uid']] = null;
 
     return false;
 }
@@ -658,7 +646,6 @@ function validator_time(array $attr, array & $item): bool
     }
 
     $item['_error'][$attr['uid']] = _('Invalid value');
-    $item[$attr['uid']] = null;
 
     return false;
 }
