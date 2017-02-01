@@ -40,9 +40,9 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
  *
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function flat_save(array & $item): bool
+function flat_save(array $item): array
 {
     $attrs = $item['_entity']['attr'];
     $cols = db_cols($attrs, $item);
@@ -76,7 +76,7 @@ function flat_save(array & $item): bool
         $item['id'] = (int) db()->lastInsertId($item['_entity']['tab'] . '_id_seq');
     }
 
-    return true;
+    return $item;
 }
 
 /**
@@ -84,9 +84,9 @@ function flat_save(array & $item): bool
  *
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function flat_delete(array & $item): bool
+function flat_delete(array $item): array
 {
     $attrs = $item['_entity']['attr'];
 
@@ -98,5 +98,5 @@ function flat_delete(array & $item): bool
     $stmt->bindValue(':id', $item['_old']['id'], $attrs['id']['pdo']);
     $stmt->execute();
 
-    return true;
+    return $item;
 }

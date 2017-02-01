@@ -2,6 +2,7 @@
 namespace qnd;
 
 use PDO;
+use RuntimeException;
 
 /**
  * Load entity
@@ -68,9 +69,9 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
  *
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function eav_save(array & $item): bool
+function eav_save(array $item): array
 {
     $item['entity_id'] = $item['_entity']['id'];
     $item['modifier'] = account('id');
@@ -84,11 +85,11 @@ function eav_save(array & $item): bool
 
     // Main attributes
     $item['_entity']['attr'] = data('entity', 'content')['attr'];
-    $result = flat_save($item);
+    $item = flat_save($item);
     $item['_entity']['attr'] = $attrs;
 
-    if (!$result || !$eav) {
-        return $result;
+    if (!$eav) {
+        return $item;
     }
 
     // Save additional attributes
@@ -111,7 +112,7 @@ function eav_save(array & $item): bool
         $stmt->execute();
     }
 
-    return true;
+    return $item;
 }
 
 /**
@@ -119,9 +120,15 @@ function eav_save(array & $item): bool
  *
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws RuntimeException
  */
-function eav_delete(array & $item): bool
+function eav_delete(array $item): array
 {
-    return !empty($item['_entity']['id']) && $item['_entity']['id'] === $item['entity_id'] && flat_delete($item);
+    if (empty($item['_entity']['id']) || $item['_entity']['id'] !== $item['entity_id']) {
+        throw new RuntimeException(_('Could not delete %s', $item['_id']));
+    }
+
+    return flat_delete($item);
 }

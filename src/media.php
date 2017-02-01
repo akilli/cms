@@ -61,11 +61,11 @@ function media_load(array $entity, array $crit = [], array $opts = []): array
  *
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function media_save(array & $item): bool
+function media_save(array $item): array
 {
-    return true;
+    return $item;
 }
 
 /**
@@ -73,9 +73,9 @@ function media_save(array & $item): bool
  *
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function media_delete(array & $item): bool
+function media_delete(array $item): array
 {
-    return true;
+    return $item;
 }

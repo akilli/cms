@@ -150,11 +150,10 @@ function save(string $eUid, array & $data): bool
     $success = [];
     $error = [];
 
-    foreach ($data as $id => & $item) {
+    foreach ($data as $id => $item) {
         $item['_id'] = $id;
         $base = empty($original[$id]) ? $default : $original[$id];
         $item = array_replace($base, $editable, $item);
-        $call = fqn($item['_entity']['model'] . '_save');
 
         if (empty($original[$id])) {
             $item['project_id'] = project('id');
@@ -178,15 +177,12 @@ function save(string $eUid, array & $data): bool
         }
 
         $trans = db_trans(
-            function () use (& $item, $call) {
+            function () use (& $item) {
                 $item = event('entity.preSave', $item);
                 $item = event('model.preSave.' . $item['_entity']['model'], $item);
                 $item = event('entity.preSave.' . $item['_entity']['uid'], $item);
-
-                if (!$call($item)) {
-                    throw new RuntimeException(_('Could not save %s', $item['_id']));
-                }
-
+                $call = fqn($item['_entity']['model'] . '_save');
+                $item = $call($item);
                 $item = event('entity.postSave', $item);
                 $item = event('model.postSave.' . $item['_entity']['model'], $item);
                 $item = event('entity.postSave.' . $item['_entity']['uid'], $item);
@@ -200,6 +196,8 @@ function save(string $eUid, array & $data): bool
         } else {
             $error[] = $item['name'];
         }
+
+        $data[$id] = $item;
     }
 
     if ($success) {
@@ -224,8 +222,6 @@ function save(string $eUid, array & $data): bool
  */
 function delete(string $eUid, array $crit = [], array $opts = []): bool
 {
-    $entity = data('entity', $eUid);
-    $call = fqn($entity['model'] . '_delete');
     $success = [];
     $error = [];
 
@@ -236,7 +232,7 @@ function delete(string $eUid, array $crit = [], array $opts = []): bool
         }
 
         foreach (array_keys($item) as $uid) {
-            if (isset($entity['attr'][$uid]) && !deleter($entity['attr'][$uid], $item)) {
+            if (isset($item['_entity']['attr'][$uid]) && !deleter($item['_entity']['attr'][$uid], $item)) {
                 if (!empty($item['_error'][$uid])) {
                     message($item['_error'][$uid]);
                 }
@@ -247,18 +243,15 @@ function delete(string $eUid, array $crit = [], array $opts = []): bool
         }
 
         $trans = db_trans(
-            function () use ($eUid, & $item, $call, $entity) {
+            function () use (& $item) {
                 $item = event('entity.preDelete', $item);
-                $item = event('model.preDelete.' . $entity['model'], $item);
-                $item = event('entity.preDelete.' . $eUid, $item);
-
-                if (!$call($item)) {
-                    throw new RuntimeException(_('Could not delete %s', $item['_id']));
-                }
-
+                $item = event('model.preDelete.' . $item['_entity']['model'], $item);
+                $item = event('entity.preDelete.' . $item['_entity']['uid'], $item);
+                $call = fqn($item['_entity']['model'] . '_delete');
+                $item = $call($item);
                 $item = event('entity.postDelete', $item);
-                $item = event('model.postDelete.' . $entity['model'], $item);
-                $item = event('entity.postDelete.' . $eUid, $item);
+                $item = event('model.postDelete.' . $item['_entity']['model'], $item);
+                $item = event('entity.postDelete.' . $item['_entity']['uid'], $item);
             }
         );
 

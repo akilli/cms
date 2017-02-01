@@ -23,9 +23,9 @@ function nestedset_load(array $entity, array $crit = [], array $opts = []): arra
  *
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function nestedset_save(array & $item): bool
+function nestedset_save(array $item): array
 {
     $attrs = $item['_entity']['attr'];
     $parts = explode(':', $item['pos']);
@@ -40,9 +40,9 @@ function nestedset_save(array & $item): bool
  *
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function nestedset_delete(array & $item): bool
+function nestedset_delete(array $item): array
 {
     return flat_delete($item);
 }
