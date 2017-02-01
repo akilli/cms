@@ -164,9 +164,11 @@ function save(string $eUid, array & $data): bool
             unset($item['_old']['_id'], $item['_old']['_entity'], $item['_old']['_old']);
         }
 
-        if (!validate($item)) {
-            $error[] = $item['name'];
-            continue;
+        foreach ($item['_entity']['attr'] as $attr) {
+            if (!validator($attr, $item)) {
+                $error[] = $item['name'];
+                continue 2;
+            }
         }
 
         foreach (array_keys(array_intersect_key($item, $item['_entity']['attr'])) as $uid) {
@@ -269,28 +271,6 @@ function delete(string $eUid, array $crit = [], array $opts = []): bool
     }
 
     return !$error;
-}
-
-/**
- * Validate entity
- *
- * @param array $item
- *
- * @return bool
- */
-function validate(array & $item): bool
-{
-    if (empty($item['_entity'])) {
-        return false;
-    }
-
-    foreach ($item['_entity']['attr'] as $attr) {
-        if (!validator($attr, $item)) {
-            $error = true;
-        }
-    }
-
-    return empty($error);
 }
 
 /**
