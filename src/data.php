@@ -180,11 +180,24 @@ function data_entity(array $entity): array
     $entity = array_replace(data('default', 'entity'), $entity);
     $entity['tab'] = $entity['tab'] ?: $entity['uid'];
     $sort = 0;
+    $default = data('default', 'attr');
 
     foreach ($entity['attr'] as $id => $attr) {
+        if (empty($attr['name']) || empty($attr['type']) || !($type = data('attr', $attr['type']))) {
+            throw new RuntimeException(_('Invalid attribute configuration'));
+        }
+
+        $backend = data('backend', $attr['backend'] ?? $type['backend']);
+        $frontend = data('frontend', $attr['frontend'] ?? $type['frontend']);
+        $attr = array_replace($default, $backend, $frontend, $type, $attr);
         $attr['uid'] = $id;
         $attr['entity'] = $entity['uid'];
-        $attr = data_attr($attr);
+
+        if ($attr['col'] === false) {
+            $attr['col'] = null;
+        } elseif (!$attr['col']) {
+            $attr['col'] = $attr['uid'];
+        }
 
         if (!is_numeric($attr['sort'])) {
             $attr['sort'] = $sort;
@@ -195,33 +208,4 @@ function data_entity(array $entity): array
     }
 
     return $entity;
-}
-
-/**
- * Attribute data
- *
- * @param array $attr
- *
- * @return array
- *
- * @throws RuntimeException
- */
-function data_attr(array $attr): array
-{
-    if (empty($attr['uid']) || empty($attr['name']) || empty($attr['type']) || !($type = data('attr', $attr['type']))) {
-        throw new RuntimeException(_('Invalid attribute configuration'));
-    }
-
-    $default = data('default', 'attr');
-    $backend = data('backend', $attr['backend'] ?? $type['backend']);
-    $frontend = data('frontend', $attr['frontend'] ?? $type['frontend']);
-    $attr = array_replace($default, $backend, $frontend, $type, $attr);
-
-    if ($attr['col'] === false) {
-        $attr['col'] = null;
-    } elseif (!$attr['col']) {
-        $attr['col'] = $attr['uid'];
-    }
-
-    return $attr;
 }
