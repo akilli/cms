@@ -1,21 +1,18 @@
 <?php namespace qnd; /** @var callable $§ */?>
-<section id="<?=$§('§')['id'];?>" class="index">
+<section id="<?=$§('§')['id'];?>" class="<?= $§('context');?>">
     <h1><?=$§('title');?></h1>
 <?php if ($§('data')):?>
     <?= §('search');?>
     <?= §('pager');?>
     <?php foreach ($§('data') as $id => $item):?>
-        <?php
-        // @todo Remove
-        $eUid = $item['_entity']['uid'] === 'content' ? array_column(data('entity'), 'uid', 'id')[$item['entity_id']] : $item['_entity']['uid'];
-        ?>
+        <?php if (!allowed($item['_entity']['uid'] . '.' . $§('context'))) continue;?>
     <article>
         <?php foreach ($§('attr') as $attr):?>
             <?php $attr['context'] = $§('context');?>
             <?php if (!$html = viewer($attr, $item)) continue;?>
             <?php if ($attr['uid'] === 'name'):?>
-                <?php if (allowed($eUid . '.view')):?>
-        <h1><a href="<?= url($eUid . '/view/' . $id);?>"><?=$html;?></a></h1>
+                <?php if (allowed($item['_entity']['uid'] . '.view')):?>
+        <h1><a href="<?= url($item['_entity']['uid'] . '/view/' . $id);?>"><?=$html;?></a></h1>
                 <?php else:?>
         <h1><?=$html;?></h1>
                 <?php endif;?>

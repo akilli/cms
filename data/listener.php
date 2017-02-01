@@ -15,6 +15,9 @@ return [
     'data.load.toolbar' => [
         'data_toolbar' => -100,
     ],
+    'entity.load.content' => [
+        'content_load' => -100,
+    ],
     'entity.postSave' => [
         'save' => -100,
     ],

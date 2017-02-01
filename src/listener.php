@@ -142,6 +142,18 @@ function listener_data_toolbar(array & $data): void
 }
 
 /**
+ * Content load listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_content_load(array & $data): void
+{
+    $data['_entity'] = array_column(data('entity'), null, 'id')[$data['entity_id']];
+}
+
+/**
  * Save listener
  *
  * @param array $data
