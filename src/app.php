@@ -37,13 +37,6 @@ function & registry(string $id): ?array
 {
     static $data = [];
 
-    if ($id === null) {
-        $old = $data;
-        $data = [];
-
-        return $old;
-    }
-
     if (!array_key_exists($id, $data)) {
         $data[$id] = null;
     }
