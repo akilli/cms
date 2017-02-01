@@ -150,7 +150,7 @@ function save(string $eUid, array & $data): bool
     $success = [];
     $error = [];
 
-    foreach ($data as $id => $item) {
+    foreach ($data as $id => & $item) {
         $item['_id'] = $id;
         $base = empty($original[$id]) ? $default : $original[$id];
         $item = array_replace($base, $editable, $item);
@@ -196,8 +196,6 @@ function save(string $eUid, array & $data): bool
         } else {
             $error[] = $item['name'];
         }
-
-        $data[$id] = $item;
     }
 
     if ($success) {
