@@ -16,7 +16,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
 {
     $crit['entity_id'] = $entity['id'];
 
-    if (!$eav = eav_attr($entity['attr'])) {
+    if (!$eav = db_attr(array_diff_key($entity['attr'], data('entity', 'content')['attr']))) {
         return flat_load($entity, $crit, $opts);
     }
 
@@ -80,7 +80,7 @@ function eav_save(array & $item): bool
     }
 
     $attrs = $item['_entity']['attr'];
-    $eav = eav_attr($attrs);
+    $eav = db_attr(array_diff_key($attrs, data('entity', 'content')['attr']));
 
     // Main attributes
     $item['_entity']['attr'] = data('entity', 'content')['attr'];
@@ -124,16 +124,4 @@ function eav_save(array & $item): bool
 function eav_delete(array & $item): bool
 {
     return !empty($item['_entity']['id']) && $item['_entity']['id'] === $item['entity_id'] && flat_delete($item);
-}
-
-/**
- * EAV DB attributes
- *
- * @param array $attrs
- *
- * @return array
- */
-function eav_attr(array $attrs): array
-{
-    return db_attr(array_diff_key($attrs, data('entity', 'content')['attr']));
 }
