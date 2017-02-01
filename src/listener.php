@@ -6,13 +6,15 @@ namespace qnd;
  *
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function listener_data_app(array & $data): void
+function listener_data_app(array $data): array
 {
     ini_set('default_charset', $data['charset']);
     ini_set('intl.default_locale', $data['locale']);
     ini_set('date.timezone', $data['timezone']);
+
+    return $data;
 }
 
 /**
@@ -20,9 +22,9 @@ function listener_data_app(array & $data): void
  *
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function listener_data_entity(array & $data): void
+function listener_data_entity(array $data): array
 {
     foreach ($data as $eUid => $item) {
         $item['uid'] = $eUid;
@@ -30,6 +32,8 @@ function listener_data_entity(array & $data): void
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
         $data[$eUid] = $item;
     }
+
+    return $data;
 }
 
 /**
@@ -37,12 +41,12 @@ function listener_data_entity(array & $data): void
  *
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function listener_data_entity_eav(array & $data): void
+function listener_data_entity_eav(array $data): array
 {
     if (!$entities = all('entity', ['project_id' => project('ids')])) {
-        return;
+        return $data;
     }
 
     $attrs = all('attr', ['project_id' => project('ids')], ['index' => ['entity_id', 'uid']]);
@@ -69,6 +73,8 @@ function listener_data_entity_eav(array & $data): void
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
         $data[$item['uid']] = $item;
     }
+
+    return $data;
 }
 
 /**
@@ -76,9 +82,9 @@ function listener_data_entity_eav(array & $data): void
  *
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function listener_data_privilege(array & $data): void
+function listener_data_privilege(array $data): array
 {
     foreach ($data as $id => $item) {
         if (!empty($item['callback'])) {
@@ -95,7 +101,7 @@ function listener_data_privilege(array & $data): void
         }
     }
 
-    $data = data_order($data, ['sort' => 'asc', 'name' => 'asc']);
+    return data_order($data, ['sort' => 'asc', 'name' => 'asc']);
 }
 
 /**
@@ -103,9 +109,9 @@ function listener_data_privilege(array & $data): void
  *
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function listener_data_request(array & $data): void
+function listener_data_request(array $data): array
 {
     $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
     $data['ssl'] = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null) === 'on';
@@ -120,6 +126,8 @@ function listener_data_request(array & $data): void
     $data['action'] = $parts[1] ?? $data['action'];
     $data['id'] = $parts[2] ?? $data['id'];
     $data['path'] = $data['entity'] . '/' . $data['action'];
+
+    return $data;
 }
 
 /**
@@ -127,9 +135,9 @@ function listener_data_request(array & $data): void
  *
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function listener_data_toolbar(array & $data): void
+function listener_data_toolbar(array $data): array
 {
     $entities = array_filter(
         data('entity'),
@@ -148,7 +156,8 @@ function listener_data_toolbar(array & $data): void
 
         return !$item['url'] && $item['children'] || $item['url'] && allowed(privilege_url($item['url']));
     };
-    $data = array_filter($data, $filter);
+
+    return array_filter($data, $filter);
 }
 
 /**
@@ -156,11 +165,12 @@ function listener_data_toolbar(array & $data): void
  *
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function listener_content_load(array & $data): void
+function listener_content_load(array $data): array
 {
     $data['_entity'] = array_column(data('entity'), null, 'id')[$data['entity_id']];
+    return $data;
 }
 
 /**
@@ -168,15 +178,15 @@ function listener_content_load(array & $data): void
  *
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function listener_save(array & $data): void
+function listener_save(array $data): array
 {
     if ($data['_entity']['uid'] === 'url'
         || !in_array('view', $data['_entity']['actions'])
         || $data['name'] === ($data['_old']['name'] ?? null)
     ) {
-        return;
+        return $data;
     }
 
     $target = '/' . $data['_entity']['uid'] . '/view/' . $data['id'];
@@ -192,6 +202,8 @@ function listener_save(array & $data): void
 
     $url = [$id => ['name' => $name, 'target' => $target, 'system' => true]];
     save('url', $url);
+
+    return $data;
 }
 
 /**
@@ -199,11 +211,12 @@ function listener_save(array & $data): void
  *
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function listener_delete(array & $data): void
+function listener_delete(array $data): array
 {
     delete('url', ['target' => '/' . $data['_entity']['uid'] . '/view/' . $data['id']], ['system' => true]);
+    return $data;
 }
 
 
@@ -212,9 +225,9 @@ function listener_delete(array & $data): void
  *
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function listener_eav_save(array & $data): void
+function listener_eav_save(array $data): array
 {
     $data['search'] = '';
 
@@ -223,6 +236,8 @@ function listener_eav_save(array & $data): void
             $data['search'] .= ' ' . str_replace("\n", ' ', strip_tags($data[$attr['uid']]));
         }
     }
+
+    return $data;
 }
 
 /**
@@ -230,12 +245,12 @@ function listener_eav_save(array & $data): void
  *
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function listener_project_save(array & $data): void
+function listener_project_save(array $data): array
 {
     if (empty($data['_old']['uid']) || $data['uid'] === $data['_old']['uid']) {
-        return;
+        return $data;
     }
 
     $old = path('asset', $data['_old']['uid']);
@@ -244,6 +259,8 @@ function listener_project_save(array & $data): void
     if (file_exists($old) && !rename($old, $new)) {
         message(_('Could not move directory %s to %s', $old, $new));
     }
+
+    return $data;
 }
 
 /**
@@ -251,11 +268,13 @@ function listener_project_save(array & $data): void
  *
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function listener_project_delete(array & $data): void
+function listener_project_delete(array $data): array
 {
     if (!file_delete(path('asset', $data['uid']))) {
         message(_('Could not delete directory %s', path('asset', $data['uid'])));
     }
+
+    return $data;
 }

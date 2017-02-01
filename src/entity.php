@@ -151,14 +151,18 @@ function save(string $eUid, array & $data): bool
         }
 
         $trans = db_trans(
-            function () use ($eUid, & $item, $call) {
-                event(['entity.preSave', 'model.preSave.' . $item['_entity']['model'], 'entity.preSave.' . $eUid], $item);
+            function () use (& $item, $call) {
+                $item = event('entity.preSave', $item);
+                $item = event('model.preSave.' . $item['_entity']['model'], $item);
+                $item = event('entity.preSave.' . $item['_entity']['uid'], $item);
 
                 if (!$call($item)) {
                     throw new RuntimeException(_('Could not save %s', $item['_id']));
                 }
 
-                event(['entity.postSave', 'model.postSave.' . $item['_entity']['model'], 'entity.postSave.' . $eUid], $item);
+                $item = event('entity.postSave', $item);
+                $item = event('model.postSave.' . $item['_entity']['model'], $item);
+                $item = event('entity.postSave.' . $item['_entity']['uid'], $item);
             }
         );
 
@@ -217,13 +221,17 @@ function delete(string $eUid, array $crit = [], array $opts = []): bool
 
         $trans = db_trans(
             function () use ($eUid, & $item, $call, $entity) {
-                event(['entity.preDelete', 'model.preDelete.' . $entity['model'], 'entity.preDelete.' . $eUid], $item);
+                $item = event('entity.preDelete', $item);
+                $item = event('model.preDelete.' . $entity['model'], $item);
+                $item = event('entity.preDelete.' . $eUid, $item);
 
                 if (!$call($item)) {
                     throw new RuntimeException(_('Could not delete %s', $item['_id']));
                 }
 
-                event(['entity.postDelete', 'model.postDelete.' . $entity['model'], 'entity.postDelete.' . $eUid], $item);
+                $item = event('entity.postDelete', $item);
+                $item = event('model.postDelete.' . $entity['model'], $item);
+                $item = event('entity.postDelete.' . $eUid, $item);
             }
         );
 
@@ -287,7 +295,9 @@ function load(array $entity, array $item): array
     $item['_entity'] = $entity;
     $item['_id'] = $item['id'];
 
-    event(['entity.load', 'model.load.' . $entity['model'], 'entity.load.' . $entity['uid']], $item);
+    $item = event('entity.load', $item);
+    $item = event('model.load.' . $entity['model'], $item);
+    $item = event('entity.load.' . $entity['uid'], $item);
 
     return $item;
 }

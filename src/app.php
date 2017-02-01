@@ -88,28 +88,23 @@ function path(string $dir, string $id = null): string
 }
 
 /**
- * Dispatches one or multiple events
+ * Dispatches an event
  *
- * Calls all listeners for given event until one listener returns true
- *
- * @param string|array $event
+ * @param string $event
  * @param array $data
  *
- * @return void
+ * @return array
  */
-function event($event, array & $data): void
+function event(string $event, array $data): array
 {
-    foreach ((array) $event as $id) {
-        if (!($listeners = data('listener', $id)) || !asort($listeners, SORT_NUMERIC)) {
-            continue;
-        }
-
+    if (($listeners = data('listener', $event)) && asort($listeners, SORT_NUMERIC)) {
         foreach (array_keys($listeners) as $call) {
-            if (($call = fqn('listener_' . $call)) && $call($data)) {
-                break;
-            }
+            $call = fqn('listener_' . $call);
+            $data = $call($data);
         }
     }
+
+    return $data;
 }
 
 /**

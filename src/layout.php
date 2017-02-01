@@ -12,13 +12,12 @@ use InvalidArgumentException;
  */
 function §(string $id): string
 {
-    $§ = layout($id);
-
-    if (!$§ || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
+    if (!($§ = layout($id)) || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
         return '';
     }
 
-    event(['section.type.' . $§['type'], 'section.' . $id], $§);
+    $§ = event('section.type.' . $§['type'], $§);
+    $§ = event('section.' . $id, $§);
     $call = fqn('section_' . $§['type']);
 
     return $call($§);
