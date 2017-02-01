@@ -4,7 +4,8 @@ return [
         'data_app' => -100,
     ],
     'data.load.entity' => [
-        'data_entity' => -100,
+        'data_entity' => -200,
+        'data_entity_eav' => -100,
     ],
     'data.load.privilege' => [
         'data_privilege' => -100,

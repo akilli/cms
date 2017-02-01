@@ -30,7 +30,17 @@ function listener_data_entity(array & $data): void
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
         $data[$eUid] = $item;
     }
+}
 
+/**
+ * EAV entity data listener
+ *
+ * @param array $data
+ *
+ * @return void
+ */
+function listener_data_entity_eav(array & $data): void
+{
     if (!$entities = all('entity', ['project_id' => project('ids')])) {
         return;
     }
