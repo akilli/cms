@@ -269,7 +269,6 @@ function saver_password(array $attr, array $item): array
  */
 function saver_file(array $attr, array $item): array
 {
-    $item[$attr['uid']] = null;
     $file = http_files('data')[$item['_id']][$attr['uid']] ?? null;
 
     // Delete old file
