@@ -2,31 +2,6 @@
 namespace qnd;
 
 /**
- * Load file collection
- *
- * @param string $path
- * @param bool $dir
- *
- * @return array
- */
-function file_load(string $path, bool $dir = false): array
-{
-    if (!($path = rtrim(realpath($path))) || !is_dir($path)) {
-        return [];
-    }
-
-    $data = [];
-
-    foreach (array_diff(scandir($path), ['.', '..']) as $id) {
-        if (($file = $path . '/' . $id) && (is_file($file) || $dir && is_dir($file))) {
-            $data[$id] = $file;
-        }
-    }
-
-    return $data;
-}
-
-/**
  * Copies a file or directory
  *
  * @param string $src
@@ -46,9 +21,13 @@ function file_copy(string $src, string $dest): bool
 
     $success = true;
 
-    foreach (file_load($src) as $id => $file) {
-        if (!file_dir(dirname($dest . '/' . $id)) || !copy($file, $dest . '/' . $id)) {
+    foreach (array_diff(scandir($src), ['.', '..']) as $id) {
+        $file = $src . '/' . $id;
+
+        if (is_file($file) && !copy($file, $dest . '/' . $id)) {
             $success = false;
+        } elseif (is_dir($file)) {
+            $success = file_copy($file, $dest . '/' . $id);
         }
     }
 
@@ -68,11 +47,13 @@ function file_delete(string $path): bool
         return true;
     }
 
-    foreach (file_load($path, true) as $file) {
-        if (is_dir($file)) {
-            file_delete($file);
-        } else {
+    foreach (array_diff(scandir($path), ['.', '..']) as $id) {
+        $file = $path . '/' . $id;
+
+        if (is_file($file)) {
             unlink($file);
+        } elseif (is_dir($file)) {
+            file_delete($file);
         }
     }
 
