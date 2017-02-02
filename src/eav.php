@@ -127,7 +127,7 @@ function eav_save(array $item): array
 function eav_delete(array $item): array
 {
     if (empty($item['_entity']['id']) || $item['_entity']['id'] !== $item['entity_id']) {
-        throw new RuntimeException(_('Could not delete %s', $item['_id']));
+        throw new RuntimeException(_('Could not delete %s', $item['name']));
     }
 
     return flat_delete($item);
