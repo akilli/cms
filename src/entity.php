@@ -185,9 +185,9 @@ function save(string $eUid, array & $data): bool
                 $item = event('entity.preSave.' . $item['_entity']['uid'], $item);
                 $call = fqn($item['_entity']['model'] . '_save');
                 $item = $call($item);
-                $item = event('entity.postSave', $item);
-                $item = event('model.postSave.' . $item['_entity']['model'], $item);
-                $item = event('entity.postSave.' . $item['_entity']['uid'], $item);
+                event('entity.postSave', $item);
+                event('model.postSave.' . $item['_entity']['model'], $item);
+                event('entity.postSave.' . $item['_entity']['uid'], $item);
             }
         );
 
