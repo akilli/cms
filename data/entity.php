@@ -234,6 +234,8 @@ return [
             'id' => [
                 'name' => 'Id',
                 'type' => 'file',
+                'required' => true,
+                'uniq' => true,
                 'actions' => ['admin', 'edit'],
             ],
             'name' => [
