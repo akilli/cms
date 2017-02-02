@@ -1,6 +1,8 @@
 <?php
 namespace qnd;
 
+use RuntimeException;
+
 /**
  * Cast to appropriate php type
  *
@@ -199,11 +201,11 @@ function loader_json(array $attr, array $item): array
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function deleter(array $attr, array & $item): bool
+function deleter(array $attr, array $item): array
 {
-    return !$attr['deleter'] || ($call = fqn('deleter_' . $attr['deleter'])) && $call($attr, $item);
+    return $attr['deleter'] && ($call = fqn('deleter_' . $attr['deleter'])) ? $call($attr, $item) : $item;
 }
 
 /**
@@ -212,16 +214,17 @@ function deleter(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws RuntimeException
  */
-function deleter_file(array $attr, array & $item): bool
+function deleter_file(array $attr, array $item): array
 {
     if (!empty($item[$attr['uid']]) && !file_delete_media($item[$attr['uid']])) {
-        $item['_error'][$attr['uid']] = _('Could not delete old file %s', $item[$attr['uid']]);
-        return false;
+        throw new RuntimeException(_('Could not delete old file %s', $item[$attr['uid']]));
     }
 
-    return true;
+    return $item;
 }
 
 /**
@@ -230,11 +233,11 @@ function deleter_file(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function saver(array $attr, array & $item): bool
+function saver(array $attr, array $item): array
 {
-    return !$attr['saver'] || ($call = fqn('saver_' . $attr['saver'])) && $call($attr, $item);
+    return $attr['saver'] && ($call = fqn('saver_' . $attr['saver'])) ? $call($attr, $item) : $item;
 }
 
 /**
@@ -243,15 +246,15 @@ function saver(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function saver_password(array $attr, array & $item): bool
+function saver_password(array $attr, array $item): array
 {
-    if (!empty($item[$attr['uid']]) && is_string($item[$attr['uid']])) {
+    if ($item[$attr['uid']]) {
         $item[$attr['uid']] = password_hash($item[$attr['uid']], PASSWORD_DEFAULT);
     }
 
-    return true;
+    return $item;
 }
 
 /**
@@ -260,38 +263,29 @@ function saver_password(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws RuntimeException
  */
-function saver_file(array $attr, array & $item): bool
+function saver_file(array $attr, array $item): array
 {
     $item[$attr['uid']] = null;
     $file = http_files('data')[$item['_id']][$attr['uid']] ?? null;
 
     // Delete old file
-    if (!empty($item['_old'][$attr['uid']])
-        && ($file || !empty($item['_delete'][$attr['uid']]))
-        && !file_delete_media($item['_old'][$attr['uid']])
-    ) {
-        $item['_error'][$attr['uid']] = _('Could not delete old file %s', $item['_old'][$attr['uid']]);
-        return false;
+    if (!empty($item['_old'][$attr['uid']]) && ($file || !empty($item['_delete'][$attr['uid']])) && !file_delete_media($item['_old'][$attr['uid']])) {
+        throw new RuntimeException(_('Could not delete old file %s', $item['_old'][$attr['uid']]));
     }
 
-    // No upload
-    if (!$file) {
-        return true;
+    if ($file) {
+        $item[$attr['uid']] = filter_file($file['name'], project_path('media'));
+
+        if (!move_uploaded_file($file['tmp_name'], project_path('media', $item[$attr['uid']]))) {
+            throw new RuntimeException(_('File upload failed'));
+        }
     }
 
-    $value = filter_file($file['name'], project_path('media'));
-
-    // Upload failed
-    if (!move_uploaded_file($file['tmp_name'], project_path('media', $value))) {
-        $item['_error'][$attr['uid']] = _('File upload failed');
-        return false;
-    }
-
-    $item[$attr['uid']] = $value;
-
-    return true;
+    return $item;
 }
 
 /**

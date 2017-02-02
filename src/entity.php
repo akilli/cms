@@ -172,7 +172,10 @@ function save(string $eUid, array & $data): bool
         }
 
         foreach (array_keys(array_intersect_key($item, $item['_entity']['attr'])) as $uid) {
-            if (!saver($item['_entity']['attr'][$uid], $item)) {
+            try {
+                $item = saver($item['_entity']['attr'][$uid], $item);
+            } catch (Exception $e) {
+                $item['_error'][$uid] = $e->getMessage();
                 $error[] = $item['name'];
                 continue 2;
             }
@@ -231,12 +234,11 @@ function delete(string $eUid, array $crit = [], array $opts = []): bool
             continue;
         }
 
-        foreach (array_keys($item) as $uid) {
-            if (isset($item['_entity']['attr'][$uid]) && !deleter($item['_entity']['attr'][$uid], $item)) {
-                if (!empty($item['_error'][$uid])) {
-                    message($item['_error'][$uid]);
-                }
-
+        foreach ($item['_entity']['attr'] as $uid => $attr) {
+            try {
+                $item = deleter($attr, $item);
+            } catch (Exception $e) {
+                message($e->getMessage());
                 $error[] = $item['name'];
                 continue 2;
             }
