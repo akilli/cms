@@ -61,18 +61,6 @@ function file_delete(string $path): bool
 }
 
 /**
- * Deletes a media file
- *
- * @param string $id
- *
- * @return bool
- */
-function file_delete_media(string $id): bool
-{
-    return !$id || file_delete(project_path('cache', $id)) && file_delete(project_path('media', $id));
-}
-
-/**
  * Makes a directory if it doesn't exist
  *
  * @param string $path

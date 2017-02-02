@@ -1,6 +1,8 @@
 <?php
 namespace qnd;
 
+use RuntimeException;
+
 /**
  * Load entity
  *
@@ -74,7 +76,14 @@ function media_save(array $item): array
  * @param array $item
  *
  * @return void
+ *
+ * @throws RuntimeException
  */
 function media_delete(array $item): void
 {
+    if (!file_delete(project_path('media', $item['id']))) {
+        throw new RuntimeException(_('Could not delete %s', $item['name']));
+    }
+
+    file_delete(project_path('cache', $item['id']));
 }

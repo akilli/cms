@@ -27,7 +27,6 @@ return [
         'html' => [],
         'validator' => null,
         'saver' => null,
-        'deleter' => null,
         'loader' => null,
         'editor' => null,
         'viewer' => null,

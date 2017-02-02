@@ -18,7 +18,6 @@ return [
     'Content' => 'Inhalt',
     'Could not delete %s' => 'Konnte %s nicht löschen',
     'Could not delete directory %s' => 'Konnte Verzeichnis %s nicht löschen',
-    'Could not delete old file %s' => 'Konnte alte Datei %s nicht löschen',
     'Could not extract ZIP file to %s' => 'Konnte ZIP Datei nicht nach %s entpacken',
     'Could not load %s' => 'Konnte %s nicht laden',
     'Could not move directory %s to %s' => 'Konnte Verzeichnis %s nicht nach %s verschieben',

@@ -50,7 +50,7 @@ function cast(array $attr, $value)
  */
 function ignorable(array $attr, array $item): bool
 {
-    return !empty($item['_old'][$attr['uid']]) && empty($item['_delete'][$attr['uid']]) && $attr['frontend'] === 'file';
+    return !empty($item['_old'][$attr['uid']]) && $attr['frontend'] === 'file';
 }
 
 /**
@@ -196,38 +196,6 @@ function loader_json(array $attr, array $item): array
 }
 
 /**
- * Deleter
- *
- * @param array $attr
- * @param array $item
- *
- * @return array
- */
-function deleter(array $attr, array $item): array
-{
-    return $attr['deleter'] && ($call = fqn('deleter_' . $attr['deleter'])) ? $call($attr, $item) : $item;
-}
-
-/**
- * File deleter
- *
- * @param array $attr
- * @param array $item
- *
- * @return array
- *
- * @throws RuntimeException
- */
-function deleter_file(array $attr, array $item): array
-{
-    if (!empty($item[$attr['uid']]) && !file_delete_media($item[$attr['uid']])) {
-        throw new RuntimeException(_('Could not delete old file %s', $item[$attr['uid']]));
-    }
-
-    return $item;
-}
-
-/**
  * Saver
  *
  * @param array $attr
@@ -271,17 +239,8 @@ function saver_file(array $attr, array $item): array
 {
     $file = http_files('data')[$item['_id']][$attr['uid']] ?? null;
 
-    // Delete old file
-    if (!empty($item['_old'][$attr['uid']]) && ($file || !empty($item['_delete'][$attr['uid']])) && !file_delete_media($item['_old'][$attr['uid']])) {
-        throw new RuntimeException(_('Could not delete old file %s', $item['_old'][$attr['uid']]));
-    }
-
-    if ($file) {
-        $item[$attr['uid']] = filter_file($file['name'], project_path('media'));
-
-        if (!move_uploaded_file($file['tmp_name'], project_path('media', $item[$attr['uid']]))) {
-            throw new RuntimeException(_('File upload failed'));
-        }
+    if ($item[$attr['uid']] && (!$file || !move_uploaded_file($file['tmp_name'], project_path('media', $item[$attr['uid']])))) {
+        throw new RuntimeException(_('File upload failed'));
     }
 
     return $item;
@@ -655,7 +614,12 @@ function validator_file(array $attr, array & $item): bool
 {
     $file = http_files('data')[$item['_id']][$attr['uid']] ?? null;
 
-    if (!$file || ($ext = data('file', $file['ext'])) && in_array($attr['type'], $ext)) {
+    if ($file && ($ext = data('file', $file['ext'])) && in_array($attr['type'], $ext)) {
+        $item[$attr['uid']] = filter_file($file['name'], project_path('media'));
+        return true;
+    }
+
+    if (!$file) {
         return true;
     }
 
@@ -701,31 +665,6 @@ function editor(array $attr, array $item): string
     }
 
     return '';
-}
-
-/**
- * Delete editor
- *
- * @param array $attr
- * @param array $item
- *
- * @return string
- */
-function editor_delete(array $attr, array $item): string
-{
-    if (!isset($item['_old'][$attr['uid']])) {
-        return '';
-    }
-
-    $input = [
-        'id' => 'data-' . $item['_id'] . '-_delete-' . $attr['uid'],
-        'name' => 'data[' . $item['_id'] . '][_delete]' . '[' . $attr['uid'] . ']',
-        'type' => 'checkbox',
-        'value' => 1,
-    ];
-    $label = ['for' => $input['id'], 'class' => 'inline'];
-
-    return html_tag('input', $input, null, true) . html_tag('label', $label, _('Reset'));
 }
 
 /**
@@ -962,9 +901,8 @@ function editor_time(array $attr, array $item): string
 function editor_file(array $attr, array $item): string
 {
     $attr['html']['type'] = $attr['frontend'];
-    $delete = editor_delete($attr, $item);
 
-    return html_tag('div', [], viewer($attr, $item)) . html_tag('input', $attr['html'], null, true) . $delete;
+    return html_tag('div', [], viewer($attr, $item)) . html_tag('input', $attr['html'], null, true);
 }
 
 /**

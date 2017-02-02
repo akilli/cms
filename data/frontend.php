@@ -26,7 +26,6 @@ return [
     'file' => [
         'validator' => 'file',
         'saver' => 'file',
-        'deleter' => 'file',
         'editor' => 'file',
         'viewer' => 'file',
     ],

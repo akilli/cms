@@ -234,16 +234,6 @@ function delete(string $eUid, array $crit = [], array $opts = []): bool
             continue;
         }
 
-        foreach ($item['_entity']['attr'] as $uid => $attr) {
-            try {
-                $item = deleter($attr, $item);
-            } catch (Exception $e) {
-                message($e->getMessage());
-                $error[] = $item['name'];
-                continue 2;
-            }
-        }
-
         $trans = db_trans(
             function () use ($item) {
                 $item = event('entity.preDelete', $item);
