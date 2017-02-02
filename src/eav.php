@@ -120,15 +120,15 @@ function eav_save(array $item): array
  *
  * @param array $item
  *
- * @return array
+ * @return void
  *
  * @throws RuntimeException
  */
-function eav_delete(array $item): array
+function eav_delete(array $item): void
 {
     if (empty($item['_entity']['id']) || $item['_entity']['id'] !== $item['entity_id']) {
         throw new RuntimeException(_('Could not delete %s', $item['name']));
     }
 
-    return flat_delete($item);
+    flat_delete($item);
 }

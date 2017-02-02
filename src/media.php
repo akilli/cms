@@ -73,9 +73,8 @@ function media_save(array $item): array
  *
  * @param array $item
  *
- * @return array
+ * @return void
  */
-function media_delete(array $item): array
+function media_delete(array $item): void
 {
-    return $item;
 }

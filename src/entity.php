@@ -243,15 +243,15 @@ function delete(string $eUid, array $crit = [], array $opts = []): bool
         }
 
         $trans = db_trans(
-            function () use (& $item) {
-                $item = event('entity.preDelete', $item);
-                $item = event('model.preDelete.' . $item['_entity']['model'], $item);
-                $item = event('entity.preDelete.' . $item['_entity']['uid'], $item);
+            function () use ($item) {
+                event('entity.preDelete', $item);
+                event('model.preDelete.' . $item['_entity']['model'], $item);
+                event('entity.preDelete.' . $item['_entity']['uid'], $item);
                 $call = fqn($item['_entity']['model'] . '_delete');
-                $item = $call($item);
-                $item = event('entity.postDelete', $item);
-                $item = event('model.postDelete.' . $item['_entity']['model'], $item);
-                $item = event('entity.postDelete.' . $item['_entity']['uid'], $item);
+                $call($item);
+                event('entity.postDelete', $item);
+                event('model.postDelete.' . $item['_entity']['model'], $item);
+                event('entity.postDelete.' . $item['_entity']['uid'], $item);
             }
         );
 

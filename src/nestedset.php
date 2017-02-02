@@ -40,9 +40,9 @@ function nestedset_save(array $item): array
  *
  * @param array $item
  *
- * @return array
+ * @return void
  */
-function nestedset_delete(array $item): array
+function nestedset_delete(array $item): void
 {
-    return flat_delete($item);
+    flat_delete($item);
 }

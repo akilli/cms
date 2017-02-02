@@ -84,19 +84,15 @@ function flat_save(array $item): array
  *
  * @param array $item
  *
- * @return array
+ * @return void
  */
-function flat_delete(array $item): array
+function flat_delete(array $item): void
 {
-    $attrs = $item['_entity']['attr'];
-
     $stmt = db_prep(
         'DELETE FROM %s WHERE %s = :id',
         $item['_entity']['tab'],
-        $attrs['id']['col']
+        $item['_entity']['attr']['id']['col']
     );
-    $stmt->bindValue(':id', $item['_old']['id'], $attrs['id']['pdo']);
+    $stmt->bindValue(':id', $item['_old']['id'], $item['_entity']['attr']['id']['pdo']);
     $stmt->execute();
-
-    return $item;
 }
