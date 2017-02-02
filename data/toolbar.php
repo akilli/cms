@@ -29,6 +29,6 @@ return [
     ],
     'home' => ['name' => 'Homepage', 'url' => '/'],
     'dashboard' => ['name' => 'Dashboard', 'url' => '/account/dashboard'],
-    'profile' => ['name' => 'Profile', 'url' => '/account/profile'],
+    'password' => ['name' => 'Password', 'url' => '/account/password'],
     'logout' => ['name' => 'Logout', 'url' => '/account/logout'],
 ];

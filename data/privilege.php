@@ -9,8 +9,8 @@ return [
         'callback' => 'registered',
         'active' => true,
     ],
-    'account.profile' => [
-        'name' => 'Account Profile',
+    'account.password' => [
+        'name' => 'Account Password',
         'callback' => 'registered',
         'active' => true,
     ],

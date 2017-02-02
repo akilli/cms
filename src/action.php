@@ -243,26 +243,26 @@ function action_account_dashboard(): void
 }
 
 /**
- * Account Profile Action
+ * Account Password Action
  *
  * @return void
  */
-function action_account_profile(): void
+function action_account_password(): void
 {
-    $account = account();
-
     if ($item = http_post('data')) {
-        $data = [$account['id'] => array_replace($account, $item)];
-        save('account', $data);
-    }
+        if (empty($item['password']) || empty($item['confirmation']) || $item['password'] !== $item['confirmation']) {
+            message(_('Password and password confirmation must be identical'));
+        } else {
+            $data = [account('id') => array_replace(account(), ['password' => $item['password']])];
 
-    if (!$item = account()) {
-        redirect();
+            if (!save('account', $data)) {
+                message($data[account('id')]['_error']['password'] ?? _('Could not save %s', account('name')));
+            }
+        }
     }
 
     layout_load();
-    vars('content', ['item' => $item]);
-    vars('head', ['title' => _('Profile')]);
+    vars('head', ['title' => _('Password')]);
 }
 
 /**

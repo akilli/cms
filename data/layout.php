@@ -106,10 +106,10 @@ return [
             'parent' => 'main',
         ],
     ],
-    'account.profile' => [
+    'account.password' => [
          'content' => [
             'type' => 'template',
-            'template' => 'account/profile.phtml',
+            'template' => 'account/password.phtml',
             'parent' => 'main',
         ],
     ],
