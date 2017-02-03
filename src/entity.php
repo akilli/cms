@@ -157,7 +157,7 @@ function save(string $eUid, array & $data): bool
         $base = empty($original[$id]) ? $default : $original[$id];
         $item = array_replace($base, $editable, $item);
         $item['project_id'] = project('id');
-        $uids = array_keys(array_intersect_key($item, $item['_entity']['attr']));
+        $uids = array_keys(array_intersect_key($editable, $item['_entity']['attr']));
 
         if (empty($item['_old']) && !empty($original[$id])) {
             $item['_old'] = $original[$id];
