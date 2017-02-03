@@ -42,6 +42,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
+                'required' => true,
                 'opt' => ['project'],
             ],
         ],
@@ -116,6 +117,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
+                'required' => true,
                 'opt' => ['project'],
             ],
         ],
@@ -182,6 +184,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
+                'required' => true,
                 'opt' => ['project'],
             ],
         ],
@@ -223,6 +226,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
+                'required' => true,
                 'opt' => ['project'],
             ],
         ],
@@ -281,6 +285,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
+                'required' => true,
                 'opt' => ['project'],
             ],
         ],
@@ -351,6 +356,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
+                'required' => true,
                 'opt' => ['project'],
             ],
         ],
@@ -437,6 +443,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
+                'required' => true,
                 'opt' => ['project'],
             ],
         ],
@@ -471,6 +478,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
+                'required' => true,
                 'opt' => ['project'],
             ],
         ],

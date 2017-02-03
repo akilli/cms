@@ -1,6 +1,7 @@
 <?php
 namespace qnd;
 
+use DomainException;
 use RuntimeException;
 
 /**
@@ -252,24 +253,28 @@ function saver_file(array $attr, array $item): array
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function validator(array $attr, array & $item): bool
+function validator(array $attr, array $item): array
 {
-    if (!in_array('edit', $attr['actions'])) {
-        return true;
-    }
-
     $item[$attr['uid']] = cast($attr, $item[$attr['uid']] ?? null);
 
     if ($item[$attr['uid']] === null && !empty($attr['nullable'])) {
-        return true;
+        return $item;
     }
 
     $attr['opt'] = opt($attr);
-    $valid = !$attr['validator'] || ($call = fqn('validator_' . $attr['validator'])) && $call($attr, $item);
 
-    return $valid && validator_uniq($attr, $item) && validator_required($attr, $item) && validator_boundary($attr, $item);
+    if ($attr['validator']) {
+        $call = fqn('validator_' . $attr['validator']);
+        $item = $call($attr, $item);
+    }
+
+    validator_uniq($attr, $item);
+    validator_required($attr, $item);
+    validator_boundary($attr, $item);
+
+    return $item;
 }
 
 /**
@@ -278,17 +283,17 @@ function validator(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_required(array $attr, array & $item): bool
+function validator_required(array $attr, array $item): array
 {
-    if (!$attr['required'] || $item[$attr['uid']] || $attr['opt'] || ignorable($attr, $item)) {
-        return true;
+    if ($attr['required'] && !$item[$attr['uid']] && !$attr['opt'] && !ignorable($attr, $item)) {
+        throw new DomainException(_('%s is a mandatory field', $attr['name']));
     }
 
-    $item['_error'][$attr['uid']] = _('%s is a mandatory field', $attr['name']);
-
-    return false;
+    return $item;
 }
 
 /**
@@ -297,23 +302,21 @@ function validator_required(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_uniq(array $attr, array & $item): bool
+function validator_uniq(array $attr, array $item): array
 {
-    if (empty($attr['uniq']) || !empty($attr['nullable']) && $item[$attr['uid']] === null) {
-        return true;
+    if ($attr['uniq']
+        && (!$attr['nullable'] || $item[$attr['uid']] !== null)
+        && $item[$attr['uid']] !== ($item['_old'][$attr['uid']] ?? null)
+        && size($item['_entity']['uid'], [$attr['uid'] => $item[$attr['uid']]])
+    ) {
+        throw new DomainException('%s must be unique', $attr['name']);
     }
 
-    $old = all($item['_entity']['uid'], [$attr['uid'] => $item[$attr['uid']]]);
-
-    if (!$old || count($old) === 1 && !empty($old[$item['_id']])) {
-        return true;
-    }
-
-    $item['_error'][$attr['uid']] = _('%s must be unique', $attr['name']);
-
-    return false;
+    return $item;
 }
 
 /**
@@ -322,9 +325,11 @@ function validator_uniq(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_boundary(array $attr, array & $item): bool
+function validator_boundary(array $attr, array $item): array
 {
     $values = $attr['multiple'] && is_array($item[$attr['uid']]) ? $item[$attr['uid']] : [$item[$attr['uid']]];
 
@@ -334,11 +339,11 @@ function validator_boundary(array $attr, array & $item): bool
         }
 
         if (isset($attr['minval']) && $value < $attr['minval'] || isset($attr['maxval']) && $value > $attr['maxval']) {
-            return false;
+            throw new DomainException(_('Value out of range'));
         }
     }
 
-    return true;
+    return $item;
 }
 
 /**
@@ -347,17 +352,17 @@ function validator_boundary(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_keyword(array $attr, array & $item): bool
+function validator_keyword(array $attr, array $item): array
 {
-    if (!$item[$attr['uid']] || !in_array($item[$attr['uid']], data('sql', 'keyword'))) {
-        return true;
+    if ($item[$attr['uid']] && in_array($item[$attr['uid']], data('sql', 'keyword'))) {
+        throw new DomainException(_('Reserved database keywords must not be used'));
     }
 
-    $item['_error'][$attr['uid']] = _('Reserved database keywords must not be used');
-
-    return false;
+    return $item;
 }
 
 /**
@@ -366,9 +371,11 @@ function validator_keyword(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_opt(array $attr, array & $item): bool
+function validator_opt(array $attr, array $item): array
 {
     if (is_array($item[$attr['uid']])) {
         $item[$attr['uid']] = array_filter(
@@ -382,13 +389,12 @@ function validator_opt(array $attr, array & $item): bool
     if (!empty($item[$attr['uid']]) || is_scalar($item[$attr['uid']]) && !is_string($item[$attr['uid']])) {
         foreach ((array) $item[$attr['uid']] as $v) {
             if (!isset($attr['opt'][$v])) {
-                $item['_error'][$attr['uid']] = _('Invalid option for attribute %s', $attr['name']);
-                return false;
+                throw new DomainException(_('Invalid option for attribute %s', $attr['name']));
             }
         }
     }
 
-    return true;
+    return $item;
 }
 
 /**
@@ -397,21 +403,24 @@ function validator_opt(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_attr(array $attr, array & $item): bool
+function validator_attr(array $attr, array $item): array
 {
-    if (!$item[$attr['uid']]
-        || !($eUid = array_search($item['entity_id'], array_filter(array_column(data('entity'), 'id', 'uid'))))
-        || !($old = data('entity', $eUid)['attr'][$item[$attr['uid']]] ?? null)
-        || !empty($item['id']) && $item['id'] === $old['id']
-    ) {
-        return validator_keyword($attr, $item);
+    if ($item[$attr['uid']]) {
+        return $item;
     }
 
-    $item['_error'][$attr['uid']] = _('UID is already in use');
+    if (($eUid = array_search($item['entity_id'], array_filter(array_column(data('entity'), 'id', 'uid'))))
+        && ($old = data('entity', $eUid)['attr'][$item[$attr['uid']]] ?? null)
+        && (empty($item['id']) || $item['id'] !== $old['id'])
+    ) {
+        throw new DomainException(_('UID is already in use'));
+    }
 
-    return false;
+    return validator_keyword($attr, $item);
 }
 
 /**
@@ -420,20 +429,21 @@ function validator_attr(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_entity(array $attr, array & $item): bool
+function validator_entity(array $attr, array $item): array
 {
-    if (!$item[$attr['uid']]
-        || !($old = data('entity', $item[$attr['uid']]))
-        || !empty($item['id']) && $item['id'] === $old['id']
-    ) {
-        return validator_keyword($attr, $item);
+    if (!$item[$attr['uid']]) {
+        return $item;
     }
 
-    $item['_error'][$attr['uid']] = _('UID is already in use');
+    if (($old = data('entity', $item[$attr['uid']])) && (empty($item['id']) || $item['id'] !== $old['id'])) {
+        throw new DomainException(_('UID is already in use'));
+    }
 
-    return false;
+    return validator_keyword($attr, $item);
 }
 
 /**
@@ -442,13 +452,13 @@ function validator_entity(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function validator_text(array $attr, array & $item): bool
+function validator_text(array $attr, array $item): array
 {
     $item[$attr['uid']] = trim((string) filter_var($item[$attr['uid']], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
 
-    return true;
+    return $item;
 }
 
 /**
@@ -457,11 +467,17 @@ function validator_text(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_color(array $attr, array & $item): bool
+function validator_color(array $attr, array $item): array
 {
-    return (bool) preg_match('/#[a-f0-9]{6}/', $item[$attr['uid']]);
+    if ($item[$attr['uid']] && !preg_match('/#[a-f0-9]{6}/', $item[$attr['uid']])) {
+         throw new DomainException(_('Invalid color'));
+    }
+
+    return $item;
 }
 
 /**
@@ -470,17 +486,17 @@ function validator_color(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_email(array $attr, array & $item): bool
+function validator_email(array $attr, array $item): array
 {
-    if (!$item[$attr['uid']] || ($item[$attr['uid']] = filter_var($item[$attr['uid']], FILTER_VALIDATE_EMAIL))) {
-        return true;
+    if ($item[$attr['uid']] && !($item[$attr['uid']] = filter_var($item[$attr['uid']], FILTER_VALIDATE_EMAIL))) {
+         throw new DomainException(_('Invalid email'));
     }
 
-    $item['_error'][$attr['uid']] = _('Invalid email');
-
-    return false;
+    return $item;
 }
 
 /**
@@ -489,17 +505,17 @@ function validator_email(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_url(array $attr, array & $item): bool
+function validator_url(array $attr, array $item): array
 {
-    if (!$item[$attr['uid']] || ($item[$attr['uid']] = filter_var($item[$attr['uid']], FILTER_VALIDATE_URL))) {
-        return true;
+    if ($item[$attr['uid']] && !($item[$attr['uid']] = filter_var($item[$attr['uid']], FILTER_VALIDATE_URL))) {
+         throw new DomainException(_('Invalid URL'));
     }
 
-    $item['_error'][$attr['uid']] = _('Invalid URL');
-
-    return false;
+    return $item;
 }
 
 /**
@@ -508,17 +524,21 @@ function validator_url(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_json(array $attr, array & $item): bool
+function validator_json(array $attr, array $item): array
 {
-    if (!$item[$attr['uid']] && ($item[$attr['uid']] = '[]') || json_decode($item[$attr['uid']], true) !== null) {
-        return true;
+    if ($item[$attr['uid']] && json_decode($item[$attr['uid']], true) === null) {
+         throw new DomainException(_('Invalid JSON notation'));
     }
 
-    $item['_error'][$attr['uid']] = _('Invalid JSON notation');
+    if (!$item[$attr['uid']]) {
+        $item[$attr['uid']] = '[]';
+    }
 
-    return false;
+    return $item;
 }
 
 /**
@@ -527,13 +547,13 @@ function validator_json(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
  */
-function validator_rte(array $attr, array & $item): bool
+function validator_rte(array $attr, array $item): array
 {
     $item[$attr['uid']] = filter_html($item[$attr['uid']]);
 
-    return true;
+    return $item;
 }
 
 /**
@@ -542,20 +562,20 @@ function validator_rte(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_date(array $attr, array & $item): bool
+function validator_date(array $attr, array $item): array
 {
     $in = data('format', 'date.frontend');
     $out = data('format', 'date.backend');
 
-    if (!$item[$attr['uid']] || ($item[$attr['uid']] = filter_date($item[$attr['uid']], $in, $out))) {
-        return true;
+    if ($item[$attr['uid']] && !($item[$attr['uid']] = filter_date($item[$attr['uid']], $in, $out))) {
+        throw new DomainException(_('Invalid value'));
     }
 
-    $item['_error'][$attr['uid']] = _('Invalid value');
-
-    return false;
+    return $item;
 }
 
 /**
@@ -564,20 +584,20 @@ function validator_date(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_datetime(array $attr, array & $item): bool
+function validator_datetime(array $attr, array $item): array
 {
     $in = data('format', 'datetime.frontend');
     $out = data('format', 'datetime.backend');
 
-    if (!$item[$attr['uid']] || ($item[$attr['uid']] = filter_date($item[$attr['uid']], $in, $out))) {
-        return true;
+    if ($item[$attr['uid']] && !($item[$attr['uid']] = filter_date($item[$attr['uid']], $in, $out))) {
+        throw new DomainException(_('Invalid value'));
     }
 
-    $item['_error'][$attr['uid']] = _('Invalid value');
-
-    return false;
+    return $item;
 }
 
 /**
@@ -586,20 +606,20 @@ function validator_datetime(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_time(array $attr, array & $item): bool
+function validator_time(array $attr, array $item): array
 {
     $in = data('format', 'time.frontend');
     $out = data('format', 'time.backend');
 
-    if (!$item[$attr['uid']] || ($item[$attr['uid']] = filter_date($item[$attr['uid']], $in, $out))) {
-        return true;
+    if ($item[$attr['uid']] && !($item[$attr['uid']] = filter_date($item[$attr['uid']], $in, $out))) {
+        throw new DomainException(_('Invalid value'));
     }
 
-    $item['_error'][$attr['uid']] = _('Invalid value');
-
-    return false;
+    return $item;
 }
 
 /**
@@ -608,24 +628,21 @@ function validator_time(array $attr, array & $item): bool
  * @param array $attr
  * @param array $item
  *
- * @return bool
+ * @return array
+ *
+ * @throws DomainException
  */
-function validator_file(array $attr, array & $item): bool
+function validator_file(array $attr, array $item): array
 {
-    $file = http_files('data')[$item['_id']][$attr['uid']] ?? null;
+    if ($file = http_files('data')[$item['_id']][$attr['uid']] ?? null) {
+        if (!in_array($attr['type'], data('file', $file['ext']) ?? [])) {
+            throw new DomainException(_('Invalid file %s', $file));
+        }
 
-    if ($file && ($ext = data('file', $file['ext'])) && in_array($attr['type'], $ext)) {
         $item[$attr['uid']] = filter_file($file['name'], project_path('media'));
-        return true;
     }
 
-    if (!$file) {
-        return true;
-    }
-
-    $item['_error'][$attr['uid']] = _('Invalid file %s', $file);
-
-    return false;
+    return $item;
 }
 
 /**

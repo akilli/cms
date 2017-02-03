@@ -154,24 +154,25 @@ function save(string $eUid, array & $data): bool
         $item['_id'] = $id;
         $base = empty($original[$id]) ? $default : $original[$id];
         $item = array_replace($base, $editable, $item);
-
-        if (empty($original[$id])) {
-            $item['project_id'] = project('id');
-        }
+        $item['project_id'] = project('id');
+        $uids = array_keys(array_intersect_key($item, $item['_entity']['attr']));
 
         if (empty($item['_old']) && !empty($original[$id])) {
             $item['_old'] = $original[$id];
             unset($item['_old']['_id'], $item['_old']['_entity'], $item['_old']['_old']);
         }
 
-        foreach ($item['_entity']['attr'] as $attr) {
-            if (!validator($attr, $item)) {
+        foreach ($uids as $uid) {
+            try {
+                $item = validator($item['_entity']['attr'][$uid], $item);
+            } catch (Exception $e) {
+                $item['_error'][$uid] = $e->getMessage();
                 $error[] = $item['name'];
                 continue 2;
             }
         }
 
-        foreach (array_keys(array_intersect_key($item, $item['_entity']['attr'])) as $uid) {
+        foreach ($uids as $uid) {
             try {
                 $item = saver($item['_entity']['attr'][$uid], $item);
             } catch (Exception $e) {
