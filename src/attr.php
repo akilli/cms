@@ -289,7 +289,7 @@ function validator(array $attr, array $item): array
  */
 function validator_required(array $attr, array $item): array
 {
-    if ($attr['required'] && !$item[$attr['uid']] && !$attr['opt'] && !ignorable($attr, $item)) {
+    if ($attr['required'] && ($item[$attr['uid']] === null || $item[$attr['uid']] === '') && !ignorable($attr, $item)) {
         throw new DomainException(_('%s is a mandatory field', $attr['name']));
     }
 
