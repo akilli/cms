@@ -16,7 +16,7 @@ use RuntimeException;
  */
 function cast(array $attr, $value)
 {
-    if (in_array($value, [null, '']) && !empty($attr['nullable'])) {
+    if ($attr['nullable'] && ($value === null || $value === '')) {
         return null;
     }
 
@@ -261,7 +261,7 @@ function validator(array $attr, array $item): array
 {
     $item[$attr['uid']] = cast($attr, $item[$attr['uid']] ?? null);
 
-    if ($item[$attr['uid']] === null && !empty($attr['nullable'])) {
+    if ($attr['nullable'] && $item[$attr['uid']] === null) {
         return $item;
     }
 
@@ -310,11 +310,7 @@ function validator_required(array $attr, array $item): array
  */
 function validator_uniq(array $attr, array $item): array
 {
-    if ($attr['uniq']
-        && (!$attr['nullable'] || $item[$attr['uid']] !== null)
-        && $item[$attr['uid']] !== ($item['_old'][$attr['uid']] ?? null)
-        && size($item['_entity']['uid'], [$attr['uid'] => $item[$attr['uid']]])
-    ) {
+    if ($attr['uniq'] && $item[$attr['uid']] !== ($item['_old'][$attr['uid']] ?? null) && size($item['_entity']['uid'], [$attr['uid'] => $item[$attr['uid']]])) {
         throw new DomainException(_('%s must be unique', $attr['name']));
     }
 
@@ -411,7 +407,7 @@ function validator_opt(array $attr, array $item): array
  */
 function validator_attr(array $attr, array $item): array
 {
-    if ($item[$attr['uid']]) {
+    if (!$item[$attr['uid']]) {
         return $item;
     }
 

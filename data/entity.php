@@ -1,5 +1,95 @@
 <?php
 return [
+    'project' => [
+        'name' => 'Project',
+        'attr' => [
+            'id' => [
+                'name' => 'Id',
+                'auto' => true,
+                'type' => 'int',
+                'actions' => ['admin'],
+            ],
+            'uid' => [
+                'name' => 'UID',
+                'type' => 'text',
+                'required' => true,
+                'uniq' => true,
+                'actions' => ['admin', 'edit'],
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'actions' => ['admin', 'edit'],
+            ],
+            'host' => [
+                'name' => 'Host',
+                'type' => 'text',
+                'uniq' => true,
+                'actions' => ['admin', 'edit'],
+            ],
+            'theme' => [
+                'name' => 'Theme',
+                'type' => 'select',
+                'opt' => ['opt_theme'],
+                'actions' => ['admin', 'edit'],
+                'val' => 'base',
+            ],
+            'active' => [
+                'name' => 'Active',
+                'type' => 'checkbox',
+                'actions' => ['admin', 'edit'],
+                'val' => false,
+            ],
+            'system' => [
+                'name' => 'System',
+                'type' => 'checkbox',
+                'actions' => ['admin'],
+                'val' => false,
+            ],
+        ],
+    ],
+    'role' => [
+        'name' => 'Role',
+        'attr' => [
+            'id' => [
+                'name' => 'Id',
+                'auto' => true,
+                'type' => 'int',
+                'actions' => ['admin'],
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'uniq' => true,
+                'actions' => ['admin', 'edit'],
+            ],
+            'privilege' => [
+                'name' => 'Privileges',
+                'type' => 'multiselect',
+                'opt' => ['opt_privilege'],
+                'actions' => ['edit'],
+            ],
+            'active' => [
+                'name' => 'Active',
+                'type' => 'checkbox',
+                'actions' => ['admin', 'edit'],
+                'val' => false,
+            ],
+            'system' => [
+                'name' => 'System',
+                'type' => 'checkbox',
+                'actions' => ['admin'],
+                'val' => false,
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'entity',
+                'opt' => ['project'],
+            ],
+        ],
+    ],
     'account' => [
         'name' => 'Account',
         'attr' => [
@@ -33,16 +123,59 @@ return [
                 'name' => 'Active',
                 'type' => 'checkbox',
                 'actions' => ['admin', 'edit'],
+                'val' => false,
             ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox',
                 'actions' => ['admin'],
+                'val' => false,
             ],
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
+                'opt' => ['project'],
+            ],
+        ],
+    ],
+    'entity' => [
+        'name' => 'Entity',
+        'attr' => [
+            'id' => [
+                'name' => 'Id',
+                'auto' => true,
+                'type' => 'int',
+                'actions' => ['admin'],
+            ],
+            'uid' => [
+                'name' => 'UID',
+                'type' => 'text',
                 'required' => true,
+                'uniq' => true,
+                'actions' => ['admin', 'edit'],
+                'validator' => 'entity',
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'actions' => ['admin', 'edit'],
+            ],
+            'actions' => [
+                'name' => 'Actions',
+                'type' => 'multicheckbox',
+                'opt' => ['data', ['opt', 'action.entity']],
+                'actions' => ['admin', 'edit'],
+            ],
+            'system' => [
+                'name' => 'System',
+                'type' => 'checkbox',
+                'actions' => ['admin'],
+                'val' => false,
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'entity',
                 'opt' => ['project'],
             ],
         ],
@@ -92,16 +225,19 @@ return [
                 'name' => 'Required',
                 'type' => 'checkbox',
                 'actions' => ['edit'],
+                'val' => false,
             ],
             'uniq' => [
                 'name' => 'Unique',
                 'type' => 'checkbox',
                 'actions' => ['edit'],
+                'val' => false,
             ],
             'searchable' => [
                 'name' => 'Searchable',
                 'type' => 'checkbox',
                 'actions' => ['edit'],
+                'val' => false,
             ],
             'opt' => [
                 'name' => 'Options',
@@ -117,7 +253,6 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
-                'required' => true,
                 'opt' => ['project'],
             ],
         ],
@@ -148,6 +283,7 @@ return [
                 'name' => 'Active',
                 'type' => 'checkbox',
                 'actions' => ['admin', 'edit'],
+                'val' => false,
             ],
             'content' => [
                 'name' => 'Content',
@@ -184,79 +320,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
-                'required' => true,
                 'opt' => ['project'],
-            ],
-        ],
-    ],
-    'entity' => [
-        'name' => 'Entity',
-        'attr' => [
-            'id' => [
-                'name' => 'Id',
-                'auto' => true,
-                'type' => 'int',
-                'actions' => ['admin'],
-            ],
-            'uid' => [
-                'name' => 'UID',
-                'type' => 'text',
-                'required' => true,
-                'uniq' => true,
-                'actions' => ['admin', 'edit'],
-                'validator' => 'entity',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'actions' => ['admin', 'edit'],
-            ],
-            'actions' => [
-                'name' => 'Actions',
-                'type' => 'multicheckbox',
-                'opt' => ['data', ['opt', 'action.entity']],
-                'actions' => ['admin', 'edit'],
-            ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'checkbox',
-                'actions' => ['admin'],
-            ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'entity',
-                'required' => true,
-                'opt' => ['project'],
-            ],
-        ],
-    ],
-    'media' => [
-        'name' => 'Media',
-        'model' => 'media',
-        'attr' => [
-            'id' => [
-                'name' => 'Id',
-                'type' => 'file',
-                'required' => true,
-                'uniq' => true,
-                'actions' => ['admin', 'edit'],
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'actions' => ['edit'],
-            ],
-            'size' => [
-                'name' => 'Size',
-                'type' => 'int',
-                'actions' => ['admin'],
-                'viewer' => 'filesize',
-            ],
-            'modified' => [
-                'name' => 'Modified',
-                'type' => 'datetime',
-                'actions' => ['admin'],
             ],
         ],
     ],
@@ -285,7 +349,6 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
-                'required' => true,
                 'opt' => ['project'],
             ],
         ],
@@ -337,6 +400,11 @@ return [
                 'type' => 'int',
                 'actions' => ['admin'],
             ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'entity',
+                'opt' => ['project'],
+            ],
             'mode' => [
                 'name' => 'Mode',
                 'col' => false,
@@ -352,99 +420,6 @@ return [
                 'required' => true,
                 'opt' => ['opt_position'],
                 'actions' => ['edit'],
-            ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'entity',
-                'required' => true,
-                'opt' => ['project'],
-            ],
-        ],
-    ],
-    'project' => [
-        'name' => 'Project',
-        'attr' => [
-            'id' => [
-                'name' => 'Id',
-                'auto' => true,
-                'type' => 'int',
-                'actions' => ['admin'],
-            ],
-            'uid' => [
-                'name' => 'UID',
-                'type' => 'text',
-                'required' => true,
-                'uniq' => true,
-                'actions' => ['admin', 'edit'],
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'actions' => ['admin', 'edit'],
-            ],
-            'host' => [
-                'name' => 'Host',
-                'type' => 'text',
-                'uniq' => true,
-                'actions' => ['admin', 'edit'],
-            ],
-            'theme' => [
-                'name' => 'Theme',
-                'type' => 'select',
-                'opt' => ['opt_theme'],
-                'actions' => ['admin', 'edit'],
-                'val' => 'base',
-            ],
-            'active' => [
-                'name' => 'Active',
-                'type' => 'checkbox',
-                'actions' => ['admin', 'edit'],
-            ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'checkbox',
-                'actions' => ['admin'],
-            ],
-        ],
-    ],
-    'role' => [
-        'name' => 'Role',
-        'attr' => [
-            'id' => [
-                'name' => 'Id',
-                'auto' => true,
-                'type' => 'int',
-                'actions' => ['admin'],
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'uniq' => true,
-                'actions' => ['admin', 'edit'],
-            ],
-            'privilege' => [
-                'name' => 'Privileges',
-                'type' => 'multiselect',
-                'opt' => ['opt_privilege'],
-                'actions' => ['edit'],
-            ],
-            'active' => [
-                'name' => 'Active',
-                'type' => 'checkbox',
-                'actions' => ['admin', 'edit'],
-            ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'checkbox',
-                'actions' => ['admin'],
-            ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'entity',
-                'required' => true,
-                'opt' => ['project'],
             ],
         ],
     ],
@@ -474,12 +449,41 @@ return [
                 'name' => 'System',
                 'type' => 'checkbox',
                 'actions' => ['admin'],
+                'val' => false,
             ],
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
-                'required' => true,
                 'opt' => ['project'],
+            ],
+        ],
+    ],
+    'media' => [
+        'name' => 'Media',
+        'model' => 'media',
+        'attr' => [
+            'id' => [
+                'name' => 'Id',
+                'type' => 'file',
+                'required' => true,
+                'uniq' => true,
+                'actions' => ['admin', 'edit'],
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'actions' => ['edit'],
+            ],
+            'size' => [
+                'name' => 'Size',
+                'type' => 'int',
+                'actions' => ['admin'],
+                'viewer' => 'filesize',
+            ],
+            'modified' => [
+                'name' => 'Modified',
+                'type' => 'datetime',
+                'actions' => ['admin'],
             ],
         ],
     ],

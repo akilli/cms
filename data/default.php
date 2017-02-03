@@ -6,7 +6,7 @@ return [
         'name' => null,
         'col' => null,
         'auto' => false,
-        'sort' => null,
+        'sort' => 0,
         'type' => null,
         'backend' => null,
         'frontend' => null,

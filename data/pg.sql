@@ -6,10 +6,10 @@ START TRANSACTION;
 
 CREATE TABLE project (
     id serial PRIMARY KEY,
-    uid varchar(100) UNIQUE,
+    uid varchar(100) NOT NULL UNIQUE,
     name varchar(255) NOT NULL,
     host varchar(255) NOT NULL UNIQUE,
-    theme varchar(100) NOT NULL,
+    theme varchar(100) NOT NULL DEFAULT 'base',
     active boolean NOT NULL DEFAULT FALSE,
     system boolean NOT NULL DEFAULT FALSE
 );
@@ -63,7 +63,7 @@ CREATE INDEX idx_account_project ON account (project_id);
 
 CREATE TABLE entity (
     id serial PRIMARY KEY,
-    uid varchar(100) UNIQUE,
+    uid varchar(100) NOT NULL UNIQUE,
     name varchar(255) NOT NULL,
     actions jsonb NOT NULL,
     system boolean NOT NULL DEFAULT FALSE,
@@ -194,7 +194,7 @@ CREATE INDEX idx_eav_attr ON eav (attr_id);
 
 CREATE TABLE menu (
     id serial PRIMARY KEY,
-    uid varchar(100),
+    uid varchar(100) NOT NULL,
     name varchar(255) NOT NULL,
     project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (project_id, uid)
@@ -372,9 +372,9 @@ CREATE INDEX idx_url_project ON url (project_id);
 
 INSERT INTO
     project
-    (uid, name, host, theme, active, system)
+    (uid, name, host, active, system)
 VALUES
-    ('base', 'BASE', '', 'base', TRUE, TRUE);
+    ('base', 'BASE', '', TRUE, TRUE);
 
 INSERT INTO
     role
