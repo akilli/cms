@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace qnd;
 
 use Exception;
@@ -43,7 +45,7 @@ function db_trans(callable $call): bool
     } catch (Exception $e) {
         $level === 1 ? db()->rollBack() : db()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
         --$level;
-        error($e);
+        error((string) $e);
 
         return false;
     }
@@ -217,7 +219,7 @@ function db_qv($value, array $attr): string
     }
 
     if ($attr['backend'] === 'int') {
-        return (int) $value;
+        return (string) $value;
     }
 
     if ($attr['backend'] === 'decimal') {

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace qnd;
 
 /**
@@ -13,7 +15,7 @@ namespace qnd;
 function session(string $key, $value = null, bool $reset = false)
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
-        ini_set('session.use_strict_mode', 1);
+        ini_set('session.use_strict_mode', '1');
         session_start();
 
         if (!empty($_SESSION['_deleted']) && $_SESSION['_deleted'] < time() - 180) {
@@ -45,10 +47,10 @@ function session_regenerate(): void
     $id = session_create_id();
     $_SESSION['_deleted'] = time();
     session_commit();
-    ini_set('session.use_strict_mode', 0);
+    ini_set('session.use_strict_mode', '0');
     session_id($id);
     session_start();
-    ini_set('session.use_strict_mode', 1);
+    ini_set('session.use_strict_mode', '1');
 }
 
 /**
@@ -75,7 +77,7 @@ function message(string $message): void
  */
 function token(): string
 {
-    return session('token') ?: session('token', md5(uniqid(mt_rand(), true)));
+    return session('token') ?: session('token', md5(uniqid((string) mt_rand(), true)));
 }
 
 /**

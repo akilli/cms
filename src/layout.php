@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace qnd;
 
 use InvalidArgumentException;
@@ -180,7 +182,7 @@ function layout_parent(array $§, string $oldId): void
 
     // Add section to new parent section if it exists
     if ($parent = layout($§['parent'])) {
-        $parent['children'][$§['id']] = intval($§['sort'] ?? 0);
+        $parent['children'][$§['id']] = $§['sort'] ?? 0;
         layout($§['parent'], $parent);
     }
 }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace qnd;
 
 use DomainException;
@@ -19,15 +21,15 @@ function cast(array $attr, $value)
     }
 
     if ($attr['backend'] === 'bool') {
-        return boolval($value);
+        return (bool) $value;
     }
 
     if ($attr['backend'] === 'int') {
-        return intval($value);
+        return (int) $value;
     }
 
     if ($attr['backend'] === 'decimal') {
-        return floatval($value);
+        return (float) $value;
     }
 
     if ($attr['multiple'] && is_array($value)) {
@@ -38,7 +40,7 @@ function cast(array $attr, $value)
         return $value;
     }
 
-    return strval($value);
+    return (string) $value;
 }
 
 /**
@@ -634,7 +636,7 @@ function validator_time(array $attr, array $item): array
  */
 function validator_file(array $attr, array $item): array
 {
-    if ($file = http_files('data')[$item['_id']][$attr['uid']] ?? null) {
+    if ($file = http_files('data')[$item['_id']][$attr['uid']] ?? '') {
         if (!in_array($attr['type'], data('file', $file['ext']) ?? [])) {
             throw new DomainException(_('Invalid file %s', $file));
         }

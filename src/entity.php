@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace qnd;
 
 use Exception;
@@ -27,7 +29,7 @@ function size(string $eUid, array $crit = [], array $opts = []): int
     try {
         return $call($entity, $crit, $opts)[0];
     } catch (Exception $e) {
-        error($e);
+        error((string) $e);
         message(_('Data could not be loaded'));
     }
 
@@ -59,7 +61,7 @@ function one(string $eUid, array $crit = [], array $opts = []): array
             $item = load($entity, $item);
         }
     } catch (Exception $e) {
-        error($e);
+        error((string) $e);
         message(_('Data could not be loaded'));
     }
 
@@ -100,7 +102,7 @@ function all(string $eUid, array $crit = [], array $opts = []): array
             }
         }
     } catch (Exception $e) {
-        error($e);
+        error((string) $e);
         message(_('Data could not be loaded'));
     }
 
