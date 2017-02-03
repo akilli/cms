@@ -184,16 +184,17 @@ function save(string $eUid, array & $data): bool
             }
         }
 
+        $temp = $item;
         $trans = db_trans(
-            function () use (& $item) {
-                $item = event('entity.preSave', $item);
-                $item = event('model.preSave.' . $item['_entity']['model'], $item);
-                $item = event('entity.preSave.' . $item['_entity']['uid'], $item);
-                $call = fqn($item['_entity']['model'] . '_save');
-                $item = $call($item);
-                event('entity.postSave', $item);
-                event('model.postSave.' . $item['_entity']['model'], $item);
-                event('entity.postSave.' . $item['_entity']['uid'], $item);
+            function () use (& $temp) {
+                $temp = event('entity.preSave', $temp);
+                $temp = event('model.preSave.' . $temp['_entity']['model'], $temp);
+                $temp = event('entity.preSave.' . $temp['_entity']['uid'], $temp);
+                $call = fqn($temp['_entity']['model'] . '_save');
+                $temp = $call($temp);
+                event('entity.postSave', $temp);
+                event('model.postSave.' . $temp['_entity']['model'], $temp);
+                event('entity.postSave.' . $temp['_entity']['uid'], $temp);
             }
         );
 
@@ -201,6 +202,7 @@ function save(string $eUid, array & $data): bool
 
         if ($trans) {
             $success[] = $item['name'];
+            $item = $temp;
         } else {
             $error[] = $item['name'];
         }
