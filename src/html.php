@@ -36,7 +36,7 @@ function html_attr(array $attrs): string
             $val = $key;
         }
 
-        $html .= ' ' . $key . '="' . addcslashes($val, '"') . '"';
+        $html .= ' ' . $key . '="' . addcslashes((string) $val, '"') . '"';
     }
 
     return $html;

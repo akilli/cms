@@ -88,5 +88,9 @@ function filter_file(string $str, string $path): string
  */
 function filter_date(string $date, string $in, string $out): string
 {
-    return date_format(date_create_from_format($in, $date), $out) ?: '';
+    if (!$format = date_create_from_format($in, $date)) {
+        return '';
+    }
+
+    return date_format($format, $out) ?: '';
 }
