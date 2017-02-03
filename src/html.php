@@ -82,7 +82,7 @@ function html_label(array $attr, array $item): string
         $label .= ' ' . html_tag('em', ['class' => 'required'], _('Required'));
     }
 
-    if (!empty($attr['uniq'])) {
+    if ($attr['uniq']) {
         $label .= ' ' . html_tag('em', ['class' => 'uniq'], _('Unique'));
     }
 
