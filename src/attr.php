@@ -313,7 +313,7 @@ function validator_uniq(array $attr, array $item): array
         && $item[$attr['uid']] !== ($item['_old'][$attr['uid']] ?? null)
         && size($item['_entity']['uid'], [$attr['uid'] => $item[$attr['uid']]])
     ) {
-        throw new DomainException('%s must be unique', $attr['name']);
+        throw new DomainException(_('%s must be unique', $attr['name']));
     }
 
     return $item;
