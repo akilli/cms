@@ -142,13 +142,12 @@ function listener_data_toolbar(array $data): array
     $entities = array_filter(
         data('entity'),
         function ($item) {
-            return !empty($item['id']);
+            return !empty($item['id']) && in_array('admin', $item['actions']) && allowed($item['uid'] . '.admin');
         }
     );
+
     foreach ($entities as $entity) {
-        if (in_array('admin', $entity['actions']) && allowed($entity['uid'] . '.admin')) {
-            $data['content']['children'][] = ['name' => $entity['name'], 'url' => url($entity['uid'] . '/admin')];
-        }
+        $data['content']['children'][] = ['name' => $entity['name'], 'url' => url($entity['uid'] . '/admin')];
     }
 
     $filter = function (array $item) use (& $filter) {
