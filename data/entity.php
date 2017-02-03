@@ -472,7 +472,6 @@ return [
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
-                'actions' => ['edit'],
             ],
             'size' => [
                 'name' => 'Size',

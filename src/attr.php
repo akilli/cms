@@ -915,9 +915,11 @@ function editor_time(array $attr, array $item): string
  */
 function editor_file(array $attr, array $item): string
 {
+    $current = $item[$attr['uid']] ? html_tag('div', [], viewer($attr, $item)) : '';
+    $hidden = html_tag('input', ['name' => $attr['html']['name'], 'type' => 'hidden'], null, true);
     $attr['html']['type'] = $attr['frontend'];
 
-    return html_tag('div', [], viewer($attr, $item)) . html_tag('input', $attr['html'], null, true);
+    return $current . $hidden . html_tag('input', $attr['html'], null, true);
 }
 
 /**
