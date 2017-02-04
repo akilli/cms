@@ -336,7 +336,7 @@ function validator_boundary(array $attr, array $item): array
             $value = strlen($value);
         }
 
-        if (isset($attr['minval']) && $value < $attr['minval'] || isset($attr['maxval']) && $value > $attr['maxval']) {
+        if ($attr['minval'] > 0 && $value < $attr['minval'] || $attr['maxval'] > 0 && $value > $attr['maxval']) {
             throw new DomainException(_('Value out of range'));
         }
     }
