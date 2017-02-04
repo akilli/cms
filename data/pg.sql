@@ -124,6 +124,9 @@ CREATE TABLE attr (
     searchable boolean NOT NULL DEFAULT FALSE,
     opt jsonb NOT NULL,
     actions jsonb NOT NULL,
+    val varchar(255),
+    minval integer NOT NULL DEFAULT 0,
+    maxval integer NOT NULL DEFAULT 0,
     project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (entity_id, uid)
 );
@@ -138,6 +141,9 @@ CREATE INDEX idx_attr_uniq ON attr (uniq);
 CREATE INDEX idx_attr_searchable ON attr (searchable);
 CREATE INDEX idx_attr_opt ON attr USING GIN (opt);
 CREATE INDEX idx_attr_actions ON attr USING GIN (actions);
+CREATE INDEX idx_attr_val ON attr (val);
+CREATE INDEX idx_attr_minval ON attr (minval);
+CREATE INDEX idx_attr_maxval ON attr (maxval);
 CREATE INDEX idx_attr_project ON attr (project_id);
 
 -- -----------------------------------------------------------

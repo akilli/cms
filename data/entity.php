@@ -250,6 +250,24 @@ return [
                 'opt' => ['data', ['opt', 'action.attr']],
                 'actions' => ['admin', 'edit'],
             ],
+            'val' => [
+                'name' => 'Default value',
+                'type' => 'text',
+                'nullable' => true,
+                'actions' => ['edit'],
+            ],
+            'minval' => [
+                'name' => 'Minimal value',
+                'type' => 'int',
+                'actions' => ['edit'],
+                'val' => 0,
+            ],
+            'maxval' => [
+                'name' => 'Maximal value',
+                'type' => 'int',
+                'actions' => ['edit'],
+                'val' => 0,
+            ],
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
