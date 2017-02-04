@@ -242,7 +242,7 @@ function saver_file(array $attr, array $item): array
 {
     $file = http_files('data')[$item['_id']][$attr['uid']] ?? null;
 
-    if ($item[$attr['uid']] && (!$file || !move_uploaded_file($file['tmp_name'], project_path('media', $item[$attr['uid']])))) {
+    if ($item[$attr['uid']] && (!$file || !file_upload($file['tmp_name'], $item[$attr['uid']]))) {
         throw new RuntimeException(_('File upload failed'));
     }
 

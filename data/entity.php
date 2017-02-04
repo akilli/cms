@@ -482,14 +482,15 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'Id',
+                'auto' => true,
+                'type' => 'text',
+            ],
+            'name' => [
+                'name' => 'Name',
                 'type' => 'file',
                 'required' => true,
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
             ],
             'size' => [
                 'name' => 'Size',

@@ -4,6 +4,19 @@ declare(strict_types = 1);
 namespace qnd;
 
 /**
+ * Uploads a file
+ *
+ * @param string $src
+ * @param string $dest
+ *
+ * @return bool
+ */
+function file_upload(string $src, string $dest): bool
+{
+    return file_dir(project_path('media')) && move_uploaded_file($src, project_path('media', $dest));
+}
+
+/**
  * Copies a file or directory
  *
  * @param string $src

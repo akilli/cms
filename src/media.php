@@ -69,7 +69,7 @@ function media_load(array $entity, array $crit = [], array $opts = []): array
  */
 function media_save(array $item): array
 {
-    $item['name'] = $item['id'];
+    $item['id'] = $item['id'] ?? $item['name'];
 
     return $item;
 }
