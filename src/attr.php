@@ -1064,7 +1064,7 @@ function viewer_rte(array $attr, array $item): string
  */
 function viewer_iframe(array $attr, array $item): string
 {
-    return $item[$attr['uid']] ? html_tag('figure', ['class' => 'iframe'], html_tag('iframe', ['src' => $item[$attr['uid']]])) : '';
+    return $item[$attr['uid']] ? html_tag('figure', ['class' => 'iframe'], html_tag('iframe', ['src' => $item[$attr['uid']], 'allowfullscreen' => true])) : '';
 }
 
 /**
