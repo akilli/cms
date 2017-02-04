@@ -52,6 +52,12 @@ return [
         'backend' => 'varchar',
         'frontend' => 'file',
     ],
+    'iframe' => [
+        'name' => 'Iframe',
+        'backend' => 'varchar',
+        'frontend' => 'url',
+        'viewer' => 'iframe',
+    ],
     'image' => [
         'name' => 'Image',
         'backend' => 'varchar',

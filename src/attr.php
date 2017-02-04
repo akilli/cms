@@ -1055,6 +1055,19 @@ function viewer_rte(array $attr, array $item): string
 }
 
 /**
+ * Iframe viewer
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return string
+ */
+function viewer_iframe(array $attr, array $item): string
+{
+    return $item[$attr['uid']] ? html_tag('figure', ['class' => 'iframe'], html_tag('iframe', ['src' => $item[$attr['uid']]])) : '';
+}
+
+/**
  * Audio viewer
  *
  * @param array $attr
