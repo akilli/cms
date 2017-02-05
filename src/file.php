@@ -58,6 +58,10 @@ function file_copy(string $src, string $dest): bool
  */
 function file_delete(string $path): bool
 {
+    if (!file_writable($path)) {
+        return false;
+    }
+
     if (!file_exists($path) || is_file($path) && unlink($path)) {
         return true;
     }
@@ -79,14 +83,31 @@ function file_delete(string $path): bool
  * Makes a directory if it doesn't exist
  *
  * @param string $path
- * @param int $mode
- * @param bool $recursive
  *
  * @return bool
  */
-function file_dir(string $path, int $mode = 0775, bool $recursive = true): bool
+function file_dir(string $path): bool
 {
-    return is_dir($path) || mkdir($path, $mode, $recursive);
+    return file_writable($path) && (is_dir($path) || mkdir($path, 0755, true));
+}
+
+/**
+ * Checks whether specified path is writable
+ *
+ * @param string $path
+ *
+ * @return bool
+ */
+function file_writable(string $path): bool
+{
+    static $pattern;
+
+    if ($pattern === null) {
+        $paths = [path('log'), path('tmp'), project_path('cache'), project_path('media')];
+        $pattern = sprintf('#^(file://)?(%s)#', implode('|', $paths));
+    }
+
+    return (bool) preg_match($pattern, $path);
 }
 
 /**

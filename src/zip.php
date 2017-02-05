@@ -18,6 +18,10 @@ use ZipArchive;
  */
 function unzip(string $file, string $path): bool
 {
+    if (!file_writable($path)) {
+        throw new RuntimeException(_('Ungültiger Pfad %s', $path));
+    }
+
     $zip = new ZipArchive();
 
     if (!$zip->open($file)) {
