@@ -35,7 +35,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
         $list[$uid] = sprintf(
             'MAX(CASE WHEN attr_id = %s THEN %s END)',
             $params[$uid],
-            $attr['backend'] === 'search' ? 'value' : db_cast('value', $attr['backend'])
+            in_array($attr['backend'], ['json', 'search']) ? 'value' : db_cast('value', $attr['backend'])
         );
     }
 
