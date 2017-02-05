@@ -71,6 +71,16 @@ function registered(): bool
 }
 
 /**
+ * Is unregistered
+ *
+ * @return bool
+ */
+function unregistered(): bool
+{
+    return account('id') <= 0;
+}
+
+/**
  * Check access
  *
  * @param string $key
@@ -87,8 +97,7 @@ function allowed(string $key = null): bool
         return false;
     }
 
-    return empty($data[$key]['active'])
-        || !empty($data[$key]['callback']) && $data[$key]['callback']()
+    return !empty($data[$key]['callback']) && $data[$key]['callback']()
         || array_intersect([data('app', 'privilege'), $key], account('privilege') ?? []);
 }
 

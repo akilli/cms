@@ -116,7 +116,7 @@ function opt_privilege(): array
         array_filter(
             data('privilege'),
             function ($item) {
-                return !empty($item['active']) && empty($item['callback']);
+                return empty($item['callback']);
             }
         )
     );

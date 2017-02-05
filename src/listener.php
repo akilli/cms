@@ -98,7 +98,6 @@ function listener_data_privilege(array $data): array
         foreach ($entity['actions'] as $action) {
             $data[$eUid . '.' . $action] = [
                 'name' => $entity['name'] . ' ' . ucwords($action),
-                'active' => true,
             ];
         }
     }
