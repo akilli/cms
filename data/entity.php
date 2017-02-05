@@ -290,7 +290,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
+                'actions' => ['admin', 'edit', 'form', 'index', 'view'],
             ],
             'entity_id' => [
                 'name' => 'Entity',
