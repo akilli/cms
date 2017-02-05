@@ -76,12 +76,6 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
 function eav_save(array $item): array
 {
     $item['entity_id'] = $item['_entity']['id'];
-    $item['modifier'] = account('id');
-
-    if (empty($item['_old'])) {
-        $item['creator'] = $item['modifier'];
-    }
-
     $attrs = $item['_entity']['attr'];
     $eav = db_attr(array_diff_key($attrs, data('entity', 'content')['attr']));
 

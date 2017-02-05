@@ -149,6 +149,7 @@ function save(string $eUid, array & $data): bool
     $original = all($eUid, ['id' => array_keys($data)]);
     $default = entity($eUid);
     $editable = entity($eUid, null, true);
+    $uids = array_keys(array_intersect_key($editable, $default['_entity']['attr']));
     $success = [];
     $error = [];
 
@@ -157,11 +158,17 @@ function save(string $eUid, array & $data): bool
         $base = empty($original[$id]) ? $default : $original[$id];
         $item = array_replace($base, $editable, $item);
         $item['project_id'] = project('id');
-        $uids = array_keys(array_intersect_key($editable, $item['_entity']['attr']));
+        $item['modifier'] = account('id');
+        $item['modified'] = date(data('format', 'datetime.backend'));
 
-        if (empty($item['_old']) && !empty($original[$id])) {
-            $item['_old'] = $original[$id];
-            unset($item['_old']['_id'], $item['_old']['_entity'], $item['_old']['_old']);
+        if ((empty($item['_old']))) {
+            if (!empty($original[$id])) {
+                $item['_old'] = $original[$id];
+                unset($item['_old']['_id'], $item['_old']['_entity'], $item['_old']['_old']);
+            } else {
+                $item['creator'] = $item['modifier'];
+                $item['created'] = $item['modified'];
+            }
         }
 
         foreach ($uids as $uid) {

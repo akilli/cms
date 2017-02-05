@@ -172,16 +172,6 @@ CREATE INDEX idx_content_modified ON content (modified);
 CREATE INDEX idx_content_modifier ON content (modifier);
 CREATE INDEX idx_content_project ON content (project_id);
 
-CREATE FUNCTION content_update_before() RETURNS trigger AS
-$$
-    BEGIN
-        NEW.modified := current_timestamp;
-        RETURN NEW;
-    END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER content_update_before BEFORE UPDATE ON content FOR EACH ROW EXECUTE PROCEDURE content_update_before();
-
 -- -----------------------------------------------------------
 
 CREATE TABLE content_eav (
