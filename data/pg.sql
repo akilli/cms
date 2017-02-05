@@ -184,15 +184,15 @@ CREATE TRIGGER content_update_before BEFORE UPDATE ON content FOR EACH ROW EXECU
 
 -- -----------------------------------------------------------
 
-CREATE TABLE eav (
+CREATE TABLE content_eav (
     content_id integer NOT NULL REFERENCES content ON DELETE CASCADE ON UPDATE CASCADE,
     attr_id integer NOT NULL REFERENCES attr ON DELETE CASCADE ON UPDATE CASCADE,
     value text NOT NULL,
     PRIMARY KEY (content_id, attr_id)
 );
 
-CREATE INDEX idx_eav_content ON eav (content_id);
-CREATE INDEX idx_eav_attr ON eav (attr_id);
+CREATE INDEX idx_eav_content ON content_eav (content_id);
+CREATE INDEX idx_eav_attr ON content_eav (attr_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Menu

@@ -43,7 +43,7 @@ function eav_load(array $entity, array $crit = [], array $opts = []): array
     $stmt = db()->prepare(
         select($select)
         . from($entity['tab'] . ' e')
-        . ljoin('(' . select($list) . from('eav'). group(['content_id']) . ') a', ['a.content_id = e.id'])
+        . ljoin('(' . select($list) . from($entity['tab'] . '_eav'). group(['content_id']) . ') a', ['a.content_id = e.id'])
         . where(db_crit($crit, $attrs, $opts))
         . order($opts['order'])
         . limit($opts['limit'], $opts['offset'])
@@ -95,17 +95,10 @@ function eav_save(array $item): array
     }
 
     // Save additional attributes
-    $stmt = db()->prepare('
-        INSERT INTO 
-            eav 
-            (content_id, attr_id, value) 
-        VALUES 
-            (:content_id, :attr_id, :value) 
-        ON CONFLICT 
-            (content_id, attr_id) 
-        DO UPDATE SET 
-            value = EXCLUDED.value
-    ');
+    $stmt = db_prep(
+        'INSERT INTO %s_eav (content_id, attr_id, value) VALUES (:content_id, :attr_id, :value) ON CONFLICT (content_id, attr_id) DO UPDATE SET value = EXCLUDED.value',
+        $item['_entity']['tab']
+    );
 
     foreach (array_intersect_key($eav, $item) as $uid => $attr) {
         $stmt->bindValue(':content_id', $item['id'], PDO::PARAM_INT);
