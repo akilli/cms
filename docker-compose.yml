@@ -4,18 +4,19 @@ volumes:
 services:
     postgres:
         image: akilli/postgres
-        ports:
-            - "5432:5432"
+        restart: unless-stopped
         volumes:
             - postgres-data:/var/lib/postgresql
     php:
         image: akilli/php
+        restart: unless-stopped
         volumes:
             - .:/app
     nginx:
         image: akilli/nginx
         depends_on:
             - php
+        restart: unless-stopped
         ports:
             - "80:80"
             - "443:443"
