@@ -77,7 +77,7 @@ function path(string $dir, string $id = null): string
         throw new InvalidArgumentException(_('Invalid path %s', $dir));
     }
 
-    $id = trim($id, '/');
+    $id = trim((string) $id, '/');
 
     return $data[$dir] . ($id ? '/' . $id : '');
 }
