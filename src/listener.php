@@ -115,7 +115,6 @@ function listener_data_privilege(array $data): array
 function listener_data_request(array $data): array
 {
     $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
-    $data['project'] = strstr($data['host'], '.', true);
     $data['ssl'] = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null) === 'on';
     $data['scheme'] = $data['ssl'] ? 'https' : 'http';
     $data['get'] = http_filter($_GET);
