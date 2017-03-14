@@ -2,7 +2,6 @@
 return [
     '%s is a mandatory field' => '%s ist ein Pflichtfeld',
     '%s must be unique' => '%s muß eindeutig sein',
-    'Access denied' => 'Zugriff verweigert',
     'Account' => 'Benutzerkonto',
     'Actions' => 'Aktionen',
     'Active' => 'Aktiv',
@@ -84,6 +83,7 @@ return [
     'No section Id given' => 'Keine Id für den Layoutbereich vorhanden',
     'Node' => 'Menüknoten',
     'Node can not be child of itself' => 'Menüknoten kann nicht Kind von sich selber sein',
+    'Nothing selected for deletion' => 'Nichts zum Löschen ausgewählt',
     'Options' => 'Optionen',
     'Page' => 'Seite',
     'Parent' => 'Elter',
@@ -91,6 +91,7 @@ return [
     'Password and password confirmation must be identical' => 'Passwort und Passwortbestätigung müssen identisch sein',
     'Password Confirmation' => 'Passwortbestätigung',
     'Please choose' => 'Bitte auswählen',
+    'Please enter your credentials' => 'Bitte die Zugangsdaten eingeben',
     'Position' => 'Position',
     'Position Left' => 'Position Links',
     'Position Right' => 'Position Rechts',
@@ -119,6 +120,7 @@ return [
     'Successfully deleted %s' => '%s erfolgreich gelöscht',
     'Successfully saved %s' => '%s erfolgreich gespeichert',
     'System' => 'System',
+    'System items must not be deleted! Therefore skipped Id %s' => 'Systemelemente dürfen nicht gelöscht werden! Deshalb wurde Id %s übersprungen',
     'Target' => 'Ziel',
     'Text' => 'Text',
     'Textarea' => 'Textarea',
@@ -135,6 +137,4 @@ return [
     'View' => 'View',
     'Welcome %s' => 'Willkommen %s',
     'Yes' => 'Ja',
-    'You did not select anything to delete' => 'Du hast nichts zum Löschen ausgewählt',
-    'You must not delete system items! Therefore skipped Id %s' => 'Du darfst keine System Einträge löschen! Deshalb wurde Id %s übersprungen',
 ];

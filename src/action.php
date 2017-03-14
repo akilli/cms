@@ -101,7 +101,7 @@ function action_delete(array $entity): void
     if ($data) {
         delete($entity['uid'], ['id' => array_keys($data)]);
     } else {
-        message(_('You did not select anything to delete'));
+        message(_('Nothing selected for deletion'));
     }
 
     redirect(url('*/admin'));
@@ -182,7 +182,7 @@ function action_view(array $entity): void
  */
 function action_denied(): void
 {
-    message(_('Access denied'));
+    message(_('Please enter your credentials'));
     redirect(url('account/login'));
 }
 
