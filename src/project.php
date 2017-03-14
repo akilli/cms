@@ -20,7 +20,7 @@ function project(string $key)
         $data = [];
         $base = one('project', ['uid' => data('app', 'project')]);
         $id = (int) session('project');
-        $crit = $id ? ['id' => $id] : ['host' => request('host')];
+        $crit = $id ? ['id' => $id] : ['uid' => request('project')];
         $crit['active'] = true;
         $data = one('project', $crit) ?: $base;
         $data['ids'] = array_unique([$base['id'], $data['id']]);

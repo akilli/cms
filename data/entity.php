@@ -22,12 +22,6 @@ return [
                 'required' => true,
                 'actions' => ['admin', 'edit'],
             ],
-            'host' => [
-                'name' => 'Host',
-                'type' => 'text',
-                'uniq' => true,
-                'actions' => ['admin', 'edit'],
-            ],
             'theme' => [
                 'name' => 'Theme',
                 'type' => 'select',
