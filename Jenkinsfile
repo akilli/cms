@@ -5,7 +5,6 @@ node {
 
     stage 'Test'
         dir("${vol}") {
-            sh "realpath $(basename .)"
             checkout scm
             def shortCommit = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
             echo "Repository @ Commit ${shortCommit} ausgecheckt"
