@@ -637,7 +637,11 @@ function validator_file(array $attr, array $item): array
             throw new DomainException(_('Invalid file %s', $file));
         }
 
-        $item[$attr['uid']] = filter_file($file['name'], project_path('media'));
+        if (($item['_old'][$attr['uid']] ?? null) === $file['name']) {
+            $item[$attr['uid']] = $file['name'];
+        } else {
+            $item[$attr['uid']] = filter_file($file['name'], project_path('media'));
+        }
     }
 
     return $item;
