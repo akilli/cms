@@ -1,6 +1,5 @@
 node {
-    def project = "app"
-    def vol = "/docker/${project}"
+    def vol = "/docker/app/qnd"
     def cont = "eqmh_nginx_1 eqmh_php_1"
 
     stage 'Test'
