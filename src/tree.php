@@ -12,7 +12,7 @@ namespace qnd;
  *
  * @return array
  */
-function nestedset_load(array $entity, array $crit = [], array $opts = []): array
+function tree_load(array $entity, array $crit = [], array $opts = []): array
 {
     $opts['order'] = $opts['mode'] === 'size' || $opts['order'] ? $opts['order'] : ['root_id' => 'asc', 'lft' => 'asc'];
     $opts['select'] = ['pos' => "root_id || ':' || lft"];
@@ -27,7 +27,7 @@ function nestedset_load(array $entity, array $crit = [], array $opts = []): arra
  *
  * @return array
  */
-function nestedset_save(array $item): array
+function tree_save(array $item): array
 {
     $attrs = $item['_entity']['attr'];
     $parts = explode(':', $item['pos']);
@@ -44,7 +44,7 @@ function nestedset_save(array $item): array
  *
  * @return void
  */
-function nestedset_delete(array $item): void
+function tree_delete(array $item): void
 {
     flat_delete($item);
 }

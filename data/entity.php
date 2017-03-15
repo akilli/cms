@@ -367,7 +367,7 @@ return [
     ],
     'node' => [
         'name' => 'Node',
-        'model' => 'nestedset',
+        'model' => 'tree',
         'attr' => [
             'id' => [
                 'name' => 'Id',
