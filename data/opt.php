@@ -1,19 +1,19 @@
 <?php
 return [
     'action.attr' => [
-        'admin' => 'admin',
-        'edit' => 'edit',
-        'form' => 'form',
-        'index' => 'index',
-        'view' => 'view',
+        'admin' => 'Admin',
+        'edit' => 'Edit',
+        'form' => 'Form',
+        'index' => 'Index',
+        'view' => 'View',
     ],
     'action.entity' => [
-        'admin' => 'admin',
-        'delete' => 'delete',
-        'edit' => 'edit',
-        'form' => 'form',
-        'index' => 'index',
-        'view' => 'view',
+        'admin' => 'Admin',
+        'delete' => 'Delete',
+        'edit' => 'Edit',
+        'form' => 'Form',
+        'index' => 'Index',
+        'view' => 'View',
     ],
     'mode' => [
         'before' => 'Before',
