@@ -21,6 +21,7 @@
 .icon {
     display: inline-block;
     line-height: 1;
+    text-decoration: none;
     text-transform: none;
     letter-spacing: normal;
     word-wrap: normal;
@@ -29,14 +30,11 @@
     font-weight: normal;
     font-size: 24px;
     font-style: normal;
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased;
-    /* Support for Safari and Chrome. */
-    text-rendering: optimizeLegibility;
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale;
-    /* Support for IE. */
-    font-feature-settings: 'liga';
+    border: 0;
+}
+
+.icon:hover {
+    text-decoration: none;
 }
 
 /**
