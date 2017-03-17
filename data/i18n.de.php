@@ -99,6 +99,7 @@ return [
     'Password and password confirmation must be identical' => 'Passwort und Passwortbestätigung müssen identisch sein',
     'Password Confirmation' => 'Passwortbestätigung',
     'Please choose' => 'Bitte auswählen',
+    'Please confirm delete operation' => 'Bitte den Löschvorgang bestätigen',
     'Please enter your credentials' => 'Bitte die Zugangsdaten eingeben',
     'Position' => 'Position',
     'Position Left' => 'Position Links',

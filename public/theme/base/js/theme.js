@@ -26,14 +26,23 @@
         }
 
         // Input password autocomplete fix
-        const inputs = document.querySelectorAll('input[type=password]');
+        const pwdInput = document.querySelectorAll('input[type=password]');
 
-        for (let i = 0; i < inputs.length; i++) {
-            let input = inputs[i];
+        for (let i = 0; i < pwdInput.length; i++) {
+            pwdInput[i].setAttribute('readonly', true);
+            pwdInput[i].addEventListener('focus', function () {
+                this.removeAttribute('readonly');
+            })
+        }
 
-            input.setAttribute('readonly', true);
-            input.addEventListener('focus', function () {
-                input.removeAttribute('readonly');
+        // Delete buttons
+        const delInput = document.querySelectorAll('input[formaction$="/delete"]');
+
+        for (let i = 0; i < delInput.length; i++) {
+            delInput[i].addEventListener('click', function (event) {
+                if (!confirm(app._('Please confirm delete operation'))) {
+                    event.preventDefault();
+                }
             })
         }
     });

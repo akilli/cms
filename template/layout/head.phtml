@@ -10,4 +10,14 @@
 <?php if (registered()):?>
 <script src="<?=url_lib('ckeditor/ckeditor.js');?>"></script>
 <script src="<?=url_theme('js/theme.js');?>"></script>
+<script>
+    const app =
+    {
+        i18n: <?=json_encode(data('i18n'));?>,
+        _: function (key)
+        {
+            return this.i18n[key] ? this.i18n[key] : key;
+        }
+    };
+</script>
 <?php endif;?>
