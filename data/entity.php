@@ -37,7 +37,6 @@ return [
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox',
-                'actions' => ['admin'],
                 'val' => false,
             ],
         ],
@@ -72,7 +71,6 @@ return [
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox',
-                'actions' => ['admin'],
                 'val' => false,
             ],
             'project_id' => [
@@ -119,7 +117,6 @@ return [
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox',
-                'actions' => ['admin'],
                 'val' => false,
             ],
             'project_id' => [
@@ -160,7 +157,6 @@ return [
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox',
-                'actions' => ['admin'],
                 'val' => false,
             ],
             'project_id' => [
@@ -453,7 +449,6 @@ return [
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox',
-                'actions' => ['admin'],
                 'val' => false,
             ],
             'project_id' => [
