@@ -4,7 +4,7 @@ return [
         'name' => 'Project',
         'attr' => [
             'id' => [
-                'name' => 'Id',
+                'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
@@ -47,7 +47,7 @@ return [
         'name' => 'Role',
         'attr' => [
             'id' => [
-                'name' => 'Id',
+                'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
@@ -88,7 +88,7 @@ return [
         'name' => 'Account',
         'attr' => [
             'id' => [
-                'name' => 'Id',
+                'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
@@ -136,7 +136,7 @@ return [
         'name' => 'Entity',
         'attr' => [
             'id' => [
-                'name' => 'Id',
+                'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
@@ -178,7 +178,7 @@ return [
         'name' => 'Attribute',
         'attr' => [
             'id' => [
-                'name' => 'Id',
+                'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
@@ -274,7 +274,7 @@ return [
         'actions' => ['index'],
         'attr' => [
             'id' => [
-                'name' => 'Id',
+                'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
@@ -340,7 +340,7 @@ return [
         'name' => 'Menu',
         'attr' => [
             'id' => [
-                'name' => 'Id',
+                'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
@@ -370,7 +370,7 @@ return [
         'model' => 'tree',
         'attr' => [
             'id' => [
-                'name' => 'Id',
+                'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
@@ -439,7 +439,7 @@ return [
         'name' => 'URL',
         'attr' => [
             'id' => [
-                'name' => 'Id',
+                'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
                 'actions' => ['admin'],
@@ -475,7 +475,7 @@ return [
         'model' => 'media',
         'attr' => [
             'id' => [
-                'name' => 'Id',
+                'name' => 'ID',
                 'auto' => true,
                 'type' => 'text',
             ],
