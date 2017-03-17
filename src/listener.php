@@ -142,7 +142,7 @@ function listener_data_toolbar(array $data): array
 {
     $entities = array_filter(
         data('entity'),
-        function ($item) {
+        function (array $item) {
             return !empty($item['id']) && in_array('admin', $item['actions']) && allowed($item['uid'] . '.admin');
         }
     );
@@ -153,7 +153,6 @@ function listener_data_toolbar(array $data): array
 
     $filter = function (array $item) use (& $filter) {
         $item['children'] = !empty($item['children']) ? array_filter($item['children'], $filter) : [];
-
         return !$item['url'] && $item['children'] || $item['url'] && allowed(privilege_url($item['url']));
     };
 
