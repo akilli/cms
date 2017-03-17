@@ -30,6 +30,10 @@
     font-weight: normal;
     font-size: 24px;
     font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
     border: 0;
 }
 
