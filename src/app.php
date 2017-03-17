@@ -116,7 +116,7 @@ function _(string $key, string ...$params): string
         return '';
     }
 
-    $key = data('i18n.' . data('app', 'lang'), $key) ?? $key;
+    $key = data('i18n', $key) ?? $key;
 
     if (!$params) {
         return $key;

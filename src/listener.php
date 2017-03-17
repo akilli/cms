@@ -100,6 +100,18 @@ function listener_data_eav_entity(array $data): array
 }
 
 /**
+ * I18n data listener
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+function listener_data_i18n(array $data): array
+{
+    return $data + data('i18n.' . data('app', 'lang'));
+}
+
+/**
  * Option data listener
  *
  * @param array $data

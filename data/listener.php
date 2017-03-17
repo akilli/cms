@@ -12,6 +12,9 @@ return [
     'data.postLoad.entity' => [
         'data_eav_entity' => -100,
     ],
+    'data.preLoad.i18n' => [
+        'data_i18n' => -100,
+    ],
     'data.preLoad.opt' => [
         'data_opt' => -100,
     ],
