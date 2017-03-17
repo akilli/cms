@@ -38,14 +38,9 @@
                             <a href="<?= url('*/*', ['sort' => $attr['uid'], 'dir' => $dir] + $p);?>"><?= $attr['name'];?></a>
                         </th>
                         <?php endforeach;?>
-                        <?php if (allowed('edit')):?>
+                        <?php if (allowed('edit') || allowed('view')):?>
                         <th>
-                            <?= _('Edit');?>
-                        </th>
-                        <?php endif;?>
-                        <?php if (allowed('view')):?>
-                        <th>
-                            <?= _('View');?>
+                            <?= _('Actions');?>
                         </th>
                         <?php endif;?>
                     </tr>
@@ -62,14 +57,14 @@
                             <?=viewer($attr, $item);?>
                         </td>
                         <?php endforeach;?>
-                        <?php if (allowed('edit')):?>
+                        <?php if (allowed('edit') || allowed('view')):?>
                         <td>
+                            <?php if (allowed('edit')):?>
                             <a href="<?= url('*/edit/' . $id);?>"><?= _('Edit');?></a>
-                        </td>
-                        <?php endif;?>
-                        <?php if (allowed('view')):?>
-                        <td>
+                            <?php endif;?>
+                            <?php if (allowed('view')):?>
                             <a href="<?= url('*/view/' . $id);?>"><?= _('View');?></a>
+                            <?php endif;?>
                         </td>
                         <?php endif;?>
                     </tr>
