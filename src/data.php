@@ -174,6 +174,7 @@ function data_entity(array $entity): array
     }
 
     $entity = array_replace(data('default', 'entity'), $entity);
+    $entity['name'] = _($entity['name']);
     $entity['tab'] = $entity['tab'] ?: $entity['uid'];
     $sort = 0;
     $default = data('default', 'attr');
@@ -187,6 +188,7 @@ function data_entity(array $entity): array
         $frontend = data('frontend', $attr['frontend'] ?? $type['frontend']);
         $attr = array_replace($default, $backend, $frontend, $type, $attr);
         $attr['uid'] = $id;
+        $attr['name'] = _($attr['name']);
         $attr['entity'] = $entity['uid'];
 
         if ($attr['col'] === false) {

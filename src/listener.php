@@ -20,6 +20,26 @@ function listener_data_app(array $data): array
 }
 
 /**
+ * Attribute data listener
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+function listener_data_attr(array $data): array
+{
+    $data = array_map(
+        function ($item) {
+            $item['name'] = _($item['name']);
+            return $item;
+        },
+        $data
+    );
+
+    return data_order($data, ['name' => 'asc']);
+}
+
+/**
  * Entity data listener
  *
  * @param array $data
@@ -80,6 +100,26 @@ function listener_data_eav_entity(array $data): array
 }
 
 /**
+ * Option data listener
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+function listener_data_opt(array $data): array
+{
+    foreach ($data as $key => $value) {
+        foreach ($value as $k => $v) {
+            $data[$key][$k] = _($v);
+        }
+
+        asort($data[$key]);
+    }
+
+    return $data;
+}
+
+/**
  * Privilege data listener
  *
  * @param array $data
@@ -92,12 +132,14 @@ function listener_data_privilege(array $data): array
         if (!empty($item['callback'])) {
             $data[$id]['callback'] = fqn($item['callback']);
         }
+
+        $data[$id]['name'] = _($item['name']);
     }
 
     foreach (data('entity') as $eUid => $entity) {
         foreach ($entity['actions'] as $action) {
             $data[$eUid . '.' . $action] = [
-                'name' => $entity['name'] . ' ' . ucwords($action),
+                'name' => $entity['name'] . ' ' . _(ucwords($action)),
             ];
         }
     }
@@ -140,6 +182,13 @@ function listener_data_request(array $data): array
  */
 function listener_data_toolbar(array $data): array
 {
+    $map = function (array $item) use (& $map) {
+        $item['children'] = !empty($item['children']) ? array_map($map, $item['children']) : [];
+        $item['name'] = _($item['name']);
+
+        return $item;
+    };
+    $data = array_map($map, $data);
     $entities = array_filter(
         data('entity'),
         function (array $item) {

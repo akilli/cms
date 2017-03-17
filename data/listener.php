@@ -3,11 +3,17 @@ return [
     'data.preLoad.app' => [
         'data_app' => -100,
     ],
+    'data.preLoad.attr' => [
+        'data_attr' => -100,
+    ],
     'data.preLoad.entity' => [
         'data_entity' => -100,
     ],
     'data.postLoad.entity' => [
         'data_eav_entity' => -100,
+    ],
+    'data.preLoad.opt' => [
+        'data_opt' => -100,
     ],
     'data.preLoad.privilege' => [
         'data_privilege' => -100,
