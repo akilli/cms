@@ -5,7 +5,7 @@
     font-family: Ubuntu;
     font-weight: normal;
     font-style: normal;
-    src: url('../font/Ubuntu.woff') format('woff');
+    src: url('Ubuntu.woff') format('woff');
 }
 
 /**
