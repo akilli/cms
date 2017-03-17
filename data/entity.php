@@ -7,7 +7,6 @@ return [
                 'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
-                'actions' => ['admin'],
             ],
             'uid' => [
                 'name' => 'UID',
@@ -50,7 +49,6 @@ return [
                 'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
-                'actions' => ['admin'],
             ],
             'name' => [
                 'name' => 'Name',
@@ -91,7 +89,6 @@ return [
                 'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
-                'actions' => ['admin'],
             ],
             'name' => [
                 'name' => 'Name',
@@ -139,7 +136,6 @@ return [
                 'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
-                'actions' => ['admin'],
             ],
             'uid' => [
                 'name' => 'UID',
@@ -181,7 +177,6 @@ return [
                 'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
-                'actions' => ['admin'],
             ],
             'entity_id' => [
                 'name' => 'Entity',
@@ -343,7 +338,6 @@ return [
                 'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
-                'actions' => ['admin'],
             ],
             'uid' => [
                 'name' => 'UID',
@@ -442,7 +436,6 @@ return [
                 'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
-                'actions' => ['admin'],
             ],
             'name' => [
                 'name' => 'Name',
