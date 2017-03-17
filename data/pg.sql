@@ -65,13 +65,11 @@ CREATE TABLE entity (
     uid varchar(100) NOT NULL UNIQUE,
     name varchar(255) NOT NULL,
     actions jsonb NOT NULL,
-    system boolean NOT NULL DEFAULT FALSE,
     project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE INDEX idx_entity_name ON entity (name);
 CREATE INDEX idx_entity_actions ON entity USING GIN (actions);
-CREATE INDEX idx_entity_system ON entity (system);
 CREATE INDEX idx_entity_project ON entity (project_id);
 
 CREATE FUNCTION entity_update_after() RETURNS trigger AS
@@ -385,9 +383,9 @@ VALUES
 
 INSERT INTO
     entity
-    (uid, name, actions, system, project_id)
+    (uid, name, actions, project_id)
 VALUES
-    ('page', 'Page', '["admin", "delete", "edit", "index", "view"]', TRUE, CURRVAL('project_id_seq'));
+    ('page', 'Page', '["admin", "delete", "edit", "index", "view"]', CURRVAL('project_id_seq'));
 
 -- ---------------------------------------------------------------------------------------------------------------------
 

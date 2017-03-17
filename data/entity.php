@@ -154,11 +154,6 @@ return [
                 'opt' => ['data', ['opt', 'action.entity']],
                 'actions' => ['admin', 'edit'],
             ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'checkbox',
-                'val' => false,
-            ],
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
