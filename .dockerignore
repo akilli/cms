@@ -1,0 +1,37 @@
+#
+# Image
+#
+.git
+
+#
+# App
+#
+/public/asset/*
+!/public/asset/.gitkeep
+/log/*
+!/log/.gitkeep
+
+#
+# DEV
+#
+.buildpath
+/composer.phar
+.idea
+*.iml
+/nbproject
+.project
+.settings
+.vagrant
+
+#
+# Misc
+#
+*~
+\#*
+.\#*
+.DS_Store
+ehthumbs.db
+Icon?
+.sw[ponm]
+[Tt]humbs.db
+.tmp_*
