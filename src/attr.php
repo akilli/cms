@@ -634,7 +634,7 @@ function validator_file(array $attr, array $item): array
 {
     if ($file = http_files('data')[$item['_id']][$attr['uid']] ?? '') {
         if (!in_array($attr['type'], data('file', $file['ext']) ?? [])) {
-            throw new DomainException(_('Invalid file %s', $file));
+            throw new DomainException(_('Invalid file %s', $file['name']));
         }
 
         if (($item['_old'][$attr['uid']] ?? null) === $file['name']) {
