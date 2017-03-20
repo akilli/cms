@@ -7,16 +7,16 @@ return [
         'name' => 'Account Dashboard',
         'callback' => 'registered',
     ],
-    'account.password' => [
-        'name' => 'Account Password',
-        'callback' => 'registered',
-    ],
     'account.login' => [
         'name' => 'Account Login',
         'callback' => 'unregistered',
     ],
     'account.logout' => [
         'name' => 'Account Logout',
+        'callback' => 'registered',
+    ],
+    'account.password' => [
+        'name' => 'Account Password',
         'callback' => 'registered',
     ],
     'project.import' => [
