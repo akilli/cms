@@ -6,8 +6,6 @@ return [
     'url' => null,
     'path' => null,
     'host' => null,
-    'scheme' => 'http',
-    'ssl' => false,
     'get' => [],
     'post' => [],
     'files' => [],
