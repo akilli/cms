@@ -21,6 +21,7 @@
 .icon {
     display: inline-block;
     line-height: 1;
+    vertical-align: middle;
     text-decoration: none;
     text-transform: none;
     letter-spacing: normal;
