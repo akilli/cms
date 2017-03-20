@@ -218,6 +218,18 @@ function action_project_import(): void
 }
 
 /**
+ * Project Export Action
+ *
+ * @return void
+ */
+function action_project_export(): void
+{
+    $id = request('id');
+    message($id);
+    redirect(url('*/admin'));
+}
+
+/**
  * Project Switch Action
  *
  * @return void

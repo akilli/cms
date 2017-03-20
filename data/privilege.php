@@ -19,6 +19,9 @@ return [
         'name' => 'Account Password',
         'callback' => 'registered',
     ],
+    'project.export' => [
+        'name' => 'Project Export',
+    ],
     'project.import' => [
         'name' => 'Project Import',
     ],
