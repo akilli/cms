@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace qnd;
 
+use Exception;
+
 /**
  * Admin Action
  *
@@ -224,8 +226,12 @@ function action_project_import(): void
  */
 function action_project_export(): void
 {
-    $id = request('id');
-    message($id);
+    try {
+        export((int) request('id'));
+    } catch (Exception $e) {
+        message($e->getMessage());
+    }
+
     redirect(url('*/admin'));
 }
 
