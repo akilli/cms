@@ -73,7 +73,7 @@ return [
     'Login' => 'Anmelden',
     'Logout' => 'Abmelden',
     'Maximal value' => 'Maximalwert',
-    'Media' => 'Mediendatei',
+    'Media' => 'Medien',
     'Menu' => 'Menü',
     'Message' => 'Meldung',
     'Minimal value' => 'Minimalwert',
