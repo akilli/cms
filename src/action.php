@@ -126,8 +126,14 @@ function action_index(array $entity): void
     $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
 
     if ($q && ($s = array_filter(explode(' ', $q)))) {
-        $crit['name'] = $s;
-        $opts['search'] = ['name'];
+        if ($action === 'index') {
+            $crit['search'] = $s;
+            $opts['search'] = ['search'];
+        } else {
+            $crit['name'] = $s;
+            $opts['search'] = ['name'];
+        }
+
         $p['q'] = urlencode(implode(' ', $s));
     }
 
