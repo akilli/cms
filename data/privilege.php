@@ -19,6 +19,12 @@ return [
         'name' => 'Account Password',
         'callback' => 'registered',
     ],
+    'media.import' => [
+        'name' => 'Media Import',
+    ],
+    'page.import' => [
+        'name' => 'Page Import',
+    ],
     'project.export' => [
         'name' => 'Project Export',
     ],

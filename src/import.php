@@ -63,10 +63,6 @@ function import_zip(string $file): bool
                     $oids[$oid] = $pages[-1]['id'];
                 }
             }
-
-            if (!in_array('index', $oids) && ($p = glob($path . '/index.{html,odt}', GLOB_BRACE)) && !import_page($p[0])) {
-                throw new RuntimeException(_('Import error'));
-            }
         }
     );
     file_delete($path);
@@ -78,17 +74,18 @@ function import_zip(string $file): bool
  * Import page
  *
  * @param string $file
+ * @param string $name
  *
  * @return bool
  */
-function import_page(string $file): bool
+function import_page(string $file, string $name): bool
 {
-    $pages = [];
-    $pages[-1]['name'] = pathinfo($file, PATHINFO_FILENAME);
-    $pages[-1]['active'] = true;
-    $pages[-1]['content'] = import_content($file);
+    $data = [];
+    $data[-1]['name'] = $name;
+    $data[-1]['active'] = true;
+    $data[-1]['content'] = import_content($file);
 
-    return save('page', $pages);
+    return save('page', $data);
 }
 
 /**

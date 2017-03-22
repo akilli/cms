@@ -190,6 +190,11 @@ function action_view(array $entity): void
  */
 function action_denied(): void
 {
+    if (registered()) {
+        message(_('Access denied'));
+        redirect(url('account/dashboard'));
+    }
+
     message(_('Please enter your credentials'));
     redirect(url('account/login'));
 }
@@ -206,20 +211,68 @@ function action_error(): void
 }
 
 /**
+ * Media Import Action
+ *
+ * @return void
+ */
+function action_media_import(): void
+{
+    if ($files = http_files('import')) {
+        foreach ($files as $file) {
+            $name = filter_file($file['name'], project_path('media'));
+
+            if (!file_upload($file['tmp_name'], $name)) {
+                message(_('File upload failed'));
+            }
+        }
+    } else {
+        message(_('No files to import'));
+    }
+
+    redirect(url('*/admin'));
+}
+
+/**
+ * Page Import Action
+ *
+ * @return void
+ */
+function action_page_import(): void
+{
+    if ($files = http_files('import')) {
+        foreach ($files as $file) {
+            if (in_array($file['ext'], ['html', 'odt'])) {
+                import_page($file['tmp_name'], pathinfo($file['name'], PATHINFO_FILENAME));
+                file_delete($file['tmp_name']);
+            } else {
+                message(_('Invalid file %s', $file['name']));
+            }
+        }
+    } else {
+        message(_('No files to import'));
+    }
+
+    redirect(url('*/admin'));
+}
+
+/**
  * Project Import Action
  *
  * @return void
  */
 function action_project_import(): void
 {
-    if (!$file = http_files('import')) {
-        message(_('No file to import'));
-    } elseif ($file['ext'] === 'zip') {
-        import_zip($file['tmp_name']);
-        file_delete($file['tmp_name']);
-    } elseif (in_array($file['ext'], ['html', 'odt'])) {
-        import_page($file['tmp_name']);
-        file_delete($file['tmp_name']);
+    if ($files = http_files('import')) {
+        foreach ($files as $file) {
+            if ($file['ext'] === 'zip') {
+                import_zip($file['tmp_name']);
+                file_delete($file['tmp_name']);
+            } else {
+                message(_('Invalid file %s', $file['name']));
+            }
+        }
+    } else {
+        message(_('No files to import'));
     }
 
     redirect(url('*/admin'));
