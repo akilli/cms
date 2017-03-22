@@ -176,9 +176,12 @@ function save(string $eUid, array & $data): bool
                 $item = validator($item['_entity']['attr'][$uid], $item);
             } catch (Exception $e) {
                 $item['_error'][$uid] = $e->getMessage();
-                $error[] = $item['name'];
-                continue 2;
             }
+        }
+
+        if (!empty($item['_error'])) {
+            $error[] = $item['name'];
+            continue;
         }
 
         foreach ($uids as $uid) {
