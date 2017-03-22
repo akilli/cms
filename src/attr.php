@@ -420,6 +420,41 @@ function validator_text(array $attr, array $item): array
 }
 
 /**
+ * UID validator
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return array
+ */
+function validator_uid(array $attr, array $item): array
+{
+    $item = validator_text($attr, $item);
+    $item[$attr['uid']] = filter_uid($item[$attr['uid']]);
+
+    return $item;
+}
+
+/**
+ * URL path validator
+ *
+ * @param array $attr
+ * @param array $item
+ *
+ * @return array
+ *
+ * @throws DomainException
+ */
+function validator_urlpath(array $attr, array $item): array
+{
+    if ($item[$attr['uid']] && !preg_match('#/([a-z0-9/\.-]+)#', $item[$attr['uid']])) {
+         throw new DomainException(_('Invalid URL'));
+    }
+
+    return $item;
+}
+
+/**
  * Color validator
  *
  * @param array $attr

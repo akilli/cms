@@ -14,6 +14,7 @@ return [
                 'required' => true,
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
+                'validator' => 'uid',
             ],
             'name' => [
                 'name' => 'Name',
@@ -329,12 +330,14 @@ return [
                 'required' => true,
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
+                'validator' => 'urlpath',
             ],
             'target' => [
                 'name' => 'Target',
                 'type' => 'text',
                 'required' => true,
                 'actions' => ['admin', 'edit'],
+                'validator' => 'urlpath',
             ],
             'system' => [
                 'name' => 'System',
