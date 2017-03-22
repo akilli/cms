@@ -299,6 +299,56 @@ function listener_eav_save(array $data): array
 }
 
 /**
+ * Entity save listener
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+function listener_entity_save(array $data): array
+{
+    if (empty($data['_old']) || !($diff = array_diff($data['_old']['actions'], $data['actions'])) && $data['uid'] === $data['_old']['uid']) {
+        return $data;
+    }
+
+    $old = '/' . $data['_old']['uid'] . '/';
+
+    if ($diff) {
+        $targets = array_map(
+            function ($action) use ($old) {
+                return $old . $action;
+            },
+            $diff
+        );
+        delete('url', ['target' => $targets], ['search' => ['target'], 'system' => true]);
+    }
+
+    if ($data['uid'] !== $data['_old']['uid'] && ($url = all('url', ['target' => $old], ['search' => ['target']]))) {
+        foreach ($url as $id => $u) {
+            $url[$id]['target'] = preg_replace('#^' . $old . '#', '/' . $data['uid'] . '/', $u['target']);
+        }
+
+        save('url', $url);
+    }
+
+    return $data;
+}
+
+/**
+ * Entity delete listener
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+function listener_entity_delete(array $data): array
+{
+    delete('url', ['target' => '/' . $data['_old']['uid'] . '/'], ['search' => ['target'], 'system' => true]);
+
+    return $data;
+}
+
+/**
  * Project save listener
  *
  * @param array $data

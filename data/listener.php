@@ -39,6 +39,12 @@ return [
     'model.preSave.eav' => [
         'eav_save' => -100,
     ],
+    'entity.postSave.entity' => [
+        'entity_save' => -100,
+    ],
+    'entity.postDelete.entity' => [
+        'entity_delete' => -100,
+    ],
     'entity.postSave.project' => [
         'project_save' => -100,
     ],

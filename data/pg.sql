@@ -72,41 +72,6 @@ CREATE INDEX idx_entity_name ON entity (name);
 CREATE INDEX idx_entity_actions ON entity USING GIN (actions);
 CREATE INDEX idx_entity_project ON entity (project_id);
 
-CREATE FUNCTION entity_update_after() RETURNS trigger AS
-$$
-    DECLARE
-        _old varchar(255);
-        _new varchar(255);
-    BEGIN
-        _old := '^/' || OLD.uid || '/';
-        _new := '/' || NEW.uid || '/';
-
-        DELETE FROM url WHERE target ~ _old AND id NOT IN (SELECT DISTINCT id FROM url u INNER JOIN jsonb_array_elements_text(NEW.actions) a ON u.target ~ (_old || a::varchar));
-
-        IF (OLD.uid != NEW.uid) THEN
-            UPDATE url SET target = regexp_replace(target, _old, _new) WHERE target ~ _old;
-        END IF;
-
-        RETURN NULL;
-    END;
-$$ LANGUAGE plpgsql;
-
-CREATE FUNCTION entity_delete_after() RETURNS trigger AS
-$$
-    DECLARE
-        _old varchar(255);
-    BEGIN
-        _old := '^/' || OLD.uid || '/';
-
-        DELETE FROM url WHERE target ~ _old;
-
-        RETURN NULL;
-    END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER entity_update_after AFTER UPDATE ON entity FOR EACH ROW WHEN (OLD.actions != NEW.actions OR OLD.uid != NEW.uid) EXECUTE PROCEDURE entity_update_after();
-CREATE TRIGGER entity_delete_after AFTER DELETE ON entity FOR EACH ROW EXECUTE PROCEDURE entity_delete_after();
-
 -- -----------------------------------------------------------
 
 CREATE TABLE attr (
