@@ -39,6 +39,18 @@ return [
             'vars' => ['context' => 'admin'],
             'parent' => 'main',
         ],
+        'create' => [
+            'type' => 'template',
+            'template' => 'entity/create.phtml',
+            'privilege' => 'edit',
+            'parent' => 'content',
+        ],
+        'import' => [
+            'type' => 'template',
+            'template' => 'entity/import.phtml',
+            'privilege' => 'import',
+            'parent' => 'content',
+        ],
         'pager' => [
             'type' => 'pager',
             'template' => 'entity/pager.phtml',
