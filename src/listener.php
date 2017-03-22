@@ -322,7 +322,7 @@ function listener_project_save(array $data): array
 }
 
 /**
- * Project save listener
+ * Project delete listener
  *
  * @param array $data
  *
