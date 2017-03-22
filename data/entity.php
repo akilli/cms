@@ -21,13 +21,6 @@ return [
                 'required' => true,
                 'actions' => ['admin', 'edit'],
             ],
-            'theme' => [
-                'name' => 'Theme',
-                'type' => 'select',
-                'opt' => ['opt_theme'],
-                'actions' => ['admin', 'edit'],
-                'val' => 'base',
-            ],
             'active' => [
                 'name' => 'Active',
                 'type' => 'checkbox',

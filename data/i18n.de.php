@@ -138,7 +138,6 @@ return [
     'Target' => 'Ziel',
     'Text' => 'Text',
     'Textarea' => 'Textarea',
-    'Theme' => 'Theme',
     'The page %s does not exist' => 'Die Seite %s existiert nicht',
     'Time' => 'Uhrzeit',
     'Type' => 'Typ',

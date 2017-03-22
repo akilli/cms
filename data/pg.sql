@@ -8,13 +8,11 @@ CREATE TABLE project (
     id serial PRIMARY KEY,
     uid varchar(100) NOT NULL UNIQUE,
     name varchar(255) NOT NULL,
-    theme varchar(100) NOT NULL,
     active boolean NOT NULL DEFAULT FALSE,
     system boolean NOT NULL DEFAULT FALSE
 );
 
 CREATE INDEX idx_project_name ON project (name);
-CREATE INDEX idx_project_theme ON project (theme);
 CREATE INDEX idx_project_active ON project (active);
 CREATE INDEX idx_project_system ON project (system);
 
@@ -170,9 +168,9 @@ CREATE INDEX idx_url_project ON url (project_id);
 
 INSERT INTO
     project
-    (uid, name, theme, active, system)
+    (uid, name, active, system)
 VALUES
-    ('base', 'BASE', 'base', TRUE, TRUE);
+    ('base', 'BASE', TRUE, TRUE);
 
 INSERT INTO
     role

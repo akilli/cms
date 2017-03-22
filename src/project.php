@@ -26,7 +26,7 @@ function project(string $key)
         $crit['active'] = true;
         $data = one('project', $crit) ?: $base;
         $data['ids'] = array_unique([$base['id'], $data['id']]);
-        $data['theme'] = $data['theme'] ?: data('app', 'theme');
+        $data['theme'] = data('app', 'theme');
         session('project', $data['id']);
     }
 
