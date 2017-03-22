@@ -131,7 +131,6 @@ return [
     'Size' => 'Größe',
     'Skipping data for Entity %s because UID %s is already in use' => 'Daten für Entity %s werden übersprungen, da die UID %s bereits verwendet wird',
     'Sort' => 'Sortierung',
-    'Structure' => 'Struktur',
     'Successfully deleted %s' => '%s erfolgreich gelöscht',
     'Successfully saved %s' => '%s erfolgreich gespeichert',
     'System' => 'System',

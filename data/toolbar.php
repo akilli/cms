@@ -7,14 +7,6 @@ return [
             ['name' => 'Media', 'url' => '/media/admin'],
         ],
     ],
-    'structure' => [
-        'name' => 'Structure',
-        'url' => '',
-        'children' => [
-            ['name' => 'Entity', 'url' => '/entity/admin'],
-            ['name' => 'Attribute', 'url' => '/attr/admin'],
-        ],
-    ],
     'system' => [
         'name' => 'System',
         'url' => '',
@@ -23,6 +15,8 @@ return [
             ['name' => 'Role', 'url' => '/role/admin'],
             ['name' => 'Account', 'url' => '/account/admin'],
             ['name' => 'URL', 'url' => '/url/admin'],
+            ['name' => 'Entity', 'url' => '/entity/admin'],
+            ['name' => 'Attribute', 'url' => '/attr/admin'],
         ],
     ],
     'home' => ['name' => 'Homepage', 'url' => '/'],
