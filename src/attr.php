@@ -140,29 +140,6 @@ function opt_theme(): array
 }
 
 /**
- * Menu options
- *
- * @return array
- */
-function opt_position(): array
-{
-    $nodes = all('node', [], ['index' => ['root_id', 'id']]);
-    $data = [];
-
-    foreach (all('menu') as $id => $menu) {
-        $data[$id  . ':0'] = $menu['name'];
-
-        if (!empty($nodes[$id])) {
-            foreach ($nodes[$id] as $node) {
-                $data[$node['pos']] = str_repeat('&nbsp;', $node['level'] * 4) . $node['name'];
-            }
-        }
-    }
-
-    return $data;
-}
-
-/**
  * Loader
  *
  * @param array $attr

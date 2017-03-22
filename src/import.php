@@ -39,15 +39,12 @@ function import_zip(string $file): bool
         function () use ($path, $toc) {
             $import = csv_unserialize(file_get_contents($toc), ['keys' => ['pos', 'name', 'file']]);
 
-            // Delete old menu, nodes and pages + create new menu
-            $menu = [-1 => ['uid' => 'page', 'name' => 'Page']];
-
-            if (!delete('page') || !delete('menu', ['uid' => 'page']) || !save('menu', $menu)) {
+            // Delete old pages
+            if (!delete('page')) {
                 throw new RuntimeException(_('Import error'));
             }
 
             // Create new contents
-            $levels = [0];
             $oids = [];
 
             foreach ($import as $item) {
@@ -65,21 +62,6 @@ function import_zip(string $file): bool
 
                     $oids[$oid] = $pages[-1]['id'];
                 }
-
-                $level = substr_count($item['pos'], '.');
-                $basis = !empty($levels[$level - 1]) ? $levels[$level - 1] : 0;
-
-                $nodes = [];
-                $nodes[-1]['name'] = $item['name'];
-                $nodes[-1]['target'] = '/page/view/' . $oids[$oid];
-                $nodes[-1]['mode'] = 'child';
-                $nodes[-1]['pos'] = $menu[-1]['id'] . ':' . $basis;
-
-                if (!save('node', $nodes)) {
-                    throw new RuntimeException(_('Import error'));
-                }
-
-                $levels[$level] = $nodes[-1]['lft'];
             }
 
             if (!in_array('index', $oids) && ($p = glob($path . '/index.{html,odt}', GLOB_BRACE)) && !import_page($p[0])) {

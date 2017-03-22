@@ -11,8 +11,6 @@ return [
         'name' => 'Structure',
         'url' => '',
         'children' => [
-            ['name' => 'Menu', 'url' => '/menu/admin'],
-            ['name' => 'Node', 'url' => '/node/admin'],
             ['name' => 'Entity', 'url' => '/entity/admin'],
             ['name' => 'Attribute', 'url' => '/attr/admin'],
         ],

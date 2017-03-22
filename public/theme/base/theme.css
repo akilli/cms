@@ -333,10 +333,6 @@ select > option:only-child {
     color: #e14b28;
 }
 
-[data-id=node-edit] [data-attr=pos] option[value$=":0"] {
-    font-weight: bold;
-}
-
 /**
  * Messages
  */
