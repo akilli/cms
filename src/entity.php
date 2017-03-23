@@ -245,7 +245,7 @@ function delete(string $eUid, array $crit = [], array $opts = []): bool
 
     foreach (all($eUid, $crit, $opts) as $id => $item) {
         if (empty($opts['system']) && !empty($item['system'])) {
-            message(_('System items must not be deleted! Therefore skipped Id %s', $id));
+            message(_('System items must not be deleted! Therefore skipped Id %s', (string) $id));
             continue;
         }
 
