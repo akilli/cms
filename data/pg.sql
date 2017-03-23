@@ -40,7 +40,7 @@ CREATE INDEX idx_role_project ON role (project_id);
 
 CREATE TABLE account (
     id serial PRIMARY KEY,
-    name varchar(255) NOT NULL UNIQUE,
+    name varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
     role_id integer NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE,
     active boolean NOT NULL DEFAULT FALSE,
