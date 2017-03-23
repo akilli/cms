@@ -44,23 +44,12 @@ function import_zip(string $file): bool
                 throw new RuntimeException(_('Import error'));
             }
 
-            // Create new contents
-            $oids = [];
-
+            // Create new page
             foreach ($import as $item) {
-                $oid = pathinfo($item['file'], PATHINFO_FILENAME);
+                $file = $item['file'] ? $path . '/' . $item['file'] : null;
 
-                if (empty($oids[$oid])) {
-                    $pages = [];
-                    $pages[-1]['name'] = $item['name'];
-                    $pages[-1]['active'] = true;
-                    $pages[-1]['content'] = $item['file'] ? import_content($path . '/' . $item['file']) : null;
-
-                    if (!save('page', $pages)) {
-                        throw new RuntimeException(_('Import error'));
-                    }
-
-                    $oids[$oid] = $pages[-1]['id'];
+                if (!import_page($item['name'], $file)) {
+                    throw new RuntimeException(_('Import error'));
                 }
             }
         }
@@ -73,19 +62,19 @@ function import_zip(string $file): bool
 /**
  * Import page
  *
- * @param string $file
  * @param string $name
+ * @param string $file
  *
- * @return bool
+ * @return array|null
  */
-function import_page(string $file, string $name): bool
+function import_page(string $name, string $file = null): ?array
 {
     $data = [];
     $data[-1]['name'] = $name;
     $data[-1]['active'] = true;
-    $data[-1]['content'] = import_content($file);
+    $data[-1]['content'] = $file ? import_content($file) : '';
 
-    return save('page', $data);
+    return save('page', $data) ? $data[-1] : null;
 }
 
 /**

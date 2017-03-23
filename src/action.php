@@ -242,7 +242,7 @@ function action_page_import(): void
     if ($files = http_files('import')) {
         foreach ($files as $file) {
             if (in_array($file['ext'], ['html', 'odt'])) {
-                import_page($file['tmp_name'], pathinfo($file['name'], PATHINFO_FILENAME));
+                import_page(pathinfo($file['name'], PATHINFO_FILENAME), $file['tmp_name']);
                 file_delete($file['tmp_name']);
             } else {
                 message(_('Invalid file %s', $file['name']));
