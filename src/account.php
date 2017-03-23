@@ -45,7 +45,7 @@ function account(string $key = null)
  */
 function account_login(string $name, string $password): ?array
 {
-    $item = one('account', ['name' => $name, 'active' => true, 'project_id' => project('ids')]);
+    $item = one('account', ['name' => $name, 'active' => true]);
 
     if (!$item || !password_verify($password, $item['password'])) {
         return null;
