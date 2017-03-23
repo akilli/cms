@@ -81,6 +81,16 @@ function unregistered(): bool
 }
 
 /**
+ * Is global account
+ *
+ * @return bool
+ */
+function account_global(): bool
+{
+    return account('id') > 0 && account('project_id') === data('app', 'project');
+}
+
+/**
  * Check access
  *
  * @param string $key

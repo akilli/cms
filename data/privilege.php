@@ -33,5 +33,6 @@ return [
     ],
     'project.switch' => [
         'name' => 'Project Switch',
+        'callback' => 'account_global',
     ],
 ];
