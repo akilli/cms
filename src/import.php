@@ -52,6 +52,11 @@ function import_zip(string $name, string $file): bool
                     throw new RuntimeException(_('Import error'));
                 }
             }
+
+            // Homepage
+            if (($p = glob($path . '/index.{html,odt}', GLOB_BRACE)) && !import_page($project['id'], 'Index', $p[0])) {
+                throw new RuntimeException(_('Import error'));
+            }
         }
     );
     file_delete($path);
