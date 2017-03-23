@@ -242,8 +242,15 @@ function action_page_import(): void
     if ($files = http_files('import')) {
         foreach ($files as $file) {
             if (in_array($file['ext'], ['html', 'odt'])) {
-                import_page(pathinfo($file['name'], PATHINFO_FILENAME), $file['tmp_name']);
-                file_delete($file['tmp_name']);
+                $path = path('tmp', uniqid('import', true));
+
+                if (file_dir($path) && move_uploaded_file($file['tmp_name'], $path . '/' . $file['name'])) {
+                    import_page(project('id'), pathinfo($file['name'], PATHINFO_FILENAME), $path . '/' . $file['name']);
+                } else {
+                    message(_('Import error'));
+                }
+
+                file_delete($path);
             } else {
                 message(_('Invalid file %s', $file['name']));
             }
@@ -265,7 +272,7 @@ function action_project_import(): void
     if ($files = http_files('import')) {
         foreach ($files as $file) {
             if ($file['ext'] === 'zip') {
-                import_zip($file['tmp_name']);
+                import_zip(pathinfo($file['name'], PATHINFO_FILENAME), $file['tmp_name']);
                 file_delete($file['tmp_name']);
             } else {
                 message(_('Invalid file %s', $file['name']));

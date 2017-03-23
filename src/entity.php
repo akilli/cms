@@ -157,7 +157,7 @@ function save(string $eUid, array & $data): bool
         $item['_id'] = $id;
         $base = empty($original[$id]) ? $default : $original[$id];
         $item = array_replace($base, $editable, $item);
-        $item['project_id'] = project('id');
+        $item['project_id'] = $item['project_id'] ?? project('id');
         $item['modifier'] = account('id');
         $item['modified'] = date(data('format', 'datetime.backend'));
 

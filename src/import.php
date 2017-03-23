@@ -11,11 +11,12 @@ use XSLTProcessor;
 /**
  * Import content
  *
+ * @param string $name
  * @param string $file
  *
  * @return bool
  */
-function import_zip(string $file): bool
+function import_zip(string $name, string $file): bool
 {
     $path = path('tmp', uniqid('import', true));
     $toc = $path . '/' . data('import', 'toc');
@@ -36,11 +37,10 @@ function import_zip(string $file): bool
     file_copy($path . '/media', project_path('media'));
 
     $trans = db_trans(
-        function () use ($path, $toc) {
+        function () use ($name, $path, $toc) {
             $import = csv_unserialize(file_get_contents($toc), ['keys' => ['pos', 'name', 'file']]);
 
-            // Delete old pages
-            if (!delete('page')) {
+            if (!$project = import_project($name)) {
                 throw new RuntimeException(_('Import error'));
             }
 
@@ -48,7 +48,7 @@ function import_zip(string $file): bool
             foreach ($import as $item) {
                 $file = $item['file'] ? $path . '/' . $item['file'] : null;
 
-                if (!import_page($item['name'], $file)) {
+                if (!import_page($project['id'], $item['name'], $file)) {
                     throw new RuntimeException(_('Import error'));
                 }
             }
@@ -60,19 +60,38 @@ function import_zip(string $file): bool
 }
 
 /**
+ * Import project
+ *
+ * @param string $name
+ *
+ * @return array|null
+ */
+function import_project(string $name): ?array
+{
+    $data = [];
+    $data[-1]['uid'] = $name;
+    $data[-1]['name'] = $name;
+    $data[-1]['active'] = true;
+
+    return save('project', $data) ? $data[-1] : null;
+}
+
+/**
  * Import page
  *
+ * @param int $projectId
  * @param string $name
  * @param string $file
  *
  * @return array|null
  */
-function import_page(string $name, string $file = null): ?array
+function import_page(int $projectId, string $name, string $file = null): ?array
 {
     $data = [];
     $data[-1]['name'] = $name;
     $data[-1]['active'] = true;
     $data[-1]['content'] = $file ? import_content($file) : '';
+    $data[-1]['project_id'] = $projectId;
 
     return save('page', $data) ? $data[-1] : null;
 }
