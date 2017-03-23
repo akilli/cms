@@ -170,7 +170,7 @@ INSERT INTO
     project
     (uid, name, active, system)
 VALUES
-    ('base', 'BASE', TRUE, TRUE);
+    ('www', 'WWW', TRUE, TRUE);
 
 INSERT INTO
     role

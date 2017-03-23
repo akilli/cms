@@ -4,7 +4,7 @@ return [
     'lang' => 'de',
     'locale' => 'de-DE',
     'privilege' => '_all_',
-    'project' => 'base',
+    'project' => 'www',
     'theme' => 'base',
     'timezone' => 'Europe/Berlin',
     'url' => '.html',
