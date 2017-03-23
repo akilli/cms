@@ -150,9 +150,7 @@ function listener_data_privilege(array $data): array
 
     foreach (data('entity') as $eUid => $entity) {
         foreach ($entity['actions'] as $action) {
-            $data[$eUid . '.' . $action] = [
-                'name' => $entity['name'] . ' ' . _(ucwords($action)),
-            ];
+            $data[$eUid . '.' . $action]['name'] = $entity['name'] . ' ' . _(ucwords($action));
         }
     }
 
