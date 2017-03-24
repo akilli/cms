@@ -131,7 +131,7 @@ function listener_data_request(array $data): array
     $data['files'] = $_FILES ? http_files_convert($_FILES) : [];
     $url = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     $data['url'] = preg_replace('#^' . $_SERVER['SCRIPT_NAME'] . '#', '', $url);
-    $parts = explode('/', trim(url_rewrite($data['url']), '/'));
+    $parts = explode('/', trim($data['url'], '/'));
     $data['entity'] = $parts[0] ?: $data['entity'];
     $data['action'] = $parts[1] ?? $data['action'];
     $data['id'] = $parts[2] ?? $data['id'];
@@ -157,52 +157,6 @@ function listener_data_toolbar(array $data): array
         }
     }
 
-    return $data;
-}
-
-/**
- * Save listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_save(array $data): array
-{
-    if ($data['_entity']['uid'] === 'url'
-        || !in_array('view', $data['_entity']['actions'])
-        || $data['name'] === ($data['_old']['name'] ?? null)
-    ) {
-        return $data;
-    }
-
-    $target = '/' . $data['_entity']['uid'] . '/view/' . $data['id'];
-    $old = one('url', ['target' => $target, 'system' => true]);
-    $id = $old['id'] ?? -1;
-    $base = filter_uid($data['name']);
-    $ext = data('app', 'url');
-    $name = '/' . $base . $ext;
-
-    for ($i = 1; ($url = one('url', ['name' => $name])) && $url['target'] !== $target; $i++) {
-        $name = '/' . $base . '-' . $i . $ext;
-    }
-
-    $url = [$id => ['name' => $name, 'target' => $target, 'system' => true]];
-    save('url', $url);
-
-    return $data;
-}
-
-/**
- * Delete listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_delete(array $data): array
-{
-    delete('url', ['target' => '/' . $data['_entity']['uid'] . '/view/' . $data['id']], ['system' => true]);
     return $data;
 }
 

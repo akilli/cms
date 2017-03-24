@@ -60,6 +60,7 @@ CREATE INDEX idx_account_project_id ON account (project_id);
 
 CREATE TABLE page (
     id serial PRIMARY KEY,
+    uid varchar(255) NOT NULL,
     name varchar(255) NOT NULL,
     active boolean NOT NULL DEFAULT FALSE,
     parent_id integer DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
@@ -70,9 +71,11 @@ CREATE TABLE page (
     creator integer DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
     modified timestamp NOT NULL DEFAULT current_timestamp,
     modifier integer DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
-    project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
+    project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
+    UNIQUE (project_id, uid)
 );
 
+CREATE INDEX idx_page_uid ON page (uid);
 CREATE INDEX idx_page_name ON page (name);
 CREATE INDEX idx_page_active ON page (active);
 CREATE INDEX idx_page_parent_id ON page (parent_id);
@@ -83,24 +86,6 @@ CREATE INDEX idx_page_creator ON page (creator);
 CREATE INDEX idx_page_modified ON page (modified);
 CREATE INDEX idx_page_modifier ON page (modifier);
 CREATE INDEX idx_page_project_id ON page (project_id);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- URL
--- ---------------------------------------------------------------------------------------------------------------------
-
-CREATE TABLE url (
-    id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    target varchar(255) NOT NULL,
-    system boolean NOT NULL DEFAULT FALSE,
-    project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
-    UNIQUE (project_id, name)
-);
-
-CREATE INDEX idx_url_name ON url (name);
-CREATE INDEX idx_url_target ON url (target);
-CREATE INDEX idx_url_system ON url (system);
-CREATE INDEX idx_url_project_id ON url (project_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Data

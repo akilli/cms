@@ -2,7 +2,6 @@
 return [
     ['name' => 'Page', 'url' => '/page/admin'],
     ['name' => 'Media', 'url' => '/media/admin'],
-    ['name' => 'URL', 'url' => '/url/admin'],
     ['name' => 'Account', 'url' => '/account/admin'],
     ['name' => 'Role', 'url' => '/role/admin'],
     ['name' => 'Project', 'url' => '/project/admin'],

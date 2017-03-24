@@ -130,6 +130,14 @@ return [
                 'type' => 'int',
                 'actions' => ['admin'],
             ],
+            'uid' => [
+                'name' => 'UID',
+                'type' => 'text',
+                'required' => true,
+                'uniq' => true,
+                'actions' => ['edit'],
+                'validator' => 'uid',
+            ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
@@ -187,41 +195,6 @@ return [
                 'nullable' => true,
                 'opt' => ['account'],
                 'actions' => ['admin'],
-            ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'entity',
-                'opt' => ['project'],
-            ],
-        ],
-    ],
-    'url' => [
-        'name' => 'URL',
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'auto' => true,
-                'type' => 'int',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'uniq' => true,
-                'actions' => ['admin', 'edit'],
-                'validator' => 'urlpath',
-            ],
-            'target' => [
-                'name' => 'Target',
-                'type' => 'text',
-                'required' => true,
-                'actions' => ['admin', 'edit'],
-                'validator' => 'urlpath',
-            ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'checkbox',
-                'val' => false,
             ],
             'project_id' => [
                 'name' => 'Project',

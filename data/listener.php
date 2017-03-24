@@ -24,12 +24,6 @@ return [
     'data.preLoad.toolbar' => [
         'data_toolbar' => -100,
     ],
-    'entity.postSave' => [
-        'save' => -100,
-    ],
-    'entity.postDelete' => [
-        'delete' => -100,
-    ],
     'entity.postSave.project' => [
         'project_save' => -100,
     ],
