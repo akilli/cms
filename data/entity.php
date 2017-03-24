@@ -143,6 +143,19 @@ return [
                 'actions' => ['admin', 'edit'],
                 'val' => false,
             ],
+            'parent_id' => [
+                'name' => 'Parent',
+                'type' => 'entity',
+                'nullable' => true,
+                'opt' => ['page'],
+                'actions' => ['admin', 'edit'],
+            ],
+            'sort' => [
+                'name' => 'Sort',
+                'type' => 'int',
+                'actions' => ['edit'],
+                'val' => 0,
+            ],
             'content' => [
                 'name' => 'Content',
                 'type' => 'rte',

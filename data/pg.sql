@@ -34,7 +34,7 @@ CREATE INDEX idx_role_name ON role (name);
 CREATE INDEX idx_role_privilege ON role USING GIN (privilege);
 CREATE INDEX idx_role_active ON role (active);
 CREATE INDEX idx_role_system ON role (system);
-CREATE INDEX idx_role_project ON role (project_id);
+CREATE INDEX idx_role_project_id ON role (project_id);
 
 -- -----------------------------------------------------------
 
@@ -49,10 +49,10 @@ CREATE TABLE account (
     UNIQUE (project_id, name)
 );
 
-CREATE INDEX idx_account_role ON account (role_id);
+CREATE INDEX idx_account_role_id ON account (role_id);
 CREATE INDEX idx_account_active ON account (active);
 CREATE INDEX idx_account_system ON account (system);
-CREATE INDEX idx_account_project ON account (project_id);
+CREATE INDEX idx_account_project_id ON account (project_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Page
@@ -62,6 +62,8 @@ CREATE TABLE page (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
     active boolean NOT NULL DEFAULT FALSE,
+    parent_id integer DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
+    sort integer NOT NULL DEFAULT 0,
     content text NOT NULL,
     search tsvector NOT NULL,
     created timestamp NOT NULL DEFAULT current_timestamp,
@@ -73,12 +75,14 @@ CREATE TABLE page (
 
 CREATE INDEX idx_page_name ON page (name);
 CREATE INDEX idx_page_active ON page (active);
+CREATE INDEX idx_page_parent_id ON page (parent_id);
+CREATE INDEX idx_page_sort ON page (sort);
 CREATE INDEX idx_page_search ON page USING GIN (search);
 CREATE INDEX idx_page_created ON page (created);
 CREATE INDEX idx_page_creator ON page (creator);
 CREATE INDEX idx_page_modified ON page (modified);
 CREATE INDEX idx_page_modifier ON page (modifier);
-CREATE INDEX idx_page_project ON page (project_id);
+CREATE INDEX idx_page_project_id ON page (project_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- URL
@@ -96,7 +100,7 @@ CREATE TABLE url (
 CREATE INDEX idx_url_name ON url (name);
 CREATE INDEX idx_url_target ON url (target);
 CREATE INDEX idx_url_system ON url (system);
-CREATE INDEX idx_url_project ON url (project_id);
+CREATE INDEX idx_url_project_id ON url (project_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Data
