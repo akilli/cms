@@ -165,13 +165,13 @@ function data_limit(array $data, int $limit, int $offset = 0): array
  */
 function data_entity(array $entity): array
 {
-    if (empty($entity['uid']) || empty($entity['name']) || empty($entity['attr'])) {
+    if (empty($entity['id']) || empty($entity['name']) || empty($entity['attr'])) {
         throw new RuntimeException(_('Invalid entity configuration'));
     }
 
     $entity = array_replace(data('default', 'entity'), $entity);
     $entity['name'] = _($entity['name']);
-    $entity['tab'] = $entity['tab'] ?: $entity['uid'];
+    $entity['tab'] = $entity['tab'] ?: $entity['id'];
     $sort = 0;
     $default = data('default', 'attr');
 
@@ -183,14 +183,14 @@ function data_entity(array $entity): array
         $backend = data('backend', $attr['backend'] ?? $type['backend']);
         $frontend = data('frontend', $attr['frontend'] ?? $type['frontend']);
         $attr = array_replace($default, $backend, $frontend, $type, $attr);
-        $attr['uid'] = $id;
+        $attr['id'] = $id;
         $attr['name'] = _($attr['name']);
-        $attr['entity'] = $entity['uid'];
+        $attr['entity'] = $entity['id'];
 
         if ($attr['col'] === false) {
             $attr['col'] = null;
         } elseif (!$attr['col']) {
-            $attr['col'] = $attr['uid'];
+            $attr['col'] = $attr['id'];
         }
 
         if (!is_numeric($attr['sort'])) {

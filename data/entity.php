@@ -14,7 +14,7 @@ return [
                 'required' => true,
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
-                'validator' => 'uid',
+                'validator' => 'id',
             ],
             'name' => [
                 'name' => 'Name',
@@ -136,7 +136,7 @@ return [
                 'required' => true,
                 'uniq' => true,
                 'actions' => ['edit'],
-                'validator' => 'uid',
+                'validator' => 'id',
             ],
             'name' => [
                 'name' => 'Name',

@@ -8,7 +8,7 @@ return [
         . '<area><audio><embed><img><map><object><param><picture><source><track><video>'
         . '<caption><col><colgroup><table><tbody><td><tfoot><th><thead><tr>'
         . '<details><summary>',
-    'uid' => [
+    'id' => [
         // Latin
         '°' => '0',
         'æ' => 'ae',

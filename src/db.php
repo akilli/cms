@@ -130,13 +130,13 @@ function db_cols(array $attrs, array $item): array
     $attrs = db_attr($attrs, true);
     $cols = ['in' => [], 'up' => [], 'param' => []];
 
-    foreach (array_intersect_key($item, $attrs) as $uid => $val) {
-        $col = $attrs[$uid]['col'];
-        $param = db_param($uid);
-        $val = db_val($val, $attrs[$uid]);
-        $cols['in'][$col] = $attrs[$uid]['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
+    foreach (array_intersect_key($item, $attrs) as $aId => $val) {
+        $col = $attrs[$aId]['col'];
+        $param = db_param($aId);
+        $val = db_val($val, $attrs[$aId]);
+        $cols['in'][$col] = $attrs[$aId]['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
         $cols['up'][$col] = $col . ' = ' . $cols['in'][$col];
-        $cols['param'][$col] = [$param, $val, db_pdo($val, $attrs[$uid])];
+        $cols['param'][$col] = [$param, $val, db_pdo($val, $attrs[$aId])];
     }
 
     return $cols;
@@ -174,12 +174,12 @@ function db_crit(array $crit, array $attrs, array $opts = []): array
     $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
     $cols = [];
 
-    foreach ($crit as $uid => $val) {
-        $attr = $attrs[$uid];
+    foreach ($crit as $aId => $val) {
+        $attr = $attrs[$aId];
         $col = $attr['col'];
 
         if ($val === null) {
-            $cols[$uid] = db_null($col);
+            $cols[$aId] = db_null($col);
             continue;
         } elseif (is_array($val) && !$val) {
             continue;
@@ -188,7 +188,7 @@ function db_crit(array $crit, array $attrs, array $opts = []): array
         $val = (array) $val;
         $r = [];
 
-        if (!in_array($uid, $search)) {
+        if (!in_array($aId, $search)) {
             $r[] = db_eq($col, db_qva($val, $attr));
         } elseif ($attr['backend'] === 'search') {
             $r[] = db_search($col, db_qv(implode(' | ', $val), $attr));
@@ -198,7 +198,7 @@ function db_crit(array $crit, array $attrs, array $opts = []): array
             }
         }
 
-        $cols[$uid] = db_or($r);
+        $cols[$aId] = db_or($r);
     }
 
     return $cols;
@@ -450,8 +450,8 @@ function order(array $order): string
 {
     $cols = [];
 
-    foreach ($order as $uid => $dir) {
-        $cols[] = $uid . ' ' . ($dir === 'desc' ? 'DESC' : 'ASC');
+    foreach ($order as $aId => $dir) {
+        $cols[] = $aId . ' ' . ($dir === 'desc' ? 'DESC' : 'ASC');
     }
 
     return $cols ? ' ORDER BY ' . db_list($cols) : '';

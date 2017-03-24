@@ -52,7 +52,7 @@ function html_attr(array $attrs): string
  */
 function html_id(array $attr, array $item): string
 {
-    return 'data-' . $item['_id'] . '-' . $attr['uid'];
+    return 'data-' . $item['_id'] . '-' . $attr['id'];
 }
 
 /**
@@ -65,7 +65,7 @@ function html_id(array $attr, array $item): string
  */
 function html_name(array $attr, array $item): string
 {
-    return 'data[' . $item['_id'] . '][' . $attr['uid'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
+    return 'data[' . $item['_id'] . '][' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
 }
 
 /**
@@ -101,9 +101,9 @@ function html_label(array $attr, array $item): string
  */
 function html_message(array $attr, array $item): string
 {
-    if (empty($item['_error'][$attr['uid']])) {
+    if (empty($item['_error'][$attr['id']])) {
         return '';
     }
 
-    return html_tag('div', ['class' => 'message error'], $item['_error'][$attr['uid']]);
+    return html_tag('div', ['class' => 'message error'], $item['_error'][$attr['id']]);
 }

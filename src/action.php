@@ -30,7 +30,7 @@ function action_edit(array $entity): void
 
     if ($data) {
         // Perform save callback and redirect to admin on success
-        if (save($entity['uid'], $data)) {
+        if (save($entity['id'], $data)) {
             redirect(url('*/admin'));
         }
 
@@ -42,13 +42,13 @@ function action_edit(array $entity): void
         );
     } elseif (is_array(http_post('edit'))) {
         // We just selected multiple items to edit on the admin page
-        $data = all($entity['uid'], ['id' => array_keys(http_post('edit'))]);
+        $data = all($entity['id'], ['id' => array_keys(http_post('edit'))]);
     } elseif (request('id') !== null) {
         // We just clicked on an edit link, p.e. on the admin page
-        $data = all($entity['uid'], ['id' => request('id')]);
+        $data = all($entity['id'], ['id' => request('id')]);
     } else {
         // Initial create action call
-        $data = entity($entity['uid'], (int) http_post('create'));
+        $data = entity($entity['id'], (int) http_post('create'));
     }
 
     layout_load();
@@ -69,7 +69,7 @@ function action_form(array $entity): void
 
     if ($data) {
         // Perform save callback and redirect to homepage on success
-        if (save($entity['uid'], $data)) {
+        if (save($entity['id'], $data)) {
             redirect();
         }
 
@@ -81,7 +81,7 @@ function action_form(array $entity): void
         );
     } else {
         // Initial action call
-        $data = entity($entity['uid'], 1);
+        $data = entity($entity['id'], 1);
     }
 
     layout_load();
@@ -101,7 +101,7 @@ function action_delete(array $entity): void
     $data = http_post('edit');
 
     if ($data) {
-        delete($entity['uid'], ['id' => array_keys($data)]);
+        delete($entity['id'], ['id' => array_keys($data)]);
     } else {
         message(_('Nothing selected for deletion'));
     }
@@ -119,7 +119,7 @@ function action_delete(array $entity): void
 function action_index(array $entity): void
 {
     $action = request('action');
-    $attrs = entity_attr($entity['uid'], $action);
+    $attrs = entity_attr($entity['id'], $action);
     $crit = empty($entity['attr']['active']) || $action === 'admin' ? [] : ['active' => true];
     $opts = [];
     $p = [];
@@ -138,7 +138,7 @@ function action_index(array $entity): void
     }
 
     $opts['limit'] = data('limit', $action);
-    $size = size($entity['uid'], $crit, $opts);
+    $size = size($entity['id'], $crit, $opts);
     $pages = (int) ceil($size / $opts['limit']);
     $p['page'] = min(max(http_get('page'), 1), $pages ?: 1);
     $opts['offset'] = ($p['page'] - 1) * $opts['limit'];
@@ -150,7 +150,7 @@ function action_index(array $entity): void
     }
 
     layout_load();
-    vars('content', ['data' => all($entity['uid'], $crit, $opts), 'title' => $entity['name'], 'attr' => $attrs, 'params' => $p]);
+    vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => $entity['name'], 'attr' => $attrs, 'params' => $p]);
     vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $p]);
     vars('search', ['q' => $q]);
     vars('head', ['title' => $entity['name']]);
@@ -165,7 +165,7 @@ function action_index(array $entity): void
  */
 function action_view(array $entity): void
 {
-    $item = one($entity['uid'], ['id' => request('id')]);
+    $item = one($entity['id'], ['id' => request('id')]);
 
     // Item does not exist or is inactive
     if (!$item || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')) {

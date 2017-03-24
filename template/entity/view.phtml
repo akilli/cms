@@ -4,10 +4,10 @@
     <?php foreach ($item['_entity']['attr'] as $attr):?>
         <?php $attr['context'] = $§('context');?>
         <?php if (!$html = viewer($attr, $item)) continue;?>
-        <?php if ($attr['uid'] === 'name'):?>
+        <?php if ($attr['id'] === 'name'):?>
     <h1><?=$html;?></h1>
         <?php else:?>
-    <div data-attr="<?=$attr['uid'];?>">
+    <div data-attr="<?=$attr['id'];?>">
         <?=$html;?>
     </div>
         <?php endif;?>

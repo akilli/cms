@@ -48,11 +48,11 @@ function listener_data_attr(array $data): array
  */
 function listener_data_entity(array $data): array
 {
-    foreach ($data as $eUid => $item) {
-        $item['uid'] = $eUid;
+    foreach ($data as $eId => $item) {
+        $item['id'] = $eId;
         $item = data_entity($item);
         $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
-        $data[$eUid] = $item;
+        $data[$eId] = $item;
     }
 
     return $data;
@@ -107,9 +107,9 @@ function listener_data_privilege(array $data): array
         $data[$id]['name'] = _($item['name']);
     }
 
-    foreach (data('entity') as $eUid => $entity) {
+    foreach (data('entity') as $eId => $entity) {
         foreach ($entity['actions'] as $action) {
-            $data[$eUid . '.' . $action]['name'] = $entity['name'] . ' ' . _(ucwords($action));
+            $data[$eId . '.' . $action]['name'] = $entity['name'] . ' ' . _(ucwords($action));
         }
     }
 
@@ -212,7 +212,7 @@ function listener_page_save(array $data): array
 
     foreach ($data['_entity']['attr'] as $attr) {
         if ($attr['searchable']) {
-            $data['search'] .= ' ' . str_replace("\n", ' ', strip_tags($data[$attr['uid']]));
+            $data['search'] .= ' ' . str_replace("\n", ' ', strip_tags($data[$attr['id']]));
         }
     }
 

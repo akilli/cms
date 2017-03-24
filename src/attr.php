@@ -53,7 +53,7 @@ function cast(array $attr, $value)
  */
 function ignorable(array $attr, array $item): bool
 {
-    return !empty($item['_old'][$attr['uid']]) && $attr['frontend'] === 'file';
+    return !empty($item['_old'][$attr['id']]) && $attr['frontend'] === 'file';
 }
 
 /**
@@ -117,9 +117,9 @@ function opt_privilege(): array
  */
 function loader(array $attr, array $item)
 {
-    $item[$attr['uid']] = cast($attr, $item[$attr['uid']] ?? null);
+    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
-    return $attr['loader'] && ($call = fqn('loader_' . $attr['loader'])) ? $call($attr, $item) : $item[$attr['uid']];
+    return $attr['loader'] && ($call = fqn('loader_' . $attr['loader'])) ? $call($attr, $item) : $item[$attr['id']];
 }
 
 /**
@@ -132,15 +132,15 @@ function loader(array $attr, array $item)
  */
 function loader_json(array $attr, array $item): array
 {
-    if (empty($item[$attr['uid']])) {
+    if (empty($item[$attr['id']])) {
         return [];
     }
 
-    if (is_array($item[$attr['uid']])) {
-        return $item[$attr['uid']];
+    if (is_array($item[$attr['id']])) {
+        return $item[$attr['id']];
     }
 
-    return json_decode($item[$attr['uid']], true) ?: [];
+    return json_decode($item[$attr['id']], true) ?: [];
 }
 
 /**
@@ -166,8 +166,8 @@ function saver(array $attr, array $item): array
  */
 function saver_password(array $attr, array $item): array
 {
-    if ($item[$attr['uid']]) {
-        $item[$attr['uid']] = password_hash($item[$attr['uid']], PASSWORD_DEFAULT);
+    if ($item[$attr['id']]) {
+        $item[$attr['id']] = password_hash($item[$attr['id']], PASSWORD_DEFAULT);
     }
 
     return $item;
@@ -185,9 +185,9 @@ function saver_password(array $attr, array $item): array
  */
 function saver_file(array $attr, array $item): array
 {
-    $file = http_files('data')[$item['_id']][$attr['uid']] ?? null;
+    $file = http_files('data')[$item['_id']][$attr['id']] ?? null;
 
-    if ($item[$attr['uid']] && (!$file || !file_upload($file['tmp_name'], $item[$attr['uid']]))) {
+    if ($item[$attr['id']] && (!$file || !file_upload($file['tmp_name'], $item[$attr['id']]))) {
         throw new RuntimeException(_('File upload failed'));
     }
 
@@ -204,9 +204,9 @@ function saver_file(array $attr, array $item): array
  */
 function validator(array $attr, array $item): array
 {
-    $item[$attr['uid']] = cast($attr, $item[$attr['uid']] ?? null);
+    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
 
-    if ($attr['nullable'] && $item[$attr['uid']] === null) {
+    if ($attr['nullable'] && $item[$attr['id']] === null) {
         return $item;
     }
 
@@ -236,7 +236,7 @@ function validator(array $attr, array $item): array
  */
 function validator_required(array $attr, array $item): array
 {
-    if ($attr['required'] && ($item[$attr['uid']] === null || $item[$attr['uid']] === '') && !ignorable($attr, $item)) {
+    if ($attr['required'] && ($item[$attr['id']] === null || $item[$attr['id']] === '') && !ignorable($attr, $item)) {
         throw new DomainException(_('%s is a mandatory field', $attr['name']));
     }
 
@@ -255,7 +255,7 @@ function validator_required(array $attr, array $item): array
  */
 function validator_uniq(array $attr, array $item): array
 {
-    if ($attr['uniq'] && $item[$attr['uid']] !== ($item['_old'][$attr['uid']] ?? null) && size($item['_entity']['uid'], [$attr['uid'] => $item[$attr['uid']]])) {
+    if ($attr['uniq'] && $item[$attr['id']] !== ($item['_old'][$attr['id']] ?? null) && size($item['_entity']['id'], [$attr['id'] => $item[$attr['id']]])) {
         throw new DomainException(_('%s must be unique', $attr['name']));
     }
 
@@ -274,7 +274,7 @@ function validator_uniq(array $attr, array $item): array
  */
 function validator_boundary(array $attr, array $item): array
 {
-    $values = $attr['multiple'] && is_array($item[$attr['uid']]) ? $item[$attr['uid']] : [$item[$attr['uid']]];
+    $values = $attr['multiple'] && is_array($item[$attr['id']]) ? $item[$attr['id']] : [$item[$attr['id']]];
 
     foreach ($values as $value) {
         if (in_array($attr['backend'], ['json', 'text', 'varchar'])) {
@@ -301,17 +301,17 @@ function validator_boundary(array $attr, array $item): array
  */
 function validator_opt(array $attr, array $item): array
 {
-    if (is_array($item[$attr['uid']])) {
-        $item[$attr['uid']] = array_filter(
-            $item[$attr['uid']],
+    if (is_array($item[$attr['id']])) {
+        $item[$attr['id']] = array_filter(
+            $item[$attr['id']],
             function ($value) {
                 return !empty($value) || !is_string($value);
             }
         );
     }
 
-    if (!empty($item[$attr['uid']]) || is_scalar($item[$attr['uid']]) && !is_string($item[$attr['uid']])) {
-        foreach ((array) $item[$attr['uid']] as $v) {
+    if (!empty($item[$attr['id']]) || is_scalar($item[$attr['id']]) && !is_string($item[$attr['id']])) {
+        foreach ((array) $item[$attr['id']] as $v) {
             if (!isset($attr['opt'][$v])) {
                 throw new DomainException(_('Invalid option for attribute %s', $attr['name']));
             }
@@ -331,23 +331,23 @@ function validator_opt(array $attr, array $item): array
  */
 function validator_text(array $attr, array $item): array
 {
-    $item[$attr['uid']] = trim((string) filter_var($item[$attr['uid']], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
+    $item[$attr['id']] = trim((string) filter_var($item[$attr['id']], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
 
     return $item;
 }
 
 /**
- * UID validator
+ * ID validator
  *
  * @param array $attr
  * @param array $item
  *
  * @return array
  */
-function validator_uid(array $attr, array $item): array
+function validator_id(array $attr, array $item): array
 {
     $item = validator_text($attr, $item);
-    $item[$attr['uid']] = filter_uid($item[$attr['uid']]);
+    $item[$attr['id']] = filter_id($item[$attr['id']]);
 
     return $item;
 }
@@ -364,7 +364,7 @@ function validator_uid(array $attr, array $item): array
  */
 function validator_color(array $attr, array $item): array
 {
-    if ($item[$attr['uid']] && !preg_match('/#[a-f0-9]{6}/', $item[$attr['uid']])) {
+    if ($item[$attr['id']] && !preg_match('/#[a-f0-9]{6}/', $item[$attr['id']])) {
          throw new DomainException(_('Invalid color'));
     }
 
@@ -383,7 +383,7 @@ function validator_color(array $attr, array $item): array
  */
 function validator_email(array $attr, array $item): array
 {
-    if ($item[$attr['uid']] && !($item[$attr['uid']] = filter_var($item[$attr['uid']], FILTER_VALIDATE_EMAIL))) {
+    if ($item[$attr['id']] && !($item[$attr['id']] = filter_var($item[$attr['id']], FILTER_VALIDATE_EMAIL))) {
          throw new DomainException(_('Invalid email'));
     }
 
@@ -402,7 +402,7 @@ function validator_email(array $attr, array $item): array
  */
 function validator_url(array $attr, array $item): array
 {
-    if ($item[$attr['uid']] && !($item[$attr['uid']] = filter_var($item[$attr['uid']], FILTER_VALIDATE_URL))) {
+    if ($item[$attr['id']] && !($item[$attr['id']] = filter_var($item[$attr['id']], FILTER_VALIDATE_URL))) {
          throw new DomainException(_('Invalid URL'));
     }
 
@@ -421,12 +421,12 @@ function validator_url(array $attr, array $item): array
  */
 function validator_json(array $attr, array $item): array
 {
-    if ($item[$attr['uid']] && json_decode($item[$attr['uid']], true) === null) {
+    if ($item[$attr['id']] && json_decode($item[$attr['id']], true) === null) {
          throw new DomainException(_('Invalid JSON notation'));
     }
 
-    if (!$item[$attr['uid']]) {
-        $item[$attr['uid']] = '[]';
+    if (!$item[$attr['id']]) {
+        $item[$attr['id']] = '[]';
     }
 
     return $item;
@@ -442,7 +442,7 @@ function validator_json(array $attr, array $item): array
  */
 function validator_rte(array $attr, array $item): array
 {
-    $item[$attr['uid']] = filter_html($item[$attr['uid']]);
+    $item[$attr['id']] = filter_html($item[$attr['id']]);
 
     return $item;
 }
@@ -462,7 +462,7 @@ function validator_date(array $attr, array $item): array
     $in = data('format', 'date.frontend');
     $out = data('format', 'date.backend');
 
-    if ($item[$attr['uid']] && !($item[$attr['uid']] = filter_date($item[$attr['uid']], $in, $out))) {
+    if ($item[$attr['id']] && !($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
         throw new DomainException(_('Invalid value'));
     }
 
@@ -484,7 +484,7 @@ function validator_datetime(array $attr, array $item): array
     $in = data('format', 'datetime.frontend');
     $out = data('format', 'datetime.backend');
 
-    if ($item[$attr['uid']] && !($item[$attr['uid']] = filter_date($item[$attr['uid']], $in, $out))) {
+    if ($item[$attr['id']] && !($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
         throw new DomainException(_('Invalid value'));
     }
 
@@ -506,7 +506,7 @@ function validator_time(array $attr, array $item): array
     $in = data('format', 'time.frontend');
     $out = data('format', 'time.backend');
 
-    if ($item[$attr['uid']] && !($item[$attr['uid']] = filter_date($item[$attr['uid']], $in, $out))) {
+    if ($item[$attr['id']] && !($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
         throw new DomainException(_('Invalid value'));
     }
 
@@ -525,15 +525,15 @@ function validator_time(array $attr, array $item): array
  */
 function validator_file(array $attr, array $item): array
 {
-    if ($file = http_files('data')[$item['_id']][$attr['uid']] ?? '') {
+    if ($file = http_files('data')[$item['_id']][$attr['id']] ?? '') {
         if (!in_array($attr['type'], data('file', $file['ext']) ?? [])) {
             throw new DomainException(_('Invalid file %s', $file['name']));
         }
 
-        if (($item['_old'][$attr['uid']] ?? null) === $file['name']) {
-            $item[$attr['uid']] = $file['name'];
+        if (($item['_old'][$attr['id']] ?? null) === $file['name']) {
+            $item[$attr['id']] = $file['name'];
         } else {
-            $item[$attr['uid']] = filter_file($file['name'], project_path('media'));
+            $item[$attr['id']] = filter_file($file['name'], project_path('media'));
         }
     }
 
@@ -554,7 +554,7 @@ function editor(array $attr, array $item): string
         return '';
     }
 
-    $item[$attr['uid']] = $item[$attr['uid']] ?? $attr['val'];
+    $item[$attr['id']] = $item[$attr['id']] ?? $attr['val'];
     $attr['opt'] = opt($attr);
     $attr['html']['id'] =  html_id($attr, $item);
     $attr['html']['name'] =  html_name($attr, $item);
@@ -568,7 +568,7 @@ function editor(array $attr, array $item): string
         $attr['html']['multiple'] = true;
     }
 
-    if (!empty($item['_error'][$attr['uid']])) {
+    if (!empty($item['_error'][$attr['id']])) {
         $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
     }
 
@@ -589,7 +589,7 @@ function editor(array $attr, array $item): string
  */
 function editor_select(array $attr, array $item): string
 {
-    $value = $item[$attr['uid']];
+    $value = $item[$attr['id']];
 
     if (!is_array($value)) {
         $value = !$value && !is_numeric($value) ? [] : [$value];
@@ -630,7 +630,7 @@ function editor_opt(array $attr, array $item): string
         $attr['opt'] = [1 => _('Yes')];
     }
 
-    $value = $item[$attr['uid']];
+    $value = $item[$attr['id']];
 
     if ($attr['backend'] === 'bool') {
         $value = [(int) $value];
@@ -668,7 +668,7 @@ function editor_opt(array $attr, array $item): string
 function editor_text(array $attr, array $item): string
 {
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['uid']] ? encode($item[$attr['uid']]) : $item[$attr['uid']];
+    $attr['html']['value'] = $item[$attr['id']] ? encode($item[$attr['id']]) : $item[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['minlength'] = $attr['minval'];
@@ -691,7 +691,7 @@ function editor_text(array $attr, array $item): string
  */
 function editor_password(array $attr, array $item): string
 {
-    $item[$attr['uid']] = null;
+    $item[$attr['id']] = null;
     $attr['html']['autocomplete'] = 'off';
 
     return editor_text($attr, $item);
@@ -708,7 +708,7 @@ function editor_password(array $attr, array $item): string
 function editor_int(array $attr, array $item): string
 {
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['uid']];
+    $attr['html']['value'] = $item[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['min'] = $attr['minval'];
@@ -733,9 +733,9 @@ function editor_date(array $attr, array $item): string
 {
     $in = data('format', 'date.backend');
     $out = data('format', 'date.frontend');
-    $item[$attr['uid']] = $item[$attr['uid']] ? filter_date($item[$attr['uid']], $in, $out) : '';
+    $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['uid']];
+    $attr['html']['value'] = $item[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['min'] = $attr['minval'];
@@ -760,9 +760,9 @@ function editor_datetime(array $attr, array $item): string
 {
     $in = data('format', 'datetime.backend');
     $out = data('format', 'datetime.frontend');
-    $item[$attr['uid']] = $item[$attr['uid']] ? filter_date($item[$attr['uid']], $in, $out) : '';
+    $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
     $attr['html']['type'] = 'datetime-local';
-    $attr['html']['value'] = $item[$attr['uid']];
+    $attr['html']['value'] = $item[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['min'] = $attr['minval'];
@@ -787,9 +787,9 @@ function editor_time(array $attr, array $item): string
 {
     $in = data('format', 'time.backend');
     $out = data('format', 'time.frontend');
-    $item[$attr['uid']] = $item[$attr['uid']] ? filter_date($item[$attr['uid']], $in, $out) : '';
+    $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['uid']];
+    $attr['html']['value'] = $item[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['min'] = $attr['minval'];
@@ -812,7 +812,7 @@ function editor_time(array $attr, array $item): string
  */
 function editor_file(array $attr, array $item): string
 {
-    $current = $item[$attr['uid']] ? html_tag('div', [], viewer($attr, $item)) : '';
+    $current = $item[$attr['id']] ? html_tag('div', [], viewer($attr, $item)) : '';
     $hidden = html_tag('input', ['name' => $attr['html']['name'], 'type' => 'hidden'], null, true);
     $attr['html']['type'] = $attr['frontend'];
 
@@ -829,7 +829,7 @@ function editor_file(array $attr, array $item): string
  */
 function editor_textarea(array $attr, array $item): string
 {
-    $item[$attr['uid']] = $item[$attr['uid']] ? encode($item[$attr['uid']]) : $item[$attr['uid']];
+    $item[$attr['id']] = $item[$attr['id']] ? encode($item[$attr['id']]) : $item[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['minlength'] = $attr['minval'];
@@ -839,7 +839,7 @@ function editor_textarea(array $attr, array $item): string
         $attr['html']['maxlength'] = $attr['maxval'];
     }
 
-    return html_tag('textarea', $attr['html'], $item[$attr['uid']]);
+    return html_tag('textarea', $attr['html'], $item[$attr['id']]);
 }
 
 /**
@@ -852,8 +852,8 @@ function editor_textarea(array $attr, array $item): string
  */
 function editor_json(array $attr, array $item): string
 {
-    if (is_array($item[$attr['uid']])) {
-        $item[$attr['uid']] = !empty($item[$attr['uid']]) ? json_encode($item[$attr['uid']]) : '';
+    if (is_array($item[$attr['id']])) {
+        $item[$attr['id']] = !empty($item[$attr['id']]) ? json_encode($item[$attr['id']]) : '';
     }
 
     return editor_textarea($attr, $item);
@@ -879,7 +879,7 @@ function viewer(array $attr, array $item): string
         return $call($attr, $item);
     }
 
-    return $item[$attr['uid']] ? encode((string) $item[$attr['uid']]) : (string) $item[$attr['uid']];
+    return $item[$attr['id']] ? encode((string) $item[$attr['id']]) : (string) $item[$attr['id']];
 }
 
 /**
@@ -892,8 +892,8 @@ function viewer(array $attr, array $item): string
  */
 function viewer_opt(array $attr, array $item): string
 {
-    if ($attr['opt'] && $item[$attr['uid']]) {
-        $values = array_intersect_key($attr['opt'], array_fill_keys((array) $item[$attr['uid']], null));
+    if ($attr['opt'] && $item[$attr['id']]) {
+        $values = array_intersect_key($attr['opt'], array_fill_keys((array) $item[$attr['id']], null));
     }
 
     return !empty($values) ? encode(implode(', ', $values)) : '';
@@ -909,7 +909,7 @@ function viewer_opt(array $attr, array $item): string
  */
 function viewer_date(array $attr, array $item): string
 {
-    return $item[$attr['uid']] ? date_format(date_create($item[$attr['uid']]), data('format', 'date.view')) : '';
+    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('format', 'date.view')) : '';
 }
 
 /**
@@ -922,7 +922,7 @@ function viewer_date(array $attr, array $item): string
  */
 function viewer_datetime(array $attr, array $item): string
 {
-    return $item[$attr['uid']] ? date_format(date_create($item[$attr['uid']]), data('format', 'datetime.view')) : '';
+    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('format', 'datetime.view')) : '';
 }
 
 /**
@@ -935,7 +935,7 @@ function viewer_datetime(array $attr, array $item): string
  */
 function viewer_time(array $attr, array $item): string
 {
-    return $item[$attr['uid']] ? date_format(date_create($item[$attr['uid']]), data('format', 'time.view')) : '';
+    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('format', 'time.view')) : '';
 }
 
 /**
@@ -948,7 +948,7 @@ function viewer_time(array $attr, array $item): string
  */
 function viewer_rte(array $attr, array $item): string
 {
-    return (string) $item[$attr['uid']];
+    return (string) $item[$attr['id']];
 }
 
 /**
@@ -961,7 +961,7 @@ function viewer_rte(array $attr, array $item): string
  */
 function viewer_iframe(array $attr, array $item): string
 {
-    return $item[$attr['uid']] ? html_tag('figure', ['class' => 'iframe'], html_tag('iframe', ['src' => $item[$attr['uid']], 'allowfullscreen' => true])) : '';
+    return $item[$attr['id']] ? html_tag('figure', ['class' => 'iframe'], html_tag('iframe', ['src' => $item[$attr['id']], 'allowfullscreen' => true])) : '';
 }
 
 /**
@@ -974,7 +974,7 @@ function viewer_iframe(array $attr, array $item): string
  */
 function viewer_audio(array $attr, array $item): string
 {
-    return $item[$attr['uid']] ? html_tag('audio', ['src' => url_media($item[$attr['uid']]), 'controls' => true]) : '';
+    return $item[$attr['id']] ? html_tag('audio', ['src' => url_media($item[$attr['id']]), 'controls' => true]) : '';
 }
 
 /**
@@ -987,7 +987,7 @@ function viewer_audio(array $attr, array $item): string
  */
 function viewer_embed(array $attr, array $item): string
 {
-    return $item[$attr['uid']] ? html_tag('embed', ['src' => url_media($item[$attr['uid']])], null, true) : '';
+    return $item[$attr['id']] ? html_tag('embed', ['src' => url_media($item[$attr['id']])], null, true) : '';
 }
 
 /**
@@ -1000,7 +1000,7 @@ function viewer_embed(array $attr, array $item): string
  */
 function viewer_file(array $attr, array $item): string
 {
-    return $item[$attr['uid']] ? html_tag('a', ['href' => url_media($item[$attr['uid']])], $item[$attr['uid']]) : '';
+    return $item[$attr['id']] ? html_tag('a', ['href' => url_media($item[$attr['id']])], $item[$attr['id']]) : '';
 }
 
 /**
@@ -1013,7 +1013,7 @@ function viewer_file(array $attr, array $item): string
  */
 function viewer_image(array $attr, array $item): string
 {
-    return $item[$attr['uid']] ? html_tag('img', ['src' => image($item[$attr['uid']], $attr['context']), 'alt' => $item[$attr['uid']]], null, true) : '';
+    return $item[$attr['id']] ? html_tag('img', ['src' => image($item[$attr['id']], $attr['context']), 'alt' => $item[$attr['id']]], null, true) : '';
 }
 
 /**
@@ -1026,7 +1026,7 @@ function viewer_image(array $attr, array $item): string
  */
 function viewer_object(array $attr, array $item): string
 {
-    return $item[$attr['uid']] ? html_tag('object', ['data' => url_media($item[$attr['uid']])]) : '';
+    return $item[$attr['id']] ? html_tag('object', ['data' => url_media($item[$attr['id']])]) : '';
 }
 
 /**
@@ -1039,7 +1039,7 @@ function viewer_object(array $attr, array $item): string
  */
 function viewer_video(array $attr, array $item): string
 {
-    return $item[$attr['uid']] ? html_tag('video', ['src' => url_media($item[$attr['uid']]), 'controls' => true]) : '';
+    return $item[$attr['id']] ? html_tag('video', ['src' => url_media($item[$attr['id']]), 'controls' => true]) : '';
 }
 
 /**
@@ -1052,17 +1052,17 @@ function viewer_video(array $attr, array $item): string
  */
 function viewer_filesize(array $attr, array $item): string
 {
-    if (!$item[$attr['uid']]) {
+    if (!$item[$attr['id']]) {
         return '';
     }
 
-    if ($item[$attr['uid']] < 1000) {
-        return $item[$attr['uid']] . ' B';
+    if ($item[$attr['id']] < 1000) {
+        return $item[$attr['id']] . ' B';
     }
 
-    if ($item[$attr['uid']] > 1000000) {
-        return round($item[$attr['uid']] / 1000000, 1) . ' MB';
+    if ($item[$attr['id']] > 1000000) {
+        return round($item[$attr['id']] / 1000000, 1) . ' MB';
     }
 
-    return round($item[$attr['uid']] / 1000, 1) . ' kB';
+    return round($item[$attr['id']] / 1000, 1) . ' kB';
 }

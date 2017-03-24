@@ -8,7 +8,7 @@
             <?php foreach ($item['_entity']['attr'] as $attr):?>
                 <?php $attr['context'] = $§('context');?>
                 <?php if (!$html = editor($attr, $item)) continue;?>
-            <div data-attr="<?=$attr['uid'];?>">
+            <div data-attr="<?=$attr['id'];?>">
                 <?=$html;?>
             </div>
             <?php endforeach;?>

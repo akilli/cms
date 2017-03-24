@@ -102,8 +102,8 @@ function layout_handles(): array
             $data[] = 'action-' . $action;
         }
 
-        $data[] = 'entity-' . $entity['uid'];
-        $data[] = $entity['uid'] . '.' . $action;
+        $data[] = 'entity-' . $entity['id'];
+        $data[] = $entity['id'] . '.' . $action;
     }
 
     return $data;
