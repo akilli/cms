@@ -598,7 +598,7 @@ function editor_select(array $attr, array $item): string
     if (empty($attr['opt'])) {
         $html = html_tag('optgroup', ['label' => _('No options configured')]);
     } else {
-        $html = html_tag('option', [], _('Please choose'));
+        $html = html_tag('option', ['value' => ''], _('Please choose'));
 
         foreach ($attr['opt'] as $optId => $optVal) {
             $a = ['value' => $optId];
