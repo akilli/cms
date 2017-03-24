@@ -24,7 +24,7 @@ function encode(string $var): string
  */
 function decode(string $var): string
 {
-    return htmlspecialchars($var, ENT_QUOTES);
+    return htmlspecialchars_decode($var, ENT_QUOTES);
 }
 
 /**
