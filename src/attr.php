@@ -88,21 +88,6 @@ function opt(array $attr): array
 }
 
 /**
- * Attribute options
- *
- * @return array
- */
-function opt_attr(): array
-{
-    return array_map(
-        function ($item) {
-            return $item['name'];
-        },
-        data('attr')
-    );
-}
-
-/**
  * Privilege options
  *
  * @return array
