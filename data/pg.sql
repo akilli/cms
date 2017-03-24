@@ -6,8 +6,8 @@ START TRANSACTION;
 
 CREATE TABLE project (
     id serial PRIMARY KEY,
-    uid varchar(100) NOT NULL UNIQUE,
-    name varchar(255) NOT NULL,
+    uid varchar(20) NOT NULL UNIQUE,
+    name varchar(50) NOT NULL,
     active boolean NOT NULL DEFAULT FALSE,
     system boolean NOT NULL DEFAULT FALSE
 );
@@ -22,7 +22,7 @@ CREATE INDEX idx_project_system ON project (system);
 
 CREATE TABLE role (
     id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
+    name varchar(50) NOT NULL,
     privilege jsonb NOT NULL,
     active boolean NOT NULL DEFAULT FALSE,
     system boolean NOT NULL DEFAULT FALSE,
@@ -40,7 +40,7 @@ CREATE INDEX idx_role_project_id ON role (project_id);
 
 CREATE TABLE account (
     id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
+    name varchar(50) NOT NULL,
     password varchar(255) NOT NULL,
     role_id integer NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE,
     active boolean NOT NULL DEFAULT FALSE,
@@ -61,7 +61,7 @@ CREATE INDEX idx_account_project_id ON account (project_id);
 CREATE TABLE page (
     id serial PRIMARY KEY,
     uid varchar(255) NOT NULL,
-    name varchar(255) NOT NULL,
+    name varchar(100) NOT NULL,
     active boolean NOT NULL DEFAULT FALSE,
     parent_id integer DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     sort integer NOT NULL DEFAULT 0,

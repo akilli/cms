@@ -14,6 +14,7 @@ return [
                 'required' => true,
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
+                'maxval' => 20,
                 'validator' => 'id',
             ],
             'name' => [
@@ -21,6 +22,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'actions' => ['admin', 'edit'],
+                'maxval' => 50,
             ],
             'active' => [
                 'name' => 'Active',
@@ -49,6 +51,7 @@ return [
                 'required' => true,
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
+                'maxval' => 50,
             ],
             'privilege' => [
                 'name' => 'Privileges',
@@ -88,6 +91,7 @@ return [
                 'required' => true,
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
+                'maxval' => 50,
             ],
             'password' => [
                 'name' => 'Password',
@@ -144,6 +148,7 @@ return [
                 'required' => true,
                 'searchable' => true,
                 'actions' => ['admin', 'edit', 'form', 'index', 'view'],
+                'maxval' => 100,
             ],
             'active' => [
                 'name' => 'Active',
