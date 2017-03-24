@@ -120,7 +120,6 @@ return [
     'Range' => 'Range',
     'Redirect' => 'Weiterleitung',
     'Required' => 'Erforderlich',
-    'Reserved database keywords must not be used' => 'Reservierte Datenbank-Schlüsselwörter dürfen nicht verwendet werden',
     'Reset' => 'Zurücksetzen',
     'Results %d to %d of %d' => 'Ergebnisse %d bis %d von %d',
     'Rich Text Editor' => 'Rich Text Editor',

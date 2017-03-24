@@ -305,25 +305,6 @@ function validator_boundary(array $attr, array $item): array
 }
 
 /**
- * Keyword validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return array
- *
- * @throws DomainException
- */
-function validator_keyword(array $attr, array $item): array
-{
-    if ($item[$attr['uid']] && in_array($item[$attr['uid']], data('sql', 'keyword'))) {
-        throw new DomainException(_('Reserved database keywords must not be used'));
-    }
-
-    return $item;
-}
-
-/**
  * Option validator
  *
  * @param array $attr
@@ -353,55 +334,6 @@ function validator_opt(array $attr, array $item): array
     }
 
     return $item;
-}
-
-/**
- * Attribute UID validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return array
- *
- * @throws DomainException
- */
-function validator_attr(array $attr, array $item): array
-{
-    if (!$item[$attr['uid']]) {
-        return $item;
-    }
-
-    if (($eUid = array_search($item['entity_id'], array_filter(array_column(data('entity'), 'id', 'uid'))))
-        && ($old = data('entity', $eUid)['attr'][$item[$attr['uid']]] ?? null)
-        && (empty($item['id']) || $item['id'] !== $old['id'])
-    ) {
-        throw new DomainException(_('UID is already in use'));
-    }
-
-    return validator_keyword($attr, $item);
-}
-
-/**
- * Entity UID validator
- *
- * @param array $attr
- * @param array $item
- *
- * @return array
- *
- * @throws DomainException
- */
-function validator_entity(array $attr, array $item): array
-{
-    if (!$item[$attr['uid']]) {
-        return $item;
-    }
-
-    if (($old = data('entity', $item[$attr['uid']])) && (empty($item['id']) || $item['id'] !== $old['id'])) {
-        throw new DomainException(_('UID is already in use'));
-    }
-
-    return validator_keyword($attr, $item);
 }
 
 /**
