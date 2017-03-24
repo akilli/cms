@@ -1,27 +1,27 @@
 <?php
 return [
-    'data.preLoad.app' => [
+    'data.load.app' => [
         'data_app' => -100,
     ],
-    'data.preLoad.attr' => [
+    'data.load.attr' => [
         'data_attr' => -100,
     ],
-    'data.preLoad.entity' => [
+    'data.load.entity' => [
         'data_entity' => -100,
     ],
-    'data.preLoad.i18n' => [
+    'data.load.i18n' => [
         'data_i18n' => -100,
     ],
-    'data.preLoad.opt' => [
+    'data.load.opt' => [
         'data_opt' => -100,
     ],
-    'data.preLoad.privilege' => [
+    'data.load.privilege' => [
         'data_privilege' => -100,
     ],
-    'data.preLoad.request' => [
+    'data.load.request' => [
         'data_request' => -100,
     ],
-    'data.preLoad.toolbar' => [
+    'data.load.toolbar' => [
         'data_toolbar' => -100,
     ],
     'entity.postSave.project' => [

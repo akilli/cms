@@ -21,8 +21,7 @@ function data(string $section, string $id = null)
         $data = data_load(path('data', $section . '.php'));
 
         if ($section !== 'listener') {
-            $data = event('data.preLoad.' . $section, $data);
-            $data = event('data.postLoad.' . $section, $data);
+            $data = event('data.load.' . $section, $data);
         }
     }
 
