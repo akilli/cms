@@ -139,8 +139,6 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
-                'actions' => ['edit'],
-                'validator' => 'id',
             ],
             'name' => [
                 'name' => 'Name',

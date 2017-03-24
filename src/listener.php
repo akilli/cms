@@ -216,5 +216,14 @@ function listener_page_save(array $data): array
         }
     }
 
+    if ($data['name'] !== ($data['_old']['name'] ?? null)) {
+        $base = filter_id($data['name']);
+        $data['uid'] = $base;
+
+        for ($i = 1; one('page', ['uid' => $data['uid']]); $i++) {
+            $data['uid'] = $base . '-' . $i;
+        }
+    }
+
     return $data;
 }
