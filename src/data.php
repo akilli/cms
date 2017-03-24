@@ -19,10 +19,7 @@ function data(string $section, string $id = null)
 
     if ($data === null) {
         $data = data_load(path('data', $section . '.php'));
-
-        if ($section !== 'listener') {
-            $data = event('data.load.' . $section, $data);
-        }
+        $data = event('data.load.' . $section, $data);
     }
 
     if ($id === null) {
