@@ -1,26 +1,13 @@
 <?php
 return [
-    'content' => [
-        'name' => 'Content',
-        'url' => '',
-        'children' => [
-            ['name' => 'Media', 'url' => '/media/admin'],
-        ],
-    ],
-    'system' => [
-        'name' => 'System',
-        'url' => '',
-        'children' => [
-            ['name' => 'Project', 'url' => '/project/admin'],
-            ['name' => 'Role', 'url' => '/role/admin'],
-            ['name' => 'Account', 'url' => '/account/admin'],
-            ['name' => 'URL', 'url' => '/url/admin'],
-            ['name' => 'Entity', 'url' => '/entity/admin'],
-            ['name' => 'Attribute', 'url' => '/attr/admin'],
-        ],
-    ],
-    'home' => ['name' => 'Homepage', 'url' => '/'],
-    'dashboard' => ['name' => 'Dashboard', 'url' => '/account/dashboard'],
-    'password' => ['name' => 'Password', 'url' => '/account/password'],
-    'logout' => ['name' => 'Logout', 'url' => '/account/logout'],
+    ['name' => 'Page', 'url' => '/page/admin'],
+    ['name' => 'Media', 'url' => '/media/admin'],
+    ['name' => 'URL', 'url' => '/url/admin'],
+    ['name' => 'Account', 'url' => '/account/admin'],
+    ['name' => 'Role', 'url' => '/role/admin'],
+    ['name' => 'Project', 'url' => '/project/admin'],
+    ['name' => 'Homepage', 'url' => '/'],
+    ['name' => 'Dashboard', 'url' => '/account/dashboard'],
+    ['name' => 'Password', 'url' => '/account/password'],
+    ['name' => 'Logout', 'url' => '/account/logout'],
 ];

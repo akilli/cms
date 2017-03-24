@@ -55,63 +55,12 @@ CREATE INDEX idx_account_system ON account (system);
 CREATE INDEX idx_account_project ON account (project_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- EAV
+-- Page
 -- ---------------------------------------------------------------------------------------------------------------------
 
-CREATE TABLE entity (
-    id serial PRIMARY KEY,
-    uid varchar(100) NOT NULL UNIQUE,
-    name varchar(255) NOT NULL,
-    actions jsonb NOT NULL,
-    project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE INDEX idx_entity_name ON entity (name);
-CREATE INDEX idx_entity_actions ON entity USING GIN (actions);
-CREATE INDEX idx_entity_project ON entity (project_id);
-
--- -----------------------------------------------------------
-
-CREATE TABLE attr (
-    id serial PRIMARY KEY,
-    entity_id integer NOT NULL REFERENCES entity ON DELETE CASCADE ON UPDATE CASCADE,
-    uid varchar(100) NOT NULL,
-    name varchar(255) NOT NULL,
-    sort integer NOT NULL DEFAULT 0,
-    type varchar(100) NOT NULL,
-    required boolean NOT NULL DEFAULT FALSE,
-    uniq boolean NOT NULL DEFAULT FALSE,
-    searchable boolean NOT NULL DEFAULT FALSE,
-    opt jsonb NOT NULL,
-    actions jsonb NOT NULL,
-    val varchar(255),
-    minval integer NOT NULL DEFAULT 0,
-    maxval integer NOT NULL DEFAULT 0,
-    project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
-    UNIQUE (entity_id, uid)
-);
-
-CREATE INDEX idx_attr_entity ON attr (entity_id);
-CREATE INDEX idx_attr_uid ON attr (uid);
-CREATE INDEX idx_attr_name ON attr (name);
-CREATE INDEX idx_attr_sort ON attr (sort);
-CREATE INDEX idx_attr_type ON attr (type);
-CREATE INDEX idx_attr_required ON attr (required);
-CREATE INDEX idx_attr_uniq ON attr (uniq);
-CREATE INDEX idx_attr_searchable ON attr (searchable);
-CREATE INDEX idx_attr_opt ON attr USING GIN (opt);
-CREATE INDEX idx_attr_actions ON attr USING GIN (actions);
-CREATE INDEX idx_attr_val ON attr (val);
-CREATE INDEX idx_attr_minval ON attr (minval);
-CREATE INDEX idx_attr_maxval ON attr (maxval);
-CREATE INDEX idx_attr_project ON attr (project_id);
-
--- -----------------------------------------------------------
-
-CREATE TABLE content (
+CREATE TABLE page (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
-    entity_id integer NOT NULL REFERENCES entity ON DELETE CASCADE ON UPDATE CASCADE,
     active boolean NOT NULL DEFAULT FALSE,
     content text NOT NULL,
     search tsvector NOT NULL,
@@ -122,27 +71,14 @@ CREATE TABLE content (
     project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE INDEX idx_content_name ON content (name);
-CREATE INDEX idx_content_entity ON content (entity_id);
-CREATE INDEX idx_content_active ON content (active);
-CREATE INDEX idx_content_search ON content USING GIN (search);
-CREATE INDEX idx_content_created ON content (created);
-CREATE INDEX idx_content_creator ON content (creator);
-CREATE INDEX idx_content_modified ON content (modified);
-CREATE INDEX idx_content_modifier ON content (modifier);
-CREATE INDEX idx_content_project ON content (project_id);
-
--- -----------------------------------------------------------
-
-CREATE TABLE content_eav (
-    content_id integer NOT NULL REFERENCES content ON DELETE CASCADE ON UPDATE CASCADE,
-    attr_id integer NOT NULL REFERENCES attr ON DELETE CASCADE ON UPDATE CASCADE,
-    value text NOT NULL,
-    PRIMARY KEY (content_id, attr_id)
-);
-
-CREATE INDEX idx_eav_content ON content_eav (content_id);
-CREATE INDEX idx_eav_attr ON content_eav (attr_id);
+CREATE INDEX idx_page_name ON page (name);
+CREATE INDEX idx_page_active ON page (active);
+CREATE INDEX idx_page_search ON page USING GIN (search);
+CREATE INDEX idx_page_created ON page (created);
+CREATE INDEX idx_page_creator ON page (creator);
+CREATE INDEX idx_page_modified ON page (modified);
+CREATE INDEX idx_page_modifier ON page (modifier);
+CREATE INDEX idx_page_project ON page (project_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- URL
@@ -183,12 +119,6 @@ INSERT INTO
     (name, password, role_id, active, system, project_id)
 VALUES
     ('admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', CURRVAL('role_id_seq'), TRUE, TRUE, CURRVAL('project_id_seq'));
-
-INSERT INTO
-    entity
-    (uid, name, actions, project_id)
-VALUES
-    ('page', 'Page', '["admin", "delete", "edit", "index", "view"]', CURRVAL('project_id_seq'));
 
 -- ---------------------------------------------------------------------------------------------------------------------
 

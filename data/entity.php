@@ -120,138 +120,9 @@ return [
             ],
         ],
     ],
-    'entity' => [
-        'name' => 'Entity',
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'auto' => true,
-                'type' => 'int',
-            ],
-            'uid' => [
-                'name' => 'UID',
-                'type' => 'text',
-                'required' => true,
-                'uniq' => true,
-                'actions' => ['admin', 'edit'],
-                'validator' => 'entity',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'actions' => ['admin', 'edit'],
-            ],
-            'actions' => [
-                'name' => 'Actions',
-                'type' => 'multicheckbox',
-                'opt' => ['data', ['opt', 'action.entity']],
-                'actions' => ['admin', 'edit'],
-            ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'entity',
-                'opt' => ['project'],
-            ],
-        ],
-    ],
-    'attr' => [
-        'name' => 'Attribute',
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'auto' => true,
-                'type' => 'int',
-            ],
-            'entity_id' => [
-                'name' => 'Entity',
-                'type' => 'entity',
-                'required' => true,
-                'opt' => ['entity'],
-                'actions' => ['admin', 'edit'],
-            ],
-            'uid' => [
-                'name' => 'UID',
-                'type' => 'text',
-                'required' => true,
-                'actions' => ['admin', 'edit'],
-                'validator' => 'attr',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'actions' => ['admin', 'edit'],
-            ],
-            'sort' => [
-                'name' => 'Sort',
-                'type' => 'int',
-                'actions' => ['admin', 'edit'],
-            ],
-            'type' => [
-                'name' => 'Type',
-                'type' => 'select',
-                'required' => true,
-                'opt' => ['opt_attr'],
-                'actions' => ['admin', 'edit'],
-            ],
-            'required' => [
-                'name' => 'Required',
-                'type' => 'checkbox',
-                'actions' => ['edit'],
-                'val' => false,
-            ],
-            'uniq' => [
-                'name' => 'Unique',
-                'type' => 'checkbox',
-                'actions' => ['edit'],
-                'val' => false,
-            ],
-            'searchable' => [
-                'name' => 'Searchable',
-                'type' => 'checkbox',
-                'actions' => ['edit'],
-                'val' => false,
-            ],
-            'opt' => [
-                'name' => 'Options',
-                'type' => 'json',
-                'actions' => ['edit'],
-            ],
-            'actions' => [
-                'name' => 'Actions',
-                'type' => 'multicheckbox',
-                'opt' => ['data', ['opt', 'action.attr']],
-                'actions' => ['admin', 'edit'],
-            ],
-            'val' => [
-                'name' => 'Default value',
-                'type' => 'text',
-                'nullable' => true,
-                'actions' => ['edit'],
-            ],
-            'minval' => [
-                'name' => 'Minimal value',
-                'type' => 'int',
-                'actions' => ['edit'],
-                'val' => 0,
-            ],
-            'maxval' => [
-                'name' => 'Maximal value',
-                'type' => 'int',
-                'actions' => ['edit'],
-                'val' => 0,
-            ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'entity',
-                'opt' => ['project'],
-            ],
-        ],
-    ],
-    'content' => [
-        'name' => 'Content',
-        'actions' => ['index'],
+    'page' => [
+        'name' => 'Page',
+        'actions' => ['admin', 'delete', 'edit', 'index', 'view'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -265,11 +136,6 @@ return [
                 'required' => true,
                 'searchable' => true,
                 'actions' => ['admin', 'edit', 'form', 'index', 'view'],
-            ],
-            'entity_id' => [
-                'name' => 'Entity',
-                'type' => 'entity',
-                'opt' => ['entity'],
             ],
             'active' => [
                 'name' => 'Active',

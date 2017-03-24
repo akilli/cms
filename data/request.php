@@ -2,7 +2,7 @@
 return [
     'id' => null,
     'action' => 'index',
-    'entity' => 'content',
+    'entity' => 'page',
     'url' => null,
     'path' => null,
     'host' => null,

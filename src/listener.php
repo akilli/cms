@@ -59,47 +59,6 @@ function listener_data_entity(array $data): array
 }
 
 /**
- * EAV entity data listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_data_eav_entity(array $data): array
-{
-    if (!$entities = all('entity', ['project_id' => project('ids')])) {
-        return $data;
-    }
-
-    $attrs = all('attr', ['project_id' => project('ids')], ['index' => ['entity_id', 'uid']]);
-
-    foreach ($entities as $id => $item) {
-        if (!empty($data[$item['uid']])) {
-            message(_('Skipping data for Entity %s because UID %s is already in use', $item['name'], $item['uid']));
-            continue;
-        }
-
-        $item = array_replace($data['content'], $item, ['model' => 'eav']);
-
-        if (!empty($attrs[$id])) {
-            foreach ($attrs[$id] as $uid => $attr) {
-                if (empty($item['attr'][$uid])) {
-                    unset($attr['_old'], $attr['_entity'], $attr['_id'], $attr['project_id'], $attr['entity_id']);
-                    $item['attr'][$uid] = $attr;
-                }
-            }
-        }
-
-        unset($item['_old'], $item['_entity'], $item['_id'], $item['project_id']);
-        $item = data_entity($item);
-        $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
-        $data[$item['uid']] = $item;
-    }
-
-    return $data;
-}
-
-/**
  * I18n data listener
  *
  * @param array $data
@@ -190,42 +149,14 @@ function listener_data_request(array $data): array
  */
 function listener_data_toolbar(array $data): array
 {
-    $map = function (array $item) use (& $map) {
-        $item['children'] = !empty($item['children']) ? array_map($map, $item['children']) : [];
-        $item['name'] = _($item['name']);
-
-        return $item;
-    };
-    $data = array_map($map, $data);
-    $entities = array_filter(
-        data('entity'),
-        function (array $item) {
-            return !empty($item['id']) && in_array('admin', $item['actions']) && allowed($item['uid'] . '.admin');
+    foreach ($data as $key => $item) {
+        if (allowed(privilege_url($item['url']))) {
+            $data[$key]['name'] = _($item['name']);
+        } else {
+            unset($data[$key]);
         }
-    );
-
-    foreach ($entities as $entity) {
-        $data['content']['children'][] = ['name' => $entity['name'], 'url' => url($entity['uid'] . '/admin')];
     }
 
-    $filter = function (array $item) use (& $filter) {
-        $item['children'] = !empty($item['children']) ? array_filter($item['children'], $filter) : [];
-        return !$item['url'] && $item['children'] || $item['url'] && allowed(privilege_url($item['url']));
-    };
-
-    return array_filter($data, $filter);
-}
-
-/**
- * Content load listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_content_load(array $data): array
-{
-    $data['_entity'] = array_column(data('entity'), null, 'id')[$data['entity_id']];
     return $data;
 }
 
@@ -275,77 +206,6 @@ function listener_delete(array $data): array
     return $data;
 }
 
-
-/**
- * EAV save listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_eav_save(array $data): array
-{
-    $data['search'] = '';
-
-    foreach ($data['_entity']['attr'] as $attr) {
-        if ($attr['searchable']) {
-            $data['search'] .= ' ' . str_replace("\n", ' ', strip_tags($data[$attr['uid']]));
-        }
-    }
-
-    return $data;
-}
-
-/**
- * Entity save listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_entity_save(array $data): array
-{
-    if (empty($data['_old']) || !($diff = array_diff($data['_old']['actions'], $data['actions'])) && $data['uid'] === $data['_old']['uid']) {
-        return $data;
-    }
-
-    $old = '/' . $data['_old']['uid'] . '/';
-
-    if ($diff) {
-        $targets = array_map(
-            function ($action) use ($old) {
-                return $old . $action;
-            },
-            $diff
-        );
-        delete('url', ['target' => $targets], ['search' => ['target'], 'system' => true]);
-    }
-
-    if ($data['uid'] !== $data['_old']['uid'] && ($url = all('url', ['target' => $old], ['search' => ['target']]))) {
-        foreach ($url as $id => $u) {
-            $url[$id]['target'] = preg_replace('#^' . $old . '#', '/' . $data['uid'] . '/', $u['target']);
-        }
-
-        save('url', $url);
-    }
-
-    return $data;
-}
-
-/**
- * Entity delete listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_entity_delete(array $data): array
-{
-    delete('url', ['target' => '/' . $data['_old']['uid'] . '/'], ['search' => ['target'], 'system' => true]);
-
-    return $data;
-}
-
 /**
  * Project save listener
  *
@@ -380,6 +240,26 @@ function listener_project_delete(array $data): array
 {
     if (!file_delete(path('asset', $data['uid']))) {
         message(_('Could not delete directory %s', path('asset', $data['uid'])));
+    }
+
+    return $data;
+}
+
+/**
+ * Page save listener
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+function listener_page_save(array $data): array
+{
+    $data['search'] = '';
+
+    foreach ($data['_entity']['attr'] as $attr) {
+        if ($attr['searchable']) {
+            $data['search'] .= ' ' . str_replace("\n", ' ', strip_tags($data[$attr['uid']]));
+        }
     }
 
     return $data;
