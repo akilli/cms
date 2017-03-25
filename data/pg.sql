@@ -67,10 +67,6 @@ CREATE TABLE page (
     sort integer NOT NULL DEFAULT 0,
     content text NOT NULL,
     search tsvector NOT NULL,
-    created timestamp NOT NULL DEFAULT current_timestamp,
-    creator integer DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
-    modified timestamp NOT NULL DEFAULT current_timestamp,
-    modifier integer DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
     project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (project_id, uid)
 );
@@ -81,11 +77,21 @@ CREATE INDEX idx_page_active ON page (active);
 CREATE INDEX idx_page_parent_id ON page (parent_id);
 CREATE INDEX idx_page_sort ON page (sort);
 CREATE INDEX idx_page_search ON page USING GIN (search);
-CREATE INDEX idx_page_created ON page (created);
-CREATE INDEX idx_page_creator ON page (creator);
-CREATE INDEX idx_page_modified ON page (modified);
-CREATE INDEX idx_page_modifier ON page (modifier);
 CREATE INDEX idx_page_project_id ON page (project_id);
+
+CREATE TABLE revision (
+    id serial PRIMARY KEY,
+    name varchar(100) NOT NULL,
+    content text NOT NULL,
+    author varchar(50) NOT NULL,
+    date timestamp NOT NULL DEFAULT current_timestamp,
+    page_id integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE INDEX idx_revision_name ON revision (name);
+CREATE INDEX idx_revision_author ON revision (author);
+CREATE INDEX idx_revision_date ON revision (date);
+CREATE INDEX idx_revision_page_id ON revision (page_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Data

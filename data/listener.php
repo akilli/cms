@@ -24,13 +24,16 @@ return [
     'data.load.toolbar' => [
         'data_toolbar' => -100,
     ],
-    'entity.postSave.project' => [
-        'project_save' => -100,
+    'entity.postsave.project' => [
+        'project_postsave' => -100,
     ],
-    'entity.postDelete.project' => [
-        'project_delete' => -100,
+    'entity.postdelete.project' => [
+        'project_postdelete' => -100,
     ],
-    'entity.preSave.page' => [
-        'page_save' => -100,
+    'entity.presave.page' => [
+        'page_presave' => -100,
+    ],
+    'entity.postsave.page' => [
+        'page_postsave' => -100,
     ],
 ];

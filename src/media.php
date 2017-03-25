@@ -23,17 +23,11 @@ function media_load(array $entity, array $crit = [], array $opts = []): array
     }
 
     $opts['order'] = $opts['mode'] === 'size' || $opts['order'] ? $opts['order'] : ['id' => 'asc'];
-    $format = data('format', 'datetime.backend');
     $data = [];
 
     foreach (array_diff(scandir($path), ['.', '..']) as $id) {
         if (($file = $path . '/' . $id) && is_file($file)) {
-            $data[] = [
-                'id' => $id,
-                'name' => $id,
-                'size' => filesize($file),
-                'modified' => date($format, filemtime($file))
-            ];
+            $data[] = ['id' => $id, 'name' => $id, 'size' => filesize($file)];
         }
     }
 

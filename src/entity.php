@@ -158,17 +158,10 @@ function save(string $eId, array & $data): bool
         $base = empty($original[$id]) ? $default : $original[$id];
         $item = array_replace($base, $editable, $item);
         $item['project_id'] = $item['project_id'] ?? project('id');
-        $item['modifier'] = account('id');
-        $item['modified'] = date(data('format', 'datetime.backend'));
 
-        if ((empty($item['_old']))) {
-            if (!empty($original[$id])) {
-                $item['_old'] = $original[$id];
-                unset($item['_old']['_id'], $item['_old']['_entity'], $item['_old']['_old']);
-            } else {
-                $item['creator'] = $item['modifier'];
-                $item['created'] = $item['modified'];
-            }
+        if (empty($item['_old']) && !empty($original[$id])) {
+            $item['_old'] = $original[$id];
+            unset($item['_old']['_id'], $item['_old']['_entity'], $item['_old']['_old']);
         }
 
         foreach ($aIds as $aId) {
@@ -197,14 +190,14 @@ function save(string $eId, array & $data): bool
         $temp = $item;
         $trans = db_trans(
             function () use (& $temp) {
-                $temp = event('entity.preSave', $temp);
-                $temp = event('model.preSave.' . $temp['_entity']['model'], $temp);
-                $temp = event('entity.preSave.' . $temp['_entity']['id'], $temp);
+                $temp = event('entity.presave', $temp);
+                $temp = event('model.presave.' . $temp['_entity']['model'], $temp);
+                $temp = event('entity.presave.' . $temp['_entity']['id'], $temp);
                 $call = fqn($temp['_entity']['model'] . '_save');
                 $temp = $call($temp);
-                event('entity.postSave', $temp);
-                event('model.postSave.' . $temp['_entity']['model'], $temp);
-                event('entity.postSave.' . $temp['_entity']['id'], $temp);
+                event('entity.postsave', $temp);
+                event('model.postsave.' . $temp['_entity']['model'], $temp);
+                event('entity.postsave.' . $temp['_entity']['id'], $temp);
             }
         );
 
@@ -251,14 +244,14 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
 
         $trans = db_trans(
             function () use ($item) {
-                $item = event('entity.preDelete', $item);
-                $item = event('model.preDelete.' . $item['_entity']['model'], $item);
-                $item = event('entity.preDelete.' . $item['_entity']['id'], $item);
+                $item = event('entity.predelete', $item);
+                $item = event('model.predelete.' . $item['_entity']['model'], $item);
+                $item = event('entity.predelete.' . $item['_entity']['id'], $item);
                 $call = fqn($item['_entity']['model'] . '_delete');
                 $call($item);
-                event('entity.postDelete', $item);
-                event('model.postDelete.' . $item['_entity']['model'], $item);
-                event('entity.postDelete.' . $item['_entity']['id'], $item);
+                event('entity.postdelete', $item);
+                event('model.postdelete.' . $item['_entity']['model'], $item);
+                event('entity.postdelete.' . $item['_entity']['id'], $item);
             }
         );
 

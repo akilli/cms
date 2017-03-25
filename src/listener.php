@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace qnd;
 
+use RuntimeException;
+
 /**
  * App data listener
  *
@@ -161,13 +163,13 @@ function listener_data_toolbar(array $data): array
 }
 
 /**
- * Project save listener
+ * Project post-save listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_project_save(array $data): array
+function listener_project_postsave(array $data): array
 {
     if (empty($data['_old']['uid']) || $data['uid'] === $data['_old']['uid']) {
         return $data;
@@ -184,13 +186,13 @@ function listener_project_save(array $data): array
 }
 
 /**
- * Project delete listener
+ * Project post-delete listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_project_delete(array $data): array
+function listener_project_postdelete(array $data): array
 {
     if (!file_delete(path('asset', $data['uid']))) {
         message(_('Could not delete directory %s', path('asset', $data['uid'])));
@@ -200,13 +202,13 @@ function listener_project_delete(array $data): array
 }
 
 /**
- * Page save listener
+ * Page pre-save listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_page_save(array $data): array
+function listener_page_presave(array $data): array
 {
     $data['search'] = '';
 
@@ -223,6 +225,28 @@ function listener_page_save(array $data): array
         for ($i = 1; one('page', ['uid' => $data['uid']]); $i++) {
             $data['uid'] = $base . '-' . $i;
         }
+    }
+
+    return $data;
+}
+
+/**
+ * Page post-save listener
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+function listener_page_postsave(array $data): array
+{
+    if (!empty($data['_old']) && $data['name'] === $data['_old']['name'] && $data['content'] === $data['_old']['content']) {
+        return $data;
+    }
+
+    $rev = [-1 => ['name' => $data['name'], 'content' => $data['content'], 'author' => account('name'), 'page_id' => $data['id']]];
+
+    if (!save('revision', $rev)) {
+        throw new RuntimeException(_('Could not save revision for %s', $data['name']));
     }
 
     return $data;

@@ -177,32 +177,44 @@ return [
                 'name' => 'Search',
                 'type' => 'search',
             ],
-            'created' => [
-                'name' => 'Created',
-                'type' => 'datetime',
-            ],
-            'creator' => [
-                'name' => 'Creator',
-                'type' => 'entity',
-                'nullable' => true,
-                'opt' => ['account'],
-            ],
-            'modified' => [
-                'name' => 'Modified',
-                'type' => 'datetime',
-                'actions' => ['admin'],
-            ],
-            'modifier' => [
-                'name' => 'Modifier',
-                'type' => 'entity',
-                'nullable' => true,
-                'opt' => ['account'],
-                'actions' => ['admin'],
-            ],
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
                 'opt' => ['project'],
+            ],
+        ],
+    ],
+    'revision' => [
+        'name' => 'Revision',
+        'actions' => [],
+        'attr' => [
+            'id' => [
+                'name' => 'ID',
+                'auto' => true,
+                'type' => 'int',
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'maxval' => 100,
+            ],
+            'content' => [
+                'name' => 'Content',
+                'type' => 'rte',
+            ],
+            'author' => [
+                'name' => 'Author',
+                'type' => 'text',
+            ],
+            'date' => [
+                'name' => 'Date',
+                'type' => 'datetime',
+            ],
+            'page_id' => [
+                'name' => 'Page',
+                'type' => 'entity',
+                'opt' => ['page'],
             ],
         ],
     ],
@@ -227,11 +239,6 @@ return [
                 'type' => 'int',
                 'actions' => ['admin'],
                 'viewer' => 'filesize',
-            ],
-            'modified' => [
-                'name' => 'Modified',
-                'type' => 'datetime',
-                'actions' => ['admin'],
             ],
         ],
     ],
