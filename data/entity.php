@@ -184,8 +184,8 @@ return [
             ],
         ],
     ],
-    'revision' => [
-        'name' => 'Revision',
+    'version' => [
+        'name' => 'Version',
         'actions' => [],
         'attr' => [
             'id' => [

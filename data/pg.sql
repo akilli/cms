@@ -79,7 +79,7 @@ CREATE INDEX idx_page_sort ON page (sort);
 CREATE INDEX idx_page_search ON page USING GIN (search);
 CREATE INDEX idx_page_project_id ON page (project_id);
 
-CREATE TABLE revision (
+CREATE TABLE version (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
     content text NOT NULL,
@@ -88,10 +88,10 @@ CREATE TABLE revision (
     page_id integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE INDEX idx_revision_name ON revision (name);
-CREATE INDEX idx_revision_author ON revision (author);
-CREATE INDEX idx_revision_date ON revision (date);
-CREATE INDEX idx_revision_page_id ON revision (page_id);
+CREATE INDEX idx_version_name ON version (name);
+CREATE INDEX idx_version_author ON version (author);
+CREATE INDEX idx_version_date ON version (date);
+CREATE INDEX idx_version_page_id ON version (page_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Data

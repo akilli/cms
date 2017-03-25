@@ -243,10 +243,10 @@ function listener_page_postsave(array $data): array
         return $data;
     }
 
-    $rev = [-1 => ['name' => $data['name'], 'content' => $data['content'], 'author' => account('name'), 'page_id' => $data['id']]];
+    $v = [-1 => ['name' => $data['name'], 'content' => $data['content'], 'author' => account('name'), 'page_id' => $data['id']]];
 
-    if (!save('revision', $rev)) {
-        throw new RuntimeException(_('Could not save revision for %s', $data['name']));
+    if (!save('version', $v)) {
+        throw new RuntimeException(_('Could not save new version for %s', $data['name']));
     }
 
     return $data;
