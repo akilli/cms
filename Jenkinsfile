@@ -1,6 +1,6 @@
 node {
     def vol = "/docker/app/qnd"
-    def cont = "eqmh_nginx_1 eqmh_php_1"
+    def cont = "eqmh_php_1"
 
     stage 'Test'
         dir("${vol}") {
