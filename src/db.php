@@ -67,18 +67,6 @@ function db_prep(string $sql, string ...$args): PDOStatement
 }
 
 /**
- * Parameter name
- *
- * @param string $name
- *
- * @return string
- */
-function db_param(string $name): string
-{
-    return ':' . str_replace('-', '_', $name);
-}
-
-/**
  * Set appropriate PDO parameter type
  *
  * @param mixed $val
@@ -132,7 +120,7 @@ function db_cols(array $attrs, array $item): array
 
     foreach (array_intersect_key($item, $attrs) as $aId => $val) {
         $col = $attrs[$aId]['col'];
-        $param = db_param($aId);
+        $param = ':' . $aId;
         $val = db_val($val, $attrs[$aId]);
         $cols['in'][$col] = $attrs[$aId]['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
         $cols['up'][$col] = $col . ' = ' . $cols['in'][$col];
