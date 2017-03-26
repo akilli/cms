@@ -42,7 +42,6 @@ return [
         'mode' => 'all',
         'index' => ['id'],
         'search' => [],
-        'select' => [],
         'order' => [],
         'limit' => 0,
         'offset' => 0

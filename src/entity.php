@@ -355,8 +355,5 @@ function entity_opts(array $opts): array
         unset($opts['index']);
     }
 
-    // Currently only for internal use
-    unset($opts['select']);
-
     return array_replace($default, array_intersect_key($opts, $default));
 }
