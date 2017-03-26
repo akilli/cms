@@ -80,19 +80,6 @@ function db_pdo($val, array $attr): int
 }
 
 /**
- * Manipulate value for DB
- *
- * @param mixed $val
- * @param array $attr
- *
- * @return mixed
- */
-function db_val($val, array $attr)
-{
-    return $attr['multiple'] && $attr['backend'] === 'json' ? json_encode($val) : $val;
-}
-
-/**
  * Cast
  *
  * @param string $col
@@ -121,7 +108,7 @@ function db_cols(array $attrs, array $item): array
     foreach (array_intersect_key($item, $attrs) as $aId => $val) {
         $col = $attrs[$aId]['col'];
         $param = ':' . $aId;
-        $val = db_val($val, $attrs[$aId]);
+        $val = $attrs[$aId]['multiple'] && $attrs[$aId]['backend'] === 'json' ? json_encode($val) : $val;
         $cols['in'][$col] = $attrs[$aId]['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
         $cols['up'][$col] = $col . ' = ' . $cols['in'][$col];
         $cols['param'][$col] = [$param, $val, db_pdo($val, $attrs[$aId])];
