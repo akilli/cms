@@ -60,19 +60,19 @@ CREATE INDEX idx_account_project_id ON account (project_id);
 
 CREATE TABLE page (
     id serial PRIMARY KEY,
-    uid varchar(255) NOT NULL,
     name varchar(100) NOT NULL,
+    url varchar(255) NOT NULL,
     active boolean NOT NULL DEFAULT FALSE,
     parent_id integer DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     sort integer NOT NULL DEFAULT 0,
     content text NOT NULL,
     search tsvector NOT NULL,
     project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
-    UNIQUE (project_id, uid)
+    UNIQUE (project_id, url)
 );
 
-CREATE INDEX idx_page_uid ON page (uid);
 CREATE INDEX idx_page_name ON page (name);
+CREATE INDEX idx_page_url ON page (url);
 CREATE INDEX idx_page_active ON page (active);
 CREATE INDEX idx_page_parent_id ON page (parent_id);
 CREATE INDEX idx_page_sort ON page (sort);

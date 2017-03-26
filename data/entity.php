@@ -134,12 +134,6 @@ return [
                 'type' => 'int',
                 'actions' => ['admin'],
             ],
-            'uid' => [
-                'name' => 'UID',
-                'type' => 'text',
-                'required' => true,
-                'uniq' => true,
-            ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
@@ -147,6 +141,12 @@ return [
                 'searchable' => true,
                 'actions' => ['admin', 'edit', 'form', 'index', 'view'],
                 'maxval' => 100,
+            ],
+            'url' => [
+                'name' => 'URL',
+                'type' => 'text',
+                'required' => true,
+                'uniq' => true,
             ],
             'active' => [
                 'name' => 'Active',

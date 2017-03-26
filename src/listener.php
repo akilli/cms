@@ -220,10 +220,11 @@ function listener_page_presave(array $data): array
 
     if ($data['name'] !== ($data['_old']['name'] ?? null)) {
         $base = filter_id($data['name']);
-        $data['uid'] = $base;
+        $ext = data('app', 'url');
+        $data['url'] = url($base . $ext);
 
-        for ($i = 1; one('page', ['uid' => $data['uid']]); $i++) {
-            $data['uid'] = $base . '-' . $i;
+        for ($i = 1; one('page', ['url' => $data['url']]); $i++) {
+            $data['url'] = url($base . '-' . $i . $ext);
         }
     }
 
