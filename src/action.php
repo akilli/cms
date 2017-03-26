@@ -173,11 +173,6 @@ function action_view(array $entity): void
         return;
     }
 
-    // Preview
-    if (!empty($entity['attr']['active']) && empty($item['active'])) {
-        message(_('Preview'));
-    }
-
     layout_load();
     vars('content', ['item' => $item]);
     vars('head', ['title' => $item['name']]);
