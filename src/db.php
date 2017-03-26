@@ -80,19 +80,6 @@ function db_pdo($val, array $attr): int
 }
 
 /**
- * Cast
- *
- * @param string $col
- * @param string $backend
- *
- * @return string
- */
-function db_cast(string $col, string $backend): string
-{
-    return 'CAST(' . $col . ' AS ' . data('backend', $backend)['db_type'] . ')';
-}
-
-/**
  * Prepare columns
  *
  * @param array $attrs
