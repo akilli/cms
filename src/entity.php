@@ -58,7 +58,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
 
     try {
         if ($item = $call($entity, $crit, $opts)) {
-            $item = load($entity, $item);
+            $item = entity_load($entity, $item);
         }
     } catch (Exception $e) {
         error((string) $e);
@@ -93,7 +93,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
         $result = $call($entity, $crit, $opts);
 
         foreach ($result as $item) {
-            $item = load($entity, $item);
+            $item = entity_load($entity, $item);
 
             if ($multi) {
                 $data[$item[$opts['index'][0]]][$item[$opts['index'][1]]] = $item;
@@ -107,33 +107,6 @@ function all(string $eId, array $crit = [], array $opts = []): array
     }
 
     return $data;
-}
-
-/**
- * Internal entity loader
- *
- * @param array $entity
- * @param array $item
- *
- * @return array
- */
-function load(array $entity, array $item): array
-{
-    foreach ($item as $aId => $value) {
-        if (isset($entity['attr'][$aId])) {
-            $item[$aId] = loader($entity['attr'][$aId], $item);
-        }
-    }
-
-    $item['_old'] = $item;
-    $item['_entity'] = $entity;
-    $item['_id'] = $item['id'];
-
-    $item = event('entity.load', $item);
-    $item = event('model.load.' . $entity['model'], $item);
-    $item = event('entity.load.' . $entity['id'], $item);
-
-    return $item;
 }
 
 /**
@@ -356,4 +329,31 @@ function entity_opts(array $opts): array
     }
 
     return array_replace($default, array_intersect_key($opts, $default));
+}
+
+/**
+ * Internal entity loader
+ *
+ * @param array $entity
+ * @param array $item
+ *
+ * @return array
+ */
+function entity_load(array $entity, array $item): array
+{
+    foreach ($item as $aId => $value) {
+        if (isset($entity['attr'][$aId])) {
+            $item[$aId] = loader($entity['attr'][$aId], $item);
+        }
+    }
+
+    $item['_old'] = $item;
+    $item['_entity'] = $entity;
+    $item['_id'] = $item['id'];
+
+    $item = event('entity.load', $item);
+    $item = event('model.load.' . $entity['model'], $item);
+    $item = event('entity.load.' . $entity['id'], $item);
+
+    return $item;
 }
