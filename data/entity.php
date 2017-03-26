@@ -164,7 +164,7 @@ return [
             'sort' => [
                 'name' => 'Sort',
                 'type' => 'int',
-                'actions' => ['edit'],
+                'actions' => ['admin', 'edit'],
                 'val' => 0,
             ],
             'content' => [
