@@ -15,8 +15,4 @@ return [
         'index' => 'Index',
         'view' => 'View',
     ],
-    'mode' => [
-        'before' => 'Before',
-        'child' => 'Child',
-    ],
 ];

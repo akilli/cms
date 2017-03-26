@@ -30,7 +30,7 @@ function size(string $eId, array $crit = [], array $opts = []): int
         return $call($entity, $crit, $opts)[0];
     } catch (Exception $e) {
         error((string) $e);
-        message(_('Data could not be loaded'));
+        message(_('Could not load data'));
     }
 
     return 0;
@@ -62,7 +62,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
         }
     } catch (Exception $e) {
         error((string) $e);
-        message(_('Data could not be loaded'));
+        message(_('Could not load data'));
     }
 
     return $item;
@@ -103,7 +103,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
         }
     } catch (Exception $e) {
         error((string) $e);
-        message(_('Data could not be loaded'));
+        message(_('Could not load data'));
     }
 
     return $data;
