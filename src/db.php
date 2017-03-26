@@ -161,7 +161,7 @@ function db_attr(array $attrs, bool $auto = false): array
 }
 
 /**
- * Maps attribute UIDs to DB columns and handles search criteria
+ * Maps attribute IDs to DB columns and handles search criteria
  *
  * @param array $crit
  * @param array $attrs
