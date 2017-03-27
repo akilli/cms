@@ -1,7 +1,7 @@
 <?php
 return [
-    '%s is a mandatory field' => '%s ist ein Pflichtfeld',
     '%s must be unique' => '%s muß eindeutig sein',
+    '%s is required' => '%s ist erforderlich',
     'Access denied' => 'Zugriff verweigert',
     'Account' => 'Benutzer',
     'Actions' => 'Aktionen',
