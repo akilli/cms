@@ -19,7 +19,7 @@ use XSLTProcessor;
 function import_zip(string $name, string $file): bool
 {
     $path = path('tmp', uniqid('import', true));
-    $toc = $path . '/' . data('import', 'toc');
+    $toc = $path . '/' . data('app', 'import.toc');
 
     try {
         unzip($file, $path);
@@ -29,7 +29,7 @@ function import_zip(string $name, string $file): bool
     }
 
     if (!is_file($toc)) {
-        message(_('File %s not found', data('import', 'toc')));
+        message(_('File %s not found', basename($toc)));
         return false;
     }
 
@@ -146,7 +146,7 @@ function import_html(string $file): string
         return '';
     }
 
-    $pattern = sprintf('#%s(.*)%s#isU', data('import', 'start'), data('import', 'end'));
+    $pattern = sprintf('#%s(.*)%s#isU', data('app', 'import.start'), data('app', 'import.end'));
 
     return preg_match($pattern, $html, $match) ? $match[1] : $html;
 }
