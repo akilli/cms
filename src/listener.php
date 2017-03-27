@@ -22,29 +22,6 @@ function listener_data_app(array $data): array
 }
 
 /**
- * Attribute data listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_data_attr(array $data): array
-{
-    $data['type'] = data_order(
-        array_map(
-            function ($item) {
-                $item['name'] = _($item['name']);
-                return $item;
-            },
-            $data['type']
-        ),
-        ['name' => 'asc']
-    );
-
-    return $data;
-}
-
-/**
  * Entity data listener
  *
  * @param array $data

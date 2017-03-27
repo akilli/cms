@@ -3,9 +3,6 @@ return [
     'data.load.app' => [
         'data_app' => -100,
     ],
-    'data.load.attr' => [
-        'data_attr' => -100,
-    ],
     'data.load.entity' => [
         'data_entity' => -100,
     ],
