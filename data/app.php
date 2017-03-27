@@ -1,5 +1,13 @@
 <?php
 return [
+    'csv' => [
+        'delimiter' => ';',
+        'enclosure' => '"',
+        'escape' => '\\',
+        'single_item' => false,
+        'first_row_as_keys' => false,
+        'keys' => [],
+    ],
     'date.backend' => 'Y-m-d',
     'date.frontend' => 'Y-m-d',
     'date.view' => 'd.m.Y',

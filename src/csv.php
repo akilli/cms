@@ -13,7 +13,7 @@ namespace qnd;
  */
 function csv_serialize(array $data, array $opts = []): string
 {
-    $opts = array_replace(data('csv'), $opts);
+    $opts = array_replace(data('app', 'csv'), $opts);
     $handle = fopen('php://memory', 'r+');
     $i = 0;
 
@@ -44,7 +44,7 @@ function csv_serialize(array $data, array $opts = []): string
  */
 function csv_unserialize(string $src, array $opts = []): array
 {
-    $opts = array_replace(data('csv'), $opts);
+    $opts = array_replace(data('app', 'csv'), $opts);
 
     if (!$rows = str_getcsv($src, "\n")) {
         return [];
