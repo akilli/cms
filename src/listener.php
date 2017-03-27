@@ -30,15 +30,18 @@ function listener_data_app(array $data): array
  */
 function listener_data_attr(array $data): array
 {
-    $data = array_map(
-        function ($item) {
-            $item['name'] = _($item['name']);
-            return $item;
-        },
-        $data
+    $data['type'] = data_order(
+        array_map(
+            function ($item) {
+                $item['name'] = _($item['name']);
+                return $item;
+            },
+            $data['type']
+        ),
+        ['name' => 'asc']
     );
 
-    return data_order($data, ['name' => 'asc']);
+    return $data;
 }
 
 /**

@@ -174,14 +174,16 @@ function data_entity(array $entity): array
     $entity['tab'] = $entity['tab'] ?: $entity['id'];
     $sort = 0;
     $default = data('default', 'attr');
+    $data = data('attr');
 
     foreach ($entity['attr'] as $id => $attr) {
-        if (empty($attr['name']) || empty($attr['type']) || !($type = data('attr', $attr['type']))) {
+        if (empty($attr['name']) || empty($attr['type']) || empty($data['type'][$attr['type']])) {
             throw new RuntimeException(_('Invalid attribute configuration'));
         }
 
-        $backend = data('backend', $attr['backend'] ?? $type['backend']);
-        $frontend = data('frontend', $attr['frontend'] ?? $type['frontend']);
+        $type = $data['type'][$attr['type']];
+        $backend = $data['backend'][$attr['backend'] ?? $type['backend']];
+        $frontend = $data['frontend'][$attr['frontend'] ?? $type['frontend']];
         $attr = array_replace($default, $backend, $frontend, $type, $attr);
         $attr['id'] = $id;
         $attr['name'] = _($attr['name']);
