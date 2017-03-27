@@ -8,24 +8,24 @@ use PDO;
 /**
  * Page tree
  *
- * @param array $opts
+ * @param array $crit
  *
  * @return array
  */
-function page_tree(array $opts = []): array
+function page_tree(array $crit = []): array
 {
     $initWhere = 'parent_id IS NULL';
     $recWhere = '';
     $params = [];
 
-    if (($opts['id'] ?? 0) > 0) {
-        $initWhere = !empty($opts['ancestor']) ? 'id = :id' : 'parent_id = :id';
-        $params[] = [':id', $opts['id'], PDO::PARAM_INT];
+    if (($crit['id'] ?? 0) > 0) {
+        $initWhere = !empty($crit['ancestor']) ? 'id = :id' : 'parent_id = :id';
+        $params[] = [':id', $crit['id'], PDO::PARAM_INT];
     }
 
-    if (isset($opts['depth']) && $opts['depth'] >= 0) {
-        $recWhere = 'AND t.depth <= :depth';
-        $params[] = [':depth', $opts['depth'], PDO::PARAM_INT];
+    if (($crit['depth'] ?? 0) > 0) {
+        $recWhere = 'AND t.depth < :depth';
+        $params[] = [':depth', $crit['depth'], PDO::PARAM_INT];
     }
 
     $stmt = db_prep(
