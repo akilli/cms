@@ -62,11 +62,8 @@ function listener_data_i18n(array $data): array
 function listener_data_privilege(array $data): array
 {
     foreach ($data as $id => $item) {
-        if (!empty($item['callback'])) {
-            $data[$id]['callback'] = fqn($item['callback']);
-        }
-
         $data[$id]['name'] = !empty($item['name']) ? _($item['name']) : '';
+        $data[$id]['callback'] = !empty($item['callback']) ? fqn($item['callback']) : null;
     }
 
     foreach (data('entity') as $eId => $entity) {
