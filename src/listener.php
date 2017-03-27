@@ -14,9 +14,9 @@ use RuntimeException;
  */
 function listener_data_app(array $data): array
 {
-    ini_set('default_charset', $data['charset']);
-    ini_set('intl.default_locale', $data['locale']);
-    ini_set('date.timezone', $data['timezone']);
+    ini_set('default_charset', $data['i18n.charset']);
+    ini_set('intl.default_locale', $data['i18n.locale']);
+    ini_set('date.timezone', $data['i18n.timezone']);
 
     return $data;
 }
@@ -69,7 +69,7 @@ function listener_data_entity(array $data): array
  */
 function listener_data_i18n(array $data): array
 {
-    return $data + data('i18n.' . data('app', 'lang'));
+    return $data + data('i18n.' . data('app', 'i18n.lang'));
 }
 
 /**
