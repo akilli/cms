@@ -73,26 +73,6 @@ function listener_data_i18n(array $data): array
 }
 
 /**
- * Option data listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_data_opt(array $data): array
-{
-    foreach ($data as $key => $value) {
-        foreach ($value as $k => $v) {
-            $data[$key][$k] = _($v);
-        }
-
-        asort($data[$key]);
-    }
-
-    return $data;
-}
-
-/**
  * Privilege data listener
  *
  * @param array $data

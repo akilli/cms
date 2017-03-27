@@ -12,9 +12,6 @@ return [
     'data.load.i18n' => [
         'data_i18n' => -100,
     ],
-    'data.load.opt' => [
-        'data_opt' => -100,
-    ],
     'data.load.privilege' => [
         'data_privilege' => -100,
     ],
