@@ -20,7 +20,7 @@ function project(string $key)
         $data = [];
         $id = (int) session('project');
         // @todo Use request()
-        $uid = strstr($_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'], '.', true);
+        $uid = strstr($_SERVER['HTTP_HOST'], '.', true);
         $crit = $id ? ['id' => $id] : ['uid' => $uid];
         $crit['active'] = true;
         $sysId = data('app', 'system.project');

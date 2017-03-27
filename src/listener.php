@@ -84,7 +84,7 @@ function listener_data_privilege(array $data): array
  */
 function listener_data_request(array $data): array
 {
-    $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
+    $data['host'] = $_SERVER['HTTP_HOST'];
     $data['get'] = http_filter($_GET);
     $data['post'] = !empty($_POST['token']) && http_post_validate($_POST['token']) ? $_POST : [];
     $data['files'] = $_FILES ? http_files_convert($_FILES) : [];
