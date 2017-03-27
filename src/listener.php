@@ -109,7 +109,7 @@ function listener_data_request(array $data): array
 function listener_data_toolbar(array $data): array
 {
     foreach ($data as $key => $item) {
-        if (empty($item['privilege']) || allowed($item['privilege'])) {
+        if (allowed(privilege_url($item['url']))) {
             $data[$key]['name'] = _($item['name']);
         } else {
             unset($data[$key]);
