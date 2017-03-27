@@ -23,8 +23,8 @@ function account(string $key = null)
         if ($id && ($data = one('account', ['id' => $id, 'active' => true, 'project_id' => project('ids')]))) {
             $role = one('role', ['id' => $data['role_id'], 'active' => true, 'project_id' => $data['project_id']]);
             $data['privilege'] = $role ? $role['privilege'] : [];
-            $data['admin'] = in_array(data('app', 'system.privilege'), $data['privilege']);
-            $data['global'] = $data['project_id'] === data('app', 'system.project');
+            $data['admin'] = in_array(data('app', 'privilege'), $data['privilege']);
+            $data['global'] = $data['project_id'] === data('app', 'project');
         } else {
             session('account', null, true);
         }
