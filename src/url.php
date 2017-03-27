@@ -17,7 +17,7 @@ function url(string $path = '', array $params = []): string
         return $path;
     }
 
-    $path = ($path = trim($path, '/')) ? '/' . url_resolve($path) : '/';
+    $path = ($path = trim($path, '/')) ? url_unrewrite('/' . url_resolve($path)) : '/';
 
     return $path . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
 }
@@ -92,4 +92,50 @@ function url_resolve(string $path): string
     }
 
     return implode('/', $parts);
+}
+
+/**
+ * Rewrite URL
+ *
+ * @param string $path
+ *
+ * @return string
+ */
+function url_rewrite(string $path): string
+{
+    $data = & registry('url');
+
+    if (empty($data[$path])) {
+        if ($page = one('page', ['url' => $path])) {
+            $data[$path] = '/page/view/' . $page['id'];
+        } elseif($path === '/') {
+            $data[$path] = '/' . data('request', 'entity') . '/' . data('request', 'action');
+        } else {
+            $data[$path] = $path;
+        }
+    }
+
+    return $data[$path];
+}
+
+/**
+ * Un-rewrite URL
+ *
+ * @param string $path
+ *
+ * @return string
+ */
+function url_unrewrite(string $path): string
+{
+    $data = & registry('url');
+
+    if (!in_array($path, (array) $data)) {
+        if (($p = explode('/', trim($path, '/'))) && !empty($p[2]) && ($page = one('page', ['id' => $p[2]]))) {
+            $data[$page['url']] = $path;
+        } else {
+            $data[$path] = $path;
+        }
+    }
+
+    return array_search($path, $data);
 }
