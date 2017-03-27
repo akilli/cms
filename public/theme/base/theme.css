@@ -405,6 +405,15 @@ html[data-id=account-login] body > * {
 }
 
 /**
+ * Nav
+ */
+#nav li {
+    display: inline-block;
+    margin: 0 1rem;
+    padding: 1rem 0;
+}
+
+/**
  * Toolbar
  */
 #toolbar {

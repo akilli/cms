@@ -143,5 +143,10 @@ return [
             'type' => 'nav',
             'parent' => 'top',
         ],
+        'subnav' => [
+            'type' => 'nav',
+            'parent' => 'right',
+            'vars' => ['type' => 'sub'],
+        ],
     ],
 ];

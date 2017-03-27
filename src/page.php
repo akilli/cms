@@ -23,7 +23,7 @@ function page_tree(array $opts = []): array
         $params[] = [':id', $opts['id'], PDO::PARAM_INT];
     }
 
-    if (($opts['depth'] ?? 0) > 0) {
+    if (isset($opts['depth']) && $opts['depth'] >= 0) {
         $recWhere = 'AND t.depth <= :depth';
         $params[] = [':depth', $opts['depth'], PDO::PARAM_INT];
     }

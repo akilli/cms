@@ -53,9 +53,16 @@ function section_message(array $§): string
  */
 function section_nav(array $§): string
 {
-    $§['vars']['opts'] = $§['vars']['opts'] ?? [];
+    if (($§['vars']['type'] ?? null) === 'sub') {
+        $attrs = ['id' => 'subnav'];
+        $opts = ['id' => request('id')];
+    } else {
+        $attrs = ['id' => 'nav'];
+        $opts = ['depth' => 0];
+    }
 
-    if (!$nav = page_tree($§['vars']['opts'])) {
+
+    if (!$nav = page_tree($opts)) {
         return '';
     }
 
@@ -65,11 +72,11 @@ function section_nav(array $§): string
     $html = '';
 
     foreach ($nav as $page) {
-        $attrs = ['href' => $page['url']];
+        $a = ['href' => $page['url']];
         $class = '';
 
         if ($page['url'] === request('path')) {
-            $attrs['class'] = 'active';
+            $a['class'] = 'active';
             $class .= ' class="active"';
         }
 
@@ -81,12 +88,12 @@ function section_nav(array $§): string
              $html .= '</li><li' . $class . '>';
         }
 
-        $html .= html_tag('a', $attrs, $page['name']);
+        $html .= html_tag('a', $a, $page['name']);
         $html .= ++$i === $count ? str_repeat('</li></ul>', $page['depth']) : '';
         $depth = $page['depth'];
     }
 
-    return $html;
+    return html_tag('nav', $attrs, $html);
 }
 
 /**
