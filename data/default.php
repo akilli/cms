@@ -35,7 +35,7 @@ return [
         'name' => null,
         'tab' => null,
         'model' => 'flat',
-        'actions' => ['admin', 'delete', 'edit'],
+        'actions' => [],
         'attr' => [],
     ],
     'entity.opts' => [

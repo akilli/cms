@@ -2,6 +2,7 @@
 return [
     'project' => [
         'name' => 'Project',
+        'actions' => ['admin', 'delete', 'edit', 'export', 'import', 'switch'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -39,6 +40,7 @@ return [
     ],
     'role' => [
         'name' => 'Role',
+        'actions' => ['admin', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -79,6 +81,7 @@ return [
     ],
     'account' => [
         'name' => 'Account',
+        'actions' => ['admin', 'dashboard', 'delete', 'edit', 'login', 'logout', 'password'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -126,7 +129,7 @@ return [
     ],
     'page' => [
         'name' => 'Page',
-        'actions' => ['admin', 'delete', 'edit', 'index', 'view'],
+        'actions' => ['admin', 'delete', 'edit', 'import', 'index', 'view'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -186,7 +189,6 @@ return [
     ],
     'version' => [
         'name' => 'Version',
-        'actions' => [],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -221,6 +223,7 @@ return [
     'media' => [
         'name' => 'Media',
         'model' => 'media',
+        'actions' => ['admin', 'delete', 'edit', 'import'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
