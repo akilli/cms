@@ -1,6 +1,12 @@
 <?php
 return [
     'charset' => 'utf-8',
+    'date.backend' => 'Y-m-d',
+    'date.frontend' => 'Y-m-d',
+    'date.view' => 'd.m.Y',
+    'datetime.backend' => 'Y-m-d H:i:s',
+    'datetime.frontend' => 'Y-m-d\TH:i',
+    'datetime.view' => 'd.m.Y H:i',
     'lang' => 'de',
     'limit.admin' => 20,
     'limit.index' => 20,
@@ -9,6 +15,9 @@ return [
     'privilege' => '_all_',
     'project' => 'www',
     'theme' => 'base',
+    'time.backend' => 'H:i:s',
+    'time.frontend' => 'H:i',
+    'time.view' => 'H:i',
     'timezone' => 'Europe/Berlin',
     'url' => '.html',
 ];

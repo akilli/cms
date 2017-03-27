@@ -459,8 +459,8 @@ function validator_rte(array $attr, array $item): array
  */
 function validator_date(array $attr, array $item): array
 {
-    $in = data('format', 'date.frontend');
-    $out = data('format', 'date.backend');
+    $in = data('app', 'date.frontend');
+    $out = data('app', 'date.backend');
 
     if ($item[$attr['id']] && !($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
         throw new DomainException(_('Invalid value'));
@@ -481,8 +481,8 @@ function validator_date(array $attr, array $item): array
  */
 function validator_datetime(array $attr, array $item): array
 {
-    $in = data('format', 'datetime.frontend');
-    $out = data('format', 'datetime.backend');
+    $in = data('app', 'datetime.frontend');
+    $out = data('app', 'datetime.backend');
 
     if ($item[$attr['id']] && !($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
         throw new DomainException(_('Invalid value'));
@@ -503,8 +503,8 @@ function validator_datetime(array $attr, array $item): array
  */
 function validator_time(array $attr, array $item): array
 {
-    $in = data('format', 'time.frontend');
-    $out = data('format', 'time.backend');
+    $in = data('app', 'time.frontend');
+    $out = data('app', 'time.backend');
 
     if ($item[$attr['id']] && !($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
         throw new DomainException(_('Invalid value'));
@@ -731,8 +731,8 @@ function editor_int(array $attr, array $item): string
  */
 function editor_date(array $attr, array $item): string
 {
-    $in = data('format', 'date.backend');
-    $out = data('format', 'date.frontend');
+    $in = data('app', 'date.backend');
+    $out = data('app', 'date.frontend');
     $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
     $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $item[$attr['id']];
@@ -758,8 +758,8 @@ function editor_date(array $attr, array $item): string
  */
 function editor_datetime(array $attr, array $item): string
 {
-    $in = data('format', 'datetime.backend');
-    $out = data('format', 'datetime.frontend');
+    $in = data('app', 'datetime.backend');
+    $out = data('app', 'datetime.frontend');
     $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
     $attr['html']['type'] = 'datetime-local';
     $attr['html']['value'] = $item[$attr['id']];
@@ -785,8 +785,8 @@ function editor_datetime(array $attr, array $item): string
  */
 function editor_time(array $attr, array $item): string
 {
-    $in = data('format', 'time.backend');
-    $out = data('format', 'time.frontend');
+    $in = data('app', 'time.backend');
+    $out = data('app', 'time.frontend');
     $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
     $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $item[$attr['id']];
@@ -909,7 +909,7 @@ function viewer_opt(array $attr, array $item): string
  */
 function viewer_date(array $attr, array $item): string
 {
-    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('format', 'date.view')) : '';
+    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('app', 'date.view')) : '';
 }
 
 /**
@@ -922,7 +922,7 @@ function viewer_date(array $attr, array $item): string
  */
 function viewer_datetime(array $attr, array $item): string
 {
-    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('format', 'datetime.view')) : '';
+    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('app', 'datetime.view')) : '';
 }
 
 /**
@@ -935,7 +935,7 @@ function viewer_datetime(array $attr, array $item): string
  */
 function viewer_time(array $attr, array $item): string
 {
-    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('format', 'time.view')) : '';
+    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('app', 'time.view')) : '';
 }
 
 /**
