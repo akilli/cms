@@ -57,7 +57,7 @@ return [
             ],
             'privilege' => [
                 'name' => 'Privileges',
-                'type' => 'multiselect',
+                'type' => 'multicheckbox',
                 'opt' => ['opt_privilege'],
                 'actions' => ['edit'],
             ],
