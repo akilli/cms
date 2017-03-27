@@ -23,6 +23,8 @@ function account(string $key = null)
         if ($id && ($data = one('account', ['id' => $id, 'active' => true, 'project_id' => project('ids')]))) {
             $role = one('role', ['id' => $data['role_id'], 'active' => true, 'project_id' => $data['project_id']]);
             $data['privilege'] = $role ? $role['privilege'] : [];
+            $data['admin'] = in_array(data('app', 'system.privilege'), $data['privilege']);
+            $data['global'] = $data['project_id'] === data('app', 'system.project');
         } else {
             session('account', null, true);
         }
@@ -81,13 +83,23 @@ function unregistered(): bool
 }
 
 /**
+ * Is admin account
+ *
+ * @return bool
+ */
+function account_admin(): bool
+{
+    return !!account('admin');
+}
+
+/**
  * Is global account
  *
  * @return bool
  */
 function account_global(): bool
 {
-    return account('id') > 0 && account('project_id') === data('app', 'system.project');
+    return !!account('global');
 }
 
 /**
@@ -108,7 +120,8 @@ function allowed(string $key = null): bool
     }
 
     return !empty($data[$key]['callback']) && $data[$key]['callback']()
-        || array_intersect([data('app', 'system.privilege'), $key], account('privilege') ?? []);
+        || account_admin()
+        || in_array($key, account('privilege') ?? []);
 }
 
 /**
