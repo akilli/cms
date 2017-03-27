@@ -26,7 +26,7 @@ return [
     'limit.pager' => 5,
     'page.url' => '.html',
     'system.privilege' => '_all_',
-    'system.project' => 'www',
+    'system.project' => 1,
     'system.theme' => 'base',
     'time.backend' => 'H:i:s',
     'time.frontend' => 'H:i',
