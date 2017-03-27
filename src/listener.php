@@ -171,8 +171,10 @@ function listener_data_toolbar(array $data): array
  */
 function listener_project_postdelete(array $data): array
 {
-    if (!file_delete(path('asset', $data['id']))) {
-        message(_('Could not delete directory %s', path('asset', $data['id'])));
+    $asset = path('asset', (string) $data['id']);
+
+    if (!file_delete($asset)) {
+        message(_('Could not delete directory %s', $asset));
     }
 
     return $data;

@@ -49,7 +49,7 @@ function project_path(string $dir, string $id = ''): string
 
     if ($data === null) {
         $data = [];
-        $asset = path('asset', project('id'));
+        $asset = path('asset', (string) project('id'));
         $data['cache'] = $asset . '/cache';
         $data['media'] = $asset . '/media';
     }
