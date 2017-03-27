@@ -132,4 +132,16 @@ return [
             'parent' => 'main',
         ],
     ],
+    'page.index' => [
+        'nav' => [
+            'type' => 'nav',
+            'parent' => 'top',
+        ],
+    ],
+    'page.view' => [
+        'nav' => [
+            'type' => 'nav',
+            'parent' => 'top',
+        ],
+    ],
 ];

@@ -45,6 +45,51 @@ function section_message(array $§): string
 }
 
 /**
+ * Navigation section
+ *
+ * @param array $§
+ *
+ * @return string
+ */
+function section_nav(array $§): string
+{
+    $§['vars']['opts'] = $§['vars']['opts'] ?? [];
+
+    if (!$nav = page_tree($§['vars']['opts'])) {
+        return '';
+    }
+
+    $count = count($nav);
+    $depth = 0;
+    $i = 0;
+    $html = '';
+
+    foreach ($nav as $page) {
+        $attrs = ['href' => $page['url']];
+        $class = '';
+
+        if ($page['url'] === request('path')) {
+            $attrs['class'] = 'active';
+            $class .= ' class="active"';
+        }
+
+        if ($page['depth'] > $depth) {
+             $html .= '<ul><li' . $class . '>';
+        } elseif ($page['depth'] < $depth) {
+             $html .= '</li>' . str_repeat('</ul></li>', $depth - $page['depth']) . '<li' . $class . '>';
+        } else {
+             $html .= '</li><li' . $class . '>';
+        }
+
+        $html .= html_tag('a', $attrs, $page['name']);
+        $html .= ++$i === $count ? str_repeat('</li></ul>', $page['depth']) : '';
+        $depth = $page['depth'];
+    }
+
+    return $html;
+}
+
+/**
  * Pager section
  *
  * @param array $§
