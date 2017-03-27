@@ -87,7 +87,7 @@ function unregistered(): bool
  */
 function account_global(): bool
 {
-    return account('id') > 0 && account('project_id') === data('app', 'project');
+    return account('id') > 0 && account('project_id') === data('app', 'system.project');
 }
 
 /**
@@ -108,7 +108,7 @@ function allowed(string $key = null): bool
     }
 
     return !empty($data[$key]['callback']) && $data[$key]['callback']()
-        || array_intersect([data('app', 'privilege'), $key], account('privilege') ?? []);
+        || array_intersect([data('app', 'system.privilege'), $key], account('privilege') ?? []);
 }
 
 /**

@@ -18,7 +18,7 @@ function project(string $key)
 
     if ($data === null) {
         $data = [];
-        $base = one('project', ['uid' => data('app', 'project')]);
+        $base = one('project', ['uid' => data('app', 'system.project')]);
         $id = (int) session('project');
         // @todo Use request()
         $uid = strstr($_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'], '.', true);
@@ -26,7 +26,7 @@ function project(string $key)
         $crit['active'] = true;
         $data = one('project', $crit) ?: $base;
         $data['ids'] = array_unique([$base['id'], $data['id']]);
-        $data['theme'] = data('app', 'theme');
+        $data['theme'] = data('app', 'system.theme');
         session('project', $data['id']);
     }
 
