@@ -19,12 +19,13 @@ function account(string $key = null)
     if ($data === null) {
         $data = [];
         $id = (int) session('account');
+        $pId = data('app', 'project');
 
-        if ($id && ($data = one('account', ['id' => $id, 'active' => true, 'project_id' => project('ids')]))) {
+        if ($id && ($data = one('account', ['id' => $id, 'active' => true, 'project_id' => [$pId, project('id')]]))) {
             $role = one('role', ['id' => $data['role_id'], 'active' => true, 'project_id' => $data['project_id']]);
             $data['privilege'] = $role ? $role['privilege'] : [];
             $data['admin'] = in_array(data('app', 'privilege'), $data['privilege']);
-            $data['global'] = $data['project_id'] === data('app', 'project');
+            $data['global'] = $data['project_id'] === $pId;
         } else {
             session('account', null, true);
         }

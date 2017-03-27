@@ -22,9 +22,7 @@ function project(string $key)
         // @todo Use request()
         $crit = $id ? ['id' => $id] : ['uid' => strstr($_SERVER['HTTP_HOST'], '.', true)];
         $crit['active'] = true;
-        $sysId = data('app', 'project');
-        $data = one('project', $crit) ?: one('project', ['id' => $sysId]);
-        $data['ids'] = array_unique([$sysId, $data['id']]);
+        $data = one('project', $crit) ?: one('project', ['id' => data('app', 'project')]);
         $data['theme'] = data('app', 'theme');
         session('project', $data['id']);
     }
