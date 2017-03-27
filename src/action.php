@@ -121,7 +121,7 @@ function action_index(array $entity): void
     $action = request('action');
     $attrs = entity_attr($entity['id'], $action);
     $crit = empty($entity['attr']['active']) || $action === 'admin' ? [] : ['active' => true];
-    $opts = [];
+    $opts = ['limit' => $action === 'admin' ? data('app', 'limit.admin') : data('app', 'limit.index')];
     $p = [];
     $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
 
@@ -137,7 +137,6 @@ function action_index(array $entity): void
         $p['q'] = urlencode(implode(' ', $s));
     }
 
-    $opts['limit'] = data('limit', $action);
     $size = size($entity['id'], $crit, $opts);
     $pages = (int) ceil($size / $opts['limit']);
     $p['page'] = min(max(http_get('page'), 1), $pages ?: 1);
