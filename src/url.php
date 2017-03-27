@@ -55,7 +55,7 @@ function url_theme(string $path = ''): string
  */
 function url_cache(string $path = ''): string
 {
-    return '/asset/' . project('uid') . '/cache' . ($path ? '/' . $path : '');
+    return '/asset/' . project('id') . '/cache' . ($path ? '/' . $path : '');
 }
 
 /**
@@ -67,7 +67,7 @@ function url_cache(string $path = ''): string
  */
 function url_media(string $path = ''): string
 {
-    return '/asset/' . project('uid') . '/media' . ($path ? '/' . $path : '');
+    return '/asset/' . project('id') . '/media' . ($path ? '/' . $path : '');
 }
 
 /**

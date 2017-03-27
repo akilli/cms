@@ -24,9 +24,6 @@ return [
     'data.load.toolbar' => [
         'data_toolbar' => -100,
     ],
-    'entity.postsave.project' => [
-        'project_postsave' => -100,
-    ],
     'entity.postdelete.project' => [
         'project_postdelete' => -100,
     ],

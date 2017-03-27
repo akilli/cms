@@ -163,29 +163,6 @@ function listener_data_toolbar(array $data): array
 }
 
 /**
- * Project post-save listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_project_postsave(array $data): array
-{
-    if (empty($data['_old']['uid']) || $data['uid'] === $data['_old']['uid']) {
-        return $data;
-    }
-
-    $old = path('asset', $data['_old']['uid']);
-    $new = path('asset', $data['uid']);
-
-    if (file_exists($old) && !rename($old, $new)) {
-        message(_('Could not move directory %s to %s', $old, $new));
-    }
-
-    return $data;
-}
-
-/**
  * Project post-delete listener
  *
  * @param array $data
@@ -194,8 +171,8 @@ function listener_project_postsave(array $data): array
  */
 function listener_project_postdelete(array $data): array
 {
-    if (!file_delete(path('asset', $data['uid']))) {
-        message(_('Could not delete directory %s', path('asset', $data['uid'])));
+    if (!file_delete(path('asset', $data['id']))) {
+        message(_('Could not delete directory %s', path('asset', $data['id'])));
     }
 
     return $data;
