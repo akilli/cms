@@ -20,8 +20,7 @@ function project(string $key)
         $data = [];
         $id = (int) session('project');
         // @todo Use request()
-        $uid = strstr($_SERVER['HTTP_HOST'], '.', true);
-        $crit = $id ? ['id' => $id] : ['uid' => $uid];
+        $crit = $id ? ['id' => $id] : ['uid' => strstr($_SERVER['HTTP_HOST'], '.', true)];
         $crit['active'] = true;
         $sysId = data('app', 'system.project');
         $data = one('project', $crit) ?: one('project', ['id' => $sysId]);
