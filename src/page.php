@@ -14,13 +14,21 @@ use PDO;
  */
 function page_tree(array $crit = []): array
 {
+    $anc = false;
     $initWhere = 'parent_id IS NULL';
+    $cond = 't.id = p.parent_id';
     $recWhere = '';
     $params = [];
 
     if (($crit['id'] ?? 0) > 0) {
-        $initWhere = !empty($crit['ancestor']) ? 'id = :id' : 'parent_id = :id';
         $params[] = [':id', $crit['id'], PDO::PARAM_INT];
+        $initWhere = 'parent_id = :id';
+
+        if (!empty($crit['ancestor'])) {
+            $anc = true;
+            $initWhere = 'id = :id';
+            $cond = 't.parent_id = p.id';
+        }
     }
 
     if (($crit['depth'] ?? 0) > 0) {
@@ -59,7 +67,7 @@ function page_tree(array $crit = []): array
                         page p
                     INNER JOIN
                         tree t
-                            ON t.id = p.parent_id
+                            ON %s
                     WHERE
                         p.active = TRUE
                         %s
@@ -78,6 +86,7 @@ function page_tree(array $crit = []): array
                 pos ASC
         ",
         $initWhere,
+        $cond,
         $recWhere
     );
 
@@ -87,5 +96,5 @@ function page_tree(array $crit = []): array
 
     $stmt->execute();
 
-    return $stmt->fetchAll();
+    return $anc ? array_reverse($stmt->fetchAll()) : $stmt->fetchAll();
 }
