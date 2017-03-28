@@ -9,7 +9,7 @@ use RuntimeException;
 use XSLTProcessor;
 
 /**
- * Import content
+ * Import project from ZIP file
  *
  * @todo Import homepage?!
  *
