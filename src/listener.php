@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace qnd;
 
-use RuntimeException;
-
 /**
  * App data listener
  *
@@ -162,28 +160,6 @@ function listener_page_presave(array $data): array
         for ($i = 1; one('page', ['url' => $data['url']]); $i++) {
             $data['url'] = url($base . '-' . $i . $ext);
         }
-    }
-
-    return $data;
-}
-
-/**
- * Page post-save listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_page_postsave(array $data): array
-{
-    if (!empty($data['_old']) && $data['name'] === $data['_old']['name'] && $data['content'] === $data['_old']['content']) {
-        return $data;
-    }
-
-    $v = ['name' => $data['name'], 'content' => $data['content'], 'author' => account('name'), 'page_id' => $data['id']];
-
-    if (!save('version', $v)) {
-        throw new RuntimeException(_('Could not save new version for %s', $data['name']));
     }
 
     return $data;

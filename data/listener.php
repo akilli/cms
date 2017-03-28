@@ -24,7 +24,4 @@ return [
     'entity.presave.page' => [
         'page_presave' => -1,
     ],
-    'entity.postsave.page' => [
-        'page_postsave' => -1,
-    ],
 ];

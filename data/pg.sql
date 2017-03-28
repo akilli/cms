@@ -79,20 +79,6 @@ CREATE INDEX idx_page_sort ON page (sort);
 CREATE INDEX idx_page_search ON page USING GIN (search);
 CREATE INDEX idx_page_project_id ON page (project_id);
 
-CREATE TABLE version (
-    id serial PRIMARY KEY,
-    name varchar(100) NOT NULL,
-    content text NOT NULL,
-    author varchar(50) NOT NULL,
-    date timestamp NOT NULL DEFAULT current_timestamp,
-    page_id integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE INDEX idx_version_name ON version (name);
-CREATE INDEX idx_version_author ON version (author);
-CREATE INDEX idx_version_date ON version (date);
-CREATE INDEX idx_version_page_id ON version (page_id);
-
 CREATE TABLE template (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,

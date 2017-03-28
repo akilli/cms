@@ -187,39 +187,6 @@ return [
             ],
         ],
     ],
-    'version' => [
-        'name' => 'Version',
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'auto' => true,
-                'type' => 'int',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'maxval' => 100,
-            ],
-            'content' => [
-                'name' => 'Content',
-                'type' => 'rte',
-            ],
-            'author' => [
-                'name' => 'Author',
-                'type' => 'text',
-            ],
-            'date' => [
-                'name' => 'Date',
-                'type' => 'datetime',
-            ],
-            'page_id' => [
-                'name' => 'Page',
-                'type' => 'entity',
-                'opt' => ['page'],
-            ],
-        ],
-    ],
     'template' => [
         'name' => 'Template',
         'actions' => ['admin', 'delete', 'edit', 'import'],
