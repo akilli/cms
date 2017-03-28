@@ -236,6 +236,16 @@ return [
                 'actions' => ['admin', 'edit'],
                 'maxval' => 100,
             ],
+            'image' => [
+                'name' => 'Image',
+                'type' => 'image',
+                'actions' => ['admin', 'edit'],
+            ],
+            'info' => [
+                'name' => 'Info',
+                'type' => 'textarea',
+                'actions' => ['edit'],
+            ],
             'content' => [
                 'name' => 'Content',
                 'type' => 'rte',
