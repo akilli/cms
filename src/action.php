@@ -229,9 +229,11 @@ function action_media_import(): void
 /**
  * Page Import Action
  *
+ * @param array $entity
+ *
  * @return void
  */
-function action_page_import(): void
+function action_page_import(array $entity): void
 {
     if ($files = http_files('import')) {
         foreach ($files as $file) {
@@ -239,7 +241,7 @@ function action_page_import(): void
                 $path = path('tmp', uniqid('import', true));
 
                 if (file_dir($path) && move_uploaded_file($file['tmp_name'], $path . '/' . $file['name'])) {
-                    import_page(project('id'), pathinfo($file['name'], PATHINFO_FILENAME), $path . '/' . $file['name']);
+                    import_page($entity['id'], project('id'), pathinfo($file['name'], PATHINFO_FILENAME), $path . '/' . $file['name']);
                 } else {
                     message(_('Import error'));
                 }
@@ -254,6 +256,18 @@ function action_page_import(): void
     }
 
     redirect(url('*/admin'));
+}
+
+/**
+ * Template Import Action
+ *
+ * @param array $entity
+ *
+ * @return void
+ */
+function action_template_import(array $entity): void
+{
+    action_page_import($entity);
 }
 
 /**

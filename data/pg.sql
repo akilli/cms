@@ -93,6 +93,16 @@ CREATE INDEX idx_version_author ON version (author);
 CREATE INDEX idx_version_date ON version (date);
 CREATE INDEX idx_version_page_id ON version (page_id);
 
+CREATE TABLE template (
+    id serial PRIMARY KEY,
+    name varchar(100) NOT NULL,
+    content text NOT NULL,
+    project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE INDEX idx_template_name ON template (name);
+CREATE INDEX idx_template_project_id ON template (project_id);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Data
 -- ---------------------------------------------------------------------------------------------------------------------

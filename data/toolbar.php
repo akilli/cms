@@ -1,6 +1,7 @@
 <?php
 return [
     ['name' => 'Page', 'url' => '/page/admin'],
+    ['name' => 'Template', 'url' => '/template/admin'],
     ['name' => 'Media', 'url' => '/media/admin'],
     ['name' => 'Account', 'url' => '/account/admin'],
     ['name' => 'Role', 'url' => '/role/admin'],

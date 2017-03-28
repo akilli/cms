@@ -220,6 +220,35 @@ return [
             ],
         ],
     ],
+    'template' => [
+        'name' => 'Template',
+        'actions' => ['admin', 'delete', 'edit', 'import'],
+        'attr' => [
+            'id' => [
+                'name' => 'ID',
+                'auto' => true,
+                'type' => 'int',
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'actions' => ['admin', 'edit'],
+                'maxval' => 100,
+            ],
+            'content' => [
+                'name' => 'Content',
+                'type' => 'rte',
+                'required' => true,
+                'actions' => ['edit'],
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'entity',
+                'opt' => ['project'],
+            ],
+        ],
+    ],
     'media' => [
         'name' => 'Media',
         'model' => 'media',

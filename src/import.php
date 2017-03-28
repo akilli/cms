@@ -11,6 +11,8 @@ use XSLTProcessor;
 /**
  * Import content
  *
+ * @todo Import homepage?!
+ *
  * @param string $name
  * @param string $file
  *
@@ -48,14 +50,9 @@ function import_zip(string $name, string $file): bool
             foreach ($import as $item) {
                 $file = $item['file'] ? $path . '/' . $item['file'] : null;
 
-                if (!import_page($project['id'], $item['name'], $file)) {
+                if (!import_page('page', $project['id'], $item['name'], $file)) {
                     throw new RuntimeException(_('Import error'));
                 }
-            }
-
-            // Homepage
-            if (($p = glob($path . '/index.{html,odt}', GLOB_BRACE)) && !import_page($project['id'], 'Index', $p[0])) {
-                throw new RuntimeException(_('Import error'));
             }
         }
     );
@@ -84,13 +81,14 @@ function import_project(string $name): ?array
 /**
  * Import page
  *
+ * @param string $eId
  * @param int $projectId
  * @param string $name
  * @param string $file
  *
  * @return array|null
  */
-function import_page(int $projectId, string $name, string $file = null): ?array
+function import_page(string $eId, int $projectId, string $name, string $file = null): ?array
 {
     $data = [];
     $data[-1]['name'] = $name;
@@ -98,7 +96,7 @@ function import_page(int $projectId, string $name, string $file = null): ?array
     $data[-1]['content'] = $file ? import_content($file) : '';
     $data[-1]['project_id'] = $projectId;
 
-    return save('page', $data) ? $data[-1] : null;
+    return save($eId, $data) ? $data[-1] : null;
 }
 
 /**
