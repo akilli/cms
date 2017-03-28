@@ -6,6 +6,33 @@ namespace qnd;
 use Exception;
 
 /**
+ * Denied Action
+ *
+ * @return void
+ */
+function action_denied(): void
+{
+    if (registered()) {
+        message(_('Access denied'));
+        redirect(url('account/dashboard'));
+    }
+
+    message(_('Please enter your credentials'));
+    redirect(url('account/login'));
+}
+
+/**
+ * Error Action
+ *
+ * @return void
+ */
+function action_error(): void
+{
+    message(_('The page %s does not exist', request('path')));
+    layout_load();
+}
+
+/**
  * Admin Action
  *
  * @param array $entity
@@ -15,6 +42,52 @@ use Exception;
 function action_admin(array $entity): void
 {
     action_index($entity);
+}
+
+/**
+ * Index Action
+ *
+ * @param array $entity
+ *
+ * @return void
+ */
+function action_index(array $entity): void
+{
+    $action = request('action');
+    $attrs = entity_attr($entity['id'], $action);
+    $crit = empty($entity['attr']['active']) || $action === 'admin' ? [] : ['active' => true];
+    $opts = ['limit' => $action === 'admin' ? data('app', 'limit.admin') : data('app', 'limit.index')];
+    $p = [];
+    $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
+
+    if ($q && ($s = array_filter(explode(' ', $q)))) {
+        if ($action === 'index') {
+            $crit['search'] = $s;
+            $opts['search'] = ['search'];
+        } else {
+            $crit['name'] = $s;
+            $opts['search'] = ['name'];
+        }
+
+        $p['q'] = urlencode(implode(' ', $s));
+    }
+
+    $size = size($entity['id'], $crit, $opts);
+    $pages = (int) ceil($size / $opts['limit']);
+    $p['page'] = min(max(http_get('page'), 1), $pages ?: 1);
+    $opts['offset'] = ($p['page'] - 1) * $opts['limit'];
+
+    if (($sort = http_get('sort')) && !empty($attrs[$sort])) {
+        $p['sort'] = $sort;
+        $p['dir'] = http_get('dir') === 'desc' ? 'desc' : 'asc';
+        $opts['order'] = [$p['sort'] => $p['dir']];
+    }
+
+    layout_load();
+    vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => $entity['name'], 'attr' => $attrs, 'params' => $p]);
+    vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $p]);
+    vars('search', ['q' => $q]);
+    vars('head', ['title' => $entity['name']]);
 }
 
 /**
@@ -110,52 +183,6 @@ function action_delete(array $entity): void
 }
 
 /**
- * Index Action
- *
- * @param array $entity
- *
- * @return void
- */
-function action_index(array $entity): void
-{
-    $action = request('action');
-    $attrs = entity_attr($entity['id'], $action);
-    $crit = empty($entity['attr']['active']) || $action === 'admin' ? [] : ['active' => true];
-    $opts = ['limit' => $action === 'admin' ? data('app', 'limit.admin') : data('app', 'limit.index')];
-    $p = [];
-    $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
-
-    if ($q && ($s = array_filter(explode(' ', $q)))) {
-        if ($action === 'index') {
-            $crit['search'] = $s;
-            $opts['search'] = ['search'];
-        } else {
-            $crit['name'] = $s;
-            $opts['search'] = ['name'];
-        }
-
-        $p['q'] = urlencode(implode(' ', $s));
-    }
-
-    $size = size($entity['id'], $crit, $opts);
-    $pages = (int) ceil($size / $opts['limit']);
-    $p['page'] = min(max(http_get('page'), 1), $pages ?: 1);
-    $opts['offset'] = ($p['page'] - 1) * $opts['limit'];
-
-    if (($sort = http_get('sort')) && !empty($attrs[$sort])) {
-        $p['sort'] = $sort;
-        $p['dir'] = http_get('dir') === 'desc' ? 'desc' : 'asc';
-        $opts['order'] = [$p['sort'] => $p['dir']];
-    }
-
-    layout_load();
-    vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => $entity['name'], 'attr' => $attrs, 'params' => $p]);
-    vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $p]);
-    vars('search', ['q' => $q]);
-    vars('head', ['title' => $entity['name']]);
-}
-
-/**
  * View Action
  *
  * @param array $entity
@@ -175,33 +202,6 @@ function action_view(array $entity): void
     layout_load();
     vars('content', ['item' => $item]);
     vars('head', ['title' => $item['name']]);
-}
-
-/**
- * Denied Action
- *
- * @return void
- */
-function action_denied(): void
-{
-    if (registered()) {
-        message(_('Access denied'));
-        redirect(url('account/dashboard'));
-    }
-
-    message(_('Please enter your credentials'));
-    redirect(url('account/login'));
-}
-
-/**
- * Error Action
- *
- * @return void
- */
-function action_error(): void
-{
-    message(_('The page %s does not exist', request('path')));
-    layout_load();
 }
 
 /**
