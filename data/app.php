@@ -20,7 +20,7 @@ return [
     'i18n.timezone' => 'Europe/Berlin',
     'import.end' => '<!-- IMPORT_END -->',
     'import.start' => '<!-- IMPORT_START -->',
-    'import.toc' => 'import.csv',
+    'import.toc' => 'toc.txt',
     'limit.admin' => 20,
     'limit.index' => 20,
     'limit.pager' => 5,
