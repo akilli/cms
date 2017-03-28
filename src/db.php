@@ -83,16 +83,16 @@ function db_pdo($val, array $attr): int
  * Prepare columns
  *
  * @param array $attrs
- * @param array $item
+ * @param array $data
  *
  * @return array
  */
-function db_cols(array $attrs, array $item): array
+function db_cols(array $attrs, array $data): array
 {
     $attrs = db_attr($attrs, true);
     $cols = ['in' => [], 'up' => [], 'param' => []];
 
-    foreach (array_intersect_key($item, $attrs) as $aId => $val) {
+    foreach (array_intersect_key($data, $attrs) as $aId => $val) {
         $col = $attrs[$aId]['col'];
         $param = ':' . $aId;
         $val = $attrs[$aId]['multiple'] && $attrs[$aId]['backend'] === 'json' ? json_encode($val) : $val;

@@ -1,6 +1,2 @@
 <?php namespace qnd; /** @var callable $§ */?>
-<form id="create" action="<?= url('*/edit');?>" method="post">
-    <input type="number" name="create" value="1" required="required" />
-    <input type="submit" value="<?= _('Create');?>" />
-    <input type="hidden" name="token" value="<?= token();?>" />
-</form>
+<a href="<?= url('*/edit');?>" role="button"><?= _('Create');?></a>

@@ -10,50 +10,50 @@ use RuntimeException;
  * Cast to appropriate php type
  *
  * @param array $attr
- * @param mixed $value
+ * @param mixed $val
  *
  * @return mixed
  */
-function cast(array $attr, $value)
+function cast(array $attr, $val)
 {
-    if ($attr['nullable'] && ($value === null || $value === '')) {
+    if ($attr['nullable'] && ($val === null || $val === '')) {
         return null;
     }
 
     if ($attr['backend'] === 'bool') {
-        return (bool) $value;
+        return (bool) $val;
     }
 
     if ($attr['backend'] === 'int') {
-        return (int) $value;
+        return (int) $val;
     }
 
     if ($attr['backend'] === 'decimal') {
-        return (float) $value;
+        return (float) $val;
     }
 
-    if ($attr['multiple'] && is_array($value)) {
-        foreach ($value as $k => $v) {
-            $value[$k] = cast($attr, $v);
+    if ($attr['multiple'] && is_array($val)) {
+        foreach ($val as $k => $v) {
+            $val[$k] = cast($attr, $v);
         }
 
-        return $value;
+        return $val;
     }
 
-    return (string) $value;
+    return (string) $val;
 }
 
 /**
  * Check wheter attribute can be ignored
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return bool
  */
-function ignorable(array $attr, array $item): bool
+function ignorable(array $attr, array $data): bool
 {
-    return !empty($item['_old'][$attr['id']]) && $attr['frontend'] === 'file';
+    return !empty($data['_old'][$attr['id']]) && $attr['frontend'] === 'file';
 }
 
 /**
@@ -95,13 +95,13 @@ function opt(array $attr): array
 function opt_privilege(): array
 {
     return array_map(
-        function ($item) {
-            return $item['name'];
+        function ($data) {
+            return $data['name'];
         },
         array_filter(
             data('privilege'),
-            function ($item) {
-                return empty($item['callback']);
+            function ($data) {
+                return empty($data['callback']);
             }
         )
     );
@@ -111,456 +111,456 @@ function opt_privilege(): array
  * Loader
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return mixed
  */
-function loader(array $attr, array $item)
+function loader(array $attr, array $data)
 {
-    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
+    $data[$attr['id']] = cast($attr, $data[$attr['id']] ?? null);
 
-    return $attr['loader'] && ($call = fqn('loader_' . $attr['loader'])) ? $call($attr, $item) : $item[$attr['id']];
+    return $attr['loader'] && ($call = fqn('loader_' . $attr['loader'])) ? $call($attr, $data) : $data[$attr['id']];
 }
 
 /**
  * JSON loader
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  */
-function loader_json(array $attr, array $item): array
+function loader_json(array $attr, array $data): array
 {
-    if (empty($item[$attr['id']])) {
+    if (empty($data[$attr['id']])) {
         return [];
     }
 
-    if (is_array($item[$attr['id']])) {
-        return $item[$attr['id']];
+    if (is_array($data[$attr['id']])) {
+        return $data[$attr['id']];
     }
 
-    return json_decode($item[$attr['id']], true) ?: [];
+    return json_decode($data[$attr['id']], true) ?: [];
 }
 
 /**
  * Saver
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  */
-function saver(array $attr, array $item): array
+function saver(array $attr, array $data): array
 {
-    return $attr['saver'] && ($call = fqn('saver_' . $attr['saver'])) ? $call($attr, $item) : $item;
+    return $attr['saver'] && ($call = fqn('saver_' . $attr['saver'])) ? $call($attr, $data) : $data;
 }
 
 /**
  * Password saver
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  */
-function saver_password(array $attr, array $item): array
+function saver_password(array $attr, array $data): array
 {
-    if ($item[$attr['id']]) {
-        $item[$attr['id']] = password_hash($item[$attr['id']], PASSWORD_DEFAULT);
+    if ($data[$attr['id']]) {
+        $data[$attr['id']] = password_hash($data[$attr['id']], PASSWORD_DEFAULT);
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * File saver
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws RuntimeException
  */
-function saver_file(array $attr, array $item): array
+function saver_file(array $attr, array $data): array
 {
-    $file = http_files('data')[$item['_id']][$attr['id']] ?? null;
+    $file = http_files('data')[$attr['id']] ?? null;
 
-    if ($item[$attr['id']] && (!$file || !file_upload($file['tmp_name'], $item[$attr['id']]))) {
+    if ($data[$attr['id']] && (!$file || !file_upload($file['tmp_name'], $data[$attr['id']]))) {
         throw new RuntimeException(_('File upload failed'));
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * Validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  */
-function validator(array $attr, array $item): array
+function validator(array $attr, array $data): array
 {
-    $item[$attr['id']] = cast($attr, $item[$attr['id']] ?? null);
+    $data[$attr['id']] = cast($attr, $data[$attr['id']] ?? null);
 
-    if ($attr['nullable'] && $item[$attr['id']] === null) {
-        return $item;
+    if ($attr['nullable'] && $data[$attr['id']] === null) {
+        return $data;
     }
 
     $attr['opt'] = opt($attr);
 
     if ($attr['validator']) {
         $call = fqn('validator_' . $attr['validator']);
-        $item = $call($attr, $item);
+        $data = $call($attr, $data);
     }
 
-    validator_uniq($attr, $item);
-    validator_required($attr, $item);
-    validator_boundary($attr, $item);
+    validator_uniq($attr, $data);
+    validator_required($attr, $data);
+    validator_boundary($attr, $data);
 
-    return $item;
+    return $data;
 }
 
 /**
  * Required validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws DomainException
  */
-function validator_required(array $attr, array $item): array
+function validator_required(array $attr, array $data): array
 {
-    if ($attr['required'] && ($item[$attr['id']] === null || $item[$attr['id']] === '') && !ignorable($attr, $item)) {
+    if ($attr['required'] && ($data[$attr['id']] === null || $data[$attr['id']] === '') && !ignorable($attr, $data)) {
         throw new DomainException(_('%s is required', $attr['name']));
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * Unique validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws DomainException
  */
-function validator_uniq(array $attr, array $item): array
+function validator_uniq(array $attr, array $data): array
 {
-    if ($attr['uniq'] && $item[$attr['id']] !== ($item['_old'][$attr['id']] ?? null) && size($item['_entity']['id'], [$attr['id'] => $item[$attr['id']]])) {
+    if ($attr['uniq'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && size($data['_entity']['id'], [$attr['id'] => $data[$attr['id']]])) {
         throw new DomainException(_('%s must be unique', $attr['name']));
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * Boundary validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws DomainException
  */
-function validator_boundary(array $attr, array $item): array
+function validator_boundary(array $attr, array $data): array
 {
-    $values = $attr['multiple'] && is_array($item[$attr['id']]) ? $item[$attr['id']] : [$item[$attr['id']]];
+    $vals = $attr['multiple'] && is_array($data[$attr['id']]) ? $data[$attr['id']] : [$data[$attr['id']]];
 
-    foreach ($values as $value) {
+    foreach ($vals as $val) {
         if (in_array($attr['backend'], ['json', 'text', 'varchar'])) {
-            $value = strlen($value);
+            $val = strlen($val);
         }
 
-        if ($attr['minval'] > 0 && $value < $attr['minval'] || $attr['maxval'] > 0 && $value > $attr['maxval']) {
+        if ($attr['minval'] > 0 && $val < $attr['minval'] || $attr['maxval'] > 0 && $val > $attr['maxval']) {
             throw new DomainException(_('Value out of range'));
         }
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * Option validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws DomainException
  */
-function validator_opt(array $attr, array $item): array
+function validator_opt(array $attr, array $data): array
 {
-    if (is_array($item[$attr['id']])) {
-        $item[$attr['id']] = array_filter(
-            $item[$attr['id']],
-            function ($value) {
-                return !empty($value) || !is_string($value);
+    if (is_array($data[$attr['id']])) {
+        $data[$attr['id']] = array_filter(
+            $data[$attr['id']],
+            function ($val) {
+                return !empty($val) || !is_string($val);
             }
         );
     }
 
-    if (!empty($item[$attr['id']]) || is_scalar($item[$attr['id']]) && !is_string($item[$attr['id']])) {
-        foreach ((array) $item[$attr['id']] as $v) {
+    if (!empty($data[$attr['id']]) || is_scalar($data[$attr['id']]) && !is_string($data[$attr['id']])) {
+        foreach ((array) $data[$attr['id']] as $v) {
             if (!isset($attr['opt'][$v])) {
                 throw new DomainException(_('Invalid option for attribute %s', $attr['name']));
             }
         }
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * Text validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  */
-function validator_text(array $attr, array $item): array
+function validator_text(array $attr, array $data): array
 {
-    $item[$attr['id']] = trim((string) filter_var($item[$attr['id']], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
+    $data[$attr['id']] = trim((string) filter_var($data[$attr['id']], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
 
-    return $item;
+    return $data;
 }
 
 /**
  * ID validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  */
-function validator_id(array $attr, array $item): array
+function validator_id(array $attr, array $data): array
 {
-    $item = validator_text($attr, $item);
-    $item[$attr['id']] = filter_id($item[$attr['id']]);
+    $data = validator_text($attr, $data);
+    $data[$attr['id']] = filter_id($data[$attr['id']]);
 
-    return $item;
+    return $data;
 }
 
 /**
  * Color validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws DomainException
  */
-function validator_color(array $attr, array $item): array
+function validator_color(array $attr, array $data): array
 {
-    if ($item[$attr['id']] && !preg_match('/#[a-f0-9]{6}/', $item[$attr['id']])) {
+    if ($data[$attr['id']] && !preg_match('/#[a-f0-9]{6}/', $data[$attr['id']])) {
          throw new DomainException(_('Invalid color'));
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * Email validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws DomainException
  */
-function validator_email(array $attr, array $item): array
+function validator_email(array $attr, array $data): array
 {
-    if ($item[$attr['id']] && !($item[$attr['id']] = filter_var($item[$attr['id']], FILTER_VALIDATE_EMAIL))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter_var($data[$attr['id']], FILTER_VALIDATE_EMAIL))) {
          throw new DomainException(_('Invalid email'));
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * URL validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws DomainException
  */
-function validator_url(array $attr, array $item): array
+function validator_url(array $attr, array $data): array
 {
-    if ($item[$attr['id']] && !($item[$attr['id']] = filter_var($item[$attr['id']], FILTER_VALIDATE_URL))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter_var($data[$attr['id']], FILTER_VALIDATE_URL))) {
          throw new DomainException(_('Invalid URL'));
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * JSON validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws DomainException
  */
-function validator_json(array $attr, array $item): array
+function validator_json(array $attr, array $data): array
 {
-    if ($item[$attr['id']] && json_decode($item[$attr['id']], true) === null) {
+    if ($data[$attr['id']] && json_decode($data[$attr['id']], true) === null) {
          throw new DomainException(_('Invalid JSON notation'));
     }
 
-    if (!$item[$attr['id']]) {
-        $item[$attr['id']] = '[]';
+    if (!$data[$attr['id']]) {
+        $data[$attr['id']] = '[]';
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * Rich text validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  */
-function validator_rte(array $attr, array $item): array
+function validator_rte(array $attr, array $data): array
 {
-    $item[$attr['id']] = filter_html($item[$attr['id']]);
+    $data[$attr['id']] = filter_html($data[$attr['id']]);
 
-    return $item;
+    return $data;
 }
 
 /**
  * Date validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws DomainException
  */
-function validator_date(array $attr, array $item): array
+function validator_date(array $attr, array $data): array
 {
     $in = data('app', 'date.frontend');
     $out = data('app', 'date.backend');
 
-    if ($item[$attr['id']] && !($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], $in, $out))) {
         throw new DomainException(_('Invalid value'));
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * Datetime validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws DomainException
  */
-function validator_datetime(array $attr, array $item): array
+function validator_datetime(array $attr, array $data): array
 {
     $in = data('app', 'datetime.frontend');
     $out = data('app', 'datetime.backend');
 
-    if ($item[$attr['id']] && !($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], $in, $out))) {
         throw new DomainException(_('Invalid value'));
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * Time validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws DomainException
  */
-function validator_time(array $attr, array $item): array
+function validator_time(array $attr, array $data): array
 {
     $in = data('app', 'time.frontend');
     $out = data('app', 'time.backend');
 
-    if ($item[$attr['id']] && !($item[$attr['id']] = filter_date($item[$attr['id']], $in, $out))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], $in, $out))) {
         throw new DomainException(_('Invalid value'));
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * File validator
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return array
  *
  * @throws DomainException
  */
-function validator_file(array $attr, array $item): array
+function validator_file(array $attr, array $data): array
 {
-    if ($file = http_files('data')[$item['_id']][$attr['id']] ?? '') {
+    if ($file = http_files('data')[$attr['id']] ?? '') {
         if (!in_array($attr['type'], data('file', $file['ext']) ?? [])) {
             throw new DomainException(_('Invalid file %s', $file['name']));
         }
 
-        if (($item['_old'][$attr['id']] ?? null) === $file['name']) {
-            $item[$attr['id']] = $file['name'];
+        if (($data['_old'][$attr['id']] ?? null) === $file['name']) {
+            $data[$attr['id']] = $file['name'];
         } else {
-            $item[$attr['id']] = filter_file($file['name'], project_path('media'));
+            $data[$attr['id']] = filter_file($file['name'], project_path('media'));
         }
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * Editor
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function editor(array $attr, array $item): string
+function editor(array $attr, array $data): string
 {
     if (!in_array($attr['context'], $attr['actions'])) {
         return '';
     }
 
-    $item[$attr['id']] = $item[$attr['id']] ?? $attr['val'];
+    $data[$attr['id']] = $data[$attr['id']] ?? $attr['val'];
     $attr['opt'] = opt($attr);
-    $attr['html']['id'] =  html_id($attr, $item);
-    $attr['html']['name'] =  html_name($attr, $item);
+    $attr['html']['id'] =  html_id($attr);
+    $attr['html']['name'] =  html_name($attr);
     $attr['html']['data-type'] =  $attr['type'];
 
-    if ($attr['required'] && !ignorable($attr, $item)) {
+    if ($attr['required'] && !ignorable($attr, $data)) {
         $attr['html']['required'] = true;
     }
 
@@ -568,12 +568,12 @@ function editor(array $attr, array $item): string
         $attr['html']['multiple'] = true;
     }
 
-    if (!empty($item['_error'][$attr['id']])) {
+    if (!empty($data['_error'][$attr['id']])) {
         $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
     }
 
-    if ($attr['editor'] && ($call = fqn('editor_' . $attr['editor'])) && ($html = $call($attr, $item))) {
-        return html_label($attr, $item) . $html . html_message($attr, $item);
+    if ($attr['editor'] && ($call = fqn('editor_' . $attr['editor'])) && ($html = $call($attr, $data))) {
+        return html_label($attr, $data) . $html . html_message($attr, $data);
     }
 
     return '';
@@ -583,16 +583,16 @@ function editor(array $attr, array $item): string
  * Select editor
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function editor_select(array $attr, array $item): string
+function editor_select(array $attr, array $data): string
 {
-    $value = $item[$attr['id']];
+    $val = $data[$attr['id']];
 
-    if (!is_array($value)) {
-        $value = !$value && !is_numeric($value) ? [] : [$value];
+    if (!is_array($val)) {
+        $val = !$val && !is_numeric($val) ? [] : [$val];
     }
 
     if (empty($attr['opt'])) {
@@ -603,7 +603,7 @@ function editor_select(array $attr, array $item): string
         foreach ($attr['opt'] as $optId => $optVal) {
             $a = ['value' => $optId];
 
-            if (in_array($optId, $value)) {
+            if (in_array($optId, $val)) {
                 $a['selected'] = true;
             }
 
@@ -618,11 +618,11 @@ function editor_select(array $attr, array $item): string
  * Option editor
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function editor_opt(array $attr, array $item): string
+function editor_opt(array $attr, array $data): string
 {
     if (!$attr['opt']) {
         return html_tag('span', ['id' => $attr['html']['id']], _('No options configured'));
@@ -630,12 +630,12 @@ function editor_opt(array $attr, array $item): string
         $attr['opt'] = [1 => _('Yes')];
     }
 
-    $value = $item[$attr['id']];
+    $val = $data[$attr['id']];
 
     if ($attr['backend'] === 'bool') {
-        $value = [(int) $value];
-    } elseif (!is_array($value)) {
-        $value = !$value && !is_numeric($value) ? [] : [$value];
+        $val = [(int) $val];
+    } elseif (!is_array($val)) {
+        $val = !$val && !is_numeric($val) ? [] : [$val];
     }
 
     $html = '';
@@ -647,7 +647,7 @@ function editor_opt(array $attr, array $item): string
             'name' => $attr['html']['name'],
             'type' => $attr['frontend'],
             'value' => $optId,
-            'checked' => in_array($optId, $value)
+            'checked' => in_array($optId, $val)
         ];
         $a = array_replace($attr['html'], $a);
         $html .= html_tag('input', $a, null, true);
@@ -661,14 +661,14 @@ function editor_opt(array $attr, array $item): string
  * Text editor
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function editor_text(array $attr, array $item): string
+function editor_text(array $attr, array $data): string
 {
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['id']] ? encode($item[$attr['id']]) : $item[$attr['id']];
+    $attr['html']['value'] = $data[$attr['id']] ? encode($data[$attr['id']]) : $data[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['minlength'] = $attr['minval'];
@@ -685,30 +685,30 @@ function editor_text(array $attr, array $item): string
  * Password editor
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function editor_password(array $attr, array $item): string
+function editor_password(array $attr, array $data): string
 {
-    $item[$attr['id']] = null;
+    $data[$attr['id']] = null;
     $attr['html']['autocomplete'] = 'off';
 
-    return editor_text($attr, $item);
+    return editor_text($attr, $data);
 }
 
 /**
  * Int editor
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function editor_int(array $attr, array $item): string
+function editor_int(array $attr, array $data): string
 {
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['id']];
+    $attr['html']['value'] = $data[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['min'] = $attr['minval'];
@@ -725,17 +725,17 @@ function editor_int(array $attr, array $item): string
  * Date editor
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function editor_date(array $attr, array $item): string
+function editor_date(array $attr, array $data): string
 {
     $in = data('app', 'date.backend');
     $out = data('app', 'date.frontend');
-    $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
+    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], $in, $out) : '';
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['id']];
+    $attr['html']['value'] = $data[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['min'] = $attr['minval'];
@@ -752,17 +752,17 @@ function editor_date(array $attr, array $item): string
  * Datetime editor
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function editor_datetime(array $attr, array $item): string
+function editor_datetime(array $attr, array $data): string
 {
     $in = data('app', 'datetime.backend');
     $out = data('app', 'datetime.frontend');
-    $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
+    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], $in, $out) : '';
     $attr['html']['type'] = 'datetime-local';
-    $attr['html']['value'] = $item[$attr['id']];
+    $attr['html']['value'] = $data[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['min'] = $attr['minval'];
@@ -779,17 +779,17 @@ function editor_datetime(array $attr, array $item): string
  * Time editor
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function editor_time(array $attr, array $item): string
+function editor_time(array $attr, array $data): string
 {
     $in = data('app', 'time.backend');
     $out = data('app', 'time.frontend');
-    $item[$attr['id']] = $item[$attr['id']] ? filter_date($item[$attr['id']], $in, $out) : '';
+    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], $in, $out) : '';
     $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $item[$attr['id']];
+    $attr['html']['value'] = $data[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['min'] = $attr['minval'];
@@ -806,13 +806,13 @@ function editor_time(array $attr, array $item): string
  * File editor
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function editor_file(array $attr, array $item): string
+function editor_file(array $attr, array $data): string
 {
-    $current = $item[$attr['id']] ? html_tag('div', [], viewer($attr, $item)) : '';
+    $current = $data[$attr['id']] ? html_tag('div', [], viewer($attr, $data)) : '';
     $hidden = html_tag('input', ['name' => $attr['html']['name'], 'type' => 'hidden'], null, true);
     $attr['html']['type'] = $attr['frontend'];
 
@@ -823,13 +823,13 @@ function editor_file(array $attr, array $item): string
  * Textarea editor
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function editor_textarea(array $attr, array $item): string
+function editor_textarea(array $attr, array $data): string
 {
-    $item[$attr['id']] = $item[$attr['id']] ? encode($item[$attr['id']]) : $item[$attr['id']];
+    $data[$attr['id']] = $data[$attr['id']] ? encode($data[$attr['id']]) : $data[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
         $attr['html']['minlength'] = $attr['minval'];
@@ -839,35 +839,35 @@ function editor_textarea(array $attr, array $item): string
         $attr['html']['maxlength'] = $attr['maxval'];
     }
 
-    return html_tag('textarea', $attr['html'], $item[$attr['id']]);
+    return html_tag('textarea', $attr['html'], $data[$attr['id']]);
 }
 
 /**
  * JSON editor
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function editor_json(array $attr, array $item): string
+function editor_json(array $attr, array $data): string
 {
-    if (is_array($item[$attr['id']])) {
-        $item[$attr['id']] = !empty($item[$attr['id']]) ? json_encode($item[$attr['id']]) : '';
+    if (is_array($data[$attr['id']])) {
+        $data[$attr['id']] = !empty($data[$attr['id']]) ? json_encode($data[$attr['id']]) : '';
     }
 
-    return editor_textarea($attr, $item);
+    return editor_textarea($attr, $data);
 }
 
 /**
  * Viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer(array $attr, array $item): string
+function viewer(array $attr, array $data): string
 {
     if (!in_array($attr['context'], $attr['actions'])) {
         return '';
@@ -876,193 +876,193 @@ function viewer(array $attr, array $item): string
     $attr['opt'] = opt($attr);
 
     if ($attr['viewer'] && ($call = fqn('viewer_' . $attr['viewer']))) {
-        return $call($attr, $item);
+        return $call($attr, $data);
     }
 
-    return $item[$attr['id']] ? encode((string) $item[$attr['id']]) : (string) $item[$attr['id']];
+    return $data[$attr['id']] ? encode((string) $data[$attr['id']]) : (string) $data[$attr['id']];
 }
 
 /**
  * Option viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_opt(array $attr, array $item): string
+function viewer_opt(array $attr, array $data): string
 {
-    if ($attr['opt'] && $item[$attr['id']]) {
-        $values = array_intersect_key($attr['opt'], array_fill_keys((array) $item[$attr['id']], null));
+    if ($attr['opt'] && $data[$attr['id']]) {
+        $vals = array_intersect_key($attr['opt'], array_fill_keys((array) $data[$attr['id']], null));
     }
 
-    return !empty($values) ? encode(implode(', ', $values)) : '';
+    return !empty($vals) ? encode(implode(', ', $vals)) : '';
 }
 
 /**
  * Date viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_date(array $attr, array $item): string
+function viewer_date(array $attr, array $data): string
 {
-    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('app', 'date.view')) : '';
+    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), data('app', 'date.view')) : '';
 }
 
 /**
  * Datetime viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_datetime(array $attr, array $item): string
+function viewer_datetime(array $attr, array $data): string
 {
-    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('app', 'datetime.view')) : '';
+    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), data('app', 'datetime.view')) : '';
 }
 
 /**
  * Time viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_time(array $attr, array $item): string
+function viewer_time(array $attr, array $data): string
 {
-    return $item[$attr['id']] ? date_format(date_create($item[$attr['id']]), data('app', 'time.view')) : '';
+    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), data('app', 'time.view')) : '';
 }
 
 /**
  * Rich text viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_rte(array $attr, array $item): string
+function viewer_rte(array $attr, array $data): string
 {
-    return (string) $item[$attr['id']];
+    return (string) $data[$attr['id']];
 }
 
 /**
  * Iframe viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_iframe(array $attr, array $item): string
+function viewer_iframe(array $attr, array $data): string
 {
-    return $item[$attr['id']] ? html_tag('figure', ['class' => 'iframe'], html_tag('iframe', ['src' => $item[$attr['id']], 'allowfullscreen' => true])) : '';
+    return $data[$attr['id']] ? html_tag('figure', ['class' => 'iframe'], html_tag('iframe', ['src' => $data[$attr['id']], 'allowfullscreen' => true])) : '';
 }
 
 /**
  * Audio viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_audio(array $attr, array $item): string
+function viewer_audio(array $attr, array $data): string
 {
-    return $item[$attr['id']] ? html_tag('audio', ['src' => url_media($item[$attr['id']]), 'controls' => true]) : '';
+    return $data[$attr['id']] ? html_tag('audio', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
 }
 
 /**
  * Embed viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_embed(array $attr, array $item): string
+function viewer_embed(array $attr, array $data): string
 {
-    return $item[$attr['id']] ? html_tag('embed', ['src' => url_media($item[$attr['id']])], null, true) : '';
+    return $data[$attr['id']] ? html_tag('embed', ['src' => url_media($data[$attr['id']])], null, true) : '';
 }
 
 /**
  * File viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_file(array $attr, array $item): string
+function viewer_file(array $attr, array $data): string
 {
-    return $item[$attr['id']] ? html_tag('a', ['href' => url_media($item[$attr['id']])], $item[$attr['id']]) : '';
+    return $data[$attr['id']] ? html_tag('a', ['href' => url_media($data[$attr['id']])], $data[$attr['id']]) : '';
 }
 
 /**
  * Image viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_image(array $attr, array $item): string
+function viewer_image(array $attr, array $data): string
 {
-    return $item[$attr['id']] ? html_tag('img', ['src' => image($item[$attr['id']], $attr['context']), 'alt' => $item[$attr['id']]], null, true) : '';
+    return $data[$attr['id']] ? html_tag('img', ['src' => image($data[$attr['id']], $attr['context']), 'alt' => $data[$attr['id']]], null, true) : '';
 }
 
 /**
  * Object viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_object(array $attr, array $item): string
+function viewer_object(array $attr, array $data): string
 {
-    return $item[$attr['id']] ? html_tag('object', ['data' => url_media($item[$attr['id']])]) : '';
+    return $data[$attr['id']] ? html_tag('object', ['data' => url_media($data[$attr['id']])]) : '';
 }
 
 /**
  * Video viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_video(array $attr, array $item): string
+function viewer_video(array $attr, array $data): string
 {
-    return $item[$attr['id']] ? html_tag('video', ['src' => url_media($item[$attr['id']]), 'controls' => true]) : '';
+    return $data[$attr['id']] ? html_tag('video', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
 }
 
 /**
  * Filesize viewer
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function viewer_filesize(array $attr, array $item): string
+function viewer_filesize(array $attr, array $data): string
 {
-    if (!$item[$attr['id']]) {
+    if (!$data[$attr['id']]) {
         return '';
     }
 
-    if ($item[$attr['id']] < 1000) {
-        return $item[$attr['id']] . ' B';
+    if ($data[$attr['id']] < 1000) {
+        return $data[$attr['id']] . ' B';
     }
 
-    if ($item[$attr['id']] > 1000000) {
-        return round($item[$attr['id']] / 1000000, 1) . ' MB';
+    if ($data[$attr['id']] > 1000000) {
+        return round($data[$attr['id']] / 1000000, 1) . ' MB';
     }
 
-    return round($item[$attr['id']] / 1000, 1) . ' kB';
+    return round($data[$attr['id']] / 1000, 1) . ' kB';
 }

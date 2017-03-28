@@ -100,28 +100,21 @@ function action_index(array $entity): void
 function action_edit(array $entity): void
 {
     $data = http_post('data');
+    $id = request('id');
 
     if ($data) {
+        $data['id'] = $id;
+
         // Perform save callback and redirect to admin on success
         if (save($entity['id'], $data)) {
             redirect(url('*/admin'));
         }
-
-        $data = array_filter(
-            $data,
-            function ($item) {
-                return empty($item['_success']);
-            }
-        );
-    } elseif (is_array(http_post('edit'))) {
-        // We just selected multiple items to edit on the admin page
-        $data = all($entity['id'], ['id' => array_keys(http_post('edit'))]);
-    } elseif (request('id') !== null) {
+    } elseif ($id) {
         // We just clicked on an edit link, p.e. on the admin page
-        $data = all($entity['id'], ['id' => request('id')]);
+        $data = one($entity['id'], ['id' => $id]);
     } else {
         // Initial create action call
-        $data = entity($entity['id'], (int) http_post('create'));
+        $data = entity($entity['id']);
     }
 
     layout_load();
@@ -145,16 +138,9 @@ function action_form(array $entity): void
         if (save($entity['id'], $data)) {
             redirect();
         }
-
-        $data = array_filter(
-            $data,
-            function ($item) {
-                return empty($item['_success']);
-            }
-        );
     } else {
         // Initial action call
-        $data = entity($entity['id'], 1);
+        $data = entity($entity['id']);
     }
 
     layout_load();
@@ -191,17 +177,17 @@ function action_delete(array $entity): void
  */
 function action_view(array $entity): void
 {
-    $item = one($entity['id'], ['id' => request('id')]);
+    $data = one($entity['id'], ['id' => request('id')]);
 
     // Item does not exist or is inactive
-    if (!$item || !empty($entity['attr']['active']) && empty($item['active']) && !allowed('edit')) {
+    if (!$data || !empty($entity['attr']['active']) && empty($data['active']) && !allowed('edit')) {
         action_error();
         return;
     }
 
     layout_load();
-    vars('content', ['item' => $item]);
-    vars('head', ['title' => $item['name']]);
+    vars('content', ['data' => $data]);
+    vars('head', ['title' => $data['name']]);
 }
 
 /**
@@ -343,14 +329,14 @@ function action_account_dashboard(): void
  */
 function action_account_password(): void
 {
-    if ($item = http_post('data')) {
-        if (empty($item['password']) || empty($item['confirmation']) || $item['password'] !== $item['confirmation']) {
+    if ($data = http_post('data')) {
+        if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
             message(_('Password and password confirmation must be identical'));
         } else {
-            $data = [account('id') => array_replace(account(), ['password' => $item['password']])];
+            $data = array_replace(account(), ['password' => $data['password']]);
 
             if (!save('account', $data)) {
-                message($data[account('id')]['_error']['password'] ?? _('Could not save %s', account('name')));
+                message($data['_error']['password'] ?? _('Could not save %s', account('name')));
             }
         }
     }
@@ -371,10 +357,10 @@ function action_account_login(): void
     }
 
     if ($data = http_post('data')) {
-        if (!empty($data['name']) && !empty($data['password']) && ($item = account_login($data['name'], $data['password']))) {
-            message(_('Welcome %s', $item['name']));
+        if (!empty($data['name']) && !empty($data['password']) && ($data = account_login($data['name'], $data['password']))) {
+            message(_('Welcome %s', $data['name']));
             session_regenerate();
-            session('account', $item['id']);
+            session('account', $data['id']);
             redirect(url('account/dashboard'));
         }
 

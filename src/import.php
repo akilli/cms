@@ -40,17 +40,17 @@ function import_zip(string $name, string $file): bool
 
     $trans = db_trans(
         function () use ($name, $path, $toc) {
-            $import = csv_unserialize(file_get_contents($toc), ['keys' => ['pos', 'name', 'file']]);
+            $csv = csv_unserialize(file_get_contents($toc), ['keys' => ['pos', 'name', 'file']]);
 
             if (!$project = import_project($name)) {
                 throw new RuntimeException(_('Import error'));
             }
 
             // Create new page
-            foreach ($import as $item) {
-                $file = $item['file'] ? $path . '/' . $item['file'] : null;
+            foreach ($csv as $data) {
+                $file = $data['file'] ? $path . '/' . $data['file'] : null;
 
-                if (!import_page('page', $project['id'], $item['name'], $file)) {
+                if (!import_page('page', $project['id'], $data['name'], $file)) {
                     throw new RuntimeException(_('Import error'));
                 }
             }
@@ -70,33 +70,27 @@ function import_zip(string $name, string $file): bool
  */
 function import_project(string $name): ?array
 {
-    $data = [];
-    $data[-1]['uid'] = $name;
-    $data[-1]['name'] = $name;
-    $data[-1]['active'] = true;
+    $data = ['uid' => $name, 'name' => $name, 'active' => true];
 
-    return save('project', $data) ? $data[-1] : null;
+    return save('project', $data) ? $data : null;
 }
 
 /**
  * Import page
  *
  * @param string $eId
- * @param int $projectId
+ * @param int $pId
  * @param string $name
  * @param string $file
  *
  * @return array|null
  */
-function import_page(string $eId, int $projectId, string $name, string $file = null): ?array
+function import_page(string $eId, int $pId, string $name, string $file = null): ?array
 {
-    $data = [];
-    $data[-1]['name'] = $name;
-    $data[-1]['active'] = true;
-    $data[-1]['content'] = $file ? import_content($file) : '';
-    $data[-1]['project_id'] = $projectId;
+    $content = $file ? import_content($file) : '';
+    $data = ['name' => $name, 'active' => true, 'content' => $content, 'project_id' => $pId];
 
-    return save($eId, $data) ? $data[-1] : null;
+    return save($eId, $data) ? $data : null;
 }
 
 /**

@@ -57,31 +57,31 @@ function media_load(array $entity, array $crit = [], array $opts = []): array
 /**
  * Save entity
  *
- * @param array $item
+ * @param array $data
  *
  * @return array
  */
-function media_save(array $item): array
+function media_save(array $data): array
 {
-    $item['id'] = $item['id'] ?? $item['name'];
+    $data['id'] = $data['id'] ?? $data['name'];
 
-    return $item;
+    return $data;
 }
 
 /**
  * Delete entity
  *
- * @param array $item
+ * @param array $data
  *
  * @return void
  *
  * @throws RuntimeException
  */
-function media_delete(array $item): void
+function media_delete(array $data): void
 {
-    if (!file_delete(project_path('media', $item['id']))) {
-        throw new RuntimeException(_('Could not delete %s', $item['name']));
+    if (!file_delete(project_path('media', $data['id']))) {
+        throw new RuntimeException(_('Could not delete %s', $data['name']));
     }
 
-    file_delete(project_path('cache', $item['id']));
+    file_delete(project_path('cache', $data['id']));
 }

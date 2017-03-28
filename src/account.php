@@ -48,19 +48,18 @@ function account(string $key = null)
  */
 function account_login(string $name, string $password): ?array
 {
-    $item = one('account', ['name' => $name, 'active' => true]);
+    $data = one('account', ['name' => $name, 'active' => true]);
 
-    if (!$item || !password_verify($password, $item['password'])) {
+    if (!$data || !password_verify($password, $data['password'])) {
         return null;
     }
 
-    if (!password_needs_rehash($item['password'], PASSWORD_DEFAULT)) {
-        return $item;
+    if (password_needs_rehash($data['password'], PASSWORD_DEFAULT)) {
+        $data['password'] = $password;
+        save('account', $data);
     }
 
-    $data = [$item['id'] => array_replace($item, ['password' => $password])];
-
-    return save('account', $data) ? $data[$item['id']] : $item;
+    return $data;
 }
 
 /**

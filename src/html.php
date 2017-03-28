@@ -46,41 +46,39 @@ function html_attr(array $attrs): string
  * HTML id attribute
  *
  * @param array $attr
- * @param array $item
  *
  * @return string
  */
-function html_id(array $attr, array $item): string
+function html_id(array $attr): string
 {
-    return 'data-' . $item['_id'] . '-' . $attr['id'];
+    return 'data-' . $attr['id'];
 }
 
 /**
  * HTML name attribute
  *
  * @param array $attr
- * @param array $item
  *
  * @return string
  */
-function html_name(array $attr, array $item): string
+function html_name(array $attr): string
 {
-    return 'data[' . $item['_id'] . '][' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
+    return 'data[' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
 }
 
 /**
  * Label
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function html_label(array $attr, array $item): string
+function html_label(array $attr, array $data): string
 {
     $label = $attr['name'];
 
-    if ($attr['required'] && !ignorable($attr, $item)) {
+    if ($attr['required'] && !ignorable($attr, $data)) {
         $label .= ' ' . html_tag('em', ['class' => 'required'], _('Required'));
     }
 
@@ -88,22 +86,22 @@ function html_label(array $attr, array $item): string
         $label .= ' ' . html_tag('em', ['class' => 'uniq'], _('Unique'));
     }
 
-    return html_tag('label', ['for' => html_id($attr, $item)], $label);
+    return html_tag('label', ['for' => html_id($attr)], $label);
 }
 
 /**
  * Message
  *
  * @param array $attr
- * @param array $item
+ * @param array $data
  *
  * @return string
  */
-function html_message(array $attr, array $item): string
+function html_message(array $attr, array $data): string
 {
-    if (empty($item['_error'][$attr['id']])) {
+    if (empty($data['_error'][$attr['id']])) {
         return '';
     }
 
-    return html_tag('div', ['class' => 'message error'], $item['_error'][$attr['id']]);
+    return html_tag('div', ['class' => 'message error'], $data['_error'][$attr['id']]);
 }

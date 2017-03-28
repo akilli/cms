@@ -49,7 +49,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
 {
     $entity = data('entity', $eId);
     $call = fqn($entity['model'] . '_load');
-    $item = [];
+    $data = [];
     $opts = array_replace(entity_opts($opts), ['mode' => 'one', 'limit' => 1]);
 
     if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
@@ -57,15 +57,15 @@ function one(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        if ($item = $call($entity, $crit, $opts)) {
-            $item = entity_load($entity, $item);
+        if ($data = $call($entity, $crit, $opts)) {
+            $data = entity_load($entity, $data);
         }
     } catch (Exception $e) {
         error((string) $e);
         message(_('Could not load data'));
     }
 
-    return $item;
+    return $data;
 }
 
 /**
@@ -119,80 +119,64 @@ function all(string $eId, array $crit = [], array $opts = []): array
  */
 function save(string $eId, array & $data): bool
 {
-    $original = all($eId, ['id' => array_keys($data)]);
-    $default = entity($eId);
-    $editable = entity($eId, null, true);
-    $aIds = array_keys(array_intersect_key($editable, $default['_entity']['attr']));
-    $success = [];
-    $error = [];
+    if (empty($data['id']) || !($base = one($eId, ['id' => $data['id']]))) {
+        $base = entity($eId);
+    } elseif (empty($data['_old'])) {
+        $data['_old'] = $base;
+        unset($data['_old']['_entity'], $data['_old']['_old']);
+    }
 
-    foreach ($data as $id => & $item) {
-        $item['_id'] = $id;
-        $base = empty($original[$id]) ? $default : $original[$id];
-        $item = array_replace($base, $editable, $item);
-        $item['project_id'] = $item['project_id'] ?? project('id');
+    $editable = entity($eId, true);
+    $data = array_replace($base, $editable, $data);
+    $attrs = $data['_entity']['attr'];
+    $aIds = array_keys(array_intersect_key($editable, $attrs));
+    $data['project_id'] = $data['project_id'] ?? project('id');
 
-        if (empty($item['_old']) && !empty($original[$id])) {
-            $item['_old'] = $original[$id];
-            unset($item['_old']['_id'], $item['_old']['_entity'], $item['_old']['_old']);
-        }
-
-        foreach ($aIds as $aId) {
-            try {
-                $item = validator($item['_entity']['attr'][$aId], $item);
-            } catch (Exception $e) {
-                $item['_error'][$aId] = $e->getMessage();
-            }
-        }
-
-        if (!empty($item['_error'])) {
-            $error[] = $item['name'];
-            continue;
-        }
-
-        foreach ($aIds as $aId) {
-            try {
-                $item = saver($item['_entity']['attr'][$aId], $item);
-            } catch (Exception $e) {
-                $item['_error'][$aId] = $e->getMessage();
-                $error[] = $item['name'];
-                continue 2;
-            }
-        }
-
-        $temp = $item;
-        $trans = db_trans(
-            function () use (& $temp) {
-                $temp = event('entity.presave', $temp);
-                $temp = event('model.presave.' . $temp['_entity']['model'], $temp);
-                $temp = event('entity.presave.' . $temp['_entity']['id'], $temp);
-                $call = fqn($temp['_entity']['model'] . '_save');
-                $temp = $call($temp);
-                event('entity.postsave', $temp);
-                event('model.postsave.' . $temp['_entity']['model'], $temp);
-                event('entity.postsave.' . $temp['_entity']['id'], $temp);
-            }
-        );
-
-        $item['_success'] = $trans;
-
-        if ($trans) {
-            $success[] = $item['name'];
-            $item = $temp;
-        } else {
-            $error[] = $item['name'];
+    foreach ($aIds as $aId) {
+        try {
+            $data = validator($attrs[$aId], $data);
+        } catch (Exception $e) {
+            $data['_error'][$aId] = $e->getMessage();
         }
     }
 
-    if ($success) {
-        message(_('Successfully saved %s', implode(', ', $success)));
+    if (!empty($data['_error'])) {
+        message(_('Could not save %s', $data['name']));
+        return false;
     }
 
-    if ($error) {
-        message(_('Could not save %s', implode(', ', $error)));
+    foreach ($aIds as $aId) {
+        try {
+            $data = saver($attrs[$aId], $data);
+        } catch (Exception $e) {
+            $data['_error'][$aId] = $e->getMessage();
+            message(_('Could not save %s', $data['name']));
+            return false;
+        }
     }
 
-    return !$error;
+    $temp = $data;
+    $trans = db_trans(
+        function () use (& $temp) {
+            $temp = event('entity.presave', $temp);
+            $temp = event('model.presave.' . $temp['_entity']['model'], $temp);
+            $temp = event('entity.presave.' . $temp['_entity']['id'], $temp);
+            $call = fqn($temp['_entity']['model'] . '_save');
+            $temp = $call($temp);
+            event('entity.postsave', $temp);
+            event('model.postsave.' . $temp['_entity']['model'], $temp);
+            event('entity.postsave.' . $temp['_entity']['id'], $temp);
+        }
+    );
+
+    if ($trans) {
+        $data = $temp;
+        message(_('Successfully saved %s', $data['name']));
+    } else {
+        message(_('Could not save %s', $data['name']));
+    }
+
+    return $trans;
 }
 
 /**
@@ -250,33 +234,22 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
  * Retrieve empty entity
  *
  * @param string $eId
- * @param int $number
  * @param bool $bare
  *
  * @return array
  *
  * @throws RuntimeException
  */
-function entity(string $eId, int $number = null, bool $bare = false): array
+function entity(string $eId, bool $bare = false): array
 {
     if (!$entity = data('entity', $eId)) {
         throw new RuntimeException(_('Invalid entity %s', $eId));
     }
 
     $item = array_fill_keys(array_keys(entity_attr($eId, 'edit')), null);
-    $item += $bare ? [] : ['_old' => null, '_entity' => $entity, '_id' => null];
+    $item += $bare ? [] : ['_old' => null, '_entity' => $entity];
 
-    if ($number === null) {
-        return $item;
-    }
-
-    $data = array_fill_keys(range(-1, -1 * max(1, $number)), $item);
-
-    foreach ($data as $key => $value) {
-        $data[$key]['_id'] = $key;
-    }
-
-    return $data;
+    return $item;
 }
 
 /**
@@ -335,25 +308,23 @@ function entity_opts(array $opts): array
  * Internal entity loader
  *
  * @param array $entity
- * @param array $item
+ * @param array $data
  *
  * @return array
  */
-function entity_load(array $entity, array $item): array
+function entity_load(array $entity, array $data): array
 {
-    foreach ($item as $aId => $value) {
+    foreach ($data as $aId => $value) {
         if (isset($entity['attr'][$aId])) {
-            $item[$aId] = loader($entity['attr'][$aId], $item);
+            $data[$aId] = loader($entity['attr'][$aId], $data);
         }
     }
 
-    $item['_old'] = $item;
-    $item['_entity'] = $entity;
-    $item['_id'] = $item['id'];
+    $data['_old'] = $data;
+    $data['_entity'] = $entity;
+    $data = event('entity.load', $data);
+    $data = event('model.load.' . $entity['model'], $data);
+    $data = event('entity.load.' . $entity['id'], $data);
 
-    $item = event('entity.load', $item);
-    $item = event('model.load.' . $entity['model'], $item);
-    $item = event('entity.load.' . $entity['id'], $item);
-
-    return $item;
+    return $data;
 }

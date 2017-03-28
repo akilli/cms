@@ -186,15 +186,13 @@ function http_post_validate(string $token): bool
 /**
  * Converts and validates uploaded files
  *
- * @param array $data
+ * @param array $files
  *
  * @return array
  */
-function http_files_convert(array $data): array
+function http_files_convert(array $files): array
 {
-    $files = [];
-
-    foreach ($data as $id => $item) {
+    foreach ($files as $id => $item) {
         $files[$id] = is_array($item) ? http_files_fix($item) : $item;
     }
 

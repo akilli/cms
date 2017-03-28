@@ -180,7 +180,7 @@ function listener_page_postsave(array $data): array
         return $data;
     }
 
-    $v = [-1 => ['name' => $data['name'], 'content' => $data['content'], 'author' => account('name'), 'page_id' => $data['id']]];
+    $v = ['name' => $data['name'], 'content' => $data['content'], 'author' => account('name'), 'page_id' => $data['id']];
 
     if (!save('version', $v)) {
         throw new RuntimeException(_('Could not save new version for %s', $data['name']));

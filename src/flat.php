@@ -40,31 +40,31 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
 /**
  * Save entity
  *
- * @param array $item
+ * @param array $data
  *
  * @return array
  */
-function flat_save(array $item): array
+function flat_save(array $data): array
 {
-    $attrs = $item['_entity']['attr'];
-    $cols = db_cols($attrs, $item);
+    $attrs = $data['_entity']['attr'];
+    $cols = db_cols($attrs, $data);
 
     // Insert or update
-    if (empty($item['_old'])) {
+    if (empty($data['_old'])) {
         $stmt = db_prep(
             'INSERT INTO %s (%s) VALUES (%s)',
-            $item['_entity']['tab'],
+            $data['_entity']['tab'],
             db_list(array_keys($cols['in'])),
             db_list($cols['in'])
         );
     } else {
         $stmt = db_prep(
             'UPDATE %s SET %s WHERE %s = :_id',
-            $item['_entity']['tab'],
+            $data['_entity']['tab'],
             db_list($cols['up']),
             $attrs['id']['col']
         );
-        $stmt->bindValue(':_id', $item['_old']['id'], $attrs['id']['pdo']);
+        $stmt->bindValue(':_id', $data['_old']['id'], $attrs['id']['pdo']);
     }
 
     foreach ($cols['param'] as $param) {
@@ -74,27 +74,27 @@ function flat_save(array $item): array
     $stmt->execute();
 
     // Set DB generated id
-    if (empty($item['_old']) && $attrs['id']['auto']) {
-        $item['id'] = (int) db()->lastInsertId($item['_entity']['tab'] . '_id_seq');
+    if (empty($data['_old']) && $attrs['id']['auto']) {
+        $data['id'] = (int) db()->lastInsertId($data['_entity']['tab'] . '_id_seq');
     }
 
-    return $item;
+    return $data;
 }
 
 /**
  * Delete entity
  *
- * @param array $item
+ * @param array $data
  *
  * @return void
  */
-function flat_delete(array $item): void
+function flat_delete(array $data): void
 {
     $stmt = db_prep(
         'DELETE FROM %s WHERE %s = :id',
-        $item['_entity']['tab'],
-        $item['_entity']['attr']['id']['col']
+        $data['_entity']['tab'],
+        $data['_entity']['attr']['id']['col']
     );
-    $stmt->bindValue(':id', $item['_old']['id'], $item['_entity']['attr']['id']['pdo']);
+    $stmt->bindValue(':id', $data['_old']['id'], $data['_entity']['attr']['id']['pdo']);
     $stmt->execute();
 }
