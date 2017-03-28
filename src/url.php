@@ -17,33 +17,19 @@ function url(string $path = '', array $params = []): string
         return $path;
     }
 
-    $path = ($path = trim($path, '/')) ? url_unrewrite('/' . url_resolve($path)) : '/';
+    if (!$path = trim($path, '/')) {
+        return '/';
+    }
 
-    return $path . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
-}
+    if (preg_match('#^(asset|lib|theme)#', $path)) {
+        return '/' . $path;
+    }
 
-/**
- * Lib URL
- *
- * @param string $path
- *
- * @return string
- */
-function url_lib(string $path = ''): string
-{
-    return '/lib' . ($path ? '/' . $path : '');
-}
+    if (strpos($path, '*') !== false) {
+        $path = url_resolve($path);
+    }
 
-/**
- * Theme URL
- *
- * @param string $path
- *
- * @return string
- */
-function url_theme(string $path = ''): string
-{
-    return '/theme/' . project('theme') . ($path ? '/' . $path : '');
+    return url_unrewrite('/' . $path) . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
 }
 
 /**
@@ -68,6 +54,30 @@ function url_cache(string $path = ''): string
 function url_media(string $path = ''): string
 {
     return '/asset/' . project('id') . '/media' . ($path ? '/' . $path : '');
+}
+
+/**
+ * Lib URL
+ *
+ * @param string $path
+ *
+ * @return string
+ */
+function url_lib(string $path = ''): string
+{
+    return '/lib' . ($path ? '/' . $path : '');
+}
+
+/**
+ * Theme URL
+ *
+ * @param string $path
+ *
+ * @return string
+ */
+function url_theme(string $path = ''): string
+{
+    return '/theme/' . project('theme') . ($path ? '/' . $path : '');
 }
 
 /**
@@ -103,16 +113,18 @@ function url_resolve(string $path): string
  */
 function url_rewrite(string $path): string
 {
+    if ($path === '/') {
+        return '/' . data('request', 'entity') . '/' . data('request', 'action');
+    }
+
+    if (!preg_match('#' . data('app', 'page.url') . '$#', $path)) {
+        return $path;
+    }
+
     $data = & registry('url');
 
     if (empty($data[$path])) {
-        if ($page = one('page', ['url' => $path])) {
-            $data[$path] = '/page/view/' . $page['id'];
-        } elseif($path === '/') {
-            $data[$path] = '/' . data('request', 'entity') . '/' . data('request', 'action');
-        } else {
-            $data[$path] = $path;
-        }
+        $data[$path] = ($page = one('page', ['url' => $path])) ? '/page/view/' . $page['id'] : $path;
     }
 
     return $data[$path];
@@ -127,15 +139,22 @@ function url_rewrite(string $path): string
  */
 function url_unrewrite(string $path): string
 {
-    $data = & registry('url');
-
-    if (!in_array($path, (array) $data)) {
-        if (($p = explode('/', trim($path, '/'))) && !empty($p[2]) && ($page = one('page', ['id' => $p[2]]))) {
-            $data[$page['url']] = $path;
-        } else {
-            $data[$path] = $path;
-        }
+    if (!preg_match('#^/page/view/([0-9]+)#', $path, $match)) {
+        return $path;
     }
 
-    return array_search($path, $data);
+    $data = & registry('url');
+
+    if (in_array($path, (array) $data)) {
+        return array_search($path, $data);
+    }
+
+    if ($page = one('page', ['id' => $match[1]])) {
+        $data[$page['url']];
+        return $page['url'];
+    }
+
+    $data[$path] = $path;
+
+    return $path;
 }
