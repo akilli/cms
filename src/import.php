@@ -44,13 +44,15 @@ function import_zip(string $name, string $file): bool
             }
 
             // Copy media files
-            file_copy($path . '/media', path('asset', $project['id'] . '/media'));
+            $asset = path('asset', (string) $project['id']);
+            file_copy($path . '/media', $asset . '/media');
 
             // Create new page
             foreach ($csv as $data) {
                 $file = $data['file'] ? $path . '/' . $data['file'] : null;
 
                 if (!import_page('page', $project['id'], $data['name'], $file)) {
+                    file_delete($asset);
                     throw new RuntimeException(_('Import error'));
                 }
             }
