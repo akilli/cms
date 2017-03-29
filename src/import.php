@@ -35,9 +35,6 @@ function import_zip(string $name, string $file): bool
         return false;
     }
 
-    // Copy media files
-    file_copy($path . '/media', project_path('media'));
-
     $trans = db_trans(
         function () use ($name, $path, $toc) {
             $csv = csv_unserialize(file_get_contents($toc), ['keys' => ['pos', 'name', 'file']]);
@@ -45,6 +42,9 @@ function import_zip(string $name, string $file): bool
             if (!$project = import_project($name)) {
                 throw new RuntimeException(_('Import error'));
             }
+
+            // Copy media files
+            file_copy($path . '/media', path('asset', $project['id'] . '/media'));
 
             // Create new page
             foreach ($csv as $data) {
