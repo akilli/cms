@@ -322,6 +322,27 @@ function validator_opt(array $attr, array $data): array
 }
 
 /**
+ * Option validator
+ *
+ * @param array $attr
+ * @param array $data
+ *
+ * @return array
+ *
+ * @throws DomainException
+ */
+function validator_page(array $attr, array $data): array
+{
+    $old = $data['_old']['id'] ?? null;
+
+    if ($data[$attr['id']] && $old && in_array($old, array_column(page_tree(['id' => $data[$attr['id']], 'ancestor' => true]), 'id'))) {
+        throw new DomainException(_('Cannot assign the page itself or a child page as parent'));
+    }
+
+    return $data;
+}
+
+/**
  * Text validator
  *
  * @param array $attr
@@ -365,7 +386,7 @@ function validator_id(array $attr, array $data): array
 function validator_color(array $attr, array $data): array
 {
     if ($data[$attr['id']] && !preg_match('/#[a-f0-9]{6}/', $data[$attr['id']])) {
-         throw new DomainException(_('Invalid color'));
+        throw new DomainException(_('Invalid color'));
     }
 
     return $data;
@@ -384,7 +405,7 @@ function validator_color(array $attr, array $data): array
 function validator_email(array $attr, array $data): array
 {
     if ($data[$attr['id']] && !($data[$attr['id']] = filter_var($data[$attr['id']], FILTER_VALIDATE_EMAIL))) {
-         throw new DomainException(_('Invalid email'));
+        throw new DomainException(_('Invalid email'));
     }
 
     return $data;
@@ -403,7 +424,7 @@ function validator_email(array $attr, array $data): array
 function validator_url(array $attr, array $data): array
 {
     if ($data[$attr['id']] && !($data[$attr['id']] = filter_var($data[$attr['id']], FILTER_VALIDATE_URL))) {
-         throw new DomainException(_('Invalid URL'));
+        throw new DomainException(_('Invalid URL'));
     }
 
     return $data;
@@ -422,7 +443,7 @@ function validator_url(array $attr, array $data): array
 function validator_json(array $attr, array $data): array
 {
     if ($data[$attr['id']] && json_decode($data[$attr['id']], true) === null) {
-         throw new DomainException(_('Invalid JSON notation'));
+        throw new DomainException(_('Invalid JSON notation'));
     }
 
     if (!$data[$attr['id']]) {

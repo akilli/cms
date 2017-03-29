@@ -163,6 +163,7 @@ return [
                 'nullable' => true,
                 'opt' => ['page'],
                 'actions' => ['admin', 'edit'],
+                'validator' => 'page',
             ],
             'sort' => [
                 'name' => 'Sort',
