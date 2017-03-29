@@ -314,7 +314,7 @@ function entity_opts(array $opts): array
  */
 function entity_load(array $entity, array $data): array
 {
-    foreach ($data as $aId => $value) {
+    foreach ($data as $aId => $val) {
         if (isset($entity['attr'][$aId])) {
             $data[$aId] = loader($entity['attr'][$aId], $data);
         }

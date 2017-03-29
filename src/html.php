@@ -8,14 +8,14 @@ namespace qnd;
  *
  * @param string $name
  * @param array $attrs
- * @param string $value
+ * @param string $val
  * @param bool $empty
  *
  * @return string
  */
-function html_tag(string $name, array $attrs = [], string $value = null, bool $empty = false): string
+function html_tag(string $name, array $attrs = [], string $val = null, bool $empty = false): string
 {
-    return '<' . $name . html_attr($attrs) . ($empty ? ' />' : '>' . $value . '</' . $name . '>');
+    return '<' . $name . html_attr($attrs) . ($empty ? ' />' : '>' . $val . '</' . $name . '>');
 }
 
 /**

@@ -169,43 +169,43 @@ function db_crit(array $crit, array $attrs, array $opts = []): array
 /**
  * Quotes value
  *
- * @param mixed $value
+ * @param mixed $val
  * @param array $attr
  *
  * @return string
  */
-function db_qv($value, array $attr): string
+function db_qv($val, array $attr): string
 {
     if ($attr['backend'] === 'bool') {
-        return $value ? 'TRUE' : 'FALSE';
+        return $val ? 'TRUE' : 'FALSE';
     }
 
     if ($attr['backend'] === 'int') {
-        return (string) $value;
+        return (string) $val;
     }
 
     if ($attr['backend'] === 'decimal') {
-        return sprintf('%F', $value);
+        return sprintf('%F', $val);
     }
 
-    return db()->quote($value, db_pdo($value, $attr));
+    return db()->quote($val, db_pdo($val, $attr));
 }
 
 /**
  * Quotes array value
  *
- * @param array $value
+ * @param array $val
  * @param array $attr
  *
  * @return array
  */
-function db_qva(array $value, array $attr): array
+function db_qva(array $val, array $attr): array
 {
     return array_map(
         function ($v) use ($attr) {
             return db_qv($v, $attr);
         },
-        $value
+        $val
     );
 }
 

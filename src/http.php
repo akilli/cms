@@ -7,12 +7,12 @@ namespace qnd;
  * Session data
  *
  * @param string $key
- * @param mixed $value
+ * @param mixed $val
  * @param bool $reset
  *
  * @return mixed
  */
-function session(string $key, $value = null, bool $reset = false)
+function session(string $key, $val = null, bool $reset = false)
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
         ini_set('session.use_strict_mode', '1');
@@ -26,8 +26,8 @@ function session(string $key, $value = null, bool $reset = false)
 
     if ($reset) {
         unset($_SESSION[$key]);
-    } elseif ($value !== null) {
-        $_SESSION[$key] = $value;
+    } elseif ($val !== null) {
+        $_SESSION[$key] = $val;
     }
 
     return $_SESSION[$key] ?? null;
@@ -155,13 +155,13 @@ function http_files(string $key)
  */
 function http_filter(array $data): array
 {
-    foreach ($data as $key => $value) {
-        if (!$value = filter_var($value, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR)) {
+    foreach ($data as $key => $val) {
+        if (!$val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR)) {
             unset($data[$key]);
             continue;
         }
 
-        $data[$key] = is_numeric($value) ? (int) $value : $value;
+        $data[$key] = is_numeric($val) ? (int) $val : $val;
     }
 
     return $data;
