@@ -46,14 +46,18 @@ function import_project(string $name, string $file): bool
 
             $asset = path('asset', (string) $project['id']);
             file_copy($path . '/media', $asset . '/media');
-            $parent = [null];
+            $log = [null];
+            $prev = 0;
 
             foreach ($csv as $data) {
-                $d = substr_count(trim($data['pos'], '.'), '.');
+                if (($cur = substr_count(trim($data['pos'], '.'), '.')) > $prev + 1) {
+                    $cur = $prev + 1;
+                }
+
                 $page = [
                     'name' => $data['name'],
                     'active' => true,
-                    'parent_id' => $parent[$d],
+                    'parent_id' => $log[$cur],
                     'content' => $data['file'] ? import_content($path . '/' . $data['file']) : '',
                     'project_id' => $project['id']
                 ];
@@ -63,7 +67,8 @@ function import_project(string $name, string $file): bool
                     throw new RuntimeException(_('Import error'));
                 }
 
-                $parent[$d + 1] = $page['id'];
+                $log[$cur + 1] = $page['id'];
+                $prev = $cur;
             }
         }
     );
