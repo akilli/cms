@@ -85,7 +85,7 @@ $$
         _max integer;
     BEGIN
 
-        SELECT COUNT(id) + 1 FROM page INTO _max WHERE COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0);
+        SELECT COUNT(id) + 1 FROM page INTO _max WHERE project_id = NEW.project_id AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0);
 
         IF (TG_OP = 'UPDATE' AND COALESCE(NEW.parent_id, 0) = COALESCE(OLD.parent_id, 0)) THEN
             _max := _max - 1;
@@ -107,10 +107,10 @@ $$
         END IF;
 
         IF (TG_OP = 'UPDATE') THEN
-            UPDATE page SET sort = sort - 1 WHERE id != OLD.id AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0) AND sort > OLD.sort;
+            UPDATE page SET sort = sort - 1 WHERE project_id = OLD.project_id AND id != OLD.id AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0) AND sort > OLD.sort;
         END IF;
 
-        UPDATE page SET sort = sort + 1 WHERE id != NEW.id AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0) AND sort >= NEW.sort;
+        UPDATE page SET sort = sort + 1 WHERE project_id = NEW.project_id AND id != NEW.id AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0) AND sort >= NEW.sort;
 
         RETURN NULL;
     END;
@@ -119,7 +119,7 @@ $$ LANGUAGE plpgsql;
 CREATE FUNCTION page_delete() RETURNS trigger AS
 $$
     BEGIN
-        UPDATE page SET sort = sort - 1 WHERE COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0) AND sort > OLD.sort;
+        UPDATE page SET sort = sort - 1 WHERE project_id = OLD.project_id AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0) AND sort > OLD.sort;
         RETURN NULL;
     END;
 $$ LANGUAGE plpgsql;
