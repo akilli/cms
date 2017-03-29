@@ -46,9 +46,9 @@ function page_tree(array $crit = []): array
                         url,
                         parent_id,
                         sort,
-                        content,
                         1 AS depth,
-                        LPAD(CAST(sort AS text), 3, '0') AS pos
+                        CAST(sort AS text) AS pos,
+                        LPAD(CAST(sort AS text), 3, '0') AS sortpos
                     FROM
                         page
                     WHERE
@@ -62,9 +62,9 @@ function page_tree(array $crit = []): array
                         p.url,
                         p.parent_id,
                         p.sort,
-                        p.content,
                         t.depth + 1 AS depth,
-                        t.pos || '.' || LPAD(CAST(p.sort AS text), 3, '0') AS pos
+                        t.pos || '.' || CAST(p.sort AS text) AS pos,
+                        t.sortpos || '.' || LPAD(CAST(p.sort AS text), 3, '0') AS sortpos
                     FROM
                         page p
                     INNER JOIN
@@ -81,12 +81,12 @@ function page_tree(array $crit = []): array
                 url,
                 parent_id,
                 sort,
-                content,
-                depth
+                depth,
+                pos
             FROM
                 tree
             ORDER BY
-                pos ASC
+                sortpos ASC
         ",
         $initWhere,
         $cond,
