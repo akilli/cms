@@ -138,25 +138,23 @@ function db_crit(array $crit, array $attrs, array $opts = []): array
 
     foreach ($crit as $aId => $val) {
         $attr = $attrs[$aId];
-        $col = $attr['col'];
 
-        if ($val === null) {
-            $cols[$aId] = db_null($col);
-            continue;
-        } elseif (is_array($val) && !$val) {
+        if (is_array($val) && !$val) {
             continue;
         }
 
-        $val = (array) $val;
+        $val = is_array($val) ? $val : [$val];
         $r = [];
 
         if (!in_array($aId, $search)) {
-            $r[] = db_eq($col, db_qva($val, $attr));
+            foreach ($val as $v) {
+                $r[] = db_eq($attr['col'], db_qv($v, $attr));
+            }
         } elseif ($attr['backend'] === 'search') {
-            $r[] = db_search($col, db_qv(implode(' | ', $val), $attr));
+            $r[] = db_search($attr['col'], db_qv(implode(' | ', $val), $attr));
         } else {
             foreach ($val as $v) {
-                $r[] = db_like($col, db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr));
+                $r[] = db_like($attr['col'], db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr));
             }
         }
 
@@ -172,10 +170,14 @@ function db_crit(array $crit, array $attrs, array $opts = []): array
  * @param mixed $val
  * @param array $attr
  *
- * @return string
+ * @return string|null
  */
-function db_qv($val, array $attr): string
+function db_qv($val, array $attr): ?string
 {
+    if ($attr['nullable'] && $val === null) {
+        return null;
+    }
+
     if ($attr['backend'] === 'bool') {
         return $val ? 'TRUE' : 'FALSE';
     }
@@ -189,24 +191,6 @@ function db_qv($val, array $attr): string
     }
 
     return db()->quote($val, db_pdo($val, $attr));
-}
-
-/**
- * Quotes array value
- *
- * @param array $val
- * @param array $attr
- *
- * @return array
- */
-function db_qva(array $val, array $attr): array
-{
-    return array_map(
-        function ($v) use ($attr) {
-            return db_qv($v, $attr);
-        },
-        $val
-    );
 }
 
 /**
@@ -234,28 +218,16 @@ function db_or(array $crit): string
 }
 
 /**
- * IS NULL expression
- *
- * @param string $col
- *
- * @return string
- */
-function db_null(string $col): string
-{
-    return $col . ' IS NULL';
-}
-
-/**
  * Equal expression
  *
  * @param string $col
- * @param array $vals
+ * @param mixed $val
  *
  * @return string
  */
-function db_eq(string $col, array $vals): string
+function db_eq(string $col, $val): string
 {
-    return $col . (count($vals) === 1 ? ' = ' . current($vals) : ' IN (' . db_list($vals) . ')');
+    return $col . ($val === null ? ' IS NULL' : ' = ' . $val);
 }
 
 /**
