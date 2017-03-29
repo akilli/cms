@@ -1,7 +1,7 @@
 <?php
 return [
     'project' => [
-        'name' => 'Project',
+        'name' => 'Projects',
         'actions' => ['admin', 'delete', 'edit', 'export', 'import', 'switch'],
         'attr' => [
             'id' => [
@@ -39,7 +39,7 @@ return [
         ],
     ],
     'role' => [
-        'name' => 'Role',
+        'name' => 'Roles',
         'actions' => ['admin', 'delete', 'edit'],
         'attr' => [
             'id' => [
@@ -80,7 +80,7 @@ return [
         ],
     ],
     'account' => [
-        'name' => 'Account',
+        'name' => 'Accounts',
         'actions' => ['admin', 'dashboard', 'delete', 'edit', 'login', 'logout', 'password'],
         'attr' => [
             'id' => [
@@ -128,7 +128,7 @@ return [
         ],
     ],
     'page' => [
-        'name' => 'Page',
+        'name' => 'Pages',
         'actions' => ['admin', 'delete', 'edit', 'import', 'index', 'view'],
         'attr' => [
             'id' => [
@@ -188,7 +188,7 @@ return [
         ],
     ],
     'template' => [
-        'name' => 'Template',
+        'name' => 'Templates',
         'actions' => ['admin', 'delete', 'edit', 'import'],
         'attr' => [
             'id' => [
