@@ -43,11 +43,9 @@ function import_zip(string $name, string $file): bool
                 throw new RuntimeException(_('Import error'));
             }
 
-            // Copy media files
             $asset = path('asset', (string) $project['id']);
             file_copy($path . '/media', $asset . '/media');
 
-            // Create new page
             foreach ($csv as $data) {
                 $file = $data['file'] ? $path . '/' . $data['file'] : null;
 
