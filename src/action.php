@@ -227,7 +227,13 @@ function action_page_import(array $entity): void
                 $path = path('tmp', uniqid('import', true));
 
                 if (file_dir($path) && move_uploaded_file($file['tmp_name'], $path . '/' . $file['name'])) {
-                    import_page($entity['id'], project('id'), pathinfo($file['name'], PATHINFO_FILENAME), $path . '/' . $file['name']);
+                    $data = [
+                        'name' => pathinfo($file['name'], PATHINFO_FILENAME),
+                        'active' => true,
+                        'content' => import_content($path . '/' . $file['name']),
+                        'project_id' => project('id')
+                    ];
+                    save($entity['id'], $data);
                 } else {
                     message(_('Import error'));
                 }
@@ -266,7 +272,7 @@ function action_project_import(): void
     if ($files = http_files('import')) {
         foreach ($files as $file) {
             if ($file['ext'] === 'zip') {
-                import_zip(pathinfo($file['name'], PATHINFO_FILENAME), $file['tmp_name']);
+                import_project(pathinfo($file['name'], PATHINFO_FILENAME), $file['tmp_name']);
                 file_delete($file['tmp_name']);
             } else {
                 message(_('Invalid file %s', $file['name']));

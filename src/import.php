@@ -9,7 +9,7 @@ use RuntimeException;
 use XSLTProcessor;
 
 /**
- * Import project from ZIP file
+ * Import project
  *
  * @todo Import homepage?!
  *
@@ -18,7 +18,7 @@ use XSLTProcessor;
  *
  * @return bool
  */
-function import_zip(string $name, string $file): bool
+function import_project(string $name, string $file): bool
 {
     $path = path('tmp', uniqid('import', true));
     $toc = $path . '/' . data('app', 'import.toc');
@@ -38,59 +38,38 @@ function import_zip(string $name, string $file): bool
     $trans = db_trans(
         function () use ($name, $path, $toc) {
             $csv = csv_unserialize(file_get_contents($toc), ['keys' => ['pos', 'name', 'file']]);
+            $project = ['uid' => $name, 'name' => $name, 'active' => true];
 
-            if (!$project = import_project($name)) {
+            if (!save('project', $project)) {
                 throw new RuntimeException(_('Import error'));
             }
 
             $asset = path('asset', (string) $project['id']);
             file_copy($path . '/media', $asset . '/media');
+            $parent = [null];
 
             foreach ($csv as $data) {
-                $file = $data['file'] ? $path . '/' . $data['file'] : null;
+                $d = substr_count(trim($data['pos'], '.'), '.');
+                $page = [
+                    'name' => $data['name'],
+                    'active' => true,
+                    'parent_id' => $parent[$d],
+                    'content' => $data['file'] ? import_content($path . '/' . $data['file']) : '',
+                    'project_id' => $project['id']
+                ];
 
-                if (!import_page('page', $project['id'], $data['name'], $file)) {
+                if (!save('page', $page)) {
                     file_delete($asset);
                     throw new RuntimeException(_('Import error'));
                 }
+
+                $parent[$d + 1] = $page['id'];
             }
         }
     );
     file_delete($path);
 
     return $trans;
-}
-
-/**
- * Import project
- *
- * @param string $name
- *
- * @return array|null
- */
-function import_project(string $name): ?array
-{
-    $data = ['uid' => $name, 'name' => $name, 'active' => true];
-
-    return save('project', $data) ? $data : null;
-}
-
-/**
- * Import page
- *
- * @param string $eId
- * @param int $pId
- * @param string $name
- * @param string $file
- *
- * @return array|null
- */
-function import_page(string $eId, int $pId, string $name, string $file = null): ?array
-{
-    $content = $file ? import_content($file) : '';
-    $data = ['name' => $name, 'active' => true, 'content' => $content, 'project_id' => $pId];
-
-    return save($eId, $data) ? $data : null;
 }
 
 /**
