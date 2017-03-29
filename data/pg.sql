@@ -79,6 +79,55 @@ CREATE INDEX idx_page_sort ON page (sort);
 CREATE INDEX idx_page_search ON page USING GIN (search);
 CREATE INDEX idx_page_project_id ON page (project_id);
 
+CREATE FUNCTION page_save_before() RETURNS trigger AS
+$$
+    DECLARE
+        _max integer;
+    BEGIN
+
+        SELECT COUNT(id) + 1 FROM page INTO _max WHERE COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0);
+
+        IF (TG_OP = 'UPDATE' AND COALESCE(NEW.parent_id, 0) = COALESCE(OLD.parent_id, 0)) THEN
+            _max := _max - 1;
+        END IF;
+
+        IF (NEW.sort IS NULL OR NEW.sort <= 0 OR NEW.sort > _max) THEN
+            NEW.sort = _max;
+        END IF;
+
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION page_save_after() RETURNS trigger AS
+$$
+    BEGIN
+        IF (TG_OP = 'UPDATE' AND COALESCE(NEW.parent_id, 0) = COALESCE(OLD.parent_id, 0) AND NEW.sort = OLD.sort) THEN
+            RETURN NULL;
+        END IF;
+
+        IF (TG_OP = 'UPDATE') THEN
+            UPDATE page SET sort = sort - 1 WHERE id != OLD.id AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0) AND sort > OLD.sort;
+        END IF;
+
+        UPDATE page SET sort = sort + 1 WHERE id != NEW.id AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0) AND sort >= NEW.sort;
+
+        RETURN NULL;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION page_delete() RETURNS trigger AS
+$$
+    BEGIN
+        UPDATE page SET sort = sort - 1 WHERE COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0) AND sort > OLD.sort;
+        RETURN NULL;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER page_save_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_save_before();
+CREATE TRIGGER page_save_after AFTER INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_save_after();
+CREATE TRIGGER page_delete AFTER DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_delete();
+
 CREATE TABLE template (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
