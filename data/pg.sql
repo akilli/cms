@@ -101,11 +101,15 @@ $$ LANGUAGE plpgsql;
 CREATE FUNCTION page_save_after() RETURNS trigger AS
 $$
     BEGIN
-        IF (TG_OP = 'UPDATE') THEN
-            UPDATE page SET sort = sort - 1 WHERE project_id = OLD.project_id AND id != OLD.id AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0) AND sort > OLD.sort;
+        IF (TG_OP = 'INSERT' OR COALESCE(NEW.parent_id, 0) != COALESCE(OLD.parent_id, 0) OR NEW.sort != OLD.sort) THEN
+            IF (TG_OP = 'UPDATE') THEN
+                UPDATE page SET sort = sort - 1 WHERE project_id = OLD.project_id AND id != OLD.id AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0) AND sort > OLD.sort;
+            END IF;
+
+            UPDATE page SET sort = sort + 1 WHERE project_id = NEW.project_id AND id != NEW.id AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0) AND sort >= NEW.sort;
         END IF;
 
-        UPDATE page SET sort = sort + 1 WHERE project_id = NEW.project_id AND id != NEW.id AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0) AND sort >= NEW.sort;
+        REFRESH MATERIALIZED VIEW tree;
 
         RETURN NULL;
     END;
@@ -120,9 +124,77 @@ $$
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER page_save_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_save_before();
-CREATE TRIGGER page_insert_after AFTER INSERT ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_save_after();
-CREATE TRIGGER page_update_after AFTER UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0 AND (COALESCE(NEW.parent_id, 0) != COALESCE(OLD.parent_id, 0) OR NEW.sort != OLD.sort)) EXECUTE PROCEDURE page_save_after();
+CREATE TRIGGER page_save_after AFTER INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_save_after();
 CREATE TRIGGER page_delete AFTER DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_delete();
+
+-- -----------------------------------------------------------
+
+CREATE MATERIALIZED VIEW tree AS
+WITH RECURSIVE t AS (
+        SELECT
+            id,
+            name,
+            url,
+            parent_id,
+            sort,
+            project_id,
+            TO_JSONB(id) AS path,
+            1 AS depth,
+            CAST(sort AS text) AS pos,
+            LPAD(CAST(sort AS text), 3, '0') AS sortpos
+        FROM
+            page
+        WHERE
+            active = TRUE
+            AND parent_id IS NULL
+    UNION
+        SELECT
+            p.id,
+            p.name,
+            p.url,
+            p.parent_id,
+            p.sort,
+            p.project_id,
+            t.path || TO_JSONB(p.id) AS path,
+            t.depth + 1 AS depth,
+            t.pos || '.' || CAST(p.sort AS text) AS pos,
+            t.sortpos || '.' || LPAD(CAST(p.sort AS text), 3, '0') AS sortpos
+        FROM
+            page p
+        INNER JOIN
+            t
+                ON t.id = p.parent_id
+        WHERE
+            p.project_id = t.project_id
+            AND p.active = TRUE
+)
+SELECT
+    id,
+    name,
+    url,
+    parent_id,
+    sort,
+    project_id,
+    path,
+    depth,
+    pos,
+    sortpos
+FROM
+    t
+ORDER BY
+    project_id ASC,
+    sortpos ASC;
+
+CREATE UNIQUE INDEX uni_tree_id ON tree (id);
+CREATE INDEX idx_tree_name ON tree (name);
+CREATE INDEX idx_tree_url ON tree (url);
+CREATE INDEX idx_tree_parent_id ON tree (parent_id);
+CREATE INDEX idx_tree_sort ON tree (sort);
+CREATE INDEX idx_tree_project_id ON tree (project_id);
+CREATE INDEX idx_tree_path ON tree USING GIN (path);
+CREATE INDEX idx_tree_depth ON tree (depth);
+CREATE INDEX idx_tree_pos ON tree (pos);
+CREATE INDEX idx_tree_sortpos ON tree (sortpos);
 
 -- -----------------------------------------------------------
 
