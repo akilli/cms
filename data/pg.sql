@@ -140,10 +140,11 @@ WITH RECURSIVE t AS (
             url,
             parent_id,
             sort,
-            TO_JSONB(id) AS path,
+            content,
+            '[]'::jsonb || TO_JSONB(id) AS path,
             1 AS depth,
-            CAST(sort AS text) AS pos,
-            LPAD(CAST(sort AS text), 3, '0') AS sortpos,
+            CAST(sort AS text) AS structure,
+            LPAD(CAST(sort AS text), 3, '0') AS pos,
             project_id
         FROM
             page
@@ -157,10 +158,11 @@ WITH RECURSIVE t AS (
             p.url,
             p.parent_id,
             p.sort,
+            p.content,
             t.path || TO_JSONB(p.id) AS path,
             t.depth + 1 AS depth,
-            t.pos || '.' || CAST(p.sort AS text) AS pos,
-            t.sortpos || '.' || LPAD(CAST(p.sort AS text), 3, '0') AS sortpos,
+            t.structure || '.' || CAST(p.sort AS text) AS structure,
+            t.pos || '.' || LPAD(CAST(p.sort AS text), 3, '0') AS pos,
             p.project_id
         FROM
             page p
@@ -177,16 +179,17 @@ SELECT
     url,
     parent_id,
     sort,
+    content,
     path,
     depth,
+    structure,
     pos,
-    sortpos,
     project_id
 FROM
     t
 ORDER BY
     project_id ASC,
-    sortpos ASC;
+    pos ASC;
 
 CREATE UNIQUE INDEX ON tree (id);
 CREATE INDEX ON tree (name);
@@ -195,8 +198,8 @@ CREATE INDEX ON tree (parent_id);
 CREATE INDEX ON tree (sort);
 CREATE INDEX ON tree USING GIN (path);
 CREATE INDEX ON tree (depth);
+CREATE INDEX ON tree (structure);
 CREATE INDEX ON tree (pos);
-CREATE INDEX ON tree (sortpos);
 CREATE INDEX ON tree (project_id);
 
 -- -----------------------------------------------------------
