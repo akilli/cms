@@ -136,13 +136,13 @@ CREATE MATERIALIZED VIEW tree AS
 WITH RECURSIVE t AS (
         SELECT
             id,
+            CAST(sort AS text) AS structure,
             name,
             url,
             parent_id,
             sort,
             '[]'::jsonb || TO_JSONB(id) AS path,
             1 AS depth,
-            CAST(sort AS text) AS structure,
             LPAD(CAST(sort AS text), 3, '0') AS pos,
             project_id
         FROM
@@ -153,13 +153,13 @@ WITH RECURSIVE t AS (
     UNION
         SELECT
             p.id,
+            t.structure || '.' || CAST(p.sort AS text) AS structure,
             p.name,
             p.url,
             p.parent_id,
             p.sort,
             t.path || TO_JSONB(p.id) AS path,
             t.depth + 1 AS depth,
-            t.structure || '.' || CAST(p.sort AS text) AS structure,
             t.pos || '.' || LPAD(CAST(p.sort AS text), 3, '0') AS pos,
             p.project_id
         FROM
@@ -173,13 +173,13 @@ WITH RECURSIVE t AS (
 )
 SELECT
     id,
+    structure,
     name,
     url,
     parent_id,
     sort,
     path,
     depth,
-    structure,
     pos,
     project_id
 FROM
@@ -189,13 +189,13 @@ ORDER BY
     pos ASC;
 
 CREATE UNIQUE INDEX ON tree (id);
+CREATE INDEX ON tree (structure);
 CREATE INDEX ON tree (name);
 CREATE INDEX ON tree (url);
 CREATE INDEX ON tree (parent_id);
 CREATE INDEX ON tree (sort);
 CREATE INDEX ON tree USING GIN (path);
 CREATE INDEX ON tree (depth);
-CREATE INDEX ON tree (structure);
 CREATE INDEX ON tree (pos);
 CREATE INDEX ON tree (project_id);
 

@@ -194,6 +194,10 @@ return [
                 'name' => 'ID',
                 'type' => 'int',
             ],
+            'structure' => [
+                'name' => 'Structure',
+                'type' => 'text',
+            ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
@@ -221,10 +225,6 @@ return [
             'depth' => [
                 'name' => 'Depth',
                 'type' => 'int',
-            ],
-            'structure' => [
-                'name' => 'Structure',
-                'type' => 'text',
             ],
             'pos' => [
                 'name' => 'Position',
