@@ -96,7 +96,7 @@ function opt_page(): array
 {
     $data = [];
 
-    foreach (tree() as $item) {
+    foreach (all('tree', [], ['order' => 'pos']) as $item) {
         $data[$item['id']] = $item['pos'] . ' ' . $item['name'];
     }
 
@@ -351,7 +351,7 @@ function validator_page(array $attr, array $data): array
 {
     $old = $data['_old']['id'] ?? null;
 
-    if ($data[$attr['id']] && $old && in_array($old, array_column(tree(['id' => $data[$attr['id']], 'ancestor' => true]), 'id'))) {
+    if ($data[$attr['id']] && $old && in_array($old, one('tree', ['id' => $data[$attr['id']]])['path'])) {
         throw new DomainException(_('Cannot assign the page itself or a child page as parent'));
     }
 

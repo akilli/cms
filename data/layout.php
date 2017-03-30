@@ -126,19 +126,21 @@ return [
     ],
     'page.index' => [
         'nav' => [
-            'type' => 'nav',
+            'type' => 'tree',
             'parent' => 'top',
+            'vars' => ['mode' => 'top'],
         ],
     ],
     'page.view' => [
         'nav' => [
-            'type' => 'nav',
+            'type' => 'tree',
             'parent' => 'top',
+            'vars' => ['mode' => 'top'],
         ],
         'subnav' => [
-            'type' => 'nav',
+            'type' => 'tree',
             'parent' => 'right',
-            'vars' => ['type' => 'sub'],
+            'vars' => ['mode' => 'sub'],
         ],
     ],
 ];

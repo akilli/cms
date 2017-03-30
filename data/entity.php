@@ -187,6 +187,56 @@ return [
             ],
         ],
     ],
+    'tree' => [
+        'name' => 'Page Tree',
+        'attr' => [
+            'id' => [
+                'name' => 'ID',
+                'type' => 'int',
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+            ],
+            'url' => [
+                'name' => 'URL',
+                'type' => 'text',
+            ],
+            'parent_id' => [
+                'name' => 'Parent',
+                'type' => 'entity',
+                'opt' => ['page'],
+            ],
+            'sort' => [
+                'name' => 'Sort',
+                'type' => 'int',
+            ],
+            'path' => [
+                'name' => 'Path',
+                'type' => 'entity',
+                'backend' => 'json',
+                'multiple' => true,
+                'opt' => ['page'],
+            ],
+            'depth' => [
+                'name' => 'Depth',
+                'type' => 'int',
+            ],
+            'structure' => [
+                'name' => 'Structure',
+                'type' => 'text',
+            ],
+            'pos' => [
+                'name' => 'Position',
+                'type' => 'text',
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'entity',
+                'opt' => ['project'],
+            ],
+        ],
+    ],
     'template' => [
         'name' => 'Templates',
         'actions' => ['admin', 'delete', 'edit', 'import'],

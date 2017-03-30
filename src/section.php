@@ -45,38 +45,43 @@ function section_message(array $§): string
 }
 
 /**
- * Navigation section
+ * Tree section
  *
  * @param array $§
  *
  * @return string
  */
-function section_nav(array $§): string
+function section_tree(array $§): string
 {
-    if (($§['vars']['type'] ?? null) === 'sub') {
-        $attrs = ['id' => 'subnav'];
+    $opts = ['order' => 'pos'];
 
-        if (!$anc = tree(['id' => request('id'), 'ancestor' => true])) {
-            return '';
-        }
+    switch (($§['vars']['mode'] ?? null)) {
+        case 'top':
+            $crit = ['depth' => 1];
+            break;
+        case 'sub':
+            if (!($anc = one('tree', ['id' => request('id')])) || count($anc['path']) > 1 && !($anc = one('tree', ['id' => $anc['path'][0]]))) {
+                return '';
+            }
 
-        $crit = ['id' => $anc[0]['id']];
-    } else {
-        $attrs = ['id' => 'nav'];
-        $crit = ['depth' => 1];
+            // @todo Implement proper search filter in db.php and use it here
+            $crit = ['pos' => $anc['pos'] . '.'];
+            $opts += ['search' => ['pos']];
+            break;
+        default:
+            $crit = [];
     }
 
-
-    if (!$nav = tree($crit)) {
+    if (!$tree = all('tree', $crit, $opts)) {
         return '';
     }
 
-    $count = count($nav);
+    $count = count($tree);
     $depth = 0;
     $i = 0;
     $html = '';
 
-    foreach ($nav as $page) {
+    foreach ($tree as $page) {
         $a = ['href' => $page['url']];
         $class = '';
 
@@ -98,7 +103,7 @@ function section_nav(array $§): string
         $depth = $page['depth'];
     }
 
-    return html_tag('nav', $attrs, $html);
+    return html_tag('nav', ['id' => $§['id']], $html);
 }
 
 /**
