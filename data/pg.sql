@@ -140,11 +140,11 @@ WITH RECURSIVE t AS (
             url,
             parent_id,
             sort,
-            project_id,
             TO_JSONB(id) AS path,
             1 AS depth,
             CAST(sort AS text) AS pos,
-            LPAD(CAST(sort AS text), 3, '0') AS sortpos
+            LPAD(CAST(sort AS text), 3, '0') AS sortpos,
+            project_id
         FROM
             page
         WHERE
@@ -157,11 +157,11 @@ WITH RECURSIVE t AS (
             p.url,
             p.parent_id,
             p.sort,
-            p.project_id,
             t.path || TO_JSONB(p.id) AS path,
             t.depth + 1 AS depth,
             t.pos || '.' || CAST(p.sort AS text) AS pos,
-            t.sortpos || '.' || LPAD(CAST(p.sort AS text), 3, '0') AS sortpos
+            t.sortpos || '.' || LPAD(CAST(p.sort AS text), 3, '0') AS sortpos,
+            p.project_id
         FROM
             page p
         INNER JOIN
@@ -177,11 +177,11 @@ SELECT
     url,
     parent_id,
     sort,
-    project_id,
     path,
     depth,
     pos,
-    sortpos
+    sortpos,
+    project_id
 FROM
     t
 ORDER BY
@@ -193,11 +193,11 @@ CREATE INDEX ON tree (name);
 CREATE INDEX ON tree (url);
 CREATE INDEX ON tree (parent_id);
 CREATE INDEX ON tree (sort);
-CREATE INDEX ON tree (project_id);
 CREATE INDEX ON tree USING GIN (path);
 CREATE INDEX ON tree (depth);
 CREATE INDEX ON tree (pos);
 CREATE INDEX ON tree (sortpos);
+CREATE INDEX ON tree (project_id);
 
 -- -----------------------------------------------------------
 
