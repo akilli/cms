@@ -56,7 +56,7 @@ function section_nav(array $§): string
     if (($§['vars']['type'] ?? null) === 'sub') {
         $attrs = ['id' => 'subnav'];
 
-        if (!$anc = page_tree(['id' => request('id'), 'ancestor' => true])) {
+        if (!$anc = tree(['id' => request('id'), 'ancestor' => true])) {
             return '';
         }
 
@@ -67,7 +67,7 @@ function section_nav(array $§): string
     }
 
 
-    if (!$nav = page_tree($crit)) {
+    if (!$nav = tree($crit)) {
         return '';
     }
 

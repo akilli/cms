@@ -12,7 +12,7 @@ use PDO;
  *
  * @return array
  */
-function page_tree(array $crit = []): array
+function tree(array $crit = []): array
 {
     $anc = false;
     $initWhere = 'parent_id IS NULL';
