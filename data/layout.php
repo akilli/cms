@@ -88,14 +88,6 @@ return [
             'parent' => 'main',
         ],
     ],
-    'action-form' => [
-        'content' => [
-            'type' => 'template',
-            'template' => 'entity/edit.phtml',
-            'vars' => ['context' => 'form'],
-            'parent' => 'main',
-        ],
-    ],
     'action-view' => [
         'content' => [
             'type' => 'template',

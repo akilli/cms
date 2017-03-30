@@ -142,7 +142,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
-                'actions' => ['admin', 'edit', 'form', 'index', 'view'],
+                'actions' => ['admin', 'edit', 'index', 'view'],
                 'maxval' => 100,
             ],
             'url' => [
