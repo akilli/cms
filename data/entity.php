@@ -141,7 +141,6 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'searchable' => true,
                 'actions' => ['admin', 'edit', 'index', 'view'],
                 'maxval' => 100,
             ],
