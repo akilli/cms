@@ -18,8 +18,7 @@ function page_tree(array $crit = []): array
     $initWhere = 'parent_id IS NULL';
     $cond = 't.id = p.parent_id';
     $recWhere = '';
-    $pId = project('id');
-    $params = [[':pid1', $pId, PDO::PARAM_INT], [':pid2', $pId, PDO::PARAM_INT]];
+    $params = [[':project_id', project('id'), PDO::PARAM_INT]];
 
     if (($crit['id'] ?? 0) > 0) {
         $params[] = [':id', $crit['id'], PDO::PARAM_INT];
@@ -46,13 +45,14 @@ function page_tree(array $crit = []): array
                         url,
                         parent_id,
                         sort,
+                        project_id,
                         1 AS depth,
                         CAST(sort AS text) AS pos,
                         LPAD(CAST(sort AS text), 3, '0') AS sortpos
                     FROM
                         page
                     WHERE
-                        project_id = :pid1
+                        project_id = :project_id
                         AND active = TRUE
                         AND %s
                 UNION
@@ -62,6 +62,7 @@ function page_tree(array $crit = []): array
                         p.url,
                         p.parent_id,
                         p.sort,
+                        p.project_id,
                         t.depth + 1 AS depth,
                         t.pos || '.' || CAST(p.sort AS text) AS pos,
                         t.sortpos || '.' || LPAD(CAST(p.sort AS text), 3, '0') AS sortpos
@@ -71,7 +72,7 @@ function page_tree(array $crit = []): array
                         tree t
                             ON %s
                     WHERE
-                        p.project_id = :pid2
+                        p.project_id = t.project_id
                         AND p.active = TRUE
                         %s
             )
