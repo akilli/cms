@@ -70,7 +70,7 @@ function opt(array $attr): array
     }
 
     if ($attr['type'] === 'entity') {
-        return $attr['opt'][0] === 'page' ? opt_page() : array_column(all(...$attr['opt']), 'name', 'id');
+        return $attr['opt'][0] === 'page' ? opt_tree() : array_column(all(...$attr['opt']), 'name', 'id');
     }
 
     if (empty($attr['opt'][0])) {
@@ -88,11 +88,11 @@ function opt(array $attr): array
 }
 
 /**
- * Page options
+ * Page tree options
  *
  * @return array
  */
-function opt_page(): array
+function opt_tree(): array
 {
     $data = [];
 
