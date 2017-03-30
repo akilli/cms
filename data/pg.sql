@@ -84,7 +84,6 @@ $$
     DECLARE
         _max integer;
     BEGIN
-
         SELECT COUNT(id) + 1 FROM page INTO _max WHERE project_id = NEW.project_id AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0);
 
         IF (TG_OP = 'UPDATE' AND COALESCE(NEW.parent_id, 0) = COALESCE(OLD.parent_id, 0)) THEN
@@ -102,10 +101,6 @@ $$ LANGUAGE plpgsql;
 CREATE FUNCTION page_save_after() RETURNS trigger AS
 $$
     BEGIN
-        IF (TG_OP = 'UPDATE' AND COALESCE(NEW.parent_id, 0) = COALESCE(OLD.parent_id, 0) AND NEW.sort = OLD.sort) THEN
-            RETURN NULL;
-        END IF;
-
         IF (TG_OP = 'UPDATE') THEN
             UPDATE page SET sort = sort - 1 WHERE project_id = OLD.project_id AND id != OLD.id AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0) AND sort > OLD.sort;
         END IF;
@@ -125,8 +120,11 @@ $$
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER page_save_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_save_before();
-CREATE TRIGGER page_save_after AFTER INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_save_after();
+CREATE TRIGGER page_insert_after AFTER INSERT ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_save_after();
+CREATE TRIGGER page_update_after AFTER UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0 AND (COALESCE(NEW.parent_id, 0) != COALESCE(OLD.parent_id, 0) OR NEW.sort != OLD.sort)) EXECUTE PROCEDURE page_save_after();
 CREATE TRIGGER page_delete AFTER DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_delete();
+
+-- -----------------------------------------------------------
 
 CREATE TABLE template (
     id serial PRIMARY KEY,
