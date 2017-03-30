@@ -17,9 +17,11 @@
             <table>
                 <thead>
                     <tr>
+                        <?php if (allowed('delete')):?>
                         <th>
                             <input type="checkbox" value="1" title="<?= _('Select all');?>" data-toggle="edit" />
                         </th>
+                        <?php endif;?>
                         <?php foreach ($§('attr') as $attr):?>
                             <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
                         <th>
@@ -36,9 +38,11 @@
                 <tbody>
                     <?php foreach ($§('data') as $data):?>
                     <tr>
+                        <?php if (allowed('delete')):?>
                         <td>
                             <input id="edit-<?=$data['id'];?>-name" type="checkbox" name="edit[<?=$data['id'];?>]" value="1" data-toggle-id="edit" />
                         </td>
+                        <?php endif;?>
                         <?php foreach ($§('attr') as $attr):?>
                             <?php $attr['context'] = $§('context');?>
                         <td>
