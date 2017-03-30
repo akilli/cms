@@ -119,6 +119,9 @@ CREATE FUNCTION page_delete() RETURNS trigger AS
 $$
     BEGIN
         UPDATE page SET sort = sort - 1 WHERE project_id = OLD.project_id AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0) AND sort > OLD.sort;
+
+        REFRESH MATERIALIZED VIEW tree;
+
         RETURN NULL;
     END;
 $$ LANGUAGE plpgsql;
