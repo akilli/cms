@@ -12,9 +12,9 @@ CREATE TABLE project (
     system boolean NOT NULL DEFAULT FALSE
 );
 
-CREATE INDEX idx_project_name ON project (name);
-CREATE INDEX idx_project_active ON project (active);
-CREATE INDEX idx_project_system ON project (system);
+CREATE INDEX ON project (name);
+CREATE INDEX ON project (active);
+CREATE INDEX ON project (system);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Auth
@@ -30,11 +30,11 @@ CREATE TABLE role (
     UNIQUE (project_id, name)
 );
 
-CREATE INDEX idx_role_name ON role (name);
-CREATE INDEX idx_role_privilege ON role USING GIN (privilege);
-CREATE INDEX idx_role_active ON role (active);
-CREATE INDEX idx_role_system ON role (system);
-CREATE INDEX idx_role_project_id ON role (project_id);
+CREATE INDEX ON role (name);
+CREATE INDEX ON role USING GIN (privilege);
+CREATE INDEX ON role (active);
+CREATE INDEX ON role (system);
+CREATE INDEX ON role (project_id);
 
 -- -----------------------------------------------------------
 
@@ -49,10 +49,10 @@ CREATE TABLE account (
     UNIQUE (project_id, name)
 );
 
-CREATE INDEX idx_account_role_id ON account (role_id);
-CREATE INDEX idx_account_active ON account (active);
-CREATE INDEX idx_account_system ON account (system);
-CREATE INDEX idx_account_project_id ON account (project_id);
+CREATE INDEX ON account (role_id);
+CREATE INDEX ON account (active);
+CREATE INDEX ON account (system);
+CREATE INDEX ON account (project_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Page
@@ -71,13 +71,13 @@ CREATE TABLE page (
     UNIQUE (project_id, url)
 );
 
-CREATE INDEX idx_page_name ON page (name);
-CREATE INDEX idx_page_url ON page (url);
-CREATE INDEX idx_page_active ON page (active);
-CREATE INDEX idx_page_parent_id ON page (parent_id);
-CREATE INDEX idx_page_sort ON page (sort);
-CREATE INDEX idx_page_search ON page USING GIN (search);
-CREATE INDEX idx_page_project_id ON page (project_id);
+CREATE INDEX ON page (name);
+CREATE INDEX ON page (url);
+CREATE INDEX ON page (active);
+CREATE INDEX ON page (parent_id);
+CREATE INDEX ON page (sort);
+CREATE INDEX ON page USING GIN (search);
+CREATE INDEX ON page (project_id);
 
 CREATE FUNCTION page_save_before() RETURNS trigger AS
 $$
@@ -188,16 +188,16 @@ ORDER BY
     project_id ASC,
     sortpos ASC;
 
-CREATE UNIQUE INDEX uni_tree_id ON tree (id);
-CREATE INDEX idx_tree_name ON tree (name);
-CREATE INDEX idx_tree_url ON tree (url);
-CREATE INDEX idx_tree_parent_id ON tree (parent_id);
-CREATE INDEX idx_tree_sort ON tree (sort);
-CREATE INDEX idx_tree_project_id ON tree (project_id);
-CREATE INDEX idx_tree_path ON tree USING GIN (path);
-CREATE INDEX idx_tree_depth ON tree (depth);
-CREATE INDEX idx_tree_pos ON tree (pos);
-CREATE INDEX idx_tree_sortpos ON tree (sortpos);
+CREATE UNIQUE INDEX ON tree (id);
+CREATE INDEX ON tree (name);
+CREATE INDEX ON tree (url);
+CREATE INDEX ON tree (parent_id);
+CREATE INDEX ON tree (sort);
+CREATE INDEX ON tree (project_id);
+CREATE INDEX ON tree USING GIN (path);
+CREATE INDEX ON tree (depth);
+CREATE INDEX ON tree (pos);
+CREATE INDEX ON tree (sortpos);
 
 -- -----------------------------------------------------------
 
@@ -210,8 +210,8 @@ CREATE TABLE template (
     project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE INDEX idx_template_name ON template (name);
-CREATE INDEX idx_template_project_id ON template (project_id);
+CREATE INDEX ON template (name);
+CREATE INDEX ON template (project_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Data
