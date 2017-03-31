@@ -413,6 +413,10 @@ html[data-id=account-login] body > * {
     padding: 1rem 0;
 }
 
+#subnav li li {
+    margin-left: 2rem;
+}
+
 /**
  * Toolbar
  */
