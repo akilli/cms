@@ -204,8 +204,6 @@ CREATE INDEX ON tree (project_id);
 CREATE TABLE template (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
-    image varchar(255) NOT NULL,
-    info text NOT NULL,
     content text NOT NULL,
     project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
 );
