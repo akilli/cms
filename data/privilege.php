@@ -3,9 +3,6 @@ return [
     '_all_' => [
         'name' => 'ALL PRIVILEGES'
     ],
-    'account.dashboard' => [
-        'callback' => 'registered'
-    ],
     'account.login' => [
         'callback' => 'unregistered'
     ],

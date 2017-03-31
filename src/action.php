@@ -14,7 +14,7 @@ function action_denied(): void
 {
     if (registered()) {
         message(_('Access denied'));
-        redirect(url('account/dashboard'));
+        redirect();
     }
 
     message(_('Please enter your credentials'));
@@ -292,17 +292,6 @@ function action_project_switch(): void
 }
 
 /**
- * Account Dashboard Action
- *
- * @return void
- */
-function action_account_dashboard(): void
-{
-    layout_load();
-    vars('head', ['title' => _('Dashboard')]);
-}
-
-/**
  * Account Password Action
  *
  * @return void
@@ -333,7 +322,7 @@ function action_account_password(): void
 function action_account_login(): void
 {
     if (registered()) {
-        redirect(url('account/dashboard'));
+        redirect();
     }
 
     if ($data = http_post('data')) {
@@ -341,7 +330,7 @@ function action_account_login(): void
             message(_('Welcome %s', $data['name']));
             session_regenerate();
             session('account', $data['id']);
-            redirect(url('account/dashboard'));
+            redirect();
         }
 
         message(_('Invalid name and password combination'));

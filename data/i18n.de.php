@@ -20,7 +20,6 @@ return [
     'Could not open ZIP file %s' => 'Konnte ZIP Datei %s nicht öffnen',
     'Could not save %s' => 'Konnte %s nicht speichern',
     'Create' => 'Anlegen',
-    'Dashboard' => 'Übersicht',
     'Date' => 'Datum',
     'Delete' => 'Löschen',
     'Depth' => 'Tiefe',

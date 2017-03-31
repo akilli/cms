@@ -81,7 +81,7 @@ return [
     ],
     'account' => [
         'name' => 'Accounts',
-        'actions' => ['admin', 'dashboard', 'delete', 'edit', 'login', 'logout', 'password'],
+        'actions' => ['admin', 'delete', 'edit', 'login', 'logout', 'password'],
         'attr' => [
             'id' => [
                 'name' => 'ID',

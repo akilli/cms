@@ -103,13 +103,6 @@ return [
             'parent' => 'top',
         ],
     ],
-    'account.dashboard' => [
-        'content' => [
-            'type' => 'template',
-            'template' => 'account/dashboard.phtml',
-            'parent' => 'main',
-        ],
-    ],
     'account.password' => [
          'content' => [
             'type' => 'template',

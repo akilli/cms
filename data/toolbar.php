@@ -7,7 +7,6 @@ return [
     ['name' => 'Roles', 'url' => '/role/admin'],
     ['name' => 'Projects', 'url' => '/project/admin'],
     ['name' => 'Homepage', 'url' => '/'],
-    ['name' => 'Dashboard', 'url' => '/account/dashboard'],
     ['name' => 'Password', 'url' => '/account/password'],
     ['name' => 'Logout', 'url' => '/account/logout'],
 ];
