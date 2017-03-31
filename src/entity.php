@@ -81,7 +81,6 @@ function all(string $eId, array $crit = [], array $opts = []): array
 {
     $entity = data('entity', $eId);
     $call = fqn($entity['model'] . '_load');
-    $data = [];
     $opts = array_replace(entity_opts($opts), ['mode' => 'all']);
 
     if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
@@ -89,18 +88,22 @@ function all(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        $result = $call($entity, $crit, $opts);
-
-        foreach ($result as $item) {
-            $item = entity_load($entity, $item);
-            $data[$item[$opts['index']]] = $item;
-        }
+        return array_column(
+            array_map(
+                function ($item) use ($entity) {
+                    return entity_load($entity, $item);
+                },
+                $call($entity, $crit, $opts)
+            ),
+            null,
+            $opts['index']
+        );
     } catch (Exception $e) {
         error((string) $e);
         message(_('Could not load data'));
     }
 
-    return $data;
+    return [];
 }
 
 /**
