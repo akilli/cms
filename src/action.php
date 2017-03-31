@@ -165,28 +165,6 @@ function action_view(array $entity): void
 }
 
 /**
- * Media Import Action
- *
- * @return void
- */
-function action_media_import(): void
-{
-    if ($files = http_files('import')) {
-        foreach ($files as $file) {
-            $name = filter_file($file['name'], project_path('media'));
-
-            if (!file_upload($file['tmp_name'], $name)) {
-                message(_('File upload failed'));
-            }
-        }
-    } else {
-        message(_('No files to import'));
-    }
-
-    redirect(url('*/admin'));
-}
-
-/**
  * Page Import Action
  *
  * @param array $entity

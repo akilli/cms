@@ -1084,28 +1084,3 @@ function viewer_video(array $attr, array $data): string
 {
     return $data[$attr['id']] ? html_tag('video', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
 }
-
-/**
- * Filesize viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
- */
-function viewer_filesize(array $attr, array $data): string
-{
-    if (!$data[$attr['id']]) {
-        return '';
-    }
-
-    if ($data[$attr['id']] < 1000) {
-        return $data[$attr['id']] . ' B';
-    }
-
-    if ($data[$attr['id']] > 1000000) {
-        return round($data[$attr['id']] / 1000000, 1) . ' MB';
-    }
-
-    return round($data[$attr['id']] / 1000, 1) . ' kB';
-}

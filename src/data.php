@@ -42,58 +42,6 @@ function data_load(string $file): array
 }
 
 /**
- * Filter data by given criteria
- *
- * @param array $data
- * @param array $crit
- * @param array $opts
- *
- * @return array
- */
-function data_filter(array $data, array $crit, array $opts = []): array
-{
-    if (!$crit) {
-        return $data;
-    }
-
-    $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
-
-    foreach ($data as $id => $item) {
-        foreach ($crit as $key => $val) {
-            $val = (array) $val;
-
-            if (!array_key_exists($key, $item)
-                || !in_array($key, $search) && !in_array($item[$key], $val)
-                || in_array($key, $search) && !data_filter_match($item[$key], $val)
-            ) {
-                unset($data[$id]);
-            }
-        }
-    }
-
-    return $data;
-}
-
-/**
- * Checks wheter string matches with one of the given search patterns
- *
- * @param string $str
- * @param array $patterns
- *
- * @return bool
- */
-function data_filter_match(string $str, array $patterns): bool
-{
-    foreach ($patterns as $pattern) {
-        if (strpos((string) $str, (string) $pattern) !== false) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-/**
  * Sort order
  *
  * @param array $data
@@ -138,20 +86,6 @@ function data_order_compare(array $order, array $a, array $b): int
     }
 
     return 0;
-}
-
-/**
- * Limit
- *
- * @param array $data
- * @param int $limit
- * @param int $offset
- *
- * @return array
- */
-function data_limit(array $data, int $limit, int $offset = 0): array
-{
-    return $limit > 0 ? array_slice($data, $offset, $limit, true) : $data;
 }
 
 /**
