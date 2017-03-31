@@ -82,6 +82,11 @@ function section_tree(array $§): string
     $html = '';
 
     foreach ($tree as $page) {
+        // @todo Implement proper search filter in db.php and use it here
+        if (!empty($crit['pos']) && strpos($page['pos'], $crit['pos']) !== 0) {
+            continue;
+        }
+
         $a = ['href' => $page['url']];
         $class = '';
 
