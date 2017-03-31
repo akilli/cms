@@ -51,41 +51,22 @@ function data_load(string $file): array
  */
 function data_order(array $data, array $order): array
 {
-    if (!$order) {
-        return $data;
-    }
-
     uasort(
         $data,
         function (array $a, array $b) use ($order) {
-            return data_order_compare($order, $a, $b);
+            foreach ($order as $key => $dir) {
+                $factor = $dir === 'desc' ? -1 : 1;
+
+                if ($result = ($a[$key] ?? null) <=> ($b[$key] ?? null)) {
+                    return $result * $factor;
+                }
+            }
+
+            return 0;
         }
     );
 
     return $data;
-}
-
-/**
- * Sort order compare
- *
- * @param array $order
- * @param array $a
- * @param array $b
- *
- * @return int
- */
-function data_order_compare(array $order, array $a, array $b): int
-{
-    foreach ($order as $key => $dir) {
-        $factor = $dir === 'desc' ? -1 : 1;
-        $result = ($a[$key] ?? null) <=> ($b[$key] ?? null);
-
-        if ($result) {
-            return $result * $factor;
-        }
-    }
-
-    return 0;
 }
 
 /**
