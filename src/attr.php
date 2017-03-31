@@ -59,6 +59,8 @@ function ignorable(array $attr, array $data): bool
 /**
  * Option
  *
+ * @todo Find a static cache solution for all options
+ *
  * @param array $attr
  *
  * @return array
@@ -69,12 +71,16 @@ function opt(array $attr): array
         return [_('No'), _('Yes')];
     }
 
-    if ($attr['type'] === 'entity') {
-        return $attr['opt'][0] === 'page' ? opt_page() : array_column(all(...$attr['opt']), 'name', 'id');
-    }
-
     if (empty($attr['opt'][0])) {
         return [];
+    }
+
+    if ($attr['type'] === 'entity') {
+        if (($data = & registry('opt.entity.' . $attr['opt'][0])) === null) {
+            $data = $attr['opt'][0] === 'page' ? opt_page() : array_column(all($attr['opt'][0]), 'name', 'id');
+        }
+
+        return $data;
     }
 
     if (is_array($attr['opt'][0])) {
