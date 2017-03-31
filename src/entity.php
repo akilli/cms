@@ -83,7 +83,6 @@ function all(string $eId, array $crit = [], array $opts = []): array
     $call = fqn($entity['model'] . '_load');
     $data = [];
     $opts = array_replace(entity_opts($opts), ['mode' => 'all']);
-    $multi = !empty($opts['index'][1]);
 
     if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
         $crit['project_id'] = project('id');
@@ -94,12 +93,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
 
         foreach ($result as $item) {
             $item = entity_load($entity, $item);
-
-            if ($multi) {
-                $data[$item[$opts['index'][0]]][$item[$opts['index'][1]]] = $item;
-            } else {
-                $data[$item[$opts['index'][0]]] = $item;
-            }
+            $data[$item[$opts['index']]] = $item;
         }
     } catch (Exception $e) {
         error((string) $e);
@@ -293,13 +287,11 @@ function entity_opts(array $opts): array
         }
     }
 
-    if (array_key_exists('mode', $opts) && !in_array($opts['mode'], ['all', 'one', 'size'])) {
-        unset($opts['mode']);
-    }
-
-    if (empty($opts['index'][0])) {
+    if (empty($opts['index'])) {
         unset($opts['index']);
     }
+
+    unset($opts['mode']);
 
     return array_replace($default, array_intersect_key($opts, $default));
 }

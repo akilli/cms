@@ -40,7 +40,7 @@ return [
     ],
     'entity.opts' => [
         'mode' => 'all',
-        'index' => ['id'],
+        'index' => 'id',
         'search' => [],
         'order' => [],
         'limit' => 0,
