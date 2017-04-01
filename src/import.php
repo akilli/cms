@@ -58,7 +58,7 @@ function import_project(string $name, string $file): bool
                     'name' => $data['name'],
                     'active' => true,
                     'parent_id' => $log[$cur],
-                    'content' => $data['file'] ? import_content($path . '/' . $data['file']) : '',
+                    'content' => $data['file'] ? import_content($path . '/' . $data['file'], $project['id']) : '',
                     'project_id' => $project['id']
                 ];
 
@@ -81,10 +81,11 @@ function import_project(string $name, string $file): bool
  * Import content
  *
  * @param string $file
+ * @param int $pId
  *
  * @return string
  */
-function import_content(string $file): string
+function import_content(string $file, int $pId ): string
 {
     if (!file_exists($file)) {
         return '';
@@ -96,15 +97,15 @@ function import_content(string $file): string
     if ($ext === 'html') {
         $html = import_html($file);
     } elseif ($ext === 'odt') {
-        $html = import_odt($file);
+        $html = import_odt($file, $pId);
     }
 
     if (preg_match('#<body(.*)>(.*)</body>#isU', $html, $match)) {
         $html = $match[2];
     }
 
-    $from = ['#="index\.html"#Ui', '#="media/([^"]+)"#Ui', '#="(([^"]+)\.html)"#Ui'];
-    $to = ['="/"', '="' . url_media() . '/$1"', '="/$1"'];
+    $from = ['#="index\.html"#Ui', '#="(Pictures|media)/([^"]+)"#Ui', '#="(([^"]+)\.html)"#Ui'];
+    $to = ['="/"', '="/asset/' . $pId . '/media/$2"', '="/$1"'];
 
     return preg_replace($from, $to, $html);
 }
@@ -129,12 +130,13 @@ function import_html(string $file): string
  * Import ODT
  *
  * @param string $file
+ * @param int $pId
  *
  * @return string
  *
  * @throws RuntimeException
  */
-function import_odt(string $file): string
+function import_odt(string $file, int $pId): string
 {
     $html = '';
     $path = path('tmp', uniqid(basename($file), true));
@@ -155,7 +157,6 @@ function import_odt(string $file): string
 
     // Load XSLT processor
     $xslt = new XSLTProcessor();
-    $xslt->registerPHPFunctions();
     $xslt->importStylesheet($xsl);
 
     // Load odf content
@@ -169,26 +170,10 @@ function import_odt(string $file): string
 
     // Copy media files
     if (is_dir($mediaPath)) {
-        file_copy($mediaPath, project_path('media'));
+        file_copy($mediaPath, path('asset', $pId . '/media'));
     }
 
     file_delete($path);
 
     return $html;
-}
-
-/**
- * Fix link path
- *
- * @param string $url
- *
- * @return string
- */
-function import_link(string $url): string
-{
-    $parts = explode('/', $url);
-    $base = array_pop($parts);
-    $dir = $parts ? array_pop($parts) : '';
-
-    return in_array($dir, ['Pictures', 'media']) ? url_media($base) : url($base);
 }

@@ -175,7 +175,7 @@ function action_page_import(array $entity): void
                     $data = [
                         'name' => pathinfo($file['name'], PATHINFO_FILENAME),
                         'active' => true,
-                        'content' => import_content($path . '/' . $file['name']),
+                        'content' => import_content($path . '/' . $file['name'], project('id')),
                         'project_id' => project('id')
                     ];
                     save($entity['id'], $data);
