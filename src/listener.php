@@ -156,7 +156,7 @@ function listener_page_presave(array $data): array
         $base = filter_id($data['name']);
         $data['url'] = url($base . URL);
 
-        for ($i = 1; one('page', ['url' => $data['url'], 'project_id' => $data['project_id']]); $i++) {
+        for ($i = 1; one('page', [['url', $data['url']], ['project_id', $data['project_id']]]); $i++) {
             $data['url'] = url($base . '-' . $i . URL);
         }
     }

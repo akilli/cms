@@ -116,7 +116,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
  */
 function save(string $eId, array & $data): bool
 {
-    if (empty($data['id']) || !($base = one($eId, ['id' => $data['id']]))) {
+    if (empty($data['id']) || !($base = one($eId, [['id', $data['id']]]))) {
         $base = entity($eId);
     } elseif (empty($data['_old'])) {
         $data['_old'] = $base;

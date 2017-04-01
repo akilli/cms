@@ -277,7 +277,7 @@ function validator_required(array $attr, array $data): array
  */
 function validator_uniq(array $attr, array $data): array
 {
-    if ($attr['uniq'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && size($data['_entity']['id'], [$attr['id'] => $data[$attr['id']]])) {
+    if ($attr['uniq'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && size($data['_entity']['id'], [[$attr['id'], $data[$attr['id']]]])) {
         throw new DomainException(_('%s must be unique', $attr['name']));
     }
 
@@ -357,7 +357,7 @@ function validator_page(array $attr, array $data): array
 {
     $old = $data['_old']['id'] ?? null;
 
-    if ($data[$attr['id']] && $old && in_array($old, one('tree', ['id' => $data[$attr['id']]])['path'])) {
+    if ($data[$attr['id']] && $old && in_array($old, one('tree', [['id', $data[$attr['id']]]])['path'])) {
         throw new DomainException(_('Cannot assign the page itself or a child page as parent'));
     }
 

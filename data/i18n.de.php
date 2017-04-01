@@ -33,6 +33,7 @@ return [
     'Import error' => 'Importfehler',
     'Invalid attribute configuration' => 'Ungültige Attribut Konfiguration',
     'Invalid color' => 'Ungültige Farbe',
+    'Invalid criteria' => 'Ungültige Bedingung',
     'Invalid email' => 'Ungültige E-Mail',
     'Invalid entity %s' => 'Ungültige Entity %s',
     'Invalid entity configuration' => 'Ungültige Entity Konfiguration',

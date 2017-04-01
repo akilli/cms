@@ -20,9 +20,9 @@ function project(string $key)
         $data = [];
         $id = (int) session('project');
         // @todo Use request()
-        $crit = $id ? ['id' => $id] : ['uid' => strstr($_SERVER['HTTP_HOST'], '.', true)];
-        $crit['active'] = true;
-        $data = one('project', $crit) ?: one('project', ['id' => ADMIN['proj']]);
+        $crit = $id ? [['id', $id]] : [['uid', strstr($_SERVER['HTTP_HOST'], '.', true)]];
+        $crit[] = ['active', true];
+        $data = one('project', $crit) ?: one('project', [['id', ADMIN['proj']]]);
         $data['theme'] = data('app', 'theme');
         session('project', $data['id']);
     }

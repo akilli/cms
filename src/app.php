@@ -9,7 +9,22 @@ use InvalidArgumentException;
  * Constants
  */
 const ADMIN = ['proj' => 1, 'priv' => '_all_'];
-const CRIT = ['eq' => '=', 'gt' => '>', 'gte' => '>=', 'like' => 'LIKE', 'lt' => '<', 'lte' => '<=', 'neq' => '!='];
+const CRIT = [
+    '=' => '=',
+    '!=' => '!=',
+    '>' => '>',
+    '>=' => '>=',
+    '<' => '>',
+    '<=' => '<=',
+    '~' => '~',
+    '!~' => '!~',
+    '~^' => '~^',
+    '!~^' => '!~^',
+    '~$' => '~$',
+    '!~$' => '!~$',
+    '@@' => '@@',
+    '!!' => '!!'
+];
 const DATE = ['b' => 'Y-m-d', 'f' => 'Y-m-d'];
 const DATETIME = ['b' => 'Y-m-d H:i:s', 'f' => 'Y-m-d\TH:i'];
 const CSV = ['del' => ';', 'enc' => '"', 'esc' => '\\', 'single' => false, 'header' => false, 'keys' => []];

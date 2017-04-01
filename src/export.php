@@ -16,7 +16,7 @@ use RuntimeException;
  */
 function export(int $id): string
 {
-    if (!$project = one('project', ['id' => $id])) {
+    if (!$project = one('project', [['id', $id]])) {
         throw new RuntimeException(_('Invalid project ID %d', (string) $id));
     }
 

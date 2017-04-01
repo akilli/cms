@@ -6,6 +6,7 @@ namespace qnd;
 use Exception;
 use PDO;
 use PDOStatement;
+use RuntimeException;
 
 /**
  * Database
@@ -127,17 +128,21 @@ function db_attr(array $attrs, bool $auto = false): array
  *
  * @param array $crit
  * @param array $attrs
- * @param array $opts
  *
  * @return array
  */
-function db_crit(array $crit, array $attrs, array $opts = []): array
+function db_crit(array $crit, array $attrs): array
 {
-    $search = !empty($opts['search']) && is_array($opts['search']) ? $opts['search'] : [];
     $cols = [];
 
-    foreach ($crit as $aId => $val) {
-        $attr = $attrs[$aId];
+    foreach ($crit as $item) {
+        $attr = $attrs[$item[0]] ?? null;
+        $val = $item[1] ?? null;
+        $op = $item[2] ?? CRIT['='];
+
+        if (!$attr || empty(CRIT[$op])) {
+            throw new RuntimeException(_('Invalid criteria'));
+        }
 
         if (is_array($val) && !$val) {
             continue;
@@ -146,19 +151,62 @@ function db_crit(array $crit, array $attrs, array $opts = []): array
         $val = is_array($val) ? $val : [$val];
         $r = [];
 
-        if (!in_array($aId, $search)) {
-            foreach ($val as $v) {
-                $r[] = db_eq($attr['col'], db_qv($v, $attr));
-            }
-        } elseif ($attr['backend'] === 'search') {
-            $r[] = db_search($attr['col'], db_qv(implode(' | ', $val), $attr));
-        } else {
-            foreach ($val as $v) {
-                $r[] = db_like($attr['col'], db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr));
-            }
+        switch ($op) {
+            case CRIT['=']:
+                foreach ($val as $v) {
+                    $r[] = $attr['col'] . ($v === null ? ' IS NULL' : ' = ' . db_qv($v, $attr));
+                }
+                break;
+            case CRIT['!=']:
+                foreach ($val as $v) {
+                    $r[] = $attr['col'] . ($v === null ? ' IS NOT NULL' : ' != ' . db_qv($v, $attr));
+                }
+                break;
+            case CRIT['>']:
+            case CRIT['>=']:
+            case CRIT['<']:
+            case CRIT['<=']:
+                foreach ($val as $v) {
+                    $r[] = $attr['col'] . ' ' . $op . ' ' . db_qv($v, $attr);
+                }
+                break;
+            case CRIT['~']:
+                foreach ($val as $v) {
+                    $r[] = $attr['col'] . ' LIKE ' . '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
+                }
+                break;
+            case CRIT['!~']:
+                foreach ($val as $v) {
+                    $r[] = $attr['col'] . ' NOT LIKE ' . '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
+                }
+                break;
+            case CRIT['~^']:
+                foreach ($val as $v) {
+                    $r[] = $attr['col'] . ' LIKE ' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
+                }
+                break;
+            case CRIT['!~^']:
+                foreach ($val as $v) {
+                    $r[] = $attr['col'] . ' NOT LIKE ' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
+                }
+                break;
+            case CRIT['~$']:
+                foreach ($val as $v) {
+                    $r[] = $attr['col'] . ' LIKE ' . '%' . str_replace(['%', '_'], ['\%', '\_'], $v);
+                }
+                break;
+            case CRIT['!~$']:
+                foreach ($val as $v) {
+                    $r[] = $attr['col'] . ' NOT LIKE ' . '%' . str_replace(['%', '_'], ['\%', '\_'], $v);
+                }
+                break;
+            case CRIT['@@']:
+            case CRIT['!!']:
+                $r = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . db_qv(implode(' | ', $val), $attr) . ')';
+                break;
         }
 
-        $cols[$aId] = db_or($r);
+        $cols[] = db_or($r);
     }
 
     return $cols;
@@ -215,45 +263,6 @@ function db_and(array $crit): string
 function db_or(array $crit): string
 {
     return '(' . implode(' OR ', $crit) . ')';
-}
-
-/**
- * Equal expression
- *
- * @param string $col
- * @param mixed $val
- *
- * @return string
- */
-function db_eq(string $col, $val): string
-{
-    return $col . ($val === null ? ' IS NULL' : ' = ' . $val);
-}
-
-/**
- * LIKE expression
- *
- * @param string $col
- * @param string $val
- *
- * @return string
- */
-function db_like(string $col, string $val): string
-{
-    return $col . ' ILIKE ' . $val;
-}
-
-/**
- * SEARCH expression
- *
- * @param string $col
- * @param string $val
- *
- * @return string
- */
-function db_search(string $col, string $val): string
-{
-    return $col . ' @@ TO_TSQUERY(' . $val . ')';
 }
 
 /**

@@ -124,7 +124,7 @@ function url_rewrite(string $path): string
     $data = & registry('url');
 
     if (empty($data[$path])) {
-        $data[$path] = ($page = one('page', ['url' => $path])) ? '/page/view/' . $page['id'] : $path;
+        $data[$path] = ($page = one('page', [['url', $path]])) ? '/page/view/' . $page['id'] : $path;
     }
 
     return $data[$path];
@@ -149,7 +149,7 @@ function url_unrewrite(string $path): string
         return array_search($path, $data);
     }
 
-    if ($page = one('page', ['id' => $match[1]])) {
+    if ($page = one('page', [['id', $match[1]]])) {
         $data[$page['url']];
         return $page['url'];
     }

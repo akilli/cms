@@ -20,8 +20,8 @@ function account(string $key = null)
         $data = [];
         $id = (int) session('account');
 
-        if ($id && ($data = one('account', ['id' => $id, 'active' => true, 'project_id' => [ADMIN['proj'], project('id')]]))) {
-            $role = one('role', ['id' => $data['role_id'], 'active' => true, 'project_id' => $data['project_id']]);
+        if ($id && ($data = one('account', [['id', $id], ['active', true], ['project_id', [ADMIN['proj'], project('id')]]]))) {
+            $role = one('role', [['id', $data['role_id']], ['active', true], ['project_id', $data['project_id']]]);
             $data['privilege'] = $role ? $role['privilege'] : [];
             $data['admin'] = in_array(ADMIN['priv'], $data['privilege']);
             $data['global'] = $data['project_id'] === ADMIN['proj'];
@@ -47,7 +47,7 @@ function account(string $key = null)
  */
 function account_login(string $name, string $password): ?array
 {
-    $data = one('account', ['name' => $name, 'active' => true]);
+    $data = one('account', [['name', $name], ['active', true]]);
 
     if (!$data || !password_verify($password, $data['password'])) {
         return null;

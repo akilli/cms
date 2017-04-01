@@ -20,7 +20,7 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
     $stmt = db()->prepare(
         select($select)
         . from($entity['tab'])
-        . where(db_crit($crit, $attrs, $opts))
+        . where(db_crit($crit, $attrs))
         . order($opts['order'])
         . limit($opts['limit'], $opts['offset'])
     );

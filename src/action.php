@@ -55,18 +55,16 @@ function action_index(array $entity): void
 {
     $action = request('action');
     $attrs = entity_attr($entity['id'], $action);
-    $crit = empty($entity['attr']['active']) || $action === 'admin' ? [] : ['active' => true];
+    $crit = empty($entity['attr']['active']) || $action === 'admin' ? [] : [['active', true]];
     $opts = ['limit' => data('app', 'limit')];
     $p = [];
     $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
 
     if ($q && ($s = array_filter(explode(' ', $q)))) {
-        if ($action === 'index') {
-            $crit['search'] = $s;
-            $opts['search'] = ['search'];
-        } else {
-            $crit['name'] = $s;
-            $opts['search'] = ['name'];
+        $crit[] = ['name', $s, CRIT['~']];
+
+        if (!empty($entity['attr']['search'])) {
+            $crit[] = ['search', $s, CRIT['@@']];
         }
 
         $p['q'] = urlencode(implode(' ', $s));
@@ -111,7 +109,7 @@ function action_edit(array $entity): void
         }
     } elseif ($id) {
         // We just clicked on an edit link, p.e. on the admin page
-        $data = one($entity['id'], ['id' => $id]);
+        $data = one($entity['id'], [['id', $id]]);
     } else {
         // Initial create action call
         $data = entity($entity['id']);
@@ -134,7 +132,7 @@ function action_delete(array $entity): void
     $data = http_post('edit');
 
     if ($data) {
-        delete($entity['id'], ['id' => array_keys($data)]);
+        delete($entity['id'], [['id', array_keys($data)]]);
     } else {
         message(_('Nothing selected for deletion'));
     }
@@ -151,7 +149,7 @@ function action_delete(array $entity): void
  */
 function action_view(array $entity): void
 {
-    $data = one($entity['id'], ['id' => request('id')]);
+    $data = one($entity['id'], [['id', request('id')]]);
 
     // Item does not exist or is inactive
     if (!$data || !empty($entity['attr']['active']) && empty($data['active']) && !allowed('edit')) {
@@ -262,7 +260,7 @@ function action_project_switch(): void
 {
     $id = http_post('id');
 
-    if ($id && size('project', ['id' => $id, 'active' => true])) {
+    if ($id && size('project', [['id', $id], ['active', true]])) {
         session('project', $id);
     }
 

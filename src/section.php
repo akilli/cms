@@ -53,26 +53,22 @@ function section_message(array $§): string
  */
 function section_tree(array $§): string
 {
-    $opts = ['order' => 'pos'];
-
     switch (($§['vars']['mode'] ?? null)) {
         case 'top':
-            $crit = ['depth' => 1];
+            $crit = [['depth', 1]];
             break;
         case 'sub':
-            if (!($anc = one('tree', ['id' => request('id')])) || count($anc['path']) > 1 && !($anc = one('tree', ['id' => $anc['path'][0]]))) {
+            if (!($anc = one('tree', [['id', request('id')]])) || count($anc['path']) > 1 && !($anc = one('tree', [['id', $anc['path'][0]]]))) {
                 return '';
             }
 
-            // @todo Implement proper search filter in db.php and use it here
-            $crit = ['pos' => $anc['pos'] . '.'];
-            $opts += ['search' => ['pos']];
+            $crit = [['pos', $anc['pos'] . '.', CRIT['~^']]];
             break;
         default:
             $crit = [];
     }
 
-    if (!$tree = all('tree', $crit, $opts)) {
+    if (!$tree = all('tree', $crit, ['order' => 'pos'])) {
         return '';
     }
 
@@ -82,11 +78,6 @@ function section_tree(array $§): string
     $html = '';
 
     foreach ($tree as $page) {
-        // @todo Implement proper search filter in db.php and use it here
-        if (!empty($crit['pos']) && strpos($page['pos'], $crit['pos']) !== 0) {
-            continue;
-        }
-
         $a = ['href' => $page['url']];
         $class = '';
 
@@ -173,7 +164,7 @@ function section_template(array $§): string
  */
 function section_toolbar(array $§): string
 {
-    $crit = ['active' => true];
+    $crit = [['active', true]];
     $§['vars']['projects'] = allowed('project.switch') && size('project', $crit) > 1 ? all('project', $crit) : [];
 
     return render($§);
