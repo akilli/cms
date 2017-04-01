@@ -153,13 +153,11 @@ function db_crit(array $crit, array $attrs): array
 
         switch ($op) {
             case CRIT['=']:
-                foreach ($val as $v) {
-                    $r[] = $attr['col'] . ($v === null ? ' IS NULL' : ' = ' . db_qv($v, $attr));
-                }
-                break;
             case CRIT['!=']:
+                $null = ' IS' . ($op === CRIT['!='] ? ' NOT' : '') . ' NULL';
+
                 foreach ($val as $v) {
-                    $r[] = $attr['col'] . ($v === null ? ' IS NOT NULL' : ' != ' . db_qv($v, $attr));
+                    $r[] = $attr['col'] . ($v === null ? $null : ' ' . $op . ' ' . db_qv($v, $attr));
                 }
                 break;
             case CRIT['>']:
@@ -171,33 +169,17 @@ function db_crit(array $crit, array $attrs): array
                 }
                 break;
             case CRIT['~']:
-                foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' ILIKE ' . db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr);
-                }
-                break;
             case CRIT['!~']:
-                foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' NOT ILIKE ' . db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr);
-                }
-                break;
             case CRIT['~^']:
-                foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' ILIKE ' . db_qv(str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr);
-                }
-                break;
             case CRIT['!~^']:
-                foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' NOT ILIKE ' . db_qv(str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr);
-                }
-                break;
             case CRIT['~$']:
-                foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' ILIKE ' . '%' . db_qv(str_replace(['%', '_'], ['\%', '\_'], $v), $attr);
-                }
-                break;
             case CRIT['!~$']:
+                $not = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? ' NOT' : '';
+                $pre = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~$'], CRIT['!~$']]) ? '%' : '';
+                $post = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~^'], CRIT['!~^']]) ? '%' : '';
+
                 foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' NOT ILIKE ' . '%' . db_qv(str_replace(['%', '_'], ['\%', '\_'], $v), $attr);
+                    $r[] = $attr['col'] . $not . ' ILIKE ' . db_qv($pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, $attr);
                 }
                 break;
             case CRIT['@@']:
