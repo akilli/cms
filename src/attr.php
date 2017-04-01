@@ -502,10 +502,7 @@ function validator_rte(array $attr, array $data): array
  */
 function validator_date(array $attr, array $data): array
 {
-    $in = data('app', 'date.frontend');
-    $out = data('app', 'date.backend');
-
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], $in, $out))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], DATE_FRONTEND, DATE_BACKEND))) {
         throw new DomainException(_('Invalid value'));
     }
 
@@ -524,10 +521,7 @@ function validator_date(array $attr, array $data): array
  */
 function validator_datetime(array $attr, array $data): array
 {
-    $in = data('app', 'datetime.frontend');
-    $out = data('app', 'datetime.backend');
-
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], $in, $out))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], DATETIME_FRONTEND, DATETIME_BACKEND))) {
         throw new DomainException(_('Invalid value'));
     }
 
@@ -546,10 +540,7 @@ function validator_datetime(array $attr, array $data): array
  */
 function validator_time(array $attr, array $data): array
 {
-    $in = data('app', 'time.frontend');
-    $out = data('app', 'time.backend');
-
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], $in, $out))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], TIME_FRONTEND, TIME_BACKEND))) {
         throw new DomainException(_('Invalid value'));
     }
 
@@ -774,9 +765,7 @@ function editor_int(array $attr, array $data): string
  */
 function editor_date(array $attr, array $data): string
 {
-    $in = data('app', 'date.backend');
-    $out = data('app', 'date.frontend');
-    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], $in, $out) : '';
+    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], DATE_BACKEND, DATE_FRONTEND) : '';
     $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $data[$attr['id']];
 
@@ -801,9 +790,7 @@ function editor_date(array $attr, array $data): string
  */
 function editor_datetime(array $attr, array $data): string
 {
-    $in = data('app', 'datetime.backend');
-    $out = data('app', 'datetime.frontend');
-    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], $in, $out) : '';
+    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], DATETIME_BACKEND, DATETIME_FRONTEND) : '';
     $attr['html']['type'] = 'datetime-local';
     $attr['html']['value'] = $data[$attr['id']];
 
@@ -828,9 +815,7 @@ function editor_datetime(array $attr, array $data): string
  */
 function editor_time(array $attr, array $data): string
 {
-    $in = data('app', 'time.backend');
-    $out = data('app', 'time.frontend');
-    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], $in, $out) : '';
+    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], TIME_BACKEND, TIME_FRONTEND) : '';
     $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $data[$attr['id']];
 
@@ -952,7 +937,7 @@ function viewer_opt(array $attr, array $data): string
  */
 function viewer_date(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), data('app', 'date.view')) : '';
+    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), data('app', 'date')) : '';
 }
 
 /**
@@ -965,7 +950,7 @@ function viewer_date(array $attr, array $data): string
  */
 function viewer_datetime(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), data('app', 'datetime.view')) : '';
+    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), data('app', 'datetime')) : '';
 }
 
 /**
@@ -978,7 +963,7 @@ function viewer_datetime(array $attr, array $data): string
  */
 function viewer_time(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), data('app', 'time.view')) : '';
+    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), data('app', 'time')) : '';
 }
 
 /**

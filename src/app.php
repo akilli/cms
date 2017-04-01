@@ -6,6 +6,20 @@ namespace qnd;
 use InvalidArgumentException;
 
 /**
+ * Constants
+ */
+const DATE_BACKEND = 'Y-m-d';
+const DATE_FRONTEND = 'Y-m-d';
+const DATETIME_BACKEND = 'Y-m-d H:i:s';
+const DATETIME_FRONTEND = 'Y-m-d\TH:i';
+const CSV = ['del' => ';', 'enc' => '"', 'esc' => '\\', 'single' => false, 'header' => false, 'keys' => []];
+const PROJECT = 1;
+const PRIVILEGE = '_all_';
+const TIME_BACKEND = 'H:i:s';
+const TIME_FRONTEND = 'H:i';
+const URL = '.html';
+
+/**
  * Runs application
  *
  * @return void

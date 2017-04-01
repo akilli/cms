@@ -154,11 +154,10 @@ function listener_page_presave(array $data): array
 
     if ($data['name'] !== ($data['_old']['name'] ?? null)) {
         $base = filter_id($data['name']);
-        $ext = data('app', 'page.url');
-        $data['url'] = url($base . $ext);
+        $data['url'] = url($base . URL);
 
         for ($i = 1; one('page', ['url' => $data['url'], 'project_id' => $data['project_id']]); $i++) {
-            $data['url'] = url($base . '-' . $i . $ext);
+            $data['url'] = url($base . '-' . $i . URL);
         }
     }
 

@@ -117,7 +117,7 @@ function url_rewrite(string $path): string
         return '/' . data('request', 'entity') . '/' . data('request', 'action');
     }
 
-    if (!preg_match('#' . data('app', 'page.url') . '$#', $path)) {
+    if (!preg_match('#' . URL . '$#', $path)) {
         return $path;
     }
 
