@@ -104,8 +104,8 @@ function import_content(string $file, int $pId ): string
         $html = $match[2];
     }
 
-    $from = ['#="index\.html"#Ui', '#="(Pictures|media)/([^"]+)"#Ui', '#="(([^"]+)\.html)"#Ui'];
-    $to = ['="/"', '="/asset/' . $pId . '/media/$2"', '="/$1"'];
+    $from = ['#="/?index\.html"#Ui', '#="/?(Pictures|media)/([0-9/]*)([^"/]+)"#Ui', '#="/?(([^"]+)\.html)"#Ui'];
+    $to = ['="/"', '="/asset/' . $pId . '/media/$3"', '="/$1"'];
 
     return preg_replace($from, $to, $html);
 }
