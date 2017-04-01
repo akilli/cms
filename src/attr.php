@@ -920,11 +920,15 @@ function viewer(array $attr, array $data): string
  */
 function viewer_opt(array $attr, array $data): string
 {
-    if ($attr['opt'] && $data[$attr['id']]) {
-        $vals = array_intersect_key($attr['opt'], array_fill_keys((array) $data[$attr['id']], null));
+    $vals = [];
+
+    foreach ((array) $data[$attr['id']] as $val) {
+        if (isset($attr['opt'][$val])) {
+            $vals[] = $attr['opt'][$val];
+        }
     }
 
-    return !empty($vals) ? encode(implode(', ', $vals)) : '';
+    return $vals ? encode(implode(', ', $vals)) : '';
 }
 
 /**
