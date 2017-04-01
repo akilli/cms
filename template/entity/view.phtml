@@ -5,7 +5,7 @@
         <?php $attr['context'] = $§('context');?>
         <?php if (!$html = viewer($attr, $data)) continue;?>
         <?php if ($attr['id'] === 'name'):?>
-    <h1><?=$html;?></h1>
+    <h1 data-attr="<?=$attr['id'];?>"><?=$html;?></h1>
         <?php else:?>
     <div data-attr="<?=$attr['id'];?>">
         <?=$html;?>
