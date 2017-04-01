@@ -22,8 +22,8 @@ function size(string $eId, array $crit = [], array $opts = []): int
     unset($opts['order'], $opts['limit'], $opts['offset']);
     $opts = array_replace(entity_opts($opts), ['mode' => 'size']);
 
-    if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
-        $crit['project_id'] = project('id');
+    if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
+        $crit[] = ['project_id', project('id')];
     }
 
     try {
@@ -52,8 +52,8 @@ function one(string $eId, array $crit = [], array $opts = []): array
     $data = [];
     $opts = array_replace(entity_opts($opts), ['mode' => 'one', 'limit' => 1]);
 
-    if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
-        $crit['project_id'] = project('id');
+    if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
+        $crit[] = ['project_id', project('id')];
     }
 
     try {
@@ -83,8 +83,8 @@ function all(string $eId, array $crit = [], array $opts = []): array
     $call = fqn($entity['model'] . '_load');
     $opts = array_replace(entity_opts($opts), ['mode' => 'all']);
 
-    if (!empty($entity['attr']['project_id']) && empty($crit['project_id'])) {
-        $crit['project_id'] = project('id');
+    if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
+        $crit[] = ['project_id', project('id')];
     }
 
     try {

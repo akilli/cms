@@ -172,37 +172,37 @@ function db_crit(array $crit, array $attrs): array
                 break;
             case CRIT['~']:
                 foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' LIKE ' . '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
+                    $r[] = $attr['col'] . ' ILIKE ' . db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr);
                 }
                 break;
             case CRIT['!~']:
                 foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' NOT LIKE ' . '%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
+                    $r[] = $attr['col'] . ' NOT ILIKE ' . db_qv('%' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr);
                 }
                 break;
             case CRIT['~^']:
                 foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' LIKE ' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
+                    $r[] = $attr['col'] . ' ILIKE ' . db_qv(str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr);
                 }
                 break;
             case CRIT['!~^']:
                 foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' NOT LIKE ' . str_replace(['%', '_'], ['\%', '\_'], $v) . '%';
+                    $r[] = $attr['col'] . ' NOT ILIKE ' . db_qv(str_replace(['%', '_'], ['\%', '\_'], $v) . '%', $attr);
                 }
                 break;
             case CRIT['~$']:
                 foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' LIKE ' . '%' . str_replace(['%', '_'], ['\%', '\_'], $v);
+                    $r[] = $attr['col'] . ' ILIKE ' . '%' . db_qv(str_replace(['%', '_'], ['\%', '\_'], $v), $attr);
                 }
                 break;
             case CRIT['!~$']:
                 foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' NOT LIKE ' . '%' . str_replace(['%', '_'], ['\%', '\_'], $v);
+                    $r[] = $attr['col'] . ' NOT ILIKE ' . '%' . db_qv(str_replace(['%', '_'], ['\%', '\_'], $v), $attr);
                 }
                 break;
             case CRIT['@@']:
             case CRIT['!!']:
-                $r = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . db_qv(implode(' | ', $val), $attr) . ')';
+                $r[] = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . db_qv(implode(' | ', $val), $attr) . ')';
                 break;
         }
 
