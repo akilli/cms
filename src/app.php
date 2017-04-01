@@ -8,17 +8,13 @@ use InvalidArgumentException;
 /**
  * Constants
  */
-const DATE_BACKEND = 'Y-m-d';
-const DATE_FRONTEND = 'Y-m-d';
-const DATETIME_BACKEND = 'Y-m-d H:i:s';
-const DATETIME_FRONTEND = 'Y-m-d\TH:i';
+const ADMIN = ['proj' => 1, 'priv' => '_all_'];
+const CRIT = ['eq' => '=', 'gt' => '>', 'gte' => '>=', 'like' => 'LIKE', 'lt' => '<', 'lte' => '<=', 'neq' => '!='];
+const DATE = ['b' => 'Y-m-d', 'f' => 'Y-m-d'];
+const DATETIME = ['b' => 'Y-m-d H:i:s', 'f' => 'Y-m-d\TH:i'];
 const CSV = ['del' => ';', 'enc' => '"', 'esc' => '\\', 'single' => false, 'header' => false, 'keys' => []];
-const IMPORT_HTML = '#<!-- IMPORT_START -->(.*)<!-- IMPORT_END -->#isU';
-const IMPORT_TOC = 'toc.txt';
-const PROJECT = 1;
-const PRIVILEGE = '_all_';
-const TIME_BACKEND = 'H:i:s';
-const TIME_FRONTEND = 'H:i';
+const IMPORT = ['toc' => 'toc.txt', 'html' => '#<!-- IMPORT_START -->(.*)<!-- IMPORT_END -->#isU'];
+const TIME = ['b' => 'H:i:s', 'f' => 'H:i'];
 const URL = '.html';
 
 /**

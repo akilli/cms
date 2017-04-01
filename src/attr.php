@@ -502,7 +502,7 @@ function validator_rte(array $attr, array $data): array
  */
 function validator_date(array $attr, array $data): array
 {
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], DATE_FRONTEND, DATE_BACKEND))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], DATE['f'], DATE['b']))) {
         throw new DomainException(_('Invalid value'));
     }
 
@@ -521,7 +521,7 @@ function validator_date(array $attr, array $data): array
  */
 function validator_datetime(array $attr, array $data): array
 {
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], DATETIME_FRONTEND, DATETIME_BACKEND))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], DATETIME['f'], DATETIME['b']))) {
         throw new DomainException(_('Invalid value'));
     }
 
@@ -540,7 +540,7 @@ function validator_datetime(array $attr, array $data): array
  */
 function validator_time(array $attr, array $data): array
 {
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], TIME_FRONTEND, TIME_BACKEND))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], TIME['f'], TIME['b']))) {
         throw new DomainException(_('Invalid value'));
     }
 
@@ -765,7 +765,7 @@ function editor_int(array $attr, array $data): string
  */
 function editor_date(array $attr, array $data): string
 {
-    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], DATE_BACKEND, DATE_FRONTEND) : '';
+    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], DATE['b'], DATE['f']) : '';
     $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $data[$attr['id']];
 
@@ -790,7 +790,7 @@ function editor_date(array $attr, array $data): string
  */
 function editor_datetime(array $attr, array $data): string
 {
-    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], DATETIME_BACKEND, DATETIME_FRONTEND) : '';
+    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], DATETIME['b'], DATETIME['f']) : '';
     $attr['html']['type'] = 'datetime-local';
     $attr['html']['value'] = $data[$attr['id']];
 
@@ -815,7 +815,7 @@ function editor_datetime(array $attr, array $data): string
  */
 function editor_time(array $attr, array $data): string
 {
-    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], TIME_BACKEND, TIME_FRONTEND) : '';
+    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], TIME['b'], TIME['f']) : '';
     $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $data[$attr['id']];
 

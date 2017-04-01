@@ -21,7 +21,7 @@ use XSLTProcessor;
 function import_project(string $name, string $file): bool
 {
     $path = path('tmp', uniqid('import', true));
-    $toc = $path . '/' . IMPORT_TOC;
+    $toc = $path . '/' . IMPORT['toc'];
 
     try {
         unzip($file, $path);
@@ -122,7 +122,7 @@ function import_html(string $file): string
         return '';
     }
 
-    return preg_match(IMPORT_HTML, $html, $match) ? $match[1] : $html;
+    return preg_match(IMPORT['html'], $html, $match) ? $match[1] : $html;
 }
 
 /**
