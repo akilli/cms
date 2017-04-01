@@ -5,7 +5,6 @@ namespace qnd;
 
 use Exception;
 use PDO;
-use PDOStatement;
 use RuntimeException;
 
 /**
@@ -55,19 +54,6 @@ function db_trans(callable $call): bool
 }
 
 /**
- * Prepare statement with replacing placeholders
- *
- * @param string $sql
- * @param string[] ...$args
- *
- * @return PDOStatement
- */
-function db_prep(string $sql, string ...$args): PDOStatement
-{
-    return db()->prepare(vsprintf($sql, $args));
-}
-
-/**
  * Prepare columns
  *
  * @param array $attrs
@@ -78,16 +64,14 @@ function db_prep(string $sql, string ...$args): PDOStatement
 function db_cols(array $attrs, array $data): array
 {
     $attrs = db_attr($attrs, true);
-    $cols = ['in' => [], 'up' => [], 'param' => []];
+    $cols = ['param' => [], 'val' => []];
 
     foreach (array_intersect_key($data, $attrs) as $aId => $val) {
         $attr = $attrs[$aId];
-        $col = $attr['col'];
-        $param = ':' . $aId;
+        $p = ':' . $attr['id'];
         $val = $attr['multiple'] && $attr['backend'] === 'json' ? json_encode($val) : $val;
-        $cols['in'][$col] = $attr['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
-        $cols['up'][$col] = $col . ' = ' . $cols['in'][$col];
-        $cols['param'][$col] = [$param, $val, $attr['nullable'] && $val === null ? PDO::PARAM_NULL : $attr['pdo']];
+        $cols['param'][$attr['col']] = [$p, $val, $attr['nullable'] && $val === null ? PDO::PARAM_NULL : $attr['pdo']];
+        $cols['val'][$attr['col']] = $attr['backend'] === 'search' ? 'TO_TSVECTOR(' . $p . ')' : $p;
     }
 
     return $cols;
@@ -186,64 +170,94 @@ function db_crit(array $crit, array $attrs): array
                 break;
         }
 
-        $cols['where'][] = db_or($r);
+        $cols['where'][] = '(' . implode(' OR ', $r) . ')';
     }
 
     return $cols;
 }
 
 /**
- * AND expression
+ * INSERT part
  *
- * @param array $crit
- *
- * @return string
- */
-function db_and(array $crit): string
-{
-    return implode(' AND ', $crit);
-}
-
-/**
- * OR expression
- *
- * @param array $crit
+ * @param string $tab
  *
  * @return string
  */
-function db_or(array $crit): string
+function db_insert(string $tab): string
 {
-    return '(' . implode(' OR ', $crit) . ')';
+    return 'INSERT INTO ' . $tab;
 }
 
 /**
- * List columns
+ * VALUES part
  *
  * @param array $cols
  *
  * @return string
  */
-function db_list(array $cols): string
+function db_values(array $cols): string
 {
-    return implode(', ', $cols);
+    return ' (' . implode(', ', array_keys($cols)) . ') VALUES (' . implode(', ', $cols) . ')';
+}
+
+/**
+ * UPDATE part
+ *
+ * @param string $tab
+ *
+ * @return string
+ */
+function db_update(string $tab): string
+{
+    return 'UPDATE ' . $tab;
+}
+
+/**
+ * SET part
+ *
+ * @param array $cols
+ *
+ * @return string
+ */
+function db_set(array $cols): string
+{
+    $set = '';
+
+    foreach ($cols as $col => $val) {
+        $set .= ($set ? ', ' : '') . $col . ' = ' . $val;
+    }
+
+    return ' SET ' . $set;
+}
+
+/**
+ * DELETE part
+ *
+ * @param string $tab
+ *
+ * @return string
+ */
+function db_delete(string $tab): string
+{
+    return 'DELETE FROM ' . $tab;
 }
 
 /**
  * SELECT part
  *
- * @param array $select
+ * @param array $sel
  *
  * @return string
  */
-function select(array $select): string
+function db_select(array $sel): string
 {
     $cols = [];
 
-    foreach ($select as $as => $col) {
+    foreach ($sel as $as => $col) {
         $cols[] = $col . ($as && is_string($as) ? ' AS ' . $as : '');
     }
 
-    return $cols ? 'SELECT ' . db_list($cols) : '';
+    return $cols ? ' SELECT ' . implode(', ', $cols) : '';
 }
 
 /**
@@ -253,60 +267,9 @@ function select(array $select): string
  *
  * @return string
  */
-function from(string $tab): string
+function db_from(string $tab): string
 {
     return ' FROM ' . $tab;
-}
-
-/**
- * NATURAL JOIN part
- *
- * @param string $tab
- *
- * @return string
- */
-function njoin(string $tab): string
-{
-    return ' NATURAL JOIN ' . $tab;
-}
-
-/**
- * INNER JOIN part
- *
- * @param string $tab
- * @param array $cond
- *
- * @return string
- */
-function ijoin(string $tab, array $cond): string
-{
-    return ' INNER JOIN ' . $tab . ' ON ' . db_and($cond);
-}
-
-/**
- * LEFT JOIN part
- *
- * @param string $tab
- * @param array $cond
- *
- * @return string
- */
-function ljoin(string $tab, array $cond): string
-{
-    return ' LEFT JOIN ' . $tab . ' ON ' . db_and($cond);
-}
-
-/**
- * RIGHT JOIN part
- *
- * @param string $tab
- * @param array $cond
- *
- * @return string
- */
-function rjoin(string $tab, array $cond): string
-{
-    return ' RIGHT JOIN ' . $tab . ' ON ' . db_and($cond);
 }
 
 /**
@@ -316,21 +279,9 @@ function rjoin(string $tab, array $cond): string
  *
  * @return string
  */
-function where(array $cols): string
+function db_where(array $cols): string
 {
-    return $cols ? ' WHERE ' . db_and($cols) : '';
-}
-
-/**
- * GROUP BY part
- *
- * @param string[] $cols
- *
- * @return string
- */
-function group(array $cols): string
-{
-    return ' GROUP BY ' . db_list($cols);
+    return $cols ? ' WHERE ' . implode(' AND ', $cols) : '';
 }
 
 /**
@@ -340,7 +291,7 @@ function group(array $cols): string
  *
  * @return string
  */
-function order(array $order): string
+function db_order(array $order): string
 {
     $cols = [];
 
@@ -348,7 +299,7 @@ function order(array $order): string
         $cols[] = $aId . ' ' . ($dir === 'desc' ? 'DESC' : 'ASC');
     }
 
-    return $cols ? ' ORDER BY ' . db_list($cols) : '';
+    return $cols ? ' ORDER BY ' . implode(', ', $cols) : '';
 }
 
 /**
@@ -359,7 +310,7 @@ function order(array $order): string
  *
  * @return string
  */
-function limit(int $limit, int $offset = 0): string
+function db_limit(int $limit, int $offset = 0): string
 {
     return $limit > 0 ? ' LIMIT ' . $limit . ' OFFSET ' . max(0, $offset) : '';
 }

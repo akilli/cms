@@ -16,14 +16,14 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
 {
     $attrs = db_attr($entity['attr']);
     $opts['order'] = $opts['mode'] === 'size' || $opts['order'] ? $opts['order'] : ['id' => 'asc'];
-    $select = $opts['mode'] === 'size' ? ['COUNT(*)'] : array_column($attrs, 'col');
+    $sel = $opts['mode'] === 'size' ? ['COUNT(*)'] : array_column($attrs, 'col');
     $cols = db_crit($crit, $attrs);
     $stmt = db()->prepare(
-        select($select)
-        . from($entity['tab'])
-        . where($cols['where'])
-        . order($opts['order'])
-        . limit($opts['limit'], $opts['offset'])
+        db_select($sel)
+        . db_from($entity['tab'])
+        . db_where($cols['where'])
+        . db_order($opts['order'])
+        . db_limit($opts['limit'], $opts['offset'])
     );
 
     foreach ($cols['param'] as $param) {
@@ -57,18 +57,12 @@ function flat_save(array $data): array
 
     // Insert or update
     if (empty($data['_old'])) {
-        $stmt = db_prep(
-            'INSERT INTO %s (%s) VALUES (%s)',
-            $data['_entity']['tab'],
-            db_list(array_keys($cols['in'])),
-            db_list($cols['in'])
-        );
+        $stmt = db()->prepare(db_insert($data['_entity']['tab']) . db_values($cols['val']));
     } else {
-        $stmt = db_prep(
-            'UPDATE %s SET %s WHERE %s = :_id',
-            $data['_entity']['tab'],
-            db_list($cols['up']),
-            $attrs['id']['col']
+        $stmt = db()->prepare(
+            db_update($data['_entity']['tab'])
+            . db_set($cols['val'])
+            . db_where([$attrs['id']['col'] . ' = :_id'])
         );
         $stmt->bindValue(':_id', $data['_old']['id'], $attrs['id']['pdo']);
     }
@@ -96,11 +90,8 @@ function flat_save(array $data): array
  */
 function flat_delete(array $data): void
 {
-    $stmt = db_prep(
-        'DELETE FROM %s WHERE %s = :id',
-        $data['_entity']['tab'],
-        $data['_entity']['attr']['id']['col']
-    );
-    $stmt->bindValue(':id', $data['_old']['id'], $data['_entity']['attr']['id']['pdo']);
+    $attrs = $data['_entity']['attr'];
+    $stmt = db()->prepare(db_delete($data['_entity']['tab']) . db_where([$attrs['id']['col'] . ' = :id']));
+    $stmt->bindValue(':id', $data['_old']['id'], $attrs['id']['pdo']);
     $stmt->execute();
 }
