@@ -68,19 +68,6 @@ function db_prep(string $sql, string ...$args): PDOStatement
 }
 
 /**
- * Set appropriate PDO parameter type
- *
- * @param mixed $val
- * @param array $attr
- *
- * @return int
- */
-function db_pdo($val, array $attr): int
-{
-    return $attr['nullable'] && $val === null ? PDO::PARAM_NULL : $attr['pdo'];
-}
-
-/**
  * Prepare columns
  *
  * @param array $attrs
@@ -94,12 +81,13 @@ function db_cols(array $attrs, array $data): array
     $cols = ['in' => [], 'up' => [], 'param' => []];
 
     foreach (array_intersect_key($data, $attrs) as $aId => $val) {
-        $col = $attrs[$aId]['col'];
+        $attr = $attrs[$aId];
+        $col = $attr['col'];
         $param = ':' . $aId;
-        $val = $attrs[$aId]['multiple'] && $attrs[$aId]['backend'] === 'json' ? json_encode($val) : $val;
-        $cols['in'][$col] = $attrs[$aId]['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
+        $val = $attr['multiple'] && $attr['backend'] === 'json' ? json_encode($val) : $val;
+        $cols['in'][$col] = $attr['backend'] === 'search' ? 'TO_TSVECTOR(' . $param . ')' : $param;
         $cols['up'][$col] = $col . ' = ' . $cols['in'][$col];
-        $cols['param'][$col] = [$param, $val, db_pdo($val, $attrs[$aId])];
+        $cols['param'][$col] = [$param, $val, $attr['nullable'] && $val === null ? PDO::PARAM_NULL : $attr['pdo']];
     }
 
     return $cols;
@@ -133,7 +121,7 @@ function db_attr(array $attrs, bool $auto = false): array
  */
 function db_crit(array $crit, array $attrs): array
 {
-    $cols = [];
+    $cols = ['where' => [], 'param' => []];
 
     foreach ($crit as $item) {
         $attr = $attrs[$item[0]] ?? null;
@@ -148,6 +136,8 @@ function db_crit(array $crit, array $attrs): array
             continue;
         }
 
+        $param = ':crit_' . $attr['id'] . '_';
+        $i = 0;
         $val = is_array($val) ? $val : [$val];
         $r = [];
 
@@ -157,7 +147,9 @@ function db_crit(array $crit, array $attrs): array
                 $null = ' IS' . ($op === CRIT['!='] ? ' NOT' : '') . ' NULL';
 
                 foreach ($val as $v) {
-                    $r[] = $attr['col'] . ($v === null ? $null : ' ' . $op . ' ' . db_qv($v, $attr));
+                    $p = $param . ++$i;
+                    $cols['param'][] = [$p, $v, $attr['pdo']];
+                    $r[] = $attr['col'] . ($v === null ? $null : ' ' . $op . ' ' . $p);
                 }
                 break;
             case CRIT['>']:
@@ -165,7 +157,9 @@ function db_crit(array $crit, array $attrs): array
             case CRIT['<']:
             case CRIT['<=']:
                 foreach ($val as $v) {
-                    $r[] = $attr['col'] . ' ' . $op . ' ' . db_qv($v, $attr);
+                    $p = $param . ++$i;
+                    $cols['param'][] = [$p, $v, $attr['pdo']];
+                    $r[] = $attr['col'] . ' ' . $op . ' ' . $p;
                 }
                 break;
             case CRIT['~']:
@@ -179,48 +173,23 @@ function db_crit(array $crit, array $attrs): array
                 $post = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~^'], CRIT['!~^']]) ? '%' : '';
 
                 foreach ($val as $v) {
-                    $r[] = $attr['col'] . $not . ' ILIKE ' . db_qv($pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, $attr);
+                    $p = $param . ++$i;
+                    $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, $attr['pdo']];
+                    $r[] = $attr['col'] . $not . ' ILIKE ' . $p;
                 }
                 break;
             case CRIT['@@']:
             case CRIT['!!']:
-                $r[] = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . db_qv(implode(' | ', $val), $attr) . ')';
+                $p = $param . ++$i;
+                $cols['param'][] = [$p, implode(' | ', $val), $attr['pdo']];
+                $r[] = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . $p . ')';
                 break;
         }
 
-        $cols[] = db_or($r);
+        $cols['where'][] = db_or($r);
     }
 
     return $cols;
-}
-
-/**
- * Quotes value
- *
- * @param mixed $val
- * @param array $attr
- *
- * @return string|null
- */
-function db_qv($val, array $attr): ?string
-{
-    if ($attr['nullable'] && $val === null) {
-        return null;
-    }
-
-    if ($attr['backend'] === 'bool') {
-        return $val ? 'TRUE' : 'FALSE';
-    }
-
-    if ($attr['backend'] === 'int') {
-        return (string) $val;
-    }
-
-    if ($attr['backend'] === 'decimal') {
-        return sprintf('%F', $val);
-    }
-
-    return db()->quote($val, db_pdo($val, $attr));
 }
 
 /**

@@ -17,13 +17,19 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
     $attrs = db_attr($entity['attr']);
     $opts['order'] = $opts['mode'] === 'size' || $opts['order'] ? $opts['order'] : ['id' => 'asc'];
     $select = $opts['mode'] === 'size' ? ['COUNT(*)'] : array_column($attrs, 'col');
+    $cols = db_crit($crit, $attrs);
     $stmt = db()->prepare(
         select($select)
         . from($entity['tab'])
-        . where(db_crit($crit, $attrs))
+        . where($cols['where'])
         . order($opts['order'])
         . limit($opts['limit'], $opts['offset'])
     );
+
+    foreach ($cols['param'] as $param) {
+        $stmt->bindValue(...$param);
+    }
+
     $stmt->execute();
 
     if ($opts['mode'] === 'size') {
