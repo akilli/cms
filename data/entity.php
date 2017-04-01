@@ -166,7 +166,7 @@ return [
             'sort' => [
                 'name' => 'Sort',
                 'type' => 'int',
-                'actions' => ['admin', 'edit'],
+                'actions' => ['edit'],
                 'val' => 0,
             ],
             'content' => [
