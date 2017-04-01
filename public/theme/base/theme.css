@@ -362,7 +362,7 @@ select > option:only-child {
 }
 
 #content > h1,
-html[data-id=page-view] [data-attr=content] h1 {
+html[data-path="page/view"] [data-attr=content] h1 {
     margin: 0 0 1rem;
     font-size: 2rem;
     color: #e14b28;
@@ -392,7 +392,7 @@ html[data-id=page-view] [data-attr=content] h1 {
 /**
  * Login
  */
-html[data-id=account-login] body {
+html[data-path="account/login"] body {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -401,7 +401,7 @@ html[data-id=account-login] body {
     background: #231f20;
 }
 
-html[data-id=account-login] body > * {
+html[data-path="account/login"] body > * {
     flex: 0 0;
 }
 
