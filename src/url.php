@@ -29,7 +29,7 @@ function url(string $path = '', array $params = []): string
         $path = url_resolve($path);
     }
 
-    return url_unrewrite('/' . $path) . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
+    return '/' . $path . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
 }
 
 /**
@@ -128,33 +128,4 @@ function url_rewrite(string $path): string
     }
 
     return $data[$path];
-}
-
-/**
- * Un-rewrite URL
- *
- * @param string $path
- *
- * @return string
- */
-function url_unrewrite(string $path): string
-{
-    if (!preg_match('#^/page/view/([0-9]+)#', $path, $match)) {
-        return $path;
-    }
-
-    $data = & registry('url');
-
-    if (in_array($path, (array) $data)) {
-        return array_search($path, $data);
-    }
-
-    if ($page = one('page', [['id', $match[1]]])) {
-        $data[$page['url']];
-        return $page['url'];
-    }
-
-    $data[$path] = $path;
-
-    return $path;
 }

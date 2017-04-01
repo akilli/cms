@@ -11,7 +11,7 @@
             <?php if (!$html = viewer($attr, $data)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
                 <?php if (allowed($data['_entity']['id'] . '.view')):?>
-        <h1><a href="<?= url($data['_entity']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a></h1>
+        <h1><a href="<?= $data['url'] ?? url($data['_entity']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a></h1>
                 <?php else:?>
         <h1><?=$html;?></h1>
                 <?php endif;?>
