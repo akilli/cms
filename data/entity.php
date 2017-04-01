@@ -135,7 +135,6 @@ return [
                 'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
-                'actions' => ['admin'],
             ],
             'name' => [
                 'name' => 'Name',
