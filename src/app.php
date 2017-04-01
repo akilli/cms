@@ -29,6 +29,7 @@ const DATE = ['b' => 'Y-m-d', 'f' => 'Y-m-d'];
 const DATETIME = ['b' => 'Y-m-d H:i:s', 'f' => 'Y-m-d\TH:i'];
 const CSV = ['del' => ';', 'enc' => '"', 'esc' => '\\', 'single' => false, 'header' => false, 'keys' => []];
 const IMPORT = ['toc' => 'toc.txt', 'html' => '#<!-- IMPORT_START -->(.*)<!-- IMPORT_END -->#isU'];
+const LOG = 'app.log';
 const TIME = ['b' => 'H:i:s', 'f' => 'H:i'];
 const URL = '.html';
 
@@ -150,6 +151,18 @@ function _(string $key, string ...$params): string
     }
 
     return vsprintf($key, $params) ?: $key;
+}
+
+/**
+ * Logger
+ *
+ * @param string $message
+ *
+ * @return void
+ */
+function logger(string $message): void
+{
+    file_put_contents(path('log', LOG), '[' . date('r') . '] ' . $message . "\n\n", FILE_APPEND);
 }
 
 /**
