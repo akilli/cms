@@ -103,7 +103,7 @@ function opt_page(): array
     $data = [];
 
     foreach (all('tree', [], ['order' => 'pos']) as $item) {
-        $data[$item['id']] = $item['pos'] . ' ' . $item['name'];
+        $data[$item['id']] = $item['structure'] . ' ' . $item['name'];
     }
 
     return $data;
