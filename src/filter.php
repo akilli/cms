@@ -12,7 +12,7 @@ namespace qnd;
  */
 function encode(string $var): string
 {
-    return htmlspecialchars($var, ENT_QUOTES, data('app', 'i18n.charset'), false);
+    return htmlspecialchars($var, ENT_QUOTES, data('app', 'charset'), false);
 }
 
 /**

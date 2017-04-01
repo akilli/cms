@@ -13,6 +13,8 @@ const DATE_FRONTEND = 'Y-m-d';
 const DATETIME_BACKEND = 'Y-m-d H:i:s';
 const DATETIME_FRONTEND = 'Y-m-d\TH:i';
 const CSV = ['del' => ';', 'enc' => '"', 'esc' => '\\', 'single' => false, 'header' => false, 'keys' => []];
+const IMPORT_HTML = '#<!-- IMPORT_START -->(.*)<!-- IMPORT_END -->#isU';
+const IMPORT_TOC = 'toc.txt';
 const PROJECT = 1;
 const PRIVILEGE = '_all_';
 const TIME_BACKEND = 'H:i:s';
