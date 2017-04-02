@@ -174,7 +174,7 @@ function db_crit(array $crit, array $attrs): array
                     break;
             }
 
-            $o[] = '(' . implode(' OR ', $r) . ')';
+            $o[] = implode(' OR ', $r);
         }
 
         $cols['where'][] = '(' . implode(' OR ', $o) . ')';
