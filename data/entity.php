@@ -140,7 +140,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'actions' => ['admin', 'edit', 'index'],
+                'actions' => ['admin', 'edit', 'index', 'view'],
                 'maxval' => 100,
             ],
             'url' => [

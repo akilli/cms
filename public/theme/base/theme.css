@@ -361,8 +361,7 @@ select > option:only-child {
     flex: 2 0;
 }
 
-#content > h1,
-html[data-path="page/view"] [data-attr=content] h1 {
+#content > h1 {
     margin: 0 0 1rem;
     font-size: 2rem;
     color: #e14b28;
