@@ -61,7 +61,8 @@ function action_index(array $entity): void
     $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
 
     if ($q && ($s = array_filter(explode(' ', $q)))) {
-        $crit[] = !empty($entity['attr']['search']) ? ['search', $s, CRIT['@@']] : ['name', $s, CRIT['~']];
+        $name = ['name', $s, CRIT['~']];
+        $crit[] = !empty($entity['attr']['search']) ? [['search', $s, CRIT['@@']], $name] : $name;
         $p['q'] = urlencode(implode(' ', $s));
     }
 

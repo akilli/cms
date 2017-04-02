@@ -107,70 +107,77 @@ function db_crit(array $crit, array $attrs): array
 {
     $cols = ['where' => [], 'param' => []];
 
-    foreach ($crit as $item) {
-        $attr = $attrs[$item[0]] ?? null;
-        $val = $item[1] ?? null;
-        $op = $item[2] ?? CRIT['='];
+    foreach ($crit as $c) {
+        $c = is_array($c[0]) ? $c : [$c];
+        $o = [];
 
-        if (!$attr || empty(CRIT[$op])) {
-            throw new RuntimeException(_('Invalid criteria'));
+        foreach ($c as $item) {
+            $attr = $attrs[$item[0]] ?? null;
+            $val = $item[1] ?? null;
+            $op = $item[2] ?? CRIT['='];
+
+            if (!$attr || empty(CRIT[$op])) {
+                throw new RuntimeException(_('Invalid criteria'));
+            }
+
+            if (is_array($val) && !$val) {
+                continue;
+            }
+
+            $param = ':crit_' . $attr['id'] . '_';
+            $i = 0;
+            $val = is_array($val) ? $val : [$val];
+            $r = [];
+
+            switch ($op) {
+                case CRIT['=']:
+                case CRIT['!=']:
+                    $null = ' IS' . ($op === CRIT['!='] ? ' NOT' : '') . ' NULL';
+
+                    foreach ($val as $v) {
+                        $p = $param . ++$i;
+                        $cols['param'][] = [$p, $v, $attr['pdo']];
+                        $r[] = $attr['col'] . ($v === null ? $null : ' ' . $op . ' ' . $p);
+                    }
+                    break;
+                case CRIT['>']:
+                case CRIT['>=']:
+                case CRIT['<']:
+                case CRIT['<=']:
+                    foreach ($val as $v) {
+                        $p = $param . ++$i;
+                        $cols['param'][] = [$p, $v, $attr['pdo']];
+                        $r[] = $attr['col'] . ' ' . $op . ' ' . $p;
+                    }
+                    break;
+                case CRIT['~']:
+                case CRIT['!~']:
+                case CRIT['~^']:
+                case CRIT['!~^']:
+                case CRIT['~$']:
+                case CRIT['!~$']:
+                    $not = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? ' NOT' : '';
+                    $pre = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~$'], CRIT['!~$']]) ? '%' : '';
+                    $post = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~^'], CRIT['!~^']]) ? '%' : '';
+
+                    foreach ($val as $v) {
+                        $p = $param . ++$i;
+                        $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, $attr['pdo']];
+                        $r[] = $attr['col'] . $not . ' ILIKE ' . $p;
+                    }
+                    break;
+                case CRIT['@@']:
+                case CRIT['!!']:
+                    $p = $param . ++$i;
+                    $cols['param'][] = [$p, implode(' | ', $val), $attr['pdo']];
+                    $r[] = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . $p . ')';
+                    break;
+            }
+
+            $o[] = '(' . implode(' OR ', $r) . ')';
         }
 
-        if (is_array($val) && !$val) {
-            continue;
-        }
-
-        $param = ':crit_' . $attr['id'] . '_';
-        $i = 0;
-        $val = is_array($val) ? $val : [$val];
-        $r = [];
-
-        switch ($op) {
-            case CRIT['=']:
-            case CRIT['!=']:
-                $null = ' IS' . ($op === CRIT['!='] ? ' NOT' : '') . ' NULL';
-
-                foreach ($val as $v) {
-                    $p = $param . ++$i;
-                    $cols['param'][] = [$p, $v, $attr['pdo']];
-                    $r[] = $attr['col'] . ($v === null ? $null : ' ' . $op . ' ' . $p);
-                }
-                break;
-            case CRIT['>']:
-            case CRIT['>=']:
-            case CRIT['<']:
-            case CRIT['<=']:
-                foreach ($val as $v) {
-                    $p = $param . ++$i;
-                    $cols['param'][] = [$p, $v, $attr['pdo']];
-                    $r[] = $attr['col'] . ' ' . $op . ' ' . $p;
-                }
-                break;
-            case CRIT['~']:
-            case CRIT['!~']:
-            case CRIT['~^']:
-            case CRIT['!~^']:
-            case CRIT['~$']:
-            case CRIT['!~$']:
-                $not = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? ' NOT' : '';
-                $pre = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~$'], CRIT['!~$']]) ? '%' : '';
-                $post = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~^'], CRIT['!~^']]) ? '%' : '';
-
-                foreach ($val as $v) {
-                    $p = $param . ++$i;
-                    $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, $attr['pdo']];
-                    $r[] = $attr['col'] . $not . ' ILIKE ' . $p;
-                }
-                break;
-            case CRIT['@@']:
-            case CRIT['!!']:
-                $p = $param . ++$i;
-                $cols['param'][] = [$p, implode(' | ', $val), $attr['pdo']];
-                $r[] = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . $p . ')';
-                break;
-        }
-
-        $cols['where'][] = '(' . implode(' OR ', $r) . ')';
+        $cols['where'][] = '(' . implode(' OR ', $o) . ')';
     }
 
     return $cols;
