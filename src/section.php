@@ -165,7 +165,7 @@ function section_template(array $§): string
 function section_toolbar(array $§): string
 {
     $crit = [['active', true]];
-    $§['vars']['projects'] = allowed('project.switch') && size('project', $crit) > 1 ? all('project', $crit) : [];
+    $§['vars']['projects'] = allowed('project/switch') && size('project', $crit) > 1 ? all('project', $crit) : [];
 
     return render($§);
 }

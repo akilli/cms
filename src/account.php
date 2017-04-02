@@ -133,10 +133,10 @@ function allowed(string $key = null): bool
 function privilege(string $key = null): string
 {
     if (!$key) {
-        return request('entity') . '.' . request('action');
+        return request('path');
     }
 
-    return substr_count($key, '.') === 0 ? request('entity') . '.' . $key : $key;
+    return substr_count($key, '/') === 0 ? request('entity') . '/' . $key : $key;
 }
 
 /**
@@ -157,5 +157,5 @@ function privilege_url(string $path): string
     $parts = explode('/', ltrim(url_rewrite($path), '/'));
     $parts[1] = $parts[1] ?? 'index';
 
-    return implode('.', array_slice($parts, 0, 2));
+    return implode('/', array_slice($parts, 0, 2));
 }

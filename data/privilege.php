@@ -3,16 +3,16 @@ return [
     '_all_' => [
         'name' => 'ALL PRIVILEGES'
     ],
-    'account.login' => [
+    'account/login' => [
         'callback' => 'unregistered'
     ],
-    'account.logout' => [
+    'account/logout' => [
         'callback' => 'registered'
     ],
-    'account.password' => [
+    'account/password' => [
         'callback' => 'registered'
     ],
-    'project.switch' => [
+    'project/switch' => [
         'callback' => 'account_global'
     ],
 ];
