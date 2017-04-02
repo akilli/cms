@@ -103,7 +103,7 @@ function layout_handles(): array
         }
 
         $data[] = 'entity-' . $entity['id'];
-        $data[] = $entity['id'] . '.' . $act;
+        $data[] = $entity['id'] . '/' . $act;
     }
 
     return $data;
