@@ -253,13 +253,13 @@ function entity(string $eId, bool $bare = false): array
  * Retrieve entity attributes filtered by given action
  *
  * @param string $eId
- * @param string $action
+ * @param string $act
  *
  * @return array
  *
  * @throws RuntimeException
  */
-function entity_attr(string $eId, string $action): array
+function entity_attr(string $eId, string $act): array
 {
     if (!$entity = data('entity', $eId)) {
         throw new RuntimeException(_('Invalid entity %s', $eId));
@@ -267,8 +267,8 @@ function entity_attr(string $eId, string $action): array
 
     return array_filter(
         $entity['attr'],
-        function ($attr) use ($action) {
-            return in_array($action, $attr['actions']);
+        function ($attr) use ($act) {
+            return in_array($act, $attr['actions']);
         }
     );
 }

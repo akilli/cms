@@ -96,14 +96,14 @@ function layout_handles(): array
     $data[] = 'account-' . (registered() ? 'registered' : 'unregistered');
 
     if ($entity = data('entity', request('entity'))) {
-        $action = request('action');
+        $act = request('action');
 
-        if (in_array($action, $entity['actions'])) {
-            $data[] = 'action-' . $action;
+        if (in_array($act, $entity['actions'])) {
+            $data[] = 'action-' . $act;
         }
 
         $data[] = 'entity-' . $entity['id'];
-        $data[] = $entity['id'] . '.' . $action;
+        $data[] = $entity['id'] . '.' . $act;
     }
 
     return $data;

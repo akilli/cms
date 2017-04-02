@@ -41,12 +41,12 @@ const URL = '.html';
 function app(): void
 {
     $prefix = fqn('action_');
-    $action = request('action');
+    $act = request('action');
     $eId = request('entity');
     $entity = data('entity', $eId);
     $args = $entity ? [$entity] : [];
 
-    foreach ([$prefix . $eId . '_' . $action, $prefix . $action] as $call) {
+    foreach ([$prefix . $eId . '_' . $act, $prefix . $act] as $call) {
         if (is_callable($call)) {
             allowed() ? $call(...$args) : action_denied();
             return;
