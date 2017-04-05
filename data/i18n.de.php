@@ -88,7 +88,6 @@ return [
     'Successfully saved %s' => '%s erfolgreich gespeichert',
     'System' => 'System',
     'System items must not be deleted! Therefore skipped Id %s' => 'Systemelemente dürfen nicht gelöscht werden! Deshalb wurde Id %s übersprungen',
-    'Templates' => 'Vorlagen',
     'The page %s does not exist' => 'Die Seite %s existiert nicht',
     'UID' => 'UID',
     'Unique' => 'Eindeutig',

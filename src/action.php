@@ -197,18 +197,6 @@ function action_page_import(array $entity): void
 }
 
 /**
- * Template Import Action
- *
- * @param array $entity
- *
- * @return void
- */
-function action_template_import(array $entity): void
-{
-    action_page_import($entity);
-}
-
-/**
  * Project Import Action
  *
  * @return void

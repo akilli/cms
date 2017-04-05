@@ -199,18 +199,6 @@ CREATE INDEX ON tree (depth);
 CREATE INDEX ON tree (pos);
 CREATE INDEX ON tree (project_id);
 
--- -----------------------------------------------------------
-
-CREATE TABLE template (
-    id serial PRIMARY KEY,
-    name varchar(100) NOT NULL,
-    content text NOT NULL,
-    project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE INDEX ON template (name);
-CREATE INDEX ON template (project_id);
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Data
 -- ---------------------------------------------------------------------------------------------------------------------
