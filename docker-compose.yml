@@ -1,0 +1,60 @@
+version: "3.2"
+volumes:
+  app:
+    driver_opts:
+      type: none
+      device: ${PWD}
+      o: bind
+  nginx:
+    driver_opts:
+      type: none
+      device: ${PWD}/../nginx/loc
+      o: bind
+  ssl:
+    driver_opts:
+      type: none
+      device: /home/ayhan/doc/00/ssl/loc
+      o: bind
+services:
+  nginx:
+    image: akilli/nginx
+    depends_on:
+      - php
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - source: app
+        target: /app
+        type: volume
+        read_only: true
+        volume:
+          nocopy: true
+      - source: nginx
+        target: /etc/nginx/sites-enabled
+        type: volume
+        read_only: true
+        volume:
+          nocopy: true
+      - source: ssl
+        target: /etc/nginx/ssl
+        type: volume
+        read_only: true
+        volume:
+          nocopy: true
+  php:
+    image: akilli/php
+    restart: unless-stopped
+    volumes:
+      - source: app
+        target: /app
+        type: volume
+  postgres:
+    image: akilli/postgres
+    restart: unless-stopped
+    volumes:
+      - source: postgres
+        target: /var/lib/postgresql
+        type: volume
+
