@@ -23,7 +23,7 @@ volumes:
   nginx:
     driver_opts:
       type: none
-      device: /docker/nginx/test
+      device: ${PWD}/nginx/test
       o: bind,uid=1000,gid=1000
   ssl:
     driver_opts:
