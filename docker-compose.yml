@@ -1,43 +1,42 @@
 version: "3.2"
-networks:
-  admin_default:
-    external: true
 volumes:
+  app:
+    driver_opts:
+      type: none
+      device: ${PWD}/..
+      o: bind,uid=1000,gid=1000
+  nginx:
+    driver_opts:
+      type: none
+      device: ${PWD}/nginx/loc
+      o: bind,uid=1000,gid=1000
   postgres: {}
+  ssl:
+    driver_opts:
+      type: none
+      device: ${PWD}/../../ssl/loc
+      o: bind,uid=1000,gid=1000
 services:
-  qnd:
+  nginx:
     image: akilli/nginx
-    container_name: qnd
+    container_name: nginx
     restart: unless-stopped
-    labels:
-      traefik.port: "80"
-      traefik.docker.network: "admin_default"
-    networks:
-      - default
-      - admin_default
+    ports:
+      - "80:80"
+      - "443:443"
     volumes:
-      - source: .
-        target: /app
-        type: bind
-        read_only: true
-      - source: ./nginx.conf
-        target: /etc/nginx/sites-enabled/default.conf
-        type: bind
-        read_only: true
+      - app:/app:ro
+      - nginx:/etc/nginx/sites-enabled:ro
+      - ssl:/etc/nginx/ssl:ro
   php:
     image: akilli/php
-    container_name: qnd-php
+    container_name: php
     restart: unless-stopped
     volumes:
-      - source: .
-        target: /app
-        type: bind
+      - app:/app
   postgres:
     image: akilli/postgres
-    container_name: qnd-postgres
+    container_name: postgres
     restart: unless-stopped
     volumes:
-      - source: postgres
-        target: /var/lib/postgresql
-        type: volume
-
+      - postgres:/var/lib/postgresql
