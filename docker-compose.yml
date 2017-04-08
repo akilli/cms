@@ -1,4 +1,7 @@
 version: "3.2"
+networks:
+  admin_default:
+    external: true
 volumes:
   app: {}
   data: {}
@@ -8,6 +11,13 @@ services:
     image: akilli/nginx
     container_name: nginx
     restart: unless-stopped
+    labels:
+      traefik.enable: "true"
+      traefik.port: "80"
+      traefik.docker.network: "admin_default"
+    networks:
+      - admin_default
+      - default
     depends_on:
       - php
     volumes:
