@@ -5,8 +5,3 @@ volumes:
       type: none
       device: ${PWD}
       o: bind,uid=1000,gid=1000
-  ssl:
-    driver_opts:
-      type: none
-      device: ${PWD}/ssl
-      o: bind,uid=1000,gid=1000

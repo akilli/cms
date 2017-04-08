@@ -3,7 +3,6 @@ volumes:
   app: {}
   data: {}
   postgres: {}
-  ssl: {}
 services:
   nginx:
     image: akilli/nginx
@@ -14,10 +13,6 @@ services:
     volumes:
       - source: app
         target: /app
-        type: volume
-        read_only: true
-      - source: ssl
-        target: /etc/nginx/ssl
         type: volume
         read_only: true
   php:
