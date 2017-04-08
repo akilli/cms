@@ -1,15 +1,17 @@
 node {
-    def vol = "/docker/app/qnd"
-    def cont = "php"
+    def imgName = "akilli/qnd"
+    def contName = "php nginx"
+    def volName = "qnd_app"
 
-    stage 'Test'
-        dir("${vol}") {
-            checkout scm
-            def shortCommit = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-            echo "Repository @ Commit ${shortCommit} ausgecheckt"
-        }
+    stage 'Checkout'
+        checkout scm
 
-        sh "ls -al ${vol}"
-        sh "ls -al ${WORKSPACE}"
-        sh "docker container restart ${cont}"
+    stage 'Build'
+        docker.build(imgName)
+
+    stage 'Deploy'
+        sh "docker-compose stop ${contName}"
+        sh "docker-compose rm ${contName}"
+        sh "docker volume rm ${volName}"
+        sh "docker-compose up -d ${contName}"
 }

@@ -1,21 +1,9 @@
 version: "3.2"
 volumes:
-  app:
-    driver_opts:
-      type: none
-      device: ${PWD}/..
-      o: bind,uid=1000,gid=1000
-  nginx:
-    driver_opts:
-      type: none
-      device: ${PWD}/nginx/loc
-      o: bind,uid=1000,gid=1000
+  app: {}
+  data: {}
   postgres: {}
-  ssl:
-    driver_opts:
-      type: none
-      device: ${PWD}/../../ssl/loc
-      o: bind,uid=1000,gid=1000
+  ssl: {}
 services:
   nginx:
     image: akilli/nginx
@@ -23,22 +11,38 @@ services:
     restart: unless-stopped
     depends_on:
       - php
-    ports:
-      - "80:80"
-      - "443:443"
     volumes:
-      - app:/app:ro
-      - nginx:/etc/nginx/sites-enabled:ro
-      - ssl:/etc/nginx/ssl:ro
+      - source: app
+        target: /app
+        type: volume
+        read_only: true
+      - source: ssl
+        target: /etc/nginx/ssl
+        type: volume
+        read_only: true
   php:
-    image: akilli/php
+    image: akilli/qnd
     container_name: php
     restart: unless-stopped
+    depends_on:
+      - postgres
     volumes:
-      - app:/app
+      - source: app
+        target: /app
+        type: volume
+      - source: data
+        target: /data
+        type: volume
+        volume:
+          nocopy: true
   postgres:
-    image: akilli/postgres
+    image: akilli/qnd-data
     container_name: postgres
     restart: unless-stopped
     volumes:
-      - postgres:/var/lib/postgresql
+      - source: data
+        target: /data
+        type: volume
+      - source: postgres
+        target: /var/lib/postgresql
+        type: volume

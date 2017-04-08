@@ -1,3 +1,0 @@
-# quick'n'dirty
-
-@todo

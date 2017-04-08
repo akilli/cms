@@ -1,46 +1,7 @@
 version: "3.2"
 volumes:
-  app:
-    driver_opts:
-      type: none
-      device: /docker/app
-      o: bind,uid=1000,gid=1000
-  gogs:
-    driver_opts:
-      type: none
-      device: /docker/gogs
-      o: bind,uid=1000,gid=1000
-  jenkins:
-    driver_opts:
-      type: none
-      device: /docker/jenkins
-      o: bind,uid=1000,gid=1000
-  nginx:
-    driver_opts:
-      type: none
-      device: ${PWD}/nginx/test
-      o: bind,uid=1000,gid=1000
   ssl:
     driver_opts:
       type: none
       device: /docker/ssl
       o: bind,uid=1000,gid=1000
-services:
-  gogs:
-    image: akilli/gogs
-    container_name: gogs
-    restart: unless-stopped
-    volumes:
-      - gogs:/data
-  jenkins:
-    image: akilli/jenkins
-    container_name: jenkins
-    restart: unless-stopped
-    volumes:
-      - app:/docker/app
-      - jenkins:/data
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-  nginx:
-    depends_on:
-      - gogs
-      - jenkins

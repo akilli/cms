@@ -1,10 +1,8 @@
 #
 # App
 #
-/public/asset/*
-!/public/asset/.gitkeep
-/log/*
-!/log/.gitkeep
+/public/db.php
+/reset.sh
 
 #
 # DEV

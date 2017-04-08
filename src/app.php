@@ -29,7 +29,7 @@ const DATE = ['b' => 'Y-m-d', 'f' => 'Y-m-d'];
 const DATETIME = ['b' => 'Y-m-d H:i:s', 'f' => 'Y-m-d\TH:i'];
 const CSV = ['del' => ';', 'enc' => '"', 'esc' => '\\', 'single' => false, 'header' => false, 'keys' => []];
 const IMPORT = ['toc' => 'toc.txt', 'html' => '#<!-- IMPORT_START -->(.*)<!-- IMPORT_END -->#isU'];
-const LOG = 'app.log';
+const LOG = 'qnd.log';
 const TIME = ['b' => 'H:i:s', 'f' => 'H:i'];
 const URL = '.html';
 
@@ -92,10 +92,10 @@ function path(string $dir, string $id = null): string
         $data = [];
         $root = realpath(__DIR__ . '/..');
         $public = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
-        $data['asset'] = $public . '/asset';
+        $data['asset'] = '/data';
         $data['data'] = $root . '/data';
         $data['lib'] = $public . '/lib';
-        $data['log'] = $root . '/log';
+        $data['log'] = '/var/log/app';
         $data['template'] = $root . '/template';
         $data['theme'] = $public . '/theme';
         $data['tmp'] = sys_get_temp_dir();
