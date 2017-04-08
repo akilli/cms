@@ -37,6 +37,7 @@ services:
     container_name: jenkins
     restart: unless-stopped
     volumes:
+      - app:/docker/app
       - jenkins:/data
       - /var/run/docker.sock:/var/run/docker.sock:ro
   nginx:
