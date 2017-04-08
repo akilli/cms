@@ -2,7 +2,7 @@
 
 set -e
 
-CONT=eqmh_postgres_1
+CONT=postgres
 DB=qnd
 DEST=/app/pg.sql
 DIR=/docker/app/qnd
