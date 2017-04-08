@@ -21,6 +21,8 @@ services:
     image: akilli/nginx
     container_name: nginx
     restart: unless-stopped
+    depends_on:
+      - php
     ports:
       - "80:80"
       - "443:443"

@@ -5,11 +5,6 @@ volumes:
       type: none
       device: /docker/app
       o: bind,uid=1000,gid=1000
-  docker:
-    driver_opts:
-      type: none
-      device: /docker
-      o: bind,uid=1000,gid=1000
   gogs:
     driver_opts:
       type: none
@@ -42,6 +37,9 @@ services:
     container_name: jenkins
     restart: unless-stopped
     volumes:
-      - docker:/docker
       - jenkins:/data
       - /var/run/docker.sock:/var/run/docker.sock:ro
+  nginx:
+    depends_on:
+      - gogs
+      - jenkins
