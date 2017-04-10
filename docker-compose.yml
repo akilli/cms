@@ -9,7 +9,7 @@ volumes:
 services:
   nginx:
     image: akilli/nginx
-    container_name: nginx
+    container_name: qnd
     restart: unless-stopped
     labels:
       traefik.enable: "true"
@@ -27,7 +27,7 @@ services:
         read_only: true
   php:
     image: akilli/qnd
-    container_name: php
+    container_name: qnd.php
     restart: unless-stopped
     depends_on:
       - postgres
@@ -42,7 +42,7 @@ services:
           nocopy: true
   postgres:
     image: akilli/qnd-data
-    container_name: postgres
+    container_name: qnd.postgres
     restart: unless-stopped
     volumes:
       - source: data
