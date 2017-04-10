@@ -1,6 +1,6 @@
 version: "3.2"
 networks:
-  admin_default:
+  rp_default:
     external: true
 volumes:
   app: {}
@@ -14,10 +14,10 @@ services:
     labels:
       traefik.enable: "true"
       traefik.port: "80"
-      traefik.docker.network: "admin_default"
+      traefik.docker.network: "rp_default"
     networks:
-      - admin_default
       - default
+      - rp
     depends_on:
       - php
     volumes:
