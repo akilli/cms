@@ -23,7 +23,7 @@ function project(string $key)
         $crit = $id ? [['id', $id]] : [['uid', strstr($_SERVER['HTTP_HOST'], '.', true)]];
         $crit[] = ['active', true];
         $data = one('project', $crit) ?: one('project', [['id', ADMIN['proj']]]);
-        $data['theme'] = data('app', 'theme');
+        $data['theme'] = config('app', 'theme');
         session('project', $data['id']);
     }
 

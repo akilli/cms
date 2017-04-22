@@ -95,7 +95,7 @@ function layout_handles(): array
     $data = ['_base_'];
     $data[] = 'account-' . (registered() ? 'registered' : 'unregistered');
 
-    if ($entity = data('entity', request('entity'))) {
+    if ($entity = config('entity', request('entity'))) {
         $act = request('action');
 
         if (in_array($act, $entity['actions'])) {
@@ -116,7 +116,7 @@ function layout_handles(): array
  */
 function layout_load(): void
 {
-    $layout = data('layout');
+    $layout = config('layout');
 
     foreach (layout_handles() as $handle) {
         if (!empty($layout[$handle])) {
@@ -147,7 +147,7 @@ function layout_add(array $§): void
 
     // New section
     if ($data === null) {
-        $data = data('default', 'section');
+        $data = config('default', 'section');
 
         if (empty($§['type']) || !is_callable(fqn('section_' . $§['type']))) {
             throw new InvalidArgumentException(_('No or invalid type given for section with Id %s', $§['id']));

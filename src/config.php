@@ -6,20 +6,20 @@ namespace qnd;
 use RuntimeException;
 
 /**
- * Data
+ * Config
  *
  * @param string $section
  * @param string $id
  *
  * @return mixed
  */
-function data(string $section, string $id = null)
+function config(string $section, string $id = null)
 {
-    $data = & registry('data.' . $section);
+    $data = & registry('config.' . $section);
 
     if ($data === null) {
-        $data = data_load(path('data', $section . '.php'));
-        $data = event('data.load.' . $section, $data);
+        $data = config_load(path('config', $section . '.php'));
+        $data = event('config.load.' . $section, $data);
     }
 
     if ($id === null) {
@@ -36,7 +36,7 @@ function data(string $section, string $id = null)
  *
  * @return array
  */
-function data_load(string $file): array
+function config_load(string $file): array
 {
     return is_readable($file) && ($data = include $file) && is_array($data) ? $data : [];
 }
@@ -49,7 +49,7 @@ function data_load(string $file): array
  *
  * @return array
  */
-function data_order(array $data, array $order): array
+function config_order(array $data, array $order): array
 {
     uasort(
         $data,
@@ -70,7 +70,7 @@ function data_order(array $data, array $order): array
 }
 
 /**
- * Entity data
+ * Entity config
  *
  * @param array $entity
  *
@@ -78,18 +78,18 @@ function data_order(array $data, array $order): array
  *
  * @throws RuntimeException
  */
-function data_entity(array $entity): array
+function config_entity(array $entity): array
 {
     if (empty($entity['id']) || empty($entity['name']) || empty($entity['attr'])) {
         throw new RuntimeException(_('Invalid entity configuration'));
     }
 
-    $entity = array_replace(data('default', 'entity'), $entity);
+    $entity = array_replace(config('default', 'entity'), $entity);
     $entity['name'] = _($entity['name']);
     $entity['tab'] = $entity['tab'] ?: $entity['id'];
     $sort = 0;
-    $default = data('default', 'attr');
-    $data = data('attr');
+    $default = config('default', 'attr');
+    $data = config('attr');
 
     foreach ($entity['attr'] as $id => $attr) {
         if (empty($attr['name']) || empty($attr['type']) || empty($data['type'][$attr['type']])) {

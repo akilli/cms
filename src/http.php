@@ -107,7 +107,7 @@ function redirect(string $url = '/', int $code = 302): void
  */
 function request(string $key)
 {
-    return data('request', $key);
+    return config('request', $key);
 }
 
 /**
@@ -197,7 +197,7 @@ function http_files_convert(array $files): array
     }
 
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
-    $exts = data('file');
+    $exts = config('file');
 
     foreach (array_filter($files, 'is_array') as $id => $item) {
         $ids = array_keys($item);

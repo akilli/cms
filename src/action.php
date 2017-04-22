@@ -56,7 +56,7 @@ function action_index(array $entity): void
     $act = request('action');
     $attrs = entity_attr($entity['id'], $act);
     $crit = empty($entity['attr']['active']) || $act === 'admin' ? [] : [['active', true]];
-    $opts = ['limit' => data('app', 'limit')];
+    $opts = ['limit' => config('app', 'limit')];
     $p = [];
     $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
 

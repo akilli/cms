@@ -122,7 +122,7 @@ function image(string $id, string $conf): string
 {
     $file = project_path('media', $id);
 
-    if (!is_file($file) || !($opts = data('image', $conf)) || !($info = getimagesize($file))) {
+    if (!is_file($file) || !($opts = config('image', $conf)) || !($info = getimagesize($file))) {
         return url_media($id);
     }
 

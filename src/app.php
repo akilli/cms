@@ -43,7 +43,7 @@ function app(): void
     $prefix = fqn('action_');
     $act = request('action');
     $eId = request('entity');
-    $entity = data('entity', $eId);
+    $entity = config('entity', $eId);
     $args = $entity ? [$entity] : [];
 
     foreach ([$prefix . $eId . '_' . $act, $prefix . $act] as $call) {
@@ -93,7 +93,7 @@ function path(string $dir, string $id = null): string
         $root = realpath(__DIR__ . '/..');
         $public = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
         $data['asset'] = '/data';
-        $data['data'] = $root . '/data';
+        $data['config'] = $root . '/config';
         $data['lib'] = $public . '/lib';
         $data['log'] = '/var/log/app';
         $data['template'] = $root . '/template';
@@ -120,7 +120,7 @@ function path(string $dir, string $id = null): string
  */
 function event(string $event, array $data): array
 {
-    if (($listeners = data('listener', $event)) && asort($listeners, SORT_NUMERIC)) {
+    if (($listeners = config('listener', $event)) && asort($listeners, SORT_NUMERIC)) {
         foreach (array_keys($listeners) as $call) {
             $call = fqn('listener_' . $call);
             $data = $call($data);
@@ -144,7 +144,7 @@ function _(string $key, string ...$params): string
         return '';
     }
 
-    $key = data('i18n', $key) ?? $key;
+    $key = config('i18n', $key) ?? $key;
 
     if (!$params) {
         return $key;

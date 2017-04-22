@@ -11,7 +11,7 @@
         <input type="hidden" name="token" value="<?= token();?>" />
     </form>
     <?php endif;?>
-    <?php if ($data = data('toolbar')):?>
+    <?php if ($data = config('toolbar')):?>
     <ul>
         <?php foreach ($data as $item):?>
         <li>

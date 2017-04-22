@@ -4,13 +4,13 @@ declare(strict_types = 1);
 namespace qnd;
 
 /**
- * App data listener
+ * App config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_app(array $data): array
+function listener_config_app(array $data): array
 {
     ini_set('default_charset', $data['charset']);
     ini_set('intl.default_locale', $data['locale']);
@@ -20,18 +20,18 @@ function listener_data_app(array $data): array
 }
 
 /**
- * Entity data listener
+ * Entity config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_entity(array $data): array
+function listener_config_entity(array $data): array
 {
     foreach ($data as $eId => $item) {
         $item['id'] = $eId;
-        $item = data_entity($item);
-        $item['attr'] = data_order($item['attr'], ['sort' => 'asc']);
+        $item = config_entity($item);
+        $item['attr'] = config_order($item['attr'], ['sort' => 'asc']);
         $data[$eId] = $item;
     }
 
@@ -39,48 +39,48 @@ function listener_data_entity(array $data): array
 }
 
 /**
- * I18n data listener
+ * I18n config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_i18n(array $data): array
+function listener_config_i18n(array $data): array
 {
-    return $data + data('i18n.' . data('app', 'lang'));
+    return $data + config('i18n.' . config('app', 'lang'));
 }
 
 /**
- * Privilege data listener
+ * Privilege config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_privilege(array $data): array
+function listener_config_privilege(array $data): array
 {
     foreach ($data as $id => $item) {
         $data[$id]['name'] = !empty($item['name']) ? _($item['name']) : '';
         $data[$id]['callback'] = !empty($item['callback']) ? fqn($item['callback']) : null;
     }
 
-    foreach (data('entity') as $eId => $entity) {
+    foreach (config('entity') as $eId => $entity) {
         foreach ($entity['actions'] as $act) {
             $data[$eId . '/' . $act]['name'] = $entity['name'] . ' ' . _(ucwords($act));
         }
     }
 
-    return data_order($data, ['sort' => 'asc', 'name' => 'asc']);
+    return config_order($data, ['sort' => 'asc', 'name' => 'asc']);
 }
 
 /**
- * Request data listener
+ * Request config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_request(array $data): array
+function listener_config_request(array $data): array
 {
     $data['host'] = $_SERVER['HTTP_HOST'];
     $data['get'] = http_filter($_GET);
@@ -98,13 +98,13 @@ function listener_data_request(array $data): array
 }
 
 /**
- * Toolbar data listener
+ * Toolbar config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_toolbar(array $data): array
+function listener_config_toolbar(array $data): array
 {
     foreach ($data as $key => $item) {
         if (allowed(privilege_url($item['url']))) {

@@ -114,7 +114,7 @@ function url_resolve(string $path): string
 function url_rewrite(string $path): string
 {
     if ($path === '/') {
-        return '/' . data('request', 'entity') . '/' . data('request', 'action');
+        return '/' . config('request', 'entity') . '/' . config('request', 'action');
     }
 
     if (!preg_match('#' . URL . '$#', $path)) {

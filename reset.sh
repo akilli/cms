@@ -7,7 +7,7 @@ DB=qnd
 DEST=/app/pg.sql
 DIR=/docker/app/qnd
 REPO=https://ci:8htCH3ss3w@gogs.test.eqmh.de/eqmh/qnd.git
-SRC=$DIR/data/pg.sql
+SRC=$DIR/config/pg.sql
 
 if [ -z $DIR ] || [ ! -d $DIR ]; then
     echo "Invalid directory $DIR"

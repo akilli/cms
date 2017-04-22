@@ -17,7 +17,7 @@ use RuntimeException;
  */
 function size(string $eId, array $crit = [], array $opts = []): int
 {
-    $entity = data('entity', $eId);
+    $entity = config('entity', $eId);
     $call = fqn($entity['model'] . '_load');
     unset($opts['order'], $opts['limit'], $opts['offset']);
     $opts = array_replace(entity_opts($opts), ['mode' => 'size']);
@@ -47,7 +47,7 @@ function size(string $eId, array $crit = [], array $opts = []): int
  */
 function one(string $eId, array $crit = [], array $opts = []): array
 {
-    $entity = data('entity', $eId);
+    $entity = config('entity', $eId);
     $call = fqn($entity['model'] . '_load');
     $data = [];
     $opts = array_replace(entity_opts($opts), ['mode' => 'one', 'limit' => 1]);
@@ -79,7 +79,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
  */
 function all(string $eId, array $crit = [], array $opts = []): array
 {
-    $entity = data('entity', $eId);
+    $entity = config('entity', $eId);
     $call = fqn($entity['model'] . '_load');
     $opts = array_replace(entity_opts($opts), ['mode' => 'all']);
 
@@ -239,7 +239,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
  */
 function entity(string $eId, bool $bare = false): array
 {
-    if (!$entity = data('entity', $eId)) {
+    if (!$entity = config('entity', $eId)) {
         throw new RuntimeException(_('Invalid entity %s', $eId));
     }
 
@@ -261,7 +261,7 @@ function entity(string $eId, bool $bare = false): array
  */
 function entity_attr(string $eId, string $act): array
 {
-    if (!$entity = data('entity', $eId)) {
+    if (!$entity = config('entity', $eId)) {
         throw new RuntimeException(_('Invalid entity %s', $eId));
     }
 
@@ -282,7 +282,7 @@ function entity_attr(string $eId, string $act): array
  */
 function entity_opts(array $opts): array
 {
-    $default = data('default', 'entity.opts');
+    $default = config('default', 'entity.opts');
 
     foreach ($default as $key => $val) {
         if (array_key_exists($key, $opts) && gettype($val) !== gettype($opts[$key])) {
