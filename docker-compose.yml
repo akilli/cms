@@ -5,10 +5,36 @@ networks:
 volumes:
   app: {}
   data: {}
-  postgres: {}
+  db: {}
 services:
-  nginx:
-    image: akilli/nginx
+  app:
+    image: akilli/qnd
+    container_name: qnd.app
+    restart: unless-stopped
+    depends_on:
+      - db
+    volumes:
+      - source: app
+        target: /app
+        type: volume
+      - source: data
+        target: /data
+        type: volume
+        volume:
+          nocopy: true
+  db:
+    image: akilli/qnd-db
+    container_name: qnd.db
+    restart: unless-stopped
+    volumes:
+      - source: data
+        target: /app
+        type: volume
+      - source: db
+        target: /data
+        type: volume
+  qnd:
+    image: akilli/nginx:alpine
     container_name: qnd
     restart: unless-stopped
     labels:
@@ -19,35 +45,14 @@ services:
       - admin_default
       - default
     depends_on:
-      - php
+      - app
+      - db
     volumes:
       - source: app
         target: /app
         type: volume
         read_only: true
-  php:
-    image: akilli/qnd
-    container_name: qnd.php
-    restart: unless-stopped
-    depends_on:
-      - postgres
-    volumes:
-      - source: app
-        target: /app
-        type: volume
       - source: data
         target: /data
         type: volume
-        volume:
-          nocopy: true
-  postgres:
-    image: akilli/qnd-data
-    container_name: qnd.postgres
-    restart: unless-stopped
-    volumes:
-      - source: data
-        target: /data
-        type: volume
-      - source: postgres
-        target: /var/lib/postgresql
-        type: volume
+        read_only: true

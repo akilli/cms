@@ -1,4 +1,4 @@
-FROM akilli/php
+FROM akilli/php:alpine
 
 LABEL maintainer "Ayhan Akilli"
 
@@ -6,5 +6,3 @@ LABEL maintainer "Ayhan Akilli"
 # Setup
 #
 COPY . /app/
-
-RUN chown -R app:app /app
