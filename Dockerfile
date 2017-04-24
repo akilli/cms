@@ -1,4 +1,4 @@
-FROM akilli/php:alpine
+FROM akilli/php
 
 LABEL maintainer "Ayhan Akilli"
 

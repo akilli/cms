@@ -34,7 +34,7 @@ services:
         target: /data
         type: volume
   qnd:
-    image: akilli/nginx:alpine
+    image: akilli/nginx
     container_name: qnd
     restart: unless-stopped
     labels:
