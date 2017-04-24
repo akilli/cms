@@ -12,7 +12,7 @@ services:
     container_name: qnd.app
     restart: unless-stopped
     depends_on:
-      - db
+      - data
     volumes:
       - source: app
         target: /app
@@ -22,9 +22,9 @@ services:
         type: volume
         volume:
           nocopy: true
-  db:
-    image: akilli/qnd-db
-    container_name: qnd.db
+  data:
+    image: akilli/qnd-data
+    container_name: qnd.data
     restart: unless-stopped
     volumes:
       - source: data
@@ -46,7 +46,7 @@ services:
       - default
     depends_on:
       - app
-      - db
+      - data
     volumes:
       - source: app
         target: /app
