@@ -42,7 +42,7 @@ services:
       traefik.frontend.rule: "HostRegexp: test.eqmh.de, {subdomain:[a-z0-9_-]+}.test.eqmh.de"
       traefik.frontend.priority: 1
       traefik.port: "80"
-      traefik.docker.network: "admin_default"
+      traefik.docker.network: "eqmh"
     networks:
       - default
       - eqmh
