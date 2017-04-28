@@ -1,6 +1,6 @@
 version: "3.2"
 networks:
-  admin_default:
+  eqmh:
     external: true
 volumes:
   app: {}
@@ -9,7 +9,7 @@ volumes:
 services:
   app:
     image: akilli/qnd
-    container_name: qnd.app
+    container_name: qnd-app
     restart: unless-stopped
     depends_on:
       - data
@@ -24,7 +24,7 @@ services:
           nocopy: true
   data:
     image: akilli/qnd-data
-    container_name: qnd.data
+    container_name: qnd-data
     restart: unless-stopped
     volumes:
       - source: data
@@ -35,15 +35,17 @@ services:
         type: volume
   qnd:
     image: akilli/nginx
-    container_name: qnd
+    container_name: test.eqmh.de
     restart: unless-stopped
     labels:
       traefik.enable: "true"
+      traefik.frontend.rule: "HostRegexp: test.eqmh.de, {subdomain:[a-z0-9_-]+}.test.eqmh.de"
+      traefik.frontend.priority: 1
       traefik.port: "80"
       traefik.docker.network: "admin_default"
     networks:
-      - admin_default
       - default
+      - eqmh
     depends_on:
       - app
       - data
