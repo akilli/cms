@@ -1,6 +1,6 @@
 <?php
 return [
-    'host' => 'data',
+    'host' => '127.0.0.1',
     'db' => 'app',
     'user' => 'app',
     'password' => 'app',
