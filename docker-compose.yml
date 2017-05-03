@@ -29,7 +29,7 @@ services:
         volume:
           nocopy: true
   qnd-app:
-    image: akilli/qnd
+    image: registry.test.eqmh.de/qnd
     container_name: qnd-app
     restart: unless-stopped
     network_mode: "service:qnd"
@@ -43,7 +43,7 @@ services:
         volume:
           nocopy: true
   qnd-data:
-    image: akilli/qnd-data
+    image: registry.test.eqmh.de/qnd-data
     container_name: qnd-data
     restart: unless-stopped
     network_mode: "service:qnd"

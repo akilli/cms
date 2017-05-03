@@ -1,6 +1,6 @@
 node {
-    def imgName = "akilli/qnd"
-    def contName = "php nginx"
+    def imgName = "registry.test.eqmh.de/qnd"
+    def contName = "qnd-app qnd"
     def volName = "qnd_app"
 
     stage 'Checkout'
