@@ -47,8 +47,10 @@ services:
       - source: app
         target: /app
         type: volume
-        read_only: true
+        volume:
+          nocopy: true
       - source: data
         target: /data
         type: volume
-        read_only: true
+        volume:
+          nocopy: true
