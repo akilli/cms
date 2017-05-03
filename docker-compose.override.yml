@@ -5,8 +5,3 @@ volumes:
       type: none
       device: ${PWD}
       o: bind,uid=1000,gid=1000
-services:
-  qnd:
-    container_name: app.loc
-    labels:
-      traefik.frontend.rule: "HostRegexp: app.loc,{subdomain:[a-z0-9_-]+}.app.loc"

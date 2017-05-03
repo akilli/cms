@@ -10,11 +10,11 @@ volumes:
 services:
   qnd:
     image: akilli/nginx
-    container_name: test.eqmh.de
+    container_name: qnd
     restart: unless-stopped
     labels:
       traefik.enable: "true"
-      traefik.frontend.rule: "HostRegexp: test.eqmh.de,{subdomain:[a-z0-9_-]+}.test.eqmh.de"
+      traefik.frontend.rule: "HostRegexp: {domain:.+}"
       traefik.frontend.priority: "1"
       traefik.port: "80"
     volumes:
