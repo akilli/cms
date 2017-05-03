@@ -8,32 +8,6 @@ volumes:
   data: {}
   db: {}
 services:
-  app:
-    image: akilli/qnd
-    container_name: qnd-app
-    restart: unless-stopped
-    network_mode: "service:qnd"
-    volumes:
-      - source: app
-        target: /app
-        type: volume
-      - source: data
-        target: /data
-        type: volume
-        volume:
-          nocopy: true
-  data:
-    image: akilli/qnd-data
-    container_name: qnd-data
-    restart: unless-stopped
-    network_mode: "service:qnd"
-    volumes:
-      - source: data
-        target: /app
-        type: volume
-      - source: db
-        target: /data
-        type: volume
   qnd:
     image: akilli/nginx
     container_name: test.eqmh.de
@@ -54,3 +28,29 @@ services:
         type: volume
         volume:
           nocopy: true
+  qnd-app:
+    image: akilli/qnd
+    container_name: qnd-app
+    restart: unless-stopped
+    network_mode: "service:qnd"
+    volumes:
+      - source: app
+        target: /app
+        type: volume
+      - source: data
+        target: /data
+        type: volume
+        volume:
+          nocopy: true
+  qnd-data:
+    image: akilli/qnd-data
+    container_name: qnd-data
+    restart: unless-stopped
+    network_mode: "service:qnd"
+    volumes:
+      - source: data
+        target: /app
+        type: volume
+      - source: db
+        target: /data
+        type: volume
