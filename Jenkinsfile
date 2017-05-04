@@ -5,6 +5,7 @@ node {
     def auth = "ci"
     def cont = "${project}-app ${project}"
     def vol = "${project}_app"
+    def proxy = "traefik"
 
     stage 'Clean'
         deleteDir()
@@ -41,5 +42,7 @@ node {
         sh "sudo docker-compose -p ${project} -f docker-compose.yml rm -f ${cont}"
         sh "sudo docker volume rm ${vol}"
         sh "sudo docker-compose -p ${project} -f docker-compose.yml up -d --force-recreate"
+        sh "sudo docker stop ${proxy}"
+        sh "sudo docker start ${proxy}"
         echo "Successfully deployed ${project} erfolgreich auf Test-Server deployed"
 }
