@@ -37,7 +37,8 @@ node {
         }
 
     stage 'Live'
-        sh "sudo docker-compose -p ${project} -f docker-compose.yml rm -s ${cont}"
+        sh "sudo docker-compose -p ${project} -f docker-compose.yml stop ${cont}"
+        sh "sudo docker-compose -p ${project} -f docker-compose.yml rm ${cont}"
         sh "sudo docker volume rm ${vol}"
         sh "sudo docker-compose -p ${project} -f docker-compose.yml up -d --force-recreate ${cont}"
         echo "Successfully deployed ${project} erfolgreich auf Test-Server deployed"
