@@ -40,6 +40,6 @@ node {
         sh "sudo docker-compose -p ${project} -f docker-compose.yml stop ${cont}"
         sh "sudo docker-compose -p ${project} -f docker-compose.yml rm -f ${cont}"
         sh "sudo docker volume rm ${vol}"
-        sh "sudo docker-compose -p ${project} -f docker-compose.yml up -d --force-recreate ${cont}"
+        sh "sudo docker-compose -p ${project} -f docker-compose.yml up -d --force-recreate"
         echo "Successfully deployed ${project} erfolgreich auf Test-Server deployed"
 }
