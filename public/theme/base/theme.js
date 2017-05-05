@@ -1,4 +1,4 @@
-(function (document) {
+(function (document, CKEDITOR) {
     'use strict';
 
     document.addEventListener('DOMContentLoaded', function()
@@ -46,4 +46,4 @@
             })
         }
     });
-})(document);
+})(document, CKEDITOR);
