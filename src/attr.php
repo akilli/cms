@@ -560,7 +560,7 @@ function validator_time(array $attr, array $data): array
 function validator_file(array $attr, array $data): array
 {
     if ($file = http_files('data')[$attr['id']] ?? '') {
-        if (!in_array($attr['type'], data('file', $file['ext']) ?? [])) {
+        if (!data('file', $file['ext'])) {
             throw new DomainException(_('Invalid file %s', $file['name']));
         }
 
@@ -997,32 +997,6 @@ function viewer_iframe(array $attr, array $data): string
 }
 
 /**
- * Audio viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
- */
-function viewer_audio(array $attr, array $data): string
-{
-    return $data[$attr['id']] ? html_tag('audio', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
-}
-
-/**
- * Embed viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
- */
-function viewer_embed(array $attr, array $data): string
-{
-    return $data[$attr['id']] ? html_tag('embed', ['src' => url_media($data[$attr['id']])], null, true) : '';
-}
-
-/**
  * File viewer
  *
  * @param array $attr
@@ -1032,31 +1006,22 @@ function viewer_embed(array $attr, array $data): string
  */
 function viewer_file(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html_tag('a', ['href' => url_media($data[$attr['id']])], $data[$attr['id']]) : '';
-}
+    if (!$data[$attr['id']]) {
+        return '';
+    }
 
-/**
- * Image viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
- */
-function viewer_image(array $attr, array $data): string
-{
-    return $data[$attr['id']] ? html_tag('img', ['src' => image($data[$attr['id']], $attr['context']), 'alt' => $data[$attr['id']]], null, true) : '';
-}
-
-/**
- * Video viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
- */
-function viewer_video(array $attr, array $data): string
-{
-    return $data[$attr['id']] ? html_tag('video', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
+    switch (pathinfo($data[$attr['id']], PATHINFO_EXTENSION)) {
+        case 'audio':
+            return html_tag('audio', ['src' => url_media($data[$attr['id']]), 'controls' => true]);
+        case 'embed':
+            return html_tag('embed', ['src' => url_media($data[$attr['id']])], null, true);
+        case 'image':
+            return html_tag('img', ['src' => image($data[$attr['id']], $attr['context']), 'alt' => $data[$attr['id']]], null, true);
+        case 'object':
+            return html_tag('object', ['data' => url_media($data[$attr['id']])]);
+        case 'video':
+            return html_tag('video', ['src' => url_media($data[$attr['id']]), 'controls' => true]);
+        default:
+            return html_tag('a', ['href' => url_media($data[$attr['id']])], $data[$attr['id']]);
+    }
 }
