@@ -16,18 +16,6 @@ function encode(string $var): string
 }
 
 /**
- * Decode special chars
- *
- * @param string $var
- *
- * @return string
- */
-function decode(string $var): string
-{
-    return htmlspecialchars_decode($var, ENT_QUOTES);
-}
-
-/**
  * HTML filter
  *
  * @param string $html
