@@ -71,7 +71,7 @@ function listener_config_entity(array $data): array
             $entity['attr'][$id] = $attr;
         }
 
-        $entity['attr'] = config_order($entity['attr'], ['sort' => 'asc']);
+        $entity['attr'] = arr_order($entity['attr'], ['sort' => 'asc']);
         $data[$eId] = $entity;
     }
 
@@ -110,7 +110,7 @@ function listener_config_privilege(array $data): array
         }
     }
 
-    return config_order($data, ['sort' => 'asc', 'name' => 'asc']);
+    return arr_order($data, ['sort' => 'asc', 'name' => 'asc']);
 }
 
 /**
