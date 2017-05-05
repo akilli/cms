@@ -19,7 +19,7 @@ return [
     'ods' => ['file'],
     'odt' => ['file'],
     'oga' => ['audio', 'file'],
-    'ogg' => ['audio', 'file', 'video'],
+    'ogg' => ['audio', 'file'],
     'ogv' => ['file', 'video'],
     'pdf' => ['file'],
     'png' => ['file', 'image'],
