@@ -18,13 +18,14 @@ function size(string $eId, array $crit = []): int
 {
     $entity = config('entity', $eId);
     $call = fqn($entity['model'] . '_load');
+    $opts = ['mode' => 'size'] + OPTS;
 
     if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
         $crit[] = ['project_id', project('id')];
     }
 
     try {
-        return $call($entity, $crit, ['mode' => 'size'])[0];
+        return $call($entity, $crit, $opts)[0];
     } catch (Exception $e) {
         logger((string) $e);
         message(_('Could not load data'));
