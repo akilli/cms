@@ -12,9 +12,6 @@ return [
     'config.load.privilege' => [
         'config_privilege' => -1,
     ],
-    'config.load.request' => [
-        'config_request' => -1,
-    ],
     'config.load.toolbar' => [
         'config_toolbar' => -1,
     ],

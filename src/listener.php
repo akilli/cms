@@ -114,30 +114,6 @@ function listener_config_privilege(array $data): array
 }
 
 /**
- * Request config listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_config_request(array $data): array
-{
-    $data['host'] = $_SERVER['HTTP_HOST'];
-    $data['get'] = http_filter($_GET);
-    $data['post'] = !empty($_POST['token']) && http_post_validate($_POST['token']) ? $_POST : [];
-    $data['files'] = $_FILES ? http_files_convert($_FILES) : [];
-    $url = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-    $data['url'] = preg_replace('#^' . $_SERVER['SCRIPT_NAME'] . '#', '', $url);
-    $parts = explode('/', trim(url_rewrite($data['url']), '/'));
-    $data['entity'] = $parts[0] ?: $data['entity'];
-    $data['action'] = $parts[1] ?? $data['action'];
-    $data['id'] = $parts[2] ?? $data['id'];
-    $data['path'] = $data['entity'] . '/' . $data['action'];
-
-    return $data;
-}
-
-/**
  * Toolbar config listener
  *
  * @param array $data
