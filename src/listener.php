@@ -6,13 +6,13 @@ namespace qnd;
 use RuntimeException;
 
 /**
- * App config listener
+ * App data listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_config_app(array $data): array
+function listener_data_app(array $data): array
 {
     ini_set('default_charset', $data['charset']);
     ini_set('intl.default_locale', $data['locale']);
@@ -22,17 +22,17 @@ function listener_config_app(array $data): array
 }
 
 /**
- * Entity config listener
+ * Entity data listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_config_entity(array $data): array
+function listener_data_entity(array $data): array
 {
-    $defEnt = config('default', 'entity');
-    $defAttr = config('default', 'attr');
-    $cfg = config('attr');
+    $defEnt = data('default', 'entity');
+    $defAttr = data('default', 'attr');
+    $cfg = data('attr');
 
     foreach ($data as $eId => $entity) {
         if (empty($entity['name']) || empty($entity['attr'])) {
@@ -79,32 +79,32 @@ function listener_config_entity(array $data): array
 }
 
 /**
- * I18n config listener
+ * I18n data listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_config_i18n(array $data): array
+function listener_data_i18n(array $data): array
 {
-    return $data + config('i18n.' . config('app', 'lang'));
+    return $data + data('i18n.' . data('app', 'lang'));
 }
 
 /**
- * Privilege config listener
+ * Privilege data listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_config_privilege(array $data): array
+function listener_data_privilege(array $data): array
 {
     foreach ($data as $id => $item) {
         $data[$id]['name'] = !empty($item['name']) ? _($item['name']) : '';
         $data[$id]['callback'] = !empty($item['callback']) ? fqn($item['callback']) : null;
     }
 
-    foreach (config('entity') as $eId => $entity) {
+    foreach (data('entity') as $eId => $entity) {
         foreach ($entity['actions'] as $act) {
             $data[$eId . '/' . $act]['name'] = $entity['name'] . ' ' . _(ucwords($act));
         }
@@ -114,13 +114,13 @@ function listener_config_privilege(array $data): array
 }
 
 /**
- * Toolbar config listener
+ * Toolbar data listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_config_toolbar(array $data): array
+function listener_data_toolbar(array $data): array
 {
     foreach ($data as $key => $item) {
         if (allowed(privilege_url($item['url']))) {

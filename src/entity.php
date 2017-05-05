@@ -16,7 +16,7 @@ use RuntimeException;
  */
 function size(string $eId, array $crit = []): int
 {
-    $entity = config('entity', $eId);
+    $entity = data('entity', $eId);
     $call = fqn($entity['model'] . '_load');
     $opts = ['mode' => 'size'] + OPTS;
 
@@ -45,7 +45,7 @@ function size(string $eId, array $crit = []): int
  */
 function one(string $eId, array $crit = [], array $opts = []): array
 {
-    $entity = config('entity', $eId);
+    $entity = data('entity', $eId);
     $call = fqn($entity['model'] . '_load');
     $data = [];
     $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'one', 'limit' => 1]);
@@ -77,7 +77,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
  */
 function all(string $eId, array $crit = [], array $opts = []): array
 {
-    $entity = config('entity', $eId);
+    $entity = data('entity', $eId);
     $call = fqn($entity['model'] . '_load');
     $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'all']);
 
@@ -237,7 +237,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
  */
 function entity(string $eId, bool $bare = false): array
 {
-    if (!$entity = config('entity', $eId)) {
+    if (!$entity = data('entity', $eId)) {
         throw new RuntimeException(_('Invalid entity %s', $eId));
     }
 
@@ -259,7 +259,7 @@ function entity(string $eId, bool $bare = false): array
  */
 function entity_attr(string $eId, string $act): array
 {
-    if (!$entity = config('entity', $eId)) {
+    if (!$entity = data('entity', $eId)) {
         throw new RuntimeException(_('Invalid entity %s', $eId));
     }
 

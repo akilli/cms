@@ -110,7 +110,7 @@ function account_global(): bool
  */
 function allowed(string $key = null): bool
 {
-    $data = config('privilege');
+    $data = data('privilege');
     $key = privilege($key);
 
     // Privilege does not exist

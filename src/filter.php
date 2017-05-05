@@ -12,7 +12,7 @@ namespace qnd;
  */
 function encode(string $var): string
 {
-    return htmlspecialchars($var, ENT_QUOTES, config('app', 'charset'), false);
+    return htmlspecialchars($var, ENT_QUOTES, data('app', 'charset'), false);
 }
 
 /**
@@ -36,7 +36,7 @@ function decode(string $var): string
  */
 function filter_html(string $html): string
 {
-    return $html ? trim(strip_tags($html, config('filter', 'html'))) : '';
+    return $html ? trim(strip_tags($html, data('filter', 'html'))) : '';
 }
 
 /**
@@ -49,7 +49,7 @@ function filter_html(string $html): string
  */
 function filter_id(string $id, string $sep = '-'): string
 {
-    return trim(preg_replace('#[^a-z0-9]+#', $sep, strtolower(strtr($id, config('filter', 'id')))), $sep);
+    return trim(preg_replace('#[^a-z0-9]+#', $sep, strtolower(strtr($id, data('filter', 'id')))), $sep);
 }
 
 /**

@@ -142,7 +142,7 @@ function import_odt(string $file, int $pId): string
     $path = path('tmp', uniqid(basename($file), true));
     $mediaPath = $path . '/Pictures';
     $contentXML = $path . '/content.xml';
-    $xslFile = path('config', 'odt.xsl');
+    $xslFile = path('data', 'odt.xsl');
 
     if (!unzip($file, $path) || !is_file($contentXML)) {
         return $html;

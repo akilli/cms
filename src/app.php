@@ -44,7 +44,7 @@ function app(): void
     $prefix = fqn('action_');
     $act = request('action');
     $eId = request('entity');
-    $entity = config('entity', $eId);
+    $entity = data('entity', $eId);
     $args = $entity ? [$entity] : [];
 
     foreach ([$prefix . $eId . '_' . $act, $prefix . $act] as $call) {
@@ -94,7 +94,7 @@ function path(string $dir, string $id = null): string
         $root = realpath(__DIR__ . '/..');
         $public = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
         $data['asset'] = '/data';
-        $data['config'] = $root . '/config';
+        $data['data'] = $root . '/data';
         $data['lib'] = $public . '/lib';
         $data['log'] = '/var/log/app';
         $data['template'] = $root . '/template';
@@ -112,20 +112,20 @@ function path(string $dir, string $id = null): string
 }
 
 /**
- * Config
+ * Data
  *
  * @param string $section
  * @param string $id
  *
  * @return mixed
  */
-function config(string $section, string $id = null)
+function data(string $section, string $id = null)
 {
-    $data = & registry('config.' . $section);
+    $data = & registry('data.' . $section);
 
     if ($data === null) {
-        $data = arr_load(path('config', $section . '.php'));
-        $data = event('config.load.' . $section, $data);
+        $data = arr_load(path('data', $section . '.php'));
+        $data = event('data.load.' . $section, $data);
     }
 
     if ($id === null) {
@@ -145,7 +145,7 @@ function config(string $section, string $id = null)
  */
 function event(string $event, array $data): array
 {
-    if (($listeners = config('listener', $event)) && asort($listeners, SORT_NUMERIC)) {
+    if (($listeners = data('listener', $event)) && asort($listeners, SORT_NUMERIC)) {
         foreach (array_keys($listeners) as $call) {
             $call = fqn('listener_' . $call);
             $data = $call($data);
@@ -169,7 +169,7 @@ function _(string $key, string ...$params): string
         return '';
     }
 
-    $key = config('i18n', $key) ?? $key;
+    $key = data('i18n', $key) ?? $key;
 
     if (!$params) {
         return $key;

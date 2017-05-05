@@ -213,7 +213,7 @@ function http_files_convert(array $files): array
     }
 
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
-    $exts = config('file');
+    $exts = data('file');
 
     foreach (array_filter($files, 'is_array') as $id => $item) {
         $ids = array_keys($item);
