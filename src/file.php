@@ -111,18 +111,6 @@ function file_writable(string $path): bool
 }
 
 /**
- * Load file data
- *
- * @param string $file
- *
- * @return array
- */
-function file_data(string $file): array
-{
-    return is_readable($file) && ($data = include $file) && is_array($data) ? $data : [];
-}
-
-/**
  * Image file
  *
  * @param string $id

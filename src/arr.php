@@ -4,7 +4,19 @@ declare(strict_types = 1);
 namespace qnd;
 
 /**
- * Sort order
+ * Load data from file
+ *
+ * @param string $file
+ *
+ * @return array
+ */
+function arr_load(string $file): array
+{
+    return is_readable($file) && ($data = include $file) && is_array($data) ? $data : [];
+}
+
+/**
+ * Order data
  *
  * @param array $data
  * @param array $order

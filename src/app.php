@@ -123,7 +123,7 @@ function config(string $section, string $id = null)
     $data = & registry('config.' . $section);
 
     if ($data === null) {
-        $data = file_data(path('config', $section . '.php'));
+        $data = arr_load(path('config', $section . '.php'));
         $data = event('config.load.' . $section, $data);
     }
 
