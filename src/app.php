@@ -92,13 +92,10 @@ function path(string $dir, string $id = null): string
     if ($data === null) {
         $data = [];
         $root = realpath(__DIR__ . '/..');
-        $public = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
         $data['asset'] = '/data';
         $data['data'] = $root . '/data';
-        $data['lib'] = $public . '/lib';
         $data['log'] = '/var/log/app';
         $data['template'] = $root . '/template';
-        $data['theme'] = $public . '/theme';
         $data['tmp'] = sys_get_temp_dir();
         $asset = $data['asset'] . '/' . project('id');
         $data['cache'] = $asset . '/cache';
