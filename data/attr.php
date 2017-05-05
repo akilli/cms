@@ -188,6 +188,11 @@ return [
             'multiple' => true,
             'val' => [],
         ],
+        'object' => [
+            'backend' => 'varchar',
+            'frontend' => 'file',
+            'viewer' => 'object',
+        ],
         'password' => [
             'backend' => 'varchar',
             'frontend' => 'password',
