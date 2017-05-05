@@ -119,7 +119,7 @@ function import_content(string $file, int $pId ): string
  */
 function import_html(string $file): string
 {
-    if (!file_exists($file) || !$html = file_get_contents($file)) {
+    if (!file_exists($file) || !($html = file_get_contents($file))) {
         return '';
     }
 
