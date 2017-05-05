@@ -11,23 +11,20 @@ use RuntimeException;
  *
  * @param string $eId
  * @param array $crit
- * @param array $opts
  *
  * @return int
  */
-function size(string $eId, array $crit = [], array $opts = []): int
+function size(string $eId, array $crit = []): int
 {
     $entity = config('entity', $eId);
     $call = fqn($entity['model'] . '_load');
-    unset($opts['order'], $opts['limit'], $opts['offset']);
-    $opts = array_replace(entity_opts($opts), ['mode' => 'size']);
 
     if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
         $crit[] = ['project_id', project('id')];
     }
 
     try {
-        return $call($entity, $crit, $opts)[0];
+        return $call($entity, $crit, ['mode' => 'size'])[0];
     } catch (Exception $e) {
         logger((string) $e);
         message(_('Could not load data'));
@@ -50,7 +47,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
     $entity = config('entity', $eId);
     $call = fqn($entity['model'] . '_load');
     $data = [];
-    $opts = array_replace(entity_opts($opts), ['mode' => 'one', 'limit' => 1]);
+    $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'one', 'limit' => 1]);
 
     if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
         $crit[] = ['project_id', project('id')];
@@ -81,7 +78,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
 {
     $entity = config('entity', $eId);
     $call = fqn($entity['model'] . '_load');
-    $opts = array_replace(entity_opts($opts), ['mode' => 'all']);
+    $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'all']);
 
     if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
         $crit[] = ['project_id', project('id')];
@@ -271,32 +268,6 @@ function entity_attr(string $eId, string $act): array
             return in_array($act, $attr['actions']);
         }
     );
-}
-
-/**
- * Filter load options
- *
- * @param array $opts
- *
- * @return array
- */
-function entity_opts(array $opts): array
-{
-    $default = config('default', 'entity.opts');
-
-    foreach ($default as $key => $val) {
-        if (array_key_exists($key, $opts) && gettype($val) !== gettype($opts[$key])) {
-            unset($opts[$key]);
-        }
-    }
-
-    if (empty($opts['index'])) {
-        unset($opts['index']);
-    }
-
-    unset($opts['mode']);
-
-    return array_replace($default, array_intersect_key($opts, $default));
 }
 
 /**

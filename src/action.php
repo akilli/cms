@@ -66,7 +66,7 @@ function action_index(array $entity): void
         $p['q'] = urlencode(implode(' ', $s));
     }
 
-    $size = size($entity['id'], $crit, $opts);
+    $size = size($entity['id'], $crit);
     $pages = (int) ceil($size / $opts['limit']);
     $p['page'] = min(max(http_get('page'), 1), $pages ?: 1);
     $opts['offset'] = ($p['page'] - 1) * $opts['limit'];

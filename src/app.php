@@ -30,6 +30,7 @@ const DATETIME = ['b' => 'Y-m-d H:i:s', 'f' => 'Y-m-d\TH:i'];
 const CSV = ['del' => ';', 'enc' => '"', 'esc' => '\\', 'single' => false, 'header' => false, 'keys' => []];
 const IMPORT = ['toc' => 'toc.txt', 'html' => '#<!-- IMPORT_START -->(.*)<!-- IMPORT_END -->#isU'];
 const LOG = 'qnd.log';
+const OPTS = ['mode' => 'all', 'index' => 'id', 'order' => [], 'limit' => 0, 'offset' => 0];
 const TIME = ['b' => 'H:i:s', 'f' => 'H:i'];
 const URL = '.html';
 

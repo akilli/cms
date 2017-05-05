@@ -38,13 +38,6 @@ return [
         'actions' => [],
         'attr' => [],
     ],
-    'entity.opts' => [
-        'mode' => 'all',
-        'index' => 'id',
-        'order' => [],
-        'limit' => 0,
-        'offset' => 0
-    ],
     'section' => [
         'id' => null,
         'type' => null,
