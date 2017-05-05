@@ -113,6 +113,11 @@ return [
         ],
     ],
     'type' => [
+        'audio' => [
+            'backend' => 'varchar',
+            'frontend' => 'file',
+            'viewer' => 'audio',
+        ],
         'checkbox' => [
             'backend' => 'bool',
             'frontend' => 'checkbox',
@@ -137,6 +142,11 @@ return [
             'backend' => 'varchar',
             'frontend' => 'email',
         ],
+        'embed' => [
+            'backend' => 'varchar',
+            'frontend' => 'file',
+            'viewer' => 'embed',
+        ],
         'entity' => [
             'backend' => 'int',
             'frontend' => 'select',
@@ -149,6 +159,11 @@ return [
             'backend' => 'varchar',
             'frontend' => 'url',
             'viewer' => 'iframe',
+        ],
+        'image' => [
+            'backend' => 'varchar',
+            'frontend' => 'file',
+            'viewer' => 'image',
         ],
         'int' => [
             'backend' => 'int',
@@ -214,6 +229,11 @@ return [
         'url' => [
             'backend' => 'varchar',
             'frontend' => 'url',
+        ],
+        'video' => [
+            'backend' => 'varchar',
+            'frontend' => 'file',
+            'viewer' => 'video',
         ],
     ],
 ];
