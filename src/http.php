@@ -208,23 +208,20 @@ function http_post_validate(string $token): bool
  */
 function http_files_convert(array $files): array
 {
-    foreach ($files as $id => $item) {
-        $files[$id] = is_array($item) ? http_files_fix($item) : $item;
-    }
-
     $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
     $exts = data('file');
 
     foreach (array_filter($files, 'is_array') as $id => $item) {
+        $item = http_files_fix($item);
         $ids = array_keys($item);
         sort($ids);
 
-        if ($ids != $keys) {
+        if ($ids !== $keys) {
             $files[$id] = http_files_convert($item);
         } elseif ($item['error'] === UPLOAD_ERR_NO_FILE || !is_uploaded_file($item['tmp_name'])) {
             unset($files[$id]);
         } else {
-            $files[$id]['ext'] = pathinfo($item['name'], PATHINFO_EXTENSION);
+            $files[$id] = $item + ['ext' => pathinfo($item['name'], PATHINFO_EXTENSION)];
 
             if (empty($exts[$files[$id]['ext']])) {
                 message(_('Invalid file %s', $item['name']));
@@ -240,11 +237,9 @@ function http_files_convert(array $files): array
  * Fixes a malformed PHP $_FILES array.
  *
  * PHP has a bug that the format of the $_FILES array differs, depending on whether the uploaded file fields had normal
- * field names or array-like field names ("normal" vs. "parent[child]").
- *
- * This method fixes the array to look like the "normal" $_FILES array.
- *
- * It's safe to pass an already converted array, in which case this method just returns the original array unmodified.
+ * field names or array-like field names ("normal" vs. "parent[child]"). This method fixes the array to look like the
+ * "normal" $_FILES array. It's safe to pass an already converted array, in which case this method just returns the
+ * original array unmodified.
  *
  * @param array $data
  *
@@ -256,7 +251,7 @@ function http_files_fix(array $data): array
     $ids = array_keys($data);
     sort($ids);
 
-    if ($keys != $ids || !isset($data['name']) || !is_array($data['name'])) {
+    if ($keys !== $ids || !isset($data['name']) || !is_array($data['name'])) {
         return $data;
     }
 
