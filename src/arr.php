@@ -11,7 +11,7 @@ namespace qnd;
  *
  * @return array
  */
-function config_order(array $data, array $order): array
+function arr_order(array $data, array $order): array
 {
     uasort(
         $data,
