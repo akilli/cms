@@ -16,7 +16,7 @@ function config(string $section, string $id = null)
     $data = & registry('config.' . $section);
 
     if ($data === null) {
-        $data = config_load(path('config', $section . '.php'));
+        $data = file_data(path('config', $section . '.php'));
         $data = event('config.load.' . $section, $data);
     }
 
@@ -25,18 +25,6 @@ function config(string $section, string $id = null)
     }
 
     return $data[$id] ?? null;
-}
-
-/**
- * Load file data
- *
- * @param string $file
- *
- * @return array
- */
-function config_load(string $file): array
-{
-    return is_readable($file) && ($data = include $file) && is_array($data) ? $data : [];
 }
 
 /**
