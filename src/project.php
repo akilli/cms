@@ -19,8 +19,7 @@ function project(string $key)
     if ($data === null) {
         $data = [];
         $id = (int) session('project');
-        // @todo Use request()
-        $crit = $id ? [['id', $id]] : [['uid', strstr($_SERVER['HTTP_HOST'], '.', true)]];
+        $crit = $id ? [['id', $id]] : [['uid', strstr(request('host'), '.', true)]];
         $crit[] = ['active', true];
         $data = one('project', $crit) ?: one('project', [['id', ADMIN['proj']]]);
         $data['theme'] = data('app', 'theme');
