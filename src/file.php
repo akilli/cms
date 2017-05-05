@@ -13,7 +13,7 @@ namespace qnd;
  */
 function file_upload(string $src, string $dest): bool
 {
-    return file_dir(project_path('media')) && move_uploaded_file($src, project_path('media', $dest));
+    return file_dir(path('media')) && move_uploaded_file($src, path('media', $dest));
 }
 
 /**
@@ -120,7 +120,7 @@ function file_writable(string $path): bool
  */
 function image(string $id, string $conf): string
 {
-    $file = project_path('media', $id);
+    $file = path('media', $id);
 
     if (!is_file($file) || !($opts = data('image', $conf)) || !($info = getimagesize($file))) {
         return url_media($id);
@@ -153,7 +153,7 @@ function image(string $id, string $conf): string
     }
 
     $cacheId = $id . '/' . $opts['width'] . '-' . $opts['height'] . ($opts['crop'] ? '-crop' : '') . '.' . $ext;
-    $cache = project_path('cache', $cacheId);
+    $cache = path('cache', $cacheId);
 
     if (file_exists($cache) && filemtime($file) < filemtime($cache)) {
         return url_cache($cacheId);

@@ -100,6 +100,9 @@ function path(string $dir, string $id = null): string
         $data['template'] = $root . '/template';
         $data['theme'] = $public . '/theme';
         $data['tmp'] = sys_get_temp_dir();
+        $asset = $data['asset'] . '/' . project('id');
+        $data['cache'] = $asset . '/cache';
+        $data['media'] = $asset . '/media';
     }
 
     if (empty($data[$dir])) {
@@ -109,6 +112,30 @@ function path(string $dir, string $id = null): string
     $id = trim((string) $id, '/');
 
     return $data[$dir] . ($id ? '/' . $id : '');
+}
+
+/**
+ * Project
+ *
+ * @param string $key
+ *
+ * @return mixed
+ */
+function project(string $key)
+{
+    $data = & registry('project');
+
+    if ($data === null) {
+        $data = [];
+        $id = (int) session('project');
+        $crit = $id ? [['id', $id]] : [['uid', strstr(request('host'), '.', true)]];
+        $crit[] = ['active', true];
+        $data = one('project', $crit) ?: one('project', [['id', ADMIN['proj']]]);
+        $data['theme'] = data('app', 'theme');
+        session('project', $data['id']);
+    }
+
+    return $data[$key] ?? null;
 }
 
 /**
