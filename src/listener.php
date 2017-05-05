@@ -28,11 +28,11 @@ function listener_config_app(array $data): array
  */
 function listener_config_entity(array $data): array
 {
-    foreach ($data as $eId => $item) {
-        $item['id'] = $eId;
-        $item = config_entity($item);
-        $item['attr'] = config_order($item['attr'], ['sort' => 'asc']);
-        $data[$eId] = $item;
+    foreach ($data as $eId => $entity) {
+        $entity['id'] = $eId;
+        $entity = config_entity($entity);
+        $entity['attr'] = config_order($entity['attr'], ['sort' => 'asc']);
+        $data[$eId] = $entity;
     }
 
     return $data;
