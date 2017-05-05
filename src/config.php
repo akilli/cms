@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace qnd;
 
-use RuntimeException;
-
 /**
  * Config
  *
@@ -67,56 +65,4 @@ function config_order(array $data, array $order): array
     );
 
     return $data;
-}
-
-/**
- * Entity config
- *
- * @param array $entity
- *
- * @return array
- *
- * @throws RuntimeException
- */
-function config_entity(array $entity): array
-{
-    if (empty($entity['id']) || empty($entity['name']) || empty($entity['attr'])) {
-        throw new RuntimeException(_('Invalid entity configuration'));
-    }
-
-    $entity = array_replace(config('default', 'entity'), $entity);
-    $entity['name'] = _($entity['name']);
-    $entity['tab'] = $entity['tab'] ?: $entity['id'];
-    $sort = 0;
-    $default = config('default', 'attr');
-    $data = config('attr');
-
-    foreach ($entity['attr'] as $id => $attr) {
-        if (empty($attr['name']) || empty($attr['type']) || empty($data['type'][$attr['type']])) {
-            throw new RuntimeException(_('Invalid attribute configuration'));
-        }
-
-        $type = $data['type'][$attr['type']];
-        $backend = $data['backend'][$attr['backend'] ?? $type['backend']];
-        $frontend = $data['frontend'][$attr['frontend'] ?? $type['frontend']];
-        $attr = array_replace($default, $backend, $frontend, $type, $attr);
-        $attr['id'] = $id;
-        $attr['name'] = _($attr['name']);
-        $attr['entity'] = $entity['id'];
-
-        if ($attr['col'] === false) {
-            $attr['col'] = null;
-        } elseif (!$attr['col']) {
-            $attr['col'] = $attr['id'];
-        }
-
-        if (!is_numeric($attr['sort'])) {
-            $attr['sort'] = $sort;
-            $sort += 100;
-        }
-
-        $entity['attr'][$id] = $attr;
-    }
-
-    return $entity;
 }
