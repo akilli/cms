@@ -29,25 +29,3 @@ function html_tag(string $name, array $attrs = [], string $val = null, bool $emp
 
     return '<' . $name . $a . ($empty ? ' />' : '>' . $val . '</' . $name . '>');
 }
-
-/**
- * Label
- *
- * @param array $attr
- *
- * @return string
- */
-function html_label(array $attr): string
-{
-    $label = $attr['name'];
-
-    if (!empty($attr['html']['required'])) {
-        $label .= ' ' . html_tag('em', ['class' => 'required'], _('Required'));
-    }
-
-    if ($attr['uniq']) {
-        $label .= ' ' . html_tag('em', ['class' => 'uniq'], _('Unique'));
-    }
-
-    return html_tag('label', ['for' => $attr['html']['id']], $label);
-}

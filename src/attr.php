@@ -593,10 +593,16 @@ function editor(array $attr, array $data): string
     $attr['html']['id'] =  'data-' . $attr['id'];
     $attr['html']['name'] =  'data[' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
     $attr['html']['data-type'] =  $attr['type'];
+    $label = $attr['name'];
     $error = '';
 
     if ($attr['required'] && !ignorable($attr, $data)) {
         $attr['html']['required'] = true;
+        $label .= ' ' . html_tag('em', ['class' => 'required'], _('Required'));
+    }
+
+    if ($attr['uniq']) {
+        $label .= ' ' . html_tag('em', ['class' => 'uniq'], _('Unique'));
     }
 
     if ($attr['multiple']) {
@@ -609,7 +615,7 @@ function editor(array $attr, array $data): string
     }
 
     if ($attr['editor'] && ($call = fqn('editor_' . $attr['editor'])) && ($html = $call($attr, $data))) {
-        return html_label($attr) . $html . $error;
+        return html_tag('label', ['for' => $attr['html']['id']], $label) . $html . $error;
     }
 
     return '';
