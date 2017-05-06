@@ -6,48 +6,6 @@ namespace qnd;
 use InvalidArgumentException;
 
 /**
- * Render section
- *
- * @param string $id
- *
- * @return string
- */
-function §(string $id): string
-{
-    if (!($§ = layout($id)) || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
-        return '';
-    }
-
-    $§ = event('section.type.' . $§['type'], $§);
-    $§ = event('section.' . $id, $§);
-    $call = fqn('section_' . $§['type']);
-
-    return $call($§);
-}
-
-/**
- * Render template
- *
- * @param array $§
- *
- * @return string
- */
-function render(array $§): string
-{
-    $§ = function ($key) use ($§) {
-        if ($key === '§') {
-            return $§;
-        }
-
-        return $§['vars'][$key] ?? null;
-    };
-    ob_start();
-    include path('template', $§('§')['template']);
-
-    return ob_get_clean();
-}
-
-/**
  * Layout
  *
  * @param string $id

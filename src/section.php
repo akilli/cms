@@ -4,6 +4,26 @@ declare(strict_types = 1);
 namespace qnd;
 
 /**
+ * Section
+ *
+ * @param string $id
+ *
+ * @return string
+ */
+function §(string $id): string
+{
+    if (!($§ = layout($id)) || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
+        return '';
+    }
+
+    $§ = event('section.type.' . $§['type'], $§);
+    $§ = event('section.' . $id, $§);
+    $call = fqn('section_' . $§['type']);
+
+    return $call($§);
+}
+
+/**
  * Container section
  *
  * @param array $§
@@ -41,7 +61,7 @@ function section_message(array $§): string
 
     session('message', null, true);
 
-    return render($§);
+    return section_template($§);
 }
 
 /**
@@ -82,7 +102,7 @@ function section_pager(array $§): string
         $§['vars']['links'][] = ['name' => _('Next'), 'params' => $p];
     }
 
-    return render($§);
+    return section_template($§);
 }
 
 /**
@@ -94,7 +114,17 @@ function section_pager(array $§): string
  */
 function section_template(array $§): string
 {
-    return render($§);
+    $§ = function ($key) use ($§) {
+        if ($key === '§') {
+            return $§;
+        }
+
+        return $§['vars'][$key] ?? null;
+    };
+    ob_start();
+    include path('template', $§('§')['template']);
+
+    return ob_get_clean();
 }
 
 /**
@@ -109,7 +139,7 @@ function section_toolbar(array $§): string
     $crit = [['active', true]];
     $§['vars']['projects'] = allowed('project/switch') && size('project', $crit) > 1 ? all('project', $crit) : [];
 
-    return render($§);
+    return section_template($§);
 }
 
 /**
