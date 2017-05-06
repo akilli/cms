@@ -593,6 +593,7 @@ function editor(array $attr, array $data): string
     $attr['html']['id'] =  html_id($attr);
     $attr['html']['name'] =  html_name($attr);
     $attr['html']['data-type'] =  $attr['type'];
+    $error = '';
 
     if ($attr['required'] && !ignorable($attr, $data)) {
         $attr['html']['required'] = true;
@@ -604,10 +605,11 @@ function editor(array $attr, array $data): string
 
     if (!empty($data['_error'][$attr['id']])) {
         $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
+        $error = html_tag('div', ['class' => 'message error'], $data['_error'][$attr['id']]);
     }
 
     if ($attr['editor'] && ($call = fqn('editor_' . $attr['editor'])) && ($html = $call($attr, $data))) {
-        return html_label($attr) . $html . html_message($attr, $data);
+        return html_label($attr) . $html . $error;
     }
 
     return '';

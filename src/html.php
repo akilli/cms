@@ -87,20 +87,3 @@ function html_label(array $attr): string
 
     return html_tag('label', ['for' => html_id($attr)], $label);
 }
-
-/**
- * Message
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
- */
-function html_message(array $attr, array $data): string
-{
-    if (empty($data['_error'][$attr['id']])) {
-        return '';
-    }
-
-    return html_tag('div', ['class' => 'message error'], $data['_error'][$attr['id']]);
-}
