@@ -92,7 +92,7 @@ function url_resolve(string $path): string
     $parts = explode('/', $path);
 
     // Wildcard for Entity Part
-    if (!empty($parts[0]) && $parts[0] === '*') {
+    if ($parts[0] === '*') {
         $parts[0] = request('entity');
     }
 
