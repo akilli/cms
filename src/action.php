@@ -148,7 +148,7 @@ function action_view(array $entity): void
     $data = one($entity['id'], [['id', request('id')]]);
 
     // Item does not exist or is inactive
-    if (!$data || !empty($entity['attr']['active']) && empty($data['active']) && !allowed('edit')) {
+    if (!$data || !empty($entity['attr']['active']) && empty($data['active']) && !allowed('*/edit')) {
         action_error();
         return;
     }

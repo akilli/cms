@@ -106,16 +106,10 @@ function account_global(): bool
  *
  * @return bool
  */
-function allowed(string $key = null): bool
+function allowed(string $key): bool
 {
     $data = data('privilege');
-
-    // Retrieve full privilege id
-    if (!$key) {
-        $key = request('path');
-    } elseif (substr_count($key, '/') === 0) {
-        $key = request('entity') . '/' . $key;
-    }
+    $key = resolve($key);
 
     // Privilege does not exist
     if (empty($data[$key])) {

@@ -49,7 +49,7 @@ function app(): void
 
     foreach ([$prefix . $eId . '_' . $act, $prefix . $act] as $call) {
         if (is_callable($call)) {
-            allowed() ? $call(...$args) : action_denied();
+            allowed('*/*') ? $call(...$args) : action_denied();
             return;
         }
     }

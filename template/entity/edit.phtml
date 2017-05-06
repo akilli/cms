@@ -13,7 +13,7 @@
             </div>
             <?php endforeach;?>
         </fieldset>
-        <?php if (allowed('admin')):?>
+        <?php if (allowed('*/admin')):?>
         <a role="button" href="<?= url('*/admin');?>"><?= _('Back');?></a>
         <?php endif;?>
         <input type="submit" value="<?= _('Save');?>" />

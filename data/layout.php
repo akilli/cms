@@ -42,13 +42,13 @@ return [
         'create' => [
             'type' => 'template',
             'template' => 'entity/create.phtml',
-            'privilege' => 'edit',
+            'privilege' => '*/edit',
             'parent' => 'content',
         ],
         'import' => [
             'type' => 'template',
             'template' => 'entity/import.phtml',
-            'privilege' => 'import',
+            'privilege' => '*/import',
             'parent' => 'content',
         ],
         'pager' => [
