@@ -127,6 +127,34 @@ function request(string $key)
 }
 
 /**
+ * Resolves wildcards, i.e. asterisks, for entity and action part with appropriate values from current request
+ *
+ * @param string $path
+ *
+ * @return string
+ */
+function resolve(string $path): string
+{
+    if (strpos($path, '*') === false) {
+        return $path;
+    }
+
+    $parts = explode('/', $path);
+
+    // Wildcard for Entity Part
+    if ($parts[0] === '*') {
+        $parts[0] = request('entity');
+    }
+
+    // Wildcard for Action Part
+    if (!empty($parts[1]) && $parts[1] === '*') {
+        $parts[1] = request('action');
+    }
+
+    return implode('/', $parts);
+}
+
+/**
  * Get
  *
  * @param string $key

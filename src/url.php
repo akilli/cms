@@ -25,11 +25,7 @@ function url(string $path = '', array $params = []): string
         return '/' . $path;
     }
 
-    if (strpos($path, '*') !== false) {
-        $path = url_resolve($path);
-    }
-
-    return '/' . $path . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
+    return '/' . resolve($path) . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
 }
 
 /**
@@ -78,30 +74,6 @@ function url_lib(string $path = ''): string
 function url_theme(string $path = ''): string
 {
     return '/theme/' . project('theme') . ($path ? '/' . $path : '');
-}
-
-/**
- * Resolves wildcards, i.e. asterisks, for entity and action part with appropriate values from current request
- *
- * @param string $path
- *
- * @return string
- */
-function url_resolve(string $path): string
-{
-    $parts = explode('/', $path);
-
-    // Wildcard for Entity Part
-    if ($parts[0] === '*') {
-        $parts[0] = request('entity');
-    }
-
-    // Wildcard for Action Part
-    if (!empty($parts[1]) && $parts[1] === '*') {
-        $parts[1] = request('action');
-    }
-
-    return implode('/', $parts);
 }
 
 /**
