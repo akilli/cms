@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace qnd;
 
-use InvalidArgumentException;
-
 /**
  * Account
  *
@@ -124,6 +122,24 @@ function allowed(string $key = null): bool
 }
 
 /**
+ * Check access to given URL considering rewrites
+ *
+ * @param string $path
+ *
+ * @return bool
+ */
+function allowed_url(string $path): bool
+{
+    if (strpos($path, 'http') === 0) {
+        return true;
+    }
+
+    $parts = explode('/', ltrim(url_rewrite($path), '/'));
+
+    return data('entity', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
+}
+
+/**
  * Retrieve full privilege id from current request
  *
  * @param string $key
@@ -137,25 +153,4 @@ function privilege(string $key = null): string
     }
 
     return substr_count($key, '/') === 0 ? request('entity') . '/' . $key : $key;
-}
-
-/**
- * Retrieve full privilege id from given request path considering rewrites
- *
- * @param string $path
- *
- * @return string
- *
- * @throws InvalidArgumentException
- */
-function privilege_url(string $path): string
-{
-    if (strpos($path, 'http') === 0) {
-        throw new InvalidArgumentException(_('Invalid request path %s', $path));
-    }
-
-    $parts = explode('/', ltrim(url_rewrite($path), '/'));
-    $parts[1] = $parts[1] ?? 'index';
-
-    return implode('/', array_slice($parts, 0, 2));
 }
