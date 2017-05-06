@@ -62,23 +62,23 @@ function account_login(string $name, string $password): ?array
 }
 
 /**
- * Is registered
+ * Is not logged-in guest
  *
  * @return bool
  */
-function registered(): bool
+function account_guest(): bool
 {
-    return account('id') > 0;
+    return account('id') <= 0;
 }
 
 /**
- * Is unregistered
+ * Is logged-in user account
  *
  * @return bool
  */
-function unregistered(): bool
+function account_user(): bool
 {
-    return account('id') <= 0;
+    return account('id') > 0;
 }
 
 /**

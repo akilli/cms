@@ -96,7 +96,7 @@ return [
             'parent' => 'main',
         ],
     ],
-    'account-registered' => [
+    'account-user' => [
         'toolbar' => [
             'type' => 'toolbar',
             'template' => 'account/toolbar.phtml',

@@ -51,7 +51,7 @@ function layout_vars(string $id, array $vars): void
 function layout_handles(): array
 {
     $data = ['_base_'];
-    $data[] = 'account-' . (registered() ? 'registered' : 'unregistered');
+    $data[] = 'account-' . (account_user() ? 'user' : 'guest');
 
     if ($entity = data('entity', request('entity'))) {
         $act = request('action');

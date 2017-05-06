@@ -4,13 +4,13 @@ return [
         'name' => 'ALL PRIVILEGES'
     ],
     'account/login' => [
-        'callback' => 'unregistered'
+        'callback' => 'account_guest'
     ],
     'account/logout' => [
-        'callback' => 'registered'
+        'callback' => 'account_user'
     ],
     'account/password' => [
-        'callback' => 'registered'
+        'callback' => 'account_user'
     ],
     'project/switch' => [
         'callback' => 'account_global'

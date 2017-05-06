@@ -12,7 +12,7 @@ use Exception;
  */
 function action_denied(): void
 {
-    if (registered()) {
+    if (account_user()) {
         message(_('Access denied'));
         redirect();
     }
@@ -281,7 +281,7 @@ function action_account_password(): void
  */
 function action_account_login(): void
 {
-    if (registered()) {
+    if (account_user()) {
         redirect();
     }
 
