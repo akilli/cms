@@ -23,7 +23,7 @@ function section_container(array $§): string
         }
     }
 
-    return $html && $§['vars']['tag'] ? html_tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+    return $html && $§['vars']['tag'] ? html($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
 }
 
 /**
@@ -162,10 +162,10 @@ function section_tree(array $§): string
              $html .= '</li><li' . $class . '>';
         }
 
-        $html .= html_tag('a', $a, $page['name']);
+        $html .= html('a', $a, $page['name']);
         $html .= ++$i === $count ? str_repeat('</li></ul>', $page['depth']) : '';
         $depth = $page['depth'];
     }
 
-    return html_tag('nav', ['id' => $§['id']], $html);
+    return html('nav', ['id' => $§['id']], $html);
 }

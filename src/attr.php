@@ -598,11 +598,11 @@ function editor(array $attr, array $data): string
 
     if ($attr['required'] && !ignorable($attr, $data)) {
         $attr['html']['required'] = true;
-        $label .= ' ' . html_tag('em', ['class' => 'required'], _('Required'));
+        $label .= ' ' . html('em', ['class' => 'required'], _('Required'));
     }
 
     if ($attr['uniq']) {
-        $label .= ' ' . html_tag('em', ['class' => 'uniq'], _('Unique'));
+        $label .= ' ' . html('em', ['class' => 'uniq'], _('Unique'));
     }
 
     if ($attr['multiple']) {
@@ -611,11 +611,11 @@ function editor(array $attr, array $data): string
 
     if (!empty($data['_error'][$attr['id']])) {
         $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
-        $error = html_tag('div', ['class' => 'message error'], $data['_error'][$attr['id']]);
+        $error = html('div', ['class' => 'message error'], $data['_error'][$attr['id']]);
     }
 
     if ($attr['editor'] && ($call = fqn('editor_' . $attr['editor'])) && ($html = $call($attr, $data))) {
-        return html_tag('label', ['for' => $attr['html']['id']], $label) . $html . $error;
+        return html('label', ['for' => $attr['html']['id']], $label) . $html . $error;
     }
 
     return '';
@@ -638,9 +638,9 @@ function editor_select(array $attr, array $data): string
     }
 
     if (empty($attr['opt'])) {
-        $html = html_tag('optgroup', ['label' => _('No options configured')]);
+        $html = html('optgroup', ['label' => _('No options configured')]);
     } else {
-        $html = html_tag('option', ['value' => ''], _('Please choose'));
+        $html = html('option', ['value' => ''], _('Please choose'));
 
         foreach ($attr['opt'] as $optId => $optVal) {
             $a = ['value' => $optId];
@@ -649,11 +649,11 @@ function editor_select(array $attr, array $data): string
                 $a['selected'] = true;
             }
 
-            $html .= html_tag('option', $a, $optVal);
+            $html .= html('option', $a, $optVal);
         }
     }
 
-    return html_tag('select', $attr['html'], $html);
+    return html('select', $attr['html'], $html);
 }
 
 /**
@@ -667,7 +667,7 @@ function editor_select(array $attr, array $data): string
 function editor_opt(array $attr, array $data): string
 {
     if (!$attr['opt']) {
-        return html_tag('span', ['id' => $attr['html']['id']], _('No options configured'));
+        return html('span', ['id' => $attr['html']['id']], _('No options configured'));
     } elseif ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
         $attr['opt'] = [1 => _('Yes')];
     }
@@ -692,8 +692,8 @@ function editor_opt(array $attr, array $data): string
             'checked' => in_array($optId, $val)
         ];
         $a = array_replace($attr['html'], $a);
-        $html .= html_tag('input', $a, null, true);
-        $html .= html_tag('label', ['for' => $htmlId, 'class' => 'inline'], $optVal);
+        $html .= html('input', $a, null, true);
+        $html .= html('label', ['for' => $htmlId, 'class' => 'inline'], $optVal);
     }
 
     return $html;
@@ -720,7 +720,7 @@ function editor_text(array $attr, array $data): string
         $attr['html']['maxlength'] = $attr['maxval'];
     }
 
-    return html_tag('input', $attr['html'], null, true);
+    return html('input', $attr['html'], null, true);
 }
 
 /**
@@ -760,7 +760,7 @@ function editor_int(array $attr, array $data): string
         $attr['html']['max'] = $attr['maxval'];
     }
 
-    return html_tag('input', $attr['html'], null, true);
+    return html('input', $attr['html'], null, true);
 }
 
 /**
@@ -785,7 +785,7 @@ function editor_date(array $attr, array $data): string
         $attr['html']['max'] = $attr['maxval'];
     }
 
-    return html_tag('input', $attr['html'], null, true);
+    return html('input', $attr['html'], null, true);
 }
 
 /**
@@ -810,7 +810,7 @@ function editor_datetime(array $attr, array $data): string
         $attr['html']['max'] = $attr['maxval'];
     }
 
-    return html_tag('input', $attr['html'], null, true);
+    return html('input', $attr['html'], null, true);
 }
 
 /**
@@ -835,7 +835,7 @@ function editor_time(array $attr, array $data): string
         $attr['html']['max'] = $attr['maxval'];
     }
 
-    return html_tag('input', $attr['html'], null, true);
+    return html('input', $attr['html'], null, true);
 }
 
 /**
@@ -848,11 +848,11 @@ function editor_time(array $attr, array $data): string
  */
 function editor_file(array $attr, array $data): string
 {
-    $current = $data[$attr['id']] ? html_tag('div', [], viewer($attr, $data)) : '';
-    $hidden = html_tag('input', ['name' => $attr['html']['name'], 'type' => 'hidden'], null, true);
+    $current = $data[$attr['id']] ? html('div', [], viewer($attr, $data)) : '';
+    $hidden = html('input', ['name' => $attr['html']['name'], 'type' => 'hidden'], null, true);
     $attr['html']['type'] = $attr['frontend'];
 
-    return $current . $hidden . html_tag('input', $attr['html'], null, true);
+    return $current . $hidden . html('input', $attr['html'], null, true);
 }
 
 /**
@@ -875,7 +875,7 @@ function editor_textarea(array $attr, array $data): string
         $attr['html']['maxlength'] = $attr['maxval'];
     }
 
-    return html_tag('textarea', $attr['html'], $data[$attr['id']]);
+    return html('textarea', $attr['html'], $data[$attr['id']]);
 }
 
 /**
@@ -1001,7 +1001,7 @@ function viewer_rte(array $attr, array $data): string
  */
 function viewer_iframe(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html_tag('figure', ['class' => 'iframe'], html_tag('iframe', ['src' => $data[$attr['id']], 'allowfullscreen' => true])) : '';
+    return $data[$attr['id']] ? html('figure', ['class' => 'iframe'], html('iframe', ['src' => $data[$attr['id']], 'allowfullscreen' => true])) : '';
 }
 
 /**
@@ -1014,7 +1014,7 @@ function viewer_iframe(array $attr, array $data): string
  */
 function viewer_audio(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html_tag('audio', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
+    return $data[$attr['id']] ? html('audio', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
 }
 
 /**
@@ -1027,7 +1027,7 @@ function viewer_audio(array $attr, array $data): string
  */
 function viewer_embed(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html_tag('embed', ['src' => url_media($data[$attr['id']])], null, true) : '';
+    return $data[$attr['id']] ? html('embed', ['src' => url_media($data[$attr['id']])], null, true) : '';
 }
 
 /**
@@ -1040,7 +1040,7 @@ function viewer_embed(array $attr, array $data): string
  */
 function viewer_file(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html_tag('a', ['href' => url_media($data[$attr['id']])], $data[$attr['id']]) : '';
+    return $data[$attr['id']] ? html('a', ['href' => url_media($data[$attr['id']])], $data[$attr['id']]) : '';
 }
 
 /**
@@ -1053,7 +1053,7 @@ function viewer_file(array $attr, array $data): string
  */
 function viewer_image(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html_tag('img', ['src' => image($data[$attr['id']], $attr['context']), 'alt' => $data[$attr['id']]], null, true) : '';
+    return $data[$attr['id']] ? html('img', ['src' => image($data[$attr['id']], $attr['context']), 'alt' => $data[$attr['id']]], null, true) : '';
 }
 
 /**
@@ -1066,7 +1066,7 @@ function viewer_image(array $attr, array $data): string
  */
 function viewer_object(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html_tag('object', ['data' => url_media($data[$attr['id']])]) : '';
+    return $data[$attr['id']] ? html('object', ['data' => url_media($data[$attr['id']])]) : '';
 }
 
 /**
@@ -1079,5 +1079,5 @@ function viewer_object(array $attr, array $data): string
  */
 function viewer_video(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html_tag('video', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
+    return $data[$attr['id']] ? html('video', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
 }

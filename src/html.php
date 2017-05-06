@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace qnd;
 
 /**
- * HTML attributes
+ * HTML
  *
  * @param string $name
  * @param array $attrs
@@ -13,7 +13,7 @@ namespace qnd;
  *
  * @return string
  */
-function html_tag(string $name, array $attrs = [], string $val = null, bool $empty = false): string
+function html(string $name, array $attrs = [], string $val = null, bool $empty = false): string
 {
     $a = '';
 
