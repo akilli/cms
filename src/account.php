@@ -109,7 +109,13 @@ function account_global(): bool
 function allowed(string $key = null): bool
 {
     $data = data('privilege');
-    $key = privilege($key);
+
+    // Retrieve full privilege id
+    if (!$key) {
+        $key = request('path');
+    } elseif (substr_count($key, '/') === 0) {
+        $key = request('entity') . '/' . $key;
+    }
 
     // Privilege does not exist
     if (empty($data[$key])) {
@@ -137,20 +143,4 @@ function allowed_url(string $path): bool
     $parts = explode('/', ltrim(url_rewrite($path), '/'));
 
     return data('entity', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
-}
-
-/**
- * Retrieve full privilege id from current request
- *
- * @param string $key
- *
- * @return string
- */
-function privilege(string $key = null): string
-{
-    if (!$key) {
-        return request('path');
-    }
-
-    return substr_count($key, '/') === 0 ? request('entity') . '/' . $key : $key;
 }
