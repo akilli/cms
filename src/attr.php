@@ -607,7 +607,7 @@ function editor(array $attr, array $data): string
     }
 
     if ($attr['editor'] && ($call = fqn('editor_' . $attr['editor'])) && ($html = $call($attr, $data))) {
-        return html_label($attr, $data) . $html . html_message($attr, $data);
+        return html_label($attr) . $html . html_message($attr, $data);
     }
 
     return '';

@@ -70,15 +70,14 @@ function html_name(array $attr): string
  * Label
  *
  * @param array $attr
- * @param array $data
  *
  * @return string
  */
-function html_label(array $attr, array $data): string
+function html_label(array $attr): string
 {
     $label = $attr['name'];
 
-    if ($attr['required'] && !ignorable($attr, $data)) {
+    if (!empty($attr['html']['required'])) {
         $label .= ' ' . html_tag('em', ['class' => 'required'], _('Required'));
     }
 
