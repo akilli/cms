@@ -81,7 +81,7 @@ function url_theme(string $path = ''): string
 }
 
 /**
- * Resolves wildcards, i.e. asterisks, for controller and action part with appropriate values from current request
+ * Resolves wildcards, i.e. asterisks, for entity and action part with appropriate values from current request
  *
  * @param string $path
  *
