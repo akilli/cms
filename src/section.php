@@ -10,7 +10,7 @@ namespace qnd;
  *
  * @return string
  */
-function §(string $id): string
+function section(string $id): string
 {
     if (!($§ = layout($id)) || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
         return '';
@@ -39,7 +39,7 @@ function section_container(array $§): string
         asort($§['children'], SORT_NUMERIC);
 
         foreach (array_keys($§['children']) as $id) {
-            $html .= §($id);
+            $html .= section($id);
         }
     }
 

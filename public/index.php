@@ -41,4 +41,4 @@ register_shutdown_function(
  * Run application
  */
 app();
-echo §('root');
+echo section('root');

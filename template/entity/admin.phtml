@@ -2,11 +2,11 @@
 <section id="<?=$§('§')['id'];?>" class="<?= $§('context');?>">
     <h1><?=$§('title');?></h1>
     <div class="tool">
-        <?= §('create');?>
-        <?= §('import');?>
-        <?= §('search');?>
+        <?= section('create');?>
+        <?= section('import');?>
+        <?= section('search');?>
     </div>
-    <?= §('pager');?>
+    <?= section('pager');?>
     <?php if ($§('data')):?>
         <?php
         $p = $§('params') + ['sort' => null, 'dir' => null];

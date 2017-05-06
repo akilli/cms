@@ -2,16 +2,16 @@
 <!doctype html>
 <html data-path="<?= request('path');?>" data-action="<?= request('action');?>" data-entity="<?= request('entity');?>">
     <head>
-        <?= §('head');?>
+        <?= section('head');?>
     </head>
     <body>
-        <?= §('top');?>
-        <?= §('message');?>
+        <?= section('top');?>
+        <?= section('message');?>
         <main>
-            <?= §('left');?>
-            <?= §('main');?>
-            <?= §('right');?>
+            <?= section('left');?>
+            <?= section('main');?>
+            <?= section('right');?>
         </main>
-        <?= §('bottom');?>
+        <?= section('bottom');?>
     </body>
 </html>
