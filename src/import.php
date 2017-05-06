@@ -7,6 +7,7 @@ use DOMDocument;
 use Exception;
 use RuntimeException;
 use XSLTProcessor;
+use ZipArchive;
 
 /**
  * Import project
@@ -24,7 +25,7 @@ function import_project(string $name, string $file): bool
     $toc = $path . '/' . IMPORT['toc'];
 
     try {
-        unzip($file, $path);
+        import_zip($file, $path);
     } catch (Exception $e) {
         message($e->getMessage());
         return false;
@@ -144,7 +145,7 @@ function import_odt(string $file, int $pId): string
     $contentXML = $path . '/content.xml';
     $xslFile = path('data', 'odt.xsl');
 
-    if (!unzip($file, $path) || !is_file($contentXML)) {
+    if (!import_zip($file, $path) || !is_file($contentXML)) {
         return $html;
     }
 
@@ -176,4 +177,33 @@ function import_odt(string $file, int $pId): string
     file_delete($path);
 
     return $html;
+}
+
+/**
+ * Import ZIP
+ *
+ * @param string $file
+ * @param string $path
+ *
+ * @return bool
+ *
+ * @throws RuntimeException
+ */
+function import_zip(string $file, string $path): bool
+{
+    if (!file_writable($path)) {
+        throw new RuntimeException(_('Invalid path %s', $path));
+    }
+
+    $zip = new ZipArchive();
+
+    if (!$zip->open($file)) {
+        throw new RuntimeException(_('Could not open ZIP file %s', $file));
+    }
+
+    if (!$zip->extractTo($path)) {
+        throw new RuntimeException(_('Could not extract ZIP file to %s', $path));
+    }
+
+    return $zip->close();
 }
