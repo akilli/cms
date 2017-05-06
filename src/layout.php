@@ -48,21 +48,6 @@ function render(array $§): string
 }
 
 /**
- * Set section variables
- *
- * @param string $id
- * @param array $vars
- *
- * @return void
- */
-function vars(string $id, array $vars): void
-{
-    $§ = layout($id);
-    $§['vars'] = array_replace($§['vars'] ?? [], $vars);
-    layout($id, $§);
-}
-
-/**
  * Layout
  *
  * @param string $id
@@ -83,6 +68,21 @@ function layout(string $id, array $§ = null): ?array
     }
 
     return $data[$id] ?? null;
+}
+
+/**
+ * Set section variables
+ *
+ * @param string $id
+ * @param array $vars
+ *
+ * @return void
+ */
+function layout_vars(string $id, array $vars): void
+{
+    $§ = layout($id);
+    $§['vars'] = array_replace($§['vars'] ?? [], $vars);
+    layout($id, $§);
 }
 
 /**

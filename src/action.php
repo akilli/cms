@@ -78,10 +78,10 @@ function action_index(array $entity): void
     }
 
     layout_load();
-    vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => $entity['name'], 'attr' => $attrs, 'params' => $p]);
-    vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $p]);
-    vars('search', ['q' => $q]);
-    vars('head', ['title' => $entity['name']]);
+    layout_vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => $entity['name'], 'attr' => $attrs, 'params' => $p]);
+    layout_vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $p]);
+    layout_vars('search', ['q' => $q]);
+    layout_vars('head', ['title' => $entity['name']]);
 }
 
 /**
@@ -112,8 +112,8 @@ function action_edit(array $entity): void
     }
 
     layout_load();
-    vars('content', ['data' => $data, 'title' => $entity['name']]);
-    vars('head', ['title' => $entity['name']]);
+    layout_vars('content', ['data' => $data, 'title' => $entity['name']]);
+    layout_vars('head', ['title' => $entity['name']]);
 }
 
 /**
@@ -154,8 +154,8 @@ function action_view(array $entity): void
     }
 
     layout_load();
-    vars('content', ['data' => $data]);
-    vars('head', ['title' => $data['name']]);
+    layout_vars('content', ['data' => $data]);
+    layout_vars('head', ['title' => $data['name']]);
 }
 
 /**
@@ -271,7 +271,7 @@ function action_account_password(): void
     }
 
     layout_load();
-    vars('head', ['title' => _('Password')]);
+    layout_vars('head', ['title' => _('Password')]);
 }
 
 /**
@@ -297,7 +297,7 @@ function action_account_login(): void
     }
 
     layout_load();
-    vars('head', ['title' => _('Login')]);
+    layout_vars('head', ['title' => _('Login')]);
 }
 
 /**
