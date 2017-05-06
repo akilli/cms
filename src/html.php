@@ -15,55 +15,19 @@ namespace qnd;
  */
 function html_tag(string $name, array $attrs = [], string $val = null, bool $empty = false): string
 {
-    return '<' . $name . html_attr($attrs) . ($empty ? ' />' : '>' . $val . '</' . $name . '>');
-}
+    $a = '';
 
-/**
- * HTML attributes
- *
- * @param array $attrs
- *
- * @return string
- */
-function html_attr(array $attrs): string
-{
-    $html = '';
-
-    foreach ($attrs as $key => $val) {
-        if ($val === false) {
+    foreach ($attrs as $k => $v) {
+        if ($v === false) {
             continue;
-        } elseif ($val === true) {
-            $val = $key;
+        } elseif ($v === true) {
+            $v = $k;
         }
 
-        $html .= ' ' . $key . '="' . addcslashes((string) $val, '"') . '"';
+        $a .= ' ' . $k . '="' . addcslashes((string) $v, '"') . '"';
     }
 
-    return $html;
-}
-
-/**
- * HTML id attribute
- *
- * @param array $attr
- *
- * @return string
- */
-function html_id(array $attr): string
-{
-    return 'data-' . $attr['id'];
-}
-
-/**
- * HTML name attribute
- *
- * @param array $attr
- *
- * @return string
- */
-function html_name(array $attr): string
-{
-    return 'data[' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
+    return '<' . $name . $a . ($empty ? ' />' : '>' . $val . '</' . $name . '>');
 }
 
 /**
@@ -85,5 +49,5 @@ function html_label(array $attr): string
         $label .= ' ' . html_tag('em', ['class' => 'uniq'], _('Unique'));
     }
 
-    return html_tag('label', ['for' => html_id($attr)], $label);
+    return html_tag('label', ['for' => $attr['html']['id']], $label);
 }

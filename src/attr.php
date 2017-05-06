@@ -590,8 +590,8 @@ function editor(array $attr, array $data): string
 
     $data[$attr['id']] = $data[$attr['id']] ?? $attr['val'];
     $attr['opt'] = opt($attr);
-    $attr['html']['id'] =  html_id($attr);
-    $attr['html']['name'] =  html_name($attr);
+    $attr['html']['id'] =  'data-' . $attr['id'];
+    $attr['html']['name'] =  'data[' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
     $attr['html']['data-type'] =  $attr['type'];
     $error = '';
 
