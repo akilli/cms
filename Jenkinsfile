@@ -44,5 +44,5 @@ node {
         sh "sudo docker-compose -p ${project} -f docker-compose.yml up -d --force-recreate"
         sh "sudo docker stop ${proxy}"
         sh "sudo docker start ${proxy}"
-        echo "Successfully deployed ${project} erfolgreich auf Test-Server deployed"
+        echo "Successfully deployed ${project} on live server"
 }
