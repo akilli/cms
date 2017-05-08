@@ -205,21 +205,21 @@ CREATE INDEX ON tree (project_id);
 
 INSERT INTO
     project
-    (id, uid, name, active, system)
+    (uid, name, active, system)
 VALUES
-    (1, 'www', 'WWW', TRUE, TRUE);
+    ('www', 'WWW', TRUE, TRUE);
 
 INSERT INTO
     role
-    (id, name, privilege, active, system, project_id)
+    (name, privilege, active, system, project_id)
 VALUES
-    (1, 'admin', '["_all_"]', TRUE, TRUE, 1);
+    ('admin', '["_all_"]', TRUE, TRUE, CURRVAL('project_id_seq'));
 
 INSERT INTO
     account
-    (id, name, password, role_id, active, system, project_id)
+    (name, password, role_id, active, system, project_id)
 VALUES
-    (1, 'admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', 1, TRUE, TRUE, 1);
+    ('admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', CURRVAL('role_id_seq'), TRUE, TRUE, CURRVAL('project_id_seq'));
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
