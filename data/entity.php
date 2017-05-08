@@ -236,4 +236,29 @@ return [
             ],
         ],
     ],
+    'media' => [
+        'name' => 'Media',
+        'model' => 'media',
+        'actions' => ['admin', 'delete', 'edit', 'import'],
+        'attr' => [
+            'id' => [
+                'name' => 'ID',
+                'auto' => true,
+                'type' => 'text',
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'file',
+                'required' => true,
+                'uniq' => true,
+                'actions' => ['admin', 'edit'],
+            ],
+            'size' => [
+                'name' => 'Size',
+                'type' => 'int',
+                'actions' => ['admin'],
+                'viewer' => 'filesize',
+            ],
+        ],
+    ],
 ];
