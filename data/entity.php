@@ -239,7 +239,7 @@ return [
     'media' => [
         'name' => 'Media',
         'model' => 'media',
-        'actions' => ['admin', 'delete', 'edit', 'import'],
+        'actions' => ['admin', 'delete', 'edit', 'import', 'view'],
         'attr' => [
             'id' => [
                 'name' => 'ID',

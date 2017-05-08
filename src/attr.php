@@ -59,8 +59,6 @@ function ignorable(array $attr, array $data): bool
 /**
  * Option
  *
- * @todo Find a static cache solution for all options
- *
  * @param array $attr
  *
  * @return array
@@ -1053,7 +1051,7 @@ function viewer_file(array $attr, array $data): string
  */
 function viewer_image(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html('img', ['src' => image($data[$attr['id']], $attr['context']), 'alt' => $data[$attr['id']]], null, true) : '';
+    return $data[$attr['id']] ? html('img', ['src' => url_media($data[$attr['id']]), 'alt' => $data[$attr['id']]], null, true) : '';
 }
 
 /**

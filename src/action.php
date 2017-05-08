@@ -159,6 +159,27 @@ function action_view(array $entity): void
 }
 
 /**
+ * Media View Action
+ *
+ * @param array $entity
+ *
+ * @return void
+ */
+function action_media_view(array $entity): void
+{
+    if ($data = one($entity['id'], [['id', request('id')]])) {
+        header('X-Accel-Redirect: ' . url_asset($data['id']));
+        header('X-Accel-Buffering: no');
+        header('HTTP/1.1 200 OK');
+        header('Content-Type: ', true);
+        exit;
+    }
+
+    header('HTTP/1.1 404 Not Found');
+    exit;
+}
+
+/**
  * Media Import Action
  *
  * @return void

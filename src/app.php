@@ -97,9 +97,7 @@ function path(string $dir, string $id = null): string
         $data['log'] = '/var/log/app';
         $data['template'] = $root . '/template';
         $data['tmp'] = sys_get_temp_dir();
-        $asset = $data['asset'] . '/' . project('id');
-        $data['cache'] = $asset . '/cache';
-        $data['media'] = $asset . '/media';
+        $data['media'] = $data['asset'] . '/' . project('id');
     }
 
     if (empty($data[$dir])) {

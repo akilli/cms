@@ -21,23 +21,19 @@ function url(string $path = '', array $params = []): string
         return '/';
     }
 
-    if (preg_match('#^(asset|lib|theme)#', $path)) {
-        return '/' . $path;
-    }
-
     return '/' . resolve($path) . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
 }
 
 /**
- * Project cache URL
+ * Project asset URL
  *
  * @param string $path
  *
  * @return string
  */
-function url_cache(string $path = ''): string
+function url_asset(string $path): string
 {
-    return '/asset/' . project('id') . '/cache' . ($path ? '/' . $path : '');
+    return '/asset/' . project('id') . '/' . $path;
 }
 
 /**
@@ -47,9 +43,9 @@ function url_cache(string $path = ''): string
  *
  * @return string
  */
-function url_media(string $path = ''): string
+function url_media(string $path): string
 {
-    return '/asset/' . project('id') . '/media' . ($path ? '/' . $path : '');
+    return '/media/view/' . $path;
 }
 
 /**
@@ -59,9 +55,9 @@ function url_media(string $path = ''): string
  *
  * @return string
  */
-function url_lib(string $path = ''): string
+function url_lib(string $path): string
 {
-    return '/lib' . ($path ? '/' . $path : '');
+    return '/lib/' . $path;
 }
 
 /**
@@ -71,9 +67,9 @@ function url_lib(string $path = ''): string
  *
  * @return string
  */
-function url_theme(string $path = ''): string
+function url_theme(string $path): string
 {
-    return '/theme/' . project('theme') . ($path ? '/' . $path : '');
+    return '/theme/' . project('theme') . '/' . $path;
 }
 
 /**

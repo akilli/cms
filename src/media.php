@@ -82,6 +82,4 @@ function media_delete(array $data): void
     if (!file_delete(path('media', $data['id']))) {
         throw new RuntimeException(_('Could not delete %s', $data['name']));
     }
-
-    file_delete(path('cache', $data['id']));
 }

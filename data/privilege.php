@@ -12,6 +12,9 @@ return [
     'account/password' => [
         'callback' => 'account_user'
     ],
+    'media/view' => [
+        'callback' => 'account_user'
+    ],
     'project/switch' => [
         'callback' => 'account_global'
     ],

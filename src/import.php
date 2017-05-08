@@ -46,7 +46,7 @@ function import_project(string $name, string $file): bool
             }
 
             $asset = path('asset', (string) $project['id']);
-            file_copy($path . '/media', $asset . '/media');
+            file_copy($path . '/media', $asset);
             $log = [null];
             $prev = 0;
 
@@ -106,7 +106,7 @@ function import_content(string $file, int $pId ): string
     }
 
     $from = ['#="/?index\.html"#Ui', '#="/?(Pictures|media)/([0-9/]*)([^"/]+)"#Ui', '#="/?(([^"]+)\.html)"#Ui'];
-    $to = ['="/"', '="/asset/' . $pId . '/media/$3"', '="/$1"'];
+    $to = ['="/"', '="/media/view/$3"', '="/$1"'];
 
     return preg_replace($from, $to, $html);
 }
@@ -171,7 +171,7 @@ function import_odt(string $file, int $pId): string
 
     // Copy media files
     if (is_dir($mediaPath)) {
-        file_copy($mediaPath, path('asset', $pId . '/media'));
+        file_copy($mediaPath, path('asset', (string) $pId));
     }
 
     file_delete($path);
