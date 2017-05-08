@@ -107,14 +107,14 @@ function db_crit(array $crit, array $attrs): array
 {
     $cols = ['where' => [], 'param' => []];
 
-    foreach ($crit as $c) {
-        $c = is_array($c[0]) ? $c : [$c];
+    foreach ($crit as $part) {
+        $part = is_array($part[0]) ? $part : [$part];
         $o = [];
 
-        foreach ($c as $part) {
-            $attr = $attrs[$part[0]] ?? null;
-            $val = $part[1] ?? null;
-            $op = $part[2] ?? CRIT['='];
+        foreach ($part as $c) {
+            $attr = $attrs[$c[0]] ?? null;
+            $val = $c[1] ?? null;
+            $op = $c[2] ?? CRIT['='];
 
             if (!$attr || empty(CRIT[$op]) || is_array($val) && !$val) {
                 throw new RuntimeException(_('Invalid criteria'));
