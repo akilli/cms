@@ -80,33 +80,33 @@ function arr_filter(array $data, array $crit): array
                         case CRIT['~']:
                         case CRIT['@@']:
                             $call = function ($a, $v) {
-                                return strpos($a, $v) !== false;
+                                return stripos($a, $v) !== false;
                             };
                             break;
                         case CRIT['!~']:
                         case CRIT['!!']:
                             $call = function ($a, $v) {
-                                return strpos($a, $v) === false;
+                                return stripos($a, $v) === false;
                             };
                             break;
                         case CRIT['~^']:
                             $call = function ($a, $v) {
-                                return strpos($a, $v) === 0;
+                                return stripos($a, $v) === 0;
                             };
                             break;
                         case CRIT['!~^']:
                             $call = function ($a, $v) {
-                                return strpos($a, $v) !== 0;
+                                return stripos($a, $v) !== 0;
                             };
                             break;
                         case CRIT['~$']:
                             $call = function ($a, $v) {
-                                return substr($a, -strlen($v)) === $v;
+                                return strtolower(substr($a, -strlen($v))) === strtolower($v);
                             };
                             break;
                         case CRIT['!~$']:
                             $call = function ($a, $v) {
-                                return substr($a, -strlen($v)) !== $v;
+                                return strtolower(substr($a, -strlen($v))) !== strtolower($v);
                             };
                             break;
                         default:
