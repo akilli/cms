@@ -168,6 +168,8 @@ function db_crit(array $crit, array $attrs): array
                     $cols['param'][] = [$p, implode(' | ', $val), $attr['pdo']];
                     $r[] = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . $p . ')';
                     break;
+                default:
+                    throw new RuntimeException(_('Invalid criteria'));
             }
 
             $o[] = implode(' OR ', $r);
