@@ -55,10 +55,14 @@ function action_index(array $entity): void
 {
     $act = request('action');
     $attrs = entity_attr($entity['id'], $act);
-    $crit = empty($entity['attr']['active']) || $act === 'admin' ? [] : [['active', true]];
+    $crit = !empty($entity['attr']['system']) ? [['system', false]] : [];
     $opts = ['limit' => data('app', 'limit')];
     $p = [];
     $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
+
+    if ($act === 'index' && !empty($entity['attr']['active'])) {
+        $crit[] = ['active', true];
+    }
 
     if ($q && ($s = array_filter(explode(' ', $q)))) {
         $name = ['name', $s, CRIT['~']];
