@@ -116,12 +116,8 @@ function db_crit(array $crit, array $attrs): array
             $val = $part[1] ?? null;
             $op = $part[2] ?? CRIT['='];
 
-            if (!$attr || empty(CRIT[$op])) {
+            if (!$attr || empty(CRIT[$op]) || is_array($val) && !$val) {
                 throw new RuntimeException(_('Invalid criteria'));
-            }
-
-            if (is_array($val) && !$val) {
-                continue;
             }
 
             $param = ':crit_' . $attr['id'] . '_';
