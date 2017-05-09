@@ -214,6 +214,10 @@ return [
                 'name' => 'Sort',
                 'type' => 'int',
             ],
+            'content' => [
+                'name' => 'Content',
+                'type' => 'rte',
+            ],
             'path' => [
                 'name' => 'Path',
                 'type' => 'entity',
