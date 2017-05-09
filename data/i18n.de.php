@@ -25,6 +25,7 @@ return [
     'Depth' => 'Tiefe',
     'Edit' => 'Bearbeiten',
     'Export' => 'Exportieren',
+    'Export Error' => 'Exportfehler',
     'File %s not found' => 'Datei %s nicht gefunden',
     'File upload failed' => 'Datei konnte nicht hochgeladen werden',
     'Homepage' => 'Startseite',

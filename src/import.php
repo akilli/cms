@@ -38,7 +38,13 @@ function import_project(string $name, string $file): bool
 
     $trans = db_trans(
         function () use ($name, $path, $toc) {
-            $csv = csv_unserialize(file_get_contents($toc), ['keys' => ['pos', 'name', 'file']]);
+            $keys = ['structure', 'name', 'file'];
+            $csv = [];
+
+            foreach (str_getcsv(file_get_contents($toc), "\n") as $row => $item) {
+                $csv[] = array_combine($keys, str_getcsv($item, IMPORT['del']));
+            }
+
             $project = ['uid' => $name, 'name' => $name, 'active' => true];
 
             if (!save('project', $project)) {
@@ -51,7 +57,7 @@ function import_project(string $name, string $file): bool
             $prev = 0;
 
             foreach ($csv as $data) {
-                if (($cur = substr_count(trim($data['pos'], '.'), '.')) > $prev + 1) {
+                if (($cur = substr_count(trim($data['structure'], '.'), '.')) > $prev + 1) {
                     $cur = $prev + 1;
                 }
 

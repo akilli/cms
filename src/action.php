@@ -270,7 +270,15 @@ function action_project_import(): void
 function action_project_export(): void
 {
     try {
-        export((int) request('id'));
+        $file = export((int) request('id'));
+        header('Content-Type: application/zip');
+        header('Content-disposition: attachment; filename=' . basename($file));
+        header('Content-Length:' . filesize($file));
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        readfile($file);
+        unlink($file);
+        exit;
     } catch (Exception $e) {
         message($e->getMessage());
     }
