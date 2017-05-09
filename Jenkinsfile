@@ -40,7 +40,7 @@ node {
     stage 'Live'
         sh "sudo docker-compose -p ${project} -f docker-compose.yml stop ${cont}"
         sh "sudo docker-compose -p ${project} -f docker-compose.yml rm -f ${cont}"
-        sh "sudo docker volume rm ${vol}"
+        sh "sudo docker volume rm ${vol} || true"
         sh "sudo docker-compose -p ${project} -f docker-compose.yml up -d --force-recreate"
         sh "sudo docker stop ${proxy}"
         sh "sudo docker start ${proxy}"
