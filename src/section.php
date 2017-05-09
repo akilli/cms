@@ -166,7 +166,7 @@ function section_tree(array $§): string
             $crit = [];
     }
 
-    if (!$tree = all('tree', $crit, ['order' => ['pos' => 'asc']])) {
+    if (!$tree = all('tree', $crit, ['select' => ['id', 'name', 'url', 'depth'], 'order' => ['pos' => 'asc']])) {
         return '';
     }
 
