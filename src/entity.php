@@ -18,7 +18,7 @@ function size(string $eId, array $crit = []): int
 {
     $entity = data('entity', $eId);
     $call = fqn($entity['model'] . '_load');
-    $opts = ['mode' => 'size'] + OPTS;
+    $opts = ['mode' => 'size', 'select' => ['COUNT(*)']] + OPTS;
 
     if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
         $crit[] = ['project_id', project('id')];

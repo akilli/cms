@@ -15,11 +15,10 @@ namespace qnd;
 function flat_load(array $entity, array $crit = [], array $opts = []): array
 {
     $attrs = db_attr($entity['attr']);
-    $opts['order'] = $opts['mode'] === 'size' || $opts['order'] ? $opts['order'] : ['id' => 'asc'];
-    $sel = $opts['mode'] === 'size' ? ['COUNT(*)'] : array_column($attrs, 'col');
+    $opts['select'] = $opts['select'] ?: array_column($attrs, 'col');
     $cols = db_crit($crit, $attrs);
     $stmt = db()->prepare(
-        db_select($sel)
+        db_select($opts['select'])
         . db_from($entity['tab'])
         . db_where($cols['where'])
         . db_order($opts['order'])
