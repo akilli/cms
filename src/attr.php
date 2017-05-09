@@ -75,7 +75,7 @@ function opt(array $attr): array
 
     if ($attr['type'] === 'entity') {
         if (($data = & registry('opt.entity.' . $attr['opt'][0])) === null) {
-            $data = $attr['opt'][0] === 'page' ? opt_page() : array_column(all($attr['opt'][0]), 'name', 'id');
+            $data = $attr['opt'][0] === 'page' ? opt_page() : array_column(all($attr['opt'][0], [], ['select' => ['id', 'name']]), 'name', 'id');
         }
 
         return $data;
@@ -100,7 +100,7 @@ function opt_page(): array
 {
     $data = [];
 
-    foreach (all('tree', [], ['order' => ['pos' => 'asc']]) as $item) {
+    foreach (all('tree', [], ['select' => ['id', 'name', 'structure'], 'order' => ['pos' => 'asc']]) as $item) {
         $data[$item['id']] = $item['structure'] . ' ' . $item['name'];
     }
 

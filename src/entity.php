@@ -81,6 +81,14 @@ function all(string $eId, array $crit = [], array $opts = []): array
     $call = fqn($entity['model'] . '_load');
     $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'all']);
 
+    if ($opts['select']) {
+        foreach (array_unique(['id', $opts['index']]) as $k) {
+            if (!in_array($k, $opts['select'])) {
+                $opts['select'][] = $k;
+            }
+        }
+    }
+
     if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
         $crit[] = ['project_id', project('id')];
     }
