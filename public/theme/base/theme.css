@@ -202,7 +202,6 @@ label {
     display: block;
 }
 
-table label,
 label.inline {
     display: inline;
     vertical-align: middle;

@@ -125,10 +125,8 @@ function action_edit(array $entity): void
  */
 function action_delete(array $entity): void
 {
-    $data = http_post('edit');
-
-    if ($data) {
-        delete($entity['id'], [['id', array_keys($data)]]);
+    if ($id = request('id')) {
+        delete($entity['id'], [['id', $id]]);
     } else {
         message(_('Nothing selected for deletion'));
     }

@@ -10,36 +10,21 @@
             CKEDITOR.replace(rte[i]);
         }
 
-        // Toggle
-        const toggles = document.querySelectorAll('[data-toggle]');
-
-        for (let i = 0; i < toggles.length; i++) {
-            let toggle = toggles[i];
-
-            toggle.addEventListener('change', function () {
-                const cb = document.querySelectorAll('input[type=checkbox][data-toggle-id=' + this.getAttribute('data-toggle') + ']');
-
-                for (let i = 0; i < cb.length; i++) {
-                    cb[i].checked = toggle.checked;
-                }
-            });
-        }
-
         // Input password autocomplete fix
-        const pwdInput = document.querySelectorAll('input[type=password]');
+        const pwd = document.querySelectorAll('input[type=password]');
 
-        for (let i = 0; i < pwdInput.length; i++) {
-            pwdInput[i].setAttribute('readonly', true);
-            pwdInput[i].addEventListener('focus', function () {
+        for (let i = 0; i < pwd.length; i++) {
+            pwd[i].setAttribute('readonly', true);
+            pwd[i].addEventListener('focus', function () {
                 this.removeAttribute('readonly');
             })
         }
 
-        // Delete buttons
-        const delInput = document.querySelectorAll('input[formaction$="/delete"]');
+        // Delete buttons and links
+        const del = document.querySelectorAll('.delete');
 
-        for (let i = 0; i < delInput.length; i++) {
-            delInput[i].addEventListener('click', function (event) {
+        for (let i = 0; i < del.length; i++) {
+            del[i].addEventListener('click', function (event) {
                 if (!confirm(app._('Please confirm delete operation'))) {
                     event.preventDefault();
                 }
