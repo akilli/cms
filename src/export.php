@@ -31,7 +31,10 @@ function export(int $id): string
     $toc = '';
 
     foreach (all('tree', [['project_id', $id]], ['order' => ['pos' => 'asc']]) as $item) {
-        $toc .= $item['structure'] . IMPORT['del'] . str_replace(IMPORT['del'], '', $item['name']) . IMPORT['del'] . basename($item['url']) . "\n";
+        $base = basename($item['url']);
+        $name = str_replace(IMPORT['del'], '', $item['name']);
+        $toc .= $item['structure'] . IMPORT['del'] . $name . IMPORT['del'] . $base . "\n";
+        $zip->addFromString($base, IMPORT['start'] . $item['content'] . IMPORT['end']);
     }
 
     $zip->addFromString(IMPORT['toc'], $toc);

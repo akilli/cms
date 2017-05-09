@@ -38,13 +38,6 @@ function import_project(string $name, string $file): bool
 
     $trans = db_trans(
         function () use ($name, $path, $toc) {
-            $keys = ['structure', 'name', 'file'];
-            $csv = [];
-
-            foreach (str_getcsv(file_get_contents($toc), "\n") as $row => $item) {
-                $csv[] = array_combine($keys, str_getcsv($item, IMPORT['del']));
-            }
-
             $project = ['uid' => $name, 'name' => $name, 'active' => true];
 
             if (!save('project', $project)) {
@@ -56,16 +49,22 @@ function import_project(string $name, string $file): bool
             $log = [null];
             $prev = 0;
 
-            foreach ($csv as $data) {
-                if (($cur = substr_count(trim($data['structure'], '.'), '.')) > $prev + 1) {
+            foreach (file($toc, FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES) as $item) {
+                $item = array_slice(str_getcsv($item, IMPORT['del']), 0, 3);
+
+                if (count($item) !== 3) {
+                    throw new RuntimeException(_('Import error'));
+                }
+
+                if (($cur = substr_count(trim($item[0], '.'), '.')) > $prev + 1) {
                     $cur = $prev + 1;
                 }
 
                 $page = [
-                    'name' => $data['name'],
+                    'name' => $item[1],
                     'active' => true,
                     'parent_id' => $log[$cur],
-                    'content' => $data['file'] ? import_content($path . '/' . $data['file'], $project['id']) : '',
+                    'content' => $item[2] ? import_content($path . '/' . $item[2], $project['id']) : '',
                     'project_id' => $project['id']
                 ];
 
@@ -130,7 +129,7 @@ function import_html(string $file): string
         return '';
     }
 
-    return preg_match(IMPORT['html'], $html, $match) ? $match[1] : $html;
+    return preg_match('#' . IMPORT['start'] . '(.*)' . IMPORT['end'] . '#isU', $html, $match) ? $match[1] : $html;
 }
 
 /**
