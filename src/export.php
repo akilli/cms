@@ -28,6 +28,21 @@ function export(int $id): string
         throw new RuntimeException(_('Export error'));
     }
 
+    // Theme files
+    $theme = path('theme');
+
+    foreach (array_diff(scandir($theme), ['.', '..']) as $themeId) {
+        if (($themeFile = $theme . '/' . $themeId) && is_file($themeFile)) {
+            $zip->addFile($themeFile, 'theme/' . $themeId);
+        }
+    }
+
+    // Media files
+    foreach (all('media', [['project_id', $project['id']]]) as $item) {
+        $zip->addFile($item['file'], 'media/' . $item['id']);
+    }
+
+    // Pages
     $toc = '';
 
     foreach (all('tree', [['project_id', $id]], ['order' => ['pos' => 'asc']]) as $item) {

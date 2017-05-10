@@ -263,6 +263,15 @@ return [
                 'actions' => ['admin'],
                 'viewer' => 'filesize',
             ],
+            'file' => [
+                'name' => 'File',
+                'type' => 'text',
+            ],
+            'project_id' => [
+                'name' => 'Project',
+                'type' => 'entity',
+                'opt' => ['project'],
+            ],
         ],
     ],
 ];

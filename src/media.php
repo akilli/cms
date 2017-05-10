@@ -16,7 +16,21 @@ use RuntimeException;
  */
 function media_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $path = path('media');
+    $pId = null;
+
+    foreach ($crit as $k => $c) {
+        if ($c[0] === 'project_id' && (empty($c[2]) || $c[2] === CRIT['='])) {
+            $pId = $c[1];
+            unset($crit[$k]);
+            break;
+        }
+    }
+
+    if (!$pId) {
+        throw new RuntimeException(_('Could not load data'));
+    }
+
+    $path = path('asset', (string) $pId);
 
     if (!is_dir($path)) {
         return $opts['mode'] === 'size' ? [0] : [];
@@ -27,7 +41,13 @@ function media_load(array $entity, array $crit = [], array $opts = []): array
 
     foreach (array_diff(scandir($path), ['.', '..']) as $id) {
         if (($file = $path . '/' . $id) && is_file($file)) {
-            $data[] = ['id' => $id, 'name' => $id, 'size' => filesize($file)];
+            $data[] = [
+                'id' => $id,
+                'name' => $id,
+                'size' => filesize($file),
+                'file' => $file,
+                'project_id' => $pId
+            ];
         }
     }
 
@@ -79,7 +99,7 @@ function media_save(array $data): array
  */
 function media_delete(array $data): void
 {
-    if (!file_delete(path('media', $data['id']))) {
+    if (!file_delete(path('asset', $data['project_id'] . '/' . $data['id']))) {
         throw new RuntimeException(_('Could not delete %s', $data['name']));
     }
 }
