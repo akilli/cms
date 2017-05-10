@@ -107,7 +107,7 @@ $$
         END IF;
 
         IF (NEW.sort IS NULL OR NEW.sort <= 0 OR NEW.sort > _max) THEN
-            NEW.sort = _max;
+            NEW.sort := _max;
         END IF;
 
         NEW.search := TO_TSVECTOR(NEW.content);
