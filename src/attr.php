@@ -173,12 +173,8 @@ function loader_json(array $attr, array $data): array
  */
 function loader_pos(array $attr, array $data): string
 {
-    if (!$data[$attr['id']] || strpos($data[$attr['id']], '.') === false) {
-        return '';
-    }
-
     $parts = array_map(
-        function ($item) {
+        function (string $item) {
             return ltrim($item, '0');
         },
         explode('.', $data[$attr['id']])
