@@ -249,7 +249,7 @@ function entity(string $eId, bool $bare = false): array
         throw new RuntimeException(_('Invalid entity %s', $eId));
     }
 
-    $item = array_fill_keys(array_keys(entity_attr($eId, 'edit')), null);
+    $item = array_fill_keys(array_keys(entity_attr($entity, 'edit')), null);
     $item += $bare ? [] : ['_old' => null, '_entity' => $entity];
 
     return $item;
@@ -258,19 +258,13 @@ function entity(string $eId, bool $bare = false): array
 /**
  * Retrieve entity attributes filtered by given action
  *
- * @param string $eId
+ * @param array $entity
  * @param string $act
  *
  * @return array
- *
- * @throws RuntimeException
  */
-function entity_attr(string $eId, string $act): array
+function entity_attr(array $entity, string $act): array
 {
-    if (!$entity = data('entity', $eId)) {
-        throw new RuntimeException(_('Invalid entity %s', $eId));
-    }
-
     return array_filter(
         $entity['attr'],
         function ($attr) use ($act) {
