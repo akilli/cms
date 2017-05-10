@@ -8,7 +8,6 @@ return [
     'limit' => 20,
     'locale' => 'de-DE',
     'pager' => 5,
-    'theme' => 'base',
     'time' => 'H:i',
     'timezone' => 'Europe/Berlin',
 ];

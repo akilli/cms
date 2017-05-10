@@ -95,6 +95,7 @@ function path(string $dir, string $id = null): string
         $data['data'] = $root . '/data';
         $data['log'] = '/var/log/app';
         $data['template'] = $root . '/template';
+        $data['theme'] = $root . '/public/theme';
         $data['tmp'] = sys_get_temp_dir();
         $data['media'] = $data['asset'] . '/' . project('id');
     }
@@ -123,7 +124,6 @@ function project(string $key)
         $crit = $id ? [['id', $id]] : [['uid', strstr(request('host'), '.', true)]];
         $crit[] = ['active', true];
         $data = one('project', $crit) ?: one('project', [['id', ADMIN['proj']]]);
-        $data['theme'] = data('app', 'theme');
         session('project', $data['id']);
     }
 

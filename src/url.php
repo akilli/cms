@@ -49,18 +49,6 @@ function url_media(string $path): string
 }
 
 /**
- * Lib URL
- *
- * @param string $path
- *
- * @return string
- */
-function url_lib(string $path): string
-{
-    return '/lib/' . $path;
-}
-
-/**
  * Theme URL
  *
  * @param string $path
@@ -69,7 +57,7 @@ function url_lib(string $path): string
  */
 function url_theme(string $path): string
 {
-    return '/theme/' . project('theme') . '/' . $path;
+    return '/theme/' . $path;
 }
 
 /**
