@@ -78,13 +78,11 @@ function arr_filter(array $data, array $crit): array
                             };
                             break;
                         case CRIT['~']:
-                        case CRIT['@@']:
                             $call = function ($a, $v) {
                                 return stripos($a, $v) !== false;
                             };
                             break;
                         case CRIT['!~']:
-                        case CRIT['!!']:
                             $call = function ($a, $v) {
                                 return stripos($a, $v) === false;
                             };

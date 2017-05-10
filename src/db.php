@@ -152,21 +152,22 @@ function db_crit(array $crit, array $attrs): array
                 case CRIT['!~^']:
                 case CRIT['~$']:
                 case CRIT['!~$']:
-                    $not = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? ' NOT' : '';
-                    $pre = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~$'], CRIT['!~$']]) ? '%' : '';
-                    $post = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~^'], CRIT['!~^']]) ? '%' : '';
-
-                    foreach ($val as $v) {
+                    if ($attr['backend'] === 'search') {
+                        $op = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? '!!' : '@@';
                         $p = $param . ++$i;
-                        $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, $attr['pdo']];
-                        $r[] = $attr['col'] . $not . ' ILIKE ' . $p;
+                        $cols['param'][] = [$p, implode(' | ', $val), $attr['pdo']];
+                        $r[] = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . $p . ')';
+                    } else {
+                        $not = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? ' NOT' : '';
+                        $pre = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~$'], CRIT['!~$']]) ? '%' : '';
+                        $post = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~^'], CRIT['!~^']]) ? '%' : '';
+
+                        foreach ($val as $v) {
+                            $p = $param . ++$i;
+                            $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, $attr['pdo']];
+                            $r[] = $attr['col'] . $not . ' ILIKE ' . $p;
+                        }
                     }
-                    break;
-                case CRIT['@@']:
-                case CRIT['!!']:
-                    $p = $param . ++$i;
-                    $cols['param'][] = [$p, implode(' | ', $val), $attr['pdo']];
-                    $r[] = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . $p . ')';
                     break;
                 default:
                     throw new RuntimeException(_('Invalid criteria'));
