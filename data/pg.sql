@@ -8,11 +8,13 @@ CREATE TABLE project (
     id serial PRIMARY KEY,
     uid varchar(20) NOT NULL UNIQUE,
     name varchar(50) NOT NULL,
+    exported date DEFAULT NULL,
     active boolean NOT NULL DEFAULT FALSE,
     system boolean NOT NULL DEFAULT FALSE
 );
 
 CREATE INDEX ON project (name);
+CREATE INDEX ON project (exported);
 CREATE INDEX ON project (active);
 CREATE INDEX ON project (system);
 

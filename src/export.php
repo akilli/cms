@@ -53,6 +53,11 @@ function export(int $id): string
     }
 
     $zip->addFromString(IMPORT['toc'], $toc);
+    $project['exported'] = date(DATE['b']);
+
+    if (!save('project', $project)) {
+        throw new RuntimeException(_('Export error'));
+    }
 
     return $file;
 }
