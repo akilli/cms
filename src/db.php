@@ -155,7 +155,13 @@ function db_crit(array $crit, array $attrs): array
                     if ($attr['backend'] === 'search') {
                         $op = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? '!!' : '@@';
                         $p = $param . ++$i;
-                        $cols['param'][] = [$p, implode(' | ', $val), $attr['pdo']];
+                        $val = array_map(
+                            function ($v) {
+                                return str_replace(['&', '|'], '', $v);
+                            },
+                            $val
+                        );
+                        $cols['param'][] = [$p, implode(' | ', array_filter($val)), $attr['pdo']];
                         $r[] = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . $p . ')';
                     } else {
                         $not = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? ' NOT' : '';
