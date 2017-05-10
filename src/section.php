@@ -65,6 +65,64 @@ function section_message(array $§): string
 }
 
 /**
+ * Navigation section
+ *
+ * @param array $§
+ *
+ * @return string
+ */
+function section_nav(array $§): string
+{
+    switch (($§['vars']['mode'] ?? null)) {
+        case 'top':
+            $crit = [['depth', 1]];
+            break;
+        case 'sub':
+            if (!($anc = one('page', [['id', request('id')]])) || count($anc['path']) > 1 && !($anc = one('page', [['id', $anc['path'][0]]]))) {
+                return '';
+            }
+
+            $crit = [['pos', $anc['pos'] . '.', CRIT['~^']]];
+            break;
+        default:
+            $crit = [];
+    }
+
+    if (!$nav = all('page', $crit, ['select' => ['id', 'name', 'url', 'depth'], 'order' => ['pos' => 'asc']])) {
+        return '';
+    }
+
+    $count = count($nav);
+    $depth = 0;
+    $i = 0;
+    $html = '';
+
+    foreach ($nav as $page) {
+        $a = ['href' => $page['url']];
+        $class = '';
+
+        if ($page['url'] === request('path')) {
+            $a['class'] = 'active';
+            $class .= ' class="active"';
+        }
+
+        if ($page['depth'] > $depth) {
+             $html .= '<ul><li' . $class . '>';
+        } elseif ($page['depth'] < $depth) {
+             $html .= '</li>' . str_repeat('</ul></li>', $depth - $page['depth']) . '<li' . $class . '>';
+        } else {
+             $html .= '</li><li' . $class . '>';
+        }
+
+        $html .= html('a', $a, $page['name']);
+        $html .= ++$i === $count ? str_repeat('</li></ul>', $page['depth']) : '';
+        $depth = $page['depth'];
+    }
+
+    return html('nav', ['id' => $§['id']], $html);
+}
+
+/**
  * Pager section
  *
  * @param array $§
@@ -140,62 +198,4 @@ function section_toolbar(array $§): string
     $§['vars']['projects'] = allowed('project/switch') && size('project', $crit) > 1 ? all('project', $crit) : [];
 
     return section_template($§);
-}
-
-/**
- * Tree section
- *
- * @param array $§
- *
- * @return string
- */
-function section_tree(array $§): string
-{
-    switch (($§['vars']['mode'] ?? null)) {
-        case 'top':
-            $crit = [['depth', 1]];
-            break;
-        case 'sub':
-            if (!($anc = one('tree', [['id', request('id')]])) || count($anc['path']) > 1 && !($anc = one('tree', [['id', $anc['path'][0]]]))) {
-                return '';
-            }
-
-            $crit = [['pos', $anc['pos'] . '.', CRIT['~^']]];
-            break;
-        default:
-            $crit = [];
-    }
-
-    if (!$tree = all('tree', $crit, ['select' => ['id', 'name', 'url', 'depth'], 'order' => ['pos' => 'asc']])) {
-        return '';
-    }
-
-    $count = count($tree);
-    $depth = 0;
-    $i = 0;
-    $html = '';
-
-    foreach ($tree as $page) {
-        $a = ['href' => $page['url']];
-        $class = '';
-
-        if ($page['url'] === request('path')) {
-            $a['class'] = 'active';
-            $class .= ' class="active"';
-        }
-
-        if ($page['depth'] > $depth) {
-             $html .= '<ul><li' . $class . '>';
-        } elseif ($page['depth'] < $depth) {
-             $html .= '</li>' . str_repeat('</ul></li>', $depth - $page['depth']) . '<li' . $class . '>';
-        } else {
-             $html .= '</li><li' . $class . '>';
-        }
-
-        $html .= html('a', $a, $page['name']);
-        $html .= ++$i === $count ? str_repeat('</li></ul>', $page['depth']) : '';
-        $depth = $page['depth'];
-    }
-
-    return html('nav', ['id' => $§['id']], $html);
 }

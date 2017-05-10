@@ -45,7 +45,7 @@ function export(int $id): string
     // Pages
     $toc = '';
 
-    foreach (all('tree', [['project_id', $id]], ['order' => ['pos' => 'asc']]) as $item) {
+    foreach (all('page', [['project_id', $id]], ['order' => ['pos' => 'asc']]) as $item) {
         $base = basename($item['url']);
         $name = str_replace(IMPORT['del'], '', $item['name']);
         $attr = array_replace($item['_entity']['attr']['pos'], ['context' => 'view', 'actions' => ['view']]);

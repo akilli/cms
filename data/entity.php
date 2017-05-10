@@ -146,6 +146,12 @@ return [
                 'auto' => true,
                 'type' => 'int',
             ],
+            'pos' => [
+                'name' => 'Position',
+                'type' => 'text',
+                'actions' => ['admin'],
+                'viewer' => 'pos',
+            ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
@@ -190,41 +196,6 @@ return [
                 'type' => 'search',
                 'searchable' => true,
             ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'entity',
-                'opt' => ['project'],
-            ],
-        ],
-    ],
-    'tree' => [
-        'name' => 'Page Tree',
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'type' => 'int',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-            ],
-            'url' => [
-                'name' => 'URL',
-                'type' => 'text',
-            ],
-            'parent_id' => [
-                'name' => 'Parent',
-                'type' => 'entity',
-                'opt' => ['page'],
-            ],
-            'sort' => [
-                'name' => 'Sort',
-                'type' => 'int',
-            ],
-            'content' => [
-                'name' => 'Content',
-                'type' => 'rte',
-            ],
             'path' => [
                 'name' => 'Path',
                 'type' => 'entity',
@@ -235,11 +206,6 @@ return [
             'depth' => [
                 'name' => 'Depth',
                 'type' => 'int',
-            ],
-            'pos' => [
-                'name' => 'Position',
-                'type' => 'text',
-                'viewer' => 'pos',
             ],
             'project_id' => [
                 'name' => 'Project',

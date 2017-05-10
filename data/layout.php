@@ -119,19 +119,19 @@ return [
     ],
     'page/index' => [
         'nav' => [
-            'type' => 'tree',
+            'type' => 'nav',
             'parent' => 'top',
             'vars' => ['mode' => 'top'],
         ],
     ],
     'page/view' => [
         'nav' => [
-            'type' => 'tree',
+            'type' => 'nav',
             'parent' => 'top',
             'vars' => ['mode' => 'top'],
         ],
         'subnav' => [
-            'type' => 'tree',
+            'type' => 'nav',
             'parent' => 'right',
             'vars' => ['mode' => 'sub'],
         ],

@@ -69,6 +69,9 @@ CREATE TABLE page (
     sort integer NOT NULL DEFAULT 0,
     content text NOT NULL,
     search tsvector NOT NULL,
+    path jsonb NOT NULL DEFAULT '[]',
+    depth integer NOT NULL DEFAULT 0,
+    pos varchar(255) NOT NULL DEFAULT '',
     project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (project_id, url)
 );
@@ -79,14 +82,25 @@ CREATE INDEX ON page (active);
 CREATE INDEX ON page (parent_id);
 CREATE INDEX ON page (sort);
 CREATE INDEX ON page USING GIN (search);
+CREATE INDEX ON page USING GIN (path);
+CREATE INDEX ON page (depth);
+CREATE INDEX ON page (pos);
 CREATE INDEX ON page (project_id);
 
-CREATE FUNCTION page_save_before() RETURNS trigger AS
+CREATE FUNCTION page_before() RETURNS trigger AS
 $$
     DECLARE
         _max integer;
     BEGIN
-        SELECT COUNT(id) + 1 FROM page INTO _max WHERE project_id = NEW.project_id AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0);
+        SELECT
+            COUNT(id) + 1
+        FROM
+            page
+        INTO
+            _max
+        WHERE
+            project_id = NEW.project_id
+            AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0);
 
         IF (TG_OP = 'UPDATE' AND COALESCE(NEW.parent_id, 0) = COALESCE(OLD.parent_id, 0)) THEN
             _max := _max - 1;
@@ -100,105 +114,107 @@ $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION page_save_after() RETURNS trigger AS
+CREATE FUNCTION page_after() RETURNS trigger AS
 $$
+    DECLARE
+        _pId integer;
     BEGIN
-        IF (TG_OP = 'INSERT' OR COALESCE(NEW.parent_id, 0) != COALESCE(OLD.parent_id, 0) OR NEW.sort != OLD.sort) THEN
-            IF (TG_OP = 'UPDATE') THEN
-                UPDATE page SET sort = sort - 1 WHERE project_id = OLD.project_id AND id != OLD.id AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0) AND sort > OLD.sort;
-            END IF;
-
-            UPDATE page SET sort = sort + 1 WHERE project_id = NEW.project_id AND id != NEW.id AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0) AND sort >= NEW.sort;
+        -- Position did not change on update
+        IF (TG_OP = 'UPDATE' AND COALESCE(NEW.parent_id, 0) = COALESCE(OLD.parent_id, 0) AND NEW.sort = OLD.sort) THEN
+            RETURN NULL;
         END IF;
 
-        REFRESH MATERIALIZED VIEW tree;
+        -- Remove from old parent
+        IF (TG_OP = 'UPDATE' OR TG_OP = 'DELETE') THEN
+            UPDATE
+                page
+            SET
+                sort = sort - 1
+            WHERE
+                project_id = OLD.project_id
+                AND id != OLD.id
+                AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0)
+                AND sort > OLD.sort;
+        END IF;
 
-        RETURN NULL;
-    END;
-$$ LANGUAGE plpgsql;
+        -- Add to new parent
+        IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
+            UPDATE
+                page
+            SET
+                sort = sort + 1
+            WHERE
+                project_id = NEW.project_id
+                AND id != NEW.id
+                AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0)
+                AND sort >= NEW.sort;
+        END IF;
 
-CREATE FUNCTION page_delete() RETURNS trigger AS
-$$
-    BEGIN
-        UPDATE page SET sort = sort - 1 WHERE project_id = OLD.project_id AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0) AND sort > OLD.sort;
+        -- Update positions in project
+        IF (TG_OP = 'UPDATE' OR TG_OP = 'DELETE') THEN
+            _pId := OLD.project_id;
+        ELSE
+            _pId := NEW.project_id;
+        END IF;
 
-        REFRESH MATERIALIZED VIEW tree;
-
-        RETURN NULL;
-    END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER page_save_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_save_before();
-CREATE TRIGGER page_save_after AFTER INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_save_after();
-CREATE TRIGGER page_delete AFTER DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_delete();
-
--- -----------------------------------------------------------
-
-CREATE MATERIALIZED VIEW tree AS
-WITH RECURSIVE t AS (
-        SELECT
-            id,
-            name,
-            url,
-            parent_id,
-            sort,
-            content,
-            '[]'::jsonb || TO_JSONB(id) AS path,
-            1 AS depth,
-            LPAD(CAST(sort AS text), 3, '0') AS pos,
-            project_id
-        FROM
-            page
-        WHERE
-            active = TRUE
-            AND parent_id IS NULL
-    UNION
-        SELECT
-            p.id,
-            p.name,
-            p.url,
-            p.parent_id,
-            p.sort,
-            p.content,
-            t.path || TO_JSONB(p.id) AS path,
-            t.depth + 1 AS depth,
-            t.pos || '.' || LPAD(CAST(p.sort AS text), 3, '0') AS pos,
-            p.project_id
-        FROM
+        WITH RECURSIVE t AS (
+                SELECT
+                    id,
+                    '[]'::jsonb || TO_JSONB(id) AS path,
+                    1 AS depth,
+                    LPAD(CAST(sort AS text), 3, '0') AS pos
+                FROM
+                    page
+                WHERE
+                    project_id = _pId
+                    AND parent_id IS NULL
+            UNION
+                SELECT
+                    p.id,
+                    t.path || TO_JSONB(p.id) AS path,
+                    t.depth + 1 AS depth,
+                    t.pos || '.' || LPAD(CAST(p.sort AS text), 3, '0') AS pos
+                FROM
+                    page p
+                INNER JOIN
+                    t
+                        ON t.id = p.parent_id
+                WHERE
+                    p.project_id = _pId
+        )
+        UPDATE
             page p
-        INNER JOIN
+        SET
+            path = t.path,
+            depth = t.depth,
+            pos = t.pos
+        FROM
             t
-                ON t.id = p.parent_id
         WHERE
-            p.project_id = t.project_id
-            AND p.active = TRUE
-)
-SELECT
-    id,
-    name,
-    url,
-    parent_id,
-    sort,
-    content,
-    path,
-    depth,
-    pos,
-    project_id
-FROM
-    t
-ORDER BY
-    project_id ASC,
-    pos ASC;
+            p.id = t.id
+            AND (p.path != t.path OR p.depth != t.depth OR p.pos != t.pos);
 
-CREATE UNIQUE INDEX ON tree (id);
-CREATE INDEX ON tree (name);
-CREATE INDEX ON tree (url);
-CREATE INDEX ON tree (parent_id);
-CREATE INDEX ON tree (sort);
-CREATE INDEX ON tree USING GIN (path);
-CREATE INDEX ON tree (depth);
-CREATE INDEX ON tree (pos);
-CREATE INDEX ON tree (project_id);
+        RETURN NULL;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER
+    page_before
+BEFORE INSERT OR UPDATE ON
+    page
+FOR EACH ROW WHEN
+    (pg_trigger_depth() = 0)
+EXECUTE PROCEDURE
+    page_before();
+
+CREATE TRIGGER
+    page_after
+AFTER INSERT OR UPDATE OR DELETE ON
+    page
+FOR EACH ROW WHEN
+    (pg_trigger_depth() = 0)
+EXECUTE PROCEDURE
+    page_after();
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Data

@@ -63,7 +63,6 @@ return [
     'No section Id given' => 'Keine Id für den Layoutbereich vorhanden',
     'Nothing selected for deletion' => 'Nichts zum Löschen ausgewählt',
     'Pages' => 'Seiten',
-    'Page Tree' => 'Seitenstruktur',
     'Parent' => 'Oberseite',
     'Password' => 'Passwort',
     'Password and password confirmation must be identical' => 'Passwort und Passwortbestätigung müssen identisch sein',
