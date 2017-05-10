@@ -116,12 +116,12 @@ function opt_page(): array
 function opt_privilege(): array
 {
     return array_map(
-        function ($data) {
+        function (array $data): string {
             return $data['name'];
         },
         array_filter(
             data('privilege'),
-            function ($data) {
+            function (array $data): bool {
                 return empty($data['callback']);
             }
         )
@@ -325,7 +325,7 @@ function validator_opt(array $attr, array $data): array
     if (is_array($data[$attr['id']])) {
         $data[$attr['id']] = array_filter(
             $data[$attr['id']],
-            function ($val) {
+            function ($val): bool {
                 return !empty($val) || !is_string($val);
             }
         );
@@ -1117,7 +1117,7 @@ function viewer_filesize(array $attr, array $data): string
 function viewer_pos(array $attr, array $data): string
 {
     $parts = array_map(
-        function (string $item) {
+        function (string $item): string {
             return ltrim($item, '0');
         },
         explode('.', $data[$attr['id']])

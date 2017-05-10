@@ -63,7 +63,7 @@ function action_index(array $entity): void
     if ($q && ($s = array_filter(explode(' ', $q)))) {
         $searchable = array_keys(arr_filter($entity['attr'], [['searchable', true]])) ?: ['name'];
         $crit[] = array_map(
-            function ($k) use ($s) {
+            function (string $k) use ($s): array {
                 return [$k, $s, CRIT['~']];
             },
             $searchable

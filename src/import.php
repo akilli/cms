@@ -37,7 +37,7 @@ function import_project(string $name, string $file): bool
     }
 
     $trans = db_trans(
-        function () use ($name, $path, $toc) {
+        function () use ($name, $path, $toc): void {
             $project = ['uid' => $name, 'name' => $name, 'active' => true];
 
             if (!save('project', $project)) {

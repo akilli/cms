@@ -89,7 +89,7 @@ function db_attr(array $attrs, bool $auto = false): array
 {
     return array_filter(
         $attrs,
-        function (array $attr) use ($auto) {
+        function (array $attr) use ($auto): bool {
             return !empty($attr['col']) && (!$auto || empty($attr['auto']));
         }
     );
@@ -156,7 +156,7 @@ function db_crit(array $crit, array $attrs): array
                         $op = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? '!!' : '@@';
                         $p = $param . ++$i;
                         $val = array_map(
-                            function ($v) {
+                            function ($v): string {
                                 return str_replace(['&', '|'], '', $v);
                             },
                             $val

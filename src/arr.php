@@ -29,7 +29,7 @@ function arr_filter(array $data, array $crit): array
 {
     return array_filter(
         $data,
-        function (array $item) use ($crit) {
+        function (array $item) use ($crit): bool {
             foreach ($crit as $part) {
                 $part = is_array($part[0]) ? $part : [$part];
 
@@ -48,62 +48,62 @@ function arr_filter(array $data, array $crit): array
 
                     switch ($op) {
                         case CRIT['=']:
-                            $call = function ($a, $v) {
+                            $call = function ($a, $v): bool {
                                 return $a === $v;
                             };
                             break;
                         case CRIT['!=']:
-                            $call = function ($a, $v) {
+                            $call = function ($a, $v): bool {
                                 return $a !== $v;
                             };
                             break;
                         case CRIT['>']:
-                            $call = function ($a, $v) {
+                            $call = function ($a, $v): bool {
                                 return $a > $v;
                             };
                             break;
                         case CRIT['>=']:
-                            $call = function ($a, $v) {
+                            $call = function ($a, $v): bool {
                                 return $a >= $v;
                             };
                             break;
                         case CRIT['<']:
-                            $call = function ($a, $v) {
+                            $call = function ($a, $v): bool {
                                 return $a < $v;
                             };
                             break;
                         case CRIT['<=']:
-                            $call = function ($a, $v) {
+                            $call = function ($a, $v): bool {
                                 return $a <= $v;
                             };
                             break;
                         case CRIT['~']:
-                            $call = function ($a, $v) {
+                            $call = function ($a, $v): bool {
                                 return stripos($a, $v) !== false;
                             };
                             break;
                         case CRIT['!~']:
-                            $call = function ($a, $v) {
+                            $call = function ($a, $v): bool {
                                 return stripos($a, $v) === false;
                             };
                             break;
                         case CRIT['~^']:
-                            $call = function ($a, $v) {
+                            $call = function ($a, $v): bool {
                                 return stripos($a, $v) === 0;
                             };
                             break;
                         case CRIT['!~^']:
-                            $call = function ($a, $v) {
+                            $call = function ($a, $v): bool {
                                 return stripos($a, $v) !== 0;
                             };
                             break;
                         case CRIT['~$']:
-                            $call = function ($a, $v) {
+                            $call = function ($a, $v): bool {
                                 return strtolower(substr($a, -strlen($v))) === strtolower($v);
                             };
                             break;
                         case CRIT['!~$']:
-                            $call = function ($a, $v) {
+                            $call = function ($a, $v): bool {
                                 return strtolower(substr($a, -strlen($v))) !== strtolower($v);
                             };
                             break;
@@ -144,7 +144,7 @@ function arr_order(array $data, array $order): array
 {
     uasort(
         $data,
-        function (array $a, array $b) use ($order) {
+        function (array $a, array $b) use ($order): int {
             foreach ($order as $key => $dir) {
                 $factor = $dir === 'desc' ? -1 : 1;
 

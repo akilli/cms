@@ -96,7 +96,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
     try {
         return array_column(
             array_map(
-                function ($item) use ($entity) {
+                function ($item) use ($entity): array {
                     return entity_load($entity, $item);
                 },
                 $call($entity, $crit, $opts)
@@ -160,7 +160,7 @@ function save(string $eId, array & $data): bool
 
     $temp = $data;
     $trans = db_trans(
-        function () use (& $temp) {
+        function () use (& $temp): void {
             $temp = event('entity.presave', $temp);
             $temp = event('model.presave.' . $temp['_entity']['model'], $temp);
             $temp = event('entity.presave.' . $temp['_entity']['id'], $temp);
@@ -203,7 +203,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
         }
 
         $trans = db_trans(
-            function () use ($item) {
+            function () use ($item): void {
                 $item = event('entity.predelete', $item);
                 $item = event('model.predelete.' . $item['_entity']['model'], $item);
                 $item = event('entity.predelete.' . $item['_entity']['id'], $item);
@@ -267,7 +267,7 @@ function entity_attr(array $entity, string $act): array
 {
     return array_filter(
         $entity['attr'],
-        function ($attr) use ($act) {
+        function ($attr) use ($act): bool {
             return in_array($act, $attr['actions']);
         }
     );
