@@ -160,7 +160,7 @@ return [
                 'type' => 'entity',
                 'nullable' => true,
                 'opt' => ['page'],
-                'actions' => ['admin', 'edit'],
+                'actions' => ['edit'],
                 'validator' => 'page',
             ],
             'sort' => [
