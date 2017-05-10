@@ -61,16 +61,13 @@ function action_index(array $entity): void
     $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
 
     if ($q && ($s = array_filter(explode(' ', $q)))) {
-        $searchable = [];
-
-        foreach (array_keys(arr_filter($entity['attr'], [['searchable', true]])) as $k) {
-            $searchable[] = [$k, $s, CRIT['~']];
-        }
-
-        if ($searchable) {
-            $crit[] = $searchable;
-        }
-
+        $searchable = array_keys(arr_filter($entity['attr'], [['searchable', true]])) ?: ['name'];
+        $crit[] = array_map(
+            function ($k) use ($s) {
+                return [$k, $s, CRIT['~']];
+            },
+            $searchable
+        );
         $p['q'] = urlencode(implode(' ', $s));
     }
 
