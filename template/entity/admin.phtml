@@ -21,11 +21,9 @@
                     <a href="<?= url('*/*', ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?= $attr['name'];?></a>
                 </th>
                 <?php endforeach;?>
-                <?php if (allowed('*/edit') || allowed('*/view')):?>
                 <th>
                     <?= _('Actions');?>
                 </th>
-                <?php endif;?>
             </tr>
         </thead>
         <tbody>
@@ -37,10 +35,12 @@
                     <?=viewer($attr, $data);?>
                 </td>
                 <?php endforeach;?>
-                <?php if (allowed('*/edit') || allowed('*/view') || allowed('*/export')):?>
                 <td>
                     <?php if (allowed('*/edit')):?>
                     <a href="<?= url('*/edit/' . $data['id']);?>"><?= _('Edit');?></a>
+                    <?php endif;?>
+                    <?php if (allowed('*/delete')):?>
+                    <a href="<?= url('*/delete/' . $data['id']);?>" class="delete"><?= _('Delete');?></a>
                     <?php endif;?>
                     <?php if (allowed('*/view')):?>
                     <a href="<?= $data['url'] ?? url('*/view/' . $data['id']);?>"><?= _('View');?></a>
@@ -48,11 +48,7 @@
                     <?php if (allowed('*/export')):?>
                     <a href="<?= url('*/export/' . $data['id']);?>"><?= _('Export');?></a>
                     <?php endif;?>
-                    <?php if (allowed('*/delete')):?>
-                    <a href="<?= url('*/delete/' . $data['id']);?>" class="delete"><?= _('Delete');?></a>
-                    <?php endif;?>
                 </td>
-                <?php endif;?>
             </tr>
             <?php endforeach;?>
         </tbody>
