@@ -15,6 +15,7 @@ return [
         'required' => false,
         'uniq' => false,
         'multiple' => false,
+        'searchable' => false,
         'opt' => [],
         'actions' => [],
         'val' => null,

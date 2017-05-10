@@ -22,6 +22,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
+                'searchable' => true,
                 'actions' => ['admin', 'edit'],
                 'maxval' => 50,
             ],
@@ -59,6 +60,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
+                'searchable' => true,
                 'actions' => ['admin', 'edit'],
                 'maxval' => 50,
             ],
@@ -100,6 +102,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'uniq' => true,
+                'searchable' => true,
                 'actions' => ['admin', 'edit'],
                 'maxval' => 50,
             ],
@@ -147,6 +150,7 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
+                'searchable' => true,
                 'actions' => ['admin', 'edit', 'index', 'view'],
                 'maxval' => 100,
             ],
@@ -184,6 +188,7 @@ return [
             'search' => [
                 'name' => 'Search',
                 'type' => 'search',
+                'searchable' => true,
             ],
             'project_id' => [
                 'name' => 'Project',
@@ -258,6 +263,7 @@ return [
                 'type' => 'file',
                 'required' => true,
                 'uniq' => true,
+                'searchable' => true,
                 'actions' => ['admin', 'edit'],
             ],
             'size' => [
