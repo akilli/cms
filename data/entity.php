@@ -179,7 +179,6 @@ return [
             'content' => [
                 'name' => 'Content',
                 'type' => 'rte',
-                'searchable' => true,
                 'actions' => ['edit', 'view'],
             ],
             'search' => [

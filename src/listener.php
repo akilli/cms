@@ -160,13 +160,7 @@ function listener_project_postdelete(array $data): array
  */
 function listener_page_presave(array $data): array
 {
-    $data['search'] = '';
-
-    foreach ($data['_entity']['attr'] as $attr) {
-        if ($attr['searchable']) {
-            $data['search'] .= ' ' . str_replace("\n", ' ', strip_tags($data[$attr['id']]));
-        }
-    }
+    $data['search'] = $data['content'];
 
     if ($data['name'] !== ($data['_old']['name'] ?? null)) {
         $base = filter_id($data['name']);
