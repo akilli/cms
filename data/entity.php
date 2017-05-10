@@ -200,10 +200,6 @@ return [
                 'name' => 'ID',
                 'type' => 'int',
             ],
-            'structure' => [
-                'name' => 'Structure',
-                'type' => 'text',
-            ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
@@ -239,6 +235,7 @@ return [
             'pos' => [
                 'name' => 'Position',
                 'type' => 'text',
+                'loader' => 'pos',
             ],
             'project_id' => [
                 'name' => 'Project',

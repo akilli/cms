@@ -100,8 +100,8 @@ function opt_page(): array
 {
     $data = [];
 
-    foreach (all('tree', [], ['select' => ['id', 'name', 'structure'], 'order' => ['pos' => 'asc']]) as $item) {
-        $data[$item['id']] = $item['structure'] . ' ' . $item['name'];
+    foreach (all('tree', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
+        $data[$item['id']] = $item['pos'] . ' ' . $item['name'];
     }
 
     return $data;
@@ -152,7 +152,7 @@ function loader(array $attr, array $data)
  */
 function loader_json(array $attr, array $data): array
 {
-    if (empty($data[$attr['id']])) {
+    if (!$data[$attr['id']]) {
         return [];
     }
 
@@ -161,6 +161,30 @@ function loader_json(array $attr, array $data): array
     }
 
     return json_decode($data[$attr['id']], true) ?: [];
+}
+
+/**
+ * Position loader
+ *
+ * @param array $attr
+ * @param array $data
+ *
+ * @return string
+ */
+function loader_pos(array $attr, array $data): string
+{
+    if (!$data[$attr['id']] || strpos($data[$attr['id']], '.') === false) {
+        return '';
+    }
+
+    $parts = array_map(
+        function ($item) {
+            return ltrim($item, '0');
+        },
+        explode('.', $data[$attr['id']])
+    );
+
+    return implode('.', $parts);
 }
 
 /**

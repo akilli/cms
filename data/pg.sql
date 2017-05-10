@@ -138,7 +138,6 @@ CREATE MATERIALIZED VIEW tree AS
 WITH RECURSIVE t AS (
         SELECT
             id,
-            CAST(sort AS text) AS structure,
             name,
             url,
             parent_id,
@@ -156,7 +155,6 @@ WITH RECURSIVE t AS (
     UNION
         SELECT
             p.id,
-            t.structure || '.' || CAST(p.sort AS text) AS structure,
             p.name,
             p.url,
             p.parent_id,
@@ -177,7 +175,6 @@ WITH RECURSIVE t AS (
 )
 SELECT
     id,
-    structure,
     name,
     url,
     parent_id,
@@ -194,7 +191,6 @@ ORDER BY
     pos ASC;
 
 CREATE UNIQUE INDEX ON tree (id);
-CREATE INDEX ON tree (structure);
 CREATE INDEX ON tree (name);
 CREATE INDEX ON tree (url);
 CREATE INDEX ON tree (parent_id);
