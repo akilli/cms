@@ -160,8 +160,6 @@ function listener_project_postdelete(array $data): array
  */
 function listener_page_presave(array $data): array
 {
-    $data['search'] = $data['content'];
-
     if ($data['name'] !== ($data['_old']['name'] ?? null)) {
         $base = filter_id($data['name']);
         $data['url'] = url($base . URL);

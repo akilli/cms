@@ -110,6 +110,8 @@ $$
             NEW.sort = _max;
         END IF;
 
+        NEW.search := TO_TSVECTOR(NEW.content);
+
         RETURN NEW;
     END;
 $$ LANGUAGE plpgsql;
