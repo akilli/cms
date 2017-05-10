@@ -101,7 +101,8 @@ function opt_page(): array
     $data = [];
 
     foreach (all('tree', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
-        $data[$item['id']] = $item['pos'] . ' ' . $item['name'];
+        $attr = array_replace($item['_entity']['attr']['pos'], ['context' => 'view', 'actions' => ['view']]);
+        $data[$item['id']] = viewer($attr, $item) . ' ' . $item['name'];
     }
 
     return $data;
@@ -161,26 +162,6 @@ function loader_json(array $attr, array $data): array
     }
 
     return json_decode($data[$attr['id']], true) ?: [];
-}
-
-/**
- * Position loader
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
- */
-function loader_pos(array $attr, array $data): string
-{
-    $parts = array_map(
-        function (string $item) {
-            return ltrim($item, '0');
-        },
-        explode('.', $data[$attr['id']])
-    );
-
-    return implode('.', $parts);
 }
 
 /**
@@ -1123,4 +1104,24 @@ function viewer_filesize(array $attr, array $data): string
     }
 
     return round($data[$attr['id']] / 1000, 1) . ' kB';
+}
+
+/**
+ * Position viewer
+ *
+ * @param array $attr
+ * @param array $data
+ *
+ * @return string
+ */
+function viewer_pos(array $attr, array $data): string
+{
+    $parts = array_map(
+        function (string $item) {
+            return ltrim($item, '0');
+        },
+        explode('.', $data[$attr['id']])
+    );
+
+    return implode('.', $parts);
 }

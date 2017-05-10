@@ -239,7 +239,7 @@ return [
             'pos' => [
                 'name' => 'Position',
                 'type' => 'text',
-                'loader' => 'pos',
+                'viewer' => 'pos',
             ],
             'project_id' => [
                 'name' => 'Project',

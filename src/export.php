@@ -48,7 +48,8 @@ function export(int $id): string
     foreach (all('tree', [['project_id', $id]], ['order' => ['pos' => 'asc']]) as $item) {
         $base = basename($item['url']);
         $name = str_replace(IMPORT['del'], '', $item['name']);
-        $toc .= $item['pos'] . IMPORT['del'] . $name . IMPORT['del'] . $base . "\n";
+        $attr = array_replace($item['_entity']['attr']['pos'], ['context' => 'view', 'actions' => ['view']]);
+        $toc .= viewer($attr, $item) . IMPORT['del'] . $name . IMPORT['del'] . $base . "\n";
         $zip->addFromString($base, IMPORT['start'] . $item['content'] . IMPORT['end']);
     }
 
