@@ -220,10 +220,10 @@ function http_filter(array $data): array
  */
 function http_post_validate(string $token): bool
 {
-    $success = $token && session('token') === $token;
+    $session = session('token');
     session('token', null, true);
 
-    return $success;
+    return $token && $session === $token;
 }
 
 /**
