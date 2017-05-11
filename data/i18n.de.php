@@ -28,7 +28,7 @@ return [
     'Exported' => 'Exportiert',
     'Export Error' => 'Exportfehler',
     'File %s not found' => 'Datei %s nicht gefunden',
-    'File upload failed' => 'Datei konnte nicht hochgeladen werden',
+    'File upload failed for %s' => 'Datei %s konnte nicht hochgeladen werden',
     'Homepage' => 'Startseite',
     'ID' => 'ID',
     'Import' => 'Importieren',

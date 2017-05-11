@@ -195,7 +195,7 @@ function action_media_import(): void
             $name = filter_file($file['name'], path('media'));
 
             if (!file_upload($file['tmp_name'], $name)) {
-                message(_('File upload failed'));
+                message(_('File upload failed for %s', $name));
             }
         }
     } else {
