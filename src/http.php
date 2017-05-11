@@ -107,23 +107,23 @@ function redirect(string $url = '/', int $code = 302): void
  */
 function request(string $key)
 {
-    $data = & registry('request');
+    $req = & registry('request');
 
-    if ($data === null) {
-        $data['host'] = $_SERVER['HTTP_HOST'];
-        $data['get'] = http_filter($_GET);
-        $data['post'] = !empty($_POST['token']) && http_post_validate($_POST['token']) ? $_POST : [];
-        $data['files'] = $_FILES ? http_files_convert($_FILES) : [];
+    if ($req === null) {
+        $req['host'] = $_SERVER['HTTP_HOST'];
+        $req['get'] = http_filter($_GET);
+        $req['post'] = !empty($_POST['token']) && http_post_validate($_POST['token']) ? $_POST : [];
+        $req['files'] = $_FILES ? http_files_convert($_FILES) : [];
         $url = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-        $data['url'] = preg_replace('#^' . $_SERVER['SCRIPT_NAME'] . '#', '', $url);
-        $parts = explode('/', trim(url_rewrite($data['url']), '/'));
-        $data['entity'] = $parts[0];
-        $data['action'] = $parts[1];
-        $data['id'] = $parts[2] ?? null;
-        $data['path'] = $data['entity'] . '/' . $data['action'];
+        $req['url'] = preg_replace('#^' . $_SERVER['SCRIPT_NAME'] . '#', '', $url);
+        $parts = explode('/', trim(url_rewrite($req['url']), '/'));
+        $req['entity'] = $parts[0];
+        $req['action'] = $parts[1];
+        $req['id'] = $parts[2] ?? null;
+        $req['path'] = $req['entity'] . '/' . $req['action'];
     }
 
-    return $data[$key] ?? null;
+    return $req[$key] ?? null;
 }
 
 /**
@@ -220,8 +220,7 @@ function http_filter(array $data): array
  */
 function http_post_validate(string $token): bool
 {
-    $session = session('token');
-    $success = !empty($session) && !empty($token) && $session === $token;
+    $success = $token && session('token') === $token;
     session('token', null, true);
 
     return $success;
