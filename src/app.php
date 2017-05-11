@@ -88,12 +88,11 @@ function path(string $dir, string $id = null): string
 
     if ($data === null) {
         $data = [];
-        $root = realpath(__DIR__ . '/..');
         $data['asset'] = '/data';
-        $data['data'] = $root . '/data';
+        $data['data'] = '/app/data';
         $data['log'] = '/var/log/app';
-        $data['template'] = $root . '/template';
-        $data['theme'] = $root . '/public/theme';
+        $data['template'] = '/app/template';
+        $data['theme'] = '/app/public/theme';
         $data['tmp'] = '/tmp';
         $data['media'] = $data['asset'] . '/' . project('id');
     }
