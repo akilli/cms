@@ -123,6 +123,7 @@ function request(string $key)
         $req['action'] = $parts[1];
         $req['id'] = $parts[2] ?? null;
         $req['path'] = $req['entity'] . '/' . $req['action'];
+        unset($_COOKIE, $_ENV, $_FILES, $_GET, $_POST, $_REQUEST, $_SERVER, $GLOBALS);
     }
 
     return $req[$key] ?? null;
