@@ -111,7 +111,8 @@ function request(string $key)
 
     if ($req === null) {
         $req['project'] = strstr($_SERVER['HTTP_HOST'], '.', true);
-        $token = !empty($_POST['token']) && http_post_validate($_POST['token']);
+        $token = !empty($_POST['token']) && session('token') === $_POST['token'];
+        session('token', null, true);
         $req['data'] = $token && !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
         $param = $token && !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
         $req['param'] = http_filter($param + $_GET);
@@ -214,48 +215,30 @@ function http_filter(array $data): array
 }
 
 /**
- * Post validation
- *
- * @param string $token
- *
- * @return bool
- */
-function http_post_validate(string $token): bool
-{
-    $session = session('token');
-    session('token', null, true);
-
-    return $token && $session === $token;
-}
-
-/**
  * Converts and validates uploaded files
  *
- * @param array $files
+ * @param array $data
  *
  * @return array
  */
-function http_files_convert(array $files): array
+function http_files_convert(array $data): array
 {
-    $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
     $exts = data('file');
+    $files = [];
 
-    foreach (array_filter($files, 'is_array') as $id => $item) {
-        $item = http_files_fix($item);
-        $ids = array_keys($item);
-        sort($ids);
+    foreach (array_filter($data, 'is_array') as $key => $file) {
+        $file = http_files_fix($file);
+        $keys = array_keys($file);
+        sort($keys);
 
-        if ($ids !== $keys) {
-            $files[$id] = http_files_convert($item);
-        } elseif ($item['error'] === UPLOAD_ERR_OK && is_uploaded_file($item['tmp_name'])) {
-            $files[$id] = $item + ['ext' => pathinfo($item['name'], PATHINFO_EXTENSION)];
-
-            if (empty($exts[$files[$id]['ext']])) {
-                message(_('Invalid file %s', $item['name']));
-                unset($files[$id]);
+        if ($keys !== ['error', 'name', 'size', 'tmp_name', 'type']) {
+            $files[$key] = http_files_convert($file);
+        } elseif ($file['error'] === UPLOAD_ERR_OK && is_uploaded_file($file['tmp_name'])) {
+            if (empty($exts[pathinfo($file['name'], PATHINFO_EXTENSION)])) {
+                message(_('Invalid file %s', $file['name']));
+            } else {
+                $files[$key] = $file;
             }
-        } else {
-            unset($files[$id]);
         }
     }
 
@@ -263,7 +246,7 @@ function http_files_convert(array $files): array
 }
 
 /**
- * Fixes a malformed PHP $_FILES array.
+ * Fixes PHP upload files array structure
  *
  * @param array $data
  *
@@ -271,28 +254,23 @@ function http_files_convert(array $files): array
  */
 function http_files_fix(array $data): array
 {
-    $keys = ['error', 'name', 'size', 'tmp_name', 'type'];
-    $ids = array_keys($data);
-    sort($ids);
+    $keys = array_keys($data);
+    sort($keys);
 
-    if ($keys !== $ids || !isset($data['name']) || !is_array($data['name'])) {
+    if ($keys !== ['error', 'name', 'size', 'tmp_name', 'type'] || !is_array($data['name'])) {
         return $data;
     }
 
-    $files = $data;
+    $files = [];
 
-    foreach ($keys as $k) {
-        unset($files[$k]);
-    }
-
-    foreach (array_keys($data['name']) as $id) {
-        $files[$id] = http_files_fix(
+    foreach (array_keys($data['name']) as $key) {
+        $files[$key] = http_files_fix(
             [
-                'error' => $data['error'][$id],
-                'name' => $data['name'][$id],
-                'type' => $data['type'][$id],
-                'tmp_name' => $data['tmp_name'][$id],
-                'size' => $data['size'][$id]
+                'error' => $data['error'][$key],
+                'name' => $data['name'][$key],
+                'type' => $data['type'][$key],
+                'tmp_name' => $data['tmp_name'][$key],
+                'size' => $data['size'][$key]
             ]
         );
     }

@@ -559,7 +559,7 @@ function validator_time(array $attr, array $data): array
 function validator_file(array $attr, array $data): array
 {
     if ($file = http_files('data')[$attr['id']] ?? '') {
-        if (!in_array($attr['type'], data('file', $file['ext']) ?? [])) {
+        if (!in_array($attr['type'], data('file', pathinfo($file['name'], PATHINFO_EXTENSION)) ?? [])) {
             throw new DomainException(_('Invalid file %s', $file['name']));
         }
 

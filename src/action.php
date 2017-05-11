@@ -218,12 +218,14 @@ function action_page_import(array $entity): void
 
     if ($files) {
         foreach ($files as $file) {
-            if (in_array($file['ext'], ['html', 'odt'])) {
+            $info = pathinfo($file['name'], PATHINFO_EXTENSION | PATHINFO_FILENAME);
+
+            if (in_array($info['extension'], ['html', 'odt'])) {
                 $path = path('tmp', uniqid('import', true));
 
                 if (file_dir($path) && move_uploaded_file($file['tmp_name'], $path . '/' . $file['name'])) {
                     $data = [
-                        'name' => pathinfo($file['name'], PATHINFO_FILENAME),
+                        'name' => $info['filename'],
                         'active' => true,
                         'content' => import_content($path . '/' . $file['name'], project('id')),
                         'project_id' => project('id')
@@ -256,8 +258,10 @@ function action_project_import(): void
 
     if ($files) {
         foreach ($files as $file) {
-            if ($file['ext'] === 'zip') {
-                import_project(pathinfo($file['name'], PATHINFO_FILENAME), $file['tmp_name']);
+            $info = pathinfo($file['name'], PATHINFO_EXTENSION | PATHINFO_FILENAME);
+
+            if ($info['extension'] === 'zip') {
+                import_project($info['filename'], $file['tmp_name']);
                 file_delete($file['tmp_name']);
             } else {
                 message(_('Invalid file %s', $file['name']));
