@@ -18,11 +18,11 @@ function account(string $key = null)
         $data = [];
         $id = (int) session('account');
 
-        if ($id && ($data = one('account', [['id', $id], ['active', true], ['project_id', [ADMIN['proj'], project('id')]]]))) {
+        if ($id && ($data = one('account', [['id', $id], ['active', true], ['project_id', [ALL['project'], project('id')]]]))) {
             $role = one('role', [['id', $data['role_id']], ['active', true], ['project_id', $data['project_id']]]);
             $data['privilege'] = $role ? $role['privilege'] : [];
-            $data['admin'] = in_array(ADMIN['priv'], $data['privilege']);
-            $data['global'] = $data['project_id'] === ADMIN['proj'];
+            $data['admin'] = in_array(ALL['privilege'], $data['privilege']);
+            $data['global'] = $data['project_id'] === ALL['project'];
         } else {
             session('account', null, true);
         }

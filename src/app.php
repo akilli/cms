@@ -8,7 +8,7 @@ use InvalidArgumentException;
 /**
  * Constants
  */
-const ADMIN = ['proj' => 1, 'priv' => '_all_'];
+const ALL = ['layout' => '_all_', 'privilege' => '_all_', 'project' => 1];
 const CRIT = [
     '=' => '=',
     '!=' => '!=',
@@ -122,7 +122,7 @@ function project(string $key)
         $id = (int) session('project');
         $crit = $id ? [['id', $id]] : [['uid', strstr(request('host'), '.', true)]];
         $crit[] = ['active', true];
-        $data = one('project', $crit) ?: one('project', [['id', ADMIN['proj']]]);
+        $data = one('project', $crit) ?: one('project', [['id', ALL['project']]]);
         session('project', $data['id']);
     }
 

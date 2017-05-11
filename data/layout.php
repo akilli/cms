@@ -1,6 +1,6 @@
 <?php
 return [
-    '_base_' => [
+    '_all_' => [
         'root' => [
             'type' => 'template',
             'template' => 'layout/root.phtml',
