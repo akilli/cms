@@ -58,9 +58,8 @@ function action_index(array $entity): void
     $crit = empty($entity['attr']['active']) || $act === 'admin' ? [] : [['active', true]];
     $opts = ['select' => array_keys($attrs), 'limit' => data('app', 'limit')];
     $p = [];
-    $q = http_post('param')['q'] ? filter_var(http_post('param')['q'], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
 
-    if ($q && ($s = array_filter(explode(' ', $q)))) {
+    if (($q = http_param('q')) && ($s = array_filter(explode(' ', $q)))) {
         $searchable = array_keys(arr_filter($entity['attr'], [['searchable', true]])) ?: ['name'];
         $crit[] = array_map(
             function (string $k) use ($s): array {
@@ -73,12 +72,12 @@ function action_index(array $entity): void
 
     $size = size($entity['id'], $crit);
     $pages = (int) ceil($size / $opts['limit']);
-    $p['page'] = min(max(http_get('page'), 1), $pages ?: 1);
+    $p['page'] = min(max(http_param('page'), 1), $pages ?: 1);
     $opts['offset'] = ($p['page'] - 1) * $opts['limit'];
 
-    if (($sort = http_get('sort')) && !empty($attrs[$sort])) {
+    if (($sort = http_param('sort')) && !empty($attrs[$sort])) {
         $p['sort'] = $sort;
-        $p['dir'] = http_get('dir') === 'desc' ? 'desc' : 'asc';
+        $p['dir'] = http_param('dir') === 'desc' ? 'desc' : 'asc';
         $opts['order'] = [$p['sort'] => $p['dir']];
     }
 
@@ -98,7 +97,7 @@ function action_index(array $entity): void
  */
 function action_edit(array $entity): void
 {
-    $data = http_post('data');
+    $data = request('data');
     $id = request('id');
 
     if ($data) {
@@ -302,9 +301,7 @@ function action_project_export(): void
  */
 function action_project_switch(): void
 {
-    $id = http_post('data')['id'] ?? null;
-
-    if ($id && size('project', [['id', $id], ['active', true]])) {
+    if (($id = http_data('id')) && size('project', [['id', $id], ['active', true]])) {
         session('project', $id);
     }
 
@@ -318,7 +315,7 @@ function action_project_switch(): void
  */
 function action_account_password(): void
 {
-    if ($data = http_post('data')) {
+    if ($data = request('data')) {
         if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
             message(_('Password and password confirmation must be identical'));
         } else {
@@ -345,7 +342,7 @@ function action_account_login(): void
         redirect();
     }
 
-    if ($data = http_post('data')) {
+    if ($data = request('data')) {
         if (!empty($data['name']) && !empty($data['password']) && ($data = account_login($data['name'], $data['password']))) {
             message(_('Welcome %s', $data['name']));
             session_regenerate();

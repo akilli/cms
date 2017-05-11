@@ -111,8 +111,10 @@ function request(string $key)
 
     if ($req === null) {
         $req['host'] = $_SERVER['HTTP_HOST'];
-        $req['get'] = http_filter($_GET);
-        $req['post'] = !empty($_POST['token']) && http_post_validate($_POST['token']) ? $_POST : [];
+        $token = !empty($_POST['token']) && http_post_validate($_POST['token']);
+        $req['data'] = $token && !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
+        $param = $token && !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
+        $req['param'] = http_filter($param + $_GET);
         $req['files'] = $_FILES ? http_files_convert($_FILES) : [];
         $url = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $req['url'] = preg_replace('#^' . $_SERVER['SCRIPT_NAME'] . '#', '', $url);
@@ -155,27 +157,27 @@ function resolve(string $path): string
 }
 
 /**
- * Get
+ * Data
  *
  * @param string $key
  *
  * @return mixed
  */
-function http_get(string $key)
+function http_data(string $key)
 {
-    return request('get')[$key] ?? null;
+    return request('data')[$key] ?? null;
 }
 
 /**
- * Post
+ * Param
  *
  * @param string $key
  *
  * @return mixed
  */
-function http_post(string $key)
+function http_param(string $key)
 {
-    return request('post')[$key] ?? null;
+    return request('param')[$key] ?? null;
 }
 
 /**
