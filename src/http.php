@@ -248,15 +248,15 @@ function http_files_convert(array $files): array
 
         if ($ids !== $keys) {
             $files[$id] = http_files_convert($item);
-        } elseif ($item['error'] === UPLOAD_ERR_NO_FILE || !is_uploaded_file($item['tmp_name'])) {
-            unset($files[$id]);
-        } else {
+        } elseif ($item['error'] === UPLOAD_ERR_OK && is_uploaded_file($item['tmp_name'])) {
             $files[$id] = $item + ['ext' => pathinfo($item['name'], PATHINFO_EXTENSION)];
 
             if (empty($exts[$files[$id]['ext']])) {
                 message(_('Invalid file %s', $item['name']));
                 unset($files[$id]);
             }
+        } else {
+            unset($files[$id]);
         }
     }
 
