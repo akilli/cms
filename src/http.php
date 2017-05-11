@@ -110,7 +110,7 @@ function request(string $key)
     $req = & registry('request');
 
     if ($req === null) {
-        $req['host'] = $_SERVER['HTTP_HOST'];
+        $req['project'] = strstr($_SERVER['HTTP_HOST'], '.', true);
         $token = !empty($_POST['token']) && http_post_validate($_POST['token']);
         $req['data'] = $token && !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
         $param = $token && !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
