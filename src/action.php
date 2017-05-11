@@ -58,7 +58,7 @@ function action_index(array $entity): void
     $crit = empty($entity['attr']['active']) || $act === 'admin' ? [] : [['active', true]];
     $opts = ['select' => array_keys($attrs), 'limit' => data('app', 'limit')];
     $p = [];
-    $q = http_post('q') ? filter_var(http_post('q'), FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
+    $q = http_post('param')['q'] ? filter_var(http_post('param')['q'], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR) : http_get('q');
 
     if ($q && ($s = array_filter(explode(' ', $q)))) {
         $searchable = array_keys(arr_filter($entity['attr'], [['searchable', true]])) ?: ['name'];
@@ -189,7 +189,9 @@ function action_media_view(array $entity): void
  */
 function action_media_import(): void
 {
-    if ($files = http_files('import')) {
+    $files = http_files('data')['import'] ?? null;
+
+    if ($files) {
         foreach ($files as $file) {
             $name = filter_file($file['name'], path('media'));
 
@@ -213,7 +215,9 @@ function action_media_import(): void
  */
 function action_page_import(array $entity): void
 {
-    if ($files = http_files('import')) {
+    $files = http_files('data')['import'] ?? null;
+
+    if ($files) {
         foreach ($files as $file) {
             if (in_array($file['ext'], ['html', 'odt'])) {
                 $path = path('tmp', uniqid('import', true));
@@ -249,7 +253,9 @@ function action_page_import(array $entity): void
  */
 function action_project_import(): void
 {
-    if ($files = http_files('import')) {
+    $files = http_files('data')['import'] ?? null;
+
+    if ($files) {
         foreach ($files as $file) {
             if ($file['ext'] === 'zip') {
                 import_project(pathinfo($file['name'], PATHINFO_FILENAME), $file['tmp_name']);
@@ -296,7 +302,7 @@ function action_project_export(): void
  */
 function action_project_switch(): void
 {
-    $id = http_post('id');
+    $id = http_post('data')['id'] ?? null;
 
     if ($id && size('project', [['id', $id], ['active', true]])) {
         session('project', $id);

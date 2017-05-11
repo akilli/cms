@@ -1,6 +1,6 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <form id="<?=$§('§')['id'];?>" method="post">
-    <input type="search" name="q" value="<?=$§('q');?>" placeholder="<?= _('Search Term');?>" />
+    <input type="search" name="param[q]" value="<?=$§('q');?>" placeholder="<?= _('Search Term');?>" />
     <input type="submit" value="<?= _('Search');?>" />
     <input type="hidden" name="token" value="<?= token();?>" />
 </form>
