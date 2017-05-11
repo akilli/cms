@@ -29,45 +29,6 @@ function layout(string $id, array $§ = null): ?array
 }
 
 /**
- * Set section variables
- *
- * @param string $id
- * @param array $vars
- *
- * @return void
- */
-function layout_vars(string $id, array $vars): void
-{
-    $§ = layout($id);
-    $§['vars'] = array_replace($§['vars'] ?? [], $vars);
-    layout($id, $§);
-}
-
-/**
- * Layout handles
- *
- * @return array
- */
-function layout_handles(): array
-{
-    $data = ['_base_'];
-    $data[] = 'account-' . (account_user() ? 'user' : 'guest');
-
-    if ($entity = data('entity', request('entity'))) {
-        $act = request('action');
-
-        if (in_array($act, $entity['actions'])) {
-            $data[] = 'action-' . $act;
-        }
-
-        $data[] = 'entity-' . $entity['id'];
-        $data[] = $entity['id'] . '/' . $act;
-    }
-
-    return $data;
-}
-
-/**
  * Load layout by handles
  *
  * @return void
@@ -120,6 +81,45 @@ function layout_add(array $§): void
 
     // Add or update section
     layout($§['id'], array_replace($data, $§));
+}
+
+/**
+ * Set section variables
+ *
+ * @param string $id
+ * @param array $vars
+ *
+ * @return void
+ */
+function layout_vars(string $id, array $vars): void
+{
+    $§ = layout($id);
+    $§['vars'] = array_replace($§['vars'] ?? [], $vars);
+    layout($id, $§);
+}
+
+/**
+ * Layout handles
+ *
+ * @return array
+ */
+function layout_handles(): array
+{
+    $data = ['_base_'];
+    $data[] = 'account-' . (account_user() ? 'user' : 'guest');
+
+    if ($entity = data('entity', request('entity'))) {
+        $act = request('action');
+
+        if (in_array($act, $entity['actions'])) {
+            $data[] = 'action-' . $act;
+        }
+
+        $data[] = 'entity-' . $entity['id'];
+        $data[] = $entity['id'] . '/' . $act;
+    }
+
+    return $data;
 }
 
 /**
