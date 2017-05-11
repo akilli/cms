@@ -264,11 +264,6 @@ function http_files_convert(array $files): array
 /**
  * Fixes a malformed PHP $_FILES array.
  *
- * PHP has a bug that the format of the $_FILES array differs, depending on whether the uploaded file fields had normal
- * field names or array-like field names ("normal" vs. "parent[child]"). This method fixes the array to look like the
- * "normal" $_FILES array. It's safe to pass an already converted array, in which case this method just returns the
- * original array unmodified.
- *
  * @param array $data
  *
  * @return array
