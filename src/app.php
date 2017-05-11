@@ -28,6 +28,14 @@ const DATETIME = ['b' => 'Y-m-d H:i:s', 'f' => 'Y-m-d\TH:i'];
 const IMPORT = ['toc' => 'toc.txt', 'del' => ';', 'start' => '<!-- IMPORT_START -->', 'end' => '<!-- IMPORT_END -->'];
 const LOG = 'qnd.log';
 const OPTS = ['mode' => 'all', 'index' => 'id', 'select' => [], 'order' => [], 'limit' => 0, 'offset' => 0];
+const PATH = [
+    'data' => '/app/data',
+    'theme' => '/app/public/theme',
+    'template' => '/app/template',
+    'tmp' => '/tmp',
+    'log' => '/var/log/app',
+    'asset' => '/data'
+];
 const TIME = ['b' => 'H:i:s', 'f' => 'H:i'];
 const URL = '.html';
 
@@ -87,13 +95,7 @@ function path(string $dir, string $id = null): string
     $data = & registry('path');
 
     if ($data === null) {
-        $data = [];
-        $data['data'] = '/app/data';
-        $data['theme'] = '/app/public/theme';
-        $data['template'] = '/app/template';
-        $data['tmp'] = '/tmp';
-        $data['log'] = '/var/log/app';
-        $data['asset'] = '/data';
+        $data = PATH;
         $data['media'] = $data['asset'] . '/' . project('id');
     }
 
