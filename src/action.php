@@ -188,9 +188,7 @@ function action_media_view(array $entity): void
  */
 function action_media_import(): void
 {
-    $files = http_files('data')['import'] ?? null;
-
-    if ($files) {
+    if ($files = http_files('import')) {
         foreach ($files as $file) {
             $name = filter_file($file['name'], path('media'));
 
@@ -214,11 +212,9 @@ function action_media_import(): void
  */
 function action_page_import(array $entity): void
 {
-    $files = http_files('data')['import'] ?? null;
-
-    if ($files) {
+    if ($files = http_files('import')) {
         foreach ($files as $file) {
-            $info = pathinfo($file['name'], PATHINFO_EXTENSION | PATHINFO_FILENAME);
+            $info = pathinfo($file['name']);
 
             if (in_array($info['extension'], ['html', 'odt'])) {
                 $path = path('tmp', uniqid('import', true));
@@ -254,11 +250,9 @@ function action_page_import(array $entity): void
  */
 function action_project_import(): void
 {
-    $files = http_files('data')['import'] ?? null;
-
-    if ($files) {
+    if ($files = http_files('import')) {
         foreach ($files as $file) {
-            $info = pathinfo($file['name'], PATHINFO_EXTENSION | PATHINFO_FILENAME);
+            $info = pathinfo($file['name']);
 
             if ($info['extension'] === 'zip') {
                 import_project($info['filename'], $file['tmp_name']);

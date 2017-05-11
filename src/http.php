@@ -116,7 +116,7 @@ function request(string $key)
         $req['data'] = $token && !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
         $param = $token && !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
         $req['param'] = http_filter($param + $_GET);
-        $req['files'] = $_FILES ? http_files_convert($_FILES) : [];
+        $req['files'] = !empty($_FILES['data']) ? http_file($_FILES['data']) : [];
         $url = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $req['url'] = preg_replace('#^' . $_SERVER['SCRIPT_NAME'] . '#', '', $url);
         $parts = explode('/', trim(url_rewrite($req['url']), '/'));
@@ -215,44 +215,13 @@ function http_filter(array $data): array
 }
 
 /**
- * Converts and validates uploaded files
+ * Filters file uploads
  *
  * @param array $data
  *
  * @return array
  */
-function http_files_convert(array $data): array
-{
-    $exts = data('file');
-    $files = [];
-
-    foreach (array_filter($data, 'is_array') as $key => $file) {
-        $file = http_files_fix($file);
-        $keys = array_keys($file);
-        sort($keys);
-
-        if ($keys !== ['error', 'name', 'size', 'tmp_name', 'type']) {
-            $files[$key] = http_files_convert($file);
-        } elseif ($file['error'] === UPLOAD_ERR_OK && is_uploaded_file($file['tmp_name'])) {
-            if (empty($exts[pathinfo($file['name'], PATHINFO_EXTENSION)])) {
-                message(_('Invalid file %s', $file['name']));
-            } else {
-                $files[$key] = $file;
-            }
-        }
-    }
-
-    return $files;
-}
-
-/**
- * Fixes PHP upload files array structure
- *
- * @param array $data
- *
- * @return array
- */
-function http_files_fix(array $data): array
+function http_file(array $data): array
 {
     $keys = array_keys($data);
     sort($keys);
@@ -261,10 +230,18 @@ function http_files_fix(array $data): array
         return $data;
     }
 
+    $exts = data('file');
     $files = [];
 
-    foreach (array_keys($data['name']) as $key) {
-        $files[$key] = http_files_fix(
+    foreach ($data['name'] as $key => $value) {
+        $ok = $data['error'][$key] === UPLOAD_ERR_OK && is_uploaded_file($data['tmp_name'][$key]);
+
+        if (!is_array($value) && (!$ok || empty($exts[pathinfo($data['name'][$key], PATHINFO_EXTENSION)]))) {
+            message(_('Invalid file %s', $data['name'][$key]));
+            continue;
+        }
+
+        $f = http_file(
             [
                 'error' => $data['error'][$key],
                 'name' => $data['name'][$key],
@@ -273,6 +250,10 @@ function http_files_fix(array $data): array
                 'size' => $data['size'][$key]
             ]
         );
+
+        if ($f) {
+            $files[$key] = $f;
+        }
     }
 
     return $files;
