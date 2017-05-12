@@ -24,112 +24,113 @@ function arr_load(string $file): array
  * @param array $crit
  *
  * @return array
+ *
+ * @throws RuntimeException
  */
 function arr_filter(array $data, array $crit): array
 {
-    return array_filter(
-        $data,
-        function (array $item) use ($crit): bool {
-            foreach ($crit as $part) {
-                $part = is_array($part[0]) ? $part : [$part];
+    foreach ($data as $id => $item) {
+        foreach ($crit as $part) {
+            $part = is_array($part[0]) ? $part : [$part];
 
-                foreach ($part as $c) {
-                    if (!array_key_exists($c[0], $item)) {
-                        return false;
-                    }
+            foreach ($part as $c) {
+                if (!array_key_exists($c[0], $item)) {
+                    unset($data[$id]);
+                    break 2;
+                }
 
-                    $a = $item[$c[0]];
-                    $val = $c[1] ?? null;
-                    $op = $c[2] ?? CRIT['='];
+                $a = $item[$c[0]];
+                $val = $c[1] ?? null;
+                $op = $c[2] ?? CRIT['='];
 
-                    if (empty(CRIT[$op]) || is_array($val) && !$val) {
+                if (empty(CRIT[$op]) || is_array($val) && !$val) {
+                    throw new RuntimeException(_('Invalid criteria'));
+                }
+
+                switch ($op) {
+                    case CRIT['=']:
+                        $call = function ($a, $v): bool {
+                            return $a === $v;
+                        };
+                        break;
+                    case CRIT['!=']:
+                        $call = function ($a, $v): bool {
+                            return $a !== $v;
+                        };
+                        break;
+                    case CRIT['>']:
+                        $call = function ($a, $v): bool {
+                            return $a > $v;
+                        };
+                        break;
+                    case CRIT['>=']:
+                        $call = function ($a, $v): bool {
+                            return $a >= $v;
+                        };
+                        break;
+                    case CRIT['<']:
+                        $call = function ($a, $v): bool {
+                            return $a < $v;
+                        };
+                        break;
+                    case CRIT['<=']:
+                        $call = function ($a, $v): bool {
+                            return $a <= $v;
+                        };
+                        break;
+                    case CRIT['~']:
+                        $call = function ($a, $v): bool {
+                            return stripos($a, $v) !== false;
+                        };
+                        break;
+                    case CRIT['!~']:
+                        $call = function ($a, $v): bool {
+                            return stripos($a, $v) === false;
+                        };
+                        break;
+                    case CRIT['~^']:
+                        $call = function ($a, $v): bool {
+                            return stripos($a, $v) === 0;
+                        };
+                        break;
+                    case CRIT['!~^']:
+                        $call = function ($a, $v): bool {
+                            return stripos($a, $v) !== 0;
+                        };
+                        break;
+                    case CRIT['~$']:
+                        $call = function ($a, $v): bool {
+                            return strtolower(substr($a, -strlen($v))) === strtolower($v);
+                        };
+                        break;
+                    case CRIT['!~$']:
+                        $call = function ($a, $v): bool {
+                            return strtolower(substr($a, -strlen($v))) !== strtolower($v);
+                        };
+                        break;
+                    default:
                         throw new RuntimeException(_('Invalid criteria'));
-                    }
+                }
 
-                    switch ($op) {
-                        case CRIT['=']:
-                            $call = function ($a, $v): bool {
-                                return $a === $v;
-                            };
-                            break;
-                        case CRIT['!=']:
-                            $call = function ($a, $v): bool {
-                                return $a !== $v;
-                            };
-                            break;
-                        case CRIT['>']:
-                            $call = function ($a, $v): bool {
-                                return $a > $v;
-                            };
-                            break;
-                        case CRIT['>=']:
-                            $call = function ($a, $v): bool {
-                                return $a >= $v;
-                            };
-                            break;
-                        case CRIT['<']:
-                            $call = function ($a, $v): bool {
-                                return $a < $v;
-                            };
-                            break;
-                        case CRIT['<=']:
-                            $call = function ($a, $v): bool {
-                                return $a <= $v;
-                            };
-                            break;
-                        case CRIT['~']:
-                            $call = function ($a, $v): bool {
-                                return stripos($a, $v) !== false;
-                            };
-                            break;
-                        case CRIT['!~']:
-                            $call = function ($a, $v): bool {
-                                return stripos($a, $v) === false;
-                            };
-                            break;
-                        case CRIT['~^']:
-                            $call = function ($a, $v): bool {
-                                return stripos($a, $v) === 0;
-                            };
-                            break;
-                        case CRIT['!~^']:
-                            $call = function ($a, $v): bool {
-                                return stripos($a, $v) !== 0;
-                            };
-                            break;
-                        case CRIT['~$']:
-                            $call = function ($a, $v): bool {
-                                return strtolower(substr($a, -strlen($v))) === strtolower($v);
-                            };
-                            break;
-                        case CRIT['!~$']:
-                            $call = function ($a, $v): bool {
-                                return strtolower(substr($a, -strlen($v))) !== strtolower($v);
-                            };
-                            break;
-                        default:
-                            throw new RuntimeException(_('Invalid criteria'));
-                    }
+                $val = is_array($val) ? $val : [$val];
+                $match = false;
 
-                    $val = is_array($val) ? $val : [$val];
-                    $match = false;
-
-                    foreach ($val as $v) {
-                        if ($call($a, $v)) {
-                            $match = true;
-                            break;
-                        }
-                    }
-
-                    if (!$match) {
-                        return false;
+                foreach ($val as $v) {
+                    if ($call($a, $v)) {
+                        $match = true;
+                        break;
                     }
                 }
-            }
 
-            return true;
+                if (!$match) {
+                    unset($data[$id]);
+                    break 2;
+                }
+            }
         }
-    );
+    }
+
+    return $data;
 }
 
 /**
