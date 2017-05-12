@@ -73,12 +73,13 @@ function section_message(array $§): string
  */
 function section_nav(array $§): string
 {
+    $cur = one('page', [['id', request('id')]]);
     $crit = [];
 
     if (($§['vars']['depth'] ?? null) > 0) {
         $c = ['depth', $§['vars']['depth'], CRIT['<=']];
 
-        if (!empty($§['vars']['sub']) && ($cur = one('page', [['id', request('id')]])) && $cur['depth'] >= $§['vars']['depth']) {
+        if (!empty($§['vars']['sub']) && $cur && $cur['depth'] >= $§['vars']['depth']) {
             $c = [$c, ['id', $cur['path']], ['parent_id', [$cur['id'], $cur['parent_id']]]];
         }
 
@@ -98,7 +99,7 @@ function section_nav(array $§): string
         $a = ['href' => $page['url']];
         $class = '';
 
-        if ($page['url'] === request('path')) {
+        if ($cur && $cur['id'] === $page['id']) {
             $a['class'] = 'active';
             $class .= ' class="active"';
         }
