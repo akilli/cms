@@ -74,11 +74,7 @@ function opt(array $attr): array
     }
 
     if ($attr['type'] === 'entity') {
-        if (($data = & registry('opt.entity.' . $attr['opt'][0])) === null) {
-            $data = $attr['opt'][0] === 'page' ? opt_page() : array_column(all($attr['opt'][0], [], ['select' => ['id', 'name']]), 'name', 'id');
-        }
-
-        return $data;
+        return opt_entity($attr);
     }
 
     $call = fqn($attr['opt'][0]);
@@ -88,20 +84,30 @@ function opt(array $attr): array
 }
 
 /**
- * Page options
+ * Entity options
+ *
+ * @param array $attr
  *
  * @return array
  */
-function opt_page(): array
+function opt_entity(array $attr): array
 {
-    $data = [];
+    static $data = [];
 
-    foreach (all('page', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
-        $attr = array_replace($item['_entity']['attr']['pos'], ['context' => 'view', 'actions' => ['view']]);
-        $data[$item['id']] = viewer($attr, $item) . ' ' . $item['name'];
+    $eId = $attr['opt'][0];
+
+    if (!isset($data[$eId])) {
+        if ($eId === 'page') {
+            foreach (all('page', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
+                $a = array_replace($item['_entity']['attr']['pos'], ['context' => 'view', 'actions' => ['view']]);
+                $data[$eId][$item['id']] = viewer($a, $item) . ' ' . $item['name'];
+            }
+        } else {
+            $data[$eId] = array_column(all($eId, [], ['select' => ['id', 'name']]), 'name', 'id');
+        }
     }
 
-    return $data;
+    return $data[$eId];
 }
 
 /**
