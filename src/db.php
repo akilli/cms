@@ -87,12 +87,13 @@ function db_cols(array $attrs, array $data): array
  */
 function db_attr(array $attrs, bool $auto = false): array
 {
-    return array_filter(
-        $attrs,
-        function (array $attr) use ($auto): bool {
-            return !empty($attr['col']) && (!$auto || empty($attr['auto']));
+    foreach ($attrs as $aId => $attr) {
+        if (empty($attr['col']) || $auto && !empty($attr['auto'])) {
+            unset($attrs[$aId]);
         }
-    );
+    }
+
+    return $attrs;
 }
 
 /**
