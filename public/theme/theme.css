@@ -174,10 +174,6 @@ tfoot a {
     color: #fff;
 }
 
-tbody tr:hover {
-    background: #ededed;
-}
-
 /* Form */
 ::input-placeholder {
     color: #999;
