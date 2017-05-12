@@ -94,16 +94,13 @@ function all(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        return array_column(
-            array_map(
-                function ($item) use ($entity): array {
-                    return entity_load($entity, $item);
-                },
-                $call($entity, $crit, $opts)
-            ),
-            null,
-            $opts['index']
-        );
+        $data = $call($entity, $crit, $opts);
+
+        foreach ($data as $id => $item) {
+            $data[$id] = entity_load($entity, $item);
+        }
+
+        return array_column($data, null, $opts['index']);
     } catch (Exception $e) {
         logger((string) $e);
         message(_('Could not load data'));
