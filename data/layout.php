@@ -121,14 +121,14 @@ return [
         'nav' => [
             'type' => 'nav',
             'parent' => 'right',
-            'vars' => ['depth' => 1, 'sub' => true],
+            'vars' => ['depth' => 2, 'sub' => true],
         ],
     ],
     'page/view' => [
         'nav' => [
             'type' => 'nav',
             'parent' => 'right',
-            'vars' => ['depth' => 1, 'sub' => true],
+            'vars' => ['depth' => 2, 'sub' => true],
         ],
     ],
 ];
