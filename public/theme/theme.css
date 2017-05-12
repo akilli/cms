@@ -72,7 +72,6 @@ h3 {
 /* Group */
 main {
     display: flex;
-    padding: 1rem;
 }
 
 p,
@@ -335,10 +334,16 @@ select > option:only-child {
 }
 
 /**
+ * Layout
+ */
+body > * {
+    padding: 1rem;
+}
+
+/**
  * Messages
  */
 #message {
-    padding: 0.25rem 0.5rem;
     background: #e14b28;
 }
 
@@ -358,8 +363,18 @@ select > option:only-child {
 /**
  * Main
  */
+#left {
+    flex: 1 0;
+    margin-right: 1rem;
+}
+
+#right {
+    flex: 1 0;
+    margin-left: 1rem;
+}
+
 #content {
-    flex: 2 0;
+    flex: 3 0;
 }
 
 #content > h1 {
@@ -408,13 +423,13 @@ html[data-path="account/login"] body > * {
 /**
  * Nav
  */
-#nav li {
+#top nav li {
     display: inline-block;
     margin: 0 1rem;
     padding: 1rem 0;
 }
 
-#subnav li li {
+#right nav li li {
     margin-left: 2rem;
 }
 
@@ -440,7 +455,6 @@ html[data-path="account/login"] body > * {
 
 #toolbar > ul > li {
     margin: 0 1rem;
-    padding: 1rem 0;
 }
 
 #toolbar li ul {

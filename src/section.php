@@ -73,19 +73,16 @@ function section_message(array $§): string
  */
 function section_nav(array $§): string
 {
-    switch (($§['vars']['mode'] ?? null)) {
-        case 'top':
-            $crit = [['depth', 1]];
-            break;
-        case 'sub':
-            if (!($anc = one('page', [['id', request('id')]])) || count($anc['path']) > 1 && !($anc = one('page', [['id', $anc['path'][0]]]))) {
-                return '';
-            }
+    $crit = [];
 
-            $crit = [['pos', $anc['pos'] . '.', CRIT['~^']]];
-            break;
-        default:
-            $crit = [];
+    if (($§['vars']['depth'] ?? null) > 0) {
+        $c = ['depth', $§['vars']['depth'], CRIT['<=']];
+
+        if (!empty($§['vars']['sub']) && ($cur = one('page', [['id', request('id')]])) && $cur['depth'] >= $§['vars']['depth']) {
+            $c = [$c, ['id', $cur['path']], ['parent_id', [$cur['id'], $cur['parent_id']]]];
+        }
+
+        $crit[] = $c;
     }
 
     if (!$nav = all('page', $crit, ['select' => ['id', 'name', 'url', 'depth'], 'order' => ['pos' => 'asc']])) {

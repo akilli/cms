@@ -120,20 +120,15 @@ return [
     'page/index' => [
         'nav' => [
             'type' => 'nav',
-            'parent' => 'top',
-            'vars' => ['mode' => 'top'],
+            'parent' => 'right',
+            'vars' => ['depth' => 1, 'sub' => true],
         ],
     ],
     'page/view' => [
         'nav' => [
             'type' => 'nav',
-            'parent' => 'top',
-            'vars' => ['mode' => 'top'],
-        ],
-        'subnav' => [
-            'type' => 'nav',
             'parent' => 'right',
-            'vars' => ['mode' => 'sub'],
+            'vars' => ['depth' => 1, 'sub' => true],
         ],
     ],
 ];
