@@ -121,7 +121,7 @@ function request(string $key)
         $req['url'] = preg_replace('#^' . $_SERVER['SCRIPT_NAME'] . '#', '', $url);
         $parts = explode('/', trim(url_rewrite($req['url']), '/'));
         $req['entity'] = $parts[0];
-        $req['action'] = $parts[1];
+        $req['action'] = $parts[1] ?? null;
         $req['id'] = $parts[2] ?? null;
         $req['path'] = $req['entity'] . '/' . $req['action'];
     }
