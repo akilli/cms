@@ -28,7 +28,7 @@ function action_denied(): void
  */
 function action_error(): void
 {
-    message(_('The page %s does not exist', request('path')));
+    message(_('Page not found'));
     layout_load();
 }
 
