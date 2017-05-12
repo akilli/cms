@@ -64,14 +64,15 @@ function action_index(array $entity): void
     $rp = request('param') ?: (array) session($sessKey);
     $p = array_intersect_key($rp, $p) + $p;
 
-    if ($p['q'] && ($s = array_filter(explode(' ', $p['q'])))) {
+    if ($p['q'] && ($q = array_filter(explode(' ', $p['q'])))) {
         $searchable = array_keys(arr_filter($entity['attr'], [['searchable', true]])) ?: ['name'];
-        $crit[] = array_map(
-            function (string $k) use ($s): array {
-                return [$k, $s, CRIT['~']];
-            },
-            $searchable
-        );
+        $c = [];
+
+        foreach ($searchable as $s) {
+            $c[] = [$s, $q, CRIT['~']];
+        }
+
+        $crit[] = $c;
     } else {
         unset($p['q']);
     }
