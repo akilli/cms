@@ -265,12 +265,13 @@ function entity(string $eId, bool $bare = false): array
  */
 function entity_attr(array $entity, string $act): array
 {
-    return array_filter(
-        $entity['attr'],
-        function ($attr) use ($act): bool {
-            return in_array($act, $attr['actions']);
+    foreach ($entity['attr'] as $aId => $attr) {
+        if (!in_array($act, $attr['actions'])) {
+            unset($entity['attr'][$aId]);
         }
-    );
+    }
+
+    return $entity['attr'];
 }
 
 /**
