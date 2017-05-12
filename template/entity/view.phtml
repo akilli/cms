@@ -1,6 +1,6 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <?php if ($data = $§('data')):?>
-<article id="<?=$§('§')['id'];?>" class="<?= $§('context');?>">
+<article id="<?=$§('id');?>" class="<?= $§('context');?>">
     <?php foreach ($data['_entity']['attr'] as $attr):?>
         <?php $attr['context'] = $§('context');?>
         <?php if (!$html = viewer($attr, $data)) continue;?>

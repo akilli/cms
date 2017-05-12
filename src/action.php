@@ -91,8 +91,8 @@ function action_index(array $entity): void
 
     session($sessKey, $p);
     layout_load();
-    layout_vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => $entity['name'], 'attr' => $attrs, 'params' => $p]);
-    layout_vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $p]);
+    layout_vars('content', ['attr' => $attrs, 'data' => all($entity['id'], $crit, $opts), 'params' => $p, 'title' => $entity['name']]);
+    layout_vars('pager', ['limit' => $opts['limit'], 'params' => $p, 'size' => $size]);
     layout_vars('search', ['q' => $p['q'] ?? '']);
     layout_vars('head', ['title' => $entity['name']]);
 }

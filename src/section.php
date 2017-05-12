@@ -171,15 +171,12 @@ function section_pager(array $§): string
  */
 function section_template(array $§): string
 {
+    $§['vars'] = ['id' => $§['id'], 'template' => $§['template']] + $§['vars'];
     $§ = function ($key) use ($§) {
-        if ($key === '§') {
-            return $§;
-        }
-
         return $§['vars'][$key] ?? null;
     };
     ob_start();
-    include path('template', $§('§')['template']);
+    include path('template', $§('template'));
 
     return ob_get_clean();
 }
