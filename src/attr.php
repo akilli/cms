@@ -111,17 +111,15 @@ function opt_page(): array
  */
 function opt_privilege(): array
 {
-    return array_map(
-        function (array $data): string {
-            return $data['name'];
-        },
-        array_filter(
-            data('privilege'),
-            function (array $data): bool {
-                return empty($data['callback']);
-            }
-        )
-    );
+    $data = [];
+
+    foreach (data('privilege') as $key => $priv) {
+        if (empty($priv['callback'])) {
+            $data[$key] = $priv['name'];
+        }
+    }
+
+    return $data;
 }
 
 /**
