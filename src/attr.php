@@ -314,15 +314,6 @@ function validator_boundary(array $attr, array $data): array
  */
 function validator_opt(array $attr, array $data): array
 {
-    if (is_array($data[$attr['id']])) {
-        $data[$attr['id']] = array_filter(
-            $data[$attr['id']],
-            function ($val): bool {
-                return !empty($val) || !is_string($val);
-            }
-        );
-    }
-
     if (!empty($data[$attr['id']]) || is_scalar($data[$attr['id']]) && !is_string($data[$attr['id']])) {
         foreach ((array) $data[$attr['id']] as $v) {
             if (!isset($attr['opt'][$v])) {
