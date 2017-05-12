@@ -8,7 +8,6 @@ return [
         'head' => [
             'type' => 'template',
             'template' => 'layout/head.phtml',
-            'vars' => [],
         ],
         'top' => [
             'type' => 'container',
