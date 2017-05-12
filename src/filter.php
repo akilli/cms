@@ -82,3 +82,15 @@ function filter_date(string $date, string $in, string $out): string
 
     return date_format($format, $out) ?: '';
 }
+
+/**
+ * Parameter filter
+ *
+ * @param string $param
+ *
+ * @return string
+ */
+function filter_param(string $param): string
+{
+    return preg_replace('#[^\w ]#u', '', $param);
+}
