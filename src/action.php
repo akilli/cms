@@ -219,7 +219,7 @@ function action_page_import(array $entity): void
             if (in_array($info['extension'], ['html', 'odt'])) {
                 $path = path('tmp', uniqid('import', true));
 
-                if (file_dir($path) && move_uploaded_file($file['tmp_name'], $path . '/' . $file['name'])) {
+                if (file_upload($file['tmp_name'], $path . '/' . $file['name'])) {
                     $data = [
                         'name' => $info['filename'],
                         'active' => true,

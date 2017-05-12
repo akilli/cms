@@ -13,7 +13,9 @@ namespace qnd;
  */
 function file_upload(string $src, string $dest): bool
 {
-    return file_dir(path('media')) && move_uploaded_file($src, path('media', $dest));
+    $dest = strpos($dest, '/') === 0 ? $dest : path('media', $dest);
+
+    return file_dir(dirname($dest)) && move_uploaded_file($src, $dest);
 }
 
 /**
