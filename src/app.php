@@ -120,7 +120,7 @@ function project(string $key)
     if ($data === null) {
         $data = [];
         $crit = [['active', true]];
-        $crit[] = ($id = session('project')) ? ['id', $id] : ['uid', request('project')];
+        $crit[] = ($id = session('project')) ? ['id', $id] : ['uid', strstr(request('host'), '.', true)];
         $data = one('project', $crit) ?: one('project', [['id', ALL['project']]]);
         session('project', $data['id']);
     }
