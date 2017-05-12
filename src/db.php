@@ -110,6 +110,7 @@ function db_crit(array $crit, array $attrs): array
     foreach ($crit as $part) {
         $part = is_array($part[0]) ? $part : [$part];
         $o = [];
+        $z = [];
 
         foreach ($part as $c) {
             $attr = $attrs[$c[0]] ?? null;
@@ -121,7 +122,7 @@ function db_crit(array $crit, array $attrs): array
             }
 
             $param = ':crit_' . $attr['id'] . '_';
-            $i = 0;
+            $z[$attr['id']] = $z[$attr['id']] ?? 0;
             $val = is_array($val) ? $val : [$val];
             $r = [];
 
@@ -131,7 +132,7 @@ function db_crit(array $crit, array $attrs): array
                     $null = ' IS' . ($op === CRIT['!='] ? ' NOT' : '') . ' NULL';
 
                     foreach ($val as $v) {
-                        $p = $param . ++$i;
+                        $p = $param . ++$z[$attr['id']];
                         $cols['param'][] = [$p, $v, $attr['pdo']];
                         $r[] = $attr['col'] . ($v === null ? $null : ' ' . $op . ' ' . $p);
                     }
@@ -141,7 +142,7 @@ function db_crit(array $crit, array $attrs): array
                 case CRIT['<']:
                 case CRIT['<=']:
                     foreach ($val as $v) {
-                        $p = $param . ++$i;
+                        $p = $param . ++$z[$attr['id']];
                         $cols['param'][] = [$p, $v, $attr['pdo']];
                         $r[] = $attr['col'] . ' ' . $op . ' ' . $p;
                     }
@@ -154,7 +155,7 @@ function db_crit(array $crit, array $attrs): array
                 case CRIT['!~$']:
                     if ($attr['backend'] === 'search') {
                         $op = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? '!!' : '@@';
-                        $p = $param . ++$i;
+                        $p = $param . ++$z[$attr['id']];
                         $val = array_map(
                             function ($v): string {
                                 return str_replace(['&', '|'], '', $v);
@@ -169,7 +170,7 @@ function db_crit(array $crit, array $attrs): array
                         $post = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~^'], CRIT['!~^']]) ? '%' : '';
 
                         foreach ($val as $v) {
-                            $p = $param . ++$i;
+                            $p = $param . ++$z[$attr['id']];
                             $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, $attr['pdo']];
                             $r[] = $attr['col'] . $not . ' ILIKE ' . $p;
                         }
