@@ -162,7 +162,7 @@ function db_crit(array $crit, array $attrs): array
                         $p = $param . ++$z[$attr['id']];
                         $val = array_map(
                             function ($v): string {
-                                return str_replace(['&', '|'], '', $v);
+                                return preg_replace('#[\W_]#', '', $v);
                             },
                             $val
                         );
