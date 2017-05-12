@@ -73,13 +73,14 @@ function section_message(array $§): string
  */
 function section_nav(array $§): string
 {
-    $cur = one('page', [['id', request('id')]]);
+    $§['vars'] += ['current' => request('id'), 'depth' => 0, 'sub' => false];
+    $cur = $§['vars']['current'] ? one('page', [['id', $§['vars']['current']]]) : null;
     $crit = [];
 
-    if (($§['vars']['depth'] ?? null) > 0) {
+    if ($§['vars']['depth'] > 0) {
         $c = ['depth', $§['vars']['depth'], CRIT['<=']];
 
-        if (!empty($§['vars']['sub']) && $cur && $cur['depth'] >= $§['vars']['depth']) {
+        if ($§['vars']['sub'] && $cur && $cur['depth'] >= $§['vars']['depth']) {
             $c = [$c, ['id', $cur['path']], ['parent_id', [$cur['id'], $cur['parent_id']]]];
         }
 
