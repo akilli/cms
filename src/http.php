@@ -117,8 +117,7 @@ function request(string $key)
         $param = $token && !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
         $req['param'] = http_filter($param + $_GET);
         $req['files'] = !empty($_FILES['data']) ? http_file($_FILES['data']) : [];
-        $url = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-        $req['url'] = preg_replace('#^' . $_SERVER['SCRIPT_NAME'] . '#', '', $url);
+        $req['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $parts = explode('/', trim(url_rewrite($req['url']), '/'));
         $req['entity'] = $parts[0];
         $req['action'] = $parts[1] ?? null;
