@@ -57,9 +57,14 @@ function action_index(array $entity): void
     $attrs = entity_attr($entity, $act);
     $crit = empty($entity['attr']['active']) || $act === 'admin' ? [] : [['active', true]];
     $opts = ['select' => array_keys($attrs), 'limit' => data('app', 'limit')];
-    $p = [];
 
-    if (($q = http_param('q')) && ($s = array_filter(explode(' ', $q)))) {
+    // Params
+    $p = ['page' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
+    $sessKey = 'param/' . $act . '/' . $entity['id'];
+    $rp = request('param') ?: (array) session($sessKey);
+    $p = array_intersect_key($rp, $p) + $p;
+
+    if ($p['q'] && ($s = array_filter(explode(' ', $p['q'])))) {
         $searchable = array_keys(arr_filter($entity['attr'], [['searchable', true]])) ?: ['name'];
         $crit[] = array_map(
             function (string $k) use ($s): array {
@@ -67,24 +72,25 @@ function action_index(array $entity): void
             },
             $searchable
         );
-        $p['q'] = urlencode(implode(' ', $s));
     }
 
     $size = size($entity['id'], $crit);
-    $pages = (int) ceil($size / $opts['limit']);
-    $p['page'] = min(max(http_param('page'), 1), $pages ?: 1);
+    $pages = (int) ceil($size / $opts['limit']) ?: 1;
+    $p['page'] = min(max($p['page'], 1), $pages);
     $opts['offset'] = ($p['page'] - 1) * $opts['limit'];
 
-    if (($sort = http_param('sort')) && !empty($attrs[$sort])) {
-        $p['sort'] = $sort;
-        $p['dir'] = http_param('dir') === 'desc' ? 'desc' : 'asc';
+    if ($p['sort'] && !empty($attrs[$p['sort']])) {
+        $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
         $opts['order'] = [$p['sort'] => $p['dir']];
+    } else {
+        unset($p['sort'], $p['dir']);
     }
 
+    session($sessKey, $p);
     layout_load();
     layout_vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => $entity['name'], 'attr' => $attrs, 'params' => $p]);
     layout_vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $p]);
-    layout_vars('search', ['q' => $q]);
+    layout_vars('search', ['q' => $p['q']]);
     layout_vars('head', ['title' => $entity['name']]);
 }
 
