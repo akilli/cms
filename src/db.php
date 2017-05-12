@@ -132,9 +132,13 @@ function db_crit(array $crit, array $attrs): array
                     $null = ' IS' . ($op === CRIT['!='] ? ' NOT' : '') . ' NULL';
 
                     foreach ($val as $v) {
-                        $p = $param . ++$z[$attr['id']];
-                        $cols['param'][] = [$p, $v, $attr['pdo']];
-                        $r[] = $attr['col'] . ($v === null ? $null : ' ' . $op . ' ' . $p);
+                        if ($v === null) {
+                            $r[] = $attr['col'] . $null;
+                        } else {
+                            $p = $param . ++$z[$attr['id']];
+                            $cols['param'][] = [$p, $v, $attr['pdo']];
+                            $r[] = $attr['col'] . ' ' . $op . ' ' . $p;
+                        }
                     }
                     break;
                 case CRIT['>']:
