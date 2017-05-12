@@ -92,11 +92,10 @@ function opt(array $attr): array
  */
 function opt_entity(array $attr): array
 {
-    static $data = [];
-
     $eId = $attr['opt'][0];
+    $data = & registry('opt.entity.' . $eId);
 
-    if (!isset($data[$eId])) {
+    if ($data[$eId] === null) {
         if ($eId === 'page') {
             foreach (all('page', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
                 $a = array_replace($item['_entity']['attr']['pos'], ['context' => 'view', 'actions' => ['view']]);
