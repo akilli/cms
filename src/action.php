@@ -72,6 +72,8 @@ function action_index(array $entity): void
             },
             $searchable
         );
+    } else {
+        unset($p['q']);
     }
 
     $size = size($entity['id'], $crit);
@@ -90,7 +92,7 @@ function action_index(array $entity): void
     layout_load();
     layout_vars('content', ['data' => all($entity['id'], $crit, $opts), 'title' => $entity['name'], 'attr' => $attrs, 'params' => $p]);
     layout_vars('pager', ['size' => $size, 'limit' => $opts['limit'], 'params' => $p]);
-    layout_vars('search', ['q' => $p['q']]);
+    layout_vars('search', ['q' => $p['q'] ?? '']);
     layout_vars('head', ['title' => $entity['name']]);
 }
 
