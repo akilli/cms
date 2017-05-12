@@ -208,7 +208,7 @@ function http_filter(array $data): array
         if ($val === false) {
             $data[$key] = null;
         } else {
-            $data[$key] = is_numeric($val) ? (int) $val : preg_replace('#[\W]#', '', $val);
+            $data[$key] = is_numeric($val) ? (int) $val : filter_param($val);
         }
     }
 
