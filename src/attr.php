@@ -81,10 +81,6 @@ function opt(array $attr): array
         return $data;
     }
 
-    if (is_array($attr['opt'][0])) {
-        return $attr['opt'][0];
-    }
-
     $call = fqn($attr['opt'][0]);
     $params = $attr['opt'][1] ?? [];
 
