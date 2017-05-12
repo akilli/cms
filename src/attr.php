@@ -1099,12 +1099,11 @@ function viewer_filesize(array $attr, array $data): string
  */
 function viewer_pos(array $attr, array $data): string
 {
-    $parts = array_map(
-        function (string $item): string {
-            return ltrim($item, '0');
-        },
-        explode('.', $data[$attr['id']])
-    );
+    $parts = [];
+
+    foreach (explode('.', $data[$attr['id']]) as $k => $v) {
+        $parts[$k] = ltrim($v, '0');
+    }
 
     return implode('.', $parts);
 }
