@@ -203,12 +203,13 @@ function http_files(string $key)
 function http_filter(array $data): array
 {
     foreach ($data as $key => $val) {
-        if (!$val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR | FILTER_FLAG_NO_ENCODE_QUOTES)) {
-            unset($data[$key]);
-            continue;
-        }
+        $val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR | FILTER_FLAG_NO_ENCODE_QUOTES);
 
-        $data[$key] = is_numeric($val) ? (int) $val : preg_replace('#[\W]#', '', $val);
+        if ($val === false) {
+            $data[$key] = null;
+        } else {
+            $data[$key] = is_numeric($val) ? (int) $val : preg_replace('#[\W]#', '', $val);
+        }
     }
 
     return $data;
