@@ -102,7 +102,5 @@ function file_dir(string $path): bool
  */
 function file_writable(string $path): bool
 {
-    $pattern = '#^(file://)?(' . path('asset') . '|' . path('log') . '|' . path('tmp') . ')#';
-
-    return (bool) preg_match($pattern, $path);
+    return (bool) preg_match('#^(file://)?(' . path('asset') . '|' . path('log') . '|' . path('tmp') . ')#', $path);
 }
