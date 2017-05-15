@@ -29,10 +29,8 @@
         'clipboard': 1,
         'divarea': 1,
         'enterkey': 1,
-        'filebrowser': 1,
         'floatingspace': 1,
         'format': 1,
-        'image2': 1,
         'indentlist': 1,
         'justify': 1,
         'link': 1,
@@ -43,9 +41,7 @@
         'sourcearea': 1,
         'table': 1,
         'toolbar': 1,
-        'undo': 1,
-        'uploadfile': 1,
-        'uploadimage': 1
+        'undo': 1
     },
     languages: {
         'de': 1,
