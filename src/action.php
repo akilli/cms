@@ -285,7 +285,7 @@ function action_project_import(): void
 function action_project_export(): void
 {
     try {
-        $file = export((int) request('id'));
+        $file = export();
         header('Content-Type: application/zip');
         header('Content-disposition: attachment; filename=' . basename($file));
         header('Content-Length:' . filesize($file));

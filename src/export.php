@@ -9,18 +9,13 @@ use ZipArchive;
 /**
  * Export project
  *
- * @param int $id
- *
  * @return string
  *
  * @throws RuntimeException
  */
-function export(int $id): string
+function export(): string
 {
-    if (!$project = one('project', [['id', $id]])) {
-        throw new RuntimeException(_('Invalid project ID %d', (string) $id));
-    }
-
+    $project = project();
     $file = path('tmp', $project['uid'] . '.zip');
     $zip = new ZipArchive();
 
@@ -38,23 +33,43 @@ function export(int $id): string
     }
 
     // Media files
-    foreach (all('media', [['project_id', $project['id']]]) as $item) {
-        $zip->addFile($item['file'], 'media/' . $item['id']);
+    foreach (all('media') as $data) {
+        $zip->addFile($data['file'], 'media/' . $data['id']);
     }
 
     // Pages
+    $charset = data('app', 'charset');
+    $from = [
+        '#="/"#Ui',
+        '#="' . URL['media'] . '([^/]+)"#Ui',
+        '#="' . URL['theme'] . '([^/]+)"#Ui',
+        '#="/(([^/]+)' . URL['page'] . ')"#Ui'
+    ];
+    $to = ['="index.html"', '="media/$1"', '="theme/$1"', '="$1"'];
     $toc = '';
 
-    foreach (all('page', [['project_id', $id]], ['order' => ['pos' => 'asc']]) as $item) {
-        $base = basename($item['url']);
-        $name = str_replace(IMPORT['del'], '', $item['name']);
-        $attr = array_replace($item['_entity']['attr']['pos'], ['context' => 'view', 'actions' => ['view']]);
-        $toc .= viewer($attr, $item) . IMPORT['del'] . $name . IMPORT['del'] . $base . "\n";
-        $zip->addFromString($base, IMPORT['start'] . $item['content'] . IMPORT['end']);
+    foreach (all('page', [], ['order' => ['pos' => 'asc']]) as $data) {
+        $base = basename($data['url']);
+        $name = str_replace(IMPORT['del'], '', $data['name']);
+        $attr = array_replace($data['_entity']['attr']['pos'], ['context' => 'view', 'actions' => ['view']]);
+        $toc .= viewer($attr, $data) . IMPORT['del'] . $name . IMPORT['del'] . $base . "\n";
+        $main = ['id' => 'content', 'template' => 'entity/view.phtml', 'vars' => ['data' => $data, 'context' => 'view']];
+        $nav = ['id' => 'nav', 'vars' => ['depth' => 2, 'sub' => true, 'current' => $data['id']]];
+        $§ = [
+            'id' => 'root',
+            'template' => 'layout/export.phtml',
+            'vars' => [
+                'charset' => $charset,
+                'title' => $data['name'],
+                'main' => IMPORT['start'] . section_template($main) . IMPORT['end'],
+                'nav' => section_nav($nav),
+            ],
+        ];
+        $zip->addFromString($base, preg_replace($from, $to, section_template($§)));
     }
 
     $zip->addFromString(IMPORT['toc'], $toc);
-    $project['exported'] = date(DATE['b']);
+    $project = ['exported' => date(DATE['b'])] + $project;
 
     if (!save('project', $project)) {
         throw new RuntimeException(_('Export error'));

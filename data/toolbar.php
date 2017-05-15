@@ -5,6 +5,7 @@ return [
     ['name' => 'Accounts', 'url' => '/account/admin'],
     ['name' => 'Roles', 'url' => '/role/admin'],
     ['name' => 'Projects', 'url' => '/project/admin'],
+    ['name' => 'Export', 'url' => '/project/export'],
     ['name' => 'Homepage', 'url' => '/'],
     ['name' => 'Password', 'url' => '/account/password'],
     ['name' => 'Logout', 'url' => '/account/logout'],

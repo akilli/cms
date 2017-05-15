@@ -33,7 +33,7 @@ function url(string $path = '', array $params = []): string
  */
 function url_asset(string $path): string
 {
-    return '/asset/' . project('id') . '/' . $path;
+    return URL['asset'] . project('id') . '/' . $path;
 }
 
 /**
@@ -45,7 +45,7 @@ function url_asset(string $path): string
  */
 function url_media(string $path): string
 {
-    return '/media/view/' . $path;
+    return URL['media'] . $path;
 }
 
 /**
@@ -57,7 +57,7 @@ function url_media(string $path): string
  */
 function url_theme(string $path): string
 {
-    return '/theme/' . $path;
+    return URL['theme'] . $path;
 }
 
 /**
@@ -73,7 +73,7 @@ function url_rewrite(string $path): string
         return data('app', 'home');
     }
 
-    if (!preg_match('#' . URL . '$#', $path)) {
+    if (!preg_match('#' . URL['page'] . '$#', $path)) {
         return $path;
     }
 

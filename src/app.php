@@ -29,7 +29,7 @@ const IMPORT = ['toc' => 'toc.txt', 'del' => ';', 'start' => '<!-- IMPORT_START 
 const LOG = 'qnd.log';
 const OPTS = ['mode' => 'all', 'index' => 'id', 'select' => [], 'order' => [], 'limit' => 0, 'offset' => 0];
 const TIME = ['b' => 'H:i:s', 'f' => 'H:i'];
-const URL = '.html';
+const URL = ['asset' => '/asset/', 'media' => '/media/view/', 'page' => '.html', 'theme' => '/theme/'];
 
 /**
  * Runs application
@@ -110,7 +110,7 @@ function path(string $dir, string $id = null): string
  *
  * @return mixed
  */
-function project(string $key)
+function project(string $key = null)
 {
     $data = & registry('project');
 
@@ -120,6 +120,10 @@ function project(string $key)
         $crit[] = ($id = session('project')) ? ['id', $id] : ['uid', strstr(request('host'), '.', true)];
         $data = one('project', $crit) ?: one('project', [['id', ALL['project']]]);
         session('project', $data['id']);
+    }
+
+    if ($key === null) {
+        return $data;
     }
 
     return $data[$key] ?? null;
