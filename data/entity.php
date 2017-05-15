@@ -217,7 +217,7 @@ return [
     'media' => [
         'name' => 'Media',
         'model' => 'media',
-        'actions' => ['admin', 'delete', 'edit', 'import', 'view'],
+        'actions' => ['admin', 'browser', 'delete', 'edit', 'import', 'view'],
         'attr' => [
             'id' => [
                 'name' => 'ID',

@@ -170,6 +170,31 @@ function action_view(array $entity): void
 }
 
 /**
+ * Media Browser Action
+ *
+ * @param array $entity
+ *
+ * @return void
+ */
+function action_media_browser(array $entity): void
+{
+    $exts = data('file');
+    $data = [];
+
+    foreach (all($entity['id'], [], ['order' => ['name' => 'asc']]) as $file) {
+        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+
+        if (!empty($exts[$ext]) && in_array('image', $exts[$ext])) {
+            $data[] = ['url' => url_media($file['id'])];
+        }
+    }
+
+    header('Content-Type: application/json', true);
+    echo json_encode($data);
+    exit;
+}
+
+/**
  * Media View Action
  *
  * @param array $entity
