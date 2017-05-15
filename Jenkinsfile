@@ -6,29 +6,16 @@ node {
     def cont = "${project}-app ${project}"
     def vol = "${project}_app"
     def proxy = "traefik"
-
-    stage 'Clean'
-        deleteDir()
+    def oldId = ""
+    def id = ""
 
     stage 'Checkout'
         checkout scm
-        def shortCommit = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-        echo "Checked out repository @ commit ${shortCommit}"
 
     stage 'Build'
-        def oldId = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+        oldId = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
         sh "sudo docker build -t ${img} ."
-        def id = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
-
-        if (!oldId || !oldId.equals(id)) {
-            if (oldId) {
-                echo "Updated image ${img}, new ID is ${id}. Old image with ID ${oldId} can be deleted after updating derived containers."
-            } else {
-                echo "Created new image ${img} with ID ${id}"
-            }
-        } else {
-            echo "Image ${img} is already up-to-date."
-        }
+        id = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
 
     stage 'Registry'
         withCredentials([usernamePassword(credentialsId: auth, passwordVariable: 'pass', usernameVariable: 'user')]) {
@@ -45,4 +32,18 @@ node {
         sh "sudo docker stop ${proxy}"
         sh "sudo docker start ${proxy}"
         echo "Successfully deployed ${project} on live server"
+
+    stage 'Clean'
+        deleteDir()
+
+        if (!oldId || !oldId.equals(id)) {
+            if (oldId) {
+                sh "sudo docker rmi ${oldId}"
+                echo "Updated image ${img} to new ID ${id} and remove old image with ID ${oldId}."
+            } else {
+                echo "Created new image ${img} with ID ${id}"
+            }
+        } else {
+            echo "Image ${img} is already up-to-date."
+        }
 }
