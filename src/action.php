@@ -185,7 +185,7 @@ function action_media_browser(array $entity): void
         $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
         if (!empty($exts[$ext]) && in_array('image', $exts[$ext])) {
-            $data[] = ['url' => url_media($file['id'])];
+            $data[] = ['name' => $file['name'], 'url' => url_media($file['id'])];
         }
     }
 
