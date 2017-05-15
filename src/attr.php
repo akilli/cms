@@ -97,6 +97,8 @@ function opt_entity(array $attr): array
 
     if ($data[$eId] === null) {
         if ($eId === 'page') {
+            $data[$eId] = [];
+
             foreach (all('page', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
                 $a = array_replace($item['_entity']['attr']['pos'], ['context' => 'view', 'actions' => ['view']]);
                 $data[$eId][$item['id']] = viewer($a, $item) . ' ' . $item['name'];
