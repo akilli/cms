@@ -39,7 +39,7 @@ node {
         if (!oldId || !oldId.equals(id)) {
             if (oldId) {
                 sh "sudo docker rmi ${oldId}"
-                echo "Updated image ${img} to new ID ${id} and remove old image with ID ${oldId}."
+                echo "Updated image ${img} to new ID ${id} and removed old image with ID ${oldId}."
             } else {
                 echo "Created new image ${img} with ID ${id}"
             }
