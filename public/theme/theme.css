@@ -88,6 +88,10 @@ nav ul {
     list-style: none;
 }
 
+aside nav li li {
+    margin-left: 2rem;
+}
+
 /* Text */
 a {
     text-decoration: none;
@@ -389,10 +393,6 @@ html[data-path="account/login"] body > * {
     display: inline-block;
     margin: 0 1rem;
     padding: 1rem 0;
-}
-
-#right nav li li {
-    margin-left: 2rem;
 }
 
 /**
