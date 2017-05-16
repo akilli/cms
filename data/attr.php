@@ -155,11 +155,6 @@ return [
             'backend' => 'varchar',
             'frontend' => 'file',
         ],
-        'iframe' => [
-            'backend' => 'varchar',
-            'frontend' => 'url',
-            'viewer' => 'iframe',
-        ],
         'image' => [
             'backend' => 'varchar',
             'frontend' => 'file',
