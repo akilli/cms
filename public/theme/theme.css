@@ -476,7 +476,3 @@ html[data-path="account/login"] body > * {
 #toolbar ul a {
     color: #fff;
 }
-
-#toolbar ul span {
-    cursor: s-resize;
-}
