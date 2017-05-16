@@ -108,23 +108,28 @@ table {
     margin: 1rem 0;
 }
 
-th,
-td {
+th {
     padding: 0.25rem 0.375rem;
-    border: thin solid #d3d3d3;
+    font-weight: bold;
+    border-bottom: medium solid #d3d3d3;
 }
 
-thead th,
-thead td,
-tfoot th,
-tfoot td {
-    color: #fff;
-    background: #231f20;
+thead th {
+    border-color: inherit;
+}
+
+td {
+    padding: 0.25rem 0.375rem;
+    border-bottom: thin solid #d3d3d3;
 }
 
 thead a,
 tfoot a {
-    color: #fff;
+    color: inherit;
+}
+
+table p {
+    margin: 0;
 }
 
 /* Form */
