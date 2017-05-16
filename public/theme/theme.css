@@ -48,6 +48,11 @@ figure {
     margin: 0 0 1rem;
 }
 
+li p,
+table p {
+    margin: 0;
+}
+
 figcaption {
     font-size: 0.9rem;
 }
@@ -102,6 +107,11 @@ a:hover {
     text-decoration: underline;
 }
 
+thead a,
+tfoot a {
+    color: inherit;
+}
+
 /* Table */
 table {
     width: 100%;
@@ -121,15 +131,6 @@ thead th {
 td {
     padding: 0.25rem 0.375rem;
     border-bottom: thin solid #d3d3d3;
-}
-
-thead a,
-tfoot a {
-    color: inherit;
-}
-
-table p {
-    margin: 0;
 }
 
 /* Form */
