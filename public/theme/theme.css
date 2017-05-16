@@ -1,8 +1,4 @@
 /**
- * Variables
- */
-
-/**
  * Font
  */
 @font-face {
@@ -100,10 +96,6 @@ a {
 
 a:hover {
     text-decoration: underline;
-}
-
-mark {
-    background: #e14b28;
 }
 
 /* Embedded */
