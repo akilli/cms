@@ -119,14 +119,14 @@ return [
     'page/index' => [
         'nav' => [
             'type' => 'nav',
-            'parent' => 'left',
+            'parent' => 'right',
             'vars' => ['depth' => 2, 'sub' => true],
         ],
     ],
     'page/view' => [
         'nav' => [
             'type' => 'nav',
-            'parent' => 'left',
+            'parent' => 'right',
             'vars' => ['depth' => 2, 'sub' => true],
         ],
     ],
