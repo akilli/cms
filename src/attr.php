@@ -385,25 +385,6 @@ function validator_id(array $attr, array $data): array
 }
 
 /**
- * Color validator
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
- *
- * @throws DomainException
- */
-function validator_color(array $attr, array $data): array
-{
-    if ($data[$attr['id']] && !preg_match('/#[a-f0-9]{6}/', $data[$attr['id']])) {
-        throw new DomainException(_('Invalid color'));
-    }
-
-    return $data;
-}
-
-/**
  * Email validator
  *
  * @param array $attr

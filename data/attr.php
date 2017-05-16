@@ -49,10 +49,6 @@ return [
             'editor' => 'opt',
             'viewer' => 'opt',
         ],
-        'color' => [
-            'validator' => 'color',
-            'editor' => 'text',
-        ],
         'date' => [
             'validator' => 'date',
             'editor' => 'date',
@@ -121,10 +117,6 @@ return [
         'checkbox' => [
             'backend' => 'bool',
             'frontend' => 'checkbox',
-        ],
-        'color' => [
-            'backend' => 'varchar',
-            'frontend' => 'color',
         ],
         'date' => [
             'backend' => 'date',
