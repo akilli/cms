@@ -10,6 +10,8 @@
 html {
     box-sizing: border-box;
     overflow-y: scroll;
+    width: 100%;
+    height: 100%;
 }
 
 html,
@@ -48,6 +50,14 @@ del {
 u,
 ins {
     text-decoration: underline;
+}
+
+/**
+ * Section
+ */
+body {
+    width: 100%;
+    min-height: 100%;
 }
 
 /**
