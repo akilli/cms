@@ -441,38 +441,7 @@ html[data-path="account/login"] body > * {
     display: inline-block;
 }
 
-#toolbar > ul {
-    display: inline-block;
-}
-
-#toolbar li {
-    display: inline-block;
-}
-
-#toolbar > ul > li {
+#toolbar a {
     margin: 0 1rem;
-}
-
-#toolbar li ul {
-    position: absolute;
-    left: auto;
-    top: auto;
-    z-index: 10;
-    display: none;
-    background: #231f20;
-}
-
-#toolbar li:hover ul {
-    display: block;
-}
-
-#toolbar li li {
-    margin: 0 1rem;
-    padding: 1rem 0;
-    font-size: 0.9rem;
-    border-bottom: thin dashed #000;
-}
-
-#toolbar ul a {
     color: #fff;
 }

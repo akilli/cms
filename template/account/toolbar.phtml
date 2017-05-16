@@ -12,12 +12,8 @@
     </form>
     <?php endif;?>
     <?php if ($data = data('toolbar')):?>
-    <ul>
         <?php foreach ($data as $item):?>
-        <li>
-            <a href="<?=$item['url'];?>"><?=$item['name'];?></a>
-        </li>
+    <a href="<?=$item['url'];?>"><?=$item['name'];?></a>
         <?php endforeach;?>
-    </ul>
     <?php endif;?>
 </nav>
