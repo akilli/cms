@@ -142,11 +142,6 @@ return [
             'backend' => 'varchar',
             'frontend' => 'email',
         ],
-        'embed' => [
-            'backend' => 'varchar',
-            'frontend' => 'file',
-            'viewer' => 'embed',
-        ],
         'entity' => [
             'backend' => 'int',
             'frontend' => 'select',

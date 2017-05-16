@@ -994,19 +994,6 @@ function viewer_audio(array $attr, array $data): string
 }
 
 /**
- * Embed viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
- */
-function viewer_embed(array $attr, array $data): string
-{
-    return $data[$attr['id']] ? html('embed', ['src' => url_media($data[$attr['id']])], null, true) : '';
-}
-
-/**
  * File viewer
  *
  * @param array $attr
