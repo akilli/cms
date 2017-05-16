@@ -16,33 +16,6 @@
 }
 
 /**
- * Icon
- */
-.icon {
-    display: inline-block;
-    line-height: 1;
-    vertical-align: middle;
-    text-decoration: none;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    font-family: material;
-    font-weight: normal;
-    font-size: 24px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: 'liga';
-    border: 0;
-}
-
-.icon:hover {
-    text-decoration: none;
-}
-
-/**
  * Elements
  */
 body {
@@ -332,6 +305,23 @@ body > * {
 }
 
 /**
+ * Toolbar
+ */
+#toolbar {
+    color: #fff;
+    background: #231f20;
+}
+
+#toolbar form {
+    display: inline-block;
+}
+
+#toolbar a {
+    margin: 0 1rem;
+    color: #fff;
+}
+
+/**
  * Messages
  */
 #message {
@@ -425,18 +415,28 @@ html[data-path="account/login"] body > * {
 }
 
 /**
- * Toolbar
+ * Icon
  */
-#toolbar {
-    color: #fff;
-    background: #231f20;
-}
-
-#toolbar form {
+.icon {
     display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    font-family: material;
+    font-weight: normal;
+    font-size: 24px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+    border: 0;
 }
 
-#toolbar a {
-    margin: 0 1rem;
-    color: #fff;
+.icon:hover {
+    text-decoration: none;
 }
