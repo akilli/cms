@@ -379,6 +379,7 @@ function action_account_login(): void
             message(_('Welcome %s', $data['name']));
             session_regenerate();
             session('account', $data['id']);
+            echo '<pre>' . print_r(account(), true) . '</pre>';
             redirect();
         }
 
