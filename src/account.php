@@ -116,7 +116,7 @@ function allowed(string $key): bool
         return false;
     }
 
-    return !empty($data[$key]['callback']) && $data[$key]['callback']()
+    return !empty($data[$key]['callback']) && call($data[$key]['callback'])
         || account_admin()
         || in_array($key, account('privilege') ?? []);
 }

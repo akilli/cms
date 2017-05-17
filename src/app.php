@@ -38,7 +38,7 @@ const URL = ['asset' => '/asset/', 'media' => '/media/view/', 'page' => '.html',
  */
 function app(): void
 {
-    $prefix = fqn('action_');
+    $prefix = __NAMESPACE__ . '\\' . 'action_';
     $act = request('action');
     $eId = request('entity');
     $entity = data('entity', $eId);
@@ -164,9 +164,8 @@ function data(string $section, string $id = null)
 function event(string $event, array $data): array
 {
     if (($listeners = data('listener', $event)) && asort($listeners, SORT_NUMERIC)) {
-        foreach (array_keys($listeners) as $call) {
-            $call = fqn('listener_' . $call);
-            $data = $call($data);
+        foreach (array_keys($listeners) as $id) {
+            $data = call('listener_' . $id, $data);
         }
     }
 
@@ -177,11 +176,11 @@ function event(string $event, array $data): array
  * Translate
  *
  * @param string $key
- * @param string[] ...$params
+ * @param string[] ...$args
  *
  * @return string
  */
-function _(string $key, string ...$params): string
+function _(string $key, string ...$args): string
 {
     if (!$key) {
         return '';
@@ -189,11 +188,11 @@ function _(string $key, string ...$params): string
 
     $key = data('i18n', $key) ?? $key;
 
-    if (!$params) {
+    if (!$args) {
         return $key;
     }
 
-    return vsprintf($key, $params) ?: $key;
+    return vsprintf($key, $args) ?: $key;
 }
 
 /**
@@ -209,13 +208,16 @@ function logger(string $message): void
 }
 
 /**
- * Returns fully qualified name
+ * Applies callback function given by local name
  *
  * @param string $name
+ * @param mixed ...$args
  *
- * @return string
+ * @return mixed
  */
-function fqn(string $name): string
+function call(string $name, ...$args)
 {
-    return strpos($name, '\\') === false ? __NAMESPACE__ . '\\' . $name : $name;
+    $call = __NAMESPACE__ . '\\' . $name;
+
+    return $call(...$args);
 }

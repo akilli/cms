@@ -18,9 +18,8 @@ function section(string $id): string
 
     $§ = event('section.type.' . $§['type'], $§);
     $§ = event('section.' . $id, $§);
-    $call = fqn('section_' . $§['type']);
 
-    return $call($§);
+    return call('section_' . $§['type'], $§);
 }
 
 /**

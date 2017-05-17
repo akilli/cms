@@ -77,10 +77,9 @@ function opt(array $attr): array
         return opt_entity($attr);
     }
 
-    $call = fqn($attr['opt'][0]);
-    $params = $attr['opt'][1] ?? [];
+    $args = $attr['opt'][1] ?? [];
 
-    return $call(...$params);
+    return call($attr['opt'][0], ...$args);
 }
 
 /**
@@ -141,7 +140,7 @@ function loader(array $attr, array $data)
 {
     $data[$attr['id']] = cast($attr, $data[$attr['id']] ?? null);
 
-    return $attr['loader'] && ($call = fqn('loader_' . $attr['loader'])) ? $call($attr, $data) : $data[$attr['id']];
+    return $attr['loader'] ? call('loader_' . $attr['loader'], $attr, $data) : $data[$attr['id']];
 }
 
 /**
@@ -175,7 +174,7 @@ function loader_json(array $attr, array $data): array
  */
 function saver(array $attr, array $data): array
 {
-    return $attr['saver'] && ($call = fqn('saver_' . $attr['saver'])) ? $call($attr, $data) : $data;
+    return $attr['saver'] ? call('saver_' . $attr['saver'], $attr, $data) : $data;
 }
 
 /**
@@ -233,8 +232,7 @@ function validator(array $attr, array $data): array
     $attr['opt'] = opt($attr);
 
     if ($attr['validator']) {
-        $call = fqn('validator_' . $attr['validator']);
-        $data = $call($attr, $data);
+        $data = call('validator_' . $attr['validator'], $attr, $data);
     }
 
     validator_uniq($attr, $data);
@@ -584,7 +582,7 @@ function editor(array $attr, array $data): string
         $error = html('div', ['class' => 'message error'], $data['_error'][$attr['id']]);
     }
 
-    if ($attr['editor'] && ($call = fqn('editor_' . $attr['editor'])) && ($html = $call($attr, $data))) {
+    if ($attr['editor'] && ($html = call('editor_' . $attr['editor'], $attr, $data))) {
         return html('label', ['for' => $attr['html']['id']], $label) . $html . $error;
     }
 
@@ -881,8 +879,8 @@ function viewer(array $attr, array $data): string
 
     $attr['opt'] = opt($attr);
 
-    if ($attr['viewer'] && ($call = fqn('viewer_' . $attr['viewer']))) {
-        return $call($attr, $data);
+    if ($attr['viewer']) {
+        return call('viewer_' . $attr['viewer'], $attr, $data);
     }
 
     return $data[$attr['id']] ? encode((string) $data[$attr['id']]) : (string) $data[$attr['id']];

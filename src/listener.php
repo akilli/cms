@@ -101,7 +101,6 @@ function listener_data_privilege(array $data): array
 {
     foreach ($data as $id => $item) {
         $data[$id]['name'] = !empty($item['name']) ? _($item['name']) : '';
-        $data[$id]['callback'] = !empty($item['callback']) ? fqn($item['callback']) : null;
     }
 
     foreach (data('entity') as $eId => $entity) {

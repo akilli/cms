@@ -17,7 +17,6 @@ use RuntimeException;
 function size(string $eId, array $crit = []): int
 {
     $entity = data('entity', $eId);
-    $call = fqn($entity['model'] . '_load');
     $opts = ['mode' => 'size'] + OPTS;
 
     if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
@@ -25,7 +24,7 @@ function size(string $eId, array $crit = []): int
     }
 
     try {
-        return $call($entity, $crit, $opts)[0];
+        return call($entity['model'] . '_load', $entity, $crit, $opts)[0];
     } catch (Exception $e) {
         logger((string) $e);
         message(_('Could not load data'));
@@ -46,7 +45,6 @@ function size(string $eId, array $crit = []): int
 function one(string $eId, array $crit = [], array $opts = []): array
 {
     $entity = data('entity', $eId);
-    $call = fqn($entity['model'] . '_load');
     $data = [];
     $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'one', 'limit' => 1]);
 
@@ -55,7 +53,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        if ($data = $call($entity, $crit, $opts)) {
+        if ($data = call($entity['model'] . '_load', $entity, $crit, $opts)) {
             $data = entity_load($entity, $data);
         }
     } catch (Exception $e) {
@@ -78,7 +76,6 @@ function one(string $eId, array $crit = [], array $opts = []): array
 function all(string $eId, array $crit = [], array $opts = []): array
 {
     $entity = data('entity', $eId);
-    $call = fqn($entity['model'] . '_load');
     $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'all']);
 
     if ($opts['select']) {
@@ -94,7 +91,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        $data = $call($entity, $crit, $opts);
+        $data = call($entity['model'] . '_load', $entity, $crit, $opts);
 
         foreach ($data as $id => $item) {
             $data[$id] = entity_load($entity, $item);
@@ -161,8 +158,7 @@ function save(string $eId, array & $data): bool
             $temp = event('entity.presave', $temp);
             $temp = event('model.presave.' . $temp['_entity']['model'], $temp);
             $temp = event('entity.presave.' . $temp['_entity']['id'], $temp);
-            $call = fqn($temp['_entity']['model'] . '_save');
-            $temp = $call($temp);
+            $temp = call($temp['_entity']['model'] . '_save', $temp);
             event('entity.postsave', $temp);
             event('model.postsave.' . $temp['_entity']['model'], $temp);
             event('entity.postsave.' . $temp['_entity']['id'], $temp);
@@ -204,8 +200,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
                 $item = event('entity.predelete', $item);
                 $item = event('model.predelete.' . $item['_entity']['model'], $item);
                 $item = event('entity.predelete.' . $item['_entity']['id'], $item);
-                $call = fqn($item['_entity']['model'] . '_delete');
-                $call($item);
+                call($item['_entity']['model'] . '_delete', $item);
                 event('entity.postdelete', $item);
                 event('model.postdelete.' . $item['_entity']['model'], $item);
                 event('entity.postdelete.' . $item['_entity']['id'], $item);
