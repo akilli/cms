@@ -46,7 +46,6 @@ services:
     image: registry.test.eqmh.de/qnd-data
     container_name: qnd-data
     restart: unless-stopped
-    network_mode: "service:qnd"
     volumes:
       - source: data
         target: /app
