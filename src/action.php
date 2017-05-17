@@ -13,6 +13,7 @@ use Exception;
 function action_denied(): void
 {
     if (account_user()) {
+        header('HTTP/1.1 403 Forbidden');
         message(_('Access denied'));
         redirect();
     }
