@@ -159,16 +159,6 @@ return [
             'editor' => 'json',
             'validator' => 'json',
         ],
-        'multicheckbox' => [
-            'backend' => 'json',
-            'frontend' => 'checkbox',
-            'multiple' => true,
-        ],
-        'multiselect' => [
-            'backend' => 'json',
-            'frontend' => 'select',
-            'multiple' => true,
-        ],
         'password' => [
             'backend' => 'varchar',
             'frontend' => 'password',

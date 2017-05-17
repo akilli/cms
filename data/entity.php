@@ -64,7 +64,9 @@ return [
             ],
             'privilege' => [
                 'name' => 'Privileges',
-                'type' => 'multicheckbox',
+                'type' => 'checkbox',
+                'backend' => 'json',
+                'multiple' => true,
                 'opt' => ['opt_privilege'],
                 'actions' => ['edit'],
             ],
