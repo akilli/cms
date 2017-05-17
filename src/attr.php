@@ -717,7 +717,7 @@ function editor_password(array $attr, array $data): string
  */
 function editor_int(array $attr, array $data): string
 {
-    $attr['html']['type'] = $attr['frontend'];
+    $attr['html']['type'] = $attr['html']['type'] ?? $attr['frontend'];
     $attr['html']['value'] = $data[$attr['id']];
 
     if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
@@ -742,18 +742,8 @@ function editor_int(array $attr, array $data): string
 function editor_date(array $attr, array $data): string
 {
     $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], DATE['b'], DATE['f']) : '';
-    $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $data[$attr['id']];
 
-    if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
-        $attr['html']['min'] = $attr['minval'];
-    }
-
-    if ($attr['maxval'] > 0 && $attr['minval'] <= $attr['maxval']) {
-        $attr['html']['max'] = $attr['maxval'];
-    }
-
-    return html('input', $attr['html'], null, true);
+    return editor_int($attr, $data);
 }
 
 /**
@@ -768,17 +758,8 @@ function editor_datetime(array $attr, array $data): string
 {
     $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], DATETIME['b'], DATETIME['f']) : '';
     $attr['html']['type'] = 'datetime-local';
-    $attr['html']['value'] = $data[$attr['id']];
 
-    if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
-        $attr['html']['min'] = $attr['minval'];
-    }
-
-    if ($attr['maxval'] > 0 && $attr['minval'] <= $attr['maxval']) {
-        $attr['html']['max'] = $attr['maxval'];
-    }
-
-    return html('input', $attr['html'], null, true);
+    return editor_int($attr, $data);
 }
 
 /**
@@ -792,18 +773,8 @@ function editor_datetime(array $attr, array $data): string
 function editor_time(array $attr, array $data): string
 {
     $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], TIME['b'], TIME['f']) : '';
-    $attr['html']['type'] = $attr['frontend'];
-    $attr['html']['value'] = $data[$attr['id']];
 
-    if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
-        $attr['html']['min'] = $attr['minval'];
-    }
-
-    if ($attr['maxval'] > 0 && $attr['minval'] <= $attr['maxval']) {
-        $attr['html']['max'] = $attr['maxval'];
-    }
-
-    return html('input', $attr['html'], null, true);
+    return editor_int($attr, $data);
 }
 
 /**
