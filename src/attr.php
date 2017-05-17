@@ -960,19 +960,6 @@ function viewer_rte(array $attr, array $data): string
 }
 
 /**
- * Audio viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
- */
-function viewer_audio(array $attr, array $data): string
-{
-    return $data[$attr['id']] ? html('audio', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
-}
-
-/**
  * File viewer
  *
  * @param array $attr
@@ -996,6 +983,19 @@ function viewer_file(array $attr, array $data): string
 function viewer_image(array $attr, array $data): string
 {
     return $data[$attr['id']] ? html('img', ['src' => url_media($data[$attr['id']]), 'alt' => $data[$attr['id']]], null, true) : '';
+}
+
+/**
+ * Audio viewer
+ *
+ * @param array $attr
+ * @param array $data
+ *
+ * @return string
+ */
+function viewer_audio(array $attr, array $data): string
+{
+    return $data[$attr['id']] ? html('audio', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
 }
 
 /**
