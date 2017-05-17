@@ -3,7 +3,6 @@ node {
     def reg = "registry.test.eqmh.de"
     def img = "${reg}/${project}"
     def auth = "ci"
-    def cont = "${project}-app ${project}"
     def vol = "${project}_app"
     def proxy = "traefik"
     def oldId = ""
@@ -25,8 +24,8 @@ node {
         }
 
     stage 'Live'
-        sh "sudo docker-compose -p ${project} -f docker-compose.yml stop ${cont}"
-        sh "sudo docker-compose -p ${project} -f docker-compose.yml rm -f ${cont}"
+        sh "sudo docker-compose -p ${project} -f docker-compose.yml stop"
+        sh "sudo docker-compose -p ${project} -f docker-compose.yml rm -f"
         sh "sudo docker volume rm ${vol} || true"
         sh "sudo docker-compose -p ${project} -f docker-compose.yml up -d --force-recreate"
         sh "sudo docker stop ${proxy}"
