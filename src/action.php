@@ -185,7 +185,7 @@ function action_media_browser(array $entity): void
     foreach (all($entity['id'], [], ['order' => ['name' => 'asc']]) as $file) {
         $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
-        if (!empty($exts[$ext]) && $exts[$ext] === 'image') {
+        if (!empty($exts[$ext]) && in_array('image', $exts[$ext])) {
             $data[] = ['name' => $file['name'], 'url' => url_media($file['id'])];
         }
     }
