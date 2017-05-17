@@ -28,6 +28,7 @@ function action_denied(): void
  */
 function action_error(): void
 {
+    header('HTTP/1.1 404 Not Found');
     message(_('Page not found'));
     layout_load();
 }
