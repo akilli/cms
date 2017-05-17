@@ -42,5 +42,3 @@ register_shutdown_function(
  */
 app();
 echo section('root');
-
-echo '<pre>' . print_r($_SESSION, true) . '</pre>';
