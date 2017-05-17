@@ -1,6 +1,7 @@
 CKEDITOR.dialog.add('mediaDialog', function (editor) {
     return {
         title: editor.lang.media.title,
+        resizable: CKEDITOR.DIALOG_RESIZE_BOTH,
         minWidth: 600,
         minHeight: 400,
         contents: [
@@ -10,7 +11,7 @@ CKEDITOR.dialog.add('mediaDialog', function (editor) {
                 elements: [
                     {
                         type: 'html',
-                        html: '<section id="mediaBrowser"></section>'
+                        html: '<div id="mediaBrowser" style="white-space: normal;"></div>'
                     }
                 ]
             }
