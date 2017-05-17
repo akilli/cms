@@ -31,9 +31,6 @@ services:
   qnd-app:
     image: registry.test.eqmh.de/qnd
     container_name: qnd-app
-    depends_on:
-      - qnd
-      - qnd-data
     restart: unless-stopped
     network_mode: "service:qnd"
     volumes:
@@ -48,8 +45,6 @@ services:
   qnd-data:
     image: registry.test.eqmh.de/qnd-data
     container_name: qnd-data
-    depends_on:
-      - qnd
     restart: unless-stopped
     network_mode: "service:qnd"
     volumes:
