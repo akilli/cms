@@ -371,7 +371,6 @@ function action_account_password(): void
 function action_account_login(): void
 {
     if (account_user()) {
-        die('Logged in');
         redirect();
     }
 
@@ -380,12 +379,10 @@ function action_account_login(): void
             message(_('Welcome %s', $data['name']));
             session_regenerate();
             session('account', $data['id']);
-            die('<pre>' . print_r(account(), true) . '</pre>');
             redirect();
         }
 
         message(_('Invalid name and password combination'));
-        die('Invalid login');
     }
 
     layout_load();
