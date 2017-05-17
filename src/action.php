@@ -370,10 +370,6 @@ function action_account_password(): void
  */
 function action_account_login(): void
 {
-    logger('request: ' . print_r(registry('request'), true));
-    logger('session: ' . print_r($_SESSION, true));
-    logger('account: ' . print_r(account(), true));
-
     if (account_user()) {
         redirect();
     }
