@@ -605,7 +605,7 @@ function editor_select(array $attr, array $data): string
         $val = !$val && !is_numeric($val) ? [] : [$val];
     }
 
-    if (empty($attr['opt'])) {
+    if (!$attr['opt']) {
         $html = html('optgroup', ['label' => _('No options configured')]);
     } else {
         $html = html('option', ['value' => ''], _('Please choose'));
