@@ -24,6 +24,7 @@ return [
         'json' => [
             'db_type' => 'jsonb',
             'pdo' => PDO::PARAM_STR,
+            'val' => [],
             'loader' => 'json',
         ],
         'search' => [
@@ -154,7 +155,6 @@ return [
         'json' => [
             'backend' => 'json',
             'frontend' => 'textarea',
-            'val' => [],
             'editor' => 'json',
             'validator' => 'json',
         ],
@@ -162,13 +162,11 @@ return [
             'backend' => 'json',
             'frontend' => 'checkbox',
             'multiple' => true,
-            'val' => [],
         ],
         'multiselect' => [
             'backend' => 'json',
             'frontend' => 'select',
             'multiple' => true,
-            'val' => [],
         ],
         'password' => [
             'backend' => 'varchar',
