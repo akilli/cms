@@ -2,7 +2,7 @@
 <?php if ($data = $§('data')):?>
 <section id="<?=$§('id');?>" class="<?= $§('context');?>">
     <h1><?=$§('title');?></h1>
-    <form method="post" enctype="multipart/form-data">
+    <form action="<?= url('*/*');?>" method="post" enctype="multipart/form-data">
         <fieldset>
             <legend><?=$data['name'] ?? _('New Entry');?></legend>
             <?php foreach ($data['_entity']['attr'] as $attr):?>

@@ -1,7 +1,7 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <nav id="<?=$§('id');?>">
     <?php if ($§('projects')):?>
-    <form id="toolbar-project" action="<?= url('project/switch');?>" method="post">
+    <form action="<?= url('project/switch');?>" method="post">
         <label for="toolbar-project-id" class="inline"><?= _('Project');?></label>
         <select id="toolbar-project-id" name="data[id]" onchange="submit()">
             <?php foreach ($§('projects') as $project):?>
