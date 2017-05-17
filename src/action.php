@@ -370,8 +370,11 @@ function action_account_password(): void
  */
 function action_account_login(): void
 {
+    logger('request: ' . print_r(registry('request'), true));
+    logger('session: ' . print_r($_SESSION, true));
+    logger('account: ' . print_r(account(), true));
+
     if (account_user()) {
-        logger('Redirected user ' . account('id'));
         redirect();
     }
 
@@ -384,10 +387,7 @@ function action_account_login(): void
         }
 
         message(_('Invalid name and password combination'));
-        logger('invalid user or password: ' . print_r($data, true));
     }
-
-    logger('request: ' . print_r(registry('request'), true));
 
     layout_load();
     layout_vars('head', ['title' => _('Login')]);
