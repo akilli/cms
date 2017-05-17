@@ -4,6 +4,7 @@ return [
         'bool' => [
             'db_type' => 'boolean',
             'pdo' => PDO::PARAM_BOOL,
+            'val' => false,
         ],
         'date' => [
             'db_type' => 'date',

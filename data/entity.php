@@ -37,12 +37,10 @@ return [
                 'name' => 'Active',
                 'type' => 'checkbox',
                 'actions' => ['admin', 'edit'],
-                'val' => false,
             ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox',
-                'val' => false,
             ],
         ],
     ],
@@ -74,12 +72,10 @@ return [
                 'name' => 'Active',
                 'type' => 'checkbox',
                 'actions' => ['admin', 'edit'],
-                'val' => false,
             ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox',
-                'val' => false,
             ],
             'project_id' => [
                 'name' => 'Project',
@@ -123,12 +119,10 @@ return [
                 'name' => 'Active',
                 'type' => 'checkbox',
                 'actions' => ['admin', 'edit'],
-                'val' => false,
             ],
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox',
-                'val' => false,
             ],
             'project_id' => [
                 'name' => 'Project',
@@ -170,7 +164,6 @@ return [
                 'name' => 'Active',
                 'type' => 'checkbox',
                 'actions' => ['admin', 'edit'],
-                'val' => false,
             ],
             'parent_id' => [
                 'name' => 'Parent',
