@@ -189,10 +189,10 @@ function section_template(array $§): string
  */
 function section_toolbar(array $§): string
 {
-    $§['vars'] = ['projects' => [], 'current' => null];
+    $§['vars'] = ['toolbar' => data('toolbar')];
 
     if (allowed('project/switch') && ($projects = all('project', [['active', true]])) && count($projects) > 1) {
-        $§['vars'] = ['projects' => $projects, 'current' => project('id')];
+        $§['vars'] += ['projects' => $projects, 'current' => project('id')];
     }
 
     return section_template($§);
