@@ -25,12 +25,12 @@ body {
     background: #fff;
 }
 
-main {
-    display: flex;
+body > * {
+    padding: 1rem;
 }
 
-main > * {
-    padding: 1rem;
+main {
+    display: flex;
 }
 
 #content > *,
@@ -40,12 +40,12 @@ aside > * {
 
 #left {
     flex: 1 0;
-    margin-right: 1rem;
+    margin-right: 4rem;
 }
 
 #right {
     flex: 1 0;
-    margin-left: 1rem;
+    margin-left: 4rem;
 }
 
 #content {
@@ -73,7 +73,7 @@ aside > * {
 /**
  * Nav
  */
-#top nav li {
+#nav li {
     display: inline-block;
     margin: 0 1rem;
     padding: 1rem 0;

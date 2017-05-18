@@ -119,28 +119,38 @@ return [
     'page/index' => [
         'nav' => [
             'type' => 'nav',
+            'parent' => 'top',
+            'vars' => ['mode' => 'top'],
+        ],
+        'subnav' => [
+            'type' => 'nav',
             'parent' => 'right',
-            'vars' => ['depth' => 2, 'sub' => true],
+            'vars' => ['mode' => 'sub'],
         ],
     ],
     'page/view' => [
         'nav' => [
             'type' => 'nav',
+            'parent' => 'top',
+            'vars' => ['mode' => 'top'],
+        ],
+        'subnav' => [
+            'type' => 'nav',
             'parent' => 'right',
-            'vars' => ['depth' => 2, 'sub' => true],
+            'vars' => ['mode' => 'sub'],
         ],
     ],
     'project/home' => [
+        'nav' => [
+            'type' => 'nav',
+            'parent' => 'top',
+            'vars' => ['mode' => 'top'],
+        ],
         'content' => [
             'type' => 'template',
             'template' => 'entity/view.phtml',
             'vars' => ['context' => 'home'],
             'parent' => 'main',
-        ],
-        'nav' => [
-            'type' => 'nav',
-            'parent' => 'right',
-            'vars' => ['depth' => 2, 'sub' => true],
         ],
     ],
 ];

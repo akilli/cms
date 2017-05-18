@@ -54,7 +54,8 @@ function export(): string
         $attr = array_replace($data['_entity']['attr']['pos'], ['context' => 'view', 'actions' => ['view']]);
         $toc .= viewer($attr, $data) . IMPORT['del'] . $name . IMPORT['del'] . $base . "\n";
         $main = ['id' => 'content', 'template' => 'entity/view.phtml', 'vars' => ['data' => $data, 'context' => 'view']];
-        $nav = ['id' => 'nav', 'vars' => ['depth' => 2, 'sub' => true, 'current' => $data['id']]];
+        $nav = ['id' => 'nav', 'vars' => ['mode' => 'top', 'current' => $data['id']]];
+        $subnav = ['id' => 'subnav', 'vars' => ['mode' => 'sub', 'current' => $data['id']]];
         $§ = [
             'id' => 'root',
             'template' => 'layout/export.phtml',
@@ -63,6 +64,7 @@ function export(): string
                 'title' => $data['name'],
                 'main' => IMPORT['start'] . section_template($main) . IMPORT['end'],
                 'nav' => section_nav($nav),
+                'subnav' => section_nav($subnav),
             ],
         ];
         $zip->addFromString($base, preg_replace($from, $to, section_template($§)));
@@ -70,7 +72,8 @@ function export(): string
 
     // Homepage
     $main = ['id' => 'content', 'template' => 'entity/view.phtml', 'vars' => ['data' => $project, 'context' => 'home']];
-    $nav = ['id' => 'nav', 'vars' => ['depth' => 2, 'sub' => true]];
+    $nav = ['id' => 'nav', 'vars' => ['mode' => 'top']];
+    $subnav = ['id' => 'subnav', 'vars' => ['mode' => 'sub']];
     $§ = [
         'id' => 'root',
         'template' => 'layout/export.phtml',
@@ -79,6 +82,7 @@ function export(): string
             'title' => $project['name'],
             'main' => IMPORT['start'] . section_template($main) . IMPORT['end'],
             'nav' => section_nav($nav),
+            'subnav' => section_nav($subnav),
         ],
     ];
     $zip->addFromString('index.html', preg_replace($from, $to, section_template($§)));
