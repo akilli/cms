@@ -189,8 +189,11 @@ function section_template(array $§): string
  */
 function section_toolbar(array $§): string
 {
-    $crit = [['active', true]];
-    $§['vars']['projects'] = allowed('project/switch') && size('project', $crit) > 1 ? all('project', $crit) : [];
+    $§['vars'] = ['projects' => [], 'current' => null];
+
+    if (allowed('project/switch') && ($projects = all('project', [['active', true]])) && count($projects) > 1) {
+        $§['vars'] = ['projects' => $projects, 'current' => project('id')];
+    }
 
     return section_template($§);
 }

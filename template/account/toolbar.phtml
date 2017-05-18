@@ -5,15 +5,13 @@
         <label for="toolbar-project-id" class="inline"><?= _('Project');?></label>
         <select id="toolbar-project-id" name="data[id]" onchange="submit()">
             <?php foreach ($§('projects') as $project):?>
-            <option value="<?= $project['id'];?>" <?php if (project('id') === $project['id']):?> selected="selected"<?php endif;?>><?= $project['name'];?></option>
+            <option value="<?= $project['id'];?>" <?php if ($§('current') === $project['id']):?> selected="selected"<?php endif;?>><?= $project['name'];?></option>
             <?php endforeach;?>
         </select>
         <input type="hidden" name="token" value="<?= token();?>" />
     </form>
     <?php endif;?>
-    <?php if ($data = data('toolbar')):?>
-        <?php foreach ($data as $item):?>
+    <?php foreach (data('toolbar') as $item):?>
     <a href="<?=$item['url'];?>"><?=$item['name'];?></a>
-        <?php endforeach;?>
-    <?php endif;?>
+    <?php endforeach;?>
 </nav>
