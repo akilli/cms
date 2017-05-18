@@ -137,10 +137,18 @@ function request(string $key)
 
     if ($req === null) {
         $req['host'] = $_SERVER['HTTP_HOST'];
-        $token = !empty($_POST['token']) && session_get('token') === $_POST['token'];
-        session_set('token', null);
-        $req['data'] = $token && !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
-        $param = $token && !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
+        $req['data'] = [];
+        $param = [];
+
+        if (!empty($_POST['token'])) {
+            if (session_get('token') === $_POST['token']) {
+                $req['data'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
+                $param = !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
+            }
+
+            session_set('token', null);
+        }
+
         $req['param'] = http_filter($param + $_GET);
         $req['files'] = !empty($_FILES['data']) ? http_file($_FILES['data']) : [];
         $req['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
