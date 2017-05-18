@@ -12,8 +12,6 @@ use ZipArchive;
 /**
  * Import project
  *
- * @todo Import homepage?!
- *
  * @param string $name
  * @param string $file
  *
