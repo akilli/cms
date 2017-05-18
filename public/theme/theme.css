@@ -240,7 +240,7 @@ table {
 th {
     padding: 0.25rem 0.375rem;
     font-weight: bold;
-    border-bottom: medium solid #d3d3d3;
+    border-bottom: medium solid #e4e7ea;
 }
 
 thead th {
@@ -249,7 +249,7 @@ thead th {
 
 td {
     padding: 0.25rem 0.375rem;
-    border-bottom: thin solid #d3d3d3;
+    border-bottom: thin solid #e4e7ea;
 }
 
 /* Form */
@@ -315,7 +315,7 @@ select:focus,
 select:hover,
 textarea:focus,
 textarea:hover  {
-    box-shadow: 0 0 0.625rem #d3d3d3;
+    box-shadow: 0 0 0.625rem #e4e7ea;
 }
 
 [role=button],
@@ -356,7 +356,7 @@ input:not([type=file]),
 select,
 textarea,
 option {
-    border-color: #d3d3d3;
+    border-color: #e4e7ea;
 }
 
 [role=button]:hover {
