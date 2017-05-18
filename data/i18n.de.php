@@ -77,8 +77,6 @@ return [
     'Projects' => 'Projekte',
     'Required' => 'Erforderlich',
     'Results %d to %d of %d' => 'Ergebnisse %d bis %d von %d',
-    'Role' => 'Rolle',
-    'Roles' => 'Rollen',
     'Save' => 'Speichern',
     'Search' => 'Suche',
     'Search Term' => 'Suchbegriff',

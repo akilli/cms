@@ -20,12 +20,13 @@ CREATE INDEX ON project (active);
 CREATE INDEX ON project (system);
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Auth
+-- Account
 -- ---------------------------------------------------------------------------------------------------------------------
 
-CREATE TABLE role (
+CREATE TABLE account (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL,
+    password varchar(255) NOT NULL,
     privilege jsonb NOT NULL,
     active boolean NOT NULL DEFAULT FALSE,
     system boolean NOT NULL DEFAULT FALSE,
@@ -33,26 +34,7 @@ CREATE TABLE role (
     UNIQUE (project_id, name)
 );
 
-CREATE INDEX ON role (name);
-CREATE INDEX ON role USING GIN (privilege);
-CREATE INDEX ON role (active);
-CREATE INDEX ON role (system);
-CREATE INDEX ON role (project_id);
-
--- -----------------------------------------------------------
-
-CREATE TABLE account (
-    id serial PRIMARY KEY,
-    name varchar(50) NOT NULL,
-    password varchar(255) NOT NULL,
-    role_id integer NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE,
-    active boolean NOT NULL DEFAULT FALSE,
-    system boolean NOT NULL DEFAULT FALSE,
-    project_id integer NOT NULL REFERENCES project ON DELETE CASCADE ON UPDATE CASCADE,
-    UNIQUE (project_id, name)
-);
-
-CREATE INDEX ON account (role_id);
+CREATE INDEX ON account USING GIN (privilege);
 CREATE INDEX ON account (active);
 CREATE INDEX ON account (system);
 CREATE INDEX ON account (project_id);
@@ -230,16 +212,10 @@ VALUES
     ('www', 'WWW', TRUE, TRUE);
 
 INSERT INTO
-    role
-    (name, privilege, active, system, project_id)
-VALUES
-    ('admin', '["_all_"]', TRUE, TRUE, CURRVAL('project_id_seq'));
-
-INSERT INTO
     account
-    (name, password, role_id, active, system, project_id)
+    (name, password, privilege, active, system, project_id)
 VALUES
-    ('admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', CURRVAL('role_id_seq'), TRUE, TRUE, CURRVAL('project_id_seq'));
+    ('admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', '["_all_"]', TRUE, TRUE, CURRVAL('project_id_seq'));
 
 -- ---------------------------------------------------------------------------------------------------------------------
 

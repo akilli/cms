@@ -50,48 +50,6 @@ return [
             ],
         ],
     ],
-    'role' => [
-        'name' => 'Roles',
-        'actions' => ['admin', 'delete', 'edit'],
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'auto' => true,
-                'type' => 'int',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'uniq' => true,
-                'searchable' => true,
-                'actions' => ['admin', 'edit'],
-                'maxval' => 50,
-            ],
-            'privilege' => [
-                'name' => 'Privileges',
-                'type' => 'checkbox',
-                'backend' => 'json',
-                'multiple' => true,
-                'opt' => ['opt_privilege'],
-                'actions' => ['edit'],
-            ],
-            'active' => [
-                'name' => 'Active',
-                'type' => 'checkbox',
-                'actions' => ['admin', 'edit'],
-            ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'checkbox',
-            ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'entity',
-                'opt' => ['project'],
-            ],
-        ],
-    ],
     'account' => [
         'name' => 'Accounts',
         'actions' => ['admin', 'delete', 'edit', 'login', 'logout', 'password'],
@@ -116,12 +74,13 @@ return [
                 'required' => true,
                 'actions' => ['edit'],
             ],
-            'role_id' => [
-                'name' => 'Role',
-                'type' => 'entity',
-                'required' => true,
-                'opt' => ['role'],
-                'actions' => ['admin', 'edit'],
+            'privilege' => [
+                'name' => 'Privileges',
+                'type' => 'checkbox',
+                'backend' => 'json',
+                'multiple' => true,
+                'opt' => ['opt_privilege'],
+                'actions' => ['edit'],
             ],
             'active' => [
                 'name' => 'Active',
