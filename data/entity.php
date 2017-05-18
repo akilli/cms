@@ -42,6 +42,12 @@ return [
                 'name' => 'System',
                 'type' => 'checkbox',
             ],
+            'content' => [
+                'name' => 'Content',
+                'type' => 'rte',
+                'actions' => ['edit', 'view'],
+                'val' => '',
+            ],
         ],
     ],
     'role' => [
@@ -185,6 +191,7 @@ return [
                 'name' => 'Content',
                 'type' => 'rte',
                 'actions' => ['edit', 'view'],
+                'val' => '',
             ],
             'search' => [
                 'name' => 'Search',

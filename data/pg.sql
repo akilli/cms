@@ -10,7 +10,8 @@ CREATE TABLE project (
     name varchar(50) NOT NULL,
     exported date DEFAULT NULL,
     active boolean NOT NULL DEFAULT FALSE,
-    system boolean NOT NULL DEFAULT FALSE
+    system boolean NOT NULL DEFAULT FALSE,
+    content text NOT NULL DEFAULT ''
 );
 
 CREATE INDEX ON project (name);
@@ -67,7 +68,7 @@ CREATE TABLE page (
     active boolean NOT NULL DEFAULT FALSE,
     parent_id integer DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     sort integer NOT NULL DEFAULT 0,
-    content text NOT NULL,
+    content text NOT NULL DEFAULT '',
     search tsvector NOT NULL,
     path jsonb NOT NULL DEFAULT '[]',
     depth integer NOT NULL DEFAULT 0,
