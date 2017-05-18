@@ -189,28 +189,28 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
     $success = [];
     $error = [];
 
-    foreach (all($eId, $crit, $opts) as $id => $item) {
-        if (!empty($item['system'])) {
+    foreach (all($eId, $crit, $opts) as $id => $data) {
+        if (!empty($data['system'])) {
             message(_('System items must not be deleted! Therefore skipped Id %s', (string) $id));
             continue;
         }
 
         $trans = db_trans(
-            function () use ($item): void {
-                $item = event('entity.predelete', $item);
-                $item = event('model.predelete.' . $item['_entity']['model'], $item);
-                $item = event('entity.predelete.' . $item['_entity']['id'], $item);
-                call($item['_entity']['model'] . '_delete', $item);
-                event('entity.postdelete', $item);
-                event('model.postdelete.' . $item['_entity']['model'], $item);
-                event('entity.postdelete.' . $item['_entity']['id'], $item);
+            function () use ($data): void {
+                $data = event('entity.predelete', $data);
+                $data = event('model.predelete.' . $data['_entity']['model'], $data);
+                $data = event('entity.predelete.' . $data['_entity']['id'], $data);
+                call($data['_entity']['model'] . '_delete', $data);
+                event('entity.postdelete', $data);
+                event('model.postdelete.' . $data['_entity']['model'], $data);
+                event('entity.postdelete.' . $data['_entity']['id'], $data);
             }
         );
 
         if ($trans) {
-            $success[] = $item['name'];
+            $success[] = $data['name'];
         } else {
-            $error[] = $item['name'];
+            $error[] = $data['name'];
         }
     }
 
