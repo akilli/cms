@@ -12,14 +12,13 @@ use Exception;
  */
 function action_denied(): void
 {
-    if (account_user()) {
-        header('HTTP/1.1 403 Forbidden');
-        message(_('Access denied'));
-        redirect();
+    if (account_guest()) {
+        redirect(url('account/login'));
     }
 
-    message(_('Please enter your credentials'));
-    redirect(url('account/login'));
+    header('HTTP/1.1 403 Forbidden');
+    message(_('Access denied'));
+    redirect();
 }
 
 /**
