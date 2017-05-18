@@ -1,5 +1,6 @@
 <?php
 return [
+    '%d to %d of %d' => '%d bis %d von %d',
     '%s must be unique' => '%s muß eindeutig sein',
     '%s is required' => '%s ist erforderlich',
     'Access denied' => 'Zugriff verweigert',
@@ -77,7 +78,6 @@ return [
     'Project' => 'Projekt',
     'Projects' => 'Projekte',
     'Required' => 'Erforderlich',
-    'Results %d to %d of %d' => 'Ergebnisse %d bis %d von %d',
     'Save' => 'Speichern',
     'Search' => 'Suche',
     'Search Term' => 'Suchbegriff',

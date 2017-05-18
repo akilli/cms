@@ -1,7 +1,7 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <div id="<?=$§('id');?>">
     <div class="info">
-        <?= _('Results %d to %d of %d', $§('offset') + 1, min($§('offset') + $§('limit'), $§('size')), $§('size'));?>
+        <?= _('%d to %d of %d', $§('offset') + 1, min($§('offset') + $§('limit'), $§('size')), $§('size'));?>
     </div>
     <div class="links">
         <?php foreach ($§('links') as $link):?>
