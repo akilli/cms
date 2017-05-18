@@ -50,7 +50,7 @@ return [
     'Login' => 'Anmelden',
     'Logout' => 'Abmelden',
     'Media' => 'Medien',
-    'Message' => 'Meldung',
+    'Message' => 'Nachricht',
     'Name' => 'Name',
     'New Entry' => 'Neuer Eintrag',
     'Next' => 'Weiter',
