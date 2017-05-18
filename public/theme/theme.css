@@ -62,6 +62,7 @@ aside > * {
  * Messages
  */
 #message {
+    padding: 1rem;
     background: #e14b28;
 }
 

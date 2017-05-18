@@ -32,6 +32,7 @@ function action_error(): void
     header('HTTP/1.1 404 Not Found');
     message(_('Page not found'));
     layout_load();
+    layout_vars('head', ['title' => _('Page not found')]);
 }
 
 /**
