@@ -280,6 +280,19 @@ function action_page_import(array $entity): void
 }
 
 /**
+ * Project Home Action
+ *
+ * @return void
+ */
+function action_project_home(): void
+{
+    $data = project();
+    layout_load();
+    layout_vars('content', ['data' => $data]);
+    layout_vars('head', ['title' => $data['name']]);
+}
+
+/**
  * Project Import Action
  *
  * @return void

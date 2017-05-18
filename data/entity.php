@@ -2,7 +2,7 @@
 return [
     'project' => [
         'name' => 'Projects',
-        'actions' => ['admin', 'delete', 'edit', 'export', 'import', 'switch'],
+        'actions' => ['admin', 'delete', 'edit', 'export', 'home', 'import', 'switch'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -23,7 +23,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
-                'actions' => ['admin', 'edit'],
+                'actions' => ['admin', 'edit', 'home'],
                 'maxval' => 50,
             ],
             'exported' => [
@@ -45,7 +45,7 @@ return [
             'content' => [
                 'name' => 'Homepage',
                 'type' => 'rte',
-                'actions' => ['edit', 'view'],
+                'actions' => ['edit', 'home'],
                 'val' => '',
             ],
         ],

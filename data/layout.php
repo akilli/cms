@@ -130,4 +130,17 @@ return [
             'vars' => ['depth' => 2, 'sub' => true],
         ],
     ],
+    'project/home' => [
+        'content' => [
+            'type' => 'template',
+            'template' => 'entity/view.phtml',
+            'vars' => ['context' => 'home'],
+            'parent' => 'main',
+        ],
+        'nav' => [
+            'type' => 'nav',
+            'parent' => 'right',
+            'vars' => ['depth' => 2, 'sub' => true],
+        ],
+    ],
 ];

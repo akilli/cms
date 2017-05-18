@@ -38,14 +38,31 @@ function import_project(string $name, string $file): bool
 
     $trans = db_trans(
         function () use ($name, $path, $toc): void {
+            // Project
             $project = ['uid' => $name, 'name' => $name, 'active' => true];
 
             if (!save('project', $project)) {
                 throw new RuntimeException(_('Import error'));
             }
 
+            // Media
             $asset = path('asset', (string) $project['id']);
             file_copy($path . '/media', $asset);
+
+            // Homepage
+            foreach (['index.html', 'index.odt'] as $hp) {
+                if (!file_exists($path . '/' . $hp)) {
+                    continue;
+                }
+
+                $project['content'] = import_content($path . '/' . $hp, $project['id']);
+
+                if (!save('project', $project)) {
+                    throw new RuntimeException(_('Import error'));
+                }
+            }
+
+            // Pages
             $log = [null];
             $prev = 0;
 

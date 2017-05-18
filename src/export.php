@@ -23,7 +23,7 @@ function export(): string
         throw new RuntimeException(_('Export error'));
     }
 
-    // Theme files
+    // Theme
     $theme = path('theme');
 
     foreach (array_diff(scandir($theme), ['.', '..']) as $themeId) {
@@ -32,7 +32,7 @@ function export(): string
         }
     }
 
-    // Media files
+    // Media
     foreach (all('media') as $data) {
         $zip->addFile($data['file'], 'media/' . $data['id']);
     }
@@ -68,6 +68,22 @@ function export(): string
         $zip->addFromString($base, preg_replace($from, $to, section_template($§)));
     }
 
+    // Homepage
+    $main = ['id' => 'content', 'template' => 'entity/view.phtml', 'vars' => ['data' => $project, 'context' => 'home']];
+    $nav = ['id' => 'nav', 'vars' => ['depth' => 2, 'sub' => true]];
+    $§ = [
+        'id' => 'root',
+        'template' => 'layout/export.phtml',
+        'vars' => [
+            'charset' => $charset,
+            'title' => $project['name'],
+            'main' => IMPORT['start'] . section_template($main) . IMPORT['end'],
+            'nav' => section_nav($nav),
+        ],
+    ];
+    $zip->addFromString('index.html', preg_replace($from, $to, section_template($§)));
+
+    // TOC
     $zip->addFromString(IMPORT['toc'], $toc);
     $project = ['exported' => date(DATE['b'])] + $project;
 
