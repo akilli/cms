@@ -38,18 +38,6 @@ return [
             'vars' => ['context' => 'admin'],
             'parent' => 'main',
         ],
-        'create' => [
-            'type' => 'template',
-            'template' => 'entity/create.phtml',
-            'privilege' => '*/edit',
-            'parent' => 'content',
-        ],
-        'import' => [
-            'type' => 'template',
-            'template' => 'entity/import.phtml',
-            'privilege' => '*/import',
-            'parent' => 'content',
-        ],
         'pager' => [
             'type' => 'pager',
             'template' => 'entity/pager.phtml',
@@ -58,7 +46,19 @@ return [
         'search' => [
             'type' => 'template',
             'template' => 'entity/search.phtml',
-            'parent' => 'content',
+            'parent' => 'right',
+        ],
+        'create' => [
+            'type' => 'template',
+            'template' => 'entity/create.phtml',
+            'privilege' => '*/edit',
+            'parent' => 'right',
+        ],
+        'import' => [
+            'type' => 'template',
+            'template' => 'entity/import.phtml',
+            'privilege' => '*/import',
+            'parent' => 'right',
         ],
     ],
     'action-index' => [
@@ -76,7 +76,7 @@ return [
         'search' => [
             'type' => 'template',
             'template' => 'entity/search.phtml',
-            'parent' => 'content',
+            'parent' => 'right',
         ],
     ],
     'action-edit' => [

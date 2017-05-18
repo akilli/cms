@@ -1,11 +1,6 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <section id="<?=$§('id');?>" class="<?= $§('context');?>">
     <h1><?=$§('title');?></h1>
-    <div class="tool">
-        <?= section('create');?>
-        <?= section('import');?>
-        <?= section('search');?>
-    </div>
     <?= section('pager');?>
     <?php if ($§('data')):?>
         <?php

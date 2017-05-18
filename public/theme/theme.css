@@ -16,9 +16,8 @@
 }
 
 /**
- * Elements
+ * Layout
  */
-/* Section */
 body {
     line-height: 1.5;
     font-family: ubuntu, sans-serif;
@@ -26,6 +25,129 @@ body {
     background: #fff;
 }
 
+main {
+    display: flex;
+}
+
+main > * {
+    padding: 1rem;
+}
+
+#content > *,
+aside > * {
+    margin-bottom: 1rem;
+}
+
+#left {
+    flex: 1 0;
+    margin-right: 1rem;
+}
+
+#right {
+    flex: 1 0;
+    margin-left: 1rem;
+}
+
+#content {
+    flex: 3 0;
+}
+
+#content > h1 {
+    margin: 0 0 1rem;
+    font-size: 2rem;
+    color: #e14b28;
+}
+
+/**
+ * Messages
+ */
+#message {
+    background: #e14b28;
+}
+
+#message p {
+    margin: 0;
+}
+
+/**
+ * Nav
+ */
+#top nav li {
+    display: inline-block;
+    margin: 0 1rem;
+    padding: 1rem 0;
+}
+
+/* Toolbar */
+#toolbar {
+    padding: 1rem;
+    color: #fff;
+    background: #231f20;
+}
+
+#toolbar form {
+    display: inline-block;
+}
+
+#toolbar a {
+    margin: 0 1rem;
+    color: #fff;
+}
+
+/* Pager */
+#pager {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+/**
+ * Login
+ */
+html[data-path="account/login"] body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background: #231f20;
+}
+
+html[data-path="account/login"] body > * {
+    flex: 0 0;
+}
+
+/**
+ * Icon
+ */
+.icon {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    font-family: material;
+    font-weight: normal;
+    font-size: 24px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+    border: 0;
+}
+
+.icon:hover {
+    text-decoration: none;
+}
+
+/**
+ * Elements
+ */
+/* Section */
 h1 {
     font-size: 1.4rem;
 }
@@ -39,10 +161,6 @@ h3 {
 }
 
 /* Group */
-main {
-    display: flex;
-}
-
 p,
 figure {
     margin: 0 0 1rem;
@@ -286,144 +404,4 @@ option[selected] {
 select > option:only-child {
     font-style: italic;
     color: #e14b28;
-}
-
-/**
- * Layout
- */
-body > * {
-    padding: 1rem;
-}
-
-/**
- * Toolbar
- */
-#toolbar {
-    color: #fff;
-    background: #231f20;
-}
-
-#toolbar form {
-    display: inline-block;
-}
-
-#toolbar a {
-    margin: 0 1rem;
-    color: #fff;
-}
-
-/**
- * Messages
- */
-#message {
-    background: #e14b28;
-}
-
-#message p {
-    margin: 0;
-}
-
-/**
- * Pager
- */
-#pager {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-}
-
-/**
- * Main
- */
-#left {
-    flex: 1 0;
-    margin-right: 1rem;
-}
-
-#right {
-    flex: 1 0;
-    margin-left: 1rem;
-}
-
-#content {
-    flex: 3 0;
-}
-
-#content > h1 {
-    margin: 0 0 1rem;
-    font-size: 2rem;
-    color: #e14b28;
-}
-
-/**
- * Admin
- */
-#content.admin .tool {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 0 0 0.5rem;
-}
-
-#content.admin .pager {
-    margin: 0 0 0.25rem;
-}
-
-/**
- * Index
- */
-#content.index article {
-    margin: 0 0 1rem;
-}
-
-/**
- * Login
- */
-html[data-path="account/login"] body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    background: #231f20;
-}
-
-html[data-path="account/login"] body > * {
-    flex: 0 0;
-}
-
-/**
- * Nav
- */
-#top nav li {
-    display: inline-block;
-    margin: 0 1rem;
-    padding: 1rem 0;
-}
-
-/**
- * Icon
- */
-.icon {
-    display: inline-block;
-    line-height: 1;
-    vertical-align: middle;
-    text-decoration: none;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    font-family: material;
-    font-weight: normal;
-    font-size: 24px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: 'liga';
-    border: 0;
-}
-
-.icon:hover {
-    text-decoration: none;
 }
