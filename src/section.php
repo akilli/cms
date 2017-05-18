@@ -54,11 +54,11 @@ function section_container(array $§): string
  */
 function section_message(array $§): string
 {
-    if (!$§['vars']['data'] = session('message')) {
+    if (!$§['vars']['data'] = session_get('message')) {
         return '';
     }
 
-    session('message', null, true);
+    session_set('message', null);
 
     return section_template($§);
 }

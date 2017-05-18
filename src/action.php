@@ -63,7 +63,7 @@ function action_index(array $entity): void
     // Params
     $p = ['page' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
     $sessKey = 'param/' . $act . '/' . $entity['id'];
-    $rp = request('param') ?: (array) session($sessKey);
+    $rp = request('param') ?: (array) session_get($sessKey);
     $p = array_intersect_key($rp, $p) + $p;
 
     if ($p['q'] && ($q = array_filter(explode(' ', $p['q'])))) {
@@ -91,7 +91,7 @@ function action_index(array $entity): void
         unset($p['sort'], $p['dir']);
     }
 
-    session($sessKey, $p);
+    session_set($sessKey, $p);
     layout_load();
     layout_vars('content', ['attr' => $attrs, 'data' => all($entity['id'], $crit, $opts), 'params' => $p, 'title' => $entity['name']]);
     layout_vars('pager', ['limit' => $opts['limit'], 'params' => $p, 'size' => $size]);
@@ -336,7 +336,7 @@ function action_project_export(): void
 function action_project_switch(): void
 {
     if (($id = http_data('id')) && size('project', [['id', $id], ['active', true]])) {
-        session('project', $id);
+        session_set('project', $id);
     }
 
     redirect();
@@ -380,7 +380,7 @@ function action_account_login(): void
         if (!empty($data['name']) && !empty($data['password']) && ($data = account_login($data['name'], $data['password']))) {
             message(_('Welcome %s', $data['name']));
             session_regenerate();
-            session('account', $data['id']);
+            session_set('account', $data['id']);
             redirect();
         }
 

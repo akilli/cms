@@ -4,15 +4,44 @@ declare(strict_types = 1);
 namespace qnd;
 
 /**
- * Session data
+ * Session data getter
  *
  * @param string $key
- * @param mixed $val
- * @param bool $reset
  *
  * @return mixed
  */
-function session(string $key, $val = null, bool $reset = false)
+function session_get(string $key)
+{
+    session_init();
+
+    return $_SESSION[$key] ?? null;
+}
+
+/**
+ * Session data (un)setter
+ *
+ * @param string $key
+ * @param mixed $val
+ *
+ * @return void
+ */
+function session_set(string $key, $val): void
+{
+    session_init();
+
+    if ($val === null) {
+        unset($_SESSION[$key]);
+    } else {
+        $_SESSION[$key] = $val;
+    }
+}
+
+/**
+ * Initializes session
+ *
+ * @return void
+ */
+function session_init(): void
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
         ini_set('session.use_strict_mode', '1');
@@ -23,14 +52,6 @@ function session(string $key, $val = null, bool $reset = false)
             session_start();
         }
     }
-
-    if ($reset) {
-        unset($_SESSION[$key]);
-    } elseif ($val !== null) {
-        $_SESSION[$key] = $val;
-    }
-
-    return $_SESSION[$key] ?? null;
 }
 
 /**
@@ -62,11 +83,11 @@ function session_regenerate(): void
  */
 function message(string $message): void
 {
-    $data = session('message') ?? [];
+    $data = session_get('message') ?? [];
 
     if ($message && !in_array($message, $data)) {
         $data[] = $message;
-        session('message', $data);
+        session_set('message', $data);
     }
 }
 
@@ -77,7 +98,12 @@ function message(string $message): void
  */
 function token(): string
 {
-    return session('token') ?: session('token', md5(uniqid((string) mt_rand(), true)));
+    if (!$token = session_get('token')) {
+        $token = md5(uniqid((string) mt_rand(), true));
+        session_set('token', $token);
+    }
+
+    return $token;
 }
 
 /**
@@ -111,8 +137,8 @@ function request(string $key)
 
     if ($req === null) {
         $req['host'] = $_SERVER['HTTP_HOST'];
-        $token = !empty($_POST['token']) && session('token') === $_POST['token'];
-        session('token', null, true);
+        $token = !empty($_POST['token']) && session_get('token') === $_POST['token'];
+        session_set('token', null);
         $req['data'] = $token && !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
         $param = $token && !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
         $req['param'] = http_filter($param + $_GET);

@@ -117,9 +117,9 @@ function project(string $key = null)
     if ($data === null) {
         $data = [];
         $crit = [['active', true]];
-        $crit[] = ($id = session('project')) ? ['id', $id] : ['uid', strstr(request('host'), '.', true)];
+        $crit[] = ($id = session_get('project')) ? ['id', $id] : ['uid', strstr(request('host'), '.', true)];
         $data = one('project', $crit) ?: one('project', [['id', ALL['project']]]);
-        session('project', $data['id']);
+        session_set('project', $data['id']);
     }
 
     if ($key === null) {

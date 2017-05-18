@@ -16,7 +16,7 @@ function account(string $key = null)
 
     if ($data === null) {
         $data = [];
-        $id = (int) session('account');
+        $id = (int) session_get('account');
 
         if ($id && ($data = one('account', [['id', $id], ['active', true], ['project_id', [ALL['project'], project('id')]]]))) {
             $role = one('role', [['id', $data['role_id']], ['active', true], ['project_id', $data['project_id']]]);
@@ -24,7 +24,7 @@ function account(string $key = null)
             $data['admin'] = in_array(ALL['privilege'], $data['privilege']);
             $data['global'] = $data['project_id'] === ALL['project'];
         } else {
-            session('account', null, true);
+            session_set('account', null);
         }
     }
 
