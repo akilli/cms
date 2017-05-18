@@ -224,7 +224,9 @@ function action_media_view(array $entity): void
  */
 function action_media_import(): void
 {
-    if ($files = http_files('import')) {
+    $files = request('files')['import'] ?? null;
+
+    if ($files) {
         foreach ($files as $file) {
             $name = filter_file($file['name'], path('media'));
 
@@ -248,7 +250,9 @@ function action_media_import(): void
  */
 function action_page_import(array $entity): void
 {
-    if ($files = http_files('import')) {
+    $files = request('files')['import'] ?? null;
+
+    if ($files) {
         foreach ($files as $file) {
             $info = pathinfo($file['name']);
 
@@ -299,7 +303,9 @@ function action_project_home(): void
  */
 function action_project_import(): void
 {
-    if ($files = http_files('import')) {
+    $files = request('files')['import'] ?? null;
+
+    if ($files) {
         foreach ($files as $file) {
             $info = pathinfo($file['name']);
 
@@ -348,7 +354,9 @@ function action_project_export(): void
  */
 function action_project_switch(): void
 {
-    if (($id = http_data('id')) && size('project', [['id', $id], ['active', true]])) {
+    $id = request('data')['id'] ?? null;
+
+    if ($id && size('project', [['id', $id], ['active', true]])) {
         session_set('project', $id);
     }
 

@@ -206,7 +206,9 @@ function saver_password(array $attr, array $data): array
  */
 function saver_file(array $attr, array $data): array
 {
-    if ($data[$attr['id']] && (!($file = http_files($attr['id'])) || !file_upload($file['tmp_name'], $data[$attr['id']]))) {
+    $file = request('files')[$attr['id']] ?? null;
+
+    if ($data[$attr['id']] && (!$file || !file_upload($file['tmp_name'], $data[$attr['id']]))) {
         throw new RuntimeException(_('File upload failed for %s', $data[$attr['id']]));
     }
 
@@ -527,7 +529,9 @@ function validator_time(array $attr, array $data): array
  */
 function validator_file(array $attr, array $data): array
 {
-    if ($file = http_files($attr['id'])) {
+    $file = request('files')[$attr['id']] ?? null;
+
+    if ($file) {
         if (!in_array($attr['type'], data('file', pathinfo($file['name'], PATHINFO_EXTENSION)) ?? [])) {
             throw new DomainException(_('Invalid file %s', $file['name']));
         }

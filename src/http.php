@@ -191,42 +191,6 @@ function resolve(string $path): string
 }
 
 /**
- * Data
- *
- * @param string $key
- *
- * @return mixed
- */
-function http_data(string $key)
-{
-    return request('data')[$key] ?? null;
-}
-
-/**
- * Param
- *
- * @param string $key
- *
- * @return mixed
- */
-function http_param(string $key)
-{
-    return request('param')[$key] ?? null;
-}
-
-/**
- * Files
- *
- * @param string $key
- *
- * @return mixed
- */
-function http_files(string $key)
-{
-    return request('files')[$key] ?? null;
-}
-
-/**
  * Filters request variables
  *
  * @param array $data
