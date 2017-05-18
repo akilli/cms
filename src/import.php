@@ -76,7 +76,7 @@ function import_project(string $name, string $file): bool
                 }
 
                 $page = [
-                    'name' => $item[1],
+                    'name' => rtrim($item[1], '>'),
                     'active' => true,
                     'parent_id' => $log[$cur],
                     'content' => $item[2] ? import_content($path . '/' . $item[2], $project['id']) : '',
