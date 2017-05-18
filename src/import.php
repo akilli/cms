@@ -125,8 +125,26 @@ function import_content(string $file, int $pId ): string
         $html = $match[2];
     }
 
-    $from = ['#="/?index\.html"#Ui', '#="/?(Pictures|media)/([0-9/]*)([^"/]+)"#Ui', '#="/?(([^"]+)\.html)"#Ui'];
-    $to = ['="/"', '="' . URL['media'] . '$3"', '="/$1"'];
+    $from = [
+        '#="/?index\.html"#Ui',
+        '#="/?(Pictures|media)/([0-9/]*)([^"/]+)"#Ui',
+        '#="/?(([^"]+)\.html)"#Ui',
+        '#(<[^>]+) align=".*?"#i',
+        '#(<[^>]+) border=".*?"#i',
+        '#(<[^>]+) cellpadding=".*?"#i',
+        '#(<[^>]+) cellspacing=".*?"#i',
+        '#(<[^>]+) style=".*?"#i',
+    ];
+    $to = [
+        '="/"',
+        '="' . URL['media'] . '$3"',
+        '="/$1"',
+        '$1',
+        '$1',
+        '$1',
+        '$1',
+        '$1',
+    ];
 
     return preg_replace($from, $to, $html);
 }
