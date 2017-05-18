@@ -116,9 +116,7 @@ function allowed(string $key): bool
         return false;
     }
 
-    return !empty($data[$key]['call']) && call($data[$key]['call'])
-        || account_admin()
-        || in_array($key, account('privilege') ?? []);
+    return !empty($data[$key]['call']) && call($data[$key]['call']) || account_admin() || in_array($key, account('privilege') ?? []);
 }
 
 /**
