@@ -2,8 +2,8 @@
 <nav id="<?=$§('id');?>">
     <?php if ($§('projects')):?>
     <form action="<?= url('project/switch');?>" method="post">
-        <label for="toolbar-project-id" class="inline"><?= _('Project');?></label>
-        <select id="toolbar-project-id" name="data[id]" onchange="submit()">
+        <label for="toolbar-project" class="inline"><?= _('Project');?></label>
+        <select id="toolbar-project" name="data[id]" onchange="submit()">
             <?php foreach ($§('projects') as $project):?>
             <option value="<?= $project['id'];?>" <?php if ($§('current') === $project['id']):?> selected="selected"<?php endif;?>><?= $project['name'];?></option>
             <?php endforeach;?>
