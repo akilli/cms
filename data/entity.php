@@ -43,7 +43,7 @@ return [
                 'type' => 'checkbox',
             ],
             'content' => [
-                'name' => 'Content',
+                'name' => 'Homepage',
                 'type' => 'rte',
                 'actions' => ['edit', 'view'],
                 'val' => '',
