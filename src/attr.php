@@ -120,7 +120,7 @@ function opt_privilege(): array
     $data = [];
 
     foreach (data('privilege') as $key => $priv) {
-        if (empty($priv['callback'])) {
+        if (empty($priv['call'])) {
             $data[$key] = $priv['name'];
         }
     }
