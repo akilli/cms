@@ -47,66 +47,66 @@ return [
     ],
     'frontend' => [
         'checkbox' => [
-            'validator' => 'opt',
+            'validator' => 'qnd\validator_opt',
             'editor' => 'qnd\editor_opt',
-            'viewer' => 'opt',
+            'viewer' => 'qnd\viewer_opt',
         ],
         'date' => [
-            'validator' => 'date',
+            'validator' => 'qnd\validator_date',
             'editor' => 'qnd\editor_date',
-            'viewer' => 'date',
+            'viewer' => 'qnd\viewer_date',
         ],
         'datetime' => [
-            'validator' => 'datetime',
+            'validator' => 'qnd\validator_datetime',
             'editor' => 'qnd\editor_datetime',
-            'viewer' => 'datetime',
+            'viewer' => 'qnd\viewer_datetime',
         ],
         'email' => [
-            'validator' => 'email',
+            'validator' => 'qnd\validator_email',
             'editor' => 'qnd\editor_text',
         ],
         'file' => [
-            'validator' => 'file',
+            'validator' => 'qnd\validator_file',
             'saver' => 'file',
             'editor' => 'qnd\editor_file',
-            'viewer' => 'file',
+            'viewer' => 'qnd\viewer_file',
         ],
         'number' => [
             'editor' => 'qnd\editor_int',
         ],
         'password' => [
-            'validator' => 'text',
+            'validator' => 'qnd\validator_text',
             'saver' => 'password',
             'editor' => 'qnd\editor_password',
         ],
         'radio' => [
-            'validator' => 'opt',
+            'validator' => 'qnd\validator_opt',
             'editor' => 'qnd\editor_opt',
-            'viewer' => 'opt',
+            'viewer' => 'qnd\viewer_opt',
         ],
         'range' => [
             'editor' => 'qnd\editor_int',
         ],
         'select' => [
-            'validator' => 'opt',
+            'validator' => 'qnd\validator_opt',
             'editor' => 'qnd\editor_select',
-            'viewer' => 'opt',
+            'viewer' => 'qnd\viewer_opt',
         ],
         'text' => [
-            'validator' => 'text',
+            'validator' => 'qnd\validator_text',
             'editor' => 'qnd\editor_text',
         ],
         'textarea' => [
-            'validator' => 'text',
+            'validator' => 'qnd\validator_text',
             'editor' => 'qnd\editor_textarea',
         ],
         'time' => [
-            'validator' => 'time',
+            'validator' => 'qnd\validator_time',
             'editor' => 'qnd\editor_time',
-            'viewer' => 'time',
+            'viewer' => 'qnd\viewer_time',
         ],
         'url' => [
-            'validator' => 'url',
+            'validator' => 'qnd\validator_url',
             'editor' => 'qnd\editor_text',
         ],
     ],
@@ -114,7 +114,7 @@ return [
         'audio' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'viewer' => 'audio',
+            'viewer' => 'qnd\viewer_audio',
         ],
         'checkbox' => [
             'backend' => 'bool',
@@ -147,7 +147,7 @@ return [
         'image' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'viewer' => 'image',
+            'viewer' => 'qnd\viewer_image',
         ],
         'int' => [
             'backend' => 'int',
@@ -157,7 +157,7 @@ return [
             'backend' => 'json',
             'frontend' => 'textarea',
             'editor' => 'qnd\editor_json',
-            'validator' => 'json',
+            'validator' => 'qnd\validator_json',
         ],
         'password' => [
             'backend' => 'varchar',
@@ -174,8 +174,8 @@ return [
         'rte' => [
             'backend' => 'text',
             'frontend' => 'textarea',
-            'viewer' => 'rte',
-            'validator' => 'rte',
+            'viewer' => 'qnd\viewer_rte',
+            'validator' => 'qnd\validator_rte',
         ],
         'search' => [
             'backend' => 'search',
@@ -204,7 +204,7 @@ return [
         'video' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'viewer' => 'video',
+            'viewer' => 'qnd\viewer_video',
         ],
     ],
 ];

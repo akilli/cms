@@ -24,7 +24,7 @@ function validator(array $attr, array $data): array
     $attr['opt'] = opt($attr);
 
     if ($attr['validator']) {
-        $data = call('validator_' . $attr['validator'], $attr, $data);
+        $data = $attr['validator']($attr, $data);
     }
 
     validator_uniq($attr, $data);

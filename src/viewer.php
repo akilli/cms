@@ -20,7 +20,7 @@ function viewer(array $attr, array $data): string
     $attr['opt'] = opt($attr);
 
     if ($attr['viewer']) {
-        return call('viewer_' . $attr['viewer'], $attr, $data);
+        return $attr['viewer']($attr, $data);
     }
 
     return $data[$attr['id']] ? encode((string) $data[$attr['id']]) : (string) $data[$attr['id']];

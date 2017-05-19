@@ -16,7 +16,7 @@ return [
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
                 'maxval' => 20,
-                'validator' => 'id',
+                'validator' => 'qnd\validator_id',
             ],
             'name' => [
                 'name' => 'Name',
@@ -111,7 +111,7 @@ return [
                 'name' => 'Position',
                 'type' => 'text',
                 'actions' => ['admin'],
-                'viewer' => 'pos',
+                'viewer' => 'qnd\viewer_pos',
             ],
             'name' => [
                 'name' => 'Name',
@@ -138,7 +138,7 @@ return [
                 'nullable' => true,
                 'opt' => ['page'],
                 'actions' => ['edit'],
-                'validator' => 'page',
+                'validator' => 'qnd\validator_page',
             ],
             'sort' => [
                 'name' => 'Sort',
@@ -197,7 +197,7 @@ return [
                 'name' => 'Size',
                 'type' => 'int',
                 'actions' => ['admin'],
-                'viewer' => 'filesize',
+                'viewer' => 'qnd\viewer_filesize',
             ],
             'file' => [
                 'name' => 'File',
