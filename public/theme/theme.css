@@ -359,10 +359,6 @@ option {
     border-color: #e4e7ea;
 }
 
-[role=button]:hover {
-    text-decoration: none;
-}
-
 input[formaction$="/delete"] {
     background: #901913;
 }
