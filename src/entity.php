@@ -285,7 +285,7 @@ function entity_load(array $entity, array $data): array
     $data['_old'] = $data;
     $data['_entity'] = $entity;
     $data = event('entity.load', $data);
-    $data = event('model.load.' . $entity['model'], $data);
+    $data = event('model.load.' . $entity['model']['id'], $data);
     $data = event('entity.load.' . $entity['id'], $data);
 
     return $data;
