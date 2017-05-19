@@ -119,9 +119,9 @@ html[data-path="account/login"] body > * {
 }
 
 /**
- * Admin
+ * Tool
  */
-#content.admin .tool {
+.tool {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
