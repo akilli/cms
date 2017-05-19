@@ -57,8 +57,16 @@ function action_index(array $entity): void
 {
     $act = request('action');
     $attrs = entity_attr($entity, $act);
-    $crit = empty($entity['attr']['active']) || $act === 'admin' ? [['system', false]] : [['active', true]];
     $opts = ['limit' => data('app', 'limit')];
+    $crit = [];
+
+    if ($act === 'admin' && !empty($entity['attr']['system'])) {
+        $crit[] = ['system', false];
+    }
+
+    if ($act !== 'admin' && !empty($entity['attr']['active'])) {
+        $crit[] = ['active', true];
+    }
 
     // Params
     $p = ['page' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
