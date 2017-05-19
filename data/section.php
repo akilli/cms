@@ -1,6 +1,6 @@
 <?php
 return [
-    'section' => [
+    'default' => [
         'id' => null,
         'type' => null,
         'template' => null,
