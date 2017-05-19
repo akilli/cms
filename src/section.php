@@ -193,7 +193,7 @@ function section_toolbar(array $§): string
 {
     $§['vars'] = ['toolbar' => data('toolbar')];
 
-    if (allowed('project/switch') && ($projects = all('project', [['active', true]])) && count($projects) > 1) {
+    if (allowed('project/switch') && ($projects = all('project', [['active', true]], ['order' => ['id' => 'asc']])) && count($projects) > 1) {
         $§['vars'] += ['projects' => $projects, 'current' => project('id')];
     }
 
