@@ -4,18 +4,18 @@ return [
         'name' => 'ALL PRIVILEGES'
     ],
     'account/login' => [
-        'call' => 'account_guest'
+        'call' => 'qnd\account_guest'
     ],
     'account/logout' => [
-        'call' => 'account_user'
+        'call' => 'qnd\account_user'
     ],
     'account/password' => [
-        'call' => 'account_user'
+        'call' => 'qnd\account_user'
     ],
     'media/view' => [
-        'call' => 'account_user'
+        'call' => 'qnd\account_user'
     ],
     'project/switch' => [
-        'call' => 'account_global'
+        'call' => 'qnd\account_global'
     ],
 ];
