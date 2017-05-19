@@ -35,7 +35,6 @@ return [
         'content' => [
             'section' => 'template',
             'template' => 'entity/admin.phtml',
-            'vars' => ['context' => 'admin'],
             'parent' => 'main',
         ],
         'pager' => [
@@ -53,7 +52,6 @@ return [
         'content' => [
             'section' => 'template',
             'template' => 'entity/index.phtml',
-            'vars' => ['context' => 'index'],
             'parent' => 'main',
         ],
         'pager' => [
@@ -71,7 +69,6 @@ return [
         'content' => [
             'section' => 'template',
             'template' => 'entity/edit.phtml',
-            'vars' => ['context' => 'edit'],
             'parent' => 'main',
         ],
     ],
@@ -79,7 +76,6 @@ return [
         'content' => [
             'section' => 'template',
             'template' => 'entity/view.phtml',
-            'vars' => ['context' => 'view'],
             'parent' => 'main',
         ],
     ],
@@ -137,7 +133,6 @@ return [
         'content' => [
             'section' => 'template',
             'template' => 'entity/view.phtml',
-            'vars' => ['context' => 'home'],
             'parent' => 'main',
         ],
     ],

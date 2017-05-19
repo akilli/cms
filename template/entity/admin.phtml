@@ -1,5 +1,5 @@
 <?php namespace qnd; /** @var callable $§ */?>
-<section id="<?=$§('id');?>" class="<?= $§('context');?>">
+<section id="<?=$§('id');?>">
     <h1><?=$§('title');?></h1>
     <div class="tool">
         <?php if (allowed('*/edit')):?>
@@ -38,9 +38,8 @@
             <?php foreach ($§('data') as $data):?>
             <tr>
                 <?php foreach ($§('attr') as $attr):?>
-                    <?php $attr['context'] = $§('context');?>
                 <td>
-                    <?=viewer($attr, $data);?>
+                    <?= viewer($attr, $data);?>
                 </td>
                 <?php endforeach;?>
                 <td>

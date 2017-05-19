@@ -1,5 +1,5 @@
 <?php namespace qnd; /** @var callable $§ */?>
-<section id="<?=$§('id');?>" class="<?= $§('context');?>">
+<section id="<?=$§('id');?>">
     <h1><?=$§('title');?></h1>
     <?= section('search');?>
     <?= section('pager');?>
@@ -7,7 +7,6 @@
     <?php foreach ($§('data') as $data):?>
     <article>
         <?php foreach ($§('attr') as $attr):?>
-            <?php $attr['context'] = $§('context');?>
             <?php if (!$html = viewer($attr, $data)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
                 <?php if (allowed($data['_entity']['id'] . '/view')):?>

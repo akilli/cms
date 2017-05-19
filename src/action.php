@@ -127,7 +127,7 @@ function action_edit(array $entity): void
     }
 
     layout_load();
-    layout_vars('content', ['data' => $data, 'title' => $entity['name']]);
+    layout_vars('content', ['data' => $data, 'attr' => entity_attr($entity, 'edit'), 'title' => $entity['name']]);
     layout_vars('head', ['title' => $entity['name']]);
 }
 
@@ -167,7 +167,7 @@ function action_view(array $entity): void
     }
 
     layout_load();
-    layout_vars('content', ['data' => $data]);
+    layout_vars('content', ['data' => $data, 'attr' => entity_attr($entity, 'view')]);
     layout_vars('head', ['title' => $data['name']]);
 }
 
@@ -286,13 +286,15 @@ function action_page_import(array $entity): void
 /**
  * Project Home Action
  *
+ * @param array $entity
+ *
  * @return void
  */
-function action_project_home(): void
+function action_project_home(array $entity): void
 {
     $data = project();
     layout_load();
-    layout_vars('content', ['data' => $data]);
+    layout_vars('content', ['data' => $data, 'attr' => entity_attr($entity, 'home')]);
     layout_vars('head', ['title' => $data['name']]);
 }
 

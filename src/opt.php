@@ -43,8 +43,7 @@ function opt_entity(string $eId): array
             $data[$eId] = [];
 
             foreach (all('page', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
-                $a = array_replace($item['_entity']['attr']['pos'], ['context' => 'view', 'actions' => ['view']]);
-                $data[$eId][$item['id']] = viewer($a, $item) . ' ' . $item['name'];
+                $data[$eId][$item['id']] = viewer($item['_entity']['attr']['pos'], $item) . ' ' . $item['name'];
             }
         } else {
             $data[$eId] = array_column(all($eId, [], ['select' => ['id', 'name']]), 'name', 'id');

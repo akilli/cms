@@ -47,13 +47,13 @@ function export(): string
     ];
     $to = ['="index.html"', '="media/$1"', '="theme/$1"', '="$1"'];
     $toc = '';
+    $attrs = entity_attr(data('entity', 'page'), 'view');
 
     foreach (all('page', [], ['order' => ['pos' => 'asc']]) as $data) {
         $base = basename($data['url']);
         $name = str_replace(IMPORT['del'], '', $data['name']);
-        $attr = array_replace($data['_entity']['attr']['pos'], ['context' => 'view', 'actions' => ['view']]);
-        $toc .= viewer($attr, $data) . IMPORT['del'] . $name . IMPORT['del'] . $base . "\n";
-        $main = ['id' => 'content', 'template' => 'entity/view.phtml', 'vars' => ['data' => $data, 'context' => 'view']];
+        $toc .= viewer($data['_entity']['attr']['pos'], $data) . IMPORT['del'] . $name . IMPORT['del'] . $base . "\n";
+        $main = ['id' => 'content', 'template' => 'entity/view.phtml', 'vars' => ['data' => $data, 'attr' => $attrs]];
         $nav = ['id' => 'nav', 'vars' => ['mode' => 'top', 'current' => $data['id']]];
         $subnav = ['id' => 'subnav', 'vars' => ['mode' => 'sub', 'current' => $data['id']]];
         $§ = [
@@ -71,7 +71,8 @@ function export(): string
     }
 
     // Homepage
-    $main = ['id' => 'content', 'template' => 'entity/view.phtml', 'vars' => ['data' => $project, 'context' => 'home']];
+    $attrs = entity_attr($project['_entity'], 'home');
+    $main = ['id' => 'content', 'template' => 'entity/view.phtml', 'vars' => ['data' => $project, 'attr' => $attrs]];
     $nav = ['id' => 'nav', 'vars' => ['mode' => 'top']];
     $subnav = ['id' => 'subnav', 'vars' => ['mode' => 'sub']];
     $§ = [

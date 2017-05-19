@@ -13,10 +13,6 @@ namespace qnd;
  */
 function viewer(array $attr, array $data): string
 {
-    if (!in_array($attr['context'], $attr['actions'])) {
-        return '';
-    }
-
     $attr['opt'] = opt($attr);
 
     if ($attr['viewer']) {

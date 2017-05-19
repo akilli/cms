@@ -13,10 +13,6 @@ namespace qnd;
  */
 function editor(array $attr, array $data): string
 {
-    if (!in_array($attr['context'], $attr['actions'])) {
-        return '';
-    }
-
     $data[$attr['id']] = $data[$attr['id']] ?? $attr['val'];
     $attr['opt'] = opt($attr);
     $attr['html']['id'] =  'data-' . $attr['id'];

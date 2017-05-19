@@ -22,7 +22,6 @@ return [
         'minval' => 0,
         'maxval' => 0,
         'entity' => null,
-        'context' => null,
         'html' => [],
         'validator' => null,
         'saver' => null,

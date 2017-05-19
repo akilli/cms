@@ -1,12 +1,11 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <?php if ($data = $§('data')):?>
-<section id="<?=$§('id');?>" class="<?= $§('context');?>">
+<section id="<?=$§('id');?>">
     <h1><?=$§('title');?></h1>
     <form method="post" enctype="multipart/form-data">
         <fieldset>
             <legend><?=$data['name'] ?? _('New Entry');?></legend>
-            <?php foreach ($data['_entity']['attr'] as $attr):?>
-                <?php $attr['context'] = $§('context');?>
+            <?php foreach ($§('attr') as $attr):?>
                 <?php if (!$html = editor($attr, $data)) continue;?>
             <div data-attr="<?=$attr['id'];?>">
                 <?=$html;?>
