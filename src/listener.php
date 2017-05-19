@@ -31,7 +31,6 @@ function listener_data_app(array $data): array
 function listener_data_entity(array $data): array
 {
     $defEnt = data('default', 'entity');
-    $defAttr = data('default', 'attr');
     $cfg = data('attr');
 
     foreach ($data as $eId => $entity) {
@@ -52,7 +51,7 @@ function listener_data_entity(array $data): array
 
             $backend = $cfg['backend'][$attr['backend'] ?? $type['backend']];
             $frontend = $cfg['frontend'][$attr['frontend'] ?? $type['frontend']];
-            $attr = array_replace($defAttr, $backend, $frontend, $type, $attr);
+            $attr = array_replace($cfg['default'], $backend, $frontend, $type, $attr);
             $attr['id'] = $id;
             $attr['name'] = _($attr['name']);
             $attr['entity'] = $entity['id'];
