@@ -164,8 +164,8 @@ function data(string $section, string $id = null)
 function event(string $event, array $data): array
 {
     if (($listeners = data('listener', $event)) && asort($listeners, SORT_NUMERIC)) {
-        foreach (array_keys($listeners) as $id) {
-            $data = call('listener_' . $id, $data);
+        foreach (array_keys($listeners) as $call) {
+            $data = $call($data);
         }
     }
 
