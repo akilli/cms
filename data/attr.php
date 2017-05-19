@@ -26,7 +26,7 @@ return [
             'db_type' => 'jsonb',
             'pdo' => PDO::PARAM_STR,
             'val' => [],
-            'loader' => 'json',
+            'loader' => 'qnd\loader_json',
         ],
         'search' => [
             'db_type' => 'tsvector',

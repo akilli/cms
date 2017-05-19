@@ -15,7 +15,7 @@ function loader(array $attr, array $data)
 {
     $data[$attr['id']] = cast($attr, $data[$attr['id']] ?? null);
 
-    return $attr['loader'] ? call('loader_' . $attr['loader'], $attr, $data) : $data[$attr['id']];
+    return $attr['loader'] ? $attr['loader']($attr, $data) : $data[$attr['id']];
 }
 
 /**
