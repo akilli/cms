@@ -15,6 +15,9 @@ return [
     'media/view' => [
         'call' => 'qnd\account_user'
     ],
+    'page/index' => [
+        'call' => 'qnd\account_user'
+    ],
     'page/view' => [
         'call' => 'qnd\account_user'
     ],
