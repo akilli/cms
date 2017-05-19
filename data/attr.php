@@ -67,7 +67,7 @@ return [
         ],
         'file' => [
             'validator' => 'qnd\validator_file',
-            'saver' => 'file',
+            'saver' => 'qnd\saver_file',
             'editor' => 'qnd\editor_file',
             'viewer' => 'qnd\viewer_file',
         ],
@@ -76,7 +76,7 @@ return [
         ],
         'password' => [
             'validator' => 'qnd\validator_text',
-            'saver' => 'password',
+            'saver' => 'qnd\saver_password',
             'editor' => 'qnd\editor_password',
         ],
         'radio' => [

@@ -15,7 +15,7 @@ use RuntimeException;
  */
 function saver(array $attr, array $data): array
 {
-    return $attr['saver'] ? call('saver_' . $attr['saver'], $attr, $data) : $data;
+    return $attr['saver'] ? $attr['saver']($attr, $data) : $data;
 }
 
 /**
