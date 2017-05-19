@@ -15,6 +15,9 @@ return [
     'media/view' => [
         'call' => 'qnd\account_user'
     ],
+    'project/home' => [
+        'call' => 'qnd\account_user'
+    ],
     'project/switch' => [
         'call' => 'qnd\account_global'
     ],
