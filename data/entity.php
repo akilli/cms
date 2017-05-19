@@ -79,7 +79,7 @@ return [
                 'type' => 'checkbox',
                 'backend' => 'json',
                 'multiple' => true,
-                'opt' => ['opt_privilege'],
+                'opt' => 'qnd\opt_privilege',
                 'actions' => ['edit'],
             ],
             'active' => [
@@ -94,7 +94,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
-                'opt' => ['project'],
+                'opt' => 'project',
             ],
         ],
     ],
@@ -136,7 +136,7 @@ return [
                 'name' => 'Parent',
                 'type' => 'entity',
                 'nullable' => true,
-                'opt' => ['page'],
+                'opt' => 'page',
                 'actions' => ['edit'],
                 'validator' => 'qnd\validator_page',
             ],
@@ -162,7 +162,7 @@ return [
                 'type' => 'entity',
                 'backend' => 'json',
                 'multiple' => true,
-                'opt' => ['page'],
+                'opt' => 'page',
             ],
             'depth' => [
                 'name' => 'Depth',
@@ -171,7 +171,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
-                'opt' => ['project'],
+                'opt' => 'project',
             ],
         ],
     ],
@@ -206,7 +206,7 @@ return [
             'project_id' => [
                 'name' => 'Project',
                 'type' => 'entity',
-                'opt' => ['project'],
+                'opt' => 'project',
             ],
         ],
     ],

@@ -16,29 +16,26 @@ function opt(array $attr): array
         return [_('No'), _('Yes')];
     }
 
-    if (empty($attr['opt'][0])) {
-        return [];
-    }
-
     if ($attr['type'] === 'entity') {
-        return opt_entity($attr);
+        return opt_entity($attr['opt']);
     }
 
-    $args = $attr['opt'][1] ?? [];
+    if (is_string($attr['opt'])) {
+        return $attr['opt']($attr);
+    }
 
-    return call($attr['opt'][0], ...$args);
+    return $attr['opt'];
 }
 
 /**
  * Entity options
  *
- * @param array $attr
+ * @param string $eId
  *
  * @return array
  */
-function opt_entity(array $attr): array
+function opt_entity(string $eId): array
 {
-    $eId = $attr['opt'][0];
     $data = & registry('opt.entity.' . $eId);
 
     if ($data[$eId] === null) {
