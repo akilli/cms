@@ -113,6 +113,7 @@ function listener_data_privilege(array $data): array
     foreach (data('entity') as $eId => $entity) {
         foreach ($entity['actions'] as $act) {
             $data[$eId . '/' . $act]['name'] = $entity['name'] . ' ' . _(ucwords($act));
+            $data[$eId . '/' . $act]['global'] = empty($entity['attr']['project_id']);
         }
     }
 
