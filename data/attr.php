@@ -48,66 +48,66 @@ return [
     'frontend' => [
         'checkbox' => [
             'validator' => 'opt',
-            'editor' => 'opt',
+            'editor' => 'qnd\editor_opt',
             'viewer' => 'opt',
         ],
         'date' => [
             'validator' => 'date',
-            'editor' => 'date',
+            'editor' => 'qnd\editor_date',
             'viewer' => 'date',
         ],
         'datetime' => [
             'validator' => 'datetime',
-            'editor' => 'datetime',
+            'editor' => 'qnd\editor_datetime',
             'viewer' => 'datetime',
         ],
         'email' => [
             'validator' => 'email',
-            'editor' => 'text',
+            'editor' => 'qnd\editor_text',
         ],
         'file' => [
             'validator' => 'file',
             'saver' => 'file',
-            'editor' => 'file',
+            'editor' => 'qnd\editor_file',
             'viewer' => 'file',
         ],
         'number' => [
-            'editor' => 'int',
+            'editor' => 'qnd\editor_int',
         ],
         'password' => [
             'validator' => 'text',
             'saver' => 'password',
-            'editor' => 'password',
+            'editor' => 'qnd\editor_password',
         ],
         'radio' => [
             'validator' => 'opt',
-            'editor' => 'opt',
+            'editor' => 'qnd\editor_opt',
             'viewer' => 'opt',
         ],
         'range' => [
-            'editor' => 'int',
+            'editor' => 'qnd\editor_int',
         ],
         'select' => [
             'validator' => 'opt',
-            'editor' => 'select',
+            'editor' => 'qnd\editor_select',
             'viewer' => 'opt',
         ],
         'text' => [
             'validator' => 'text',
-            'editor' => 'text',
+            'editor' => 'qnd\editor_text',
         ],
         'textarea' => [
             'validator' => 'text',
-            'editor' => 'textarea',
+            'editor' => 'qnd\editor_textarea',
         ],
         'time' => [
             'validator' => 'time',
-            'editor' => 'time',
+            'editor' => 'qnd\editor_time',
             'viewer' => 'time',
         ],
         'url' => [
             'validator' => 'url',
-            'editor' => 'text',
+            'editor' => 'qnd\editor_text',
         ],
     ],
     'type' => [
@@ -156,7 +156,7 @@ return [
         'json' => [
             'backend' => 'json',
             'frontend' => 'textarea',
-            'editor' => 'json',
+            'editor' => 'qnd\editor_json',
             'validator' => 'json',
         ],
         'password' => [

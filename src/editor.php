@@ -43,7 +43,7 @@ function editor(array $attr, array $data): string
         $error = html('div', ['class' => 'message error'], $data['_error'][$attr['id']]);
     }
 
-    if ($attr['editor'] && ($html = call('editor_' . $attr['editor'], $attr, $data))) {
+    if ($attr['editor'] && ($html = $attr['editor']($attr, $data))) {
         return html('label', ['for' => $attr['html']['id']], $label) . $html . $error;
     }
 
