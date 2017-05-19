@@ -16,10 +16,10 @@ function section(string $id): string
         return '';
     }
 
-    $§ = event('section.type.' . $§['type'], $§);
-    $§ = event('section.' . $id, $§);
+    $§ = event('section.' . $§['section'], $§);
+    $§ = event('layout.section.' . $id, $§);
 
-    return call('section_' . $§['type'], $§);
+    return $§['call']($§);
 }
 
 /**

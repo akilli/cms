@@ -12,6 +12,9 @@ return [
     'data.load.privilege' => [
         'qnd\listener_data_privilege' => -1,
     ],
+    'data.load.section' => [
+        'qnd\listener_data_section' => -1,
+    ],
     'data.load.toolbar' => [
         'qnd\listener_data_toolbar' => -1,
     ],

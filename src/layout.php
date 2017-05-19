@@ -66,9 +66,7 @@ function layout_add(array $§): void
 
     // New section
     if ($data === null) {
-        $data = data('section', 'default');
-
-        if (empty($§['type'])) {
+        if (empty($§['section']) || !($data = data('section', $§['section']))) {
             throw new InvalidArgumentException(_('No or invalid type given for section with Id %s', $§['id']));
         }
     }

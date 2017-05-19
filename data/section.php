@@ -2,7 +2,8 @@
 return [
     'default' => [
         'id' => null,
-        'type' => null,
+        'section' => null,
+        'call' => null,
         'template' => null,
         'vars' => [],
         'active' => true,
@@ -10,5 +11,23 @@ return [
         'parent' => 'root',
         'sort' => 0,
         'children' => [],
+    ],
+    'container' => [
+        'call' => 'qnd\section_container',
+    ],
+    'message' => [
+        'call' => 'qnd\section_message',
+    ],
+    'nav' => [
+        'call' => 'qnd\section_nav',
+    ],
+    'pager' => [
+        'call' => 'qnd\section_pager',
+    ],
+    'template' => [
+        'call' => 'qnd\section_template',
+    ],
+    'toolbar' => [
+        'call' => 'qnd\section_toolbar',
     ],
 ];

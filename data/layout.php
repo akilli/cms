@@ -2,74 +2,74 @@
 return [
     '_all_' => [
         'root' => [
-            'type' => 'template',
+            'section' => 'template',
             'template' => 'layout/root.phtml',
         ],
         'head' => [
-            'type' => 'template',
+            'section' => 'template',
             'template' => 'layout/head.phtml',
         ],
         'top' => [
-            'type' => 'container',
+            'section' => 'container',
         ],
         'left' => [
-            'type' => 'container',
+            'section' => 'container',
             'vars' => ['tag' => 'aside'],
         ],
         'message' => [
-            'type' => 'message',
+            'section' => 'message',
             'template' => 'layout/message.phtml',
         ],
         'main' => [
-            'type' => 'container',
+            'section' => 'container',
         ],
         'right' => [
-            'type' => 'container',
+            'section' => 'container',
             'vars' => ['tag' => 'aside'],
         ],
         'bottom' => [
-            'type' => 'container',
+            'section' => 'container',
         ],
     ],
     'action-admin' => [
         'content' => [
-            'type' => 'template',
+            'section' => 'template',
             'template' => 'entity/admin.phtml',
             'vars' => ['context' => 'admin'],
             'parent' => 'main',
         ],
         'pager' => [
-            'type' => 'pager',
+            'section' => 'pager',
             'template' => 'entity/pager.phtml',
             'parent' => 'content',
         ],
         'search' => [
-            'type' => 'template',
+            'section' => 'template',
             'template' => 'entity/search.phtml',
             'parent' => 'content',
         ],
     ],
     'action-index' => [
         'content' => [
-            'type' => 'template',
+            'section' => 'template',
             'template' => 'entity/index.phtml',
             'vars' => ['context' => 'index'],
             'parent' => 'main',
         ],
         'pager' => [
-            'type' => 'pager',
+            'section' => 'pager',
             'template' => 'entity/pager.phtml',
             'parent' => 'content',
         ],
         'search' => [
-            'type' => 'template',
+            'section' => 'template',
             'template' => 'entity/search.phtml',
             'parent' => 'content',
         ],
     ],
     'action-edit' => [
         'content' => [
-            'type' => 'template',
+            'section' => 'template',
             'template' => 'entity/edit.phtml',
             'vars' => ['context' => 'edit'],
             'parent' => 'main',
@@ -77,7 +77,7 @@ return [
     ],
     'action-view' => [
         'content' => [
-            'type' => 'template',
+            'section' => 'template',
             'template' => 'entity/view.phtml',
             'vars' => ['context' => 'view'],
             'parent' => 'main',
@@ -85,57 +85,57 @@ return [
     ],
     'account-user' => [
         'toolbar' => [
-            'type' => 'toolbar',
+            'section' => 'toolbar',
             'template' => 'account/toolbar.phtml',
             'parent' => 'top',
         ],
     ],
     'account/password' => [
          'content' => [
-            'type' => 'template',
+            'section' => 'template',
             'template' => 'account/password.phtml',
             'parent' => 'main',
         ],
     ],
     'account/login' => [
         'content' => [
-            'type' => 'template',
+            'section' => 'template',
             'template' => 'account/login.phtml',
             'parent' => 'main',
         ],
     ],
     'page/index' => [
         'nav' => [
-            'type' => 'nav',
+            'section' => 'nav',
             'parent' => 'top',
             'vars' => ['mode' => 'top'],
         ],
         'subnav' => [
-            'type' => 'nav',
+            'section' => 'nav',
             'parent' => 'right',
             'vars' => ['mode' => 'sub'],
         ],
     ],
     'page/view' => [
         'nav' => [
-            'type' => 'nav',
+            'section' => 'nav',
             'parent' => 'top',
             'vars' => ['mode' => 'top'],
         ],
         'subnav' => [
-            'type' => 'nav',
+            'section' => 'nav',
             'parent' => 'right',
             'vars' => ['mode' => 'sub'],
         ],
     ],
     'project/home' => [
         'nav' => [
-            'type' => 'nav',
+            'section' => 'nav',
             'parent' => 'top',
             'vars' => ['mode' => 'top'],
         ],
         'content' => [
-            'type' => 'template',
+            'section' => 'template',
             'template' => 'entity/view.phtml',
             'vars' => ['context' => 'home'],
             'parent' => 'main',
