@@ -57,7 +57,7 @@ function action_index(array $entity): void
 {
     $act = request('action');
     $attrs = entity_attr($entity, $act);
-    $crit = empty($entity['attr']['active']) || $act === 'admin' ? [] : [['active', true]];
+    $crit = empty($entity['attr']['active']) || $act === 'admin' ? [['system', false]] : [['active', true]];
     $opts = ['select' => array_keys($attrs), 'limit' => data('app', 'limit')];
 
     // Params

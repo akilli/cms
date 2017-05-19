@@ -114,11 +114,14 @@ function db_crit(array $crit, array $attrs): array
         $z = [];
 
         foreach ($part as $c) {
-            $attr = $attrs[$c[0]] ?? null;
+            if (!$attr = $attrs[$c[0]] ?? null) {
+                continue 2;
+            }
+
             $val = $c[1] ?? null;
             $op = $c[2] ?? CRIT['='];
 
-            if (!$attr || empty(CRIT[$op]) || is_array($val) && !$val) {
+            if (empty(CRIT[$op]) || is_array($val) && !$val) {
                 throw new RuntimeException(_('Invalid criteria'));
             }
 
