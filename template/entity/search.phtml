@@ -1,9 +1,6 @@
 <?php namespace qnd; /** @var callable $§ */?>
-<section id="<?=$§('id');?>">
-    <h1><?= _('Search');?></h1>
-    <form id="<?=$§('id');?>" method="post">
-        <input type="search" name="param[q]" value="<?=$§('q');?>" placeholder="<?= _('Search Term');?>" />
-        <input type="submit" value="<?= _('Search');?>" />
-        <input type="hidden" name="token" value="<?= token();?>" />
-    </form>
-</section>
+<form id="<?=$§('id');?>" method="post">
+    <input type="search" name="param[q]" value="<?=$§('q');?>" placeholder="<?= _('Search Term');?>" />
+    <input type="submit" value="<?= _('Search');?>" />
+    <input type="hidden" name="token" value="<?= token();?>" />
+</form>

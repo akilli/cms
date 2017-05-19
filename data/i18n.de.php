@@ -33,7 +33,6 @@ return [
     'Homepage' => 'Startseite',
     'ID' => 'ID',
     'Import' => 'Importieren',
-    'Import Entries' => 'Einträge Importieren',
     'Import error' => 'Importfehler',
     'Invalid attribute configuration' => 'Ungültige Attribut Konfiguration',
     'Invalid criteria' => 'Ungültige Bedingung',

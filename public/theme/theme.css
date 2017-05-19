@@ -119,6 +119,15 @@ html[data-path="account/login"] body > * {
 }
 
 /**
+ * Admin
+ */
+#content.admin .tool {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/**
  * Icon
  */
 .icon {
