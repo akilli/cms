@@ -1,5 +1,13 @@
 <?php
 return [
+    'default' => [
+        'id' => null,
+        'name' => null,
+        'tab' => null,
+        'model' => 'flat',
+        'actions' => [],
+        'attr' => [],
+    ],
     'project' => [
         'name' => 'Projects',
         'actions' => ['admin', 'delete', 'edit', 'export', 'home', 'import', 'switch'],

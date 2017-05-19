@@ -1,13 +1,5 @@
 <?php
 return [
-    'entity' => [
-        'id' => null,
-        'name' => null,
-        'tab' => null,
-        'model' => 'flat',
-        'actions' => [],
-        'attr' => [],
-    ],
     'section' => [
         'id' => null,
         'type' => null,

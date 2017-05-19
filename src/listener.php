@@ -30,7 +30,8 @@ function listener_data_app(array $data): array
  */
 function listener_data_entity(array $data): array
 {
-    $defEnt = data('default', 'entity');
+    $defEnt = $data['default'];
+    unset($data['default']);
     $cfg = data('attr');
 
     foreach ($data as $eId => $entity) {
