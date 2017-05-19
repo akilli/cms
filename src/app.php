@@ -206,18 +206,3 @@ function logger(string $message): void
 {
     file_put_contents(path('log', LOG), '[' . date('r') . '] ' . $message . "\n\n", FILE_APPEND);
 }
-
-/**
- * Applies callback function given by local name
- *
- * @param string $name
- * @param mixed ...$args
- *
- * @return mixed
- */
-function call(string $name, ...$args)
-{
-    $call = __NAMESPACE__ . '\\' . $name;
-
-    return $call(...$args);
-}

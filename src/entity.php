@@ -24,7 +24,7 @@ function size(string $eId, array $crit = []): int
     }
 
     try {
-        return call($entity['model'] . '_load', $entity, $crit, $opts)[0];
+        return $entity['model']['load']($entity, $crit, $opts)[0];
     } catch (Exception $e) {
         logger((string) $e);
         message(_('Could not load data'));
@@ -53,7 +53,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        if ($data = call($entity['model'] . '_load', $entity, $crit, $opts)) {
+        if ($data = $entity['model']['load']($entity, $crit, $opts)) {
             $data = entity_load($entity, $data);
         }
     } catch (Exception $e) {
@@ -91,7 +91,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        $data = call($entity['model'] . '_load', $entity, $crit, $opts);
+        $data = $entity['model']['load']($entity, $crit, $opts);
 
         foreach ($data as $id => $item) {
             $data[$id] = entity_load($entity, $item);
@@ -156,11 +156,11 @@ function save(string $eId, array & $data): bool
     $trans = db_trans(
         function () use (& $temp): void {
             $temp = event('entity.presave', $temp);
-            $temp = event('model.presave.' . $temp['_entity']['model'], $temp);
+            $temp = event('model.presave.' . $temp['_entity']['model']['id'], $temp);
             $temp = event('entity.presave.' . $temp['_entity']['id'], $temp);
-            $temp = call($temp['_entity']['model'] . '_save', $temp);
+            $temp = $temp['_entity']['model']['save']($temp);
             event('entity.postsave', $temp);
-            event('model.postsave.' . $temp['_entity']['model'], $temp);
+            event('model.postsave.' . $temp['_entity']['model']['id'], $temp);
             event('entity.postsave.' . $temp['_entity']['id'], $temp);
         }
     );
@@ -198,11 +198,11 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
         $trans = db_trans(
             function () use ($data): void {
                 $data = event('entity.predelete', $data);
-                $data = event('model.predelete.' . $data['_entity']['model'], $data);
+                $data = event('model.predelete.' . $data['_entity']['model']['id'], $data);
                 $data = event('entity.predelete.' . $data['_entity']['id'], $data);
-                call($data['_entity']['model'] . '_delete', $data);
+                $data['_entity']['model']['delete']($data);
                 event('entity.postdelete', $data);
-                event('model.postdelete.' . $data['_entity']['model'], $data);
+                event('model.postdelete.' . $data['_entity']['model']['id'], $data);
                 event('entity.postdelete.' . $data['_entity']['id'], $data);
             }
         );
