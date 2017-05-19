@@ -4,6 +4,29 @@ declare(strict_types = 1);
 namespace qnd;
 
 /**
+ * Viewer
+ *
+ * @param array $attr
+ * @param array $data
+ *
+ * @return string
+ */
+function viewer(array $attr, array $data): string
+{
+    if (!in_array($attr['context'], $attr['actions'])) {
+        return '';
+    }
+
+    $attr['opt'] = opt($attr);
+
+    if ($attr['viewer']) {
+        return call('viewer_' . $attr['viewer'], $attr, $data);
+    }
+
+    return $data[$attr['id']] ? encode((string) $data[$attr['id']]) : (string) $data[$attr['id']];
+}
+
+/**
  * Option viewer
  *
  * @param array $attr

@@ -4,6 +4,53 @@ declare(strict_types = 1);
 namespace qnd;
 
 /**
+ * Editor
+ *
+ * @param array $attr
+ * @param array $data
+ *
+ * @return string
+ */
+function editor(array $attr, array $data): string
+{
+    if (!in_array($attr['context'], $attr['actions'])) {
+        return '';
+    }
+
+    $data[$attr['id']] = $data[$attr['id']] ?? $attr['val'];
+    $attr['opt'] = opt($attr);
+    $attr['html']['id'] =  'data-' . $attr['id'];
+    $attr['html']['name'] =  'data[' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
+    $attr['html']['data-type'] =  $attr['type'];
+    $label = $attr['name'];
+    $error = '';
+
+    if ($attr['required'] && !ignorable($attr, $data)) {
+        $attr['html']['required'] = true;
+        $label .= ' ' . html('em', ['class' => 'required'], _('Required'));
+    }
+
+    if ($attr['uniq']) {
+        $label .= ' ' . html('em', ['class' => 'uniq'], _('Unique'));
+    }
+
+    if ($attr['multiple']) {
+        $attr['html']['multiple'] = true;
+    }
+
+    if (!empty($data['_error'][$attr['id']])) {
+        $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
+        $error = html('div', ['class' => 'message error'], $data['_error'][$attr['id']]);
+    }
+
+    if ($attr['editor'] && ($html = call('editor_' . $attr['editor'], $attr, $data))) {
+        return html('label', ['for' => $attr['html']['id']], $label) . $html . $error;
+    }
+
+    return '';
+}
+
+/**
  * Select editor
  *
  * @param array $attr

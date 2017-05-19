@@ -6,6 +6,19 @@ namespace qnd;
 use RuntimeException;
 
 /**
+ * Saver
+ *
+ * @param array $attr
+ * @param array $data
+ *
+ * @return array
+ */
+function saver(array $attr, array $data): array
+{
+    return $attr['saver'] ? call('saver_' . $attr['saver'], $attr, $data) : $data;
+}
+
+/**
  * Password saver
  *
  * @param array $attr

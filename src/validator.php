@@ -6,6 +6,35 @@ namespace qnd;
 use DomainException;
 
 /**
+ * Validator
+ *
+ * @param array $attr
+ * @param array $data
+ *
+ * @return array
+ */
+function validator(array $attr, array $data): array
+{
+    $data[$attr['id']] = cast($attr, $data[$attr['id']] ?? null);
+
+    if ($attr['nullable'] && $data[$attr['id']] === null) {
+        return $data;
+    }
+
+    $attr['opt'] = opt($attr);
+
+    if ($attr['validator']) {
+        $data = call('validator_' . $attr['validator'], $attr, $data);
+    }
+
+    validator_uniq($attr, $data);
+    validator_required($attr, $data);
+    validator_boundary($attr, $data);
+
+    return $data;
+}
+
+/**
  * Required validator
  *
  * @param array $attr
