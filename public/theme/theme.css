@@ -102,7 +102,8 @@ html[data-path="account/login"] body > * {
     padding: 1rem;
     line-height: 12rem;
     color: var(--primary-text);
-    background: var(--primary) url(akilli-cms.jpg) no-repeat right calc(25% - 363px + 4rem) center;
+    background: url(akilli-cms.jpg) no-repeat right calc(25% - 363px + 4rem) center;
+    background-color: var(--primary);
 }
 
 #header a {
