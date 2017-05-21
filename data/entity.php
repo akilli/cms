@@ -31,7 +31,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
-                'actions' => ['admin', 'edit', 'home'],
+                'actions' => ['admin', 'edit'],
                 'maxval' => 50,
             ],
             'exported' => [
