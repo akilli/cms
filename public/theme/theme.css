@@ -5,6 +5,7 @@
     --body: #fff;
     --body-text: #000;
     --grey: #f5f5f6;
+    --grey-border: #e4e7ea;
     --primary: #052a33;
     --primary-light: #32535c;
     --primary-dark: #00000c;
@@ -115,7 +116,8 @@ html[data-path="account/login"] body > * {
  */
 #message {
     padding: 1rem;
-    background: #e14b28;
+    color: var(--secondary-text);
+    background: var(--secondary-light);
 }
 
 #message p {
@@ -145,6 +147,11 @@ html[data-path="account/login"] body > * {
 #subnav {
     padding: 1rem;
     background: var(--grey);
+}
+
+#subnav a:hover,
+#subnav a.active {
+    text-decoration: underline;
 }
 
 /* Toolbar */
@@ -185,7 +192,7 @@ html[data-path="account/login"] body > * {
     font-size: 2rem;
 }
 
-#content a:not([role=button]) {
+#content a {
     color: #901913;
 }
 
@@ -279,7 +286,7 @@ table {
 th {
     padding: 0.25rem 0.375rem;
     font-weight: bold;
-    border-bottom: medium solid #e4e7ea;
+    border-bottom: medium solid var(--grey-border);
 }
 
 thead th {
@@ -288,12 +295,12 @@ thead th {
 
 td {
     padding: 0.25rem 0.375rem;
-    border-bottom: thin solid #e4e7ea;
+    border-bottom: thin solid var(--grey-border);
 }
 
 /* Form */
 ::input-placeholder {
-    color: #e4e7ea;
+    color: var(--grey-border);
 }
 
 .message {
@@ -342,6 +349,7 @@ input,
 select,
 textarea {
     line-height: 2;
+    border: thin solid var(--grey-border);
 }
 
 [role=button],
@@ -349,8 +357,9 @@ textarea {
 [type=reset],
 [type=submit],
 button {
-    color: var(--secondary-text);
+    color: var(--secondary-text) !important;
     background: var(--secondary);
+    border: 0;
 }
 
 [role=button],
