@@ -194,7 +194,7 @@ html[data-path="account/login"] body > * {
 }
 
 #content a {
-    color: #901913;
+    color: var(--secondary-dark);
 }
 
 #content a:not([role=button]):hover {
@@ -332,16 +332,12 @@ input + label.inline {
 }
 
 label em {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    font-variant: all-small-caps;
 }
 
-label em.required,
 .error {
     color: #901913;
-}
-
-label em.uniq {
-    color: #727c25;
 }
 
 [role=button],
