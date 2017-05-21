@@ -97,6 +97,9 @@ return [
         ],
     ],
     'account/login' => [
+        'header' => [
+            'active' => false,
+        ],
         'content' => [
             'section' => 'template',
             'template' => 'account/login.phtml',
