@@ -309,7 +309,7 @@ td {
 }
 
 fieldset > * {
-    margin: 0 0 1rem;
+    margin-bottom: 1rem;
 }
 
 legend {
@@ -409,10 +409,5 @@ option {
 }
 
 option[selected] {
-    color: #e14b28;
-}
-
-select > option:only-child {
-    font-style: italic;
     color: #e14b28;
 }
