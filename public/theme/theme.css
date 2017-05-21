@@ -32,6 +32,25 @@
     src: url('roboto.woff2') format('woff2');
 }
 
+.icon {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    font-family: material;
+    font-weight: normal;
+    font-size: 24px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+    border: 0;
+}
+
 /**
  * Layout
  */
@@ -172,28 +191,6 @@ html[data-path="account/login"] body > * {
 
 #content a:not([role=button]):hover {
     text-decoration: underline;
-}
-
-/**
- * Icon
- */
-.icon {
-    display: inline-block;
-    line-height: 1;
-    vertical-align: middle;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    font-family: material;
-    font-weight: normal;
-    font-size: 24px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: 'liga';
-    border: 0;
 }
 
 /**
