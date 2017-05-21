@@ -12,9 +12,11 @@ return [
         'top' => [
             'section' => 'container',
         ],
-        'left' => [
-            'section' => 'container',
-            'vars' => ['tag' => 'aside'],
+        'header' => [
+            'section' => 'template',
+            'template' => 'layout/header.phtml',
+            'parent' => 'top',
+            'sort' => -1,
         ],
         'message' => [
             'section' => 'message',
@@ -23,7 +25,7 @@ return [
         'main' => [
             'section' => 'container',
         ],
-        'right' => [
+        'sidebar' => [
             'section' => 'container',
             'vars' => ['tag' => 'aside'],
         ],
@@ -84,6 +86,7 @@ return [
             'section' => 'toolbar',
             'template' => 'account/toolbar.phtml',
             'parent' => 'top',
+            'sort' => -2,
         ],
     ],
     'account/password' => [
@@ -108,7 +111,7 @@ return [
         ],
         'subnav' => [
             'section' => 'nav',
-            'parent' => 'right',
+            'parent' => 'sidebar',
             'vars' => ['mode' => 'sub'],
         ],
     ],
@@ -120,7 +123,7 @@ return [
         ],
         'subnav' => [
             'section' => 'nav',
-            'parent' => 'right',
+            'parent' => 'sidebar',
             'vars' => ['mode' => 'sub'],
         ],
     ],

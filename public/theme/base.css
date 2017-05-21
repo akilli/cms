@@ -116,6 +116,14 @@ q {
     font-style: italic;
 }
 
+a {
+    text-decoration: none;
+}
+
+nav a {
+    color: inherit;
+}
+
 /**
  * Embedded
  */
@@ -166,6 +174,7 @@ textarea {
     font-family: inherit;
     font-size: 100%;
     margin: 0;
+    border: 0;
 }
 
 [role=button],
@@ -197,7 +206,6 @@ label {
 [role=button],
 [role=button]:hover {
     display: inline-block;
-    text-decoration: none;
 }
 
 optgroup {

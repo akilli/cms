@@ -1,18 +1,35 @@
 /**
+ * Variables
+ */
+:root {
+    --body: #fff;
+    --body-text: #000;
+    --grey: #f5f5f6;
+    --primary: #052a33;
+    --primary-light: #32535c;
+    --primary-dark: #00000c;
+    --primary-text: #fff;
+    --secondary: #93ddf9;
+    --secondary-light: #c7ffff;
+    --secondary-dark: #60abc6;
+    --secondary-text: #000;
+}
+
+/**
  * Font
  */
 @font-face {
   font-family: material;
   font-style: normal;
   font-weight: 400;
-  src: url(material.woff) format('woff');
+  src: url(material.woff2) format('woff2');
 }
 
 @font-face {
-    font-family: ubuntu;
+    font-family: roboto;
     font-style: normal;
     font-weight: normal;
-    src: url('ubuntu.woff') format('woff');
+    src: url('roboto.woff2') format('woff2');
 }
 
 /**
@@ -20,42 +37,58 @@
  */
 body {
     line-height: 1.5;
-    font-family: ubuntu, sans-serif;
-    color: #231f20;
-    background: #fff;
-}
-
-body > * {
-    padding: 1rem;
+    font-family: roboto, sans-serif;
+    color: var(--body-text);
+    background: var(--body);
 }
 
 main {
     display: flex;
 }
 
-#content > *,
-aside > * {
-    margin-bottom: 1rem;
+#content {
+    flex: 3 0;
+    padding: 1rem;
 }
 
-#left {
-    flex: 1 0;
-    margin-right: 4rem;
-}
-
-#right {
+#sidebar {
     flex: 1 0;
     margin-left: 4rem;
 }
 
-#content {
-    flex: 3 0;
+#content > *,
+#sidebar > * {
+    margin-bottom: 1rem;
 }
 
-#content > h1 {
-    margin: 0 0 1rem;
-    font-size: 2rem;
-    color: #e14b28;
+/* Login */
+html[data-path="account/login"] body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary-text);
+    background: var(--primary-dark);
+}
+
+html[data-path="account/login"] body > * {
+    flex: 0 0;
+}
+
+/**
+ * Header
+ */
+#header {
+    padding: 1rem;
+    line-height: 12rem;
+    color: var(--primary-text);
+    background: var(--primary) url(akilli-cms.jpg) no-repeat right calc(25% - 363px + 4rem) center;
+}
+
+#header a {
+    display: block;
+    font-size: 5rem;
+    color: inherit;
 }
 
 /**
@@ -73,17 +106,33 @@ aside > * {
 /**
  * Nav
  */
+#nav {
+    padding: 1rem;
+    color: var(--primary-text);
+    background: var(--primary-light);
+}
+
 #nav li {
     display: inline-block;
-    margin: 0 1rem;
-    padding: 1rem 0;
+    margin-right: 1rem;
+    border-bottom: medium solid var(--primary-light);
+}
+
+#nav li.active {
+    border-color: var(--secondary);
+}
+
+/* Subnav */
+#subnav {
+    padding: 1rem;
+    background: var(--grey);
 }
 
 /* Toolbar */
 #toolbar {
     padding: 1rem;
-    color: #fff;
-    background: #231f20;
+    color: var(--primary-text);
+    background: var(--primary-dark);
 }
 
 #toolbar form {
@@ -95,6 +144,13 @@ aside > * {
     color: #fff;
 }
 
+/* Tools */
+.tool {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 /* Pager */
 #pager {
     display: flex;
@@ -103,28 +159,19 @@ aside > * {
 }
 
 /**
- * Login
+ * Content
  */
-html[data-path="account/login"] body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    background: #231f20;
+#content > h1 {
+    margin: 0 0 1rem;
+    font-size: 2rem;
 }
 
-html[data-path="account/login"] body > * {
-    flex: 0 0;
+#content a:not([role=button]) {
+    color: #901913;
 }
 
-/**
- * Tool
- */
-.tool {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+#content a:not([role=button]):hover {
+    text-decoration: underline;
 }
 
 /**
@@ -134,7 +181,6 @@ html[data-path="account/login"] body > * {
     display: inline-block;
     line-height: 1;
     vertical-align: middle;
-    text-decoration: none;
     text-transform: none;
     letter-spacing: normal;
     word-wrap: normal;
@@ -148,10 +194,6 @@ html[data-path="account/login"] body > * {
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'liga';
     border: 0;
-}
-
-.icon:hover {
-    text-decoration: none;
 }
 
 /**
@@ -187,8 +229,8 @@ figcaption {
 
 pre {
     padding: 1rem;
-    color: #fff;
-    background: #231f20;
+    color: var(--primary-text);
+    background: var(--primary-dark);
 }
 
 ol,
@@ -226,18 +268,9 @@ aside nav li li {
 }
 
 /* Text */
-a {
-    text-decoration: none;
-    color: #901913;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
 thead a,
 tfoot a {
-    color: inherit;
+    color: inherit !important;
 }
 
 /* Table */
@@ -314,26 +347,13 @@ textarea {
     line-height: 2;
 }
 
-[role=button]:focus,
-[role=button]:hover,
-button:focus,
-button:hover,
-input:focus,
-input:hover,
-select:focus,
-select:hover,
-textarea:focus,
-textarea:hover  {
-    box-shadow: 0 0 0.625rem #e4e7ea;
-}
-
 [role=button],
 [type=button],
 [type=reset],
 [type=submit],
 button {
-    color: #fff;
-    background: #231f20;
+    color: var(--secondary-text);
+    background: var(--secondary);
 }
 
 [role=button],
@@ -342,7 +362,6 @@ input:not([type=file]),
 select,
 textarea {
     vertical-align: middle;
-    border: thin solid;
 }
 
 [role=button],
@@ -350,26 +369,6 @@ button,
 input:not([type=file]),
 textarea {
     padding: 0.125rem 0.25rem;
-}
-
-[role=button],
-[type=button],
-[type=reset],
-[type=submit],
-button,
-legend {
-    border-color: #000;
-}
-
-input:not([type=file]),
-select,
-textarea,
-option {
-    border-color: #e4e7ea;
-}
-
-input[formaction$="/delete"] {
-    background: #901913;
 }
 
 fieldset [type=email],
