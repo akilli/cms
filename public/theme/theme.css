@@ -183,6 +183,7 @@ aside nav li li {
 .tool {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
     line-height: 3rem;
 }
@@ -324,6 +325,7 @@ button,
 input,
 select,
 textarea {
+    line-height: 3rem;
     vertical-align: middle;
     box-shadow: 0 0.125rem 0 var(--grey-border);
 }
@@ -333,7 +335,7 @@ textarea {
 [type=reset],
 [type=submit],
 button {
-    line-height: 1.5rem;
+    padding: 0 0.5rem;
     color: var(--secondary-text) !important;
     background: var(--secondary);
     box-shadow: none;
