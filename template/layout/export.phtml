@@ -9,12 +9,17 @@
         <link rel="stylesheet" href="<?=url_theme('theme.css');?>" />
     </head>
     <body>
+        <header id="header">
+            <a href="<?= url();?>"><?= $§('name');?></a>
+        </header>
         <?= $§('nav');?>
         <main>
             <?= $§('main');?>
+            <?php if ($§('subnav')):?>
             <aside id="sidebar">
                 <?= $§('subnav');?>
             </aside>
+            <?php endif;?>
         </main>
     </body>
 </html>

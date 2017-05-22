@@ -62,6 +62,7 @@ function export(): string
             'vars' => [
                 'charset' => $charset,
                 'title' => $data['name'],
+                'name' => $project['name'],
                 'main' => IMPORT['start'] . section_template($main) . IMPORT['end'],
                 'nav' => section_nav($nav),
                 'subnav' => section_nav($subnav),
@@ -81,6 +82,7 @@ function export(): string
         'vars' => [
             'charset' => $charset,
             'title' => $project['name'],
+            'name' => $project['name'],
             'main' => IMPORT['start'] . section_template($main) . IMPORT['end'],
             'nav' => section_nav($nav),
             'subnav' => section_nav($subnav),
