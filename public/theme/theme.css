@@ -358,8 +358,8 @@ fieldset [type=password],
 fieldset [type=text],
 fieldset [type=url],
 fieldset select {
-    width: 30rem;
-    max-width: 100%;
+    width: 100%;
+    max-width: 30rem;
 }
 
 fieldset select[multiple] {
