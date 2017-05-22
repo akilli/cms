@@ -366,6 +366,10 @@ textarea {
     padding: 0.125rem 0.25rem;
 }
 
+[type=file] {
+    border: 0;
+}
+
 fieldset [type=email],
 fieldset [type=password],
 fieldset [type=text],
