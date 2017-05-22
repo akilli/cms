@@ -136,7 +136,7 @@ html[data-path="account/login"] body > * {
 
 #nav li {
     display: inline-block;
-    margin-right: 1rem;
+    margin-right: 2rem;
     border-bottom: medium solid var(--primary-light);
 }
 
