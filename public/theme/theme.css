@@ -373,13 +373,9 @@ textarea {
 fieldset [type=email],
 fieldset [type=password],
 fieldset [type=text],
-fieldset [type=url] {
-    width: 20rem;
-    max-width: 100%;
-}
-
+fieldset [type=url],
 fieldset select {
-    min-width: 20rem;
+    width: 30rem;
     max-width: 100%;
 }
 
@@ -404,5 +400,6 @@ textarea {
 .error {
     margin: 0;
     font-size: 0.9rem;
+    font-weight: bold;
     color: var(--primary-light);
 }
