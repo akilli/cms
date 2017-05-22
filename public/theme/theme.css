@@ -310,17 +310,6 @@ table p {
 /**
  * Form
  */
-::input-placeholder {
-    color: var(--grey-border);
-}
-
-.error {
-    margin: 0;
-    font-size: 0.875rem;
-    font-weight: bold;
-    color: var(--primary-light);
-}
-
 fieldset > * {
     margin-bottom: 1.5rem;
 }
@@ -330,30 +319,13 @@ legend {
     box-shadow: 0 0.125rem 0 var(--primary-dark);
 }
 
-label {
-    display: block;
-}
-
-label.inline {
-    display: inline;
-    vertical-align: middle;
-}
-
-input + label.inline {
-    margin: 0 0.5rem 0 0.25rem;
-}
-
-label em {
-    font-size: 0.875rem;
-    font-variant: all-small-caps;
-}
-
 [role=button],
 button,
 input,
 select,
 textarea {
-    border: thin solid var(--grey-border);
+    vertical-align: middle;
+    box-shadow: 0 0.125rem 0 var(--grey-border);
 }
 
 [role=button],
@@ -364,24 +336,20 @@ button {
     line-height: 1.5rem;
     color: var(--secondary-text) !important;
     background: var(--secondary);
-    border: 0;
+    box-shadow: none;
+}
+
+[type=checkbox] {
+    border: 0.125rem solid var(--grey-border);
+    box-shadow: none;
 }
 
 [type=file] {
-    border: 0;
+    box-shadow: none;
 }
 
-:invalid,
 .invalid {
-    border-color: var(--primary-light);
-}
-
-[role=button],
-button,
-input,
-select,
-textarea {
-    vertical-align: middle;
+    box-shadow: 0 0.125rem 0 var(--secondary-light);
 }
 
 fieldset [type=email],
@@ -406,6 +374,36 @@ textarea {
     vertical-align: top;
 }
 
+::input-placeholder {
+    color: var(--grey-border);
+}
+
+.error {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: var(--primary-light);
+}
+
+/* Label */
+label {
+    display: block;
+}
+
+label.inline {
+    display: inline;
+    vertical-align: middle;
+}
+
+input + label.inline {
+    margin: 0 0.5rem 0 0.25rem;
+}
+
+label em {
+    font-size: 0.875rem;
+    font-variant: all-small-caps;
+}
+
 /**
  * Icon
  */
@@ -424,5 +422,4 @@ textarea {
     text-rendering: optimizeLegibility;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'liga';
-    border: 0;
 }
