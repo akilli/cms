@@ -213,6 +213,10 @@ optgroup {
     font-style: italic;
 }
 
+option[selected] {
+    font-weight: bold;
+}
+
 /**
  * Display
  */
