@@ -40,7 +40,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    line-height: 1.5;
+    line-height: 1.5rem;
     font-family: roboto, sans-serif;
     color: var(--body-text);
     background: var(--body);
@@ -54,19 +54,19 @@ main {
 
 #content {
     flex: 3 0;
-    padding: 1rem;
+    padding: 1.5rem;
 }
 
 #sidebar {
     flex: 1 0;
-    margin-left: 4rem;
-    padding: 1rem;
+    margin-left: 6rem;
+    padding: 1.5rem;
     background: var(--grey);
 }
 
 #content > *,
 #sidebar > * {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 /* Login */
@@ -87,8 +87,8 @@ html[data-path="account/login"] body > * {
  * Header
  */
 #header {
-    padding: 1rem;
-    line-height: 12rem;
+    padding: 1.5rem;
+    line-height: 9rem;
     color: var(--primary-text);
     background: url(akilli-cms.jpg) no-repeat right calc(25% - 363px + 5.5rem) center;
     background-color: var(--primary);
@@ -96,7 +96,7 @@ html[data-path="account/login"] body > * {
 
 #header a {
     display: block;
-    font-size: 4rem;
+    font-size: 4.5rem;
     color: inherit;
 }
 
@@ -104,7 +104,7 @@ html[data-path="account/login"] body > * {
  * Messages
  */
 #message {
-    padding: 1rem;
+    padding: 1.5rem;
     color: var(--secondary-text);
     background: var(--secondary-light);
 }
@@ -117,14 +117,14 @@ html[data-path="account/login"] body > * {
  * Nav
  */
 #nav {
-    padding: 1rem;
+    padding: 1.5rem;
     color: var(--primary-text);
     background: var(--primary-light);
 }
 
 #nav li {
     display: inline-block;
-    margin-right: 2rem;
+    margin-right: 1.5rem;
     border-bottom: medium solid var(--primary-light);
 }
 
@@ -141,7 +141,7 @@ html[data-path="account/login"] body > * {
 
 /* Toolbar */
 #toolbar {
-    padding: 1rem;
+    padding: 1.5rem;
     color: var(--primary-text);
     background: var(--primary-dark);
 }
@@ -151,7 +151,7 @@ html[data-path="account/login"] body > * {
 }
 
 #toolbar a {
-    margin: 0 1rem;
+    margin-left: 1.5rem;
     color: #fff;
 }
 
@@ -166,15 +166,16 @@ html[data-path="account/login"] body > * {
 #pager {
     display: flex;
     justify-content: space-between;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
 }
 
 /**
  * Content
  */
 #content > h1 {
-    margin: 0 0 1rem;
-    font-size: 2rem;
+    line-height: 3rem;
+    margin-bottom: 1.5rem;
+    font-size: 3rem;
 }
 
 #content a {
@@ -190,21 +191,17 @@ html[data-path="account/login"] body > * {
  */
 /* Section */
 h1 {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
 }
 
 h2 {
-    font-size: 1.3rem;
-}
-
-h3 {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
 }
 
 /* Group */
 p,
 figure {
-    margin: 0 0 1rem;
+    margin-bottom: 1.5rem;
 }
 
 li p,
@@ -213,18 +210,18 @@ table p {
 }
 
 figcaption {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
 }
 
 pre {
-    padding: 1rem;
+    padding: 1.5rem;
     color: var(--primary-text);
     background: var(--primary-dark);
 }
 
 ol,
 ul {
-    margin: 1rem 0;
+    margin: 1.5rem 0;
     padding-left: 2rem;
 }
 
@@ -265,7 +262,7 @@ tfoot a {
 /* Table */
 table {
     width: 100%;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
 }
 
 th {
@@ -289,7 +286,7 @@ td {
 }
 
 fieldset > * {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 legend {
@@ -311,7 +308,7 @@ input + label.inline {
 }
 
 label em {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-variant: all-small-caps;
 }
 
@@ -320,7 +317,7 @@ button,
 input,
 select,
 textarea {
-    line-height: 2;
+    line-height: 2.25rem;
     border: thin solid var(--grey-border);
 }
 
@@ -382,7 +379,7 @@ textarea {
 
 .error {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     font-weight: bold;
     color: var(--primary-light);
 }
@@ -392,7 +389,7 @@ textarea {
  */
 .icon {
     display: inline-block;
-    line-height: 1;
+    line-height: 1.5rem;
     vertical-align: middle;
     text-transform: none;
     letter-spacing: normal;
@@ -400,7 +397,7 @@ textarea {
     white-space: nowrap;
     font-family: material;
     font-weight: normal;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
