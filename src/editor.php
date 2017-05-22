@@ -36,7 +36,7 @@ function editor(array $attr, array $data): string
 
     if (!empty($data['_error'][$attr['id']])) {
         $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
-        $error = html('div', ['class' => 'message error'], $data['_error'][$attr['id']]);
+        $error = html('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
     if ($attr['editor'] && ($html = $attr['editor']($attr, $data))) {

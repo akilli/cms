@@ -304,11 +304,6 @@ td {
     color: var(--grey-border);
 }
 
-.message {
-    margin: 0;
-    font-size: 0.9rem;
-}
-
 fieldset > * {
     margin-bottom: 1rem;
 }
@@ -334,10 +329,6 @@ input + label.inline {
 label em {
     font-size: 0.8rem;
     font-variant: all-small-caps;
-}
-
-.error {
-    color: #901913;
 }
 
 [role=button],
@@ -398,4 +389,14 @@ textarea {
     height: 15rem;
     resize: both;
     vertical-align: top;
+}
+
+.invalid {
+    border-color: var(--primary-light);
+}
+
+.error {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--primary-light);
 }
