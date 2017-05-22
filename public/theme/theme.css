@@ -129,6 +129,17 @@ html[data-path="account/login"] body > * {
 /**
  * Nav
  */
+nav ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+aside nav li li {
+    margin-left: 2rem;
+}
+
+/* Main */
 #nav {
     padding: 1.5rem 1.5rem 1.25rem 1.5rem;
     color: var(--primary-text);
@@ -146,7 +157,7 @@ html[data-path="account/login"] body > * {
     border-color: var(--secondary);
 }
 
-/* Subnav */
+/* Sub */
 #subnav a:hover,
 #subnav a.active {
     text-decoration: underline;
@@ -201,9 +212,8 @@ html[data-path="account/login"] body > * {
 }
 
 /**
- * Elements
+ * Heading
  */
-/* Section */
 h1 {
     font-size: 1.5rem;
 }
@@ -216,19 +226,11 @@ h3 {
     font-size: 1.125rem;
 }
 
-/* Group */
-p,
-figure {
+/**
+ * Text
+ */
+p {
     margin-bottom: 1.5rem;
-}
-
-li p,
-table p {
-    margin: 0;
-}
-
-figcaption {
-    font-size: 0.875rem;
 }
 
 pre {
@@ -237,6 +239,20 @@ pre {
     background: var(--primary-dark);
 }
 
+/**
+ * Media
+ */
+figure {
+    margin-bottom: 1.5rem;
+}
+
+figcaption {
+    font-size: 0.875rem;
+}
+
+/**
+ * List
+ */
 ol,
 ul {
     margin: 1.5rem 0;
@@ -244,7 +260,8 @@ ul {
 }
 
 li ol,
-li ul {
+li ul,
+li p {
     margin: 0;
 }
 
@@ -260,24 +277,9 @@ li ul {
     list-style: square;
 }
 
-nav ol,
-nav ul {
-    margin: 0;
-    padding-left: 0;
-    list-style: none;
-}
-
-aside nav li li {
-    margin-left: 2rem;
-}
-
-/* Text */
-thead a,
-tfoot a {
-    color: inherit !important;
-}
-
-/* Table */
+/**
+ * Table
+ */
 table {
     width: 100%;
     margin: 1.5rem 0;
@@ -296,7 +298,18 @@ thead td {
     box-shadow: 0 0.125rem 0 var(--primary-dark);
 }
 
-/* Form */
+thead a,
+tfoot a {
+    color: inherit !important;
+}
+
+table p {
+    margin: 0;
+}
+
+/**
+ * Form
+ */
 ::input-placeholder {
     color: var(--grey-border);
 }
