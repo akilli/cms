@@ -342,7 +342,6 @@ button {
 }
 
 [type=checkbox] {
-    border: 0.125rem solid var(--grey-border);
     box-shadow: none;
 }
 
@@ -376,6 +375,11 @@ textarea {
     vertical-align: top;
 }
 
+.cke {
+    height: 30rem !important;
+    border: 0 !important;
+}
+
 ::input-placeholder {
     color: var(--grey-border);
 }
@@ -402,6 +406,7 @@ input + label.inline {
 }
 
 label em {
+    line-height: 1;
     font-size: 0.875rem;
     font-variant: all-small-caps;
 }
