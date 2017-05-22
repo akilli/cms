@@ -140,6 +140,7 @@ html[data-path="account/login"] body > * {
     border-bottom: medium solid var(--primary-light);
 }
 
+#nav li:hover,
 #nav li.active {
     border-color: var(--secondary);
 }
@@ -391,6 +392,7 @@ textarea {
     vertical-align: top;
 }
 
+:invalid,
 .invalid {
     border-color: var(--primary-light);
 }
