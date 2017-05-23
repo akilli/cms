@@ -364,6 +364,7 @@ button {
 }
 
 [type=file] {
+    line-height: inherit;
     font-size: 0.875rem;
     box-shadow: none;
 }
