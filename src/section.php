@@ -181,21 +181,3 @@ function section_template(array $§): string
 
     return ob_get_clean();
 }
-
-/**
- * Toolbar section
- *
- * @param array $§
- *
- * @return string
- */
-function section_toolbar(array $§): string
-{
-    $§['vars'] = ['toolbar' => data('toolbar')];
-
-    if (allowed('project/switch') && ($projects = all('project', [['active', true]], ['order' => ['id' => 'asc']])) && count($projects) > 1) {
-        $§['vars'] += ['projects' => $projects, 'current' => project('id')];
-    }
-
-    return section_template($§);
-}

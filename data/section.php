@@ -27,7 +27,4 @@ return [
     'template' => [
         'call' => 'qnd\section_template',
     ],
-    'toolbar' => [
-        'call' => 'qnd\section_toolbar',
-    ],
 ];

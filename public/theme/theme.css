@@ -195,14 +195,13 @@ aside nav li li {
     background: var(--primary-dark);
 }
 
-#toolbar form {
-    display: inline-block;
-    vertical-align: middle;
-}
-
 #toolbar a {
     margin-left: 1.5rem;
     color: #fff;
+}
+
+#toolbar a:first-child {
+    margin-left: 0;
 }
 
 /* Pager */

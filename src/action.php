@@ -60,10 +60,6 @@ function action_index(array $entity): void
     $opts = ['limit' => data('app', 'limit')];
     $crit = [];
 
-    if ($act === 'admin' && !empty($entity['attr']['system'])) {
-        $crit[] = ['system', false];
-    }
-
     if ($act !== 'admin' && !empty($entity['attr']['active'])) {
         $crit[] = ['active', true];
     }
@@ -360,16 +356,14 @@ function action_project_export(): void
 }
 
 /**
- * Project Switch Action
+ * Project View Action
  *
  * @return void
  */
-function action_project_switch(): void
+function action_project_view(): void
 {
-    $id = request('data')['id'] ?? null;
-
-    if ($id && size('project', [['id', $id], ['active', true]])) {
-        session_set('project', $id);
+    if ($data = one('project', [['id', request('id')]])) {
+        session_set('project', $data['id']);
     }
 
     redirect();

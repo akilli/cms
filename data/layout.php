@@ -101,7 +101,7 @@ return [
     ],
     'account-user' => [
         'toolbar' => [
-            'section' => 'toolbar',
+            'section' => 'template',
             'template' => 'account/toolbar.phtml',
             'parent' => 'top',
             'sort' => -2,

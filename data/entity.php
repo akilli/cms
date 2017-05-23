@@ -10,7 +10,7 @@ return [
     ],
     'project' => [
         'name' => 'Projects',
-        'actions' => ['admin', 'delete', 'edit', 'export', 'home', 'import', 'switch'],
+        'actions' => ['admin', 'delete', 'edit', 'export', 'home', 'import', 'view'],
         'attr' => [
             'id' => [
                 'name' => 'ID',

@@ -25,7 +25,7 @@ return [
     'project/home' => [
         'call' => 'qnd\account_user',
     ],
-    'project/switch' => [
+    'project/view' => [
         'call' => 'qnd\account_global',
     ],
 ];
