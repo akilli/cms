@@ -1,7 +1,6 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <section id="<?=$§('id');?>">
     <h1><?=$§('title');?></h1>
-    <?= section('pager');?>
 <?php if ($§('data')):?>
     <?php foreach ($§('data') as $data):?>
     <article>
@@ -21,6 +20,7 @@
         <?php endforeach;?>
     </article>
         <?php endforeach;?>
+    <?= section('pager');?>
 <?php else:;?>
     <p><?= _('No entries found');?></p>
 <?php endif;?>

@@ -207,9 +207,15 @@ aside nav li li {
 
 /* Pager */
 #pager {
-    display: flex;
-    justify-content: space-between;
     font-size: 0.875rem;
+}
+
+#pager div {
+    display: inline;
+}
+
+#pager .links {
+    margin-left: 2rem;
 }
 
 /**
@@ -299,8 +305,7 @@ thead td {
     box-shadow: 0 0.0625rem 0 var(--primary-dark);
 }
 
-thead a,
-tfoot a {
+thead a {
     color: inherit !important;
 }
 
@@ -312,6 +317,11 @@ table p {
 table.data {
     width: 100%;
     line-height: 3rem;
+}
+
+table.data tfoot td {
+    text-align: right;
+    box-shadow: none;
 }
 
 /**

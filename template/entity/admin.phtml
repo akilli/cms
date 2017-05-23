@@ -1,7 +1,6 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <section id="<?=$§('id');?>">
     <h1><?=$§('title');?></h1>
-    <?= section('pager');?>
     <?php if ($§('data')):?>
         <?php
         $p = $§('params') + ['sort' => null, 'dir' => null];
@@ -21,6 +20,13 @@
                 </th>
             </tr>
         </thead>
+        <tfoot>
+            <tr>
+                <td colspan="<?= count($§('attr')) + 1 ;?>">
+                    <?= section('pager');?>
+                </td>
+            </tr>
+        </tfoot>
         <tbody>
             <?php foreach ($§('data') as $data):?>
             <tr>
