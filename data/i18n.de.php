@@ -90,6 +90,7 @@ return [
     'System items must not be deleted! Therefore skipped Id %s' => 'Systemelemente dürfen nicht gelöscht werden! Deshalb wurde Id %s übersprungen',
     'UID' => 'UID',
     'Unique' => 'Eindeutig',
+    'Upload' => 'Hochladen',
     'URL' => 'URL',
     'Value out of range' => 'Wert liegt außerhalb des Gültigkeitsbereichs',
     'View' => 'Ansehen',

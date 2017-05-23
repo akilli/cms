@@ -359,8 +359,12 @@ button {
 }
 
 [type=checkbox],
-[type=radio],
+[type=radio] {
+    box-shadow: none;
+}
+
 [type=file] {
+    font-size: 0.875rem;
     box-shadow: none;
 }
 
@@ -447,7 +451,11 @@ label em {
     -moz-osx-font-smoothing: grayscale;
 }
 
-[role=button].icon {
+[role=button].icon,
+[type=button].icon,
+[type=reset].icon,
+[type=submit].icon,
+button.icon {
     padding: 0;
     font-size: 3rem;
     color: var(--secondary-dark) !important;
