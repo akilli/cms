@@ -31,6 +31,7 @@ function section(string $id): string
  */
 function section_container(array $§): string
 {
+    $§['vars']['tag'] = $§['vars']['tag'] ?? null;
     $html = '';
 
     if (!empty($§['children']) && is_array($§['children'])) {
@@ -41,7 +42,7 @@ function section_container(array $§): string
         }
     }
 
-    return $html;
+    return $html && $§['vars']['tag'] ? html($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
 }
 
 /**

@@ -27,6 +27,7 @@ return [
         ],
         'sidebar' => [
             'section' => 'container',
+            'vars' => ['tag' => 'aside'],
         ],
         'bottom' => [
             'section' => 'container',
