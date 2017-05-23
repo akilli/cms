@@ -20,7 +20,7 @@
         $p = $§('params') + ['sort' => null, 'dir' => null];
         if (array_key_exists('page', $p) && $p['page'] <= 1) unset($p['page']);
         ?>
-    <table>
+    <table class="data">
         <thead>
             <tr>
                 <?php foreach ($§('attr') as $attr):?>

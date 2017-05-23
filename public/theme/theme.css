@@ -214,6 +214,7 @@ nav form {
  */
 h1 {
     font-size: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 h2 {
@@ -279,8 +280,11 @@ li ul {
  * Table
  */
 table {
-    width: 100%;
     margin: 1.5rem 0;
+}
+
+table.data {
+    width: 100%;
 }
 
 td,
