@@ -280,10 +280,6 @@ ul {
     list-style: disc;
 }
 
-li ul {
-    list-style: square;
-}
-
 /**
  * Table
  */
