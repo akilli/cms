@@ -435,7 +435,7 @@ label em {
  */
 .icon {
     display: inline;
-    vertical-align: inherit;
+    vertical-align: middle;
     text-decoration: none !important;
     text-transform: none;
     text-rendering: optimizeLegibility;
@@ -449,6 +449,10 @@ label em {
     font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+table .icon {
+    vertical-align: inherit;
 }
 
 [role=button].icon,
