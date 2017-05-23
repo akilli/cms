@@ -61,6 +61,12 @@ return [
             'privilege' => '*/import',
             'parent' => 'sidebar',
         ],
+        'export' => [
+            'section' => 'template',
+            'template' => 'entity/export.phtml',
+            'privilege' => '*/export',
+            'parent' => 'sidebar',
+        ],
     ],
     'action-index' => [
         'content' => [

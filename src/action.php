@@ -105,6 +105,7 @@ function action_index(array $entity): void
     layout_vars('pager', ['limit' => $opts['limit'], 'params' => $p, 'size' => $size]);
     layout_vars('search', ['q' => $p['q'] ?? '']);
     layout_vars('import', ['entity' => $entity['id']]);
+    layout_vars('export', ['entity' => $entity['id']]);
     layout_vars('head', ['title' => $entity['name']]);
 }
 
