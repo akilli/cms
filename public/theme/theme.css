@@ -420,6 +420,7 @@ label em {
     display: inline-block;
     vertical-align: middle;
     text-transform: none;
+    text-rendering: optimizeLegibility;
     letter-spacing: normal;
     word-wrap: normal;
     white-space: nowrap;
@@ -427,8 +428,7 @@ label em {
     font-weight: normal;
     font-size: 1.5rem;
     font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
