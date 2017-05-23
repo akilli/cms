@@ -13,6 +13,9 @@
                     <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
                 <th>
                     <a href="<?= url('*/*', ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?= $attr['name'];?></a>
+                    <?php if ($p['sort'] === $attr['id']):?>
+                    <span class="icon"><?= $p['dir'] === 'asc' ? 'arrow_drop_up' : 'arrow_drop_down';?></span>
+                    <?php endif;?>
                 </th>
                 <?php endforeach;?>
                 <th>
