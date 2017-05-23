@@ -94,6 +94,10 @@ html[data-path="account/login"] body > * {
     flex: 0 0;
 }
 
+html[data-path="account/login"] #content {
+    width: 30rem;
+}
+
 /**
  * Header
  */
