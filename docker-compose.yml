@@ -11,6 +11,9 @@ services:
   qnd:
     image: akilli/nginx
     container_name: qnd
+    depends_on:
+      - qnd-app
+      - qnd-data
     restart: unless-stopped
     labels:
       traefik.enable: "true"
@@ -34,7 +37,6 @@ services:
     depends_on:
       - qnd-data
     restart: unless-stopped
-    network_mode: "service:qnd"
     volumes:
       - source: app
         target: /app
