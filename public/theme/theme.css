@@ -115,7 +115,7 @@ html[data-path$="/admin"] #sidebar > *:first-child {
     color: var(--secondary-dark);
 }
 
-#content a:not([role=button]):hover {
+#content a:hover {
     text-decoration: underline;
 }
 
@@ -286,10 +286,6 @@ table {
     margin: 1.5rem 0;
 }
 
-table.data {
-    width: 100%;
-}
-
 td,
 th {
     padding: 0 0.375rem;
@@ -310,6 +306,12 @@ tfoot a {
 
 table p {
     margin: 0;
+}
+
+/* Data table */
+table.data {
+    width: 100%;
+    line-height: 3rem;
 }
 
 /**
@@ -340,8 +342,9 @@ textarea {
 [type=submit],
 button {
     padding: 0 0.5rem;
+    text-decoration: none !important;
     color: var(--secondary-text) !important;
-    background: var(--secondary);
+    background: var(--secondary-dark);
     box-shadow: none;
 }
 
@@ -417,8 +420,9 @@ label em {
  * Icon
  */
 .icon {
-    display: inline-block;
+    display: inline;
     vertical-align: middle;
+    text-decoration: none !important;
     text-transform: none;
     text-rendering: optimizeLegibility;
     letter-spacing: normal;
@@ -426,9 +430,16 @@ label em {
     white-space: nowrap;
     font-family: material;
     font-weight: normal;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-style: normal;
     font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+[role=button].icon {
+    padding: 0;
+    font-size: 3rem;
+    color: var(--secondary-dark) !important;
+    background: none;
 }
