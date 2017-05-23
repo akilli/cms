@@ -73,25 +73,6 @@
         <xsl:choose>
             <!-- Remove empty paragraphs -->
             <xsl:when test="count(node())=0"/>
-            <!-- Headings -->
-            <xsl:when test="@text:style-name='Heading_20_1' and node()">
-                <h1><xsl:apply-templates/></h1>
-            </xsl:when>
-            <xsl:when test="@text:style-name='Heading_20_2' and node()">
-                <h2><xsl:apply-templates/></h2>
-            </xsl:when>
-            <xsl:when test="@text:style-name='Heading_20_3' and node()">
-                <h3><xsl:apply-templates/></h3>
-            </xsl:when>
-            <xsl:when test="@text:style-name='Heading_20_4' and node()">
-                <h4><xsl:apply-templates/></h4>
-            </xsl:when>
-            <xsl:when test="@text:style-name='Heading_20_5' and node()">
-                <h5><xsl:apply-templates/></h5>
-            </xsl:when>
-            <xsl:when test="@text:style-name='Heading_20_6' and node()">
-                <h6><xsl:apply-templates/></h6>
-            </xsl:when>
             <!-- Images -->
             <xsl:when test="descendant::draw:*">
                 <xsl:apply-templates/>
