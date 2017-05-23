@@ -32,16 +32,11 @@
 >
     <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" encoding="utf-8" standalone="no"/>
 
-    <!-- Body -->
+    <!-- body -->
     <xsl:template match="office:document-content">
         <body>
             <xsl:apply-templates/>
         </body>
-    </xsl:template>
-
-    <!-- Linebreak -->
-    <xsl:template match="text:line-break">
-        <xsl:element name="br"/>
     </xsl:template>
 
     <!-- Whitespace -->
@@ -49,7 +44,12 @@
         <xsl:text> </xsl:text>
     </xsl:template>
 
-    <!-- Heading -->
+    <!-- br -->
+    <xsl:template match="text:line-break">
+        <xsl:element name="br"/>
+    </xsl:template>
+
+    <!-- h1-h6 -->
     <xsl:template match="text:h">
         <xsl:if test="node()">
             <!-- text:outline-level is optional, default is 1 -->
@@ -68,7 +68,7 @@
         </xsl:if>
     </xsl:template>
 
-    <!-- Paragraph -->
+    <!-- p -->
     <xsl:template match="text:p">
         <xsl:choose>
             <!-- Remove empty paragraphs -->
@@ -92,10 +92,78 @@
         </xsl:choose>
     </xsl:template>
 
-    <!-- List -->
+    <!-- span -->
+    <xsl:template match="text:span">
+        <xsl:variable name="spanClass">
+            <xsl:value-of select="@text:style-name"/>
+        </xsl:variable>
+        <xsl:variable name="spanStyle" select="//style:style[@style:name=$spanClass]/*"/>
+        <xsl:variable name="spanB" select="$spanStyle[@fo:font-weight='bold']"/>
+        <xsl:variable name="spanI" select="$spanStyle[@fo:font-style='italic']"/>
+        <xsl:variable name="spanU" select="$spanStyle[@style:text-underline-style]"/>
+        <xsl:choose>
+            <xsl:when test="$spanB and $spanI and $spanU">
+                <b><i><u><xsl:apply-templates/></u></i></b>
+            </xsl:when>
+            <xsl:when test="$spanB and $spanI">
+                <b><i><xsl:apply-templates/></i></b>
+            </xsl:when>
+            <xsl:when test="$spanB and $spanU">
+                <b><u><xsl:apply-templates/></u></b>
+            </xsl:when>
+            <xsl:when test="$spanI and $spanU">
+                <i><u><xsl:apply-templates/></u></i>
+            </xsl:when>
+            <xsl:when test="$spanB">
+                <b><xsl:apply-templates/></b>
+            </xsl:when>
+            <xsl:when test="$spanI">
+                <i><xsl:apply-templates/></i>
+            </xsl:when>
+            <xsl:when test="$spanU">
+                <u><xsl:apply-templates/></u>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- a -->
+    <xsl:template match="text:a">
+        <xsl:element name="a">
+            <xsl:attribute name="href">
+                <xsl:value-of select="@xlink:href"/>
+            </xsl:attribute>
+            <xsl:apply-templates/>
+        </xsl:element>
+    </xsl:template>
+
+    <!-- img -->
+    <xsl:template match="draw:image">
+        <xsl:element name="img">
+            <xsl:attribute name="src">
+                <xsl:value-of select="@xlink:href"/>
+            </xsl:attribute>
+            <xsl:attribute name="alt">
+                <xsl:value-of select="../@draw:name"/>
+            </xsl:attribute>
+        </xsl:element>
+    </xsl:template>
+
+    <!-- object -->
+    <xsl:template match="draw:plugin">
+        <xsl:element name="a">
+            <xsl:attribute name="href">
+                <xsl:value-of select="@xlink:href"/>
+            </xsl:attribute>
+            <xsl:value-of select="../@draw:name"/>
+        </xsl:element>
+    </xsl:template>
+
+    <!-- ol or ul -->
     <xsl:template match="text:list">
         <xsl:variable name="level" select="count(ancestor::text:list)+1"/>
-        <!-- the list class is the @text:style-name of the outermost <text:list> element -->
         <xsl:variable name="listClass">
             <xsl:choose>
                 <xsl:when test="$level=1">
@@ -106,19 +174,17 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <!-- Now select the <text:list-level-style-foo> element at this level of nesting for this list -->
         <xsl:variable name="bulletType">
-            <xsl:value-of select="local-name(ancestor::*//text:list-style[@style:name=$listClass]/*[@text:level=$level])"/>
+            <xsl:value-of select="local-name(//text:list-style[@style:name=$listClass]/*[@text:level=$level])"/>
         </xsl:variable>
-        <!-- emit appropriate list type -->
         <xsl:choose>
-            <!-- element ol -->
+            <!-- ol -->
             <xsl:when test="$bulletType='list-level-style-number'">
                 <xsl:element name="ol">
                     <xsl:apply-templates/>
                 </xsl:element>
             </xsl:when>
-            <!-- element ul -->
+            <!-- ul -->
             <xsl:otherwise>
                 <xsl:element name="ul">
                     <xsl:apply-templates/>
@@ -127,35 +193,40 @@
         </xsl:choose>
     </xsl:template>
 
-    <!-- List Item -->
+    <!-- li -->
     <xsl:template match="text:list-item">
         <xsl:element name="li">
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
 
-    <!-- Table -->
+    <!-- table -->
     <xsl:template match="table:table">
         <xsl:element name="table">
+            <!-- colgroup -->
             <xsl:element name="colgroup">
                 <xsl:apply-templates select="table:table-column"/>
             </xsl:element>
+            <!-- thead -->
             <xsl:if test="table:table-header-rows/table:table-row">
                 <xsl:element name="thead">
                     <xsl:apply-templates select="table:table-header-rows/table:table-row"/>
                 </xsl:element>
             </xsl:if>
+            <!-- tfoot -->
             <xsl:if test="table:table-footer-rows/table:table-row">
                 <xsl:element name="tfoot">
                     <xsl:apply-templates select="table:table-footer-rows/table:table-row"/>
                 </xsl:element>
             </xsl:if>
+            <!-- tbody -->
             <xsl:element name="tbody">
                 <xsl:apply-templates select="table:table-row"/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
 
+    <!-- col -->
     <xsl:template match="table:table-column">
         <xsl:element name="col">
             <xsl:if test="@table:number-columns-repeated">
@@ -166,14 +237,14 @@
         </xsl:element>
     </xsl:template>
 
-    <!-- Table Row -->
+    <!-- tr -->
     <xsl:template match="table:table-row">
         <xsl:element name="tr">
             <xsl:apply-templates select="table:table-cell"/>
         </xsl:element>
     </xsl:template>
 
-    <!-- Table Cell -->
+    <!-- td -->
     <xsl:template match="table:table-cell">
         <xsl:variable name="n">
             <xsl:choose>
@@ -208,68 +279,5 @@
                 <xsl:with-param name="n" select="$n - 1"/>
             </xsl:call-template>
         </xsl:if>
-    </xsl:template>
-
-    <!-- Link -->
-    <xsl:template match="text:a">
-        <xsl:element name="a">
-            <xsl:attribute name="href">
-                <xsl:value-of select="@xlink:href"/>
-            </xsl:attribute>
-            <xsl:apply-templates/>
-        </xsl:element>
-    </xsl:template>
-
-    <!-- Image -->
-    <xsl:template match="draw:image">
-        <xsl:element name="img">
-            <xsl:attribute name="src">
-                <xsl:value-of select="@xlink:href"/>
-            </xsl:attribute>
-            <xsl:attribute name="alt">
-                <xsl:value-of select="../@draw:name"/>
-            </xsl:attribute>
-        </xsl:element>
-    </xsl:template>
-
-    <!-- Object -->
-    <xsl:template match="draw:plugin">
-        <xsl:element name="a">
-            <xsl:attribute name="href">
-                <xsl:value-of select="@xlink:href"/>
-            </xsl:attribute>
-            <xsl:attribute name="title">
-                <xsl:value-of select="../@draw:name"/>
-            </xsl:attribute>
-            <xsl:value-of select="../@draw:name"/>
-        </xsl:element>
-    </xsl:template>
-
-    <!-- Subscript -->
-    <xsl:template match="text:sub">
-        <xsl:element name="sub">
-            <xsl:apply-templates/>
-        </xsl:element>
-    </xsl:template>
-
-    <!-- Superscript -->
-    <xsl:template match="text:sup">
-        <xsl:element name="sup">
-            <xsl:apply-templates/>
-        </xsl:element>
-    </xsl:template>
-
-    <!-- Insertion -->
-    <xsl:template match="text:insertion">
-        <xsl:element name="ins">
-            <xsl:apply-templates/>
-        </xsl:element>
-    </xsl:template>
-
-    <!-- Deletion -->
-    <xsl:template match="text:deletion">
-        <xsl:element name="del">
-            <xsl:apply-templates/>
-        </xsl:element>
     </xsl:template>
 </xsl:stylesheet>
