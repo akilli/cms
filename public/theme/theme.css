@@ -435,7 +435,7 @@ label em {
  */
 .icon {
     display: inline;
-    vertical-align: middle;
+    vertical-align: inherit;
     text-decoration: none !important;
     text-transform: none;
     text-rendering: optimizeLegibility;
