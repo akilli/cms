@@ -214,8 +214,8 @@ aside nav li li {
     display: inline;
 }
 
-#pager .links {
-    margin-left: 2rem;
+#pager .info {
+    margin-right: 1.5rem;
 }
 
 /**
