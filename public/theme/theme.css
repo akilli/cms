@@ -417,7 +417,6 @@ label {
 
 label.inline {
     display: inline;
-    vertical-align: middle;
 }
 
 input + label.inline {
