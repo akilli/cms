@@ -92,7 +92,7 @@ html[data-path="account/login"] #content {
 html[data-path$="/admin"] #sidebar > * {
     margin-bottom: 0;
     padding: 1.5rem 0;
-    box-shadow: 0 0.0625rem 0 var(--primary);
+    box-shadow: 0 0.0625rem 0 var(--primary-dark);
 }
 
 html[data-path$="/admin"] #sidebar > *:first-child {
