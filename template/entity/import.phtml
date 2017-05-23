@@ -1,6 +1,13 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <form id="<?=$§('id');?>" action="<?= url('*/import');?>" method="post" enctype="multipart/form-data">
     <h1><?= _('Import');?></h1>
+    <?php if ($§('entity') === 'media'):?>
+    <p><?= _('Import one or multiple media files');?></p>
+    <?php elseif ($§('entity') === 'page'):?>
+    <p><?= _('Import one or multiple pages as HTML or ODT files');?></p>
+    <?php elseif ($§('entity') === 'project'):?>
+    <p><?= _('Import one or multiple projects as ZIP files');?></p>
+    <?php endif;?>
     <input type="file" name="data[import][]" required="required" multiple="multiple" />
     <input type="submit" value="file_upload" class="icon" title="<?= _('Upload');?>" />
     <input type="hidden" name="token" value="<?= token();?>" />
