@@ -46,15 +46,6 @@ body {
     background: var(--body);
 }
 
-body {
-    background-size: 100% 24px;
-    background-image: linear-gradient(to right, tomato 1px, transparent 1px), linear-gradient(to bottom, tomato 1px, transparent 1px);
-}
-
-body > * {
-    opacity: 0.7;
-}
-
 main {
     display: flex;
     flex: 1 0;
