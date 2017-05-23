@@ -46,17 +46,6 @@ body {
     background: var(--body);
 }
 
-/*
-body {
-    background-size: 100% 24px;
-    background-image: linear-gradient(to right, tomato 1px, transparent 1px), linear-gradient(to bottom, tomato 1px, transparent 1px);
-}
-
-body > * {
-    opacity: 0.7;
-}
-*/
-
 main {
     display: flex;
     flex: 1 0;
@@ -143,6 +132,11 @@ aside nav li li {
     margin-left: 2rem;
 }
 
+nav form {
+    display: inline-block;
+    vertical-align: middle;
+}
+
 /* Main */
 #nav {
     padding: 1.5rem 1.5rem 1.25rem 1.5rem;
@@ -174,10 +168,6 @@ aside nav li li {
     background: var(--primary-dark);
 }
 
-#toolbar form {
-    display: inline-block;
-}
-
 #toolbar a {
     margin-left: 1.5rem;
     color: #fff;
@@ -189,7 +179,10 @@ aside nav li li {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    line-height: 3rem;
+}
+
+.tool form {
+    height: 3rem;
 }
 
 /* Pager */
@@ -350,6 +343,7 @@ button {
 }
 
 [type=file] {
+    line-height: 1;
     box-shadow: none;
 }
 

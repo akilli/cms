@@ -1,7 +1,7 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <section id="<?=$§('id');?>">
     <h1><?=$§('title');?></h1>
-    <div class="tool">
+    <nav class="tool">
         <?php if (allowed('*/edit')):?>
         <a href="<?= url('*/edit');?>" role="button"><?= _('Create');?></a>
         <?php endif;?>
@@ -13,7 +13,7 @@
         </form>
         <?php endif;?>
         <?= section('search');?>
-    </div>
+    </nav>
     <?= section('pager');?>
     <?php if ($§('data')):?>
         <?php

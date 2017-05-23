@@ -1,5 +1,5 @@
 <?php namespace qnd; /** @var callable $§ */?>
-<div id="<?=$§('id');?>">
+<nav id="<?=$§('id');?>">
     <div class="info">
         <?= _('%d to %d of %d', $§('offset') + 1, min($§('offset') + $§('limit'), $§('size')), $§('size'));?>
     </div>
@@ -12,4 +12,4 @@
             <?php endif;?>
         <?php endforeach;?>
     </div>
-</div>
+</nav>
