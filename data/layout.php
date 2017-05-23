@@ -47,7 +47,19 @@ return [
         'search' => [
             'section' => 'template',
             'template' => 'entity/search.phtml',
-            'parent' => 'content',
+            'parent' => 'sidebar',
+        ],
+        'create' => [
+            'section' => 'template',
+            'template' => 'entity/create.phtml',
+            'privilege' => '*/edit',
+            'parent' => 'sidebar',
+        ],
+        'import' => [
+            'section' => 'template',
+            'template' => 'entity/import.phtml',
+            'privilege' => '*/import',
+            'parent' => 'sidebar',
         ],
     ],
     'action-index' => [
@@ -64,7 +76,7 @@ return [
         'search' => [
             'section' => 'template',
             'template' => 'entity/search.phtml',
-            'parent' => 'content',
+            'parent' => 'sidebar',
         ],
     ],
     'action-edit' => [

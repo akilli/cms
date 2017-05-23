@@ -132,11 +132,6 @@ aside nav li li {
     margin-left: 2rem;
 }
 
-nav form {
-    display: inline-block;
-    vertical-align: middle;
-}
-
 /* Main */
 #nav {
     padding: 1.5rem 1.5rem 1.25rem 1.5rem;
@@ -168,21 +163,14 @@ nav form {
     background: var(--primary-dark);
 }
 
+#toolbar form {
+    display: inline-block;
+    vertical-align: middle;
+}
+
 #toolbar a {
     margin-left: 1.5rem;
     color: #fff;
-}
-
-/* Tools */
-.tool {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.tool form {
-    height: 3rem;
 }
 
 /* Pager */
