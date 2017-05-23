@@ -146,12 +146,12 @@ function section_pager(array $§): string
     $max = min($min + $c - 1, $§['vars']['pages']);
 
     if ($§['vars']['page'] >= 2) {
-        $p = $§['vars']['page'] === 2 ? $§['vars']['params'] : ['page' => $§['vars']['page'] - 1] + $§['vars']['params'];
+        $p = ['page' => $§['vars']['page'] - 1] + $§['vars']['params'];
         $§['vars']['links'][] = ['name' => _('Previous'), 'params' => $p];
     }
 
     for ($i = $min; $min < $max && $i <= $max; $i++) {
-        $p = $i > 1 ? ['page' => $i] + $§['vars']['params'] : $§['vars']['params'];
+        $p = ['page' => $i] + $§['vars']['params'];
         $§['vars']['links'][] = ['name' => $i, 'params' => $p, 'active' => $i === $§['vars']['page']];
     }
 
