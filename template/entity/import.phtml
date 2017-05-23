@@ -1,5 +1,6 @@
 <?php namespace qnd; /** @var callable $§ */?>
 <form id="<?=$§('id');?>" action="<?= url('*/import');?>" method="post" enctype="multipart/form-data">
+    <h1><?= _('Import');?></h1>
     <input type="file" name="data[import][]" required="required" multiple="multiple" />
     <input type="submit" value="<?= _('Import');?>" />
     <input type="hidden" name="token" value="<?= token();?>" />
