@@ -229,23 +229,6 @@
             <xsl:attribute name="alt">
                 <xsl:value-of select="../@draw:name"/>
             </xsl:attribute>
-            <xsl:attribute name="title">
-                <xsl:value-of select="../@draw:name"/>
-            </xsl:attribute>
-            <xsl:choose>
-                <!-- office version 1.0 -->
-                <xsl:when test="../svg:desc">
-                    <xsl:attribute name="longdesc">
-                        <xsl:value-of select="../svg:desc"/>
-                    </xsl:attribute>
-                </xsl:when>
-                <!-- office  version 1.2 -->
-                <xsl:when test="../svg:title">
-                    <xsl:attribute name="longdesc">
-                        <xsl:value-of select="../svg:title"/>
-                    </xsl:attribute>
-                </xsl:when>
-            </xsl:choose>
         </xsl:element>
     </xsl:template>
 
