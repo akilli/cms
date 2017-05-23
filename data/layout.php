@@ -163,6 +163,7 @@ return [
             'section' => 'template',
             'template' => 'entity/search.phtml',
             'parent' => 'sidebar',
+            'vars' => ['action' => 'page/index'],
         ],
     ],
 ];
