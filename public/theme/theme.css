@@ -64,11 +64,6 @@ main {
     background: var(--grey);
 }
 
-#content > *,
-#sidebar > * {
-    margin-bottom: 1.5rem;
-}
-
 /* Login */
 html[data-path="account/login"] body {
     display: flex;
@@ -85,6 +80,43 @@ html[data-path="account/login"] body > * {
 
 html[data-path="account/login"] #content {
     width: 30rem;
+}
+
+/**
+ * Sidebar
+ */
+#sidebar > * {
+    margin-bottom: 1.5rem;
+}
+
+html[data-path$="/admin"] #sidebar > * {
+    margin-bottom: 0;
+    padding: 1.5rem 0;
+    box-shadow: 0 0.0625rem 0 var(--primary);
+}
+
+html[data-path$="/admin"] #sidebar > *:first-child {
+    padding-top: 0;
+}
+
+/**
+ * Content
+ */
+#content > * {
+    margin-bottom: 1.5rem;
+}
+
+#content > h1 {
+    line-height: 3rem;
+    font-size: 3rem;
+}
+
+#content a {
+    color: var(--secondary-dark);
+}
+
+#content a:not([role=button]):hover {
+    text-decoration: underline;
 }
 
 /**
@@ -181,28 +213,11 @@ aside nav li li {
 }
 
 /**
- * Content
- */
-#content > h1 {
-    line-height: 3rem;
-    margin-bottom: 1.5rem;
-    font-size: 3rem;
-}
-
-#content a {
-    color: var(--secondary-dark);
-}
-
-#content a:not([role=button]):hover {
-    text-decoration: underline;
-}
-
-/**
  * Heading
  */
 h1 {
-    font-size: 1.5rem;
     margin-bottom: 1.5rem;
+    font-size: 1.5rem;
 }
 
 h2 {
