@@ -153,5 +153,10 @@ return [
             'template' => 'entity/view.phtml',
             'parent' => 'main',
         ],
+        'search' => [
+            'section' => 'template',
+            'template' => 'entity/search.phtml',
+            'parent' => 'sidebar',
+        ],
     ],
 ];
