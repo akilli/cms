@@ -249,6 +249,13 @@ function editor_file(array $attr, array $data): string
     $current = $data[$attr['id']] ? html('div', [], viewer($attr, $data)) : '';
     $hidden = html('input', ['name' => $attr['html']['name'], 'type' => 'hidden'], null, true);
     $attr['html']['type'] = $attr['frontend'];
+    $attr['html']['accept'] = '';
+
+    foreach (data('file') as $ext => $types) {
+        if (in_array($attr['type'], $types)) {
+            $attr['html']['accept'] .= ($attr['html']['accept'] ? ', .' : '.') . $ext;
+        }
+    }
 
     return $current . $hidden . html('input', $attr['html'], null, true);
 }
