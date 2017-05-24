@@ -104,3 +104,23 @@ function file_writable(string $path): bool
 {
     return (bool) preg_match('#^(file://)?(' . path('asset') . '|' . path('log') . '|' . path('tmp') . ')#', $path);
 }
+
+/**
+ * Returns list of accepted extensions for given file type
+ *
+ * @param string $type
+ *
+ * @return string
+ */
+function file_accept(string $type): string
+{
+    $accept = '';
+
+    foreach (data('file') as $ext => $types) {
+        if (in_array($type, $types)) {
+            $accept .= ($accept ? ', .' : '.') . $ext;
+        }
+    }
+
+    return $accept;
+}
