@@ -185,17 +185,6 @@ textarea {
 
 [role=button],
 [type=button],
-[type=checkbox],
-[type=file],
-[type=image],
-[type=radio],
-[type=reset],
-[type=submit] {
-    width: auto;
-}
-
-[role=button],
-[type=button],
 [type=reset],
 [type=submit],
 label {
