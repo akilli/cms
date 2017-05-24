@@ -162,24 +162,14 @@ nav ul {
 
 /* Main */
 #nav {
+    padding: 1.5rem;
     color: var(--primary-text);
     background: var(--primary-light);
 }
 
-#nav ul {
-    display: flex;
-    justify-content: space-between;
-    width: 75%;
-    padding: 1.5rem 0 1.5rem 1.5rem;
-}
-
 #nav li {
-    flex: 1 0;
-    margin-left: 1.5rem;
-}
-
-#nav li:first-child {
-    margin-left: 0;
+    display: inline-block;
+    margin-right: 1.5rem;
 }
 
 #nav a {
