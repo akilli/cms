@@ -120,7 +120,7 @@ function editor_opt(array $attr, array $data): string
         ];
         $a = array_replace($attr['html'], $a);
         $html .= html('input', $a, null, true);
-        $html .= html('label', ['for' => $htmlId, 'class' => 'inline'], $optVal);
+        $html .= html('label', ['for' => $htmlId], $optVal);
     }
 
     return $html;
