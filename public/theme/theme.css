@@ -127,8 +127,10 @@ html[data-path$="/admin"] #sidebar > *:first-child {
     line-height: 9rem;
     padding: 1.5rem;
     color: var(--primary-text);
-    background: url(akilli-cms.jpg) no-repeat right calc(25% - 353px + 5.5rem) center;
     background-color: var(--primary);
+    background-image: url(akilli-cms.jpg);
+    background-repeat: no-repeat;
+    background-position: right calc(25% - 353px + 5.5rem) center;
 }
 
 #header a {
