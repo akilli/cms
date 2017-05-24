@@ -190,9 +190,8 @@ aside nav li li {
 
 /* Toolbar */
 #toolbar {
-    padding: 0 1.5rem;
+    padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
-    text-align: right;
     color: var(--primary-text);
     background: var(--primary-dark);
 }
