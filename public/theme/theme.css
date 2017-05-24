@@ -278,18 +278,18 @@ ul {
     padding-left: 2rem;
 }
 
-li ol,
-li ul,
-li p {
-    margin: 0;
-}
-
 ol {
     list-style: decimal;
 }
 
 ul {
     list-style: disc;
+}
+
+li ol,
+li ul,
+li p {
+    margin: 0;
 }
 
 /**
