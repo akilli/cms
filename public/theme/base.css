@@ -191,13 +191,6 @@ label {
     cursor: pointer;
 }
 
-[type=checkbox],
-[type=image],
-[type=radio] {
-    padding: 0;
-    border: 0;
-}
-
 [role=button] {
     display: inline-block;
 }
