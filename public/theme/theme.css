@@ -160,10 +160,6 @@ nav ul {
     list-style: none;
 }
 
-aside nav li li {
-    margin-left: 2rem;
-}
-
 /* Main */
 #nav {
     padding: 1.5rem;
@@ -186,6 +182,10 @@ aside nav li li {
 }
 
 /* Sub */
+#subnav li li {
+    margin-left: 2rem;
+}
+
 #subnav a:hover,
 #subnav a.active {
     text-decoration: underline;
@@ -219,6 +219,14 @@ aside nav li li {
 
 #pager .info {
     margin-right: 1.5rem;
+}
+
+/**
+ * Search
+ */
+#search [type=search] {
+    background: none;
+    box-shadow: 0 0.0625rem 0 var(--secondary-dark);
 }
 
 /**
