@@ -374,6 +374,7 @@ button {
 
 fieldset [type=email],
 fieldset [type=password],
+fieldset [type=search],
 fieldset [type=text],
 fieldset [type=url],
 fieldset select {
