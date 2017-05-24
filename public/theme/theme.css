@@ -190,14 +190,16 @@ aside nav li li {
 
 /* Toolbar */
 #toolbar {
-    padding: 1.5rem;
+    padding: 0 1.5rem;
+    font-size: 0.875rem;
+    text-align: right;
     color: var(--primary-text);
     background: var(--primary-dark);
 }
 
 #toolbar a {
     margin-left: 1.5rem;
-    color: #fff;
+    color: inherit;
 }
 
 #toolbar a:first-child {
