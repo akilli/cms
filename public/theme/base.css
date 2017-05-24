@@ -32,6 +32,11 @@ details, menu, summary {
     outline: 0 none;
 }
 
+[hidden],
+template {
+    display: none;
+}
+
 pre,
 code, kbd, samp {
     font-family: monospace;
@@ -216,12 +221,4 @@ optgroup {
 
 option[selected] {
     font-weight: bold;
-}
-
-/**
- * Display
- */
-[hidden],
-template {
-    display: none;
 }
