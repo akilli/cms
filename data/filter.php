@@ -2,7 +2,7 @@
 return [
     'html' => '<address><h1><h2><h3><h4><h5><h6>'
         . '<blockquote><dd><div><dl><dt><figcaption><figure><hr><li><ol><p><pre><ul>'
-        . '<a><abbr><b><bdi><bdo><br><cite><code><data><dfn><em><i><kbd><mark><q><s><samp><small><span>'
+        . '<a><abbr><b><br><cite><code><data><dfn><em><i><kbd><mark><q><s><samp><small><span>'
         . '<strong><sub><sup><time><u><var><wbr>'
         . '<del><ins>'
         . '<area><audio><embed><img><map><object><param><picture><source><track><video>'
