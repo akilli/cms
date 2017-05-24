@@ -53,6 +53,7 @@ return [
     'Invalid name and password combination' => 'Ungültige Kombination aus Name und Passwort',
     'Invalid value' => 'Ungültiger Wert',
     'Login' => 'Anmelden',
+    'Logo' => 'Logo',
     'Logout' => 'Abmelden',
     'Media' => 'Medien',
     'Message' => 'Nachricht',
