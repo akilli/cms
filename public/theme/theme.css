@@ -226,24 +226,32 @@ nav ul {
  */
 #search [type=search] {
     background: none;
-    box-shadow: 0 0.0625rem 0 var(--secondary-dark);
 }
 
 /**
  * Heading
  */
-h1 {
+h1,
+h2,
+h3 {
     margin-bottom: 1.5rem;
+}
+
+h1:not(:first-child),
+h2:not(:first-child),
+h3:not(:first-child) {
+    margin-top: 1.5rem;
+}
+
+h1 {
     font-size: 1.5rem;
 }
 
 h2 {
-    margin-bottom: 1.5rem;
     font-size: 1.25rem;
 }
 
 h3 {
-    margin-bottom: 1.5rem;
     font-size: 1.125rem;
 }
 
