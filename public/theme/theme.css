@@ -166,7 +166,7 @@ aside nav li li {
 
 /* Main */
 #nav {
-    padding: 1.5rem 1.5rem 1.25rem 1.5rem;
+    padding: 1.5rem;
     color: var(--primary-text);
     background: var(--primary-light);
 }
@@ -174,11 +174,14 @@ aside nav li li {
 #nav li {
     display: inline-block;
     margin-right: 1.5rem;
+}
+
+#nav a {
     border-bottom: 0.25rem solid var(--primary-light);
 }
 
-#nav li:hover,
-#nav li.active {
+#nav a:hover,
+#nav a.active {
     border-color: var(--secondary);
 }
 
