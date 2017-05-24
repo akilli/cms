@@ -3,13 +3,6 @@
 
     document.addEventListener('DOMContentLoaded', function()
     {
-        // Rich Text Editor
-        const rte = document.querySelectorAll('[data-type=rte]');
-
-        for (let i = 0; i < rte.length; i++) {
-            CKEDITOR.replace(rte[i]);
-        }
-
         // Input password autocomplete fix
         const pwd = document.querySelectorAll('input[type=password]');
 
@@ -29,6 +22,25 @@
                     event.preventDefault();
                 }
             })
+        }
+
+        // Vertical Rhythm Images
+        const vr = 24;
+        const img = document.querySelectorAll('#content img');
+
+        for (let i = 0; i < img.length; i++) {
+            let ratio = img[i].clientHeight > 0 ? img[i].clientWidth / img[i].clientHeight : 0;
+            let vrh = parseInt(img[i].clientHeight / vr) * vr;
+            let vrw = parseInt(ratio * vrh);
+            img[i].setAttribute('width', vrw.toString());
+            img[i].setAttribute('height', vrh.toString());
+        }
+
+        // Rich Text Editor
+        const rte = document.querySelectorAll('[data-type=rte]');
+
+        for (let i = 0; i < rte.length; i++) {
+            CKEDITOR.replace(rte[i]);
         }
     });
 })(document, CKEDITOR);
