@@ -238,10 +238,12 @@ h1 {
 }
 
 h2 {
+    margin-bottom: 1.5rem;
     font-size: 1.25rem;
 }
 
 h3 {
+    margin-bottom: 1.5rem;
     font-size: 1.125rem;
 }
 
