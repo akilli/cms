@@ -142,6 +142,10 @@ video {
     max-width: 100%;
 }
 
+img {
+    vertical-align: bottom;
+}
+
 audio,
 canvas,
 video {
