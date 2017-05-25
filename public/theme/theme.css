@@ -64,21 +64,15 @@ main {
 }
 
 /* Login */
-html[data-path="account/login"] body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+html[data-path="account/login"] main {
     align-items: center;
-    color: var(--primary-text);
-    background: var(--primary-dark);
-}
-
-html[data-path="account/login"] body > * {
-    flex: 0 0;
+    justify-content: center;
 }
 
 html[data-path="account/login"] #content {
-    width: 30rem;
+    width: 100%;
+    max-width: 30rem;
+    padding-right: 1.5rem;
 }
 
 /**
