@@ -92,11 +92,6 @@ function export(): string
 
     // TOC
     $zip->addFromString(IMPORT['toc'], $toc);
-    $project = ['exported' => date(DATE['b'])] + $project;
-
-    if (!save('project', $project)) {
-        throw new RuntimeException(_('Export error'));
-    }
 
     return $file;
 }

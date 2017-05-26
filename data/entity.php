@@ -34,13 +34,6 @@ return [
                 'actions' => ['admin', 'edit'],
                 'maxval' => 50,
             ],
-            'exported' => [
-                'name' => 'Exported',
-                'type' => 'date',
-                'nullable' => true,
-                'actions' => ['admin'],
-                'val' => null,
-            ],
             'active' => [
                 'name' => 'Active',
                 'type' => 'checkbox',

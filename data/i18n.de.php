@@ -28,7 +28,6 @@ return [
     'Edit' => 'Bearbeiten',
     'Export' => 'Exportieren',
     'Export current project' => 'Aktuelles Projekt exportieren',
-    'Exported' => 'Exportiert',
     'Export Error' => 'Exportfehler',
     'File %s not found' => 'Datei %s nicht gefunden',
     'File upload failed for %s' => 'Datei %s konnte nicht hochgeladen werden',
