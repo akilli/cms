@@ -449,8 +449,33 @@ button.icon {
 }
 
 /**
- * Container
+ * Layout
  */
+/* Header */
+#header {
+    line-height: 9rem;
+    color: var(--primary-text);
+    background: var(--primary);
+}
+
+#header h1 {
+    margin: 0;
+    font-size: 3rem;
+}
+
+#header .logo {
+    display: none;
+}
+
+#header a {
+    margin: 0;
+    color: inherit;
+}
+
+#header img {
+    display: block;
+}
+
 /* Sidebar */
 #sidebar {
     padding: 1.5rem;
@@ -473,7 +498,7 @@ html[data-path$="/admin"] #sidebar > *:first-child {
 
 /* Content */
 #content {
-    padding: 1.5rem 7.5rem 1.5rem 1.5rem;
+    padding: 1.5rem;
 }
 
 #content > * {
@@ -491,32 +516,6 @@ html[data-path$="/admin"] #sidebar > *:first-child {
 
 #content a:hover {
     text-decoration: underline;
-}
-
-/* Header */
-#header {
-    line-height: 9rem;
-    color: var(--primary-text);
-    background: var(--primary);
-}
-
-#header h1 {
-    margin: 0;
-    padding: 1.5rem 7.5rem 1.5rem 1.5rem;
-    font-size: 3rem;
-}
-
-#header a {
-    margin: 0;
-    color: inherit;
-}
-
-#header .logo {
-    padding: 1.5rem 3rem 1.5rem 0;
-}
-
-#header img {
-    display: block;
 }
 
 /* Messages */
@@ -597,49 +596,54 @@ html[data-path$="/admin"] #sidebar > *:first-child {
 }
 
 /**
- * Layout
+ * Responsive
  */
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
+@media (min-width: 48em) {
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
 
-#header {
-    display: flex;
-    align-items: center;
-}
+    #header {
+        display: flex;
+        align-items: center;
+    }
 
-#header h1 {
-    flex: 3 0;
-}
+    #header h1 {
+        flex: 3 0;
+        padding: 1.5rem 7.5rem 1.5rem 1.5rem;
+    }
 
-#header .logo {
-    flex: 1 0;
-}
+    #header .logo {
+        display: block;
+        flex: 1 0;
+        padding: 1.5rem 3rem 1.5rem 0;
+    }
 
-main {
-    display: flex;
-    flex: 1 0;
-    align-items: stretch;
-}
+    main {
+        display: flex;
+        flex: 1 0;
+        align-items: stretch;
+    }
 
-#content {
-    flex: 3 0;
-}
+    #content {
+        flex: 3 0;
+        padding: 1.5rem 7.5rem 1.5rem 1.5rem;
+    }
 
-#sidebar {
-    flex: 1 0;
-}
+    #sidebar {
+        flex: 1 0;
+    }
 
-/* Login */
-html[data-path="account/login"] main {
-    align-items: center;
-    justify-content: center;
-}
+    html[data-path="account/login"] main {
+        align-items: center;
+        justify-content: center;
+    }
 
-html[data-path="account/login"] #content {
-    width: 100%;
-    max-width: 30rem;
-    padding-right: 1.5rem;
+    html[data-path="account/login"] #content {
+        width: 100%;
+        max-width: 30rem;
+        padding-right: 1.5rem;
+    }
 }
