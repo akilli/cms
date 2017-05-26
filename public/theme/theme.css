@@ -550,10 +550,6 @@ button {
     box-shadow: none;
 }
 
-.invalid {
-    box-shadow: 0 0.0625rem 0 var(--secondary-light);
-}
-
 fieldset [type=email],
 fieldset [type=password],
 fieldset [type=search],
@@ -590,9 +586,8 @@ textarea {
     color: var(--grey-border);
 }
 
-.cke {
-    height: 32.875rem !important;
-    border: 0.0625rem solid var(--grey-border) !important;
+.invalid {
+    box-shadow: 0 0.0625rem 0 var(--secondary-light);
 }
 
 .error {
@@ -600,6 +595,11 @@ textarea {
     font-size: 0.875rem;
     font-weight: bold;
     color: var(--primary-light);
+}
+
+.cke {
+    height: 32.875rem !important;
+    border: 0.0625rem solid var(--grey-border) !important;
 }
 
 /* Label */
