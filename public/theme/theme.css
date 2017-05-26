@@ -586,13 +586,13 @@ textarea {
     vertical-align: top;
 }
 
+::input-placeholder {
+    color: var(--grey-border);
+}
+
 .cke {
     height: 32.875rem !important;
     border: 0.0625rem solid var(--grey-border) !important;
-}
-
-::input-placeholder {
-    color: var(--grey-border);
 }
 
 .error {
