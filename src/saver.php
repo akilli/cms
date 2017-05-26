@@ -30,6 +30,8 @@ function saver_password(array $attr, array $data): array
 {
     if ($data[$attr['id']]) {
         $data[$attr['id']] = password_hash($data[$attr['id']], PASSWORD_DEFAULT);
+    } elseif (!empty($data['_old'][$attr['id']])) {
+        $data[$attr['id']] = $data['_old'][$attr['id']];
     }
 
     return $data;

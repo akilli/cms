@@ -50,5 +50,5 @@ function cast(array $attr, $val)
  */
 function ignorable(array $attr, array $data): bool
 {
-    return !empty($data['_old'][$attr['id']]) && $attr['frontend'] === 'file';
+    return !empty($data['_old'][$attr['id']]) && in_array($attr['frontend'], ['file', 'password']);
 }
