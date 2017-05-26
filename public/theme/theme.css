@@ -34,7 +34,7 @@
 }
 
 /**
- * Common
+ * Elements
  */
 *,
 *:before,
@@ -72,216 +72,7 @@ template {
     display: none;
 }
 
-/**
- * Layout
- */
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    min-height: 100%;
-    line-height: 1.5rem;
-    font-family: roboto, sans-serif;
-    color: var(--body-text);
-    background: var(--body);
-}
-
-main {
-    display: flex;
-    flex: 1 0;
-    align-items: stretch;
-}
-
-#content {
-    flex: 3 0;
-    padding: 1.5rem 7.5rem 1.5rem 1.5rem;
-}
-
-#sidebar {
-    flex: 1 0;
-    padding: 1.5rem;
-    background: var(--grey);
-}
-
-/* Login */
-html[data-path="account/login"] main {
-    align-items: center;
-    justify-content: center;
-}
-
-html[data-path="account/login"] #content {
-    width: 100%;
-    max-width: 30rem;
-    padding-right: 1.5rem;
-}
-
-/**
- * Sidebar
- */
-#sidebar > * {
-    margin-bottom: 1.5rem;
-}
-
-html[data-path$="/admin"] #sidebar > * {
-    margin-bottom: 0;
-    padding: 1.5rem 0;
-    box-shadow: 0 0.0625rem 0 var(--primary-dark);
-}
-
-html[data-path$="/admin"] #sidebar > *:first-child {
-    padding-top: 0;
-}
-
-/**
- * Content
- */
-#content > * {
-    margin-bottom: 1.5rem;
-}
-
-#content > h1 {
-    line-height: 3rem;
-    font-size: 3rem;
-}
-
-#content a {
-    color: var(--secondary-dark);
-}
-
-#content a:hover {
-    text-decoration: underline;
-}
-
-/**
- * Header
- */
-#header {
-    display: flex;
-    align-items: center;
-    line-height: 9rem;
-    color: var(--primary-text);
-    background: var(--primary);
-}
-
-#header h1 {
-    flex: 3 0;
-    margin: 0;
-    padding: 1.5rem 7.5rem 1.5rem 1.5rem;
-    font-size: 3rem;
-}
-
-#header a {
-    margin: 0;
-    color: inherit;
-}
-
-#header .logo {
-    flex: 1 0;
-    padding: 1.5rem 3rem 1.5rem 0;
-}
-
-#header img {
-    display: block;
-}
-
-/**
- * Messages
- */
-#message {
-    padding: 1.5rem;
-    color: var(--secondary-text);
-    background: var(--secondary-light);
-}
-
-#message p {
-    margin: 0;
-}
-
-/**
- * Nav
- */
-nav ul {
-    margin: 0;
-    padding-left: 0;
-    list-style: none;
-}
-
-nav a {
-    color: inherit;
-}
-
-/* Main */
-#nav {
-    padding: 1.5rem;
-    color: var(--primary-text);
-    background: var(--primary-light);
-}
-
-#nav li {
-    display: inline-block;
-    margin-right: 1.5rem;
-}
-
-#nav a {
-    border-bottom: 0.25rem solid var(--primary-light);
-}
-
-#nav a:hover,
-#nav a.active {
-    border-color: var(--secondary);
-}
-
-/* Sub */
-#subnav li li {
-    margin-left: 2rem;
-}
-
-#subnav a:hover,
-#subnav a.active {
-    text-decoration: underline;
-}
-
-/* Toolbar */
-#toolbar {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.875rem;
-    color: var(--primary-text);
-    background: var(--primary-dark);
-}
-
-#toolbar a {
-    margin-left: 1.5rem;
-    color: inherit;
-}
-
-#toolbar a:first-child {
-    margin-left: 0;
-}
-
-/* Pager */
-#pager {
-    font-size: 0.875rem;
-}
-
-#pager div {
-    display: inline;
-}
-
-#pager .info {
-    margin-right: 1.5rem;
-}
-
-/**
- * Search
- */
-#search [type=search] {
-    background: none;
-}
-
-/**
- * Heading
- */
+/* Heading */
 h1,
 h2,
 h3 {
@@ -306,16 +97,18 @@ h3 {
     font-size: 1.125rem;
 }
 
-/**
- * Text
- */
-pre,
-code,
-kbd,
-samp {
-    font-family: monospace;
+/* Nav */
+nav ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
 }
 
+nav a {
+    color: inherit;
+}
+
+/* Text */
 s,
 del {
     text-decoration: line-through;
@@ -341,6 +134,7 @@ q {
 
 pre {
     padding: 1.5rem;
+    font-family: monospace;
     white-space: pre-wrap;
     word-wrap: break-word;
     color: var(--primary-text);
@@ -391,9 +185,7 @@ a {
     text-decoration: none;
 }
 
-/**
- * Media
- */
+/* Media */
 audio,
 canvas,
 embed,
@@ -422,9 +214,7 @@ figcaption {
     font-size: 0.875rem;
 }
 
-/**
- * List
- */
+/* List */
 ol,
 ul {
     margin: 1.5rem 0;
@@ -445,9 +235,7 @@ li p {
     margin: 0;
 }
 
-/**
- * Table
- */
+/* Table */
 table {
     margin: 1.5rem 0;
     empty-cells: show;
@@ -484,7 +272,6 @@ table p {
     margin: 0;
 }
 
-/* Data table */
 table.data {
     width: 100%;
     line-height: 3rem;
@@ -495,9 +282,7 @@ table.data tfoot td {
     box-shadow: none;
 }
 
-/**
- * Form
- */
+/* Form */
 fieldset > * {
     margin-bottom: 1.5rem;
 }
@@ -505,6 +290,23 @@ fieldset > * {
 legend {
     width: 100%;
     box-shadow: 0 0.0625rem 0 var(--primary-dark);
+}
+
+label {
+    display: block;
+    cursor: pointer;
+}
+
+[type=checkbox] + label,
+[type=radio] + label {
+    display: inline;
+    margin: 0 0.5rem 0 0.25rem;
+}
+
+label em {
+    line-height: 1;
+    font-size: 0.875rem;
+    font-variant: all-small-caps;
 }
 
 [role=button],
@@ -602,24 +404,6 @@ textarea {
     border: 0.0625rem solid var(--grey-border) !important;
 }
 
-/* Label */
-label {
-    display: block;
-    cursor: pointer;
-}
-
-[type=checkbox] + label,
-[type=radio] + label {
-    display: inline;
-    margin: 0 0.5rem 0 0.25rem;
-}
-
-label em {
-    line-height: 1;
-    font-size: 0.875rem;
-    font-variant: all-small-caps;
-}
-
 /**
  * Icon
  */
@@ -653,5 +437,189 @@ button.icon {
     padding: 0;
     font-size: 3rem;
     color: var(--secondary-dark) !important;
+    background: none;
+}
+
+/**
+ * Layout
+ */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    min-height: 100%;
+    line-height: 1.5rem;
+    font-family: roboto, sans-serif;
+    color: var(--body-text);
+    background: var(--body);
+}
+
+main {
+    display: flex;
+    flex: 1 0;
+    align-items: stretch;
+}
+
+#content {
+    flex: 3 0;
+    padding: 1.5rem 7.5rem 1.5rem 1.5rem;
+}
+
+#sidebar {
+    flex: 1 0;
+    padding: 1.5rem;
+    background: var(--grey);
+}
+
+/* Login */
+html[data-path="account/login"] main {
+    align-items: center;
+    justify-content: center;
+}
+
+html[data-path="account/login"] #content {
+    width: 100%;
+    max-width: 30rem;
+    padding-right: 1.5rem;
+}
+
+/* Sidebar */
+#sidebar > * {
+    margin-bottom: 1.5rem;
+}
+
+html[data-path$="/admin"] #sidebar > * {
+    margin-bottom: 0;
+    padding: 1.5rem 0;
+    box-shadow: 0 0.0625rem 0 var(--primary-dark);
+}
+
+html[data-path$="/admin"] #sidebar > *:first-child {
+    padding-top: 0;
+}
+
+/* Content */
+#content > * {
+    margin-bottom: 1.5rem;
+}
+
+#content > h1 {
+    line-height: 3rem;
+    font-size: 3rem;
+}
+
+#content a {
+    color: var(--secondary-dark);
+}
+
+#content a:hover {
+    text-decoration: underline;
+}
+
+/* Header */
+#header {
+    display: flex;
+    align-items: center;
+    line-height: 9rem;
+    color: var(--primary-text);
+    background: var(--primary);
+}
+
+#header h1 {
+    flex: 3 0;
+    margin: 0;
+    padding: 1.5rem 7.5rem 1.5rem 1.5rem;
+    font-size: 3rem;
+}
+
+#header a {
+    margin: 0;
+    color: inherit;
+}
+
+#header .logo {
+    flex: 1 0;
+    padding: 1.5rem 3rem 1.5rem 0;
+}
+
+#header img {
+    display: block;
+}
+
+/* Messages */
+#message {
+    padding: 1.5rem;
+    color: var(--secondary-text);
+    background: var(--secondary-light);
+}
+
+#message p {
+    margin: 0;
+}
+
+/* Main Navigation */
+#nav {
+    padding: 1.5rem;
+    color: var(--primary-text);
+    background: var(--primary-light);
+}
+
+#nav li {
+    display: inline-block;
+    margin-right: 1.5rem;
+}
+
+#nav a {
+    border-bottom: 0.25rem solid var(--primary-light);
+}
+
+#nav a:hover,
+#nav a.active {
+    border-color: var(--secondary);
+}
+
+/* Sub Navigation */
+#subnav li li {
+    margin-left: 2rem;
+}
+
+#subnav a:hover,
+#subnav a.active {
+    text-decoration: underline;
+}
+
+/* Toolbar */
+#toolbar {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    color: var(--primary-text);
+    background: var(--primary-dark);
+}
+
+#toolbar a {
+    margin-left: 1.5rem;
+    color: inherit;
+}
+
+#toolbar a:first-child {
+    margin-left: 0;
+}
+
+/* Pager */
+#pager {
+    font-size: 0.875rem;
+}
+
+#pager div {
+    display: inline;
+}
+
+#pager .info {
+    margin-right: 1.5rem;
+}
+
+/* Search */
+#search [type=search] {
     background: none;
 }
