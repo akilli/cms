@@ -396,6 +396,7 @@ textarea {
     color: var(--grey-border);
 }
 
+:focus:invalid,
 .invalid {
     box-shadow: 0 0.0625rem 0 var(--primary-light);
 }
