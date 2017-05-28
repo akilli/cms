@@ -9,7 +9,10 @@
     </head>
     <body>
         <header id="header">
-            <a href="<?= url();?>"><?= $§('name');?></a>
+            <h1><a href="<?= url();?>"><?= $§('name');?></a></h1>
+            <div class="logo">
+                <img src="<?= url_theme('akilli-cms.jpg');?>" alt="<?= _('Logo');?>" />
+            </div>
         </header>
         <?= $§('nav');?>
         <main>
