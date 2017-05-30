@@ -461,11 +461,13 @@ button.icon {
 
 #header h1 {
     margin: 0;
+    padding: 1.5rem;
     font-size: 3rem;
 }
 
 #header .logo {
     display: none;
+    padding: 1.5rem;
 }
 
 #header a {
@@ -475,6 +477,7 @@ button.icon {
 
 #header img {
     display: block;
+    margin: 0 auto;
 }
 
 /* Sidebar */
@@ -623,13 +626,12 @@ html[data-path$="/admin"] #sidebar > *:first-child {
 
     #header h1 {
         flex: 3 0;
-        padding: 1.5rem 7.5rem 1.5rem 1.5rem;
+        padding-right: 7.5rem;
     }
 
     #header .logo {
         display: block;
         flex: 1 0;
-        padding: 1.5rem 3rem 1.5rem 0;
     }
 
     main {
