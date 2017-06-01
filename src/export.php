@@ -15,15 +15,30 @@ use ZipArchive;
  */
 function export(): string
 {
-    $project = project();
-    $file = path('tmp', $project['uid'] . '.zip');
+    $file = path('tmp', project('uid') . '.zip');
     $zip = new ZipArchive();
 
     if ($zip->open($file, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
         throw new RuntimeException(_('Export error'));
     }
 
-    // Theme
+    export_theme($zip);
+    export_media($zip);
+    export_page($zip);
+    export_homepage($zip);
+
+    return $file;
+}
+
+/**
+ * Export theme files
+ *
+ * @param ZipArchive $zip
+ *
+ * @return void
+ */
+function export_theme(ZipArchive $zip): void
+{
     $theme = path('theme');
 
     foreach (array_diff(scandir($theme), ['.', '..']) as $themeId) {
@@ -31,21 +46,33 @@ function export(): string
             $zip->addFile($themeFile, 'theme/' . $themeId);
         }
     }
+}
 
-    // Media
+/**
+ * Export media files
+ *
+ * @param ZipArchive $zip
+ *
+ * @return void
+ */
+function export_media(ZipArchive $zip): void
+{
     foreach (all('media') as $data) {
         $zip->addFile($data['file'], 'media/' . $data['id']);
     }
+}
 
-    // Pages
+/**
+ * Export pages and generate TOC file
+ *
+ * @param ZipArchive $zip
+ *
+ * @return void
+ */
+function export_page(ZipArchive $zip): void
+{
+    $projectName = project('name');
     $charset = data('app', 'charset');
-    $from = [
-        '#="/"#Ui',
-        '#="' . URL['media'] . '([^/]+)"#Ui',
-        '#="' . URL['theme'] . '([^/]+)"#Ui',
-        '#="/(([^/]+)' . URL['page'] . ')"#Ui'
-    ];
-    $to = ['="index.html"', '="media/$1"', '="theme/$1"', '="$1"'];
     $toc = '';
     $attrs = entity_attr(data('entity', 'page'), 'view');
 
@@ -62,16 +89,28 @@ function export(): string
             'vars' => [
                 'charset' => $charset,
                 'title' => $data['name'],
-                'name' => $project['name'],
+                'name' => $projectName,
                 'main' => IMPORT['start'] . section_template($main) . IMPORT['end'],
                 'nav' => section_nav($nav),
                 'subnav' => section_nav($subnav),
             ],
         ];
-        $zip->addFromString($base, preg_replace($from, $to, section_template($§)));
+        $zip->addFromString($base, export_content(section_template($§)));
     }
 
-    // Homepage
+    $zip->addFromString(IMPORT['toc'], $toc);
+}
+
+/**
+ * Export homepage
+ *
+ * @param ZipArchive $zip
+ *
+ * @return void
+ */
+function export_homepage(ZipArchive $zip): void
+{
+    $project = project();
     $attrs = entity_attr($project['_entity'], 'home');
     $main = ['id' => 'content', 'template' => 'entity/view.phtml', 'vars' => ['data' => $project, 'attr' => $attrs]];
     $nav = ['id' => 'nav', 'vars' => ['mode' => 'top']];
@@ -80,7 +119,7 @@ function export(): string
         'id' => 'root',
         'template' => 'layout/export.phtml',
         'vars' => [
-            'charset' => $charset,
+            'charset' => data('app', 'charset'),
             'title' => $project['name'],
             'name' => $project['name'],
             'main' => IMPORT['start'] . section_template($main) . IMPORT['end'],
@@ -88,10 +127,25 @@ function export(): string
             'subnav' => section_nav($subnav),
         ],
     ];
-    $zip->addFromString('index.html', preg_replace($from, $to, section_template($§)));
+    $zip->addFromString('index.html', export_content(section_template($§)));
+}
 
-    // TOC
-    $zip->addFromString(IMPORT['toc'], $toc);
+/**
+ * Replace URL paths for exported version
+ *
+ * @param string $content
+ *
+ * @return string
+ */
+function export_content(string $content): string
+{
+    $from = [
+        '#="/"#Ui',
+        '#="' . URL['media'] . '([^/]+)"#Ui',
+        '#="' . URL['theme'] . '([^/]+)"#Ui',
+        '#="/(([^/]+)' . URL['page'] . ')"#Ui'
+    ];
+    $to = ['="index.html"', '="media/$1"', '="theme/$1"', '="$1"'];
 
-    return $file;
+    return preg_replace($from, $to, $content);
 }
