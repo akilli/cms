@@ -120,7 +120,6 @@ function export_content(array $data, array $attrs): string
         'id' => 'root',
         'template' => 'layout/export.phtml',
         'vars' => [
-            'charset' => data('app', 'charset'),
             'title' => $data['name'],
             'name' => project('name'),
             'main' => IMPORT['start'] . section_template($main) . IMPORT['end'],
