@@ -71,31 +71,14 @@ function export_media(ZipArchive $zip): void
  */
 function export_page(ZipArchive $zip): void
 {
-    $projectName = project('name');
-    $charset = data('app', 'charset');
     $toc = '';
     $attrs = entity_attr(data('entity', 'page'), 'view');
 
-    foreach (all('page', [], ['order' => ['pos' => 'asc']]) as $data) {
-        $base = basename($data['url']);
-        $name = str_replace(IMPORT['del'], '', $data['name']);
-        $toc .= viewer($data['_entity']['attr']['pos'], $data) . IMPORT['del'] . $name . IMPORT['del'] . $base . "\n";
-        $main = ['id' => 'content', 'template' => 'entity/view.phtml', 'vars' => ['data' => $data, 'attr' => $attrs]];
-        $nav = ['id' => 'nav', 'vars' => ['mode' => 'top', 'current' => $data['id']]];
-        $subnav = ['id' => 'subnav', 'vars' => ['mode' => 'sub', 'current' => $data['id']]];
-        $§ = [
-            'id' => 'root',
-            'template' => 'layout/export.phtml',
-            'vars' => [
-                'charset' => $charset,
-                'title' => $data['name'],
-                'name' => $projectName,
-                'main' => IMPORT['start'] . section_template($main) . IMPORT['end'],
-                'nav' => section_nav($nav),
-                'subnav' => section_nav($subnav),
-            ],
-        ];
-        $zip->addFromString($base, export_content(section_template($§)));
+    foreach (all('page', [], ['order' => ['pos' => 'asc']]) as $page) {
+        $base = basename($page['url']);
+        $name = str_replace(IMPORT['del'], '', $page['name']);
+        $toc .= viewer($page['_entity']['attr']['pos'], $page) . IMPORT['del'] . $name . IMPORT['del'] . $base . "\n";
+        $zip->addFromString($base, export_content($page, $attrs));
     }
 
     $zip->addFromString(IMPORT['toc'], $toc);
@@ -111,34 +94,40 @@ function export_page(ZipArchive $zip): void
 function export_homepage(ZipArchive $zip): void
 {
     $project = project();
-    $attrs = entity_attr($project['_entity'], 'home');
-    $main = ['id' => 'content', 'template' => 'entity/view.phtml', 'vars' => ['data' => $project, 'attr' => $attrs]];
+    $zip->addFromString('index.html', export_content($project, entity_attr($project['_entity'], 'home')));
+}
+
+/**
+ * Export page content
+ *
+ * @param array $data
+ * @param array $attrs
+ *
+ * @return string
+ */
+function export_content(array $data, array $attrs): string
+{
+    $main = ['id' => 'content', 'template' => 'entity/view.phtml', 'vars' => ['data' => $data, 'attr' => $attrs]];
     $nav = ['id' => 'nav', 'vars' => ['mode' => 'top']];
     $subnav = ['id' => 'subnav', 'vars' => ['mode' => 'sub']];
+
+    if ($data['_entity']['id'] === 'page') {
+        $nav['vars']['current'] = $data['id'];
+        $subnav['vars']['current'] = $data['id'];
+    }
+
     $§ = [
         'id' => 'root',
         'template' => 'layout/export.phtml',
         'vars' => [
             'charset' => data('app', 'charset'),
-            'title' => $project['name'],
-            'name' => $project['name'],
+            'title' => $data['name'],
+            'name' => project('name'),
             'main' => IMPORT['start'] . section_template($main) . IMPORT['end'],
             'nav' => section_nav($nav),
             'subnav' => section_nav($subnav),
         ],
     ];
-    $zip->addFromString('index.html', export_content(section_template($§)));
-}
-
-/**
- * Replace URL paths for exported version
- *
- * @param string $content
- *
- * @return string
- */
-function export_content(string $content): string
-{
     $from = [
         '#="/"#Ui',
         '#="' . URL['media'] . '([^/]+)"#Ui',
@@ -147,5 +136,5 @@ function export_content(string $content): string
     ];
     $to = ['="index.html"', '="media/$1"', '="theme/$1"', '="$1"'];
 
-    return preg_replace($from, $to, $content);
+    return preg_replace($from, $to, section_template($§));
 }
