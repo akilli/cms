@@ -120,6 +120,7 @@ function project(string $key = null)
         $crit[] = ($id = session_get('project')) ? ['id', $id] : ['uid', strstr(request('host'), '.', true)];
         $data = one('project', $crit) ?: one('project', [['id', ALL['project']]]);
         $data['global'] = $data['id'] === ALL['project'];
+        $data['image'] = url_theme('akilli-cms.jpg');
         session_set('project', $data['id']);
     }
 
