@@ -30,6 +30,18 @@ function editor(array $attr, array $data): string
         $label .= ' ' . html('em', ['class' => 'uniq'], _('Unique'));
     }
 
+    foreach ([['min', 'max'], ['minlength', 'maxlength']] as $edge) {
+        if ($attr[$edge[0]] <= $attr[$edge[1]]) {
+            if ($attr[$edge[0]] > 0) {
+                $attr['html'][$edge[0]] = $attr[$edge[0]];
+            }
+
+            if ($attr[$edge[1]] > 0) {
+                $attr['html'][$edge[1]] = $attr[$edge[1]];
+            }
+        }
+    }
+
     if ($attr['multiple']) {
         $attr['html']['multiple'] = true;
     }
@@ -139,14 +151,6 @@ function editor_text(array $attr, array $data): string
     $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $data[$attr['id']] ? encode($data[$attr['id']]) : $data[$attr['id']];
 
-    if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
-        $attr['html']['minlength'] = $attr['minval'];
-    }
-
-    if ($attr['maxval'] > 0 && $attr['minval'] <= $attr['maxval']) {
-        $attr['html']['maxlength'] = $attr['maxval'];
-    }
-
     return html('input', $attr['html'], null, true);
 }
 
@@ -176,16 +180,8 @@ function editor_password(array $attr, array $data): string
  */
 function editor_int(array $attr, array $data): string
 {
-    $attr['html']['type'] = $attr['html']['type'] ?? $attr['frontend'];
+    $attr['html']['type'] = $attr['frontend'];
     $attr['html']['value'] = $data[$attr['id']];
-
-    if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
-        $attr['html']['min'] = $attr['minval'];
-    }
-
-    if ($attr['maxval'] > 0 && $attr['minval'] <= $attr['maxval']) {
-        $attr['html']['max'] = $attr['maxval'];
-    }
 
     return html('input', $attr['html'], null, true);
 }
@@ -200,9 +196,10 @@ function editor_int(array $attr, array $data): string
  */
 function editor_date(array $attr, array $data): string
 {
-    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], DATE['b'], DATE['f']) : '';
+    $attr['html']['type'] = $attr['frontend'];
+    $attr['html']['value'] = $data[$attr['id']] ? filter_date($data[$attr['id']], DATE['b'], DATE['f']) : '';
 
-    return editor_int($attr, $data);
+    return html('input', $attr['html'], null, true);
 }
 
 /**
@@ -215,10 +212,10 @@ function editor_date(array $attr, array $data): string
  */
 function editor_datetime(array $attr, array $data): string
 {
-    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], DATETIME['b'], DATETIME['f']) : '';
     $attr['html']['type'] = 'datetime-local';
+    $attr['html']['value'] = $data[$attr['id']] ? filter_date($data[$attr['id']], DATETIME['b'], DATETIME['f']) : '';
 
-    return editor_int($attr, $data);
+    return html('input', $attr['html'], null, true);
 }
 
 /**
@@ -231,9 +228,10 @@ function editor_datetime(array $attr, array $data): string
  */
 function editor_time(array $attr, array $data): string
 {
-    $data[$attr['id']] = $data[$attr['id']] ? filter_date($data[$attr['id']], TIME['b'], TIME['f']) : '';
+    $attr['html']['type'] = $attr['frontend'];
+    $attr['html']['value'] = $data[$attr['id']] ? filter_date($data[$attr['id']], TIME['b'], TIME['f']) : '';
 
-    return editor_int($attr, $data);
+    return html('input', $attr['html'], null, true);
 }
 
 /**
@@ -265,14 +263,6 @@ function editor_file(array $attr, array $data): string
 function editor_textarea(array $attr, array $data): string
 {
     $data[$attr['id']] = $data[$attr['id']] ? encode($data[$attr['id']]) : $data[$attr['id']];
-
-    if ($attr['minval'] > 0 && $attr['minval'] <= $attr['maxval']) {
-        $attr['html']['minlength'] = $attr['minval'];
-    }
-
-    if ($attr['maxval'] > 0 && $attr['minval'] <= $attr['maxval']) {
-        $attr['html']['maxlength'] = $attr['maxval'];
-    }
 
     return html('textarea', $attr['html'], $data[$attr['id']]);
 }

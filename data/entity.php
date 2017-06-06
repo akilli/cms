@@ -23,7 +23,7 @@ return [
                 'required' => true,
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
-                'maxval' => 20,
+                'maxlength' => 20,
                 'validator' => 'qnd\validator_id',
             ],
             'name' => [
@@ -32,7 +32,7 @@ return [
                 'required' => true,
                 'searchable' => true,
                 'actions' => ['admin', 'edit'],
-                'maxval' => 50,
+                'maxlength' => 50,
             ],
             'active' => [
                 'name' => 'Active',
@@ -67,7 +67,7 @@ return [
                 'uniq' => true,
                 'searchable' => true,
                 'actions' => ['admin', 'edit'],
-                'maxval' => 50,
+                'maxlength' => 50,
             ],
             'password' => [
                 'name' => 'Password',
@@ -120,7 +120,7 @@ return [
                 'required' => true,
                 'searchable' => true,
                 'actions' => ['admin', 'edit', 'index'],
-                'maxval' => 100,
+                'maxlength' => 100,
             ],
             'url' => [
                 'name' => 'URL',

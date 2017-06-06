@@ -29,25 +29,22 @@ function validator(array $attr, array $data): array
         $data = $attr['validator']($attr, $data);
     }
 
-    // Unique
     if ($attr['uniq'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && size($data['_entity']['id'], [[$attr['id'], $data[$attr['id']]]])) {
         throw new DomainException(_('%s must be unique', $attr['name']));
     }
 
-    // Required
     if ($attr['required'] && ($data[$attr['id']] === null || $data[$attr['id']] === '') && !ignorable($attr, $data)) {
         throw new DomainException(_('%s is required', $attr['name']));
     }
 
-    // Boundary
     $vals = $attr['multiple'] && is_array($data[$attr['id']]) ? $data[$attr['id']] : [$data[$attr['id']]];
 
     foreach ($vals as $val) {
-        if (in_array($attr['backend'], ['json', 'search', 'text', 'varchar'])) {
-            $val = strlen($val);
-        }
-
-        if ($attr['minval'] > 0 && $val < $attr['minval'] || $attr['maxval'] > 0 && $val > $attr['maxval']) {
+        if ($attr['min'] > 0 && $val < $attr['min']
+            || $attr['max'] > 0 && $val > $attr['max']
+            || $attr['minlength'] > 0 && strlen($val) < $attr['minlength']
+            || $attr['maxlength'] > 0 && strlen($val) > $attr['maxlength']
+        ) {
             throw new DomainException(_('Value out of range'));
         }
     }
