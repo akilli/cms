@@ -12,6 +12,8 @@ use DomainException;
  * @param array $data
  *
  * @return array
+ *
+ * @throws DomainException
  */
 function validator(array $attr, array $data): array
 {
@@ -27,63 +29,17 @@ function validator(array $attr, array $data): array
         $data = $attr['validator']($attr, $data);
     }
 
-    validator_uniq($attr, $data);
-    validator_required($attr, $data);
-    validator_boundary($attr, $data);
-
-    return $data;
-}
-
-/**
- * Required validator
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
- *
- * @throws DomainException
- */
-function validator_required(array $attr, array $data): array
-{
-    if ($attr['required'] && ($data[$attr['id']] === null || $data[$attr['id']] === '') && !ignorable($attr, $data)) {
-        throw new DomainException(_('%s is required', $attr['name']));
-    }
-
-    return $data;
-}
-
-/**
- * Unique validator
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
- *
- * @throws DomainException
- */
-function validator_uniq(array $attr, array $data): array
-{
+    // Unique
     if ($attr['uniq'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && size($data['_entity']['id'], [[$attr['id'], $data[$attr['id']]]])) {
         throw new DomainException(_('%s must be unique', $attr['name']));
     }
 
-    return $data;
-}
+    // Required
+    if ($attr['required'] && ($data[$attr['id']] === null || $data[$attr['id']] === '') && !ignorable($attr, $data)) {
+        throw new DomainException(_('%s is required', $attr['name']));
+    }
 
-/**
- * Boundary validator
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
- *
- * @throws DomainException
- */
-function validator_boundary(array $attr, array $data): array
-{
+    // Boundary
     $vals = $attr['multiple'] && is_array($data[$attr['id']]) ? $data[$attr['id']] : [$data[$attr['id']]];
 
     foreach ($vals as $val) {
