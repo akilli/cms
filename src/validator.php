@@ -43,7 +43,7 @@ function validator(array $attr, array $data): array
     $vals = $attr['multiple'] && is_array($data[$attr['id']]) ? $data[$attr['id']] : [$data[$attr['id']]];
 
     foreach ($vals as $val) {
-        if (in_array($attr['backend'], ['json', 'text', 'varchar'])) {
+        if (in_array($attr['backend'], ['json', 'search', 'text', 'varchar'])) {
             $val = strlen($val);
         }
 
