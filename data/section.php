@@ -13,18 +13,18 @@ return [
         'children' => [],
     ],
     'container' => [
-        'call' => 'qnd\section_container',
+        'call' => 'cms\section_container',
     ],
     'message' => [
-        'call' => 'qnd\section_message',
+        'call' => 'cms\section_message',
     ],
     'nav' => [
-        'call' => 'qnd\section_nav',
+        'call' => 'cms\section_nav',
     ],
     'pager' => [
-        'call' => 'qnd\section_pager',
+        'call' => 'cms\section_pager',
     ],
     'template' => [
-        'call' => 'qnd\section_template',
+        'call' => 'cms\section_template',
     ],
 ];

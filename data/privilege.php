@@ -5,27 +5,27 @@ return [
         'global' => true,
     ],
     'account/login' => [
-        'call' => 'qnd\account_guest',
+        'call' => 'cms\account_guest',
     ],
     'account/logout' => [
-        'call' => 'qnd\account_user',
+        'call' => 'cms\account_user',
     ],
     'account/password' => [
-        'call' => 'qnd\account_user',
+        'call' => 'cms\account_user',
     ],
     'media/view' => [
-        'call' => 'qnd\account_user',
+        'call' => 'cms\account_user',
     ],
     'page/index' => [
-        'call' => 'qnd\account_user',
+        'call' => 'cms\account_user',
     ],
     'page/view' => [
-        'call' => 'qnd\account_user',
+        'call' => 'cms\account_user',
     ],
     'project/home' => [
-        'call' => 'qnd\account_user',
+        'call' => 'cms\account_user',
     ],
     'project/view' => [
-        'call' => 'qnd\account_global',
+        'call' => 'cms\account_global',
     ],
 ];

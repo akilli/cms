@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace qnd;
+namespace cms;
 
 /**
  * Uploads a file

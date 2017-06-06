@@ -1,6 +1,6 @@
 <?php
 return [
-    'host' => 'qnd-data',
+    'host' => 'cms-data',
     'db' => 'app',
     'user' => 'app',
     'password' => 'app',

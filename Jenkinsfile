@@ -1,5 +1,5 @@
 node {
-    def project = "qnd"
+    def project = "cms"
     def reg = "registry.test.eqmh.de"
     def img = "${reg}/${project}"
     def auth = "ci"

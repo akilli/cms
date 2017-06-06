@@ -24,7 +24,7 @@ return [
                 'uniq' => true,
                 'actions' => ['admin', 'edit'],
                 'maxlength' => 20,
-                'validator' => 'qnd\validator_id',
+                'validator' => 'cms\validator_id',
             ],
             'name' => [
                 'name' => 'Name',
@@ -80,7 +80,7 @@ return [
                 'type' => 'checkbox',
                 'backend' => 'json',
                 'multiple' => true,
-                'opt' => 'qnd\opt_privilege',
+                'opt' => 'cms\opt_privilege',
                 'actions' => ['edit'],
             ],
             'active' => [
@@ -112,7 +112,7 @@ return [
                 'name' => 'Position',
                 'type' => 'text',
                 'actions' => ['admin'],
-                'viewer' => 'qnd\viewer_pos',
+                'viewer' => 'cms\viewer_pos',
             ],
             'name' => [
                 'name' => 'Name',
@@ -139,7 +139,7 @@ return [
                 'nullable' => true,
                 'opt' => 'page',
                 'actions' => ['edit'],
-                'validator' => 'qnd\validator_page',
+                'validator' => 'cms\validator_page',
             ],
             'sort' => [
                 'name' => 'Sort',
@@ -198,7 +198,7 @@ return [
                 'name' => 'Size',
                 'type' => 'int',
                 'actions' => ['admin'],
-                'viewer' => 'qnd\viewer_filesize',
+                'viewer' => 'cms\viewer_filesize',
             ],
             'file' => [
                 'name' => 'File',

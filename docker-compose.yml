@@ -8,12 +8,12 @@ volumes:
   data: {}
   db: {}
 services:
-  qnd:
+  cms:
     image: akilli/nginx
-    container_name: qnd
+    container_name: cms
     depends_on:
-      - qnd-app
-      - qnd-data
+      - cms-app
+      - cms-data
     restart: unless-stopped
     labels:
       traefik.enable: "true"
@@ -31,11 +31,11 @@ services:
         type: volume
         volume:
           nocopy: true
-  qnd-app:
-    image: registry.test.eqmh.de/qnd
-    container_name: qnd-app
+  cms-app:
+    image: registry.test.eqmh.de/cms
+    container_name: cms-app
     depends_on:
-      - qnd-data
+      - cms-data
     restart: unless-stopped
     volumes:
       - source: app
@@ -46,9 +46,9 @@ services:
         type: volume
         volume:
           nocopy: true
-  qnd-data:
-    image: registry.test.eqmh.de/qnd-data
-    container_name: qnd-data
+  cms-data:
+    image: registry.test.eqmh.de/cms-data
+    container_name: cms-data
     restart: unless-stopped
     volumes:
       - source: data

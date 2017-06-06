@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace qnd;
+namespace cms;
 
 use InvalidArgumentException;
 
@@ -26,7 +26,7 @@ const CRIT = [
 const DATE = ['b' => 'Y-m-d', 'f' => 'Y-m-d'];
 const DATETIME = ['b' => 'Y-m-d H:i:s', 'f' => 'Y-m-d\TH:i'];
 const IMPORT = ['toc' => 'toc.txt', 'del' => ';', 'start' => '<!-- IMPORT_START -->', 'end' => '<!-- IMPORT_END -->'];
-const LOG = 'qnd.log';
+const LOG = 'cms.log';
 const OPTS = ['mode' => 'all', 'index' => 'id', 'select' => [], 'order' => [], 'limit' => 0, 'offset' => 0];
 const TIME = ['b' => 'H:i:s', 'f' => 'H:i'];
 const URL = ['asset' => '/asset/', 'media' => '/media/view/', 'page' => '.html', 'theme' => '/theme/'];

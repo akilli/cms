@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace qnd;
+namespace cms;
 
 /**
  * Generate URL by given path and params
