@@ -32,15 +32,15 @@ function viewer(array $attr, array $data): string
  */
 function viewer_opt(array $attr, array $data): string
 {
-    $vals = [];
+    $result = [];
 
-    foreach ((array) $data[$attr['id']] as $val) {
-        if (isset($attr['opt'][$val])) {
-            $vals[] = $attr['opt'][$val];
+    foreach ((array) $data[$attr['id']] as $v) {
+        if (isset($attr['opt'][$v])) {
+            $result[] = $attr['opt'][$v];
         }
     }
 
-    return $vals ? encode(implode(', ', $vals)) : '';
+    return $result ? encode(implode(', ', $result)) : '';
 }
 
 /**
