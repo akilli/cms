@@ -116,43 +116,44 @@ function all(string $eId, array $crit = [], array $opts = []): array
  */
 function save(string $eId, array & $data): bool
 {
-    if (empty($data['id']) || !($base = one($eId, [['id', $data['id']]]))) {
+    $temp = $data;
+
+    if (empty($temp['id']) || !($base = one($eId, [['id', $temp['id']]]))) {
         $base = entity($eId);
-    } elseif (empty($data['_old'])) {
-        $data['_old'] = $base;
-        unset($data['_old']['_entity'], $data['_old']['_old']);
+    } elseif (empty($temp['_old'])) {
+        $temp['_old'] = $base;
+        unset($temp['_old']['_entity'], $temp['_old']['_old']);
     }
 
     $editable = entity($eId, true);
-    $data = array_replace($base, $editable, $data);
-    $attrs = $data['_entity']['attr'];
+    $temp = array_replace($base, $editable, $temp);
+    $attrs = $temp['_entity']['attr'];
     $aIds = array_keys(array_intersect_key($editable, $attrs));
-    $data['project_id'] = $data['project_id'] ?? project('id');
+    $temp['project_id'] = $temp['project_id'] ?? project('id');
 
     foreach ($aIds as $aId) {
         try {
-            $data = validator($attrs[$aId], $data);
+            $temp = validator($attrs[$aId], $temp);
         } catch (Exception $e) {
             $data['_error'][$aId] = $e->getMessage();
         }
     }
 
     if (!empty($data['_error'])) {
-        message(_('Could not save %s', $data['name']));
+        message(_('Could not save %s', $temp['name']));
         return false;
     }
 
     foreach ($aIds as $aId) {
         try {
-            $data = saver($attrs[$aId], $data);
+            $temp = saver($attrs[$aId], $temp);
         } catch (Exception $e) {
             $data['_error'][$aId] = $e->getMessage();
-            message(_('Could not save %s', $data['name']));
+            message(_('Could not save %s', $temp['name']));
             return false;
         }
     }
 
-    $temp = $data;
     $trans = db_trans(
         function () use (& $temp): void {
             $temp = event('entity.presave', $temp);
@@ -166,10 +167,10 @@ function save(string $eId, array & $data): bool
     );
 
     if ($trans) {
+        message(_('Successfully saved %s', $temp['name']));
         $data = $temp;
-        message(_('Successfully saved %s', $data['name']));
     } else {
-        message(_('Could not save %s', $data['name']));
+        message(_('Could not save %s', $temp['name']));
     }
 
     return $trans;
