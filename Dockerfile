@@ -1,6 +1,6 @@
 FROM akilli/php
 
-LABEL maintainer "Ayhan Akilli"
+LABEL maintainer="Ayhan Akilli"
 
 #
 # Setup
