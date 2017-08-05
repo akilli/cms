@@ -1,9 +1,9 @@
 #
 # Image
 #
+/db
 .git
 docker-compose.*
 Dockerfile
 .dockerignore
 Jenkinsfile
-/reset.sh

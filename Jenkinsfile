@@ -21,7 +21,6 @@ node {
         withCredentials([usernamePassword(credentialsId: auth, passwordVariable: 'pass', usernameVariable: 'user')]) {
             sh "sudo docker login -u ${user} -p ${pass} ${reg}"
             sh "sudo docker push ${img}"
-            echo "Successfully pushed image ${img} to ${reg}."
         }
 
     stage 'Live'
@@ -31,19 +30,11 @@ node {
         sh "sudo docker-compose -p ${project} -f docker-compose.yml up -d --force-recreate"
         sh "sudo docker stop ${proxy}"
         sh "sudo docker start ${proxy}"
-        echo "Successfully deployed ${project} on live server"
 
     stage 'Clean'
         deleteDir()
 
-        if (!oldId || !oldId.equals(id)) {
-            if (oldId) {
-                sh "sudo docker rmi ${oldId}"
-                echo "Updated image ${img} to new ID ${id} and removed old image with ID ${oldId}."
-            } else {
-                echo "Created new image ${img} with ID ${id}"
-            }
-        } else {
-            echo "Image ${img} is already up-to-date."
+        if (oldId && !oldId.equals(id)) {
+            sh "sudo docker rmi ${oldId}"
         }
 }
