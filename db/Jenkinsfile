@@ -1,13 +1,5 @@
 node {
-    def project = "cms"
-    def reg = "registry.test.eqmh.de"
-    def img = "${reg}/${project}-data"
-    def auth = "ci"
-    def cont = "${project}-data"
-    def imgBuild = "akilli/base"
-    def volData = "${project}_data"
-    def volDb = "${project}_db"
-    def proxy = "traefik"
+    def img = "registry.test.eqmh.de/cms-data"
     def oldId = ""
     def id = ""
 
@@ -16,22 +8,22 @@ node {
 
     stage 'Build'
         oldId = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
-        sh "sudo docker run --rm -v $PWD:/backup -v ${volData}:/app -v ${volDb}:/data ${imgBuild} tar cvf /backup/db.tar /app /data"
-        sh "sudo docker rmi ${imgBuild}"
+        sh "sudo docker run --rm -v $PWD:/backup -v cms_data:/app -v cms_db:/data akilli/base tar cvf /backup/db.tar /app /data"
+        sh "sudo docker rmi akilli/base"
         sh "sudo docker build -t ${img} ."
         id = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
 
     stage 'Registry'
-        withCredentials([usernamePassword(credentialsId: auth, passwordVariable: 'pass', usernameVariable: 'user')]) {
-            sh "sudo docker login -u ${user} -p ${pass} ${reg}"
+        withCredentials([usernamePassword(credentialsId: 'ci', passwordVariable: 'pass', usernameVariable: 'user')]) {
+            sh "sudo docker login -u ${user} -p ${pass} registry.test.eqmh.de"
             sh "sudo docker push ${img}"
         }
 
     stage 'Live'
-        sh "sudo docker-compose -p ${project} -f docker-compose.yml stop ${cont}"
-        sh "sudo docker-compose -p ${project} -f docker-compose.yml rm -f ${cont}"
-        sh "sudo docker-compose -p ${project} -f docker-compose.yml up -d --force-recreate"
-        sh "sudo docker restart ${proxy}"
+        sh "sudo docker-compose -p cms -f docker-compose.yml stop cms-data"
+        sh "sudo docker-compose -p cms -f docker-compose.yml rm -f cms-data"
+        sh "sudo docker-compose -p cms -f docker-compose.yml up -d --force-recreate"
+        sh "sudo docker restart traefik"
 
     stage 'Clean'
         deleteDir()

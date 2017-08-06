@@ -1,11 +1,5 @@
 node {
-    def project = "cms"
-    def reg = "registry.test.eqmh.de"
-    def img = "${reg}/${project}"
-    def auth = "ci"
-    def cont = "${project}-app ${project}"
-    def vol = "${project}_app"
-    def proxy = "traefik"
+    def img = "registry.test.eqmh.de/cms"
     def oldId = ""
     def id = ""
 
@@ -18,17 +12,17 @@ node {
         id = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
 
     stage 'Registry'
-        withCredentials([usernamePassword(credentialsId: auth, passwordVariable: 'pass', usernameVariable: 'user')]) {
-            sh "sudo docker login -u ${user} -p ${pass} ${reg}"
+        withCredentials([usernamePassword(credentialsId: 'ci', passwordVariable: 'pass', usernameVariable: 'user')]) {
+            sh "sudo docker login -u ${user} -p ${pass} registry.test.eqmh.de"
             sh "sudo docker push ${img}"
         }
 
     stage 'Live'
-        sh "sudo docker-compose -p ${project} -f docker-compose.yml stop ${cont}"
-        sh "sudo docker-compose -p ${project} -f docker-compose.yml rm -f ${cont}"
-        sh "sudo docker volume rm ${vol} || true"
-        sh "sudo docker-compose -p ${project} -f docker-compose.yml up -d --force-recreate"
-        sh "sudo docker restart ${proxy}"
+        sh "sudo docker-compose -p cms -f docker-compose.yml stop cms-app cms"
+        sh "sudo docker-compose -p cms -f docker-compose.yml rm -f cms-app cms"
+        sh "sudo docker volume rm cms_app || true"
+        sh "sudo docker-compose -p cms -f docker-compose.yml up -d --force-recreate"
+        sh "sudo docker restart traefik"
 
     stage 'Clean'
         deleteDir()
