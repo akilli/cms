@@ -1,7 +1,7 @@
 node {
-    def project = "cms-data"
+    def project = "cms"
     def reg = "registry.test.eqmh.de"
-    def img = "${reg}/${project}"
+    def img = "${reg}/${project}-data"
     def auth = "ci"
     def cont = "${project}-data"
     def imgBuild = "akilli/base"
