@@ -5,4 +5,4 @@ LABEL maintainer="Ayhan Akilli"
 #
 # Setup
 #
-COPY db.tar /
+ADD db.tar /
