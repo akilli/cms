@@ -8,7 +8,6 @@ node {
 
     stage 'Build'
         oldId = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
-        sh "echo \$(pwd)"
         sh "sudo docker run --rm -v \$(pwd)/db:/backup -v cms_data:/app -v cms_db:/data akilli/base tar cvf /backup/db.tar /app /data"
         sh "sudo docker rmi akilli/base"
         sh "sudo docker build -t ${img} db"
