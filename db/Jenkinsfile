@@ -10,7 +10,7 @@ node {
 
     stage 'Build'
         oldId = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
-        cont = sh(returnStdout: true, script: "sudo docker run -d -it -v cms_data:/cms-data -v cms_db:/cms-db --entrypoint ash ${baseImg}").trim()
+        cont = sh(returnStdout: true, script: "sudo docker run -d -v cms_data:/cms-data -v cms_db:/cms-db ${baseImg}").trim()
         sh "sudo docker exec ${cont} ash -c 'rm -rf /app /data && cp -R /cms-data /app && cp -R /cms-db /data && chown -R app:app /app /data'"
         sh "sudo docker commit ${cont} ${img}"
         sh "sudo docker rm -f ${cont}"
