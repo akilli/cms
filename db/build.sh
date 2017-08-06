@@ -13,6 +13,7 @@ set -e
 # Commit
 #
 CONT=$(docker run -d -v cms_data:/cms-data -v cms_db:/cms-db akilli/postgres)
+sleep 10
 docker exec $CONT ash -c 'rm -rf /app /data && cp -R /cms-data /app && cp -R /cms-db /data && chown -R app:app /app /data'
 docker commit $CONT registry.test.eqmh.de/cms-data
 docker rm -f $CONT
