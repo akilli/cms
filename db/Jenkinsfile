@@ -2,16 +2,18 @@ node {
     def img = "registry.test.eqmh.de/cms-data"
     def oldId = ""
     def id = ""
-    def baseImg = "akilli/base"
+    def baseImg = "akilli/postgres"
+    def cont = ""
 
     stage 'Checkout'
         checkout scm
 
     stage 'Build'
         oldId = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
-        sh "sudo docker run --rm -v \$(pwd)/db:/backup -v cms_data:/app -v cms_db:/data ${baseImg} tar cvf /backup/db.tar /app /data"
-        sh "sudo docker rmi ${baseImg}"
-        sh "sudo docker build -t ${img} \$(pwd)/db"
+        cont = sh(returnStdout: true, script: "sudo docker run -d -it -v cms_data:/cms-data -v cms_db:/cms-db --entrypoint ash ${baseImg}").trim()
+        sh "sudo docker exec ${cont} ash -c 'rm -rf /app /data && cp -R /cms-data /app && cp -R /cms-db /data && chown -R app:app /app /data'"
+        sh "sudo docker commit ${cont} ${img}"
+        sh "sudo docker rm -f ${cont}"
         id = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
 
     stage 'Registry'
