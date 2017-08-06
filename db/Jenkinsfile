@@ -1,0 +1,42 @@
+node {
+    def project = "cms-data"
+    def reg = "registry.test.eqmh.de"
+    def img = "${reg}/${project}"
+    def auth = "ci"
+    def cont = "${project}-data"
+    def imgBuild = "akilli/base"
+    def volData = "${project}_data"
+    def volDb = "${project}_db"
+    def proxy = "traefik"
+    def oldId = ""
+    def id = ""
+
+    stage 'Checkout'
+        checkout scm
+
+    stage 'Build'
+        oldId = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+        sh "sudo docker run --rm -v $(pwd):/backup -v ${volData}:/app -v ${volDb}:/data ${imgBuild} tar cvf /backup/db.tar /app /data"
+        sh "sudo docker rmi ${imgBuild}"
+        sh "sudo docker build -t ${img} ."
+        id = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+
+    stage 'Registry'
+        withCredentials([usernamePassword(credentialsId: auth, passwordVariable: 'pass', usernameVariable: 'user')]) {
+            sh "sudo docker login -u ${user} -p ${pass} ${reg}"
+            sh "sudo docker push ${img}"
+        }
+
+    stage 'Live'
+        sh "sudo docker-compose -p ${project} -f docker-compose.yml stop ${cont}"
+        sh "sudo docker-compose -p ${project} -f docker-compose.yml rm -f ${cont}"
+        sh "sudo docker-compose -p ${project} -f docker-compose.yml up -d --force-recreate"
+        sh "sudo docker restart ${proxy}"
+
+    stage 'Clean'
+        deleteDir()
+
+        if (oldId && !oldId.equals(id)) {
+            sh "sudo docker rmi ${oldId}"
+        }
+}
