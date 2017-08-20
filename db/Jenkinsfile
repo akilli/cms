@@ -1,38 +1,78 @@
-node {
-    def img = "registry.test.eqmh.de/cms-data"
-    def oldId = ""
-    def id = ""
-    def baseImg = "akilli/postgres"
-    def cont = ""
+def reg = "registry.test.eqmh.de"
+def app = "cms"
+def img = "${reg}/${app}-data"
+def srv = "${app}-data"
+def big = "akilli/postgres"
+def vda = "${app}_data"
+def vdb = "${app}_db"
+def pxy = "traefik"
+def cre = "ci"
+def oid = ""
+def nid = ""
 
-    stage 'Checkout'
-        checkout scm
+pipeline {
+    agent any
 
-    stage 'Build'
-        oldId = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
-        cont = sh(returnStdout: true, script: "sudo docker run -d -v cms_data:/cms-data -v cms_db:/cms-db ${baseImg}").trim()
-        sleep 10
-        sh "sudo docker exec ${cont} ash -c 'rm -rf /app /data && cp -R /cms-data /app && cp -R /cms-db /data && chown -R app:app /app /data'"
-        sh "sudo docker commit ${cont} ${img}"
-        sh "sudo docker rm -f ${cont}"
-        id = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '1'))
+        disableConcurrentBuilds()
+    }
 
-    stage 'Registry'
-        withCredentials([usernamePassword(credentialsId: 'ci', passwordVariable: 'pass', usernameVariable: 'user')]) {
-            sh "sudo docker login -u ${user} -p ${pass} registry.test.eqmh.de"
-            sh "sudo docker push ${img}"
+    stages {
+        stage("Checkout") {
+            steps {
+                checkout scm
+            }
         }
 
-    stage 'Live'
-        sh "sudo docker-compose -p cms -f docker-compose.yml stop cms-data"
-        sh "sudo docker-compose -p cms -f docker-compose.yml rm -f cms-data"
-        sh "sudo docker-compose -p cms -f docker-compose.yml up -d --force-recreate"
-        sh "sudo docker restart traefik"
+        stage("Build") {
+            steps {
+                script {
+                    oid = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+                }
 
-    stage 'Clean'
-        deleteDir()
+                script {
+                    con = sh(returnStdout: true, script: "sudo docker run -d -v ${vda}:/vol-data -v ${vdb}:/vol-db ${big}").trim()
+                    sleep 10
+                    sh "sudo docker exec ${con} ash -c 'rm -rf /app /data && cp -R /vol-data /app && cp -R /vol-db /data && chown -R app:app /app /data'"
+                    sh "sudo docker commit ${con} ${img}"
+                    sh "sudo docker rm -f ${con}"
+                }
 
-        if (oldId && !oldId.equals(id)) {
-            sh "sudo docker rmi ${oldId}"
+                script {
+                    nid = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+                }
+            }
         }
+
+        stage("Registry") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: cre, passwordVariable: 'pass', usernameVariable: 'user')]) {
+                    sh "sudo docker login -u ${user} -p ${pass} ${reg}"
+                    sh "sudo docker push ${img}"
+                }
+            }
+        }
+
+        stage("Live") {
+            steps {
+                sh "sudo docker-compose -p ${app} -f docker-compose.yml stop ${srv}"
+                sh "sudo docker-compose -p ${app} -f docker-compose.yml rm -f ${srv}"
+                sh "sudo docker-compose -p ${app} -f docker-compose.yml up -d --force-recreate"
+                sh "sudo docker restart ${pxy}"
+            }
+        }
+
+        stage("Clean") {
+            steps {
+                deleteDir()
+
+                script {
+                    if (oid && !oid.equals(nid)) {
+                        sh "sudo docker rmi ${oid}"
+                    }
+                }
+            }
+        }
+    }
 }
