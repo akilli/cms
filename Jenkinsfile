@@ -1,18 +1,18 @@
+def reg = "registry.test.eqmh.de"
+def app = "cms"
+def img = "${reg}/${app}"
+def con = "${app}-app ${app}"
+def vol = "${app}_app"
+def pro = "traefik"
+def cre = "ci"
+def oid = ""
+def nid = ""
+
 pipeline {
     options {
         buildDiscarder(logRotator(numToKeepStr: '1'))
         disableConcurrentBuilds()
     }
-
-    def reg = "registry.test.eqmh.de"
-    def app = "cms"
-    def img = "${reg}/${app}"
-    def con = "${app}-app ${app}"
-    def vol = "${app}_app"
-    def pro = "traefik"
-    def cre = "ci"
-    def oid = ""
-    def nid = ""
 
     stages {
         stage("Checkout") {
