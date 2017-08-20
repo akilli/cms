@@ -1,33 +1,39 @@
 node {
-    def img = "registry.test.eqmh.de/cms"
-    def oldId = ""
-    def id = ""
+    def reg = "registry.test.eqmh.de"
+    def app = "cms"
+    def img = "${reg}/${app}"
+    def con = "${app}-app ${app}"
+    def vol = "${app}_app"
+    def pro = "traefik"
+    def cre = "ci"
+    def old = ""
+    def new = ""
 
     stage 'Checkout'
         checkout scm
 
     stage 'Build'
-        oldId = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+        old = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
         sh "sudo docker build -t ${img} ."
-        id = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+        new = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
 
     stage 'Registry'
-        withCredentials([usernamePassword(credentialsId: 'ci', passwordVariable: 'pass', usernameVariable: 'user')]) {
-            sh "sudo docker login -u ${user} -p ${pass} registry.test.eqmh.de"
+        withCredentials([usernamePassword(credentialsId: cre, passwordVariable: 'pass', usernameVariable: 'user')]) {
+            sh "sudo docker login -u ${user} -p ${pass} ${reg}"
             sh "sudo docker push ${img}"
         }
 
     stage 'Live'
-        sh "sudo docker-compose -p cms -f docker-compose.yml stop cms-app cms"
-        sh "sudo docker-compose -p cms -f docker-compose.yml rm -f cms-app cms"
-        sh "sudo docker volume rm cms_app || true"
-        sh "sudo docker-compose -p cms -f docker-compose.yml up -d --force-recreate"
-        sh "sudo docker restart traefik"
+        sh "sudo docker-compose -p ${app} -f docker-compose.yml stop ${con}"
+        sh "sudo docker-compose -p ${app} -f docker-compose.yml rm -f ${con}"
+        sh "sudo docker volume rm ${vol} || true"
+        sh "sudo docker-compose -p ${app} -f docker-compose.yml up -d --force-recreate"
+        sh "sudo docker restart ${pro}"
 
     stage 'Clean'
         deleteDir()
 
-        if (oldId && !oldId.equals(id)) {
-            sh "sudo docker rmi ${oldId}"
+        if (old && !old.equals(new)) {
+            sh "sudo docker rmi ${old}"
         }
 }
