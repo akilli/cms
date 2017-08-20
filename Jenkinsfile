@@ -23,9 +23,15 @@ pipeline {
 
         stage("Build") {
             steps {
-                oid = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+                script {
+                    oid = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+                }
+
                 sh "sudo docker build -t ${img} ."
-                nid = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+
+                script {
+                    nid = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+                }
             }
         }
 
