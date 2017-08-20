@@ -3,6 +3,7 @@
 set -e
 
 DB=$(realpath "$(dirname "$0")")
+IMG=registry.test.eqmh.de/cms-data
 
 #
 # Dump
@@ -16,7 +17,7 @@ docker rm -f $CONT
 #
 # Build
 #
-docker build -t registry.test.eqmh.de/cms-data $DB
+docker build -t $IMG $DB
 
 #
 # Clean
