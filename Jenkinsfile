@@ -1,9 +1,9 @@
 def reg = "registry.test.eqmh.de"
 def app = "cms"
 def img = "${reg}/${app}"
-def con = "${app}-app ${app}"
+def srv = "${app}-app ${app}"
 def vol = "${app}_app"
-def pro = "traefik"
+def pxy = "traefik"
 def cre = "ci"
 def oid = ""
 def nid = ""
@@ -48,11 +48,11 @@ pipeline {
 
         stage("Live") {
             steps {
-                sh "sudo docker-compose -p ${app} -f docker-compose.yml stop ${con}"
-                sh "sudo docker-compose -p ${app} -f docker-compose.yml rm -f ${con}"
+                sh "sudo docker-compose -p ${app} -f docker-compose.yml stop ${srv}"
+                sh "sudo docker-compose -p ${app} -f docker-compose.yml rm -f ${srv}"
                 sh "sudo docker volume rm ${vol} || true"
                 sh "sudo docker-compose -p ${app} -f docker-compose.yml up -d --force-recreate"
-                sh "sudo docker restart ${pro}"
+                sh "sudo docker restart ${pxy}"
             }
         }
 
