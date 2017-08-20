@@ -9,6 +9,8 @@ def oid = ""
 def nid = ""
 
 pipeline {
+    agent any
+
     options {
         buildDiscarder(logRotator(numToKeepStr: '1'))
         disableConcurrentBuilds()
@@ -58,8 +60,10 @@ pipeline {
             steps {
                 deleteDir()
 
-                if (oid && !oid.equals(nid)) {
-                    sh "sudo docker rmi ${oid}"
+                script {
+                    if (oid && !oid.equals(nid)) {
+                        sh "sudo docker rmi ${oid}"
+                    }
                 }
             }
         }
