@@ -6,16 +6,16 @@ node {
     def vol = "${app}_app"
     def pro = "traefik"
     def cre = "ci"
-    def old = ""
-    def new = ""
+    def oid = ""
+    def nid = ""
 
     stage 'Checkout'
         checkout scm
 
     stage 'Build'
-        old = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+        oid = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
         sh "sudo docker build -t ${img} ."
-        new = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+        nid = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
 
     stage 'Registry'
         withCredentials([usernamePassword(credentialsId: cre, passwordVariable: 'pass', usernameVariable: 'user')]) {
@@ -33,7 +33,7 @@ node {
     stage 'Clean'
         deleteDir()
 
-        if (old && !old.equals(new)) {
-            sh "sudo docker rmi ${old}"
+        if (oid && !oid.equals(nid)) {
+            sh "sudo docker rmi ${oid}"
         }
 }
