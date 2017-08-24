@@ -3,7 +3,6 @@ def app = "cms"
 def img = "${reg}/${app}"
 def srv = "${app}-app ${app}"
 def vol = "${app}_app"
-def pxy = "traefik"
 def cre = "ci"
 def oid = ""
 def nid = ""
@@ -52,7 +51,6 @@ pipeline {
                 sh "sudo docker-compose -p ${app} -f docker-compose.yml rm -f ${srv}"
                 sh "sudo docker volume rm ${vol} || true"
                 sh "sudo docker-compose -p ${app} -f docker-compose.yml up -d --force-recreate"
-                sh "sudo docker restart ${pxy}"
             }
         }
 
