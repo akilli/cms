@@ -2,7 +2,7 @@
 
 set -e
 
-IMG=registry.test.eqmh.de/cms-data
+IMG=registry.ayhan.biz/cms-data
 VDA=cms_data
 VDB=cms_db
 

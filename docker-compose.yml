@@ -32,7 +32,7 @@ services:
         volume:
           nocopy: true
   cms-app:
-    image: registry.test.eqmh.de/cms
+    image: registry.ayhan.biz/cms
     container_name: cms-app
     depends_on:
       - cms-data
@@ -47,7 +47,7 @@ services:
         volume:
           nocopy: true
   cms-data:
-    image: registry.test.eqmh.de/cms-data
+    image: registry.ayhan.biz/cms-data
     container_name: cms-data
     restart: unless-stopped
     volumes:

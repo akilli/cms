@@ -1,4 +1,4 @@
-def reg = "registry.test.eqmh.de"
+def reg = "registry.ayhan.biz"
 def app = "cms"
 def img = "${reg}/${app}-data"
 def srv = "${app}-data"
