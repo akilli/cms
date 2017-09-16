@@ -2,7 +2,7 @@ version: "3.3"
 networks:
   default:
     external:
-      name: akilli
+      name: proxy
 volumes:
   app: {}
   data: {}
