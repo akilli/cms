@@ -47,8 +47,7 @@ pipeline {
 
         stage("Live") {
             steps {
-                sh "sudo docker-compose -p ${app} -f docker-compose.yml stop ${srv}"
-                sh "sudo docker-compose -p ${app} -f docker-compose.yml rm -f ${srv}"
+                sh "sudo docker-compose -p ${app} -f docker-compose.yml rm -sf ${srv}"
                 sh "sudo docker volume rm ${vol} || true"
                 sh "sudo docker-compose -p ${app} -f docker-compose.yml up -d --force-recreate"
             }
