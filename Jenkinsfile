@@ -31,7 +31,7 @@ pipeline {
                 sh "sudo docker build -t ${img} ."
 
                 script {
-                    nid = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img} || true").trim()
+                    nid = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img}").trim()
                 }
             }
         }
