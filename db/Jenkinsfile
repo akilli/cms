@@ -27,7 +27,7 @@ pipeline {
                 script {
                     con = sh(returnStdout: true, script: "sudo docker run -d -v ${vda}:/vol-data -v ${vdb}:/vol-db ${big}").trim()
                     sleep 10
-                    sh "sudo docker exec ${con} ash -c 'rm -rf /app /data && cp -R /vol-data /app && cp -R /vol-db /data && chown -R app:app /app /data'"
+                    sh "sudo docker exec ${con} ash -c 'rm -rf /app && cp -R /vol-data /app && rm -rf /data && cp -R /vol-db /data && chown -R app:app /app /data'"
                     sh "sudo docker commit ${con} ${img}"
                     sh "sudo docker rm -f ${con}"
                 }
