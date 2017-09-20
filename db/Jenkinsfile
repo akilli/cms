@@ -47,7 +47,7 @@ pipeline {
             }
         }
 
-        stage("Live") {
+        stage("Deploy") {
             steps {
                 sh "sudo docker-compose -p ${app} -f docker-compose.yml rm -sf ${srv}"
                 sh "sudo docker-compose -p ${app} -f docker-compose.yml up -d --force-recreate"
@@ -56,14 +56,18 @@ pipeline {
 
         stage("Clean") {
             steps {
-                deleteDir()
-
                 script {
-                    if (oid && !oid.equals(nid)) {
+                    if (!oid.equals(nid)) {
                         sh "sudo docker rmi ${oid}"
                     }
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            deleteDir()
         }
     }
 }
