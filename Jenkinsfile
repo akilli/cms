@@ -39,8 +39,9 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: cre, passwordVariable: 'pass', usernameVariable: 'user')]) {
                     sh "sudo docker login -u ${user} -p ${pass} ${reg}"
-                    sh "sudo docker push ${img}"
                 }
+
+                sh "sudo docker push ${img}"
             }
         }
 
