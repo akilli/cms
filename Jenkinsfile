@@ -55,7 +55,11 @@ pipeline {
 
         stage("Clean") {
             steps {
-                sh "sudo docker rmi ${oid}"
+                script {
+                    if (oid) {
+                        sh "sudo docker rmi ${oid}"
+                    }
+                }
             }
         }
     }
