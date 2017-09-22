@@ -26,11 +26,6 @@ pipeline {
 
                 script {
                     nid = sh(returnStdout: true, script: "sudo docker inspect --format='{{.Id}}' ${img}").trim()
-
-                    if (oid.equals(nid)) {
-                        currentBuild.result = "ABORTED"
-                        error "Image ${img} is already up-to-date"
-                    }
                 }
             }
         }
@@ -56,7 +51,7 @@ pipeline {
         stage("Clean") {
             steps {
                 script {
-                    if (oid) {
+                    if (oid && !oid.equals(nid)) {
                         sh "sudo docker rmi ${oid}"
                     }
                 }
