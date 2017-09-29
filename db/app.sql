@@ -50,6 +50,8 @@ CREATE TABLE page (
     sort integer NOT NULL DEFAULT 0,
     content text NOT NULL DEFAULT '',
     search tsvector NOT NULL,
+    created timestamp NOT NULL DEFAULT current_timestamp,
+    modified timestamp NOT NULL DEFAULT current_timestamp,
     path jsonb NOT NULL DEFAULT '[]',
     depth integer NOT NULL DEFAULT 0,
     pos varchar(255) NOT NULL DEFAULT '',
@@ -63,6 +65,8 @@ CREATE INDEX ON page (active);
 CREATE INDEX ON page (parent_id);
 CREATE INDEX ON page (sort);
 CREATE INDEX ON page USING GIN (search);
+CREATE INDEX ON page (created);
+CREATE INDEX ON page (modified);
 CREATE INDEX ON page USING GIN (path);
 CREATE INDEX ON page (depth);
 CREATE INDEX ON page (pos);
@@ -92,6 +96,10 @@ $$
         END IF;
 
         NEW.search := TO_TSVECTOR(NEW.content);
+
+        IF (TG_OP = 'UPDATE') THEN
+            NEW.modified := CURRENT_TIMESTAMP;
+        END IF;
 
         RETURN NEW;
     END;

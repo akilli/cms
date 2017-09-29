@@ -158,6 +158,14 @@ return [
                 'type' => 'search',
                 'searchable' => true,
             ],
+            'created' => [
+                'name' => 'Created',
+                'type' => 'datetime',
+            ],
+            'modified' => [
+                'name' => 'Modified',
+                'type' => 'datetime',
+            ],
             'path' => [
                 'name' => 'Path',
                 'type' => 'entity',
