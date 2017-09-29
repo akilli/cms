@@ -1,4 +1,4 @@
-# akilli/cms
+# `akilli/cms`
 
 ![akıllı CMS](https://raw.githubusercontent.com/akilli/cms/master/public/theme/logo.jpg)
 
