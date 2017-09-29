@@ -34,7 +34,7 @@ function account(string $key = null)
 }
 
 /**
- * Returns account if given given credentials are valid and automatically rehashes password if needed
+ * Returns account if given credentials are valid and automatically rehashes password if needed
  *
  * @param string $name
  * @param string $password
