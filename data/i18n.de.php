@@ -65,7 +65,7 @@ return [
     'No entries found' => 'Keine Einträge gefunden',
     'No files to import' => 'Keine Dateien zum Importieren',
     'No options configured' => 'Keine Optionen konfiguriert',
-    'No or invalid type given for section with Id %s' => 'Fehlender oder ungültiger Typ für Layoutbereich mit der Id %s',
+    'No or invalid type given for section with ID %s' => 'Fehlender oder ungültiger Typ für Layoutbereich mit der ID %s',
     'No section Id given' => 'Keine Id für den Layoutbereich vorhanden',
     'Nothing selected for deletion' => 'Nichts zum Löschen ausgewählt',
     'Page not found' => 'Seite nicht gefunden',
