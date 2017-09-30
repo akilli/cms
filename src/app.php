@@ -28,6 +28,17 @@ const DATETIME = ['b' => 'Y-m-d H:i:s', 'f' => 'Y-m-d\TH:i'];
 const IMPORT = ['toc' => 'toc.txt', 'del' => ';', 'start' => '<!-- IMPORT_START -->', 'end' => '<!-- IMPORT_END -->'];
 const LOG = 'cms.log';
 const OPTS = ['mode' => 'all', 'index' => 'id', 'select' => [], 'order' => [], 'limit' => 0, 'offset' => 0];
+const SECTION = [
+    'id' => null,
+    'section' => null,
+    'template' => null,
+    'vars' => [],
+    'active' => true,
+    'privilege' => null,
+    'parent' => 'root',
+    'sort' => 0,
+    'children' => [],
+];
 const TIME = ['b' => 'H:i:s', 'f' => 'H:i'];
 const URL = ['asset' => '/asset/', 'media' => '/media/view/', 'page' => '.html', 'theme' => '/theme/'];
 

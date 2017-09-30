@@ -89,7 +89,7 @@ function layout_add(array $§): void
             throw new InvalidArgumentException(_('No or invalid section for ID %s', $§['id']));
         }
 
-        $data = data('section');
+        $data = SECTION;
     }
 
     if ($§['id'] === 'root') {
