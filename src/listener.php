@@ -30,21 +30,14 @@ function listener_data_app(array $data): array
  */
 function listener_data_entity(array $data): array
 {
-    $model = data('model');
     $cfg = data('attr');
 
     foreach ($data as $eId => $entity) {
-        if (empty($entity['name']) || empty($entity['attr'])) {
+        if (empty($entity['name']) || empty($entity['attr']) || empty($entity['model'])) {
             throw new RuntimeException(_('Invalid entity configuration'));
         }
 
         $entity = array_replace(ENTITY, $entity);
-
-        if (empty($model[$entity['model']])) {
-            throw new RuntimeException(_('Invalid entity configuration'));
-        }
-
-        $entity['model'] = ['id' => $entity['model']] + $model[$entity['model']];
         $entity['id'] = $eId;
         $entity['name'] = _($entity['name']);
         $entity['tab'] = $entity['tab'] ?: $entity['id'];
