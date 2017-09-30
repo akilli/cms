@@ -30,8 +30,6 @@ function listener_data_app(array $data): array
  */
 function listener_data_entity(array $data): array
 {
-    $defEnt = $data['default'];
-    unset($data['default']);
     $model = data('model');
     $cfg = data('attr');
 
@@ -40,7 +38,7 @@ function listener_data_entity(array $data): array
             throw new RuntimeException(_('Invalid entity configuration'));
         }
 
-        $entity = array_replace($defEnt, $entity);
+        $entity = array_replace(ENTITY, $entity);
 
         if (empty($model[$entity['model']])) {
             throw new RuntimeException(_('Invalid entity configuration'));

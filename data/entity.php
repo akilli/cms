@@ -1,15 +1,8 @@
 <?php
 return [
-    'default' => [
-        'id' => null,
-        'name' => null,
-        'tab' => null,
-        'model' => 'flat',
-        'actions' => [],
-        'attr' => [],
-    ],
     'project' => [
         'name' => 'Projects',
+        'model' => 'flat',
         'actions' => ['admin', 'delete', 'edit', 'export', 'home', 'import', 'view'],
         'attr' => [
             'id' => [
@@ -53,6 +46,7 @@ return [
     ],
     'account' => [
         'name' => 'Accounts',
+        'model' => 'flat',
         'actions' => ['admin', 'delete', 'edit', 'login', 'logout', 'password'],
         'attr' => [
             'id' => [
@@ -101,6 +95,7 @@ return [
     ],
     'page' => [
         'name' => 'Pages',
+        'model' => 'flat',
         'actions' => ['admin', 'delete', 'edit', 'import', 'index', 'view'],
         'attr' => [
             'id' => [
