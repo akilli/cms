@@ -121,25 +121,6 @@ function listener_data_privilege(array $data): array
 }
 
 /**
- * Section data listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_data_section(array $data): array
-{
-    $default = $data['default'];
-    unset($data['default']);
-
-    foreach ($data as $id => $item) {
-        $data[$id] = array_replace($default, $item);
-    }
-
-    return $data;
-}
-
-/**
  * Toolbar data listener
  *
  * @param array $data

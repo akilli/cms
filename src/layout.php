@@ -21,7 +21,7 @@ function section(string $id): string
     $§ = event('section.' . $§['section'], $§);
     $§ = event('layout.section.' . $id, $§);
 
-    return $§['call']($§);
+    return ('cms\section_' . $§['section'])($§);
 }
 
 /**
@@ -85,9 +85,11 @@ function layout_add(array $§): void
 
     // New section
     if ($data === null) {
-        if (empty($§['section']) || !($data = data('section', $§['section']))) {
-            throw new InvalidArgumentException(_('No or invalid type given for section with ID %s', $§['id']));
+        if (empty($§['section']) || !is_callable('cms\section_' . $§['section'])) {
+            throw new InvalidArgumentException(_('No or invalid section for ID %s', $§['id']));
         }
+
+        $data = data('section');
     }
 
     if ($§['id'] === 'root') {

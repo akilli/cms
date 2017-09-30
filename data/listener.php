@@ -12,9 +12,6 @@ return [
     'data.load.privilege' => [
         'cms\listener_data_privilege' => -1,
     ],
-    'data.load.section' => [
-        'cms\listener_data_section' => -1,
-    ],
     'data.load.toolbar' => [
         'cms\listener_data_toolbar' => -1,
     ],
