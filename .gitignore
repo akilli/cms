@@ -1,9 +1,6 @@
 #
-# DB
-#
-/db
-
-#
 # DEV
 #
+/db
+/public/local
 .idea

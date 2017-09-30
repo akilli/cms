@@ -8,11 +8,8 @@ Dockerfile
 Jenkinsfile
 
 #
-# DB
-#
-/db
-
-#
 # DEV
 #
+/db
+/public/local
 .idea
