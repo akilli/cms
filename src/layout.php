@@ -6,6 +6,25 @@ namespace cms;
 use InvalidArgumentException;
 
 /**
+ * Layout section
+ *
+ * @param string $id
+ *
+ * @return string
+ */
+function section(string $id): string
+{
+    if (!($§ = layout($id)) || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
+        return '';
+    }
+
+    $§ = event('section.' . $§['section'], $§);
+    $§ = event('layout.section.' . $id, $§);
+
+    return $§['call']($§);
+}
+
+/**
  * Layout
  *
  * @param string $id

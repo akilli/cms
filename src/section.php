@@ -4,25 +4,6 @@ declare(strict_types = 1);
 namespace cms;
 
 /**
- * Section
- *
- * @param string $id
- *
- * @return string
- */
-function section(string $id): string
-{
-    if (!($§ = layout($id)) || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
-        return '';
-    }
-
-    $§ = event('section.' . $§['section'], $§);
-    $§ = event('layout.section.' . $id, $§);
-
-    return $§['call']($§);
-}
-
-/**
  * Container section
  *
  * @param array $§
