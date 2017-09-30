@@ -59,7 +59,7 @@ function listener_data_entity(array $data): array
 
             $backend = $cfg['backend'][$attr['backend'] ?? $type['backend']];
             $frontend = $cfg['frontend'][$attr['frontend'] ?? $type['frontend']];
-            $attr = array_replace($cfg['default'], $backend, $frontend, $type, $attr);
+            $attr = array_replace(ATTR, $backend, $frontend, $type, $attr);
             $attr['id'] = $id;
             $attr['name'] = _($attr['name']);
             $attr['entity'] = $entity['id'];

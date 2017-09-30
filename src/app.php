@@ -9,6 +9,37 @@ use InvalidArgumentException;
  * Constants
  */
 const ALL = ['layout' => '_all_', 'privilege' => '_all_', 'project' => 1];
+const ATTR = [
+    'id' => null,
+    'name' => null,
+    'col' => null,
+    'auto' => false,
+    'sort' => 0,
+    'type' => null,
+    'backend' => null,
+    'frontend' => null,
+    'db_type' => null,
+    'pdo' => null,
+    'nullable' => false,
+    'required' => false,
+    'uniq' => false,
+    'multiple' => false,
+    'searchable' => false,
+    'opt' => [],
+    'actions' => [],
+    'val' => null,
+    'min' => 0,
+    'max' => 0,
+    'minlength' => 0,
+    'maxlength' => 0,
+    'entity' => null,
+    'html' => [],
+    'validator' => null,
+    'saver' => null,
+    'loader' => null,
+    'editor' => null,
+    'viewer' => null,
+];
 const CRIT = [
     '=' => '=',
     '!=' => '!=',
