@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace cms;
 
-use Exception;
-
 /**
  * Denied Action
  *
@@ -100,8 +98,6 @@ function action_index(array $entity): void
     layout_vars('content', ['attr' => $attrs, 'data' => all($entity['id'], $crit, $opts), 'params' => $p, 'title' => $entity['name']]);
     layout_vars('pager', ['limit' => $opts['limit'], 'params' => $p, 'size' => $size]);
     layout_vars('search', ['q' => $p['q'] ?? '']);
-    layout_vars('import', ['entity' => $entity['id']]);
-    layout_vars('export', ['entity' => $entity['id']]);
     layout_vars('head', ['title' => $entity['name']]);
 }
 
@@ -223,72 +219,6 @@ function action_media_view(array $entity): void
 }
 
 /**
- * Media Import Action
- *
- * @return void
- */
-function action_media_import(): void
-{
-    $files = request('files')['import'] ?? null;
-
-    if ($files) {
-        foreach ($files as $file) {
-            $name = filter_file($file['name'], path('media'));
-
-            if (!file_upload($file['tmp_name'], $name)) {
-                message(_('File upload failed for %s', $name));
-            }
-        }
-    } else {
-        message(_('No files to import'));
-    }
-
-    redirect(url('*/admin'));
-}
-
-/**
- * Page Import Action
- *
- * @param array $entity
- *
- * @return void
- */
-function action_page_import(array $entity): void
-{
-    $files = request('files')['import'] ?? null;
-
-    if ($files) {
-        foreach ($files as $file) {
-            $info = pathinfo($file['name']);
-
-            if (in_array($info['extension'], ['html', 'odt'])) {
-                $path = path('tmp', uniqid('import', true));
-
-                if (file_upload($file['tmp_name'], $path . '/' . $file['name'])) {
-                    $data = [
-                        'name' => $info['filename'],
-                        'active' => true,
-                        'content' => import_content($path . '/' . $file['name'], project('id')),
-                        'project_id' => project('id')
-                    ];
-                    save($entity['id'], $data);
-                } else {
-                    message(_('Import error'));
-                }
-
-                file_delete($path);
-            } else {
-                message(_('Invalid file %s', $file['name']));
-            }
-        }
-    } else {
-        message(_('No files to import'));
-    }
-
-    redirect(url('*/admin'));
-}
-
-/**
  * Project Home Action
  *
  * @param array $entity
@@ -301,57 +231,6 @@ function action_project_home(array $entity): void
     layout_load();
     layout_vars('content', ['data' => $data, 'attr' => entity_attr($entity, 'home')]);
     layout_vars('head', ['title' => $data['name']]);
-}
-
-/**
- * Project Import Action
- *
- * @return void
- */
-function action_project_import(): void
-{
-    $files = request('files')['import'] ?? null;
-
-    if ($files) {
-        foreach ($files as $file) {
-            $info = pathinfo($file['name']);
-
-            if ($info['extension'] === 'zip') {
-                import_project($info['filename'], $file['tmp_name']);
-                file_delete($file['tmp_name']);
-            } else {
-                message(_('Invalid file %s', $file['name']));
-            }
-        }
-    } else {
-        message(_('No files to import'));
-    }
-
-    redirect(url('*/admin'));
-}
-
-/**
- * Project Export Action
- *
- * @return void
- */
-function action_project_export(): void
-{
-    try {
-        $file = export();
-        header('Content-Type: application/zip');
-        header('Content-disposition: attachment; filename=' . basename($file));
-        header('Content-Length:' . filesize($file));
-        header('Pragma: no-cache');
-        header('Expires: 0');
-        readfile($file);
-        unlink($file);
-        exit;
-    } catch (Exception $e) {
-        message($e->getMessage());
-    }
-
-    redirect(url('*/admin'));
 }
 
 /**

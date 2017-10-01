@@ -55,18 +55,6 @@ return [
             'privilege' => '*/edit',
             'parent' => 'sidebar',
         ],
-        'import' => [
-            'section' => 'template',
-            'template' => 'entity/import.phtml',
-            'privilege' => '*/import',
-            'parent' => 'sidebar',
-        ],
-        'export' => [
-            'section' => 'template',
-            'template' => 'entity/export.phtml',
-            'privilege' => '*/export',
-            'parent' => 'sidebar',
-        ],
     ],
     'action-index' => [
         'content' => [

@@ -3,7 +3,7 @@ return [
     'project' => [
         'name' => 'Projects',
         'model' => 'flat',
-        'actions' => ['admin', 'delete', 'edit', 'export', 'home', 'import', 'view'],
+        'actions' => ['admin', 'delete', 'edit', 'home', 'view'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -96,7 +96,7 @@ return [
     'page' => [
         'name' => 'Pages',
         'model' => 'flat',
-        'actions' => ['admin', 'delete', 'edit', 'import', 'index', 'view'],
+        'actions' => ['admin', 'delete', 'edit', 'index', 'view'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -182,7 +182,7 @@ return [
     'media' => [
         'name' => 'Media',
         'model' => 'media',
-        'actions' => ['admin', 'browser', 'delete', 'edit', 'import', 'view'],
+        'actions' => ['admin', 'browser', 'delete', 'edit', 'view'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
