@@ -198,8 +198,7 @@ function action_media_browser(array $entity): void
     }
 
     header('Content-Type: application/json', true);
-    echo json_encode($data);
-    exit;
+    die(json_encode($data));
 }
 
 /**
