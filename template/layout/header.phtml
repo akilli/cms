@@ -1,7 +1,7 @@
 <?php namespace cms; /** @var callable $§ */?>
 <header id="<?=$§('id');?>">
-    <h1><a href="<?= url();?>"><?= project('name');?></a></h1>
+    <h1><a href="<?= url();?>"><?= data('app', 'name');?></a></h1>
     <div class="logo">
-        <img src="<?= project('image');?>" alt="<?= _('Logo');?>" />
+        <img src="<?= url_theme('logo.jpg');?>" alt="<?= _('Logo');?>" />
     </div>
 </header>

@@ -7,6 +7,7 @@ return [
     'lang' => 'de',
     'limit' => 20,
     'locale' => 'de-DE',
+    'name' => 'akıllı CMS',
     'pager' => 5,
     'time' => 'H:i',
     'timezone' => 'Europe/Berlin',
