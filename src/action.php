@@ -174,16 +174,6 @@ function action_view(array $entity): void
 }
 
 /**
- * App Home Action
- *
- * @return void
- */
-function action_app_home(): void
-{
-    layout_load();
-}
-
-/**
  * Media Browser Action
  *
  * @param array $entity
