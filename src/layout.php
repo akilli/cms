@@ -78,7 +78,7 @@ function layout_load(): void
 function layout_add(array $§): void
 {
     if (empty($§['id'])) {
-        throw new InvalidArgumentException(_('No section Id given'));
+        throw new InvalidArgumentException(_('No section ID given'));
     }
 
     $data = layout($§['id']);

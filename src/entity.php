@@ -179,7 +179,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
 
     foreach (all($eId, $crit, $opts) as $id => $data) {
         if (!empty($data['system'])) {
-            message(_('System items must not be deleted! Therefore skipped Id %s', (string) $id));
+            message(_('System items must not be deleted! Therefore skipped ID %s', (string) $id));
             continue;
         }
 
