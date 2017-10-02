@@ -24,7 +24,7 @@ function size(string $eId, array $crit = []): int
     }
 
     try {
-        return ('cms\\' . $entity['model'] . '_load')($entity, $crit, $opts)[0];
+        return (__NAMESPACE__ . '\\' . $entity['model'] . '_load')($entity, $crit, $opts)[0];
     } catch (Exception $e) {
         logger((string) $e);
         message(_('Could not load data'));
@@ -53,7 +53,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        if ($data = ('cms\\' . $entity['model'] . '_load')($entity, $crit, $opts)) {
+        if ($data = (__NAMESPACE__ . '\\' . $entity['model'] . '_load')($entity, $crit, $opts)) {
             $data = entity_load($entity, $data);
         }
     } catch (Exception $e) {
@@ -91,7 +91,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        $data = ('cms\\' . $entity['model'] . '_load')($entity, $crit, $opts);
+        $data = (__NAMESPACE__ . '\\' . $entity['model'] . '_load')($entity, $crit, $opts);
 
         foreach ($data as $id => $item) {
             $data[$id] = entity_load($entity, $item);
@@ -159,7 +159,7 @@ function save(string $eId, array & $data): bool
             $temp = event('entity.presave', $temp);
             $temp = event('model.presave.' . $temp['_entity']['model'], $temp);
             $temp = event('entity.presave.' . $temp['_entity']['id'], $temp);
-            $temp = ('cms\\' . $temp['_entity']['model'] . '_save')($temp);
+            $temp = (__NAMESPACE__ . '\\' . $temp['_entity']['model'] . '_save')($temp);
             event('entity.postsave', $temp);
             event('model.postsave.' . $temp['_entity']['model'], $temp);
             event('entity.postsave.' . $temp['_entity']['id'], $temp);
@@ -201,7 +201,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
                 $data = event('entity.predelete', $data);
                 $data = event('model.predelete.' . $data['_entity']['model'], $data);
                 $data = event('entity.predelete.' . $data['_entity']['id'], $data);
-                ('cms\\' . $data['_entity']['model'] . '_delete')($data);
+                (__NAMESPACE__ . '\\' . $data['_entity']['model'] . '_delete')($data);
                 event('entity.postdelete', $data);
                 event('model.postdelete.' . $data['_entity']['model'], $data);
                 event('entity.postdelete.' . $data['_entity']['id'], $data);
