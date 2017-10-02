@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace cms;
 
-const ALL = ['layout' => '_all_', 'privilege' => '_all_', 'project' => 1];
+const ALL = ['layout' => '_all_', 'privilege' => '_all_'];
 const ATTR = [
     'id' => null,
     'name' => null,

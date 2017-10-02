@@ -25,7 +25,7 @@ function url(string $path = '', array $params = []): string
 }
 
 /**
- * Project asset URL
+ * Asset URL
  *
  * @param string $path
  *
@@ -33,11 +33,11 @@ function url(string $path = '', array $params = []): string
  */
 function url_asset(string $path): string
 {
-    return URL['asset'] . project('id') . '/' . $path;
+    return URL['asset'] . $path;
 }
 
 /**
- * Project media URL
+ * Media URL
  *
  * @param string $path
  *

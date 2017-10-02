@@ -1,49 +1,5 @@
 <?php
 return [
-    'project' => [
-        'name' => 'Projects',
-        'model' => 'flat',
-        'actions' => ['admin', 'delete', 'edit', 'home', 'view'],
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'auto' => true,
-                'type' => 'int',
-            ],
-            'uid' => [
-                'name' => 'UID',
-                'type' => 'text',
-                'required' => true,
-                'uniq' => true,
-                'actions' => ['admin', 'edit'],
-                'maxlength' => 20,
-                'validator' => 'cms\validator_id',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'searchable' => true,
-                'actions' => ['admin', 'edit'],
-                'maxlength' => 50,
-            ],
-            'active' => [
-                'name' => 'Active',
-                'type' => 'checkbox',
-                'actions' => ['admin', 'edit'],
-            ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'checkbox',
-            ],
-            'content' => [
-                'name' => 'Homepage',
-                'type' => 'rte',
-                'actions' => ['edit', 'home'],
-                'val' => '',
-            ],
-        ],
-    ],
     'account' => [
         'name' => 'Accounts',
         'model' => 'flat',
@@ -85,11 +41,6 @@ return [
             'system' => [
                 'name' => 'System',
                 'type' => 'checkbox',
-            ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'entity',
-                'opt' => 'project',
             ],
         ],
     ],
@@ -172,11 +123,6 @@ return [
                 'name' => 'Depth',
                 'type' => 'int',
             ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'entity',
-                'opt' => 'project',
-            ],
         ],
     ],
     'media' => [
@@ -206,11 +152,6 @@ return [
             'file' => [
                 'name' => 'File',
                 'type' => 'text',
-            ],
-            'project_id' => [
-                'name' => 'Project',
-                'type' => 'entity',
-                'opt' => 'project',
             ],
         ],
     ],

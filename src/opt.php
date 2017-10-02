@@ -60,11 +60,10 @@ function opt_entity(string $eId): array
  */
 function opt_privilege(): array
 {
-    $global = project('global');
     $data = [];
 
     foreach (data('privilege') as $key => $priv) {
-        if (empty($priv['call']) && (empty($priv['global']) || $global) && allowed($key)) {
+        if (empty($priv['call']) && allowed($key)) {
             $data[$key] = $priv['name'];
         }
     }

@@ -102,7 +102,7 @@ function file_dir(string $path): bool
  */
 function file_writable(string $path): bool
 {
-    return (bool) preg_match('#^(file://)?(' . path('asset') . '|' . path('log') . '|' . path('tmp') . ')#', $path);
+    return (bool) preg_match('#^(file://)?(' . path('log') . '|' . path('media') . '|' . path('tmp') . ')#', $path);
 }
 
 /**

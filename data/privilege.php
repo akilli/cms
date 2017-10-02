@@ -2,7 +2,6 @@
 return [
     '_all_' => [
         'name' => 'ALL PRIVILEGES',
-        'global' => true,
     ],
     'account/login' => [
         'call' => 'cms\account_guest',
@@ -13,6 +12,9 @@ return [
     'account/password' => [
         'call' => 'cms\account_user',
     ],
+    'app/home' => [
+        'call' => 'cms\account_user',
+    ],
     'media/view' => [
         'call' => 'cms\account_user',
     ],
@@ -21,11 +23,5 @@ return [
     ],
     'page/view' => [
         'call' => 'cms\account_user',
-    ],
-    'project/home' => [
-        'call' => 'cms\account_user',
-    ],
-    'project/view' => [
-        'call' => 'cms\account_global',
     ],
 ];

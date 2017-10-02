@@ -136,22 +136,4 @@ return [
             'vars' => ['mode' => 'sub'],
         ],
     ],
-    'project/home' => [
-        'nav' => [
-            'section' => 'nav',
-            'parent' => 'top',
-            'vars' => ['mode' => 'top'],
-        ],
-        'content' => [
-            'section' => 'template',
-            'template' => 'entity/view.phtml',
-            'parent' => 'main',
-        ],
-        'search' => [
-            'section' => 'template',
-            'template' => 'entity/search.phtml',
-            'parent' => 'sidebar',
-            'vars' => ['action' => 'page/index'],
-        ],
-    ],
 ];

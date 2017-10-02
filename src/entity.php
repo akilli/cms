@@ -19,10 +19,6 @@ function size(string $eId, array $crit = []): int
     $entity = data('entity', $eId);
     $opts = ['mode' => 'size'] + OPTS;
 
-    if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
-        $crit[] = ['project_id', project('id')];
-    }
-
     try {
         return (__NAMESPACE__ . '\\' . $entity['model'] . '_load')($entity, $crit, $opts)[0];
     } catch (Exception $e) {
@@ -47,10 +43,6 @@ function one(string $eId, array $crit = [], array $opts = []): array
     $entity = data('entity', $eId);
     $data = [];
     $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'one', 'limit' => 1]);
-
-    if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
-        $crit[] = ['project_id', project('id')];
-    }
 
     try {
         if ($data = (__NAMESPACE__ . '\\' . $entity['model'] . '_load')($entity, $crit, $opts)) {
@@ -84,10 +76,6 @@ function all(string $eId, array $crit = [], array $opts = []): array
                 $opts['select'][] = $k;
             }
         }
-    }
-
-    if (!empty($entity['attr']['project_id']) && !in_array('project_id', array_column($crit, 0))) {
-        $crit[] = ['project_id', project('id')];
     }
 
     try {
@@ -129,7 +117,6 @@ function save(string $eId, array & $data): bool
     $temp = array_replace($base, $editable, $temp);
     $attrs = $temp['_entity']['attr'];
     $aIds = array_keys(array_intersect_key($editable, $attrs));
-    $temp['project_id'] = $temp['project_id'] ?? project('id');
 
     foreach ($aIds as $aId) {
         try {

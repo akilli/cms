@@ -104,7 +104,6 @@ function listener_data_privilege(array $data): array
     foreach (data('entity') as $eId => $entity) {
         foreach ($entity['actions'] as $act) {
             $data[$eId . '/' . $act]['name'] = $entity['name'] . ' ' . _(ucwords($act));
-            $data[$eId . '/' . $act]['global'] = empty($entity['attr']['project_id']);
         }
     }
 
@@ -132,24 +131,6 @@ function listener_data_toolbar(array $data): array
 }
 
 /**
- * Project post-delete listener
- *
- * @param array $data
- *
- * @return array
- */
-function listener_project_postdelete(array $data): array
-{
-    $asset = path('asset', (string) $data['id']);
-
-    if (!file_delete($asset)) {
-        message(_('Could not delete directory %s', $asset));
-    }
-
-    return $data;
-}
-
-/**
  * Page pre-save listener
  *
  * @param array $data
@@ -162,7 +143,7 @@ function listener_page_presave(array $data): array
         $base = filter_id($data['name']);
         $data['url'] = url($base . URL['page']);
 
-        for ($i = 1; one('page', [['url', $data['url']], ['project_id', $data['project_id']]]); $i++) {
+        for ($i = 1; one('page', [['url', $data['url']]]); $i++) {
             $data['url'] = url($base . '-' . $i . URL['page']);
         }
     }

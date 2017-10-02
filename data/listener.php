@@ -15,9 +15,6 @@ return [
     'data.load.toolbar' => [
         'cms\listener_data_toolbar' => -1,
     ],
-    'entity.postdelete.project' => [
-        'cms\listener_project_postdelete' => -1,
-    ],
     'entity.presave.page' => [
         'cms\listener_page_presave' => -1,
     ],

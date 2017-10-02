@@ -174,6 +174,16 @@ function action_view(array $entity): void
 }
 
 /**
+ * App Home Action
+ *
+ * @return void
+ */
+function action_app_home(): void
+{
+    layout_load();
+}
+
+/**
  * Media Browser Action
  *
  * @param array $entity
@@ -216,35 +226,6 @@ function action_media_view(array $entity): void
 
     header('HTTP/1.1 404 Not Found');
     exit;
-}
-
-/**
- * Project Home Action
- *
- * @param array $entity
- *
- * @return void
- */
-function action_project_home(array $entity): void
-{
-    $data = project();
-    layout_load();
-    layout_vars('content', ['data' => $data, 'attr' => entity_attr($entity, 'home')]);
-    layout_vars('head', ['title' => $data['name']]);
-}
-
-/**
- * Project View Action
- *
- * @return void
- */
-function action_project_view(): void
-{
-    if ($data = one('project', [['id', request('id')]])) {
-        session_set('project', $data['id']);
-    }
-
-    redirect();
 }
 
 /**

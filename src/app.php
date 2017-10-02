@@ -61,13 +61,12 @@ function path(string $dir, string $id = null): string
     $data = & registry('path');
 
     if ($data === null) {
-        $data['asset'] = '/data';
         $data['data'] = '/app/data';
         $data['log'] = '/var/log/app';
+        $data['media'] = '/data';
         $data['template'] = '/app/template';
         $data['theme'] = '/app/public/theme';
         $data['tmp'] = '/tmp';
-        $data['media'] = $data['asset'] . '/' . project('id');
     }
 
     if (empty($data[$dir])) {
@@ -75,33 +74,6 @@ function path(string $dir, string $id = null): string
     }
 
     return $data[$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
-}
-
-/**
- * Project
- *
- * @param string $key
- *
- * @return mixed
- */
-function project(string $key = null)
-{
-    $data = & registry('project');
-
-    if ($data === null) {
-        $data = [];
-        $crit = [['active', true]];
-        $crit[] = ($id = session_get('project')) ? ['id', $id] : ['uid', strstr(request('host'), '.', true)];
-        $data = one('project', $crit) ?: one('project', [['id', ALL['project']]]);
-        $data['global'] = $data['id'] === ALL['project'];
-        session_set('project', $data['id']);
-    }
-
-    if ($key === null) {
-        return $data;
-    }
-
-    return $data[$key] ?? null;
 }
 
 /**

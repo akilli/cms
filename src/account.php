@@ -18,9 +18,8 @@ function account(string $key = null)
         $data = [];
         $id = (int) session_get('account');
 
-        if ($id && ($data = one('account', [['id', $id], ['active', true], ['project_id', [ALL['project'], project('id')]]]))) {
+        if ($id && ($data = one('account', [['id', $id], ['active', true]]))) {
             $data['admin'] = in_array(ALL['privilege'], $data['privilege']);
-            $data['global'] = $data['project_id'] === ALL['project'];
         } else {
             session_set('account', null);
         }
@@ -85,16 +84,6 @@ function account_user(): bool
 function account_admin(): bool
 {
     return !!account('admin');
-}
-
-/**
- * Is global account
- *
- * @return bool
- */
-function account_global(): bool
-{
-    return !!account('global');
 }
 
 /**
