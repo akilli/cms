@@ -17,9 +17,8 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: "true"
-      traefik.frontend.rule: "HostRegexp: {domain:.+}"
-      traefik.frontend.priority: "1"
       traefik.port: "80"
+      traefik.frontend.rule: "Host: cms.app.loc"
     volumes:
       - source: app
         target: /app
