@@ -19,7 +19,7 @@ function account(string $key = null)
         $id = (int) session_get('account');
 
         if ($id && ($data = one('account', [['id', $id], ['active', true]]))) {
-            $data['admin'] = in_array(ALL['privilege'], $data['privilege']);
+            $data['admin'] = in_array(ALL, $data['privilege']);
         } else {
             session_set('account', null);
         }

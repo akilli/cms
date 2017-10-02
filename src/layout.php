@@ -124,7 +124,7 @@ function layout_vars(string $id, array $vars): void
  */
 function layout_handles(): array
 {
-    $data = [ALL['layout']];
+    $data = [ALL];
     $data[] = 'account-' . (account_user() ? 'user' : 'guest');
 
     if ($entity = data('entity', request('entity'))) {
