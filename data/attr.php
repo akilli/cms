@@ -144,6 +144,11 @@ return [
             'backend' => 'varchar',
             'frontend' => 'file',
         ],
+        'iframe' => [
+            'backend' => 'varchar',
+            'frontend' => 'url',
+            'viewer' => 'cms\viewer_iframe',
+        ],
         'image' => [
             'backend' => 'varchar',
             'frontend' => 'file',

@@ -96,6 +96,19 @@ function viewer_rte(array $attr, array $data): string
 }
 
 /**
+ * Iframe viewer
+ *
+ * @param array $attr
+ * @param array $data
+ *
+ * @return string
+ */
+function viewer_iframe(array $attr, array $data): string
+{
+    return $data[$attr['id']] ? html('figure', ['class' => 'iframe'], html('iframe', ['src' => $data[$attr['id']], 'allowfullscreen' => true])) : '';
+}
+
+/**
  * File viewer
  *
  * @param array $attr
