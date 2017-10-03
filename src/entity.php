@@ -230,9 +230,8 @@ function entity(string $eId, bool $bare = false): array
     }
 
     $item = array_fill_keys(array_keys(entity_attr($entity, 'edit')), null);
-    $item += $bare ? [] : ['_old' => null, '_entity' => $entity];
 
-    return $item;
+    return $bare ? $item : $item + ['_old' => null, '_entity' => $entity];
 }
 
 /**
