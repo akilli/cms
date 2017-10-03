@@ -2,7 +2,6 @@
 return [
     'role' => [
         'name' => 'Roles',
-        'model' => 'flat',
         'actions' => ['admin', 'delete', 'edit'],
         'attr' => [
             'id' => [
@@ -40,7 +39,6 @@ return [
     ],
     'account' => [
         'name' => 'Accounts',
-        'model' => 'flat',
         'actions' => ['admin', 'delete', 'edit', 'login', 'logout', 'password'],
         'attr' => [
             'id' => [
@@ -83,7 +81,6 @@ return [
     ],
     'page' => [
         'name' => 'Pages',
-        'model' => 'flat',
         'actions' => ['admin', 'delete', 'edit', 'index', 'view'],
         'attr' => [
             'id' => [

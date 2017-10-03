@@ -51,7 +51,7 @@ const CRIT = [
 ];
 const DATE = ['b' => 'Y-m-d', 'f' => 'Y-m-d'];
 const DATETIME = ['b' => 'Y-m-d H:i:s', 'f' => 'Y-m-d\TH:i'];
-const ENTITY = ['id' => null, 'name' => null, 'tab' => null, 'model' => null, 'actions' => [], 'attr' => []];
+const ENTITY = ['id' => null, 'name' => null, 'tab' => null, 'model' => 'flat', 'actions' => [], 'attr' => []];
 const LOG = 'cms.log';
 const OPTS = ['mode' => 'all', 'index' => 'id', 'select' => [], 'order' => [], 'limit' => 0, 'offset' => 0];
 const SECTION = [
