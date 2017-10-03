@@ -17,6 +17,14 @@ function cast(array $attr, $val)
         return null;
     }
 
+    if ($attr['multiple'] && is_array($val)) {
+        foreach ($val as $k => $v) {
+            $val[$k] = cast($attr, $v);
+        }
+
+        return $val;
+    }
+
     if ($attr['backend'] === 'bool') {
         return (bool) $val;
     }
@@ -27,14 +35,6 @@ function cast(array $attr, $val)
 
     if ($attr['backend'] === 'decimal') {
         return (float) $val;
-    }
-
-    if ($attr['multiple'] && is_array($val)) {
-        foreach ($val as $k => $v) {
-            $val[$k] = cast($attr, $v);
-        }
-
-        return $val;
     }
 
     return (string) $val;
