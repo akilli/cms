@@ -17,7 +17,9 @@ function listener_data_account(array $data): array
     $id = (int) session_get('account');
 
     if ($id && ($account = one('account', [['id', $id], ['active', true]]))) {
+        $role = one('role', [['id', $account['role_id']], ['active', true]]);
         $data = $account;
+        $data['privilege'] = $role ? $role['privilege'] : [];
         $data['admin'] = in_array(ALL, $data['privilege']);
         unset($data['_old'], $data['_entity']);
     } else {

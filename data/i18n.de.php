@@ -65,6 +65,8 @@ return [
     'Previous' => 'Zurück',
     'Privileges' => 'Privilegien',
     'Required' => 'Erforderlich',
+    'Role' => 'Rolle',
+    'Roles' => 'Rollen',
     'Save' => 'Speichern',
     'Search' => 'Suche',
     'Search Term' => 'Suchbegriff',

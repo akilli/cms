@@ -1,5 +1,43 @@
 <?php
 return [
+    'role' => [
+        'name' => 'Roles',
+        'model' => 'flat',
+        'actions' => ['admin', 'delete', 'edit'],
+        'attr' => [
+            'id' => [
+                'name' => 'ID',
+                'auto' => true,
+                'type' => 'int',
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'uniq' => true,
+                'searchable' => true,
+                'actions' => ['admin', 'edit'],
+                'maxlength' => 50,
+            ],
+            'privilege' => [
+                'name' => 'Privileges',
+                'type' => 'checkbox',
+                'backend' => 'json',
+                'multiple' => true,
+                'opt' => 'cms\opt_privilege',
+                'actions' => ['edit'],
+            ],
+            'active' => [
+                'name' => 'Active',
+                'type' => 'checkbox',
+                'actions' => ['admin', 'edit'],
+            ],
+            'system' => [
+                'name' => 'System',
+                'type' => 'checkbox',
+            ],
+        ],
+    ],
     'account' => [
         'name' => 'Accounts',
         'model' => 'flat',
@@ -25,13 +63,12 @@ return [
                 'required' => true,
                 'actions' => ['edit'],
             ],
-            'privilege' => [
-                'name' => 'Privileges',
-                'type' => 'checkbox',
-                'backend' => 'json',
-                'multiple' => true,
-                'opt' => 'cms\opt_privilege',
-                'actions' => ['edit'],
+            'role_id' => [
+                'name' => 'Role',
+                'type' => 'entity',
+                'required' => true,
+                'opt' => 'role',
+                'actions' => ['admin', 'edit'],
             ],
             'active' => [
                 'name' => 'Active',
