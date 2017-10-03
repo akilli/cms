@@ -12,7 +12,7 @@ use InvalidArgumentException;
  */
 function app(): void
 {
-    $prefix = __NAMESPACE__ . '\\' . 'action_';
+    $prefix = 'cms\action_';
     $act = request('action');
     $eId = request('entity');
     $entity = data('entity', $eId);

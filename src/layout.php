@@ -21,7 +21,7 @@ function section(string $id): string
     $§ = event('section.' . $§['section'], $§);
     $§ = event('layout.section.' . $id, $§);
 
-    return (__NAMESPACE__ . '\section_' . $§['section'])($§);
+    return ('cms\section_' . $§['section'])($§);
 }
 
 /**
@@ -85,7 +85,7 @@ function layout_add(array $§): void
 
     // New section
     if ($data === null) {
-        if (empty($§['section']) || !is_callable(__NAMESPACE__ . '\section_' . $§['section'])) {
+        if (empty($§['section']) || !is_callable('cms\section_' . $§['section'])) {
             throw new InvalidArgumentException(_('No or invalid section for ID %s', $§['id']));
         }
 
