@@ -57,11 +57,12 @@ function listener_data_entity(array $data): array
     $cfg = data('attr');
 
     foreach ($data as $eId => $entity) {
-        if (empty($entity['name']) || empty($entity['attr']) || empty($entity['model'])) {
+        $entity = array_replace(ENTITY, $entity);
+
+        if (!$entity['name'] || !$entity['model'] || !$entity['attr']) {
             throw new RuntimeException(_('Invalid entity configuration'));
         }
 
-        $entity = array_replace(ENTITY, $entity);
         $entity['id'] = $eId;
         $entity['name'] = _($entity['name']);
         $entity['tab'] = $entity['tab'] ?: $entity['id'];
