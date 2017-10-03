@@ -167,7 +167,7 @@ function db_crit(array $crit, array $attrs): array
                             if (!$v) {
                                 unset($val[$k]);
                             } else {
-                                $val[$k] = filter_param($v);
+                                $val[$k] = $v;
                             }
                         }
 
