@@ -6,6 +6,28 @@ namespace cms;
 use RuntimeException;
 
 /**
+ * Account data listener
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+function listener_data_account(array $data): array
+{
+    $id = (int) session_get('account');
+
+    if ($id && ($account = one('account', [['id', $id], ['active', true]]))) {
+        $data = $account;
+        $data['admin'] = in_array(ALL, $data['privilege']);
+        unset($data['_old'], $data['_entity']);
+    } else {
+        session_set('account', null);
+    }
+
+    return $data;
+}
+
+/**
  * App data listener
  *
  * @param array $data

@@ -1,5 +1,8 @@
 <?php
 return [
+    'data.load.account' => [
+        'cms\listener_data_account' => -1,
+    ],
     'data.load.app' => [
         'cms\listener_data_app' => -1,
     ],
