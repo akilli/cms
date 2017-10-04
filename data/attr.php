@@ -136,6 +136,11 @@ return [
             'backend' => 'varchar',
             'frontend' => 'email',
         ],
+        'embed' => [
+            'backend' => 'varchar',
+            'frontend' => 'file',
+            'viewer' => 'cms\viewer_embed',
+        ],
         'entity' => [
             'backend' => 'int',
             'frontend' => 'select',
@@ -163,6 +168,11 @@ return [
             'frontend' => 'textarea',
             'editor' => 'cms\editor_json',
             'validator' => 'cms\validator_json',
+        ],
+        'object' => [
+            'backend' => 'varchar',
+            'frontend' => 'file',
+            'viewer' => 'cms\viewer_object',
         ],
         'password' => [
             'backend' => 'varchar',

@@ -148,6 +148,32 @@ function viewer_audio(array $attr, array $data): string
 }
 
 /**
+ * Embed viewer
+ *
+ * @param array $attr
+ * @param array $data
+ *
+ * @return string
+ */
+function viewer_embed(array $attr, array $data): string
+{
+    return $data[$attr['id']] ? html('embed', ['src' => url_media($data[$attr['id']])], null, true) : '';
+}
+
+/**
+ * Object viewer
+ *
+ * @param array $attr
+ * @param array $data
+ *
+ * @return string
+ */
+function viewer_object(array $attr, array $data): string
+{
+    return $data[$attr['id']] ? html('object', ['data' => url_media($data[$attr['id']])]) : '';
+}
+
+/**
  * Video viewer
  *
  * @param array $attr
