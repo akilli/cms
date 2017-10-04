@@ -12,9 +12,6 @@ return [
     'account/password' => [
         'call' => 'cms\account_user',
     ],
-    'app/home' => [
-        'call' => 'cms\account_user',
-    ],
     'media/view' => [
         'call' => 'cms\account_user',
     ],
