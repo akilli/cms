@@ -67,6 +67,7 @@ const OPTS = ['mode' => 'all', 'index' => 'id', 'select' => [], 'order' => [], '
 const SECTION = [
     'id' => null,
     'section' => null,
+    'call' => null,
     'template' => null,
     'vars' => [],
     'active' => true,

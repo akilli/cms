@@ -138,6 +138,22 @@ function listener_data_privilege(array $data): array
 }
 
 /**
+ * Section data listener
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+function listener_data_section(array $data): array
+{
+    foreach ($data as $id => $item) {
+        $data[$id] = array_replace(SECTION, $item);
+    }
+
+    return $data;
+}
+
+/**
  * Toolbar data listener
  *
  * @param array $data

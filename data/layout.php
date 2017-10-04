@@ -20,7 +20,6 @@ return [
         ],
         'message' => [
             'section' => 'message',
-            'template' => 'layout/message.phtml',
         ],
         'main' => [
             'section' => 'container',
@@ -41,7 +40,6 @@ return [
         ],
         'pager' => [
             'section' => 'pager',
-            'template' => 'entity/pager.phtml',
             'parent' => 'content',
         ],
         'search' => [
@@ -64,7 +62,6 @@ return [
         ],
         'pager' => [
             'section' => 'pager',
-            'template' => 'entity/pager.phtml',
             'parent' => 'content',
         ],
         'search' => [
