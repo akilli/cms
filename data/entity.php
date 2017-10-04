@@ -99,7 +99,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
-                'actions' => ['admin', 'edit', 'index', 'view'],
+                'actions' => ['admin', 'edit', 'index'],
                 'maxlength' => 100,
             ],
             'url' => [
