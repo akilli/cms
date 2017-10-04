@@ -204,11 +204,11 @@ function viewer_filesize(array $attr, array $data): string
         return $data[$attr['id']] . ' B';
     }
 
-    if ($data[$attr['id']] > 1000000) {
-        return round($data[$attr['id']] / 1000000, 1) . ' MB';
+    if ($data[$attr['id']] < 1000000) {
+        return round($data[$attr['id']] / 1000, 1) . ' kB';
     }
 
-    return round($data[$attr['id']] / 1000, 1) . ' kB';
+    return round($data[$attr['id']] / 1000000, 1) . ' MB';
 }
 
 /**
