@@ -63,7 +63,7 @@ function action_index(array $entity): void
     }
 
     $p = ['page' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
-    $sessKey = 'param/' . $act . '/' . $entity['id'];
+    $sessKey = 'param/' . $entity['id'] . '/' . $act;
     $rp = request('param') ?: (array) session_get($sessKey);
     $p = array_intersect_key($rp, $p) + $p;
 
