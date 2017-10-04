@@ -134,6 +134,32 @@ function action_edit(array $entity): void
 }
 
 /**
+ * Form Action
+ *
+ * @param array $entity
+ *
+ * @return void
+ */
+function action_form(array $entity): void
+{
+    $data = request('data');
+
+    if ($data) {
+        $data['active'] = true;
+
+        if (save($entity['id'], $data)) {
+            redirect();
+        }
+    } else {
+        $data = entity($entity['id']);
+    }
+
+    layout_load();
+    layout_vars('content', ['data' => $data, 'attr' => entity_attr($entity, 'form'), 'title' => $entity['name']]);
+    layout_vars('head', ['title' => $entity['name']]);
+}
+
+/**
  * Delete Action
  *
  * @param array $entity

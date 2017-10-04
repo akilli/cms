@@ -80,6 +80,13 @@ return [
             'parent' => 'main',
         ],
     ],
+    'action-form' => [
+        'content' => [
+            'section' => 'template',
+            'template' => 'entity/edit.phtml',
+            'parent' => 'main',
+        ],
+    ],
     'action-view' => [
         'content' => [
             'section' => 'template',
