@@ -62,7 +62,6 @@ function action_index(array $entity): void
         $crit[] = ['active', true];
     }
 
-    // Params
     $p = ['page' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
     $sessKey = 'param/' . $act . '/' . $entity['id'];
     $rp = request('param') ?: (array) session_get($sessKey);
@@ -116,15 +115,12 @@ function action_edit(array $entity): void
     if ($data) {
         $data['id'] = $id;
 
-        // Perform save callback and redirect to admin on success
         if (save($entity['id'], $data)) {
             redirect(url('*/admin'));
         }
     } elseif ($id) {
-        // We just clicked on an edit link, p.e. on the admin page
         $data = one($entity['id'], [['id', $id]]);
     } else {
-        // Initial create action call
         $data = entity($entity['id']);
     }
 
@@ -188,7 +184,6 @@ function action_view(array $entity): void
 {
     $data = one($entity['id'], [['id', request('id')]]);
 
-    // Item does not exist or is inactive
     if (!$data || !empty($entity['attr']['active']) && empty($data['active']) && !allowed('*/edit')) {
         action_error();
         return;
