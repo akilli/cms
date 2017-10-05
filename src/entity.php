@@ -7,6 +7,43 @@ use Exception;
 use RuntimeException;
 
 /**
+ * Constants
+ */
+const ENTITY = [
+    'id' => null,
+    'name' => null,
+    'tab' => null,
+    'model' => 'flat',
+    'load' => null,
+    'save' => null,
+    'delete' => null,
+    'actions' => [],
+    'attr' => []
+];
+const CRIT = [
+    '=' => '=',
+    '!=' => '!=',
+    '>' => '>',
+    '>=' => '>=',
+    '<' => '>',
+    '<=' => '<=',
+    '~' => '~',
+    '!~' => '!~',
+    '~^' => '~^',
+    '!~^' => '!~^',
+    '~$' => '~$',
+    '!~$' => '!~$',
+];
+const OPTS = [
+    'mode' => 'all',
+    'index' => 'id',
+    'select' => [],
+    'order' => [],
+    'limit' => 0,
+    'offset' => 0
+];
+
+/**
  * Size entity
  *
  * @param string $eId

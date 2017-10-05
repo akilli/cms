@@ -4,6 +4,22 @@ declare(strict_types = 1);
 namespace cms;
 
 /**
+ * Constants
+ */
+const SECTION = [
+    'id' => null,
+    'section' => null,
+    'call' => null,
+    'template' => null,
+    'vars' => [],
+    'active' => true,
+    'privilege' => null,
+    'parent' => 'root',
+    'sort' => 0,
+    'children' => [],
+];
+
+/**
  * Container section
  *
  * @param array $§

@@ -4,6 +4,16 @@ declare(strict_types = 1);
 namespace cms;
 
 /**
+ * Constants
+ */
+const URL = [
+    'asset' => '/asset/',
+    'media' => '/media/view/',
+    'page' => '.html',
+    'theme' => '/theme/'
+];
+
+/**
  * Generate URL by given path and params
  *
  * @param string $path

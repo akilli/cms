@@ -6,6 +6,12 @@ namespace cms;
 use InvalidArgumentException;
 
 /**
+ * Constants
+ */
+const ALL = '_all_';
+const LOG = 'cms.log';
+
+/**
  * Runs application
  *
  * @return void
