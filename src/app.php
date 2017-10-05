@@ -96,7 +96,7 @@ function data(string $section, string $id = null)
 
     if ($data === null) {
         $data = arr_load(path('data', $section . '.php'));
-        $data = event('data.load.' . $section, $data);
+        $data = event('data.' . $section, $data);
     }
 
     if ($id === null) {

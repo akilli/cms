@@ -1,24 +1,24 @@
 <?php
 return [
-    'data.load.account' => [
+    'data.account' => [
         'cms\listener_data_account' => -1,
     ],
-    'data.load.app' => [
+    'data.app' => [
         'cms\listener_data_app' => -1,
     ],
-    'data.load.entity' => [
+    'data.entity' => [
         'cms\listener_data_entity' => -1,
     ],
-    'data.load.i18n' => [
+    'data.i18n' => [
         'cms\listener_data_i18n' => -1,
     ],
-    'data.load.privilege' => [
+    'data.privilege' => [
         'cms\listener_data_privilege' => -1,
     ],
-    'data.load.section' => [
+    'data.section' => [
         'cms\listener_data_section' => -1,
     ],
-    'data.load.toolbar' => [
+    'data.toolbar' => [
         'cms\listener_data_toolbar' => -1,
     ],
     'entity.presave.page' => [
