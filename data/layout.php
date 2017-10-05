@@ -21,10 +21,14 @@ return [
         'message' => [
             'section' => 'message',
         ],
+        'left' => [
+            'section' => 'container',
+            'vars' => ['tag' => 'aside'],
+        ],
         'main' => [
             'section' => 'container',
         ],
-        'sidebar' => [
+        'right' => [
             'section' => 'container',
             'vars' => ['tag' => 'aside'],
         ],
@@ -45,13 +49,13 @@ return [
         'search' => [
             'section' => 'template',
             'template' => 'entity/search.phtml',
-            'parent' => 'sidebar',
+            'parent' => 'right',
         ],
         'create' => [
             'section' => 'template',
             'template' => 'entity/create.phtml',
             'privilege' => '*/edit',
-            'parent' => 'sidebar',
+            'parent' => 'right',
         ],
     ],
     'action-index' => [
@@ -67,7 +71,7 @@ return [
         'search' => [
             'section' => 'template',
             'template' => 'entity/search.phtml',
-            'parent' => 'sidebar',
+            'parent' => 'right',
         ],
     ],
     'action-edit' => [
@@ -124,7 +128,7 @@ return [
         ],
         'subnav' => [
             'section' => 'nav',
-            'parent' => 'sidebar',
+            'parent' => 'right',
             'vars' => ['mode' => 'sub'],
         ],
     ],
@@ -136,7 +140,7 @@ return [
         ],
         'subnav' => [
             'section' => 'nav',
-            'parent' => 'sidebar',
+            'parent' => 'right',
             'vars' => ['mode' => 'sub'],
         ],
     ],

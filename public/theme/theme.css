@@ -503,22 +503,22 @@ button.icon {
 }
 
 /* Sidebar */
-#sidebar {
+#right {
     padding: 1.5rem;
     background: var(--grey);
 }
 
-#sidebar > * {
+#right > * {
     margin-bottom: 1.5rem;
 }
 
-html[data-path$="/admin"] #sidebar > * {
+html[data-path$="/admin"] #right > * {
     margin-bottom: 0;
     padding: 1.5rem 0;
     box-shadow: 0 0.0625rem 0 var(--primary-dark);
 }
 
-html[data-path$="/admin"] #sidebar > *:first-child {
+html[data-path$="/admin"] #right > *:first-child {
     padding-top: 0;
 }
 
@@ -667,7 +667,7 @@ html[data-path$="/admin"] #sidebar > *:first-child {
         padding: 1.5rem 7.5rem 1.5rem 1.5rem;
     }
 
-    #sidebar {
+    #right {
         flex: 1 0;
     }
 
