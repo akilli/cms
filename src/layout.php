@@ -48,21 +48,15 @@ function layout(string $id, array $§ = null): ?array
 }
 
 /**
- * Load layout by handles
+ * Load layout
  *
  * @return void
  */
 function layout_load(): void
 {
-    $layout = data('layout');
-
-    foreach (layout_handles() as $handle) {
-        if (!empty($layout[$handle])) {
-            foreach ($layout[$handle] as $id => $§) {
-                $§['id'] = $id;
-                layout_add($§);
-            }
-        }
+    foreach (data('layout') as $id => $§) {
+        $§['id'] = $id;
+        layout_add($§);
     }
 }
 
@@ -111,30 +105,6 @@ function layout_vars(string $id, array $vars): void
     $§ = layout($id);
     $§['vars'] = array_replace($§['vars'] ?? [], $vars);
     layout($id, $§);
-}
-
-/**
- * Layout handles
- *
- * @return array
- */
-function layout_handles(): array
-{
-    $data = [ALL];
-    $data[] = 'account-' . (account_user() ? 'user' : 'guest');
-
-    if ($entity = data('entity', request('entity'))) {
-        $act = request('action');
-
-        if (in_array($act, $entity['actions'])) {
-            $data[] = 'action-' . $act;
-        }
-
-        $data[] = 'entity-' . $entity['id'];
-        $data[] = $entity['id'] . '/' . $act;
-    }
-
-    return $data;
 }
 
 /**

@@ -116,6 +116,27 @@ function listener_data_i18n(array $data): array
 }
 
 /**
+ * Layout data listener
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+function listener_data_layout(array $data): array
+{
+    $p = [];
+    $acc = 'account-' . (account_user() ? 'user' : 'guest');
+
+    foreach ([$acc, 'action-' . request('action'), 'entity-' . request('entity'), request('path')] as $key) {
+        if (!empty($data[$key])) {
+            $p[] = $data[$key];
+        }
+    }
+
+    return array_replace_recursive($data[ALL], ...$p);
+}
+
+/**
  * Privilege data listener
  *
  * @param array $data

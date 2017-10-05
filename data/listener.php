@@ -12,6 +12,9 @@ return [
     'data.i18n' => [
         'cms\listener_data_i18n' => -1,
     ],
+    'data.layout' => [
+        'cms\listener_data_layout' => -1,
+    ],
     'data.privilege' => [
         'cms\listener_data_privilege' => -1,
     ],
