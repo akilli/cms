@@ -14,7 +14,6 @@ function action_denied(): void
         redirect(url('account/login'));
     }
 
-    header('HTTP/1.1 403 Forbidden');
     message(_('Access denied'));
     redirect();
 }
