@@ -244,7 +244,7 @@ function action_account_password(): void
         if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
             message(_('Password and password confirmation must be identical'));
         } else {
-            $data = array_replace(data('account'), ['password' => $data['password']]);
+            $data = array_replace(account(), ['password' => $data['password']]);
 
             if (!save('account', $data)) {
                 message($data['_error']['password'] ?? _('Could not save %s', $data['name']));

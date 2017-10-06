@@ -1,8 +1,5 @@
 <?php
 return [
-    'data.account' => [
-        'cms\listener_data_account' => -1,
-    ],
     'data.app' => [
         'cms\listener_data_app' => -1,
     ],

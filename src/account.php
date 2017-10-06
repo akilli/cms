@@ -4,6 +4,38 @@ declare(strict_types = 1);
 namespace cms;
 
 /**
+ * Account
+ *
+ * @param string $key
+ *
+ * @return mixed
+ */
+function account(string $key = null)
+{
+    $data = & registry('account');
+
+    if ($data === null) {
+        $data = [];
+        $id = (int) session_get('account');
+
+        if ($id && ($data = one('account', [['id', $id], ['active', true]]))) {
+            $role = one('role', [['id', $data['role_id']], ['active', true]]);
+            $data['privilege'] = $role ? $role['privilege'] : [];
+            $data['admin'] = in_array(ALL, $data['privilege']);
+            unset($data['_old'], $data['_entity']);
+        } else {
+            session_set('account', null);
+        }
+    }
+
+    if ($key === null) {
+        return $data;
+    }
+
+    return $data[$key] ?? null;
+}
+
+/**
  * Returns account if given credentials are valid and automatically rehashes password if needed
  *
  * @param string $name
@@ -34,7 +66,7 @@ function account_login(string $name, string $password): ?array
  */
 function account_guest(): bool
 {
-    return data('account', 'id') <= 0;
+    return account('id') <= 0;
 }
 
 /**
@@ -44,7 +76,7 @@ function account_guest(): bool
  */
 function account_user(): bool
 {
-    return data('account', 'id') > 0;
+    return account('id') > 0;
 }
 
 /**
@@ -64,7 +96,7 @@ function allowed(string $key): bool
         return false;
     }
 
-    return !empty($data[$key]['call']) && $data[$key]['call']() || data('account', 'admin') || in_array($key, data('account', 'privilege') ?? []);
+    return !empty($data[$key]['call']) && $data[$key]['call']() || account('admin') || in_array($key, account('privilege') ?? []);
 }
 
 /**
