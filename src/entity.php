@@ -6,9 +6,6 @@ namespace cms;
 use Exception;
 use RuntimeException;
 
-/**
- * Constants
- */
 const ENTITY = [
     'id' => null,
     'name' => null,

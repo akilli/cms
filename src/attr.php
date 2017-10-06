@@ -3,9 +3,6 @@ declare(strict_types = 1);
 
 namespace cms;
 
-/**
- * Constants
- */
 const ATTR = [
     'id' => null,
     'name' => null,

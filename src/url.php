@@ -3,9 +3,6 @@ declare(strict_types = 1);
 
 namespace cms;
 
-/**
- * Constants
- */
 const URL = [
     'data' => '/data/',
     'media' => '/media/view/',

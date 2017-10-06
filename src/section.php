@@ -3,9 +3,6 @@ declare(strict_types = 1);
 
 namespace cms;
 
-/**
- * Constants
- */
 const SECTION = [
     'id' => null,
     'section' => null,
