@@ -127,12 +127,11 @@ function save(string $eId, array & $data): bool
 
     $editable = entity($eId, true);
     $temp = array_replace($base, $editable, $temp);
-    $attrs = $temp['_entity']['attr'];
-    $aIds = array_keys(array_intersect_key($editable, $attrs));
+    $aIds = array_keys(array_intersect_key($editable, $temp['_entity']['attr']));
 
     foreach ($aIds as $aId) {
         try {
-            $temp = validator($attrs[$aId], $temp);
+            $temp = validator($temp['_entity']['attr'][$aId], $temp);
         } catch (Exception $e) {
             $data['_error'][$aId] = $e->getMessage();
         }
@@ -143,21 +142,16 @@ function save(string $eId, array & $data): bool
         return false;
     }
 
-    foreach ($aIds as $aId) {
-        try {
-            $temp = saver($attrs[$aId], $temp);
-        } catch (Exception $e) {
-            $data['_error'][$aId] = $e->getMessage();
-            message(_('Could not save %s', $temp['name']));
-            return false;
-        }
-    }
-
     $trans = db_trans(
-        function () use (& $temp): void {
+        function () use (& $temp, $aIds): void {
             $temp = event('entity.presave', $temp);
             $temp = event('model.presave.' . $temp['_entity']['model'], $temp);
             $temp = event('entity.presave.' . $temp['_entity']['id'], $temp);
+
+            foreach ($aIds as $aId) {
+                $temp = saver($temp['_entity']['attr'][$aId], $temp);
+            }
+
             $temp = $temp['_entity']['save']($temp);
             event('entity.postsave', $temp);
             event('model.postsave.' . $temp['_entity']['model'], $temp);

@@ -26,6 +26,7 @@ return [
             'db_type' => 'jsonb',
             'pdo' => PDO::PARAM_STR,
             'val' => [],
+            'saver' => 'cms\saver_json',
             'loader' => 'cms\loader_json',
         ],
         'search' => [

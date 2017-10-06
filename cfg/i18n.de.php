@@ -38,6 +38,7 @@ return [
     'Invalid URL' => 'Ungültige URL',
     'Invalid name and password combination' => 'Ungültige Kombination aus Name und Passwort',
     'Invalid value' => 'Ungültiger Wert',
+    'JSON encoding failed for %s' => 'Fehler beim Umwandeln von Attribut %s in einen JSON-String',
     'Login' => 'Anmelden',
     'Logo' => 'Logo',
     'Logout' => 'Abmelden',
