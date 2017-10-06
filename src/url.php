@@ -7,7 +7,7 @@ namespace cms;
  * Constants
  */
 const URL = [
-    'asset' => '/asset/',
+    'data' => '/data/',
     'media' => '/media/view/',
     'page' => '.html',
     'theme' => '/theme/'
@@ -35,15 +35,15 @@ function url(string $path = '', array $params = []): string
 }
 
 /**
- * Asset URL
+ * Data URL
  *
  * @param string $path
  *
  * @return string
  */
-function url_asset(string $path): string
+function url_data(string $path): string
 {
-    return URL['asset'] . $path;
+    return URL['data'] . $path;
 }
 
 /**

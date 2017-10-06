@@ -13,7 +13,7 @@ namespace cms;
  */
 function file_upload(string $src, string $dest): bool
 {
-    $dest = strpos($dest, '/') === 0 ? $dest : path('media', $dest);
+    $dest = strpos($dest, '/') === 0 ? $dest : path('data', $dest);
 
     return file_dir(dirname($dest)) && move_uploaded_file($src, $dest);
 }
@@ -102,7 +102,7 @@ function file_dir(string $path): bool
  */
 function file_writable(string $path): bool
 {
-    return (bool) preg_match('#^(file://)?(' . path('log') . '|' . path('media') . '|' . path('tmp') . ')#', $path);
+    return (bool) preg_match('#^(file://)?(' . path('data') . '|' . path('log') . '|' . path('tmp') . ')#', $path);
 }
 
 /**

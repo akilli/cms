@@ -226,7 +226,7 @@ function action_media_view(array $entity): void
         exit;
     }
 
-    header('X-Accel-Redirect: ' . url_asset($data['id']));
+    header('X-Accel-Redirect: ' . url_data($data['id']));
     header('X-Accel-Buffering: no');
     header('HTTP/1.1 200 OK');
     header('Content-Type: ', true);
@@ -244,7 +244,7 @@ function action_media_import(): void
 
     if ($files) {
         foreach ($files as $file) {
-            $name = filter_file($file['name'], path('media'));
+            $name = filter_file($file['name'], path('data'));
 
             if (!file_upload($file['tmp_name'], $name)) {
                 message(_('File upload failed for %s', $name));

@@ -68,8 +68,8 @@ function path(string $dir, string $id = null): string
 
     if ($data === null) {
         $data['cfg'] = '/app/cfg';
+        $data['data'] = '/data';
         $data['log'] = '/var/log/app';
-        $data['media'] = '/data';
         $data['theme'] = '/app/www/theme';
         $data['tmp'] = '/tmp';
         $data['tpl'] = '/app/tpl';

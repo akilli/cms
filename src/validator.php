@@ -282,7 +282,7 @@ function validator_file(array $attr, array $data): array
         if (($data['_old'][$attr['id']] ?? null) === $file['name']) {
             $data[$attr['id']] = $file['name'];
         } else {
-            $data[$attr['id']] = filter_file($file['name'], path('media'));
+            $data[$attr['id']] = filter_file($file['name'], path('data'));
         }
     }
 

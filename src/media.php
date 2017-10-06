@@ -16,7 +16,7 @@ use RuntimeException;
  */
 function media_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $path = path('media');
+    $path = path('data');
 
     if (!is_dir($path)) {
         return $opts['mode'] === 'size' ? [0] : [];
@@ -84,7 +84,7 @@ function media_save(array $data): array
  */
 function media_delete(array $data): void
 {
-    if (!file_delete(path('media', $data['id']))) {
+    if (!file_delete(path('data', $data['id']))) {
         throw new RuntimeException(_('Could not delete %s', $data['name']));
     }
 }
