@@ -11,5 +11,5 @@ Jenkinsfile
 # DEV
 #
 /data
-/public/local
+/public/loc
 .idea
