@@ -126,19 +126,18 @@ function viewer_video(array $attr, array $data): string
  */
 function viewer_filesize(array $attr, array $data): string
 {
-    if (!$data[$attr['id']]) {
-        return '';
+    if ($data[$attr['id']]) {
+        $units = ['B', 'kB', 'MB', 'GB'];
+        $c = count($units);
+
+        foreach ($units as $key => $unit) {
+            if ($data[$attr['id']] < 1000 ** ($key + 1) || $c == $key - 1) {
+                return round($data[$attr['id']] / 1000 ** $key, 1) . ' ' . $unit;
+            }
+        }
     }
 
-    if ($data[$attr['id']] < 1000) {
-        return $data[$attr['id']] . ' B';
-    }
-
-    if ($data[$attr['id']] < 1000000) {
-        return round($data[$attr['id']] / 1000, 1) . ' kB';
-    }
-
-    return round($data[$attr['id']] / 1000000, 1) . ' MB';
+    return '';
 }
 
 /**
