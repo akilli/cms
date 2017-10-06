@@ -70,9 +70,9 @@ function path(string $dir, string $id = null): string
         $data['cfg'] = '/app/cfg';
         $data['log'] = '/var/log/app';
         $data['media'] = '/data';
-        $data['template'] = '/app/template';
         $data['theme'] = '/app/public/theme';
         $data['tmp'] = '/tmp';
+        $data['tpl'] = '/app/tpl';
     }
 
     if (empty($data[$dir])) {

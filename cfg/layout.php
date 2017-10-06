@@ -2,20 +2,20 @@
 return [
     '_all_' => [
         'root' => [
-            'section' => 'template',
-            'template' => 'layout/root.phtml',
+            'section' => 'tpl',
+            'tpl' => 'layout/root.phtml',
             'parent_id' => null,
         ],
         'head' => [
-            'section' => 'template',
-            'template' => 'layout/head.phtml',
+            'section' => 'tpl',
+            'tpl' => 'layout/head.phtml',
         ],
         'top' => [
             'section' => 'container',
         ],
         'header' => [
-            'section' => 'template',
-            'template' => 'layout/header.phtml',
+            'section' => 'tpl',
+            'tpl' => 'layout/header.phtml',
             'parent_id' => 'top',
             'sort' => -1,
         ],
@@ -39,8 +39,8 @@ return [
     ],
     'action-admin' => [
         'content' => [
-            'section' => 'template',
-            'template' => 'entity/admin.phtml',
+            'section' => 'tpl',
+            'tpl' => 'entity/admin.phtml',
             'parent_id' => 'main',
         ],
         'pager' => [
@@ -48,21 +48,21 @@ return [
             'parent_id' => 'content',
         ],
         'search' => [
-            'section' => 'template',
-            'template' => 'entity/search.phtml',
+            'section' => 'tpl',
+            'tpl' => 'entity/search.phtml',
             'parent_id' => 'right',
         ],
         'create' => [
-            'section' => 'template',
-            'template' => 'entity/create.phtml',
+            'section' => 'tpl',
+            'tpl' => 'entity/create.phtml',
             'privilege' => '*/edit',
             'parent_id' => 'right',
         ],
     ],
     'action-index' => [
         'content' => [
-            'section' => 'template',
-            'template' => 'entity/index.phtml',
+            'section' => 'tpl',
+            'tpl' => 'entity/index.phtml',
             'parent_id' => 'main',
         ],
         'pager' => [
@@ -70,44 +70,44 @@ return [
             'parent_id' => 'content',
         ],
         'search' => [
-            'section' => 'template',
-            'template' => 'entity/search.phtml',
+            'section' => 'tpl',
+            'tpl' => 'entity/search.phtml',
             'parent_id' => 'right',
         ],
     ],
     'action-edit' => [
         'content' => [
-            'section' => 'template',
-            'template' => 'entity/edit.phtml',
+            'section' => 'tpl',
+            'tpl' => 'entity/edit.phtml',
             'parent_id' => 'main',
         ],
     ],
     'action-form' => [
         'content' => [
-            'section' => 'template',
-            'template' => 'entity/edit.phtml',
+            'section' => 'tpl',
+            'tpl' => 'entity/edit.phtml',
             'parent_id' => 'main',
         ],
     ],
     'action-view' => [
         'content' => [
-            'section' => 'template',
-            'template' => 'entity/view.phtml',
+            'section' => 'tpl',
+            'tpl' => 'entity/view.phtml',
             'parent_id' => 'main',
         ],
     ],
     'account-user' => [
         'toolbar' => [
-            'section' => 'template',
-            'template' => 'account/toolbar.phtml',
+            'section' => 'tpl',
+            'tpl' => 'account/toolbar.phtml',
             'parent_id' => 'top',
             'sort' => -2,
         ],
     ],
     'account/password' => [
          'content' => [
-            'section' => 'template',
-            'template' => 'account/password.phtml',
+            'section' => 'tpl',
+            'tpl' => 'account/password.phtml',
             'parent_id' => 'main',
         ],
     ],
@@ -116,8 +116,8 @@ return [
             'active' => false,
         ],
         'content' => [
-            'section' => 'template',
-            'template' => 'account/login.phtml',
+            'section' => 'tpl',
+            'tpl' => 'account/login.phtml',
             'parent_id' => 'main',
         ],
     ],

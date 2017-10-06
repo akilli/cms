@@ -10,7 +10,7 @@ const SECTION = [
     'id' => null,
     'section' => null,
     'call' => null,
-    'template' => null,
+    'tpl' => null,
     'active' => true,
     'privilege' => null,
     'parent_id' => 'root',
@@ -52,7 +52,7 @@ function section_message(array $§): string
 
     session_set('message', null);
 
-    return section_template($§);
+    return section_tpl($§);
 }
 
 /**
@@ -152,7 +152,7 @@ function section_pager(array $§): string
         $§['vars']['links'][] = ['name' => _('Next'), 'params' => $p];
     }
 
-    return section_template($§);
+    return section_tpl($§);
 }
 
 /**
@@ -162,14 +162,14 @@ function section_pager(array $§): string
  *
  * @return string
  */
-function section_template(array $§): string
+function section_tpl(array $§): string
 {
-    $§['vars'] = ['id' => $§['id'], 'template' => $§['template']] + $§['vars'];
+    $§['vars'] = ['id' => $§['id'], 'tpl' => $§['tpl']] + $§['vars'];
     $§ = function ($key) use ($§) {
         return $§['vars'][$key] ?? null;
     };
     ob_start();
-    include path('template', $§('template'));
+    include path('tpl', $§('tpl'));
 
     return ob_get_clean();
 }
