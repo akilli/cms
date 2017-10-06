@@ -5,6 +5,8 @@ namespace cms;
 
 /**
  * Session data getter
+ *
+ * @return mixed
  */
 function session_get(string $key)
 {
@@ -102,6 +104,8 @@ function redirect(string $url = '/', int $code = 302): void
 
 /**
  * Request
+ *
+ * @return mixed
  */
 function request(string $key)
 {

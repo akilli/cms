@@ -43,6 +43,8 @@ const TIME = ['b' => 'H:i:s', 'f' => 'H:i'];
 
 /**
  * Cast to appropriate php type
+ *
+ * @return mixed
  */
 function cast(array $attr, $val)
 {

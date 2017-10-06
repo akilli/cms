@@ -5,6 +5,8 @@ namespace cms;
 
 /**
  * Loader
+ *
+ * @return mixed
  */
 function loader(array $attr, array $data)
 {

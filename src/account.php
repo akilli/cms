@@ -5,6 +5,8 @@ namespace cms;
 
 /**
  * Initializes account from session and stores account data in registry
+ *
+ * @return mixed
  */
 function account(string $key = null)
 {
