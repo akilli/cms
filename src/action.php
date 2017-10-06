@@ -5,8 +5,6 @@ namespace cms;
 
 /**
  * Denied Action
- *
- * @return void
  */
 function action_denied(): void
 {
@@ -20,8 +18,6 @@ function action_denied(): void
 
 /**
  * Error Action
- *
- * @return void
  */
 function action_error(): void
 {
@@ -32,10 +28,6 @@ function action_error(): void
 
 /**
  * Admin Action
- *
- * @param array $entity
- *
- * @return void
  */
 function action_admin(array $entity): void
 {
@@ -44,10 +36,6 @@ function action_admin(array $entity): void
 
 /**
  * Index Action
- *
- * @param array $entity
- *
- * @return void
  */
 function action_index(array $entity): void
 {
@@ -99,10 +87,6 @@ function action_index(array $entity): void
 
 /**
  * Edit Action
- *
- * @param array $entity
- *
- * @return void
  */
 function action_edit(array $entity): void
 {
@@ -127,10 +111,6 @@ function action_edit(array $entity): void
 
 /**
  * Form Action
- *
- * @param array $entity
- *
- * @return void
  */
 function action_form(array $entity): void
 {
@@ -152,10 +132,6 @@ function action_form(array $entity): void
 
 /**
  * Delete Action
- *
- * @param array $entity
- *
- * @return void
  */
 function action_delete(array $entity): void
 {
@@ -170,10 +146,6 @@ function action_delete(array $entity): void
 
 /**
  * View Action
- *
- * @param array $entity
- *
- * @return void
  */
 function action_view(array $entity): void
 {
@@ -190,10 +162,6 @@ function action_view(array $entity): void
 
 /**
  * Media Browser Action
- *
- * @param array $entity
- *
- * @return void
  */
 function action_media_browser(array $entity): void
 {
@@ -214,10 +182,6 @@ function action_media_browser(array $entity): void
 
 /**
  * Media View Action
- *
- * @param array $entity
- *
- * @return void
  */
 function action_media_view(array $entity): void
 {
@@ -235,8 +199,6 @@ function action_media_view(array $entity): void
 
 /**
  * Media Import Action
- *
- * @return void
  */
 function action_media_import(): void
 {
@@ -259,8 +221,6 @@ function action_media_import(): void
 
 /**
  * Account Password Action
- *
- * @return void
  */
 function action_account_password(): void
 {
@@ -281,8 +241,6 @@ function action_account_password(): void
 
 /**
  * Account Login Action
- *
- * @return void
  */
 function action_account_login(): void
 {
@@ -306,8 +264,6 @@ function action_account_login(): void
 
 /**
  * Account Logout Action
- *
- * @return void
  */
 function action_account_logout(): void
 {

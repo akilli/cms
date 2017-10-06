@@ -5,11 +5,6 @@ namespace cms;
 
 /**
  * Editor
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function editor(array $attr, array $data): string
 {
@@ -60,11 +55,6 @@ function editor(array $attr, array $data): string
 
 /**
  * Select editor
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function editor_select(array $attr, array $data): string
 {
@@ -95,11 +85,6 @@ function editor_select(array $attr, array $data): string
 
 /**
  * Option editor
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function editor_opt(array $attr, array $data): string
 {
@@ -140,11 +125,6 @@ function editor_opt(array $attr, array $data): string
 
 /**
  * Text editor
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function editor_text(array $attr, array $data): string
 {
@@ -156,11 +136,6 @@ function editor_text(array $attr, array $data): string
 
 /**
  * Password editor
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function editor_password(array $attr, array $data): string
 {
@@ -172,11 +147,6 @@ function editor_password(array $attr, array $data): string
 
 /**
  * Int editor
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function editor_int(array $attr, array $data): string
 {
@@ -188,11 +158,6 @@ function editor_int(array $attr, array $data): string
 
 /**
  * Date editor
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function editor_date(array $attr, array $data): string
 {
@@ -204,11 +169,6 @@ function editor_date(array $attr, array $data): string
 
 /**
  * Datetime editor
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function editor_datetime(array $attr, array $data): string
 {
@@ -220,11 +180,6 @@ function editor_datetime(array $attr, array $data): string
 
 /**
  * Time editor
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function editor_time(array $attr, array $data): string
 {
@@ -236,11 +191,6 @@ function editor_time(array $attr, array $data): string
 
 /**
  * File editor
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function editor_file(array $attr, array $data): string
 {
@@ -254,11 +204,6 @@ function editor_file(array $attr, array $data): string
 
 /**
  * Textarea editor
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function editor_textarea(array $attr, array $data): string
 {
@@ -269,11 +214,6 @@ function editor_textarea(array $attr, array $data): string
 
 /**
  * JSON editor
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function editor_json(array $attr, array $data): string
 {

@@ -7,10 +7,6 @@ use InvalidArgumentException;
 
 /**
  * Layout section
- *
- * @param string $id
- *
- * @return string
  */
 function §(string $id): string
 {
@@ -26,11 +22,6 @@ function §(string $id): string
 
 /**
  * Get or add layout section
- *
- * @param string $id
- * @param array $§
- *
- * @return array|null
  *
  * @throws InvalidArgumentException
  */
@@ -64,11 +55,6 @@ function layout(string $id = null, array $§ = null): ?array
 
 /**
  * Set section variables
- *
- * @param string $id
- * @param array $vars
- *
- * @return void
  */
 function layout_vars(string $id, array $vars): void
 {

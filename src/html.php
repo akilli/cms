@@ -4,14 +4,7 @@ declare(strict_types = 1);
 namespace cms;
 
 /**
- * HTML
- *
- * @param string $name
- * @param array $attrs
- * @param string $val
- * @param bool $empty
- *
- * @return string
+ * Generates HTML-Tag
  */
 function html(string $name, array $attrs = [], string $val = null, bool $empty = false): string
 {

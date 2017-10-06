@@ -13,8 +13,6 @@ const LOG = 'cms.log';
 
 /**
  * Runs application
- *
- * @return void
  */
 function app(): void
 {
@@ -36,10 +34,6 @@ function app(): void
 
 /**
  * Internal registry
- *
- * @param string $id
- *
- * @return array|null
  */
 function & registry(string $id): ?array
 {
@@ -54,11 +48,6 @@ function & registry(string $id): ?array
 
 /**
  * Gets absolute path to specified subpath in given directory
- *
- * @param string $dir
- * @param string $id
- *
- * @return string
  *
  * @throws InvalidArgumentException
  */
@@ -84,11 +73,6 @@ function path(string $dir, string $id = null): string
 
 /**
  * Config
- *
- * @param string $section
- * @param string $id
- *
- * @return mixed
  */
 function cfg(string $section, string $id = null)
 {
@@ -108,11 +92,6 @@ function cfg(string $section, string $id = null)
 
 /**
  * Dispatches an event
- *
- * @param string $event
- * @param array $data
- *
- * @return array
  */
 function event(string $event, array $data): array
 {
@@ -127,11 +106,6 @@ function event(string $event, array $data): array
 
 /**
  * Translate
- *
- * @param string $key
- * @param string[] ...$args
- *
- * @return string
  */
 function _(string $key, string ...$args): string
 {
@@ -150,10 +124,6 @@ function _(string $key, string ...$args): string
 
 /**
  * Logger
- *
- * @param string $message
- *
- * @return void
  */
 function logger(string $message): void
 {

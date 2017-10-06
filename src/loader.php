@@ -5,11 +5,6 @@ namespace cms;
 
 /**
  * Loader
- *
- * @param array $attr
- * @param array $data
- *
- * @return mixed
  */
 function loader(array $attr, array $data)
 {
@@ -20,11 +15,6 @@ function loader(array $attr, array $data)
 
 /**
  * JSON loader
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
  */
 function loader_json(array $attr, array $data): array
 {

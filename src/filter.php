@@ -5,10 +5,6 @@ namespace cms;
 
 /**
  * Special chars filter
- *
- * @param string $var
- *
- * @return string
  */
 function encode(string $var): string
 {
@@ -17,10 +13,6 @@ function encode(string $var): string
 
 /**
  * HTML filter
- *
- * @param string $html
- *
- * @return string
  */
 function filter_html(string $html): string
 {
@@ -29,11 +21,6 @@ function filter_html(string $html): string
 
 /**
  * ID filter
- *
- * @param string $id
- * @param string $sep
- *
- * @return string
  */
 function filter_id(string $id, string $sep = '-'): string
 {
@@ -42,11 +29,6 @@ function filter_id(string $id, string $sep = '-'): string
 
 /**
  * Generates a unique file name in given path
- *
- * @param string $str
- * @param string $path
- *
- * @return string
  */
 function filter_file(string $str, string $path): string
 {
@@ -67,12 +49,6 @@ function filter_file(string $str, string $path): string
 
 /**
  * Converts a date, time or datetime from one to another format
- *
- * @param string $date
- * @param string $in
- * @param string $out
- *
- * @return string
  */
 function filter_date(string $date, string $in, string $out): string
 {
@@ -85,10 +61,6 @@ function filter_date(string $date, string $in, string $out): string
 
 /**
  * Parameter filter
- *
- * @param string $param
- *
- * @return string
  */
 function filter_param(string $param): string
 {

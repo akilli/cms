@@ -20,10 +20,6 @@ const SECTION = [
 
 /**
  * Container section
- *
- * @param array $§
- *
- * @return string
  */
 function section_container(array $§): string
 {
@@ -39,10 +35,6 @@ function section_container(array $§): string
 
 /**
  * Message section
- *
- * @param array $§
- *
- * @return string
  */
 function section_message(array $§): string
 {
@@ -57,10 +49,6 @@ function section_message(array $§): string
 
 /**
  * Navigation section
- *
- * @param array $§
- *
- * @return string
  */
 function section_nav(array $§): string
 {
@@ -116,10 +104,6 @@ function section_nav(array $§): string
 
 /**
  * Pager section
- *
- * @param array $§
- *
- * @return string
  */
 function section_pager(array $§): string
 {
@@ -157,10 +141,6 @@ function section_pager(array $§): string
 
 /**
  * Template section
- *
- * @param array $§
- *
- * @return string
  */
 function section_tpl(array $§): string
 {

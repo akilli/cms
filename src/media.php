@@ -7,12 +7,6 @@ use RuntimeException;
 
 /**
  * Load entity
- *
- * @param array $entity
- * @param array $crit
- * @param array $opts
- *
- * @return array
  */
 function media_load(array $entity, array $crit = [], array $opts = []): array
 {
@@ -61,10 +55,6 @@ function media_load(array $entity, array $crit = [], array $opts = []): array
 
 /**
  * Save entity
- *
- * @param array $data
- *
- * @return array
  */
 function media_save(array $data): array
 {
@@ -75,10 +65,6 @@ function media_save(array $data): array
 
 /**
  * Delete entity
- *
- * @param array $data
- *
- * @return void
  *
  * @throws RuntimeException
  */

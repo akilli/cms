@@ -5,12 +5,6 @@ namespace cms;
 
 /**
  * Load entity
- *
- * @param array $entity
- * @param array $crit
- * @param array $opts
- *
- * @return array
  */
 function flat_load(array $entity, array $crit = [], array $opts = []): array
 {
@@ -50,10 +44,6 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
 
 /**
  * Save entity
- *
- * @param array $data
- *
- * @return array
  */
 function flat_save(array $data): array
 {
@@ -88,10 +78,6 @@ function flat_save(array $data): array
 
 /**
  * Delete entity
- *
- * @param array $data
- *
- * @return void
  */
 function flat_delete(array $data): void
 {

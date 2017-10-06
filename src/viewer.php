@@ -5,11 +5,6 @@ namespace cms;
 
 /**
  * Viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer(array $attr, array $data): string
 {
@@ -24,11 +19,6 @@ function viewer(array $attr, array $data): string
 
 /**
  * Option viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_opt(array $attr, array $data): string
 {
@@ -45,11 +35,6 @@ function viewer_opt(array $attr, array $data): string
 
 /**
  * Date viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_date(array $attr, array $data): string
 {
@@ -58,11 +43,6 @@ function viewer_date(array $attr, array $data): string
 
 /**
  * Datetime viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_datetime(array $attr, array $data): string
 {
@@ -71,11 +51,6 @@ function viewer_datetime(array $attr, array $data): string
 
 /**
  * Time viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_time(array $attr, array $data): string
 {
@@ -84,11 +59,6 @@ function viewer_time(array $attr, array $data): string
 
 /**
  * Rich text viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_rte(array $attr, array $data): string
 {
@@ -97,11 +67,6 @@ function viewer_rte(array $attr, array $data): string
 
 /**
  * Iframe viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_iframe(array $attr, array $data): string
 {
@@ -110,11 +75,6 @@ function viewer_iframe(array $attr, array $data): string
 
 /**
  * File viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_file(array $attr, array $data): string
 {
@@ -123,11 +83,6 @@ function viewer_file(array $attr, array $data): string
 
 /**
  * Image viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_image(array $attr, array $data): string
 {
@@ -136,11 +91,6 @@ function viewer_image(array $attr, array $data): string
 
 /**
  * Audio viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_audio(array $attr, array $data): string
 {
@@ -149,11 +99,6 @@ function viewer_audio(array $attr, array $data): string
 
 /**
  * Embed viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_embed(array $attr, array $data): string
 {
@@ -162,11 +107,6 @@ function viewer_embed(array $attr, array $data): string
 
 /**
  * Object viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_object(array $attr, array $data): string
 {
@@ -175,11 +115,6 @@ function viewer_object(array $attr, array $data): string
 
 /**
  * Video viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_video(array $attr, array $data): string
 {
@@ -188,11 +123,6 @@ function viewer_video(array $attr, array $data): string
 
 /**
  * Filesize viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_filesize(array $attr, array $data): string
 {
@@ -213,11 +143,6 @@ function viewer_filesize(array $attr, array $data): string
 
 /**
  * Position viewer
- *
- * @param array $attr
- * @param array $data
- *
- * @return string
  */
 function viewer_pos(array $attr, array $data): string
 {

@@ -7,10 +7,6 @@ use RuntimeException;
 
 /**
  * Load data from file
- *
- * @param string $file
- *
- * @return array
  */
 function arr_load(string $file): array
 {
@@ -19,11 +15,6 @@ function arr_load(string $file): array
 
 /**
  * Filter data by given criteria
- *
- * @param array $data
- * @param array $crit
- *
- * @return array
  *
  * @throws RuntimeException
  */
@@ -135,11 +126,6 @@ function arr_filter(array $data, array $crit): array
 
 /**
  * Order data
- *
- * @param array $data
- * @param array $order
- *
- * @return array
  */
 function arr_order(array $data, array $order): array
 {

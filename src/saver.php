@@ -7,11 +7,6 @@ use RuntimeException;
 
 /**
  * Saver
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
  */
 function saver(array $attr, array $data): array
 {
@@ -20,11 +15,6 @@ function saver(array $attr, array $data): array
 
 /**
  * Password saver
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
  */
 function saver_password(array $attr, array $data): array
 {
@@ -39,11 +29,6 @@ function saver_password(array $attr, array $data): array
 
 /**
  * File saver
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
  *
  * @throws RuntimeException
  */

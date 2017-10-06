@@ -4,11 +4,7 @@ declare(strict_types = 1);
 namespace cms;
 
 /**
- * Account
- *
- * @param string $key
- *
- * @return mixed
+ * Initializes account from session and stores account data in registry
  */
 function account(string $key = null)
 {
@@ -37,11 +33,6 @@ function account(string $key = null)
 
 /**
  * Returns account if given credentials are valid and automatically rehashes password if needed
- *
- * @param string $name
- * @param string $password
- *
- * @return array|null
  */
 function account_login(string $name, string $password): ?array
 {
@@ -61,8 +52,6 @@ function account_login(string $name, string $password): ?array
 
 /**
  * Is not logged-in guest
- *
- * @return bool
  */
 function account_guest(): bool
 {
@@ -71,8 +60,6 @@ function account_guest(): bool
 
 /**
  * Is logged-in user account
- *
- * @return bool
  */
 function account_user(): bool
 {
@@ -81,10 +68,6 @@ function account_user(): bool
 
 /**
  * Check access
- *
- * @param string $key
- *
- * @return bool
  */
 function allowed(string $key): bool
 {
@@ -101,10 +84,6 @@ function allowed(string $key): bool
 
 /**
  * Check access to given URL considering rewrites
- *
- * @param string $path
- *
- * @return bool
  */
 function allowed_url(string $path): bool
 {

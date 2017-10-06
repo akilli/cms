@@ -15,11 +15,6 @@ const URL = [
 
 /**
  * Generate URL by given path and params
- *
- * @param string $path
- * @param array $params
- *
- * @return string
  */
 function url(string $path = '', array $params = []): string
 {
@@ -36,10 +31,6 @@ function url(string $path = '', array $params = []): string
 
 /**
  * Data URL
- *
- * @param string $path
- *
- * @return string
  */
 function url_data(string $path): string
 {
@@ -48,10 +39,6 @@ function url_data(string $path): string
 
 /**
  * Media URL
- *
- * @param string $path
- *
- * @return string
  */
 function url_media(string $path): string
 {
@@ -60,10 +47,6 @@ function url_media(string $path): string
 
 /**
  * Theme URL
- *
- * @param string $path
- *
- * @return string
  */
 function url_theme(string $path): string
 {
@@ -72,15 +55,11 @@ function url_theme(string $path): string
 
 /**
  * Rewrite URL
- *
- * @param string $path
- *
- * @return string
  */
 function url_rewrite(string $path): string
 {
     if ($path === '/') {
-        return cfg('app', 'home');
+        return (string) cfg('app', 'home');
     }
 
     if (!preg_match('#' . URL['page'] . '$#', $path)) {

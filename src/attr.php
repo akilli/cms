@@ -43,11 +43,6 @@ const TIME = ['b' => 'H:i:s', 'f' => 'H:i'];
 
 /**
  * Cast to appropriate php type
- *
- * @param array $attr
- * @param mixed $val
- *
- * @return mixed
  */
 function cast(array $attr, $val)
 {
@@ -80,11 +75,6 @@ function cast(array $attr, $val)
 
 /**
  * Check wheter attribute can be ignored
- *
- * @param array $attr
- * @param array $data
- *
- * @return bool
  */
 function ignorable(array $attr, array $data): bool
 {

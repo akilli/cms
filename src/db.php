@@ -9,8 +9,6 @@ use RuntimeException;
 
 /**
  * Database
- *
- * @return PDO
  */
 function db(): PDO
 {
@@ -27,10 +25,6 @@ function db(): PDO
 
 /**
  * Transaction
- *
- * @param callable $call
- *
- * @return bool
  */
 function db_trans(callable $call): bool
 {
@@ -55,11 +49,6 @@ function db_trans(callable $call): bool
 
 /**
  * Prepare columns
- *
- * @param array $attrs
- * @param array $data
- *
- * @return array
  */
 function db_cols(array $attrs, array $data): array
 {
@@ -79,11 +68,6 @@ function db_cols(array $attrs, array $data): array
 
 /**
  * Filter out non-DB and optionally auto increment columns
- *
- * @param array $attrs
- * @param bool $auto
- *
- * @return array
  */
 function db_attr(array $attrs, bool $auto = false): array
 {
@@ -98,11 +82,6 @@ function db_attr(array $attrs, bool $auto = false): array
 
 /**
  * Maps attribute IDs to DB columns and handles search criteria
- *
- * @param array $crit
- * @param array $attrs
- *
- * @return array
  */
 function db_crit(array $crit, array $attrs): array
 {
@@ -201,10 +180,6 @@ function db_crit(array $crit, array $attrs): array
 
 /**
  * INSERT part
- *
- * @param string $tab
- *
- * @return string
  */
 function db_insert(string $tab): string
 {
@@ -213,10 +188,6 @@ function db_insert(string $tab): string
 
 /**
  * VALUES part
- *
- * @param array $cols
- *
- * @return string
  */
 function db_values(array $cols): string
 {
@@ -225,10 +196,6 @@ function db_values(array $cols): string
 
 /**
  * UPDATE part
- *
- * @param string $tab
- *
- * @return string
  */
 function db_update(string $tab): string
 {
@@ -237,10 +204,6 @@ function db_update(string $tab): string
 
 /**
  * SET part
- *
- * @param array $cols
- *
- * @return string
  */
 function db_set(array $cols): string
 {
@@ -255,10 +218,6 @@ function db_set(array $cols): string
 
 /**
  * DELETE part
- *
- * @param string $tab
- *
- * @return string
  */
 function db_delete(string $tab): string
 {
@@ -267,10 +226,6 @@ function db_delete(string $tab): string
 
 /**
  * SELECT part
- *
- * @param array $sel
- *
- * @return string
  */
 function db_select(array $sel): string
 {
@@ -285,10 +240,6 @@ function db_select(array $sel): string
 
 /**
  * FROM part
- *
- * @param string $tab
- *
- * @return string
  */
 function db_from(string $tab): string
 {
@@ -297,10 +248,6 @@ function db_from(string $tab): string
 
 /**
  * WHERE part
- *
- * @param array $cols
- *
- * @return string
  */
 function db_where(array $cols): string
 {
@@ -309,10 +256,6 @@ function db_where(array $cols): string
 
 /**
  * ORDER BY part
- *
- * @param string[] $order
- *
- * @return string
  */
 function db_order(array $order): string
 {
@@ -327,11 +270,6 @@ function db_order(array $order): string
 
 /**
  * LIMIT part
- *
- * @param int $limit
- * @param int $offset
- *
- * @return string
  */
 function db_limit(int $limit, int $offset = 0): string
 {

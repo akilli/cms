@@ -8,11 +8,6 @@ use DomainException;
 /**
  * Validator
  *
- * @param array $attr
- * @param array $data
- *
- * @return array
- *
  * @throws DomainException
  */
 function validator(array $attr, array $data): array
@@ -55,11 +50,6 @@ function validator(array $attr, array $data): array
 /**
  * Option validator
  *
- * @param array $attr
- * @param array $data
- *
- * @return array
- *
  * @throws DomainException
  */
 function validator_opt(array $attr, array $data): array
@@ -76,12 +66,7 @@ function validator_opt(array $attr, array $data): array
 }
 
 /**
- * Option validator
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
+ * Page validator
  *
  * @throws DomainException
  */
@@ -98,11 +83,6 @@ function validator_page(array $attr, array $data): array
 
 /**
  * Text validator
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
  */
 function validator_text(array $attr, array $data): array
 {
@@ -113,11 +93,6 @@ function validator_text(array $attr, array $data): array
 
 /**
  * ID validator
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
  */
 function validator_id(array $attr, array $data): array
 {
@@ -129,11 +104,6 @@ function validator_id(array $attr, array $data): array
 
 /**
  * Email validator
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
  *
  * @throws DomainException
  */
@@ -149,11 +119,6 @@ function validator_email(array $attr, array $data): array
 /**
  * URL validator
  *
- * @param array $attr
- * @param array $data
- *
- * @return array
- *
  * @throws DomainException
  */
 function validator_url(array $attr, array $data): array
@@ -167,11 +132,6 @@ function validator_url(array $attr, array $data): array
 
 /**
  * JSON validator
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
  *
  * @throws DomainException
  */
@@ -191,9 +151,6 @@ function validator_json(array $attr, array $data): array
 /**
  * Rich text validator
  *
- * @param array $attr
- * @param array $data
- *
  * @return array
  */
 function validator_rte(array $attr, array $data): array
@@ -205,11 +162,6 @@ function validator_rte(array $attr, array $data): array
 
 /**
  * Date validator
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
  *
  * @throws DomainException
  */
@@ -225,11 +177,6 @@ function validator_date(array $attr, array $data): array
 /**
  * Datetime validator
  *
- * @param array $attr
- * @param array $data
- *
- * @return array
- *
  * @throws DomainException
  */
 function validator_datetime(array $attr, array $data): array
@@ -244,11 +191,6 @@ function validator_datetime(array $attr, array $data): array
 /**
  * Time validator
  *
- * @param array $attr
- * @param array $data
- *
- * @return array
- *
  * @throws DomainException
  */
 function validator_time(array $attr, array $data): array
@@ -262,11 +204,6 @@ function validator_time(array $attr, array $data): array
 
 /**
  * File validator
- *
- * @param array $attr
- * @param array $data
- *
- * @return array
  *
  * @throws DomainException
  */

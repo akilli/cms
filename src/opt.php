@@ -5,10 +5,6 @@ namespace cms;
 
 /**
  * Option
- *
- * @param array $attr
- *
- * @return array
  */
 function opt(array $attr): array
 {
@@ -29,10 +25,6 @@ function opt(array $attr): array
 
 /**
  * Entity options
- *
- * @param string $eId
- *
- * @return array
  */
 function opt_entity(string $eId): array
 {
@@ -55,8 +47,6 @@ function opt_entity(string $eId): array
 
 /**
  * Privilege options
- *
- * @return array
  */
 function opt_privilege(): array
 {

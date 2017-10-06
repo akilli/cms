@@ -5,11 +5,6 @@ namespace cms;
 
 /**
  * Uploads a file
- *
- * @param string $src
- * @param string $dest
- *
- * @return bool
  */
 function file_upload(string $src, string $dest): bool
 {
@@ -20,11 +15,6 @@ function file_upload(string $src, string $dest): bool
 
 /**
  * Copies a file or directory
- *
- * @param string $src
- * @param string $dest
- *
- * @return bool
  */
 function file_copy(string $src, string $dest): bool
 {
@@ -53,10 +43,6 @@ function file_copy(string $src, string $dest): bool
 
 /**
  * Removes a file or directory
- *
- * @param string $path
- *
- * @return bool
  */
 function file_delete(string $path): bool
 {
@@ -83,10 +69,6 @@ function file_delete(string $path): bool
 
 /**
  * Makes a directory if it doesn't exist
- *
- * @param string $path
- *
- * @return bool
  */
 function file_dir(string $path): bool
 {
@@ -95,10 +77,6 @@ function file_dir(string $path): bool
 
 /**
  * Checks whether specified path is writable
- *
- * @param string $path
- *
- * @return bool
  */
 function file_writable(string $path): bool
 {
@@ -107,10 +85,6 @@ function file_writable(string $path): bool
 
 /**
  * Returns list of accepted extensions for given file type
- *
- * @param string $type
- *
- * @return string
  */
 function file_accept(string $type): string
 {

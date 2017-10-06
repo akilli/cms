@@ -7,10 +7,6 @@ use RuntimeException;
 
 /**
  * App config listener
- *
- * @param array $data
- *
- * @return array
  */
 function listener_cfg_app(array $data): array
 {
@@ -23,10 +19,6 @@ function listener_cfg_app(array $data): array
 
 /**
  * Entity config listener
- *
- * @param array $data
- *
- * @return array
  */
 function listener_cfg_entity(array $data): array
 {
@@ -81,10 +73,6 @@ function listener_cfg_entity(array $data): array
 
 /**
  * I18n config listener
- *
- * @param array $data
- *
- * @return array
  */
 function listener_cfg_i18n(array $data): array
 {
@@ -93,10 +81,6 @@ function listener_cfg_i18n(array $data): array
 
 /**
  * Layout config listener
- *
- * @param array $data
- *
- * @return array
  */
 function listener_cfg_layout(array $data): array
 {
@@ -116,10 +100,6 @@ function listener_cfg_layout(array $data): array
 
 /**
  * Privilege config listener
- *
- * @param array $data
- *
- * @return array
  */
 function listener_cfg_privilege(array $data): array
 {
@@ -138,10 +118,6 @@ function listener_cfg_privilege(array $data): array
 
 /**
  * Section config listener
- *
- * @param array $data
- *
- * @return array
  */
 function listener_cfg_section(array $data): array
 {
@@ -154,10 +130,6 @@ function listener_cfg_section(array $data): array
 
 /**
  * Toolbar config listener
- *
- * @param array $data
- *
- * @return array
  */
 function listener_cfg_toolbar(array $data): array
 {
@@ -174,10 +146,6 @@ function listener_cfg_toolbar(array $data): array
 
 /**
  * Page pre-save listener
- *
- * @param array $data
- *
- * @return array
  */
 function listener_page_presave(array $data): array
 {

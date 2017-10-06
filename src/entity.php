@@ -45,11 +45,6 @@ const OPTS = [
 
 /**
  * Size entity
- *
- * @param string $eId
- * @param array $crit
- *
- * @return int
  */
 function size(string $eId, array $crit = []): int
 {
@@ -67,13 +62,7 @@ function size(string $eId, array $crit = []): int
 }
 
 /**
- * Load entity
- *
- * @param string $eId
- * @param array $crit
- * @param array $opts
- *
- * @return array
+ * Load one entity
  */
 function one(string $eId, array $crit = [], array $opts = []): array
 {
@@ -95,12 +84,6 @@ function one(string $eId, array $crit = [], array $opts = []): array
 
 /**
  * Load entity collection
- *
- * @param string $eId
- * @param array $crit
- * @param array $opts
- *
- * @return array
  */
 function all(string $eId, array $crit = [], array $opts = []): array
 {
@@ -133,11 +116,6 @@ function all(string $eId, array $crit = [], array $opts = []): array
 
 /**
  * Save entity
- *
- * @param string $eId
- * @param array $data
- *
- * @return bool
  */
 function save(string $eId, array & $data): bool
 {
@@ -202,12 +180,6 @@ function save(string $eId, array & $data): bool
 
 /**
  * Delete entity
- *
- * @param string $eId
- * @param array $crit
- * @param array $opts
- *
- * @return bool
  */
 function delete(string $eId, array $crit = [], array $opts = []): bool
 {
@@ -253,11 +225,6 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
 /**
  * Retrieve empty entity
  *
- * @param string $eId
- * @param bool $bare
- *
- * @return array
- *
  * @throws RuntimeException
  */
 function entity(string $eId, bool $bare = false): array
@@ -273,11 +240,6 @@ function entity(string $eId, bool $bare = false): array
 
 /**
  * Retrieve entity attributes filtered by given action
- *
- * @param array $entity
- * @param string $act
- *
- * @return array
  */
 function entity_attr(array $entity, string $act): array
 {
@@ -292,11 +254,6 @@ function entity_attr(array $entity, string $act): array
 
 /**
  * Internal entity loader
- *
- * @param array $entity
- * @param array $data
- *
- * @return array
  */
 function entity_load(array $entity, array $data): array
 {

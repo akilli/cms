@@ -5,10 +5,6 @@ namespace cms;
 
 /**
  * Session data getter
- *
- * @param string $key
- *
- * @return mixed
  */
 function session_get(string $key)
 {
@@ -19,11 +15,6 @@ function session_get(string $key)
 
 /**
  * Session data (un)setter
- *
- * @param string $key
- * @param mixed $val
- *
- * @return void
  */
 function session_set(string $key, $val): void
 {
@@ -38,8 +29,6 @@ function session_set(string $key, $val): void
 
 /**
  * Initializes session
- *
- * @return void
  */
 function session_init(): void
 {
@@ -56,8 +45,6 @@ function session_init(): void
 
 /**
  * Regenerates session ID
- *
- * @return void
  */
 function session_regenerate(): void
 {
@@ -76,10 +63,6 @@ function session_regenerate(): void
 
 /**
  * Add message
- *
- * @param string $message
- *
- * @return void
  */
 function message(string $message): void
 {
@@ -93,8 +76,6 @@ function message(string $message): void
 
 /**
  * Token
- *
- * @return string
  */
 function token(): string
 {
@@ -108,11 +89,6 @@ function token(): string
 
 /**
  * Redirect
- *
- * @param string $url
- * @param int $code
- *
- * @return void
  */
 function redirect(string $url = '/', int $code = 302): void
 {
@@ -126,10 +102,6 @@ function redirect(string $url = '/', int $code = 302): void
 
 /**
  * Request
- *
- * @param string $key
- *
- * @return mixed
  */
 function request(string $key)
 {
@@ -164,10 +136,6 @@ function request(string $key)
 
 /**
  * Resolves wildcards, i.e. asterisks, for entity and action part with appropriate values from current request
- *
- * @param string $path
- *
- * @return string
  */
 function resolve(string $path): string
 {
@@ -192,10 +160,6 @@ function resolve(string $path): string
 
 /**
  * Filters request variables
- *
- * @param array $data
- *
- * @return array
  */
 function http_filter(array $data): array
 {
@@ -214,10 +178,6 @@ function http_filter(array $data): array
 
 /**
  * Filters file uploads
- *
- * @param array $data
- *
- * @return array
  */
 function http_file(array $data): array
 {
