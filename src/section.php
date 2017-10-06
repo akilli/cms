@@ -31,7 +31,7 @@ function section_container(array $§): string
     $html = '';
 
     foreach (arr_order(arr_filter(layout(), [['parent_id', $§['id']]]), ['sort' => 'asc']) as $child) {
-        $html .= section($child['id']);
+        $html .= §($child['id']);
     }
 
     return $html && $§['vars']['tag'] ? html($§['vars']['tag'], ['id' => $§['id']], $html) : $html;

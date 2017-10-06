@@ -12,7 +12,7 @@ use InvalidArgumentException;
  *
  * @return string
  */
-function section(string $id): string
+function §(string $id): string
 {
     if (!($§ = layout($id)) || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
         return '';
