@@ -58,6 +58,12 @@ return [
             'privilege' => '*/edit',
             'parent_id' => 'right',
         ],
+        'import' => [
+            'section' => 'tpl',
+            'tpl' => 'entity/import.phtml',
+            'privilege' => '*/import',
+            'parent_id' => 'right',
+        ],
     ],
     'action-index' => [
         'content' => [

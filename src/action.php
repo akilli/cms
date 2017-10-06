@@ -234,6 +234,30 @@ function action_media_view(array $entity): void
 }
 
 /**
+ * Media Import Action
+ *
+ * @return void
+ */
+function action_media_import(): void
+{
+    $files = request('files')['import'] ?? null;
+
+    if ($files) {
+        foreach ($files as $file) {
+            $name = filter_file($file['name'], path('media'));
+
+            if (!file_upload($file['tmp_name'], $name)) {
+                message(_('File upload failed for %s', $name));
+            }
+        }
+    } else {
+        message(_('No files to import'));
+    }
+
+    redirect(url('*/admin'));
+}
+
+/**
  * Account Password Action
  *
  * @return void
