@@ -10,7 +10,7 @@ use RuntimeException;
  */
 function saver(array $attr, array $data): array
 {
-    return $attr['saver'] ? $attr['saver']($attr, $data) : $data;
+    return $attr['nullable'] && $data[$attr['id']] === null || !$attr['saver'] ? $data : $attr['saver']($attr, $data);
 }
 
 /**
@@ -50,7 +50,7 @@ function saver_file(array $attr, array $data): array
  */
 function saver_json(array $attr, array $data): array
 {
-    if ($attr['multiple'] && ($data[$attr['id']] = json_encode($data[$attr['id']])) === false) {
+    if (is_array($data[$attr['id']]) && ($data[$attr['id']] = json_encode($data[$attr['id']])) === false) {
         throw new RuntimeException(_('JSON encoding failed for %s', $attr['id']));
     }
 
