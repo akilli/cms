@@ -133,7 +133,7 @@ function section_pager(array $§): string
     $§['vars']['page'] = max($§['vars']['params']['page'] ?? 0, 1);
     $§['vars']['offset'] = ($§['vars']['page'] - 1) * $§['vars']['limit'];
     unset($§['vars']['params']['page']);
-    $c = data('app', 'pager');
+    $c = cfg('app', 'pager');
     $min = max(1, min($§['vars']['page'] - intdiv($c, 2), $§['vars']['pages'] - $c + 1));
     $max = min($min + $c - 1, $§['vars']['pages']);
 

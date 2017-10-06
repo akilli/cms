@@ -53,7 +53,7 @@ function viewer_opt(array $attr, array $data): string
  */
 function viewer_date(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), data('app', 'date')) : '';
+    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), cfg('app', 'date')) : '';
 }
 
 /**
@@ -66,7 +66,7 @@ function viewer_date(array $attr, array $data): string
  */
 function viewer_datetime(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), data('app', 'datetime')) : '';
+    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), cfg('app', 'datetime')) : '';
 }
 
 /**
@@ -79,7 +79,7 @@ function viewer_datetime(array $attr, array $data): string
  */
 function viewer_time(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), data('app', 'time')) : '';
+    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), cfg('app', 'time')) : '';
 }
 
 /**

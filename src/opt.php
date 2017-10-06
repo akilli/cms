@@ -62,7 +62,7 @@ function opt_privilege(): array
 {
     $data = [];
 
-    foreach (data('privilege') as $key => $priv) {
+    foreach (cfg('privilege') as $key => $priv) {
         if (empty($priv['call']) && allowed($key)) {
             $data[$key] = $priv['name'];
         }

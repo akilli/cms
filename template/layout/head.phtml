@@ -1,5 +1,5 @@
 <?php namespace cms; /** @var callable $§ */?>
-<meta charset="<?= data('app', 'charset');?>" />
+<meta charset="<?= cfg('app', 'charset');?>" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <title><?=$§('title');?></title>
 <link rel="stylesheet" href="<?=url_theme('theme.css');?>" />
@@ -9,7 +9,7 @@
 <script>
     const app =
     {
-        i18n: <?=json_encode(data('i18n'));?>,
+        i18n: <?=json_encode(cfg('i18n'));?>,
         _: function (key)
         {
             return this.i18n[key] ? this.i18n[key] : key;

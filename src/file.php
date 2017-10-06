@@ -116,7 +116,7 @@ function file_accept(string $type): string
 {
     $accept = '';
 
-    foreach (data('file') as $ext => $types) {
+    foreach (cfg('file') as $ext => $types) {
         if (in_array($type, $types)) {
             $accept .= ($accept ? ', .' : '.') . $ext;
         }

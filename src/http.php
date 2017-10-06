@@ -228,7 +228,7 @@ function http_file(array $data): array
         return $data;
     }
 
-    $exts = data('file');
+    $exts = cfg('file');
     $files = [];
 
     foreach ($data['name'] as $key => $value) {

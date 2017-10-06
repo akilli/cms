@@ -1,6 +1,6 @@
 <?php namespace cms; /** @var callable $§ */?>
 <nav id="<?=$§('id');?>">
-    <?php foreach (data('toolbar') as $item):?>
+    <?php foreach (cfg('toolbar') as $item):?>
     <a href="<?=$item['url'];?>"><?=$item['name'];?></a>
     <?php endforeach;?>
 </nav>

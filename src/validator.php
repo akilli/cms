@@ -275,7 +275,7 @@ function validator_file(array $attr, array $data): array
     $file = request('files')[$attr['id']] ?? null;
 
     if ($file) {
-        if (!in_array($attr['type'], data('file', pathinfo($file['name'], PATHINFO_EXTENSION)) ?? [])) {
+        if (!in_array($attr['type'], cfg('file', pathinfo($file['name'], PATHINFO_EXTENSION)) ?? [])) {
             throw new DomainException(_('Invalid file %s', $file['name']));
         }
 

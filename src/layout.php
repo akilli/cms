@@ -39,7 +39,7 @@ function layout(string $id = null, array $§ = null): ?array
     $data = & registry('layout');
 
     if ($data === null) {
-        $data = data('layout');
+        $data = cfg('layout');
     }
 
     // Get whole layout
@@ -53,7 +53,7 @@ function layout(string $id = null, array $§ = null): ?array
     }
 
     // Add new or update existing section
-    if (empty($data[$id]) && (empty($§['section']) || !($data[$id] = data('section', $§['section'])))) {
+    if (empty($data[$id]) && (empty($§['section']) || !($data[$id] = cfg('section', $§['section'])))) {
         throw new InvalidArgumentException(_('No or invalid section for ID %s', $id));
     }
 

@@ -88,7 +88,7 @@ function account_user(): bool
  */
 function allowed(string $key): bool
 {
-    $data = data('privilege');
+    $data = cfg('privilege');
     $key = resolve($key);
 
     // Privilege does not exist
@@ -114,5 +114,5 @@ function allowed_url(string $path): bool
 
     $parts = explode('/', ltrim(url_rewrite($path), '/'));
 
-    return data('entity', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
+    return cfg('entity', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
 }

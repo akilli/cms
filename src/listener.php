@@ -6,13 +6,13 @@ namespace cms;
 use RuntimeException;
 
 /**
- * App data listener
+ * App config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_app(array $data): array
+function listener_cfg_app(array $data): array
 {
     ini_set('default_charset', $data['charset']);
     ini_set('intl.default_locale', $data['locale']);
@@ -22,16 +22,16 @@ function listener_data_app(array $data): array
 }
 
 /**
- * Entity data listener
+ * Entity config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_entity(array $data): array
+function listener_cfg_entity(array $data): array
 {
-    $model = data('model');
-    $cfg = data('attr');
+    $model = cfg('model');
+    $cfg = cfg('attr');
 
     foreach ($data as $eId => $entity) {
         $entity = array_replace(ENTITY, $entity);
@@ -80,31 +80,31 @@ function listener_data_entity(array $data): array
 }
 
 /**
- * I18n data listener
+ * I18n config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_i18n(array $data): array
+function listener_cfg_i18n(array $data): array
 {
-    return $data + data('i18n.' . data('app', 'lang'));
+    return $data + cfg('i18n.' . cfg('app', 'lang'));
 }
 
 /**
- * Layout data listener
+ * Layout config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_layout(array $data): array
+function listener_cfg_layout(array $data): array
 {
     $a = 'account-' . (account_user() ? 'user' : 'guest');
     $b = 'action-' . request('action');
     $c = 'entity-' . request('entity');
     $d = request('path');
-    $section = data('section');
+    $section = cfg('section');
     $data = array_replace_recursive($data[ALL], $data[$a] ?? [], $data[$b] ?? [], $data[$c] ?? [], $data[$d] ?? []);
 
     foreach ($data as $id => $§) {
@@ -115,19 +115,19 @@ function listener_data_layout(array $data): array
 }
 
 /**
- * Privilege data listener
+ * Privilege config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_privilege(array $data): array
+function listener_cfg_privilege(array $data): array
 {
     foreach ($data as $id => $item) {
         $data[$id]['name'] = !empty($item['name']) ? _($item['name']) : '';
     }
 
-    foreach (data('entity') as $eId => $entity) {
+    foreach (cfg('entity') as $eId => $entity) {
         foreach ($entity['actions'] as $act) {
             $data[$eId . '/' . $act]['name'] = $entity['name'] . ' ' . _(ucwords($act));
         }
@@ -137,13 +137,13 @@ function listener_data_privilege(array $data): array
 }
 
 /**
- * Section data listener
+ * Section config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_section(array $data): array
+function listener_cfg_section(array $data): array
 {
     foreach ($data as $id => $item) {
         $data[$id] = array_replace_recursive(SECTION, $item);
@@ -153,13 +153,13 @@ function listener_data_section(array $data): array
 }
 
 /**
- * Toolbar data listener
+ * Toolbar config listener
  *
  * @param array $data
  *
  * @return array
  */
-function listener_data_toolbar(array $data): array
+function listener_cfg_toolbar(array $data): array
 {
     foreach ($data as $key => $item) {
         if (allowed_url($item['url'])) {

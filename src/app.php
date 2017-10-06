@@ -21,7 +21,7 @@ function app(): void
     $prefix = 'cms\action_';
     $act = request('action');
     $eId = request('entity');
-    $entity = data('entity', $eId);
+    $entity = cfg('entity', $eId);
     $args = $entity ? [$entity] : [];
 
     foreach ([$prefix . $eId . '_' . $act, $prefix . $act] as $call) {
@@ -67,7 +67,7 @@ function path(string $dir, string $id = null): string
     $data = & registry('path');
 
     if ($data === null) {
-        $data['data'] = '/app/data';
+        $data['cfg'] = '/app/cfg';
         $data['log'] = '/var/log/app';
         $data['media'] = '/data';
         $data['template'] = '/app/template';
@@ -83,20 +83,20 @@ function path(string $dir, string $id = null): string
 }
 
 /**
- * Data
+ * Config
  *
  * @param string $section
  * @param string $id
  *
  * @return mixed
  */
-function data(string $section, string $id = null)
+function cfg(string $section, string $id = null)
 {
-    $data = & registry('data.' . $section);
+    $data = & registry('cfg.' . $section);
 
     if ($data === null) {
-        $data = arr_load(path('data', $section . '.php'));
-        $data = event('data.' . $section, $data);
+        $data = arr_load(path('cfg', $section . '.php'));
+        $data = event('cfg.' . $section, $data);
     }
 
     if ($id === null) {
@@ -116,7 +116,7 @@ function data(string $section, string $id = null)
  */
 function event(string $event, array $data): array
 {
-    if (($listeners = data('listener', $event)) && asort($listeners, SORT_NUMERIC)) {
+    if (($listeners = cfg('listener', $event)) && asort($listeners, SORT_NUMERIC)) {
         foreach (array_keys($listeners) as $call) {
             $data = $call($data);
         }
@@ -139,7 +139,7 @@ function _(string $key, string ...$args): string
         return '';
     }
 
-    $key = data('i18n', $key) ?? $key;
+    $key = cfg('i18n', $key) ?? $key;
 
     if (!$args) {
         return $key;

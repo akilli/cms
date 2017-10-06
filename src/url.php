@@ -80,7 +80,7 @@ function url_theme(string $path): string
 function url_rewrite(string $path): string
 {
     if ($path === '/') {
-        return data('app', 'home');
+        return cfg('app', 'home');
     }
 
     if (!preg_match('#' . URL['page'] . '$#', $path)) {

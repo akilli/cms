@@ -53,7 +53,7 @@ const OPTS = [
  */
 function size(string $eId, array $crit = []): int
 {
-    $entity = data('entity', $eId);
+    $entity = cfg('entity', $eId);
     $opts = ['mode' => 'size'] + OPTS;
 
     try {
@@ -77,7 +77,7 @@ function size(string $eId, array $crit = []): int
  */
 function one(string $eId, array $crit = [], array $opts = []): array
 {
-    $entity = data('entity', $eId);
+    $entity = cfg('entity', $eId);
     $data = [];
     $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'one', 'limit' => 1]);
 
@@ -104,7 +104,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
  */
 function all(string $eId, array $crit = [], array $opts = []): array
 {
-    $entity = data('entity', $eId);
+    $entity = cfg('entity', $eId);
     $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'all']);
 
     if ($opts['select']) {
@@ -262,7 +262,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
  */
 function entity(string $eId, bool $bare = false): array
 {
-    if (!$entity = data('entity', $eId)) {
+    if (!$entity = cfg('entity', $eId)) {
         throw new RuntimeException(_('Invalid entity %s', $eId));
     }
 

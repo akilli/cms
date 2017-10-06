@@ -53,7 +53,7 @@ function action_index(array $entity): void
 {
     $act = request('action');
     $attrs = entity_attr($entity, $act);
-    $opts = ['limit' => data('app', 'limit')];
+    $opts = ['limit' => cfg('app', 'limit')];
     $crit = [];
 
     if ($act !== 'admin' && !empty($entity['attr']['active'])) {
@@ -197,7 +197,7 @@ function action_view(array $entity): void
  */
 function action_media_browser(array $entity): void
 {
-    $exts = data('file');
+    $exts = cfg('file');
     $data = [];
 
     foreach (all($entity['id'], [], ['order' => ['name' => 'asc']]) as $file) {
