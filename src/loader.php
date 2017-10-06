@@ -20,13 +20,5 @@ function loader(array $attr, array $data)
  */
 function loader_json(array $attr, array $data): array
 {
-    if (!$data[$attr['id']]) {
-        return [];
-    }
-
-    if (is_array($data[$attr['id']])) {
-        return $data[$attr['id']];
-    }
-
-    return json_decode($data[$attr['id']], true) ?: [];
+    return $data[$attr['id']] && ($val = json_decode($data[$attr['id']], true)) ? $val : [];
 }
