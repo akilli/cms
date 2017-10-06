@@ -39,7 +39,6 @@ function layout(string $id = null, array $§ = null): ?array
     $data = & registry('layout');
 
     if ($data === null) {
-        $data = [];
         $data = data('layout');
     }
 
