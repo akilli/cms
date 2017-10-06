@@ -72,7 +72,5 @@ function layout(string $id = null, array $§ = null): ?array
  */
 function layout_vars(string $id, array $vars): void
 {
-    $§ = layout($id);
-    $§['vars'] = array_replace($§['vars'], $vars);
-    layout($id, $§);
+    layout($id, ['vars' => $vars]);
 }
