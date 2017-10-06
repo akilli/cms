@@ -70,7 +70,7 @@ function path(string $dir, string $id = null): string
         $data['cfg'] = '/app/cfg';
         $data['log'] = '/var/log/app';
         $data['media'] = '/data';
-        $data['theme'] = '/app/public/theme';
+        $data['theme'] = '/app/www/theme';
         $data['tmp'] = '/tmp';
         $data['tpl'] = '/app/tpl';
     }
