@@ -124,16 +124,18 @@ function listener_data_i18n(array $data): array
  */
 function listener_data_layout(array $data): array
 {
-    $p = [];
-    $acc = 'account-' . (account_user() ? 'user' : 'guest');
+    $a = 'account-' . (account_user() ? 'user' : 'guest');
+    $b = 'action-' . request('action');
+    $c = 'entity-' . request('entity');
+    $d = request('path');
+    $section = data('section');
+    $data = array_replace_recursive($data[ALL], $data[$a] ?? [], $data[$b] ?? [], $data[$c] ?? [], $data[$d] ?? []);
 
-    foreach ([$acc, 'action-' . request('action'), 'entity-' . request('entity'), request('path')] as $key) {
-        if (!empty($data[$key])) {
-            $p[] = $data[$key];
-        }
+    foreach ($data as $id => $§) {
+        $data[$id] = array_replace_recursive($section[$§['section']], $§, ['id' => $id]);
     }
 
-    return array_replace_recursive($data[ALL], ...$p);
+    return $data;
 }
 
 /**
@@ -168,7 +170,7 @@ function listener_data_privilege(array $data): array
 function listener_data_section(array $data): array
 {
     foreach ($data as $id => $item) {
-        $data[$id] = array_replace(SECTION, $item);
+        $data[$id] = array_replace_recursive(SECTION, $item);
     }
 
     return $data;

@@ -27,7 +27,6 @@ function action_error(): void
 {
     header('HTTP/1.1 404 Not Found');
     message(_('Page not found'));
-    layout_load();
     layout_vars('head', ['title' => _('Page not found')]);
 }
 
@@ -92,7 +91,6 @@ function action_index(array $entity): void
     }
 
     session_set($sessKey, $p);
-    layout_load();
     layout_vars('content', ['attr' => $attrs, 'data' => all($entity['id'], $crit, $opts), 'params' => $p, 'title' => $entity['name']]);
     layout_vars('pager', ['limit' => $opts['limit'], 'params' => $p, 'size' => $size]);
     layout_vars('search', ['q' => $p['q'] ?? '']);
@@ -123,7 +121,6 @@ function action_edit(array $entity): void
         $data = entity($entity['id']);
     }
 
-    layout_load();
     layout_vars('content', ['data' => $data, 'attr' => entity_attr($entity, 'edit'), 'title' => $entity['name']]);
     layout_vars('head', ['title' => $entity['name']]);
 }
@@ -149,7 +146,6 @@ function action_form(array $entity): void
         $data = entity($entity['id']);
     }
 
-    layout_load();
     layout_vars('content', ['data' => $data, 'attr' => entity_attr($entity, 'form'), 'title' => $entity['name']]);
     layout_vars('head', ['title' => $entity['name']]);
 }
@@ -188,7 +184,6 @@ function action_view(array $entity): void
         return;
     }
 
-    layout_load();
     layout_vars('content', ['data' => $data, 'attr' => entity_attr($entity, 'view')]);
     layout_vars('head', ['title' => $data['name']]);
 }
@@ -257,7 +252,6 @@ function action_account_password(): void
         }
     }
 
-    layout_load();
     layout_vars('head', ['title' => _('Password')]);
 }
 
@@ -283,7 +277,6 @@ function action_account_login(): void
         message(_('Invalid name and password combination'));
     }
 
-    layout_load();
     layout_vars('head', ['title' => _('Login')]);
 }
 

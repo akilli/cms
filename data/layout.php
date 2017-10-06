@@ -4,6 +4,7 @@ return [
         'root' => [
             'section' => 'template',
             'template' => 'layout/root.phtml',
+            'parent_id' => null,
         ],
         'head' => [
             'section' => 'template',
@@ -15,7 +16,7 @@ return [
         'header' => [
             'section' => 'template',
             'template' => 'layout/header.phtml',
-            'parent' => 'top',
+            'parent_id' => 'top',
             'sort' => -1,
         ],
         'message' => [
@@ -40,66 +41,66 @@ return [
         'content' => [
             'section' => 'template',
             'template' => 'entity/admin.phtml',
-            'parent' => 'main',
+            'parent_id' => 'main',
         ],
         'pager' => [
             'section' => 'pager',
-            'parent' => 'content',
+            'parent_id' => 'content',
         ],
         'search' => [
             'section' => 'template',
             'template' => 'entity/search.phtml',
-            'parent' => 'right',
+            'parent_id' => 'right',
         ],
         'create' => [
             'section' => 'template',
             'template' => 'entity/create.phtml',
             'privilege' => '*/edit',
-            'parent' => 'right',
+            'parent_id' => 'right',
         ],
     ],
     'action-index' => [
         'content' => [
             'section' => 'template',
             'template' => 'entity/index.phtml',
-            'parent' => 'main',
+            'parent_id' => 'main',
         ],
         'pager' => [
             'section' => 'pager',
-            'parent' => 'content',
+            'parent_id' => 'content',
         ],
         'search' => [
             'section' => 'template',
             'template' => 'entity/search.phtml',
-            'parent' => 'right',
+            'parent_id' => 'right',
         ],
     ],
     'action-edit' => [
         'content' => [
             'section' => 'template',
             'template' => 'entity/edit.phtml',
-            'parent' => 'main',
+            'parent_id' => 'main',
         ],
     ],
     'action-form' => [
         'content' => [
             'section' => 'template',
             'template' => 'entity/edit.phtml',
-            'parent' => 'main',
+            'parent_id' => 'main',
         ],
     ],
     'action-view' => [
         'content' => [
             'section' => 'template',
             'template' => 'entity/view.phtml',
-            'parent' => 'main',
+            'parent_id' => 'main',
         ],
     ],
     'account-user' => [
         'toolbar' => [
             'section' => 'template',
             'template' => 'account/toolbar.phtml',
-            'parent' => 'top',
+            'parent_id' => 'top',
             'sort' => -2,
         ],
     ],
@@ -107,7 +108,7 @@ return [
          'content' => [
             'section' => 'template',
             'template' => 'account/password.phtml',
-            'parent' => 'main',
+            'parent_id' => 'main',
         ],
     ],
     'account/login' => [
@@ -117,30 +118,30 @@ return [
         'content' => [
             'section' => 'template',
             'template' => 'account/login.phtml',
-            'parent' => 'main',
+            'parent_id' => 'main',
         ],
     ],
     'page/index' => [
         'nav' => [
             'section' => 'nav',
-            'parent' => 'top',
+            'parent_id' => 'top',
             'vars' => ['mode' => 'top'],
         ],
         'subnav' => [
             'section' => 'nav',
-            'parent' => 'right',
+            'parent_id' => 'right',
             'vars' => ['mode' => 'sub'],
         ],
     ],
     'page/view' => [
         'nav' => [
             'section' => 'nav',
-            'parent' => 'top',
+            'parent_id' => 'top',
             'vars' => ['mode' => 'top'],
         ],
         'subnav' => [
             'section' => 'nav',
-            'parent' => 'right',
+            'parent_id' => 'right',
             'vars' => ['mode' => 'sub'],
         ],
     ],

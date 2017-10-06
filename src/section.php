@@ -11,12 +11,11 @@ const SECTION = [
     'section' => null,
     'call' => null,
     'template' => null,
-    'vars' => [],
     'active' => true,
     'privilege' => null,
-    'parent' => 'root',
+    'parent_id' => 'root',
     'sort' => 0,
-    'children' => [],
+    'vars' => [],
 ];
 
 /**
@@ -31,12 +30,8 @@ function section_container(array $§): string
     $§['vars']['tag'] = $§['vars']['tag'] ?? null;
     $html = '';
 
-    if (!empty($§['children']) && is_array($§['children'])) {
-        asort($§['children'], SORT_NUMERIC);
-
-        foreach (array_keys($§['children']) as $id) {
-            $html .= section($id);
-        }
+    foreach (arr_order(arr_filter(layout(), [['parent_id', $§['id']]]), ['sort' => 'asc']) as $child) {
+        $html .= section($child['id']);
     }
 
     return $html && $§['vars']['tag'] ? html($§['vars']['tag'], ['id' => $§['id']], $html) : $html;

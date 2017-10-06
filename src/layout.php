@@ -25,71 +25,42 @@ function section(string $id): string
 }
 
 /**
- * Layout
+ * Get or add layout section
  *
  * @param string $id
  * @param array $§
  *
  * @return array|null
+ *
+ * @throws InvalidArgumentException
  */
-function layout(string $id, array $§ = null): ?array
+function layout(string $id = null, array $§ = null): ?array
 {
     $data = & registry('layout');
 
     if ($data === null) {
         $data = [];
+        $data = data('layout');
     }
 
-    if ($§ !== null) {
-        $data[$id] = $§;
+    // Get whole layout
+    if ($id === null) {
+        return $data;
     }
 
-    return $data[$id] ?? null;
-}
-
-/**
- * Load layout
- *
- * @return void
- */
-function layout_load(): void
-{
-    foreach (data('layout') as $id => $§) {
-        $§['id'] = $id;
-        layout_add($§);
-    }
-}
-
-/**
- * Add section to layout
- *
- * @param array $§
- *
- * @return void
- *
- * @throws InvalidArgumentException
- */
-function layout_add(array $§): void
-{
-    if (empty($§['id'])) {
-        throw new InvalidArgumentException(_('No section ID given'));
+    // Get layout section
+    if ($§ === null) {
+        return $data[$id] ?? null;
     }
 
-    $data = layout($§['id']);
-
-    // New section
-    if ($data === null && (empty($§['section']) || !($data = data('section', $§['section'])))) {
-        throw new InvalidArgumentException(_('No or invalid section for ID %s', $§['id']));
+    // Add new or update existing section
+    if (empty($data[$id]) && (empty($§['section']) || !($data[$id] = data('section', $§['section'])))) {
+        throw new InvalidArgumentException(_('No or invalid section for ID %s', $id));
     }
 
-    if ($§['id'] === 'root') {
-        $§['parent'] = '';
-    } elseif (!empty($§['parent']) && $§['parent'] !== $data['parent']) {
-        layout_parent($§, $data['parent']);
-    }
+    $data[$id] = array_replace_recursive($data[$id], $§, ['id' => $id]);
 
-    // Add or update section
-    layout($§['id'], array_replace($data, $§));
+    return $data[$id];
 }
 
 /**
@@ -103,29 +74,6 @@ function layout_add(array $§): void
 function layout_vars(string $id, array $vars): void
 {
     $§ = layout($id);
-    $§['vars'] = array_replace($§['vars'] ?? [], $vars);
+    $§['vars'] = array_replace($§['vars'], $vars);
     layout($id, $§);
-}
-
-/**
- * Sets or updates parent section
- *
- * @param array $§
- * @param string $oldId
- *
- * @return void
- */
-function layout_parent(array $§, string $oldId): void
-{
-    // Remove section from old parent section if it exists
-    if ($oldParent = layout($oldId)) {
-        unset($oldParent['children'][$§['id']]);
-        layout($oldId, $oldParent);
-    }
-
-    // Add section to new parent section if it exists
-    if ($parent = layout($§['parent'])) {
-        $parent['children'][$§['id']] = $§['sort'] ?? 0;
-        layout($§['parent'], $parent);
-    }
 }

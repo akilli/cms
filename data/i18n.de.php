@@ -49,7 +49,6 @@ return [
     'No entries found' => 'Keine Einträge gefunden',
     'No options configured' => 'Keine Optionen konfiguriert',
     'No or invalid section for ID %s' => 'Fehlender oder ungültiger Layoutbereich für ID %s',
-    'No section ID given' => 'Keine ID für den Layoutbereich vorhanden',
     'Nothing selected for deletion' => 'Nichts zum Löschen ausgewählt',
     'Page not found' => 'Seite nicht gefunden',
     'Pages' => 'Seiten',
