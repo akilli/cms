@@ -49,7 +49,7 @@ function saver_password(array $attr, array $data): array
  */
 function saver_file(array $attr, array $data): array
 {
-    $file = request('files')[$attr['id']] ?? null;
+    $file = request('file')[$attr['id']] ?? null;
 
     if ($data[$attr['id']] && (!$file || !file_upload($file['tmp_name'], $data[$attr['id']]))) {
         throw new RuntimeException(_('File upload failed for %s', $data[$attr['id']]));

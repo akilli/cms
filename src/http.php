@@ -150,7 +150,7 @@ function request(string $key)
         }
 
         $req['param'] = http_filter($param + $_GET);
-        $req['files'] = !empty($_FILES['data']) ? http_file($_FILES['data']) : [];
+        $req['file'] = !empty($_FILES['data']) ? http_file($_FILES['data']) : [];
         $req['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $parts = explode('/', trim(url_rewrite($req['url']), '/'));
         $req['entity'] = $parts[0];

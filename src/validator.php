@@ -272,7 +272,7 @@ function validator_time(array $attr, array $data): array
  */
 function validator_file(array $attr, array $data): array
 {
-    $file = request('files')[$attr['id']] ?? null;
+    $file = request('file')[$attr['id']] ?? null;
 
     if ($file) {
         if (!in_array($attr['type'], cfg('file', pathinfo($file['name'], PATHINFO_EXTENSION)) ?? [])) {

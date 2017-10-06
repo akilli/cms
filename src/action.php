@@ -240,7 +240,7 @@ function action_media_view(array $entity): void
  */
 function action_media_import(): void
 {
-    $files = request('files')['import'] ?? null;
+    $files = request('file')['import'] ?? null;
 
     if ($files) {
         foreach ($files as $file) {
