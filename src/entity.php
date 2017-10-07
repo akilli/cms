@@ -117,16 +117,14 @@ function all(string $eId, array $crit = [], array $opts = []): array
 function save(string $eId, array & $data): bool
 {
     $temp = $data;
+    $editable = entity($eId);
 
-    if (empty($temp['id']) || !($base = one($eId, [['id', $temp['id']]]))) {
-        $base = entity($eId);
-    } elseif (empty($temp['_old'])) {
+    if (!empty($temp['id']) && ($base = one($eId, [['id', $temp['id']]]))) {
         $temp['_old'] = $base;
         unset($temp['_old']['_entity'], $temp['_old']['_old']);
     }
 
-    $editable = entity($eId, true);
-    $temp = array_replace($base, $editable, $temp);
+    $temp = array_replace($editable, $temp);
     $aIds = array_keys(array_intersect_key($editable, $temp['_entity']['attr']));
 
     foreach ($aIds as $aId) {
