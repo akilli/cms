@@ -28,16 +28,19 @@ function validator(array $attr, array $data): array
         throw new DomainException(_('%s must be unique', $attr['name']));
     }
 
-    if ($attr['required'] && ($data[$attr['id']] === null || $data[$attr['id']] === '') && !ignorable($attr, $data)) {
+    $empty = $data[$attr['id']] === null || $data[$attr['id']] === '';
+    $ignorable = ignorable($attr, $data);
+
+    if ($attr['required'] && $empty && !$ignorable) {
         throw new DomainException(_('%s is required', $attr['name']));
     }
 
     $vals = $attr['multiple'] && is_array($data[$attr['id']]) ? $data[$attr['id']] : [$data[$attr['id']]];
 
     foreach ($vals as $val) {
-        if ($attr['min'] > 0 && $val < $attr['min']
+        if ($attr['min'] > 0 && $val < $attr['min'] && (!$empty || !$ignorable)
             || $attr['max'] > 0 && $val > $attr['max']
-            || $attr['minlength'] > 0 && strlen($val) < $attr['minlength']
+            || $attr['minlength'] > 0 && strlen($val) < $attr['minlength'] && (!$empty || !$ignorable)
             || $attr['maxlength'] > 0 && strlen($val) > $attr['maxlength']
         ) {
             throw new DomainException(_('Value out of range'));

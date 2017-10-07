@@ -60,6 +60,7 @@ return [
                 'type' => 'password',
                 'required' => true,
                 'actions' => ['edit'],
+                'minlength' => 8,
             ],
             'role_id' => [
                 'name' => 'Role',
