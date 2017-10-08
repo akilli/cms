@@ -250,9 +250,9 @@ function action_account_login(): void
 
     if ($data = request('data')) {
         if (!empty($data['name']) && !empty($data['password']) && ($data = account_login($data['name'], $data['password']))) {
-            msg(_('Welcome %s', $data['name']));
             session_regenerate();
             session_set('account', $data['id']);
+            msg(_('Welcome %s', $data['name']));
             redirect();
         }
 
