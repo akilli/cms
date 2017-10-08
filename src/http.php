@@ -119,7 +119,7 @@ function request(string $key)
 
         if (!empty($_POST['token'])) {
             if (session_get('token') === $_POST['token']) {
-                $req['file'] = !empty($_FILES['data']) && is_array(!$_FILES['data']) ? http_file($_FILES['data']) : [];
+                $req['file'] = !empty($_FILES['data']) && is_array($_FILES['data']) ? http_file($_FILES['data']) : [];
                 $req['data'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
                 $param = !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
             }
