@@ -19,8 +19,8 @@ return [
             'parent_id' => 'top',
             'sort' => -1,
         ],
-        'message' => [
-            'section' => 'message',
+        'msg' => [
+            'section' => 'msg',
         ],
         'left' => [
             'section' => 'container',

@@ -12,7 +12,7 @@ function action_denied(): void
         redirect(url('account/login'));
     }
 
-    message(_('Access denied'));
+    msg(_('Access denied'));
     redirect();
 }
 
@@ -22,7 +22,7 @@ function action_denied(): void
 function action_error(): void
 {
     header('HTTP/1.1 404 Not Found');
-    message(_('Page not found'));
+    msg(_('Page not found'));
     layout_vars('head', ['title' => _('Page not found')]);
 }
 
@@ -138,7 +138,7 @@ function action_delete(array $entity): void
     if ($id = request('id')) {
         delete($entity['id'], [['id', $id]]);
     } else {
-        message(_('Nothing selected for deletion'));
+        msg(_('Nothing selected for deletion'));
     }
 
     redirect(url('*/admin'));
@@ -207,13 +207,13 @@ function action_media_import(): void
     if ($files) {
         foreach ($files as $file) {
             if (is_file(path('data', $file['name']))) {
-                message(_('File %s already exists', $file['name']));
+                msg(_('File %s already exists', $file['name']));
             } elseif (!file_upload($file['tmp_name'], $file['name'])) {
-                message(_('File upload failed for %s', $file['name']));
+                msg(_('File upload failed for %s', $file['name']));
             }
         }
     } else {
-        message(_('No files to import'));
+        msg(_('No files to import'));
     }
 
     redirect(url('*/admin'));
@@ -226,12 +226,12 @@ function action_account_password(): void
 {
     if ($data = request('data')) {
         if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
-            message(_('Password and password confirmation must be identical'));
+            msg(_('Password and password confirmation must be identical'));
         } else {
             $data = array_replace(account(), ['password' => $data['password']]);
 
             if (!save('account', $data)) {
-                message($data['_error']['password'] ?? _('Could not save %s', $data['name']));
+                msg($data['_error']['password'] ?? _('Could not save %s', $data['name']));
             }
         }
     }
@@ -250,13 +250,13 @@ function action_account_login(): void
 
     if ($data = request('data')) {
         if (!empty($data['name']) && !empty($data['password']) && ($data = account_login($data['name'], $data['password']))) {
-            message(_('Welcome %s', $data['name']));
+            msg(_('Welcome %s', $data['name']));
             session_regenerate();
             session_set('account', $data['id']);
             redirect();
         }
 
-        message(_('Invalid name and password combination'));
+        msg(_('Invalid name and password combination'));
     }
 
     layout_vars('head', ['title' => _('Login')]);

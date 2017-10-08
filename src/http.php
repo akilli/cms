@@ -66,13 +66,13 @@ function session_regenerate(): void
 /**
  * Add message
  */
-function message(string $message): void
+function msg(string $msg): void
 {
-    $data = session_get('message') ?? [];
+    $data = session_get('msg') ?? [];
 
-    if ($message && !in_array($message, $data)) {
-        $data[] = $message;
-        session_set('message', $data);
+    if ($msg && !in_array($msg, $data)) {
+        $data[] = $msg;
+        session_set('msg', $data);
     }
 }
 
@@ -176,7 +176,7 @@ function request_file(array $data): array
         $ok = $data['error'][$key] === UPLOAD_ERR_OK && is_uploaded_file($data['tmp_name'][$key]);
 
         if (!is_array($value) && (!$ok || empty($exts[pathinfo($data['name'][$key], PATHINFO_EXTENSION)]))) {
-            message(_('Invalid file %s', $data['name'][$key]));
+            msg(_('Invalid file %s', $data['name'][$key]));
             continue;
         }
 

@@ -33,13 +33,13 @@ function section_container(array $§): string
 /**
  * Message section
  */
-function section_message(array $§): string
+function section_msg(array $§): string
 {
-    if (!$§['vars']['data'] = session_get('message')) {
+    if (!$§['vars']['data'] = session_get('msg')) {
         return '';
     }
 
-    session_set('message', null);
+    session_set('msg', null);
 
     return section_tpl($§);
 }

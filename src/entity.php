@@ -52,7 +52,7 @@ function size(string $eId, array $crit = []): int
         return $entity['load']($entity, $crit, $opts)[0];
     } catch (Exception $e) {
         logger((string) $e);
-        message(_('Could not load data'));
+        msg(_('Could not load data'));
     }
 
     return 0;
@@ -73,7 +73,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
         }
     } catch (Exception $e) {
         logger((string) $e);
-        message(_('Could not load data'));
+        msg(_('Could not load data'));
     }
 
     return $data;
@@ -105,7 +105,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
         return array_column($data, null, $opts['index']);
     } catch (Exception $e) {
         logger((string) $e);
-        message(_('Could not load data'));
+        msg(_('Could not load data'));
     }
 
     return [];
@@ -136,7 +136,7 @@ function save(string $eId, array & $data): bool
     }
 
     if (!empty($data['_error'])) {
-        message(_('Could not save %s', $temp['name']));
+        msg(_('Could not save %s', $temp['name']));
         return false;
     }
 
@@ -158,10 +158,10 @@ function save(string $eId, array & $data): bool
     );
 
     if ($trans) {
-        message(_('Successfully saved %s', $temp['name']));
+        msg(_('Successfully saved %s', $temp['name']));
         $data = $temp;
     } else {
-        message(_('Could not save %s', $temp['name']));
+        msg(_('Could not save %s', $temp['name']));
     }
 
     return $trans;
@@ -177,7 +177,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
 
     foreach (all($eId, $crit, $opts) as $id => $data) {
         if (!empty($data['system'])) {
-            message(_('System items must not be deleted! Therefore skipped ID %s', (string) $id));
+            msg(_('System items must not be deleted! Therefore skipped ID %s', (string) $id));
             continue;
         }
 
@@ -201,11 +201,11 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
     }
 
     if ($success) {
-        message(_('Successfully deleted %s', implode(', ', $success)));
+        msg(_('Successfully deleted %s', implode(', ', $success)));
     }
 
     if ($error) {
-        message(_('Could not delete %s', implode(', ', $error)));
+        msg(_('Could not delete %s', implode(', ', $error)));
     }
 
     return !$error;

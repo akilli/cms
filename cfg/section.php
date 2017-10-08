@@ -3,9 +3,9 @@ return [
     'container' => [
         'call' => 'cms\section_container',
     ],
-    'message' => [
-        'call' => 'cms\section_message',
-        'tpl' => 'layout/message.phtml',
+    'msg' => [
+        'call' => 'cms\section_msg',
+        'tpl' => 'layout/msg.phtml',
     ],
     'nav' => [
         'call' => 'cms\section_nav',

@@ -122,9 +122,9 @@ function _(string $key, string ...$args): string
 /**
  * Logger
  */
-function logger(string $message): void
+function logger(string $msg): void
 {
-    file_put_contents(path('log', LOG), '[' . date('r') . '] ' . $message . "\n\n", FILE_APPEND);
+    file_put_contents(path('log', LOG), '[' . date('r') . '] ' . $msg . "\n\n", FILE_APPEND);
 }
 
 /**

@@ -17,8 +17,8 @@ foreach (glob(__DIR__ . '/../src/*.php') as $file) {
  * Error handler
  */
 set_error_handler(
-    function (int $severity, string $message, string $file, int $line): void {
-        throw new ErrorException($message, 0, $severity, $file, $line);
+    function (int $severity, string $msg, string $file, int $line): void {
+        throw new ErrorException($msg, 0, $severity, $file, $line);
     }
 );
 set_exception_handler(

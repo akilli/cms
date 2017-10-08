@@ -555,13 +555,13 @@ html[data-path$="/admin"] #right > *:first-child {
 }
 
 /* Messages */
-#message {
+#msg {
     padding: 1.5rem;
     color: var(--secondary-text);
     background: var(--secondary-light);
 }
 
-#message p {
+#msg p {
     margin: 0;
 }
 
