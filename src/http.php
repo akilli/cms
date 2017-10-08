@@ -119,7 +119,7 @@ function request(string $key)
 
         if (!empty($_POST['token'])) {
             if (session_get('token') === $_POST['token']) {
-                $req['file'] = !empty($_FILES['data']) && is_array($_FILES['data']) ? http_file($_FILES['data']) : [];
+                $req['file'] = !empty($_FILES['data']) && is_array($_FILES['data']) ? request_file($_FILES['data']) : [];
                 $req['data'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
                 $req['param'] = !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
             }
@@ -127,7 +127,7 @@ function request(string $key)
             session_set('token', null);
         }
 
-        $req['param'] = http_filter($req['param'] + $_GET);
+        $req['param'] = request_filter($req['param'] + $_GET);
         $req['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $parts = explode('/', trim(url_rewrite($req['url']), '/'));
         $req['entity'] = $parts[0];
@@ -140,33 +140,9 @@ function request(string $key)
 }
 
 /**
- * Resolves wildcards, i.e. asterisks, for entity and action part with appropriate values from current request
- */
-function resolve(string $path): string
-{
-    if (strpos($path, '*') === false) {
-        return $path;
-    }
-
-    $parts = explode('/', $path);
-
-    // Wildcard for Entity Part
-    if ($parts[0] === '*') {
-        $parts[0] = request('entity');
-    }
-
-    // Wildcard for Action Part
-    if (!empty($parts[1]) && $parts[1] === '*') {
-        $parts[1] = request('action');
-    }
-
-    return implode('/', $parts);
-}
-
-/**
  * Filters request variables
  */
-function http_filter(array $data): array
+function request_filter(array $data): array
 {
     foreach ($data as $key => $val) {
         $val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR | FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -184,7 +160,7 @@ function http_filter(array $data): array
 /**
  * Filters file uploads
  */
-function http_file(array $data): array
+function request_file(array $data): array
 {
     $keys = array_keys($data);
     sort($keys);
@@ -204,7 +180,7 @@ function http_file(array $data): array
             continue;
         }
 
-        $f = http_file(
+        $f = request_file(
             [
                 'error' => $data['error'][$key],
                 'name' => $data['name'][$key],

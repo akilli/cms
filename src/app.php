@@ -126,3 +126,27 @@ function logger(string $message): void
 {
     file_put_contents(path('log', LOG), '[' . date('r') . '] ' . $message . "\n\n", FILE_APPEND);
 }
+
+/**
+ * Resolves wildcards, i.e. asterisks, for entity and action part with appropriate values from current request
+ */
+function resolve(string $path): string
+{
+    if (strpos($path, '*') === false) {
+        return $path;
+    }
+
+    $parts = explode('/', $path);
+
+    // Wildcard for Entity Part
+    if ($parts[0] === '*') {
+        $parts[0] = request('entity');
+    }
+
+    // Wildcard for Action Part
+    if (!empty($parts[1]) && $parts[1] === '*') {
+        $parts[1] = request('action');
+    }
+
+    return implode('/', $parts);
+}
