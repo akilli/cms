@@ -28,26 +28,6 @@ function filter_id(string $id, string $sep = '-'): string
 }
 
 /**
- * Generates a unique file name in given path
- */
-function filter_file(string $str, string $path): string
-{
-    $parts = explode('.', $str);
-    $ext = array_pop($parts);
-    $str = filter_id(implode('-', $parts));
-
-    if (file_exists($path . '/' . $str . '.' . $ext)) {
-        $str .= '-';
-
-        for ($i = 1; file_exists($path . '/' . $str . $i . '.' . $ext); $i++);
-
-        $str .= $i;
-    }
-
-    return $str . '.' . $ext;
-}
-
-/**
  * Converts a date, time or datetime from one to another format
  */
 function filter_date(string $date, string $in, string $out): string

@@ -22,6 +22,7 @@ return [
     'Delete' => 'Löschen',
     'Depth' => 'Tiefe',
     'Edit' => 'Bearbeiten',
+    'File %s already exists' => 'Datei %s existiert bereits',
     'File upload failed for %s' => 'Datei %s konnte nicht hochgeladen werden',
     'ID' => 'ID',
     'Import' => 'Import',

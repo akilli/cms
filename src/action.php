@@ -206,10 +206,10 @@ function action_media_import(): void
 
     if ($files) {
         foreach ($files as $file) {
-            $name = filter_file($file['name'], path('data'));
-
-            if (!file_upload($file['tmp_name'], $name)) {
-                message(_('File upload failed for %s', $name));
+            if (is_file(path('data', $file['name']))) {
+                message(_('File %s already exists', $file['name']));
+            } elseif (!file_upload($file['tmp_name'], $file['name'])) {
+                message(_('File upload failed for %s', $file['name']));
             }
         }
     } else {

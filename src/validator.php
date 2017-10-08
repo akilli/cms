@@ -219,11 +219,11 @@ function validator_file(array $attr, array $data): array
             throw new DomainException(_('Invalid file %s', $file['name']));
         }
 
-        if (($data['_old'][$attr['id']] ?? null) === $file['name']) {
-            $data[$attr['id']] = $file['name'];
-        } else {
-            $data[$attr['id']] = filter_file($file['name'], path('data'));
+        if (is_file(path('data', $file['name'])) && ($data['_old'][$attr['id']] ?? null) !== $file['name']) {
+            throw new DomainException(_('File %s already exists', $file['name']));
         }
+
+        $data[$attr['id']] = $file['name'];
     }
 
     return $data;
