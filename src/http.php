@@ -113,11 +113,13 @@ function request(string $key)
 
     if ($req === null) {
         $req['host'] = $_SERVER['HTTP_HOST'];
+        $req['file'] = [];
         $req['data'] = [];
         $param = [];
 
         if (!empty($_POST['token'])) {
             if (session_get('token') === $_POST['token']) {
+                $req['file'] = !empty($_FILES['data']) && is_array(!$_FILES['data']) ? http_file($_FILES['data']) : [];
                 $req['data'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
                 $param = !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
             }
@@ -126,7 +128,6 @@ function request(string $key)
         }
 
         $req['param'] = http_filter($param + $_GET);
-        $req['file'] = !empty($_FILES['data']) ? http_file($_FILES['data']) : [];
         $req['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $parts = explode('/', trim(url_rewrite($req['url']), '/'));
         $req['entity'] = $parts[0];
