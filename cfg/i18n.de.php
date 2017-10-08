@@ -29,6 +29,7 @@ return [
     'Import one or multiple files' => 'Eine oder mehrere Dateien importieren',
     'Invalid attribute configuration' => 'Ungültige Attribut Konfiguration',
     'Invalid criteria' => 'Ungültige Bedingung',
+    'Invalid data' => 'Ungültige Daten',
     'Invalid email' => 'Ungültige E-Mail',
     'Invalid entity %s' => 'Ungültige Entity %s',
     'Invalid entity configuration' => 'Ungültige Entity Konfiguration',

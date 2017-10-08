@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace cms;
 
+use InvalidArgumentException;
+
 /**
  * Session data getter
  *
@@ -159,13 +161,16 @@ function request_filter(array $data): array
 
 /**
  * Filters file uploads
+ *
+ * @throws InvalidArgumentException
  */
 function request_file(array $data): array
 {
-    $keys = array_keys($data);
-    sort($keys);
+    if (!($keys = array_keys($data)) || !sort($keys) || $keys !== ['error', 'name', 'size', 'tmp_name', 'type']) {
+        throw new InvalidArgumentException(_('Invalid data'));
+    }
 
-    if ($keys !== ['error', 'name', 'size', 'tmp_name', 'type'] || !is_array($data['name'])) {
+    if (!is_array($data['name'])) {
         return $data;
     }
 
