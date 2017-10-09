@@ -48,6 +48,26 @@ function db_trans(callable $call): bool
 }
 
 /**
+ * Set appropriate data type
+ */
+function db_type(array $attr, $val): int
+{
+    if ($attr['nullable'] && $val === null) {
+        return PDO::PARAM_NULL;
+    }
+
+    if ($attr['backend'] === 'bool') {
+        return PDO::PARAM_BOOL;
+    }
+
+    if ($attr['backend'] === 'int' || $attr['backend'] === 'decimal') {
+        return PDO::PARAM_INT;
+    }
+
+    return PDO::PARAM_STR;
+}
+
+/**
  * Prepare columns
  */
 function db_cols(array $attrs, array $data): array
@@ -58,7 +78,7 @@ function db_cols(array $attrs, array $data): array
     foreach (array_intersect_key($data, $attrs) as $aId => $val) {
         $attr = $attrs[$aId];
         $p = ':' . $attr['id'];
-        $cols['param'][$attr['col']] = [$p, $val, $attr['nullable'] && $val === null ? PDO::PARAM_NULL : $attr['pdo']];
+        $cols['param'][$attr['col']] = [$p, $val, db_type($attr, $val)];
         $cols['val'][$attr['col']] = $attr['backend'] === 'search' ? 'TO_TSVECTOR(' . $p . ')' : $p;
     }
 
@@ -101,6 +121,7 @@ function db_crit(array $crit, array $attrs): array
             }
 
             $param = ':crit_' . $attr['id'] . '_';
+            $type = db_type($attr, $val);
             $z[$attr['id']] = $z[$attr['id']] ?? 0;
             $val = is_array($val) ? $val : [$val];
             $r = [];
@@ -115,7 +136,7 @@ function db_crit(array $crit, array $attrs): array
                             $r[] = $attr['col'] . $null;
                         } else {
                             $p = $param . ++$z[$attr['id']];
-                            $cols['param'][] = [$p, $v, $attr['pdo']];
+                            $cols['param'][] = [$p, $v, $type];
                             $r[] = $attr['col'] . ' ' . $op . ' ' . $p;
                         }
                     }
@@ -126,7 +147,7 @@ function db_crit(array $crit, array $attrs): array
                 case CRIT['<=']:
                     foreach ($val as $v) {
                         $p = $param . ++$z[$attr['id']];
-                        $cols['param'][] = [$p, $v, $attr['pdo']];
+                        $cols['param'][] = [$p, $v, $type];
                         $r[] = $attr['col'] . ' ' . $op . ' ' . $p;
                     }
                     break;

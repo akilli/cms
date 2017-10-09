@@ -59,7 +59,7 @@ function flat_save(array $data): array
             . db_set($cols['val'])
             . db_where([$attrs['id']['col'] . ' = :_id'])
         );
-        $stmt->bindValue(':_id', $data['_old']['id'], $attrs['id']['pdo']);
+        $stmt->bindValue(':_id', $data['_old']['id'], db_type($attrs['id'], $data['_old']['id']));
     }
 
     foreach ($cols['param'] as $param) {
@@ -83,6 +83,6 @@ function flat_delete(array $data): void
 {
     $attrs = $data['_entity']['attr'];
     $stmt = db()->prepare(db_delete($data['_entity']['tab']) . db_where([$attrs['id']['col'] . ' = :id']));
-    $stmt->bindValue(':id', $data['_old']['id'], $attrs['id']['pdo']);
+    $stmt->bindValue(':id', $data['_old']['id'], db_type($attrs['id'], $data['_old']['id']));
     $stmt->execute();
 }

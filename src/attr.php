@@ -12,7 +12,6 @@ const ATTR = [
     'type' => null,
     'backend' => null,
     'frontend' => null,
-    'pdo' => null,
     'nullable' => false,
     'required' => false,
     'uniq' => false,

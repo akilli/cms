@@ -2,39 +2,21 @@
 return [
     'backend' => [
         'bool' => [
-            'pdo' => PDO::PARAM_BOOL,
             'val' => false,
         ],
-        'date' => [
-            'pdo' => PDO::PARAM_STR,
-        ],
-        'datetime' => [
-            'pdo' => PDO::PARAM_STR,
-        ],
-        'decimal' => [
-            'pdo' => PDO::PARAM_INT,
-        ],
-        'int' => [
-            'pdo' => PDO::PARAM_INT,
-        ],
+        'date' => [],
+        'datetime' => [],
+        'decimal' => [],
+        'int' => [],
         'json' => [
-            'pdo' => PDO::PARAM_STR,
             'val' => [],
             'saver' => 'cms\saver_json',
             'loader' => 'cms\loader_json',
         ],
-        'search' => [
-            'pdo' => PDO::PARAM_STR,
-        ],
-        'text' => [
-            'pdo' => PDO::PARAM_STR,
-        ],
-        'time' => [
-            'pdo' => PDO::PARAM_STR,
-        ],
-        'varchar' => [
-            'pdo' => PDO::PARAM_STR,
-        ],
+        'search' => [],
+        'text' => [],
+        'time' => [],
+        'varchar' => [],
     ],
     'frontend' => [
         'checkbox' => [
