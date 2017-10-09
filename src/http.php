@@ -185,15 +185,14 @@ function request_file(array $data): array
             continue;
         }
 
-        $f = request_file(
-            [
-                'error' => $data['error'][$key],
-                'name' => $data['name'][$key],
-                'type' => $data['type'][$key],
-                'tmp_name' => $data['tmp_name'][$key],
-                'size' => $data['size'][$key]
-            ]
-        );
+        $f = [
+            'error' => $data['error'][$key],
+            'name' => $data['name'][$key],
+            'type' => $data['type'][$key],
+            'tmp_name' => $data['tmp_name'][$key],
+            'size' => $data['size'][$key]
+        ];
+        $f = is_array($val) ? request_file($f) : $f;
 
         if ($f) {
             $files[$key] = $f;
