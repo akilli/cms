@@ -38,7 +38,7 @@ function listener_cfg_entity(array $data): array
         $entity['tab'] = $entity['tab'] ?: $entity['id'];
         $sort = 0;
 
-        foreach ($entity['attr'] as $id => $attr) {
+        foreach ($entity['attr'] as $aId => $attr) {
             if (empty($attr['name']) || empty($attr['type']) || !($type = $cfg['type'][$attr['type']] ?? null)) {
                 throw new RuntimeException(_('Invalid attribute configuration'));
             }
@@ -46,7 +46,7 @@ function listener_cfg_entity(array $data): array
             $backend = $cfg['backend'][$attr['backend'] ?? $type['backend']];
             $frontend = $cfg['frontend'][$attr['frontend'] ?? $type['frontend']];
             $attr = array_replace(ATTR, $backend, $frontend, $type, $attr);
-            $attr['id'] = $id;
+            $attr['id'] = $aId;
             $attr['name'] = _($attr['name']);
             $attr['entity'] = $entity['id'];
 
@@ -61,7 +61,7 @@ function listener_cfg_entity(array $data): array
                 $sort += 100;
             }
 
-            $entity['attr'][$id] = $attr;
+            $entity['attr'][$aId] = $attr;
         }
 
         $entity['attr'] = arr_order($entity['attr'], ['sort' => 'asc']);
