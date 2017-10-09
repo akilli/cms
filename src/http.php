@@ -5,6 +5,8 @@ namespace cms;
 
 use RuntimeException;
 
+const UPLOAD = ['error', 'name', 'size', 'tmp_name', 'type'];
+
 /**
  * Session data getter
  *
@@ -123,6 +125,7 @@ function request(string $key)
             if (session_get('token') === $_POST['token']) {
                 $req['file'] = !empty($_FILES['data']) && is_array($_FILES['data']) ? request_file($_FILES['data']) : [];
                 $req['data'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
+                $req['data'] = array_replace_recursive($req['data'], request_data($req['file']));
                 $req['param'] = !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
             }
 
@@ -160,18 +163,34 @@ function request_filter(array $data): array
 }
 
 /**
+ * Filters request data
+ *
+ * @throws RuntimeException
+ */
+function request_data(array $in): array
+{
+    $out = [];
+
+    foreach ($in as $k => $v) {
+        if (!is_array($v)) {
+            throw new RuntimeException(_('Invalid data'));
+        }
+
+        $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === UPLOAD ? $v['name'] : request_data($v);
+    }
+
+    return $out;
+}
+
+/**
  * Filters file uploads
  *
  * @throws RuntimeException
  */
 function request_file(array $in): array
 {
-    if (!($keys = array_keys($in)) || !sort($keys) || $keys !== ['error', 'name', 'size', 'tmp_name', 'type']) {
+    if (!($keys = array_keys($in)) || !sort($keys) || $keys !== UPLOAD || !is_array($in['name'])) {
         throw new RuntimeException(_('Invalid data'));
-    }
-
-    if (!is_array($in['name'])) {
-        return $in;
     }
 
     $exts = cfg('file');
@@ -191,30 +210,6 @@ function request_file(array $in): array
 
         if ($f) {
             $out[$k] = $f;
-        }
-    }
-
-    return $out;
-}
-
-/**
- * Filters request data
- *
- * @throws RuntimeException
- */
-function request_data(array $in): array
-{
-    $out = [];
-
-    foreach ($in as $k => $v) {
-        if (!is_array($v)) {
-            throw new RuntimeException(_('Invalid data'));
-        }
-
-        if (($keys = array_keys($v)) && sort($keys) && $keys === ['error', 'name', 'size', 'tmp_name', 'type']) {
-            $out[$k] = $v['name'];
-        } else {
-            $out[$k] = request_data($v);
         }
     }
 

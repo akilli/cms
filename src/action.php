@@ -202,14 +202,17 @@ function action_media_view(array $entity): void
  */
 function action_media_import(): void
 {
-    $files = request('file')['import'] ?? null;
+    $data = request('data')['import'] ?? null;
+    $file = request('file')['import'] ?? null;
 
-    if ($files) {
-        foreach ($files as $file) {
-            if (is_file(path('data', $file['name']))) {
-                msg(_('File %s already exists', $file['name']));
-            } elseif (!file_upload($file['tmp_name'], $file['name'])) {
-                msg(_('File upload failed for %s', $file['name']));
+    if ($data) {
+        foreach ($data as $key => $name) {
+            if (is_file(path('data', $name))) {
+                msg(_('File %s already exists', $name));
+            } elseif (!isset($file[$key]['tmp_name'])) {
+                msg(_('Invalid file %s', $name));
+            } elseif (!file_upload($file[$key]['tmp_name'], $name)) {
+                msg(_('File upload failed for %s', $name));
             }
         }
     } else {

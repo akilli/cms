@@ -212,18 +212,14 @@ function validator_time(array $attr, array $data): array
  */
 function validator_file(array $attr, array $data): array
 {
-    $file = request('file')[$attr['id']] ?? null;
-
-    if ($file) {
-        if (!in_array($attr['type'], cfg('file', pathinfo($file['name'], PATHINFO_EXTENSION)) ?? [])) {
-            throw new DomainException(_('Invalid file %s', $file['name']));
+    if ($data[$attr['id']]) {
+        if (!in_array($attr['type'], cfg('file', pathinfo($data[$attr['id']], PATHINFO_EXTENSION)) ?? [])) {
+            throw new DomainException(_('Invalid file %s', $data[$attr['id']]));
         }
 
-        if (is_file(path('data', $file['name'])) && ($data['_old'][$attr['id']] ?? null) !== $file['name']) {
-            throw new DomainException(_('File %s already exists', $file['name']));
+        if (is_file(path('data', $data[$attr['id']])) && ($data['_old'][$attr['id']] ?? null) !== $data[$attr['id']]) {
+            throw new DomainException(_('File %s already exists', $data[$attr['id']]));
         }
-
-        $data[$attr['id']] = $file['name'];
     }
 
     return $data;
