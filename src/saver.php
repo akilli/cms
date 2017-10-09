@@ -14,20 +14,6 @@ function saver(array $attr, array $data): array
 }
 
 /**
- * Password saver
- *
- * @throws RuntimeException
- */
-function saver_password(array $attr, array $data): array
-{
-    if (!$data[$attr['id']] || !($data[$attr['id']] = password_hash($data[$attr['id']], PASSWORD_DEFAULT))) {
-        throw new RuntimeException(_('Could not create password hash'));
-    }
-
-    return $data;
-}
-
-/**
  * File saver
  *
  * @throws RuntimeException

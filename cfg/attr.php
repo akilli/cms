@@ -76,8 +76,7 @@ return [
             'editor' => 'cms\editor_int',
         ],
         'password' => [
-            'validator' => 'cms\validator_text',
-            'saver' => 'cms\saver_password',
+            'validator' => 'cms\validator_password',
             'editor' => 'cms\editor_password',
         ],
         'radio' => [

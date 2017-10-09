@@ -92,6 +92,20 @@ function validator_text(array $attr, array $data): array
 }
 
 /**
+ * Password validator
+ *
+ * @throws DomainException
+ */
+function validator_password(array $attr, array $data): array
+{
+    if ($data[$attr['id']] && !($data[$attr['id']] = password_hash($data[$attr['id']], PASSWORD_DEFAULT))) {
+        throw new DomainException(_('Invalid password'));
+    }
+
+    return $data;
+}
+
+/**
  * ID validator
  */
 function validator_id(array $attr, array $data): array
