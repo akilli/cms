@@ -73,15 +73,14 @@ function account_user(): bool
  */
 function allowed(string $key): bool
 {
-    $data = cfg('privilege');
+    $cfg = cfg('privilege');
     $key = resolve($key);
 
-    // Privilege does not exist
-    if (empty($data[$key])) {
+    if (empty($cfg[$key])) {
         return false;
     }
 
-    return !empty($data[$key]['call']) && $data[$key]['call']() || account('admin') || in_array($key, account('privilege') ?? []);
+    return !empty($cfg[$key]['call']) && $cfg[$key]['call']() || account('admin') || in_array($key, account('privilege') ?? []);
 }
 
 /**
