@@ -116,52 +116,61 @@ function all(string $eId, array $crit = [], array $opts = []): array
  */
 function save(string $eId, array & $data): bool
 {
-    $temp = $data;
-    $editable = entity($eId);
+    $tmp = $data;
+    $edit = entity($eId);
 
-    if (!empty($temp['id']) && ($base = one($eId, [['id', $temp['id']]]))) {
-        $temp['_old'] = $base;
-        unset($temp['_old']['_entity'], $temp['_old']['_old']);
+    if (!empty($tmp['id']) && ($base = one($eId, [['id', $tmp['id']]]))) {
+        $tmp['_old'] = $base;
+        unset($tmp['_old']['_entity'], $tmp['_old']['_old']);
     }
 
-    $temp = array_replace($editable, $temp);
-    $aIds = array_keys(array_intersect_key($editable, $temp['_entity']['attr']));
+    $tmp = array_replace($edit, $tmp);
+    $attrs = $tmp['_entity']['attr'];
+    $aIds = [];
+
+    foreach ($tmp as $aId => $val) {
+        if (($val === null || $val === '') && !empty($attrs[$aId]) && ignorable($attrs[$aId], $tmp)) {
+            unset($tmp[$aId]);
+        } elseif (!empty($attrs[$aId]) && array_key_exists($aId, $edit)) {
+            $aIds[] = $aId;
+        }
+    }
 
     foreach ($aIds as $aId) {
         try {
-            $temp = validator($temp['_entity']['attr'][$aId], $temp);
+            $tmp = validator($tmp['_entity']['attr'][$aId], $tmp);
         } catch (Exception $e) {
             $data['_error'][$aId] = $e->getMessage();
         }
     }
 
     if (!empty($data['_error'])) {
-        msg(_('Could not save %s', $temp['name']));
+        msg(_('Could not save %s', $tmp['name']));
         return false;
     }
 
     $trans = db_trans(
-        function () use (& $temp, $aIds): void {
-            $temp = event('entity.presave', $temp);
-            $temp = event('model.presave.' . $temp['_entity']['model'], $temp);
-            $temp = event('entity.presave.' . $temp['_entity']['id'], $temp);
+        function () use (& $tmp, $aIds): void {
+            $tmp = event('entity.presave', $tmp);
+            $tmp = event('model.presave.' . $tmp['_entity']['model'], $tmp);
+            $tmp = event('entity.presave.' . $tmp['_entity']['id'], $tmp);
 
             foreach ($aIds as $aId) {
-                $temp = saver($temp['_entity']['attr'][$aId], $temp);
+                $tmp = saver($tmp['_entity']['attr'][$aId], $tmp);
             }
 
-            $temp = $temp['_entity']['save']($temp);
-            event('entity.postsave', $temp);
-            event('model.postsave.' . $temp['_entity']['model'], $temp);
-            event('entity.postsave.' . $temp['_entity']['id'], $temp);
+            $tmp = $tmp['_entity']['save']($tmp);
+            event('entity.postsave', $tmp);
+            event('model.postsave.' . $tmp['_entity']['model'], $tmp);
+            event('entity.postsave.' . $tmp['_entity']['id'], $tmp);
         }
     );
 
     if ($trans) {
-        msg(_('Successfully saved %s', $temp['name']));
-        $data = $temp;
+        msg(_('Successfully saved %s', $tmp['name']));
+        $data = $tmp;
     } else {
-        msg(_('Could not save %s', $temp['name']));
+        msg(_('Could not save %s', $tmp['name']));
     }
 
     return $trans;
