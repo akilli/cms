@@ -54,28 +54,18 @@ function editor(array $attr, array $data): string
 }
 
 /**
- * Checkbox editor
+ * Option editor
  */
-function editor_checkbox(array $attr, array $data): string
-{
-    if ($attr['backend'] === 'bool') {
-        $attr['opt'] = [1 => _('Yes')];
-    }
-
-    $hidden = html('input', ['name' => $attr['html']['name'], 'type' => 'hidden'], null, true);
-
-    return $hidden . editor_radio($attr, $data);
-}
-
-/**
- * Radio editor
- */
-function editor_radio(array $attr, array $data): string
+function editor_opt(array $attr, array $data): string
 {
     $val = $data[$attr['id']];
 
     if (!is_array($val)) {
         $val = !$val && !is_numeric($val) ? [] : [$val];
+    }
+
+    if ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
+        $attr['opt'] = [1 => _('Yes')];
     }
 
     $html = '';
