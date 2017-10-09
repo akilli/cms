@@ -196,3 +196,27 @@ function request_file(array $in): array
 
     return $out;
 }
+
+/**
+ * Filters request data
+ *
+ * @throws RuntimeException
+ */
+function request_data(array $in): array
+{
+    $out = [];
+
+    foreach ($in as $k => $v) {
+        if (!is_array($v)) {
+            throw new RuntimeException(_('Invalid data'));
+        }
+
+        if (($keys = array_keys($v)) && sort($keys) && $keys === ['error', 'name', 'size', 'tmp_name', 'type']) {
+            $out[$k] = $v['name'];
+        } else {
+            $out[$k] = request_data($v);
+        }
+    }
+
+    return $out;
+}
