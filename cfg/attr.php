@@ -49,7 +49,7 @@ return [
     'frontend' => [
         'checkbox' => [
             'validator' => 'cms\validator_opt',
-            'editor' => 'cms\editor_opt',
+            'editor' => 'cms\editor_checkbox',
             'viewer' => 'cms\viewer_opt',
         ],
         'date' => [
@@ -82,7 +82,7 @@ return [
         ],
         'radio' => [
             'validator' => 'cms\validator_opt',
-            'editor' => 'cms\editor_opt',
+            'editor' => 'cms\editor_radio',
             'viewer' => 'cms\viewer_opt',
         ],
         'range' => [

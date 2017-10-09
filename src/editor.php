@@ -54,53 +54,27 @@ function editor(array $attr, array $data): string
 }
 
 /**
- * Select editor
+ * Checkbox editor
  */
-function editor_select(array $attr, array $data): string
+function editor_checkbox(array $attr, array $data): string
 {
-    if (!$attr['opt']) {
-        return html('em', ['id' => $attr['html']['id']], _('No options configured'));
-    }
-
-    $val = $data[$attr['id']];
-
-    if (!is_array($val)) {
-        $val = !$val && !is_numeric($val) ? [] : [$val];
-    }
-
-    $html = html('option', ['value' => ''], _('Please choose'));
-
-    foreach ($attr['opt'] as $optId => $optVal) {
-        $a = ['value' => $optId];
-
-        if (in_array($optId, $val)) {
-            $a['selected'] = true;
-        }
-
-        $html .= html('option', $a, $optVal);
-    }
-
-    return html('select', $attr['html'], $html);
-}
-
-/**
- * Option editor
- */
-function editor_opt(array $attr, array $data): string
-{
-    if (!$attr['opt']) {
-        return html('em', ['id' => $attr['html']['id']], _('No options configured'));
-    }
-
-    if ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
+    if ($attr['backend'] === 'bool') {
         $attr['opt'] = [1 => _('Yes')];
     }
 
+    $hidden = html('input', ['name' => $attr['html']['name'], 'type' => 'hidden'], null, true);
+
+    return $hidden . editor_radio($attr, $data);
+}
+
+/**
+ * Radio editor
+ */
+function editor_radio(array $attr, array $data): string
+{
     $val = $data[$attr['id']];
 
-    if ($attr['backend'] === 'bool') {
-        $val = [(int) $val];
-    } elseif (!is_array($val)) {
+    if (!is_array($val)) {
         $val = !$val && !is_numeric($val) ? [] : [$val];
     }
 
@@ -121,6 +95,26 @@ function editor_opt(array $attr, array $data): string
     }
 
     return $html;
+}
+
+/**
+ * Select editor
+ */
+function editor_select(array $attr, array $data): string
+{
+    $val = $data[$attr['id']];
+
+    if (!is_array($val)) {
+        $val = !$val && !is_numeric($val) ? [] : [$val];
+    }
+
+    $html = html('option', ['value' => ''], _('Please choose'));
+
+    foreach ($attr['opt'] as $optId => $optVal) {
+        $html .= html('option', ['value' => $optId, 'selected' => in_array($optId, $val)], $optVal);
+    }
+
+    return html('select', $attr['html'], $html);
 }
 
 /**
