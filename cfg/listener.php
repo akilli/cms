@@ -22,7 +22,7 @@ return [
         'cms\listener_cfg_toolbar' => -1,
     ],
     'entity.postsave' => [
-        'cms\listener_postsave' => -1,
+        'cms\listener_entity_postsave' => -1,
     ],
     'entity.presave.page' => [
         'cms\listener_page_presave' => -1,

@@ -145,9 +145,9 @@ function listener_cfg_toolbar(array $data): array
 }
 
 /**
- * Page pre-save listener
+ * Entity post-save listener
  */
-function listener_postsave(array $data): array
+function listener_entity_postsave(array $data): array
 {
     $file = request('file');
 
