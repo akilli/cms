@@ -177,10 +177,10 @@ function request_file(array $data): array
     $exts = cfg('file');
     $files = [];
 
-    foreach (array_filter($data['name']) as $key => $value) {
+    foreach (array_filter($data['name']) as $key => $val) {
         $ok = $data['error'][$key] === UPLOAD_ERR_OK && is_uploaded_file($data['tmp_name'][$key]);
 
-        if (!is_array($value) && (!$ok || empty($exts[pathinfo($data['name'][$key], PATHINFO_EXTENSION)]))) {
+        if (!is_array($val) && (!$ok || empty($exts[pathinfo($val, PATHINFO_EXTENSION)]))) {
             msg(_('Invalid file %s', $data['name'][$key]));
             continue;
         }
