@@ -41,7 +41,6 @@ return [
     'Invalid path %s' => 'Ungültiger Pfad %s',
     'Invalid URL' => 'Ungültige URL',
     'Invalid value' => 'Ungültiger Wert',
-    'JSON encoding failed for %s' => 'Fehler beim Umwandeln von Attribut %s in einen JSON-String',
     'Login' => 'Anmelden',
     'Logo' => 'Logo',
     'Logout' => 'Abmelden',

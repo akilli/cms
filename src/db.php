@@ -78,6 +78,7 @@ function db_cols(array $attrs, array $data): array
     foreach (array_intersect_key($data, $attrs) as $aId => $val) {
         $attr = $attrs[$aId];
         $p = ':' . $attr['id'];
+        $val = is_array($val) && $attr['backend'] === 'json' ? json_encode($val) : $val;
         $cols['param'][$attr['col']] = [$p, $val, db_type($attr, $val)];
         $cols['val'][$attr['col']] = $attr['backend'] === 'search' ? 'TO_TSVECTOR(' . $p . ')' : $p;
     }

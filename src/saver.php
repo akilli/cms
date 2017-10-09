@@ -26,17 +26,3 @@ function saver_file(array $attr, array $data): array
 
     return $data;
 }
-
-/**
- * JSON saver
- *
- * @throws RuntimeException
- */
-function saver_json(array $attr, array $data): array
-{
-    if (is_array($data[$attr['id']]) && ($data[$attr['id']] = json_encode($data[$attr['id']])) === false) {
-        throw new RuntimeException(_('JSON encoding failed for %s', $attr['id']));
-    }
-
-    return $data;
-}

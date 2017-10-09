@@ -10,7 +10,6 @@ return [
         'int' => [],
         'json' => [
             'val' => [],
-            'saver' => 'cms\saver_json',
             'loader' => 'cms\loader_json',
         ],
         'search' => [],
