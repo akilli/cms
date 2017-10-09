@@ -1,7 +1,6 @@
 <?php
 return [
-    'host' => 'cms-data',
-    'db' => 'app',
+    'dsn' => 'pgsql:host=cms-data;dbname=app',
     'user' => 'app',
     'password' => 'app',
     'opt' => [

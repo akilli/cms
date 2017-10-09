@@ -15,9 +15,8 @@ function db(): PDO
     static $db;
 
     if ($db === null) {
-        $data = cfg('db');
-        $dsn = 'pgsql:host=' . $data['host'] . ';dbname=' . $data['db'];
-        $db = new PDO($dsn, $data['user'], $data['password'], $data['opt']);
+        $cfg = cfg('db');
+        $db = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], $cfg['opt']);
     }
 
     return $db;
