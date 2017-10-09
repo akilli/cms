@@ -202,18 +202,14 @@ function action_media_view(array $entity): void
  */
 function action_media_import(): void
 {
-    $data = request('data')['import'] ?? null;
+    $data = request('data')['import'] ?? [];
 
-    if ($data) {
-        foreach ($data as $key => $name) {
-            if (is_file(path('data', $name))) {
-                msg(_('File %s already exists', $name));
-            } elseif (!file_upload(request('file')['import'][$key]['tmp_name'], $name)) {
-                msg(_('File upload failed for %s', $name));
-            }
+    foreach ($data as $key => $name) {
+        if (is_file(path('data', $name))) {
+            msg(_('File %s already exists', $name));
+        } elseif (!file_upload(request('file')['import'][$key]['tmp_name'], $name)) {
+            msg(_('File upload failed for %s', $name));
         }
-    } else {
-        msg(_('No files to import'));
     }
 
     redirect(url('*/admin'));
