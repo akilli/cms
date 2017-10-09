@@ -21,6 +21,9 @@ return [
     'cfg.toolbar' => [
         'cms\listener_cfg_toolbar' => -1,
     ],
+    'entity.load' => [
+        'cms\listener_entity_load' => -1,
+    ],
     'entity.postsave' => [
         'cms\listener_entity_postsave' => -1,
     ],

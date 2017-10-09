@@ -10,7 +10,6 @@ return [
         'int' => [],
         'json' => [
             'val' => [],
-            'loader' => 'cms\loader_json',
         ],
         'search' => [],
         'text' => [],

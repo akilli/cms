@@ -250,12 +250,6 @@ function entity_attr(array $entity, string $act): array
  */
 function entity_load(array $entity, array $data): array
 {
-    foreach ($data as $aId => $val) {
-        if (isset($entity['attr'][$aId])) {
-            $data[$aId] = loader($entity['attr'][$aId], $data);
-        }
-    }
-
     $data['_old'] = $data;
     $data['_entity'] = $entity;
     $data = event('entity.load', $data);

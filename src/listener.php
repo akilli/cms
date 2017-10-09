@@ -145,6 +145,28 @@ function listener_cfg_toolbar(array $data): array
 }
 
 /**
+ * Entity load listener
+ */
+function listener_entity_load(array $data): array
+{
+    foreach ($data as $aId => $val) {
+        $attr = $data['_entity']['attr'][$aId] ?? null;
+
+        if ($attr) {
+            $val = cast($attr, $val);
+
+            if ($attr['backend'] === 'json' && is_string($val)) {
+                $val = $val && ($val = json_decode($val, true)) ? $val : [];
+            }
+
+            $data[$aId] = $val;
+        }
+    }
+
+    return $data;
+}
+
+/**
  * Entity post-save listener
  */
 function listener_entity_postsave(array $data): array

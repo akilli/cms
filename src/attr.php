@@ -27,7 +27,6 @@ const ATTR = [
     'entity' => null,
     'html' => [],
     'validator' => null,
-    'loader' => null,
     'editor' => null,
     'viewer' => null,
 ];
