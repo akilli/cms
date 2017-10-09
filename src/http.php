@@ -164,40 +164,35 @@ function request_filter(array $data): array
  *
  * @throws InvalidArgumentException
  */
-function request_file(array $data): array
+function request_file(array $in): array
 {
-    if (!($keys = array_keys($data)) || !sort($keys) || $keys !== ['error', 'name', 'size', 'tmp_name', 'type']) {
+    if (!($keys = array_keys($in)) || !sort($keys) || $keys !== ['error', 'name', 'size', 'tmp_name', 'type']) {
         throw new InvalidArgumentException(_('Invalid data'));
     }
 
-    if (!is_array($data['name'])) {
-        return $data;
+    if (!is_array($in['name'])) {
+        return $in;
     }
 
     $exts = cfg('file');
-    $files = [];
+    $out = [];
 
-    foreach (array_filter($data['name']) as $key => $val) {
-        $ok = $data['error'][$key] === UPLOAD_ERR_OK && is_uploaded_file($data['tmp_name'][$key]);
+    foreach (array_filter($in['name']) as $k => $n) {
+        $e = $in['error'][$k];
+        $t = $in['tmp_name'][$k];
+        $f = ['error' => $e, 'name' => $n, 'type' => $in['type'][$k], 'tmp_name' => $t, 'size' => $in['size'][$k]];
 
-        if (!is_array($val) && (!$ok || empty($exts[pathinfo($val, PATHINFO_EXTENSION)]))) {
-            msg(_('Invalid file %s', $data['name'][$key]));
+        if (is_array($n)) {
+            $f = request_file($f);
+        } elseif ($e !== UPLOAD_ERR_OK || !is_uploaded_file($t) || empty($exts[pathinfo($n, PATHINFO_EXTENSION)])) {
+            msg(_('Invalid file %s', $n));
             continue;
         }
 
-        $f = [
-            'error' => $data['error'][$key],
-            'name' => $data['name'][$key],
-            'type' => $data['type'][$key],
-            'tmp_name' => $data['tmp_name'][$key],
-            'size' => $data['size'][$key]
-        ];
-        $f = is_array($val) ? request_file($f) : $f;
-
         if ($f) {
-            $files[$key] = $f;
+            $out[$k] = $f;
         }
     }
 
-    return $files;
+    return $out;
 }
