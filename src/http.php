@@ -180,7 +180,7 @@ function request_file(array $in): array
     foreach (array_filter($in['name']) as $k => $n) {
         $e = $in['error'][$k];
         $t = $in['tmp_name'][$k];
-        $f = ['error' => $e, 'name' => $n, 'type' => $in['type'][$k], 'tmp_name' => $t, 'size' => $in['size'][$k]];
+        $f = ['error' => $e, 'name' => $n, 'size' => $in['size'][$k], 'tmp_name' => $t, 'type' => $in['type'][$k]];
 
         if (is_array($n)) {
             $f = request_file($f);
