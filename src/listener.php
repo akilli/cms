@@ -147,6 +147,22 @@ function listener_cfg_toolbar(array $data): array
 /**
  * Page pre-save listener
  */
+function listener_postsave(array $data): array
+{
+    $file = request('file');
+
+    foreach ($data['_entity']['attr'] as $aId => $attr) {
+        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file_upload($file[$aId]['tmp_name'], $data[$aId])) {
+            throw new RuntimeException(_('File upload failed for %s', $data[$aId]));
+        }
+    }
+
+    return $data;
+}
+
+/**
+ * Page pre-save listener
+ */
 function listener_page_presave(array $data): array
 {
     if ($data['name'] !== ($data['_old']['name'] ?? null)) {

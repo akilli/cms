@@ -39,7 +39,6 @@ return [
         ],
         'file' => [
             'validator' => 'cms\validator_file',
-            'saver' => 'cms\saver_file',
             'editor' => 'cms\editor_file',
             'viewer' => 'cms\viewer_file',
         ],

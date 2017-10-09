@@ -154,11 +154,6 @@ function save(string $eId, array & $data): bool
             $tmp = event('entity.presave', $tmp);
             $tmp = event('model.presave.' . $tmp['_entity']['model'], $tmp);
             $tmp = event('entity.presave.' . $tmp['_entity']['id'], $tmp);
-
-            foreach ($aIds as $aId) {
-                $tmp = saver($tmp['_entity']['attr'][$aId], $tmp);
-            }
-
             $tmp = $tmp['_entity']['save']($tmp);
             event('entity.postsave', $tmp);
             event('model.postsave.' . $tmp['_entity']['model'], $tmp);
