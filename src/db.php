@@ -150,7 +150,7 @@ function db_crit(array $crit, array $attrs): array
                         }
 
                         $p = $param . ++$z[$attr['id']];
-                        $cols['param'][] = [$p, implode(' | ', $val), $attr['pdo']];
+                        $cols['param'][] = [$p, implode(' | ', $val), PDO::PARAM_STR];
                         $r[] = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . $p . ')';
                     } else {
                         $not = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? ' NOT' : '';
@@ -159,7 +159,7 @@ function db_crit(array $crit, array $attrs): array
 
                         foreach ($val as $v) {
                             $p = $param . ++$z[$attr['id']];
-                            $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, $attr['pdo']];
+                            $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
                             $r[] = $attr['col'] . $not . ' ILIKE ' . $p;
                         }
                     }
