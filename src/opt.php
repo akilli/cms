@@ -30,19 +30,19 @@ function opt_entity(string $eId): array
 {
     $data = & registry('opt.entity.' . $eId);
 
-    if ($data[$eId] === null) {
+    if ($data === null) {
         if ($eId === 'page') {
-            $data[$eId] = [];
+            $data = [];
 
             foreach (all('page', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
-                $data[$eId][$item['id']] = viewer($item['_entity']['attr']['pos'], $item) . ' ' . $item['name'];
+                $data[$item['id']] = viewer($item['_entity']['attr']['pos'], $item) . ' ' . $item['name'];
             }
         } else {
-            $data[$eId] = array_column(all($eId, [], ['select' => ['id', 'name']]), 'name', 'id');
+            $data = array_column(all($eId, [], ['select' => ['id', 'name']]), 'name', 'id');
         }
     }
 
-    return $data[$eId];
+    return $data;
 }
 
 /**
