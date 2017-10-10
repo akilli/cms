@@ -136,6 +136,10 @@ function save(string $eId, array & $data): bool
         }
     }
 
+    if (!$aIds) {
+        return true;
+    }
+
     foreach ($aIds as $aId) {
         try {
             $tmp = validator($tmp['_entity']['attr'][$aId], $tmp);
