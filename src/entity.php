@@ -140,6 +140,8 @@ function save(string $eId, array & $data): bool
         return true;
     }
 
+    $name = $tmp['name'] ?? $tmp['_old']['name'] ?? '';
+
     foreach ($aIds as $aId) {
         try {
             $tmp = validator($tmp['_entity']['attr'][$aId], $tmp);
@@ -149,7 +151,7 @@ function save(string $eId, array & $data): bool
     }
 
     if (!empty($data['_error'])) {
-        msg(_('Could not save %s', $tmp['name']));
+        msg(_('Could not save %s', $name));
         return false;
     }
 
@@ -166,10 +168,10 @@ function save(string $eId, array & $data): bool
     );
 
     if ($trans) {
-        msg(_('Successfully saved %s', $tmp['name']));
+        msg(_('Successfully saved %s', $name));
         $data = $tmp;
     } else {
-        msg(_('Could not save %s', $tmp['name']));
+        msg(_('Could not save %s', $name));
     }
 
     return $trans;
