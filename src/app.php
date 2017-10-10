@@ -53,12 +53,13 @@ function path(string $dir, string $id = null): string
     $data = & registry('path');
 
     if ($data === null) {
-        $data['cfg'] = '/app/cfg';
+        $root = dirname(__DIR__);
+        $data['cfg'] = $root .'/cfg';
         $data['data'] = '/data';
         $data['log'] = '/var/log/app';
-        $data['theme'] = '/app/www/theme';
+        $data['theme'] = $root .'/www/theme';
         $data['tmp'] = '/tmp';
-        $data['tpl'] = '/app/tpl';
+        $data['tpl'] = $root .'/tpl';
     }
 
     if (empty($data[$dir])) {
