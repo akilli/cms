@@ -8,7 +8,7 @@ use RuntimeException;
 /**
  * Load entity
  */
-function media_load(array $entity, array $crit = [], array $opts = []): array
+function asset_load(array $entity, array $crit = [], array $opts = []): array
 {
     $path = path('data');
 
@@ -56,7 +56,7 @@ function media_load(array $entity, array $crit = [], array $opts = []): array
 /**
  * Save entity
  */
-function media_save(array $data): array
+function asset_save(array $data): array
 {
     $data['id'] = $data['id'] ?? $data['name'];
 
@@ -68,7 +68,7 @@ function media_save(array $data): array
  *
  * @throws RuntimeException
  */
-function media_delete(array $data): void
+function asset_delete(array $data): void
 {
     if (!file_delete(path('data', $data['id']))) {
         throw new RuntimeException(_('Could not delete %s', $data['name']));
