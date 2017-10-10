@@ -76,14 +76,7 @@ function cfg(string $section, string $id = null)
     $data = & registry('cfg.' . $section);
 
     if ($data === null) {
-        if (is_dir(path('cfg', $section))) {
-            foreach (glob(path('cfg', $section. '/*.php')) as $file) {
-                $data[basename($file, '.php')] = arr_load($file);
-            }
-        } else {
-            $data = arr_load(path('cfg', $section . '.php'));
-        }
-
+        $data = arr_load(path('cfg', $section . '.php'));
         $data = event('cfg.' . $section, $data);
     }
 
