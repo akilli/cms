@@ -69,22 +69,22 @@ function path(string $dir, string $id = null): string
 }
 
 /**
- * Config
+ * Loads and returns configuration data
  */
-function cfg(string $section, string $id = null)
+function cfg(string $id, string $key = null)
 {
-    $data = & registry('cfg.' . $section);
+    $data = & registry('cfg.' . $id);
 
     if ($data === null) {
-        $data = arr_load(path('cfg', $section . '.php'));
-        $data = event('cfg.' . $section, $data);
+        $data = arr_load(path('cfg', $id . '.php'));
+        $data = event('cfg.' . $id, $data);
     }
 
-    if ($id === null) {
+    if ($key === null) {
         return $data;
     }
 
-    return $data[$id] ?? null;
+    return $data[$key] ?? null;
 }
 
 /**
