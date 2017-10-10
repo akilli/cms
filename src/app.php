@@ -106,10 +106,6 @@ function event(string $event, array $data): array
  */
 function _(string $key, string ...$args): string
 {
-    if (!$key) {
-        return '';
-    }
-
     $key = cfg('i18n', $key) ?? $key;
 
     if (!$args) {
