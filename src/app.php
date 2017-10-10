@@ -57,7 +57,6 @@ function path(string $dir, string $id = null): string
         $data['cfg'] = $root .'/cfg';
         $data['data'] = '/data';
         $data['theme'] = $root .'/www/theme';
-        $data['tmp'] = '/tmp';
         $data['tpl'] = $root .'/tpl';
     }
 
