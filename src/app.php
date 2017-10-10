@@ -6,7 +6,7 @@ namespace cms;
 use InvalidArgumentException;
 
 const ALL = '_all_';
-const LOG = 'cms.log';
+const LOG = 'php://stdout';
 
 /**
  * Runs application
@@ -56,7 +56,6 @@ function path(string $dir, string $id = null): string
         $root = dirname(__DIR__);
         $data['cfg'] = $root .'/cfg';
         $data['data'] = '/data';
-        $data['log'] = '/var/log/app';
         $data['theme'] = $root .'/www/theme';
         $data['tmp'] = '/tmp';
         $data['tpl'] = $root .'/tpl';
@@ -125,7 +124,7 @@ function _(string $key, string ...$args): string
  */
 function logger(string $msg): void
 {
-    file_put_contents(path('log', LOG), '[' . date('r') . '] ' . $msg . "\n\n", FILE_APPEND);
+    file_put_contents(LOG, '[' . date('r') . '] ' . $msg . "\n\n", FILE_APPEND);
 }
 
 /**
