@@ -14,34 +14,6 @@ function file_upload(string $src, string $dest): bool
 }
 
 /**
- * Copies a file or directory
- */
-function file_copy(string $src, string $dest): bool
-{
-    if (is_file($src)) {
-        return file_dir(dirname($dest)) && copy($src, $dest);
-    }
-
-    if (!is_dir($src) || !file_dir($dest)) {
-        return false;
-    }
-
-    $success = true;
-
-    foreach (array_diff(scandir($src), ['.', '..']) as $id) {
-        $file = $src . '/' . $id;
-
-        if (is_file($file) && !copy($file, $dest . '/' . $id)) {
-            $success = false;
-        } elseif (is_dir($file)) {
-            $success = file_copy($file, $dest . '/' . $id);
-        }
-    }
-
-    return $success;
-}
-
-/**
  * Removes a file or directory
  */
 function file_delete(string $path): bool
