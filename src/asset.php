@@ -21,12 +21,7 @@ function asset_load(array $entity, array $crit = [], array $opts = []): array
 
     foreach (array_diff(scandir($path), ['.', '..']) as $id) {
         if (($file = $path . '/' . $id) && is_file($file)) {
-            $data[] = [
-                'id' => $id,
-                'name' => $id,
-                'size' => filesize($file),
-                'file' => $file,
-            ];
+            $data[] = ['id' => $id, 'name' => $id, 'size' => filesize($file), 'file' => $file];
         }
     }
 
