@@ -108,11 +108,7 @@ function _(string $key, string ...$args): string
 {
     $key = cfg('i18n', $key) ?? $key;
 
-    if (!$args) {
-        return $key;
-    }
-
-    return vsprintf($key, $args) ?: $key;
+    return $args ? vsprintf($key, $args) : $key;
 }
 
 /**
