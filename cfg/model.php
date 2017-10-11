@@ -5,9 +5,9 @@ return [
         'save' => 'cms\asset_save',
         'delete' => 'cms\asset_delete'
     ],
-    'flat' => [
-        'load' => 'cms\flat_load',
-        'save' => 'cms\flat_save',
-        'delete' => 'cms\flat_delete'
+    'db' => [
+        'load' => 'cms\db_load',
+        'save' => 'cms\db_save',
+        'delete' => 'cms\db_delete'
     ],
 ];

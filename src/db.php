@@ -6,7 +6,7 @@ namespace cms;
 /**
  * Load entity
  */
-function flat_load(array $entity, array $crit = [], array $opts = []): array
+function db_load(array $entity, array $crit = [], array $opts = []): array
 {
     $attrs = sql_attr($entity['attr']);
 
@@ -45,7 +45,7 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
 /**
  * Save entity
  */
-function flat_save(array $data): array
+function db_save(array $data): array
 {
     $attrs = $data['_entity']['attr'];
     $cols = sql_cols($attrs, $data);
@@ -79,7 +79,7 @@ function flat_save(array $data): array
 /**
  * Delete entity
  */
-function flat_delete(array $data): void
+function db_delete(array $data): void
 {
     $attrs = $data['_entity']['attr'];
     $stmt = sql()->prepare(sql_delete($data['_entity']['tab']) . sql_where([$attrs['id']['col'] . ' = :id']));
