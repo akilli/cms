@@ -116,7 +116,6 @@ function request(string $key)
     $req = & registry('request');
 
     if ($req === null) {
-        $req['host'] = $_SERVER['HTTP_HOST'];
         $req['file'] = [];
         $req['data'] = [];
         $req['param'] = [];
