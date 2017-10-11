@@ -4,21 +4,21 @@ return [
         'name' => 'ALL PRIVILEGES',
     ],
     'account/login' => [
-        'call' => 'cms\account_guest',
+        'call' => 'account\guest',
     ],
     'account/logout' => [
-        'call' => 'cms\account_user',
+        'call' => 'account\user',
     ],
     'account/password' => [
-        'call' => 'cms\account_user',
+        'call' => 'account\user',
     ],
     'media/view' => [
-        'call' => 'cms\account_user',
+        'call' => 'account\user',
     ],
     'page/index' => [
-        'call' => 'cms\account_user',
+        'call' => 'account\user',
     ],
     'page/view' => [
-        'call' => 'cms\account_user',
+        'call' => 'account\user',
     ],
 ];

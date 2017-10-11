@@ -1,38 +1,44 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace app;
 
+use function http\req;
+use account;
+use act;
+use entity;
+use file;
 use InvalidArgumentException;
 
 const ALL = '_all_';
 const LOG = 'php://stdout';
+const URL = ['asset' => '/asset/', 'media' => '/media/view/', 'page' => '.html', 'theme' => '/theme/'];
 
 /**
  * Runs application
  */
-function app(): void
+function run(): void
 {
-    $prefix = 'cms\action_';
-    $act = request('action');
-    $eId = request('entity');
+    $prefix = 'act\\';
+    $act = req('act');
+    $eId = req('entity');
     $entity = cfg('entity', $eId);
     $args = $entity ? [$entity] : [];
 
     foreach ([$prefix . $eId . '_' . $act, $prefix . $act] as $call) {
         if (is_callable($call)) {
-            allowed('*/*') ? $call(...$args) : action_denied();
+            account\allowed('*/*') ? $call(...$args) : act\denied();
             return;
         }
     }
 
-    action_error();
+    act\error();
 }
 
 /**
  * Internal registry
  */
-function & registry(string $id): ?array
+function & data(string $id): ?array
 {
     static $data = [];
 
@@ -50,7 +56,7 @@ function & registry(string $id): ?array
  */
 function path(string $dir, string $id = null): string
 {
-    $data = & registry('path');
+    $data = & data('path');
 
     if ($data === null) {
         $root = dirname(__DIR__);
@@ -72,10 +78,10 @@ function path(string $dir, string $id = null): string
  */
 function cfg(string $id, string $key = null)
 {
-    $data = & registry('cfg.' . $id);
+    $data = & data('cfg.' . $id);
 
     if ($data === null) {
-        $data = arr_load(path('cfg', $id . '.php'));
+        $data = file\load(path('cfg', $id . '.php'));
         $data = event('cfg.' . $id, $data);
     }
 
@@ -123,5 +129,67 @@ function logger(string $msg): void
  */
 function resolve(string $path): string
 {
-    return preg_replace(['#^\*/#', '#^([^/]+)/\*($|/)#'], [request('entity') . '/', '$1/' . request('action') . '$2'], $path);
+    return preg_replace(['#^\*/#', '#^([^/]+)/\*($|/)#'], [req('entity') . '/', '$1/' . req('act') . '$2'], $path);
+}
+
+/**
+ * Generate URL by given path and params
+ */
+function url(string $path = '', array $params = []): string
+{
+    if ($path && ($path[0] === '#' || strpos($path, 'http') === 0)) {
+        return $path;
+    }
+
+    if (!$path = trim($path, '/')) {
+        return '/';
+    }
+
+    return '/' . resolve($path) . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
+}
+
+/**
+ * Asset URL
+ */
+function asset(string $path): string
+{
+    return URL['asset'] . $path;
+}
+
+/**
+ * Media URL
+ */
+function media(string $path): string
+{
+    return URL['media'] . $path;
+}
+
+/**
+ * Theme URL
+ */
+function theme(string $path): string
+{
+    return URL['theme'] . $path;
+}
+
+/**
+ * Rewrite URL
+ */
+function rewrite(string $path): string
+{
+    if ($path === '/') {
+        return (string) cfg('app', 'home');
+    }
+
+    if (!preg_match('#' . URL['page'] . '$#', $path)) {
+        return $path;
+    }
+
+    $data = & data('url');
+
+    if (empty($data[$path])) {
+        $data[$path] = ($page = entity\one('page', [['url', $path]])) ? '/page/view/' . $page['id'] : $path;
+    }
+
+    return $data[$path];
 }

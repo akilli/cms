@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace html;
 
 /**
  * Generates HTML-Tag
  */
-function html(string $name, array $attrs = [], string $val = null, bool $empty = false): string
+function tag(string $name, array $attrs = [], string $val = null, bool $empty = false): string
 {
     $a = '';
 

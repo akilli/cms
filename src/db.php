@@ -1,14 +1,16 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace db;
+
+use sql;
 
 /**
  * Load entity
  */
-function db_load(array $entity, array $crit = [], array $opts = []): array
+function load(array $entity, array $crit = [], array $opts = []): array
 {
-    $attrs = sql_attr($entity['attr']);
+    $attrs = sql\attr($entity['attr']);
 
     if ($opts['mode'] === 'size') {
         $opts['select'] = ['COUNT(*)'];
@@ -16,13 +18,13 @@ function db_load(array $entity, array $crit = [], array $opts = []): array
         $opts['select'] = array_column($attrs, 'col');
     }
 
-    $cols = sql_crit($crit, $attrs);
-    $stmt = sql()->prepare(
-        sql_select($opts['select'])
-        . sql_from($entity['tab'])
-        . sql_where($cols['where'])
-        . sql_order($opts['order'])
-        . sql_limit($opts['limit'], $opts['offset'])
+    $cols = sql\crit($crit, $attrs);
+    $stmt = sql\db()->prepare(
+        sql\select($opts['select'])
+        . sql\from($entity['tab'])
+        . sql\where($cols['where'])
+        . sql\order($opts['order'])
+        . sql\limit($opts['limit'], $opts['offset'])
     );
 
     foreach ($cols['param'] as $param) {
@@ -45,21 +47,21 @@ function db_load(array $entity, array $crit = [], array $opts = []): array
 /**
  * Save entity
  */
-function db_save(array $data): array
+function save(array $data): array
 {
     $attrs = $data['_entity']['attr'];
-    $cols = sql_cols($attrs, $data);
+    $cols = sql\cols($attrs, $data);
 
     // Insert or update
     if (empty($data['_old'])) {
-        $stmt = sql()->prepare(sql_insert($data['_entity']['tab']) . sql_values($cols['val']));
+        $stmt = sql\db()->prepare(sql\insert($data['_entity']['tab']) . sql\values($cols['val']));
     } else {
-        $stmt = sql()->prepare(
-            sql_update($data['_entity']['tab'])
-            . sql_set($cols['val'])
-            . sql_where([$attrs['id']['col'] . ' = :_id'])
+        $stmt = sql\db()->prepare(
+            sql\update($data['_entity']['tab'])
+            . sql\set($cols['val'])
+            . sql\where([$attrs['id']['col'] . ' = :_id'])
         );
-        $stmt->bindValue(':_id', $data['_old']['id'], sql_type($attrs['id'], $data['_old']['id']));
+        $stmt->bindValue(':_id', $data['_old']['id'], sql\type($attrs['id'], $data['_old']['id']));
     }
 
     foreach ($cols['param'] as $param) {
@@ -70,7 +72,7 @@ function db_save(array $data): array
 
     // Set DB generated id
     if (empty($data['_old']) && $attrs['id']['auto']) {
-        $data['id'] = (int) sql()->lastInsertId($data['_entity']['tab'] . '_id_seq');
+        $data['id'] = (int) sql\db()->lastInsertId($data['_entity']['tab'] . '_id_seq');
     }
 
     return $data;
@@ -79,10 +81,10 @@ function db_save(array $data): array
 /**
  * Delete entity
  */
-function db_delete(array $data): void
+function delete(array $data): void
 {
     $attrs = $data['_entity']['attr'];
-    $stmt = sql()->prepare(sql_delete($data['_entity']['tab']) . sql_where([$attrs['id']['col'] . ' = :id']));
-    $stmt->bindValue(':id', $data['_old']['id'], sql_type($attrs['id'], $data['_old']['id']));
+    $stmt = sql\db()->prepare(sql\delete($data['_entity']['tab']) . sql\where([$attrs['id']['col'] . ' = :id']));
+    $stmt->bindValue(':id', $data['_old']['id'], sql\type($attrs['id'], $data['_old']['id']));
     $stmt->execute();
 }

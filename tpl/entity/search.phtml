@@ -1,5 +1,9 @@
-<?php namespace cms; /** @var callable $§ */?>
-<form id="<?=$§('id');?>"<?php if ($§('action')):?> action="<?= url($§('action'));?>"<?php endif;?> method="post">
+<?php
+namespace app;
+use function session\token;
+/** @var callable $§ */
+?>
+<form id="<?=$§('id');?>"<?php if ($§('act')):?> action="<?= url($§('act'));?>"<?php endif;?> method="post">
     <h1><?= _('Search');?></h1>
     <input type="search" name="param[q]" value="<?=$§('q');?>" placeholder="<?= _('Search Term');?>" />
     <input type="submit" value="search" title="<?= _('Search');?>" class="icon" />

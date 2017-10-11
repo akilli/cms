@@ -10,6 +10,7 @@ return [
         'int' => [],
         'json' => [
             'val' => [],
+            'loader' => 'loader\json',
         ],
         'search' => [],
         'text' => [],
@@ -18,72 +19,72 @@ return [
     ],
     'frontend' => [
         'checkbox' => [
-            'validator' => 'cms\validator_opt',
-            'editor' => 'cms\editor_opt',
-            'viewer' => 'cms\viewer_opt',
+            'validator' => 'validator\opt',
+            'editor' => 'editor\opt',
+            'viewer' => 'viewer\opt',
         ],
         'date' => [
-            'validator' => 'cms\validator_date',
-            'editor' => 'cms\editor_date',
-            'viewer' => 'cms\viewer_date',
+            'validator' => 'validator\date',
+            'editor' => 'editor\date',
+            'viewer' => 'viewer\date',
         ],
         'datetime' => [
-            'validator' => 'cms\validator_datetime',
-            'editor' => 'cms\editor_datetime',
-            'viewer' => 'cms\viewer_datetime',
+            'validator' => 'validator\datetime',
+            'editor' => 'editor\datetime',
+            'viewer' => 'viewer\datetime',
         ],
         'email' => [
-            'validator' => 'cms\validator_email',
-            'editor' => 'cms\editor_text',
+            'validator' => 'validator\email',
+            'editor' => 'editor\text',
         ],
         'file' => [
-            'validator' => 'cms\validator_file',
-            'editor' => 'cms\editor_file',
-            'viewer' => 'cms\viewer_file',
+            'validator' => 'validator\file',
+            'editor' => 'editor\file',
+            'viewer' => 'viewer\file',
         ],
         'number' => [
-            'editor' => 'cms\editor_int',
+            'editor' => 'editor\int',
         ],
         'password' => [
-            'validator' => 'cms\validator_password',
-            'editor' => 'cms\editor_password',
+            'validator' => 'validator\password',
+            'editor' => 'editor\password',
         ],
         'radio' => [
-            'validator' => 'cms\validator_opt',
-            'editor' => 'cms\editor_opt',
-            'viewer' => 'cms\viewer_opt',
+            'validator' => 'validator\opt',
+            'editor' => 'editor\opt',
+            'viewer' => 'viewer\opt',
         ],
         'range' => [
-            'editor' => 'cms\editor_int',
+            'editor' => 'editor\int',
         ],
         'select' => [
-            'validator' => 'cms\validator_opt',
-            'editor' => 'cms\editor_select',
-            'viewer' => 'cms\viewer_opt',
+            'validator' => 'validator\opt',
+            'editor' => 'editor\select',
+            'viewer' => 'viewer\opt',
         ],
         'text' => [
-            'validator' => 'cms\validator_text',
-            'editor' => 'cms\editor_text',
+            'validator' => 'validator\text',
+            'editor' => 'editor\text',
         ],
         'textarea' => [
-            'validator' => 'cms\validator_text',
-            'editor' => 'cms\editor_textarea',
+            'validator' => 'validator\text',
+            'editor' => 'editor\textarea',
         ],
         'time' => [
-            'validator' => 'cms\validator_time',
-            'editor' => 'cms\editor_time',
-            'viewer' => 'cms\viewer_time',
+            'validator' => 'validator\time',
+            'editor' => 'editor\time',
+            'viewer' => 'viewer\time',
         ],
         'url' => [
-            'validator' => 'cms\validator_url',
-            'editor' => 'cms\editor_text',
+            'validator' => 'validator\url',
+            'editor' => 'editor\text',
         ],
     ],
     'type' => [
         'audio' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'viewer' => 'cms\viewer_audio',
+            'viewer' => 'viewer\audio',
         ],
         'checkbox' => [
             'backend' => 'bool',
@@ -108,7 +109,7 @@ return [
         'embed' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'viewer' => 'cms\viewer_embed',
+            'viewer' => 'viewer\embed',
         ],
         'entity' => [
             'backend' => 'int',
@@ -121,12 +122,12 @@ return [
         'iframe' => [
             'backend' => 'varchar',
             'frontend' => 'url',
-            'viewer' => 'cms\viewer_iframe',
+            'viewer' => 'viewer\iframe',
         ],
         'image' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'viewer' => 'cms\viewer_image',
+            'viewer' => 'viewer\image',
         ],
         'int' => [
             'backend' => 'int',
@@ -135,13 +136,13 @@ return [
         'json' => [
             'backend' => 'json',
             'frontend' => 'textarea',
-            'editor' => 'cms\editor_json',
-            'validator' => 'cms\validator_json',
+            'editor' => 'editor\json',
+            'validator' => 'validator\json',
         ],
         'object' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'viewer' => 'cms\viewer_object',
+            'viewer' => 'viewer\object',
         ],
         'password' => [
             'backend' => 'varchar',
@@ -158,8 +159,8 @@ return [
         'rte' => [
             'backend' => 'text',
             'frontend' => 'textarea',
-            'viewer' => 'cms\viewer_rte',
-            'validator' => 'cms\validator_rte',
+            'viewer' => 'viewer\rte',
+            'validator' => 'validator\rte',
         ],
         'search' => [
             'backend' => 'search',
@@ -188,7 +189,7 @@ return [
         'video' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'viewer' => 'cms\viewer_video',
+            'viewer' => 'viewer\video',
         ],
     ],
 ];

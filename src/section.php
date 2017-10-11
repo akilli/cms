@@ -1,12 +1,21 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace section;
+
+use const entity\CRIT;
+use function app\_;
+use function html\tag;
+use function http\req;
+use arr;
+use app;
+use entity;
+use layout;
+use session;
 
 const SECTION = [
     'id' => null,
     'section' => null,
-    'call' => null,
     'tpl' => null,
     'active' => true,
     'privilege' => null,
@@ -18,40 +27,40 @@ const SECTION = [
 /**
  * Container section
  */
-function section_container(array $§): string
+function container(array $§): string
 {
     $§['vars']['tag'] = $§['vars']['tag'] ?? null;
     $html = '';
 
-    foreach (arr_order(arr_filter(layout(), [['parent_id', $§['id']]]), ['sort' => 'asc']) as $child) {
-        $html .= §($child['id']);
+    foreach (arr\order(arr\filter(layout\data(), [['parent_id', $§['id']]]), ['sort' => 'asc']) as $child) {
+        $html .= layout\§($child['id']);
     }
 
-    return $html && $§['vars']['tag'] ? html($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+    return $html && $§['vars']['tag'] ? tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
 }
 
 /**
  * Message section
  */
-function section_msg(array $§): string
+function msg(array $§): string
 {
-    if (!$§['vars']['data'] = session_get('msg')) {
+    if (!$§['vars']['data'] = session\get('msg')) {
         return '';
     }
 
-    session_set('msg', null);
+    session\set('msg', null);
 
-    return section_tpl($§);
+    return tpl($§);
 }
 
 /**
  * Navigation section
  */
-function section_nav(array $§): string
+function nav(array $§): string
 {
-    $§['vars'] += ['mode' => null, 'current' => request('id')];
-    $cur = $§['vars']['current'] ? one('page', [['id', $§['vars']['current']]]) : null;
-    $anc = $cur && count($cur['path']) > 1 ? one('page', [['id', $cur['path'][0]]]) : $cur;
+    $§['vars'] += ['mode' => null, 'current' => req('id')];
+    $cur = $§['vars']['current'] ? entity\one('page', [['id', $§['vars']['current']]]) : null;
+    $anc = $cur && count($cur['path']) > 1 ? entity\one('page', [['id', $cur['path'][0]]]) : $cur;
     $crit = [];
 
     if ($§['vars']['mode'] === 'top') {
@@ -65,7 +74,7 @@ function section_nav(array $§): string
         $crit = [['pos', $anc['pos'] . '.', CRIT['~^']]];
     }
 
-    if (!$nav = all('page', $crit, ['select' => ['id', 'name', 'url', 'depth'], 'order' => ['pos' => 'asc']])) {
+    if (!$nav = entity\all('page', $crit, ['select' => ['id', 'name', 'url', 'depth'], 'order' => ['pos' => 'asc']])) {
         return '';
     }
 
@@ -91,18 +100,18 @@ function section_nav(array $§): string
              $html .= '</li><li' . $class . '>';
         }
 
-        $html .= html('a', $a, $page['name']);
+        $html .= tag('a', $a, $page['name']);
         $html .= ++$i === $count ? str_repeat('</li></ul>', $page['depth']) : '';
         $depth = $page['depth'];
     }
 
-    return html('nav', ['id' => $§['id']], $html);
+    return tag('nav', ['id' => $§['id']], $html);
 }
 
 /**
  * Pager section
  */
-function section_pager(array $§): string
+function pager(array $§): string
 {
     $§['vars'] += ['size' => 0, 'limit' => 0, 'links' => [], 'params' => []];
 
@@ -114,7 +123,7 @@ function section_pager(array $§): string
     $§['vars']['page'] = max($§['vars']['params']['page'] ?? 0, 1);
     $§['vars']['offset'] = ($§['vars']['page'] - 1) * $§['vars']['limit'];
     unset($§['vars']['params']['page']);
-    $c = cfg('app', 'pager');
+    $c = app\cfg('app', 'pager');
     $min = max(1, min($§['vars']['page'] - intdiv($c, 2), $§['vars']['pages'] - $c + 1));
     $max = min($min + $c - 1, $§['vars']['pages']);
 
@@ -133,20 +142,20 @@ function section_pager(array $§): string
         $§['vars']['links'][] = ['name' => _('Next'), 'params' => $p];
     }
 
-    return section_tpl($§);
+    return tpl($§);
 }
 
 /**
  * Template section
  */
-function section_tpl(array $§): string
+function tpl(array $§): string
 {
     $§['vars'] = ['id' => $§['id'], 'tpl' => $§['tpl']] + $§['vars'];
     $§ = function ($key) use ($§) {
         return $§['vars'][$key] ?? null;
     };
     ob_start();
-    include path('tpl', $§('tpl'));
+    include app\path('tpl', $§('tpl'));
 
     return ob_get_clean();
 }

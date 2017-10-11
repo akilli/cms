@@ -1,8 +1,13 @@
-<?php namespace cms; /** @var callable $§ */?>
+<?php
+namespace app;
+use function file\accept;
+use function session\token;
+/** @var callable $§ */
+?>
 <form id="<?=$§('id');?>" action="<?= url('*/import');?>" method="post" enctype="multipart/form-data">
     <h1><?= _('Import');?></h1>
     <p><?= _('Import one or multiple files');?></p>
-    <input type="file" name="data[import][]" required="required" multiple="multiple" accept="<?= file_accept('file');?>" />
+    <input type="file" name="data[import][]" required="required" multiple="multiple" accept="<?= accept('file');?>" />
     <input type="submit" value="file_upload" class="icon" title="<?= _('Upload');?>" />
     <input type="hidden" name="token" value="<?= token();?>" />
 </form>

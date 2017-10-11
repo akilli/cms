@@ -1,97 +1,15 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace http;
 
+use function app\_;
+use app;
+use filter;
+use session;
 use RuntimeException;
 
 const UPLOAD = ['error', 'name', 'size', 'tmp_name', 'type'];
-
-/**
- * Session data getter
- *
- * @return mixed
- */
-function session_get(string $key)
-{
-    session_init();
-
-    return $_SESSION[$key] ?? null;
-}
-
-/**
- * Session data (un)setter
- */
-function session_set(string $key, $val): void
-{
-    session_init();
-
-    if ($val === null) {
-        unset($_SESSION[$key]);
-    } else {
-        $_SESSION[$key] = $val;
-    }
-}
-
-/**
- * Initializes session
- */
-function session_init(): void
-{
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        ini_set('session.use_strict_mode', '1');
-        session_start();
-
-        if (!empty($_SESSION['_deleted']) && $_SESSION['_deleted'] < time() - 180) {
-            session_destroy();
-            session_start();
-        }
-    }
-}
-
-/**
- * Regenerates session ID
- */
-function session_regenerate(): void
-{
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
-
-    $id = session_create_id();
-    $_SESSION['_deleted'] = time();
-    session_commit();
-    ini_set('session.use_strict_mode', '0');
-    session_id($id);
-    session_start();
-    ini_set('session.use_strict_mode', '1');
-}
-
-/**
- * Add message
- */
-function msg(string $msg): void
-{
-    $data = session_get('msg') ?? [];
-
-    if ($msg && !in_array($msg, $data)) {
-        $data[] = $msg;
-        session_set('msg', $data);
-    }
-}
-
-/**
- * Token
- */
-function token(): string
-{
-    if (!$token = session_get('token')) {
-        $token = md5(uniqid((string) mt_rand(), true));
-        session_set('token', $token);
-    }
-
-    return $token;
-}
 
 /**
  * Redirect
@@ -111,9 +29,9 @@ function redirect(string $url = '/', int $code = 302): void
  *
  * @return mixed
  */
-function request(string $key)
+function req(string $key)
 {
-    $req = & registry('request');
+    $req = & app\data('req');
 
     if ($req === null) {
         $req['file'] = [];
@@ -121,32 +39,32 @@ function request(string $key)
         $req['param'] = [];
 
         if (!empty($_POST['token'])) {
-            if (session_get('token') === $_POST['token']) {
-                $req['file'] = !empty($_FILES['data']) && is_array($_FILES['data']) ? request_file($_FILES['data']) : [];
+            if (session\get('token') === $_POST['token']) {
+                $req['file'] = !empty($_FILES['data']) && is_array($_FILES['data']) ? file($_FILES['data']) : [];
                 $req['data'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
-                $req['data'] = array_replace_recursive($req['data'], request_data($req['file']));
+                $req['data'] = array_replace_recursive($req['data'], data($req['file']));
                 $req['param'] = !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
             }
 
-            session_set('token', null);
+            session\set('token', null);
         }
 
-        $req['param'] = request_filter($req['param'] + $_GET);
+        $req['param'] = param($req['param'] + $_GET);
         $req['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-        $parts = explode('/', trim(url_rewrite($req['url']), '/'));
+        $parts = explode('/', trim(app\rewrite($req['url']), '/'));
         $req['entity'] = $parts[0];
-        $req['action'] = $parts[1] ?? null;
+        $req['act'] = $parts[1] ?? null;
         $req['id'] = $parts[2] ?? null;
-        $req['path'] = $req['entity'] . '/' . $req['action'];
+        $req['path'] = $req['entity'] . '/' . $req['act'];
     }
 
     return $req[$key] ?? null;
 }
 
 /**
- * Filters request variables
+ * Filters request parameters
  */
-function request_filter(array $data): array
+function param(array $data): array
 {
     foreach ($data as $key => $val) {
         $val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR | FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -154,7 +72,7 @@ function request_filter(array $data): array
         if ($val === false) {
             $data[$key] = null;
         } else {
-            $data[$key] = is_numeric($val) ? (int) $val : filter_param($val);
+            $data[$key] = is_numeric($val) ? (int) $val : filter\param($val);
         }
     }
 
@@ -166,7 +84,7 @@ function request_filter(array $data): array
  *
  * @throws RuntimeException
  */
-function request_data(array $in): array
+function data(array $in): array
 {
     $out = [];
 
@@ -175,7 +93,7 @@ function request_data(array $in): array
             throw new RuntimeException(_('Invalid data'));
         }
 
-        $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === UPLOAD ? $v['name'] : request_data($v);
+        $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === UPLOAD ? $v['name'] : data($v);
     }
 
     return $out;
@@ -186,13 +104,13 @@ function request_data(array $in): array
  *
  * @throws RuntimeException
  */
-function request_file(array $in): array
+function file(array $in): array
 {
     if (!($keys = array_keys($in)) || !sort($keys) || $keys !== UPLOAD || !is_array($in['name'])) {
         throw new RuntimeException(_('Invalid data'));
     }
 
-    $exts = cfg('file');
+    $exts = app\cfg('file');
     $out = [];
 
     foreach (array_filter($in['name']) as $k => $n) {
@@ -201,9 +119,9 @@ function request_file(array $in): array
         $f = ['error' => $e, 'name' => $n, 'size' => $in['size'][$k], 'tmp_name' => $t, 'type' => $in['type'][$k]];
 
         if (is_array($n)) {
-            $f = request_file($f);
+            $f = file($f);
         } elseif ($e !== UPLOAD_ERR_OK || !is_uploaded_file($t) || empty($exts[pathinfo($n, PATHINFO_EXTENSION)])) {
-            msg(_('Invalid file %s', $n));
+            session\msg(_('Invalid file %s', $n));
             continue;
         }
 

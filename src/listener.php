@@ -1,14 +1,26 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace listener;
 
+use const app\{ALL, URL};
+use const attr\ATTR;
+use const entity\ENTITY;
+use const section\SECTION;
+use function app\_;
+use function http\req;
+use account;
+use arr;
+use app;
+use entity;
+use file;
+use filter;
 use RuntimeException;
 
 /**
  * App config listener
  */
-function listener_cfg_app(array $data): array
+function cfg_app(array $data): array
 {
     ini_set('default_charset', $data['charset']);
     ini_set('intl.default_locale', $data['locale']);
@@ -20,19 +32,17 @@ function listener_cfg_app(array $data): array
 /**
  * Entity config listener
  */
-function listener_cfg_entity(array $data): array
+function cfg_entity(array $data): array
 {
-    $model = cfg('model');
-    $cfg = cfg('attr');
+    $cfg = app\cfg('attr');
 
     foreach ($data as $eId => $entity) {
         $entity = array_replace(ENTITY, $entity);
 
-        if (!$entity['name'] || !$entity['model'] || empty($model[$entity['model']]) || !$entity['attr']) {
+        if (!$entity['name'] || !$entity['model'] || !$entity['attr']) {
             throw new RuntimeException(_('Invalid entity configuration'));
         }
 
-        $entity = array_replace($entity, $model[$entity['model']]);
         $entity['id'] = $eId;
         $entity['name'] = _($entity['name']);
         $entity['tab'] = $entity['tab'] ?: $entity['id'];
@@ -64,7 +74,7 @@ function listener_cfg_entity(array $data): array
             $entity['attr'][$aId] = $attr;
         }
 
-        $entity['attr'] = arr_order($entity['attr'], ['sort' => 'asc']);
+        $entity['attr'] = arr\order($entity['attr'], ['sort' => 'asc']);
         $data[$eId] = $entity;
     }
 
@@ -74,25 +84,24 @@ function listener_cfg_entity(array $data): array
 /**
  * I18n config listener
  */
-function listener_cfg_i18n(array $data): array
+function cfg_i18n(array $data): array
 {
-    return $data + cfg('i18n.' . cfg('app', 'lang'));
+    return $data + app\cfg('i18n.' . app\cfg('app', 'lang'));
 }
 
 /**
  * Layout config listener
  */
-function listener_cfg_layout(array $data): array
+function cfg_layout(array $data): array
 {
-    $a = 'account-' . (account_user() ? 'user' : 'guest');
-    $b = 'action-' . request('action');
-    $c = 'entity-' . request('entity');
-    $d = request('path');
-    $section = cfg('section');
+    $a = 'account-' . (account\user() ? 'user' : 'guest');
+    $b = 'act-' . req('act');
+    $c = 'entity-' . req('entity');
+    $d = req('path');
     $data = array_replace_recursive($data[ALL], $data[$a] ?? [], $data[$b] ?? [], $data[$c] ?? [], $data[$d] ?? []);
 
     foreach ($data as $id => $§) {
-        $data[$id] = array_replace_recursive($section[$§['section']], $§, ['id' => $id]);
+        $data[$id] = array_replace_recursive(SECTION, $§, ['id' => $id]);
     }
 
     return $data;
@@ -101,40 +110,28 @@ function listener_cfg_layout(array $data): array
 /**
  * Privilege config listener
  */
-function listener_cfg_privilege(array $data): array
+function cfg_privilege(array $data): array
 {
     foreach ($data as $id => $item) {
         $data[$id]['name'] = !empty($item['name']) ? _($item['name']) : '';
     }
 
-    foreach (cfg('entity') as $eId => $entity) {
-        foreach ($entity['actions'] as $act) {
+    foreach (app\cfg('entity') as $eId => $entity) {
+        foreach ($entity['act'] as $act) {
             $data[$eId . '/' . $act]['name'] = $entity['name'] . ' ' . _(ucwords($act));
         }
     }
 
-    return arr_order($data, ['sort' => 'asc', 'name' => 'asc']);
-}
-
-/**
- * Section config listener
- */
-function listener_cfg_section(array $data): array
-{
-    foreach ($data as $id => $item) {
-        $data[$id] = array_replace_recursive(SECTION, $item);
-    }
-
-    return $data;
+    return arr\order($data, ['sort' => 'asc', 'name' => 'asc']);
 }
 
 /**
  * Toolbar config listener
  */
-function listener_cfg_toolbar(array $data): array
+function cfg_toolbar(array $data): array
 {
     foreach ($data as $key => $item) {
-        if (allowed_url($item['url'])) {
+        if (account\allowed_url($item['url'])) {
             $data[$key]['name'] = _($item['name']);
         } else {
             unset($data[$key]);
@@ -145,36 +142,14 @@ function listener_cfg_toolbar(array $data): array
 }
 
 /**
- * Entity load listener
- */
-function listener_entity_load(array $data): array
-{
-    foreach ($data as $aId => $val) {
-        $attr = $data['_entity']['attr'][$aId] ?? null;
-
-        if ($attr) {
-            $val = cast($attr, $val);
-
-            if ($attr['backend'] === 'json' && is_string($val)) {
-                $val = $val && ($val = json_decode($val, true)) ? $val : [];
-            }
-
-            $data[$aId] = $val;
-        }
-    }
-
-    return $data;
-}
-
-/**
  * Entity post-save listener
  */
-function listener_entity_postsave(array $data): array
+function entity_postsave(array $data): array
 {
-    $file = request('file');
+    $file = req('file');
 
     foreach ($data['_entity']['attr'] as $aId => $attr) {
-        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file_upload($file[$aId]['tmp_name'], $data[$aId])) {
+        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\upload($file[$aId]['tmp_name'], $data[$aId])) {
             throw new RuntimeException(_('File upload failed for %s', $data[$aId]));
         }
     }
@@ -185,14 +160,14 @@ function listener_entity_postsave(array $data): array
 /**
  * Page pre-save listener
  */
-function listener_page_presave(array $data): array
+function page_presave(array $data): array
 {
     if ($data['name'] !== ($data['_old']['name'] ?? null)) {
-        $base = filter_id($data['name']);
-        $data['url'] = url($base . URL['page']);
+        $base = filter\id($data['name']);
+        $data['url'] = app\url($base . URL['page']);
 
-        for ($i = 1; one('page', [['url', $data['url']]]); $i++) {
-            $data['url'] = url($base . '-' . $i . URL['page']);
+        for ($i = 1; entity\one('page', [['url', $data['url']]]); $i++) {
+            $data['url'] = app\url($base . '-' . $i . URL['page']);
         }
     }
 

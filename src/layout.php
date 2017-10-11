@@ -1,23 +1,27 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace layout;
 
+use function account\allowed;
+use function app\_;
+use app;
 use InvalidArgumentException;
+use const section\SECTION;
 
 /**
  * Layout section
  */
 function §(string $id): string
 {
-    if (!($§ = layout($id)) || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
+    if (!($§ = data($id)) || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
         return '';
     }
 
-    $§ = event('section.' . $§['section'], $§);
-    $§ = event('layout.section.' . $id, $§);
+    $§ = app\event('section.' . $§['section'], $§);
+    $§ = app\event('layout.section.' . $id, $§);
 
-    return $§['call']($§);
+    return ('section\\' . $§['section'])($§);
 }
 
 /**
@@ -25,12 +29,12 @@ function §(string $id): string
  *
  * @throws InvalidArgumentException
  */
-function layout(string $id = null, array $§ = null): ?array
+function data(string $id = null, array $§ = null): ?array
 {
-    $data = & registry('layout');
+    $data = & app\data('layout');
 
     if ($data === null) {
-        $data = cfg('layout');
+        $data = app\cfg('layout');
     }
 
     // Get whole layout
@@ -44,11 +48,11 @@ function layout(string $id = null, array $§ = null): ?array
     }
 
     // Add new or update existing section
-    if (empty($data[$id]) && (empty($§['section']) || !($data[$id] = cfg('section', $§['section'])))) {
+    $data[$id] = array_replace_recursive($data[$id] ?? SECTION, $§, ['id' => $id]);
+
+    if (empty($data[$id]['section'])) {
         throw new InvalidArgumentException(_('No or invalid section for ID %s', $id));
     }
-
-    $data[$id] = array_replace_recursive($data[$id], $§, ['id' => $id]);
 
     return $data[$id];
 }
@@ -56,7 +60,7 @@ function layout(string $id = null, array $§ = null): ?array
 /**
  * Set section variables
  */
-function layout_vars(string $id, array $vars): void
+function vars(string $id, array $vars): void
 {
-    layout($id, ['vars' => $vars]);
+    data($id, ['vars' => $vars]);
 }

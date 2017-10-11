@@ -1,24 +1,18 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace arr;
 
+use const entity\CRIT;
+use function app\_;
 use RuntimeException;
-
-/**
- * Load data from file
- */
-function arr_load(string $file): array
-{
-    return is_readable($file) && ($data = include $file) && is_array($data) ? $data : [];
-}
 
 /**
  * Filter data by given criteria
  *
  * @throws RuntimeException
  */
-function arr_filter(array $data, array $crit): array
+function filter(array $data, array $crit): array
 {
     foreach ($data as $id => $item) {
         foreach ($crit as $part) {
@@ -127,7 +121,7 @@ function arr_filter(array $data, array $crit): array
 /**
  * Order data
  */
-function arr_order(array $data, array $order): array
+function order(array $data, array $order): array
 {
     uasort(
         $data,

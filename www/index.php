@@ -1,8 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace app;
 
+use function layout\§;
 use ErrorException;
 use Throwable;
 
@@ -40,5 +41,5 @@ register_shutdown_function(
 /**
  * Run application
  */
-app();
+run();
 echo §('root');

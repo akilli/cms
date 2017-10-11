@@ -1,16 +1,20 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace asset;
 
+use function app\_;
+use arr;
+use app;
+use file;
 use RuntimeException;
 
 /**
  * Load entity
  */
-function asset_load(array $entity, array $crit = [], array $opts = []): array
+function load(array $entity, array $crit = [], array $opts = []): array
 {
-    $path = path('data');
+    $path = app\path('data');
 
     if (!is_dir($path)) {
         return $opts['mode'] === 'size' ? [0] : [];
@@ -26,11 +30,11 @@ function asset_load(array $entity, array $crit = [], array $opts = []): array
     }
 
     if ($crit) {
-        $data = arr_filter($data, $crit);
+        $data = arr\filter($data, $crit);
     }
 
     if ($opts['order']) {
-        $data = arr_order($data, $opts['order']);
+        $data = arr\order($data, $opts['order']);
     }
 
     if ($opts['limit'] > 0) {
@@ -51,7 +55,7 @@ function asset_load(array $entity, array $crit = [], array $opts = []): array
 /**
  * Save entity
  */
-function asset_save(array $data): array
+function save(array $data): array
 {
     $data['id'] = $data['id'] ?? $data['name'];
 
@@ -63,9 +67,9 @@ function asset_save(array $data): array
  *
  * @throws RuntimeException
  */
-function asset_delete(array $data): void
+function delete(array $data): void
 {
-    if (!file_delete(path('data', $data['id']))) {
+    if (!file\delete(app\path('data', $data['id']))) {
         throw new RuntimeException(_('Could not delete %s', $data['name']));
     }
 }

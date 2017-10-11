@@ -1,8 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace sql;
 
+use const entity\CRIT;
+use function app\_;
+use app;
+use filter;
 use Exception;
 use PDO;
 use RuntimeException;
@@ -10,12 +14,12 @@ use RuntimeException;
 /**
  * Database
  */
-function sql(): PDO
+function db(): PDO
 {
     static $pdo;
 
     if ($pdo === null) {
-        $cfg = cfg('sql');
+        $cfg = app\cfg('sql');
         $pdo = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], $cfg['opt']);
     }
 
@@ -25,20 +29,20 @@ function sql(): PDO
 /**
  * Transaction
  */
-function sql_trans(callable $call): bool
+function trans(callable $call): bool
 {
     static $level = 0;
 
-    ++$level === 1 ? sql()->beginTransaction() : sql()->exec('SAVEPOINT LEVEL_' . $level);
+    ++$level === 1 ? db()->beginTransaction() : db()->exec('SAVEPOINT LEVEL_' . $level);
 
     try {
         $call();
-        $level === 1 ? sql()->commit() : sql()->exec('RELEASE SAVEPOINT LEVEL_' . $level);
+        $level === 1 ? db()->commit() : db()->exec('RELEASE SAVEPOINT LEVEL_' . $level);
         --$level;
     } catch (Exception $e) {
-        $level === 1 ? sql()->rollBack() : sql()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
+        $level === 1 ? db()->rollBack() : db()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
         --$level;
-        logger((string) $e);
+        app\logger((string) $e);
 
         return false;
     }
@@ -49,7 +53,7 @@ function sql_trans(callable $call): bool
 /**
  * Set appropriate data type
  */
-function sql_type(array $attr, $val): int
+function type(array $attr, $val): int
 {
     if ($attr['nullable'] && $val === null) {
         return PDO::PARAM_NULL;
@@ -69,16 +73,16 @@ function sql_type(array $attr, $val): int
 /**
  * Prepare columns
  */
-function sql_cols(array $attrs, array $data): array
+function cols(array $attrs, array $data): array
 {
-    $attrs = sql_attr($attrs, true);
+    $attrs = attr($attrs, true);
     $cols = ['param' => [], 'val' => []];
 
     foreach (array_intersect_key($data, $attrs) as $aId => $val) {
         $attr = $attrs[$aId];
         $p = ':' . $attr['id'];
         $val = is_array($val) && $attr['backend'] === 'json' ? json_encode($val) : $val;
-        $cols['param'][$attr['col']] = [$p, $val, sql_type($attr, $val)];
+        $cols['param'][$attr['col']] = [$p, $val, type($attr, $val)];
         $cols['val'][$attr['col']] = $attr['backend'] === 'search' ? 'TO_TSVECTOR(' . $p . ')' : $p;
     }
 
@@ -88,7 +92,7 @@ function sql_cols(array $attrs, array $data): array
 /**
  * Filter out non-DB and optionally auto increment columns
  */
-function sql_attr(array $attrs, bool $auto = false): array
+function attr(array $attrs, bool $auto = false): array
 {
     foreach ($attrs as $aId => $attr) {
         if (empty($attr['col']) || $auto && !empty($attr['auto'])) {
@@ -102,7 +106,7 @@ function sql_attr(array $attrs, bool $auto = false): array
 /**
  * Maps attribute IDs to DB columns and handles search criteria
  */
-function sql_crit(array $crit, array $attrs): array
+function crit(array $crit, array $attrs): array
 {
     $cols = ['where' => [], 'param' => []];
 
@@ -121,7 +125,7 @@ function sql_crit(array $crit, array $attrs): array
             }
 
             $param = ':crit_' . $attr['id'] . '_';
-            $type = sql_type($attr, $val);
+            $type = type($attr, $val);
             $z[$attr['id']] = $z[$attr['id']] ?? 0;
             $val = is_array($val) ? $val : [$val];
             $r = [];
@@ -161,7 +165,7 @@ function sql_crit(array $crit, array $attrs): array
                         $op = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? '!!' : '@@';
 
                         foreach ($val as $k => $v) {
-                            $v = filter_param($v);
+                            $v = filter\param($v);
 
                             if (!$v) {
                                 unset($val[$k]);
@@ -201,7 +205,7 @@ function sql_crit(array $crit, array $attrs): array
 /**
  * INSERT part
  */
-function sql_insert(string $tab): string
+function insert(string $tab): string
 {
     return 'INSERT INTO ' . $tab;
 }
@@ -209,7 +213,7 @@ function sql_insert(string $tab): string
 /**
  * VALUES part
  */
-function sql_values(array $cols): string
+function values(array $cols): string
 {
     return ' (' . implode(', ', array_keys($cols)) . ') VALUES (' . implode(', ', $cols) . ')';
 }
@@ -217,7 +221,7 @@ function sql_values(array $cols): string
 /**
  * UPDATE part
  */
-function sql_update(string $tab): string
+function update(string $tab): string
 {
     return 'UPDATE ' . $tab;
 }
@@ -225,7 +229,7 @@ function sql_update(string $tab): string
 /**
  * SET part
  */
-function sql_set(array $cols): string
+function set(array $cols): string
 {
     $set = '';
 
@@ -239,7 +243,7 @@ function sql_set(array $cols): string
 /**
  * DELETE part
  */
-function sql_delete(string $tab): string
+function delete(string $tab): string
 {
     return 'DELETE FROM ' . $tab;
 }
@@ -247,7 +251,7 @@ function sql_delete(string $tab): string
 /**
  * SELECT part
  */
-function sql_select(array $sel): string
+function select(array $sel): string
 {
     $cols = [];
 
@@ -261,7 +265,7 @@ function sql_select(array $sel): string
 /**
  * FROM part
  */
-function sql_from(string $tab): string
+function from(string $tab): string
 {
     return ' FROM ' . $tab;
 }
@@ -269,7 +273,7 @@ function sql_from(string $tab): string
 /**
  * WHERE part
  */
-function sql_where(array $cols): string
+function where(array $cols): string
 {
     return $cols ? ' WHERE ' . implode(' AND ', $cols) : '';
 }
@@ -277,7 +281,7 @@ function sql_where(array $cols): string
 /**
  * ORDER BY part
  */
-function sql_order(array $order): string
+function order(array $order): string
 {
     $cols = [];
 
@@ -291,7 +295,7 @@ function sql_order(array $order): string
 /**
  * LIMIT part
  */
-function sql_limit(int $limit, int $offset = 0): string
+function limit(int $limit, int $offset = 0): string
 {
     return $limit > 0 ? ' LIMIT ' . $limit . ' OFFSET ' . max(0, $offset) : '';
 }

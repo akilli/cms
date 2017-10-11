@@ -1,8 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace entity;
 
+use function app\_;
+use function session\msg;
+use function sql\trans;
+use attr;
+use app;
 use Exception;
 use RuntimeException;
 
@@ -11,10 +16,7 @@ const ENTITY = [
     'name' => null,
     'tab' => null,
     'model' => 'db',
-    'load' => null,
-    'save' => null,
-    'delete' => null,
-    'actions' => [],
+    'act' => [],
     'attr' => []
 ];
 const CRIT = [
@@ -45,13 +47,13 @@ const OPTS = [
  */
 function size(string $eId, array $crit = []): int
 {
-    $entity = cfg('entity', $eId);
+    $entity = app\cfg('entity', $eId);
     $opts = ['mode' => 'size'] + OPTS;
 
     try {
-        return $entity['load']($entity, $crit, $opts)[0];
+        return ($entity['model'] . '\load')($entity, $crit, $opts)[0];
     } catch (Exception $e) {
-        logger((string) $e);
+        app\logger((string) $e);
         msg(_('Could not load data'));
     }
 
@@ -63,16 +65,16 @@ function size(string $eId, array $crit = []): int
  */
 function one(string $eId, array $crit = [], array $opts = []): array
 {
-    $entity = cfg('entity', $eId);
+    $entity = app\cfg('entity', $eId);
     $data = [];
     $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'one', 'limit' => 1]);
 
     try {
-        if ($data = $entity['load']($entity, $crit, $opts)) {
-            $data = entity_load($entity, $data);
+        if ($data = ($entity['model'] . '\load')($entity, $crit, $opts)) {
+            $data = load($entity, $data);
         }
     } catch (Exception $e) {
-        logger((string) $e);
+        app\logger((string) $e);
         msg(_('Could not load data'));
     }
 
@@ -84,7 +86,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
  */
 function all(string $eId, array $crit = [], array $opts = []): array
 {
-    $entity = cfg('entity', $eId);
+    $entity = app\cfg('entity', $eId);
     $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'all']);
 
     if ($opts['select']) {
@@ -96,15 +98,15 @@ function all(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        $data = $entity['load']($entity, $crit, $opts);
+        $data = ($entity['model'] . '\load')($entity, $crit, $opts);
 
         foreach ($data as $id => $item) {
-            $data[$id] = entity_load($entity, $item);
+            $data[$id] = load($entity, $item);
         }
 
         return array_column($data, null, $opts['index']);
     } catch (Exception $e) {
-        logger((string) $e);
+        app\logger((string) $e);
         msg(_('Could not load data'));
     }
 
@@ -117,7 +119,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
 function save(string $eId, array & $data): bool
 {
     $tmp = $data;
-    $edit = entity($eId);
+    $edit = data($eId);
 
     if (!empty($tmp['id']) && ($base = one($eId, [['id', $tmp['id']]]))) {
         $tmp['_old'] = $base;
@@ -129,7 +131,7 @@ function save(string $eId, array & $data): bool
     $aIds = [];
 
     foreach ($tmp as $aId => $val) {
-        if (($val === null || $val === '') && !empty($attrs[$aId]) && ignorable($attrs[$aId], $tmp)) {
+        if (($val === null || $val === '') && !empty($attrs[$aId]) && attr\ignorable($attrs[$aId], $tmp)) {
             unset($tmp[$aId]);
         } elseif (!empty($attrs[$aId]) && array_key_exists($aId, $edit)) {
             $aIds[] = $aId;
@@ -144,7 +146,7 @@ function save(string $eId, array & $data): bool
 
     foreach ($aIds as $aId) {
         try {
-            $tmp = validator($tmp['_entity']['attr'][$aId], $tmp);
+            $tmp = attr\validator($tmp['_entity']['attr'][$aId], $tmp);
         } catch (Exception $e) {
             $data['_error'][$aId] = $e->getMessage();
         }
@@ -155,15 +157,15 @@ function save(string $eId, array & $data): bool
         return false;
     }
 
-    $trans = sql_trans(
+    $trans = trans(
         function () use (& $tmp, $aIds): void {
-            $tmp = event('entity.presave', $tmp);
-            $tmp = event('model.presave.' . $tmp['_entity']['model'], $tmp);
-            $tmp = event('entity.presave.' . $tmp['_entity']['id'], $tmp);
-            $tmp = $tmp['_entity']['save']($tmp);
-            event('entity.postsave', $tmp);
-            event('model.postsave.' . $tmp['_entity']['model'], $tmp);
-            event('entity.postsave.' . $tmp['_entity']['id'], $tmp);
+            $tmp = app\event('entity.presave', $tmp);
+            $tmp = app\event('model.presave.' . $tmp['_entity']['model'], $tmp);
+            $tmp = app\event('entity.presave.' . $tmp['_entity']['id'], $tmp);
+            $tmp = ($tmp['_entity']['model'] . '\save')($tmp);
+            app\event('entity.postsave', $tmp);
+            app\event('model.postsave.' . $tmp['_entity']['model'], $tmp);
+            app\event('entity.postsave.' . $tmp['_entity']['id'], $tmp);
         }
     );
 
@@ -191,15 +193,15 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
             continue;
         }
 
-        $trans = sql_trans(
+        $trans = trans(
             function () use ($data): void {
-                $data = event('entity.predelete', $data);
-                $data = event('model.predelete.' . $data['_entity']['model'], $data);
-                $data = event('entity.predelete.' . $data['_entity']['id'], $data);
-                $data['_entity']['delete']($data);
-                event('entity.postdelete', $data);
-                event('model.postdelete.' . $data['_entity']['model'], $data);
-                event('entity.postdelete.' . $data['_entity']['id'], $data);
+                $data = app\event('entity.predelete', $data);
+                $data = app\event('model.predelete.' . $data['_entity']['model'], $data);
+                $data = app\event('entity.predelete.' . $data['_entity']['id'], $data);
+                ($data['_entity']['model'] . '\delete')($data);
+                app\event('entity.postdelete', $data);
+                app\event('model.postdelete.' . $data['_entity']['model'], $data);
+                app\event('entity.postdelete.' . $data['_entity']['id'], $data);
             }
         );
 
@@ -226,13 +228,13 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
  *
  * @throws RuntimeException
  */
-function entity(string $eId, bool $bare = false): array
+function data(string $eId, bool $bare = false): array
 {
-    if (!$entity = cfg('entity', $eId)) {
+    if (!$entity = app\cfg('entity', $eId)) {
         throw new RuntimeException(_('Invalid entity %s', $eId));
     }
 
-    $item = array_fill_keys(array_keys(entity_attr($entity, 'edit')), null);
+    $item = array_fill_keys(array_keys(attr($entity, 'edit')), null);
 
     return $bare ? $item : $item + ['_old' => null, '_entity' => $entity];
 }
@@ -240,10 +242,10 @@ function entity(string $eId, bool $bare = false): array
 /**
  * Retrieve entity attributes filtered by given action
  */
-function entity_attr(array $entity, string $act): array
+function attr(array $entity, string $act): array
 {
     foreach ($entity['attr'] as $aId => $attr) {
-        if (!in_array($act, $attr['actions'])) {
+        if (!in_array($act, $attr['act'])) {
             unset($entity['attr'][$aId]);
         }
     }
@@ -254,13 +256,19 @@ function entity_attr(array $entity, string $act): array
 /**
  * Internal entity loader
  */
-function entity_load(array $entity, array $data): array
+function load(array $entity, array $data): array
 {
+    foreach ($data as $aId => $val) {
+        if (!empty($entity['attr'][$aId])) {
+            $data[$aId] = attr\loader($entity['attr'][$aId], $data);
+        }
+    }
+
     $data['_old'] = $data;
     $data['_entity'] = $entity;
-    $data = event('entity.load', $data);
-    $data = event('model.load.' . $entity['model'], $data);
-    $data = event('entity.load.' . $entity['id'], $data);
+    $data = app\event('entity.load', $data);
+    $data = app\event('model.load.' . $entity['model'], $data);
+    $data = app\event('entity.load.' . $entity['id'], $data);
 
     return $data;
 }

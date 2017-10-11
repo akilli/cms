@@ -1,6 +1,11 @@
-<?php namespace cms; /** @var callable $§ */?>
+<?php
+namespace app;
+use function http\req;
+use function layout\§;
+/** @var callable $§ */
+?>
 <!doctype html>
-<html data-path="<?= request('path');?>">
+<html data-path="<?= req('path');?>">
     <head>
         <?= §('head');?>
     </head>

@@ -1,24 +1,34 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace file;
+
+use app;
+
+/**
+ * Load data from file
+ */
+function load(string $file): array
+{
+    return is_readable($file) && ($data = include $file) && is_array($data) ? $data : [];
+}
 
 /**
  * Uploads a file
  */
-function file_upload(string $src, string $dest): bool
+function upload(string $src, string $dest): bool
 {
-    $dest = strpos($dest, '/') === 0 ? $dest : path('data', $dest);
+    $dest = strpos($dest, '/') === 0 ? $dest : app\path('data', $dest);
 
-    return file_dir(dirname($dest)) && move_uploaded_file($src, $dest);
+    return dir(dirname($dest)) && move_uploaded_file($src, $dest);
 }
 
 /**
  * Removes a file or directory
  */
-function file_delete(string $path): bool
+function delete(string $path): bool
 {
-    if (!file_writable($path)) {
+    if (!writable($path)) {
         return false;
     }
 
@@ -32,7 +42,7 @@ function file_delete(string $path): bool
         if (is_file($file)) {
             unlink($file);
         } elseif (is_dir($file)) {
-            file_delete($file);
+            delete($file);
         }
     }
 
@@ -42,27 +52,27 @@ function file_delete(string $path): bool
 /**
  * Makes a directory if it doesn't exist
  */
-function file_dir(string $path): bool
+function dir(string $path): bool
 {
-    return file_writable($path) && (is_dir($path) || mkdir($path, 0755, true));
+    return writable($path) && (is_dir($path) || mkdir($path, 0755, true));
 }
 
 /**
  * Checks whether specified path is writable
  */
-function file_writable(string $path): bool
+function writable(string $path): bool
 {
-    return (bool) preg_match('#^(file://)?(' . path('data') . ')#', $path);
+    return (bool) preg_match('#^(file://)?(' . app\path('data') . ')#', $path);
 }
 
 /**
  * Returns list of accepted extensions for given file type
  */
-function file_accept(string $type): string
+function accept(string $type): string
 {
     $accept = '';
 
-    foreach (cfg('file') as $ext => $types) {
+    foreach (app\cfg('file') as $ext => $types) {
         if (in_array($type, $types)) {
             $accept .= ($accept ? ', .' : '.') . $ext;
         }

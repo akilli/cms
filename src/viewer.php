@@ -1,26 +1,16 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace viewer;
 
-/**
- * Viewer
- */
-function viewer(array $attr, array $data): string
-{
-    $attr['opt'] = opt($attr);
-
-    if ($attr['viewer']) {
-        return $attr['viewer']($attr, $data);
-    }
-
-    return $data[$attr['id']] ? encode((string) $data[$attr['id']]) : (string) $data[$attr['id']];
-}
+use function filter\enc;
+use function html\tag;
+use app;
 
 /**
  * Option viewer
  */
-function viewer_opt(array $attr, array $data): string
+function opt(array $attr, array $data): string
 {
     $result = [];
 
@@ -30,37 +20,37 @@ function viewer_opt(array $attr, array $data): string
         }
     }
 
-    return $result ? encode(implode(', ', $result)) : '';
+    return $result ? enc(implode(', ', $result)) : '';
 }
 
 /**
  * Date viewer
  */
-function viewer_date(array $attr, array $data): string
+function date(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), cfg('app', 'date')) : '';
+    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), app\cfg('app', 'date')) : '';
 }
 
 /**
  * Datetime viewer
  */
-function viewer_datetime(array $attr, array $data): string
+function datetime(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), cfg('app', 'datetime')) : '';
+    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), app\cfg('app', 'datetime')) : '';
 }
 
 /**
  * Time viewer
  */
-function viewer_time(array $attr, array $data): string
+function time(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), cfg('app', 'time')) : '';
+    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), app\cfg('app', 'time')) : '';
 }
 
 /**
  * Rich text viewer
  */
-function viewer_rte(array $attr, array $data): string
+function rte(array $attr, array $data): string
 {
     return (string) $data[$attr['id']];
 }
@@ -68,63 +58,63 @@ function viewer_rte(array $attr, array $data): string
 /**
  * Iframe viewer
  */
-function viewer_iframe(array $attr, array $data): string
+function iframe(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html('figure', ['class' => 'iframe'], html('iframe', ['src' => $data[$attr['id']], 'allowfullscreen' => true])) : '';
+    return $data[$attr['id']] ? tag('figure', ['class' => 'iframe'], tag('iframe', ['src' => $data[$attr['id']], 'allowfullscreen' => true])) : '';
 }
 
 /**
  * File viewer
  */
-function viewer_file(array $attr, array $data): string
+function file(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html('a', ['href' => url_media($data[$attr['id']])], $data[$attr['id']]) : '';
+    return $data[$attr['id']] ? tag('a', ['href' => app\media($data[$attr['id']])], $data[$attr['id']]) : '';
 }
 
 /**
  * Image viewer
  */
-function viewer_image(array $attr, array $data): string
+function image(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html('img', ['src' => url_media($data[$attr['id']]), 'alt' => $data[$attr['id']]], null, true) : '';
+    return $data[$attr['id']] ? tag('img', ['src' => app\media($data[$attr['id']]), 'alt' => $data[$attr['id']]], null, true) : '';
 }
 
 /**
  * Audio viewer
  */
-function viewer_audio(array $attr, array $data): string
+function audio(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html('audio', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
+    return $data[$attr['id']] ? tag('audio', ['src' => app\media($data[$attr['id']]), 'controls' => true]) : '';
 }
 
 /**
  * Embed viewer
  */
-function viewer_embed(array $attr, array $data): string
+function embed(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html('embed', ['src' => url_media($data[$attr['id']])], null, true) : '';
+    return $data[$attr['id']] ? tag('embed', ['src' => app\media($data[$attr['id']])], null, true) : '';
 }
 
 /**
  * Object viewer
  */
-function viewer_object(array $attr, array $data): string
+function object(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html('object', ['data' => url_media($data[$attr['id']])]) : '';
+    return $data[$attr['id']] ? tag('object', ['data' => app\media($data[$attr['id']])]) : '';
 }
 
 /**
  * Video viewer
  */
-function viewer_video(array $attr, array $data): string
+function video(array $attr, array $data): string
 {
-    return $data[$attr['id']] ? html('video', ['src' => url_media($data[$attr['id']]), 'controls' => true]) : '';
+    return $data[$attr['id']] ? tag('video', ['src' => app\media($data[$attr['id']]), 'controls' => true]) : '';
 }
 
 /**
  * Filesize viewer
  */
-function viewer_filesize(array $attr, array $data): string
+function filesize(array $attr, array $data): string
 {
     if ($data[$attr['id']]) {
         $units = ['B', 'kB', 'MB', 'GB'];
@@ -143,7 +133,7 @@ function viewer_filesize(array $attr, array $data): string
 /**
  * Position viewer
  */
-function viewer_pos(array $attr, array $data): string
+function pos(array $attr, array $data): string
 {
     $parts = explode('.', $data[$attr['id']]);
 

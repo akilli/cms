@@ -1,28 +1,33 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace account;
+
+use const app\ALL;
+use app;
+use entity;
+use session;
 
 /**
  * Initializes account from session and stores account data in registry
  *
  * @return mixed
  */
-function account(string $key = null)
+function data(string $key = null)
 {
-    $data = & registry('account');
+    $data = & app\data('account');
 
     if ($data === null) {
         $data = [];
-        $id = (int) session_get('account');
+        $id = (int) session\get('account');
 
-        if ($id && ($data = one('account', [['id', $id], ['active', true]]))) {
-            $role = one('role', [['id', $data['role_id']], ['active', true]]);
+        if ($id && ($data = entity\one('account', [['id', $id], ['active', true]]))) {
+            $role = entity\one('role', [['id', $data['role_id']], ['active', true]]);
             $data['privilege'] = $role ? $role['privilege'] : [];
             $data['admin'] = in_array(ALL, $data['privilege']);
             unset($data['_old'], $data['_entity']);
         } else {
-            session_set('account', null);
+            session\set('account', null);
         }
     }
 
@@ -36,9 +41,9 @@ function account(string $key = null)
 /**
  * Returns account if given credentials are valid and automatically rehashes password if needed
  */
-function account_login(string $name, string $password): ?array
+function login(string $name, string $password): ?array
 {
-    $data = one('account', [['name', $name], ['active', true]]);
+    $data = entity\one('account', [['name', $name], ['active', true]]);
 
     if (!$data || !password_verify($password, $data['password'])) {
         return null;
@@ -46,7 +51,7 @@ function account_login(string $name, string $password): ?array
 
     if (password_needs_rehash($data['password'], PASSWORD_DEFAULT)) {
         $data['password'] = $password;
-        save('account', $data);
+        entity\save('account', $data);
     }
 
     return $data;
@@ -55,17 +60,17 @@ function account_login(string $name, string $password): ?array
 /**
  * Is not logged-in guest
  */
-function account_guest(): bool
+function guest(): bool
 {
-    return account('id') <= 0;
+    return data('id') <= 0;
 }
 
 /**
  * Is logged-in user account
  */
-function account_user(): bool
+function user(): bool
 {
-    return account('id') > 0;
+    return data('id') > 0;
 }
 
 /**
@@ -73,14 +78,14 @@ function account_user(): bool
  */
 function allowed(string $key): bool
 {
-    $cfg = cfg('privilege');
-    $key = resolve($key);
+    $cfg = app\cfg('privilege');
+    $key = app\resolve($key);
 
     if (empty($cfg[$key])) {
         return false;
     }
 
-    return !empty($cfg[$key]['call']) && $cfg[$key]['call']() || account('admin') || in_array($key, account('privilege') ?? []);
+    return !empty($cfg[$key]['call']) && $cfg[$key]['call']() || data('admin') || in_array($key, data('privilege') ?? []);
 }
 
 /**
@@ -92,7 +97,7 @@ function allowed_url(string $path): bool
         return true;
     }
 
-    $parts = explode('/', ltrim(url_rewrite($path), '/'));
+    $parts = explode('/', ltrim(app\rewrite($path), '/'));
 
-    return cfg('entity', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
+    return app\cfg('entity', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
 }

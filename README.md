@@ -10,3 +10,14 @@ Check the docker-compose.yml file as one possible solution. It is using an exter
 as reverse proxy. Both is not needed, so adjust to your needs.
 
 Run the docker containers and log in with name `admin` and password `password`.
+
+## Abbreviations
+
+abbr | full
+---- | -------
+app  | application
+attr | attribute
+cfg  | config
+msg  | message
+req  | request
+tab  | table

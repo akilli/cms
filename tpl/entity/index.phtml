@@ -1,4 +1,10 @@
-<?php namespace cms; /** @var callable $§ */?>
+<?php
+namespace app;
+use function account\allowed;
+use function attr\viewer;
+use function layout\§;
+/** @var callable $§ */
+?>
 <section id="<?=$§('id');?>">
     <h1><?=$§('title');?></h1>
 <?php if ($§('data')):?>

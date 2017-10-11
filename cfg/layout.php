@@ -21,6 +21,7 @@ return [
         ],
         'msg' => [
             'section' => 'msg',
+            'tpl' => 'layout/msg.phtml',
         ],
         'left' => [
             'section' => 'container',
@@ -37,7 +38,7 @@ return [
             'section' => 'container',
         ],
     ],
-    'action-admin' => [
+    'act-admin' => [
         'content' => [
             'section' => 'tpl',
             'tpl' => 'entity/admin.phtml',
@@ -45,6 +46,7 @@ return [
         ],
         'pager' => [
             'section' => 'pager',
+            'tpl' => 'entity/pager.phtml',
             'parent_id' => 'content',
         ],
         'search' => [
@@ -65,7 +67,7 @@ return [
             'parent_id' => 'right',
         ],
     ],
-    'action-index' => [
+    'act-index' => [
         'content' => [
             'section' => 'tpl',
             'tpl' => 'entity/index.phtml',
@@ -81,21 +83,21 @@ return [
             'parent_id' => 'right',
         ],
     ],
-    'action-edit' => [
+    'act-edit' => [
         'content' => [
             'section' => 'tpl',
             'tpl' => 'entity/edit.phtml',
             'parent_id' => 'main',
         ],
     ],
-    'action-form' => [
+    'act-form' => [
         'content' => [
             'section' => 'tpl',
             'tpl' => 'entity/edit.phtml',
             'parent_id' => 'main',
         ],
     ],
-    'action-view' => [
+    'act-view' => [
         'content' => [
             'section' => 'tpl',
             'tpl' => 'entity/view.phtml',

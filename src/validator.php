@@ -1,58 +1,21 @@
 <?php
 declare(strict_types = 1);
 
-namespace cms;
+namespace validator;
 
+use const attr\{DATE, DATETIME, TIME};
+use function app\_;
+use app;
+use entity;
+use filter;
 use DomainException;
-
-/**
- * Validator
- *
- * @throws DomainException
- */
-function validator(array $attr, array $data): array
-{
-    $data[$attr['id']] = cast($attr, $data[$attr['id']] ?? null);
-
-    if ($attr['nullable'] && $data[$attr['id']] === null) {
-        return $data;
-    }
-
-    $attr['opt'] = opt($attr);
-
-    if ($attr['validator']) {
-        $data = $attr['validator']($attr, $data);
-    }
-
-    if ($attr['uniq'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && size($data['_entity']['id'], [[$attr['id'], $data[$attr['id']]]])) {
-        throw new DomainException(_('%s must be unique', $attr['name']));
-    }
-
-    if ($attr['required'] && ($data[$attr['id']] === null || $data[$attr['id']] === '')) {
-        throw new DomainException(_('%s is required', $attr['name']));
-    }
-
-    $vals = $attr['multiple'] && is_array($data[$attr['id']]) ? $data[$attr['id']] : [$data[$attr['id']]];
-
-    foreach ($vals as $val) {
-        if ($attr['min'] > 0 && $val < $attr['min']
-            || $attr['max'] > 0 && $val > $attr['max']
-            || $attr['minlength'] > 0 && strlen($val) < $attr['minlength']
-            || $attr['maxlength'] > 0 && strlen($val) > $attr['maxlength']
-        ) {
-            throw new DomainException(_('Value out of range'));
-        }
-    }
-
-    return $data;
-}
 
 /**
  * Option validator
  *
  * @throws DomainException
  */
-function validator_opt(array $attr, array $data): array
+function opt(array $attr, array $data): array
 {
     if (!empty($data[$attr['id']]) || is_scalar($data[$attr['id']]) && !is_string($data[$attr['id']])) {
         foreach ((array) $data[$attr['id']] as $v) {
@@ -70,11 +33,11 @@ function validator_opt(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function validator_page(array $attr, array $data): array
+function page(array $attr, array $data): array
 {
     $old = $data['_old']['id'] ?? null;
 
-    if ($data[$attr['id']] && $old && in_array($old, one('page', [['id', $data[$attr['id']]]])['path'])) {
+    if ($data[$attr['id']] && $old && in_array($old, entity\one('page', [['id', $data[$attr['id']]]])['path'])) {
         throw new DomainException(_('Cannot assign the page itself or a child page as parent'));
     }
 
@@ -84,7 +47,7 @@ function validator_page(array $attr, array $data): array
 /**
  * Text validator
  */
-function validator_text(array $attr, array $data): array
+function text(array $attr, array $data): array
 {
     $data[$attr['id']] = trim((string) filter_var($data[$attr['id']], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
 
@@ -96,7 +59,7 @@ function validator_text(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function validator_password(array $attr, array $data): array
+function password(array $attr, array $data): array
 {
     if ($data[$attr['id']] && !($data[$attr['id']] = password_hash($data[$attr['id']], PASSWORD_DEFAULT))) {
         throw new DomainException(_('Invalid password'));
@@ -108,10 +71,10 @@ function validator_password(array $attr, array $data): array
 /**
  * ID validator
  */
-function validator_id(array $attr, array $data): array
+function id(array $attr, array $data): array
 {
-    $data = validator_text($attr, $data);
-    $data[$attr['id']] = filter_id($data[$attr['id']]);
+    $data = text($attr, $data);
+    $data[$attr['id']] = filter\id($data[$attr['id']]);
 
     return $data;
 }
@@ -121,7 +84,7 @@ function validator_id(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function validator_email(array $attr, array $data): array
+function email(array $attr, array $data): array
 {
     if ($data[$attr['id']] && !($data[$attr['id']] = filter_var($data[$attr['id']], FILTER_VALIDATE_EMAIL))) {
         throw new DomainException(_('Invalid email'));
@@ -135,7 +98,7 @@ function validator_email(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function validator_url(array $attr, array $data): array
+function url(array $attr, array $data): array
 {
     if ($data[$attr['id']] && !($data[$attr['id']] = filter_var($data[$attr['id']], FILTER_VALIDATE_URL))) {
         throw new DomainException(_('Invalid URL'));
@@ -149,7 +112,7 @@ function validator_url(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function validator_json(array $attr, array $data): array
+function json(array $attr, array $data): array
 {
     if ($data[$attr['id']] && json_decode($data[$attr['id']], true) === null) {
         throw new DomainException(_('Invalid JSON notation'));
@@ -167,9 +130,9 @@ function validator_json(array $attr, array $data): array
  *
  * @return array
  */
-function validator_rte(array $attr, array $data): array
+function rte(array $attr, array $data): array
 {
-    $data[$attr['id']] = filter_html($data[$attr['id']]);
+    $data[$attr['id']] = filter\html($data[$attr['id']]);
 
     return $data;
 }
@@ -179,9 +142,9 @@ function validator_rte(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function validator_date(array $attr, array $data): array
+function date(array $attr, array $data): array
 {
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], DATE['f'], DATE['b']))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter\date($data[$attr['id']], DATE['f'], DATE['b']))) {
         throw new DomainException(_('Invalid value'));
     }
 
@@ -193,9 +156,9 @@ function validator_date(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function validator_datetime(array $attr, array $data): array
+function datetime(array $attr, array $data): array
 {
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], DATETIME['f'], DATETIME['b']))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter\date($data[$attr['id']], DATETIME['f'], DATETIME['b']))) {
         throw new DomainException(_('Invalid value'));
     }
 
@@ -207,9 +170,9 @@ function validator_datetime(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function validator_time(array $attr, array $data): array
+function time(array $attr, array $data): array
 {
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter_date($data[$attr['id']], TIME['f'], TIME['b']))) {
+    if ($data[$attr['id']] && !($data[$attr['id']] = filter\date($data[$attr['id']], TIME['f'], TIME['b']))) {
         throw new DomainException(_('Invalid value'));
     }
 
@@ -221,14 +184,14 @@ function validator_time(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function validator_file(array $attr, array $data): array
+function file(array $attr, array $data): array
 {
     if ($data[$attr['id']]) {
-        if (!in_array($attr['type'], cfg('file', pathinfo($data[$attr['id']], PATHINFO_EXTENSION)) ?? [])) {
+        if (!in_array($attr['type'], app\cfg('file', pathinfo($data[$attr['id']], PATHINFO_EXTENSION)) ?? [])) {
             throw new DomainException(_('Invalid file %s', $data[$attr['id']]));
         }
 
-        if (is_file(path('data', $data[$attr['id']])) && ($data['_old'][$attr['id']] ?? null) !== $data[$attr['id']]) {
+        if (is_file(app\path('data', $data[$attr['id']])) && ($data['_old'][$attr['id']] ?? null) !== $data[$attr['id']]) {
             throw new DomainException(_('File %s already exists', $data[$attr['id']]));
         }
     }
