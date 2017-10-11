@@ -155,7 +155,7 @@ function save(string $eId, array & $data): bool
         return false;
     }
 
-    $trans = db_trans(
+    $trans = sql_trans(
         function () use (& $tmp, $aIds): void {
             $tmp = event('entity.presave', $tmp);
             $tmp = event('model.presave.' . $tmp['_entity']['model'], $tmp);
@@ -191,7 +191,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
             continue;
         }
 
-        $trans = db_trans(
+        $trans = sql_trans(
             function () use ($data): void {
                 $data = event('entity.predelete', $data);
                 $data = event('model.predelete.' . $data['_entity']['model'], $data);

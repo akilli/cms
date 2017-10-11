@@ -8,7 +8,7 @@ namespace cms;
  */
 function flat_load(array $entity, array $crit = [], array $opts = []): array
 {
-    $attrs = db_attr($entity['attr']);
+    $attrs = sql_attr($entity['attr']);
 
     if ($opts['mode'] === 'size') {
         $opts['select'] = ['COUNT(*)'];
@@ -16,13 +16,13 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
         $opts['select'] = array_column($attrs, 'col');
     }
 
-    $cols = db_crit($crit, $attrs);
-    $stmt = db()->prepare(
-        db_select($opts['select'])
-        . db_from($entity['tab'])
-        . db_where($cols['where'])
-        . db_order($opts['order'])
-        . db_limit($opts['limit'], $opts['offset'])
+    $cols = sql_crit($crit, $attrs);
+    $stmt = sql()->prepare(
+        sql_select($opts['select'])
+        . sql_from($entity['tab'])
+        . sql_where($cols['where'])
+        . sql_order($opts['order'])
+        . sql_limit($opts['limit'], $opts['offset'])
     );
 
     foreach ($cols['param'] as $param) {
@@ -48,18 +48,18 @@ function flat_load(array $entity, array $crit = [], array $opts = []): array
 function flat_save(array $data): array
 {
     $attrs = $data['_entity']['attr'];
-    $cols = db_cols($attrs, $data);
+    $cols = sql_cols($attrs, $data);
 
     // Insert or update
     if (empty($data['_old'])) {
-        $stmt = db()->prepare(db_insert($data['_entity']['tab']) . db_values($cols['val']));
+        $stmt = sql()->prepare(sql_insert($data['_entity']['tab']) . sql_values($cols['val']));
     } else {
-        $stmt = db()->prepare(
-            db_update($data['_entity']['tab'])
-            . db_set($cols['val'])
-            . db_where([$attrs['id']['col'] . ' = :_id'])
+        $stmt = sql()->prepare(
+            sql_update($data['_entity']['tab'])
+            . sql_set($cols['val'])
+            . sql_where([$attrs['id']['col'] . ' = :_id'])
         );
-        $stmt->bindValue(':_id', $data['_old']['id'], db_type($attrs['id'], $data['_old']['id']));
+        $stmt->bindValue(':_id', $data['_old']['id'], sql_type($attrs['id'], $data['_old']['id']));
     }
 
     foreach ($cols['param'] as $param) {
@@ -70,7 +70,7 @@ function flat_save(array $data): array
 
     // Set DB generated id
     if (empty($data['_old']) && $attrs['id']['auto']) {
-        $data['id'] = (int) db()->lastInsertId($data['_entity']['tab'] . '_id_seq');
+        $data['id'] = (int) sql()->lastInsertId($data['_entity']['tab'] . '_id_seq');
     }
 
     return $data;
@@ -82,7 +82,7 @@ function flat_save(array $data): array
 function flat_delete(array $data): void
 {
     $attrs = $data['_entity']['attr'];
-    $stmt = db()->prepare(db_delete($data['_entity']['tab']) . db_where([$attrs['id']['col'] . ' = :id']));
-    $stmt->bindValue(':id', $data['_old']['id'], db_type($attrs['id'], $data['_old']['id']));
+    $stmt = sql()->prepare(sql_delete($data['_entity']['tab']) . sql_where([$attrs['id']['col'] . ' = :id']));
+    $stmt->bindValue(':id', $data['_old']['id'], sql_type($attrs['id'], $data['_old']['id']));
     $stmt->execute();
 }

@@ -10,33 +10,33 @@ use RuntimeException;
 /**
  * Database
  */
-function db(): PDO
+function sql(): PDO
 {
-    static $db;
+    static $pdo;
 
-    if ($db === null) {
-        $cfg = cfg('db');
-        $db = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], $cfg['opt']);
+    if ($pdo === null) {
+        $cfg = cfg('sql');
+        $pdo = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], $cfg['opt']);
     }
 
-    return $db;
+    return $pdo;
 }
 
 /**
  * Transaction
  */
-function db_trans(callable $call): bool
+function sql_trans(callable $call): bool
 {
     static $level = 0;
 
-    ++$level === 1 ? db()->beginTransaction() : db()->exec('SAVEPOINT LEVEL_' . $level);
+    ++$level === 1 ? sql()->beginTransaction() : sql()->exec('SAVEPOINT LEVEL_' . $level);
 
     try {
         $call();
-        $level === 1 ? db()->commit() : db()->exec('RELEASE SAVEPOINT LEVEL_' . $level);
+        $level === 1 ? sql()->commit() : sql()->exec('RELEASE SAVEPOINT LEVEL_' . $level);
         --$level;
     } catch (Exception $e) {
-        $level === 1 ? db()->rollBack() : db()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
+        $level === 1 ? sql()->rollBack() : sql()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
         --$level;
         logger((string) $e);
 
@@ -49,7 +49,7 @@ function db_trans(callable $call): bool
 /**
  * Set appropriate data type
  */
-function db_type(array $attr, $val): int
+function sql_type(array $attr, $val): int
 {
     if ($attr['nullable'] && $val === null) {
         return PDO::PARAM_NULL;
@@ -69,16 +69,16 @@ function db_type(array $attr, $val): int
 /**
  * Prepare columns
  */
-function db_cols(array $attrs, array $data): array
+function sql_cols(array $attrs, array $data): array
 {
-    $attrs = db_attr($attrs, true);
+    $attrs = sql_attr($attrs, true);
     $cols = ['param' => [], 'val' => []];
 
     foreach (array_intersect_key($data, $attrs) as $aId => $val) {
         $attr = $attrs[$aId];
         $p = ':' . $attr['id'];
         $val = is_array($val) && $attr['backend'] === 'json' ? json_encode($val) : $val;
-        $cols['param'][$attr['col']] = [$p, $val, db_type($attr, $val)];
+        $cols['param'][$attr['col']] = [$p, $val, sql_type($attr, $val)];
         $cols['val'][$attr['col']] = $attr['backend'] === 'search' ? 'TO_TSVECTOR(' . $p . ')' : $p;
     }
 
@@ -88,7 +88,7 @@ function db_cols(array $attrs, array $data): array
 /**
  * Filter out non-DB and optionally auto increment columns
  */
-function db_attr(array $attrs, bool $auto = false): array
+function sql_attr(array $attrs, bool $auto = false): array
 {
     foreach ($attrs as $aId => $attr) {
         if (empty($attr['col']) || $auto && !empty($attr['auto'])) {
@@ -102,7 +102,7 @@ function db_attr(array $attrs, bool $auto = false): array
 /**
  * Maps attribute IDs to DB columns and handles search criteria
  */
-function db_crit(array $crit, array $attrs): array
+function sql_crit(array $crit, array $attrs): array
 {
     $cols = ['where' => [], 'param' => []];
 
@@ -121,7 +121,7 @@ function db_crit(array $crit, array $attrs): array
             }
 
             $param = ':crit_' . $attr['id'] . '_';
-            $type = db_type($attr, $val);
+            $type = sql_type($attr, $val);
             $z[$attr['id']] = $z[$attr['id']] ?? 0;
             $val = is_array($val) ? $val : [$val];
             $r = [];
@@ -201,7 +201,7 @@ function db_crit(array $crit, array $attrs): array
 /**
  * INSERT part
  */
-function db_insert(string $tab): string
+function sql_insert(string $tab): string
 {
     return 'INSERT INTO ' . $tab;
 }
@@ -209,7 +209,7 @@ function db_insert(string $tab): string
 /**
  * VALUES part
  */
-function db_values(array $cols): string
+function sql_values(array $cols): string
 {
     return ' (' . implode(', ', array_keys($cols)) . ') VALUES (' . implode(', ', $cols) . ')';
 }
@@ -217,7 +217,7 @@ function db_values(array $cols): string
 /**
  * UPDATE part
  */
-function db_update(string $tab): string
+function sql_update(string $tab): string
 {
     return 'UPDATE ' . $tab;
 }
@@ -225,7 +225,7 @@ function db_update(string $tab): string
 /**
  * SET part
  */
-function db_set(array $cols): string
+function sql_set(array $cols): string
 {
     $set = '';
 
@@ -239,7 +239,7 @@ function db_set(array $cols): string
 /**
  * DELETE part
  */
-function db_delete(string $tab): string
+function sql_delete(string $tab): string
 {
     return 'DELETE FROM ' . $tab;
 }
@@ -247,7 +247,7 @@ function db_delete(string $tab): string
 /**
  * SELECT part
  */
-function db_select(array $sel): string
+function sql_select(array $sel): string
 {
     $cols = [];
 
@@ -261,7 +261,7 @@ function db_select(array $sel): string
 /**
  * FROM part
  */
-function db_from(string $tab): string
+function sql_from(string $tab): string
 {
     return ' FROM ' . $tab;
 }
@@ -269,7 +269,7 @@ function db_from(string $tab): string
 /**
  * WHERE part
  */
-function db_where(array $cols): string
+function sql_where(array $cols): string
 {
     return $cols ? ' WHERE ' . implode(' AND ', $cols) : '';
 }
@@ -277,7 +277,7 @@ function db_where(array $cols): string
 /**
  * ORDER BY part
  */
-function db_order(array $order): string
+function sql_order(array $order): string
 {
     $cols = [];
 
@@ -291,7 +291,7 @@ function db_order(array $order): string
 /**
  * LIMIT part
  */
-function db_limit(int $limit, int $offset = 0): string
+function sql_limit(int $limit, int $offset = 0): string
 {
     return $limit > 0 ? ' LIMIT ' . $limit . ' OFFSET ' . max(0, $offset) : '';
 }
