@@ -20,7 +20,7 @@ function opt(array $attr, array $data): array
     if (!empty($data[$attr['id']]) || is_scalar($data[$attr['id']]) && !is_string($data[$attr['id']])) {
         foreach ((array) $data[$attr['id']] as $v) {
             if (!isset($attr['opt'][$v])) {
-                throw new DomainException(i18n('Invalid option for attribute %s', $attr['name']));
+                throw new DomainException(i18n('Invalid option'));
             }
         }
     }

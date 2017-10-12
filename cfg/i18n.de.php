@@ -1,8 +1,6 @@
 <?php
 return [
     '%d to %d of %d' => '%d bis %d von %d',
-    '%s must be unique' => '%s muß eindeutig sein',
-    '%s is required' => '%s ist erforderlich',
     'Access denied' => 'Zugriff verweigert',
     'Accounts' => 'Benutzer',
     'Actions' => 'Aktionen',
@@ -36,7 +34,7 @@ return [
     'Invalid file %s' => 'Ungültige Datei %s',
     'Invalid JSON notation' => 'Ungültige JSON Notation',
     'Invalid name and password combination' => 'Ungültige Kombination aus Name und Passwort',
-    'Invalid option for attribute %s' => 'Ungültige Option für Attribut %s',
+    'Invalid option' => 'Ungültige Option',
     'Invalid password' => 'Ungültiges Passwort',
     'Invalid path %s' => 'Ungültiger Pfad %s',
     'Invalid URL' => 'Ungültige URL',
@@ -82,6 +80,8 @@ return [
     'Unique' => 'Eindeutig',
     'Upload' => 'Upload',
     'URL' => 'URL',
+    'Value is required' => 'Wert ist erforderlich',
+    'Value must be unique' => 'Wert muss eindeutig sein',
     'Value out of range' => 'Wert liegt außerhalb des Gültigkeitsbereichs',
     'View' => 'Ansehen',
     'Welcome %s' => 'Willkommen %s',

@@ -62,11 +62,11 @@ function validator(array $attr, array $data): array
     }
 
     if ($attr['unique'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && ent\size($data['_ent']['id'], [[$attr['id'], $data[$attr['id']]]])) {
-        throw new DomainException(i18n('%s must be unique', $attr['name']));
+        throw new DomainException(i18n('Value must be unique'));
     }
 
     if ($attr['required'] && ($data[$attr['id']] === null || $data[$attr['id']] === '')) {
-        throw new DomainException(i18n('%s is required', $attr['name']));
+        throw new DomainException(i18n('Value is required'));
     }
 
     $vals = $attr['multiple'] && is_array($data[$attr['id']]) ? $data[$attr['id']] : [$data[$attr['id']]];
