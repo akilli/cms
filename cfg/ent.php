@@ -162,7 +162,7 @@ return [
     ],
     'media' => [
         'name' => 'Media',
-        'model' => 'asset',
+        'type' => 'asset',
         'act' => ['admin', 'browser', 'delete', 'edit', 'import', 'view'],
         'attr' => [
             'id' => [

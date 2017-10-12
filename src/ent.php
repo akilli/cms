@@ -14,7 +14,7 @@ const ENT = [
     'id' => null,
     'name' => null,
     'tab' => null,
-    'model' => 'db',
+    'type' => 'db',
     'act' => [],
     'attr' => []
 ];
@@ -50,7 +50,7 @@ function size(string $eId, array $crit = []): int
     $opts = ['mode' => 'size'] + OPTS;
 
     try {
-        return ($ent['model'] . '\load')($ent, $crit, $opts)[0];
+        return ($ent['type'] . '\load')($ent, $crit, $opts)[0];
     } catch (Exception $e) {
         app\log((string) $e);
         app\msg(i18n('Could not load data'));
@@ -69,7 +69,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
     $opts = array_replace(OPTS, array_intersect_key($opts, OPTS), ['mode' => 'one', 'limit' => 1]);
 
     try {
-        if ($data = ($ent['model'] . '\load')($ent, $crit, $opts)) {
+        if ($data = ($ent['type'] . '\load')($ent, $crit, $opts)) {
             $data = load($ent, $data);
         }
     } catch (Exception $e) {
@@ -97,7 +97,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
     }
 
     try {
-        $data = ($ent['model'] . '\load')($ent, $crit, $opts);
+        $data = ($ent['type'] . '\load')($ent, $crit, $opts);
 
         foreach ($data as $id => $item) {
             $data[$id] = load($ent, $item);
@@ -159,11 +159,11 @@ function save(string $eId, array & $data): bool
     $trans = trans(
         function () use (& $tmp, $aIds): void {
             $tmp = app\event('ent.presave', $tmp);
-            $tmp = app\event('model.presave.' . $tmp['_ent']['model'], $tmp);
+            $tmp = app\event('ent.type.presave.' . $tmp['_ent']['type'], $tmp);
             $tmp = app\event('ent.presave.' . $tmp['_ent']['id'], $tmp);
-            $tmp = ($tmp['_ent']['model'] . '\save')($tmp);
+            $tmp = ($tmp['_ent']['type'] . '\save')($tmp);
             app\event('ent.postsave', $tmp);
-            app\event('model.postsave.' . $tmp['_ent']['model'], $tmp);
+            app\event('ent.type.postsave.' . $tmp['_ent']['type'], $tmp);
             app\event('ent.postsave.' . $tmp['_ent']['id'], $tmp);
         }
     );
@@ -195,11 +195,11 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
         $trans = trans(
             function () use ($data): void {
                 $data = app\event('ent.predelete', $data);
-                $data = app\event('model.predelete.' . $data['_ent']['model'], $data);
+                $data = app\event('ent.type.predelete.' . $data['_ent']['type'], $data);
                 $data = app\event('ent.predelete.' . $data['_ent']['id'], $data);
-                ($data['_ent']['model'] . '\delete')($data);
+                ($data['_ent']['type'] . '\delete')($data);
                 app\event('ent.postdelete', $data);
-                app\event('model.postdelete.' . $data['_ent']['model'], $data);
+                app\event('ent.type.postdelete.' . $data['_ent']['type'], $data);
                 app\event('ent.postdelete.' . $data['_ent']['id'], $data);
             }
         );
@@ -266,7 +266,7 @@ function load(array $ent, array $data): array
     $data['_old'] = $data;
     $data['_ent'] = $ent;
     $data = app\event('ent.load', $data);
-    $data = app\event('model.load.' . $ent['model'], $data);
+    $data = app\event('ent.type.load.' . $ent['type'], $data);
     $data = app\event('ent.load.' . $ent['id'], $data);
 
     return $data;

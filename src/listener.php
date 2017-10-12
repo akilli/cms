@@ -39,7 +39,7 @@ function cfg_ent(array $data): array
     foreach ($data as $eId => $ent) {
         $ent = array_replace(ENT, $ent);
 
-        if (!$ent['name'] || !$ent['model'] || !$ent['attr']) {
+        if (!$ent['name'] || !$ent['type'] || !$ent['attr']) {
             throw new RuntimeException(i18n('Invalid entity configuration'));
         }
 
