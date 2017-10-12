@@ -54,6 +54,10 @@ function validator(array $attr, array $data): array
         return $data;
     }
 
+    if ($attr['multiple'] && !is_array($data[$attr['id']])) {
+        $data[$attr['id']] = [];
+    }
+
     $attr['opt'] = opt($attr);
 
     if ($attr['validator']) {
