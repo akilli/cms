@@ -27,16 +27,6 @@ set_exception_handler(
         log((string) $e);
     }
 );
-register_shutdown_function(
-    function (): void {
-        $error = error_get_last();
-        $errors = [E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING];
-
-        if ($error && in_array($error['type'], $errors)) {
-            log(print_r($error, true));
-        }
-    }
-);
 
 /**
  * Run application
