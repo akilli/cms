@@ -21,7 +21,7 @@ const ATTR = [
     'frontend' => null,
     'nullable' => false,
     'required' => false,
-    'uniq' => false,
+    'unique' => false,
     'multiple' => false,
     'searchable' => false,
     'opt' => [],
@@ -61,7 +61,7 @@ function validator(array $attr, array $data): array
         $data = $attr['validator']($attr, $data);
     }
 
-    if ($attr['uniq'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && entity\size($data['_entity']['id'], [[$attr['id'], $data[$attr['id']]]])) {
+    if ($attr['unique'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && entity\size($data['_entity']['id'], [[$attr['id'], $data[$attr['id']]]])) {
         throw new DomainException(_('%s must be unique', $attr['name']));
     }
 
@@ -114,8 +114,8 @@ function editor(array $attr, array $data): string
         $label .= ' ' . tag('em', ['class' => 'required'], _('Required'));
     }
 
-    if ($attr['uniq']) {
-        $label .= ' ' . tag('em', ['class' => 'uniq'], _('Unique'));
+    if ($attr['unique']) {
+        $label .= ' ' . tag('em', ['class' => 'unique'], _('Unique'));
     }
 
     foreach ([['min', 'max'], ['minlength', 'maxlength']] as $edge) {
