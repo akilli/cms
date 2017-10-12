@@ -32,7 +32,7 @@ function denied(): void
  */
 function error(): void
 {
-    header('HTTP/1.1 404 Not Found');
+    http_response_code(404);
     app\msg(i18n('Page not found'));
     vars('head', ['title' => i18n('Page not found')]);
 }
@@ -197,13 +197,13 @@ function media_browser(array $ent): void
 function media_view(array $ent): void
 {
     if (!$data = ent\one($ent['id'], [['id', req('id')]])) {
-        header('HTTP/1.1 404 Not Found');
+        http_response_code(404);
         exit;
     }
 
+    http_response_code(200);
     header('X-Accel-Redirect: ' . app\asset($data['id']));
     header('X-Accel-Buffering: no');
-    header('HTTP/1.1 200 OK');
     header('Content-Type: ', true);
     exit;
 }
