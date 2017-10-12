@@ -9,7 +9,6 @@ use function account\user;
 <link rel="stylesheet" href="<?= theme('theme.css');?>" />
 <?php if (user()):?>
 <script src="<?= theme('ckeditor/ckeditor.js');?>"></script>
-<script src="<?= theme('theme.js');?>"></script>
 <script>
     const app =
     {
@@ -27,4 +26,5 @@ use function account\user;
         }
     };
 </script>
+<script src="<?= theme('theme.js');?>"></script>
 <?php endif;?>

@@ -1,4 +1,4 @@
-(function (document, CKEDITOR) {
+(function (document, CKEDITOR, app) {
     'use strict';
 
     document.addEventListener('DOMContentLoaded', function()
@@ -43,4 +43,4 @@
             CKEDITOR.replace(rte[i]);
         }
     });
-})(document, CKEDITOR);
+})(document, CKEDITOR, app);
