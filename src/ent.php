@@ -53,7 +53,7 @@ function size(string $eId, array $crit = []): int
     try {
         return ($ent['model'] . '\load')($ent, $crit, $opts)[0];
     } catch (Exception $e) {
-        app\logger((string) $e);
+        app\log((string) $e);
         msg(_('Could not load data'));
     }
 
@@ -74,7 +74,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
             $data = load($ent, $data);
         }
     } catch (Exception $e) {
-        app\logger((string) $e);
+        app\log((string) $e);
         msg(_('Could not load data'));
     }
 
@@ -106,7 +106,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
 
         return array_column($data, null, $opts['index']);
     } catch (Exception $e) {
-        app\logger((string) $e);
+        app\log((string) $e);
         msg(_('Could not load data'));
     }
 

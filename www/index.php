@@ -24,7 +24,7 @@ set_error_handler(
 );
 set_exception_handler(
     function (Throwable $e): void {
-        logger((string) $e);
+        log((string) $e);
     }
 );
 register_shutdown_function(
@@ -33,7 +33,7 @@ register_shutdown_function(
         $errors = [E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING];
 
         if ($error && in_array($error['type'], $errors)) {
-            logger(print_r($error, true));
+            log(print_r($error, true));
         }
     }
 );

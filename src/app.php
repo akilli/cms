@@ -119,7 +119,7 @@ function _(string $key, string ...$args): string
 /**
  * Logger
  */
-function logger(string $msg): void
+function log(string $msg): void
 {
     file_put_contents(LOG, '[' . date('r') . '] ' . $msg . "\n\n", FILE_APPEND);
 }
