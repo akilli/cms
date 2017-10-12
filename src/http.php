@@ -121,7 +121,7 @@ function file(array $in): array
         if (is_array($n)) {
             $f = file($f);
         } elseif ($e !== UPLOAD_ERR_OK || !is_uploaded_file($t) || empty($exts[pathinfo($n, PATHINFO_EXTENSION)])) {
-            session\msg(i18n('Invalid file %s', $n));
+            app\msg(i18n('Invalid file %s', $n));
             continue;
         }
 

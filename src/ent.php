@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace ent;
 
 use function app\i18n;
-use function session\msg;
 use function sql\trans;
 use attr;
 use app;
@@ -54,7 +53,7 @@ function size(string $eId, array $crit = []): int
         return ($ent['model'] . '\load')($ent, $crit, $opts)[0];
     } catch (Exception $e) {
         app\log((string) $e);
-        msg(i18n('Could not load data'));
+        app\msg(i18n('Could not load data'));
     }
 
     return 0;
@@ -75,7 +74,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
         }
     } catch (Exception $e) {
         app\log((string) $e);
-        msg(i18n('Could not load data'));
+        app\msg(i18n('Could not load data'));
     }
 
     return $data;
@@ -107,7 +106,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
         return array_column($data, null, $opts['index']);
     } catch (Exception $e) {
         app\log((string) $e);
-        msg(i18n('Could not load data'));
+        app\msg(i18n('Could not load data'));
     }
 
     return [];
@@ -153,7 +152,7 @@ function save(string $eId, array & $data): bool
     }
 
     if (!empty($data['_error'])) {
-        msg(i18n('Could not save %s', $name));
+        app\msg(i18n('Could not save %s', $name));
         return false;
     }
 
@@ -170,10 +169,10 @@ function save(string $eId, array & $data): bool
     );
 
     if ($trans) {
-        msg(i18n('Successfully saved %s', $name));
+        app\msg(i18n('Successfully saved %s', $name));
         $data = $tmp;
     } else {
-        msg(i18n('Could not save %s', $name));
+        app\msg(i18n('Could not save %s', $name));
     }
 
     return $trans;
@@ -189,7 +188,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
 
     foreach (all($eId, $crit, $opts) as $id => $data) {
         if (!empty($data['system'])) {
-            msg(i18n('System items must not be deleted! Therefore skipped ID %s', (string) $id));
+            app\msg(i18n('System items must not be deleted! Therefore skipped ID %s', (string) $id));
             continue;
         }
 
@@ -213,11 +212,11 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
     }
 
     if ($success) {
-        msg(i18n('Successfully deleted %s', implode(', ', $success)));
+        app\msg(i18n('Successfully deleted %s', implode(', ', $success)));
     }
 
     if ($error) {
-        msg(i18n('Could not delete %s', implode(', ', $error)));
+        app\msg(i18n('Could not delete %s', implode(', ', $error)));
     }
 
     return !$error;

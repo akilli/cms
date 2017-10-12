@@ -64,19 +64,6 @@ function regenerate(): void
 }
 
 /**
- * Add message
- */
-function msg(string $msg): void
-{
-    $data = get('msg') ?? [];
-
-    if ($msg && !in_array($msg, $data)) {
-        $data[] = $msg;
-        set('msg', $data);
-    }
-}
-
-/**
  * Token
  */
 function token(): string

@@ -8,6 +8,7 @@ use account;
 use act;
 use ent;
 use file;
+use session;
 use InvalidArgumentException;
 
 const ALL = '_all_';
@@ -104,6 +105,19 @@ function event(string $event, array $data): array
     }
 
     return $data;
+}
+
+/**
+ * Add message
+ */
+function msg(string $msg): void
+{
+    $data = session\get('msg') ?? [];
+
+    if ($msg && !in_array($msg, $data)) {
+        $data[] = $msg;
+        session\set('msg', $data);
+    }
 }
 
 /**
