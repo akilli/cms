@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace editor;
 
 use const attr\{DATE, DATETIME, TIME};
-use function app\_;
+use function app\i18n;
 use function html\tag;
 use attr;
 use file;
@@ -22,7 +22,7 @@ function opt(array $attr, array $data): string
     }
 
     if ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
-        $attr['opt'] = [1 => _('Yes')];
+        $attr['opt'] = [1 => i18n('Yes')];
     }
 
     $html = '';
@@ -55,7 +55,7 @@ function select(array $attr, array $data): string
         $val = !$val && !is_numeric($val) ? [] : [$val];
     }
 
-    $html = tag('option', ['value' => ''], _('Please choose'));
+    $html = tag('option', ['value' => ''], i18n('Please choose'));
 
     foreach ($attr['opt'] as $optId => $optVal) {
         $html .= tag('option', ['value' => $optId, 'selected' => in_array($optId, $val)], $optVal);

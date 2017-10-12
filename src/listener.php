@@ -7,7 +7,7 @@ use const app\{ALL, URL};
 use const attr\ATTR;
 use const ent\ENT;
 use const section\SECTION;
-use function app\_;
+use function app\i18n;
 use function http\req;
 use account;
 use arr;
@@ -40,24 +40,24 @@ function cfg_ent(array $data): array
         $ent = array_replace(ENT, $ent);
 
         if (!$ent['name'] || !$ent['model'] || !$ent['attr']) {
-            throw new RuntimeException(_('Invalid entity configuration'));
+            throw new RuntimeException(i18n('Invalid entity configuration'));
         }
 
         $ent['id'] = $eId;
-        $ent['name'] = _($ent['name']);
+        $ent['name'] = i18n($ent['name']);
         $ent['tab'] = $ent['tab'] ?: $ent['id'];
         $sort = 0;
 
         foreach ($ent['attr'] as $aId => $attr) {
             if (empty($attr['name']) || empty($attr['type']) || !($type = $cfg['type'][$attr['type']] ?? null)) {
-                throw new RuntimeException(_('Invalid attribute configuration'));
+                throw new RuntimeException(i18n('Invalid attribute configuration'));
             }
 
             $backend = $cfg['backend'][$attr['backend'] ?? $type['backend']];
             $frontend = $cfg['frontend'][$attr['frontend'] ?? $type['frontend']];
             $attr = array_replace(ATTR, $backend, $frontend, $type, $attr);
             $attr['id'] = $aId;
-            $attr['name'] = _($attr['name']);
+            $attr['name'] = i18n($attr['name']);
             $attr['ent'] = $ent['id'];
 
             if ($attr['col'] === false) {
@@ -113,12 +113,12 @@ function cfg_layout(array $data): array
 function cfg_privilege(array $data): array
 {
     foreach ($data as $id => $item) {
-        $data[$id]['name'] = !empty($item['name']) ? _($item['name']) : '';
+        $data[$id]['name'] = !empty($item['name']) ? i18n($item['name']) : '';
     }
 
     foreach (app\cfg('ent') as $eId => $ent) {
         foreach ($ent['act'] as $act) {
-            $data[$eId . '/' . $act]['name'] = $ent['name'] . ' ' . _(ucwords($act));
+            $data[$eId . '/' . $act]['name'] = $ent['name'] . ' ' . i18n(ucwords($act));
         }
     }
 
@@ -132,7 +132,7 @@ function cfg_toolbar(array $data): array
 {
     foreach ($data as $key => $item) {
         if (account\allowed_url($item['url'])) {
-            $data[$key]['name'] = _($item['name']);
+            $data[$key]['name'] = i18n($item['name']);
         } else {
             unset($data[$key]);
         }
@@ -150,7 +150,7 @@ function ent_postsave(array $data): array
 
     foreach ($data['_ent']['attr'] as $aId => $attr) {
         if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\upload($file[$aId]['tmp_name'], $data[$aId])) {
-            throw new RuntimeException(_('File upload failed for %s', $data[$aId]));
+            throw new RuntimeException(i18n('File upload failed for %s', $data[$aId]));
         }
     }
 

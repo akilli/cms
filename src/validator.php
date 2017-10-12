@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace validator;
 
 use const attr\{DATE, DATETIME, TIME};
-use function app\_;
+use function app\i18n;
 use app;
 use ent;
 use filter;
@@ -20,7 +20,7 @@ function opt(array $attr, array $data): array
     if (!empty($data[$attr['id']]) || is_scalar($data[$attr['id']]) && !is_string($data[$attr['id']])) {
         foreach ((array) $data[$attr['id']] as $v) {
             if (!isset($attr['opt'][$v])) {
-                throw new DomainException(_('Invalid option for attribute %s', $attr['name']));
+                throw new DomainException(i18n('Invalid option for attribute %s', $attr['name']));
             }
         }
     }
@@ -38,7 +38,7 @@ function page(array $attr, array $data): array
     $old = $data['_old']['id'] ?? null;
 
     if ($data[$attr['id']] && $old && in_array($old, ent\one('page', [['id', $data[$attr['id']]]])['path'])) {
-        throw new DomainException(_('Cannot assign the page itself or a child page as parent'));
+        throw new DomainException(i18n('Cannot assign the page itself or a child page as parent'));
     }
 
     return $data;
@@ -62,7 +62,7 @@ function text(array $attr, array $data): array
 function password(array $attr, array $data): array
 {
     if ($data[$attr['id']] && !($data[$attr['id']] = password_hash($data[$attr['id']], PASSWORD_DEFAULT))) {
-        throw new DomainException(_('Invalid password'));
+        throw new DomainException(i18n('Invalid password'));
     }
 
     return $data;
@@ -87,7 +87,7 @@ function id(array $attr, array $data): array
 function email(array $attr, array $data): array
 {
     if ($data[$attr['id']] && !($data[$attr['id']] = filter_var($data[$attr['id']], FILTER_VALIDATE_EMAIL))) {
-        throw new DomainException(_('Invalid email'));
+        throw new DomainException(i18n('Invalid email'));
     }
 
     return $data;
@@ -101,7 +101,7 @@ function email(array $attr, array $data): array
 function url(array $attr, array $data): array
 {
     if ($data[$attr['id']] && !($data[$attr['id']] = filter_var($data[$attr['id']], FILTER_VALIDATE_URL))) {
-        throw new DomainException(_('Invalid URL'));
+        throw new DomainException(i18n('Invalid URL'));
     }
 
     return $data;
@@ -115,7 +115,7 @@ function url(array $attr, array $data): array
 function json(array $attr, array $data): array
 {
     if ($data[$attr['id']] && json_decode($data[$attr['id']], true) === null) {
-        throw new DomainException(_('Invalid JSON notation'));
+        throw new DomainException(i18n('Invalid JSON notation'));
     }
 
     if (!$data[$attr['id']]) {
@@ -145,7 +145,7 @@ function rte(array $attr, array $data): array
 function date(array $attr, array $data): array
 {
     if ($data[$attr['id']] && !($data[$attr['id']] = filter\date($data[$attr['id']], DATE['f'], DATE['b']))) {
-        throw new DomainException(_('Invalid value'));
+        throw new DomainException(i18n('Invalid value'));
     }
 
     return $data;
@@ -159,7 +159,7 @@ function date(array $attr, array $data): array
 function datetime(array $attr, array $data): array
 {
     if ($data[$attr['id']] && !($data[$attr['id']] = filter\date($data[$attr['id']], DATETIME['f'], DATETIME['b']))) {
-        throw new DomainException(_('Invalid value'));
+        throw new DomainException(i18n('Invalid value'));
     }
 
     return $data;
@@ -173,7 +173,7 @@ function datetime(array $attr, array $data): array
 function time(array $attr, array $data): array
 {
     if ($data[$attr['id']] && !($data[$attr['id']] = filter\date($data[$attr['id']], TIME['f'], TIME['b']))) {
-        throw new DomainException(_('Invalid value'));
+        throw new DomainException(i18n('Invalid value'));
     }
 
     return $data;
@@ -188,11 +188,11 @@ function file(array $attr, array $data): array
 {
     if ($data[$attr['id']]) {
         if (!in_array($attr['type'], app\cfg('file', pathinfo($data[$attr['id']], PATHINFO_EXTENSION)) ?? [])) {
-            throw new DomainException(_('Invalid file %s', $data[$attr['id']]));
+            throw new DomainException(i18n('Invalid file %s', $data[$attr['id']]));
         }
 
         if (is_file(app\path('data', $data[$attr['id']])) && ($data['_old'][$attr['id']] ?? null) !== $data[$attr['id']]) {
-            throw new DomainException(_('File %s already exists', $data[$attr['id']]));
+            throw new DomainException(i18n('File %s already exists', $data[$attr['id']]));
         }
     }
 

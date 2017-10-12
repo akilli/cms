@@ -4,20 +4,20 @@ use function session\token;
 /** @var callable $§ */
 ?>
 <section id="<?=$§('id');?>">
-    <h1><?= _('Login');?></h1>
-    <p><?= _('Please enter your credentials');?></p>
+    <h1><?= i18n('Login');?></h1>
+    <p><?= i18n('Please enter your credentials');?></p>
     <form method="post">
         <fieldset>
             <div data-attr="name">
-                <label for="data-name"><?= _('Name');?> <em class="required"><?= _('Required');?></em></label>
+                <label for="data-name"><?= i18n('Name');?> <em class="required"><?= i18n('Required');?></em></label>
                 <input id="data-name" type="text" name="data[name]" required="required" />
             </div>
             <div data-attr="password">
-                <label for="data-password"><?= _('Password');?> <em class="required"><?= _('Required');?></em></label>
+                <label for="data-password"><?= i18n('Password');?> <em class="required"><?= i18n('Required');?></em></label>
                 <input id="data-password" type="password" name="data[password]" required="required" />
             </div>
         </fieldset>
-        <input type="submit" value="<?= _('Login');?>" />
+        <input type="submit" value="<?= i18n('Login');?>" />
         <input type="hidden" name="token" value="<?= token();?>" />
     </form>
 </section>

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace section;
 
 use const ent\CRIT;
-use function app\_;
+use function app\i18n;
 use function html\tag;
 use function http\req;
 use arr;
@@ -129,7 +129,7 @@ function pager(array $§): string
 
     if ($§['vars']['page'] >= 2) {
         $p = ['page' => $§['vars']['page'] - 1] + $§['vars']['params'];
-        $§['vars']['links'][] = ['name' => _('Previous'), 'params' => $p];
+        $§['vars']['links'][] = ['name' => i18n('Previous'), 'params' => $p];
     }
 
     for ($i = $min; $min < $max && $i <= $max; $i++) {
@@ -139,7 +139,7 @@ function pager(array $§): string
 
     if ($§['vars']['page'] < $§['vars']['pages']) {
         $p = ['page' => $§['vars']['page'] + 1] + $§['vars']['params'];
-        $§['vars']['links'][] = ['name' => _('Next'), 'params' => $p];
+        $§['vars']['links'][] = ['name' => i18n('Next'), 'params' => $p];
     }
 
     return tpl($§);

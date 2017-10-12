@@ -67,7 +67,7 @@ function path(string $dir, string $id = null): string
     }
 
     if (empty($data[$dir])) {
-        throw new InvalidArgumentException(_('Invalid path %s', $dir));
+        throw new InvalidArgumentException(i18n('Invalid path %s', $dir));
     }
 
     return $data[$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
@@ -109,7 +109,7 @@ function event(string $event, array $data): array
 /**
  * Translate
  */
-function _(string $key, string ...$args): string
+function i18n(string $key, string ...$args): string
 {
     $key = cfg('i18n', $key) ?? $key;
 

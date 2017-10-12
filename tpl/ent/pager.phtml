@@ -4,7 +4,7 @@ namespace app;
 ?>
 <nav id="<?=$§('id');?>">
     <div class="info">
-        <?= _('%d to %d of %d', $§('offset') + 1, min($§('offset') + $§('limit'), $§('size')), $§('size'));?>
+        <?= i18n('%d to %d of %d', $§('offset') + 1, min($§('offset') + $§('limit'), $§('size')), $§('size'));?>
     </div>
     <div class="links">
         <?php foreach ($§('links') as $link):?>
