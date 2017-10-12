@@ -33,11 +33,11 @@ function ent(string $eId): array
 /**
  * Privilege options
  */
-function privilege(): array
+function priv(): array
 {
     $data = [];
 
-    foreach (app\cfg('privilege') as $key => $priv) {
+    foreach (app\cfg('priv') as $key => $priv) {
         if (empty($priv['call']) && account\allowed($key)) {
             $data[$key] = $priv['name'];
         }

@@ -14,7 +14,7 @@ use const section\SECTION;
  */
 function §(string $id): string
 {
-    if (!($§ = data($id)) || !$§['active'] || $§['privilege'] && !allowed($§['privilege'])) {
+    if (!($§ = data($id)) || !$§['active'] || $§['priv'] && !allowed($§['priv'])) {
         return '';
     }
 

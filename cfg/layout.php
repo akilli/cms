@@ -57,13 +57,13 @@ return [
         'create' => [
             'section' => 'tpl',
             'tpl' => 'ent/create.phtml',
-            'privilege' => '*/edit',
+            'priv' => '*/edit',
             'parent_id' => 'right',
         ],
         'import' => [
             'section' => 'tpl',
             'tpl' => 'ent/import.phtml',
-            'privilege' => '*/import',
+            'priv' => '*/import',
             'parent_id' => 'right',
         ],
     ],

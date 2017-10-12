@@ -18,12 +18,12 @@ return [
                 'act' => ['admin', 'edit'],
                 'maxlength' => 50,
             ],
-            'privilege' => [
+            'priv' => [
                 'name' => 'Privileges',
                 'type' => 'checkbox',
                 'backend' => 'json',
                 'multiple' => true,
-                'opt' => 'opt\privilege',
+                'opt' => 'opt\priv',
                 'act' => ['edit'],
             ],
             'active' => [

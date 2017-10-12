@@ -12,8 +12,8 @@ return [
     'cfg.layout' => [
         'listener\cfg_layout' => -1,
     ],
-    'cfg.privilege' => [
-        'listener\cfg_privilege' => -1,
+    'cfg.priv' => [
+        'listener\cfg_priv' => -1,
     ],
     'cfg.toolbar' => [
         'listener\cfg_toolbar' => -1,

@@ -23,8 +23,8 @@ function data(string $key = null)
 
         if ($id && ($data = ent\one('account', [['id', $id], ['active', true]]))) {
             $role = ent\one('role', [['id', $data['role_id']], ['active', true]]);
-            $data['privilege'] = $role ? $role['privilege'] : [];
-            $data['admin'] = in_array(ALL, $data['privilege']);
+            $data['priv'] = $role ? $role['priv'] : [];
+            $data['admin'] = in_array(ALL, $data['priv']);
             unset($data['_old'], $data['_ent']);
         } else {
             session\set('account', null);
@@ -78,14 +78,14 @@ function user(): bool
  */
 function allowed(string $key): bool
 {
-    $cfg = app\cfg('privilege');
+    $cfg = app\cfg('priv');
     $key = app\resolve($key);
 
     if (empty($cfg[$key])) {
         return false;
     }
 
-    return !empty($cfg[$key]['call']) && $cfg[$key]['call']() || data('admin') || in_array($key, data('privilege') ?? []);
+    return !empty($cfg[$key]['call']) && $cfg[$key]['call']() || data('admin') || in_array($key, data('priv') ?? []);
 }
 
 /**

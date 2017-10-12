@@ -109,7 +109,7 @@ function cfg_layout(array $data): array
 /**
  * Privilege config listener
  */
-function cfg_privilege(array $data): array
+function cfg_priv(array $data): array
 {
     foreach ($data as $id => $item) {
         $data[$id]['name'] = !empty($item['name']) ? i18n($item['name']) : '';

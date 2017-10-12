@@ -24,6 +24,7 @@ ent  | entity
 i18n | internationalization
 msg  | message
 opt  | option
+priv | privilege
 req  | request
 tab  | table
 val  | value
