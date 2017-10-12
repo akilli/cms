@@ -12,7 +12,7 @@ use RuntimeException;
 /**
  * Load entity
  */
-function load(array $entity, array $crit = [], array $opts = []): array
+function load(array $ent, array $crit = [], array $opts = []): array
 {
     $path = app\path('data');
 

@@ -5,14 +5,14 @@ namespace listener;
 
 use const app\{ALL, URL};
 use const attr\ATTR;
-use const entity\ENTITY;
+use const ent\ENT;
 use const section\SECTION;
 use function app\_;
 use function http\req;
 use account;
 use arr;
 use app;
-use entity;
+use ent;
 use file;
 use filter;
 use RuntimeException;
@@ -32,23 +32,23 @@ function cfg_app(array $data): array
 /**
  * Entity config listener
  */
-function cfg_entity(array $data): array
+function cfg_ent(array $data): array
 {
     $cfg = app\cfg('attr');
 
-    foreach ($data as $eId => $entity) {
-        $entity = array_replace(ENTITY, $entity);
+    foreach ($data as $eId => $ent) {
+        $ent = array_replace(ENT, $ent);
 
-        if (!$entity['name'] || !$entity['model'] || !$entity['attr']) {
+        if (!$ent['name'] || !$ent['model'] || !$ent['attr']) {
             throw new RuntimeException(_('Invalid entity configuration'));
         }
 
-        $entity['id'] = $eId;
-        $entity['name'] = _($entity['name']);
-        $entity['tab'] = $entity['tab'] ?: $entity['id'];
+        $ent['id'] = $eId;
+        $ent['name'] = _($ent['name']);
+        $ent['tab'] = $ent['tab'] ?: $ent['id'];
         $sort = 0;
 
-        foreach ($entity['attr'] as $aId => $attr) {
+        foreach ($ent['attr'] as $aId => $attr) {
             if (empty($attr['name']) || empty($attr['type']) || !($type = $cfg['type'][$attr['type']] ?? null)) {
                 throw new RuntimeException(_('Invalid attribute configuration'));
             }
@@ -58,7 +58,7 @@ function cfg_entity(array $data): array
             $attr = array_replace(ATTR, $backend, $frontend, $type, $attr);
             $attr['id'] = $aId;
             $attr['name'] = _($attr['name']);
-            $attr['entity'] = $entity['id'];
+            $attr['ent'] = $ent['id'];
 
             if ($attr['col'] === false) {
                 $attr['col'] = null;
@@ -71,11 +71,11 @@ function cfg_entity(array $data): array
                 $sort += 100;
             }
 
-            $entity['attr'][$aId] = $attr;
+            $ent['attr'][$aId] = $attr;
         }
 
-        $entity['attr'] = arr\order($entity['attr'], ['sort' => 'asc']);
-        $data[$eId] = $entity;
+        $ent['attr'] = arr\order($ent['attr'], ['sort' => 'asc']);
+        $data[$eId] = $ent;
     }
 
     return $data;
@@ -96,7 +96,7 @@ function cfg_layout(array $data): array
 {
     $a = 'account-' . (account\user() ? 'user' : 'guest');
     $b = 'act-' . req('act');
-    $c = 'entity-' . req('entity');
+    $c = 'ent-' . req('ent');
     $d = req('path');
     $data = array_replace_recursive($data[ALL], $data[$a] ?? [], $data[$b] ?? [], $data[$c] ?? [], $data[$d] ?? []);
 
@@ -116,9 +116,9 @@ function cfg_privilege(array $data): array
         $data[$id]['name'] = !empty($item['name']) ? _($item['name']) : '';
     }
 
-    foreach (app\cfg('entity') as $eId => $entity) {
-        foreach ($entity['act'] as $act) {
-            $data[$eId . '/' . $act]['name'] = $entity['name'] . ' ' . _(ucwords($act));
+    foreach (app\cfg('ent') as $eId => $ent) {
+        foreach ($ent['act'] as $act) {
+            $data[$eId . '/' . $act]['name'] = $ent['name'] . ' ' . _(ucwords($act));
         }
     }
 
@@ -144,11 +144,11 @@ function cfg_toolbar(array $data): array
 /**
  * Entity post-save listener
  */
-function entity_postsave(array $data): array
+function ent_postsave(array $data): array
 {
     $file = req('file');
 
-    foreach ($data['_entity']['attr'] as $aId => $attr) {
+    foreach ($data['_ent']['attr'] as $aId => $attr) {
         if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\upload($file[$aId]['tmp_name'], $data[$aId])) {
             throw new RuntimeException(_('File upload failed for %s', $data[$aId]));
         }
@@ -166,7 +166,7 @@ function page_presave(array $data): array
         $base = filter\id($data['name']);
         $data['url'] = app\url($base . URL['page']);
 
-        for ($i = 1; entity\one('page', [['url', $data['url']]]); $i++) {
+        for ($i = 1; ent\one('page', [['url', $data['url']]]); $i++) {
             $data['url'] = app\url($base . '-' . $i . URL['page']);
         }
     }

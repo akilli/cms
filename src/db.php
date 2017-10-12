@@ -8,9 +8,9 @@ use sql;
 /**
  * Load entity
  */
-function load(array $entity, array $crit = [], array $opts = []): array
+function load(array $ent, array $crit = [], array $opts = []): array
 {
-    $attrs = sql\attr($entity['attr']);
+    $attrs = sql\attr($ent['attr']);
 
     if ($opts['mode'] === 'size') {
         $opts['select'] = ['COUNT(*)'];
@@ -21,7 +21,7 @@ function load(array $entity, array $crit = [], array $opts = []): array
     $cols = sql\crit($crit, $attrs);
     $stmt = sql\db()->prepare(
         sql\select($opts['select'])
-        . sql\from($entity['tab'])
+        . sql\from($ent['tab'])
         . sql\where($cols['where'])
         . sql\order($opts['order'])
         . sql\limit($opts['limit'], $opts['offset'])
@@ -49,15 +49,15 @@ function load(array $entity, array $crit = [], array $opts = []): array
  */
 function save(array $data): array
 {
-    $attrs = $data['_entity']['attr'];
+    $attrs = $data['_ent']['attr'];
     $cols = sql\cols($attrs, $data);
 
     // Insert or update
     if (empty($data['_old'])) {
-        $stmt = sql\db()->prepare(sql\insert($data['_entity']['tab']) . sql\values($cols['val']));
+        $stmt = sql\db()->prepare(sql\insert($data['_ent']['tab']) . sql\values($cols['val']));
     } else {
         $stmt = sql\db()->prepare(
-            sql\update($data['_entity']['tab'])
+            sql\update($data['_ent']['tab'])
             . sql\set($cols['val'])
             . sql\where([$attrs['id']['col'] . ' = :_id'])
         );
@@ -72,7 +72,7 @@ function save(array $data): array
 
     // Set DB generated id
     if (empty($data['_old']) && $attrs['id']['auto']) {
-        $data['id'] = (int) sql\db()->lastInsertId($data['_entity']['tab'] . '_id_seq');
+        $data['id'] = (int) sql\db()->lastInsertId($data['_ent']['tab'] . '_id_seq');
     }
 
     return $data;
@@ -83,8 +83,8 @@ function save(array $data): array
  */
 function delete(array $data): void
 {
-    $attrs = $data['_entity']['attr'];
-    $stmt = sql\db()->prepare(sql\delete($data['_entity']['tab']) . sql\where([$attrs['id']['col'] . ' = :id']));
+    $attrs = $data['_ent']['attr'];
+    $stmt = sql\db()->prepare(sql\delete($data['_ent']['tab']) . sql\where([$attrs['id']['col'] . ' = :id']));
     $stmt->bindValue(':id', $data['_old']['id'], sql\type($attrs['id'], $data['_old']['id']));
     $stmt->execute();
 }

@@ -6,24 +6,24 @@ namespace opt;
 use account;
 use attr;
 use app;
-use entity;
+use ent;
 
 /**
  * Entity options
  */
-function entity(string $eId): array
+function ent(string $eId): array
 {
-    $data = & app\data('opt.entity.' . $eId);
+    $data = & app\data('opt.ent.' . $eId);
 
     if ($data === null) {
         if ($eId === 'page') {
             $data = [];
 
-            foreach (entity\all('page', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
-                $data[$item['id']] = attr\viewer($item['_entity']['attr']['pos'], $item) . ' ' . $item['name'];
+            foreach (ent\all('page', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
+                $data[$item['id']] = attr\viewer($item['_ent']['attr']['pos'], $item) . ' ' . $item['name'];
             }
         } else {
-            $data = array_column(entity\all($eId, [], ['select' => ['id', 'name']]), 'name', 'id');
+            $data = array_column(ent\all($eId, [], ['select' => ['id', 'name']]), 'name', 'id');
         }
     }
 

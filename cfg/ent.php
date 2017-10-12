@@ -64,7 +64,7 @@ return [
             ],
             'role_id' => [
                 'name' => 'Role',
-                'type' => 'entity',
+                'type' => 'ent',
                 'required' => true,
                 'opt' => 'role',
                 'act' => ['admin', 'edit'],
@@ -116,7 +116,7 @@ return [
             ],
             'parent_id' => [
                 'name' => 'Parent',
-                'type' => 'entity',
+                'type' => 'ent',
                 'nullable' => true,
                 'opt' => 'page',
                 'act' => ['edit'],
@@ -149,7 +149,7 @@ return [
             ],
             'path' => [
                 'name' => 'Path',
-                'type' => 'entity',
+                'type' => 'ent',
                 'backend' => 'json',
                 'multiple' => true,
                 'opt' => 'page',

@@ -20,8 +20,10 @@ arr  | array
 attr | attribute
 cfg  | config
 db   | database
+ent  | entity
 i18n | internationalization
 msg  | message
 opt  | option
 req  | request
 tab  | table
+val  | value

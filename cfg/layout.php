@@ -41,28 +41,28 @@ return [
     'act-admin' => [
         'content' => [
             'section' => 'tpl',
-            'tpl' => 'entity/admin.phtml',
+            'tpl' => 'ent/admin.phtml',
             'parent_id' => 'main',
         ],
         'pager' => [
             'section' => 'pager',
-            'tpl' => 'entity/pager.phtml',
+            'tpl' => 'ent/pager.phtml',
             'parent_id' => 'content',
         ],
         'search' => [
             'section' => 'tpl',
-            'tpl' => 'entity/search.phtml',
+            'tpl' => 'ent/search.phtml',
             'parent_id' => 'right',
         ],
         'create' => [
             'section' => 'tpl',
-            'tpl' => 'entity/create.phtml',
+            'tpl' => 'ent/create.phtml',
             'privilege' => '*/edit',
             'parent_id' => 'right',
         ],
         'import' => [
             'section' => 'tpl',
-            'tpl' => 'entity/import.phtml',
+            'tpl' => 'ent/import.phtml',
             'privilege' => '*/import',
             'parent_id' => 'right',
         ],
@@ -70,7 +70,7 @@ return [
     'act-index' => [
         'content' => [
             'section' => 'tpl',
-            'tpl' => 'entity/index.phtml',
+            'tpl' => 'ent/index.phtml',
             'parent_id' => 'main',
         ],
         'pager' => [
@@ -79,28 +79,28 @@ return [
         ],
         'search' => [
             'section' => 'tpl',
-            'tpl' => 'entity/search.phtml',
+            'tpl' => 'ent/search.phtml',
             'parent_id' => 'right',
         ],
     ],
     'act-edit' => [
         'content' => [
             'section' => 'tpl',
-            'tpl' => 'entity/edit.phtml',
+            'tpl' => 'ent/edit.phtml',
             'parent_id' => 'main',
         ],
     ],
     'act-form' => [
         'content' => [
             'section' => 'tpl',
-            'tpl' => 'entity/edit.phtml',
+            'tpl' => 'ent/edit.phtml',
             'parent_id' => 'main',
         ],
     ],
     'act-view' => [
         'content' => [
             'section' => 'tpl',
-            'tpl' => 'entity/view.phtml',
+            'tpl' => 'ent/view.phtml',
             'parent_id' => 'main',
         ],
     ],

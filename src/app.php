@@ -6,7 +6,7 @@ namespace app;
 use function http\req;
 use account;
 use act;
-use entity;
+use ent;
 use file;
 use InvalidArgumentException;
 
@@ -21,9 +21,9 @@ function run(): void
 {
     $prefix = 'act\\';
     $act = req('act');
-    $eId = req('entity');
-    $entity = cfg('entity', $eId);
-    $args = $entity ? [$entity] : [];
+    $eId = req('ent');
+    $ent = cfg('ent', $eId);
+    $args = $ent ? [$ent] : [];
 
     foreach ([$prefix . $eId . '_' . $act, $prefix . $act] as $call) {
         if (is_callable($call)) {
@@ -129,7 +129,7 @@ function logger(string $msg): void
  */
 function resolve(string $path): string
 {
-    return preg_replace(['#^\*/#', '#^([^/]+)/\*($|/)#'], [req('entity') . '/', '$1/' . req('act') . '$2'], $path);
+    return preg_replace(['#^\*/#', '#^([^/]+)/\*($|/)#'], [req('ent') . '/', '$1/' . req('act') . '$2'], $path);
 }
 
 /**
@@ -188,7 +188,7 @@ function rewrite(string $path): string
     $data = & data('url');
 
     if (empty($data[$path])) {
-        $data[$path] = ($page = entity\one('page', [['url', $path]])) ? '/page/view/' . $page['id'] : $path;
+        $data[$path] = ($page = ent\one('page', [['url', $path]])) ? '/page/view/' . $page['id'] : $path;
     }
 
     return $data[$path];

@@ -52,10 +52,10 @@ function req(string $key)
         $req['param'] = param($req['param'] + $_GET);
         $req['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $parts = explode('/', trim(app\rewrite($req['url']), '/'));
-        $req['entity'] = $parts[0];
+        $req['ent'] = $parts[0];
         $req['act'] = $parts[1] ?? null;
         $req['id'] = $parts[2] ?? null;
-        $req['path'] = $req['entity'] . '/' . $req['act'];
+        $req['path'] = $req['ent'] . '/' . $req['act'];
     }
 
     return $req[$key] ?? null;

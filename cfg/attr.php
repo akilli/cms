@@ -111,7 +111,7 @@ return [
             'frontend' => 'file',
             'viewer' => 'viewer\embed',
         ],
-        'entity' => [
+        'ent' => [
             'backend' => 'int',
             'frontend' => 'select',
         ],

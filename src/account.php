@@ -5,7 +5,7 @@ namespace account;
 
 use const app\ALL;
 use app;
-use entity;
+use ent;
 use session;
 
 /**
@@ -21,11 +21,11 @@ function data(string $key = null)
         $data = [];
         $id = (int) session\get('account');
 
-        if ($id && ($data = entity\one('account', [['id', $id], ['active', true]]))) {
-            $role = entity\one('role', [['id', $data['role_id']], ['active', true]]);
+        if ($id && ($data = ent\one('account', [['id', $id], ['active', true]]))) {
+            $role = ent\one('role', [['id', $data['role_id']], ['active', true]]);
             $data['privilege'] = $role ? $role['privilege'] : [];
             $data['admin'] = in_array(ALL, $data['privilege']);
-            unset($data['_old'], $data['_entity']);
+            unset($data['_old'], $data['_ent']);
         } else {
             session\set('account', null);
         }
@@ -43,7 +43,7 @@ function data(string $key = null)
  */
 function login(string $name, string $password): ?array
 {
-    $data = entity\one('account', [['name', $name], ['active', true]]);
+    $data = ent\one('account', [['name', $name], ['active', true]]);
 
     if (!$data || !password_verify($password, $data['password'])) {
         return null;
@@ -51,7 +51,7 @@ function login(string $name, string $password): ?array
 
     if (password_needs_rehash($data['password'], PASSWORD_DEFAULT)) {
         $data['password'] = $password;
-        entity\save('account', $data);
+        ent\save('account', $data);
     }
 
     return $data;
@@ -99,5 +99,5 @@ function allowed_url(string $path): bool
 
     $parts = explode('/', ltrim(app\rewrite($path), '/'));
 
-    return app\cfg('entity', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
+    return app\cfg('ent', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
 }

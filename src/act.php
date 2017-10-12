@@ -3,14 +3,14 @@ declare(strict_types = 1);
 
 namespace act;
 
-use const entity\CRIT;
+use const ent\CRIT;
 use function app\_;
 use function http\{redirect, req};
 use function layout\vars;
 use account;
 use arr;
 use app;
-use entity;
+use ent;
 use file;
 use session;
 
@@ -40,32 +40,32 @@ function error(): void
 /**
  * Admin Action
  */
-function admin(array $entity): void
+function admin(array $ent): void
 {
-    index($entity);
+    index($ent);
 }
 
 /**
  * Index Action
  */
-function index(array $entity): void
+function index(array $ent): void
 {
     $act = req('act');
-    $attrs = entity\attr($entity, $act);
+    $attrs = ent\attr($ent, $act);
     $opts = ['limit' => app\cfg('app', 'limit')];
     $crit = [];
 
-    if ($act !== 'admin' && !empty($entity['attr']['active'])) {
+    if ($act !== 'admin' && !empty($ent['attr']['active'])) {
         $crit[] = ['active', true];
     }
 
     $p = ['page' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
-    $sessKey = 'param/' . $entity['id'] . '/' . $act;
+    $sessKey = 'param/' . $ent['id'] . '/' . $act;
     $rp = req('param') ?: (array) session\get($sessKey);
     $p = array_intersect_key($rp, $p) + $p;
 
     if ($p['q'] && ($q = array_filter(explode(' ', $p['q'])))) {
-        $searchable = array_keys(arr\filter($entity['attr'], [['searchable', true]])) ?: ['name'];
+        $searchable = array_keys(arr\filter($ent['attr'], [['searchable', true]])) ?: ['name'];
         $c = [];
 
         foreach ($searchable as $s) {
@@ -77,7 +77,7 @@ function index(array $entity): void
         unset($p['q']);
     }
 
-    $size = entity\size($entity['id'], $crit);
+    $size = ent\size($ent['id'], $crit);
     $pages = (int) ceil($size / $opts['limit']) ?: 1;
     $p['page'] = min(max($p['page'], 1), $pages);
     $opts['offset'] = ($p['page'] - 1) * $opts['limit'];
@@ -90,16 +90,16 @@ function index(array $entity): void
     }
 
     session\set($sessKey, $p);
-    vars('content', ['attr' => $attrs, 'data' => entity\all($entity['id'], $crit, $opts), 'params' => $p, 'title' => $entity['name']]);
+    vars('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opts), 'params' => $p, 'title' => $ent['name']]);
     vars('pager', ['limit' => $opts['limit'], 'params' => $p, 'size' => $size]);
     vars('search', ['q' => $p['q'] ?? '']);
-    vars('head', ['title' => $entity['name']]);
+    vars('head', ['title' => $ent['name']]);
 }
 
 /**
  * Edit Action
  */
-function edit(array $entity): void
+function edit(array $ent): void
 {
     $data = req('data');
     $id = req('id');
@@ -107,47 +107,47 @@ function edit(array $entity): void
     if ($data) {
         $data['id'] = $id;
 
-        if (entity\save($entity['id'], $data)) {
+        if (ent\save($ent['id'], $data)) {
             redirect(app\url('*/admin'));
         }
     } elseif ($id) {
-        $data = entity\one($entity['id'], [['id', $id]]);
+        $data = ent\one($ent['id'], [['id', $id]]);
     } else {
-        $data = entity\data($entity['id']);
+        $data = ent\data($ent['id']);
     }
 
-    vars('content', ['data' => $data, 'attr' => entity\attr($entity, 'edit'), 'title' => $entity['name']]);
-    vars('head', ['title' => $entity['name']]);
+    vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'edit'), 'title' => $ent['name']]);
+    vars('head', ['title' => $ent['name']]);
 }
 
 /**
  * Form Action
  */
-function form(array $entity): void
+function form(array $ent): void
 {
     $data = req('data');
 
     if ($data) {
         $data['active'] = true;
 
-        if (entity\save($entity['id'], $data)) {
+        if (ent\save($ent['id'], $data)) {
             redirect();
         }
     } else {
-        $data = entity\data($entity['id']);
+        $data = ent\data($ent['id']);
     }
 
-    vars('content', ['data' => $data, 'attr' => entity\attr($entity, 'form'), 'title' => $entity['name']]);
-    vars('head', ['title' => $entity['name']]);
+    vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'form'), 'title' => $ent['name']]);
+    vars('head', ['title' => $ent['name']]);
 }
 
 /**
  * Delete Action
  */
-function delete(array $entity): void
+function delete(array $ent): void
 {
     if ($id = req('id')) {
-        entity\delete($entity['id'], [['id', $id]]);
+        ent\delete($ent['id'], [['id', $id]]);
     } else {
         session\msg(_('Nothing selected for deletion'));
     }
@@ -158,28 +158,28 @@ function delete(array $entity): void
 /**
  * View Action
  */
-function view(array $entity): void
+function view(array $ent): void
 {
-    $data = entity\one($entity['id'], [['id', req('id')]]);
+    $data = ent\one($ent['id'], [['id', req('id')]]);
 
-    if (!$data || !empty($entity['attr']['active']) && empty($data['active']) && !account\allowed('*/edit')) {
+    if (!$data || !empty($ent['attr']['active']) && empty($data['active']) && !account\allowed('*/edit')) {
         error();
         return;
     }
 
-    vars('content', ['data' => $data, 'attr' => entity\attr($entity, 'view')]);
+    vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'view')]);
     vars('head', ['title' => $data['name']]);
 }
 
 /**
  * Media Browser Action
  */
-function media_browser(array $entity): void
+function media_browser(array $ent): void
 {
     $exts = app\cfg('file');
     $data = [];
 
-    foreach (entity\all($entity['id'], [], ['order' => ['name' => 'asc']]) as $file) {
+    foreach (ent\all($ent['id'], [], ['order' => ['name' => 'asc']]) as $file) {
         $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
         if (!empty($exts[$ext]) && in_array('image', $exts[$ext])) {
@@ -194,9 +194,9 @@ function media_browser(array $entity): void
 /**
  * Media View Action
  */
-function media_view(array $entity): void
+function media_view(array $ent): void
 {
-    if (!$data = entity\one($entity['id'], [['id', req('id')]])) {
+    if (!$data = ent\one($ent['id'], [['id', req('id')]])) {
         header('HTTP/1.1 404 Not Found');
         exit;
     }
@@ -237,7 +237,7 @@ function account_password(): void
         } else {
             $data = array_replace(account\data(), ['password' => $data['password']]);
 
-            if (!entity\save('account', $data)) {
+            if (!ent\save('account', $data)) {
                 session\msg($data['_error']['password'] ?? _('Could not save %s', $data['name']));
             }
         }

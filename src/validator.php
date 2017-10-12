@@ -6,7 +6,7 @@ namespace validator;
 use const attr\{DATE, DATETIME, TIME};
 use function app\_;
 use app;
-use entity;
+use ent;
 use filter;
 use DomainException;
 
@@ -37,7 +37,7 @@ function page(array $attr, array $data): array
 {
     $old = $data['_old']['id'] ?? null;
 
-    if ($data[$attr['id']] && $old && in_array($old, entity\one('page', [['id', $data[$attr['id']]]])['path'])) {
+    if ($data[$attr['id']] && $old && in_array($old, ent\one('page', [['id', $data[$attr['id']]]])['path'])) {
         throw new DomainException(_('Cannot assign the page itself or a child page as parent'));
     }
 

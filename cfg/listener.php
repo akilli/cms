@@ -3,8 +3,8 @@ return [
     'cfg.app' => [
         'listener\cfg_app' => -1,
     ],
-    'cfg.entity' => [
-        'listener\cfg_entity' => -1,
+    'cfg.ent' => [
+        'listener\cfg_ent' => -1,
     ],
     'cfg.i18n' => [
         'listener\cfg_i18n' => -1,
@@ -18,10 +18,10 @@ return [
     'cfg.toolbar' => [
         'listener\cfg_toolbar' => -1,
     ],
-    'entity.postsave' => [
-        'listener\entity_postsave' => -1,
+    'ent.postsave' => [
+        'listener\ent_postsave' => -1,
     ],
-    'entity.presave.page' => [
+    'ent.presave.page' => [
         'listener\page_presave' => -1,
     ],
 ];

@@ -6,7 +6,7 @@ namespace attr;
 use function app\_;
 use function filter\enc;
 use function html\tag;
-use entity;
+use ent;
 use opt;
 use DomainException;
 
@@ -31,7 +31,7 @@ const ATTR = [
     'max' => 0,
     'minlength' => 0,
     'maxlength' => 0,
-    'entity' => null,
+    'ent' => null,
     'html' => [],
     'validator' => null,
     'loader' => null,
@@ -61,7 +61,7 @@ function validator(array $attr, array $data): array
         $data = $attr['validator']($attr, $data);
     }
 
-    if ($attr['unique'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && entity\size($data['_entity']['id'], [[$attr['id'], $data[$attr['id']]]])) {
+    if ($attr['unique'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && ent\size($data['_ent']['id'], [[$attr['id'], $data[$attr['id']]]])) {
         throw new DomainException(_('%s must be unique', $attr['name']));
     }
 
@@ -169,8 +169,8 @@ function opt(array $attr): array
         return [_('No'), _('Yes')];
     }
 
-    if ($attr['type'] === 'entity') {
-        return opt\entity($attr['opt']);
+    if ($attr['type'] === 'ent') {
+        return opt\ent($attr['opt']);
     }
 
     if (is_string($attr['opt'])) {

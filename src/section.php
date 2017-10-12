@@ -3,13 +3,13 @@ declare(strict_types = 1);
 
 namespace section;
 
-use const entity\CRIT;
+use const ent\CRIT;
 use function app\_;
 use function html\tag;
 use function http\req;
 use arr;
 use app;
-use entity;
+use ent;
 use layout;
 use session;
 
@@ -59,8 +59,8 @@ function msg(array $§): string
 function nav(array $§): string
 {
     $§['vars'] += ['mode' => null, 'current' => req('id')];
-    $cur = $§['vars']['current'] ? entity\one('page', [['id', $§['vars']['current']]]) : null;
-    $anc = $cur && count($cur['path']) > 1 ? entity\one('page', [['id', $cur['path'][0]]]) : $cur;
+    $cur = $§['vars']['current'] ? ent\one('page', [['id', $§['vars']['current']]]) : null;
+    $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]]]) : $cur;
     $crit = [];
 
     if ($§['vars']['mode'] === 'top') {
@@ -74,7 +74,7 @@ function nav(array $§): string
         $crit = [['pos', $anc['pos'] . '.', CRIT['~^']]];
     }
 
-    if (!$nav = entity\all('page', $crit, ['select' => ['id', 'name', 'url', 'depth'], 'order' => ['pos' => 'asc']])) {
+    if (!$nav = ent\all('page', $crit, ['select' => ['id', 'name', 'url', 'depth'], 'order' => ['pos' => 'asc']])) {
         return '';
     }
 
