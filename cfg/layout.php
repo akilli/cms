@@ -112,11 +112,6 @@ return [
             'parent_id' => 'main',
         ],
     ],
-    'app/js' => [
-         'root' => [
-            'tpl' => 'layout/app.js',
-        ],
-    ],
     'account/password' => [
          'content' => [
             'section' => 'tpl',
