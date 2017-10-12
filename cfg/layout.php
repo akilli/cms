@@ -38,6 +38,14 @@ return [
             'section' => 'container',
         ],
     ],
+    'account-user' => [
+        'toolbar' => [
+            'section' => 'tpl',
+            'tpl' => 'layout/toolbar.phtml',
+            'parent_id' => 'top',
+            'sort' => -2,
+        ],
+    ],
     'act-admin' => [
         'content' => [
             'section' => 'tpl',
@@ -102,14 +110,6 @@ return [
             'section' => 'tpl',
             'tpl' => 'ent/view.phtml',
             'parent_id' => 'main',
-        ],
-    ],
-    'account-user' => [
-        'toolbar' => [
-            'section' => 'tpl',
-            'tpl' => 'account/toolbar.phtml',
-            'parent_id' => 'top',
-            'sort' => -2,
         ],
     ],
     'account/password' => [
