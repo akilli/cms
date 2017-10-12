@@ -58,7 +58,6 @@ function cfg_ent(array $data): array
             $attr = array_replace(ATTR, $backend, $frontend, $type, $attr);
             $attr['id'] = $aId;
             $attr['name'] = i18n($attr['name']);
-            $attr['ent'] = $ent['id'];
 
             if ($attr['col'] === false) {
                 $attr['col'] = null;

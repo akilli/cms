@@ -31,7 +31,6 @@ const ATTR = [
     'max' => 0,
     'minlength' => 0,
     'maxlength' => 0,
-    'ent' => null,
     'html' => [],
     'validator' => null,
     'loader' => null,
