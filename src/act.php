@@ -32,9 +32,8 @@ function denied(): void
  */
 function error(): void
 {
-    header('HTTP/1.1 404 Not Found');
     app\msg(i18n('Page not found'));
-    vars('head', ['title' => i18n('Page not found')]);
+    redirect();
 }
 
 /**
@@ -169,6 +168,14 @@ function view(array $ent): void
 
     vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'view')]);
     vars('head', ['title' => $data['name']]);
+}
+
+/**
+ * App JavaScript Action
+ */
+function app_js(): void
+{
+    header('Content-Type: text/javascript', true);
 }
 
 /**

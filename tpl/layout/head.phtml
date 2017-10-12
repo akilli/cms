@@ -9,22 +9,6 @@ use function account\user;
 <link rel="stylesheet" href="<?= theme('theme.css');?>" />
 <?php if (user()):?>
 <script src="<?= theme('ckeditor/ckeditor.js');?>"></script>
-<script>
-    const app =
-    {
-        cfg:
-        {
-            i18n: <?=json_encode(cfg('i18n'));?>
-        },
-        i18n: function (key, ...args) {
-            key = this.cfg.i18n[key] ? this.cfg.i18n[key] : key;
-            args.map(function (i) {
-                key = key.replace(/%s/, i);
-            });
-
-            return key;
-        }
-    };
-</script>
+<script src="<?= url('app/js');?>"></script>
 <script src="<?= theme('theme.js');?>"></script>
 <?php endif;?>

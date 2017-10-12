@@ -3,6 +3,9 @@ return [
     '_all_' => [
         'name' => 'ALL PRIVILEGES',
     ],
+    'app/js' => [
+        'call' => 'account\user',
+    ],
     'account/login' => [
         'call' => 'account\guest',
     ],
