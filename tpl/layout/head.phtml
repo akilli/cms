@@ -13,10 +13,13 @@ use function account\user;
 <script>
     const app =
     {
-        i18n: <?=json_encode(cfg('i18n'));?>,
-        _: function (key)
+        cfg:
         {
-            return this.i18n[key] ? this.i18n[key] : key;
+            i18n: <?=json_encode(cfg('i18n'));?>
+        },
+        i18n: function (key)
+        {
+            return this.cfg.i18n[key] ? this.cfg.i18n[key] : key;
         }
     };
 </script>

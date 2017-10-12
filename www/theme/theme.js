@@ -18,7 +18,7 @@
 
         for (let i = 0; i < del.length; i++) {
             del[i].addEventListener('click', function (event) {
-                if (!confirm(app._('Please confirm delete operation'))) {
+                if (!confirm(app.i18n('Please confirm delete operation'))) {
                     event.preventDefault();
                 }
             })
