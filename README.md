@@ -26,4 +26,5 @@ opt  | option
 priv | privilege
 req  | request
 tab  | table
+tpl  | template
 val  | value
