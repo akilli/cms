@@ -16,8 +16,12 @@ Run the docker containers and log in with name `admin` and password `password`.
 abbr | full
 ---- | -------
 app  | application
+arr  | array
 attr | attribute
 cfg  | config
+db   | database
+i18n | internationalization
 msg  | message
+opt  | option
 req  | request
 tab  | table
