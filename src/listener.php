@@ -158,7 +158,15 @@ function ent_postsave(array $data): array
     $file = req('file');
 
     foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\upload($file[$aId]['tmp_name'], $data[$aId])) {
+        if ($attr['frontend'] !== 'file' || empty($data[$aId])) {
+            continue;
+        }
+
+        if (is_file(app\path('data', $data[$aId])) && ($data['_old'][$aId] ?? null) !== $data[$aId]) {
+            throw new RuntimeException(i18n('File %s already exists', $data[$aId]));
+        }
+
+        if (!file\upload($file[$aId]['tmp_name'], $data[$aId])) {
             throw new RuntimeException(i18n('File upload failed for %s', $data[$aId]));
         }
     }
@@ -171,7 +179,14 @@ function ent_postsave(array $data): array
  */
 function page_presave(array $data): array
 {
-    if ($data['name'] !== ($data['_old']['name'] ?? null)) {
+    $oldId = $data['_old']['id'] ?? null;
+    $oldName = $data['_old']['name'] ?? null;
+
+    if ($data['parent_id'] && $oldId && in_array($oldId, ent\one('page', [['id', $data['parent_id']]])['path'])) {
+        throw new RuntimeException(i18n('Cannot assign the page itself or a child page as parent'));
+    }
+
+    if ($data['name'] !== $oldName) {
         $base = filter\id($data['name']);
         $data['url'] = app\url($base . URL['page']);
 

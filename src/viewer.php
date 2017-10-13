@@ -3,131 +3,129 @@ declare(strict_types = 1);
 
 namespace viewer;
 
-use function filter\enc;
 use function html\tag;
 use app;
+use filter;
 
 /**
  * Option viewer
  */
-function opt(array $attr, array $data): string
+function opt($val, array $opt): string
 {
     $result = [];
 
-    foreach ((array) $data[$attr['id']] as $v) {
-        if (isset($attr['opt'][$v])) {
-            $result[] = $attr['opt'][$v];
+    foreach ((array) $val as $v) {
+        if (isset($opt[$v])) {
+            $result[] = $opt[$v];
         }
     }
 
-    return $result ? enc(implode(', ', $result)) : '';
+    return $result ? filter\enc(implode(', ', $result)) : '';
 }
 
 /**
  * Date viewer
  */
-function date(array $attr, array $data): string
+function date(string $val): string
 {
-    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), app\cfg('app', 'date')) : '';
+    return date_format(date_create($val), app\cfg('app', 'date'));
 }
 
 /**
  * Datetime viewer
  */
-function datetime(array $attr, array $data): string
+function datetime(string $val): string
 {
-    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), app\cfg('app', 'datetime')) : '';
+    return date_format(date_create($val), app\cfg('app', 'datetime'));
 }
 
 /**
  * Time viewer
  */
-function time(array $attr, array $data): string
+function time(string $val): string
 {
-    return $data[$attr['id']] ? date_format(date_create($data[$attr['id']]), app\cfg('app', 'time')) : '';
+    return date_format(date_create($val), app\cfg('app', 'time'));
 }
 
 /**
  * Rich text viewer
  */
-function rte(array $attr, array $data): string
+function rte(string $val): string
 {
-    return (string) $data[$attr['id']];
+    return $val;
 }
 
 /**
  * Iframe viewer
  */
-function iframe(array $attr, array $data): string
+function iframe(string $val): string
 {
-    return $data[$attr['id']] ? tag('figure', ['class' => 'iframe'], tag('iframe', ['src' => $data[$attr['id']], 'allowfullscreen' => true])) : '';
+    return tag('figure', ['class' => 'iframe'], tag('iframe', ['src' => $val, 'allowfullscreen' => true]));
 }
 
 /**
  * File viewer
  */
-function file(array $attr, array $data): string
+function file(string $val): string
 {
-    return $data[$attr['id']] ? tag('a', ['href' => app\media($data[$attr['id']])], $data[$attr['id']]) : '';
+    return tag('a', ['href' => app\media($val)], $val);
 }
 
 /**
  * Image viewer
  */
-function image(array $attr, array $data): string
+function image(string $val): string
 {
-    return $data[$attr['id']] ? tag('img', ['src' => app\media($data[$attr['id']]), 'alt' => $data[$attr['id']]], null, true) : '';
+    return tag('img', ['src' => app\media($val), 'alt' => $val], null, true);
 }
 
 /**
  * Audio viewer
  */
-function audio(array $attr, array $data): string
+function audio(string $val): string
 {
-    return $data[$attr['id']] ? tag('audio', ['src' => app\media($data[$attr['id']]), 'controls' => true]) : '';
+    return tag('audio', ['src' => app\media($val), 'controls' => true]);
 }
 
 /**
  * Embed viewer
  */
-function embed(array $attr, array $data): string
+function embed(string $val): string
 {
-    return $data[$attr['id']] ? tag('embed', ['src' => app\media($data[$attr['id']])], null, true) : '';
+    return tag('embed', ['src' => app\media($val)], null, true);
 }
 
 /**
  * Video viewer
  */
-function video(array $attr, array $data): string
+function video(string $val): string
 {
-    return $data[$attr['id']] ? tag('video', ['src' => app\media($data[$attr['id']]), 'controls' => true]) : '';
+    return tag('video', ['src' => app\media($val), 'controls' => true]);
 }
 
 /**
  * Filesize viewer
  */
-function filesize(array $attr, array $data): string
+function filesize(int $val): string
 {
-    if ($data[$attr['id']]) {
-        $units = ['B', 'kB', 'MB', 'GB'];
-        $c = count($units);
+    $key = 0;
+    $units = ['B', 'kB', 'MB', 'GB'];
 
-        foreach ($units as $key => $unit) {
-            if ($data[$attr['id']] < 1000 ** ($key + 1) || $c == $key - 1) {
-                return round($data[$attr['id']] / 1000 ** $key, 1) . ' ' . $unit;
-            }
+    foreach (array_keys($units) as $key) {
+        if ($val < 1000 ** ($key + 1)) {
+            break;
         }
     }
 
-    return '';
+    return round($val / 1000 ** $key, 1) . ' ' . $units[$key];
 }
 
 /**
  * Position viewer
  */
-function pos(array $attr, array $data): string
+function pos(string $val): string
 {
-    $parts = explode('.', $data[$attr['id']]);
+    $parts = explode('.', $val);
 
     foreach ($parts as $k => $v) {
         $parts[$k] = ltrim($v, '0');

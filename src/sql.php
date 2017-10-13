@@ -63,7 +63,7 @@ function type(array $attr, $val): int
         return PDO::PARAM_BOOL;
     }
 
-    if ($attr['backend'] === 'int' || $attr['backend'] === 'decimal') {
+    if ($attr['backend'] === 'int') {
         return PDO::PARAM_INT;
     }
 
@@ -81,7 +81,7 @@ function cols(array $attrs, array $data): array
     foreach (array_intersect_key($data, $attrs) as $aId => $val) {
         $attr = $attrs[$aId];
         $p = ':' . $attr['id'];
-        $val = is_array($val) && $attr['backend'] === 'json' ? json_encode($val) : $val;
+        $val = $attr['backend'] === 'json' ? json_encode($val) : $val;
         $cols['param'][$attr['col']] = [$p, $val, type($attr, $val)];
         $cols['val'][$attr['col']] = $attr['backend'] === 'search' ? 'TO_TSVECTOR(' . $p . ')' : $p;
     }

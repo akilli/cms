@@ -244,14 +244,13 @@ function data(string $eId, bool $bare = false): array
 function attr(array $ent, string $act): array
 {
     $aIds = $ent['act'][$act] ?? [];
+    $attrs = [];
 
-    foreach ($ent['attr'] as $aId => $attr) {
-        if (!in_array($aId, $aIds)) {
-            unset($ent['attr'][$aId]);
-        }
+    foreach ($aIds as $aId) {
+        $attrs[$aId] = $ent['attr'][$aId];
     }
 
-    return $ent['attr'];
+    return $attrs;
 }
 
 /**

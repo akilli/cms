@@ -4,9 +4,9 @@ declare(strict_types = 1);
 namespace attr;
 
 use function app\i18n;
-use function filter\enc;
 use function html\tag;
 use ent;
+use filter;
 use opt;
 use DomainException;
 
@@ -32,7 +32,6 @@ const ATTR = [
     'html' => [],
     'validator' => null,
     'loader' => null,
-    'editor' => null,
     'viewer' => null,
 ];
 const DATE = ['b' => 'Y-m-d', 'f' => 'Y-m-d'];
@@ -56,10 +55,8 @@ function validator(array $attr, array $data): array
         $data[$attr['id']] = [];
     }
 
-    $attr['opt'] = opt($attr);
-
     if ($attr['validator']) {
-        $data = $attr['validator']($attr, $data);
+        $data[$attr['id']] = $attr['validator']($data[$attr['id']], opt($attr));
     }
 
     if ($attr['unique'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && ent\size($data['_ent']['id'], [[$attr['id'], $data[$attr['id']]]])) {
@@ -94,13 +91,13 @@ function loader(array $attr, array $data)
 {
     $data[$attr['id']] = cast($attr, $data[$attr['id']] ?? null);
 
-    return $attr['loader'] ? $attr['loader']($attr, $data) : $data[$attr['id']];
+    return $attr['loader'] ? $attr['loader']($data[$attr['id']]) : $data[$attr['id']];
 }
 
 /**
- * Editor
+ * Frontend
  */
-function editor(array $attr, array $data): string
+function frontend(array $attr, array $data): string
 {
     $data[$attr['id']] = $data[$attr['id']] ?? $attr['val'];
     $attr['opt'] = opt($attr);
@@ -140,7 +137,7 @@ function editor(array $attr, array $data): string
         $error = tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
-    if ($attr['editor'] && ($html = $attr['editor']($attr, $data))) {
+    if (($html = ('frontend\\' . $attr['frontend'])($attr, $data[$attr['id']]))) {
         return tag('label', ['for' => $attr['html']['id']], $label) . $html . $error;
     }
 
@@ -152,13 +149,15 @@ function editor(array $attr, array $data): string
  */
 function viewer(array $attr, array $data): string
 {
-    $attr['opt'] = opt($attr);
-
-    if ($attr['viewer']) {
-        return $attr['viewer']($attr, $data);
+    if (!isset($data[$attr['id']]) || $data[$attr['id']] === '') {
+        return '';
     }
 
-    return $data[$attr['id']] ? enc((string) $data[$attr['id']]) : (string) $data[$attr['id']];
+    if ($attr['viewer']) {
+        return $attr['viewer']($data[$attr['id']], opt($attr));
+    }
+
+    return filter\enc((string) $data[$attr['id']]);
 }
 
 /**

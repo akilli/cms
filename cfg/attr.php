@@ -9,6 +9,7 @@ return [
         'decimal' => [],
         'int' => [],
         'json' => [
+            'multiple' => true,
             'val' => [],
             'loader' => 'loader\json',
         ],
@@ -20,70 +21,55 @@ return [
     'frontend' => [
         'checkbox' => [
             'validator' => 'validator\opt',
-            'editor' => 'editor\opt',
             'viewer' => 'viewer\opt',
         ],
         'date' => [
             'validator' => 'validator\date',
-            'editor' => 'editor\date',
             'viewer' => 'viewer\date',
         ],
         'datetime' => [
             'validator' => 'validator\datetime',
-            'editor' => 'editor\datetime',
             'viewer' => 'viewer\datetime',
         ],
         'email' => [
             'validator' => 'validator\email',
-            'editor' => 'editor\text',
         ],
         'file' => [
             'validator' => 'validator\file',
-            'editor' => 'editor\file',
             'viewer' => 'viewer\file',
         ],
-        'number' => [
-            'editor' => 'editor\int',
-        ],
+        'number' => [],
         'password' => [
             'validator' => 'validator\password',
-            'editor' => 'editor\password',
         ],
         'radio' => [
             'validator' => 'validator\opt',
-            'editor' => 'editor\opt',
             'viewer' => 'viewer\opt',
         ],
-        'range' => [
-            'editor' => 'editor\int',
-        ],
+        'range' => [],
         'select' => [
             'validator' => 'validator\opt',
-            'editor' => 'editor\select',
             'viewer' => 'viewer\opt',
         ],
         'text' => [
             'validator' => 'validator\text',
-            'editor' => 'editor\text',
         ],
         'textarea' => [
             'validator' => 'validator\text',
-            'editor' => 'editor\textarea',
         ],
         'time' => [
             'validator' => 'validator\time',
-            'editor' => 'editor\time',
             'viewer' => 'viewer\time',
         ],
         'url' => [
             'validator' => 'validator\url',
-            'editor' => 'editor\text',
         ],
     ],
     'type' => [
         'audio' => [
             'backend' => 'varchar',
             'frontend' => 'file',
+            'validator' => 'validator\audio',
             'viewer' => 'viewer\audio',
         ],
         'checkbox' => [
@@ -109,6 +95,7 @@ return [
         'embed' => [
             'backend' => 'varchar',
             'frontend' => 'file',
+            'validator' => 'validator\embed',
             'viewer' => 'viewer\embed',
         ],
         'ent' => [
@@ -127,17 +114,12 @@ return [
         'image' => [
             'backend' => 'varchar',
             'frontend' => 'file',
+            'validator' => 'validator\image',
             'viewer' => 'viewer\image',
         ],
         'int' => [
             'backend' => 'int',
             'frontend' => 'number',
-        ],
-        'json' => [
-            'backend' => 'json',
-            'frontend' => 'textarea',
-            'editor' => 'editor\json',
-            'validator' => 'validator\json',
         ],
         'password' => [
             'backend' => 'varchar',
@@ -184,6 +166,7 @@ return [
         'video' => [
             'backend' => 'varchar',
             'frontend' => 'file',
+            'validator' => 'validator\video',
             'viewer' => 'viewer\video',
         ],
     ],

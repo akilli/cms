@@ -5,8 +5,6 @@ namespace validator;
 
 use const attr\{DATE, DATETIME, TIME};
 use function app\i18n;
-use app;
-use ent;
 use file;
 use filter;
 use DomainException;
@@ -14,45 +12,29 @@ use DomainException;
 /**
  * Option validator
  *
+ * @return mixed
+ *
  * @throws DomainException
  */
-function opt(array $attr, array $data): array
+function opt($val, array $opt)
 {
-    if (!empty($data[$attr['id']]) || is_scalar($data[$attr['id']]) && !is_string($data[$attr['id']])) {
-        foreach ((array) $data[$attr['id']] as $v) {
-            if (!isset($attr['opt'][$v])) {
+    if (!empty($val) || is_scalar($val) && !is_string($val)) {
+        foreach ((array) $val as $v) {
+            if (!isset($opt[$v])) {
                 throw new DomainException(i18n('Invalid option'));
             }
         }
     }
 
-    return $data;
-}
-
-/**
- * Page validator
- *
- * @throws DomainException
- */
-function page(array $attr, array $data): array
-{
-    $old = $data['_old']['id'] ?? null;
-
-    if ($data[$attr['id']] && $old && in_array($old, ent\one('page', [['id', $data[$attr['id']]]])['path'])) {
-        throw new DomainException(i18n('Cannot assign the page itself or a child page as parent'));
-    }
-
-    return $data;
+    return $val;
 }
 
 /**
  * Text validator
  */
-function text(array $attr, array $data): array
+function text(string $val): string
 {
-    $data[$attr['id']] = trim((string) filter_var($data[$attr['id']], FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
-
-    return $data;
+    return trim((string) filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
 }
 
 /**
@@ -60,24 +42,13 @@ function text(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function password(array $attr, array $data): array
+function password(string $val): string
 {
-    if ($data[$attr['id']] && !($data[$attr['id']] = password_hash($data[$attr['id']], PASSWORD_DEFAULT))) {
+    if ($val && !($val = password_hash($val, PASSWORD_DEFAULT))) {
         throw new DomainException(i18n('Invalid password'));
     }
 
-    return $data;
-}
-
-/**
- * ID validator
- */
-function id(array $attr, array $data): array
-{
-    $data = text($attr, $data);
-    $data[$attr['id']] = filter\id($data[$attr['id']]);
-
-    return $data;
+    return $val;
 }
 
 /**
@@ -85,13 +56,13 @@ function id(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function email(array $attr, array $data): array
+function email(string $val): string
 {
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter_var($data[$attr['id']], FILTER_VALIDATE_EMAIL))) {
+    if ($val && !($val = filter_var($val, FILTER_VALIDATE_EMAIL))) {
         throw new DomainException(i18n('Invalid email'));
     }
 
-    return $data;
+    return $val;
 }
 
 /**
@@ -99,43 +70,21 @@ function email(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function url(array $attr, array $data): array
+function url(string $val): string
 {
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter_var($data[$attr['id']], FILTER_VALIDATE_URL))) {
+    if ($val && !($val = filter_var($val, FILTER_VALIDATE_URL))) {
         throw new DomainException(i18n('Invalid URL'));
     }
 
-    return $data;
-}
-
-/**
- * JSON validator
- *
- * @throws DomainException
- */
-function json(array $attr, array $data): array
-{
-    if ($data[$attr['id']] && json_decode($data[$attr['id']], true) === null) {
-        throw new DomainException(i18n('Invalid JSON notation'));
-    }
-
-    if (!$data[$attr['id']]) {
-        $data[$attr['id']] = '[]';
-    }
-
-    return $data;
+    return $val;
 }
 
 /**
  * Rich text validator
- *
- * @return array
  */
-function rte(array $attr, array $data): array
+function rte(string $val): string
 {
-    $data[$attr['id']] = filter\html($data[$attr['id']]);
-
-    return $data;
+    return filter\html($val);
 }
 
 /**
@@ -143,13 +92,13 @@ function rte(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function date(array $attr, array $data): array
+function date(string $val): string
 {
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter\date($data[$attr['id']], DATE['f'], DATE['b']))) {
+    if ($val && !($val = filter\date($val, DATE['f'], DATE['b']))) {
         throw new DomainException(i18n('Invalid value'));
     }
 
-    return $data;
+    return $val;
 }
 
 /**
@@ -157,13 +106,13 @@ function date(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function datetime(array $attr, array $data): array
+function datetime(string $val): string
 {
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter\date($data[$attr['id']], DATETIME['f'], DATETIME['b']))) {
+    if ($val && !($val = filter\date($val, DATETIME['f'], DATETIME['b']))) {
         throw new DomainException(i18n('Invalid value'));
     }
 
-    return $data;
+    return $val;
 }
 
 /**
@@ -171,13 +120,13 @@ function datetime(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function time(array $attr, array $data): array
+function time(string $val): string
 {
-    if ($data[$attr['id']] && !($data[$attr['id']] = filter\date($data[$attr['id']], TIME['f'], TIME['b']))) {
+    if ($val && !($val = filter\date($val, TIME['f'], TIME['b']))) {
         throw new DomainException(i18n('Invalid value'));
     }
 
-    return $data;
+    return $val;
 }
 
 /**
@@ -185,17 +134,67 @@ function time(array $attr, array $data): array
  *
  * @throws DomainException
  */
-function file(array $attr, array $data): array
+function file(string $val): string
 {
-    if ($data[$attr['id']]) {
-        if (!file\type($data[$attr['id']], $attr['type'])) {
-            throw new DomainException(i18n('Invalid file %s', $data[$attr['id']]));
-        }
-
-        if (is_file(app\path('data', $data[$attr['id']])) && ($data['_old'][$attr['id']] ?? null) !== $data[$attr['id']]) {
-            throw new DomainException(i18n('File %s already exists', $data[$attr['id']]));
-        }
+    if ($val && !file\type($val, 'file')) {
+        throw new DomainException(i18n('Invalid file %s', $val));
     }
 
-    return $data;
+    return $val;
+}
+
+/**
+ * Image validator
+ *
+ * @throws DomainException
+ */
+function image(string $val): string
+{
+    if ($val && !file\type($val, 'image')) {
+        throw new DomainException(i18n('Invalid file %s', $val));
+    }
+
+    return $val;
+}
+
+/**
+ * Audio validator
+ *
+ * @throws DomainException
+ */
+function audio(string $val): string
+{
+    if ($val && !file\type($val, 'audio')) {
+        throw new DomainException(i18n('Invalid file %s', $val));
+    }
+
+    return $val;
+}
+
+/**
+ * Embed validator
+ *
+ * @throws DomainException
+ */
+function embed(string $val): string
+{
+    if ($val && !file\type($val, 'embed')) {
+        throw new DomainException(i18n('Invalid file %s', $val));
+    }
+
+    return $val;
+}
+
+/**
+ * Video validator
+ *
+ * @throws DomainException
+ */
+function video(string $val): string
+{
+    if ($val && !file\type($val, 'video')) {
+        throw new DomainException(i18n('Invalid file %s', $val));
+    }
+
+    return $val;
 }

@@ -72,19 +72,3 @@ function type(string $file, string $type = 'file'): bool
 {
     return ($cfg = app\cfg('file', pathinfo($file, PATHINFO_EXTENSION))) && ($type === 'file' || $cfg === $type);
 }
-
-/**
- * Returns list of accepted extensions for given file type
- */
-function accept(string $type): string
-{
-    $accept = '';
-
-    foreach (app\cfg('file') as $ext => $val) {
-        if ($type === 'file' || $val === $type) {
-            $accept .= ($accept ? ', .' : '.') . $ext;
-        }
-    }
-
-    return $accept;
-}

@@ -25,7 +25,6 @@ return [
                 'name' => 'Privileges',
                 'type' => 'checkbox',
                 'backend' => 'json',
-                'multiple' => true,
                 'opt' => 'opt\priv',
             ],
             'active' => [
@@ -121,7 +120,6 @@ return [
                 'type' => 'ent',
                 'nullable' => true,
                 'opt' => 'page',
-                'validator' => 'validator\page',
             ],
             'sort' => [
                 'name' => 'Sort',
@@ -150,7 +148,6 @@ return [
                 'name' => 'Path',
                 'type' => 'ent',
                 'backend' => 'json',
-                'multiple' => true,
                 'opt' => 'page',
             ],
             'depth' => [

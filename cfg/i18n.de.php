@@ -33,7 +33,6 @@ return [
     'Invalid entity %s' => 'Ungültige Entity %s',
     'Invalid entity configuration' => 'Ungültige Entity Konfiguration',
     'Invalid file %s' => 'Ungültige Datei %s',
-    'Invalid JSON notation' => 'Ungültige JSON Notation',
     'Invalid name and password combination' => 'Ungültige Kombination aus Name und Passwort',
     'Invalid option' => 'Ungültige Option',
     'Invalid password' => 'Ungültiges Passwort',

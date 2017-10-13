@@ -1,7 +1,7 @@
 <?php
 namespace app;
 use function account\allowed;
-use function attr\editor;
+use function attr\frontend;
 use function session\token;
 /** @var callable $§ */
 ?>
@@ -12,7 +12,7 @@ use function session\token;
         <fieldset>
             <legend><?=$data['name'] ?? i18n('New Entry');?></legend>
             <?php foreach ($§('attr') as $attr):?>
-                <?php if (!$html = editor($attr, $data)) continue;?>
+                <?php if (!$html = frontend($attr, $data)) continue;?>
             <div data-attr="<?=$attr['id'];?>">
                 <?=$html;?>
             </div>

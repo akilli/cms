@@ -6,11 +6,7 @@ namespace loader;
 /**
  * JSON loader
  */
-function json(array $attr, array $data): array
+function json($val): array
 {
-    if ($data[$attr['id']] && is_string($data[$attr['id']])) {
-        $data[$attr['id']] = json_decode($data[$attr['id']], true);
-    }
-
-    return is_array($data[$attr['id']]) ? $data[$attr['id']] : [];
+    return $val && ($val = json_decode($val, true)) ? $val : [];
 }
