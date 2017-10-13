@@ -159,7 +159,7 @@ function textarea(array $attr, array $data): string
 function json(array $attr, array $data): string
 {
     if (is_array($data[$attr['id']])) {
-        $data[$attr['id']] = !empty($data[$attr['id']]) ? json_encode($data[$attr['id']]) : '';
+        $data[$attr['id']] = $data[$attr['id']] ? json_encode($data[$attr['id']]) : '';
     }
 
     return textarea($attr, $data);
