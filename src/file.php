@@ -81,7 +81,7 @@ function accept(string $type): string
     $accept = '';
 
     foreach (app\cfg('file') as $ext => $val) {
-        if ($val === $type) {
+        if ($type === 'file' || $val === $type) {
             $accept .= ($accept ? ', .' : '.') . $ext;
         }
     }
