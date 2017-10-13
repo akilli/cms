@@ -59,19 +59,19 @@ function msg(array $§): string
 function nav(array $§): string
 {
     $§['vars'] += ['mode' => null, 'current' => req('id')];
-    $cur = $§['vars']['current'] ? ent\one('page', [['id', $§['vars']['current']]]) : null;
+    $cur = $§['vars']['current'] ? ent\one('page', [['id', $§['vars']['current']], ['active', true]]) : null;
     $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]]]) : $cur;
-    $crit = [];
+    $crit = [['active', true]];
 
     if ($§['vars']['mode'] === 'top') {
         $cur = $anc;
-        $crit = [['depth', 1]];
+        $crit[] = ['depth', 1];
     } elseif ($§['vars']['mode'] === 'sub') {
         if (!$anc) {
             return '';
         }
 
-        $crit = [['pos', $anc['pos'] . '.', CRIT['~^']]];
+        $crit[] = ['pos', $anc['pos'] . '.', CRIT['~^']];
     }
 
     if (!$nav = ent\all('page', $crit, ['select' => ['id', 'name', 'url', 'depth'], 'order' => ['pos' => 'asc']])) {
