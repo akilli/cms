@@ -15,29 +15,6 @@ use file;
 use session;
 
 /**
- * Denied Action
- */
-function denied(): void
-{
-    if (account\guest()) {
-        redirect(app\url('account/login'));
-    }
-
-    app\msg(i18n('Access denied'));
-    redirect();
-}
-
-/**
- * Error Action
- */
-function error(): void
-{
-    http_response_code(404);
-    app\msg(i18n('Page not found'));
-    vars('head', ['title' => i18n('Page not found')]);
-}
-
-/**
  * Admin Action
  */
 function admin(array $ent): void
@@ -163,12 +140,40 @@ function view(array $ent): void
     $data = ent\one($ent['id'], [['id', req('id')]]);
 
     if (!$data || !empty($ent['attr']['active']) && empty($data['active']) && !account\allowed('*/edit')) {
-        error();
+        app_error();
         return;
     }
 
     vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'view')]);
     vars('head', ['title' => $data['name']]);
+}
+
+/**
+ * App Denied Action
+ */
+function app_denied(): void
+{
+    http_response_code(403);
+    vars('head', ['title' => i18n('Access denied')]);
+    vars('content', ['title' => i18n('Error'), 'message' => i18n('Access denied')]);
+}
+
+/**
+ * App Error Action
+ */
+function app_error(): void
+{
+    http_response_code(404);
+    vars('head', ['title' => i18n('Page not found')]);
+    vars('content', ['title' => i18n('Error'), 'message' => i18n('Page not found')]);
+}
+
+/**
+ * App JavaScript Action
+ */
+function app_js(): void
+{
+    header('Content-Type: text/javascript', true);
 }
 
 /**

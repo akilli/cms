@@ -38,7 +38,7 @@ function priv(): array
     $data = [];
 
     foreach (app\cfg('priv') as $key => $priv) {
-        if (empty($priv['call']) && account\allowed($key)) {
+        if ($priv['active'] && !$priv['call'] && account\allowed($key)) {
             $data[$key] = $priv['name'];
         }
     }

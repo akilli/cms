@@ -112,6 +112,25 @@ return [
             'parent_id' => 'main',
         ],
     ],
+    'app/denied' => [
+        'content' => [
+            'section' => 'tpl',
+            'tpl' => 'app/error.phtml',
+            'parent_id' => 'main',
+        ],
+    ],
+    'app/error' => [
+        'content' => [
+            'section' => 'tpl',
+            'tpl' => 'app/error.phtml',
+            'parent_id' => 'main',
+        ],
+    ],
+    'app/js' => [
+        'root' => [
+            'tpl' => 'app/app.js',
+        ],
+    ],
     'account/password' => [
          'content' => [
             'section' => 'tpl',

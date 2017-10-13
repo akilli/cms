@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace listener;
 
+use const account\PRIV;
 use const app\{ALL, URL};
 use const attr\ATTR;
 use const ent\ENT;
@@ -94,9 +95,22 @@ function cfg_i18n(array $data): array
 function cfg_layout(array $data): array
 {
     $a = 'account-' . (account\user() ? 'user' : 'guest');
-    $b = 'act-' . req('act');
-    $c = 'ent-' . req('ent');
-    $d = req('path');
+    $code = http_response_code();
+
+    if ($code === 403) {
+        $b = 'act-denied';
+        $c = 'ent-app';
+        $d = 'app/denied';
+    } elseif ($code === 404) {
+        $b = 'act-error';
+        $c = 'ent-app';
+        $d = 'app/error';
+    } else {
+        $b = 'act-' . req('act');
+        $c = 'ent-' . req('ent');
+        $d = req('path');
+    }
+
     $data = array_replace_recursive($data[ALL], $data[$a] ?? [], $data[$b] ?? [], $data[$c] ?? [], $data[$d] ?? []);
 
     foreach ($data as $id => $§) {
@@ -113,11 +127,14 @@ function cfg_priv(array $data): array
 {
     foreach ($data as $id => $item) {
         $data[$id]['name'] = !empty($item['name']) ? i18n($item['name']) : '';
+        $data[$id] = array_replace(PRIV, $data[$id]);
     }
 
     foreach (app\cfg('ent') as $eId => $ent) {
         foreach ($ent['act'] as $act) {
-            $data[$eId . '/' . $act]['name'] = $ent['name'] . ' ' . i18n(ucwords($act));
+            $id = $eId . '/' . $act;
+            $data[$id]['name'] = $ent['name'] . ' ' . i18n(ucwords($act));
+            $data[$id] = array_replace(PRIV, $data[$id]);
         }
     }
 

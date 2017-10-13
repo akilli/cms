@@ -2,9 +2,19 @@
 return [
     '_all_' => [
         'name' => 'ALL PRIVILEGES',
+        'sort' => -1,
+    ],
+    'app/denied' => [
+        'active' => false,
+    ],
+    'app/error' => [
+        'active' => false,
+    ],
+    'app/js' => [
+        'call' => 'account\user',
     ],
     'account/login' => [
-        'call' => 'account\guest',
+        'active' => false,
     ],
     'account/logout' => [
         'call' => 'account\user',

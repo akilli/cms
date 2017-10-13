@@ -28,12 +28,12 @@ function run(): void
 
     foreach ([$prefix . $eId . '_' . $act, $prefix . $act] as $call) {
         if (is_callable($call)) {
-            account\allowed('*/*') ? $call(...$args) : act\denied();
+            account\allowed('*/*') ? $call(...$args) : act\app_denied();
             return;
         }
     }
 
-    act\error();
+    act\app_error();
 }
 
 /**

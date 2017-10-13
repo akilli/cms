@@ -8,6 +8,8 @@ use app;
 use ent;
 use session;
 
+const PRIV = ['name' => null, 'call' => null, 'active' => true, 'sort' => 0];
+
 /**
  * Initializes account from session and stores account data in registry
  *
@@ -58,14 +60,6 @@ function login(string $name, string $password): ?array
 }
 
 /**
- * Is not logged-in guest
- */
-function guest(): bool
-{
-    return data('id') <= 0;
-}
-
-/**
  * Is logged-in user account
  */
 function user(): bool
@@ -78,14 +72,13 @@ function user(): bool
  */
 function allowed(string $key): bool
 {
-    $cfg = app\cfg('priv');
     $key = app\resolve($key);
 
-    if (empty($cfg[$key])) {
+    if (!$cfg = app\cfg('priv', $key)) {
         return false;
     }
 
-    return !empty($cfg[$key]['call']) && $cfg[$key]['call']() || data('admin') || in_array($key, data('priv') ?? []);
+    return !$cfg['active'] || $cfg['call'] && $cfg['call']() || data('admin') || in_array($key, data('priv') ?? []);
 }
 
 /**
