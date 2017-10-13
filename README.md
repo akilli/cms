@@ -8,7 +8,11 @@ A quick'n'dirty non-OOP-experiment... or something completely different.
 
 Check the docker-compose.yml file as one possible solution. It is using an external network `proxy` and [traefik](https://traefik.io/) as reverse proxy. Both is not needed, so adjust to your needs.
 
-Simply run the docker containers and access with configured domain or port. You can log in via URL `/account/login` with name `admin` and password `password`.
+Run the docker containers and access with configured domain. You can log in via URL `/account/login` with name `admin` and password `password`. 
+
+**!!! NOTE !!!**
+
+The default configuration currently is quite strict concerning session cookies, so you might have to add `ini_set('session.cookie_secure', '0');` in `www/index.php`.
 
 ## Abbreviations
 
