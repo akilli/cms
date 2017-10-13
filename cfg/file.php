@@ -33,7 +33,7 @@ return [
     'swf' => ['embed', 'file'],
     'tar' => ['file'],
     'txt' => ['file'],
-    'wav' => ['audio', 'embed', 'file'],
+    'wav' => ['audio', 'file'],
     'weba' => ['audio', 'file'],
     'webm' => ['file', 'video'],
     'webp' => ['file', 'image'],
