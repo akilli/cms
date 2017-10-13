@@ -2,7 +2,11 @@
 return [
     'role' => [
         'name' => 'Roles',
-        'act' => ['admin', 'delete', 'edit'],
+        'act' => [
+            'admin' => ['name', 'active'],
+            'delete' => [],
+            'edit' => ['name', 'priv', 'active'],
+        ],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -15,7 +19,6 @@ return [
                 'required' => true,
                 'unique' => true,
                 'searchable' => true,
-                'act' => ['admin', 'edit'],
                 'maxlength' => 50,
             ],
             'priv' => [
@@ -24,12 +27,10 @@ return [
                 'backend' => 'json',
                 'multiple' => true,
                 'opt' => 'opt\priv',
-                'act' => ['edit'],
             ],
             'active' => [
                 'name' => 'Active',
                 'type' => 'checkbox',
-                'act' => ['admin', 'edit'],
             ],
             'system' => [
                 'name' => 'System',
@@ -39,7 +40,14 @@ return [
     ],
     'account' => [
         'name' => 'Accounts',
-        'act' => ['admin', 'delete', 'edit', 'login', 'logout', 'password'],
+        'act' => [
+            'admin' => ['name', 'role_id', 'active'],
+            'delete' => [],
+            'edit' => ['name', 'password', 'role_id', 'active'],
+            'login' => [],
+            'logout' => [],
+            'password' => [],
+        ],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -52,14 +60,12 @@ return [
                 'required' => true,
                 'unique' => true,
                 'searchable' => true,
-                'act' => ['admin', 'edit'],
                 'maxlength' => 50,
             ],
             'password' => [
                 'name' => 'Password',
                 'type' => 'password',
                 'required' => true,
-                'act' => ['edit'],
                 'minlength' => 8,
             ],
             'role_id' => [
@@ -67,12 +73,10 @@ return [
                 'type' => 'ent',
                 'required' => true,
                 'opt' => 'role',
-                'act' => ['admin', 'edit'],
             ],
             'active' => [
                 'name' => 'Active',
                 'type' => 'checkbox',
-                'act' => ['admin', 'edit'],
             ],
             'system' => [
                 'name' => 'System',
@@ -82,25 +86,24 @@ return [
     ],
     'page' => [
         'name' => 'Pages',
-        'act' => ['admin', 'delete', 'edit', 'index', 'view'],
+        'act' => [
+            'admin' => ['pos', 'name', 'active'],
+            'delete' => [],
+            'edit' => ['name', 'active', 'parent_id', 'sort', 'content'],
+            'index' => ['name'],
+            'view' => ['content']
+        ],
         'attr' => [
             'id' => [
                 'name' => 'ID',
                 'auto' => true,
                 'type' => 'int',
             ],
-            'pos' => [
-                'name' => 'Position',
-                'type' => 'text',
-                'act' => ['admin'],
-                'viewer' => 'viewer\pos',
-            ],
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
-                'act' => ['admin', 'edit', 'index'],
                 'maxlength' => 100,
             ],
             'url' => [
@@ -112,26 +115,22 @@ return [
             'active' => [
                 'name' => 'Active',
                 'type' => 'checkbox',
-                'act' => ['admin', 'edit'],
             ],
             'parent_id' => [
                 'name' => 'Parent',
                 'type' => 'ent',
                 'nullable' => true,
                 'opt' => 'page',
-                'act' => ['edit'],
                 'validator' => 'validator\page',
             ],
             'sort' => [
                 'name' => 'Sort',
                 'type' => 'int',
-                'act' => ['edit'],
                 'val' => 0,
             ],
             'content' => [
                 'name' => 'Content',
                 'type' => 'rte',
-                'act' => ['edit', 'view'],
                 'val' => '',
             ],
             'search' => [
@@ -158,12 +157,24 @@ return [
                 'name' => 'Depth',
                 'type' => 'int',
             ],
+            'pos' => [
+                'name' => 'Position',
+                'type' => 'text',
+                'viewer' => 'viewer\pos',
+            ],
         ],
     ],
     'media' => [
         'name' => 'Media',
         'type' => 'asset',
-        'act' => ['admin', 'browser', 'delete', 'edit', 'import', 'view'],
+        'act' => [
+            'admin' => ['name', 'size'],
+            'browser' => [],
+            'delete' => [],
+            'edit' => ['name'],
+            'import' => [],
+            'view' => []
+        ],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -176,12 +187,10 @@ return [
                 'required' => true,
                 'unique' => true,
                 'searchable' => true,
-                'act' => ['admin', 'edit'],
             ],
             'size' => [
                 'name' => 'Size',
                 'type' => 'int',
-                'act' => ['admin'],
                 'viewer' => 'viewer\filesize',
             ],
             'file' => [

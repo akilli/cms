@@ -243,8 +243,10 @@ function data(string $eId, bool $bare = false): array
  */
 function attr(array $ent, string $act): array
 {
+    $aIds = $ent['act'][$act] ?? [];
+
     foreach ($ent['attr'] as $aId => $attr) {
-        if (!in_array($act, $attr['act'])) {
+        if (!in_array($aId, $aIds)) {
             unset($ent['attr'][$aId]);
         }
     }

@@ -47,7 +47,6 @@ function cfg_ent(array $data): array
         $ent['id'] = $eId;
         $ent['name'] = i18n($ent['name']);
         $ent['tab'] = $ent['tab'] ?: $ent['id'];
-        $sort = 0;
 
         foreach ($ent['attr'] as $aId => $attr) {
             if (empty($attr['name']) || empty($attr['type']) || !($type = $cfg['type'][$attr['type']] ?? null)) {
@@ -66,15 +65,9 @@ function cfg_ent(array $data): array
                 $attr['col'] = $attr['id'];
             }
 
-            if (!is_numeric($attr['sort'])) {
-                $attr['sort'] = $sort;
-                $sort += 100;
-            }
-
             $ent['attr'][$aId] = $attr;
         }
 
-        $ent['attr'] = arr\order($ent['attr'], ['sort' => 'asc']);
         $data[$eId] = $ent;
     }
 
@@ -131,7 +124,7 @@ function cfg_priv(array $data): array
     }
 
     foreach (app\cfg('ent') as $eId => $ent) {
-        foreach ($ent['act'] as $act) {
+        foreach (array_keys($ent['act']) as $act) {
             $id = $eId . '/' . $act;
             $data[$id]['name'] = $ent['name'] . ' ' . i18n(ucwords($act));
             $data[$id] = array_replace(PRIV, $data[$id]);
