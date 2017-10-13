@@ -23,12 +23,12 @@ return [
         'call' => 'account\user',
     ],
     'media/view' => [
-        'call' => 'account\user',
+        'active' => false,
     ],
     'page/index' => [
-        'call' => 'account\user',
+        'active' => false,
     ],
     'page/view' => [
-        'call' => 'account\user',
+        'active' => false,
     ],
 ];
