@@ -58,11 +58,19 @@ function dir(string $path): bool
 }
 
 /**
- * Checks whether specified path is writable
+ * Checks if path is writable
  */
 function writable(string $path): bool
 {
     return (bool) preg_match('#^(file://)?(' . app\path('data') . ')#', $path);
+}
+
+/**
+ * Checks if file is of provided type
+ */
+function type(string $file, string $type = 'file'): bool
+{
+    return ($cfg = app\cfg('file', pathinfo($file, PATHINFO_EXTENSION))) && ($type === 'file' || $cfg === $type);
 }
 
 /**
@@ -72,8 +80,8 @@ function accept(string $type): string
 {
     $accept = '';
 
-    foreach (app\cfg('file') as $ext => $types) {
-        if (in_array($type, $types)) {
+    foreach (app\cfg('file') as $ext => $val) {
+        if ($val === $type) {
             $accept .= ($accept ? ', .' : '.') . $ext;
         }
     }

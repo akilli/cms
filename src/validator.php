@@ -7,6 +7,7 @@ use const attr\{DATE, DATETIME, TIME};
 use function app\i18n;
 use app;
 use ent;
+use file;
 use filter;
 use DomainException;
 
@@ -187,7 +188,7 @@ function time(array $attr, array $data): array
 function file(array $attr, array $data): array
 {
     if ($data[$attr['id']]) {
-        if (!in_array($attr['type'], app\cfg('file', pathinfo($data[$attr['id']], PATHINFO_EXTENSION)) ?? [])) {
+        if (!file\type($data[$attr['id']], $attr['type'])) {
             throw new DomainException(i18n('Invalid file %s', $data[$attr['id']]));
         }
 

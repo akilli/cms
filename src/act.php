@@ -181,13 +181,10 @@ function app_js(): void
  */
 function media_browser(array $ent): void
 {
-    $exts = app\cfg('file');
     $data = [];
 
     foreach (ent\all($ent['id'], [], ['order' => ['name' => 'asc']]) as $file) {
-        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-
-        if (!empty($exts[$ext]) && in_array('image', $exts[$ext])) {
+        if (file\type($file['name'], 'image')) {
             $data[] = ['name' => $file['name'], 'url' => app\media($file['id'])];
         }
     }

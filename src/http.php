@@ -5,6 +5,7 @@ namespace http;
 
 use function app\i18n;
 use app;
+use file;
 use filter;
 use session;
 use RuntimeException;
@@ -110,7 +111,6 @@ function file(array $in): array
         throw new RuntimeException(i18n('Invalid data'));
     }
 
-    $exts = app\cfg('file');
     $out = [];
 
     foreach (array_filter($in['name']) as $k => $n) {
@@ -120,7 +120,7 @@ function file(array $in): array
 
         if (is_array($n)) {
             $f = file($f);
-        } elseif ($e !== UPLOAD_ERR_OK || !is_uploaded_file($t) || empty($exts[pathinfo($n, PATHINFO_EXTENSION)])) {
+        } elseif ($e !== UPLOAD_ERR_OK || !is_uploaded_file($t) || !file\type($n)) {
             app\msg(i18n('Invalid file %s', $n));
             continue;
         }
