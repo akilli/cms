@@ -3,7 +3,7 @@ namespace app;
 use function session\token;
 /** @var callable $§ */
 ?>
-<form id="<?=$§('id');?>"<?php if ($§('act')):?> action="<?= url($§('act'));?>"<?php endif;?> method="post">
+<form id="<?=$§('id');?>" method="post">
     <h1><?= i18n('Search');?></h1>
     <input type="search" name="param[q]" value="<?=$§('q');?>" placeholder="<?= i18n('Search Term');?>" />
     <input type="submit" value="search" title="<?= i18n('Search');?>" class="icon" />
