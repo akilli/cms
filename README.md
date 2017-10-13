@@ -18,10 +18,12 @@ app  | application
 arr  | array
 attr | attribute
 cfg  | config
+crit | criteria
 db   | database
 ent  | entity
 i18n | internationalization
 msg  | message
+nav  | navigation
 opt  | option
 priv | privilege
 req  | request
