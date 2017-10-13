@@ -139,11 +139,6 @@ return [
             'editor' => 'editor\json',
             'validator' => 'validator\json',
         ],
-        'object' => [
-            'backend' => 'varchar',
-            'frontend' => 'file',
-            'viewer' => 'viewer\object',
-        ],
         'password' => [
             'backend' => 'varchar',
             'frontend' => 'password',

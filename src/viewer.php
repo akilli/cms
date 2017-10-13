@@ -96,14 +96,6 @@ function embed(array $attr, array $data): string
 }
 
 /**
- * Object viewer
- */
-function object(array $attr, array $data): string
-{
-    return $data[$attr['id']] ? tag('object', ['data' => app\media($data[$attr['id']])]) : '';
-}
-
-/**
  * Video viewer
  */
 function video(array $attr, array $data): string
