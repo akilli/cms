@@ -7,8 +7,8 @@ use function app\i18n;
 use function sql\trans;
 use attr;
 use app;
-use Exception;
 use RuntimeException;
+use Throwable;
 
 const ENT = [
     'id' => null,
@@ -51,7 +51,7 @@ function size(string $eId, array $crit = []): int
 
     try {
         return ($ent['type'] . '\load')($ent, $crit, $opts)[0];
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         app\log((string) $e);
         app\msg(i18n('Could not load data'));
     }
@@ -72,7 +72,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
         if ($data = ($ent['type'] . '\load')($ent, $crit, $opts)) {
             $data = load($ent, $data);
         }
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         app\log((string) $e);
         app\msg(i18n('Could not load data'));
     }
@@ -104,7 +104,7 @@ function all(string $eId, array $crit = [], array $opts = []): array
         }
 
         return array_column($data, null, $opts['index']);
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         app\log((string) $e);
         app\msg(i18n('Could not load data'));
     }
@@ -146,7 +146,7 @@ function save(string $eId, array & $data): bool
     foreach ($aIds as $aId) {
         try {
             $tmp = attr\validator($tmp['_ent']['attr'][$aId], $tmp);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $data['_error'][$aId] = $e->getMessage();
         }
     }
