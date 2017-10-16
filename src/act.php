@@ -137,7 +137,7 @@ function view(array $ent): void
 {
     $data = ent\one($ent['id'], [['id', http\req('id')]]);
 
-    if (!$data || !empty($ent['attr']['active']) && empty($data['active']) && !account\allowed('*/edit')) {
+    if (!$data || !empty($ent['attr']['active']) && empty($data['active']) && !app\allowed('*/edit')) {
         app_error();
         return;
     }

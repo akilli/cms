@@ -1,6 +1,5 @@
 <?php
 namespace app;
-use account;
 use attr;
 use session;
 /** @var callable $§ */
@@ -18,7 +17,7 @@ use session;
             </div>
             <?php endforeach;?>
         </fieldset>
-        <?php if (account\allowed('*/admin')):?>
+        <?php if (allowed('*/admin')):?>
         <a role="button" href="<?= url('*/admin');?>"><?= i18n('Back');?></a>
         <?php endif;?>
         <input type="submit" value="<?= i18n('Save');?>" />

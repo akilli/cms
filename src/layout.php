@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace layout;
 
-use account;
 use app;
 use InvalidArgumentException;
 
@@ -12,7 +11,7 @@ use InvalidArgumentException;
  */
 function §(string $id): string
 {
-    if (!($§ = data($id)) || !$§['active'] || $§['priv'] && !account\allowed($§['priv'])) {
+    if (!($§ = data($id)) || !$§['active'] || $§['priv'] && !app\allowed($§['priv'])) {
         return '';
     }
 

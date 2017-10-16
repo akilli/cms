@@ -1,6 +1,5 @@
 <?php
 namespace app;
-use account;
 use attr;
 use layout;
 /** @var callable $§ */
@@ -45,13 +44,13 @@ use layout;
                 </td>
                 <?php endforeach;?>
                 <td>
-                    <?php if (account\allowed('*/view')):?>
+                    <?php if (allowed('*/view')):?>
                     <a href="<?= $data['url'] ?? url('*/view/' . $data['id']);?>" class="icon" title="<?= i18n('View');?>">visibility</a>
                     <?php endif;?>
-                    <?php if (account\allowed('*/edit') && empty($data['system'])):?>
+                    <?php if (allowed('*/edit') && empty($data['system'])):?>
                     <a href="<?= url('*/edit/' . $data['id']);?>" class="icon" title="<?= i18n('Edit');?>">edit</a>
                     <?php endif;?>
-                    <?php if (account\allowed('*/delete') && empty($data['system'])):?>
+                    <?php if (allowed('*/delete') && empty($data['system'])):?>
                     <a href="<?= url('*/delete/' . $data['id']);?>" class="delete icon" title="<?= i18n('Delete');?>">delete</a>
                     <?php endif;?>
                 </td>

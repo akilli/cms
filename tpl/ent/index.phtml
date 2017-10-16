@@ -1,6 +1,5 @@
 <?php
 namespace app;
-use account;
 use attr;
 use layout;
 /** @var callable $§ */
@@ -13,7 +12,7 @@ use layout;
         <?php foreach ($§('attr') as $attr):?>
             <?php if (!$html = attr\viewer($attr, $data)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
-                <?php if (account\allowed($data['_ent']['id'] . '/view')):?>
+                <?php if (allowed($data['_ent']['id'] . '/view')):?>
         <h1><a href="<?= $data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a></h1>
                 <?php else:?>
         <h1><?=$html;?></h1>

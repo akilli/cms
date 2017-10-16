@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace app;
 
-use account;
 use act;
 use ent;
 use file;
@@ -26,7 +25,7 @@ function run(): void
 
     foreach ([$prefix . $eId . '_' . $act, $prefix . $act] as $call) {
         if (is_callable($call)) {
-            account\allowed('*/*') ? $call(...$args) : act\app_denied();
+            allowed('*/*') ? $call(...$args) : act\app_denied();
             return;
         }
     }
@@ -126,6 +125,34 @@ function i18n(string $key, string ...$args): string
     $key = cfg('i18n', $key) ?? $key;
 
     return $args ? vsprintf($key, $args) : $key;
+}
+
+/**
+ * Check access
+ */
+function allowed(string $key): bool
+{
+    $key = resolve($key);
+
+    if (!$cfg = cfg('priv', $key)) {
+        return false;
+    }
+
+    return !$cfg['active'] || $cfg['call'] && $cfg['call']() || data('admin') || in_array($key, data('priv') ?? []);
+}
+
+/**
+ * Check access to given URL considering rewrites
+ */
+function allowed_url(string $path): bool
+{
+    if (strpos($path, 'http') === 0) {
+        return true;
+    }
+
+    $parts = explode('/', ltrim(rewrite($path), '/'));
+
+    return cfg('ent', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
 }
 
 /**

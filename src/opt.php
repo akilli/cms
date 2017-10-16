@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace opt;
 
-use account;
 use attr;
 use app;
 use ent;
@@ -38,7 +37,7 @@ function priv(): array
     $data = [];
 
     foreach (app\cfg('priv') as $key => $priv) {
-        if ($priv['active'] && !$priv['call'] && account\allowed($key)) {
+        if ($priv['active'] && !$priv['call'] && app\allowed($key)) {
             $data[$key] = $priv['name'];
         }
     }

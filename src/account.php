@@ -63,31 +63,3 @@ function user(): bool
 {
     return data('id') > 0;
 }
-
-/**
- * Check access
- */
-function allowed(string $key): bool
-{
-    $key = app\resolve($key);
-
-    if (!$cfg = app\cfg('priv', $key)) {
-        return false;
-    }
-
-    return !$cfg['active'] || $cfg['call'] && $cfg['call']() || data('admin') || in_array($key, data('priv') ?? []);
-}
-
-/**
- * Check access to given URL considering rewrites
- */
-function allowed_url(string $path): bool
-{
-    if (strpos($path, 'http') === 0) {
-        return true;
-    }
-
-    $parts = explode('/', ltrim(app\rewrite($path), '/'));
-
-    return app\cfg('ent', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
-}
