@@ -31,6 +31,7 @@ nav  | navigation
 opt  | option
 priv | privilege
 req  | request
+rte  | rich text editor
 tab  | table
 tpl  | template
 val  | value
