@@ -238,10 +238,7 @@ function account_password(): void
             app\msg(i18n('Password and password confirmation must be identical'));
         } else {
             $data = array_replace(account\data(), ['password' => $data['password']]);
-
-            if (!ent\save('account', $data)) {
-                app\msg($data['_error']['password'] ?? i18n('Could not save %s', $data['name']));
-            }
+            ent\save('account', $data);
         }
     }
 
