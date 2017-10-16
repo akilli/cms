@@ -6,7 +6,6 @@ namespace sql;
 use const ent\CRIT;
 use function app\i18n;
 use app;
-use filter;
 use Exception;
 use PDO;
 use RuntimeException;
@@ -83,7 +82,7 @@ function cols(array $attrs, array $data): array
         $p = ':' . $attr['id'];
         $val = $attr['backend'] === 'json' ? json_encode($val) : $val;
         $cols['param'][$attr['col']] = [$p, $val, type($attr, $val)];
-        $cols['val'][$attr['col']] = $attr['backend'] === 'search' ? 'TO_TSVECTOR(' . $p . ')' : $p;
+        $cols['val'][$attr['col']] = $p;
     }
 
     return $cols;
@@ -161,32 +160,14 @@ function crit(array $crit, array $attrs): array
                 case CRIT['!~^']:
                 case CRIT['~$']:
                 case CRIT['!~$']:
-                    if ($attr['backend'] === 'search') {
-                        $op = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? '!!' : '@@';
+                    $not = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? ' NOT' : '';
+                    $pre = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~$'], CRIT['!~$']]) ? '%' : '';
+                    $post = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~^'], CRIT['!~^']]) ? '%' : '';
 
-                        foreach ($val as $k => $v) {
-                            $v = filter\param($v);
-
-                            if (!$v) {
-                                unset($val[$k]);
-                            } else {
-                                $val[$k] = $v;
-                            }
-                        }
-
+                    foreach ($val as $v) {
                         $p = $param . ++$z[$attr['id']];
-                        $cols['param'][] = [$p, implode(' | ', $val), PDO::PARAM_STR];
-                        $r[] = $attr['col'] . ' ' . $op . ' TO_TSQUERY(' . $p . ')';
-                    } else {
-                        $not = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? ' NOT' : '';
-                        $pre = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~$'], CRIT['!~$']]) ? '%' : '';
-                        $post = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~^'], CRIT['!~^']]) ? '%' : '';
-
-                        foreach ($val as $v) {
-                            $p = $param . ++$z[$attr['id']];
-                            $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
-                            $r[] = $attr['col'] . $not . ' ILIKE ' . $p;
-                        }
+                        $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
+                        $r[] = $attr['col'] . $not . ' ILIKE ' . $p;
                     }
                     break;
                 default:

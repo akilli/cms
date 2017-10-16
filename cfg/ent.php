@@ -129,12 +129,8 @@ return [
             'content' => [
                 'name' => 'Content',
                 'type' => 'rte',
-                'val' => '',
-            ],
-            'search' => [
-                'name' => 'Search',
-                'type' => 'search',
                 'searchable' => true,
+                'val' => '',
             ],
             'created' => [
                 'name' => 'Created',

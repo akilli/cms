@@ -13,7 +13,6 @@ return [
             'val' => [],
             'loader' => 'loader\json',
         ],
-        'search' => [],
         'text' => [],
         'time' => [],
         'varchar' => [],
@@ -138,10 +137,6 @@ return [
             'frontend' => 'textarea',
             'viewer' => 'viewer\rte',
             'validator' => 'validator\rte',
-        ],
-        'search' => [
-            'backend' => 'search',
-            'frontend' => 'textarea',
         ],
         'select' => [
             'backend' => 'varchar',
