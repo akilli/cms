@@ -1,6 +1,6 @@
 <?php
 namespace app;
-use function session\token;
+use session;
 /** @var callable $§ */
 ?>
 <section id="<?=$§('id');?>">
@@ -18,6 +18,6 @@ use function session\token;
             </div>
         </fieldset>
         <input type="submit" value="<?= i18n('Login');?>" />
-        <input type="hidden" name="token" value="<?= token();?>" />
+        <input type="hidden" name="token" value="<?= session\token();?>" />
     </form>
 </section>

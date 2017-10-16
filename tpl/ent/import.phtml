@@ -1,6 +1,6 @@
 <?php
 namespace app;
-use function session\token;
+use session;
 /** @var callable $§ */
 ?>
 <form id="<?=$§('id');?>" action="<?= url('*/import');?>" method="post" enctype="multipart/form-data">
@@ -8,5 +8,5 @@ use function session\token;
     <p><?= i18n('Import one or multiple files');?></p>
     <input type="file" name="data[import][]" required="required" multiple="multiple" />
     <input type="submit" value="file_upload" class="icon" title="<?= i18n('Upload');?>" />
-    <input type="hidden" name="token" value="<?= token();?>" />
+    <input type="hidden" name="token" value="<?= session\token();?>" />
 </form>
