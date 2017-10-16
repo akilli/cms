@@ -19,13 +19,12 @@ use Throwable;
  */
 function run(): void
 {
-    $prefix = 'act\\';
     $act = http\req('act');
     $eId = http\req('ent');
     $ent = cfg('ent', $eId);
     $args = $ent ? [$ent] : [];
 
-    foreach ([$prefix . $eId . '_' . $act, $prefix . $act] as $call) {
+    foreach ([NS['act'] . $eId . '_' . $act, NS['act'] . $act] as $call) {
         if (is_callable($call)) {
             allowed('*/*') ? $call(...$args) : act\app_denied();
             return;
@@ -141,7 +140,7 @@ function §(string $id): string
     $§ = event('section.' . $§['section'], $§);
     $§ = event('layout.section.' . $id, $§);
 
-    return ('section\\' . $§['section'])($§);
+    return (NS['section'] . $§['section'])($§);
 }
 
 /**

@@ -109,7 +109,7 @@ function frontend(array $attr, array $data): string
         $error = html\tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
-    if (($html = ('frontend\\' . $attr['frontend'])($attr, $data[$attr['id']]))) {
+    if (($html = (NS['frontend'] . $attr['frontend'])($attr, $data[$attr['id']]))) {
         return html\tag('label', ['for' => $attr['html']['id']], $label) . $html . $error;
     }
 
