@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace app;
 
 use function http\req;
-use function layout\§;
 use account;
 use act;
 use ent;
@@ -37,7 +36,6 @@ function run(): void
     }
 
     act\app_error();
-    echo §('root');
 }
 
 /**
