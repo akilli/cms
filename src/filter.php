@@ -3,14 +3,14 @@ declare(strict_types = 1);
 
 namespace filter;
 
-use function app\cfg;
+use app;
 
 /**
  * Special chars filter
  */
 function enc(string $var): string
 {
-    return htmlspecialchars($var, ENT_QUOTES, cfg('app', 'charset'), false);
+    return htmlspecialchars($var, ENT_QUOTES, app\cfg('app', 'charset'), false);
 }
 
 /**
@@ -18,7 +18,7 @@ function enc(string $var): string
  */
 function html(string $html): string
 {
-    return $html ? trim(strip_tags($html, cfg('filter', 'html'))) : '';
+    return $html ? trim(strip_tags($html, app\cfg('filter', 'html'))) : '';
 }
 
 /**
@@ -26,7 +26,7 @@ function html(string $html): string
  */
 function id(string $id, string $sep = '-'): string
 {
-    return trim(preg_replace('#[^a-z0-9]+#', $sep, strtolower(strtr($id, cfg('filter', 'id')))), $sep);
+    return trim(preg_replace('#[^a-z0-9]+#', $sep, strtolower(strtr($id, app\cfg('filter', 'id')))), $sep);
 }
 
 /**
