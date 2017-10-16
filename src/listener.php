@@ -8,13 +8,13 @@ use const app\{ALL, URL};
 use const attr\ATTR;
 use const ent\ENT;
 use const section\SECTION;
-use function http\req;
 use account;
 use app;
 use arr;
 use ent;
 use file;
 use filter;
+use http;
 use RuntimeException;
 
 /**
@@ -98,9 +98,9 @@ function cfg_layout(array $data): array
         $c = 'ent-app';
         $d = 'app/error';
     } else {
-        $b = 'act-' . req('act');
-        $c = 'ent-' . req('ent');
-        $d = req('path');
+        $b = 'act-' . http\req('act');
+        $c = 'ent-' . http\req('ent');
+        $d = http\req('path');
     }
 
     $data = array_replace_recursive($data[ALL], $data[$a] ?? [], $data[$b] ?? [], $data[$c] ?? [], $data[$d] ?? []);
@@ -154,7 +154,7 @@ function cfg_toolbar(array $data): array
  */
 function ent_postsave(array $data): array
 {
-    $file = req('file');
+    $file = http\req('file');
 
     foreach ($data['_ent']['attr'] as $aId => $attr) {
         if ($attr['frontend'] !== 'file' || empty($data[$aId])) {

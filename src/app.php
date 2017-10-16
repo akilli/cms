@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace app;
 
-use function http\req;
 use account;
 use act;
 use ent;
 use file;
+use http;
 use session;
 use ErrorException;
 use InvalidArgumentException;
@@ -23,8 +23,8 @@ const URL = ['asset' => '/asset/', 'media' => '/media/view/', 'page' => '.html',
 function run(): void
 {
     $prefix = 'act\\';
-    $act = req('act');
-    $eId = req('ent');
+    $act = http\req('act');
+    $eId = http\req('ent');
     $ent = cfg('ent', $eId);
     $args = $ent ? [$ent] : [];
 
@@ -137,7 +137,7 @@ function i18n(string $key, string ...$args): string
  */
 function resolve(string $path): string
 {
-    return preg_replace(['#^\*/#', '#^([^/]+)/\*($|/)#'], [req('ent') . '/', '$1/' . req('act') . '$2'], $path);
+    return preg_replace(['#^\*/#', '#^([^/]+)/\*($|/)#'], [http\req('ent') . '/', '$1/' . http\req('act') . '$2'], $path);
 }
 
 /**

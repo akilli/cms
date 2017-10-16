@@ -4,11 +4,11 @@ declare(strict_types = 1);
 namespace section;
 
 use const ent\CRIT;
-use function http\req;
 use app;
 use arr;
 use ent;
 use html;
+use http;
 use layout;
 use session;
 
@@ -57,7 +57,7 @@ function msg(array $§): string
  */
 function nav(array $§): string
 {
-    $§['vars'] += ['mode' => null, 'current' => req('id')];
+    $§['vars'] += ['mode' => null, 'current' => http\req('id')];
     $cur = $§['vars']['current'] ? ent\one('page', [['id', $§['vars']['current']], ['active', true]]) : null;
     $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]]]) : $cur;
     $crit = [['active', true]];

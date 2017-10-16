@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace act;
 
 use const ent\CRIT;
-use function http\req;
 use account;
 use arr;
 use app;
@@ -27,7 +26,7 @@ function admin(array $ent): void
  */
 function index(array $ent): void
 {
-    $act = req('act');
+    $act = http\req('act');
     $attrs = ent\attr($ent, $act);
     $opts = ['limit' => app\cfg('app', 'limit')];
     $crit = [];
@@ -38,7 +37,7 @@ function index(array $ent): void
 
     $p = ['page' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
     $sessKey = 'param/' . $ent['id'] . '/' . $act;
-    $rp = req('param') ?: (array) session\get($sessKey);
+    $rp = http\req('param') ?: (array) session\get($sessKey);
     $p = array_intersect_key($rp, $p) + $p;
 
     if ($p['q'] && ($q = array_filter(explode(' ', $p['q'])))) {
@@ -78,8 +77,8 @@ function index(array $ent): void
  */
 function edit(array $ent): void
 {
-    $data = req('data');
-    $id = req('id');
+    $data = http\req('data');
+    $id = http\req('id');
 
     if ($data) {
         $data['id'] = $id;
@@ -102,7 +101,7 @@ function edit(array $ent): void
  */
 function form(array $ent): void
 {
-    $data = req('data');
+    $data = http\req('data');
 
     if ($data) {
         $data['active'] = true;
@@ -123,7 +122,7 @@ function form(array $ent): void
  */
 function delete(array $ent): void
 {
-    if ($id = req('id')) {
+    if ($id = http\req('id')) {
         ent\delete($ent['id'], [['id', $id]]);
     } else {
         app\msg(app\i18n('Nothing selected for deletion'));
@@ -137,7 +136,7 @@ function delete(array $ent): void
  */
 function view(array $ent): void
 {
-    $data = ent\one($ent['id'], [['id', req('id')]]);
+    $data = ent\one($ent['id'], [['id', http\req('id')]]);
 
     if (!$data || !empty($ent['attr']['active']) && empty($data['active']) && !account\allowed('*/edit')) {
         app_error();
@@ -198,7 +197,7 @@ function media_browser(array $ent): void
  */
 function media_view(array $ent): void
 {
-    if (!$data = ent\one($ent['id'], [['id', req('id')]])) {
+    if (!$data = ent\one($ent['id'], [['id', http\req('id')]])) {
         http_response_code(404);
         exit;
     }
@@ -215,12 +214,12 @@ function media_view(array $ent): void
  */
 function media_import(): void
 {
-    $data = req('data')['import'] ?? [];
+    $data = http\req('data')['import'] ?? [];
 
     foreach ($data as $key => $name) {
         if (is_file(app\path('data', $name))) {
             app\msg(app\i18n('File %s already exists', $name));
-        } elseif (!file\upload(req('file')['import'][$key]['tmp_name'], $name)) {
+        } elseif (!file\upload(http\req('file')['import'][$key]['tmp_name'], $name)) {
             app\msg(app\i18n('File upload failed for %s', $name));
         }
     }
@@ -233,7 +232,7 @@ function media_import(): void
  */
 function account_password(): void
 {
-    if ($data = req('data')) {
+    if ($data = http\req('data')) {
         if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
             app\msg(app\i18n('Password and password confirmation must be identical'));
         } else {
@@ -254,7 +253,7 @@ function account_login(): void
         http\redirect();
     }
 
-    if ($data = req('data')) {
+    if ($data = http\req('data')) {
         if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
             session\regenerate();
             session\set('account', $data['id']);
