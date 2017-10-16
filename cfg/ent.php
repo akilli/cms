@@ -24,7 +24,7 @@ return [
             'priv' => [
                 'name' => 'Privileges',
                 'type' => 'json',
-                'opt' => 'opt\priv',
+                'opt' => 'priv',
             ],
             'active' => [
                 'name' => 'Active',

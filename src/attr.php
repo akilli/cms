@@ -149,7 +149,7 @@ function opt(array $attr): array
     }
 
     if (is_string($attr['opt'])) {
-        return $attr['opt']($attr);
+        return ('opt\\' . $attr['opt'])($attr);
     }
 
     return $attr['opt'];
