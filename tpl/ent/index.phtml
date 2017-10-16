@@ -1,8 +1,8 @@
 <?php
 namespace app;
-use function account\allowed;
-use function attr\viewer;
-use function layout\§;
+use account;
+use attr;
+use layout;
 /** @var callable $§ */
 ?>
 <section id="<?=$§('id');?>">
@@ -11,9 +11,9 @@ use function layout\§;
     <?php foreach ($§('data') as $data):?>
     <article>
         <?php foreach ($§('attr') as $attr):?>
-            <?php if (!$html = viewer($attr, $data)) continue;?>
+            <?php if (!$html = attr\viewer($attr, $data)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
-                <?php if (allowed($data['_ent']['id'] . '/view')):?>
+                <?php if (account\allowed($data['_ent']['id'] . '/view')):?>
         <h1><a href="<?= $data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a></h1>
                 <?php else:?>
         <h1><?=$html;?></h1>
@@ -26,7 +26,7 @@ use function layout\§;
         <?php endforeach;?>
     </article>
         <?php endforeach;?>
-    <?= §('pager');?>
+    <?= layout\§('pager');?>
 <?php else:;?>
     <p><?= i18n('No entries found');?></p>
 <?php endif;?>
