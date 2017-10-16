@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace app;
 
-use layout;
-
 /**
  * Initialize application
  */
@@ -22,4 +20,4 @@ set_exception_handler('app\exception');
  * Run application
  */
 run();
-echo layout\§('root');
+echo §('root');

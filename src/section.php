@@ -20,7 +20,7 @@ function container(array $§): string
     $html = '';
 
     foreach (arr\order(arr\filter(layout\data(), [['parent_id', $§['id']]]), ['sort' => 'asc']) as $child) {
-        $html .= layout\§($child['id']);
+        $html .= app\§($child['id']);
     }
 
     return $html && $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;

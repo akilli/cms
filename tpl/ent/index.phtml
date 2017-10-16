@@ -1,7 +1,6 @@
 <?php
 namespace app;
 use attr;
-use layout;
 /** @var callable $§ */
 ?>
 <section id="<?=$§('id');?>">
@@ -25,7 +24,7 @@ use layout;
         <?php endforeach;?>
     </article>
         <?php endforeach;?>
-    <?= layout\§('pager');?>
+    <?= §('pager');?>
 <?php else:;?>
     <p><?= i18n('No entries found');?></p>
 <?php endif;?>

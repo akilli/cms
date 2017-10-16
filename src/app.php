@@ -128,6 +128,21 @@ function i18n(string $key, string ...$args): string
 }
 
 /**
+ * Render section
+ */
+function §(string $id): string
+{
+    if (!($§ = data($id)) || !$§['active'] || $§['priv'] && !allowed($§['priv'])) {
+        return '';
+    }
+
+    $§ = event('section.' . $§['section'], $§);
+    $§ = event('layout.section.' . $id, $§);
+
+    return ('section\\' . $§['section'])($§);
+}
+
+/**
  * Check access
  */
 function allowed(string $key): bool

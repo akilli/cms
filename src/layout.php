@@ -7,21 +7,6 @@ use app;
 use InvalidArgumentException;
 
 /**
- * Layout section
- */
-function §(string $id): string
-{
-    if (!($§ = data($id)) || !$§['active'] || $§['priv'] && !app\allowed($§['priv'])) {
-        return '';
-    }
-
-    $§ = app\event('section.' . $§['section'], $§);
-    $§ = app\event('layout.section.' . $id, $§);
-
-    return ('section\\' . $§['section'])($§);
-}
-
-/**
  * Get or add layout section
  *
  * @throws InvalidArgumentException
