@@ -45,7 +45,6 @@ const DATETIME = ['b' => 'Y-m-d H:i:s', 'f' => 'Y-m-d\TH:i'];
 const ENT = ['id' => null, 'name' => null, 'tab' => null, 'type' => 'db', 'act' => [], 'attr' => []];
 const OPTS = ['mode' => 'all', 'index' => 'id', 'select' => [], 'order' => [], 'limit' => 0, 'offset' => 0];
 const LOG = 'php://stdout';
-const NS = ['act' => 'act\\', 'frontend' => 'frontend\\', 'section' => 'section\\'];
 const PRIV = ['name' => null, 'call' => null, 'active' => true, 'sort' => 0];
 const SECTION = [
     'id' => null,
