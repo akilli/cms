@@ -1,22 +1,22 @@
 <?php
 namespace app;
-use function http\req;
-use function layout\§;
+use http;
+use layout;
 /** @var callable $§ */
 ?>
 <!doctype html>
-<html data-path="<?= req('path');?>">
+<html data-path="<?= http\req('path');?>">
     <head>
-        <?= §('head');?>
+        <?= layout\§('head');?>
     </head>
     <body>
-        <?= §('top');?>
-        <?= §('msg');?>
+        <?= layout\§('top');?>
+        <?= layout\§('msg');?>
         <main>
-            <?= §('left');?>
-            <?= §('main');?>
-            <?= §('right');?>
+            <?= layout\§('left');?>
+            <?= layout\§('main');?>
+            <?= layout\§('right');?>
         </main>
-        <?= §('bottom');?>
+        <?= layout\§('bottom');?>
     </body>
 </html>
