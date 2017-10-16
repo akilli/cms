@@ -6,9 +6,9 @@ namespace sql;
 use const ent\CRIT;
 use function app\i18n;
 use app;
-use Exception;
 use PDO;
 use RuntimeException;
+use Throwable;
 
 /**
  * Database
@@ -38,7 +38,7 @@ function trans(callable $call): bool
         $call();
         $level === 1 ? db()->commit() : db()->exec('RELEASE SAVEPOINT LEVEL_' . $level);
         --$level;
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         $level === 1 ? db()->rollBack() : db()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
         --$level;
         app\log((string) $e);
