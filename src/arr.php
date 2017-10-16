@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace arr;
 
-use const ent\CRIT;
 use app;
 use RuntimeException;
 

@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace sql;
 
-use const ent\CRIT;
 use app;
 use PDO;
 use RuntimeException;

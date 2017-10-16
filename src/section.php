@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace section;
 
-use const ent\CRIT;
 use app;
 use arr;
 use ent;

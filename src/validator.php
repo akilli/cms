@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace validator;
 
-use const attr\{DATE, DATETIME, TIME};
 use app;
 use file;
 use filter;

@@ -9,8 +9,6 @@ use filter;
 use session;
 use RuntimeException;
 
-const UPLOAD = ['error', 'name', 'size', 'tmp_name', 'type'];
-
 /**
  * Redirect
  */

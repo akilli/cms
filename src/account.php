@@ -7,8 +7,6 @@ use app;
 use ent;
 use session;
 
-const PRIV = ['name' => null, 'call' => null, 'active' => true, 'sort' => 0];
-
 /**
  * Initializes account from session and stores account data in registry
  *
@@ -25,7 +23,7 @@ function data(string $key = null)
         if ($id && ($data = ent\one('account', [['id', $id], ['active', true]]))) {
             $role = ent\one('role', [['id', $data['role_id']], ['active', true]]);
             $data['priv'] = $role ? $role['priv'] : [];
-            $data['admin'] = in_array('_all_', $data['priv']);
+            $data['admin'] = in_array(ALL, $data['priv']);
             unset($data['_old'], $data['_ent']);
         } else {
             session\set('account', null);

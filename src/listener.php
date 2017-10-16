@@ -3,11 +3,6 @@ declare(strict_types = 1);
 
 namespace listener;
 
-use const account\PRIV;
-use const app\URL;
-use const attr\ATTR;
-use const ent\ENT;
-use const layout\SECTION;
 use account;
 use app;
 use arr;
@@ -103,7 +98,7 @@ function cfg_layout(array $data): array
         $d = http\req('path');
     }
 
-    $data = array_replace_recursive($data['_all_'], $data[$a] ?? [], $data[$b] ?? [], $data[$c] ?? [], $data[$d] ?? []);
+    $data = array_replace_recursive($data[ALL], $data[$a] ?? [], $data[$b] ?? [], $data[$c] ?? [], $data[$d] ?? []);
 
     foreach ($data as $id => $§) {
         $data[$id] = array_replace_recursive(SECTION, $§, ['id' => $id]);

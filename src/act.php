@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace act;
 
-use const ent\CRIT;
 use account;
 use arr;
 use app;

@@ -10,34 +10,6 @@ use html;
 use opt;
 use DomainException;
 
-const ATTR = [
-    'id' => null,
-    'name' => null,
-    'col' => null,
-    'auto' => false,
-    'type' => null,
-    'backend' => null,
-    'frontend' => null,
-    'nullable' => false,
-    'required' => false,
-    'unique' => false,
-    'multiple' => false,
-    'searchable' => false,
-    'opt' => [],
-    'val' => null,
-    'min' => 0,
-    'max' => 0,
-    'minlength' => 0,
-    'maxlength' => 0,
-    'html' => [],
-    'validator' => null,
-    'loader' => null,
-    'viewer' => null,
-];
-const DATE = ['b' => 'Y-m-d', 'f' => 'Y-m-d'];
-const DATETIME = ['b' => 'Y-m-d H:i:s', 'f' => 'Y-m-d\TH:i'];
-const TIME = ['b' => 'H:i:s', 'f' => 'H:i'];
-
 /**
  * Validator
  *

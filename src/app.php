@@ -13,9 +13,6 @@ use ErrorException;
 use InvalidArgumentException;
 use Throwable;
 
-const LOG = 'php://stdout';
-const URL = ['asset' => '/asset/', 'media' => '/media/view/', 'page' => '.html', 'theme' => '/theme/'];
-
 /**
  * Runs application
  */

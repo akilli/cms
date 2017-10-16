@@ -9,37 +9,6 @@ use sql;
 use RuntimeException;
 use Throwable;
 
-const ENT = [
-    'id' => null,
-    'name' => null,
-    'tab' => null,
-    'type' => 'db',
-    'act' => [],
-    'attr' => []
-];
-const CRIT = [
-    '=' => '=',
-    '!=' => '!=',
-    '>' => '>',
-    '>=' => '>=',
-    '<' => '>',
-    '<=' => '<=',
-    '~' => '~',
-    '!~' => '!~',
-    '~^' => '~^',
-    '!~^' => '!~^',
-    '~$' => '~$',
-    '!~$' => '!~$',
-];
-const OPTS = [
-    'mode' => 'all',
-    'index' => 'id',
-    'select' => [],
-    'order' => [],
-    'limit' => 0,
-    'offset' => 0
-];
-
 /**
  * Size entity
  */

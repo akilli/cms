@@ -3,9 +3,7 @@ declare(strict_types = 1);
 
 namespace frontend;
 
-use const attr\{DATE, DATETIME, TIME};
 use app;
-use attr;
 use filter;
 use html;
 
