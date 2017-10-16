@@ -151,7 +151,7 @@ return [
             'pos' => [
                 'name' => 'Position',
                 'type' => 'text',
-                'viewer' => 'viewer\pos',
+                'viewer' => 'pos',
             ],
         ],
     ],
@@ -182,7 +182,7 @@ return [
             'size' => [
                 'name' => 'Size',
                 'type' => 'int',
-                'viewer' => 'viewer\filesize',
+                'viewer' => 'filesize',
             ],
             'file' => [
                 'name' => 'File',

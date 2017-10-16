@@ -11,7 +11,7 @@ return [
         'json' => [
             'multiple' => true,
             'val' => [],
-            'loader' => 'loader\json',
+            'loader' => 'json',
         ],
         'text' => [],
         'time' => [],
@@ -19,57 +19,57 @@ return [
     ],
     'frontend' => [
         'checkbox' => [
-            'validator' => 'validator\opt',
-            'viewer' => 'viewer\opt',
+            'validator' => 'opt',
+            'viewer' => 'opt',
         ],
         'date' => [
-            'validator' => 'validator\date',
-            'viewer' => 'viewer\date',
+            'validator' => 'date',
+            'viewer' => 'date',
         ],
         'datetime' => [
-            'validator' => 'validator\datetime',
-            'viewer' => 'viewer\datetime',
+            'validator' => 'datetime',
+            'viewer' => 'datetime',
         ],
         'email' => [
-            'validator' => 'validator\email',
+            'validator' => 'email',
         ],
         'file' => [
-            'validator' => 'validator\file',
-            'viewer' => 'viewer\file',
+            'validator' => 'file',
+            'viewer' => 'file',
         ],
         'number' => [],
         'password' => [
-            'validator' => 'validator\password',
+            'validator' => 'password',
         ],
         'radio' => [
-            'validator' => 'validator\opt',
-            'viewer' => 'viewer\opt',
+            'validator' => 'opt',
+            'viewer' => 'opt',
         ],
         'range' => [],
         'select' => [
-            'validator' => 'validator\opt',
-            'viewer' => 'viewer\opt',
+            'validator' => 'opt',
+            'viewer' => 'opt',
         ],
         'text' => [
-            'validator' => 'validator\text',
+            'validator' => 'text',
         ],
         'textarea' => [
-            'validator' => 'validator\text',
+            'validator' => 'text',
         ],
         'time' => [
-            'validator' => 'validator\time',
-            'viewer' => 'viewer\time',
+            'validator' => 'time',
+            'viewer' => 'time',
         ],
         'url' => [
-            'validator' => 'validator\url',
+            'validator' => 'url',
         ],
     ],
     'type' => [
         'audio' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'validator' => 'validator\audio',
-            'viewer' => 'viewer\audio',
+            'validator' => 'audio',
+            'viewer' => 'audio',
         ],
         'bool' => [
             'backend' => 'bool',
@@ -94,8 +94,8 @@ return [
         'embed' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'validator' => 'validator\embed',
-            'viewer' => 'viewer\embed',
+            'validator' => 'embed',
+            'viewer' => 'embed',
         ],
         'ent' => [
             'backend' => 'int',
@@ -108,13 +108,13 @@ return [
         'iframe' => [
             'backend' => 'varchar',
             'frontend' => 'url',
-            'viewer' => 'viewer\iframe',
+            'viewer' => 'iframe',
         ],
         'image' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'validator' => 'validator\image',
-            'viewer' => 'viewer\image',
+            'validator' => 'image',
+            'viewer' => 'image',
         ],
         'int' => [
             'backend' => 'int',
@@ -139,8 +139,8 @@ return [
         'rte' => [
             'backend' => 'text',
             'frontend' => 'textarea',
-            'viewer' => 'viewer\rte',
-            'validator' => 'validator\rte',
+            'viewer' => 'rte',
+            'validator' => 'rte',
         ],
         'select' => [
             'backend' => 'varchar',
@@ -165,8 +165,8 @@ return [
         'video' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'validator' => 'validator\video',
-            'viewer' => 'viewer\video',
+            'validator' => 'video',
+            'viewer' => 'video',
         ],
     ],
 ];

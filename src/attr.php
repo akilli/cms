@@ -28,7 +28,7 @@ function validator(array $attr, array $data): array
     }
 
     if ($attr['validator']) {
-        $data[$attr['id']] = $attr['validator']($data[$attr['id']], opt($attr));
+        $data[$attr['id']] = ('validator\\' . $attr['validator'])($data[$attr['id']], opt($attr));
     }
 
     if ($attr['unique'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && ent\size($data['_ent']['id'], [[$attr['id'], $data[$attr['id']]]])) {
@@ -63,7 +63,7 @@ function loader(array $attr, array $data)
 {
     $data[$attr['id']] = cast($attr, $data[$attr['id']] ?? null);
 
-    return $attr['loader'] ? $attr['loader']($data[$attr['id']]) : $data[$attr['id']];
+    return $attr['loader'] ? ('loader\\' . $attr['loader'])($data[$attr['id']]) : $data[$attr['id']];
 }
 
 /**
@@ -125,7 +125,7 @@ function viewer(array $attr, array $data): string
     }
 
     if ($attr['viewer']) {
-        return $attr['viewer']($data[$attr['id']], opt($attr));
+        return ('viewer\\' . $attr['viewer'])($data[$attr['id']], opt($attr));
     }
 
     return filter\enc((string) $data[$attr['id']]);
