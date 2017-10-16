@@ -8,7 +8,6 @@ use arr;
 use ent;
 use html;
 use http;
-use layout;
 use session;
 
 /**
@@ -19,7 +18,7 @@ function container(array $§): string
     $§['vars']['tag'] = $§['vars']['tag'] ?? null;
     $html = '';
 
-    foreach (arr\order(arr\filter(layout\data(), [['parent_id', $§['id']]]), ['sort' => 'asc']) as $child) {
+    foreach (arr\order(arr\filter(app\layout(), [['parent_id', $§['id']]]), ['sort' => 'asc']) as $child) {
         $html .= app\§($child['id']);
     }
 

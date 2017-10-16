@@ -9,7 +9,6 @@ use app;
 use ent;
 use file;
 use http;
-use layout;
 use session;
 
 /**
@@ -65,10 +64,10 @@ function index(array $ent): void
     }
 
     session\set($sessKey, $p);
-    layout\vars('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opts), 'params' => $p, 'title' => $ent['name']]);
-    layout\vars('pager', ['limit' => $opts['limit'], 'params' => $p, 'size' => $size]);
-    layout\vars('search', ['q' => $p['q'] ?? '']);
-    layout\vars('head', ['title' => $ent['name']]);
+    app\layout('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opts), 'params' => $p, 'title' => $ent['name']]);
+    app\layout('pager', ['limit' => $opts['limit'], 'params' => $p, 'size' => $size]);
+    app\layout('search', ['q' => $p['q'] ?? '']);
+    app\layout('head', ['title' => $ent['name']]);
 }
 
 /**
@@ -91,8 +90,8 @@ function edit(array $ent): void
         $data = ent\data($ent['id']);
     }
 
-    layout\vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'edit'), 'title' => $ent['name']]);
-    layout\vars('head', ['title' => $ent['name']]);
+    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'edit'), 'title' => $ent['name']]);
+    app\layout('head', ['title' => $ent['name']]);
 }
 
 /**
@@ -112,8 +111,8 @@ function form(array $ent): void
         $data = ent\data($ent['id']);
     }
 
-    layout\vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'form'), 'title' => $ent['name']]);
-    layout\vars('head', ['title' => $ent['name']]);
+    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'form'), 'title' => $ent['name']]);
+    app\layout('head', ['title' => $ent['name']]);
 }
 
 /**
@@ -142,8 +141,8 @@ function view(array $ent): void
         return;
     }
 
-    layout\vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'view')]);
-    layout\vars('head', ['title' => $data['name']]);
+    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'view')]);
+    app\layout('head', ['title' => $data['name']]);
 }
 
 /**
@@ -152,8 +151,8 @@ function view(array $ent): void
 function app_denied(): void
 {
     http_response_code(403);
-    layout\vars('head', ['title' => app\i18n('Access denied')]);
-    layout\vars('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Access denied')]);
+    app\layout('head', ['title' => app\i18n('Access denied')]);
+    app\layout('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Access denied')]);
 }
 
 /**
@@ -162,8 +161,8 @@ function app_denied(): void
 function app_error(): void
 {
     http_response_code(404);
-    layout\vars('head', ['title' => app\i18n('Page not found')]);
-    layout\vars('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Page not found')]);
+    app\layout('head', ['title' => app\i18n('Page not found')]);
+    app\layout('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Page not found')]);
 }
 
 /**
@@ -240,7 +239,7 @@ function account_password(): void
         }
     }
 
-    layout\vars('head', ['title' => app\i18n('Password')]);
+    app\layout('head', ['title' => app\i18n('Password')]);
 }
 
 /**
@@ -263,7 +262,7 @@ function account_login(): void
         app\msg(app\i18n('Invalid name and password combination'));
     }
 
-    layout\vars('head', ['title' => app\i18n('Login')]);
+    app\layout('head', ['title' => app\i18n('Login')]);
 }
 
 /**

@@ -8,7 +8,6 @@ use act;
 use ent;
 use file;
 use http;
-use layout;
 use session;
 use ErrorException;
 use InvalidArgumentException;
@@ -129,11 +128,38 @@ function i18n(string $key, string ...$args): string
 }
 
 /**
+ * Returns layout section and optionally sets variables
+ */
+function layout(string $id = null, array $vars = null): ?array
+{
+    if (($data = & data('layout')) === null) {
+        $data = cfg('layout');
+    }
+
+    // Get whole layout
+    if ($id === null) {
+        return $data;
+    }
+
+    // Invalid section
+    if (empty($data[$id])) {
+        return null;
+    }
+
+    // Add variables to section
+    if ($vars) {
+        $data[$id]['vars'] = array_replace($data[$id]['vars'], $vars);
+    }
+
+    return $data[$id];
+}
+
+/**
  * Render section
  */
 function §(string $id): string
 {
-    if (!($§ = layout\data($id)) || !$§['active'] || $§['priv'] && !allowed($§['priv'])) {
+    if (!($§ = layout($id)) || !$§['active'] || $§['priv'] && !allowed($§['priv'])) {
         return '';
     }
 
