@@ -90,7 +90,7 @@ function event(string $event, array $data): array
 {
     if (($listeners = cfg('listener', $event)) && asort($listeners, SORT_NUMERIC)) {
         foreach (array_keys($listeners) as $call) {
-            $data = $call($data);
+            $data = ('listener\\' . $call)($data);
         }
     }
 
