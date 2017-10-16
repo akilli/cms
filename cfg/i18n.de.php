@@ -50,7 +50,6 @@ return [
     'Next' => 'Weiter',
     'No' => 'Nein',
     'No entries found' => 'Keine Einträge gefunden',
-    'No or invalid section for ID %s' => 'Fehlender oder ungültiger Layoutbereich für ID %s',
     'Nothing selected for deletion' => 'Nichts zum Löschen ausgewählt',
     'Page not found' => 'Seite nicht gefunden',
     'Pages' => 'Seiten',
