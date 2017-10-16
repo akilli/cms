@@ -54,9 +54,7 @@ function & data(string $id): ?array
  */
 function path(string $dir, string $id = null): string
 {
-    $data = & data('path');
-
-    if ($data === null) {
+    if (($data = & data('path')) === null) {
         $root = dirname(__DIR__);
         $data = ['cfg' => $root .'/cfg', 'data' => '/data', 'theme' => $root .'/www/theme', 'tpl' => $root .'/tpl'];
     }
@@ -73,9 +71,7 @@ function path(string $dir, string $id = null): string
  */
 function cfg(string $id, string $key = null)
 {
-    $data = & data('cfg.' . $id);
-
-    if ($data === null) {
+    if (($data = & data('cfg.' . $id)) === null) {
         $data = file\load(path('cfg', $id . '.php'));
         $data = event('cfg.' . $id, $data);
     }

@@ -14,9 +14,7 @@ use session;
  */
 function data(string $key = null)
 {
-    $data = & app\data('account');
-
-    if ($data === null) {
+    if (($data = & app\data('account')) === null) {
         $data = [];
         $id = (int) session\get('account');
 

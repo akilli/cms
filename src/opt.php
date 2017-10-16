@@ -12,9 +12,7 @@ use ent;
  */
 function ent(string $eId): array
 {
-    $data = & app\data('opt.ent.' . $eId);
-
-    if ($data === null) {
+    if (($data = & app\data('opt.ent.' . $eId)) === null) {
         if ($eId === 'page') {
             $data = [];
 
