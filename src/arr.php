@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace arr;
 
 use const ent\CRIT;
-use function app\i18n;
+use app;
 use RuntimeException;
 
 /**
@@ -29,7 +29,7 @@ function filter(array $data, array $crit): array
                 $op = $c[2] ?? CRIT['='];
 
                 if (empty(CRIT[$op]) || is_array($val) && !$val) {
-                    throw new RuntimeException(i18n('Invalid criteria'));
+                    throw new RuntimeException(app\i18n('Invalid criteria'));
                 }
 
                 switch ($op) {
@@ -94,7 +94,7 @@ function filter(array $data, array $crit): array
                         };
                         break;
                     default:
-                        throw new RuntimeException(i18n('Invalid criteria'));
+                        throw new RuntimeException(app\i18n('Invalid criteria'));
                 }
 
                 $val = is_array($val) ? $val : [$val];

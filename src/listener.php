@@ -8,11 +8,10 @@ use const app\{ALL, URL};
 use const attr\ATTR;
 use const ent\ENT;
 use const section\SECTION;
-use function app\i18n;
 use function http\req;
 use account;
-use arr;
 use app;
+use arr;
 use ent;
 use file;
 use filter;
@@ -41,23 +40,23 @@ function cfg_ent(array $data): array
         $ent = array_replace(ENT, $ent);
 
         if (!$ent['name'] || !$ent['type'] || !$ent['attr']) {
-            throw new RuntimeException(i18n('Invalid entity configuration'));
+            throw new RuntimeException(app\i18n('Invalid entity configuration'));
         }
 
         $ent['id'] = $eId;
-        $ent['name'] = i18n($ent['name']);
+        $ent['name'] = app\i18n($ent['name']);
         $ent['tab'] = $ent['tab'] ?: $ent['id'];
 
         foreach ($ent['attr'] as $aId => $attr) {
             if (empty($attr['name']) || empty($attr['type']) || !($type = $cfg['type'][$attr['type']] ?? null)) {
-                throw new RuntimeException(i18n('Invalid attribute configuration'));
+                throw new RuntimeException(app\i18n('Invalid attribute configuration'));
             }
 
             $backend = $cfg['backend'][$attr['backend'] ?? $type['backend']];
             $frontend = $cfg['frontend'][$attr['frontend'] ?? $type['frontend']];
             $attr = array_replace(ATTR, $backend, $frontend, $type, $attr);
             $attr['id'] = $aId;
-            $attr['name'] = i18n($attr['name']);
+            $attr['name'] = app\i18n($attr['name']);
 
             if ($attr['col'] === false) {
                 $attr['col'] = null;
@@ -119,14 +118,14 @@ function cfg_layout(array $data): array
 function cfg_priv(array $data): array
 {
     foreach ($data as $id => $item) {
-        $data[$id]['name'] = !empty($item['name']) ? i18n($item['name']) : '';
+        $data[$id]['name'] = !empty($item['name']) ? app\i18n($item['name']) : '';
         $data[$id] = array_replace(PRIV, $data[$id]);
     }
 
     foreach (app\cfg('ent') as $eId => $ent) {
         foreach (array_keys($ent['act']) as $act) {
             $id = $eId . '/' . $act;
-            $data[$id]['name'] = $ent['name'] . ' ' . i18n(ucwords($act));
+            $data[$id]['name'] = $ent['name'] . ' ' . app\i18n(ucwords($act));
             $data[$id] = array_replace(PRIV, $data[$id]);
         }
     }
@@ -141,7 +140,7 @@ function cfg_toolbar(array $data): array
 {
     foreach ($data as $key => $item) {
         if (account\allowed_url($item['url'])) {
-            $data[$key]['name'] = i18n($item['name']);
+            $data[$key]['name'] = app\i18n($item['name']);
         } else {
             unset($data[$key]);
         }
@@ -163,11 +162,11 @@ function ent_postsave(array $data): array
         }
 
         if (is_file(app\path('data', $data[$aId])) && ($data['_old'][$aId] ?? null) !== $data[$aId]) {
-            throw new RuntimeException(i18n('File %s already exists', $data[$aId]));
+            throw new RuntimeException(app\i18n('File %s already exists', $data[$aId]));
         }
 
         if (!file\upload($file[$aId]['tmp_name'], $data[$aId])) {
-            throw new RuntimeException(i18n('File upload failed for %s', $data[$aId]));
+            throw new RuntimeException(app\i18n('File upload failed for %s', $data[$aId]));
         }
     }
 
@@ -183,7 +182,7 @@ function page_presave(array $data): array
     $oldName = $data['_old']['name'] ?? null;
 
     if ($data['parent_id'] && $oldId && in_array($oldId, ent\one('page', [['id', $data['parent_id']]])['path'])) {
-        throw new RuntimeException(i18n('Cannot assign the page itself or a child page as parent'));
+        throw new RuntimeException(app\i18n('Cannot assign the page itself or a child page as parent'));
     }
 
     if ($data['name'] !== $oldName) {

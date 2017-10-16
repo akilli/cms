@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace frontend;
 
 use const attr\{DATE, DATETIME, TIME};
-use function app\i18n;
+use app;
 use attr;
 use filter;
 use html;
@@ -19,7 +19,7 @@ function checkbox(array $attr, $val): string
     }
 
     if ($attr['backend'] === 'bool') {
-        $attr['opt'] = [1 => i18n('Yes')];
+        $attr['opt'] = [1 => app\i18n('Yes')];
     }
 
     $html = '';
@@ -74,7 +74,7 @@ function select(array $attr, $val): string
         $val = !$val && !is_numeric($val) ? [] : [$val];
     }
 
-    $html = html\tag('option', ['value' => ''], i18n('Please choose'));
+    $html = html\tag('option', ['value' => ''], app\i18n('Please choose'));
 
     foreach ($attr['opt'] as $optId => $optVal) {
         $html .= html\tag('option', ['value' => $optId, 'selected' => in_array($optId, $val)], $optVal);

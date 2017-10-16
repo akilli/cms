@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace act;
 
 use const ent\CRIT;
-use function app\i18n;
 use function http\{redirect, req};
 use function layout\vars;
 use account;
@@ -126,7 +125,7 @@ function delete(array $ent): void
     if ($id = req('id')) {
         ent\delete($ent['id'], [['id', $id]]);
     } else {
-        app\msg(i18n('Nothing selected for deletion'));
+        app\msg(app\i18n('Nothing selected for deletion'));
     }
 
     redirect(app\url('*/admin'));
@@ -154,8 +153,8 @@ function view(array $ent): void
 function app_denied(): void
 {
     http_response_code(403);
-    vars('head', ['title' => i18n('Access denied')]);
-    vars('content', ['title' => i18n('Error'), 'message' => i18n('Access denied')]);
+    vars('head', ['title' => app\i18n('Access denied')]);
+    vars('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Access denied')]);
 }
 
 /**
@@ -164,8 +163,8 @@ function app_denied(): void
 function app_error(): void
 {
     http_response_code(404);
-    vars('head', ['title' => i18n('Page not found')]);
-    vars('content', ['title' => i18n('Error'), 'message' => i18n('Page not found')]);
+    vars('head', ['title' => app\i18n('Page not found')]);
+    vars('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Page not found')]);
 }
 
 /**
@@ -219,9 +218,9 @@ function media_import(): void
 
     foreach ($data as $key => $name) {
         if (is_file(app\path('data', $name))) {
-            app\msg(i18n('File %s already exists', $name));
+            app\msg(app\i18n('File %s already exists', $name));
         } elseif (!file\upload(req('file')['import'][$key]['tmp_name'], $name)) {
-            app\msg(i18n('File upload failed for %s', $name));
+            app\msg(app\i18n('File upload failed for %s', $name));
         }
     }
 
@@ -235,14 +234,14 @@ function account_password(): void
 {
     if ($data = req('data')) {
         if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
-            app\msg(i18n('Password and password confirmation must be identical'));
+            app\msg(app\i18n('Password and password confirmation must be identical'));
         } else {
             $data = array_replace(account\data(), ['password' => $data['password']]);
             ent\save('account', $data);
         }
     }
 
-    vars('head', ['title' => i18n('Password')]);
+    vars('head', ['title' => app\i18n('Password')]);
 }
 
 /**
@@ -258,14 +257,14 @@ function account_login(): void
         if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
             session\regenerate();
             session\set('account', $data['id']);
-            app\msg(i18n('Welcome %s', $data['name']));
+            app\msg(app\i18n('Welcome %s', $data['name']));
             redirect();
         }
 
-        app\msg(i18n('Invalid name and password combination'));
+        app\msg(app\i18n('Invalid name and password combination'));
     }
 
-    vars('head', ['title' => i18n('Login')]);
+    vars('head', ['title' => app\i18n('Login')]);
 }
 
 /**

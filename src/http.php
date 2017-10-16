@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace http;
 
-use function app\i18n;
 use app;
 use file;
 use filter;
@@ -91,7 +90,7 @@ function data(array $in): array
 
     foreach ($in as $k => $v) {
         if (!is_array($v)) {
-            throw new RuntimeException(i18n('Invalid data'));
+            throw new RuntimeException(app\i18n('Invalid data'));
         }
 
         $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === UPLOAD ? $v['name'] : data($v);
@@ -108,7 +107,7 @@ function data(array $in): array
 function file(array $in): array
 {
     if (!($keys = array_keys($in)) || !sort($keys) || $keys !== UPLOAD || !is_array($in['name'])) {
-        throw new RuntimeException(i18n('Invalid data'));
+        throw new RuntimeException(app\i18n('Invalid data'));
     }
 
     $out = [];
@@ -121,7 +120,7 @@ function file(array $in): array
         if (is_array($n)) {
             $f = file($f);
         } elseif ($e !== UPLOAD_ERR_OK || !is_uploaded_file($t) || !file\type($n)) {
-            app\msg(i18n('Invalid file %s', $n));
+            app\msg(app\i18n('Invalid file %s', $n));
             continue;
         }
 

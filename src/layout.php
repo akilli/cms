@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace layout;
 
 use function account\allowed;
-use function app\i18n;
 use app;
 use InvalidArgumentException;
 use const section\SECTION;
@@ -51,7 +50,7 @@ function data(string $id = null, array $§ = null): ?array
     $data[$id] = array_replace_recursive($data[$id] ?? SECTION, $§, ['id' => $id]);
 
     if (empty($data[$id]['section'])) {
-        throw new InvalidArgumentException(i18n('No or invalid section for ID %s', $id));
+        throw new InvalidArgumentException(app\i18n('No or invalid section for ID %s', $id));
     }
 
     return $data[$id];

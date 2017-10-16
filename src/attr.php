@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace attr;
 
-use function app\i18n;
+use app;
 use ent;
 use filter;
 use html;
@@ -60,11 +60,11 @@ function validator(array $attr, array $data): array
     }
 
     if ($attr['unique'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && ent\size($data['_ent']['id'], [[$attr['id'], $data[$attr['id']]]])) {
-        throw new DomainException(i18n('Value must be unique'));
+        throw new DomainException(app\i18n('Value must be unique'));
     }
 
     if ($attr['required'] && ($data[$attr['id']] === null || $data[$attr['id']] === '')) {
-        throw new DomainException(i18n('Value is required'));
+        throw new DomainException(app\i18n('Value is required'));
     }
 
     $vals = $attr['multiple'] && is_array($data[$attr['id']]) ? $data[$attr['id']] : [$data[$attr['id']]];
@@ -75,7 +75,7 @@ function validator(array $attr, array $data): array
             || $attr['minlength'] > 0 && strlen($val) < $attr['minlength']
             || $attr['maxlength'] > 0 && strlen($val) > $attr['maxlength']
         ) {
-            throw new DomainException(i18n('Value out of range'));
+            throw new DomainException(app\i18n('Value out of range'));
         }
     }
 
@@ -109,11 +109,11 @@ function frontend(array $attr, array $data): string
 
     if ($attr['required'] && !ignorable($attr, $data)) {
         $attr['html']['required'] = true;
-        $label .= ' ' . html\tag('em', ['class' => 'required'], i18n('Required'));
+        $label .= ' ' . html\tag('em', ['class' => 'required'], app\i18n('Required'));
     }
 
     if ($attr['unique']) {
-        $label .= ' ' . html\tag('em', ['class' => 'unique'], i18n('Unique'));
+        $label .= ' ' . html\tag('em', ['class' => 'unique'], app\i18n('Unique'));
     }
 
     foreach ([['min', 'max'], ['minlength', 'maxlength']] as $edge) {
@@ -166,7 +166,7 @@ function viewer(array $attr, array $data): string
 function opt(array $attr): array
 {
     if ($attr['backend'] === 'bool') {
-        return [i18n('No'), i18n('Yes')];
+        return [app\i18n('No'), app\i18n('Yes')];
     }
 
     if ($attr['type'] === 'ent') {

@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace asset;
 
-use function app\i18n;
 use arr;
 use app;
 use file;
@@ -70,6 +69,6 @@ function save(array $data): array
 function delete(array $data): void
 {
     if (!file\delete(app\path('data', $data['id']))) {
-        throw new RuntimeException(i18n('Could not delete %s', $data['name']));
+        throw new RuntimeException(app\i18n('Could not delete %s', $data['name']));
     }
 }
