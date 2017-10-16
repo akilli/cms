@@ -157,7 +157,7 @@ function save(string $eId, array & $data): bool
     }
 
     $trans = trans(
-        function () use (& $tmp, $aIds): void {
+        function () use (& $tmp): void {
             $tmp = app\event('ent.presave', $tmp);
             $tmp = app\event('ent.type.presave.' . $tmp['_ent']['type'], $tmp);
             $tmp = app\event('ent.presave.' . $tmp['_ent']['id'], $tmp);
