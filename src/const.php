@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-const ALL = '_all';
+const ALL = '_all_';
 const ATTR = [
     'id' => null,
     'name' => null,
