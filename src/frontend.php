@@ -5,9 +5,9 @@ namespace frontend;
 
 use const attr\{DATE, DATETIME, TIME};
 use function app\i18n;
-use function html\tag;
 use attr;
 use filter;
+use html;
 
 /**
  * Checkbox
@@ -34,8 +34,8 @@ function checkbox(array $attr, $val): string
             'checked' => in_array($optId, $val)
         ];
         $a = array_replace($attr['html'], $a);
-        $html .= tag('input', $a, null, true);
-        $html .= tag('label', ['for' => $htmlId], $optVal);
+        $html .= html\tag('input', $a, null, true);
+        $html .= html\tag('label', ['for' => $htmlId], $optVal);
     }
 
     return $html;
@@ -58,8 +58,8 @@ function radio(array $attr, $val): string
             'checked' => $optId === $val,
         ];
         $a = array_replace($attr['html'], $a);
-        $html .= tag('input', $a, null, true);
-        $html .= tag('label', ['for' => $htmlId], $optVal);
+        $html .= html\tag('input', $a, null, true);
+        $html .= html\tag('label', ['for' => $htmlId], $optVal);
     }
 
     return $html;
@@ -74,13 +74,13 @@ function select(array $attr, $val): string
         $val = !$val && !is_numeric($val) ? [] : [$val];
     }
 
-    $html = tag('option', ['value' => ''], i18n('Please choose'));
+    $html = html\tag('option', ['value' => ''], i18n('Please choose'));
 
     foreach ($attr['opt'] as $optId => $optVal) {
-        $html .= tag('option', ['value' => $optId, 'selected' => in_array($optId, $val)], $optVal);
+        $html .= html\tag('option', ['value' => $optId, 'selected' => in_array($optId, $val)], $optVal);
     }
 
-    return tag('select', $attr['html'], $html);
+    return html\tag('select', $attr['html'], $html);
 }
 
 /**
@@ -91,7 +91,7 @@ function text(array $attr, ?string $val): string
     $attr['html']['type'] = 'text';
     $attr['html']['value'] = $val ? filter\enc($val) : $val;
 
-    return tag('input', $attr['html'], null, true);
+    return html\tag('input', $attr['html'], null, true);
 }
 
 /**
@@ -102,7 +102,7 @@ function password(array $attr): string
     $attr['html']['type'] = 'password';
     $attr['html']['autocomplete'] = 'off';
 
-    return tag('input', $attr['html'], null, true);
+    return html\tag('input', $attr['html'], null, true);
 }
 
 /**
@@ -113,7 +113,7 @@ function email(array $attr, ?string $val): string
     $attr['html']['type'] = 'email';
     $attr['html']['value'] = $val ? filter\enc($val) : $val;
 
-    return tag('input', $attr['html'], null, true);
+    return html\tag('input', $attr['html'], null, true);
 }
 
 /**
@@ -124,7 +124,7 @@ function url(array $attr, ?string $val): string
     $attr['html']['type'] = 'url';
     $attr['html']['value'] = $val ? filter\enc($val) : $val;
 
-    return tag('input', $attr['html'], null, true);
+    return html\tag('input', $attr['html'], null, true);
 }
 
 /**
@@ -135,7 +135,7 @@ function number(array $attr, $val): string
     $attr['html']['type'] = 'number';
     $attr['html']['value'] = $val;
 
-    return tag('input', $attr['html'], null, true);
+    return html\tag('input', $attr['html'], null, true);
 }
 
 /**
@@ -146,7 +146,7 @@ function range(array $attr, $val): string
     $attr['html']['type'] = 'range';
     $attr['html']['value'] = $val;
 
-    return tag('input', $attr['html'], null, true);
+    return html\tag('input', $attr['html'], null, true);
 }
 
 /**
@@ -157,7 +157,7 @@ function date(array $attr, ?string $val): string
     $attr['html']['type'] = 'date';
     $attr['html']['value'] = $val ? filter\date($val, DATE['b'], DATE['f']) : '';
 
-    return tag('input', $attr['html'], null, true);
+    return html\tag('input', $attr['html'], null, true);
 }
 
 /**
@@ -168,7 +168,7 @@ function datetime(array $attr, ?string $val): string
     $attr['html']['type'] = 'datetime-local';
     $attr['html']['value'] = $val ? filter\date($val, DATETIME['b'], DATETIME['f']) : '';
 
-    return tag('input', $attr['html'], null, true);
+    return html\tag('input', $attr['html'], null, true);
 }
 
 /**
@@ -179,7 +179,7 @@ function time(array $attr, ?string $val): string
     $attr['html']['type'] = 'time';
     $attr['html']['value'] = $val ? filter\date($val, TIME['b'], TIME['f']) : '';
 
-    return tag('input', $attr['html'], null, true);
+    return html\tag('input', $attr['html'], null, true);
 }
 
 /**
@@ -187,10 +187,10 @@ function time(array $attr, ?string $val): string
  */
 function file(array $attr): string
 {
-    $hidden = tag('input', ['name' => $attr['html']['name'], 'type' => 'hidden'], null, true);
+    $hidden = html\tag('input', ['name' => $attr['html']['name'], 'type' => 'hidden'], null, true);
     $attr['html']['type'] = 'file';
 
-    return $hidden . tag('input', $attr['html'], null, true);
+    return $hidden . html\tag('input', $attr['html'], null, true);
 }
 
 /**
@@ -200,5 +200,5 @@ function textarea(array $attr, ?string $val): string
 {
     $val = $val ? filter\enc($val) : $val;
 
-    return tag('textarea', $attr['html'], $val);
+    return html\tag('textarea', $attr['html'], $val);
 }

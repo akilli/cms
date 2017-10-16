@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 namespace viewer;
 
-use function html\tag;
 use app;
 use filter;
+use html;
 
 /**
  * Option viewer
@@ -60,7 +60,7 @@ function rte(string $val): string
  */
 function iframe(string $val): string
 {
-    return tag('figure', ['class' => 'iframe'], tag('iframe', ['src' => $val, 'allowfullscreen' => true]));
+    return html\tag('figure', ['class' => 'iframe'], html\tag('iframe', ['src' => $val, 'allowfullscreen' => true]));
 }
 
 /**
@@ -68,7 +68,7 @@ function iframe(string $val): string
  */
 function file(string $val): string
 {
-    return tag('a', ['href' => app\media($val)], $val);
+    return html\tag('a', ['href' => app\media($val)], $val);
 }
 
 /**
@@ -76,7 +76,7 @@ function file(string $val): string
  */
 function image(string $val): string
 {
-    return tag('img', ['src' => app\media($val), 'alt' => $val], null, true);
+    return html\tag('img', ['src' => app\media($val), 'alt' => $val], null, true);
 }
 
 /**
@@ -84,7 +84,7 @@ function image(string $val): string
  */
 function audio(string $val): string
 {
-    return tag('audio', ['src' => app\media($val), 'controls' => true]);
+    return html\tag('audio', ['src' => app\media($val), 'controls' => true]);
 }
 
 /**
@@ -92,7 +92,7 @@ function audio(string $val): string
  */
 function embed(string $val): string
 {
-    return tag('embed', ['src' => app\media($val)], null, true);
+    return html\tag('embed', ['src' => app\media($val)], null, true);
 }
 
 /**
@@ -100,7 +100,7 @@ function embed(string $val): string
  */
 function video(string $val): string
 {
-    return tag('video', ['src' => app\media($val), 'controls' => true]);
+    return html\tag('video', ['src' => app\media($val), 'controls' => true]);
 }
 
 /**

@@ -5,11 +5,11 @@ namespace section;
 
 use const ent\CRIT;
 use function app\i18n;
-use function html\tag;
 use function http\req;
 use arr;
 use app;
 use ent;
+use html;
 use layout;
 use session;
 
@@ -36,7 +36,7 @@ function container(array $§): string
         $html .= layout\§($child['id']);
     }
 
-    return $html && $§['vars']['tag'] ? tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+    return $html && $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
 }
 
 /**
@@ -100,12 +100,12 @@ function nav(array $§): string
              $html .= '</li><li' . $class . '>';
         }
 
-        $html .= tag('a', $a, $page['name']);
+        $html .= html\tag('a', $a, $page['name']);
         $html .= ++$i === $count ? str_repeat('</li></ul>', $page['depth']) : '';
         $depth = $page['depth'];
     }
 
-    return tag('nav', ['id' => $§['id']], $html);
+    return html\tag('nav', ['id' => $§['id']], $html);
 }
 
 /**

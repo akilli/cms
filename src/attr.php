@@ -4,9 +4,9 @@ declare(strict_types = 1);
 namespace attr;
 
 use function app\i18n;
-use function html\tag;
 use ent;
 use filter;
+use html;
 use opt;
 use DomainException;
 
@@ -109,11 +109,11 @@ function frontend(array $attr, array $data): string
 
     if ($attr['required'] && !ignorable($attr, $data)) {
         $attr['html']['required'] = true;
-        $label .= ' ' . tag('em', ['class' => 'required'], i18n('Required'));
+        $label .= ' ' . html\tag('em', ['class' => 'required'], i18n('Required'));
     }
 
     if ($attr['unique']) {
-        $label .= ' ' . tag('em', ['class' => 'unique'], i18n('Unique'));
+        $label .= ' ' . html\tag('em', ['class' => 'unique'], i18n('Unique'));
     }
 
     foreach ([['min', 'max'], ['minlength', 'maxlength']] as $edge) {
@@ -134,11 +134,11 @@ function frontend(array $attr, array $data): string
 
     if (!empty($data['_error'][$attr['id']])) {
         $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
-        $error = tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
+        $error = html\tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
     if (($html = ('frontend\\' . $attr['frontend'])($attr, $data[$attr['id']]))) {
-        return tag('label', ['for' => $attr['html']['id']], $label) . $html . $error;
+        return html\tag('label', ['for' => $attr['html']['id']], $label) . $html . $error;
     }
 
     return '';
