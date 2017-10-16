@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace layout;
 
-use function account\allowed;
+use account;
 use app;
 use InvalidArgumentException;
 use const section\SECTION;
@@ -13,7 +13,7 @@ use const section\SECTION;
  */
 function §(string $id): string
 {
-    if (!($§ = data($id)) || !$§['active'] || $§['priv'] && !allowed($§['priv'])) {
+    if (!($§ = data($id)) || !$§['active'] || $§['priv'] && !account\allowed($§['priv'])) {
         return '';
     }
 

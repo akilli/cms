@@ -5,12 +5,12 @@ namespace act;
 
 use const ent\CRIT;
 use function http\{redirect, req};
-use function layout\vars;
 use account;
 use arr;
 use app;
 use ent;
 use file;
+use layout;
 use session;
 
 /**
@@ -66,10 +66,10 @@ function index(array $ent): void
     }
 
     session\set($sessKey, $p);
-    vars('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opts), 'params' => $p, 'title' => $ent['name']]);
-    vars('pager', ['limit' => $opts['limit'], 'params' => $p, 'size' => $size]);
-    vars('search', ['q' => $p['q'] ?? '']);
-    vars('head', ['title' => $ent['name']]);
+    layout\vars('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opts), 'params' => $p, 'title' => $ent['name']]);
+    layout\vars('pager', ['limit' => $opts['limit'], 'params' => $p, 'size' => $size]);
+    layout\vars('search', ['q' => $p['q'] ?? '']);
+    layout\vars('head', ['title' => $ent['name']]);
 }
 
 /**
@@ -92,8 +92,8 @@ function edit(array $ent): void
         $data = ent\data($ent['id']);
     }
 
-    vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'edit'), 'title' => $ent['name']]);
-    vars('head', ['title' => $ent['name']]);
+    layout\vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'edit'), 'title' => $ent['name']]);
+    layout\vars('head', ['title' => $ent['name']]);
 }
 
 /**
@@ -113,8 +113,8 @@ function form(array $ent): void
         $data = ent\data($ent['id']);
     }
 
-    vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'form'), 'title' => $ent['name']]);
-    vars('head', ['title' => $ent['name']]);
+    layout\vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'form'), 'title' => $ent['name']]);
+    layout\vars('head', ['title' => $ent['name']]);
 }
 
 /**
@@ -143,8 +143,8 @@ function view(array $ent): void
         return;
     }
 
-    vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'view')]);
-    vars('head', ['title' => $data['name']]);
+    layout\vars('content', ['data' => $data, 'attr' => ent\attr($ent, 'view')]);
+    layout\vars('head', ['title' => $data['name']]);
 }
 
 /**
@@ -153,8 +153,8 @@ function view(array $ent): void
 function app_denied(): void
 {
     http_response_code(403);
-    vars('head', ['title' => app\i18n('Access denied')]);
-    vars('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Access denied')]);
+    layout\vars('head', ['title' => app\i18n('Access denied')]);
+    layout\vars('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Access denied')]);
 }
 
 /**
@@ -163,8 +163,8 @@ function app_denied(): void
 function app_error(): void
 {
     http_response_code(404);
-    vars('head', ['title' => app\i18n('Page not found')]);
-    vars('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Page not found')]);
+    layout\vars('head', ['title' => app\i18n('Page not found')]);
+    layout\vars('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Page not found')]);
 }
 
 /**
@@ -241,7 +241,7 @@ function account_password(): void
         }
     }
 
-    vars('head', ['title' => app\i18n('Password')]);
+    layout\vars('head', ['title' => app\i18n('Password')]);
 }
 
 /**
@@ -264,7 +264,7 @@ function account_login(): void
         app\msg(app\i18n('Invalid name and password combination'));
     }
 
-    vars('head', ['title' => app\i18n('Login')]);
+    layout\vars('head', ['title' => app\i18n('Login')]);
 }
 
 /**
