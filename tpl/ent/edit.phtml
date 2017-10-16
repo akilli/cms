@@ -1,7 +1,7 @@
 <?php
 namespace app;
-use function account\allowed;
-use function attr\frontend;
+use account;
+use attr;
 use session;
 /** @var callable $§ */
 ?>
@@ -12,13 +12,13 @@ use session;
         <fieldset>
             <legend><?=$data['name'] ?? i18n('New Entry');?></legend>
             <?php foreach ($§('attr') as $attr):?>
-                <?php if (!$html = frontend($attr, $data)) continue;?>
+                <?php if (!$html = attr\frontend($attr, $data)) continue;?>
             <div data-attr="<?=$attr['id'];?>">
                 <?=$html;?>
             </div>
             <?php endforeach;?>
         </fieldset>
-        <?php if (allowed('*/admin')):?>
+        <?php if (account\allowed('*/admin')):?>
         <a role="button" href="<?= url('*/admin');?>"><?= i18n('Back');?></a>
         <?php endif;?>
         <input type="submit" value="<?= i18n('Save');?>" />
