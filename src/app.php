@@ -13,7 +13,6 @@ use ErrorException;
 use InvalidArgumentException;
 use Throwable;
 
-const ALL = '_all_';
 const LOG = 'php://stdout';
 const URL = ['asset' => '/asset/', 'media' => '/media/view/', 'page' => '.html', 'theme' => '/theme/'];
 
