@@ -1,13 +1,13 @@
 <?php
 namespace app;
-use function account\user;
+use account;
 /** @var callable $§ */
 ?>
 <meta charset="<?= cfg('app', 'charset');?>" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <title><?=$§('title');?></title>
 <link rel="stylesheet" href="<?= theme('theme.css');?>" />
-<?php if (user()):?>
+<?php if (account\user()):?>
 <script src="<?= theme('ckeditor/ckeditor.js');?>"></script>
 <script src="<?= url('app/js');?>"></script>
 <script src="<?= theme('theme.js');?>"></script>
