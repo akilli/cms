@@ -37,6 +37,7 @@ return [
     'Invalid option' => 'Ungültige Option',
     'Invalid password' => 'Ungültiges Passwort',
     'Invalid path %s' => 'Ungültiger Pfad %s',
+    'Invalid section %s' => 'Ungültiger Layoutbereich %s',
     'Invalid URL' => 'Ungültige URL',
     'Invalid value' => 'Ungültiger Wert',
     'Login' => 'Anmelden',

@@ -10,7 +10,7 @@ use file;
 use http;
 use session;
 use ErrorException;
-use InvalidArgumentException;
+use RuntimeException;
 use Throwable;
 
 /**
@@ -50,7 +50,7 @@ function & data(string $id): ?array
 /**
  * Gets absolute path to specified subpath in given directory
  *
- * @throws InvalidArgumentException
+ * @throws RuntimeException
  */
 function path(string $dir, string $id = null): string
 {
@@ -58,14 +58,11 @@ function path(string $dir, string $id = null): string
 
     if ($data === null) {
         $root = dirname(__DIR__);
-        $data['cfg'] = $root .'/cfg';
-        $data['data'] = '/data';
-        $data['theme'] = $root .'/www/theme';
-        $data['tpl'] = $root .'/tpl';
+        $data = ['cfg' => $root .'/cfg', 'data' => '/data', 'theme' => $root .'/www/theme', 'tpl' => $root .'/tpl'];
     }
 
     if (empty($data[$dir])) {
-        throw new InvalidArgumentException(i18n('Invalid path %s', $dir));
+        throw new RuntimeException(i18n('Invalid path %s', $dir));
     }
 
     return $data[$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
@@ -129,8 +126,10 @@ function i18n(string $key, string ...$args): string
 
 /**
  * Returns layout section and optionally sets variables
+ *
+ * @throws RuntimeException
  */
-function layout(string $id = null, array $vars = null): ?array
+function layout(string $id = null, array $vars = null): array
 {
     if (($data = & data('layout')) === null) {
         $data = cfg('layout');
@@ -143,7 +142,7 @@ function layout(string $id = null, array $vars = null): ?array
 
     // Invalid section
     if (empty($data[$id])) {
-        return null;
+        throw new RuntimeException(i18n('Invalid section %s', $id));
     }
 
     // Add variables to section
@@ -159,7 +158,9 @@ function layout(string $id = null, array $vars = null): ?array
  */
 function §(string $id): string
 {
-    if (!($§ = layout($id)) || !$§['active'] || $§['priv'] && !allowed($§['priv'])) {
+    $§ = layout($id);
+
+    if (!$§['active'] || $§['priv'] && !allowed($§['priv'])) {
         return '';
     }
 
