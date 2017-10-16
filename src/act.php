@@ -4,12 +4,13 @@ declare(strict_types = 1);
 namespace act;
 
 use const ent\CRIT;
-use function http\{redirect, req};
+use function http\req;
 use account;
 use arr;
 use app;
 use ent;
 use file;
+use http;
 use layout;
 use session;
 
@@ -84,7 +85,7 @@ function edit(array $ent): void
         $data['id'] = $id;
 
         if (ent\save($ent['id'], $data)) {
-            redirect(app\url('*/admin'));
+            http\redirect(app\url('*/admin'));
         }
     } elseif ($id) {
         $data = ent\one($ent['id'], [['id', $id]]);
@@ -107,7 +108,7 @@ function form(array $ent): void
         $data['active'] = true;
 
         if (ent\save($ent['id'], $data)) {
-            redirect();
+            http\redirect();
         }
     } else {
         $data = ent\data($ent['id']);
@@ -128,7 +129,7 @@ function delete(array $ent): void
         app\msg(app\i18n('Nothing selected for deletion'));
     }
 
-    redirect(app\url('*/admin'));
+    http\redirect(app\url('*/admin'));
 }
 
 /**
@@ -224,7 +225,7 @@ function media_import(): void
         }
     }
 
-    redirect(app\url('*/admin'));
+    http\redirect(app\url('*/admin'));
 }
 
 /**
@@ -250,7 +251,7 @@ function account_password(): void
 function account_login(): void
 {
     if (account\user()) {
-        redirect();
+        http\redirect();
     }
 
     if ($data = req('data')) {
@@ -258,7 +259,7 @@ function account_login(): void
             session\regenerate();
             session\set('account', $data['id']);
             app\msg(app\i18n('Welcome %s', $data['name']));
-            redirect();
+            http\redirect();
         }
 
         app\msg(app\i18n('Invalid name and password combination'));
@@ -273,5 +274,5 @@ function account_login(): void
 function account_logout(): void
 {
     session\regenerate();
-    redirect();
+    http\redirect();
 }
