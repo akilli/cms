@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 namespace ent;
 
-use function sql\trans;
 use attr;
 use app;
+use sql;
 use RuntimeException;
 use Throwable;
 
@@ -154,7 +154,7 @@ function save(string $eId, array & $data): bool
         return false;
     }
 
-    $trans = trans(
+    $trans = sql\trans(
         function () use (& $tmp): void {
             $tmp = app\event('ent.presave', $tmp);
             $tmp = app\event('ent.type.presave.' . $tmp['_ent']['type'], $tmp);
@@ -190,7 +190,7 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
             continue;
         }
 
-        $trans = trans(
+        $trans = sql\trans(
             function () use ($data): void {
                 $data = app\event('ent.predelete', $data);
                 $data = app\event('ent.type.predelete.' . $data['_ent']['type'], $data);
