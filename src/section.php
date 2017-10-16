@@ -12,17 +12,6 @@ use http;
 use layout;
 use session;
 
-const SECTION = [
-    'id' => null,
-    'section' => null,
-    'tpl' => null,
-    'active' => true,
-    'priv' => null,
-    'parent_id' => 'root',
-    'sort' => 0,
-    'vars' => [],
-];
-
 /**
  * Container section
  */

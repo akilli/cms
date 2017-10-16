@@ -6,7 +6,17 @@ namespace layout;
 use account;
 use app;
 use InvalidArgumentException;
-use const section\SECTION;
+
+const SECTION = [
+    'id' => null,
+    'section' => null,
+    'tpl' => null,
+    'active' => true,
+    'priv' => null,
+    'parent_id' => 'root',
+    'sort' => 0,
+    'vars' => [],
+];
 
 /**
  * Layout section

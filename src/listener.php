@@ -7,7 +7,7 @@ use const account\PRIV;
 use const app\URL;
 use const attr\ATTR;
 use const ent\ENT;
-use const section\SECTION;
+use const layout\SECTION;
 use account;
 use app;
 use arr;
