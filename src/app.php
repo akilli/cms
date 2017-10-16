@@ -4,12 +4,15 @@ declare(strict_types = 1);
 namespace app;
 
 use function http\req;
+use function layout\§;
 use account;
 use act;
 use ent;
 use file;
 use session;
+use ErrorException;
 use InvalidArgumentException;
+use Throwable;
 
 const ALL = '_all_';
 const LOG = 'php://stdout';
@@ -34,6 +37,7 @@ function run(): void
     }
 
     act\app_error();
+    echo §('root');
 }
 
 /**
@@ -131,14 +135,6 @@ function i18n(string $key, string ...$args): string
 }
 
 /**
- * Logger
- */
-function log(string $msg): void
-{
-    file_put_contents(LOG, '[' . date('r') . '] ' . $msg . "\n\n", FILE_APPEND);
-}
-
-/**
  * Resolves wildcards, i.e. asterisks, for entity and action part with appropriate values from current request
  */
 function resolve(string $path): string
@@ -206,4 +202,28 @@ function rewrite(string $path): string
     }
 
     return $data[$path];
+}
+
+/**
+ * Logger
+ */
+function log(Throwable $e): void
+{
+    file_put_contents(LOG, '[' . date('r') . '] ' . $e . "\n\n", FILE_APPEND);
+}
+
+/**
+ * Error Handler
+ */
+function error(int $severity, string $msg, string $file, int $line): void
+{
+    log(new ErrorException($msg, 0, $severity, $file, $line));
+}
+
+/**
+ * Exception Handler
+ */
+function exception(Throwable $e): void
+{
+    log($e);
 }

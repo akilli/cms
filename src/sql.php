@@ -41,7 +41,7 @@ function trans(callable $call): bool
     } catch (Throwable $e) {
         $level === 1 ? db()->rollBack() : db()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
         --$level;
-        app\log((string) $e);
+        app\log($e);
 
         return false;
     }
