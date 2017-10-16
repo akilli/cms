@@ -3,10 +3,12 @@ declare(strict_types = 1);
 
 namespace app;
 
+use account;
 use act;
 use ent;
 use file;
 use http;
+use layout;
 use session;
 use ErrorException;
 use InvalidArgumentException;
@@ -132,7 +134,7 @@ function i18n(string $key, string ...$args): string
  */
 function §(string $id): string
 {
-    if (!($§ = data($id)) || !$§['active'] || $§['priv'] && !allowed($§['priv'])) {
+    if (!($§ = layout\data($id)) || !$§['active'] || $§['priv'] && !allowed($§['priv'])) {
         return '';
     }
 
@@ -153,7 +155,7 @@ function allowed(string $key): bool
         return false;
     }
 
-    return !$cfg['active'] || $cfg['call'] && $cfg['call']() || data('admin') || in_array($key, data('priv') ?? []);
+    return !$cfg['active'] || $cfg['call'] && $cfg['call']() || account\data('admin') || in_array($key, account\data('priv') ?? []);
 }
 
 /**
