@@ -10,193 +10,177 @@ use html;
 /**
  * Checkbox
  */
-function checkbox(array $attr, $val): string
+function checkbox(array $html, $val, array $opt): string
 {
     if (!is_array($val)) {
         $val = !$val && !is_numeric($val) ? [] : [$val];
     }
 
-    if ($attr['backend'] === 'bool') {
-        $attr['opt'] = [1 => app\i18n('Yes')];
+    $out = '';
+
+    foreach ($opt as $optId => $optVal) {
+        $htmlId = $html['id'] . '-' . $optId;
+        $a = ['id' => $htmlId, 'name' => $html['name'], 'type' => 'checkbox', 'value' => $optId, 'checked' => in_array($optId, $val)];
+        $a = array_replace($html, $a);
+        $out .= html\tag('input', $a, null, true);
+        $out .= html\tag('label', ['for' => $htmlId], $optVal);
     }
 
-    $html = '';
-
-    foreach ($attr['opt'] as $optId => $optVal) {
-        $htmlId = $attr['html']['id'] . '-' . $optId;
-        $a = [
-            'id' => $htmlId,
-            'name' => $attr['html']['name'],
-            'type' => 'checkbox',
-            'value' => $optId,
-            'checked' => in_array($optId, $val)
-        ];
-        $a = array_replace($attr['html'], $a);
-        $html .= html\tag('input', $a, null, true);
-        $html .= html\tag('label', ['for' => $htmlId], $optVal);
-    }
-
-    return $html;
+    return $out;
 }
 
 /**
  * Radio
  */
-function radio(array $attr, $val): string
+function radio(array $html, $val, array $opt): string
 {
-    $html = '';
+    $out = '';
 
-    foreach ($attr['opt'] as $optId => $optVal) {
-        $htmlId = $attr['html']['id'] . '-' . $optId;
-        $a = [
-            'id' => $htmlId,
-            'name' => $attr['html']['name'],
-            'type' => 'radio',
-            'value' => $optId,
-            'checked' => $optId === $val,
-        ];
-        $a = array_replace($attr['html'], $a);
-        $html .= html\tag('input', $a, null, true);
-        $html .= html\tag('label', ['for' => $htmlId], $optVal);
+    foreach ($opt as $optId => $optVal) {
+        $htmlId = $html['id'] . '-' . $optId;
+        $a = ['id' => $htmlId, 'name' => $html['name'], 'type' => 'radio', 'value' => $optId, 'checked' => $optId === $val];
+        $a = array_replace($html, $a);
+        $out .= html\tag('input', $a, null, true);
+        $out .= html\tag('label', ['for' => $htmlId], $optVal);
     }
 
-    return $html;
+    return $out;
 }
 
 /**
  * Select
  */
-function select(array $attr, $val): string
+function select(array $html, $val, array $opt): string
 {
     if (!is_array($val)) {
         $val = !$val && !is_numeric($val) ? [] : [$val];
     }
 
-    $html = html\tag('option', ['value' => ''], app\i18n('Please choose'));
+    $out = html\tag('option', ['value' => ''], app\i18n('Please choose'));
 
-    foreach ($attr['opt'] as $optId => $optVal) {
-        $html .= html\tag('option', ['value' => $optId, 'selected' => in_array($optId, $val)], $optVal);
+    foreach ($opt as $optId => $optVal) {
+        $out .= html\tag('option', ['value' => $optId, 'selected' => in_array($optId, $val)], $optVal);
     }
 
-    return html\tag('select', $attr['html'], $html);
+    return html\tag('select', $html, $out);
 }
 
 /**
  * Text
  */
-function text(array $attr, ?string $val): string
+function text(array $html, ?string $val): string
 {
-    $attr['html']['type'] = 'text';
-    $attr['html']['value'] = $val ? filter\enc($val) : $val;
+    $html['type'] = 'text';
+    $html['value'] = $val ? filter\enc($val) : $val;
 
-    return html\tag('input', $attr['html'], null, true);
+    return html\tag('input', $html, null, true);
 }
 
 /**
  * Password
  */
-function password(array $attr): string
+function password(array $html): string
 {
-    $attr['html']['type'] = 'password';
-    $attr['html']['autocomplete'] = 'off';
+    $html['type'] = 'password';
+    $html['autocomplete'] = 'off';
 
-    return html\tag('input', $attr['html'], null, true);
+    return html\tag('input', $html, null, true);
 }
 
 /**
  * Email
  */
-function email(array $attr, ?string $val): string
+function email(array $html, ?string $val): string
 {
-    $attr['html']['type'] = 'email';
-    $attr['html']['value'] = $val ? filter\enc($val) : $val;
+    $html['type'] = 'email';
+    $html['value'] = $val ? filter\enc($val) : $val;
 
-    return html\tag('input', $attr['html'], null, true);
+    return html\tag('input', $html, null, true);
 }
 
 /**
  * URL
  */
-function url(array $attr, ?string $val): string
+function url(array $html, ?string $val): string
 {
-    $attr['html']['type'] = 'url';
-    $attr['html']['value'] = $val ? filter\enc($val) : $val;
+    $html['type'] = 'url';
+    $html['value'] = $val ? filter\enc($val) : $val;
 
-    return html\tag('input', $attr['html'], null, true);
+    return html\tag('input', $html, null, true);
 }
 
 /**
  * Number
  */
-function number(array $attr, $val): string
+function number(array $html, $val): string
 {
-    $attr['html']['type'] = 'number';
-    $attr['html']['value'] = $val;
+    $html['type'] = 'number';
+    $html['value'] = $val;
 
-    return html\tag('input', $attr['html'], null, true);
+    return html\tag('input', $html, null, true);
 }
 
 /**
  * Range
  */
-function range(array $attr, $val): string
+function range(array $html, $val): string
 {
-    $attr['html']['type'] = 'range';
-    $attr['html']['value'] = $val;
+    $html['type'] = 'range';
+    $html['value'] = $val;
 
-    return html\tag('input', $attr['html'], null, true);
+    return html\tag('input', $html, null, true);
 }
 
 /**
  * Date
  */
-function date(array $attr, ?string $val): string
+function date(array $html, ?string $val): string
 {
-    $attr['html']['type'] = 'date';
-    $attr['html']['value'] = $val ? filter\date($val, DATE['b'], DATE['f']) : '';
+    $html['type'] = 'date';
+    $html['value'] = $val ? filter\date($val, DATE['b'], DATE['f']) : '';
 
-    return html\tag('input', $attr['html'], null, true);
+    return html\tag('input', $html, null, true);
 }
 
 /**
  * Datetime
  */
-function datetime(array $attr, ?string $val): string
+function datetime(array $html, ?string $val): string
 {
-    $attr['html']['type'] = 'datetime-local';
-    $attr['html']['value'] = $val ? filter\date($val, DATETIME['b'], DATETIME['f']) : '';
+    $html['type'] = 'datetime-local';
+    $html['value'] = $val ? filter\date($val, DATETIME['b'], DATETIME['f']) : '';
 
-    return html\tag('input', $attr['html'], null, true);
+    return html\tag('input', $html, null, true);
 }
 
 /**
  * Time
  */
-function time(array $attr, ?string $val): string
+function time(array $html, ?string $val): string
 {
-    $attr['html']['type'] = 'time';
-    $attr['html']['value'] = $val ? filter\date($val, TIME['b'], TIME['f']) : '';
+    $html['type'] = 'time';
+    $html['value'] = $val ? filter\date($val, TIME['b'], TIME['f']) : '';
 
-    return html\tag('input', $attr['html'], null, true);
+    return html\tag('input', $html, null, true);
 }
 
 /**
  * File
  */
-function file(array $attr): string
+function file(array $html): string
 {
-    $hidden = html\tag('input', ['name' => $attr['html']['name'], 'type' => 'hidden'], null, true);
-    $attr['html']['type'] = 'file';
+    $hidden = html\tag('input', ['name' => $html['name'], 'type' => 'hidden'], null, true);
+    $html['type'] = 'file';
 
-    return $hidden . html\tag('input', $attr['html'], null, true);
+    return $hidden . html\tag('input', $html, null, true);
 }
 
 /**
  * Textarea
  */
-function textarea(array $attr, ?string $val): string
+function textarea(array $html, ?string $val): string
 {
     $val = $val ? filter\enc($val) : $val;
 
-    return html\tag('textarea', $attr['html'], $val);
+    return html\tag('textarea', $html, $val);
 }

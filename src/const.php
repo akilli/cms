@@ -21,7 +21,6 @@ const ATTR = [
     'max' => 0,
     'minlength' => 0,
     'maxlength' => 0,
-    'html' => [],
     'validator' => null,
     'loader' => null,
     'viewer' => null,

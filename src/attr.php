@@ -72,15 +72,14 @@ function loader(array $attr, array $data)
 function frontend(array $attr, array $data): string
 {
     $data[$attr['id']] = $data[$attr['id']] ?? $attr['val'];
-    $attr['opt'] = opt($attr);
-    $attr['html']['id'] =  'data-' . $attr['id'];
-    $attr['html']['name'] =  'data[' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
-    $attr['html']['data-type'] =  $attr['type'];
+    $html['id'] =  'data-' . $attr['id'];
+    $html['name'] =  'data[' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
+    $html['data-type'] =  $attr['type'];
     $label = $attr['name'];
     $error = '';
 
     if ($attr['required'] && !ignorable($attr, $data)) {
-        $attr['html']['required'] = true;
+        $html['required'] = true;
         $label .= ' ' . html\tag('em', ['class' => 'required'], app\i18n('Required'));
     }
 
@@ -91,26 +90,26 @@ function frontend(array $attr, array $data): string
     foreach ([['min', 'max'], ['minlength', 'maxlength']] as $edge) {
         if ($attr[$edge[0]] <= $attr[$edge[1]]) {
             if ($attr[$edge[0]] > 0) {
-                $attr['html'][$edge[0]] = $attr[$edge[0]];
+                $html[$edge[0]] = $attr[$edge[0]];
             }
 
             if ($attr[$edge[1]] > 0) {
-                $attr['html'][$edge[1]] = $attr[$edge[1]];
+                $html[$edge[1]] = $attr[$edge[1]];
             }
         }
     }
 
     if ($attr['multiple']) {
-        $attr['html']['multiple'] = true;
+        $html['multiple'] = true;
     }
 
     if (!empty($data['_error'][$attr['id']])) {
-        $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
+        $html['class'] = empty($html['class']) ? 'invalid' : $html['class'] . ' invalid';
         $error = html\tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
-    if (($html = ('frontend\\' . $attr['frontend'])($attr, $data[$attr['id']]))) {
-        return html\tag('label', ['for' => $attr['html']['id']], $label) . $html . $error;
+    if ($out = ('frontend\\' . $attr['frontend'])($html, $data[$attr['id']], opt($attr))) {
+        return html\tag('label', ['for' => $html['id']], $label) . $out . $error;
     }
 
     return '';
@@ -137,6 +136,10 @@ function viewer(array $attr, array $data): string
  */
 function opt(array $attr): array
 {
+    if ($attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox') {
+        return [1 => app\i18n('Yes')];
+    }
+
     if ($attr['backend'] === 'bool') {
         return [app\i18n('No'), app\i18n('Yes')];
     }
