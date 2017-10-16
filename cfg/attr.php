@@ -71,7 +71,7 @@ return [
             'validator' => 'validator\audio',
             'viewer' => 'viewer\audio',
         ],
-        'checkbox' => [
+        'bool' => [
             'backend' => 'bool',
             'frontend' => 'checkbox',
         ],
@@ -119,6 +119,10 @@ return [
         'int' => [
             'backend' => 'int',
             'frontend' => 'number',
+        ],
+        'json' => [
+            'backend' => 'json',
+            'frontend' => 'checkbox',
         ],
         'password' => [
             'backend' => 'varchar',

@@ -23,17 +23,16 @@ return [
             ],
             'priv' => [
                 'name' => 'Privileges',
-                'type' => 'checkbox',
-                'backend' => 'json',
+                'type' => 'json',
                 'opt' => 'opt\priv',
             ],
             'active' => [
                 'name' => 'Active',
-                'type' => 'checkbox',
+                'type' => 'bool',
             ],
             'system' => [
                 'name' => 'System',
-                'type' => 'checkbox',
+                'type' => 'bool',
             ],
         ],
     ],
@@ -75,11 +74,11 @@ return [
             ],
             'active' => [
                 'name' => 'Active',
-                'type' => 'checkbox',
+                'type' => 'bool',
             ],
             'system' => [
                 'name' => 'System',
-                'type' => 'checkbox',
+                'type' => 'bool',
             ],
         ],
     ],
@@ -113,7 +112,7 @@ return [
             ],
             'active' => [
                 'name' => 'Active',
-                'type' => 'checkbox',
+                'type' => 'bool',
             ],
             'parent_id' => [
                 'name' => 'Parent',
@@ -142,8 +141,7 @@ return [
             ],
             'path' => [
                 'name' => 'Path',
-                'type' => 'ent',
-                'backend' => 'json',
+                'type' => 'json',
                 'opt' => 'page',
             ],
             'depth' => [
