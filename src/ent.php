@@ -125,6 +125,7 @@ function save(string $eId, array & $data): bool
         unset($tmp['_old']['_ent'], $tmp['_old']['_old']);
     }
 
+    $name = $tmp['name'] ?? $tmp['_old']['name'] ?? '';
     $tmp = array_replace($edit, $tmp);
     $attrs = $tmp['_ent']['attr'];
     $aIds = [];
@@ -140,8 +141,6 @@ function save(string $eId, array & $data): bool
     if (!$aIds) {
         return true;
     }
-
-    $name = $tmp['name'] ?? $tmp['_old']['name'] ?? '';
 
     foreach ($aIds as $aId) {
         try {
