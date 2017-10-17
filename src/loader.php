@@ -6,7 +6,7 @@ namespace loader;
 /**
  * JSON loader
  */
-function json($val): array
+function json(string $val): array
 {
     return $val && ($val = json_decode($val, true)) ? $val : [];
 }
