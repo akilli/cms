@@ -17,7 +17,7 @@ use DomainException;
  */
 function opt($val, array $opt)
 {
-    if (!empty($val) || is_scalar($val) && !is_string($val)) {
+    if ($val || is_scalar($val) && !is_string($val)) {
         foreach ((array) $val as $v) {
             if (!isset($opt[$v])) {
                 throw new DomainException(app\i18n('Invalid option'));

@@ -92,7 +92,7 @@ function cols(array $attrs, array $data): array
 function attr(array $attrs, bool $auto = false): array
 {
     foreach ($attrs as $aId => $attr) {
-        if (empty($attr['col']) || $auto && !empty($attr['auto'])) {
+        if (!$attr['col'] || $auto && $attr['auto']) {
             unset($attrs[$aId]);
         }
     }
