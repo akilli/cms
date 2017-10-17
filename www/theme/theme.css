@@ -369,6 +369,36 @@ button {
     box-shadow: none;
 }
 
+[type=checkbox][data-type=bool] + label {
+    display: none;
+}
+
+[type=checkbox][data-type=bool] {
+    position: relative;
+    width: 6rem;
+    height: 1.5rem;
+    border: 0.0625rem solid var(--grey-border);
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+[type=checkbox][data-type=bool]:after {
+    position: absolute;
+    top: -0.0625rem;
+    left: -0.0625rem;
+    width: 3rem;
+    height: 1.5rem;
+    background: var(--secondary-dark);
+    border: 0.0625rem solid var(--grey-border);
+    content: '';
+}
+
+[type=checkbox][data-type=bool]:checked:after {
+    left: auto;
+    right: -0.0625rem;
+}
+
 [type=file] {
     line-height: 0;
     font-size: 0.875rem;
