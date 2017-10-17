@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace attr;
 
 use app;
+use arr;
 use ent;
 use filter;
 use html;
@@ -23,10 +24,6 @@ function validator(array $attr, array $data): array
         return $data;
     }
 
-    if ($attr['multiple'] && !is_array($data[$attr['id']])) {
-        $data[$attr['id']] = [];
-    }
-
     if ($attr['validator']) {
         $data[$attr['id']] = ('validator\\' . $attr['validator'])($data[$attr['id']], opt($attr));
     }
@@ -39,7 +36,7 @@ function validator(array $attr, array $data): array
         throw new DomainException(app\i18n('Value is required'));
     }
 
-    $vals = $attr['multiple'] && is_array($data[$attr['id']]) ? $data[$attr['id']] : [$data[$attr['id']]];
+    $vals = $attr['multiple'] ? $data[$attr['id']] : [$data[$attr['id']]];
 
     foreach ($vals as $val) {
         if ($attr['min'] > 0 && $val < $attr['min']
@@ -61,10 +58,15 @@ function frontend(array $attr, array $data): string
 {
     $data[$attr['id']] = $data[$attr['id']] ?? $attr['val'] ?? cast(null, $attr);
     $html['id'] =  'data-' . $attr['id'];
-    $html['name'] =  'data[' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
+    $html['name'] =  'data[' . $attr['id'] . ']';
     $html['data-type'] =  $attr['type'];
     $label = $attr['name'];
     $error = '';
+
+    if ($attr['multiple']) {
+        $html['name'] .= '[]';
+        $html['multiple'] = true;
+    }
 
     if ($attr['required'] && !ignorable($attr, $data)) {
         $html['required'] = true;
@@ -85,10 +87,6 @@ function frontend(array $attr, array $data): string
                 $html[$edge[1]] = $attr[$edge[1]];
             }
         }
-    }
-
-    if ($attr['multiple']) {
-        $html['multiple'] = true;
     }
 
     if (!empty($data['_error'][$attr['id']])) {
@@ -154,12 +152,8 @@ function cast($val, array $attr)
         return is_array($val) || $val && ($val = json_decode($val, true)) ? $val : [];
     }
 
-    if ($attr['multiple'] && is_array($val)) {
-        foreach ($val as $k => $v) {
-            $val[$k] = cast($v, $attr);
-        }
-
-        return $val;
+    if ($attr['multiple']) {
+        return is_array($val) ? arr\map(__FUNCTION__, $val, $attr) : [];
     }
 
     if ($attr['backend'] === 'bool') {

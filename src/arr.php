@@ -139,3 +139,18 @@ function order(array $data, array $order): array
 
     return $data;
 }
+
+/**
+ * Applies callback to all elements of given array with passing additional params
+ */
+function map(callable $call, array $data, ...$params): array
+{
+    $keys = array_keys($data);
+    $p = [];
+
+    foreach ($params as $param) {
+        $p[] = array_fill_keys($keys, $param);
+    }
+
+    return array_map($call, $data, ...$p);
+}
