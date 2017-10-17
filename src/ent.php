@@ -110,15 +110,20 @@ function save(string $eId, array & $data): bool
         return true;
     }
 
+    $tmp = event('prevalidate', $tmp);
+
     foreach ($aIds as $aId) {
         try {
             $tmp = attr\validator($tmp, $tmp['_ent']['attr'][$aId]);
         } catch (Throwable $e) {
-            $data['_error'][$aId] = $e->getMessage();
+            $tmp['_error'][$aId] = $e->getMessage();
         }
     }
 
-    if (!empty($data['_error'])) {
+    $tmp = event('postvalidate', $tmp);
+
+    if (!empty($tmp['_error'])) {
+        $data['_error'] = $tmp['_error'];
         app\msg(app\i18n('Could not save %s', $name));
         return false;
     }
@@ -126,13 +131,9 @@ function save(string $eId, array & $data): bool
     try {
         sql\trans(
             function () use (& $tmp): void {
-                $tmp = app\event('ent.presave', $tmp);
-                $tmp = app\event('ent.type.presave.' . $tmp['_ent']['type'], $tmp);
-                $tmp = app\event('ent.presave.' . $tmp['_ent']['id'], $tmp);
+                $tmp = event('presave', $tmp);
                 $tmp = ($tmp['_ent']['type'] . '\save')($tmp);
-                app\event('ent.postsave', $tmp);
-                app\event('ent.type.postsave.' . $tmp['_ent']['type'], $tmp);
-                app\event('ent.postsave.' . $tmp['_ent']['id'], $tmp);
+                $tmp = event('postsave', $tmp);
             }
         );
         app\msg(app\i18n('Successfully saved %s', $name));
@@ -163,13 +164,9 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
         try {
             sql\trans(
                 function () use ($data): void {
-                    $data = app\event('ent.predelete', $data);
-                    $data = app\event('ent.type.predelete.' . $data['_ent']['type'], $data);
-                    $data = app\event('ent.predelete.' . $data['_ent']['id'], $data);
+                    $data = event('predelete', $data);
                     ($data['_ent']['type'] . '\delete')($data);
-                    app\event('ent.postdelete', $data);
-                    app\event('ent.type.postdelete.' . $data['_ent']['type'], $data);
-                    app\event('ent.postdelete.' . $data['_ent']['id'], $data);
+                    event('postdelete', $data);
                 }
             );
             $success[] = $data['name'];
@@ -233,9 +230,17 @@ function load(array $ent, array $data): array
 
     $data['_old'] = $data;
     $data['_ent'] = $ent;
-    $data = app\event('ent.load', $data);
-    $data = app\event('ent.type.load.' . $ent['type'], $data);
-    $data = app\event('ent.load.' . $ent['id'], $data);
 
-    return $data;
+    return event('load', $data);
+}
+
+/**
+ * Dispatches multiple entity events
+ */
+function event(string $name, array $data): array
+{
+    $data = app\event('ent.' . $name, $data);
+    $data = app\event('ent.type.' . $name . '.' . $data['_ent']['type'], $data);
+
+    return app\event('ent.' . $name . '.' . $data['_ent']['id'], $data);
 }

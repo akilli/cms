@@ -21,6 +21,9 @@ return [
     'ent.postsave' => [
         'ent_postsave' => -1,
     ],
+    'ent.postvalidate.page' => [
+        'page_postvalidate' => -1,
+    ],
     'ent.presave.page' => [
         'page_presave' => -1,
     ],
