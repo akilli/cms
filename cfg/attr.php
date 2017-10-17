@@ -8,7 +8,6 @@ return [
         'int' => [],
         'json' => [
             'multiple' => true,
-            'val' => [],
         ],
         'text' => [],
         'time' => [],
