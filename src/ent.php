@@ -227,7 +227,7 @@ function load(array $ent, array $data): array
 {
     foreach ($data as $aId => $val) {
         if (!empty($ent['attr'][$aId])) {
-            $data[$aId] = attr\cast($ent['attr'][$aId], $val);
+            $data[$aId] = attr\cast($val, $ent['attr'][$aId]);
         }
     }
 

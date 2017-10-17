@@ -17,7 +17,7 @@ use DomainException;
  */
 function validator(array $attr, array $data): array
 {
-    $data[$attr['id']] = cast($attr, $data[$attr['id']] ?? null);
+    $data[$attr['id']] = cast($data[$attr['id']] ?? null, $attr);
 
     if ($attr['nullable'] && $data[$attr['id']] === null) {
         return $data;
@@ -59,7 +59,7 @@ function validator(array $attr, array $data): array
  */
 function frontend(array $attr, array $data): string
 {
-    $data[$attr['id']] = $data[$attr['id']] ?? $attr['val'] ?? cast($attr, null);
+    $data[$attr['id']] = $data[$attr['id']] ?? $attr['val'] ?? cast(null, $attr);
     $html['id'] =  'data-' . $attr['id'];
     $html['name'] =  'data[' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
     $html['data-type'] =  $attr['type'];
@@ -144,7 +144,7 @@ function opt(array $attr): array
  *
  * @return mixed
  */
-function cast(array $attr, $val)
+function cast($val, array $attr)
 {
     if ($attr['nullable'] && ($val === null || $val === '')) {
         return null;
@@ -156,7 +156,7 @@ function cast(array $attr, $val)
 
     if ($attr['multiple'] && is_array($val)) {
         foreach ($val as $k => $v) {
-            $val[$k] = cast($attr, $v);
+            $val[$k] = cast($v, $attr);
         }
 
         return $val;
