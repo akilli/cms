@@ -9,7 +9,7 @@ use attr;
     <?php foreach ($§('data') as $data):?>
     <article>
         <?php foreach ($§('attr') as $attr):?>
-            <?php if (!$html = attr\viewer($attr, $data)) continue;?>
+            <?php if (!$html = attr\viewer($data, $attr)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
                 <?php if (allowed($data['_ent']['id'] . '/view')):?>
         <h1><a href="<?= $data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a></h1>

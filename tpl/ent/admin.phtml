@@ -39,7 +39,7 @@ use attr;
             <tr>
                 <?php foreach ($§('attr') as $attr):?>
                 <td>
-                    <?= attr\viewer($attr, $data);?>
+                    <?= attr\viewer($data, $attr);?>
                 </td>
                 <?php endforeach;?>
                 <td>

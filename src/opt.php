@@ -17,7 +17,7 @@ function ent(string $eId): array
             $data = [];
 
             foreach (ent\all('page', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
-                $data[$item['id']] = attr\viewer($item['_ent']['attr']['pos'], $item) . ' ' . $item['name'];
+                $data[$item['id']] = attr\viewer($item, $item['_ent']['attr']['pos']) . ' ' . $item['name'];
             }
         } else {
             $data = array_column(ent\all($eId, [], ['select' => ['id', 'name']]), 'name', 'id');

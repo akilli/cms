@@ -11,7 +11,7 @@ use session;
         <fieldset>
             <legend><?=$data['name'] ?? i18n('New Entry');?></legend>
             <?php foreach ($§('attr') as $attr):?>
-                <?php if (!$html = attr\frontend($attr, $data)) continue;?>
+                <?php if (!$html = attr\frontend($data, $attr)) continue;?>
             <div data-attr="<?=$attr['id'];?>">
                 <?=$html;?>
             </div>

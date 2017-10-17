@@ -99,7 +99,7 @@ function save(string $eId, array & $data): bool
     $aIds = [];
 
     foreach ($tmp as $aId => $val) {
-        if (($val === null || $val === '') && !empty($attrs[$aId]) && attr\ignorable($attrs[$aId], $tmp)) {
+        if (($val === null || $val === '') && !empty($attrs[$aId]) && attr\ignorable($tmp, $attrs[$aId])) {
             unset($tmp[$aId]);
         } elseif (!empty($attrs[$aId]) && array_key_exists($aId, $edit)) {
             $aIds[] = $aId;
@@ -112,7 +112,7 @@ function save(string $eId, array & $data): bool
 
     foreach ($aIds as $aId) {
         try {
-            $tmp = attr\validator($tmp['_ent']['attr'][$aId], $tmp);
+            $tmp = attr\validator($tmp, $tmp['_ent']['attr'][$aId]);
         } catch (Throwable $e) {
             $data['_error'][$aId] = $e->getMessage();
         }

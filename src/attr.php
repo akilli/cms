@@ -16,7 +16,7 @@ use DomainException;
  *
  * @throws DomainException
  */
-function validator(array $attr, array $data): array
+function validator(array $data, array $attr): array
 {
     $data[$attr['id']] = cast($data[$attr['id']] ?? null, $attr);
 
@@ -54,7 +54,7 @@ function validator(array $attr, array $data): array
 /**
  * Frontend
  */
-function frontend(array $attr, array $data): string
+function frontend(array $data, array $attr): string
 {
     $data[$attr['id']] = $data[$attr['id']] ?? $attr['val'] ?? cast(null, $attr);
     $html['id'] =  'data-' . $attr['id'];
@@ -68,7 +68,7 @@ function frontend(array $attr, array $data): string
         $html['multiple'] = true;
     }
 
-    if ($attr['required'] && !ignorable($attr, $data)) {
+    if ($attr['required'] && !ignorable($data, $attr)) {
         $html['required'] = true;
         $label .= ' ' . html\tag('em', ['class' => 'required'], app\i18n('Required'));
     }
@@ -104,7 +104,7 @@ function frontend(array $attr, array $data): string
 /**
  * Viewer
  */
-function viewer(array $attr, array $data): string
+function viewer(array $data, array $attr): string
 {
     if (!isset($data[$attr['id']]) || $data[$attr['id']] === '') {
         return '';
@@ -174,7 +174,7 @@ function cast($val, array $attr)
 /**
  * Check wheter attribute can be ignored
  */
-function ignorable(array $attr, array $data): bool
+function ignorable(array $data, array $attr): bool
 {
     return !empty($data['_old'][$attr['id']]) && in_array($attr['frontend'], ['file', 'password']);
 }
