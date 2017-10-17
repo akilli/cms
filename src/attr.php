@@ -59,7 +59,7 @@ function validator(array $attr, array $data): array
  */
 function frontend(array $attr, array $data): string
 {
-    $data[$attr['id']] = $data[$attr['id']] ?? $attr['val'];
+    $data[$attr['id']] = $data[$attr['id']] ?? $attr['val'] ?? cast($attr, null);
     $html['id'] =  'data-' . $attr['id'];
     $html['name'] =  'data[' . $attr['id'] . ']' . (!empty($attr['multiple']) ? '[]' : '');
     $html['data-type'] =  $attr['type'];

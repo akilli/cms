@@ -10,11 +10,11 @@ use html;
 /**
  * Toggle
  */
-function toggle(array $html, ?bool $val): string
+function toggle(array $html, bool $val): string
 {
     $html['type'] = 'checkbox';
     $html['value'] = 1;
-    $html['checked'] = (bool) $val;
+    $html['checked'] = $val;
 
     return html\tag('input', $html, null, true);
 }
@@ -80,7 +80,7 @@ function select(array $html, $val, array $opt): string
 /**
  * Text
  */
-function text(array $html, ?string $val): string
+function text(array $html, string $val): string
 {
     $html['type'] = 'text';
     $html['value'] = $val ? filter\enc($val) : $val;
@@ -102,7 +102,7 @@ function password(array $html): string
 /**
  * Email
  */
-function email(array $html, ?string $val): string
+function email(array $html, string $val): string
 {
     $html['type'] = 'email';
     $html['value'] = $val ? filter\enc($val) : $val;
@@ -113,7 +113,7 @@ function email(array $html, ?string $val): string
 /**
  * URL
  */
-function url(array $html, ?string $val): string
+function url(array $html, string $val): string
 {
     $html['type'] = 'url';
     $html['value'] = $val ? filter\enc($val) : $val;
@@ -146,7 +146,7 @@ function range(array $html, $val): string
 /**
  * Date
  */
-function date(array $html, ?string $val): string
+function date(array $html, string $val): string
 {
     $html['type'] = 'date';
     $html['value'] = $val ? filter\date($val, DATE['b'], DATE['f']) : '';
@@ -157,7 +157,7 @@ function date(array $html, ?string $val): string
 /**
  * Datetime
  */
-function datetime(array $html, ?string $val): string
+function datetime(array $html, string $val): string
 {
     $html['type'] = 'datetime-local';
     $html['value'] = $val ? filter\date($val, DATETIME['b'], DATETIME['f']) : '';
@@ -168,7 +168,7 @@ function datetime(array $html, ?string $val): string
 /**
  * Time
  */
-function time(array $html, ?string $val): string
+function time(array $html, string $val): string
 {
     $html['type'] = 'time';
     $html['value'] = $val ? filter\date($val, TIME['b'], TIME['f']) : '';
@@ -190,7 +190,7 @@ function file(array $html): string
 /**
  * Textarea
  */
-function textarea(array $html, ?string $val): string
+function textarea(array $html, string $val): string
 {
     $val = $val ? filter\enc($val) : $val;
 
