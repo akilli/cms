@@ -8,6 +8,18 @@ use filter;
 use html;
 
 /**
+ * Toggle
+ */
+function toggle(array $html, ?bool $val): string
+{
+    $html['type'] = 'checkbox';
+    $html['value'] = 1;
+    $html['checked'] = (bool) $val;
+
+    return html\tag('input', $html, null, true);
+}
+
+/**
  * Checkbox
  */
 function checkbox(array $html, $val, array $opt): string

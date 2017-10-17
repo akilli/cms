@@ -28,11 +28,11 @@ return [
             ],
             'active' => [
                 'name' => 'Active',
-                'type' => 'bool',
+                'type' => 'toggle',
             ],
             'system' => [
                 'name' => 'System',
-                'type' => 'bool',
+                'type' => 'toggle',
             ],
         ],
     ],
@@ -74,11 +74,11 @@ return [
             ],
             'active' => [
                 'name' => 'Active',
-                'type' => 'bool',
+                'type' => 'toggle',
             ],
             'system' => [
                 'name' => 'System',
-                'type' => 'bool',
+                'type' => 'toggle',
             ],
         ],
     ],
@@ -112,7 +112,7 @@ return [
             ],
             'active' => [
                 'name' => 'Active',
-                'type' => 'bool',
+                'type' => 'toggle',
             ],
             'parent_id' => [
                 'name' => 'Parent',

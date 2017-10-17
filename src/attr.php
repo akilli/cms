@@ -96,10 +96,7 @@ function frontend(array $attr, array $data): string
         $error = html\tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
-    // @todo Remove
-    $opt = $attr['backend'] === 'bool' && $attr['frontend'] === 'checkbox' ? [1 => app\i18n('Yes')] : opt($attr);
-
-    if ($out = ('frontend\\' . $attr['frontend'])($html, $data[$attr['id']], $opt)) {
+    if ($out = ('frontend\\' . $attr['frontend'])($html, $data[$attr['id']], opt($attr))) {
         return html\tag('label', ['for' => $html['id']], $label) . $out . $error;
     }
 

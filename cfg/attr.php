@@ -56,6 +56,9 @@ return [
             'validator' => 'time',
             'viewer' => 'time',
         ],
+        'toggle' => [
+            'viewer' => 'opt',
+        ],
         'url' => [
             'validator' => 'url',
         ],
@@ -66,10 +69,6 @@ return [
             'frontend' => 'file',
             'validator' => 'audio',
             'viewer' => 'audio',
-        ],
-        'bool' => [
-            'backend' => 'bool',
-            'frontend' => 'checkbox',
         ],
         'date' => [
             'backend' => 'date',
@@ -153,6 +152,10 @@ return [
         'time' => [
             'backend' => 'time',
             'frontend' => 'time',
+        ],
+        'toggle' => [
+            'backend' => 'bool',
+            'frontend' => 'toggle',
         ],
         'url' => [
             'backend' => 'varchar',
