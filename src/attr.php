@@ -55,18 +55,6 @@ function validator(array $attr, array $data): array
 }
 
 /**
- * Loader
- *
- * @return mixed
- */
-function loader(array $attr, array $data)
-{
-    $data[$attr['id']] = cast($attr, $data[$attr['id']] ?? null);
-
-    return $attr['loader'] ? ('loader\\' . $attr['loader'])($data[$attr['id']]) : $data[$attr['id']];
-}
-
-/**
  * Frontend
  */
 function frontend(array $attr, array $data): string
@@ -164,6 +152,10 @@ function cast(array $attr, $val)
 {
     if ($attr['nullable'] && ($val === null || $val === '')) {
         return null;
+    }
+
+    if ($attr['backend'] === 'json') {
+        return is_array($val) || $val && ($val = json_decode($val, true)) ? $val : [];
     }
 
     if ($attr['multiple'] && is_array($val)) {

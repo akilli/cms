@@ -1,9 +1,7 @@
 <?php
 return [
     'backend' => [
-        'bool' => [
-            'val' => false,
-        ],
+        'bool' => [],
         'date' => [],
         'datetime' => [],
         'decimal' => [],
@@ -11,7 +9,6 @@ return [
         'json' => [
             'multiple' => true,
             'val' => [],
-            'loader' => 'json',
         ],
         'text' => [],
         'time' => [],

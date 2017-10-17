@@ -22,7 +22,6 @@ const ATTR = [
     'minlength' => 0,
     'maxlength' => 0,
     'validator' => null,
-    'loader' => null,
     'viewer' => null,
 ];
 const CRIT = [

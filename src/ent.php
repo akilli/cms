@@ -221,13 +221,13 @@ function attr(array $ent, string $act): array
 }
 
 /**
- * Internal entity loader
+ * Load entity
  */
 function load(array $ent, array $data): array
 {
     foreach ($data as $aId => $val) {
         if (!empty($ent['attr'][$aId])) {
-            $data[$aId] = attr\loader($ent['attr'][$aId], $data);
+            $data[$aId] = attr\cast($ent['attr'][$aId], $val);
         }
     }
 
