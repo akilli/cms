@@ -123,26 +123,27 @@ function save(string $eId, array & $data): bool
         return false;
     }
 
-    $trans = sql\trans(
-        function () use (& $tmp): void {
-            $tmp = app\event('ent.presave', $tmp);
-            $tmp = app\event('ent.type.presave.' . $tmp['_ent']['type'], $tmp);
-            $tmp = app\event('ent.presave.' . $tmp['_ent']['id'], $tmp);
-            $tmp = ($tmp['_ent']['type'] . '\save')($tmp);
-            app\event('ent.postsave', $tmp);
-            app\event('ent.type.postsave.' . $tmp['_ent']['type'], $tmp);
-            app\event('ent.postsave.' . $tmp['_ent']['id'], $tmp);
-        }
-    );
-
-    if ($trans) {
+    try {
+        sql\trans(
+            function () use (& $tmp): void {
+                $tmp = app\event('ent.presave', $tmp);
+                $tmp = app\event('ent.type.presave.' . $tmp['_ent']['type'], $tmp);
+                $tmp = app\event('ent.presave.' . $tmp['_ent']['id'], $tmp);
+                $tmp = ($tmp['_ent']['type'] . '\save')($tmp);
+                app\event('ent.postsave', $tmp);
+                app\event('ent.type.postsave.' . $tmp['_ent']['type'], $tmp);
+                app\event('ent.postsave.' . $tmp['_ent']['id'], $tmp);
+            }
+        );
         app\msg(app\i18n('Successfully saved %s', $name));
         $data = $tmp;
-    } else {
+
+        return true;
+    } catch (Throwable $e) {
         app\msg(app\i18n('Could not save %s', $name));
     }
 
-    return $trans;
+    return false;
 }
 
 /**
@@ -159,21 +160,20 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
             continue;
         }
 
-        $trans = sql\trans(
-            function () use ($data): void {
-                $data = app\event('ent.predelete', $data);
-                $data = app\event('ent.type.predelete.' . $data['_ent']['type'], $data);
-                $data = app\event('ent.predelete.' . $data['_ent']['id'], $data);
-                ($data['_ent']['type'] . '\delete')($data);
-                app\event('ent.postdelete', $data);
-                app\event('ent.type.postdelete.' . $data['_ent']['type'], $data);
-                app\event('ent.postdelete.' . $data['_ent']['id'], $data);
-            }
-        );
-
-        if ($trans) {
+        try {
+            sql\trans(
+                function () use ($data): void {
+                    $data = app\event('ent.predelete', $data);
+                    $data = app\event('ent.type.predelete.' . $data['_ent']['type'], $data);
+                    $data = app\event('ent.predelete.' . $data['_ent']['id'], $data);
+                    ($data['_ent']['type'] . '\delete')($data);
+                    app\event('ent.postdelete', $data);
+                    app\event('ent.type.postdelete.' . $data['_ent']['type'], $data);
+                    app\event('ent.postdelete.' . $data['_ent']['id'], $data);
+                }
+            );
             $success[] = $data['name'];
-        } else {
+        } catch (Throwable $e) {
             $error[] = $data['name'];
         }
     }

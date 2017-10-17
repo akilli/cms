@@ -25,8 +25,10 @@ function db(): PDO
 
 /**
  * Transaction
+ *
+ * @throws Throwable
  */
-function trans(callable $call): bool
+function trans(callable $call): void
 {
     static $level = 0;
 
@@ -40,11 +42,8 @@ function trans(callable $call): bool
         $level === 1 ? db()->rollBack() : db()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
         --$level;
         app\log($e);
-
-        return false;
+        throw $e;
     }
-
-    return true;
 }
 
 /**
