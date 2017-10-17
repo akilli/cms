@@ -174,8 +174,6 @@ function ent_postsave(array $data): array
 
 /**
  * Page post-validate listener
- *
- * @throws RuntimeException
  */
 function page_postvalidate(array $data): array
 {
