@@ -26,6 +26,8 @@ function cfg_app(array $data): array
 
 /**
  * Entity config listener
+ *
+ * @throws RuntimeException
  */
 function cfg_ent(array $data): array
 {
@@ -146,6 +148,8 @@ function cfg_toolbar(array $data): array
 
 /**
  * Entity post-save listener
+ *
+ * @throws RuntimeException
  */
 function ent_postsave(array $data): array
 {
@@ -170,6 +174,8 @@ function ent_postsave(array $data): array
 
 /**
  * Page pre-save listener
+ *
+ * @throws RuntimeException
  */
 function page_presave(array $data): array
 {
