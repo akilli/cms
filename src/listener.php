@@ -113,8 +113,8 @@ function cfg_layout(array $data): array
 function cfg_priv(array $data): array
 {
     foreach ($data as $id => $item) {
-        $data[$id] = array_replace(PRIV, $data[$id]);
-        $data[$id]['name'] = $item['name'] ? app\i18n($item['name']) : '';
+        $item['name'] = !empty($item['name']) ? app\i18n($item['name']) : '';
+        $data[$id] = array_replace(PRIV, $item);
     }
 
     foreach (app\cfg('ent') as $eId => $ent) {
