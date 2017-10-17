@@ -61,7 +61,7 @@ function save(array $data): array
             . sql\set($cols['val'])
             . sql\where([$attrs['id']['col'] . ' = :_id'])
         );
-        $stmt->bindValue(':_id', $data['_old']['id'], sql\type($attrs['id'], $data['_old']['id']));
+        $stmt->bindValue(':_id', $data['_old']['id'], sql\type($data['_old']['id'], $attrs['id']));
     }
 
     foreach ($cols['param'] as $param) {
@@ -85,6 +85,6 @@ function delete(array $data): void
 {
     $attrs = $data['_ent']['attr'];
     $stmt = sql\db()->prepare(sql\delete($data['_ent']['tab']) . sql\where([$attrs['id']['col'] . ' = :id']));
-    $stmt->bindValue(':id', $data['_old']['id'], sql\type($attrs['id'], $data['_old']['id']));
+    $stmt->bindValue(':id', $data['_old']['id'], sql\type($data['_old']['id'], $attrs['id']));
     $stmt->execute();
 }
