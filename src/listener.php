@@ -22,7 +22,7 @@ function cfg_ent(array $data): array
     $cfg = app\cfg('attr');
 
     foreach ($data as $eId => $ent) {
-        $ent = array_replace(APP['ent'], $ent);
+        $ent = arr\replace(APP['ent'], $ent);
 
         if (!$ent['name'] || !$ent['type'] || !$ent['attr']) {
             throw new RuntimeException(app\i18n('Invalid entity configuration'));
@@ -39,7 +39,7 @@ function cfg_ent(array $data): array
 
             $backend = $cfg['backend'][$attr['backend'] ?? $type['backend']];
             $frontend = $cfg['frontend'][$attr['frontend'] ?? $type['frontend']];
-            $attr = array_replace(APP['attr'], $backend, $frontend, $type, $attr);
+            $attr = arr\replace(APP['attr'], $backend, $frontend, $type, $attr);
             $attr['id'] = $aId;
             $attr['name'] = app\i18n($attr['name']);
 
@@ -91,7 +91,7 @@ function cfg_layout(array $data): array
     $data = array_replace_recursive($data[APP['all']], $data[$a] ?? [], $data[$b] ?? [], $data[$c] ?? [], $data[$d] ?? []);
 
     foreach ($data as $id => $§) {
-        $data[$id] = array_replace_recursive(APP['section'], $§, ['id' => $id]);
+        $data[$id] = arr\replace(APP['section'], $§, ['id' => $id]);
     }
 
     return $data;
@@ -104,14 +104,14 @@ function cfg_priv(array $data): array
 {
     foreach ($data as $id => $item) {
         $item['name'] = !empty($item['name']) ? app\i18n($item['name']) : '';
-        $data[$id] = array_replace(APP['priv'], $item);
+        $data[$id] = arr\replace(APP['priv'], $item);
     }
 
     foreach (app\cfg('ent') as $eId => $ent) {
         foreach (array_keys($ent['act']) as $act) {
             $id = $eId . '/' . $act;
             $data[$id]['name'] = $ent['name'] . ' ' . app\i18n(ucwords($act));
-            $data[$id] = array_replace(APP['priv'], $data[$id]);
+            $data[$id] = arr\replace(APP['priv'], $data[$id]);
         }
     }
 
