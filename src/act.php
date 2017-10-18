@@ -36,7 +36,7 @@ function index(array $ent): void
     $p = ['page' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
     $sessKey = 'param/' . $ent['id'] . '/' . $act;
     $rp = http\req('param') ?: (array) session\get($sessKey);
-    $p = array_intersect_key($rp, $p) + $p;
+    $p = arr\replace($p, $rp);
 
     if ($p['q'] && ($q = array_filter(explode(' ', $p['q'])))) {
         $searchable = array_keys(arr\filter($ent['attr'], [['searchable', true]])) ?: ['name'];

@@ -154,3 +154,11 @@ function map(callable $call, array $data, ...$params): array
 
     return array_map($call, $data, ...$p);
 }
+
+/**
+ * Replaces elements from passed arrays into the base array without adding new keys
+ */
+function replace(array $base, array $data, array ...$add): array
+{
+    return array_intersect_key(array_replace($base, $data, ...$add), $base);
+}

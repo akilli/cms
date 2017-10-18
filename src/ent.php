@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace ent;
 
+use arr;
 use attr;
 use app;
 use sql;
@@ -15,7 +16,7 @@ use Throwable;
 function size(string $eId, array $crit = []): int
 {
     $ent = app\cfg('ent', $eId);
-    $opts = ['mode' => 'size'] + APP['ent.opt'];
+    $opts = arr\replace(APP['ent.opt'], ['mode' => 'size']);
 
     try {
         return ($ent['type'] . '\load')($ent, $crit, $opts)[0];
@@ -34,7 +35,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
 {
     $ent = app\cfg('ent', $eId);
     $data = [];
-    $opts = array_replace(APP['ent.opt'], array_intersect_key($opts, APP['ent.opt']), ['mode' => 'one', 'limit' => 1]);
+    $opts = arr\replace(APP['ent.opt'], $opts, ['mode' => 'one', 'limit' => 1]);
 
     try {
         if ($data = ($ent['type'] . '\load')($ent, $crit, $opts)) {
@@ -54,7 +55,7 @@ function one(string $eId, array $crit = [], array $opts = []): array
 function all(string $eId, array $crit = [], array $opts = []): array
 {
     $ent = app\cfg('ent', $eId);
-    $opts = array_replace(APP['ent.opt'], array_intersect_key($opts, APP['ent.opt']), ['mode' => 'all']);
+    $opts = arr\replace(APP['ent.opt'], $opts, ['mode' => 'all']);
 
     if ($opts['select']) {
         foreach (array_unique(['id', $opts['index']]) as $k) {
