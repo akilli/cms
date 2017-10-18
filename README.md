@@ -12,7 +12,7 @@ Run the docker containers and access with configured domain. You can log in via 
 
 **!!! NOTE !!!**
 
-The default configuration currently is quite strict concerning session cookies, so you might have to add `ini_set('session.cookie_secure', '0');` in `www/index.php`.
+The docker image is based on the `akilli/php` image and uses its default configuration. This might work for you out of the box or not.
 
 ## Abbreviations
 
