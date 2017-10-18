@@ -6,7 +6,7 @@ namespace app;
 /**
  * Initialize application
  */
-foreach (glob(__DIR__ . '/../src/*.php') as $file) {
+foreach (glob(dirname(__DIR__) . '/src/*.php') as $file) {
     include_once $file;
 }
 
