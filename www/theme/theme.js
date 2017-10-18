@@ -41,7 +41,16 @@
 
         for (let i = 0; i < rte.length; i++) {
             ClassicEditor
-                .create(rte[i])
+                .create(rte[i], {
+                    heading: {
+                        options: [
+                            {modelElement: 'paragraph', title: 'Paragraph'},
+                            {modelElement: 'heading1', viewElement: 'h1', title: 'Heading 1'},
+                            {modelElement: 'heading2', viewElement: 'h2', title: 'Heading 2'},
+                            {modelElement: 'heading3', viewElement: 'h3', title: 'Heading 3'}
+                        ]
+                    }
+                })
                 .catch(error => {
                     console.error(error);
                 });
