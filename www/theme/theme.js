@@ -1,4 +1,4 @@
-(function (document, CKEDITOR, app) {
+(function (document, app, ClassicEditor) {
     'use strict';
 
     document.addEventListener('DOMContentLoaded', function()
@@ -40,7 +40,11 @@
         const rte = document.querySelectorAll('[data-type=rte]');
 
         for (let i = 0; i < rte.length; i++) {
-            CKEDITOR.replace(rte[i]);
+            ClassicEditor
+                .create(rte[i])
+                .catch(error => {
+                    console.error(error);
+                });
         }
     });
-})(document, CKEDITOR, app);
+})(document, app, ClassicEditor);
