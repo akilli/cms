@@ -120,8 +120,8 @@ function save(string $eId, array & $data): bool
         }
     }
 
-    $name = $tmp['name'] ?? $tmp['_old']['name'] ?? '';
     $tmp = event('postvalidate', $tmp);
+    $name = $tmp['name'] ?? $tmp['_old']['name'] ?? '';
 
     if (!empty($tmp['_error'])) {
         $data['_error'] = $tmp['_error'];
