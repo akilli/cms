@@ -1,8 +1,5 @@
 <?php
 return [
-    'cfg.app' => [
-        'cfg_app' => -1,
-    ],
     'cfg.ent' => [
         'cfg_ent' => -1,
     ],

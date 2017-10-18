@@ -13,18 +13,6 @@ use http;
 use RuntimeException;
 
 /**
- * App config listener
- */
-function cfg_app(array $data): array
-{
-    ini_set('default_charset', $data['charset']);
-    ini_set('intl.default_locale', $data['locale']);
-    ini_set('date.timezone', $data['timezone']);
-
-    return $data;
-}
-
-/**
  * Entity config listener
  *
  * @throws RuntimeException
