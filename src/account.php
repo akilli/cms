@@ -21,7 +21,7 @@ function data(string $key = null)
         if ($id && ($data = ent\one('account', [['id', $id], ['active', true]]))) {
             $role = ent\one('role', [['id', $data['role_id']], ['active', true]]);
             $data['priv'] = $role ? $role['priv'] : [];
-            $data['admin'] = in_array(ALL, $data['priv']);
+            $data['admin'] = in_array(APP['all'], $data['priv']);
             unset($data['_old'], $data['_ent']);
         } else {
             session\set('account', null);

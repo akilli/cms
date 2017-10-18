@@ -114,9 +114,9 @@ function crit(array $crit, array $attrs): array
         foreach ($part as $c) {
             $attr = $attrs[$c[0]] ?? null;
             $val = $c[1] ?? null;
-            $op = $c[2] ?? CRIT['='];
+            $op = $c[2] ?? APP['crit']['='];
 
-            if (!$attr || empty(CRIT[$op]) || is_array($val) && !$val) {
+            if (!$attr || empty(APP['crit'][$op]) || is_array($val) && !$val) {
                 throw new RuntimeException(app\i18n('Invalid criteria'));
             }
 
@@ -127,9 +127,9 @@ function crit(array $crit, array $attrs): array
             $r = [];
 
             switch ($op) {
-                case CRIT['=']:
-                case CRIT['!=']:
-                    $null = ' IS' . ($op === CRIT['!='] ? ' NOT' : '') . ' NULL';
+                case APP['crit']['=']:
+                case APP['crit']['!=']:
+                    $null = ' IS' . ($op === APP['crit']['!='] ? ' NOT' : '') . ' NULL';
 
                     foreach ($val as $v) {
                         if ($v === null) {
@@ -141,25 +141,25 @@ function crit(array $crit, array $attrs): array
                         }
                     }
                     break;
-                case CRIT['>']:
-                case CRIT['>=']:
-                case CRIT['<']:
-                case CRIT['<=']:
+                case APP['crit']['>']:
+                case APP['crit']['>=']:
+                case APP['crit']['<']:
+                case APP['crit']['<=']:
                     foreach ($val as $v) {
                         $p = $param . ++$z[$attr['id']];
                         $cols['param'][] = [$p, $v, $type];
                         $r[] = $attr['col'] . ' ' . $op . ' ' . $p;
                     }
                     break;
-                case CRIT['~']:
-                case CRIT['!~']:
-                case CRIT['~^']:
-                case CRIT['!~^']:
-                case CRIT['~$']:
-                case CRIT['!~$']:
-                    $not = in_array($op, [CRIT['!~'], CRIT['!~^'], CRIT['!~$']]) ? ' NOT' : '';
-                    $pre = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~$'], CRIT['!~$']]) ? '%' : '';
-                    $post = in_array($op, [CRIT['~'], CRIT['!~'], CRIT['~^'], CRIT['!~^']]) ? '%' : '';
+                case APP['crit']['~']:
+                case APP['crit']['!~']:
+                case APP['crit']['~^']:
+                case APP['crit']['!~^']:
+                case APP['crit']['~$']:
+                case APP['crit']['!~$']:
+                    $not = in_array($op, [APP['crit']['!~'], APP['crit']['!~^'], APP['crit']['!~$']]) ? ' NOT' : '';
+                    $pre = in_array($op, [APP['crit']['~'], APP['crit']['!~'], APP['crit']['~$'], APP['crit']['!~$']]) ? '%' : '';
+                    $post = in_array($op, [APP['crit']['~'], APP['crit']['!~'], APP['crit']['~^'], APP['crit']['!~^']]) ? '%' : '';
 
                     foreach ($val as $v) {
                         $p = $param . ++$z[$attr['id']];

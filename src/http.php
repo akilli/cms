@@ -89,7 +89,7 @@ function data(array $in): array
             throw new RuntimeException(app\i18n('Invalid data'));
         }
 
-        $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === UPLOAD ? $v['name'] : data($v);
+        $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === APP['upload'] ? $v['name'] : data($v);
     }
 
     return $out;
@@ -102,7 +102,7 @@ function data(array $in): array
  */
 function file(array $in): array
 {
-    if (!($keys = array_keys($in)) || !sort($keys) || $keys !== UPLOAD || !is_array($in['name'])) {
+    if (!($keys = array_keys($in)) || !sort($keys) || $keys !== APP['upload'] || !is_array($in['name'])) {
         throw new RuntimeException(app\i18n('Invalid data'));
     }
 

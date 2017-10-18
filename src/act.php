@@ -43,7 +43,7 @@ function index(array $ent): void
         $c = [];
 
         foreach ($searchable as $s) {
-            $c[] = [$s, $q, CRIT['~']];
+            $c[] = [$s, $q, APP['crit']['~']];
         }
 
         $crit[] = $c;

@@ -57,7 +57,7 @@ function nav(array $§): string
             return '';
         }
 
-        $crit[] = ['pos', $anc['pos'] . '.', CRIT['~^']];
+        $crit[] = ['pos', $anc['pos'] . '.', APP['crit']['~^']];
     }
 
     if (!$nav = ent\all('page', $crit, ['select' => ['id', 'name', 'url', 'depth'], 'order' => ['pos' => 'asc']])) {

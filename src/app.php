@@ -223,7 +223,7 @@ function url(string $path = '', array $params = []): string
  */
 function asset(string $path): string
 {
-    return URL['asset'] . $path;
+    return APP['url.asset'] . $path;
 }
 
 /**
@@ -231,7 +231,7 @@ function asset(string $path): string
  */
 function media(string $path): string
 {
-    return URL['media'] . $path;
+    return APP['url.media'] . $path;
 }
 
 /**
@@ -239,7 +239,7 @@ function media(string $path): string
  */
 function theme(string $path): string
 {
-    return URL['theme'] . $path;
+    return APP['url.theme'] . $path;
 }
 
 /**
@@ -251,7 +251,7 @@ function rewrite(string $path): string
         return (string) cfg('app', 'home');
     }
 
-    if (!preg_match('#' . URL['page'] . '$#', $path)) {
+    if (!preg_match('#' . APP['url.ext'] . '$#', $path)) {
         return $path;
     }
 
@@ -269,7 +269,7 @@ function rewrite(string $path): string
  */
 function log(Throwable $e): void
 {
-    file_put_contents(LOG, '[' . date('r') . '] ' . $e . "\n\n", FILE_APPEND);
+    file_put_contents(APP['log'], '[' . date('r') . '] ' . $e . "\n\n", FILE_APPEND);
 }
 
 /**

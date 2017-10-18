@@ -149,7 +149,7 @@ function range(array $html, $val): string
 function date(array $html, string $val): string
 {
     $html['type'] = 'date';
-    $html['value'] = $val ? filter\date($val, DATE['b'], DATE['f']) : '';
+    $html['value'] = $val ? filter\date($val, APP['backend.date'], APP['frontend.date']) : '';
 
     return html\tag('input', $html, null, true);
 }
@@ -160,7 +160,7 @@ function date(array $html, string $val): string
 function datetime(array $html, string $val): string
 {
     $html['type'] = 'datetime-local';
-    $html['value'] = $val ? filter\date($val, DATETIME['b'], DATETIME['f']) : '';
+    $html['value'] = $val ? filter\date($val, APP['backend.datetime'], APP['frontend.datetime']) : '';
 
     return html\tag('input', $html, null, true);
 }
@@ -171,7 +171,7 @@ function datetime(array $html, string $val): string
 function time(array $html, string $val): string
 {
     $html['type'] = 'time';
-    $html['value'] = $val ? filter\date($val, TIME['b'], TIME['f']) : '';
+    $html['value'] = $val ? filter\date($val, APP['backend.time'], APP['frontend.time']) : '';
 
     return html\tag('input', $html, null, true);
 }
