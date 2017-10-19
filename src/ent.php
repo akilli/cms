@@ -198,7 +198,7 @@ function data(string $eId): array
         throw new RuntimeException(app\i18n('Invalid entity %s', $eId));
     }
 
-    return array_fill_keys(array_keys(attr($ent, 'edit')), null) + ['_old' => null, '_ent' => $ent];
+    return array_fill_keys($ent['act']['edit'] ?? [], null) + ['_old' => null, '_ent' => $ent];
 }
 
 /**
