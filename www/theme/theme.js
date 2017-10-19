@@ -1,14 +1,13 @@
 (function (document, app, ClassicEditor) {
     'use strict';
 
-    document.addEventListener('DOMContentLoaded', function()
-    {
+    document.addEventListener('DOMContentLoaded', () => {
         // Input password autocomplete fix
         const pwd = document.querySelectorAll('input[type=password]');
 
         for (let i = 0; i < pwd.length; i++) {
             pwd[i].setAttribute('readonly', true);
-            pwd[i].addEventListener('focus', function () {
+            pwd[i].addEventListener('focus', () => {
                 this.removeAttribute('readonly');
             })
         }
@@ -17,7 +16,7 @@
         const del = document.querySelectorAll('.delete');
 
         for (let i = 0; i < del.length; i++) {
-            del[i].addEventListener('click', function (event) {
+            del[i].addEventListener('click', event => {
                 if (!confirm(app.i18n('Please confirm delete operation'))) {
                     event.preventDefault();
                 }
