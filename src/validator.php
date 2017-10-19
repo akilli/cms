@@ -135,7 +135,7 @@ function time(string $val): string
  */
 function file(string $val): string
 {
-    if ($val && !file\type($val, 'file')) {
+    if ($val && !file\type($val)) {
         throw new DomainException(app\i18n('Invalid file %s', $val));
     }
 
@@ -149,7 +149,7 @@ function file(string $val): string
  */
 function image(string $val): string
 {
-    if ($val && !file\type($val, 'image')) {
+    if ($val && file\type($val) !== 'image') {
         throw new DomainException(app\i18n('Invalid file %s', $val));
     }
 
@@ -163,7 +163,7 @@ function image(string $val): string
  */
 function audio(string $val): string
 {
-    if ($val && !file\type($val, 'audio')) {
+    if ($val && file\type($val) !== 'audio') {
         throw new DomainException(app\i18n('Invalid file %s', $val));
     }
 
@@ -177,7 +177,7 @@ function audio(string $val): string
  */
 function embed(string $val): string
 {
-    if ($val && !file\type($val, 'embed')) {
+    if ($val && file\type($val) !== 'embed') {
         throw new DomainException(app\i18n('Invalid file %s', $val));
     }
 
@@ -191,7 +191,7 @@ function embed(string $val): string
  */
 function video(string $val): string
 {
-    if ($val && !file\type($val, 'video')) {
+    if ($val && file\type($val) !== 'video') {
         throw new DomainException(app\i18n('Invalid file %s', $val));
     }
 

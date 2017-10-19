@@ -66,9 +66,9 @@ function writable(string $path): bool
 }
 
 /**
- * Checks if file is of provided type
+ * Returns configured file type
  */
-function type(string $file, string $type = 'file'): bool
+function type(string $file): ?string
 {
-    return ($cfg = app\cfg('file', pathinfo($file, PATHINFO_EXTENSION))) && ($type === 'file' || $cfg === $type);
+    return app\cfg('file', pathinfo($file, PATHINFO_EXTENSION)) ?: null;
 }

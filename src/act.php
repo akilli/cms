@@ -160,9 +160,7 @@ function media_browser(array $ent): void
     $data = [];
 
     foreach (ent\all($ent['id'], [], ['order' => ['name' => 'asc']]) as $file) {
-        if (file\type($file['name'], 'image')) {
-            $data[] = ['name' => $file['name'], 'url' => app\media($file['id'])];
-        }
+        $data[] = ['name' => $file['name'], 'url' => app\media($file['id']), 'type' => file\type($file['name'])];
     }
 
     header('Content-Type: application/json', true);
