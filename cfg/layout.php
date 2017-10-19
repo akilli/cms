@@ -98,13 +98,6 @@ return [
             'parent_id' => 'main',
         ],
     ],
-    'act-form' => [
-        'content' => [
-            'section' => 'tpl',
-            'tpl' => 'ent/edit.phtml',
-            'parent_id' => 'main',
-        ],
-    ],
     'act-view' => [
         'content' => [
             'section' => 'tpl',

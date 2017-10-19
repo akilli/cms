@@ -95,27 +95,6 @@ function edit(array $ent): void
 }
 
 /**
- * Form Action
- */
-function form(array $ent): void
-{
-    $data = http\req('data');
-
-    if ($data) {
-        $data['active'] = true;
-
-        if (ent\save($ent['id'], $data)) {
-            http\redirect();
-        }
-    } else {
-        $data = ent\data($ent['id']);
-    }
-
-    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'form'), 'title' => $ent['name']]);
-    app\layout('head', ['title' => $ent['name']]);
-}
-
-/**
  * Delete Action
  */
 function delete(array $ent): void
