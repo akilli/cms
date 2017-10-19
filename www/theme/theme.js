@@ -7,7 +7,7 @@
 
         for (let i = 0; i < pwd.length; i++) {
             pwd[i].setAttribute('readonly', true);
-            pwd[i].addEventListener('focus', () => {
+            pwd[i].addEventListener('focus', function () {
                 this.removeAttribute('readonly');
             })
         }
