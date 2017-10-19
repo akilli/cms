@@ -192,15 +192,13 @@ function delete(string $eId, array $crit = [], array $opts = []): bool
  *
  * @throws RuntimeException
  */
-function data(string $eId, bool $bare = false): array
+function data(string $eId): array
 {
     if (!$ent = app\cfg('ent', $eId)) {
         throw new RuntimeException(app\i18n('Invalid entity %s', $eId));
     }
 
-    $item = array_fill_keys(array_keys(attr($ent, 'edit')), null);
-
-    return $bare ? $item : $item + ['_old' => null, '_ent' => $ent];
+    return array_fill_keys(array_keys(attr($ent, 'edit')), null) + ['_old' => null, '_ent' => $ent];
 }
 
 /**
