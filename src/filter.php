@@ -34,11 +34,7 @@ function id(string $id, string $sep = '-'): string
  */
 function date(string $date, string $in, string $out): string
 {
-    if (!$format = date_create_from_format($in, $date)) {
-        return '';
-    }
-
-    return date_format($format, $out) ?: '';
+    return ($format = date_create_from_format($in, $date)) && ($format = date_format($format, $out)) ? $format : '';
 }
 
 /**
