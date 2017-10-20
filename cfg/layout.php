@@ -7,9 +7,26 @@ return [
             'parent_id' => null,
         ],
         'head' => [
+            'section' => 'container',
+        ],
+        'meta' => [
             'section' => 'tpl',
-            'tpl' => 'layout/head.phtml',
+            'tpl' => 'head/meta.phtml',
+            'parent_id' => 'head',
+            'sort' => -4,
+        ],
+        'link' => [
+            'section' => 'tpl',
+            'tpl' => 'head/link.phtml',
+            'parent_id' => 'head',
+            'sort' => -3,
+        ],
+        'user' => [
+            'section' => 'tpl',
+            'tpl' => 'head/user.phtml',
             'priv' => 'account-user',
+            'parent_id' => 'head',
+            'sort' => -2,
         ],
         'top' => [
             'section' => 'container',
@@ -93,6 +110,12 @@ return [
         ],
     ],
     'act-edit' => [
+        'rte' => [
+            'section' => 'tpl',
+            'tpl' => 'head/edit.phtml',
+            'parent_id' => 'head',
+            'sort' => -1,
+        ],
         'content' => [
             'section' => 'tpl',
             'tpl' => 'ent/edit.phtml',
@@ -100,6 +123,13 @@ return [
         ],
     ],
     'act-view' => [
+        'rte' => [
+            'section' => 'tpl',
+            'tpl' => 'head/inline.phtml',
+            'priv' => '*/edit',
+            'parent_id' => 'head',
+            'sort' => -1,
+        ],
         'content' => [
             'section' => 'tpl',
             'tpl' => 'ent/view.phtml',
