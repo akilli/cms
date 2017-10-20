@@ -59,6 +59,7 @@ function frontend(array $data, array $attr): string
     $data[$attr['id']] = cast($data[$attr['id']] ?? $attr['val'], $attr);
     $html['id'] =  'data-' . $attr['id'];
     $html['name'] =  'data[' . $attr['id'] . ']';
+    $html['data-type'] =  $attr['type'];
     $label = $attr['name'];
     $error = '';
 
