@@ -83,6 +83,7 @@ return [
         ],
         'pager' => [
             'section' => 'pager',
+            'tpl' => 'ent/pager.phtml',
             'parent_id' => 'content',
         ],
         'search' => [
