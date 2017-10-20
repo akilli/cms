@@ -15,6 +15,7 @@ return [
     ],
     'frontend' => [
         'checkbox' => [
+            'multiple' => true,
             'validator' => 'opt',
             'viewer' => 'opt',
         ],

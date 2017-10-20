@@ -22,12 +22,8 @@ function toggle(array $html, bool $val): string
 /**
  * Checkbox
  */
-function checkbox(array $html, $val, array $opt): string
+function checkbox(array $html, array $val, array $opt): string
 {
-    if (!is_array($val)) {
-        $val = !$val && !is_numeric($val) ? [] : [$val];
-    }
-
     $out = '';
 
     foreach ($opt as $optId => $optVal) {
