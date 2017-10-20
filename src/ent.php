@@ -16,10 +16,10 @@ use Throwable;
 function size(string $eId, array $crit = []): int
 {
     $ent = app\cfg('ent', $eId);
-    $opts = arr\replace(APP['ent.opt'], ['mode' => 'size']);
+    $opt = arr\replace(APP['ent.opt'], ['mode' => 'size']);
 
     try {
-        return ($ent['type'] . '\load')($ent, $crit, $opts)[0];
+        return ($ent['type'] . '\load')($ent, $crit, $opt)[0];
     } catch (Throwable $e) {
         app\log($e);
         app\msg(app\i18n('Could not load data'));
@@ -31,14 +31,14 @@ function size(string $eId, array $crit = []): int
 /**
  * Load one entity
  */
-function one(string $eId, array $crit = [], array $opts = []): array
+function one(string $eId, array $crit = [], array $opt = []): array
 {
     $ent = app\cfg('ent', $eId);
     $data = [];
-    $opts = arr\replace(APP['ent.opt'], $opts, ['mode' => 'one', 'limit' => 1]);
+    $opt = arr\replace(APP['ent.opt'], $opt, ['mode' => 'one', 'limit' => 1]);
 
     try {
-        if ($data = ($ent['type'] . '\load')($ent, $crit, $opts)) {
+        if ($data = ($ent['type'] . '\load')($ent, $crit, $opt)) {
             $data = load($ent, $data);
         }
     } catch (Throwable $e) {
@@ -52,27 +52,27 @@ function one(string $eId, array $crit = [], array $opts = []): array
 /**
  * Load entity collection
  */
-function all(string $eId, array $crit = [], array $opts = []): array
+function all(string $eId, array $crit = [], array $opt = []): array
 {
     $ent = app\cfg('ent', $eId);
-    $opts = arr\replace(APP['ent.opt'], $opts, ['mode' => 'all']);
+    $opt = arr\replace(APP['ent.opt'], $opt, ['mode' => 'all']);
 
-    if ($opts['select']) {
-        foreach (array_unique(['id', $opts['index']]) as $k) {
-            if (!in_array($k, $opts['select'])) {
-                $opts['select'][] = $k;
+    if ($opt['select']) {
+        foreach (array_unique(['id', $opt['index']]) as $k) {
+            if (!in_array($k, $opt['select'])) {
+                $opt['select'][] = $k;
             }
         }
     }
 
     try {
-        $data = ($ent['type'] . '\load')($ent, $crit, $opts);
+        $data = ($ent['type'] . '\load')($ent, $crit, $opt);
 
         foreach ($data as $id => $item) {
             $data[$id] = load($ent, $item);
         }
 
-        return array_column($data, null, $opts['index']);
+        return array_column($data, null, $opt['index']);
     } catch (Throwable $e) {
         app\log($e);
         app\msg(app\i18n('Could not load data'));
@@ -151,12 +151,12 @@ function save(string $eId, array & $data): bool
 /**
  * Delete entity
  */
-function delete(string $eId, array $crit = [], array $opts = []): bool
+function delete(string $eId, array $crit = [], array $opt = []): bool
 {
     $success = [];
     $error = [];
 
-    foreach (all($eId, $crit, $opts) as $id => $data) {
+    foreach (all($eId, $crit, $opt) as $id => $data) {
         if (!empty($data['system'])) {
             app\msg(app\i18n('System items must not be deleted! Therefore skipped ID %s', (string) $id));
             continue;

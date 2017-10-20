@@ -8,23 +8,23 @@ use sql;
 /**
  * Load entity
  */
-function load(array $ent, array $crit = [], array $opts = []): array
+function load(array $ent, array $crit = [], array $opt = []): array
 {
     $attrs = sql\attr($ent['attr']);
 
-    if ($opts['mode'] === 'size') {
-        $opts['select'] = ['COUNT(*)'];
-    } elseif (!$opts['select']) {
-        $opts['select'] = array_column($attrs, 'col');
+    if ($opt['mode'] === 'size') {
+        $opt['select'] = ['COUNT(*)'];
+    } elseif (!$opt['select']) {
+        $opt['select'] = array_column($attrs, 'col');
     }
 
     $cols = sql\crit($crit, $attrs);
     $stmt = sql\db()->prepare(
-        sql\select($opts['select'])
+        sql\select($opt['select'])
         . sql\from($ent['tab'])
         . sql\where($cols['where'])
-        . sql\order($opts['order'])
-        . sql\limit($opts['limit'], $opts['offset'])
+        . sql\order($opt['order'])
+        . sql\limit($opt['limit'], $opt['offset'])
     );
 
     foreach ($cols['param'] as $param) {
@@ -33,11 +33,11 @@ function load(array $ent, array $crit = [], array $opts = []): array
 
     $stmt->execute();
 
-    if ($opts['mode'] === 'size') {
+    if ($opt['mode'] === 'size') {
         return [(int) $stmt->fetchColumn()];
     }
 
-    if ($opts['mode'] === 'one') {
+    if ($opt['mode'] === 'one') {
         return $stmt->fetch() ?: [];
     }
 

@@ -11,15 +11,15 @@ use RuntimeException;
 /**
  * Load entity
  */
-function load(array $ent, array $crit = [], array $opts = []): array
+function load(array $ent, array $crit = [], array $opt = []): array
 {
     $path = app\path('data');
 
     if (!is_dir($path)) {
-        return $opts['mode'] === 'size' ? [0] : [];
+        return $opt['mode'] === 'size' ? [0] : [];
     }
 
-    $opts['order'] = $opts['mode'] === 'size' || $opts['order'] ? $opts['order'] : ['id' => 'asc'];
+    $opt['order'] = $opt['mode'] === 'size' || $opt['order'] ? $opt['order'] : ['id' => 'asc'];
     $data = [];
 
     foreach (array_diff(scandir($path), ['.', '..']) as $id) {
@@ -32,19 +32,19 @@ function load(array $ent, array $crit = [], array $opts = []): array
         $data = arr\filter($data, $crit);
     }
 
-    if ($opts['order']) {
-        $data = arr\order($data, $opts['order']);
+    if ($opt['order']) {
+        $data = arr\order($data, $opt['order']);
     }
 
-    if ($opts['limit'] > 0) {
-        $data = array_slice($data, $opts['offset'], $opts['limit'], true);
+    if ($opt['limit'] > 0) {
+        $data = array_slice($data, $opt['offset'], $opt['limit'], true);
     }
 
-    if ($opts['mode'] === 'size') {
+    if ($opt['mode'] === 'size') {
         return [count($data)];
     }
 
-    if ($opts['mode'] === 'one') {
+    if ($opt['mode'] === 'one') {
         return current($data) ?: [];
     }
 

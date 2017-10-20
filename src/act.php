@@ -26,7 +26,7 @@ function index(array $ent): void
 {
     $act = http\req('act');
     $attrs = ent\attr($ent, $act);
-    $opts = ['limit' => app\cfg('app', 'limit')];
+    $opt = ['limit' => app\cfg('app', 'limit')];
     $crit = [];
 
     if ($act !== 'admin' && !empty($ent['attr']['active'])) {
@@ -52,20 +52,20 @@ function index(array $ent): void
     }
 
     $size = ent\size($ent['id'], $crit);
-    $pages = (int) ceil($size / $opts['limit']) ?: 1;
+    $pages = (int) ceil($size / $opt['limit']) ?: 1;
     $p['page'] = min(max($p['page'], 1), $pages);
-    $opts['offset'] = ($p['page'] - 1) * $opts['limit'];
+    $opt['offset'] = ($p['page'] - 1) * $opt['limit'];
 
     if ($p['sort'] && !empty($attrs[$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
-        $opts['order'] = [$p['sort'] => $p['dir']];
+        $opt['order'] = [$p['sort'] => $p['dir']];
     } else {
         unset($p['sort'], $p['dir']);
     }
 
     session\set($sessKey, $p);
-    app\layout('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opts), 'params' => $p, 'title' => $ent['name']]);
-    app\layout('pager', ['limit' => $opts['limit'], 'params' => $p, 'size' => $size]);
+    app\layout('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opt), 'params' => $p, 'title' => $ent['name']]);
+    app\layout('pager', ['limit' => $opt['limit'], 'params' => $p, 'size' => $size]);
     app\layout('search', ['q' => $p['q'] ?? '']);
     app\layout('head', ['title' => $ent['name']]);
 }
