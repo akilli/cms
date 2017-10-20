@@ -2,6 +2,8 @@
 declare(strict_types = 1);
 
 const APP = [
+    'account.guest' => 'account-guest',
+    'account.user' => 'account-user',
     'all' => '_all_',
     'attr' => [
         'id' => null,
@@ -48,7 +50,7 @@ const APP = [
     'frontend.datetime' => 'Y-m-d\TH:i',
     'frontend.time' => 'H:i',
     'log' => 'php://stdout',
-    'priv' => ['name' => null, 'call' => null, 'active' => true, 'sort' => 0],
+    'priv' => ['name' => null, 'sort' => 0, 'priv' => null, 'active' => true, 'assignable' => true],
     'section' => [
         'id' => null,
         'section' => null,

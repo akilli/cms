@@ -224,10 +224,6 @@ function account_password(): void
  */
 function account_login(): void
 {
-    if (account\user()) {
-        http\redirect();
-    }
-
     if ($data = http\req('data')) {
         if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
             session\regenerate();

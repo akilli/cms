@@ -177,7 +177,7 @@ function allowed(string $key): bool
         return false;
     }
 
-    return !$cfg['active'] || $cfg['call'] && $cfg['call']() || account\data('admin') || in_array($key, account\data('priv') ?? []);
+    return !$cfg['active'] || $cfg['priv'] && allowed($cfg['priv']) || account\data('admin') || in_array($key, account\data('priv'));
 }
 
 /**
@@ -197,9 +197,9 @@ function allowed_url(string $path): bool
 /**
  * Resolves wildcards, i.e. asterisks, for entity and action part with appropriate values from current request
  */
-function resolve(string $path): string
+function resolve(string $key): string
 {
-    return preg_replace(['#^\*/#', '#^([^/]+)/\*($|/)#'], [http\req('ent') . '/', '$1/' . http\req('act') . '$2'], $path);
+    return preg_replace(['#^\*/#', '#^([^/]+)/\*($|/)#'], [http\req('ent') . '/', '$1/' . http\req('act') . '$2'], $key);
 }
 
 /**

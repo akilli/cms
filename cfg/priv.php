@@ -4,6 +4,12 @@ return [
         'name' => 'ALL PRIVILEGES',
         'sort' => -1,
     ],
+    'account-guest' => [
+        'assignable' => false,
+    ],
+    'account-user' => [
+        'assignable' => false,
+    ],
     'app/denied' => [
         'active' => false,
     ],
@@ -11,16 +17,16 @@ return [
         'active' => false,
     ],
     'app/js' => [
-        'call' => 'account\user',
+        'priv' => 'account-user',
     ],
     'account/login' => [
-        'active' => false,
+        'priv' => 'account-guest',
     ],
     'account/logout' => [
-        'call' => 'account\user',
+        'priv' => 'account-user',
     ],
     'account/password' => [
-        'call' => 'account\user',
+        'priv' => 'account-user',
     ],
     'media/view' => [
         'active' => false,

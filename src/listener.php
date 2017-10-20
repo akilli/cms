@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace listener;
 
-use account;
 use app;
 use arr;
 use ent;
@@ -71,24 +70,23 @@ function cfg_i18n(array $data): array
  */
 function cfg_layout(array $data): array
 {
-    $a = 'account-' . (account\user() ? 'user' : 'guest');
     $code = http_response_code();
 
     if ($code === 403) {
-        $b = 'act-denied';
-        $c = 'ent-app';
-        $d = 'app/denied';
+        $a = 'act-denied';
+        $b = 'ent-app';
+        $c = 'app/denied';
     } elseif ($code === 404) {
-        $b = 'act-error';
-        $c = 'ent-app';
-        $d = 'app/error';
+        $a = 'act-error';
+        $b = 'ent-app';
+        $c = 'app/error';
     } else {
-        $b = 'act-' . http\req('act');
-        $c = 'ent-' . http\req('ent');
-        $d = http\req('path');
+        $a = 'act-' . http\req('act');
+        $b = 'ent-' . http\req('ent');
+        $c = http\req('path');
     }
 
-    $data = array_replace_recursive($data[APP['all']], $data[$a] ?? [], $data[$b] ?? [], $data[$c] ?? [], $data[$d] ?? []);
+    $data = array_replace_recursive($data[APP['all']], $data[$a] ?? [], $data[$b] ?? [], $data[$c] ?? []);
 
     foreach ($data as $id => $§) {
         $data[$id] = arr\replace(APP['section'], $§, ['id' => $id]);
@@ -103,8 +101,10 @@ function cfg_layout(array $data): array
 function cfg_priv(array $data): array
 {
     foreach ($data as $id => $item) {
-        $item['name'] = !empty($item['name']) ? app\i18n($item['name']) : '';
-        $data[$id] = arr\replace(APP['priv'], $item);
+        $item = arr\replace(APP['priv'], $item);
+        $item['name'] = $item['name'] ? app\i18n($item['name']) : '';
+        $item['assignable'] = !$item['priv'] && $item['active'] && $item['assignable'];
+        $data[$id] = $item;
     }
 
     foreach (app\cfg('ent') as $eId => $ent) {

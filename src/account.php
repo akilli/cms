@@ -20,10 +20,12 @@ function data(string $key = null)
 
         if ($id && ($data = ent\one('account', [['id', $id], ['active', true]]))) {
             $role = ent\one('role', [['id', $data['role_id']], ['active', true]]);
-            $data['priv'] = $role ? $role['priv'] : [];
+            $data['priv'] = $role['priv'];
+            $data['priv'][] = APP['account.user'];
             $data['admin'] = in_array(APP['all'], $data['priv']);
             unset($data['_old'], $data['_ent']);
         } else {
+            $data['priv'] = [APP['account.guest']];
             session\set('account', null);
         }
     }
@@ -52,12 +54,4 @@ function login(string $name, string $password): ?array
     }
 
     return $data;
-}
-
-/**
- * Is logged-in user account
- */
-function user(): bool
-{
-    return data('id') > 0;
 }

@@ -9,9 +9,17 @@ return [
         'head' => [
             'section' => 'tpl',
             'tpl' => 'layout/head.phtml',
+            'priv' => 'account-user',
         ],
         'top' => [
             'section' => 'container',
+        ],
+        'toolbar' => [
+            'section' => 'tpl',
+            'tpl' => 'layout/toolbar.phtml',
+            'priv' => 'account-user',
+            'parent_id' => 'top',
+            'sort' => -2,
         ],
         'header' => [
             'section' => 'tpl',
@@ -36,14 +44,6 @@ return [
         ],
         'bottom' => [
             'section' => 'container',
-        ],
-    ],
-    'account-user' => [
-        'toolbar' => [
-            'section' => 'tpl',
-            'tpl' => 'layout/toolbar.phtml',
-            'parent_id' => 'top',
-            'sort' => -2,
         ],
     ],
     'act-admin' => [
