@@ -62,7 +62,7 @@ function cfg_ent(array $data): array
  */
 function cfg_i18n(array $data): array
 {
-    return $data + app\cfg('i18n.' . app\cfg('app', 'lang'));
+    return $data + app\cfg('i18n.' . locale_get_primary_language(''));
 }
 
 /**
