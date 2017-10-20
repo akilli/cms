@@ -15,6 +15,9 @@ return [
     'cfg.toolbar' => [
         'cfg_toolbar' => -1,
     ],
+    'ent.postvalidate' => [
+        'ent_postvalidate' => -1,
+    ],
     'ent.postsave' => [
         'ent_postsave' => -1,
     ],

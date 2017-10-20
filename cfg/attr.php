@@ -35,9 +35,7 @@ return [
             'viewer' => 'file',
         ],
         'number' => [],
-        'password' => [
-            'validator' => 'password',
-        ],
+        'password' => [],
         'radio' => [
             'validator' => 'opt',
             'viewer' => 'opt',

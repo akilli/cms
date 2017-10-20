@@ -37,20 +37,6 @@ function text(string $val): string
 }
 
 /**
- * Password validator
- *
- * @throws DomainException
- */
-function password(string $val): string
-{
-    if ($val && !($val = password_hash($val, PASSWORD_DEFAULT))) {
-        throw new DomainException(app\i18n('Invalid password'));
-    }
-
-    return $val;
-}
-
-/**
  * Email validator
  *
  * @throws DomainException

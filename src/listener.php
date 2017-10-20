@@ -135,6 +135,20 @@ function cfg_toolbar(array $data): array
 }
 
 /**
+ * Entity post-validate listener
+ */
+function ent_postvalidate(array $data): array
+{
+    foreach ($data['_ent']['attr'] as $aId => $attr) {
+        if ($attr['frontend'] === 'password' && !empty($data[$aId]) && !($data[$aId] = password_hash($data[$aId], PASSWORD_DEFAULT))) {
+            $data['_error'][$aId] = app\i18n('Invalid password');
+        }
+    }
+
+    return $data;
+}
+
+/**
  * Entity post-save listener
  *
  * @throws RuntimeException
