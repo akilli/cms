@@ -8,11 +8,11 @@ use session;
     <p><?= i18n('Please enter your credentials');?></p>
     <form method="post">
         <fieldset>
-            <div data-attr="name">
+            <div data-attr="name" data-type="text">
                 <label for="data-name"><?= i18n('Name');?> <em class="required"><?= i18n('Required');?></em></label>
                 <input id="data-name" type="text" name="data[name]" required="required" />
             </div>
-            <div data-attr="password">
+            <div data-attr="password" data-type="password">
                 <label for="data-password"><?= i18n('Password');?> <em class="required"><?= i18n('Required');?></em></label>
                 <input id="data-password" type="password" name="data[password]" required="required" />
             </div>

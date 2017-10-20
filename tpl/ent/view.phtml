@@ -8,9 +8,9 @@ use attr;
     <?php foreach ($§('attr') as $attr):?>
         <?php if (!$html = attr\viewer($data, $attr)) continue;?>
         <?php if ($attr['id'] === 'name'):?>
-    <h1 data-attr="<?=$attr['id'];?>"><?=$html;?></h1>
+    <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
         <?php else:?>
-    <div data-attr="<?=$attr['id'];?>">
+    <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
         <?=$html;?>
     </div>
         <?php endif;?>

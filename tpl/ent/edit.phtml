@@ -12,7 +12,7 @@ use session;
             <legend><?=$data['name'] ?? i18n('New Entry');?></legend>
             <?php foreach ($§('attr') as $attr):?>
                 <?php if (!$html = attr\frontend($data, $attr)) continue;?>
-            <div data-attr="<?=$attr['id'];?>">
+            <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
                 <?=$html;?>
             </div>
             <?php endforeach;?>

@@ -24,7 +24,7 @@
         }
 
         // Rich Text Editor
-        const rte = document.querySelectorAll('[data-type=rte]');
+        const rte = document.querySelectorAll('[data-type=rte] textarea');
 
         for (let i = 0; i < rte.length; i++) {
             ClassicEditor
