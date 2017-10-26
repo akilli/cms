@@ -4,7 +4,6 @@ return [
         'root' => [
             'section' => 'tpl',
             'tpl' => 'layout/root.phtml',
-            'parent_id' => null,
         ],
         'head' => [
             'section' => 'container',
@@ -72,7 +71,6 @@ return [
         'pager' => [
             'section' => 'pager',
             'tpl' => 'ent/pager.phtml',
-            'parent_id' => 'content',
         ],
         'search' => [
             'section' => 'tpl',
@@ -101,7 +99,6 @@ return [
         'pager' => [
             'section' => 'pager',
             'tpl' => 'ent/pager.phtml',
-            'parent_id' => 'content',
         ],
         'search' => [
             'section' => 'tpl',
