@@ -65,5 +65,6 @@ const APP = [
     'url.asset' => '/asset/',
     'url.ext' => '.html',
     'url.media' => '/media/view/',
+    'url.page' => '/page/view/',
     'url.theme' => '/theme/'
 ];
