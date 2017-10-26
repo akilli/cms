@@ -67,8 +67,10 @@ function param(array $data): array
 
         if ($val === false) {
             $data[$key] = null;
+        } elseif (is_numeric($val)) {
+            $data[$key] = $val + 0;
         } else {
-            $data[$key] = is_numeric($val) ? (int) $val : filter\param($val);
+            $data[$key] = filter\param($val);
         }
     }
 
