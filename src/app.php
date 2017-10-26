@@ -54,16 +54,11 @@ function & data(string $id): ?array
  */
 function path(string $dir, string $id = null): string
 {
-    if (($data = & data('path')) === null) {
-        $root = dirname(__DIR__);
-        $data = ['cfg' => $root .'/cfg', 'data' => '/data', 'theme' => $root .'/www/theme', 'tpl' => $root .'/tpl'];
-    }
-
-    if (empty($data[$dir])) {
+    if (empty(APP['path'][$dir])) {
         throw new RuntimeException(i18n('Invalid path %s', $dir));
     }
 
-    return $data[$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
+    return APP['path'][$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
 }
 
 /**

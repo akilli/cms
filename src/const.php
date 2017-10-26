@@ -50,6 +50,7 @@ const APP = [
     'frontend.datetime' => 'Y-m-d\TH:i',
     'frontend.time' => 'H:i',
     'log' => 'php://stdout',
+    'path' => ['cfg' => '/app/cfg', 'data' => '/data', 'theme' => '/app/www/theme', 'tpl' => '/app/tpl'],
     'priv' => ['name' => null, 'sort' => 0, 'priv' => null, 'active' => true, 'assignable' => true],
     'section' => [
         'id' => null,
