@@ -2,7 +2,6 @@
 return [
     'date' => 'd.m.Y',
     'datetime' => 'd.m.Y H:i',
-    'home' => '/page/index',
     'limit' => 20,
     'name' => 'akıllı CMS',
     'pager' => 5,

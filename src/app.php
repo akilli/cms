@@ -68,6 +68,8 @@ function path(string $dir, string $id = null): string
 
 /**
  * Loads and returns configuration data
+ *
+ * @return mixed
  */
 function cfg(string $id, string $key = null)
 {
@@ -247,8 +249,8 @@ function theme(string $path): string
  */
 function rewrite(string $path): string
 {
-    if ($path === '/') {
-        return (string) cfg('app', 'home');
+    if ($url = cfg('url', $path)) {
+        return $url;
     }
 
     if (!preg_match('#' . APP['url.ext'] . '$#', $path)) {
