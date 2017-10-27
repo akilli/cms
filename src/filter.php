@@ -18,7 +18,7 @@ function enc(string $var): string
  */
 function html(string $html): string
 {
-    return $html ? trim(strip_tags($html, app\cfg('filter', 'html'))) : '';
+    return trim(strip_tags($html, app\cfg('filter', 'html')));
 }
 
 /**
