@@ -114,17 +114,6 @@ return [
                 'name' => 'Active',
                 'type' => 'toggle',
             ],
-            'parent_id' => [
-                'name' => 'Parent',
-                'type' => 'ent',
-                'nullable' => true,
-                'opt' => 'page',
-            ],
-            'sort' => [
-                'name' => 'Sort',
-                'type' => 'int',
-                'val' => 0,
-            ],
             'content' => [
                 'name' => 'Content',
                 'type' => 'rte',
@@ -139,19 +128,30 @@ return [
                 'name' => 'Modified',
                 'type' => 'datetime',
             ],
-            'path' => [
-                'name' => 'Path',
-                'type' => 'json',
+            'parent_id' => [
+                'name' => 'Parent',
+                'type' => 'ent',
+                'nullable' => true,
                 'opt' => 'page',
             ],
-            'depth' => [
-                'name' => 'Depth',
+            'sort' => [
+                'name' => 'Sort',
                 'type' => 'int',
+                'val' => 0,
             ],
             'pos' => [
                 'name' => 'Position',
                 'type' => 'text',
                 'viewer' => 'pos',
+            ],
+            'depth' => [
+                'name' => 'Depth',
+                'type' => 'int',
+            ],
+            'path' => [
+                'name' => 'Path',
+                'type' => 'json',
+                'opt' => 'page',
             ],
         ],
     ],
