@@ -12,11 +12,7 @@ use html;
  */
 function toggle(array $html, bool $val): string
 {
-    $html['type'] = 'checkbox';
-    $html['value'] = 1;
-    $html['checked'] = $val;
-
-    return html\tag('input', $html, null, true);
+    return html\tag('input', ['type' => 'checkbox', 'value' => 1, 'checked' => $val] + $html, null, true);
 }
 
 /**
@@ -26,12 +22,12 @@ function checkbox(array $html, array $val, array $opt): string
 {
     $out = '';
 
-    foreach ($opt as $optId => $optVal) {
-        $htmlId = $html['id'] . '-' . $optId;
-        $a = ['id' => $htmlId, 'name' => $html['name'], 'type' => 'checkbox', 'value' => $optId, 'checked' => in_array($optId, $val)];
-        $a = array_replace($html, $a);
+    foreach ($opt as $k => $v) {
+        $id = $html['id'] . '-' . $k;
+        $checked = in_array($k, $val);
+        $a = ['id' => $id, 'name' => $html['name'], 'type' => 'checkbox', 'value' => $k, 'checked' => $checked] + $html;
         $out .= html\tag('input', $a, null, true);
-        $out .= html\tag('label', ['for' => $htmlId], $optVal);
+        $out .= html\tag('label', ['for' => $id], $v);
     }
 
     return $out;
@@ -44,12 +40,11 @@ function radio(array $html, $val, array $opt): string
 {
     $out = '';
 
-    foreach ($opt as $optId => $optVal) {
-        $htmlId = $html['id'] . '-' . $optId;
-        $a = ['id' => $htmlId, 'name' => $html['name'], 'type' => 'radio', 'value' => $optId, 'checked' => $optId === $val];
-        $a = array_replace($html, $a);
+    foreach ($opt as $k => $v) {
+        $id = $html['id'] . '-' . $k;
+        $a = ['id' => $id, 'name' => $html['name'], 'type' => 'radio', 'value' => $k, 'checked' => $k === $val] + $html;
         $out .= html\tag('input', $a, null, true);
-        $out .= html\tag('label', ['for' => $htmlId], $optVal);
+        $out .= html\tag('label', ['for' => $id], $v);
     }
 
     return $out;
@@ -61,13 +56,13 @@ function radio(array $html, $val, array $opt): string
 function select(array $html, $val, array $opt): string
 {
     if (!is_array($val)) {
-        $val = !$val && !is_numeric($val) ? [] : [$val];
+        $val = $val === null && $val === '' ? [] : [$val];
     }
 
     $out = html\tag('option', ['value' => ''], app\i18n('Please choose'));
 
-    foreach ($opt as $optId => $optVal) {
-        $out .= html\tag('option', ['value' => $optId, 'selected' => in_array($optId, $val)], $optVal);
+    foreach ($opt as $k => $v) {
+        $out .= html\tag('option', ['value' => $k, 'selected' => in_array($k, $val)], $v);
     }
 
     return html\tag('select', $html, $out);
@@ -78,10 +73,7 @@ function select(array $html, $val, array $opt): string
  */
 function text(array $html, string $val): string
 {
-    $html['type'] = 'text';
-    $html['value'] = $val ? filter\enc($val) : $val;
-
-    return html\tag('input', $html, null, true);
+    return html\tag('input', ['type' => 'text', 'value' => filter\enc($val)] + $html, null, true);
 }
 
 /**
@@ -89,10 +81,7 @@ function text(array $html, string $val): string
  */
 function password(array $html): string
 {
-    $html['type'] = 'password';
-    $html['autocomplete'] = 'off';
-
-    return html\tag('input', $html, null, true);
+    return html\tag('input', ['type' => 'password', 'autocomplete' => 'off'] + $html, null, true);
 }
 
 /**
@@ -100,10 +89,7 @@ function password(array $html): string
  */
 function email(array $html, string $val): string
 {
-    $html['type'] = 'email';
-    $html['value'] = $val ? filter\enc($val) : $val;
-
-    return html\tag('input', $html, null, true);
+    return html\tag('input', ['type' => 'email', 'value' => filter\enc($val)] + $html, null, true);
 }
 
 /**
@@ -111,10 +97,7 @@ function email(array $html, string $val): string
  */
 function url(array $html, string $val): string
 {
-    $html['type'] = 'url';
-    $html['value'] = $val ? filter\enc($val) : $val;
-
-    return html\tag('input', $html, null, true);
+    return html\tag('input', ['type' => 'url', 'value' => filter\enc($val)] + $html, null, true);
 }
 
 /**
@@ -122,10 +105,7 @@ function url(array $html, string $val): string
  */
 function number(array $html, $val): string
 {
-    $html['type'] = 'number';
-    $html['value'] = $val;
-
-    return html\tag('input', $html, null, true);
+    return html\tag('input', ['type' => 'number', 'value' => $val] + $html, null, true);
 }
 
 /**
@@ -133,10 +113,7 @@ function number(array $html, $val): string
  */
 function range(array $html, $val): string
 {
-    $html['type'] = 'range';
-    $html['value'] = $val;
-
-    return html\tag('input', $html, null, true);
+    return html\tag('input', ['type' => 'range', 'value' => $val] + $html, null, true);
 }
 
 /**
@@ -144,10 +121,9 @@ function range(array $html, $val): string
  */
 function date(array $html, string $val): string
 {
-    $html['type'] = 'date';
     $html['value'] = $val ? filter\date($val, APP['backend.date'], APP['frontend.date']) : '';
 
-    return html\tag('input', $html, null, true);
+    return html\tag('input', ['type' => 'date'] + $html, null, true);
 }
 
 /**
@@ -155,10 +131,9 @@ function date(array $html, string $val): string
  */
 function datetime(array $html, string $val): string
 {
-    $html['type'] = 'datetime-local';
     $html['value'] = $val ? filter\date($val, APP['backend.datetime'], APP['frontend.datetime']) : '';
 
-    return html\tag('input', $html, null, true);
+    return html\tag('input', ['type' => 'datetime-local'] + $html, null, true);
 }
 
 /**
@@ -166,10 +141,9 @@ function datetime(array $html, string $val): string
  */
 function time(array $html, string $val): string
 {
-    $html['type'] = 'time';
     $html['value'] = $val ? filter\date($val, APP['backend.time'], APP['frontend.time']) : '';
 
-    return html\tag('input', $html, null, true);
+    return html\tag('input', ['type' => 'time'] + $html, null, true);
 }
 
 /**
@@ -178,9 +152,8 @@ function time(array $html, string $val): string
 function file(array $html): string
 {
     $hidden = html\tag('input', ['name' => $html['name'], 'type' => 'hidden'], null, true);
-    $html['type'] = 'file';
 
-    return $hidden . html\tag('input', $html, null, true);
+    return $hidden . html\tag('input', ['type' => 'file'] + $html, null, true);
 }
 
 /**
@@ -188,7 +161,5 @@ function file(array $html): string
  */
 function textarea(array $html, string $val): string
 {
-    $val = $val ? filter\enc($val) : $val;
-
-    return html\tag('textarea', $html, $val);
+    return html\tag('textarea', $html, filter\enc($val));
 }

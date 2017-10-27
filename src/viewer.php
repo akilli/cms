@@ -20,7 +20,7 @@ function opt($val, array $opt): string
         }
     }
 
-    return $result ? filter\enc(implode(', ', $result)) : '';
+    return filter\enc(implode(', ', $result));
 }
 
 /**
