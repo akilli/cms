@@ -47,19 +47,19 @@ function trans(callable $call): void
 }
 
 /**
- * Set appropriate data type
+ * Returns appropriate parameter type
  */
-function type($val, array $attr): int
+function type($val): int
 {
-    if ($attr['nullable'] && $val === null) {
+    if ($val === null) {
         return PDO::PARAM_NULL;
     }
 
-    if ($attr['backend'] === 'bool') {
+    if (is_bool($val)) {
         return PDO::PARAM_BOOL;
     }
 
-    if ($attr['backend'] === 'int') {
+    if (is_int($val)) {
         return PDO::PARAM_INT;
     }
 
@@ -78,7 +78,7 @@ function cols(array $attrs, array $data): array
         $attr = $attrs[$aId];
         $p = ':' . $attr['id'];
         $val = $attr['backend'] === 'json' ? json_encode($val) : $val;
-        $cols['param'][$attr['col']] = [$p, $val, type($val, $attr)];
+        $cols['param'][$attr['col']] = [$p, $val, type($val)];
         $cols['val'][$attr['col']] = $p;
     }
 
@@ -121,7 +121,7 @@ function crit(array $crit, array $attrs): array
             }
 
             $param = ':crit_' . $attr['id'] . '_';
-            $type = type($val, $attr);
+            $type = type($val);
             $z[$attr['id']] = $z[$attr['id']] ?? 0;
             $val = is_array($val) ? $val : [$val];
             $r = [];
