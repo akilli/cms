@@ -82,6 +82,41 @@ return [
             ],
         ],
     ],
+    'media' => [
+        'name' => 'Media',
+        'type' => 'asset',
+        'act' => [
+            'admin' => ['name', 'size'],
+            'browser' => [],
+            'delete' => [],
+            'edit' => ['name'],
+            'import' => [],
+            'view' => []
+        ],
+        'attr' => [
+            'id' => [
+                'name' => 'ID',
+                'auto' => true,
+                'type' => 'text',
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'file',
+                'required' => true,
+                'unique' => true,
+                'searchable' => true,
+            ],
+            'size' => [
+                'name' => 'Size',
+                'type' => 'int',
+                'viewer' => 'filesize',
+            ],
+            'file' => [
+                'name' => 'File',
+                'type' => 'text',
+            ],
+        ],
+    ],
     'page' => [
         'name' => 'Pages',
         'act' => [
@@ -152,41 +187,6 @@ return [
                 'name' => 'Path',
                 'type' => 'json',
                 'opt' => 'page',
-            ],
-        ],
-    ],
-    'media' => [
-        'name' => 'Media',
-        'type' => 'asset',
-        'act' => [
-            'admin' => ['name', 'size'],
-            'browser' => [],
-            'delete' => [],
-            'edit' => ['name'],
-            'import' => [],
-            'view' => []
-        ],
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'auto' => true,
-                'type' => 'text',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'file',
-                'required' => true,
-                'unique' => true,
-                'searchable' => true,
-            ],
-            'size' => [
-                'name' => 'Size',
-                'type' => 'int',
-                'viewer' => 'filesize',
-            ],
-            'file' => [
-                'name' => 'File',
-                'type' => 'text',
             ],
         ],
     ],
