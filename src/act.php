@@ -67,7 +67,7 @@ function index(array $ent): void
     app\layout('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opt), 'params' => $p, 'title' => $ent['name']]);
     app\layout('pager', ['limit' => $opt['limit'], 'params' => $p, 'size' => $size]);
     app\layout('search', ['q' => $p['q'] ?? '']);
-    app\layout('root', ['title' => $ent['name']]);
+    app\layout('meta', ['title' => $ent['name']]);
 }
 
 /**
@@ -91,7 +91,7 @@ function edit(array $ent): void
     }
 
     app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'edit'), 'title' => $ent['name']]);
-    app\layout('root', ['title' => $ent['name']]);
+    app\layout('meta', ['title' => $ent['name']]);
 }
 
 /**
@@ -121,7 +121,7 @@ function view(array $ent): void
     }
 
     app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'view')]);
-    app\layout('root', ['title' => $data['name']]);
+    app\layout('meta', ['title' => $data['name']]);
 }
 
 /**
@@ -130,7 +130,7 @@ function view(array $ent): void
 function app_denied(): void
 {
     http_response_code(403);
-    app\layout('root', ['title' => app\i18n('Access denied')]);
+    app\layout('meta', ['title' => app\i18n('Access denied')]);
     app\layout('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Access denied')]);
 }
 
@@ -140,7 +140,7 @@ function app_denied(): void
 function app_error(): void
 {
     http_response_code(404);
-    app\layout('root', ['title' => app\i18n('Page not found')]);
+    app\layout('meta', ['title' => app\i18n('Page not found')]);
     app\layout('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Page not found')]);
 }
 
@@ -216,7 +216,7 @@ function account_password(): void
         }
     }
 
-    app\layout('root', ['title' => app\i18n('Password')]);
+    app\layout('meta', ['title' => app\i18n('Password')]);
 }
 
 /**
@@ -235,7 +235,7 @@ function account_login(): void
         app\msg(app\i18n('Invalid name and password combination'));
     }
 
-    app\layout('root', ['title' => app\i18n('Login')]);
+    app\layout('meta', ['title' => app\i18n('Login')]);
 }
 
 /**
