@@ -248,10 +248,6 @@ function rewrite(string $path): string
         return $url;
     }
 
-    if (!preg_match('#' . APP['url.ext'] . '$#', $path)) {
-        return $path;
-    }
-
     $data = & data('url');
 
     if (empty($data[$path])) {
