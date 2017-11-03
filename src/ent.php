@@ -114,7 +114,7 @@ function save(string $eId, array & $data): bool
 
     foreach ($aIds as $aId) {
         try {
-            $tmp = attr\validator($tmp, $tmp['_ent']['attr'][$aId]);
+            $tmp = attr\filter($tmp, $tmp['_ent']['attr'][$aId]);
         } catch (Throwable $e) {
             $tmp['_error'][$aId] = $e->getMessage();
         }

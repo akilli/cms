@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace validator;
+namespace filter;
 
 use app;
 use file;
 use DomainException;
 
 /**
- * Option validator
+ * Option filter
  *
  * @return mixed
  *
@@ -28,7 +28,7 @@ function opt($val, array $opt)
 }
 
 /**
- * Text validator
+ * Text filter
  */
 function text(string $val): string
 {
@@ -36,7 +36,7 @@ function text(string $val): string
 }
 
 /**
- * Email validator
+ * Email filter
  *
  * @throws DomainException
  */
@@ -50,7 +50,7 @@ function email(string $val): string
 }
 
 /**
- * URL validator
+ * URL filter
  *
  * @throws DomainException
  */
@@ -64,7 +64,7 @@ function url(string $val): string
 }
 
 /**
- * Rich text validator
+ * Rich text filter
  */
 function rte(string $val): string
 {
@@ -72,7 +72,7 @@ function rte(string $val): string
 }
 
 /**
- * ID validator
+ * ID filter
  */
 function id(string $val): string
 {
@@ -80,7 +80,7 @@ function id(string $val): string
 }
 
 /**
- * Date validator
+ * Date filter
  *
  * @throws DomainException
  */
@@ -94,7 +94,7 @@ function date(string $val): string
 }
 
 /**
- * Datetime validator
+ * Datetime filter
  *
  * @throws DomainException
  */
@@ -108,7 +108,7 @@ function datetime(string $val): string
 }
 
 /**
- * Time validator
+ * Time filter
  *
  * @throws DomainException
  */
@@ -122,7 +122,7 @@ function time(string $val): string
 }
 
 /**
- * File validator
+ * File filter
  *
  * @throws DomainException
  */
@@ -136,7 +136,7 @@ function file(string $val): string
 }
 
 /**
- * Image validator
+ * Image filter
  *
  * @throws DomainException
  */
@@ -150,7 +150,7 @@ function image(string $val): string
 }
 
 /**
- * Audio validator
+ * Audio filter
  *
  * @throws DomainException
  */
@@ -164,7 +164,7 @@ function audio(string $val): string
 }
 
 /**
- * Embed validator
+ * Embed filter
  *
  * @throws DomainException
  */
@@ -178,7 +178,7 @@ function embed(string $val): string
 }
 
 /**
- * Video validator
+ * Video filter
  *
  * @throws DomainException
  */

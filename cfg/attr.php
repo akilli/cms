@@ -16,57 +16,57 @@ return [
     'frontend' => [
         'checkbox' => [
             'multiple' => true,
-            'validator' => 'opt',
+            'filter' => 'opt',
             'viewer' => 'opt',
         ],
         'date' => [
-            'validator' => 'date',
+            'filter' => 'date',
             'viewer' => 'date',
         ],
         'datetime' => [
-            'validator' => 'datetime',
+            'filter' => 'datetime',
             'viewer' => 'datetime',
         ],
         'email' => [
-            'validator' => 'email',
+            'filter' => 'email',
         ],
         'file' => [
-            'validator' => 'file',
+            'filter' => 'file',
             'viewer' => 'file',
         ],
         'number' => [],
         'password' => [],
         'radio' => [
-            'validator' => 'opt',
+            'filter' => 'opt',
             'viewer' => 'opt',
         ],
         'range' => [],
         'select' => [
-            'validator' => 'opt',
+            'filter' => 'opt',
             'viewer' => 'opt',
         ],
         'text' => [
-            'validator' => 'text',
+            'filter' => 'text',
         ],
         'textarea' => [
-            'validator' => 'text',
+            'filter' => 'text',
         ],
         'time' => [
-            'validator' => 'time',
+            'filter' => 'time',
             'viewer' => 'time',
         ],
         'toggle' => [
             'viewer' => 'opt',
         ],
         'url' => [
-            'validator' => 'url',
+            'filter' => 'url',
         ],
     ],
     'type' => [
         'audio' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'validator' => 'audio',
+            'filter' => 'audio',
             'viewer' => 'audio',
         ],
         'date' => [
@@ -88,7 +88,7 @@ return [
         'embed' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'validator' => 'embed',
+            'filter' => 'embed',
             'viewer' => 'embed',
         ],
         'ent' => [
@@ -107,7 +107,7 @@ return [
         'image' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'validator' => 'image',
+            'filter' => 'image',
             'viewer' => 'image',
         ],
         'int' => [
@@ -134,7 +134,7 @@ return [
             'backend' => 'text',
             'frontend' => 'textarea',
             'viewer' => 'rte',
-            'validator' => 'rte',
+            'filter' => 'rte',
         ],
         'select' => [
             'backend' => 'varchar',
@@ -163,7 +163,7 @@ return [
         'video' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-            'validator' => 'video',
+            'filter' => 'video',
             'viewer' => 'video',
         ],
     ],

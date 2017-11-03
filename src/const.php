@@ -24,7 +24,7 @@ const APP = [
         'max' => 0,
         'minlength' => 0,
         'maxlength' => 0,
-        'validator' => null,
+        'filter' => null,
         'viewer' => null,
     ],
     'backend.date' => 'Y-m-d',

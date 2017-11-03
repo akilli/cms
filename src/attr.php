@@ -11,11 +11,11 @@ use opt;
 use DomainException;
 
 /**
- * Validator
+ * Filter
  *
  * @throws DomainException
  */
-function validator(array $data, array $attr): array
+function filter(array $data, array $attr): array
 {
     $data[$attr['id']] = cast($data[$attr['id']] ?? null, $attr);
 
@@ -23,8 +23,8 @@ function validator(array $data, array $attr): array
         return $data;
     }
 
-    if ($attr['validator']) {
-        $data[$attr['id']] = ('validator\\' . $attr['validator'])($data[$attr['id']], opt($attr));
+    if ($attr['filter']) {
+        $data[$attr['id']] = ('filter\\' . $attr['filter'])($data[$attr['id']], opt($attr));
     }
 
     if ($attr['unique'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && ent\size($data['_ent']['id'], [[$attr['id'], $data[$attr['id']]]])) {
