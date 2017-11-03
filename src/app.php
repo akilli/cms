@@ -260,10 +260,6 @@ function theme(string $path): string
  */
 function rewrite(string $path): string
 {
-    if ($url = cfg('url', $path)) {
-        return $url;
-    }
-
     $data = & data('url');
 
     if (empty($data[$path])) {
