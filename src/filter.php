@@ -8,39 +8,39 @@ use app;
 /**
  * Special chars filter
  */
-function enc(string $var): string
+function enc(string $val): string
 {
-    return htmlspecialchars($var, ENT_QUOTES, ini_get('default_charset'), false);
+    return htmlspecialchars($val, ENT_QUOTES, ini_get('default_charset'), false);
 }
 
 /**
  * HTML filter
  */
-function html(string $html): string
+function html(string $val): string
 {
-    return trim(strip_tags($html, app\cfg('filter', 'html')));
+    return trim(strip_tags($val, app\cfg('filter', 'html')));
 }
 
 /**
  * ID filter
  */
-function id(string $id, string $sep = '-'): string
+function id(string $val, string $sep = '-'): string
 {
-    return trim(preg_replace('#[^a-z0-9]+#', $sep, strtolower(strtr($id, app\cfg('filter', 'id')))), $sep);
+    return trim(preg_replace('#[^a-z0-9]+#', $sep, strtolower(strtr($val, app\cfg('filter', 'id')))), $sep);
 }
 
 /**
  * Converts a date, time or datetime from one to another format
  */
-function date(string $date, string $in, string $out): string
+function date(string $val, string $in, string $out): string
 {
-    return ($date = date_create_from_format($in, $date)) && ($date = date_format($date, $out)) ? $date : '';
+    return ($val = date_create_from_format($in, $val)) && ($val = date_format($val, $out)) ? $val : '';
 }
 
 /**
  * Parameter filter
  */
-function param(string $param): string
+function param(string $val): string
 {
-    return preg_replace('#[^\w ]#u', '', $param);
+    return preg_replace('#[^\w ]#u', '', $val);
 }
