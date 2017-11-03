@@ -5,7 +5,6 @@ namespace http;
 
 use app;
 use file;
-use filter;
 use session;
 use RuntimeException;
 
@@ -70,7 +69,7 @@ function param(array $data): array
         } elseif (is_numeric($val)) {
             $data[$key] = $val + 0;
         } else {
-            $data[$key] = filter\param($val);
+            $data[$key] = preg_replace('#[^\w ]#u', '', $val);
         }
     }
 

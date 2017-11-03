@@ -28,11 +28,3 @@ function date(string $val, string $in, string $out): string
 {
     return ($val = date_create_from_format($in, $val)) && ($val = date_format($val, $out)) ? $val : '';
 }
-
-/**
- * Parameter filter
- */
-function param(string $val): string
-{
-    return preg_replace('#[^\w ]#u', '', $val);
-}
