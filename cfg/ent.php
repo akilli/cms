@@ -120,9 +120,9 @@ return [
     'page' => [
         'name' => 'Pages',
         'act' => [
-            'admin' => ['pos', 'name', 'active'],
+            'admin' => ['pos', 'name', 'url', 'active'],
             'delete' => [],
-            'edit' => ['name', 'active', 'parent_id', 'sort', 'content'],
+            'edit' => ['name', 'url', 'active', 'parent_id', 'sort', 'content'],
             'index' => ['name'],
             'view' => ['content']
         ],

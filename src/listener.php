@@ -7,7 +7,6 @@ use app;
 use arr;
 use ent;
 use file;
-use filter;
 use http;
 use RuntimeException;
 
@@ -183,23 +182,6 @@ function page_postvalidate(array $data): array
 
     if (!empty($data['parent_id']) && $oldId && in_array($oldId, ent\one('page', [['id', $data['parent_id']]])['path'])) {
         $data['_error']['parent_id'] = app\i18n('Cannot assign the page itself or a child page as parent');
-    }
-
-    return $data;
-}
-
-/**
- * Page pre-save listener
- */
-function page_presave(array $data): array
-{
-    if (!empty($data['name']) && $data['name'] !== ($data['_old']['name'] ?? null)) {
-        $base = filter\id($data['name']);
-        $data['url'] = app\url($base . APP['url.ext']);
-
-        for ($i = 1; ent\one('page', [['url', $data['url']]]); $i++) {
-            $data['url'] = app\url($base . '-' . $i . APP['url.ext']);
-        }
     }
 
     return $data;

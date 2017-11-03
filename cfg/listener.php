@@ -24,7 +24,4 @@ return [
     'ent.postvalidate.page' => [
         'page_postvalidate' => -1,
     ],
-    'ent.presave.page' => [
-        'page_presave' => -1,
-    ],
 ];
