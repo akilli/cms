@@ -6,14 +6,6 @@ namespace filter;
 use app;
 
 /**
- * HTML filter
- */
-function html(string $val): string
-{
-    return trim(strip_tags($val, app\cfg('filter', 'html')));
-}
-
-/**
  * ID filter
  */
 function id(string $val): string

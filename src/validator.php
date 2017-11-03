@@ -69,7 +69,7 @@ function url(string $val): string
  */
 function rte(string $val): string
 {
-    return filter\html($val);
+    return trim(strip_tags($val, app\cfg('filter', 'rte')));
 }
 
 /**
