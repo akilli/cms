@@ -193,7 +193,7 @@ function page_postvalidate(array $data): array
  */
 function page_presave(array $data): array
 {
-    if ($data['name'] !== ($data['_old']['name'] ?? null)) {
+    if (!empty($data['name']) && $data['name'] !== ($data['_old']['name'] ?? null)) {
         $base = filter\id($data['name']);
         $data['url'] = app\url($base . APP['url.ext']);
 
