@@ -134,9 +134,9 @@ function cfg_toolbar(array $data): array
 }
 
 /**
- * Entity post-validate listener
+ * Entity postfilter listener
  */
-function ent_postvalidate(array $data): array
+function ent_postfilter(array $data): array
 {
     foreach ($data['_ent']['attr'] as $aId => $attr) {
         if ($attr['frontend'] === 'password' && !empty($data[$aId]) && !($data[$aId] = password_hash($data[$aId], PASSWORD_DEFAULT))) {
@@ -148,7 +148,7 @@ function ent_postvalidate(array $data): array
 }
 
 /**
- * Entity post-save listener
+ * Entity postsave listener
  *
  * @throws RuntimeException
  */
@@ -174,9 +174,9 @@ function ent_postsave(array $data): array
 }
 
 /**
- * Page post-validate listener
+ * Page postfilter listener
  */
-function page_postvalidate(array $data): array
+function page_postfilter(array $data): array
 {
     $oldId = $data['_old']['id'] ?? null;
 

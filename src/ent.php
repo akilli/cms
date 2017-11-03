@@ -110,7 +110,7 @@ function save(string $eId, array & $data): bool
         return true;
     }
 
-    $tmp = event('prevalidate', $tmp);
+    $tmp = event('prefilter', $tmp);
 
     foreach ($aIds as $aId) {
         try {
@@ -120,7 +120,7 @@ function save(string $eId, array & $data): bool
         }
     }
 
-    $tmp = event('postvalidate', $tmp);
+    $tmp = event('postfilter', $tmp);
     $name = $tmp['name'] ?? $tmp['_old']['name'] ?? '';
 
     if (!empty($tmp['_error'])) {

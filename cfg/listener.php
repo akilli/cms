@@ -15,13 +15,13 @@ return [
     'cfg.toolbar' => [
         'cfg_toolbar' => -1,
     ],
-    'ent.postvalidate' => [
-        'ent_postvalidate' => -1,
+    'ent.postfilter' => [
+        'ent_postfilter' => -1,
     ],
     'ent.postsave' => [
         'ent_postsave' => -1,
     ],
-    'ent.postvalidate.page' => [
-        'page_postvalidate' => -1,
+    'ent.postfilter.page' => [
+        'page_postfilter' => -1,
     ],
 ];
