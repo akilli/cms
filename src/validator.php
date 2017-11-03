@@ -5,7 +5,6 @@ namespace validator;
 
 use app;
 use file;
-use filter;
 use DomainException;
 
 /**
@@ -79,7 +78,7 @@ function rte(string $val): string
  */
 function date(string $val): string
 {
-    if ($val && !($val = filter\date($val, APP['frontend.date'], APP['backend.date']))) {
+    if ($val && !($val = app\datetime($val, APP['frontend.date'], APP['backend.date']))) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -93,7 +92,7 @@ function date(string $val): string
  */
 function datetime(string $val): string
 {
-    if ($val && !($val = filter\date($val, APP['frontend.datetime'], APP['backend.datetime']))) {
+    if ($val && !($val = app\datetime($val, APP['frontend.datetime'], APP['backend.datetime']))) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -107,7 +106,7 @@ function datetime(string $val): string
  */
 function time(string $val): string
 {
-    if ($val && !($val = filter\date($val, APP['frontend.time'], APP['backend.time']))) {
+    if ($val && !($val = app\datetime($val, APP['frontend.time'], APP['backend.time']))) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 

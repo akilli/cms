@@ -126,6 +126,14 @@ function enc(string $val): string
 }
 
 /**
+ * Converts a date, time or datetime from one to another format
+ */
+function datetime(string $val, string $in, string $out): string
+{
+    return ($val = date_create_from_format($in, $val)) && ($val = date_format($val, $out)) ? $val : '';
+}
+
+/**
  * Returns layout section and optionally sets variables
  *
  * @throws RuntimeException
