@@ -181,7 +181,7 @@ function page_postvalidate(array $data): array
 {
     $oldId = $data['_old']['id'] ?? null;
 
-    if ($data['parent_id'] && $oldId && in_array($oldId, ent\one('page', [['id', $data['parent_id']]])['path'])) {
+    if (!empty($data['parent_id']) && $oldId && in_array($oldId, ent\one('page', [['id', $data['parent_id']]])['path'])) {
         $data['_error']['parent_id'] = app\i18n('Cannot assign the page itself or a child page as parent');
     }
 
