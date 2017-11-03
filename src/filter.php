@@ -24,9 +24,9 @@ function html(string $val): string
 /**
  * ID filter
  */
-function id(string $val, string $sep = '-'): string
+function id(string $val): string
 {
-    return trim(preg_replace('#[^a-z0-9]+#', $sep, strtolower(strtr($val, app\cfg('filter', 'id')))), $sep);
+    return trim(preg_replace('#[^a-z0-9]+#', '-', strtolower(strtr($val, app\cfg('filter', 'id')))), '-');
 }
 
 /**
