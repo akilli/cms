@@ -144,6 +144,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'unique' => true,
+                'filter' => 'path',
             ],
             'active' => [
                 'name' => 'Active',

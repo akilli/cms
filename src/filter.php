@@ -80,6 +80,14 @@ function id(string $val): string
 }
 
 /**
+ * Path filter
+ */
+function path(string $val): string
+{
+    return '/' . trim(preg_replace('#[^a-z0-9/]+#', '-', strtolower(strtr($val, app\cfg('filter', 'id')))), '-/');
+}
+
+/**
  * Date filter
  *
  * @throws DomainException
