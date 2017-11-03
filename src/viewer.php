@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace viewer;
 
 use app;
-use filter;
 use html;
 
 /**
@@ -20,7 +19,7 @@ function opt($val, array $opt): string
         }
     }
 
-    return filter\enc(implode(', ', $result));
+    return app\enc(implode(', ', $result));
 }
 
 /**

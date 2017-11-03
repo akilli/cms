@@ -73,7 +73,7 @@ function select(array $html, $val, array $opt): string
  */
 function text(array $html, string $val): string
 {
-    return html\tag('input', ['type' => 'text', 'value' => filter\enc($val)] + $html, null, true);
+    return html\tag('input', ['type' => 'text', 'value' => app\enc($val)] + $html, null, true);
 }
 
 /**
@@ -89,7 +89,7 @@ function password(array $html): string
  */
 function email(array $html, string $val): string
 {
-    return html\tag('input', ['type' => 'email', 'value' => filter\enc($val)] + $html, null, true);
+    return html\tag('input', ['type' => 'email', 'value' => app\enc($val)] + $html, null, true);
 }
 
 /**
@@ -97,7 +97,7 @@ function email(array $html, string $val): string
  */
 function url(array $html, string $val): string
 {
-    return html\tag('input', ['type' => 'url', 'value' => filter\enc($val)] + $html, null, true);
+    return html\tag('input', ['type' => 'url', 'value' => app\enc($val)] + $html, null, true);
 }
 
 /**
@@ -161,5 +161,5 @@ function file(array $html): string
  */
 function textarea(array $html, string $val): string
 {
-    return html\tag('textarea', $html, filter\enc($val));
+    return html\tag('textarea', $html, app\enc($val));
 }

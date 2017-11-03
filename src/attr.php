@@ -6,7 +6,6 @@ namespace attr;
 use app;
 use arr;
 use ent;
-use filter;
 use html;
 use opt;
 use DomainException;
@@ -114,7 +113,7 @@ function viewer(array $data, array $attr): string
         return ('viewer\\' . $attr['viewer'])($data[$attr['id']], opt($attr));
     }
 
-    return filter\enc((string) $data[$attr['id']]);
+    return app\enc((string) $data[$attr['id']]);
 }
 
 /**

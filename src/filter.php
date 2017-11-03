@@ -6,14 +6,6 @@ namespace filter;
 use app;
 
 /**
- * Special chars filter
- */
-function enc(string $val): string
-{
-    return htmlspecialchars($val, ENT_QUOTES, ini_get('default_charset'), false);
-}
-
-/**
  * HTML filter
  */
 function html(string $val): string

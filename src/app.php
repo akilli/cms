@@ -118,6 +118,14 @@ function i18n(string $key, string ...$args): string
 }
 
 /**
+ * Converts special chars to HTML entities
+ */
+function enc(string $val): string
+{
+    return htmlspecialchars($val, ENT_QUOTES, ini_get('default_charset'), false);
+}
+
+/**
  * Returns layout section and optionally sets variables
  *
  * @throws RuntimeException
