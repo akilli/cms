@@ -34,7 +34,6 @@
         'floatingspace': 1,
         'format': 1,
         'indentlist': 1,
-        'justify': 1,
         'link': 1,
         'list': 1,
         'removeformat': 1,
@@ -43,7 +42,8 @@
         'sourcearea': 1,
         'table': 1,
         'toolbar': 1,
-        'undo': 1
+        'undo': 1,
+        'widget': 1
     },
     languages: {
         'de': 1,
