@@ -450,6 +450,19 @@ textarea {
     color: var(--primary-light);
 }
 
+/* RTE */
+.cke {
+    border: 0.0625rem solid var(--grey-border) !important;
+}
+
+form .cke {
+    height: 32.875rem !important;
+}
+
+.cke_top {
+    border-bottom: 0.0625rem solid var(--grey-border) !important;
+}
+
 /**
  * Icon
  */

@@ -109,7 +109,7 @@ return [
     'act-edit' => [
         'rte' => [
             'section' => 'tpl',
-            'tpl' => 'head/edit.phtml',
+            'tpl' => 'head/rte.phtml',
             'parent_id' => 'head',
             'sort' => -1,
         ],
@@ -122,7 +122,7 @@ return [
     'act-view' => [
         'rte' => [
             'section' => 'tpl',
-            'tpl' => 'head/inline.phtml',
+            'tpl' => 'head/rte.phtml',
             'priv' => '*/edit',
             'parent_id' => 'head',
             'sort' => -1,
