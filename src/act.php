@@ -157,10 +157,15 @@ function app_js(): void
  */
 function media_browser(array $ent): void
 {
+    $id = http\req('id');
     $data = [];
 
     foreach (ent\all($ent['id'], [], ['order' => ['name' => 'asc']]) as $file) {
-        $data[] = ['name' => $file['name'], 'url' => app\media($file['id']), 'type' => file\type($file['name'])];
+        $type = file\type($file['name']);
+
+        if (!$id || $id === $type) {
+            $data[] = ['name' => $file['name'], 'url' => app\media($file['id']), 'type' => $type];
+        }
     }
 
     header('Content-Type: application/json', true);

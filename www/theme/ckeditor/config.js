@@ -19,5 +19,5 @@ CKEDITOR.editorConfig = function (config) {
     config.height = '30rem';
     config.disableNativeSpellChecker = true;
     config.extraPlugins = 'media';
-    config.mediaURL = location.protocol + '//' + location.hostname + '/media/browser';
+    config.mediaURL = location.protocol + '//' + location.hostname + '/media/browser/image';
 };
