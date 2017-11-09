@@ -16,6 +16,7 @@ CKEDITOR.editorConfig = function (config) {
     ];
     config.removeButtons = 'Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Subscript,Superscript,Indent,Outdent';
     config.removeDialogTabs = 'link:advanced;link:target';
+    config.stylesSet = false;
     config.height = '30rem';
     config.disableNativeSpellChecker = true;
     config.extraPlugins = 'media';
