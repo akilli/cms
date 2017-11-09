@@ -26,7 +26,9 @@ CKEDITOR.dialog.add('mediaDialog', function (editor) {
                     let mediaList = '';
 
                     for (let i = 0; i < data.length; i++) {
-                        mediaList += '<img src="' + data[i].url + '" alt="' + data[i].name + '" style="max-width: 150px;max-height: 150px;vertical-align: middle;margin-right: 5px;" />';
+                        if (data[i].type === 'image') {
+                            mediaList += '<img src="' + data[i].url + '" alt="' + data[i].name + '" style="max-width: 150px;max-height: 150px;vertical-align: middle;margin-right: 5px;" />';
+                        }
                     }
 
                     document.querySelector('#mediaBrowser').innerHTML = mediaList;
