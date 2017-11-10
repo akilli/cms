@@ -9,8 +9,6 @@
             minHeight: 400,
             contents: [
                 {
-                    id: 'tab-browser',
-                    label: editor.lang.media.browser,
                     elements: [
                         {
                             type: 'html',
