@@ -33,6 +33,7 @@
         'enterkey': 1,
         'floatingspace': 1,
         'format': 1,
+        'image2': 1,
         'indentlist': 1,
         'link': 1,
         'list': 1,
@@ -43,6 +44,8 @@
         'table': 1,
         'toolbar': 1,
         'undo': 1,
+        'uploadfile': 1,
+        'uploadimage': 1,
         'widget': 1
     },
     languages: {
