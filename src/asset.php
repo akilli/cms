@@ -24,7 +24,7 @@ function load(array $ent, array $crit = [], array $opt = []): array
 
     foreach (array_diff(scandir($path), ['.', '..']) as $id) {
         if (($file = $path . '/' . $id) && is_file($file)) {
-            $data[] = ['id' => $id, 'name' => $id, 'size' => filesize($file), 'file' => $file];
+            $data[] = ['id' => $id, 'name' => $id, 'size' => filesize($file)];
         }
     }
 

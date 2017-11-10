@@ -110,10 +110,6 @@ return [
                 'type' => 'int',
                 'viewer' => 'filesize',
             ],
-            'file' => [
-                'name' => 'File',
-                'type' => 'text',
-            ],
         ],
     ],
     'page' => [
