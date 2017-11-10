@@ -1,7 +1,7 @@
 'use strict';
 
 (function (document, CKEDITOR) {
-    CKEDITOR.dialog.add('mediaDialog', function (editor) {
+    CKEDITOR.dialog.add('media', function (editor) {
         return {
             title: editor.lang.media.title,
             resizable: CKEDITOR.DIALOG_RESIZE_BOTH,
@@ -23,6 +23,7 @@
             onShow: function () {
                 var dialog = this;
                 var xhr = new XMLHttpRequest();
+
                 xhr.onreadystatechange = function() {
                     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                         const data = JSON.parse(this.responseText);
@@ -33,14 +34,12 @@
                         }
 
                         document.querySelector('#mediaBrowser').innerHTML = mediaList;
-                        var img = document.querySelectorAll('#mediaBrowser img');
+                        var imgs = document.querySelectorAll('#mediaBrowser img');
 
-                        for (var i = 0; i < img.length; i++) {
-                            img[i].addEventListener('click', function () {
-                                var img = editor.document.createElement('img');
-                                img.setAttribute('src', this.getAttribute('src'));
-                                img.setAttribute('alt', this.getAttribute('alt'));
-                                editor.insertElement(img);
+                        for (var i = 0; i < imgs.length; i++) {
+                            imgs[i].addEventListener('click', function () {
+                                var tpl = '<figure class="media"><img src="' + this.getAttribute('src') + '" alt="' + this.getAttribute('alt') + '" /><figcaption></figcaption></figure>';
+                                editor.insertHtml(tpl);
                                 dialog.hide();
                             });
                         }

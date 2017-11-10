@@ -2,20 +2,35 @@
 
 (function (CKEDITOR) {
     CKEDITOR.plugins.add('media', {
+        requires: 'widget',
         icons: 'media',
         lang: 'de,en',
         init: function(editor) {
-            editor.addCommand('media', new CKEDITOR.dialogCommand('mediaDialog', {
-                allowedContent: 'img[src,alt]',
-                requiredContent: 'img',
-            }));
-            editor.ui.addButton('media', {
-                label: editor.lang.media.title,
-                command: 'media',
-                toolbar: 'insert'
+            editor.widgets.add('media', {
+                button: editor.lang.media.title,
+                dialog: 'media',
+                template:
+                    '<figure class="media">' +
+                        '<img src="" alt="" />' +
+                        '<figcaption></figcaption>' +
+                    '</figure>',
+                editables: {
+                    media: {
+                        selector: 'img'
+                    },
+                    caption: {
+                        selector: 'figcaption',
+                        allowedContent: 'strong em'
+                    }
+                },
+                allowedContent: 'figure(!media); img[!src, alt]; figcaption',
+                requiredContent: 'figure(media); img[src]',
+                upcast: function(element) {
+                    return element.name == 'figure' && element.hasClass('media');
+                }
             });
 
-            CKEDITOR.dialog.add('mediaDialog', this.path + 'dialogs/media.js');
+            CKEDITOR.dialog.add('media', this.path + 'dialogs/media.js');
         }
     });
 })(CKEDITOR);
