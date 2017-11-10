@@ -2,7 +2,7 @@
 
 (function (CKEDITOR) {
     CKEDITOR.plugins.add('media', {
-        requires: 'widget',
+        requires: 'widget,dialog',
         icons: 'media',
         lang: 'de,en',
         init: function(editor) {
