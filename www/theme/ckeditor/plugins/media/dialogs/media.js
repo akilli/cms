@@ -12,15 +12,15 @@
                     elements: [
                         {
                             type: 'html',
-                            html: '<div id="mediaBrowser" style="white-space: normal;"></div>'
+                            html: '<div id="mediabrowser"></div>'
                         }
                     ]
                 }
             ],
 
             onShow: function () {
-                var dialog = this;
-                var xhr = new XMLHttpRequest();
+                const dialog = this;
+                const xhr = new XMLHttpRequest();
 
                 xhr.onreadystatechange = function() {
                     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
@@ -31,13 +31,12 @@
                             mediaList += '<img src="' + data[i].url + '" alt="' + data[i].name + '" />';
                         }
 
-                        document.querySelector('#mediaBrowser').innerHTML = mediaList;
-                        var imgs = document.querySelectorAll('#mediaBrowser img');
+                        document.querySelector('#mediabrowser').innerHTML = mediaList;
+                        let imgs = document.querySelectorAll('#mediabrowser img');
 
-                        for (var i = 0; i < imgs.length; i++) {
+                        for (let i = 0; i < imgs.length; i++) {
                             imgs[i].addEventListener('click', function () {
-                                var tpl = '<figure class="media"><img src="' + this.getAttribute('src') + '" alt="' + this.getAttribute('alt') + '" /><figcaption></figcaption></figure>';
-                                editor.insertHtml(tpl);
+                                editor.insertHtml('<figure class="media"><img src="' + this.getAttribute('src') + '" alt="' + this.getAttribute('alt') + '" /><figcaption></figcaption></figure>');
                                 dialog.hide();
                             });
                         }

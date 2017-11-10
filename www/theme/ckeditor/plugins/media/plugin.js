@@ -9,11 +9,7 @@
             editor.widgets.add('media', {
                 button: editor.lang.media.title,
                 dialog: 'media',
-                template:
-                    '<figure class="media">' +
-                        '<img src="{src}" alt="{alt}" />' +
-                        '<figcaption>{caption}</figcaption>' +
-                    '</figure>',
+                template: '<figure class="media"><img src="" alt="" /><figcaption></figcaption></figure>',
                 editables: {
                     media: {
                         selector: 'img'

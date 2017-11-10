@@ -477,6 +477,14 @@ form .cke {
     border-bottom: 0.0625rem solid var(--grey-border) !important;
 }
 
+#mediabrowser {
+    white-space: normal;
+}
+
+#mediabrowser img {
+    max-width: 150px;
+}
+
 /**
  * Icon
  */
