@@ -5,8 +5,11 @@
         const cfg = {
             customConfig: '',
             disableNativeSpellChecker: true,
+            filebrowserBrowseUrl: '/media/browser',
+            filebrowserImageBrowseUrl: '/media/browser/image',
             height: '30rem',
             image2_alignClasses: ['left', 'center', 'right'],
+            image2_captionedClass: 'media',
             image2_disableResizer: true,
             removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Subscript,Superscript,Indent,Outdent',
             removeDialogTabs: 'link:advanced;link:target',

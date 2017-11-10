@@ -44,8 +44,6 @@
         'table': 1,
         'toolbar': 1,
         'undo': 1,
-        'uploadfile': 1,
-        'uploadimage': 1,
         'widget': 1
     },
     languages: {
