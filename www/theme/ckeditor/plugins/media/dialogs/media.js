@@ -21,27 +21,28 @@
             onShow: function () {
                 const dialog = this;
                 const xhr = new XMLHttpRequest();
-
-                xhr.onreadystatechange = function() {
-                    if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-                        const data = JSON.parse(this.responseText);
-                        let mediaList = '';
-
-                        for (let i = 0; i < data.length; i++) {
-                            mediaList += '<img src="' + data[i].url + '" alt="' + data[i].name + '" />';
-                        }
-
-                        document.querySelector('#mediabrowser').innerHTML = mediaList;
-                        let imgs = document.querySelectorAll('#mediabrowser img');
-
-                        for (let i = 0; i < imgs.length; i++) {
-                            imgs[i].addEventListener('click', function () {
-                                editor.insertHtml('<figure class="media"><img src="' + this.getAttribute('src') + '" alt="' + this.getAttribute('alt') + '" /><figcaption></figcaption></figure>');
-                                dialog.hide();
-                            });
-                        }
+                xhr.addEventListener('load', function () {
+                    if (this.status !== 200) {
+                        return;
                     }
-                };
+
+                    const data = JSON.parse(this.responseText);
+                    let mediaList = '';
+
+                    for (let i = 0; i < data.length; i++) {
+                        mediaList += '<img src="' + data[i].url + '" alt="' + data[i].name + '" />';
+                    }
+
+                    document.querySelector('#mediabrowser').innerHTML = mediaList;
+                    let imgs = document.querySelectorAll('#mediabrowser img');
+
+                    for (let i = 0; i < imgs.length; i++) {
+                        imgs[i].addEventListener('click', function () {
+                            editor.insertHtml('<figure class="media"><img src="' + this.getAttribute('src') + '" alt="' + this.getAttribute('alt') + '" /><figcaption></figcaption></figure>');
+                            dialog.hide();
+                        });
+                    }
+                });
                 xhr.open('GET', editor.config.mediaURL, true);
                 xhr.send();
             }
