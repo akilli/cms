@@ -11,8 +11,8 @@
                 dialog: 'media',
                 template:
                     '<figure class="media">' +
-                        '<img src="" alt="" />' +
-                        '<figcaption></figcaption>' +
+                        '<img src="{src}" alt="{alt}" />' +
+                        '<figcaption>{caption}</figcaption>' +
                     '</figure>',
                 editables: {
                     media: {
