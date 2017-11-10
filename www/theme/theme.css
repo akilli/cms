@@ -237,6 +237,20 @@ iframe {
     height: 100%;
 }
 
+.left {
+    float: left;
+    margin-right: 1rem;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    float: right;
+    margin-left: 1rem;
+}
+
 /* List */
 ol,
 ul {

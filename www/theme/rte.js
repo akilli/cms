@@ -5,9 +5,9 @@
         const cfg = {
             customConfig: '',
             disableNativeSpellChecker: true,
-            extraPlugins: 'media',
             height: '30rem',
-            mediaURL: location.protocol + '//' + location.hostname + '/media/browser/image',
+            image2_alignClasses: ['left', 'center', 'right'],
+            image2_disableResizer: true,
             removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Subscript,Superscript,Indent,Outdent',
             removeDialogTabs: 'link:advanced;link:target',
             stylesSet: false,
