@@ -15,6 +15,9 @@ return [
     'cfg.toolbar' => [
         'cfg_toolbar' => -1,
     ],
+    'ent.prefilter' => [
+        'ent_prefilter' => -1,
+    ],
     'ent.postfilter' => [
         'ent_postfilter' => -1,
     ],

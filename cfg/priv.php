@@ -28,7 +28,7 @@ return [
     'account/password' => [
         'priv' => 'account-user',
     ],
-    'media/view' => [
+    'media/asset' => [
         'active' => false,
     ],
     'page/index' => [

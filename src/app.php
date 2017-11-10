@@ -233,18 +233,18 @@ function url(string $path = '', array $params = []): string
 
 /**
  * Asset URL
+ *
+ * @throws RuntimeException
  */
 function asset(string $path): string
 {
-    return APP['url.asset'] . $path;
-}
+    $p = explode('/', trim($path, '/'));
 
-/**
- * Media URL
- */
-function media(string $path): string
-{
-    return APP['url.media'] . $path;
+    if (empty($p[0]) || empty($p[1])) {
+        throw new RuntimeException(i18n('Invalid path %s', $path));
+    }
+
+    return '/' . $p[0] . '/asset/' . $p[1];
 }
 
 /**
@@ -252,7 +252,7 @@ function media(string $path): string
  */
 function theme(string $path): string
 {
-    return APP['url.theme'] . $path;
+    return APP['url.theme'] . trim($path, '/');
 }
 
 /**

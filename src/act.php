@@ -125,6 +125,23 @@ function view(array $ent): void
 }
 
 /**
+ * Asset Action
+ */
+function asset(array $ent): void
+{
+    if (!($id = http\req('id')) || !is_file(app\path('data', $ent['id'] . '/' . $id))) {
+        http_response_code(404);
+        exit;
+    }
+
+    http_response_code(200);
+    header('X-Accel-Redirect: ' . APP['url.asset'] . $ent['id'] . '/' . $id);
+    header('X-Accel-Buffering: no');
+    header('Content-Type: ', true);
+    exit;
+}
+
+/**
  * App Denied Action
  */
 function app_denied(): void
@@ -160,33 +177,16 @@ function media_browser(array $ent): void
     $id = http\req('id');
     $data = [];
 
-    foreach (ent\all($ent['id'], [], ['order' => ['name' => 'asc']]) as $file) {
-        $type = file\type($file['name']);
+    foreach (ent\all($ent['id'], [], ['order' => ['name' => 'asc']]) as $item) {
+        $type = file\type($item['file']);
 
         if (!$id || $id === $type) {
-            $data[] = ['name' => $file['name'], 'url' => app\media($file['id']), 'type' => $type];
+            $data[] = ['name' => $item['name'], 'url' => app\asset($item['file']), 'type' => $type];
         }
     }
 
     header('Content-Type: application/json', true);
     die(json_encode($data));
-}
-
-/**
- * Media View Action
- */
-function media_view(array $ent): void
-{
-    if (!$data = ent\one($ent['id'], [['id', http\req('id')]])) {
-        http_response_code(404);
-        exit;
-    }
-
-    http_response_code(200);
-    header('X-Accel-Redirect: ' . app\asset($ent['id'] . '/' . $data['name']));
-    header('X-Accel-Buffering: no');
-    header('Content-Type: ', true);
-    exit;
 }
 
 /**

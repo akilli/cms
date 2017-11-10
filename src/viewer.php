@@ -67,7 +67,7 @@ function iframe(string $val): string
  */
 function file(string $val): string
 {
-    return html\tag('a', ['href' => app\media($val)], $val);
+    return html\tag('a', ['href' => app\asset($val)], $val);
 }
 
 /**
@@ -75,7 +75,7 @@ function file(string $val): string
  */
 function image(string $val): string
 {
-    return html\tag('img', ['src' => app\media($val), 'alt' => $val], null, true);
+    return html\tag('img', ['src' => app\asset($val), 'alt' => $val], null, true);
 }
 
 /**
@@ -83,7 +83,7 @@ function image(string $val): string
  */
 function audio(string $val): string
 {
-    return html\tag('audio', ['src' => app\media($val), 'controls' => true]);
+    return html\tag('audio', ['src' => app\asset($val), 'controls' => true]);
 }
 
 /**
@@ -91,7 +91,7 @@ function audio(string $val): string
  */
 function embed(string $val): string
 {
-    return html\tag('embed', ['src' => app\media($val)], null, true);
+    return html\tag('embed', ['src' => app\asset($val)], null, true);
 }
 
 /**
@@ -99,7 +99,7 @@ function embed(string $val): string
  */
 function video(string $val): string
 {
-    return html\tag('video', ['src' => app\media($val), 'controls' => true]);
+    return html\tag('video', ['src' => app\asset($val), 'controls' => true]);
 }
 
 /**

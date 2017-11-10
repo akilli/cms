@@ -134,6 +134,20 @@ function cfg_toolbar(array $data): array
 }
 
 /**
+ * Entity prefilter listener
+ */
+function ent_prefilter(array $data): array
+{
+    foreach ($data['_ent']['attr'] as $aId => $attr) {
+        if ($attr['frontend'] === 'file' && !empty($data[$aId])) {
+            $data[$aId] = $data['_ent']['id'] . '/' . $data[$aId];
+        }
+    }
+
+    return $data;
+}
+
+/**
  * Entity postfilter listener
  */
 function ent_postfilter(array $data): array
@@ -155,10 +169,9 @@ function ent_postfilter(array $data): array
 function ent_postsave(array $data): array
 {
     $file = http\req('file');
-    $path = app\path('data', $data['_ent']['id']);
 
     foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\upload($file[$aId]['tmp_name'], $path . '/' . $data[$aId])) {
+        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\upload($file[$aId]['tmp_name'], app\path('data', $data[$aId]))) {
             throw new RuntimeException(app\i18n('File upload failed for %s', $data[$aId]));
         }
     }
@@ -173,10 +186,8 @@ function ent_postsave(array $data): array
  */
 function ent_postdelete(array $data): array
 {
-    $path = app\path('data', $data['_ent']['id']);
-
     foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\delete($path . '/' . $data[$aId])) {
+        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\delete(app\path('data', $data[$aId]))) {
             throw new RuntimeException(app\i18n('Could not delete %s', $data[$aId]));
         }
     }
@@ -189,7 +200,7 @@ function ent_postdelete(array $data): array
  */
 function media_presave(array $data): array
 {
-    $file = http\req('file')['name']['tmp_name'] ?? null;
+    $file = http\req('file')['file']['tmp_name'] ?? null;
 
     if ($file) {
         $data['size'] = filesize($file);

@@ -21,6 +21,7 @@ return [
     'Depth' => 'Tiefe',
     'Edit' => 'Bearbeiten',
     'Error' => 'Fehler',
+    'File' => 'Datei',
     'File upload failed for %s' => 'Datei %s konnte nicht hochgeladen werden',
     'ID' => 'ID',
     'Invalid attribute configuration' => 'Ungültige Attribut Konfiguration',
