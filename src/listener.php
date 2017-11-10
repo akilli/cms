@@ -155,19 +155,44 @@ function ent_postfilter(array $data): array
 function ent_postsave(array $data): array
 {
     $file = http\req('file');
+    $path = app\path('data', $data['_ent']['id']);
 
     foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['frontend'] !== 'file' || empty($data[$aId])) {
-            continue;
-        }
-
-        if (is_file(app\path('data', $data[$aId])) && ($data['_old'][$aId] ?? null) !== $data[$aId]) {
-            throw new RuntimeException(app\i18n('File %s already exists', $data[$aId]));
-        }
-
-        if (!file\upload($file[$aId]['tmp_name'], $data[$aId])) {
+        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\upload($file[$aId]['tmp_name'], $path . '/' . $data[$aId])) {
             throw new RuntimeException(app\i18n('File upload failed for %s', $data[$aId]));
         }
+    }
+
+    return $data;
+}
+
+/**
+ * Entity postdelete listener
+ *
+ * @throws RuntimeException
+ */
+function ent_postdelete(array $data): array
+{
+    $path = app\path('data', $data['_ent']['id']);
+
+    foreach ($data['_ent']['attr'] as $aId => $attr) {
+        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\delete($path . '/' . $data[$aId])) {
+            throw new RuntimeException(app\i18n('Could not delete %s', $data[$aId]));
+        }
+    }
+
+    return $data;
+}
+
+/**
+ * Media presave listener
+ */
+function media_presave(array $data): array
+{
+    $file = http\req('file')['name']['tmp_name'] ?? null;
+
+    if ($file) {
+        $data['size'] = filesize($file);
     }
 
     return $data;

@@ -21,6 +21,12 @@ return [
     'ent.postsave' => [
         'ent_postsave' => -1,
     ],
+    'ent.postdelete' => [
+        'ent_postdelete' => -1,
+    ],
+    'ent.presave.media' => [
+        'media_presave' => -1,
+    ],
     'ent.postfilter.page' => [
         'page_postfilter' => -1,
     ],

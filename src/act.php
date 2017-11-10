@@ -183,7 +183,7 @@ function media_view(array $ent): void
     }
 
     http_response_code(200);
-    header('X-Accel-Redirect: ' . app\asset($data['id']));
+    header('X-Accel-Redirect: ' . app\asset($ent['id'] . '/' . $data['name']));
     header('X-Accel-Buffering: no');
     header('Content-Type: ', true);
     exit;

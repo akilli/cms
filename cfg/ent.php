@@ -84,7 +84,6 @@ return [
     ],
     'media' => [
         'name' => 'Media',
-        'type' => 'asset',
         'act' => [
             'admin' => ['name', 'size'],
             'browser' => [],
@@ -96,7 +95,7 @@ return [
             'id' => [
                 'name' => 'ID',
                 'auto' => true,
-                'type' => 'text',
+                'type' => 'int',
             ],
             'name' => [
                 'name' => 'Name',

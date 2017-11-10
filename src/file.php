@@ -18,8 +18,6 @@ function load(string $file): array
  */
 function upload(string $src, string $dest): bool
 {
-    $dest = strpos($dest, '/') === 0 ? $dest : app\path('data', $dest);
-
     return dir(dirname($dest)) && move_uploaded_file($src, $dest);
 }
 
