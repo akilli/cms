@@ -90,7 +90,6 @@ return [
             'browser' => [],
             'delete' => [],
             'edit' => ['name'],
-            'import' => [],
             'view' => []
         ],
         'attr' => [

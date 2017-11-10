@@ -83,12 +83,6 @@ return [
             'priv' => '*/edit',
             'parent_id' => 'right',
         ],
-        'import' => [
-            'section' => 'tpl',
-            'tpl' => 'ent/import.phtml',
-            'priv' => '*/import',
-            'parent_id' => 'right',
-        ],
     ],
     'act-index' => [
         'content' => [

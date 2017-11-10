@@ -190,24 +190,6 @@ function media_view(array $ent): void
 }
 
 /**
- * Media Import Action
- */
-function media_import(): void
-{
-    $data = http\req('data')['import'] ?? [];
-
-    foreach ($data as $key => $name) {
-        if (is_file(app\path('data', $name))) {
-            app\msg(app\i18n('File %s already exists', $name));
-        } elseif (!file\upload(http\req('file')['import'][$key]['tmp_name'], $name)) {
-            app\msg(app\i18n('File upload failed for %s', $name));
-        }
-    }
-
-    http\redirect(app\url('*/admin'));
-}
-
-/**
  * Account Password Action
  */
 function account_password(): void
