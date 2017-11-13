@@ -32,6 +32,7 @@
         'dialog': 1,
         'divarea': 1,
         'enterkey': 1,
+        'filebrowser': 1,
         'floatingspace': 1,
         'format': 1,
         'indentlist': 1,
