@@ -470,11 +470,15 @@ textarea {
 }
 
 form .cke {
-    height: 32.875rem !important;
+    min-height: 32.875rem !important;
 }
 
 .cke_top {
     border-bottom: 0.0625rem solid var(--grey-border) !important;
+}
+
+.cke_contents {
+    height: auto !important;
 }
 
 #mediabrowser {
