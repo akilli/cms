@@ -17,6 +17,33 @@
         });
     }
 
+    function element(obj) {
+        let item;
+
+        switch (obj.type) {
+            case 'image':
+                item = document.createElement('img');
+                item.setAttribute('src', obj.url);
+                item.setAttribute('alt', obj.name);
+                break;
+            case 'audio':
+            case 'video':
+                item = document.createElement(obj.type);
+                item.setAttribute('src', obj.url);
+                item.setAttribute('controls', true);
+                break;
+            case 'embed':
+                item = document.createElement('embed');
+                item.setAttribute('src', obj.url);
+                break;
+            default:
+                item = document.createElement('a');
+                item.setAttribute('href', obj.url);
+        }
+
+        return item;
+    }
+
     CKEDITOR.dialog.add('media', function (editor) {
         return {
             title: editor.lang.media.title,
@@ -43,12 +70,9 @@
                         browser.innerHTML = '';
 
                         for (let i = 0; i < media.length; i++) {
-                            let item = document.createElement('img');
-                            item.setAttribute('src', media[i].url);
-                            item.setAttribute('alt', media[i].name);
                             let fig = document.createElement('figure');
                             fig.setAttribute('class', 'media');
-                            fig.appendChild(item);
+                            fig.appendChild(element(media[i]));
                             fig.appendChild(document.createElement('figcaption'));
                             fig.addEventListener('click', () => {
                                 editor.insertHtml(fig.outerHTML);

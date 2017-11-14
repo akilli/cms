@@ -9,7 +9,7 @@
             filebrowserBrowseUrl: '/media/browser',
             filebrowserImageBrowseUrl: '/media/browser/image',
             height: '30rem',
-            mediaURL: '/media/browser/image',
+            mediaURL: '/media/browser',
             removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Subscript,Superscript,Indent,Outdent',
             removeDialogTabs: 'link:advanced;link:target',
             stylesSet: false,
