@@ -42,6 +42,8 @@
                         const browser = document.querySelector('#mediabrowser');
                         let item;
 
+                        browser.innerHTML = '';
+
                         for (let i = 0; i < media.length; i++) {
                             item = document.createElement('img');
                             item.setAttribute('src', media[i].url);
