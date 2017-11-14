@@ -1,6 +1,22 @@
 'use strict';
 
 (function (document, CKEDITOR) {
+    function get(url) {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.onload = () => {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    resolve(xhr.response);
+                } else {
+                    reject(xhr.statusText);
+                }
+            };
+            xhr.onerror = () => reject(xhr.statusText);
+            xhr.send();
+        });
+    }
+
     CKEDITOR.dialog.add('media', function (editor) {
         return {
             title: editor.lang.media.title,
@@ -20,31 +36,29 @@
 
             onShow: function () {
                 const dialog = this;
-                const xhr = new XMLHttpRequest();
-                xhr.addEventListener('load', function () {
-                    if (this.status !== 200) {
-                        return;
-                    }
+                get(editor.config.mediaURL)
+                    .then(data => {
+                        const media = JSON.parse(data);
+                        const browser = document.querySelector('#mediabrowser');
+                        let item;
 
-                    const data = JSON.parse(this.responseText);
-                    let mediaList = '';
-
-                    for (let i = 0; i < data.length; i++) {
-                        mediaList += '<img src="' + data[i].url + '" alt="' + data[i].name + '" />';
-                    }
-
-                    document.querySelector('#mediabrowser').innerHTML = mediaList;
-                    let imgs = document.querySelectorAll('#mediabrowser img');
-
-                    for (let i = 0; i < imgs.length; i++) {
-                        imgs[i].addEventListener('click', function () {
-                            editor.insertHtml('<figure class="media"><img src="' + this.getAttribute('src') + '" alt="' + this.getAttribute('alt') + '" /><figcaption></figcaption></figure>');
-                            dialog.hide();
-                        });
-                    }
-                });
-                xhr.open('GET', editor.config.mediaURL, true);
-                xhr.send();
+                        for (let i = 0; i < media.length; i++) {
+                            item = document.createElement('img');
+                            item.setAttribute('src', media[i].url);
+                            item.setAttribute('alt', media[i].name);
+                            item.addEventListener('click', () => {
+                                let fig = editor.document.createElement('figure', {attributes: {class: 'media'}});
+                                fig.append(editor.document.createElement('img', {attributes: {src: media[i].url, alt: media[i].name}}));
+                                fig.append(editor.document.createElement('figcaption'));
+                                editor.insertElement(fig);
+                                dialog.hide();
+                            });
+                            browser.appendChild(item);
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
             }
         };
     });
