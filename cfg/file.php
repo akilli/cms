@@ -9,7 +9,7 @@ return [
     'html' => 'file',
     'jpg' => 'image',
     'json' => 'file',
-    'mov' => 'embed',
+    'mov' => 'video',
     'mp3' => 'audio',
     'mp4' => 'video',
     'mpg' => 'embed',
