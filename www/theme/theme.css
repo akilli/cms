@@ -478,11 +478,14 @@ form .cke {
 }
 
 #mediabrowser {
+    width: 37.5rem;
+    height: 25rem;
+    overflow-y: scroll;
     white-space: normal;
 }
 
 #mediabrowser img {
-    max-width: 150px;
+    max-width: 9rem;
 }
 
 /**
