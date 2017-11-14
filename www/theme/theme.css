@@ -488,7 +488,8 @@ form .cke {
     white-space: normal;
 }
 
-#mediabrowser img {
+#mediabrowser figure {
+    display: inline-block;
     max-width: 9rem;
 }
 

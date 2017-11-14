@@ -40,22 +40,21 @@
                     .then(data => {
                         const media = JSON.parse(data);
                         const browser = document.querySelector('#mediabrowser');
-                        let item;
-
                         browser.innerHTML = '';
 
                         for (let i = 0; i < media.length; i++) {
-                            item = document.createElement('img');
+                            let item = document.createElement('img');
                             item.setAttribute('src', media[i].url);
                             item.setAttribute('alt', media[i].name);
-                            item.addEventListener('click', () => {
-                                let fig = editor.document.createElement('figure', {attributes: {class: 'media'}});
-                                fig.append(editor.document.createElement('img', {attributes: {src: media[i].url, alt: media[i].name}}));
-                                fig.append(editor.document.createElement('figcaption'));
-                                editor.insertElement(fig);
+                            let fig = document.createElement('figure');
+                            fig.setAttribute('class', 'media');
+                            fig.appendChild(item);
+                            fig.appendChild(document.createElement('figcaption'));
+                            fig.addEventListener('click', () => {
+                                editor.insertHtml(fig.outerHTML);
                                 dialog.hide();
                             });
-                            browser.appendChild(item);
+                            browser.appendChild(fig);
                         }
                     })
                     .catch(error => {
