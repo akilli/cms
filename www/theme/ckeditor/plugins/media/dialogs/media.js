@@ -44,7 +44,7 @@
                     elements: [
                         {
                             type: 'html',
-                            html: '<div id="mediabrowser"></div>'
+                            html: '<div id="ck-media-top"><input type="search" placeholder="' + editor.lang.media.filter + '" /></div><div id="ck-media"></div>'
                         }
                     ]
                 }
@@ -55,7 +55,7 @@
                 get(editor.config.mediaURL)
                     .then(data => {
                         const media = JSON.parse(data);
-                        const browser = document.querySelector('#mediabrowser');
+                        const browser = document.querySelector('#ck-media');
                         browser.innerHTML = '';
 
                         for (let i = 0; i < media.length; i++) {

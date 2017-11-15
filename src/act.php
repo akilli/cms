@@ -174,13 +174,14 @@ function app_js(): void
  */
 function media_browser(array $ent): void
 {
-    $id = http\req('id');
     $data = [];
+    $q = http\req('param')['q'] ?? null;
+    $crit = $q ? [['name', $q, APP['crit']['~']]] : [];
 
-    foreach (ent\all($ent['id'], [], ['order' => ['name' => 'asc']]) as $item) {
+    foreach (ent\all($ent['id'], $crit, ['order' => ['name' => 'asc']]) as $item) {
         $type = file\type($item['file']);
 
-        if (!$id || $id === $type) {
+        if (in_array($type, ['audio', 'image', 'video'])) {
             $data[] = ['name' => $item['name'], 'url' => app\asset($item['file']), 'type' => $type];
         }
     }

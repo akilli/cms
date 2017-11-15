@@ -477,16 +477,20 @@ form .cke {
     border-bottom: 0.0625rem solid var(--grey-border) !important;
 }
 
-#mediabrowser {
+#ck-media-top {
+    line-height: 1.5rem;
+}
+
+#ck-media {
     width: 37.5rem;
     height: 25rem;
     overflow-y: scroll;
     white-space: normal;
 }
 
-#mediabrowser figure {
+#ck-media figure {
     display: inline-block;
-    max-width: 9rem;
+    max-width: 12rem;
 }
 
 /**
