@@ -11,16 +11,13 @@
                 dialog: 'media',
                 template: '<figure class="media"><img src="" alt="" /><figcaption></figcaption></figure>',
                 editables: {
-                    media: {
-                        selector: 'img'
-                    },
                     caption: {
                         selector: 'figcaption',
                         allowedContent: 'strong em'
                     }
                 },
-                allowedContent: 'figure(!media); img[!src, alt]; figcaption',
-                requiredContent: 'figure(media); img[src]',
+                allowedContent: 'figure(!media); img audio video embed[!src, alt, controls]; figcaption',
+                requiredContent: 'figure(media); img audio video embed[src]',
                 upcast: function(element) {
                     return element.name == 'figure' && element.hasClass('media');
                 }
