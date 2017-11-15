@@ -41,7 +41,6 @@
         'removeformat': 1,
         'sharedspace': 1,
         'showblocks': 1,
-        'sourcearea': 1,
         'table': 1,
         'toolbar': 1,
         'undo': 1,
