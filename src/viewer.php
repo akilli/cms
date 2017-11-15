@@ -87,14 +87,6 @@ function audio(string $val): string
 }
 
 /**
- * Embed viewer
- */
-function embed(string $val): string
-{
-    return html\tag('embed', ['src' => app\asset($val)], null, true);
-}
-
-/**
  * Video viewer
  */
 function video(string $val): string

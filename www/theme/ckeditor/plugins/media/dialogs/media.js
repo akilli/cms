@@ -32,10 +32,6 @@
                 item.setAttribute('src', obj.url);
                 item.setAttribute('controls', true);
                 break;
-            case 'embed':
-                item = document.createElement('embed');
-                item.setAttribute('src', obj.url);
-                break;
             default:
                 item = document.createElement('a');
                 item.setAttribute('href', obj.url);

@@ -16,8 +16,8 @@
                         allowedContent: 'strong em'
                     }
                 },
-                allowedContent: 'figure(!media); img audio video embed[!src, alt, controls]; figcaption',
-                requiredContent: 'figure(media); img audio video embed[src]',
+                allowedContent: 'figure(!media); img audio video[!src, alt, controls]; figcaption',
+                requiredContent: 'figure(media); img audio video[src]',
                 upcast: function(element) {
                     return element.name == 'figure' && element.hasClass('media');
                 }

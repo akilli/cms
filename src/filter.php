@@ -172,20 +172,6 @@ function audio(string $val): string
 }
 
 /**
- * Embed filter
- *
- * @throws DomainException
- */
-function embed(string $val): string
-{
-    if ($val && file\type($val) !== 'embed') {
-        throw new DomainException(app\i18n('Invalid file %s', $val));
-    }
-
-    return $val;
-}
-
-/**
  * Video filter
  *
  * @throws DomainException

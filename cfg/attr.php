@@ -85,12 +85,6 @@ return [
             'backend' => 'varchar',
             'frontend' => 'email',
         ],
-        'embed' => [
-            'backend' => 'varchar',
-            'frontend' => 'file',
-            'filter' => 'embed',
-            'viewer' => 'embed',
-        ],
         'ent' => [
             'backend' => 'int',
             'frontend' => 'select',
