@@ -7,7 +7,6 @@ use account;
 use arr;
 use app;
 use ent;
-use file;
 use http;
 use session;
 
@@ -174,20 +173,10 @@ function app_js(): void
  */
 function media_browser(array $ent): void
 {
-    $data = [];
-    $q = http\req('param')['q'] ?? null;
-    $crit = $q ? [['name', $q, APP['crit']['~']]] : [];
-
-    foreach (ent\all($ent['id'], $crit, ['order' => ['name' => 'asc']]) as $item) {
-        $type = file\type($item['file']);
-
-        if (in_array($type, ['audio', 'image', 'video'])) {
-            $data[] = ['name' => $item['name'], 'url' => app\asset($item['file']), 'type' => $type];
-        }
-    }
-
-    header('Content-Type: application/json', true);
-    die(json_encode($data));
+    index($ent);
+    $p = ['rte' => http\req('param')['CKEditorFuncNum'] ?? null];
+    app\layout('content', ['params' => array_replace(app\layout('content')['vars']['params'], $p)]);
+    app\layout('pager', ['params' => array_replace(app\layout('pager')['vars']['params'], $p)]);
 }
 
 /**

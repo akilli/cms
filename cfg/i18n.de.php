@@ -69,6 +69,7 @@ return [
     'Save' => 'Speichern',
     'Search' => 'Suche',
     'Search Term' => 'Suchbegriff',
+    'Select item' => 'Eintrag auswählen',
     'Size' => 'Größe',
     'Sort' => 'Sortierung',
     'Successfully deleted %s' => '%s erfolgreich gelöscht',

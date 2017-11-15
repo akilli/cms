@@ -1,6 +1,6 @@
 'use strict';
 
-(function (document, app) {
+(function (window, document, app) {
     document.addEventListener('DOMContentLoaded', () => {
         // Input password autocomplete fix
         const pwd = document.querySelectorAll('input[type=password]');
@@ -22,5 +22,15 @@
                 }
             })
         }
+
+        // RTE browser
+        const rte = document.querySelectorAll('span.rte');
+
+        for (let i = 0; i < rte.length; i++) {
+            rte[i].addEventListener('click', event => {
+                window.opener.CKEDITOR.tools.callFunction(rte[i].getAttribute('data-rte'), rte[i].getAttribute('data-url'));
+                window.close();
+            })
+        }
     });
-})(document, app);
+})(window, document, app);

@@ -477,22 +477,6 @@ form .cke {
     border-bottom: 0.0625rem solid var(--grey-border) !important;
 }
 
-#ck-media-top {
-    line-height: 1.5rem;
-}
-
-#ck-media {
-    width: 37.5rem;
-    height: 25rem;
-    overflow-y: scroll;
-    white-space: normal;
-}
-
-#ck-media figure {
-    display: inline-block;
-    max-width: 12rem;
-}
-
 /**
  * Icon
  */
@@ -594,8 +578,10 @@ html[data-path$="/admin"] #right > *:first-child {
     font-size: 3rem;
 }
 
-#content a {
+#content a,
+#content span.icon {
     color: var(--secondary-dark);
+    cursor: pointer;
 }
 
 #content a:hover {

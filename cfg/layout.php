@@ -163,6 +163,37 @@ return [
             'parent_id' => 'main',
         ],
     ],
+    'media/browser' => [
+        'top' => [
+            'active' => false,
+        ],
+        'left' => [
+            'active' => false,
+        ],
+        'bottom' => [
+            'active' => false,
+        ],
+        'rte' => [
+            'section' => 'tpl',
+            'tpl' => 'head/rte.phtml',
+            'parent_id' => 'head',
+            'sort' => -1,
+        ],
+        'content' => [
+            'section' => 'tpl',
+            'tpl' => 'media/browser.phtml',
+            'parent_id' => 'main',
+        ],
+        'pager' => [
+            'section' => 'pager',
+            'tpl' => 'ent/pager.phtml',
+        ],
+        'search' => [
+            'section' => 'tpl',
+            'tpl' => 'ent/search.phtml',
+            'parent_id' => 'right',
+        ],
+    ],
     'page/index' => [
         'nav' => [
             'section' => 'nav',

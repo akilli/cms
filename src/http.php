@@ -69,7 +69,7 @@ function param(array $data): array
         } elseif (is_numeric($val)) {
             $data[$key] = $val + 0;
         } else {
-            $data[$key] = preg_replace('#[^\w ]#u', '', $val);
+            $data[$key] = preg_replace('#[^\w -_]#u', '', $val);
         }
     }
 

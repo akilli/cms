@@ -31,6 +31,9 @@ return [
     'media/asset' => [
         'active' => false,
     ],
+    'media/browser' => [
+        'priv' => 'media/edit',
+    ],
     'page/index' => [
         'active' => false,
     ],

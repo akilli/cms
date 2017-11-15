@@ -87,7 +87,7 @@ return [
         'act' => [
             'admin' => ['name', 'file', 'size'],
             'asset' => [],
-            'browser' => [],
+            'browser' => ['name', 'file', 'size'],
             'delete' => [],
             'edit' => ['name', 'file'],
         ],
