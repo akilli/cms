@@ -3,6 +3,7 @@ return [
     'csv' => 'file',
     'doc' => 'file',
     'docx' => 'file',
+    'flac' => 'audio',
     'gif' => 'image',
     'gz' => 'file',
     'html' => 'file',

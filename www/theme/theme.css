@@ -477,6 +477,11 @@ form .cke {
     border-bottom: 0.0625rem solid var(--grey-border) !important;
 }
 
+.cke_dialog td,
+.cke_dialog th {
+    box-shadow: none;
+}
+
 /**
  * Icon
  */
