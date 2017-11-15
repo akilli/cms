@@ -20,21 +20,14 @@
     function element(obj) {
         let item;
 
-        switch (obj.type) {
-            case 'image':
-                item = document.createElement('img');
-                item.setAttribute('src', obj.url);
-                item.setAttribute('alt', obj.name);
-                break;
-            case 'audio':
-            case 'video':
-                item = document.createElement(obj.type);
-                item.setAttribute('src', obj.url);
-                item.setAttribute('controls', true);
-                break;
-            default:
-                item = document.createElement('a');
-                item.setAttribute('href', obj.url);
+        if (obj.type === 'audio' || obj.type === 'video') {
+            item = document.createElement(obj.type);
+            item.setAttribute('src', obj.url);
+            item.setAttribute('controls', true);
+        } else {
+            item = document.createElement('img');
+            item.setAttribute('src', obj.url);
+            item.setAttribute('alt', obj.name);
         }
 
         return item;
