@@ -75,10 +75,10 @@
             ],
 
             onShow: function () {
-                const dialog = this;
-                list('', editor, dialog);
-                document.querySelector('#ck-media-top input[type=search]').addEventListener('keyup', function () {
-                    list(this.value, editor, dialog);
+                const search = document.querySelector('#ck-media-top input[type=search]');
+                list(search.value || '', editor, this);
+                document.querySelector('#ck-media-top input[type=search]').addEventListener('keyup', () => {
+                    list(search.value || '', editor, this);
                 });
             }
         };
