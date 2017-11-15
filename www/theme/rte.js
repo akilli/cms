@@ -6,8 +6,6 @@
             customConfig: '',
             disableNativeSpellChecker: true,
             extraPlugins: 'media',
-            filebrowserBrowseUrl: '/media/browser',
-            filebrowserImageBrowseUrl: '/media/browser/image',
             height: '30rem',
             mediaURL: '/media/browser',
             removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Subscript,Superscript,Indent,Outdent',
