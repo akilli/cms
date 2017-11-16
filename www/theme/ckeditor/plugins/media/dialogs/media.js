@@ -72,7 +72,6 @@
                             id: 'caption',
                             type: 'checkbox',
                             label: lang.caption,
-                            requiredContent: 'figcaption',
                             setup: function (widget) {
                                 this.setValue(widget.data.caption);
                             },
