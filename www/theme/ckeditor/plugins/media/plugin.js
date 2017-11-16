@@ -51,13 +51,15 @@
                     src: ''
                 },
                 upcast: function (element) {
-                    return element.name == 'figure' && element.hasClass('media');
+                    return element.name === 'figure' && element.hasClass('media')
+                        || tags.includes(element.name) && (!element.parent || element.parent.name !== 'figure' || !element.parent.hasClass('media'));
                 },
                 init: function () {
                     const widget = this;
+                    const wrapper = this.element.getName() === 'figure' && this.element.hasClass('media');
 
                     // Media element
-                    const media = this.element.findOne(tags.join(','));
+                    const media = wrapper ? this.element.findOne(tags.join(',')) : this.element;
 
                     if (media) {
                         ['src', 'alt'].forEach(function (name) {
@@ -68,11 +70,11 @@
                     }
 
                     // Caption element
-                    if (!!this.element.findOne('figcaption')) {
+                    if (wrapper && !!this.element.findOne('figcaption')) {
                         this.setData('caption', true);
                     }
 
-                    // Container element
+                    // Widget element
                     if (this.element.hasClass(align.left)) {
                         this.setData('align', 'left');
                     } else if (this.element.hasClass(align.center)) {
@@ -82,30 +84,41 @@
                     }
                 },
                 data: function () {
-                    let ext;
+                    const ext = this.data.src ? this.data.src.split('.').pop() : null;
 
-                    if (!this.data.src || !(ext = this.data.src.split('.').pop()) || !types.hasOwnProperty(ext)) {
+                    if (!ext || !types.hasOwnProperty(ext)) {
+                        this.element.remove();
                         return;
                     }
 
-                    let media = this.element.findOne(tags.join(','));
-                    let caption = this.element.findOne('figcaption');
+                    const oldMedia = this.element.findOne(tags.join(','));
+                    let media;
+                    const oldCaption = this.element.findOne('figcaption');
 
-                    // Media element
-                    if (!media || media.getName() !== types[ext]) {
-                        if (media) {
-                            media.remove();
+                    if (this.data.caption) {
+                        if (this.element.getName() !== 'figure') {
+                            this.element.renameNode('figure');
+                            this.element.addClass('media');
+                            this.element.removeAttribute('src');
+                            this.element.removeAttribute('alt');
+                            this.element.removeAttribute('controls');
                         }
 
                         media = new CKEDITOR.dom.element(types[ext]);
-
-                        if (caption) {
-                            media.insertBefore(caption);
-                        } else {
-                            this.element.append(media);
-                        }
+                        this.element.append(media);
+                        const caption = new CKEDITOR.dom.element('figcaption');
+                        caption.setHtml(oldCaption ? oldCaption.getHtml() : '');
+                        this.element.append(caption);
+                    } else if (this.element.getName() !== types[ext]) {
+                        this.element.renameNode(types[ext]);
+                        this.element.removeClass('media');
+                        media = this.element;
+                    } else {
+                        this.element.removeClass('media');
+                        media = this.element;
                     }
 
+                    // Media element
                     media.setAttribute('src', this.data.src);
 
                     if (types[ext] === 'img') {
@@ -114,20 +127,22 @@
                         media.setAttribute('controls', true);
                     }
 
-                    // Caption element
-                    if (this.data.caption && !caption) {
-                        this.element.append(new CKEDITOR.dom.element('figcaption'));
-                    } else if (!this.data.caption && caption) {
-                        caption.remove();
-                    }
-
-                    // Container element
+                    // Widget element
                     this.element.removeClass(align.left);
                     this.element.removeClass(align.center);
                     this.element.removeClass(align.right);
 
                     if (this.data.align && align.hasOwnProperty(this.data.align)) {
                         this.element.addClass(align[this.data.align]);
+                    }
+
+                    // Clean up
+                    if (oldMedia) {
+                        oldMedia.remove();
+                    }
+
+                    if (oldCaption) {
+                        oldCaption.remove();
                     }
                 }
             });
