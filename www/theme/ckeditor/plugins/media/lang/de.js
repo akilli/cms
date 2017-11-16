@@ -5,6 +5,7 @@
         alt: 'Alternativer Text',
         caption: 'Beschriftung',
         info: 'Info',
+        menu: 'Medieneigenschaften',
         title: 'Medien',
         urlMissing: 'Sie haben keine URL angegeben'
     });

@@ -24,7 +24,7 @@
         requires: 'dialog,widget',
         icons: 'media',
         lang: 'de,en',
-        init: function(editor) {
+        init: function (editor) {
             editor.widgets.add('media', {
                 button: editor.lang.media.title,
                 dialog: 'media',
@@ -43,7 +43,7 @@
                     caption: false,
                     src: ''
                 },
-                upcast: function(element) {
+                upcast: function (element) {
                     return element.name == 'figure' && element.hasClass('media');
                 },
                 init: function () {
@@ -122,6 +122,15 @@
                     }
                 }
             });
+
+            if (editor.contextMenu) {
+                editor.addMenuGroup('media');
+                editor.addMenuItem('media', {
+                    label: editor.lang.media.menu,
+                    command: 'media',
+                    group: 'media'
+                });
+            }
 
             CKEDITOR.dialog.add('media', this.path + 'dialogs/media.js');
         }
