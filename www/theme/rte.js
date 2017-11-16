@@ -1,7 +1,7 @@
 'use strict';
 
 (function (document, CKEDITOR) {
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', function () {
         const cfg = {
             customConfig: '',
             disableNativeSpellChecker: true,

@@ -10,7 +10,7 @@ const app = {
     },
     i18n: function (key, ...args) {
         key = this.cfg.i18n[key] ? this.cfg.i18n[key] : key;
-        args.map(i => {
+        args.map(function (i) {
             key = key.replace(/%s/, i);
         });
 

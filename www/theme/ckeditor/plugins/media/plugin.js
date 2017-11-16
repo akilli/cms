@@ -21,7 +21,7 @@
     };
     let tags = [];
 
-    Object.getOwnPropertyNames(types).forEach(item => {
+    Object.getOwnPropertyNames(types).forEach(function (item) {
         if (!tags.includes(types[item])) {
             tags.push(types[item]);
         }
@@ -54,13 +54,15 @@
                     return element.name == 'figure' && element.hasClass('media');
                 },
                 init: function () {
+                    const widget = this;
+
                     // Media element
                     const media = this.element.findOne(tags.join(','));
 
                     if (media) {
-                        ['src', 'alt'].forEach(name => {
+                        ['src', 'alt'].forEach(function (name) {
                             if (media.hasAttribute(name)) {
-                                this.setData(name, media.getAttribute(name));
+                                widget.setData(name, media.getAttribute(name));
                             }
                         });
                     }
