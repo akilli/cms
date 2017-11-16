@@ -87,7 +87,6 @@
                     const ext = this.data.src ? this.data.src.split('.').pop() : null;
 
                     if (!ext || !types.hasOwnProperty(ext)) {
-                        this.element.remove();
                         return;
                     }
 
