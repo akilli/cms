@@ -27,7 +27,7 @@
             editor.widgets.add('media', {
                 button: editor.lang.media.title,
                 dialog: 'media',
-                template: '<figure class="media"></figure>',
+                template: '<figure class="media"><figcaption></figcaption></figure>',
                 editables: {
                     caption: {
                         selector: 'figcaption',
@@ -61,9 +61,24 @@
                         return;
                     }
 
-                    const media = new CKEDITOR.dom.element(types[ext]);
+                    let media = this.element.findOne('img,audio,video');
+                    let caption = this.element.findOne('figcaption');
+
+                    if (!media || media.getName() !== types[ext]) {
+                        if (media) {
+                            media.remove();
+                        }
+
+                        media = new CKEDITOR.dom.element(types[ext]);
+
+                        if (caption) {
+                            media.insertBefore(caption);
+                        } else {
+                            this.element.append(media);
+                        }
+                    }
+
                     media.setAttribute('src', this.data.src);
-                    this.element.append(media);
 
                     if (types[ext] === 'img') {
                         media.setAttribute('alt', this.data.alt);
@@ -71,12 +86,18 @@
                         media.setAttribute('controls', true);
                     }
 
-                    if (this.data.caption) {
+                    if (this.data.caption && !caption) {
                         this.element.append(new CKEDITOR.dom.element('figcaption'));
+                    } else if (!this.data.caption && caption) {
+                        caption.remove();
                     }
 
+                    this.element.removeClass('left');
+                    this.element.removeClass('center');
+                    this.element.removeClass('right');
+
                     if (this.data.align) {
-                        this.element.addClass(this.data.align)
+                        this.element.addClass(this.data.align);
                     }
                 }
             });

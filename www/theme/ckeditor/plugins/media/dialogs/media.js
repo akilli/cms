@@ -47,8 +47,8 @@
                             items: [
                                 [common.alignNone, ''],
                                 [common.alignLeft, 'left'],
-                                [common.alignRight, 'right'],
-                                [common.alignCenter, 'center']
+                                [common.alignCenter, 'center'],
+                                [common.alignRight, 'right']
                             ],
                             setup: function (widget) {
                                 this.setValue(widget.data.align);
@@ -82,12 +82,7 @@
                         }
                     ]
                 }
-            ],
-
-            onShow: function () {
-                const widget = this.widget;
-                console.log(widget);
-            }
+            ]
         };
     });
 })(document, CKEDITOR);
