@@ -18,6 +18,7 @@
         webm: 'video',
         webp: 'img',
     };
+    const align = {left: 'left', center: 'center', right: 'right'};
 
     CKEDITOR.plugins.add('media', {
         requires: 'dialog,widget',
@@ -46,11 +47,28 @@
                     return element.name == 'figure' && element.hasClass('media');
                 },
                 init: function () {
-                    if (this.element.hasClass('left')) {
+                    // Media element
+                    const media = this.element.findOne('img,audio,video');
+
+                    if (media) {
+                        ['src', 'alt'].forEach(name => {
+                            if (media.hasAttribute(name)) {
+                                this.setData(name, media.getAttribute(name));
+                            }
+                        });
+                    }
+
+                    // Caption element
+                    if (!!this.element.findOne('figcaption')) {
+                        this.setData('caption', true);
+                    }
+
+                    // Container element
+                    if (this.element.hasClass(align.left)) {
                         this.setData('align', 'left');
-                    } else if (this.element.hasClass('center')) {
+                    } else if (this.element.hasClass(align.center)) {
                         this.setData('align', 'center');
-                    } else if (this.element.hasClass('right')) {
+                    } else if (this.element.hasClass(align.right)) {
                         this.setData('align', 'right');
                     }
                 },
@@ -64,6 +82,7 @@
                     let media = this.element.findOne('img,audio,video');
                     let caption = this.element.findOne('figcaption');
 
+                    // Media element
                     if (!media || media.getName() !== types[ext]) {
                         if (media) {
                             media.remove();
@@ -86,18 +105,20 @@
                         media.setAttribute('controls', true);
                     }
 
+                    // Caption element
                     if (this.data.caption && !caption) {
                         this.element.append(new CKEDITOR.dom.element('figcaption'));
                     } else if (!this.data.caption && caption) {
                         caption.remove();
                     }
 
-                    this.element.removeClass('left');
-                    this.element.removeClass('center');
-                    this.element.removeClass('right');
+                    // Container element
+                    this.element.removeClass(align.left);
+                    this.element.removeClass(align.center);
+                    this.element.removeClass(align.right);
 
-                    if (this.data.align) {
-                        this.element.addClass(this.data.align);
+                    if (this.data.align && align.hasOwnProperty(this.data.align)) {
+                        this.element.addClass(align[this.data.align]);
                     }
                 }
             });
