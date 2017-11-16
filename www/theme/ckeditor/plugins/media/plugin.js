@@ -1,6 +1,7 @@
 'use strict';
 
 (function (CKEDITOR) {
+    const align = {left: 'left', center: 'center', right: 'right'};
     const types = {
         flac: 'audio',
         gif: 'img',
@@ -18,7 +19,13 @@
         webm: 'video',
         webp: 'img',
     };
-    const align = {left: 'left', center: 'center', right: 'right'};
+    let tags = [];
+
+    Object.getOwnPropertyNames(types).forEach(item => {
+        if (!tags.includes(types[item])) {
+            tags.push(types[item]);
+        }
+    });
 
     CKEDITOR.plugins.add('media', {
         requires: 'dialog,widget',
@@ -35,8 +42,8 @@
                         allowedContent: 'strong em'
                     }
                 },
-                allowedContent: 'figure(!media, left, center, right); img audio video[!src, alt, controls]; figcaption',
-                requiredContent: 'figure(media); img audio video[src]',
+                allowedContent: 'figure(!media, left, center, right); ' + tags.join(' ') + '[!src, alt, controls]; figcaption',
+                requiredContent: 'figure(media); ' + tags.join(' ') + '[src]',
                 defaults: {
                     align: '',
                     alt: '',
@@ -48,7 +55,7 @@
                 },
                 init: function () {
                     // Media element
-                    const media = this.element.findOne('img,audio,video');
+                    const media = this.element.findOne(tags.join(','));
 
                     if (media) {
                         ['src', 'alt'].forEach(name => {
@@ -79,7 +86,7 @@
                         return;
                     }
 
-                    let media = this.element.findOne('img,audio,video');
+                    let media = this.element.findOne(tags.join(','));
                     let caption = this.element.findOne('figcaption');
 
                     // Media element
