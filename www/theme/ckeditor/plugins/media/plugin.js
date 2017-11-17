@@ -93,9 +93,12 @@
                         return;
                     }
 
-                    const oldMedia = this.element.findOne(tags.join(','));
-                    let media;
-                    const oldCaption = this.element.findOne('figcaption');
+                    let caption = this.element.findOne('figcaption');
+                    let media = this.element.findOne(tags.join(','));
+
+                    if (media) {
+                        media.remove();
+                    }
 
                     if (this.data.caption) {
                         if (this.element.getName() !== 'figure') {
@@ -106,20 +109,23 @@
                             this.element.removeAttribute('controls');
                         }
 
-                        media = new CKEDITOR.dom.element(types[ext]);
-                        this.element.append(media);
-                        const caption = new CKEDITOR.dom.element('figcaption');
-                        this.element.append(caption);
-
-                        if (oldCaption) {
-                            oldCaption.copyAttributes(caption);
-                            caption.setHtml(oldCaption.getHtml());
+                        if (!caption) {
+                            caption = new CKEDITOR.dom.element('figcaption');
+                            caption.setAttribute('contenteditable', true);
+                            this.element.append(caption);
                         }
-                    } else if (this.element.getName() !== types[ext]) {
-                        this.element.renameNode(types[ext]);
-                        this.element.removeClass('media');
-                        media = this.element;
+
+                        media = new CKEDITOR.dom.element(types[ext]);
+                        media.insertBefore(caption);
                     } else {
+                        if (this.element.getName() !== types[ext]) {
+                            this.element.renameNode(types[ext]);
+                        }
+
+                        if (caption) {
+                            caption.remove();
+                        }
+
                         this.element.removeClass('media');
                         media = this.element;
                     }
@@ -140,15 +146,6 @@
 
                     if (this.data.align && align.hasOwnProperty(this.data.align)) {
                         this.element.addClass(align[this.data.align]);
-                    }
-
-                    // Clean up
-                    if (oldMedia) {
-                        oldMedia.remove();
-                    }
-
-                    if (oldCaption) {
-                        oldCaption.remove();
                     }
                 }
             });
