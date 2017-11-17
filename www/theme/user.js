@@ -28,7 +28,7 @@
 
         for (let i = 0; i < rte.length; i++) {
             rte[i].addEventListener('click', function () {
-                window.opener.CKEDITOR.tools.callFunction(rte[i].getAttribute('data-rte'), rte[i].getAttribute('data-url'));
+                window.opener.CKEDITOR.tools.callFunction(this.getAttribute('data-rte'), this.getAttribute('data-url'));
                 window.close();
             })
         }
