@@ -2,6 +2,12 @@
 
 (function (CKEDITOR) {
     const align = {left: 'left', center: 'center', right: 'right'};
+    const editables = {
+        caption: {
+            selector: 'figcaption',
+            allowedContent: 'strong em'
+        }
+    };
     const types = {
         flac: 'audio',
         gif: 'img',
@@ -36,12 +42,7 @@
                 button: editor.lang.media.title,
                 dialog: 'media',
                 template: '<figure class="media"><figcaption></figcaption></figure>',
-                editables: {
-                    caption: {
-                        selector: 'figcaption',
-                        allowedContent: 'strong em'
-                    }
-                },
+                editables: editables,
                 allowedContent: 'figure(!media, left, center, right); ' + tags.join(' ') + '[!src, alt, controls]; figcaption',
                 requiredContent: 'figure(media); ' + tags.join(' ') + '[src]',
                 defaults: {
@@ -111,12 +112,12 @@
 
                         if (!caption) {
                             caption = new CKEDITOR.dom.element('figcaption');
-                            caption.setAttribute('contenteditable', true);
                             this.element.append(caption);
+                            this.initEditable('caption', editables.caption);
                         }
 
                         media = new CKEDITOR.dom.element(types[ext]);
-                        media.insertBefore(caption);
+                        this.element.append(media, true);
                     } else {
                         if (this.element.getName() !== types[ext]) {
                             this.element.renameNode(types[ext]);
