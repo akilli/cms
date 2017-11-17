@@ -109,8 +109,12 @@
                         media = new CKEDITOR.dom.element(types[ext]);
                         this.element.append(media);
                         const caption = new CKEDITOR.dom.element('figcaption');
-                        caption.setHtml(oldCaption ? oldCaption.getHtml() : '');
                         this.element.append(caption);
+
+                        if (oldCaption) {
+                            oldCaption.copyAttributes(caption);
+                            caption.setHtml(oldCaption.getHtml());
+                        }
                     } else if (this.element.getName() !== types[ext]) {
                         this.element.renameNode(types[ext]);
                         this.element.removeClass('media');
