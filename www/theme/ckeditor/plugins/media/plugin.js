@@ -51,8 +51,11 @@
                     src: ''
                 },
                 upcast: function (element) {
-                    return element.name === 'figure' && element.hasClass('media')
-                        || tags.includes(element.name) && (!element.parent || element.parent.name !== 'figure' || !element.parent.hasClass('media'));
+                    let cond = function (el) {
+                        return el.name === 'figure' && el.hasClass('media')
+                    };
+
+                    return cond(element) || tags.includes(element.name) && !element.getAscendant(cond);
                 },
                 init: function () {
                     const widget = this;
