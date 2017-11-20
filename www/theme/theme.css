@@ -229,7 +229,7 @@ figure.iframe {
     padding: 1.5rem 0 56.25%;
 }
 
-iframe {
+figure.iframe iframe {
     position: absolute;
     top: 0;
     left: 0;
