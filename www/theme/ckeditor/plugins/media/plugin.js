@@ -1,14 +1,14 @@
 'use strict';
 
 (function (CKEDITOR) {
-    const align = {left: 'left', center: 'center', right: 'right'};
-    const editables = {
+    var align = {left: 'left', center: 'center', right: 'right'};
+    var editables = {
         caption: {
             selector: 'figcaption',
             allowedContent: 'strong em'
         }
     };
-    const types = {
+    var types = {
         flac: 'audio',
         gif: 'img',
         jpg: 'img',
@@ -23,9 +23,9 @@
         wav: 'audio',
         weba: 'audio',
         webm: 'video',
-        webp: 'img',
+        webp: 'img'
     };
-    let tags = [];
+    var tags = [];
 
     Object.getOwnPropertyNames(types).forEach(function (item) {
         if (!tags.includes(types[item])) {
@@ -53,18 +53,18 @@
                     src: ''
                 },
                 upcast: function (element) {
-                    let cond = function (el) {
+                    var cond = function (el) {
                         return el.name === 'figure' && el.hasClass('media')
                     };
 
                     return cond(element) || tags.includes(element.name) && !element.getAscendant(cond);
                 },
                 init: function () {
-                    const widget = this;
-                    const wrapper = this.element.getName() === 'figure' && this.element.hasClass('media');
+                    var widget = this;
+                    var wrapper = this.element.getName() === 'figure' && this.element.hasClass('media');
 
                     // Media element
-                    const media = wrapper ? this.element.findOne(tags.join(',')) : this.element;
+                    var media = wrapper ? this.element.findOne(tags.join(',')) : this.element;
 
                     if (media) {
                         ['src', 'alt'].forEach(function (name) {
@@ -89,14 +89,14 @@
                     }
                 },
                 data: function () {
-                    const ext = this.data.src ? this.data.src.split('.').pop() : null;
+                    var ext = this.data.src ? this.data.src.split('.').pop() : null;
 
                     if (!ext || !types.hasOwnProperty(ext)) {
                         return;
                     }
 
-                    let caption = this.element.findOne('figcaption');
-                    let media = this.element.findOne(tags.join(','));
+                    var caption = this.element.findOne('figcaption');
+                    var media = this.element.findOne(tags.join(','));
 
                     if (media) {
                         media.remove();

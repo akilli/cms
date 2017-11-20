@@ -2,8 +2,8 @@
 
 (function (document, CKEDITOR) {
     CKEDITOR.dialog.add('media', function (editor) {
-        const lang = editor.lang.media;
-        const common = editor.lang.common;
+        var lang = editor.lang.media;
+        var common = editor.lang.common;
 
         return {
             title: lang.title,
