@@ -55,14 +55,6 @@ function rte(string $val): string
 }
 
 /**
- * Iframe viewer
- */
-function iframe(string $val): string
-{
-    return html\tag('figure', ['class' => 'iframe'], html\tag('iframe', ['src' => $val, 'allowfullscreen' => true]));
-}
-
-/**
  * File viewer
  */
 function file(string $val): string
