@@ -36,6 +36,7 @@
     CKEDITOR.plugins.add('media', {
         requires: 'dialog,widget',
         icons: 'media',
+        hidpi: true,
         lang: 'de,en',
         init: function (editor) {
             editor.widgets.add('media', {
