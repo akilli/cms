@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace viewer;
 
 use app;
+use file;
 use html;
 
 /**
@@ -59,31 +60,18 @@ function rte(string $val): string
  */
 function file(string $val): string
 {
-    return html\tag('a', ['href' => app\asset($val)], $val);
-}
+    $type = file\type($val);
+    $val = app\asset($val);
 
-/**
- * Image viewer
- */
-function image(string $val): string
-{
-    return html\tag('img', ['src' => app\asset($val), 'alt' => $val], null, true);
-}
+    if ($type === 'image') {
+        return html\tag('img', ['src' => $val], null, true);
+    }
 
-/**
- * Audio viewer
- */
-function audio(string $val): string
-{
-    return html\tag('audio', ['src' => app\asset($val), 'controls' => true]);
-}
+    if (in_array($type, ['audio', 'video'])) {
+        return html\tag($type, ['src' => $val, 'controls' => true]);
+    }
 
-/**
- * Video viewer
- */
-function video(string $val): string
-{
-    return html\tag('video', ['src' => app\asset($val), 'controls' => true]);
+    return html\tag('a', ['href' => $val], $val);
 }
 
 /**

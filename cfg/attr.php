@@ -63,12 +63,6 @@ return [
         ],
     ],
     'type' => [
-        'audio' => [
-            'backend' => 'varchar',
-            'frontend' => 'file',
-            'filter' => 'audio',
-            'viewer' => 'audio',
-        ],
         'date' => [
             'backend' => 'date',
             'frontend' => 'date',
@@ -92,12 +86,6 @@ return [
         'file' => [
             'backend' => 'varchar',
             'frontend' => 'file',
-        ],
-        'image' => [
-            'backend' => 'varchar',
-            'frontend' => 'file',
-            'filter' => 'image',
-            'viewer' => 'image',
         ],
         'int' => [
             'backend' => 'int',
@@ -148,12 +136,6 @@ return [
         'url' => [
             'backend' => 'varchar',
             'frontend' => 'url',
-        ],
-        'video' => [
-            'backend' => 'varchar',
-            'frontend' => 'file',
-            'filter' => 'video',
-            'viewer' => 'video',
         ],
     ],
 ];
