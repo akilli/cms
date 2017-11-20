@@ -109,7 +109,6 @@ return [
                 'type' => 'file',
                 'required' => true,
                 'unique' => true,
-                'filter' => 'path',
             ],
             'size' => [
                 'name' => 'Size',

@@ -140,5 +140,5 @@ function file(string $val): string
         throw new DomainException(app\i18n('Invalid file %s', $val));
     }
 
-    return $val;
+    return path($val);
 }
