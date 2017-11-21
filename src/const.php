@@ -89,7 +89,6 @@ const APP = [
     ],
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'url.asset' => '/asset/',
-    'url.file' => '/app/file/',
     'url.page' => '/page/view/',
     'url.theme' => '/theme/'
 ];
