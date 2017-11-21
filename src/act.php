@@ -128,7 +128,7 @@ function view(array $ent): void
  */
 function asset(array $ent): void
 {
-    if (!($id = http\req('id')) || !is_file(app\path('data', $ent['id'] . '/' . $id))) {
+    if (!($id = http\req('id')) || !is_file(app\path('asset', $ent['id'] . '/' . $id))) {
         http_response_code(404);
         exit;
     }

@@ -65,8 +65,8 @@ const APP = [
     'frontend.time' => 'H:i',
     'log' => 'php://stdout',
     'path' => [
+        'asset' => '/data',
         'cfg' => '/app/cfg',
-        'data' => '/data',
         'theme' => '/app/www/theme',
         'tpl' => '/app/tpl',
     ],

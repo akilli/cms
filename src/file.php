@@ -60,7 +60,7 @@ function dir(string $path): bool
  */
 function writable(string $path): bool
 {
-    return (bool) preg_match('#^(file://)?(' . app\path('data') . ')#', $path);
+    return (bool) preg_match('#^(file://)?(' . app\path('asset') . ')#', $path);
 }
 
 /**

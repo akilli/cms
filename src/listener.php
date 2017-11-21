@@ -171,7 +171,7 @@ function ent_postsave(array $data): array
     $file = http\req('file');
 
     foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\upload($file[$aId]['tmp_name'], app\path('data', $data[$aId]))) {
+        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\upload($file[$aId]['tmp_name'], app\path('asset', $data[$aId]))) {
             throw new RuntimeException(app\i18n('File upload failed for %s', $data[$aId]));
         }
     }
@@ -187,7 +187,7 @@ function ent_postsave(array $data): array
 function ent_postdelete(array $data): array
 {
     foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\delete(app\path('data', $data[$aId]))) {
+        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\delete(app\path('asset', $data[$aId]))) {
             throw new RuntimeException(app\i18n('Could not delete %s', $data[$aId]));
         }
     }
