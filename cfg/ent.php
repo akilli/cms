@@ -82,8 +82,8 @@ return [
             ],
         ],
     ],
-    'media' => [
-        'name' => 'Media',
+    'file' => [
+        'name' => 'Files',
         'act' => [
             'admin' => ['name', 'size'],
             'asset' => [],

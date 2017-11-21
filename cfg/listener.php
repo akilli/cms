@@ -27,8 +27,8 @@ return [
     'ent.postdelete' => [
         'ent_postdelete' => -1,
     ],
-    'ent.presave.media' => [
-        'media_presave' => -1,
+    'ent.presave.file' => [
+        'file_presave' => -1,
     ],
     'ent.postfilter.page' => [
         'page_postfilter' => -1,

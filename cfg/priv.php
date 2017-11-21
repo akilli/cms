@@ -28,11 +28,11 @@ return [
     'account/password' => [
         'priv' => 'account-user',
     ],
-    'media/asset' => [
+    'file/asset' => [
         'active' => false,
     ],
-    'media/browser' => [
-        'priv' => 'media/admin',
+    'file/browser' => [
+        'priv' => 'file/admin',
     ],
     'page/index' => [
         'active' => false,

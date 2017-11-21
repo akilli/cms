@@ -169,9 +169,9 @@ function app_js(): void
 }
 
 /**
- * Media Browser Action
+ * File Browser Action
  */
-function media_browser(array $ent): void
+function file_browser(array $ent): void
 {
     index($ent);
     $p = ['rte' => http\req('param')['CKEditorFuncNum'] ?? null];

@@ -163,7 +163,7 @@ return [
             'parent_id' => 'main',
         ],
     ],
-    'media/browser' => [
+    'file/browser' => [
         'top' => [
             'active' => false,
         ],
@@ -181,7 +181,7 @@ return [
         ],
         'content' => [
             'section' => 'tpl',
-            'tpl' => 'media/browser.phtml',
+            'tpl' => 'file/browser.phtml',
             'parent_id' => 'main',
         ],
         'pager' => [

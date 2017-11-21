@@ -196,9 +196,9 @@ function ent_postdelete(array $data): array
 }
 
 /**
- * Media presave listener
+ * File presave listener
  */
-function media_presave(array $data): array
+function file_presave(array $data): array
 {
     $file = http\req('file')['file']['tmp_name'] ?? null;
 
