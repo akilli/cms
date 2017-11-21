@@ -232,19 +232,13 @@ function url(string $path = '', array $params = []): string
 }
 
 /**
- * Asset URL
+ * File URL
  *
  * @throws RuntimeException
  */
-function asset(string $path): string
+function file(string $path): string
 {
-    $p = explode('/', trim($path, '/'));
-
-    if (empty($p[0]) || empty($p[1])) {
-        throw new RuntimeException(i18n('Invalid path %s', $path));
-    }
-
-    return '/' . $p[0] . '/asset/' . $p[1];
+    return APP['url.file'] . trim($path, '/');
 }
 
 /**

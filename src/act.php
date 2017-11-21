@@ -124,23 +124,6 @@ function view(array $ent): void
 }
 
 /**
- * Asset Action
- */
-function asset(array $ent): void
-{
-    if (!($id = http\req('id')) || !is_file(app\path('data', $ent['id'] . '/' . $id))) {
-        http_response_code(404);
-        exit;
-    }
-
-    http_response_code(200);
-    header('X-Accel-Redirect: ' . APP['url.asset'] . $ent['id'] . '/' . $id);
-    header('X-Accel-Buffering: no');
-    header('Content-Type: ', true);
-    exit;
-}
-
-/**
  * App Denied Action
  */
 function app_denied(): void
@@ -158,6 +141,23 @@ function app_error(): void
     http_response_code(404);
     app\layout('meta', ['title' => app\i18n('Page not found')]);
     app\layout('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Page not found')]);
+}
+
+/**
+ * App File Action
+ */
+function app_file(): void
+{
+    if (!($id = http\req('id')) || !is_file(app\path('data', $id))) {
+        http_response_code(404);
+        exit;
+    }
+
+    http_response_code(200);
+    header('X-Accel-Redirect: ' . APP['url.asset'] . $id);
+    header('X-Accel-Buffering: no');
+    header('Content-Type: ', true);
+    exit;
 }
 
 /**
