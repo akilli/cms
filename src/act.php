@@ -141,6 +141,17 @@ function asset(array $ent): void
 }
 
 /**
+ * Browser Action
+ */
+function browser(array $ent): void
+{
+    index($ent);
+    $p = ['rte' => http\req('param')['CKEditorFuncNum'] ?? null];
+    app\layout('content', ['params' => array_replace(app\layout('content')['vars']['params'], $p)]);
+    app\layout('pager', ['params' => array_replace(app\layout('pager')['vars']['params'], $p)]);
+}
+
+/**
  * App Denied Action
  */
 function app_denied(): void
@@ -166,17 +177,6 @@ function app_error(): void
 function app_js(): void
 {
     header('Content-Type: text/javascript', true);
-}
-
-/**
- * File Browser Action
- */
-function file_browser(array $ent): void
-{
-    index($ent);
-    $p = ['rte' => http\req('param')['CKEditorFuncNum'] ?? null];
-    app\layout('content', ['params' => array_replace(app\layout('content')['vars']['params'], $p)]);
-    app\layout('pager', ['params' => array_replace(app\layout('pager')['vars']['params'], $p)]);
 }
 
 /**
