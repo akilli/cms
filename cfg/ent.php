@@ -85,11 +85,11 @@ return [
     'media' => [
         'name' => 'Media',
         'act' => [
-            'admin' => ['name', 'file', 'size'],
+            'admin' => ['name', 'size'],
             'asset' => [],
-            'browser' => ['name', 'file', 'size'],
+            'browser' => ['name', 'size'],
             'delete' => [],
-            'edit' => ['name', 'file'],
+            'edit' => ['name', 'info'],
         ],
         'attr' => [
             'id' => [
@@ -99,16 +99,15 @@ return [
             ],
             'name' => [
                 'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'searchable' => true,
-                'maxlength' => 100,
-            ],
-            'file' => [
-                'name' => 'File',
                 'type' => 'file',
                 'required' => true,
                 'unique' => true,
+            ],
+            'info' => [
+                'name' => 'Info',
+                'type' => 'textarea',
+                'searchable' => true,
+                'val' => '',
             ],
             'size' => [
                 'name' => 'Size',
