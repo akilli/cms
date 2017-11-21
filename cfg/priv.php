@@ -32,7 +32,7 @@ return [
         'active' => false,
     ],
     'media/browser' => [
-        'priv' => 'media/edit',
+        'priv' => 'media/admin',
     ],
     'page/index' => [
         'active' => false,
