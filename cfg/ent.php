@@ -102,6 +102,7 @@ return [
                 'type' => 'file',
                 'required' => true,
                 'unique' => true,
+                'searchable' => true,
             ],
             'info' => [
                 'name' => 'Info',
