@@ -17,7 +17,8 @@ function db(): PDO
 
     if ($pdo === null) {
         $cfg = app\cfg('sql');
-        $pdo = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], $cfg['opt']);
+        $opt = [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
+        $pdo = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], $opt);
     }
 
     return $pdo;
