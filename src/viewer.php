@@ -61,7 +61,7 @@ function rte(string $val): string
 function file(string $val): string
 {
     $type = file\type($val);
-    $val = app\file($val);
+    $val = app\asset($val);
 
     if ($type === 'image') {
         return html\tag('img', ['src' => $val], null, true);

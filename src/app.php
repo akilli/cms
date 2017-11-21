@@ -232,13 +232,13 @@ function url(string $path = '', array $params = []): string
 }
 
 /**
- * File URL
+ * Asset URL
  *
  * @throws RuntimeException
  */
-function file(string $path): string
+function asset(string $path): string
 {
-    return APP['url.file'] . trim($path, '/');
+    return APP['url.app-asset'] . trim($path, '/');
 }
 
 /**
