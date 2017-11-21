@@ -19,13 +19,13 @@ return [
     'account/password' => [
         'priv' => 'account-user',
     ],
-    'app/asset' => [
-        'active' => false,
-    ],
     'app/denied' => [
         'active' => false,
     ],
     'app/error' => [
+        'active' => false,
+    ],
+    'app/file' => [
         'active' => false,
     ],
     'app/js' => [
