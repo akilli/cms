@@ -27,6 +27,7 @@ const APP = [
         'filter' => null,
         'viewer' => null,
     ],
+    'backend' => ['bool', 'date', 'datetime', 'decimal', 'int', 'json', 'text', 'time', 'varchar'],
     'backend.date' => 'Y-m-d',
     'backend.datetime' => 'Y-m-d H:i:s',
     'backend.time' => 'H:i:s',

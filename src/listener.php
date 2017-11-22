@@ -31,13 +31,16 @@ function cfg_ent(array $data): array
         $ent['tab'] = $ent['tab'] ?: $ent['id'];
 
         foreach ($ent['attr'] as $aId => $attr) {
-            if (empty($attr['name']) || empty($attr['type']) || !($type = $cfg['type'][$attr['type']] ?? null)) {
+            if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']])) {
                 throw new RuntimeException(app\i18n('Invalid attribute configuration'));
             }
 
-            $backend = $cfg['backend'][$attr['backend'] ?? $type['backend']];
-            $frontend = $cfg['frontend'][$attr['frontend'] ?? $type['frontend']];
-            $attr = arr\replace(APP['attr'], $backend, $frontend, $type, $attr);
+            $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr);
+
+            if (!in_array($attr['backend'], APP['backend'])) {
+                throw new RuntimeException(app\i18n('Invalid attribute configuration'));
+            }
+
             $attr['id'] = $aId;
             $attr['name'] = app\i18n($attr['name']);
 
