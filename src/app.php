@@ -184,7 +184,9 @@ function §(string $id): string
  */
 function tpl(string $id): string
 {
-    return path('tpl', $id);
+    $ext = path('ext', 'tpl/' . $id);
+
+    return is_file($ext) ? $ext : path('tpl', $id);
 }
 
 /**
