@@ -175,5 +175,5 @@ function cast($val, array $attr)
  */
 function ignorable(array $data, array $attr): bool
 {
-    return !empty($data['_old'][$attr['id']]) && in_array($attr['frontend'], ['file', 'password']);
+    return !empty($data['_old'][$attr['id']]) && $attr['ignorable'];
 }

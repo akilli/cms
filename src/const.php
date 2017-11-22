@@ -18,6 +18,7 @@ const APP = [
         'unique' => false,
         'multiple' => false,
         'searchable' => false,
+        'ignorable' => false,
         'opt' => [],
         'val' => null,
         'min' => 0,

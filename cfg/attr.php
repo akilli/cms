@@ -30,6 +30,7 @@ return [
     'file' => [
         'backend' => 'varchar',
         'frontend' => 'file',
+        'ignorable' => true,
         'filter' => 'file',
         'viewer' => 'file',
     ],
@@ -47,6 +48,7 @@ return [
     'password' => [
         'backend' => 'varchar',
         'frontend' => 'password',
+        'ignorable' => true,
     ],
     'radio' => [
         'backend' => 'varchar',
