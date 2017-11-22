@@ -6,9 +6,13 @@ namespace app;
 /**
  * Initialize application
  */
-foreach (glob(dirname(__DIR__) . '/src/*.php') as $file) {
-    include_once $file;
-}
+$inc = function (string $path): void {
+    foreach (glob($path . '/*.php') as $file) {
+        include_once $file;
+    }
+};
+$inc(dirname(__DIR__) . '/src');
+$inc(path('ext', 'src'));
 
 /**
  * Error handler
