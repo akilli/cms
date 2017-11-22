@@ -141,7 +141,7 @@ function tpl(array $§): string
         return $§['vars'][$key] ?? null;
     };
     ob_start();
-    include app\path('tpl', $§('tpl'));
+    include app\tpl((string) $§('tpl'));
 
     return ob_get_clean();
 }

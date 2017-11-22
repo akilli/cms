@@ -180,6 +180,14 @@ function §(string $id): string
 }
 
 /**
+ * Template path
+ */
+function tpl(string $id): string
+{
+    return path('tpl', $id);
+}
+
+/**
  * Check access
  */
 function allowed(string $key): bool
