@@ -125,11 +125,11 @@ function cfg_priv(array $data): array
  */
 function cfg_toolbar(array $data): array
 {
-    foreach ($data as $url => $name) {
-        if (app\allowed_url($url)) {
-            $data[$url] = app\i18n($name);
+    foreach ($data as $key => $item) {
+        if (app\allowed_url($item['url'])) {
+            $data[$key]['name'] = app\i18n($item['name']);
         } else {
-            unset($data[$url]);
+            unset($data[$key]);
         }
     }
 

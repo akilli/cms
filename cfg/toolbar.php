@@ -1,9 +1,9 @@
 <?php
 return [
-    '/page/admin' => 'Pages',
-    '/file/admin' => 'Files',
-    '/account/admin' => 'Accounts',
-    '/role/admin' => 'Roles',
-    '/account/password' => 'Password',
-    '/account/logout' => 'Logout',
+    ['name' => 'Pages', 'url' => '/page/admin'],
+    ['name' => 'Files', 'url' => '/file/admin'],
+    ['name' => 'Accounts', 'url' => '/account/admin'],
+    ['name' => 'Roles', 'url' => '/role/admin'],
+    ['name' => 'Password', 'url' => '/account/password'],
+    ['name' => 'Logout', 'url' => '/account/logout'],
 ];
