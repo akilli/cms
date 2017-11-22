@@ -80,8 +80,8 @@ function edit(array $ent): void
     if ($data) {
         $data['id'] = $id;
 
-        if (ent\save($ent['id'], $data)) {
-            http\redirect(app\url('*/admin'));
+        if (ent\save($ent['id'], $data) && !$id) {
+            http\redirect(app\url('*/*/' . $data['id']));
         }
     } elseif ($id) {
         $data = ent\one($ent['id'], [['id', $id]]);
