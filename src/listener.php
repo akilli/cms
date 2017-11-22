@@ -142,7 +142,7 @@ function cfg_toolbar(array $data): array
 function ent_prefilter(array $data): array
 {
     foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['frontend'] === 'file' && !empty($data[$aId])) {
+        if ($attr['type'] === 'file' && !empty($data[$aId])) {
             $data[$aId] = $data['_ent']['id'] . '/' . $data[$aId];
         }
     }
@@ -156,7 +156,7 @@ function ent_prefilter(array $data): array
 function ent_postfilter(array $data): array
 {
     foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['frontend'] === 'password' && !empty($data[$aId]) && !($data[$aId] = password_hash($data[$aId], PASSWORD_DEFAULT))) {
+        if ($attr['type'] === 'password' && !empty($data[$aId]) && !($data[$aId] = password_hash($data[$aId], PASSWORD_DEFAULT))) {
             $data['_error'][$aId] = app\i18n('Invalid password');
         }
     }
@@ -174,7 +174,7 @@ function ent_postsave(array $data): array
     $file = http\req('file');
 
     foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\upload($file[$aId]['tmp_name'], app\path('asset', $data[$aId]))) {
+        if ($attr['type'] === 'file' && !empty($data[$aId]) && !file\upload($file[$aId]['tmp_name'], app\path('asset', $data[$aId]))) {
             throw new RuntimeException(app\i18n('File upload failed for %s', $data[$aId]));
         }
     }
@@ -190,7 +190,7 @@ function ent_postsave(array $data): array
 function ent_postdelete(array $data): array
 {
     foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['frontend'] === 'file' && !empty($data[$aId]) && !file\delete(app\path('asset', $data[$aId]))) {
+        if ($attr['type'] === 'file' && !empty($data[$aId]) && !file\delete(app\path('asset', $data[$aId]))) {
             throw new RuntimeException(app\i18n('Could not delete %s', $data[$aId]));
         }
     }
