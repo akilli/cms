@@ -68,8 +68,8 @@ function all(string $eId, array $crit = [], array $opt = []): array
     try {
         $data = ($ent['type'] . '\load')($ent, $crit, $opt);
 
-        foreach ($data as $id => $item) {
-            $data[$id] = load($ent, $item);
+        foreach ($data as $key => $item) {
+            $data[$key] = load($ent, $item);
         }
 
         return array_column($data, null, $opt['index']);
