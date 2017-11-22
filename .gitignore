@@ -2,5 +2,6 @@
 # DEV
 #
 /data
+/ext
 /www/loc
 .idea

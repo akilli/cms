@@ -11,5 +11,6 @@ Jenkinsfile
 # DEV
 #
 /data
+/ext
 /www/loc
 .idea
