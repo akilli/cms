@@ -9,7 +9,6 @@ use ent;
 use file;
 use http;
 use session;
-use ErrorException;
 use RuntimeException;
 use Throwable;
 
@@ -285,20 +284,4 @@ function rewrite(string $path): string
 function log(Throwable $e): void
 {
     file_put_contents(APP['log'], '[' . date('r') . '] ' . $e . "\n\n", FILE_APPEND);
-}
-
-/**
- * Error Handler
- */
-function error(int $severity, string $msg, string $file, int $line): void
-{
-    log(new ErrorException($msg, 0, $severity, $file, $line));
-}
-
-/**
- * Exception Handler
- */
-function exception(Throwable $e): void
-{
-    log($e);
 }
