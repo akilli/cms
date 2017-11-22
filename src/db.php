@@ -54,7 +54,10 @@ function save(array $data): array
 
     // Insert or update
     if (empty($data['_old'])) {
-        $stmt = sql\db()->prepare(sql\insert($data['_ent']['tab']) . sql\values($cols['val']));
+        $stmt = sql\db()->prepare(
+            sql\insert($data['_ent']['tab'])
+            . sql\values($cols['val'])
+        );
     } else {
         $stmt = sql\db()->prepare(
             sql\update($data['_ent']['tab'])
@@ -84,7 +87,10 @@ function save(array $data): array
 function delete(array $data): void
 {
     $attrs = $data['_ent']['attr'];
-    $stmt = sql\db()->prepare(sql\delete($data['_ent']['tab']) . sql\where([$attrs['id']['col'] . ' = :id']));
+    $stmt = sql\db()->prepare(
+        sql\delete($data['_ent']['tab'])
+        . sql\where([$attrs['id']['col'] . ' = :id'])
+    );
     $stmt->bindValue(':id', $data['_old']['id'], sql\type($data['_old']['id']));
     $stmt->execute();
 }
