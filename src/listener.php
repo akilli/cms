@@ -210,7 +210,7 @@ function ent_postdelete(array $data): array
  */
 function file_presave(array $data): array
 {
-    $file = http\req('file')['file']['tmp_name'] ?? null;
+    $file = http\req('file')['name']['tmp_name'] ?? null;
 
     if ($file) {
         $data['size'] = filesize($file);
