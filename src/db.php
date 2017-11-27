@@ -45,16 +45,27 @@ function load(array $ent, array $crit = [], array $opt = []): array
 }
 
 /**
- * Create entity
+ * Save entity
  */
-function create(array $data): array
+function save(array $data): array
 {
     $attrs = $data['_ent']['attr'];
     $cols = sql\cols($attrs, $data);
-    $stmt = sql\db()->prepare(
-        sql\insert($data['_ent']['tab'])
-        . sql\values($cols['val'])
-    );
+
+    // Insert or update
+    if (empty($data['_old'])) {
+        $stmt = sql\db()->prepare(
+            sql\insert($data['_ent']['tab'])
+            . sql\values($cols['val'])
+        );
+    } else {
+        $stmt = sql\db()->prepare(
+            sql\update($data['_ent']['tab'])
+            . sql\set($cols['val'])
+            . sql\where([$attrs['id']['col'] . ' = :_id'])
+        );
+        $stmt->bindValue(':_id', $data['_old']['id'], sql\type($data['_old']['id']));
+    }
 
     foreach ($cols['param'] as $param) {
         $stmt->bindValue(...$param);
@@ -63,32 +74,9 @@ function create(array $data): array
     $stmt->execute();
 
     // Set DB generated id
-    if ($attrs['id']['auto']) {
+    if (empty($data['_old']) && $attrs['id']['auto']) {
         $data['id'] = (int) sql\db()->lastInsertId($data['_ent']['tab'] . '_id_seq');
     }
-
-    return $data;
-}
-
-/**
- * Update entity
- */
-function update(array $data): array
-{
-    $attrs = $data['_ent']['attr'];
-    $cols = sql\cols($attrs, $data);
-    $stmt = sql\db()->prepare(
-        sql\update($data['_ent']['tab'])
-        . sql\set($cols['val'])
-        . sql\where([$attrs['id']['col'] . ' = :_id'])
-    );
-    $stmt->bindValue(':_id', $data['_old']['id'], sql\type($data['_old']['id']));
-
-    foreach ($cols['param'] as $param) {
-        $stmt->bindValue(...$param);
-    }
-
-    $stmt->execute();
 
     return $data;
 }

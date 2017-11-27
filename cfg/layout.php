@@ -80,7 +80,7 @@ return [
         'create' => [
             'section' => 'tpl',
             'tpl' => 'ent/create.phtml',
-            'priv' => '*/create',
+            'priv' => '*/edit',
             'parent_id' => 'right',
         ],
     ],
@@ -100,20 +100,7 @@ return [
             'parent_id' => 'right',
         ],
     ],
-    'act-create' => [
-        'rte' => [
-            'section' => 'tpl',
-            'tpl' => 'head/rte.phtml',
-            'parent_id' => 'head',
-            'sort' => -1,
-        ],
-        'content' => [
-            'section' => 'tpl',
-            'tpl' => 'ent/edit.phtml',
-            'parent_id' => 'main',
-        ],
-    ],
-    'act-update' => [
+    'act-edit' => [
         'rte' => [
             'section' => 'tpl',
             'tpl' => 'head/rte.phtml',
@@ -130,7 +117,7 @@ return [
         'rte' => [
             'section' => 'tpl',
             'tpl' => 'head/rte.phtml',
-            'priv' => '*/update',
+            'priv' => '*/edit',
             'parent_id' => 'head',
             'sort' => -1,
         ],
