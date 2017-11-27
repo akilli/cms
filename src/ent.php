@@ -92,8 +92,8 @@ function save(string $eId, array & $data): bool
     $edit = data($eId, 'edit');
 
     if ($id && ($old = one($eId, [['id', $id]]))) {
+        unset($old['_ent'], $old['_old']);
         $tmp['_old'] = $old;
-        unset($tmp['_old']['_ent'], $tmp['_old']['_old']);
     }
 
     $tmp = array_replace($edit, $tmp);
