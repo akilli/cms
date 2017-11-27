@@ -74,17 +74,14 @@ function index(array $ent): void
  */
 function edit(array $ent): void
 {
-    $data = http\req('data');
     $id = http\req('id');
+    $data = http\req('data');
+    $data += $data && $id ? ['_id' => $id] : [];
 
-    if ($data) {
-        $data['_id'] = $id;
-
-        if (ent\save($ent['id'], $data) && !$id) {
-            http\redirect(app\url('*/*/' . $data['id']));
-        }
+    if ($data && ent\save($ent['id'], $data) && !$id) {
+        http\redirect(app\url('*/*/' . $data['id']));
     } elseif ($id) {
-        $data = ent\one($ent['id'], [['id', $id]]);
+        $data = array_replace(ent\one($ent['id'], [['id', $id]]), $data);
     } else {
         $data = ent\data($ent['id'], 'edit');
     }

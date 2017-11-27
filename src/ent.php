@@ -89,21 +89,20 @@ function save(string $eId, array & $data): bool
     $id = $data['_id'] ?? $data['id'] ?? null;
     unset($data['_id']);
     $tmp = $data;
-    $edit = data($eId, 'edit');
 
     if ($id && ($old = one($eId, [['id', $id]]))) {
-        unset($old['_ent'], $old['_old']);
-        $tmp['_old'] = $old;
+        $tmp += ['_old' => $old, '_ent' => $old['_ent']];
+        unset($tmp['_old']['_ent'], $tmp['_old']['_old']);
+    } else {
+        $tmp = array_replace(data($eId, 'edit'), $tmp);
     }
 
-    $tmp = array_replace($edit, $tmp);
-    $attrs = $tmp['_ent']['attr'];
     $aIds = [];
 
-    foreach ($tmp as $aId => $val) {
-        if (($val === null || $val === '') && !empty($attrs[$aId]) && attr\ignorable($tmp, $attrs[$aId])) {
-            unset($tmp[$aId]);
-        } elseif (!empty($attrs[$aId]) && array_key_exists($aId, $edit)) {
+    foreach (array_intersect_key($tmp, $tmp['_ent']['attr']) as $aId => $val) {
+        if (($val === null || $val === '') && attr\ignorable($tmp, $tmp['_ent']['attr'][$aId])) {
+            unset($data[$aId], $tmp[$aId]);
+        } else {
             $aIds[] = $aId;
         }
     }
