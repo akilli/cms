@@ -9,7 +9,7 @@ use ent;
 use file;
 use http;
 use session;
-use RuntimeException;
+use DomainException;
 use Throwable;
 
 /**
@@ -49,12 +49,12 @@ function & data(string $id): ?array
 /**
  * Gets absolute path to specified subpath in given directory
  *
- * @throws RuntimeException
+ * @throws DomainException
  */
 function path(string $dir, string $id = null): string
 {
     if (empty(APP['path'][$dir])) {
-        throw new RuntimeException(i18n('Invalid path %s', $dir));
+        throw new DomainException(i18n('Invalid path %s', $dir));
     }
 
     return APP['path'][$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
@@ -135,7 +135,7 @@ function datetime(string $val, string $in, string $out): string
 /**
  * Returns layout section and optionally sets variables
  *
- * @throws RuntimeException
+ * @throws DomainException
  */
 function layout(string $id = null, array $vars = null): array
 {
@@ -150,7 +150,7 @@ function layout(string $id = null, array $vars = null): array
 
     // Invalid section
     if (empty($data[$id])) {
-        throw new RuntimeException(i18n('Invalid section %s', $id));
+        throw new DomainException(i18n('Invalid section %s', $id));
     }
 
     // Add variables to section
@@ -243,14 +243,14 @@ function url(string $path = '', array $params = []): string
 /**
  * Asset URL
  *
- * @throws RuntimeException
+ * @throws DomainException
  */
 function asset(string $path): string
 {
     $p = explode('/', trim($path, '/'));
 
     if (empty($p[0]) || empty($p[1])) {
-        throw new RuntimeException(i18n('Invalid path %s', $path));
+        throw new DomainException(i18n('Invalid path %s', $path));
     }
 
     return '/' . $p[0] . '/asset/' . $p[1];
