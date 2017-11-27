@@ -80,10 +80,9 @@ function edit(array $ent): void
 
     if ($data && ent\save($ent['id'], $data) && !$id) {
         http\redirect(app\url('*/*/' . $data['id']));
-    } elseif ($id) {
-        $data = array_replace(ent\one($ent['id'], [['id', $id]]), $data);
     } else {
-        $data = ent\data($ent['id'], 'edit');
+        $base = $id ? ent\one($ent['id'], [['id', $id]]) : ent\data($ent['id'], 'edit');
+        $data = array_replace($base, $data);
     }
 
     app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'edit'), 'title' => $ent['name']]);
