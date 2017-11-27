@@ -82,20 +82,38 @@ function all(string $eId, array $crit = [], array $opt = []): array
 }
 
 /**
+ * Create entity
+ */
+function create(string $eId, array & $data): bool
+{
+    return save($eId, $data);
+}
+
+/**
+ * Update entity
+ */
+function update(string $eId, array & $data): bool
+{
+    return save($eId, $data);
+}
+
+/**
  * Save entity
  */
 function save(string $eId, array & $data): bool
 {
     $tmp = $data;
-    $edit = data($eId, 'edit');
+    $act = 'create';
     $id = $tmp['_id'] ?? $tmp['id'] ?? null;
     unset($tmp['_id']);
 
     if ($id && ($base = one($eId, [['id', $id]]))) {
+        $act = 'update';
         $tmp['_old'] = $base;
         unset($tmp['_old']['_ent'], $tmp['_old']['_old']);
     }
 
+    $edit = data($eId, $act);
     $tmp = array_replace($edit, $tmp);
     $attrs = $tmp['_ent']['attr'];
     $aIds = [];
@@ -133,9 +151,11 @@ function save(string $eId, array & $data): bool
 
     try {
         sql\trans(
-            function () use (& $tmp): void {
+            function () use (& $tmp, $act): void {
+                $tmp = event('pre' . $act, $tmp);
                 $tmp = event('presave', $tmp);
-                $tmp = ($tmp['_ent']['type'] . '\save')($tmp);
+                $tmp = ($tmp['_ent']['type'] . '\\' . $act)($tmp);
+                $tmp = event('post' . $act, $tmp);
                 $tmp = event('postsave', $tmp);
             }
         );

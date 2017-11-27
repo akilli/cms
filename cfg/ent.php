@@ -5,7 +5,8 @@ return [
         'act' => [
             'admin' => ['name', 'active'],
             'delete' => [],
-            'edit' => ['name', 'priv', 'active'],
+            'create' => ['name', 'priv', 'active'],
+            'update' => ['name', 'priv', 'active'],
         ],
         'attr' => [
             'id' => [
@@ -41,7 +42,8 @@ return [
         'act' => [
             'admin' => ['name', 'role_id', 'active'],
             'delete' => [],
-            'edit' => ['name', 'password', 'role_id', 'active'],
+            'create' => ['name', 'password', 'role_id', 'active'],
+            'update' => ['name', 'password', 'role_id', 'active'],
             'login' => [],
             'logout' => [],
             'password' => [],
@@ -89,7 +91,8 @@ return [
             'asset' => [],
             'browser' => ['name', 'size'],
             'delete' => [],
-            'edit' => ['name', 'info'],
+            'create' => ['name', 'info'],
+            'update' => ['name', 'info'],
         ],
         'attr' => [
             'id' => [
@@ -122,7 +125,8 @@ return [
         'act' => [
             'admin' => ['pos', 'name', 'url', 'active'],
             'delete' => [],
-            'edit' => ['name', 'url', 'active', 'parent_id', 'sort', 'content'],
+            'create' => ['name', 'url', 'active', 'parent_id', 'sort', 'content'],
+            'update' => ['name', 'url', 'active', 'parent_id', 'sort', 'content'],
             'index' => ['name'],
             'view' => ['content']
         ],

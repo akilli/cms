@@ -70,26 +70,38 @@ function index(array $ent): void
 }
 
 /**
- * Edit Action
+ * Create Action
  */
-function edit(array $ent): void
+function create(array $ent): void
 {
-    $data = http\req('data');
-    $id = http\req('id');
-
-    if ($data) {
-        $data['_id'] = $id;
-
-        if (ent\save($ent['id'], $data) && !$id) {
-            http\redirect(app\url('*/*/' . $data['id']));
-        }
-    } elseif ($id) {
-        $data = ent\one($ent['id'], [['id', $id]]);
-    } else {
-        $data = ent\data($ent['id'], 'edit');
+    if (($data = http\req('data')) && ent\create($ent['id'], $data)) {
+        http\redirect(app\url('*/*/' . $data['id']));
     }
 
-    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'edit'), 'title' => $ent['name']]);
+    $data = $data ?: ent\data($ent['id'], 'create');
+
+    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'create'), 'title' => $ent['name']]);
+    app\layout('meta', ['title' => $ent['name']]);
+}
+
+/**
+ * Update Action
+ */
+function update(array $ent): void
+{
+    if (!$id = http\req('id')) {
+        app\msg(app\i18n('Nothing selected'));
+        http\redirect(app\url('*/admin'));
+    }
+
+    if ($data = http\req('data')) {
+        $data['_id'] = $id;
+        ent\update($ent['id'], $data);
+    } else {
+        $data = ent\one($ent['id'], [['id', $id]]);
+    }
+
+    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'update'), 'title' => $ent['name']]);
     app\layout('meta', ['title' => $ent['name']]);
 }
 
@@ -101,7 +113,7 @@ function delete(array $ent): void
     if ($id = http\req('id')) {
         ent\delete($ent['id'], [['id', $id]]);
     } else {
-        app\msg(app\i18n('Nothing selected for deletion'));
+        app\msg(app\i18n('Nothing selected'));
     }
 
     http\redirect(app\url('*/admin'));
@@ -114,7 +126,7 @@ function view(array $ent): void
 {
     $data = ent\one($ent['id'], [['id', http\req('id')]]);
 
-    if (!$data || !empty($ent['attr']['active']) && empty($data['active']) && !app\allowed('*/edit')) {
+    if (!$data || !empty($ent['attr']['active']) && empty($data['active']) && !app\allowed('*/create') && !app\allowed('*/update')) {
         app_error();
         return;
     }
@@ -189,7 +201,7 @@ function account_password(): void
             app\msg(app\i18n('Password and password confirmation must be identical'));
         } else {
             $data = array_replace(account\data(), ['password' => $data['password']]);
-            ent\save('account', $data);
+            ent\update('account', $data);
         }
     }
 

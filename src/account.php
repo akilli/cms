@@ -50,7 +50,7 @@ function login(string $name, string $password): ?array
 
     if (password_needs_rehash($data['password'], PASSWORD_DEFAULT)) {
         $data['password'] = $password;
-        ent\save('account', $data);
+        ent\update('account', $data);
     }
 
     return $data;

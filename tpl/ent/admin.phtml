@@ -46,8 +46,8 @@ use attr;
                     <?php if (allowed('*/view')):?>
                     <a href="<?= $data['url'] ?? url('*/view/' . $data['id']);?>" class="icon" title="<?= i18n('View');?>">visibility</a>
                     <?php endif;?>
-                    <?php if (allowed('*/edit') && empty($data['system'])):?>
-                    <a href="<?= url('*/edit/' . $data['id']);?>" class="icon" title="<?= i18n('Edit');?>">edit</a>
+                    <?php if (allowed('*/update') && empty($data['system'])):?>
+                    <a href="<?= url('*/update/' . $data['id']);?>" class="icon" title="<?= i18n('Update');?>">edit</a>
                     <?php endif;?>
                     <?php if (allowed('*/delete') && empty($data['system'])):?>
                     <a href="<?= url('*/delete/' . $data['id']);?>" class="delete icon" title="<?= i18n('Delete');?>">delete</a>
