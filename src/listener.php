@@ -8,12 +8,12 @@ use arr;
 use ent;
 use file;
 use http;
-use RuntimeException;
+use DomainException;
 
 /**
  * Entity config listener
  *
- * @throws RuntimeException
+ * @throws DomainException
  */
 function cfg_ent(array $data): array
 {
@@ -23,7 +23,7 @@ function cfg_ent(array $data): array
         $ent = arr\replace(APP['ent'], $ent);
 
         if (!$ent['name'] || !$ent['type'] || !$ent['attr']) {
-            throw new RuntimeException(app\i18n('Invalid entity configuration'));
+            throw new DomainException(app\i18n('Invalid entity configuration'));
         }
 
         $ent['id'] = $eId;
@@ -32,13 +32,13 @@ function cfg_ent(array $data): array
 
         foreach ($ent['attr'] as $aId => $attr) {
             if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']])) {
-                throw new RuntimeException(app\i18n('Invalid attribute configuration'));
+                throw new DomainException(app\i18n('Invalid attribute configuration'));
             }
 
             $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr);
 
             if (!in_array($attr['backend'], APP['backend'])) {
-                throw new RuntimeException(app\i18n('Invalid attribute configuration'));
+                throw new DomainException(app\i18n('Invalid attribute configuration'));
             }
 
             $attr['id'] = $aId;
@@ -171,7 +171,7 @@ function ent_postfilter(array $data): array
 /**
  * Entity postsave listener
  *
- * @throws RuntimeException
+ * @throws DomainException
  */
 function ent_postsave(array $data): array
 {
@@ -180,7 +180,7 @@ function ent_postsave(array $data): array
 
     foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
         if ($attrs[$aId]['type'] === 'file' && $val && !file\upload($file[$aId]['tmp_name'], app\path('asset', $val))) {
-            throw new RuntimeException(app\i18n('File upload failed for %s', $val));
+            throw new DomainException(app\i18n('File upload failed for %s', $val));
         }
     }
 
@@ -190,7 +190,7 @@ function ent_postsave(array $data): array
 /**
  * Entity postdelete listener
  *
- * @throws RuntimeException
+ * @throws DomainException
  */
 function ent_postdelete(array $data): array
 {
@@ -198,7 +198,7 @@ function ent_postdelete(array $data): array
 
     foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
         if ($attrs[$aId]['type'] === 'file' && $val && !file\delete(app\path('asset', $val))) {
-            throw new RuntimeException(app\i18n('Could not delete %s', $val));
+            throw new DomainException(app\i18n('Could not delete %s', $val));
         }
     }
 
