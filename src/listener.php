@@ -22,7 +22,7 @@ function cfg_ent(array $data): array
     foreach ($data as $eId => $ent) {
         $ent = arr\replace(APP['ent'], $ent);
 
-        if (!$ent['name'] || !$ent['type'] || !$ent['attr']) {
+        if (!$ent['name'] || !$ent['type'] || empty($ent['attr']['id']) || empty($ent['attr']['name'])) {
             throw new DomainException(app\i18n('Invalid entity configuration'));
         }
 
@@ -31,8 +31,12 @@ function cfg_ent(array $data): array
         $ent['tab'] = $ent['tab'] ?: $ent['id'];
 
         foreach ($ent['attr'] as $aId => $attr) {
-            if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']])) {
+            if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']]) || $attr['type'] === 'ent' && empty($attr['opt'])) {
                 throw new DomainException(app\i18n('Invalid attribute configuration'));
+            }
+
+            if ($attr['type'] === 'ent') {
+                $attr['backend'] = $attr['opt'] === $eId ? $ent['attr']['id']['backend'] : $data[$attr['opt']]['attr']['id']['backend'];
             }
 
             $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr);
