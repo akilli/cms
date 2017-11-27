@@ -73,7 +73,7 @@ return [
     'Size' => 'Größe',
     'Sort' => 'Sortierung',
     'Successfully deleted %s' => '%s erfolgreich gelöscht',
-    'Successfully saved %s' => '%s erfolgreich gespeichert',
+    'Successfully saved data' => 'Daten erfolgreich gespeichert',
     'System' => 'System',
     'System items must not be deleted! Therefore skipped ID %s' => 'Systemelemente dürfen nicht gelöscht werden! Deshalb wurde ID %s übersprungen',
     'Unique' => 'Eindeutig',

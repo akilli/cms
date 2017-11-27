@@ -123,7 +123,6 @@ function save(string $eId, array & $data): bool
     }
 
     $tmp = event('postfilter', $tmp);
-    $name = $tmp['name'] ?? $tmp['_old']['name'] ?? '';
 
     if (!empty($tmp['_error'])) {
         $data['_error'] = $tmp['_error'];
@@ -139,7 +138,7 @@ function save(string $eId, array & $data): bool
                 $tmp = event('postsave', $tmp);
             }
         );
-        app\msg(app\i18n('Successfully saved %s', $name));
+        app\msg(app\i18n('Successfully saved data'));
         $data = $tmp;
 
         return true;
