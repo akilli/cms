@@ -88,8 +88,10 @@ function save(string $eId, array & $data): bool
 {
     $tmp = $data;
     $edit = data($eId, 'edit');
+    $id = $tmp['_id'] ?? $tmp['id'] ?? null;
+    unset($tmp['_id']);
 
-    if (!empty($tmp['id']) && ($base = one($eId, [['id', $tmp['id']]]))) {
+    if ($id && ($base = one($eId, [['id', $id]]))) {
         $tmp['_old'] = $base;
         unset($tmp['_old']['_ent'], $tmp['_old']['_old']);
     }

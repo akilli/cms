@@ -78,7 +78,7 @@ function edit(array $ent): void
     $id = http\req('id');
 
     if ($data) {
-        $data['id'] = $id;
+        $data['_id'] = $id;
 
         if (ent\save($ent['id'], $data) && !$id) {
             http\redirect(app\url('*/*/' . $data['id']));
