@@ -4,12 +4,12 @@ declare(strict_types = 1);
 namespace arr;
 
 use app;
-use RuntimeException;
+use DomainException;
 
 /**
  * Filter data by given criteria
  *
- * @throws RuntimeException
+ * @throws DomainException
  */
 function filter(array $data, array $crit): array
 {
@@ -28,7 +28,7 @@ function filter(array $data, array $crit): array
                 $op = $c[2] ?? APP['crit']['='];
 
                 if (empty(APP['crit'][$op]) || is_array($val) && !$val) {
-                    throw new RuntimeException(app\i18n('Invalid criteria'));
+                    throw new DomainException(app\i18n('Invalid criteria'));
                 }
 
                 switch ($op) {
@@ -93,7 +93,7 @@ function filter(array $data, array $crit): array
                         };
                         break;
                     default:
-                        throw new RuntimeException(app\i18n('Invalid criteria'));
+                        throw new DomainException(app\i18n('Invalid criteria'));
                 }
 
                 $val = is_array($val) ? $val : [$val];

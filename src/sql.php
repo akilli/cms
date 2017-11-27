@@ -5,7 +5,7 @@ namespace sql;
 
 use app;
 use PDO;
-use RuntimeException;
+use DomainException;
 use Throwable;
 
 /**
@@ -118,7 +118,7 @@ function crit(array $crit, array $attrs): array
             $op = $c[2] ?? APP['crit']['='];
 
             if (!$attr || empty(APP['crit'][$op]) || is_array($val) && !$val) {
-                throw new RuntimeException(app\i18n('Invalid criteria'));
+                throw new DomainException(app\i18n('Invalid criteria'));
             }
 
             $param = ':crit_' . $attr['id'] . '_';
@@ -169,7 +169,7 @@ function crit(array $crit, array $attrs): array
                     }
                     break;
                 default:
-                    throw new RuntimeException(app\i18n('Invalid criteria'));
+                    throw new DomainException(app\i18n('Invalid criteria'));
             }
 
             $o[] = implode(' OR ', $r);
