@@ -13,7 +13,7 @@ return [
     'Could not delete %s' => 'Konnte %s nicht löschen',
     'Could not delete directory %s' => 'Konnte Verzeichnis %s nicht löschen',
     'Could not load data' => 'Konnte Daten nicht laden',
-    'Could not save %s' => 'Konnte %s nicht speichern',
+    'Could not save data' => 'Konnte Daten nicht speichern',
     'Create' => 'Anlegen',
     'Created' => 'Angelegt',
     'Date' => 'Datum',

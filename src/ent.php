@@ -127,7 +127,7 @@ function save(string $eId, array & $data): bool
 
     if (!empty($tmp['_error'])) {
         $data['_error'] = $tmp['_error'];
-        app\msg(app\i18n('Could not save %s', $name));
+        app\msg(app\i18n('Could not save data'));
         return false;
     }
 
@@ -144,7 +144,7 @@ function save(string $eId, array & $data): bool
 
         return true;
     } catch (Throwable $e) {
-        app\msg(app\i18n('Could not save %s', $name));
+        app\msg(app\i18n('Could not save data'));
     }
 
     return false;
