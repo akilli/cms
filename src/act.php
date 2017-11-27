@@ -86,7 +86,7 @@ function edit(array $ent): void
     } elseif ($id) {
         $data = ent\one($ent['id'], [['id', $id]]);
     } else {
-        $data = ent\data($ent['id']);
+        $data = ent\data($ent['id'], 'edit');
     }
 
     app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'edit'), 'title' => $ent['name']]);

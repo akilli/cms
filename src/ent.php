@@ -87,7 +87,7 @@ function all(string $eId, array $crit = [], array $opt = []): array
 function save(string $eId, array & $data): bool
 {
     $tmp = $data;
-    $edit = data($eId);
+    $edit = data($eId, 'edit');
 
     if (!empty($tmp['id']) && ($base = one($eId, [['id', $tmp['id']]]))) {
         $tmp['_old'] = $base;
@@ -192,13 +192,13 @@ function delete(string $eId, array $crit = [], array $opt = []): bool
  *
  * @throws RuntimeException
  */
-function data(string $eId): array
+function data(string $eId, string $act): array
 {
     if (!$ent = app\cfg('ent', $eId)) {
         throw new RuntimeException(app\i18n('Invalid entity %s', $eId));
     }
 
-    return array_fill_keys($ent['act']['edit'] ?? [], null) + ['_old' => null, '_ent' => $ent];
+    return array_fill_keys($ent['act'][$act] ?? [], null) + ['_old' => null, '_ent' => $ent];
 }
 
 /**
