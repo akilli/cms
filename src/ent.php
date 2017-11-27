@@ -223,10 +223,8 @@ function attr(array $ent, string $act): array
  */
 function load(array $ent, array $data): array
 {
-    foreach ($data as $aId => $val) {
-        if (!empty($ent['attr'][$aId])) {
-            $data[$aId] = attr\cast($val, $ent['attr'][$aId]);
-        }
+    foreach (array_intersect_key($data, $ent['attr']) as $aId => $val) {
+        $data[$aId] = attr\cast($val, $ent['attr'][$aId]);
     }
 
     $data += ['_old' => $data, '_ent' => $ent];
