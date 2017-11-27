@@ -141,9 +141,11 @@ function cfg_toolbar(array $data): array
  */
 function ent_prefilter(array $data): array
 {
-    foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['type'] === 'file' && !empty($data[$aId])) {
-            $data[$aId] = $data['_ent']['id'] . '/' . $data[$aId];
+    $attrs = $data['_ent']['attr'];
+
+    foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
+        if ($attrs[$aId]['type'] === 'file' && $val) {
+            $data[$aId] = $data['_ent']['id'] . '/' . $val;
         }
     }
 
@@ -155,8 +157,10 @@ function ent_prefilter(array $data): array
  */
 function ent_postfilter(array $data): array
 {
-    foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['type'] === 'password' && !empty($data[$aId]) && !($data[$aId] = password_hash($data[$aId], PASSWORD_DEFAULT))) {
+    $attrs = $data['_ent']['attr'];
+
+    foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
+        if ($attrs[$aId]['type'] === 'password' && $val && !($data[$aId] = password_hash($val, PASSWORD_DEFAULT))) {
             $data['_error'][$aId] = app\i18n('Invalid password');
         }
     }
@@ -172,10 +176,11 @@ function ent_postfilter(array $data): array
 function ent_postsave(array $data): array
 {
     $file = http\req('file');
+    $attrs = $data['_ent']['attr'];
 
-    foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['type'] === 'file' && !empty($data[$aId]) && !file\upload($file[$aId]['tmp_name'], app\path('asset', $data[$aId]))) {
-            throw new RuntimeException(app\i18n('File upload failed for %s', $data[$aId]));
+    foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
+        if ($attrs[$aId]['type'] === 'file' && $val && !file\upload($file[$aId]['tmp_name'], app\path('asset', $val))) {
+            throw new RuntimeException(app\i18n('File upload failed for %s', $val));
         }
     }
 
@@ -189,9 +194,11 @@ function ent_postsave(array $data): array
  */
 function ent_postdelete(array $data): array
 {
-    foreach ($data['_ent']['attr'] as $aId => $attr) {
-        if ($attr['type'] === 'file' && !empty($data[$aId]) && !file\delete(app\path('asset', $data[$aId]))) {
-            throw new RuntimeException(app\i18n('Could not delete %s', $data[$aId]));
+    $attrs = $data['_ent']['attr'];
+
+    foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
+        if ($attrs[$aId]['type'] === 'file' && $val && !file\delete(app\path('asset', $val))) {
+            throw new RuntimeException(app\i18n('Could not delete %s', $val));
         }
     }
 
