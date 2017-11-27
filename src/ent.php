@@ -7,7 +7,7 @@ use arr;
 use attr;
 use app;
 use sql;
-use RuntimeException;
+use DomainException;
 use Throwable;
 
 /**
@@ -192,12 +192,12 @@ function delete(string $eId, array $crit = [], array $opt = []): bool
 /**
  * Retrieve empty entity
  *
- * @throws RuntimeException
+ * @throws DomainException
  */
 function data(string $eId, string $act): array
 {
     if (!$ent = app\cfg('ent', $eId)) {
-        throw new RuntimeException(app\i18n('Invalid entity %s', $eId));
+        throw new DomainException(app\i18n('Invalid entity %s', $eId));
     }
 
     return array_fill_keys($ent['act'][$act] ?? [], null) + ['_old' => null, '_ent' => $ent];
