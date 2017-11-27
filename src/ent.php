@@ -91,8 +91,8 @@ function save(string $eId, array & $data): bool
     $tmp = $data;
     $edit = data($eId, 'edit');
 
-    if ($id && ($base = one($eId, [['id', $id]]))) {
-        $tmp['_old'] = $base;
+    if ($id && ($old = one($eId, [['id', $id]]))) {
+        $tmp['_old'] = $old;
         unset($tmp['_old']['_ent'], $tmp['_old']['_old']);
     }
 
