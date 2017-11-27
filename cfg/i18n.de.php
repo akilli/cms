@@ -12,7 +12,7 @@ return [
     'Content' => 'Inhalt',
     'Could not delete %s' => 'Konnte %s nicht löschen',
     'Could not delete directory %s' => 'Konnte Verzeichnis %s nicht löschen',
-    'Could not load data' => 'Daten konnten nicht geladen werden',
+    'Could not load data' => 'Konnte Daten nicht laden',
     'Could not save %s' => 'Konnte %s nicht speichern',
     'Create' => 'Anlegen',
     'Created' => 'Angelegt',
