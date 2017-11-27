@@ -239,8 +239,5 @@ function load(array $ent, array $data): array
  */
 function event(string $name, array $data): array
 {
-    $data = app\event('ent.' . $name, $data);
-    $data = app\event('ent.type.' . $name . '.' . $data['_ent']['type'], $data);
-
-    return app\event('ent.' . $name . '.' . $data['_ent']['id'], $data);
+    return app\event(['ent.' . $name, 'ent.type.' . $name . '.' . $data['_ent']['type'], 'ent.' . $name . '.' . $data['_ent']['id']], $data);
 }

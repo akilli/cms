@@ -69,7 +69,7 @@ function cfg(string $id, string $key = null)
 {
     if (($data = & data('cfg.' . $id)) === null) {
         $data = file\load(path('cfg', $id . '.php'));
-        $data = event('cfg.' . $id, $data);
+        $data = event(['cfg.' . $id], $data);
     }
 
     if ($key === null) {
@@ -80,13 +80,15 @@ function cfg(string $id, string $key = null)
 }
 
 /**
- * Dispatches an event
+ * Dispatches multiple events with the the same event data
  */
-function event(string $event, array $data): array
+function event(array $events, array $data): array
 {
-    if (($listeners = cfg('listener', $event)) && asort($listeners, SORT_NUMERIC)) {
-        foreach (array_keys($listeners) as $call) {
-            $data = ('listener\\' . $call)($data);
+    foreach ($events as $event) {
+        if (($cfg = cfg('listener', $event)) && asort($cfg, SORT_NUMERIC)) {
+            foreach (array_keys($cfg) as $call) {
+                $data = ('listener\\' . $call)($data);
+            }
         }
     }
 
@@ -172,8 +174,7 @@ function §(string $id): string
         return '';
     }
 
-    $§ = event('section.' . $§['section'], $§);
-    $§ = event('layout.section.' . $id, $§);
+    $§ = event(['section.' . $§['section'], 'layout.' . $id], $§);
 
     return ('section\\' . $§['section'])($§);
 }
