@@ -235,17 +235,7 @@ function load(array $ent, array $data): array
 /**
  * Dispatches multiple entity events
  */
-function event(string $ev, array $data): array
+function event(string $name, array $data): array
 {
-    $ent = $data['_ent'];
-    $data = app\event(['ent.' . $ev, 'ent.' . $ev . '.type.' . $ent['type'], 'ent.' . $ev . '.' . $ent['id']], $data);
-
-    foreach (array_intersect_key($data, $ent['attr']) as $aId => $val) {
-        $attr = $ent['attr'][$aId];
-        $events = ['attr.' . $ev, 'attr.' . $ev . '.' . $attr['type'], 'attr.' . $ev . '.' . $ent['id'] . '.' . $aId];
-        $d = ['ent' => $ent, 'attr' => $attr, 'val' => $val];
-        $data[$aId] = app\event($events, $d)['val'] ?? null;
-    }
-
-    return $data;
+    return app\event(['ent.' . $name, 'ent.type.' . $name . '.' . $data['_ent']['type'], 'ent.' . $name . '.' . $data['_ent']['id']], $data);
 }
