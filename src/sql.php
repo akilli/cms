@@ -101,7 +101,7 @@ function attr(array $attrs, bool $auto = false): array
 }
 
 /**
- * Maps attribute IDs to DB columns and handles search criteria
+ * Generates criteria for WHERE part
  */
 function crit(array $crit, array $attrs): array
 {

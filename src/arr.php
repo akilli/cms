@@ -11,7 +11,7 @@ use DomainException;
  *
  * @throws DomainException
  */
-function filter(array $data, array $crit): array
+function crit(array $data, array $crit): array
 {
     foreach ($data as $id => $item) {
         foreach ($crit as $part) {

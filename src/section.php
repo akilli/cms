@@ -18,7 +18,7 @@ function container(array $§): string
     $§['vars']['tag'] = $§['vars']['tag'] ?? null;
     $html = '';
 
-    foreach (arr\order(arr\filter(app\layout(), [['parent_id', $§['id']]]), ['sort' => 'asc']) as $child) {
+    foreach (arr\order(arr\crit(app\layout(), [['parent_id', $§['id']]]), ['sort' => 'asc']) as $child) {
         $html .= app\§($child['id']);
     }
 

@@ -38,7 +38,7 @@ function index(array $ent): void
     $p = arr\replace($p, $rp);
 
     if ($p['q'] && ($q = array_filter(explode(' ', $p['q'])))) {
-        $searchable = array_keys(arr\filter($ent['attr'], [['searchable', true]])) ?: ['name'];
+        $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
         $c = [];
 
         foreach ($searchable as $s) {
