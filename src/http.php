@@ -6,7 +6,7 @@ namespace http;
 use app;
 use file;
 use session;
-use RuntimeException;
+use DomainException;
 
 /**
  * Redirect
@@ -79,7 +79,7 @@ function param(array $data): array
 /**
  * Filters request data
  *
- * @throws RuntimeException
+ * @throws DomainException
  */
 function data(array $in): array
 {
@@ -87,7 +87,7 @@ function data(array $in): array
 
     foreach ($in as $k => $v) {
         if (!is_array($v)) {
-            throw new RuntimeException(app\i18n('Invalid data'));
+            throw new DomainException(app\i18n('Invalid data'));
         }
 
         $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === APP['upload'] ? $v['name'] : data($v);
@@ -99,12 +99,12 @@ function data(array $in): array
 /**
  * Filters file uploads
  *
- * @throws RuntimeException
+ * @throws DomainException
  */
 function file(array $in): array
 {
     if (!($keys = array_keys($in)) || !sort($keys) || $keys !== APP['upload'] || !is_array($in['name'])) {
-        throw new RuntimeException(app\i18n('Invalid data'));
+        throw new DomainException(app\i18n('Invalid data'));
     }
 
     $out = [];
