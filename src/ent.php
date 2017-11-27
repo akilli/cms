@@ -229,8 +229,7 @@ function load(array $ent, array $data): array
         }
     }
 
-    $data['_old'] = $data;
-    $data['_ent'] = $ent;
+    $data += ['_old' => $data, '_ent' => $ent];
 
     return event('load', $data);
 }
