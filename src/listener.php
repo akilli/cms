@@ -19,10 +19,11 @@ function cfg_ent(array $data): array
 {
     $cfg = app\cfg('attr');
 
-    foreach ($data as $eId => $ent) {
-        $ent = arr\replace(APP['ent'], $ent);
+    foreach (glob(app\path('cfg', 'ent/*.php')) as $file) {
+        $eId = basename($file, '.php');
+        $ent = arr\replace(APP['ent'], file\load($file));
 
-        if (!$ent['name'] || !$ent['type'] || empty($ent['attr']['id']) || empty($ent['attr']['name'])) {
+        if (!$ent['name'] || !$ent['type']) {
             throw new DomainException(app\i18n('Invalid entity configuration'));
         }
 
@@ -33,10 +34,6 @@ function cfg_ent(array $data): array
         foreach ($ent['attr'] as $aId => $attr) {
             if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']]) || $attr['type'] === 'ent' && empty($attr['opt'])) {
                 throw new DomainException(app\i18n('Invalid attribute configuration'));
-            }
-
-            if ($attr['type'] === 'ent') {
-                $attr['backend'] = $attr['opt'] === $eId ? $ent['attr']['id']['backend'] : $data[$attr['opt']]['attr']['id']['backend'];
             }
 
             $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr);
@@ -60,6 +57,38 @@ function cfg_ent(array $data): array
         $data[$eId] = $ent;
     }
 
+    foreach ($data as $eId => $ent) {
+        // Inheritance
+        if ($ent['parent_id']) {
+            if (empty($data[$ent['parent_id']])) {
+                throw new DomainException(app\i18n('Invalid entity configuration'));
+            }
+
+            $ent['act'] = $ent['act'] ?: $data[$ent['parent_id']]['act'];
+            $ent['attr'] = $data[$ent['parent_id']]['attr'] + $ent['attr'];
+        }
+
+        // Required attributes
+        if (empty($ent['attr']['id']) || empty($ent['attr']['name'])) {
+            throw new DomainException(app\i18n('Invalid entity configuration'));
+        }
+
+        foreach ($ent['attr'] as $aId => $attr) {
+            // References
+            if ($attr['type'] === 'ent') {
+                if (empty($data[$attr['opt']]['attr']['id']['backend'])) {
+                    throw new DomainException(app\i18n('Invalid attribute configuration'));
+                }
+
+                $attr['backend'] = $data[$attr['opt']]['attr']['id']['backend'];
+            }
+
+            $ent['attr'][$aId] = $attr;
+        }
+
+        $data[$eId] = $ent;
+    }
+
     return $data;
 }
 
@@ -68,7 +97,7 @@ function cfg_ent(array $data): array
  */
 function cfg_i18n(array $data): array
 {
-    return $data + app\cfg('i18n/' . locale_get_primary_language(''));
+    return $data + file\load(app\path('cfg', 'i18n/' . locale_get_primary_language('') . '.php'));
 }
 
 /**
@@ -79,11 +108,11 @@ function cfg_layout(array $data): array
     $code = http_response_code();
 
     if ($code === 403) {
-        $cfg = [app\cfg('layout/app/denied')];
+        $cfg = [file\load(app\path('cfg', 'layout/app/denied.php'))];
     } elseif ($code === 404) {
-        $cfg = [app\cfg('layout/app/error')];
+        $cfg = [file\load(app\path('cfg', 'layout/app/error.php'))];
     } else {
-        $cfg = [app\cfg('layout/' . http\req('act')), app\cfg('layout/' . http\req('path'))];
+        $cfg = [file\load(app\path('cfg', 'layout/' . http\req('act') . '.php')), file\load(app\path('cfg', 'layout/' . http\req('path') . '.php'))];
     }
 
     $data = array_replace_recursive($data, ...$cfg);
