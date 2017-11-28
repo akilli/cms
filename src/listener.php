@@ -79,17 +79,14 @@ function cfg_layout(array $data): array
     $code = http_response_code();
 
     if ($code === 403) {
-        $a = 'denied';
-        $b = 'app/denied';
+        $cfg = [app\cfg('layout/app/denied')];
     } elseif ($code === 404) {
-        $a = 'error';
-        $b = 'app/error';
+        $cfg = [app\cfg('layout/app/error')];
     } else {
-        $a = http\req('act');
-        $b = http\req('path');
+        $cfg = [app\cfg('layout/' . http\req('act')), app\cfg('layout/' . http\req('path'))];
     }
 
-    $data = array_replace_recursive($data[APP['all']], $data[$a] ?? [], $data[$b] ?? []);
+    $data = array_replace_recursive($data, ...$cfg);
 
     foreach ($data as $id => $§) {
         $data[$id] = arr\replace(APP['section'], $§, ['id' => $id]);

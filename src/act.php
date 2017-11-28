@@ -55,7 +55,7 @@ function index(array $ent): void
     }
 
     session\set($sessKey, $p);
-    app\layout('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opt), 'params' => $p, 'title' => $ent['name'], 'act' => $act]);
+    app\layout('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opt), 'params' => $p, 'title' => $ent['name']]);
     app\layout('pager', ['limit' => $opt['limit'], 'params' => $p, 'size' => $size]);
     app\layout('search', ['q' => $p['q'] ?? '']);
     app\layout('meta', ['title' => $ent['name']]);
