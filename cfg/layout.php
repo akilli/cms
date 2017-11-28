@@ -62,6 +62,22 @@ return [
             'section' => 'container',
         ],
     ],
+    'act-index' => [
+        'content' => [
+            'section' => 'tpl',
+            'tpl' => 'ent/index.phtml',
+            'parent_id' => 'main',
+        ],
+        'pager' => [
+            'section' => 'pager',
+            'tpl' => 'ent/pager.phtml',
+        ],
+        'search' => [
+            'section' => 'tpl',
+            'tpl' => 'ent/search.phtml',
+            'parent_id' => 'right',
+        ],
+    ],
     'act-admin' => [
         'content' => [
             'section' => 'tpl',
@@ -84,10 +100,25 @@ return [
             'parent_id' => 'right',
         ],
     ],
-    'act-index' => [
+    'act-browser' => [
+        'top' => [
+            'active' => false,
+        ],
+        'left' => [
+            'active' => false,
+        ],
+        'bottom' => [
+            'active' => false,
+        ],
+        'rte' => [
+            'section' => 'tpl',
+            'tpl' => 'head/rte.phtml',
+            'parent_id' => 'head',
+            'sort' => -1,
+        ],
         'content' => [
             'section' => 'tpl',
-            'tpl' => 'ent/index.phtml',
+            'tpl' => 'ent/admin.phtml',
             'parent_id' => 'main',
         ],
         'pager' => [
@@ -125,37 +156,6 @@ return [
             'section' => 'tpl',
             'tpl' => 'ent/view.phtml',
             'parent_id' => 'main',
-        ],
-    ],
-    'act-browser' => [
-        'top' => [
-            'active' => false,
-        ],
-        'left' => [
-            'active' => false,
-        ],
-        'bottom' => [
-            'active' => false,
-        ],
-        'rte' => [
-            'section' => 'tpl',
-            'tpl' => 'head/rte.phtml',
-            'parent_id' => 'head',
-            'sort' => -1,
-        ],
-        'content' => [
-            'section' => 'tpl',
-            'tpl' => 'ent/browser.phtml',
-            'parent_id' => 'main',
-        ],
-        'pager' => [
-            'section' => 'pager',
-            'tpl' => 'ent/pager.phtml',
-        ],
-        'search' => [
-            'section' => 'tpl',
-            'tpl' => 'ent/search.phtml',
-            'parent_id' => 'right',
         ],
     ],
     'app/denied' => [

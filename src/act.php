@@ -11,14 +11,6 @@ use http;
 use session;
 
 /**
- * Admin Action
- */
-function admin(array $ent): void
-{
-    index($ent);
-}
-
-/**
  * Index Action
  */
 function index(array $ent): void
@@ -63,10 +55,46 @@ function index(array $ent): void
     }
 
     session\set($sessKey, $p);
-    app\layout('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opt), 'params' => $p, 'title' => $ent['name']]);
+    app\layout('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opt), 'params' => $p, 'title' => $ent['name'], 'act' => $act]);
     app\layout('pager', ['limit' => $opt['limit'], 'params' => $p, 'size' => $size]);
     app\layout('search', ['q' => $p['q'] ?? '']);
     app\layout('meta', ['title' => $ent['name']]);
+}
+
+/**
+ * Admin Action
+ */
+function admin(array $ent): void
+{
+    index($ent);
+}
+
+/**
+ * Browser Action
+ */
+function browser(array $ent): void
+{
+    index($ent);
+    $p = ['rte' => http\req('param')['CKEditorFuncNum'] ?? null];
+    app\layout('content', ['params' => array_replace(app\layout('content')['vars']['params'], $p)]);
+    app\layout('pager', ['params' => array_replace(app\layout('pager')['vars']['params'], $p)]);
+}
+
+/**
+ * Asset Action
+ */
+function asset(array $ent): void
+{
+    if (!($id = http\req('id')) || !is_file(app\path('asset', $ent['id'] . '/' . $id))) {
+        http_response_code(404);
+        exit;
+    }
+
+    http_response_code(200);
+    header('X-Accel-Redirect: ' . APP['url.asset'] . $ent['id'] . '/' . $id);
+    header('X-Accel-Buffering: no');
+    header('Content-Type: ', true);
+    exit;
 }
 
 /**
@@ -117,34 +145,6 @@ function view(array $ent): void
 
     app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'view')]);
     app\layout('meta', ['title' => $data['name']]);
-}
-
-/**
- * Asset Action
- */
-function asset(array $ent): void
-{
-    if (!($id = http\req('id')) || !is_file(app\path('asset', $ent['id'] . '/' . $id))) {
-        http_response_code(404);
-        exit;
-    }
-
-    http_response_code(200);
-    header('X-Accel-Redirect: ' . APP['url.asset'] . $ent['id'] . '/' . $id);
-    header('X-Accel-Buffering: no');
-    header('Content-Type: ', true);
-    exit;
-}
-
-/**
- * Browser Action
- */
-function browser(array $ent): void
-{
-    index($ent);
-    $p = ['rte' => http\req('param')['CKEditorFuncNum'] ?? null];
-    app\layout('content', ['params' => array_replace(app\layout('content')['vars']['params'], $p)]);
-    app\layout('pager', ['params' => array_replace(app\layout('pager')['vars']['params'], $p)]);
 }
 
 /**
