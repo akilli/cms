@@ -43,13 +43,6 @@ function cfg_ent(array $data): array
 
             $attr['id'] = $aId;
             $attr['name'] = app\i18n($attr['name']);
-
-            if ($attr['col'] === false) {
-                $attr['col'] = null;
-            } elseif (!$attr['col']) {
-                $attr['col'] = $attr['id'];
-            }
-
             $ent['attr'][$aId] = $attr;
         }
 

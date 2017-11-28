@@ -76,11 +76,10 @@ function cols(array $attrs, array $data): array
     $cols = ['param' => [], 'val' => []];
 
     foreach (array_intersect_key($data, $attrs) as $aId => $val) {
-        $attr = $attrs[$aId];
-        $p = ':' . $attr['id'];
-        $val = $attr['backend'] === 'json' ? json_encode($val) : $val;
-        $cols['param'][$attr['col']] = [$p, $val, type($val)];
-        $cols['val'][$attr['col']] = $p;
+        $p = ':' . $aId;
+        $val = $attrs[$aId]['backend'] === 'json' ? json_encode($val) : $val;
+        $cols['param'][$aId] = [$p, $val, type($val)];
+        $cols['val'][$aId] = $p;
     }
 
     return $cols;
@@ -92,7 +91,7 @@ function cols(array $attrs, array $data): array
 function attr(array $attrs, bool $auto = false): array
 {
     foreach ($attrs as $aId => $attr) {
-        if (!$attr['col'] || $auto && $attr['auto']) {
+        if ($attr['virtual'] || $auto && $attr['auto']) {
             unset($attrs[$aId]);
         }
     }
@@ -103,7 +102,7 @@ function attr(array $attrs, bool $auto = false): array
 /**
  * Generates criteria for WHERE part
  */
-function crit(array $crit, array $attrs): array
+function crit(array $crit): array
 {
     $cols = ['where' => [], 'param' => []];
 
@@ -113,17 +112,17 @@ function crit(array $crit, array $attrs): array
         $z = [];
 
         foreach ($part as $c) {
-            $attr = $attrs[$c[0]] ?? null;
+            $aId = $c[0];
             $val = $c[1] ?? null;
             $op = $c[2] ?? APP['crit']['='];
 
-            if (!$attr || empty(APP['crit'][$op]) || is_array($val) && !$val) {
+            if (!$aId || empty(APP['crit'][$op]) || is_array($val) && !$val) {
                 throw new DomainException(app\i18n('Invalid criteria'));
             }
 
-            $param = ':crit_' . $attr['id'] . '_';
+            $param = ':crit_' . $aId . '_';
             $type = type($val);
-            $z[$attr['id']] = $z[$attr['id']] ?? 0;
+            $z[$aId] = $z[$aId] ?? 0;
             $val = is_array($val) ? $val : [$val];
             $r = [];
 
@@ -134,11 +133,11 @@ function crit(array $crit, array $attrs): array
 
                     foreach ($val as $v) {
                         if ($v === null) {
-                            $r[] = $attr['col'] . $null;
+                            $r[] = $aId . $null;
                         } else {
-                            $p = $param . ++$z[$attr['id']];
+                            $p = $param . ++$z[$aId];
                             $cols['param'][] = [$p, $v, $type];
-                            $r[] = $attr['col'] . ' ' . $op . ' ' . $p;
+                            $r[] = $aId . ' ' . $op . ' ' . $p;
                         }
                     }
                     break;
@@ -147,9 +146,9 @@ function crit(array $crit, array $attrs): array
                 case APP['crit']['<']:
                 case APP['crit']['<=']:
                     foreach ($val as $v) {
-                        $p = $param . ++$z[$attr['id']];
+                        $p = $param . ++$z[$aId];
                         $cols['param'][] = [$p, $v, $type];
-                        $r[] = $attr['col'] . ' ' . $op . ' ' . $p;
+                        $r[] = $aId . ' ' . $op . ' ' . $p;
                     }
                     break;
                 case APP['crit']['~']:
@@ -163,9 +162,9 @@ function crit(array $crit, array $attrs): array
                     $post = in_array($op, [APP['crit']['~'], APP['crit']['!~'], APP['crit']['~^'], APP['crit']['!~^']]) ? '%' : '';
 
                     foreach ($val as $v) {
-                        $p = $param . ++$z[$attr['id']];
+                        $p = $param . ++$z[$aId];
                         $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
-                        $r[] = $attr['col'] . $not . ' ILIKE ' . $p;
+                        $r[] = $aId . $not . ' ILIKE ' . $p;
                     }
                     break;
                 default:

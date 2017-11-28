@@ -10,15 +10,13 @@ use sql;
  */
 function load(array $ent, array $crit = [], array $opt = []): array
 {
-    $attrs = sql\attr($ent['attr']);
-
     if ($opt['mode'] === 'size') {
         $opt['select'] = ['COUNT(*)'];
     } elseif (!$opt['select']) {
-        $opt['select'] = array_column($attrs, 'col');
+        $opt['select'] = array_keys(sql\attr($ent['attr']));
     }
 
-    $cols = sql\crit($crit, $attrs);
+    $cols = sql\crit($crit);
     $stmt = sql\db()->prepare(
         sql\select($opt['select'])
         . sql\from($ent['id'])
@@ -49,8 +47,7 @@ function load(array $ent, array $crit = [], array $opt = []): array
  */
 function save(array $data): array
 {
-    $attrs = $data['_ent']['attr'];
-    $cols = sql\cols($attrs, $data);
+    $cols = sql\cols($data['_ent']['attr'], $data);
 
     // Insert or update
     if (empty($data['_old'])) {
@@ -62,7 +59,7 @@ function save(array $data): array
         $stmt = sql\db()->prepare(
             sql\update($data['_ent']['id'])
             . sql\set($cols['val'])
-            . sql\where([$attrs['id']['col'] . ' = :_id'])
+            . sql\where(['id = :_id'])
         );
         $stmt->bindValue(':_id', $data['_old']['id'], sql\type($data['_old']['id']));
     }
@@ -74,7 +71,7 @@ function save(array $data): array
     $stmt->execute();
 
     // Set DB generated id
-    if (empty($data['_old']) && $attrs['id']['auto']) {
+    if (empty($data['_old']) && $data['_ent']['attr']['id']['auto']) {
         $data['id'] = (int) sql\db()->lastInsertId($data['_ent']['id'] . '_id_seq');
     }
 
@@ -86,10 +83,9 @@ function save(array $data): array
  */
 function delete(array $data): void
 {
-    $attrs = $data['_ent']['attr'];
     $stmt = sql\db()->prepare(
         sql\delete($data['_ent']['id'])
-        . sql\where([$attrs['id']['col'] . ' = :id'])
+        . sql\where(['id = :id'])
     );
     $stmt->bindValue(':id', $data['_old']['id'], sql\type($data['_old']['id']));
     $stmt->execute();
