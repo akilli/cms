@@ -62,7 +62,7 @@ return [
             'section' => 'container',
         ],
     ],
-    'act-index' => [
+    'index' => [
         'content' => [
             'section' => 'tpl',
             'tpl' => 'ent/index.phtml',
@@ -78,7 +78,7 @@ return [
             'parent_id' => 'right',
         ],
     ],
-    'act-admin' => [
+    'admin' => [
         'content' => [
             'section' => 'tpl',
             'tpl' => 'ent/admin.phtml',
@@ -100,7 +100,7 @@ return [
             'parent_id' => 'right',
         ],
     ],
-    'act-browser' => [
+    'browser' => [
         'top' => [
             'active' => false,
         ],
@@ -131,7 +131,7 @@ return [
             'parent_id' => 'right',
         ],
     ],
-    'act-edit' => [
+    'edit' => [
         'rte' => [
             'section' => 'tpl',
             'tpl' => 'head/rte.phtml',
@@ -144,7 +144,7 @@ return [
             'parent_id' => 'main',
         ],
     ],
-    'act-view' => [
+    'view' => [
         'rte' => [
             'section' => 'tpl',
             'tpl' => 'head/rte.phtml',
