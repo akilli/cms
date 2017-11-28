@@ -62,6 +62,11 @@ function req(string $key)
 function param(array $data): array
 {
     foreach ($data as $key => $val) {
+        if (is_array($val)) {
+            $data[$key] = param($val);
+            continue;
+        }
+
         $val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR | FILTER_FLAG_NO_ENCODE_QUOTES);
 
         if ($val === false) {
