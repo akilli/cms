@@ -29,7 +29,6 @@ function cfg_ent(array $data): array
 
         $ent['id'] = $eId;
         $ent['name'] = app\i18n($ent['name']);
-        $ent['tab'] = $ent['tab'] ?: $ent['id'];
 
         foreach ($ent['attr'] as $aId => $attr) {
             if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']]) || $attr['type'] === 'ent' && empty($attr['opt'])) {

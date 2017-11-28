@@ -21,7 +21,7 @@ function load(array $ent, array $crit = [], array $opt = []): array
     $cols = sql\crit($crit, $attrs);
     $stmt = sql\db()->prepare(
         sql\select($opt['select'])
-        . sql\from($ent['tab'])
+        . sql\from($ent['id'])
         . sql\where($cols['where'])
         . sql\order($opt['order'])
         . sql\limit($opt['limit'], $opt['offset'])
@@ -55,12 +55,12 @@ function save(array $data): array
     // Insert or update
     if (empty($data['_old'])) {
         $stmt = sql\db()->prepare(
-            sql\insert($data['_ent']['tab'])
+            sql\insert($data['_ent']['id'])
             . sql\values($cols['val'])
         );
     } else {
         $stmt = sql\db()->prepare(
-            sql\update($data['_ent']['tab'])
+            sql\update($data['_ent']['id'])
             . sql\set($cols['val'])
             . sql\where([$attrs['id']['col'] . ' = :_id'])
         );
@@ -75,7 +75,7 @@ function save(array $data): array
 
     // Set DB generated id
     if (empty($data['_old']) && $attrs['id']['auto']) {
-        $data['id'] = (int) sql\db()->lastInsertId($data['_ent']['tab'] . '_id_seq');
+        $data['id'] = (int) sql\db()->lastInsertId($data['_ent']['id'] . '_id_seq');
     }
 
     return $data;
@@ -88,7 +88,7 @@ function delete(array $data): void
 {
     $attrs = $data['_ent']['attr'];
     $stmt = sql\db()->prepare(
-        sql\delete($data['_ent']['tab'])
+        sql\delete($data['_ent']['id'])
         . sql\where([$attrs['id']['col'] . ' = :id'])
     );
     $stmt->bindValue(':id', $data['_old']['id'], sql\type($data['_old']['id']));

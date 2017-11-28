@@ -49,7 +49,6 @@ const APP = [
     'ent' => [
         'id' => null,
         'name' => null,
-        'tab' => null,
         'type' => 'db',
         'parent_id' => null,
         'act' => [],
