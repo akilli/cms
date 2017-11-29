@@ -7,7 +7,7 @@ return [
     ],
     'subnav' => [
         'section' => 'nav',
-        'parent_id' => 'right',
+        'parent_id' => 'sidebar',
         'vars' => ['mode' => 'sub'],
     ],
 ];

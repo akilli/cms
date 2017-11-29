@@ -550,30 +550,26 @@ button.icon {
 }
 
 /* Sidebar */
-#right {
+#sidebar {
     padding: 1.5rem;
     background: var(--grey);
 }
 
-#right > * {
+#sidebar > * {
     margin-bottom: 1.5rem;
 }
 
-html[data-path$="/admin"] #right > * {
+html[data-path$="/admin"] #sidebar > * {
     margin-bottom: 0;
     padding: 1.5rem 0;
     box-shadow: 0 0.0625rem 0 var(--primary-dark);
 }
 
-html[data-path$="/admin"] #right > *:first-child {
+html[data-path$="/admin"] #sidebar > *:first-child {
     padding-top: 0;
 }
 
 /* Content */
-#content {
-    padding: 1.5rem;
-}
-
 #content > * {
     margin-bottom: 1.5rem;
 }
@@ -683,7 +679,7 @@ html[data-path$="/admin"] #right > *:first-child {
 /**
  * Responsive
  */
-@media (min-width: 48em) {
+@media (min-width: 48rem) {
     body {
         display: flex;
         flex-direction: column;
@@ -716,7 +712,7 @@ html[data-path$="/admin"] #right > *:first-child {
         padding: 1.5rem 7.5rem 1.5rem 1.5rem;
     }
 
-    #right {
+    #sidebar {
         flex: 1 0;
     }
 

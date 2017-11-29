@@ -3,9 +3,6 @@ return [
     'top' => [
         'active' => false,
     ],
-    'left' => [
-        'active' => false,
-    ],
     'bottom' => [
         'active' => false,
     ],
@@ -28,6 +25,6 @@ return [
     'search' => [
         'section' => 'tpl',
         'tpl' => 'ent/search.phtml',
-        'parent_id' => 'right',
+        'parent_id' => 'sidebar',
     ],
 ];

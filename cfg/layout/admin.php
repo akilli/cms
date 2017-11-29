@@ -12,12 +12,12 @@ return [
     'search' => [
         'section' => 'tpl',
         'tpl' => 'ent/search.phtml',
-        'parent_id' => 'right',
+        'parent_id' => 'sidebar',
     ],
     'create' => [
         'section' => 'tpl',
         'tpl' => 'ent/create.phtml',
         'priv' => '*/edit',
-        'parent_id' => 'right',
+        'parent_id' => 'sidebar',
     ],
 ];

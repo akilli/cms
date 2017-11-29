@@ -46,14 +46,10 @@ return [
         'section' => 'msg',
         'tpl' => 'layout/msg.phtml',
     ],
-    'left' => [
-        'section' => 'container',
-        'vars' => ['tag' => 'aside'],
-    ],
     'main' => [
         'section' => 'container',
     ],
-    'right' => [
+    'sidebar' => [
         'section' => 'container',
         'vars' => ['tag' => 'aside'],
     ],
