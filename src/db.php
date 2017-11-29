@@ -20,6 +20,7 @@ function load(array $ent, array $crit = [], array $opt = []): array
     $stmt = sql\db()->prepare(
         sql\select($opt['select'])
         . sql\from($ent['id'])
+        . sql\join((string) $ent['parent_id'])
         . sql\where($cols['where'])
         . sql\order($opt['order'])
         . sql\limit($opt['limit'], $opt['offset'])

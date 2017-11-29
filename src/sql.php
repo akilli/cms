@@ -261,7 +261,7 @@ function where(array $cols): string
  */
 function join(string $tab): string
 {
-    return ' JOIN ' . $tab . ' USING (id)';
+    return $tab ? ' JOIN ' . $tab . ' USING (id)' : '';
 }
 
 /**
