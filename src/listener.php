@@ -18,9 +18,11 @@ use DomainException;
 function cfg_ent(array $data): array
 {
     $cfg = app\cfg('attr');
+    $base = app\path('cfg', 'ent/*.php');
+    $ext = app\path('ext', 'cfg/ent/*.php');
+    $eIds = array_unique(arr\map('basename', array_merge(glob($base), glob($ext)), '.php'));
 
-    foreach (glob(app\path('cfg', 'ent/*.php')) as $file) {
-        $eId = basename($file, '.php');
+    foreach ($eIds as $eId) {
         $ent = arr\replace(APP['ent'], app\load('ent/' . $eId));
 
         if (!$ent['name'] || !$ent['type']) {

@@ -84,9 +84,15 @@ function cfg(string $id, string $key = null)
  */
 function load(string $id): array
 {
-    $file = path('cfg', $id . '.php');
+    $data = [];
 
-    return is_readable($file) && ($data = include $file) && is_array($data) ? $data : [];
+    foreach ([path('cfg', $id . '.php'), path('ext', 'cfg/' . $id . '.php')] as $file) {
+        if (is_readable($file) && is_array($tmp = include $file)) {
+            $data = array_replace_recursive($data, $tmp);
+        }
+    }
+
+    return $data;
 }
 
 /**
