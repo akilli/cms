@@ -152,13 +152,13 @@ function cfg_toolbar(array $data): array
         }
 
         if (app\allowed($act)) {
-            $data[$act] = arr\replace(APP['toolbar'], $item, ['name' => app\i18n($item['name']), 'url' => app\url($act), 'active' => $act === http\req('path')]);
+            $data[$act] = arr\replace(APP['toolbar'], $item, ['name' => app\i18n($item['name']), 'url' => app\url($act)]);
         } else {
             unset($data[$act]);
         }
     }
 
-    return arr\order($data, ['sort' => 'asc', 'name' => 'asc']);
+    return arr\order($data, ['sort' => 'asc']);
 }
 
 /**
