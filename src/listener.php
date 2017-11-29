@@ -21,7 +21,7 @@ function cfg_ent(array $data): array
 
     foreach (glob(app\path('cfg', 'ent/*.php')) as $file) {
         $eId = basename($file, '.php');
-        $ent = arr\replace(APP['ent'], file\load($file));
+        $ent = arr\replace(APP['ent'], app\load('ent/' . $eId));
 
         if (!$ent['name'] || !$ent['type']) {
             throw new DomainException(app\i18n('Invalid entity configuration'));
@@ -89,7 +89,7 @@ function cfg_ent(array $data): array
  */
 function cfg_i18n(array $data): array
 {
-    return $data + file\load(app\path('cfg', 'i18n/' . locale_get_primary_language('') . '.php'));
+    return $data + app\load('i18n/' . locale_get_primary_language(''));
 }
 
 /**
@@ -100,11 +100,11 @@ function cfg_layout(array $data): array
     $code = http_response_code();
 
     if ($code === 403) {
-        $cfg = [file\load(app\path('cfg', 'layout/app/denied.php'))];
+        $cfg = [app\load('layout/app/denied')];
     } elseif ($code === 404) {
-        $cfg = [file\load(app\path('cfg', 'layout/app/error.php'))];
+        $cfg = [app\load('layout/app/error')];
     } else {
-        $cfg = [file\load(app\path('cfg', 'layout/' . http\req('act') . '.php')), file\load(app\path('cfg', 'layout/' . http\req('path') . '.php'))];
+        $cfg = [app\load('layout/' . http\req('act')), app\load('layout/' . http\req('path'))];
     }
 
     $data = array_replace_recursive($data, ...$cfg);

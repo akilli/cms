@@ -6,7 +6,6 @@ namespace app;
 use account;
 use act;
 use ent;
-use file;
 use http;
 use session;
 use DomainException;
@@ -68,7 +67,7 @@ function path(string $dir, string $id = null): string
 function cfg(string $id, string $key = null)
 {
     if (($data = & data('cfg.' . $id)) === null) {
-        $data = file\load(path('cfg', $id . '.php'));
+        $data = load($id);
         $data = event(['cfg.' . $id], $data);
     }
 
@@ -77,6 +76,16 @@ function cfg(string $id, string $key = null)
     }
 
     return $data[$key] ?? null;
+}
+
+/**
+ * Loads configuration data from file
+ */
+function load(string $id): array
+{
+    $file = path('cfg', $id . '.php');
+
+    return is_readable($file) && ($data = include $file) && is_array($data) ? $data : [];
 }
 
 /**
