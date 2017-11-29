@@ -1,59 +1,59 @@
 <?php
 return [
     'root' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'layout/root.phtml',
     ],
     'head' => [
-        'section' => 'container',
+        'type' => 'container',
     ],
     'meta' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'head/meta.phtml',
         'parent_id' => 'head',
         'sort' => -4,
     ],
     'link' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'head/link.phtml',
         'parent_id' => 'head',
         'sort' => -3,
     ],
     'user' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'head/user.phtml',
         'priv' => 'account-user',
         'parent_id' => 'head',
         'sort' => -2,
     ],
     'top' => [
-        'section' => 'container',
+        'type' => 'container',
     ],
     'toolbar' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'layout/toolbar.phtml',
         'priv' => 'account-user',
         'parent_id' => 'top',
         'sort' => -2,
     ],
     'header' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'layout/header.phtml',
         'parent_id' => 'top',
         'sort' => -1,
     ],
     'msg' => [
-        'section' => 'msg',
+        'type' => 'msg',
         'tpl' => 'layout/msg.phtml',
     ],
     'main' => [
-        'section' => 'container',
+        'type' => 'container',
     ],
     'sidebar' => [
-        'section' => 'container',
+        'type' => 'container',
         'vars' => ['tag' => 'aside'],
     ],
     'bottom' => [
-        'section' => 'container',
+        'type' => 'container',
     ],
 ];

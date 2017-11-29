@@ -1,12 +1,12 @@
 <?php
 return [
     'nav' => [
-        'section' => 'nav',
+        'type' => 'nav',
         'parent_id' => 'top',
         'vars' => ['mode' => 'top'],
     ],
     'subnav' => [
-        'section' => 'nav',
+        'type' => 'nav',
         'parent_id' => 'sidebar',
         'vars' => ['mode' => 'sub'],
     ],

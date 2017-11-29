@@ -7,23 +7,23 @@ return [
         'active' => false,
     ],
     'rte' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'head/rte.phtml',
         'parent_id' => 'head',
         'sort' => -1,
     ],
     'content' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'ent/admin.phtml',
         'parent_id' => 'main',
         'vars' => ['mode' => 'browser'],
     ],
     'pager' => [
-        'section' => 'pager',
+        'type' => 'pager',
         'tpl' => 'ent/pager.phtml',
     ],
     'search' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'ent/search.phtml',
         'parent_id' => 'sidebar',
     ],

@@ -1,7 +1,7 @@
 <?php
 return [
     'content' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'account/password.phtml',
         'parent_id' => 'main',
     ],

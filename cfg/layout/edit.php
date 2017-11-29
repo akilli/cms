@@ -1,13 +1,13 @@
 <?php
 return [
     'rte' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'head/rte.phtml',
         'parent_id' => 'head',
         'sort' => -1,
     ],
     'content' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'ent/edit.phtml',
         'parent_id' => 'main',
     ],

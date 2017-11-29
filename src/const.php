@@ -82,7 +82,7 @@ const APP = [
     ],
     'section' => [
         'id' => null,
-        'section' => null,
+        'type' => null,
         'tpl' => null,
         'active' => true,
         'priv' => null,

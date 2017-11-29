@@ -1,7 +1,7 @@
 <?php
 return [
     'content' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'app/error.phtml',
         'parent_id' => 'main',
     ],

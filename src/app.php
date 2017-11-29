@@ -174,9 +174,9 @@ function §(string $id): string
         return '';
     }
 
-    $§ = event(['section.' . $§['section'], 'layout.' . $id], $§);
+    $§ = event(['section.' . $§['type'], 'layout.' . $id], $§);
 
-    return ('section\\' . $§['section'])($§);
+    return ('section\\' . $§['type'])($§);
 }
 
 /**

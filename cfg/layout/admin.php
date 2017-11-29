@@ -1,21 +1,21 @@
 <?php
 return [
     'content' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'ent/admin.phtml',
         'parent_id' => 'main',
     ],
     'pager' => [
-        'section' => 'pager',
+        'type' => 'pager',
         'tpl' => 'ent/pager.phtml',
     ],
     'search' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'ent/search.phtml',
         'parent_id' => 'sidebar',
     ],
     'create' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'ent/create.phtml',
         'priv' => '*/edit',
         'parent_id' => 'sidebar',

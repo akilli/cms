@@ -4,7 +4,7 @@ return [
         'active' => false,
     ],
     'content' => [
-        'section' => 'tpl',
+        'type' => 'tpl',
         'tpl' => 'account/login.phtml',
         'parent_id' => 'main',
     ],
