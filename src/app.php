@@ -283,7 +283,7 @@ function rewrite(string $path): string
     $data = & data('url');
 
     if (empty($data[$path])) {
-        $data[$path] = ($page = ent\one('page', [['url', $path]])) ? APP['url.page'] . $page['id'] : $path;
+        $data[$path] = ($page = ent\one('page', [['url', $path]], ['select' => ['id']])) ? APP['url.page'] . $page['id'] : $path;
     }
 
     return $data[$path];
