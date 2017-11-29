@@ -44,8 +44,8 @@ function msg(array $§): string
  */
 function nav(array $§): string
 {
-    $§['vars'] += ['mode' => null, 'current' => http\req('id')];
-    $cur = $§['vars']['current'] ? ent\one('page', [['id', $§['vars']['current']], ['active', true]]) : null;
+    $§['vars'] += ['mode' => null, 'cur' => http\req('id')];
+    $cur = $§['vars']['cur'] ? ent\one('page', [['id', $§['vars']['cur']], ['active', true]]) : null;
     $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]]]) : $cur;
     $crit = [['active', true]];
 
