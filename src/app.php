@@ -16,12 +16,13 @@ use Throwable;
  */
 function run(): void
 {
-    $ns = 'act\\';
     $act = http\req('act');
     $eId = http\req('ent');
     $args = ($ent = cfg('ent', $eId)) ? [$ent] : [];
+    $func = 'act\\' . $eId . '_' . $act;
+    $calls = !empty($ent['act'][$act]) ? [$func, 'act\\' . $act] : [$func];
 
-    foreach ([$ns . $eId . '_' . $act, $ns . $act] as $call) {
+    foreach ($calls as $call) {
         if (is_callable($call)) {
             allowed('*/*') ? $call(...$args) : act\app_denied();
             return;
