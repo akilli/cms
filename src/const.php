@@ -90,6 +90,12 @@ const APP = [
         'sort' => 0,
         'vars' => [],
     ],
+    'toolbar' => [
+        'name' => null,
+        'url' => null,
+        'active' => false,
+        'sort' => 0,
+    ],
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'url.asset' => '/asset/',
     'url.page' => '/page/view/',

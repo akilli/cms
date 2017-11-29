@@ -214,20 +214,6 @@ function allowed(string $key): bool
 }
 
 /**
- * Check access to given URL considering rewrites
- */
-function allowed_url(string $path): bool
-{
-    if (strpos($path, 'http') === 0) {
-        return true;
-    }
-
-    $parts = explode('/', ltrim(rewrite($path), '/'));
-
-    return cfg('ent', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
-}
-
-/**
  * Resolves wildcards, i.e. asterisks, for entity and action part with appropriate values from current request
  */
 function resolve(string $key): string

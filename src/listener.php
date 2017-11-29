@@ -24,7 +24,7 @@ function cfg_ent(array $data): array
         $ent = arr\replace(APP['ent'], app\load('ent/' . $eId));
 
         if (!$ent['name'] || !$ent['type']) {
-            throw new DomainException(app\i18n('Invalid entity configuration'));
+            throw new DomainException(app\i18n('Invalid configuration'));
         }
 
         $ent['id'] = $eId;
@@ -32,13 +32,13 @@ function cfg_ent(array $data): array
 
         foreach ($ent['attr'] as $aId => $attr) {
             if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']]) || $attr['type'] === 'ent' && empty($attr['opt'])) {
-                throw new DomainException(app\i18n('Invalid attribute configuration'));
+                throw new DomainException(app\i18n('Invalid configuration'));
             }
 
             $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr);
 
             if (!in_array($attr['backend'], APP['backend'])) {
-                throw new DomainException(app\i18n('Invalid attribute configuration'));
+                throw new DomainException(app\i18n('Invalid configuration'));
             }
 
             $attr['id'] = $aId;
@@ -53,7 +53,7 @@ function cfg_ent(array $data): array
         // Inheritance
         if ($ent['parent_id']) {
             if (empty($data[$ent['parent_id']])) {
-                throw new DomainException(app\i18n('Invalid entity configuration'));
+                throw new DomainException(app\i18n('Invalid configuration'));
             }
 
             $ent['act'] = $ent['act'] ?: $data[$ent['parent_id']]['act'];
@@ -62,14 +62,14 @@ function cfg_ent(array $data): array
 
         // Required attributes
         if (empty($ent['attr']['id']) || empty($ent['attr']['name'])) {
-            throw new DomainException(app\i18n('Invalid entity configuration'));
+            throw new DomainException(app\i18n('Invalid configuration'));
         }
 
         foreach ($ent['attr'] as $aId => $attr) {
             // References
             if ($attr['type'] === 'ent') {
                 if (empty($data[$attr['opt']]['attr']['id']['backend'])) {
-                    throw new DomainException(app\i18n('Invalid attribute configuration'));
+                    throw new DomainException(app\i18n('Invalid configuration'));
                 }
 
                 $attr['backend'] = $data[$attr['opt']]['attr']['id']['backend'];
@@ -141,18 +141,24 @@ function cfg_priv(array $data): array
 
 /**
  * Toolbar config listener
+ *
+ * @throws DomainException
  */
 function cfg_toolbar(array $data): array
 {
-    foreach ($data as $key => $item) {
-        if (app\allowed_url($item['url'])) {
-            $data[$key]['name'] = app\i18n($item['name']);
+    foreach ($data as $act => $item) {
+        if (empty($item['name'])) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        }
+
+        if (app\allowed($act)) {
+            $data[$act] = arr\replace(APP['toolbar'], $item, ['name' => app\i18n($item['name']), 'url' => app\url($act), 'active' => $act === http\req('path')]);
         } else {
-            unset($data[$key]);
+            unset($data[$act]);
         }
     }
 
-    return $data;
+    return arr\order($data, ['sort' => 'asc', 'name' => 'asc']);
 }
 
 /**
