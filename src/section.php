@@ -105,27 +105,25 @@ function pager(array $§): string
         return '';
     }
 
-    $§['vars']['pages'] = (int) ceil($§['vars']['size'] / $§['vars']['limit']);
-    $§['vars']['page'] = max($§['vars']['params']['page'] ?? 0, 1);
-    $§['vars']['offset'] = ($§['vars']['page'] - 1) * $§['vars']['limit'];
-    unset($§['vars']['params']['page']);
-    $c = app\cfg('app', 'pager');
-    $min = max(1, min($§['vars']['page'] - intdiv($c, 2), $§['vars']['pages'] - $c + 1));
-    $max = min($min + $c - 1, $§['vars']['pages']);
+    $cur = max($§['vars']['params']['cur'] ?? 0, 1);
+    $p = $§['vars']['params'];
+    unset($§['vars']['params']);
+    $pages = (int) ceil($§['vars']['size'] / $§['vars']['limit']);
+    $§['vars']['offset'] = ($cur - 1) * $§['vars']['limit'];
+    $cfg = app\cfg('app', 'pager');
+    $min = max(1, min($cur - intdiv($cfg, 2), $pages - $cfg + 1));
+    $max = min($min + $cfg - 1, $pages);
 
-    if ($§['vars']['page'] >= 2) {
-        $p = ['page' => $§['vars']['page'] - 1] + $§['vars']['params'];
-        $§['vars']['links'][] = ['name' => app\i18n('Previous'), 'params' => $p];
+    if ($cur >= 2) {
+        $§['vars']['links'][] = ['name' => app\i18n('Previous'), 'params' => ['cur' => $cur - 1] + $p];
     }
 
     for ($i = $min; $min < $max && $i <= $max; $i++) {
-        $p = ['page' => $i] + $§['vars']['params'];
-        $§['vars']['links'][] = ['name' => $i, 'params' => $p, 'active' => $i === $§['vars']['page']];
+        $§['vars']['links'][] = ['name' => $i, 'params' => ['cur' => $i] + $p, 'active' => $i === $cur];
     }
 
-    if ($§['vars']['page'] < $§['vars']['pages']) {
-        $p = ['page' => $§['vars']['page'] + 1] + $§['vars']['params'];
-        $§['vars']['links'][] = ['name' => app\i18n('Next'), 'params' => $p];
+    if ($cur < $pages) {
+        $§['vars']['links'][] = ['name' => app\i18n('Next'), 'params' => ['cur' => $cur + 1] + $p];
     }
 
     return tpl($§);

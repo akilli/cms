@@ -24,7 +24,7 @@ function index(array $ent): void
         $crit[] = ['active', true];
     }
 
-    $p = ['page' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
+    $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
     $sessKey = 'param/' . $ent['id'] . '/' . $act;
     $rp = http\req('param') ?: (array) session\get($sessKey);
     $p = arr\replace($p, $rp);
@@ -44,8 +44,8 @@ function index(array $ent): void
 
     $size = ent\size($ent['id'], $crit);
     $pages = (int) ceil($size / $opt['limit']) ?: 1;
-    $p['page'] = min(max($p['page'], 1), $pages);
-    $opt['offset'] = ($p['page'] - 1) * $opt['limit'];
+    $p['cur'] = min(max($p['cur'], 1), $pages);
+    $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
 
     if ($p['sort'] && !empty($attrs[$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
