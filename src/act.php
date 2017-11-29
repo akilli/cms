@@ -153,8 +153,8 @@ function view(array $ent): void
 function app_denied(): void
 {
     http_response_code(403);
+    app\layout('content', ['message' => app\i18n('Access denied')]);
     app\layout('meta', ['title' => app\i18n('Access denied')]);
-    app\layout('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Access denied')]);
 }
 
 /**
@@ -163,8 +163,8 @@ function app_denied(): void
 function app_error(): void
 {
     http_response_code(404);
+    app\layout('content', ['message' => app\i18n('Page not found')]);
     app\layout('meta', ['title' => app\i18n('Page not found')]);
-    app\layout('content', ['title' => app\i18n('Error'), 'message' => app\i18n('Page not found')]);
 }
 
 /**
