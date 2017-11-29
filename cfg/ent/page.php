@@ -69,7 +69,6 @@ return [
         'path' => [
             'name' => 'Path',
             'type' => 'json',
-            'opt' => 'page',
         ],
     ],
 ];
