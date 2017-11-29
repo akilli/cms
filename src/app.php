@@ -20,7 +20,7 @@ function run(): void
     $eId = http\req('ent');
     $args = ($ent = cfg('ent', $eId)) ? [$ent] : [];
     $func = 'act\\' . $eId . '_' . $act;
-    $calls = array_key_exists($act, $ent['act']) ? [$func, 'act\\' . $act] : [$func];
+    $calls = $ent && array_key_exists($act, $ent['act']) ? [$func, 'act\\' . $act] : [$func];
 
     foreach ($calls as $call) {
         if (is_callable($call)) {
