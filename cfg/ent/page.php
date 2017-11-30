@@ -62,8 +62,8 @@ return [
             'type' => 'text',
             'viewer' => 'pos',
         ],
-        'depth' => [
-            'name' => 'Depth',
+        'level' => [
+            'name' => 'Level',
             'type' => 'int',
         ],
         'path' => [

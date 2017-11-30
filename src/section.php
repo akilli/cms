@@ -51,7 +51,7 @@ function nav(array $§): string
 
     if ($§['vars']['mode'] === 'top') {
         $cur = $anc;
-        $crit[] = ['depth', 1];
+        $crit[] = ['level', 1];
     } elseif ($§['vars']['mode'] === 'sub') {
         if (!$anc) {
             return '';
@@ -60,12 +60,12 @@ function nav(array $§): string
         $crit[] = ['pos', $anc['pos'] . '.', APP['crit']['~^']];
     }
 
-    if (!$nav = ent\all('page', $crit, ['select' => ['id', 'name', 'url', 'depth'], 'order' => ['pos' => 'asc']])) {
+    if (!$nav = ent\all('page', $crit, ['select' => ['id', 'name', 'url', 'level'], 'order' => ['pos' => 'asc']])) {
         return '';
     }
 
     $count = count($nav);
-    $depth = 0;
+    $level = 0;
     $i = 0;
     $html = '';
 
@@ -78,17 +78,17 @@ function nav(array $§): string
             $class .= ' class="active"';
         }
 
-        if ($page['depth'] > $depth) {
+        if ($page['level'] > $level) {
              $html .= '<ul><li' . $class . '>';
-        } elseif ($page['depth'] < $depth) {
-             $html .= '</li>' . str_repeat('</ul></li>', $depth - $page['depth']) . '<li' . $class . '>';
+        } elseif ($page['level'] < $level) {
+             $html .= '</li>' . str_repeat('</ul></li>', $level - $page['level']) . '<li' . $class . '>';
         } else {
              $html .= '</li><li' . $class . '>';
         }
 
         $html .= html\tag('a', $a, $page['name']);
-        $html .= ++$i === $count ? str_repeat('</li></ul>', $page['depth']) : '';
-        $depth = $page['depth'];
+        $html .= ++$i === $count ? str_repeat('</li></ul>', $page['level']) : '';
+        $level = $page['level'];
     }
 
     return html\tag('nav', ['id' => $§['id']], $html);
