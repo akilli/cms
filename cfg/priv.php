@@ -2,7 +2,6 @@
 return [
     '_all_' => [
         'name' => 'ALL PRIVILEGES',
-        'sort' => -1,
     ],
     'account-guest' => [
         'assignable' => false,

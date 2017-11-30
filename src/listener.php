@@ -138,7 +138,7 @@ function cfg_priv(array $data): array
         }
     }
 
-    return arr\order($data, ['sort' => 'asc', 'name' => 'asc']);
+    return $data;
 }
 
 /**

@@ -75,7 +75,6 @@ const APP = [
     ],
     'priv' => [
         'name' => null,
-        'sort' => 0,
         'priv' => null,
         'active' => true,
         'assignable' => true,
