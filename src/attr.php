@@ -121,10 +121,6 @@ function viewer(array $data, array $attr): string
  */
 function opt(array $attr): array
 {
-    if ($attr['backend'] === 'bool') {
-        return [app\i18n('No'), app\i18n('Yes')];
-    }
-
     if ($attr['type'] === 'ent') {
         return opt\ent($attr['opt']);
     }
