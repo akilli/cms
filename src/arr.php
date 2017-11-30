@@ -145,14 +145,11 @@ function order(array $data, array $order): array
  */
 function map(callable $call, array $data, ...$params): array
 {
-    $keys = array_keys($data);
-    $p = [];
-
-    foreach ($params as $param) {
-        $p[] = array_fill_keys($keys, $param);
+    foreach ($data as $key => $val) {
+        $data[$key] = $call($val, ...$params);
     }
 
-    return array_map($call, $data, ...$p);
+    return $data;
 }
 
 /**
