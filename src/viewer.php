@@ -8,6 +8,14 @@ use file;
 use html;
 
 /**
+ * Bool viewer
+ */
+function bool($val): string
+{
+    return $val ? app\i18n('Yes') : app\i18n('No');
+}
+
+/**
  * Option viewer
  */
 function opt($val, array $opt): string
@@ -16,7 +24,7 @@ function opt($val, array $opt): string
 
     foreach ((array) $val as $v) {
         if (isset($opt[$v])) {
-            $result[] = $opt[$v];
+            $result[] = $opt[$v]['name'];
         }
     }
 

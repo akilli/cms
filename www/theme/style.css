@@ -383,7 +383,7 @@ button {
     box-shadow: none;
 }
 
-[type=checkbox][data-type=toggle] {
+[type=checkbox][data-type=bool] {
     position: relative;
     display: block;
     width: 6rem;
@@ -394,7 +394,7 @@ button {
     -webkit-appearance: none;
 }
 
-[type=checkbox][data-type=toggle]:after {
+[type=checkbox][data-type=bool]:after {
     position: absolute;
     top: -0.0625rem;
     left: -0.0625rem;
@@ -405,7 +405,7 @@ button {
     content: '';
 }
 
-[type=checkbox][data-type=toggle]:checked:after {
+[type=checkbox][data-type=bool]:checked:after {
     left: auto;
     right: -0.0625rem;
 }

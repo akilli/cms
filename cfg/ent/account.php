@@ -37,11 +37,11 @@ return [
         ],
         'active' => [
             'name' => 'Active',
-            'type' => 'toggle',
+            'type' => 'bool',
         ],
         'system' => [
             'name' => 'System',
-            'type' => 'toggle',
+            'type' => 'bool',
         ],
     ],
 ];

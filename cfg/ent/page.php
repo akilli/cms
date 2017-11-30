@@ -30,7 +30,7 @@ return [
         ],
         'active' => [
             'name' => 'Active',
-            'type' => 'toggle',
+            'type' => 'bool',
         ],
         'content' => [
             'name' => 'Content',

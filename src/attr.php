@@ -122,14 +122,19 @@ function viewer(array $data, array $attr): string
 function opt(array $attr): array
 {
     if ($attr['type'] === 'ent') {
-        return opt\ent($attr['opt']);
+        $opt = opt\ent($attr['opt']);
+    } elseif (is_string($attr['opt'])) {
+        $opt = ('opt\\' . $attr['opt'])($attr);
+    } else {
+        $opt = $attr['opt'];
     }
 
-    if (is_string($attr['opt'])) {
-        return ('opt\\' . $attr['opt'])($attr);
+    foreach ($opt as $key => $val) {
+        $val = !is_array($val) ? ['name' => $val] : $val;
+        $opt[$key] = arr\replace(APP['opt'], $val);
     }
 
-    return $attr['opt'];
+    return arr\order($opt, ['group' => 'asc', 'sort' => 'asc', 'name' => 'asc']);
 }
 
 /**

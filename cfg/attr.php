@@ -1,5 +1,10 @@
 <?php
 return [
+    'bool' => [
+        'backend' => 'bool',
+        'frontend' => 'bool',
+        'viewer' => 'bool',
+    ],
     'date' => [
         'backend' => 'date',
         'frontend' => 'date',
@@ -87,11 +92,6 @@ return [
         'frontend' => 'time',
         'filter' => 'time',
         'viewer' => 'time',
-    ],
-    'toggle' => [
-        'backend' => 'bool',
-        'frontend' => 'toggle',
-        'viewer' => 'opt',
     ],
     'url' => [
         'backend' => 'varchar',

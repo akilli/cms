@@ -9,15 +9,6 @@ return [
     'account-user' => [
         'assignable' => false,
     ],
-    'app/denied' => [
-        'active' => false,
-    ],
-    'app/error' => [
-        'active' => false,
-    ],
-    'app/js' => [
-        'priv' => 'account-user',
-    ],
     'account/login' => [
         'priv' => 'account-guest',
     ],
@@ -25,6 +16,15 @@ return [
         'priv' => 'account-user',
     ],
     'account/password' => [
+        'priv' => 'account-user',
+    ],
+    'app/denied' => [
+        'active' => false,
+    ],
+    'app/error' => [
+        'active' => false,
+    ],
+    'app/js' => [
         'priv' => 'account-user',
     ],
     'file/asset' => [

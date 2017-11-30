@@ -7,9 +7,9 @@ use app;
 use html;
 
 /**
- * Toggle
+ * Bool
  */
-function toggle(array $html, bool $val): string
+function bool(array $html, bool $val): string
 {
     return html\tag('input', ['type' => 'checkbox', 'value' => 1, 'checked' => $val] + $html, null, true);
 }
@@ -20,13 +20,16 @@ function toggle(array $html, bool $val): string
 function checkbox(array $html, array $val, array $opt): string
 {
     $out = '';
+    $grp = [];
 
     foreach ($opt as $k => $v) {
         $id = $html['id'] . '-' . $k;
-        $checked = in_array($k, $val);
-        $a = ['id' => $id, 'name' => $html['name'], 'type' => 'checkbox', 'value' => $k, 'checked' => $checked] + $html;
-        $out .= html\tag('input', $a, null, true);
-        $out .= html\tag('label', ['for' => $id], $v);
+        $a = ['id' => $id, 'name' => $html['name'], 'type' => 'checkbox', 'value' => $k, 'checked' => in_array($k, $val)] + $html;
+        $grp[$v['group']] = ($grp[$v['group']] ?? '') . html\tag('input', $a, null, true) . html\tag('label', ['for' => $id], $v['name']);
+    }
+
+    foreach ($grp as $l => $g) {
+        $out .= $l ? html\tag('div', ['class' => 'group'], $g) : $g;
     }
 
     return $out;
@@ -38,12 +41,16 @@ function checkbox(array $html, array $val, array $opt): string
 function radio(array $html, $val, array $opt): string
 {
     $out = '';
+    $grp = [];
 
     foreach ($opt as $k => $v) {
         $id = $html['id'] . '-' . $k;
         $a = ['id' => $id, 'name' => $html['name'], 'type' => 'radio', 'value' => $k, 'checked' => $k === $val] + $html;
-        $out .= html\tag('input', $a, null, true);
-        $out .= html\tag('label', ['for' => $id], $v);
+        $grp[$v['group']] = ($grp[$v['group']] ?? '') . html\tag('input', $a, null, true) . html\tag('label', ['for' => $id], $v['name']);
+    }
+
+    foreach ($grp as $l => $g) {
+        $out .= $l ? html\tag('div', ['class' => 'group'], $g) : $g;
     }
 
     return $out;
@@ -59,9 +66,15 @@ function select(array $html, $val, array $opt): string
     }
 
     $out = html\tag('option', ['value' => ''], app\i18n('Please choose'));
+    $grp = [];
 
     foreach ($opt as $k => $v) {
-        $out .= html\tag('option', ['value' => $k, 'selected' => in_array($k, $val)], $v);
+        $pre = str_repeat('&nbsp;', (max($v['level'], 1) - 1) * 4);
+        $grp[$v['group']] = ($grp[$v['group']] ?? '') . html\tag('option', ['value' => $k, 'selected' => in_array($k, $val)], $pre . $v['name']);
+    }
+
+    foreach ($grp as $l => $g) {
+        $out .= $l ? html\tag('optgroup', ['label' => $l], $g) : $g;
     }
 
     return html\tag('select', $html, $out);

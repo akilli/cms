@@ -66,6 +66,12 @@ const APP = [
     'frontend.datetime' => 'Y-m-d\TH:i',
     'frontend.time' => 'H:i',
     'log' => 'php://stdout',
+    'opt' => [
+        'name' => null,
+        'group' => null,
+        'level' => 0,
+        'sort' => 0,
+    ],
     'path' => [
         'asset' => '/data/asset',
         'cfg' => '/app/cfg',
@@ -75,6 +81,7 @@ const APP = [
     ],
     'priv' => [
         'name' => null,
+        'group' => null,
         'priv' => null,
         'active' => true,
         'assignable' => true,

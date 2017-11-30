@@ -134,6 +134,7 @@ function cfg_priv(array $data): array
         foreach (array_keys($ent['act']) as $act) {
             $id = $eId . '/' . $act;
             $data[$id]['name'] = $ent['name'] . ' ' . app\i18n(ucwords($act));
+            $data[$id]['group'] = $ent['name'];
             $data[$id] = arr\replace(APP['priv'], $data[$id]);
         }
     }
