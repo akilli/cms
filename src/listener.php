@@ -54,7 +54,7 @@ function cfg_ent(array $data): array
     foreach ($data as $eId => $ent) {
         // Inheritance
         if ($ent['parent_id']) {
-            if (empty($data[$ent['parent_id']])) {
+            if (empty($data[$ent['parent_id']]) || !empty($data[$ent['parent_id']]['parent_id'])) {
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
