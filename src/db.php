@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace db;
 
+use app;
 use sql;
 
 /**
@@ -48,17 +49,36 @@ function load(array $ent, array $crit = [], array $opt = []): array
  */
 function save(array $data): array
 {
-    $cols = sql\cols($data['_ent']['attr'], $data);
+    $insert = empty($data['_old']);
+    $ent = $data['_ent'];
+    $attrs = $ent['attr'];
+
+    if ($ent['parent_id']) {
+        $p = $data;
+        $p['_ent'] = app\cfg('ent', $ent['parent_id']);
+        $p = ($p['_ent']['type'] . '\save')($p);
+        unset($p['_ent']['attr']['id']);
+        $attrs = array_diff_key($attrs, $p['_ent']['attr']);
+
+        if ($insert) {
+            $data['id'] = $p['id'];
+            $attrs['id'] = array_replace($p['_ent']['attr']['id'], ['auto' => false]);
+        }
+    }
+
+    if (!($cols = sql\cols($attrs, $data)) || empty($cols['param'])) {
+        return $data;
+    }
 
     // Insert or update
-    if (empty($data['_old'])) {
+    if ($insert) {
         $stmt = sql\db()->prepare(
-            sql\insert($data['_ent']['id'])
+            sql\insert($ent['id'])
             . sql\values($cols['val'])
         );
     } else {
         $stmt = sql\db()->prepare(
-            sql\update($data['_ent']['id'])
+            sql\update($ent['id'])
             . sql\set($cols['val'])
             . sql\where(['id = :_id'])
         );
@@ -72,8 +92,8 @@ function save(array $data): array
     $stmt->execute();
 
     // Set DB generated id
-    if (empty($data['_old']) && $data['_ent']['attr']['id']['auto']) {
-        $data['id'] = (int) sql\db()->lastInsertId($data['_ent']['id'] . '_id_seq');
+    if ($insert && $attrs['id']['auto']) {
+        $data['id'] = (int) sql\db()->lastInsertId($ent['id'] . '_id_seq');
     }
 
     return $data;
@@ -85,7 +105,7 @@ function save(array $data): array
 function delete(array $data): void
 {
     $stmt = sql\db()->prepare(
-        sql\delete($data['_ent']['id'])
+        sql\delete($data['_ent']['parent_id'] ?: $data['_ent']['id'])
         . sql\where(['id = :id'])
     );
     $stmt->bindValue(':id', $data['_old']['id'], sql\type($data['_old']['id']));
