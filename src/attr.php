@@ -55,7 +55,7 @@ function filter(array $data, array $attr): array
  */
 function frontend(array $data, array $attr): string
 {
-    $data[$attr['id']] = cast($data[$attr['id']] ?? $attr['val'], $attr);
+    $data[$attr['id']] = cast($data[$attr['id']] ?? $attr['val'], ['nullable' => false] + $attr);
     $html['id'] =  'data-' . $attr['id'];
     $html['name'] =  'data[' . $attr['id'] . ']';
     $html['data-type'] =  $attr['type'];
