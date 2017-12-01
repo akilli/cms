@@ -58,7 +58,7 @@ function cfg_ent(array $data): array
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
-            $ent['act'] = $ent['act'] ?: $data[$ent['parent_id']]['act'];
+            $ent['act'] = array_replace($data[$ent['parent_id']]['act'], $ent['act']);
             $ent['attr'] = $data[$ent['parent_id']]['attr'] + $ent['attr'];
         }
 
