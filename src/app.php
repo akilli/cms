@@ -147,7 +147,9 @@ function enc(string $val): string
  */
 function datetime(string $val, string $in, string $out): string
 {
-    return ($val = date_create_from_format($in, $val)) && ($val = date_format($val, $out)) ? $val : '';
+    $val = $val ? date_create_from_format($in, $val) : date_create();
+
+    return $val && ($val = date_format($val, $out)) ? $val : '';
 }
 
 /**
