@@ -23,7 +23,7 @@ function cfg_ent(array $data): array
     $eIds = array_unique(arr\map('basename', array_merge(glob($base), glob($ext)), '.php'));
 
     foreach ($eIds as $eId) {
-        $ent = arr\replace(APP['ent'], app\load('ent/' . $eId));
+        $ent = arr\replace(APP['ent'], app\load('ent/' . $eId, true));
 
         if (!$ent['name'] || !$ent['type']) {
             throw new DomainException(app\i18n('Invalid configuration'));

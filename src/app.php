@@ -80,15 +80,15 @@ function cfg(string $id, string $key = null)
 }
 
 /**
- * Loads configuration data from file
+ * Loads configuration data with or without overwrites
  */
-function load(string $id): array
+function load(string $id, bool $base = false): array
 {
     $data = [];
 
     foreach ([path('cfg', $id . '.php'), path('ext', 'cfg/' . $id . '.php')] as $file) {
-        if (is_readable($file) && is_array($tmp = include $file)) {
-            $data = array_replace_recursive($data, $tmp);
+        if (is_readable($file) && ($data = array_replace_recursive($data, include $file)) && $base) {
+            return $data;
         }
     }
 
