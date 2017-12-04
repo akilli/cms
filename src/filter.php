@@ -142,3 +142,45 @@ function file(string $val): string
 
     return path($val);
 }
+
+/**
+ * Audio filter
+ *
+ * @throws DomainException
+ */
+function audio(string $val): string
+{
+    if ($val && file\type($val) !== 'audio') {
+        throw new DomainException(app\i18n('Invalid file %s', $val));
+    }
+
+    return path($val);
+}
+
+/**
+ * Image filter
+ *
+ * @throws DomainException
+ */
+function image(string $val): string
+{
+    if ($val && file\type($val) !== 'image') {
+        throw new DomainException(app\i18n('Invalid file %s', $val));
+    }
+
+    return path($val);
+}
+
+/**
+ * Video filter
+ *
+ * @throws DomainException
+ */
+function video(string $val): string
+{
+    if ($val && file\type($val) !== 'video') {
+        throw new DomainException(app\i18n('Invalid file %s', $val));
+    }
+
+    return path($val);
+}
