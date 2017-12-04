@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace db;
 
-use app;
 use sql;
 
 /**
@@ -21,7 +20,6 @@ function load(array $ent, array $crit = [], array $opt = []): array
     $stmt = sql\db()->prepare(
         sql\select($opt['select'])
         . sql\from($ent['id'])
-        . sql\join((string) $ent['parent_id'])
         . sql\where($cols['where'])
         . sql\order($opt['order'])
         . sql\limit($opt['limit'], $opt['offset'])
@@ -52,19 +50,6 @@ function save(array $data): array
     $insert = empty($data['_old']);
     $ent = $data['_ent'];
     $attrs = $ent['attr'];
-
-    if ($ent['parent_id']) {
-        $p = $data;
-        $p['_ent'] = app\cfg('ent', $ent['parent_id']);
-        $p = ($p['_ent']['type'] . '\save')($p);
-        unset($p['_ent']['attr']['id']);
-        $attrs = array_diff_key($attrs, $p['_ent']['attr']);
-
-        if ($insert) {
-            $data['id'] = $p['id'];
-            $attrs['id'] = array_replace($p['_ent']['attr']['id'], ['auto' => false]);
-        }
-    }
 
     if (!($cols = sql\cols($attrs, $data)) || empty($cols['param'])) {
         return $data;
@@ -105,7 +90,7 @@ function save(array $data): array
 function delete(array $data): void
 {
     $stmt = sql\db()->prepare(
-        sql\delete($data['_ent']['parent_id'] ?: $data['_ent']['id'])
+        sql\delete($data['_ent']['id'])
         . sql\where(['id = :id'])
     );
     $stmt->bindValue(':id', $data['_old']['id'], sql\type($data['_old']['id']));

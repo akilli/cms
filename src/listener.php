@@ -25,7 +25,7 @@ function cfg_ent(array $data): array
     foreach ($eIds as $eId) {
         $ent = arr\replace(APP['ent'], app\load('ent/' . $eId, true));
 
-        if (!$ent['name'] || !$ent['type']) {
+        if (!$ent['name'] || !$ent['type'] || empty($ent['attr']['id']) || empty($ent['attr']['name'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
@@ -52,21 +52,6 @@ function cfg_ent(array $data): array
     }
 
     foreach ($data as $eId => $ent) {
-        // Inheritance
-        if ($ent['parent_id']) {
-            if (empty($data[$ent['parent_id']]) || !empty($data[$ent['parent_id']]['parent_id'])) {
-                throw new DomainException(app\i18n('Invalid configuration'));
-            }
-
-            $ent['act'] = array_replace($data[$ent['parent_id']]['act'], $ent['act']);
-            $ent['attr'] = $data[$ent['parent_id']]['attr'] + $ent['attr'];
-        }
-
-        // Required attributes
-        if (empty($ent['attr']['id']) || empty($ent['attr']['name'])) {
-            throw new DomainException(app\i18n('Invalid configuration'));
-        }
-
         foreach ($ent['attr'] as $aId => $attr) {
             // References
             if ($attr['type'] === 'ent') {

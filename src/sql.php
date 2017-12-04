@@ -257,14 +257,6 @@ function where(array $cols): string
 }
 
 /**
- * JOIN part
- */
-function join(string $tab): string
-{
-    return $tab ? ' JOIN ' . $tab . ' USING (id)' : '';
-}
-
-/**
  * ORDER BY part
  */
 function order(array $order): string
