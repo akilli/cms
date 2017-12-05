@@ -74,7 +74,7 @@ const APP = [
     'path' => [
         'asset' => '/data/asset',
         'cfg' => '/app/cfg',
-        'ext' => '/app/ext',
+        'ext' => '/data/ext',
         'theme' => '/app/www/theme',
         'tpl' => '/app/tpl',
     ],
