@@ -3,5 +3,6 @@
 #
 /data
 /ext
+/ext-data
 /www/loc
 .idea
