@@ -19,7 +19,7 @@ function bool(array $html, bool $val): string
  */
 function checkbox(array $html, array $val, array $opt): string
 {
-    $out = '';
+    $out = html\tag('input', ['id' => $html['id'], 'name' => str_replace('[]', '', $html['name']), 'type' => 'hidden'], null, true);
     $grp = [];
 
     foreach ($opt as $k => $v) {
