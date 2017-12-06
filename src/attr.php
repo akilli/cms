@@ -129,8 +129,10 @@ function opt(array $attr): array
         $opt = $attr['opt'];
     }
 
+    $sort = 0;
+
     foreach ($opt as $key => $val) {
-        $val = !is_array($val) ? ['name' => $val] : $val;
+        $val = !is_array($val) ? ['name' => $val, 'sort' => $sort++] : $val;
         $opt[$key] = arr\replace(APP['opt'], $val);
     }
 
