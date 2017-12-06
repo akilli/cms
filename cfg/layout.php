@@ -13,9 +13,9 @@ return [
         'parent_id' => 'head',
         'sort' => -4,
     ],
-    'link' => [
+    'all' => [
         'type' => 'tpl',
-        'tpl' => 'head/link.phtml',
+        'tpl' => 'head/all.phtml',
         'parent_id' => 'head',
         'sort' => -3,
     ],
