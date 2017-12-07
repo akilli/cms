@@ -54,11 +54,3 @@ function writable(string $path): bool
 {
     return (bool) preg_match('#^(file://)?(' . app\path('asset') . ')#', $path);
 }
-
-/**
- * Returns configured file type
- */
-function type(string $file): ?string
-{
-    return app\cfg('file', pathinfo($file, PATHINFO_EXTENSION)) ?: null;
-}

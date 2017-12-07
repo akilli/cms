@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace filter;
 
 use app;
-use file;
 use DomainException;
 
 /**
@@ -134,52 +133,12 @@ function time(string $val): string
  *
  * @throws DomainException
  */
-function file(string $val): string
+function file(string $val, array $opt): string
 {
-    if ($val && !file\type($val)) {
-        throw new DomainException(app\i18n('Invalid file %s', $val));
-    }
+    $opt = array_column($opt, 'name');
 
-    return path($val);
-}
-
-/**
- * Audio filter
- *
- * @throws DomainException
- */
-function audio(string $val): string
-{
-    if ($val && file\type($val) !== 'audio') {
-        throw new DomainException(app\i18n('Invalid file %s', $val));
-    }
-
-    return path($val);
-}
-
-/**
- * Image filter
- *
- * @throws DomainException
- */
-function image(string $val): string
-{
-    if ($val && file\type($val) !== 'image') {
-        throw new DomainException(app\i18n('Invalid file %s', $val));
-    }
-
-    return path($val);
-}
-
-/**
- * Video filter
- *
- * @throws DomainException
- */
-function video(string $val): string
-{
-    if ($val && file\type($val) !== 'video') {
-        throw new DomainException(app\i18n('Invalid file %s', $val));
+    if ($val && !in_array(pathinfo($val, PATHINFO_EXTENSION), $opt)) {
+        throw new DomainException(app\i18n('Invalid file type, allowed: %s', implode(', ', $opt)));
     }
 
     return path($val);

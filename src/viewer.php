@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace viewer;
 
 use app;
-use file;
 use html;
 
 /**
@@ -68,15 +67,19 @@ function rte(string $val): string
  */
 function file(string $val): string
 {
-    $type = file\type($val);
+    $ext = pathinfo($val, PATHINFO_EXTENSION);
     $val = app\asset($val);
 
-    if ($type === 'image') {
+    if (in_array($ext, APP['file.image'])) {
         return html\tag('img', ['src' => $val], null, true);
     }
 
-    if (in_array($type, ['audio', 'video'])) {
-        return html\tag($type, ['src' => $val, 'controls' => true]);
+    if (in_array($ext, APP['file.video'])) {
+        return html\tag('video', ['src' => $val, 'controls' => true]);
+    }
+
+    if (in_array($ext, APP['file.audio'])) {
+        return html\tag('audio', ['src' => $val, 'controls' => true]);
     }
 
     return html\tag('a', ['href' => $val], $val);
