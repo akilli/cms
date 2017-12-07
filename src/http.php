@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace http;
 
 use app;
-use file;
 use session;
 use DomainException;
 
@@ -116,8 +115,8 @@ function file(array $in): array
 
         if (is_array($n)) {
             $f = file($f);
-        } elseif ($e !== UPLOAD_ERR_OK || !is_uploaded_file($t) || !file\type($n)) {
-            app\msg(app\i18n('Invalid file %s', $n));
+        } elseif ($e !== UPLOAD_ERR_OK || !is_uploaded_file($t)) {
+            app\msg(app\i18n('Could not upload %s', $n));
             continue;
         }
 

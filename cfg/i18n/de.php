@@ -14,6 +14,7 @@ return [
     'Could not delete directory %s' => 'Konnte Verzeichnis %s nicht löschen',
     'Could not load data' => 'Konnte Daten nicht laden',
     'Could not save data' => 'Konnte Daten nicht speichern',
+    'Could not upload %s' => 'Konnte %s nicht hochladen',
     'Create' => 'Anlegen',
     'Created' => 'Angelegt',
     'Date' => 'Datum',
