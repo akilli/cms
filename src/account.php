@@ -12,7 +12,7 @@ use session;
  *
  * @return mixed
  */
-function data(string $key = null)
+function data(string $key)
 {
     if (($data = & app\data('account')) === null) {
         $data = [];
@@ -30,10 +30,6 @@ function data(string $key = null)
         }
     }
 
-    if ($key === null) {
-        return $data;
-    }
-
     return $data[$key] ?? null;
 }
 
@@ -49,8 +45,9 @@ function login(string $name, string $password): ?array
     }
 
     if (password_needs_rehash($data['password'], PASSWORD_DEFAULT)) {
-        $data['password'] = $password;
-        ent\save('account', $data);
+        $acc = ['id' => $data['id'], 'password' => $password];
+        ent\save('account', $acc);
+        $data['password'] = $acc['password'];
     }
 
     return $data;

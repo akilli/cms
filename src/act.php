@@ -184,11 +184,12 @@ function account_password(): void
         if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
             app\msg(app\i18n('Password and password confirmation must be identical'));
         } else {
-            $data = array_replace(account\data(), ['password' => $data['password']]);
+            $data = ['id' => account\data('id'), 'password' => $data['password']];
             ent\save('account', $data);
         }
     }
 
+    app\layout('content', ['error' => $data['_error']['password'] ?? null]);
     app\layout('meta', ['title' => app\i18n('Password')]);
 }
 
