@@ -94,7 +94,7 @@ function save(string $eId, array & $data): bool
         $tmp += ['_old' => $old, '_ent' => $old['_ent']];
         unset($tmp['_old']['_ent'], $tmp['_old']['_old']);
     } else {
-        $tmp = array_replace(data($eId, 'edit'), $tmp);
+        $tmp += ['_old' => null, '_ent' => app\cfg('ent', $eId)];
     }
 
     $aIds = [];
