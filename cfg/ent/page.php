@@ -3,9 +3,9 @@ return [
     'name' => 'Pages',
     'type' => 'db',
     'act' => [
-        'admin' => ['pos', 'name', 'url', 'active'],
+        'admin' => ['pos', 'name', 'active'],
         'delete' => [],
-        'edit' => ['name', 'url', 'active', 'parent_id', 'sort', 'content'],
+        'edit' => ['name', 'slug', 'active', 'parent_id', 'sort', 'content'],
         'index' => ['name'],
         'view' => ['content']
     ],
@@ -21,6 +21,13 @@ return [
             'required' => true,
             'searchable' => true,
             'maxlength' => 100,
+        ],
+        'slug' => [
+            'name' => 'Slug',
+            'type' => 'text',
+            'required' => true,
+            'maxlength' => 50,
+            'filter' => 'id',
         ],
         'url' => [
             'name' => 'URL',

@@ -238,9 +238,19 @@ function file_presave(array $data): array
 function page_postfilter(array $data): array
 {
     $oldId = $data['_old']['id'] ?? null;
+    $parent = !empty($data['parent_id']) ? ent\one('page', [['id', $data['parent_id']]]) : null;
 
-    if (!empty($data['parent_id']) && $oldId && in_array($oldId, ent\one('page', [['id', $data['parent_id']]])['path'])) {
+    if ($parent && $oldId && in_array($oldId, $parent['path'])) {
         $data['_error']['parent_id'] = app\i18n('Cannot assign the page itself or a child page as parent');
+    }
+
+    if (!empty($data['slug'])) {
+        $data['url'] = ($parent ? $parent['url'] : '') . '/' . $data['slug'];
+        $crit = $oldId ? [['url', $data['url']], ['id', $oldId, APP['crit']['!=']]] : [['url', $data['url']]];
+
+        if (ent\size('page', $crit)) {
+            $data['_error']['slug'] = app\i18n('Slug already used with selected parent');
+        }
     }
 
     return $data;
