@@ -1,6 +1,7 @@
 <?php
 return [
     'name' => 'Files',
+    'type' => 'db',
     'act' => [
         'admin' => ['name', 'size'],
         'asset' => [],

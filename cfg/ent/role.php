@@ -1,6 +1,7 @@
 <?php
 return [
     'name' => 'Roles',
+    'type' => 'db',
     'act' => [
         'admin' => ['name', 'active'],
         'delete' => [],

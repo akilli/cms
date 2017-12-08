@@ -107,7 +107,7 @@ function edit(array $ent): void
     $data += $data && $id ? ['_id' => $id] : [];
     $act = http\req('act');
 
-    if ($act === 'edit' && $data && ent\save($ent['id'], $data) && !$id) {
+    if ($data && ent\save($ent['id'], $data) && !$id && $act === 'edit') {
         http\redirect(app\url('*/*/' . $data['id']));
     } else {
         $base = $id ? ent\one($ent['id'], [['id', $id]]) : ent\data($ent['id'], $act);

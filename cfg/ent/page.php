@@ -1,6 +1,7 @@
 <?php
 return [
     'name' => 'Pages',
+    'type' => 'db',
     'act' => [
         'admin' => ['pos', 'name', 'url', 'active'],
         'delete' => [],
