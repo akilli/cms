@@ -165,9 +165,7 @@ function time(array $html, string $val): string
  */
 function file(array $html): string
 {
-    $hidden = html\tag('input', ['name' => $html['name'], 'type' => 'hidden'], null, true);
-
-    return $hidden . html\tag('input', ['type' => 'file'] + $html, null, true);
+    return html\tag('input', ['type' => 'file'] + $html, null, true);
 }
 
 /**
