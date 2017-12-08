@@ -9,7 +9,6 @@ use session;
     <h1><?=$§('title');?></h1>
     <form method="post" enctype="multipart/form-data">
         <fieldset>
-            <legend><?=$data['name'] ?? i18n('New Entry');?></legend>
             <?php foreach ($§('attr') as $attr):?>
                 <?php if (!$html = attr\frontend($data, $attr)) continue;?>
             <div data-attr="<?=$attr['id'];?>">
