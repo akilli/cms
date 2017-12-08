@@ -11,7 +11,9 @@ use html;
  */
 function bool(array $html, bool $val): string
 {
-    return html\tag('input', ['type' => 'checkbox', 'value' => 1, 'checked' => $val] + $html, null, true);
+    $out = html\tag('input', ['id' => $html['id'], 'name' => $html['name'], 'type' => 'hidden'], null, true);
+
+    return $out . html\tag('input', ['type' => 'checkbox', 'value' => 1, 'checked' => $val] + $html, null, true);
 }
 
 /**
