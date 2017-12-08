@@ -324,6 +324,16 @@ fieldset > * {
     margin-bottom: 1.5rem;
 }
 
+fieldset [type=email],
+fieldset [type=password],
+fieldset [type=search],
+fieldset [type=text],
+fieldset [type=url],
+fieldset select {
+    width: 100%;
+    max-width: 30rem;
+}
+
 legend {
     width: 100%;
     box-shadow: 0 0.0625rem 0 var(--primary-dark);
@@ -366,6 +376,20 @@ select {
     -moz-appearance: none;
     -webkit-appearance: none;
     background: none;
+}
+
+select[multiple] {
+    height: 15rem;
+    resize: both;
+}
+
+optgroup {
+    font-weight: bold;
+    font-style: italic;
+}
+
+option[selected] {
+    font-weight: bold;
 }
 
 [role=button],
@@ -421,30 +445,6 @@ button {
     line-height: 0;
     font-size: 0.875rem;
     box-shadow: none;
-}
-
-fieldset [type=email],
-fieldset [type=password],
-fieldset [type=search],
-fieldset [type=text],
-fieldset [type=url],
-fieldset select {
-    width: 100%;
-    max-width: 30rem;
-}
-
-fieldset select[multiple] {
-    height: 15rem;
-    resize: both;
-}
-
-optgroup {
-    font-weight: bold;
-    font-style: italic;
-}
-
-option[selected] {
-    font-weight: bold;
 }
 
 textarea {
