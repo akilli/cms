@@ -105,16 +105,25 @@ function edit(array $ent): void
     $id = http\req('id');
     $data = http\req('data');
     $data += $data && $id ? ['_id' => $id] : [];
+    $act = http\req('act');
 
-    if ($data && ent\save($ent['id'], $data) && !$id) {
+    if ($act === 'edit' && $data && ent\save($ent['id'], $data) && !$id) {
         http\redirect(app\url('*/*/' . $data['id']));
     } else {
-        $base = $id ? ent\one($ent['id'], [['id', $id]]) : ent\data($ent['id'], 'edit');
+        $base = $id ? ent\one($ent['id'], [['id', $id]]) : ent\data($ent['id'], $act);
         $data = array_replace($base, $data);
     }
 
-    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'edit'), 'title' => $ent['name']]);
+    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $act), 'title' => $ent['name']]);
     app\layout('meta', ['title' => $ent['name']]);
+}
+
+/**
+ * Form Action
+ */
+function form(array $ent): void
+{
+    edit($ent);
 }
 
 /**
