@@ -7,7 +7,7 @@ return [
         'delete' => [],
         'edit' => ['name', 'slug', 'active', 'parent_id', 'sort', 'content'],
         'index' => ['name'],
-        'view' => ['content']
+        'view' => ['content'],
     ],
     'attr' => [
         'id' => [
