@@ -46,14 +46,6 @@ return [
             'searchable' => true,
             'val' => '',
         ],
-        'created' => [
-            'name' => 'Created',
-            'type' => 'datetime',
-        ],
-        'modified' => [
-            'name' => 'Modified',
-            'type' => 'datetime',
-        ],
         'parent_id' => [
             'name' => 'Parent',
             'type' => 'ent',
