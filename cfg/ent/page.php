@@ -22,6 +22,12 @@ return [
             'searchable' => true,
             'maxlength' => 100,
         ],
+        'content' => [
+            'name' => 'Content',
+            'type' => 'rte',
+            'searchable' => true,
+            'val' => '',
+        ],
         'slug' => [
             'name' => 'Slug',
             'type' => 'text',
@@ -39,12 +45,6 @@ return [
         'active' => [
             'name' => 'Active',
             'type' => 'bool',
-        ],
-        'content' => [
-            'name' => 'Content',
-            'type' => 'rte',
-            'searchable' => true,
-            'val' => '',
         ],
         'parent_id' => [
             'name' => 'Parent',
