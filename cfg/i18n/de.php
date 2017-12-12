@@ -8,7 +8,6 @@ return [
     'ALL PRIVILEGES' => 'ALLE PRIVILEGIEN',
     'Back' => 'Zurück',
     'Cannot assign the page itself or a child page as parent' => 'Die Seite selbst oder eine Unterseite kann nicht als Oberseite ausgewählt werden',
-    'Change password' => 'Passwort ändern',
     'Content' => 'Inhalt',
     'Could not delete %s' => 'Konnte %s nicht löschen',
     'Could not load data' => 'Konnte Daten nicht laden',
