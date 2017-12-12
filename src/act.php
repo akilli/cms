@@ -134,7 +134,7 @@ function delete(array $ent): void
     if ($id = http\req('id')) {
         ent\delete($ent['id'], [['id', $id]]);
     } else {
-        app\msg(app\i18n('Nothing selected for deletion'));
+        app\msg(app\i18n('Nothing to delete'));
     }
 
     http\redirect(app\url('*/admin'));

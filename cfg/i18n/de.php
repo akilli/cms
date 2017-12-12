@@ -44,7 +44,7 @@ return [
     'Next' => 'Weiter',
     'No' => 'Nein',
     'No entries found' => 'Keine Einträge gefunden',
-    'Nothing selected for deletion' => 'Nichts zum Löschen ausgewählt',
+    'Nothing to delete' => 'Nichts zum Löschen',
     'Page not found' => 'Seite nicht gefunden',
     'Pages' => 'Seiten',
     'Parent' => 'Oberseite',
