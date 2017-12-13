@@ -3,9 +3,9 @@ return [
     'name' => 'Pages',
     'type' => 'db',
     'act' => [
-        'admin' => ['pos', 'name', 'active'],
+        'admin' => ['pos', 'name', 'status'],
         'delete' => [],
-        'edit' => ['name', 'slug', 'active', 'parent_id', 'sort', 'content'],
+        'edit' => ['name', 'slug', 'status', 'parent_id', 'sort', 'content'],
         'index' => ['name'],
         'view' => ['content'],
     ],
@@ -42,9 +42,14 @@ return [
             'unique' => true,
             'filter' => 'path',
         ],
-        'active' => [
-            'name' => 'Active',
-            'type' => 'bool',
+        'status' => [
+            'name' => 'Status',
+            'type' => 'status',
+            'required' => true,
+        ],
+        'date' => [
+            'name' => 'Date',
+            'type' => 'datetime',
         ],
         'parent_id' => [
             'name' => 'Parent',

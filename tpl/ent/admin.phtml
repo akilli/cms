@@ -43,17 +43,17 @@ use attr;
                 </td>
                 <?php endforeach;?>
                 <td>
-                    <?php if ($§('mode') !== 'browser' && allowed('*/view')):?>
+                    <?php if ($§('act') !== 'browser' && allowed('*/view')):?>
                     <a href="<?= $data['url'] ?? url('*/view/' . $data['id']);?>" class="icon" title="<?= i18n('View');?>">visibility</a>
                     <?php endif;?>
-                    <?php if ($§('mode') !== 'browser' && allowed('*/edit') && empty($data['system'])):?>
+                    <?php if ($§('act') !== 'browser' && allowed('*/edit') && empty($data['system'])):?>
                     <a href="<?= url('*/edit/' . $data['id']);?>" class="icon" title="<?= i18n('Edit');?>">edit</a>
                     <?php endif;?>
-                    <?php if ($§('mode') !== 'browser' && allowed('*/delete') && empty($data['system'])):?>
+                    <?php if ($§('act') !== 'browser' && allowed('*/delete') && empty($data['system'])):?>
                     <a href="<?= url('*/delete/' . $data['id']);?>" class="delete icon" title="<?= i18n('Delete');?>">delete</a>
                     <?php endif;?>
-                    <?php if ($§('mode') === 'browser'):?>
-                    <span data-rte="<?= $p['rte'];?>" data-url="<?= asset($data['name']);?>" class="rte icon" title="<?= i18n('Select item');?>">check</span>
+                    <?php if ($§('act') === 'browser'):?>
+                    <span data-rte="<?= $p['CKEditorFuncNum'];?>" data-url="<?= asset($data['name']);?>" class="rte icon" title="<?= i18n('Select item');?>">check</span>
                     <?php endif;?>
                 </td>
             </tr>

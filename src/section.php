@@ -45,9 +45,9 @@ function msg(array $§): string
 function nav(array $§): string
 {
     $§['vars'] += ['mode' => null, 'cur' => http\req('id')];
-    $cur = $§['vars']['cur'] ? ent\one('page', [['id', $§['vars']['cur']], ['active', true]]) : null;
+    $cur = $§['vars']['cur'] ? ent\one('page', [['id', $§['vars']['cur']], ['status', 'published']]) : null;
     $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]]]) : $cur;
-    $crit = [['active', true]];
+    $crit = [['status', 'published']];
 
     if ($§['vars']['mode'] === 'top') {
         $cur = $anc;

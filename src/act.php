@@ -20,11 +20,14 @@ function index(array $ent): void
     $opt = ['limit' => app\cfg('app', 'limit')];
     $crit = [];
 
-    if ($act !== 'admin' && !empty($ent['attr']['active'])) {
+    if ($act !== 'admin' && !empty($ent['attr']['status'])) {
+        $crit[] = ['status', 'published'];
+    } elseif ($act !== 'admin' && !empty($ent['attr']['active'])) {
         $crit[] = ['active', true];
     }
 
     $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
+    $p += $act === 'browser' ? ['CKEditorFuncNum' => null] : [];
     $sessKey = 'param/' . $ent['id'] . '/' . $act;
     $rp = http\req('param') ?: (array) session\get($sessKey);
     $p = arr\replace($p, $rp);
@@ -55,7 +58,7 @@ function index(array $ent): void
     }
 
     session\set($sessKey, $p);
-    app\layout('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opt), 'params' => $p, 'title' => $ent['name']]);
+    app\layout('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opt), 'params' => $p, 'title' => $ent['name'], 'act' => $act]);
     app\layout('pager', ['limit' => $opt['limit'], 'params' => $p, 'size' => $size]);
     app\layout('search', ['q' => $p['q'] ?? '']);
     app\layout('meta', ['title' => $ent['name']]);
@@ -75,9 +78,6 @@ function admin(array $ent): void
 function browser(array $ent): void
 {
     index($ent);
-    $p = ['rte' => http\req('param')['CKEditorFuncNum'] ?? null];
-    app\layout('content', ['params' => array_replace(app\layout('content')['vars']['params'], $p)]);
-    app\layout('pager', ['params' => array_replace(app\layout('pager')['vars']['params'], $p)]);
 }
 
 /**
@@ -107,12 +107,23 @@ function edit(array $ent): void
     $data += $data && $id ? ['_id' => $id] : [];
     $act = http\req('act');
 
-    if ($data && ent\save($ent['id'], $data) && !$id && $act === 'edit') {
-        http\redirect(app\url('*/*/' . $data['id']));
-    } else {
-        $base = $id ? ent\one($ent['id'], [['id', $id]]) : ent\data($ent['id'], $act);
-        $data = array_replace($base, $data);
+    if ($data && ent\save($ent['id'], $data) && $act === 'edit') {
+        $id = ($id ?: $data['id']);
+        http\redirect(app\url('*/*/' . $id));
     }
+
+    if ($id) {
+        $base = ent\one($ent['id'], [['id', $id]]);
+
+        if (!empty($ent['attr']['status'])) {
+            $version = ent\one('version', [['ent', $ent['id']], ['ent_id', $id]], ['order' => ['date' => 'desc']]);
+            $base = arr\replace($base, $version['data']);
+        }
+    } else {
+        $base = ent\data($ent['id'], $act);
+    }
+
+    $data = array_replace($base, $data);
 
     app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $act), 'title' => $ent['name']]);
     app\layout('meta', ['title' => $ent['name']]);
@@ -145,9 +156,15 @@ function delete(array $ent): void
  */
 function view(array $ent): void
 {
-    $data = ent\one($ent['id'], [['id', http\req('id')]]);
+    $crit = [['id', http\req('id')]];
 
-    if (!$data || !empty($ent['attr']['active']) && empty($data['active']) && !app\allowed('*/edit')) {
+    if (!app\allowed('*/edit') && !empty($ent['attr']['status'])) {
+        $crit[] = ['status', 'published'];
+    } elseif (!app\allowed('*/edit') && !empty($ent['attr']['active'])) {
+        $crit[] = ['active', true];
+    }
+
+    if (!$data = ent\one($ent['id'], $crit)) {
         app_error();
         return;
     }

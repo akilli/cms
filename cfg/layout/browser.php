@@ -16,7 +16,6 @@ return [
         'type' => 'tpl',
         'tpl' => 'ent/admin.phtml',
         'parent_id' => 'main',
-        'vars' => ['mode' => 'browser'],
     ],
     'pager' => [
         'type' => 'pager',

@@ -39,4 +39,7 @@ return [
     'page/view' => [
         'active' => false,
     ],
+    'version-publish' => [
+        'assignable' => false,
+    ],
 ];

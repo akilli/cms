@@ -77,6 +77,13 @@ return [
         'filter' => 'opt',
         'viewer' => 'opt',
     ],
+    'status' => [
+        'backend' => 'varchar',
+        'frontend' => 'radio',
+        'filter' => 'opt',
+        'viewer' => 'opt',
+        'opt' => 'status',
+    ],
     'text' => [
         'backend' => 'varchar',
         'frontend' => 'text',

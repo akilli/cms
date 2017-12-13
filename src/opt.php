@@ -11,12 +11,12 @@ use ent;
  */
 function ent(string $eId): array
 {
-    if (($data = & app\data('opt.ent.' . $eId)) === null) {
+    if (($opt = & app\data('opt.ent.' . $eId)) === null) {
         $select = !empty(app\cfg('ent', $eId)['attr']['level']) ? ['id', 'name', 'level'] : ['id', 'name'];
-        $data = ent\all($eId, [], ['select' => $select]);
+        $opt = ent\all($eId, [], ['select' => $select]);
     }
 
-    return $data;
+    return $opt;
 }
 
 /**
@@ -24,13 +24,32 @@ function ent(string $eId): array
  */
 function priv(): array
 {
-    $data = [];
+    $opt = [];
 
     foreach (app\cfg('priv') as $key => $priv) {
         if ($priv['assignable'] && app\allowed($key)) {
-            $data[$key] = $priv;
+            $opt[$key] = $priv;
         }
     }
 
-    return $data;
+    return $opt;
+}
+
+/**
+ * Status options
+ */
+function status(array $data, array $attr): array
+{
+    $opt = ['draft' => 'Draft', 'pending' => 'Pending'];
+
+    if (app\allowed($data['_ent']['id'] . '-publish')) {
+        $opt['published'] = 'Published';
+        $old = $data['_old'][$attr['id']] ?? null;
+
+        if (in_array($old, ['published', 'archived'])) {
+            $opt['archived'] = 'Archived';
+        }
+    }
+
+    return array_map('app\i18n', $opt);
 }

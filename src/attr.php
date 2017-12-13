@@ -24,7 +24,7 @@ function filter(array $data, array $attr): array
     }
 
     if ($attr['filter']) {
-        $data[$attr['id']] = ('filter\\' . $attr['filter'])($data[$attr['id']], opt($attr));
+        $data[$attr['id']] = ('filter\\' . $attr['filter'])($data[$attr['id']], opt($data, $attr));
     }
 
     if ($attr['unique'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && ent\size($data['_ent']['id'], [[$attr['id'], $data[$attr['id']]]])) {
@@ -93,7 +93,7 @@ function frontend(array $data, array $attr): string
         $error = html\tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
-    if ($out = ('frontend\\' . $attr['frontend'])($html, $data[$attr['id']], opt($attr))) {
+    if ($out = ('frontend\\' . $attr['frontend'])($html, $data[$attr['id']], opt($data, $attr))) {
         return html\tag('label', ['for' => $html['id']], $label) . $out . $error;
     }
 
@@ -110,7 +110,7 @@ function viewer(array $data, array $attr): string
     }
 
     if ($attr['viewer']) {
-        return ('viewer\\' . $attr['viewer'])($data[$attr['id']], opt($attr));
+        return ('viewer\\' . $attr['viewer'])($data[$attr['id']], opt($data, $attr));
     }
 
     return app\enc((string) $data[$attr['id']]);
@@ -119,12 +119,12 @@ function viewer(array $data, array $attr): string
 /**
  * Option
  */
-function opt(array $attr): array
+function opt(array $data, array $attr): array
 {
     if ($attr['type'] === 'ent') {
         $opt = opt\ent($attr['opt']);
     } elseif (is_string($attr['opt'])) {
-        $opt = ('opt\\' . $attr['opt'])($attr);
+        $opt = ('opt\\' . $attr['opt'])($data, $attr);
     } else {
         $opt = $attr['opt'];
     }
