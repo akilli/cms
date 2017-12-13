@@ -51,23 +51,6 @@ function cfg_ent(array $data): array
         $data[$eId] = $ent;
     }
 
-    foreach ($data as $eId => $ent) {
-        foreach ($ent['attr'] as $aId => $attr) {
-            // References
-            if ($attr['type'] === 'ent') {
-                if (empty($data[$attr['opt']]['attr']['id']['backend'])) {
-                    throw new DomainException(app\i18n('Invalid configuration'));
-                }
-
-                $attr['backend'] = $data[$attr['opt']]['attr']['id']['backend'];
-            }
-
-            $ent['attr'][$aId] = $attr;
-        }
-
-        $data[$eId] = $ent;
-    }
-
     return $data;
 }
 
