@@ -9,11 +9,18 @@ use ent;
 /**
  * Entity options
  */
-function ent(string $eId): array
+function ent(array $data, array $attr): array
 {
-    if (($opt = & app\data('opt.ent.' . $eId)) === null) {
-        $select = !empty(app\cfg('ent', $eId)['attr']['level']) ? ['id', 'name', 'level'] : ['id', 'name'];
-        $opt = ent\all($eId, [], ['select' => $select]);
+    if (($opt = & app\data('opt.ent.' . $attr['opt'])) === null) {
+        $opt = [];
+
+        foreach (ent\all($attr['opt']) as $item) {
+            if (!empty($data['_ent']['attr']['level'])) {
+                $opt[$item['id']] = str_repeat('&nbsp;', (max($item['level'], 1) - 1) * 4) . $item['name'];
+            } else {
+                $opt[$item['id']] = $item['name'];
+            }
+        }
     }
 
     return $opt;
@@ -28,9 +35,11 @@ function priv(): array
 
     foreach (app\cfg('priv') as $key => $priv) {
         if ($priv['assignable'] && app\allowed($key)) {
-            $opt[$key] = $priv;
+            $opt[$key] = $priv['name'];
         }
     }
+
+    sort($opt);
 
     return $opt;
 }

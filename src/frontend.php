@@ -22,16 +22,11 @@ function bool(array $html, bool $val): string
 function checkbox(array $html, array $val, array $opt): string
 {
     $out = html\tag('input', ['id' => $html['id'], 'name' => str_replace('[]', '', $html['name']), 'type' => 'hidden'], null, true);
-    $grp = [];
 
     foreach ($opt as $k => $v) {
         $id = $html['id'] . '-' . $k;
         $a = ['id' => $id, 'name' => $html['name'], 'type' => 'checkbox', 'value' => $k, 'checked' => in_array($k, $val)] + $html;
-        $grp[$v['group']] = ($grp[$v['group']] ?? '') . html\tag('input', $a, null, true) . html\tag('label', ['for' => $id], $v['name']);
-    }
-
-    foreach ($grp as $l => $g) {
-        $out .= $l ? html\tag('div', ['class' => 'group'], $g) : $g;
+        $out .= html\tag('input', $a, null, true) . html\tag('label', ['for' => $id], $v);
     }
 
     return $out;
@@ -43,16 +38,11 @@ function checkbox(array $html, array $val, array $opt): string
 function radio(array $html, $val, array $opt): string
 {
     $out = '';
-    $grp = [];
 
     foreach ($opt as $k => $v) {
         $id = $html['id'] . '-' . $k;
         $a = ['id' => $id, 'name' => $html['name'], 'type' => 'radio', 'value' => $k, 'checked' => $k === $val] + $html;
-        $grp[$v['group']] = ($grp[$v['group']] ?? '') . html\tag('input', $a, null, true) . html\tag('label', ['for' => $id], $v['name']);
-    }
-
-    foreach ($grp as $l => $g) {
-        $out .= $l ? html\tag('div', ['class' => 'group'], $g) : $g;
+        $out .= html\tag('input', $a, null, true) . html\tag('label', ['for' => $id], $v);
     }
 
     return $out;
@@ -68,15 +58,9 @@ function select(array $html, $val, array $opt): string
     }
 
     $out = html\tag('option', ['value' => ''], app\i18n('Please choose'));
-    $grp = [];
 
     foreach ($opt as $k => $v) {
-        $pre = str_repeat('&nbsp;', (max($v['level'], 1) - 1) * 4);
-        $grp[$v['group']] = ($grp[$v['group']] ?? '') . html\tag('option', ['value' => $k, 'selected' => in_array($k, $val)], $pre . $v['name']);
-    }
-
-    foreach ($grp as $l => $g) {
-        $out .= $l ? html\tag('optgroup', ['label' => $l], $g) : $g;
+        $out .= html\tag('option', ['value' => $k, 'selected' => in_array($k, $val)], $v);
     }
 
     return html\tag('select', $html, $out);

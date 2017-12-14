@@ -122,21 +122,14 @@ function viewer(array $data, array $attr): string
 function opt(array $data, array $attr): array
 {
     if ($attr['type'] === 'ent') {
-        $opt = opt\ent($attr['opt']);
-    } elseif (is_string($attr['opt'])) {
-        $opt = ('opt\\' . $attr['opt'])($data, $attr);
-    } else {
-        $opt = $attr['opt'];
+        return opt\ent($data, $attr);
     }
 
-    $sort = 0;
-
-    foreach ($opt as $key => $val) {
-        $val = !is_array($val) ? ['name' => $val, 'sort' => $sort++] : $val;
-        $opt[$key] = arr\replace(APP['opt'], $val);
+    if (is_string($attr['opt'])) {
+        return ('opt\\' . $attr['opt'])($data, $attr);
     }
 
-    return arr\order($opt, ['group' => 'asc', 'sort' => 'asc', 'name' => 'asc']);
+    return array_map('app\i18n', $attr['opt']);
 }
 
 /**

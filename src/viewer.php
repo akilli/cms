@@ -19,15 +19,15 @@ function bool($val): string
  */
 function opt($val, array $opt): string
 {
-    $result = [];
+    $out = '';
 
     foreach ((array) $val as $v) {
         if (isset($opt[$v])) {
-            $result[] = $opt[$v]['name'];
+            $out = ($out ? ', ' : '') . $opt[$v];
         }
     }
 
-    return app\enc(implode(', ', $result));
+    return $out;
 }
 
 /**

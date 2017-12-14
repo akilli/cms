@@ -135,8 +135,6 @@ function time(string $val): string
  */
 function file(string $val, array $opt): string
 {
-    $opt = array_column($opt, 'name');
-
     if ($val && !in_array(pathinfo($val, PATHINFO_EXTENSION), $opt)) {
         throw new DomainException(app\i18n('Invalid file type, allowed: %s', implode(', ', $opt)));
     }
