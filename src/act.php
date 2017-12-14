@@ -117,7 +117,7 @@ function edit(array $ent): void
 
         if (!empty($ent['attr']['status'])) {
             $version = ent\one('version', [['ent', $ent['id']], ['ent_id', $id]], ['order' => ['date' => 'desc']]);
-            $base = arr\replace($base, $version['data']);
+            $base = arr\replace($base, $version['data'] ?? []);
         }
     } else {
         $base = ent\data($ent['id'], $act);
