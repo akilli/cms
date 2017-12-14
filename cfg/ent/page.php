@@ -5,7 +5,7 @@ return [
     'act' => [
         'admin' => ['pos', 'name', 'status'],
         'delete' => [],
-        'edit' => ['name', 'slug', 'parent_id', 'sort', 'content', 'status'],
+        'edit' => ['name', 'slug', 'status', 'parent_id', 'sort', 'content'],
         'index' => ['name'],
         'view' => ['content'],
     ],
