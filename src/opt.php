@@ -39,7 +39,7 @@ function priv(): array
         }
     }
 
-    sort($opt);
+    asort($opt);
 
     return $opt;
 }
