@@ -18,12 +18,9 @@ use DomainException;
 function cfg_ent(array $data): array
 {
     $cfg = app\cfg('attr');
-    $base = app\path('cfg', 'ent/*.php');
-    $ext = app\path('ext', 'cfg/ent/*.php');
-    $eIds = array_unique(arr\map('basename', array_merge(glob($base), glob($ext)), '.php'));
 
-    foreach ($eIds as $eId) {
-        $ent = arr\replace(APP['ent'], app\load('ent/' . $eId, true));
+    foreach ($data as $eId => $ent) {
+        $ent = arr\replace(APP['ent'], $ent);
 
         if (!$ent['name'] || !$ent['type'] || empty($ent['attr']['id']) || empty($ent['attr']['name'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
@@ -67,17 +64,8 @@ function cfg_i18n(array $data): array
  */
 function cfg_layout(array $data): array
 {
-    $code = http_response_code();
-
-    if ($code === 403) {
-        $cfg = [app\load('layout/app/denied')];
-    } elseif ($code === 404) {
-        $cfg = [app\load('layout/app/error')];
-    } else {
-        $cfg = [app\load('layout/' . http\req('act')), app\load('layout/' . http\req('path'))];
-    }
-
-    $data = array_replace_recursive($data, ...$cfg);
+    $p = http_response_code() === 404 ? [$data['app/error'] ?? []] : [$data[http\req('act')] ?? [], $data[http\req('path')] ?? []];
+    $data = array_replace_recursive($data[APP['all']], ...$p);
 
     foreach ($data as $id => $§) {
         $data[$id] = arr\replace(APP['section'], $§, ['id' => $id]);

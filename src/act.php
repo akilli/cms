@@ -174,16 +174,6 @@ function view(array $ent): void
 }
 
 /**
- * App Denied Action
- */
-function app_denied(): void
-{
-    http_response_code(403);
-    app\layout('content', ['message' => app\i18n('Access denied')]);
-    app\layout('meta', ['title' => app\i18n('Access denied')]);
-}
-
-/**
  * App Error Action
  */
 function app_error(): void

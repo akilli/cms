@@ -16,17 +16,23 @@ use Throwable;
  */
 function run(): void
 {
+    if (!allowed('*/*')) {
+        act\app_error();
+        return;
+    }
+
     $act = http\req('act');
     $eId = http\req('ent');
     $args = ($ent = cfg('ent', $eId)) ? [$ent] : [];
-    $func = 'act\\' . $eId . '_' . $act;
-    $calls = $ent && array_key_exists($act, $ent['act']) ? [$func, 'act\\' . $act] : [$func];
 
-    foreach ($calls as $call) {
-        if (is_callable($call)) {
-            allowed('*/*') ? $call(...$args) : act\app_denied();
-            return;
-        }
+    if (is_callable('act\\' . $eId . '_' . $act)) {
+        ('act\\' . $eId . '_' . $act)(...$args);
+        return;
+    }
+
+    if (isset($ent['act'][$act]) && is_callable('act\\' . $act)) {
+        ('act\\' . $act)(...$args);
+        return;
     }
 
     act\app_error();
@@ -82,13 +88,13 @@ function cfg(string $id, string $key = null)
 /**
  * Loads configuration data with or without overwrites
  */
-function load(string $id, bool $base = false): array
+function load(string $id): array
 {
     $data = [];
 
     foreach ([path('cfg', $id . '.php'), path('ext', 'cfg/' . $id . '.php')] as $file) {
-        if (is_readable($file) && ($data = array_replace_recursive($data, include $file)) && $base) {
-            return $data;
+        if (is_readable($file)) {
+            $data = array_replace_recursive($data, include $file);
         }
     }
 

@@ -1,7 +1,6 @@
 <?php
 return [
     '%s to %s of %s' => '%s bis %s von %s',
-    'Access denied' => 'Zugriff verweigert',
     'Accounts' => 'Benutzer',
     'Actions' => 'Aktionen',
     'Active' => 'Aktiv',

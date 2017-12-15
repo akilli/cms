@@ -1,59 +1,214 @@
 <?php
 return [
-    'root' => [
-        'type' => 'tpl',
-        'tpl' => 'layout/root.phtml',
+    '_all_' => [
+        'root' => [
+            'type' => 'tpl',
+            'tpl' => 'layout/root.phtml',
+        ],
+        'head' => [
+            'type' => 'container',
+        ],
+        'meta' => [
+            'type' => 'tpl',
+            'tpl' => 'head/meta.phtml',
+            'parent_id' => 'head',
+            'sort' => -4,
+        ],
+        'all' => [
+            'type' => 'tpl',
+            'tpl' => 'head/all.phtml',
+            'parent_id' => 'head',
+            'sort' => -3,
+        ],
+        'user' => [
+            'type' => 'tpl',
+            'tpl' => 'head/user.phtml',
+            'priv' => 'account-user',
+            'parent_id' => 'head',
+            'sort' => -2,
+        ],
+        'top' => [
+            'type' => 'container',
+        ],
+        'toolbar' => [
+            'type' => 'tpl',
+            'tpl' => 'layout/toolbar.phtml',
+            'priv' => 'account-user',
+            'parent_id' => 'top',
+            'sort' => -2,
+        ],
+        'header' => [
+            'type' => 'tpl',
+            'tpl' => 'layout/header.phtml',
+            'parent_id' => 'top',
+            'sort' => -1,
+        ],
+        'msg' => [
+            'type' => 'msg',
+            'tpl' => 'layout/msg.phtml',
+        ],
+        'main' => [
+            'type' => 'container',
+        ],
+        'sidebar' => [
+            'type' => 'container',
+            'vars' => ['tag' => 'aside'],
+        ],
+        'bottom' => [
+            'type' => 'container',
+        ],
     ],
-    'head' => [
-        'type' => 'container',
+    'index' => [
+        'content' => [
+            'type' => 'tpl',
+            'tpl' => 'ent/index.phtml',
+            'parent_id' => 'main',
+        ],
+        'pager' => [
+            'type' => 'pager',
+            'tpl' => 'ent/pager.phtml',
+        ],
+        'search' => [
+            'type' => 'tpl',
+            'tpl' => 'ent/search.phtml',
+            'parent_id' => 'sidebar',
+        ],
     ],
-    'meta' => [
-        'type' => 'tpl',
-        'tpl' => 'head/meta.phtml',
-        'parent_id' => 'head',
-        'sort' => -4,
+    'admin' => [
+        'content' => [
+            'type' => 'tpl',
+            'tpl' => 'ent/admin.phtml',
+            'parent_id' => 'main',
+        ],
+        'pager' => [
+            'type' => 'pager',
+            'tpl' => 'ent/pager.phtml',
+        ],
+        'search' => [
+            'type' => 'tpl',
+            'tpl' => 'ent/search.phtml',
+            'parent_id' => 'sidebar',
+        ],
+        'create' => [
+            'type' => 'tpl',
+            'tpl' => 'ent/create.phtml',
+            'priv' => '*/edit',
+            'parent_id' => 'sidebar',
+        ],
     ],
-    'all' => [
-        'type' => 'tpl',
-        'tpl' => 'head/all.phtml',
-        'parent_id' => 'head',
-        'sort' => -3,
+    'browser' => [
+        'top' => [
+            'active' => false,
+        ],
+        'bottom' => [
+            'active' => false,
+        ],
+        'rte' => [
+            'type' => 'tpl',
+            'tpl' => 'head/rte.phtml',
+            'parent_id' => 'head',
+            'sort' => -1,
+        ],
+        'content' => [
+            'type' => 'tpl',
+            'tpl' => 'ent/admin.phtml',
+            'parent_id' => 'main',
+        ],
+        'pager' => [
+            'type' => 'pager',
+            'tpl' => 'ent/pager.phtml',
+        ],
+        'search' => [
+            'type' => 'tpl',
+            'tpl' => 'ent/search.phtml',
+            'parent_id' => 'sidebar',
+        ],
     ],
-    'user' => [
-        'type' => 'tpl',
-        'tpl' => 'head/user.phtml',
-        'priv' => 'account-user',
-        'parent_id' => 'head',
-        'sort' => -2,
+    'edit' => [
+        'rte' => [
+            'type' => 'tpl',
+            'tpl' => 'head/rte.phtml',
+            'parent_id' => 'head',
+            'sort' => -1,
+        ],
+        'content' => [
+            'type' => 'tpl',
+            'tpl' => 'ent/edit.phtml',
+            'parent_id' => 'main',
+        ],
     ],
-    'top' => [
-        'type' => 'container',
+    'form' => [
+        'content' => [
+            'type' => 'tpl',
+            'tpl' => 'ent/edit.phtml',
+            'parent_id' => 'main',
+        ],
     ],
-    'toolbar' => [
-        'type' => 'tpl',
-        'tpl' => 'layout/toolbar.phtml',
-        'priv' => 'account-user',
-        'parent_id' => 'top',
-        'sort' => -2,
+    'view' => [
+        'rte' => [
+            'type' => 'tpl',
+            'tpl' => 'head/rte.phtml',
+            'priv' => '*/edit',
+            'parent_id' => 'head',
+            'sort' => -1,
+        ],
+        'content' => [
+            'type' => 'tpl',
+            'tpl' => 'ent/view.phtml',
+            'parent_id' => 'main',
+        ],
     ],
-    'header' => [
-        'type' => 'tpl',
-        'tpl' => 'layout/header.phtml',
-        'parent_id' => 'top',
-        'sort' => -1,
+    'app/error' => [
+        'content' => [
+            'type' => 'tpl',
+            'tpl' => 'app/error.phtml',
+            'parent_id' => 'main',
+        ],
     ],
-    'msg' => [
-        'type' => 'msg',
-        'tpl' => 'layout/msg.phtml',
+    'app/js' => [
+        'root' => [
+            'tpl' => 'app/app.js',
+        ],
     ],
-    'main' => [
-        'type' => 'container',
+    'account/login' => [
+        'header' => [
+            'active' => false,
+        ],
+        'content' => [
+            'type' => 'tpl',
+            'tpl' => 'account/login.phtml',
+            'parent_id' => 'main',
+        ],
     ],
-    'sidebar' => [
-        'type' => 'container',
-        'vars' => ['tag' => 'aside'],
+    'account/password' => [
+        'content' => [
+            'type' => 'tpl',
+            'tpl' => 'account/password.phtml',
+            'parent_id' => 'main',
+        ],
     ],
-    'bottom' => [
-        'type' => 'container',
+    'page/index' => [
+        'nav' => [
+            'type' => 'nav',
+            'parent_id' => 'top',
+            'vars' => ['mode' => 'top'],
+        ],
+        'subnav' => [
+            'type' => 'nav',
+            'parent_id' => 'sidebar',
+            'vars' => ['mode' => 'sub'],
+        ],
+    ],
+    'page/view' => [
+        'nav' => [
+            'type' => 'nav',
+            'parent_id' => 'top',
+            'vars' => ['mode' => 'top'],
+        ],
+        'subnav' => [
+            'type' => 'nav',
+            'parent_id' => 'sidebar',
+            'vars' => ['mode' => 'sub'],
+        ],
     ],
 ];

@@ -18,9 +18,6 @@ return [
     'account/password' => [
         'priv' => 'account-user',
     ],
-    'app/denied' => [
-        'active' => false,
-    ],
     'app/error' => [
         'active' => false,
     ],
