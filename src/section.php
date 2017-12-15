@@ -40,6 +40,18 @@ function msg(array $§): string
 }
 
 /**
+ * Entity section
+ */
+function ent(array $§): string
+{
+    $§['vars'] = arr\replace(['one' => false, 'ent' => null, 'crit' => [], 'opt' => []], $§['vars']);
+    $p = [$§['vars']['ent'], $§['vars']['crit'], $§['vars']['opt']];
+    $§['vars'] = ['data' => $§['vars']['one'] ? ent\one(...$p) : ent\all(...$p)];
+
+    return tpl($§);
+}
+
+/**
  * Navigation section
  */
 function nav(array $§): string
