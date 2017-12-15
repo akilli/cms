@@ -30,7 +30,7 @@ function container(array $§): string
  */
 function ent(array $§): string
 {
-    $§['vars'] = arr\replace(['ent' => null, 'crit' => [], 'opt' => [], 'act' => null], $§['vars']);
+    $§['vars'] = arr\replace(['act' => null, 'crit' => [], 'ent' => null, 'opt' => []], $§['vars']);
     $p = [$§['vars']['ent'], $§['vars']['crit'], $§['vars']['opt']];
     $§['vars'] = ['data' => ent\one(...$p), 'act' => $§['vars']['act']];
 
@@ -42,7 +42,7 @@ function ent(array $§): string
  */
 function index(array $§): string
 {
-    $§['vars'] = arr\replace(['ent' => null, 'crit' => [], 'opt' => [], 'act' => null, 'params' => []], $§['vars']);
+    $§['vars'] = arr\replace(['act' => null, 'crit' => [], 'ent' => null, 'opt' => [], 'params' => []], $§['vars']);
     $p = [$§['vars']['ent'], $§['vars']['crit'], $§['vars']['opt']];
     $§['vars'] = ['data' => ent\all(...$p), 'act' => $§['vars']['act'], 'params' => $§['vars']['params']];
 
@@ -124,7 +124,7 @@ function nav(array $§): string
  */
 function pager(array $§): string
 {
-    $§['vars'] = arr\replace(['size' => 0, 'limit' => 0, 'links' => [], 'params' => []], $§['vars']);
+    $§['vars'] = arr\replace(['limit' => 0, 'params' => [], 'size' => 0], $§['vars']);
 
     if ($§['vars']['size'] < 1 || $§['vars']['limit'] < 1) {
         return '';
