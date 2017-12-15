@@ -15,7 +15,7 @@ use session;
  */
 function container(array $§): string
 {
-    $§['vars']['tag'] = $§['vars']['tag'] ?? null;
+    $§['vars'] = arr\replace(['tag' => null], $§['vars']);
     $html = '';
 
     foreach (arr\order(arr\crit(app\layout(), [['parent_id', $§['id']]]), ['sort' => 'asc']) as $child) {
@@ -30,6 +30,8 @@ function container(array $§): string
  */
 function msg(array $§): string
 {
+    $§['vars'] = [];
+
     if (!$§['vars']['data'] = session\get('msg')) {
         return '';
     }
@@ -56,7 +58,7 @@ function ent(array $§): string
  */
 function nav(array $§): string
 {
-    $§['vars'] += ['mode' => null, 'cur' => http\req('id')];
+    $§['vars'] = arr\replace(['mode' => null, 'cur' => http\req('id')], $§['vars']);
     $cur = $§['vars']['cur'] ? ent\one('page', [['id', $§['vars']['cur']], ['status', 'published']]) : null;
     $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]]]) : $cur;
     $crit = [['status', 'published']];
@@ -111,7 +113,7 @@ function nav(array $§): string
  */
 function pager(array $§): string
 {
-    $§['vars'] += ['size' => 0, 'limit' => 0, 'links' => [], 'params' => []];
+    $§['vars'] = arr\replace(['size' => 0, 'limit' => 0, 'links' => [], 'params' => []], $§['vars']);
 
     if ($§['vars']['size'] < 1 || $§['vars']['limit'] < 1) {
         return '';
