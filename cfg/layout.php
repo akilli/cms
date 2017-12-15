@@ -82,7 +82,7 @@ return [
         ],
         'search' => [
             'type' => 'tpl',
-            'tpl' => 'ent/search.phtml',
+            'tpl' => 'layout/search.phtml',
             'parent_id' => 'sidebar',
         ],
     ],
@@ -98,7 +98,7 @@ return [
         ],
         'search' => [
             'type' => 'tpl',
-            'tpl' => 'ent/search.phtml',
+            'tpl' => 'layout/search.phtml',
             'parent_id' => 'sidebar',
         ],
         'create' => [
@@ -132,7 +132,7 @@ return [
         ],
         'search' => [
             'type' => 'tpl',
-            'tpl' => 'ent/search.phtml',
+            'tpl' => 'layout/search.phtml',
             'parent_id' => 'sidebar',
         ],
     ],
