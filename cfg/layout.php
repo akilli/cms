@@ -58,6 +58,18 @@ return [
             'type' => 'container',
         ],
     ],
+    '_public_' => [
+        'nav' => [
+            'type' => 'nav',
+            'parent_id' => 'top',
+            'vars' => ['mode' => 'top'],
+        ],
+        'subnav' => [
+            'type' => 'nav',
+            'parent_id' => 'sidebar',
+            'vars' => ['mode' => 'sub'],
+        ],
+    ],
     'index' => [
         'content' => [
             'type' => 'tpl',
@@ -185,30 +197,6 @@ return [
             'type' => 'tpl',
             'tpl' => 'account/password.phtml',
             'parent_id' => 'main',
-        ],
-    ],
-    'page/index' => [
-        'nav' => [
-            'type' => 'nav',
-            'parent_id' => 'top',
-            'vars' => ['mode' => 'top'],
-        ],
-        'subnav' => [
-            'type' => 'nav',
-            'parent_id' => 'sidebar',
-            'vars' => ['mode' => 'sub'],
-        ],
-    ],
-    'page/view' => [
-        'nav' => [
-            'type' => 'nav',
-            'parent_id' => 'top',
-            'vars' => ['mode' => 'top'],
-        ],
-        'subnav' => [
-            'type' => 'nav',
-            'parent_id' => 'sidebar',
-            'vars' => ['mode' => 'sub'],
         ],
     ],
 ];

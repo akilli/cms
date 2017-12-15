@@ -64,8 +64,24 @@ function cfg_i18n(array $data): array
  */
 function cfg_layout(array $data): array
 {
-    $p = http_response_code() === 404 ? [$data['app/error'] ?? []] : [$data[http\req('act')] ?? [], $data[http\req('path')] ?? []];
-    $data = array_replace_recursive($data[APP['all']], ...$p);
+    $cfg = $data;
+    $data = [];
+    $path = http\req('path');
+    $area = empty(app\cfg('priv', $path)['active']) ? APP['layout.public'] : APP['layout.admin'];
+    $keys = [APP['all'], $area];
+
+    if (http_response_code() === 404) {
+        $keys[] = 'app/error';
+    } else {
+        $keys[] = http\req('act');
+        $keys[] = $path;
+    }
+
+    foreach ($keys as $key) {
+        if (!empty($cfg[$key])) {
+            $data = array_replace_recursive($data, $cfg[$key]);
+        }
+    }
 
     foreach ($data as $id => $§) {
         $data[$id] = arr\replace(APP['section'], $§, ['id' => $id]);
