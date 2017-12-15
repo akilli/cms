@@ -12,10 +12,7 @@ use DomainException;
  */
 function redirect(string $url = '/', int $code = 302): void
 {
-    if ($code < 300 && $code > 308) {
-        $code = 302;
-    }
-
+    $code = $code >= 300 && $code <= 308 ? $code : 302;
     header('Location: ' . $url, true, $code);
     exit;
 }
