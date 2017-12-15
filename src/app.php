@@ -275,7 +275,7 @@ function theme(string $path): string
 function rewrite(string $path): string
 {
     if (($cfg = cfg('url', $path)) && $cfg['redirect']) {
-        http\redirect($cfg['target']);
+        http\redirect($cfg['target'], $cfg['code']);
     }
 
     if ($cfg) {
