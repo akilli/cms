@@ -3,7 +3,7 @@ return [
     'name' => 'Pages',
     'type' => 'db',
     'act' => [
-        'admin' => ['pos', 'name', 'status'],
+        'admin' => ['pos', 'name', 'status', 'date'],
         'delete' => [],
         'edit' => ['name', 'slug', 'status', 'parent_id', 'sort', 'content'],
         'index' => ['name'],
