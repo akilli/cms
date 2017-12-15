@@ -26,6 +26,18 @@ function container(array $§): string
 }
 
 /**
+ * Entity section
+ */
+function ent(array $§): string
+{
+    $§['vars'] = arr\replace(['one' => false, 'ent' => null, 'crit' => [], 'opt' => []], $§['vars']);
+    $p = [$§['vars']['ent'], $§['vars']['crit'], $§['vars']['opt']];
+    $§['vars'] = ['data' => $§['vars']['one'] ? ent\one(...$p) : ent\all(...$p)];
+
+    return tpl($§);
+}
+
+/**
  * Message section
  */
 function msg(array $§): string
@@ -37,18 +49,6 @@ function msg(array $§): string
     }
 
     session\set('msg', null);
-
-    return tpl($§);
-}
-
-/**
- * Entity section
- */
-function ent(array $§): string
-{
-    $§['vars'] = arr\replace(['one' => false, 'ent' => null, 'crit' => [], 'opt' => []], $§['vars']);
-    $p = [$§['vars']['ent'], $§['vars']['crit'], $§['vars']['opt']];
-    $§['vars'] = ['data' => $§['vars']['one'] ? ent\one(...$p) : ent\all(...$p)];
 
     return tpl($§);
 }
