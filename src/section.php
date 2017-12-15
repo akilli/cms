@@ -22,7 +22,7 @@ function container(array $§): string
         $html .= app\§($child['id']);
     }
 
-    return $html && $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
 }
 
 /**
