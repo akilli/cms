@@ -97,6 +97,7 @@ const APP = [
         'sort' => 0,
     ],
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
+    'url' => ['target' => null, 'redirect' => false],
     'url.asset' => '/asset/',
     'url.page' => '/page/view/',
     'url.theme' => '/theme/'

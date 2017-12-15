@@ -1,4 +1,4 @@
 <?php
 return [
-    '/' => 'page/index',
+    '/' => ['target' => 'page/index'],
 ];

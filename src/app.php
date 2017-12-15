@@ -274,8 +274,12 @@ function theme(string $path): string
  */
 function rewrite(string $path): string
 {
-    if ($cfg = cfg('url', $path)) {
-        return $cfg;
+    if (($cfg = cfg('url', $path)) && $cfg['redirect']) {
+        http\redirect($cfg['target']);
+    }
+
+    if ($cfg) {
+        return $cfg['target'];
     }
 
     $data = & data('url');

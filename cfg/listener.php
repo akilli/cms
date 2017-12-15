@@ -15,6 +15,9 @@ return [
     'cfg.toolbar' => [
         'cfg_toolbar' => -1,
     ],
+    'cfg.url' => [
+        'cfg_url' => -1,
+    ],
     'ent.prefilter' => [
         'ent_prefilter' => -1,
     ],
