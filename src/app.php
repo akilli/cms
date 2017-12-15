@@ -274,6 +274,10 @@ function theme(string $path): string
  */
 function rewrite(string $path): string
 {
+    if ($cfg = cfg('url', $path)) {
+        return $cfg;
+    }
+
     $data = & data('url');
 
     if (empty($data[$path])) {
