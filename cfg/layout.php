@@ -176,7 +176,13 @@ return [
         ],
     ],
     'account/login' => [
-        'header' => [
+        'top' => [
+            'active' => false,
+        ],
+        'sidebar' => [
+            'active' => false,
+        ],
+        'bottom' => [
             'active' => false,
         ],
         'content' => [
