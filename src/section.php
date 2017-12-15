@@ -30,9 +30,21 @@ function container(array $§): string
  */
 function ent(array $§): string
 {
-    $§['vars'] = arr\replace(['one' => false, 'ent' => null, 'crit' => [], 'opt' => []], $§['vars']);
+    $§['vars'] = arr\replace(['ent' => null, 'crit' => [], 'opt' => [], 'act' => null], $§['vars']);
     $p = [$§['vars']['ent'], $§['vars']['crit'], $§['vars']['opt']];
-    $§['vars'] = ['data' => $§['vars']['one'] ? ent\one(...$p) : ent\all(...$p)];
+    $§['vars'] = ['data' => ent\one(...$p), 'act' => $§['vars']['act']];
+
+    return tpl($§);
+}
+
+/**
+ * Index section
+ */
+function index(array $§): string
+{
+    $§['vars'] = arr\replace(['ent' => null, 'crit' => [], 'opt' => [], 'act' => null, 'params' => []], $§['vars']);
+    $p = [$§['vars']['ent'], $§['vars']['crit'], $§['vars']['opt']];
+    $§['vars'] = ['data' => ent\all(...$p), 'act' => $§['vars']['act'], 'params' => $§['vars']['params']];
 
     return tpl($§);
 }
