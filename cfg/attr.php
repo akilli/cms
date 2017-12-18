@@ -5,6 +5,13 @@ return [
         'frontend' => 'bool',
         'viewer' => 'bool',
     ],
+    'checkbox' => [
+        'backend' => 'json',
+        'frontend' => 'checkbox',
+        'multiple' => true,
+        'filter' => 'opt',
+        'viewer' => 'opt',
+    ],
     'date' => [
         'backend' => 'date',
         'frontend' => 'date',
@@ -45,10 +52,8 @@ return [
     ],
     'json' => [
         'backend' => 'json',
-        'frontend' => 'checkbox',
-        'multiple' => true,
-        'filter' => 'opt',
-        'viewer' => 'opt',
+        'frontend' => 'json',
+        'viewer' => 'json',
     ],
     'password' => [
         'backend' => 'varchar',

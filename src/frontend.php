@@ -145,17 +145,25 @@ function time(array $html, string $val): string
 }
 
 /**
- * File
- */
-function file(array $html): string
-{
-    return html\tag('input', ['type' => 'file'] + $html, null, true);
-}
-
-/**
  * Textarea
  */
 function textarea(array $html, string $val): string
 {
     return html\tag('textarea', $html, app\enc($val));
+}
+
+/**
+ * JSON
+ */
+function json(array $html, array $val): string
+{
+    return textarea($html, json_encode($val));
+}
+
+/**
+ * File
+ */
+function file(array $html): string
+{
+    return html\tag('input', ['type' => 'file'] + $html, null, true);
 }

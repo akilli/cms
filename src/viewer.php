@@ -63,6 +63,14 @@ function rte(string $val): string
 }
 
 /**
+ * JSON viewer
+ */
+function json(array $val): string
+{
+    return html\tag('pre', [], app\enc(print_r($val, true)));
+}
+
+/**
  * File viewer
  */
 function file(string $val): string

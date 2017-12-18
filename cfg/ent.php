@@ -24,7 +24,7 @@ return [
             ],
             'priv' => [
                 'name' => 'Privileges',
-                'type' => 'json',
+                'type' => 'checkbox',
                 'opt' => 'priv',
             ],
             'active' => [
@@ -222,9 +222,10 @@ return [
             ],
             'ent' => [
                 'name' => 'Entity',
-                'type' => 'text',
+                'type' => 'select',
                 'required' => true,
                 'searchable' => true,
+                'opt' => 'ent_cfg',
                 'maxlength' => 50,
             ],
             'ent_id' => [

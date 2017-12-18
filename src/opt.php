@@ -27,6 +27,17 @@ function ent(array $data, array $attr): array
 }
 
 /**
+ * Entity config options
+ */
+function ent_cfg(): array
+{
+    $opt = array_column(app\cfg('ent'), 'name', 'id');
+    asort($opt);
+
+    return $opt;
+}
+
+/**
  * Privilege options
  */
 function priv(): array
