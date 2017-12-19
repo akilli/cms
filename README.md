@@ -25,6 +25,7 @@ cfg  | config
 crit | criteria
 db   | database
 ent  | entity
+ext  | extension
 i18n | internationalization
 msg  | message
 nav  | navigation
