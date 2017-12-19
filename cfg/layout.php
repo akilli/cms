@@ -12,12 +12,6 @@ return [
             'type' => 'tpl',
             'tpl' => 'head/meta.phtml',
             'parent_id' => 'head',
-            'sort' => -4,
-        ],
-        'all' => [
-            'type' => 'tpl',
-            'tpl' => 'head/all.phtml',
-            'parent_id' => 'head',
             'sort' => -3,
         ],
         'user' => [
