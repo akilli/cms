@@ -1,6 +1,6 @@
 # `akilli/cms`
 
-![akıllı CMS](https://raw.githubusercontent.com/akilli/cms/master/www/theme/logo.jpg)
+![akıllı CMS](https://raw.githubusercontent.com/akilli/cms/master/gui/logo.jpg)
 
 A quick'n'dirty non-OOP-experiment... or something completely different.
 

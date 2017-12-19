@@ -285,11 +285,19 @@ function asset(string $path): string
 }
 
 /**
- * Theme URL
+ * GUI URL
  */
-function theme(string $path): string
+function gui(string $path): string
 {
-    return APP['url.theme'] . trim($path, '/');
+    return APP['url.gui'] . trim($path, '/');
+}
+
+/**
+ * Extension GUI URL
+ */
+function ext(string $path): string
+{
+    return APP['url.ext'] . trim($path, '/');
 }
 
 /**

@@ -100,6 +100,7 @@ const APP = [
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'url' => ['target' => null, 'redirect' => false, 'code' => 302],
     'url.asset' => '/asset/',
-    'url.page' => '/page/view/',
-    'url.theme' => '/theme/'
+    'url.ext' => '/ext/',
+    'url.gui' => '/gui/',
+    'url.page' => '/page/view/'
 ];
