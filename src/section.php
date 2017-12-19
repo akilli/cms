@@ -138,6 +138,7 @@ function pager(array $§): string
     $cfg = app\cfg('app', 'pager');
     $min = max(1, min($cur - intdiv($cfg, 2), $pages - $cfg + 1));
     $max = min($min + $cfg - 1, $pages);
+    $§['vars']['links'] = [];
 
     if ($cur >= 2) {
         $§['vars']['links'][] = ['name' => app\i18n('Previous'), 'params' => ['cur' => $cur - 1] + $p];
