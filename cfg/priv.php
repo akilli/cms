@@ -21,6 +21,9 @@ return [
     'app/error' => [
         'active' => false,
     ],
+    'app/home' => [
+        'active' => false,
+    ],
     'app/js' => [
         'priv' => 'account-user',
     ],

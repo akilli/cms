@@ -184,6 +184,14 @@ function app_error(): void
 }
 
 /**
+ * App Home Action
+ */
+function app_home(): void
+{
+    app\layout('meta', ['title' => app\cfg('app', 'name')]);
+}
+
+/**
  * App JavaScript Action
  */
 function app_js(): void
