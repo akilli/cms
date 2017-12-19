@@ -89,6 +89,5 @@ return [
     'Value out of range' => 'Wert liegt außerhalb des Gültigkeitsbereichs',
     'Versions' => 'Versionen',
     'View' => 'Ansehen',
-    'Welcome %s' => 'Willkommen %s',
     'Yes' => 'Ja',
 ];

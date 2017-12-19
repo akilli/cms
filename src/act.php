@@ -226,7 +226,6 @@ function account_login(): void
         if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
             session\regenerate();
             session\set('account', $data['id']);
-            app\msg(app\i18n('Welcome %s', $data['name']));
             http\redirect();
         }
 
