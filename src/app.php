@@ -5,6 +5,7 @@ namespace app;
 
 use account;
 use act;
+use arr;
 use ent;
 use http;
 use session;
@@ -183,6 +184,10 @@ function layout(string $id = null, array $vars = null): array
             if (!empty($cfg[$key])) {
                 $data = array_replace_recursive($data, $cfg[$key]);
             }
+        }
+
+        foreach ($data as $key => $val) {
+            $data[$key] = arr\replace(APP['section'], $val, ['id' => $key]);
         }
     }
 

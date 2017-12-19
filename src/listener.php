@@ -60,20 +60,6 @@ function cfg_i18n(array $data): array
 }
 
 /**
- * Layout config listener
- */
-function cfg_layout(array $data): array
-{
-    foreach ($data as $key => $val) {
-        foreach ($val as $id => $§) {
-            $data[$key][$id] = arr\replace(APP['section'], $§, ['id' => $id]);
-        }
-    }
-
-    return $data;
-}
-
-/**
  * Privilege config listener
  */
 function cfg_priv(array $data): array
