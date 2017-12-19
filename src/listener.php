@@ -64,27 +64,10 @@ function cfg_i18n(array $data): array
  */
 function cfg_layout(array $data): array
 {
-    $cfg = $data;
-    $data = [];
-    $path = http\req('path');
-    $area = empty(app\cfg('priv', $path)['active']) ? APP['layout.public'] : APP['layout.admin'];
-    $keys = [APP['all'], $area];
-
-    if (http_response_code() === 404) {
-        $keys[] = 'app/error';
-    } else {
-        $keys[] = http\req('act');
-        $keys[] = $path;
-    }
-
-    foreach ($keys as $key) {
-        if (!empty($cfg[$key])) {
-            $data = array_replace_recursive($data, $cfg[$key]);
+    foreach ($data as $key => $val) {
+        foreach ($val as $id => $§) {
+            $data[$key][$id] = arr\replace(APP['section'], $§, ['id' => $id]);
         }
-    }
-
-    foreach ($data as $id => $§) {
-        $data[$id] = arr\replace(APP['section'], $§, ['id' => $id]);
     }
 
     return $data;
@@ -131,11 +114,7 @@ function cfg_toolbar(array $data): array
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
-        if (app\allowed($act)) {
-            $data[$act] = arr\replace(APP['toolbar'], $item, ['name' => app\i18n($item['name']), 'url' => app\url($act)]);
-        } else {
-            unset($data[$act]);
-        }
+        $data[$act] = arr\replace(APP['toolbar'], $item, ['name' => app\i18n($item['name']), 'url' => app\url($act)]);
     }
 
     return arr\order($data, ['sort' => 'asc']);

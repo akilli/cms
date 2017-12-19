@@ -3,7 +3,9 @@ namespace app;
 /** @var callable $§ */
 ?>
 <nav id="<?=$§('id');?>">
-    <?php foreach (cfg('toolbar') as $item):?>
+    <?php foreach (cfg('toolbar') as $act => $item):?>
+        <?php if (allowed($act)):?>
     <a href="<?=$item['url'];?>"><?=$item['name'];?></a>
+        <?php endif;?>
     <?php endforeach;?>
 </nav>
