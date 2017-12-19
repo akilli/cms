@@ -20,7 +20,7 @@ function index(array $ent): void
     $opt = ['limit' => app\cfg('app', 'limit')];
     $crit = [];
 
-    if ($act !== 'admin' && !empty($ent['attr']['status'])) {
+    if ($act !== 'admin' && $ent['version']) {
         $crit[] = ['status', 'published'];
     }
 
@@ -113,7 +113,7 @@ function edit(array $ent): void
     if ($id) {
         $base = ent\one($ent['id'], [['id', $id]]);
 
-        if ($act === 'edit' && !empty($ent['attr']['status'])) {
+        if ($act === 'edit' && $ent['version']) {
             $version = ent\one('version', [['ent', $ent['id']], ['ent_id', $id]], ['order' => ['date' => 'desc']]);
             $base = arr\replace($base, $version['data'] ?? []);
         }
@@ -156,7 +156,7 @@ function view(array $ent): void
 {
     $crit = [['id', http\req('id')]];
 
-    if (!app\allowed('*/edit') && !empty($ent['attr']['status'])) {
+    if (!app\allowed('*/edit') && $ent['version']) {
         $crit[] = ['status', 'published'];
     }
 

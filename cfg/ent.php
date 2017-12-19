@@ -121,6 +121,7 @@ return [
     'page' => [
         'name' => 'Pages',
         'type' => 'db',
+        'version' => true,
         'act' => [
             'admin' => ['pos', 'name', 'status', 'date'],
             'delete' => [],

@@ -86,7 +86,7 @@ function cfg_priv(array $data): array
     }
 
     foreach (app\cfg('ent') as $eId => $ent) {
-        if (!empty($ent['attr']['status'])) {
+        if ($ent['version']) {
             $id = $eId . '-publish';
             $data[$id]['name'] = $ent['name'] . ' ' . app\i18n(ucwords('Publish'));
             $data[$id] = arr\replace(APP['priv'], $data[$id]);
