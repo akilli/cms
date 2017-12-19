@@ -3,7 +3,6 @@ return [
     '%s to %s of %s' => '%s bis %s von %s',
     'Accounts' => 'Benutzer',
     'Actions' => 'Aktionen',
-    'Active' => 'Aktiv',
     'ALL PRIVILEGES' => 'ALLE PRIVILEGIEN',
     'Archived' => 'Archiviert',
     'Back' => 'Zurück',

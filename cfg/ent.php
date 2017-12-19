@@ -4,9 +4,9 @@ return [
         'name' => 'Roles',
         'type' => 'db',
         'act' => [
-            'admin' => ['name', 'active'],
+            'admin' => ['name'],
             'delete' => [],
-            'edit' => ['name', 'priv', 'active'],
+            'edit' => ['name', 'priv'],
         ],
         'attr' => [
             'id' => [
@@ -27,10 +27,6 @@ return [
                 'type' => 'checkbox',
                 'opt' => 'priv',
             ],
-            'active' => [
-                'name' => 'Active',
-                'type' => 'bool',
-            ],
             'system' => [
                 'name' => 'System',
                 'type' => 'bool',
@@ -41,9 +37,9 @@ return [
         'name' => 'Accounts',
         'type' => 'db',
         'act' => [
-            'admin' => ['name', 'role_id', 'active'],
+            'admin' => ['name', 'role_id'],
             'delete' => [],
-            'edit' => ['name', 'password', 'role_id', 'active'],
+            'edit' => ['name', 'password', 'role_id'],
             'login' => [],
             'logout' => [],
             'password' => [],
@@ -73,10 +69,6 @@ return [
                 'type' => 'ent',
                 'required' => true,
                 'opt' => 'role',
-            ],
-            'active' => [
-                'name' => 'Active',
-                'type' => 'bool',
             ],
             'system' => [
                 'name' => 'System',

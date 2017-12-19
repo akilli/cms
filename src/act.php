@@ -22,8 +22,6 @@ function index(array $ent): void
 
     if ($act !== 'admin' && !empty($ent['attr']['status'])) {
         $crit[] = ['status', 'published'];
-    } elseif ($act !== 'admin' && !empty($ent['attr']['active'])) {
-        $crit[] = ['active', true];
     }
 
     $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
@@ -160,8 +158,6 @@ function view(array $ent): void
 
     if (!app\allowed('*/edit') && !empty($ent['attr']['status'])) {
         $crit[] = ['status', 'published'];
-    } elseif (!app\allowed('*/edit') && !empty($ent['attr']['active'])) {
-        $crit[] = ['active', true];
     }
 
     if (!$data = ent\one($ent['id'], $crit)) {

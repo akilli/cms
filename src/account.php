@@ -18,8 +18,8 @@ function data(string $key)
         $data = [];
         $id = (int) session\get('account');
 
-        if ($id && ($data = ent\one('account', [['id', $id], ['active', true]]))) {
-            $role = ent\one('role', [['id', $data['role_id']], ['active', true]]);
+        if ($id && ($data = ent\one('account', [['id', $id]]))) {
+            $role = ent\one('role', [['id', $data['role_id']]]);
             $data['priv'] = $role['priv'];
             $data['priv'][] = APP['account.user'];
             $data['admin'] = in_array(APP['all'], $data['priv']);
@@ -38,7 +38,7 @@ function data(string $key)
  */
 function login(string $name, string $password): ?array
 {
-    $data = ent\one('account', [['name', $name], ['active', true]]);
+    $data = ent\one('account', [['name', $name]]);
 
     if (!$data || !password_verify($password, $data['password'])) {
         return null;
