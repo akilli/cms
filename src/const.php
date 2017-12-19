@@ -74,7 +74,6 @@ const APP = [
         'asset' => '/data/asset',
         'cfg' => '/app/cfg',
         'ext' => '/data/ext',
-        'theme' => '/app/www/theme',
         'tpl' => '/app/tpl',
     ],
     'priv' => [
