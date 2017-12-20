@@ -33,4 +33,7 @@ return [
     'ent.postfilter.page' => [
         'page_postfilter' => -1,
     ],
+    'ent.postsave.page' => [
+        'page_postsave' => -1,
+    ],
 ];

@@ -11,6 +11,7 @@ return [
     'Could not delete %s' => 'Konnte %s nicht löschen',
     'Could not load data' => 'Konnte Daten nicht laden',
     'Could not save data' => 'Konnte Daten nicht speichern',
+    'Could not update URLs of subpages' => 'Konnte die URLs der Unterseiten nicht aktualisieren',
     'Could not upload %s' => 'Konnte %s nicht hochladen',
     'Create' => 'Anlegen',
     'Data' => 'Daten',

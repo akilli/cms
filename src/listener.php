@@ -224,3 +224,21 @@ function page_postfilter(array $data): array
 
     return $data;
 }
+
+/**
+ * Page postsave listener
+ */
+function page_postsave(array $data): array
+{
+    if (!empty($data['_old']['url']) && !empty($data['url']) && $data['_old']['url'] !== $data['url']) {
+        foreach (ent\all('page', [['parent_id', $data['_old']['id']]], ['select' => ['id', 'url']]) as $sub) {
+            $sub['url'] = preg_replace('#^' . $data['_old']['url'] . '/#', $data['url'] . '/', $sub['url']);
+
+            if (!ent\save('page', $sub)) {
+                throw new DomainException(app\i18n('Could not update URLs of subpages'));
+            }
+        }
+    }
+
+    return $data;
+}
