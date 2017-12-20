@@ -73,14 +73,17 @@ function nav(array $§): string
     $§['vars'] = arr\replace(['mode' => null], $§['vars']);
     $id = http\req('id');
     $cur = http\req('ent') === 'page' && $id ? ent\one('page', [['id', $id], ['status', 'published']]) : null;
-    $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]]]) : $cur;
+    $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]], ['status', 'published']]) : $cur;
+
+    if ($§['vars']['mode'] === 'sub' && !$anc) {
+        return '';
+    }
+
     $crit = [['status', 'published']];
 
     if ($§['vars']['mode'] === 'top') {
         $cur = $anc;
         $crit[] = ['level', 1];
-    } elseif ($§['vars']['mode'] === 'sub' && !$anc) {
-        return '';
     } elseif ($§['vars']['mode'] === 'sub') {
         $crit[] = ['pos', $anc['pos'] . '.', APP['crit']['~^']];
     }
