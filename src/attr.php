@@ -27,7 +27,13 @@ function filter(array $data, array $attr): array
         $data[$attr['id']] = ('filter\\' . $attr['filter'])($data[$attr['id']], opt($data, $attr));
     }
 
-    if ($attr['unique'] && $data[$attr['id']] !== ($data['_old'][$attr['id']] ?? null) && ent\size($data['_ent']['id'], [[$attr['id'], $data[$attr['id']]]])) {
+    $crit = [[$attr['id'], $data[$attr['id']]]];
+
+    if (!empty($data['_old'])) {
+        $crit[] = ['id', $data['_old']['id'], APP['crit']['!=']];
+    }
+
+    if ($attr['unique'] && ent\size($data['_ent']['id'], $crit)) {
         throw new DomainException(app\i18n('Value must be unique'));
     }
 
