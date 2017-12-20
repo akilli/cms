@@ -230,11 +230,11 @@ function page_postfilter(array $data): array
  */
 function page_postsave(array $data): array
 {
-    if (!empty($data['_old']['slug']) && !empty($data['slug'])) {
-        $sub = ent\all('page', [['parent_id', $data['_old']['id']]], ['select' => ['id', 'slug', 'parent_id']]);
+    if (!empty($data['_old']['url']) && !empty($data['url']) && $data['_old']['url'] !== $data['url']) {
+        foreach (ent\all('page', [['parent_id', $data['_old']['id']]], ['select' => ['id', 'url']]) as $sub) {
+            $sub['url'] = preg_replace('#^' . $data['_old']['url'] . '/#', $data['url'] . '/', $sub['url']);
 
-        foreach ($sub as $s) {
-            if (!ent\save('page', $s)) {
+            if (!ent\save('page', $sub)) {
                 throw new DomainException(app\i18n('Could not update URLs of subpages'));
             }
         }
