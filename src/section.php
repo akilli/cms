@@ -80,6 +80,7 @@ function nav(array $§): string
     }
 
     $crit = [['status', 'published']];
+    $opt = ['select' => ['id', 'name', 'url', 'parent_id', 'level', 'path'], 'order' => ['pos' => 'asc']];
 
     if ($§['vars']['mode'] === 'top') {
         $cur = $anc;
@@ -88,16 +89,22 @@ function nav(array $§): string
         $crit[] = ['pos', $anc['pos'] . '.', APP['crit']['~^']];
     }
 
-    if (!$nav = ent\all('page', $crit, ['select' => ['id', 'name', 'url', 'level'], 'order' => ['pos' => 'asc']])) {
+    if (!$nav = ent\all('page', $crit, $opt)) {
         return '';
     }
 
+    $ids = array_keys($nav);
+    $ids[] = $anc['id'];
     $count = count($nav);
     $level = 0;
     $i = 0;
     $html = '';
 
     foreach ($nav as $page) {
+        if ($page['level'] > 2 && array_intersect($page['path'], $ids) !== $page['path']) {
+            continue;
+        }
+
         $a = ['href' => $page['url']];
         $class = '';
 
