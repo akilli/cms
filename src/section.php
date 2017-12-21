@@ -74,34 +74,32 @@ function menu(array $§): string
     $id = http\req('id');
     $cur = http\req('ent') === 'page' && $id ? ent\one('page', [['id', $id], ['status', 'published']]) : null;
     $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]], ['status', 'published']]) : $cur;
-
-    if ($§['vars']['mode'] === 'sub' && !$anc) {
-        return '';
-    }
-
     $crit = [['status', 'published']];
     $opt = ['select' => ['id', 'name', 'url', 'parent_id', 'level', 'path'], 'order' => ['pos' => 'asc']];
 
-    if ($§['vars']['mode'] === 'top') {
+    if ($§['vars']['mode'] === 'sub') {
+        if (!$anc) {
+            return '';
+        }
+
+        $crit[] = ['parent_id', null, APP['crit']['!=']];
+        $crit[] = [['id', $cur['path']], ['parent_id', [$anc['id'], $cur['id']]]];
+    } elseif ($§['vars']['mode'] === 'top') {
         $cur = $anc;
-        $crit[] = ['level', 1];
-    } elseif ($§['vars']['mode'] === 'sub') {
-        $crit[] = ['pos', $anc['pos'] . '.', APP['crit']['~^']];
+        $crit[] = ['parent_id', null];
     }
 
     if (!$menu = ent\all('page', $crit, $opt)) {
         return '';
     }
 
-    $ids = array_keys($menu);
-    $ids[] = $anc['id'];
     $count = count($menu);
     $level = 0;
     $i = 0;
     $html = '';
 
     foreach ($menu as $item) {
-        if ($item['level'] > 2 && array_intersect($item['path'], $ids) !== $item['path']) {
+        if ($§['vars']['mode'] === 'sub' && $item['level'] > 2 && empty($menu[$item['parent_id']])) {
             continue;
         }
 
