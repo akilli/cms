@@ -66,9 +66,9 @@ function msg(array $§): string
 }
 
 /**
- * Navigation section
+ * Menu section
  */
-function nav(array $§): string
+function menu(array $§): string
 {
     $§['vars'] = arr\replace(['mode' => null], $§['vars']);
     $id = http\req('id');
@@ -89,41 +89,41 @@ function nav(array $§): string
         $crit[] = ['pos', $anc['pos'] . '.', APP['crit']['~^']];
     }
 
-    if (!$nav = ent\all('page', $crit, $opt)) {
+    if (!$menu = ent\all('page', $crit, $opt)) {
         return '';
     }
 
-    $ids = array_keys($nav);
+    $ids = array_keys($menu);
     $ids[] = $anc['id'];
-    $count = count($nav);
+    $count = count($menu);
     $level = 0;
     $i = 0;
     $html = '';
 
-    foreach ($nav as $page) {
-        if ($page['level'] > 2 && array_intersect($page['path'], $ids) !== $page['path']) {
+    foreach ($menu as $item) {
+        if ($item['level'] > 2 && array_intersect($item['path'], $ids) !== $item['path']) {
             continue;
         }
 
-        $a = ['href' => $page['url']];
+        $a = ['href' => $item['url']];
         $class = '';
 
-        if ($cur && $cur['id'] === $page['id']) {
+        if ($cur && $cur['id'] === $item['id']) {
             $a['class'] = 'active';
             $class .= ' class="active"';
         }
 
-        if ($page['level'] > $level) {
+        if ($item['level'] > $level) {
              $html .= '<ul><li' . $class . '>';
-        } elseif ($page['level'] < $level) {
-             $html .= '</li>' . str_repeat('</ul></li>', $level - $page['level']) . '<li' . $class . '>';
+        } elseif ($item['level'] < $level) {
+             $html .= '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>';
         } else {
              $html .= '</li><li' . $class . '>';
         }
 
-        $html .= html\tag('a', $a, $page['name']);
-        $html .= ++$i === $count ? str_repeat('</li></ul>', $page['level']) : '';
-        $level = $page['level'];
+        $html .= html\tag('a', $a, $item['name']);
+        $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
+        $level = $item['level'];
     }
 
     return html\tag('nav', ['id' => $§['id']], $html);

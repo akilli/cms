@@ -53,13 +53,13 @@ return [
         ],
     ],
     '_public_' => [
-        'nav' => [
-            'type' => 'nav',
+        'menu' => [
+            'type' => 'menu',
             'parent_id' => 'top',
             'vars' => ['mode' => 'top'],
         ],
-        'subnav' => [
-            'type' => 'nav',
+        'submenu' => [
+            'type' => 'menu',
             'parent_id' => 'sidebar',
             'vars' => ['mode' => 'sub'],
         ],
