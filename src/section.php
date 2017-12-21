@@ -99,7 +99,7 @@ function menu(array $§): string
     $html = '';
 
     foreach ($menu as $item) {
-        if ($§['vars']['mode'] === 'sub' && $item['parent_id'] !== $anc['id'] && empty($menu[$item['parent_id']])) {
+        if ($item['parent_id'] && ($§['vars']['mode'] !== 'sub' || $item['parent_id'] !== $anc['id']) && empty($menu[$item['parent_id']])) {
             continue;
         }
 
