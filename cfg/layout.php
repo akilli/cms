@@ -21,14 +21,21 @@ return [
             'parent_id' => 'head',
             'sort' => -2,
         ],
+        'top' => [
+            'type' => 'container',
+        ],
         'toolbar' => [
             'type' => 'tpl',
             'tpl' => 'layout/toolbar.phtml',
             'priv' => 'account-user',
+            'parent_id' => 'top',
+            'sort' => -2,
         ],
         'header' => [
             'type' => 'tpl',
             'tpl' => 'layout/header.phtml',
+            'parent_id' => 'top',
+            'sort' => -1,
         ],
         'msg' => [
             'type' => 'msg',
@@ -41,7 +48,7 @@ return [
             'type' => 'container',
             'vars' => ['tag' => 'aside'],
         ],
-        'footer' => [
+        'bottom' => [
             'type' => 'container',
         ],
     ],
@@ -96,13 +103,10 @@ return [
         ],
     ],
     'browser' => [
-        'toolbar' => [
+        'top' => [
             'active' => false,
         ],
-        'header' => [
-            'active' => false,
-        ],
-        'footer' => [
+        'bottom' => [
             'active' => false,
         ],
         'rte' => [
@@ -166,16 +170,13 @@ return [
         ],
     ],
     'account/login' => [
-        'toolbar' => [
-            'active' => false,
-        ],
-        'header' => [
+        'top' => [
             'active' => false,
         ],
         'sidebar' => [
             'active' => false,
         ],
-        'footer' => [
+        'bottom' => [
             'active' => false,
         ],
         'content' => [
