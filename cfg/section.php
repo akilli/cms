@@ -15,7 +15,7 @@ return [
         'tpl' => 'layout/msg.phtml',
         'vars' => ['data' => []],
     ],
-    'nav' => [
+    'menu' => [
         'opt' => ['mode' => null],
     ],
     'pager' => [
