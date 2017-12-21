@@ -615,33 +615,33 @@ html[data-path$="/admin"] #sidebar > *:first-child {
 }
 
 /* Main Navigation */
-#nav {
+#menu {
     padding: 1.5rem;
     color: var(--primary-text);
     background: var(--primary-light);
 }
 
-#nav li {
+#menu li {
     display: inline-block;
     margin-right: 1.5rem;
 }
 
-#nav a {
+#menu a {
     border-bottom: 0.25rem solid var(--primary-light);
 }
 
-#nav a:hover,
-#nav a.active {
+#menu a:hover,
+#menu a.active {
     border-color: var(--secondary);
 }
 
 /* Sub Navigation */
-#subnav li li {
+#submenu li li {
     margin-left: 2rem;
 }
 
-#subnav a:hover,
-#subnav a.active {
+#submenu a:hover,
+#submenu a.active {
     text-decoration: underline;
 }
 
