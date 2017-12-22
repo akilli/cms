@@ -101,13 +101,10 @@ function save(string $eId, array & $data): bool
     $aIds = [];
 
     foreach (array_intersect_key($tmp, $tmp['_ent']['attr']) as $aId => $val) {
-        $val = attr\cast($val, $tmp['_ent']['attr'][$aId]);
-
-        if (($val === null || $val === '') && attr\ignorable($tmp, $tmp['_ent']['attr'][$aId]) || array_key_exists($aId, $tmp['_old']) && $val === $tmp['_old'][$aId]) {
+        if (($val === null || $val === '') && attr\ignorable($tmp, $tmp['_ent']['attr'][$aId])) {
             unset($data[$aId], $tmp[$aId]);
         } else {
             $aIds[] = $aId;
-            $tmp[$aId] = $val;
         }
     }
 
@@ -131,6 +128,17 @@ function save(string $eId, array & $data): bool
     if (!empty($tmp['_error'])) {
         $data['_error'] = $tmp['_error'];
         app\msg(app\i18n('Could not save data'));
+        return false;
+    }
+
+    foreach ($aIds as $aId => $val) {
+        if (array_key_exists($aId, $tmp['_old']) && $val === $tmp['_old'][$aId]) {
+            unset($aIds[$aId]);
+        }
+    }
+
+    if (!$aIds) {
+        app\msg(app\i18n('No changes'));
         return false;
     }
 
