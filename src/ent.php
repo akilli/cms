@@ -86,8 +86,7 @@ function all(string $eId, array $crit = [], array $opt = []): array
  */
 function save(string $eId, array & $data): bool
 {
-    $id = $data['_id'] ?? $data['id'] ?? null;
-    unset($data['_id']);
+    $id = $data['id'] ?? null;
     $tmp = $data;
 
     if ($id && ($old = one($eId, [['id', $id]]))) {

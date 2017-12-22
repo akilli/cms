@@ -102,7 +102,7 @@ function edit(array $ent): void
 {
     $id = http\req('id');
     $data = http\req('data');
-    $data += $data && $id ? ['_id' => $id] : [];
+    $data += $data && $id ? ['id' => $id] : [];
     $act = http\req('act');
 
     if ($data && ent\save($ent['id'], $data) && $act === 'edit') {
