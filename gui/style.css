@@ -662,6 +662,11 @@ html[data-path$="/admin"] #sidebar > *:first-child {
     margin-left: 0;
 }
 
+#toolbar a:hover,
+#toolbar a.active {
+    text-decoration: underline;
+}
+
 /* Pager */
 #pager {
     font-size: 0.875rem;
