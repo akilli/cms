@@ -44,7 +44,7 @@ function req(string $key)
         $parts = explode('/', trim(app\rewrite($req['url']), '/'));
         $req['ent'] = array_shift($parts);
         $req['act'] = array_shift($parts);
-        $req['id'] = implode('/', $parts) ?: null;
+        $req['id'] = array_shift($parts);
         $req['path'] = $req['ent'] . '/' . $req['act'];
     }
 
