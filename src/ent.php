@@ -200,13 +200,13 @@ function delete(string $eId, array $crit = [], array $opt = []): bool
  *
  * @throws DomainException
  */
-function data(string $eId, string $act): array
+function data(string $eId): array
 {
     if (!$ent = app\cfg('ent', $eId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $eId));
     }
 
-    return array_fill_keys($ent['act'][$act] ?? [], null) + ['_old' => [], '_ent' => $ent];
+    return array_fill_keys(array_keys($ent['attr']), null) + ['_old' => [], '_ent' => $ent];
 }
 
 /**

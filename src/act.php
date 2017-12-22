@@ -118,7 +118,7 @@ function edit(array $ent): void
             $base = arr\replace($base, $version['data'] ?? []);
         }
     } else {
-        $base = ent\data($ent['id'], $act);
+        $base = ent\data($ent['id']);
     }
 
     $data = array_replace($base, $data);
