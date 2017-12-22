@@ -131,9 +131,9 @@ function save(string $eId, array & $data): bool
         return false;
     }
 
-    foreach ($aIds as $aId => $val) {
-        if (array_key_exists($aId, $tmp['_old']) && $val === $tmp['_old'][$aId]) {
-            unset($aIds[$aId]);
+    foreach ($aIds as $key => $aId) {
+        if (array_key_exists($aId, $tmp['_old']) && $tmp[$aId] === $tmp['_old'][$aId]) {
+            unset($aIds[$key]);
         }
     }
 
