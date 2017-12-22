@@ -90,31 +90,30 @@ function save(string $eId, array & $data): bool
     $tmp = $data;
 
     if ($id && ($old = one($eId, [['id', $id]]))) {
-        unset($tmp['_old'], $tmp['_ent']);
-
-        if (!array_diff_assoc($tmp, $old)) {
-            app\msg(app\i18n('No changes'));
-            return false;
-        }
-
-        $tmp += ['_old' => $old, '_ent' => $old['_ent']];
+        $tmp['_old'] = $old;
+        $tmp['_ent'] = $old['_ent'];
         unset($tmp['_old']['_ent'], $tmp['_old']['_old']);
     } else {
-        $tmp += ['_old' => null, '_ent' => app\cfg('ent', $eId)];
+        $tmp['_old'] = [];
+        $tmp['_ent'] = app\cfg('ent', $eId);
     }
 
     $aIds = [];
 
     foreach (array_intersect_key($tmp, $tmp['_ent']['attr']) as $aId => $val) {
-        if (($val === null || $val === '') && attr\ignorable($tmp, $tmp['_ent']['attr'][$aId])) {
+        $val = attr\cast($val, $tmp['_ent']['attr'][$aId]);
+
+        if (($val === null || $val === '') && attr\ignorable($tmp, $tmp['_ent']['attr'][$aId]) || array_key_exists($aId, $tmp['_old']) && $val === $tmp['_old'][$aId]) {
             unset($data[$aId], $tmp[$aId]);
         } else {
             $aIds[] = $aId;
+            $tmp[$aId] = $val;
         }
     }
 
     if (!$aIds) {
-        return true;
+        app\msg(app\i18n('No changes'));
+        return false;
     }
 
     $tmp = event('prefilter', $tmp);
@@ -204,7 +203,7 @@ function data(string $eId, string $act): array
         throw new DomainException(app\i18n('Invalid entity %s', $eId));
     }
 
-    return array_fill_keys($ent['act'][$act] ?? [], null) + ['_old' => null, '_ent' => $ent];
+    return array_fill_keys($ent['act'][$act] ?? [], null) + ['_old' => [], '_ent' => $ent];
 }
 
 /**
