@@ -6,7 +6,7 @@ return [
         'act' => [
             'admin' => ['name'],
             'delete' => [],
-            'edit' => ['name', 'priv'],
+            'edit' => [],
         ],
         'attr' => [
             'id' => [
@@ -34,7 +34,7 @@ return [
         'act' => [
             'admin' => ['name', 'role_id'],
             'delete' => [],
-            'edit' => ['name', 'password', 'role_id'],
+            'edit' => [],
             'login' => [],
             'logout' => [],
             'password' => [],
@@ -114,7 +114,7 @@ return [
         'act' => [
             'admin' => ['pos', 'name', 'status', 'date'],
             'delete' => [],
-            'edit' => ['name', 'slug', 'status', 'parent_id', 'sort', 'content'],
+            'edit' => ['name', 'content', 'slug', 'parent_id', 'sort', 'status'],
             'index' => ['name'],
             'view' => ['content'],
         ],
@@ -150,15 +150,6 @@ return [
                 'unique' => true,
                 'filter' => 'path',
             ],
-            'status' => [
-                'name' => 'Status',
-                'type' => 'status',
-                'required' => true,
-            ],
-            'date' => [
-                'name' => 'Date',
-                'type' => 'datetime',
-            ],
             'parent_id' => [
                 'name' => 'Parent',
                 'type' => 'ent',
@@ -172,16 +163,29 @@ return [
             ],
             'pos' => [
                 'name' => 'Position',
+                'auto' => true,
                 'type' => 'text',
                 'viewer' => 'pos',
             ],
             'level' => [
                 'name' => 'Level',
+                'auto' => true,
                 'type' => 'int',
             ],
             'path' => [
                 'name' => 'Path',
+                'auto' => true,
                 'type' => 'json',
+            ],
+            'status' => [
+                'name' => 'Status',
+                'type' => 'status',
+                'required' => true,
+            ],
+            'date' => [
+                'name' => 'Date',
+                'auto' => true,
+                'type' => 'datetime',
             ],
         ],
     ],

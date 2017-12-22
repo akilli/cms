@@ -220,10 +220,13 @@ function attr(array $ent, string $act): array
         throw new DomainException(app\i18n('Invalid action %s for entity %s', $act, $ent['id']));
     }
 
+    $aIds = $ent['act'][$act] ?: array_keys($ent['attr']);
     $attrs = [];
 
-    foreach ($ent['act'][$act] as $aId) {
-        $attrs[$aId] = $ent['attr'][$aId];
+    foreach ($aIds as $aId) {
+        if (!in_array($act, ['edit', 'form']) || !$ent['attr'][$aId]['auto']) {
+            $attrs[$aId] = $ent['attr'][$aId];
+        }
     }
 
     return $attrs;
