@@ -26,6 +26,7 @@
         'tests'
     ],
     plugins: {
+        'balloontoolbar': 1,
         'basicstyles': 1,
         'blockquote': 1,
         'clipboard': 1,
