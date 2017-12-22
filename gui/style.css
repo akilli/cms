@@ -563,16 +563,6 @@ button.icon {
     margin-bottom: 1.5rem;
 }
 
-html[data-path$="/admin"] #sidebar > * {
-    margin-bottom: 0;
-    padding: 1.5rem 0;
-    box-shadow: 0 0.0625rem 0 var(--primary-dark);
-}
-
-html[data-path$="/admin"] #sidebar > *:first-child {
-    padding-top: 0;
-}
-
 /* Content */
 #content > * {
     margin-bottom: 1.5rem;

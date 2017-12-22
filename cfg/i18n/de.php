@@ -13,7 +13,6 @@ return [
     'Could not save data' => 'Konnte Daten nicht speichern',
     'Could not update URLs of subpages' => 'Konnte die URLs der Unterseiten nicht aktualisieren',
     'Could not upload %s' => 'Konnte %s nicht hochladen',
-    'Create' => 'Anlegen',
     'Data' => 'Daten',
     'Date' => 'Datum',
     'Delete' => 'Löschen',

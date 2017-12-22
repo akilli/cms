@@ -95,12 +95,6 @@ return [
             'tpl' => 'layout/search.phtml',
             'parent_id' => 'sidebar',
         ],
-        'create' => [
-            'type' => 'tpl',
-            'tpl' => 'ent/create.phtml',
-            'priv' => '*/edit',
-            'parent_id' => 'sidebar',
-        ],
     ],
     'browser' => [
         'top' => [
