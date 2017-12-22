@@ -211,13 +211,18 @@ function data(string $eId): array
 
 /**
  * Retrieve entity attributes filtered by given action
+ *
+ * @throws DomainException
  */
 function attr(array $ent, string $act): array
 {
-    $aIds = $ent['act'][$act] ?? [];
+    if (!array_key_exists($act, $ent['act'])) {
+        throw new DomainException(app\i18n('Invalid action %s for entity %s', $act, $ent['id']));
+    }
+
     $attrs = [];
 
-    foreach ($aIds as $aId) {
+    foreach ($ent['act'][$act] as $aId) {
         $attrs[$aId] = $ent['attr'][$aId];
     }
 
