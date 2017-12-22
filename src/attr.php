@@ -99,11 +99,9 @@ function frontend(array $data, array $attr): string
         $error = html\tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
-    if ($out = ('frontend\\' . $attr['frontend'])($html, $data[$attr['id']], opt($data, $attr))) {
-        return html\tag('label', ['for' => $html['id']], $label) . $out . $error;
-    }
+    $out = ('frontend\\' . $attr['frontend'])($html, $data[$attr['id']], opt($data, $attr));
 
-    return '';
+    return html\tag('label', ['for' => $html['id']], $label) . $out . $error;
 }
 
 /**

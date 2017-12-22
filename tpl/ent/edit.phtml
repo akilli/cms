@@ -10,9 +10,8 @@ use session;
     <form method="post" enctype="multipart/form-data">
         <fieldset>
             <?php foreach ($§('attr') as $attr):?>
-                <?php if (!$html = attr\frontend($data, $attr)) continue;?>
-            <div data-attr="<?=$attr['id'];?>">
-                <?=$html;?>
+            <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
+                <?= attr\frontend($data, $attr);?>
             </div>
             <?php endforeach;?>
         </fieldset>
