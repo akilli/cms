@@ -29,7 +29,7 @@ function filter(array $data, array $attr): array
 
     $crit = [[$attr['id'], $data[$attr['id']]]];
 
-    if (!empty($data['_old'])) {
+    if ($data['_old']) {
         $crit[] = ['id', $data['_old']['id'], APP['crit']['!=']];
     }
 

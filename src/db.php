@@ -47,7 +47,6 @@ function load(array $ent, array $crit = [], array $opt = []): array
  */
 function save(array $data): array
 {
-    $insert = empty($data['_old']);
     $ent = $data['_ent'];
     $attrs = $ent['attr'];
 
@@ -56,7 +55,7 @@ function save(array $data): array
     }
 
     // Insert or update
-    if ($insert) {
+    if (!$data['_old']) {
         $stmt = sql\db()->prepare(
             sql\insert($ent['id'])
             . sql\values($cols['val'])
@@ -77,7 +76,7 @@ function save(array $data): array
     $stmt->execute();
 
     // Set DB generated id
-    if ($insert && $attrs['id']['auto']) {
+    if (!$data['_old'] && $attrs['id']['auto']) {
         $data['id'] = (int) sql\db()->lastInsertId($ent['id'] . '_id_seq');
     }
 
