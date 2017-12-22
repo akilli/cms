@@ -12,14 +12,12 @@ use ent;
 function ent(array $data, array $attr): array
 {
     if (($opt = & app\data('opt.ent.' . $attr['opt'])) === null) {
+        $order = $attr['opt'] === 'page' ? ['pos' => 'asc'] : ['name' => 'asc'];
         $opt = [];
 
-        foreach (ent\all($attr['opt']) as $item) {
-            if (!empty($data['_ent']['attr']['level'])) {
-                $opt[$item['id']] = str_repeat('&nbsp;', (max($item['level'], 1) - 1) * 4) . $item['name'];
-            } else {
-                $opt[$item['id']] = $item['name'];
-            }
+        foreach (ent\all($attr['opt'], [], ['order' => $order]) as $item) {
+            $pre = $attr['opt'] === 'page' ? str_repeat('&nbsp;', (max($item['level'], 1) - 1) * 4) : '';
+            $opt[$item['id']] = $pre . $item['name'];
         }
     }
 
