@@ -48,6 +48,7 @@ return [
     'New Entry' => 'Neuer Eintrag',
     'Next' => 'Weiter',
     'No' => 'Nein',
+    'No changes' => 'Keine Änderungen',
     'No entries found' => 'Keine Einträge gefunden',
     'Nothing to delete' => 'Nichts zum Löschen',
     'Page not found' => 'Seite nicht gefunden',

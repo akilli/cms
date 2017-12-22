@@ -90,6 +90,13 @@ function save(string $eId, array & $data): bool
     $tmp = $data;
 
     if ($id && ($old = one($eId, [['id', $id]]))) {
+        unset($tmp['_old'], $tmp['_ent']);
+
+        if (!array_diff_assoc($tmp, $old)) {
+            app\msg(app\i18n('No changes'));
+            return false;
+        }
+
         $tmp += ['_old' => $old, '_ent' => $old['_ent']];
         unset($tmp['_old']['_ent'], $tmp['_old']['_old']);
     } else {
