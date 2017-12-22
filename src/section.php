@@ -83,7 +83,7 @@ function menu(array $§): string
         }
 
         $crit[] = ['parent_id', null, APP['crit']['!=']];
-        $crit[] = [['id', $cur['path']], ['parent_id', [$anc['id'], $cur['id']]]];
+        $crit[] = [['id', $cur['path']], ['parent_id', [$anc['id'], $cur['id'], $cur['parent_id']]]];
     } elseif ($§['vars']['mode'] === 'top') {
         $cur = $anc;
         $crit[] = ['parent_id', null];
