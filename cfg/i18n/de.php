@@ -81,8 +81,6 @@ return [
     'Status' => 'Status',
     'Successfully deleted %s' => '%s erfolgreich gelöscht',
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
-    'System' => 'System',
-    'System items must not be deleted! Therefore skipped ID %s' => 'Systemelemente dürfen nicht gelöscht werden! Deshalb wurde ID %s übersprungen',
     'Unique' => 'Eindeutig',
     'URL' => 'URL',
     'Value is required' => 'Wert ist erforderlich',

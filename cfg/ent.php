@@ -26,10 +26,6 @@ return [
                 'type' => 'checkbox',
                 'opt' => 'priv',
             ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'bool',
-            ],
         ],
     ],
     'account' => [
@@ -67,10 +63,6 @@ return [
                 'type' => 'ent',
                 'required' => true,
                 'opt' => 'role',
-            ],
-            'system' => [
-                'name' => 'System',
-                'type' => 'bool',
             ],
         ],
     ],

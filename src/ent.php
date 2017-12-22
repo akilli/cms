@@ -170,11 +170,6 @@ function delete(string $eId, array $crit = [], array $opt = []): bool
     $error = [];
 
     foreach (all($eId, $crit, $opt) as $id => $data) {
-        if (!empty($data['system'])) {
-            app\msg(app\i18n('System items must not be deleted! Therefore skipped ID %s', (string) $id));
-            continue;
-        }
-
         try {
             sql\trans(
                 function () use ($data): void {
