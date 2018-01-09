@@ -16,7 +16,6 @@ use session;
 function index(array $ent): void
 {
     $act = http\req('act');
-    $attrs = ent\attr($ent, $act);
     $opt = ['limit' => app\cfg('app', 'limit')];
     $crit = [];
 
@@ -48,7 +47,7 @@ function index(array $ent): void
     $p['cur'] = min(max($p['cur'], 1), $pages);
     $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
 
-    if ($p['sort'] && !empty($attrs[$p['sort']])) {
+    if ($p['sort'] && in_array($p['sort'], $ent['act'][$act])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
         $opt['order'] = [$p['sort'] => $p['dir']];
     } else {
@@ -56,7 +55,7 @@ function index(array $ent): void
     }
 
     session\set($sessKey, $p);
-    app\layout('content', ['attr' => $attrs, 'data' => ent\all($ent['id'], $crit, $opt), 'params' => $p, 'title' => $ent['name'], 'act' => $act]);
+    app\layout('content', ['attr' => $ent['act'][$act], 'crit' => $crit, 'eId' => $ent['id'], 'opt' => $opt, 'params' => $p, 'title' => $ent['name']]);
     app\layout('pager', ['limit' => $opt['limit'], 'params' => $p, 'size' => $size]);
     app\layout('search', ['q' => $p['q'] ?? '']);
     app\layout('meta', ['title' => $ent['name']]);

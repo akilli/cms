@@ -16,11 +16,15 @@ use attr;
     <table class="data">
         <thead>
             <tr>
-                <?php foreach ($§('attr') as $attr):?>
-                    <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
+                <?php $col = 1;?>
+                <?php foreach ($§('attr') as $aId):?>
+                    <?php $attr = $§('ent')['attr'][$aId] ?? null;?>
+                    <?php if (!$attr) continue;?>
+                    <?php $col++?>
+                    <?php $dir = $p['sort'] === $aId && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
                 <th>
-                    <a href="<?= url('*/*', ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?= $attr['name'];?></a>
-                    <?php if ($p['sort'] === $attr['id']):?>
+                    <a href="<?= url('*/*', ['sort' => $aId, 'dir' => $dir] + $p);?>"><?= $attr['name'];?></a>
+                    <?php if ($p['sort'] === $aId):?>
                     <span class="icon"><?= $p['dir'] === 'asc' ? 'arrow_drop_up' : 'arrow_drop_down';?></span>
                     <?php endif;?>
                 </th>
@@ -32,7 +36,7 @@ use attr;
         </thead>
         <tfoot>
             <tr>
-                <td colspan="<?= count($§('attr')) + 1 ;?>">
+                <td colspan="<?= $col ;?>">
                     <?= §('pager');?>
                 </td>
             </tr>
@@ -40,23 +44,22 @@ use attr;
         <tbody>
             <?php foreach ($§('data') as $data):?>
             <tr>
-                <?php foreach ($§('attr') as $attr):?>
+                <?php foreach ($§('attr') as $aId):?>
+                    <?php $attr = $§('ent')['attr'][$aId] ?? null;?>
+                    <?php if (!$attr) continue;?>
                 <td>
                     <?= attr\viewer($data, $attr);?>
                 </td>
                 <?php endforeach;?>
                 <td>
-                    <?php if ($§('act') !== 'browser' && allowed('*/view')):?>
+                    <?php if (allowed('*/view')):?>
                     <a href="<?= $data['url'] ?? url('*/view/' . $data['id']);?>" class="icon" title="<?= i18n('View');?>">visibility</a>
                     <?php endif;?>
-                    <?php if ($§('act') !== 'browser' && allowed('*/edit')):?>
+                    <?php if (allowed('*/edit')):?>
                     <a href="<?= url('*/edit/' . $data['id']);?>" class="icon" title="<?= i18n('Edit');?>">edit</a>
                     <?php endif;?>
-                    <?php if ($§('act') !== 'browser' && allowed('*/delete')):?>
+                    <?php if (allowed('*/delete')):?>
                     <a href="<?= url('*/delete/' . $data['id']);?>" class="delete icon" title="<?= i18n('Delete');?>">delete</a>
-                    <?php endif;?>
-                    <?php if ($§('act') === 'browser'):?>
-                    <span data-rte="<?= $p['CKEditorFuncNum'];?>" data-url="<?= asset($data['name']);?>" class="rte icon" title="<?= i18n('Select item');?>">check</span>
                     <?php endif;?>
                 </td>
             </tr>

@@ -30,10 +30,9 @@ function container(array $§): string
  */
 function ent(array $§): string
 {
-    $§['vars'] = arr\replace(['act' => null, 'crit' => [], 'ent' => null, 'opt' => []], $§['vars']);
-    $attrs = $§['vars']['act'] ? ent\attr($§['vars']['ent'], $§['vars']['act']) : [];
+    $§['vars'] = arr\replace(['attr' => [], 'crit' => [], 'ent' => null, 'opt' => []], $§['vars']);
     $p = [$§['vars']['ent'], $§['vars']['crit'], $§['vars']['opt']];
-    $§['vars'] = ['attr' => $attrs, 'data' => ent\one(...$p)];
+    $§['vars'] = ['data' => ent\one(...$p)];
 
     return tpl($§);
 }
@@ -43,9 +42,14 @@ function ent(array $§): string
  */
 function index(array $§): string
 {
-    $§['vars'] = arr\replace(['act' => null, 'crit' => [], 'ent' => null, 'opt' => [], 'params' => []], $§['vars']);
-    $p = [$§['vars']['ent'], $§['vars']['crit'], $§['vars']['opt']];
-    $§['vars'] = ['act' => $§['vars']['act'], 'data' => ent\all(...$p), 'params' => $§['vars']['params']];
+    $§['vars'] = arr\replace(['attr' => [], 'crit' => [], 'eId' => null, 'opt' => [], 'params' => [], 'title' => null], $§['vars']);
+
+    if (!$§['vars']['eId'] || !($§['vars']['ent'] = app\cfg('ent', $§['vars']['eId']))) {
+        return '';
+    }
+
+    $§['vars']['data'] = ent\all($§['vars']['eId'], $§['vars']['crit'], $§['vars']['opt']);
+    unset($§['vars']['crit'], $§['vars']['eId'], $§['vars']['opt']);
 
     return tpl($§);
 }

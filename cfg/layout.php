@@ -66,7 +66,7 @@ return [
     ],
     'index' => [
         'content' => [
-            'type' => 'tpl',
+            'type' => 'index',
             'tpl' => 'ent/index.phtml',
             'parent_id' => 'main',
         ],
@@ -82,7 +82,7 @@ return [
     ],
     'admin' => [
         'content' => [
-            'type' => 'tpl',
+            'type' => 'index',
             'tpl' => 'ent/admin.phtml',
             'parent_id' => 'main',
         ],
@@ -110,8 +110,8 @@ return [
             'sort' => -1,
         ],
         'content' => [
-            'type' => 'tpl',
-            'tpl' => 'ent/admin.phtml',
+            'type' => 'index',
+            'tpl' => 'ent/browser.phtml',
             'parent_id' => 'main',
         ],
         'pager' => [
