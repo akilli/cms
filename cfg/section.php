@@ -5,7 +5,7 @@ return [
     ],
     'ent' => [
         'opt' => ['crit' => [], 'eId' => null, 'opt' => []],
-        'vars' => ['attr' => [], 'data' => [], 'ent' => null],
+        'vars' => ['attr' => [], 'data' => [], 'ent' => null, 'title' => null],
     ],
     'index' => [
         'opt' => ['crit' => [], 'eId' => null, 'opt' => []],

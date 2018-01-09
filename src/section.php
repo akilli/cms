@@ -30,9 +30,14 @@ function container(array $§): string
  */
 function ent(array $§): string
 {
-    $§['vars'] = arr\replace(['attr' => [], 'crit' => [], 'ent' => null, 'opt' => []], $§['vars']);
-    $p = [$§['vars']['ent'], $§['vars']['crit'], $§['vars']['opt']];
-    $§['vars'] = ['data' => ent\one(...$p)];
+    $§['vars'] = arr\replace(['attr' => [], 'crit' => [], 'eId' => null, 'opt' => [], 'title' => null], $§['vars']);
+
+    if (!$§['vars']['eId'] || !($§['vars']['ent'] = app\cfg('ent', $§['vars']['eId']))) {
+        return '';
+    }
+
+    $§['vars']['data'] = ent\one($§['vars']['eId'], $§['vars']['crit'], $§['vars']['opt']);
+    unset($§['vars']['crit'], $§['vars']['eId'], $§['vars']['opt']);
 
     return tpl($§);
 }
