@@ -31,8 +31,9 @@ function container(array $§): string
 function ent(array $§): string
 {
     $§['vars'] = arr\replace(['act' => null, 'crit' => [], 'ent' => null, 'opt' => []], $§['vars']);
+    $attrs = $§['vars']['act'] ? ent\attr($§['vars']['ent'], $§['vars']['act']) : [];
     $p = [$§['vars']['ent'], $§['vars']['crit'], $§['vars']['opt']];
-    $§['vars'] = ['data' => ent\one(...$p), 'act' => $§['vars']['act']];
+    $§['vars'] = ['attr' => $attrs, 'data' => ent\one(...$p)];
 
     return tpl($§);
 }
@@ -44,7 +45,7 @@ function index(array $§): string
 {
     $§['vars'] = arr\replace(['act' => null, 'crit' => [], 'ent' => null, 'opt' => [], 'params' => []], $§['vars']);
     $p = [$§['vars']['ent'], $§['vars']['crit'], $§['vars']['opt']];
-    $§['vars'] = ['data' => ent\all(...$p), 'act' => $§['vars']['act'], 'params' => $§['vars']['params']];
+    $§['vars'] = ['act' => $§['vars']['act'], 'data' => ent\all(...$p), 'params' => $§['vars']['params']];
 
     return tpl($§);
 }

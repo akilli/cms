@@ -4,12 +4,12 @@ return [
         'opt' => ['tag' => null],
     ],
     'ent' => [
-        'opt' => ['crit' => [], 'ent' => null, 'opt' => []],
-        'vars' => ['act' => null],
+        'opt' => ['act' => null, 'crit' => [], 'ent' => null, 'opt' => []],
+        'vars' => ['attr' => [], 'data' => []],
     ],
     'index' => [
         'opt' => ['crit' => [], 'ent' => null, 'opt' => []],
-        'vars' => ['act' => null, 'params' => []],
+        'vars' => ['act' => null, 'attr' => [], 'data' => [], 'params' => [], 'title' => null],
     ],
     'msg' => [
         'tpl' => 'layout/msg.phtml',
