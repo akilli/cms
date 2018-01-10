@@ -15,7 +15,6 @@ use session;
  */
 function index(array $ent): void
 {
-    app\layout('content', ['act' => http\req('act')]);
     app\layout('meta', ['title' => $ent['name']]);
 }
 
@@ -24,7 +23,7 @@ function index(array $ent): void
  */
 function admin(array $ent): void
 {
-    index($ent);
+    app\layout('meta', ['title' => $ent['name']]);
 }
 
 /**
@@ -32,7 +31,7 @@ function admin(array $ent): void
  */
 function browser(array $ent): void
 {
-    index($ent);
+    app\layout('meta', ['title' => $ent['name']]);
 }
 
 /**

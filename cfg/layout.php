@@ -69,6 +69,7 @@ return [
             'type' => 'index',
             'tpl' => 'ent/index.phtml',
             'parent_id' => 'main',
+            'vars' => ['act' => 'index'],
         ],
     ],
     'admin' => [
@@ -76,6 +77,7 @@ return [
             'type' => 'index',
             'tpl' => 'ent/admin.phtml',
             'parent_id' => 'main',
+            'vars' => ['act' => 'admin'],
         ],
     ],
     'browser' => [
@@ -95,6 +97,7 @@ return [
             'type' => 'index',
             'tpl' => 'ent/browser.phtml',
             'parent_id' => 'main',
+            'vars' => ['act' => 'browser'],
         ],
     ],
     'edit' => [
