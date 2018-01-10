@@ -54,7 +54,6 @@ function form(array $ent): void
     }
 
     $data = array_replace($base, $data);
-
     app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $act), 'title' => $ent['name']]);
  }
 
