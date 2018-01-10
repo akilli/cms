@@ -16,7 +16,7 @@ use session;
 function index(array $ent): void
 {
     $act = http\req('act');
-    $opt = ['limit' => app\cfg('app', 'limit')];
+    $opt = [];
     $crit = [];
 
     if ($act !== 'admin' && $ent['version']) {
