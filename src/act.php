@@ -28,9 +28,9 @@ function asset(array $ent): void
 }
 
 /**
- * Edit Action
+ * Form Action
  */
-function edit(array $ent): void
+function form(array $ent): void
 {
     $id = http\req('id');
     $data = http\req('data');
@@ -59,11 +59,11 @@ function edit(array $ent): void
  }
 
 /**
- * Form Action
+ * Edit Action
  */
-function form(array $ent): void
+function edit(array $ent): void
 {
-    edit($ent);
+    form($ent);
 }
 
 /**

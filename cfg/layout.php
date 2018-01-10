@@ -100,6 +100,13 @@ return [
             'vars' => ['act' => 'browser'],
         ],
     ],
+    'form' => [
+        'content' => [
+            'type' => 'tpl',
+            'tpl' => 'ent/form.phtml',
+            'parent_id' => 'main',
+        ],
+    ],
     'edit' => [
         'rte' => [
             'type' => 'tpl',
@@ -109,14 +116,7 @@ return [
         ],
         'content' => [
             'type' => 'tpl',
-            'tpl' => 'ent/edit.phtml',
-            'parent_id' => 'main',
-        ],
-    ],
-    'form' => [
-        'content' => [
-            'type' => 'tpl',
-            'tpl' => 'ent/edit.phtml',
+            'tpl' => 'ent/form.phtml',
             'parent_id' => 'main',
         ],
     ],
