@@ -60,22 +60,6 @@ function index(array $§): string
 }
 
 /**
- * Message section
- */
-function msg(array $§): string
-{
-    $§['vars'] = [];
-
-    if (!$§['vars']['data'] = session\get('msg')) {
-        return '';
-    }
-
-    session\set('msg', null);
-
-    return tpl($§);
-}
-
-/**
  * Menu section
  */
 function menu(array $§): string
@@ -135,6 +119,22 @@ function menu(array $§): string
     }
 
     return html\tag('nav', ['id' => $§['id']], $html);
+}
+
+/**
+ * Message section
+ */
+function msg(array $§): string
+{
+    $§['vars'] = [];
+
+    if (!$§['vars']['data'] = session\get('msg')) {
+        return '';
+    }
+
+    session\set('msg', null);
+
+    return tpl($§);
 }
 
 /**
