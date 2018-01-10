@@ -127,15 +127,17 @@ function app_js(): void
  */
 function account_password(): void
 {
-    if ($data = http\req('data')) {
-        if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
-            app\msg(app\i18n('Password and password confirmation must be identical'));
-        } else {
-            $data = ['id' => account\data('id'), 'password' => $data['password']];
-            ent\save('account', $data);
-        }
+    if (!$data = http\req('data')) {
+        return;
     }
 
+    if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
+        app\msg(app\i18n('Password and password confirmation must be identical'));
+        return;
+    }
+
+    $data = ['id' => account\data('id'), 'password' => $data['password']];
+    ent\save('account', $data);
     app\layout('content', ['error' => $data['_error']['password'] ?? null]);
 }
 
@@ -144,15 +146,17 @@ function account_password(): void
  */
 function account_login(): void
 {
-    if ($data = http\req('data')) {
-        if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
-            session\regenerate();
-            session\set('account', $data['id']);
-            http\redirect();
-        }
-
-        app\msg(app\i18n('Invalid name and password combination'));
+    if (!$data = http\req('data')) {
+        return;
     }
+
+    if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
+        session\regenerate();
+        session\set('account', $data['id']);
+        http\redirect();
+    }
+
+    app\msg(app\i18n('Invalid name and password combination'));
 }
 
 /**
