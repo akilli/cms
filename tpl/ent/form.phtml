@@ -11,15 +11,15 @@ use session;
         <fieldset>
             <?php foreach ($§('attr') as $attr):?>
             <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-                <?= attr\frontend($data, $attr);?>
+                <?=attr\frontend($data, $attr);?>
             </div>
             <?php endforeach;?>
         </fieldset>
         <?php if (allowed('*/admin')):?>
-        <a role="button" href="<?= url('*/admin');?>"><?= i18n('Back');?></a>
+        <a role="button" href="<?=url('*/admin');?>"><?=i18n('Back');?></a>
         <?php endif;?>
-        <input type="submit" value="<?= i18n('Save');?>" />
-        <input type="hidden" name="token" value="<?= session\token();?>" />
+        <input type="submit" value="<?=i18n('Save');?>" />
+        <input type="hidden" name="token" value="<?=session\token();?>" />
     </form>
 </section>
 <?php endif;?>

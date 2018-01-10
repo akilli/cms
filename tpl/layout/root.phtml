@@ -4,17 +4,17 @@ use http;
 /** @var callable $§ */
 ?>
 <!doctype html>
-<html data-path="<?= http\req('path');?>">
+<html data-path="<?=http\req('path');?>">
     <head>
-        <?= §('head');?>
+        <?=§('head');?>
     </head>
     <body>
-        <?= §('top');?>
-        <?= §('msg');?>
+        <?=§('top');?>
+        <?=§('msg');?>
         <main>
-            <?= §('main');?>
-            <?= §('sidebar');?>
+            <?=§('main');?>
+            <?=§('sidebar');?>
         </main>
-        <?= §('bottom');?>
+        <?=§('bottom');?>
     </body>
 </html>

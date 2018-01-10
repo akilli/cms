@@ -8,9 +8,9 @@ use session;
     <h1><?=$§('ent')['name'];?></h1>
 <?php if ($§('data')):?>
     <form method="post" class="search">
-        <input type="search" name="param[q]" value="<?=$§('param')['q'] ?? '';?>" placeholder="<?= i18n('Search Term');?>" />
-        <input type="submit" value="search" title="<?= i18n('Search');?>" class="icon" />
-        <input type="hidden" name="token" value="<?= session\token();?>" />
+        <input type="search" name="param[q]" value="<?=$§('param')['q'] ?? '';?>" placeholder="<?=i18n('Search Term');?>" />
+        <input type="submit" value="search" title="<?=i18n('Search');?>" class="icon" />
+        <input type="hidden" name="token" value="<?=session\token();?>" />
     </form>
     <?php foreach ($§('data') as $data):?>
     <article>
@@ -20,7 +20,7 @@ use session;
             <?php if ($aId === 'name'):?>
                 <?php if (allowed($data['_ent']['id'] . '/view')):?>
         <h1 data-attr="<?=$aId;?>" data-type="<?=$attr['type'];?>">
-            <a href="<?= $data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
+            <a href="<?=$data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
         </h1>
                 <?php else:?>
         <h1 data-attr="<?=$aId;?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
@@ -32,25 +32,25 @@ use session;
             <?php endif;?>
         <?php endforeach;?>
         <footer>
-            <span data-rte="<?= $§('param')['CKEditorFuncNum'];?>" data-url="<?= asset($data['name']);?>" class="rte icon" title="<?= i18n('Select item');?>">check</span>
+            <span data-rte="<?=$§('param')['CKEditorFuncNum'];?>" data-url="<?=asset($data['name']);?>" class="rte icon" title="<?=i18n('Select item');?>">check</span>
         </footer>
     </article>
         <?php endforeach;?>
     <nav class="pager">
         <div class="info">
-            <?= i18n('%s to %s of %s', $§('offset') + 1, min($§('offset') + $§('limit'), $§('size')), $§('size'));?>
+            <?=i18n('%s to %s of %s', $§('offset') + 1, min($§('offset') + $§('limit'), $§('size')), $§('size'));?>
         </div>
         <div class="links">
             <?php foreach ($§('pager') as $link):?>
                 <?php if (!empty($link['active'])):?>
             <span><?=$link['name'];?></span>
                 <?php else:?>
-            <a href="<?= url('*/*', $link['param']);?>"><?=$link['name'];?></a>
+            <a href="<?=url('*/*', $link['param']);?>"><?=$link['name'];?></a>
                 <?php endif;?>
             <?php endforeach;?>
         </div>
     </nav>
 <?php else:?>
-    <p><?= i18n('No entries found');?></p>
+    <p><?=i18n('No entries found');?></p>
 <?php endif;?>
 </section>
