@@ -17,29 +17,22 @@ use Throwable;
  */
 function run(): void
 {
-    if (!allowed('*/*')) {
-        act\app_error();
-        return;
-    }
-
+    $allowed = allowed('*/*');
     $act = http\req('act');
     $eId = http\req('ent');
-    $args = ($ent = cfg('ent', $eId)) ? [$ent] : [];
+    $ent = cfg('ent', $eId);
+    $full = is_callable('act\\' . $eId . '_' . $act) ? 'act\\' . $eId . '_' . $act : null;
+    $fallback = is_callable('act\\' . $act) ? 'act\\' . $act : null;
 
-    if (is_callable('act\\' . $eId . '_' . $act)) {
-        ('act\\' . $eId . '_' . $act)(...$args);
-        return;
+    if ($allowed && !$ent && $full) {
+        $full();
+    } elseif (!$allowed || !isset($ent['act'][$act])) {
+        act\app_error();
+    } elseif ($full) {
+        $full($ent);
+    } elseif ($fallback) {
+        $fallback($ent);
     }
-
-    if (isset($ent['act'][$act])) {
-        if (is_callable('act\\' . $act)) {
-            ('act\\' . $act)(...$args);
-        }
-
-        return;
-    }
-
-    act\app_error();
 }
 
 /**
