@@ -47,13 +47,37 @@ function ent(array $§): string
  */
 function index(array $§): string
 {
-    $§['vars'] = arr\replace(['attr' => [], 'crit' => [], 'eId' => null, 'opt' => [], 'params' => [], 'title' => null], $§['vars']);
+    $§['vars'] = arr\replace(['attr' => [], 'crit' => [], 'eId' => null, 'opt' => [], 'param' => [], 'title' => null], $§['vars']);
 
     if (!$§['vars']['eId'] || !($§['vars']['ent'] = app\cfg('ent', $§['vars']['eId']))) {
         return '';
     }
 
+    $§['vars']['opt']['limit'] = app\cfg('app', 'limit');
     $§['vars']['data'] = ent\all($§['vars']['eId'], $§['vars']['crit'], $§['vars']['opt']);
+    // Pager
+    $§['vars']['size'] = ent\size($§['vars']['eId'], $§['vars']['crit']);
+    $§['vars']['limit'] = $§['vars']['opt']['limit'];
+    $cur = max($§['vars']['param']['cur'] ?? 0, 1);
+    $pages = (int) ceil($§['vars']['size'] / $§['vars']['limit']);
+    $§['vars']['offset'] = ($cur - 1) * $§['vars']['limit'];
+    $cfg = app\cfg('app', 'pager');
+    $min = max(1, min($cur - intdiv($cfg, 2), $pages - $cfg + 1));
+    $max = min($min + $cfg - 1, $pages);
+    $§['vars']['pager'] = [];
+
+    if ($cur >= 2) {
+        $§['vars']['pager'][] = ['name' => app\i18n('Previous'), 'param' => ['cur' => $cur - 1] + $§['vars']['param']];
+    }
+
+    for ($i = $min; $min < $max && $i <= $max; $i++) {
+        $§['vars']['pager'][] = ['name' => $i, 'param' => ['cur' => $i] + $§['vars']['param'], 'active' => $i === $cur];
+    }
+
+    if ($cur < $pages) {
+        $§['vars']['pager'][] = ['name' => app\i18n('Next'), 'param' => ['cur' => $cur + 1] + $§['vars']['param']];
+    }
+
     unset($§['vars']['crit'], $§['vars']['eId'], $§['vars']['opt']);
 
     return tpl($§);
@@ -133,42 +157,6 @@ function msg(array $§): string
     }
 
     session\set('msg', null);
-
-    return tpl($§);
-}
-
-/**
- * Pager section
- */
-function pager(array $§): string
-{
-    $§['vars'] = arr\replace(['limit' => 0, 'params' => [], 'size' => 0], $§['vars']);
-
-    if ($§['vars']['size'] < 1 || $§['vars']['limit'] < 1) {
-        return '';
-    }
-
-    $cur = max($§['vars']['params']['cur'] ?? 0, 1);
-    $p = $§['vars']['params'];
-    unset($§['vars']['params']);
-    $pages = (int) ceil($§['vars']['size'] / $§['vars']['limit']);
-    $§['vars']['offset'] = ($cur - 1) * $§['vars']['limit'];
-    $cfg = app\cfg('app', 'pager');
-    $min = max(1, min($cur - intdiv($cfg, 2), $pages - $cfg + 1));
-    $max = min($min + $cfg - 1, $pages);
-    $§['vars']['links'] = [];
-
-    if ($cur >= 2) {
-        $§['vars']['links'][] = ['name' => app\i18n('Previous'), 'params' => ['cur' => $cur - 1] + $p];
-    }
-
-    for ($i = $min; $min < $max && $i <= $max; $i++) {
-        $§['vars']['links'][] = ['name' => $i, 'params' => ['cur' => $i] + $p, 'active' => $i === $cur];
-    }
-
-    if ($cur < $pages) {
-        $§['vars']['links'][] = ['name' => app\i18n('Next'), 'params' => ['cur' => $cur + 1] + $p];
-    }
 
     return tpl($§);
 }

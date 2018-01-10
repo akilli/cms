@@ -70,20 +70,12 @@ return [
             'tpl' => 'ent/index.phtml',
             'parent_id' => 'main',
         ],
-        'pager' => [
-            'type' => 'pager',
-            'tpl' => 'ent/pager.phtml',
-        ],
     ],
     'admin' => [
         'content' => [
             'type' => 'index',
             'tpl' => 'ent/admin.phtml',
             'parent_id' => 'main',
-        ],
-        'pager' => [
-            'type' => 'pager',
-            'tpl' => 'ent/pager.phtml',
         ],
     ],
     'browser' => [
@@ -103,10 +95,6 @@ return [
             'type' => 'index',
             'tpl' => 'ent/browser.phtml',
             'parent_id' => 'main',
-        ],
-        'pager' => [
-            'type' => 'pager',
-            'tpl' => 'ent/pager.phtml',
         ],
     ],
     'edit' => [

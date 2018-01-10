@@ -658,15 +658,16 @@ button.icon {
 }
 
 /* Pager */
-#pager {
+.pager {
+    text-align: right;
     font-size: 0.875rem;
 }
 
-#pager div {
+.pager div {
     display: inline;
 }
 
-#pager .info {
+.pager .info {
     margin-right: 1.5rem;
 }
 

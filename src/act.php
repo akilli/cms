@@ -52,8 +52,7 @@ function index(array $ent): void
         unset($p['sort'], $p['dir']);
     }
 
-    app\layout('content', ['attr' => $ent['act'][$act], 'crit' => $crit, 'eId' => $ent['id'], 'opt' => $opt, 'params' => $p, 'title' => $ent['name']]);
-    app\layout('pager', ['limit' => $opt['limit'], 'params' => $p, 'size' => $size]);
+    app\layout('content', ['attr' => $ent['act'][$act], 'crit' => $crit, 'eId' => $ent['id'], 'opt' => $opt, 'param' => $p, 'title' => $ent['name']]);
     app\layout('meta', ['title' => $ent['name']]);
 }
 

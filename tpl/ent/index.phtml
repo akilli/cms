@@ -8,7 +8,7 @@ use session;
     <h1><?=$§('title');?></h1>
 <?php if ($§('data')):?>
     <form method="post" class="search">
-        <input type="search" name="param[q]" value="<?=$§('params')['q'] ?? '';?>" placeholder="<?= i18n('Search Term');?>" />
+        <input type="search" name="param[q]" value="<?=$§('param')['q'] ?? '';?>" placeholder="<?= i18n('Search Term');?>" />
         <input type="submit" value="search" title="<?= i18n('Search');?>" class="icon" />
         <input type="hidden" name="token" value="<?= session\token();?>" />
     </form>
@@ -33,7 +33,20 @@ use session;
         <?php endforeach;?>
     </article>
         <?php endforeach;?>
-    <?= §('pager');?>
+    <nav class="pager">
+        <div class="info">
+            <?= i18n('%s to %s of %s', $§('offset') + 1, min($§('offset') + $§('limit'), $§('size')), $§('size'));?>
+        </div>
+        <div class="links">
+            <?php foreach ($§('pager') as $link):?>
+                <?php if (!empty($link['active'])):?>
+            <span><?=$link['name'];?></span>
+                <?php else:?>
+            <a href="<?= url('*/*', $link['param']);?>"><?=$link['name'];?></a>
+                <?php endif;?>
+            <?php endforeach;?>
+        </div>
+    </nav>
 <?php else:?>
     <p><?= i18n('No entries found');?></p>
 <?php endif;?>

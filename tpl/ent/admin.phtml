@@ -11,22 +11,20 @@ use session;
     <?php endif;?>
     <?php if ($§('data')):?>
         <?php
-        $p = $§('params') + ['sort' => null, 'dir' => null];
+        $p = $§('param') + ['sort' => null, 'dir' => null];
         if (array_key_exists('cur', $p) && $p['cur'] <= 1) unset($p['cur']);
         ?>
     <form method="post" class="search">
-        <input type="search" name="param[q]" value="<?=$§('params')['q'] ?? '';?>" placeholder="<?= i18n('Search Term');?>" />
+        <input type="search" name="param[q]" value="<?=$§('param')['q'] ?? '';?>" placeholder="<?= i18n('Search Term');?>" />
         <input type="submit" value="search" title="<?= i18n('Search');?>" class="icon" />
         <input type="hidden" name="token" value="<?= session\token();?>" />
     </form>
     <table class="data">
         <thead>
             <tr>
-                <?php $col = 1;?>
                 <?php foreach ($§('attr') as $aId):?>
                     <?php $attr = $§('ent')['attr'][$aId] ?? null;?>
                     <?php if (!$attr) continue;?>
-                    <?php $col++?>
                     <?php $dir = $p['sort'] === $aId && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
                 <th>
                     <a href="<?= url('*/*', ['sort' => $aId, 'dir' => $dir] + $p);?>"><?= $attr['name'];?></a>
@@ -40,13 +38,6 @@ use session;
                 </th>
             </tr>
         </thead>
-        <tfoot>
-            <tr>
-                <td colspan="<?= $col ;?>">
-                    <?= §('pager');?>
-                </td>
-            </tr>
-        </tfoot>
         <tbody>
             <?php foreach ($§('data') as $data):?>
             <tr>
@@ -72,6 +63,20 @@ use session;
             <?php endforeach;?>
         </tbody>
     </table>
+    <nav class="pager">
+        <div class="info">
+            <?= i18n('%s to %s of %s', $§('offset') + 1, min($§('offset') + $§('limit'), $§('size')), $§('size'));?>
+        </div>
+        <div class="links">
+            <?php foreach ($§('pager') as $link):?>
+                <?php if (!empty($link['active'])):?>
+            <span><?=$link['name'];?></span>
+                <?php else:?>
+            <a href="<?= url('*/*', $link['param']);?>"><?=$link['name'];?></a>
+                <?php endif;?>
+            <?php endforeach;?>
+        </div>
+    </nav>
     <?php else:?>
     <p><?= i18n('No entries found');?></p>
     <?php endif;?>
