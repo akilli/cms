@@ -26,59 +26,80 @@ function container(array $§): string
 }
 
 /**
- * Entity section
- */
-function ent(array $§): string
-{
-    $§['vars'] = arr\replace(['attr' => [], 'crit' => [], 'eId' => null, 'opt' => [], 'title' => null], $§['vars']);
-
-    if (!$§['vars']['eId'] || !($§['vars']['ent'] = app\cfg('ent', $§['vars']['eId']))) {
-        return '';
-    }
-
-    $§['vars']['data'] = ent\one($§['vars']['eId'], $§['vars']['crit'], $§['vars']['opt']);
-    unset($§['vars']['crit'], $§['vars']['eId'], $§['vars']['opt']);
-
-    return tpl($§);
-}
-
-/**
  * Index section
  */
 function index(array $§): string
 {
-    $§['vars'] = arr\replace(['attr' => [], 'crit' => [], 'eId' => null, 'opt' => [], 'param' => [], 'title' => null], $§['vars']);
+    $§['vars'] = arr\replace(['act' => null, 'eId' => null], $§['vars']);
+    $act = $§['vars']['act'];
+    $ent = app\cfg('ent', $§['vars']['eId'] ?: http\req('ent'));
+    unset($§['vars']['act'], $§['vars']['eId']);
 
-    if (!$§['vars']['eId'] || !($§['vars']['ent'] = app\cfg('ent', $§['vars']['eId']))) {
+    if (!$act || !$ent || !isset($ent['act'][$act])) {
         return '';
     }
 
-    $§['vars']['opt']['limit'] = app\cfg('app', 'limit');
-    $§['vars']['data'] = ent\all($§['vars']['eId'], $§['vars']['crit'], $§['vars']['opt']);
-    // Pager
-    $§['vars']['size'] = ent\size($§['vars']['eId'], $§['vars']['crit']);
-    $§['vars']['limit'] = $§['vars']['opt']['limit'];
-    $cur = max($§['vars']['param']['cur'] ?? 0, 1);
-    $pages = (int) ceil($§['vars']['size'] / $§['vars']['limit']);
-    $§['vars']['offset'] = ($cur - 1) * $§['vars']['limit'];
+    $§['vars']['attr'] = $ent['act'][$act];
+    $opt = ['limit' => app\cfg('app', 'limit')];
+    $crit = [];
+
+    if ($act !== 'admin' && $ent['version']) {
+        $crit[] = ['status', 'published'];
+    }
+
+    $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
+    $p += $act === 'browser' ? ['CKEditorFuncNum' => null] : [];
+    $p = arr\replace($p, http\req('param'));
+
+    if ($p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
+        $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
+        $c = [];
+
+        foreach ($searchable as $s) {
+            $c[] = [$s, $q, APP['crit']['~']];
+        }
+
+        $crit[] = $c;
+    } else {
+        unset($p['q']);
+    }
+
+    $§['vars']['size'] = ent\size($ent['id'], $crit);
+    $pages = (int) ceil($§['vars']['size'] / $opt['limit']) ?: 1;
+    $p['cur'] = min(max($p['cur'], 1), $pages);
+    $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
+
+    if ($p['sort'] && in_array($p['sort'], $§['vars']['attr'])) {
+        $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
+        $opt['order'] = [$p['sort'] => $p['dir']];
+    } else {
+        unset($p['sort'], $p['dir']);
+    }
+
+    $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
+    $cur = max($p['cur'] ?? 0, 1);
+    $pages = (int) ceil($§['vars']['size'] / $opt['limit']);
+    $§['vars']['offset'] = ($cur - 1) * $opt['limit'];
     $cfg = app\cfg('app', 'pager');
     $min = max(1, min($cur - intdiv($cfg, 2), $pages - $cfg + 1));
     $max = min($min + $cfg - 1, $pages);
     $§['vars']['pager'] = [];
 
     if ($cur >= 2) {
-        $§['vars']['pager'][] = ['name' => app\i18n('Previous'), 'param' => ['cur' => $cur - 1] + $§['vars']['param']];
+        $§['vars']['pager'][] = ['name' => app\i18n('Previous'), 'param' => ['cur' => $cur - 1] + $p];
     }
 
     for ($i = $min; $min < $max && $i <= $max; $i++) {
-        $§['vars']['pager'][] = ['name' => $i, 'param' => ['cur' => $i] + $§['vars']['param'], 'active' => $i === $cur];
+        $§['vars']['pager'][] = ['name' => $i, 'param' => ['cur' => $i] + $p, 'active' => $i === $cur];
     }
 
     if ($cur < $pages) {
-        $§['vars']['pager'][] = ['name' => app\i18n('Next'), 'param' => ['cur' => $cur + 1] + $§['vars']['param']];
+        $§['vars']['pager'][] = ['name' => app\i18n('Next'), 'param' => ['cur' => $cur + 1] + $p];
     }
 
-    unset($§['vars']['crit'], $§['vars']['eId'], $§['vars']['opt']);
+    $§['vars']['ent'] = $ent;
+    $§['vars']['limit'] = $opt['limit'];
+    $§['vars']['param'] = $p;
 
     return tpl($§);
 }

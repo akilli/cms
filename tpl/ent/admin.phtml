@@ -5,7 +5,7 @@ use session;
 /** @var callable $§ */
 ?>
 <section id="<?=$§('id');?>">
-    <h1><?=$§('title');?></h1>
+    <h1><?=$§('ent')['name'];?></h1>
     <?php if (allowed('*/edit')):?>
     <p class="create"><a href="<?= url('*/edit');?>" role="button" class="icon" title="<?= i18n('New Entry');?>">add_circle</a></p>
     <?php endif;?>

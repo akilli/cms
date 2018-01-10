@@ -15,44 +15,7 @@ use session;
  */
 function index(array $ent): void
 {
-    $act = http\req('act');
-    $opt = [];
-    $crit = [];
-
-    if ($act !== 'admin' && $ent['version']) {
-        $crit[] = ['status', 'published'];
-    }
-
-    $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
-    $p += $act === 'browser' ? ['CKEditorFuncNum' => null] : [];
-    $p = arr\replace($p, http\req('param'));
-
-    if ($p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
-        $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
-        $c = [];
-
-        foreach ($searchable as $s) {
-            $c[] = [$s, $q, APP['crit']['~']];
-        }
-
-        $crit[] = $c;
-    } else {
-        unset($p['q']);
-    }
-
-    $size = ent\size($ent['id'], $crit);
-    $pages = (int) ceil($size / $opt['limit']) ?: 1;
-    $p['cur'] = min(max($p['cur'], 1), $pages);
-    $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
-
-    if ($p['sort'] && in_array($p['sort'], $ent['act'][$act])) {
-        $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
-        $opt['order'] = [$p['sort'] => $p['dir']];
-    } else {
-        unset($p['sort'], $p['dir']);
-    }
-
-    app\layout('content', ['attr' => $ent['act'][$act], 'crit' => $crit, 'eId' => $ent['id'], 'opt' => $opt, 'param' => $p, 'title' => $ent['name']]);
+    app\layout('content', ['act' => http\req('act')]);
     app\layout('meta', ['title' => $ent['name']]);
 }
 
