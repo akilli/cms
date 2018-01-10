@@ -31,8 +31,11 @@ function run(): void
         return;
     }
 
-    if (isset($ent['act'][$act]) && is_callable('act\\' . $act)) {
-        ('act\\' . $act)(...$args);
+    if (isset($ent['act'][$act])) {
+        if (is_callable('act\\' . $act)) {
+            ('act\\' . $act)(...$args);
+        }
+
         return;
     }
 

@@ -11,27 +11,6 @@ use http;
 use session;
 
 /**
- * Index Action
- */
-function index(): void
-{
-}
-
-/**
- * Admin Action
- */
-function admin(): void
-{
-}
-
-/**
- * Browser Action
- */
-function browser(): void
-{
-}
-
-/**
  * Asset Action
  */
 function asset(array $ent): void
@@ -127,7 +106,6 @@ function view(array $ent): void
 function app_error(): void
 {
     http_response_code(404);
-    app\layout('content', ['message' => app\i18n('Page not found')]);
 }
 
 /**
