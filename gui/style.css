@@ -670,11 +670,6 @@ button.icon {
     margin-right: 1.5rem;
 }
 
-/* Search */
-#search [type=search] {
-    background: none;
-}
-
 /**
  * Responsive
  */
