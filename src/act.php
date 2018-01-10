@@ -54,7 +54,6 @@ function index(array $ent): void
 
     app\layout('content', ['attr' => $ent['act'][$act], 'crit' => $crit, 'eId' => $ent['id'], 'opt' => $opt, 'params' => $p, 'title' => $ent['name']]);
     app\layout('pager', ['limit' => $opt['limit'], 'params' => $p, 'size' => $size]);
-    app\layout('search', ['q' => $p['q'] ?? '']);
     app\layout('meta', ['title' => $ent['name']]);
 }
 

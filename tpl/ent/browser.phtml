@@ -1,11 +1,17 @@
 <?php
 namespace app;
 use attr;
+use session;
 /** @var callable $§ */
 ?>
 <section id="<?=$§('id');?>">
     <h1><?=$§('title');?></h1>
 <?php if ($§('data')):?>
+    <form method="post" class="search">
+        <input type="search" name="param[q]" value="<?=$§('params')['q'] ?? '';?>" placeholder="<?= i18n('Search Term');?>" />
+        <input type="submit" value="search" title="<?= i18n('Search');?>" class="icon" />
+        <input type="hidden" name="token" value="<?= session\token();?>" />
+    </form>
     <?php foreach ($§('data') as $data):?>
     <article>
         <?php foreach ($§('attr') as $aId):?>

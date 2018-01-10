@@ -74,11 +74,6 @@ return [
             'type' => 'pager',
             'tpl' => 'ent/pager.phtml',
         ],
-        'search' => [
-            'type' => 'tpl',
-            'tpl' => 'layout/search.phtml',
-            'parent_id' => 'sidebar',
-        ],
     ],
     'admin' => [
         'content' => [
@@ -89,11 +84,6 @@ return [
         'pager' => [
             'type' => 'pager',
             'tpl' => 'ent/pager.phtml',
-        ],
-        'search' => [
-            'type' => 'tpl',
-            'tpl' => 'layout/search.phtml',
-            'parent_id' => 'sidebar',
         ],
     ],
     'browser' => [
@@ -117,11 +107,6 @@ return [
         'pager' => [
             'type' => 'pager',
             'tpl' => 'ent/pager.phtml',
-        ],
-        'search' => [
-            'type' => 'tpl',
-            'tpl' => 'layout/search.phtml',
-            'parent_id' => 'sidebar',
         ],
     ],
     'edit' => [

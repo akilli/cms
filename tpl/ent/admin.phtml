@@ -1,18 +1,24 @@
 <?php
 namespace app;
 use attr;
+use session;
 /** @var callable $§ */
 ?>
 <section id="<?=$§('id');?>">
     <h1><?=$§('title');?></h1>
     <?php if (allowed('*/edit')):?>
-    <p><a href="<?= url('*/edit');?>" role="button" class="icon" title="<?= i18n('New Entry');?>">add_circle</a></p>
+    <p class="create"><a href="<?= url('*/edit');?>" role="button" class="icon" title="<?= i18n('New Entry');?>">add_circle</a></p>
     <?php endif;?>
     <?php if ($§('data')):?>
         <?php
         $p = $§('params') + ['sort' => null, 'dir' => null];
         if (array_key_exists('cur', $p) && $p['cur'] <= 1) unset($p['cur']);
         ?>
+    <form method="post" class="search">
+        <input type="search" name="param[q]" value="<?=$§('params')['q'] ?? '';?>" placeholder="<?= i18n('Search Term');?>" />
+        <input type="submit" value="search" title="<?= i18n('Search');?>" class="icon" />
+        <input type="hidden" name="token" value="<?= session\token();?>" />
+    </form>
     <table class="data">
         <thead>
             <tr>
