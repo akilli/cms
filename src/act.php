@@ -25,9 +25,7 @@ function index(array $ent): void
 
     $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
     $p += $act === 'browser' ? ['CKEditorFuncNum' => null] : [];
-    $sessKey = 'param/' . $ent['id'] . '/' . $act;
-    $rp = http\req('param') ?: (array) session\get($sessKey);
-    $p = arr\replace($p, $rp);
+    $p = arr\replace($p, http\req('param'));
 
     if ($p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
         $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
@@ -54,7 +52,6 @@ function index(array $ent): void
         unset($p['sort'], $p['dir']);
     }
 
-    session\set($sessKey, $p);
     app\layout('content', ['attr' => $ent['act'][$act], 'crit' => $crit, 'eId' => $ent['id'], 'opt' => $opt, 'params' => $p, 'title' => $ent['name']]);
     app\layout('pager', ['limit' => $opt['limit'], 'params' => $p, 'size' => $size]);
     app\layout('search', ['q' => $p['q'] ?? '']);
