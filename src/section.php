@@ -167,6 +167,17 @@ function menu(array $§): string
 }
 
 /**
+ * Meta section
+ */
+function meta(array $§): string
+{
+    $§['vars'] = arr\replace(['title' => null], $§['vars']);
+    $§['vars']['title'] = $§['vars']['title'] ?: app\cfg('app', 'name');
+
+    return tpl($§);
+}
+
+/**
  * Message section
  */
 function msg(array $§): string

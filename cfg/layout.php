@@ -9,7 +9,7 @@ return [
             'type' => 'container',
         ],
         'meta' => [
-            'type' => 'tpl',
+            'type' => 'meta',
             'tpl' => 'head/meta.phtml',
             'parent_id' => 'head',
             'sort' => -3,

@@ -13,25 +13,22 @@ use session;
 /**
  * Index Action
  */
-function index(array $ent): void
+function index(): void
 {
-    app\layout('meta', ['title' => $ent['name']]);
 }
 
 /**
  * Admin Action
  */
-function admin(array $ent): void
+function admin(): void
 {
-    app\layout('meta', ['title' => $ent['name']]);
 }
 
 /**
  * Browser Action
  */
-function browser(array $ent): void
+function browser(): void
 {
-    app\layout('meta', ['title' => $ent['name']]);
 }
 
 /**
@@ -80,8 +77,7 @@ function edit(array $ent): void
     $data = array_replace($base, $data);
 
     app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $act), 'title' => $ent['name']]);
-    app\layout('meta', ['title' => $ent['name']]);
-}
+ }
 
 /**
  * Form Action
@@ -132,7 +128,6 @@ function app_error(): void
 {
     http_response_code(404);
     app\layout('content', ['message' => app\i18n('Page not found')]);
-    app\layout('meta', ['title' => app\i18n('Page not found')]);
 }
 
 /**
@@ -140,7 +135,6 @@ function app_error(): void
  */
 function app_home(): void
 {
-    app\layout('meta', ['title' => app\cfg('app', 'name')]);
 }
 
 /**
@@ -166,7 +160,6 @@ function account_password(): void
     }
 
     app\layout('content', ['error' => $data['_error']['password'] ?? null]);
-    app\layout('meta', ['title' => app\i18n('Password')]);
 }
 
 /**
@@ -183,8 +176,6 @@ function account_login(): void
 
         app\msg(app\i18n('Invalid name and password combination'));
     }
-
-    app\layout('meta', ['title' => app\i18n('Login')]);
 }
 
 /**
