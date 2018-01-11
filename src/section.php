@@ -41,12 +41,13 @@ function index(array $§): string
 
     $crit = $act !== 'admin' && $ent['version'] ? [['status', 'published']] : [];
     $opt = ['limit' => app\cfg('app', 'limit')];
-    $p = ['CKEditorFuncNum' => null, 'cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
-    $p = arr\replace($p, http\req('param'));
+    $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
 
-    if ($p['CKEditorFuncNum'] === null) {
-        unset($p['CKEditorFuncNum']);
+    if ($act === 'browser') {
+        $p += ['CKEditorFuncNum' => null];
     }
+
+    $p = arr\replace($p, http\req('param'));
 
     if ($p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
         $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
