@@ -99,8 +99,8 @@ function index(array $§): string
         $p['cur'] = $cur;
     }
 
-    $§['vars']['limit'] = $opt['limit'];
-    $§['vars']['offset'] = $opt['offset'];
+    $§['vars']['max'] = min($opt['offset'] + $opt['limit'], $§['vars']['size']);
+    $§['vars']['min'] = $opt['offset'] + 1;
     $§['vars']['param'] = $p;
     $§['vars']['title'] = $ent['name'];
 

@@ -34,7 +34,7 @@ use session;
         <?php endforeach;?>
     <nav class="pager">
         <div class="info">
-            <?=i18n('%s to %s of %s', $§('offset') + 1, min($§('offset') + $§('limit'), $§('size')), $§('size'));?>
+            <?=i18n('%s to %s of %s', $§('min'), $§('max'), $§('size'));?>
         </div>
         <div class="links">
             <?php foreach ($§('pager') as $link):?>
