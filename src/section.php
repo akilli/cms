@@ -69,8 +69,9 @@ function index(array $§): string
 
     $§['vars']['size'] = ent\size($ent['id'], $crit);
     $pages = (int) ceil($§['vars']['size'] / $opt['limit']) ?: 1;
-    $p['cur'] = min(max($p['cur'], 1), $pages);
-    $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
+    $cur = min(max($p['cur'], 1), $pages);
+    unset($p['cur']);
+    $opt['offset'] = ($cur - 1) * $opt['limit'];
 
     if ($p['sort'] && in_array($p['sort'], $§['vars']['attr'])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
@@ -80,28 +81,32 @@ function index(array $§): string
     }
 
     $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
-    $cur = max($p['cur'] ?? 0, 1);
-    $pages = (int) ceil($§['vars']['size'] / $opt['limit']);
-    $§['vars']['offset'] = ($cur - 1) * $opt['limit'];
     $cfg = app\cfg('app', 'pager');
     $min = max(1, min($cur - intdiv($cfg, 2), $pages - $cfg + 1));
     $max = min($min + $cfg - 1, $pages);
     $§['vars']['pager'] = [];
 
     if ($cur >= 2) {
-        $§['vars']['pager'][] = ['name' => app\i18n('Previous'), 'param' => ['cur' => $cur - 1] + $p];
+        $lp = $cur === 2 ? $p : ['cur' => $cur - 1] + $p;
+        $§['vars']['pager'][] = ['name' => app\i18n('Previous'), 'param' => $lp];
     }
 
     for ($i = $min; $min < $max && $i <= $max; $i++) {
-        $§['vars']['pager'][] = ['name' => $i, 'param' => ['cur' => $i] + $p, 'active' => $i === $cur];
+        $lp = $i === 1 ? $p : ['cur' => $i] + $p;
+        $§['vars']['pager'][] = ['name' => $i, 'param' => $lp, 'active' => $i === $cur];
     }
 
     if ($cur < $pages) {
         $§['vars']['pager'][] = ['name' => app\i18n('Next'), 'param' => ['cur' => $cur + 1] + $p];
     }
 
+    if ($cur > 1) {
+        $p['cur'] = $cur;
+    }
+
     $§['vars']['ent'] = $ent;
     $§['vars']['limit'] = $opt['limit'];
+    $§['vars']['offset'] = $opt['offset'];
     $§['vars']['param'] = $p;
 
     return tpl($§);
