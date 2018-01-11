@@ -50,7 +50,7 @@ function index(array $§): string
     $p = ['CKEditorFuncNum' => null, 'cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
     $p = arr\replace($p, http\req('param'));
 
-    if (!$p['CKEditorFuncNum']) {
+    if ($p['CKEditorFuncNum'] === null) {
         unset($p['CKEditorFuncNum']);
     }
 
