@@ -52,6 +52,14 @@ return [
             'type' => 'container',
         ],
     ],
+    '_admin_' => [
+        'sidebar' => [
+            'active' => false,
+        ],
+        'bottom' => [
+            'active' => false,
+        ],
+    ],
     '_public_' => [
         'menu' => [
             'type' => 'menu',
@@ -82,9 +90,6 @@ return [
     ],
     'browser' => [
         'top' => [
-            'active' => false,
-        ],
-        'bottom' => [
             'active' => false,
         ],
         'rte' => [
@@ -141,12 +146,6 @@ return [
     ],
     'account/login' => [
         'top' => [
-            'active' => false,
-        ],
-        'sidebar' => [
-            'active' => false,
-        ],
-        'bottom' => [
             'active' => false,
         ],
         'content' => [
