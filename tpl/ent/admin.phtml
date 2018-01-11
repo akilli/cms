@@ -4,7 +4,7 @@ use attr;
 use session;
 /** @var callable $§ */
 ?>
-<section id="<?=$§('id');?>">
+<section id="<?=$§('id');?>" class="index">
     <h1><?=$§('title');?></h1>
     <?php if (allowed('*/edit')):?>
     <p class="create"><a href="<?=url('*/edit');?>" role="button" class="icon" title="<?=i18n('New Entry');?>">add_circle</a></p>

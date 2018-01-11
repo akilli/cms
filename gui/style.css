@@ -201,10 +201,7 @@ img,
 object,
 video {
     max-width: 100%;
-}
-
-img {
-    vertical-align: bottom;
+    vertical-align: middle;
 }
 
 audio,
@@ -640,6 +637,13 @@ button.icon {
 #toolbar a:hover,
 #toolbar a.active {
     text-decoration: underline;
+}
+
+/* Index */
+.index table.data audio,
+.index table.data img,
+.index table.data video {
+    max-width: 15rem;
 }
 
 /* Pager */
