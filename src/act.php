@@ -11,23 +11,6 @@ use http;
 use session;
 
 /**
- * Asset Action
- */
-function asset(array $ent): void
-{
-    if (!($id = http\req('id')) || !is_file(app\path('asset', $ent['id'] . '/' . $id))) {
-        http_response_code(404);
-        exit;
-    }
-
-    http_response_code(200);
-    header('X-Accel-Redirect: ' . APP['url.asset'] . $ent['id'] . '/' . $id);
-    header('X-Accel-Buffering: no');
-    header('Content-Type: ', true);
-    exit;
-}
-
-/**
  * Form Action
  */
 function form(array $ent): void
@@ -66,20 +49,6 @@ function edit(array $ent): void
 }
 
 /**
- * Delete Action
- */
-function delete(array $ent): void
-{
-    if ($id = http\req('id')) {
-        ent\delete($ent['id'], [['id', $id]]);
-    } else {
-        app\msg(app\i18n('Nothing to delete'));
-    }
-
-    http\redirect(app\url('*/admin'));
-}
-
-/**
  * View Action
  */
 function view(array $ent): void
@@ -97,6 +66,37 @@ function view(array $ent): void
 
     app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'view')]);
     app\layout('meta', ['title' => $data['name']]);
+}
+
+/**
+ * Delete Action
+ */
+function delete(array $ent): void
+{
+    if ($id = http\req('id')) {
+        ent\delete($ent['id'], [['id', $id]]);
+    } else {
+        app\msg(app\i18n('Nothing to delete'));
+    }
+
+    http\redirect(app\url('*/admin'));
+}
+
+/**
+ * Asset Action
+ */
+function asset(array $ent): void
+{
+    if (!($id = http\req('id')) || !is_file(app\path('asset', $ent['id'] . '/' . $id))) {
+        http_response_code(404);
+        exit;
+    }
+
+    http_response_code(200);
+    header('X-Accel-Redirect: ' . APP['url.asset'] . $ent['id'] . '/' . $id);
+    header('X-Accel-Buffering: no');
+    header('Content-Type: ', true);
+    exit;
 }
 
 /**
