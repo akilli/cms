@@ -47,9 +47,12 @@ function index(array $§): string
         $crit[] = ['status', 'published'];
     }
 
-    $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => 'asc'];
-    $p += $act === 'browser' ? ['CKEditorFuncNum' => null] : [];
+    $p = ['CKEditorFuncNum' => null, 'cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
     $p = arr\replace($p, http\req('param'));
+
+    if (!$p['CKEditorFuncNum']) {
+        unset($p['CKEditorFuncNum']);
+    }
 
     if ($p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
         $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
