@@ -108,6 +108,7 @@ function index(array $§): string
     $§['vars']['limit'] = $opt['limit'];
     $§['vars']['offset'] = $opt['offset'];
     $§['vars']['param'] = $p;
+    $§['vars']['title'] = $ent['name'];
 
     return tpl($§);
 }
