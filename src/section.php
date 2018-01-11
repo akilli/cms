@@ -39,14 +39,8 @@ function index(array $§): string
         return '';
     }
 
-    $§['vars']['attr'] = $ent['act'][$act];
+    $crit = $act !== 'admin' && $ent['version'] ? [['status', 'published']] : [];
     $opt = ['limit' => app\cfg('app', 'limit')];
-    $crit = [];
-
-    if ($act !== 'admin' && $ent['version']) {
-        $crit[] = ['status', 'published'];
-    }
-
     $p = ['CKEditorFuncNum' => null, 'cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
     $p = arr\replace($p, http\req('param'));
 
@@ -72,8 +66,9 @@ function index(array $§): string
     $cur = min(max($p['cur'], 1), $pages);
     unset($p['cur']);
     $opt['offset'] = ($cur - 1) * $opt['limit'];
+    $§['vars']['attr'] = ent\attr($ent, $act);
 
-    if ($p['sort'] && in_array($p['sort'], $§['vars']['attr'])) {
+    if ($p['sort'] && !empty($§['vars']['attr'][$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
         $opt['order'] = [$p['sort'] => $p['dir']];
     } else {
@@ -104,7 +99,6 @@ function index(array $§): string
         $p['cur'] = $cur;
     }
 
-    $§['vars']['ent'] = $ent;
     $§['vars']['limit'] = $opt['limit'];
     $§['vars']['offset'] = $opt['offset'];
     $§['vars']['param'] = $p;

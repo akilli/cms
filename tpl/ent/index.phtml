@@ -14,19 +14,18 @@ use session;
     </form>
     <?php foreach ($§('data') as $data):?>
     <article>
-        <?php foreach ($§('attr') as $aId):?>
-            <?php $attr = $§('ent')['attr'][$aId] ?? null;?>
-            <?php if (!$attr || !($html = attr\viewer($data, $attr))) continue;?>
-            <?php if ($aId === 'name'):?>
+        <?php foreach ($§('attr') as $attr):?>
+            <?php if (!$html = attr\viewer($data, $attr)) continue;?>
+            <?php if ($attr['id'] === 'name'):?>
                 <?php if (allowed($data['_ent']['id'] . '/view')):?>
-        <h1 data-attr="<?=$aId;?>" data-type="<?=$attr['type'];?>">
+        <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
             <a href="<?=$data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
         </h1>
                 <?php else:?>
-        <h1 data-attr="<?=$aId;?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
+        <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
                 <?php endif;?>
             <?php else:?>
-        <div data-attr="<?=$aId;?>" data-type="<?=$attr['type'];?>">
+        <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
             <?=$html;?>
         </div>
             <?php endif;?>

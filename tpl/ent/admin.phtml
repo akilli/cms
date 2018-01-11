@@ -19,13 +19,11 @@ use session;
     <table class="data">
         <thead>
             <tr>
-                <?php foreach ($§('attr') as $aId):?>
-                    <?php $attr = $§('ent')['attr'][$aId] ?? null;?>
-                    <?php if (!$attr) continue;?>
-                    <?php $dir = $p['sort'] === $aId && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
+                <?php foreach ($§('attr') as $attr):?>
+                    <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
                 <th>
-                    <a href="<?=url('*/*', ['sort' => $aId, 'dir' => $dir] + $p);?>"><?=$attr['name'];?></a>
-                    <?php if ($p['sort'] === $aId):?>
+                    <a href="<?=url('*/*', ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?=$attr['name'];?></a>
+                    <?php if ($p['sort'] === $attr['id']):?>
                     <span class="icon"><?=$p['dir'] === 'asc' ? 'arrow_drop_up' : 'arrow_drop_down';?></span>
                     <?php endif;?>
                 </th>
@@ -38,9 +36,7 @@ use session;
         <tbody>
             <?php foreach ($§('data') as $data):?>
             <tr>
-                <?php foreach ($§('attr') as $aId):?>
-                    <?php $attr = $§('ent')['attr'][$aId] ?? null;?>
-                    <?php if (!$attr) continue;?>
+                <?php foreach ($§('attr') as $attr):?>
                 <td>
                     <?=attr\viewer($data, $attr);?>
                 </td>
