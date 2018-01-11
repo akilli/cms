@@ -112,7 +112,7 @@ return [
         'type' => 'db',
         'version' => true,
         'act' => [
-            'admin' => ['pos', 'name', 'status', 'date'],
+            'admin' => ['name', 'pos', 'status', 'date'],
             'delete' => [],
             'edit' => ['name', 'content', 'slug', 'parent_id', 'sort', 'status'],
             'index' => ['name'],
