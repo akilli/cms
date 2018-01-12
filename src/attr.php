@@ -15,16 +15,16 @@ use DomainException;
  *
  * @throws DomainException
  */
-function filter(array $data, array $attr): array
+function filter(array $attr, array $data): array
 {
-    $data[$attr['id']] = cast($data[$attr['id']] ?? null, $attr);
+    $data[$attr['id']] = cast($attr, $data[$attr['id']] ?? null);
 
     if ($attr['nullable'] && $data[$attr['id']] === null) {
         return $data;
     }
 
     if ($attr['filter']) {
-        $data[$attr['id']] = ('filter\\' . $attr['filter'])($data[$attr['id']], opt($data, $attr));
+        $data[$attr['id']] = ('filter\\' . $attr['filter'])($data[$attr['id']], opt($attr, $data));
     }
 
     $crit = [[$attr['id'], $data[$attr['id']]]];
@@ -59,9 +59,9 @@ function filter(array $data, array $attr): array
 /**
  * Frontend
  */
-function frontend(array $data, array $attr): string
+function frontend(array $attr, array $data): string
 {
-    $data[$attr['id']] = cast($data[$attr['id']] ?? $attr['val'], ['nullable' => false] + $attr);
+    $data[$attr['id']] = cast(['nullable' => false] + $attr, $data[$attr['id']] ?? $attr['val']);
     $html['id'] =  'data-' . $attr['id'];
     $html['name'] =  'data[' . $attr['id'] . ']';
     $html['data-type'] =  $attr['type'];
@@ -73,7 +73,7 @@ function frontend(array $data, array $attr): string
         $html['multiple'] = true;
     }
 
-    if ($attr['required'] && !ignorable($data, $attr)) {
+    if ($attr['required'] && !ignorable($attr, $data)) {
         $html['required'] = true;
         $label .= ' ' . html\tag('em', ['class' => 'required'], app\i18n('Required'));
     }
@@ -99,7 +99,7 @@ function frontend(array $data, array $attr): string
         $error = html\tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
-    $out = ('frontend\\' . $attr['frontend'])($html, $data[$attr['id']], opt($data, $attr));
+    $out = ('frontend\\' . $attr['frontend'])($html, $data[$attr['id']], opt($attr, $data));
 
     return html\tag('label', ['for' => $html['id']], $label) . $out . $error;
 }
@@ -107,14 +107,14 @@ function frontend(array $data, array $attr): string
 /**
  * Viewer
  */
-function viewer(array $data, array $attr): string
+function viewer(array $attr, array $data): string
 {
     if (!isset($data[$attr['id']]) || $data[$attr['id']] === '') {
         return '';
     }
 
     if ($attr['viewer']) {
-        return ('viewer\\' . $attr['viewer'])($data[$attr['id']], opt($data, $attr));
+        return ('viewer\\' . $attr['viewer'])($data[$attr['id']], opt($attr, $data));
     }
 
     return app\enc((string) $data[$attr['id']]);
@@ -123,14 +123,14 @@ function viewer(array $data, array $attr): string
 /**
  * Option
  */
-function opt(array $data, array $attr): array
+function opt(array $attr, array $data): array
 {
     if ($attr['type'] === 'ent') {
-        return opt\ent($data, $attr);
+        return opt\ent($attr);
     }
 
     if (is_string($attr['opt'])) {
-        return ('opt\\' . $attr['opt'])($data, $attr);
+        return ('opt\\' . $attr['opt'])($attr, $data);
     }
 
     return array_map('app\i18n', $attr['opt']);
@@ -141,7 +141,7 @@ function opt(array $data, array $attr): array
  *
  * @return mixed
  */
-function cast($val, array $attr)
+function cast(array $attr, $val)
 {
     if ($attr['nullable'] && ($val === null || $val === '')) {
         return null;
@@ -173,7 +173,7 @@ function cast($val, array $attr)
 /**
  * Check wheter attribute can be ignored
  */
-function ignorable(array $data, array $attr): bool
+function ignorable(array $attr, array $data): bool
 {
-    return !empty($data['_old'][$attr['id']]) && $attr['ignorable'];
+    return $attr['ignorable'] && !empty($data['_old'][$attr['id']]);
 }

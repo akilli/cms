@@ -11,7 +11,7 @@ use session;
         <fieldset>
             <?php foreach ($§('attr') as $attr):?>
             <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-                <?=attr\frontend($data, $attr);?>
+                <?=attr\frontend($attr, $data);?>
             </div>
             <?php endforeach;?>
         </fieldset>

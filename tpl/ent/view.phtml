@@ -6,7 +6,7 @@ use attr;
 <?php if ($data = $§('data')):?>
 <article id="<?=$§('id');?>">
     <?php foreach ($§('attr') as $attr):?>
-        <?php if (!$html = attr\viewer($data, $attr)) continue;?>
+        <?php if (!$html = attr\viewer($attr, $data)) continue;?>
         <?php if ($attr['id'] === 'name'):?>
     <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
         <?php else:?>

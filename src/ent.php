@@ -101,7 +101,7 @@ function save(string $eId, array & $data): bool
     $aIds = [];
 
     foreach (array_intersect_key($tmp, $tmp['_ent']['attr']) as $aId => $val) {
-        if (($val === null || $val === '') && attr\ignorable($tmp, $tmp['_ent']['attr'][$aId])) {
+        if (($val === null || $val === '') && attr\ignorable($tmp['_ent']['attr'][$aId], $tmp)) {
             unset($data[$aId], $tmp[$aId]);
         } else {
             $aIds[] = $aId;
@@ -117,7 +117,7 @@ function save(string $eId, array & $data): bool
 
     foreach ($aIds as $aId) {
         try {
-            $tmp = attr\filter($tmp, $tmp['_ent']['attr'][$aId]);
+            $tmp = attr\filter($tmp['_ent']['attr'][$aId], $tmp);
         } catch (Throwable $e) {
             $tmp['_error'][$aId] = $e->getMessage();
         }
@@ -238,7 +238,7 @@ function attr(array $ent, string $act): array
 function load(array $ent, array $data): array
 {
     foreach (array_intersect_key($data, $ent['attr']) as $aId => $val) {
-        $data[$aId] = attr\cast($val, $ent['attr'][$aId]);
+        $data[$aId] = attr\cast($ent['attr'][$aId], $val);
     }
 
     $data += ['_old' => $data, '_ent' => $ent];

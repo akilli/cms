@@ -9,7 +9,7 @@ use ent;
 /**
  * Entity options
  */
-function ent(array $data, array $attr): array
+function ent(array $attr): array
 {
     if (($opt = & app\data('opt.ent.' . $attr['opt'])) === null) {
         $order = $attr['opt'] === 'page' ? ['pos' => 'asc'] : ['name' => 'asc'];
@@ -56,7 +56,7 @@ function priv(): array
 /**
  * Status options
  */
-function status(array $data, array $attr): array
+function status(array $attr, array $data): array
 {
     $opt = ['draft' => 'Draft', 'pending' => 'Pending'];
 
