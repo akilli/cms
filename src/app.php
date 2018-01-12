@@ -124,24 +124,6 @@ function i18n(string $key, string ...$args): string
 }
 
 /**
- * Converts special chars to HTML entities
- */
-function enc(string $val): string
-{
-    return htmlspecialchars($val, ENT_QUOTES, ini_get('default_charset'), false);
-}
-
-/**
- * Converts a date, time or datetime from one to another format
- */
-function datetime(string $val, string $in, string $out): string
-{
-    $val = $val ? date_create_from_format($in, $val) : date_create();
-
-    return $val && ($val = date_format($val, $out)) ? $val : '';
-}
-
-/**
  * Returns layout section and optionally sets variables
  *
  * @throws DomainException
@@ -321,6 +303,32 @@ function path(string $dir, string $id = null): string
     }
 
     return APP['path'][$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
+}
+
+/**
+ * Converts special chars to HTML entities
+ */
+function enc(string $val): string
+{
+    return htmlspecialchars($val, ENT_QUOTES, ini_get('default_charset'), false);
+}
+
+/**
+ * Converts a date, time or datetime from one to another format
+ */
+function datetime(string $val, string $in, string $out): string
+{
+    $val = $val ? date_create_from_format($in, $val) : date_create();
+
+    return $val && ($val = date_format($val, $out)) ? $val : '';
+}
+
+/**
+ * Generate hash
+ */
+function hash(): string
+{
+    return md5(uniqid((string) mt_rand(), true));
 }
 
 /**
