@@ -324,14 +324,6 @@ function datetime(string $val, string $in, string $out): string
 }
 
 /**
- * Generate hash
- */
-function hash(): string
-{
-    return md5(uniqid((string) mt_rand(), true));
-}
-
-/**
  * Logger
  */
 function log(Throwable $e): void

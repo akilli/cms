@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace session;
 
-use app;
-
 /**
  * Session data getter
  *
@@ -71,7 +69,7 @@ function regenerate(): void
 function token(): string
 {
     if (!$token = get('token')) {
-        $token = app\hash();
+        $token = md5(uniqid((string) mt_rand(), true));
         set('token', $token);
     }
 
