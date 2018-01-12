@@ -52,7 +52,7 @@ function save(array $data): array
     $db = & app\data('memory.' . $data['_ent']['id']);
 
     if (!$data['_old'] && $data['_ent']['attr']['id']['auto']) {
-        $data['id'] = app\hash();
+        $data['id'] = max(array_keys($db)) + 1;
     }
 
     $db[$data['id']] = $data;
