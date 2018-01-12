@@ -51,7 +51,7 @@ function save(array $data): array
 {
     $db = & app\data('memory.' . $data['_ent']['id']);
 
-    if (!$data['_old'] && !isset($data['id'])) {
+    if (!$data['_old'] && $data['_ent']['attr']['id']['auto']) {
         $data['id'] = app\hash();
     }
 
