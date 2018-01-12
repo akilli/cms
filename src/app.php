@@ -50,20 +50,6 @@ function & data(string $id): ?array
 }
 
 /**
- * Gets absolute path to specified subpath in given directory
- *
- * @throws DomainException
- */
-function path(string $dir, string $id = null): string
-{
-    if (empty(APP['path'][$dir])) {
-        throw new DomainException(i18n('Invalid path %s', $dir));
-    }
-
-    return APP['path'][$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
-}
-
-/**
  * Loads and returns configuration data
  *
  * @return mixed
@@ -321,6 +307,20 @@ function rewrite(string $path): string
     }
 
     return $data[$path];
+}
+
+/**
+ * Gets absolute path to specified subpath in given directory
+ *
+ * @throws DomainException
+ */
+function path(string $dir, string $id = null): string
+{
+    if (empty(APP['path'][$dir])) {
+        throw new DomainException(i18n('Invalid path %s', $dir));
+    }
+
+    return APP['path'][$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
 }
 
 /**
