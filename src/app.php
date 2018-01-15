@@ -226,12 +226,8 @@ function resolve(string $key): string
  */
 function url(string $path = '', array $params = []): string
 {
-    if (!$path = trim($path, '/')) {
+    if (!$path || !($path = trim($path, '/'))) {
         return '/';
-    }
-
-    if ($path[0] === '#' || strpos($path, 'http') === 0) {
-        return $path;
     }
 
     return '/' . resolve($path) . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
