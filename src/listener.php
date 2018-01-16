@@ -188,20 +188,6 @@ function ent_postdelete(array $data): array
 }
 
 /**
- * File presave listener
- */
-function file_presave(array $data): array
-{
-    $file = http\req('file')['name']['tmp_name'] ?? null;
-
-    if ($file) {
-        $data['size'] = filesize($file);
-    }
-
-    return $data;
-}
-
-/**
  * Page postfilter listener
  */
 function page_postfilter(array $data): array

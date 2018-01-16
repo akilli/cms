@@ -94,23 +94,6 @@ function file(string $val): string
 }
 
 /**
- * Filesize viewer
- */
-function filesize(int $val): string
-{
-    $key = 0;
-    $units = ['B', 'kB', 'MB', 'GB'];
-
-    foreach (array_keys($units) as $key) {
-        if ($val < 1000 ** ($key + 1)) {
-            break;
-        }
-    }
-
-    return round($val / 1000 ** $key, 1) . ' ' . $units[$key];
-}
-
-/**
  * Position viewer
  */
 function pos(string $val): string
