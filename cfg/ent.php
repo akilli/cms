@@ -70,9 +70,9 @@ return [
         'name' => 'Files',
         'type' => 'db',
         'act' => [
-            'admin' => ['name'],
+            'admin' => ['name', 'size'],
             'asset' => [],
-            'browser' => ['name'],
+            'browser' => ['name', 'size'],
             'delete' => [],
             'edit' => ['name', 'info'],
         ],
@@ -99,6 +99,11 @@ return [
                 'type' => 'textarea',
                 'searchable' => true,
                 'val' => '',
+            ],
+            'size' => [
+                'name' => 'Size',
+                'type' => 'int',
+                'viewer' => 'filesize',
             ],
         ],
     ],
