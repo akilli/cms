@@ -230,6 +230,10 @@ function url(string $path = '', array $params = []): string
         return '/';
     }
 
+    if ($path[0] === '#' || strpos($path, 'http') === 0) {
+        return $path;
+    }
+
     return '/' . resolve($path) . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
 }
 
