@@ -94,6 +94,14 @@ function file(string $val): string
 }
 
 /**
+ * File option viewer
+ */
+function fileopt(int $val, array $opt): string
+{
+    return !empty($opt[$val]) ? file($opt[$val]) : '';
+}
+
+/**
  * Filesize viewer
  */
 function filesize(int $val): string

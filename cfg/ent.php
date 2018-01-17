@@ -114,9 +114,9 @@ return [
         'act' => [
             'admin' => ['name', 'pos', 'status', 'date'],
             'delete' => [],
-            'edit' => ['name', 'content', 'slug', 'parent_id', 'sort', 'status'],
+            'edit' => ['name', 'image', 'content', 'slug', 'parent_id', 'sort', 'status'],
             'index' => ['name'],
-            'view' => ['content'],
+            'view' => ['image', 'content'],
         ],
         'attr' => [
             'id' => [
@@ -129,6 +129,13 @@ return [
                 'required' => true,
                 'searchable' => true,
                 'maxlength' => 100,
+            ],
+            'image' => [
+                'name' => 'Image',
+                'type' => 'ent',
+                'nullable' => true,
+                'opt' => 'file',
+                'viewer' => 'fileopt',
             ],
             'content' => [
                 'name' => 'Content',
