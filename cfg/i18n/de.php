@@ -24,6 +24,7 @@ return [
     'File upload failed for %s' => 'Datei %s konnte nicht hochgeladen werden',
     'Files' => 'Dateien',
     'ID' => 'ID',
+    'Image' => 'Bild',
     'Info' => 'Info',
     'Invalid action %s for entity %s' => 'Ungültige Aktion %s für Entität %s',
     'Invalid configuration' => 'Ungültige Konfiguration',
