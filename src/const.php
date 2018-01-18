@@ -103,4 +103,5 @@ const APP = [
     'url.asset' => '/asset/',
     'url.ext' => '/ext/',
     'url.gui' => '/gui/',
+    'url.page' => '/page/view/',
 ];
