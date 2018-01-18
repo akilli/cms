@@ -55,7 +55,7 @@ function view(array $ent): void
 {
     $crit = [['id', http\req('id')]];
 
-    if (!app\allowed('*/edit') && $ent['version']) {
+    if (!app\allowed($ent['id'] . '/edit') && $ent['version']) {
         $crit[] = ['status', 'published'];
     }
 
