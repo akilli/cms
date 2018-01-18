@@ -1,4 +1,4 @@
 <?php
 return [
-    '/' => ['target' => 'app/home'],
+    '/' => 'app/home',
 ];

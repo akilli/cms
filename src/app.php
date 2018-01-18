@@ -17,9 +17,9 @@ use Throwable;
  */
 function run(): void
 {
-    $allowed = allowed('*/*');
     $act = http\req('act');
     $eId = http\req('ent');
+    $allowed = allowed($eId . '/' . $act);
     $ent = cfg('ent', $eId);
     $full = is_callable('act\\' . $eId . '_' . $act) ? 'act\\' . $eId . '_' . $act : null;
     $fallback = is_callable('act\\' . $act) ? 'act\\' . $act : null;
@@ -204,8 +204,6 @@ function tpl(string $id): string
  */
 function allowed(string $key): bool
 {
-    $key = resolve($key);
-
     if (!$cfg = cfg('priv', $key)) {
         return false;
     }
@@ -214,23 +212,13 @@ function allowed(string $key): bool
 }
 
 /**
- * Resolves wildcards, i.e. asterisks, for entity and action part with appropriate values from current request
- */
-function resolve(string $key): string
-{
-    return preg_replace(['#^\*/#', '#^([^/]+)/\*($|/)#'], [http\req('ent') . '/', '$1/' . http\req('act') . '$2'], $key);
-}
-
-/**
  * Generate URL by given path and params
  */
-function url(string $path = '', array $params = []): string
+function url(?string $path = '', array $params = []): string
 {
-    if (!$path || !($path = trim($path, '/'))) {
-        return '/';
-    }
+    $p = $params ? '?' . http_build_query($params, '', '&amp;') : '';
 
-    return '/' . resolve($path) . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
+    return ($path === null ? '' : '/' . trim($path, '/')) . $p;
 }
 
 /**
@@ -270,18 +258,14 @@ function ext(string $path): string
  */
 function rewrite(string $path): string
 {
-    if (($cfg = cfg('url', $path)) && $cfg['redirect']) {
-        http\redirect($cfg['target'], $cfg['code']);
-    }
-
-    if ($cfg) {
-        return $cfg['target'];
+    if ($cfg = cfg('url', $path)) {
+        return $cfg;
     }
 
     $data = & data('url');
 
     if (empty($data[$path])) {
-        $data[$path] = ($page = ent\one('page', [['url', $path]], ['select' => ['id']])) ? APP['url.page'] . $page['id'] : $path;
+        $data[$path] = ($page = ent\one('page', [['url', $path]], ['select' => ['id']])) ? '/page/view/' . $page['id'] : $path;
     }
 
     return $data[$path];
