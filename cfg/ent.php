@@ -224,12 +224,6 @@ return [
                 'searchable' => true,
                 'filter' => 'path',
             ],
-            'page_id' => [
-                'name' => 'Page',
-                'type' => 'ent',
-                'nullable' => true,
-                'opt' => 'page',
-            ],
         ],
     ],
     'version' => [
