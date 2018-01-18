@@ -43,7 +43,7 @@ use session;
                 <?php endforeach;?>
                 <td>
                     <?php if (allowed($data['_ent']['id'] . '/view')):?>
-                    <a href="<?=url($data['_ent']['id'] . '/view/' . $data['id']);?>" class="icon" title="<?=i18n('View');?>">visibility</a>
+                    <a href="<?=$data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>" class="icon" title="<?=i18n('View');?>">visibility</a>
                     <?php endif;?>
                     <?php if (allowed($data['_ent']['id'] . '/edit')):?>
                     <a href="<?=url($data['_ent']['id'] . '/edit/' . $data['id']);?>" class="icon" title="<?=i18n('Edit');?>">edit</a>
