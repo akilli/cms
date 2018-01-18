@@ -196,6 +196,48 @@ return [
             ],
         ],
     ],
+    'url' => [
+        'name' => 'URL',
+        'type' => 'db',
+        'act' => [
+            'admin' => ['name', 'target', 'redirect', 'code'],
+            'delete' => [],
+            'edit' => ['name', 'target', 'redirect', 'code'],
+        ],
+        'attr' => [
+            'id' => [
+                'name' => 'ID',
+                'type' => 'serial',
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'unique' => true,
+                'searchable' => true,
+                'filter' => 'path',
+            ],
+            'target' => [
+                'name' => 'Target URL',
+                'type' => 'text',
+                'required' => true,
+                'searchable' => true,
+                'filter' => 'path',
+            ],
+            'redirect' => [
+                'name' => 'Redirect',
+                'type' => 'bool',
+                'required' => true,
+            ],
+            'code' => [
+                'name' => 'Status Code',
+                'type' => 'range',
+                'nullable' => true,
+                'min' => 301,
+                'max' => 308,
+            ],
+        ],
+    ],
     'version' => [
         'name' => 'Versions',
         'type' => 'db',
