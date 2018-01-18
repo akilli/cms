@@ -196,48 +196,6 @@ return [
             ],
         ],
     ],
-    'url' => [
-        'name' => 'URL',
-        'type' => 'db',
-        'act' => [
-            'admin' => ['name', 'target', 'redirect', 'code'],
-            'delete' => [],
-            'edit' => ['name', 'target', 'redirect', 'code'],
-        ],
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'type' => 'serial',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'unique' => true,
-                'searchable' => true,
-                'filter' => 'path',
-            ],
-            'target' => [
-                'name' => 'Target URL',
-                'type' => 'text',
-                'required' => true,
-                'searchable' => true,
-                'filter' => 'path',
-            ],
-            'redirect' => [
-                'name' => 'Redirect',
-                'type' => 'bool',
-                'required' => true,
-            ],
-            'code' => [
-                'name' => 'Status Code',
-                'type' => 'select',
-                'backend' => 'int',
-                'nullable' => true,
-                'opt' => [301 => 301, 302 => 302, 303 => 303, 304 => 304, 305 => 305, 307 => 307, 308 => 308],
-            ],
-        ],
-    ],
     'version' => [
         'name' => 'Versions',
         'type' => 'db',
