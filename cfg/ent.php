@@ -231,10 +231,10 @@ return [
             ],
             'code' => [
                 'name' => 'Status Code',
-                'type' => 'range',
+                'type' => 'select',
+                'backend' => 'int',
                 'nullable' => true,
-                'min' => 301,
-                'max' => 308,
+                'opt' => [301 => 301, 302 => 302, 303 => 303, 304 => 304, 305 => 305, 307 => 307, 308 => 308],
             ],
         ],
     ],
