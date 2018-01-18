@@ -12,9 +12,6 @@ return [
     'cfg.toolbar' => [
         'cfg_toolbar' => -1,
     ],
-    'cfg.url' => [
-        'cfg_url' => -1,
-    ],
     'ent.postdelete' => [
         'ent_postdelete' => -1,
     ],

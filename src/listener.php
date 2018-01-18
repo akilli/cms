@@ -107,18 +107,6 @@ function cfg_toolbar(array $data): array
 }
 
 /**
- * URL config listener
- */
-function cfg_url(array $data): array
-{
-    foreach ($data as $key => $val) {
-        $data[$key] = arr\replace(APP['url'], $val);
-    }
-
-    return $data;
-}
-
-/**
  * Entity postdelete listener
  *
  * @throws DomainException
