@@ -9,13 +9,13 @@ use Throwable;
 /**
  * Initialize application
  */
-$inc = function (string $path): void {
-    foreach (glob($path . '/*.php') as $file) {
-        include_once $file;
-    }
-};
-$inc(dirname(__DIR__) . '/src');
-$inc(path('ext', 'src'));
+foreach (glob(dirname(__DIR__) . '/src/*.php') as $file) {
+    include_once $file;
+}
+
+foreach (glob(path('ext', 'src/*.php')) as $file) {
+    include_once $file;
+}
 
 /**
  * Error handler
