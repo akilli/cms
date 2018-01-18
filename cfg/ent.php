@@ -228,7 +228,6 @@ return [
                 'name' => 'Page',
                 'type' => 'ent',
                 'nullable' => true,
-                'unique' => true,
                 'opt' => 'page',
             ],
         ],
