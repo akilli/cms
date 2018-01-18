@@ -6,8 +6,8 @@ use session;
 ?>
 <section id="<?=$§('id');?>" class="index">
     <h1><?=$§('title');?></h1>
-    <?php if (allowed('*/edit')):?>
-    <p class="create"><a href="<?=url('*/edit');?>" role="button" class="icon" title="<?=i18n('New Entry');?>">add_circle</a></p>
+    <?php if (allowed($§('ent')['id'] . '/edit')):?>
+    <p class="create"><a href="<?=url($§('ent')['id'] . '/edit');?>" role="button" class="icon" title="<?=i18n('New Entry');?>">add_circle</a></p>
     <?php endif;?>
     <?php if ($§('data')):?>
     <form method="post" class="search">
@@ -22,7 +22,7 @@ use session;
                 <?php foreach ($§('attr') as $attr):?>
                     <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
                 <th>
-                    <a href="<?=url('*/*', ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?=$attr['name'];?></a>
+                    <a href="<?=url(null, ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?=$attr['name'];?></a>
                     <?php if ($p['sort'] === $attr['id']):?>
                     <span class="icon"><?=$p['dir'] === 'asc' ? 'arrow_drop_up' : 'arrow_drop_down';?></span>
                     <?php endif;?>
@@ -42,14 +42,14 @@ use session;
                 </td>
                 <?php endforeach;?>
                 <td>
-                    <?php if (allowed('*/view')):?>
-                    <a href="<?=$data['url'] ?? url('*/view/' . $data['id']);?>" class="icon" title="<?=i18n('View');?>">visibility</a>
+                    <?php if (allowed($data['_ent']['id'] . '/view')):?>
+                    <a href="<?=url($data['_ent']['id'] . '/view/' . $data['id']);?>" class="icon" title="<?=i18n('View');?>">visibility</a>
                     <?php endif;?>
-                    <?php if (allowed('*/edit')):?>
-                    <a href="<?=url('*/edit/' . $data['id']);?>" class="icon" title="<?=i18n('Edit');?>">edit</a>
+                    <?php if (allowed($data['_ent']['id'] . '/edit')):?>
+                    <a href="<?=url($data['_ent']['id'] . '/edit/' . $data['id']);?>" class="icon" title="<?=i18n('Edit');?>">edit</a>
                     <?php endif;?>
-                    <?php if (allowed('*/delete')):?>
-                    <a href="<?=url('*/delete/' . $data['id']);?>" class="delete icon" title="<?=i18n('Delete');?>">delete</a>
+                    <?php if (allowed($data['_ent']['id'] . '/delete')):?>
+                    <a href="<?=url($data['_ent']['id'] . '/delete/' . $data['id']);?>" class="delete icon" title="<?=i18n('Delete');?>">delete</a>
                     <?php endif;?>
                 </td>
             </tr>
@@ -65,7 +65,7 @@ use session;
                 <?php if (!empty($link['active'])):?>
             <span><?=$link['name'];?></span>
                 <?php else:?>
-            <a href="<?=url('*/*', $link['param']);?>"><?=$link['name'];?></a>
+            <a href="<?=url(null, $link['param']);?>"><?=$link['name'];?></a>
                 <?php endif;?>
             <?php endforeach;?>
         </div>
