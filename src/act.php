@@ -22,7 +22,7 @@ function form(array $ent): void
 
     if ($data && ent\save($ent['id'], $data) && $act === 'edit') {
         $id = ($id ?: $data['id']);
-        http\redirect(app\url('*/*/' . $id));
+        http\redirect(app\url($ent['id'] . '/edit/' . $id));
     }
 
     if ($id) {
@@ -79,7 +79,7 @@ function delete(array $ent): void
         app\msg(app\i18n('Nothing to delete'));
     }
 
-    http\redirect(app\url('*/admin'));
+    http\redirect(app\url($ent['id'] . '/admin'));
 }
 
 /**
