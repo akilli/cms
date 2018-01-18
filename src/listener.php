@@ -119,15 +119,17 @@ function cfg_url(array $data): array
 }
 
 /**
- * Entity prefilter listener
+ * Entity postdelete listener
+ *
+ * @throws DomainException
  */
-function ent_prefilter(array $data): array
+function ent_postdelete(array $data): array
 {
     $attrs = $data['_ent']['attr'];
 
     foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
-        if ($attrs[$aId]['type'] === 'file' && $val) {
-            $data[$aId] = $data['_ent']['id'] . '/' . $val;
+        if ($attrs[$aId]['type'] === 'file' && $val && !file\delete(app\path('asset', $val))) {
+            throw new DomainException(app\i18n('Could not delete %s', $val));
         }
     }
 
@@ -144,6 +146,30 @@ function ent_postfilter(array $data): array
     foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
         if ($attrs[$aId]['type'] === 'password' && $val && !($data[$aId] = password_hash($val, PASSWORD_DEFAULT))) {
             $data['_error'][$aId] = app\i18n('Invalid password');
+        }
+    }
+
+    return $data;
+}
+
+/**
+ * Page entity postfilter listener
+ */
+function ent_postfilter_page(array $data): array
+{
+    $oldId = $data['_old']['id'] ?? null;
+    $parent = !empty($data['parent_id']) ? ent\one('page', [['id', $data['parent_id']]]) : null;
+
+    if ($parent && $oldId && in_array($oldId, $parent['path'])) {
+        $data['_error']['parent_id'] = app\i18n('Cannot assign the page itself or a child page as parent');
+    }
+
+    if (!empty($data['slug'])) {
+        $data['url'] = ($parent ? $parent['url'] : '') . '/' . $data['slug'];
+        $crit = $oldId ? [['url', $data['url']], ['id', $oldId, APP['crit']['!=']]] : [['url', $data['url']]];
+
+        if (ent\size('page', $crit)) {
+            $data['_error']['slug'] = app\i18n('Slug already used with selected parent');
         }
     }
 
@@ -170,65 +196,9 @@ function ent_postsave(array $data): array
 }
 
 /**
- * Entity postdelete listener
- *
- * @throws DomainException
+ * Page entity postsave listener
  */
-function ent_postdelete(array $data): array
-{
-    $attrs = $data['_ent']['attr'];
-
-    foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
-        if ($attrs[$aId]['type'] === 'file' && $val && !file\delete(app\path('asset', $val))) {
-            throw new DomainException(app\i18n('Could not delete %s', $val));
-        }
-    }
-
-    return $data;
-}
-
-/**
- * File presave listener
- */
-function file_presave(array $data): array
-{
-    $file = http\req('file')['name']['tmp_name'] ?? null;
-
-    if ($file) {
-        $data['size'] = filesize($file);
-    }
-
-    return $data;
-}
-
-/**
- * Page postfilter listener
- */
-function page_postfilter(array $data): array
-{
-    $oldId = $data['_old']['id'] ?? null;
-    $parent = !empty($data['parent_id']) ? ent\one('page', [['id', $data['parent_id']]]) : null;
-
-    if ($parent && $oldId && in_array($oldId, $parent['path'])) {
-        $data['_error']['parent_id'] = app\i18n('Cannot assign the page itself or a child page as parent');
-    }
-
-    if (!empty($data['slug'])) {
-        $data['url'] = ($parent ? $parent['url'] : '') . '/' . $data['slug'];
-        $crit = $oldId ? [['url', $data['url']], ['id', $oldId, APP['crit']['!=']]] : [['url', $data['url']]];
-
-        if (ent\size('page', $crit)) {
-            $data['_error']['slug'] = app\i18n('Slug already used with selected parent');
-        }
-    }
-
-    return $data;
-}
-
-/**
- * Page postsave listener
- */
-function page_postsave(array $data): array
+function ent_postsave_page(array $data): array
 {
     if (!empty($data['_old']['url']) && !empty($data['url']) && $data['_old']['url'] !== $data['url']) {
         // Position is potentially not set or has changed within transaction
@@ -240,6 +210,36 @@ function page_postsave(array $data): array
                 throw new DomainException(app\i18n('Could not update URLs of subpages'));
             }
         }
+    }
+
+    return $data;
+}
+
+/**
+ * Entity prefilter listener
+ */
+function ent_prefilter(array $data): array
+{
+    $attrs = $data['_ent']['attr'];
+
+    foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
+        if ($attrs[$aId]['type'] === 'file' && $val) {
+            $data[$aId] = $data['_ent']['id'] . '/' . $val;
+        }
+    }
+
+    return $data;
+}
+
+/**
+ * File entity presave listener
+ */
+function ent_presave_file(array $data): array
+{
+    $file = http\req('file')['name']['tmp_name'] ?? null;
+
+    if ($file) {
+        $data['size'] = filesize($file);
     }
 
     return $data;
