@@ -29,14 +29,6 @@ function load(array $ent, array $crit = [], array $opt = []): array
         $db = array_slice($db, $opt['offset'], $opt['limit'], true);
     }
 
-    if ($opt['select']) {
-        $base = array_fill_keys($opt['select'], null);
-
-        foreach ($db as $key => $item) {
-            $db[$key] = array_intersect_key($item, $base);
-        }
-    }
-
     if ($opt['mode'] === 'one') {
         return current($db) ?: [];
     }

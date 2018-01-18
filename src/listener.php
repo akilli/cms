@@ -190,8 +190,8 @@ function ent_postsave_page(array $data): array
 {
     if (!empty($data['_old']['url']) && !empty($data['url']) && $data['_old']['url'] !== $data['url']) {
         // Position is potentially not set or has changed within transaction
-        $d = ent\one('page', [['id', $data['_old']['id']]], ['select' => ['id', 'pos']]);
-        $sub = ent\all('page', [['pos', $d['pos'] . '.', APP['crit']['~^']]], ['select' => ['id', 'slug', 'parent_id'], 'order' => ['pos' => 'asc']]);
+        $d = ent\one('page', [['id', $data['_old']['id']]]);
+        $sub = ent\all('page', [['pos', $d['pos'] . '.', APP['crit']['~^']]], ['order' => ['pos' => 'asc']]);
 
         foreach ($sub as $s) {
             if (!ent\save('page', $s)) {

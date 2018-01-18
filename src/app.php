@@ -258,11 +258,11 @@ function ext(string $path): string
  */
 function rewrite(string $path): string
 {
-    if ($url = ent\one('url', [['name', $path]], ['select' => ['target']])) {
+    if ($url = ent\one('url', [['name', $path]])) {
         return $url['target'];
     }
 
-    if ($page = ent\one('page', [['url', $path]], ['select' => ['id']])) {
+    if ($page = ent\one('page', [['url', $path]])) {
         return APP['url.page'] . $page['id'];
     }
 

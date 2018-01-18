@@ -119,7 +119,7 @@ function menu(array $§): string
     $cur = http\req('ent') === 'page' && $id ? ent\one('page', [['id', $id], ['status', 'published']]) : null;
     $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]], ['status', 'published']]) : $cur;
     $crit = [['status', 'published']];
-    $opt = ['select' => ['id', 'name', 'url', 'parent_id', 'level', 'path'], 'order' => ['pos' => 'asc']];
+    $opt = ['order' => ['pos' => 'asc']];
 
     if ($§['vars']['mode'] === 'sub') {
         if (!$anc) {

@@ -10,15 +10,10 @@ use sql;
  */
 function load(array $ent, array $crit = [], array $opt = []): array
 {
-    if ($opt['mode'] === 'size') {
-        $opt['select'] = ['COUNT(*)'];
-    } elseif (!$opt['select']) {
-        $opt['select'] = array_keys(sql\attr($ent['attr']));
-    }
-
+    $select = $opt['mode'] === 'size' ? ['COUNT(*)'] : array_keys(sql\attr($ent['attr']));
     $cols = sql\crit($crit);
     $stmt = sql\db()->prepare(
-        sql\select($opt['select'])
+        sql\select($select)
         . sql\from($ent['id'])
         . sql\where($cols['where'])
         . sql\order($opt['order'])
