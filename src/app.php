@@ -258,17 +258,15 @@ function ext(string $path): string
  */
 function rewrite(string $path): string
 {
-    if ($cfg = cfg('url', $path)) {
-        return $cfg;
+    if ($url = ent\one('url', [['name', $path]], ['select' => ['target']])) {
+        return $url['target'];
     }
 
-    $data = & data('url');
-
-    if (empty($data[$path])) {
-        $data[$path] = ($page = ent\one('page', [['url', $path]], ['select' => ['id']])) ? APP['url.page'] . $page['id'] : $path;
+    if ($page = ent\one('page', [['url', $path]], ['select' => ['id']])) {
+        return APP['url.page'] . $page['id'];
     }
 
-    return $data[$path];
+    return $path;
 }
 
 /**

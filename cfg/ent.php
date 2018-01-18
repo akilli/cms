@@ -196,6 +196,36 @@ return [
             ],
         ],
     ],
+    'url' => [
+        'name' => 'URL',
+        'type' => 'db',
+        'act' => [
+            'admin' => ['name', 'target'],
+            'delete' => [],
+            'edit' => ['name', 'target'],
+        ],
+        'attr' => [
+            'id' => [
+                'name' => 'ID',
+                'type' => 'serial',
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'unique' => true,
+                'searchable' => true,
+                'filter' => 'path',
+            ],
+            'target' => [
+                'name' => 'Target',
+                'type' => 'text',
+                'required' => true,
+                'searchable' => true,
+                'filter' => 'path',
+            ],
+        ],
+    ],
     'version' => [
         'name' => 'Versions',
         'type' => 'db',

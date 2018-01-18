@@ -82,6 +82,7 @@ return [
     'Status' => 'Status',
     'Successfully deleted %s' => '%s erfolgreich gelöscht',
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
+    'Target' => 'Ziel',
     'Unique' => 'Eindeutig',
     'URL' => 'URL',
     'Value is required' => 'Wert ist erforderlich',
