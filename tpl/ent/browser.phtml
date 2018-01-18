@@ -17,13 +17,7 @@ use session;
         <?php foreach ($§('attr') as $attr):?>
             <?php if (!$html = attr\viewer($attr, $data)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
-                <?php if (allowed($data['_ent']['id'] . '/view')):?>
-        <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-            <a href="<?=$data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
-        </h1>
-                <?php else:?>
         <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
-                <?php endif;?>
             <?php else:?>
         <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
             <?=$html;?>
@@ -44,7 +38,7 @@ use session;
                 <?php if (!empty($link['active'])):?>
             <span><?=$link['name'];?></span>
                 <?php else:?>
-            <a href="<?=url('*/*', $link['param']);?>"><?=$link['name'];?></a>
+            <a href="<?=url(null, $link['param']);?>"><?=$link['name'];?></a>
                 <?php endif;?>
             <?php endforeach;?>
         </div>
