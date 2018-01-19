@@ -39,7 +39,7 @@ function index(array $§): string
         return '';
     }
 
-    $crit = $act !== 'admin' && $ent['version'] ? [['status', 'published']] : [];
+    $crit = $act !== 'admin' && $ent['id'] === 'page' ? [['status', 'published']] : [];
     $opt = ['limit' => app\cfg('app', 'limit')];
     $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
 

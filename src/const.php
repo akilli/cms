@@ -52,7 +52,6 @@ const APP = [
         'name' => null,
         'type' => null,
         'parent' => null,
-        'version' => false,
         'act' => [],
         'attr' => [],
     ],

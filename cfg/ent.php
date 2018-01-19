@@ -66,6 +66,43 @@ return [
             ],
         ],
     ],
+    'url' => [
+        'name' => 'URL',
+        'type' => 'db',
+        'act' => [
+            'admin' => ['name', 'target', 'redirect'],
+            'delete' => [],
+            'edit' => ['name', 'target', 'redirect'],
+        ],
+        'attr' => [
+            'id' => [
+                'name' => 'ID',
+                'type' => 'serial',
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'unique' => true,
+                'searchable' => true,
+                'filter' => 'path',
+            ],
+            'target' => [
+                'name' => 'Target',
+                'type' => 'text',
+                'required' => true,
+                'searchable' => true,
+                'filter' => 'path',
+            ],
+            'redirect' => [
+                'name' => 'Redirect',
+                'type' => 'int',
+                'frontend' => 'select',
+                'nullable' => true,
+                'opt' => [301 => 301, 302 => 302, 303 => 303, 304 => 304, 305 => 305, 307 => 307, 308 => 308],
+            ],
+        ],
+    ],
     'file' => [
         'name' => 'Files',
         'type' => 'db',
@@ -110,7 +147,6 @@ return [
     'page' => [
         'name' => 'Pages',
         'type' => 'db',
-        'version' => true,
         'act' => [
             'admin' => ['name', 'pos', 'status', 'date'],
             'delete' => [],
@@ -202,43 +238,6 @@ return [
             ],
         ],
     ],
-    'url' => [
-        'name' => 'URL',
-        'type' => 'db',
-        'act' => [
-            'admin' => ['name', 'target', 'redirect'],
-            'delete' => [],
-            'edit' => ['name', 'target', 'redirect'],
-        ],
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'type' => 'serial',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'unique' => true,
-                'searchable' => true,
-                'filter' => 'path',
-            ],
-            'target' => [
-                'name' => 'Target',
-                'type' => 'text',
-                'required' => true,
-                'searchable' => true,
-                'filter' => 'path',
-            ],
-            'redirect' => [
-                'name' => 'Redirect',
-                'type' => 'int',
-                'frontend' => 'select',
-                'nullable' => true,
-                'opt' => [301 => 301, 302 => 302, 303 => 303, 304 => 304, 305 => 305, 307 => 307, 308 => 308],
-            ],
-        ],
-    ],
     'version' => [
         'name' => 'Versions',
         'type' => 'db',
@@ -252,20 +251,18 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
-                'maxlength' => 100,
             ],
-            'ent' => [
-                'name' => 'Entity',
-                'type' => 'select',
+            'teaser' => [
+                'name' => 'Teaser',
+                'type' => 'rte',
                 'required' => true,
                 'searchable' => true,
-                'opt' => 'ent_cfg',
-                'maxlength' => 50,
             ],
-            'ent_id' => [
-                'name' => 'Entity-ID',
-                'type' => 'int',
+            'content' => [
+                'name' => 'Content',
+                'type' => 'rte',
                 'required' => true,
+                'searchable' => true,
             ],
             'status' => [
                 'name' => 'Status',
@@ -275,10 +272,13 @@ return [
             'date' => [
                 'name' => 'Date',
                 'type' => 'datetime',
+                'required' => true,
             ],
-            'data' => [
-                'name' => 'Data',
-                'type' => 'json',
+            'page' => [
+                'name' => 'Page',
+                'type' => 'ent',
+                'required' => true,
+                'opt' => 'page',
             ],
         ],
     ],

@@ -33,6 +33,9 @@ return [
     'file/browser' => [
         'priv' => 'file/admin',
     ],
+    'page-publish' => [
+        'name' => 'Pages Publish',
+    ],
     'page/index' => [
         'active' => false,
     ],

@@ -28,9 +28,10 @@ function form(array $ent): void
     if ($id) {
         $base = ent\one($ent['id'], [['id', $id]]);
 
-        if ($act === 'edit' && $ent['version']) {
-            $version = ent\one('version', [['ent', $ent['id']], ['ent_id', $id]], ['order' => ['date' => 'desc']]);
-            $base = arr\replace($base, $version['data'] ?? []);
+        if ($act === 'edit' && $ent['id'] === 'page') {
+            $version = ent\one('version', [['page', $id]], ['order' => ['date' => 'desc']]);
+            unset($version['id'], $version['page']);
+            $base = arr\replace($base, $version);
         }
     } else {
         $base = ent\data($ent['id']);
@@ -55,7 +56,7 @@ function view(array $ent): void
 {
     $crit = [['id', http\req('id')]];
 
-    if (!app\allowed($ent['id'] . '/edit') && $ent['version']) {
+    if (!app\allowed($ent['id'] . '/edit') && $ent['id'] === 'page') {
         $crit[] = ['status', 'published'];
     }
 

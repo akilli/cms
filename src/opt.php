@@ -60,7 +60,7 @@ function status(array $attr, array $data): array
 {
     $opt = ['draft' => 'Draft', 'pending' => 'Pending'];
 
-    if (app\allowed($data['_ent']['id'] . '-publish')) {
+    if (app\allowed('page-publish')) {
         $opt['published'] = 'Published';
         $old = $data['_old'][$attr['id']] ?? null;
 
