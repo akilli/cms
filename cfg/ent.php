@@ -202,61 +202,6 @@ return [
             ],
         ],
     ],
-    'article' => [
-        'name' => 'Articles',
-        'type' => 'db',
-        'version' => true,
-        'act' => [
-            'admin' => ['name', 'status', 'date'],
-            'asset' => [],
-            'delete' => [],
-            'edit' => [],
-            'index' => ['name', 'image', 'teaser'],
-            'view' => ['name', 'image', 'teaser', 'content'],
-        ],
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'type' => 'serial',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'searchable' => true,
-                'maxlength' => 100,
-            ],
-            'image' => [
-                'name' => 'Image',
-                'type' => 'ent',
-                'nullable' => true,
-                'opt' => 'file',
-                'viewer' => 'fileopt',
-            ],
-            'teaser' => [
-                'name' => 'Teaser',
-                'type' => 'rte',
-                'searchable' => true,
-                'val' => '',
-            ],
-            'content' => [
-                'name' => 'Content',
-                'type' => 'rte',
-                'searchable' => true,
-                'val' => '',
-            ],
-            'status' => [
-                'name' => 'Status',
-                'type' => 'status',
-                'required' => true,
-            ],
-            'date' => [
-                'name' => 'Date',
-                'auto' => true,
-                'type' => 'datetime',
-            ],
-        ],
-    ],
     'url' => [
         'name' => 'URL',
         'type' => 'db',

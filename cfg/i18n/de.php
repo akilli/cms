@@ -5,7 +5,6 @@ return [
     'Actions' => 'Aktionen',
     'ALL PRIVILEGES' => 'ALLE PRIVILEGIEN',
     'Archived' => 'Archiviert',
-    'Articles' => 'Artikel',
     'Back' => 'Zurück',
     'Cannot assign the page itself or a child page as parent' => 'Die Seite selbst oder eine Unterseite kann nicht als Oberseite ausgewählt werden',
     'Content' => 'Inhalt',

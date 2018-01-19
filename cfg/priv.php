@@ -27,12 +27,6 @@ return [
     'app/js' => [
         'priv' => 'account-user',
     ],
-    'article/index' => [
-        'active' => false,
-    ],
-    'article/view' => [
-        'active' => false,
-    ],
     'file/asset' => [
         'active' => false,
     ],
