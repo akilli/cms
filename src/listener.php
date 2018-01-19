@@ -37,14 +37,12 @@ function cfg_ent(array $data): array
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
-            $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr);
+            $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr, ['id' => $aId, 'name' => app\i18n($attr['name'])]);
 
             if (!in_array($attr['backend'], APP['backend'])) {
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
-            $attr['id'] = $aId;
-            $attr['name'] = app\i18n($attr['name']);
             $ent['attr'][$aId] = $attr;
         }
 
