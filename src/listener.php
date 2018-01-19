@@ -22,6 +22,13 @@ function cfg_ent(array $data): array
     foreach ($data as $eId => $ent) {
         $ent = arr\replace(APP['ent'], $ent);
 
+        if ($ent['parent_id'] && (empty($data[$ent['parent_id']]) || !empty($data[$ent['parent_id']]['parent_id']))) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        } elseif ($ent['parent_id']) {
+            $ent['act'] = array_replace($data[$ent['parent_id']]['act'], $ent['act']);
+            $ent['attr'] = $data[$ent['parent_id']]['attr'] + $ent['attr'];
+        }
+
         if (!$ent['name'] || !$ent['type'] || empty($ent['attr']['id']) || empty($ent['attr']['name'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
         }

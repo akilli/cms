@@ -51,6 +51,7 @@ const APP = [
         'id' => null,
         'name' => null,
         'type' => null,
+        'parent_id' => null,
         'version' => false,
         'act' => [],
         'attr' => [],
