@@ -32,7 +32,7 @@ return [
         'name' => 'Accounts',
         'type' => 'db',
         'act' => [
-            'admin' => ['name', 'role_id'],
+            'admin' => ['name', 'role'],
             'delete' => [],
             'edit' => [],
             'login' => [],
@@ -58,7 +58,7 @@ return [
                 'required' => true,
                 'minlength' => 8,
             ],
-            'role_id' => [
+            'role' => [
                 'name' => 'Role',
                 'type' => 'ent',
                 'required' => true,

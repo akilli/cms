@@ -19,7 +19,7 @@ function data(string $key)
         $id = (int) session\get('account');
 
         if ($id && ($data = ent\one('account', [['id', $id]]))) {
-            $role = ent\one('role', [['id', $data['role_id']]]);
+            $role = ent\one('role', [['id', $data['role']]]);
             $data['priv'] = $role['priv'];
             $data['priv'][] = APP['account.user'];
             $data['admin'] = in_array(APP['all'], $data['priv']);
