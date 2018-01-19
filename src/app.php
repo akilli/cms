@@ -259,6 +259,10 @@ function ext(string $path): string
 function rewrite(string $path): string
 {
     if ($url = ent\one('url', [['name', $path]])) {
+        if (!empty($url['redirect'])) {
+            http\redirect($url['target'], $url['redirect']);
+        }
+
         return $url['target'];
     }
 
