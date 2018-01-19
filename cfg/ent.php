@@ -255,9 +255,9 @@ return [
         'name' => 'URL',
         'type' => 'db',
         'act' => [
-            'admin' => ['name', 'target'],
+            'admin' => ['name', 'target', 'redirect'],
             'delete' => [],
-            'edit' => ['name', 'target'],
+            'edit' => ['name', 'target', 'redirect'],
         ],
         'attr' => [
             'id' => [
