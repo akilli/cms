@@ -219,10 +219,10 @@ function ent_prefilter(array $data): array
  */
 function ent_presave_file(array $data): array
 {
-    $file = http\req('file')['name']['tmp_name'] ?? null;
+    $file = http\req('file')['name'] ?? null;
 
     if ($file) {
-        $data['size'] = filesize($file);
+        $data['size'] = $file['size'];
     }
 
     return $data;
