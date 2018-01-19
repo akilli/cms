@@ -20,21 +20,17 @@ function cfg_ent(array $data): array
     $cfg = app\cfg('attr');
 
     foreach ($data as $eId => $ent) {
-        $ent = arr\replace(APP['ent'], $ent);
+        $ent = arr\replace(APP['ent'], $ent, ['id' => $eId]);
+        $ent['name'] = app\i18n((string) $ent['name']);
+        $p = $ent['parent'] && !empty($data[$ent['parent']]) ? $data[$ent['parent']] : null;
+        $a = ['id' => null, 'name' => null];
 
-        if ($ent['parent'] && (empty($data[$ent['parent']]) || !empty($data[$ent['parent']]['parent']))) {
+        if (!$ent['name'] || !$ent['parent'] && (!$ent['type'] || array_intersect_key($a, $ent['attr']) !== $a) || $ent['parent'] && (!$p || $p['parent'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
         } elseif ($ent['parent']) {
-            $ent['act'] = array_replace($data[$ent['parent']]['act'], $ent['act']);
-            $ent['attr'] = $data[$ent['parent']]['attr'] + $ent['attr'];
+            $ent['act'] = array_replace($p['act'], $ent['act']);
+            $ent['attr'] = $p['attr'] + $ent['attr'];
         }
-
-        if (!$ent['name'] || !$ent['type'] || empty($ent['attr']['id']) || empty($ent['attr']['name'])) {
-            throw new DomainException(app\i18n('Invalid configuration'));
-        }
-
-        $ent['id'] = $eId;
-        $ent['name'] = app\i18n($ent['name']);
 
         foreach ($ent['attr'] as $aId => $attr) {
             if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']]) || $attr['type'] === 'ent' && empty($attr['opt'])) {
