@@ -28,7 +28,6 @@ ent  | entity
 ext  | extension
 i18n | internationalization
 msg  | message
-nav  | navigation
 opt  | option
 priv | privilege
 req  | request
