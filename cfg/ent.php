@@ -114,9 +114,9 @@ return [
         'act' => [
             'admin' => ['name', 'pos', 'status', 'date'],
             'delete' => [],
-            'edit' => ['name', 'image', 'content', 'slug', 'parent', 'sort', 'status'],
-            'index' => ['name'],
-            'view' => ['image', 'content'],
+            'edit' => ['name', 'image', 'teaser', 'content', 'slug', 'parent', 'sort', 'status'],
+            'index' => ['name', 'teaser'],
+            'view' => ['image', 'teaser', 'content'],
         ],
         'attr' => [
             'id' => [
@@ -136,6 +136,12 @@ return [
                 'nullable' => true,
                 'opt' => 'file',
                 'viewer' => 'fileopt',
+            ],
+            'teaser' => [
+                'name' => 'Teaser',
+                'type' => 'rte',
+                'searchable' => true,
+                'val' => '',
             ],
             'content' => [
                 'name' => 'Content',
