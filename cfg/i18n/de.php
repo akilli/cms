@@ -69,6 +69,7 @@ return [
     'Privileges' => 'Privilegien',
     'Publish' => 'Veröffentlichen',
     'Published' => 'Veröffentlicht',
+    'Redirect' => 'Weiterleitung',
     'Required' => 'Erforderlich',
     'Role' => 'Rolle',
     'Roles' => 'Rollen',

@@ -279,6 +279,13 @@ return [
                 'searchable' => true,
                 'filter' => 'path',
             ],
+            'redirect' => [
+                'name' => 'Redirect',
+                'type' => 'int',
+                'frontend' => 'select',
+                'nullable' => true,
+                'opt' => [301 => 301, 302 => 302, 303 => 303, 304 => 304, 305 => 305, 307 => 307, 308 => 308],
+            ],
         ],
     ],
     'version' => [
