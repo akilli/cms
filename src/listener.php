@@ -22,11 +22,11 @@ function cfg_ent(array $data): array
     foreach ($data as $eId => $ent) {
         $ent = arr\replace(APP['ent'], $ent);
 
-        if ($ent['parent_id'] && (empty($data[$ent['parent_id']]) || !empty($data[$ent['parent_id']]['parent_id']))) {
+        if ($ent['parent'] && (empty($data[$ent['parent']]) || !empty($data[$ent['parent']]['parent']))) {
             throw new DomainException(app\i18n('Invalid configuration'));
-        } elseif ($ent['parent_id']) {
-            $ent['act'] = array_replace($data[$ent['parent_id']]['act'], $ent['act']);
-            $ent['attr'] = $data[$ent['parent_id']]['attr'] + $ent['attr'];
+        } elseif ($ent['parent']) {
+            $ent['act'] = array_replace($data[$ent['parent']]['act'], $ent['act']);
+            $ent['attr'] = $data[$ent['parent']]['attr'] + $ent['attr'];
         }
 
         if (!$ent['name'] || !$ent['type'] || empty($ent['attr']['id']) || empty($ent['attr']['name'])) {
@@ -153,10 +153,10 @@ function ent_postfilter(array $data): array
 function ent_postfilter_page(array $data): array
 {
     $oldId = $data['_old']['id'] ?? null;
-    $parent = !empty($data['parent_id']) ? ent\one('page', [['id', $data['parent_id']]]) : null;
+    $parent = !empty($data['parent']) ? ent\one('page', [['id', $data['parent']]]) : null;
 
     if ($parent && $oldId && in_array($oldId, $parent['path'])) {
-        $data['_error']['parent_id'] = app\i18n('Cannot assign the page itself or a child page as parent');
+        $data['_error']['parent'] = app\i18n('Cannot assign the page itself or a child page as parent');
     }
 
     if (!empty($data['slug'])) {

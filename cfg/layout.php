@@ -11,14 +11,14 @@ return [
         'meta' => [
             'type' => 'meta',
             'tpl' => 'head/meta.phtml',
-            'parent_id' => 'head',
+            'parent' => 'head',
             'sort' => -3,
         ],
         'user' => [
             'type' => 'tpl',
             'tpl' => 'head/user.phtml',
             'priv' => 'account-user',
-            'parent_id' => 'head',
+            'parent' => 'head',
             'sort' => -2,
         ],
         'top' => [
@@ -28,13 +28,13 @@ return [
             'type' => 'tpl',
             'tpl' => 'layout/toolbar.phtml',
             'priv' => 'account-user',
-            'parent_id' => 'top',
+            'parent' => 'top',
             'sort' => -2,
         ],
         'header' => [
             'type' => 'tpl',
             'tpl' => 'layout/header.phtml',
-            'parent_id' => 'top',
+            'parent' => 'top',
             'sort' => -1,
         ],
         'msg' => [
@@ -63,12 +63,12 @@ return [
     '_public_' => [
         'menu' => [
             'type' => 'menu',
-            'parent_id' => 'top',
+            'parent' => 'top',
             'vars' => ['mode' => 'top'],
         ],
         'submenu' => [
             'type' => 'menu',
-            'parent_id' => 'sidebar',
+            'parent' => 'sidebar',
             'vars' => ['mode' => 'sub'],
         ],
     ],
@@ -76,7 +76,7 @@ return [
         'content' => [
             'type' => 'index',
             'tpl' => 'ent/index.phtml',
-            'parent_id' => 'main',
+            'parent' => 'main',
             'vars' => ['act' => 'index'],
         ],
     ],
@@ -84,7 +84,7 @@ return [
         'content' => [
             'type' => 'index',
             'tpl' => 'ent/admin.phtml',
-            'parent_id' => 'main',
+            'parent' => 'main',
             'vars' => ['act' => 'admin'],
         ],
     ],
@@ -95,13 +95,13 @@ return [
         'rte' => [
             'type' => 'tpl',
             'tpl' => 'head/rte.phtml',
-            'parent_id' => 'head',
+            'parent' => 'head',
             'sort' => -1,
         ],
         'content' => [
             'type' => 'index',
             'tpl' => 'ent/browser.phtml',
-            'parent_id' => 'main',
+            'parent' => 'main',
             'vars' => ['act' => 'browser'],
         ],
     ],
@@ -109,34 +109,34 @@ return [
         'content' => [
             'type' => 'tpl',
             'tpl' => 'ent/form.phtml',
-            'parent_id' => 'main',
+            'parent' => 'main',
         ],
     ],
     'edit' => [
         'rte' => [
             'type' => 'tpl',
             'tpl' => 'head/rte.phtml',
-            'parent_id' => 'head',
+            'parent' => 'head',
             'sort' => -1,
         ],
         'content' => [
             'type' => 'tpl',
             'tpl' => 'ent/form.phtml',
-            'parent_id' => 'main',
+            'parent' => 'main',
         ],
     ],
     'view' => [
         'content' => [
             'type' => 'tpl',
             'tpl' => 'ent/view.phtml',
-            'parent_id' => 'main',
+            'parent' => 'main',
         ],
     ],
     'app/error' => [
         'content' => [
             'type' => 'tpl',
             'tpl' => 'app/error.phtml',
-            'parent_id' => 'main',
+            'parent' => 'main',
         ],
     ],
     'app/js' => [
@@ -151,14 +151,14 @@ return [
         'content' => [
             'type' => 'tpl',
             'tpl' => 'account/login.phtml',
-            'parent_id' => 'main',
+            'parent' => 'main',
         ],
     ],
     'account/password' => [
         'content' => [
             'type' => 'tpl',
             'tpl' => 'account/password.phtml',
-            'parent_id' => 'main',
+            'parent' => 'main',
         ],
     ],
 ];

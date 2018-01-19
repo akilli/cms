@@ -18,7 +18,7 @@ function container(array $§): string
     $§['vars'] = arr\replace(['tag' => null], $§['vars']);
     $html = '';
 
-    foreach (arr\order(arr\crit(app\layout(), [['parent_id', $§['id']]]), ['sort' => 'asc']) as $child) {
+    foreach (arr\order(arr\crit(app\layout(), [['parent', $§['id']]]), ['sort' => 'asc']) as $child) {
         $html .= app\§($child['id']);
     }
 
@@ -126,11 +126,11 @@ function menu(array $§): string
             return '';
         }
 
-        $crit[] = ['parent_id', null, APP['crit']['!=']];
-        $crit[] = [['id', $cur['path']], ['parent_id', [$anc['id'], $cur['id'], $cur['parent_id']]]];
+        $crit[] = ['parent', null, APP['crit']['!=']];
+        $crit[] = [['id', $cur['path']], ['parent', [$anc['id'], $cur['id'], $cur['parent']]]];
     } elseif ($§['vars']['mode'] === 'top') {
         $cur = $anc;
-        $crit[] = ['parent_id', null];
+        $crit[] = ['parent', null];
     }
 
     if (!$menu = ent\all('page', $crit, $opt)) {
@@ -143,7 +143,7 @@ function menu(array $§): string
     $html = '';
 
     foreach ($menu as $item) {
-        if ($item['parent_id'] && ($§['vars']['mode'] !== 'sub' || $item['parent_id'] !== $anc['id']) && empty($menu[$item['parent_id']])) {
+        if ($item['parent'] && ($§['vars']['mode'] !== 'sub' || $item['parent'] !== $anc['id']) && empty($menu[$item['parent']])) {
             continue;
         }
 

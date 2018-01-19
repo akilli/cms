@@ -114,7 +114,7 @@ return [
         'act' => [
             'admin' => ['name', 'pos', 'status', 'date'],
             'delete' => [],
-            'edit' => ['name', 'image', 'content', 'slug', 'parent_id', 'sort', 'status'],
+            'edit' => ['name', 'image', 'content', 'slug', 'parent', 'sort', 'status'],
             'index' => ['name'],
             'view' => ['image', 'content'],
         ],
@@ -157,7 +157,7 @@ return [
                 'unique' => true,
                 'filter' => 'path',
             ],
-            'parent_id' => [
+            'parent' => [
                 'name' => 'Parent',
                 'type' => 'ent',
                 'nullable' => true,
