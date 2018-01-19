@@ -257,14 +257,6 @@ function where(array $cols): string
 }
 
 /**
- * LEFT JOIN part
- */
-function ljoin(string $tab): string
-{
-    return $tab ? ' LEFT JOIN ' . $tab . ' USING (id)' : '';
-}
-
-/**
  * ORDER BY part
  */
 function order(array $order): string
