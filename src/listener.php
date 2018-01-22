@@ -25,7 +25,7 @@ function cfg_ent(array $data): array
         $p = $ent['parent'] && !empty($data[$ent['parent']]) ? $data[$ent['parent']] : null;
         $a = ['id' => null, 'name' => null];
 
-        if (!$ent['name'] || !$ent['parent'] && (!$ent['type'] || array_intersect_key($a, $ent['attr']) !== $a) || $ent['parent'] && (!$p || $p['parent'])) {
+        if (!$ent['name'] || !$ent['type'] || !$ent['parent'] && array_intersect_key($a, $ent['attr']) !== $a || $ent['parent'] && (!$p || $p['parent'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
         } elseif ($ent['parent']) {
             $ent['act'] = array_replace($p['act'], $ent['act']);
