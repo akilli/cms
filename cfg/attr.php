@@ -82,11 +82,6 @@ return [
         'filter' => 'opt',
         'viewer' => 'opt',
     ],
-    'serial' => [
-        'auto' => true,
-        'backend' => 'int',
-        'frontend' => 'number',
-    ],
     'status' => [
         'backend' => 'varchar',
         'frontend' => 'radio',

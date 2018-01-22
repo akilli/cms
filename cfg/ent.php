@@ -11,7 +11,8 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'ID',
-                'type' => 'serial',
+                'auto' => true,
+                'type' => 'int',
             ],
             'name' => [
                 'name' => 'Name',
@@ -42,7 +43,8 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'ID',
-                'type' => 'serial',
+                'auto' => true,
+                'type' => 'int',
             ],
             'name' => [
                 'name' => 'Name',
@@ -77,7 +79,8 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'ID',
-                'type' => 'serial',
+                'auto' => true,
+                'type' => 'int',
             ],
             'name' => [
                 'name' => 'Name',
@@ -116,7 +119,8 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'ID',
-                'type' => 'serial',
+                'auto' => true,
+                'type' => 'int',
             ],
             'name' => [
                 'name' => 'Name',
@@ -157,7 +161,8 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'ID',
-                'type' => 'serial',
+                'auto' => true,
+                'type' => 'int',
             ],
             'name' => [
                 'name' => 'Name',
@@ -244,7 +249,8 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'ID',
-                'type' => 'serial',
+                'auto' => true,
+                'type' => 'int',
             ],
             'name' => [
                 'name' => 'Name',

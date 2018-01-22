@@ -71,7 +71,7 @@ function save(array $data): array
     $stmt->execute();
 
     // Set DB generated id
-    if (!$data['_old'] && $attrs['id']['type'] === 'serial') {
+    if (!$data['_old'] && $attrs['id']['auto']) {
         $data['id'] = (int) sql\db()->lastInsertId($ent['id'] . '_id_seq');
     }
 
