@@ -103,7 +103,10 @@ function url(array $html, string $val): string
  */
 function number(array $html, $val): string
 {
-    return html\tag('input', ['type' => 'number', 'value' => $val] + $html, null, true);
+    $a = ['type' => 'number', 'value' => $val] + $html;
+    $a['step'] = is_float($val) ? '0.01' : '1';
+
+    return html\tag('input', $a, null, true);
 }
 
 /**
@@ -111,7 +114,10 @@ function number(array $html, $val): string
  */
 function range(array $html, $val): string
 {
-    return html\tag('input', ['type' => 'range', 'value' => $val] + $html, null, true);
+    $a = ['type' => 'range', 'value' => $val] + $html;
+    $a['step'] = is_float($val) ? '0.01' : '1';
+
+    return html\tag('input', $a, null, true);
 }
 
 /**
