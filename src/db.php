@@ -78,10 +78,9 @@ function save(array $data): array
             $stmt = sql\db()->prepare(
                 sql\select(['COUNT(*)'])
                 . sql\from($ent['id'])
-                . sql\where(['id = :id', 'ent = :ent'])
+                . sql\where(['id = :id'])
             );
             $stmt->bindValue(':id', $old['id'], sql\type($old['id']));
-            $stmt->bindValue(':ent', $old['ent'], sql\type($old['ent']));
             $stmt->execute();
 
             if ((int) $stmt->fetchColumn() <= 0) {
