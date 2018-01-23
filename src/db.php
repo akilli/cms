@@ -5,6 +5,7 @@ namespace db;
 
 use app;
 use sql;
+use DomainException;
 
 /**
  * Load entity
@@ -48,6 +49,8 @@ function load(array $ent, array $crit = [], array $opt = []): array
 
 /**
  * Save entity
+ *
+ * @throws DomainException
  */
 function save(array $data): array
 {
@@ -56,6 +59,10 @@ function save(array $data): array
     $attrs = $ent['attr'];
 
     if ($ent['parent']) {
+        if ($old && ($old['ent'] !== $ent['id'] || $old['ent'] !== $data['ent'])) {
+            throw new DomainException(app\i18n('Invalid entity %s', $old['ent']));
+        }
+
         $data['ent'] = $ent['id'];
         $p = app\cfg('ent', $ent['parent']);
         $data['_ent'] = $p;
@@ -122,6 +129,8 @@ function save(array $data): array
 
 /**
  * Delete entity
+ *
+ * @throws DomainException
  */
 function delete(array $data): void
 {
@@ -129,7 +138,7 @@ function delete(array $data): void
     $old = $data['_old'];
 
     if ($ent['parent'] && $old['ent'] !== $ent['id']) {
-        return;
+        throw new DomainException(app\i18n('Invalid entity %s', $old['ent']));
     }
 
     $stmt = sql\db()->prepare(
