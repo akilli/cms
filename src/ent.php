@@ -243,5 +243,14 @@ function load(array $ent, array $data): array
  */
 function event(string $name, array $data): array
 {
-    return app\event(['ent.' . $name, 'ent.type.' . $name . '.' . $data['_ent']['type'], 'ent.' . $name . '.' . $data['_ent']['id']], $data);
+    $ent = $data['_ent'];
+    $ev = ['ent.' . $name, 'ent.type.' . $name . '.' . $ent['type']];
+
+    if ($ent['parent']) {
+        $ev[] = 'ent.' . $name . '.' . $ent['parent'];
+    }
+
+    $ev[] = 'ent.' . $name . '.' . $ent['id'];
+
+    return app\event($ev, $data);
 }

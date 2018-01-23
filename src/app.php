@@ -21,17 +21,18 @@ function run(): void
     $eId = http\req('ent');
     $allowed = allowed($eId . '/' . $act);
     $ent = cfg('ent', $eId);
-    $full = is_callable('act\\' . $eId . '_' . $act) ? 'act\\' . $eId . '_' . $act : null;
-    $fallback = is_callable('act\\' . $act) ? 'act\\' . $act : null;
+    $real = is_callable('act\\' . $eId . '_' . $act) ? 'act\\' . $eId . '_' . $act : null;
 
-    if ($allowed && !$ent && $full) {
-        $full();
-    } elseif (!$allowed || !isset($ent['act'][$act])) {
+    if ($allowed && !$ent && $real) {
+        $real();
+    } elseif (!$allowed || !$ent || !isset($ent['act'][$act])) {
         act\app_error();
-    } elseif ($full) {
-        $full($ent);
-    } elseif ($fallback) {
-        $fallback($ent);
+    } elseif ($real) {
+        $real($ent);
+    } elseif ($ent['parent'] && is_callable('act\\' . $ent['parent'] . '_' . $act)) {
+        ('act\\' . $ent['parent'] . '_' . $act)($ent);
+    } elseif (is_callable('act\\' . $act)) {
+        ('act\\' . $act)($ent);
     }
 }
 
@@ -133,15 +134,17 @@ function layout(string $id = null, array $vars = null): array
     if (($data = & data('layout')) === null) {
         $cfg = cfg('layout');
         $data = [];
+        $ent = cfg('ent', http\req('ent'));
+        $act = http\req('act');
         $path = http\req('path');
         $area = empty(cfg('priv', $path)['active']) ? APP['layout.public'] : APP['layout.admin'];
-        $keys = [APP['all'], $area];
 
         if (http_response_code() === 404) {
-            $keys[] = 'app/error';
+            $keys = [APP['all'], $area, 'app/error'];
+        } elseif (!empty($ent['parent'])) {
+            $keys = [APP['all'], $area, $act, $ent['parent'] . '/' . $act, $path];
         } else {
-            $keys[] = http\req('act');
-            $keys[] = $path;
+            $keys = [APP['all'], $area, $act, $path];
         }
 
         foreach ($keys as $key) {
@@ -267,7 +270,7 @@ function rewrite(string $path): string
     }
 
     if ($page = ent\one('page', [['url', $path]])) {
-        return APP['url.page'] . $page['id'];
+        return '/' . $page['ent'] . '/view/' . $page['id'];
     }
 
     return $path;

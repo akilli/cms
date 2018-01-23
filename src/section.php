@@ -39,7 +39,7 @@ function index(array $§): string
         return '';
     }
 
-    $crit = $act !== 'admin' && $ent['id'] === 'page' ? [['status', 'published']] : [];
+    $crit = $act !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
     $opt = ['limit' => app\cfg('app', 'limit')];
     $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
 
@@ -116,9 +116,10 @@ function menu(array $§): string
 {
     $§['vars'] = arr\replace(['mode' => null], $§['vars']);
     $id = http\req('id');
-    $cur = http\req('ent') === 'page' && $id ? ent\one('page', [['id', $id], ['status', 'published']]) : null;
+    $ent = app\cfg('ent', http\req('ent'));
+    $cur = $ent && in_array('page', [$ent['id'], $ent['parent']]) && $id ? ent\one('page', [['id', $id], ['status', 'published']]) : null;
     $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]], ['status', 'published']]) : $cur;
-    $crit = [['status', 'published']];
+    $crit = [['status', 'published'], ['ent', 'content']];
     $opt = ['order' => ['pos' => 'asc']];
 
     if ($§['vars']['mode'] === 'sub') {

@@ -28,10 +28,9 @@ function form(array $ent): void
     if ($id) {
         $base = ent\one($ent['id'], [['id', $id]]);
 
-        if ($act === 'edit' && $ent['id'] === 'page') {
-            $version = ent\one('version', [['page', $id]], ['order' => ['date' => 'desc']]);
-            unset($version['id'], $version['page']);
-            $base = arr\replace($base, $version);
+        if ($act === 'edit' && in_array('page', [$ent['id'], $ent['parent']])) {
+            $v = ent\one('version', [['page', $id]], ['order' => ['date' => 'desc']]);
+            $base = arr\replace($base, ['name' => $v['name'], 'teaser' => $v['teaser'], 'body' => $v['body'], 'status' => $v['status'], 'date' => $v['date']]);
         }
     } else {
         $base = ent\data($ent['id']);
@@ -56,7 +55,7 @@ function view(array $ent): void
 {
     $crit = [['id', http\req('id')]];
 
-    if (!app\allowed($ent['id'] . '/edit') && $ent['id'] === 'page') {
+    if (!app\allowed($ent['id'] . '/edit') && in_array('page', [$ent['id'], $ent['parent']])) {
         $crit[] = ['status', 'published'];
     }
 

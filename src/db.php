@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace db;
 
+use app;
 use sql;
 
 /**
@@ -11,10 +12,18 @@ use sql;
 function load(array $ent, array $crit = [], array $opt = []): array
 {
     $select = $opt['mode'] === 'size' ? ['COUNT(*)'] : array_keys(sql\attr($ent['attr']));
+    $join = '';
+
+    if ($ent['parent']) {
+        $join = array_diff_key($ent['attr'], app\cfg('ent', $ent['parent'])['attr']) ? $ent['id'] : '';
+        $crit[] = ['ent', $ent['id']];
+    }
+
     $cols = sql\crit($crit);
     $stmt = sql\db()->prepare(
         sql\select($select)
-        . sql\from($ent['id'])
+        . sql\from($ent['parent'] ?: $ent['id'])
+        . sql\ljoin($join)
         . sql\where($cols['where'])
         . sql\order($opt['order'])
         . sql\limit($opt['limit'], $opt['offset'])
@@ -43,14 +52,47 @@ function load(array $ent, array $crit = [], array $opt = []): array
 function save(array $data): array
 {
     $ent = $data['_ent'];
+    $old = $data['_old'];
     $attrs = $ent['attr'];
+
+    if ($ent['parent']) {
+        $data['ent'] = $ent['id'];
+        $p = app\cfg('ent', $ent['parent']);
+        $data['_ent'] = $p;
+        $data = ($p['type'] . '\save')($data);
+        $data['_ent'] = $ent;
+        $attrs = array_diff_key($attrs, $p['attr']);
+
+        if (!$attrs || !array_intersect_key($data, $attrs)) {
+            return $data;
+        }
+
+        if ($old) {
+            $stmt = sql\db()->prepare(
+                sql\select(['COUNT(*)'])
+                . sql\from($ent['id'])
+                . sql\where(['id = :id', 'ent = :ent'])
+            );
+            $stmt->bindValue(':id', $old['id'], sql\type($old['id']));
+            $stmt->bindValue(':ent', $old['ent'], sql\type($old['ent']));
+            $stmt->execute();
+
+            if ((int) $stmt->fetchColumn() <= 0) {
+                $old = [];
+            }
+        }
+
+        if (!$old) {
+            $attrs['id'] = array_replace($p['attr']['id'], ['auto' => false]);
+        }
+    }
 
     if (!($cols = sql\cols($attrs, $data)) || empty($cols['param'])) {
         return $data;
     }
 
     // Insert or update
-    if (!$data['_old']) {
+    if (!$old) {
         $stmt = sql\db()->prepare(
             sql\insert($ent['id'])
             . sql\values($cols['val'])
@@ -61,7 +103,7 @@ function save(array $data): array
             . sql\set($cols['val'])
             . sql\where(['id = :_id'])
         );
-        $stmt->bindValue(':_id', $data['_old']['id'], sql\type($data['_old']['id']));
+        $stmt->bindValue(':_id', $old['id'], sql\type($old['id']));
     }
 
     foreach ($cols['param'] as $param) {
@@ -71,7 +113,7 @@ function save(array $data): array
     $stmt->execute();
 
     // Set DB generated id
-    if (!$data['_old'] && $attrs['id']['auto']) {
+    if (!$old && $attrs['id']['auto']) {
         $data['id'] = (int) sql\db()->lastInsertId($ent['id'] . '_id_seq');
     }
 
@@ -83,10 +125,17 @@ function save(array $data): array
  */
 function delete(array $data): void
 {
+    $ent = $data['_ent'];
+    $old = $data['_old'];
+
+    if ($ent['parent'] && $old['ent'] !== $ent['id']) {
+        return;
+    }
+
     $stmt = sql\db()->prepare(
-        sql\delete($data['_ent']['id'])
+        sql\delete($ent['parent'] ?: $ent['id'])
         . sql\where(['id = :id'])
     );
-    $stmt->bindValue(':id', $data['_old']['id'], sql\type($data['_old']['id']));
+    $stmt->bindValue(':id', $old['id'], sql\type($old['id']));
     $stmt->execute();
 }

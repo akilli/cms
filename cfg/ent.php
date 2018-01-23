@@ -152,11 +152,7 @@ return [
         'name' => 'Pages',
         'type' => 'db',
         'act' => [
-            'admin' => ['name', 'pos', 'status', 'date'],
-            'delete' => [],
-            'edit' => ['name', 'image', 'teaser', 'content', 'slug', 'parent', 'sort', 'status'],
             'index' => ['name', 'teaser'],
-            'view' => ['image', 'teaser', 'content'],
         ],
         'attr' => [
             'id' => [
@@ -184,8 +180,8 @@ return [
                 'searchable' => true,
                 'val' => '',
             ],
-            'content' => [
-                'name' => 'Content',
+            'body' => [
+                'name' => 'Body',
                 'type' => 'rte',
                 'searchable' => true,
                 'val' => '',
@@ -241,6 +237,37 @@ return [
                 'auto' => true,
                 'type' => 'datetime',
             ],
+            'ent' => [
+                'name' => 'Page Type',
+                'type' => 'select',
+                'required' => true,
+                'opt' => 'pagetype',
+                'maxlength' => 50,
+            ],
+        ],
+    ],
+    'content' => [
+        'name' => 'Content Pages',
+        'type' => 'db',
+        'parent' => 'page',
+        'act' => [
+            'admin' => ['name', 'pos', 'status', 'date'],
+            'delete' => [],
+            'edit' => ['name', 'image', 'teaser', 'body', 'slug', 'parent', 'sort', 'status'],
+            'index' => ['name', 'teaser'],
+            'view' => ['image', 'teaser', 'body'],
+        ],
+    ],
+    'article' => [
+        'name' => 'Articles',
+        'type' => 'db',
+        'parent' => 'page',
+        'act' => [
+            'admin' => ['name', 'parent', 'status', 'date'],
+            'delete' => [],
+            'edit' => ['name', 'image', 'teaser', 'body', 'slug', 'parent', 'sort', 'status'],
+            'index' => ['name', 'teaser'],
+            'view' => ['image', 'teaser', 'body'],
         ],
     ],
     'version' => [
@@ -264,8 +291,8 @@ return [
                 'required' => true,
                 'searchable' => true,
             ],
-            'content' => [
-                'name' => 'Content',
+            'body' => [
+                'name' => 'Body',
                 'type' => 'rte',
                 'required' => true,
                 'searchable' => true,

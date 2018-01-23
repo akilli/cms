@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace opt;
 
 use app;
+use arr;
 use ent;
 
 /**
@@ -25,12 +26,14 @@ function ent(array $attr): array
 }
 
 /**
- * Entity config options
+ * Page type options
  */
-function ent_cfg(): array
+function pagetype(): array
 {
-    $opt = array_column(app\cfg('ent'), 'name', 'id');
-    asort($opt);
+    if (($opt = & app\data('opt.pagetype')) === null) {
+        $opt = array_column(arr\crit(app\cfg('ent'), [['parent', 'page']]), 'name', 'id');
+        asort($opt);
+    }
 
     return $opt;
 }
@@ -40,15 +43,17 @@ function ent_cfg(): array
  */
 function priv(): array
 {
-    $opt = [];
+    if (($opt = & app\data('opt.priv')) === null) {
+        $opt = [];
 
-    foreach (app\cfg('priv') as $key => $priv) {
-        if ($priv['assignable'] && app\allowed($key)) {
-            $opt[$key] = $priv['name'];
+        foreach (app\cfg('priv') as $key => $priv) {
+            if ($priv['assignable'] && app\allowed($key)) {
+                $opt[$key] = $priv['name'];
+            }
         }
-    }
 
-    asort($opt);
+        asort($opt);
+    }
 
     return $opt;
 }
@@ -60,7 +65,7 @@ function status(array $attr, array $data): array
 {
     $opt = ['draft' => 'Draft', 'pending' => 'Pending'];
 
-    if (app\allowed('page-publish')) {
+    if (app\allowed($data['_ent']['id'] . '-publish')) {
         $opt['published'] = 'Published';
         $old = $data['_old'][$attr['id']] ?? null;
 

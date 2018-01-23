@@ -27,19 +27,16 @@ return [
     'app/js' => [
         'priv' => 'account-user',
     ],
+    'content/view' => [
+        'active' => false,
+    ],
     'file/asset' => [
         'active' => false,
     ],
     'file/browser' => [
         'priv' => 'file/admin',
     ],
-    'page-publish' => [
-        'name' => 'Pages Publish',
-    ],
     'page/index' => [
-        'active' => false,
-    ],
-    'page/view' => [
         'active' => false,
     ],
 ];

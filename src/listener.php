@@ -28,7 +28,6 @@ function cfg_ent(array $data): array
         if (!$ent['name'] || !$ent['type'] || !$ent['parent'] && array_intersect_key($a, $ent['attr']) !== $a || $ent['parent'] && (!$p || $p['parent'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
         } elseif ($ent['parent']) {
-            $ent['act'] = array_replace($p['act'], $ent['act']);
             $ent['attr'] = $p['attr'] + $ent['attr'];
         }
 
@@ -72,9 +71,15 @@ function cfg_priv(array $data): array
         $data[$id] = $item;
     }
 
-    foreach (app\cfg('ent') as $eId => $ent) {
+    foreach (app\cfg('ent') as $ent) {
+        if (!empty($ent['act']['edit']) && in_array('page', [$ent['id'], $ent['parent']])) {
+            $id = $ent['id'] . '-publish';
+            $data[$id]['name'] = $ent['name'] . ' ' . app\i18n(ucwords('Publish'));
+            $data[$id] = arr\replace(APP['priv'], $data[$id]);
+        }
+
         foreach (array_keys($ent['act']) as $act) {
-            $id = $eId . '/' . $act;
+            $id = $ent['id'] . '/' . $act;
             $data[$id]['name'] = $ent['name'] . ' ' . app\i18n(ucwords($act));
             $data[$id] = arr\replace(APP['priv'], $data[$id]);
         }
