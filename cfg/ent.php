@@ -207,7 +207,7 @@ return [
                 'type' => 'ent',
                 'nullable' => true,
                 'ent' => 'page',
-                'opt' => 'menu',
+                'opt' => 'page',
             ],
             'sort' => [
                 'name' => 'Sort',

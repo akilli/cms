@@ -21,15 +21,15 @@ function ent(array $attr): array
 }
 
 /**
- * Menu options
+ * Page options
  */
-function menu(): array
+function page(): array
 {
-    if (($opt = & app\data('opt.menu')) === null) {
+    if (($opt = & app\data('opt.page')) === null) {
         $attr = app\cfg('ent', 'page')['attr']['pos'];
         $opt = [];
 
-        foreach (ent\all('page', [['menu', true]], ['order' => ['pos' => 'asc']]) as $item) {
+        foreach (ent\all('page', [], ['order' => ['pos' => 'asc']]) as $item) {
             $opt[$item['id']] = attr\viewer($attr, $item) . ' ' . $item['name'];
         }
     }
