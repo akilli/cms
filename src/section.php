@@ -119,7 +119,7 @@ function menu(array $§): string
     $ent = app\cfg('ent', http\req('ent'));
     $cur = $ent && in_array('page', [$ent['id'], $ent['parent']]) && $id ? ent\one('page', [['id', $id], ['status', 'published']]) : null;
     $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]], ['status', 'published']]) : $cur;
-    $crit = [['status', 'published'], ['ent', 'content']];
+    $crit = [['status', 'published'], ['menu', true]];
     $opt = ['order' => ['pos' => 'asc']];
 
     if ($§['vars']['mode'] === 'sub') {

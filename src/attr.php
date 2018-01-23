@@ -7,7 +7,6 @@ use app;
 use arr;
 use ent;
 use html;
-use opt;
 use DomainException;
 
 /**
@@ -125,15 +124,7 @@ function viewer(array $attr, array $data): string
  */
 function opt(array $attr, array $data): array
 {
-    if ($attr['type'] === 'ent') {
-        return opt\ent($attr);
-    }
-
-    if (is_string($attr['opt'])) {
-        return ('opt\\' . $attr['opt'])($attr, $data);
-    }
-
-    return array_map('app\i18n', $attr['opt']);
+    return is_string($attr['opt']) ? ('opt\\' . $attr['opt'])($attr, $data) : array_map('app\i18n', $attr['opt']);
 }
 
 /**

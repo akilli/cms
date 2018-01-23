@@ -27,6 +27,9 @@ return [
     'app/js' => [
         'priv' => 'account-user',
     ],
+    'article/view' => [
+        'active' => false,
+    ],
     'content/view' => [
         'active' => false,
     ],

@@ -59,7 +59,7 @@ function save(array $data): array
     $attrs = $ent['attr'];
 
     if ($ent['parent']) {
-        if ($old && ($old['ent'] !== $ent['id'] || $old['ent'] !== $data['ent'])) {
+        if ($old && ($old['ent'] !== $ent['id'] || !empty($data['ent']) && $old['ent'] !== $data['ent'])) {
             throw new DomainException(app\i18n('Invalid entity %s', $old['ent']));
         }
 

@@ -32,7 +32,7 @@ function cfg_ent(array $data): array
         }
 
         foreach ($ent['attr'] as $aId => $attr) {
-            if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']]) || $attr['type'] === 'ent' && empty($attr['opt'])) {
+            if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']]) || $attr['type'] === 'ent' && empty($attr['ent'])) {
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 

@@ -36,6 +36,7 @@ return [
     'ent' => [
         'backend' => 'int',
         'frontend' => 'select',
+        'opt' => 'ent',
         'filter' => 'opt',
         'viewer' => 'opt',
     ],

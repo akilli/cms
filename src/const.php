@@ -19,6 +19,7 @@ const APP = [
         'multiple' => false,
         'searchable' => false,
         'ignorable' => false,
+        'ent' => null,
         'opt' => [],
         'val' => null,
         'min' => 0,

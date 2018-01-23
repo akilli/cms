@@ -5,6 +5,7 @@ namespace opt;
 
 use app;
 use arr;
+use attr;
 use ent;
 
 /**
@@ -12,13 +13,24 @@ use ent;
  */
 function ent(array $attr): array
 {
-    if (($opt = & app\data('opt.ent.' . $attr['opt'])) === null) {
-        $order = $attr['opt'] === 'page' ? ['pos' => 'asc'] : ['name' => 'asc'];
+    if (($opt = & app\data('opt.ent.' . $attr['ent'])) === null) {
+        $opt = array_column(ent\all($attr['ent'], [], ['order' => ['name' => 'asc']]), 'name', 'id');
+    }
+
+    return $opt;
+}
+
+/**
+ * Menu options
+ */
+function menu(): array
+{
+    if (($opt = & app\data('opt.menu')) === null) {
+        $attr = app\cfg('ent', 'page')['attr']['pos'];
         $opt = [];
 
-        foreach (ent\all($attr['opt'], [], ['order' => $order]) as $item) {
-            $pre = $attr['opt'] === 'page' ? str_repeat('&nbsp;', (max($item['level'], 1) - 1) * 4) : '';
-            $opt[$item['id']] = $pre . $item['name'];
+        foreach (ent\all('page', [['menu', true]], ['order' => ['pos' => 'asc']]) as $item) {
+            $opt[$item['id']] = attr\viewer($attr, $item) . ' ' . $item['name'];
         }
     }
 

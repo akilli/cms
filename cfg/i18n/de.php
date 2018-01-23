@@ -43,6 +43,7 @@ return [
     'Login' => 'Anmelden',
     'Logo' => 'Logo',
     'Logout' => 'Abmelden',
+    'Menu Entry' => 'Menüeintrag',
     'Message' => 'Nachricht',
     'Name' => 'Name',
     'New Entry' => 'Neuer Eintrag',
