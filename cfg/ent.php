@@ -195,10 +195,8 @@ return [
             ],
             'url' => [
                 'name' => 'URL',
+                'auto' => true,
                 'type' => 'text',
-                'required' => true,
-                'unique' => true,
-                'filter' => 'path',
             ],
             'menu' => [
                 'name' => 'Menu Entry',

@@ -145,20 +145,23 @@ function ent_postfilter(array $data): array
  */
 function ent_postfilter_page(array $data): array
 {
-    $oldId = $data['_old']['id'] ?? null;
+    $old = $data['_old'];
     $parent = !empty($data['parent']) ? ent\one('page', [['id', $data['parent']]]) : null;
 
-    if ($parent && $oldId && in_array($oldId, $parent['path'])) {
+    if ($old && $parent && $old['id'] && in_array($old['id'], $parent['path'])) {
         $data['_error']['parent'] = app\i18n('Cannot assign the page itself or a child page as parent');
     }
 
-    if (!empty($data['slug'])) {
-        $data['url'] = ($parent ? $parent['url'] : '') . '/' . $data['slug'];
-        $crit = $oldId ? [['url', $data['url']], ['id', $oldId, APP['crit']['!=']]] : [['url', $data['url']]];
+    $slug = $data['slug'] ?? $old['parent'] ?? null;
+    $pId = $data['parent'] ?? $old['parent'] ?? null;
+    $crit = [['slug', $slug], ['parent', $pId]];
 
-        if (ent\size('page', $crit)) {
-            $data['_error']['slug'] = app\i18n('Slug already used with selected parent');
-        }
+    if ($old) {
+        $crit[] = ['id', $old['id'], APP['crit']['!=']];
+    }
+
+    if ((array_key_exists('slug', $data) || array_key_exists('parent', $data)) && ent\size('page', $crit)) {
+        $data['_error']['slug'] = app\i18n('Slug already used with selected parent');
     }
 
     return $data;
@@ -177,26 +180,6 @@ function ent_postsave(array $data): array
     foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
         if ($attrs[$aId]['type'] === 'file' && $val && !file\upload($file[$aId]['tmp_name'], app\path('asset', $val))) {
             throw new DomainException(app\i18n('File upload failed for %s', $val));
-        }
-    }
-
-    return $data;
-}
-
-/**
- * Page entity postsave listener
- */
-function ent_postsave_page(array $data): array
-{
-    if (!empty($data['_old']['url']) && !empty($data['url']) && $data['_old']['url'] !== $data['url']) {
-        // Position is potentially not set or has changed within transaction
-        $d = ent\one('page', [['id', $data['_old']['id']]]);
-        $sub = ent\all('page', [['pos', $d['pos'] . '.', APP['crit']['~^']]], ['order' => ['pos' => 'asc']]);
-
-        foreach ($sub as $s) {
-            if (!ent\save('page', $s)) {
-                throw new DomainException(app\i18n('Could not update URLs of subpages'));
-            }
         }
     }
 

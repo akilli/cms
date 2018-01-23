@@ -24,9 +24,6 @@ return [
     'ent.postsave' => [
         'ent_postsave' => -1,
     ],
-    'ent.postsave.page' => [
-        'ent_postsave_page' => -1,
-    ],
     'ent.prefilter' => [
         'ent_prefilter' => -1,
     ],
