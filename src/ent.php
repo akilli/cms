@@ -208,7 +208,7 @@ function data(string $eId): array
  */
 function attr(array $ent, string $act): array
 {
-    if (!array_key_exists($act, $ent['act'])) {
+    if (!isset($ent['act'][$act])) {
         throw new DomainException(app\i18n('Invalid action %s for entity %s', $act, $ent['id']));
     }
 
