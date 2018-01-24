@@ -212,7 +212,12 @@ function attr(array $ent, string $act): array
         throw new DomainException(app\i18n('Invalid action %s for entity %s', $act, $ent['id']));
     }
 
-    $aIds = $ent['act'][$act] ?: array_keys($ent['attr']);
+    if (!empty($ent['act'][$act]['incl'])) {
+        $aIds = $ent['act'][$act]['incl'];
+    } else {
+        $aIds = array_diff(array_keys($ent['attr']), $ent['act'][$act]['excl'] ?? []);
+    }
+
     $attrs = [];
 
     foreach ($aIds as $aId) {

@@ -4,7 +4,7 @@ return [
         'name' => 'Roles',
         'type' => 'db',
         'act' => [
-            'admin' => ['name'],
+            'admin' => ['incl' => ['name']],
             'delete' => [],
             'edit' => [],
         ],
@@ -33,7 +33,7 @@ return [
         'name' => 'Accounts',
         'type' => 'db',
         'act' => [
-            'admin' => ['name', 'role'],
+            'admin' => ['incl' => ['name', 'role']],
             'delete' => [],
             'edit' => [],
             'login' => [],
@@ -72,9 +72,9 @@ return [
         'name' => 'URL',
         'type' => 'db',
         'act' => [
-            'admin' => ['name', 'target', 'redirect'],
+            'admin' => [],
             'delete' => [],
-            'edit' => ['name', 'target', 'redirect'],
+            'edit' => [],
         ],
         'attr' => [
             'id' => [
@@ -110,11 +110,11 @@ return [
         'name' => 'Files',
         'type' => 'db',
         'act' => [
-            'admin' => ['name', 'size'],
+            'admin' => ['incl' => ['name', 'size']],
             'asset' => [],
-            'browser' => ['name', 'size'],
+            'browser' => ['incl' => ['name', 'size']],
             'delete' => [],
-            'edit' => ['name', 'info'],
+            'edit' => ['incl' => ['name', 'info']],
         ],
         'attr' => [
             'id' => [
@@ -152,7 +152,7 @@ return [
         'name' => 'Pages',
         'type' => 'db',
         'act' => [
-            'index' => ['name', 'teaser'],
+            'index' => ['incl' => ['name', 'teaser']],
         ],
         'attr' => [
             'id' => [
@@ -254,11 +254,11 @@ return [
         'type' => 'db',
         'parent' => 'page',
         'act' => [
-            'admin' => ['name', 'pos', 'menu', 'status', 'date'],
+            'admin' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']],
             'delete' => [],
-            'edit' => ['name', 'image', 'teaser', 'body', 'slug', 'menu', 'parent', 'sort', 'status'],
-            'index' => ['name', 'teaser'],
-            'view' => ['image', 'teaser', 'body'],
+            'edit' => ['excl' => ['ent']],
+            'index' => ['incl' => ['name', 'teaser']],
+            'view' => ['incl' => ['image', 'teaser', 'body']],
         ],
     ],
     'article' => [
@@ -266,10 +266,10 @@ return [
         'type' => 'db',
         'parent' => 'page',
         'act' => [
-            'admin' => ['name', 'parent', 'status', 'date'],
+            'admin' => ['incl' => ['name', 'parent', 'status', 'date']],
             'delete' => [],
-            'edit' => ['name', 'image', 'teaser', 'body', 'slug', 'parent', 'sort', 'status'],
-            'view' => ['image', 'teaser', 'body'],
+            'edit' => ['excl' => ['menu', 'ent']],
+            'view' => ['incl' => ['image', 'teaser', 'body']],
         ],
     ],
     'version' => [
