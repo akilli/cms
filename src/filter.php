@@ -83,6 +83,10 @@ function id(string $val): string
  */
 function path(string $val): string
 {
+    if (preg_match('#^https?://#', $val)) {
+        return url($val);
+    }
+
     return '/' . trim(preg_replace('#[^a-z0-9/\.]+#', '-', strtolower(strtr($val, app\cfg('filter', 'id')))), '-/');
 }
 
