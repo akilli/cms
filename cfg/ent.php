@@ -165,7 +165,6 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
-                'maxlength' => 100,
             ],
             'image' => [
                 'name' => 'Image',
