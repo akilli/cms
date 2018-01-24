@@ -84,12 +84,12 @@ function crit(array $data, array $crit): array
                         break;
                     case APP['crit']['~$']:
                         $call = function ($a, $v): bool {
-                            return strtolower(substr($a, -strlen($v))) === strtolower($v);
+                            return strtolower(substr($a, -mb_strlen($v))) === strtolower($v);
                         };
                         break;
                     case APP['crit']['!~$']:
                         $call = function ($a, $v): bool {
-                            return strtolower(substr($a, -strlen($v))) !== strtolower($v);
+                            return strtolower(substr($a, -mb_strlen($v))) !== strtolower($v);
                         };
                         break;
                     default:

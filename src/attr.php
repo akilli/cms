@@ -45,8 +45,8 @@ function filter(array $attr, array $data): array
     foreach ($vals as $val) {
         if ($attr['min'] > 0 && $val < $attr['min']
             || $attr['max'] > 0 && $val > $attr['max']
-            || $attr['minlength'] > 0 && strlen($val) < $attr['minlength']
-            || $attr['maxlength'] > 0 && strlen($val) > $attr['maxlength']
+            || $attr['minlength'] > 0 && mb_strlen($val) < $attr['minlength']
+            || $attr['maxlength'] > 0 && mb_strlen($val) > $attr['maxlength']
         ) {
             throw new DomainException(app\i18n('Value out of range'));
         }
