@@ -301,7 +301,7 @@ function enc(string $val): string
 /**
  * Converts a date, time or datetime from one to another format
  */
-function datetime(string $val, string $in, string $out): string
+function datetime(?string $val, string $in, string $out): string
 {
     $val = $val ? date_create_from_format($in, $val) : date_create();
 
