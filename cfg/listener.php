@@ -27,7 +27,4 @@ return [
     'ent.prefilter' => [
         'ent_prefilter' => -1,
     ],
-    'ent.presave.file' => [
-        'ent_presave_file' => -1,
-    ],
 ];

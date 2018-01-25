@@ -110,9 +110,9 @@ return [
         'name' => 'Files',
         'type' => 'db',
         'act' => [
-            'admin' => ['incl' => ['name', 'size']],
+            'admin' => ['incl' => ['name']],
             'asset' => [],
-            'browser' => ['incl' => ['name', 'size']],
+            'browser' => ['incl' => ['name']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -140,11 +140,6 @@ return [
                 'type' => 'textarea',
                 'searchable' => true,
                 'val' => '',
-            ],
-            'size' => [
-                'name' => 'Size',
-                'type' => 'int',
-                'viewer' => 'filesize',
             ],
         ],
     ],

@@ -201,17 +201,3 @@ function ent_prefilter(array $data): array
 
     return $data;
 }
-
-/**
- * File entity presave listener
- */
-function ent_presave_file(array $data): array
-{
-    $file = http\req('file')['name'] ?? null;
-
-    if ($file) {
-        $data['size'] = $file['size'];
-    }
-
-    return $data;
-}
