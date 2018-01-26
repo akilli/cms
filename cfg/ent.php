@@ -110,11 +110,11 @@ return [
         'name' => 'Files',
         'type' => 'db',
         'act' => [
-            'admin' => ['incl' => ['name']],
+            'admin' => ['incl' => ['name', 'info']],
             'asset' => [],
-            'browser' => ['incl' => ['name']],
+            'browser' => ['incl' => ['name', 'info']],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'info']],
+            'edit' => [],
         ],
         'attr' => [
             'id' => [
@@ -137,9 +137,9 @@ return [
             ],
             'info' => [
                 'name' => 'Info',
-                'type' => 'textarea',
+                'type' => 'text',
+                'required' => true,
                 'searchable' => true,
-                'val' => '',
             ],
         ],
     ],
