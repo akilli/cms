@@ -231,7 +231,6 @@ return [
             ],
             'date' => [
                 'name' => 'Date',
-                'auto' => true,
                 'type' => 'datetime',
             ],
             'ent' => [
