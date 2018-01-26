@@ -77,7 +77,7 @@ function cols(array $attrs, array $data): array
 
     foreach (array_intersect_key($data, $attrs) as $aId => $val) {
         $p = ':' . $aId;
-        $val = $attrs[$aId]['backend'] === 'json' ? json_encode($val) : $val;
+        $val = $attrs[$aId]['backend'] === 'json' && is_array($val) ? json_encode($val) : $val;
         $cols['param'][$aId] = [$p, $val, type($val)];
         $cols['val'][$aId] = $p;
     }
