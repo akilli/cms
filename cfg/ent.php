@@ -59,6 +59,7 @@ return [
                 'type' => 'password',
                 'required' => true,
                 'minlength' => 8,
+                'maxlength' => 255,
             ],
             'role' => [
                 'name' => 'Role',
@@ -88,6 +89,7 @@ return [
                 'required' => true,
                 'unique' => true,
                 'searchable' => true,
+                'maxlength' => 255,
                 'filter' => 'path',
             ],
             'target' => [
@@ -95,6 +97,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
+                'maxlength' => 255,
                 'filter' => 'path',
             ],
             'redirect' => [
@@ -134,12 +137,14 @@ return [
                     'mp4', 'ogv', 'webm',
                     'bz2', 'csv', 'doc', 'docx', 'gz', 'odg', 'odp', 'ods', 'odt', 'pdf', 'xls', 'xlsm', 'xlsx', 'zip',
                 ],
+                'maxlength' => 255,
             ],
             'info' => [
                 'name' => 'Info',
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
+                'maxlength' => 255,
             ],
         ],
     ],
@@ -160,6 +165,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
+                'maxlength' => 255,
             ],
             'image' => [
                 'name' => 'Image',
@@ -191,6 +197,7 @@ return [
                 'name' => 'URL',
                 'auto' => true,
                 'type' => 'text',
+                'maxlength' => 255,
             ],
             'menu' => [
                 'name' => 'Menu Entry',
@@ -212,6 +219,7 @@ return [
                 'name' => 'Position',
                 'auto' => true,
                 'type' => 'text',
+                'maxlength' => 255,
                 'viewer' => 'pos',
             ],
             'level' => [
@@ -279,6 +287,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,
+                'maxlength' => 255,
             ],
             'teaser' => [
                 'name' => 'Teaser',
