@@ -77,7 +77,6 @@ return [
     'Search Term' => 'Suchbegriff',
     'Select item' => 'Eintrag auswählen',
     'Slug' => 'Slug',
-    'Slug already used with selected parent' => 'Slug wird bereits mit gewählter Oberseite verwendet',
     'Sort' => 'Sortierung',
     'Status' => 'Status',
     'Successfully deleted %s' => '%s erfolgreich gelöscht',

@@ -152,18 +152,6 @@ function ent_postfilter_page(array $data): array
         $data['_error']['parent'] = app\i18n('Cannot assign the page itself or a child page as parent');
     }
 
-    $slug = $data['slug'] ?? $old['parent'] ?? null;
-    $pId = $data['parent'] ?? $old['parent'] ?? null;
-    $crit = [['slug', $slug], ['parent', $pId]];
-
-    if ($old) {
-        $crit[] = ['id', $old['id'], APP['crit']['!=']];
-    }
-
-    if ((array_key_exists('slug', $data) || array_key_exists('parent', $data)) && ent\size('page', $crit)) {
-        $data['_error']['slug'] = app\i18n('Slug already used with selected parent');
-    }
-
     return $data;
 }
 
