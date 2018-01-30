@@ -36,7 +36,13 @@ return [
     'app/js' => [
         'priv' => 'account-user',
     ],
+    'article/index' => [
+        'active' => false,
+    ],
     'article/view' => [
+        'active' => false,
+    ],
+    'content/index' => [
         'active' => false,
     ],
     'content/view' => [

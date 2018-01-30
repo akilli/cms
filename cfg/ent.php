@@ -270,6 +270,7 @@ return [
             'admin' => ['incl' => ['name', 'parent', 'status', 'date']],
             'delete' => [],
             'edit' => ['excl' => ['menu', 'ent']],
+            'index' => ['incl' => ['name', 'image', 'teaser']],
             'view' => ['incl' => ['image', 'teaser', 'body']],
         ],
     ],
