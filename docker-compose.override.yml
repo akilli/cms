@@ -5,9 +5,3 @@ volumes:
       type: none
       device: ${PWD}
       o: bind,uid=1000,gid=1000
-services:
-  cms-app:
-    volumes:
-      - source: ./ext
-        target: /data/ext
-        type: bind
