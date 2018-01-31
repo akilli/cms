@@ -189,15 +189,9 @@ function delete(string $eId, array $crit = [], array $opt = []): bool
 
 /**
  * Retrieve empty entity
- *
- * @throws DomainException
  */
-function data(string $eId): array
+function data(array $ent): array
 {
-    if (!$ent = app\cfg('ent', $eId)) {
-        throw new DomainException(app\i18n('Invalid entity %s', $eId));
-    }
-
     return array_fill_keys(array_keys($ent['attr']), null) + ['_old' => [], '_ent' => $ent];
 }
 

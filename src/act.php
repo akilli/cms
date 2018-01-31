@@ -33,7 +33,7 @@ function form(array $ent): void
             $base = arr\replace($base, ['name' => $v['name'], 'teaser' => $v['teaser'], 'body' => $v['body'], 'status' => $v['status'], 'date' => $v['date']]);
         }
     } else {
-        $base = ent\data($ent['id']);
+        $base = ent\data($ent);
     }
 
     $data = array_replace($base, $data);
