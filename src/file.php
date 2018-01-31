@@ -52,5 +52,5 @@ function dir(string $path): bool
  */
 function writable(string $path): bool
 {
-    return (bool) preg_match('#^(file://)?(' . app\path('asset') . ')#', $path);
+    return strpos($path, app\path('asset')) === 0;
 }
