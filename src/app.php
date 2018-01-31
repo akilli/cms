@@ -125,6 +125,18 @@ function i18n(string $key, string ...$args): string
 }
 
 /**
+ * Check access
+ */
+function allowed(string $key): bool
+{
+    if (!$cfg = cfg('priv', $key)) {
+        return false;
+    }
+
+    return !$cfg['active'] || $cfg['priv'] && allowed($cfg['priv']) || account\data('admin') || in_array($key, account\data('priv'));
+}
+
+/**
  * Returns layout section and optionally sets variables
  *
  * @throws DomainException
@@ -193,6 +205,34 @@ function §(string $id): string
 }
 
 /**
+ * Gets absolute path to specified subpath in given directory
+ *
+ * @throws DomainException
+ */
+function path(string $dir, string $id = null): string
+{
+    if (empty(APP['path'][$dir])) {
+        throw new DomainException(i18n('Invalid path %s', $dir));
+    }
+
+    return APP['path'][$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
+}
+
+/**
+ * Asset path
+ *
+ * @throws DomainException
+ */
+function asset(string $url): string
+{
+    if (!preg_match('#^/?([^/]+)/asset/([^/]+)$#', $url, $match)) {
+        throw new DomainException(i18n('Invalid URL'));
+    }
+
+    return path('asset', $match[1] . '/' . $match[2]);
+}
+
+/**
  * Template path
  */
 function tpl(string $id): string
@@ -203,18 +243,6 @@ function tpl(string $id): string
 }
 
 /**
- * Check access
- */
-function allowed(string $key): bool
-{
-    if (!$cfg = cfg('priv', $key)) {
-        return false;
-    }
-
-    return !$cfg['active'] || $cfg['priv'] && allowed($cfg['priv']) || account\data('admin') || in_array($key, account\data('priv'));
-}
-
-/**
  * Generate URL by given path and params
  */
 function url(?string $path = '', array $params = []): string
@@ -222,22 +250,6 @@ function url(?string $path = '', array $params = []): string
     $p = $params ? '?' . http_build_query($params, '', '&amp;') : '';
 
     return ($path === null ? '' : '/' . trim($path, '/')) . $p;
-}
-
-/**
- * Asset URL
- *
- * @throws DomainException
- */
-function asset(string $path): string
-{
-    $p = explode('/', trim($path, '/'));
-
-    if (empty($p[0]) || empty($p[1])) {
-        throw new DomainException(i18n('Invalid path %s', $path));
-    }
-
-    return '/' . $p[0] . '/asset/' . $p[1];
 }
 
 /**
@@ -274,20 +286,6 @@ function rewrite(string $path): string
     }
 
     return $path;
-}
-
-/**
- * Gets absolute path to specified subpath in given directory
- *
- * @throws DomainException
- */
-function path(string $dir, string $id = null): string
-{
-    if (empty(APP['path'][$dir])) {
-        throw new DomainException(i18n('Invalid path %s', $dir));
-    }
-
-    return APP['path'][$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
 }
 
 /**

@@ -116,7 +116,7 @@ function ent_postdelete(array $data): array
     $attrs = $data['_ent']['attr'];
 
     foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
-        if ($attrs[$aId]['type'] === 'file' && $val && !file\delete(app\path('asset', $val))) {
+        if ($attrs[$aId]['type'] === 'file' && $val && !file\delete(app\asset($val))) {
             throw new DomainException(app\i18n('Could not delete %s', $val));
         }
     }
@@ -166,7 +166,7 @@ function ent_postsave(array $data): array
     $attrs = $data['_ent']['attr'];
 
     foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
-        if ($attrs[$aId]['type'] === 'file' && $val && !file\upload($file[$aId]['tmp_name'], app\path('asset', $val))) {
+        if ($attrs[$aId]['type'] === 'file' && $val && !file\upload($file[$aId]['tmp_name'], app\asset($val))) {
             throw new DomainException(app\i18n('File upload failed for %s', $val));
         }
     }
@@ -183,7 +183,7 @@ function ent_prefilter(array $data): array
 
     foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
         if ($attrs[$aId]['type'] === 'file' && $val) {
-            $data[$aId] = $data['_ent']['id'] . '/' . $val;
+            $data[$aId] = '/' . $data['_ent']['id'] . '/asset/' . $val;
         }
     }
 

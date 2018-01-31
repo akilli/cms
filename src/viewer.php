@@ -76,7 +76,6 @@ function json(array $val): string
 function file(string $val): string
 {
     $ext = pathinfo($val, PATHINFO_EXTENSION);
-    $val = app\asset($val);
 
     if (in_array($ext, APP['file.image'])) {
         return html\tag('img', ['src' => $val], null, true);
