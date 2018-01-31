@@ -107,17 +107,15 @@ function cfg_toolbar(array $data): array
 }
 
 /**
- * Entity postdelete listener
- *
- * @throws DomainException
+ * Entity prefilter listener
  */
-function ent_postdelete(array $data): array
+function ent_prefilter(array $data): array
 {
     $attrs = $data['_ent']['attr'];
 
     foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
-        if ($attrs[$aId]['type'] === 'file' && $val && !file\delete(app\asset($val))) {
-            throw new DomainException(app\i18n('Could not delete %s', $val));
+        if ($attrs[$aId]['type'] === 'file' && $val) {
+            $data[$aId] = '/' . $data['_ent']['id'] . '/asset/' . $val;
         }
     }
 
@@ -135,21 +133,6 @@ function ent_postfilter(array $data): array
         if ($attrs[$aId]['type'] === 'password' && $val && !($data[$aId] = password_hash($val, PASSWORD_DEFAULT))) {
             $data['_error'][$aId] = app\i18n('Invalid password');
         }
-    }
-
-    return $data;
-}
-
-/**
- * Page entity postfilter listener
- */
-function ent_postfilter_page(array $data): array
-{
-    $old = $data['_old'];
-    $parent = !empty($data['parent']) ? ent\one('page', [['id', $data['parent']]]) : null;
-
-    if ($old && $parent && $old['id'] && in_array($old['id'], $parent['path'])) {
-        $data['_error']['parent'] = app\i18n('Cannot assign the page itself or a child page as parent');
     }
 
     return $data;
@@ -175,16 +158,33 @@ function ent_postsave(array $data): array
 }
 
 /**
- * Entity prefilter listener
+ * Entity postdelete listener
+ *
+ * @throws DomainException
  */
-function ent_prefilter(array $data): array
+function ent_postdelete(array $data): array
 {
     $attrs = $data['_ent']['attr'];
 
     foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
-        if ($attrs[$aId]['type'] === 'file' && $val) {
-            $data[$aId] = '/' . $data['_ent']['id'] . '/asset/' . $val;
+        if ($attrs[$aId]['type'] === 'file' && $val && !file\delete(app\asset($val))) {
+            throw new DomainException(app\i18n('Could not delete %s', $val));
         }
+    }
+
+    return $data;
+}
+
+/**
+ * Page entity postfilter listener
+ */
+function ent_postfilter_page(array $data): array
+{
+    $old = $data['_old'];
+    $parent = !empty($data['parent']) ? ent\one('page', [['id', $data['parent']]]) : null;
+
+    if ($old && $parent && $old['id'] && in_array($old['id'], $parent['path'])) {
+        $data['_error']['parent'] = app\i18n('Cannot assign the page itself or a child page as parent');
     }
 
     return $data;
