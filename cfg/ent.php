@@ -117,7 +117,7 @@ return [
             'asset' => [],
             'browser' => ['incl' => ['name', 'info']],
             'delete' => [],
-            'edit' => [],
+            'edit' => ['incl' => ['name', 'info']],
         ],
         'attr' => [
             'id' => [
