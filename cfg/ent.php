@@ -140,7 +140,7 @@ return [
                 'maxlength' => 50,
             ],
             'type' => [
-                'name' => 'Type',
+                'name' => 'Filetype',
                 'type' => 'text',
                 'required' => true,
                 'searchable' => true,

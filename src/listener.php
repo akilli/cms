@@ -132,7 +132,7 @@ function ent_prefilter_file(array $data): array
     }
 
     if (!empty($data['type']) && !empty($data['_old']['type']) && $data['type'] !== $data['_old']['type']) {
-        $data['_error']['type'] = app\i18n('Cannot change file type');
+        $data['_error']['name'] = app\i18n('Cannot change filetype anymore');
     }
 
     return $data;
