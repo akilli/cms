@@ -257,7 +257,7 @@ return [
         'act' => [
             'admin' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']],
             'delete' => [],
-            'edit' => ['excl' => ['ent']],
+            'edit' => ['excl' => ['date', 'ent']],
             'index' => ['incl' => ['name', 'teaser']],
             'view' => ['incl' => ['image', 'teaser', 'body']],
         ],
@@ -269,7 +269,7 @@ return [
         'act' => [
             'admin' => ['incl' => ['name', 'parent', 'status', 'date']],
             'delete' => [],
-            'edit' => ['excl' => ['menu', 'ent']],
+            'edit' => ['excl' => ['menu', 'date', 'ent']],
             'index' => ['incl' => ['name', 'image', 'teaser']],
             'view' => ['incl' => ['image', 'teaser', 'body']],
         ],
