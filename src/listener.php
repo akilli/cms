@@ -107,22 +107,6 @@ function cfg_toolbar(array $data): array
 }
 
 /**
- * Entity prefilter listener
- */
-function ent_prefilter(array $data): array
-{
-    $attrs = $data['_ent']['attr'];
-
-    foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
-        if ($attrs[$aId]['type'] === 'file' && $val) {
-            $data[$aId] = '/' . $data['_ent']['id'] . '/asset/' . $val;
-        }
-    }
-
-    return $data;
-}
-
-/**
  * Entity postfilter listener
  */
 function ent_postfilter(array $data): array
@@ -139,37 +123,46 @@ function ent_postfilter(array $data): array
 }
 
 /**
- * Entity postsave listener
- *
- * @throws DomainException
+ * File entity prefilter listener
  */
-function ent_postsave(array $data): array
+function ent_prefilter_file(array $data): array
 {
-    $file = http\req('file');
-    $attrs = $data['_ent']['attr'];
+    if (!empty($data['name'])) {
+        $data['ext'] = pathinfo($data['name'], PATHINFO_EXTENSION);
+    }
 
-    foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
-        if ($attrs[$aId]['type'] === 'file' && $val && !file\upload($file[$aId]['tmp_name'], app\asset($val))) {
-            throw new DomainException(app\i18n('File upload failed for %s', $val));
-        }
+    if (!empty($data['ext']) && !empty($data['_old']['ext']) && $data['ext'] !== $data['_old']['ext']) {
+        $data['_error']['ext'] = app\i18n('Cannot change file type');
     }
 
     return $data;
 }
 
 /**
- * Entity postdelete listener
+ * File entity postsave listener
  *
  * @throws DomainException
  */
-function ent_postdelete(array $data): array
+function ent_postsave_file(array $data): array
 {
-    $attrs = $data['_ent']['attr'];
+    $file = http\req('file')['name'] ?? null;
 
-    foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
-        if ($attrs[$aId]['type'] === 'file' && $val && !file\delete(app\asset($val))) {
-            throw new DomainException(app\i18n('Could not delete %s', $val));
-        }
+    if ($file && !file\upload($file['tmp_name'], app\path('asset', $data['_ent']['id'] . '/' . $data['id'] . '.' . $data['ext']))) {
+        throw new DomainException(app\i18n('File upload failed for %s', $file['name']));
+    }
+
+    return $data;
+}
+
+/**
+ * File entity postdelete listener
+ *
+ * @throws DomainException
+ */
+function ent_postdelete_file(array $data): array
+{
+    if (!file\delete(app\path('asset', $data['_ent']['id'] . '/' . $data['id'] . '.' . $data['ext']))) {
+        throw new DomainException(app\i18n('Could not delete %s', $data['name']));
     }
 
     return $data;

@@ -219,20 +219,6 @@ function path(string $dir, string $id = null): string
 }
 
 /**
- * Asset path
- *
- * @throws DomainException
- */
-function asset(string $url): string
-{
-    if (!preg_match('#^/?([^/]+)/asset/([^/]+)$#', $url, $match)) {
-        throw new DomainException(i18n('Invalid URL'));
-    }
-
-    return path('asset', $match[1] . '/' . $match[2]);
-}
-
-/**
  * Template path
  */
 function tpl(string $id): string

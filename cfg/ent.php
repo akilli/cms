@@ -137,7 +137,14 @@ return [
                     'mp4', 'ogv', 'webm',
                     'bz2', 'csv', 'doc', 'docx', 'gz', 'odg', 'odp', 'ods', 'odt', 'pdf', 'xls', 'xlsm', 'xlsx', 'zip',
                 ],
-                'maxlength' => 255,
+                'maxlength' => 50,
+            ],
+            'type' => [
+                'name' => 'Type',
+                'type' => 'text',
+                'required' => true,
+                'searchable' => true,
+                'maxlength' => 5,
             ],
             'info' => [
                 'name' => 'Info',
@@ -197,6 +204,7 @@ return [
                 'name' => 'URL',
                 'auto' => true,
                 'type' => 'text',
+                'unique' => true,
                 'maxlength' => 255,
             ],
             'menu' => [
