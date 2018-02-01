@@ -113,9 +113,9 @@ return [
         'name' => 'Files',
         'type' => 'db',
         'act' => [
-            'admin' => ['incl' => ['name', 'info']],
+            'admin' => ['excl' => ['id']],
             'asset' => [],
-            'browser' => ['incl' => ['name', 'info']],
+            'browser' => ['excl' => ['id']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
