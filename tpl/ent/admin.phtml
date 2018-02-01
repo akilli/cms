@@ -9,12 +9,12 @@ use session;
     <?php if (allowed($§('ent')['id'] . '/edit')):?>
     <p class="create"><a href="<?=url($§('ent')['id'] . '/edit');?>" role="button" class="icon" title="<?=i18n('New Entry');?>">add_circle</a></p>
     <?php endif;?>
-    <?php if ($§('data')):?>
     <form method="post" class="search">
         <input type="search" name="param[q]" value="<?=$§('param')['q'] ?? '';?>" placeholder="<?=i18n('Search Term');?>" />
         <input type="submit" value="search" title="<?=i18n('Search');?>" class="icon" />
         <input type="hidden" name="token" value="<?=session\token();?>" />
     </form>
+    <?php if ($§('data')):?>
     <?php $p = $§('param') + ['sort' => null, 'dir' => null];?>
     <table class="data">
         <thead>
