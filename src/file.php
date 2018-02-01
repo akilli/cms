@@ -10,7 +10,7 @@ use app;
  */
 function upload(string $src, string $dest): bool
 {
-    return dir(dirname($dest)) && move_uploaded_file($src, $dest);
+    return $src && $dest && dir(dirname($dest)) && move_uploaded_file($src, $dest);
 }
 
 /**
