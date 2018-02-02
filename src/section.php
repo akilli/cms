@@ -115,9 +115,7 @@ function index(array $§): string
 function menu(array $§): string
 {
     $§['vars'] = arr\replace(['mode' => null], $§['vars']);
-    $id = http\req('id');
-    $ent = app\cfg('ent', http\req('ent'));
-    $cur = $ent && in_array('page', [$ent['id'], $ent['parent']]) && $id ? ent\one('page', [['id', $id], ['status', 'published']]) : null;
+    $cur = ent\one('page', [['url', http\req('url')], ['status', 'published']]);
     $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]], ['status', 'published']]) : $cur;
     $crit = [['status', 'published'], ['menu', true]];
     $opt = ['order' => ['pos' => 'asc']];
