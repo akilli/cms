@@ -352,11 +352,6 @@ button.icon {
     font-size: 3rem;
 }
 
-#header .logo {
-    display: none;
-    padding: 1.5rem;
-}
-
 #header a {
     margin: 0;
     color: inherit;
@@ -515,21 +510,6 @@ button.icon {
         display: flex;
         flex-direction: column;
         align-items: stretch;
-    }
-
-    #header {
-        display: flex;
-        align-items: center;
-    }
-
-    #header h1 {
-        flex: 3 0;
-        padding-right: 7.5rem;
-    }
-
-    #header .logo {
-        display: block;
-        flex: 1 0;
     }
 
     main {
