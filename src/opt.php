@@ -29,7 +29,7 @@ function page(): array
         $attr = app\cfg('ent', 'page')['attr']['pos'];
         $opt = [];
 
-        foreach (ent\all('page', [], ['order' => ['pos' => 'asc']]) as $item) {
+        foreach (ent\all('content', [], ['order' => ['pos' => 'asc']]) as $item) {
             $opt[$item['id']] = attr\viewer($attr, $item) . ' ' . $item['name'];
         }
     }
