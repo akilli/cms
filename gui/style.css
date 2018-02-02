@@ -436,16 +436,19 @@ button.icon {
     border-color: var(--secondary);
 }
 
-/**
- * Subnav
- */
-#submenu li li {
-    margin-left: 2rem;
+#menu li ul {
+    position: absolute;
+    display: none;
+    background: var(--primary-light);
 }
 
-#submenu a:hover,
-#submenu a.active {
-    text-decoration: underline;
+#menu li:hover ul {
+    display: block;
+}
+
+#menu li li {
+    display: block;
+    padding: 0.375rem;
 }
 
 /**

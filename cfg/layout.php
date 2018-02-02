@@ -64,12 +64,6 @@ return [
         'menu' => [
             'type' => 'menu',
             'parent' => 'top',
-            'vars' => ['mode' => 'top'],
-        ],
-        'submenu' => [
-            'type' => 'menu',
-            'parent' => 'sidebar',
-            'vars' => ['mode' => 'sub'],
         ],
     ],
     'index' => [
