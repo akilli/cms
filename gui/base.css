@@ -45,10 +45,6 @@ nav ul {
     list-style: none;
 }
 
-nav a {
-    color: inherit;
-}
-
 /**
  * Text
  */
@@ -118,6 +114,7 @@ sup {
 }
 
 a {
+    color: inherit;
     text-decoration: none;
 }
 
