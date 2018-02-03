@@ -238,7 +238,7 @@ button {
     -webkit-appearance: none;
 }
 
-[type=checkbox][data-type=bool]:after {
+[type=checkbox][data-type=bool]::after {
     position: absolute;
     top: -0.0625rem;
     left: -0.0625rem;
@@ -249,7 +249,7 @@ button {
     content: '';
 }
 
-[type=checkbox][data-type=bool]:checked:after {
+[type=checkbox][data-type=bool]:checked::after {
     left: auto;
     right: -0.0625rem;
 }
