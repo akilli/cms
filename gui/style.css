@@ -338,6 +338,29 @@ button.icon {
 }
 
 /**
+ * Toolbar
+ */
+#toolbar {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    color: var(--primary-text);
+    background: var(--primary-dark);
+}
+
+#toolbar a {
+    margin-left: 1.5rem;
+}
+
+#toolbar a:first-child {
+    margin-left: 0;
+}
+
+#toolbar a:hover,
+#toolbar a.active {
+    text-decoration: underline;
+}
+
+/**
  * Header
  */
 #header {
@@ -353,14 +376,51 @@ button.icon {
 }
 
 /**
- * Sidebar
+ * Menu
  */
-#sidebar {
-    padding: 1.5rem;
+label[for=menutoggle] {
+    font-size: 3rem;
 }
 
-#sidebar > * {
-    margin-bottom: 1.5rem;
+#menutoggle {
+    display: none;
+}
+
+#menutoggle:checked ~ #menu {
+    display: block;
+}
+
+#menu {
+    display: none;
+    padding: 1.5rem;
+    color: var(--primary-text);
+    background: var(--primary-light);
+}
+
+#menu li ul {
+    margin-left: 1.5rem;
+}
+
+#menu a {
+    border-bottom: 0.25rem solid var(--primary-light);
+}
+
+#menu a:hover,
+#menu a.active {
+    border-color: var(--secondary);
+}
+
+/**
+ * Message
+ */
+#msg {
+    padding: 1.5rem;
+    color: var(--secondary-text);
+    background: var(--secondary-light);
+}
+
+#msg p {
+    margin: 0;
 }
 
 /**
@@ -396,58 +456,14 @@ button.icon {
 }
 
 /**
- * Message
+ * Sidebar
  */
-#msg {
+#sidebar {
     padding: 1.5rem;
-    color: var(--secondary-text);
-    background: var(--secondary-light);
 }
 
-#msg p {
-    margin: 0;
-}
-
-/**
- * Mainnav
- */
-#menu {
-    display: none;
-    padding: 1.5rem;
-    color: var(--primary-text);
-    background: var(--primary-light);
-}
-
-#menu a {
-    border-bottom: 0.25rem solid var(--primary-light);
-}
-
-#menu a:hover,
-#menu a.active {
-    border-color: var(--secondary);
-}
-
-/**
- * Toolbar
- */
-#toolbar {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.875rem;
-    color: var(--primary-text);
-    background: var(--primary-dark);
-}
-
-#toolbar a {
-    margin-left: 1.5rem;
-}
-
-#toolbar a:first-child {
-    margin-left: 0;
-}
-
-#toolbar a:hover,
-#toolbar a.active {
-    text-decoration: underline;
+#sidebar > * {
+    margin-bottom: 1.5rem;
 }
 
 /**
@@ -485,6 +501,10 @@ button.icon {
         align-items: stretch;
     }
 
+    label[for=menutoggle] {
+        display: none;
+    }
+
     #menu {
         display: block;
     }
@@ -497,6 +517,7 @@ button.icon {
     #menu li ul {
         position: absolute;
         display: none;
+        margin-left: 0;
         background: var(--primary-light);
     }
 
