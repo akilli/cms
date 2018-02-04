@@ -469,9 +469,9 @@ label[for=menutoggle] {
 /**
  * Index
  */
-.index table.data audio,
-.index table.data img,
-.index table.data video {
+.index audio,
+.index img,
+.index video {
     max-width: 15rem;
 }
 
