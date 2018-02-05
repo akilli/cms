@@ -23,7 +23,7 @@ function redirect(string $url = '/', int $code = 302): void
  */
 function req(string $key)
 {
-    if (($req = & app\data('req')) === null) {
+    if (($req = & app\reg('req')) === null) {
         $req['file'] = [];
         $req['data'] = [];
         $req['param'] = [];

@@ -39,7 +39,7 @@ function run(): void
 /**
  * Internal registry
  */
-function & data(string $id): ?array
+function & reg(string $id): ?array
 {
     static $data = [];
 
@@ -57,7 +57,7 @@ function & data(string $id): ?array
  */
 function cfg(string $id, string $key = null)
 {
-    if (($data = & data('cfg.' . $id)) === null) {
+    if (($data = & reg('cfg.' . $id)) === null) {
         $data = load($id);
         $data = event(['cfg.' . $id], $data);
     }
@@ -143,7 +143,7 @@ function allowed(string $key): bool
  */
 function layout(string $id = null, array $vars = null): array
 {
-    if (($data = & data('layout')) === null) {
+    if (($data = & reg('layout')) === null) {
         $cfg = cfg('layout');
         $data = [];
         $ent = cfg('ent', http\req('ent'));

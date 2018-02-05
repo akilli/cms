@@ -13,7 +13,7 @@ use ent;
  */
 function ent(array $attr): array
 {
-    if (($opt = & app\data('opt.ent.' . $attr['ent'])) === null) {
+    if (($opt = & app\reg('opt.ent.' . $attr['ent'])) === null) {
         $opt = array_column(ent\all($attr['ent'], [], ['order' => ['name' => 'asc']]), 'name', 'id');
     }
 
@@ -25,7 +25,7 @@ function ent(array $attr): array
  */
 function page(): array
 {
-    if (($opt = & app\data('opt.page')) === null) {
+    if (($opt = & app\reg('opt.page')) === null) {
         $attr = app\cfg('ent', 'page')['attr']['pos'];
         $opt = [];
 
@@ -42,7 +42,7 @@ function page(): array
  */
 function pagetype(): array
 {
-    if (($opt = & app\data('opt.pagetype')) === null) {
+    if (($opt = & app\reg('opt.pagetype')) === null) {
         $opt = array_column(arr\crit(app\cfg('ent'), [['parent', 'page']]), 'name', 'id');
         asort($opt);
     }
@@ -55,7 +55,7 @@ function pagetype(): array
  */
 function priv(): array
 {
-    if (($opt = & app\data('opt.priv')) === null) {
+    if (($opt = & app\reg('opt.priv')) === null) {
         $opt = [];
 
         foreach (app\cfg('priv') as $key => $priv) {

@@ -30,6 +30,7 @@ i18n | internationalization
 msg  | message
 opt  | option
 priv | privilege
+reg  | registry
 req  | request
 rte  | rich text editor
 tab  | table
