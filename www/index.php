@@ -3,10 +3,33 @@ declare(strict_types = 1);
 
 namespace app;
 
+use ErrorException;
+use Throwable;
+
 /**
- * Boot application
+ * Include base source files and extensions
  */
-require_once dirname(__DIR__) . '/boot.php';
+foreach (glob(__DIR__ . '/src/*.php') as $file) {
+    include_once $file;
+}
+
+foreach (glob(path('ext', 'src/*.php')) as $file) {
+    include_once $file;
+}
+
+/**
+ * Register error and exception handlers
+ */
+set_error_handler(
+    function (int $severity, string $msg, string $file, int $line): void {
+        log(new ErrorException($msg, 0, $severity, $file, $line));
+    }
+);
+set_exception_handler(
+    function (Throwable $e): void {
+        log($e);
+    }
+);
 
 /**
  * Run application
