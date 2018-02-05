@@ -32,7 +32,7 @@ function index(array $§): string
 {
     $§['vars'] = arr\replace(['act' => null, 'eId' => null], $§['vars']);
     $act = $§['vars']['act'];
-    $ent = app\cfg('ent', $§['vars']['eId'] ?: http\req('ent'));
+    $ent = app\cfg('ent', $§['vars']['eId'] ?: app\data('ent'));
     unset($§['vars']['act'], $§['vars']['eId']);
 
     if (!$act || !$ent || !isset($ent['act'][$act])) {

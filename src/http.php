@@ -41,11 +41,6 @@ function req(string $key)
 
         $req['param'] = param($req['param'] + $_GET);
         $req['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-        $parts = explode('/', trim(app\rewrite($req['url']), '/'));
-        $req['ent'] = array_shift($parts);
-        $req['act'] = array_shift($parts);
-        $req['id'] = array_shift($parts);
-        $req['path'] = $req['ent'] . '/' . $req['act'];
     }
 
     return $req[$key] ?? null;

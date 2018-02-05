@@ -15,10 +15,10 @@ use session;
  */
 function form(array $ent): void
 {
-    $id = http\req('id');
+    $id = app\data('id');
     $data = http\req('data');
     $data += $data && $id ? ['id' => $id] : [];
-    $act = http\req('act');
+    $act = app\data('act');
 
     if ($data && ent\save($ent['id'], $data) && $act === 'edit') {
         $id = ($id ?: $data['id']);
@@ -53,7 +53,7 @@ function edit(array $ent): void
  */
 function view(array $ent): void
 {
-    $crit = [['id', http\req('id')]];
+    $crit = [['id', app\data('id')]];
 
     if (!app\allowed($ent['id'] . '/edit') && in_array('page', [$ent['id'], $ent['parent']])) {
         $crit[] = ['status', 'published'];
@@ -73,7 +73,7 @@ function view(array $ent): void
  */
 function delete(array $ent): void
 {
-    if ($id = http\req('id')) {
+    if ($id = app\data('id')) {
         ent\delete($ent['id'], [['id', $id]]);
     } else {
         app\msg(app\i18n('Nothing to delete'));
@@ -87,7 +87,7 @@ function delete(array $ent): void
  */
 function asset(array $ent): void
 {
-    if (!($id = http\req('id')) || !is_file(app\path('asset', $ent['id'] . '/' . $id))) {
+    if (!($id = app\data('id')) || !is_file(app\path('asset', $ent['id'] . '/' . $id))) {
         http_response_code(404);
         exit;
     }

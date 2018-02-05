@@ -17,22 +17,26 @@ use Throwable;
  */
 function run(): void
 {
-    $act = http\req('act');
-    $eId = http\req('ent');
-    $allowed = allowed($eId . '/' . $act);
-    $ent = cfg('ent', $eId);
-    $real = is_callable('act\\' . $eId . '_' . $act) ? 'act\\' . $eId . '_' . $act : null;
+    $parts = explode('/', trim(rewrite(http\req('url')), '/'));
+    $data = & reg('app');
+    $data['ent'] = array_shift($parts);
+    $data['act'] = array_shift($parts);
+    $data['id'] = array_shift($parts);
+    $data['path'] = $data['ent'] . '/' . $data['act'];
+    $allowed = allowed($data['path']);
+    $ent = cfg('ent', $data['ent']);
+    $real = is_callable('act\\' . $data['ent'] . '_' . $data['act']) ? 'act\\' . $data['ent'] . '_' . $data['act'] : null;
 
     if ($allowed && !$ent && $real) {
         $real();
-    } elseif (!$allowed || !$ent || !isset($ent['act'][$act])) {
+    } elseif (!$allowed || !$ent || !isset($ent['act'][$data['act']])) {
         act\app_error();
     } elseif ($real) {
         $real($ent);
-    } elseif ($ent['parent'] && is_callable('act\\' . $ent['parent'] . '_' . $act)) {
-        ('act\\' . $ent['parent'] . '_' . $act)($ent);
-    } elseif (is_callable('act\\' . $act)) {
-        ('act\\' . $act)($ent);
+    } elseif ($ent['parent'] && is_callable('act\\' . $ent['parent'] . '_' . $data['act'])) {
+        ('act\\' . $ent['parent'] . '_' . $data['act'])($ent);
+    } elseif (is_callable('act\\' . $data['act'])) {
+        ('act\\' . $data['act'])($ent);
     }
 }
 
@@ -48,6 +52,16 @@ function & reg(string $id): ?array
     }
 
     return $data[$id];
+}
+
+/**
+ * Returns app data
+ *
+ * @return mixed
+ */
+function data(string $id)
+{
+    return reg('app')[$id] ?? null;
 }
 
 /**
@@ -146,9 +160,9 @@ function layout(string $id = null, array $vars = null): array
     if (($data = & reg('layout')) === null) {
         $cfg = cfg('layout');
         $data = [];
-        $ent = cfg('ent', http\req('ent'));
-        $act = http\req('act');
-        $path = http\req('path');
+        $ent = cfg('ent', data('ent'));
+        $act = data('act');
+        $path = data('path');
         $area = empty(cfg('priv', $path)['active']) ? APP['layout.public'] : APP['layout.admin'];
 
         if (http_response_code() === 404) {
