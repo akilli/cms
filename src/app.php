@@ -17,7 +17,20 @@ use Throwable;
  */
 function run(): void
 {
-    $parts = explode('/', trim(rewrite(http\req('url')), '/'));
+    $url = http\req('url');
+    $rew = ent\one('url', [['name', $url]]);
+
+    if (!empty($rew['redirect'])) {
+        redirect($rew['target'], $rew['redirect']);
+    }
+
+    if ($rew) {
+        $url = $rew['target'];
+    } elseif ($page = ent\one('page', [['url', $url]])) {
+        $url = '/' . $page['ent'] . '/view/' . $page['id'];
+    }
+
+    $parts = explode('/', trim($url, '/'));
     $data = & reg('app');
     $data['ent'] = array_shift($parts);
     $data['act'] = array_shift($parts);
@@ -266,26 +279,6 @@ function gui(string $path): string
 function ext(string $path): string
 {
     return APP['url.ext'] . trim($path, '/');
-}
-
-/**
- * Rewrite URL
- */
-function rewrite(string $path): string
-{
-    if ($url = ent\one('url', [['name', $path]])) {
-        if (!empty($url['redirect'])) {
-            redirect($url['target'], $url['redirect']);
-        }
-
-        return $url['target'];
-    }
-
-    if ($page = ent\one('page', [['url', $path]])) {
-        return '/' . $page['ent'] . '/view/' . $page['id'];
-    }
-
-    return $path;
 }
 
 /**
