@@ -9,7 +9,7 @@ use Throwable;
 /**
  * Include base source files and extensions
  */
-foreach (glob(__DIR__ . '/src/*.php') as $file) {
+foreach (glob(dirname(__DIR__) . '/src/*.php') as $file) {
     include_once $file;
 }
 
