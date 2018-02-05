@@ -119,7 +119,7 @@ a {
 }
 
 /**
- * Media
+ * Embed
  */
 audio,
 canvas,
@@ -136,10 +136,6 @@ audio,
 canvas,
 video {
     display: inline-block;
-}
-
-figcaption {
-    font-size: smaller;
 }
 
 /**
