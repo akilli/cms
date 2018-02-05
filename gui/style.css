@@ -77,10 +77,6 @@ figure {
     margin-bottom: 1.5rem;
 }
 
-figcaption {
-    font-size: 0.875rem;
-}
-
 figure.iframe {
     position: relative;
     height: auto;
