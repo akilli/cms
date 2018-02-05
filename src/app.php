@@ -275,7 +275,7 @@ function rewrite(string $path): string
 {
     if ($url = ent\one('url', [['name', $path]])) {
         if (!empty($url['redirect'])) {
-            http\redirect($url['target'], $url['redirect']);
+            redirect($url['target'], $url['redirect']);
         }
 
         return $url['target'];
@@ -286,6 +286,15 @@ function rewrite(string $path): string
     }
 
     return $path;
+}
+
+/**
+ * Redirect
+ */
+function redirect(string $url = '/', int $code = 302): void
+{
+    header('Location: ' . $url, true, in_array($code, APP['code']) ? $code : 302);
+    exit;
 }
 
 /**

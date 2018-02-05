@@ -22,7 +22,7 @@ function form(array $ent): void
 
     if ($data && ent\save($ent['id'], $data) && $act === 'edit') {
         $id = ($id ?: $data['id']);
-        http\redirect(app\url($ent['id'] . '/edit/' . $id));
+        app\redirect(app\url($ent['id'] . '/edit/' . $id));
     }
 
     if ($id) {
@@ -79,7 +79,7 @@ function delete(array $ent): void
         app\msg(app\i18n('Nothing to delete'));
     }
 
-    http\redirect(app\url($ent['id'] . '/admin'));
+    app\redirect(app\url($ent['id'] . '/admin'));
 }
 
 /**
@@ -153,7 +153,7 @@ function account_login(): void
     if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
         session\regenerate();
         session\set('account', $data['id']);
-        http\redirect();
+        app\redirect();
     }
 
     app\msg(app\i18n('Invalid name and password combination'));
@@ -165,5 +165,5 @@ function account_login(): void
 function account_logout(): void
 {
     session\regenerate();
-    http\redirect();
+    app\redirect();
 }

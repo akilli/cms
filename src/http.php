@@ -8,42 +8,33 @@ use session;
 use DomainException;
 
 /**
- * Redirect
- */
-function redirect(string $url = '/', int $code = 302): void
-{
-    header('Location: ' . $url, true, in_array($code, APP['code']) ? $code : 302);
-    exit;
-}
-
-/**
  * Request
  *
  * @return mixed
  */
 function req(string $key)
 {
-    if (($req = & app\reg('req')) === null) {
-        $req['file'] = [];
-        $req['data'] = [];
-        $req['param'] = [];
+    if (($data = & app\reg('req')) === null) {
+        $data['file'] = [];
+        $data['data'] = [];
+        $data['param'] = [];
 
         if (!empty($_POST['token'])) {
             if (session\get('token') === $_POST['token']) {
-                $req['file'] = !empty($_FILES['data']) && is_array($_FILES['data']) ? file($_FILES['data']) : [];
-                $req['data'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
-                $req['data'] = array_replace_recursive($req['data'], data($req['file']));
-                $req['param'] = !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
+                $data['file'] = !empty($_FILES['data']) && is_array($_FILES['data']) ? file($_FILES['data']) : [];
+                $data['data'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
+                $data['data'] = array_replace_recursive($data['data'], data($data['file']));
+                $data['param'] = !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
             }
 
             session\set('token', null);
         }
 
-        $req['param'] = param($req['param'] + $_GET);
-        $req['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        $data['param'] = param($data['param'] + $_GET);
+        $data['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     }
 
-    return $req[$key] ?? null;
+    return $data[$key] ?? null;
 }
 
 /**
