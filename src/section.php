@@ -74,6 +74,7 @@ function index(array $§): string
         $opt['order'] = [$p['sort'] => $p['dir']];
     } else {
         unset($p['sort'], $p['dir']);
+        $opt['order'] = ['id' => 'desc'];
     }
 
     $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
