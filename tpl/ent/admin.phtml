@@ -22,7 +22,7 @@ use session;
                 <?php foreach ($§('attr') as $attr):?>
                     <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
                 <th>
-                    <a href="<?=url(null, ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?=$attr['name'];?></a>
+                    <a href="<?=url($§('url'), ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"><?=$attr['name'];?></a>
                     <?php if ($p['sort'] === $attr['id']):?>
                     <span class="icon"><?=$p['dir'] === 'asc' ? 'arrow_drop_up' : 'arrow_drop_down';?></span>
                     <?php endif;?>
@@ -65,7 +65,7 @@ use session;
                 <?php if (!empty($link['active'])):?>
             <span><?=$link['name'];?></span>
                 <?php else:?>
-            <a href="<?=url(null, $link['param']);?>"><?=$link['name'];?></a>
+            <a href="<?=$link['url'];?>"><?=$link['name'];?></a>
                 <?php endif;?>
             <?php endforeach;?>
         </div>

@@ -38,7 +38,7 @@ use session;
                 <?php if (!empty($link['active'])):?>
             <span><?=$link['name'];?></span>
                 <?php else:?>
-            <a href="<?=url(null, $link['param']);?>"><?=$link['name'];?></a>
+            <a href="<?=$link['url'];?>"><?=$link['name'];?></a>
                 <?php endif;?>
             <?php endforeach;?>
         </div>

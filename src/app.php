@@ -258,11 +258,11 @@ function tpl(string $id): string
 /**
  * Generate URL by given path and params
  */
-function url(?string $path = '', array $params = []): string
+function url(string $path = '', array $params = []): string
 {
     $p = $params ? '?' . http_build_query($params, '', '&amp;') : '';
 
-    return ($path === null ? '' : '/' . trim($path, '/')) . $p;
+    return '/' . trim($path, '/') . $p;
 }
 
 /**

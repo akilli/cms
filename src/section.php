@@ -81,20 +81,22 @@ function index(array $§): string
     $cfg = app\cfg('app', 'pager');
     $min = max(1, min($cur - intdiv($cfg, 2), $pages - $cfg + 1));
     $max = min($min + $cfg - 1, $pages);
+    $url = http\req('url');
     $§['vars']['pager'] = [];
 
     if ($cur >= 2) {
         $lp = $cur === 2 ? $p : ['cur' => $cur - 1] + $p;
-        $§['vars']['pager'][] = ['name' => app\i18n('Previous'), 'param' => $lp];
+        $§['vars']['pager'][] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $lp)];
     }
 
     for ($i = $min; $min < $max && $i <= $max; $i++) {
         $lp = $i === 1 ? $p : ['cur' => $i] + $p;
-        $§['vars']['pager'][] = ['name' => $i, 'param' => $lp, 'active' => $i === $cur];
+        $§['vars']['pager'][] = ['name' => $i, 'url' => app\url($url, $lp), 'active' => $i === $cur];
     }
 
     if ($cur < $pages) {
-        $§['vars']['pager'][] = ['name' => app\i18n('Next'), 'param' => ['cur' => $cur + 1] + $p];
+        $lp = ['cur' => $cur + 1] + $p;
+        $§['vars']['pager'][] = ['name' => app\i18n('Next'), 'url' => app\url($url, $lp)];
     }
 
     if ($cur > 1) {
@@ -106,6 +108,7 @@ function index(array $§): string
     $§['vars']['min'] = $opt['offset'] + 1;
     $§['vars']['param'] = $p;
     $§['vars']['title'] = $ent['name'];
+    $§['vars']['url'] = $url;
 
     return tpl($§);
 }
