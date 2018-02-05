@@ -122,7 +122,7 @@ table {
 td,
 th {
     padding: 0 0.375rem;
-    font-size: smaller;
+    font-size: 0.875rem;
     box-shadow: 0 0.0625rem 0 var(--grey);
 }
 
@@ -183,7 +183,7 @@ label {
 
 label em {
     line-height: 1;
-    font-size: smaller;
+    font-size: 0.875rem;
     font-variant: all-small-caps;
 }
 
@@ -252,7 +252,7 @@ button {
 
 [type=file] {
     line-height: 0;
-    font-size: smaller;
+    font-size: 0.875rem;
     box-shadow: none;
 }
 
@@ -272,7 +272,7 @@ textarea {
 
 .error {
     margin: 0;
-    font-size: smaller;
+    font-size: 0.875rem;
     font-weight: bold;
     color: var(--primary-light);
 }
@@ -338,7 +338,7 @@ button.icon {
  */
 #toolbar {
     padding: 0.75rem 1.5rem;
-    font-size: smaller;
+    font-size: 0.875rem;
     color: var(--primary-text);
     background: var(--primary-dark);
 }
@@ -476,7 +476,7 @@ label[for=menutoggle] {
  */
 .pager {
     text-align: right;
-    font-size: smaller;
+    font-size: 0.875rem;
 }
 
 .pager div {
