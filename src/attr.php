@@ -168,3 +168,13 @@ function ignorable(array $attr, array $data): bool
 {
     return $attr['ignorable'] && !empty($data['_old'][$attr['id']]);
 }
+
+/**
+ * Converts a date, time or datetime from one to another format
+ */
+function datetime(?string $val, string $in, string $out): string
+{
+    $val = $val ? date_create_from_format($in, $val) : date_create();
+
+    return $val && ($val = date_format($val, $out)) ? $val : '';
+}

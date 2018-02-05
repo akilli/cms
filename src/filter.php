@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace filter;
 
 use app;
+use attr;
 use DomainException;
 
 /**
@@ -97,7 +98,7 @@ function path(string $val): string
  */
 function date(string $val): string
 {
-    if (!$val = app\datetime($val, APP['frontend.date'], APP['backend.date'])) {
+    if (!$val = attr\datetime($val, APP['frontend.date'], APP['backend.date'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -111,7 +112,7 @@ function date(string $val): string
  */
 function datetime(string $val): string
 {
-    if (!$val = app\datetime($val, APP['frontend.datetime'], APP['backend.datetime'])) {
+    if (!$val = attr\datetime($val, APP['frontend.datetime'], APP['backend.datetime'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -125,7 +126,7 @@ function datetime(string $val): string
  */
 function time(string $val): string
 {
-    if (!$val = app\datetime($val, APP['frontend.time'], APP['backend.time'])) {
+    if (!$val = attr\datetime($val, APP['frontend.time'], APP['backend.time'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 

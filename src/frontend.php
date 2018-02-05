@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace frontend;
 
 use app;
+use attr;
 use html;
 
 /**
@@ -125,7 +126,7 @@ function range(array $html, $val): string
  */
 function date(array $html, string $val): string
 {
-    $html['value'] = $val ? app\datetime($val, APP['backend.date'], APP['frontend.date']) : '';
+    $html['value'] = $val ? attr\datetime($val, APP['backend.date'], APP['frontend.date']) : '';
 
     return html\tag('input', ['type' => 'date'] + $html, null, true);
 }
@@ -135,7 +136,7 @@ function date(array $html, string $val): string
  */
 function datetime(array $html, string $val): string
 {
-    $html['value'] = $val ? app\datetime($val, APP['backend.datetime'], APP['frontend.datetime']) : '';
+    $html['value'] = $val ? attr\datetime($val, APP['backend.datetime'], APP['frontend.datetime']) : '';
 
     return html\tag('input', ['type' => 'datetime-local'] + $html, null, true);
 }
@@ -145,7 +146,7 @@ function datetime(array $html, string $val): string
  */
 function time(array $html, string $val): string
 {
-    $html['value'] = $val ? app\datetime($val, APP['backend.time'], APP['frontend.time']) : '';
+    $html['value'] = $val ? attr\datetime($val, APP['backend.time'], APP['frontend.time']) : '';
 
     return html\tag('input', ['type' => 'time'] + $html, null, true);
 }
