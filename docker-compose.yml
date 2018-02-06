@@ -6,14 +6,12 @@ networks:
 volumes:
   app: {}
   asset: {}
+  ext: {}
   db: {}
 services:
   cms:
     image: akilli/nginx
     container_name: cms
-    depends_on:
-      - cms-app
-      - cms-data
     restart: unless-stopped
     labels:
       traefik.enable: "true"
@@ -30,24 +28,34 @@ services:
         type: volume
         volume:
           nocopy: true
-  cms-app:
-    image: akilli/cms
-    container_name: cms-app
-    depends_on:
-      - cms-data
+      - source: ext
+        target: /data/ext
+        type: volume
+        volume:
+          nocopy: true
+  cms-php:
+    image: akilli/php
+    container_name: cms-php
     restart: unless-stopped
     volumes:
       - source: app
         target: /app
         type: volume
+        volume:
+          nocopy: true
       - source: asset
         target: /data/asset
         type: volume
         volume:
           nocopy: true
-  cms-data:
-    image: akilli/cms-data
-    container_name: cms-data
+      - source: ext
+        target: /data/ext
+        type: volume
+        volume:
+          nocopy: true
+  cms-db:
+    image: akilli/postgres
+    container_name: cms-db
     restart: unless-stopped
     volumes:
       - source: asset
