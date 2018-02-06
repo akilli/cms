@@ -250,10 +250,10 @@ return [
                 'type' => 'datetime',
             ],
             'ent' => [
-                'name' => 'Page Type',
+                'name' => 'Type',
                 'type' => 'select',
                 'required' => true,
-                'opt' => 'pagetype',
+                'opt' => 'child',
                 'maxlength' => 50,
             ],
         ],

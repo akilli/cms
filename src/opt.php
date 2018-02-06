@@ -38,12 +38,12 @@ function page(): array
 }
 
 /**
- * Page type options
+ * Child entity options
  */
-function pagetype(): array
+function child(array $attr): array
 {
-    if (($opt = & app\reg('opt.pagetype')) === null) {
-        $opt = array_column(arr\crit(app\cfg('ent'), [['parent', 'page']]), 'name', 'id');
+    if (($opt = & app\reg('opt.child.' . $attr['ent'])) === null) {
+        $opt = array_column(arr\crit(app\cfg('ent'), [['parent', $attr['ent']]]), 'name', 'id');
         asort($opt);
     }
 
