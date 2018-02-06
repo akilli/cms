@@ -6,6 +6,7 @@ volumes:
   app: {}
   asset: {}
   db: {}
+  tmp: {}
 services:
   db:
     image: akilli/postgres
@@ -31,6 +32,9 @@ services:
         type: volume
         volume:
           nocopy: true
+      - source: tmp
+        target: /tmp
+        type: volume
   www:
     image: akilli/nginx
     depends_on:
