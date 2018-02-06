@@ -34,7 +34,7 @@ services:
         volume:
           nocopy: true
   cms-php:
-    image: akilli/php
+    image: akilli/cms
     container_name: cms-php
     restart: unless-stopped
     network_mode: service:cms
@@ -42,8 +42,6 @@ services:
       - source: app
         target: /app
         type: volume
-        volume:
-          nocopy: true
       - source: asset
         target: /data/asset
         type: volume
