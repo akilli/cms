@@ -18,7 +18,7 @@ services:
       - source: db
         target: /data
         type: volume
-  app:
+  php:
     image: akilli/cms
     depends_on:
       - db
@@ -39,7 +39,7 @@ services:
     image: akilli/nginx
     depends_on:
       - db
-      - app
+      - php
     restart: unless-stopped
     labels:
       traefik.enable: "true"
