@@ -10,7 +10,7 @@ volumes:
   db: {}
 services:
   cms:
-    image: akilli/nginx
+    image: akilli/postgres
     container_name: cms
     restart: unless-stopped
     labels:
@@ -18,49 +18,54 @@ services:
       traefik.port: "80"
       traefik.frontend.rule: "Host: cms.app.loc"
     volumes:
-      - source: app
-        target: /app
-        type: volume
-        volume:
-          nocopy: true
-      - source: asset
-        target: /data/asset
-        type: volume
-        volume:
-          nocopy: true
-      - source: ext
-        target: /data/ext
-        type: volume
-        volume:
-          nocopy: true
-  cms-app:
-    image: akilli/cms
-    container_name: cms-app
-    restart: unless-stopped
-    network_mode: service:cms
-    volumes:
-      - source: app
-        target: /app
-        type: volume
-      - source: asset
-        target: /data/asset
-        type: volume
-        volume:
-          nocopy: true
-      - source: ext
-        target: /data/ext
-        type: volume
-        volume:
-          nocopy: true
-  cms-db:
-    image: akilli/postgres
-    container_name: cms-db
-    restart: unless-stopped
-    network_mode: service:cms
-    volumes:
       - source: asset
         target: /app
         type: volume
       - source: db
         target: /data
         type: volume
+  cms-app:
+    image: akilli/cms
+    container_name: cms-app
+    depends_on:
+      - cms
+    restart: unless-stopped
+    network_mode: service:cms
+    volumes:
+      - source: app
+        target: /app
+        type: volume
+      - source: asset
+        target: /data/asset
+        type: volume
+        volume:
+          nocopy: true
+      - source: ext
+        target: /data/ext
+        type: volume
+        volume:
+          nocopy: true
+  cms-www:
+    image: akilli/nginx
+    container_name: cms-www
+    depends_on:
+      - cms
+      - cms-app
+    restart: unless-stopped
+    network_mode: service:cms
+    volumes:
+      - source: app
+        target: /app
+        type: volume
+        volume:
+          nocopy: true
+      - source: asset
+        target: /data/asset
+        type: volume
+        volume:
+          nocopy: true
+      - source: ext
+        target: /data/ext
+        type: volume
+        volume:
+          nocopy: true
