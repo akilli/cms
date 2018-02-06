@@ -6,6 +6,7 @@ return [
     'ALL PRIVILEGES' => 'ALLE PRIVILEGIEN',
     'Archived' => 'Archiviert',
     'Articles' => 'Artikel',
+    'Assets' => 'Medieninhalte',
     'Back' => 'Zurück',
     'Body' => 'Textkörper',
     'Cannot assign the page itself or a child page as parent' => 'Die Seite selbst oder eine Unterseite kann nicht als Oberseite ausgewählt werden',

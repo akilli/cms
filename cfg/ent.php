@@ -109,16 +109,9 @@ return [
             ],
         ],
     ],
-    'file' => [
-        'name' => 'Files',
+    'asset' => [
+        'name' => 'Assets',
         'type' => 'db',
-        'act' => [
-            'admin' => ['excl' => ['id']],
-            'asset' => [],
-            'browser' => ['excl' => ['id']],
-            'delete' => [],
-            'edit' => ['incl' => ['name', 'info']],
-        ],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -160,6 +153,18 @@ return [
                 'opt' => 'child',
                 'maxlength' => 50,
             ],
+        ],
+    ],
+    'file' => [
+        'name' => 'Files',
+        'type' => 'db',
+        'parent' => 'asset',
+        'act' => [
+            'admin' => ['excl' => ['id', 'ent']],
+            'asset' => [],
+            'browser' => ['excl' => ['id', 'ent']],
+            'delete' => [],
+            'edit' => ['incl' => ['name', 'info']],
         ],
     ],
     'page' => [

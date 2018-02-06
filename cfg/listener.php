@@ -15,14 +15,14 @@ return [
     'ent.postfilter' => [
         'ent_postfilter' => -1,
     ],
-    'ent.prefilter.file' => [
-        'ent_prefilter_file' => -1,
+    'ent.prefilter.asset' => [
+        'ent_prefilter_asset' => -1,
     ],
-    'ent.postsave.file' => [
-        'ent_postsave_file' => -1,
+    'ent.postsave.asset' => [
+        'ent_postsave_asset' => -1,
     ],
-    'ent.postdelete.file' => [
-        'ent_postdelete_file' => -1,
+    'ent.postdelete.asset' => [
+        'ent_postdelete_asset' => -1,
     ],
     'ent.postfilter.page' => [
         'ent_postfilter_page' => -1,

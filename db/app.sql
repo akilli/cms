@@ -36,10 +36,10 @@ CREATE INDEX ON url (target);
 CREATE INDEX ON url (redirect);
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- File
+-- Asset
 -- ---------------------------------------------------------------------------------------------------------------------
 
-CREATE FUNCTION file_save() RETURNS trigger AS $$
+CREATE FUNCTION asset_save() RETURNS trigger AS $$
     BEGIN
         IF (TG_OP = 'UPDATE' AND NEW.type != OLD.type) THEN
             RAISE EXCEPTION 'Cannot change filetype anymore';
@@ -51,7 +51,7 @@ CREATE FUNCTION file_save() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE TABLE file (
+CREATE TABLE asset (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
     type varchar(5) NOT NULL,
@@ -59,11 +59,11 @@ CREATE TABLE file (
     ent varchar(50) NOT NULL CHECK (ent != '')
 );
 
-CREATE INDEX ON file (type);
-CREATE INDEX ON file (info);
-CREATE INDEX ON file (ent);
+CREATE INDEX ON asset (type);
+CREATE INDEX ON asset (info);
+CREATE INDEX ON asset (ent);
 
-CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();
+CREATE TRIGGER asset_save BEFORE INSERT OR UPDATE ON asset FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE asset_save();
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Page
@@ -279,7 +279,7 @@ $$ LANGUAGE plpgsql;
 CREATE TABLE page (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
-    image integer DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
+    image integer DEFAULT NULL REFERENCES asset ON DELETE SET NULL ON UPDATE CASCADE,
     teaser text NOT NULL DEFAULT '',
     body text NOT NULL DEFAULT '',
     slug varchar(50) NOT NULL,
