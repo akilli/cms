@@ -153,6 +153,13 @@ return [
                 'searchable' => true,
                 'maxlength' => 255,
             ],
+            'ent' => [
+                'name' => 'Entity',
+                'type' => 'select',
+                'required' => true,
+                'opt' => 'child',
+                'maxlength' => 50,
+            ],
         ],
     ],
     'page' => [
@@ -250,7 +257,7 @@ return [
                 'type' => 'datetime',
             ],
             'ent' => [
-                'name' => 'Type',
+                'name' => 'Entity',
                 'type' => 'select',
                 'required' => true,
                 'opt' => 'child',

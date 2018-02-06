@@ -45,7 +45,7 @@ CREATE FUNCTION file_save() RETURNS trigger AS $$
             RAISE EXCEPTION 'Cannot change filetype anymore';
         END IF;
 
-        NEW.name := '/file/asset/' || NEW.id || '.' || NEW.type;
+        NEW.name := '/' || NEW.ent || '/asset/' || NEW.id || '.' || NEW.type;
 
         RETURN NEW;
     END;
@@ -55,11 +55,13 @@ CREATE TABLE file (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
     type varchar(5) NOT NULL,
-    info varchar(255) NOT NULL
+    info varchar(255) NOT NULL,
+    ent varchar(50) NOT NULL CHECK (ent != '')
 );
 
 CREATE INDEX ON file (type);
 CREATE INDEX ON file (info);
+CREATE INDEX ON file (ent);
 
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();
 
