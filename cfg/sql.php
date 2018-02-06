@@ -1,6 +1,6 @@
 <?php
 return [
-    'dsn' => 'pgsql:host=127.0.0.1;dbname=app',
+    'dsn' => 'pgsql:host=db;dbname=app',
     'user' => 'app',
     'password' => 'app',
 ];

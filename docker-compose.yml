@@ -1,8 +1,7 @@
 version: "3.5"
 networks:
-  default:
-    external:
-      name: proxy
+  proxy:
+    external: true
 volumes:
   app: {}
   asset: {}
@@ -11,14 +10,6 @@ services:
   db:
     image: akilli/postgres
     restart: unless-stopped
-    labels:
-      traefik.enable: "true"
-      traefik.port: "80"
-      traefik.frontend.rule: "Host: cms.app.loc"
-    networks:
-      default:
-        aliases:
-          - cms
     volumes:
       - source: asset
         target: /app
@@ -31,7 +22,6 @@ services:
     depends_on:
       - db
     restart: unless-stopped
-    network_mode: service:db
     volumes:
       - source: app
         target: /app
@@ -47,7 +37,16 @@ services:
       - db
       - app
     restart: unless-stopped
-    network_mode: service:db
+    labels:
+      traefik.enable: "true"
+      traefik.port: "80"
+      traefik.frontend.rule: "Host: cms.app.loc"
+      traefik.docker.network: "proxy"
+    networks:
+      default: {}
+      proxy:
+        aliases:
+          - cms
     volumes:
       - source: app
         target: /app
