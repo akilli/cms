@@ -19,7 +19,7 @@ services:
     networks:
       default:
         aliases:
-         - cms
+          - cms
     volumes:
       - source: asset
         target: /app
