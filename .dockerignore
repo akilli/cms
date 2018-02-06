@@ -10,6 +10,5 @@ Jenkinsfile
 #
 # DEV
 #
-/data
 /ext
 .idea
