@@ -33,9 +33,9 @@ services:
         type: volume
         volume:
           nocopy: true
-  cms-php:
+  cms-app:
     image: akilli/cms
-    container_name: cms-php
+    container_name: cms-app
     restart: unless-stopped
     network_mode: service:cms
     volumes:
