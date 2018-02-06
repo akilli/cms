@@ -37,6 +37,7 @@ services:
     image: akilli/php
     container_name: cms-php
     restart: unless-stopped
+    network_mode: service:cms
     volumes:
       - source: app
         target: /app
@@ -57,6 +58,7 @@ services:
     image: akilli/postgres
     container_name: cms-db
     restart: unless-stopped
+    network_mode: service:cms
     volumes:
       - source: asset
         target: /app
