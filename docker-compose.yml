@@ -9,14 +9,17 @@ volumes:
   ext: {}
   db: {}
 services:
-  cms:
+  db:
     image: akilli/postgres
-    container_name: cms
     restart: unless-stopped
     labels:
       traefik.enable: "true"
       traefik.port: "80"
       traefik.frontend.rule: "Host: cms.app.loc"
+    networks:
+      default:
+        aliases:
+         - cms
     volumes:
       - source: asset
         target: /app
@@ -24,13 +27,12 @@ services:
       - source: db
         target: /data
         type: volume
-  cms-app:
+  app:
     image: akilli/cms
-    container_name: cms-app
     depends_on:
-      - cms
+      - db
     restart: unless-stopped
-    network_mode: service:cms
+    network_mode: service:db
     volumes:
       - source: app
         target: /app
@@ -45,14 +47,13 @@ services:
         type: volume
         volume:
           nocopy: true
-  cms-www:
+  www:
     image: akilli/nginx
-    container_name: cms-www
     depends_on:
-      - cms
-      - cms-app
+      - db
+      - app
     restart: unless-stopped
-    network_mode: service:cms
+    network_mode: service:db
     volumes:
       - source: app
         target: /app
