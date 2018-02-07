@@ -1,6 +1,6 @@
 :root {
-    --body: #fff;
-    --body-text: #000;
+    --bg: #fff;
+    --color: #000;
     --grey: #e4e7ea;
     --primary: #052a33;
     --primary-light: #32535c;
@@ -28,9 +28,9 @@
 
 body {
     line-height: 1.5rem;
-    font-family: roboto, sans-serif;
-    color: var(--body-text);
-    background: var(--body);
+    font-family: sans-serif;
+    color: var(--color);
+    background: var(--bg);
 }
 
 body > * {
