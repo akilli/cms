@@ -25,6 +25,7 @@ return [
     'File upload failed for %s' => 'Datei %s konnte nicht hochgeladen werden',
     'Files' => 'Dateien',
     'Filetype' => 'Dateityp',
+    'Homepage' => 'Startseite',
     'ID' => 'ID',
     'Image' => 'Bild',
     'Info' => 'Info',

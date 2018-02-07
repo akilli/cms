@@ -12,26 +12,24 @@ return [
             'type' => 'meta',
             'tpl' => 'head/meta.phtml',
             'parent' => 'head',
-            'sort' => -3,
+            'sort' => 10,
         ],
         'user' => [
             'type' => 'tpl',
             'tpl' => 'head/user.phtml',
             'priv' => 'account-user',
             'parent' => 'head',
-            'sort' => -2,
+            'sort' => 20,
+        ],
+        'top' => [
+            'type' => 'container',
         ],
         'toolbar' => [
             'type' => 'tpl',
             'tpl' => 'layout/toolbar.phtml',
             'priv' => 'account-user',
-        ],
-        'header' => [
-            'type' => 'tpl',
-            'tpl' => 'layout/header.phtml',
-        ],
-        'menu' => [
-            'type' => 'menu',
+            'parent' => 'top',
+            'sort' => 10,
         ],
         'msg' => [
             'type' => 'msg',
@@ -39,6 +37,22 @@ return [
         ],
         'main' => [
             'type' => 'container',
+        ],
+        'bottom' => [
+            'type' => 'container',
+        ],
+    ],
+    '_public_' => [
+        'header' => [
+            'type' => 'tpl',
+            'tpl' => 'layout/header.phtml',
+            'parent' => 'top',
+            'sort' => 20,
+        ],
+        'menu' => [
+            'type' => 'menu',
+            'parent' => 'top',
+            'sort' => 30,
         ],
     ],
     'index' => [
@@ -58,20 +72,17 @@ return [
         ],
     ],
     'browser' => [
-        'toolbar' => [
+        'top' => [
             'active' => false,
         ],
-        'header' => [
-            'active' => false,
-        ],
-        'menu' => [
+        'bottom' => [
             'active' => false,
         ],
         'rte' => [
             'type' => 'tpl',
             'tpl' => 'head/rte.phtml',
             'parent' => 'head',
-            'sort' => -1,
+            'sort' => 30,
         ],
         'content' => [
             'type' => 'index',
@@ -92,7 +103,7 @@ return [
             'type' => 'tpl',
             'tpl' => 'head/rte.phtml',
             'parent' => 'head',
-            'sort' => -1,
+            'sort' => 30,
         ],
         'content' => [
             'type' => 'tpl',
@@ -120,10 +131,10 @@ return [
         ],
     ],
     'account/login' => [
-        'header' => [
+        'top' => [
             'active' => false,
         ],
-        'menu' => [
+        'bottom' => [
             'active' => false,
         ],
         'content' => [

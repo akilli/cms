@@ -100,7 +100,9 @@ function cfg_toolbar(array $data): array
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
-        $data[$act] = arr\replace(APP['toolbar'], $item, ['name' => app\i18n($item['name']), 'url' => app\url($act)]);
+        $item['name'] = app\i18n($item['name']);
+        $item['url'] = !empty($item['url']) ? $item['url'] : app\url($act);
+        $data[$act] = arr\replace(APP['toolbar'], $item);
     }
 
     return arr\order($data, ['sort' => 'asc']);
