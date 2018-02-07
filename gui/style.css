@@ -556,7 +556,7 @@ label[for=menutoggle] {
 
     #content {
         flex: 3 0;
-        padding: 1.5rem 7.5rem 1.5rem 1.5rem;
+        padding: 1.5rem;
     }
 
     p.create,
@@ -576,7 +576,6 @@ label[for=menutoggle] {
     html[data-path="account/login"] #content {
         width: 100%;
         max-width: 30rem;
-        padding-right: 1.5rem;
     }
 
     .left {
