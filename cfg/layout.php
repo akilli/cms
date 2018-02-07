@@ -26,14 +26,12 @@ return [
             'tpl' => 'layout/toolbar.phtml',
             'priv' => 'account-user',
         ],
-        'top' => [
-            'type' => 'container',
-        ],
         'header' => [
             'type' => 'tpl',
             'tpl' => 'layout/header.phtml',
-            'parent' => 'top',
-            'sort' => -1,
+        ],
+        'menu' => [
+            'type' => 'menu',
         ],
         'msg' => [
             'type' => 'msg',
@@ -41,12 +39,6 @@ return [
         ],
         'main' => [
             'type' => 'container',
-        ],
-    ],
-    '_public_' => [
-        'menu' => [
-            'type' => 'menu',
-            'parent' => 'top',
         ],
     ],
     'index' => [
@@ -69,7 +61,10 @@ return [
         'toolbar' => [
             'active' => false,
         ],
-        'top' => [
+        'header' => [
+            'active' => false,
+        ],
+        'menu' => [
             'active' => false,
         ],
         'rte' => [
@@ -125,7 +120,10 @@ return [
         ],
     ],
     'account/login' => [
-        'top' => [
+        'header' => [
+            'active' => false,
+        ],
+        'menu' => [
             'active' => false,
         ],
         'content' => [
