@@ -266,14 +266,6 @@ function url(string $path = '', array $params = []): string
 }
 
 /**
- * Asset URL
- */
-function asset(string $path): string
-{
-    return APP['url.asset'] . trim($path, '/');
-}
-
-/**
  * GUI URL
  */
 function gui(string $path): string
