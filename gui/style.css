@@ -340,6 +340,18 @@ button.icon {
 /**
  * Toolbar
  */
+label[for=toolbartoggle] {
+    font-size: 3rem;
+}
+
+#toolbartoggle {
+    display: none;
+}
+
+#toolbartoggle:checked ~ a {
+    display: block;
+}
+
 #toolbar {
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
@@ -348,11 +360,7 @@ button.icon {
 }
 
 #toolbar a {
-    margin-left: 1.5rem;
-}
-
-#toolbar a:first-child {
-    margin-left: 0;
+    display: none;
 }
 
 #toolbar a:hover,
@@ -501,12 +509,22 @@ label[for=menutoggle] {
         align-items: stretch;
     }
 
+    label[for=toolbartoggle],
     label[for=menutoggle] {
         display: none;
     }
 
+    #toolbar a,
     #menu {
-        display: block;
+        display: initial;
+    }
+
+    #toolbar a {
+        margin-left: 1.5rem;
+    }
+
+    #toolbar a:first-of-type {
+        margin-left: 0;
     }
 
     #menu li {
