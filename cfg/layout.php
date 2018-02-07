@@ -44,14 +44,6 @@ return [
         'main' => [
             'type' => 'container',
         ],
-        'bottom' => [
-            'type' => 'container',
-        ],
-    ],
-    '_admin_' => [
-        'bottom' => [
-            'active' => false,
-        ],
     ],
     '_public_' => [
         'menu' => [
