@@ -176,7 +176,7 @@ function layout(string $id = null, array $vars = null): array
         $ent = cfg('ent', data('ent'));
         $act = data('act');
         $path = data('path');
-        $area = empty(cfg('priv', $path)['active']) ? APP['layout.public'] : APP['layout.admin'];
+        $area = empty(cfg('priv', $path)['active']) ? APP['area.public'] : APP['area.admin'];
 
         if (http_response_code() === 404) {
             $keys = [APP['all'], $area, 'app/error'];
