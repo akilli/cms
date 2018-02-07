@@ -372,15 +372,13 @@ label[for=toolbartoggle] {
  * Header
  */
 #header {
-    line-height: 9rem;
+    padding: 1.5rem;
     color: var(--primary-text);
     background: var(--primary);
 }
 
 #header h1 {
     margin: 0;
-    padding: 1.5rem;
-    font-size: 3rem;
 }
 
 /**
@@ -507,6 +505,10 @@ label[for=menutoggle] {
 
     #toolbar a:first-of-type {
         margin-left: 0;
+    }
+
+    #header {
+        line-height: 9rem;
     }
 
     #menu {
