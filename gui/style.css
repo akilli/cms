@@ -464,17 +464,6 @@ label[for=menutoggle] {
 }
 
 /**
- * Sidebar
- */
-#sidebar {
-    padding: 1.5rem;
-}
-
-#sidebar > * {
-    margin-bottom: 1.5rem;
-}
-
-/**
  * Index
  */
 .index audio,
@@ -562,10 +551,6 @@ label[for=menutoggle] {
     p.create,
     form.search {
         display: inline-block;
-    }
-
-    #sidebar {
-        flex: 1 0;
     }
 
     html[data-path="account/login"] main {

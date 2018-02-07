@@ -44,18 +44,11 @@ return [
         'main' => [
             'type' => 'container',
         ],
-        'sidebar' => [
-            'type' => 'container',
-            'vars' => ['tag' => 'aside'],
-        ],
         'bottom' => [
             'type' => 'container',
         ],
     ],
     '_admin_' => [
-        'sidebar' => [
-            'active' => false,
-        ],
         'bottom' => [
             'active' => false,
         ],
