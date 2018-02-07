@@ -45,7 +45,7 @@ CREATE FUNCTION asset_save() RETURNS trigger AS $$
             RAISE EXCEPTION 'Cannot change filetype anymore';
         END IF;
 
-        NEW.name := '/' || NEW.ent || '/asset/' || NEW.id || '.' || NEW.type;
+        NEW.name := '/asset/' || NEW.id || '.' || NEW.type;
 
         RETURN NEW;
     END;

@@ -161,7 +161,6 @@ return [
         'parent' => 'asset',
         'act' => [
             'admin' => ['excl' => ['id', 'ent']],
-            'asset' => [],
             'browser' => ['excl' => ['id', 'ent']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],

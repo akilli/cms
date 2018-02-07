@@ -48,9 +48,6 @@ return [
     'content/view' => [
         'active' => false,
     ],
-    'file/asset' => [
-        'active' => false,
-    ],
     'file/browser' => [
         'priv' => 'file/admin',
     ],

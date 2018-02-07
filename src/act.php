@@ -83,23 +83,6 @@ function delete(array $ent): void
 }
 
 /**
- * Asset Action
- */
-function asset(array $ent): void
-{
-    if (!($id = app\data('id')) || !is_file(app\path('asset', $ent['id'] . '/' . $id))) {
-        http_response_code(404);
-        exit;
-    }
-
-    http_response_code(200);
-    header('X-Accel-Redirect: ' . APP['url.asset'] . $ent['id'] . '/' . $id);
-    header('X-Accel-Buffering: no');
-    header('Content-Type: ', true);
-    exit;
-}
-
-/**
  * App Error Action
  */
 function app_error(): void

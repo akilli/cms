@@ -147,7 +147,7 @@ function ent_postsave_asset(array $data): array
 {
     $item = http\req('file')['name'] ?? null;
 
-    if ($item && !file\upload($item['tmp_name'], app\path('asset', $data['_ent']['id'] . '/' . $data['id'] . '.' . $data['type']))) {
+    if ($item && !file\upload($item['tmp_name'], app\path('asset', $data['id'] . '.' . $data['type']))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
     }
 
@@ -161,7 +161,7 @@ function ent_postsave_asset(array $data): array
  */
 function ent_postdelete_asset(array $data): array
 {
-    if (!file\delete(app\path('asset', $data['_ent']['id'] . '/' . $data['id'] . '.' . $data['type']))) {
+    if (!file\delete(app\path('asset', $data['id'] . '.' . $data['type']))) {
         throw new DomainException(app\i18n('Could not delete %s', $data['name']));
     }
 
