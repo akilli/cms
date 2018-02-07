@@ -33,6 +33,10 @@ body {
     background: var(--body);
 }
 
+body > * {
+    padding: 0.75rem 1.5rem;
+}
+
 /**
  * Text
  */
@@ -341,7 +345,6 @@ button.icon {
  * Toolbar
  */
 #toolbar {
-    padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     color: var(--primary-text);
     background: var(--primary-dark);
@@ -360,7 +363,6 @@ button.icon {
  * Header
  */
 #header {
-    padding: 1.5rem;
     color: var(--primary-text);
     background: var(--primary);
 }
@@ -375,7 +377,6 @@ button.icon {
  */
 #menu {
     display: none;
-    padding: 1.5rem;
     color: var(--primary-text);
     background: var(--primary-light);
 }
@@ -480,13 +481,12 @@ button.icon {
     }
 
     #header {
-        line-height: 6rem;
+        line-height: 7.5rem;
     }
 
     #menu {
         display: block;
         width: 100%;
-        margin-bottom: 1.5rem;
     }
 
     #menu li {
