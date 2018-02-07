@@ -19,13 +19,6 @@
   src: url(material.woff2) format('woff2');
 }
 
-@font-face {
-    font-family: roboto;
-    font-style: normal;
-    font-weight: normal;
-    src: url('roboto.woff2') format('woff2');
-}
-
 body {
     line-height: 1.5rem;
     font-family: sans-serif;
