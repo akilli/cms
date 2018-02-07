@@ -379,6 +379,7 @@ label[for=toolbartoggle] {
 
 #header h1 {
     margin: 0;
+    font-size: 2rem;
 }
 
 /**
@@ -438,7 +439,7 @@ label[for=menutoggle] {
 
 #content > h1 {
     line-height: 3rem;
-    font-size: 3rem;
+    font-size: 2rem;
 }
 
 #content a,
@@ -574,4 +575,16 @@ label[for=menutoggle] {
         float: right;
         margin-left: 1rem;
     }
+}
+
+/**
+ * Grid
+ */
+body {
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 1px, transparent 23px, tomato 24px),repeating-linear-gradient(-90deg, transparent, transparent 1px, transparent 23px, tomato 24px);
+background-size: 24px 24px;
+}
+
+body > * {
+    opacity: 0.7;
 }
