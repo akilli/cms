@@ -340,18 +340,6 @@ button.icon {
 /**
  * Toolbar
  */
-label[for=toolbartoggle] {
-    font-size: 3rem;
-}
-
-#toolbartoggle {
-    display: none;
-}
-
-#toolbartoggle:checked ~ a {
-    display: block;
-}
-
 #toolbar {
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
@@ -385,18 +373,6 @@ label[for=toolbartoggle] {
 /**
  * Menu
  */
-label[for=menutoggle] {
-    font-size: 3rem;
-}
-
-#menutoggle {
-    display: none;
-}
-
-#menutoggle:checked ~ #menu {
-    display: block;
-}
-
 #menu {
     display: none;
     padding: 1.5rem;
@@ -491,11 +467,6 @@ label[for=menutoggle] {
  * Responsive
  */
 @media (min-width: 48rem) {
-    label[for=toolbartoggle],
-    label[for=menutoggle] {
-        display: none;
-    }
-
     #toolbar a {
         display: inline;
     }

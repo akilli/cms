@@ -3,8 +3,6 @@ namespace app;
 /** @var callable $§ */
 ?>
 <nav id="<?=$§('id');?>">
-    <label for="toolbartoggle" class="icon">settings</label>
-    <input id="toolbartoggle" type="checkbox" />
     <?php foreach (cfg('toolbar') as $act => $item):?>
         <?php if (allowed($act)):?>
     <a href="<?=$item['url'];?>"<?php if ($act === data('path')):?> class="active"<?php endif;?>><?=$item['name'];?></a>
