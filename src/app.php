@@ -36,6 +36,7 @@ function run(): void
     $data['act'] = array_shift($parts);
     $data['id'] = array_shift($parts);
     $data['path'] = $data['ent'] . '/' . $data['act'];
+    $data['area'] = empty(cfg('priv', $data['path'])['active']) ? APP['area.public'] : APP['area.admin'];
     $allowed = allowed($data['path']);
     $ent = cfg('ent', $data['ent']);
     $real = is_callable('act\\' . $data['ent'] . '_' . $data['act']) ? 'act\\' . $data['ent'] . '_' . $data['act'] : null;
@@ -176,7 +177,7 @@ function layout(string $id = null, array $vars = null): array
         $ent = cfg('ent', data('ent'));
         $act = data('act');
         $path = data('path');
-        $area = empty(cfg('priv', $path)['active']) ? APP['area.public'] : APP['area.admin'];
+        $area = data('area');
 
         if (http_response_code() === 404) {
             $keys = [APP['all'], $area, 'app/error'];
