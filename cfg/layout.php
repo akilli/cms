@@ -21,15 +21,13 @@ return [
             'parent' => 'head',
             'sort' => -2,
         ],
-        'top' => [
-            'type' => 'container',
-        ],
         'toolbar' => [
             'type' => 'tpl',
             'tpl' => 'layout/toolbar.phtml',
             'priv' => 'account-user',
-            'parent' => 'top',
-            'sort' => -2,
+        ],
+        'top' => [
+            'type' => 'container',
         ],
         'header' => [
             'type' => 'tpl',
@@ -68,6 +66,9 @@ return [
         ],
     ],
     'browser' => [
+        'toolbar' => [
+            'active' => false,
+        ],
         'top' => [
             'active' => false,
         ],
