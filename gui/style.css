@@ -67,6 +67,11 @@ pre {
     background: var(--primary-dark);
 }
 
+hr {
+    height:0.0625rem;
+    background: var(--grey);
+}
+
 /**
  * Figure
  */
