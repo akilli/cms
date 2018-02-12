@@ -29,6 +29,7 @@
         'basicstyles': 1,
         'blockquote': 1,
         'clipboard': 1,
+        'detail': 1,
         'dialog': 1,
         'divarea': 1,
         'enterkey': 1,
