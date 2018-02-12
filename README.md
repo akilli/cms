@@ -31,6 +31,5 @@ priv | privilege
 reg  | registry
 req  | request
 rte  | rich text editor
-tab  | table
 tpl  | template
 val  | value
