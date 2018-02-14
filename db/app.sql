@@ -55,12 +55,11 @@ CREATE TABLE asset (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
     type varchar(5) NOT NULL,
-    info varchar(255) NOT NULL,
+    info text NOT NULL,
     ent varchar(50) NOT NULL CHECK (ent != '')
 );
 
 CREATE INDEX ON asset (type);
-CREATE INDEX ON asset (info);
 CREATE INDEX ON asset (ent);
 
 CREATE TRIGGER asset_save BEFORE INSERT OR UPDATE ON asset FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE asset_save();

@@ -141,10 +141,9 @@ return [
             ],
             'info' => [
                 'name' => 'Info',
-                'type' => 'text',
+                'type' => 'textarea',
                 'required' => true,
                 'searchable' => true,
-                'maxlength' => 255,
             ],
             'ent' => [
                 'name' => 'Entity',
