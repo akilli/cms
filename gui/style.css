@@ -492,20 +492,26 @@ button.icon {
         margin-right: 1.5rem;
     }
 
+    #menu li li {
+        position: relative;
+        display: block;
+        margin-right: 0;
+        padding: 0.375rem;
+    }
+
     #menu li ul {
         position: absolute;
         display: none;
         margin-left: 0;
         background: var(--primary-light);
     }
-
-    #menu li:hover ul {
-        display: block;
+    #menu li li ul {
+        top: 0;
+        left: 100%;
     }
 
-    #menu li li {
+    #menu li:hover > ul {
         display: block;
-        padding: 0.375rem;
     }
 
     p.create,
