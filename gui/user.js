@@ -11,7 +11,7 @@
         });
 
         // Delete buttons and links
-        document.querySelectorAll('.delete').forEach(function (item) {
+        document.querySelectorAll('[data-act=delete]').forEach(function (item) {
             item.addEventListener('click', function (event) {
                 if (!confirm(app.i18n('Please confirm delete operation'))) {
                     event.preventDefault();
