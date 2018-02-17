@@ -7,4 +7,7 @@ namespace app;
 <title><?=$§('title');?></title>
 <link rel="stylesheet" href="<?=gui('base.css');?>" />
 <link rel="stylesheet" href="<?=gui('style.css');?>" />
+<?php if (file_exists(path('ext', 'gui/style.css'))):?>
+<link rel="stylesheet" href="<?=ext('style.css');?>" />
+<?php endif;?>
 <script src="<?=gui('all.js');?>"></script>
