@@ -30,21 +30,26 @@ body > * {
     padding: 0.75rem 1.5rem;
 }
 
-/**
- * Text
- */
+figure,
 h1,
 h2,
-h3 {
+h3,
+p,
+fieldset > *,
+#content > * {
     margin-bottom: 1.5rem;
 }
 
+details + :not(details),
 h1:not(:first-child),
 h2:not(:first-child),
 h3:not(:first-child) {
     margin-top: 1.5rem;
 }
 
+/**
+ * Text
+ */
 h1 {
     font-size: 1.5rem;
 }
@@ -55,10 +60,6 @@ h2 {
 
 h3 {
     font-size: 1.125rem;
-}
-
-p {
-    margin-bottom: 1.5rem;
 }
 
 pre {
@@ -75,10 +76,6 @@ hr {
 /**
  * Figure
  */
-figure {
-    margin-bottom: 1.5rem;
-}
-
 figcaption {
     font-size: 0.875rem;
 }
@@ -158,10 +155,6 @@ table.data tfoot td {
 /**
  * Form
  */
-fieldset > * {
-    margin-bottom: 1.5rem;
-}
-
 fieldset [type=email],
 fieldset [type=password],
 fieldset [type=search],
@@ -408,10 +401,6 @@ button.icon {
 /**
  * Content
  */
-#content > * {
-    margin-bottom: 1.5rem;
-}
-
 #content > h1 {
     line-height: 3rem;
     font-size: 2rem;
