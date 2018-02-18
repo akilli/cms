@@ -48,6 +48,16 @@ h3:not(:first-child) {
     margin-top: 1.5rem;
 }
 
+div[data-type=rte]:after {
+    overflow: hidden;
+    content: "";
+    display: block;
+    height: 0;
+    line-height: 0;
+    clear: both;
+    font-size: 0;
+}
+
 /**
  * Text
  */
