@@ -214,3 +214,10 @@ optgroup {
 option[selected] {
     font-weight: bold;
 }
+
+/**
+ * Interactive
+ */
+details {
+    cursor: pointer;
+}
