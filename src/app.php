@@ -32,6 +32,7 @@ function run(): void
 
     $parts = explode('/', trim($url, '/'));
     $data = & reg('app');
+    $data['lang'] = locale_get_primary_language('');
     $data['ent'] = array_shift($parts);
     $data['act'] = array_shift($parts);
     $data['id'] = array_shift($parts);
