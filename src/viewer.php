@@ -78,7 +78,7 @@ function file(string $val): string
     $ext = pathinfo($val, PATHINFO_EXTENSION);
 
     if (in_array($ext, APP['file.image'])) {
-        return html\tag('img', ['src' => $val], null, true);
+        return html\tag('img', ['src' => $val, 'alt' => ''], null, true);
     }
 
     if (in_array($ext, APP['file.video'])) {
