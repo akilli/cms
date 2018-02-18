@@ -277,7 +277,7 @@ return [
             'delete' => [],
             'edit' => ['excl' => ['date', 'ent']],
             'index' => ['incl' => ['name', 'teaser']],
-            'view' => ['incl' => ['image', 'teaser', 'body']],
+            'view' => ['incl' => ['image', 'body']],
         ],
     ],
     'article' => [
