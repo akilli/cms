@@ -18,11 +18,11 @@ use session;
             <?php if (!$html = attr\viewer($attr, $data)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
                 <?php if (allowed($data['_ent']['id'] . '/view')):?>
-        <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
+        <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
             <a href="<?=$data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
-        </h1>
+        </h2>
                 <?php else:?>
-        <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
+        <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h2>
                 <?php endif;?>
             <?php else:?>
         <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">

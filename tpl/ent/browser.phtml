@@ -17,7 +17,7 @@ use session;
         <?php foreach ($§('attr') as $attr):?>
             <?php if (!$html = attr\viewer($attr, $data)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
-        <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
+        <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h2>
             <?php else:?>
         <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
             <?=$html;?>
