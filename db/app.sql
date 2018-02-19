@@ -223,61 +223,20 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
 $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION page_version() RETURNS trigger AS $$
-    DECLARE
-        _row RECORD;
     BEGIN
-        IF (TG_OP = 'UPDATE' AND NEW.status = 'archived') THEN
-            -- Actually, archived status should not be allowed for new items (INSERTs) after initial setup of DB
-            IF (OLD.status != 'published') THEN
-                RAISE EXCEPTION 'Can not archive unpublished or already archived item';
-            END IF;
+        -- Actually, archived status should not be allowed for new items (INSERTs) after initial setup of DB
+        IF (TG_OP = 'UPDATE' AND NEW.status = 'archived' AND OLD.status IN ('draft', 'pending', 'archived')) THEN
+            RAISE EXCEPTION 'Can not archive unpublished or already archived item';
+        END IF;
 
-            -- Archive published version without change
+        -- Archive published version without change
+        IF (TG_OP = 'UPDATE' AND NEW.status = 'archived') THEN
             NEW := OLD;
             NEW.status := 'archived';
+        END IF;
 
-            -- Delete old drafts when item is archived
-            DELETE FROM
-                version
-            WHERE
-                page = OLD.id
-                AND status IN ('draft', 'pending');
-
-            -- Recursively update child pages
-            FOR _row IN SELECT * FROM page WHERE pos LIKE OLD.pos || '/%' AND status != 'archived' ORDER BY level DESC LOOP
-                IF (_row.status IN ('draft', 'pending')) THEN
-                    DELETE FROM
-                        page
-                    WHERE
-                        id = _row.id
-                        OR pos LIKE _row.pos || '/%';
-
-                    CONTINUE;
-                END IF;
-
-                DELETE FROM
-                    version
-                WHERE
-                    page = _row.id
-                    AND status IN ('draft', 'pending');
-
-                _row.status := 'archived';
-                _row.date := current_timestamp;
-
-                INSERT INTO
-                    version
-                    (name, teaser, body, status, date, page)
-                VALUES
-                    (_row.name, _row.teaser, _row.body, _row.status, _row.date, _row.id);
-
-                UPDATE
-                    page
-                SET
-                    status = _row.status,
-                    date = _row.date;
-            END LOOP;
-        ELSIF (TG_OP = 'UPDATE' AND NEW.status = 'published') THEN
-            -- Delete old drafts when item is published
+        -- Delete old drafts when item is published
+        IF (TG_OP = 'UPDATE' AND NEW.status IN ('published', 'archived')) THEN
             DELETE FROM
                 version
             WHERE
