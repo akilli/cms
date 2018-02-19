@@ -53,6 +53,7 @@ return [
                 'unique' => true,
                 'searchable' => true,
                 'maxlength' => 50,
+                'filter' => 'id',
             ],
             'password' => [
                 'name' => 'Password',
@@ -208,7 +209,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'maxlength' => 50,
-                'filter' => 'id',
+                'filter' => 'slug',
             ],
             'url' => [
                 'name' => 'URL',
