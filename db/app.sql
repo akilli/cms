@@ -298,6 +298,7 @@ CREATE TABLE page (
 
 CREATE INDEX ON page (name);
 CREATE INDEX ON page (image);
+CREATE INDEX ON page (meta);
 CREATE INDEX ON page (slug);
 CREATE INDEX ON page (url);
 CREATE INDEX ON page (menu);
