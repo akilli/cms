@@ -105,7 +105,7 @@ function load(string $id): array
 {
     $data = [];
 
-    foreach ([path('cfg', $id . '.php'), path('ext', 'cfg/' . $id . '.php')] as $file) {
+    foreach ([path('cfg', $id . '.php'), path('ext.cfg', $id . '.php')] as $file) {
         if (is_readable($file)) {
             $data = array_replace_recursive($data, include $file);
         }
@@ -252,7 +252,7 @@ function path(string $dir, string $id = null): string
  */
 function tpl(string $id): string
 {
-    $ext = path('ext', 'tpl/' . $id);
+    $ext = path('ext.tpl', $id);
 
     return is_file($ext) ? $ext : path('tpl', $id);
 }

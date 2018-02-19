@@ -75,8 +75,12 @@ const APP = [
     'path' => [
         'asset' => '/data/asset',
         'cfg' => '/app/cfg',
-        'ext' => '/data/ext',
+        'gui' => '/app/gui',
         'tpl' => '/app/tpl',
+        'ext.cfg' => '/data/ext/cfg',
+        'ext.gui' => '/data/ext/gui',
+        'ext.src' => '/data/ext/src',
+        'ext.tpl' => '/data/ext/tpl',
     ],
     'priv' => [
         'name' => null,
