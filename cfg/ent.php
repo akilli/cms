@@ -204,6 +204,13 @@ return [
                 'searchable' => true,
                 'val' => '',
             ],
+            'meta' => [
+                'name' => 'Meta',
+                'type' => 'text',
+                'frontend' => 'textarea',
+                'val' => '',
+                'maxlength' => 300,
+            ],
             'slug' => [
                 'name' => 'Slug',
                 'type' => 'text',

@@ -49,6 +49,7 @@ return [
     'Logout' => 'Abmelden',
     'Menu Entry' => 'Menüeintrag',
     'Message' => 'Nachricht',
+    'Meta' => 'Meta',
     'Name' => 'Name',
     'New Entry' => 'Neuer Eintrag',
     'Next' => 'Weiter',

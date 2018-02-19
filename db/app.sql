@@ -281,6 +281,7 @@ CREATE TABLE page (
     image integer DEFAULT NULL REFERENCES asset ON DELETE SET NULL ON UPDATE CASCADE,
     teaser text NOT NULL DEFAULT '',
     body text NOT NULL DEFAULT '',
+    meta varchar(300) NOT NULL DEFAULT '',
     slug varchar(50) NOT NULL,
     url varchar(255) UNIQUE DEFAULT NULL,
     menu boolean NOT NULL DEFAULT FALSE,
