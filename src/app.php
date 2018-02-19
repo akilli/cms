@@ -272,7 +272,10 @@ function url(string $path = '', array $params = []): string
  */
 function gui(string $path): string
 {
-    return APP['url.gui'] . trim($path, '/');
+    $data = & reg('gui');
+    $data['app'] = $data['app'] ?? filemtime(path('gui'));
+
+    return APP['url.gui'] . $data['app'] . '/' . trim($path, '/');
 }
 
 /**
@@ -280,7 +283,10 @@ function gui(string $path): string
  */
 function ext(string $path): string
 {
-    return APP['url.ext'] . trim($path, '/');
+    $data = & reg('gui');
+    $data['ext'] = $data['ext'] ?? filemtime(path('ext.gui'));
+
+    return APP['url.ext'] . $data['ext'] . '/' . trim($path, '/');
 }
 
 /**
