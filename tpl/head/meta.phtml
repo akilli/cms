@@ -3,6 +3,9 @@ namespace app;
 /** @var callable $§ */
 ?>
 <meta charset="utf-8" />
+<?php if ($§('desc')):?>
+<meta name="description" content="<?=$§('desc');?>" />
+<?php endif;?>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
 <title><?=$§('title');?></title>
 <link rel="stylesheet" href="<?=gui('base.css');?>" />
