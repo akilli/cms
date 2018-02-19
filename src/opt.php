@@ -26,11 +26,11 @@ function ent(array $attr): array
 function page(): array
 {
     if (($opt = & app\reg('opt.page')) === null) {
-        $attr = app\cfg('ent', 'page')['attr']['pos'];
+        $pos = app\cfg('ent', 'page')['attr']['pos'];
         $opt = [];
 
         foreach (ent\all('content', [], ['order' => ['pos' => 'asc']]) as $item) {
-            $opt[$item['id']] = attr\viewer($attr, $item) . ' ' . $item['name'];
+            $opt[$item['id']] = attr\viewer($pos, $item) . ' ' . $item['name'];
         }
     }
 
