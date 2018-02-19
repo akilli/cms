@@ -370,7 +370,7 @@ button.icon {
     background: var(--primary);
 }
 
-#header strong {
+#header .name {
     display: block;
     font-size: 2rem;
     font-weight: normal;
