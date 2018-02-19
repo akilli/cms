@@ -272,7 +272,7 @@ function url(string $path = '', array $params = []): string
  */
 function gui(string $path): string
 {
-    return bust($path);
+    return APP['url.gui'] . trim($path, '/');
 }
 
 /**
@@ -280,23 +280,7 @@ function gui(string $path): string
  */
 function ext(string $path): string
 {
-    return bust($path, true);
-}
-
-/**
- * Bust browser cache
- */
-function bust(string $path, bool $ext = false): string
-{
-    $path = trim($path, '/');
-    $url = $ext ? APP['url.ext'] : APP['url.gui'];
-    $dir = $ext ? path('ext.gui') : path('gui');
-
-    if (file_exists($dir . '/' . $path) && preg_match('#^(.+)(\.(?:css|js))$#', $path, $match)) {
-        return $url . $match[1] . '.' . filemtime($dir . '/' . $path) . $match[2];
-    }
-
-    return $url . $path;
+    return APP['url.ext'] . trim($path, '/');
 }
 
 /**
