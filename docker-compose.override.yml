@@ -5,3 +5,12 @@ volumes:
       type: none
       device: ${PWD}
       o: bind,uid=1000,gid=1000
+services:
+  db:
+    volumes:
+      - source: ./db/app.sql
+        target: /app.sql
+        type: bind
+      - source: ./db/data.sql
+        target: /data.sql
+        type: bind
