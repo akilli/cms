@@ -283,9 +283,9 @@ return [
         'act' => [
             'admin' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'thumb', 'teaser', 'image', 'body', 'meta']],
+            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'thumb', 'teaser', 'image', 'body', 'aside', 'meta']],
             'index' => ['incl' => ['thumb', 'name', 'teaser']],
-            'view' => ['incl' => ['image', 'body']],
+            'view' => ['incl' => ['image', 'body', 'aside']],
         ],
         'attr' => [
             'thumb' => [
@@ -294,6 +294,12 @@ return [
                 'nullable' => true,
                 'ent' => 'file',
                 'viewer' => 'fileopt',
+            ],
+            'aside' => [
+                'name' => 'Additional Information',
+                'type' => 'rte',
+                'searchable' => true,
+                'val' => '',
             ],
         ],
     ],
