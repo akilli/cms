@@ -175,11 +175,20 @@ function ent_postdelete_asset(array $data): array
  */
 function ent_postfilter_page(array $data): array
 {
-    $old = $data['_old'];
-    $parent = !empty($data['parent']) ? ent\one('page', [['id', $data['parent']]]) : null;
+    if (empty($data['parent'])) {
+        return $data;
+    }
 
-    if ($old && $parent && $old['id'] && in_array($old['id'], $parent['path'])) {
+    $parent = ent\one('page', [['id', $data['parent']]]);
+
+    if (!empty($data['_old']['id']) && in_array($data['_old']['id'], $parent['path'])) {
         $data['_error']['parent'] = app\i18n('Cannot assign the page itself or a child page as parent');
+    }
+
+    if ($parent['status'] === 'archived' && (!$data['_old'] || $data['parent'] !== $data['_old']['parent'])) {
+        $data['_error']['parent'] = app\i18n('Cannot assign archived page as parent');
+    } elseif (in_array($parent['status'], ['draft', 'pending'])) {
+        $data['status'] = 'draft';
     }
 
     return $data;

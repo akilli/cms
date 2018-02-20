@@ -223,20 +223,66 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
 $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION page_version() RETURNS trigger AS $$
+    DECLARE
+        _sta status;
+        _row RECORD;
     BEGIN
-        -- Actually, archived status should not be allowed for new items (INSERTs) after initial setup of DB
-        IF (TG_OP = 'UPDATE' AND NEW.status = 'archived' AND OLD.status IN ('draft', 'pending', 'archived')) THEN
-            RAISE EXCEPTION 'Can not archive unpublished or already archived item';
-        END IF;
-
-        -- Archive published version without change
         IF (TG_OP = 'UPDATE' AND NEW.status = 'archived') THEN
+            -- Actually, archived status should not be allowed for new items (INSERTs) after initial setup of DB
+            IF (OLD.status != 'published') THEN
+                RAISE EXCEPTION 'Can not archive unpublished or already archived page';
+            END IF;
+
+            -- Archive published version without change
             NEW := OLD;
             NEW.status := 'archived';
-        END IF;
 
-        -- Delete old drafts when item is published
-        IF (TG_OP = 'UPDATE' AND NEW.status IN ('published', 'archived')) THEN
+            -- Delete old drafts when item is archived
+            DELETE FROM
+                version
+            WHERE
+                page = OLD.id
+                AND status IN ('draft', 'pending');
+
+            -- Recursively update child pages
+            FOR _row IN SELECT * FROM page WHERE pos LIKE OLD.pos || '/%' AND status != 'archived' ORDER BY level DESC LOOP
+                -- Delete page if it was never published
+                IF (_row.status IN ('draft', 'pending')) THEN
+                    DELETE FROM
+                        page
+                    WHERE
+                        id = _row.id
+                        OR pos LIKE _row.pos || '/%';
+
+                    CONTINUE;
+                END IF;
+
+                -- Delete old drafts when item is published
+                DELETE FROM
+                    version
+                WHERE
+                    page = _row.id
+                    AND status IN ('draft', 'pending');
+
+                _row.status := 'archived';
+                _row.date := current_timestamp;
+
+                -- Create new version
+                INSERT INTO
+                    version
+                    (name, teaser, body, status, date, page)
+                VALUES
+                    (_row.name, _row.teaser, _row.body, _row.status, _row.date, _row.id);
+
+                -- Update page status and date
+                UPDATE
+                    page
+                SET
+                    status = _row.status,
+                    date = _row.date;
+            END LOOP;
+        ELSIF (TG_OP = 'UPDATE' AND NEW.status = 'published') THEN
+            -- Delete old drafts when item is published
             DELETE FROM
                 version
             WHERE
@@ -244,6 +290,28 @@ CREATE FUNCTION page_version() RETURNS trigger AS $$
                 AND status IN ('draft', 'pending');
         END IF;
 
+        -- Check parent status
+        IF ((TG_OP = 'INSERT' OR COALESCE(NEW.parent, 0) != COALESCE(OLD.parent, 0)) AND NEW.parent IS NOT NULL) THEN
+            SELECT
+                status
+            FROM
+                page
+            WHERE
+                id = NEW.parent
+            INTO
+                _sta;
+
+            IF (_sta = 'archived') THEN
+                RAISE EXCEPTION 'Can not set archived page as parent';
+            END IF;
+
+            -- If parent is not published yet, the child pages' status must be draft
+            IF (_sta IN ('draft', 'pending')) THEN
+                NEW.status := 'draft';
+            END IF;
+        END IF;
+
+        -- Create new version
         IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.teaser != OLD.teaser OR NEW.body != OLD.body OR NEW.status != OLD.status) THEN
             IF (TG_OP = 'UPDATE' OR NEW.date IS NULL) THEN
                 NEW.date := current_timestamp;
