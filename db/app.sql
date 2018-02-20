@@ -222,67 +222,23 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION page_version() RETURNS trigger AS $$
+CREATE FUNCTION page_version_before() RETURNS trigger AS $$
     DECLARE
         _sta status;
-        _row RECORD;
     BEGIN
-        IF (TG_OP = 'UPDATE' AND NEW.status = 'archived') THEN
-            -- Actually, archived status should not be allowed for new items (INSERTs) after initial setup of DB
-            IF (OLD.status != 'published') THEN
-                RAISE EXCEPTION 'Can not archive unpublished or already archived page';
-            END IF;
+        -- Actually, archived status should not be allowed for new items (INSERTs) after initial setup of DB
+        IF (TG_OP = 'UPDATE' AND NEW.status = 'archived' AND OLD.status != 'published') THEN
+            RAISE EXCEPTION 'Can not archive unpublished or already archived page';
+        END IF;
 
-            -- Archive published version without change
+        -- Archive published version without change
+        IF (TG_OP = 'UPDATE' AND NEW.status = 'archived') THEN
             NEW := OLD;
             NEW.status := 'archived';
+        END IF;
 
-            -- Delete old drafts when item is archived
-            DELETE FROM
-                version
-            WHERE
-                page = OLD.id
-                AND status IN ('draft', 'pending');
-
-            -- Recursively update child pages
-            FOR _row IN SELECT * FROM page WHERE pos LIKE OLD.pos || '/%' AND status != 'archived' ORDER BY level DESC LOOP
-                -- Delete page if it was never published
-                IF (_row.status IN ('draft', 'pending')) THEN
-                    DELETE FROM
-                        page
-                    WHERE
-                        id = _row.id
-                        OR pos LIKE _row.pos || '/%';
-
-                    CONTINUE;
-                END IF;
-
-                -- Delete old drafts when item is published
-                DELETE FROM
-                    version
-                WHERE
-                    page = _row.id
-                    AND status IN ('draft', 'pending');
-
-                _row.status := 'archived';
-                _row.date := current_timestamp;
-
-                -- Create new version
-                INSERT INTO
-                    version
-                    (name, teaser, body, status, date, page)
-                VALUES
-                    (_row.name, _row.teaser, _row.body, _row.status, _row.date, _row.id);
-
-                -- Update page status and date
-                UPDATE
-                    page
-                SET
-                    status = _row.status,
-                    date = _row.date;
-            END LOOP;
-        ELSIF (TG_OP = 'UPDATE' AND NEW.status = 'published') THEN
-            -- Delete old drafts when item is published
+        -- Delete old drafts when item is published or archived
+        IF (TG_OP = 'UPDATE' AND NEW.status IN ('published', 'archived')) THEN
             DELETE FROM
                 version
             WHERE
@@ -335,6 +291,56 @@ CREATE FUNCTION page_version() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
+CREATE FUNCTION page_version_after() RETURNS trigger AS $$
+    DECLARE
+        _row RECORD;
+    BEGIN
+        IF (NEW.status != 'archived') THEN
+            RETURN NULL;
+        END IF;
+
+        -- Recursively update child pages
+        FOR _row IN SELECT * FROM page WHERE id != OLD.id AND path @> OLD.id::text::jsonb AND status != 'archived' ORDER BY pos ASC LOOP
+            -- Delete page if it was never published
+            IF (_row.status IN ('draft', 'pending')) THEN
+                DELETE FROM
+                    page
+                WHERE
+                    id = _row.id
+                    OR path @> _row.id::text::jsonb;
+
+                CONTINUE;
+            END IF;
+
+            -- Delete old drafts when item is published
+            DELETE FROM
+                version
+            WHERE
+                page = _row.id
+                AND status IN ('draft', 'pending');
+
+            _row.status := 'archived';
+            _row.date := current_timestamp;
+
+            -- Create new version
+            INSERT INTO
+                version
+                (name, teaser, body, status, date, page)
+            VALUES
+                (_row.name, _row.teaser, _row.body, _row.status, _row.date, _row.id);
+
+            -- Update page status and date
+            UPDATE
+                page
+            SET
+                status = _row.status,
+                date = _row.date;
+        END LOOP;
+
+        RETURN NULL;
+    END;
+$$ LANGUAGE plpgsql;
+
 CREATE FUNCTION version_protect() RETURNS trigger AS $$
     BEGIN
         RAISE EXCEPTION 'Update not allowed';
@@ -381,7 +387,8 @@ CREATE INDEX ON page (ent);
 
 CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_before();
 CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_after();
-CREATE TRIGGER page_version BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version();
+CREATE TRIGGER page_version_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_before();
+CREATE TRIGGER page_version_after AFTER UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_after();
 
 CREATE TABLE version (
     id serial PRIMARY KEY,
