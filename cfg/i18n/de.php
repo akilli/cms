@@ -85,6 +85,7 @@ return [
     'Slug' => 'Slug',
     'Sort' => 'Sortierung',
     'Status' => 'Status',
+    'Status must be draft, because parent was not published yet' => 'Der Status muß Entwurf sein, da die Oberseite noch nicht veröffentlicht wurde',
     'Successfully deleted %s' => '%s erfolgreich gelöscht',
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
     'Target' => 'Ziel',

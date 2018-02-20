@@ -187,8 +187,8 @@ function ent_postfilter_page(array $data): array
 
     if ($parent['status'] === 'archived' && (!$data['_old'] || $data['parent'] !== $data['_old']['parent'])) {
         $data['_error']['parent'] = app\i18n('Cannot assign archived page as parent');
-    } elseif (in_array($parent['status'], ['draft', 'pending'])) {
-        $data['status'] = 'draft';
+    } elseif (in_array($parent['status'], ['draft', 'pending']) && !empty($data['status']) && $data['status'] !== 'draft') {
+        $data['_error']['status'] = app\i18n('Status must be draft, because parent was not published yet');
     }
 
     return $data;
