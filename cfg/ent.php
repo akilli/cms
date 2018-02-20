@@ -284,7 +284,7 @@ return [
             'admin' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'thumb', 'teaser', 'image', 'body', 'meta']],
-            'index' => ['incl' => ['name', 'teaser']],
+            'index' => ['incl' => ['thumb', 'name', 'teaser']],
             'view' => ['incl' => ['image', 'body']],
         ],
         'attr' => [
@@ -305,7 +305,7 @@ return [
             'admin' => ['incl' => ['name', 'parent', 'status', 'date']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'teaser', 'image', 'body', 'meta']],
-            'index' => ['incl' => ['name', 'image', 'teaser']],
+            'index' => ['incl' => ['image', 'name', 'teaser']],
             'view' => ['incl' => ['name', 'image', 'teaser', 'body']],
         ],
     ],
