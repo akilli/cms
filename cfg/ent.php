@@ -199,7 +199,7 @@ return [
                 'val' => '',
             ],
             'body' => [
-                'name' => 'Body',
+                'name' => 'Main Content',
                 'type' => 'rte',
                 'searchable' => true,
                 'val' => '',
@@ -338,7 +338,7 @@ return [
                 'searchable' => true,
             ],
             'body' => [
-                'name' => 'Body',
+                'name' => 'Main Content',
                 'type' => 'rte',
                 'required' => true,
                 'searchable' => true,
