@@ -287,6 +287,15 @@ return [
             'index' => ['incl' => ['name', 'teaser']],
             'view' => ['incl' => ['image', 'body']],
         ],
+        'attr' => [
+            'thumb' => [
+                'name' => 'Thumbnail',
+                'type' => 'ent',
+                'nullable' => true,
+                'ent' => 'file',
+                'viewer' => 'fileopt',
+            ],
+        ],
     ],
     'article' => [
         'name' => 'Articles',

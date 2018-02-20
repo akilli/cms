@@ -90,6 +90,7 @@ return [
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
     'Target' => 'Ziel',
     'Teaser' => 'Teaser',
+    'Thumbnail' => 'Vorschaubild',
     'Unique' => 'Eindeutig',
     'URL' => 'URL',
     'Value is required' => 'Wert ist erforderlich',
