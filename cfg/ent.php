@@ -283,18 +283,11 @@ return [
         'act' => [
             'admin' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'thumb', 'teaser', 'image', 'body', 'aside', 'meta']],
-            'index' => ['incl' => ['thumb', 'name', 'teaser']],
+            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'teaser', 'image', 'body', 'aside', 'meta']],
+            'index' => ['incl' => ['name', 'teaser']],
             'view' => ['incl' => ['image', 'body', 'aside']],
         ],
         'attr' => [
-            'thumb' => [
-                'name' => 'Thumbnail',
-                'type' => 'ent',
-                'nullable' => true,
-                'ent' => 'file',
-                'viewer' => 'fileopt',
-            ],
             'aside' => [
                 'name' => 'Additional Information',
                 'type' => 'rte',

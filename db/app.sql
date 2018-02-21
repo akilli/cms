@@ -409,11 +409,8 @@ CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW WHEN (pg_tr
 
 CREATE TABLE content (
     id integer NOT NULL PRIMARY KEY REFERENCES page ON DELETE SET NULL ON UPDATE CASCADE,
-    thumb integer DEFAULT NULL REFERENCES asset ON DELETE SET NULL ON UPDATE CASCADE,
     aside text NOT NULL DEFAULT ''
 );
-
-CREATE INDEX ON content (thumb);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
