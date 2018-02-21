@@ -6,7 +6,7 @@ use session;
 ?>
 <?php if ($data = $§('data')):?>
 <section id="<?=$§('id');?>">
-    <h1><?=$§('title');?></h1>
+    <h1><?=enc($§('title'));?></h1>
     <form method="post" enctype="multipart/form-data">
         <fieldset>
             <?php foreach ($§('attr') as $attr):?>

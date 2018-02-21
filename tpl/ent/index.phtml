@@ -5,7 +5,7 @@ use session;
 /** @var callable $§ */
 ?>
 <section id="<?=$§('id');?>" class="index">
-    <h1><?=$§('title');?></h1>
+    <h1><?=enc($§('title'));?></h1>
     <form method="post" class="search">
         <input type="search" name="param[q]" value="<?=$§('param')['q'] ?? '';?>" placeholder="<?=i18n('Search Term');?>" />
         <input type="submit" value="search" title="<?=i18n('Search');?>" class="icon" />
