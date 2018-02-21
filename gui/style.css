@@ -479,7 +479,7 @@ button.icon {
         margin-left: 0;
     }
 
-    #header {
+    #header .name {
         line-height: 7.5rem;
     }
 
