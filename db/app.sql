@@ -407,11 +407,6 @@ CREATE INDEX ON version (page);
 
 CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE version_protect();
 
-CREATE TABLE content (
-    id integer NOT NULL PRIMARY KEY REFERENCES page ON DELETE SET NULL ON UPDATE CASCADE,
-    aside text NOT NULL DEFAULT ''
-);
-
 -- ---------------------------------------------------------------------------------------------------------------------
 
 COMMIT;

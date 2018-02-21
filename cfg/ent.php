@@ -283,17 +283,9 @@ return [
         'act' => [
             'admin' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'teaser', 'image', 'body', 'aside', 'meta']],
+            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'teaser', 'image', 'body', 'meta']],
             'index' => ['incl' => ['name', 'teaser']],
-            'view' => ['incl' => ['image', 'body', 'aside']],
-        ],
-        'attr' => [
-            'aside' => [
-                'name' => 'Additional Information',
-                'type' => 'rte',
-                'searchable' => true,
-                'val' => '',
-            ],
+            'view' => ['incl' => ['image', 'body']],
         ],
     ],
     'article' => [

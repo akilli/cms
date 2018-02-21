@@ -18,10 +18,6 @@ use session;
             <?php if (!$html = attr\viewer($attr, $data)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
         <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h2>
-            <?php elseif ($attr['id'] === 'aside'):?>
-        <aside data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-            <?=$html;?>
-        </aside>
             <?php else:?>
         <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
             <?=$html;?>
