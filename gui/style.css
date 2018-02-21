@@ -36,8 +36,7 @@ h2,
 h3,
 p,
 fieldset > *,
-#content > *,
-#content section {
+#content > * {
     margin-bottom: 1.5rem;
 }
 
