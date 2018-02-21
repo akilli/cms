@@ -169,9 +169,6 @@ return [
     'page' => [
         'name' => 'Pages',
         'type' => 'db',
-        'act' => [
-            'index' => ['incl' => ['name', 'teaser']],
-        ],
         'attr' => [
             'id' => [
                 'name' => 'ID',

@@ -51,9 +51,6 @@ return [
     'file/browser' => [
         'priv' => 'file/admin',
     ],
-    'page/index' => [
-        'active' => false,
-    ],
     'role/admin' => [
         'priv' => '_all_',
     ],
