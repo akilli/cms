@@ -538,6 +538,19 @@ button.icon {
         max-width: 30rem;
     }
 
+    html[data-path="file/browser"] #content {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    html[data-path="file/browser"] #content > * {
+        width: 100%;
+    }
+
+    html[data-path="file/browser"] #content > article {
+        width: 25%;
+    }
+
     .left {
         float: left;
         margin-right: 1rem;
