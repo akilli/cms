@@ -268,16 +268,16 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
         END IF;
 
         -- Create new version
-        IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.teaser != OLD.teaser OR NEW.body != OLD.body OR NEW.status != OLD.status) THEN
+        IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.body != OLD.body OR NEW.status != OLD.status) THEN
             IF (TG_OP = 'UPDATE' OR NEW.date IS NULL) THEN
                 NEW.date := current_timestamp;
             END IF;
 
             INSERT INTO
                 version
-                (name, teaser, body, status, date, page)
+                (name, body, status, date, page)
             VALUES
-                (NEW.name, NEW.teaser, NEW.body, NEW.status, NEW.date, NEW.id);
+                (NEW.name, NEW.body, NEW.status, NEW.date, NEW.id);
         ELSE
             NEW.date := OLD.date;
         END IF;
@@ -325,9 +325,9 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
             -- Create new version
             INSERT INTO
                 version
-                (name, teaser, body, status, date, page)
+                (name, body, status, date, page)
             VALUES
-                (_row.name, _row.teaser, _row.body, _row.status, _row.date, _row.id);
+                (_row.name, _row.body, _row.status, _row.date, _row.id);
 
             -- Update page status and date
             UPDATE
@@ -353,7 +353,6 @@ CREATE TABLE page (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
     image integer DEFAULT NULL REFERENCES asset ON DELETE SET NULL ON UPDATE CASCADE,
-    teaser text NOT NULL DEFAULT '',
     body text NOT NULL DEFAULT '',
     meta varchar(300) NOT NULL DEFAULT '',
     slug varchar(50) NOT NULL,
@@ -390,10 +389,14 @@ CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH
 CREATE TRIGGER page_version_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_before();
 CREATE TRIGGER page_version_after AFTER UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_after();
 
+CREATE TABLE article (
+    id integer NOT NULL PRIMARY KEY REFERENCES page ON DELETE SET NULL ON UPDATE CASCADE,
+    teaser text NOT NULL DEFAULT ''
+);
+
 CREATE TABLE version (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
-    teaser text NOT NULL,
     body text NOT NULL,
     status status NOT NULL,
     date timestamp NOT NULL,

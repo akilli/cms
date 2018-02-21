@@ -189,12 +189,6 @@ return [
                 'ent' => 'file',
                 'viewer' => 'fileopt',
             ],
-            'teaser' => [
-                'name' => 'Teaser',
-                'type' => 'rte',
-                'searchable' => true,
-                'val' => '',
-            ],
             'body' => [
                 'name' => 'Main Content',
                 'type' => 'rte',
@@ -280,8 +274,7 @@ return [
         'act' => [
             'admin' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'teaser', 'image', 'body', 'meta']],
-            'index' => ['incl' => ['name', 'teaser']],
+            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'body', 'meta']],
             'view' => ['incl' => ['image', 'body']],
         ],
     ],
@@ -295,6 +288,14 @@ return [
             'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'teaser', 'image', 'body', 'meta']],
             'index' => ['incl' => ['image', 'name', 'teaser']],
             'view' => ['incl' => ['name', 'image', 'teaser', 'body']],
+        ],
+        'attr' => [
+            'teaser' => [
+                'name' => 'Teaser',
+                'type' => 'rte',
+                'searchable' => true,
+                'val' => '',
+            ],
         ],
     ],
     'version' => [
@@ -312,12 +313,6 @@ return [
                 'required' => true,
                 'searchable' => true,
                 'maxlength' => 255,
-            ],
-            'teaser' => [
-                'name' => 'Teaser',
-                'type' => 'rte',
-                'required' => true,
-                'searchable' => true,
             ],
             'body' => [
                 'name' => 'Main Content',

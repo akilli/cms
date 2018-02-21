@@ -30,7 +30,7 @@ function form(array $ent): void
 
         if ($act === 'edit' && in_array('page', [$ent['id'], $ent['parent']])) {
             $v = ent\one('version', [['page', $id]], ['order' => ['date' => 'desc']]);
-            $base = arr\replace($base, ['name' => $v['name'], 'teaser' => $v['teaser'], 'body' => $v['body'], 'status' => $v['status'], 'date' => $v['date']]);
+            $base = arr\replace($base, ['name' => $v['name'], 'body' => $v['body'], 'status' => $v['status'], 'date' => $v['date']]);
         }
     } else {
         $base = ent\data($ent);
