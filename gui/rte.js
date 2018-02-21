@@ -5,6 +5,7 @@
         const cfg = {
             customConfig: '',
             disableNativeSpellChecker: true,
+            extraAllowedContent: 'div section(*)',
             filebrowserBrowseUrl: '/file/browser',
             format_tags: 'p;h1;h2;h3',
             height: '30rem',
