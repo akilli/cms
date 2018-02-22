@@ -108,6 +108,7 @@ const APP = [
     'url.gui' => '/gui/',
     'version' => [
         'name' => null,
+        'teaser' => null,
         'main' => null,
         'status' => null,
         'date' => null,

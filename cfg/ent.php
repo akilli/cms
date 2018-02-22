@@ -189,6 +189,12 @@ return [
                 'ent' => 'file',
                 'viewer' => 'fileopt',
             ],
+            'teaser' => [
+                'name' => 'Teaser',
+                'type' => 'rte',
+                'searchable' => true,
+                'val' => '',
+            ],
             'main' => [
                 'name' => 'Main Content',
                 'type' => 'rte',
@@ -294,14 +300,6 @@ return [
             'index' => ['incl' => ['image', 'name', 'teaser']],
             'view' => ['incl' => ['name', 'image', 'teaser', 'main']],
         ],
-        'attr' => [
-            'teaser' => [
-                'name' => 'Teaser',
-                'type' => 'rte',
-                'searchable' => true,
-                'val' => '',
-            ],
-        ],
     ],
     'version' => [
         'name' => 'Versions',
@@ -318,6 +316,12 @@ return [
                 'required' => true,
                 'searchable' => true,
                 'maxlength' => 255,
+            ],
+            'teaser' => [
+                'name' => 'Teaser',
+                'type' => 'rte',
+                'required' => true,
+                'searchable' => true,
             ],
             'main' => [
                 'name' => 'Main Content',
