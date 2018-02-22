@@ -201,6 +201,11 @@ return [
                 'searchable' => true,
                 'val' => '',
             ],
+            'aside' => [
+                'name' => 'Additional Information',
+                'type' => 'rte',
+                'val' => '',
+            ],
             'sidebar' => [
                 'name' => 'Sidebar',
                 'type' => 'rte',
@@ -285,8 +290,8 @@ return [
         'act' => [
             'admin' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'sidebar', 'meta']],
-            'view' => ['incl' => ['image', 'main']],
+            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']],
+            'view' => ['incl' => ['image', 'main', 'aside']],
         ],
     ],
     'article' => [
@@ -328,6 +333,11 @@ return [
                 'type' => 'rte',
                 'required' => true,
                 'searchable' => true,
+            ],
+            'aside' => [
+                'name' => 'Additional Information',
+                'type' => 'rte',
+                'required' => true,
             ],
             'sidebar' => [
                 'name' => 'Sidebar',
