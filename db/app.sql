@@ -268,16 +268,16 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
         END IF;
 
         -- Create new version
-        IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.body != OLD.body OR NEW.status != OLD.status) THEN
+        IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.main != OLD.main OR NEW.status != OLD.status) THEN
             IF (TG_OP = 'UPDATE' OR NEW.date IS NULL) THEN
                 NEW.date := current_timestamp;
             END IF;
 
             INSERT INTO
                 version
-                (name, body, status, date, page)
+                (name, main, status, date, page)
             VALUES
-                (NEW.name, NEW.body, NEW.status, NEW.date, NEW.id);
+                (NEW.name, NEW.main, NEW.status, NEW.date, NEW.id);
         ELSE
             NEW.date := OLD.date;
         END IF;
@@ -325,9 +325,9 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
             -- Create new version
             INSERT INTO
                 version
-                (name, body, status, date, page)
+                (name, main, status, date, page)
             VALUES
-                (_row.name, _row.body, _row.status, _row.date, _row.id);
+                (_row.name, _row.main, _row.status, _row.date, _row.id);
 
             -- Update page status and date
             UPDATE
@@ -353,7 +353,7 @@ CREATE TABLE page (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
     image integer DEFAULT NULL REFERENCES asset ON DELETE SET NULL ON UPDATE CASCADE,
-    body text NOT NULL DEFAULT '',
+    main text NOT NULL DEFAULT '',
     meta varchar(300) NOT NULL DEFAULT '',
     slug varchar(50) NOT NULL,
     url varchar(255) UNIQUE DEFAULT NULL,
@@ -397,7 +397,7 @@ CREATE TABLE article (
 CREATE TABLE version (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
-    body text NOT NULL,
+    main text NOT NULL,
     status status NOT NULL,
     date timestamp NOT NULL,
     page integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED
