@@ -83,6 +83,7 @@ return [
     'Search' => 'Suche',
     'Search Term' => 'Suchbegriff',
     'Select item' => 'Eintrag auswählen',
+    'Sidebar' => 'Sidebar',
     'Slug' => 'Slug',
     'Sort' => 'Sortierung',
     'Status' => 'Status',

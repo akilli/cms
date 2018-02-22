@@ -195,6 +195,11 @@ return [
                 'searchable' => true,
                 'val' => '',
             ],
+            'sidebar' => [
+                'name' => 'Sidebar',
+                'type' => 'rte',
+                'val' => '',
+            ],
             'meta' => [
                 'name' => 'Meta',
                 'type' => 'text',
@@ -274,7 +279,7 @@ return [
         'act' => [
             'admin' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'meta']],
+            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'sidebar', 'meta']],
             'view' => ['incl' => ['image', 'main']],
         ],
     ],
@@ -285,7 +290,7 @@ return [
         'act' => [
             'admin' => ['incl' => ['name', 'parent', 'status', 'date']],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'teaser', 'image', 'main', 'meta']],
+            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'teaser', 'image', 'main', 'sidebar', 'meta']],
             'index' => ['incl' => ['image', 'name', 'teaser']],
             'view' => ['incl' => ['name', 'image', 'teaser', 'main']],
         ],

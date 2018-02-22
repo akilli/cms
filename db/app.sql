@@ -354,6 +354,7 @@ CREATE TABLE page (
     name varchar(255) NOT NULL,
     image integer DEFAULT NULL REFERENCES asset ON DELETE SET NULL ON UPDATE CASCADE,
     main text NOT NULL DEFAULT '',
+    sidebar text NOT NULL DEFAULT '',
     meta varchar(300) NOT NULL DEFAULT '',
     slug varchar(50) NOT NULL,
     url varchar(255) UNIQUE DEFAULT NULL,
