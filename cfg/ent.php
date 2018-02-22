@@ -329,6 +329,11 @@ return [
                 'required' => true,
                 'searchable' => true,
             ],
+            'sidebar' => [
+                'name' => 'Sidebar',
+                'type' => 'rte',
+                'required' => true,
+            ],
             'status' => [
                 'name' => 'Status',
                 'type' => 'status',

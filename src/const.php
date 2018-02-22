@@ -110,6 +110,7 @@ const APP = [
         'name' => null,
         'teaser' => null,
         'main' => null,
+        'sidebar' => null,
         'status' => null,
         'date' => null,
     ]
