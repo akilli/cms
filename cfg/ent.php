@@ -296,7 +296,7 @@ return [
         'act' => [
             'admin' => ['incl' => ['name', 'parent', 'status', 'date']],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'teaser', 'image', 'main', 'sidebar', 'meta']],
+            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']],
             'index' => ['incl' => ['image', 'name', 'teaser']],
             'view' => ['incl' => ['name', 'image', 'teaser', 'main']],
         ],
