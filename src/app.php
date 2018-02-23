@@ -19,7 +19,20 @@ function run(): void
 {
     $data = & reg('app');
     $data['lang'] = locale_get_primary_language('');
-    $parts = explode('/', trim(rewrite(http\req('url'), true), '/'));
+    $url = http\req('url');
+    $rew = ent\one('url', [['name', $url]]);
+
+    if (!empty($rew['redirect'])) {
+        redirect($rew['target'], $rew['redirect']);
+    }
+
+    if ($rew) {
+        $url = $rew['target'];
+    } elseif ($page = ent\one('page', [['url', $url]])) {
+        $url = '/' . $page['ent'] . '/view/' . $page['id'];
+    }
+
+    $parts = explode('/', trim($url, '/'));
     $data['ent'] = array_shift($parts);
     $data['act'] = array_shift($parts);
     $data['id'] = array_shift($parts);
@@ -153,20 +166,6 @@ function allowed(string $key): bool
 }
 
 /**
- * Check access to given URL considering rewrites
- */
-function allowed_url(string $path): bool
-{
-    if (preg_match('#^https?://#', $path)) {
-        return true;
-    }
-
-    $parts = explode('/', ltrim(rewrite($path), '/'));
-
-    return cfg('ent', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
-}
-
-/**
  * Returns layout section and optionally sets variables
  *
  * @throws DomainException
@@ -288,28 +287,6 @@ function ext(string $path): string
     $data['ext'] = $data['ext'] ?? filemtime(path('ext.gui'));
 
     return APP['url.ext'] . $data['ext'] . '/' . trim($path, '/');
-}
-
-/**
- * Rewrite
- */
-function rewrite(string $path, bool $redirect = false): string
-{
-    $url = ent\one('url', [['name', $path]]);
-
-    if ($redirect && !empty($url['redirect'])) {
-        redirect($url['target'], $url['redirect']);
-    }
-
-    if ($url) {
-        return $url['target'];
-    }
-
-    if ($page = ent\one('page', [['url', $path]])) {
-        return '/' . $page['ent'] . '/view/' . $page['id'];
-    }
-
-    return $path;
 }
 
 /**
