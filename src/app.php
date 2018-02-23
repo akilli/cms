@@ -19,7 +19,7 @@ function run(): void
 {
     $data = & reg('app');
     $data['lang'] = locale_get_primary_language('');
-    $parts = explode('/', trim(rewrite(http\req('url')), '/'));
+    $parts = explode('/', trim(rewrite(http\req('url'), true), '/'));
     $data['ent'] = array_shift($parts);
     $data['act'] = array_shift($parts);
     $data['id'] = array_shift($parts);
@@ -279,11 +279,11 @@ function ext(string $path): string
 /**
  * Rewrite
  */
-function rewrite(string $path): string
+function rewrite(string $path, bool $redirect = false): string
 {
     $url = ent\one('url', [['name', $path]]);
 
-    if (!empty($url['redirect'])) {
+    if ($redirect && !empty($url['redirect'])) {
         redirect($url['target'], $url['redirect']);
     }
 
