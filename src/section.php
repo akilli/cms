@@ -119,7 +119,7 @@ function menu(array $§): string
 {
     $§['vars'] = [];
     $cur = ent\one('page', [['url', http\req('url')], ['status', 'published']]);
-    $crit = [['status', 'published'], ['menu', true]];
+    $crit = [['status', 'published'], ['menu', true], ['level', 0, APP['crit']['>']]];
     $opt = ['order' => ['pos' => 'asc']];
 
     if (!$menu = ent\all('page', $crit, $opt)) {

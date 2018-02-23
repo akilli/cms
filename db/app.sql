@@ -179,11 +179,11 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
         WITH RECURSIVE t AS (
             SELECT
                 id,
-                '/' || slug AS urlkey,
-                '/' || slug || _ext AS url,
+                CASE WHEN slug = 'index' THEN '' ELSE '/' || slug END AS urlkey,
+                CASE WHEN slug = 'index' THEN '/' ELSE '/' || slug || _ext END AS url,
                 menu,
                 '[]'::jsonb || TO_JSONB(id) AS path,
-                1 AS level,
+                0 AS level,
                 LPAD(CAST(sort AS text), _pad, '0') AS pos
             FROM
                 page
