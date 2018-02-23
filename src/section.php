@@ -15,13 +15,14 @@ use session;
  */
 function container(array $§): string
 {
+    $§['vars'] = arr\replace(['tag' => null], $§['vars']);
     $html = '';
 
     foreach (arr\order(arr\crit(app\layout(), [['parent', $§['id']]]), ['sort' => 'asc']) as $child) {
         $html .= app\§($child['id']);
     }
 
-    return $html;
+    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
 }
 
 /**
