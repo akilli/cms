@@ -153,12 +153,12 @@ table p {
     margin: 0;
 }
 
-table.data {
+.index table {
     width: 100%;
     line-height: 3rem;
 }
 
-table.data tfoot td {
+.index table tfoot td {
     text-align: right;
     box-shadow: none;
 }
@@ -436,15 +436,6 @@ button.icon {
 #content ::selection {
     color: var(--secondary-text);
     background: var(--secondary);
-}
-
-/**
- * Index
- */
-.index audio,
-.index img,
-.index video {
-    max-width: 15rem;
 }
 
 /**
