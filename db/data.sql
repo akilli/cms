@@ -18,12 +18,6 @@ INSERT INTO
 VALUES
     ('admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', 1);
 
-INSERT INTO
-    url
-    (name, target)
-VALUES
-    ('/', '/app/home');
-
 -- ---------------------------------------------------------------------------------------------------------------------
 
 COMMIT;

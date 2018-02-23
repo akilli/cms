@@ -91,13 +91,6 @@ function app_error(): void
 }
 
 /**
- * App Home Action
- */
-function app_home(): void
-{
-}
-
-/**
  * App JavaScript Action
  */
 function app_js(): void

@@ -6,7 +6,7 @@ return [
     'url/admin' => ['name' => 'URL', 'sort' => 400],
     'account/admin' => ['name' => 'Accounts', 'sort' => 500],
     'role/admin' => ['name' => 'Roles', 'sort' => 600],
-    'app/home' => ['name' => 'Homepage', 'url' => '/', 'sort' => 700],
+    'page/view' => ['name' => 'Homepage', 'url' => '/', 'sort' => 700],
     'account/password' => ['name' => 'Password', 'sort' => 800],
     'account/logout' => ['name' => 'Logout', 'sort' => 900],
 ];
