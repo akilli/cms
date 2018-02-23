@@ -117,23 +117,10 @@ function index(array $§): string
  */
 function menu(array $§): string
 {
-    $§['vars'] = arr\replace(['mode' => null], $§['vars']);
+    $§['vars'] = [];
     $cur = ent\one('page', [['url', http\req('url')], ['status', 'published']]);
-    $anc = $cur && count($cur['path']) > 1 ? ent\one('page', [['id', $cur['path'][0]], ['status', 'published']]) : $cur;
     $crit = [['status', 'published'], ['menu', true]];
     $opt = ['order' => ['pos' => 'asc']];
-
-    if ($§['vars']['mode'] === 'sub') {
-        if (!$anc) {
-            return '';
-        }
-
-        $crit[] = ['parent', null, APP['crit']['!=']];
-        $crit[] = [['id', $cur['path']], ['parent', [$anc['id'], $cur['id'], $cur['parent']]]];
-    } elseif ($§['vars']['mode'] === 'top') {
-        $cur = $anc;
-        $crit[] = ['parent', null];
-    }
 
     if (!$menu = ent\all('page', $crit, $opt)) {
         return '';
@@ -145,10 +132,6 @@ function menu(array $§): string
     $html = '';
 
     foreach ($menu as $item) {
-        if ($item['parent'] && ($§['vars']['mode'] !== 'sub' || $item['parent'] !== $anc['id']) && empty($menu[$item['parent']])) {
-            continue;
-        }
-
         $a = ['href' => $item['url']];
         $class = '';
 
