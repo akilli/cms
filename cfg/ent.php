@@ -74,7 +74,7 @@ return [
         'name' => 'URL',
         'type' => 'db',
         'act' => [
-            'admin' => [],
+            'admin' => ['excl' => ['id']],
             'delete' => [],
             'edit' => [],
         ],
