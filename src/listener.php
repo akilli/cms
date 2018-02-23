@@ -95,14 +95,13 @@ function cfg_priv(array $data): array
  */
 function cfg_toolbar(array $data): array
 {
-    foreach ($data as $act => $item) {
-        if (empty($item['name'])) {
+    foreach ($data as $key => $item) {
+        if (empty($item['name']) || empty($item['url'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
         $item['name'] = app\i18n($item['name']);
-        $item['url'] = !empty($item['url']) ? $item['url'] : app\url($act);
-        $data[$act] = arr\replace(APP['toolbar'], $item);
+        $data[$key] = arr\replace(APP['toolbar'], $item);
     }
 
     return arr\order($data, ['sort' => 'asc']);

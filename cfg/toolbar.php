@@ -1,12 +1,12 @@
 <?php
 return [
-    'content/admin' => ['name' => 'Content Pages', 'sort' => 100],
-    'article/admin' => ['name' => 'Articles', 'sort' => 200],
-    'file/admin' => ['name' => 'Files', 'sort' => 300],
-    'url/admin' => ['name' => 'URL', 'sort' => 400],
-    'account/admin' => ['name' => 'Accounts', 'sort' => 500],
-    'role/admin' => ['name' => 'Roles', 'sort' => 600],
-    'page/view' => ['name' => 'Homepage', 'url' => '/', 'sort' => 700],
-    'account/password' => ['name' => 'Password', 'sort' => 800],
-    'account/logout' => ['name' => 'Logout', 'sort' => 900],
+    'content' => ['name' => 'Content Pages', 'url' => '/content/admin', 'sort' => 100],
+    'article' => ['name' => 'Articles', 'url' => '/article/admin', 'sort' => 200],
+    'file' => ['name' => 'Files', 'url' => '/file/admin', 'sort' => 300],
+    'url' => ['name' => 'URL', 'url' => '/url/admin', 'sort' => 400],
+    'account' => ['name' => 'Accounts', 'url' => '/account/admin', 'sort' => 500],
+    'role' => ['name' => 'Roles', 'url' => '/role/admin', 'sort' => 600],
+    'home' => ['name' => 'Homepage', 'url' => '/', 'sort' => 700],
+    'password' => ['name' => 'Password', 'url' => '/account/password', 'sort' => 800],
+    'logout' => ['name' => 'Logout', 'url' => '/account/logout', 'sort' => 900],
 ];

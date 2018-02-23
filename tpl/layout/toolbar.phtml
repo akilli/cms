@@ -1,11 +1,12 @@
 <?php
 namespace app;
+use http;
 /** @var callable $§ */
 ?>
 <nav id="<?=$§('id');?>">
-    <?php foreach (cfg('toolbar') as $act => $item):?>
-        <?php if (allowed($act)):?>
-    <a href="<?=$item['url'];?>"<?php if ($act === data('path')):?> class="active"<?php endif;?>><?=$item['name'];?></a>
+    <?php foreach (cfg('toolbar') as $key => $item):?>
+        <?php if (allowed_url($item['url'])):?>
+    <a href="<?=$item['url'];?>" data-item="<?=$key;?>"<?php if ($item['url'] === http\req('url')):?> class="active"<?php endif;?>><?=$item['name'];?></a>
         <?php endif;?>
     <?php endforeach;?>
 </nav>

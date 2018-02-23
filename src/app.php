@@ -153,6 +153,20 @@ function allowed(string $key): bool
 }
 
 /**
+ * Check access to given URL considering rewrites
+ */
+function allowed_url(string $path): bool
+{
+    if (preg_match('#^https?://#', $path)) {
+        return true;
+    }
+
+    $parts = explode('/', ltrim(rewrite($path), '/'));
+
+    return cfg('ent', $parts[0]) && !empty($parts[1]) && allowed($parts[0] . '/' . $parts[1]);
+}
+
+/**
  * Returns layout section and optionally sets variables
  *
  * @throws DomainException
