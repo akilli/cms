@@ -155,7 +155,7 @@ return [
     'account/password' => [
         'content' => [
             'type' => 'tpl',
-            'tpl' => 'account/password.phtml',
+            'tpl' => 'ent/form.phtml',
             'parent' => 'main',
         ],
     ],

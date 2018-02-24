@@ -62,6 +62,14 @@ return [
                 'minlength' => 8,
                 'maxlength' => 255,
             ],
+            'confirmation' => [
+                'name' => 'Password Confirmation',
+                'virtual' => true,
+                'type' => 'password',
+                'required' => true,
+                'minlength' => 8,
+                'maxlength' => 255,
+            ],
             'role' => [
                 'name' => 'Role',
                 'type' => 'ent',

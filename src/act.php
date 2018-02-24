@@ -102,20 +102,19 @@ function app_js(): void
 /**
  * Account Password Action
  */
-function account_password(): void
+function account_password(array $ent): void
 {
-    if (!$data = req\data('post')) {
-        return;
+    if ($data = req\data('post')) {
+        if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
+            app\msg(app\i18n('Password and password confirmation must be identical'));
+        } else {
+            $data = ['id' => account\data('id'), 'password' => $data['password']];
+            ent\save('account', $data);
+        }
     }
 
-    if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
-        app\msg(app\i18n('Password and password confirmation must be identical'));
-        return;
-    }
-
-    $data = ['id' => account\data('id'), 'password' => $data['password']];
-    ent\save('account', $data);
-    app\layout('content', ['error' => $data['_error']['password'] ?? null]);
+    $attr = array_intersect_key($ent['attr'], ['password' => null, 'confirmation' => null]);
+    app\layout('content', ['data' => ['_ent' => $ent], 'attr' => $attr, 'title' => app\i18n('Password')]);
 }
 
 /**
