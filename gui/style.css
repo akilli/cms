@@ -91,21 +91,6 @@ figcaption {
     font-size: 0.875rem;
 }
 
-figure.iframe {
-    position: relative;
-    height: auto;
-    overflow: hidden;
-    padding: 1.5rem 0 56.25%;
-}
-
-figure.iframe iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
 /**
  * List
  */
