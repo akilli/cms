@@ -350,7 +350,6 @@ button.icon {
 }
 
 #header .name {
-    display: block;
     font-size: 2rem;
     font-weight: normal;
 }

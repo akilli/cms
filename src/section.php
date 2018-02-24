@@ -162,8 +162,7 @@ function menu(array $§): string
  */
 function meta(array $§): string
 {
-    $§['vars'] = arr\replace(['desc' => null, 'title' => null], $§['vars']);
-    $§['vars']['title'] = $§['vars']['title'] ?: app\cfg('app', 'name');
+    $§['vars'] = arr\replace(['desc' => '', 'title' => app\cfg('app', 'name')], $§['vars']);
 
     return tpl($§);
 }
