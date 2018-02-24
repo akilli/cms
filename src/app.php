@@ -24,6 +24,7 @@ function run(): void
 
     if (!empty($rew['redirect'])) {
         redirect($rew['target'], $rew['redirect']);
+        return;
     }
 
     if ($rew) {

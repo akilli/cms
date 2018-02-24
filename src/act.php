@@ -23,6 +23,7 @@ function form(array $ent): void
     if ($data && ent\save($ent['id'], $data) && $act === 'edit') {
         $id = ($id ?: $data['id']);
         app\redirect(app\url($ent['id'] . '/edit/' . $id));
+        return;
     }
 
     if ($id) {
@@ -130,6 +131,7 @@ function account_login(): void
         session\regenerate();
         session\set('account', $data['id']);
         app\redirect();
+        return;
     }
 
     app\msg(app\i18n('Invalid name and password combination'));
