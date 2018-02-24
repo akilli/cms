@@ -6,7 +6,7 @@ use attr;
 <?php if ($data = $§('data')):?>
 <section id="<?=$§('id');?>">
     <h1><?=enc($§('title'));?></h1>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post"<?php if (in_array('file', array_column($§('attr'), 'frontend'))):?> enctype="multipart/form-data"<?php endif;?>>
         <fieldset>
             <?php foreach ($§('attr') as $attr):?>
             <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
