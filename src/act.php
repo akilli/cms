@@ -120,20 +120,23 @@ function account_password(array $ent): void
 /**
  * Account Login Action
  */
-function account_login(): void
+function account_login(array $ent): void
 {
-    if (!$data = req\data('post')) {
-        return;
+    if ($data = req\data('post')) {
+        if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
+            session\regenerate();
+            session\set('account', $data['id']);
+            app\redirect();
+            return;
+        }
+
+        app\msg(app\i18n('Invalid name and password combination'));
     }
 
-    if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
-        session\regenerate();
-        session\set('account', $data['id']);
-        app\redirect();
-        return;
-    }
-
-    app\msg(app\i18n('Invalid name and password combination'));
+    $attr = array_intersect_key($ent['attr'], ['name' => null, 'password' => null]);
+    $attr['name'] = array_replace($attr['name'], ['unique' => false, 'minlength' => 0, 'maxlength' => 0]);
+    $attr['password'] = array_replace($attr['password'], ['minlength' => 0, 'maxlength' => 0]);
+    app\layout('content', ['data' => ['_ent' => $ent], 'attr' => $attr, 'title' => app\i18n('Login')]);
 }
 
 /**

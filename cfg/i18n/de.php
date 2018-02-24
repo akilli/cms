@@ -69,7 +69,6 @@ return [
     'Pending' => 'Ausstehend',
     'Please choose' => 'Bitte auswählen',
     'Please confirm delete operation' => 'Bitte den Löschvorgang bestätigen',
-    'Please enter your credentials' => 'Bitte die Zugangsdaten eingeben',
     'Position' => 'Position',
     'Previous' => 'Zurück',
     'Privileges' => 'Privilegien',

@@ -148,7 +148,7 @@ return [
         ],
         'content' => [
             'type' => 'tpl',
-            'tpl' => 'account/login.phtml',
+            'tpl' => 'ent/form.phtml',
             'parent' => 'main',
         ],
     ],
