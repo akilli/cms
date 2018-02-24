@@ -7,7 +7,7 @@ use account;
 use act;
 use arr;
 use ent;
-use http;
+use req;
 use session;
 use DomainException;
 use Throwable;
@@ -19,7 +19,7 @@ function run(): void
 {
     $data = & reg('app');
     $data['lang'] = locale_get_primary_language('');
-    $url = http\req('url');
+    $url = req\data('url');
     $rew = ent\one('url', [['name', $url]]);
 
     if (!empty($rew['redirect'])) {

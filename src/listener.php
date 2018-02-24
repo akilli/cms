@@ -7,7 +7,7 @@ use app;
 use arr;
 use ent;
 use file;
-use http;
+use req;
 use DomainException;
 
 /**
@@ -147,7 +147,7 @@ function ent_prefilter_asset(array $data): array
  */
 function ent_postsave_asset(array $data): array
 {
-    $item = http\req('file')['name'] ?? null;
+    $item = req\data('file')['name'] ?? null;
 
     if ($item && !file\upload($item['tmp_name'], app\path('asset', $data['id'] . '.' . $data['type']))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));

@@ -1,36 +1,36 @@
 <?php
 declare(strict_types = 1);
 
-namespace http;
+namespace req;
 
 use app;
 use session;
 use DomainException;
 
 /**
- * Request
+ * Request data
  *
  * @return mixed
  */
-function req(string $key)
+function data(string $key)
 {
     if (($data = & app\reg('req')) === null) {
         $data['file'] = [];
-        $data['data'] = [];
-        $data['param'] = [];
+        $data['post'] = [];
+        $data['get'] = [];
 
         if (!empty($_POST['token'])) {
             if (session\get('token') === $_POST['token']) {
                 $data['file'] = !empty($_FILES['data']) && is_array($_FILES['data']) ? file($_FILES['data']) : [];
-                $data['data'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
-                $data['data'] = array_replace_recursive($data['data'], data($data['file']));
-                $data['param'] = !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
+                $data['post'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
+                $data['post'] = array_replace_recursive($data['post'], convert($data['file']));
+                $data['get'] = !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
             }
 
             session\set('token', null);
         }
 
-        $data['param'] = param($data['param'] + $_GET);
+        $data['get'] = filter($data['get'] + $_GET);
         $data['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     }
 
@@ -40,7 +40,7 @@ function req(string $key)
 /**
  * Filters request parameters
  */
-function param(array $data): array
+function filter(array $data): array
 {
     foreach ($data as $key => $val) {
         $val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR | FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -58,11 +58,11 @@ function param(array $data): array
 }
 
 /**
- * Filters request data
+ * Converts file to post
  *
  * @throws DomainException
  */
-function data(array $in): array
+function convert(array $in): array
 {
     $out = [];
 
@@ -71,7 +71,7 @@ function data(array $in): array
             throw new DomainException(app\i18n('Invalid data'));
         }
 
-        $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === APP['upload'] ? $v['name'] : data($v);
+        $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === APP['upload'] ? $v['name'] : convert($v);
     }
 
     return $out;

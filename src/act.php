@@ -7,7 +7,7 @@ use account;
 use arr;
 use app;
 use ent;
-use http;
+use req;
 use session;
 
 /**
@@ -16,7 +16,7 @@ use session;
 function form(array $ent): void
 {
     $id = app\data('id');
-    $data = http\req('data');
+    $data = req\data('post');
     $data += $data && $id ? ['id' => $id] : [];
     $act = app\data('act');
 
@@ -104,7 +104,7 @@ function app_js(): void
  */
 function account_password(): void
 {
-    if (!$data = http\req('data')) {
+    if (!$data = req\data('post')) {
         return;
     }
 
@@ -123,7 +123,7 @@ function account_password(): void
  */
 function account_login(): void
 {
-    if (!$data = http\req('data')) {
+    if (!$data = req\data('post')) {
         return;
     }
 

@@ -7,7 +7,7 @@ use app;
 use arr;
 use ent;
 use html;
-use http;
+use req;
 use session;
 
 /**
@@ -47,7 +47,7 @@ function index(array $§): string
         $p += ['CKEditorFuncNum' => null];
     }
 
-    $p = arr\replace($p, http\req('param'));
+    $p = arr\replace($p, req\data('get'));
 
     if ($p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
         $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
@@ -81,7 +81,7 @@ function index(array $§): string
     $cfg = app\cfg('app', 'pager');
     $min = max(1, min($cur - intdiv($cfg, 2), $pages - $cfg + 1));
     $max = min($min + $cfg - 1, $pages);
-    $url = http\req('url');
+    $url = req\data('url');
     $§['vars']['pager'] = [];
 
     if ($cur >= 2) {
@@ -119,7 +119,7 @@ function index(array $§): string
 function menu(array $§): string
 {
     $§['vars'] = [];
-    $cur = ent\one('page', [['url', http\req('url')], ['status', 'published']]);
+    $cur = ent\one('page', [['url', req\data('url')], ['status', 'published']]);
     $crit = [['status', 'published'], ['menu', true], ['level', 0, APP['crit']['>']]];
     $opt = ['order' => ['pos' => 'asc']];
 

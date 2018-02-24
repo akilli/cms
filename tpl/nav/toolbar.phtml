@@ -1,12 +1,12 @@
 <?php
 namespace app;
-use http;
+use req;
 /** @var callable $§ */
 ?>
 <nav id="<?=$§('id');?>">
     <?php foreach (cfg('toolbar') as $act => $item):?>
         <?php if (allowed($act)):?>
-    <a href="<?=$item['url'];?>"<?php if ($item['url'] === http\req('url')):?> class="active"<?php endif;?>><?=$item['name'];?></a>
+    <a href="<?=$item['url'];?>"<?php if ($item['url'] === req\data('url')):?> class="active"<?php endif;?>><?=$item['name'];?></a>
         <?php endif;?>
     <?php endforeach;?>
 </nav>
