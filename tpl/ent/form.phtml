@@ -1,7 +1,6 @@
 <?php
 namespace app;
 use attr;
-use session;
 /** @var callable $§ */
 ?>
 <?php if ($data = $§('data')):?>
@@ -19,7 +18,7 @@ use session;
         <a role="button" href="<?=url($data['_ent']['id'] . '/admin');?>"><?=i18n('Back');?></a>
         <?php endif;?>
         <input type="submit" value="<?=i18n('Save');?>" />
-        <input type="hidden" name="token" value="<?=session\token();?>" />
+        <input type="hidden" name="token" value="<?=$§('token');?>" />
     </form>
 </section>
 <?php endif;?>

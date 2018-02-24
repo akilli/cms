@@ -1,7 +1,6 @@
 <?php
 namespace app;
 use attr;
-use session;
 /** @var callable $§ */
 ?>
 <section id="<?=$§('id');?>" class="index">
@@ -12,7 +11,7 @@ use session;
     <form method="post" class="search">
         <input type="search" name="param[q]" value="<?=$§('param')['q'] ?? '';?>" placeholder="<?=i18n('Search Term');?>" />
         <input type="submit" value="search" title="<?=i18n('Search');?>" class="icon" />
-        <input type="hidden" name="token" value="<?=session\token();?>" />
+        <input type="hidden" name="token" value="<?=$§('token');?>" />
     </form>
     <?php if ($§('data')):?>
     <?php $p = $§('param') + ['sort' => null, 'dir' => null];?>

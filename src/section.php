@@ -189,7 +189,7 @@ function msg(array $§): string
  */
 function tpl(array $§): string
 {
-    $§['vars'] = ['id' => $§['id'], 'tpl' => $§['tpl']] + $§['vars'];
+    $§['vars'] = ['id' => $§['id'], 'token' => session\token(), 'tpl' => $§['tpl']] + $§['vars'];
     $§ = function ($key) use ($§) {
         return $§['vars'][$key] ?? null;
     };
