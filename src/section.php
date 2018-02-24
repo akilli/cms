@@ -30,20 +30,19 @@ function container(array $§): string
  */
 function index(array $§): string
 {
-    $§['vars'] = arr\replace(['act' => null, 'eId' => null], $§['vars']);
-    $act = $§['vars']['act'];
+    $§['vars'] = arr\replace(['act' => 'index', 'eId' => null], $§['vars']);
     $ent = app\cfg('ent', $§['vars']['eId'] ?: app\data('ent'));
-    unset($§['vars']['act'], $§['vars']['eId']);
+    unset($§['vars']['eId']);
 
-    if (!$act || !$ent || !isset($ent['act'][$act])) {
+    if (!$ent || !isset($ent['act'][$§['vars']['act']])) {
         return '';
     }
 
-    $crit = $act !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
+    $crit = $§['vars']['act'] !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
     $opt = ['limit' => app\cfg('app', 'limit')];
     $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
 
-    if ($act === 'browser') {
+    if ($§['vars']['act'] === 'browser') {
         $p += ['CKEditorFuncNum' => null];
     }
 
@@ -67,7 +66,7 @@ function index(array $§): string
     $cur = min(max($p['cur'], 1), $pages);
     unset($p['cur']);
     $opt['offset'] = ($cur - 1) * $opt['limit'];
-    $§['vars']['attr'] = ent\attr($ent, $ent['act'][$act]);
+    $§['vars']['attr'] = ent\attr($ent, $ent['act'][$§['vars']['act']]);
 
     if ($p['sort'] && !empty($§['vars']['attr'][$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';

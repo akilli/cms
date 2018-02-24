@@ -33,6 +33,22 @@ use attr;
         </div>
             <?php endif;?>
         <?php endforeach;?>
+        <?php if (in_array($§('act'), ['admin', 'browser'])):?>
+        <footer>
+            <?php if ($§('act') === 'admin' && allowed($data['_ent']['id'] . '/view')):?>
+            <a href="<?=$data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>" data-act="view" class="icon" title="<?=i18n('View');?>">visibility</a>
+            <?php endif;?>
+            <?php if ($§('act') === 'admin' && allowed($data['_ent']['id'] . '/edit')):?>
+            <a href="<?=url($data['_ent']['id'] . '/edit/' . $data['id']);?>" data-act="edit" class="icon" title="<?=i18n('Edit');?>">edit</a>
+            <?php endif;?>
+            <?php if ($§('act') === 'admin' && allowed($data['_ent']['id'] . '/delete')):?>
+            <a href="<?=url($data['_ent']['id'] . '/delete/' . $data['id']);?>" data-act="delete" class="icon" title="<?=i18n('Delete');?>">delete</a>
+            <?php endif;?>
+            <?php if ($§('act') === 'browser'):?>
+            <span data-rte="<?=$§('param')['CKEditorFuncNum'];?>" data-url="<?=$data['name'];?>" class="rte icon" title="<?=i18n('Select item');?>">check</span>
+            <?php endif;?>
+        </footer>
+        <?php endif;?>
     </article>
         <?php endforeach;?>
     <nav class="pager">
