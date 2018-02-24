@@ -36,9 +36,9 @@ return [
             'admin' => ['incl' => ['name', 'role']],
             'delete' => [],
             'edit' => [],
-            'login' => [],
+            'login' => ['incl' => ['name', 'password']],
             'logout' => [],
-            'password' => [],
+            'password' => ['incl' => ['password', 'confirmation']],
         ],
         'attr' => [
             'id' => [
@@ -82,7 +82,7 @@ return [
         'name' => 'URL',
         'type' => 'db',
         'act' => [
-            'admin' => ['excl' => ['id']],
+            'admin' => [],
             'delete' => [],
             'edit' => [],
         ],
@@ -168,7 +168,7 @@ return [
         'type' => 'db',
         'parent' => 'asset',
         'act' => [
-            'admin' => ['excl' => ['id', 'ent']],
+            'admin' => ['excl' => ['ent']],
             'browser' => ['incl' => ['name', 'info']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],

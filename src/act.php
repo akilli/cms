@@ -38,7 +38,7 @@ function form(array $ent): void
     }
 
     $data = array_replace($base, $data);
-    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $act), 'title' => $ent['name']]);
+    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $ent['act'][$act]), 'title' => $ent['name']]);
  }
 
 /**
@@ -65,7 +65,7 @@ function view(array $ent): void
         return;
     }
 
-    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, 'view')]);
+    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $ent['act']['view'])]);
     app\layout('meta', ['desc' => $data['meta'] ?? null, 'title' => $data['name']]);
 }
 
@@ -113,8 +113,7 @@ function account_password(array $ent): void
         }
     }
 
-    $attr = array_intersect_key($ent['attr'], ['password' => null, 'confirmation' => null]);
-    app\layout('content', ['data' => ['_ent' => $ent], 'attr' => $attr, 'title' => app\i18n('Password')]);
+    app\layout('content', ['data' => ['_ent' => $ent], 'attr' => ent\attr($ent, $ent['act']['password']), 'title' => app\i18n('Password')]);
 }
 
 /**
@@ -133,10 +132,10 @@ function account_login(array $ent): void
         app\msg(app\i18n('Invalid name and password combination'));
     }
 
-    $attr = array_intersect_key($ent['attr'], ['name' => null, 'password' => null]);
-    $attr['name'] = array_replace($attr['name'], ['unique' => false, 'minlength' => 0, 'maxlength' => 0]);
-    $attr['password'] = array_replace($attr['password'], ['minlength' => 0, 'maxlength' => 0]);
-    app\layout('content', ['data' => ['_ent' => $ent], 'attr' => $attr, 'title' => app\i18n('Login')]);
+    $attrs = ent\attr($ent, $ent['act']['login']);
+    $attrs['name'] = array_replace($attrs['name'], ['unique' => false, 'minlength' => 0, 'maxlength' => 0]);
+    $attrs['password'] = array_replace($attrs['password'], ['minlength' => 0, 'maxlength' => 0]);
+    app\layout('content', ['data' => ['_ent' => $ent], 'attr' => $attrs, 'title' => app\i18n('Login')]);
 }
 
 /**

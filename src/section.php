@@ -67,7 +67,7 @@ function index(array $§): string
     $cur = min(max($p['cur'], 1), $pages);
     unset($p['cur']);
     $opt['offset'] = ($cur - 1) * $opt['limit'];
-    $§['vars']['attr'] = ent\attr($ent, $act);
+    $§['vars']['attr'] = ent\attr($ent, $ent['act'][$act]);
 
     if ($p['sort'] && !empty($§['vars']['attr'][$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';

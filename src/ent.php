@@ -200,27 +200,16 @@ function data(array $ent): array
  *
  * @throws DomainException
  */
-function attr(array $ent, string $act): array
+function attr(array $ent, array $cfg): array
 {
-    if (!isset($ent['act'][$act])) {
-        throw new DomainException(app\i18n('Invalid action %s for entity %s', $act, $ent['id']));
+    if (!empty($cfg['incl'])) {
+        return array_intersect_key($ent['attr'], array_flip($cfg['incl']));
     }
 
-    if (!empty($ent['act'][$act]['incl'])) {
-        $aIds = $ent['act'][$act]['incl'];
-    } else {
-        $aIds = array_diff(array_keys($ent['attr']), $ent['act'][$act]['excl'] ?? []);
-    }
+    $cfg['excl'] = !empty($cfg['excl']) ? array_flip($cfg['excl']) : [];
+    $auto = arr\crit($ent['attr'], [['auto', true]]);
 
-    $attrs = [];
-
-    foreach ($aIds as $aId) {
-        if (!in_array($act, ['edit', 'form']) || !$ent['attr'][$aId]['auto']) {
-            $attrs[$aId] = $ent['attr'][$aId];
-        }
-    }
-
-    return $attrs;
+    return array_diff_key($ent['attr'], $cfg['excl'], $auto);
 }
 
 /**
