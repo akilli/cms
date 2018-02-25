@@ -89,6 +89,7 @@ return [
     'Submit' => 'Abschicken',
     'Successfully deleted %s' => '%s erfolgreich gelöscht',
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
+    'System' => 'System',
     'Target' => 'Ziel',
     'Teaser' => 'Teaser',
     'Unique' => 'Eindeutig',

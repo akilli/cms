@@ -25,8 +25,7 @@ return [
             'type' => 'container',
         ],
         'toolbar' => [
-            'type' => 'tpl',
-            'tpl' => 'nav/toolbar.phtml',
+            'type' => 'toolbar',
             'priv' => 'account-user',
             'parent' => 'top',
             'sort' => 10,

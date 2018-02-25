@@ -101,7 +101,10 @@ const APP = [
     'toolbar' => [
         'name' => null,
         'url' => null,
+        'priv' => null,
+        'parent' => null,
         'sort' => 0,
+        'level' => 0,
     ],
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'url.ext' => '/ext/',

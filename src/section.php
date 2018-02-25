@@ -9,6 +9,7 @@ use ent;
 use html;
 use req;
 use session;
+use DomainException;
 
 /**
  * Container section
@@ -23,6 +24,47 @@ function container(array $§): string
     }
 
     return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+}
+
+/**
+ * Template section
+ */
+function tpl(array $§): string
+{
+    $§['vars'] = ['id' => $§['id'], 'token' => session\token(), 'tpl' => $§['tpl']] + $§['vars'];
+    $§ = function ($key) use ($§) {
+        return $§['vars'][$key] ?? null;
+    };
+    ob_start();
+    include app\tpl((string) $§('tpl'));
+
+    return ob_get_clean();
+}
+
+/**
+ * Meta section
+ */
+function meta(array $§): string
+{
+    $§['vars'] = arr\replace(['desc' => '', 'title' => app\cfg('app', 'name')], $§['vars']);
+
+    return tpl($§);
+}
+
+/**
+ * Message section
+ */
+function msg(array $§): string
+{
+    $§['vars'] = [];
+
+    if (!$§['vars']['data'] = session\get('msg')) {
+        return '';
+    }
+
+    session\set('msg', null);
+
+    return tpl($§);
 }
 
 /**
@@ -113,26 +155,31 @@ function index(array $§): string
 }
 
 /**
- * Menu section
+ * Nav section
+ *
+ * @throws DomainException
  */
-function menu(array $§): string
+function nav(array $§): string
 {
-    $§['vars'] = [];
-    $crit = [['status', 'published'], ['menu', true], ['level', 0, APP['crit']['>']]];
-    $opt = ['order' => ['pos' => 'asc']];
+    $§['vars'] = arr\replace(['data' => []], $§['vars']);
 
-    if (!$menu = ent\all('page', $crit, $opt)) {
+    if (!$§['vars']['data']) {
         return '';
     }
 
     $url = req\data('url');
-    $count = count($menu);
+    $count = count($§['vars']['data']);
     $level = 0;
     $i = 0;
     $html = '';
 
-    foreach ($menu as $item) {
-        $a = ['href' => $item['url']];
+    foreach ($§['vars']['data'] as $item) {
+        if (empty($item['name'])) {
+            throw new DomainException(app\i18n('Invalid data'));
+        }
+
+        $item = arr\replace(['name' => null, 'url' => null, 'level' => 1], $item);
+        $a = $item['url'] ? ['href' => $item['url']] : [];
         $class = '';
 
         if ($item['url'] === $url) {
@@ -148,7 +195,7 @@ function menu(array $§): string
              $html .= '</li><li' . $class . '>';
         }
 
-        $html .= html\tag('a', $a, $item['name']);
+        $html .= html\tag($item['url'] ? 'a' : 'span', $a, $item['name']);
         $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
         $level = $item['level'];
     }
@@ -157,42 +204,24 @@ function menu(array $§): string
 }
 
 /**
- * Meta section
+ * Menu section
  */
-function meta(array $§): string
-{
-    $§['vars'] = arr\replace(['desc' => '', 'title' => app\cfg('app', 'name')], $§['vars']);
-
-    return tpl($§);
-}
-
-/**
- * Message section
- */
-function msg(array $§): string
+function menu(array $§): string
 {
     $§['vars'] = [];
+    $crit = [['status', 'published'], ['menu', true], ['level', 0, APP['crit']['>']]];
+    $opt = ['order' => ['pos' => 'asc']];
+    $§['vars']['data'] = ent\all('page', $crit, $opt);
 
-    if (!$§['vars']['data'] = session\get('msg')) {
-        return '';
-    }
-
-    session\set('msg', null);
-
-    return tpl($§);
+    return nav($§);
 }
 
 /**
- * Template section
+ * Toolbar section
  */
-function tpl(array $§): string
+function toolbar(array $§): string
 {
-    $§['vars'] = ['id' => $§['id'], 'token' => session\token(), 'tpl' => $§['tpl']] + $§['vars'];
-    $§ = function ($key) use ($§) {
-        return $§['vars'][$key] ?? null;
-    };
-    ob_start();
-    include app\tpl((string) $§('tpl'));
+    $§['vars'] = ['data' => app\cfg('toolbar')];
 
-    return ob_get_clean();
+    return nav($§);
 }
