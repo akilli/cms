@@ -4,19 +4,36 @@ use attr;
 /** @var callable $§ */
 ?>
 <section id="<?=$§('id');?>" class="index">
-    <h1><?=enc($§('title'));?></h1>
-    <form method="post" class="search">
-        <input type="search" name="param[q]" value="<?=$§('param')['q'] ?? '';?>" placeholder="<?=i18n('Search Term');?>" />
-        <input type="submit" value="search" title="<?=i18n('Search');?>" class="icon" />
-        <input type="hidden" name="token" value="<?=$§('token');?>" />
-    </form>
+    <header>
+        <h1><?=enc($§('title'));?></h1>
+        <?php if (allowed($§('ent')['id'] . '/edit')):?>
+        <p data-act="create"><a href="<?=url($§('ent')['id'] . '/edit');?>"><?=i18n('New Entry');?></a></p>
+        <?php endif;?>
+        <form method="post" class="search">
+            <input type="search" name="param[q]" value="<?=$§('param')['q'] ?? '';?>" placeholder="<?=i18n('Search Term');?>" />
+            <input type="submit" value="<?=i18n('Search');?>" />
+            <input type="hidden" name="token" value="<?=$§('token');?>" />
+        </form>
+    </header>
 <?php if ($§('data')):?>
+    <?php if ($§('act') === 'admin'):?>
+        <?php $p = $§('param') + ['sort' => null, 'dir' => null];?>
+    <div class="thead">
+        <?php foreach ($§('attr') as $attr):?>
+            <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
+            <a href="<?=url($§('url'), ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"<?php if ($p['sort'] === $attr['id']):?> data-sort="<?=$p['dir'];?>"<?php endif;?>><?=$attr['name'];?></a>
+        <?php endforeach;?>
+        <?php if (in_array($§('act'), ['admin', 'browser'])):?>
+            <span><?=i18n('Actions');?></span>
+        <?php endif;?>
+    </div>
+    <?php endif;?>
     <?php foreach ($§('data') as $data):?>
     <article>
         <?php foreach ($§('attr') as $attr):?>
             <?php if (!$html = attr\viewer($attr, $data)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
-                <?php if (allowed($data['_ent']['id'] . '/view')):?>
+                <?php if ($§('act') === 'index' && allowed($data['_ent']['id'] . '/view')):?>
         <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
             <a href="<?=$data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
         </h2>
@@ -36,16 +53,16 @@ use attr;
         <?php if (in_array($§('act'), ['admin', 'browser'])):?>
         <footer>
             <?php if ($§('act') === 'admin' && allowed($data['_ent']['id'] . '/view')):?>
-            <a href="<?=$data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>" data-act="view" class="icon" title="<?=i18n('View');?>">visibility</a>
+            <a href="<?=$data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>" data-act="view"><?=i18n('View');?></a>
             <?php endif;?>
             <?php if ($§('act') === 'admin' && allowed($data['_ent']['id'] . '/edit')):?>
-            <a href="<?=url($data['_ent']['id'] . '/edit/' . $data['id']);?>" data-act="edit" class="icon" title="<?=i18n('Edit');?>">edit</a>
+            <a href="<?=url($data['_ent']['id'] . '/edit/' . $data['id']);?>" data-act="edit"><?=i18n('Edit');?></a>
             <?php endif;?>
             <?php if ($§('act') === 'admin' && allowed($data['_ent']['id'] . '/delete')):?>
-            <a href="<?=url($data['_ent']['id'] . '/delete/' . $data['id']);?>" data-act="delete" class="icon" title="<?=i18n('Delete');?>">delete</a>
+            <a href="<?=url($data['_ent']['id'] . '/delete/' . $data['id']);?>" data-act="delete"><?=i18n('Delete');?></a>
             <?php endif;?>
             <?php if ($§('act') === 'browser'):?>
-            <span data-rte="<?=$§('param')['CKEditorFuncNum'];?>" data-url="<?=$data['name'];?>" class="rte icon" title="<?=i18n('Select item');?>">check</span>
+            <span data-rte="<?=$§('param')['CKEditorFuncNum'];?>" data-url="<?=$data['name'];?>" class="rte"><?=i18n('Select item');?></span>
             <?php endif;?>
         </footer>
         <?php endif;?>

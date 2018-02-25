@@ -74,7 +74,7 @@ return [
     'admin' => [
         'content' => [
             'type' => 'index',
-            'tpl' => 'ent/admin.phtml',
+            'tpl' => 'ent/index.phtml',
             'parent' => 'main',
             'vars' => ['act' => 'admin'],
         ],

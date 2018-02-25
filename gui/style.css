@@ -12,13 +12,6 @@
     --secondary-text: #000;
 }
 
-@font-face {
-  font-family: material;
-  font-style: normal;
-  font-weight: 400;
-  src: url(material.woff2) format('woff2');
-}
-
 body {
     line-height: 1.5rem;
     font-family: sans-serif;
@@ -114,23 +107,19 @@ li p {
 /**
  * Table
  */
-table,
-thead,
-tbody,
-tfoot,
-tr,
-td,
-th {
-    display: block;
-}
-
 table {
+    width: 100%;
     margin: 1.5rem 0;
     font-size: 0.875rem;
 }
 
 thead {
     box-shadow: 0 0.0625rem 0 var(--primary-dark);
+}
+
+td,
+th {
+    padding: 0.75rem 0.375rem;
 }
 
 thead a {
@@ -291,42 +280,6 @@ form .cke {
 }
 
 /**
- * Icon
- */
-.icon {
-    display: inline;
-    vertical-align: middle;
-    text-decoration: none !important;
-    text-transform: none;
-    text-rendering: optimizeLegibility;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    font-family: material;
-    font-weight: normal;
-    font-size: 1.25rem;
-    font-style: normal;
-    font-feature-settings: 'liga';
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-table .icon {
-    vertical-align: inherit;
-}
-
-[role=button].icon,
-[type=button].icon,
-[type=reset].icon,
-[type=submit].icon,
-button.icon {
-    padding: 0;
-    font-size: 3rem;
-    color: var(--secondary-dark) !important;
-    background: none;
-}
-
-/**
  * Toolbar
  */
 #toolbar {
@@ -392,13 +345,13 @@ button.icon {
 /**
  * Content
  */
-#content > h1 {
+#content > h1,
+#content > header > h1 {
     line-height: 3rem;
     font-size: 2rem;
 }
 
-#content a,
-#content span.icon {
+#content a {
     color: var(--secondary-dark);
     cursor: pointer;
 }
@@ -418,10 +371,45 @@ button.icon {
 }
 
 /**
- * Pager
+ * Index
  */
+html[data-path$="/admin"] #content.index .thead {
+    margin: 0;
+    padding: 0.75rem 0;
+    font-weight: bold;
+    box-shadow: 0 0.0625rem 0 var(--primary-dark);
+}
+
+html[data-path$="/admin"] #content.index .thead > * {
+    display: block;
+    color: inherit;
+}
+
+html[data-path$="/admin"] #content.index article {
+    margin: 0;
+    padding: 0.75rem 0;
+    box-shadow: 0 0.0625rem 0 var(--grey);
+}
+
+html[data-path$="/admin"] #content.index article h2 {
+    margin: 0;
+    font-size: inherit;
+}
+
+html[data-path$="/admin"] #content.index p[data-act=create] {
+    margin: 0;
+}
+
+a[data-sort=asc]::after {
+    content: '⇑';
+}
+
+a[data-sort=desc]::after {
+    content: '⇓';
+}
+
 .pager {
-    text-align: right;
+    padding: 0.75rem 0;
     font-size: 0.875rem;
 }
 
@@ -437,39 +425,9 @@ button.icon {
  * Responsive
  */
 @media (min-width: 48rem) {
-    table {
-        display: table;
-        width: 100%;
-    }
-
-    thead {
-        display: table-header-group;
-    }
-
-    tbody {
-        display: table-row-group;
-    }
-
-    tfoot {
-        display: table-footer-group;
-    }
-
-    tr {
-        display: table-row;
-    }
-
-    td,
-    th {
-        display: table-cell;
-        padding: 0.75rem 0.375rem;
-    }
-
-    .index audio,
-    .index img,
-    .index video {
-        max-width: 15rem;
-    }
-
+    /**
+     * Toolbar
+     */
     #toolbar {
         display: block;
     }
@@ -482,10 +440,16 @@ button.icon {
         margin-left: 0;
     }
 
+    /**
+     * Header
+     */
     #header .name {
         line-height: 7.5rem;
     }
 
+    /**
+     * Menu
+     */
     #menu {
         display: block;
         width: 100%;
@@ -518,11 +482,40 @@ button.icon {
         display: block;
     }
 
-    p.create,
-    form.search {
-        display: inline-block;
+    /**
+     * Index
+     */
+    .index audio,
+    .index img,
+    .index video {
+        max-width: 15rem;
     }
 
+    html[data-path$="/admin"] #content.index {
+        display: table;
+        width: 100%;
+        font-size: 0.875rem;
+        empty-cells: show;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    html[data-path$="/admin"] #content.index .thead,
+    html[data-path$="/admin"] #content.index article {
+        display: table-row;
+    }
+
+    html[data-path$="/admin"] #content.index .thead > *,
+    html[data-path$="/admin"] #content.index article > * {
+        display: table-cell;
+        padding: 0.75rem 0.375rem;
+        vertical-align: top;
+        text-align: left;
+    }
+
+    /**
+     * Login
+     */
     html[data-path="account/login"] body {
         display: flex;
         flex-direction: column;
@@ -541,6 +534,9 @@ button.icon {
         max-width: 30rem;
     }
 
+    /**
+     * Filebrowser
+     */
     html[data-path="file/browser"] #content {
         display: flex;
         flex-wrap: wrap;
@@ -554,6 +550,9 @@ button.icon {
         width: 25%;
     }
 
+    /**
+     * Alignment
+     */
     .left {
         float: left;
         margin-right: 1rem;
