@@ -118,7 +118,6 @@ function index(array $§): string
 function menu(array $§): string
 {
     $§['vars'] = [];
-    $cur = ent\one('page', [['url', req\data('url')], ['status', 'published']]);
     $crit = [['status', 'published'], ['menu', true], ['level', 0, APP['crit']['>']]];
     $opt = ['order' => ['pos' => 'asc']];
 
@@ -126,6 +125,7 @@ function menu(array $§): string
         return '';
     }
 
+    $url = req\data('url');
     $count = count($menu);
     $level = 0;
     $i = 0;
@@ -135,7 +135,7 @@ function menu(array $§): string
         $a = ['href' => $item['url']];
         $class = '';
 
-        if ($cur && $cur['id'] === $item['id']) {
+        if ($item['url'] === $url) {
             $a['class'] = 'active';
             $class .= ' class="active"';
         }
