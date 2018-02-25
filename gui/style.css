@@ -280,7 +280,7 @@ form .cke {
 }
 
 /**
- * Toolbar
+ * Navigation
  */
 #toolbar {
     display: none;
@@ -294,22 +294,6 @@ form .cke {
     text-decoration: underline;
 }
 
-/**
- * Header
- */
-#header {
-    color: var(--primary-text);
-    background: var(--primary);
-}
-
-#header .name {
-    font-size: 2rem;
-    font-weight: normal;
-}
-
-/**
- * Menu
- */
 #menu {
     display: none;
     color: var(--primary-text);
@@ -327,6 +311,19 @@ form .cke {
 #menu a:hover,
 #menu a.active {
     border-color: var(--secondary);
+}
+
+/**
+ * Header
+ */
+#header {
+    color: var(--primary-text);
+    background: var(--primary);
+}
+
+#header .name {
+    font-size: 2rem;
+    font-weight: normal;
 }
 
 /**
@@ -427,40 +424,20 @@ a[data-sort=desc]::after {
  */
 @media (min-width: 48rem) {
     /**
-     * Toolbar
+     * Navigation
      */
-    #toolbar {
-        display: block;
-    }
-
-    #toolbar a {
-        margin-left: 0.75rem;
-    }
-
-    #toolbar a:first-of-type {
-        margin-left: 0;
-    }
-
-    /**
-     * Header
-     */
-    #header .name {
-        line-height: 7.5rem;
-    }
-
-    /**
-     * Menu
-     */
+    #toolbar,
     #menu {
         display: block;
-        width: 100%;
     }
 
+    #toolbar li,
     #menu li {
         display: inline-block;
         margin-right: 1.5rem;
     }
 
+    #toolbar li li,
     #menu li li {
         position: relative;
         display: block;
@@ -468,19 +445,42 @@ a[data-sort=desc]::after {
         padding: 0.375rem;
     }
 
+    #toolbar li ul,
     #menu li ul {
         position: absolute;
         display: none;
         margin-left: 0;
+    }
+
+    #toolbar li ul {
+        background: var(--primary-dark);
+    }
+
+    #menu li ul {
         background: var(--primary-light);
     }
+
+    #toolbar li li ul,
     #menu li li ul {
         top: 0;
         left: 100%;
     }
 
+    #toolbar li:hover > ul,
     #menu li:hover > ul {
         display: block;
+    }
+
+    #toolbar li span,
+    #menu li span {
+        cursor: default;
+    }
+
+    /**
+     * Header
+     */
+    #header .name {
+        line-height: 7.5rem;
     }
 
     /**
