@@ -202,14 +202,22 @@ function data(array $ent): array
  */
 function attr(array $ent, array $cfg): array
 {
+    $attrs = [];
+    $aIds = array_keys($ent['attr']);
+
     if (!empty($cfg['incl'])) {
-        return array_intersect_key($ent['attr'], array_flip($cfg['incl']));
+        $aIds = array_intersect($cfg['incl'], $aIds);
+    } elseif (!empty($cfg['excl'])) {
+        $aIds = array_diff($aIds, $cfg['excl']);
     }
 
-    $cfg['excl'] = !empty($cfg['excl']) ? array_flip($cfg['excl']) : [];
-    $auto = arr\crit($ent['attr'], [['auto', true]]);
+    foreach ($aIds as $aId) {
+        if (!empty($cfg['incl']) || !$ent['attr'][$aId]['auto']) {
+            $attrs[$aId] = $ent['attr'][$aId];
+        }
+    }
 
-    return array_diff_key($ent['attr'], $cfg['excl'], $auto);
+    return $attrs;
 }
 
 /**
