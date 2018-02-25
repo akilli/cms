@@ -14,9 +14,9 @@ return [
             'parent' => 'head',
             'sort' => 10,
         ],
-        'user' => [
+        'admin' => [
             'type' => 'tpl',
-            'tpl' => 'head/user.phtml',
+            'tpl' => 'head/admin.phtml',
             'priv' => 'account-user',
             'parent' => 'head',
             'sort' => 20,
@@ -85,12 +85,6 @@ return [
         'bottom' => [
             'active' => false,
         ],
-        'rte' => [
-            'type' => 'tpl',
-            'tpl' => 'head/rte.phtml',
-            'parent' => 'head',
-            'sort' => 30,
-        ],
         'content' => [
             'type' => 'index',
             'tpl' => 'ent/index.phtml',
@@ -106,12 +100,6 @@ return [
         ],
     ],
     'edit' => [
-        'rte' => [
-            'type' => 'tpl',
-            'tpl' => 'head/rte.phtml',
-            'parent' => 'head',
-            'sort' => 30,
-        ],
         'content' => [
             'type' => 'tpl',
             'tpl' => 'ent/form.phtml',
