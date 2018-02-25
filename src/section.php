@@ -174,14 +174,11 @@ function nav(array $§): string
     $html = '';
 
     foreach ($§['vars']['data'] as $item) {
-        $item = arr\replace(['name' => null, 'url' => null, 'priv' => null, 'level' => 1], $item);
-
-        if (!$item['name']) {
+        if (empty($item['name'])) {
             throw new DomainException(app\i18n('Invalid data'));
-        } elseif ($item['priv'] && !app\allowed($item['priv'])) {
-            continue;
         }
 
+        $item = arr\replace(['name' => null, 'url' => null, 'level' => 1], $item);
         $a = $item['url'] ? ['href' => $item['url']] : [];
         $class = '';
 
@@ -225,6 +222,19 @@ function menu(array $§): string
 function toolbar(array $§): string
 {
     $§['vars'] = ['data' => app\cfg('toolbar')];
+    $empty = [];
+
+    foreach ($§['vars']['data'] as $id => $item) {
+        if ($item['priv'] && !app\allowed($item['priv'])) {
+            unset($§['vars']['data'][$id]);
+        } elseif (!$item['url']) {
+            $empty[$id] = true;
+        } elseif ($item['parent']) {
+            unset($empty[$item['parent']]);
+        }
+    }
+
+    $§['vars']['data'] = array_diff_key($§['vars']['data'], $empty);
 
     return nav($§);
 }
