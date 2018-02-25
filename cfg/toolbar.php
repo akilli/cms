@@ -57,7 +57,7 @@ return [
     'home' => [
         'name' => 'Homepage',
         'url' => '/',
-        'priv' => 'page/view',
+        'priv' => 'content/view',
         'sort' => 40,
     ],
     'password' => [

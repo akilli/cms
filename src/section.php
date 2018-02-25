@@ -174,11 +174,14 @@ function nav(array $§): string
     $html = '';
 
     foreach ($§['vars']['data'] as $item) {
-        if (empty($item['name'])) {
+        $item = arr\replace(['name' => null, 'url' => null, 'priv' => null, 'level' => 1], $item);
+
+        if (!$item['name']) {
             throw new DomainException(app\i18n('Invalid data'));
+        } elseif ($item['priv'] && !app\allowed($item['priv'])) {
+            continue;
         }
 
-        $item = arr\replace(['name' => null, 'url' => null, 'level' => 1], $item);
         $a = $item['url'] ? ['href' => $item['url']] : [];
         $class = '';
 
