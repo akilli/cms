@@ -147,8 +147,7 @@ table {
     border-spacing: 0;
 }
 
-td,
-th {
+td {
     vertical-align: top;
     text-align: left;
 }
@@ -156,6 +155,7 @@ th {
 th,
 thead td {
     vertical-align: middle;
+    text-align: left;
     font-weight: bold;
 }
 
