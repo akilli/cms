@@ -121,9 +121,6 @@ return [
     'file' => [
         'name' => 'Files',
         'type' => 'db',
-        'act' => [
-            'browser' => ['incl' => ['name', 'info']],
-        ],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -166,6 +163,7 @@ return [
         'parent' => 'file',
         'act' => [
             'admin' => ['excl' => ['ent']],
+            'browser' => ['incl' => ['name', 'info']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -181,6 +179,7 @@ return [
         'parent' => 'file',
         'act' => [
             'admin' => ['excl' => ['ent']],
+            'browser' => ['incl' => ['name', 'info']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -196,6 +195,7 @@ return [
         'parent' => 'file',
         'act' => [
             'admin' => ['excl' => ['ent']],
+            'browser' => ['incl' => ['name', 'info']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -211,6 +211,7 @@ return [
         'parent' => 'file',
         'act' => [
             'admin' => ['excl' => ['ent']],
+            'browser' => ['incl' => ['name', 'info']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
