@@ -162,7 +162,7 @@ function index(array $§): string
  */
 function nav(array $§): string
 {
-    $§['vars'] = arr\replace(['data' => []], $§['vars']);
+    $§['vars'] = arr\replace(['data' => [], 'tag' => 'nav'], $§['vars']);
 
     if (!$§['vars']['data']) {
         return '';
@@ -201,7 +201,7 @@ function nav(array $§): string
         $level = $item['level'];
     }
 
-    return html\tag('nav', ['id' => $§['id']], $html);
+    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
 }
 
 /**
@@ -209,7 +209,7 @@ function nav(array $§): string
  */
 function menu(array $§): string
 {
-    $§['vars'] = [];
+    $§['vars'] = arr\replace(['tag' => 'nav'], $§['vars']);
     $crit = [['status', 'published'], ['menu', true], ['level', 0, APP['crit']['>']]];
     $opt = ['order' => ['pos' => 'asc']];
     $§['vars']['data'] = ent\all('page', $crit, $opt);
@@ -222,7 +222,8 @@ function menu(array $§): string
  */
 function toolbar(array $§): string
 {
-    $§['vars'] = ['data' => app\cfg('toolbar')];
+    $§['vars'] = arr\replace(['tag' => 'nav'], $§['vars']);
+    $§['vars']['data'] = app\cfg('toolbar');
     $empty = [];
 
     foreach ($§['vars']['data'] as $id => $item) {

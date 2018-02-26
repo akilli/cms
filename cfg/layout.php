@@ -145,4 +145,11 @@ return [
             'parent' => 'main',
         ],
     ],
+    'page/sitemap' => [
+        'content' => [
+            'type' => 'block\menu',
+            'parent' => 'main',
+            'vars' => ['tag' => 'section'],
+        ],
+    ],
 ];

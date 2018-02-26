@@ -227,6 +227,9 @@ return [
     'page' => [
         'name' => 'Pages',
         'type' => 'db',
+        'act' => [
+            'sitemap' => [],
+        ],
         'attr' => [
             'id' => [
                 'name' => 'ID',
