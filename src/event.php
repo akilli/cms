@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace listener;
+namespace event;
 
 use app;
 use arr;
@@ -11,7 +11,7 @@ use req;
 use DomainException;
 
 /**
- * Entity config listener
+ * Entity config
  *
  * @throws DomainException
  */
@@ -52,7 +52,7 @@ function cfg_ent(array $data): array
 }
 
 /**
- * I18n config listener
+ * I18n config
  */
 function cfg_i18n(array $data): array
 {
@@ -60,7 +60,7 @@ function cfg_i18n(array $data): array
 }
 
 /**
- * Privilege config listener
+ * Privilege config
  */
 function cfg_priv(array $data): array
 {
@@ -89,7 +89,7 @@ function cfg_priv(array $data): array
 }
 
 /**
- * Toolbar config listener
+ * Toolbar config
  *
  * @throws DomainException
  */
@@ -111,7 +111,7 @@ function cfg_toolbar(array $data): array
 }
 
 /**
- * Entity postfilter listener
+ * Entity postfilter
  */
 function ent_postfilter(array $data): array
 {
@@ -127,7 +127,7 @@ function ent_postfilter(array $data): array
 }
 
 /**
- * Asset entity prefilter listener
+ * Asset entity prefilter
  */
 function ent_prefilter_asset(array $data): array
 {
@@ -143,7 +143,7 @@ function ent_prefilter_asset(array $data): array
 }
 
 /**
- * Asset entity postsave listener
+ * Asset entity postsave
  *
  * @throws DomainException
  */
@@ -159,7 +159,7 @@ function ent_postsave_asset(array $data): array
 }
 
 /**
- * Asset entity postdelete listener
+ * Asset entity postdelete
  *
  * @throws DomainException
  */
@@ -173,7 +173,7 @@ function ent_postdelete_asset(array $data): array
 }
 
 /**
- * Page entity postfilter listener
+ * Page entity postfilter
  */
 function ent_postfilter_page(array $data): array
 {

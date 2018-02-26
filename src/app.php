@@ -121,9 +121,9 @@ function load(string $id): array
 function event(array $events, array $data): array
 {
     foreach ($events as $event) {
-        if (($cfg = cfg('listener', $event)) && asort($cfg, SORT_NUMERIC)) {
+        if (($cfg = cfg('event', $event)) && asort($cfg, SORT_NUMERIC)) {
             foreach (array_keys($cfg) as $call) {
-                $data = ('listener\\' . $call)($data);
+                $data = $call($data);
             }
         }
     }
