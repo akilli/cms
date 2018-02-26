@@ -121,6 +121,9 @@ return [
     'file' => [
         'name' => 'Files',
         'type' => 'db',
+        'act' => [
+            'browser' => ['incl' => ['name', 'info']],
+        ],
         'attr' => [
             'id' => [
                 'name' => 'ID',
