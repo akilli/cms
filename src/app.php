@@ -41,6 +41,7 @@ function run(): void
     $data['area'] = empty(cfg('priv', $data['path'])['active']) ? APP['area.public'] : APP['area.admin'];
     $allowed = allowed($data['path']);
     $ent = cfg('ent', $data['ent']);
+    $data['parent'] = $ent['parent'] ?? null;
     $real = is_callable('act\\' . $data['ent'] . '_' . $data['act']) ? 'act\\' . $data['ent'] . '_' . $data['act'] : null;
 
     if ($allowed && !$ent && $real) {
@@ -176,15 +177,15 @@ function layout(string $id = null, array $vars = null): array
     if (($data = & reg('layout')) === null) {
         $cfg = cfg('layout');
         $data = [];
-        $ent = cfg('ent', data('ent'));
+        $parent = data('parent');
         $act = data('act');
         $path = data('path');
         $area = data('area');
 
         if (http_response_code() === 404) {
             $keys = [APP['all'], $area, 'app/error'];
-        } elseif (!empty($ent['parent'])) {
-            $keys = [APP['all'], $area, $act, $ent['parent'] . '/' . $act, $path];
+        } elseif ($parent) {
+            $keys = [APP['all'], $area, $act, $parent . '/' . $act, $path];
         } else {
             $keys = [APP['all'], $area, $act, $path];
         }
