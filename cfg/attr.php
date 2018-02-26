@@ -36,7 +36,7 @@ return [
     'ent' => [
         'backend' => 'int',
         'frontend' => 'select',
-        'opt' => 'ent',
+        'opt' => 'opt\ent',
         'filter' => 'opt',
         'viewer' => 'opt',
     ],
@@ -88,7 +88,7 @@ return [
         'frontend' => 'radio',
         'filter' => 'opt',
         'viewer' => 'opt',
-        'opt' => 'status',
+        'opt' => 'opt\status',
     ],
     'text' => [
         'backend' => 'varchar',

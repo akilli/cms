@@ -124,7 +124,15 @@ function viewer(array $attr, array $data): string
  */
 function opt(array $attr, array $data): array
 {
-    return is_string($attr['opt']) ? ('opt\\' . $attr['opt'])($attr, $data) : array_map('app\i18n', $attr['opt']);
+    if (!$attr['opt']) {
+        return [];
+    }
+
+    if (strpos($attr['opt'], '\\') !== false) {
+        return $attr['opt']($attr, $data);
+    }
+
+    return array_map('app\i18n', app\cfg('opt', $attr['opt']));
 }
 
 /**
