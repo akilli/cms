@@ -543,16 +543,16 @@ a[data-sort=desc]::after {
     /**
      * Filebrowser
      */
-    html[data-ent=file][data-act=browser] #content {
+    html[data-act=browser] #content {
         display: flex;
         flex-wrap: wrap;
     }
 
-    html[data-ent=file][data-act=browser] #content > * {
+    html[data-act=browser] #content > * {
         width: 100%;
     }
 
-    html[data-ent=file][data-act=browser] #content > article {
+    html[data-act=browser] #content > article {
         width: 25%;
     }
 
