@@ -4,19 +4,19 @@ networks:
     external: true
 volumes:
   app: {}
-  asset: {}
   db: {}
+  file: {}
   tmp: {}
 services:
   db:
     image: akilli/postgres
     restart: unless-stopped
     volumes:
-      - source: asset
-        target: /app
-        type: volume
       - source: db
         target: /data
+        type: volume
+      - source: file
+        target: /app
         type: volume
   php:
     image: akilli/cms
@@ -27,8 +27,8 @@ services:
       - source: app
         target: /app
         type: volume
-      - source: asset
-        target: /data/asset
+      - source: file
+        target: /data/file
         type: volume
         volume:
           nocopy: true
@@ -57,8 +57,8 @@ services:
         type: volume
         volume:
           nocopy: true
-      - source: asset
-        target: /data/asset
+      - source: file
+        target: /data/file
         type: volume
         volume:
           nocopy: true

@@ -28,7 +28,7 @@ function cfg_ent(array $data): array
         if (!$ent['name'] || !$ent['type'] || !$ent['parent'] && array_intersect_key($a, $ent['attr']) !== $a || $ent['parent'] && (!$p || $p['parent'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
         } elseif ($ent['parent']) {
-            $ent['attr'] = $p['attr'] + $ent['attr'];
+            $ent['attr'] = array_replace_recursive($p['attr'], $ent['attr']);
         }
 
         foreach ($ent['attr'] as $aId => $attr) {
@@ -133,9 +133,9 @@ function ent_postfilter(array $data): array
 }
 
 /**
- * Asset entity prefilter
+ * File entity prefilter
  */
-function ent_prefilter_asset(array $data): array
+function ent_prefilter_file(array $data): array
 {
     if (!empty($data['name'])) {
         $data['type'] = pathinfo($data['name'], PATHINFO_EXTENSION);
@@ -149,15 +149,15 @@ function ent_prefilter_asset(array $data): array
 }
 
 /**
- * Asset entity postsave
+ * File entity postsave
  *
  * @throws DomainException
  */
-function ent_postsave_asset(array $data): array
+function ent_postsave_file(array $data): array
 {
     $item = req\data('file')['name'] ?? null;
 
-    if ($item && !file\upload($item['tmp_name'], app\path('asset', $data['id'] . '.' . $data['type']))) {
+    if ($item && !file\upload($item['tmp_name'], app\path('file', $data['id'] . '.' . $data['type']))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
     }
 
@@ -165,13 +165,13 @@ function ent_postsave_asset(array $data): array
 }
 
 /**
- * Asset entity postdelete
+ * File entity postdelete
  *
  * @throws DomainException
  */
-function ent_postdelete_asset(array $data): array
+function ent_postdelete_file(array $data): array
 {
-    if (!file\delete(app\path('asset', $data['id'] . '.' . $data['type']))) {
+    if (!file\delete(app\path('file', $data['id'] . '.' . $data['type']))) {
         throw new DomainException(app\i18n('Could not delete %s', $data['name']));
     }
 

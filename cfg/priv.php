@@ -45,9 +45,6 @@ return [
     'content/view' => [
         'active' => false,
     ],
-    'file/browser' => [
-        'priv' => 'file/admin',
-    ],
     'role/admin' => [
         'priv' => '_all_',
     ],

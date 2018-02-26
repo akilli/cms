@@ -118,9 +118,12 @@ return [
             ],
         ],
     ],
-    'asset' => [
-        'name' => 'Assets',
+    'file' => [
+        'name' => 'Files',
         'type' => 'db',
+        'act' => [
+            'browser' => ['incl' => ['name', 'info']],
+        ],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -133,7 +136,6 @@ return [
                 'required' => true,
                 'unique' => true,
                 'searchable' => true,
-                'opt' => 'asset',
                 'maxlength' => 50,
             ],
             'type' => [
@@ -158,15 +160,64 @@ return [
             ],
         ],
     ],
-    'file' => [
-        'name' => 'Files',
+    'audio' => [
+        'name' => 'Audios',
         'type' => 'db',
-        'parent' => 'asset',
+        'parent' => 'file',
         'act' => [
             'admin' => ['excl' => ['ent']],
-            'browser' => ['incl' => ['name', 'info']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
+        ],
+        'attr' => [
+            'name' => [
+                'opt' => 'audio',
+            ],
+        ],
+    ],
+    'doc' => [
+        'name' => 'Documents',
+        'type' => 'db',
+        'parent' => 'file',
+        'act' => [
+            'admin' => ['excl' => ['ent']],
+            'delete' => [],
+            'edit' => ['incl' => ['name', 'info']],
+        ],
+        'attr' => [
+            'name' => [
+                'opt' => 'doc',
+            ],
+        ],
+    ],
+    'image' => [
+        'name' => 'Images',
+        'type' => 'db',
+        'parent' => 'file',
+        'act' => [
+            'admin' => ['excl' => ['ent']],
+            'delete' => [],
+            'edit' => ['incl' => ['name', 'info']],
+        ],
+        'attr' => [
+            'name' => [
+                'opt' => 'image',
+            ],
+        ],
+    ],
+    'video' => [
+        'name' => 'Videos',
+        'type' => 'db',
+        'parent' => 'file',
+        'act' => [
+            'admin' => ['excl' => ['ent']],
+            'delete' => [],
+            'edit' => ['incl' => ['name', 'info']],
+        ],
+        'attr' => [
+            'name' => [
+                'opt' => 'video',
+            ],
         ],
     ],
     'page' => [
@@ -189,7 +240,7 @@ return [
                 'name' => 'Image',
                 'type' => 'ent',
                 'nullable' => true,
-                'ent' => 'file',
+                'ent' => 'image',
                 'viewer' => 'viewer\fileopt',
             ],
             'teaser' => [

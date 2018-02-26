@@ -77,15 +77,15 @@ function file(string $val): string
 {
     $ext = pathinfo($val, PATHINFO_EXTENSION);
 
-    if (in_array($ext, APP['file.image'])) {
+    if (in_array($ext, app\cfg('opt', 'image'))) {
         return html\tag('img', ['src' => $val, 'alt' => ''], null, true);
     }
 
-    if (in_array($ext, APP['file.video'])) {
+    if (in_array($ext, app\cfg('opt', 'video'))) {
         return html\tag('video', ['src' => $val, 'controls' => true]);
     }
 
-    if (in_array($ext, APP['file.audio'])) {
+    if (in_array($ext, app\cfg('opt', 'audio'))) {
         return html\tag('audio', ['src' => $val, 'controls' => true]);
     }
 

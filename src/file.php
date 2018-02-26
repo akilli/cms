@@ -52,5 +52,5 @@ function dir(string $path): bool
  */
 function writable(string $path): bool
 {
-    return strpos($path, app\path('asset')) === 0;
+    return strpos($path, app\path('file')) === 0;
 }
