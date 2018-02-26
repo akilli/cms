@@ -31,7 +31,7 @@ use attr;
     <?php foreach ($§('data') as $data):?>
     <article>
         <?php foreach ($§('attr') as $attr):?>
-            <?php if (!$html = attr\viewer($attr, $data)) continue;?>
+            <?php if (!($html = attr\viewer($attr, $data)) && $§('act') !== 'admin') continue;?>
             <?php if ($attr['id'] === 'name'):?>
                 <?php if ($§('act') === 'index' && allowed($data['_ent']['id'] . '/view')):?>
         <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
