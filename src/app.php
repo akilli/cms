@@ -293,9 +293,14 @@ function ext(string $path): string
 /**
  * Redirect
  */
-function redirect(string $url = '/', int $code = 302): void
+function redirect(string $url = '/', int $code = null): void
 {
-    header('Location: ' . $url, true, cfg('opt', 'redirect')[$code] ?? 302);
+    if ($code && !empty(cfg('opt', 'redirect')[$code])) {
+        header('Location: ' . $url, true, cfg('opt', 'redirect')[$code]);
+    } else {
+        header('Location: ' . $url);
+    }
+
     exit;
 }
 
