@@ -72,9 +72,9 @@ function msg(array $§): string
  */
 function index(array $§): string
 {
-    $§['vars'] = arr\replace(['act' => 'index', 'eId' => null], $§['vars']);
-    $ent = app\cfg('ent', $§['vars']['eId'] ?: app\data('ent'));
-    unset($§['vars']['eId']);
+    $§['vars'] = arr\replace(['act' => 'index', 'ent' => null], $§['vars']);
+    $ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'));
+    unset($§['vars']['ent']);
 
     if (!$ent || !isset($ent['act'][$§['vars']['act']])) {
         return '';
