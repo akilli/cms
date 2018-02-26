@@ -35,7 +35,6 @@ const APP = [
     'backend.date' => 'Y-m-d',
     'backend.datetime' => 'Y-m-d H:i:s',
     'backend.time' => 'H:i:s',
-    'code' => [301, 302, 303, 304, 305, 307, 308],
     'crit' => [
         '=' => '=',
         '!=' => '!=',
