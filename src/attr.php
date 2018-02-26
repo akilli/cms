@@ -23,7 +23,7 @@ function filter(array $attr, array $data): array
     }
 
     if ($attr['filter']) {
-        $data[$attr['id']] = ('filter\\' . $attr['filter'])($data[$attr['id']], opt($attr, $data));
+        $data[$attr['id']] = $attr['filter']($data[$attr['id']], opt($attr, $data));
     }
 
     $crit = [[$attr['id'], $data[$attr['id']]]];
@@ -98,7 +98,7 @@ function frontend(array $attr, array $data): string
         $error = html\tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
-    $out = ('frontend\\' . $attr['frontend'])($html, $data[$attr['id']], opt($attr, $data));
+    $out = $attr['frontend']($html, $data[$attr['id']], opt($attr, $data));
 
     return html\tag('label', ['for' => $html['id']], $label) . $out . $error;
 }
@@ -113,7 +113,7 @@ function viewer(array $attr, array $data): string
     }
 
     if ($attr['viewer']) {
-        return ('viewer\\' . $attr['viewer'])($data[$attr['id']], opt($attr, $data));
+        return $attr['viewer']($data[$attr['id']], opt($attr, $data));
     }
 
     return app\enc((string) $data[$attr['id']]);

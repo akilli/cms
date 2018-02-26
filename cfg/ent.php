@@ -53,7 +53,7 @@ return [
                 'unique' => true,
                 'searchable' => true,
                 'maxlength' => 50,
-                'filter' => 'id',
+                'filter' => 'filter\id',
             ],
             'password' => [
                 'name' => 'Password',
@@ -99,7 +99,7 @@ return [
                 'unique' => true,
                 'searchable' => true,
                 'maxlength' => 255,
-                'filter' => 'path',
+                'filter' => 'filter\path',
             ],
             'target' => [
                 'name' => 'Target',
@@ -107,12 +107,12 @@ return [
                 'required' => true,
                 'searchable' => true,
                 'maxlength' => 255,
-                'filter' => 'path',
+                'filter' => 'filter\path',
             ],
             'redirect' => [
                 'name' => 'Redirect',
                 'type' => 'int',
-                'frontend' => 'select',
+                'frontend' => 'frontend\select',
                 'nullable' => true,
                 'opt' => 'redirect',
             ],
@@ -190,7 +190,7 @@ return [
                 'type' => 'ent',
                 'nullable' => true,
                 'ent' => 'file',
-                'viewer' => 'fileopt',
+                'viewer' => 'viewer\fileopt',
             ],
             'teaser' => [
                 'name' => 'Teaser',
@@ -217,7 +217,7 @@ return [
             'meta' => [
                 'name' => 'Meta',
                 'type' => 'text',
-                'frontend' => 'textarea',
+                'frontend' => 'frontend\textarea',
                 'val' => '',
                 'maxlength' => 300,
             ],
@@ -226,7 +226,7 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'maxlength' => 50,
-                'filter' => 'slug',
+                'filter' => 'filter\slug',
             ],
             'url' => [
                 'name' => 'URL',
@@ -256,7 +256,7 @@ return [
                 'auto' => true,
                 'type' => 'text',
                 'maxlength' => 255,
-                'viewer' => 'pos',
+                'viewer' => 'viewer\pos',
             ],
             'level' => [
                 'name' => 'Level',

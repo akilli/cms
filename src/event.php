@@ -100,10 +100,16 @@ function cfg_toolbar(array $data): array
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
-        $item['name'] = app\i18n($item['name']);
-        $item['level'] = $item['parent'] ? $data[$item['parent']]['level'] + 1 : 1;
         $item = arr\replace(APP['toolbar'], $item);
-        $item['sort'] = ($item['parent'] ? $data[$item['parent']]['sort'] . '/' : '') . $item['sort'] . '/' . $id;
+        $item['name'] = app\i18n($item['name']);
+        $item['level'] = 1;
+        $item['sort'] = str_pad((string) $item['sort'], 5, '0', STR_PAD_LEFT) . '-' . $id;
+
+        if ($item['parent']) {
+            $item['level'] = $data[$item['parent']]['level'] + 1;
+            $item['sort'] = $data[$item['parent']]['sort'] . '/' . $item['sort'];
+        }
+
         $data[$id] = $item;
     }
 
