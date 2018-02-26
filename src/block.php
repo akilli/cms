@@ -72,16 +72,18 @@ function msg(array $§): string
  */
 function index(array $§): string
 {
-    $§['vars'] = arr\replace(['act' => 'index', 'ent' => null], $§['vars']);
+    $§['vars'] = arr\replace(['act' => 'index', 'ent' => null, 'limit' => null, 'pager' => null], $§['vars']);
     $ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'));
-    unset($§['vars']['ent']);
+    $limit = $§['vars']['limit'] > 0 ? (int) $§['vars']['limit'] : app\cfg('app', 'limit');
+    $pager = $§['vars']['pager'] > 0 ? (int) $§['vars']['pager'] : app\cfg('app', 'pager');
+    unset($§['vars']['ent'], $§['vars']['limit'], $§['vars']['pager']);
 
     if (!$ent || !isset($ent['act'][$§['vars']['act']])) {
         return '';
     }
 
     $crit = $§['vars']['act'] !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
-    $opt = ['limit' => app\cfg('app', 'limit')];
+    $opt = ['limit' => $limit];
     $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
 
     if ($§['vars']['act'] === 'browser') {
@@ -119,9 +121,8 @@ function index(array $§): string
     }
 
     $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
-    $cfg = app\cfg('app', 'pager');
-    $min = max(1, min($cur - intdiv($cfg, 2), $pages - $cfg + 1));
-    $max = min($min + $cfg - 1, $pages);
+    $min = max(1, min($cur - intdiv($pager, 2), $pages - $pager + 1));
+    $max = min($min + $pager - 1, $pages);
     $url = req\data('url');
     $§['vars']['pager'] = [];
 
