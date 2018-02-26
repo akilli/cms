@@ -89,7 +89,7 @@ return [
             'type' => 'block\index',
             'tpl' => 'ent/index.phtml',
             'parent' => 'main',
-            'vars' => ['act' => 'browser'],
+            'vars' => ['act' => 'browser', 'limit' => 20],
         ],
     ],
     'form' => [
