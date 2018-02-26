@@ -3,7 +3,7 @@ namespace app;
 /** @var callable $§ */
 ?>
 <!doctype html>
-<html lang="<?=data('lang');?>" data-area="<?=data('area');?>" data-path="<?=data('path');?>">
+<html lang="<?=data('lang');?>" data-area="<?=data('area');?>" data-ent="<?=data('ent');?>" data-act="<?=data('act');?>"<?php if (data('id')):?>  data-id="<?=data('id');?>"<?php endif;?>>
     <head>
         <?=§('head');?>
     </head>
