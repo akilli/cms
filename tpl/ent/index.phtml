@@ -68,6 +68,7 @@ use attr;
         <?php endif;?>
     </article>
         <?php endforeach;?>
+        <?php if ($§('pager')):?>
     <nav class="pager">
         <div class="info">
             <?=i18n('%s to %s of %s', $§('min'), $§('max'), $§('size'));?>
@@ -82,6 +83,7 @@ use attr;
             <?php endforeach;?>
         </div>
     </nav>
+    <?php endif;?>
 <?php else:?>
     <p><?=i18n('No entries found');?></p>
 <?php endif;?>
