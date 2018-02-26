@@ -35,6 +35,16 @@ const APP = [
     'backend.date' => 'Y-m-d',
     'backend.datetime' => 'Y-m-d H:i:s',
     'backend.time' => 'H:i:s',
+    'block' => [
+        'id' => null,
+        'type' => null,
+        'tpl' => null,
+        'active' => true,
+        'priv' => null,
+        'parent' => null,
+        'sort' => 0,
+        'vars' => [],
+    ],
     'crit' => [
         '=' => '=',
         '!=' => '!=',
@@ -86,16 +96,6 @@ const APP = [
         'priv' => null,
         'active' => true,
         'assignable' => true,
-    ],
-    'section' => [
-        'id' => null,
-        'type' => null,
-        'tpl' => null,
-        'active' => true,
-        'priv' => null,
-        'parent' => null,
-        'sort' => 0,
-        'vars' => [],
     ],
     'toolbar' => [
         'name' => null,

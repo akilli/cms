@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace section;
+namespace block;
 
 use app;
 use arr;
@@ -12,7 +12,7 @@ use session;
 use DomainException;
 
 /**
- * Container section
+ * Container
  */
 function container(array $§): string
 {
@@ -27,7 +27,7 @@ function container(array $§): string
 }
 
 /**
- * Template section
+ * Template
  */
 function tpl(array $§): string
 {
@@ -42,7 +42,7 @@ function tpl(array $§): string
 }
 
 /**
- * Meta section
+ * Meta
  */
 function meta(array $§): string
 {
@@ -52,7 +52,7 @@ function meta(array $§): string
 }
 
 /**
- * Message section
+ * Message
  */
 function msg(array $§): string
 {
@@ -68,7 +68,7 @@ function msg(array $§): string
 }
 
 /**
- * Index section
+ * Index
  */
 function index(array $§): string
 {
@@ -155,7 +155,7 @@ function index(array $§): string
 }
 
 /**
- * Nav section
+ * Nav
  *
  * @throws DomainException
  */
@@ -204,7 +204,7 @@ function nav(array $§): string
 }
 
 /**
- * Menu section
+ * Menu
  */
 function menu(array $§): string
 {
@@ -217,7 +217,7 @@ function menu(array $§): string
 }
 
 /**
- * Toolbar section
+ * Toolbar
  */
 function toolbar(array $§): string
 {

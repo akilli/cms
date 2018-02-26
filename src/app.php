@@ -167,7 +167,7 @@ function allowed(string $key): bool
 }
 
 /**
- * Returns layout section and optionally sets variables
+ * Returns layout block and optionally sets variables
  *
  * @throws DomainException
  */
@@ -196,21 +196,18 @@ function layout(string $id = null, array $vars = null): array
         }
 
         foreach ($data as $key => $val) {
-            $data[$key] = arr\replace(APP['section'], $val, ['id' => $key]);
+            $data[$key] = arr\replace(APP['block'], $val, ['id' => $key]);
         }
     }
 
-    // Get whole layout
     if ($id === null) {
         return $data;
     }
 
-    // Invalid section
     if (empty($data[$id])) {
-        throw new DomainException(i18n('Invalid section %s', $id));
+        throw new DomainException(i18n('Invalid block %s', $id));
     }
 
-    // Add variables to section
     if ($vars) {
         $data[$id]['vars'] = array_replace($data[$id]['vars'], $vars);
     }
@@ -219,7 +216,7 @@ function layout(string $id = null, array $vars = null): array
 }
 
 /**
- * Render section
+ * Render block
  */
 function §(string $id): string
 {
@@ -229,9 +226,9 @@ function §(string $id): string
         return '';
     }
 
-    $§ = event(['section.' . $§['type'], 'layout.' . $id], $§);
+    $§ = event(['block.' . $§['type'], 'layout.' . $id], $§);
 
-    return ('section\\' . $§['type'])($§);
+    return $§['type']($§);
 }
 
 /**

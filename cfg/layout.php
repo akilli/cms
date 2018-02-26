@@ -2,47 +2,47 @@
 return [
     '_all_' => [
         'root' => [
-            'type' => 'tpl',
+            'type' => 'block\tpl',
             'tpl' => 'layout/root.phtml',
         ],
         'head' => [
-            'type' => 'container',
+            'type' => 'block\container',
         ],
         'meta' => [
-            'type' => 'meta',
+            'type' => 'block\meta',
             'tpl' => 'head/meta.phtml',
             'parent' => 'head',
             'sort' => 10,
         ],
         'admin' => [
-            'type' => 'tpl',
+            'type' => 'block\tpl',
             'tpl' => 'head/admin.phtml',
             'priv' => 'account-user',
             'parent' => 'head',
             'sort' => 20,
         ],
         'top' => [
-            'type' => 'container',
+            'type' => 'block\container',
         ],
         'toolbar' => [
-            'type' => 'toolbar',
+            'type' => 'block\toolbar',
             'priv' => 'account-user',
             'parent' => 'top',
             'sort' => 10,
         ],
         'msg' => [
-            'type' => 'msg',
+            'type' => 'block\msg',
             'tpl' => 'layout/msg.phtml',
         ],
         'main' => [
-            'type' => 'container',
+            'type' => 'block\container',
         ],
         'sidebar' => [
-            'type' => 'container',
+            'type' => 'block\container',
             'vars' => ['tag' => 'aside'],
         ],
         'bottom' => [
-            'type' => 'container',
+            'type' => 'block\container',
         ],
     ],
     '_admin_' => [
@@ -52,27 +52,27 @@ return [
     ],
     '_public_' => [
         'header' => [
-            'type' => 'tpl',
+            'type' => 'block\tpl',
             'tpl' => 'layout/header.phtml',
             'parent' => 'top',
             'sort' => 20,
         ],
         'menu' => [
-            'type' => 'menu',
+            'type' => 'block\menu',
             'parent' => 'top',
             'sort' => 30,
         ],
     ],
     'index' => [
         'content' => [
-            'type' => 'index',
+            'type' => 'block\index',
             'tpl' => 'ent/index.phtml',
             'parent' => 'main',
         ],
     ],
     'admin' => [
         'content' => [
-            'type' => 'index',
+            'type' => 'block\index',
             'tpl' => 'ent/index.phtml',
             'parent' => 'main',
             'vars' => ['act' => 'admin'],
@@ -86,7 +86,7 @@ return [
             'active' => false,
         ],
         'content' => [
-            'type' => 'index',
+            'type' => 'block\index',
             'tpl' => 'ent/index.phtml',
             'parent' => 'main',
             'vars' => ['act' => 'browser'],
@@ -94,28 +94,28 @@ return [
     ],
     'form' => [
         'content' => [
-            'type' => 'tpl',
+            'type' => 'block\tpl',
             'tpl' => 'ent/form.phtml',
             'parent' => 'main',
         ],
     ],
     'edit' => [
         'content' => [
-            'type' => 'tpl',
+            'type' => 'block\tpl',
             'tpl' => 'ent/form.phtml',
             'parent' => 'main',
         ],
     ],
     'view' => [
         'content' => [
-            'type' => 'tpl',
+            'type' => 'block\tpl',
             'tpl' => 'ent/view.phtml',
             'parent' => 'main',
         ],
     ],
     'app/error' => [
         'content' => [
-            'type' => 'tpl',
+            'type' => 'block\tpl',
             'tpl' => 'app/error.phtml',
             'parent' => 'main',
         ],
@@ -133,14 +133,14 @@ return [
             'active' => false,
         ],
         'content' => [
-            'type' => 'tpl',
+            'type' => 'block\tpl',
             'tpl' => 'ent/form.phtml',
             'parent' => 'main',
         ],
     ],
     'account/password' => [
         'content' => [
-            'type' => 'tpl',
+            'type' => 'block\tpl',
             'tpl' => 'ent/form.phtml',
             'parent' => 'main',
         ],
