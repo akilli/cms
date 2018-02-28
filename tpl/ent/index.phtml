@@ -6,7 +6,7 @@ use attr;
 <section id="<?=$§('id');?>" class="index">
     <header>
         <h1><?=enc($§('title'));?></h1>
-        <?php if (allowed($§('ent')['id'] . '/edit')):?>
+        <?php if ($§('act') === 'admin' && allowed($§('ent')['id'] . '/edit')):?>
         <p data-act="create"><a href="<?=url($§('ent')['id'] . '/edit');?>"><?=i18n('New Entry');?></a></p>
         <?php endif;?>
         <form method="post" class="search">
