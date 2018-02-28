@@ -6,7 +6,7 @@ volumes:
       device: ${PWD}
       o: bind,uid=1000,gid=1000
 services:
-  db:
+  cms-db:
     volumes:
       - source: ./db/app.sql
         target: /app.sql

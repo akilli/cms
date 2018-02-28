@@ -1,16 +1,23 @@
 version: "3.5"
 networks:
-  proxy:
-    external: true
+  default:
+    external:
+      name: proxy
+  intern: {}
 volumes:
   app: {}
   db: {}
   file: {}
   tmp: {}
 services:
-  db:
+  cms-db:
     image: akilli/postgres
     restart: unless-stopped
+    networks:
+      default: {}
+      intern:
+        aliases:
+          - db
     volumes:
       - source: db
         target: /data
@@ -18,11 +25,16 @@ services:
       - source: file
         target: /app
         type: volume
-  php:
+  cms-php:
     image: akilli/cms
     depends_on:
-      - db
+      - cms-db
     restart: unless-stopped
+    networks:
+      default: {}
+      intern:
+        aliases:
+          - php
     volumes:
       - source: app
         target: /app
@@ -35,11 +47,11 @@ services:
       - source: tmp
         target: /tmp
         type: volume
-  www:
+  cms-www:
     image: akilli/nginx
     depends_on:
-      - db
-      - php
+      - cms-db
+      - cms-php
     restart: unless-stopped
     labels:
       traefik.enable: "true"
@@ -47,10 +59,12 @@ services:
       traefik.frontend.rule: "Host: cms.app.loc"
       traefik.docker.network: "proxy"
     networks:
-      default: {}
-      proxy:
+      default:
         aliases:
-          - cms
+          - cms.app.loc
+      intern:
+        aliases:
+          - www
     volumes:
       - source: app
         target: /app
