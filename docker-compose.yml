@@ -59,9 +59,7 @@ services:
       traefik.frontend.rule: "Host: cms.app.loc"
       traefik.docker.network: "proxy"
     networks:
-      default:
-        aliases:
-          - cms.app.loc
+      default: {}
       intern:
         aliases:
           - www
