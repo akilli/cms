@@ -59,6 +59,7 @@ const APP = [
         '~$' => '~$',
         '!~$' => '!~$',
     ],
+    'crlf' => "\r\n",
     'ent' => [
         'id' => null,
         'name' => null,

@@ -13,7 +13,7 @@ use Throwable;
  *
  * @throws DomainException
  */
-function mail(string $from, string $to, string $subj, string $text, array $attach = []): bool
+function mail(string $from, string $to, string $replyTo = null, string $subj, string $text, array $attach = []): bool
 {
     $cfg = app\cfg('smtp');
     $host = req\data('host');
@@ -50,39 +50,42 @@ function mail(string $from, string $to, string $subj, string $text, array $attac
     send($client, 'RCPT TO:<' . $to . '>', [250, 251]);
     send($client, 'DATA', [354]);
 
-    $nl = "\r\n";
-    $mail = 'From: <' . $from . '>' . $nl;
-    $mail .= 'To: <' . $to . '>' . $nl;
-    $mail .= 'Date: ' . date('r') . $nl;
-    $mail .= 'Subject: ' . $subj . $nl;
+    $mail = 'From: <' . $from . '>' . APP['crlf'];
+    $mail .= 'To: <' . $to . '>' . APP['crlf'];
+
+    if ($replyTo) {
+        $mail .= 'Reply-To: <' . $replyTo . '>' . APP['crlf'];
+    }
+
+    $mail .= 'Date: ' . date('r') . APP['crlf'];
+    $mail .= 'Subject: ' . $subj . APP['crlf'];
 
     if ($attach) {
         $boundary = md5(uniqid((string) time()));
-        $mail .= 'MIME-Version: 1.0' . $nl;
-        $mail .= 'Content-Type: multipart/mixed; charset="utf-8"; boundary="' . $boundary . '"' . $nl . $nl;
-        $mail .= 'This is a multipart message in MIME format.' . $nl . $nl;
-        $mail .= '--' . $boundary . $nl;
-        $mail .= 'Content-Type: text/plain; charset="utf-8"' . $nl;
-        $mail .= 'Content-Transfer-Encoding: 8bit' . $nl . $nl;
-        $mail .= $text . $nl;
+        $mail .= 'MIME-Version: 1.0' . APP['crlf'];
+        $mail .= 'Content-Type: multipart/mixed; charset="utf-8"; boundary="' . $boundary . '"' . APP['crlf'] . APP['crlf'];
+        $mail .= 'This is a multipart message in MIME format.' . APP['crlf'] . APP['crlf'];
+        $mail .= '--' . $boundary . APP['crlf'];
+        $mail .= 'Content-Type: text/plain; charset="utf-8"' . APP['crlf'];
+        $mail .= 'Content-Transfer-Encoding: 8bit' . APP['crlf'] . APP['crlf'];
+        $mail .= $text . APP['crlf'];
 
-        foreach ($attach as $file => $type) {
-            if (!is_file($file)) {
+        foreach ($attach as $file) {
+            if (empty($file['name']) || empty($file['path']) || empty($file['type']) || !is_file($file['path'])) {
                 continue;
             }
 
-            $name = basename($file);
-            $mail .= '--' . $boundary . $nl;
-            $mail .= 'Content-Type: ' . $type . '; name="' . $name . '"' . $nl;
-            $mail .= 'Content-Disposition: attachment; filename="' . $name . '"' . $nl;
-            $mail .= 'Content-Transfer-Encoding: base64' . $nl . $nl;
+            $mail .= '--' . $boundary . APP['crlf'];
+            $mail .= 'Content-Type: ' . $file['type'] . '; name="' . $file['name'] . '"' . APP['crlf'];
+            $mail .= 'Content-Disposition: attachment; filename="' . $file['name'] . '"' . APP['crlf'];
+            $mail .= 'Content-Transfer-Encoding: base64' . APP['crlf'] . APP['crlf'];
             $mail .= chunk_split(base64_encode(file_get_contents($file)));
         }
 
-        $mail .= '--' . $boundary . '--' . $nl;
+        $mail .= '--' . $boundary . '--' . APP['crlf'];
     } else {
-        $mail .= 'Content-Type: text/plain; charset="utf-8"' . $nl . $nl;
-        $mail .= $text . $nl;
+        $mail .= 'Content-Type: text/plain; charset="utf-8"' . APP['crlf'] . APP['crlf'];
+        $mail .= $text . APP['crlf'];
     }
 
     $mail .= '.';
