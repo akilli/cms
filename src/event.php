@@ -8,6 +8,7 @@ use arr;
 use ent;
 use file;
 use req;
+use smtp;
 use DomainException;
 
 /**
@@ -144,6 +145,34 @@ function ent_prefilter_file(array $data): array
     if (!empty($data['type']) && !empty($data['_old']['type']) && $data['type'] !== $data['_old']['type']) {
         $data['_error']['name'] = app\i18n('Cannot change filetype anymore');
     }
+
+    return $data;
+}
+
+/**
+ * Entity postsave
+ */
+function ent_postsave(array $data): array
+{
+    if (!$data['_ent']['mail'] || !isset($data['_ent']['act']['form']) || app\data('act') !== 'form') {
+        return $data;
+    }
+
+    $cfg = app\cfg('mail');
+    $file = req\data('file');
+    $attrs = ent\attr($data['_ent'], $data['_ent']['act']['form']);
+    $text = '';
+    $attach = [];
+
+    foreach ($attrs as $aId => $attr) {
+        if ($attr['type'] !== 'file') {
+            $text .= $attr['name'] . ':' . APP['crlf'] . ($data[$aId] ?? '') . APP['crlf'] .APP['crlf'];
+        } elseif (!empty($file[$aId])) {
+            $attach[] = ['name' => $file[$aId]['name'], 'path' => $file[$aId]['tmp_name'], 'type' => $file[$aId]['type']];
+        }
+    }
+
+    smtp\mail($cfg['email'], $cfg['email'], null, $cfg['subject'], $text, $attach);
 
     return $data;
 }

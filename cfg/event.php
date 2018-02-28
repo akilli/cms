@@ -15,6 +15,9 @@ return [
     'ent.postfilter' => [
         'event\ent_postfilter' => -1,
     ],
+    'ent.postsave' => [
+        'event\ent_postsave' => -1,
+    ],
     'ent.prefilter.file' => [
         'event\ent_prefilter_file' => -1,
     ],

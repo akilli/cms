@@ -65,6 +65,7 @@ const APP = [
         'name' => null,
         'type' => null,
         'parent' => null,
+        'mail' => false,
         'act' => [],
         'attr' => [],
     ],
