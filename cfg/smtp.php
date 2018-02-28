@@ -1,6 +1,6 @@
 <?php
 return [
-    'dsn' => 'tcp://maildev:1025',
+    'dsn' => 'tcp://maildev.app.loc:1025',
     'tls' => false,
     'auth' => null,
     'user' => null,
