@@ -6,7 +6,6 @@ namespace smtp;
 use app;
 use req;
 use DomainException;
-use Throwable;
 
 /**
  * Send mail through SMTP server
@@ -17,16 +16,10 @@ function mail(string $from, string $to, string $replyTo = null, string $subj, st
 {
     $cfg = app\cfg('smtp');
     $host = req\data('host');
+    $client = stream_socket_client($cfg['dsn'], $errno, $errstr, $cfg['timeout']);
 
-    try {
-        $client = stream_socket_client($cfg['dsn'], $errno, $errstr, $cfg['timeout']);
-
-        if (!is_resource($client)) {
-            throw new DomainException(app\i18n('Could not send message'));
-        }
-    } catch (Throwable $e) {
-        app\log($e);
-        return false;
+    if (!is_resource($client)) {
+        throw new DomainException(app\i18n('Could not send message'));
     }
 
     receive($client);
