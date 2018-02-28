@@ -15,6 +15,8 @@ use DomainException;
 function data(string $key)
 {
     if (($data = & app\reg('req')) === null) {
+        $data['host'] = $_SERVER['HTTP_HOST'];
+        $data['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $data['file'] = [];
         $data['post'] = [];
         $data['get'] = [];
@@ -31,7 +33,6 @@ function data(string $key)
         }
 
         $data['get'] = filter($data['get'] + $_GET);
-        $data['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     }
 
     return $data[$key] ?? null;
