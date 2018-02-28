@@ -110,5 +110,6 @@ return [
         'backend' => 'varchar',
         'frontend' => 'frontend\url',
         'filter' => 'filter\url',
+        'viewer' => 'viewer\url',
     ],
 ];

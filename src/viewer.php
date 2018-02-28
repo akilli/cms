@@ -31,6 +31,14 @@ function opt($val, array $opt): string
 }
 
 /**
+ * URL viewer
+ */
+function url(string $val): string
+{
+    return html\tag('a', ['href' => $val], $val);
+}
+
+/**
  * Date viewer
  */
 function date(string $val): string
