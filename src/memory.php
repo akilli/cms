@@ -41,7 +41,10 @@ function load(array $ent, array $crit = [], array $opt = []): array
  */
 function save(array $data): array
 {
-    $db = & app\reg('memory.' . $data['_ent']['id']);
+    if (($db = & app\reg('memory.' . $data['_ent']['id'])) === null) {
+        $db = [];
+    }
+
 
     if (!$data['_old'] && $data['_ent']['attr']['id']['auto']) {
         $data['id'] = max(array_keys($db)) + 1;
