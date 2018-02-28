@@ -11,11 +11,6 @@ services:
   db:
     image: akilli/postgres
     restart: unless-stopped
-    networks:
-      default: {}
-      proxy:
-        aliases:
-          - cms-db
     volumes:
       - source: db
         target: /data
@@ -28,11 +23,6 @@ services:
     depends_on:
       - db
     restart: unless-stopped
-    networks:
-      default: {}
-      proxy:
-        aliases:
-          - cms-php
     volumes:
       - source: app
         target: /app
@@ -60,7 +50,6 @@ services:
       default: {}
       proxy:
         aliases:
-          - cms
           - cms.app.loc
     volumes:
       - source: app
