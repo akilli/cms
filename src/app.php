@@ -294,7 +294,7 @@ function ext(string $path): string
 function redirect(string $url = '/', int $code = null): void
 {
     if ($code && !empty(cfg('opt', 'redirect')[$code])) {
-        header('Location: ' . $url, true, cfg('opt', 'redirect')[$code]);
+        header('Location: ' . $url, true, $code);
     } else {
         header('Location: ' . $url);
     }
