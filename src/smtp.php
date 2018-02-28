@@ -12,7 +12,7 @@ use DomainException;
  *
  * @throws DomainException
  */
-function mail(string $from, string $to, string $replyTo = null, string $subj, string $text, array $attach = []): bool
+function mail(string $from, string $to, string $replyTo = null, string $subj, string $text, array $attach = []): void
 {
     $cfg = app\cfg('smtp');
     $host = req\data('host');
@@ -85,8 +85,6 @@ function mail(string $from, string $to, string $replyTo = null, string $subj, st
     send($client, $mail, [250]);
     send($client, 'QUIT', [221]);
     fclose($client);
-
-    return true;
 }
 
 /**
