@@ -79,7 +79,7 @@ function mail(string $from, string $to, string $replyTo = null, string $subj, st
             $mail .= 'Content-Type: ' . $file['type'] . '; name="' . $file['name'] . '"' . APP['crlf'];
             $mail .= 'Content-Disposition: attachment; filename="' . $file['name'] . '"' . APP['crlf'];
             $mail .= 'Content-Transfer-Encoding: base64' . APP['crlf'] . APP['crlf'];
-            $mail .= chunk_split(base64_encode(file_get_contents($file)));
+            $mail .= chunk_split(base64_encode(file_get_contents($file['path'])));
         }
 
         $mail .= '--' . $boundary . '--' . APP['crlf'];
