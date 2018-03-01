@@ -10,6 +10,7 @@ use ent;
 use req;
 use session;
 use DomainException;
+use ErrorException;
 use Throwable;
 
 /**
@@ -17,22 +18,30 @@ use Throwable;
  */
 function run(): void
 {
+    // Register functions
+    set_error_handler('app\error');
+    set_exception_handler('app\exception');
+    register_shutdown_function('app\shutdown');
+
     $data = & reg('app');
     $data['lang'] = locale_get_primary_language('');
     $url = req\data('url');
     $rew = ent\one('url', [['name', $url]]);
 
+    // Redirect
     if (!empty($rew['redirect'])) {
         redirect($rew['target'], $rew['redirect']);
         return;
     }
 
+    // Rewrite
     if ($rew) {
         $url = $rew['target'];
     } elseif ($page = ent\one('page', [['url', $url]])) {
         $url = '/' . $page['ent'] . '/view/' . $page['id'];
     }
 
+    // Gather request-data
     $parts = explode('/', trim($url, '/'));
     $data['ent'] = array_shift($parts);
     $data['act'] = array_shift($parts);
@@ -44,6 +53,7 @@ function run(): void
     $data['parent'] = $ent['parent'] ?? null;
     $real = is_callable('act\\' . $data['ent'] . '_' . $data['act']) ? 'act\\' . $data['ent'] . '_' . $data['act'] : null;
 
+    // Dispatch request
     if ($allowed && !$ent && $real) {
         $real();
     } elseif (!$allowed || !$ent || !isset($ent['act'][$data['act']])) {
@@ -54,6 +64,15 @@ function run(): void
         ('act\\' . $ent['parent'] . '_' . $data['act'])($ent);
     } elseif (is_callable('act\\' . $data['act'])) {
         ('act\\' . $data['act'])($ent);
+    }
+}
+
+/**
+ * Shutdown
+ */
+function shutdown() {
+    if ($data = reg('msg')) {
+        session\set('msg', $data);
     }
 }
 
@@ -327,4 +346,20 @@ function enc(string $val): string
 function log(Throwable $e): void
 {
     file_put_contents(APP['log'], '[' . date('r') . '] ' . $e . "\n\n", FILE_APPEND);
+}
+
+/**
+ * Error handler
+ */
+function error(int $severity, string $msg, string $file, int $line): void
+{
+    log(new ErrorException($msg, 0, $severity, $file, $line));
+}
+
+/**
+ * Exception handler
+ */
+function exception(Throwable $e): void
+{
+    log($e);
 }
