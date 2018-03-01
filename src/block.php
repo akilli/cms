@@ -58,13 +58,7 @@ function msg(array $§): string
 {
     $§['vars'] = [];
 
-    if (!$§['vars']['data'] = session\get('msg')) {
-        return '';
-    }
-
-    session\set('msg', null);
-
-    return tpl($§);
+    return ($§['vars']['data'] = app\msg()) ? tpl($§) : '';
 }
 
 /**

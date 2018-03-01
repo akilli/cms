@@ -133,16 +133,27 @@ function event(array $events, array $data): array
 }
 
 /**
- * Add message
+ * Message
  */
-function msg(string $msg): void
+function msg(string $msg = null): array
 {
-    $data = session\get('msg') ?? [];
+    if (($data = & reg('msg')) === null) {
+        $data = session\get('msg') ?: [];
+        session\set('msg', null);
+    }
+
+    if ($msg === null) {
+        $old = $data;
+        $data = [];
+
+        return $old;
+    }
 
     if ($msg && !in_array($msg, $data)) {
         $data[] = $msg;
-        session\set('msg', $data);
     }
+
+    return $data;
 }
 
 /**
