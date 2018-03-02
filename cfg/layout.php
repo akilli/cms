@@ -133,16 +133,18 @@ return [
             'active' => false,
         ],
         'content' => [
-            'type' => 'block\tpl',
+            'type' => 'block\form',
             'tpl' => 'ent/form.phtml',
             'parent' => 'main',
+            'vars' => ['attr' => ['incl' => ['name', 'password']], 'login' => true],
         ],
     ],
     'account/password' => [
         'content' => [
-            'type' => 'block\tpl',
+            'type' => 'block\form',
             'tpl' => 'ent/form.phtml',
             'parent' => 'main',
+            'vars' => ['attr' => ['incl' => ['password', 'confirmation']]],
         ],
     ],
     'app/error' => [
@@ -167,6 +169,11 @@ return [
             'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']]],
         ],
     ],
+    'article/edit' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']]],
+        ],
+    ],
     'article/index' => [
         'content' => [
             'vars' => ['attr' => ['incl' => ['image', 'name', 'teaser']]],
@@ -187,6 +194,11 @@ return [
             'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']]],
         ],
     ],
+    'content/edit' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']]],
+        ],
+    ],
     'content/view' => [
         'content' => [
             'vars' => ['attr' => ['incl' => ['image', 'main', 'aside']]],
@@ -203,6 +215,11 @@ return [
         ],
     ],
     'file/create' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'info']]],
+        ],
+    ],
+    'file/edit' => [
         'content' => [
             'vars' => ['attr' => ['incl' => ['name', 'info']]],
         ],

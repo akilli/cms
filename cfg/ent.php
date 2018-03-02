@@ -39,9 +39,9 @@ return [
             'dashboard' => [],
             'delete' => [],
             'edit' => [],
-            'login' => ['incl' => ['name', 'password']],
+            'login' => [],
             'logout' => [],
-            'password' => ['incl' => ['password', 'confirmation']],
+            'password' => [],
         ],
         'attr' => [
             'id' => [
@@ -173,7 +173,7 @@ return [
             'browser' => [],
             'create' => [],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'info']],
+            'edit' => [],
         ],
         'attr' => [
             'name' => [
@@ -190,7 +190,7 @@ return [
             'browser' => [],
             'create' => [],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'info']],
+            'edit' => [],
         ],
         'attr' => [
             'name' => [
@@ -207,7 +207,7 @@ return [
             'browser' => [],
             'create' => [],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'info']],
+            'edit' => [],
         ],
         'attr' => [
             'name' => [
@@ -224,7 +224,7 @@ return [
             'browser' => [],
             'create' => [],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'info']],
+            'edit' => [],
         ],
         'attr' => [
             'name' => [
@@ -360,7 +360,7 @@ return [
             'admin' => [],
             'create' => [],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']],
+            'edit' => [],
             'view' => [],
         ],
     ],
@@ -372,7 +372,7 @@ return [
             'admin' => [],
             'create' => [],
             'delete' => [],
-            'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']],
+            'edit' => [],
             'index' => [],
             'view' => [],
         ],

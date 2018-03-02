@@ -65,7 +65,7 @@ function edit(array $ent): void
 
     $p[] = $data;
     $data = arr\replace(ent\data($ent), ...$p);
-    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $ent['act']['edit']), 'title' => $ent['name']]);
+    app\layout('content', ['data' => $data, 'title' => $ent['name']]);
 }
 
 /**
@@ -132,7 +132,7 @@ function account_password(array $ent): void
         }
     }
 
-    app\layout('content', ['data' => ['_ent' => $ent], 'attr' => ent\attr($ent, $ent['act']['password']), 'title' => app\i18n('Password')]);
+    app\layout('content', ['data' => ['_ent' => $ent], 'title' => app\i18n('Password')]);
 }
 
 /**
@@ -151,10 +151,7 @@ function account_login(array $ent): void
         app\msg(app\i18n('Invalid name and password combination'));
     }
 
-    $attrs = ent\attr($ent, $ent['act']['login']);
-    $attrs['name'] = array_replace($attrs['name'], ['unique' => false, 'minlength' => 0, 'maxlength' => 0]);
-    $attrs['password'] = array_replace($attrs['password'], ['minlength' => 0, 'maxlength' => 0]);
-    app\layout('content', ['data' => ['_ent' => $ent], 'attr' => $attrs, 'title' => app\i18n('Login')]);
+    app\layout('content', ['data' => ['_ent' => $ent], 'title' => app\i18n('Login')]);
 }
 
 /**
