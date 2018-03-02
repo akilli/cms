@@ -71,7 +71,19 @@ function msg(array $§): string
 function form(array $§): string
 {
     $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'ent' => null, 'login' => false, 'title' => null], $§['vars']);
-    $§['vars']['ent'] = $§['vars']['data']['_ent'] ?? app\cfg('ent', $§['vars']['ent']);
+
+    if (!empty($§['vars']['data']['_ent'])) {
+        $§['vars']['ent'] = $§['vars']['data']['_ent'];
+    } elseif ($§['vars']['ent']) {
+        $§['vars']['ent'] = app\cfg('ent', $§['vars']['ent']);
+    } else {
+        $§['vars']['ent'] = app\data('ent');
+    }
+
+    if (!$§['vars']['ent']) {
+        return '';
+    }
+
     $§['vars']['attr'] = ent\attr($§['vars']['ent'], $§['vars']['attr']);
     $§['vars']['file'] = in_array('file', array_column($§['vars']['attr'], 'type'));
     $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
@@ -81,7 +93,7 @@ function form(array $§): string
         $§['vars']['attr']['password'] = array_replace($§['vars']['attr']['password'], ['minlength' => 0, 'maxlength' => 0]);
     }
 
-    return $§['vars']['ent'] ? tpl($§) : '';
+    return tpl($§);
 }
 
 /**
