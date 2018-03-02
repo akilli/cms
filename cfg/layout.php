@@ -113,23 +113,6 @@ return [
             'parent' => 'main',
         ],
     ],
-    'app/error' => [
-        'content' => [
-            'type' => 'block\tpl',
-            'tpl' => 'app/error.phtml',
-            'parent' => 'main',
-        ],
-    ],
-    'app/js' => [
-        'root' => [
-            'tpl' => 'app/app.js',
-        ],
-    ],
-    'role/admin' => [
-        'content' => [
-            'vars' => ['attr' => ['incl' => ['name']]],
-        ],
-    ],
     'account/admin' => [
         'content' => [
             'vars' => ['attr' => ['incl' => ['name', 'role']]],
@@ -155,6 +138,43 @@ return [
             'parent' => 'main',
         ],
     ],
+    'app/error' => [
+        'content' => [
+            'type' => 'block\tpl',
+            'tpl' => 'app/error.phtml',
+            'parent' => 'main',
+        ],
+    ],
+    'app/js' => [
+        'root' => [
+            'tpl' => 'app/app.js',
+        ],
+    ],
+    'article/admin' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'parent', 'status', 'date']]],
+        ],
+    ],
+    'article/index' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['image', 'name', 'teaser']]],
+        ],
+    ],
+    'article/view' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'image', 'teaser', 'main']]],
+        ],
+    ],
+    'content/admin' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']]],
+        ],
+    ],
+    'content/view' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['image', 'main', 'aside']]],
+        ],
+    ],
     'file/admin' => [
         'content' => [
             'vars' => ['attr' => ['excl' => ['ent']]],
@@ -172,29 +192,9 @@ return [
             'vars' => ['tag' => 'section'],
         ],
     ],
-    'content/admin' => [
+    'role/admin' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']]],
-        ],
-    ],
-    'content/view' => [
-        'content' => [
-            'vars' => ['attr' => ['incl' => ['image', 'main', 'aside']]],
-        ],
-    ],
-    'article/admin' => [
-        'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'parent', 'status', 'date']]],
-        ],
-    ],
-    'article/index' => [
-        'content' => [
-            'vars' => ['attr' => ['incl' => ['image', 'name', 'teaser']]],
-        ],
-    ],
-    'article/view' => [
-        'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'image', 'teaser', 'main']]],
+            'vars' => ['attr' => ['incl' => ['name']]],
         ],
     ],
 ];
