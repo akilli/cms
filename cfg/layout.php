@@ -108,7 +108,7 @@ return [
     ],
     'view' => [
         'content' => [
-            'type' => 'block\ent',
+            'type' => 'block\view',
             'tpl' => 'ent/view.phtml',
             'parent' => 'main',
         ],

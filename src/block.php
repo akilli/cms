@@ -62,9 +62,9 @@ function msg(array $§): string
 }
 
 /**
- * Ent
+ * View
  */
-function ent(array $§): string
+function view(array $§): string
 {
     $§['vars'] = arr\replace(['attr' => [], 'ent' => null, 'id' => null], $§['vars']);
 
