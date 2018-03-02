@@ -62,6 +62,24 @@ function msg(array $§): string
 }
 
 /**
+ * View
+ */
+function view(array $§): string
+{
+    $§['vars'] = arr\replace(['attr' => [], 'ent' => null, 'id' => null], $§['vars']);
+    $ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'));
+    $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
+    $id = $§['vars']['id'] ?: app\data('id');
+    $crit = [['id', $id]];
+
+    if (!app\allowed($ent['id'] . '/edit') && in_array('page', [$ent['id'], $ent['parent']])) {
+        $crit[] = ['status', 'published'];
+    }
+
+    return ($§['vars']['data'] = ent\one($ent['id'], $crit)) ? tpl($§) : '';
+}
+
+/**
  * Index
  */
 function index(array $§): string

@@ -108,7 +108,7 @@ return [
     ],
     'view' => [
         'content' => [
-            'type' => 'block\tpl',
+            'type' => 'block\view',
             'tpl' => 'ent/view.phtml',
             'parent' => 'main',
         ],
@@ -150,6 +150,16 @@ return [
             'type' => 'block\menu',
             'parent' => 'main',
             'vars' => ['tag' => 'section'],
+        ],
+    ],
+    'article/view' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'image', 'teaser', 'main']]],
+        ],
+    ],
+    'content/view' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['image', 'main', 'aside']]],
         ],
     ],
 ];

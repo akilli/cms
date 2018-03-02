@@ -353,7 +353,7 @@ return [
             'admin' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']],
-            'view' => ['incl' => ['image', 'main', 'aside']],
+            'view' => [],
         ],
     ],
     'article' => [
@@ -365,7 +365,7 @@ return [
             'delete' => [],
             'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']],
             'index' => ['incl' => ['image', 'name', 'teaser']],
-            'view' => ['incl' => ['name', 'image', 'teaser', 'main']],
+            'view' => [],
         ],
     ],
     'version' => [
