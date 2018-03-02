@@ -33,8 +33,7 @@ function edit(array $ent): void
     $data += $data && $id ? ['id' => $id] : [];
 
     if ($data && ent\save($ent['id'], $data)) {
-        $id = ($id ?: $data['id']);
-        app\redirect(app\url($ent['id'] . '/edit/' . $id));
+        app\redirect(app\url($ent['id'] . '/edit/' . $data['id']));
         return;
     }
 
