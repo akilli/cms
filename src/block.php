@@ -74,13 +74,7 @@ function form(array $§): string
 
     if (!empty($§['vars']['data']['_ent'])) {
         $§['vars']['ent'] = $§['vars']['data']['_ent'];
-    } elseif ($§['vars']['ent']) {
-        $§['vars']['ent'] = app\cfg('ent', $§['vars']['ent']);
-    } else {
-        $§['vars']['ent'] = app\data('ent');
-    }
-
-    if (!$§['vars']['ent']) {
+    } elseif (!$§['vars']['ent'] || !($§['vars']['ent'] = app\cfg('ent', $§['vars']['ent']))) {
         return '';
     }
 

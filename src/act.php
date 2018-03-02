@@ -85,6 +85,7 @@ function view(array $ent): void
         return;
     }
 
+    app\layout('content', ['data' => $data]);
     app\layout('meta', ['desc' => $data['meta'] ?? null, 'title' => $data['name']]);
 }
 
