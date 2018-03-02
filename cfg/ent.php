@@ -236,7 +236,6 @@ return [
             'meta' => [
                 'name' => 'Meta',
                 'type' => 'text',
-                'frontend' => 'frontend\textarea',
                 'val' => '',
                 'maxlength' => 300,
             ],
