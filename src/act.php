@@ -53,13 +53,14 @@ function edit(array $ent): void
  */
 function view(array $ent): void
 {
-    $crit = [['id', app\data('id')]];
+    $id = app\data('id');
+    $crit = [['id', $id]];
 
     if (!app\allowed($ent['id'] . '/edit') && in_array('page', [$ent['id'], $ent['parent']])) {
         $crit[] = ['status', 'published'];
     }
 
-    if (!$data = ent\one($ent['id'], $crit)) {
+    if (!$id || !($data = ent\one($ent['id'], $crit))) {
         app_error();
         return;
     }
