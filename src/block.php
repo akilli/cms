@@ -95,22 +95,30 @@ function form(array $§): string
  */
 function view(array $§): string
 {
-    $§['vars'] = arr\replace(['attr' => [], 'ent' => null, 'id' => null], $§['vars']);
-    $ent = $§['vars']['ent'] ? app\cfg('ent', $§['vars']['ent']) : app\data('ent');
+    $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'ent' => null, 'id' => null], $§['vars']);
+    $ent = null;
 
-    if (!$ent) {
+    if ($§['vars']['data']) {
+        $ent = $§['vars']['data']['_ent'] ?? null;
+    } elseif ($§['vars']['ent'] && $§['vars']['id'] && ($ent = app\cfg('ent', $§['vars']['ent']))) {
+        $crit = [['id', $§['vars']['id']]];
+
+        if (!app\allowed($ent['id'] . '/edit') && in_array('page', [$ent['id'], $ent['parent']])) {
+            $crit[] = ['status', 'published'];
+        }
+
+        $§['vars']['data'] = ent\one($ent['id'], $crit);
+    }
+
+    if (!$§['vars']['data'] || !$ent) {
         return '';
     }
 
+    unset($§['vars']['ent'], $§['vars']['id']);
     $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
-    $id = $§['vars']['id'] ?: app\data('id');
-    $crit = [['id', $id]];
 
-    if (!app\allowed($ent['id'] . '/edit') && in_array('page', [$ent['id'], $ent['parent']])) {
-        $crit[] = ['status', 'published'];
-    }
 
-    return ($§['vars']['data'] = ent\one($ent['id'], $crit)) ? tpl($§) : '';
+    return tpl($§);
 }
 
 /**
