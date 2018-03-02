@@ -167,12 +167,12 @@ return [
     ],
     'article/create' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']]],
+            'vars' => ['attr' => ['incl' => ['name', 'slug', 'parent', 'status', 'image', 'teaser', 'main', 'meta']]],
         ],
     ],
     'article/edit' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']]],
+            'vars' => ['attr' => ['incl' => ['name', 'slug', 'parent', 'status', 'image', 'teaser', 'main', 'meta']]],
         ],
     ],
     'article/index' => [
@@ -192,12 +192,12 @@ return [
     ],
     'content/create' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']]],
+            'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'image', 'main', 'aside', 'sidebar', 'meta']]],
         ],
     ],
     'content/edit' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']]],
+            'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'image', 'main', 'aside', 'sidebar', 'meta']]],
         ],
     ],
     'content/view' => [
