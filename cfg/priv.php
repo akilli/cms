@@ -12,6 +12,9 @@ return [
     'account/admin' => [
         'priv' => '_all_',
     ],
+    'account/create' => [
+        'priv' => '_all_',
+    ],
     'account/dashboard' => [
         'priv' => 'account-user',
     ],
@@ -52,6 +55,9 @@ return [
         'active' => false,
     ],
     'role/admin' => [
+        'priv' => '_all_',
+    ],
+    'role/create' => [
         'priv' => '_all_',
     ],
     'role/delete' => [

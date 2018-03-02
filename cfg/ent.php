@@ -5,6 +5,7 @@ return [
         'type' => 'db',
         'act' => [
             'admin' => [],
+            'create' => [],
             'delete' => [],
             'edit' => [],
         ],
@@ -34,6 +35,7 @@ return [
         'type' => 'db',
         'act' => [
             'admin' => [],
+            'create' => [],
             'dashboard' => [],
             'delete' => [],
             'edit' => [],
@@ -84,6 +86,7 @@ return [
         'type' => 'db',
         'act' => [
             'admin' => [],
+            'create' => [],
             'delete' => [],
             'edit' => [],
         ],
@@ -168,6 +171,7 @@ return [
         'act' => [
             'admin' => [],
             'browser' => [],
+            'create' => ['incl' => ['name', 'info']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -184,6 +188,7 @@ return [
         'act' => [
             'admin' => [],
             'browser' => [],
+            'create' => ['incl' => ['name', 'info']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -200,6 +205,7 @@ return [
         'act' => [
             'admin' => [],
             'browser' => [],
+            'create' => ['incl' => ['name', 'info']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -216,6 +222,7 @@ return [
         'act' => [
             'admin' => [],
             'browser' => [],
+            'create' => ['incl' => ['name', 'info']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -351,6 +358,7 @@ return [
         'parent' => 'page',
         'act' => [
             'admin' => [],
+            'create' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']],
             'view' => [],
@@ -362,6 +370,7 @@ return [
         'parent' => 'page',
         'act' => [
             'admin' => [],
+            'create' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']],
             'index' => [],
