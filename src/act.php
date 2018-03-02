@@ -15,38 +15,37 @@ use session;
  */
 function form(array $ent): void
 {
-    $id = app\data('id');
-    $data = req\data('post');
-    $data += $data && $id ? ['id' => $id] : [];
-    $act = app\data('act');
-
-    if ($data && ent\save($ent['id'], $data) && $act === 'edit') {
-        $id = ($id ?: $data['id']);
-        app\redirect(app\url($ent['id'] . '/edit/' . $id));
-        return;
+    if (($data = req\data('post')) && ent\save($ent['id'], $data)) {
+        $data = [];
     }
 
-    if ($id) {
-        $base = ent\one($ent['id'], [['id', $id]]);
-
-        if ($act === 'edit' && in_array('page', [$ent['id'], $ent['parent']])) {
-            $v = ent\one('version', [['page', $id]], ['order' => ['date' => 'desc']]);
-            $base = arr\replace($base, arr\replace(APP['version'], $v));
-        }
-    } else {
-        $base = ent\data($ent);
-    }
-
-    $data = array_replace($base, $data);
-    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $ent['act'][$act]), 'title' => $ent['name']]);
- }
+    $data = array_replace(ent\data($ent), $data);
+    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $ent['act']['form']), 'title' => $ent['name']]);
+}
 
 /**
  * Edit Action
  */
 function edit(array $ent): void
 {
-    form($ent);
+    $id = app\data('id');
+    $data = req\data('post');
+    $data += $data && $id ? ['id' => $id] : [];
+
+    if ($data && ent\save($ent['id'], $data)) {
+        app\redirect(app\url($ent['id'] . '/edit/' . $data['id']));
+        return;
+    }
+
+    $p = $id ? [ent\one($ent['id'], [['id', $id]])] : [];
+
+    if ($id && in_array('page', [$ent['id'], $ent['parent']])) {
+        $p[] = arr\replace(APP['version'], ent\one('version', [['page', $id]], ['order' => ['date' => 'desc']]));
+    }
+
+    $p[] = $data;
+    $data = arr\replace(ent\data($ent), ...$p);
+    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $ent['act']['edit']), 'title' => $ent['name']]);
 }
 
 /**
