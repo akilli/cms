@@ -23,7 +23,7 @@ function opt($val, array $opt): string
 
     foreach ((array) $val as $v) {
         if (isset($opt[$v])) {
-            $out = ($out ? ', ' : '') . $opt[$v];
+            $out .= ($out ? ', ' : '') . $opt[$v];
         }
     }
 
