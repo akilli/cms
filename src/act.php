@@ -24,40 +24,20 @@ function form(array $ent): void
 }
 
 /**
- * Create Action
- */
-function create(array $ent): void
-{
-    if (($data = req\data('post')) && ent\save($ent['id'], $data)) {
-        app\redirect(app\url($ent['id'] . '/edit/' . $data['id']));
-        return;
-    }
-
-    $data = array_replace(ent\data($ent), $data);
-    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $ent['act']['create']), 'title' => $ent['name']]);
-}
-
-/**
  * Edit Action
  */
 function edit(array $ent): void
 {
-    if (!($id = app\data('id')) || !($old = ent\one($ent['id'], [['id', $id]]))) {
-        app\msg(app\i18n('Nothing to edit'));
-        app\redirect(app\url($ent['id'] . '/admin'));
+    $id = app\data('id');
+    $data = req\data('post');
+    $data += $data && $id ? ['id' => $id] : [];
+
+    if ($data && ent\save($ent['id'], $data)) {
+        app\redirect(app\url($ent['id'] . '/edit/' . $data['id']));
         return;
     }
 
-    if ($data = req\data('post')) {
-        $data += ['id' => $id];
-
-        if (ent\save($ent['id'], $data)) {
-            app\redirect(app\url($ent['id'] . '/edit/' . $data['id']));
-            return;
-        }
-    }
-
-    $p = [$old];
+    $p = $id ? [ent\one($ent['id'], [['id', $id]])] : [];
 
     if ($id && in_array('page', [$ent['id'], $ent['parent']])) {
         $p[] = arr\replace(APP['version'], ent\one('version', [['page', $id]], ['order' => ['date' => 'desc']]));

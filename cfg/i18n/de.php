@@ -63,7 +63,6 @@ return [
     'No changes' => 'Keine Änderungen',
     'No entries found' => 'Keine Einträge gefunden',
     'Nothing to delete' => 'Nichts zum Löschen',
-    'Nothing to edit' => 'Nichts zum Bearbeiten',
     'Page not found' => 'Seite nicht gefunden',
     'Pages' => 'Seiten',
     'Parent' => 'Oberseite',
