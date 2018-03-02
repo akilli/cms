@@ -21,7 +21,7 @@ function form(array $ent): void
 
     $data = array_replace(ent\data($ent), $data);
     app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $ent['act']['form']), 'title' => $ent['name']]);
- }
+}
 
 /**
  * Edit Action
