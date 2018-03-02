@@ -522,20 +522,20 @@ a[data-sort=desc]::after {
     /**
      * Login
      */
-    html[data-ent=account][data-act=login] body {
+    html[data-path="account/login"] body {
         display: flex;
         flex-direction: column;
         align-items: stretch;
     }
 
-    html[data-ent=account][data-act=login] main {
+    html[data-path="account/login"] main {
         display: flex;
         flex: 1 0;
         align-items: center;
         justify-content: center;
     }
 
-    html[data-ent=account][data-act=login] #content {
+    html[data-path="account/login"] #content {
         width: 100%;
         max-width: 30rem;
     }

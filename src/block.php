@@ -67,8 +67,9 @@ function msg(array $§): string
 function view(array $§): string
 {
     $§['vars'] = arr\replace(['attr' => [], 'ent' => null, 'id' => null], $§['vars']);
+    $ent = $§['vars']['ent'] ? app\cfg('ent', $§['vars']['ent']) : app\data('ent');
 
-    if (!$ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'))) {
+    if (!$ent) {
         return '';
     }
 
@@ -89,8 +90,9 @@ function view(array $§): string
 function index(array $§): string
 {
     $§['vars'] = arr\replace(['act' => 'index', 'attr' => [], 'ent' => null, 'limit' => null, 'pager' => null], $§['vars']);
+    $ent = $§['vars']['ent'] ? app\cfg('ent', $§['vars']['ent']) : app\data('ent');
 
-    if (!$ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'))) {
+    if (!$ent) {
         return '';
     }
 

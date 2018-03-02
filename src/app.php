@@ -43,27 +43,26 @@ function run(): void
 
     // Gather request-data
     $parts = explode('/', trim($url, '/'));
-    $data['ent'] = array_shift($parts);
+    $data['ent'] = ($eId = array_shift($parts)) ? cfg('ent', $eId) : null;
     $data['act'] = array_shift($parts);
     $data['id'] = array_shift($parts);
-    $data['path'] = $data['ent'] . '/' . $data['act'];
+    $data['path'] = $eId . '/' . $data['act'];
+    $data['parent'] = $data['ent']['parent'] ?? null;
     $data['area'] = empty(cfg('priv', $data['path'])['active']) ? APP['area.public'] : APP['area.admin'];
     $allowed = allowed($data['path']);
-    $ent = cfg('ent', $data['ent']);
-    $data['parent'] = $ent['parent'] ?? null;
-    $real = is_callable('act\\' . $data['ent'] . '_' . $data['act']) ? 'act\\' . $data['ent'] . '_' . $data['act'] : null;
+    $real = is_callable('act\\' . $eId . '_' . $data['act']) ? 'act\\' . $eId . '_' . $data['act'] : null;
 
     // Dispatch request
-    if ($allowed && !$ent && $real) {
+    if ($allowed && !$data['ent'] && $real) {
         $real();
-    } elseif (!$allowed || !$ent || !isset($ent['act'][$data['act']])) {
+    } elseif (!$allowed || !$data['ent'] || !isset($data['ent']['act'][$data['act']])) {
         act\app_error();
     } elseif ($real) {
-        $real($ent);
-    } elseif ($ent['parent'] && is_callable('act\\' . $ent['parent'] . '_' . $data['act'])) {
-        ('act\\' . $ent['parent'] . '_' . $data['act'])($ent);
+        $real($data['ent']);
+    } elseif ($data['ent']['parent'] && is_callable('act\\' . $data['ent']['parent'] . '_' . $data['act'])) {
+        ('act\\' . $data['ent']['parent'] . '_' . $data['act'])($data['ent']);
     } elseif (is_callable('act\\' . $data['act'])) {
-        ('act\\' . $data['act'])($ent);
+        ('act\\' . $data['act'])($data['ent']);
     }
 }
 
