@@ -68,7 +68,7 @@ function msg(array $§): string
  */
 function index(array $§): string
 {
-    $§['vars'] = arr\replace(['act' => 'index', 'attr' => [], 'ent' => null, 'limit' => 10, 'pager' => 0], $§['vars']);
+    $§['vars'] = arr\replace(['act' => 'index', 'attr' => [], 'ent' => null, 'limit' => 10, 'pager' => 0, 'search' => false], $§['vars']);
     $ent = $§['vars']['ent'] ? app\cfg('ent', $§['vars']['ent']) : app\data('ent');
 
     if (!$ent || $§['vars']['limit'] <= 0) {
