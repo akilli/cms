@@ -171,7 +171,7 @@ return [
         'act' => [
             'admin' => [],
             'browser' => [],
-            'create' => ['incl' => ['name', 'info']],
+            'create' => [],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -188,7 +188,7 @@ return [
         'act' => [
             'admin' => [],
             'browser' => [],
-            'create' => ['incl' => ['name', 'info']],
+            'create' => [],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -205,7 +205,7 @@ return [
         'act' => [
             'admin' => [],
             'browser' => [],
-            'create' => ['incl' => ['name', 'info']],
+            'create' => [],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -222,7 +222,7 @@ return [
         'act' => [
             'admin' => [],
             'browser' => [],
-            'create' => ['incl' => ['name', 'info']],
+            'create' => [],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -358,7 +358,7 @@ return [
         'parent' => 'page',
         'act' => [
             'admin' => [],
-            'create' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']],
+            'create' => [],
             'delete' => [],
             'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']],
             'view' => [],
@@ -370,7 +370,7 @@ return [
         'parent' => 'page',
         'act' => [
             'admin' => [],
-            'create' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']],
+            'create' => [],
             'delete' => [],
             'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']],
             'index' => [],

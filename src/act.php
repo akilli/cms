@@ -34,7 +34,7 @@ function create(array $ent): void
     }
 
     $data = array_replace(ent\data($ent), $data);
-    app\layout('content', ['data' => $data, 'attr' => ent\attr($ent, $ent['act']['create']), 'title' => $ent['name']]);
+    app\layout('content', ['data' => $data, 'title' => $ent['name']]);
 }
 
 /**

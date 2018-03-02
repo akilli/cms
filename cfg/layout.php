@@ -101,14 +101,14 @@ return [
     ],
     'create' => [
         'content' => [
-            'type' => 'block\tpl',
+            'type' => 'block\form',
             'tpl' => 'ent/form.phtml',
             'parent' => 'main',
         ],
     ],
     'edit' => [
         'content' => [
-            'type' => 'block\tpl',
+            'type' => 'block\form',
             'tpl' => 'ent/form.phtml',
             'parent' => 'main',
         ],
@@ -162,6 +162,11 @@ return [
             'vars' => ['attr' => ['incl' => ['name', 'parent', 'status', 'date']]],
         ],
     ],
+    'article/create' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']]],
+        ],
+    ],
     'article/index' => [
         'content' => [
             'vars' => ['attr' => ['incl' => ['image', 'name', 'teaser']]],
@@ -177,6 +182,11 @@ return [
             'vars' => ['attr' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']]],
         ],
     ],
+    'content/create' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']]],
+        ],
+    ],
     'content/view' => [
         'content' => [
             'vars' => ['attr' => ['incl' => ['image', 'main', 'aside']]],
@@ -188,6 +198,11 @@ return [
         ],
     ],
     'file/browser' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'info']]],
+        ],
+    ],
+    'file/create' => [
         'content' => [
             'vars' => ['attr' => ['incl' => ['name', 'info']]],
         ],
