@@ -47,8 +47,8 @@ function run(): void
     $data['act'] = array_shift($parts);
     $data['id'] = array_shift($parts);
     $data['path'] = $eId . '/' . $data['act'];
-    $data['parent'] = $data['ent']['parent'] ?? null;
     $data['area'] = empty(cfg('priv', $data['path'])['active']) ? APP['area.public'] : APP['area.admin'];
+    $data['parent'] = $data['ent']['parent'] ?? null;
     $allowed = allowed($data['path']);
     $real = is_callable('act\\' . $eId . '_' . $data['act']) ? 'act\\' . $eId . '_' . $data['act'] : null;
 
