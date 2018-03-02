@@ -40,10 +40,14 @@ function page(): array
 /**
  * Child entity options
  */
-function child(array $attr): array
+function child(array $attr, array $data): array
 {
-    if (($opt = & app\reg('opt.child.' . $attr['ent'])) === null) {
-        $opt = array_column(arr\crit(app\cfg('ent'), [['parent', $attr['ent']]]), 'name', 'id');
+    if ($data['_ent']['parent']) {
+        return [$data['_ent']['id'] => $data['_ent']['name']];
+    }
+
+    if (($opt = & app\reg('opt.child.' . $data['_ent']['id'])) === null) {
+        $opt = array_column(arr\crit(app\cfg('ent'), [['parent', $data['_ent']['id']]]), 'name', 'id');
         asort($opt);
     }
 
