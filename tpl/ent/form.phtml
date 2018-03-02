@@ -7,7 +7,7 @@ use attr;
     <?php if ($§('title')):?>
     <h1><?=$§('title');?></h1>
     <?php endif;?>
-    <form method="post"<?php if (in_array('file', array_column($§('attr'), 'type'))):?> enctype="multipart/form-data"<?php endif;?>>
+    <form method="post"<?php if ($§('file')):?> enctype="multipart/form-data"<?php endif;?>>
         <fieldset>
             <?php foreach ($§('attr') as $attr):?>
             <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">

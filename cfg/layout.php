@@ -94,7 +94,7 @@ return [
     ],
     'form' => [
         'content' => [
-            'type' => 'block\tpl',
+            'type' => 'block\form',
             'tpl' => 'ent/form.phtml',
             'parent' => 'main',
         ],

@@ -64,6 +64,20 @@ function msg(array $§): string
 }
 
 /**
+ * Form
+ */
+function form(array $§): string
+{
+    $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'ent' => null, 'title' => null], $§['vars']);
+    $§['vars']['ent'] = $§['vars']['data']['_ent'] ?? app\cfg('ent', $§['vars']['ent']);
+    $§['vars']['attr'] = ent\attr($§['vars']['ent'], $§['vars']['attr']);
+    $§['vars']['file'] = in_array('file', array_column($§['vars']['attr'], 'type'));
+    $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
+
+    return $§['vars']['ent'] ? tpl($§) : '';
+}
+
+/**
  * View
  */
 function view(array $§): string
