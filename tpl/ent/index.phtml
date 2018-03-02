@@ -5,7 +5,9 @@ use attr;
 ?>
 <section id="<?=$§('id');?>" class="index">
     <header>
-        <h1><?=enc($§('title'));?></h1>
+        <?php if ($§('title')):?>
+        <h1><?=$§('title');?></h1>
+        <?php endif;?>
         <?php if ($§('act') === 'admin' && allowed($§('ent')['id'] . '/create')):?>
         <p data-act="create"><a href="<?=url($§('ent')['id'] . '/create');?>"><?=i18n('New Entry');?></a></p>
         <?php endif;?>

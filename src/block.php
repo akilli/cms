@@ -46,7 +46,9 @@ function tpl(array $§): string
  */
 function meta(array $§): string
 {
-    $§['vars'] = arr\replace(['desc' => '', 'title' => app\cfg('app', 'name')], $§['vars']);
+    $§['vars'] = arr\replace(['desc' => null, 'title' => null], $§['vars']);
+    $§['vars']['desc'] = $§['vars']['desc'] ? app\enc($§['vars']['desc']) : null;
+    $§['vars']['title'] = app\enc($§['vars']['title'] ?: app\cfg('app', 'name'));
 
     return tpl($§);
 }
