@@ -64,64 +64,6 @@ function msg(array $§): string
 }
 
 /**
- * Form
- *
- * @todo Remove login-flag
- */
-function form(array $§): string
-{
-    $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'ent' => null, 'login' => false, 'title' => null], $§['vars']);
-
-    if (!empty($§['vars']['data']['_ent'])) {
-        $§['vars']['ent'] = $§['vars']['data']['_ent'];
-    } elseif (!$§['vars']['ent'] || !($§['vars']['ent'] = app\cfg('ent', $§['vars']['ent']))) {
-        return '';
-    }
-
-    $§['vars']['attr'] = ent\attr($§['vars']['ent'], $§['vars']['attr']);
-    $§['vars']['file'] = in_array('file', array_column($§['vars']['attr'], 'type'));
-    $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
-
-    if ($§['vars']['login']) {
-        $§['vars']['attr']['name'] = array_replace($§['vars']['attr']['name'], ['unique' => false, 'minlength' => 0, 'maxlength' => 0]);
-        $§['vars']['attr']['password'] = array_replace($§['vars']['attr']['password'], ['minlength' => 0, 'maxlength' => 0]);
-    }
-
-    return tpl($§);
-}
-
-/**
- * View
- */
-function view(array $§): string
-{
-    $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'ent' => null, 'id' => null], $§['vars']);
-    $ent = null;
-
-    if ($§['vars']['data']) {
-        $ent = $§['vars']['data']['_ent'] ?? null;
-    } elseif ($§['vars']['ent'] && $§['vars']['id'] && ($ent = app\cfg('ent', $§['vars']['ent']))) {
-        $crit = [['id', $§['vars']['id']]];
-
-        if (!app\allowed($ent['id'] . '/edit') && in_array('page', [$ent['id'], $ent['parent']])) {
-            $crit[] = ['status', 'published'];
-        }
-
-        $§['vars']['data'] = ent\one($ent['id'], $crit);
-    }
-
-    if (!$§['vars']['data'] || !$ent) {
-        return '';
-    }
-
-    unset($§['vars']['ent'], $§['vars']['id']);
-    $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
-
-
-    return tpl($§);
-}
-
-/**
  * Index
  */
 function index(array $§): string
@@ -205,6 +147,64 @@ function index(array $§): string
     $§['vars']['param'] = $p;
     $§['vars']['title'] = $ent['name'];
     $§['vars']['url'] = $url;
+
+    return tpl($§);
+}
+
+/**
+ * Form
+ *
+ * @todo Remove login-flag
+ */
+function form(array $§): string
+{
+    $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'ent' => null, 'login' => false, 'title' => null], $§['vars']);
+
+    if (!empty($§['vars']['data']['_ent'])) {
+        $§['vars']['ent'] = $§['vars']['data']['_ent'];
+    } elseif (!$§['vars']['ent'] || !($§['vars']['ent'] = app\cfg('ent', $§['vars']['ent']))) {
+        return '';
+    }
+
+    $§['vars']['attr'] = ent\attr($§['vars']['ent'], $§['vars']['attr']);
+    $§['vars']['file'] = in_array('file', array_column($§['vars']['attr'], 'type'));
+    $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
+
+    if ($§['vars']['login']) {
+        $§['vars']['attr']['name'] = array_replace($§['vars']['attr']['name'], ['unique' => false, 'minlength' => 0, 'maxlength' => 0]);
+        $§['vars']['attr']['password'] = array_replace($§['vars']['attr']['password'], ['minlength' => 0, 'maxlength' => 0]);
+    }
+
+    return tpl($§);
+}
+
+/**
+ * View
+ */
+function view(array $§): string
+{
+    $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'ent' => null, 'id' => null], $§['vars']);
+    $ent = null;
+
+    if ($§['vars']['data']) {
+        $ent = $§['vars']['data']['_ent'] ?? null;
+    } elseif ($§['vars']['ent'] && $§['vars']['id'] && ($ent = app\cfg('ent', $§['vars']['ent']))) {
+        $crit = [['id', $§['vars']['id']]];
+
+        if (!app\allowed($ent['id'] . '/edit') && in_array('page', [$ent['id'], $ent['parent']])) {
+            $crit[] = ['status', 'published'];
+        }
+
+        $§['vars']['data'] = ent\one($ent['id'], $crit);
+    }
+
+    if (!$§['vars']['data'] || !$ent) {
+        return '';
+    }
+
+    unset($§['vars']['ent'], $§['vars']['id']);
+    $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
+
 
     return tpl($§);
 }
