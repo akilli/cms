@@ -18,6 +18,7 @@ return [
     'Could not save data' => 'Konnte Daten nicht speichern',
     'Could not send message' => 'Konnte Nachricht nicht versenden',
     'Could not upload %s' => 'Konnte %s nicht hochladen',
+    'Dashboard' => 'Übersichtsseite',
     'Date' => 'Datum',
     'Delete' => 'Löschen',
     'Documents' => 'Dokumente',

@@ -34,6 +34,7 @@ return [
         'type' => 'db',
         'act' => [
             'admin' => ['incl' => ['name', 'role']],
+            'dashboard' => [],
             'delete' => [],
             'edit' => [],
             'login' => ['incl' => ['name', 'password']],
