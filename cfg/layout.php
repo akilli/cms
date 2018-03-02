@@ -125,6 +125,16 @@ return [
             'tpl' => 'app/app.js',
         ],
     ],
+    'role/admin' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name']]],
+        ],
+    ],
+    'account/admin' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'role']]],
+        ],
+    ],
     'account/login' => [
         'top' => [
             'active' => false,
@@ -145,11 +155,36 @@ return [
             'parent' => 'main',
         ],
     ],
+    'file/admin' => [
+        'content' => [
+            'vars' => ['attr' => ['excl' => ['ent']]],
+        ],
+    ],
+    'file/browser' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'info']]],
+        ],
+    ],
     'page/sitemap' => [
         'content' => [
             'type' => 'block\menu',
             'parent' => 'main',
             'vars' => ['tag' => 'section'],
+        ],
+    ],
+    'content/admin' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']]],
+        ],
+    ],
+    'content/view' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['image', 'main', 'aside']]],
+        ],
+    ],
+    'article/admin' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['name', 'parent', 'status', 'date']]],
         ],
     ],
     'article/index' => [
@@ -160,11 +195,6 @@ return [
     'article/view' => [
         'content' => [
             'vars' => ['attr' => ['incl' => ['name', 'image', 'teaser', 'main']]],
-        ],
-    ],
-    'content/view' => [
-        'content' => [
-            'vars' => ['attr' => ['incl' => ['image', 'main', 'aside']]],
         ],
     ],
 ];

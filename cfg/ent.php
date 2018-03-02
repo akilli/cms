@@ -4,7 +4,7 @@ return [
         'name' => 'Roles',
         'type' => 'db',
         'act' => [
-            'admin' => ['incl' => ['name']],
+            'admin' => [],
             'delete' => [],
             'edit' => [],
         ],
@@ -33,7 +33,7 @@ return [
         'name' => 'Accounts',
         'type' => 'db',
         'act' => [
-            'admin' => ['incl' => ['name', 'role']],
+            'admin' => [],
             'dashboard' => [],
             'delete' => [],
             'edit' => [],
@@ -123,7 +123,7 @@ return [
         'name' => 'Files',
         'type' => 'db',
         'act' => [
-            'browser' => ['incl' => ['name', 'info']],
+            'browser' => [],
         ],
         'attr' => [
             'id' => [
@@ -166,8 +166,8 @@ return [
         'type' => 'db',
         'parent' => 'file',
         'act' => [
-            'admin' => ['excl' => ['ent']],
-            'browser' => ['incl' => ['name', 'info']],
+            'admin' => [],
+            'browser' => [],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -182,8 +182,8 @@ return [
         'type' => 'db',
         'parent' => 'file',
         'act' => [
-            'admin' => ['excl' => ['ent']],
-            'browser' => ['incl' => ['name', 'info']],
+            'admin' => [],
+            'browser' => [],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -198,8 +198,8 @@ return [
         'type' => 'db',
         'parent' => 'file',
         'act' => [
-            'admin' => ['excl' => ['ent']],
-            'browser' => ['incl' => ['name', 'info']],
+            'admin' => [],
+            'browser' => [],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -214,8 +214,8 @@ return [
         'type' => 'db',
         'parent' => 'file',
         'act' => [
-            'admin' => ['excl' => ['ent']],
-            'browser' => ['incl' => ['name', 'info']],
+            'admin' => [],
+            'browser' => [],
             'delete' => [],
             'edit' => ['incl' => ['name', 'info']],
         ],
@@ -350,7 +350,7 @@ return [
         'type' => 'db',
         'parent' => 'page',
         'act' => [
-            'admin' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']],
+            'admin' => [],
             'delete' => [],
             'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'main', 'aside', 'sidebar', 'meta']],
             'view' => [],
@@ -361,7 +361,7 @@ return [
         'type' => 'db',
         'parent' => 'page',
         'act' => [
-            'admin' => ['incl' => ['name', 'parent', 'status', 'date']],
+            'admin' => [],
             'delete' => [],
             'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']],
             'index' => [],
