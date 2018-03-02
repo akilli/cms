@@ -68,6 +68,7 @@ return [
             'type' => 'block\index',
             'tpl' => 'ent/index.phtml',
             'parent' => 'main',
+            'vars' => ['act' => 'index', 'limit' => 10, 'pager' => 5],
         ],
     ],
     'admin' => [
@@ -75,7 +76,7 @@ return [
             'type' => 'block\index',
             'tpl' => 'ent/index.phtml',
             'parent' => 'main',
-            'vars' => ['act' => 'admin'],
+            'vars' => ['act' => 'admin', 'limit' => 10, 'pager' => 5],
         ],
     ],
     'browser' => [
@@ -89,7 +90,7 @@ return [
             'type' => 'block\index',
             'tpl' => 'ent/index.phtml',
             'parent' => 'main',
-            'vars' => ['act' => 'browser', 'limit' => 20],
+            'vars' => ['act' => 'browser', 'limit' => 20, 'pager' => 5],
         ],
     ],
     'form' => [

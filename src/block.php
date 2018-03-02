@@ -68,19 +68,20 @@ function msg(array $§): string
  */
 function index(array $§): string
 {
-    $§['vars'] = arr\replace(['act' => 'index', 'attr' => [], 'ent' => null, 'limit' => null, 'pager' => null], $§['vars']);
+    $§['vars'] = arr\replace(['act' => 'index', 'attr' => [], 'ent' => null, 'limit' => 10, 'pager' => 0], $§['vars']);
     $ent = $§['vars']['ent'] ? app\cfg('ent', $§['vars']['ent']) : app\data('ent');
 
-    if (!$ent) {
+    if (!$ent || $§['vars']['limit'] <= 0) {
         return '';
     }
 
-    $limit = $§['vars']['limit'] > 0 ? (int) $§['vars']['limit'] : app\cfg('app', 'limit');
-    $pager = $§['vars']['pager'] > 0 ? (int) $§['vars']['pager'] : app\cfg('app', 'pager');
+    $limit = (int) $§['vars']['limit'];
+    $pager = (int) $§['vars']['pager'];
     unset($§['vars']['ent'], $§['vars']['limit'], $§['vars']['pager']);
     $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
     $crit = $§['vars']['act'] !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
     $opt = ['limit' => $limit];
+    $url = req\data('url');
     $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
 
     if ($§['vars']['act'] === 'browser') {
@@ -117,28 +118,30 @@ function index(array $§): string
     }
 
     $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
-    $min = max(1, min($cur - intdiv($pager, 2), $pages - $pager + 1));
-    $max = min($min + $pager - 1, $pages);
-    $url = req\data('url');
     $§['vars']['pager'] = [];
 
-    if ($cur >= 2) {
-        $lp = $cur === 2 ? $p : ['cur' => $cur - 1] + $p;
-        $§['vars']['pager'][] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $lp)];
-    }
+    if ($pager > 0) {
+        $min = max(1, min($cur - intdiv($pager, 2), $pages - $pager + 1));
+        $max = min($min + $pager - 1, $pages);
 
-    for ($i = $min; $min < $max && $i <= $max; $i++) {
-        $lp = $i === 1 ? $p : ['cur' => $i] + $p;
-        $§['vars']['pager'][] = ['name' => $i, 'url' => app\url($url, $lp), 'active' => $i === $cur];
-    }
+        if ($cur >= 2) {
+            $lp = $cur === 2 ? $p : ['cur' => $cur - 1] + $p;
+            $§['vars']['pager'][] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $lp)];
+        }
 
-    if ($cur < $pages) {
-        $lp = ['cur' => $cur + 1] + $p;
-        $§['vars']['pager'][] = ['name' => app\i18n('Next'), 'url' => app\url($url, $lp)];
-    }
+        for ($i = $min; $min < $max && $i <= $max; $i++) {
+            $lp = $i === 1 ? $p : ['cur' => $i] + $p;
+            $§['vars']['pager'][] = ['name' => $i, 'url' => app\url($url, $lp), 'active' => $i === $cur];
+        }
 
-    if ($cur > 1) {
-        $p['cur'] = $cur;
+        if ($cur < $pages) {
+            $lp = ['cur' => $cur + 1] + $p;
+            $§['vars']['pager'][] = ['name' => app\i18n('Next'), 'url' => app\url($url, $lp)];
+        }
+
+        if ($cur > 1) {
+            $p['cur'] = $cur;
+        }
     }
 
     $§['vars']['ent'] = $ent;
