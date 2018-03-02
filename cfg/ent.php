@@ -364,7 +364,7 @@ return [
             'admin' => ['incl' => ['name', 'parent', 'status', 'date']],
             'delete' => [],
             'edit' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'menu', 'image', 'teaser', 'main', 'meta']],
-            'index' => ['incl' => ['image', 'name', 'teaser']],
+            'index' => [],
             'view' => [],
         ],
     ],

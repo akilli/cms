@@ -152,6 +152,11 @@ return [
             'vars' => ['tag' => 'section'],
         ],
     ],
+    'article/index' => [
+        'content' => [
+            'vars' => ['attr' => ['incl' => ['image', 'name', 'teaser']]],
+        ],
+    ],
     'article/view' => [
         'content' => [
             'vars' => ['attr' => ['incl' => ['name', 'image', 'teaser', 'main']]],

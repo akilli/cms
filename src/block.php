@@ -67,7 +67,11 @@ function msg(array $§): string
 function view(array $§): string
 {
     $§['vars'] = arr\replace(['attr' => [], 'ent' => null, 'id' => null], $§['vars']);
-    $ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'));
+
+    if (!$ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'))) {
+        return '';
+    }
+
     $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
     $id = $§['vars']['id'] ?: app\data('id');
     $crit = [['id', $id]];
@@ -84,16 +88,16 @@ function view(array $§): string
  */
 function index(array $§): string
 {
-    $§['vars'] = arr\replace(['act' => 'index', 'ent' => null, 'limit' => null, 'pager' => null], $§['vars']);
-    $ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'));
-    $limit = $§['vars']['limit'] > 0 ? (int) $§['vars']['limit'] : app\cfg('app', 'limit');
-    $pager = $§['vars']['pager'] > 0 ? (int) $§['vars']['pager'] : app\cfg('app', 'pager');
-    unset($§['vars']['ent'], $§['vars']['limit'], $§['vars']['pager']);
+    $§['vars'] = arr\replace(['act' => 'index', 'attr' => [], 'ent' => null, 'limit' => null, 'pager' => null], $§['vars']);
 
-    if (!$ent || !isset($ent['act'][$§['vars']['act']])) {
+    if (!$ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'))) {
         return '';
     }
 
+    $limit = $§['vars']['limit'] > 0 ? (int) $§['vars']['limit'] : app\cfg('app', 'limit');
+    $pager = $§['vars']['pager'] > 0 ? (int) $§['vars']['pager'] : app\cfg('app', 'pager');
+    unset($§['vars']['ent'], $§['vars']['limit'], $§['vars']['pager']);
+    $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
     $crit = $§['vars']['act'] !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
     $opt = ['limit' => $limit];
     $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
@@ -122,7 +126,6 @@ function index(array $§): string
     $cur = min(max($p['cur'], 1), $pages);
     unset($p['cur']);
     $opt['offset'] = ($cur - 1) * $opt['limit'];
-    $§['vars']['attr'] = ent\attr($ent, $ent['act'][$§['vars']['act']]);
 
     if ($p['sort'] && !empty($§['vars']['attr'][$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
