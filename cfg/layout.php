@@ -99,6 +99,13 @@ return [
             'parent' => 'main',
         ],
     ],
+    'create' => [
+        'content' => [
+            'type' => 'block\tpl',
+            'tpl' => 'ent/form.phtml',
+            'parent' => 'main',
+        ],
+    ],
     'edit' => [
         'content' => [
             'type' => 'block\tpl',
