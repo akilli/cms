@@ -73,13 +73,13 @@ function cfg_priv(array $data): array
     }
 
     foreach (app\cfg('ent') as $ent) {
-        if (isset($ent['act']['edit']) && in_array('page', [$ent['id'], $ent['parent']])) {
+        if (in_array('edit', $ent['act']) && in_array('page', [$ent['id'], $ent['parent']])) {
             $id = $ent['id'] . '-publish';
             $data[$id]['name'] = $ent['name'] . ' ' . app\i18n(ucwords('Publish'));
             $data[$id] = arr\replace(APP['priv'], $data[$id]);
         }
 
-        foreach (array_keys($ent['act']) as $act) {
+        foreach ($ent['act'] as $act) {
             $id = $ent['id'] . '/' . $act;
             $data[$id]['name'] = $ent['name'] . ' ' . app\i18n(ucwords($act));
             $data[$id] = arr\replace(APP['priv'], $data[$id]);
@@ -154,19 +154,19 @@ function ent_prefilter_file(array $data): array
  */
 function ent_postsave(array $data): array
 {
-    if (!$data['_ent']['mail'] || !isset($data['_ent']['act']['form']) || app\data('act') !== 'form') {
+    if (!$data['_ent']['mail'] || !in_array('form', $data['_ent']['act']) || app\data('act') !== 'form') {
         return $data;
     }
 
     $cfg = app\cfg('mail');
     $file = req\data('file');
-    $attrs = ent\attr($data['_ent'], $data['_ent']['act']['form']);
+    $attrs = $data['_ent']['attr'];
     $text = '';
     $attach = [];
 
-    foreach ($attrs as $aId => $attr) {
-        if ($attr['type'] !== 'file') {
-            $text .= $attr['name'] . ':' . APP['crlf'] . ($data[$aId] ?? '') . APP['crlf'] .APP['crlf'];
+    foreach ($data as $aId => $val) {
+        if ($attrs[$aId]['type'] !== 'file') {
+            $text .= $attrs[$aId]['name'] . ':' . APP['crlf'] . $val . APP['crlf'] .APP['crlf'];
         } elseif (!empty($file[$aId])) {
             $attach[] = ['name' => $file[$aId]['name'], 'path' => $file[$aId]['tmp_name'], 'type' => $file[$aId]['type']];
         }

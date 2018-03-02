@@ -3,12 +3,7 @@ return [
     'role' => [
         'name' => 'Roles',
         'type' => 'db',
-        'act' => [
-            'admin' => [],
-            'create' => [],
-            'delete' => [],
-            'edit' => [],
-        ],
+        'act' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -33,16 +28,7 @@ return [
     'account' => [
         'name' => 'Accounts',
         'type' => 'db',
-        'act' => [
-            'admin' => [],
-            'create' => [],
-            'dashboard' => [],
-            'delete' => [],
-            'edit' => [],
-            'login' => [],
-            'logout' => [],
-            'password' => [],
-        ],
+        'act' => ['admin', 'create', 'dashboard', 'delete', 'edit', 'login', 'logout', 'password'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -84,12 +70,7 @@ return [
     'url' => [
         'name' => 'URL',
         'type' => 'db',
-        'act' => [
-            'admin' => [],
-            'create' => [],
-            'delete' => [],
-            'edit' => [],
-        ],
+        'act' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -125,9 +106,7 @@ return [
     'file' => [
         'name' => 'Files',
         'type' => 'db',
-        'act' => [
-            'browser' => [],
-        ],
+        'act' => ['browser'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -168,13 +147,7 @@ return [
         'name' => 'Audios',
         'type' => 'db',
         'parent' => 'file',
-        'act' => [
-            'admin' => [],
-            'browser' => [],
-            'create' => [],
-            'delete' => [],
-            'edit' => [],
-        ],
+        'act' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
             'name' => [
                 'opt' => 'audio',
@@ -185,13 +158,7 @@ return [
         'name' => 'Documents',
         'type' => 'db',
         'parent' => 'file',
-        'act' => [
-            'admin' => [],
-            'browser' => [],
-            'create' => [],
-            'delete' => [],
-            'edit' => [],
-        ],
+        'act' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
             'name' => [
                 'opt' => 'doc',
@@ -202,13 +169,7 @@ return [
         'name' => 'Images',
         'type' => 'db',
         'parent' => 'file',
-        'act' => [
-            'admin' => [],
-            'browser' => [],
-            'create' => [],
-            'delete' => [],
-            'edit' => [],
-        ],
+        'act' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
             'name' => [
                 'opt' => 'image',
@@ -219,13 +180,7 @@ return [
         'name' => 'Videos',
         'type' => 'db',
         'parent' => 'file',
-        'act' => [
-            'admin' => [],
-            'browser' => [],
-            'create' => [],
-            'delete' => [],
-            'edit' => [],
-        ],
+        'act' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
             'name' => [
                 'opt' => 'video',
@@ -235,9 +190,7 @@ return [
     'page' => [
         'name' => 'Pages',
         'type' => 'db',
-        'act' => [
-            'sitemap' => [],
-        ],
+        'act' => ['sitemap'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -356,26 +309,13 @@ return [
         'name' => 'Content Pages',
         'type' => 'db',
         'parent' => 'page',
-        'act' => [
-            'admin' => [],
-            'create' => [],
-            'delete' => [],
-            'edit' => [],
-            'view' => [],
-        ],
+        'act' => ['admin', 'create', 'delete', 'edit', 'view'],
     ],
     'article' => [
         'name' => 'Articles',
         'type' => 'db',
         'parent' => 'page',
-        'act' => [
-            'admin' => [],
-            'create' => [],
-            'delete' => [],
-            'edit' => [],
-            'index' => [],
-            'view' => [],
-        ],
+        'act' => ['admin', 'create', 'delete', 'edit', 'index', 'view'],
     ],
     'version' => [
         'name' => 'Versions',

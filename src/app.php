@@ -55,7 +55,7 @@ function run(): void
     // Dispatch request
     if ($allowed && !$data['ent'] && $real) {
         $real();
-    } elseif (!$allowed || !$data['ent'] || !isset($data['ent']['act'][$data['act']])) {
+    } elseif (!$allowed || !$data['ent'] || !in_array($data['act'], $data['ent']['act'])) {
         act\app_error();
     } elseif ($real) {
         $real($data['ent']);
