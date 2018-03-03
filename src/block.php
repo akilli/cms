@@ -90,7 +90,7 @@ function index(array $§): string
 
     $p = arr\replace($p, req\data('get'));
 
-    if ($p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
+    if ($§['vars']['search'] && $p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
         $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
         $c = [];
 
