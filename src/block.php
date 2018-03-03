@@ -71,15 +71,13 @@ function index(array $§): string
     $§['vars'] = arr\replace(['act' => 'index', 'attr' => [], 'ent' => null, 'limit' => 10, 'pager' => 0, 'search' => false], $§['vars']);
     $ent = $§['vars']['ent'] ? app\cfg('ent', $§['vars']['ent']) : app\data('ent');
     $opt = ['limit' => (int) $§['vars']['limit']];
-    unset($§['vars']['ent'], $§['vars']['limit']);
+    $pager = (int) $§['vars']['pager'];
+    unset($§['vars']['ent'], $§['vars']['limit'], $§['vars']['pager']);
 
     if (!$ent || $opt['limit'] <= 0) {
         return '';
     }
 
-    $pager = (int) $§['vars']['pager'];
-    $§['vars']['pager'] = [];
-    $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
     $crit = $§['vars']['act'] !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
     $url = req\data('url');
     $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
@@ -108,6 +106,7 @@ function index(array $§): string
     $cur = min(max($p['cur'], 1), $pages);
     unset($p['cur']);
     $opt['offset'] = ($cur - 1) * $opt['limit'];
+    $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
 
     if ($p['sort'] && !empty($§['vars']['attr'][$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
@@ -118,6 +117,7 @@ function index(array $§): string
     }
 
     $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
+    $§['vars']['pager'] = [];
 
     if ($pager > 0) {
         $min = max(1, min($cur - intdiv($pager, 2), $pages - $pager + 1));
