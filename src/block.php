@@ -77,7 +77,8 @@ function index(array $§): string
 
     $limit = (int) $§['vars']['limit'];
     $pager = (int) $§['vars']['pager'];
-    unset($§['vars']['ent'], $§['vars']['limit'], $§['vars']['pager']);
+    $§['vars']['pager'] = [];
+    unset($§['vars']['ent'], $§['vars']['limit']);
     $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
     $crit = $§['vars']['act'] !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
     $opt = ['limit' => $limit];
@@ -118,7 +119,6 @@ function index(array $§): string
     }
 
     $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
-    $§['vars']['pager'] = [];
 
     if ($pager > 0) {
         $min = max(1, min($cur - intdiv($pager, 2), $pages - $pager + 1));
