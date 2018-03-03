@@ -27,9 +27,7 @@ use attr;
             <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
             <a href="<?=url($§('url'), ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"<?php if ($p['sort'] === $attr['id']):?> data-sort="<?=$p['dir'];?>"<?php endif;?>><?=$attr['name'];?></a>
         <?php endforeach;?>
-        <?php if (in_array($§('act'), ['admin', 'browser'])):?>
             <span><?=i18n('Actions');?></span>
-        <?php endif;?>
     </div>
     <?php endif;?>
     <?php foreach ($§('data') as $data):?>
