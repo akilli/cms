@@ -15,8 +15,8 @@ use attr;
             </div>
             <?php endforeach;?>
         </fieldset>
-        <?php if (allowed($§('ent')['id'] . '/admin')):?>
-        <a role="button" href="<?=url($§('ent')['id'] . '/admin');?>"><?=i18n('Back');?></a>
+        <?php if (allowed($§('data')['_ent']['id'] . '/admin')):?>
+        <a role="button" href="<?=url($§('data')['_ent']['id'] . '/admin');?>"><?=i18n('Back');?></a>
         <?php endif;?>
         <input type="submit" value="<?=i18n('Submit');?>" />
         <input type="hidden" name="token" value="<?=$§('token');?>" />

@@ -161,15 +161,13 @@ function index(array $§): string
  */
 function form(array $§): string
 {
-    $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'ent' => null, 'login' => false, 'title' => null], $§['vars']);
+    $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'login' => false, 'title' => null], $§['vars']);
 
-    if (!empty($§['vars']['data']['_ent'])) {
-        $§['vars']['ent'] = $§['vars']['data']['_ent'];
-    } elseif (!$§['vars']['ent'] || !($§['vars']['ent'] = app\cfg('ent', $§['vars']['ent']))) {
+    if (empty($§['vars']['data']['_ent'])) {
         return '';
     }
 
-    $§['vars']['attr'] = ent\attr($§['vars']['ent'], $§['vars']['attr']);
+    $§['vars']['attr'] = ent\attr($§['vars']['data']['_ent'], $§['vars']['attr']);
     $§['vars']['file'] = in_array('file', array_column($§['vars']['attr'], 'type'));
     $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
 
