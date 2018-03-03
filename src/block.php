@@ -177,10 +177,12 @@ function form(array $§): string
  */
 function login(array $§): string
 {
-    $§['vars'] = arr\replace(['data' => [], 'file' => false, 'title' => null], $§['vars']);
+    $§['vars'] = arr\replace(['title' => null], $§['vars']);
     $§['vars']['attr'] = ent\attr(app\cfg('ent', 'account'), ['incl' => ['name', 'password']]);
     $§['vars']['attr']['name'] = array_replace($§['vars']['attr']['name'], ['unique' => false, 'minlength' => 0, 'maxlength' => 0]);
     $§['vars']['attr']['password'] = array_replace($§['vars']['attr']['password'], ['minlength' => 0, 'maxlength' => 0]);
+    $§['vars']['data'] = [];
+    $§['vars']['file'] = false;
     $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
 
     return tpl($§);
@@ -191,28 +193,13 @@ function login(array $§): string
  */
 function view(array $§): string
 {
-    $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'ent' => null, 'id' => null], $§['vars']);
-    $ent = null;
+    $§['vars'] = arr\replace(['attr' => [], 'data' => []], $§['vars']);
 
-    if ($§['vars']['data']) {
-        $ent = $§['vars']['data']['_ent'] ?? null;
-    } elseif ($§['vars']['ent'] && $§['vars']['id'] && ($ent = app\cfg('ent', $§['vars']['ent']))) {
-        $crit = [['id', $§['vars']['id']]];
-
-        if (!app\allowed($ent['id'] . '/edit') && in_array('page', [$ent['id'], $ent['parent']])) {
-            $crit[] = ['status', 'published'];
-        }
-
-        $§['vars']['data'] = ent\one($ent['id'], $crit);
-    }
-
-    if (!$§['vars']['data'] || !$ent) {
+    if (empty($§['vars']['data']['_ent'])) {
         return '';
     }
 
-    unset($§['vars']['ent'], $§['vars']['id']);
-    $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
-
+    $§['vars']['attr'] = ent\attr($§['vars']['data']['_ent'], $§['vars']['attr']);
 
     return tpl($§);
 }
