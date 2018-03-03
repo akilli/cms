@@ -75,13 +75,12 @@ function index(array $§): string
         return '';
     }
 
-    $limit = (int) $§['vars']['limit'];
+    $opt = ['limit' => (int) $§['vars']['limit']];
     $pager = (int) $§['vars']['pager'];
     $§['vars']['pager'] = [];
     unset($§['vars']['ent'], $§['vars']['limit']);
     $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
     $crit = $§['vars']['act'] !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
-    $opt = ['limit' => $limit];
     $url = req\data('url');
     $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
 
