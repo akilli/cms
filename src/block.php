@@ -70,15 +70,15 @@ function index(array $§): string
 {
     $§['vars'] = arr\replace(['act' => 'index', 'attr' => [], 'ent' => null, 'limit' => 10, 'pager' => 0, 'search' => false], $§['vars']);
     $ent = $§['vars']['ent'] ? app\cfg('ent', $§['vars']['ent']) : app\data('ent');
+    $opt = ['limit' => (int) $§['vars']['limit']];
+    unset($§['vars']['ent'], $§['vars']['limit']);
 
-    if (!$ent || $§['vars']['limit'] <= 0) {
+    if (!$ent || $opt['limit'] <= 0) {
         return '';
     }
 
-    $opt = ['limit' => (int) $§['vars']['limit']];
     $pager = (int) $§['vars']['pager'];
     $§['vars']['pager'] = [];
-    unset($§['vars']['ent'], $§['vars']['limit']);
     $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
     $crit = $§['vars']['act'] !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
     $url = req\data('url');
