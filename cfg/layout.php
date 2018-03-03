@@ -134,10 +134,9 @@ return [
             'active' => false,
         ],
         'content' => [
-            'type' => 'block\form',
+            'type' => 'block\login',
             'tpl' => 'ent/form.phtml',
             'parent' => 'main',
-            'vars' => ['attr' => ['incl' => ['name', 'password']], 'login' => true],
         ],
     ],
     'account/password' => [

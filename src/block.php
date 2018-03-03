@@ -156,12 +156,10 @@ function index(array $§): string
 
 /**
  * Form
- *
- * @todo Remove login-flag
  */
 function form(array $§): string
 {
-    $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'login' => false, 'title' => null], $§['vars']);
+    $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'title' => null], $§['vars']);
 
     if (empty($§['vars']['data']['_ent'])) {
         return '';
@@ -171,10 +169,19 @@ function form(array $§): string
     $§['vars']['file'] = in_array('file', array_column($§['vars']['attr'], 'type'));
     $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
 
-    if ($§['vars']['login']) {
-        $§['vars']['attr']['name'] = array_replace($§['vars']['attr']['name'], ['unique' => false, 'minlength' => 0, 'maxlength' => 0]);
-        $§['vars']['attr']['password'] = array_replace($§['vars']['attr']['password'], ['minlength' => 0, 'maxlength' => 0]);
-    }
+    return tpl($§);
+}
+
+/**
+ * Form
+ */
+function login(array $§): string
+{
+    $§['vars'] = arr\replace(['data' => [], 'file' => false, 'title' => null], $§['vars']);
+    $§['vars']['attr'] = ent\attr(app\cfg('ent', 'account'), ['incl' => ['name', 'password']]);
+    $§['vars']['attr']['name'] = array_replace($§['vars']['attr']['name'], ['unique' => false, 'minlength' => 0, 'maxlength' => 0]);
+    $§['vars']['attr']['password'] = array_replace($§['vars']['attr']['password'], ['minlength' => 0, 'maxlength' => 0]);
+    $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
 
     return tpl($§);
 }
