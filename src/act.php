@@ -43,7 +43,7 @@ function create(array $ent): void
 function edit(array $ent): void
 {
     if (!($id = app\data('id')) || !($old = ent\one($ent['id'], [['id', $id]]))) {
-        app\msg(app\i18n('Nothing to edit'));
+        app\msg('Nothing to edit');
         app\redirect(app\url($ent['id'] . '/admin'));
         return;
     }
@@ -97,7 +97,7 @@ function delete(array $ent): void
     if ($id = app\data('id')) {
         ent\delete($ent['id'], [['id', $id]]);
     } else {
-        app\msg(app\i18n('Nothing to delete'));
+        app\msg('Nothing to delete');
     }
 
     app\redirect(app\url($ent['id'] . '/admin'));
@@ -126,7 +126,7 @@ function account_password(array $ent): void
 {
     if ($data = req\data('post')) {
         if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
-            app\msg(app\i18n('Password and password confirmation must be identical'));
+            app\msg('Password and password confirmation must be identical');
         } else {
             $data = ['id' => account\data('id'), 'password' => $data['password']];
             ent\save('account', $data);
@@ -149,7 +149,7 @@ function account_login(array $ent): void
             return;
         }
 
-        app\msg(app\i18n('Invalid name and password combination'));
+        app\msg('Invalid name and password combination');
     }
 
     app\layout('content', ['data' => ['_ent' => $ent], 'title' => app\i18n('Login')]);

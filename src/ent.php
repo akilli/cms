@@ -22,7 +22,7 @@ function size(string $eId, array $crit = []): int
         return ($ent['type'] . '\load')($ent, $crit, $opt)[0];
     } catch (Throwable $e) {
         app\log($e);
-        app\msg(app\i18n('Could not load data'));
+        app\msg('Could not load data');
     }
 
     return 0;
@@ -43,7 +43,7 @@ function one(string $eId, array $crit = [], array $opt = []): array
         }
     } catch (Throwable $e) {
         app\log($e);
-        app\msg(app\i18n('Could not load data'));
+        app\msg('Could not load data');
     }
 
     return $data;
@@ -67,7 +67,7 @@ function all(string $eId, array $crit = [], array $opt = []): array
         return array_column($data, null, $opt['index']);
     } catch (Throwable $e) {
         app\log($e);
-        app\msg(app\i18n('Could not load data'));
+        app\msg('Could not load data');
     }
 
     return [];
@@ -101,7 +101,7 @@ function save(string $eId, array & $data): bool
     }
 
     if (!$aIds) {
-        app\msg(app\i18n('No changes'));
+        app\msg('No changes');
         return false;
     }
 
@@ -119,7 +119,7 @@ function save(string $eId, array & $data): bool
 
     if (!empty($tmp['_error'])) {
         $data['_error'] = $tmp['_error'];
-        app\msg(app\i18n('Could not save data'));
+        app\msg('Could not save data');
         return false;
     }
 
@@ -130,7 +130,7 @@ function save(string $eId, array & $data): bool
     }
 
     if (!$aIds) {
-        app\msg(app\i18n('No changes'));
+        app\msg('No changes');
         return false;
     }
 
@@ -142,12 +142,12 @@ function save(string $eId, array & $data): bool
                 $tmp = event('postsave', $tmp);
             }
         );
-        app\msg(app\i18n('Successfully saved data'));
+        app\msg('Successfully saved data');
         $data = $tmp;
 
         return true;
     } catch (Throwable $e) {
-        app\msg(app\i18n('Could not save data'));
+        app\msg('Could not save data');
     }
 
     return false;
@@ -177,11 +177,11 @@ function delete(string $eId, array $crit = [], array $opt = []): bool
     }
 
     if ($success) {
-        app\msg(app\i18n('Successfully deleted %s', implode(', ', $success)));
+        app\msg('Successfully deleted %s', implode(', ', $success));
     }
 
     if ($error) {
-        app\msg(app\i18n('Could not delete %s', implode(', ', $error)));
+        app\msg('Could not delete %s', implode(', ', $error));
     }
 
     return !$error;

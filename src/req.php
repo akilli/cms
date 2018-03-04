@@ -99,7 +99,7 @@ function file(array $in): array
         if (is_array($n)) {
             $f = file($f);
         } elseif ($e !== UPLOAD_ERR_OK || !is_uploaded_file($t)) {
-            app\msg(app\i18n('Could not upload %s', $n));
+            app\msg('Could not upload %s', $n);
             continue;
         }
 
