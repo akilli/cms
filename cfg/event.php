@@ -6,6 +6,9 @@ return [
     'cfg.i18n' => [
         'event\cfg_i18n' => -1,
     ],
+    'cfg.opt' => [
+        'event\cfg_opt' => -1,
+    ],
     'cfg.priv' => [
         'event\cfg_priv' => -1,
     ],

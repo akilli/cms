@@ -128,8 +128,8 @@ function opt(array $attr, array $data): array
         return $attr['opt']($attr, $data);
     }
 
-    if ($attr['opt'] && ($opt = app\cfg('opt', $attr['opt']))) {
-        return array_map('app\i18n', $opt);
+    if ($attr['opt']) {
+        return app\cfg('opt', $attr['opt']);
     }
 
     return [];

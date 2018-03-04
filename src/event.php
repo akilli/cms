@@ -61,6 +61,18 @@ function cfg_i18n(array $data): array
 }
 
 /**
+ * Option config
+ */
+function cfg_opt(array $data): array
+{
+    foreach ($data as $key => $opt) {
+        $data[$key] = array_map('app\i18n', $opt);
+    }
+
+    return $data;
+}
+
+/**
  * Privilege config
  */
 function cfg_priv(array $data): array
