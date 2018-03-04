@@ -163,6 +163,16 @@ function allowed(string $key): bool
 }
 
 /**
+ * Translate
+ */
+function i18n(string $key, string ...$args): string
+{
+    $key = cfg('i18n', $key) ?? $key;
+
+    return $args ? vsprintf($key, $args) : $key;
+}
+
+/**
  * Message
  */
 function msg(string $msg = null): array
@@ -184,16 +194,6 @@ function msg(string $msg = null): array
     }
 
     return $data;
-}
-
-/**
- * Translate
- */
-function i18n(string $key, string ...$args): string
-{
-    $key = cfg('i18n', $key) ?? $key;
-
-    return $args ? vsprintf($key, $args) : $key;
 }
 
 /**
