@@ -151,6 +151,18 @@ function event(array $events, array $data): array
 }
 
 /**
+ * Check access
+ */
+function allowed(string $key): bool
+{
+    if (!$cfg = cfg('priv', $key)) {
+        return false;
+    }
+
+    return !$cfg['active'] || $cfg['priv'] && allowed($cfg['priv']) || account\data('admin') || in_array($key, account\data('priv'));
+}
+
+/**
  * Message
  */
 function msg(string $msg = null): array
@@ -185,15 +197,51 @@ function i18n(string $key, string ...$args): string
 }
 
 /**
- * Check access
+ * Logger
  */
-function allowed(string $key): bool
+function log(Throwable $e): void
 {
-    if (!$cfg = cfg('priv', $key)) {
-        return false;
+    file_put_contents(APP['log'], '[' . date('r') . '] ' . $e . "\n\n", FILE_APPEND);
+}
+
+/**
+ * Error handler
+ */
+function error(int $severity, string $msg, string $file, int $line): void
+{
+    log(new ErrorException($msg, 0, $severity, $file, $line));
+}
+
+/**
+ * Exception handler
+ */
+function exception(Throwable $e): void
+{
+    log($e);
+}
+
+/**
+ * Gets absolute path to specified subpath in given directory
+ *
+ * @throws DomainException
+ */
+function path(string $dir, string $id = null): string
+{
+    if (empty(APP['path'][$dir])) {
+        throw new DomainException(i18n('Invalid path %s', $dir));
     }
 
-    return !$cfg['active'] || $cfg['priv'] && allowed($cfg['priv']) || account\data('admin') || in_array($key, account\data('priv'));
+    return APP['path'][$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
+}
+
+/**
+ * Template path
+ */
+function tpl(string $id): string
+{
+    $ext = path('ext.tpl', $id);
+
+    return is_file($ext) ? $ext : path('tpl', $id);
 }
 
 /**
@@ -262,27 +310,11 @@ function §(string $id): string
 }
 
 /**
- * Gets absolute path to specified subpath in given directory
- *
- * @throws DomainException
+ * Converts special chars to HTML entities
  */
-function path(string $dir, string $id = null): string
+function enc(string $val): string
 {
-    if (empty(APP['path'][$dir])) {
-        throw new DomainException(i18n('Invalid path %s', $dir));
-    }
-
-    return APP['path'][$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
-}
-
-/**
- * Template path
- */
-function tpl(string $id): string
-{
-    $ext = path('ext.tpl', $id);
-
-    return is_file($ext) ? $ext : path('tpl', $id);
+    return htmlspecialchars($val, ENT_QUOTES, ini_get('default_charset'), false);
 }
 
 /**
@@ -329,36 +361,4 @@ function redirect(string $url = '/', int $code = null): void
     }
 
     exit;
-}
-
-/**
- * Converts special chars to HTML entities
- */
-function enc(string $val): string
-{
-    return htmlspecialchars($val, ENT_QUOTES, ini_get('default_charset'), false);
-}
-
-/**
- * Logger
- */
-function log(Throwable $e): void
-{
-    file_put_contents(APP['log'], '[' . date('r') . '] ' . $e . "\n\n", FILE_APPEND);
-}
-
-/**
- * Error handler
- */
-function error(int $severity, string $msg, string $file, int $line): void
-{
-    log(new ErrorException($msg, 0, $severity, $file, $line));
-}
-
-/**
- * Exception handler
- */
-function exception(Throwable $e): void
-{
-    log($e);
 }
