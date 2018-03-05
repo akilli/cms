@@ -274,6 +274,10 @@ function layout(string $id = null, array $§ = null): array
         }
 
         foreach ($data as $key => $val) {
+            if (empty($val['type'])) {
+                throw new DomainException('Invalid block %s', $key);
+            }
+
             $data[$key] = arr\replace(APP['block'], $val, ['id' => $key]);
         }
     }
@@ -282,7 +286,9 @@ function layout(string $id = null, array $§ = null): array
         return $data;
     }
 
-    if (empty($data[$id])) {
+    if (empty($data[$id]) && empty($§['type'])) {
+        throw new DomainException('Invalid block %s', $id);
+    } elseif (empty($data[$id])) {
         $data[$id] = arr\replace(APP['block'], $§, ['id' => $id]);
     } elseif ($§) {
         $data[$id] = array_replace_recursive($data[$id], $§);

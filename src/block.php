@@ -31,6 +31,10 @@ function container(array $§): string
  */
 function tpl(array $§): string
 {
+    if (!$§['tpl']) {
+        return '';
+    }
+
     $§['vars'] = ['id' => $§['id'], 'token' => session\token(), 'tpl' => $§['tpl']] + $§['vars'];
     $§ = function ($key) use ($§) {
         return $§['vars'][$key] ?? null;
