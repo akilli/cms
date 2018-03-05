@@ -309,9 +309,7 @@ function enc(string $val): string
  */
 function url(string $path = '', array $get = [], bool $preserve = false): string
 {
-    if ($preserve) {
-        $get = array_replace(req\data('get'), $get);
-    }
+    $get = array_filter($preserve ? array_replace(req\data('get'), $get) : $get, 'is_scalar');
 
     return '/' . trim($path, '/') . ($get ? '?' . http_build_query($get, '', '&amp;') : '');
 }
