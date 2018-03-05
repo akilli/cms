@@ -13,7 +13,7 @@ use attr;
         <?php endif;?>
         <?php if ($§('search')):?>
         <form method="post" class="search">
-            <input type="search" name="param[q]" value="<?=$§('param')['q'] ?? '';?>" placeholder="<?=i18n('Search Term');?>" />
+            <input type="search" name="param[q]" value="<?=$§('q');?>" placeholder="<?=i18n('Search Term');?>" />
             <input type="submit" value="<?=i18n('Search');?>" />
             <input type="hidden" name="token" value="<?=$§('token');?>" />
         </form>
@@ -21,11 +21,9 @@ use attr;
     </header>
 <?php if ($§('data')):?>
     <?php if ($§('act') === 'admin'):?>
-        <?php $p = $§('param') + ['sort' => null, 'dir' => null];?>
     <div class="thead">
         <?php foreach ($§('attr') as $attr):?>
-            <?php $dir = $p['sort'] === $attr['id'] && $p['dir'] === 'asc' ? 'desc' : 'asc'; ?>
-            <a href="<?=url($§('url'), ['sort' => $attr['id'], 'dir' => $dir] + $p);?>"<?php if ($p['sort'] === $attr['id']):?> data-sort="<?=$p['dir'];?>"<?php endif;?>><?=$attr['name'];?></a>
+            <a href="<?=url($§('url'), ['sort' => $attr['id'], 'dir' => $§('sort') === $attr['id'] && $§('dir') === 'asc' ? 'desc' : 'asc'], true);?>"<?php if ($§('sort') === $attr['id']):?> data-sort="<?=$§('dir');?>"<?php endif;?>><?=$attr['name'];?></a>
         <?php endforeach;?>
             <span><?=i18n('Actions');?></span>
     </div>
@@ -64,7 +62,7 @@ use attr;
             <a href="<?=url($data['_ent']['id'] . '/delete/' . $data['id']);?>" data-act="delete"><?=i18n('Delete');?></a>
             <?php endif;?>
             <?php if ($§('act') === 'browser'):?>
-            <span data-rte="<?=$§('param')['CKEditorFuncNum'];?>" data-url="<?=$data['name'];?>" class="rte"><?=i18n('Select item');?></span>
+            <span data-rte="<?=$§('rte');?>" data-url="<?=$data['name'];?>" class="rte"><?=i18n('Select item');?></span>
             <?php endif;?>
         </footer>
         <?php endif;?>

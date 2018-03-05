@@ -115,15 +115,11 @@ function index(array $§): string
 
     $crit = $§['vars']['act'] !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
     $url = req\data('url');
-    $p = ['cur' => 0, 'q' => '', 'sort' => null, 'dir' => null];
+    $p = arr\replace(['CKEditorFuncNum' => null, 'cur' => null, 'q' => null, 'sort' => null, 'dir' => null], req\data('get'));
+    $p['cur'] = (int) $p['cur'];
+    $p['q'] = (string) $p['q'];
 
-    if ($§['vars']['act'] === 'browser') {
-        $p += ['CKEditorFuncNum' => null];
-    }
-
-    $p = arr\replace($p, req\data('get'));
-
-    if ($§['vars']['search'] && $p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
+    if ($§['vars']['search'] && $p['q'] && ($q = array_filter(explode(' ', $p['q'])))) {
         $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
         $c = [];
 
@@ -133,13 +129,12 @@ function index(array $§): string
 
         $crit[] = $c;
     } else {
-        unset($p['q']);
+        $p['q'] = null;
     }
 
     $§['vars']['size'] = ent\size($ent['id'], $crit);
     $pages = (int) ceil($§['vars']['size'] / $opt['limit']) ?: 1;
     $cur = min(max($p['cur'], 1), $pages);
-    unset($p['cur']);
     $opt['offset'] = ($cur - 1) * $opt['limit'];
     $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
 
@@ -147,11 +142,11 @@ function index(array $§): string
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
         $opt['order'] = [$p['sort'] => $p['dir']];
     } else {
-        unset($p['sort'], $p['dir']);
+        $p['sort'] = null;
+        $p['dir'] = null;
         $opt['order'] = ['id' => 'desc'];
     }
 
-    $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
     $§['vars']['pager'] = [];
 
     if ($pager > 0) {
@@ -159,29 +154,28 @@ function index(array $§): string
         $max = min($min + $pager - 1, $pages);
 
         if ($cur >= 2) {
-            $lp = $cur === 2 ? $p : ['cur' => $cur - 1] + $p;
-            $§['vars']['pager'][] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $lp)];
+            $lp = ['cur' => $cur === 2 ? null : $cur - 1];
+            $§['vars']['pager'][] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $lp, true)];
         }
 
         for ($i = $min; $min < $max && $i <= $max; $i++) {
-            $lp = $i === 1 ? $p : ['cur' => $i] + $p;
-            $§['vars']['pager'][] = ['name' => $i, 'url' => app\url($url, $lp), 'active' => $i === $cur];
+            $lp = ['cur' => $i === 1 ? null : $i];
+            $§['vars']['pager'][] = ['name' => $i, 'url' => app\url($url, $lp, true), 'active' => $i === $cur];
         }
 
         if ($cur < $pages) {
-            $lp = ['cur' => $cur + 1] + $p;
-            $§['vars']['pager'][] = ['name' => app\i18n('Next'), 'url' => app\url($url, $lp)];
-        }
-
-        if ($cur > 1) {
-            $p['cur'] = $cur;
+            $§['vars']['pager'][] = ['name' => app\i18n('Next'), 'url' => app\url($url, ['cur' => $cur + 1], true)];
         }
     }
 
+    $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
+    $§['vars']['dir'] = $p['dir'];
     $§['vars']['ent'] = $ent;
     $§['vars']['max'] = min($opt['offset'] + $opt['limit'], $§['vars']['size']);
     $§['vars']['min'] = $opt['offset'] + 1;
-    $§['vars']['param'] = $p;
+    $§['vars']['q'] = $p['q'];
+    $§['vars']['rte'] = $p['CKEditorFuncNum'];
+    $§['vars']['sort'] = $p['sort'];
     $§['vars']['title'] = $ent['name'];
     $§['vars']['url'] = $url;
 
