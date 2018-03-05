@@ -64,6 +64,42 @@ function msg(array $§): string
 }
 
 /**
+ * Entity
+ */
+function ent(array $§): string
+{
+    $§['vars']['ent'] = $§['vars']['ent'] ? app\cfg('ent', $§['vars']['ent']) : app\data('ent');
+
+    if (!$§['vars']['ent']) {
+        return '';
+    }
+
+    $§['vars']['crit'] = is_array($§['vars']['crit']) ? $§['vars']['crit'] : [];
+    $§['vars']['order'] = is_array($§['vars']['order']) ? $§['vars']['order'] : [];
+    $§['vars']['limit'] = (int) $§['vars']['limit'];
+    $§['vars']['offset'] = (int) $§['vars']['offset'];
+    $opt = [];
+
+    if ($§['vars']['order']) {
+        $opt['order'] = $§['vars']['order'];
+    }
+
+    if ($§['vars']['limit'] > 0) {
+        $opt['limit'] = $§['vars']['limit'];
+    }
+
+    if ($§['vars']['offset'] > 0) {
+        $opt['offset'] = $§['vars']['offset'];
+    }
+
+    $§['vars']['attr'] = ent\attr($§['vars']['ent'], $§['vars']['attr']);
+    $§['vars']['data'] = ent\all($§['vars']['ent']['id'], $§['vars']['crit'], $opt);
+    $§['vars']['size'] = ent\size($§['vars']['ent']['id'], $§['vars']['crit']);
+
+    return tpl($§);
+}
+
+/**
  * Index
  */
 function index(array $§): string
