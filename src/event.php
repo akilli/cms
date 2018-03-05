@@ -12,11 +12,11 @@ use smtp;
 use DomainException;
 
 /**
- * Entity config initializer
+ * Entity cache
  *
  * @throws DomainException
  */
-function cfg_init_ent(array $data): array
+function cache_ent(array $data): array
 {
     $cfg = app\cfg('attr');
 
@@ -53,17 +53,17 @@ function cfg_init_ent(array $data): array
 }
 
 /**
- * I18n config initializer
+ * I18n cache
  */
-function cfg_init_i18n(array $data): array
+function cache_i18n(array $data): array
 {
     return $data + app\load('i18n/' . app\data('lang'));
 }
 
 /**
- * Option config initializer
+ * Option cache
  */
-function cfg_init_opt(array $data): array
+function cache_opt(array $data): array
 {
     foreach ($data as $key => $opt) {
         $data[$key] = array_map('app\i18n', $opt);
@@ -73,9 +73,9 @@ function cfg_init_opt(array $data): array
 }
 
 /**
- * Privilege config initializer
+ * Privilege cache
  */
-function cfg_init_priv(array $data): array
+function cache_priv(array $data): array
 {
     foreach ($data as $id => $item) {
         $item = arr\replace(APP['priv'], $item);
@@ -102,11 +102,11 @@ function cfg_init_priv(array $data): array
 }
 
 /**
- * Toolbar config initializer
+ * Toolbar cache
  *
  * @throws DomainException
  */
-function cfg_init_toolbar(array $data): array
+function cache_toolbar(array $data): array
 {
     foreach ($data as $id => $item) {
         if (empty($item['name']) || !empty($item['parent']) && empty($data[$item['parent']])) {
@@ -130,11 +130,11 @@ function cfg_init_toolbar(array $data): array
 }
 
 /**
- * Layout config loader
+ * Layout config
  *
  * @throws DomainException
  */
-function cfg_load_layout(array $data): array
+function cfg_layout(array $data): array
 {
     $cfg = $data;
     $data = [];
