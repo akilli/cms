@@ -318,13 +318,11 @@ function enc(string $val): string
 }
 
 /**
- * Generate URL by given path and params
+ * Generates URL by given path and params
  */
 function url(string $path = '', array $params = []): string
 {
-    $p = $params ? '?' . http_build_query($params, '', '&amp;') : '';
-
-    return '/' . trim($path, '/') . $p;
+    return '/' . trim($path, '/') . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
 }
 
 /**
