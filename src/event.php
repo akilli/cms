@@ -12,7 +12,7 @@ use smtp;
 use DomainException;
 
 /**
- * Entity config
+ * Entity config initializer
  *
  * @throws DomainException
  */
@@ -53,7 +53,7 @@ function cfg_init_ent(array $data): array
 }
 
 /**
- * I18n config
+ * I18n config initializer
  */
 function cfg_init_i18n(array $data): array
 {
@@ -61,7 +61,7 @@ function cfg_init_i18n(array $data): array
 }
 
 /**
- * Option config
+ * Option config initializer
  */
 function cfg_init_opt(array $data): array
 {
@@ -73,7 +73,7 @@ function cfg_init_opt(array $data): array
 }
 
 /**
- * Privilege config
+ * Privilege config initializer
  */
 function cfg_init_priv(array $data): array
 {
@@ -102,7 +102,7 @@ function cfg_init_priv(array $data): array
 }
 
 /**
- * Toolbar config
+ * Toolbar config initializer
  *
  * @throws DomainException
  */
@@ -127,6 +127,45 @@ function cfg_init_toolbar(array $data): array
     }
 
     return arr\order($data, ['sort' => 'asc']);
+}
+
+/**
+ * Layout config loader
+ *
+ * @throws DomainException
+ */
+function cfg_load_layout(array $data): array
+{
+    $cfg = $data;
+    $data = [];
+    $parent = app\data('parent');
+    $act = app\data('act');
+    $path = app\data('path');
+    $area = app\data('area');
+
+    if (http_response_code() === 404) {
+        $keys = [APP['all'], $area, 'app/error'];
+    } elseif ($parent) {
+        $keys = [APP['all'], $area, $act, $parent . '/' . $act, $path];
+    } else {
+        $keys = [APP['all'], $area, $act, $path];
+    }
+
+    foreach ($keys as $key) {
+        if (!empty($cfg[$key])) {
+            $data = array_replace_recursive($data, $cfg[$key]);
+        }
+    }
+
+    foreach ($data as $key => $val) {
+        if (empty($val['type'])) {
+            throw new DomainException('Invalid block %s', $key);
+        }
+
+        $data[$key] = arr\replace(APP['block'], $val, ['id' => $key]);
+    }
+
+    return $data;
 }
 
 /**

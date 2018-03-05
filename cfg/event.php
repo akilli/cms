@@ -15,6 +15,9 @@ return [
     'cfg.init.toolbar' => [
         'event\cfg_init_toolbar' => -1,
     ],
+    'cfg.load.layout' => [
+        'event\cfg_load_layout' => -1,
+    ],
     'ent.postfilter' => [
         'event\ent_postfilter' => -1,
     ],

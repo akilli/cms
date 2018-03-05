@@ -253,34 +253,7 @@ function tpl(string $id): string
 function layout(string $id = null, array $§ = null): array
 {
     if (($data = & reg('layout')) === null) {
-        $cfg = cfg('layout');
-        $data = [];
-        $parent = data('parent');
-        $act = data('act');
-        $path = data('path');
-        $area = data('area');
-
-        if (http_response_code() === 404) {
-            $keys = [APP['all'], $area, 'app/error'];
-        } elseif ($parent) {
-            $keys = [APP['all'], $area, $act, $parent . '/' . $act, $path];
-        } else {
-            $keys = [APP['all'], $area, $act, $path];
-        }
-
-        foreach ($keys as $key) {
-            if (!empty($cfg[$key])) {
-                $data = array_replace_recursive($data, $cfg[$key]);
-            }
-        }
-
-        foreach ($data as $key => $val) {
-            if (empty($val['type'])) {
-                throw new DomainException('Invalid block %s', $key);
-            }
-
-            $data[$key] = arr\replace(APP['block'], $val, ['id' => $key]);
-        }
+        $data = cfg('layout');
     }
 
     if ($id === null) {
