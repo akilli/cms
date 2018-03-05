@@ -318,11 +318,15 @@ function enc(string $val): string
 }
 
 /**
- * Generates URL by given path and params
+ * Generates URL by given path and params, optionally preserves existing params
  */
-function url(string $path = '', array $params = []): string
+function url(string $path = '', array $get = [], bool $preserve = false): string
 {
-    return '/' . trim($path, '/') . ($params ? '?' . http_build_query($params, '', '&amp;') : '');
+    if ($preserve) {
+        $get = array_replace(req\data('get'), $get);
+    }
+
+    return '/' . trim($path, '/') . ($get ? '?' . http_build_query($get, '', '&amp;') : '');
 }
 
 /**
