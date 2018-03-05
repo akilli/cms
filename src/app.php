@@ -261,7 +261,7 @@ function layout(string $id = null, array $§ = null): array
     }
 
     if (empty($data[$id]) && empty($§['type'])) {
-        throw new DomainException('Invalid block %s', $id);
+        throw new DomainException(i18n('Invalid block %s', $id));
     } elseif (empty($data[$id])) {
         $data[$id] = arr\replace(APP['block'], $§, ['id' => $id]);
     } elseif ($§) {
@@ -284,7 +284,7 @@ function §(string $id): string
 
     $§ = event(['block.' . $§['type'], 'layout.' . $id], $§);
 
-    return $§['type']($§);
+    return $§['call']($§);
 }
 
 /**

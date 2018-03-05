@@ -12,6 +12,22 @@ use smtp;
 use DomainException;
 
 /**
+ * Block config
+ *
+ * @throws DomainException
+ */
+function cfg_block(array $data): array
+{
+    foreach ($data as $val) {
+        if (empty($val['call']) || !is_callable($val['call'])) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        }
+    }
+
+    return $data;
+}
+
+/**
  * Entity config
  *
  * @throws DomainException
@@ -137,6 +153,7 @@ function cfg_toolbar(array $data): array
 function layout(array $data): array
 {
     $cfg = app\cfg('layout');
+    $type = app\cfg('block');
     $parent = app\data('parent');
     $act = app\data('act');
     $path = app\data('path');
@@ -157,11 +174,15 @@ function layout(array $data): array
     }
 
     foreach ($data as $key => $val) {
-        if (empty($val['type'])) {
-            throw new DomainException('Invalid block %s', $key);
+        if (empty($val['type']) || empty($type[$val['type']])) {
+            throw new DomainException(app\i18n('Invalid block %s', $key));
         }
 
-        $data[$key] = arr\replace(APP['block'], $val, ['id' => $key]);
+        if (isset($type[$val['type']]['vars'])) {
+            $val['vars'] = arr\replace($type[$val['type']]['vars'], $val['vars'] ?? []);
+        }
+
+        $data[$key] = arr\replace(APP['block'], $type[$val['type']], $val, ['id' => $key]);
     }
 
     return $data;

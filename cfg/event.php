@@ -1,5 +1,8 @@
 <?php
 return [
+    'cfg.block' => [
+        'event\cfg_block' => -1,
+    ],
     'cfg.ent' => [
         'event\cfg_ent' => -1,
     ],
