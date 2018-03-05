@@ -12,11 +12,11 @@ use smtp;
 use DomainException;
 
 /**
- * Entity cache
+ * Entity config
  *
  * @throws DomainException
  */
-function cache_ent(array $data): array
+function cfg_ent(array $data): array
 {
     $cfg = app\cfg('attr');
 
@@ -53,17 +53,17 @@ function cache_ent(array $data): array
 }
 
 /**
- * I18n cache
+ * I18n config
  */
-function cache_i18n(array $data): array
+function cfg_i18n(array $data): array
 {
     return $data + app\load('i18n/' . app\data('lang'));
 }
 
 /**
- * Option cache
+ * Option config
  */
-function cache_opt(array $data): array
+function cfg_opt(array $data): array
 {
     foreach ($data as $key => $opt) {
         $data[$key] = array_map('app\i18n', $opt);
@@ -73,9 +73,9 @@ function cache_opt(array $data): array
 }
 
 /**
- * Privilege cache
+ * Privilege config
  */
-function cache_priv(array $data): array
+function cfg_priv(array $data): array
 {
     foreach ($data as $id => $item) {
         $item = arr\replace(APP['priv'], $item);
@@ -102,11 +102,11 @@ function cache_priv(array $data): array
 }
 
 /**
- * Toolbar cache
+ * Toolbar config
  *
  * @throws DomainException
  */
-function cache_toolbar(array $data): array
+function cfg_toolbar(array $data): array
 {
     foreach ($data as $id => $item) {
         if (empty($item['name']) || !empty($item['parent']) && empty($data[$item['parent']])) {
@@ -130,11 +130,11 @@ function cache_toolbar(array $data): array
 }
 
 /**
- * Layout config
+ * Layout
  *
  * @throws DomainException
  */
-function cfg_layout(array $data): array
+function layout(array $data): array
 {
     $cfg = $data;
     $data = [];

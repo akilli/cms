@@ -1,22 +1,22 @@
 <?php
 return [
-    'cache.ent' => [
-        'event\cache_ent' => -1,
+    'cfg.ent' => [
+        'event\cfg_ent' => -1,
     ],
-    'cache.i18n' => [
-        'event\cache_i18n' => -1,
+    'cfg.i18n' => [
+        'event\cfg_i18n' => -1,
     ],
-    'cache.opt' => [
-        'event\cache_opt' => -1,
+    'cfg.opt' => [
+        'event\cfg_opt' => -1,
     ],
-    'cache.priv' => [
-        'event\cache_priv' => -1,
+    'cfg.priv' => [
+        'event\cfg_priv' => -1,
     ],
-    'cache.toolbar' => [
-        'event\cache_toolbar' => -1,
+    'cfg.toolbar' => [
+        'event\cfg_toolbar' => -1,
     ],
-    'cfg.layout' => [
-        'event\cfg_layout' => -1,
+    'layout' => [
+        'event\layout' => -1,
     ],
     'ent.postfilter' => [
         'event\ent_postfilter' => -1,

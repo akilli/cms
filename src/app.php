@@ -108,7 +108,6 @@ function cfg(string $id, string $key = null)
 {
     if (($data = & reg('cfg.' . $id)) === null) {
         $data = load($id);
-        $data = event(['cache.' . $id], $data);
         $data = event(['cfg.' . $id], $data);
     }
 
@@ -254,6 +253,7 @@ function layout(string $id = null, array $§ = null): array
 {
     if (($data = & reg('layout')) === null) {
         $data = cfg('layout');
+        $data = event(['layout'], $data);
     }
 
     if ($id === null) {
