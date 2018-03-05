@@ -16,7 +16,6 @@ use DomainException;
  */
 function container(array $§): string
 {
-    $§['vars'] = arr\replace(['tag' => null], $§['vars']);
     $html = '';
 
     foreach (arr\order(arr\crit(app\layout(), [['parent', $§['id']]]), ['sort' => 'asc']) as $child) {
@@ -50,7 +49,6 @@ function tpl(array $§): string
  */
 function meta(array $§): string
 {
-    $§['vars'] = arr\replace(['desc' => null, 'title' => null], $§['vars']);
     $§['vars']['desc'] = $§['vars']['desc'] ? app\enc($§['vars']['desc']) : null;
     $§['vars']['title'] = app\enc($§['vars']['title'] ?: app\cfg('app', 'name'));
 
@@ -62,8 +60,6 @@ function meta(array $§): string
  */
 function msg(array $§): string
 {
-    $§['vars'] = [];
-
     return ($§['vars']['data'] = app\msg()) ? tpl($§) : '';
 }
 
@@ -72,7 +68,6 @@ function msg(array $§): string
  */
 function index(array $§): string
 {
-    $§['vars'] = arr\replace(['act' => 'index', 'attr' => [], 'ent' => null, 'limit' => 10, 'pager' => 0, 'search' => false], $§['vars']);
     $ent = $§['vars']['ent'] ? app\cfg('ent', $§['vars']['ent']) : app\data('ent');
     $opt = ['limit' => (int) $§['vars']['limit']];
     $pager = (int) $§['vars']['pager'];
@@ -162,8 +157,6 @@ function index(array $§): string
  */
 function form(array $§): string
 {
-    $§['vars'] = arr\replace(['attr' => [], 'data' => [], 'title' => null], $§['vars']);
-
     if (empty($§['vars']['data']['_ent'])) {
         return '';
     }
@@ -180,7 +173,6 @@ function form(array $§): string
  */
 function login(array $§): string
 {
-    $§['vars'] = arr\replace(['title' => null], $§['vars']);
     $§['vars']['attr'] = ent\attr(app\cfg('ent', 'account'), ['incl' => ['name', 'password']]);
     $§['vars']['attr']['name'] = array_replace($§['vars']['attr']['name'], ['unique' => false, 'minlength' => 0, 'maxlength' => 0]);
     $§['vars']['attr']['password'] = array_replace($§['vars']['attr']['password'], ['minlength' => 0, 'maxlength' => 0]);
@@ -196,8 +188,6 @@ function login(array $§): string
  */
 function view(array $§): string
 {
-    $§['vars'] = arr\replace(['attr' => [], 'data' => []], $§['vars']);
-
     if (empty($§['vars']['data']['_ent'])) {
         return '';
     }
@@ -214,8 +204,6 @@ function view(array $§): string
  */
 function nav(array $§): string
 {
-    $§['vars'] = arr\replace(['data' => [], 'tag' => 'nav'], $§['vars']);
-
     if (!$§['vars']['data']) {
         return '';
     }
@@ -261,7 +249,6 @@ function nav(array $§): string
  */
 function menu(array $§): string
 {
-    $§['vars'] = arr\replace(['tag' => 'nav'], $§['vars']);
     $crit = [['status', 'published'], ['menu', true], ['level', 0, APP['crit']['>']]];
     $opt = ['order' => ['pos' => 'asc']];
     $§['vars']['data'] = ent\all('page', $crit, $opt);
@@ -274,7 +261,6 @@ function menu(array $§): string
  */
 function toolbar(array $§): string
 {
-    $§['vars'] = arr\replace(['tag' => 'nav'], $§['vars']);
     $§['vars']['data'] = app\cfg('toolbar');
     $empty = [];
 

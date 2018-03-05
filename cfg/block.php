@@ -31,6 +31,7 @@ return [
     'msg' => [
         'call' => 'block\msg',
         'tpl' => 'layout/msg.phtml',
+        'vars' => [],
     ],
     'nav' => [
         'call' => 'block\nav',
