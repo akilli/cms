@@ -1,19 +1,19 @@
 <?php
 return [
-    'cfg.ent' => [
-        'event\cfg_ent' => -1,
+    'cfg.init.ent' => [
+        'event\cfg_init_ent' => -1,
     ],
-    'cfg.i18n' => [
-        'event\cfg_i18n' => -1,
+    'cfg.init.i18n' => [
+        'event\cfg_init_i18n' => -1,
     ],
-    'cfg.opt' => [
-        'event\cfg_opt' => -1,
+    'cfg.init.opt' => [
+        'event\cfg_init_opt' => -1,
     ],
-    'cfg.priv' => [
-        'event\cfg_priv' => -1,
+    'cfg.init.priv' => [
+        'event\cfg_init_priv' => -1,
     ],
-    'cfg.toolbar' => [
-        'event\cfg_toolbar' => -1,
+    'cfg.init.toolbar' => [
+        'event\cfg_init_toolbar' => -1,
     ],
     'ent.postfilter' => [
         'event\ent_postfilter' => -1,

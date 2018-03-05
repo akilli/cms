@@ -108,7 +108,8 @@ function cfg(string $id, string $key = null)
 {
     if (($data = & reg('cfg.' . $id)) === null) {
         $data = load($id);
-        $data = event(['cfg.' . $id], $data);
+        $data = event(['cfg.init.' . $id], $data);
+        $data = event(['cfg.load.' . $id], $data);
     }
 
     if ($key === null) {

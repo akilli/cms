@@ -16,7 +16,7 @@ use DomainException;
  *
  * @throws DomainException
  */
-function cfg_ent(array $data): array
+function cfg_init_ent(array $data): array
 {
     $cfg = app\cfg('attr');
 
@@ -55,7 +55,7 @@ function cfg_ent(array $data): array
 /**
  * I18n config
  */
-function cfg_i18n(array $data): array
+function cfg_init_i18n(array $data): array
 {
     return $data + app\load('i18n/' . app\data('lang'));
 }
@@ -63,7 +63,7 @@ function cfg_i18n(array $data): array
 /**
  * Option config
  */
-function cfg_opt(array $data): array
+function cfg_init_opt(array $data): array
 {
     foreach ($data as $key => $opt) {
         $data[$key] = array_map('app\i18n', $opt);
@@ -75,7 +75,7 @@ function cfg_opt(array $data): array
 /**
  * Privilege config
  */
-function cfg_priv(array $data): array
+function cfg_init_priv(array $data): array
 {
     foreach ($data as $id => $item) {
         $item = arr\replace(APP['priv'], $item);
@@ -106,7 +106,7 @@ function cfg_priv(array $data): array
  *
  * @throws DomainException
  */
-function cfg_toolbar(array $data): array
+function cfg_init_toolbar(array $data): array
 {
     foreach ($data as $id => $item) {
         if (empty($item['name']) || !empty($item['parent']) && empty($data[$item['parent']])) {
