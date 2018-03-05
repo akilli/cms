@@ -33,7 +33,7 @@ use attr;
         <?php foreach ($§('attr') as $attr):?>
             <?php if (!($html = attr\viewer($attr, $data)) && !$§('empty')) continue;?>
             <?php if ($attr['id'] === 'name'):?>
-                <?php if ($§('act') === 'index' && allowed($data['_ent']['id'] . '/view')):?>
+                <?php if ($§('link') && allowed($data['_ent']['id'] . '/view')):?>
         <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
             <a href="<?=$data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
         </h2>

@@ -170,6 +170,7 @@ function index(array $§): string
 
     $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
     $§['vars']['dir'] = $p['dir'];
+    $§['vars']['link'] = $§['vars']['act'] === 'index';
     $§['vars']['empty'] = $§['vars']['act'] === 'admin';
     $§['vars']['ent'] = $ent;
     $§['vars']['max'] = min($opt['offset'] + $opt['limit'], $§['vars']['size']);
