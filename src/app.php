@@ -102,6 +102,8 @@ function data(string $id)
 /**
  * Loads and returns configuration data
  *
+ * @note Config data must be cacheable, you must not do any dynamic/request-dependant stuff here
+ *
  * @return mixed
  */
 function cfg(string $id, string $key = null)
