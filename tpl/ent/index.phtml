@@ -20,7 +20,7 @@ use attr;
         <?php endif;?>
     </header>
 <?php if ($§('data')):?>
-    <?php if ($§('act') === 'admin'):?>
+    <?php if ($§('head')):?>
     <div class="thead">
         <?php foreach ($§('attr') as $attr):?>
             <a href="<?=url($§('url'), ['sort' => $attr['id'], 'dir' => $§('sort') === $attr['id'] && $§('dir') === 'asc' ? 'desc' : 'asc'], true);?>"<?php if ($§('sort') === $attr['id']):?> data-sort="<?=$§('dir');?>"<?php endif;?>><?=$attr['name'];?></a>
@@ -31,7 +31,7 @@ use attr;
     <?php foreach ($§('data') as $data):?>
     <article>
         <?php foreach ($§('attr') as $attr):?>
-            <?php if (!($html = attr\viewer($attr, $data)) && !$§('empty')) continue;?>
+            <?php if (!($html = attr\viewer($attr, $data)) && !$§('head')) continue;?>
             <?php if ($attr['id'] === 'name'):?>
                 <?php if ($§('link') && allowed($data['_ent']['id'] . '/view')):?>
         <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
