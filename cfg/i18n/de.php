@@ -35,7 +35,6 @@ return [
     'Images' => 'Bilder',
     'Info' => 'Info',
     'Invalid action %s for entity %s' => 'Ungültige Aktion %s für Entität %s',
-    'Invalid block %s' => 'Ungültiger Layoutbereich %s',
     'Invalid configuration' => 'Ungültige Konfiguration',
     'Invalid criteria' => 'Ungültige Bedingung',
     'Invalid data' => 'Ungültige Daten',

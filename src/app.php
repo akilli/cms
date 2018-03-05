@@ -245,11 +245,11 @@ function tpl(string $id): string
 }
 
 /**
- * Returns layout block and optionally sets variables
+ * Gets or adds layout block
  *
  * @throws DomainException
  */
-function layout(string $id = null, array $vars = null): array
+function layout(string $id = null, array $§ = null): array
 {
     if (($data = & reg('layout')) === null) {
         $cfg = cfg('layout');
@@ -283,11 +283,9 @@ function layout(string $id = null, array $vars = null): array
     }
 
     if (empty($data[$id])) {
-        throw new DomainException(i18n('Invalid block %s', $id));
-    }
-
-    if ($vars) {
-        $data[$id]['vars'] = array_replace($data[$id]['vars'], $vars);
+        $data[$id] = arr\replace(APP['block'], $§, ['id' => $id]);
+    } elseif ($§) {
+        $data[$id] = array_replace_recursive($data[$id], $§);
     }
 
     return $data[$id];
