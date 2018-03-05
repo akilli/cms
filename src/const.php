@@ -38,7 +38,6 @@ const APP = [
     'block' => [
         'id' => null,
         'type' => null,
-        'call' => null,
         'tpl' => null,
         'active' => true,
         'priv' => null,

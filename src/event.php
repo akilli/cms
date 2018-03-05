@@ -173,16 +173,12 @@ function layout(array $data): array
         }
     }
 
-    foreach ($data as $key => $val) {
-        if (empty($val['type']) || empty($type[$val['type']])) {
-            throw new DomainException(app\i18n('Invalid block %s', $key));
+    foreach ($data as $id => $§) {
+        if (empty($§['type']) || empty($type[$§['type']])) {
+            throw new DomainException(app\i18n('Invalid block %s', $id));
         }
 
-        if (isset($type[$val['type']]['vars'])) {
-            $val['vars'] = arr\replace($type[$val['type']]['vars'], $val['vars'] ?? []);
-        }
-
-        $data[$key] = arr\replace(APP['block'], $type[$val['type']], $val, ['id' => $key]);
+        $data[$id] = arr\replace(APP['block'], $type[$§['type']], $§, ['id' => $id]);
     }
 
     return $data;

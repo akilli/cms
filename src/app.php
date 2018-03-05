@@ -260,10 +260,12 @@ function layout(string $id = null, array $§ = null): array
         return $data;
     }
 
-    if (empty($data[$id]) && empty($§['type'])) {
-        throw new DomainException(i18n('Invalid block %s', $id));
-    } elseif (empty($data[$id])) {
-        $data[$id] = arr\replace(APP['block'], $§, ['id' => $id]);
+    if (empty($data[$id])) {
+        if (empty($§['type']) || !($type = cfg($§['type']))) {
+            throw new DomainException(i18n('Invalid block %s', $id));
+        }
+
+        $data[$id] = arr\replace(APP['block'], $type, $§, ['id' => $id]);
     } elseif ($§) {
         $data[$id] = array_replace_recursive($data[$id], $§);
     }
@@ -283,8 +285,13 @@ function §(string $id): string
     }
 
     $§ = event(['block.' . $§['type'], 'layout.' . $id], $§);
+    $type = cfg('block', $§['type']);
 
-    return $§['call']($§);
+    if (isset($type['vars'])) {
+        $§['vars'] = arr\replace($type['vars'], $§['vars'] ?? []);
+    }
+
+    return $type['call']($§);
 }
 
 /**
