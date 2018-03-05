@@ -252,7 +252,7 @@ function tpl(string $id): string
 function layout(string $id = null, array $§ = null): array
 {
     if (($data = & reg('layout')) === null) {
-        $data = cfg('layout');
+        $data = [];
         $data = event(['layout'], $data);
     }
 

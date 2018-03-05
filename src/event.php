@@ -136,8 +136,7 @@ function cfg_toolbar(array $data): array
  */
 function layout(array $data): array
 {
-    $cfg = $data;
-    $data = [];
+    $cfg = app\cfg('layout');
     $parent = app\data('parent');
     $act = app\data('act');
     $path = app\data('path');
