@@ -47,7 +47,7 @@ function filter(array $data): array
         $val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR | FILTER_FLAG_NO_ENCODE_QUOTES);
 
         if ($val === false) {
-            $data[$key] = null;
+            unset($data[$key]);
         } elseif (is_numeric($val)) {
             $data[$key] += 0;
         } else {
