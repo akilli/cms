@@ -8,7 +8,7 @@ use attr;
         <?php if ($§('title')):?>
         <h1><?=$§('title');?></h1>
         <?php endif;?>
-        <?php if ($§('act') === 'admin' && allowed($§('ent')['id'] . '/create')):?>
+        <?php if ($§('create') && allowed($§('ent')['id'] . '/create')):?>
         <p data-act="create"><a href="<?=url($§('ent')['id'] . '/create');?>"><?=i18n('New Entry');?></a></p>
         <?php endif;?>
         <?php if ($§('search')):?>
@@ -33,9 +33,9 @@ use attr;
         <?php foreach ($§('attr') as $attr):?>
             <?php if (!($html = attr\viewer($attr, $data)) && !$§('head')) continue;?>
             <?php if ($attr['id'] === 'name'):?>
-                <?php if ($§('link') && allowed($data['_ent']['id'] . '/view')):?>
+                <?php if ($§('link') && allowed($§('ent')['id'] . '/view')):?>
         <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-            <a href="<?=$data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
+            <a href="<?=$data['url'] ?? url($§('ent')['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
         </h2>
                 <?php else:?>
         <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h2>
@@ -50,18 +50,18 @@ use attr;
         </div>
             <?php endif;?>
         <?php endforeach;?>
-        <?php if (in_array($§('act'), ['admin', 'browser'])):?>
+        <?php if ($§('actions')):?>
         <footer>
-            <?php if ($§('act') === 'admin' && allowed($data['_ent']['id'] . '/view')):?>
-            <a href="<?=$data['url'] ?? url($data['_ent']['id'] . '/view/' . $data['id']);?>" data-act="view"><?=i18n('View');?></a>
+            <?php if (in_array('view', $§('actions')) && allowed($§('ent')['id'] . '/view')):?>
+            <a href="<?=$data['url'] ?? url($§('ent')['id'] . '/view/' . $data['id']);?>" data-act="view"><?=i18n('View');?></a>
             <?php endif;?>
-            <?php if ($§('act') === 'admin' && allowed($data['_ent']['id'] . '/edit')):?>
-            <a href="<?=url($data['_ent']['id'] . '/edit/' . $data['id']);?>" data-act="edit"><?=i18n('Edit');?></a>
+            <?php if (in_array('edit', $§('actions')) && allowed($§('ent')['id'] . '/edit')):?>
+            <a href="<?=url($§('ent')['id'] . '/edit/' . $data['id']);?>" data-act="edit"><?=i18n('Edit');?></a>
             <?php endif;?>
-            <?php if ($§('act') === 'admin' && allowed($data['_ent']['id'] . '/delete')):?>
-            <a href="<?=url($data['_ent']['id'] . '/delete/' . $data['id']);?>" data-act="delete"><?=i18n('Delete');?></a>
+            <?php if (in_array('delete', $§('actions')) && allowed($§('ent')['id'] . '/delete')):?>
+            <a href="<?=url($§('ent')['id'] . '/delete/' . $data['id']);?>" data-act="delete"><?=i18n('Delete');?></a>
             <?php endif;?>
-            <?php if ($§('act') === 'browser'):?>
+            <?php if (in_array('rte', $§('actions'))):?>
             <span data-rte="<?=$§('rte');?>" data-url="<?=$data['name'];?>" class="rte"><?=i18n('Select item');?></span>
             <?php endif;?>
         </footer>

@@ -104,16 +104,17 @@ function ent(array $§): string
  */
 function index(array $§): string
 {
+    $act = $§['vars']['act'];
     $ent = $§['vars']['ent'] ? app\cfg('ent', $§['vars']['ent']) : app\data('ent');
     $opt = ['limit' => (int) $§['vars']['limit']];
     $pager = (int) $§['vars']['pager'];
-    unset($§['vars']['ent'], $§['vars']['limit'], $§['vars']['pager']);
+    unset($§['vars']['act'], $§['vars']['ent'], $§['vars']['limit'], $§['vars']['pager']);
 
     if (!$ent || $opt['limit'] <= 0) {
         return '';
     }
 
-    $crit = $§['vars']['act'] !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
+    $crit = $act !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
     $url = req\data('url');
     $p = arr\replace(['CKEditorFuncNum' => null, 'cur' => null, 'q' => null, 'sort' => null, 'dir' => null], req\data('get'));
     $p['cur'] = (int) $p['cur'];
@@ -168,15 +169,24 @@ function index(array $§): string
         }
     }
 
+    if ($act === 'admin') {
+        $§['vars']['actions'] = ['view', 'edit', 'delete'];
+    } elseif ($act === 'browser') {
+        $§['vars']['actions'] = ['rte'];
+    } else {
+        $§['vars']['actions'] = [];
+    }
+
+    $§['vars']['create'] = $act === 'admin';
     $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
     $§['vars']['dir'] = $p['dir'];
     $§['vars']['ent'] = $ent;
-    $§['vars']['head'] = $§['vars']['act'] === 'admin';
-    $§['vars']['link'] = $§['vars']['act'] === 'index';
+    $§['vars']['head'] = $act === 'admin';
+    $§['vars']['link'] = $act === 'index';
     $§['vars']['max'] = min($opt['offset'] + $opt['limit'], $§['vars']['size']);
     $§['vars']['min'] = $opt['offset'] + 1;
     $§['vars']['q'] = $p['q'];
-    $§['vars']['rte'] = $p['CKEditorFuncNum'];
+    $§['vars']['rte'] = $act === 'browser' ? $p['CKEditorFuncNum'] : null;
     $§['vars']['sort'] = $p['sort'];
     $§['vars']['title'] = $ent['name'];
     $§['vars']['url'] = $url;
