@@ -65,14 +65,14 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['act' => 'index', 'limit' => 10, 'pager' => 5, 'search' => true],
+            'vars' => ['act' => 'index', 'pager' => 5, 'search' => true],
         ],
     ],
     'admin' => [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['act' => 'admin', 'limit' => 10, 'pager' => 5, 'search' => true],
+            'vars' => ['act' => 'admin', 'pager' => 5, 'search' => true],
         ],
     ],
     'browser' => [
