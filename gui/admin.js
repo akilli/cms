@@ -50,23 +50,28 @@
         // RTE browser
         document.querySelectorAll('span[data-act=select]').forEach(function (item) {
             item.addEventListener('click', function () {
+                const doc = window.opener.document;
                 const url = this.getAttribute('data-url');
                 let attr;
                 let el;
 
+                if (!doc) {
+                    return;
+                }
+
                 if (attr = this.getAttribute('data-rte')) {
                     window.opener.CKEDITOR.tools.callFunction(attr, url);
-                } else if ((attr = this.getAttribute('data-el')) && (el = window.opener.document.getElementById(attr))) {
+                } else if ((attr = this.getAttribute('data-el')) && (el = doc.getElementById(attr))) {
                     el.setAttribute('value', this.getAttribute('data-id'));
 
-                    if (el = window.opener.document.getElementById(attr + suffix)) {
-                        let file;
+                    if (el = doc.getElementById(attr + suffix)) {
+                        const ext = url.split('.').pop();
+                        const type = ext && app.cfg.file.hasOwnProperty(ext) ? app.cfg.file[ext] : 'a';
+                        const file = doc.createElement(type);
 
-                        if (file = el.querySelector('audio, img, video')) {
-                            file.setAttribute('src', url);
-                        } else if (file = el.querySelector('a')) {
-                            file.setAttribute('href', url);
-                        }
+                        file.setAttribute(type === 'a' ? 'href' : 'src', url);
+                        el.innerHTML = '';
+                        el.appendChild(file);
                     }
                 }
 
