@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace viewer;
 
 use app;
+use ent;
 use html;
 
 /**
@@ -81,7 +82,15 @@ function json(array $val): string
 /**
  * File viewer
  */
-function file(string $val): string
+function file(int $val): string
+{
+    return $val ? upload(ent\one('file', [['id', $val]], ['select' => ['id', 'name']])['name']) : '';
+}
+
+/**
+ * Upload viewer
+ */
+function upload(string $val): string
 {
     $ext = pathinfo($val, PATHINFO_EXTENSION);
 
@@ -98,14 +107,6 @@ function file(string $val): string
     }
 
     return html\tag('a', ['href' => $val], $val);
-}
-
-/**
- * File option viewer
- */
-function fileopt(int $val, array $opt): string
-{
-    return !empty($opt[$val]) ? file($opt[$val]) : '';
 }
 
 /**

@@ -42,6 +42,7 @@ return [
     'Invalid data' => 'Ungültige Daten',
     'Invalid email' => 'Ungültige E-Mail',
     'Invalid entity %s' => 'Ungültige Entität %s',
+    'Invalid file' => 'Ungültige Datei',
     'Invalid file type, allowed: %s' => 'Ungültiger Dateityp, erlaubt: %s',
     'Invalid name and password combination' => 'Ungültige Kombination aus Name und Passwort',
     'Invalid option' => 'Ungültige Option',

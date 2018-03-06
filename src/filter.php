@@ -5,6 +5,7 @@ namespace filter;
 
 use app;
 use attr;
+use ent;
 use DomainException;
 
 /**
@@ -146,7 +147,21 @@ function time(string $val): string
  *
  * @throws DomainException
  */
-function file(string $val, array $opt): string
+function file(int $val): int
+{
+    if ($val && !ent\size('file', [['id', $val]])) {
+        throw new DomainException(app\i18n('Invalid file'));
+    }
+
+    return $val;
+}
+
+/**
+ * Upload filter
+ *
+ * @throws DomainException
+ */
+function upload(string $val, array $opt): string
 {
     if ($val && !in_array(pathinfo($val, PATHINFO_EXTENSION), $opt)) {
         throw new DomainException(app\i18n('Invalid file type, allowed: %s', implode(', ', $opt)));

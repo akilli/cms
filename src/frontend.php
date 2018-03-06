@@ -171,9 +171,9 @@ function json(array $html, array $val): string
 /**
  * File
  */
-function file(array $html, int $val, array $opt): string
+function file(array $html, int $val): string
 {
-    $out = html\tag('div', ['id' => $html['id'] . '-file'], $val ? viewer\file($opt[$val]) : '');
+    $out = html\tag('div', ['id' => $html['id'] . '-file'], $val ? viewer\file($val) : '');
     $out .= html\tag('input', ['type' => 'hidden', 'value' => $val ?: ''] + $html, null, true);
     $out .= html\tag('span', ['data-id' => $html['id'], 'data-act' => 'browser'], app\i18n('Browse'));
     $out .= ' ';
@@ -185,7 +185,10 @@ function file(array $html, int $val, array $opt): string
 /**
  * File Upload
  */
-function upload(array $html): string
+function upload(array $html, string $val): string
 {
-    return html\tag('input', ['type' => 'file'] + $html, null, true);
+    $out = html\tag('div', [], $val ? viewer\upload($val) : '');
+    $out .= html\tag('input', ['type' => 'file'] + $html, null, true);
+
+    return $out;
 }
