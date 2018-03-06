@@ -64,6 +64,16 @@ function msg(array $§): string
 }
 
 /**
+ * Search
+ */
+function search(array $§): string
+{
+    $§['vars']['q'] = $§['vars']['q'] ?? req\data('get')['q'] ?? null;
+
+    return tpl($§);
+}
+
+/**
  * Entity
  */
 function ent(array $§): string
@@ -118,18 +128,26 @@ function index(array $§): string
     $url = req\data('url');
     $p = arr\replace(['CKEditorFuncNum' => null, 'cur' => null, 'el' => null, 'q' => null, 'sort' => null, 'dir' => null], req\data('get'));
     $p['cur'] = (int) $p['cur'];
-    $p['q'] = (string) $p['q'];
+    $p['q'] = trim((string) $p['q']);
 
-    if ($§['vars']['search'] && $p['q'] && ($q = array_filter(explode(' ', $p['q'])))) {
-        $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
-        $c = [];
+    if ($§['vars']['search']) {
+        if ($p['q']) {
+            $q = array_filter(explode(' ', $p['q']));
+            $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
+            $c = [];
 
-        foreach ($searchable as $s) {
-            $c[] = [$s, $q, APP['crit']['~']];
+            foreach ($searchable as $s) {
+                $c[] = [$s, $q, APP['crit']['~']];
+            }
+
+            $crit[] = $c;
         }
 
-        $crit[] = $c;
+        $search = ['id' => $§['id'] . '.search', 'type' => 'search', 'vars' => ['q' => $p['q']]];
+        app\layout($search['id'], $search);
+        $§['vars']['search'] = app\§($search['id']);
     } else {
+        $§['vars']['search'] = null;
         $p['q'] = null;
     }
 
@@ -186,7 +204,6 @@ function index(array $§): string
     $§['vars']['link'] = $act === 'index';
     $§['vars']['max'] = min($opt['offset'] + $opt['limit'], $§['vars']['size']);
     $§['vars']['min'] = $opt['offset'] + 1;
-    $§['vars']['q'] = $p['q'];
     $§['vars']['rte'] = $act === 'browser' ? $p['CKEditorFuncNum'] : null;
     $§['vars']['sort'] = $p['sort'];
     $§['vars']['title'] = $ent['name'];

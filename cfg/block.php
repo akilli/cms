@@ -41,6 +41,11 @@ return [
         'call' => 'block\nav',
         'vars' => ['data' => [], 'tag' => 'nav'],
     ],
+    'search' => [
+        'call' => 'block\search',
+        'tpl' => 'layout/search.phtml',
+        'vars' => ['q' => null],
+    ],
     'toolbar' => [
         'call' => 'block\toolbar',
         'vars' => ['tag' => 'nav'],

@@ -11,13 +11,7 @@ use attr;
         <?php if ($§('create') && allowed($§('ent')['id'] . '/create')):?>
         <p data-act="create"><a href="<?=url($§('ent')['id'] . '/create');?>"><?=i18n('New Entry');?></a></p>
         <?php endif;?>
-        <?php if ($§('search')):?>
-        <form method="post" class="search">
-            <input type="search" name="param[q]" value="<?=$§('q');?>" placeholder="<?=i18n('Search Term');?>" />
-            <input type="submit" value="<?=i18n('Search');?>" />
-            <input type="hidden" name="token" value="<?=$§('token');?>" />
-        </form>
-        <?php endif;?>
+        <?=$§('search');?>
     </header>
 <?php if ($§('data')):?>
     <?php if ($§('head')):?>
