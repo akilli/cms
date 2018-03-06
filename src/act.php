@@ -60,7 +60,7 @@ function edit(array $ent): void
     $p = [$old];
 
     if ($id && in_array('page', [$ent['id'], $ent['parent']])) {
-        $p[] = arr\replace(APP['version'], ent\one('version', [['page', $id]], ['order' => ['date' => 'desc']]));
+        $p[] = ent\one('version', [['page', $id]], ['select' => APP['version'], 'order' => ['date' => 'desc']]);
     }
 
     $p[] = $data;

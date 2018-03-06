@@ -310,7 +310,7 @@ function nav(array $§): string
 function menu(array $§): string
 {
     $crit = [['status', 'published'], ['menu', true], ['level', 0, APP['crit']['>']]];
-    $opt = ['order' => ['pos' => 'asc']];
+    $opt = ['select' => ['id', 'name', 'url', 'level'], 'order' => ['pos' => 'asc']];
     $§['vars']['data'] = ent\all('page', $crit, $opt);
 
     return nav($§);

@@ -14,7 +14,7 @@ use ent;
 function ent(array $attr): array
 {
     if (($opt = & app\reg('opt.ent.' . $attr['ent'])) === null) {
-        $opt = array_column(ent\all($attr['ent'], [], ['order' => ['name' => 'asc']]), 'name', 'id');
+        $opt = array_column(ent\all($attr['ent'], [], ['select' => ['id', 'name'], 'order' => ['name' => 'asc']]), 'name', 'id');
     }
 
     return $opt;
@@ -29,7 +29,7 @@ function page(): array
         $pos = app\cfg('ent', 'page')['attr']['pos'];
         $opt = [];
 
-        foreach (ent\all('content', [], ['order' => ['pos' => 'asc']]) as $item) {
+        foreach (ent\all('content', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
             $opt[$item['id']] = attr\viewer($pos, $item) . ' ' . $item['name'];
         }
     }
