@@ -116,7 +116,7 @@ function index(array $§): string
 
     $crit = $act !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
     $url = req\data('url');
-    $p = arr\replace(['CKEditorFuncNum' => null, 'cur' => null, 'q' => null, 'sort' => null, 'dir' => null], req\data('get'));
+    $p = arr\replace(['CKEditorFuncNum' => null, 'cur' => null, 'el' => null, 'q' => null, 'sort' => null, 'dir' => null], req\data('get'));
     $p['cur'] = (int) $p['cur'];
     $p['q'] = (string) $p['q'];
 
@@ -180,6 +180,7 @@ function index(array $§): string
     $§['vars']['create'] = $act === 'admin';
     $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
     $§['vars']['dir'] = $p['dir'];
+    $§['vars']['el'] = $act === 'browser' ? $p['el'] : null;
     $§['vars']['ent'] = $ent;
     $§['vars']['head'] = $act === 'admin';
     $§['vars']['link'] = $act === 'index';

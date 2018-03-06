@@ -9,6 +9,7 @@ return [
     'Articles' => 'Artikel',
     'Audios' => 'Audios',
     'Back' => 'Zurück',
+    'Browse' => 'Durchsuchen',
     'Cannot assign archived page as parent' => 'Eine archivierte Seite kann nicht als Oberseite ausgewählt werden',
     'Cannot assign the page itself or a child page as parent' => 'Die Seite selbst oder eine Unterseite kann nicht als Oberseite ausgewählt werden',
     'Cannot change filetype anymore' => 'Der Dateityp kann nicht mehr geändert werden',

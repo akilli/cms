@@ -6,6 +6,7 @@ namespace frontend;
 use app;
 use attr;
 use html;
+use viewer;
 
 /**
  * Bool
@@ -170,7 +171,18 @@ function json(array $html, array $val): string
 /**
  * File
  */
-function file(array $html): string
+function file(array $html, int $val, array $opt): string
+{
+    $out = $val ? html\tag('div', ['id' => $html['id'] . '-file'], viewer\file($opt[$val])) : '';
+    $out .=  html\tag('input', ['type' => 'hidden', 'value' => $val ?: ''] + $html, null, true);
+
+    return  $out . html\tag('span', ['data-id' => $html['id'], 'data-act' => 'browser'], app\i18n('Browse'));
+}
+
+/**
+ * File Upload
+ */
+function upload(array $html): string
 {
     return html\tag('input', ['type' => 'file'] + $html, null, true);
 }

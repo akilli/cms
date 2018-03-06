@@ -349,7 +349,7 @@ form .cke {
 }
 
 #content a,
-#content span.rte {
+#content span[data-act] {
     color: var(--secondary-dark);
     cursor: pointer;
 }

@@ -19,10 +19,42 @@
             });
         });
 
-        // RTE browser
-        document.querySelectorAll('span.rte').forEach(function (item) {
+        // Browser
+        document.querySelectorAll('span[data-act=browser]').forEach(function (item) {
+            const ent = item.parentElement.getAttribute('data-type') || 'file';
+
             item.addEventListener('click', function () {
-                window.opener.CKEDITOR.tools.callFunction(this.getAttribute('data-rte'), this.getAttribute('data-url'));
+                window.open(
+                    '/' + ent + '/browser?el=' + this.getAttribute('data-id'),
+                    'browser',
+                    'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes'
+                );
+            });
+        });
+
+        // RTE browser
+        document.querySelectorAll('span[data-act=select]').forEach(function (item) {
+            item.addEventListener('click', function () {
+                const url = this.getAttribute('data-url');
+                let attr;
+                let el;
+
+                if (attr = this.getAttribute('data-rte')) {
+                    window.opener.CKEDITOR.tools.callFunction(attr, url);
+                } else if ((attr = this.getAttribute('data-el')) && (el = window.opener.document.getElementById(attr))) {
+                    el.setAttribute('value', this.getAttribute('data-id'));
+
+                    if (el = window.opener.document.getElementById(attr + '-file')) {
+                        let file;
+
+                        if (file = el.querySelector('audio, img, video')) {
+                            file.setAttribute('src', url);
+                        } else if (file = el.querySelector('a')) {
+                            file.setAttribute('href', url);
+                        }
+                    }
+                }
+
                 window.close();
             });
         });

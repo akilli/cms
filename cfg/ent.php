@@ -115,7 +115,7 @@ return [
             ],
             'name' => [
                 'name' => 'Name',
-                'type' => 'file',
+                'type' => 'upload',
                 'required' => true,
                 'unique' => true,
                 'searchable' => true,
@@ -206,10 +206,8 @@ return [
             ],
             'image' => [
                 'name' => 'Image',
-                'type' => 'ent',
+                'type' => 'image',
                 'nullable' => true,
-                'ent' => 'image',
-                'viewer' => 'viewer\fileopt',
             ],
             'teaser' => [
                 'name' => 'Teaser',

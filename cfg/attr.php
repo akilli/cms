@@ -1,5 +1,13 @@
 <?php
 return [
+    'audio' => [
+        'backend' => 'int',
+        'frontend' => 'frontend\file',
+        'ent' => 'audio',
+        'opt' => 'opt\ent',
+        'filter' => 'filter\opt',
+        'viewer' => 'viewer\fileopt',
+    ],
     'bool' => [
         'backend' => 'bool',
         'frontend' => 'frontend\bool',
@@ -28,6 +36,14 @@ return [
         'backend' => 'decimal',
         'frontend' => 'frontend\number',
     ],
+    'doc' => [
+        'backend' => 'int',
+        'frontend' => 'frontend\file',
+        'ent' => 'doc',
+        'opt' => 'opt\ent',
+        'filter' => 'filter\opt',
+        'viewer' => 'viewer\fileopt',
+    ],
     'email' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\email',
@@ -41,11 +57,20 @@ return [
         'viewer' => 'viewer\opt',
     ],
     'file' => [
-        'backend' => 'varchar',
+        'backend' => 'int',
         'frontend' => 'frontend\file',
-        'ignorable' => true,
-        'filter' => 'filter\file',
-        'viewer' => 'viewer\file',
+        'ent' => 'file',
+        'opt' => 'opt\ent',
+        'filter' => 'filter\opt',
+        'viewer' => 'viewer\fileopt',
+    ],
+    'image' => [
+        'backend' => 'int',
+        'frontend' => 'frontend\file',
+        'ent' => 'image',
+        'opt' => 'opt\ent',
+        'filter' => 'filter\opt',
+        'viewer' => 'viewer\fileopt',
     ],
     'int' => [
         'backend' => 'int',
@@ -106,10 +131,25 @@ return [
         'filter' => 'filter\time',
         'viewer' => 'viewer\time',
     ],
+    'upload' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\upload',
+        'ignorable' => true,
+        'filter' => 'filter\file',
+        'viewer' => 'viewer\file',
+    ],
     'url' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\url',
         'filter' => 'filter\url',
         'viewer' => 'viewer\url',
+    ],
+    'video' => [
+        'backend' => 'int',
+        'frontend' => 'frontend\file',
+        'ent' => 'video',
+        'opt' => 'opt\ent',
+        'filter' => 'filter\opt',
+        'viewer' => 'viewer\fileopt',
     ],
 ];
