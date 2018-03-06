@@ -3,7 +3,7 @@ return [
     '_all_' => [
         'root' => [
             'type' => 'tpl',
-            'tpl' => 'layout/root.phtml',
+            'tpl' => 'root.phtml',
         ],
         'head' => [
             'type' => 'container',
