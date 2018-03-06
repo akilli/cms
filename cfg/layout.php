@@ -51,7 +51,7 @@ return [
     '_public_' => [
         'header' => [
             'type' => 'tpl',
-            'tpl' => 'layout/header.phtml',
+            'tpl' => 'block/header.phtml',
             'parent' => 'top',
             'sort' => 20,
         ],

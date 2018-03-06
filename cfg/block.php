@@ -34,7 +34,7 @@ return [
     ],
     'msg' => [
         'call' => 'block\msg',
-        'tpl' => 'layout/msg.phtml',
+        'tpl' => 'block/msg.phtml',
         'vars' => [],
     ],
     'nav' => [
@@ -43,7 +43,7 @@ return [
     ],
     'search' => [
         'call' => 'block\search',
-        'tpl' => 'layout/search.phtml',
+        'tpl' => 'block/search.phtml',
         'vars' => ['q' => null],
     ],
     'toolbar' => [
