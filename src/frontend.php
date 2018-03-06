@@ -173,10 +173,13 @@ function json(array $html, array $val): string
  */
 function file(array $html, int $val, array $opt): string
 {
-    $out = $val ? html\tag('div', ['id' => $html['id'] . '-file'], viewer\file($opt[$val])) : '';
-    $out .=  html\tag('input', ['type' => 'hidden', 'value' => $val ?: ''] + $html, null, true);
+    $out = html\tag('div', ['id' => $html['id'] . '-file'], $val ? viewer\file($opt[$val]) : '');
+    $out .= html\tag('input', ['type' => 'hidden', 'value' => $val ?: ''] + $html, null, true);
+    $out .= html\tag('span', ['data-id' => $html['id'], 'data-act' => 'browser'], app\i18n('Browse'));
+    $out .= ' ';
+    $out .= html\tag('span', ['data-id' => $html['id'], 'data-act' => 'remove'], app\i18n('Remove'));
 
-    return  $out . html\tag('span', ['data-id' => $html['id'], 'data-act' => 'browser'], app\i18n('Browse'));
+    return  $out;
 }
 
 /**

@@ -20,6 +20,8 @@
         });
 
         // Browser
+        const suffix = '-file';
+
         document.querySelectorAll('span[data-act=browser]').forEach(function (item) {
             const ent = item.parentElement.getAttribute('data-type') || 'file';
 
@@ -29,6 +31,19 @@
                     'browser',
                     'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes'
                 );
+            });
+        });
+
+        document.querySelectorAll('span[data-act=remove]').forEach(function (item) {
+            item.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const el = document.getElementById(id + suffix);
+
+                document.getElementById(id).setAttribute('value', '');
+
+                if (el) {
+                    el.innerHTML = '';
+                }
             });
         });
 
@@ -44,7 +59,7 @@
                 } else if ((attr = this.getAttribute('data-el')) && (el = window.opener.document.getElementById(attr))) {
                     el.setAttribute('value', this.getAttribute('data-id'));
 
-                    if (el = window.opener.document.getElementById(attr + '-file')) {
+                    if (el = window.opener.document.getElementById(attr + suffix)) {
                         let file;
 
                         if (file = el.querySelector('audio, img, video')) {

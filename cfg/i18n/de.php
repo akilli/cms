@@ -82,6 +82,7 @@ return [
     'Publish' => 'Veröffentlichen',
     'Published' => 'Veröffentlicht',
     'Redirect' => 'Weiterleitung',
+    'Remove' => 'Entfernen',
     'Required' => 'Erforderlich',
     'Role' => 'Rolle',
     'Roles' => 'Rollen',
