@@ -57,6 +57,14 @@ function all(string $eId, array $crit = [], array $opt = []): array
     $ent = app\cfg('ent', $eId);
     $opt = arr\replace(APP['ent.opt'], $opt, ['mode' => 'all']);
 
+    if ($opt['select']) {
+        foreach (array_unique(['id', $opt['index']]) as $k) {
+            if (!in_array($k, $opt['select'])) {
+                $opt['select'][] = $k;
+            }
+        }
+    }
+
     try {
         $data = ($ent['type'] . '\load')($ent, $crit, $opt);
 

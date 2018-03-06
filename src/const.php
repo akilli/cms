@@ -72,6 +72,7 @@ const APP = [
     'ent.opt' => [
         'mode' => 'all',
         'index' => 'id',
+        'select' => [],
         'order' => [],
         'limit' => 0,
         'offset' => 0,

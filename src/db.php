@@ -12,7 +12,12 @@ use DomainException;
  */
 function load(array $ent, array $crit = [], array $opt = []): array
 {
-    $select = $opt['mode'] === 'size' ? ['COUNT(*)'] : array_keys(sql\attr($ent['attr']));
+    if ($opt['mode'] === 'size') {
+        $opt['select'] = ['COUNT(*)'];
+    } elseif (!$opt['select']) {
+        $opt['select'] = array_keys(sql\attr($ent['attr']));
+    }
+
     $join = '';
 
     if ($ent['parent']) {
@@ -22,7 +27,7 @@ function load(array $ent, array $crit = [], array $opt = []): array
 
     $cols = sql\crit($crit);
     $stmt = sql\db()->prepare(
-        sql\select($select)
+        sql\select($opt['select'])
         . sql\from($ent['parent'] ?: $ent['id'])
         . sql\ljoin($join)
         . sql\where($cols['where'])
