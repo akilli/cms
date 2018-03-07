@@ -3,7 +3,7 @@ namespace app;
 use attr;
 /** @var callable $§ */
 ?>
-<article id="<?=$§('id');?>">
+<article id="<?=$§('id');?>" class="view">
     <?php foreach ($§('attr') as $attr):?>
         <?php if (!$html = attr\viewer($attr, $§('data'))) continue;?>
         <?php if ($attr['id'] === 'name'):?>
