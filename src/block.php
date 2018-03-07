@@ -190,13 +190,12 @@ function index(array $§): string
         $§['vars']['search'] = app\§($search['id']);
     } else {
         $§['vars']['search'] = null;
-        $p['q'] = null;
     }
 
     $size = ent\size($ent['id'], $crit);
     $total = (int) ceil($size / $opt['limit']) ?: 1;
-    $cur = min(max($p['cur'], 1), $total);
-    $opt['offset'] = ($cur - 1) * $opt['limit'];
+    $p['cur'] = min(max($p['cur'], 1), $total);
+    $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
 
     if ($p['sort'] && !empty($§['vars']['attr'][$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
@@ -208,12 +207,11 @@ function index(array $§): string
     }
 
     if ($§['vars']['pager']) {
-        $pager = ['id' => $§['id'] . '.pager', 'type' => 'pager', 'vars' => ['cur' => $cur, 'limit' => $opt['limit'], 'size' => $size]];
+        $pager = ['id' => $§['id'] . '.pager', 'type' => 'pager', 'vars' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]];
         app\layout($pager['id'], $pager);
         $§['vars']['pager'] = app\§($pager['id']);
     } else {
         $§['vars']['pager'] = null;
-        $p['cur'] = null;
     }
 
     if ($act === 'admin') {
