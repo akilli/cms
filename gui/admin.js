@@ -50,14 +50,14 @@
         // RTE browser
         document.querySelectorAll('span[data-act=select]').forEach(function (item) {
             item.addEventListener('click', function () {
+                if (!window.opener) {
+                    return;
+                }
+
                 const doc = window.opener.document;
                 const url = this.getAttribute('data-url');
                 let attr;
                 let el;
-
-                if (!doc) {
-                    return;
-                }
 
                 if (attr = this.getAttribute('data-rte')) {
                     window.opener.CKEDITOR.tools.callFunction(attr, url);
