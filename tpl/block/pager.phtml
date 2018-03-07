@@ -1,0 +1,18 @@
+<?php
+namespace app;
+/** @var callable $§ */
+?>
+<nav id="<?=$§('id');?>" class="pager">
+    <div class="info">
+        <?=i18n('%s to %s of %s', $§('min'), $§('max'), $§('size'));?>
+    </div>
+    <div class="links">
+        <?php foreach ($§('links') as $link):?>
+            <?php if (!empty($link['active'])):?>
+        <span><?=$link['name'];?></span>
+            <?php else:?>
+        <a href="<?=$link['url'];?>"><?=$link['name'];?></a>
+            <?php endif;?>
+        <?php endforeach;?>
+    </div>
+</nav>

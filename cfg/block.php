@@ -16,7 +16,7 @@ return [
     'index' => [
         'call' => 'block\index',
         'tpl' => 'ent/index.phtml',
-        'vars' => ['act' => 'index', 'attr' => [], 'ent' => null, 'limit' => 10, 'pager' => 0, 'search' => false],
+        'vars' => ['act' => 'index', 'attr' => [], 'ent' => null, 'limit' => 10, 'pager' => false, 'search' => false],
     ],
     'login' => [
         'call' => 'block\login',
@@ -40,6 +40,11 @@ return [
     'nav' => [
         'call' => 'block\nav',
         'vars' => ['data' => [], 'tag' => 'nav'],
+    ],
+    'pager' => [
+        'call' => 'block\pager',
+        'tpl' => 'block/pager.phtml',
+        'vars' => ['cur' => null, 'limit' => null, 'pages' => 5, 'size' => null],
     ],
     'search' => [
         'call' => 'block\search',

@@ -65,14 +65,14 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['act' => 'index', 'pager' => 5, 'search' => true],
+            'vars' => ['act' => 'index', 'pager' => true, 'search' => true],
         ],
     ],
     'admin' => [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['act' => 'admin', 'pager' => 5, 'search' => true],
+            'vars' => ['act' => 'admin', 'pager' => true, 'search' => true],
         ],
     ],
     'browser' => [
@@ -85,7 +85,7 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['act' => 'browser', 'limit' => 20, 'pager' => 5, 'search' => true],
+            'vars' => ['act' => 'browser', 'limit' => 20, 'pager' => true, 'search' => true],
         ],
     ],
     'form' => [
