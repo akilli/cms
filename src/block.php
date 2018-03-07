@@ -167,13 +167,10 @@ function index(array $§): string
 
     $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
     $crit = $act !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
-    $url = req\data('url');
     $p = arr\replace(['CKEditorFuncNum' => null, 'cur' => null, 'el' => null, 'q' => null, 'sort' => null, 'dir' => null], req\data('get'));
-    $p['cur'] = (int) $p['cur'];
-    $p['q'] = trim((string) $p['q']);
 
     if ($§['vars']['search']) {
-        if ($p['q']) {
+        if ($p['q'] = trim((string) $p['q'])) {
             $q = array_filter(explode(' ', $p['q']));
             $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
             $c = [];
@@ -194,7 +191,7 @@ function index(array $§): string
 
     $size = ent\size($ent['id'], $crit);
     $total = (int) ceil($size / $opt['limit']) ?: 1;
-    $p['cur'] = min(max($p['cur'], 1), $total);
+    $p['cur'] = min(max((int) $p['cur'], 1), $total);
     $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
 
     if ($p['sort'] && !empty($§['vars']['attr'][$p['sort']])) {
@@ -232,7 +229,7 @@ function index(array $§): string
     $§['vars']['rte'] = $act === 'browser' ? $p['CKEditorFuncNum'] : null;
     $§['vars']['sort'] = $p['sort'];
     $§['vars']['title'] = $ent['name'];
-    $§['vars']['url'] = $url;
+    $§['vars']['url'] = req\data('url');
 
     return tpl($§);
 }
