@@ -14,13 +14,14 @@
 
 body {
     line-height: 1.5rem;
+    padding: 0 0.75rem;
     font-family: sans-serif;
     color: var(--color);
     background: var(--bg);
 }
 
 body > * {
-    padding: 0.75rem;
+    padding: 0.75rem 0;
 }
 
 figure,
@@ -29,7 +30,7 @@ h2,
 h3,
 p,
 fieldset > *,
-#content > * {
+#content > :not(:last-child) {
     margin-bottom: 1.5rem;
 }
 
@@ -285,6 +286,7 @@ form .cke {
  */
 #toolbar {
     display: none;
+    padding: 0.75rem;
     font-size: 0.875rem;
     color: var(--primary-text);
     background: var(--primary-dark);
@@ -297,6 +299,7 @@ form .cke {
 
 #menu {
     display: none;
+    padding: 0.75rem;
     color: var(--primary-text);
     background: var(--primary-light);
 }
@@ -331,7 +334,7 @@ form .cke {
  * Message
  */
 #msg {
-    padding: 1.5rem;
+    padding: 0.75rem;
     color: var(--secondary-text);
     background: var(--secondary-light);
 }
