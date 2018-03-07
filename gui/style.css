@@ -433,14 +433,20 @@ a[data-sort=desc]::after {
     }
 
     #toolbar {
-        margin-left: calc(50% - 50vw + 7px);
-        margin-right: calc(50% - 50vw + 7px);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    #toolbar + * {
+        margin-top: 3rem;
     }
 
     #toolbar li,
     #menu li {
         display: inline-block;
-        margin-right: 1.5rem;
+        margin-right: 0.625rem;
     }
 
     #toolbar li li,
