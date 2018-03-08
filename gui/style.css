@@ -298,6 +298,9 @@ form .cke {
 }
 
 #menu {
+    position: static;
+    position: sticky;
+    top: 0;
     display: none;
     padding: 0.75rem;
     color: var(--primary-text);
