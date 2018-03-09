@@ -45,6 +45,32 @@ function tpl(array $§): string
 }
 
 /**
+ * Root
+ */
+function root(array $§): string
+{
+    $§['vars']['act'] = app\data('act');
+    $§['vars']['area'] = app\data('area');
+    $§['vars']['ent'] = app\data('ent')['id'] ?? null;
+    $§['vars']['ent-id'] = app\data('id');
+    $§['vars']['lang'] = app\data('lang');
+
+    return tpl($§);
+}
+
+/**
+ * JS
+ */
+function js(array $§): string
+{
+    $opt = app\cfg('opt');
+    $§['vars']['file'] = json_encode(array_fill_keys($opt['audio'], 'audio') + array_fill_keys($opt['image'], 'img') + array_fill_keys($opt['video'], 'video'));
+    $§['vars']['i18n'] = json_encode(app\cfg('i18n'));
+
+    return tpl($§);
+}
+
+/**
  * Meta
  */
 function meta(array $§): string

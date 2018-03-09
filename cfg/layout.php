@@ -2,8 +2,7 @@
 return [
     '_all_' => [
         'root' => [
-            'type' => 'tpl',
-            'tpl' => 'root.phtml',
+            'type' => 'root',
         ],
         'head' => [
             'type' => 'container',
@@ -151,7 +150,7 @@ return [
     ],
     'app/js' => [
         'root' => [
-            'tpl' => 'app/app.js',
+            'type' => 'js',
         ],
     ],
     'article/admin' => [
