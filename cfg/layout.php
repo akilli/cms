@@ -200,7 +200,7 @@ return [
     ],
     'file/admin' => [
         'content' => [
-            'vars' => ['attr' => ['excl' => ['ent']]],
+            'vars' => ['attr' => ['incl' => ['name', 'type', 'info']]],
         ],
     ],
     'file/browser' => [
