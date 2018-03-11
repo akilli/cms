@@ -119,7 +119,7 @@ return [
     ],
     'account/admin' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'role']]],
+            'vars' => ['attr' => ['name', 'role']],
         ],
     ],
     'account/login' => [
@@ -138,7 +138,7 @@ return [
         'content' => [
             'type' => 'form',
             'parent' => 'main',
-            'vars' => ['attr' => ['incl' => ['password', 'confirmation']]],
+            'vars' => ['attr' => ['password', 'confirmation']],
         ],
     ],
     'app/error' => [
@@ -155,67 +155,67 @@ return [
     ],
     'article/admin' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'parent', 'status', 'date']]],
+            'vars' => ['attr' => ['name', 'parent', 'status', 'date']],
         ],
     ],
     'article/create' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'slug', 'parent', 'status', 'image', 'teaser', 'main', 'meta']]],
+            'vars' => ['attr' => ['name', 'slug', 'parent', 'status', 'image', 'teaser', 'main', 'meta']],
         ],
     ],
     'article/edit' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'slug', 'parent', 'status', 'image', 'teaser', 'main', 'meta']]],
+            'vars' => ['attr' => ['name', 'slug', 'parent', 'status', 'image', 'teaser', 'main', 'meta']],
         ],
     ],
     'article/index' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['image', 'name', 'teaser']]],
+            'vars' => ['attr' => ['image', 'name', 'teaser']],
         ],
     ],
     'article/view' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'image', 'teaser', 'main']]],
+            'vars' => ['attr' => ['name', 'image', 'teaser', 'main']],
         ],
     ],
     'content/admin' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'pos', 'menu', 'status', 'date']]],
+            'vars' => ['attr' => ['name', 'pos', 'menu', 'status', 'date']],
         ],
     ],
     'content/create' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'image', 'main', 'aside', 'sidebar', 'meta']]],
+            'vars' => ['attr' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'image', 'main', 'aside', 'sidebar', 'meta']],
         ],
     ],
     'content/edit' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'image', 'main', 'aside', 'sidebar', 'meta']]],
+            'vars' => ['attr' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'image', 'main', 'aside', 'sidebar', 'meta']],
         ],
     ],
     'content/view' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['image', 'main', 'aside']]],
+            'vars' => ['attr' => ['image', 'main', 'aside']],
         ],
     ],
     'file/admin' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'type', 'info']]],
+            'vars' => ['attr' => ['name', 'type', 'info']],
         ],
     ],
     'file/browser' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'info']]],
+            'vars' => ['attr' => ['name', 'info']],
         ],
     ],
     'file/create' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'info']]],
+            'vars' => ['attr' => ['name', 'info']],
         ],
     ],
     'file/edit' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name', 'info']]],
+            'vars' => ['attr' => ['name', 'info']],
         ],
     ],
     'page/sitemap' => [
@@ -227,7 +227,7 @@ return [
     ],
     'role/admin' => [
         'content' => [
-            'vars' => ['attr' => ['incl' => ['name']]],
+            'vars' => ['attr' => ['name']],
         ],
     ],
 ];

@@ -211,16 +211,11 @@ function data(array $ent): array
 function attr(array $ent, array $cfg): array
 {
     $attrs = [];
-    $aIds = array_keys($ent['attr']);
-
-    if (!empty($cfg['incl'])) {
-        $aIds = array_intersect($cfg['incl'], $aIds);
-    } elseif (!empty($cfg['excl'])) {
-        $aIds = array_diff($aIds, $cfg['excl']);
-    }
+    $keys = array_keys($ent['attr']);
+    $aIds = $cfg ? array_intersect($cfg, $keys) : $keys;
 
     foreach ($aIds as $aId) {
-        if (!empty($cfg['incl']) || !$ent['attr'][$aId]['auto']) {
+        if ($cfg || !$ent['attr'][$aId]['auto']) {
             $attrs[$aId] = $ent['attr'][$aId];
         }
     }

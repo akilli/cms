@@ -281,7 +281,7 @@ function form(array $§): string
  */
 function login(array $§): string
 {
-    $§['vars']['attr'] = ent\attr(app\cfg('ent', 'account'), ['incl' => ['name', 'password']]);
+    $§['vars']['attr'] = ent\attr(app\cfg('ent', 'account'), ['name', 'password']);
     $§['vars']['attr']['name'] = array_replace($§['vars']['attr']['name'], ['unique' => false, 'minlength' => 0, 'maxlength' => 0]);
     $§['vars']['attr']['password'] = array_replace($§['vars']['attr']['password'], ['minlength' => 0, 'maxlength' => 0]);
     $§['vars']['data'] = [];
