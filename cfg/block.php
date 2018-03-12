@@ -6,7 +6,7 @@ return [
     ],
     'ent' => [
         'call' => 'block\ent',
-        'vars' => ['attr' => [], 'crit' => [], 'ent' => null, 'limit' => 10, 'offset' => 0, 'order' => []],
+        'vars' => ['attr' => [], 'crit' => [], 'ent' => null, 'opt' => []],
     ],
     'form' => [
         'call' => 'block\form',
