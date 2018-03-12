@@ -64,7 +64,7 @@ function frontend(array $attr, array $data): string
     $html['id'] =  'data-' . $attr['id'];
     $html['name'] =  'data[' . $attr['id'] . ']';
     $html['data-type'] =  $attr['type'];
-    $label = $attr['name'];
+    $label = ['for' => $html['id']];
     $error = '';
 
     if ($attr['multiple']) {
@@ -74,11 +74,11 @@ function frontend(array $attr, array $data): string
 
     if ($attr['required'] && !ignorable($attr, $data)) {
         $html['required'] = true;
-        $label .= ' ' . html\tag('em', ['class' => 'required'], app\i18n('Required'));
+        $label['data-required'] = true;
     }
 
     if ($attr['unique']) {
-        $label .= ' ' . html\tag('em', ['class' => 'unique'], app\i18n('Unique'));
+        $label['data-unique'] = true;
     }
 
     foreach ([['min', 'max'], ['minlength', 'maxlength']] as $edge) {
@@ -100,7 +100,7 @@ function frontend(array $attr, array $data): string
 
     $out = $attr['frontend']($html, $data[$attr['id']], opt($attr, $data));
 
-    return html\tag('label', ['for' => $html['id']], $label) . $out . $error;
+    return html\tag('label', $label, $attr['name']) . $out . $error;
 }
 
 /**
