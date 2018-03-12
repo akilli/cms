@@ -70,14 +70,14 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['act' => 'index', 'pager' => true, 'search' => true],
+            'vars' => ['act' => 'index', 'link' => true, 'pager' => true, 'search' => true],
         ],
     ],
     'admin' => [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['act' => 'admin', 'actions' => ['view', 'edit', 'delete'], 'pager' => true, 'search' => true],
+            'vars' => ['act' => 'admin', 'actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => true, 'search' => true],
         ],
     ],
     'browser' => [

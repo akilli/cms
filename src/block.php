@@ -217,14 +217,11 @@ function index(array $§): string
         $§['vars']['pager'] = null;
     }
 
-    $§['vars']['create'] = $act === 'admin';
     $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
     $§['vars']['dir'] = $p['dir'];
-    $§['vars']['el'] = $act === 'browser' ? $p['el'] : null;
+    $§['vars']['el'] = $p['el'];
     $§['vars']['ent'] = $ent;
-    $§['vars']['head'] = $act === 'admin';
-    $§['vars']['link'] = $act === 'index';
-    $§['vars']['rte'] = $act === 'browser' ? $p['CKEditorFuncNum'] : null;
+    $§['vars']['rte'] = $p['CKEditorFuncNum'];
     $§['vars']['sort'] = $p['sort'];
     $§['vars']['title'] = $ent['name'];
     $§['vars']['url'] = req\data('url');
