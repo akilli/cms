@@ -122,6 +122,16 @@ return [
             'vars' => ['attr' => ['name', 'role']],
         ],
     ],
+    'account/create' => [
+        'content' => [
+            'vars' => ['attr' => ['name', 'password', 'role']],
+        ],
+    ],
+    'account/edit' => [
+        'content' => [
+            'vars' => ['attr' => ['name', 'password', 'role']],
+        ],
+    ],
     'account/login' => [
         'top' => [
             'active' => false,
@@ -228,6 +238,31 @@ return [
     'role/admin' => [
         'content' => [
             'vars' => ['attr' => ['name']],
+        ],
+    ],
+    'role/create' => [
+        'content' => [
+            'vars' => ['attr' => ['name', 'priv']],
+        ],
+    ],
+    'role/edit' => [
+        'content' => [
+            'vars' => ['attr' => ['name', 'priv']],
+        ],
+    ],
+    'url/admin' => [
+        'content' => [
+            'vars' => ['attr' => ['name', 'target', 'redirect']],
+        ],
+    ],
+    'url/create' => [
+        'content' => [
+            'vars' => ['attr' => ['name', 'target', 'redirect']],
+        ],
+    ],
+    'url/edit' => [
+        'content' => [
+            'vars' => ['attr' => ['name', 'target', 'redirect']],
         ],
     ],
 ];
