@@ -1,6 +1,12 @@
 'use strict';
 
 (function (window, document, app, CKEDITOR) {
+    function param(name) {
+        const match = window.location.search.match(new RegExp('(?:[\?&]|&)' + name + '=([^&]+)', 'i'));
+
+        return match && match.length > 1 ? match[1] : null;
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         // Input password autocomplete fix
         document.querySelectorAll('input[type=password]').forEach(function (item) {
@@ -59,9 +65,9 @@
                 let attr;
                 let el;
 
-                if (attr = this.getAttribute('data-rte')) {
+                if (attr = param('CKEditorFuncNum')) {
                     window.opener.CKEDITOR.tools.callFunction(attr, url);
-                } else if ((attr = this.getAttribute('data-el')) && (el = doc.getElementById(attr))) {
+                } else if ((attr = param('el')) && (el = doc.getElementById(attr))) {
                     el.setAttribute('value', this.getAttribute('data-id'));
 
                     if (el = doc.getElementById(attr + suffix)) {

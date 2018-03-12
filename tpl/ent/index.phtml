@@ -57,7 +57,7 @@ use attr;
             <a href="<?=url($§('ent')['id'] . '/delete/' . $data['id']);?>" data-act="delete"><?=i18n('Delete');?></a>
             <?php endif;?>
             <?php if (in_array('rte', $§('actions'))):?>
-            <span data-id="<?=$data['id'];?>" data-url="<?=$data['name'];?>" data-el="<?=$§('el');?>" data-rte="<?=$§('rte');?>" data-act="select"><?=i18n('Select item');?></span>
+            <span data-id="<?=$data['id'];?>" data-url="<?=$data['name'];?>" data-act="select"><?=i18n('Select item');?></span>
             <?php endif;?>
         </footer>
         <?php endif;?>

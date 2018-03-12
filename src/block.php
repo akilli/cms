@@ -172,7 +172,7 @@ function index(array $§): string
         return '';
     }
 
-    $p = arr\replace(['CKEditorFuncNum' => null, 'cur' => null, 'el' => null, 'q' => null, 'sort' => null, 'dir' => null], req\data('get'));
+    $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], req\data('get'));
 
     if ($§['vars']['search']) {
         if ($p['q'] = trim((string) $p['q'])) {
@@ -218,9 +218,7 @@ function index(array $§): string
 
     $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
     $§['vars']['dir'] = $p['dir'];
-    $§['vars']['el'] = $p['el'];
     $§['vars']['ent'] = $ent;
-    $§['vars']['rte'] = $p['CKEditorFuncNum'];
     $§['vars']['sort'] = $p['sort'];
     $§['vars']['title'] = $ent['name'];
     $§['vars']['url'] = req\data('url');
