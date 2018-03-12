@@ -70,14 +70,14 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['act' => 'index', 'link' => true, 'pager' => true, 'search' => true],
+            'vars' => ['link' => true, 'pager' => true, 'search' => true],
         ],
     ],
     'admin' => [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['act' => 'admin', 'actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => true, 'search' => true],
+            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => true, 'search' => true],
         ],
     ],
     'browser' => [
@@ -90,7 +90,7 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['act' => 'browser', 'actions' => ['rte'], 'limit' => 20, 'pager' => true, 'search' => true],
+            'vars' => ['actions' => ['rte'], 'limit' => 20, 'pager' => true, 'search' => true],
         ],
     ],
     'form' => [
@@ -226,6 +226,11 @@ return [
     'file/edit' => [
         'content' => [
             'vars' => ['attr' => ['name', 'info']],
+        ],
+    ],
+    'page/index' => [
+        'content' => [
+            'vars' => ['crit' => [['status', 'published']]],
         ],
     ],
     'page/sitemap' => [

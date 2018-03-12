@@ -163,16 +163,15 @@ function ent(array $§): string
  */
 function index(array $§): string
 {
-    $act = $§['vars']['act'];
     $ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'));
+    $crit = is_array($§['vars']['crit']) ? $§['vars']['crit'] : [];
     $opt = ['limit' => (int) $§['vars']['limit']];
-    unset($§['vars']['act'], $§['vars']['ent'], $§['vars']['limit']);
+    unset($§['vars']['crit'], $§['vars']['ent'], $§['vars']['limit']);
 
     if (!$ent || $opt['limit'] <= 0) {
         return '';
     }
 
-    $crit = $act !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
     $p = arr\replace(['CKEditorFuncNum' => null, 'cur' => null, 'el' => null, 'q' => null, 'sort' => null, 'dir' => null], req\data('get'));
 
     if ($§['vars']['search']) {
