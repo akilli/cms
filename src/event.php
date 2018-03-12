@@ -154,17 +154,24 @@ function layout(array $data): array
 {
     $cfg = app\cfg('layout');
     $type = app\cfg('block');
-    $parent = app\data('parent');
-    $act = app\data('act');
-    $path = app\data('path');
-    $area = app\data('area');
+    $keys = [APP['all'], app\data('area')];
 
     if (http_response_code() === 404) {
-        $keys = [APP['all'], $area, 'app/error'];
-    } elseif ($parent) {
-        $keys = [APP['all'], $area, $act, $parent . '/' . $act, $path];
+        $keys[] = 'app/error';
     } else {
-        $keys = [APP['all'], $area, $act, $path];
+        $eId = app\data('ent');
+        $act = app\data('act');
+        $keys[] = $act;
+
+        if ($parent = app\data('parent')) {
+            $keys[] = $parent . '/' . $act;
+        }
+
+        $keys[] = $eId . '/' . $act;
+
+        if ($id = app\data('id')) {
+            $keys[] = $eId . '/' . $act . '/' . $id;
+        }
     }
 
     foreach ($keys as $key) {

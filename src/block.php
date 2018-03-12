@@ -51,7 +51,7 @@ function root(array $§): string
 {
     $§['vars']['act'] = app\data('act');
     $§['vars']['area'] = app\data('area');
-    $§['vars']['ent'] = app\data('ent')['id'] ?? null;
+    $§['vars']['ent'] = app\data('ent');
     $§['vars']['ent-id'] = app\data('id');
     $§['vars']['lang'] = app\data('lang');
 
@@ -146,7 +146,7 @@ function pager(array $§): string
  */
 function ent(array $§): string
 {
-    $§['vars']['ent'] = $§['vars']['ent'] ? app\cfg('ent', $§['vars']['ent']) : app\data('ent');
+    $§['vars']['ent'] = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'));
 
     if (!$§['vars']['ent']) {
         return '';
@@ -182,7 +182,7 @@ function ent(array $§): string
 function index(array $§): string
 {
     $act = $§['vars']['act'];
-    $ent = $§['vars']['ent'] ? app\cfg('ent', $§['vars']['ent']) : app\data('ent');
+    $ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'));
     $opt = ['limit' => (int) $§['vars']['limit']];
     unset($§['vars']['act'], $§['vars']['ent'], $§['vars']['limit']);
 
