@@ -9,14 +9,15 @@ use attr;
     <?php endif;?>
     <form method="post"<?php if ($§('file')):?> enctype="multipart/form-data"<?php endif;?>>
         <fieldset>
-            <?php foreach ($§('attr') as $attr):?>
+            <?php foreach ($§('attr') as $aId):?>
+            <?php if (!($attr = $§('ent')['attr'][$aId] ?? null)) continue;?>
             <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
                 <?=attr\frontend($attr, $§('data'));?>
             </div>
             <?php endforeach;?>
         </fieldset>
-        <?php if (allowed($§('data')['_ent']['id'] . '/admin')):?>
-        <a role="button" href="<?=url($§('data')['_ent']['id'] . '/admin');?>"><?=i18n('Back');?></a>
+        <?php if (allowed($§('ent')['id'] . '/admin')):?>
+        <a role="button" href="<?=url($§('ent')['id'] . '/admin');?>"><?=i18n('Back');?></a>
         <?php endif;?>
         <input type="submit" value="<?=i18n('Submit');?>" />
         <input type="hidden" name="token" value="<?=$§('token');?>" />

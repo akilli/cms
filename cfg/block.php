@@ -11,7 +11,7 @@ return [
     'form' => [
         'call' => 'block\form',
         'tpl' => 'ent/form.phtml',
-        'vars' => ['attr' => [], 'data' => [], 'title' => null],
+        'vars' => ['attr' => [], 'data' => [], 'ent' => [], 'title' => null],
     ],
     'index' => [
         'call' => 'block\index',
@@ -71,6 +71,6 @@ return [
     'view' => [
         'call' => 'block\view',
         'tpl' => 'ent/view.phtml',
-        'vars' => ['attr' => [], 'data' => []],
+        'vars' => ['attr' => [], 'data' => [], 'ent' => []],
     ],
 ];

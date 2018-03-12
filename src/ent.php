@@ -7,7 +7,6 @@ use arr;
 use attr;
 use app;
 use sql;
-use DomainException;
 use Throwable;
 
 /**
@@ -201,26 +200,6 @@ function delete(string $eId, array $crit = [], array $opt = []): bool
 function data(array $ent): array
 {
     return array_fill_keys(array_keys($ent['attr']), null) + ['_old' => [], '_ent' => $ent];
-}
-
-/**
- * Retrieve entity attributes filtered by given action
- *
- * @throws DomainException
- */
-function attr(array $ent, array $cfg): array
-{
-    $attrs = [];
-    $keys = array_keys($ent['attr']);
-    $aIds = $cfg ? array_intersect($cfg, $keys) : $keys;
-
-    foreach ($aIds as $aId) {
-        if ($cfg || !$ent['attr'][$aId]['auto']) {
-            $attrs[$aId] = $ent['attr'][$aId];
-        }
-    }
-
-    return $attrs;
 }
 
 /**

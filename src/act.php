@@ -20,7 +20,7 @@ function form(array $ent): void
     }
 
     $data = array_replace(ent\data($ent), $data);
-    app\layout('content', ['vars' => ['data' => $data, 'title' => $ent['name']]]);
+    app\layout('content', ['vars' => ['data' => $data, 'ent' => $ent, 'title' => $ent['name']]]);
 }
 
 /**
@@ -34,7 +34,7 @@ function create(array $ent): void
     }
 
     $data = array_replace(ent\data($ent), $data);
-    app\layout('content', ['vars' => ['data' => $data, 'title' => $ent['name']]]);
+    app\layout('content', ['vars' => ['data' => $data, 'ent' => $ent, 'title' => $ent['name']]]);
 }
 
 /**
@@ -67,7 +67,7 @@ function edit(array $ent): void
 
     $p[] = $data;
     $data = arr\replace(ent\data($ent), ...$p);
-    app\layout('content', ['vars' => ['data' => $data, 'title' => $ent['name']]]);
+    app\layout('content', ['vars' => ['data' => $data, 'ent' => $ent, 'title' => $ent['name']]]);
 }
 
 /**
@@ -87,7 +87,7 @@ function view(array $ent): void
         return;
     }
 
-    app\layout('content', ['vars' => ['data' => $data]]);
+    app\layout('content', ['vars' => ['data' => $data, 'ent' => $ent]]);
     app\layout('meta', ['vars' => ['desc' => $data['meta'] ?? null, 'title' => $data['name']]]);
 }
 
@@ -135,7 +135,7 @@ function account_password(array $ent): void
         }
     }
 
-    app\layout('content', ['vars' => ['data' => ['_ent' => $ent], 'title' => app\i18n('Password')]]);
+    app\layout('content', ['vars' => ['ent' => $ent, 'title' => app\i18n('Password')]]);
 }
 
 /**

@@ -170,7 +170,6 @@ function ent(array $§): string
         $opt['offset'] = $§['vars']['offset'];
     }
 
-    $§['vars']['attr'] = ent\attr($§['vars']['ent'], $§['vars']['attr']);
     $§['vars']['data'] = ent\all($§['vars']['ent']['id'], $§['vars']['crit'], $opt);
     $§['vars']['size'] = ent\size($§['vars']['ent']['id'], $§['vars']['crit']);
 
@@ -191,7 +190,6 @@ function index(array $§): string
         return '';
     }
 
-    $§['vars']['attr'] = ent\attr($ent, $§['vars']['attr']);
     $crit = $act !== 'admin' && in_array('page', [$ent['id'], $ent['parent']]) ? [['status', 'published']] : [];
     $p = arr\replace(['CKEditorFuncNum' => null, 'cur' => null, 'el' => null, 'q' => null, 'sort' => null, 'dir' => null], req\data('get'));
 
@@ -220,7 +218,7 @@ function index(array $§): string
     $p['cur'] = min(max((int) $p['cur'], 1), $total);
     $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
 
-    if ($p['sort'] && !empty($§['vars']['attr'][$p['sort']])) {
+    if ($p['sort'] && in_array($p['sort'], $§['vars']['attr'])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
         $opt['order'] = [$p['sort'] => $p['dir']];
     } else {
@@ -265,13 +263,18 @@ function index(array $§): string
  */
 function form(array $§): string
 {
-    if (empty($§['vars']['data']['_ent'])) {
+    if (!$§['vars']['ent']) {
         return '';
     }
 
-    $§['vars']['attr'] = ent\attr($§['vars']['data']['_ent'], $§['vars']['attr']);
-    $§['vars']['file'] = in_array('file', array_column($§['vars']['attr'], 'type'));
     $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
+    $§['vars']['file'] = false;
+
+    foreach ($§['vars']['attr'] as $aId) {
+        if ($§['vars']['file'] = ($§['vars']['ent']['attr'][$aId]['type'] ?? null) === 'file') {
+            break;
+        }
+    }
 
     return tpl($§);
 }
@@ -281,14 +284,12 @@ function form(array $§): string
  */
 function login(array $§): string
 {
-    $§['vars']['attr'] = ent\attr(app\cfg('ent', 'account'), ['name', 'password']);
-    $§['vars']['attr']['name'] = array_replace($§['vars']['attr']['name'], ['unique' => false, 'minlength' => 0, 'maxlength' => 0]);
-    $§['vars']['attr']['password'] = array_replace($§['vars']['attr']['password'], ['minlength' => 0, 'maxlength' => 0]);
+    $§['vars']['attr'] = ['name', 'password'];
     $§['vars']['data'] = [];
-    $§['vars']['file'] = false;
-    $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
+    $a = ['name' => ['unique' => false, 'minlength' => 0, 'maxlength' => 0], 'password' => ['minlength' => 0, 'maxlength' => 0]];
+    $§['vars']['ent']['attr'] = array_replace_recursive(app\cfg('ent', 'account')['attr'], $a);
 
-    return tpl($§);
+    return form($§);
 }
 
 /**
@@ -296,13 +297,7 @@ function login(array $§): string
  */
 function view(array $§): string
 {
-    if (empty($§['vars']['data']['_ent'])) {
-        return '';
-    }
-
-    $§['vars']['attr'] = ent\attr($§['vars']['data']['_ent'], $§['vars']['attr']);
-
-    return tpl($§);
+    return $§['vars']['ent'] ? tpl($§) : '';
 }
 
 /**

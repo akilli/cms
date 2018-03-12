@@ -4,8 +4,8 @@ use attr;
 /** @var callable $§ */
 ?>
 <article id="<?=$§('id');?>" class="view">
-    <?php foreach ($§('attr') as $attr):?>
-        <?php if (!$html = attr\viewer($attr, $§('data'))) continue;?>
+    <?php foreach ($§('attr') as $aId):?>
+        <?php if (!($attr = $§('ent')['attr'][$aId] ?? null) || !($html = attr\viewer($attr, $§('data')))) continue;?>
         <?php if ($attr['id'] === 'name'):?>
     <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
         <?php elseif ($attr['id'] === 'aside'):?>
