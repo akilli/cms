@@ -217,14 +217,6 @@ function index(array $§): string
         $§['vars']['pager'] = null;
     }
 
-    if ($act === 'admin') {
-        $§['vars']['actions'] = ['view', 'edit', 'delete'];
-    } elseif ($act === 'browser') {
-        $§['vars']['actions'] = ['rte'];
-    } else {
-        $§['vars']['actions'] = [];
-    }
-
     $§['vars']['create'] = $act === 'admin';
     $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
     $§['vars']['dir'] = $p['dir'];

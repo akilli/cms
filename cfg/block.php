@@ -16,7 +16,7 @@ return [
     'index' => [
         'call' => 'block\index',
         'tpl' => 'ent/index.phtml',
-        'vars' => ['act' => 'index', 'attr' => [], 'ent' => null, 'limit' => 10, 'pager' => false, 'search' => false],
+        'vars' => ['act' => 'index', 'actions' => [], 'attr' => [], 'ent' => null, 'limit' => 10, 'pager' => false, 'search' => false],
     ],
     'js' => [
         'call' => 'block\js',

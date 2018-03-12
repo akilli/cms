@@ -77,7 +77,7 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['act' => 'admin', 'pager' => true, 'search' => true],
+            'vars' => ['act' => 'admin', 'actions' => ['view', 'edit', 'delete'], 'pager' => true, 'search' => true],
         ],
     ],
     'browser' => [
@@ -90,7 +90,7 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['act' => 'browser', 'limit' => 20, 'pager' => true, 'search' => true],
+            'vars' => ['act' => 'browser', 'actions' => ['rte'], 'limit' => 20, 'pager' => true, 'search' => true],
         ],
     ],
     'form' => [
