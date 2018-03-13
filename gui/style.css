@@ -41,6 +41,7 @@ h3:not(:first-child) {
     margin-top: 1.5rem;
 }
 
+main::after,
 hr,
 div[data-type=rte]::after {
     overflow: hidden;
