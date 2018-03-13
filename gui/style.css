@@ -42,6 +42,9 @@ h3:not(:first-child) {
     margin-top: 1.5rem;
 }
 
+/**
+ * Clear
+ */
 main::after,
 hr,
 div[data-type=rte]::after {
@@ -52,6 +55,23 @@ div[data-type=rte]::after {
     line-height: 0;
     clear: both;
     font-size: 0;
+}
+
+/**
+ * Alignment
+ */
+.left {
+    float: left;
+    margin-right: 0.75rem;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    float: right;
+    margin-left: 0.75rem;
 }
 
 /**
@@ -574,22 +594,5 @@ a[data-sort=desc]::after {
 
     html[data-act=browser] #content > article {
         width: 25%;
-    }
-
-    /**
-     * Alignment
-     */
-    .left {
-        float: left;
-        margin-right: 0.75rem;
-    }
-
-    .center {
-        text-align: center;
-    }
-
-    .right {
-        float: right;
-        margin-left: 0.75rem;
     }
 }
