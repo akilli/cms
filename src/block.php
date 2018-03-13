@@ -152,6 +152,10 @@ function ent(array $§): string
         return '';
     }
 
+    if (in_array('page', [$§['vars']['ent']['id'], $§['vars']['ent']['parent']]) && !$§['vars']['unpublished']) {
+        $§['vars']['crit'][] = ['status', 'published'];
+    }
+
     $§['vars']['data'] = ent\all($§['vars']['ent']['id'], $§['vars']['crit'], $§['vars']['opt']);
     $§['vars']['size'] = ent\size($§['vars']['ent']['id'], $§['vars']['crit']);
 
@@ -165,8 +169,13 @@ function index(array $§): string
 {
     $ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'));
     $crit = is_array($§['vars']['crit']) ? $§['vars']['crit'] : [];
+
+    if (in_array('page', [$ent['id'], $ent['parent']]) && !$§['vars']['unpublished']) {
+        $crit[] = ['status', 'published'];
+    }
+
     $opt = ['limit' => (int) $§['vars']['limit']];
-    unset($§['vars']['crit'], $§['vars']['ent'], $§['vars']['limit']);
+    unset($§['vars']['crit'], $§['vars']['ent'], $§['vars']['limit'], $§['vars']['unpublished']);
 
     if (!$ent || $opt['limit'] <= 0) {
         return '';

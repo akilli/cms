@@ -6,7 +6,8 @@ return [
     ],
     'ent' => [
         'call' => 'block\ent',
-        'vars' => ['attr' => [], 'crit' => [], 'ent' => null, 'opt' => []],
+        'tpl' => 'ent/index.phtml',
+        'vars' => ['attr' => [], 'crit' => [], 'ent' => null, 'link' => false, 'opt' => [], 'title' => false, 'unpublished' => false],
     ],
     'form' => [
         'call' => 'block\form',
@@ -16,7 +17,7 @@ return [
     'index' => [
         'call' => 'block\index',
         'tpl' => 'ent/index.phtml',
-        'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'ent' => null, 'head' => false, 'limit' => 10, 'link' => false, 'pager' => false, 'search' => false],
+        'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'ent' => null, 'head' => false, 'limit' => 10, 'link' => false, 'pager' => false, 'search' => false, 'unpublished' => false],
     ],
     'js' => [
         'call' => 'block\js',

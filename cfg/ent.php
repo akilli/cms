@@ -190,7 +190,7 @@ return [
     'page' => [
         'name' => 'Pages',
         'type' => 'db',
-        'act' => ['sitemap'],
+        'act' => ['index', 'sitemap', 'view'],
         'attr' => [
             'id' => [
                 'name' => 'ID',

@@ -77,7 +77,7 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => true, 'search' => true],
+            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => true, 'search' => true, 'unpublished' => true],
         ],
     ],
     'browser' => [
@@ -226,11 +226,6 @@ return [
     'file/edit' => [
         'content' => [
             'vars' => ['attr' => ['name', 'info']],
-        ],
-    ],
-    'page/index' => [
-        'content' => [
-            'vars' => ['crit' => [['status', 'published']]],
         ],
     ],
     'page/sitemap' => [

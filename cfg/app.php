@@ -1,7 +1,7 @@
 <?php
 return [
     'date' => 'd.m.y',
-    'datetime' => 'd.m.y (H:i)',
+    'datetime' => 'd.m.y',
     'name' => 'akıllı CMS',
     'time' => 'H:i',
 ];

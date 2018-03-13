@@ -51,7 +51,13 @@ return [
     'content/view' => [
         'active' => false,
     ],
+    'page/index' => [
+        'active' => false,
+    ],
     'page/sitemap' => [
+        'active' => false,
+    ],
+    'page/view' => [
         'active' => false,
     ],
     'role/admin' => [
