@@ -41,6 +41,7 @@ h3:not(:first-child) {
     margin-top: 1.5rem;
 }
 
+.cf::after,
 main::after,
 hr,
 div[data-type=rte]::after {
