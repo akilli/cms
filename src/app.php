@@ -25,6 +25,7 @@ function run(): void
 
     $data = & reg('app');
     $data['lang'] = locale_get_primary_language('');
+    $data['gui'] = max(filemtime(path('gui')), filemtime(path('ext.gui')) ?: 0);
     $url = req\data('url');
     $rew = ent\one('url', [['name', $url]]);
 
@@ -321,10 +322,7 @@ function url(string $path = '', array $get = [], bool $preserve = false): string
  */
 function gui(string $path): string
 {
-    $data = & reg('gui');
-    $data['app'] = $data['app'] ?? max(filemtime(path('gui')), filemtime(path('ext.gui')) ?: 0);
-
-    return APP['url.gui'] . $data['app'] . '/' . trim($path, '/');
+    return APP['url.gui'] . data('gui') . '/' . trim($path, '/');
 }
 
 /**
