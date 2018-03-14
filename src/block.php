@@ -59,6 +59,17 @@ function root(array $§): string
 }
 
 /**
+ * Head
+ */
+function head(array $§): string
+{
+    $§['vars']['desc'] = $§['vars']['desc'] ? app\enc($§['vars']['desc']) : null;
+    $§['vars']['title'] = app\enc($§['vars']['title'] ?: app\cfg('app', 'name'));
+
+    return tpl($§);
+}
+
+/**
  * JS
  */
 function js(array $§): string
@@ -66,17 +77,6 @@ function js(array $§): string
     $opt = app\cfg('opt');
     $§['vars']['file'] = json_encode(array_fill_keys($opt['audio'], 'audio') + array_fill_keys($opt['image'], 'img') + array_fill_keys($opt['video'], 'video'));
     $§['vars']['i18n'] = json_encode(app\cfg('i18n'));
-
-    return tpl($§);
-}
-
-/**
- * Meta
- */
-function meta(array $§): string
-{
-    $§['vars']['desc'] = $§['vars']['desc'] ? app\enc($§['vars']['desc']) : null;
-    $§['vars']['title'] = app\enc($§['vars']['title'] ?: app\cfg('app', 'name'));
 
     return tpl($§);
 }

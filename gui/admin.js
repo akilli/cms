@@ -3,53 +3,60 @@
 (function (window, document, app, CKEDITOR) {
     document.addEventListener('DOMContentLoaded', function () {
         // Input password autocomplete fix
-        document.querySelectorAll('input[type=password]').forEach(function (item) {
-            item.setAttribute('readonly', true);
-            item.addEventListener('focus', function () {
+        const pwd = document.querySelectorAll('input[type=password]');
+
+        for (let a = 0; a < pwd.length; a++) {
+            pwd[a].setAttribute('readonly', true);
+            pwd[a].addEventListener('focus', function () {
                 this.removeAttribute('readonly');
             });
-        });
+        }
 
         // Delete buttons and links
-        document.querySelectorAll('a[data-act=delete]').forEach(function (item) {
-            item.addEventListener('click', function (event) {
+        const del = document.querySelectorAll('a[data-act=delete]');
+
+        for (let a = 0; a < del.length; a++) {
+            del[a].addEventListener('click', function (event) {
                 if (!confirm(app.i18n('Please confirm delete operation'))) {
                     event.preventDefault();
                 }
             });
-        });
+        }
 
         // Browser
         const suffix = '-file';
+        const brw = document.querySelectorAll('span[data-act=browser]');
+        const rem = document.querySelectorAll('span[data-act=remove]');
+        const sel = document.querySelectorAll('span[data-act=select]');
 
-        document.querySelectorAll('span[data-act=browser]').forEach(function (item) {
-            const ent = item.parentElement.getAttribute('data-type') || 'file';
-
-            item.addEventListener('click', function () {
+        for (let a = 0; a < brw.length; a++) {
+            brw[a].addEventListener('click', function () {
+                const ent = this.parentElement.getAttribute('data-type') || 'file';
                 window.open(
                     '/' + ent + '/browser?el=' + this.getAttribute('data-id'),
                     'browser',
                     'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes'
                 );
             });
-        });
+        }
 
-        document.querySelectorAll('span[data-act=remove]').forEach(function (item) {
-            item.addEventListener('click', function () {
+        for (let a = 0; a < rem.length; a++) {
+            rem[a].addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 const el = document.getElementById(id + suffix);
 
                 document.getElementById(id).setAttribute('value', '');
 
                 if (el) {
-                    el.innerHTML = '';
+                    while (el.firstChild) {
+                        el.removeChild(el.firstChild);
+                    }
                 }
             });
-        });
+        }
 
-        // RTE browser
-        document.querySelectorAll('span[data-act=select]').forEach(function (item) {
-            item.addEventListener('click', function () {
+        for (let a = 0; a < sel.length; a++) {
+            sel[a].addEventListener('click', function () {
                 if (!window.opener) {
                     return;
                 }
@@ -70,14 +77,18 @@
                         const file = doc.createElement(type);
 
                         file.setAttribute(type === 'a' ? 'href' : 'src', url);
-                        el.innerHTML = '';
+
+                        while (el.firstChild) {
+                            el.removeChild(el.firstChild);
+                        }
+
                         el.appendChild(file);
                     }
                 }
 
                 window.close();
             });
-        });
+        }
 
         // RTE
         const cfg = {
@@ -106,8 +117,10 @@
                 {name: 'about'}
             ]
         };
-        document.querySelectorAll('textarea[data-type=rte]').forEach(function (item) {
-            CKEDITOR.replace(item, cfg);
-        });
+        const rte = document.querySelectorAll('textarea[data-type=rte]');
+
+        for (let a = 0; a < rte.length; a++) {
+            CKEDITOR.replace(rte[a], cfg);
+        }
     });
 })(window, document, app, CKEDITOR);

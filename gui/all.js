@@ -3,14 +3,14 @@
 (function (document) {
     document.addEventListener('DOMContentLoaded', function () {
         // Multi-checkbox required fix
-        const forms = document.querySelectorAll('form');
+        const form = document.querySelectorAll('form');
 
-        for (let a = 0; a < forms.length; a++) {
+        for (let a = 0; a < form.length; a++) {
             let sel = 'input[type=checkbox][multiple]';
-            let multi = forms[a].querySelectorAll(sel + '[required]');
+            let multi = form[a].querySelectorAll(sel + '[required]');
 
             for (let b = 0; b < multi.length; b++) {
-                multi[b].addEventListener('change', function (ev) {
+                multi[b].addEventListener('change', function () {
                     let req = !!this.form.querySelector(sel + '[name="' + this.name + '"]:checked');
                     let sib = this.form.querySelectorAll(sel + '[name="' + this.name + '"]');
 

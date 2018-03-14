@@ -466,14 +466,7 @@ a[data-sort=desc]::after {
     }
 
     #toolbar {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-    }
-
-    #toolbar + * {
-        margin-top: 3rem;
+        margin: 0 -0.75rem;
     }
 
     #toolbar li,
@@ -562,17 +555,12 @@ a[data-sort=desc]::after {
     /**
      * Login
      */
-    html[data-ent=account][data-act=login] body {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-    }
-
     html[data-ent=account][data-act=login] main {
         display: flex;
         flex: 1 0;
         align-items: center;
         justify-content: center;
+        height: 100vh;
     }
 
     html[data-ent=account][data-act=login] #content {

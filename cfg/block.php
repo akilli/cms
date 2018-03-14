@@ -14,6 +14,11 @@ return [
         'tpl' => 'ent/form.phtml',
         'vars' => ['attr' => [], 'data' => [], 'ent' => [], 'title' => null],
     ],
+    'head' => [
+        'call' => 'block\head',
+        'tpl' => 'block/head.phtml',
+        'vars' => ['desc' => null, 'title' => null],
+    ],
     'index' => [
         'call' => 'block\index',
         'tpl' => 'ent/index.phtml',
@@ -32,11 +37,6 @@ return [
     'menu' => [
         'call' => 'block\menu',
         'vars' => ['tag' => 'nav'],
-    ],
-    'meta' => [
-        'call' => 'block\meta',
-        'tpl' => 'head/meta.phtml',
-        'vars' => ['desc' => null, 'title' => null],
     ],
     'msg' => [
         'call' => 'block\msg',

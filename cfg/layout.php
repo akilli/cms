@@ -5,19 +5,7 @@ return [
             'type' => 'root',
         ],
         'head' => [
-            'type' => 'container',
-        ],
-        'meta' => [
-            'type' => 'meta',
-            'parent' => 'head',
-            'sort' => 10,
-        ],
-        'admin' => [
-            'type' => 'tpl',
-            'tpl' => 'head/admin.phtml',
-            'priv' => 'account-user',
-            'parent' => 'head',
-            'sort' => 20,
+            'type' => 'head',
         ],
         'top' => [
             'type' => 'container',

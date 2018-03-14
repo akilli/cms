@@ -13,4 +13,9 @@ namespace app;
 <?php if (file_exists(path('ext.gui', 'ext.css'))):?>
 <link rel="stylesheet" href="<?=gui('ext.css');?>" />
 <?php endif;?>
+<?php if (allowed('account-user')):?>
+<script src="<?=gui('ckeditor/ckeditor.js');?>"></script>
+<script src="<?=url('app/js');?>"></script>
+<script src="<?=gui('admin.js');?>"></script>
+<?php endif;?>
 <script src="<?=gui('all.js');?>"></script>

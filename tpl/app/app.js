@@ -9,11 +9,12 @@ const app = {
         file: <?=$§('file');?>,
         i18n: <?=$§('i18n');?>
     },
-    i18n: function (key, ...args) {
+    i18n: function (key) {
         key = this.cfg.i18n[key] ? this.cfg.i18n[key] : key;
-        args.map(function (i) {
-            key = key.replace(/%s/, i);
-        });
+
+        for (let i = 1; i < arguments.length; i++) {
+            key = key.replace(/%s/, arguments[i]);
+        }
 
         return key;
     },
