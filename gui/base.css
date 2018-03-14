@@ -218,6 +218,11 @@ option[selected] {
 /**
  * Interactive
  */
+details,
+summary {
+    display: block;
+}
+
 details {
     cursor: pointer;
 }
