@@ -316,24 +316,15 @@ function url(string $path = '', array $get = [], bool $preserve = false): string
 
 /**
  * GUI URL
+ *
+ * @see location /gui in nginx.conf for fallback paths
  */
 function gui(string $path): string
 {
     $data = & reg('gui');
-    $data['app'] = $data['app'] ?? filemtime(path('gui'));
+    $data['app'] = $data['app'] ?? max(filemtime(path('gui')), filemtime(path('ext.gui')) ?: 0);
 
     return APP['url.gui'] . $data['app'] . '/' . trim($path, '/');
-}
-
-/**
- * Extension GUI URL
- */
-function ext(string $path): string
-{
-    $data = & reg('gui');
-    $data['ext'] = $data['ext'] ?? filemtime(path('ext.gui'));
-
-    return APP['url.ext'] . $data['ext'] . '/' . trim($path, '/');
 }
 
 /**
