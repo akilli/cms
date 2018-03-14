@@ -223,6 +223,6 @@ summary {
     display: block;
 }
 
-details {
+summary {
     cursor: pointer;
 }
