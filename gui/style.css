@@ -28,7 +28,7 @@ figure,
 h1,
 h2,
 h3,
-p,
+p:not(:last-child),
 fieldset > *,
 #content > :not(:last-child),
 #sidebar > :not(:last-child) {
