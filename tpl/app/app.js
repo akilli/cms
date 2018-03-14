@@ -16,5 +16,10 @@ const app = {
         });
 
         return key;
+    },
+    param: function (name) {
+        const match = window.location.search.match(new RegExp('(?:[\?&]|&)' + name + '=([^&]+)', 'i'));
+
+        return match && match.length > 1 ? match[1] : null;
     }
 };
