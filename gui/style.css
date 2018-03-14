@@ -45,8 +45,8 @@ h3:not(:first-child) {
 /**
  * Clear
  */
+hr::before,
 main::after,
-hr,
 div[data-type=rte]::after {
     overflow: hidden;
     content: "";
