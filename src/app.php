@@ -25,7 +25,7 @@ function run(): void
     $data = & reg('app');
     $data['lang'] = locale_get_primary_language('');
     $data['gui'] = max(filemtime(path('gui')), filemtime(path('ext.gui')) ?: 0);
-    $url = req\data('url');
+    $url = req\get('url');
     $rew = ent\one('url', [['name', $url]]);
 
     // Redirect
@@ -282,11 +282,11 @@ function enc(string $val): string
 /**
  * Generates URL by given path and params, optionally preserves existing params
  */
-function url(string $path = '', array $get = [], bool $preserve = false): string
+function url(string $path = '', array $param = [], bool $preserve = false): string
 {
-    $get = array_filter($preserve ? array_replace(req\data('get'), $get) : $get, 'is_scalar');
+    $param = array_filter($preserve ? array_replace(req\get('param'), $param) : $param, 'is_scalar');
 
-    return '/' . trim($path, '/') . ($get ? '?' . http_build_query($get, '', '&amp;') : '');
+    return '/' . trim($path, '/') . ($param ? '?' . http_build_query($param, '', '&amp;') : '');
 }
 
 /**

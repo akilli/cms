@@ -233,7 +233,7 @@ function ent_postsave(array $data): array
     }
 
     $cfg = app\cfg('mail');
-    $file = req\data('file');
+    $file = req\get('file');
     $attrs = $data['_ent']['attr'];
     $text = '';
     $attach = [];
@@ -258,7 +258,7 @@ function ent_postsave(array $data): array
  */
 function ent_postsave_file(array $data): array
 {
-    $item = req\data('file')['name'] ?? null;
+    $item = req\get('file')['name'] ?? null;
 
     if ($item && !file\upload($item['tmp_name'], app\path('file', $data['id'] . '.' . $data['type']))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));

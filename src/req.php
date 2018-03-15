@@ -12,27 +12,27 @@ use DomainException;
  *
  * @return mixed
  */
-function data(string $key)
+function get(string $key)
 {
     if (($data = & app\reg('req')) === null) {
         $data['host'] = $_SERVER['HTTP_HOST'];
         $data['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $data['file'] = [];
-        $data['post'] = [];
-        $data['get'] = [];
+        $data['data'] = [];
+        $data['param'] = [];
 
         if (!empty($_POST['token'])) {
             if (session\get('token') === $_POST['token']) {
                 $data['file'] = !empty($_FILES['data']) && is_array($_FILES['data']) ? file($_FILES['data']) : [];
-                $data['post'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
-                $data['post'] = array_replace_recursive($data['post'], convert($data['file']));
-                $data['get'] = !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
+                $data['data'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
+                $data['data'] = array_replace_recursive($data['data'], convert($data['file']));
+                $data['param'] = !empty($_POST['param']) && is_array($_POST['param']) ? $_POST['param'] : [];
             }
 
             session\set('token', null);
         }
 
-        $data['get'] = filter($data['get'] + $_GET);
+        $data['param'] = filter($data['param'] + $_GET);
     }
 
     return $data[$key] ?? null;

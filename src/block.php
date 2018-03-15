@@ -94,7 +94,7 @@ function msg(array $§): string
  */
 function search(array $§): string
 {
-    $§['vars']['q'] = $§['vars']['q'] ?? req\data('get')['q'] ?? null;
+    $§['vars']['q'] = $§['vars']['q'] ?? req\get('param')['q'] ?? null;
 
     return tpl($§);
 }
@@ -105,7 +105,7 @@ function search(array $§): string
 function pager(array $§): string
 {
     $§['vars']['size'] = (int) $§['vars']['size'];
-    $cur = $§['vars']['cur'] ?? req\data('get')['cur'] ?? 1;
+    $cur = $§['vars']['cur'] ?? req\get('param')['cur'] ?? 1;
     $limit = (int) $§['vars']['limit'];
     $pages = (int) $§['vars']['pages'];
     unset($§['vars']['cur'], $§['vars']['limit'], $§['vars']['pages']);
@@ -114,7 +114,7 @@ function pager(array $§): string
         return '';
     }
 
-    $url = req\data('url');
+    $url = req\get('url');
     $total = (int) ceil($§['vars']['size'] / $limit) ?: 1;
     $cur = min(max($cur, 1), $total);
     $offset = ($cur - 1) * $limit;
@@ -181,7 +181,7 @@ function index(array $§): string
         return '';
     }
 
-    $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], req\data('get'));
+    $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], req\get('param'));
 
     if ($§['vars']['search']) {
         if ($p['q'] = trim((string) $p['q'])) {
@@ -230,7 +230,7 @@ function index(array $§): string
     $§['vars']['ent'] = $ent;
     $§['vars']['sort'] = $p['sort'];
     $§['vars']['title'] = $ent['name'];
-    $§['vars']['url'] = req\data('url');
+    $§['vars']['url'] = req\get('url');
 
     return tpl($§);
 }
@@ -288,7 +288,7 @@ function nav(array $§): string
         return '';
     }
 
-    $url = req\data('url');
+    $url = req\get('url');
     $count = count($§['vars']['data']);
     $level = 0;
     $i = 0;
