@@ -45,16 +45,6 @@ function tpl(array $§): string
 }
 
 /**
- * Search
- */
-function search(array $§): string
-{
-    $§['vars']['q'] = $§['vars']['q'] ?? req\get('param')['q'] ?? null;
-
-    return tpl($§);
-}
-
-/**
  * Pager
  */
 function pager(array $§): string
@@ -151,9 +141,8 @@ function index(array $§): string
             $crit[] = $c;
         }
 
-        $search = ['id' => $§['id'] . '.search', 'type' => 'search', 'vars' => ['q' => $p['q']]];
-        app\layout($search['id'], $search);
-        $§['vars']['search'] = app\§($search['id']);
+        app\layout($§['vars']['search'], ['vars' => ['q' => $p['q']]]);
+        $§['vars']['search'] = app\§($§['vars']['search']);
     } else {
         $§['vars']['search'] = null;
     }
@@ -173,9 +162,8 @@ function index(array $§): string
     }
 
     if ($§['vars']['pager']) {
-        $pager = ['id' => $§['id'] . '.pager', 'type' => 'pager', 'vars' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]];
-        app\layout($pager['id'], $pager);
-        $§['vars']['pager'] = app\§($pager['id']);
+        app\layout($§['vars']['pager'], ['vars' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]]);
+        $§['vars']['pager'] = app\§($§['vars']['pager']);
     } else {
         $§['vars']['pager'] = null;
     }

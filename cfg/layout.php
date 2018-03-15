@@ -61,14 +61,28 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['link' => true, 'pager' => true, 'search' => true],
+            'vars' => ['link' => true, 'pager' => 'pager', 'search' => 'search'],
+        ],
+        'search' => [
+            'type' => 'tpl',
+            'tpl' => 'block/search.phtml',
+        ],
+        'pager' => [
+            'type' => 'pager',
         ],
     ],
     'admin' => [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => true, 'search' => true, 'unpublished' => true],
+            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => 'pager', 'search' => 'search', 'unpublished' => true],
+        ],
+        'search' => [
+            'type' => 'tpl',
+            'tpl' => 'block/search.phtml',
+        ],
+        'pager' => [
+            'type' => 'pager',
         ],
     ],
     'browser' => [
@@ -81,7 +95,14 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'vars' => ['actions' => ['rte'], 'limit' => 20, 'pager' => true, 'search' => true],
+            'vars' => ['actions' => ['rte'], 'limit' => 20, 'pager' => 'pager', 'search' => 'search'],
+        ],
+        'search' => [
+            'type' => 'tpl',
+            'tpl' => 'block/search.phtml',
+        ],
+        'pager' => [
+            'type' => 'pager',
         ],
     ],
     'form' => [
