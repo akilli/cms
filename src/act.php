@@ -130,7 +130,7 @@ function account_password(array $ent): void
         if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
             app\msg('Password and password confirmation must be identical');
         } else {
-            $data = ['id' => account\data('id'), 'password' => $data['password']];
+            $data = ['id' => account\get('id'), 'password' => $data['password']];
             ent\save('account', $data);
         }
     }
