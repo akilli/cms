@@ -28,11 +28,6 @@ return [
         'call' => 'block\menu',
         'vars' => ['tag' => 'nav'],
     ],
-    'msg' => [
-        'call' => 'block\msg',
-        'tpl' => 'block/msg.phtml',
-        'vars' => [],
-    ],
     'nav' => [
         'call' => 'block\nav',
         'vars' => ['data' => [], 'tag' => 'nav'],

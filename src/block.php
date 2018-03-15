@@ -45,14 +45,6 @@ function tpl(array $§): string
 }
 
 /**
- * Message
- */
-function msg(array $§): string
-{
-    return ($§['vars']['data'] = app\msg()) ? tpl($§) : '';
-}
-
-/**
  * Search
  */
 function search(array $§): string

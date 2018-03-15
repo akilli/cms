@@ -19,7 +19,8 @@ return [
             'sort' => 10,
         ],
         'msg' => [
-            'type' => 'msg',
+            'type' => 'tpl',
+            'tpl' => 'block/msg.phtml',
         ],
         'main' => [
             'type' => 'container',
