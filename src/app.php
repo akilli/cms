@@ -10,7 +10,6 @@ use ent;
 use req;
 use session;
 use DomainException;
-use ErrorException;
 use Throwable;
 
 /**
@@ -19,9 +18,9 @@ use Throwable;
 function run(): void
 {
     // Register functions
-    set_error_handler('app\error');
-    set_exception_handler('app\exception');
-    register_shutdown_function('app\shutdown');
+    set_error_handler('handler\error');
+    set_exception_handler('handler\exception');
+    register_shutdown_function('handler\shutdown');
 
     $data = & reg('app');
     $data['lang'] = locale_get_primary_language('');
@@ -64,15 +63,6 @@ function run(): void
         ('act\\' . $ent['parent'] . '_' . $data['act'])($ent);
     } elseif (is_callable('act\\' . $data['act'])) {
         ('act\\' . $data['act'])($ent);
-    }
-}
-
-/**
- * Shutdown
- */
-function shutdown() {
-    if ($data = reg('msg')) {
-        session\set('msg', $data);
     }
 }
 
@@ -205,22 +195,6 @@ function msg(string $msg = null, string ...$args): array
 function log(Throwable $e): void
 {
     file_put_contents(APP['log'], '[' . date('r') . '] ' . $e . "\n\n", FILE_APPEND);
-}
-
-/**
- * Error handler
- */
-function error(int $severity, string $msg, string $file, int $line): void
-{
-    log(new ErrorException($msg, 0, $severity, $file, $line));
-}
-
-/**
- * Exception handler
- */
-function exception(Throwable $e): void
-{
-    log($e);
 }
 
 /**
