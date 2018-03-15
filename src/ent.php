@@ -197,7 +197,7 @@ function delete(string $eId, array $crit = [], array $opt = []): bool
 /**
  * Retrieve empty entity
  */
-function data(array $ent): array
+function item(array $ent): array
 {
     return array_fill_keys(array_keys($ent['attr']), null) + ['_old' => [], '_ent' => $ent];
 }

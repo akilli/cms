@@ -19,7 +19,7 @@ function form(array $ent): void
         $data = [];
     }
 
-    $data = array_replace(ent\data($ent), $data);
+    $data = array_replace(ent\item($ent), $data);
     app\layout('content', ['vars' => ['data' => $data, 'ent' => $ent, 'title' => $ent['name']]]);
 }
 
@@ -33,7 +33,7 @@ function create(array $ent): void
         return;
     }
 
-    $data = array_replace(ent\data($ent), $data);
+    $data = array_replace(ent\item($ent), $data);
     app\layout('content', ['vars' => ['data' => $data, 'ent' => $ent, 'title' => $ent['name']]]);
 }
 
@@ -66,7 +66,7 @@ function edit(array $ent): void
     }
 
     $p[] = $data;
-    $data = arr\replace(ent\data($ent), ...$p);
+    $data = arr\replace(ent\item($ent), ...$p);
     app\layout('content', ['vars' => ['data' => $data, 'ent' => $ent, 'title' => $ent['name']]]);
 }
 
