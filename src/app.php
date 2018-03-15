@@ -85,7 +85,7 @@ function & reg(string $id): ?array
  *
  * @return mixed
  */
-function data(string $id)
+function get(string $id)
 {
     return reg('app')[$id] ?? null;
 }
@@ -296,7 +296,7 @@ function url(string $path = '', array $param = [], bool $preserve = false): stri
  */
 function gui(string $path): string
 {
-    return APP['url.gui'] . data('gui') . '/' . trim($path, '/');
+    return APP['url.gui'] . get('gui') . '/' . trim($path, '/');
 }
 
 /**

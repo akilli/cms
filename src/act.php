@@ -42,7 +42,7 @@ function create(array $ent): void
  */
 function edit(array $ent): void
 {
-    if (!($id = app\data('id')) || !($old = ent\one($ent['id'], [['id', $id]]))) {
+    if (!($id = app\get('id')) || !($old = ent\one($ent['id'], [['id', $id]]))) {
         app\msg('Nothing to edit');
         app\redirect(app\url($ent['id'] . '/admin'));
         return;
@@ -75,7 +75,7 @@ function edit(array $ent): void
  */
 function view(array $ent): void
 {
-    $id = app\data('id');
+    $id = app\get('id');
     $crit = [['id', $id]];
 
     if (!app\allowed($ent['id'] . '/edit') && in_array('page', [$ent['id'], $ent['parent']])) {
@@ -96,7 +96,7 @@ function view(array $ent): void
  */
 function delete(array $ent): void
 {
-    if ($id = app\data('id')) {
+    if ($id = app\get('id')) {
         ent\delete($ent['id'], [['id', $id]]);
     } else {
         app\msg('Nothing to delete');

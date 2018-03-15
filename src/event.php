@@ -73,7 +73,7 @@ function cfg_ent(array $data): array
  */
 function cfg_i18n(array $data): array
 {
-    return $data + app\load('i18n/' . app\data('lang'));
+    return $data + app\load('i18n/' . app\get('lang'));
 }
 
 /**
@@ -154,22 +154,22 @@ function layout(array $data): array
 {
     $cfg = app\cfg('layout');
     $type = app\cfg('block');
-    $keys = [APP['all'], app\data('area')];
+    $keys = [APP['all'], app\get('area')];
 
     if (http_response_code() === 404) {
         $keys[] = 'app/error';
     } else {
-        $eId = app\data('ent');
-        $act = app\data('act');
+        $eId = app\get('ent');
+        $act = app\get('act');
         $keys[] = $act;
 
-        if ($parent = app\data('parent')) {
+        if ($parent = app\get('parent')) {
             $keys[] = $parent . '/' . $act;
         }
 
         $keys[] = $eId . '/' . $act;
 
-        if ($id = app\data('id')) {
+        if ($id = app\get('id')) {
             $keys[] = $eId . '/' . $act . '/' . $id;
         }
     }
@@ -228,7 +228,7 @@ function ent_prefilter_file(array $data): array
  */
 function ent_postsave(array $data): array
 {
-    if (!$data['_ent']['mail'] || !in_array('form', $data['_ent']['act']) || app\data('act') !== 'form') {
+    if (!$data['_ent']['mail'] || !in_array('form', $data['_ent']['act']) || app\get('act') !== 'form') {
         return $data;
     }
 

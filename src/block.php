@@ -49,11 +49,11 @@ function tpl(array $§): string
  */
 function root(array $§): string
 {
-    $§['vars']['act'] = app\data('act');
-    $§['vars']['area'] = app\data('area');
-    $§['vars']['ent'] = app\data('ent');
-    $§['vars']['ent-id'] = app\data('id');
-    $§['vars']['lang'] = app\data('lang');
+    $§['vars']['act'] = app\get('act');
+    $§['vars']['area'] = app\get('area');
+    $§['vars']['ent'] = app\get('ent');
+    $§['vars']['ent-id'] = app\get('id');
+    $§['vars']['lang'] = app\get('lang');
 
     return tpl($§);
 }
@@ -146,7 +146,7 @@ function pager(array $§): string
  */
 function ent(array $§): string
 {
-    $§['vars']['ent'] = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'));
+    $§['vars']['ent'] = app\cfg('ent', $§['vars']['ent'] ?: app\get('ent'));
 
     if (!$§['vars']['ent'] || !is_array($§['vars']['crit']) || !is_array($§['vars']['opt'])) {
         return '';
@@ -167,7 +167,7 @@ function ent(array $§): string
  */
 function index(array $§): string
 {
-    $ent = app\cfg('ent', $§['vars']['ent'] ?: app\data('ent'));
+    $ent = app\cfg('ent', $§['vars']['ent'] ?: app\get('ent'));
     $crit = is_array($§['vars']['crit']) ? $§['vars']['crit'] : [];
 
     if (in_array('page', [$ent['id'], $ent['parent']]) && !$§['vars']['unpublished']) {
