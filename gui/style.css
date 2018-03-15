@@ -521,7 +521,6 @@ a[data-sort=desc]::after {
         width: 100%;
         font-size: 0.875rem;
         empty-cells: show;
-        border-collapse: collapse;
         border-spacing: 0;
     }
 
