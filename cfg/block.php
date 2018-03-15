@@ -14,20 +14,10 @@ return [
         'tpl' => 'ent/form.phtml',
         'vars' => ['attr' => [], 'data' => [], 'ent' => [], 'title' => null],
     ],
-    'head' => [
-        'call' => 'block\head',
-        'tpl' => 'block/head.phtml',
-        'vars' => ['desc' => null, 'title' => null],
-    ],
     'index' => [
         'call' => 'block\index',
         'tpl' => 'ent/index.phtml',
         'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'ent' => null, 'head' => false, 'limit' => 10, 'link' => false, 'pager' => false, 'search' => false, 'unpublished' => false],
-    ],
-    'js' => [
-        'call' => 'block\js',
-        'tpl' => 'app/app.js',
-        'vars' => ['file' => [], 'i18n' => []],
     ],
     'login' => [
         'call' => 'block\login',
@@ -51,11 +41,6 @@ return [
         'call' => 'block\pager',
         'tpl' => 'block/pager.phtml',
         'vars' => ['cur' => null, 'limit' => null, 'pages' => 5, 'size' => null],
-    ],
-    'root' => [
-        'call' => 'block\root',
-        'tpl' => 'root.phtml',
-        'vars' => ['act' => null, 'area' => null, 'ent' => null, 'id' => null, 'lang' => null],
     ],
     'search' => [
         'call' => 'block\search',

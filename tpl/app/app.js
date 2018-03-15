@@ -6,8 +6,8 @@ namespace app;
 
 const app = {
     cfg: {
-        file: <?=$§('file');?>,
-        i18n: <?=$§('i18n');?>
+        file: <?=json_encode(array_fill_keys(cfg('opt', 'audio'), 'audio') + array_fill_keys(cfg('opt', 'image'), 'img') + array_fill_keys(cfg('opt', 'video'), 'video'));?>,
+        i18n: <?=json_encode(cfg('i18n'));?>
     },
     i18n: function (key) {
         key = this.cfg.i18n[key] ? this.cfg.i18n[key] : key;

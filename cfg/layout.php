@@ -2,10 +2,12 @@
 return [
     '_all_' => [
         'root' => [
-            'type' => 'root',
+            'type' => 'tpl',
+            'tpl' => 'root.phtml',
         ],
         'head' => [
-            'type' => 'head',
+            'type' => 'tpl',
+            'tpl' => 'block/head.phtml',
         ],
         'top' => [
             'type' => 'container',
@@ -148,7 +150,7 @@ return [
     ],
     'app/js' => [
         'root' => [
-            'type' => 'js',
+            'tpl' => 'app/app.js',
         ],
     ],
     'article/admin' => [

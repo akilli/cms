@@ -45,43 +45,6 @@ function tpl(array $§): string
 }
 
 /**
- * Root
- */
-function root(array $§): string
-{
-    $§['vars']['act'] = app\get('act');
-    $§['vars']['area'] = app\get('area');
-    $§['vars']['ent'] = app\get('ent');
-    $§['vars']['ent-id'] = app\get('id');
-    $§['vars']['lang'] = app\get('lang');
-
-    return tpl($§);
-}
-
-/**
- * Head
- */
-function head(array $§): string
-{
-    $§['vars']['desc'] = $§['vars']['desc'] ? app\enc($§['vars']['desc']) : null;
-    $§['vars']['title'] = app\enc($§['vars']['title'] ?: app\cfg('app', 'name'));
-
-    return tpl($§);
-}
-
-/**
- * JS
- */
-function js(array $§): string
-{
-    $opt = app\cfg('opt');
-    $§['vars']['file'] = json_encode(array_fill_keys($opt['audio'], 'audio') + array_fill_keys($opt['image'], 'img') + array_fill_keys($opt['video'], 'video'));
-    $§['vars']['i18n'] = json_encode(app\cfg('i18n'));
-
-    return tpl($§);
-}
-
-/**
  * Message
  */
 function msg(array $§): string
