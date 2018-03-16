@@ -464,18 +464,38 @@ html[data-shim-details] details > summary:first-child {
 }
 
 @media print {
+    h1,
+    h2,
+    h3,
+    summary {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
     details {
+        page-break-inside: avoid;
         margin-bottom: 1.5rem;
     }
+
     summary {
         display: block;
+        margin-bottom: 1.5rem;
+        font-size: 1.125rem;
+    }
+
+    #toolbar,
+    #header :not(.name),
+    #menu,
+    #sidebar,
+    #footer {
+        display: none !important;
     }
 }
 
 /**
  * Responsive
  */
-@media (min-width: 48rem) {
+@media screen and (min-width: 48rem) {
     /**
      * Navigation
      */
