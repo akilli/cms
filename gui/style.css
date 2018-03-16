@@ -473,7 +473,6 @@ html[data-shim-details] details > summary:first-child {
     }
 
     details {
-        page-break-inside: avoid;
         margin-bottom: 1.5rem;
     }
 
