@@ -57,10 +57,10 @@
                 for (let a = 0; a < details.length; a++) {
                     // Define open property
                     Object.defineProperty(details[a], 'open', {
-                        get: function() {
+                        get: function () {
                             return this.hasAttribute('open');
                         },
-                        set: function(state) {
+                        set: function (state) {
                             if (state) {
                                 this.setAttribute('open', '');
                             } else {
@@ -78,11 +78,31 @@
                         details[a].insertBefore(summary, details[a].firstChild);
                     }
 
-                    summary.addEventListener('click', function() {
+                    summary.addEventListener('click', function () {
                         this.parentNode.open = !this.parentNode.hasAttribute('open');
                     });
                 }
             }
+        }
+
+        // Sticky navigation polyfill
+        const nav = document.getElementById('menu');
+
+        if (!!nav && window.getComputedStyle(nav).getPropertyValue('position') !== 'sticky') {
+            setTimeout(function() {
+                const pos = nav.offsetTop;
+                const width = window.getComputedStyle(nav.parentElement).getPropertyValue('width');
+
+                window.onscroll = function () {
+                    if (window.pageYOffset >= pos) {
+                        nav.setAttribute('data-sticky', '');
+                        nav.style.width = width;
+                    } else {
+                        nav.removeAttribute('data-sticky');
+                        nav.removeAttribute('style');
+                    }
+                };
+            });
         }
     });
 })(document, window);

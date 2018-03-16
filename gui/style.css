@@ -304,9 +304,6 @@ form .cke {
 }
 
 #menu {
-    position: static;
-    position: sticky;
-    top: 0;
     display: none;
     padding: 0.75rem;
     color: #fff;
@@ -463,34 +460,6 @@ html[data-shim-details] details > summary:first-child {
     }
 }
 
-@media print {
-    h1,
-    h2,
-    h3,
-    summary {
-        break-after: avoid;
-        page-break-after: avoid;
-    }
-
-    details {
-        margin-bottom: 1.5rem;
-    }
-
-    summary {
-        display: block;
-        margin-bottom: 1.5rem;
-        font-size: 1.125rem;
-    }
-
-    #toolbar,
-    #header > :not(.name),
-    #menu,
-    #sidebar,
-    #footer {
-        display: none !important;
-    }
-}
-
 /**
  * Responsive
  */
@@ -619,5 +588,54 @@ html[data-shim-details] details > summary:first-child {
 
     html[data-act=browser] #content > article {
         width: 25%;
+    }
+}
+
+/**
+ * Sticky menu
+ */
+@media screen {
+    #menu[data-sticky] {
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+
+    @supports (position: sticky) {
+        #menu {
+            position: sticky;
+            top: 0;
+        }
+    }
+}
+
+/**
+ * Print
+ */
+@media print {
+    h1,
+    h2,
+    h3,
+    summary {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    details {
+        margin-bottom: 1.5rem;
+    }
+
+    summary {
+        display: block;
+        margin-bottom: 1.5rem;
+        font-size: 1.125rem;
+    }
+
+    #toolbar,
+    #header > :not(.name),
+    #menu,
+    #sidebar,
+    #footer {
+        display: none !important;
     }
 }
