@@ -81,6 +81,19 @@
                     summary.addEventListener('click', function () {
                         this.parentNode.open = !this.parentNode.hasAttribute('open');
                     });
+
+                    // Wrap text nodes
+                    let b = 0;
+                    let child;
+
+                    while (child = details[a].childNodes[b++]) {
+                        if (child.nodeType === 3 && /[^\t\n\r ]/.test(child.data)) {
+                            let span = document.createElement('span');
+                            details[a].insertBefore(span, child);
+                            span.textContent = child.data;
+                            details[a].removeChild(child);
+                        }
+                    }
                 }
             }
         }
