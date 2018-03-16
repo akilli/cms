@@ -3,7 +3,7 @@
 (function (document) {
     document.addEventListener('DOMContentLoaded', function () {
         // Multi-checkbox required fix
-        const form = document.querySelectorAll('form');
+        const form = document.getElementsByTagName('form');
 
         for (let a = 0; a < form.length; a++) {
             let sel = 'input[type=checkbox][multiple]';
