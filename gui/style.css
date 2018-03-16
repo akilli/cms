@@ -463,6 +463,15 @@ html[data-shim-details] details > summary:first-child {
     }
 }
 
+@media print {
+    details {
+        margin-bottom: 1.5rem;
+    }
+    summary {
+        display: block;
+    }
+}
+
 /**
  * Responsive
  */
