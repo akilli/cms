@@ -24,5 +24,41 @@
                 });
             }
         }
+
+        // Details
+        const details = document.getElementsByTagName('details');
+
+        if (details.length > 0 && typeof details[0].open !== 'boolean') {
+            document.documentElement.setAttribute('data-shim-details', 'true');
+
+            for (let a = 0; a < details.length; a++) {
+                // Define open property
+                Object.defineProperty(details[a], 'open', {
+                    get: function() {
+                        return this.hasAttribute('open');
+                    },
+                    set: function(state) {
+                        if (state) {
+                            this.setAttribute('open', '');
+                        } else {
+                            this.removeAttribute('open');
+                        }
+                    }
+                });
+
+                // Summary element
+                let summary = details[a].firstChild;
+
+                if (!summary || summary.tagName.toLowerCase() !== 'summary') {
+                    summary = document.createElement('summary');
+                    summary.innerText = 'Summary';
+                    details[a].insertBefore(summary, details[a].firstChild);
+                }
+
+                summary.addEventListener('click', function() {
+                    this.parentNode.open = !this.parentNode.hasAttribute('open');
+                });
+            }
+        }
     });
 })(document);

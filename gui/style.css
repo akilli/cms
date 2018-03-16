@@ -569,3 +569,25 @@ a[data-sort=desc]::after {
         width: 25%;
     }
 }
+
+@media screen {
+    html[data-shim-details] details,
+    html[data-shim-details] details > summary:first-child {
+        display: block;
+    }
+
+    html[data-shim-details] details:not([open]) > * {
+        display: none;
+
+    }
+
+    html[data-shim-details] details > summary:first-child::before {
+        display: inline-block;
+        content: "\25bc";
+        margin-right: 0.5rem;
+    }
+
+    html[data-shim-details] details:not([open]) > summary:first-child::before {
+        content: "\25b6";
+    }
+}
