@@ -34,12 +34,12 @@ h3:not(:first-child) {
 hr::before,
 main::after,
 div[data-type=rte]::after {
-    overflow: hidden;
-    content: "";
     display: block;
     height: 0;
     line-height: 0;
     clear: both;
+    overflow: hidden;
+    content: "";
     font-size: 0;
 }
 

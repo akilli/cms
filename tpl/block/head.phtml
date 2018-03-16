@@ -19,3 +19,6 @@ namespace app;
 <script src="<?=gui('admin.js');?>"></script>
 <?php endif;?>
 <script src="<?=gui('all.js');?>"></script>
+<?php if (file_exists(path('ext.gui', 'ext.js'))):?>
+<script src="<?=gui('ext.js');?>"></script>
+<?php endif;?>
