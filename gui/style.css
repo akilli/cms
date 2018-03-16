@@ -484,7 +484,7 @@ html[data-shim-details] details > summary:first-child {
     }
 
     #toolbar,
-    #header :not(.name),
+    #header > :not(.name),
     #menu,
     #sidebar,
     #footer {
