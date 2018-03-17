@@ -94,7 +94,7 @@
         const cfg = {
             customConfig: '',
             disableNativeSpellChecker: true,
-            extraAllowedContent: 'section(*)',
+            extraAllowedContent: 'article section(*)',
             filebrowserBrowseUrl: '/file/browser',
             format_tags: 'p;h1;h2;h3',
             height: '30rem',
