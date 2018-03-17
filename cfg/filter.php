@@ -1,6 +1,6 @@
 <?php
 return [
-    'rte' => '<address><h1><h2><h3><h4><h5><h6>'
+    'rte' => '<address><article><h1><h2><h3><h4><h5><h6><section>'
         . '<blockquote><dd><div><dl><dt><figcaption><figure><hr><li><ol><p><pre><ul>'
         . '<a><abbr><b><br><cite><code><data><dfn><em><i><kbd><mark><q><s><samp><small><span>'
         . '<strong><sub><sup><time><u><var><wbr>'
