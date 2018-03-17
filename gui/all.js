@@ -49,8 +49,8 @@
                     }
                 });
 
-                window.onbeforeprint = before;
-                window.onafterprint = after;
+                window.addEventListener('beforeprint', before);
+                window.addEventListener('afterprint', after);
             } else {
                 document.documentElement.setAttribute('data-shim-details', 'true');
 
@@ -106,7 +106,7 @@
                 const pos = nav.offsetTop;
                 const width = window.getComputedStyle(nav.parentElement).getPropertyValue('width');
 
-                window.onscroll = function () {
+                window.addEventListener('scroll', function () {
                     if (window.pageYOffset >= pos) {
                         nav.setAttribute('data-sticky', '');
                         nav.style.width = width;
@@ -114,7 +114,7 @@
                         nav.removeAttribute('data-sticky');
                         nav.removeAttribute('style');
                     }
-                };
+                });
             });
         }
     });
