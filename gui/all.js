@@ -97,7 +97,9 @@
                 }
             }
         }
+    });
 
+    window.addEventListener('load', function () {
         // Sticky navigation polyfill
         const nav = document.getElementById('menu');
 
