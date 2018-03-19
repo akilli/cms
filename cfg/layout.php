@@ -61,6 +61,7 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
+            'sort' => 10,
             'vars' => ['link' => true, 'pager' => 'pager', 'search' => 'search'],
         ],
         'search' => [
@@ -75,6 +76,7 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
+            'sort' => 10,
             'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => 'pager', 'search' => 'search', 'unpublished' => true],
         ],
         'search' => [
@@ -95,6 +97,7 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
+            'sort' => 10,
             'vars' => ['actions' => ['rte'], 'limit' => 20, 'pager' => 'pager', 'search' => 'search'],
         ],
         'search' => [
@@ -109,24 +112,28 @@ return [
         'content' => [
             'type' => 'form',
             'parent' => 'main',
+            'sort' => 10,
         ],
     ],
     'create' => [
         'content' => [
             'type' => 'form',
             'parent' => 'main',
+            'sort' => 10,
         ],
     ],
     'edit' => [
         'content' => [
             'type' => 'form',
             'parent' => 'main',
+            'sort' => 10,
         ],
     ],
     'view' => [
         'content' => [
             'type' => 'view',
             'parent' => 'main',
+            'sort' => 10,
         ],
     ],
     'account/admin' => [
@@ -154,12 +161,14 @@ return [
         'content' => [
             'type' => 'login',
             'parent' => 'main',
+            'sort' => 10,
         ],
     ],
     'account/password' => [
         'content' => [
             'type' => 'form',
             'parent' => 'main',
+            'sort' => 10,
             'vars' => ['attr' => ['password', 'confirmation']],
         ],
     ],
@@ -168,6 +177,7 @@ return [
             'type' => 'tpl',
             'tpl' => 'app/error.phtml',
             'parent' => 'main',
+            'sort' => 10,
         ],
     ],
     'app/js' => [
@@ -244,6 +254,7 @@ return [
         'content' => [
             'type' => 'menu',
             'parent' => 'main',
+            'sort' => 10,
             'vars' => ['tag' => 'section'],
         ],
     ],
