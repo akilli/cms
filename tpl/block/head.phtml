@@ -12,8 +12,14 @@ namespace app;
 <link rel="stylesheet" href="<?=gui('all.css');?>" />
 <link rel="stylesheet" href="<?=gui('desktop.css');?>" media="screen and (min-width: 48rem)" />
 <link rel="stylesheet" href="<?=gui('print.css');?>" media="print" />
-<?php if (file_exists(path('ext.gui', 'ext.css'))):?>
-<link rel="stylesheet" href="<?=gui('ext.css');?>" />
+<?php if (file_exists(path('ext.gui', 'ext.all.css'))):?>
+<link rel="stylesheet" href="<?=gui('ext.all.css');?>" />
+<?php endif;?>
+<?php if (file_exists(path('ext.gui', 'ext.desktop.css'))):?>
+<link rel="stylesheet" href="<?=gui('ext.desktop.css');?>" media="screen and (min-width: 48rem)" />
+<?php endif;?>
+<?php if (file_exists(path('ext.gui', 'ext.print.css'))):?>
+<link rel="stylesheet" href="<?=gui('ext.print.css');?>" media="print" />
 <?php endif;?>
 <?php if (allowed('account-user')):?>
 <script src="<?=gui('ckeditor/ckeditor.js');?>"></script>
