@@ -635,10 +635,8 @@ html[data-shim-details] details > summary:first-child {
     }
 
     #toolbar,
-    #header > :not(.name),
     #menu,
-    #sidebar,
-    #footer {
+    #sidebar {
         display: none !important;
     }
 }
