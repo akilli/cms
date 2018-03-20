@@ -271,6 +271,13 @@ textarea {
 }
 
 /**
+ * Actions
+ */
+span[data-act] {
+    cursor: pointer;
+}
+
+/**
  * RTE
  */
 .cke {
@@ -371,7 +378,6 @@ form .cke {
 #content a,
 #content span[data-act] {
     color: #60abc6;
-    cursor: pointer;
 }
 
 #content a:hover {
