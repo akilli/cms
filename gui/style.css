@@ -464,7 +464,7 @@ html[data-shim-details] details > summary:first-child {
 }
 
 /**
- * Responsive
+ * Desktop
  */
 @media screen and (min-width: 48rem) {
     /**
