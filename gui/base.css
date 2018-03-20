@@ -224,10 +224,6 @@ summary {
  * Screen
  */
 @media screen {
-    html {
-        height: 100vh;
-    }
-
     body {
         min-height: 100vh;
     }
