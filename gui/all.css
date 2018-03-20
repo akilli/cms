@@ -29,6 +29,14 @@ h3:not(:first-child) {
 }
 
 /**
+ * Details
+ */
+html[data-shim-details] details,
+html[data-shim-details] details > summary:first-child {
+    display: block;
+}
+
+/**
  * Clear
  */
 main::after,
@@ -443,46 +451,4 @@ a[data-sort=desc]::after {
 
 .pager .info {
     margin-right: 1.5rem;
-}
-
-/**
- * Details
- */
-html[data-shim-details] details,
-html[data-shim-details] details > summary:first-child {
-    display: block;
-}
-
-@media screen {
-    html[data-shim-details] details:not([open]) > * {
-        display: none;
-    }
-
-    html[data-shim-details] details > summary:first-child::before {
-        display: inline-block;
-        content: "\25bc";
-        margin-right: 0.5rem;
-    }
-
-    html[data-shim-details] details:not([open]) > summary:first-child::before {
-        content: "\25b6";
-    }
-}
-
-/**
- * Sticky menu
- */
-@media screen {
-    #menu[data-sticky] {
-        position: fixed;
-        top: 0;
-        width: 100%;
-    }
-
-    @supports (position: sticky) {
-        #menu {
-            position: sticky;
-            top: 0;
-        }
-    }
 }

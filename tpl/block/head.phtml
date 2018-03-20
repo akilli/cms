@@ -10,13 +10,13 @@ namespace app;
 <title><?=enc($§('title') ?: cfg('app', 'name'));?></title>
 <link rel="stylesheet" href="<?=gui('base.css');?>" />
 <link rel="stylesheet" href="<?=gui('all.css');?>" />
-<link rel="stylesheet" href="<?=gui('desktop.css');?>" media="screen and (min-width: 48rem)" />
+<link rel="stylesheet" href="<?=gui('screen.css');?>" media="screen" />
 <link rel="stylesheet" href="<?=gui('print.css');?>" media="print" />
 <?php if (file_exists(path('ext.gui', 'ext.all.css'))):?>
 <link rel="stylesheet" href="<?=gui('ext.all.css');?>" />
 <?php endif;?>
-<?php if (file_exists(path('ext.gui', 'ext.desktop.css'))):?>
-<link rel="stylesheet" href="<?=gui('ext.desktop.css');?>" media="screen and (min-width: 48rem)" />
+<?php if (file_exists(path('ext.gui', 'ext.screen.css'))):?>
+<link rel="stylesheet" href="<?=gui('ext.screen.css');?>" media="screen" />
 <?php endif;?>
 <?php if (file_exists(path('ext.gui', 'ext.print.css'))):?>
 <link rel="stylesheet" href="<?=gui('ext.print.css');?>" media="print" />
