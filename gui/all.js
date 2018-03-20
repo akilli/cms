@@ -25,15 +25,6 @@
             }
         }
 
-        // Print version
-        const print = document.querySelectorAll('span[data-act=print]');
-
-        for (let a = 0; a < print.length; a++) {
-            print[a].addEventListener('click', function () {
-                window.print();
-            });
-        }
-
         // Details
         const details = document.getElementsByTagName('details');
 
@@ -105,6 +96,15 @@
                     }
                 }
             }
+        }
+
+        // Print version
+        const print = document.querySelectorAll('span[data-act=print]');
+
+        for (let a = 0; a < print.length; a++) {
+            print[a].addEventListener('click', function () {
+                window.print();
+            });
         }
     });
 
