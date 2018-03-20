@@ -1,0 +1,23 @@
+h1,
+h2,
+h3,
+summary {
+    break-after: avoid;
+    page-break-after: avoid;
+}
+
+details {
+    margin-bottom: 1.5rem;
+}
+
+summary {
+    display: block;
+    margin-bottom: 1.5rem;
+    font-size: 1.125rem;
+}
+
+#toolbar,
+#menu,
+#sidebar {
+    display: none !important;
+}
