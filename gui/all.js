@@ -1,6 +1,74 @@
 'use strict';
 
 (function (document, window) {
+    function detailsBefore() {
+        const details = document.getElementsByTagName('details');
+
+        for (let a = 0; a < details.length; a++) {
+            details[a].setAttribute('open', '');
+        }
+    }
+
+    function detailsAfter() {
+        const details = document.getElementsByTagName('details');
+
+        for (let a = 0; a < details.length; a++) {
+            details[a].removeAttribute('open');
+        }
+    }
+
+    function detailsShim() {
+        const details = document.getElementsByTagName('details');
+
+        if (details.length <= 0 || typeof details[0].open === 'boolean') {
+            return;
+        }
+
+        document.documentElement.setAttribute('data-shim-details', 'true');
+
+        for (let a = 0; a < details.length; a++) {
+            // Define open property
+            Object.defineProperty(details[a], 'open', {
+                get: function () {
+                    return this.hasAttribute('open');
+                },
+                set: function (state) {
+                    if (state) {
+                        this.setAttribute('open', '');
+                    } else {
+                        this.removeAttribute('open');
+                    }
+                }
+            });
+
+            // Summary element
+            let summary = details[a].firstChild;
+
+            if (!summary || summary.tagName.toLowerCase() !== 'summary') {
+                summary = document.createElement('summary');
+                summary.innerText = 'Summary';
+                details[a].insertBefore(summary, details[a].firstChild);
+            }
+
+            summary.addEventListener('click', function () {
+                this.parentNode.open = !this.parentNode.hasAttribute('open');
+            });
+
+            // Wrap text nodes
+            let b = 0;
+            let child;
+
+            while (child = details[a].childNodes[b++]) {
+                if (child.nodeType === 3 && /[^\t\n\r ]/.test(child.data)) {
+                    let span = document.createElement('span');
+                    details[a].insertBefore(span, child);
+                    span.textContent = child.data;
+                    details[a].removeChild(child);
+                }
+            }
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         // Multi-checkbox required fix
         const form = document.getElementsByTagName('form');
@@ -26,77 +94,19 @@
         }
 
         // Details
-        const details = document.getElementsByTagName('details');
+        detailsShim();
 
-        if (details.length > 0) {
-            if (typeof details[0].open === 'boolean') {
-                const before = function () {
-                    for (let a = 0; a < details.length; a++) {
-                        details[a].setAttribute('open', '');
-                    }
-                };
-                const after = function () {
-                    for (let a = 0; a < details.length; a++) {
-                        details[a].removeAttribute('open');
-                    }
-                };
-                const mql = window.matchMedia('print');
-                mql.addListener(function (media) {
-                    if (media.matches) {
-                        before();
-                    } else {
-                        after();
-                    }
-                });
-
-                window.addEventListener('beforeprint', before);
-                window.addEventListener('afterprint', after);
+        const mql = window.matchMedia('print');
+        mql.addListener(function (media) {
+            if (media.matches) {
+                detailsBefore();
             } else {
-                document.documentElement.setAttribute('data-shim-details', 'true');
-
-                for (let a = 0; a < details.length; a++) {
-                    // Define open property
-                    Object.defineProperty(details[a], 'open', {
-                        get: function () {
-                            return this.hasAttribute('open');
-                        },
-                        set: function (state) {
-                            if (state) {
-                                this.setAttribute('open', '');
-                            } else {
-                                this.removeAttribute('open');
-                            }
-                        }
-                    });
-
-                    // Summary element
-                    let summary = details[a].firstChild;
-
-                    if (!summary || summary.tagName.toLowerCase() !== 'summary') {
-                        summary = document.createElement('summary');
-                        summary.innerText = 'Summary';
-                        details[a].insertBefore(summary, details[a].firstChild);
-                    }
-
-                    summary.addEventListener('click', function () {
-                        this.parentNode.open = !this.parentNode.hasAttribute('open');
-                    });
-
-                    // Wrap text nodes
-                    let b = 0;
-                    let child;
-
-                    while (child = details[a].childNodes[b++]) {
-                        if (child.nodeType === 3 && /[^\t\n\r ]/.test(child.data)) {
-                            let span = document.createElement('span');
-                            details[a].insertBefore(span, child);
-                            span.textContent = child.data;
-                            details[a].removeChild(child);
-                        }
-                    }
-                }
+                detailsAfter();
             }
-        }
+        });
+
+        window.addEventListener('beforeprint', detailsBefore);
+        window.addEventListener('afterprint', detailsAfter);
 
         // Print version
         const print = document.querySelectorAll('span[data-act=print]');
