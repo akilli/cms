@@ -129,16 +129,25 @@
 
     function pdfBefore() {
         document.documentElement.setAttribute('data-pdf', '');
-        detailsBefore();
         cssBefore();
-        linkBefore();
+        window.dispatchEvent(createEvent('beforeprint'));
     }
 
     function pdfAfter() {
         document.documentElement.removeAttribute('data-pdf');
-        linkAfter();
         cssAfter();
-        detailsAfter();
+        window.dispatchEvent(createEvent('afterprint'));
+    }
+
+    function createEvent(name) {
+        if (typeof Event === 'function') {
+            return new Event(name);
+        }
+
+        let ev = document.createEvent('Event');
+        ev.initEvent(name, true, false);
+
+        return ev;
     }
 
     document.addEventListener('DOMContentLoaded', function () {
