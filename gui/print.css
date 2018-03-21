@@ -24,6 +24,7 @@ summary {
 #menu,
 #content img,
 #search,
+#pager,
 #sidebar {
     display: none !important;
 }

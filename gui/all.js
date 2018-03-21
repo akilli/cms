@@ -117,6 +117,16 @@
         }
     }
 
+    function printBefore() {
+        detailsBefore();
+        linkBefore();
+    }
+
+    function printAfter() {
+        linkAfter();
+        detailsAfter();
+    }
+
     function pdfBefore() {
         detailsBefore();
         cssBefore();
@@ -161,14 +171,14 @@
         const mql = window.matchMedia('print');
         mql.addListener(function (media) {
             if (media.matches) {
-                detailsBefore();
+                printBefore();
             } else {
-                detailsAfter();
+                printAfter();
             }
         });
 
-        window.addEventListener('beforeprint', detailsBefore);
-        window.addEventListener('afterprint', detailsAfter);
+        window.addEventListener('beforeprint', printBefore);
+        window.addEventListener('afterprint', printAfter);
 
         // Print version
         const print = document.querySelectorAll('a[data-act=print]');
