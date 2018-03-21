@@ -1,42 +1,30 @@
 'use strict';
 
 (function (document, window) {
-    function detailsBefore(doc) {
-        if (!doc instanceof HTMLDocument) {
-            return;
-        }
-
-        const details = doc.getElementsByTagName('details');
+    function detailsBefore() {
+        const details = document.getElementsByTagName('details');
 
         for (let a = 0; a < details.length; a++) {
             details[a].setAttribute('open', '');
         }
     }
 
-    function detailsAfter(doc) {
-        if (!doc instanceof HTMLDocument) {
-            return;
-        }
-
-        const details = doc.getElementsByTagName('details');
+    function detailsAfter() {
+        const details = document.getElementsByTagName('details');
 
         for (let a = 0; a < details.length; a++) {
             details[a].removeAttribute('open');
         }
     }
 
-    function detailsShim(doc) {
-        if (!doc instanceof HTMLDocument) {
-            return;
-        }
-
-        const details = doc.getElementsByTagName('details');
+    function detailsShim() {
+        const details = document.getElementsByTagName('details');
 
         if (details.length <= 0 || typeof details[0].open === 'boolean') {
             return;
         }
 
-        doc.documentElement.setAttribute('data-shim-details', 'true');
+        document.documentElement.setAttribute('data-shim-details', 'true');
 
         for (let a = 0; a < details.length; a++) {
             // Define open property
@@ -57,7 +45,7 @@
             let summary = details[a].firstChild;
 
             if (!summary || summary.tagName.toLowerCase() !== 'summary') {
-                summary = doc.createElement('summary');
+                summary = document.createElement('summary');
                 summary.innerText = 'Summary';
                 details[a].insertBefore(summary, details[a].firstChild);
             }
@@ -72,7 +60,7 @@
 
             while (child = details[a].childNodes[b++]) {
                 if (child.nodeType === 3 && /[^\t\n\r ]/.test(child.data)) {
-                    let span = doc.createElement('span');
+                    let span = document.createElement('span');
                     details[a].insertBefore(span, child);
                     span.textContent = child.data;
                     details[a].removeChild(child);
@@ -81,15 +69,8 @@
         }
     }
 
-    function toPdf() {
-        const doc = document.implementation.createHTMLDocument(document.title);
-        doc.replaceChild(doc.importNode(document.documentElement, true), doc.documentElement);
-
-        // Open details
-        detailsBefore(doc);
-
-        // Stylesheets
-        const css = doc.querySelectorAll('link[rel=stylesheet]');
+    function cssBefore() {
+        const css = document.querySelectorAll('link[rel=stylesheet]');
 
         for (let a = 0; a < css.length; a++) {
             if (!css[a].media || css[a].media === 'all') {
@@ -97,32 +78,57 @@
             }
 
             if (css[a].media.indexOf('print') === -1) {
-                css[a].parentElement.removeChild(css[a]);
+                css[a].disabled = true;
             } else {
                 css[a].media = 'all';
+                css[a].setAttribute('data-print', '');
             }
         }
+    }
 
-        // Links
-        const link = doc.querySelectorAll('a[href^="/"]');
+    function cssAfter() {
+        const css = document.querySelectorAll('link[rel=stylesheet]');
+
+        for (let a = 0; a < css.length; a++) {
+            css[a].disabled = false;
+
+            if (css[a].hasAttribute('data-print')) {
+                css[a].media = 'print';
+                css[a].removeAttribute('data-print');
+            }
+        }
+    }
+
+    function linkBefore() {
+        const link = document.querySelectorAll('a[href^="/"]');
 
         for (let a = 0; a < link.length; a++) {
+            link[a].setAttribute('data-href', link[a].getAttribute('href'));
             link[a].setAttribute('href', link[a].href);
         }
+    }
 
-        // Fixes
-        doc.getElementById('content').style.width = '100%';
+    function linkAfter() {
+        const link = document.querySelectorAll('a[data-href]');
 
-        // Convert to PDF
-        const opt = {
-            margin: [14, 20, 13, 20],
-            filename: window.location.pathname.replace(/\//g, '-').replace(/\.html$/, '').replace(/^-/, '') + '.pdf',
-            image: {type: 'jpeg', quality: 0.98},
-            html2canvas: {dpi: 192, letterRendering: true},
-            jsPDF: {unit: 'mm', format: 'letter', orientation: 'portrait'},
-            enableLinks: true
-        };
-        html2pdf().set(opt).from(doc.documentElement).save();
+        for (let a = 0; a < link.length; a++) {
+            link[a].setAttribute('href', link[a].getAttribute('data-href'));
+            link[a].removeAttribute('data-href')
+        }
+    }
+
+    function pdfBefore() {
+        detailsBefore();
+        cssBefore();
+        linkBefore();
+        document.getElementById('content').style.width = '100%';
+    }
+
+    function pdfAfter() {
+        document.getElementById('content').removeAttribute('style');
+        linkAfter();
+        cssAfter();
+        detailsAfter();
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -150,23 +156,19 @@
         }
 
         // Details
-        detailsShim(document);
+        detailsShim();
 
         const mql = window.matchMedia('print');
         mql.addListener(function (media) {
             if (media.matches) {
-                detailsBefore(document);
+                detailsBefore();
             } else {
-                detailsAfter(document);
+                detailsAfter();
             }
         });
 
-        window.addEventListener('beforeprint', function () {
-            detailsBefore(document);
-        });
-        window.addEventListener('afterprint', function () {
-            detailsAfter(document);
-        });
+        window.addEventListener('beforeprint', detailsBefore);
+        window.addEventListener('afterprint', detailsAfter);
 
         // Print version
         const print = document.querySelectorAll('a[data-act=print]');
@@ -179,11 +181,20 @@
 
         // PDF version
         const pdf = document.querySelectorAll('a[data-act=pdf]');
+        const pdfOpt = {
+            margin: [14, 20, 13, 20],
+            filename: window.location.pathname.replace(/\//g, '-').replace(/\.html$/, '').replace(/^-/, '') + '.pdf',
+            image: {type: 'jpeg', quality: 0.98},
+            html2canvas: {dpi: 192, letterRendering: true},
+            jsPDF: {unit: 'mm', format: 'letter', orientation: 'portrait'},
+            enableLinks: true
+        };
 
         for (let a = 0; a < pdf.length; a++) {
             pdf[a].addEventListener('click', function (event) {
                 event.preventDefault();
-                toPdf();
+                pdfBefore();
+                html2pdf().set(pdfOpt).from(document.getElementsByTagName('body')[0]).save().then(pdfAfter, pdfAfter);
             });
         }
     });
