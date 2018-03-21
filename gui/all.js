@@ -117,6 +117,20 @@
         }
     }
 
+    function pdfBefore() {
+        detailsBefore();
+        cssBefore();
+        linkBefore();
+        document.getElementById('content').style.width = '100%';
+    }
+
+    function pdfAfter() {
+        document.getElementById('content').removeAttribute('style');
+        linkAfter();
+        cssAfter();
+        detailsAfter();
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         // Multi-checkbox required fix
         const form = document.getElementsByTagName('form');
@@ -175,20 +189,11 @@
             jsPDF: {unit: 'mm', format: 'letter', orientation: 'portrait'},
             enableLinks: true
         };
-        const pdfAfter = function () {
-            document.getElementById('content').removeAttribute('style');
-            linkAfter();
-            cssAfter();
-            detailsAfter();
-        };
 
         for (let a = 0; a < pdf.length; a++) {
             pdf[a].addEventListener('click', function (event) {
                 event.preventDefault();
-                detailsBefore();
-                cssBefore();
-                linkBefore();
-                document.getElementById('content').style.width = '100%';
+                pdfBefore();
                 html2pdf().set(pdfOpt).from(document.getElementsByTagName('body')[0]).save().then(pdfAfter, pdfAfter);
             });
         }
