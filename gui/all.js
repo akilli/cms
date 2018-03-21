@@ -69,6 +69,54 @@
         }
     }
 
+    function cssBefore() {
+        const css = document.querySelectorAll('link[rel=stylesheet]');
+
+        for (let a = 0; a < css.length; a++) {
+            if (!css[a].media || css[a].media === 'all') {
+                continue;
+            }
+
+            if (css[a].media.indexOf('print') === -1) {
+                css[a].disabled = true;
+            } else {
+                css[a].media = 'all';
+                css[a].setAttribute('data-print', '');
+            }
+        }
+    }
+
+    function cssAfter() {
+        const css = document.querySelectorAll('link[rel=stylesheet]');
+
+        for (let a = 0; a < css.length; a++) {
+            css[a].disabled = false;
+
+            if (css[a].hasAttribute('data-print')) {
+                css[a].media = 'print';
+                css[a].removeAttribute('data-print');
+            }
+        }
+    }
+
+    function linkBefore() {
+        const link = document.querySelectorAll('a[href^="/"]');
+
+        for (let a = 0; a < link.length; a++) {
+            link[a].setAttribute('data-href', link[a].getAttribute('href'));
+            link[a].setAttribute('href', link[a].href);
+        }
+    }
+
+    function linkAfter() {
+        const link = document.querySelectorAll('a[data-href]');
+
+        for (let a = 0; a < link.length; a++) {
+            link[a].setAttribute('href', link[a].getAttribute('data-href'));
+            link[a].removeAttribute('data-href')
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         // Multi-checkbox required fix
         const form = document.getElementsByTagName('form');
@@ -109,11 +157,39 @@
         window.addEventListener('afterprint', detailsAfter);
 
         // Print version
-        const print = document.querySelectorAll('span[data-act=print]');
+        const print = document.querySelectorAll('a[data-act=print]');
 
         for (let a = 0; a < print.length; a++) {
             print[a].addEventListener('click', function () {
                 window.print();
+            });
+        }
+
+        // PDF version
+        const pdf = document.querySelectorAll('a[data-act=pdf]');
+        const pdfOpt = {
+            margin: [14, 20, 13, 20],
+            filename: 'file.pdf',
+            image: {type: 'jpeg', quality: 0.98},
+            html2canvas: {dpi: 192, letterRendering: true},
+            jsPDF: {unit: 'mm', format: 'letter', orientation: 'portrait'},
+            enableLinks: true
+        };
+        const pdfAfter = function () {
+            document.getElementById('content').removeAttribute('style');
+            linkAfter();
+            cssAfter();
+            detailsAfter();
+        };
+
+        for (let a = 0; a < pdf.length; a++) {
+            pdf[a].addEventListener('click', function (event) {
+                event.preventDefault();
+                detailsBefore();
+                cssBefore();
+                linkBefore();
+                document.getElementById('content').style.width = '100%';
+                html2pdf().set(pdfOpt).from(document.getElementsByTagName('body')[0]).save().then(pdfAfter, pdfAfter);
             });
         }
     });

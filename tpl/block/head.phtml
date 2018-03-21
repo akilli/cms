@@ -21,6 +21,7 @@ namespace app;
 <?php if (file_exists(path('ext.gui', 'ext.print.css'))):?>
 <link rel="stylesheet" href="<?=gui('ext.print.css');?>" media="print" />
 <?php endif;?>
+<script src="<?=gui('html2pdf.js');?>"></script>
 <?php if (allowed('account-user')):?>
 <script src="<?=gui('ckeditor/ckeditor.js');?>"></script>
 <script src="<?=url('app/js');?>"></script>
