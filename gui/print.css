@@ -28,8 +28,11 @@ summary {
     display: none !important;
 }
 
-html[data-pdf] #content {
+html[data-pdf] main {
     display: block;
+}
+
+html[data-pdf] #content {
     width: 100% !important;
 }
 
