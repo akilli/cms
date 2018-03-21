@@ -22,6 +22,7 @@ summary {
 
 #toolbar,
 #menu,
+#content img,
 #search,
 #sidebar {
     display: none !important;
