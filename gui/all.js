@@ -128,6 +128,7 @@
     }
 
     function pdfBefore() {
+        document.documentElement.setAttribute('data-pdf', '');
         detailsBefore();
         cssBefore();
         linkBefore();
@@ -135,6 +136,7 @@
     }
 
     function pdfAfter() {
+        document.documentElement.removeAttribute('data-pdf');
         document.getElementById('content').removeAttribute('style');
         linkAfter();
         cssAfter();

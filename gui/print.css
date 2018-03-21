@@ -22,9 +22,19 @@ summary {
 
 #toolbar,
 #menu,
-#content img,
 #search,
 #pager,
 #sidebar {
     display: none !important;
+}
+
+html[data-pdf] #content img {
+    display: none !important;
+}
+
+html:not([data-pdf]) #content a::after,
+html:not([data-pdf]) #footer a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.875rem;
+    font-style: italic;
 }
