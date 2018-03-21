@@ -195,9 +195,7 @@
             pdf[a].addEventListener('click', function (event) {
                 event.preventDefault();
                 pdfBefore();
-                html2pdf().set(pdfOpt).from(document.getElementsByTagName('body')[0]).to('pdf').get('pdf').then(function (doc) {
-                    window.open(doc.output('bloburl'), '_blank');
-                }).then(pdfAfter, pdfAfter);
+                html2pdf().set(pdfOpt).from(document.getElementsByTagName('body')[0]).to('pdf').save().then(pdfAfter, pdfAfter);
             });
         }
     });
