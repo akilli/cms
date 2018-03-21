@@ -132,12 +132,10 @@
         detailsBefore();
         cssBefore();
         linkBefore();
-        document.getElementById('content').style.width = '100%';
     }
 
     function pdfAfter() {
         document.documentElement.removeAttribute('data-pdf');
-        document.getElementById('content').removeAttribute('style');
         linkAfter();
         cssAfter();
         detailsAfter();

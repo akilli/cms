@@ -28,6 +28,11 @@ summary {
     display: none !important;
 }
 
+html[data-pdf] #content {
+    display: block;
+    width: 100% !important;
+}
+
 html[data-pdf] #content img {
     display: none !important;
 }
