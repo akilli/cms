@@ -183,7 +183,7 @@
         const pdf = document.querySelectorAll('a[data-act=pdf]');
         const pdfOpt = {
             margin: [14, 20, 13, 20],
-            filename: 'file.pdf',
+            filename: window.location.pathname.replace(/\//g, '-').replace(/\.html$/, '').replace(/^-/, '') + '.pdf',
             image: {type: 'jpeg', quality: 0.98},
             html2canvas: {dpi: 192, letterRendering: true},
             jsPDF: {unit: 'mm', format: 'letter', orientation: 'portrait'},
