@@ -40,14 +40,6 @@ body {
 /**
  * List
  */
-ul {
-    list-style: disc;
-}
-
-ol {
-    list-style: decimal;
-}
-
 nav ul {
     list-style: none;
 }
