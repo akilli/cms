@@ -135,12 +135,20 @@ table {
 }
 
 thead {
-    box-shadow: 0 0.0625rem 0 #00000c;
+    border-bottom: solid 0.0625rem #00000c;
 }
 
 td,
 th {
-    padding: 0.75rem 0.375rem;
+    padding: 0.71875rem 0.375rem;
+}
+
+th {
+    border-bottom: solid 0.0625rem #00000c;
+}
+
+td {
+    border-bottom: solid 0.0625rem #e4e7ea;
 }
 
 thead a {
@@ -149,11 +157,6 @@ thead a {
 
 table p {
     margin: 0;
-}
-
-tbody tr {
-    padding: 0.75rem 0;
-    box-shadow: 0 0.0625rem 0 #e4e7ea;
 }
 
 /**
@@ -171,7 +174,8 @@ fieldset select {
 
 legend {
     width: 100%;
-    box-shadow: 0 0.0625rem 0 #00000c;
+    padding: 0.71875rem 0;
+    border-bottom: solid 0.0625rem #00000c;
 }
 
 label {
@@ -188,13 +192,12 @@ label[data-required]::after {
     content: '*';
 }
 
-[role=button],
-button,
 input,
 select,
 textarea {
-    line-height: 3rem;
-    box-shadow: 0 0.0625rem 0 #e4e7ea;
+    line-height: inherit;
+    padding: 0.71875rem 0;
+    border-bottom: solid 0.0625rem #e4e7ea;
 }
 
 select {
@@ -213,15 +216,17 @@ select[multiple] {
 [type=reset],
 [type=submit],
 button {
+    line-height: 3rem;
     padding: 0 0.5rem;
     color: #000 !important;
     background: #60abc6;
-    box-shadow: none;
+    border: 0;
 }
 
 [type=checkbox],
 [type=radio] {
-    box-shadow: none;
+    padding: 0.75rem 0;
+    border: 0;
 }
 
 [type=checkbox][data-type=bool] {
@@ -229,6 +234,7 @@ button {
     display: block;
     width: 6rem;
     height: 1.5rem;
+    padding: 0;
     border: 0.0625rem solid #e4e7ea;
     appearance: none;
     -moz-appearance: none;
@@ -252,9 +258,10 @@ button {
 }
 
 [type=file] {
-    line-height: 0;
+    padding: 0;
     font-size: 0.875rem;
-    box-shadow: none;
+    background: none;
+    border: 0;
 }
 
 textarea {
@@ -268,7 +275,7 @@ textarea {
 
 :focus:invalid,
 .invalid {
-    box-shadow: 0 0.0625rem 0 #32535c;
+    border-bottom: solid 0.0625rem #00000c;
 }
 
 .error {
@@ -298,11 +305,6 @@ form .cke {
 
 .cke_top {
     border-bottom: 0.0625rem solid #e4e7ea !important;
-}
-
-.cke_dialog td,
-.cke_dialog th {
-    box-shadow: none;
 }
 
 /**
@@ -409,7 +411,6 @@ html[data-act=admin] #content.index .thead {
     margin: 0;
     padding: 0.75rem 0;
     font-weight: bold;
-    box-shadow: 0 0.0625rem 0 #00000c;
 }
 
 html[data-act=admin] #content.index .thead > * {
@@ -420,7 +421,6 @@ html[data-act=admin] #content.index .thead > * {
 html[data-act=admin] #content.index article {
     margin: 0;
     padding: 0.75rem 0;
-    box-shadow: 0 0.0625rem 0 #e4e7ea;
 }
 
 html[data-act=admin] #content.index article h2 {
