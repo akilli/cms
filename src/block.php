@@ -272,7 +272,11 @@ function nav(array $§): string
  */
 function menu(array $§): string
 {
-    $crit = [['status', 'published'], ['menu', true], ['level', 0, APP['crit']['>']]];
+    if (!$home = ent\one('page', [['status', 'published'], ['url', '/']], ['select' => ['id', 'pos']])) {
+        return '';
+    }
+
+    $crit = [['status', 'published'], ['menu', true], ['pos', $home['pos'] . '.', APP['crit']['~^']]];
     $opt = ['select' => ['id', 'name', 'url', 'level'], 'order' => ['pos' => 'asc']];
     $§['vars']['data'] = ent\all('page', $crit, $opt);
 
