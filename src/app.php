@@ -37,7 +37,7 @@ function run(): void
     // Rewrite
     if ($rew) {
         $url = $rew['target'];
-    } elseif ($page = ent\one('page', [['url', $url]])) {
+    } elseif ($page = ent\one('page', [['url', $url]], ['select' => ['id', 'ent']])) {
         $url = '/' . $page['ent'] . '/view/' . $page['id'];
     }
 
