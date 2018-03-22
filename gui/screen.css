@@ -94,13 +94,6 @@ html[data-shim-details] details:not([open]) > summary:first-child::before {
     }
 
     /**
-     * Header
-     */
-    #header .name {
-        line-height: 7.5rem;
-    }
-
-    /**
      * Index
      */
     .index audio,
