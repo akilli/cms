@@ -50,12 +50,6 @@ return [
             'parent' => 'top',
             'sort' => 30,
         ],
-        'footer' => [
-            'type' => 'tpl',
-            'tpl' => 'block/footer.phtml',
-            'parent' => 'bottom',
-            'sort' => 10,
-        ],
     ],
     'index' => [
         'content' => [

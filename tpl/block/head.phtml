@@ -7,7 +7,7 @@ namespace app;
 <meta name="description" content="<?=enc($§('desc'));?>" />
 <?php endif;?>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
-<title><?=enc($§('title') ?: cfg('app', 'name'));?></title>
+<title><?=enc((string) $§('title'));?></title>
 <link rel="stylesheet" href="<?=gui('base.css');?>" />
 <link rel="stylesheet" href="<?=gui('all.css');?>" />
 <link rel="stylesheet" href="<?=gui('screen.css');?>" media="screen" />
