@@ -40,6 +40,20 @@ html[data-shim-details] details > summary:first-child {
     display: block;
 }
 
+html[data-shim-details] details:not([open]) > * {
+    display: none;
+}
+
+html[data-shim-details] details > summary:first-child::before {
+    display: inline-block;
+    content: "\25bc";
+    margin-right: 0.5rem;
+}
+
+html[data-shim-details] details:not([open]) > summary:first-child::before {
+    content: "\25b6";
+}
+
 /**
  * Clear
  */
@@ -312,7 +326,7 @@ form .cke {
 }
 
 /**
- * Navigation
+ * Toolbar
  */
 #toolbar {
     display: none;
@@ -327,6 +341,9 @@ form .cke {
     text-decoration: underline;
 }
 
+/**
+ * Menu
+ */
 #menu {
     display: none;
     padding: 0.75rem;
@@ -345,6 +362,19 @@ form .cke {
 #menu a:hover,
 #menu a.active {
     border-color: #93ddf9;
+}
+
+#menu[data-sticky] {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+@supports (position: sticky) {
+    #menu {
+        position: sticky;
+        top: 0;
+    }
 }
 
 /**
@@ -444,6 +474,9 @@ a[data-sort=desc]::after {
     content: '⇓';
 }
 
+/**
+ * Pager
+ */
 .pager {
     padding: 0.75rem 0;
     font-size: 0.875rem;

@@ -24,7 +24,8 @@ summary {
 #menu,
 #search,
 #pager,
-#sidebar {
+#sidebar,
+html[data-shim-details] details > summary:first-child::before {
     display: none !important;
 }
 
