@@ -34,3 +34,9 @@ summary {
     font-size: 0.875rem;
     font-style: italic;
 }
+
+.index audio,
+.index img,
+.index video {
+    max-width: 15rem;
+}
