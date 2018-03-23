@@ -135,15 +135,6 @@
 
         window.addEventListener('beforeprint', printBefore);
         window.addEventListener('afterprint', printAfter);
-
-        // Print version
-        const print = document.querySelectorAll('a[data-act=print]');
-
-        for (let a = 0; a < print.length; a++) {
-            print[a].addEventListener('click', function () {
-                window.print();
-            });
-        }
     });
 
     window.addEventListener('load', function () {
