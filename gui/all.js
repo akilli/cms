@@ -69,36 +69,6 @@
         }
     }
 
-    function cssBefore() {
-        const css = document.querySelectorAll('link[rel=stylesheet]');
-
-        for (let a = 0; a < css.length; a++) {
-            if (!css[a].media || css[a].media === 'all') {
-                continue;
-            }
-
-            if (css[a].media.indexOf('print') === -1) {
-                css[a].disabled = true;
-            } else {
-                css[a].media = 'all';
-                css[a].setAttribute('data-print', '');
-            }
-        }
-    }
-
-    function cssAfter() {
-        const css = document.querySelectorAll('link[rel=stylesheet]');
-
-        for (let a = 0; a < css.length; a++) {
-            css[a].disabled = false;
-
-            if (css[a].hasAttribute('data-print')) {
-                css[a].media = 'print';
-                css[a].removeAttribute('data-print');
-            }
-        }
-    }
-
     function linkBefore() {
         const link = document.querySelectorAll('a[href^="/"]');
 
@@ -124,20 +94,6 @@
 
     function printAfter() {
         linkAfter();
-        detailsAfter();
-    }
-
-    function pdfBefore() {
-        document.documentElement.setAttribute('data-pdf', '');
-        detailsBefore();
-        cssBefore();
-        linkBefore();
-    }
-
-    function pdfAfter() {
-        document.documentElement.removeAttribute('data-pdf');
-        linkAfter();
-        cssAfter();
         detailsAfter();
     }
 
@@ -186,30 +142,6 @@
         for (let a = 0; a < print.length; a++) {
             print[a].addEventListener('click', function () {
                 window.print();
-            });
-        }
-
-        // PDF version
-        const pdf = document.querySelectorAll('a[data-act=pdf]');
-        const pdfFile = window.location.pathname.replace(/\//g, '-').replace(/\.html$/, '').replace(/^-/, '') || 'index';
-        const pdfOpt = {
-            margin: [10, 20],
-            filename: pdfFile + '.pdf',
-            image: {type: 'jpeg', quality: 0.98},
-            html2canvas: {dpi: 192, letterRendering: true},
-            jsPDF: {unit: 'mm', format: 'a4', orientation: 'portrait'},
-            enableLinks: true
-        };
-
-        for (let a = 0; a < pdf.length; a++) {
-            pdf[a].addEventListener('click', function (event) {
-                event.preventDefault();
-                html2pdf().then(pdfBefore)
-                    .set(pdfOpt)
-                    .from(document.getElementsByTagName('body')[0])
-                    .to('pdf')
-                    .save()
-                    .then(pdfAfter, pdfAfter);
             });
         }
     });

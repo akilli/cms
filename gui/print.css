@@ -28,20 +28,8 @@ summary {
     display: none !important;
 }
 
-html[data-pdf] main {
-    display: block;
-}
-
-html[data-pdf] #content {
-    width: 100% !important;
-}
-
-html[data-pdf] #content img {
-    display: none !important;
-}
-
-html:not([data-pdf]) #content a::after,
-html:not([data-pdf]) #footer a::after {
+#content a::after,
+#footer a::after {
     content: " (" attr(href) ")";
     font-size: 0.875rem;
     font-style: italic;
