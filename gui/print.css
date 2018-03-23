@@ -35,6 +35,10 @@ summary {
     font-style: italic;
 }
 
+#header {
+    border-bottom: solid 1px #00000c;
+}
+
 .index audio,
 .index img,
 .index video {
