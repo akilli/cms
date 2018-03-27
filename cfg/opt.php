@@ -4,6 +4,7 @@ return [
     'doc' => ['bz2', 'csv', 'doc', 'docx', 'gz', 'odg', 'odp', 'ods', 'odt', 'pdf', 'xls', 'xlsm', 'xlsx', 'zip'],
     'image' => ['gif', 'jpg', 'png', 'svg', 'webp'],
     'layout' => [
+        'home' => 'Homepage',
         'index' => 'Index Page',
         'sitemap' => 'Sitemap',
         'content' => 'Content Overview',

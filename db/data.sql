@@ -28,9 +28,9 @@ VALUES
 
 INSERT INTO
     page
-    (id, name, slug, menu, status, ent)
+    (id, name, layout, slug, menu, status, ent)
 VALUES
-    (1, 'Homepage', 'index', TRUE, 'published', 'content');
+    (1, 'Homepage', 'home', 'index', TRUE, 'published', 'content');
 
 SELECT SETVAL('page_id_seq', 1);
 
