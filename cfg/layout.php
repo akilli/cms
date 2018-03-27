@@ -100,7 +100,7 @@ return [
             'type' => 'index',
             'parent' => 'main',
             'sort' => 20,
-            'vars' => ['attr' => ['image', 'name', 'teaser'], 'link' => true, 'pager' => true, 'search' => true],
+            'vars' => ['attr' => ['image', 'name', 'teaser'], 'ent' => 'article', 'link' => true, 'pager' => true],
         ],
     ],
     'page-index' => [
@@ -108,7 +108,7 @@ return [
             'type' => 'index',
             'parent' => 'main',
             'sort' => 20,
-            'vars' => ['attr' => ['name', 'teaser'], 'link' => true, 'pager' => true, 'search' => true],
+            'vars' => ['attr' => ['name', 'teaser'], 'ent' => 'page', 'link' => true, 'pager' => true, 'search' => true],
         ],
     ],
     'page-sitemap' => [
