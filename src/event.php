@@ -161,6 +161,7 @@ function layout(array $data): array
     } else {
         $eId = app\get('ent');
         $act = app\get('act');
+        $layout = app\get('page')['layout'] ?? null;
         $keys[] = $act;
 
         if ($parent = app\get('parent')) {
@@ -168,6 +169,10 @@ function layout(array $data): array
         }
 
         $keys[] = $eId . '/' . $act;
+
+        if ($layout) {
+            $keys[] = 'page-' . $layout;
+        }
 
         if ($id = app\get('id')) {
             $keys[] = $eId . '/' . $act . '/' . $id;

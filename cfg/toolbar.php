@@ -54,26 +54,19 @@ return [
         'name' => 'System',
         'sort' => 30,
     ],
-    'url' => [
-        'name' => 'URL',
-        'url' => '/url/admin',
-        'priv' => 'url/admin',
-        'parent' => 'system',
-        'sort' => 10,
-    ],
     'account' => [
         'name' => 'Accounts',
         'url' => '/account/admin',
         'priv' => 'account/admin',
         'parent' => 'system',
-        'sort' => 20,
+        'sort' => 10,
     ],
     'role' => [
         'name' => 'Roles',
         'url' => '/role/admin',
         'priv' => 'role/admin',
         'parent' => 'system',
-        'sort' => 30,
+        'sort' => 20,
     ],
     'home' => [
         'name' => 'Homepage',

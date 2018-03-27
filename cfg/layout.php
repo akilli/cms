@@ -243,19 +243,4 @@ return [
             'vars' => ['attr' => ['name', 'priv']],
         ],
     ],
-    'url/admin' => [
-        'content' => [
-            'vars' => ['attr' => ['name', 'target', 'redirect']],
-        ],
-    ],
-    'url/create' => [
-        'content' => [
-            'vars' => ['attr' => ['name', 'target', 'redirect']],
-        ],
-    ],
-    'url/edit' => [
-        'content' => [
-            'vars' => ['attr' => ['name', 'target', 'redirect']],
-        ],
-    ],
 ];

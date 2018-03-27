@@ -26,19 +26,10 @@ function run(): void
     $data['lang'] = locale_get_primary_language('');
     $data['gui'] = max(filemtime(path('gui')), filemtime(path('ext.gui')) ?: 0);
     $url = req\get('url');
-    $rew = ent\one('url', [['name', $url]]);
 
-    // Redirect
-    if (!empty($rew['redirect'])) {
-        redirect($rew['target'], $rew['redirect']);
-        return;
-    }
-
-    // Rewrite
-    if ($rew) {
-        $url = $rew['target'];
-    } elseif ($page = ent\one('page', [['url', $url]], ['select' => ['id', 'ent']])) {
-        $url = '/' . $page['ent'] . '/view/' . $page['id'];
+    // Page
+    if ($data['page'] = ent\one('page', [['url', $url]])) {
+        $url = '/' . $data['page']['ent'] . '/view/' . $data['page']['id'];
     }
 
     // Gather request-data
@@ -304,7 +295,7 @@ function gui(string $path): string
  */
 function redirect(string $url = '/', int $code = null): void
 {
-    if ($code && !empty(cfg('opt', 'redirect')[$code])) {
+    if ($code && in_array($code, APP['redirect'])) {
         header('Location: ' . $url, true, $code);
     } else {
         header('Location: ' . $url);

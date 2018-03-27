@@ -97,6 +97,7 @@ const APP = [
         'active' => true,
         'assignable' => true,
     ],
+    'redirect' => [301, 302, 307, 308],
     'toolbar' => [
         'name' => null,
         'url' => null,

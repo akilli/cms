@@ -9,9 +9,5 @@ return [
         'content' => 'Content Overview',
         'article' => 'Article Overview',
     ],
-    'redirect' => [
-        307 => 'Temporary',
-        308 => 'Permanent'
-    ],
     'video' => ['mp4', 'ogv', 'webm'],
 ];

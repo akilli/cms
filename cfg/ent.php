@@ -67,42 +67,6 @@ return [
             ],
         ],
     ],
-    'url' => [
-        'name' => 'URL',
-        'type' => 'db',
-        'act' => ['admin', 'create', 'delete', 'edit'],
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'auto' => true,
-                'type' => 'int',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'unique' => true,
-                'searchable' => true,
-                'maxlength' => 255,
-                'filter' => 'filter\path',
-            ],
-            'target' => [
-                'name' => 'Target',
-                'type' => 'text',
-                'required' => true,
-                'searchable' => true,
-                'maxlength' => 255,
-                'filter' => 'filter\path',
-            ],
-            'redirect' => [
-                'name' => 'Redirect',
-                'type' => 'int',
-                'frontend' => 'frontend\select',
-                'nullable' => true,
-                'opt' => 'redirect',
-            ],
-        ],
-    ],
     'file' => [
         'name' => 'Files',
         'type' => 'db',
