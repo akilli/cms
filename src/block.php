@@ -45,6 +45,16 @@ function tpl(array $§): string
 }
 
 /**
+ * Search
+ */
+function search(array $§): string
+{
+    $§['vars']['q'] = $§['vars']['q'] ?? req\get('param')['q'] ?? null;
+
+    return tpl($§);
+}
+
+/**
  * Pager
  */
 function pager(array $§): string
@@ -141,8 +151,9 @@ function index(array $§): string
             $crit[] = $c;
         }
 
-        app\layout($§['vars']['search'], ['vars' => ['q' => $p['q']]]);
-        $§['vars']['search'] = app\§($§['vars']['search']);
+        $search = ['id' => $§['id'] . '.search', 'type' => 'search', 'vars' => ['q' => $p['q']]];
+        app\layout($search['id'], $search);
+        $§['vars']['search'] = app\§($search['id']);
     } else {
         $§['vars']['search'] = null;
     }
@@ -162,8 +173,9 @@ function index(array $§): string
     }
 
     if ($§['vars']['pager']) {
-        app\layout($§['vars']['pager'], ['vars' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]]);
-        $§['vars']['pager'] = app\§($§['vars']['pager']);
+        $pager = ['id' => $§['id'] . '.pager', 'type' => 'pager', 'vars' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]];
+        app\layout($pager['id'], $pager);
+        $§['vars']['pager'] = app\§($pager['id']);
     } else {
         $§['vars']['pager'] = null;
     }
@@ -200,7 +212,29 @@ function form(array $§): string
 }
 
 /**
- * Form
+ * Create Form
+ */
+function create(array $§): string
+{
+    $§['vars']['ent'] = app\cfg('ent', $§['vars']['ent'] ?: app\get('ent'));
+
+    if (($data = req\get('data')) && ent\save($§['vars']['ent']['id'], $data)) {
+        if ($§['vars']['redirect']) {
+            app\redirect(app\url($§['vars']['ent']['id'] . '/edit/' . $data['id']));
+            return '';
+        }
+
+        $data = [];
+    }
+
+    $§['vars']['data'] = array_replace(ent\item($§['vars']['ent']), $data);
+    $§['vars']['title'] = $§['vars']['title'] ?? $§['vars']['ent']['name'];
+
+    return form($§);
+}
+
+/**
+ * Login Form
  */
 function login(array $§): string
 {
@@ -221,7 +255,7 @@ function view(array $§): string
 }
 
 /**
- * Nav
+ * Navigation
  *
  * @throws DomainException
  */
@@ -268,7 +302,7 @@ function nav(array $§): string
 }
 
 /**
- * Menu
+ * Menu Navigation
  */
 function menu(array $§): string
 {
@@ -284,7 +318,7 @@ function menu(array $§): string
 }
 
 /**
- * Toolbar
+ * Toolbar Navigation
  */
 function toolbar(array $§): string
 {

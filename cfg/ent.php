@@ -190,7 +190,6 @@ return [
     'page' => [
         'name' => 'Pages',
         'type' => 'db',
-        'act' => ['index', 'sitemap'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -236,6 +235,13 @@ return [
                 'type' => 'text',
                 'val' => '',
                 'maxlength' => 300,
+            ],
+            'layout' => [
+                'name' => 'Layout',
+                'type' => 'select',
+                'nullable' => true,
+                'opt' => 'layout',
+                'maxlength' => 50,
             ],
             'slug' => [
                 'name' => 'Slug',
@@ -312,7 +318,7 @@ return [
         'name' => 'Articles',
         'type' => 'db',
         'parent' => 'page',
-        'act' => ['admin', 'create', 'delete', 'edit', 'index', 'view'],
+        'act' => ['admin', 'create', 'delete', 'edit', 'view'],
     ],
     'version' => [
         'name' => 'Versions',

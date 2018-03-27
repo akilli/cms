@@ -4,6 +4,11 @@ return [
         'call' => 'block\container',
         'vars' => ['tag' => null],
     ],
+    'create' => [
+        'call' => 'block\create',
+        'tpl' => 'ent/form.phtml',
+        'vars' => ['attr' => [], 'ent' => null, 'redirect' => false, 'title' => null],
+    ],
     'ent' => [
         'call' => 'block\ent',
         'tpl' => 'ent/index.phtml',
@@ -17,7 +22,7 @@ return [
     'index' => [
         'call' => 'block\index',
         'tpl' => 'ent/index.phtml',
-        'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'ent' => null, 'head' => false, 'limit' => 10, 'link' => false, 'pager' => null, 'search' => null, 'unpublished' => false],
+        'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'ent' => null, 'head' => false, 'limit' => 10, 'link' => false, 'pager' => false, 'search' => false, 'unpublished' => false],
     ],
     'login' => [
         'call' => 'block\login',
@@ -36,6 +41,11 @@ return [
         'call' => 'block\pager',
         'tpl' => 'block/pager.phtml',
         'vars' => ['cur' => null, 'limit' => null, 'pages' => 5, 'size' => null],
+    ],
+    'search' => [
+        'call' => 'block\search',
+        'tpl' => 'block/search.phtml',
+        'vars' => ['q' => null],
     ],
     'toolbar' => [
         'call' => 'block\toolbar',

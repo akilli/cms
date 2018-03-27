@@ -39,22 +39,10 @@ return [
     'app/js' => [
         'priv' => 'account-user',
     ],
-    'article/index' => [
-        'active' => false,
-    ],
     'article/view' => [
         'active' => false,
     ],
-    'content/index' => [
-        'active' => false,
-    ],
     'content/view' => [
-        'active' => false,
-    ],
-    'page/index' => [
-        'active' => false,
-    ],
-    'page/sitemap' => [
         'active' => false,
     ],
     'page/view' => [

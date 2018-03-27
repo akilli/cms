@@ -11,33 +11,6 @@ use req;
 use session;
 
 /**
- * Form Action
- */
-function form(array $ent): void
-{
-    if (($data = req\get('data')) && ent\save($ent['id'], $data)) {
-        $data = [];
-    }
-
-    $data = array_replace(ent\item($ent), $data);
-    app\layout('content', ['vars' => ['data' => $data, 'ent' => $ent, 'title' => $ent['name']]]);
-}
-
-/**
- * Create Action
- */
-function create(array $ent): void
-{
-    if (($data = req\get('data')) && ent\save($ent['id'], $data)) {
-        app\redirect(app\url($ent['id'] . '/edit/' . $data['id']));
-        return;
-    }
-
-    $data = array_replace(ent\item($ent), $data);
-    app\layout('content', ['vars' => ['data' => $data, 'ent' => $ent, 'title' => $ent['name']]]);
-}
-
-/**
  * Edit Action
  */
 function edit(array $ent): void

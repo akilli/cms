@@ -51,34 +51,12 @@ return [
             'sort' => 30,
         ],
     ],
-    'index' => [
-        'content' => [
-            'type' => 'index',
-            'parent' => 'main',
-            'sort' => 10,
-            'vars' => ['link' => true, 'pager' => 'pager', 'search' => 'search'],
-        ],
-        'search' => [
-            'type' => 'tpl',
-            'tpl' => 'block/search.phtml',
-        ],
-        'pager' => [
-            'type' => 'pager',
-        ],
-    ],
     'admin' => [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
             'sort' => 10,
-            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => 'pager', 'search' => 'search', 'unpublished' => true],
-        ],
-        'search' => [
-            'type' => 'tpl',
-            'tpl' => 'block/search.phtml',
-        ],
-        'pager' => [
-            'type' => 'pager',
+            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => true, 'search' => true, 'unpublished' => true],
         ],
     ],
     'browser' => [
@@ -92,28 +70,15 @@ return [
             'type' => 'index',
             'parent' => 'main',
             'sort' => 10,
-            'vars' => ['actions' => ['rte'], 'limit' => 20, 'pager' => 'pager', 'search' => 'search'],
-        ],
-        'search' => [
-            'type' => 'tpl',
-            'tpl' => 'block/search.phtml',
-        ],
-        'pager' => [
-            'type' => 'pager',
-        ],
-    ],
-    'form' => [
-        'content' => [
-            'type' => 'form',
-            'parent' => 'main',
-            'sort' => 10,
+            'vars' => ['actions' => ['rte'], 'limit' => 20, 'pager' => true, 'search' => true],
         ],
     ],
     'create' => [
         'content' => [
-            'type' => 'form',
+            'type' => 'create',
             'parent' => 'main',
             'sort' => 10,
+            'vars' => ['redirect' => true],
         ],
     ],
     'edit' => [
@@ -128,6 +93,30 @@ return [
             'type' => 'view',
             'parent' => 'main',
             'sort' => 10,
+        ],
+    ],
+    'page-article' => [
+        'index' => [
+            'type' => 'index',
+            'parent' => 'main',
+            'sort' => 20,
+            'vars' => ['attr' => ['image', 'name', 'teaser'], 'link' => true, 'pager' => true, 'search' => true],
+        ],
+    ],
+    'page-index' => [
+        'index' => [
+            'type' => 'index',
+            'parent' => 'main',
+            'sort' => 20,
+            'vars' => ['attr' => ['name', 'teaser'], 'link' => true, 'pager' => true, 'search' => true],
+        ],
+    ],
+    'page-sitemap' => [
+        'sitemap' => [
+            'type' => 'menu',
+            'parent' => 'main',
+            'sort' => 20,
+            'vars' => ['tag' => 'section'],
         ],
     ],
     'account/admin' => [
@@ -194,11 +183,6 @@ return [
             'vars' => ['attr' => ['name', 'slug', 'parent', 'status', 'image', 'teaser', 'main', 'meta']],
         ],
     ],
-    'article/index' => [
-        'content' => [
-            'vars' => ['attr' => ['image', 'name', 'teaser']],
-        ],
-    ],
     'article/view' => [
         'content' => [
             'vars' => ['attr' => ['name', 'image', 'teaser', 'main']],
@@ -242,14 +226,6 @@ return [
     'file/edit' => [
         'content' => [
             'vars' => ['attr' => ['name', 'info']],
-        ],
-    ],
-    'page/sitemap' => [
-        'content' => [
-            'type' => 'menu',
-            'parent' => 'main',
-            'sort' => 10,
-            'vars' => ['tag' => 'section'],
         ],
     ],
     'role/admin' => [

@@ -358,6 +358,7 @@ CREATE TABLE page (
     aside text NOT NULL DEFAULT '',
     sidebar text NOT NULL DEFAULT '',
     meta varchar(300) NOT NULL DEFAULT '',
+    layout varchar(50) DEFAULT NULL,
     slug varchar(50) NOT NULL,
     url varchar(255) UNIQUE DEFAULT NULL,
     menu boolean NOT NULL DEFAULT FALSE,
@@ -375,6 +376,7 @@ CREATE TABLE page (
 CREATE INDEX ON page (name);
 CREATE INDEX ON page (image);
 CREATE INDEX ON page (meta);
+CREATE INDEX ON page (layout);
 CREATE INDEX ON page (slug);
 CREATE INDEX ON page (url);
 CREATE INDEX ON page (menu);
