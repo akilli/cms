@@ -22,9 +22,9 @@ summary {
 
 #toolbar,
 #menu,
-#search,
-#pager,
 #sidebar,
+form.search,
+nav.pager,
 html[data-shim-details] details > summary:first-child::before {
     display: none !important;
 }
