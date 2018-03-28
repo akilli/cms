@@ -16,7 +16,7 @@ return [
     'ent' => [
         'call' => 'block\ent',
         'tpl' => 'ent/index.phtml',
-        'vars' => ['attr' => [], 'crit' => [], 'ent' => null, 'link' => false, 'opt' => [], 'title' => false, 'unpublished' => false],
+        'vars' => ['attr' => [], 'crit' => [], 'ent' => null, 'link' => false, 'opt' => [], 'title' => null, 'unpublished' => false],
     ],
     'form' => [
         'call' => 'block\form',
