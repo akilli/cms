@@ -51,6 +51,10 @@ return [
         'tpl' => 'block/search.phtml',
         'vars' => ['q' => null],
     ],
+    'sidebar' => [
+        'call' => 'block\sidebar',
+        'vars' => ['tag' => null],
+    ],
     'toolbar' => [
         'call' => 'block\toolbar',
         'vars' => ['tag' => 'nav'],

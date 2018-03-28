@@ -50,6 +50,11 @@ return [
             'parent' => 'top',
             'sort' => 30,
         ],
+        'sidebar-page' => [
+            'type' => 'sidebar',
+            'parent' => 'sidebar',
+            'sort' => 10,
+        ],
     ],
     '_error_' => [
         'content' => [

@@ -364,3 +364,22 @@ function breadcrumb(array $§): string
 
     return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
 }
+
+
+/**
+ * Page sidebar
+ */
+function sidebar(array $§): string
+{
+    if (!$page = app\get('page')) {
+        return '';
+    }
+
+    if (!$html = $page['sidebar']) {
+        $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']]];
+        $opt = ['select' => ['sidebar'], 'order' => ['level' => 'desc']];
+        $html = ent\one('page', $crit, $opt)['sidebar'] ?? '';
+    }
+
+    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+}
