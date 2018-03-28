@@ -97,28 +97,6 @@ function pager(array $§): string
 }
 
 /**
- * Entity
- */
-function ent(array $§): string
-{
-    $§['vars']['ent'] = app\cfg('ent', $§['vars']['ent'] ?: app\get('ent'));
-
-    if (!$§['vars']['ent'] || !is_array($§['vars']['crit']) || !is_array($§['vars']['opt'])) {
-        return '';
-    }
-
-    if (in_array('page', [$§['vars']['ent']['id'], $§['vars']['ent']['parent']]) && !$§['vars']['unpublished']) {
-        $§['vars']['crit'][] = ['status', 'published'];
-    }
-
-    $§['vars']['data'] = ent\all($§['vars']['ent']['id'], $§['vars']['crit'], $§['vars']['opt']);
-    $§['vars']['size'] = ent\size($§['vars']['ent']['id'], $§['vars']['crit']);
-    $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
-
-    return tpl($§);
-}
-
-/**
  * Index
  */
 function index(array $§): string
@@ -131,7 +109,8 @@ function index(array $§): string
     }
 
     $opt = ['limit' => (int) $§['vars']['limit']];
-    unset($§['vars']['crit'], $§['vars']['ent'], $§['vars']['limit'], $§['vars']['unpublished']);
+    $opt['order'] = is_array($§['vars']['order']) ? $§['vars']['order'] : ['id' => 'desc'];
+    unset($§['vars']['crit'], $§['vars']['ent'], $§['vars']['limit'], $§['vars']['order'], $§['vars']['unpublished']);
 
     if (!$ent || $opt['limit'] <= 0) {
         return '';
@@ -170,7 +149,6 @@ function index(array $§): string
     } else {
         $p['sort'] = null;
         $p['dir'] = null;
-        $opt['order'] = ['id' => 'desc'];
     }
 
     if ($§['vars']['pager']) {
