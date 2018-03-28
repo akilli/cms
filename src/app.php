@@ -228,10 +228,6 @@ function layout(string $id = null, array $§ = null): ?array
         return $data;
     }
 
-    if (empty($data[$id]) && $§ === null) {
-        return null;
-    }
-
     if (empty($data[$id])) {
         if (empty($§['type']) || !($type = cfg('block', $§['type']))) {
             throw new DomainException(i18n('Invalid block %s', $id));
