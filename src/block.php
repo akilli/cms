@@ -350,10 +350,16 @@ function breadcrumb(array $§): string
     }
 
     $html = '';
+    $all = ent\all('page', [['id', $page['path']]], ['select' => ['id', 'name', 'url'], 'order' => ['level' => 'asc']]);
 
-    foreach (ent\all('page', [['id', $page['path']]], ['order' => ['level' => 'asc']]) as $item) {
+    foreach ($all as $item) {
         $html .= $html ? ' ' : '';
-        $html .= $page['id'] === $item['id'] ? html\tag('span', [], $item['name']) : html\tag('a', ['href' => $item['url']], $item['name']);
+
+        if ($page['id'] === $item['id']) {
+            $html .= html\tag('span', [], $item['name']);
+        } else {
+            $html .= html\tag('a', ['href' => $item['url']], $item['name']);
+        }
     }
 
     return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
