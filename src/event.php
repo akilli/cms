@@ -156,8 +156,8 @@ function layout(array $data): array
     $type = app\cfg('block');
     $keys = [APP['all'], app\get('area')];
 
-    if (http_response_code() === 404) {
-        $keys[] = 'app/error';
+    if (app\get('error')) {
+        $keys[] = APP['error'];
     } else {
         $eId = app\get('ent');
         $act = app\get('act');

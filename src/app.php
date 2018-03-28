@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace app;
 
 use account;
-use act;
 use arr;
 use ent;
 use req;
@@ -25,6 +24,7 @@ function run(): void
     $data = & reg('app');
     $data['lang'] = locale_get_primary_language('');
     $data['gui'] = max(filemtime(path('gui')), filemtime(path('ext.gui')) ?: 0);
+    $data['error'] = false;
     $url = req\get('url');
 
     // Page
@@ -47,7 +47,7 @@ function run(): void
     if ($allowed && !$ent && $real) {
         $real();
     } elseif (!$allowed || !$ent || !in_array($data['act'], $ent['act'])) {
-        act\app_error();
+        error();
     } elseif ($real) {
         $real($ent);
     } elseif ($ent['parent'] && is_callable('act\\' . $ent['parent'] . '_' . $data['act'])) {
@@ -55,6 +55,18 @@ function run(): void
     } elseif (is_callable('act\\' . $data['act'])) {
         ('act\\' . $data['act'])($ent);
     }
+}
+
+/**
+ * Handles invalid reuqests
+ */
+function error(): void
+{
+    http_response_code(404);
+    $app = & reg('app');
+    $app['error'] = true;
+    $layout = & reg('layout');
+    $layout = null;
 }
 
 /**

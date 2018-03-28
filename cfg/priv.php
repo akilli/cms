@@ -33,9 +33,6 @@ return [
     'account/password' => [
         'priv' => 'account-user',
     ],
-    'app/error' => [
-        'active' => false,
-    ],
     'app/js' => [
         'priv' => 'account-user',
     ],

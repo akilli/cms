@@ -77,6 +77,7 @@ const APP = [
         'limit' => 0,
         'offset' => 0,
     ],
+    'error' => '_error_',
     'frontend.date' => 'Y-m-d',
     'frontend.datetime' => 'Y-m-d\TH:i',
     'frontend.time' => 'H:i',

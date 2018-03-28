@@ -51,6 +51,14 @@ return [
             'sort' => 30,
         ],
     ],
+    '_error_' => [
+        'content' => [
+            'type' => 'tpl',
+            'tpl' => 'app/error.phtml',
+            'parent' => 'main',
+            'sort' => 10,
+        ],
+    ],
     'admin' => [
         'content' => [
             'type' => 'index',
@@ -162,14 +170,6 @@ return [
             'parent' => 'main',
             'sort' => 10,
             'vars' => ['attr' => ['password', 'confirmation']],
-        ],
-    ],
-    'app/error' => [
-        'content' => [
-            'type' => 'tpl',
-            'tpl' => 'app/error.phtml',
-            'parent' => 'main',
-            'sort' => 10,
         ],
     ],
     'app/js' => [

@@ -56,7 +56,7 @@ function view(array $ent): void
     }
 
     if (!$id || !($data = ent\one($ent['id'], $crit))) {
-        app_error();
+        app\error();
         return;
     }
 
@@ -76,14 +76,6 @@ function delete(array $ent): void
     }
 
     app\redirect(app\url($ent['id'] . '/admin'));
-}
-
-/**
- * App Error Action
- */
-function app_error(): void
-{
-    http_response_code(404);
 }
 
 /**
