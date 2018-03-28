@@ -10,27 +10,27 @@ return [
     ],
     'create' => [
         'call' => 'block\create',
-        'tpl' => 'ent/form.phtml',
+        'tpl' => 'form.phtml',
         'vars' => ['attr' => [], 'ent' => null, 'redirect' => false, 'title' => ''],
     ],
     'ent' => [
         'call' => 'block\ent',
-        'tpl' => 'ent/index.phtml',
+        'tpl' => 'index.phtml',
         'vars' => ['attr' => [], 'crit' => [], 'ent' => null, 'link' => false, 'opt' => [], 'title' => '', 'unpublished' => false],
     ],
     'form' => [
         'call' => 'block\form',
-        'tpl' => 'ent/form.phtml',
+        'tpl' => 'form.phtml',
         'vars' => ['attr' => [], 'data' => [], 'ent' => [], 'title' => ''],
     ],
     'index' => [
         'call' => 'block\index',
-        'tpl' => 'ent/index.phtml',
+        'tpl' => 'index.phtml',
         'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'ent' => null, 'head' => false, 'limit' => 10, 'link' => false, 'pager' => false, 'search' => false, 'title' => '', 'unpublished' => false],
     ],
     'login' => [
         'call' => 'block\login',
-        'tpl' => 'ent/form.phtml',
+        'tpl' => 'form.phtml',
         'vars' => ['title' => null],
     ],
     'menu' => [
@@ -43,12 +43,12 @@ return [
     ],
     'pager' => [
         'call' => 'block\pager',
-        'tpl' => 'block/pager.phtml',
+        'tpl' => 'pager.phtml',
         'vars' => ['cur' => null, 'limit' => null, 'pages' => 5, 'size' => null],
     ],
     'search' => [
         'call' => 'block\search',
-        'tpl' => 'block/search.phtml',
+        'tpl' => 'search.phtml',
         'vars' => ['q' => null],
     ],
     'sidebar' => [
@@ -64,7 +64,7 @@ return [
     ],
     'view' => [
         'call' => 'block\view',
-        'tpl' => 'ent/view.phtml',
+        'tpl' => 'view.phtml',
         'vars' => ['attr' => [], 'data' => [], 'ent' => []],
     ],
 ];

@@ -7,7 +7,7 @@ return [
         ],
         'head' => [
             'type' => 'tpl',
-            'tpl' => 'block/head.phtml',
+            'tpl' => 'head.phtml',
         ],
         'top' => [
             'type' => 'container',
@@ -20,7 +20,7 @@ return [
         ],
         'msg' => [
             'type' => 'tpl',
-            'tpl' => 'block/msg.phtml',
+            'tpl' => 'msg.phtml',
         ],
         'main' => [
             'type' => 'container',
@@ -41,7 +41,7 @@ return [
     '_public_' => [
         'header' => [
             'type' => 'tpl',
-            'tpl' => 'block/header.phtml',
+            'tpl' => 'header.phtml',
             'parent' => 'top',
             'sort' => 20,
         ],
@@ -59,7 +59,7 @@ return [
     '_error_' => [
         'content' => [
             'type' => 'tpl',
-            'tpl' => 'app/error.phtml',
+            'tpl' => 'error.phtml',
             'parent' => 'main',
             'sort' => 10,
         ],
@@ -180,7 +180,7 @@ return [
     ],
     'app/js' => [
         'root' => [
-            'tpl' => 'app/app.js',
+            'tpl' => 'app.js',
         ],
     ],
     'article/admin' => [
