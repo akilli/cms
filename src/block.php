@@ -104,7 +104,7 @@ function index(array $§): string
     $§['vars']['ent'] = app\cfg('ent', $§['vars']['ent'] ?: app\get('ent'));
     $crit = is_array($§['vars']['crit']) ? $§['vars']['crit'] : [];
     $opt = ['limit' => (int) $§['vars']['limit']];
-    $opt['order'] = is_array($§['vars']['order']) ? $§['vars']['order'] : ['id' => 'desc'];
+    $opt['order'] = $§['vars']['order'] && is_array($§['vars']['order']) ? $§['vars']['order'] : ['id' => 'desc'];
 
     if (!$§['vars']['ent'] || $opt['limit'] <= 0) {
         return '';
