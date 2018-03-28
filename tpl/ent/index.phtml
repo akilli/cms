@@ -4,6 +4,7 @@ use attr;
 /** @var callable $§ */
 ?>
 <section id="<?=$§('id');?>" class="index">
+    <?php if ($§('title') || $§('create') && allowed($§('ent')['id'] . '/create') || $§('search')):?>
     <header>
         <?php if ($§('title')):?>
         <h1><?=$§('title');?></h1>
@@ -13,6 +14,7 @@ use attr;
         <?php endif;?>
         <?=$§('search');?>
     </header>
+    <?php endif;?>
 <?php if ($§('data')):?>
     <?php if ($§('head')):?>
     <div class="thead">
