@@ -2,20 +2,25 @@
 namespace app;
 use attr;
 /** @var callable $§ */
+$aside = null;
 ?>
 <article id="<?=$§('id');?>" class="view">
+    <?=§('content-top');?>
     <?php foreach ($§('attr') as $aId):?>
-        <?php if (!($attr = $§('ent')['attr'][$aId] ?? null) || !($html = attr\viewer($attr, $§('data')))) continue;?>
+        <?php if (!($attr = $§('ent')['attr'][$aId] ?? null) || !($html = attr\viewer($attr, $§('data'))) || $attr['id'] === 'aside' && ($aside = $html)) continue;?>
         <?php if ($attr['id'] === 'name'):?>
     <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
-        <?php elseif ($attr['id'] === 'aside'):?>
-    <aside data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-        <?=$html;?>
-    </aside>
         <?php else:?>
     <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
         <?=$html;?>
     </div>
         <?php endif;?>
     <?php endforeach;?>
+    <?=§('content-middle');?>
+    <?php if ($aside):?>
+    <aside data-attr="aside" data-type="<?=$§('ent')['attr']['aside']['type'];?>">
+        <?=$aside;?>
+    </aside>
+    <?php endif;?>
+    <?=§('content-bottom');?>
 </article>

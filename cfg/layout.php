@@ -94,28 +94,37 @@ return [
             'parent' => 'main',
             'sort' => 10,
         ],
+        'content-top' => [
+            'type' => 'container',
+        ],
+        'content-middle' => [
+            'type' => 'container',
+        ],
+        'content-bottom' => [
+            'type' => 'container',
+        ],
     ],
     'page-article' => [
         'index' => [
             'type' => 'index',
-            'parent' => 'main',
-            'sort' => 20,
+            'parent' => 'content-middle',
+            'sort' => 10,
             'vars' => ['attr' => ['image', 'name', 'teaser'], 'ent' => 'article', 'link' => true, 'pager' => true],
         ],
     ],
     'page-index' => [
         'index' => [
             'type' => 'index',
-            'parent' => 'main',
-            'sort' => 20,
+            'parent' => 'content-middle',
+            'sort' => 10,
             'vars' => ['attr' => ['name', 'teaser'], 'ent' => 'page', 'link' => true, 'pager' => true, 'search' => true],
         ],
     ],
     'page-sitemap' => [
         'sitemap' => [
             'type' => 'menu',
-            'parent' => 'main',
-            'sort' => 20,
+            'parent' => 'content-middle',
+            'sort' => 10,
             'vars' => ['tag' => 'section'],
         ],
     ],
