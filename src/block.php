@@ -339,3 +339,22 @@ function toolbar(array $§): string
 
     return nav($§);
 }
+
+/**
+ * Breadcrumb Navigation
+ */
+function breadcrumb(array $§): string
+{
+    if (!$page = app\get('page')) {
+        return '';
+    }
+
+    $html = '';
+
+    foreach (ent\all('page', [['id', $page['path']]], ['order' => ['level' => 'asc']]) as $item) {
+        $html .= $html ? ' ' : '';
+        $html .= $page['id'] === $item['id'] ? html\tag('span', [], $item['name']) : html\tag('a', ['href' => $item['url']], $item['name']);
+    }
+
+    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+}

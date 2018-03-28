@@ -1,5 +1,9 @@
 <?php
 return [
+    'breadcrumb' => [
+        'call' => 'block\breadcrumb',
+        'vars' => ['tag' => 'nav'],
+    ],
     'container' => [
         'call' => 'block\container',
         'vars' => ['tag' => null],
