@@ -101,27 +101,26 @@ function pager(array $§): string
  */
 function index(array $§): string
 {
-    $ent = app\cfg('ent', $§['vars']['ent'] ?: app\get('ent'));
+    $§['vars']['ent'] = app\cfg('ent', $§['vars']['ent'] ?: app\get('ent'));
     $crit = is_array($§['vars']['crit']) ? $§['vars']['crit'] : [];
-
-    if (in_array('page', [$ent['id'], $ent['parent']]) && !$§['vars']['unpublished']) {
-        $crit[] = ['status', 'published'];
-    }
-
     $opt = ['limit' => (int) $§['vars']['limit']];
     $opt['order'] = is_array($§['vars']['order']) ? $§['vars']['order'] : ['id' => 'desc'];
-    unset($§['vars']['crit'], $§['vars']['ent'], $§['vars']['limit'], $§['vars']['order'], $§['vars']['unpublished']);
 
-    if (!$ent || $opt['limit'] <= 0) {
+    if (!$§['vars']['ent'] || $opt['limit'] <= 0) {
         return '';
     }
 
+    if (in_array('page', [$§['vars']['ent']['id'], $§['vars']['ent']['parent']]) && !$§['vars']['unpublished']) {
+        $crit[] = ['status', 'published'];
+    }
+
+    unset($§['vars']['crit'], $§['vars']['limit'], $§['vars']['order'], $§['vars']['unpublished']);
     $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], req\get('param'));
 
     if ($§['vars']['search']) {
         if ($p['q'] = trim((string) $p['q'])) {
             $q = array_filter(explode(' ', $p['q']));
-            $searchable = array_keys(arr\crit($ent['attr'], [['searchable', true]])) ?: ['name'];
+            $searchable = array_keys(arr\crit($§['vars']['ent']['attr'], [['searchable', true]])) ?: ['name'];
             $c = [];
 
             foreach ($searchable as $s) {
@@ -138,7 +137,7 @@ function index(array $§): string
         $§['vars']['search'] = null;
     }
 
-    $size = ent\size($ent['id'], $crit);
+    $size = ent\size($§['vars']['ent']['id'], $crit);
     $total = (int) ceil($size / $opt['limit']) ?: 1;
     $p['cur'] = min(max((int) $p['cur'], 1), $total);
     $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
@@ -159,11 +158,10 @@ function index(array $§): string
         $§['vars']['pager'] = null;
     }
 
-    $§['vars']['data'] = ent\all($ent['id'], $crit, $opt);
+    $§['vars']['data'] = ent\all($§['vars']['ent']['id'], $crit, $opt);
     $§['vars']['dir'] = $p['dir'];
-    $§['vars']['ent'] = $ent;
     $§['vars']['sort'] = $p['sort'];
-    $§['vars']['title'] = app\enc($§['vars']['title'] ?? $ent['name']);
+    $§['vars']['title'] = app\enc($§['vars']['title'] ?? $§['vars']['ent']['name']);
     $§['vars']['url'] = req\get('url');
 
     return tpl($§);
