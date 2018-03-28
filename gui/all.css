@@ -441,6 +441,10 @@ form .cke {
 /**
  * Index
  */
+.index article {
+    margin-bottom: 1.5rem;
+}
+
 html[data-act=admin] #content.index .thead {
     margin: 0;
     padding: 0.75rem 0;
