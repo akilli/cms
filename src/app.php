@@ -217,7 +217,7 @@ function tpl(string $id): string
  *
  * @throws DomainException
  */
-function layout(string $id = null, array $§ = null): array
+function layout(string $id = null, array $§ = null): ?array
 {
     if (($data = & reg('layout')) === null) {
         $data = [];
@@ -226,6 +226,10 @@ function layout(string $id = null, array $§ = null): array
 
     if ($id === null) {
         return $data;
+    }
+
+    if (empty($data[$id]) && $§ === null) {
+        return null;
     }
 
     if (empty($data[$id])) {
@@ -246,9 +250,7 @@ function layout(string $id = null, array $§ = null): array
  */
 function §(string $id): string
 {
-    $§ = layout($id);
-
-    if (!$§['active'] || $§['priv'] && !allowed($§['priv'])) {
+    if (!($§ = layout($id)) || !$§['active'] || $§['priv'] && !allowed($§['priv'])) {
         return '';
     }
 
