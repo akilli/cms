@@ -69,7 +69,7 @@ return [
             'type' => 'index',
             'parent' => 'main',
             'sort' => 10,
-            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => true, 'search' => true, 'unpublished' => true],
+            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => true, 'search' => true, 'title' => null, 'unpublished' => true],
         ],
     ],
     'browser' => [
@@ -83,7 +83,7 @@ return [
             'type' => 'index',
             'parent' => 'main',
             'sort' => 10,
-            'vars' => ['actions' => ['rte'], 'limit' => 20, 'pager' => true, 'search' => true],
+            'vars' => ['actions' => ['rte'], 'limit' => 20, 'pager' => true, 'search' => true, 'title' => null],
         ],
     ],
     'create' => [
@@ -91,7 +91,7 @@ return [
             'type' => 'create',
             'parent' => 'main',
             'sort' => 10,
-            'vars' => ['redirect' => true],
+            'vars' => ['redirect' => true, 'title' => null],
         ],
     ],
     'edit' => [
@@ -99,6 +99,7 @@ return [
             'type' => 'form',
             'parent' => 'main',
             'sort' => 10,
+            'vars' => ['title' => null],
         ],
     ],
     'view' => [

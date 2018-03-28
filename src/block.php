@@ -113,6 +113,7 @@ function ent(array $§): string
 
     $§['vars']['data'] = ent\all($§['vars']['ent']['id'], $§['vars']['crit'], $§['vars']['opt']);
     $§['vars']['size'] = ent\size($§['vars']['ent']['id'], $§['vars']['crit']);
+    $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
 
     return tpl($§);
 }
@@ -184,7 +185,7 @@ function index(array $§): string
     $§['vars']['dir'] = $p['dir'];
     $§['vars']['ent'] = $ent;
     $§['vars']['sort'] = $p['sort'];
-    $§['vars']['title'] = $ent['name'];
+    $§['vars']['title'] = app\enc($§['vars']['title'] ?? $ent['name']);
     $§['vars']['url'] = req\get('url');
 
     return tpl($§);

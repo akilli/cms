@@ -11,22 +11,22 @@ return [
     'create' => [
         'call' => 'block\create',
         'tpl' => 'ent/form.phtml',
-        'vars' => ['attr' => [], 'ent' => null, 'redirect' => false, 'title' => null],
+        'vars' => ['attr' => [], 'ent' => null, 'redirect' => false, 'title' => ''],
     ],
     'ent' => [
         'call' => 'block\ent',
         'tpl' => 'ent/index.phtml',
-        'vars' => ['attr' => [], 'crit' => [], 'ent' => null, 'link' => false, 'opt' => [], 'title' => null, 'unpublished' => false],
+        'vars' => ['attr' => [], 'crit' => [], 'ent' => null, 'link' => false, 'opt' => [], 'title' => '', 'unpublished' => false],
     ],
     'form' => [
         'call' => 'block\form',
         'tpl' => 'ent/form.phtml',
-        'vars' => ['attr' => [], 'data' => [], 'ent' => [], 'title' => null],
+        'vars' => ['attr' => [], 'data' => [], 'ent' => [], 'title' => ''],
     ],
     'index' => [
         'call' => 'block\index',
         'tpl' => 'ent/index.phtml',
-        'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'ent' => null, 'head' => false, 'limit' => 10, 'link' => false, 'pager' => false, 'search' => false, 'unpublished' => false],
+        'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'ent' => null, 'head' => false, 'limit' => 10, 'link' => false, 'pager' => false, 'search' => false, 'title' => '', 'unpublished' => false],
     ],
     'login' => [
         'call' => 'block\login',
