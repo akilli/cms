@@ -42,6 +42,9 @@ return [
     'content/view' => [
         'active' => false,
     ],
+    'page/view' => [
+        'active' => false,
+    ],
     'role/admin' => [
         'priv' => '_all_',
     ],
