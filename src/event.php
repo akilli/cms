@@ -5,6 +5,7 @@ namespace event;
 
 use app;
 use arr;
+use attr;
 use ent;
 use file;
 use req;
@@ -238,15 +239,16 @@ function ent_postsave(array $data): array
 
     $cfg = app\cfg('mail');
     $file = req\get('file');
-    $attrs = $data['_ent']['attr'];
     $text = '';
     $attach = [];
 
     foreach ($data as $aId => $val) {
-        if (in_array($aId, ['_old', '_ent', 'id'])) {
+        $attr = $data['_ent']['attr'][$aId] ?? null;
+
+        if (!$attr || $aId === 'id') {
             continue;
-        } elseif ($attrs[$aId]['type'] !== 'file') {
-            $text .= $attrs[$aId]['name'] . ':' . APP['crlf'] . $val . APP['crlf'] .APP['crlf'];
+        } elseif ($attr['type'] !== 'file') {
+            $text .= $attr['name'] . ':' . APP['crlf'] . attr\viewer($attr, $data) . APP['crlf'] .APP['crlf'];
         } elseif (!empty($file[$aId])) {
             $attach[] = ['name' => $file[$aId]['name'], 'path' => $file[$aId]['tmp_name'], 'type' => $file[$aId]['type']];
         }
