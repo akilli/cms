@@ -2,14 +2,9 @@ body {
     padding: 0;
 }
 
-h1,
-h2,
-h3,
-summary {
-    break-after: avoid;
-    page-break-after: avoid;
-}
-
+/**
+ * Details
+ */
 details {
     margin-bottom: 1.5rem;
 }
@@ -20,15 +15,20 @@ summary {
     font-size: 1.125rem;
 }
 
-#toolbar,
-#menu,
-#sidebar,
-form.search,
-nav.pager,
-html[data-shim-details] details > summary:first-child::before {
-    display: none !important;
+/**
+ * Pagebreak
+ */
+h1,
+h2,
+h3,
+summary {
+    break-after: avoid;
+    page-break-after: avoid;
 }
 
+/**
+ * Links
+ */
 #content a::after,
 #footer a::after {
     content: " (" attr(href) ")";
@@ -36,12 +36,30 @@ html[data-shim-details] details > summary:first-child::before {
     font-style: italic;
 }
 
-#header {
-    border-bottom: solid 1px #00000c;
-}
-
+/**
+ * Media
+ */
 .index audio,
 .index img,
 .index video {
     max-width: 15rem;
+}
+
+/**
+ * Header
+ */
+#header {
+    border-bottom: solid 1px #00000c;
+}
+
+/**
+ * Hidden
+ */
+#toolbar,
+#menu,
+#sidebar,
+form.search,
+nav.pager,
+html[data-shim-details] details > summary:first-child::before {
+    display: none !important;
 }
