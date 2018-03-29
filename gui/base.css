@@ -115,6 +115,10 @@ sup {
 a {
     color: inherit;
     text-decoration: none;
+}
+
+a[href],
+a[onclick] {
     cursor: pointer;
 }
 
