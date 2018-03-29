@@ -57,7 +57,6 @@ html[data-shim-details] details:not([open]) > summary:first-child::before {
 /**
  * Clear
  */
-main::after,
 div[data-type=rte]::after {
     display: block;
     height: 0;
