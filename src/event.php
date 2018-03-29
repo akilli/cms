@@ -243,7 +243,9 @@ function ent_postsave(array $data): array
     $attach = [];
 
     foreach ($data as $aId => $val) {
-        if ($attrs[$aId]['type'] !== 'file') {
+        if (in_array($aId, ['_old', '_ent', 'id'])) {
+            continue;
+        } elseif ($attrs[$aId]['type'] !== 'file') {
             $text .= $attrs[$aId]['name'] . ':' . APP['crlf'] . $val . APP['crlf'] .APP['crlf'];
         } elseif (!empty($file[$aId])) {
             $attach[] = ['name' => $file[$aId]['name'], 'path' => $file[$aId]['tmp_name'], 'type' => $file[$aId]['type']];
