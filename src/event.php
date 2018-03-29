@@ -232,7 +232,7 @@ function ent_prefilter_file(array $data): array
  */
 function ent_postsave(array $data): array
 {
-    if (!$data['_ent']['mail'] || !in_array('form', $data['_ent']['act']) || app\get('act') !== 'form') {
+    if (!$data['_ent']['mail'] || app\get('area') !== APP['area.public']) {
         return $data;
     }
 
