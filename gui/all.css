@@ -376,19 +376,6 @@ form .cke {
 }
 
 /**
- * Header
- */
-#header {
-    color: #fff;
-    background: #052a33;
-}
-
-#header .name {
-    font-size: 2rem;
-    font-weight: normal;
-}
-
-/**
  * Message
  */
 #msg {
