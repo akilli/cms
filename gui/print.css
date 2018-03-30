@@ -29,8 +29,7 @@ summary {
 /**
  * Links
  */
-#content a::after,
-#footer a::after {
+#content a::after {
     content: " (" attr(href) ")";
     font-size: 0.875rem;
     font-style: italic;
