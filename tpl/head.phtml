@@ -7,12 +7,14 @@ namespace app;
 <meta name="description" content="<?=enc($§('desc'));?>" />
 <?php endif;?>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+<?=§('head-meta');?>
 <title><?=enc((string) $§('title'));?></title>
 <link rel="stylesheet" href="<?=gui('base.css');?>" />
 <link rel="stylesheet" href="<?=gui('style.css');?>" />
 <?php if (file_exists(path('ext.gui', 'ext.css'))):?>
 <link rel="stylesheet" href="<?=gui('ext.css');?>" />
 <?php endif;?>
+<?=§('head-css');?>
 <?php if (allowed('account-user')):?>
 <script src="<?=gui('ckeditor/ckeditor.js');?>"></script>
 <script src="<?=url('app/js');?>"></script>
@@ -22,3 +24,4 @@ namespace app;
 <?php if (file_exists(path('ext.gui', 'ext.js'))):?>
 <script src="<?=gui('ext.js');?>"></script>
 <?php endif;?>
+<?=§('head-js');?>

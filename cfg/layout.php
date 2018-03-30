@@ -9,6 +9,15 @@ return [
             'type' => 'tpl',
             'tpl' => 'head.phtml',
         ],
+        'head-meta' => [
+            'type' => 'container',
+        ],
+        'head-css' => [
+            'type' => 'container',
+        ],
+        'head-js' => [
+            'type' => 'container',
+        ],
         'top' => [
             'type' => 'container',
         ],
