@@ -6,17 +6,19 @@ return [
             'tpl' => 'root.phtml',
         ],
         'head' => [
+            'type' => 'container',
+        ],
+        'meta' => [
             'type' => 'tpl',
-            'tpl' => 'head.phtml',
+            'tpl' => 'meta.phtml',
+            'parent' => 'head',
+            'sort' => 10,
         ],
-        'head-meta' => [
-            'type' => 'container',
-        ],
-        'head-css' => [
-            'type' => 'container',
-        ],
-        'head-js' => [
-            'type' => 'container',
+        'asset' => [
+            'type' => 'tpl',
+            'tpl' => 'asset.phtml',
+            'parent' => 'head',
+            'sort' => 20,
         ],
         'top' => [
             'type' => 'container',
