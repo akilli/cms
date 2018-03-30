@@ -30,7 +30,7 @@ return [
     ],
     'menu' => [
         'call' => 'block\menu',
-        'vars' => ['tag' => 'nav'],
+        'vars' => ['root' => false, 'tag' => 'nav'],
     ],
     'nav' => [
         'call' => 'block\nav',

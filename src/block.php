@@ -283,13 +283,18 @@ function nav(array $§): string
  */
 function menu(array $§): string
 {
-    if (!$base = ent\one('page', [['status', 'published'], ['url', '/']], ['select' => ['id', 'pos']])) {
+    if (!$root = ent\one('page', [['status', 'published'], ['url', '/']], ['select' => ['id', 'name', 'url', 'pos', 'level']])) {
         return '';
     }
 
-    $crit = [['status', 'published'], ['menu', true], ['pos', $base['pos'] . '.', APP['crit']['~^']]];
+    $crit = [['status', 'published'], ['menu', true], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
     $opt = ['select' => ['id', 'name', 'url', 'level'], 'order' => ['pos' => 'asc']];
     $§['vars']['data'] = ent\all('page', $crit, $opt);
+
+    if ($§['vars']['root']) {
+        $root['level']++;
+        $§['vars']['data'] = [$root['id'] => $root] + $§['vars']['data'];
+    }
 
     return nav($§);
 }
