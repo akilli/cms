@@ -9,17 +9,9 @@ namespace app;
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
 <title><?=enc((string) $§('title'));?></title>
 <link rel="stylesheet" href="<?=gui('base.css');?>" />
-<link rel="stylesheet" href="<?=gui('all.css');?>" />
-<link rel="stylesheet" href="<?=gui('desktop.css');?>" media="screen and (min-width: 48rem)" />
-<link rel="stylesheet" href="<?=gui('print.css');?>" media="print" />
-<?php if (file_exists(path('ext.gui', 'ext.all.css'))):?>
-<link rel="stylesheet" href="<?=gui('ext.all.css');?>" />
-<?php endif;?>
-<?php if (file_exists(path('ext.gui', 'ext.desktop.css'))):?>
-<link rel="stylesheet" href="<?=gui('ext.desktop.css');?>" media="screen and (min-width: 48rem)" />
-<?php endif;?>
-<?php if (file_exists(path('ext.gui', 'ext.print.css'))):?>
-<link rel="stylesheet" href="<?=gui('ext.print.css');?>" media="print" />
+<link rel="stylesheet" href="<?=gui('style.css');?>" />
+<?php if (file_exists(path('ext.gui', 'ext.css'))):?>
+<link rel="stylesheet" href="<?=gui('ext.css');?>" />
 <?php endif;?>
 <?php if (allowed('account-user')):?>
 <script src="<?=gui('ckeditor/ckeditor.js');?>"></script>
