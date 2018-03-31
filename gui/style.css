@@ -322,6 +322,7 @@ form .cke {
  * Menu
  */
 #menu {
+    display: none;
     padding: 0.75rem;
     color: #fff;
     background: #32535c;
@@ -453,19 +454,14 @@ a[data-sort=desc]::after {
 /**
  * Gallery
  */
-.gallery {
-    margin-bottom: 1.5rem;
-}
-
-.gallery > .items {
+.gallery .items {
     display: flex;
-    flex: wrap;
+    flex-wrap: wrap;
 }
 
-.gallery > .items > a {
-    display: block;
-    max-width: 25%;
-    height: 6rem;
+.gallery .items > * {
+    width: 25%;
+    margin-bottom: 1.5rem;
 }
 
 /**
