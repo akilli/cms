@@ -33,28 +33,6 @@ h3:not(:first-child) {
 }
 
 /**
- * Details
- */
-html[data-shim-details] details,
-html[data-shim-details] details > summary:first-child {
-    display: block;
-}
-
-html[data-shim-details] details:not([open]) > * {
-    display: none;
-}
-
-html[data-shim-details] details > summary:first-child::before {
-    display: inline-block;
-    content: "\25bc";
-    margin-right: 0.5rem;
-}
-
-html[data-shim-details] details:not([open]) > summary:first-child::before {
-    content: "\25b6";
-}
-
-/**
  * Clear
  */
 div[data-type=rte]::after {
@@ -676,8 +654,7 @@ a[data-sort=desc]::after {
     #menu,
     #sidebar,
     form.search,
-    nav.pager,
-    html[data-shim-details] details > summary:first-child::before {
+    nav.pager {
         display: none !important;
     }
 }
