@@ -6,7 +6,7 @@ del, ins,
 audio, canvas, embed, iframe, img, object, picture, video,
 caption, table, tbody, td, tfoot, th, thead, tr,
 fieldset, form, label, legend, output,
-details, menu, summary {
+details, dialog, menu, summary {
     vertical-align: baseline;
     margin: 0;
     padding: 0;
@@ -222,6 +222,26 @@ option[selected] {
 /**
  * Interactive
  */
+dialog {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+dialog:not([open]) {
+    display: none;
+}
+
 summary {
     cursor: pointer;
 }
