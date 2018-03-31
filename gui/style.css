@@ -473,6 +473,13 @@ a[data-sort=desc]::after {
 }
 
 /**
+ * Gallery
+ */
+.gallery > img:not(:first-of-type) {
+    display: none;
+}
+
+/**
  * Desktop
  */
 @media screen and (min-width: 48rem) {
