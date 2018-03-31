@@ -1,23 +1,15 @@
 'use strict';
 
 (function (document, window) {
-    function detailsBefore() {
+    function printBefore() {
+        // Details
         const details = document.getElementsByTagName('details');
 
         for (let a = 0; a < details.length; a++) {
             details[a].setAttribute('open', '');
         }
-    }
 
-    function detailsAfter() {
-        const details = document.getElementsByTagName('details');
-
-        for (let a = 0; a < details.length; a++) {
-            details[a].removeAttribute('open');
-        }
-    }
-
-    function linkBefore() {
+        // Links
         const link = document.querySelectorAll('a[href^="/"]');
 
         for (let a = 0; a < link.length; a++) {
@@ -26,23 +18,21 @@
         }
     }
 
-    function linkAfter() {
+    function printAfter() {
+        // Details
+        const details = document.getElementsByTagName('details');
+
+        for (let a = 0; a < details.length; a++) {
+            details[a].removeAttribute('open');
+        }
+
+        // Links
         const link = document.querySelectorAll('a[data-href]');
 
         for (let a = 0; a < link.length; a++) {
             link[a].setAttribute('href', link[a].getAttribute('data-href'));
             link[a].removeAttribute('data-href')
         }
-    }
-
-    function printBefore() {
-        detailsBefore();
-        linkBefore();
-    }
-
-    function printAfter() {
-        linkAfter();
-        detailsAfter();
     }
 
     document.addEventListener('DOMContentLoaded', function () {
