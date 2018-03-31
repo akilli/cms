@@ -459,7 +459,7 @@ a[data-sort=desc]::after {
     flex-wrap: wrap;
 }
 
-.gallery .items > * {
+.gallery .items > a {
     width: 25%;
     margin-bottom: 1.5rem;
 }
