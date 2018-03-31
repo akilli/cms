@@ -453,8 +453,19 @@ a[data-sort=desc]::after {
 /**
  * Gallery
  */
-.gallery > img:not(:first-of-type) {
-    display: none;
+.gallery {
+    margin-bottom: 1.5rem;
+}
+
+.gallery > .items {
+    display: flex;
+    flex: wrap;
+}
+
+.gallery > .items > a {
+    display: block;
+    max-width: 25%;
+    height: 6rem;
 }
 
 /**
@@ -654,7 +665,8 @@ a[data-sort=desc]::after {
     #menu,
     #sidebar,
     form.search,
-    nav.pager {
+    nav.pager,
+    .gallery {
         display: none !important;
     }
 }
