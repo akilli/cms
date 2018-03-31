@@ -139,7 +139,7 @@
 
     window.addEventListener('load', function () {
         // Sticky navigation polyfill
-        const nav = document.getElementById('menu');
+        const nav = document.querySelector('#menu.sticky');
 
         if (!!nav && window.getComputedStyle(nav).getPropertyValue('position') !== 'sticky') {
             setTimeout(function() {

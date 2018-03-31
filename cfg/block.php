@@ -30,11 +30,11 @@ return [
     ],
     'menu' => [
         'call' => 'block\menu',
-        'vars' => ['root' => false, 'tag' => 'nav'],
+        'vars' => ['class' => null, 'root' => false, 'tag' => 'nav'],
     ],
     'nav' => [
         'call' => 'block\nav',
-        'vars' => ['data' => [], 'tag' => 'nav'],
+        'vars' => ['class' => null, 'data' => [], 'tag' => 'nav'],
     ],
     'pager' => [
         'call' => 'block\pager',
@@ -52,7 +52,7 @@ return [
     ],
     'toolbar' => [
         'call' => 'block\toolbar',
-        'vars' => ['tag' => 'nav'],
+        'vars' => ['class' => null, 'tag' => 'nav'],
     ],
     'tpl' => [
         'call' => 'block\tpl',

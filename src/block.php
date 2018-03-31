@@ -247,6 +247,11 @@ function nav(array $§): string
     $level = 0;
     $i = 0;
     $html = '';
+    $attrs = ['id' => $§['id']];
+
+    if ($§['vars']['class']) {
+        $attrs['class'] = $§['vars']['class'];
+    }
 
     foreach ($§['vars']['data'] as $item) {
         if (empty($item['name'])) {
@@ -275,7 +280,7 @@ function nav(array $§): string
         $level = $item['level'];
     }
 
-    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], $attrs, $html) : $html;
 }
 
 /**

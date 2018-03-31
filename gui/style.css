@@ -362,14 +362,14 @@ form .cke {
     border-color: #93ddf9;
 }
 
-#menu[data-sticky] {
+#menu.sticky[data-sticky] {
     position: fixed;
     top: 0;
     width: 100%;
 }
 
 @supports (position: sticky) {
-    #menu {
+    #menu.sticky {
         position: sticky;
         top: 0;
     }
