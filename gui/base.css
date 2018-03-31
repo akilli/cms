@@ -230,6 +230,7 @@ dialog {
     bottom: 0;
     z-index: 999;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -244,4 +245,13 @@ dialog:not([open]) {
 
 summary {
     cursor: pointer;
+}
+
+/**
+ * Print
+ */
+@media print {
+    dialog[open] {
+        display: none;
+    }
 }

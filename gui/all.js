@@ -79,18 +79,26 @@
         for (let a = 0; a < gallery.length; a++) {
             gallery[a].addEventListener('click', function (e) {
                 let dialog = document.getElementById('dialog');
+                let button;
                 let img;
 
                 if (!dialog) {
                     dialog = document.createElement('dialog');
                     dialog.id = 'dialog';
                     body.appendChild(dialog);
+                    button = document.createElement('button');
+                    button.innerText = 'X';
+                    dialog.appendChild(button);
                     img = document.createElement('img');
                     dialog.appendChild(img);
                 } else {
+                    button = dialog.getElementsByTagName('button')[0];
                     img = dialog.getElementsByTagName('img')[0];
                 }
 
+                button.addEventListener('click', function () {
+                    dialog.removeAttribute('open');
+                });
                 img.setAttribute('src', this.getAttribute('href'));
                 dialog.setAttribute('open', '');
                 e.preventDefault();
