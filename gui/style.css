@@ -454,6 +454,10 @@ a[data-sort=desc]::after {
 /**
  * Gallery
  */
+.gallery {
+    margin: 0;
+}
+
 .gallery .items {
     display: flex;
     flex-wrap: wrap;
