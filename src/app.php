@@ -26,12 +26,14 @@ function run(): void
     $data['gui'] = max(filemtime(path('gui')), filemtime(path('ext.gui')) ?: 0);
     $data['error'] = false;
     $data['layout'] = null;
+    $data['main'] = null;
     $url = req\get('url');
 
     // Page
     if ($data['page'] = ent\one('page', [['url', $url]])) {
         $url = '/' . $data['page']['ent'] . '/view/' . $data['page']['id'];
         $data['layout'] = $data['page']['layout'];
+        $data['main'] = $data['page']['path'][1] ?? null;
     }
 
     // Gather request-data
