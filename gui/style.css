@@ -20,6 +20,7 @@ h2,
 h3,
 p:not(:last-child),
 fieldset > *,
+main > :not(:last-child),
 #content > :not(:last-child),
 #sidebar > :not(:last-child) {
     margin-bottom: 1.5rem;
