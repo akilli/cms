@@ -307,10 +307,6 @@ form .cke {
  * Toolbar
  */
 #toolbar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 100;
     display: none;
     width: 100%;
     padding: 0.75rem;
@@ -324,16 +320,10 @@ form .cke {
     text-decoration: underline;
 }
 
-#toolbar + * {
-    margin-top: 3rem;
-}
-
 /**
  * Menu
  */
 #menu {
-    position: relative;
-    z-index: 100;
     display: none;
     padding: 0.75rem;
     color: #fff;
@@ -533,6 +523,22 @@ a[data-sort=desc]::after {
     /**
      * Navigation
      */
+    #toolbar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 100;
+    }
+
+    #toolbar + * {
+        margin-top: 3rem;
+    }
+
+    #menu {
+        position: relative;
+        z-index: 100;
+    }
+
     #toolbar,
     #menu {
         display: block;
