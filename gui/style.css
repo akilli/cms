@@ -459,7 +459,7 @@ a[data-sort=desc]::after {
     flex-wrap: wrap;
 }
 
-.gallery .items > a {
+.gallery .items > * {
     width: 25%;
     margin-bottom: 1.5rem;
 }
@@ -482,6 +482,31 @@ a[data-sort=desc]::after {
     height: 100%;
     text-align: center;
     background: rgba(0, 0, 0, 0.8);
+}
+
+#dialog[open] button {
+    line-height: 1;
+    font-size: 3rem;
+    color: #fff !important;
+    background: none;
+}
+
+#dialog[open] button[data-act=close] {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#dialog[open] button[data-act=prev] {
+    position: absolute;
+    left: 0;
+    top: 50%;
+}
+
+#dialog[open] button[data-act=next] {
+    position: absolute;
+    right: 0;
+    top: 50%;
 }
 
 /**

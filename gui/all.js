@@ -74,35 +74,61 @@
 
         // Gallery dialog
         const body = document.getElementsByTagName('body')[0];
-        const gallery = document.querySelectorAll('.gallery .items > a');
+        const gallery = document.querySelectorAll('.gallery .items > *');
 
         for (let a = 0; a < gallery.length; a++) {
             gallery[a].addEventListener('click', function (e) {
-                let dialog = document.getElementById('dialog');
-                let button;
-                let img;
-
-                if (!dialog) {
-                    dialog = document.createElement('dialog');
-                    dialog.id = 'dialog';
-                    body.appendChild(dialog);
-                    button = document.createElement('button');
-                    button.innerText = 'X';
-                    dialog.appendChild(button);
-                    img = document.createElement('img');
-                    dialog.appendChild(img);
-                } else {
-                    button = dialog.getElementsByTagName('button')[0];
-                    img = dialog.getElementsByTagName('img')[0];
+                if (!!document.getElementById('dialog')) {
+                    document.getElementById('dialog').parentElement.removeChild(document.getElementById('dialog'));
                 }
 
-                button.addEventListener('click', function () {
-                    dialog.removeAttribute('open');
+                let current = this;
+                const dialog = document.createElement('dialog');
+                const img = document.createElement('img');
+                const close = document.createElement('button');
+                const prev = document.createElement('button');
+                const next = document.createElement('button');
+
+                // Dialog
+                dialog.id = 'dialog';
+                dialog.addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        dialog.parentElement.removeChild(this);
+                    }
                 });
+                body.appendChild(dialog);
+                // Close button
+                close.setAttribute('data-act', 'close');
+                close.innerText = 'x';
+                close.addEventListener('click', function () {
+                    dialog.parentElement.removeChild(dialog);
+                });
+                dialog.appendChild(close);
+                // Prev button
+                prev.setAttribute('data-act', 'prev');
+                prev.innerText = '<';
+                prev.addEventListener('click', function () {
+                    const ref = current.previousElementSibling || current.parentElement.lastElementChild;
+                    img.setAttribute('src', ref.getAttribute('href'));
+                    current = ref;
+                });
+                dialog.appendChild(prev);
+                // Next button
+                next.setAttribute('data-act', 'next');
+                next.innerText = '>';
+                next.addEventListener('click', function () {
+                    const ref = current.nextElementSibling || current.parentElement.firstElementChild;
+                    img.setAttribute('src', ref.getAttribute('href'));
+                    current = ref;
+                });
+                dialog.appendChild(next);
+                // Image
                 img.setAttribute('src', this.getAttribute('href'));
+                dialog.appendChild(img);
+                // Open dialog
                 dialog.setAttribute('open', '');
                 e.preventDefault();
-            })
+            });
         }
     });
 
