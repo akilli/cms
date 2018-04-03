@@ -239,6 +239,6 @@ summary {
  */
 @media print {
     dialog[open] {
-        display: none;
+        display: none !important;
     }
 }
