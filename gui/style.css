@@ -460,8 +460,12 @@ a[data-sort=desc]::after {
 }
 
 .gallery .items > * {
-    width: 25%;
     margin-bottom: 1.5rem;
+}
+
+.gallery .items img {
+    width: 6rem;
+    height: 6rem;
 }
 
 /**
