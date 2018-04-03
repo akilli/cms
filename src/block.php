@@ -244,6 +244,7 @@ function nav(array $§): string
 
     $url = req\get('url');
     $count = count($§['vars']['data']);
+    $start = current($§['vars']['data'])['level'] ?? 1;
     $level = 0;
     $i = 0;
     $html = '';
@@ -258,7 +259,8 @@ function nav(array $§): string
             throw new DomainException(app\i18n('Invalid data'));
         }
 
-        $item = arr\replace(['name' => null, 'url' => null, 'level' => 1], $item);
+        $item = arr\replace(['name' => null, 'url' => null, 'level' => $start], $item);
+        $item['level'] = $item['level'] - $start + 1;
         $a = $item['url'] ? ['href' => $item['url']] : [];
         $class = '';
 
@@ -288,11 +290,30 @@ function nav(array $§): string
  */
 function menu(array $§): string
 {
-    if (!$root = ent\one('page', [['status', 'published'], ['url', '/']], ['select' => ['id', 'name', 'url', 'pos', 'level']])) {
+    $mode = $§['vars']['mode'];
+    unset($§['vars']['mode']);
+    $page = app\get('page');
+    $main = app\get('main');
+
+    if ($mode === 'sub' && (!$page || !$main)) {
         return '';
     }
 
-    $crit = [['status', 'published'], ['menu', true], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
+    $crit = [['status', 'published'], ['ent', 'content']];
+    $crit[] = $mode === 'sub' ? ['id', app\get('main')] : ['url', '/'];
+
+    if (!$root = ent\one('page', $crit, ['select' => ['id', 'name', 'url', 'pos', 'level']])) {
+        return '';
+    }
+
+    $crit = [['status', 'published'], ['ent', 'content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
+
+    if ($mode === 'sub') {
+        $crit[] = [['id', $page['path']], ['parent', [$main, $page['id'], $page['parent']]]];
+    } else {
+        $crit[] = ['menu', true];
+    }
+
     $opt = ['select' => ['id', 'name', 'url', 'level'], 'order' => ['pos' => 'asc']];
     $§['vars']['data'] = ent\all('page', $crit, $opt);
 
