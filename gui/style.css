@@ -307,6 +307,7 @@ form .cke {
  */
 #toolbar {
     display: none;
+    margin: 0 -0.75rem;
     padding: 0.75rem;
     font-size: 0.875rem;
     color: #fff;
@@ -358,6 +359,7 @@ form .cke {
  * Message
  */
 #msg {
+    margin: 0 -0.75rem;
     padding: 0.75rem;
     color: #000;
     background: #c7ffff;
@@ -525,10 +527,6 @@ a[data-sort=desc]::after {
         position: relative;
         z-index: 100;
         display: block;
-    }
-
-    #toolbar {
-        margin: 0 -0.75rem;
     }
 
     #toolbar > ul > li,
