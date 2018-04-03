@@ -401,6 +401,7 @@ form .cke {
 /**
  * Index
  */
+.index > header,
 .index article {
     margin-bottom: 1.5rem;
 }
