@@ -14,10 +14,10 @@ body > * {
     padding: 0.75rem 0;
 }
 
-figure,
-h1,
-h2,
-h3,
+figure:not(:last-child),
+h1:not(:last-child),
+h2:not(:last-child),
+h3:not(:last-child),
 p:not(:last-child),
 fieldset > *,
 main > :not(:last-child),
