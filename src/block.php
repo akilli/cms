@@ -309,7 +309,9 @@ function menu(array $§): string
     $crit = [['status', 'published'], ['ent', 'content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
 
     if ($mode === 'sub') {
-        $crit[] = [['id', $page['path']], ['parent', [$main, $page['id'], $page['parent']]]];
+        $parent = $page['path'];
+        unset($parent[0]);
+        $crit[] = [['id', $page['path']], ['parent', $parent]];
     } else {
         $crit[] = ['menu', true];
     }
