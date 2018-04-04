@@ -319,6 +319,10 @@ function menu(array $§): string
     $opt = ['select' => ['id', 'name', 'url', 'level'], 'order' => ['pos' => 'asc']];
     $§['vars']['data'] = ent\all('page', $crit, $opt);
 
+    if (!$§['vars']['data']) {
+        return '';
+    }
+
     if ($§['vars']['root']) {
         $root['level']++;
         $§['vars']['data'] = [$root['id'] => $root] + $§['vars']['data'];
