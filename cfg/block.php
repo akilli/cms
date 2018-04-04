@@ -48,7 +48,7 @@ return [
     ],
     'sidebar' => [
         'call' => 'block\sidebar',
-        'vars' => ['tag' => null],
+        'vars' => ['inherit' => false, 'tag' => null],
     ],
     'toolbar' => [
         'call' => 'block\toolbar',

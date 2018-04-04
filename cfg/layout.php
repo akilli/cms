@@ -65,6 +65,7 @@ return [
             'type' => 'sidebar',
             'parent' => 'sidebar',
             'sort' => 10,
+            'vars' => ['inherit' => true],
         ],
     ],
     '_error_' => [

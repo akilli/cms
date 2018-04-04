@@ -389,7 +389,9 @@ function sidebar(array $§): string
         return '';
     }
 
-    if (!$html = $page['sidebar']) {
+    $html = $page['sidebar'];
+
+    if (!$html && $§['vars']['inherit']) {
         $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']]];
         $opt = ['select' => ['sidebar'], 'order' => ['level' => 'desc']];
         $html = ent\one('page', $crit, $opt)['sidebar'] ?? '';
