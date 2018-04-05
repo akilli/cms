@@ -5,6 +5,7 @@ namespace block;
 
 use app;
 use arr;
+use attr;
 use ent;
 use html;
 use req;
@@ -377,6 +378,24 @@ function breadcrumb(array $§): string
     }
 
     return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+}
+
+/**
+ * Page banner
+ */
+function banner(array $§): string
+{
+    if (($page = app\get('page')) && $page['ent'] !== 'content') {
+        $crit = [['id', $page['path']], ['ent', 'content']];
+        $opt = ['select' => ['image'], 'order' => ['level' => 'desc']];
+        $page = ent\one('page', $crit, $opt);
+    }
+
+    if (!$page || !($§['vars']['img'] = attr\viewer($page['_ent']['attr']['image'], $page))) {
+        return '';
+    }
+
+    return tpl($§);
 }
 
 

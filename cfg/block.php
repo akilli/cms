@@ -1,5 +1,9 @@
 <?php
 return [
+    'banner' => [
+        'call' => 'block\banner',
+        'tpl' => 'banner.phtml',
+    ],
     'breadcrumb' => [
         'call' => 'block\breadcrumb',
         'vars' => ['tag' => 'nav'],
