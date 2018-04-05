@@ -695,7 +695,8 @@ a[data-sort=desc]::after {
     /**
      * Links
      */
-    #content a::after {
+    #content a::after,
+    #footer a::after {
         content: " (" attr(href) ")";
         font-size: 0.875rem;
         font-style: italic;
