@@ -42,7 +42,6 @@
         'list': 1,
         'media': 1,
         'removeformat': 1,
-        'sharedspace': 1,
         'showblocks': 1,
         'table': 1,
         'toolbar': 1,
