@@ -60,7 +60,6 @@ function regenerate(): void
     ini_set('session.use_strict_mode', '0');
     session_id($id);
     session_start();
-    ini_set('session.use_strict_mode', '1');
 }
 
 /**
