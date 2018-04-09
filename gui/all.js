@@ -6,7 +6,11 @@
         const details = document.getElementsByTagName('details');
 
         for (let a = 0; a < details.length; a++) {
-            details[a].setAttribute('open', '');
+            if (details[a].hasAttribute('open')) {
+                details[a].setAttribute('data-open', '');
+            } else {
+                details[a].setAttribute('open', '');
+            }
         }
 
         // Links
@@ -23,7 +27,11 @@
         const details = document.getElementsByTagName('details');
 
         for (let a = 0; a < details.length; a++) {
-            details[a].removeAttribute('open');
+            if (details[a].hasAttribute('data-open')) {
+                details[a].removeAttribute('data-open');
+            } else {
+                details[a].removeAttribute('open');
+            }
         }
 
         // Links
