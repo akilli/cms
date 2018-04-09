@@ -80,6 +80,52 @@
             }
         }
 
+        // Slider
+        const slider = document.getElementsByClassName('slider');
+
+        for (let a = 0; a < slider.length; a++) {
+            let sliderItems = slider[a].getElementsByClassName('slider-items');
+
+            if (!sliderItems || sliderItems.length !== 1) {
+                continue;
+            }
+
+            let sliderNav = slider[a].getElementsByClassName('slider-nav');
+            let flickity = new Flickity(sliderItems[0], {
+                autoPlay: true,
+                imagesLoaded: true,
+                pageDots: slider[a].classList.contains('slider-dots'),
+                prevNextButtons: slider[a].classList.contains('slider-prevnext'),
+                wrapAround: true
+            });
+            slider[a].addEventListener('mouseenter', function () {
+                flickity.stopPlayer();
+            });
+            slider[a].addEventListener('mouseleave', function () {
+                flickity.playPlayer();
+            });
+
+            if (!!sliderNav && sliderNav.length === 1) {
+                let sliderButton = sliderNav[0].getElementsByTagName('button');
+
+                for (let b = 0; b < sliderButton.length; b++) {
+                    sliderButton[b].addEventListener('click', function (ev) {
+                        flickity.select(Array.prototype.indexOf.call(sliderButton, ev.target));
+                    });
+                }
+
+                flickity.on('select', function (index) {
+                    for (let c = 0; c < sliderButton.length; c++) {
+                        if (c === index) {
+                            sliderButton[c].classList.add('is-selected');
+                        } else {
+                            sliderButton[c].classList.remove('is-selected');
+                        }
+                    }
+                });
+            }
+        }
+
         // Gallery dialog
         const body = document.getElementsByTagName('body')[0];
         const gallery = document.querySelectorAll('.gallery .items > *');

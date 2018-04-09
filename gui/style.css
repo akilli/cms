@@ -212,8 +212,8 @@ select[multiple] {
 [type=reset],
 [type=submit],
 button {
-    line-height: 3rem;
-    padding: 0 0.5rem;
+    line-height: 1.5rem;
+    padding: 0.75rem;
     color: #000 !important;
     background: #60abc6;
     border: 0;
@@ -453,6 +453,13 @@ a[data-sort=desc]::after {
 
 .pager .info {
     margin-right: 1.5rem;
+}
+
+/**
+ * Slider
+ */
+.slider button {
+    background: rgba(255, 255, 255, 0.75);
 }
 
 /**
@@ -726,6 +733,7 @@ a[data-sort=desc]::after {
     #sidebar,
     form.search,
     nav.pager,
+    .slider,
     .gallery {
         display: none !important;
     }
