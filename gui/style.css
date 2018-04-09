@@ -21,8 +21,8 @@ h3:not(:last-child),
 p:not(:last-child),
 fieldset > *,
 main > :not(:last-child),
-#content > :not(:last-child),
-#sidebar > :not(:last-child) {
+#content > :not(:last-child):not(details),
+#sidebar > :not(:last-child):not(details) {
     margin-bottom: 1.5rem;
 }
 
