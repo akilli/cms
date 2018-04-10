@@ -92,6 +92,7 @@
 
             let sliderNav = slider[a].getElementsByClassName('slider-nav');
             let flickity = new Flickity(sliderItems[0], {
+                adaptiveHeight: window.matchMedia('not screen and (min-width: 48rem)').matches,
                 autoPlay: true,
                 imagesLoaded: true,
                 pageDots: slider[a].classList.contains('slider-dots'),
