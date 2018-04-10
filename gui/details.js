@@ -10,9 +10,9 @@
 
         document.documentElement.setAttribute('data-shim-details', 'true');
 
-        for (let a = 0; a < details.length; a++) {
+        Array.prototype.forEach.call(details, function (item) {
             // Define open property
-            Object.defineProperty(details[a], 'open', {
+            Object.defineProperty(item, 'open', {
                 get: function () {
                     return this.hasAttribute('open');
                 },
@@ -26,12 +26,12 @@
             });
 
             // Summary element
-            let summary = details[a].firstChild;
+            let summary = item.firstChild;
 
             if (!summary || summary.tagName.toLowerCase() !== 'summary') {
                 summary = document.createElement('summary');
                 summary.innerText = 'Summary';
-                details[a].insertBefore(summary, details[a].firstChild);
+                item.insertBefore(summary, item.firstChild);
             }
 
             summary.addEventListener('click', function () {
@@ -42,14 +42,14 @@
             let b = 0;
             let child;
 
-            while (child = details[a].childNodes[b++]) {
+            while (child = item.childNodes[b++]) {
                 if (child.nodeType === 3 && /[^\t\n\r ]/.test(child.data)) {
                     let span = document.createElement('span');
-                    details[a].insertBefore(span, child);
+                    item.insertBefore(span, child);
                     span.textContent = child.data;
-                    details[a].removeChild(child);
+                    item.removeChild(child);
                 }
             }
-        }
+        });
     });
 })(document, window);

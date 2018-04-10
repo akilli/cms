@@ -3,44 +3,36 @@
 (function (document, window) {
     function printBefore() {
         // Details
-        const details = document.getElementsByTagName('details');
-
-        for (let a = 0; a < details.length; a++) {
-            if (details[a].hasAttribute('open')) {
-                details[a].setAttribute('data-open', '');
+        Array.prototype.forEach.call(document.getElementsByTagName('details'), function (item) {
+            if (item.hasAttribute('open')) {
+                item.setAttribute('data-open', '');
             } else {
-                details[a].setAttribute('open', '');
+                item.setAttribute('open', '');
             }
-        }
+        });
 
         // Links
-        const link = document.querySelectorAll('a[href^="/"]');
-
-        for (let a = 0; a < link.length; a++) {
-            link[a].setAttribute('data-href', link[a].getAttribute('href'));
-            link[a].setAttribute('href', link[a].href);
-        }
+        Array.prototype.forEach.call(document.querySelectorAll('a[href^="/"]'), function (item) {
+            item.setAttribute('data-href', item.getAttribute('href'));
+            item.setAttribute('href', item.href);
+        });
     }
 
     function printAfter() {
         // Details
-        const details = document.getElementsByTagName('details');
-
-        for (let a = 0; a < details.length; a++) {
-            if (details[a].hasAttribute('data-open')) {
-                details[a].removeAttribute('data-open');
+        Array.prototype.forEach.call(document.getElementsByTagName('details'), function (item) {
+            if (item.hasAttribute('data-open')) {
+                item.removeAttribute('data-open');
             } else {
-                details[a].removeAttribute('open');
+                item.removeAttribute('open');
             }
-        }
+        });
 
         // Links
-        const link = document.querySelectorAll('a[data-href]');
-
-        for (let a = 0; a < link.length; a++) {
-            link[a].setAttribute('href', link[a].getAttribute('data-href'));
-            link[a].removeAttribute('data-href')
-        }
+        Array.prototype.forEach.call(document.querySelectorAll('a[data-href]'), function (item) {
+            item.setAttribute('href', item.getAttribute('data-href'));
+            item.removeAttribute('data-href');
+        });
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -58,80 +50,69 @@
         window.addEventListener('afterprint', printAfter);
 
         // Multi-checkbox required fix
-        const form = document.getElementsByTagName('form');
+        const sel = 'input[type=checkbox][multiple]';
 
-        for (let a = 0; a < form.length; a++) {
-            let sel = 'input[type=checkbox][multiple]';
-            let multi = form[a].querySelectorAll(sel + '[required]');
+        Array.prototype.forEach.call(document.querySelectorAll(sel + '[required]'), function (item) {
+            item.addEventListener('change', function () {
+                const req = !!this.form.querySelector(sel + '[name="' + this.name + '"]:checked');
 
-            for (let b = 0; b < multi.length; b++) {
-                multi[b].addEventListener('change', function () {
-                    let req = !!this.form.querySelector(sel + '[name="' + this.name + '"]:checked');
-                    let sib = this.form.querySelectorAll(sel + '[name="' + this.name + '"]');
-
-                    for (let c = 0; c < sib.length; c++) {
-                        if (req) {
-                            sib[c].removeAttribute('required');
-                        } else {
-                            sib[c].setAttribute('required', 'required');
-                        }
+                Array.prototype.forEach.call(this.form.querySelectorAll(sel + '[name="' + this.name + '"]'), function (sib) {
+                    if (req) {
+                        sib.removeAttribute('required');
+                    } else {
+                        sib.setAttribute('required', 'required');
                     }
                 });
-            }
-        }
+            });
+        });
 
         // Slider
-        const slider = document.getElementsByClassName('slider');
+        Array.prototype.forEach.call(document.getElementsByClassName('slider'), function (item) {
+            const sliderItems = item.querySelector('.slider-items');
 
-        for (let a = 0; a < slider.length; a++) {
-            let sliderItems = slider[a].getElementsByClassName('slider-items');
-
-            if (!sliderItems || sliderItems.length !== 1) {
-                continue;
+            if (!sliderItems) {
+                return;
             }
 
-            let sliderNav = slider[a].getElementsByClassName('slider-nav');
-            let flickity = new Flickity(sliderItems[0], {
+            const sliderNav = item.querySelector('.slider-nav');
+            const flickity = new Flickity(sliderItems, {
                 autoPlay: true,
                 imagesLoaded: true,
-                pageDots: slider[a].classList.contains('slider-dots'),
-                prevNextButtons: slider[a].classList.contains('slider-prevnext'),
+                pageDots: item.classList.contains('slider-dots'),
+                prevNextButtons: item.classList.contains('slider-prevnext'),
                 wrapAround: true
             });
-            slider[a].addEventListener('mouseenter', function () {
+            item.addEventListener('mouseenter', function () {
                 flickity.stopPlayer();
             });
-            slider[a].addEventListener('mouseleave', function () {
+            item.addEventListener('mouseleave', function () {
                 flickity.playPlayer();
             });
 
-            if (!!sliderNav && sliderNav.length === 1) {
-                let sliderButton = sliderNav[0].getElementsByTagName('button');
+            if (!!sliderNav) {
+                const sliderButton = sliderNav.getElementsByTagName('button');
 
-                for (let b = 0; b < sliderButton.length; b++) {
-                    sliderButton[b].addEventListener('click', function (ev) {
+                Array.prototype.forEach.call(sliderButton, function (button) {
+                    button.addEventListener('click', function (ev) {
                         flickity.select(Array.prototype.indexOf.call(sliderButton, ev.target));
                     });
-                }
+                });
 
-                flickity.on('select', function (index) {
-                    for (let c = 0; c < sliderButton.length; c++) {
-                        if (c === index) {
-                            sliderButton[c].classList.add('is-selected');
+                flickity.on('select', function (current) {
+                    Array.prototype.forEach.call(sliderButton, function (button, index) {
+                        if (index === current) {
+                            button.classList.add('is-selected');
                         } else {
-                            sliderButton[c].classList.remove('is-selected');
+                            button.classList.remove('is-selected');
                         }
-                    }
+                    });
                 });
             }
-        }
+        });
 
         // Gallery dialog
-        const body = document.getElementsByTagName('body')[0];
-        const gallery = document.querySelectorAll('.gallery .items > *');
-
-        for (let a = 0; a < gallery.length; a++) {
-            gallery[a].addEventListener('click', function (e) {
+        Array.prototype.forEach.call(document.querySelectorAll('.gallery .items > *'), function (item) {
+            item.addEventListener('click', function (e) {
                 if (!!document.getElementById('dialog')) {
                     document.getElementById('dialog').parentElement.removeChild(document.getElementById('dialog'));
                 }
@@ -142,6 +123,7 @@
                 const close = document.createElement('button');
                 const prev = document.createElement('button');
                 const next = document.createElement('button');
+                const body = document.getElementsByTagName('body')[0];
 
                 // Dialog
                 dialog.id = 'dialog';
@@ -183,7 +165,7 @@
                 dialog.setAttribute('open', '');
                 e.preventDefault();
             });
-        }
+        });
     });
 
     window.addEventListener('load', function () {

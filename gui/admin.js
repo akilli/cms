@@ -3,34 +3,27 @@
 (function (window, document, app, CKEDITOR) {
     document.addEventListener('DOMContentLoaded', function () {
         // Input password autocomplete fix
-        const pwd = document.querySelectorAll('input[type=password]');
-
-        for (let a = 0; a < pwd.length; a++) {
-            pwd[a].setAttribute('readonly', true);
-            pwd[a].addEventListener('focus', function () {
+        Array.prototype.forEach.call(document.querySelectorAll('input[type=password]'), function (item) {
+            item.setAttribute('readonly', 'readonly');
+            item.addEventListener('focus', function () {
                 this.removeAttribute('readonly');
             });
-        }
+        });
 
         // Delete buttons and links
-        const del = document.querySelectorAll('a[data-act=delete]');
-
-        for (let a = 0; a < del.length; a++) {
-            del[a].addEventListener('click', function (event) {
+        Array.prototype.forEach.call(document.querySelectorAll('a[data-act=delete]'), function (item) {
+            item.addEventListener('click', function (event) {
                 if (!confirm(app.i18n('Please confirm delete operation'))) {
                     event.preventDefault();
                 }
             });
-        }
+        });
 
         // Browser
         const suffix = '-file';
-        const brw = document.querySelectorAll('span[data-act=browser]');
-        const rem = document.querySelectorAll('span[data-act=remove]');
-        const sel = document.querySelectorAll('span[data-act=select]');
 
-        for (let a = 0; a < brw.length; a++) {
-            brw[a].addEventListener('click', function () {
+        Array.prototype.forEach.call(document.querySelectorAll('span[data-act=browser]'), function (item) {
+            item.addEventListener('click', function () {
                 const ent = this.parentElement.getAttribute('data-type') || 'file';
                 window.open(
                     '/' + ent + '/browser?el=' + this.getAttribute('data-id'),
@@ -38,10 +31,9 @@
                     'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes'
                 );
             });
-        }
-
-        for (let a = 0; a < rem.length; a++) {
-            rem[a].addEventListener('click', function () {
+        });
+        Array.prototype.forEach.call(document.querySelectorAll('span[data-act=remove]'), function (item) {
+            item.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 const el = document.getElementById(id + suffix);
 
@@ -53,10 +45,9 @@
                     }
                 }
             });
-        }
-
-        for (let a = 0; a < sel.length; a++) {
-            sel[a].addEventListener('click', function () {
+        });
+        Array.prototype.forEach.call(document.querySelectorAll('span[data-act=select]'), function (item) {
+            item.addEventListener('click', function () {
                 if (!window.opener) {
                     return;
                 }
@@ -88,39 +79,37 @@
 
                 window.close();
             });
-        }
+        });
 
         // RTE
-        const cfg = {
-            customConfig: '',
-            disableNativeSpellChecker: true,
-            extraAllowedContent: 'article section(*)',
-            filebrowserBrowseUrl: '/file/browser',
-            format_tags: 'p;h1;h2;h3',
-            height: '30rem',
-            removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Indent,Outdent',
-            removeDialogTabs: 'link:advanced;link:target',
-            stylesSet: false,
-            toolbarGroups: [
-                {name: 'document', groups: ['mode', 'document', 'doctools']},
-                {name: 'clipboard', groups: ['clipboard', 'undo']},
-                {name: 'editing', groups: ['find', 'selection', 'spellchecker']},
-                {name: 'forms'},
-                {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
-                {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi']},
-                {name: 'links'},
-                {name: 'insert'},
-                {name: 'styles'},
-                {name: 'colors'},
-                {name: 'tools'},
-                {name: 'others'},
-                {name: 'about'}
-            ]
-        };
-        const rte = document.querySelectorAll('textarea[data-type=rte]');
-
-        for (let a = 0; a < rte.length; a++) {
-            CKEDITOR.replace(rte[a], cfg);
-        }
+        Array.prototype.forEach.call(document.querySelectorAll('textarea[data-type=rte]'), function (item) {
+            const cfg = {
+                customConfig: '',
+                disableNativeSpellChecker: true,
+                extraAllowedContent: 'article section(*)',
+                filebrowserBrowseUrl: '/file/browser',
+                format_tags: 'p;h1;h2;h3',
+                height: '30rem',
+                removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Indent,Outdent',
+                removeDialogTabs: 'link:advanced;link:target',
+                stylesSet: false,
+                toolbarGroups: [
+                    {name: 'document', groups: ['mode', 'document', 'doctools']},
+                    {name: 'clipboard', groups: ['clipboard', 'undo']},
+                    {name: 'editing', groups: ['find', 'selection', 'spellchecker']},
+                    {name: 'forms'},
+                    {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+                    {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi']},
+                    {name: 'links'},
+                    {name: 'insert'},
+                    {name: 'styles'},
+                    {name: 'colors'},
+                    {name: 'tools'},
+                    {name: 'others'},
+                    {name: 'about'}
+                ]
+            };
+            CKEDITOR.replace(item, cfg);
+        });
     });
 })(window, document, app, CKEDITOR);
