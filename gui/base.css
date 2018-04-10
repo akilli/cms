@@ -33,6 +33,10 @@ body {
     min-height: 100vh;
 }
 
+main {
+    display: block;
+}
+
 [hidden] {
     display: none;
 }
