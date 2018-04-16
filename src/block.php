@@ -111,11 +111,17 @@ function index(array $§): string
         return '';
     }
 
-    if (in_array('page', [$§['vars']['ent']['id'], $§['vars']['ent']['parent']]) && !$§['vars']['unpublished']) {
-        $crit[] = ['status', 'published'];
+    if (in_array('page', [$§['vars']['ent']['id'], $§['vars']['ent']['parent']])) {
+        if (!$§['vars']['unpublished']) {
+            $crit[] = ['status', 'published'];
+        }
+
+        if ($§['vars']['parent']) {
+            $crit[] = ['parent', $§['vars']['parent'] === true ? app\get('id') : (int) $§['vars']['parent']];
+        }
     }
 
-    unset($§['vars']['crit'], $§['vars']['limit'], $§['vars']['order'], $§['vars']['unpublished']);
+    unset($§['vars']['crit'], $§['vars']['limit'], $§['vars']['order'], $§['vars']['parent'], $§['vars']['unpublished']);
     $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], req\get('param'));
 
     if ($§['vars']['search']) {

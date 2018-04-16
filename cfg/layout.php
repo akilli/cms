@@ -135,7 +135,7 @@ return [
             'type' => 'index',
             'parent' => 'content-middle',
             'sort' => 10,
-            'vars' => ['attr' => ['image', 'name', 'teaser'], 'ent' => 'article', 'link' => true, 'pager' => true],
+            'vars' => ['attr' => ['image', 'name', 'teaser'], 'ent' => 'article', 'link' => true, 'pager' => true, 'parent' => true],
         ],
     ],
     'page-index' => [
@@ -143,7 +143,7 @@ return [
             'type' => 'index',
             'parent' => 'content-middle',
             'sort' => 10,
-            'vars' => ['attr' => ['name', 'teaser'], 'ent' => 'page', 'link' => true, 'pager' => true, 'search' => true],
+            'vars' => ['attr' => ['name', 'teaser'], 'ent' => 'page', 'link' => true, 'pager' => true, 'parent' => true, 'search' => true],
         ],
     ],
     'page-sitemap' => [
