@@ -536,6 +536,7 @@ a[data-sort=desc]::after {
         left: 0;
         top: 0;
         z-index: 100;
+        display: block;
     }
 
     #toolbar + * {
@@ -545,10 +546,6 @@ a[data-sort=desc]::after {
     #menu {
         position: relative;
         z-index: 100;
-    }
-
-    #toolbar,
-    #menu {
         display: block;
     }
 
