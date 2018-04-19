@@ -26,6 +26,7 @@ function crit(array $data, array $crit): array
                 $a = $item[$c[0]];
                 $val = $c[1] ?? null;
                 $op = $c[2] ?? APP['crit']['='];
+                $isCol = !empty($c[3]);
 
                 if (empty(APP['crit'][$op]) || is_array($val) && !$val) {
                     throw new DomainException(app\i18n('Invalid criteria'));
@@ -100,6 +101,10 @@ function crit(array $data, array $crit): array
                 $match = false;
 
                 foreach ($val as $v) {
+                    if ($isCol) {
+                        $v = $item[$v] ?? null;
+                    }
+
                     if ($call($a, $v)) {
                         $match = true;
                         break;

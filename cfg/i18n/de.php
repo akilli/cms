@@ -45,6 +45,7 @@ return [
     'Invalid entity %s' => 'Ungültige Entität %s',
     'Invalid file' => 'Ungültige Datei',
     'Invalid file type, allowed: %s' => 'Ungültiger Dateityp, erlaubt: %s',
+    'Invalid JOIN-type' => 'Ungültiger JOIN-Typ',
     'Invalid name and password combination' => 'Ungültige Kombination aus Name und Passwort',
     'Invalid option' => 'Ungültige Option',
     'Invalid password' => 'Ungültiges Passwort',

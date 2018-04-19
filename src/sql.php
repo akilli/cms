@@ -100,21 +100,23 @@ function attr(array $attrs, bool $auto = false): array
 }
 
 /**
- * Generates criteria for WHERE part
+ * Generates criteria
  */
 function crit(array $crit): array
 {
-    $cols = ['where' => [], 'param' => []];
+    static $count = [];
+
+    $cols = ['crit' => [], 'param' => []];
 
     foreach ($crit as $part) {
         $part = is_array($part[0]) ? $part : [$part];
         $o = [];
-        $z = [];
 
         foreach ($part as $c) {
             $aId = $c[0];
             $val = $c[1] ?? null;
             $op = $c[2] ?? APP['crit']['='];
+            $isCol = !empty($c[3]);
 
             if (!$aId || empty(APP['crit'][$op]) || is_array($val) && !$val) {
                 throw new DomainException(app\i18n('Invalid criteria'));
@@ -122,33 +124,33 @@ function crit(array $crit): array
 
             $param = ':crit_' . $aId . '_';
             $type = type($val);
-            $z[$aId] = $z[$aId] ?? 0;
+            $count[$aId] = $count[$aId] ?? 0;
             $val = is_array($val) ? $val : [$val];
             $r = [];
 
             switch ($op) {
                 case APP['crit']['=']:
                 case APP['crit']['!=']:
-                    $null = ' IS' . ($op === APP['crit']['!='] ? ' NOT' : '') . ' NULL';
-
-                    foreach ($val as $v) {
-                        if ($v === null) {
-                            $r[] = $aId . $null;
-                        } else {
-                            $p = $param . ++$z[$aId];
-                            $cols['param'][] = [$p, $v, $type];
-                            $r[] = $aId . ' ' . $op . ' ' . $p;
-                        }
-                    }
-                    break;
                 case APP['crit']['>']:
                 case APP['crit']['>=']:
                 case APP['crit']['<']:
                 case APP['crit']['<=']:
+                    $null = null;
+
+                    if (in_array($op, [APP['crit']['='], APP['crit']['!=']])) {
+                        $null = ' IS' . ($op === APP['crit']['!='] ? ' NOT' : '') . ' NULL';
+                    }
+
                     foreach ($val as $v) {
-                        $p = $param . ++$z[$aId];
-                        $cols['param'][] = [$p, $v, $type];
-                        $r[] = $aId . ' ' . $op . ' ' . $p;
+                        if ($null && $v === null) {
+                            $r[] = $aId . $null;
+                        } elseif ($isCol) {
+                            $r[] = $aId . ' ' . $op . ' ' . $v;
+                        } else {
+                            $p = $param . ++$count[$aId];
+                            $cols['param'][] = [$p, $v, $type];
+                            $r[] = $aId . ' ' . $op . ' ' . $p;
+                        }
                     }
                     break;
                 case APP['crit']['~']:
@@ -162,9 +164,13 @@ function crit(array $crit): array
                     $post = in_array($op, [APP['crit']['~'], APP['crit']['!~'], APP['crit']['~^'], APP['crit']['!~^']]) ? '%' : '';
 
                     foreach ($val as $v) {
-                        $p = $param . ++$z[$aId];
-                        $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
-                        $r[] = $aId . $not . ' ILIKE ' . $p;
+                        if ($isCol) {
+                            $r[] = $aId . $not . ' ILIKE ' . $v;
+                        } else {
+                            $p = $param . ++$count[$aId];
+                            $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
+                            $r[] = $aId . $not . ' ILIKE ' . $p;
+                        }
                     }
                     break;
                 default:
@@ -174,7 +180,7 @@ function crit(array $crit): array
             $o[] = implode(' OR ', $r);
         }
 
-        $cols['where'][] = '(' . implode(' OR ', $o) . ')';
+        $cols['crit'][] = '(' . implode(' OR ', $o) . ')';
     }
 
     return $cols;
@@ -243,9 +249,9 @@ function select(array $sel): string
 /**
  * FROM part
  */
-function from(string $tab): string
+function from(string $tab, string $as = null): string
 {
-    return ' FROM ' . $tab;
+    return ' FROM ' . $tab . ($as ? ' AS ' . $as : '');
 }
 
 /**
@@ -257,11 +263,67 @@ function where(array $cols): string
 }
 
 /**
+ * JOIN part
+ */
+function join(string $type, string $tab, string $as = null, array $cols = []): string
+{
+    if (!$tab) {
+        return '';
+    }
+
+    if (empty(APP['join'][$type])) {
+        throw new DomainException(app\i18n('Invalid JOIN-type'));
+    }
+
+    return ' ' . strtoupper(APP['join'][$type]) . ' JOIN ' . $tab . ($as ? ' AS ' . $as : '') . ($cols ? ' ON ' . implode(' AND ', $cols) : '');
+}
+
+/**
+ * CROSS JOIN part
+ */
+function cjoin(string $tab, string $as): string
+{
+    return join(APP['join']['cross'], $tab, $as);
+}
+
+/**
+ * FULL JOIN part
+ */
+function fjoin(string $tab, string $as, array $cols): string
+{
+    return join(APP['join']['full'], $tab, $as, $cols);
+}
+
+/**
+ * INNER JOIN part
+ */
+function ijoin(string $tab, string $as, array $cols): string
+{
+    return join(APP['join']['inner'], $tab, $as, $cols);
+}
+
+/**
  * LEFT JOIN part
  */
-function ljoin(string $tab): string
+function ljoin(string $tab, string $as, array $cols): string
 {
-    return $tab ? ' LEFT JOIN ' . $tab . ' USING (id)' : '';
+    return join(APP['join']['left'], $tab, $as, $cols);
+}
+
+/**
+ * NATURAL JOIN part
+ */
+function njoin(string $tab, string $as = null): string
+{
+    return join(APP['join']['natural'], $tab, $as);
+}
+
+/**
+ * RIGHT JOIN part
+ */
+function rjoin(string $tab, string $as, array $cols): string
+{
+    return join(APP['join']['right'], $tab, $as, $cols);
 }
 
 /**
