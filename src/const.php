@@ -81,7 +81,7 @@ const APP = [
     'frontend.date' => 'Y-m-d',
     'frontend.datetime' => 'Y-m-d\TH:i',
     'frontend.time' => 'H:i',
-    'join' => ['cross' => 'cross', 'full' => 'full', 'inner' => 'inner', 'left' => 'left', 'natural' => 'natural', 'right' => 'right'],
+    'join' => ['full' => 'full', 'inner' => 'inner', 'left' => 'left', 'right' => 'right'],
     'log' => 'php://stdout',
     'path' => [
         'cfg' => '/app/cfg',

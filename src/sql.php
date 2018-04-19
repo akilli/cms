@@ -265,65 +265,61 @@ function where(array $cols): string
 /**
  * JOIN part
  */
-function join(string $type, string $tab, string $as = null, array $cols = []): string
+function join(string $tab, string $as = null, array $cols = [], string $type = null): string
 {
     if (!$tab) {
         return '';
     }
 
-    if (empty(APP['join'][$type])) {
+    if ($type && empty(APP['join'][$type])) {
         throw new DomainException(app\i18n('Invalid JOIN-type'));
     }
 
-    return ' ' . strtoupper(APP['join'][$type]) . ' JOIN ' . $tab . ($as ? ' AS ' . $as : '') . ($cols ? ' ON ' . implode(' AND ', $cols) : '');
-}
+    if ($cols) {
+        $pre = '';
+        $post = ' ON ' . implode(' AND ', $cols);
+    } else {
+        $pre = ' NATURAL';
+        $post = '';
+    }
 
-/**
- * CROSS JOIN part
- */
-function cjoin(string $tab, string $as): string
-{
-    return join(APP['join']['cross'], $tab, $as);
-}
+    if ($type) {
+        $pre .= ' ' . strtoupper(APP['join'][$type]);
+    }
 
-/**
- * FULL JOIN part
- */
-function fjoin(string $tab, string $as, array $cols): string
-{
-    return join(APP['join']['full'], $tab, $as, $cols);
+    return $pre . ' JOIN ' . $tab . ($as ? ' AS ' . $as : '') . $post;
 }
 
 /**
  * INNER JOIN part
  */
-function ijoin(string $tab, string $as, array $cols): string
+function ijoin(string $tab, string $as = null, array $cols = []): string
 {
-    return join(APP['join']['inner'], $tab, $as, $cols);
+    return join($tab, $as, $cols, APP['join']['inner']);
 }
 
 /**
  * LEFT JOIN part
  */
-function ljoin(string $tab, string $as, array $cols): string
+function ljoin(string $tab, string $as = null, array $cols = []): string
 {
-    return join(APP['join']['left'], $tab, $as, $cols);
-}
-
-/**
- * NATURAL JOIN part
- */
-function njoin(string $tab, string $as = null): string
-{
-    return join(APP['join']['natural'], $tab, $as);
+    return join($tab, $as, $cols, APP['join']['left']);
 }
 
 /**
  * RIGHT JOIN part
  */
-function rjoin(string $tab, string $as, array $cols): string
+function rjoin(string $tab, string $as = null, array $cols = []): string
 {
-    return join(APP['join']['right'], $tab, $as, $cols);
+    return join($tab, $as, $cols, APP['join']['right']);
+}
+
+/**
+ * FULL JOIN part
+ */
+function fjoin(string $tab, string $as = null, array $cols = []): string
+{
+    return join($tab, $as, $cols, APP['join']['full']);
 }
 
 /**

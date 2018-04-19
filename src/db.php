@@ -29,7 +29,7 @@ function load(array $ent, array $crit = [], array $opt = []): array
     $stmt = sql\db()->prepare(
         sql\select($opt['select'])
         . sql\from($ent['parent'] ?: $ent['id'])
-        . sql\njoin($join)
+        . sql\ljoin($join)
         . sql\where($cols['crit'])
         . sql\order($opt['order'])
         . sql\limit($opt['limit'], $opt['offset'])
