@@ -101,6 +101,8 @@ function attr(array $attrs, bool $auto = false): array
 
 /**
  * Generates criteria
+ *
+ * @throws DomainException
  */
 function crit(array $crit): array
 {
@@ -264,6 +266,8 @@ function where(array $cols): string
 
 /**
  * JOIN part
+ *
+ * @throws DomainException
  */
 function join(string $tab, string $as = null, array $cols = [], string $type = null): string
 {
