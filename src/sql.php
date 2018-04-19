@@ -235,7 +235,7 @@ function delete(string $tab): string
 /**
  * SELECT part
  */
-function select(array $sel): string
+function select(array $sel, bool $distinct = false): string
 {
     $cols = [];
 
@@ -243,7 +243,7 @@ function select(array $sel): string
         $cols[] = $col . ($as && is_string($as) ? ' AS ' . $as : '');
     }
 
-    return $cols ? ' SELECT ' . implode(', ', $cols) : '';
+    return $cols ? ' SELECT ' . ($distinct ? 'DISTINCT ' : '') . implode(', ', $cols) : '';
 }
 
 /**
