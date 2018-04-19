@@ -323,6 +323,14 @@ function fjoin(string $tab, string $as = null, array $cols = []): string
 }
 
 /**
+ * GROUP BY part
+ */
+function group(array $cols): string
+{
+    return $cols ? ' GROUP BY ' . implode(', ', $cols) : '';
+}
+
+/**
  * ORDER BY part
  */
 function order(array $order): string
