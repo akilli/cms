@@ -135,7 +135,7 @@ return [
             'type' => 'index',
             'parent' => 'content-middle',
             'sort' => 10,
-            'vars' => ['attr' => ['image', 'name', 'teaser'], 'ent' => 'article', 'link' => true, 'pager' => true, 'parent' => true],
+            'vars' => ['attr' => ['image', 'date', 'name', 'teaser'], 'ent' => 'article', 'link' => true, 'pager' => true, 'parent' => true],
         ],
     ],
     'page-index' => [
