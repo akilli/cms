@@ -7,9 +7,16 @@ $aside = null;
 <article id="<?=$§('id');?>" class="view">
     <?=§('content-top');?>
     <?php foreach ($§('attr') as $aId):?>
-        <?php if (!($attr = $§('ent')['attr'][$aId] ?? null) || !($html = attr\viewer($attr, $§('data'))) || $attr['id'] === 'aside' && ($aside = $html)) continue;?>
+        <?php if (!($attr = $§('ent')['attr'][$aId] ?? null)) continue;?>
+        <?php $val = $§('data')[$attr['id']] ?? null;?>
+        <?php if ($val === null || $val === '' || !($html = attr\viewer($attr, $§('data')))) continue;?>
+        <?php if ($attr['id'] === 'aside'):?>
+            <?php $aside = $html;?>
+        <?php endif;?>
         <?php if ($attr['id'] === 'name'):?>
     <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
+        <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
+    <time data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"<?php if ($val !== $html):?> datetime="<?=$val;?>"<?php endif;?>><?=$html;?></time>
         <?php else:?>
     <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
         <?=$html;?>

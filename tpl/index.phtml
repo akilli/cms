@@ -28,7 +28,12 @@ use attr;
     <?php foreach ($§('data') as $data):?>
     <article>
         <?php foreach ($§('attr') as $aId):?>
-            <?php if (!($attr = $§('ent')['attr'][$aId] ?? null) || !($html = attr\viewer($attr, $data)) && !$§('head')) continue;?>
+            <?php if (!($attr = $§('ent')['attr'][$aId] ?? null)) continue;?>
+            <?php
+            $val = $data[$attr['id']] ?? null;
+            $html = attr\viewer($attr, $data);
+            ?>
+            <?php if (!$§('head') && ($val === null || $val === '' || !$html)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
                 <?php if ($§('link') && allowed($§('ent')['id'] . '/view')):?>
         <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
@@ -37,6 +42,8 @@ use attr;
                 <?php else:?>
         <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h2>
                 <?php endif;?>
+            <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
+        <time data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"<?php if ($val !== $html):?> datetime="<?=$val;?>"<?php endif;?>><?=$html;?></time>
             <?php elseif ($attr['id'] === 'aside'):?>
         <aside data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
             <?=$html;?>

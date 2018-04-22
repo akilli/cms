@@ -94,6 +94,10 @@ hr {
     background: #e4e7ea;
 }
 
+time[data-attr] {
+    display: block;
+}
+
 /**
  * Figure
  */
