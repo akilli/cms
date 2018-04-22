@@ -1,6 +1,6 @@
 <?php
 return [
     'date' => 'd.m.y',
-    'datetime' => 'd.m.y (H:i \U\h\r)',
+    'datetime' => 'd.m.y',
     'time' => 'H:i',
 ];
