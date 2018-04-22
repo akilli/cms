@@ -2,6 +2,12 @@
 namespace app;
 /** @var callable $§ */
 ?>
+<meta charset="utf-8" />
+<?php if ($§('desc')):?>
+<meta name="description" content="<?=enc($§('desc'));?>" />
+<?php endif;?>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+<title><?=enc((string) $§('title'));?></title>
 <link rel="stylesheet" href="<?=gui('base.css');?>" />
 <link rel="stylesheet" href="<?=gui('details.css');?>" />
 <link rel="stylesheet" href="<?=gui('flickity.css');?>" />
@@ -13,4 +19,11 @@ namespace app;
 <script src="<?=gui('ckeditor/ckeditor.js');?>"></script>
 <script src="<?=url('app/js');?>"></script>
 <script src="<?=gui('admin.js');?>"></script>
+<?php endif;?>
+<?=§('head-ext');?>
+<?php if (file_exists(path('ext.gui', 'ext.css'))):?>
+<link rel="stylesheet" href="<?=gui('ext.css');?>" />
+<?php endif;?>
+<?php if (file_exists(path('ext.gui', 'ext.js'))):?>
+<script src="<?=gui('ext.js');?>"></script>
 <?php endif;?>
