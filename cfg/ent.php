@@ -262,7 +262,6 @@ return [
             'date' => [
                 'name' => 'Date',
                 'type' => 'datetime',
-                'viewer' => 'viewer\date',
             ],
             'ent' => [
                 'name' => 'Entity',
