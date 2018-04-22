@@ -44,10 +44,7 @@ function url(string $val): string
  */
 function date(string $val): string
 {
-    $view = date_format(date_create($val), app\cfg('app', 'date'));
-    $attr = $val === $view ? [] : ['datetime' => $val];
-
-    return html\tag('time', $attr, $view);
+    return date_format(date_create($val), app\cfg('app', 'date'));
 }
 
 /**
@@ -55,10 +52,7 @@ function date(string $val): string
  */
 function datetime(string $val): string
 {
-    $view = date_format(date_create($val), app\cfg('app', 'datetime'));
-    $attr = $val === $view ? [] : ['datetime' => $val];
-
-    return html\tag('time', $attr, $view);
+    return date_format(date_create($val), app\cfg('app', 'datetime'));
 }
 
 /**
@@ -66,10 +60,7 @@ function datetime(string $val): string
  */
 function time(string $val): string
 {
-    $view = date_format(date_create($val), app\cfg('app', 'time'));
-    $attr = $val === $view ? [] : ['datetime' => $val];
-
-    return html\tag('time', $attr, $view);
+    return date_format(date_create($val), app\cfg('app', 'time'));
 }
 
 /**
