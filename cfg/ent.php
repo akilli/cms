@@ -38,11 +38,11 @@ return [
             'name' => [
                 'name' => 'Name',
                 'type' => 'text',
+                'filter' => 'filter\id',
                 'required' => true,
                 'unique' => true,
                 'searchable' => true,
                 'maxlength' => 50,
-                'filter' => 'filter\id',
             ],
             'password' => [
                 'name' => 'Password',
@@ -210,9 +210,9 @@ return [
             'slug' => [
                 'name' => 'Slug',
                 'type' => 'text',
+                'filter' => 'filter\slug',
                 'required' => true,
                 'maxlength' => 50,
-                'filter' => 'filter\slug',
             ],
             'url' => [
                 'name' => 'URL',
@@ -227,10 +227,8 @@ return [
             ],
             'parent' => [
                 'name' => 'Parent',
-                'type' => 'ent',
+                'type' => 'page',
                 'nullable' => true,
-                'ent' => 'page',
-                'opt' => 'opt\page',
             ],
             'sort' => [
                 'name' => 'Sort',
@@ -241,8 +239,8 @@ return [
                 'name' => 'Position',
                 'auto' => true,
                 'type' => 'text',
-                'maxlength' => 255,
                 'viewer' => 'viewer\pos',
+                'maxlength' => 255,
             ],
             'level' => [
                 'name' => 'Level',
@@ -334,9 +332,8 @@ return [
             ],
             'page' => [
                 'name' => 'Page',
-                'type' => 'ent',
+                'type' => 'page',
                 'required' => true,
-                'ent' => 'page',
             ],
         ],
     ],

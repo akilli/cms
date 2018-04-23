@@ -22,8 +22,10 @@ function filter(array $attr, array $data): array
         return $data;
     }
 
+    $attr['opt'] = opt($attr, $data);
+
     if ($attr['filter']) {
-        $data[$attr['id']] = $attr['filter']($data[$attr['id']], opt($attr, $data));
+        $data[$attr['id']] = $attr['filter']($attr, $data[$attr['id']]);
     }
 
     $crit = [[$attr['id'], $data[$attr['id']]]];
@@ -61,19 +63,20 @@ function filter(array $attr, array $data): array
 function frontend(array $attr, array $data): string
 {
     $data[$attr['id']] = cast(['nullable' => false] + $attr, $data[$attr['id']] ?? $attr['val']);
-    $html['id'] =  'data-' . $attr['id'];
-    $html['name'] =  'data[' . $attr['id'] . ']';
-    $html['data-type'] =  $attr['type'];
-    $label = ['for' => $html['id']];
+    $attr['opt'] = opt($attr, $data);
+    $attr['html']['id'] =  'data-' . $attr['id'];
+    $attr['html']['name'] =  'data[' . $attr['id'] . ']';
+    $attr['html']['data-type'] =  $attr['type'];
+    $label = ['for' => $attr['html']['id']];
     $error = '';
 
     if ($attr['multiple']) {
-        $html['name'] .= '[]';
-        $html['multiple'] = true;
+        $attr['html']['name'] .= '[]';
+        $attr['html']['multiple'] = true;
     }
 
     if ($attr['required'] && !ignorable($attr, $data)) {
-        $html['required'] = true;
+        $attr['html']['required'] = true;
         $label['data-required'] = true;
     }
 
@@ -84,21 +87,21 @@ function frontend(array $attr, array $data): string
     foreach ([['min', 'max'], ['minlength', 'maxlength']] as $edge) {
         if ($attr[$edge[0]] <= $attr[$edge[1]]) {
             if ($attr[$edge[0]] > 0) {
-                $html[$edge[0]] = $attr[$edge[0]];
+                $attr['html'][$edge[0]] = $attr[$edge[0]];
             }
 
             if ($attr[$edge[1]] > 0) {
-                $html[$edge[1]] = $attr[$edge[1]];
+                $attr['html'][$edge[1]] = $attr[$edge[1]];
             }
         }
     }
 
     if (!empty($data['_error'][$attr['id']])) {
-        $html['class'] = empty($html['class']) ? 'invalid' : $html['class'] . ' invalid';
+        $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
         $error = html\tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
-    $out = $attr['frontend']($html, $data[$attr['id']], opt($attr, $data));
+    $out = $attr['frontend']($attr, $data[$attr['id']]);
 
     return html\tag('label', $label, $attr['name']) . $out . $error;
 }
@@ -112,8 +115,10 @@ function viewer(array $attr, array $data): string
         return '';
     }
 
+    $attr['opt'] = opt($attr, $data);
+
     if ($attr['viewer']) {
-        return $attr['viewer']($data[$attr['id']], opt($attr, $data));
+        return $attr['viewer']($attr, $data[$attr['id']]);
     }
 
     return app\enc((string) $data[$attr['id']]);

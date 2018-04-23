@@ -5,37 +5,6 @@ namespace opt;
 
 use app;
 use arr;
-use attr;
-use ent;
-
-/**
- * Entity options
- */
-function ent(array $attr): array
-{
-    if (($opt = & app\reg('opt.ent.' . $attr['ent'])) === null) {
-        $opt = array_column(ent\all($attr['ent'], [], ['select' => ['id', 'name'], 'order' => ['name' => 'asc']]), 'name', 'id');
-    }
-
-    return $opt;
-}
-
-/**
- * Page options
- */
-function page(): array
-{
-    if (($opt = & app\reg('opt.page')) === null) {
-        $pos = app\cfg('ent', 'page')['attr']['pos'];
-        $opt = [];
-
-        foreach (ent\all('content', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
-            $opt[$item['id']] = attr\viewer($pos, $item) . ' ' . $item['name'];
-        }
-    }
-
-    return $opt;
-}
 
 /**
  * Child entity options

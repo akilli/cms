@@ -11,9 +11,9 @@ use DomainException;
 /**
  * Text filter
  */
-function text(string $val): string
+function text(array $attr, string $val): string
 {
-    return trim((string) filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR));
+    return trim((string) filter_var($val, FILTER_SANITIZE_STRING));
 }
 
 /**
@@ -21,10 +21,10 @@ function text(string $val): string
  *
  * @throws DomainException
  */
-function email(string $val): string
+function email(array $attr, string $val): string
 {
     if ($val && !($val = filter_var($val, FILTER_VALIDATE_EMAIL))) {
-        throw new DomainException(app\i18n('Invalid email'));
+        throw new DomainException(app\i18n('Invalid value'));
     }
 
     return $val;
@@ -35,23 +35,9 @@ function email(string $val): string
  *
  * @throws DomainException
  */
-function url(string $val): string
+function url(array $attr, string $val): string
 {
     if ($val && !($val = filter_var($val, FILTER_VALIDATE_URL))) {
-        throw new DomainException(app\i18n('Invalid URL'));
-    }
-
-    return $val;
-}
-
-/**
- * Date filter
- *
- * @throws DomainException
- */
-function date(string $val): string
-{
-    if (!$val = attr\datetime($val, APP['frontend.date'], APP['backend.date'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -63,23 +49,9 @@ function date(string $val): string
  *
  * @throws DomainException
  */
-function datetime(string $val): string
+function datetime(array $attr, string $val): string
 {
-    if (!$val = attr\datetime($val, APP['frontend.datetime'], APP['backend.datetime'])) {
-        throw new DomainException(app\i18n('Invalid value'));
-    }
-
-    return $val;
-}
-
-/**
- * Time filter
- *
- * @throws DomainException
- */
-function time(string $val): string
-{
-    if (!$val = attr\datetime($val, APP['frontend.time'], APP['backend.time'])) {
+    if (!$val = attr\datetime($val, $attr['cfg.frontend'], $attr['cfg.backend'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -89,7 +61,7 @@ function time(string $val): string
 /**
  * Rich text filter
  */
-function rte(string $val): string
+function rte(array $attr, string $val): string
 {
     return trim(strip_tags($val, app\cfg('filter', 'rte')));
 }
@@ -97,7 +69,7 @@ function rte(string $val): string
 /**
  * ID filter
  */
-function id(string $val): string
+function id(array $attr, string $val): string
 {
     return trim(preg_replace('#[^a-z0-9-_]+#', '-', strtr(mb_strtolower($val), app\cfg('filter', 'id'))), '-');
 }
@@ -105,7 +77,7 @@ function id(string $val): string
 /**
  * Slug filter
  */
-function slug(string $val): string
+function slug(array $attr, string $val): string
 {
     return trim(preg_replace('#[^a-z0-9-]+#', '-', strtr(mb_strtolower($val), app\cfg('filter', 'id'))), '-');
 }
@@ -113,10 +85,10 @@ function slug(string $val): string
 /**
  * Path filter
  */
-function path(string $val): string
+function path(array $attr, string $val): string
 {
     if (preg_match('#^https?://#', $val)) {
-        return url($val);
+        return url($attr, $val);
     }
 
     return '/' . trim(preg_replace('#[^a-z0-9-/\.]+#', '-', strtr(mb_strtolower($val), app\cfg('filter', 'id'))), '-/');
@@ -129,12 +101,12 @@ function path(string $val): string
  *
  * @throws DomainException
  */
-function opt($val, array $opt)
+function opt(array $attr, $val)
 {
     if ($val || is_scalar($val) && !is_string($val)) {
         foreach ((array) $val as $v) {
-            if (!isset($opt[$v])) {
-                throw new DomainException(app\i18n('Invalid option'));
+            if (!isset($attr['opt'][$v])) {
+                throw new DomainException(app\i18n('Invalid value'));
             }
         }
     }
@@ -143,14 +115,14 @@ function opt($val, array $opt)
 }
 
 /**
- * File filter
+ * Entity filter
  *
  * @throws DomainException
  */
-function file(int $val): int
+function ent(array $attr, int $val): int
 {
-    if ($val && !ent\size('file', [['id', $val]])) {
-        throw new DomainException(app\i18n('Invalid file'));
+    if ($val && !ent\size($attr['ent'], [['id', $val]])) {
+        throw new DomainException(app\i18n('Invalid value'));
     }
 
     return $val;
@@ -161,11 +133,11 @@ function file(int $val): int
  *
  * @throws DomainException
  */
-function upload(string $val, array $opt): string
+function upload(array $attr, string $val): string
 {
-    if ($val && !in_array(pathinfo($val, PATHINFO_EXTENSION), $opt)) {
-        throw new DomainException(app\i18n('Invalid file type, allowed: %s', implode(', ', $opt)));
+    if ($val && !in_array(pathinfo($val, PATHINFO_EXTENSION), $attr['opt'])) {
+        throw new DomainException(app\i18n('Invalid file type, allowed: %s', implode(', ', $attr['opt'])));
     }
 
-    return path($val);
+    return path($attr, $val);
 }

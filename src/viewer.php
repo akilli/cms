@@ -10,39 +10,23 @@ use html;
 /**
  * URL viewer
  */
-function url(string $val): string
+function url(array $attr, string $val): string
 {
-    return html\tag('a', ['href' => $val], $val);
-}
-
-/**
- * Date viewer
- */
-function date(string $val): string
-{
-    return date_format(date_create($val), app\cfg('app', 'date'));
+    return html\tag('a', ['href' => $val] + $attr['html'], $val);
 }
 
 /**
  * Datetime viewer
  */
-function datetime(string $val): string
+function datetime(array $attr, string $val): string
 {
-    return date_format(date_create($val), app\cfg('app', 'datetime'));
-}
-
-/**
- * Time viewer
- */
-function time(string $val): string
-{
-    return date_format(date_create($val), app\cfg('app', 'time'));
+    return date_format(date_create($val), $attr['cfg.viewer']);
 }
 
 /**
  * Rich text viewer
  */
-function rte(string $val): string
+function rte(array $attr, string $val): string
 {
     return $val;
 }
@@ -50,15 +34,15 @@ function rte(string $val): string
 /**
  * JSON viewer
  */
-function json(array $val): string
+function json(array $attr, array $val): string
 {
-    return html\tag('pre', [], app\enc(print_r($val, true)));
+    return html\tag('pre', $attr['html'], app\enc(print_r($val, true)));
 }
 
 /**
  * Position viewer
  */
-function pos(string $val): string
+function pos(array $attr, string $val): string
 {
     $parts = explode('.', $val);
 
@@ -70,23 +54,19 @@ function pos(string $val): string
 }
 
 /**
- * Bool viewer
- */
-function bool($val): string
-{
-    return $val ? app\i18n('Yes') : app\i18n('No');
-}
-
-/**
  * Option viewer
  */
-function opt($val, array $opt): string
+function opt(array $attr, $val): string
 {
+    if (!is_array($val)) {
+        $val = $val === null && $val === '' ? [] : [$val];
+    }
+
     $out = '';
 
-    foreach ((array) $val as $v) {
-        if (isset($opt[$v])) {
-            $out .= ($out ? ', ' : '') . $opt[$v];
+    foreach ($val as $v) {
+        if (isset($attr['opt'][$v])) {
+            $out .= ($out ? ', ' : '') . $attr['opt'][$v];
         }
     }
 
@@ -94,31 +74,49 @@ function opt($val, array $opt): string
 }
 
 /**
+ * Ent viewer
+ */
+function ent(array $attr, int $val): string
+{
+    return $val ? ent\one($attr['ent'], [['id', $val]], ['select' => ['id', 'name']])['name'] : '';
+}
+
+/**
  * File viewer
  */
-function file(int $val): string
+function file(array $attr, int $val): string
 {
-    return $val ? upload(ent\one('file', [['id', $val]], ['select' => ['id', 'name']])['name']) : '';
+    if (!$val) {
+        return '';
+    }
+
+    $file = ent\one($attr['ent'], [['id', $val]], ['select' => ['id', 'name', 'type', 'info']]);
+
+    if (in_array($file['type'] , app\cfg('opt', 'image'))) {
+        $attr['html']['alt'] = app\enc($file['info']);
+    }
+
+    return upload($attr, $file['name']);
 }
 
 /**
  * Upload viewer
  */
-function upload(string $val): string
+function upload(array $attr, string $val): string
 {
     $ext = pathinfo($val, PATHINFO_EXTENSION);
 
     if (in_array($ext, app\cfg('opt', 'image'))) {
-        return html\tag('img', ['src' => $val, 'alt' => ''], null, true);
+        return html\tag('img', ['src' => $val] + $attr['html'], null, true);
     }
 
     if (in_array($ext, app\cfg('opt', 'video'))) {
-        return html\tag('video', ['src' => $val, 'controls' => true]);
+        return html\tag('video', ['src' => $val, 'controls' => true] + $attr['html']);
     }
 
     if (in_array($ext, app\cfg('opt', 'audio'))) {
-        return html\tag('audio', ['src' => $val, 'controls' => true]);
+        return html\tag('audio', ['src' => $val, 'controls' => true] + $attr['html']);
     }
 
-    return html\tag('a', ['href' => $val], $val);
+    return html\tag('a', ['href' => $val] + $attr['html'], $val);
 }
