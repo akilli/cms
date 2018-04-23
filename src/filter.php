@@ -9,26 +9,6 @@ use ent;
 use DomainException;
 
 /**
- * Option filter
- *
- * @return mixed
- *
- * @throws DomainException
- */
-function opt($val, array $opt)
-{
-    if ($val || is_scalar($val) && !is_string($val)) {
-        foreach ((array) $val as $v) {
-            if (!isset($opt[$v])) {
-                throw new DomainException(app\i18n('Invalid option'));
-            }
-        }
-    }
-
-    return $val;
-}
-
-/**
  * Text filter
  */
 function text(string $val): string
@@ -59,6 +39,48 @@ function url(string $val): string
 {
     if ($val && !($val = filter_var($val, FILTER_VALIDATE_URL))) {
         throw new DomainException(app\i18n('Invalid URL'));
+    }
+
+    return $val;
+}
+
+/**
+ * Date filter
+ *
+ * @throws DomainException
+ */
+function date(string $val): string
+{
+    if (!$val = attr\datetime($val, APP['frontend.date'], APP['backend.date'])) {
+        throw new DomainException(app\i18n('Invalid value'));
+    }
+
+    return $val;
+}
+
+/**
+ * Datetime filter
+ *
+ * @throws DomainException
+ */
+function datetime(string $val): string
+{
+    if (!$val = attr\datetime($val, APP['frontend.datetime'], APP['backend.datetime'])) {
+        throw new DomainException(app\i18n('Invalid value'));
+    }
+
+    return $val;
+}
+
+/**
+ * Time filter
+ *
+ * @throws DomainException
+ */
+function time(string $val): string
+{
+    if (!$val = attr\datetime($val, APP['frontend.time'], APP['backend.time'])) {
+        throw new DomainException(app\i18n('Invalid value'));
     }
 
     return $val;
@@ -101,42 +123,20 @@ function path(string $val): string
 }
 
 /**
- * Date filter
+ * Option filter
+ *
+ * @return mixed
  *
  * @throws DomainException
  */
-function date(string $val): string
+function opt($val, array $opt)
 {
-    if (!$val = attr\datetime($val, APP['frontend.date'], APP['backend.date'])) {
-        throw new DomainException(app\i18n('Invalid value'));
-    }
-
-    return $val;
-}
-
-/**
- * Datetime filter
- *
- * @throws DomainException
- */
-function datetime(string $val): string
-{
-    if (!$val = attr\datetime($val, APP['frontend.datetime'], APP['backend.datetime'])) {
-        throw new DomainException(app\i18n('Invalid value'));
-    }
-
-    return $val;
-}
-
-/**
- * Time filter
- *
- * @throws DomainException
- */
-function time(string $val): string
-{
-    if (!$val = attr\datetime($val, APP['frontend.time'], APP['backend.time'])) {
-        throw new DomainException(app\i18n('Invalid value'));
+    if ($val || is_scalar($val) && !is_string($val)) {
+        foreach ((array) $val as $v) {
+            if (!isset($opt[$v])) {
+                throw new DomainException(app\i18n('Invalid option'));
+            }
+        }
     }
 
     return $val;

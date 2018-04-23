@@ -8,30 +8,6 @@ use ent;
 use html;
 
 /**
- * Bool viewer
- */
-function bool($val): string
-{
-    return $val ? app\i18n('Yes') : app\i18n('No');
-}
-
-/**
- * Option viewer
- */
-function opt($val, array $opt): string
-{
-    $out = '';
-
-    foreach ((array) $val as $v) {
-        if (isset($opt[$v])) {
-            $out .= ($out ? ', ' : '') . $opt[$v];
-        }
-    }
-
-    return $out;
-}
-
-/**
  * URL viewer
  */
 function url(string $val): string
@@ -80,6 +56,44 @@ function json(array $val): string
 }
 
 /**
+ * Position viewer
+ */
+function pos(string $val): string
+{
+    $parts = explode('.', $val);
+
+    foreach ($parts as $k => $v) {
+        $parts[$k] = ltrim($v, '0');
+    }
+
+    return implode('.', $parts);
+}
+
+/**
+ * Bool viewer
+ */
+function bool($val): string
+{
+    return $val ? app\i18n('Yes') : app\i18n('No');
+}
+
+/**
+ * Option viewer
+ */
+function opt($val, array $opt): string
+{
+    $out = '';
+
+    foreach ((array) $val as $v) {
+        if (isset($opt[$v])) {
+            $out .= ($out ? ', ' : '') . $opt[$v];
+        }
+    }
+
+    return $out;
+}
+
+/**
  * File viewer
  */
 function file(int $val): string
@@ -107,18 +121,4 @@ function upload(string $val): string
     }
 
     return html\tag('a', ['href' => $val], $val);
-}
-
-/**
- * Position viewer
- */
-function pos(string $val): string
-{
-    $parts = explode('.', $val);
-
-    foreach ($parts as $k => $v) {
-        $parts[$k] = ltrim($v, '0');
-    }
-
-    return implode('.', $parts);
 }

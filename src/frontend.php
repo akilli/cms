@@ -9,66 +9,6 @@ use html;
 use viewer;
 
 /**
- * Bool
- */
-function bool(array $html, bool $val): string
-{
-    $out = html\tag('input', ['id' => $html['id'], 'name' => $html['name'], 'type' => 'hidden'], null, true);
-
-    return $out . html\tag('input', ['type' => 'checkbox', 'value' => 1, 'checked' => $val] + $html, null, true);
-}
-
-/**
- * Checkbox
- */
-function checkbox(array $html, array $val, array $opt): string
-{
-    $out = html\tag('input', ['id' => $html['id'], 'name' => str_replace('[]', '', $html['name']), 'type' => 'hidden'], null, true);
-
-    foreach ($opt as $k => $v) {
-        $id = $html['id'] . '-' . $k;
-        $a = ['id' => $id, 'name' => $html['name'], 'type' => 'checkbox', 'value' => $k, 'checked' => in_array($k, $val)] + $html;
-        $out .= html\tag('input', $a, null, true) . html\tag('label', ['for' => $id], $v);
-    }
-
-    return $out;
-}
-
-/**
- * Radio
- */
-function radio(array $html, $val, array $opt): string
-{
-    $out = '';
-
-    foreach ($opt as $k => $v) {
-        $id = $html['id'] . '-' . $k;
-        $a = ['id' => $id, 'name' => $html['name'], 'type' => 'radio', 'value' => $k, 'checked' => $k === $val] + $html;
-        $out .= html\tag('input', $a, null, true) . html\tag('label', ['for' => $id], $v);
-    }
-
-    return $out;
-}
-
-/**
- * Select
- */
-function select(array $html, $val, array $opt): string
-{
-    if (!is_array($val)) {
-        $val = $val === null && $val === '' ? [] : [$val];
-    }
-
-    $out = html\tag('option', ['value' => ''], app\i18n('Please choose'));
-
-    foreach ($opt as $k => $v) {
-        $out .= html\tag('option', ['value' => $k, 'selected' => in_array($k, $val)], $v);
-    }
-
-    return html\tag('select', $html, $out);
-}
-
-/**
  * Text
  */
 function text(array $html, string $val): string
@@ -166,6 +106,66 @@ function textarea(array $html, string $val): string
 function json(array $html, array $val): string
 {
     return textarea($html, json_encode($val));
+}
+
+/**
+ * Bool
+ */
+function bool(array $html, bool $val): string
+{
+    $out = html\tag('input', ['id' => $html['id'], 'name' => $html['name'], 'type' => 'hidden'], null, true);
+
+    return $out . html\tag('input', ['type' => 'checkbox', 'value' => 1, 'checked' => $val] + $html, null, true);
+}
+
+/**
+ * Checkbox
+ */
+function checkbox(array $html, array $val, array $opt): string
+{
+    $out = html\tag('input', ['id' => $html['id'], 'name' => str_replace('[]', '', $html['name']), 'type' => 'hidden'], null, true);
+
+    foreach ($opt as $k => $v) {
+        $id = $html['id'] . '-' . $k;
+        $a = ['id' => $id, 'name' => $html['name'], 'type' => 'checkbox', 'value' => $k, 'checked' => in_array($k, $val)] + $html;
+        $out .= html\tag('input', $a, null, true) . html\tag('label', ['for' => $id], $v);
+    }
+
+    return $out;
+}
+
+/**
+ * Radio
+ */
+function radio(array $html, $val, array $opt): string
+{
+    $out = '';
+
+    foreach ($opt as $k => $v) {
+        $id = $html['id'] . '-' . $k;
+        $a = ['id' => $id, 'name' => $html['name'], 'type' => 'radio', 'value' => $k, 'checked' => $k === $val] + $html;
+        $out .= html\tag('input', $a, null, true) . html\tag('label', ['for' => $id], $v);
+    }
+
+    return $out;
+}
+
+/**
+ * Select
+ */
+function select(array $html, $val, array $opt): string
+{
+    if (!is_array($val)) {
+        $val = $val === null && $val === '' ? [] : [$val];
+    }
+
+    $out = html\tag('option', ['value' => ''], app\i18n('Please choose'));
+
+    foreach ($opt as $k => $v) {
+        $out .= html\tag('option', ['value' => $k, 'selected' => in_array($k, $val)], $v);
+    }
+
+    return html\tag('select', $html, $out);
 }
 
 /**
