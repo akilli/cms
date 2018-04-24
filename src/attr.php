@@ -22,14 +22,19 @@ function filter(array $attr, array $data): array
         return $data;
     }
 
+    $set = $data[$attr['id']] === null || $data[$attr['id']] === '';
     $attr['opt'] = opt($attr, $data);
 
     if ($attr['filter']) {
         $data[$attr['id']] = $attr['filter']($attr, $data[$attr['id']]);
     }
 
-    if ($attr['pattern'] && is_scalar($data[$attr['id']]) && !preg_match('#^' . str_replace('#', '\#', $attr['pattern']) . '$#', (string) $data[$attr['id']])) {
-        throw new DomainException(app\i18n('Value contains invalid characters'));
+    if ($set && $attr['pattern']) {
+        $subj = $attr['multiple'] ? implode("\n", $data[$attr['id']]) : (string) $data[$attr['id']];
+
+        if (!preg_match('#^' . str_replace('#', '\#', $attr['pattern']) . '$#', $subj)) {
+            throw new DomainException(app\i18n('Value contains invalid characters'));
+        }
     }
 
     $crit = [[$attr['id'], $data[$attr['id']]]];
@@ -42,7 +47,7 @@ function filter(array $attr, array $data): array
         throw new DomainException(app\i18n('Value must be unique'));
     }
 
-    if ($attr['required'] && ($data[$attr['id']] === null || $data[$attr['id']] === '')) {
+    if ($set && $attr['required']) {
         throw new DomainException(app\i18n('Value is required'));
     }
 
