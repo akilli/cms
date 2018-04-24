@@ -130,6 +130,12 @@ return [
         'viewer' => 'viewer\opt',
         'opt' => 'opt\status',
     ],
+    'tel' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\input',
+        'filter' => 'filter\text',
+        'html' => ['type' => 'tel'],
+    ],
     'text' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\input',
