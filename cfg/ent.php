@@ -7,8 +7,8 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
                 'type' => 'int',
+                'auto' => true,
             ],
             'name' => [
                 'name' => 'Name',
@@ -32,8 +32,8 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
                 'type' => 'int',
+                'auto' => true,
             ],
             'name' => [
                 'name' => 'Name',
@@ -53,8 +53,8 @@ return [
             ],
             'confirmation' => [
                 'name' => 'Password Confirmation',
-                'virtual' => true,
                 'type' => 'password',
+                'virtual' => true,
                 'required' => true,
                 'minlength' => 8,
                 'maxlength' => 255,
@@ -74,8 +74,8 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
                 'type' => 'int',
+                'auto' => true,
             ],
             'name' => [
                 'name' => 'Name',
@@ -157,8 +157,8 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
                 'type' => 'int',
+                'auto' => true,
             ],
             'name' => [
                 'name' => 'Name',
@@ -216,8 +216,8 @@ return [
             ],
             'url' => [
                 'name' => 'URL',
-                'auto' => true,
                 'type' => 'text',
+                'auto' => true,
                 'unique' => true,
                 'maxlength' => 255,
             ],
@@ -237,20 +237,20 @@ return [
             ],
             'pos' => [
                 'name' => 'Position',
-                'auto' => true,
                 'type' => 'text',
                 'viewer' => 'viewer\pos',
+                'auto' => true,
                 'maxlength' => 255,
             ],
             'level' => [
                 'name' => 'Level',
-                'auto' => true,
                 'type' => 'int',
+                'auto' => true,
             ],
             'path' => [
                 'name' => 'Path',
-                'auto' => true,
                 'type' => 'json',
+                'auto' => true,
             ],
             'status' => [
                 'name' => 'Status',
@@ -288,8 +288,8 @@ return [
         'attr' => [
             'id' => [
                 'name' => 'ID',
-                'auto' => true,
                 'type' => 'int',
+                'auto' => true,
             ],
             'name' => [
                 'name' => 'Name',
