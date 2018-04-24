@@ -28,6 +28,10 @@ function filter(array $attr, array $data): array
         $data[$attr['id']] = $attr['filter']($attr, $data[$attr['id']]);
     }
 
+    if ($attr['pattern'] && !preg_match('#^' . str_replace('#', '\#', $attr['pattern']) . '$#', $data[$attr['id']])) {
+        throw new DomainException(app\i18n('Invalid value'));
+    }
+
     $crit = [[$attr['id'], $data[$attr['id']]]];
 
     if ($data['_old']) {
@@ -73,6 +77,10 @@ function frontend(array $attr, array $data): string
     if ($attr['multiple']) {
         $attr['html']['name'] .= '[]';
         $attr['html']['multiple'] = true;
+    }
+
+    if ($attr['pattern']) {
+        $attr['html']['pattern'] = $attr['pattern'];
     }
 
     if ($attr['required'] && !ignorable($attr, $data)) {

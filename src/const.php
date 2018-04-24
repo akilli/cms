@@ -30,6 +30,7 @@ const APP = [
         'max' => 0,
         'minlength' => 0,
         'maxlength' => 0,
+        'pattern' => null,
         'cfg.backend' => null,
         'cfg.frontend' => null,
         'cfg.filter' => null,

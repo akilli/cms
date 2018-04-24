@@ -178,4 +178,12 @@ return [
         'viewer' => 'viewer\file',
         'ent' => 'video',
     ],
+    'zip' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\input',
+        'filter' => 'filter\text',
+        'maxlength' => 5,
+        'pattern' => '[0-9]{5}',
+        'html' => ['type' => 'text'],
+    ],
 ];
