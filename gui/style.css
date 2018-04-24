@@ -36,17 +36,14 @@ h3:not(:first-child) {
 /**
  * Clear
  */
-div[data-type=rte]::after {
-    display: block;
-    height: 0;
-    line-height: 0;
-    clear: both;
-    overflow: hidden;
-    content: "";
-    font-size: 0;
+div[data-type=rte]::before {
+    display: table;
+    content: " ";
 }
 
-hr {
+div[data-type=rte]::after {
+    display: table;
+    content: " ";
     clear: both;
 }
 

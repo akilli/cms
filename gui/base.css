@@ -126,6 +126,10 @@ a[onclick] {
     cursor: pointer;
 }
 
+hr {
+    clear: both;
+}
+
 /**
  * Embed
  */
