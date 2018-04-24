@@ -12,32 +12,31 @@ use DomainException;
 /**
  * Filter
  *
+ * @return mixed
+ *
  * @throws DomainException
  */
-function filter(array $attr, array $data): array
+function filter(array $attr, array $data)
 {
-    $data[$attr['id']] = cast($attr, $data[$attr['id']] ?? null);
+    $val = cast($attr, $data[$attr['id']] ?? null);
 
-    if ($attr['nullable'] && $data[$attr['id']] === null) {
-        return $data;
+    if ($attr['nullable'] && $val === null) {
+        return $val;
     }
 
-    $set = $data[$attr['id']] === null || $data[$attr['id']] === '';
+    $set = $val === null || $val === '';
+    $pattern = $attr['pattern'] ? '#^' . str_replace('#', '\#', $attr['pattern']) . '$#' : null;
     $attr['opt'] = opt($attr, $data);
 
     if ($attr['filter']) {
-        $data[$attr['id']] = $attr['filter']($attr, $data[$attr['id']]);
+        $val = $attr['filter']($attr, $val);
     }
 
-    if ($set && $attr['pattern']) {
-        $subj = $attr['multiple'] ? implode("\n", $data[$attr['id']]) : (string) $data[$attr['id']];
-
-        if (!preg_match('#^' . str_replace('#', '\#', $attr['pattern']) . '$#', $subj)) {
-            throw new DomainException(app\i18n('Value contains invalid characters'));
-        }
+    if ($set && $pattern && !preg_match($pattern, $attr['multiple'] ? implode("\n", $val) : (string) $val)) {
+        throw new DomainException(app\i18n('Value contains invalid characters'));
     }
 
-    $crit = [[$attr['id'], $data[$attr['id']]]];
+    $crit = [[$attr['id'], $val]];
 
     if ($data['_old']) {
         $crit[] = ['id', $data['_old']['id'], APP['crit']['!=']];
@@ -51,19 +50,19 @@ function filter(array $attr, array $data): array
         throw new DomainException(app\i18n('Value is required'));
     }
 
-    $vals = $attr['multiple'] ? $data[$attr['id']] : [$data[$attr['id']]];
+    $vs = $attr['multiple'] ? $val : [$val];
 
-    foreach ($vals as $val) {
-        if ($attr['min'] > 0 && $val < $attr['min']
-            || $attr['max'] > 0 && $val > $attr['max']
-            || $attr['minlength'] > 0 && mb_strlen($val) < $attr['minlength']
-            || $attr['maxlength'] > 0 && mb_strlen($val) > $attr['maxlength']
+    foreach ($vs as $v) {
+        if ($attr['min'] > 0 && $v < $attr['min']
+            || $attr['max'] > 0 && $v > $attr['max']
+            || $attr['minlength'] > 0 && mb_strlen($v) < $attr['minlength']
+            || $attr['maxlength'] > 0 && mb_strlen($v) > $attr['maxlength']
         ) {
             throw new DomainException(app\i18n('Value out of range'));
         }
     }
 
-    return $data;
+    return $val;
 }
 
 /**
@@ -71,7 +70,7 @@ function filter(array $attr, array $data): array
  */
 function frontend(array $attr, array $data): string
 {
-    $data[$attr['id']] = cast(['nullable' => false] + $attr, $data[$attr['id']] ?? $attr['val']);
+    $val = cast(['nullable' => false] + $attr, $data[$attr['id']] ?? $attr['val']);
     $attr['opt'] = opt($attr, $data);
     $attr['html']['id'] =  'data-' . $attr['id'];
     $attr['html']['name'] =  'data[' . $attr['id'] . ']';
@@ -114,7 +113,7 @@ function frontend(array $attr, array $data): string
         $error = html\tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
-    $out = $attr['frontend']($attr, $data[$attr['id']]);
+    $out = $attr['frontend']($attr, $val);
 
     return html\tag('label', $label, $attr['name']) . $out . $error;
 }
@@ -124,17 +123,19 @@ function frontend(array $attr, array $data): string
  */
 function viewer(array $attr, array $data): string
 {
-    if (!isset($data[$attr['id']]) || $data[$attr['id']] === '') {
+    $val = $data[$attr['id']] ?? null;
+
+    if ($val === null || $val === '') {
         return '';
     }
 
     $attr['opt'] = opt($attr, $data);
 
     if ($attr['viewer']) {
-        return $attr['viewer']($attr, $data[$attr['id']]);
+        return $attr['viewer']($attr, $val);
     }
 
-    return app\enc((string) $data[$attr['id']]);
+    return app\enc((string) $val);
 }
 
 /**

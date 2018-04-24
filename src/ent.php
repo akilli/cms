@@ -116,7 +116,7 @@ function save(string $eId, array & $data): bool
 
     foreach ($aIds as $aId) {
         try {
-            $tmp = attr\filter($tmp['_ent']['attr'][$aId], $tmp);
+            $tmp[$aId] = attr\filter($tmp['_ent']['attr'][$aId], $tmp);
         } catch (Throwable $e) {
             $tmp['_error'][$aId] = $e->getMessage();
         }
