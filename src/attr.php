@@ -29,7 +29,7 @@ function filter(array $attr, array $data): array
     }
 
     if ($attr['pattern'] && !preg_match('#^' . str_replace('#', '\#', $attr['pattern']) . '$#', $data[$attr['id']])) {
-        throw new DomainException(app\i18n('Invalid value'));
+        throw new DomainException(app\i18n('Value contains invalid characters'));
     }
 
     $crit = [[$attr['id'], $data[$attr['id']]]];
