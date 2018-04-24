@@ -6,24 +6,7 @@ namespace app;
 
 const app = {
     cfg: {
-        file: {
-            aac: 'audio',
-            flac: 'audio',
-            gif: 'img',
-            jpeg: 'img',
-            jpg: 'img',
-            mp3: 'audio',
-            mp4: 'video',
-            oga: 'audio',
-            ogg: 'audio',
-            ogv: 'video',
-            png: 'img',
-            svg: 'img',
-            wav: 'audio',
-            weba: 'audio',
-            webm: 'video',
-            webp: 'img'
-        },
+        file: <?=json_encode(APP['file']);?>,
         i18n: <?=json_encode(cfg('i18n'));?>
     },
     i18n: function (key) {

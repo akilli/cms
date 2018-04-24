@@ -92,7 +92,7 @@ function file(array $attr, int $val): string
 
     $file = ent\one($attr['ent'], [['id', $val]], ['select' => ['id', 'name', 'type', 'info']]);
 
-    if (in_array($file['type'] , app\cfg('opt', 'image'))) {
+    if ((APP['file'][$file['type']] ?? null) === 'img') {
         $attr['html']['alt'] = app\enc($file['info']);
     }
 
@@ -104,18 +104,14 @@ function file(array $attr, int $val): string
  */
 function upload(array $attr, string $val): string
 {
-    $ext = pathinfo($val, PATHINFO_EXTENSION);
+    $tag = APP['file'][pathinfo($val, PATHINFO_EXTENSION)] ?? 'a';
 
-    if (in_array($ext, app\cfg('opt', 'image'))) {
+    if ($tag === 'img') {
         return html\tag('img', ['src' => $val] + $attr['html'], null, true);
     }
 
-    if (in_array($ext, app\cfg('opt', 'video'))) {
-        return html\tag('video', ['src' => $val, 'controls' => true] + $attr['html']);
-    }
-
-    if (in_array($ext, app\cfg('opt', 'audio'))) {
-        return html\tag('audio', ['src' => $val, 'controls' => true] + $attr['html']);
+    if (in_array($tag, ['audio', 'video'])) {
+        return html\tag($tag, ['src' => $val, 'controls' => true] + $attr['html']);
     }
 
     return html\tag('a', ['href' => $val] + $attr['html'], $val);

@@ -135,8 +135,10 @@ function ent(array $attr, int $val): int
  */
 function upload(array $attr, string $val): string
 {
-    if ($val && !in_array(pathinfo($val, PATHINFO_EXTENSION), $attr['opt'])) {
-        throw new DomainException(app\i18n('Invalid file type, allowed: %s', implode(', ', $attr['opt'])));
+    $attr['cfg.filter'] = (array) $attr['cfg.filter'];
+
+    if ($val && !in_array(pathinfo($val, PATHINFO_EXTENSION), $attr['cfg.filter'])) {
+        throw new DomainException(app\i18n('Invalid file type, allowed: %s', implode(', ', $attr['cfg.filter'])));
     }
 
     return path($attr, $val);
