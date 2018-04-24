@@ -28,7 +28,7 @@ function filter(array $attr, array $data): array
         $data[$attr['id']] = $attr['filter']($attr, $data[$attr['id']]);
     }
 
-    if ($attr['pattern'] && !preg_match('#^' . str_replace('#', '\#', $attr['pattern']) . '$#', $data[$attr['id']])) {
+    if ($attr['pattern'] && is_scalar($data[$attr['id']]) && !preg_match('#^' . str_replace('#', '\#', $attr['pattern']) . '$#', (string) $data[$attr['id']])) {
         throw new DomainException(app\i18n('Value contains invalid characters'));
     }
 
