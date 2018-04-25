@@ -5,7 +5,7 @@ return [
         'frontend' => 'frontend\file',
         'filter' => 'filter\ent',
         'viewer' => 'viewer\file',
-        'ent' => 'audio',
+        'ref' => 'audio',
     ],
     'bool' => [
         'backend' => 'bool',
@@ -50,7 +50,7 @@ return [
         'frontend' => 'frontend\file',
         'filter' => 'filter\ent',
         'viewer' => 'viewer\file',
-        'ent' => 'doc',
+        'ref' => 'doc',
     ],
     'email' => [
         'backend' => 'varchar',
@@ -69,14 +69,14 @@ return [
         'frontend' => 'frontend\file',
         'filter' => 'filter\ent',
         'viewer' => 'viewer\file',
-        'ent' => 'file',
+        'ref' => 'file',
     ],
     'image' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
         'filter' => 'filter\ent',
         'viewer' => 'viewer\file',
-        'ent' => 'image',
+        'ref' => 'image',
     ],
     'int' => [
         'backend' => 'int',
@@ -93,7 +93,7 @@ return [
         'frontend' => 'frontend\page',
         'filter' => 'filter\ent',
         'viewer' => 'viewer\ent',
-        'ent' => 'page',
+        'ref' => 'page',
     ],
     'password' => [
         'backend' => 'varchar',
@@ -176,7 +176,7 @@ return [
         'frontend' => 'frontend\file',
         'filter' => 'filter\ent',
         'viewer' => 'viewer\file',
-        'ent' => 'video',
+        'ref' => 'video',
     ],
     'zip' => [
         'backend' => 'varchar',

@@ -63,7 +63,7 @@ return [
                 'name' => 'Role',
                 'type' => 'ent',
                 'required' => true,
-                'ent' => 'role',
+                'ref' => 'role',
             ],
         ],
     ],

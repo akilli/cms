@@ -128,8 +128,8 @@ function select(array $attr, $val): string
  */
 function ent(array $attr, int $val): string
 {
-    if (($attr['opt'] = & app\reg('opt.ent.' . $attr['ent'])) === null) {
-        $attr['opt'] = array_column(ent\all($attr['ent'], [], ['select' => ['id', 'name'], 'order' => ['name' => 'asc']]), 'name', 'id');
+    if (($attr['opt'] = & app\reg('opt.ent.' . $attr['ref'])) === null) {
+        $attr['opt'] = array_column(ent\all($attr['ref'], [], ['select' => ['id', 'name'], 'order' => ['name' => 'asc']]), 'name', 'id');
     }
 
     return select($attr, $val);

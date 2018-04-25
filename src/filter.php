@@ -121,7 +121,7 @@ function opt(array $attr, $val)
  */
 function ent(array $attr, int $val): int
 {
-    if ($val && !ent\size($attr['ent'], [['id', $val]])) {
+    if ($val && !ent\size($attr['ref'], [['id', $val]])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 

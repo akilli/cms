@@ -78,7 +78,7 @@ function opt(array $attr, $val): string
  */
 function ent(array $attr, int $val): string
 {
-    return $val ? ent\one($attr['ent'], [['id', $val]], ['select' => ['id', 'name']])['name'] : '';
+    return $val ? ent\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name']])['name'] : '';
 }
 
 /**
@@ -90,7 +90,7 @@ function file(array $attr, int $val): string
         return '';
     }
 
-    $file = ent\one($attr['ent'], [['id', $val]], ['select' => ['id', 'name', 'type', 'info']]);
+    $file = ent\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name', 'type', 'info']]);
 
     if ((APP['file'][$file['type']] ?? null) === 'img') {
         $attr['html']['alt'] = app\enc($file['info']);
