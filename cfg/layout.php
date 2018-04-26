@@ -209,7 +209,7 @@ return [
     ],
     'content/admin' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'pos', 'menu', 'status', 'date']],
+            'vars' => ['attr' => ['name', 'pos', 'parent', 'menu', 'status', 'date']],
         ],
     ],
     'content/create' => [
