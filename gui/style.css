@@ -36,12 +36,12 @@ h3:not(:first-child) {
 /**
  * Clear
  */
-div[data-type=rte]::before {
+#content.view > div[data-type=rte]::before {
     display: table;
     content: " ";
 }
 
-div[data-type=rte]::after {
+#content.view > div[data-type=rte]::after {
     display: table;
     content: " ";
     clear: both;
