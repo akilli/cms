@@ -42,30 +42,6 @@ main {
 }
 
 /**
- * Clear
- */
-article::before,
-aside::before,
-footer::before,
-header::before,
-nav::before,
-section::before {
-    display: table;
-    content: " ";
-}
-
-article::after,
-aside::after,
-footer::after,
-header::after,
-nav::after,
-section::after {
-    display: table;
-    content: " ";
-    clear: both;
-}
-
-/**
  * List
  */
 nav ul {
