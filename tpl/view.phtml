@@ -2,14 +2,16 @@
 namespace app;
 use attr;
 /** @var callable $§ */
-$aside = null;
+$aside = !empty($§('ent')['attr']['aside']) ? attr\viewer($§('ent')['attr']['aside'], $§('data')) : null;
 ?>
-<article id="<?=$§('id');?>" class="view">
+<article id="<?=$§('id');?>" class="view<?php if ($aside):?> aside<?php endif;?>">
     <?=§('content-top');?>
     <?php foreach ($§('attr') as $aId):?>
-        <?php if (!($attr = $§('ent')['attr'][$aId] ?? null)) continue;?>
-        <?php $val = $§('data')[$attr['id']] ?? null;?>
-        <?php if ($val === null || $val === '' || !($html = attr\viewer($attr, $§('data'))) || $attr['id'] === 'aside' && $aside = $html) continue;?>
+        <?php
+        $attr = $§('ent')['attr'][$aId] ?? null;
+        $val = $§('data')[$aId] ?? null;
+        ?>
+        <?php if ($attr['id'] === 'aside' || !$attr || $val === null || $val === '' || !($html = attr\viewer($attr, $§('data')))) continue;?>
         <?php if ($attr['id'] === 'name'):?>
     <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
         <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
