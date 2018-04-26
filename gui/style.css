@@ -629,11 +629,6 @@ a[data-sort=desc]::after {
         border-bottom: solid 0.0625rem #00000c;
     }
 
-    html[data-act=admin] #content.index article::before,
-    html[data-act=admin] #content.index article::after {
-        content: none;
-    }
-
     html[data-act=admin] #content.index article > * {
         border-bottom: solid 0.0625rem #e4e7ea;
     }
