@@ -50,7 +50,7 @@ function run(): void
     // Dispatch request
     if ($allowed && !$ent && $real) {
         $real();
-    } elseif (!$allowed || !$ent || !in_array($data['act'], $ent['act']) || $data['area'] === APP['area.public'] && !$data['page']) {
+    } elseif (!$allowed || !$ent || !in_array($data['act'], $ent['act']) || $data['area'] === APP['area.public'] && (!$data['page'] || $data['page']['disabled'])) {
         error();
     } elseif ($real) {
         $real($ent);

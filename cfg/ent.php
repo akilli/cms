@@ -221,6 +221,10 @@ return [
                 'unique' => true,
                 'maxlength' => 255,
             ],
+            'disabled' => [
+                'name' => 'Page access disabled',
+                'type' => 'bool',
+            ],
             'menu' => [
                 'name' => 'Menu Entry',
                 'type' => 'bool',

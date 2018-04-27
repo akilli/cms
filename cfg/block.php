@@ -25,7 +25,7 @@ return [
     'index' => [
         'call' => 'block\index',
         'tpl' => 'index.phtml',
-        'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'ent' => null, 'head' => false, 'limit' => 10, 'link' => false, 'order' => [], 'pager' => false, 'parent' => null, 'search' => false, 'title' => '', 'unpublished' => false],
+        'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'ent' => null, 'head' => false, 'inaccessible' => false, 'limit' => 10, 'link' => false, 'order' => [], 'pager' => false, 'parent' => null, 'search' => false, 'title' => ''],
     ],
     'login' => [
         'call' => 'block\login',

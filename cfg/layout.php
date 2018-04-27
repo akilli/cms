@@ -73,7 +73,7 @@ return [
             'type' => 'index',
             'parent' => 'main',
             'sort' => 10,
-            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'pager' => true, 'search' => true, 'title' => null, 'unpublished' => true],
+            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'inaccessible' => true, 'pager' => true, 'search' => true, 'title' => null],
         ],
     ],
     'browser' => [
@@ -219,7 +219,7 @@ return [
     ],
     'content/edit' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'layout', 'image', 'main', 'aside', 'sidebar', 'meta']],
+            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'parent', 'sort', 'status', 'layout', 'image', 'main', 'aside', 'sidebar', 'meta']],
         ],
     ],
     'content/view' => [

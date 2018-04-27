@@ -112,8 +112,9 @@ function index(array $§): string
     }
 
     if (in_array('page', [$§['vars']['ent']['id'], $§['vars']['ent']['parent']])) {
-        if (!$§['vars']['unpublished']) {
+        if (!$§['vars']['inaccessible']) {
             $crit[] = ['status', 'published'];
+            $crit[] = ['disabled', false];
         }
 
         if ($§['vars']['parent']) {
@@ -121,7 +122,7 @@ function index(array $§): string
         }
     }
 
-    unset($§['vars']['crit'], $§['vars']['limit'], $§['vars']['order'], $§['vars']['parent'], $§['vars']['unpublished']);
+    unset($§['vars']['crit'], $§['vars']['inaccessible'], $§['vars']['limit'], $§['vars']['order'], $§['vars']['parent']);
     $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], req\get('param'));
 
     if ($§['vars']['search']) {
@@ -266,9 +267,9 @@ function nav(array $§): string
             throw new DomainException(app\i18n('Invalid data'));
         }
 
-        $item = arr\replace(['name' => null, 'url' => null, 'level' => $start], $item);
+        $item = arr\replace(['name' => null, 'url' => null, 'disabled' => false, 'level' => $start], $item);
         $item['level'] = $item['level'] - $start + 1;
-        $a = $item['url'] ? ['href' => $item['url']] : [];
+        $a = $item['url'] && !$item['disabled'] ? ['href' => $item['url']] : [];
         $class = '';
 
         if ($item['url'] === $url) {
@@ -309,7 +310,7 @@ function menu(array $§): string
     $crit = [['status', 'published'], ['ent', 'content']];
     $crit[] = $mode === 'sub' ? ['id', app\get('main')] : ['url', '/'];
 
-    if (!$root = ent\one('page', $crit, ['select' => ['id', 'name', 'url', 'pos', 'level']])) {
+    if (!$root = ent\one('page', $crit, ['select' => ['id', 'name', 'url', 'disabled', 'pos', 'level']])) {
         return '';
     }
 
@@ -371,7 +372,7 @@ function breadcrumb(array $§): string
     }
 
     $html = '';
-    $all = ent\all('page', [['id', $page['path']]], ['select' => ['id', 'name', 'url'], 'order' => ['level' => 'asc']]);
+    $all = ent\all('page', [['id', $page['path']]], ['select' => ['id', 'name', 'url', 'disabled'], 'order' => ['level' => 'asc']]);
 
     foreach ($all as $item) {
         $html .= $html ? ' ' : '';
