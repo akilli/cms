@@ -185,7 +185,7 @@ function layout(array $data): array
 
     foreach ($keys as $key) {
         if (!empty($cfg[$key])) {
-            $data = array_replace_recursive($data, $cfg[$key]);
+            $data = app\load_layout($data, $cfg[$key]);
         }
     }
 

@@ -123,15 +123,51 @@ function cfg(string $id, string $key = null)
  */
 function load(string $id): array
 {
-    $data = [];
+    $file = path('cfg', $id . '.php');
+    $data = is_readable($file) ? include $file : [];
+    $extFile = path('ext.cfg', $id . '.php');
 
-    foreach ([path('cfg', $id . '.php'), path('ext.cfg', $id . '.php')] as $file) {
-        if (is_readable($file)) {
-            $data = array_replace_recursive($data, include $file);
+    if (!is_readable($extFile) || !($ext = include $extFile)) {
+        return $data;
+    }
+
+    if (in_array($id, ['attr', 'ent'])) {
+        return $data + $ext;
+    }
+
+    if ($id === 'layout') {
+        return load_layout($data, $ext);
+    }
+
+    return array_replace_recursive($data, $ext);
+}
+
+/**
+ * Load layout configuration
+ */
+function load_layout(array $data, array $ext = []): array
+{
+    foreach ($ext as $key => $cfg) {
+        foreach ($cfg as $id => $§) {
+            $data[$key][$id] = empty($data[$key][$id]) ? $§ : load_block($data[$key][$id], $§);
         }
     }
 
     return $data;
+}
+
+/**
+ * Load block configuration
+ */
+function load_block(array $data, array $ext = []): array
+{
+    if (!empty($ext['vars'])) {
+        $data['vars'] = empty($data['vars']) ? $ext['vars'] : array_replace($data['vars'], $ext['vars']);
+    }
+
+    unset($ext['vars']);
+
+    return array_replace($data, $ext);
 }
 
 /**
@@ -255,7 +291,7 @@ function layout(string $id = null, array $§ = null): ?array
 
         $data[$id] = arr\replace(APP['block'], $type, $§, ['id' => $id]);
     } elseif ($§) {
-        $data[$id] = array_replace_recursive($data[$id], $§);
+        $data[$id] = load_block($data[$id], $§);
     }
 
     return $data[$id];
