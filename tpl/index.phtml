@@ -3,7 +3,7 @@ namespace app;
 use attr;
 /** @var callable $§ */
 ?>
-<section id="<?=$§('id');?>" class="index">
+<section id="<?=$§('id');?>" class="index" data-ent="<?=$§('ent')['id'];?>">
     <?php if ($§('title') || $§('create') && allowed($§('ent')['id'] . '/create') || $§('search')):?>
     <header>
         <?php if ($§('title')):?>

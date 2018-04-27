@@ -4,7 +4,7 @@ use attr;
 /** @var callable $§ */
 $aside = !empty($§('ent')['attr']['aside']) ? attr\viewer($§('ent')['attr']['aside'], $§('data')) : null;
 ?>
-<article id="<?=$§('id');?>" class="view<?php if ($aside):?> aside<?php endif;?>">
+<article id="<?=$§('id');?>" class="view<?php if ($aside):?> aside<?php endif;?>" data-ent="<?=$§('ent')['id'];?>">
     <?=§('content-top');?>
     <?php foreach ($§('attr') as $aId):?>
         <?php
