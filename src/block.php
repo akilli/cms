@@ -309,8 +309,9 @@ function menu(array $§): string
 
     $crit = [['status', 'published'], ['ent', 'content']];
     $crit[] = $mode === 'sub' ? ['id', app\get('main')] : ['url', '/'];
+    $select = ['id', 'name', 'url', 'disabled', 'pos', 'level'];
 
-    if (!$root = ent\one('page', $crit, ['select' => ['id', 'name', 'url', 'disabled', 'pos', 'level']])) {
+    if (!$root = ent\one('page', $crit, ['select' => $select])) {
         return '';
     }
 
@@ -324,7 +325,7 @@ function menu(array $§): string
         $crit[] = ['menu', true];
     }
 
-    $opt = ['select' => ['id', 'name', 'url', 'level'], 'order' => ['pos' => 'asc']];
+    $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
     $§['vars']['data'] = ent\all('page', $crit, $opt);
 
     if (!$§['vars']['data']) {
