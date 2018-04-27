@@ -285,7 +285,7 @@ function nav(array $§): string
              $html .= '</li><li' . $class . '>';
         }
 
-        $html .= html\tag($item['url'] ? 'a' : 'span', $a, $item['name']);
+        $html .= html\tag('a', $a, $item['name']);
         $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
         $level = $item['level'];
     }

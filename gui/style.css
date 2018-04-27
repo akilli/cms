@@ -590,11 +590,6 @@ a[data-sort=desc]::after {
         display: block;
     }
 
-    #toolbar li span,
-    #menu li span {
-        cursor: default;
-    }
-
     /**
      * Index
      */
