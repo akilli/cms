@@ -135,6 +135,11 @@ return [
             'vars' => ['attr' => ['image', 'date', 'name', 'teaser'], 'ent' => 'article', 'link' => true, 'pager' => true, 'parent' => true],
         ],
     ],
+    'page-home' => [
+        'breadcrumb' => [
+            'active' => false,
+        ],
+    ],
     'page-index' => [
         'index' => [
             'type' => 'index',
