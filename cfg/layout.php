@@ -53,6 +53,11 @@ return [
             'parent' => 'top',
             'sort' => 30,
         ],
+        'breadcrumb' => [
+            'type' => 'breadcrumb',
+            'parent' => 'main',
+            'sort' => 10,
+        ],
         'sidebar-page' => [
             'type' => 'sidebar',
             'parent' => 'sidebar',
@@ -65,14 +70,14 @@ return [
             'type' => 'tpl',
             'tpl' => 'error.phtml',
             'parent' => 'main',
-            'sort' => 10,
+            'sort' => 20,
         ],
     ],
     'admin' => [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'sort' => 10,
+            'sort' => 20,
             'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'inaccessible' => true, 'pager' => true, 'search' => true, 'title' => null],
         ],
     ],
@@ -86,7 +91,7 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'sort' => 10,
+            'sort' => 20,
             'vars' => ['actions' => ['rte'], 'limit' => 20, 'pager' => true, 'search' => true, 'title' => null],
         ],
     ],
@@ -94,7 +99,7 @@ return [
         'content' => [
             'type' => 'create',
             'parent' => 'main',
-            'sort' => 10,
+            'sort' => 20,
             'vars' => ['redirect' => true, 'title' => null],
         ],
     ],
@@ -102,7 +107,7 @@ return [
         'content' => [
             'type' => 'form',
             'parent' => 'main',
-            'sort' => 10,
+            'sort' => 20,
             'vars' => ['title' => null],
         ],
     ],
@@ -110,7 +115,7 @@ return [
         'content' => [
             'type' => 'view',
             'parent' => 'main',
-            'sort' => 10,
+            'sort' => 20,
         ],
         'content-top' => [
             'type' => 'container',
@@ -171,14 +176,14 @@ return [
         'content' => [
             'type' => 'login',
             'parent' => 'main',
-            'sort' => 10,
+            'sort' => 20,
         ],
     ],
     'account/password' => [
         'content' => [
             'type' => 'form',
             'parent' => 'main',
-            'sort' => 10,
+            'sort' => 20,
             'vars' => ['attr' => ['password', 'confirmation']],
         ],
     ],
