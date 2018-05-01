@@ -185,7 +185,9 @@ function layout(array $data): array
 
     foreach ($keys as $key) {
         if (!empty($cfg[$key])) {
-            $data = app\load_layout($data, $cfg[$key]);
+            foreach ($cfg[$key] as $id => $§) {
+                $data[$id] = empty($data[$id]) ? $§ : app\load_block($data[$id], $§);
+            }
         }
     }
 
