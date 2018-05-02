@@ -32,7 +32,7 @@ return [
         . '<a><abbr><b><br><cite><code><data><dfn><em><i><kbd><mark><q><s><samp><small><span>'
         . '<strong><sub><sup><time><u><var><wbr>'
         . '<del><ins>'
-        . '<area><audio><embed><img><map><object><param><picture><source><track><video>'
+        . '<area><audio><embed><iframe><img><map><object><param><picture><source><track><video>'
         . '<caption><col><colgroup><table><tbody><td><tfoot><th><thead><tr>'
         . '<details><summary>',
 ];
