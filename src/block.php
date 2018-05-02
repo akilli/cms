@@ -376,7 +376,7 @@ function breadcrumb(array $§): string
     $all = ent\all('page', [['id', $page['path']]], ['select' => ['id', 'name', 'url', 'disabled'], 'order' => ['level' => 'asc']]);
 
     foreach ($all as $item) {
-        $a = $page['id'] === $item['id'] ? [] : ['href' => $item['url']];
+        $a = $page['disabled'] || $page['id'] === $item['id'] ? [] : ['href' => $item['url']];
         $html .= ($html ? ' ' : '') . html\tag('a', $a, $item['name']);
     }
 
