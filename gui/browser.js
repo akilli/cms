@@ -1,6 +1,6 @@
 'use strict';
 
-(function (window, document, app) {
+(function (document, window, app) {
     document.addEventListener('DOMContentLoaded', function () {
         // Browser
         const suffix = '-file';
@@ -64,4 +64,4 @@
             });
         });
     });
-})(window, document, app);
+})(document, window, app);
