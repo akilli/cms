@@ -28,7 +28,7 @@ return [
     'account' => [
         'name' => 'Accounts',
         'type' => 'db',
-        'act' => ['admin', 'create', 'dashboard', 'delete', 'edit', 'login', 'logout', 'password'],
+        'act' => ['admin', 'create', 'delete', 'edit', 'login', 'logout', 'password'],
         'attr' => [
             'id' => [
                 'name' => 'ID',

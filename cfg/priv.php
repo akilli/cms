@@ -15,9 +15,6 @@ return [
     'account/create' => [
         'priv' => '_all_',
     ],
-    'account/dashboard' => [
-        'priv' => 'account-user',
-    ],
     'account/delete' => [
         'priv' => '_all_',
     ],

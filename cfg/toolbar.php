@@ -74,22 +74,16 @@ return [
         'priv' => 'content/view',
         'sort' => 40,
     ],
-    'dashboard' => [
-        'name' => 'Dashboard',
-        'url' => '/account/dashboard',
-        'priv' => 'account/dashboard',
-        'sort' => 50,
-    ],
     'password' => [
         'name' => 'Password',
         'url' => '/account/password',
         'priv' => 'account/password',
-        'sort' => 60,
+        'sort' => 50,
     ],
     'logout' => [
         'name' => 'Logout',
         'url' => '/account/logout',
         'priv' => 'account/logout',
-        'sort' => 70,
+        'sort' => 60,
     ],
 ];
