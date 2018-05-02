@@ -2,14 +2,6 @@
 
 (function (window, document, app, CKEDITOR) {
     document.addEventListener('DOMContentLoaded', function () {
-        // Input password autocomplete fix
-        Array.prototype.forEach.call(document.querySelectorAll('input[type=password]'), function (item) {
-            item.setAttribute('readonly', 'readonly');
-            item.addEventListener('focus', function () {
-                this.removeAttribute('readonly');
-            });
-        });
-
         // Delete buttons and links
         Array.prototype.forEach.call(document.querySelectorAll('a[data-act=delete]'), function (item) {
             item.addEventListener('click', function (event) {
