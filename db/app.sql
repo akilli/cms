@@ -1,28 +1,13 @@
 START TRANSACTION;
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Account
--- ---------------------------------------------------------------------------------------------------------------------
+-- Type
+-- --------------------------------------------------------------------------------------------------------------------
 
-CREATE TABLE role (
-    id serial PRIMARY KEY,
-    name varchar(50) NOT NULL UNIQUE,
-    priv jsonb NOT NULL
-);
-
-CREATE INDEX ON role USING GIN (priv);
-
-CREATE TABLE account (
-    id serial PRIMARY KEY,
-    name varchar(50) NOT NULL UNIQUE,
-    password varchar(255) NOT NULL,
-    role integer NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
-CREATE INDEX ON account (role);
+CREATE TYPE status AS ENUM ('draft', 'pending', 'published', 'archived');
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- File
+-- Function
 -- ---------------------------------------------------------------------------------------------------------------------
 
 CREATE FUNCTION file_save() RETURNS trigger AS $$
@@ -36,26 +21,6 @@ CREATE FUNCTION file_save() RETURNS trigger AS $$
         RETURN NEW;
     END;
 $$ LANGUAGE plpgsql;
-
-CREATE TABLE file (
-    id serial PRIMARY KEY,
-    name varchar(50) NOT NULL UNIQUE,
-    type varchar(5) NOT NULL,
-    info text NOT NULL,
-    ent varchar(50) NOT NULL CHECK (ent != '')
-);
-
-CREATE INDEX ON file (type);
-CREATE INDEX ON file (ent);
-
-CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Page
--- ---------------------------------------------------------------------------------------------------------------------
-
--- Type
-CREATE TYPE status AS ENUM ('draft', 'pending', 'published', 'archived');
 
 -- Trigger
 CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
@@ -334,7 +299,52 @@ CREATE FUNCTION version_protect() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
--- Table
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Role
+-- ---------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE role (
+    id serial PRIMARY KEY,
+    name varchar(50) NOT NULL UNIQUE,
+    priv jsonb NOT NULL
+);
+
+CREATE INDEX ON role USING GIN (priv);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Account
+-- ---------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE account (
+    id serial PRIMARY KEY,
+    name varchar(50) NOT NULL UNIQUE,
+    password varchar(255) NOT NULL,
+    role integer NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE INDEX ON account (role);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- File
+-- ---------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE file (
+    id serial PRIMARY KEY,
+    name varchar(50) NOT NULL UNIQUE,
+    type varchar(5) NOT NULL,
+    info text NOT NULL,
+    ent varchar(50) NOT NULL CHECK (ent != '')
+);
+
+CREATE INDEX ON file (type);
+CREATE INDEX ON file (ent);
+
+CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Page
+-- ---------------------------------------------------------------------------------------------------------------------
+
 CREATE TABLE page (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
@@ -381,6 +391,10 @@ CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHE
 CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_after();
 CREATE TRIGGER page_version_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_before();
 CREATE TRIGGER page_version_after AFTER UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_after();
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Version
+-- ---------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE version (
     id serial PRIMARY KEY,
