@@ -92,7 +92,7 @@ return [
         'backend' => 'int',
         'frontend' => 'frontend\page',
         'filter' => 'filter\ent',
-        'viewer' => 'viewer\ent',
+        'viewer' => 'viewer\page',
         'ref' => 'page',
     ],
     'password' => [

@@ -82,6 +82,20 @@ function ent(array $attr, int $val): string
 }
 
 /**
+ * Page viewer
+ */
+function page(array $attr, int $val): string
+{
+    if (!$val) {
+        return '';
+    }
+
+    $page = ent\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name', 'menuname']]);
+
+    return $page['menuname'] ?: $page['name'];
+}
+
+/**
  * File viewer
  */
 function file(array $attr, int $val): string

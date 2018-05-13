@@ -88,6 +88,10 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
             NEW.slug := _slg;
         END IF;
 
+        IF (NEW.menuname = NEW.name) THEN
+            NEW.menuname := NULL;
+        END IF;
+
         RETURN NEW;
     END;
 $$ LANGUAGE plpgsql;
