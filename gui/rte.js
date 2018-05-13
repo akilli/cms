@@ -11,7 +11,7 @@
                 filebrowserBrowseUrl: '/file/browser',
                 format_tags: 'p;h1;h2;h3',
                 height: '30rem',
-                removeButtons: 'Cut,Copy,Paste,Anchor,Strike,Subscript,Superscript,Indent,Outdent',
+                removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Subscript,Superscript,Indent,Outdent',
                 removeDialogTabs: 'link:advanced;link:target',
                 stylesSet: false,
                 toolbarGroups: [
