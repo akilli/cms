@@ -212,7 +212,7 @@ select[multiple] {
 button {
     line-height: 1.5rem;
     padding: 0.75rem;
-    color: #000 !important;
+    color: #000;
     background: #60abc6;
     border: 0;
 }
