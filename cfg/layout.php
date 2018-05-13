@@ -139,6 +139,9 @@ return [
         'breadcrumb' => [
             'active' => false,
         ],
+        'content' => [
+            'vars' => ['attr' => ['image', 'main', 'aside']],
+        ],
     ],
     'page-index' => [
         'index' => [
