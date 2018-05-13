@@ -393,12 +393,6 @@ form .cke {
 /**
  * Content
  */
-#content > h1,
-#content > header > h1 {
-    line-height: 3rem;
-    font-size: 2rem;
-}
-
 #content a,
 #content span[data-act] {
     color: #60abc6;
