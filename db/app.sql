@@ -359,6 +359,7 @@ CREATE TABLE page (
     url varchar(255) UNIQUE DEFAULT NULL,
     disabled boolean NOT NULL DEFAULT FALSE,
     menu boolean NOT NULL DEFAULT FALSE,
+    menuname varchar(255) DEFAULT NULL,
     parent integer DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     sort integer NOT NULL DEFAULT 0,
     pos varchar(255) NOT NULL DEFAULT '',
@@ -378,6 +379,7 @@ CREATE INDEX ON page (slug);
 CREATE INDEX ON page (url);
 CREATE INDEX ON page (disabled);
 CREATE INDEX ON page (menu);
+CREATE INDEX ON page (menuname);
 CREATE INDEX ON page (parent);
 CREATE INDEX ON page (sort);
 CREATE INDEX ON page (pos);

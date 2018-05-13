@@ -309,7 +309,7 @@ function menu(array $§): string
 
     $crit = [['status', 'published'], ['ent', 'content']];
     $crit[] = $mode === 'sub' ? ['id', app\get('main')] : ['url', '/'];
-    $select = ['id', 'name', 'url', 'disabled', 'pos', 'level'];
+    $select = ['id', 'name', 'url', 'disabled', 'menuname', 'pos', 'level'];
 
     if (!$root = ent\one('page', $crit, ['select' => $select])) {
         return '';
@@ -335,6 +335,10 @@ function menu(array $§): string
     if ($§['vars']['root']) {
         $root['level']++;
         $§['vars']['data'] = [$root['id'] => $root] + $§['vars']['data'];
+    }
+
+    foreach ($§['vars']['data'] as $id => $item) {
+        $§['vars']['data'][$id]['name'] = $item['menuname'] ?: $item['name'];
     }
 
     return nav($§);
@@ -373,11 +377,11 @@ function breadcrumb(array $§): string
     }
 
     $html = '';
-    $all = ent\all('page', [['id', $page['path']]], ['select' => ['id', 'name', 'url', 'disabled'], 'order' => ['level' => 'asc']]);
+    $all = ent\all('page', [['id', $page['path']]], ['select' => ['id', 'name', 'url', 'disabled', 'menuname'], 'order' => ['level' => 'asc']]);
 
     foreach ($all as $item) {
         $a = $item['disabled'] || $page['id'] === $item['id'] ? [] : ['href' => $item['url']];
-        $html .= ($html ? ' ' : '') . html\tag('a', $a, $item['name']);
+        $html .= ($html ? ' ' : '') . html\tag('a', $a, $item['menuname'] ?: $item['name']);
     }
 
     return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;

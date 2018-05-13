@@ -53,6 +53,7 @@ return [
     'Logout' => 'Abmelden',
     'Main Content' => 'Hauptinhalt',
     'Menu Entry' => 'Menüeintrag',
+    'Menu Name' => 'Menüname',
     'Message' => 'Nachricht',
     'Meta' => 'Meta',
     'Name' => 'Name',

@@ -229,6 +229,12 @@ return [
                 'name' => 'Menu Entry',
                 'type' => 'bool',
             ],
+            'menuname' => [
+                'name' => 'Menu Name',
+                'type' => 'text',
+                'nullable' => true,
+                'maxlength' => 255,
+            ],
             'parent' => [
                 'name' => 'Parent',
                 'type' => 'page',
