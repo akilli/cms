@@ -148,10 +148,6 @@ td {
     border-bottom: solid 0.0625rem #e4e7ea;
 }
 
-thead a {
-    color: inherit !important;
-}
-
 table p {
     margin: 0;
 }
