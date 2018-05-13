@@ -516,7 +516,7 @@ a[data-sort=desc]::after {
 #dialog[open] button {
     line-height: 1;
     font-size: 3rem;
-    color: #fff !important;
+    color: #fff;
     background: none;
 }
 
