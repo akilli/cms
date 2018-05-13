@@ -140,7 +140,7 @@ return [
             'active' => false,
         ],
         'content' => [
-            'vars' => ['attr' => ['image', 'main', 'aside']],
+            'vars' => ['attr' => ['image', 'teaser', 'main', 'aside']],
         ],
     ],
     'page-index' => [
@@ -227,17 +227,17 @@ return [
     ],
     'content/create' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'menuname', 'parent', 'sort', 'status', 'layout', 'image', 'main', 'aside', 'sidebar', 'meta']],
+            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'menuname', 'parent', 'sort', 'status', 'layout', 'image', 'teaser', 'main', 'aside', 'sidebar', 'meta']],
         ],
     ],
     'content/edit' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'menuname', 'parent', 'sort', 'status', 'layout', 'image', 'main', 'aside', 'sidebar', 'meta']],
+            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'menuname', 'parent', 'sort', 'status', 'layout', 'image', 'teaser', 'main', 'aside', 'sidebar', 'meta']],
         ],
     ],
     'content/view' => [
         'content' => [
-            'vars' => ['attr' => ['image', 'name', 'main', 'aside']],
+            'vars' => ['attr' => ['image', 'name', 'teaser', 'main', 'aside']],
         ],
     ],
     'file/admin' => [
