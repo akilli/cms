@@ -224,7 +224,7 @@ return [
     ],
     'content/create' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'slug', 'menu', 'parent', 'sort', 'status', 'layout', 'image', 'main', 'aside', 'sidebar', 'meta']],
+            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'parent', 'sort', 'status', 'layout', 'image', 'main', 'aside', 'sidebar', 'meta']],
         ],
     ],
     'content/edit' => [
