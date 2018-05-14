@@ -40,6 +40,7 @@
         'indentlist': 1,
         'link': 1,
         'list': 1,
+        'magicline': 1,
         'media': 1,
         'removeformat': 1,
         'showblocks': 1,
