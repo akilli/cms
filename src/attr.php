@@ -24,7 +24,7 @@ function filter(array $attr, array $data)
         return $val;
     }
 
-    $set = $val === null || $val === '';
+    $set = $val !== null && $val !== '';
     $pattern = $attr['pattern'] ? '#^' . str_replace('#', '\#', $attr['pattern']) . '$#' : null;
     $attr['opt'] = opt($attr, $data);
 
@@ -46,7 +46,7 @@ function filter(array $attr, array $data)
         throw new DomainException(app\i18n('Value must be unique'));
     }
 
-    if ($set && $attr['required']) {
+    if (!$set && $attr['required']) {
         throw new DomainException(app\i18n('Value is required'));
     }
 
