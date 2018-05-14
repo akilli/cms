@@ -88,6 +88,15 @@ return [
         'frontend' => 'frontend\json',
         'viewer' => 'viewer\json',
     ],
+    'nope' => [
+        'backend' => 'bool',
+        'frontend' => 'frontend\bool',
+        'filter' => 'filter\nope',
+        'viewer' => 'viewer\opt',
+        'virtual' => true,
+        'opt' => 'bool',
+        'html' => ['autocomplete' => 'nope', 'tabindex' => '-1'],
+    ],
     'page' => [
         'backend' => 'int',
         'frontend' => 'frontend\page',

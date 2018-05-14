@@ -279,6 +279,10 @@ textarea {
     color: #32535c;
 }
 
+form [data-attr=nope] {
+    display: none;
+}
+
 /**
  * Actions
  */
