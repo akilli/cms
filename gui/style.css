@@ -52,16 +52,18 @@ h3:not(:first-child) {
  */
 .left {
     float: left;
-    margin-right: 0.75rem;
+    margin: 0 0.75rem 1.5rem 0;
 }
 
 .center {
+    display: block;
+    margin: 0 auto 1.5rem;
     text-align: center;
 }
 
 .right {
     float: right;
-    margin-left: 0.75rem;
+    margin: 0 0 1.5rem 0.75rem;
 }
 
 /**
