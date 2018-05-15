@@ -16,7 +16,7 @@ function get(string $key)
 {
     if (($data = & app\reg('req')) === null) {
         $data['host'] = $_SERVER['HTTP_HOST'];
-        $data['url'] = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        $data['url'] = app\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
         $data['file'] = [];
         $data['data'] = [];
         $data['param'] = [];
