@@ -494,6 +494,10 @@ a[data-sort=desc]::after {
     margin-bottom: 0.75rem;
 }
 
+.gallery .items > :not(:first-child) {
+    margin-left: 0.75rem;
+}
+
 .gallery .items img {
     width: 5.25rem;
     height: 5.25rem;
