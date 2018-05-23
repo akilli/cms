@@ -188,7 +188,7 @@ function form(array $§): string
     $§['vars']['file'] = false;
 
     foreach ($§['vars']['attr'] as $aId) {
-        if ($§['vars']['file'] = ($§['vars']['ent']['attr'][$aId]['type'] ?? null) === 'file') {
+        if ($§['vars']['file'] = ($§['vars']['ent']['attr'][$aId]['type'] ?? null) === 'upload') {
             break;
         }
     }
