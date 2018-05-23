@@ -328,7 +328,6 @@ form .cke {
  * Menu
  */
 #menu {
-    display: none;
     padding: 0.75rem;
     color: #fff;
     background: #32535c;
@@ -577,7 +576,6 @@ a[data-sort=desc]::after {
     #menu {
         position: relative;
         z-index: 100;
-        display: block;
     }
 
     #toolbar > ul > li,
