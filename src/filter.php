@@ -83,7 +83,7 @@ function path(array $attr, string $val): string
         return url($attr, $val);
     }
 
-    return '/' . trim(preg_replace('#[^a-z0-9-/\.]+#', '-', strtr(mb_strtolower($val), app\cfg('filter', 'id'))), '-/');
+    return '/' . trim(preg_replace('#[^a-z0-9-_/\.]+#', '-', strtr(mb_strtolower($val), app\cfg('filter', 'id'))), '-/');
 }
 
 /**
