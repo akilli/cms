@@ -46,6 +46,30 @@ function tpl(array $§): string
 }
 
 /**
+ * Head
+ */
+function head(array $§): string
+{
+    if ($page = app\get('page')) {
+        $§['vars']['desc'] = $page['desc'];
+        $all = ent\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['id', 'name', 'menuname'], 'order' => ['level' => 'asc']]);
+
+        foreach ($all as $item) {
+            $title = $item['menuname'] ?: $item['name'];
+            $§['vars']['title'] = $title . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
+        }
+
+    } elseif (app\get('ent') && ($ent = app\cfg('ent', app\get('ent')))) {
+        $§['vars']['title'] = $ent['name'];
+    }
+
+    $§['vars']['desc'] = $§['vars']['desc'] ? app\enc($§['vars']['desc']) : '';
+    $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : '';
+
+    return tpl($§);
+}
+
+/**
  * Search
  */
 function search(array $§): string

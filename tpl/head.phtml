@@ -4,10 +4,10 @@ namespace app;
 ?>
 <meta charset="utf-8" />
 <?php if ($§('desc')):?>
-<meta name="description" content="<?=enc($§('desc'));?>" />
+<meta name="description" content="<?=$§('desc');?>" />
 <?php endif;?>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
-<title><?=enc((string) $§('title'));?></title>
+<title><?=$§('title');?></title>
 <link rel="stylesheet" href="<?=gui('base.css');?>" />
 <link rel="stylesheet" href="<?=gui('details.css');?>" />
 <link rel="stylesheet" href="<?=gui('flickity.css');?>" />

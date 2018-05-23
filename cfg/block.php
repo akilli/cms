@@ -22,6 +22,11 @@ return [
         'tpl' => 'form.phtml',
         'vars' => ['attr' => [], 'data' => [], 'ent' => [], 'title' => ''],
     ],
+    'head' => [
+        'call' => 'block\head',
+        'tpl' => 'head.phtml',
+        'vars' => ['desc' => '', 'title' => ''],
+    ],
     'index' => [
         'call' => 'block\index',
         'tpl' => 'index.phtml',

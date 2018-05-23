@@ -6,8 +6,7 @@ return [
             'tpl' => 'root.phtml',
         ],
         'head' => [
-            'type' => 'tpl',
-            'tpl' => 'head.phtml',
+            'type' => 'head',
         ],
         'head-ext' => [
             'type' => 'container',
