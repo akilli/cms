@@ -226,7 +226,8 @@ function login(array $§): string
     $§['vars']['attr'] = ['name', 'password'];
     $§['vars']['data'] = [];
     $a = ['name' => ['unique' => false, 'minlength' => 0, 'maxlength' => 0], 'password' => ['minlength' => 0, 'maxlength' => 0]];
-    $§['vars']['ent']['attr'] = array_replace_recursive(app\cfg('ent', 'account')['attr'], $a);
+    $§['vars']['ent'] = app\cfg('ent', 'account');
+    $§['vars']['ent']['attr'] = array_replace_recursive($§['vars']['ent']['attr'], $a);
 
     return form($§);
 }
