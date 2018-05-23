@@ -283,8 +283,8 @@ function nav(array $§): string
     $html = '';
     $attrs = ['id' => $§['id']];
 
-    if ($§['vars']['class']) {
-        $attrs['class'] = $§['vars']['class'];
+    if ($§['vars']['sticky']) {
+        $attrs['class'] = 'sticky';
     }
 
     foreach ($§['vars']['data'] as $item) {

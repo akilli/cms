@@ -39,11 +39,11 @@ return [
     ],
     'menu' => [
         'call' => 'block\menu',
-        'vars' => ['class' => null, 'mode' => null, 'root' => false, 'tag' => 'nav'],
+        'vars' => ['mode' => null, 'root' => false, 'sticky' => false, 'tag' => 'nav'],
     ],
     'nav' => [
         'call' => 'block\nav',
-        'vars' => ['class' => null, 'data' => [], 'tag' => 'nav'],
+        'vars' => ['data' => [], 'sticky' => false, 'tag' => 'nav'],
     ],
     'pager' => [
         'call' => 'block\pager',
@@ -61,7 +61,7 @@ return [
     ],
     'toolbar' => [
         'call' => 'block\toolbar',
-        'vars' => ['class' => null, 'tag' => 'nav'],
+        'vars' => ['tag' => 'nav'],
     ],
     'tpl' => [
         'call' => 'block\tpl',
