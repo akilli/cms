@@ -60,7 +60,7 @@ function head(array $§): string
         }
 
     } elseif (app\get('ent') && ($ent = app\cfg('ent', app\get('ent')))) {
-        $§['vars']['title'] = $ent['name'];
+        $§['vars']['title'] = $ent['name'] . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
     }
 
     $§['vars']['desc'] = $§['vars']['desc'] ? app\enc($§['vars']['desc']) : '';
