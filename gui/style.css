@@ -488,11 +488,14 @@ a[data-sort=desc]::after {
 .gallery .items {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
 }
 
 .gallery .items > * {
     margin-bottom: 0.75rem;
+}
+
+.gallery .items > :not(:first-child) {
+    margin-left: 0.75rem;
 }
 
 .gallery .items img {
