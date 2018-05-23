@@ -48,32 +48,6 @@ h3:not(:first-child) {
 }
 
 /**
- * Icon
- */
-@font-face {
-  font-family: material;
-  src: url(material.woff2) format('woff2');
-}
-
-.icon {
-    display: inline-block;
-    vertical-align: middle;
-    text-decoration: none !important;
-    text-transform: none;
-    text-rendering: optimizeLegibility;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    font-family: material;
-    font-weight: normal;
-    font-size: 1.25rem;
-    font-style: normal;
-    font-feature-settings: 'liga';
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/**
  * Alignment
  */
 .left {
