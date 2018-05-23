@@ -35,7 +35,7 @@ return [
     'login' => [
         'call' => 'block\login',
         'tpl' => 'form.phtml',
-        'vars' => ['title' => null],
+        'vars' => ['title' => ''],
     ],
     'menu' => [
         'call' => 'block\menu',
