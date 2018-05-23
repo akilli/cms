@@ -210,7 +210,7 @@ return [
             'slug' => [
                 'name' => 'Slug',
                 'type' => 'text',
-                'filter' => 'filter\slug',
+                'filter' => 'filter\id',
                 'required' => true,
                 'maxlength' => 50,
             ],

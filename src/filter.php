@@ -75,14 +75,6 @@ function id(array $attr, string $val): string
 }
 
 /**
- * Slug filter
- */
-function slug(array $attr, string $val): string
-{
-    return trim(preg_replace('#[^a-z0-9-]+#', '-', strtr(mb_strtolower($val), app\cfg('filter', 'id'))), '-');
-}
-
-/**
  * Path filter
  */
 function path(array $attr, string $val): string
