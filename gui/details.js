@@ -26,7 +26,7 @@
             });
 
             // Summary element
-            let summary = item.firstChild;
+            let summary = item.firstElementChild;
 
             if (!summary || summary.tagName.toLowerCase() !== 'summary') {
                 summary = document.createElement('summary');
