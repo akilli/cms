@@ -1,8 +1,10 @@
+/**
+ * Multi-checkbox required fix
+ */
 'use strict';
 
 (function (document) {
     document.addEventListener('DOMContentLoaded', function () {
-        // Multi-checkbox required fix
         const sel = 'input[type=checkbox][multiple]';
 
         Array.prototype.forEach.call(document.querySelectorAll(sel + '[required]'), function (item) {

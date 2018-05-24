@@ -1,8 +1,10 @@
+/**
+ * Slider
+ */
 'use strict';
 
 (function (document, window) {
     window.addEventListener('load', function () {
-        // Slider
         Array.prototype.forEach.call(document.getElementsByClassName('slider'), function (item) {
             const sliderItems = item.querySelector('.slider-items');
 

@@ -1,8 +1,10 @@
+/**
+ * Sticky navigation polyfill
+ */
 'use strict';
 
 (function (document, window) {
     window.addEventListener('load', function () {
-        // Sticky navigation polyfill
         const nav = document.querySelector('#menu.sticky');
 
         if (!!nav && window.getComputedStyle(nav).getPropertyValue('position') !== 'sticky') {

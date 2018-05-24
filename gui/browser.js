@@ -1,8 +1,10 @@
+/**
+ * File Browser
+ */
 'use strict';
 
 (function (document, window, app) {
     document.addEventListener('DOMContentLoaded', function () {
-        // Browser
         const suffix = '-file';
 
         Array.prototype.forEach.call(document.querySelectorAll('span[data-act=browser]'), function (item) {

@@ -1,3 +1,6 @@
+/**
+ * Details polyfill
+ */
 'use strict';
 
 (function (document) {

@@ -1,8 +1,10 @@
+/**
+ * Gallery dialog
+ */
 'use strict';
 
 (function (document) {
     document.addEventListener('DOMContentLoaded', function () {
-        // Gallery dialog
         Array.prototype.forEach.call(document.querySelectorAll('.gallery .items > *'), function (item) {
             item.addEventListener('click', function (e) {
                 if (!!document.getElementById('dialog')) {
