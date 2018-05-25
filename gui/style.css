@@ -36,11 +36,13 @@ h3:not(:first-child) {
 /**
  * Clear
  */
+#menu[data-toggle] li::before,
 #content.view > div[data-type=rte]::before {
     display: table;
     content: " ";
 }
 
+#menu[data-toggle] li::after,
 #content.view > div[data-type=rte]::after {
     display: table;
     content: " ";
@@ -353,14 +355,37 @@ form .cke {
 }
 
 #menu[data-toggle] span[data-act=toggle] {
+    font-family: sans-serif;
+}
+
+#menu[data-toggle] > span[data-act=toggle] {
+    display: block;
     font-size: 1.5rem;
+}
+
+#menu[data-toggle] ul span[data-act=toggle] {
+    display: inline-block;
+    margin-right: 0.75rem;
+    float: left;
+}
+
+#menu[data-toggle] > span[data-act=toggle]::after {
+    content: '☰';
+}
+
+#menu[data-toggle] ul span[data-act=toggle]::after {
+    content: '\25b6';
+}
+
+#menu[data-toggle] ul span[data-act=toggle][data-toggle]::after {
+    content: '\25bc';
 }
 
 #menu[data-toggle] ul {
     display: none;
 }
 
-#menu[data-toggle] span[data-act=toggle][data-toggle] + ul {
+#menu[data-toggle] span[data-act=toggle][data-toggle] ~ ul {
     display: block;
 }
 
@@ -613,7 +638,8 @@ a[data-sort=desc]::after {
         display: block;
     }
 
-    #menu[data-toggle] span[data-act=toggle] {
+    #menu[data-toggle] > span[data-act=toggle],
+    #menu[data-toggle] ul span[data-act=toggle] {
         display: none;
     }
 
