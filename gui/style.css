@@ -353,7 +353,6 @@ form .cke {
 }
 
 #menu[data-toggle] > span[data-act=toggle] {
-    display: block;
     font-size: 1.5rem;
 }
 
