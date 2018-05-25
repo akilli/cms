@@ -352,28 +352,16 @@ form .cke {
     border-color: #93ddf9;
 }
 
-#menu[data-toggle] > span[data-act=toggle] {
+#menu[data-toggle] span[data-act=toggle] {
     font-size: 1.5rem;
 }
 
-#menu[data-toggle] > ul {
+#menu[data-toggle] ul {
     display: none;
 }
 
-#menu[data-toggle] > span[data-act=toggle][data-toggle] + ul {
+#menu[data-toggle] span[data-act=toggle][data-toggle] + ul {
     display: block;
-}
-
-#menu[data-sticky=fixed] {
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
-
-@supports (position: sticky) {
-    #menu[data-sticky] {
-        position: sticky;
-    }
 }
 
 /**
@@ -625,7 +613,7 @@ a[data-sort=desc]::after {
         display: block;
     }
 
-    #menu[data-toggle] > span[data-act=toggle] {
+    #menu[data-toggle] span[data-act=toggle] {
         display: none;
     }
 
