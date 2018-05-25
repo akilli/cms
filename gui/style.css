@@ -346,14 +346,23 @@ form .cke {
     border-color: #93ddf9;
 }
 
-#menu.sticky[data-sticky] {
+#menu[data-toggle] > span[data-act=toggle] {
+    display: block;
+    font-size: 1.5rem;
+}
+
+#menu[data-toggle] > ul {
+    display: none;
+}
+
+#menu[data-sticky=fixed] {
     position: fixed;
     top: 0;
     width: 100%;
 }
 
 @supports (position: sticky) {
-    #menu.sticky {
+    #menu[data-sticky] {
         position: sticky;
         top: 0;
     }
@@ -614,6 +623,14 @@ a[data-sort=desc]::after {
 
     #toolbar li:hover > ul,
     #menu li:hover > ul {
+        display: block;
+    }
+
+    #menu[data-toggle] > span[data-act=toggle] {
+        display: none;
+    }
+
+    #menu[data-toggle] > ul {
         display: block;
     }
 

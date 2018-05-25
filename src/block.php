@@ -283,8 +283,13 @@ function nav(array $§): string
     $html = '';
     $attrs = ['id' => $§['id']];
 
+    if ($§['vars']['toggle']) {
+        $html = html\tag('span', ['data-act' => 'toggle'], '☰');
+        $attrs['data-toggle'] = '';
+    }
+
     if ($§['vars']['sticky']) {
-        $attrs['class'] = 'sticky';
+        $attrs['data-sticky'] = '';
     }
 
     foreach ($§['vars']['data'] as $item) {

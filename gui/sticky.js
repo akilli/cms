@@ -5,7 +5,7 @@
 
 (function (document, window) {
     window.addEventListener('load', function () {
-        const nav = document.querySelector('#menu.sticky');
+        const nav = document.querySelector('#menu[data-sticky]');
 
         if (!!nav && window.getComputedStyle(nav).getPropertyValue('position') !== 'sticky') {
             setTimeout(function() {
@@ -14,10 +14,10 @@
 
                 window.addEventListener('scroll', function () {
                     if (window.pageYOffset >= pos) {
-                        nav.setAttribute('data-sticky', '');
+                        nav.setAttribute('data-sticky', 'fixed');
                         nav.style.width = width;
                     } else {
-                        nav.removeAttribute('data-sticky');
+                        nav.setAttribute('data-sticky', '');
                         nav.removeAttribute('style');
                     }
                 });

@@ -39,11 +39,11 @@ return [
     ],
     'menu' => [
         'call' => 'block\menu',
-        'vars' => ['mode' => null, 'root' => false, 'sticky' => false, 'tag' => 'nav'],
+        'vars' => ['mode' => null, 'root' => false, 'sticky' => false, 'tag' => 'nav', 'toggle' => false],
     ],
     'nav' => [
         'call' => 'block\nav',
-        'vars' => ['data' => [], 'sticky' => false, 'tag' => 'nav'],
+        'vars' => ['data' => [], 'sticky' => false, 'tag' => 'nav', 'toggle' => false],
     ],
     'pager' => [
         'call' => 'block\pager',

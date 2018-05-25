@@ -51,6 +51,7 @@ return [
             'type' => 'menu',
             'parent' => 'top',
             'sort' => 30,
+            'vars' => ['toggle' => true],
         ],
         'breadcrumb' => [
             'type' => 'breadcrumb',
