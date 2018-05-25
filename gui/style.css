@@ -311,6 +311,10 @@ form .cke {
  * Toolbar
  */
 #toolbar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
     display: none;
     width: 100%;
     padding: 0.75rem;
@@ -328,6 +332,8 @@ form .cke {
  * Menu
  */
 #menu {
+    position: relative;
+    z-index: 100;
     padding: 0.75rem;
     color: #fff;
     background: #32535c;
@@ -355,6 +361,10 @@ form .cke {
     display: none;
 }
 
+#menu[data-toggle] > span[data-act=toggle][data-toggle] + ul {
+    display: block;
+}
+
 #menu[data-sticky=fixed] {
     position: fixed;
     top: 0;
@@ -364,7 +374,6 @@ form .cke {
 @supports (position: sticky) {
     #menu[data-sticky] {
         position: sticky;
-        top: 0;
     }
 }
 
@@ -571,20 +580,11 @@ a[data-sort=desc]::after {
      * Navigation
      */
     #toolbar {
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 100;
         display: block;
     }
 
     #toolbar + * {
         margin-top: 3rem;
-    }
-
-    #menu {
-        position: relative;
-        z-index: 100;
     }
 
     #toolbar > ul > li,
