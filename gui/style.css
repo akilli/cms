@@ -365,7 +365,7 @@ form .cke {
 
 #menu[data-toggle] ul span[data-act=toggle] {
     display: inline-block;
-    margin-right: 0.75rem;
+    margin-right: 0.5rem;
     float: left;
 }
 
@@ -374,11 +374,11 @@ form .cke {
 }
 
 #menu[data-toggle] ul span[data-act=toggle]::after {
-    content: '\25b6';
+    content: '▶';
 }
 
 #menu[data-toggle] ul span[data-act=toggle][data-toggle]::after {
-    content: '\25bc';
+    content: '▼';
 }
 
 #menu[data-toggle] ul {
