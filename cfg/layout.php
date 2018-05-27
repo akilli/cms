@@ -53,6 +53,12 @@ return [
             'sort' => 30,
             'vars' => ['toggle' => true],
         ],
+        'menu-top' => [
+            'type' => 'container',
+        ],
+        'menu-bottom' => [
+            'type' => 'container',
+        ],
         'breadcrumb' => [
             'type' => 'breadcrumb',
             'parent' => 'main',

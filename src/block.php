@@ -280,7 +280,7 @@ function nav(array $§): string
     $start = current($§['vars']['data'])['level'] ?? 1;
     $level = 0;
     $i = 0;
-    $html = '';
+    $html = app\§('menu-top');
     $attrs = ['id' => $§['id']];
 
     if ($§['vars']['toggle']) {
@@ -322,6 +322,8 @@ function nav(array $§): string
         $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
         $level = $item['level'];
     }
+
+    $html .= app\§('menu-bottom');
 
     return $§['vars']['tag'] ? html\tag($§['vars']['tag'], $attrs, $html) : $html;
 }
