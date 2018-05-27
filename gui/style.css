@@ -336,6 +336,7 @@ form .cke {
 #menu {
     position: relative;
     z-index: 100;
+    margin: 0 -0.75rem;
     padding: 0.75rem;
     color: #fff;
     background: #32535c;
