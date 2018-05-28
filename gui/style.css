@@ -586,6 +586,15 @@ a[data-sort=desc]::after {
 }
 
 /**
+ * Mobile
+ */
+@media not screen and (min-width: 48rem) {
+    #menu[data-toggle=open][data-sticky] {
+        position: relative !important;
+    }
+}
+
+/**
  * Desktop
  */
 @media screen and (min-width: 48rem) {
