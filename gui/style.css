@@ -531,6 +531,7 @@ a[data-sort=desc]::after {
 .gallery .items img {
     width: 5.25rem;
     height: 5.25rem;
+    cursor: pointer;
 }
 
 @supports (object-fit: cover) and (object-position: center) {

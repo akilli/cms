@@ -5,7 +5,7 @@
 
 (function (document) {
     document.addEventListener('DOMContentLoaded', function () {
-        Array.prototype.forEach.call(document.querySelectorAll('.gallery .items > *'), function (item) {
+        Array.prototype.forEach.call(document.querySelectorAll('.gallery .items img'), function (item) {
             item.addEventListener('click', function (e) {
                 if (!!document.getElementById('dialog')) {
                     document.getElementById('dialog').parentElement.removeChild(document.getElementById('dialog'));
@@ -39,7 +39,7 @@
                 prev.innerText = '<';
                 prev.addEventListener('click', function () {
                     const ref = current.previousElementSibling || current.parentElement.lastElementChild;
-                    img.setAttribute('src', ref.getAttribute('href'));
+                    img.setAttribute('src', ref.getAttribute('src'));
                     current = ref;
                 });
                 dialog.appendChild(prev);
@@ -48,12 +48,12 @@
                 next.innerText = '>';
                 next.addEventListener('click', function () {
                     const ref = current.nextElementSibling || current.parentElement.firstElementChild;
-                    img.setAttribute('src', ref.getAttribute('href'));
+                    img.setAttribute('src', ref.getAttribute('src'));
                     current = ref;
                 });
                 dialog.appendChild(next);
                 // Image
-                img.setAttribute('src', this.getAttribute('href'));
+                img.setAttribute('src', this.getAttribute('src'));
                 dialog.appendChild(img);
                 // Open dialog
                 dialog.setAttribute('open', '');
