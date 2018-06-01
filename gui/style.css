@@ -589,7 +589,7 @@ a[data-sort=desc]::after {
 /**
  * Mobile
  */
-@media not screen and (min-width: 48rem) {
+@media not screen and (min-width: 55rem) {
     #menu[data-toggle=open][data-sticky] {
         position: relative !important;
     }
@@ -598,7 +598,7 @@ a[data-sort=desc]::after {
 /**
  * Desktop
  */
-@media screen and (min-width: 48rem) {
+@media screen and (min-width: 55rem) {
     /**
      * Navigation
      */
