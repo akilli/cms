@@ -14,13 +14,28 @@
         removeDialogTabs: 'link:advanced;link:target',
         stylesSet: false,
         toolbar: [
-            {name: 'clipboard', items: ['Undo', 'Redo']},
-            {name: 'styles', items: ['Format']},
-            {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat']},
-            {name: 'links', items: ['Link', 'Unlink']},
-            {name: 'paragraph', items: ['BulletedList', 'NumberedList', 'Blockquote']},
-            {name: 'insert', items: ['Detail', 'Media', 'Table', 'HorizontalRule']},
-            {name: 'tools', items: ['ShowBlocks']}
+            {
+                name: 'all',
+                items: [
+                    'Undo',
+                    'Redo',
+                    'Format',
+                    'Bold',
+                    'Italic',
+                    'Underline',
+                    'RemoveFormat',
+                    'Link',
+                    'Unlink',
+                    'BulletedList',
+                    'NumberedList',
+                    'Blockquote',
+                    'Detail',
+                    'Media',
+                    'Table',
+                    'HorizontalRule',
+                    'ShowBlocks'
+                ]
+            }
         ]
     };
 
