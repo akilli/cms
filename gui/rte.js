@@ -11,23 +11,16 @@
         filebrowserBrowseUrl: '/file/browser',
         format_tags: 'p;h2;h3',
         height: '30rem',
-        removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Subscript,Superscript,Indent,Outdent',
         removeDialogTabs: 'link:advanced;link:target',
         stylesSet: false,
-        toolbarGroups: [
-            {name: 'document', groups: ['mode', 'document', 'doctools']},
-            {name: 'clipboard', groups: ['clipboard', 'undo']},
-            {name: 'editing', groups: ['find', 'selection', 'spellchecker']},
-            {name: 'forms'},
-            {name: 'styles'},
-            {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
-            {name: 'links'},
-            {name: 'paragraph', groups: ['list', 'blocks', 'indent', 'align', 'bidi']},
-            {name: 'insert'},
-            {name: 'colors'},
-            {name: 'tools'},
-            {name: 'others'},
-            {name: 'about'}
+        toolbar: [
+            {name: 'clipboard', items: ['Undo', 'Redo']},
+            {name: 'styles', items: ['Format']},
+            {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat']},
+            {name: 'links', items: ['Link', 'Unlink']},
+            {name: 'paragraph', items: ['BulletedList', 'NumberedList', 'Blockquote']},
+            {name: 'insert', items: ['Detail', 'Media', 'Table', 'HorizontalRule']},
+            {name: 'tools', items: ['ShowBlocks']}
         ]
     };
 
