@@ -297,16 +297,20 @@ span[data-act] {
 /**
  * RTE
  */
-.cke {
-    border: 0.0625rem solid #e4e7ea !important;
+#content .cke {
+    border: 0.0625rem solid #e4e7ea;
 }
 
-form .cke {
-    height: 32.875rem !important;
+#content form .cke {
+    height: 32.875rem;
 }
 
-.cke_top {
-    border-bottom: 0.0625rem solid #e4e7ea !important;
+#content .cke_top {
+    border-bottom: 0.0625rem solid #e4e7ea;
+}
+
+#content .cke_combo::after {
+    border-right: 0;
 }
 
 /**
