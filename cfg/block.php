@@ -48,7 +48,7 @@ return [
     'pager' => [
         'call' => 'block\pager',
         'tpl' => 'pager.phtml',
-        'vars' => ['cur' => null, 'limit' => null, 'pages' => 5, 'size' => null],
+        'vars' => ['cur' => null, 'limit' => null, 'pages' => 10, 'size' => null],
     ],
     'search' => [
         'call' => 'block\search',
