@@ -224,17 +224,11 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
 
         -- Create new version
         IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.teaser != OLD.teaser OR NEW.main != OLD.main OR NEW.aside != OLD.aside OR NEW.sidebar != OLD.sidebar OR NEW.status != OLD.status) THEN
-            IF (TG_OP = 'UPDATE' OR NEW.date IS NULL) THEN
-                NEW.date := current_timestamp;
-            END IF;
-
             INSERT INTO
                 version
-                (name, teaser, main, aside, sidebar, status, date, page)
+                (name, teaser, main, aside, sidebar, status, page)
             VALUES
-                (NEW.name, NEW.teaser, NEW.main, NEW.aside, NEW.sidebar, NEW.status, NEW.date, NEW.id);
-        ELSE
-            NEW.date := OLD.date;
+                (NEW.name, NEW.teaser, NEW.main, NEW.aside, NEW.sidebar, NEW.status, NEW.id);
         END IF;
 
         -- Don't overwrite published version with a draft
@@ -275,21 +269,19 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
                 AND status IN ('draft', 'pending');
 
             _row.status := 'archived';
-            _row.date := current_timestamp;
 
             -- Create new version
             INSERT INTO
                 version
-                (name, teaser, main, aside, sidebar, status, date, page)
+                (name, teaser, main, aside, sidebar, status, page)
             VALUES
-                (_row.name, _row.teaser, _row.main, _row.aside, _row.sidebar, _row.status, _row.date, _row.id);
+                (_row.name, _row.teaser, _row.main, _row.aside, _row.sidebar, _row.status, _row.id);
 
-            -- Update page status and date
+            -- Update page status
             UPDATE
                 page
             SET
-                status = _row.status,
-                date = _row.date;
+                status = _row.status;
         END LOOP;
 
         RETURN NULL;
@@ -410,7 +402,7 @@ CREATE TABLE version (
     aside text NOT NULL,
     sidebar text NOT NULL,
     status status NOT NULL,
-    date timestamp NOT NULL,
+    date timestamp NOT NULL DEFAULT current_timestamp,
     page integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED
 );
 
