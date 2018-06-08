@@ -15,8 +15,11 @@ use DomainException;
 function get(string $key)
 {
     if (($data = & app\reg('req')) === null) {
-        $data['host'] = $_SERVER['HTTP_HOST'];
+        $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
+        $secure = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null === 'on');
+        $data['base'] = 'http' . ($secure ? 's' : '') . '://' . $data['host'];
         $data['url'] = app\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
+        $data['full'] = $data['base'] . $data['url'];
         $data['file'] = [];
         $data['data'] = [];
         $data['param'] = [];
