@@ -75,7 +75,6 @@ const APP = [
         'limit' => 0,
         'offset' => 0,
     ],
-    'error' => '_error_',
     'file' => [
         'aac' => 'audio',
         'flac' => 'audio',

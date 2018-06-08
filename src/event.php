@@ -161,7 +161,7 @@ function layout(array $data): array
     $keys = ['_all_', app\get('area')];
 
     if (app\get('error')) {
-        $keys[] = APP['error'];
+        $keys[] = '_error_';
     } else {
         $eId = app\get('ent');
         $act = app\get('act');
