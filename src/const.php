@@ -2,11 +2,6 @@
 declare(strict_types = 1);
 
 const APP = [
-    'account.guest' => 'account-guest',
-    'account.user' => 'account-user',
-    'all' => '_all_',
-    'area.admin' => '_admin_',
-    'area.public' => '_public_',
     'attr' => [
         'id' => null,
         'name' => null,

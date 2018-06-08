@@ -21,11 +21,11 @@ function get(string $key)
         if ($id && ($data = ent\one('account', [['id', $id]]))) {
             $role = ent\one('role', [['id', $data['role']]]);
             $data['priv'] = $role['priv'];
-            $data['priv'][] = APP['account.user'];
-            $data['admin'] = in_array(APP['all'], $data['priv']);
+            $data['priv'][] = '_user_';
+            $data['admin'] = in_array('_all_', $data['priv']);
             unset($data['_old'], $data['_ent']);
         } else {
-            $data['priv'] = [APP['account.guest']];
+            $data['priv'] = ['_guest_'];
             session\set('account', null);
         }
     }

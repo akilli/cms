@@ -16,7 +16,7 @@ return [
         ],
         'toolbar' => [
             'type' => 'toolbar',
-            'priv' => 'account-user',
+            'priv' => '_user_',
             'parent' => 'top',
             'sort' => 10,
         ],

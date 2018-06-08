@@ -158,7 +158,7 @@ function layout(array $data): array
 {
     $cfg = app\cfg('layout');
     $type = app\cfg('block');
-    $keys = [APP['all'], app\get('area')];
+    $keys = ['_all_', app\get('area')];
 
     if (app\get('error')) {
         $keys[] = APP['error'];
@@ -238,7 +238,7 @@ function ent_prefilter_file(array $data): array
  */
 function ent_postsave(array $data): array
 {
-    if (!$data['_ent']['mail'] || app\get('area') !== APP['area.public']) {
+    if (!$data['_ent']['mail'] || app\get('area') !== '_public_') {
         return $data;
     }
 

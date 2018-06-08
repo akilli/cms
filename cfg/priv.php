@@ -3,10 +3,10 @@ return [
     '_all_' => [
         'name' => 'ALL PRIVILEGES',
     ],
-    'account-guest' => [
+    '_guest_' => [
         'auto' => true,
     ],
-    'account-user' => [
+    '_user_' => [
         'auto' => true,
     ],
     'account/admin' => [
@@ -22,16 +22,16 @@ return [
         'priv' => '_all_',
     ],
     'account/login' => [
-        'priv' => 'account-guest',
+        'priv' => '_guest_',
     ],
     'account/logout' => [
-        'priv' => 'account-user',
+        'priv' => '_user_',
     ],
     'account/password' => [
-        'priv' => 'account-user',
+        'priv' => '_user_',
     ],
     'app/js' => [
-        'priv' => 'account-user',
+        'priv' => '_user_',
     ],
     'article/view' => [
         'active' => false,

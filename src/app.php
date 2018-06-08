@@ -42,7 +42,7 @@ function run(): void
     $ent = cfg('ent', $data['ent']);
     $data['act'] = array_shift($parts);
     $data['id'] = array_shift($parts);
-    $data['area'] = empty(cfg('priv', $data['ent'] . '/' . $data['act'])['active']) ? APP['area.public'] : APP['area.admin'];
+    $data['area'] = empty(cfg('priv', $data['ent'] . '/' . $data['act'])['active']) ? '_public_' : '_admin_';
     $data['parent'] = $ent['parent'] ?? null;
     $allowed = allowed($data['ent'] . '/' . $data['act']);
     $real = is_callable('act\\' . $data['ent'] . '_' . $data['act']) ? 'act\\' . $data['ent'] . '_' . $data['act'] : null;
@@ -50,7 +50,7 @@ function run(): void
     // Dispatch request
     if ($allowed && !$ent && $real) {
         $real();
-    } elseif (!$allowed || !$ent || !in_array($data['act'], $ent['act']) || $data['area'] === APP['area.public'] && (!$data['page'] || $data['page']['disabled'])) {
+    } elseif (!$allowed || !$ent || !in_array($data['act'], $ent['act']) || $data['area'] === '_public_' && (!$data['page'] || $data['page']['disabled'])) {
         error();
     } elseif ($real) {
         $real($ent);
