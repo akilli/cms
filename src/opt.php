@@ -32,7 +32,7 @@ function priv(): array
         $opt = [];
 
         foreach (app\cfg('priv') as $key => $priv) {
-            if ($priv['assignable'] && app\allowed($key)) {
+            if ($priv['active'] && !$priv['priv'] && !$priv['auto'] && app\allowed($key)) {
                 $opt[$key] = $priv['name'];
             }
         }

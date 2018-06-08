@@ -4,10 +4,10 @@ return [
         'name' => 'ALL PRIVILEGES',
     ],
     'account-guest' => [
-        'assignable' => false,
+        'auto' => true,
     ],
     'account-user' => [
-        'assignable' => false,
+        'auto' => true,
     ],
     'account/admin' => [
         'priv' => '_all_',

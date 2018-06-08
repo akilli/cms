@@ -101,7 +101,6 @@ function cfg_priv(array $data): array
     foreach ($data as $id => $item) {
         $item = arr\replace(APP['priv'], $item);
         $item['name'] = $item['name'] ? app\i18n($item['name']) : '';
-        $item['assignable'] = !$item['priv'] && $item['active'] && $item['assignable'];
         $data[$id] = $item;
     }
 

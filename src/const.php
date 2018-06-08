@@ -114,8 +114,8 @@ const APP = [
     'priv' => [
         'name' => null,
         'priv' => null,
+        'auto' => false,
         'active' => true,
-        'assignable' => true,
     ],
     'redirect' => [301, 302, 307, 308],
     'toolbar' => [
