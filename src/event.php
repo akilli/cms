@@ -242,7 +242,6 @@ function ent_postsave(array $data): array
         return $data;
     }
 
-    $cfg = app\cfg('app');
     $file = req\get('file');
     $text = '';
     $attach = [];
@@ -259,7 +258,9 @@ function ent_postsave(array $data): array
         }
     }
 
-    smtp\mail($cfg['email'], $cfg['email'], null, $cfg['subject'], $text, $attach);
+    $address = app\cfg('app', 'mail.address');
+    $subject = app\cfg('app', 'mail.subject');
+    smtp\mail($address, $address, null, $subject, $text, $attach);
 
     return $data;
 }

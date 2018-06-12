@@ -1,5 +1,5 @@
 <?php
 return [
-    'email' => 'email@example.com',
-    'subject' => 'Example',
+    'mail.address' => 'email@example.com',
+    'mail.subject' => 'Example',
 ];
