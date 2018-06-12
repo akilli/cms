@@ -21,43 +21,45 @@ function run(): void
     set_exception_handler('handler\exception');
     register_shutdown_function('handler\shutdown');
 
-    $data = & reg('app');
-    $data['lang'] = locale_get_primary_language('');
-    $data['gui'] = max(filemtime(path('gui')), filemtime(path('ext.gui')) ?: 0);
-    $data['error'] = false;
-    $data['layout'] = null;
-    $data['main'] = null;
+    $app = & reg('app');
+    $app['lang'] = locale_get_primary_language('');
+    $app['gui'] = max(filemtime(path('gui')), filemtime(path('ext.gui')) ?: 0);
+    $app['error'] = false;
+    $app['layout'] = null;
+    $app['main'] = null;
     $url = req\get('url');
 
     // Page
-    if ($data['page'] = ent\one('page', [['url', $url]])) {
-        $url = '/' . $data['page']['ent'] . '/view/' . $data['page']['id'];
-        $data['layout'] = $data['page']['layout'];
-        $data['main'] = $data['page']['path'][1] ?? null;
+    if ($app['page'] = ent\one('page', [['url', $url]])) {
+        $url = '/' . $app['page']['ent'] . '/view/' . $app['page']['id'];
+        $app['layout'] = $app['page']['layout'];
+        $app['main'] = $app['page']['path'][1] ?? null;
     }
 
     // Gather request-data
     $parts = explode('/', trim($url, '/'));
-    $data['ent'] = array_shift($parts);
-    $ent = cfg('ent', $data['ent']);
-    $data['act'] = array_shift($parts);
-    $data['id'] = array_shift($parts);
-    $data['area'] = empty(cfg('priv', $data['ent'] . '/' . $data['act'])['active']) ? '_public_' : '_admin_';
-    $data['parent'] = $ent['parent'] ?? null;
-    $allowed = allowed($data['ent'] . '/' . $data['act']);
-    $real = is_callable('act\\' . $data['ent'] . '_' . $data['act']) ? 'act\\' . $data['ent'] . '_' . $data['act'] : null;
+    $app['ent'] = array_shift($parts);
+    $ent = cfg('ent', $app['ent']);
+    $app['act'] = array_shift($parts);
+    $app['id'] = array_shift($parts);
+    $app['area'] = empty(cfg('priv', $app['ent'] . '/' . $app['act'])['active']) ? '_public_' : '_admin_';
+    $app['parent'] = $ent['parent'] ?? null;
+    $host = preg_replace('#^www\.#', '', req\get('host'));
+    $blacklist = $app['area'] === '_admin_' && in_array($host, cfg('app', 'admin.blacklist'));
+    $allowed = !$blacklist && allowed($app['ent'] . '/' . $app['act']);
+    $real = is_callable('act\\' . $app['ent'] . '_' . $app['act']) ? 'act\\' . $app['ent'] . '_' . $app['act'] : null;
 
     // Dispatch request
     if ($allowed && !$ent && $real) {
         $real();
-    } elseif (!$allowed || !$ent || !in_array($data['act'], $ent['act']) || $data['area'] === '_public_' && (!$data['page'] || $data['page']['disabled'])) {
+    } elseif (!$allowed || !$ent || !in_array($app['act'], $ent['act']) || $app['area'] === '_public_' && (!$app['page'] || $app['page']['disabled'])) {
         error();
     } elseif ($real) {
         $real($ent);
-    } elseif ($ent['parent'] && is_callable('act\\' . $ent['parent'] . '_' . $data['act'])) {
-        ('act\\' . $ent['parent'] . '_' . $data['act'])($ent);
-    } elseif (is_callable('act\\' . $data['act'])) {
-        ('act\\' . $data['act'])($ent);
+    } elseif ($ent['parent'] && is_callable('act\\' . $ent['parent'] . '_' . $app['act'])) {
+        ('act\\' . $ent['parent'] . '_' . $app['act'])($ent);
+    } elseif (is_callable('act\\' . $app['act'])) {
+        ('act\\' . $app['act'])($ent);
     }
 }
 
