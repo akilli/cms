@@ -242,7 +242,7 @@ function ent_postsave(array $data): array
         return $data;
     }
 
-    $cfg = app\cfg('mail');
+    $cfg = app\cfg('app');
     $file = req\get('file');
     $text = '';
     $attach = [];
