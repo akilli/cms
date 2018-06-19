@@ -5,39 +5,39 @@
 
 (function (document, window) {
     window.addEventListener('load', function () {
-        Array.prototype.forEach.call(document.getElementsByClassName('slider'), function (item) {
-            const sliderItems = item.querySelector('.slider-items');
+        Array.prototype.forEach.call(document.getElementsByClassName('slider'), function (slider) {
+            const items = slider.querySelector('.items');
 
-            if (!sliderItems) {
+            if (!items) {
                 return;
             }
 
-            const sliderNav = item.querySelector('.slider-nav');
-            const flickity = new Flickity(sliderItems, {
+            const nav = slider.querySelector('.slider-nav');
+            const flickity = new Flickity(items, {
                 autoPlay: true,
                 imagesLoaded: true,
-                pageDots: item.classList.contains('slider-dots'),
-                prevNextButtons: item.classList.contains('slider-prevnext'),
+                pageDots: slider.classList.contains('slider-dots'),
+                prevNextButtons: slider.classList.contains('slider-prevnext'),
                 wrapAround: true
             });
-            item.addEventListener('mouseenter', function () {
+            slider.addEventListener('mouseenter', function () {
                 flickity.stopPlayer();
             });
-            item.addEventListener('mouseleave', function () {
+            slider.addEventListener('mouseleave', function () {
                 flickity.playPlayer();
             });
 
-            if (!!sliderNav) {
-                const sliderButton = sliderNav.getElementsByTagName('button');
+            if (!!nav) {
+                const button = nav.getElementsByTagName('button');
 
-                Array.prototype.forEach.call(sliderButton, function (button) {
+                Array.prototype.forEach.call(button, function (button) {
                     button.addEventListener('click', function (ev) {
-                        flickity.select(Array.prototype.indexOf.call(sliderButton, ev.target));
+                        flickity.select(Array.prototype.indexOf.call(button, ev.target));
                     });
                 });
 
                 flickity.on('select', function (current) {
-                    Array.prototype.forEach.call(sliderButton, function (button, index) {
+                    Array.prototype.forEach.call(button, function (button, index) {
                         if (index === current) {
                             button.classList.add('is-selected');
                         } else {
