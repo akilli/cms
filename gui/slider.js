@@ -31,18 +31,18 @@
             if (!!nav) {
                 const button = nav.getElementsByTagName('button');
 
-                Array.prototype.forEach.call(button, function (button) {
-                    button.addEventListener('click', function (ev) {
+                Array.prototype.forEach.call(button, function (b) {
+                    b.addEventListener('click', function (ev) {
                         flickity.select(Array.prototype.indexOf.call(button, ev.target));
                     });
                 });
 
                 flickity.on('select', function (current) {
-                    Array.prototype.forEach.call(button, function (button, index) {
+                    Array.prototype.forEach.call(button, function (b, index) {
                         if (index === current) {
-                            button.classList.add('is-selected');
+                            b.classList.add('is-selected');
                         } else {
-                            button.classList.remove('is-selected');
+                            b.classList.remove('is-selected');
                         }
                     });
                 });
