@@ -16,6 +16,7 @@
             const flickity = new Flickity(items, {
                 autoPlay: true,
                 imagesLoaded: true,
+                fullscreen: slider.classList.contains('slider-fullscreen'),
                 pageDots: slider.classList.contains('slider-dots'),
                 prevNextButtons: slider.classList.contains('slider-prevnext'),
                 wrapAround: true
