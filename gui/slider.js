@@ -12,13 +12,13 @@
                 return;
             }
 
-            const nav = slider.querySelector('.slider-nav');
+            const nav = slider.querySelector('.nav');
             const flickity = new Flickity(items, {
                 autoPlay: true,
                 imagesLoaded: true,
-                fullscreen: slider.classList.contains('slider-fullscreen'),
-                pageDots: slider.classList.contains('slider-dots'),
-                prevNextButtons: slider.classList.contains('slider-prevnext'),
+                fullscreen: slider.classList.contains('fullscreen'),
+                pageDots: slider.classList.contains('dots'),
+                prevNextButtons: slider.classList.contains('prevnext'),
                 wrapAround: true
             });
             slider.addEventListener('mouseenter', function () {
