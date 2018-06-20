@@ -11,7 +11,7 @@
         filebrowserBrowseUrl: '/file/browser',
         format_tags: 'p;h2;h3',
         height: '30rem',
-        removeDialogTabs: 'link:advanced',
+        removeDialogTabs: 'link:advanced;link:target',
         stylesSet: false,
         toolbar: [
             {
