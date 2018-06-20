@@ -304,6 +304,9 @@ function nav(array $§): string
         if ($item['url'] === $url) {
             $a['class'] = 'active';
             $class .= ' class="active"';
+        } elseif (strpos($url, preg_replace('#\.html#', '', $item['url'])) === 0) {
+            $a['class'] = 'path';
+            $class .= ' class="path"';
         }
 
         if ($item['level'] > $level) {
