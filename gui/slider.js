@@ -14,7 +14,7 @@
 
             const nav = slider.querySelector('.nav');
             const flickity = new Flickity(items, {
-                autoPlay: true,
+                autoPlay: slider.classList.contains('auto'),
                 imagesLoaded: true,
                 fullscreen: slider.classList.contains('fullscreen'),
                 pageDots: slider.classList.contains('dots'),
