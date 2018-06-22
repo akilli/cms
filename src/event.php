@@ -289,7 +289,7 @@ function ent_postsave_file(array $data): array
 function ent_postdelete_file(array $data): array
 {
     if (!file\delete(app\path('file', $data['id'] . '.' . $data['type']))) {
-        throw new DomainException(app\i18n('Could not delete %s', $data['name']));
+        throw new DomainException(app\i18n('Could not delete file'));
     }
 
     return $data;

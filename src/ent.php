@@ -165,33 +165,29 @@ function save(string $eId, array & $data): bool
  */
 function delete(string $eId, array $crit = [], array $opt = []): bool
 {
-    $success = [];
-    $error = [];
+    if (!$all = all($eId, $crit, $opt)) {
+        app\msg('Nothing to delete');
+        return false;
+    }
 
-    foreach (all($eId, $crit, $opt) as $id => $data) {
-        try {
-            sql\trans(
-                function () use ($data): void {
+    try {
+        sql\trans(
+            function () use ($all): void {
+                foreach ($all as $data) {
                     $data = event('predelete', $data);
                     ($data['_ent']['type'] . '\delete')($data);
                     event('postdelete', $data);
                 }
-            );
-            $success[] = $data['name'];
-        } catch (Throwable $e) {
-            $error[] = $data['name'];
-        }
+            }
+        );
+        app\msg('Successfully deleted data');
+
+        return true;
+    } catch (Throwable $e) {
+        app\msg('Could not delete data');
     }
 
-    if ($success) {
-        app\msg('Successfully deleted %s', implode(', ', $success));
-    }
-
-    if ($error) {
-        app\msg('Could not delete %s', implode(', ', $error));
-    }
-
-    return !$error;
+    return false;
 }
 
 /**
