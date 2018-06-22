@@ -21,12 +21,6 @@
                 prevNextButtons: slider.classList.contains('prevnext'),
                 wrapAround: true
             });
-            slider.addEventListener('mouseenter', function () {
-                flickity.stopPlayer();
-            });
-            slider.addEventListener('mouseleave', function () {
-                flickity.playPlayer();
-            });
 
             if (!!nav) {
                 const button = nav.getElementsByTagName('button');
