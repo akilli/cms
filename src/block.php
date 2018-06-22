@@ -149,11 +149,11 @@ function index(array $§): string
     unset($§['vars']['crit'], $§['vars']['inaccessible'], $§['vars']['limit'], $§['vars']['order'], $§['vars']['parent']);
     $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], req\get('param'));
 
-    if ($§['vars']['search'] && ($aIds = array_keys(arr\crit($§['vars']['ent']['attr'], [['searchable', true]])))) {
+    if ($§['vars']['search']) {
         if (($p['q'] = trim((string) $p['q'])) && ($q = array_filter(explode(' ', $p['q'])))) {
             $c = [];
 
-            foreach ($aIds as $aId) {
+            foreach ($§['vars']['search'] as $aId) {
                 $c[] = [$aId, $q, APP['crit']['~']];
             }
 

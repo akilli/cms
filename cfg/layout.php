@@ -84,7 +84,7 @@ return [
             'type' => 'index',
             'parent' => 'main',
             'sort' => 20,
-            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'inaccessible' => true, 'pager' => true, 'search' => true, 'title' => null],
+            'vars' => ['actions' => ['view', 'edit', 'delete'], 'create' => true, 'head' => true, 'inaccessible' => true, 'pager' => true, 'search' => ['name'], 'title' => null],
         ],
     ],
     'browser' => [
@@ -98,7 +98,7 @@ return [
             'type' => 'index',
             'parent' => 'main',
             'sort' => 20,
-            'vars' => ['actions' => ['rte'], 'limit' => 20, 'pager' => true, 'search' => true, 'title' => null],
+            'vars' => ['actions' => ['rte'], 'limit' => 20, 'pager' => true, 'search' => ['name'], 'title' => null],
         ],
     ],
     'create' => [
@@ -154,7 +154,7 @@ return [
             'type' => 'index',
             'parent' => 'content-middle',
             'sort' => 10,
-            'vars' => ['attr' => ['name', 'teaser'], 'ent' => 'page', 'link' => true, 'pager' => true, 'parent' => true, 'search' => true],
+            'vars' => ['attr' => ['name', 'teaser'], 'ent' => 'page', 'link' => true, 'pager' => true, 'parent' => true, 'search' => ['name', 'teaser', 'main', 'aside']],
         ],
     ],
     'page-sitemap' => [

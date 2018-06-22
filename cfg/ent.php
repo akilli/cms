@@ -15,7 +15,6 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'unique' => true,
-                'searchable' => true,
                 'maxlength' => 50,
             ],
             'priv' => [
@@ -41,7 +40,6 @@ return [
                 'filter' => 'filter\id',
                 'required' => true,
                 'unique' => true,
-                'searchable' => true,
                 'maxlength' => 50,
             ],
             'password' => [
@@ -82,21 +80,18 @@ return [
                 'type' => 'upload',
                 'required' => true,
                 'unique' => true,
-                'searchable' => true,
                 'maxlength' => 50,
             ],
             'type' => [
                 'name' => 'Filetype',
                 'type' => 'text',
                 'required' => true,
-                'searchable' => true,
                 'maxlength' => 5,
             ],
             'info' => [
                 'name' => 'Info',
                 'type' => 'textarea',
                 'required' => true,
-                'searchable' => true,
             ],
             'ent' => [
                 'name' => 'Entity',
@@ -164,7 +159,6 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'searchable' => true,
                 'maxlength' => 255,
             ],
             'image' => [
@@ -175,13 +169,11 @@ return [
             'teaser' => [
                 'name' => 'Teaser',
                 'type' => 'rte',
-                'searchable' => true,
                 'val' => '',
             ],
             'main' => [
                 'name' => 'Main Content',
                 'type' => 'rte',
-                'searchable' => true,
                 'val' => '',
             ],
             'aside' => [
@@ -305,20 +297,17 @@ return [
                 'name' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'searchable' => true,
                 'maxlength' => 255,
             ],
             'teaser' => [
                 'name' => 'Teaser',
                 'type' => 'rte',
                 'required' => true,
-                'searchable' => true,
             ],
             'main' => [
                 'name' => 'Main Content',
                 'type' => 'rte',
                 'required' => true,
-                'searchable' => true,
             ],
             'aside' => [
                 'name' => 'Additional Information',
