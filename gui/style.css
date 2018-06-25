@@ -508,86 +508,48 @@ a[data-sort=desc]::after {
 /**
  * Slider
  */
+.slider .items figure {
+    margin: 0;
+}
+
+.slider .items img {
+    display: block;
+}
+
+.slider .items figcaption {
+    display: none;
+}
+
+.slider .items.is-fullscreen {
+    z-index: 999;
+}
+
+.slider .items.is-fullscreen figure {
+    display: flex;
+    flex-wrap:wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.slider .items.is-fullscreen img {
+    max-height: 90%;
+}
+
+.slider .items.is-fullscreen figcaption {
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+}
+
 .slider .flickity-prev-next-button {
     background: rgba(255, 255, 255, 0.75);
 }
 
 .slider .flickity-prev-next-button:hover {
     background: #fff;
-}
-
-/**
- * Gallery
- */
-.gallery .items {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.gallery .items > * {
-    margin-bottom: 0.75rem;
-}
-
-.gallery .items > :not(:first-child) {
-    margin-left: 0.75rem;
-}
-
-.gallery .items img {
-    width: 5.25rem;
-    height: 5.25rem;
-    cursor: pointer;
-}
-
-@supports (object-fit: cover) and (object-position: center) {
-    .gallery .items img {
-        object-fit: cover;
-        object-position: center;
-    }
-}
-
-/**
- * Dialog
- */
-#dialog[open] {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.8);
-}
-
-#dialog[open] button {
-    line-height: 1;
-    font-size: 3rem;
-    color: #fff;
-    background: none;
-}
-
-#dialog[open] button[data-act=close] {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-#dialog[open] button[data-act=prev] {
-    position: absolute;
-    left: 0;
-    top: 50%;
-}
-
-#dialog[open] button[data-act=next] {
-    position: absolute;
-    right: 0;
-    top: 50%;
 }
 
 /**
@@ -799,8 +761,7 @@ a[data-sort=desc]::after {
     #sidebar,
     form.search,
     nav.pager,
-    .slider,
-    .gallery {
+    .slider {
         display: none !important;
     }
 }
