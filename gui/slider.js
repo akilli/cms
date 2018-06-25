@@ -22,7 +22,7 @@
                 pageDots: slider.classList.contains('dots'),
                 percentPosition: false,
                 prevNextButtons: slider.classList.contains('prevnext'),
-                wrapAround: true
+                wrapAround: false
             });
 
             if (!!nav) {
