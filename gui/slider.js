@@ -21,8 +21,7 @@
                 fullscreen: slider.classList.contains('fullscreen'),
                 pageDots: slider.classList.contains('dots'),
                 percentPosition: false,
-                prevNextButtons: slider.classList.contains('prevnext'),
-                wrapAround: false
+                prevNextButtons: slider.classList.contains('prevnext')
             });
 
             if (!!nav) {
