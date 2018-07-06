@@ -51,7 +51,7 @@ function tpl(array $§): string
 function head(array $§): string
 {
     if ($page = app\get('page')) {
-        $§['vars']['desc'] = $page['desc'];
+        $§['vars']['desc'] = $page['meta'];
         $all = ent\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['id', 'name', 'menuname'], 'order' => ['level' => 'asc']]);
 
         foreach ($all as $item) {
