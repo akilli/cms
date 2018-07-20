@@ -23,7 +23,6 @@
                     'Format',
                     'Bold',
                     'Italic',
-                    'Underline',
                     'RemoveFormat',
                     'Link',
                     'Unlink',
