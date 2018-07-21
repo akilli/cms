@@ -30,7 +30,7 @@
                         return;
                     }
 
-                    const id = this.getAttribute('data-id');
+                    const id = item.getAttribute('data-id');
                     const input = document.getElementById(id);
                     const div = document.getElementById(id + suffix);
                     const ext = data.src.split('.').pop();
@@ -38,7 +38,7 @@
                     const file = document.createElement(type);
 
                     while (div.firstChild) {
-                        div.removeChild(el.firstChild);
+                        div.removeChild(div.firstChild);
                     }
 
                     input.setAttribute('value', data.id);
@@ -56,7 +56,7 @@
                 const div = document.getElementById(id + suffix);
 
                 while (div.firstChild) {
-                    div.removeChild(el.firstChild);
+                    div.removeChild(div.firstChild);
                 }
 
                 input.setAttribute('value', '');
