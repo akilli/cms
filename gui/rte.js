@@ -8,10 +8,10 @@
         customConfig: '',
         disableNativeSpellChecker: true,
         extraAllowedContent: 'article section(*)',
-        filebrowserBrowseUrl: '/file/browser',
         format_tags: 'p;h2;h3',
         height: '30rem',
         language: 'de',
+        mediabrowserUrl: '/file/browser',
         removeDialogTabs: 'link:advanced;link:target',
         stylesSet: false,
         toolbar: [

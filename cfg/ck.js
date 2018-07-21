@@ -33,7 +33,6 @@
         'dialog': 1,
         'divarea': 1,
         'enterkey': 1,
-        'filebrowser': 1,
         'floatingspace': 1,
         'format': 1,
         'horizontalrule' : 1,
@@ -42,12 +41,12 @@
         'list': 1,
         'magicline': 1,
         'media': 1,
+        'mediabrowser': 1,
         'removeformat': 1,
         'showblocks': 1,
         'table': 1,
         'toolbar': 1,
-        'undo': 1,
-        'widget': 1
+        'undo': 1
     },
     languages: {
         'de': 1,
