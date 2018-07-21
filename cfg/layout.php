@@ -98,7 +98,7 @@ return [
             'type' => 'index',
             'parent' => 'main',
             'sort' => 20,
-            'vars' => ['actions' => ['rte'], 'limit' => 20, 'pager' => true, 'search' => ['name'], 'title' => null],
+            'vars' => ['actions' => ['select'], 'limit' => 20, 'pager' => true, 'search' => ['name'], 'title' => null],
         ],
     ],
     'create' => [

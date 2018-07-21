@@ -65,7 +65,7 @@ use attr;
             <?php if (in_array('delete', $§('actions')) && allowed($§('ent')['id'] . '/delete')):?>
             <a href="<?=url($§('ent')['id'] . '/delete/' . $data['id']);?>" data-act="delete"><?=i18n('Delete');?></a>
             <?php endif;?>
-            <?php if (in_array('rte', $§('actions'))):?>
+            <?php if (in_array('select', $§('actions'))):?>
             <span data-id="<?=$data['id'];?>" data-url="<?=$data['name'];?>" data-act="select"><?=i18n('Select item');?></span>
             <?php endif;?>
         </footer>
