@@ -4,21 +4,34 @@
 'use strict';
 
 (function (document, window, app, CKEDITOR) {
+    // Browser window
     document.addEventListener('DOMContentLoaded', function () {
-        // Browser window
-        if (window.opener) {
-            Array.prototype.forEach.call(document.querySelectorAll('span[data-act=select]'), function (item) {
-                item.addEventListener('click', function () {
-                    window.opener.postMessage({
-                        id: item.getAttribute('data-id'),
-                        src: item.getAttribute('data-url')
-                    }, window.opener.origin);
-                });
-            });
+        if (!window.opener) {
             return;
         }
 
-        // Main window
+        let origin;
+
+        try {
+            origin = window.opener.origin;
+        } catch (e) {
+            document.body.innerHTML = app.i18n('Page not found');
+            setTimeout(window.close, 3000);
+            return;
+        }
+
+        Array.prototype.forEach.call(document.querySelectorAll('span[data-act=select]'), function (item) {
+            item.addEventListener('click', function () {
+                window.opener.postMessage({
+                    id: item.getAttribute('data-id'),
+                    src: item.getAttribute('data-url')
+                }, origin);
+            });
+        });
+    });
+
+    // Main window
+    document.addEventListener('DOMContentLoaded', function () {
         const suffix = '-file';
 
         Array.prototype.forEach.call(document.querySelectorAll('span[data-act=browser]'), function (item) {
