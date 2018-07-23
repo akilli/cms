@@ -19,11 +19,10 @@ details, dialog, menu, summary {
 *,
 *::before,
 *::after {
-    box-sizing: inherit;
+    box-sizing: border-box;
 }
 
 html {
-    box-sizing: border-box;
     overflow-y: scroll;
     width: 100%;
 }
