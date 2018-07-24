@@ -20,19 +20,18 @@
                 items: [
                     'Undo',
                     'Redo',
-                    'Format',
                     'Bold',
                     'Italic',
                     'RemoveFormat',
                     'Link',
                     'Unlink',
+                    'Format',
                     'BulletedList',
                     'NumberedList',
                     'Blockquote',
                     'Detail',
                     'Media',
                     'Table',
-                    'HorizontalRule',
                     'ShowBlocks'
                 ]
             }

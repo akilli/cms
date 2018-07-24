@@ -26,6 +26,7 @@ You can implement your media browser as you wish, the only two requirements are 
 
 and that your media browser notifies the editor by posting a message p.e. like
 
+    // NOTE: window.opener.origin is only accessible on the same domain
     window.opener.postMessage({
         alt: 'Optional alternative text',
         src: '/url/to/media'
