@@ -22,7 +22,6 @@
                     'Redo',
                     'Bold',
                     'Italic',
-                    'RemoveFormat',
                     'Link',
                     'Unlink',
                     'Format',
@@ -31,8 +30,7 @@
                     'Blockquote',
                     'Detail',
                     'Media',
-                    'Table',
-                    'ShowBlocks'
+                    'Table'
                 ]
             }
         ]
