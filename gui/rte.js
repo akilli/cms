@@ -28,9 +28,9 @@
                     'BulletedList',
                     'NumberedList',
                     'Blockquote',
-                    'Detail',
                     'Media',
-                    'Table'
+                    'Table',
+                    'Detail'
                 ]
             }
         ]
