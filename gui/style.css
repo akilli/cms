@@ -57,12 +57,6 @@ h3:not(:first-child) {
     margin: 0 0.75rem 1.5rem 0;
 }
 
-.center {
-    display: block;
-    margin: 0 auto 1.5rem;
-    text-align: center;
-}
-
 .right {
     float: right;
     margin: 0 0 1.5rem 0.75rem;
