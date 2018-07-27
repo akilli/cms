@@ -94,6 +94,18 @@ figcaption {
     font-size: 0.875rem;
 }
 
+.media {
+    text-align: center;
+}
+
+.media.left {
+    text-align: left;
+}
+
+.media.right {
+    text-align: left;
+}
+
 /**
  * List
  */
