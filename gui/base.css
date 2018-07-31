@@ -112,6 +112,7 @@ mark {
 }
 
 kbd {
+    font-family: monospace;
     color: #fff;
     background: #000;
 }
