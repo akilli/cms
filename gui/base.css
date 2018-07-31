@@ -108,7 +108,12 @@ ins[title] {
 }
 
 mark {
-    background: yellow;
+    background: #ff0;
+}
+
+kbd {
+    color: #fff;
+    background: #000;
 }
 
 small {
