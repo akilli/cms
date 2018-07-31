@@ -56,6 +56,10 @@ pre {
     word-wrap: break-word;
 }
 
+code {
+    font-family: monospace;
+}
+
 blockquote {
     font-style: italic;
 }
@@ -67,10 +71,14 @@ q {
 
 cite,
 dfn,
-em,
 i,
 var {
     font-style: italic;
+}
+
+em {
+    font-style: italic;
+    font-weight: bold;
 }
 
 b,
@@ -97,6 +105,10 @@ dfn[title] {
 del[title],
 ins[title] {
     cursor: help;
+}
+
+mark {
+    background: yellow;
 }
 
 small {
