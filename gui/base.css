@@ -38,6 +38,7 @@ body {
 
 main {
     display: block;
+    hyphens: auto;
 }
 
 [hidden] {
