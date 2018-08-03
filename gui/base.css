@@ -60,7 +60,8 @@ pre {
     word-wrap: break-word;
 }
 
-code {
+code,
+samp {
     font-family: monospace;
 }
 
