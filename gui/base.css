@@ -47,7 +47,6 @@ main {
 
 [draggable=true] {
     cursor: move;
-    user-select: none;
 }
 
 /**
