@@ -181,6 +181,15 @@ video {
     display: inline-block;
 }
 
+img {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    user-drag: none;
+    user-select: none;
+}
+
 /**
  * Table
  */
