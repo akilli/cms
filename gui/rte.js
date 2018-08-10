@@ -5,6 +5,7 @@
 
 (function (document, CKEDITOR) {
     const cfg = {
+        contentsCss: '',
         customConfig: '',
         disableNativeSpellChecker: true,
         extraAllowedContent: 'article section(*)',
