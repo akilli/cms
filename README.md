@@ -18,6 +18,7 @@ The docker image is based on the `akilli/php` image and uses its default configu
 
 abbr | full
 ---- | -------
+act  | action
 app  | application
 arr  | array
 attr | attribute
