@@ -6,7 +6,7 @@ namespace app;
 use account;
 use arr;
 use ent;
-use req;
+use request;
 use session;
 use DomainException;
 use Throwable;
@@ -27,7 +27,7 @@ function run(): void
     $app['error'] = false;
     $app['layout'] = null;
     $app['main'] = null;
-    $url = req\get('url');
+    $url = request\get('url');
 
     // Page
     if ($app['page'] = ent\one('page', [['url', $url]])) {
@@ -44,7 +44,7 @@ function run(): void
     $app['id'] = array_shift($parts);
     $app['area'] = empty(cfg('priv', $app['ent'] . '/' . $app['act'])['active']) ? '_public_' : '_admin_';
     $app['parent'] = $ent['parent'] ?? null;
-    $host = preg_replace('#^www\.#', '', req\get('host'));
+    $host = preg_replace('#^www\.#', '', request\get('host'));
     $blacklist = $app['area'] === '_admin_' && in_array($host, cfg('app', 'admin.blacklist'));
     $allowed = !$blacklist && allowed($app['ent'] . '/' . $app['act']);
     $real = is_callable('act\\' . $app['ent'] . '_' . $app['act']) ? 'act\\' . $app['ent'] . '_' . $app['act'] : null;
@@ -331,7 +331,7 @@ function enc(string $val): string
  */
 function url(string $path = '', array $param = [], bool $preserve = false): string
 {
-    $param = array_filter($preserve ? array_replace(req\get('param'), $param) : $param, 'is_scalar');
+    $param = array_filter($preserve ? array_replace(request\get('param'), $param) : $param, 'is_scalar');
 
     return '/' . trim($path, '/') . ($param ? '?' . http_build_query($param, '', '&amp;') : '');
 }

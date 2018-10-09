@@ -8,7 +8,7 @@ use arr;
 use attr;
 use ent;
 use file;
-use req;
+use request;
 use smtp;
 use DomainException;
 
@@ -242,7 +242,7 @@ function ent_postsave(array $data): array
         return $data;
     }
 
-    $file = req\get('file');
+    $file = request\get('file');
     $text = '';
     $attach = [];
 
@@ -272,7 +272,7 @@ function ent_postsave(array $data): array
  */
 function ent_postsave_file(array $data): array
 {
-    $item = req\get('file')['name'] ?? null;
+    $item = request\get('file')['name'] ?? null;
 
     if ($item && !file\upload($item['tmp_name'], app\path('file', $data['id'] . '.' . $data['type']))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));

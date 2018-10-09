@@ -8,7 +8,7 @@ use arr;
 use attr;
 use ent;
 use html;
-use req;
+use request;
 use session;
 use DomainException;
 
@@ -74,7 +74,7 @@ function head(array $§): string
  */
 function search(array $§): string
 {
-    $§['vars']['q'] = $§['vars']['q'] ?? req\get('param')['q'] ?? null;
+    $§['vars']['q'] = $§['vars']['q'] ?? request\get('param')['q'] ?? null;
 
     return tpl($§);
 }
@@ -85,7 +85,7 @@ function search(array $§): string
 function pager(array $§): string
 {
     $§['vars']['size'] = (int) $§['vars']['size'];
-    $cur = $§['vars']['cur'] ?? req\get('param')['cur'] ?? 1;
+    $cur = $§['vars']['cur'] ?? request\get('param')['cur'] ?? 1;
     $limit = (int) $§['vars']['limit'];
     $pages = (int) $§['vars']['pages'];
     unset($§['vars']['cur'], $§['vars']['limit'], $§['vars']['pages']);
@@ -94,7 +94,7 @@ function pager(array $§): string
         return '';
     }
 
-    $url = req\get('url');
+    $url = request\get('url');
     $total = (int) ceil($§['vars']['size'] / $limit) ?: 1;
     $cur = min(max($cur, 1), $total);
     $offset = ($cur - 1) * $limit;
@@ -147,7 +147,7 @@ function index(array $§): string
     }
 
     unset($§['vars']['crit'], $§['vars']['inaccessible'], $§['vars']['limit'], $§['vars']['order'], $§['vars']['parent']);
-    $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], req\get('param'));
+    $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], request\get('param'));
 
     if ($§['vars']['search']) {
         if (($p['q'] = trim((string) $p['q'])) && ($q = array_filter(explode(' ', $p['q'])))) {
@@ -192,7 +192,7 @@ function index(array $§): string
     $§['vars']['dir'] = $p['dir'];
     $§['vars']['sort'] = $p['sort'];
     $§['vars']['title'] = app\enc($§['vars']['title'] ?? $§['vars']['ent']['name']);
-    $§['vars']['url'] = req\get('url');
+    $§['vars']['url'] = request\get('url');
 
     return tpl($§);
 }
@@ -225,7 +225,7 @@ function create(array $§): string
 {
     $§['vars']['ent'] = app\cfg('ent', $§['vars']['ent'] ?: app\get('ent'));
 
-    if (($data = req\get('data')) && ent\save($§['vars']['ent']['id'], $data)) {
+    if (($data = request\get('data')) && ent\save($§['vars']['ent']['id'], $data)) {
         if ($§['vars']['redirect']) {
             app\redirect(app\url($§['vars']['ent']['id'] . '/edit/' . $data['id']));
             return '';
@@ -273,7 +273,7 @@ function nav(array $§): string
         return '';
     }
 
-    $url = req\get('url');
+    $url = request\get('url');
     $count = count($§['vars']['data']);
     $start = current($§['vars']['data'])['level'] ?? 1;
     $level = 0;

@@ -7,7 +7,7 @@ use account;
 use arr;
 use app;
 use ent;
-use req;
+use request;
 use session;
 
 /**
@@ -21,7 +21,7 @@ function edit(array $ent): void
         return;
     }
 
-    if ($data = req\get('data')) {
+    if ($data = request\get('data')) {
         $data += ['id' => $id];
 
         if (ent\save($ent['id'], $data)) {
@@ -90,7 +90,7 @@ function app_js(): void
  */
 function account_password(array $ent): void
 {
-    if ($data = req\get('data')) {
+    if ($data = request\get('data')) {
         if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
             app\msg('Password and password confirmation must be identical');
         } else {
@@ -107,7 +107,7 @@ function account_password(array $ent): void
  */
 function account_login(array $ent): void
 {
-    if ($data = req\get('data')) {
+    if ($data = request\get('data')) {
         if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
             session\regenerate();
             session\set('account', $data['id']);
