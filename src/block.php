@@ -56,10 +56,10 @@ function head(array $§): string
         if ($page['meta_title']) {
             $§['vars']['title'] = $page['meta_title'];
         } else {
-            $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['id', 'name', 'menuname'], 'order' => ['level' => 'asc']]);
+            $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['id', 'name', 'menu_name'], 'order' => ['level' => 'asc']]);
 
             foreach ($all as $item) {
-                $title = $item['menuname'] ?: $item['name'];
+                $title = $item['menu_name'] ?: $item['name'];
                 $§['vars']['title'] = $title . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
             }
         }
@@ -349,7 +349,7 @@ function menu(array $§): string
 
     $crit = [['status', 'published'], ['entity', 'content']];
     $crit[] = $mode === 'sub' ? ['id', app\get('main')] : ['url', '/'];
-    $select = ['id', 'name', 'url', 'disabled', 'menuname', 'pos', 'level'];
+    $select = ['id', 'name', 'url', 'disabled', 'menu_name', 'pos', 'level'];
 
     if (!$root = entity\one('page', $crit, ['select' => $select])) {
         return '';
@@ -378,7 +378,7 @@ function menu(array $§): string
     }
 
     foreach ($§['vars']['data'] as $id => $item) {
-        $§['vars']['data'][$id]['name'] = $item['menuname'] ?: $item['name'];
+        $§['vars']['data'][$id]['name'] = $item['menu_name'] ?: $item['name'];
     }
 
     return nav($§);
@@ -417,11 +417,11 @@ function breadcrumb(array $§): string
     }
 
     $html = '';
-    $all = entity\all('page', [['id', $page['path']]], ['select' => ['id', 'name', 'url', 'disabled', 'menuname'], 'order' => ['level' => 'asc']]);
+    $all = entity\all('page', [['id', $page['path']]], ['select' => ['id', 'name', 'url', 'disabled', 'menu_name'], 'order' => ['level' => 'asc']]);
 
     foreach ($all as $item) {
         $a = $item['disabled'] || $page['id'] === $item['id'] ? [] : ['href' => $item['url']];
-        $html .= ($html ? ' ' : '') . html\tag('a', $a, $item['menuname'] ?: $item['name']);
+        $html .= ($html ? ' ' : '') . html\tag('a', $a, $item['menu_name'] ?: $item['name']);
     }
 
     return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;

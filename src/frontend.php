@@ -144,8 +144,8 @@ function page(array $attr, int $val): string
         $pos = app\cfg('entity', 'page')['attr']['pos'];
         $attr['opt'] = [];
 
-        foreach (entity\all('content', [], ['select' => ['id', 'name', 'menuname', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
-            $attr['opt'][$item['id']] = attr\viewer($pos, $item) . ' ' . ($item['menuname'] ?: $item['name']);
+        foreach (entity\all('content', [], ['select' => ['id', 'name', 'menu_name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
+            $attr['opt'][$item['id']] = attr\viewer($pos, $item) . ' ' . ($item['menu_name'] ?: $item['name']);
         }
     }
 

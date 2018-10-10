@@ -90,9 +90,9 @@ function page(array $attr, int $val): string
         return '';
     }
 
-    $page = entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name', 'menuname']]);
+    $page = entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name', 'menu_name']]);
 
-    return $page['menuname'] ?: $page['name'];
+    return $page['menu_name'] ?: $page['name'];
 }
 
 /**

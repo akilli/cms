@@ -227,7 +227,7 @@ return [
                 'name' => 'Menu Entry',
                 'type' => 'bool',
             ],
-            'menuname' => [
+            'menu_name' => [
                 'name' => 'Menu Name',
                 'type' => 'text',
                 'nullable' => true,

@@ -88,8 +88,8 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
             NEW.slug := _slg;
         END IF;
 
-        IF (NEW.menuname = NEW.name) THEN
-            NEW.menuname := NULL;
+        IF (NEW.menu_name = NEW.name) THEN
+            NEW.menu_name := NULL;
         END IF;
 
         RETURN NEW;
@@ -356,7 +356,7 @@ CREATE TABLE page (
     url varchar(255) UNIQUE DEFAULT NULL,
     disabled boolean NOT NULL DEFAULT FALSE,
     menu boolean NOT NULL DEFAULT FALSE,
-    menuname varchar(255) DEFAULT NULL,
+    menu_name varchar(255) DEFAULT NULL,
     parent integer DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     sort integer NOT NULL DEFAULT 0,
     pos varchar(255) NOT NULL DEFAULT '',
@@ -377,7 +377,7 @@ CREATE INDEX ON page (slug);
 CREATE INDEX ON page (url);
 CREATE INDEX ON page (disabled);
 CREATE INDEX ON page (menu);
-CREATE INDEX ON page (menuname);
+CREATE INDEX ON page (menu_name);
 CREATE INDEX ON page (parent);
 CREATE INDEX ON page (sort);
 CREATE INDEX ON page (pos);

@@ -233,12 +233,12 @@ return [
     ],
     'content/create' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'menuname', 'parent', 'sort', 'status', 'layout', 'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description']],
+            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'menu_name', 'parent', 'sort', 'status', 'layout', 'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description']],
         ],
     ],
     'content/edit' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'menuname', 'parent', 'sort', 'status', 'layout', 'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description']],
+            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'menu_name', 'parent', 'sort', 'status', 'layout', 'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description']],
         ],
     ],
     'content/view' => [
