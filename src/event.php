@@ -6,7 +6,7 @@ namespace event;
 use app;
 use arr;
 use attr;
-use ent;
+use entity;
 use file;
 use request;
 use smtp;
@@ -33,24 +33,24 @@ function cfg_block(array $data): array
  *
  * @throws DomainException
  */
-function cfg_ent(array $data): array
+function cfg_entity(array $data): array
 {
     $cfg = app\cfg('attr');
 
-    foreach ($data as $eId => $ent) {
-        $ent = arr\replace(APP['ent'], $ent, ['id' => $eId]);
-        $ent['name'] = app\i18n((string) $ent['name']);
-        $p = $ent['parent'] && !empty($data[$ent['parent']]) ? $data[$ent['parent']] : null;
+    foreach ($data as $eId => $entity) {
+        $entity = arr\replace(APP['entity'], $entity, ['id' => $eId]);
+        $entity['name'] = app\i18n((string) $entity['name']);
+        $p = $entity['parent'] && !empty($data[$entity['parent']]) ? $data[$entity['parent']] : null;
         $a = ['id' => null, 'name' => null];
 
-        if (!$ent['name'] || !$ent['type'] || !$ent['parent'] && array_intersect_key($a, $ent['attr']) !== $a || $ent['parent'] && (!$p || $p['parent'])) {
+        if (!$entity['name'] || !$entity['type'] || !$entity['parent'] && array_intersect_key($a, $entity['attr']) !== $a || $entity['parent'] && (!$p || $p['parent'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
-        } elseif ($ent['parent']) {
-            $ent['attr'] = array_replace_recursive($p['attr'], $ent['attr']);
+        } elseif ($entity['parent']) {
+            $entity['attr'] = array_replace_recursive($p['attr'], $entity['attr']);
         }
 
-        foreach ($ent['attr'] as $aId => $attr) {
-            if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']]) || $attr['type'] === 'ent' && empty($attr['ref'])) {
+        foreach ($entity['attr'] as $aId => $attr) {
+            if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']]) || $attr['type'] === 'entity' && empty($attr['ref'])) {
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
@@ -64,10 +64,10 @@ function cfg_ent(array $data): array
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
-            $ent['attr'][$aId] = $attr;
+            $entity['attr'][$aId] = $attr;
         }
 
-        $data[$eId] = $ent;
+        $data[$eId] = $entity;
     }
 
     return $data;
@@ -104,16 +104,16 @@ function cfg_priv(array $data): array
         $data[$id] = $item;
     }
 
-    foreach (app\cfg('ent') as $ent) {
-        if (array_intersect(['create', 'edit'], $ent['act']) && in_array('page', [$ent['id'], $ent['parent']])) {
-            $id = $ent['id'] . '-publish';
-            $data[$id]['name'] = $ent['name'] . ' ' . app\i18n(ucwords('Publish'));
+    foreach (app\cfg('entity') as $entity) {
+        if (array_intersect(['create', 'edit'], $entity['act']) && in_array('page', [$entity['id'], $entity['parent']])) {
+            $id = $entity['id'] . '-publish';
+            $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucwords('Publish'));
             $data[$id] = arr\replace(APP['priv'], $data[$id]);
         }
 
-        foreach ($ent['act'] as $act) {
-            $id = $ent['id'] . '/' . $act;
-            $data[$id]['name'] = $ent['name'] . ' ' . app\i18n(ucwords($act));
+        foreach ($entity['act'] as $act) {
+            $id = $entity['id'] . '/' . $act;
+            $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucwords($act));
             $data[$id] = arr\replace(APP['priv'], $data[$id]);
         }
     }
@@ -163,7 +163,7 @@ function layout(array $data): array
     if (app\get('error')) {
         $keys[] = '_error_';
     } else {
-        $eId = app\get('ent');
+        $eId = app\get('entity');
         $act = app\get('act');
         $keys[] = $act;
 
@@ -204,11 +204,11 @@ function layout(array $data): array
 /**
  * Entity postfilter
  */
-function ent_postfilter(array $data): array
+function entity_postfilter(array $data): array
 {
-    $attrs = $data['_ent']['attr'];
+    $attrs = $data['_entity']['attr'];
 
-    foreach (array_intersect_key($data, $data['_ent']['attr']) as $aId => $val) {
+    foreach (array_intersect_key($data, $data['_entity']['attr']) as $aId => $val) {
         if ($attrs[$aId]['type'] === 'password' && $val && !($data[$aId] = password_hash($val, PASSWORD_DEFAULT))) {
             $data['_error'][$aId] = app\i18n('Invalid password');
         }
@@ -220,7 +220,7 @@ function ent_postfilter(array $data): array
 /**
  * File entity prefilter
  */
-function ent_prefilter_file(array $data): array
+function entity_prefilter_file(array $data): array
 {
     if (!empty($data['name'])) {
         $data['type'] = pathinfo($data['name'], PATHINFO_EXTENSION);
@@ -236,9 +236,9 @@ function ent_prefilter_file(array $data): array
 /**
  * Entity postsave
  */
-function ent_postsave(array $data): array
+function entity_postsave(array $data): array
 {
-    if (!$data['_ent']['mail'] || app\get('area') !== '_public_') {
+    if (!$data['_entity']['mail'] || app\get('area') !== '_public_') {
         return $data;
     }
 
@@ -247,7 +247,7 @@ function ent_postsave(array $data): array
     $attach = [];
 
     foreach ($data as $aId => $val) {
-        $attr = $data['_ent']['attr'][$aId] ?? null;
+        $attr = $data['_entity']['attr'][$aId] ?? null;
 
         if (!$attr || $aId === 'id') {
             continue;
@@ -270,7 +270,7 @@ function ent_postsave(array $data): array
  *
  * @throws DomainException
  */
-function ent_postsave_file(array $data): array
+function entity_postsave_file(array $data): array
 {
     $item = request\get('file')['name'] ?? null;
 
@@ -286,7 +286,7 @@ function ent_postsave_file(array $data): array
  *
  * @throws DomainException
  */
-function ent_postdelete_file(array $data): array
+function entity_postdelete_file(array $data): array
 {
     if (!file\delete(app\path('file', $data['id'] . '.' . $data['type']))) {
         throw new DomainException(app\i18n('Could not delete file'));
@@ -298,13 +298,13 @@ function ent_postdelete_file(array $data): array
 /**
  * Page entity postfilter
  */
-function ent_postfilter_page(array $data): array
+function entity_postfilter_page(array $data): array
 {
     if (empty($data['parent'])) {
         return $data;
     }
 
-    $parent = ent\one('page', [['id', $data['parent']]]);
+    $parent = entity\one('page', [['id', $data['parent']]]);
 
     if (!empty($data['_old']['id']) && in_array($data['_old']['id'], $parent['path'])) {
         $data['_error']['parent'] = app\i18n('Cannot assign the page itself or a child page as parent');

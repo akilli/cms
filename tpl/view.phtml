@@ -2,13 +2,13 @@
 namespace app;
 use attr;
 /** @var callable $§ */
-$aside = !empty($§('ent')['attr']['aside']) ? attr\viewer($§('ent')['attr']['aside'], $§('data')) : null;
+$aside = !empty($§('entity')['attr']['aside']) ? attr\viewer($§('entity')['attr']['aside'], $§('data')) : null;
 ?>
-<article id="<?=$§('id');?>" class="view<?php if ($aside):?> aside<?php endif;?>" data-ent="<?=$§('ent')['id'];?>">
+<article id="<?=$§('id');?>" class="view<?php if ($aside):?> aside<?php endif;?>" data-entity="<?=$§('entity')['id'];?>">
     <?=§('content-top');?>
     <?php foreach ($§('attr') as $aId):?>
         <?php
-        $attr = $§('ent')['attr'][$aId] ?? null;
+        $attr = $§('entity')['attr'][$aId] ?? null;
         $val = $§('data')[$aId] ?? null;
         ?>
         <?php if ($attr['id'] === 'aside' || !$attr || $val === null || $val === '' || !($html = attr\viewer($attr, $§('data')))) continue;?>
@@ -24,7 +24,7 @@ $aside = !empty($§('ent')['attr']['aside']) ? attr\viewer($§('ent')['attr']['a
     <?php endforeach;?>
     <?=§('content-middle');?>
     <?php if ($aside):?>
-    <aside data-attr="aside" data-type="<?=$§('ent')['attr']['aside']['type'];?>">
+    <aside data-attr="aside" data-type="<?=$§('entity')['attr']['aside']['type'];?>">
         <?=$aside;?>
     </aside>
     <?php endif;?>

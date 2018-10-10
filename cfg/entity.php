@@ -59,7 +59,7 @@ return [
             ],
             'role' => [
                 'name' => 'Role',
-                'type' => 'ent',
+                'type' => 'entity',
                 'required' => true,
                 'ref' => 'role',
             ],
@@ -93,7 +93,7 @@ return [
                 'type' => 'textarea',
                 'required' => true,
             ],
-            'ent' => [
+            'entity' => [
                 'name' => 'Entity',
                 'type' => 'select',
                 'required' => true,
@@ -263,7 +263,7 @@ return [
                 'name' => 'Date',
                 'type' => 'datetime',
             ],
-            'ent' => [
+            'entity' => [
                 'name' => 'Entity',
                 'type' => 'select',
                 'required' => true,

@@ -5,7 +5,7 @@ namespace attr;
 
 use app;
 use arr;
-use ent;
+use entity;
 use html;
 use DomainException;
 
@@ -42,7 +42,7 @@ function filter(array $attr, array $data)
         $crit[] = ['id', $data['_old']['id'], APP['crit']['!=']];
     }
 
-    if ($attr['unique'] && ent\size($data['_ent']['id'], $crit)) {
+    if ($attr['unique'] && entity\size($data['_entity']['id'], $crit)) {
         throw new DomainException(app\i18n('Value must be unique'));
     }
 

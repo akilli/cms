@@ -9,9 +9,9 @@ use arr;
 /**
  * Load entity
  */
-function load(array $ent, array $crit = [], array $opt = []): array
+function load(array $entity, array $crit = [], array $opt = []): array
 {
-    $db = app\registry('memory.' . $ent['id']);
+    $db = app\registry('memory.' . $entity['id']);
 
     if (!$db || $crit && !($db = arr\crit($db, $crit))) {
         return $opt['mode'] === 'size' ? [0] : [];
@@ -49,9 +49,9 @@ function load(array $ent, array $crit = [], array $opt = []): array
  */
 function save(array $data): array
 {
-    $db = & app\registry('memory.' . $data['_ent']['id']);
+    $db = & app\registry('memory.' . $data['_entity']['id']);
 
-    if (!$data['_old'] && $data['_ent']['attr']['id']['auto']) {
+    if (!$data['_old'] && $data['_entity']['attr']['id']['auto']) {
         $data['id'] = $db ? max(array_keys($db)) + 1 : 1;
     }
 
@@ -65,6 +65,6 @@ function save(array $data): array
  */
 function delete(array $data): void
 {
-    $db = & app\registry('memory.' . $data['_ent']['id']);
+    $db = & app\registry('memory.' . $data['_entity']['id']);
     unset($db[$data['id']]);
 }

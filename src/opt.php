@@ -11,12 +11,12 @@ use arr;
  */
 function child(array $attr, array $data): array
 {
-    if ($data['_ent']['parent']) {
-        return [$data['_ent']['id'] => $data['_ent']['name']];
+    if ($data['_entity']['parent']) {
+        return [$data['_entity']['id'] => $data['_entity']['name']];
     }
 
-    if (($opt = & app\registry('opt.child.' . $data['_ent']['id'])) === null) {
-        $opt = array_column(arr\crit(app\cfg('ent'), [['parent', $data['_ent']['id']]]), 'name', 'id');
+    if (($opt = & app\registry('opt.child.' . $data['_entity']['id'])) === null) {
+        $opt = array_column(arr\crit(app\cfg('entity'), [['parent', $data['_entity']['id']]]), 'name', 'id');
         asort($opt);
     }
 
@@ -50,7 +50,7 @@ function status(array $attr, array $data): array
 {
     $opt = ['draft' => 'Draft', 'pending' => 'Pending'];
 
-    if (app\allowed($data['_ent']['id'] . '-publish')) {
+    if (app\allowed($data['_entity']['id'] . '-publish')) {
         $opt['published'] = 'Published';
         $old = $data['_old'][$attr['id']] ?? null;
 

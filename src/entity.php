@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace ent;
+namespace entity;
 
 use arr;
 use attr;
@@ -14,11 +14,11 @@ use Throwable;
  */
 function size(string $eId, array $crit = []): int
 {
-    $ent = app\cfg('ent', $eId);
-    $opt = arr\replace(APP['ent.opt'], ['mode' => 'size']);
+    $entity = app\cfg('entity', $eId);
+    $opt = arr\replace(APP['entity.opt'], ['mode' => 'size']);
 
     try {
-        return ($ent['type'] . '\load')($ent, $crit, $opt)[0];
+        return ($entity['type'] . '\load')($entity, $crit, $opt)[0];
     } catch (Throwable $e) {
         app\log($e);
         app\msg('Could not load data');
@@ -32,13 +32,13 @@ function size(string $eId, array $crit = []): int
  */
 function one(string $eId, array $crit = [], array $opt = []): array
 {
-    $ent = app\cfg('ent', $eId);
+    $entity = app\cfg('entity', $eId);
     $data = [];
-    $opt = arr\replace(APP['ent.opt'], $opt, ['mode' => 'one', 'limit' => 1]);
+    $opt = arr\replace(APP['entity.opt'], $opt, ['mode' => 'one', 'limit' => 1]);
 
     try {
-        if ($data = ($ent['type'] . '\load')($ent, $crit, $opt)) {
-            $data = load($ent, $data);
+        if ($data = ($entity['type'] . '\load')($entity, $crit, $opt)) {
+            $data = load($entity, $data);
         }
     } catch (Throwable $e) {
         app\log($e);
@@ -53,8 +53,8 @@ function one(string $eId, array $crit = [], array $opt = []): array
  */
 function all(string $eId, array $crit = [], array $opt = []): array
 {
-    $ent = app\cfg('ent', $eId);
-    $opt = arr\replace(APP['ent.opt'], $opt, ['mode' => 'all']);
+    $entity = app\cfg('entity', $eId);
+    $opt = arr\replace(APP['entity.opt'], $opt, ['mode' => 'all']);
 
     if ($opt['select']) {
         foreach (array_unique(['id', $opt['index']]) as $k) {
@@ -65,10 +65,10 @@ function all(string $eId, array $crit = [], array $opt = []): array
     }
 
     try {
-        $data = ($ent['type'] . '\load')($ent, $crit, $opt);
+        $data = ($entity['type'] . '\load')($entity, $crit, $opt);
 
         foreach ($data as $key => $item) {
-            $data[$key] = load($ent, $item);
+            $data[$key] = load($entity, $item);
         }
 
         return array_column($data, null, $opt['index']);
@@ -90,17 +90,17 @@ function save(string $eId, array & $data): bool
 
     if ($id && ($old = one($eId, [['id', $id]]))) {
         $tmp['_old'] = $old;
-        $tmp['_ent'] = $old['_ent'];
-        unset($tmp['_old']['_ent'], $tmp['_old']['_old']);
+        $tmp['_entity'] = $old['_entity'];
+        unset($tmp['_old']['_entity'], $tmp['_old']['_old']);
     } else {
         $tmp['_old'] = [];
-        $tmp['_ent'] = app\cfg('ent', $eId);
+        $tmp['_entity'] = app\cfg('entity', $eId);
     }
 
     $aIds = [];
 
-    foreach (array_intersect_key($tmp, $tmp['_ent']['attr']) as $aId => $val) {
-        if (($val === null || $val === '') && attr\ignorable($tmp['_ent']['attr'][$aId], $tmp)) {
+    foreach (array_intersect_key($tmp, $tmp['_entity']['attr']) as $aId => $val) {
+        if (($val === null || $val === '') && attr\ignorable($tmp['_entity']['attr'][$aId], $tmp)) {
             unset($data[$aId], $tmp[$aId]);
         } else {
             $aIds[] = $aId;
@@ -116,7 +116,7 @@ function save(string $eId, array & $data): bool
 
     foreach ($aIds as $aId) {
         try {
-            $tmp[$aId] = attr\filter($tmp['_ent']['attr'][$aId], $tmp);
+            $tmp[$aId] = attr\filter($tmp['_entity']['attr'][$aId], $tmp);
         } catch (Throwable $e) {
             $tmp['_error'][$aId] = $e->getMessage();
         }
@@ -145,7 +145,7 @@ function save(string $eId, array & $data): bool
         sql\trans(
             function () use (& $tmp): void {
                 $tmp = event('presave', $tmp);
-                $tmp = ($tmp['_ent']['type'] . '\save')($tmp);
+                $tmp = ($tmp['_entity']['type'] . '\save')($tmp);
                 $tmp = event('postsave', $tmp);
             }
         );
@@ -175,7 +175,7 @@ function delete(string $eId, array $crit = [], array $opt = []): bool
             function () use ($all): void {
                 foreach ($all as $data) {
                     $data = event('predelete', $data);
-                    ($data['_ent']['type'] . '\delete')($data);
+                    ($data['_entity']['type'] . '\delete')($data);
                     event('postdelete', $data);
                 }
             }
@@ -193,21 +193,21 @@ function delete(string $eId, array $crit = [], array $opt = []): bool
 /**
  * Retrieve empty entity
  */
-function item(array $ent): array
+function item(array $entity): array
 {
-    return array_fill_keys(array_keys($ent['attr']), null) + ['_old' => [], '_ent' => $ent];
+    return array_fill_keys(array_keys($entity['attr']), null) + ['_old' => [], '_entity' => $entity];
 }
 
 /**
  * Load entity
  */
-function load(array $ent, array $data): array
+function load(array $entity, array $data): array
 {
-    foreach (array_intersect_key($data, $ent['attr']) as $aId => $val) {
-        $data[$aId] = attr\cast($ent['attr'][$aId], $val);
+    foreach (array_intersect_key($data, $entity['attr']) as $aId => $val) {
+        $data[$aId] = attr\cast($entity['attr'][$aId], $val);
     }
 
-    $data += ['_old' => $data, '_ent' => $ent];
+    $data += ['_old' => $data, '_entity' => $entity];
 
     return event('load', $data);
 }
@@ -217,14 +217,14 @@ function load(array $ent, array $data): array
  */
 function event(string $name, array $data): array
 {
-    $ent = $data['_ent'];
-    $ev = ['ent.' . $name, 'ent.type.' . $name . '.' . $ent['type']];
+    $entity = $data['_entity'];
+    $ev = ['entity.' . $name, 'entity.type.' . $name . '.' . $entity['type']];
 
-    if ($ent['parent']) {
-        $ev[] = 'ent.' . $name . '.' . $ent['parent'];
+    if ($entity['parent']) {
+        $ev[] = 'entity.' . $name . '.' . $entity['parent'];
     }
 
-    $ev[] = 'ent.' . $name . '.' . $ent['id'];
+    $ev[] = 'entity.' . $name . '.' . $entity['id'];
 
     return app\event($ev, $data);
 }

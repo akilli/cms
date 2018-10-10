@@ -5,7 +5,7 @@ namespace frontend;
 
 use app;
 use attr;
-use ent;
+use entity;
 use html;
 use viewer;
 
@@ -126,10 +126,10 @@ function select(array $attr, $val): string
 /**
  * Entity
  */
-function ent(array $attr, int $val): string
+function entity(array $attr, int $val): string
 {
-    if (($attr['opt'] = & app\registry('opt.ent.' . $attr['ref'])) === null) {
-        $attr['opt'] = array_column(ent\all($attr['ref'], [], ['select' => ['id', 'name'], 'order' => ['name' => 'asc']]), 'name', 'id');
+    if (($attr['opt'] = & app\registry('opt.entity.' . $attr['ref'])) === null) {
+        $attr['opt'] = array_column(entity\all($attr['ref'], [], ['select' => ['id', 'name'], 'order' => ['name' => 'asc']]), 'name', 'id');
     }
 
     return select($attr, $val);
@@ -141,10 +141,10 @@ function ent(array $attr, int $val): string
 function page(array $attr, int $val): string
 {
     if (($attr['opt'] = & app\registry('opt.page')) === null) {
-        $pos = app\cfg('ent', 'page')['attr']['pos'];
+        $pos = app\cfg('entity', 'page')['attr']['pos'];
         $attr['opt'] = [];
 
-        foreach (ent\all('content', [], ['select' => ['id', 'name', 'menuname', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
+        foreach (entity\all('content', [], ['select' => ['id', 'name', 'menuname', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
             $attr['opt'][$item['id']] = attr\viewer($pos, $item) . ' ' . ($item['menuname'] ?: $item['name']);
         }
     }

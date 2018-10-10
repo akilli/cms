@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace account;
 
 use app;
-use ent;
+use entity;
 use session;
 
 /**
@@ -18,12 +18,12 @@ function get(string $key)
         $data = [];
         $id = (int) session\get('account');
 
-        if ($id && ($data = ent\one('account', [['id', $id]]))) {
-            $role = ent\one('role', [['id', $data['role']]]);
+        if ($id && ($data = entity\one('account', [['id', $id]]))) {
+            $role = entity\one('role', [['id', $data['role']]]);
             $data['priv'] = $role['priv'];
             $data['priv'][] = '_user_';
             $data['admin'] = in_array('_all_', $data['priv']);
-            unset($data['_old'], $data['_ent']);
+            unset($data['_old'], $data['_entity']);
         } else {
             $data['priv'] = ['_guest_'];
             session\set('account', null);
@@ -38,7 +38,7 @@ function get(string $key)
  */
 function login(string $name, string $password): ?array
 {
-    $data = ent\one('account', [['name', $name]]);
+    $data = entity\one('account', [['name', $name]]);
 
     if (!$data || !password_verify($password, $data['password'])) {
         return null;
@@ -46,7 +46,7 @@ function login(string $name, string $password): ?array
 
     if (password_needs_rehash($data['password'], PASSWORD_DEFAULT)) {
         $acc = ['id' => $data['id'], 'password' => $password];
-        ent\save('account', $acc);
+        entity\save('account', $acc);
         $data['password'] = $acc['password'];
     }
 

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace viewer;
 
 use app;
-use ent;
+use entity;
 use html;
 
 /**
@@ -76,9 +76,9 @@ function opt(array $attr, $val): string
 /**
  * Ent viewer
  */
-function ent(array $attr, int $val): string
+function entity(array $attr, int $val): string
 {
-    return $val ? ent\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name']])['name'] : '';
+    return $val ? entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name']])['name'] : '';
 }
 
 /**
@@ -90,7 +90,7 @@ function page(array $attr, int $val): string
         return '';
     }
 
-    $page = ent\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name', 'menuname']]);
+    $page = entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name', 'menuname']]);
 
     return $page['menuname'] ?: $page['name'];
 }
@@ -104,7 +104,7 @@ function file(array $attr, int $val): string
         return '';
     }
 
-    $file = ent\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name', 'type', 'info']]);
+    $file = entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name', 'type', 'info']]);
 
     if ((APP['file'][$file['type']] ?? null) === 'img') {
         $attr['html']['alt'] = app\enc($file['info']);

@@ -5,7 +5,7 @@ namespace filter;
 
 use app;
 use attr;
-use ent;
+use entity;
 use DomainException;
 
 /**
@@ -125,9 +125,9 @@ function opt(array $attr, $val)
  *
  * @throws DomainException
  */
-function ent(array $attr, int $val): int
+function entity(array $attr, int $val): int
 {
-    if ($val && !ent\size($attr['ref'], [['id', $val]])) {
+    if ($val && !entity\size($attr['ref'], [['id', $val]])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 

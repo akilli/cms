@@ -3,14 +3,14 @@ namespace app;
 use attr;
 /** @var callable $§ */
 ?>
-<section id="<?=$§('id');?>" class="index" data-ent="<?=$§('ent')['id'];?>">
-    <?php if ($§('title') || $§('create') && allowed($§('ent')['id'] . '/create') || $§('search')):?>
+<section id="<?=$§('id');?>" class="index" data-entity="<?=$§('entity')['id'];?>">
+    <?php if ($§('title') || $§('create') && allowed($§('entity')['id'] . '/create') || $§('search')):?>
     <header>
         <?php if ($§('title')):?>
         <h1><?=$§('title');?></h1>
         <?php endif;?>
-        <?php if ($§('create') && allowed($§('ent')['id'] . '/create')):?>
-        <p data-act="create"><a href="<?=url($§('ent')['id'] . '/create');?>"><?=i18n('New Entry');?></a></p>
+        <?php if ($§('create') && allowed($§('entity')['id'] . '/create')):?>
+        <p data-act="create"><a href="<?=url($§('entity')['id'] . '/create');?>"><?=i18n('New Entry');?></a></p>
         <?php endif;?>
         <?=$§('search');?>
     </header>
@@ -19,7 +19,7 @@ use attr;
     <?php if ($§('head')):?>
     <div class="thead">
         <?php foreach ($§('attr') as $aId):?>
-            <?php if (!($attr = $§('ent')['attr'][$aId] ?? null)) continue;?>
+            <?php if (!($attr = $§('entity')['attr'][$aId] ?? null)) continue;?>
             <a href="<?=url($§('url'), ['sort' => $attr['id'], 'dir' => $§('sort') === $attr['id'] && $§('dir') === 'asc' ? 'desc' : 'asc'], true);?>"<?php if ($§('sort') === $attr['id']):?> data-sort="<?=$§('dir');?>"<?php endif;?>><?=$attr['name'];?></a>
         <?php endforeach;?>
             <span><?=i18n('Actions');?></span>
@@ -28,16 +28,16 @@ use attr;
     <?php foreach ($§('data') as $data):?>
     <article>
         <?php foreach ($§('attr') as $aId):?>
-            <?php if (!($attr = $§('ent')['attr'][$aId] ?? null)) continue;?>
+            <?php if (!($attr = $§('entity')['attr'][$aId] ?? null)) continue;?>
             <?php
             $val = $data[$attr['id']] ?? null;
             $html = attr\viewer($attr, $data);
             ?>
             <?php if (!$§('head') && ($val === null || $val === '' || !$html)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
-                <?php if ($§('link') && allowed($§('ent')['id'] . '/view')):?>
+                <?php if ($§('link') && allowed($§('entity')['id'] . '/view')):?>
         <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-            <a href="<?=$data['url'] ?? url($§('ent')['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
+            <a href="<?=$data['url'] ?? url($§('entity')['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
         </h2>
                 <?php else:?>
         <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h2>
@@ -56,14 +56,14 @@ use attr;
         <?php endforeach;?>
         <?php if ($§('actions')):?>
         <footer>
-            <?php if (in_array('view', $§('actions')) && allowed($§('ent')['id'] . '/view')):?>
-            <a href="<?=$data['url'] ?? url($§('ent')['id'] . '/view/' . $data['id']);?>" data-act="view"><?=i18n('View');?></a>
+            <?php if (in_array('view', $§('actions')) && allowed($§('entity')['id'] . '/view')):?>
+            <a href="<?=$data['url'] ?? url($§('entity')['id'] . '/view/' . $data['id']);?>" data-act="view"><?=i18n('View');?></a>
             <?php endif;?>
-            <?php if (in_array('edit', $§('actions')) && allowed($§('ent')['id'] . '/edit')):?>
-            <a href="<?=url($§('ent')['id'] . '/edit/' . $data['id']);?>" data-act="edit"><?=i18n('Edit');?></a>
+            <?php if (in_array('edit', $§('actions')) && allowed($§('entity')['id'] . '/edit')):?>
+            <a href="<?=url($§('entity')['id'] . '/edit/' . $data['id']);?>" data-act="edit"><?=i18n('Edit');?></a>
             <?php endif;?>
-            <?php if (in_array('delete', $§('actions')) && allowed($§('ent')['id'] . '/delete')):?>
-            <a href="<?=url($§('ent')['id'] . '/delete/' . $data['id']);?>" data-act="delete"><?=i18n('Delete');?></a>
+            <?php if (in_array('delete', $§('actions')) && allowed($§('entity')['id'] . '/delete')):?>
+            <a href="<?=url($§('entity')['id'] . '/delete/' . $data['id']);?>" data-act="delete"><?=i18n('Delete');?></a>
             <?php endif;?>
             <?php if (in_array('select', $§('actions'))):?>
             <span data-id="<?=$data['id'];?>" data-url="<?=$data['name'];?>" data-act="select"><?=i18n('Select item');?></span>

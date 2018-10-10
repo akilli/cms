@@ -57,7 +57,7 @@ const APP = [
         '!~$' => '!~$',
     ],
     'crlf' => "\r\n",
-    'ent' => [
+    'entity' => [
         'id' => null,
         'name' => null,
         'type' => null,
@@ -66,7 +66,7 @@ const APP = [
         'act' => [],
         'attr' => [],
     ],
-    'ent.opt' => [
+    'entity.opt' => [
         'mode' => 'all',
         'index' => 'id',
         'select' => [],

@@ -6,7 +6,7 @@ namespace block;
 use app;
 use arr;
 use attr;
-use ent;
+use entity;
 use html;
 use request;
 use session;
@@ -52,15 +52,15 @@ function head(array $§): string
 {
     if ($page = app\get('page')) {
         $§['vars']['desc'] = $page['meta'];
-        $all = ent\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['id', 'name', 'menuname'], 'order' => ['level' => 'asc']]);
+        $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['id', 'name', 'menuname'], 'order' => ['level' => 'asc']]);
 
         foreach ($all as $item) {
             $title = $item['menuname'] ?: $item['name'];
             $§['vars']['title'] = $title . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
         }
 
-    } elseif (app\get('ent') && ($ent = app\cfg('ent', app\get('ent')))) {
-        $§['vars']['title'] = $ent['name'] . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
+    } elseif (app\get('entity') && ($entity = app\cfg('entity', app\get('entity')))) {
+        $§['vars']['title'] = $entity['name'] . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
     }
 
     $§['vars']['desc'] = $§['vars']['desc'] ? app\enc($§['vars']['desc']) : '';
@@ -126,16 +126,16 @@ function pager(array $§): string
  */
 function index(array $§): string
 {
-    $§['vars']['ent'] = app\cfg('ent', $§['vars']['ent'] ?: app\get('ent'));
+    $§['vars']['entity'] = app\cfg('entity', $§['vars']['entity'] ?: app\get('entity'));
     $crit = is_array($§['vars']['crit']) ? $§['vars']['crit'] : [];
     $opt = ['limit' => (int) $§['vars']['limit']];
     $opt['order'] = $§['vars']['order'] && is_array($§['vars']['order']) ? $§['vars']['order'] : ['id' => 'desc'];
 
-    if (!$§['vars']['ent'] || $opt['limit'] <= 0) {
+    if (!$§['vars']['entity'] || $opt['limit'] <= 0) {
         return '';
     }
 
-    if (in_array('page', [$§['vars']['ent']['id'], $§['vars']['ent']['parent']])) {
+    if (in_array('page', [$§['vars']['entity']['id'], $§['vars']['entity']['parent']])) {
         if (!$§['vars']['inaccessible']) {
             $crit[] = ['status', 'published'];
             $crit[] = ['disabled', false];
@@ -167,7 +167,7 @@ function index(array $§): string
         $§['vars']['search'] = null;
     }
 
-    $size = ent\size($§['vars']['ent']['id'], $crit);
+    $size = entity\size($§['vars']['entity']['id'], $crit);
     $total = (int) ceil($size / $opt['limit']) ?: 1;
     $p['cur'] = min(max((int) $p['cur'], 1), $total);
     $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
@@ -188,10 +188,10 @@ function index(array $§): string
         $§['vars']['pager'] = null;
     }
 
-    $§['vars']['data'] = ent\all($§['vars']['ent']['id'], $crit, $opt);
+    $§['vars']['data'] = entity\all($§['vars']['entity']['id'], $crit, $opt);
     $§['vars']['dir'] = $p['dir'];
     $§['vars']['sort'] = $p['sort'];
-    $§['vars']['title'] = app\enc($§['vars']['title'] ?? $§['vars']['ent']['name']);
+    $§['vars']['title'] = app\enc($§['vars']['title'] ?? $§['vars']['entity']['name']);
     $§['vars']['url'] = request\get('url');
 
     return tpl($§);
@@ -202,7 +202,7 @@ function index(array $§): string
  */
 function form(array $§): string
 {
-    if (!$§['vars']['ent']) {
+    if (!$§['vars']['entity']) {
         return '';
     }
 
@@ -210,7 +210,7 @@ function form(array $§): string
     $§['vars']['file'] = false;
 
     foreach ($§['vars']['attr'] as $aId) {
-        if ($§['vars']['file'] = ($§['vars']['ent']['attr'][$aId]['type'] ?? null) === 'upload') {
+        if ($§['vars']['file'] = ($§['vars']['entity']['attr'][$aId]['type'] ?? null) === 'upload') {
             break;
         }
     }
@@ -223,19 +223,19 @@ function form(array $§): string
  */
 function create(array $§): string
 {
-    $§['vars']['ent'] = app\cfg('ent', $§['vars']['ent'] ?: app\get('ent'));
+    $§['vars']['entity'] = app\cfg('entity', $§['vars']['entity'] ?: app\get('entity'));
 
-    if (($data = request\get('data')) && ent\save($§['vars']['ent']['id'], $data)) {
+    if (($data = request\get('data')) && entity\save($§['vars']['entity']['id'], $data)) {
         if ($§['vars']['redirect']) {
-            app\redirect(app\url($§['vars']['ent']['id'] . '/edit/' . $data['id']));
+            app\redirect(app\url($§['vars']['entity']['id'] . '/edit/' . $data['id']));
             return '';
         }
 
         $data = [];
     }
 
-    $§['vars']['data'] = array_replace(ent\item($§['vars']['ent']), $data);
-    $§['vars']['title'] = $§['vars']['title'] ?? $§['vars']['ent']['name'];
+    $§['vars']['data'] = array_replace(entity\item($§['vars']['entity']), $data);
+    $§['vars']['title'] = $§['vars']['title'] ?? $§['vars']['entity']['name'];
 
     return form($§);
 }
@@ -248,8 +248,8 @@ function login(array $§): string
     $§['vars']['attr'] = ['name', 'password'];
     $§['vars']['data'] = [];
     $a = ['name' => ['unique' => false, 'minlength' => 0, 'maxlength' => 0], 'password' => ['minlength' => 0, 'maxlength' => 0]];
-    $§['vars']['ent'] = app\cfg('ent', 'account');
-    $§['vars']['ent']['attr'] = array_replace_recursive($§['vars']['ent']['attr'], $a);
+    $§['vars']['entity'] = app\cfg('entity', 'account');
+    $§['vars']['entity']['attr'] = array_replace_recursive($§['vars']['entity']['attr'], $a);
 
     return form($§);
 }
@@ -259,7 +259,7 @@ function login(array $§): string
  */
 function view(array $§): string
 {
-    return $§['vars']['ent'] ? tpl($§) : '';
+    return $§['vars']['entity'] ? tpl($§) : '';
 }
 
 /**
@@ -343,15 +343,15 @@ function menu(array $§): string
         return '';
     }
 
-    $crit = [['status', 'published'], ['ent', 'content']];
+    $crit = [['status', 'published'], ['entity', 'content']];
     $crit[] = $mode === 'sub' ? ['id', app\get('main')] : ['url', '/'];
     $select = ['id', 'name', 'url', 'disabled', 'menuname', 'pos', 'level'];
 
-    if (!$root = ent\one('page', $crit, ['select' => $select])) {
+    if (!$root = entity\one('page', $crit, ['select' => $select])) {
         return '';
     }
 
-    $crit = [['status', 'published'], ['ent', 'content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
+    $crit = [['status', 'published'], ['entity', 'content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
 
     if ($mode === 'sub') {
         $parent = $page['path'];
@@ -362,7 +362,7 @@ function menu(array $§): string
     }
 
     $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
-    $§['vars']['data'] = ent\all('page', $crit, $opt);
+    $§['vars']['data'] = entity\all('page', $crit, $opt);
 
     if (!$§['vars']['data']) {
         return '';
@@ -413,7 +413,7 @@ function breadcrumb(array $§): string
     }
 
     $html = '';
-    $all = ent\all('page', [['id', $page['path']]], ['select' => ['id', 'name', 'url', 'disabled', 'menuname'], 'order' => ['level' => 'asc']]);
+    $all = entity\all('page', [['id', $page['path']]], ['select' => ['id', 'name', 'url', 'disabled', 'menuname'], 'order' => ['level' => 'asc']]);
 
     foreach ($all as $item) {
         $a = $item['disabled'] || $page['id'] === $item['id'] ? [] : ['href' => $item['url']];
@@ -428,13 +428,13 @@ function breadcrumb(array $§): string
  */
 function banner(array $§): string
 {
-    if (($page = app\get('page')) && $page['ent'] !== 'content') {
-        $crit = [['id', $page['path']], ['ent', 'content']];
+    if (($page = app\get('page')) && $page['entity'] !== 'content') {
+        $crit = [['id', $page['path']], ['entity', 'content']];
         $opt = ['select' => ['image'], 'order' => ['level' => 'desc']];
-        $page = ent\one('page', $crit, $opt);
+        $page = entity\one('page', $crit, $opt);
     }
 
-    if (!$page || !($§['vars']['img'] = attr\viewer($page['_ent']['attr']['image'], $page))) {
+    if (!$page || !($§['vars']['img'] = attr\viewer($page['_entity']['attr']['image'], $page))) {
         return '';
     }
 
@@ -456,7 +456,7 @@ function sidebar(array $§): string
     if (!$html && $§['vars']['inherit']) {
         $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']]];
         $opt = ['select' => ['sidebar'], 'order' => ['level' => 'desc']];
-        $html = ent\one('page', $crit, $opt)['sidebar'] ?? '';
+        $html = entity\one('page', $crit, $opt)['sidebar'] ?? '';
     }
 
     return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;

@@ -2,7 +2,7 @@ START TRANSACTION;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Type
--- --------------------------------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------------------
 
 CREATE TYPE status AS ENUM ('draft', 'pending', 'published', 'archived');
 
@@ -329,11 +329,11 @@ CREATE TABLE file (
     name varchar(50) NOT NULL UNIQUE,
     type varchar(5) NOT NULL,
     info text NOT NULL,
-    ent varchar(50) NOT NULL CHECK (ent != '')
+    entity varchar(50) NOT NULL CHECK (entity != '')
 );
 
 CREATE INDEX ON file (type);
-CREATE INDEX ON file (ent);
+CREATE INDEX ON file (entity);
 
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();
 
@@ -363,7 +363,7 @@ CREATE TABLE page (
     path jsonb NOT NULL DEFAULT '[]',
     status status NOT NULL,
     date timestamp NOT NULL DEFAULT current_timestamp,
-    ent varchar(50) NOT NULL CHECK (ent != ''),
+    entity varchar(50) NOT NULL CHECK (entity != ''),
     UNIQUE (parent, slug)
 );
 
@@ -383,7 +383,7 @@ CREATE INDEX ON page (level);
 CREATE INDEX ON page USING GIN (path);
 CREATE INDEX ON page (status);
 CREATE INDEX ON page (date);
-CREATE INDEX ON page (ent);
+CREATE INDEX ON page (entity);
 
 CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_before();
 CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_after();

@@ -5,7 +5,7 @@ namespace app;
 
 use account;
 use arr;
-use ent;
+use entity;
 use request;
 use session;
 use DomainException;
@@ -30,36 +30,36 @@ function run(): void
     $url = request\get('url');
 
     // Page
-    if ($app['page'] = ent\one('page', [['url', $url]])) {
-        $url = '/' . $app['page']['ent'] . '/view/' . $app['page']['id'];
+    if ($app['page'] = entity\one('page', [['url', $url]])) {
+        $url = '/' . $app['page']['entity'] . '/view/' . $app['page']['id'];
         $app['layout'] = $app['page']['layout'];
         $app['main'] = $app['page']['path'][1] ?? null;
     }
 
     // Gather request-data
     $parts = explode('/', trim($url, '/'));
-    $app['ent'] = array_shift($parts);
-    $ent = cfg('ent', $app['ent']);
+    $app['entity'] = array_shift($parts);
+    $entity = cfg('entity', $app['entity']);
     $app['act'] = array_shift($parts);
     $app['id'] = array_shift($parts);
-    $app['area'] = empty(cfg('priv', $app['ent'] . '/' . $app['act'])['active']) ? '_public_' : '_admin_';
-    $app['parent'] = $ent['parent'] ?? null;
+    $app['area'] = empty(cfg('priv', $app['entity'] . '/' . $app['act'])['active']) ? '_public_' : '_admin_';
+    $app['parent'] = $entity['parent'] ?? null;
     $host = preg_replace('#^www\.#', '', request\get('host'));
     $blacklist = $app['area'] === '_admin_' && in_array($host, cfg('app', 'admin.blacklist'));
-    $allowed = !$blacklist && allowed($app['ent'] . '/' . $app['act']);
-    $real = is_callable('act\\' . $app['ent'] . '_' . $app['act']) ? 'act\\' . $app['ent'] . '_' . $app['act'] : null;
+    $allowed = !$blacklist && allowed($app['entity'] . '/' . $app['act']);
+    $real = is_callable('act\\' . $app['entity'] . '_' . $app['act']) ? 'act\\' . $app['entity'] . '_' . $app['act'] : null;
 
     // Dispatch request
-    if ($allowed && !$ent && $real) {
+    if ($allowed && !$entity && $real) {
         $real();
-    } elseif (!$allowed || !$ent || !in_array($app['act'], $ent['act']) || $app['area'] === '_public_' && (!$app['page'] || $app['page']['disabled'])) {
+    } elseif (!$allowed || !$entity || !in_array($app['act'], $entity['act']) || $app['area'] === '_public_' && (!$app['page'] || $app['page']['disabled'])) {
         error();
     } elseif ($real) {
-        $real($ent);
-    } elseif ($ent['parent'] && is_callable('act\\' . $ent['parent'] . '_' . $app['act'])) {
-        ('act\\' . $ent['parent'] . '_' . $app['act'])($ent);
+        $real($entity);
+    } elseif ($entity['parent'] && is_callable('act\\' . $entity['parent'] . '_' . $app['act'])) {
+        ('act\\' . $entity['parent'] . '_' . $app['act'])($entity);
     } elseif (is_callable('act\\' . $app['act'])) {
-        ('act\\' . $app['act'])($ent);
+        ('act\\' . $app['act'])($entity);
     }
 }
 
@@ -133,7 +133,7 @@ function load(string $id): array
         return $data;
     }
 
-    if (in_array($id, ['attr', 'ent'])) {
+    if (in_array($id, ['attr', 'entity'])) {
         return $data + $ext;
     }
 

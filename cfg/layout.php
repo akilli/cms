@@ -138,7 +138,7 @@ return [
             'type' => 'index',
             'parent' => 'content-middle',
             'sort' => 10,
-            'vars' => ['attr' => ['image', 'date', 'name', 'teaser'], 'ent' => 'article', 'link' => true, 'pager' => true, 'parent' => true],
+            'vars' => ['attr' => ['image', 'date', 'name', 'teaser'], 'entity' => 'article', 'link' => true, 'pager' => true, 'parent' => true],
         ],
     ],
     'page-home' => [
@@ -154,7 +154,7 @@ return [
             'type' => 'index',
             'parent' => 'content-middle',
             'sort' => 10,
-            'vars' => ['attr' => ['name', 'teaser'], 'ent' => 'page', 'link' => true, 'pager' => true, 'parent' => true, 'search' => ['name', 'teaser', 'main', 'aside']],
+            'vars' => ['attr' => ['name', 'teaser'], 'entity' => 'page', 'link' => true, 'pager' => true, 'parent' => true, 'search' => ['name', 'teaser', 'main', 'aside']],
         ],
     ],
     'page-sitemap' => [

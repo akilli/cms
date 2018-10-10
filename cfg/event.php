@@ -3,8 +3,8 @@ return [
     'cfg.block' => [
         'event\cfg_block' => -1,
     ],
-    'cfg.ent' => [
-        'event\cfg_ent' => -1,
+    'cfg.entity' => [
+        'event\cfg_entity' => -1,
     ],
     'cfg.i18n' => [
         'event\cfg_i18n' => -1,
@@ -21,22 +21,22 @@ return [
     'layout' => [
         'event\layout' => -1,
     ],
-    'ent.postfilter' => [
-        'event\ent_postfilter' => -1,
+    'entity.postfilter' => [
+        'event\entity_postfilter' => -1,
     ],
-    'ent.postsave' => [
-        'event\ent_postsave' => -1,
+    'entity.postsave' => [
+        'event\entity_postsave' => -1,
     ],
-    'ent.prefilter.file' => [
-        'event\ent_prefilter_file' => -1,
+    'entity.prefilter.file' => [
+        'event\entity_prefilter_file' => -1,
     ],
-    'ent.postsave.file' => [
-        'event\ent_postsave_file' => -1,
+    'entity.postsave.file' => [
+        'event\entity_postsave_file' => -1,
     ],
-    'ent.postdelete.file' => [
-        'event\ent_postdelete_file' => -1,
+    'entity.postdelete.file' => [
+        'event\entity_postdelete_file' => -1,
     ],
-    'ent.postfilter.page' => [
-        'event\ent_postfilter_page' => -1,
+    'entity.postfilter.page' => [
+        'event\entity_postfilter_page' => -1,
     ],
 ];

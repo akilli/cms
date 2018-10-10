@@ -3,7 +3,7 @@ return [
     'audio' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
-        'filter' => 'filter\ent',
+        'filter' => 'filter\entity',
         'viewer' => 'viewer\file',
         'ref' => 'audio',
     ],
@@ -48,7 +48,7 @@ return [
     'doc' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
-        'filter' => 'filter\ent',
+        'filter' => 'filter\entity',
         'viewer' => 'viewer\file',
         'ref' => 'doc',
     ],
@@ -58,23 +58,23 @@ return [
         'filter' => 'filter\email',
         'html' => ['type' => 'email'],
     ],
-    'ent' => [
+    'entity' => [
         'backend' => 'int',
-        'frontend' => 'frontend\ent',
-        'filter' => 'filter\ent',
-        'viewer' => 'viewer\ent',
+        'frontend' => 'frontend\entity',
+        'filter' => 'filter\entity',
+        'viewer' => 'viewer\entity',
     ],
     'file' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
-        'filter' => 'filter\ent',
+        'filter' => 'filter\entity',
         'viewer' => 'viewer\file',
         'ref' => 'file',
     ],
     'image' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
-        'filter' => 'filter\ent',
+        'filter' => 'filter\entity',
         'viewer' => 'viewer\file',
         'ref' => 'image',
     ],
@@ -100,7 +100,7 @@ return [
     'page' => [
         'backend' => 'int',
         'frontend' => 'frontend\page',
-        'filter' => 'filter\ent',
+        'filter' => 'filter\entity',
         'viewer' => 'viewer\page',
         'ref' => 'page',
     ],
@@ -183,7 +183,7 @@ return [
     'video' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
-        'filter' => 'filter\ent',
+        'filter' => 'filter\entity',
         'viewer' => 'viewer\file',
         'ref' => 'video',
     ],

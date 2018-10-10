@@ -15,12 +15,12 @@ return [
     'create' => [
         'call' => 'block\create',
         'tpl' => 'form.phtml',
-        'vars' => ['attr' => [], 'ent' => null, 'redirect' => false, 'title' => ''],
+        'vars' => ['attr' => [], 'entity' => null, 'redirect' => false, 'title' => ''],
     ],
     'form' => [
         'call' => 'block\form',
         'tpl' => 'form.phtml',
-        'vars' => ['attr' => [], 'data' => [], 'ent' => [], 'title' => ''],
+        'vars' => ['attr' => [], 'data' => [], 'entity' => [], 'title' => ''],
     ],
     'head' => [
         'call' => 'block\head',
@@ -30,7 +30,7 @@ return [
     'index' => [
         'call' => 'block\index',
         'tpl' => 'index.phtml',
-        'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'ent' => null, 'head' => false, 'inaccessible' => false, 'limit' => 10, 'link' => false, 'order' => [], 'pager' => false, 'parent' => null, 'search' => [], 'title' => ''],
+        'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'entity' => null, 'head' => false, 'inaccessible' => false, 'limit' => 10, 'link' => false, 'order' => [], 'pager' => false, 'parent' => null, 'search' => [], 'title' => ''],
     ],
     'login' => [
         'call' => 'block\login',
@@ -69,6 +69,6 @@ return [
     'view' => [
         'call' => 'block\view',
         'tpl' => 'view.phtml',
-        'vars' => ['attr' => [], 'data' => [], 'ent' => []],
+        'vars' => ['attr' => [], 'data' => [], 'entity' => []],
     ],
 ];

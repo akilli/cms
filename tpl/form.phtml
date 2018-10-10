@@ -3,14 +3,14 @@ namespace app;
 use attr;
 /** @var callable $§ */
 ?>
-<section id="<?=$§('id');?>" class="form" data-ent="<?=$§('ent')['id'];?>">
+<section id="<?=$§('id');?>" class="form" data-entity="<?=$§('entity')['id'];?>">
     <?php if ($§('title')):?>
     <h1><?=$§('title');?></h1>
     <?php endif;?>
     <form method="post"<?php if ($§('file')):?> enctype="multipart/form-data"<?php endif;?>>
         <fieldset>
             <?php foreach ($§('attr') as $aId):?>
-            <?php if (!($attr = $§('ent')['attr'][$aId] ?? null)) continue;?>
+            <?php if (!($attr = $§('entity')['attr'][$aId] ?? null)) continue;?>
             <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
                 <?=attr\frontend($attr, $§('data'));?>
             </div>

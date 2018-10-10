@@ -661,7 +661,7 @@ a[data-sort=desc]::after {
     /**
      * Login
      */
-    html[data-ent=account][data-act=login] main {
+    html[data-entity=account][data-act=login] main {
         display: flex;
         flex: 1 0;
         align-items: center;
@@ -669,7 +669,7 @@ a[data-sort=desc]::after {
         height: 100vh;
     }
 
-    html[data-ent=account][data-act=login] #content {
+    html[data-entity=account][data-act=login] #content {
         width: 100%;
         max-width: 30rem;
     }
