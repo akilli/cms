@@ -186,8 +186,14 @@ return [
                 'type' => 'rte',
                 'val' => '',
             ],
-            'meta' => [
-                'name' => 'Meta',
+            'meta_title' => [
+                'name' => 'Meta Title',
+                'type' => 'text',
+                'val' => '',
+                'maxlength' => 80,
+            ],
+            'meta_description' => [
+                'name' => 'Meta Description',
                 'type' => 'text',
                 'val' => '',
                 'maxlength' => 300,

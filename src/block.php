@@ -51,14 +51,18 @@ function tpl(array $§): string
 function head(array $§): string
 {
     if ($page = app\get('page')) {
-        $§['vars']['desc'] = $page['meta'];
-        $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['id', 'name', 'menuname'], 'order' => ['level' => 'asc']]);
+        $§['vars']['desc'] = $page['meta_description'];
 
-        foreach ($all as $item) {
-            $title = $item['menuname'] ?: $item['name'];
-            $§['vars']['title'] = $title . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
+        if ($page['meta_title']) {
+            $§['vars']['title'] = $page['meta_title'];
+        } else {
+            $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['id', 'name', 'menuname'], 'order' => ['level' => 'asc']]);
+
+            foreach ($all as $item) {
+                $title = $item['menuname'] ?: $item['name'];
+                $§['vars']['title'] = $title . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
+            }
         }
-
     } elseif (app\get('entity') && ($entity = app\cfg('entity', app\get('entity')))) {
         $§['vars']['title'] = $entity['name'] . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
     }
