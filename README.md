@@ -30,7 +30,6 @@ i18n | internationalization
 msg  | message
 opt  | option
 priv | privilege
-reg  | registry
 rte  | rich text editor
 tpl  | template
 val  | value

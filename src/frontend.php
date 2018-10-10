@@ -128,7 +128,7 @@ function select(array $attr, $val): string
  */
 function ent(array $attr, int $val): string
 {
-    if (($attr['opt'] = & app\reg('opt.ent.' . $attr['ref'])) === null) {
+    if (($attr['opt'] = & app\registry('opt.ent.' . $attr['ref'])) === null) {
         $attr['opt'] = array_column(ent\all($attr['ref'], [], ['select' => ['id', 'name'], 'order' => ['name' => 'asc']]), 'name', 'id');
     }
 
@@ -140,7 +140,7 @@ function ent(array $attr, int $val): string
  */
 function page(array $attr, int $val): string
 {
-    if (($attr['opt'] = & app\reg('opt.page')) === null) {
+    if (($attr['opt'] = & app\registry('opt.page')) === null) {
         $pos = app\cfg('ent', 'page')['attr']['pos'];
         $attr['opt'] = [];
 

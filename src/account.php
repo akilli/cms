@@ -14,7 +14,7 @@ use session;
  */
 function get(string $key)
 {
-    if (($data = & app\reg('account')) === null) {
+    if (($data = & app\registry('account')) === null) {
         $data = [];
         $id = (int) session\get('account');
 

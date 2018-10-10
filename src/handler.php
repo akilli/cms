@@ -29,7 +29,7 @@ function exception(Throwable $e): void
  */
 function shutdown(): void
 {
-    if ($data = app\reg('msg')) {
+    if ($data = app\registry('msg')) {
         session\set('msg', $data);
     }
 }

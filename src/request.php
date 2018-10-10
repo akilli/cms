@@ -14,7 +14,7 @@ use DomainException;
  */
 function get(string $key)
 {
-    if (($data = & app\reg('request')) === null) {
+    if (($data = & app\registry('request')) === null) {
         $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
         $secure = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null === 'on');
         $data['base'] = 'http' . ($secure ? 's' : '') . '://' . $data['host'];

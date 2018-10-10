@@ -21,7 +21,7 @@ function run(): void
     set_exception_handler('handler\exception');
     register_shutdown_function('handler\shutdown');
 
-    $app = & reg('app');
+    $app = & registry('app');
     $app['lang'] = locale_get_primary_language('');
     $app['gui'] = max(filemtime(path('gui')), filemtime(path('ext.gui')) ?: 0);
     $app['error'] = false;
@@ -69,16 +69,16 @@ function run(): void
 function error(): void
 {
     http_response_code(404);
-    $app = & reg('app');
+    $app = & registry('app');
     $app['error'] = true;
-    $layout = & reg('layout');
+    $layout = & registry('layout');
     $layout = null;
 }
 
 /**
  * Internal registry
  */
-function & reg(string $id): ?array
+function & registry(string $id): ?array
 {
     static $data = [];
 
@@ -96,7 +96,7 @@ function & reg(string $id): ?array
  */
 function get(string $id)
 {
-    return reg('app')[$id] ?? null;
+    return registry('app')[$id] ?? null;
 }
 
 /**
@@ -108,7 +108,7 @@ function get(string $id)
  */
 function cfg(string $id, string $key = null)
 {
-    if (($data = & reg('cfg.' . $id)) === null) {
+    if (($data = & registry('cfg.' . $id)) === null) {
         $data = load($id);
         $data = event(['cfg.' . $id], $data);
     }
@@ -215,7 +215,7 @@ function i18n(string $key, string ...$args): string
  */
 function msg(string $msg = null, string ...$args): array
 {
-    if (($data = & reg('msg')) === null) {
+    if (($data = & registry('msg')) === null) {
         $data = session\get('msg') ?: [];
         session\set('msg', null);
     }
@@ -273,7 +273,7 @@ function tpl(string $id): string
  */
 function layout(string $id = null, array $§ = null): ?array
 {
-    if (($data = & reg('layout')) === null) {
+    if (($data = & registry('layout')) === null) {
         $data = [];
         $data = event(['layout'], $data);
     }

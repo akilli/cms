@@ -15,7 +15,7 @@ function child(array $attr, array $data): array
         return [$data['_ent']['id'] => $data['_ent']['name']];
     }
 
-    if (($opt = & app\reg('opt.child.' . $data['_ent']['id'])) === null) {
+    if (($opt = & app\registry('opt.child.' . $data['_ent']['id'])) === null) {
         $opt = array_column(arr\crit(app\cfg('ent'), [['parent', $data['_ent']['id']]]), 'name', 'id');
         asort($opt);
     }
@@ -28,7 +28,7 @@ function child(array $attr, array $data): array
  */
 function priv(): array
 {
-    if (($opt = & app\reg('opt.priv')) === null) {
+    if (($opt = & app\registry('opt.priv')) === null) {
         $opt = [];
 
         foreach (app\cfg('priv') as $key => $priv) {
