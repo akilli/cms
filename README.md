@@ -25,10 +25,8 @@ cfg  | config
 crit | criteria
 ent  | entity
 ext  | extension
-i18n | internationalization
 msg  | message
 opt  | option
 priv | privilege
-rte  | rich text editor
 tpl  | template
 val  | value
