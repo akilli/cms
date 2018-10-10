@@ -335,7 +335,7 @@ return [
                 'type' => 'datetime',
                 'required' => true,
             ],
-            'page' => [
+            'page_id' => [
                 'name' => 'Page',
                 'type' => 'page',
                 'required' => true,

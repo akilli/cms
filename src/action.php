@@ -33,7 +33,7 @@ function edit(array $entity): void
     $p = [$old];
 
     if ($id && in_array('page', [$entity['id'], $entity['parent']])) {
-        $v = entity\one('version', [['page', $id]], ['select' => APP['version'], 'order' => ['date' => 'desc']]);
+        $v = entity\one('version', [['page_id', $id]], ['select' => APP['version'], 'order' => ['date' => 'desc']]);
         unset($v['_old'], $v['_entity']);
         $p[] = $v;
     }

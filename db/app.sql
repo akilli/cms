@@ -197,7 +197,7 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
             DELETE FROM
                 version
             WHERE
-                page = OLD.id
+                page_id = OLD.id
                 AND status IN ('draft', 'pending');
         END IF;
 
@@ -226,7 +226,7 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
         IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.teaser != OLD.teaser OR NEW.main != OLD.main OR NEW.aside != OLD.aside OR NEW.sidebar != OLD.sidebar OR NEW.status != OLD.status) THEN
             INSERT INTO
                 version
-                (name, teaser, main, aside, sidebar, status, page)
+                (name, teaser, main, aside, sidebar, status, page_id)
             VALUES
                 (NEW.name, NEW.teaser, NEW.main, NEW.aside, NEW.sidebar, NEW.status, NEW.id);
         END IF;
@@ -265,7 +265,7 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
             DELETE FROM
                 version
             WHERE
-                page = _row.id
+                page_id = _row.id
                 AND status IN ('draft', 'pending');
 
             _row.status := 'archived';
@@ -273,7 +273,7 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
             -- Create new version
             INSERT INTO
                 version
-                (name, teaser, main, aside, sidebar, status, page)
+                (name, teaser, main, aside, sidebar, status, page_id)
             VALUES
                 (_row.name, _row.teaser, _row.main, _row.aside, _row.sidebar, _row.status, _row.id);
 
@@ -405,13 +405,13 @@ CREATE TABLE version (
     sidebar text NOT NULL,
     status status NOT NULL,
     date timestamp NOT NULL DEFAULT current_timestamp,
-    page integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED
+    page_id integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED
 );
 
 CREATE INDEX ON version (name);
 CREATE INDEX ON version (status);
 CREATE INDEX ON version (date);
-CREATE INDEX ON version (page);
+CREATE INDEX ON version (page_id);
 
 CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE version_protect();
 
