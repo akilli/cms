@@ -30,13 +30,13 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
         _cur integer;
         _slg text;
     BEGIN
-        IF (TG_OP = 'UPDATE' AND NEW.parent IS NOT NULL) THEN
+        IF (TG_OP = 'UPDATE' AND NEW.parent_id IS NOT NULL) THEN
             SELECT
                 path @> OLD.id::text::jsonb
             FROM
                 page
             WHERE
-                id = NEW.parent
+                id = NEW.parent_id
             INTO
                 _chk;
 
@@ -50,11 +50,11 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
         FROM
             page
         WHERE
-            COALESCE(parent, 0) = COALESCE(NEW.parent, 0)
+            COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0)
         INTO
             _cnt;
 
-        IF (TG_OP = 'UPDATE' AND COALESCE(NEW.parent, 0) = COALESCE(OLD.parent, 0)) THEN
+        IF (TG_OP = 'UPDATE' AND COALESCE(NEW.parent_id, 0) = COALESCE(OLD.parent_id, 0)) THEN
             _cnt := _cnt - 1;
         END IF;
 
@@ -62,7 +62,7 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
             NEW.sort := _cnt;
         END IF;
 
-        IF (TG_OP = 'INSERT' OR NEW.slug != OLD.slug OR COALESCE(NEW.parent, 0) != COALESCE(OLD.parent, 0)) THEN
+        IF (TG_OP = 'INSERT' OR NEW.slug != OLD.slug OR COALESCE(NEW.parent_id, 0) != COALESCE(OLD.parent_id, 0)) THEN
             _slg := NEW.slug;
             _cur := 0;
 
@@ -76,7 +76,7 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
                 FROM
                     page
                 WHERE
-                    COALESCE(parent, 0) = COALESCE(NEW.parent, 0)
+                    COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0)
                     AND slug = _slg
                 INTO
                     _cnt;
@@ -102,7 +102,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
         _ext text := '.html';
     BEGIN
         -- No relevant changes
-        IF (TG_OP = 'UPDATE' AND NEW.slug = OLD.slug AND NEW.menu = OLD.menu AND COALESCE(NEW.parent, 0) = COALESCE(OLD.parent, 0) AND NEW.sort = OLD.sort) THEN
+        IF (TG_OP = 'UPDATE' AND NEW.slug = OLD.slug AND NEW.menu = OLD.menu AND COALESCE(NEW.parent_id, 0) = COALESCE(OLD.parent_id, 0) AND NEW.sort = OLD.sort) THEN
             RETURN NULL;
         END IF;
 
@@ -114,7 +114,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 sort = sort - 1
             WHERE
                 id != OLD.id
-                AND COALESCE(parent, 0) = COALESCE(OLD.parent, 0)
+                AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0)
                 AND sort > OLD.sort;
         END IF;
 
@@ -126,7 +126,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 sort = sort + 1
             WHERE
                 id != NEW.id
-                AND COALESCE(parent, 0) = COALESCE(NEW.parent, 0)
+                AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0)
                 AND sort >= NEW.sort;
         END IF;
 
@@ -143,7 +143,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
             FROM
                 page
             WHERE
-                parent IS NULL
+                parent_id IS NULL
             UNION
             SELECT
                 p.id,
@@ -157,7 +157,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 page p
             INNER JOIN
                 t
-                    ON t.id = p.parent
+                    ON t.id = p.parent_id
             )
             UPDATE
                 page p
@@ -202,13 +202,13 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
         END IF;
 
         -- Check parent status
-        IF ((TG_OP = 'INSERT' OR COALESCE(NEW.parent, 0) != COALESCE(OLD.parent, 0)) AND NEW.parent IS NOT NULL) THEN
+        IF ((TG_OP = 'INSERT' OR COALESCE(NEW.parent_id, 0) != COALESCE(OLD.parent_id, 0)) AND NEW.parent_id IS NOT NULL) THEN
             SELECT
                 status
             FROM
                 page
             WHERE
-                id = NEW.parent
+                id = NEW.parent_id
             INTO
                 _sta;
 
@@ -357,7 +357,7 @@ CREATE TABLE page (
     disabled boolean NOT NULL DEFAULT FALSE,
     menu boolean NOT NULL DEFAULT FALSE,
     menu_name varchar(255) DEFAULT NULL,
-    parent integer DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
+    parent_id integer DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     sort integer NOT NULL DEFAULT 0,
     pos varchar(255) NOT NULL DEFAULT '',
     level integer NOT NULL DEFAULT 0,
@@ -365,7 +365,7 @@ CREATE TABLE page (
     status status NOT NULL,
     date timestamp NOT NULL DEFAULT current_timestamp,
     entity varchar(50) NOT NULL CHECK (entity != ''),
-    UNIQUE (parent, slug)
+    UNIQUE (parent_id, slug)
 );
 
 CREATE INDEX ON page (name);
@@ -378,7 +378,7 @@ CREATE INDEX ON page (url);
 CREATE INDEX ON page (disabled);
 CREATE INDEX ON page (menu);
 CREATE INDEX ON page (menu_name);
-CREATE INDEX ON page (parent);
+CREATE INDEX ON page (parent_id);
 CREATE INDEX ON page (sort);
 CREATE INDEX ON page (pos);
 CREATE INDEX ON page (level);

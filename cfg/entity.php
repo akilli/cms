@@ -233,7 +233,7 @@ return [
                 'nullable' => true,
                 'maxlength' => 255,
             ],
-            'parent' => [
+            'parent_id' => [
                 'name' => 'Parent',
                 'type' => 'page',
                 'nullable' => true,

@@ -300,18 +300,18 @@ function entity_postdelete_file(array $data): array
  */
 function entity_postfilter_page(array $data): array
 {
-    if (empty($data['parent'])) {
+    if (empty($data['parent_id'])) {
         return $data;
     }
 
-    $parent = entity\one('page', [['id', $data['parent']]]);
+    $parent = entity\one('page', [['id', $data['parent_id']]]);
 
     if (!empty($data['_old']['id']) && in_array($data['_old']['id'], $parent['path'])) {
-        $data['_error']['parent'] = app\i18n('Cannot assign the page itself or a child page as parent');
+        $data['_error']['parent_id'] = app\i18n('Cannot assign the page itself or a child page as parent');
     }
 
-    if ($parent['status'] === 'archived' && (!$data['_old'] || $data['parent'] !== $data['_old']['parent'])) {
-        $data['_error']['parent'] = app\i18n('Cannot assign archived page as parent');
+    if ($parent['status'] === 'archived' && (!$data['_old'] || $data['parent_id'] !== $data['_old']['parent_id'])) {
+        $data['_error']['parent_id'] = app\i18n('Cannot assign archived page as parent');
     } elseif (in_array($parent['status'], ['draft', 'pending']) && !empty($data['status']) && $data['status'] !== 'draft') {
         $data['_error']['status'] = app\i18n('Status must be draft, because parent was not published yet');
     }

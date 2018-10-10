@@ -57,8 +57,8 @@ function run(): void
         error();
     } elseif ($real) {
         $real($entity);
-    } elseif ($entity['parent'] && is_callable($ns . $entity['parent'] . '_' . $app['action'])) {
-        ($ns . $entity['parent'] . '_' . $app['action'])($entity);
+    } elseif ($app['parent'] && is_callable($ns . $app['parent'] . '_' . $app['action'])) {
+        ($ns . $app['parent'] . '_' . $app['action'])($entity);
     } elseif (is_callable($ns . $app['action'])) {
         ($ns . $app['action'])($entity);
     }

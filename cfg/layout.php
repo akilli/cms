@@ -138,7 +138,7 @@ return [
             'type' => 'index',
             'parent' => 'content-middle',
             'sort' => 10,
-            'vars' => ['attr' => ['image', 'date', 'name', 'teaser'], 'entity' => 'article', 'link' => true, 'pager' => true, 'parent' => true],
+            'vars' => ['attr' => ['image', 'date', 'name', 'teaser'], 'entity' => 'article', 'link' => true, 'pager' => true, 'parent_id' => true],
         ],
     ],
     'page-home' => [
@@ -154,7 +154,7 @@ return [
             'type' => 'index',
             'parent' => 'content-middle',
             'sort' => 10,
-            'vars' => ['attr' => ['name', 'teaser'], 'entity' => 'page', 'link' => true, 'pager' => true, 'parent' => true, 'search' => ['name', 'teaser', 'main', 'aside']],
+            'vars' => ['attr' => ['name', 'teaser'], 'entity' => 'page', 'link' => true, 'pager' => true, 'parent_id' => true, 'search' => ['name', 'teaser', 'main', 'aside']],
         ],
     ],
     'page-sitemap' => [
@@ -208,17 +208,17 @@ return [
     ],
     'article/admin' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'parent', 'status', 'date']],
+            'vars' => ['attr' => ['name', 'parent_id', 'status', 'date']],
         ],
     ],
     'article/create' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'slug', 'parent', 'status', 'image', 'teaser', 'main', 'meta_title', 'meta_description']],
+            'vars' => ['attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'meta_title', 'meta_description']],
         ],
     ],
     'article/edit' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'slug', 'parent', 'status', 'image', 'teaser', 'main', 'meta_title', 'meta_description']],
+            'vars' => ['attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'meta_title', 'meta_description']],
         ],
     ],
     'article/view' => [
@@ -228,17 +228,17 @@ return [
     ],
     'content/admin' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'pos', 'parent', 'menu', 'status', 'date']],
+            'vars' => ['attr' => ['name', 'pos', 'parent_id', 'menu', 'status', 'date']],
         ],
     ],
     'content/create' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'menu_name', 'parent', 'sort', 'status', 'layout', 'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description']],
+            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status', 'layout', 'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description']],
         ],
     ],
     'content/edit' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'menu_name', 'parent', 'sort', 'status', 'layout', 'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description']],
+            'vars' => ['attr' => ['name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status', 'layout', 'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description']],
         ],
     ],
     'content/view' => [

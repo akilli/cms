@@ -145,12 +145,12 @@ function index(array $§): string
             $crit[] = ['disabled', false];
         }
 
-        if ($§['vars']['parent']) {
-            $crit[] = ['parent', $§['vars']['parent'] === true ? app\get('id') : (int) $§['vars']['parent']];
+        if ($§['vars']['parent_id']) {
+            $crit[] = ['parent_id', $§['vars']['parent_id'] === true ? app\get('id') : (int) $§['vars']['parent_id']];
         }
     }
 
-    unset($§['vars']['crit'], $§['vars']['inaccessible'], $§['vars']['limit'], $§['vars']['order'], $§['vars']['parent']);
+    unset($§['vars']['crit'], $§['vars']['inaccessible'], $§['vars']['limit'], $§['vars']['order'], $§['vars']['parent_id']);
     $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], request\get('param'));
 
     if ($§['vars']['search']) {
@@ -360,7 +360,7 @@ function menu(array $§): string
     if ($mode === 'sub') {
         $parent = $page['path'];
         unset($parent[0]);
-        $crit[] = [['id', $page['path']], ['parent', $parent]];
+        $crit[] = [['id', $page['path']], ['parent_id', $parent]];
     } else {
         $crit[] = ['menu', true];
     }

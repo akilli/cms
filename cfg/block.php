@@ -30,7 +30,7 @@ return [
     'index' => [
         'call' => 'block\index',
         'tpl' => 'index.phtml',
-        'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'entity' => null, 'head' => false, 'inaccessible' => false, 'limit' => 10, 'link' => false, 'order' => [], 'pager' => false, 'parent' => null, 'search' => [], 'title' => ''],
+        'vars' => ['actions' => [], 'attr' => [], 'create' => false, 'crit' => [], 'entity' => null, 'head' => false, 'inaccessible' => false, 'limit' => 10, 'link' => false, 'order' => [], 'pager' => false, 'parent_id' => null, 'search' => [], 'title' => ''],
     ],
     'login' => [
         'call' => 'block\login',
