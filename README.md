@@ -23,7 +23,6 @@ arr  | array
 attr | attribute
 cfg  | config
 crit | criteria
-db   | database
 ent  | entity
 ext  | extension
 i18n | internationalization
