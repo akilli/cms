@@ -75,11 +75,11 @@ function cols(array $attrs, array $data): array
     $attrs = attr($attrs, true);
     $cols = ['param' => [], 'val' => []];
 
-    foreach (array_intersect_key($data, $attrs) as $aId => $val) {
-        $p = ':' . $aId;
-        $val = $attrs[$aId]['backend'] === 'json' && is_array($val) ? json_encode($val) : $val;
-        $cols['param'][$aId] = [$p, $val, type($val)];
-        $cols['val'][$aId] = $p;
+    foreach (array_intersect_key($data, $attrs) as $attrId => $val) {
+        $p = ':' . $attrId;
+        $val = $attrs[$attrId]['backend'] === 'json' && is_array($val) ? json_encode($val) : $val;
+        $cols['param'][$attrId] = [$p, $val, type($val)];
+        $cols['val'][$attrId] = $p;
     }
 
     return $cols;
@@ -90,9 +90,9 @@ function cols(array $attrs, array $data): array
  */
 function attr(array $attrs, bool $auto = false): array
 {
-    foreach ($attrs as $aId => $attr) {
+    foreach ($attrs as $attrId => $attr) {
         if ($attr['virtual'] || $auto && $attr['auto']) {
-            unset($attrs[$aId]);
+            unset($attrs[$attrId]);
         }
     }
 
@@ -115,18 +115,18 @@ function crit(array $crit): array
         $o = [];
 
         foreach ($part as $c) {
-            $aId = $c[0];
+            $attrId = $c[0];
             $val = $c[1] ?? null;
             $op = $c[2] ?? APP['crit']['='];
             $isCol = !empty($c[3]);
 
-            if (!$aId || empty(APP['crit'][$op]) || is_array($val) && !$val) {
+            if (!$attrId || empty(APP['crit'][$op]) || is_array($val) && !$val) {
                 throw new DomainException(app\i18n('Invalid criteria'));
             }
 
-            $param = ':crit_' . $aId . '_';
+            $param = ':crit_' . $attrId . '_';
             $type = type($val);
-            $count[$aId] = $count[$aId] ?? 0;
+            $count[$attrId] = $count[$attrId] ?? 0;
             $val = is_array($val) ? $val : [$val];
             $r = [];
 
@@ -145,13 +145,13 @@ function crit(array $crit): array
 
                     foreach ($val as $v) {
                         if ($null && $v === null) {
-                            $r[] = $aId . $null;
+                            $r[] = $attrId . $null;
                         } elseif ($isCol) {
-                            $r[] = $aId . ' ' . $op . ' ' . $v;
+                            $r[] = $attrId . ' ' . $op . ' ' . $v;
                         } else {
-                            $p = $param . ++$count[$aId];
+                            $p = $param . ++$count[$attrId];
                             $cols['param'][] = [$p, $v, $type];
-                            $r[] = $aId . ' ' . $op . ' ' . $p;
+                            $r[] = $attrId . ' ' . $op . ' ' . $p;
                         }
                     }
                     break;
@@ -167,11 +167,11 @@ function crit(array $crit): array
 
                     foreach ($val as $v) {
                         if ($isCol) {
-                            $r[] = $aId . $not . ' ILIKE ' . $v;
+                            $r[] = $attrId . $not . ' ILIKE ' . $v;
                         } else {
-                            $p = $param . ++$count[$aId];
+                            $p = $param . ++$count[$attrId];
                             $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
-                            $r[] = $aId . $not . ' ILIKE ' . $p;
+                            $r[] = $attrId . $not . ' ILIKE ' . $p;
                         }
                     }
                     break;
@@ -341,8 +341,8 @@ function order(array $order): string
 {
     $cols = [];
 
-    foreach ($order as $aId => $dir) {
-        $cols[] = $aId . ' ' . ($dir === 'desc' ? 'DESC' : 'ASC');
+    foreach ($order as $attrId => $dir) {
+        $cols[] = $attrId . ' ' . ($dir === 'desc' ? 'DESC' : 'ASC');
     }
 
     return $cols ? ' ORDER BY ' . implode(', ', $cols) : '';

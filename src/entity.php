@@ -97,28 +97,28 @@ function save(string $entityId, array & $data): bool
         $tmp['_entity'] = app\cfg('entity', $entityId);
     }
 
-    $aIds = [];
+    $attrIds = [];
 
-    foreach (array_intersect_key($tmp, $tmp['_entity']['attr']) as $aId => $val) {
-        if (($val === null || $val === '') && attr\ignorable($tmp['_entity']['attr'][$aId], $tmp)) {
-            unset($data[$aId], $tmp[$aId]);
+    foreach (array_intersect_key($tmp, $tmp['_entity']['attr']) as $attrId => $val) {
+        if (($val === null || $val === '') && attr\ignorable($tmp['_entity']['attr'][$attrId], $tmp)) {
+            unset($data[$attrId], $tmp[$attrId]);
         } else {
-            $aIds[] = $aId;
+            $attrIds[] = $attrId;
         }
     }
 
-    if (!$aIds) {
+    if (!$attrIds) {
         app\msg('No changes');
         return false;
     }
 
     $tmp = event('prefilter', $tmp);
 
-    foreach ($aIds as $aId) {
+    foreach ($attrIds as $attrId) {
         try {
-            $tmp[$aId] = attr\filter($tmp['_entity']['attr'][$aId], $tmp);
+            $tmp[$attrId] = attr\filter($tmp['_entity']['attr'][$attrId], $tmp);
         } catch (Throwable $e) {
-            $tmp['_error'][$aId] = $e->getMessage();
+            $tmp['_error'][$attrId] = $e->getMessage();
         }
     }
 
@@ -130,13 +130,13 @@ function save(string $entityId, array & $data): bool
         return false;
     }
 
-    foreach ($aIds as $key => $aId) {
-        if (array_key_exists($aId, $tmp['_old']) && $tmp[$aId] === $tmp['_old'][$aId]) {
-            unset($aIds[$key]);
+    foreach ($attrIds as $key => $attrId) {
+        if (array_key_exists($attrId, $tmp['_old']) && $tmp[$attrId] === $tmp['_old'][$attrId]) {
+            unset($attrIds[$key]);
         }
     }
 
-    if (!$aIds) {
+    if (!$attrIds) {
         app\msg('No changes');
         return false;
     }
@@ -203,8 +203,8 @@ function item(array $entity): array
  */
 function load(array $entity, array $data): array
 {
-    foreach (array_intersect_key($data, $entity['attr']) as $aId => $val) {
-        $data[$aId] = attr\cast($entity['attr'][$aId], $val);
+    foreach (array_intersect_key($data, $entity['attr']) as $attrId => $val) {
+        $data[$attrId] = attr\cast($entity['attr'][$attrId], $val);
     }
 
     $data += ['_old' => $data, '_entity' => $entity];

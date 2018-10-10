@@ -157,8 +157,8 @@ function index(array $§): string
         if (($p['q'] = trim((string) $p['q'])) && ($q = array_filter(explode(' ', $p['q'])))) {
             $c = [];
 
-            foreach ($§['vars']['search'] as $aId) {
-                $c[] = [$aId, $q, APP['crit']['~']];
+            foreach ($§['vars']['search'] as $attrId) {
+                $c[] = [$attrId, $q, APP['crit']['~']];
             }
 
             $crit[] = $c;
@@ -213,8 +213,8 @@ function form(array $§): string
     $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
     $§['vars']['file'] = false;
 
-    foreach ($§['vars']['attr'] as $aId) {
-        if ($§['vars']['file'] = ($§['vars']['entity']['attr'][$aId]['type'] ?? null) === 'upload') {
+    foreach ($§['vars']['attr'] as $attrId) {
+        if ($§['vars']['file'] = ($§['vars']['entity']['attr'][$attrId]['type'] ?? null) === 'upload') {
             break;
         }
     }

@@ -49,7 +49,7 @@ function cfg_entity(array $data): array
             $entity['attr'] = array_replace_recursive($p['attr'], $entity['attr']);
         }
 
-        foreach ($entity['attr'] as $aId => $attr) {
+        foreach ($entity['attr'] as $attrId => $attr) {
             if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']]) || $attr['type'] === 'entity' && empty($attr['ref'])) {
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
@@ -58,13 +58,13 @@ function cfg_entity(array $data): array
                 $attr['html'] = array_replace($attr['html'], $cfg[$attr['type']]['html']);
             }
 
-            $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr, ['id' => $aId, 'name' => app\i18n($attr['name'])]);
+            $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr, ['id' => $attrId, 'name' => app\i18n($attr['name'])]);
 
             if (!in_array($attr['backend'], APP['backend'])) {
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
-            $entity['attr'][$aId] = $attr;
+            $entity['attr'][$attrId] = $attr;
         }
 
         $data[$entityId] = $entity;
@@ -208,9 +208,9 @@ function entity_postfilter(array $data): array
 {
     $attrs = $data['_entity']['attr'];
 
-    foreach (array_intersect_key($data, $data['_entity']['attr']) as $aId => $val) {
-        if ($attrs[$aId]['type'] === 'password' && $val && !($data[$aId] = password_hash($val, PASSWORD_DEFAULT))) {
-            $data['_error'][$aId] = app\i18n('Invalid password');
+    foreach (array_intersect_key($data, $data['_entity']['attr']) as $attrId => $val) {
+        if ($attrs[$attrId]['type'] === 'password' && $val && !($data[$attrId] = password_hash($val, PASSWORD_DEFAULT))) {
+            $data['_error'][$attrId] = app\i18n('Invalid password');
         }
     }
 
@@ -246,15 +246,15 @@ function entity_postsave(array $data): array
     $text = '';
     $attach = [];
 
-    foreach ($data as $aId => $val) {
-        $attr = $data['_entity']['attr'][$aId] ?? null;
+    foreach ($data as $attrId => $val) {
+        $attr = $data['_entity']['attr'][$attrId] ?? null;
 
-        if (!$attr || $aId === 'id') {
+        if (!$attr || $attrId === 'id') {
             continue;
         } elseif ($attr['type'] !== 'file') {
             $text .= $attr['name'] . ':' . APP['crlf'] . attr\viewer($attr, $data) . APP['crlf'] .APP['crlf'];
-        } elseif (!empty($file[$aId])) {
-            $attach[] = ['name' => $file[$aId]['name'], 'path' => $file[$aId]['tmp_name'], 'type' => $file[$aId]['type']];
+        } elseif (!empty($file[$attrId])) {
+            $attach[] = ['name' => $file[$attrId]['name'], 'path' => $file[$attrId]['tmp_name'], 'type' => $file[$attrId]['type']];
         }
     }
 

@@ -18,8 +18,8 @@ use attr;
 <?php if ($§('data')):?>
     <?php if ($§('head')):?>
     <div class="thead">
-        <?php foreach ($§('attr') as $aId):?>
-            <?php if (!($attr = $§('entity')['attr'][$aId] ?? null)) continue;?>
+        <?php foreach ($§('attr') as $attrId):?>
+            <?php if (!($attr = $§('entity')['attr'][$attrId] ?? null)) continue;?>
             <a href="<?=url($§('url'), ['sort' => $attr['id'], 'dir' => $§('sort') === $attr['id'] && $§('dir') === 'asc' ? 'desc' : 'asc'], true);?>"<?php if ($§('sort') === $attr['id']):?> data-sort="<?=$§('dir');?>"<?php endif;?>><?=$attr['name'];?></a>
         <?php endforeach;?>
             <span><?=i18n('Actions');?></span>
@@ -27,8 +27,8 @@ use attr;
     <?php endif;?>
     <?php foreach ($§('data') as $data):?>
     <article>
-        <?php foreach ($§('attr') as $aId):?>
-            <?php if (!($attr = $§('entity')['attr'][$aId] ?? null)) continue;?>
+        <?php foreach ($§('attr') as $attrId):?>
+            <?php if (!($attr = $§('entity')['attr'][$attrId] ?? null)) continue;?>
             <?php
             $val = $data[$attr['id']] ?? null;
             $html = attr\viewer($attr, $data);

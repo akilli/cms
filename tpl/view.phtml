@@ -6,10 +6,10 @@ $aside = !empty($§('entity')['attr']['aside']) ? attr\viewer($§('entity')['att
 ?>
 <article id="<?=$§('id');?>" class="view<?php if ($aside):?> aside<?php endif;?>" data-entity="<?=$§('entity')['id'];?>">
     <?=§('content-top');?>
-    <?php foreach ($§('attr') as $aId):?>
+    <?php foreach ($§('attr') as $attrId):?>
         <?php
-        $attr = $§('entity')['attr'][$aId] ?? null;
-        $val = $§('data')[$aId] ?? null;
+        $attr = $§('entity')['attr'][$attrId] ?? null;
+        $val = $§('data')[$attrId] ?? null;
         ?>
         <?php if ($attr['id'] === 'aside' || !$attr || $val === null || $val === '' || !($html = attr\viewer($attr, $§('data')))) continue;?>
         <?php if ($attr['id'] === 'name'):?>
