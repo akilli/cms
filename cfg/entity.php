@@ -57,7 +57,7 @@ return [
                 'minlength' => 8,
                 'maxlength' => 255,
             ],
-            'role' => [
+            'role_id' => [
                 'name' => 'Role',
                 'type' => 'entity',
                 'required' => true,

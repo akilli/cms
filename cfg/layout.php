@@ -167,17 +167,17 @@ return [
     ],
     'account/admin' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'role']],
+            'vars' => ['attr' => ['name', 'role_id']],
         ],
     ],
     'account/create' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'password', 'role']],
+            'vars' => ['attr' => ['name', 'password', 'role_id']],
         ],
     ],
     'account/edit' => [
         'content' => [
-            'vars' => ['attr' => ['name', 'password', 'role']],
+            'vars' => ['attr' => ['name', 'password', 'role_id']],
         ],
     ],
     'account/login' => [

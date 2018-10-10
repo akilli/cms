@@ -19,7 +19,7 @@ function get(string $key)
         $id = (int) session\get('account');
 
         if ($id && ($data = entity\one('account', [['id', $id]]))) {
-            $role = entity\one('role', [['id', $data['role']]]);
+            $role = entity\one('role', [['id', $data['role_id']]]);
             $data['priv'] = $role['priv'];
             $data['priv'][] = '_user_';
             $data['admin'] = in_array('_all_', $data['priv']);

@@ -315,10 +315,10 @@ CREATE TABLE account (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
-    role integer NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE
+    role_id integer NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE INDEX ON account (role);
+CREATE INDEX ON account (role_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- File
