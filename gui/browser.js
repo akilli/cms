@@ -20,7 +20,7 @@
             return;
         }
 
-        Array.prototype.forEach.call(document.querySelectorAll('span[data-act=select]'), function (item) {
+        Array.prototype.forEach.call(document.querySelectorAll('span[data-action=select]'), function (item) {
             item.addEventListener('click', function () {
                 window.opener.postMessage({
                     id: item.getAttribute('data-id'),
@@ -34,7 +34,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         const suffix = '-file';
 
-        Array.prototype.forEach.call(document.querySelectorAll('span[data-act=browser]'), function (item) {
+        Array.prototype.forEach.call(document.querySelectorAll('span[data-action=browser]'), function (item) {
             item.addEventListener('click', function () {
                 const entity = this.parentElement.getAttribute('data-type') || 'file';
                 const url = '/' + entity + '/browser';
@@ -62,7 +62,7 @@
                 CKEDITOR.mediabrowser.open(url, call)
             });
         });
-        Array.prototype.forEach.call(document.querySelectorAll('span[data-act=remove]'), function (item) {
+        Array.prototype.forEach.call(document.querySelectorAll('span[data-action=remove]'), function (item) {
             item.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 const input = document.getElementById(id);

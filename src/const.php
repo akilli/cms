@@ -63,7 +63,7 @@ const APP = [
         'type' => null,
         'parent' => null,
         'mail' => false,
-        'act' => [],
+        'action' => [],
         'attr' => [],
     ],
     'entity.opt' => [

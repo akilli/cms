@@ -309,7 +309,7 @@ function nav(array $§): string
 
         if ($item['level'] > $level) {
             if ($§['vars']['toggle']) {
-                $html .= html\tag('span', ['data-act' => 'toggle'] + ($level === 0 ? ['data-target' => $§['id']] : []));
+                $html .= html\tag('span', ['data-action' => 'toggle'] + ($level === 0 ? ['data-target' => $§['id']] : []));
             }
 
             $html .= '<ul><li' . $class . '>';

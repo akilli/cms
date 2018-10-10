@@ -3,7 +3,7 @@ return [
     'role' => [
         'name' => 'Roles',
         'type' => 'db',
-        'act' => ['admin', 'create', 'delete', 'edit'],
+        'action' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -27,7 +27,7 @@ return [
     'account' => [
         'name' => 'Accounts',
         'type' => 'db',
-        'act' => ['admin', 'create', 'delete', 'edit', 'login', 'logout', 'password'],
+        'action' => ['admin', 'create', 'delete', 'edit', 'login', 'logout', 'password'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -68,7 +68,7 @@ return [
     'file' => [
         'name' => 'Files',
         'type' => 'db',
-        'act' => ['browser'],
+        'action' => ['browser'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -106,7 +106,7 @@ return [
         'name' => 'Audios',
         'type' => 'db',
         'parent' => 'file',
-        'act' => ['admin', 'browser', 'create', 'delete', 'edit'],
+        'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
             'name' => [
                 'cfg.filter' => ['aac', 'flac', 'mp3', 'oga', 'ogg', 'wav', 'weba'],
@@ -117,7 +117,7 @@ return [
         'name' => 'Documents',
         'type' => 'db',
         'parent' => 'file',
-        'act' => ['admin', 'browser', 'create', 'delete', 'edit'],
+        'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
             'name' => [
                 'cfg.filter' => ['bz2', 'csv', 'doc', 'docx', 'gz', 'odg', 'odp', 'ods', 'odt', 'pdf', 'xls', 'xlsm', 'xlsx', 'zip'],
@@ -128,7 +128,7 @@ return [
         'name' => 'Images',
         'type' => 'db',
         'parent' => 'file',
-        'act' => ['admin', 'browser', 'create', 'delete', 'edit'],
+        'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
             'name' => [
                 'cfg.filter' => ['gif', 'jpeg', 'jpg', 'png', 'svg', 'webp'],
@@ -139,7 +139,7 @@ return [
         'name' => 'Videos',
         'type' => 'db',
         'parent' => 'file',
-        'act' => ['admin', 'browser', 'create', 'delete', 'edit'],
+        'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
             'name' => [
                 'cfg.filter' => ['mp4', 'ogv', 'webm'],
@@ -276,13 +276,13 @@ return [
         'name' => 'Content Pages',
         'type' => 'db',
         'parent' => 'page',
-        'act' => ['admin', 'create', 'delete', 'edit', 'view'],
+        'action' => ['admin', 'create', 'delete', 'edit', 'view'],
     ],
     'article' => [
         'name' => 'Articles',
         'type' => 'db',
         'parent' => 'page',
-        'act' => ['admin', 'create', 'delete', 'edit', 'view'],
+        'action' => ['admin', 'create', 'delete', 'edit', 'view'],
     ],
     'version' => [
         'name' => 'Versions',

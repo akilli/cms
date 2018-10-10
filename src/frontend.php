@@ -159,9 +159,9 @@ function file(array $attr, int $val): string
 {
     $out = html\tag('div', ['id' => $attr['html']['id'] . '-file'], $val ? viewer\file($attr, $val) : '');
     $out .= html\tag('input', ['type' => 'hidden', 'value' => $val ?: ''] + $attr['html'], null, true);
-    $out .= html\tag('span', ['data-id' => $attr['html']['id'], 'data-act' => 'browser'], app\i18n('Browse'));
+    $out .= html\tag('span', ['data-id' => $attr['html']['id'], 'data-action' => 'browser'], app\i18n('Browse'));
     $out .= ' ';
-    $out .= html\tag('span', ['data-id' => $attr['html']['id'], 'data-act' => 'remove'], app\i18n('Remove'));
+    $out .= html\tag('span', ['data-id' => $attr['html']['id'], 'data-action' => 'remove'], app\i18n('Remove'));
 
     return  $out;
 }

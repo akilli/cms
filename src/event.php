@@ -105,15 +105,15 @@ function cfg_priv(array $data): array
     }
 
     foreach (app\cfg('entity') as $entity) {
-        if (array_intersect(['create', 'edit'], $entity['act']) && in_array('page', [$entity['id'], $entity['parent']])) {
+        if (array_intersect(['create', 'edit'], $entity['action']) && in_array('page', [$entity['id'], $entity['parent']])) {
             $id = $entity['id'] . '-publish';
             $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucwords('Publish'));
             $data[$id] = arr\replace(APP['priv'], $data[$id]);
         }
 
-        foreach ($entity['act'] as $act) {
-            $id = $entity['id'] . '/' . $act;
-            $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucwords($act));
+        foreach ($entity['action'] as $action) {
+            $id = $entity['id'] . '/' . $action;
+            $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucwords($action));
             $data[$id] = arr\replace(APP['priv'], $data[$id]);
         }
     }
@@ -164,21 +164,21 @@ function layout(array $data): array
         $keys[] = '_error_';
     } else {
         $eId = app\get('entity');
-        $act = app\get('act');
-        $keys[] = $act;
+        $action = app\get('action');
+        $keys[] = $action;
 
         if ($parent = app\get('parent')) {
-            $keys[] = $parent . '/' . $act;
+            $keys[] = $parent . '/' . $action;
         }
 
-        $keys[] = $eId . '/' . $act;
+        $keys[] = $eId . '/' . $action;
 
         if ($layout = app\get('layout')) {
             $keys[] = 'page-' . $layout;
         }
 
         if ($id = app\get('id')) {
-            $keys[] = $eId . '/' . $act . '/' . $id;
+            $keys[] = $eId . '/' . $action . '/' . $id;
         }
     }
 
