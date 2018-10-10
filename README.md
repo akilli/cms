@@ -13,20 +13,3 @@ Run the docker containers and access with configured domain. You can log in via 
 **!!! NOTE !!!**
 
 The docker image is based on the `akilli/php` image and uses its default configuration. This might work for you out of the box or not.
-
-## Abbreviations
-
-abbr | full
----- | -------
-act  | action
-arr  | array
-attr | attribute
-cfg  | config
-crit | criteria
-ent  | entity
-ext  | extension
-msg  | message
-opt  | option
-priv | privilege
-tpl  | template
-val  | value
