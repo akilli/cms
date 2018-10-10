@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace act;
+namespace action;
 
 use account;
 use arr;
