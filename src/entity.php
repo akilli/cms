@@ -12,9 +12,9 @@ use Throwable;
 /**
  * Size entity
  */
-function size(string $eId, array $crit = []): int
+function size(string $entityId, array $crit = []): int
 {
-    $entity = app\cfg('entity', $eId);
+    $entity = app\cfg('entity', $entityId);
     $opt = arr\replace(APP['entity.opt'], ['mode' => 'size']);
 
     try {
@@ -30,9 +30,9 @@ function size(string $eId, array $crit = []): int
 /**
  * Load one entity
  */
-function one(string $eId, array $crit = [], array $opt = []): array
+function one(string $entityId, array $crit = [], array $opt = []): array
 {
-    $entity = app\cfg('entity', $eId);
+    $entity = app\cfg('entity', $entityId);
     $data = [];
     $opt = arr\replace(APP['entity.opt'], $opt, ['mode' => 'one', 'limit' => 1]);
 
@@ -51,9 +51,9 @@ function one(string $eId, array $crit = [], array $opt = []): array
 /**
  * Load entity collection
  */
-function all(string $eId, array $crit = [], array $opt = []): array
+function all(string $entityId, array $crit = [], array $opt = []): array
 {
-    $entity = app\cfg('entity', $eId);
+    $entity = app\cfg('entity', $entityId);
     $opt = arr\replace(APP['entity.opt'], $opt, ['mode' => 'all']);
 
     if ($opt['select']) {
@@ -83,18 +83,18 @@ function all(string $eId, array $crit = [], array $opt = []): array
 /**
  * Save entity
  */
-function save(string $eId, array & $data): bool
+function save(string $entityId, array & $data): bool
 {
     $id = $data['id'] ?? null;
     $tmp = $data;
 
-    if ($id && ($old = one($eId, [['id', $id]]))) {
+    if ($id && ($old = one($entityId, [['id', $id]]))) {
         $tmp['_old'] = $old;
         $tmp['_entity'] = $old['_entity'];
         unset($tmp['_old']['_entity'], $tmp['_old']['_old']);
     } else {
         $tmp['_old'] = [];
-        $tmp['_entity'] = app\cfg('entity', $eId);
+        $tmp['_entity'] = app\cfg('entity', $entityId);
     }
 
     $aIds = [];
@@ -163,9 +163,9 @@ function save(string $eId, array & $data): bool
 /**
  * Delete entity
  */
-function delete(string $eId, array $crit = [], array $opt = []): bool
+function delete(string $entityId, array $crit = [], array $opt = []): bool
 {
-    if (!$all = all($eId, $crit, $opt)) {
+    if (!$all = all($entityId, $crit, $opt)) {
         app\msg('Nothing to delete');
         return false;
     }

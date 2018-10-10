@@ -37,8 +37,8 @@ function cfg_entity(array $data): array
 {
     $cfg = app\cfg('attr');
 
-    foreach ($data as $eId => $entity) {
-        $entity = arr\replace(APP['entity'], $entity, ['id' => $eId]);
+    foreach ($data as $entityId => $entity) {
+        $entity = arr\replace(APP['entity'], $entity, ['id' => $entityId]);
         $entity['name'] = app\i18n((string) $entity['name']);
         $p = $entity['parent'] && !empty($data[$entity['parent']]) ? $data[$entity['parent']] : null;
         $a = ['id' => null, 'name' => null];
@@ -67,7 +67,7 @@ function cfg_entity(array $data): array
             $entity['attr'][$aId] = $attr;
         }
 
-        $data[$eId] = $entity;
+        $data[$entityId] = $entity;
     }
 
     return $data;
@@ -163,7 +163,7 @@ function layout(array $data): array
     if (app\get('error')) {
         $keys[] = '_error_';
     } else {
-        $eId = app\get('entity');
+        $entityId = app\get('entity');
         $action = app\get('action');
         $keys[] = $action;
 
@@ -171,14 +171,14 @@ function layout(array $data): array
             $keys[] = $parent . '/' . $action;
         }
 
-        $keys[] = $eId . '/' . $action;
+        $keys[] = $entityId . '/' . $action;
 
         if ($layout = app\get('layout')) {
             $keys[] = 'page-' . $layout;
         }
 
         if ($id = app\get('id')) {
-            $keys[] = $eId . '/' . $action . '/' . $id;
+            $keys[] = $entityId . '/' . $action . '/' . $id;
         }
     }
 
