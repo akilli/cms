@@ -6,7 +6,6 @@ namespace app;
 
 const app = {
     cfg: {
-        file: <?=json_encode(APP['file']);?>,
         i18n: <?=json_encode(cfg('i18n'));?>
     },
     i18n: function (key) {

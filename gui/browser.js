@@ -46,16 +46,16 @@
                     const id = item.getAttribute('data-id');
                     const input = document.getElementById(id);
                     const div = document.getElementById(id + suffix);
-                    const ext = data.src.split('.').pop();
-                    const type = ext && app.cfg.file.hasOwnProperty(ext) ? app.cfg.file[ext] : 'a';
-                    const file = document.createElement(type);
+                    const type = CKEDITOR.media.getTypeFromUrl(data.src);
+                    const typeEl = type ? CKEDITOR.media.getTypeElement(type) : 'a';
+                    const file = document.createElement(typeEl);
 
                     while (div.firstChild) {
                         div.removeChild(div.firstChild);
                     }
 
                     input.setAttribute('value', data.id);
-                    file.setAttribute(type === 'a' ? 'href' : 'src', data.src);
+                    file.setAttribute(typeEl === 'a' ? 'href' : 'src', data.src);
                     div.appendChild(file);
                 };
 
