@@ -1,5 +1,7 @@
 START TRANSACTION;
 
+-- Replace all trigger functions!
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Account
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -17,7 +19,6 @@ ALTER TABLE file RENAME COLUMN ent TO entity;
 -- Page
 -- ---------------------------------------------------------------------------------------------------------------------
 
--- Replace trigger functions!
 ALTER TABLE page ADD COLUMN meta_title varchar(80) NOT NULL DEFAULT '';
 ALTER TABLE page RENAME COLUMN meta TO meta_description;
 ALTER TABLE page RENAME COLUMN menuname TO menu_name;
@@ -28,7 +29,6 @@ ALTER TABLE page RENAME COLUMN ent TO entity;
 -- Version
 -- ---------------------------------------------------------------------------------------------------------------------
 
--- Replace trigger functions!
 ALTER TABLE version RENAME COLUMN page TO page_id;
 
 -- ---------------------------------------------------------------------------------------------------------------------
