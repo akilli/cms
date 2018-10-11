@@ -23,7 +23,7 @@ function run(): void
 
     $app = & registry('app');
     $app['lang'] = locale_get_primary_language('');
-    $app['gui'] = max(filemtime(path('gui')), filemtime(path('ext.gui')) ?: 0);
+    $app['gui'] = max(filemtime(path('gui')), file_exists(path('ext.gui')) ? filemtime(path('ext.gui')) : 0);
     $app['error'] = false;
     $app['layout'] = null;
     $app['main'] = null;

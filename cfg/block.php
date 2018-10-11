@@ -7,13 +7,13 @@ return [
     'breadcrumb' => [
         'call' => 'block\breadcrumb',
         'vars' => [
-            'tag' => 'nav'
+            'tag' => 'nav',
         ],
     ],
     'container' => [
         'call' => 'block\container',
         'vars' => [
-            'tag' => null
+            'tag' => null,
         ],
     ],
     'create' => [
@@ -23,7 +23,7 @@ return [
             'attr' => [],
             'entity' => null,
             'redirect' => false,
-            'title' => ''
+            'title' => '',
         ],
     ],
     'form' => [
@@ -33,7 +33,7 @@ return [
             'attr' => [],
             'data' => [],
             'entity' => [],
-            'title' => ''
+            'title' => '',
         ],
     ],
     'head' => [
@@ -41,7 +41,7 @@ return [
         'tpl' => 'head.phtml',
         'vars' => [
             'desc' => '',
-            'title' => ''
+            'title' => '',
         ],
     ],
     'index' => [
@@ -61,14 +61,14 @@ return [
             'pager' => false,
             'parent_id' => null,
             'search' => [],
-            'title' => ''
+            'title' => '',
         ],
     ],
     'login' => [
         'call' => 'block\login',
         'tpl' => 'form.phtml',
         'vars' => [
-            'title' => ''
+            'title' => '',
         ],
     ],
     'menu' => [
@@ -78,7 +78,7 @@ return [
             'root' => false,
             'sticky' => false,
             'tag' => 'nav',
-            'toggle' => false
+            'toggle' => false,
         ],
     ],
     'nav' => [
@@ -87,7 +87,7 @@ return [
             'data' => [],
             'sticky' => false,
             'tag' => 'nav',
-            'toggle' => false
+            'toggle' => false,
         ],
     ],
     'pager' => [
@@ -97,27 +97,29 @@ return [
             'cur' => null,
             'limit' => null,
             'pages' => 10,
-            'size' => null
+            'size' => null,
         ],
     ],
     'search' => [
         'call' => 'block\search',
         'tpl' => 'search.phtml',
         'vars' => [
-            'q' => null
+            'q' => null,
         ],
     ],
     'sidebar' => [
         'call' => 'block\sidebar',
         'vars' => [
             'inherit' => false,
-            'tag' => null
+            'tag' => null,
         ],
     ],
     'toolbar' => [
         'call' => 'block\toolbar',
         'vars' => [
-            'tag' => 'nav'
+            'tag' => 'nav',
+            'sticky' => false,
+            'toggle' => false,
         ],
     ],
     'tpl' => [
@@ -129,7 +131,7 @@ return [
         'vars' => [
             'attr' => [],
             'data' => [],
-            'entity' => []
+            'entity' => [],
         ],
     ],
 ];
