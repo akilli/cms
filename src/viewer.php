@@ -104,8 +104,7 @@ function file(array $attr, int $val): string
         return '';
     }
 
-    $file = entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name', 'info']]);
-    $attr['html']['alt'] = app\enc($file['info']);
+    $file = entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name']]);
 
     return upload($attr, $file['name']);
 }
@@ -115,14 +114,17 @@ function file(array $attr, int $val): string
  */
 function upload(array $attr, string $val): string
 {
+    if (!$val || !($file = entity\one('file', [['name', $val]], ['select' => ['id', 'info']]))) {
+        return '';
+    }
+
     $mime = mime_content_type(app\file($val));
     $type = $mime && preg_match('#^(audio|image|video)/#', $mime, $match) ? $match[1] : null;
 
     if ($type === 'image') {
+        $attr['html']['alt'] = app\enc($file['info']);
         return html\tag('img', ['src' => $val] + $attr['html'], null, true);
     }
-
-    unset($attr['html']['alt']);
 
     if ($type === 'audio' || $type === 'video') {
         return html\tag($type, ['src' => $val, 'controls' => true] + $attr['html']);
