@@ -56,11 +56,10 @@ function head(array $§): string
         if ($page['meta_title']) {
             $§['vars']['title'] = $page['meta_title'];
         } else {
-            $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['id', 'name', 'menu_name'], 'order' => ['level' => 'asc']]);
+            $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['name', 'menu_name'], 'order' => ['level' => 'asc']]);
 
             foreach ($all as $item) {
-                $title = $item['menu_name'] ?: $item['name'];
-                $§['vars']['title'] = $title . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
+                $§['vars']['title'] = ($item['menu_name'] ?: $item['name']) . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
             }
         }
     } elseif (app\get('entity') && ($entity = app\cfg('entity', app\get('entity')))) {

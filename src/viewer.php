@@ -78,7 +78,7 @@ function opt(array $attr, $val): string
  */
 function entity(array $attr, int $val): string
 {
-    return $val ? entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name']])['name'] : '';
+    return $val ? entity\one($attr['ref'], [['id', $val]], ['select' => ['name']])['name'] : '';
 }
 
 /**
@@ -90,7 +90,7 @@ function page(array $attr, int $val): string
         return '';
     }
 
-    $page = entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name', 'menu_name']]);
+    $page = entity\one($attr['ref'], [['id', $val]], ['select' => ['name', 'menu_name']]);
 
     return $page['menu_name'] ?: $page['name'];
 }
@@ -104,7 +104,7 @@ function file(array $attr, int $val): string
         return '';
     }
 
-    $file = entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name']]);
+    $file = entity\one($attr['ref'], [['id', $val]], ['select' => ['name']]);
 
     return upload($attr, $file['name']);
 }
@@ -114,7 +114,7 @@ function file(array $attr, int $val): string
  */
 function upload(array $attr, string $val): string
 {
-    if (!$val || !($file = entity\one('file', [['name', $val]], ['select' => ['id', 'info']]))) {
+    if (!$val || !($file = entity\one('file', [['name', $val]], ['select' => ['info']]))) {
         return '';
     }
 
