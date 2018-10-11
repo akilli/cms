@@ -42,7 +42,7 @@ return [
     'Invalid criteria' => 'Ungültige Bedingung',
     'Invalid data' => 'Ungültige Daten',
     'Invalid entity %s' => 'Ungültige Entität %s',
-    'Invalid file type, allowed: %s' => 'Ungültiger Dateityp, erlaubt: %s',
+    'Invalid file type' => 'Ungültiger Dateityp',
     'Invalid JOIN-type' => 'Ungültiger JOIN-Typ',
     'Invalid name and password combination' => 'Ungültige Kombination aus Name und Passwort',
     'Invalid password' => 'Ungültiges Passwort',

@@ -109,7 +109,7 @@ return [
         'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
             'name' => [
-                'cfg.filter' => ['aac', 'flac', 'mp3', 'oga', 'ogg', 'wav', 'weba'],
+                'cfg.filter' => 'upload.audio',
             ],
         ],
     ],
@@ -120,7 +120,7 @@ return [
         'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
             'name' => [
-                'cfg.filter' => ['bz2', 'csv', 'doc', 'docx', 'gz', 'odg', 'odp', 'ods', 'odt', 'pdf', 'xls', 'xlsm', 'xlsx', 'zip'],
+                'cfg.filter' => 'upload.doc',
             ],
         ],
     ],
@@ -131,7 +131,7 @@ return [
         'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
             'name' => [
-                'cfg.filter' => ['gif', 'jpeg', 'jpg', 'png', 'svg', 'webp'],
+                'cfg.filter' => 'upload.image',
             ],
         ],
     ],
@@ -142,7 +142,7 @@ return [
         'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
             'name' => [
-                'cfg.filter' => ['mp4', 'ogv', 'webm'],
+                'cfg.filter' => 'upload.video',
             ],
         ],
     ],

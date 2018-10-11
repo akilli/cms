@@ -6,6 +6,7 @@ namespace filter;
 use app;
 use attr;
 use entity;
+use request;
 use DomainException;
 
 /**
@@ -141,10 +142,11 @@ function entity(array $attr, int $val): int
  */
 function upload(array $attr, string $val): string
 {
-    $attr['cfg.filter'] = (array) $attr['cfg.filter'];
+    $cfg = $attr['cfg.filter'] ? app\cfg('filter', $attr['cfg.filter']) : null;
+    $mime = request\get('file')[$attr['id']]['type'] ?? null;
 
-    if ($val && !in_array(pathinfo($val, PATHINFO_EXTENSION), $attr['cfg.filter'])) {
-        throw new DomainException(app\i18n('Invalid file type, allowed: %s', implode(', ', $attr['cfg.filter'])));
+    if ($val && (!$mime || !in_array($mime, $cfg))) {
+        throw new DomainException(app\i18n('Invalid file type'));
     }
 
     return path($attr, $val);
