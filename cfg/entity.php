@@ -82,12 +82,6 @@ return [
                 'unique' => true,
                 'maxlength' => 50,
             ],
-            'type' => [
-                'name' => 'Filetype',
-                'type' => 'text',
-                'required' => true,
-                'maxlength' => 5,
-            ],
             'info' => [
                 'name' => 'Info',
                 'type' => 'textarea',

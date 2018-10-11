@@ -250,11 +250,25 @@ function log(Throwable $e): void
  */
 function path(string $dir, string $id = null): string
 {
-    if (empty(APP['path'][$dir])) {
-        throw new DomainException(i18n('Invalid path %s', $dir));
+    if (!$dir || empty(APP['path'][$dir])) {
+        throw new DomainException(i18n('Invalid path'));
     }
 
     return APP['path'][$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
+}
+
+/**
+ * Gets absolute path to file from specified URL
+ *
+ * @throws DomainException
+ */
+function file(string $url): string
+{
+    if (!$url || !preg_match('#^' . APP['url.file'] . '(.+)#', $url, $match)) {
+        throw new DomainException(i18n('Invalid path'));
+    }
+
+    return path('file', $match[1]);
 }
 
 /**

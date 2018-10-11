@@ -115,8 +115,7 @@ function file(array $attr, int $val): string
  */
 function upload(array $attr, string $val): string
 {
-    $path = app\path('file', preg_replace('#^' . APP['url.file'] . '#', '', $val));
-    $mime = mime_content_type($path);
+    $mime = mime_content_type(app\file($val));
     $type = $mime && preg_match('#^(audio|image|video)/#', $mime, $match) ? $match[1] : null;
 
     if ($type === 'image') {

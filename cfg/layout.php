@@ -321,7 +321,7 @@ return [
     'file/admin' => [
         'content' => [
             'vars' => [
-                'attr' => ['name', 'type', 'info']
+                'attr' => ['name', 'info']
             ],
         ],
     ],

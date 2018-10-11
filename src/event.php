@@ -222,11 +222,7 @@ function entity_postfilter(array $data): array
  */
 function entity_prefilter_file(array $data): array
 {
-    if (!empty($data['name'])) {
-        $data['type'] = pathinfo($data['name'], PATHINFO_EXTENSION);
-    }
-
-    if (!empty($data['type']) && !empty($data['_old']['type']) && $data['type'] !== $data['_old']['type']) {
+    if (!empty($data['name']) && !empty($data['_old']['name']) && pathinfo($data['name'], PATHINFO_EXTENSION) !== pathinfo($data['_old']['name'], PATHINFO_EXTENSION)) {
         $data['_error']['name'] = app\i18n('Cannot change filetype anymore');
     }
 
@@ -274,7 +270,7 @@ function entity_postsave_file(array $data): array
 {
     $item = request\get('file')['name'] ?? null;
 
-    if ($item && !file\upload($item['tmp_name'], app\path('file', $data['id'] . '.' . $data['type']))) {
+    if ($item && !file\upload($item['tmp_name'], app\path('file', $data['id'] . '.' . pathinfo($data['name'], PATHINFO_EXTENSION)))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
     }
 
@@ -288,7 +284,7 @@ function entity_postsave_file(array $data): array
  */
 function entity_postdelete_file(array $data): array
 {
-    if (!file\delete(app\path('file', $data['id'] . '.' . $data['type']))) {
+    if (!file\delete(app\file($data['name']))) {
         throw new DomainException(app\i18n('Could not delete file'));
     }
 

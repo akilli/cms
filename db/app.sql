@@ -38,12 +38,10 @@ CREATE INDEX ON account (role_id);
 CREATE TABLE file (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
-    type varchar(5) NOT NULL,
     info text NOT NULL,
     entity varchar(50) NOT NULL CHECK (entity != '')
 );
 
-CREATE INDEX ON file (type);
 CREATE INDEX ON file (entity);
 
 --
@@ -51,12 +49,18 @@ CREATE INDEX ON file (entity);
 --
 
 CREATE FUNCTION file_save() RETURNS trigger AS $$
+    DECLARE
+        _ext text;
     BEGIN
-        IF (TG_OP = 'UPDATE' AND NEW.type != OLD.type) THEN
+        _ext := (REGEXP_MATCH(NEW.name, '\.(\w+)$'))[1];
+
+        IF (_ext IS NULL) THEN
+            RAISE EXCEPTION 'Invalid file type';
+        ELSIF (TG_OP = 'UPDATE' AND _ext != (REGEXP_MATCH(OLD.name, '\.(\w+)$'))[1]) THEN
             RAISE EXCEPTION 'Cannot change filetype anymore';
         END IF;
 
-        NEW.name := '/file/' || NEW.id || '.' || NEW.type;
+        NEW.name := '/file/' || NEW.id || '.' || _ext;
 
         RETURN NEW;
     END;
