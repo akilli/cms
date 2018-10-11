@@ -303,10 +303,10 @@ function nav(array $§): string
         $a = $item['url'] && !$item['disabled'] ? ['href' => $item['url']] : [];
         $class = '';
 
-        if ($item['url'] === $url) {
+        if ($item['url'] && $item['url'] === $url) {
             $a['class'] = 'active';
             $class .= ' class="active"';
-        } elseif (strpos($url, preg_replace('#\.html#', '', $item['url'])) === 0) {
+        } elseif ($item['url'] && strpos($url, preg_replace('#\.html#', '', $item['url'])) === 0) {
             $a['class'] = 'path';
             $class .= ' class="path"';
         }
