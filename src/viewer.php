@@ -104,11 +104,8 @@ function file(array $attr, int $val): string
         return '';
     }
 
-    $file = entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name', 'type', 'info']]);
-
-    if ((APP['file'][$file['type']] ?? null) === 'img') {
-        $attr['html']['alt'] = app\enc($file['info']);
-    }
+    $file = entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'name', 'info']]);
+    $attr['html']['alt'] = app\enc($file['info']);
 
     return upload($attr, $file['name']);
 }
@@ -118,14 +115,18 @@ function file(array $attr, int $val): string
  */
 function upload(array $attr, string $val): string
 {
-    $tag = APP['file'][pathinfo($val, PATHINFO_EXTENSION)] ?? 'a';
+    $path = app\path('file', preg_replace('#^' . APP['url.file'] . '#', '', $val));
+    $mime = mime_content_type($path);
+    $type = $mime && preg_match('#^(audio|image|video)/#', $mime, $match) ? $match[1] : null;
 
-    if ($tag === 'img') {
+    if ($type === 'image') {
         return html\tag('img', ['src' => $val] + $attr['html'], null, true);
     }
 
-    if (in_array($tag, ['audio', 'video'])) {
-        return html\tag($tag, ['src' => $val, 'controls' => true] + $attr['html']);
+    unset($attr['html']['alt']);
+
+    if ($type === 'audio' || $type === 'video') {
+        return html\tag($type, ['src' => $val, 'controls' => true] + $attr['html']);
     }
 
     return html\tag('a', ['href' => $val] + $attr['html'], $val);

@@ -74,24 +74,6 @@ const APP = [
         'limit' => 0,
         'offset' => 0,
     ],
-    'file' => [
-        'aac' => 'audio',
-        'flac' => 'audio',
-        'gif' => 'img',
-        'jpeg' => 'img',
-        'jpg' => 'img',
-        'mp3' => 'audio',
-        'mp4' => 'video',
-        'oga' => 'audio',
-        'ogg' => 'audio',
-        'ogv' => 'video',
-        'png' => 'img',
-        'svg' => 'img',
-        'wav' => 'audio',
-        'weba' => 'audio',
-        'webm' => 'video',
-        'webp' => 'img',
-    ],
     'join' => ['full' => 'full', 'inner' => 'inner', 'left' => 'left', 'right' => 'right'],
     'log' => 'php://stdout',
     'path' => [
@@ -120,6 +102,7 @@ const APP = [
         'level' => 0,
     ],
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
+    'url.file' => '/file/',
     'url.gui' => '/gui/',
     'version' => ['name', 'teaser', 'main', 'aside', 'sidebar', 'status', 'date']
 ];
