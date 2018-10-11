@@ -141,11 +141,10 @@ function entity(array $attr, int $val): string
 function page(array $attr, int $val): string
 {
     if (($attr['opt'] = & app\registry('opt.page')) === null) {
-        $pos = app\cfg('entity', 'page')['attr']['pos'];
         $attr['opt'] = [];
 
         foreach (entity\all('content', [], ['select' => ['id', 'name', 'menu_name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
-            $attr['opt'][$item['id']] = attr\viewer($pos, $item) . ' ' . ($item['menu_name'] ?: $item['name']);
+            $attr['opt'][$item['id']] = attr\viewer($item['_entity']['attr']['pos'], $item) . ' ' . ($item['menu_name'] ?: $item['name']);
         }
     }
 
