@@ -39,7 +39,7 @@ function edit(array $entity): void
     }
 
     $p[] = $data;
-    $data = arr\replace(entity\item($entity), ...$p);
+    $data = arr\replace(['_error' => null] + entity\item($entity), ...$p);
     app\layout('content', ['vars' => ['data' => $data, 'entity' => $entity, 'title' => $entity['name']]]);
 }
 
