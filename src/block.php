@@ -422,7 +422,7 @@ function breadcrumb(array $§): string
         $html .= ($html ? ' ' : '') . html\tag('a', $a, $item['menu_name'] ?: $item['name']);
     }
 
-    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+    return html\tag('nav', ['id' => $§['id']], $html);
 }
 
 /**
