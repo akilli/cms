@@ -11,7 +11,7 @@ $aside = !empty($§('entity')['attr']['aside']) ? attr\viewer($§('entity')['att
         $attr = $§('entity')['attr'][$attrId] ?? null;
         $val = $§('data')[$attrId] ?? null;
         ?>
-        <?php if ($attr['id'] === 'aside' || !$attr || $val === null || $val === '' || !($html = attr\viewer($attr, $§('data')))) continue;?>
+        <?php if (!$attr || $attr['id'] === 'aside' || $val === null || $val === '' || !($html = attr\viewer($attr, $§('data')))) continue;?>
         <?php if ($attr['id'] === 'name'):?>
     <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
         <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
