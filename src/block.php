@@ -461,5 +461,5 @@ function sidebar(array $§): string
         $html = entity\one('page', $crit, $opt)['sidebar'] ?? '';
     }
 
-    return $html;
+    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
 }
