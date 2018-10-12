@@ -1,6 +1,7 @@
 <?php
 namespace app;
 use attr;
+use session;
 /** @var callable $§ */
 ?>
 <section id="<?=$§('id');?>" class="form" data-entity="<?=$§('entity')['id'];?>">
@@ -17,6 +18,6 @@ use attr;
             <?php endforeach;?>
         </fieldset>
         <input type="submit" value="<?=i18n('Submit');?>" />
-        <input type="hidden" name="token" value="<?=$§('token');?>" />
+        <input type="hidden" name="token" value="<?=session\token();?>" />
     </form>
 </section>

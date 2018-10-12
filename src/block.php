@@ -9,7 +9,6 @@ use attr;
 use entity;
 use html;
 use request;
-use session;
 use DomainException;
 
 /**
@@ -35,7 +34,7 @@ function tpl(array $§): string
         return '';
     }
 
-    $§['vars'] = ['id' => $§['id'], 'token' => session\token(), 'tpl' => $§['tpl']] + $§['vars'];
+    $§['vars'] = ['id' => $§['id'], 'tpl' => $§['tpl']] + $§['vars'];
     $§ = function ($key) use ($§) {
         return $§['vars'][$key] ?? null;
     };
