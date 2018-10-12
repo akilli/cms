@@ -279,7 +279,7 @@ textarea {
     color: #32535c;
 }
 
-form [data-attr=nope] {
+form [data-type=nope] {
     display: none;
 }
 
