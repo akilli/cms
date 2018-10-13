@@ -204,14 +204,14 @@ return [
                 'type' => 'text',
                 'filter' => 'filter\id',
                 'required' => true,
-                'maxlength' => 50,
+                'maxlength' => 75,
             ],
             'url' => [
                 'name' => 'URL',
                 'type' => 'text',
                 'auto' => true,
                 'unique' => true,
-                'maxlength' => 255,
+                'maxlength' => 320,
             ],
             'disabled' => [
                 'name' => 'Page access disabled',
