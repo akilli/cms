@@ -195,7 +195,7 @@ function layout(array $data): array
             throw new DomainException(app\i18n('Invalid block %s', $id));
         }
 
-        $data[$id] = arr\replace(APP['block'], $type[$§['type']], $§, ['id' => $id]);
+        $data[$id] = arr\replace(APP['layout'], $type[$§['type']], $§, ['id' => $id]);
     }
 
     return $data;

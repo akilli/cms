@@ -32,16 +32,6 @@ const APP = [
         'html' => [],
     ],
     'backend' => ['bool', 'date', 'datetime', 'decimal', 'int', 'json', 'text', 'time', 'varchar'],
-    'block' => [
-        'id' => null,
-        'type' => null,
-        'tpl' => null,
-        'active' => true,
-        'priv' => null,
-        'parent' => null,
-        'sort' => 0,
-        'vars' => [],
-    ],
     'crit' => [
         '=' => '=',
         '!=' => '!=',
@@ -75,6 +65,16 @@ const APP = [
         'offset' => 0,
     ],
     'join' => ['full' => 'full', 'inner' => 'inner', 'left' => 'left', 'right' => 'right'],
+    'layout' => [
+        'id' => null,
+        'type' => null,
+        'tpl' => null,
+        'active' => true,
+        'priv' => null,
+        'parent' => null,
+        'sort' => 0,
+        'vars' => [],
+    ],
     'log' => 'php://stdout',
     'path' => [
         'cfg' => '/app/cfg',
