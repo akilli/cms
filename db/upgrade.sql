@@ -7,4 +7,4 @@ ALTER TABLE
 ALTER COLUMN
     slug TYPE varchar(75),
 ALTER COLUMN
-    url TYPE varchar(320);
+    url TYPE varchar(400);

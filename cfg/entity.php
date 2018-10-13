@@ -211,7 +211,7 @@ return [
                 'type' => 'text',
                 'auto' => true,
                 'unique' => true,
-                'maxlength' => 320,
+                'maxlength' => 400,
             ],
             'disabled' => [
                 'name' => 'Page access disabled',

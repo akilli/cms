@@ -84,7 +84,7 @@ CREATE TABLE page (
     meta_description varchar(300) NOT NULL DEFAULT '',
     layout varchar(50) DEFAULT NULL,
     slug varchar(75) NOT NULL,
-    url varchar(320) UNIQUE DEFAULT NULL,
+    url varchar(400) UNIQUE DEFAULT NULL,
     disabled boolean NOT NULL DEFAULT FALSE,
     menu boolean NOT NULL DEFAULT FALSE,
     menu_name varchar(255) DEFAULT NULL,
