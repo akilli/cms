@@ -90,7 +90,6 @@ function pager(array $§): string
     $cur = $§['vars']['cur'] ?? request\get('param')['cur'] ?? 1;
     $limit = (int) $§['vars']['limit'];
     $pages = (int) $§['vars']['pages'];
-    unset($§['vars']['cur'], $§['vars']['limit'], $§['vars']['pages']);
 
     if ($limit <= 0 || $§['vars']['size'] <= 0) {
         return '';
@@ -148,7 +147,6 @@ function index(array $§): string
         }
     }
 
-    unset($§['vars']['crit'], $§['vars']['inaccessible'], $§['vars']['limit'], $§['vars']['order'], $§['vars']['parent_id']);
     $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], request\get('param'));
 
     if ($§['vars']['search']) {
@@ -336,17 +334,16 @@ function nav(array $§): string
  */
 function menu(array $§): string
 {
-    $mode = $§['vars']['mode'];
-    unset($§['vars']['mode']);
     $page = app\get('page');
     $main = app\get('main');
+    $sub = $§['vars']['mode'] === 'sub';
 
-    if ($mode === 'sub' && (!$page || !$main)) {
+    if ($sub && (!$page || !$main)) {
         return '';
     }
 
     $crit = [['status', 'published'], ['entity', 'content']];
-    $crit[] = $mode === 'sub' ? ['id', app\get('main')] : ['url', '/'];
+    $crit[] = $sub ? ['id', app\get('main')] : ['url', '/'];
     $select = ['id', 'name', 'url', 'disabled', 'menu_name', 'pos', 'level'];
 
     if (!$root = entity\one('page', $crit, ['select' => $select])) {
@@ -355,7 +352,7 @@ function menu(array $§): string
 
     $crit = [['status', 'published'], ['entity', 'content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
 
-    if ($mode === 'sub') {
+    if ($sub) {
         $parent = $page['path'];
         unset($parent[0]);
         $crit[] = [['id', $page['path']], ['parent_id', $parent]];
