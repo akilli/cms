@@ -40,7 +40,7 @@ return [
         'call' => 'block\head',
         'tpl' => 'head.phtml',
         'vars' => [
-            'desc' => '',
+            'description' => '',
             'title' => '',
         ],
     ],

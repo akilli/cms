@@ -50,7 +50,7 @@ function tpl(array $§): string
 function head(array $§): string
 {
     if ($page = app\get('page')) {
-        $§['vars']['desc'] = $page['meta_description'];
+        $§['vars']['description'] = $page['meta_description'];
 
         if ($page['meta_title']) {
             $§['vars']['title'] = $page['meta_title'];
@@ -65,7 +65,7 @@ function head(array $§): string
         $§['vars']['title'] = $entity['name'] . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
     }
 
-    $§['vars']['desc'] = $§['vars']['desc'] ? app\enc($§['vars']['desc']) : '';
+    $§['vars']['description'] = $§['vars']['description'] ? app\enc($§['vars']['description']) : '';
     $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : '';
 
     return tpl($§);
