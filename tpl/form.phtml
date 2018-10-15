@@ -13,7 +13,7 @@ use session;
             <?php foreach ($§('attr') as $attrId):?>
             <?php if (!($attr = $§('entity')['attr'][$attrId] ?? null)) continue;?>
             <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-                <?=attr\frontend($attr, $§('data'));?>
+                <?=attr\frontend($§('data'), $attr);?>
             </div>
             <?php endforeach;?>
         </fieldset>

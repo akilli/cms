@@ -11,7 +11,7 @@ use html;
 /**
  * Input
  */
-function input(array $attr, string $val): string
+function input(string $val, array $attr): string
 {
     return html\tag('input', ['value' => app\enc($val)] + $attr['html'], null, true);
 }
@@ -19,7 +19,7 @@ function input(array $attr, string $val): string
 /**
  * Password
  */
-function password(array $attr): string
+function password(string $val, array $attr): string
 {
     return html\tag('input', ['autocomplete' => 'off', 'type' => 'password', 'value' => false] + $attr['html'], null, true);
 }
@@ -27,7 +27,7 @@ function password(array $attr): string
 /**
  * Number
  */
-function number(array $attr, $val): string
+function number($val, array $attr): string
 {
     if (empty($attr['html']['step'])) {
         $attr['html']['step'] = is_float($val) ? '0.01' : '1';
@@ -39,7 +39,7 @@ function number(array $attr, $val): string
 /**
  * Datetime
  */
-function datetime(array $attr, string $val): string
+function datetime(string $val, array $attr): string
 {
     $attr['html']['value'] = $val ? attr\datetime($val, $attr['cfg.backend'], $attr['cfg.frontend']) : '';
 
@@ -49,7 +49,7 @@ function datetime(array $attr, string $val): string
 /**
  * Textarea
  */
-function textarea(array $attr, string $val): string
+function textarea(string $val, array $attr): string
 {
     return html\tag('textarea', $attr['html'], app\enc($val));
 }
@@ -57,15 +57,15 @@ function textarea(array $attr, string $val): string
 /**
  * JSON
  */
-function json(array $attr, array $val): string
+function json(array $val, array $attr): string
 {
-    return textarea($attr['html'], json_encode($val));
+    return textarea(json_encode($val), $attr);
 }
 
 /**
  * Bool
  */
-function bool(array $attr, bool $val): string
+function bool(bool $val, array $attr): string
 {
     $out = html\tag('input', ['id' => $attr['html']['id'], 'name' => $attr['html']['name'], 'type' => 'hidden'], null, true);
 
@@ -75,7 +75,7 @@ function bool(array $attr, bool $val): string
 /**
  * Checkbox
  */
-function checkbox(array $attr, array $val): string
+function checkbox(array $val, array $attr): string
 {
     $out = html\tag('input', ['id' => $attr['html']['id'], 'name' => str_replace('[]', '', $attr['html']['name']), 'type' => 'hidden'], null, true);
 
@@ -91,7 +91,7 @@ function checkbox(array $attr, array $val): string
 /**
  * Radio
  */
-function radio(array $attr, $val): string
+function radio($val, array $attr): string
 {
     $out = '';
 
@@ -107,7 +107,7 @@ function radio(array $attr, $val): string
 /**
  * Select
  */
-function select(array $attr, $val): string
+function select($val, array $attr): string
 {
     if (!is_array($val)) {
         $val = $val === null && $val === '' ? [] : [$val];
@@ -125,19 +125,19 @@ function select(array $attr, $val): string
 /**
  * Entity
  */
-function entity(array $attr, int $val): string
+function entity(int $val, array $attr): string
 {
     if (($attr['opt'] = & app\registry('opt.entity.' . $attr['ref'])) === null) {
         $attr['opt'] = array_column(entity\all($attr['ref'], [], ['select' => ['id', 'name'], 'order' => ['name' => 'asc']]), 'name', 'id');
     }
 
-    return select($attr, $val);
+    return select($val, $attr);
 }
 
 /**
  * Page
  */
-function page(array $attr, int $val): string
+function page(int $val, array $attr): string
 {
     if (($attr['opt'] = & app\registry('opt.page')) === null) {
         $attr['opt'] = [];
@@ -147,13 +147,13 @@ function page(array $attr, int $val): string
         }
     }
 
-    return select($attr, $val);
+    return select($val, $attr);
 }
 
 /**
  * File
  */
-function file(array $attr, int $val): string
+function file(int $val, array $attr): string
 {
     $out = html\tag('div', ['id' => $attr['html']['id'] . '-file'], $val ? $attr['viewer']($val, $attr) : '');
     $out .= html\tag('input', ['type' => 'hidden', 'value' => $val ?: ''] + $attr['html'], null, true);
@@ -167,7 +167,7 @@ function file(array $attr, int $val): string
 /**
  * File Upload
  */
-function upload(array $attr, string $val): string
+function upload(string $val, array $attr): string
 {
     $out = html\tag('div', [], $val ? $attr['viewer']($val, $attr) : '');
     $out .= html\tag('input', ['type' => 'file'] + $attr['html'], null, true);

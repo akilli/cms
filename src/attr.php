@@ -68,7 +68,7 @@ function filter(array $data, array $attr)
 /**
  * Frontend
  */
-function frontend(array $attr, array $data): string
+function frontend(array $data, array $attr): string
 {
     $val = cast($data[$attr['id']] ?? $attr['val'], ['nullable' => false] + $attr);
     $attr['opt'] = opt($data, $attr);
@@ -113,7 +113,7 @@ function frontend(array $attr, array $data): string
         $error = html\tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
-    $out = $attr['frontend']($attr, $val);
+    $out = $attr['frontend']($val, $attr);
 
     return html\tag('label', $label, $attr['name']) . $out . $error;
 }
