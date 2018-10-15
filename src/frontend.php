@@ -7,7 +7,6 @@ use app;
 use attr;
 use entity;
 use html;
-use viewer;
 
 /**
  * Input
@@ -156,7 +155,7 @@ function page(array $attr, int $val): string
  */
 function file(array $attr, int $val): string
 {
-    $out = html\tag('div', ['id' => $attr['html']['id'] . '-file'], $val ? viewer\file($attr, $val) : '');
+    $out = html\tag('div', ['id' => $attr['html']['id'] . '-file'], $val ? $attr['viewer']($attr, $val) : '');
     $out .= html\tag('input', ['type' => 'hidden', 'value' => $val ?: ''] + $attr['html'], null, true);
     $out .= html\tag('span', ['data-id' => $attr['html']['id'], 'data-action' => 'browser'], app\i18n('Browse'));
     $out .= ' ';
@@ -170,7 +169,7 @@ function file(array $attr, int $val): string
  */
 function upload(array $attr, string $val): string
 {
-    $out = html\tag('div', [], $val ? viewer\upload($attr, $val) : '');
+    $out = html\tag('div', [], $val ? $attr['viewer']($attr, $val) : '');
     $out .= html\tag('input', ['type' => 'file'] + $attr['html'], null, true);
 
     return $out;
