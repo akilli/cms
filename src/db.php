@@ -98,7 +98,7 @@ function save(array $data): array
         }
     }
 
-    if (!($cols = sql\cols($attrs, $data)) || empty($cols['param'])) {
+    if (!($cols = sql\cols($data, $attrs)) || empty($cols['param'])) {
         return $data;
     }
 

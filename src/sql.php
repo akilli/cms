@@ -70,7 +70,7 @@ function type($val): int
 /**
  * Prepare columns
  */
-function cols(array $attrs, array $data): array
+function cols(array $data, array $attrs): array
 {
     $attrs = attr($attrs, true);
     $cols = ['param' => [], 'val' => []];
