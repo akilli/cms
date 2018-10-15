@@ -18,7 +18,7 @@ use DomainException;
  */
 function filter(array $data, array $attr)
 {
-    $val = cast($attr, $data[$attr['id']] ?? null);
+    $val = cast($data[$attr['id']] ?? null, $attr);
 
     if ($attr['nullable'] && $val === null) {
         return $val;
@@ -70,7 +70,7 @@ function filter(array $data, array $attr)
  */
 function frontend(array $attr, array $data): string
 {
-    $val = cast(['nullable' => false] + $attr, $data[$attr['id']] ?? $attr['val']);
+    $val = cast($data[$attr['id']] ?? $attr['val'], ['nullable' => false] + $attr);
     $attr['opt'] = opt($data, $attr);
     $attr['html']['id'] =  'data-' . $attr['id'];
     $attr['html']['name'] =  'data[' . $attr['id'] . ']';
@@ -159,7 +159,7 @@ function opt(array $data, array $attr): array
  *
  * @return mixed
  */
-function cast(array $attr, $val)
+function cast($val, array $attr)
 {
     if ($attr['nullable'] && ($val === null || $val === '')) {
         return null;

@@ -204,7 +204,7 @@ function item(array $entity): array
 function load(array $entity, array $data): array
 {
     foreach (array_intersect_key($data, $entity['attr']) as $attrId => $val) {
-        $data[$attrId] = attr\cast($entity['attr'][$attrId], $val);
+        $data[$attrId] = attr\cast($val, $entity['attr'][$attrId]);
     }
 
     $data += ['_old' => $data, '_entity' => $entity];
