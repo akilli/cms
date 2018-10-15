@@ -9,7 +9,7 @@ use arr;
 /**
  * Child entity options
  */
-function child(array $attr, array $data): array
+function child(array $data): array
 {
     if ($data['_entity']['parent']) {
         return [$data['_entity']['id'] => $data['_entity']['name']];
@@ -46,7 +46,7 @@ function priv(): array
 /**
  * Status options
  */
-function status(array $attr, array $data): array
+function status(array $data, array $attr): array
 {
     $opt = ['draft' => 'Draft', 'pending' => 'Pending'];
 

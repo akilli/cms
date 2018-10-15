@@ -26,7 +26,7 @@ function filter(array $data, array $attr)
 
     $set = $val !== null && $val !== '';
     $pattern = $attr['pattern'] ? '#^' . str_replace('#', '\#', $attr['pattern']) . '$#' : null;
-    $attr['opt'] = opt($attr, $data);
+    $attr['opt'] = opt($data, $attr);
 
     if ($attr['filter']) {
         $val = $attr['filter']($val, $attr);
@@ -71,7 +71,7 @@ function filter(array $data, array $attr)
 function frontend(array $attr, array $data): string
 {
     $val = cast(['nullable' => false] + $attr, $data[$attr['id']] ?? $attr['val']);
-    $attr['opt'] = opt($attr, $data);
+    $attr['opt'] = opt($data, $attr);
     $attr['html']['id'] =  'data-' . $attr['id'];
     $attr['html']['name'] =  'data[' . $attr['id'] . ']';
     $attr['html']['data-type'] =  $attr['type'];
@@ -129,7 +129,7 @@ function viewer(array $data, array $attr): string
         return '';
     }
 
-    $attr['opt'] = opt($attr, $data);
+    $attr['opt'] = opt($data, $attr);
 
     if ($attr['viewer']) {
         return $attr['viewer']($val, $attr);
@@ -141,10 +141,10 @@ function viewer(array $data, array $attr): string
 /**
  * Option
  */
-function opt(array $attr, array $data): array
+function opt(array $data, array $attr): array
 {
     if ($attr['opt'] && strpos($attr['opt'], '\\') !== false) {
-        return $attr['opt']($attr, $data);
+        return $attr['opt']($data, $attr);
     }
 
     if ($attr['opt']) {
