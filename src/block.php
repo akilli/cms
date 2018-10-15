@@ -428,16 +428,10 @@ function breadcrumb(array $§): string
 function banner(array $§): string
 {
     if (($page = app\get('page')) && $page['entity'] !== 'content') {
-        $crit = [['id', $page['path']], ['entity', 'content']];
-        $opt = ['select' => ['image'], 'order' => ['level' => 'desc']];
-        $page = entity\one('page', $crit, $opt);
+        $page = entity\one('page', [['id', $page['path']], ['entity', 'content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
     }
 
-    if (!$page || !($§['vars']['img'] = attr\viewer($page['_entity']['attr']['image'], $page))) {
-        return '';
-    }
-
-    return tpl($§);
+    return $page && ($§['vars']['img'] = attr\viewer($page, $page['_entity']['attr']['image'])) ? tpl($§) : '';
 }
 
 

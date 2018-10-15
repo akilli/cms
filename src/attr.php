@@ -121,7 +121,7 @@ function frontend(array $attr, array $data): string
 /**
  * Viewer
  */
-function viewer(array $attr, array $data): string
+function viewer(array $data, array $attr): string
 {
     $val = $data[$attr['id']] ?? null;
 
@@ -132,7 +132,7 @@ function viewer(array $attr, array $data): string
     $attr['opt'] = opt($attr, $data);
 
     if ($attr['viewer']) {
-        return $attr['viewer']($attr, $val);
+        return $attr['viewer']($val, $attr);
     }
 
     return app\enc((string) $val);

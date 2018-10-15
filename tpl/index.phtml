@@ -28,7 +28,7 @@ use attr;
             <?php if (!($attr = $§('entity')['attr'][$attrId] ?? null)) continue;?>
             <?php
             $val = $data[$attr['id']] ?? null;
-            $html = attr\viewer($attr, $data);
+            $html = attr\viewer($data, $attr);
             ?>
             <?php if (!$§('head') && ($val === null || $val === '' || !$html)) continue;?>
             <?php if ($attr['id'] === 'name'):?>

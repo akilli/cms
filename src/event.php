@@ -248,7 +248,7 @@ function entity_postsave(array $data): array
         if (!$attr || $attrId === 'id') {
             continue;
         } elseif ($attr['type'] !== 'file') {
-            $text .= $attr['name'] . ':' . APP['crlf'] . attr\viewer($attr, $data) . APP['crlf'] .APP['crlf'];
+            $text .= $attr['name'] . ':' . APP['crlf'] . attr\viewer($data, $attr) . APP['crlf'] .APP['crlf'];
         } elseif (!empty($file[$attrId])) {
             $attach[] = ['name' => $file[$attrId]['name'], 'path' => $file[$attrId]['tmp_name'], 'type' => $file[$attrId]['type']];
         }

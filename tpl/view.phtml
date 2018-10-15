@@ -2,7 +2,7 @@
 namespace app;
 use attr;
 /** @var callable $§ */
-$aside = !empty($§('entity')['attr']['aside']) ? attr\viewer($§('entity')['attr']['aside'], $§('data')) : null;
+$aside = !empty($§('entity')['attr']['aside']) ? attr\viewer($§('data'), $§('entity')['attr']['aside']) : null;
 ?>
 <article id="<?=$§('id');?>" class="view<?php if ($aside):?> aside<?php endif;?>" data-entity="<?=$§('entity')['id'];?>">
     <?=§($§('id') . '-top');?>
@@ -11,7 +11,7 @@ $aside = !empty($§('entity')['attr']['aside']) ? attr\viewer($§('entity')['att
         $attr = $§('entity')['attr'][$attrId] ?? null;
         $val = $§('data')[$attrId] ?? null;
         ?>
-        <?php if (!$attr || $attr['id'] === 'aside' || $val === null || $val === '' || !($html = attr\viewer($attr, $§('data')))) continue;?>
+        <?php if (!$attr || $attr['id'] === 'aside' || $val === null || $val === '' || !($html = attr\viewer($§('data'), $attr))) continue;?>
         <?php if ($attr['id'] === 'name'):?>
     <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
         <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>

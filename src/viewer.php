@@ -10,7 +10,7 @@ use html;
 /**
  * URL viewer
  */
-function url(array $attr, string $val): string
+function url(string $val, array $attr): string
 {
     return html\tag('a', ['href' => $val] + $attr['html'], $val);
 }
@@ -18,7 +18,7 @@ function url(array $attr, string $val): string
 /**
  * Datetime viewer
  */
-function datetime(array $attr, string $val): string
+function datetime(string $val, array $attr): string
 {
     return date_format(date_create($val), $attr['cfg.viewer']);
 }
@@ -26,7 +26,7 @@ function datetime(array $attr, string $val): string
 /**
  * Rich text viewer
  */
-function rte(array $attr, string $val): string
+function rte(string $val): string
 {
     return $val;
 }
@@ -34,7 +34,7 @@ function rte(array $attr, string $val): string
 /**
  * JSON viewer
  */
-function json(array $attr, array $val): string
+function json(array $val, array $attr): string
 {
     return html\tag('pre', $attr['html'], app\enc(print_r($val, true)));
 }
@@ -42,7 +42,7 @@ function json(array $attr, array $val): string
 /**
  * Position viewer
  */
-function pos(array $attr, string $val): string
+function pos(string $val): string
 {
     $parts = explode('.', $val);
 
@@ -56,7 +56,7 @@ function pos(array $attr, string $val): string
 /**
  * Option viewer
  */
-function opt(array $attr, $val): string
+function opt($val, array $attr): string
 {
     if (!is_array($val)) {
         $val = $val === null && $val === '' ? [] : [$val];
@@ -76,7 +76,7 @@ function opt(array $attr, $val): string
 /**
  * Ent viewer
  */
-function entity(array $attr, int $val): string
+function entity(int $val, array $attr): string
 {
     return $val ? entity\one($attr['ref'], [['id', $val]], ['select' => ['name']])['name'] : '';
 }
@@ -84,7 +84,7 @@ function entity(array $attr, int $val): string
 /**
  * Page viewer
  */
-function page(array $attr, int $val): string
+function page(int $val, array $attr): string
 {
     if (!$val) {
         return '';
@@ -98,37 +98,33 @@ function page(array $attr, int $val): string
 /**
  * File viewer
  */
-function file(array $attr, int $val): string
+function file(int $val, array $attr): string
 {
-    if (!$val) {
+    if (!$val || !($file = entity\one($attr['ref'], [['id', $val]], ['select' => ['name', 'info']]))) {
         return '';
     }
 
-    $file = entity\one($attr['ref'], [['id', $val]], ['select' => ['name']]);
+    $mime = mime_content_type(app\file($file['name']));
+    $type = $mime && preg_match('#^(audio|image|video)/#', $mime, $match) ? $match[1] : null;
 
-    return upload($attr, $file['name']);
+    if ($type === 'image') {
+        $attr['html']['alt'] = app\enc($file['info']);
+        return html\tag('img', ['src' => $file['name']] + $attr['html'], null, true);
+    }
+
+    if ($type === 'audio' || $type === 'video') {
+        return html\tag($type, ['src' => $file['name'], 'controls' => true] + $attr['html']);
+    }
+
+    return html\tag('a', ['href' => $val] + $attr['html'], $file['name']);
 }
 
 /**
  * Upload viewer
  */
-function upload(array $attr, string $val): string
+function upload(string $val, array $attr): string
 {
-    if (!$val || !($file = entity\one('file', [['name', $val]], ['select' => ['info']]))) {
-        return '';
-    }
+    $attr['ref'] = 'file';
 
-    $mime = mime_content_type(app\file($val));
-    $type = $mime && preg_match('#^(audio|image|video)/#', $mime, $match) ? $match[1] : null;
-
-    if ($type === 'image') {
-        $attr['html']['alt'] = app\enc($file['info']);
-        return html\tag('img', ['src' => $val] + $attr['html'], null, true);
-    }
-
-    if ($type === 'audio' || $type === 'video') {
-        return html\tag($type, ['src' => $val, 'controls' => true] + $attr['html']);
-    }
-
-    return html\tag('a', ['href' => $val] + $attr['html'], $val);
+    return $val ? file((int) pathinfo($val, PATHINFO_FILENAME), $attr) : '';
 }
