@@ -16,7 +16,7 @@ use DomainException;
  *
  * @throws DomainException
  */
-function filter(array $attr, array $data)
+function filter(array $data, array $attr)
 {
     $val = cast($attr, $data[$attr['id']] ?? null);
 
@@ -29,7 +29,7 @@ function filter(array $attr, array $data)
     $attr['opt'] = opt($attr, $data);
 
     if ($attr['filter']) {
-        $val = $attr['filter']($attr, $val);
+        $val = $attr['filter']($val, $attr);
     }
 
     if ($set && $pattern && !preg_match($pattern, $attr['multiple'] ? implode("\n", $val) : (string) $val)) {

@@ -12,7 +12,7 @@ use DomainException;
 /**
  * Text filter
  */
-function text(array $attr, string $val): string
+function text(string $val): string
 {
     return trim((string) filter_var($val, FILTER_SANITIZE_STRING));
 }
@@ -22,7 +22,7 @@ function text(array $attr, string $val): string
  *
  * @throws DomainException
  */
-function email(array $attr, string $val): string
+function email(string $val): string
 {
     if ($val && !($val = filter_var($val, FILTER_VALIDATE_EMAIL))) {
         throw new DomainException(app\i18n('Invalid value'));
@@ -36,7 +36,7 @@ function email(array $attr, string $val): string
  *
  * @throws DomainException
  */
-function url(array $attr, string $val): string
+function url(string $val): string
 {
     if ($val && !($val = filter_var($val, FILTER_VALIDATE_URL))) {
         throw new DomainException(app\i18n('Invalid value'));
@@ -50,7 +50,7 @@ function url(array $attr, string $val): string
  *
  * @throws DomainException
  */
-function datetime(array $attr, string $val): string
+function datetime(string $val, array $attr): string
 {
     if (!$val = attr\datetime($val, $attr['cfg.frontend'], $attr['cfg.backend'])) {
         throw new DomainException(app\i18n('Invalid value'));
@@ -62,7 +62,7 @@ function datetime(array $attr, string $val): string
 /**
  * Rich text filter
  */
-function rte(array $attr, string $val): string
+function rte(string $val): string
 {
     return trim(strip_tags($val, app\cfg('filter', 'rte')));
 }
@@ -70,7 +70,7 @@ function rte(array $attr, string $val): string
 /**
  * ID filter
  */
-function id(array $attr, string $val): string
+function id(string $val): string
 {
     return trim(preg_replace('#[^a-z0-9-_]+#', '-', strtr(mb_strtolower($val), app\cfg('filter', 'id'))), '-');
 }
@@ -78,10 +78,10 @@ function id(array $attr, string $val): string
 /**
  * Path filter
  */
-function path(array $attr, string $val): string
+function path(string $val): string
 {
     if (preg_match('#^https?://#', $val)) {
-        return url($attr, $val);
+        return url($val);
     }
 
     return '/' . trim(preg_replace('#[^a-z0-9-_/\.]+#', '-', strtr(mb_strtolower($val), app\cfg('filter', 'id'))), '-/');
@@ -92,7 +92,7 @@ function path(array $attr, string $val): string
  *
  * @throws DomainException
  */
-function nope(array $attr, bool $val): bool
+function nope(bool $val): bool
 {
     if ($val) {
         throw new DomainException(app\i18n('Invalid value'));
@@ -108,7 +108,7 @@ function nope(array $attr, bool $val): bool
  *
  * @throws DomainException
  */
-function opt(array $attr, $val)
+function opt($val, array $attr)
 {
     if ($val || is_scalar($val) && !is_string($val)) {
         foreach ((array) $val as $v) {
@@ -126,7 +126,7 @@ function opt(array $attr, $val)
  *
  * @throws DomainException
  */
-function entity(array $attr, int $val): int
+function entity(int $val, array $attr): int
 {
     if ($val && !entity\size($attr['ref'], [['id', $val]])) {
         throw new DomainException(app\i18n('Invalid value'));
@@ -140,7 +140,7 @@ function entity(array $attr, int $val): int
  *
  * @throws DomainException
  */
-function upload(array $attr, string $val): string
+function upload(string $val, array $attr): string
 {
     $cfg = $attr['cfg.filter'] ? app\cfg('filter', $attr['cfg.filter']) : null;
     $mime = request\get('file')[$attr['id']]['type'] ?? null;
@@ -149,5 +149,5 @@ function upload(array $attr, string $val): string
         throw new DomainException(app\i18n('Invalid file type'));
     }
 
-    return path($attr, $val);
+    return path($val);
 }
