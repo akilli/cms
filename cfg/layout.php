@@ -37,11 +37,6 @@ return [
             'type' => 'container',
         ],
     ],
-    '_admin_' => [
-        'sidebar' => [
-            'active' => false,
-        ],
-    ],
     '_public_' => [
         'header' => [
             'type' => 'tpl',
