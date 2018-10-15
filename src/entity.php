@@ -100,7 +100,7 @@ function save(string $entityId, array & $data): bool
     $attrIds = [];
 
     foreach (array_intersect_key($tmp, $tmp['_entity']['attr']) as $attrId => $val) {
-        if (($val === null || $val === '') && attr\ignorable($tmp['_entity']['attr'][$attrId], $tmp)) {
+        if (($val === null || $val === '') && attr\ignorable($tmp, $tmp['_entity']['attr'][$attrId])) {
             unset($data[$attrId], $tmp[$attrId]);
         } else {
             $attrIds[] = $attrId;

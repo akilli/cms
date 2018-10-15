@@ -87,7 +87,7 @@ function frontend(array $attr, array $data): string
         $attr['html']['pattern'] = $attr['pattern'];
     }
 
-    if ($attr['required'] && !ignorable($attr, $data)) {
+    if ($attr['required'] && !ignorable($data, $attr)) {
         $attr['html']['required'] = true;
         $label['data-required'] = true;
     }
@@ -191,7 +191,7 @@ function cast($val, array $attr)
 /**
  * Check wheter attribute can be ignored
  */
-function ignorable(array $attr, array $data): bool
+function ignorable(array $data, array $attr): bool
 {
     return $attr['ignorable'] && !empty($data['_old'][$attr['id']]);
 }
