@@ -116,7 +116,7 @@ function file(int $val, array $attr): string
         return html\tag($type, ['src' => $file['name'], 'controls' => true] + $attr['html']);
     }
 
-    return html\tag('a', ['href' => $val] + $attr['html'], $file['name']);
+    return html\tag('a', ['href' => $file['name']] + $attr['html'], $file['name']);
 }
 
 /**
