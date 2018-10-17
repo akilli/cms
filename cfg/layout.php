@@ -266,14 +266,14 @@ return [
     'article/create' => [
         'content' => [
             'vars' => [
-                'attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'meta_title', 'meta_description'],
+                'attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'date', 'meta_title', 'meta_description'],
             ],
         ],
     ],
     'article/edit' => [
         'content' => [
             'vars' => [
-                'attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'meta_title', 'meta_description'],
+                'attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'date', 'meta_title', 'meta_description'],
             ],
         ],
     ],
