@@ -263,6 +263,10 @@ return [
                 'name' => 'Timestamp',
                 'type' => 'datetime',
             ],
+            'date' => [
+                'name' => 'Date',
+                'type' => 'datetime',
+            ],
             'entity' => [
                 'name' => 'Entity',
                 'type' => 'select',

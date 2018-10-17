@@ -95,6 +95,7 @@ CREATE TABLE page (
     path jsonb NOT NULL DEFAULT '[]',
     status status NOT NULL,
     timestamp timestamp NOT NULL DEFAULT current_timestamp,
+    date timestamp NOT NULL DEFAULT current_timestamp,
     entity varchar(50) NOT NULL CHECK (entity != ''),
     UNIQUE (parent_id, slug)
 );
@@ -116,6 +117,7 @@ CREATE INDEX ON page (level);
 CREATE INDEX ON page USING GIN (path);
 CREATE INDEX ON page (status);
 CREATE INDEX ON page (timestamp);
+CREATE INDEX ON page (date);
 CREATE INDEX ON page (entity);
 
 --
