@@ -278,6 +278,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION page_version_before() RETURNS trigger AS $$
     DECLARE
+        _date timestamp := current_timestamp;
         _sta status;
     BEGIN
         -- Actually, archived status should not be allowed for new items (INSERTs) after initial setup of DB
@@ -323,11 +324,15 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
 
         -- Create new version
         IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.teaser != OLD.teaser OR NEW.main != OLD.main OR NEW.aside != OLD.aside OR NEW.sidebar != OLD.sidebar OR NEW.status != OLD.status) THEN
+            IF (TG_OP = 'INSERT') THEN
+                _date := NEW.date;
+            END IF;
+
             INSERT INTO
                 version
-                (name, teaser, main, aside, sidebar, status, page_id)
+                (name, teaser, main, aside, sidebar, status, date, page_id)
             VALUES
-                (NEW.name, NEW.teaser, NEW.main, NEW.aside, NEW.sidebar, NEW.status, NEW.id);
+                (NEW.name, NEW.teaser, NEW.main, NEW.aside, NEW.sidebar, NEW.status, _date, NEW.id);
         END IF;
 
         -- Don't overwrite published version with a draft
