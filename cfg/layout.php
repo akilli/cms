@@ -164,7 +164,7 @@ return [
             'parent' => 'content-middle',
             'sort' => 10,
             'vars' => [
-                'attr' => ['image', 'date', 'name', 'teaser'],
+                'attr' => ['image', 'timestamp', 'name', 'teaser'],
                 'entity' => 'article',
                 'link' => true,
                 'pager' => true,
@@ -259,7 +259,7 @@ return [
     'article/admin' => [
         'content' => [
             'vars' => [
-                'attr' => ['name', 'parent_id', 'status', 'date'],
+                'attr' => ['name', 'parent_id', 'status', 'timestamp'],
             ],
         ],
     ],
@@ -287,7 +287,7 @@ return [
     'content/admin' => [
         'content' => [
             'vars' => [
-                'attr' => ['name', 'pos', 'parent_id', 'menu', 'status', 'date'],
+                'attr' => ['name', 'pos', 'parent_id', 'menu', 'status', 'timestamp'],
             ],
         ],
     ],

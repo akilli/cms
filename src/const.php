@@ -104,5 +104,5 @@ const APP = [
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'url.file' => '/file/',
     'url.gui' => '/gui/',
-    'version' => ['name', 'teaser', 'main', 'aside', 'sidebar', 'status', 'date']
+    'version' => ['name', 'teaser', 'main', 'aside', 'sidebar', 'status', 'timestamp']
 ];

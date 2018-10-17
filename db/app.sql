@@ -94,7 +94,7 @@ CREATE TABLE page (
     level integer NOT NULL DEFAULT 0,
     path jsonb NOT NULL DEFAULT '[]',
     status status NOT NULL,
-    date timestamp NOT NULL DEFAULT current_timestamp,
+    timestamp timestamp NOT NULL DEFAULT current_timestamp,
     entity varchar(50) NOT NULL CHECK (entity != ''),
     UNIQUE (parent_id, slug)
 );
@@ -115,7 +115,7 @@ CREATE INDEX ON page (pos);
 CREATE INDEX ON page (level);
 CREATE INDEX ON page USING GIN (path);
 CREATE INDEX ON page (status);
-CREATE INDEX ON page (date);
+CREATE INDEX ON page (timestamp);
 CREATE INDEX ON page (entity);
 
 --
@@ -278,7 +278,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION page_version_before() RETURNS trigger AS $$
     DECLARE
-        _date timestamp := current_timestamp;
+        _now timestamp := current_timestamp;
         _sta status;
     BEGIN
         -- Actually, archived status should not be allowed for new items (INSERTs) after initial setup of DB
@@ -325,14 +325,14 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
         -- Create new version
         IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.teaser != OLD.teaser OR NEW.main != OLD.main OR NEW.aside != OLD.aside OR NEW.sidebar != OLD.sidebar OR NEW.status != OLD.status) THEN
             IF (TG_OP = 'INSERT') THEN
-                _date := NEW.date;
+                _now := NEW.timestamp;
             END IF;
 
             INSERT INTO
                 version
-                (name, teaser, main, aside, sidebar, status, date, page_id)
+                (name, teaser, main, aside, sidebar, status, timestamp, page_id)
             VALUES
-                (NEW.name, NEW.teaser, NEW.main, NEW.aside, NEW.sidebar, NEW.status, _date, NEW.id);
+                (NEW.name, NEW.teaser, NEW.main, NEW.aside, NEW.sidebar, NEW.status, _now, NEW.id);
         END IF;
 
         -- Don't overwrite published version with a draft
@@ -409,13 +409,13 @@ CREATE TABLE version (
     aside text NOT NULL,
     sidebar text NOT NULL,
     status status NOT NULL,
-    date timestamp NOT NULL DEFAULT current_timestamp,
+    timestamp timestamp NOT NULL DEFAULT current_timestamp,
     page_id integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED
 );
 
 CREATE INDEX ON version (name);
 CREATE INDEX ON version (status);
-CREATE INDEX ON version (date);
+CREATE INDEX ON version (timestamp);
 CREATE INDEX ON version (page_id);
 
 --

@@ -98,6 +98,7 @@ return [
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
     'System' => 'System',
     'Teaser' => 'Teaser',
+    'Timestamp' => 'Zeitstempel',
     'Unexpected response from server: %s' => 'Unerwartete Antwort vom Server: %s',
     'URL' => 'URL',
     'Value contains invalid characters' => 'Wert enthält ungültige Zeichen',

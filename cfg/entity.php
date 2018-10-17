@@ -259,8 +259,8 @@ return [
                 'type' => 'status',
                 'required' => true,
             ],
-            'date' => [
-                'name' => 'Date',
+            'timestamp' => [
+                'name' => 'Timestamp',
                 'type' => 'datetime',
             ],
             'entity' => [
@@ -324,8 +324,8 @@ return [
                 'type' => 'status',
                 'required' => true,
             ],
-            'date' => [
-                'name' => 'Date',
+            'timestamp' => [
+                'name' => 'Timestamp',
                 'type' => 'datetime',
                 'required' => true,
             ],
