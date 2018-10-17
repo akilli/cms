@@ -26,12 +26,16 @@
                     item.value = '';
                 }
             };
+            const regex = /^(\d\d\d\d-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01]))T((?:00|[0-9]|1[0-9]|2[0-3]):(?:[0-9]|[0-5][0-9]))$/;
+            const val = item.value.match(regex) || ['', '', ''];
 
             date.type = 'date';
             date.required = item.required;
+            date.value = val[1];
             date.addEventListener('blur', blur);
             time.type = 'time';
             time.required = item.required;
+            time.value = val[2];
             time.addEventListener('blur', blur);
             item.setAttribute('hidden', '');
             item.parentElement.insertBefore(date, item);
