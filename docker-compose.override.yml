@@ -8,9 +8,6 @@ volumes:
 services:
   cms-db:
     volumes:
-      - source: ./db/app.sql
-        target: /app.sql
-        type: bind
-      - source: ./db/data.sql
-        target: /data.sql
+      - source: ./db
+        target: /init/postgres
         type: bind
