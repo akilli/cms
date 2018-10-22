@@ -7,45 +7,11 @@ START TRANSACTION;
 CREATE TYPE status AS ENUM ('draft', 'pending', 'published', 'archived');
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Role
+-- Function
 -- ---------------------------------------------------------------------------------------------------------------------
-
-CREATE TABLE role (
-    id serial PRIMARY KEY,
-    name varchar(50) NOT NULL UNIQUE,
-    priv jsonb NOT NULL
-);
-
-CREATE INDEX ON role USING GIN (priv);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Account
--- ---------------------------------------------------------------------------------------------------------------------
-
-CREATE TABLE account (
-    id serial PRIMARY KEY,
-    name varchar(50) NOT NULL UNIQUE,
-    password varchar(255) NOT NULL,
-    role_id integer NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
-CREATE INDEX ON account (role_id);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- File
--- ---------------------------------------------------------------------------------------------------------------------
-
-CREATE TABLE file (
-    id serial PRIMARY KEY,
-    name varchar(50) NOT NULL UNIQUE,
-    info text NOT NULL,
-    entity varchar(50) NOT NULL CHECK (entity != '')
-);
-
-CREATE INDEX ON file (entity);
 
 --
--- Trigger
+-- File
 --
 
 CREATE FUNCTION file_save() RETURNS trigger AS $$
@@ -66,62 +32,8 @@ CREATE FUNCTION file_save() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Page
--- ---------------------------------------------------------------------------------------------------------------------
-
-CREATE TABLE page (
-    id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    image integer DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
-    teaser text NOT NULL DEFAULT '',
-    main text NOT NULL DEFAULT '',
-    aside text NOT NULL DEFAULT '',
-    sidebar text NOT NULL DEFAULT '',
-    meta_title varchar(80) NOT NULL DEFAULT '',
-    meta_description varchar(300) NOT NULL DEFAULT '',
-    layout varchar(50) DEFAULT NULL,
-    slug varchar(75) NOT NULL,
-    url varchar(400) UNIQUE DEFAULT NULL,
-    disabled boolean NOT NULL DEFAULT FALSE,
-    menu boolean NOT NULL DEFAULT FALSE,
-    menu_name varchar(255) DEFAULT NULL,
-    parent_id integer DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
-    sort integer NOT NULL DEFAULT 0,
-    pos varchar(255) NOT NULL DEFAULT '',
-    level integer NOT NULL DEFAULT 0,
-    path jsonb NOT NULL DEFAULT '[]',
-    status status NOT NULL,
-    timestamp timestamp NOT NULL DEFAULT current_timestamp,
-    date timestamp NOT NULL DEFAULT current_timestamp,
-    entity varchar(50) NOT NULL CHECK (entity != ''),
-    UNIQUE (parent_id, slug)
-);
-
-CREATE INDEX ON page (name);
-CREATE INDEX ON page (image);
-CREATE INDEX ON page (meta_title);
-CREATE INDEX ON page (meta_description);
-CREATE INDEX ON page (layout);
-CREATE INDEX ON page (slug);
-CREATE INDEX ON page (url);
-CREATE INDEX ON page (disabled);
-CREATE INDEX ON page (menu);
-CREATE INDEX ON page (menu_name);
-CREATE INDEX ON page (parent_id);
-CREATE INDEX ON page (sort);
-CREATE INDEX ON page (pos);
-CREATE INDEX ON page (level);
-CREATE INDEX ON page USING GIN (path);
-CREATE INDEX ON page (status);
-CREATE INDEX ON page (timestamp);
-CREATE INDEX ON page (date);
-CREATE INDEX ON page (entity);
-
 --
--- Trigger
+-- Page
 --
 
 CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
@@ -394,14 +306,121 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
+--
+-- Version
+--
+
+CREATE FUNCTION version_protect() RETURNS trigger AS $$
+    BEGIN
+        RAISE EXCEPTION 'Update not allowed';
+        RETURN NULL;
+    END;
+$$ LANGUAGE plpgsql;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table
+-- ---------------------------------------------------------------------------------------------------------------------
+
+--
+-- Role
+--
+
+CREATE TABLE role (
+    id serial PRIMARY KEY,
+    name varchar(50) NOT NULL UNIQUE,
+    priv jsonb NOT NULL
+);
+
+CREATE INDEX ON role USING GIN (priv);
+
+--
+-- Account
+--
+
+CREATE TABLE account (
+    id serial PRIMARY KEY,
+    name varchar(50) NOT NULL UNIQUE,
+    password varchar(255) NOT NULL,
+    role_id integer NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE INDEX ON account (role_id);
+
+--
+-- File
+--
+
+CREATE TABLE file (
+    id serial PRIMARY KEY,
+    name varchar(50) NOT NULL UNIQUE,
+    info text NOT NULL,
+    entity varchar(50) NOT NULL CHECK (entity != '')
+);
+
+CREATE INDEX ON file (entity);
+
+CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();
+
+--
+-- Page
+--
+
+CREATE TABLE page (
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    image integer DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
+    teaser text NOT NULL DEFAULT '',
+    main text NOT NULL DEFAULT '',
+    aside text NOT NULL DEFAULT '',
+    sidebar text NOT NULL DEFAULT '',
+    meta_title varchar(80) NOT NULL DEFAULT '',
+    meta_description varchar(300) NOT NULL DEFAULT '',
+    layout varchar(50) DEFAULT NULL,
+    slug varchar(75) NOT NULL,
+    url varchar(400) UNIQUE DEFAULT NULL,
+    disabled boolean NOT NULL DEFAULT FALSE,
+    menu boolean NOT NULL DEFAULT FALSE,
+    menu_name varchar(255) DEFAULT NULL,
+    parent_id integer DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
+    sort integer NOT NULL DEFAULT 0,
+    pos varchar(255) NOT NULL DEFAULT '',
+    level integer NOT NULL DEFAULT 0,
+    path jsonb NOT NULL DEFAULT '[]',
+    status status NOT NULL,
+    timestamp timestamp NOT NULL DEFAULT current_timestamp,
+    date timestamp NOT NULL DEFAULT current_timestamp,
+    entity varchar(50) NOT NULL CHECK (entity != ''),
+    UNIQUE (parent_id, slug)
+);
+
+CREATE INDEX ON page (name);
+CREATE INDEX ON page (image);
+CREATE INDEX ON page (meta_title);
+CREATE INDEX ON page (meta_description);
+CREATE INDEX ON page (layout);
+CREATE INDEX ON page (slug);
+CREATE INDEX ON page (url);
+CREATE INDEX ON page (disabled);
+CREATE INDEX ON page (menu);
+CREATE INDEX ON page (menu_name);
+CREATE INDEX ON page (parent_id);
+CREATE INDEX ON page (sort);
+CREATE INDEX ON page (pos);
+CREATE INDEX ON page (level);
+CREATE INDEX ON page USING GIN (path);
+CREATE INDEX ON page (status);
+CREATE INDEX ON page (timestamp);
+CREATE INDEX ON page (date);
+CREATE INDEX ON page (entity);
+
 CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_before();
 CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_after();
 CREATE TRIGGER page_version_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_before();
 CREATE TRIGGER page_version_after AFTER UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_after();
 
--- ---------------------------------------------------------------------------------------------------------------------
+--
 -- Version
--- ---------------------------------------------------------------------------------------------------------------------
+--
 
 CREATE TABLE version (
     id serial PRIMARY KEY,
@@ -419,17 +438,6 @@ CREATE INDEX ON version (name);
 CREATE INDEX ON version (status);
 CREATE INDEX ON version (timestamp);
 CREATE INDEX ON version (page_id);
-
---
--- Trigger
---
-
-CREATE FUNCTION version_protect() RETURNS trigger AS $$
-    BEGIN
-        RAISE EXCEPTION 'Update not allowed';
-        RETURN NULL;
-    END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE version_protect();
 
