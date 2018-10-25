@@ -78,14 +78,6 @@ function delete(array $entity): void
 }
 
 /**
- * App JavaScript Action
- */
-function app_js(): void
-{
-    header('Content-Type: text/javascript', true);
-}
-
-/**
  * Account Password Action
  */
 function account_password(array $entity): void
