@@ -423,23 +423,23 @@ span[data-action] {
 }
 
 /**
- * Content
+ * Main
  */
-#content a,
-#content span[data-action] {
+main a,
+main span[data-action] {
     color: #60abc6;
 }
 
-#content a:hover {
+main a:hover {
     text-decoration: underline;
 }
 
-#content ::-moz-selection {
+main ::-moz-selection {
     color: #000;
     background: #93ddf9;
 }
 
-#content ::selection {
+main ::selection {
     color: #000;
     background: #93ddf9;
 }
