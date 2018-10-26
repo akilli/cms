@@ -374,3 +374,29 @@ function redirect(string $url = '/', int $code = null): void
 
     exit;
 }
+
+/**
+ * cURL request
+ *
+ * @throws DomainException
+ */
+function curl(string $url, array $param = []): ?string
+{
+    if (!$url) {
+        throw new DomainException(i18n('Invalid URL'));
+    } elseif ($param) {
+        $url .= '?' . http_build_query($param);
+    }
+
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 5,
+        CURLOPT_URL => $url,
+    ]);
+    $result = curl_exec($curl);
+    curl_close($curl);
+
+    return $result ?: null;
+}
