@@ -13,7 +13,7 @@ const app = {
         },
         lang: document.querySelector('html').getAttribute('lang'),
     },
-    ajax: function (method, url) {
+    ajax: function (method, url, body) {
         if (!method || !url) {
             return null;
         }
@@ -22,7 +22,7 @@ const app = {
 
         try {
             xhr.open(method, url, false);
-            xhr.send();
+            xhr.send(body);
 
             if (xhr.readyState === xhr.DONE && xhr.status >= 200 && xhr.status < 300) {
                 return xhr.response;
@@ -32,6 +32,12 @@ const app = {
         }
 
         return null;
+    },
+    get: function (url) {
+        return this.ajax('GET', url, null);
+    },
+    post: function (url, body) {
+        return this.ajax('POST', url, body);
     },
     i18n: function (key) {
         const data = this.cfg.i18n[this.cfg.lang] || {};
