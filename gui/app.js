@@ -25,7 +25,7 @@ const app = {
             xhr.send(body);
 
             if (xhr.readyState === xhr.DONE && xhr.status >= 200 && xhr.status < 300) {
-                return xhr.response;
+                return xhr.responseText;
             }
         } catch (e) {
             console.log(e);
