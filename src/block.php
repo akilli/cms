@@ -415,8 +415,10 @@ function breadcrumb(array $§): string
     $all = entity\all('page', [['id', $page['path']]], ['select' => ['id', 'name', 'url', 'disabled', 'menu_name'], 'order' => ['level' => 'asc']]);
 
     foreach ($all as $item) {
-        $a = $item['disabled'] || $page['id'] === $item['id'] ? [] : ['href' => $item['url']];
-        $html .= ($html ? ' ' : '') . html\tag('a', $a, $item['menu_name'] ?: $item['name']);
+        if ($item['id'] !== $page['id'] || $page['entity'] === 'content') {
+            $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
+            $html .= ($html ? ' ' : '') . html\tag('a', $a, $item['menu_name'] ?: $item['name']);
+        }
     }
 
     return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
