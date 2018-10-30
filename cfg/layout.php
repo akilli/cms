@@ -9,7 +9,8 @@ return [
             'type' => 'head',
         ],
         'head-ext' => [
-            'type' => 'container',
+            'type' => 'tpl',
+            'tpl' => 'head-ext.phtml',
         ],
         'top' => [
             'type' => 'container',
