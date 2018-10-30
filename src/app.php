@@ -23,6 +23,7 @@ function run(): void
 
     $app = & registry('app');
     $app['lang'] = locale_get_primary_language('');
+    $app['gui'] = max(filemtime(path('gui')), file_exists(path('ext.gui')) ? filemtime(path('ext.gui')) : 0);
     $app['error'] = false;
     $app['layout'] = null;
     $url = request\get('url');
@@ -355,17 +356,7 @@ function url(string $path = '', array $param = [], bool $preserve = false): stri
  */
 function gui(string $path): string
 {
-    $path = trim($path, '/');
-    $time = null;
-
-    foreach ([path('ext.gui'), path('gui')] as $dir) {
-        if (file_exists($dir . '/' . $path)) {
-            $time = filemtime($dir . '/' . $path);
-            break;
-        }
-    }
-
-    return APP['url.gui'] . ($time ? $time . '/' : '') . $path;
+    return APP['url.gui'] . get('gui') . '/' . trim($path, '/');
 }
 
 /**
