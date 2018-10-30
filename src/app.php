@@ -25,14 +25,12 @@ function run(): void
     $app['lang'] = locale_get_primary_language('');
     $app['error'] = false;
     $app['layout'] = null;
-    $app['main'] = null;
     $url = request\get('url');
 
     // Page
     if ($app['page'] = entity\one('page', [['url', $url]])) {
         $url = '/' . $app['page']['entity'] . '/view/' . $app['page']['id'];
         $app['layout'] = $app['page']['layout'];
-        $app['main'] = $app['page']['path'][1] ?? null;
     }
 
     // Gather request-data

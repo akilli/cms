@@ -335,15 +335,14 @@ function nav(array $§): string
 function menu(array $§): string
 {
     $page = app\get('page');
-    $main = app\get('main');
     $sub = $§['vars']['mode'] === 'sub';
 
-    if ($sub && (!$page || !$main)) {
+    if ($sub && empty($page['path'][1])) {
         return '';
     }
 
     $crit = [['status', 'published'], ['entity', 'content']];
-    $crit[] = $sub ? ['id', app\get('main')] : ['url', '/'];
+    $crit[] = $sub ? ['id', $page['path'][1]] : ['url', '/'];
     $select = ['id', 'name', 'url', 'disabled', 'menu_name', 'pos', 'level'];
 
     if (!$root = entity\one('page', $crit, ['select' => $select])) {
