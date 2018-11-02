@@ -37,7 +37,7 @@
         Array.prototype.forEach.call(document.querySelectorAll('span[data-action=browser]'), function (item) {
             item.addEventListener('click', function () {
                 const entity = this.parentElement.getAttribute('data-type') || 'file';
-                const url = '/' + entity + '/browser';
+                const url = app.url(entity + '/browser');
                 const call = function (data) {
                     if (!data.id) {
                         return;
