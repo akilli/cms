@@ -252,11 +252,6 @@ return [
             ],
         ],
     ],
-    'app/js' => [
-        'root' => [
-            'tpl' => 'app.js',
-        ],
-    ],
     'article/admin' => [
         'content' => [
             'vars' => [

@@ -83,6 +83,7 @@ function delete(array $entity): void
 function app_js(): void
 {
     header('Content-Type: text/javascript', true);
+    die(json_encode(['i18n' => app\cfg('i18n')]));
 }
 
 /**
