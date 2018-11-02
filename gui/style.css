@@ -447,6 +447,12 @@ main ::selection {
 /**
  * Index
  */
+.index audio,
+.index img,
+.index video {
+    max-width: 15rem;
+}
+
 .index > header,
 .index article {
     margin-bottom: 1.5rem;
@@ -620,15 +626,6 @@ a[data-sort=desc]::after {
         display: block;
     }
 
-    /**
-     * Index
-     */
-    .index audio,
-    .index img,
-    .index video {
-        max-width: 15rem;
-    }
-
     html[data-action=admin] #content.index {
         display: table;
         width: 100%;
@@ -731,15 +728,6 @@ a[data-sort=desc]::after {
         content: " (" attr(href) ")";
         font-size: 0.875rem;
         font-style: italic;
-    }
-
-    /**
-     * Media
-     */
-    .index audio,
-    .index img,
-    .index video {
-        max-width: 15rem;
     }
 
     /**
