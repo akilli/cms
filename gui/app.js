@@ -47,7 +47,12 @@
                 return key;
             }
         };
-        app.cfg = JSON.parse(app.get('/app/js'));
+
+        try {
+            app.cfg = JSON.parse(app.get('/app/js'));
+        } catch (e) {
+            console.log(e);
+        }
 
         return app;
     })();
