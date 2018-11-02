@@ -342,6 +342,10 @@ span[data-action] {
     background: #32535c;
 }
 
+#menu[data-toggle=open][data-sticky] {
+    position: relative !important;
+}
+
 #menu li ul {
     margin-left: 1.5rem;
 }
@@ -552,15 +556,6 @@ a[data-sort=desc]::after {
 
 .slider .flickity-prev-next-button:hover {
     background: #fff;
-}
-
-/**
- * Mobile
- */
-@media not screen and (min-width: 55rem) {
-    #menu[data-toggle=open][data-sticky] {
-        position: relative !important;
-    }
 }
 
 /**
