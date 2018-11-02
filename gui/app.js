@@ -38,7 +38,7 @@
                 return this.ajax('POST', url, body);
             },
             i18n: function (key) {
-                key = this.cfg.i18n[key] ? this.cfg.i18n[key] : key;
+                key = this.cfg.i18n && this.cfg.i18n[key] ? this.cfg.i18n[key] : key;
 
                 for (let i = 1; i < arguments.length; i++) {
                     key = key.replace(/%s/, arguments[i]);
