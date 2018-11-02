@@ -468,7 +468,7 @@ html[data-action=admin] #content.index article {
     padding: 0.75rem 0;
 }
 
-html[data-action=admin] #content.index article h2 {
+html[data-action=admin] #content.index article h3 {
     margin: 0;
     font-size: inherit;
 }

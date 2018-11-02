@@ -5,7 +5,7 @@ use attr;
 ?>
 <section id="<?=$§('id');?>" class="index" data-entity="<?=$§('entity')['id'];?>">
     <?php if ($§('title')):?>
-    <h1><?=$§('title');?></h1>
+    <h2><?=$§('title');?></h2>
     <?php endif;?>
     <?php if ($§('create') && allowed($§('entity')['id'] . '/create')):?>
     <p data-action="create"><a href="<?=url($§('entity')['id'] . '/create');?>"><?=i18n('New Entry');?></a></p>
@@ -33,11 +33,11 @@ use attr;
             <?php if (!$§('head') && ($val === null || $val === '' || !$html)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
                 <?php if ($§('link') && allowed($§('entity')['id'] . '/view')):?>
-        <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
+        <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
             <a href="<?=$data['url'] ?? url($§('entity')['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
-        </h2>
+        </h3>
                 <?php else:?>
-        <h2 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h2>
+        <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h3>
                 <?php endif;?>
             <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
         <time data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"<?php if ($val !== $html):?> datetime="<?=$val;?>"<?php endif;?>><?=$html;?></time>
