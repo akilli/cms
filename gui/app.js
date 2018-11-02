@@ -10,7 +10,9 @@
 
     window.app = (function () {
         const app = {
-            cfg: {},
+            cfg: {
+                i18n: {}
+            },
             ajax: function (method, url, body) {
                 if (!method || !url) {
                     return null;
@@ -38,7 +40,7 @@
                 return this.ajax('POST', url, body);
             },
             i18n: function (key) {
-                key = this.cfg.i18n && this.cfg.i18n[key] ? this.cfg.i18n[key] : key;
+                key = this.cfg.i18n[key] ? this.cfg.i18n[key] : key;
 
                 for (let i = 1; i < arguments.length; i++) {
                     key = key.replace(/%s/, arguments[i]);
@@ -49,7 +51,13 @@
         };
 
         try {
-            app.cfg = JSON.parse(app.get('/app/js'));
+            const data = JSON.parse(app.get('/app/js'));
+
+            Object.getOwnPropertyNames(app.cfg).forEach(function (name) {
+                if (data[name] && typeof app.cfg[name] === typeof data[name]) {
+                    app.cfg[name] = data[name];
+                }
+            });
         } catch (e) {
             console.log(e);
         }
