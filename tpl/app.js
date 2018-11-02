@@ -1,17 +1,12 @@
-/**
- * Application helper functions
- */
+<?php
+namespace app;
+/** @var callable $§ */
+?>
 'use strict';
 
 const app = {
     cfg: {
-        i18n: {
-            de: {
-                'Page not found': 'Seite nicht gefunden',
-                'Please confirm delete operation': 'Bitte den Löschvorgang bestätigen'
-            }
-        },
-        lang: document.querySelector('html').getAttribute('lang'),
+        i18n: <?=json_encode(cfg('i18n'));?>
     },
     ajax: function (method, url, body) {
         if (!method || !url) {
@@ -40,8 +35,12 @@ const app = {
         return this.ajax('POST', url, body);
     },
     i18n: function (key) {
-        const data = this.cfg.i18n[this.cfg.lang] || {};
+        key = this.cfg.i18n[key] ? this.cfg.i18n[key] : key;
 
-        return data[key] ? data[key] : key;
+        for (let i = 1; i < arguments.length; i++) {
+            key = key.replace(/%s/, arguments[i]);
+        }
+
+        return key;
     }
 };

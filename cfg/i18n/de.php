@@ -76,6 +76,7 @@ return [
     'Path' => 'Pfad',
     'Pending' => 'Ausstehend',
     'Please choose' => 'Bitte auswählen',
+    'Please confirm delete operation' => 'Bitte den Löschvorgang bestätigen',
     'Position' => 'Position',
     'Previous' => 'Zurück',
     'Privileges' => 'Privilegien',

@@ -30,6 +30,9 @@ return [
     'account/password' => [
         'priv' => '_user_',
     ],
+    'app/js' => [
+        'active' => false,
+    ],
     'article/view' => [
         'active' => false,
     ],
