@@ -368,10 +368,6 @@ span[data-action] {
     font-size: 1.5rem;
 }
 
-#menu[data-toggle] ul a {
-    display: block;
-}
-
 #menu[data-toggle] ul span[data-action=toggle] {
     display: inline-block;
     margin-right: 0.5rem;
