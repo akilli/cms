@@ -360,7 +360,7 @@ span[data-action] {
 }
 
 #menu ul {
-    margin-left: 1.5rem;
+    margin-left: 1.25rem;
 }
 
 #menu[data-toggle] > span[data-action=toggle] {
@@ -370,7 +370,7 @@ span[data-action] {
 
 #menu[data-toggle] ul span[data-action=toggle] {
     display: inline-block;
-    margin: 0 0.5rem 0 -1.5rem;
+    margin: 0 0.25rem 0 -1.25rem;
     float: left;
 }
 
