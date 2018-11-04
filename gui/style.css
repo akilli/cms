@@ -372,10 +372,6 @@ span[data-action] {
     border-color: #93ddf9;
 }
 
-#menu[data-toggle] span[data-action=toggle] {
-    font-family: sans-serif;
-}
-
 #menu[data-toggle] > span[data-action=toggle] {
     display: block;
     font-size: 1.5rem;
