@@ -55,6 +55,7 @@ return [
             'parent' => 'top',
             'sort' => 30,
             'vars' => [
+                'sticky' => true,
                 'toggle' => true,
             ],
         ],
