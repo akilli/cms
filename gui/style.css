@@ -359,7 +359,7 @@ span[data-action] {
     position: relative !important;
 }
 
-#menu li ul {
+#menu ul {
     margin-left: 1.5rem;
 }
 
@@ -370,7 +370,7 @@ span[data-action] {
 
 #menu[data-toggle] ul span[data-action=toggle] {
     display: inline-block;
-    margin-right: 0.5rem;
+    margin: 0 0.5rem 0 -1.5rem;
     float: left;
 }
 
@@ -575,6 +575,10 @@ a[data-sort=desc]::after {
         margin-top: 3rem;
     }
 
+    #menu ul {
+        margin-left: 0;
+    }
+
     #toolbar > ul > li,
     #menu > ul > li {
         display: inline-block;
@@ -592,7 +596,6 @@ a[data-sort=desc]::after {
     #menu li ul {
         position: absolute;
         display: none;
-        margin-left: 0;
     }
 
     #toolbar li ul {
