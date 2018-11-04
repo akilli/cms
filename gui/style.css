@@ -1,3 +1,16 @@
+/**
+ * Font
+ */
+@font-face {
+    font-family: material;
+    font-weight: normal;
+    font-style: normal;
+    src: url(font/material.woff2) format('woff2'), url(font/material.woff) format('woff');
+}
+
+/**
+ * Global
+ */
 body {
     line-height: 1.5rem;
     padding: 0 0.75rem;
@@ -375,15 +388,17 @@ span[data-action] {
 }
 
 #menu[data-toggle] > span[data-action=toggle]::after {
-    content: '☰';
+    font-family: material;
+    content: '\F35C';
 }
 
 #menu[data-toggle] ul span[data-action=toggle]::after {
-    content: '▶';
+    font-family: material;
+    content: '\F142';
 }
 
 #menu[data-toggle] ul span[data-action=toggle][data-toggle]::after {
-    content: '▼';
+    content: '\F140';
 }
 
 #menu[data-toggle] ul {
