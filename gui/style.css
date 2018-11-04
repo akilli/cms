@@ -376,16 +376,16 @@ span[data-action] {
 
 #menu[data-toggle] > span[data-action=toggle]::after {
     font-family: material;
-    content: '\F35C';
+    content: '\f35c';
 }
 
 #menu[data-toggle] ul span[data-action=toggle]::after {
     font-family: material;
-    content: '\F142';
+    content: '\f142';
 }
 
 #menu[data-toggle] ul span[data-action=toggle][data-toggle]::after {
-    content: '\F140';
+    content: '\f140';
 }
 
 #menu[data-toggle] ul {
