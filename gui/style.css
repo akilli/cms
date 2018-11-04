@@ -368,15 +368,15 @@ span[data-action] {
     font-size: 1.5rem;
 }
 
+#menu[data-toggle] > span[data-action=toggle]::after {
+    font-family: material;
+    content: '\f35c';
+}
+
 #menu[data-toggle] ul span[data-action=toggle] {
     display: inline-block;
     margin: 0 0.25rem 0 -1.25rem;
     float: left;
-}
-
-#menu[data-toggle] > span[data-action=toggle]::after {
-    font-family: material;
-    content: '\f35c';
 }
 
 #menu[data-toggle] ul span[data-action=toggle]::after {
