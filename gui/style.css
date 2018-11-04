@@ -363,18 +363,13 @@ span[data-action] {
     margin-left: 1.5rem;
 }
 
-#menu a {
-    border-bottom: 0.25rem solid #32535c;
-}
-
-#menu a:hover,
-#menu a.active {
-    border-color: #93ddf9;
-}
-
 #menu[data-toggle] > span[data-action=toggle] {
     display: block;
     font-size: 1.5rem;
+}
+
+#menu[data-toggle] ul a {
+    display: block;
 }
 
 #menu[data-toggle] ul span[data-action=toggle] {
