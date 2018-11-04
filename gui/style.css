@@ -43,22 +43,6 @@ h3:not(:first-child) {
 }
 
 /**
- * Clear
- */
-#menu[data-toggle] li::before,
-#content.view > div[data-type=rte]::before {
-    display: table;
-    content: " ";
-}
-
-#menu[data-toggle] li::after,
-#content.view > div[data-type=rte]::after {
-    display: table;
-    content: " ";
-    clear: both;
-}
-
-/**
  * Alignment
  */
 .left {
@@ -376,7 +360,6 @@ span[data-action] {
 #menu[data-toggle] ul span[data-action=toggle] {
     display: inline-block;
     margin: 0 0.25rem 0 -1.25rem;
-    float: left;
 }
 
 #menu[data-toggle] ul span[data-action=toggle]::after {
@@ -558,6 +541,20 @@ a[data-sort=desc]::after {
 
 .slider .flickity-prev-next-button:hover {
     background: #fff;
+}
+
+/**
+ * Clear
+ */
+#content.view > div[data-type=rte]::before {
+    display: table;
+    content: " ";
+}
+
+#content.view > div[data-type=rte]::after {
+    display: table;
+    content: " ";
+    clear: both;
 }
 
 /**

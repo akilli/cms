@@ -282,6 +282,7 @@ function nav(array $§): string
     $attrs = ['id' => $§['id']];
 
     if ($§['vars']['toggle']) {
+        $html .= html\tag('span', ['data-action' => 'toggle', 'data-target' => $§['id']]);
         $attrs['data-toggle'] = '';
     }
 
@@ -308,15 +309,15 @@ function nav(array $§): string
         }
 
         if ($item['level'] > $level) {
-            if ($§['vars']['toggle']) {
-                $html .= html\tag('span', ['data-action' => 'toggle'] + ($level === 0 ? ['data-target' => $§['id']] : []));
-            }
-
             $html .= '<ul><li' . $class . '>';
         } elseif ($item['level'] < $level) {
             $html .= '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>';
         } else {
             $html .= '</li><li' . $class . '>';
+        }
+
+        if ($§['vars']['toggle'] && ($next = next($§['vars']['data'])) && $item['level'] < ($next['level'] ?? $start)) {
+            $html .= html\tag('span', ['data-action' => 'toggle']);
         }
 
         $html .= html\tag('a', $a, $item['name']);
