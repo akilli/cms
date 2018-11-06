@@ -298,29 +298,38 @@ function nav(array $§): string
         $item = arr\replace(['name' => null, 'url' => null, 'disabled' => false, 'level' => $start], $item);
         $item['level'] = $item['level'] - $start + 1;
         $a = $item['url'] && !$item['disabled'] ? ['href' => $item['url']] : [];
-        $class = '';
+        $class = [];
+        $c = '';
+        $toggle = '';
 
         if ($item['url'] && $item['url'] === $url) {
-            $a['class'] = 'active';
-            $class .= ' class="active"';
+            $class[] = 'active';
         } elseif ($item['url'] && strpos($url, preg_replace('#\.html#', '', $item['url'])) === 0) {
-            $a['class'] = 'path';
-            $class .= ' class="path"';
+            $class[] = 'path';
+        }
+
+        if (($next = next($§['vars']['data'])) && $item['level'] < ($next['level'] ?? $start)) {
+            $class[] = 'parent';
+
+            if ($§['vars']['toggle']) {
+                $toggle = html\tag('span', ['data-action' => 'toggle']);
+            }
+        }
+
+        if ($class) {
+            $a['class'] = implode(' ', $class);
+            $c = ' class="' . $a['class'] . '"';
         }
 
         if ($item['level'] > $level) {
-            $html .= '<ul><li' . $class . '>';
+            $html .= '<ul><li' . $c . '>';
         } elseif ($item['level'] < $level) {
-            $html .= '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>';
+            $html .= '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $c . '>';
         } else {
-            $html .= '</li><li' . $class . '>';
+            $html .= '</li><li' . $c . '>';
         }
 
-        if ($§['vars']['toggle'] && ($next = next($§['vars']['data'])) && $item['level'] < ($next['level'] ?? $start)) {
-            $html .= html\tag('span', ['data-action' => 'toggle']);
-        }
-
-        $html .= html\tag('a', $a, $item['name']);
+        $html .= $toggle . html\tag('a', $a, $item['name']);
         $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
         $level = $item['level'];
     }
