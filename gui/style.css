@@ -447,31 +447,6 @@ main ::selection {
     margin-bottom: 1.5rem;
 }
 
-html[data-action=admin] #content.index .thead {
-    margin: 0;
-    padding: 0.75rem 0;
-    font-weight: bold;
-}
-
-html[data-action=admin] #content.index .thead > * {
-    display: block;
-    color: inherit;
-}
-
-html[data-action=admin] #content.index article {
-    margin: 0;
-    padding: 0.75rem 0;
-}
-
-html[data-action=admin] #content.index article h3 {
-    margin: 0;
-    font-size: inherit;
-}
-
-html[data-action=admin] #content.index p[data-action=create] {
-    margin: 0;
-}
-
 a[data-sort=asc]::after {
     content: '⇑';
 }
@@ -541,6 +516,34 @@ a[data-sort=desc]::after {
 
 .slider .flickity-prev-next-button:hover {
     background: #fff;
+}
+
+/**
+ * Admin
+ */
+html[data-area=_admin_] .index .thead {
+    margin: 0;
+    padding: 0.75rem 0;
+    font-weight: bold;
+}
+
+html[data-area=_admin_] .index .thead > * {
+    display: block;
+    color: inherit;
+}
+
+html[data-area=_admin_] .index article {
+    margin: 0;
+    padding: 0.75rem 0;
+}
+
+html[data-area=_admin_] .index article h3 {
+    margin: 0;
+    font-size: inherit;
+}
+
+html[data-area=_admin_] .index p[data-action=create] {
+    margin: 0;
 }
 
 /**
@@ -623,7 +626,10 @@ a[data-sort=desc]::after {
         display: block;
     }
 
-    html[data-action=admin] #content.index {
+    /**
+     * Admin
+     */
+    html[data-area=_admin_] .index {
         display: table;
         width: 100%;
         font-size: 0.875rem;
@@ -631,31 +637,31 @@ a[data-sort=desc]::after {
         border-spacing: 0;
     }
 
-    html[data-action=admin] #content.index .thead,
-    html[data-action=admin] #content.index article {
+    html[data-area=_admin_] .index .thead,
+    html[data-area=_admin_] .index article {
         display: table-row;
     }
 
-    html[data-action=admin] #content.index .thead > *,
-    html[data-action=admin] #content.index article > * {
+    html[data-area=_admin_] .index .thead > *,
+    html[data-area=_admin_] .index article > * {
         display: table-cell;
         padding: 0.71875rem 0.375rem;
         vertical-align: top;
         text-align: left;
     }
 
-    html[data-action=admin] #content.index .thead > * {
+    html[data-area=_admin_] .index .thead > * {
         border-bottom: solid 0.0625rem #00000c;
     }
 
-    html[data-action=admin] #content.index article > * {
+    html[data-area=_admin_] .index article > * {
         border-bottom: solid 0.0625rem #e4e7ea;
     }
 
     /**
-     * Login
+     * Admin Login
      */
-    html[data-entity=account][data-action=login] main {
+    html[data-area=_admin_][data-entity=account][data-action=login] main {
         display: flex;
         flex: 1 0;
         align-items: center;
@@ -663,24 +669,24 @@ a[data-sort=desc]::after {
         height: 100vh;
     }
 
-    html[data-entity=account][data-action=login] #content {
+    html[data-area=_admin_][data-entity=account][data-action=login] #content {
         width: 100%;
         max-width: 30rem;
     }
 
     /**
-     * Filebrowser
+     * Admin Browser
      */
-    html[data-action=browser] #content {
+    html[data-area=_admin_][data-action=browser] #content {
         display: flex;
         flex-wrap: wrap;
     }
 
-    html[data-action=browser] #content > * {
+    html[data-area=_admin_][data-action=browser] #content > * {
         width: 100%;
     }
 
-    html[data-action=browser] #content > article {
+    html[data-area=_admin_][data-action=browser] #content > article {
         width: 25%;
     }
 }
