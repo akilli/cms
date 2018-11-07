@@ -448,10 +448,14 @@ main ::selection {
 }
 
 a[data-sort=asc]::after {
+    display: inline-block;
+    text-decoration: none;
     content: '⇑';
 }
 
 a[data-sort=desc]::after {
+    display: inline-block;
+    text-decoration: none;
     content: '⇓';
 }
 
