@@ -719,7 +719,6 @@ html[data-area=_admin_] .index p[data-action=create] {
     h2,
     h3,
     summary {
-        break-after: avoid;
         page-break-after: avoid;
     }
 
