@@ -68,3 +68,11 @@ function delete(array $data): void
     $db = & app\registry('memory.' . $data['_entity']['id']);
     unset($db[$data['id']]);
 }
+
+/**
+ * Transaction
+ */
+function trans(callable $call): void
+{
+    $call();
+}

@@ -160,7 +160,7 @@ function delete(array $data): void
  *
  * @throws Throwable
  */
-function trans(string $id, callable $call): void
+function trans(callable $call, string $id): void
 {
     static $level = [];
 

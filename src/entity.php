@@ -6,7 +6,6 @@ namespace entity;
 use arr;
 use attr;
 use app;
-use sql;
 use Throwable;
 
 /**
@@ -142,13 +141,13 @@ function save(string $entityId, array & $data): bool
     }
 
     try {
-        sql\trans(
-            $tmp['_entity']['db'],
+        ($tmp['_entity']['type'] . '\trans')(
             function () use (& $tmp): void {
                 $tmp = event('presave', $tmp);
                 $tmp = ($tmp['_entity']['type'] . '\save')($tmp);
                 $tmp = event('postsave', $tmp);
-            }
+            },
+            $tmp['_entity']['db']
         );
         app\msg('Successfully saved data');
         $data = $tmp;
@@ -172,15 +171,15 @@ function delete(string $entityId, array $crit = [], array $opt = []): bool
     }
 
     try {
-        sql\trans(
-            $cur['_entity']['db'],
+        ($cur['_entity']['type'] . '\trans')(
             function () use ($all): void {
                 foreach ($all as $data) {
                     $data = event('predelete', $data);
                     ($data['_entity']['type'] . '\delete')($data);
                     event('postdelete', $data);
                 }
-            }
+            },
+            $cur['_entity']['db']
         );
         app\msg('Successfully deleted data');
 
