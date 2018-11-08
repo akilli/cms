@@ -156,24 +156,6 @@ function delete(array $data): void
 }
 
 /**
- * Database
- */
-function db(string $id): PDO
-{
-    static $pdo = [];
-
-    if (empty($pdo[$id])) {
-        if (!$id || !($cfg = app\cfg('db', $id))) {
-            throw new DomainException(app\i18n('Invalid configuration'));
-        }
-
-        $pdo[$id] = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], APP['pdo']);
-    }
-
-    return $pdo[$id];
-}
-
-/**
  * Transaction
  *
  * @throws Throwable
@@ -197,6 +179,24 @@ function trans(string $id, callable $call): void
         app\log($e);
         throw $e;
     }
+}
+
+/**
+ * Database
+ */
+function db(string $id): PDO
+{
+    static $pdo = [];
+
+    if (empty($pdo[$id])) {
+        if (!$id || !($cfg = app\cfg('db', $id))) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        }
+
+        $pdo[$id] = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], APP['pdo']);
+    }
+
+    return $pdo[$id];
 }
 
 /**
