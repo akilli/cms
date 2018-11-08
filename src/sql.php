@@ -16,7 +16,7 @@ function db(string $id = 'app'): PDO
     static $pdo = [];
 
     if (empty($pdo[$id])) {
-        if (!$id || !($cfg = app\cfg('sql', $id))) {
+        if (!$id || !($cfg = app\cfg('db', $id))) {
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
