@@ -86,6 +86,7 @@ const APP = [
         'ext.src' => '/data/ext/src',
         'ext.tpl' => '/data/ext/tpl',
     ],
+    'pdo' => [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION],
     'priv' => [
         'name' => null,
         'priv' => null,

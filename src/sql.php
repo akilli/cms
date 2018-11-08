@@ -20,8 +20,7 @@ function db(string $id = 'app'): PDO
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
-        $opt = [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
-        $pdo[$id] = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], $opt);
+        $pdo[$id] = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], APP['pdo']);
     }
 
     return $pdo[$id];
