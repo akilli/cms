@@ -248,7 +248,7 @@ function entity_postsave(array $data): array
     foreach ($data as $attrId => $val) {
         $attr = $data['_entity']['attr'][$attrId] ?? null;
 
-        if (!$attr || $attrId === 'id') {
+        if (!$attr || $attrId === 'id' || $attr['type'] === 'nope') {
             continue;
         } elseif ($attr['type'] !== 'file') {
             $text .= $attr['name'] . ':' . APP['crlf'] . attr\viewer($data, $attr) . APP['crlf'] .APP['crlf'];
