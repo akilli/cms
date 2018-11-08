@@ -39,14 +39,17 @@ function cfg_entity(array $data): array
 
     foreach ($data as $entityId => $entity) {
         $entity = arr\replace(APP['entity'], $entity, ['id' => $entityId]);
-        $entity['name'] = app\i18n((string) $entity['name']);
-        $p = $entity['parent'] && !empty($data[$entity['parent']]) ? $data[$entity['parent']] : null;
-        $a = ['id' => null, 'name' => null];
 
-        if (!$entity['name'] || !$entity['type'] || !$entity['parent'] && array_intersect_key($a, $entity['attr']) !== $a || $entity['parent'] && (!$p || $p['parent'])) {
+        if (!$entity['name'] || !($entity['name'] = app\i18n($entity['name']))) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        } elseif (!$entity['db'] || !($entity['type'] = app\cfg('db', $entity['db'])['type'] ?? null)) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        } elseif (!$entity['parent'] && (empty($entity['attr']['id']) || empty($entity['attr']['name']))) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        } elseif ($entity['parent'] && (empty($data[$entity['parent']]) || !empty($data[$entity['parent']]['parent']))) {
             throw new DomainException(app\i18n('Invalid configuration'));
         } elseif ($entity['parent']) {
-            $entity['attr'] = array_replace_recursive($p['attr'], $entity['attr']);
+            $entity['attr'] = array_replace_recursive($data[$entity['parent']]['attr'], $entity['attr']);
         }
 
         foreach ($entity['attr'] as $attrId => $attr) {

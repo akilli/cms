@@ -2,7 +2,6 @@
 return [
     'role' => [
         'name' => 'Roles',
-        'type' => 'db',
         'action' => ['admin', 'create', 'delete', 'edit'],
         'attr' => [
             'id' => [
@@ -26,7 +25,6 @@ return [
     ],
     'account' => [
         'name' => 'Accounts',
-        'type' => 'db',
         'action' => ['admin', 'create', 'delete', 'edit', 'login', 'logout', 'password'],
         'attr' => [
             'id' => [
@@ -67,7 +65,6 @@ return [
     ],
     'file' => [
         'name' => 'Files',
-        'type' => 'db',
         'action' => ['browser'],
         'attr' => [
             'id' => [
@@ -98,7 +95,6 @@ return [
     ],
     'audio' => [
         'name' => 'Audios',
-        'type' => 'db',
         'parent' => 'file',
         'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
@@ -109,7 +105,6 @@ return [
     ],
     'doc' => [
         'name' => 'Documents',
-        'type' => 'db',
         'parent' => 'file',
         'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
@@ -120,7 +115,6 @@ return [
     ],
     'image' => [
         'name' => 'Images',
-        'type' => 'db',
         'parent' => 'file',
         'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
@@ -131,7 +125,6 @@ return [
     ],
     'video' => [
         'name' => 'Videos',
-        'type' => 'db',
         'parent' => 'file',
         'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
         'attr' => [
@@ -142,7 +135,6 @@ return [
     ],
     'page' => [
         'name' => 'Pages',
-        'type' => 'db',
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -278,19 +270,16 @@ return [
     ],
     'content' => [
         'name' => 'Content Pages',
-        'type' => 'db',
         'parent' => 'page',
         'action' => ['admin', 'create', 'delete', 'edit', 'view'],
     ],
     'article' => [
         'name' => 'Articles',
-        'type' => 'db',
         'parent' => 'page',
         'action' => ['admin', 'create', 'delete', 'edit', 'view'],
     ],
     'version' => [
         'name' => 'Versions',
-        'type' => 'db',
         'attr' => [
             'id' => [
                 'name' => 'ID',

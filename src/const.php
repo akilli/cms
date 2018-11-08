@@ -50,6 +50,7 @@ const APP = [
     'entity' => [
         'id' => null,
         'name' => null,
+        'db' => 'app',
         'type' => null,
         'parent' => null,
         'mail' => false,

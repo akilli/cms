@@ -9,6 +9,152 @@ use DomainException;
 use Throwable;
 
 /**
+ * Load entity
+ */
+function load(array $entity, array $crit = [], array $opt = []): array
+{
+    if ($opt['mode'] === 'size') {
+        $opt['select'] = ['COUNT(*)'];
+    } elseif (!$opt['select']) {
+        $opt['select'] = array_keys(attr($entity['attr']));
+    }
+
+    $join = '';
+
+    if ($entity['parent']) {
+        $join = array_diff_key($entity['attr'], app\cfg('entity', $entity['parent'])['attr']) ? $entity['id'] : '';
+        $crit[] = ['entity', $entity['id']];
+    }
+
+    $cols = crit($crit);
+    $stmt = db()->prepare(
+        sel($opt['select'])
+        . from($entity['parent'] ?: $entity['id'])
+        . ljoin($join)
+        . where($cols['crit'])
+        . order($opt['order'])
+        . limit($opt['limit'], $opt['offset'])
+    );
+
+    foreach ($cols['param'] as $param) {
+        $stmt->bindValue(...$param);
+    }
+
+    $stmt->execute();
+
+    if ($opt['mode'] === 'size') {
+        return [(int) $stmt->fetchColumn()];
+    }
+
+    if ($opt['mode'] === 'one') {
+        return $stmt->fetch() ?: [];
+    }
+
+    return $stmt->fetchAll();
+}
+
+/**
+ * Save entity
+ *
+ * @throws DomainException
+ */
+function save(array $data): array
+{
+    $entity = $data['_entity'];
+    $old = $data['_old'];
+    $attrs = $entity['attr'];
+
+    if ($entity['parent']) {
+        if ($old && ($old['entity'] !== $entity['id'] || !empty($data['entity']) && $old['entity'] !== $data['entity'])) {
+            throw new DomainException(app\i18n('Invalid entity %s', $old['entity']));
+        }
+
+        $data['entity'] = $entity['id'];
+        $p = app\cfg('entity', $entity['parent']);
+        $data['_entity'] = $p;
+        $data = ($p['type'] . '\save')($data);
+        $data['_entity'] = $entity;
+        $attrs = array_diff_key($attrs, $p['attr']);
+
+        if (!$attrs || !array_intersect_key($data, $attrs)) {
+            return $data;
+        }
+
+        if ($old) {
+            $stmt = db()->prepare(
+                sel(['COUNT(*)'])
+                . from($entity['id'])
+                . where(['id = :id'])
+            );
+            $stmt->bindValue(':id', $old['id'], type($old['id']));
+            $stmt->execute();
+
+            if ((int) $stmt->fetchColumn() <= 0) {
+                $old = [];
+            }
+        }
+
+        if (!$old) {
+            $attrs['id'] = array_replace($p['attr']['id'], ['auto' => false]);
+        }
+    }
+
+    if (!($cols = cols($data, $attrs)) || empty($cols['param'])) {
+        return $data;
+    }
+
+    // Insert or update
+    if (!$old) {
+        $stmt = db()->prepare(
+            ins($entity['id'])
+            . vals($cols['val'])
+        );
+    } else {
+        $stmt = db()->prepare(
+            upd($entity['id'])
+            . set($cols['val'])
+            . where(['id = :_id'])
+        );
+        $stmt->bindValue(':_id', $old['id'], type($old['id']));
+    }
+
+    foreach ($cols['param'] as $param) {
+        $stmt->bindValue(...$param);
+    }
+
+    $stmt->execute();
+
+    // Set DB generated id
+    if (!$old && $attrs['id']['auto']) {
+        $data['id'] = (int) db()->lastInsertId($entity['id'] . '_id_seq');
+    }
+
+    return $data;
+}
+
+/**
+ * Delete entity
+ *
+ * @throws DomainException
+ */
+function delete(array $data): void
+{
+    $entity = $data['_entity'];
+    $old = $data['_old'];
+
+    if ($entity['parent'] && $old['entity'] !== $entity['id']) {
+        throw new DomainException(app\i18n('Invalid entity %s', $old['entity']));
+    }
+
+    $stmt = db()->prepare(
+        del($entity['parent'] ?: $entity['id'])
+        . where(['id = :id'])
+    );
+    $stmt->bindValue(':id', $old['id'], type($old['id']));
+    $stmt->execute();
+}
+
+/**
  * Database
  */
 function db(string $id = 'app'): PDO
