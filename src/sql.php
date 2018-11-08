@@ -11,17 +11,20 @@ use Throwable;
 /**
  * Database
  */
-function db(): PDO
+function db(string $id = 'app'): PDO
 {
-    static $pdo;
+    static $pdo = [];
 
-    if ($pdo === null) {
-        $cfg = app\cfg('sql');
+    if (empty($pdo[$id])) {
+        if (!$id || !($cfg = app\cfg('sql', $id))) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        }
+
         $opt = [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
-        $pdo = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], $opt);
+        $pdo[$id] = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], $opt);
     }
 
-    return $pdo;
+    return $pdo[$id];
 }
 
 /**
