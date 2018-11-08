@@ -193,7 +193,7 @@ function crit(array $crit): array
 /**
  * INSERT part
  */
-function insert(string $tab): string
+function ins(string $tab): string
 {
     return 'INSERT INTO ' . $tab;
 }
@@ -201,7 +201,7 @@ function insert(string $tab): string
 /**
  * VALUES part
  */
-function values(array $cols): string
+function vals(array $cols): string
 {
     return ' (' . implode(', ', array_keys($cols)) . ') VALUES (' . implode(', ', $cols) . ')';
 }
@@ -209,7 +209,7 @@ function values(array $cols): string
 /**
  * UPDATE part
  */
-function update(string $tab): string
+function upd(string $tab): string
 {
     return 'UPDATE ' . $tab;
 }
@@ -231,7 +231,7 @@ function set(array $cols): string
 /**
  * DELETE part
  */
-function delete(string $tab): string
+function del(string $tab): string
 {
     return 'DELETE FROM ' . $tab;
 }
@@ -239,7 +239,7 @@ function delete(string $tab): string
 /**
  * SELECT part
  */
-function select(array $sel, bool $distinct = false): string
+function sel(array $sel, bool $distinct = false): string
 {
     $cols = [];
 

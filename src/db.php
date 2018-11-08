@@ -27,7 +27,7 @@ function load(array $entity, array $crit = [], array $opt = []): array
 
     $cols = sql\crit($crit);
     $stmt = sql\db()->prepare(
-        sql\select($opt['select'])
+        sql\sel($opt['select'])
         . sql\from($entity['parent'] ?: $entity['id'])
         . sql\ljoin($join)
         . sql\where($cols['crit'])
@@ -81,7 +81,7 @@ function save(array $data): array
 
         if ($old) {
             $stmt = sql\db()->prepare(
-                sql\select(['COUNT(*)'])
+                sql\sel(['COUNT(*)'])
                 . sql\from($entity['id'])
                 . sql\where(['id = :id'])
             );
@@ -105,12 +105,12 @@ function save(array $data): array
     // Insert or update
     if (!$old) {
         $stmt = sql\db()->prepare(
-            sql\insert($entity['id'])
-            . sql\values($cols['val'])
+            sql\ins($entity['id'])
+            . sql\vals($cols['val'])
         );
     } else {
         $stmt = sql\db()->prepare(
-            sql\update($entity['id'])
+            sql\upd($entity['id'])
             . sql\set($cols['val'])
             . sql\where(['id = :_id'])
         );
@@ -146,7 +146,7 @@ function delete(array $data): void
     }
 
     $stmt = sql\db()->prepare(
-        sql\delete($entity['parent'] ?: $entity['id'])
+        sql\del($entity['parent'] ?: $entity['id'])
         . sql\where(['id = :id'])
     );
     $stmt->bindValue(':id', $old['id'], sql\type($old['id']));
