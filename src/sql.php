@@ -27,7 +27,7 @@ function load(array $entity, array $crit = [], array $opt = []): array
     }
 
     $cols = crit($crit);
-    $stmt = db()->prepare(
+    $stmt = db($entity['db'])->prepare(
         sel($opt['select'])
         . from($entity['parent'] ?: $entity['id'])
         . ljoin($join)
@@ -63,6 +63,7 @@ function save(array $data): array
     $entity = $data['_entity'];
     $old = $data['_old'];
     $attrs = $entity['attr'];
+    $db = db($entity['db']);
 
     if ($entity['parent']) {
         if ($old && ($old['entity'] !== $entity['id'] || !empty($data['entity']) && $old['entity'] !== $data['entity'])) {
@@ -81,7 +82,7 @@ function save(array $data): array
         }
 
         if ($old) {
-            $stmt = db()->prepare(
+            $stmt = $db->prepare(
                 sel(['COUNT(*)'])
                 . from($entity['id'])
                 . where(['id = :id'])
@@ -105,12 +106,12 @@ function save(array $data): array
 
     // Insert or update
     if (!$old) {
-        $stmt = db()->prepare(
+        $stmt = $db->prepare(
             ins($entity['id'])
             . vals($cols['val'])
         );
     } else {
-        $stmt = db()->prepare(
+        $stmt = $db->prepare(
             upd($entity['id'])
             . set($cols['val'])
             . where(['id = :_id'])
@@ -126,7 +127,7 @@ function save(array $data): array
 
     // Set DB generated id
     if (!$old && $attrs['id']['auto']) {
-        $data['id'] = (int) db()->lastInsertId($entity['id'] . '_id_seq');
+        $data['id'] = (int) $db->lastInsertId($entity['id'] . '_id_seq');
     }
 
     return $data;
@@ -146,7 +147,7 @@ function delete(array $data): void
         throw new DomainException(app\i18n('Invalid entity %s', $old['entity']));
     }
 
-    $stmt = db()->prepare(
+    $stmt = db($entity['db'])->prepare(
         del($entity['parent'] ?: $entity['id'])
         . where(['id = :id'])
     );
@@ -157,7 +158,7 @@ function delete(array $data): void
 /**
  * Database
  */
-function db(string $id = 'app'): PDO
+function db(string $id): PDO
 {
     static $pdo = [];
 
@@ -177,19 +178,22 @@ function db(string $id = 'app'): PDO
  *
  * @throws Throwable
  */
-function trans(callable $call): void
+function trans(string $id, callable $call): void
 {
-    static $level = 0;
+    static $level = [];
 
-    ++$level === 1 ? db()->beginTransaction() : db()->exec('SAVEPOINT LEVEL_' . $level);
+    $db = db($id);
+    $level[$id] = $level[$id] ?? 0;
+
+    ++$level[$id] === 1 ? $db->beginTransaction() : $db->exec('SAVEPOINT LEVEL_' . $level[$id]);
 
     try {
         $call();
-        $level === 1 ? db()->commit() : db()->exec('RELEASE SAVEPOINT LEVEL_' . $level);
-        --$level;
+        $level[$id] === 1 ? $db->commit() : $db->exec('RELEASE SAVEPOINT LEVEL_' . $level[$id]);
+        --$level[$id];
     } catch (Throwable $e) {
-        $level === 1 ? db()->rollBack() : db()->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level);
-        --$level;
+        $level[$id] === 1 ? $db->rollBack() : $db->exec('ROLLBACK TO SAVEPOINT LEVEL_' . $level[$id]);
+        --$level[$id];
         app\log($e);
         throw $e;
     }

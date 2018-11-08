@@ -143,6 +143,7 @@ function save(string $entityId, array & $data): bool
 
     try {
         sql\trans(
+            $tmp['_entity']['db'],
             function () use (& $tmp): void {
                 $tmp = event('presave', $tmp);
                 $tmp = ($tmp['_entity']['type'] . '\save')($tmp);
@@ -165,13 +166,14 @@ function save(string $entityId, array & $data): bool
  */
 function delete(string $entityId, array $crit = [], array $opt = []): bool
 {
-    if (!$all = all($entityId, $crit, $opt)) {
+    if (!($all = all($entityId, $crit, $opt)) || !($cur = current($all))) {
         app\msg('Nothing to delete');
         return false;
     }
 
     try {
         sql\trans(
+            $cur['_entity']['db'],
             function () use ($all): void {
                 foreach ($all as $data) {
                     $data = event('predelete', $data);
