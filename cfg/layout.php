@@ -62,6 +62,9 @@ return [
         'menu-top' => [
             'type' => 'container',
         ],
+        'menu-middle' => [
+            'type' => 'container',
+        ],
         'menu-bottom' => [
             'type' => 'container',
         ],

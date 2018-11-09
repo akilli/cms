@@ -87,6 +87,7 @@ return [
             'data' => [],
             'sticky' => false,
             'tag' => 'nav',
+            'title' => '',
             'toggle' => false,
         ],
     ],

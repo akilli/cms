@@ -290,6 +290,12 @@ function nav(array $block): string
         $attrs['data-sticky'] = '';
     }
 
+    if ($block['vars']['title']) {
+        $html .= html\tag('h2', [], $block['vars']['title']);
+    }
+
+    $html .= app\block($block['id'] . '-middle');
+
     foreach ($block['vars']['data'] as $item) {
         if (empty($item['name'])) {
             throw new DomainException(app\i18n('Invalid data'));
@@ -354,6 +360,7 @@ function menu(array $block): string
     $crit = [['status', 'published'], ['entity', 'content']];
     $crit[] = $sub ? ['id', $page['path'][1]] : ['url', '/'];
     $select = ['id', 'name', 'url', 'disabled', 'menu_name', 'pos', 'level'];
+    $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
 
     if (!$root = entity\one('page', $crit, ['select' => $select])) {
         return '';
@@ -369,14 +376,11 @@ function menu(array $block): string
         $crit[] = ['menu', true];
     }
 
-    $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
     $block['vars']['data'] = entity\all('page', $crit, $opt);
 
-    if (!$block['vars']['data']) {
-        return '';
-    }
-
-    if ($block['vars']['root']) {
+    if ($block['vars']['root'] && $sub) {
+        $block['vars']['title'] = $root['menu_name'] ?: $root['name'];
+    } elseif ($block['vars']['root']) {
         $root['level']++;
         $block['vars']['data'] = [$root['id'] => $root] + $block['vars']['data'];
     }
