@@ -65,7 +65,12 @@ const APP = [
         'limit' => 0,
         'offset' => 0,
     ],
-    'join' => ['full' => 'full', 'inner' => 'inner', 'left' => 'left', 'right' => 'right'],
+    'join' => [
+        'full' => 'full',
+        'inner' => 'inner',
+        'left' => 'left',
+        'right' => 'right'
+    ],
     'layout' => [
         'id' => null,
         'type' => null,
