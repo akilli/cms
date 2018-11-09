@@ -3,7 +3,7 @@
  */
 'use strict';
 
-(function (document, window) {
+(function (document, window, Flickity) {
     window.addEventListener('load', function () {
         Array.prototype.forEach.call(document.getElementsByClassName('slider'), function (slider) {
             const items = slider.querySelector('.items');
@@ -45,4 +45,4 @@
             }
         });
     });
-})(document, window);
+})(document, window, Flickity);
