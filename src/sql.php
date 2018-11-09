@@ -188,11 +188,10 @@ function db(string $id): PDO
 {
     static $pdo = [];
 
-    if (empty($pdo[$id])) {
-        if (!$id || !($cfg = app\cfg('db', $id))) {
-            throw new DomainException(app\i18n('Invalid configuration'));
-        }
-
+    if (!$id) {
+        throw new DomainException(app\i18n('Invalid configuration'));
+    } elseif (empty($pdo[$id])) {
+        $cfg = app\cfg('db', $id);
         $pdo[$id] = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], APP['pdo']);
     }
 
