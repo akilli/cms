@@ -219,13 +219,13 @@ function load(array $entity, array $data): array
 function event(string $name, array $data): array
 {
     $entity = $data['_entity'];
-    $ev = ['entity.' . $name, 'entity.type.' . $name . '.' . $entity['type']];
+    $ev = ['entity.' . $name, 'entity.' . $name . '.type.' . $entity['type'], 'entity.' . $name . '.db.' . $entity['db']];
 
     if ($entity['parent']) {
-        $ev[] = 'entity.' . $name . '.' . $entity['parent'];
+        $ev[] = 'entity.' . $name . '.id.' . $entity['parent'];
     }
 
-    $ev[] = 'entity.' . $name . '.' . $entity['id'];
+    $ev[] = 'entity.' . $name . '.id.' . $entity['id'];
 
     return app\event($ev, $data);
 }

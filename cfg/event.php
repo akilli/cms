@@ -27,16 +27,16 @@ return [
     'entity.postsave' => [
         'event\entity_postsave' => -1,
     ],
-    'entity.prefilter.file' => [
+    'entity.prefilter.id.file' => [
         'event\entity_prefilter_file' => -1,
     ],
-    'entity.postsave.file' => [
+    'entity.postsave.id.file' => [
         'event\entity_postsave_file' => -1,
     ],
-    'entity.postdelete.file' => [
+    'entity.postdelete.id.file' => [
         'event\entity_postdelete_file' => -1,
     ],
-    'entity.postfilter.page' => [
+    'entity.postfilter.id.page' => [
         'event\entity_postfilter_page' => -1,
     ],
 ];
