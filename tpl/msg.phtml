@@ -1,9 +1,9 @@
 <?php
 namespace app;
-/** @var callable $§ */
+/** @var callable $block */
 ?>
 <?php if ($data = msg()):?>
-<section id="<?=$§('id');?>">
+<section id="<?=$block('id');?>">
     <h1><?=i18n('Message');?></h1>
     <?php foreach ($data as $item):?>
     <p><?=$item;?></p>

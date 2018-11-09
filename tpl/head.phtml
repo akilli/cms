@@ -1,13 +1,13 @@
 <?php
 namespace app;
-/** @var callable $§ */
+/** @var callable $block */
 ?>
 <meta charset="utf-8" />
-<?php if ($§('description')):?>
-<meta name="description" content="<?=$§('description');?>" />
+<?php if ($block('description')):?>
+<meta name="description" content="<?=$block('description');?>" />
 <?php endif;?>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
-<title><?=$§('title');?></title>
+<title><?=$block('title');?></title>
 <link rel="stylesheet" href="<?=gui('base.css');?>" />
 <link rel="stylesheet" href="<?=gui('details.css');?>" />
 <link rel="stylesheet" href="<?=gui('sticky.css');?>" />

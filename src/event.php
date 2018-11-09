@@ -187,18 +187,18 @@ function layout(array $data): array
 
     foreach ($keys as $key) {
         if (!empty($cfg[$key])) {
-            foreach ($cfg[$key] as $id => $§) {
-                $data[$id] = empty($data[$id]) ? $§ : app\load_block($data[$id], $§);
+            foreach ($cfg[$key] as $id => $block) {
+                $data[$id] = empty($data[$id]) ? $block : app\load_block($data[$id], $block);
             }
         }
     }
 
-    foreach ($data as $id => $§) {
-        if (empty($§['type']) || empty($type[$§['type']])) {
+    foreach ($data as $id => $block) {
+        if (empty($block['type']) || empty($type[$block['type']])) {
             throw new DomainException(app\i18n('Invalid block %s', $id));
         }
 
-        $data[$id] = arr\replace(APP['layout'], $type[$§['type']], $§, ['id' => $id]);
+        $data[$id] = arr\replace(APP['layout'], $type[$block['type']], $block, ['id' => $id]);
     }
 
     return $data;

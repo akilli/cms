@@ -14,32 +14,32 @@ use DomainException;
 /**
  * Container
  */
-function container(array $§): string
+function container(array $block): string
 {
     $html = '';
 
-    foreach (arr\order(arr\crit(app\layout(), [['parent', $§['id']]]), ['sort' => 'asc']) as $child) {
+    foreach (arr\order(arr\crit(app\layout(), [['parent', $block['id']]]), ['sort' => 'asc']) as $child) {
         $html .= app\block($child['id']);
     }
 
-    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+    return $block['vars']['tag'] ? html\tag($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
 }
 
 /**
  * Template
  */
-function tpl(array $§): string
+function tpl(array $block): string
 {
-    if (!$§['tpl']) {
+    if (!$block['tpl']) {
         return '';
     }
 
-    $§['vars'] = ['id' => $§['id'], 'tpl' => $§['tpl']] + $§['vars'];
-    $§ = function ($key) use ($§) {
-        return $§['vars'][$key] ?? null;
+    $block['vars'] = ['id' => $block['id'], 'tpl' => $block['tpl']] + $block['vars'];
+    $block = function ($key) use ($block) {
+        return $block['vars'][$key] ?? null;
     };
     ob_start();
-    include app\tpl((string) $§('tpl'));
+    include app\tpl((string) $block('tpl'));
 
     return ob_get_clean();
 }
@@ -47,132 +47,132 @@ function tpl(array $§): string
 /**
  * Head
  */
-function head(array $§): string
+function head(array $block): string
 {
     if ($page = app\get('page')) {
-        $§['vars']['description'] = $page['meta_description'];
+        $block['vars']['description'] = $page['meta_description'];
 
         if ($page['meta_title']) {
-            $§['vars']['title'] = $page['meta_title'];
+            $block['vars']['title'] = $page['meta_title'];
         } else {
             $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['name', 'menu_name'], 'order' => ['level' => 'asc']]);
 
             foreach ($all as $item) {
-                $§['vars']['title'] = ($item['menu_name'] ?: $item['name']) . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
+                $block['vars']['title'] = ($item['menu_name'] ?: $item['name']) . ($block['vars']['title'] ? ' - ' . $block['vars']['title'] : '');
             }
         }
     } elseif (app\get('entity') && ($entity = app\cfg('entity', app\get('entity')))) {
-        $§['vars']['title'] = $entity['name'] . ($§['vars']['title'] ? ' - ' . $§['vars']['title'] : '');
+        $block['vars']['title'] = $entity['name'] . ($block['vars']['title'] ? ' - ' . $block['vars']['title'] : '');
     }
 
-    $§['vars']['description'] = $§['vars']['description'] ? app\enc($§['vars']['description']) : '';
-    $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : '';
+    $block['vars']['description'] = $block['vars']['description'] ? app\enc($block['vars']['description']) : '';
+    $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : '';
 
-    return tpl($§);
+    return tpl($block);
 }
 
 /**
  * Search
  */
-function search(array $§): string
+function search(array $block): string
 {
-    $§['vars']['q'] = $§['vars']['q'] ?? request\get('param')['q'] ?? null;
+    $block['vars']['q'] = $block['vars']['q'] ?? request\get('param')['q'] ?? null;
 
-    return tpl($§);
+    return tpl($block);
 }
 
 /**
  * Pager
  */
-function pager(array $§): string
+function pager(array $block): string
 {
-    $§['vars']['size'] = (int) $§['vars']['size'];
-    $cur = $§['vars']['cur'] ?? request\get('param')['cur'] ?? 1;
-    $limit = (int) $§['vars']['limit'];
-    $pages = (int) $§['vars']['pages'];
+    $block['vars']['size'] = (int) $block['vars']['size'];
+    $cur = $block['vars']['cur'] ?? request\get('param')['cur'] ?? 1;
+    $limit = (int) $block['vars']['limit'];
+    $pages = (int) $block['vars']['pages'];
 
-    if ($limit <= 0 || $§['vars']['size'] <= 0) {
+    if ($limit <= 0 || $block['vars']['size'] <= 0) {
         return '';
     }
 
     $url = request\get('url');
-    $total = (int) ceil($§['vars']['size'] / $limit) ?: 1;
+    $total = (int) ceil($block['vars']['size'] / $limit) ?: 1;
     $cur = min(max($cur, 1), $total);
     $offset = ($cur - 1) * $limit;
-    $§['vars']['max'] = min($offset + $limit, $§['vars']['size']);
-    $§['vars']['min'] = $offset + 1;
-    $§['vars']['links'] = [];
+    $block['vars']['max'] = min($offset + $limit, $block['vars']['size']);
+    $block['vars']['min'] = $offset + 1;
+    $block['vars']['links'] = [];
     $min = max(1, min($cur - intdiv($pages, 2), $total - $pages + 1));
     $max = min($min + $pages - 1, $total);
 
     if ($cur >= 2) {
         $lp = ['cur' => $cur === 2 ? null : $cur - 1];
-        $§['vars']['links'][] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $lp, true)];
+        $block['vars']['links'][] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $lp, true)];
     }
 
     for ($i = $min; $min < $max && $i <= $max; $i++) {
         $lp = ['cur' => $i === 1 ? null : $i];
-        $§['vars']['links'][] = ['name' => $i, 'url' => app\url($url, $lp, true), 'active' => $i === $cur];
+        $block['vars']['links'][] = ['name' => $i, 'url' => app\url($url, $lp, true), 'active' => $i === $cur];
     }
 
     if ($cur < $total) {
-        $§['vars']['links'][] = ['name' => app\i18n('Next'), 'url' => app\url($url, ['cur' => $cur + 1], true)];
+        $block['vars']['links'][] = ['name' => app\i18n('Next'), 'url' => app\url($url, ['cur' => $cur + 1], true)];
     }
 
-    return tpl($§);
+    return tpl($block);
 }
 
 /**
  * Index
  */
-function index(array $§): string
+function index(array $block): string
 {
-    $§['vars']['entity'] = app\cfg('entity', $§['vars']['entity'] ?: app\get('entity'));
-    $crit = is_array($§['vars']['crit']) ? $§['vars']['crit'] : [];
-    $opt = ['limit' => (int) $§['vars']['limit']];
-    $opt['order'] = $§['vars']['order'] && is_array($§['vars']['order']) ? $§['vars']['order'] : ['id' => 'desc'];
+    $block['vars']['entity'] = app\cfg('entity', $block['vars']['entity'] ?: app\get('entity'));
+    $crit = is_array($block['vars']['crit']) ? $block['vars']['crit'] : [];
+    $opt = ['limit' => (int) $block['vars']['limit']];
+    $opt['order'] = $block['vars']['order'] && is_array($block['vars']['order']) ? $block['vars']['order'] : ['id' => 'desc'];
 
-    if (!$§['vars']['entity'] || $opt['limit'] <= 0) {
+    if (!$block['vars']['entity'] || $opt['limit'] <= 0) {
         return '';
     }
 
-    if (in_array('page', [$§['vars']['entity']['id'], $§['vars']['entity']['parent']])) {
-        if (!$§['vars']['inaccessible']) {
+    if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent']])) {
+        if (!$block['vars']['inaccessible']) {
             $crit[] = ['status', 'published'];
             $crit[] = ['disabled', false];
         }
 
-        if ($§['vars']['parent_id']) {
-            $crit[] = ['parent_id', $§['vars']['parent_id'] === true ? app\get('id') : (int) $§['vars']['parent_id']];
+        if ($block['vars']['parent_id']) {
+            $crit[] = ['parent_id', $block['vars']['parent_id'] === true ? app\get('id') : (int) $block['vars']['parent_id']];
         }
     }
 
     $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], request\get('param'));
 
-    if ($§['vars']['search']) {
+    if ($block['vars']['search']) {
         if (($p['q'] = trim((string) $p['q'])) && ($q = array_filter(explode(' ', $p['q'])))) {
             $c = [];
 
-            foreach ($§['vars']['search'] as $attrId) {
+            foreach ($block['vars']['search'] as $attrId) {
                 $c[] = [$attrId, $q, APP['crit']['~']];
             }
 
             $crit[] = $c;
         }
 
-        $search = ['id' => $§['id'] . '-search', 'type' => 'search', 'vars' => ['q' => $p['q']]];
+        $search = ['id' => $block['id'] . '-search', 'type' => 'search', 'vars' => ['q' => $p['q']]];
         app\layout($search['id'], $search);
-        $§['vars']['search'] = app\block($search['id']);
+        $block['vars']['search'] = app\block($search['id']);
     } else {
-        $§['vars']['search'] = null;
+        $block['vars']['search'] = null;
     }
 
-    $size = entity\size($§['vars']['entity']['id'], $crit);
+    $size = entity\size($block['vars']['entity']['id'], $crit);
     $total = (int) ceil($size / $opt['limit']) ?: 1;
     $p['cur'] = min(max((int) $p['cur'], 1), $total);
     $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
 
-    if ($p['sort'] && in_array($p['sort'], $§['vars']['attr'])) {
+    if ($p['sort'] && in_array($p['sort'], $block['vars']['attr'])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
         $opt['order'] = [$p['sort'] => $p['dir']];
     } else {
@@ -180,86 +180,86 @@ function index(array $§): string
         $p['dir'] = null;
     }
 
-    if ($§['vars']['pager']) {
-        $pager = ['id' => $§['id'] . '-pager', 'type' => 'pager', 'vars' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]];
+    if ($block['vars']['pager']) {
+        $pager = ['id' => $block['id'] . '-pager', 'type' => 'pager', 'vars' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]];
         app\layout($pager['id'], $pager);
-        $§['vars']['pager'] = app\block($pager['id']);
+        $block['vars']['pager'] = app\block($pager['id']);
     } else {
-        $§['vars']['pager'] = null;
+        $block['vars']['pager'] = null;
     }
 
-    $§['vars']['data'] = entity\all($§['vars']['entity']['id'], $crit, $opt);
-    $§['vars']['dir'] = $p['dir'];
-    $§['vars']['sort'] = $p['sort'];
-    $§['vars']['title'] = app\enc($§['vars']['title'] ?? $§['vars']['entity']['name']);
-    $§['vars']['url'] = request\get('url');
+    $block['vars']['data'] = entity\all($block['vars']['entity']['id'], $crit, $opt);
+    $block['vars']['dir'] = $p['dir'];
+    $block['vars']['sort'] = $p['sort'];
+    $block['vars']['title'] = app\enc($block['vars']['title'] ?? $block['vars']['entity']['name']);
+    $block['vars']['url'] = request\get('url');
 
-    return tpl($§);
+    return tpl($block);
 }
 
 /**
  * Form
  */
-function form(array $§): string
+function form(array $block): string
 {
-    if (!$§['vars']['entity']) {
+    if (!$block['vars']['entity']) {
         return '';
     }
 
-    $§['vars']['title'] = $§['vars']['title'] ? app\enc($§['vars']['title']) : null;
-    $§['vars']['file'] = false;
+    $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : null;
+    $block['vars']['file'] = false;
 
-    foreach ($§['vars']['attr'] as $attrId) {
-        if ($§['vars']['file'] = ($§['vars']['entity']['attr'][$attrId]['type'] ?? null) === 'upload') {
+    foreach ($block['vars']['attr'] as $attrId) {
+        if ($block['vars']['file'] = ($block['vars']['entity']['attr'][$attrId]['type'] ?? null) === 'upload') {
             break;
         }
     }
 
-    return tpl($§);
+    return tpl($block);
 }
 
 /**
  * Create Form
  */
-function create(array $§): string
+function create(array $block): string
 {
-    $§['vars']['entity'] = app\cfg('entity', $§['vars']['entity'] ?: app\get('entity'));
+    $block['vars']['entity'] = app\cfg('entity', $block['vars']['entity'] ?: app\get('entity'));
 
-    if (($data = request\get('data')) && entity\save($§['vars']['entity']['id'], $data)) {
-        if ($§['vars']['redirect']) {
-            request\redirect(app\url($§['vars']['entity']['id'] . '/edit/' . $data['id']));
+    if (($data = request\get('data')) && entity\save($block['vars']['entity']['id'], $data)) {
+        if ($block['vars']['redirect']) {
+            request\redirect(app\url($block['vars']['entity']['id'] . '/edit/' . $data['id']));
             return '';
         }
 
         $data = [];
     }
 
-    $§['vars']['data'] = array_replace(entity\item($§['vars']['entity']), $data);
-    $§['vars']['title'] = $§['vars']['title'] ?? $§['vars']['entity']['name'];
+    $block['vars']['data'] = array_replace(entity\item($block['vars']['entity']), $data);
+    $block['vars']['title'] = $block['vars']['title'] ?? $block['vars']['entity']['name'];
 
-    return form($§);
+    return form($block);
 }
 
 /**
  * Login Form
  */
-function login(array $§): string
+function login(array $block): string
 {
-    $§['vars']['attr'] = ['name', 'password'];
-    $§['vars']['data'] = [];
+    $block['vars']['attr'] = ['name', 'password'];
+    $block['vars']['data'] = [];
     $a = ['name' => ['unique' => false, 'minlength' => 0, 'maxlength' => 0], 'password' => ['minlength' => 0, 'maxlength' => 0]];
-    $§['vars']['entity'] = app\cfg('entity', 'account');
-    $§['vars']['entity']['attr'] = array_replace_recursive($§['vars']['entity']['attr'], $a);
+    $block['vars']['entity'] = app\cfg('entity', 'account');
+    $block['vars']['entity']['attr'] = array_replace_recursive($block['vars']['entity']['attr'], $a);
 
-    return form($§);
+    return form($block);
 }
 
 /**
  * View
  */
-function view(array $§): string
+function view(array $block): string
 {
-    return $§['vars']['entity'] ? tpl($§) : '';
+    return $block['vars']['entity'] ? tpl($block) : '';
 }
 
 /**
@@ -267,30 +267,30 @@ function view(array $§): string
  *
  * @throws DomainException
  */
-function nav(array $§): string
+function nav(array $block): string
 {
-    if (!$§['vars']['data']) {
+    if (!$block['vars']['data']) {
         return '';
     }
 
     $url = request\get('url');
-    $count = count($§['vars']['data']);
-    $start = current($§['vars']['data'])['level'] ?? 1;
+    $count = count($block['vars']['data']);
+    $start = current($block['vars']['data'])['level'] ?? 1;
     $level = 0;
     $i = 0;
-    $html = app\block($§['id'] . '-top');
-    $attrs = ['id' => $§['id']];
+    $html = app\block($block['id'] . '-top');
+    $attrs = ['id' => $block['id']];
 
-    if ($§['vars']['toggle']) {
-        $html .= html\tag('span', ['data-action' => 'toggle', 'data-target' => $§['id']]);
+    if ($block['vars']['toggle']) {
+        $html .= html\tag('span', ['data-action' => 'toggle', 'data-target' => $block['id']]);
         $attrs['data-toggle'] = '';
     }
 
-    if ($§['vars']['sticky']) {
+    if ($block['vars']['sticky']) {
         $attrs['data-sticky'] = '';
     }
 
-    foreach ($§['vars']['data'] as $item) {
+    foreach ($block['vars']['data'] as $item) {
         if (empty($item['name'])) {
             throw new DomainException(app\i18n('Invalid data'));
         }
@@ -308,10 +308,10 @@ function nav(array $§): string
             $class[] = 'path';
         }
 
-        if (($next = next($§['vars']['data'])) && $item['level'] < ($next['level'] ?? $start)) {
+        if (($next = next($block['vars']['data'])) && $item['level'] < ($next['level'] ?? $start)) {
             $class[] = 'parent';
 
-            if ($§['vars']['toggle']) {
+            if ($block['vars']['toggle']) {
                 $toggle = html\tag('span', ['data-action' => 'toggle']);
             }
         }
@@ -334,18 +334,18 @@ function nav(array $§): string
         $level = $item['level'];
     }
 
-    $html .= app\block($§['id'] . '-bottom');
+    $html .= app\block($block['id'] . '-bottom');
 
-    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], $attrs, $html) : $html;
+    return $block['vars']['tag'] ? html\tag($block['vars']['tag'], $attrs, $html) : $html;
 }
 
 /**
  * Menu Navigation
  */
-function menu(array $§): string
+function menu(array $block): string
 {
     $page = app\get('page');
-    $sub = $§['vars']['mode'] === 'sub';
+    $sub = $block['vars']['mode'] === 'sub';
 
     if ($sub && empty($page['path'][1])) {
         return '';
@@ -370,35 +370,35 @@ function menu(array $§): string
     }
 
     $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
-    $§['vars']['data'] = entity\all('page', $crit, $opt);
+    $block['vars']['data'] = entity\all('page', $crit, $opt);
 
-    if (!$§['vars']['data']) {
+    if (!$block['vars']['data']) {
         return '';
     }
 
-    if ($§['vars']['root']) {
+    if ($block['vars']['root']) {
         $root['level']++;
-        $§['vars']['data'] = [$root['id'] => $root] + $§['vars']['data'];
+        $block['vars']['data'] = [$root['id'] => $root] + $block['vars']['data'];
     }
 
-    foreach ($§['vars']['data'] as $id => $item) {
-        $§['vars']['data'][$id]['name'] = $item['menu_name'] ?: $item['name'];
+    foreach ($block['vars']['data'] as $id => $item) {
+        $block['vars']['data'][$id]['name'] = $item['menu_name'] ?: $item['name'];
     }
 
-    return nav($§);
+    return nav($block);
 }
 
 /**
  * Toolbar Navigation
  */
-function toolbar(array $§): string
+function toolbar(array $block): string
 {
-    $§['vars']['data'] = app\cfg('toolbar');
+    $block['vars']['data'] = app\cfg('toolbar');
     $empty = [];
 
-    foreach ($§['vars']['data'] as $id => $item) {
+    foreach ($block['vars']['data'] as $id => $item) {
         if ($item['priv'] && !app\allowed($item['priv'])) {
-            unset($§['vars']['data'][$id]);
+            unset($block['vars']['data'][$id]);
         } elseif (!$item['url']) {
             $empty[$id] = true;
         } elseif ($item['parent']) {
@@ -406,15 +406,15 @@ function toolbar(array $§): string
         }
     }
 
-    $§['vars']['data'] = array_diff_key($§['vars']['data'], $empty);
+    $block['vars']['data'] = array_diff_key($block['vars']['data'], $empty);
 
-    return nav($§);
+    return nav($block);
 }
 
 /**
  * Breadcrumb Navigation
  */
-function breadcrumb(array $§): string
+function breadcrumb(array $block): string
 {
     if (!$page = app\get('page')) {
         return '';
@@ -430,26 +430,26 @@ function breadcrumb(array $§): string
         }
     }
 
-    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+    return $block['vars']['tag'] ? html\tag($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
 }
 
 /**
  * Page banner
  */
-function banner(array $§): string
+function banner(array $block): string
 {
     if (($page = app\get('page')) && $page['entity'] !== 'content') {
         $page = entity\one('page', [['id', $page['path']], ['entity', 'content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
     }
 
-    return $page && ($§['vars']['img'] = attr\viewer($page, $page['_entity']['attr']['image'])) ? tpl($§) : '';
+    return $page && ($block['vars']['img'] = attr\viewer($page, $page['_entity']['attr']['image'])) ? tpl($block) : '';
 }
 
 
 /**
  * Page sidebar
  */
-function sidebar(array $§): string
+function sidebar(array $block): string
 {
     if (!$page = app\get('page')) {
         return '';
@@ -457,11 +457,11 @@ function sidebar(array $§): string
 
     $html = $page['sidebar'];
 
-    if (!$html && $§['vars']['inherit']) {
+    if (!$html && $block['vars']['inherit']) {
         $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']]];
         $opt = ['select' => ['sidebar'], 'order' => ['level' => 'desc']];
         $html = entity\one('page', $crit, $opt)['sidebar'] ?? '';
     }
 
-    return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
+    return $block['vars']['tag'] ? html\tag($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
 }

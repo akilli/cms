@@ -1,17 +1,17 @@
 <?php
 namespace app;
 use attr;
-/** @var callable $§ */
-$aside = !empty($§('entity')['attr']['aside']) ? attr\viewer($§('data'), $§('entity')['attr']['aside']) : null;
+/** @var callable $block */
+$aside = !empty($block('entity')['attr']['aside']) ? attr\viewer($block('data'), $block('entity')['attr']['aside']) : null;
 ?>
-<article id="<?=$§('id');?>" class="view<?php if ($aside):?> aside<?php endif;?>" data-entity="<?=$§('entity')['id'];?>">
-    <?=block($§('id') . '-top');?>
-    <?php foreach ($§('attr') as $attrId):?>
+<article id="<?=$block('id');?>" class="view<?php if ($aside):?> aside<?php endif;?>" data-entity="<?=$block('entity')['id'];?>">
+    <?=block($block('id') . '-top');?>
+    <?php foreach ($block('attr') as $attrId):?>
         <?php
-        $attr = $§('entity')['attr'][$attrId] ?? null;
-        $val = $§('data')[$attrId] ?? null;
+        $attr = $block('entity')['attr'][$attrId] ?? null;
+        $val = $block('data')[$attrId] ?? null;
         ?>
-        <?php if (!$attr || $attr['id'] === 'aside' || $val === null || $val === '' || !($html = attr\viewer($§('data'), $attr))) continue;?>
+        <?php if (!$attr || $attr['id'] === 'aside' || $val === null || $val === '' || !($html = attr\viewer($block('data'), $attr))) continue;?>
         <?php if ($attr['id'] === 'name'):?>
     <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
         <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
@@ -22,11 +22,11 @@ $aside = !empty($§('entity')['attr']['aside']) ? attr\viewer($§('data'), $§('
     </div>
         <?php endif;?>
     <?php endforeach;?>
-    <?=block($§('id') . '-middle');?>
+    <?=block($block('id') . '-middle');?>
     <?php if ($aside):?>
-    <aside data-attr="aside" data-type="<?=$§('entity')['attr']['aside']['type'];?>">
+    <aside data-attr="aside" data-type="<?=$block('entity')['attr']['aside']['type'];?>">
         <?=$aside;?>
     </aside>
     <?php endif;?>
-    <?=block($§('id') . '-bottom');?>
+    <?=block($block('id') . '-bottom');?>
 </article>

@@ -149,8 +149,8 @@ function load(string $id): array
 function load_layout(array $data, array $ext = []): array
 {
     foreach ($ext as $key => $cfg) {
-        foreach ($cfg as $id => $§) {
-            $data[$key][$id] = empty($data[$key][$id]) ? $§ : load_block($data[$key][$id], $§);
+        foreach ($cfg as $id => $block) {
+            $data[$key][$id] = empty($data[$key][$id]) ? $block : load_block($data[$key][$id], $block);
         }
     }
 
@@ -284,7 +284,7 @@ function tpl(string $id): string
  *
  * @throws DomainException
  */
-function layout(string $id = null, array $§ = null): ?array
+function layout(string $id = null, array $block = null): ?array
 {
     if (($data = & registry('layout')) === null) {
         $data = [];
@@ -295,18 +295,18 @@ function layout(string $id = null, array $§ = null): ?array
         return $data;
     }
 
-    if (empty($data[$id]) && $§ === null) {
+    if (empty($data[$id]) && $block === null) {
         return null;
     }
 
     if (empty($data[$id])) {
-        if (empty($§['type']) || !($type = cfg('block', $§['type']))) {
+        if (empty($block['type']) || !($type = cfg('block', $block['type']))) {
             throw new DomainException(i18n('Invalid block %s', $id));
         }
 
-        $data[$id] = arr\replace(APP['layout'], $type, $§, ['id' => $id]);
-    } elseif ($§) {
-        $data[$id] = load_block($data[$id], $§);
+        $data[$id] = arr\replace(APP['layout'], $type, $block, ['id' => $id]);
+    } elseif ($block) {
+        $data[$id] = load_block($data[$id], $block);
     }
 
     return $data[$id];
@@ -317,18 +317,18 @@ function layout(string $id = null, array $§ = null): ?array
  */
 function block(string $id): string
 {
-    if (!($§ = layout($id)) || !$§['active'] || $§['priv'] && !allowed($§['priv'])) {
+    if (!($block = layout($id)) || !$block['active'] || $block['priv'] && !allowed($block['priv'])) {
         return '';
     }
 
-    $§ = event(['block.' . $§['type'], 'layout.' . $id], $§);
-    $type = cfg('block', $§['type']);
+    $block = event(['block.' . $block['type'], 'layout.' . $id], $block);
+    $type = cfg('block', $block['type']);
 
     if (isset($type['vars'])) {
-        $§['vars'] = arr\replace($type['vars'], $§['vars'] ?? []);
+        $block['vars'] = arr\replace($type['vars'], $block['vars'] ?? []);
     }
 
-    return $type['call']($§);
+    return $type['call']($block);
 }
 
 /**
