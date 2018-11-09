@@ -387,7 +387,6 @@ function curl(string $url, array $param = []): ?string
     }
 
     $curl = curl_init();
-
     curl_setopt_array($curl, [CURLOPT_URL => $url] + cfg('app', 'curl'));
     $result = curl_exec($curl);
     curl_close($curl);
