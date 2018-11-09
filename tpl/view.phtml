@@ -5,7 +5,7 @@ use attr;
 $aside = !empty($§('entity')['attr']['aside']) ? attr\viewer($§('data'), $§('entity')['attr']['aside']) : null;
 ?>
 <article id="<?=$§('id');?>" class="view<?php if ($aside):?> aside<?php endif;?>" data-entity="<?=$§('entity')['id'];?>">
-    <?=§($§('id') . '-top');?>
+    <?=block($§('id') . '-top');?>
     <?php foreach ($§('attr') as $attrId):?>
         <?php
         $attr = $§('entity')['attr'][$attrId] ?? null;
@@ -22,11 +22,11 @@ $aside = !empty($§('entity')['attr']['aside']) ? attr\viewer($§('data'), $§('
     </div>
         <?php endif;?>
     <?php endforeach;?>
-    <?=§($§('id') . '-middle');?>
+    <?=block($§('id') . '-middle');?>
     <?php if ($aside):?>
     <aside data-attr="aside" data-type="<?=$§('entity')['attr']['aside']['type'];?>">
         <?=$aside;?>
     </aside>
     <?php endif;?>
-    <?=§($§('id') . '-bottom');?>
+    <?=block($§('id') . '-bottom');?>
 </article>

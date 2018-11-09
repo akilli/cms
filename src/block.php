@@ -19,7 +19,7 @@ function container(array $§): string
     $html = '';
 
     foreach (arr\order(arr\crit(app\layout(), [['parent', $§['id']]]), ['sort' => 'asc']) as $child) {
-        $html .= app\§($child['id']);
+        $html .= app\block($child['id']);
     }
 
     return $§['vars']['tag'] ? html\tag($§['vars']['tag'], ['id' => $§['id']], $html) : $html;
@@ -162,7 +162,7 @@ function index(array $§): string
 
         $search = ['id' => $§['id'] . '-search', 'type' => 'search', 'vars' => ['q' => $p['q']]];
         app\layout($search['id'], $search);
-        $§['vars']['search'] = app\§($search['id']);
+        $§['vars']['search'] = app\block($search['id']);
     } else {
         $§['vars']['search'] = null;
     }
@@ -183,7 +183,7 @@ function index(array $§): string
     if ($§['vars']['pager']) {
         $pager = ['id' => $§['id'] . '-pager', 'type' => 'pager', 'vars' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]];
         app\layout($pager['id'], $pager);
-        $§['vars']['pager'] = app\§($pager['id']);
+        $§['vars']['pager'] = app\block($pager['id']);
     } else {
         $§['vars']['pager'] = null;
     }
@@ -278,7 +278,7 @@ function nav(array $§): string
     $start = current($§['vars']['data'])['level'] ?? 1;
     $level = 0;
     $i = 0;
-    $html = app\§($§['id'] . '-top');
+    $html = app\block($§['id'] . '-top');
     $attrs = ['id' => $§['id']];
 
     if ($§['vars']['toggle']) {
@@ -334,7 +334,7 @@ function nav(array $§): string
         $level = $item['level'];
     }
 
-    $html .= app\§($§['id'] . '-bottom');
+    $html .= app\block($§['id'] . '-bottom');
 
     return $§['vars']['tag'] ? html\tag($§['vars']['tag'], $attrs, $html) : $html;
 }

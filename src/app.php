@@ -315,7 +315,7 @@ function layout(string $id = null, array $§ = null): ?array
 /**
  * Render block
  */
-function §(string $id): string
+function block(string $id): string
 {
     if (!($§ = layout($id)) || !$§['active'] || $§['priv'] && !allowed($§['priv'])) {
         return '';

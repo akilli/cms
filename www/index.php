@@ -22,4 +22,4 @@ run();
 /**
  * Render response
  */
-echo §('root');
+echo block('root');
