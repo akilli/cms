@@ -360,20 +360,6 @@ function gui(string $path): string
 }
 
 /**
- * Redirect
- */
-function redirect(string $url = '/', int $code = null): void
-{
-    if ($code && in_array($code, APP['redirect'])) {
-        header('Location: ' . $url, true, $code);
-    } else {
-        header('Location: ' . $url);
-    }
-
-    exit;
-}
-
-/**
  * cURL request
  *
  * @throws DomainException

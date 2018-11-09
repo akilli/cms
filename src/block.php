@@ -227,7 +227,7 @@ function create(array $§): string
 
     if (($data = request\get('data')) && entity\save($§['vars']['entity']['id'], $data)) {
         if ($§['vars']['redirect']) {
-            app\redirect(app\url($§['vars']['entity']['id'] . '/edit/' . $data['id']));
+            request\redirect(app\url($§['vars']['entity']['id'] . '/edit/' . $data['id']));
             return '';
         }
 

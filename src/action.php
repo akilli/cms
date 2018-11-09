@@ -17,7 +17,7 @@ function edit(array $entity): void
 {
     if (!($id = app\get('id')) || !($old = entity\one($entity['id'], [['id', $id]]))) {
         app\msg('Nothing to edit');
-        app\redirect(app\url($entity['id'] . '/admin'));
+        request\redirect(app\url($entity['id'] . '/admin'));
         return;
     }
 
@@ -25,7 +25,7 @@ function edit(array $entity): void
         $data += ['id' => $id];
 
         if (entity\save($entity['id'], $data)) {
-            app\redirect(app\url($entity['id'] . '/edit/' . $data['id']));
+            request\redirect(app\url($entity['id'] . '/edit/' . $data['id']));
             return;
         }
     }
@@ -74,7 +74,7 @@ function delete(array $entity): void
         app\msg('Nothing to delete');
     }
 
-    app\redirect(app\url($entity['id'] . '/admin'));
+    request\redirect(app\url($entity['id'] . '/admin'));
 }
 
 /**
@@ -112,7 +112,7 @@ function account_login(array $entity): void
         if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
             session\regenerate();
             session\set('account', $data['id']);
-            app\redirect();
+            request\redirect();
             return;
         }
 
@@ -128,5 +128,5 @@ function account_login(array $entity): void
 function account_logout(): void
 {
     session\regenerate();
-    app\redirect();
+    request\redirect();
 }

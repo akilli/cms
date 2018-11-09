@@ -42,6 +42,20 @@ function get(string $key)
 }
 
 /**
+ * Redirect
+ */
+function redirect(string $url = '/', int $code = null): void
+{
+    if ($code && in_array($code, APP['redirect'])) {
+        header('Location: ' . $url, true, $code);
+    } else {
+        header('Location: ' . $url);
+    }
+
+    exit;
+}
+
+/**
  * Filters request parameters
  */
 function filter(array $data): array
