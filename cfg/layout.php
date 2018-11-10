@@ -31,6 +31,10 @@ return [
             'type' => 'toolbar',
             'priv' => '_user_',
         ],
+        'header' => [
+            'type' => 'tpl',
+            'tpl' => 'header.phtml',
+        ],
         'top' => [
             'type' => 'container',
         ],
@@ -52,17 +56,14 @@ return [
         ],
     ],
     '_admin_' => [
+        'header' => [
+            'active' => false,
+        ],
         'sidebar' => [
             'active' => false,
         ],
     ],
     '_public_' => [
-        'header' => [
-            'type' => 'tpl',
-            'tpl' => 'header.phtml',
-            'parent' => 'top',
-            'sort' => 20,
-        ],
         'menu' => [
             'type' => 'menu',
             'parent' => 'top',
