@@ -35,7 +35,20 @@ return [
             'type' => 'tpl',
             'tpl' => 'header.phtml',
         ],
-        'top' => [
+        'menu' => [
+            'type' => 'menu',
+            'vars' => [
+                'sticky' => true,
+                'toggle' => true,
+            ],
+        ],
+        'menu-top' => [
+            'type' => 'container',
+        ],
+        'menu-middle' => [
+            'type' => 'container',
+        ],
+        'menu-bottom' => [
             'type' => 'container',
         ],
         'msg' => [
@@ -59,29 +72,14 @@ return [
         'header' => [
             'active' => false,
         ],
+        'menu' => [
+            'active' => false,
+        ],
         'sidebar' => [
             'active' => false,
         ],
     ],
     '_public_' => [
-        'menu' => [
-            'type' => 'menu',
-            'parent' => 'top',
-            'sort' => 30,
-            'vars' => [
-                'sticky' => true,
-                'toggle' => true,
-            ],
-        ],
-        'menu-top' => [
-            'type' => 'container',
-        ],
-        'menu-middle' => [
-            'type' => 'container',
-        ],
-        'menu-bottom' => [
-            'type' => 'container',
-        ],
         'breadcrumb' => [
             'type' => 'breadcrumb',
             'parent' => 'main',
@@ -122,9 +120,6 @@ return [
     ],
     'browser' => [
         'toolbar' => [
-            'active' => false,
-        ],
-        'top' => [
             'active' => false,
         ],
         'bottom' => [
@@ -252,9 +247,6 @@ return [
     ],
     'account/login' => [
         'toolbar' => [
-            'active' => false,
-        ],
-        'top' => [
             'active' => false,
         ],
         'bottom' => [
