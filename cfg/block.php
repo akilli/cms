@@ -36,14 +36,6 @@ return [
             'title' => '',
         ],
     ],
-    'head' => [
-        'call' => 'block\head',
-        'tpl' => 'head.phtml',
-        'vars' => [
-            'description' => '',
-            'title' => '',
-        ],
-    ],
     'index' => [
         'call' => 'block\index',
         'tpl' => 'index.phtml',
@@ -53,7 +45,6 @@ return [
             'create' => false,
             'crit' => [],
             'entity' => null,
-            'head' => false,
             'inaccessible' => false,
             'limit' => 10,
             'link' => false,
@@ -61,6 +52,7 @@ return [
             'pager' => false,
             'parent_id' => null,
             'search' => [],
+            'thead' => false,
             'title' => '',
         ],
     ],
@@ -79,6 +71,14 @@ return [
             'sticky' => false,
             'tag' => 'nav',
             'toggle' => false,
+        ],
+    ],
+    'meta' => [
+        'call' => 'block\meta',
+        'tpl' => 'meta.phtml',
+        'vars' => [
+            'description' => '',
+            'title' => '',
         ],
     ],
     'nav' => [

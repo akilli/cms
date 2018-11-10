@@ -44,9 +44,9 @@ function tpl(array $block): string
 }
 
 /**
- * Head
+ * Meta
  */
-function head(array $block): string
+function meta(array $block): string
 {
     if ($page = app\get('page')) {
         $block['vars']['description'] = $page['meta_description'];

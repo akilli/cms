@@ -1,0 +1,10 @@
+<?php
+namespace app;
+/** @var callable $block */
+?>
+<meta charset="utf-8" />
+<?php if ($block('description')):?>
+<meta name="description" content="<?=$block('description');?>" />
+<?php endif;?>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+<title><?=$block('title');?></title>

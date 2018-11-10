@@ -2,12 +2,6 @@
 namespace app;
 /** @var callable $block */
 ?>
-<meta charset="utf-8" />
-<?php if ($block('description')):?>
-<meta name="description" content="<?=$block('description');?>" />
-<?php endif;?>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
-<title><?=$block('title');?></title>
 <link rel="stylesheet" href="<?=gui('base.css');?>" />
 <link rel="stylesheet" href="<?=gui('details.css');?>" />
 <link rel="stylesheet" href="<?=gui('sticky.css');?>" />
@@ -25,11 +19,3 @@ namespace app;
 <script src="<?=gui('multicheckbox.js');?>"></script>
 <script src="<?=gui('links.js');?>"></script>
 <script src="<?=gui('print.js');?>"></script>
-<?php if (allowed('_user_')):?>
-<script src="<?=gui('ckeditor/ckeditor.js');?>"></script>
-<script src="<?=gui('password.js');?>"></script>
-<script src="<?=gui('delete.js');?>"></script>
-<script src="<?=gui('rte.js');?>"></script>
-<script src="<?=gui('browser.js');?>"></script>
-<?php endif;?>
-<?=block('head-ext');?>

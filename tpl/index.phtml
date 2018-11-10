@@ -13,7 +13,7 @@ use attr;
     <?=$block('search');?>
     <?php if (!$block('data')):?>
     <p><?=i18n('No entries found');?></p>
-    <?php elseif ($block('head')):?>
+    <?php elseif ($block('thead')):?>
     <div class="thead">
         <?php foreach ($block('attr') as $attrId):?>
             <?php if (!($attr = $block('entity')['attr'][$attrId] ?? null)) continue;?>
@@ -30,7 +30,7 @@ use attr;
             $val = $data[$attr['id']] ?? null;
             $html = attr\viewer($data, $attr);
             ?>
-            <?php if (!$block('head') && ($val === null || $val === '' || !$html)) continue;?>
+            <?php if (!$block('thead') && ($val === null || $val === '' || !$html)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
                 <?php if ($block('link') && allowed($block('entity')['id'] . '/view')):?>
         <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">

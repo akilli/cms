@@ -6,11 +6,26 @@ return [
             'tpl' => 'root.phtml',
         ],
         'head' => [
-            'type' => 'head',
+            'type' => 'container',
         ],
-        'head-ext' => [
+        'head-meta' => [
+            'type' => 'meta',
+            'tpl' => 'meta.phtml',
+            'parent' => 'head',
+            'sort' => 10,
+        ],
+        'head-asset' => [
             'type' => 'tpl',
-            'tpl' => 'head-ext.phtml',
+            'tpl' => 'asset.phtml',
+            'parent' => 'head',
+            'sort' => 20,
+        ],
+        'head-asset-user' => [
+            'type' => 'tpl',
+            'tpl' => 'asset-user.phtml',
+            'priv' => '_user_',
+            'parent' => 'head',
+            'sort' => 30,
         ],
         'top' => [
             'type' => 'container',
@@ -98,10 +113,10 @@ return [
             'vars' => [
                 'actions' => ['view', 'edit', 'delete'],
                 'create' => true,
-                'head' => true,
                 'inaccessible' => true,
                 'pager' => true,
                 'search' => ['name'],
+                'thead' => true,
                 'title' => null,
             ],
         ],
