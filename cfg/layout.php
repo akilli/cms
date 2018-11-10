@@ -27,14 +27,12 @@ return [
             'parent' => 'head',
             'sort' => 30,
         ],
-        'top' => [
-            'type' => 'container',
-        ],
         'toolbar' => [
             'type' => 'toolbar',
             'priv' => '_user_',
-            'parent' => 'top',
-            'sort' => 10,
+        ],
+        'top' => [
+            'type' => 'container',
         ],
         'msg' => [
             'type' => 'tpl',
@@ -122,6 +120,9 @@ return [
         ],
     ],
     'browser' => [
+        'toolbar' => [
+            'active' => false,
+        ],
         'top' => [
             'active' => false,
         ],
@@ -249,6 +250,9 @@ return [
         ],
     ],
     'account/login' => [
+        'toolbar' => [
+            'active' => false,
+        ],
         'top' => [
             'active' => false,
         ],
