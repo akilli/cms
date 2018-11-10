@@ -65,7 +65,7 @@ return [
             'parent' => 'menu',
             'sort' => 10,
             'vars' => [
-                'toggle' => true,
+                'toggle' => 'menu',
             ],
         ],
         'top' => [

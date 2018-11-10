@@ -66,7 +66,7 @@ return [
         'vars' => [
             'mode' => null,
             'root' => false,
-            'toggle' => false,
+            'toggle' => null,
         ],
     ],
     'meta' => [
@@ -82,7 +82,7 @@ return [
         'vars' => [
             'data' => [],
             'title' => '',
-            'toggle' => false,
+            'toggle' => null,
         ],
     ],
     'pager' => [

@@ -281,7 +281,7 @@ function nav(array $block): string
     $html = '';
 
     if ($block['vars']['toggle']) {
-        $html .= app\html('span', ['data-action' => 'toggle', 'data-target' => $block['id']]);
+        $html .= app\html('span', ['data-action' => 'toggle', 'data-target' => $block['vars']['toggle']]);
     }
 
     if ($block['vars']['title']) {
