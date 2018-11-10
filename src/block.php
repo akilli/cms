@@ -434,7 +434,7 @@ function breadcrumb(array $block): string
         }
     }
 
-    return $block['vars']['tag'] ? app\html($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
+    return app\html('nav', ['id' => $block['id']], $html);
 }
 
 /**
