@@ -55,6 +55,9 @@ return [
             'type' => 'tpl',
             'tpl' => 'msg.phtml',
         ],
+        'top' => [
+            'type' => 'container',
+        ],
         'main' => [
             'type' => 'container',
         ],
@@ -63,6 +66,10 @@ return [
             'vars' => [
                 'tag' => 'aside',
             ],
+        ],
+        'footer' => [
+            'type' => 'tpl',
+            'tpl' => 'footer.phtml',
         ],
         'bottom' => [
             'type' => 'container',
@@ -75,7 +82,16 @@ return [
         'menu' => [
             'active' => false,
         ],
+        'top' => [
+            'active' => false,
+        ],
         'sidebar' => [
+            'active' => false,
+        ],
+        'bottom' => [
+            'active' => false,
+        ],
+        'footer' => [
             'active' => false,
         ],
     ],
@@ -120,9 +136,6 @@ return [
     ],
     'browser' => [
         'toolbar' => [
-            'active' => false,
-        ],
-        'bottom' => [
             'active' => false,
         ],
         'content' => [
@@ -247,9 +260,6 @@ return [
     ],
     'account/login' => [
         'toolbar' => [
-            'active' => false,
-        ],
-        'bottom' => [
             'active' => false,
         ],
         'content' => [
