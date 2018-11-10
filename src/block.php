@@ -278,23 +278,15 @@ function nav(array $block): string
     $start = current($block['vars']['data'])['level'] ?? 1;
     $level = 0;
     $i = 0;
-    $html = app\block($block['id'] . '-top');
-    $attrs = ['id' => $block['id']];
+    $html = '';
 
     if ($block['vars']['toggle']) {
         $html .= app\html('span', ['data-action' => 'toggle', 'data-target' => $block['id']]);
-        $attrs['data-toggle'] = '';
-    }
-
-    if ($block['vars']['sticky']) {
-        $attrs['data-sticky'] = '';
     }
 
     if ($block['vars']['title']) {
         $html .= app\html('h2', [], $block['vars']['title']);
     }
-
-    $html .= app\block($block['id'] . '-middle');
 
     foreach ($block['vars']['data'] as $item) {
         if (empty($item['name'])) {
@@ -340,9 +332,7 @@ function nav(array $block): string
         $level = $item['level'];
     }
 
-    $html .= app\block($block['id'] . '-bottom');
-
-    return $block['vars']['tag'] ? app\html($block['vars']['tag'], $attrs, $html) : $html;
+    return $html;
 }
 
 /**
@@ -411,7 +401,6 @@ function toolbar(array $block): string
     }
 
     $block['vars']['data'] = array_diff_key($block['vars']['data'], $empty);
-    $block['vars']['tag'] = null;
 
     return nav($block);
 }

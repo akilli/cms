@@ -66,8 +66,6 @@ return [
         'vars' => [
             'mode' => null,
             'root' => false,
-            'sticky' => false,
-            'tag' => 'nav',
             'toggle' => false,
         ],
     ],
@@ -83,8 +81,6 @@ return [
         'call' => 'block\nav',
         'vars' => [
             'data' => [],
-            'sticky' => false,
-            'tag' => 'nav',
             'title' => '',
             'toggle' => false,
         ],

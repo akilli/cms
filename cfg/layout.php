@@ -40,75 +40,47 @@ return [
             'parent' => 'toolbar',
             'sort' => 10,
         ],
+        'msg' => [
+            'type' => 'tpl',
+            'tpl' => 'msg.phtml',
+        ],
+        'main' => [
+            'type' => 'container',
+        ],
+    ],
+    '_public_' => [
         'header' => [
             'type' => 'tpl',
             'tpl' => 'header.phtml',
         ],
         'menu' => [
-            'type' => 'menu',
+            'type' => 'container',
             'vars' => [
-                'sticky' => true,
-                'toggle' => true,
+                'attr' => ['data-toggle' => '', 'data-sticky' => ''],
+                'tag' => 'nav',
             ],
         ],
-        'menu-top' => [
-            'type' => 'container',
-        ],
-        'menu-middle' => [
-            'type' => 'container',
-        ],
-        'menu-bottom' => [
-            'type' => 'container',
-        ],
-        'msg' => [
-            'type' => 'tpl',
-            'tpl' => 'msg.phtml',
+        'menu-nav' => [
+            'type' => 'menu',
+            'parent' => 'menu',
+            'sort' => 10,
+            'vars' => [
+                'toggle' => true,
+            ],
         ],
         'top' => [
             'type' => 'container',
         ],
-        'main' => [
-            'type' => 'container',
+        'breadcrumb' => [
+            'type' => 'breadcrumb',
+            'parent' => 'main',
+            'sort' => 10,
         ],
         'sidebar' => [
             'type' => 'container',
             'vars' => [
                 'tag' => 'aside',
             ],
-        ],
-        'footer' => [
-            'type' => 'tpl',
-            'tpl' => 'footer.phtml',
-        ],
-        'bottom' => [
-            'type' => 'container',
-        ],
-    ],
-    '_admin_' => [
-        'header' => [
-            'active' => false,
-        ],
-        'menu' => [
-            'active' => false,
-        ],
-        'top' => [
-            'active' => false,
-        ],
-        'sidebar' => [
-            'active' => false,
-        ],
-        'bottom' => [
-            'active' => false,
-        ],
-        'footer' => [
-            'active' => false,
-        ],
-    ],
-    '_public_' => [
-        'breadcrumb' => [
-            'type' => 'breadcrumb',
-            'parent' => 'main',
-            'sort' => 10,
         ],
         'sidebar-page' => [
             'type' => 'sidebar',
@@ -117,6 +89,13 @@ return [
             'vars' => [
                 'inherit' => true,
             ],
+        ],
+        'footer' => [
+            'type' => 'tpl',
+            'tpl' => 'footer.phtml',
+        ],
+        'bottom' => [
+            'type' => 'container',
         ],
     ],
     '_error_' => [
