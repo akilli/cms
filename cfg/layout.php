@@ -217,12 +217,17 @@ return [
     ],
     'page-sitemap' => [
         'sitemap' => [
-            'type' => 'menu',
+            'type' => 'container',
             'parent' => 'content-middle',
             'sort' => 10,
             'vars' => [
                 'tag' => 'section',
             ],
+        ],
+        'sitemap-nav' => [
+            'type' => 'menu',
+            'parent' => 'sitemap',
+            'sort' => 10,
         ],
     ],
     'account/admin' => [
