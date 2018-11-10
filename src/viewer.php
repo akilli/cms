@@ -5,14 +5,13 @@ namespace viewer;
 
 use app;
 use entity;
-use html;
 
 /**
  * URL viewer
  */
 function url(string $val, array $attr): string
 {
-    return html\tag('a', ['href' => $val] + $attr['html'], $val);
+    return app\html('a', ['href' => $val] + $attr['html'], $val);
 }
 
 /**
@@ -36,7 +35,7 @@ function rte(string $val): string
  */
 function json(array $val, array $attr): string
 {
-    return html\tag('pre', $attr['html'], app\enc(print_r($val, true)));
+    return app\html('pre', $attr['html'], app\enc(print_r($val, true)));
 }
 
 /**
@@ -109,14 +108,14 @@ function file(int $val, array $attr): string
 
     if ($type === 'image') {
         $attr['html']['alt'] = app\enc($file['info']);
-        return html\tag('img', ['src' => $file['name']] + $attr['html']);
+        return app\html('img', ['src' => $file['name']] + $attr['html']);
     }
 
     if ($type === 'audio' || $type === 'video') {
-        return html\tag($type, ['src' => $file['name'], 'controls' => true] + $attr['html']);
+        return app\html($type, ['src' => $file['name'], 'controls' => true] + $attr['html']);
     }
 
-    return html\tag('a', ['href' => $file['name']] + $attr['html'], $file['name']);
+    return app\html('a', ['href' => $file['name']] + $attr['html'], $file['name']);
 }
 
 /**

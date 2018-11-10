@@ -7,7 +7,6 @@ use app;
 use arr;
 use attr;
 use entity;
-use html;
 use request;
 use DomainException;
 
@@ -22,7 +21,7 @@ function container(array $block): string
         $html .= app\block($child['id']);
     }
 
-    return $block['vars']['tag'] ? html\tag($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
+    return $block['vars']['tag'] ? app\html($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
 }
 
 /**
@@ -282,7 +281,7 @@ function nav(array $block): string
     $attrs = ['id' => $block['id']];
 
     if ($block['vars']['toggle']) {
-        $html .= html\tag('span', ['data-action' => 'toggle', 'data-target' => $block['id']]);
+        $html .= app\html('span', ['data-action' => 'toggle', 'data-target' => $block['id']]);
         $attrs['data-toggle'] = '';
     }
 
@@ -291,7 +290,7 @@ function nav(array $block): string
     }
 
     if ($block['vars']['title']) {
-        $html .= html\tag('h2', [], $block['vars']['title']);
+        $html .= app\html('h2', [], $block['vars']['title']);
     }
 
     $html .= app\block($block['id'] . '-middle');
@@ -318,7 +317,7 @@ function nav(array $block): string
             $class[] = 'parent';
 
             if ($block['vars']['toggle']) {
-                $toggle = html\tag('span', ['data-action' => 'toggle']);
+                $toggle = app\html('span', ['data-action' => 'toggle']);
             }
         }
 
@@ -335,14 +334,14 @@ function nav(array $block): string
             $html .= '</li><li' . $c . '>';
         }
 
-        $html .= $toggle . html\tag('a', $a, $item['name']);
+        $html .= $toggle . app\html('a', $a, $item['name']);
         $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
         $level = $item['level'];
     }
 
     $html .= app\block($block['id'] . '-bottom');
 
-    return $block['vars']['tag'] ? html\tag($block['vars']['tag'], $attrs, $html) : $html;
+    return $block['vars']['tag'] ? app\html($block['vars']['tag'], $attrs, $html) : $html;
 }
 
 /**
@@ -430,11 +429,11 @@ function breadcrumb(array $block): string
     foreach ($all as $item) {
         if ($item['id'] !== $page['id'] || $page['entity'] === 'content') {
             $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
-            $html .= ($html ? ' ' : '') . html\tag('a', $a, $item['menu_name'] ?: $item['name']);
+            $html .= ($html ? ' ' : '') . app\html('a', $a, $item['menu_name'] ?: $item['name']);
         }
     }
 
-    return $block['vars']['tag'] ? html\tag($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
+    return $block['vars']['tag'] ? app\html($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
 }
 
 /**
@@ -467,5 +466,5 @@ function sidebar(array $block): string
         $html = entity\one('page', $crit, $opt)['sidebar'] ?? '';
     }
 
-    return $block['vars']['tag'] ? html\tag($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
+    return $block['vars']['tag'] ? app\html($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
 }

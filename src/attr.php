@@ -6,7 +6,6 @@ namespace attr;
 use app;
 use arr;
 use entity;
-use html;
 use DomainException;
 
 /**
@@ -110,12 +109,12 @@ function frontend(array $data, array $attr): string
 
     if (!empty($data['_error'][$attr['id']])) {
         $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
-        $error = html\tag('div', ['class' => 'error'], $data['_error'][$attr['id']]);
+        $error = app\html('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
     $out = $attr['frontend']($val, $attr);
 
-    return html\tag('label', $label, $attr['name']) . $out . $error;
+    return app\html('label', $label, $attr['name']) . $out . $error;
 }
 
 /**

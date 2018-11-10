@@ -332,6 +332,26 @@ function block(string $id): string
 }
 
 /**
+ * Generates HTML-Tag
+ */
+function html(string $name, array $attrs = [], string $val = null): string
+{
+    $a = '';
+
+    foreach ($attrs as $k => $v) {
+        if ($v === false) {
+            continue;
+        } elseif ($v === true) {
+            $v = $k;
+        }
+
+        $a .= ' ' . $k . '="' . addcslashes((string) $v, '"') . '"';
+    }
+
+    return '<' . $name . $a . (in_array($name, APP['html.void']) ? ' />' : '>' . $val . '</' . $name . '>');
+}
+
+/**
  * Converts special chars to HTML entities
  */
 function enc(string $val): string
