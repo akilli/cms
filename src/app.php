@@ -332,9 +332,9 @@ function block(string $id): string
 }
 
 /**
- * Generates HTML-Tag
+ * Generates an HTML-element
  */
-function html(string $name, array $attrs = [], string $val = null): string
+function html(string $el, array $attrs = [], string $val = null): string
 {
     $a = '';
 
@@ -348,7 +348,7 @@ function html(string $name, array $attrs = [], string $val = null): string
         $a .= ' ' . $k . '="' . addcslashes((string) $v, '"') . '"';
     }
 
-    return '<' . $name . $a . (in_array($name, APP['html.void']) ? ' />' : '>' . $val . '</' . $name . '>');
+    return '<' . $el . $a . (in_array($el, APP['html.void']) ? ' />' : '>' . $val . '</' . $el . '>');
 }
 
 /**
