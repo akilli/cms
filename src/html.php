@@ -6,7 +6,7 @@ namespace html;
 /**
  * Generates HTML-Tag
  */
-function tag(string $name, array $attrs = [], string $val = null, bool $empty = false): string
+function tag(string $name, array $attrs = [], string $val = null): string
 {
     $a = '';
 
@@ -20,5 +20,5 @@ function tag(string $name, array $attrs = [], string $val = null, bool $empty = 
         $a .= ' ' . $k . '="' . addcslashes((string) $v, '"') . '"';
     }
 
-    return '<' . $name . $a . ($empty ? ' />' : '>' . $val . '</' . $name . '>');
+    return '<' . $name . $a . (in_array($name, APP['html.void']) ? ' />' : '>' . $val . '</' . $name . '>');
 }

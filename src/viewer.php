@@ -109,7 +109,7 @@ function file(int $val, array $attr): string
 
     if ($type === 'image') {
         $attr['html']['alt'] = app\enc($file['info']);
-        return html\tag('img', ['src' => $file['name']] + $attr['html'], null, true);
+        return html\tag('img', ['src' => $file['name']] + $attr['html']);
     }
 
     if ($type === 'audio' || $type === 'video') {

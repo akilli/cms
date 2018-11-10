@@ -65,6 +65,7 @@ const APP = [
         'limit' => 0,
         'offset' => 0,
     ],
+    'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
     'join' => [
         'full' => 'full',
         'inner' => 'inner',
