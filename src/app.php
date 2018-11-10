@@ -334,7 +334,7 @@ function block(string $id): string
 /**
  * Generates an HTML-element
  */
-function html(string $element, array $attrs = [], string $val = null): string
+function html(string $tag, array $attrs = [], string $val = null): string
 {
     $a = '';
 
@@ -348,7 +348,7 @@ function html(string $element, array $attrs = [], string $val = null): string
         $a .= ' ' . $k . '="' . addcslashes((string) $v, '"') . '"';
     }
 
-    return '<' . $element . $a . (in_array($element, APP['html.void']) ? ' />' : '>' . $val . '</' . $element . '>');
+    return '<' . $tag . $a . (in_array($tag, APP['html.void']) ? ' />' : '>' . $val . '</' . $tag . '>');
 }
 
 /**
