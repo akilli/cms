@@ -411,6 +411,7 @@ function toolbar(array $block): string
     }
 
     $block['vars']['data'] = array_diff_key($block['vars']['data'], $empty);
+    $block['vars']['tag'] = null;
 
     return nav($block);
 }

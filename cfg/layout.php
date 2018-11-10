@@ -28,8 +28,17 @@ return [
             'sort' => 30,
         ],
         'toolbar' => [
+            'type' => 'container',
+            'priv' => '_user_',
+            'vars' => [
+                'tag' => 'nav',
+            ],
+        ],
+        'toolbar-nav' => [
             'type' => 'toolbar',
             'priv' => '_user_',
+            'parent' => 'toolbar',
+            'sort' => 10,
         ],
         'header' => [
             'type' => 'tpl',

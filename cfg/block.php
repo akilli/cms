@@ -115,11 +115,6 @@ return [
     ],
     'toolbar' => [
         'call' => 'block\toolbar',
-        'vars' => [
-            'tag' => 'nav',
-            'sticky' => false,
-            'toggle' => false,
-        ],
     ],
     'tpl' => [
         'call' => 'block\tpl',
