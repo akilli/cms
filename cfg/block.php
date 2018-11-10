@@ -13,6 +13,7 @@ return [
     'container' => [
         'call' => 'block\container',
         'vars' => [
+            'attr' => [],
             'tag' => null,
         ],
     ],

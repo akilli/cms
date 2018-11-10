@@ -15,13 +15,14 @@ use DomainException;
  */
 function container(array $block): string
 {
+    $attrs = ['id' => $block['id']] + $block['vars']['attr'];
     $html = '';
 
     foreach (arr\order(arr\crit(app\layout(), [['parent', $block['id']]]), ['sort' => 'asc']) as $child) {
         $html .= app\block($child['id']);
     }
 
-    return $block['vars']['tag'] ? app\html($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
+    return $block['vars']['tag'] ? app\html($block['vars']['tag'], $attrs, $html) : $html;
 }
 
 /**
