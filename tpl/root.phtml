@@ -10,15 +10,17 @@ use request;
     </head>
     <body>
         <?=block('toolbar');?>
+        <?=block('top');?>
         <?=block('header');?>
         <?=block('menu');?>
         <?=block('msg');?>
-        <?=block('top');?>
+        <?=block('before');?>
         <main>
             <?=block('main');?>
             <?=block('sidebar');?>
         </main>
-        <?=block('bottom');?>
+        <?=block('after');?>
         <?=block('footer');?>
+        <?=block('bottom');?>
     </body>
 </html>

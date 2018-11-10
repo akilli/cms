@@ -49,6 +49,9 @@ return [
         ],
     ],
     '_public_' => [
+        'top' => [
+            'type' => 'container',
+        ],
         'header' => [
             'type' => 'tpl',
             'tpl' => 'header.phtml',
@@ -68,7 +71,7 @@ return [
                 'toggle' => 'menu',
             ],
         ],
-        'top' => [
+        'before' => [
             'type' => 'container',
         ],
         'breadcrumb' => [
@@ -89,6 +92,9 @@ return [
             'vars' => [
                 'inherit' => true,
             ],
+        ],
+        'after' => [
+            'type' => 'container',
         ],
         'footer' => [
             'type' => 'tpl',
