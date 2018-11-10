@@ -8,19 +8,19 @@ return [
         'head' => [
             'type' => 'container',
         ],
-        'head-meta' => [
+        'meta' => [
             'type' => 'meta',
             'tpl' => 'meta.phtml',
             'parent' => 'head',
             'sort' => 10,
         ],
-        'head-asset' => [
+        'asset' => [
             'type' => 'tpl',
             'tpl' => 'asset.phtml',
             'parent' => 'head',
             'sort' => 20,
         ],
-        'head-asset-user' => [
+        'asset-user' => [
             'type' => 'tpl',
             'tpl' => 'asset-user.phtml',
             'priv' => '_user_',
