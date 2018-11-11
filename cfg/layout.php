@@ -178,9 +178,6 @@ return [
         'content-middle' => [
             'type' => 'container',
         ],
-        'content-bottom' => [
-            'type' => 'container',
-        ],
     ],
     'page-article' => [
         'index' => [
