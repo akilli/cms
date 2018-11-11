@@ -4,7 +4,7 @@ use attr;
 /** @var callable $block */
 $aside = !empty($block('entity')['attr']['aside']) ? attr\viewer($block('data'), $block('entity')['attr']['aside']) : null;
 ?>
-<article id="<?=$block('id');?>" class="view<?php if ($aside):?> aside<?php endif;?>" data-entity="<?=$block('entity')['id'];?>">
+<article id="<?=$block('id');?>" class="view<?php if ($aside):?> aside<?php endif;?>">
     <?=block($block('id') . '-top');?>
     <?php foreach ($block('attr') as $attrId):?>
         <?php
