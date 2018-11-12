@@ -94,7 +94,7 @@ return [
                 'tag' => 'aside',
             ],
         ],
-        'right-sidebar' => [
+        'page-sidebar' => [
             'type' => 'sidebar',
             'parent' => 'right',
             'sort' => 10,
