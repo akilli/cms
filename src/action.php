@@ -106,7 +106,7 @@ function account_password(array $entity): void
 /**
  * Account Login Action
  */
-function account_login(array $entity): void
+function account_login(): void
 {
     if ($data = request\get('data')) {
         if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
@@ -119,7 +119,7 @@ function account_login(array $entity): void
         app\msg('Invalid name and password combination');
     }
 
-    app\layout('content', ['vars' => ['data' => ['_entity' => $entity], 'title' => app\i18n('Login')]]);
+    app\layout('content', ['vars' => ['title' => app\i18n('Login')]]);
 }
 
 /**
