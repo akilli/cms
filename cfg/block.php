@@ -106,7 +106,6 @@ return [
         'call' => 'block\sidebar',
         'vars' => [
             'inherit' => false,
-            'tag' => null,
         ],
     ],
     'toolbar' => [

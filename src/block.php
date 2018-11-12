@@ -263,6 +263,39 @@ function view(array $block): string
 }
 
 /**
+ * Page banner
+ */
+function banner(array $block): string
+{
+    if (($page = app\get('page')) && $page['entity'] !== 'content') {
+        $page = entity\one('page', [['id', $page['path']], ['entity', 'content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
+    }
+
+    return $page && ($block['vars']['img'] = attr\viewer($page, $page['_entity']['attr']['image'])) ? tpl($block) : '';
+}
+
+
+/**
+ * Page sidebar
+ */
+function sidebar(array $block): string
+{
+    if (!$page = app\get('page')) {
+        return '';
+    }
+
+    $html = $page['sidebar'];
+
+    if (!$html && $block['vars']['inherit']) {
+        $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']]];
+        $opt = ['select' => ['sidebar'], 'order' => ['level' => 'desc']];
+        $html = entity\one('page', $crit, $opt)['sidebar'] ?? '';
+    }
+
+    return $html;
+}
+
+/**
  * Navigation
  *
  * @throws DomainException
@@ -425,37 +458,4 @@ function breadcrumb(array $block): string
     }
 
     return app\html('nav', ['id' => $block['id']], $html);
-}
-
-/**
- * Page banner
- */
-function banner(array $block): string
-{
-    if (($page = app\get('page')) && $page['entity'] !== 'content') {
-        $page = entity\one('page', [['id', $page['path']], ['entity', 'content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
-    }
-
-    return $page && ($block['vars']['img'] = attr\viewer($page, $page['_entity']['attr']['image'])) ? tpl($block) : '';
-}
-
-
-/**
- * Page sidebar
- */
-function sidebar(array $block): string
-{
-    if (!$page = app\get('page')) {
-        return '';
-    }
-
-    $html = $page['sidebar'];
-
-    if (!$html && $block['vars']['inherit']) {
-        $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']]];
-        $opt = ['select' => ['sidebar'], 'order' => ['level' => 'desc']];
-        $html = entity\one('page', $crit, $opt)['sidebar'] ?? '';
-    }
-
-    return $block['vars']['tag'] ? app\html($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
 }
