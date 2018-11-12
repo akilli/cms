@@ -65,7 +65,7 @@ function meta(array $block): string
                 $block['vars']['title'] = ($item['menu_name'] ?: $item['name']) . ($block['vars']['title'] ? ' - ' . $block['vars']['title'] : '');
             }
         }
-    } elseif (app\get('entity') && ($entity = app\cfg('entity', app\get('entity')))) {
+    } elseif ($entity = app\get('entity')) {
         $block['vars']['title'] = $entity['name'] . ($block['vars']['title'] ? ' - ' . $block['vars']['title'] : '');
     }
 
@@ -131,7 +131,7 @@ function pager(array $block): string
  */
 function index(array $block): string
 {
-    $block['vars']['entity'] = app\cfg('entity', $block['vars']['entity'] ?: app\get('entity'));
+    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
     $crit = is_array($block['vars']['crit']) ? $block['vars']['crit'] : [];
     $opt = ['limit' => (int) $block['vars']['limit']];
     $opt['order'] = $block['vars']['order'] && is_array($block['vars']['order']) ? $block['vars']['order'] : ['id' => 'desc'];
@@ -227,7 +227,7 @@ function form(array $block): string
  */
 function create(array $block): string
 {
-    $block['vars']['entity'] = app\cfg('entity', $block['vars']['entity'] ?: app\get('entity'));
+    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
 
     if (($data = request\get('data')) && entity\save($block['vars']['entity']['id'], $data)) {
         if ($block['vars']['redirect']) {

@@ -36,29 +36,29 @@ function run(): void
 
     // Gather request-data
     $parts = explode('/', trim($url, '/'));
-    $app['entity'] = array_shift($parts);
-    $entity = cfg('entity', $app['entity']);
+    $app['entity_id'] = array_shift($parts);
+    $app['entity'] = cfg('entity', $app['entity_id']);
     $app['action'] = array_shift($parts);
     $app['id'] = array_shift($parts);
-    $app['area'] = empty(cfg('priv', $app['entity'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
-    $app['parent'] = $entity['parent'] ?? null;
+    $app['area'] = empty(cfg('priv', $app['entity_id'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
+    $app['parent'] = $app['entity']['parent'] ?? null;
     $host = preg_replace('#^www\.#', '', request\get('host'));
     $blacklist = $app['area'] === '_admin_' && in_array($host, cfg('app', 'admin.blacklist'));
-    $allowed = !$blacklist && allowed($app['entity'] . '/' . $app['action']);
+    $allowed = !$blacklist && allowed($app['entity_id'] . '/' . $app['action']);
     $ns = 'action\\';
-    $real = is_callable($ns . $app['entity'] . '_' . $app['action']) ? $ns . $app['entity'] . '_' . $app['action'] : null;
+    $real = is_callable($ns . $app['entity_id'] . '_' . $app['action']) ? $ns . $app['entity_id'] . '_' . $app['action'] : null;
 
     // Dispatch request
-    if ($allowed && !$entity && $real) {
+    if ($allowed && !$app['entity'] && $real) {
         $real();
-    } elseif (!$allowed || !$entity || !in_array($app['action'], $entity['action']) || $app['area'] === '_public_' && (!$app['page'] || $app['page']['disabled'])) {
+    } elseif (!$allowed || !$app['entity'] || !in_array($app['action'], $app['entity']['action']) || $app['area'] === '_public_' && (!$app['page'] || $app['page']['disabled'])) {
         error();
     } elseif ($real) {
-        $real($entity);
+        $real($app['entity']);
     } elseif ($app['parent'] && is_callable($ns . $app['parent'] . '_' . $app['action'])) {
-        ($ns . $app['parent'] . '_' . $app['action'])($entity);
+        ($ns . $app['parent'] . '_' . $app['action'])($app['entity']);
     } elseif (is_callable($ns . $app['action'])) {
-        ($ns . $app['action'])($entity);
+        ($ns . $app['action'])($app['entity']);
     }
 }
 

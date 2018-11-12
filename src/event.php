@@ -166,7 +166,7 @@ function layout(array $data): array
     if (app\get('error')) {
         $keys[] = '_error_';
     } else {
-        $entityId = app\get('entity');
+        $entityId = app\get('entity_id');
         $action = app\get('action');
         $keys[] = $action;
 
