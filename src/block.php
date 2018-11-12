@@ -22,6 +22,10 @@ function container(array $block): string
         $html .= app\block($child['id']);
     }
 
+    if (!$html) {
+        return '';
+    }
+
     return $block['vars']['tag'] ? app\html($block['vars']['tag'], $attrs, $html) : $html;
 }
 

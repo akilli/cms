@@ -16,8 +16,12 @@ use request;
         <?=block('msg');?>
         <?=block('before');?>
         <main>
-            <?=block('main');?>
-            <?=block('sidebar');?>
+            <?=block('left');?>
+            <article id="content">
+                <?=block('main');?>
+                <?=block('aside');?>
+            </article>
+            <?=block('right');?>
         </main>
         <?=block('after');?>
         <?=block('footer');?>

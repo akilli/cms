@@ -2,30 +2,20 @@
 namespace app;
 use attr;
 /** @var callable $block */
-$aside = !empty($block('entity')['attr']['aside']) ? attr\viewer($block('data'), $block('entity')['attr']['aside']) : null;
 ?>
-<article id="<?=$block('id');?>"<?php if ($aside):?> class="aside"<?php endif;?>>
-    <?=block($block('id') . '-top');?>
-    <?php foreach ($block('attr') as $attrId):?>
-        <?php
-        $attr = $block('entity')['attr'][$attrId] ?? null;
-        $val = $block('data')[$attrId] ?? null;
-        ?>
-        <?php if (!$attr || $attr['id'] === 'aside' || $val === null || $val === '' || !($html = attr\viewer($block('data'), $attr))) continue;?>
-        <?php if ($attr['id'] === 'name'):?>
-    <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
-        <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
-    <time data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"<?php if ($val !== $html):?> datetime="<?=$val;?>"<?php endif;?>><?=$html;?></time>
-        <?php else:?>
-    <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-        <?=$html;?>
-    </div>
-        <?php endif;?>
-    <?php endforeach;?>
-    <?=block($block('id') . '-middle');?>
-    <?php if ($aside):?>
-    <aside data-attr="aside" data-type="<?=$block('entity')['attr']['aside']['type'];?>">
-        <?=$aside;?>
-    </aside>
+<?php foreach ($block('attr') as $attrId):?>
+    <?php
+    $attr = $block('entity')['attr'][$attrId] ?? null;
+    $val = $block('data')[$attrId] ?? null;
+    ?>
+    <?php if (!$attr || $val === null || $val === '' || !($html = attr\viewer($block('data'), $attr))) continue;?>
+    <?php if ($attr['id'] === 'name'):?>
+<h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
+    <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
+<time data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"<?php if ($val !== $html):?> datetime="<?=$val;?>"<?php endif;?>><?=$html;?></time>
+    <?php else:?>
+<div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
+    <?=$html;?>
+</div>
     <?php endif;?>
-</article>
+<?php endforeach;?>

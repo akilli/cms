@@ -74,20 +74,29 @@ return [
         'before' => [
             'type' => 'container',
         ],
+        'left' => [
+            'type' => 'container',
+        ],
         'breadcrumb' => [
             'type' => 'breadcrumb',
-            'parent' => 'main',
+            'parent' => 'left',
             'sort' => 10,
         ],
-        'sidebar' => [
+        'aside' => [
             'type' => 'container',
             'vars' => [
                 'tag' => 'aside',
             ],
         ],
-        'sidebar-page' => [
+        'right' => [
+            'type' => 'container',
+            'vars' => [
+                'tag' => 'aside',
+            ],
+        ],
+        'right-sidebar' => [
             'type' => 'sidebar',
-            'parent' => 'sidebar',
+            'parent' => 'right',
             'sort' => 10,
             'vars' => [
                 'inherit' => true,
@@ -109,14 +118,14 @@ return [
             'type' => 'tpl',
             'tpl' => 'error.phtml',
             'parent' => 'main',
-            'sort' => 20,
+            'sort' => 10,
         ],
     ],
     'admin' => [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'sort' => 20,
+            'sort' => 10,
             'vars' => [
                 'actions' => ['view', 'edit', 'delete'],
                 'create' => true,
@@ -135,7 +144,7 @@ return [
         'content' => [
             'type' => 'index',
             'parent' => 'main',
-            'sort' => 20,
+            'sort' => 10,
             'vars' => [
                 'actions' => ['select'],
                 'limit' => 20,
@@ -149,7 +158,7 @@ return [
         'content' => [
             'type' => 'create',
             'parent' => 'main',
-            'sort' => 20,
+            'sort' => 10,
             'vars' => [
                 'redirect' => true,
                 'title' => null,
@@ -160,7 +169,7 @@ return [
         'content' => [
             'type' => 'form',
             'parent' => 'main',
-            'sort' => 20,
+            'sort' => 10,
             'vars' => [
                 'title' => null,
             ],
@@ -170,20 +179,14 @@ return [
         'content' => [
             'type' => 'view',
             'parent' => 'main',
-            'sort' => 20,
-        ],
-        'content-top' => [
-            'type' => 'container',
-        ],
-        'content-middle' => [
-            'type' => 'container',
+            'sort' => 10,
         ],
     ],
     'page-article' => [
         'index' => [
             'type' => 'index',
-            'parent' => 'content-middle',
-            'sort' => 10,
+            'parent' => 'main',
+            'sort' => 20,
             'vars' => [
                 'attr' => ['image', 'date', 'name', 'teaser'],
                 'entity' => 'article',
@@ -206,8 +209,8 @@ return [
     'page-index' => [
         'index' => [
             'type' => 'index',
-            'parent' => 'content-middle',
-            'sort' => 10,
+            'parent' => 'main',
+            'sort' => 20,
             'vars' => [
                 'attr' => ['name', 'teaser'],
                 'entity' => 'page',
@@ -221,8 +224,8 @@ return [
     'page-sitemap' => [
         'sitemap' => [
             'type' => 'container',
-            'parent' => 'content-middle',
-            'sort' => 10,
+            'parent' => 'main',
+            'sort' => 20,
             'vars' => [
                 'tag' => 'section',
             ],
@@ -261,14 +264,14 @@ return [
         'content' => [
             'type' => 'login',
             'parent' => 'main',
-            'sort' => 20,
+            'sort' => 10,
         ],
     ],
     'account/password' => [
         'content' => [
             'type' => 'form',
             'parent' => 'main',
-            'sort' => 20,
+            'sort' => 10,
             'vars' => [
                 'attr' => ['password', 'confirmation'],
             ],
