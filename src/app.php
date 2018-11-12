@@ -25,23 +25,29 @@ function run(): void
     $app['lang'] = locale_get_primary_language('');
     $app['gui'] = max(filemtime(path('gui')), file_exists(path('ext.gui')) ? filemtime(path('ext.gui')) : 0);
     $app['error'] = false;
-    $app['layout'] = null;
     $url = request\get('url');
+    $parts = explode('/', trim($url, '/'));
+    $app['entity_id'] = array_shift($parts);
+    $app['action'] = array_shift($parts);
+    $app['id'] = array_shift($parts);
+    $app['entity'] = null;
+    $app['page'] = null;
+    $app['layout'] = null;
+    $page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity']]);
 
     // Page
-    if ($app['page'] = entity\one('page', [['url', $url]])) {
-        $url = '/' . $app['page']['entity'] . '/view/' . $app['page']['id'];
+    if ($page && ($app['page'] = entity\one($page['entity'], [['id', $page['id']]]))) {
+        $app['entity_id'] = $app['page']['entity'];
+        $app['action'] = 'view';
+        $app['id'] = $app['page']['id'];
+        $app['entity'] = $app['page']['_entity'];
         $app['layout'] = $app['page']['layout'];
     }
 
     // Gather request-data
-    $parts = explode('/', trim($url, '/'));
-    $app['entity_id'] = array_shift($parts);
-    $app['entity'] = cfg('entity', $app['entity_id']);
-    $app['action'] = array_shift($parts);
-    $app['id'] = array_shift($parts);
-    $app['area'] = empty(cfg('priv', $app['entity_id'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
+    $app['entity'] = $app['entity'] ?: cfg('entity', $app['entity_id']);
     $app['parent'] = $app['entity']['parent'] ?? null;
+    $app['area'] = empty(cfg('priv', $app['entity_id'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
     $host = preg_replace('#^www\.#', '', request\get('host'));
     $blacklist = $app['area'] === '_admin_' && in_array($host, cfg('app', 'admin.blacklist'));
     $allowed = !$blacklist && allowed($app['entity_id'] . '/' . $app['action']);
