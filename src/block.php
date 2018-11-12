@@ -284,15 +284,13 @@ function sidebar(array $block): string
         return '';
     }
 
-    $html = $page['sidebar'];
-
-    if (!$html && $block['vars']['inherit']) {
+    if (!$page['sidebar'] && $block['vars']['inherit']) {
         $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']]];
         $opt = ['select' => ['sidebar'], 'order' => ['level' => 'desc']];
-        $html = entity\one('page', $crit, $opt)['sidebar'] ?? '';
+        $page['sidebar'] = entity\one('page', $crit, $opt)['sidebar'] ?? '';
     }
 
-    return $html;
+    return attr\viewer($page, $page['_entity']['attr']['sidebar']);
 }
 
 /**
