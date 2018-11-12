@@ -118,8 +118,6 @@ function account_login(): void
 
         app\msg('Invalid name and password combination');
     }
-
-    app\layout('content', ['vars' => ['title' => app\i18n('Login')]]);
 }
 
 /**
