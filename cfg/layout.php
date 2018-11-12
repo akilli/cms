@@ -82,12 +82,6 @@ return [
             'parent' => 'left',
             'sort' => 10,
         ],
-        'aside' => [
-            'type' => 'container',
-            'vars' => [
-                'tag' => 'aside',
-            ],
-        ],
         'right' => [
             'type' => 'container',
             'vars' => [

@@ -13,6 +13,10 @@ use attr;
 <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
     <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
 <time data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"<?php if ($val !== $html):?> datetime="<?=$val;?>"<?php endif;?>><?=$html;?></time>
+    <?php elseif ($attr['id'] === 'aside'):?>
+<aside data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
+    <?=$html;?>
+</aside>
     <?php else:?>
 <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
     <?=$html;?>
