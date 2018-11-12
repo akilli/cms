@@ -249,6 +249,7 @@ function create(array $block): string
  */
 function login(array $block): string
 {
+    $block['vars']['title'] = app\i18n('Login');
     $block['vars']['attr'] = ['name', 'password'];
     $block['vars']['data'] = [];
     $a = ['name' => ['unique' => false, 'minlength' => 0, 'maxlength' => 0], 'password' => ['minlength' => 0, 'maxlength' => 0]];
