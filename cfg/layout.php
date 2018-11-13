@@ -108,6 +108,9 @@ return [
         ],
     ],
     '_error_' => [
+        'breadcrumb' => [
+            'active' => false,
+        ],
         'content' => [
             'type' => 'tpl',
             'tpl' => 'error.phtml',
