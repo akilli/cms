@@ -176,60 +176,6 @@ return [
             'sort' => 10,
         ],
     ],
-    'page-article' => [
-        'index' => [
-            'type' => 'index',
-            'parent' => 'main',
-            'sort' => 20,
-            'vars' => [
-                'attr' => ['image', 'date', 'name', 'teaser'],
-                'entity' => 'article',
-                'link' => true,
-                'pager' => true,
-                'parent_id' => true,
-            ],
-        ],
-    ],
-    'page-home' => [
-        'breadcrumb' => [
-            'active' => false,
-        ],
-        'content' => [
-            'vars' => [
-                'attr' => ['image', 'teaser', 'main', 'aside'],
-            ],
-        ],
-    ],
-    'page-index' => [
-        'index' => [
-            'type' => 'index',
-            'parent' => 'main',
-            'sort' => 20,
-            'vars' => [
-                'attr' => ['name', 'teaser'],
-                'entity' => 'page',
-                'link' => true,
-                'pager' => true,
-                'parent_id' => true,
-                'search' => ['name', 'teaser', 'main', 'aside'],
-            ],
-        ],
-    ],
-    'page-sitemap' => [
-        'sitemap' => [
-            'type' => 'container',
-            'parent' => 'main',
-            'sort' => 20,
-            'vars' => [
-                'tag' => 'section',
-            ],
-        ],
-        'sitemap-nav' => [
-            'type' => 'menu',
-            'parent' => 'sitemap',
-            'sort' => 10,
-        ],
-    ],
     'account/admin' => [
         'content' => [
             'vars' => [
@@ -310,7 +256,7 @@ return [
         'content' => [
             'vars' => [
                 'attr' => [
-                    'name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status', 'layout',
+                    'name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status',
                     'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description'
                 ],
             ],
@@ -320,7 +266,7 @@ return [
         'content' => [
             'vars' => [
                 'attr' => [
-                    'name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status', 'layout',
+                    'name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status',
                     'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description'
                 ],
             ],
@@ -379,6 +325,16 @@ return [
         'content' => [
             'vars' => [
                 'attr' => ['name', 'priv'],
+            ],
+        ],
+    ],
+    '/' => [
+        'breadcrumb' => [
+            'active' => false,
+        ],
+        'content' => [
+            'vars' => [
+                'attr' => ['image', 'teaser', 'main', 'aside'],
             ],
         ],
     ],

@@ -184,13 +184,6 @@ return [
                 'val' => '',
                 'maxlength' => 300,
             ],
-            'layout' => [
-                'name' => 'Layout',
-                'type' => 'select',
-                'nullable' => true,
-                'opt' => 'layout',
-                'maxlength' => 50,
-            ],
             'slug' => [
                 'name' => 'Slug',
                 'type' => 'text',

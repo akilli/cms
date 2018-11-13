@@ -32,7 +32,6 @@ function run(): void
     $app['id'] = array_shift($parts);
     $app['entity'] = null;
     $app['page'] = null;
-    $app['layout'] = null;
     $page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity']]);
 
     // Page
@@ -41,7 +40,6 @@ function run(): void
         $app['action'] = 'view';
         $app['id'] = $app['page']['id'];
         $app['entity'] = $app['page']['_entity'];
-        $app['layout'] = $app['page']['layout'];
     }
 
     // Gather request-data

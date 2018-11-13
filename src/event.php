@@ -175,14 +175,7 @@ function layout(array $data): array
         }
 
         $keys[] = $entityId . '/' . $action;
-
-        if ($layout = app\get('layout')) {
-            $keys[] = 'page-' . $layout;
-        }
-
-        if ($id = app\get('id')) {
-            $keys[] = $entityId . '/' . $action . '/' . $id;
-        }
+        $keys[] = request\get('url');
     }
 
     foreach ($keys as $key) {
