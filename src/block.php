@@ -328,7 +328,10 @@ function login(array $block): string
  */
 function view(array $block): string
 {
-    return $block['vars']['entity'] ? tpl($block) : '';
+    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
+    $block['vars']['data'] = entity\one($block['vars']['entity']['id'], [['id', app\get('id')]]);
+
+    return $block['vars']['data'] ? tpl($block) : '';
 }
 
 /**

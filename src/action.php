@@ -14,19 +14,19 @@ use session;
  */
 function view(array $entity): void
 {
-    $id = app\get('id');
-    $crit = [['id', $id]];
-
-    if (!app\allowed($entity['id'] . '/edit') && in_array('page', [$entity['id'], $entity['parent']])) {
-        $crit[] = ['status', 'published'];
-    }
-
-    if (!$id || !($data = entity\one($entity['id'], $crit))) {
+    if (!($id = app\get('id')) || !entity\size($entity['id'], [['id', $id]])) {
         app\error();
-        return;
     }
+}
 
-    app\layout('content', ['vars' => ['data' => $data, 'entity' => $entity]]);
+/**
+ * Page View Action
+ */
+function page_view(array $entity): void
+{
+    if (!($page = app\get('page')) || !app\allowed($entity['id'] . '/edit') && $page['status'] !== 'published') {
+        app\error();
+    }
 }
 
 /**
