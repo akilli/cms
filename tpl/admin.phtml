@@ -1,0 +1,9 @@
+<?php
+namespace app;
+/** @var callable $block */
+$entity = get('entity');
+?>
+<h1><?=$entity['name'];?></h1>
+<?php if (allowed($entity['id'] . '/create')):?>
+<p data-action="create"><a href="<?=url($entity['id'] . '/create');?>"><?=i18n('New Entry');?></a></p>
+<?php endif;?>

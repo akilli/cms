@@ -119,18 +119,22 @@ return [
         ],
     ],
     'admin' => [
+        'content-admin' => [
+            'type' => 'tpl',
+            'tpl' => 'admin.phtml',
+            'parent' => 'content',
+            'sort' => 10,
+        ],
         'content-main' => [
             'type' => 'index',
             'parent' => 'content',
-            'sort' => 10,
+            'sort' => 20,
             'vars' => [
                 'actions' => ['view', 'edit', 'delete'],
-                'create' => true,
                 'inaccessible' => true,
                 'pager' => true,
                 'search' => ['name'],
                 'thead' => true,
-                'title' => null,
             ],
         ],
     ],
