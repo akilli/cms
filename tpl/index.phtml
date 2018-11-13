@@ -2,15 +2,13 @@
 namespace app;
 use attr;
 /** @var callable $block */
-$entityId = $block('entity')['id'];
-$attrs = $block('entity')['attr'];
 ?>
 <section id="<?=$block('id');?>" class="index">
     <?php if ($block('title')):?>
     <h2><?=$block('title');?></h2>
     <?php endif;?>
-    <?php if ($block('create') && allowed($entityId . '/create')):?>
-    <p data-action="create"><a href="<?=url($entityId . '/create');?>"><?=i18n('New Entry');?></a></p>
+    <?php if ($block('create') && allowed($block('entity')['id'] . '/create')):?>
+    <p data-action="create"><a href="<?=url($block('entity')['id'] . '/create');?>"><?=i18n('New Entry');?></a></p>
     <?php endif;?>
     <?=$block('search');?>
     <?php if (!$block('data')):?>
@@ -18,7 +16,7 @@ $attrs = $block('entity')['attr'];
     <?php elseif ($block('thead')):?>
     <div class="thead">
         <?php foreach ($block('attr') as $attrId):?>
-            <?php if (!($attr = $attrs[$attrId] ?? null)) continue;?>
+            <?php if (!($attr = $block('entity')['attr'][$attrId] ?? null)) continue;?>
         <a href="<?=url($block('url'), ['sort' => $attr['id'], 'dir' => $block('sort') === $attr['id'] && $block('dir') === 'asc' ? 'desc' : 'asc'], true);?>"<?php if ($block('sort') === $attr['id']):?> data-sort="<?=$block('dir');?>"<?php endif;?>><?=$attr['name'];?></a>
         <?php endforeach;?>
         <span><?=i18n('Actions');?></span>
@@ -27,16 +25,16 @@ $attrs = $block('entity')['attr'];
     <?php foreach ($block('data') as $data):?>
     <article>
         <?php foreach ($block('attr') as $attrId):?>
-            <?php if (!($attr = $attrs[$attrId] ?? null)) continue;?>
+            <?php if (!($attr = $block('entity')['attr'][$attrId] ?? null)) continue;?>
             <?php
             $val = $data[$attr['id']] ?? null;
             $html = attr\viewer($data, $attr);
             ?>
             <?php if (!$block('thead') && ($val === null || $val === '' || !$html)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
-                <?php if ($block('link') && allowed($entityId . '/view')):?>
+                <?php if ($block('link') && allowed($block('entity')['id'] . '/view')):?>
         <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-            <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>"><?=$html;?></a>
+            <a href="<?=$data['url'] ?? url($block('entity')['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
         </h3>
                 <?php else:?>
         <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h3>
@@ -55,14 +53,14 @@ $attrs = $block('entity')['attr'];
         <?php endforeach;?>
         <?php if ($block('actions')):?>
         <footer>
-            <?php if (in_array('view', $block('actions')) && allowed($entityId . '/view')):?>
-            <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>" data-action="view"><?=i18n('View');?></a>
+            <?php if (in_array('view', $block('actions')) && allowed($block('entity')['id'] . '/view')):?>
+            <a href="<?=$data['url'] ?? url($block('entity')['id'] . '/view/' . $data['id']);?>" data-action="view"><?=i18n('View');?></a>
             <?php endif;?>
-            <?php if (in_array('edit', $block('actions')) && allowed($entityId . '/edit')):?>
-            <a href="<?=url($entityId . '/edit/' . $data['id']);?>" data-action="edit"><?=i18n('Edit');?></a>
+            <?php if (in_array('edit', $block('actions')) && allowed($block('entity')['id'] . '/edit')):?>
+            <a href="<?=url($block('entity')['id'] . '/edit/' . $data['id']);?>" data-action="edit"><?=i18n('Edit');?></a>
             <?php endif;?>
-            <?php if (in_array('delete', $block('actions')) && allowed($entityId . '/delete')):?>
-            <a href="<?=url($entityId . '/delete/' . $data['id']);?>" data-action="delete"><?=i18n('Delete');?></a>
+            <?php if (in_array('delete', $block('actions')) && allowed($block('entity')['id'] . '/delete')):?>
+            <a href="<?=url($block('entity')['id'] . '/delete/' . $data['id']);?>" data-action="delete"><?=i18n('Delete');?></a>
             <?php endif;?>
             <?php if (in_array('select', $block('actions'))):?>
             <span data-id="<?=$data['id'];?>" data-url="<?=$data['name'];?>" data-action="select"><?=i18n('Select item');?></span>
