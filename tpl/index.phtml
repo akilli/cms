@@ -7,6 +7,9 @@ use attr;
     <?php if ($block('title')):?>
     <h2><?=$block('title');?></h2>
     <?php endif;?>
+    <?php if ($block('create') && allowed($block('entity')['id'] . '/create')):?>
+    <p data-action="create"><a href="<?=url($block('entity')['id'] . '/create');?>"><?=i18n('New Entry');?></a></p>
+    <?php endif;?>
     <?=$block('search');?>
     <?php if (!$block('data')):?>
     <p><?=i18n('No entries found');?></p>
