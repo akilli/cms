@@ -5,7 +5,7 @@ use attr;
 ?>
 <?php foreach ($block('attr') as $attrId):?>
     <?php
-    $attr = $block('data')['_entity']['attr'][$attrId] ?? null;
+    $attr = $block('entity')['attr'][$attrId] ?? null;
     $val = $block('data')[$attrId] ?? null;
     ?>
     <?php if (!$attr || $val === null || $val === '' || !($html = attr\viewer($block('data'), $attr))) continue;?>
