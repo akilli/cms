@@ -4,44 +4,10 @@ declare(strict_types = 1);
 namespace action;
 
 use account;
-use arr;
 use app;
 use entity;
 use request;
 use session;
-
-/**
- * Edit Action
- */
-function edit(array $entity): void
-{
-    if (!($id = app\get('id')) || !($old = entity\one($entity['id'], [['id', $id]]))) {
-        app\msg('Nothing to edit');
-        request\redirect(app\url($entity['id'] . '/admin'));
-        return;
-    }
-
-    if ($data = request\get('data')) {
-        $data += ['id' => $id];
-
-        if (entity\save($entity['id'], $data)) {
-            request\redirect(app\url($entity['id'] . '/edit/' . $data['id']));
-            return;
-        }
-    }
-
-    $p = [$old];
-
-    if ($id && in_array('page', [$entity['id'], $entity['parent']])) {
-        $v = entity\one('version', [['page_id', $id]], ['select' => APP['version'], 'order' => ['timestamp' => 'desc']]);
-        unset($v['_old'], $v['_entity']);
-        $p[] = $v;
-    }
-
-    $p[] = $data;
-    $data = arr\replace(['_error' => null] + entity\item($entity), ...$p);
-    app\layout('content', ['vars' => ['data' => $data, 'entity' => $entity, 'title' => $entity['name']]]);
-}
 
 /**
  * View Action

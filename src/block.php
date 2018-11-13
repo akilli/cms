@@ -245,6 +245,43 @@ function create(array $block): string
 }
 
 /**
+ * Edit Form
+ */
+function edit(array $block): string
+{
+    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
+
+    if (!($id = app\get('id')) || !($old = entity\one($block['vars']['entity']['id'], [['id', $id]]))) {
+        app\msg('Nothing to edit');
+        request\redirect(app\url($block['vars']['entity']['id'] . '/admin'));
+        return '';
+    }
+
+    if ($data = request\get('data')) {
+        $data += ['id' => $id];
+
+        if (entity\save($block['vars']['entity']['id'], $data)) {
+            request\redirect(app\url($block['vars']['entity']['id'] . '/edit/' . $data['id']));
+            return '';
+        }
+    }
+
+    $p = [$old];
+
+    if ($id && in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent']])) {
+        $v = entity\one('version', [['page_id', $id]], ['select' => APP['version'], 'order' => ['timestamp' => 'desc']]);
+        unset($v['_old'], $v['_entity']);
+        $p[] = $v;
+    }
+
+    $p[] = $data;
+    $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), ...$p);
+    $block['vars']['title'] = $block['vars']['entity']['name'];
+
+    return form($block);
+}
+
+/**
  * Login Form
  */
 function login(array $block): string

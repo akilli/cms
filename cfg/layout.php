@@ -161,12 +161,9 @@ return [
     ],
     'edit' => [
         'content' => [
-            'type' => 'form',
+            'type' => 'edit',
             'parent' => 'main',
             'sort' => 10,
-            'vars' => [
-                'title' => null,
-            ],
         ],
     ],
     'view' => [

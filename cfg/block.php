@@ -24,6 +24,14 @@ return [
             'title' => '',
         ],
     ],
+    'edit' => [
+        'call' => 'block\edit',
+        'tpl' => 'form.phtml',
+        'vars' => [
+            'attr' => [],
+            'entity' => null,
+        ],
+    ],
     'form' => [
         'call' => 'block\form',
         'tpl' => 'form.phtml',
