@@ -44,7 +44,7 @@ return [
             'type' => 'tpl',
             'tpl' => 'msg.phtml',
         ],
-        'main' => [
+        'content' => [
             'type' => 'container',
         ],
     ],
@@ -111,17 +111,17 @@ return [
         'breadcrumb' => [
             'active' => false,
         ],
-        'content' => [
+        'content-main' => [
             'type' => 'tpl',
             'tpl' => 'error.phtml',
-            'parent' => 'main',
+            'parent' => 'content',
             'sort' => 10,
         ],
     ],
     'admin' => [
-        'content' => [
+        'content-main' => [
             'type' => 'index',
-            'parent' => 'main',
+            'parent' => 'content',
             'sort' => 10,
             'vars' => [
                 'actions' => ['view', 'edit', 'delete'],
@@ -138,9 +138,9 @@ return [
         'toolbar' => [
             'active' => false,
         ],
-        'content' => [
+        'content-main' => [
             'type' => 'index',
-            'parent' => 'main',
+            'parent' => 'content',
             'sort' => 10,
             'vars' => [
                 'actions' => ['select'],
@@ -152,9 +152,9 @@ return [
         ],
     ],
     'create' => [
-        'content' => [
+        'content-main' => [
             'type' => 'create',
-            'parent' => 'main',
+            'parent' => 'content',
             'sort' => 10,
             'vars' => [
                 'redirect' => true,
@@ -163,35 +163,35 @@ return [
         ],
     ],
     'edit' => [
-        'content' => [
+        'content-main' => [
             'type' => 'edit',
-            'parent' => 'main',
+            'parent' => 'content',
             'sort' => 10,
         ],
     ],
     'view' => [
-        'content' => [
+        'content-main' => [
             'type' => 'view',
-            'parent' => 'main',
+            'parent' => 'content',
             'sort' => 10,
         ],
     ],
     'account/admin' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'role_id'],
             ],
         ],
     ],
     'account/create' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'password', 'role_id'],
             ],
         ],
     ],
     'account/edit' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'password', 'role_id'],
             ],
@@ -201,56 +201,56 @@ return [
         'toolbar' => [
             'active' => false,
         ],
-        'content' => [
+        'content-main' => [
             'type' => 'login',
-            'parent' => 'main',
+            'parent' => 'content',
             'sort' => 10,
         ],
     ],
     'account/password' => [
-        'content' => [
+        'content-main' => [
             'type' => 'password',
-            'parent' => 'main',
+            'parent' => 'content',
             'sort' => 10,
         ],
     ],
     'article/admin' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'parent_id', 'status', 'date'],
             ],
         ],
     ],
     'article/create' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'date', 'meta_title', 'meta_description'],
             ],
         ],
     ],
     'article/edit' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'date', 'meta_title', 'meta_description'],
             ],
         ],
     ],
     'article/view' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'image', 'teaser', 'main'],
             ],
         ],
     ],
     'content/admin' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'pos', 'parent_id', 'menu', 'status', 'date'],
             ],
         ],
     ],
     'content/create' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => [
                     'name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status',
@@ -260,7 +260,7 @@ return [
         ],
     ],
     'content/edit' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => [
                     'name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status',
@@ -270,56 +270,56 @@ return [
         ],
     ],
     'content/view' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['image', 'name', 'teaser', 'main', 'aside'],
             ],
         ],
     ],
     'file/admin' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'info'],
             ],
         ],
     ],
     'file/browser' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'info'],
             ],
         ],
     ],
     'file/create' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'info'],
             ],
         ],
     ],
     'file/edit' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'info'],
             ],
         ],
     ],
     'role/admin' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name'],
             ],
         ],
     ],
     'role/create' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'priv'],
             ],
         ],
     ],
     'role/edit' => [
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['name', 'priv'],
             ],
@@ -329,7 +329,7 @@ return [
         'breadcrumb' => [
             'active' => false,
         ],
-        'content' => [
+        'content-main' => [
             'vars' => [
                 'attr' => ['image', 'teaser', 'main', 'aside'],
             ],
