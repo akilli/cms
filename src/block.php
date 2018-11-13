@@ -329,7 +329,8 @@ function login(array $block): string
 function view(array $block): string
 {
     $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
-    $block['vars']['data'] = entity\one($block['vars']['entity']['id'], [['id', app\get('id')]]);
+    $block['vars']['id'] = $block['vars']['id'] ?? app\get('id');
+    $block['vars']['data'] = entity\one($block['vars']['entity']['id'], [['id', $block['vars']['id']]]);
 
     return $block['vars']['data'] ? tpl($block) : '';
 }
@@ -518,7 +519,8 @@ function breadcrumb(array $block): string
     }
 
     $html = '';
-    $all = entity\all('page', [['id', $page['path']]], ['select' => ['id', 'name', 'url', 'disabled', 'menu_name'], 'order' => ['level' => 'asc']]);
+    $crit = [['status', 'published'], ['entity', 'content'], ['id', $page['path']]];
+    $all = entity\all('page', $crit, ['select' => ['id', 'name', 'url', 'disabled', 'menu_name'], 'order' => ['level' => 'asc']]);
 
     foreach ($all as $item) {
         if ($item['id'] !== $page['id'] || $page['entity'] === 'content') {
