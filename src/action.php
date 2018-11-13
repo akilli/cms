@@ -53,23 +53,6 @@ function app_js(): void
 }
 
 /**
- * Account Password Action
- */
-function account_password(array $entity): void
-{
-    if ($data = request\get('data')) {
-        if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
-            app\msg('Password and password confirmation must be identical');
-        } else {
-            $data = ['id' => account\get('id'), 'password' => $data['password']];
-            entity\save('account', $data);
-        }
-    }
-
-    app\layout('content', ['vars' => ['entity' => $entity, 'title' => app\i18n('Password')]]);
-}
-
-/**
  * Account Login Action
  */
 function account_login(): void

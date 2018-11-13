@@ -100,6 +100,10 @@ return [
             'size' => null,
         ],
     ],
+    'password' => [
+        'call' => 'block\password',
+        'tpl' => 'form.phtml',
+    ],
     'search' => [
         'call' => 'block\search',
         'tpl' => 'search.phtml',

@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace block;
 
+use account;
 use app;
 use arr;
 use attr;
@@ -261,7 +262,7 @@ function edit(array $block): string
         $data += ['id' => $id];
 
         if (entity\save($block['vars']['entity']['id'], $data)) {
-            request\redirect(app\url($block['vars']['entity']['id'] . '/edit/' . $data['id']));
+            request\redirect(request\get('url'));
             return '';
         }
     }
@@ -277,6 +278,32 @@ function edit(array $block): string
     $p[] = $data;
     $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), ...$p);
     $block['vars']['title'] = $block['vars']['entity']['name'];
+
+    return form($block);
+}
+
+/**
+ * Password Form
+ */
+function password(array $block): string
+{
+    if ($data = request\get('data')) {
+        if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
+            $data['_error']['password'] = app\i18n('Password and password confirmation must be identical');
+            $data['_error']['confirmation'] = app\i18n('Password and password confirmation must be identical');
+        } else {
+            $data = ['id' => account\get('id'), 'password' => $data['password']];
+
+            if (entity\save('account', $data)) {
+                request\redirect(request\get('url'));
+            }
+        }
+    }
+
+    $block['vars']['attr'] = ['password', 'confirmation'];
+    $block['vars']['data'] = $data;
+    $block['vars']['entity'] = app\cfg('entity', 'account');
+    $block['vars']['title'] = app\i18n('Password');
 
     return form($block);
 }

@@ -206,12 +206,9 @@ return [
     ],
     'account/password' => [
         'content' => [
-            'type' => 'form',
+            'type' => 'password',
             'parent' => 'main',
             'sort' => 10,
-            'vars' => [
-                'attr' => ['password', 'confirmation'],
-            ],
         ],
     ],
     'article/admin' => [
