@@ -665,7 +665,7 @@ html[data-area=_public_] div[data-type=rte]::after {
     /**
      * Admin Login
      */
-    html[data-area=_admin_][data-entity=account][data-action=login] main {
+    html[data-area=_admin_][data-url="/account/login"] main {
         display: flex;
         flex: 1 0;
         align-items: center;
@@ -673,7 +673,7 @@ html[data-area=_public_] div[data-type=rte]::after {
         height: 100vh;
     }
 
-    html[data-area=_admin_][data-entity=account][data-action=login] #content {
+    html[data-area=_admin_][data-url="/account/login"] #content {
         width: 100%;
         max-width: 30rem;
     }
