@@ -328,9 +328,14 @@ function login(array $block): string
  */
 function view(array $block): string
 {
-    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
-    $block['vars']['id'] = $block['vars']['id'] ?? app\get('id');
-    $block['vars']['data'] = entity\one($block['vars']['entity']['id'], [['id', $block['vars']['id']]]);
+    if ($block['vars']['data']) {
+        $block['vars']['entity'] = $block['vars']['data']['_entity'];
+        $block['vars']['id'] = $block['vars']['data']['id'];
+    } elseif ($block['vars']['entity'] && $block['vars']['id'] || !$block['vars']['entity'] && !$block['vars']['id']) {
+        $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
+        $block['vars']['id'] = $block['vars']['id'] ?? app\get('id');
+        $block['vars']['data'] = entity\one($block['vars']['entity']['id'], [['id', $block['vars']['id']]]);
+    }
 
     return $block['vars']['data'] ? tpl($block) : '';
 }
