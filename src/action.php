@@ -22,9 +22,9 @@ function view(array $entity): void
 /**
  * Page View Action
  */
-function page_view(array $entity): void
+function page_view(): void
 {
-    if (!($page = app\get('page')) || !app\allowed($entity['id'] . '/edit') && $page['status'] !== 'published') {
+    if (!($page = app\get('page')) || !app\allowed($page['entity'] . '/edit') && $page['status'] !== 'published') {
         app\error();
     }
 }
