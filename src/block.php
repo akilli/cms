@@ -336,7 +336,7 @@ function view(array $block): string
 }
 
 /**
- * Page banner
+ * Page Banner
  */
 function banner(array $block): string
 {
@@ -349,7 +349,7 @@ function banner(array $block): string
 
 
 /**
- * Page sidebar
+ * Page Sidebar
  */
 function sidebar(array $block): string
 {
