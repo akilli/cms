@@ -14,7 +14,7 @@ use session;
  */
 function view(array $entity): void
 {
-    if (!($id = app\get('id')) || !entity\size($entity['id'], [['id', $id]])) {
+    if (!entity\size($entity['id'], [['id', app\get('id')]])) {
         app\error();
     }
 }
@@ -24,12 +24,7 @@ function view(array $entity): void
  */
 function delete(array $entity): void
 {
-    if ($id = app\get('id')) {
-        entity\delete($entity['id'], [['id', $id]]);
-    } else {
-        app\msg('Nothing to delete');
-    }
-
+    entity\delete($entity['id'], [['id', app\get('id')]]);
     request\redirect(app\url($entity['id'] . '/admin'));
 }
 
