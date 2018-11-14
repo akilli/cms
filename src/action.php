@@ -15,7 +15,7 @@ use session;
 function view(array $entity): void
 {
     if (!entity\size($entity['id'], [['id', app\get('id')]])) {
-        app\error();
+        app\invalid();
     }
 }
 

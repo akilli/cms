@@ -2,6 +2,18 @@
 declare(strict_types = 1);
 
 const APP = [
+    'app' => [
+        'action' => null,
+        'area' => null,
+        'entity' => null,
+        'entity_id' => null,
+        'error' => false,
+        'gui' => null,
+        'id' => null,
+        'lang' => null,
+        'page' => null,
+        'parent' => null,
+    ],
     'attr' => [
         'id' => null,
         'name' => null,

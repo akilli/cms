@@ -9,6 +9,7 @@ use entity;
 use request;
 use session;
 use DomainException;
+use ErrorException;
 use Throwable;
 
 /**
@@ -17,21 +18,19 @@ use Throwable;
 function run(): void
 {
     // Register functions
-    set_error_handler('handler\error');
-    set_exception_handler('handler\exception');
-    register_shutdown_function('handler\shutdown');
+    set_error_handler('app\error');
+    set_exception_handler('app\exception');
+    register_shutdown_function('app\shutdown');
 
     $app = & registry('app');
+    $app = APP['app'];
     $app['lang'] = locale_get_primary_language('');
     $app['gui'] = max(filemtime(path('gui')), file_exists(path('ext.gui')) ? filemtime(path('ext.gui')) : 0);
-    $app['error'] = false;
     $url = request\get('url');
     $parts = explode('/', trim($url, '/'));
     $app['entity_id'] = array_shift($parts);
     $app['action'] = array_shift($parts);
     $app['id'] = array_shift($parts);
-    $app['entity'] = null;
-    $app['page'] = null;
     $page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity']]);
 
     // Page
@@ -60,7 +59,7 @@ function run(): void
         || in_array($app['action'], ['delete', 'edit', 'view']) && !$app['id']
         || $app['area'] === '_public_' && (!$app['page'] || $app['page']['disabled'] || $app['page']['status'] !== 'published' && !allowed($app['entity_id'] . '/edit'))
     ) {
-        error();
+        invalid();
     } elseif ($real) {
         $real($app['entity']);
     } elseif ($app['parent'] && is_callable($ns . $app['parent'] . '_' . $app['action'])) {
@@ -73,7 +72,7 @@ function run(): void
 /**
  * Handles invalid reuqests
  */
-function error(): void
+function invalid(): void
 {
     http_response_code(404);
     $app = & registry('app');
@@ -403,4 +402,30 @@ function curl(string $url, array $param = []): ?string
     curl_close($curl);
 
     return $result ?: null;
+}
+
+/**
+ * Error
+ */
+function error(int $severity, string $msg, string $file, int $line): void
+{
+    log(new ErrorException($msg, 0, $severity, $file, $line));
+}
+
+/**
+ * Exception
+ */
+function exception(Throwable $e): void
+{
+    log($e);
+}
+
+/**
+ * Shutdown
+ */
+function shutdown(): void
+{
+    if ($data = registry('msg')) {
+        session\set('msg', $data);
+    }
 }
