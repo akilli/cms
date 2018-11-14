@@ -56,8 +56,13 @@ return [
             'type' => 'tpl',
             'tpl' => 'header.phtml',
         ],
+        'before' => [
+            'type' => 'container',
+        ],
         'menu' => [
             'type' => 'container',
+            'parent' => 'before',
+            'sort' => 10,
             'vars' => [
                 'attr' => ['data-toggle' => '', 'data-sticky' => ''],
                 'tag' => 'nav',
@@ -70,9 +75,6 @@ return [
             'vars' => [
                 'toggle' => 'menu',
             ],
-        ],
-        'before' => [
-            'type' => 'container',
         ],
         'left' => [
             'type' => 'container',
