@@ -336,6 +336,27 @@ function view(array $block): string
 }
 
 /**
+ * Page Attribute View
+ */
+function page(array $block): string
+{
+    if (!$block['vars']['attr'] || !($page = app\get('page'))) {
+        return '';
+    }
+
+    $attr = $page['_entity']['attr'][$block['vars']['attr']] ?? null;
+
+    if (!$attr) {
+        return '';
+    }
+
+    $html = attr\viewer($page, $attr);
+    $a = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
+
+    return $block['vars']['tag'] && $html ? app\html($block['vars']['tag'], $a, $html) : $html;
+}
+
+/**
  * Page Banner
  */
 function banner(array $block): string

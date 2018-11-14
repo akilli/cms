@@ -90,6 +90,13 @@ return [
             'toggle' => null,
         ],
     ],
+    'page' => [
+        'call' => 'block\page',
+        'vars' => [
+            'attr' => null,
+            'tag' => null,
+        ],
+    ],
     'pager' => [
         'call' => 'block\pager',
         'tpl' => 'pager.phtml',
