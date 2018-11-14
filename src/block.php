@@ -531,3 +531,15 @@ function breadcrumb(array $block): string
 
     return app\html('nav', ['id' => $block['id']], $html);
 }
+
+/**
+ * HTML Element
+ */
+function html(array $block): string
+{
+    if ($block['vars']['tag'] && ($block['vars']['val'] || in_array($block['vars']['tag'], APP['html.void']))) {
+        return app\html($block['vars']['tag'], $block['vars']['attr'], $block['vars']['val']);
+    }
+
+    return '';
+}

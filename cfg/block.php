@@ -42,6 +42,14 @@ return [
             'title' => '',
         ],
     ],
+    'html' => [
+        'call' => 'block\html',
+        'vars' => [
+            'attr' => [],
+            'val' => null,
+            'tag' => null,
+        ],
+    ],
     'index' => [
         'call' => 'block\index',
         'tpl' => 'index.phtml',
