@@ -55,7 +55,7 @@ function run(): void
     // Dispatch request
     if ($allowed && !$app['entity'] && $real) {
         $real();
-    } elseif (!$allowed || !$app['entity'] || !in_array($app['action'], $app['entity']['action']) || $app['area'] === '_public_' && (!$app['page'] || $app['page']['disabled'])) {
+    } elseif (!$allowed || !$app['entity'] || !in_array($app['action'], $app['entity']['action']) || $app['area'] === '_public_' && (!$app['page'] || $app['page']['disabled'] || $app['page']['status'] !== 'published' && !allowed($app['entity_id'] . '/edit'))) {
         error();
     } elseif ($real) {
         $real($app['entity']);
