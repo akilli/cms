@@ -117,14 +117,14 @@ return [
             'type' => 'tpl',
             'tpl' => 'error.phtml',
             'parent' => 'content',
-            'sort' => 20,
+            'sort' => 10,
         ],
     ],
     'admin' => [
         'content-main' => [
             'type' => 'index',
             'parent' => 'content',
-            'sort' => 20,
+            'sort' => 10,
             'vars' => [
                 'actions' => ['view', 'edit', 'delete'],
                 'create' => true,
@@ -143,7 +143,7 @@ return [
         'content-main' => [
             'type' => 'index',
             'parent' => 'content',
-            'sort' => 20,
+            'sort' => 10,
             'vars' => [
                 'actions' => ['select'],
                 'limit' => 20,
@@ -157,7 +157,7 @@ return [
         'content-main' => [
             'type' => 'create',
             'parent' => 'content',
-            'sort' => 20,
+            'sort' => 10,
             'vars' => [
                 'redirect' => true,
                 'title' => null,
@@ -168,14 +168,14 @@ return [
         'content-main' => [
             'type' => 'edit',
             'parent' => 'content',
-            'sort' => 20,
+            'sort' => 10,
         ],
     ],
     'view' => [
         'content-main' => [
             'type' => 'view',
             'parent' => 'content',
-            'sort' => 20,
+            'sort' => 10,
         ],
     ],
     'account/admin' => [
@@ -206,14 +206,14 @@ return [
         'content-main' => [
             'type' => 'login',
             'parent' => 'content',
-            'sort' => 20,
+            'sort' => 10,
         ],
     ],
     'account/password' => [
         'content-main' => [
             'type' => 'password',
             'parent' => 'content',
-            'sort' => 20,
+            'sort' => 10,
         ],
     ],
     'article/admin' => [
@@ -240,7 +240,7 @@ return [
     'article/view' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['image', 'teaser', 'main'],
+                'attr' => ['name', 'image', 'teaser', 'main'],
             ],
         ],
     ],
@@ -274,7 +274,7 @@ return [
     'content/view' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['image', 'teaser', 'main', 'aside'],
+                'attr' => ['image', 'name', 'teaser', 'main', 'aside'],
             ],
         ],
     ],
@@ -306,17 +306,6 @@ return [
             ],
         ],
     ],
-    'page/view' => [
-        'content-heading' => [
-            'type' => 'page',
-            'parent' => 'content',
-            'sort' => 10,
-            'vars' => [
-                'attr' => 'name',
-                'tag' => 'h1',
-            ],
-        ],
-    ],
     'role/admin' => [
         'content-main' => [
             'vars' => [
@@ -342,8 +331,10 @@ return [
         'breadcrumb' => [
             'active' => false,
         ],
-        'content-heading' => [
-            'active' => false,
+        'content-main' => [
+            'vars' => [
+                'attr' => ['image', 'teaser', 'main', 'aside'],
+            ],
         ],
     ],
 ];
