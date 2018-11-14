@@ -46,8 +46,7 @@ function run(): void
     $app['entity'] = $app['entity'] ?: cfg('entity', $app['entity_id']);
     $app['parent'] = $app['entity']['parent'] ?? null;
     $app['area'] = empty(cfg('priv', $app['entity_id'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
-    $host = preg_replace('#^www\.#', '', request\get('host'));
-    $blacklist = $app['area'] === '_admin_' && in_array($host, cfg('app', 'admin.blacklist'));
+    $blacklist = $app['area'] === '_admin_' && in_array(preg_replace('#^www\.#', '', request\get('host')), cfg('app', 'admin.blacklist'));
     $allowed = !$blacklist && allowed($app['entity_id'] . '/' . $app['action']);
     $ns = 'action\\';
     $real = is_callable($ns . $app['entity_id'] . '_' . $app['action']) ? $ns . $app['entity_id'] . '_' . $app['action'] : null;
