@@ -56,7 +56,7 @@ function run(): void
     } elseif (!$allowed
         || !$app['entity']
         || !in_array($app['action'], $app['entity']['action'])
-        || in_array($app['action'], ['delete', 'edit', 'view']) && !$app['id']
+        || !$app['page'] && in_array($app['action'], ['delete', 'edit', 'view']) && (!$app['id'] || !entity\size($app['entity_id'], [['id', $app['id']]]))
         || $app['area'] === '_public_' && (!$app['page'] || $app['page']['disabled'] || $app['page']['status'] !== 'published' && !allowed($app['entity_id'] . '/edit'))
     ) {
         invalid();

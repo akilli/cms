@@ -10,16 +10,6 @@ use request;
 use session;
 
 /**
- * View Action
- */
-function view(array $entity): void
-{
-    if (!entity\size($entity['id'], [['id', app\get('id')]])) {
-        app\invalid();
-    }
-}
-
-/**
  * Delete Action
  */
 function delete(array $entity): void
