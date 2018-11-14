@@ -4,7 +4,7 @@ namespace app;
 ?>
 <?php if ($data = msg()):?>
 <section id="<?=$block('id');?>">
-    <h1><?=i18n('Message');?></h1>
+    <h2><?=i18n('Message');?></h2>
     <?php foreach ($data as $item):?>
     <p><?=$item;?></p>
     <?php endforeach;?>
