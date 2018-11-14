@@ -303,6 +303,11 @@ return [
             ],
         ],
     ],
+    'page/view' => [
+        'content-main' => [
+            'type' => 'page',
+        ],
+    ],
     'role/admin' => [
         'content-main' => [
             'vars' => [

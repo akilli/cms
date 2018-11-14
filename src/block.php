@@ -341,6 +341,20 @@ function view(array $block): string
 }
 
 /**
+ * Page View
+ */
+function page(array $block): string
+{
+    if (!$page = app\get('page')) {
+        return '';
+    }
+
+    $block['vars']['data'] = $page;
+
+    return view($block);
+}
+
+/**
  * Page Banner
  */
 function banner(array $block): string
