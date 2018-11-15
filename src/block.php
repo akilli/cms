@@ -207,10 +207,13 @@ function index(array $block): string
  */
 function form(array $block): string
 {
-    if (!$block['vars']['entity']) {
-        return '';
+    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
+
+    if (($data = request\get('data')) && entity\save($block['vars']['entity']['id'], $data)) {
+        $data = [];
     }
 
+    $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), $data);
     $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : null;
     $block['vars']['file'] = false;
 
@@ -224,61 +227,54 @@ function form(array $block): string
 }
 
 /**
- * Create Form
- */
-function create(array $block): string
-{
-    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
-
-    if (($data = request\get('data')) && entity\save($block['vars']['entity']['id'], $data)) {
-        if ($block['vars']['redirect']) {
-            request\redirect(app\url($block['vars']['entity']['id'] . '/edit/' . $data['id']));
-            return '';
-        }
-
-        $data = [];
-    }
-
-    $block['vars']['data'] = array_replace(entity\item($block['vars']['entity']), $data);
-    $block['vars']['title'] = $block['vars']['title'] ?? $block['vars']['entity']['name'];
-
-    return form($block);
-}
-
-/**
  * Edit Form
  */
 function edit(array $block): string
 {
     $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
+    $old = null;
 
-    if (!($id = app\get('id')) || !($old = entity\one($block['vars']['entity']['id'], [['id', $id]]))) {
+    if (($id = app\get('id')) && !($old = entity\one($block['vars']['entity']['id'], [['id', $id]]))) {
+        app\msg('Nothing to edit');
         request\redirect(app\url($block['vars']['entity']['id'] . '/admin'));
         return '';
     }
 
     if ($data = request\get('data')) {
-        $data += ['id' => $id];
+        if ($id) {
+            $data['id'] = $id;
+        }
 
         if (entity\save($block['vars']['entity']['id'], $data)) {
-            request\redirect(request\get('url'));
+            request\redirect(app\url($block['vars']['entity']['id'] . '/edit/' . $data['id']));
             return '';
         }
     }
 
-    $p = [$old];
+    $p = [];
 
-    if ($id && in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent']])) {
-        $v = entity\one('version', [['page_id', $id]], ['select' => APP['version'], 'order' => ['timestamp' => 'desc']]);
-        unset($v['_old'], $v['_entity']);
-        $p[] = $v;
+    if ($id) {
+        $p = [$old];
+
+        if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent']])) {
+            $v = entity\one('version', [['page_id', $id]], ['select' => APP['version'], 'order' => ['timestamp' => 'desc']]);
+            unset($v['_old'], $v['_entity']);
+            $p[] = $v;
+        }
     }
 
     $p[] = $data;
     $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), ...$p);
-    $block['vars']['title'] = $block['vars']['entity']['name'];
+    $block['vars']['title'] = app\enc($block['vars']['entity']['name']);
+    $block['vars']['file'] = false;
 
-    return form($block);
+    foreach ($block['vars']['attr'] as $attrId) {
+        if ($block['vars']['file'] = ($block['vars']['entity']['attr'][$attrId]['type'] ?? null) === 'upload') {
+            break;
+        }
+    }
+
+    return tpl($block);
 }
 
 /**

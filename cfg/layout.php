@@ -150,17 +150,6 @@ return [
             ],
         ],
     ],
-    'create' => [
-        'content-main' => [
-            'type' => 'create',
-            'parent' => 'content',
-            'sort' => 10,
-            'vars' => [
-                'redirect' => true,
-                'title' => null,
-            ],
-        ],
-    ],
     'edit' => [
         'content-main' => [
             'type' => 'edit',
@@ -179,13 +168,6 @@ return [
         'content-main' => [
             'vars' => [
                 'attr' => ['name', 'role_id'],
-            ],
-        ],
-    ],
-    'account/create' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'password', 'role_id'],
             ],
         ],
     ],
@@ -220,13 +202,6 @@ return [
             ],
         ],
     ],
-    'article/create' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'date', 'meta_title', 'meta_description'],
-            ],
-        ],
-    ],
     'article/edit' => [
         'content-main' => [
             'vars' => [
@@ -245,16 +220,6 @@ return [
         'content-main' => [
             'vars' => [
                 'attr' => ['name', 'pos', 'parent_id', 'menu', 'status', 'date'],
-            ],
-        ],
-    ],
-    'content/create' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => [
-                    'name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status',
-                    'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description'
-                ],
             ],
         ],
     ],
@@ -289,13 +254,6 @@ return [
             ],
         ],
     ],
-    'file/create' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'info'],
-            ],
-        ],
-    ],
     'file/edit' => [
         'content-main' => [
             'vars' => [
@@ -312,13 +270,6 @@ return [
         'content-main' => [
             'vars' => [
                 'attr' => ['name'],
-            ],
-        ],
-    ],
-    'role/create' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'priv'],
             ],
         ],
     ],

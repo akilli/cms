@@ -546,10 +546,6 @@ html[data-area=_admin_] .index article h3 {
     font-size: inherit;
 }
 
-html[data-area=_admin_] .index p[data-action=create] {
-    margin: 0;
-}
-
 /**
  * Clear
  */

@@ -108,7 +108,7 @@ function cfg_priv(array $data): array
     }
 
     foreach (app\cfg('entity') as $entity) {
-        if (array_intersect(['create', 'edit'], $entity['action']) && in_array('page', [$entity['id'], $entity['parent']])) {
+        if (in_array('edit', $entity['action']) && in_array('page', [$entity['id'], $entity['parent']])) {
             $id = $entity['id'] . '-publish';
             $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucwords('Publish'));
             $data[$id] = arr\replace(APP['priv'], $data[$id]);

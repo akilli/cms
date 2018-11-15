@@ -12,9 +12,6 @@ return [
     'account/admin' => [
         'priv' => '_all_',
     ],
-    'account/create' => [
-        'priv' => '_all_',
-    ],
     'account/delete' => [
         'priv' => '_all_',
     ],
@@ -43,9 +40,6 @@ return [
         'active' => false,
     ],
     'role/admin' => [
-        'priv' => '_all_',
-    ],
-    'role/create' => [
         'priv' => '_all_',
     ],
     'role/delete' => [

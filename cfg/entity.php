@@ -2,7 +2,7 @@
 return [
     'role' => [
         'name' => 'Roles',
-        'action' => ['admin', 'create', 'delete', 'edit'],
+        'action' => ['admin', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -25,7 +25,7 @@ return [
     ],
     'account' => [
         'name' => 'Accounts',
-        'action' => ['admin', 'create', 'delete', 'edit', 'login', 'logout', 'password'],
+        'action' => ['admin', 'delete', 'edit', 'login', 'logout', 'password'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -96,7 +96,7 @@ return [
     'audio' => [
         'name' => 'Audios',
         'parent' => 'file',
-        'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
+        'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'name' => [
                 'cfg.filter' => 'upload.audio',
@@ -106,7 +106,7 @@ return [
     'doc' => [
         'name' => 'Documents',
         'parent' => 'file',
-        'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
+        'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'name' => [
                 'cfg.filter' => 'upload.doc',
@@ -116,7 +116,7 @@ return [
     'image' => [
         'name' => 'Images',
         'parent' => 'file',
-        'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
+        'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'name' => [
                 'cfg.filter' => 'upload.image',
@@ -126,7 +126,7 @@ return [
     'video' => [
         'name' => 'Videos',
         'parent' => 'file',
-        'action' => ['admin', 'browser', 'create', 'delete', 'edit'],
+        'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'name' => [
                 'cfg.filter' => 'upload.video',
@@ -264,12 +264,12 @@ return [
     'content' => [
         'name' => 'Content Pages',
         'parent' => 'page',
-        'action' => ['admin', 'create', 'delete', 'edit', 'view'],
+        'action' => ['admin', 'delete', 'edit', 'view'],
     ],
     'article' => [
         'name' => 'Articles',
         'parent' => 'page',
-        'action' => ['admin', 'create', 'delete', 'edit', 'view'],
+        'action' => ['admin', 'delete', 'edit', 'view'],
     ],
     'version' => [
         'name' => 'Versions',
