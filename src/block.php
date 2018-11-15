@@ -367,7 +367,6 @@ function banner(array $block): string
     return $page && ($block['vars']['img'] = attr\viewer($page, $page['_entity']['attr']['image'])) ? tpl($block) : '';
 }
 
-
 /**
  * Page Sidebar
  */
