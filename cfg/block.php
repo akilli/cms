@@ -20,6 +20,7 @@ return [
         'vars' => [
             'attr' => [],
             'entity' => null,
+            'title' => '',
         ],
     ],
     'edit' => [
@@ -69,6 +70,7 @@ return [
         'vars' => [
             'mode' => null,
             'root' => false,
+            'title' => '',
             'toggle' => null,
         ],
     ],
@@ -124,6 +126,10 @@ return [
     ],
     'toolbar' => [
         'call' => 'block\toolbar',
+        'vars' => [
+            'title' => '',
+            'toggle' => null,
+        ],
     ],
     'tpl' => [
         'call' => 'block\tpl',
