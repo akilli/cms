@@ -276,6 +276,7 @@ function create(array $block): string
     }
 
     $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), $data);
+    $block['vars']['title'] = null;
 
     return form($block);
 }

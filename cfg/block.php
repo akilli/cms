@@ -20,7 +20,6 @@ return [
         'vars' => [
             'attr' => [],
             'entity' => null,
-            'title' => '',
         ],
     ],
     'edit' => [
@@ -38,7 +37,7 @@ return [
             'attr' => [],
             'data' => [],
             'entity' => [],
-            'title' => '',
+            'title' => null,
         ],
     ],
     'index' => [
