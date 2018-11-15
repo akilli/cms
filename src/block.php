@@ -491,6 +491,7 @@ function menu(array $block): string
     }
 
     $block['vars']['data'] = entity\all('page', $crit, $opt);
+    $block['vars']['title'] = null;
 
     if ($block['vars']['root'] && $sub) {
         $block['vars']['title'] = $root['menu_name'] ?: $root['name'];
@@ -525,6 +526,8 @@ function toolbar(array $block): string
     }
 
     $block['vars']['data'] = array_diff_key($block['vars']['data'], $empty);
+    $block['vars']['title'] = null;
+    $block['vars']['toggle'] = null;
 
     return nav($block);
 }

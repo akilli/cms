@@ -70,7 +70,6 @@ return [
         'vars' => [
             'mode' => null,
             'root' => false,
-            'title' => '',
             'toggle' => null,
         ],
     ],
@@ -86,7 +85,7 @@ return [
         'call' => 'block\nav',
         'vars' => [
             'data' => [],
-            'title' => '',
+            'title' => null,
             'toggle' => null,
         ],
     ],
@@ -126,10 +125,6 @@ return [
     ],
     'toolbar' => [
         'call' => 'block\toolbar',
-        'vars' => [
-            'title' => '',
-            'toggle' => null,
-        ],
     ],
     'tpl' => [
         'call' => 'block\tpl',
