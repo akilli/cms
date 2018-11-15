@@ -253,7 +253,6 @@ function edit(array $block): string
     $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
 
     if (!($id = app\get('id')) || !($old = entity\one($block['vars']['entity']['id'], [['id', $id]]))) {
-        app\msg('Nothing to edit');
         request\redirect(app\url($block['vars']['entity']['id'] . '/admin'));
         return '';
     }
