@@ -51,18 +51,18 @@ use attr;
         </div>
             <?php endif;?>
         <?php endforeach;?>
-        <?php if ($block('actions')):?>
+        <?php if ($block('action')):?>
         <footer>
-            <?php if (in_array('view', $block('actions')) && allowed($block('entity')['id'] . '/view')):?>
+            <?php if (in_array('view', $block('action')) && allowed($block('entity')['id'] . '/view')):?>
             <a href="<?=$data['url'] ?? url($block('entity')['id'] . '/view/' . $data['id']);?>" data-action="view"><?=i18n('View');?></a>
             <?php endif;?>
-            <?php if (in_array('edit', $block('actions')) && allowed($block('entity')['id'] . '/edit')):?>
+            <?php if (in_array('edit', $block('action')) && allowed($block('entity')['id'] . '/edit')):?>
             <a href="<?=url($block('entity')['id'] . '/edit/' . $data['id']);?>" data-action="edit"><?=i18n('Edit');?></a>
             <?php endif;?>
-            <?php if (in_array('delete', $block('actions')) && allowed($block('entity')['id'] . '/delete')):?>
+            <?php if (in_array('delete', $block('action')) && allowed($block('entity')['id'] . '/delete')):?>
             <a href="<?=url($block('entity')['id'] . '/delete/' . $data['id']);?>" data-action="delete"><?=i18n('Delete');?></a>
             <?php endif;?>
-            <?php if (in_array('select', $block('actions'))):?>
+            <?php if (in_array('select', $block('action'))):?>
             <span data-id="<?=$data['id'];?>" data-url="<?=$data['name'];?>" data-action="select"><?=i18n('Select item');?></span>
             <?php endif;?>
         </footer>

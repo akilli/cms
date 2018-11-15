@@ -123,7 +123,7 @@ return [
             'parent' => 'content',
             'sort' => 10,
             'vars' => [
-                'actions' => ['view', 'edit', 'delete'],
+                'action' => ['view', 'edit', 'delete'],
                 'create' => true,
                 'inaccessible' => true,
                 'pager' => true,
@@ -142,7 +142,7 @@ return [
             'parent' => 'content',
             'sort' => 10,
             'vars' => [
-                'actions' => ['select'],
+                'action' => ['select'],
                 'limit' => 20,
                 'pager' => true,
                 'search' => ['name'],

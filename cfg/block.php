@@ -46,7 +46,7 @@ return [
         'call' => 'block\index',
         'tpl' => 'index.phtml',
         'vars' => [
-            'actions' => [],
+            'action' => [],
             'attr' => [],
             'create' => false,
             'crit' => [],
