@@ -139,7 +139,7 @@ function load(string $id): array
         return $data;
     }
 
-    if (in_array($id, ['attr', 'entity'])) {
+    if (in_array($id, ['attr', 'block', 'entity'])) {
         return $data + $ext;
     }
 
