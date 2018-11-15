@@ -207,13 +207,10 @@ function index(array $block): string
  */
 function form(array $block): string
 {
-    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
-
-    if (($data = request\get('data')) && entity\save($block['vars']['entity']['id'], $data)) {
-        $data = [];
+    if (!$block['vars']['entity']) {
+        return '';
     }
 
-    $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), $data);
     $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : null;
     $block['vars']['file'] = false;
 
@@ -224,6 +221,63 @@ function form(array $block): string
     }
 
     return tpl($block);
+}
+
+/**
+ * Login Form
+ */
+function login(array $block): string
+{
+    $block['vars']['title'] = app\i18n('Login');
+    $block['vars']['attr'] = ['name', 'password'];
+    $block['vars']['data'] = [];
+    $a = ['name' => ['unique' => false, 'minlength' => 0, 'maxlength' => 0], 'password' => ['minlength' => 0, 'maxlength' => 0]];
+    $block['vars']['entity'] = app\cfg('entity', 'account');
+    $block['vars']['entity']['attr'] = array_replace_recursive($block['vars']['entity']['attr'], $a);
+
+    return form($block);
+}
+
+/**
+ * Password Form
+ */
+function password(array $block): string
+{
+    if ($data = request\get('data')) {
+        if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
+            $data['_error']['password'] = app\i18n('Password and password confirmation must be identical');
+            $data['_error']['confirmation'] = app\i18n('Password and password confirmation must be identical');
+        } else {
+            $data = ['id' => account\get('id'), 'password' => $data['password']];
+
+            if (entity\save('account', $data)) {
+                request\redirect(request\get('url'));
+            }
+        }
+    }
+
+    $block['vars']['attr'] = ['password', 'confirmation'];
+    $block['vars']['data'] = $data;
+    $block['vars']['entity'] = app\cfg('entity', 'account');
+    $block['vars']['title'] = app\i18n('Password');
+
+    return form($block);
+}
+
+/**
+ * Create Form
+ */
+function create(array $block): string
+{
+    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
+
+    if (($data = request\get('data')) && entity\save($block['vars']['entity']['id'], $data)) {
+        $data = [];
+    }
+
+    $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), $data);
+
+    return form($block);
 }
 
 /**
@@ -265,55 +319,7 @@ function edit(array $block): string
 
     $p[] = $data;
     $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), ...$p);
-    $block['vars']['title'] = app\enc($block['vars']['entity']['name']);
-    $block['vars']['file'] = false;
-
-    foreach ($block['vars']['attr'] as $attrId) {
-        if ($block['vars']['file'] = ($block['vars']['entity']['attr'][$attrId]['type'] ?? null) === 'upload') {
-            break;
-        }
-    }
-
-    return tpl($block);
-}
-
-/**
- * Password Form
- */
-function password(array $block): string
-{
-    if ($data = request\get('data')) {
-        if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
-            $data['_error']['password'] = app\i18n('Password and password confirmation must be identical');
-            $data['_error']['confirmation'] = app\i18n('Password and password confirmation must be identical');
-        } else {
-            $data = ['id' => account\get('id'), 'password' => $data['password']];
-
-            if (entity\save('account', $data)) {
-                request\redirect(request\get('url'));
-            }
-        }
-    }
-
-    $block['vars']['attr'] = ['password', 'confirmation'];
-    $block['vars']['data'] = $data;
-    $block['vars']['entity'] = app\cfg('entity', 'account');
-    $block['vars']['title'] = app\i18n('Password');
-
-    return form($block);
-}
-
-/**
- * Login Form
- */
-function login(array $block): string
-{
-    $block['vars']['title'] = app\i18n('Login');
-    $block['vars']['attr'] = ['name', 'password'];
-    $block['vars']['data'] = [];
-    $a = ['name' => ['unique' => false, 'minlength' => 0, 'maxlength' => 0], 'password' => ['minlength' => 0, 'maxlength' => 0]];
-    $block['vars']['entity'] = app\cfg('entity', 'account');
-    $block['vars']['entity']['attr'] = array_replace_recursive($block['vars']['entity']['attr'], $a);
+    $block['vars']['title'] = $block['vars']['entity']['name'];
 
     return form($block);
 }

@@ -14,6 +14,14 @@ return [
             'tag' => null,
         ],
     ],
+    'create' => [
+        'call' => 'block\create',
+        'tpl' => 'form.phtml',
+        'vars' => [
+            'attr' => [],
+            'entity' => null,
+        ],
+    ],
     'edit' => [
         'call' => 'block\edit',
         'tpl' => 'form.phtml',
