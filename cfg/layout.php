@@ -216,6 +216,20 @@ return [
             ],
         ],
     ],
+    'block/admin' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'title'],
+            ],
+        ],
+    ],
+    'block/edit' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'title', 'content'],
+            ],
+        ],
+    ],
     'content/admin' => [
         'content-main' => [
             'vars' => [

@@ -18,9 +18,15 @@ return [
         'parent' => 'page',
         'sort' => 20,
     ],
+    'block' => [
+        'name' => 'Blocks',
+        'url' => '/block/admin',
+        'priv' => 'block/admin',
+        'sort' => 20,
+    ],
     'file' => [
         'name' => 'Files',
-        'sort' => 20,
+        'sort' => 30,
     ],
     'audio' => [
         'name' => 'Audios',
@@ -52,7 +58,7 @@ return [
     ],
     'system' => [
         'name' => 'System',
-        'sort' => 30,
+        'sort' => 40,
     ],
     'account' => [
         'name' => 'Accounts',
@@ -72,18 +78,18 @@ return [
         'name' => 'Homepage',
         'url' => '/',
         'priv' => 'content/view',
-        'sort' => 40,
+        'sort' => 50,
     ],
     'password' => [
         'name' => 'Password',
         'url' => '/account/password',
         'priv' => 'account/password',
-        'sort' => 50,
+        'sort' => 60,
     ],
     'logout' => [
         'name' => 'Logout',
         'url' => '/account/logout',
         'priv' => 'account/logout',
-        'sort' => 60,
+        'sort' => 70,
     ],
 ];

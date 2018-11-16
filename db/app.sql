@@ -439,6 +439,21 @@ CREATE INDEX ON version (page_id);
 
 CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE version_protect();
 
+--
+-- Block
+--
+
+CREATE TABLE block (
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    title varchar(255) NOT NULL DEFAULT '',
+    content text NOT NULL DEFAULT ''
+
+);
+
+CREATE INDEX ON block (name);
+CREATE INDEX ON block (title);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 
 COMMIT;

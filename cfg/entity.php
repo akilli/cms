@@ -322,4 +322,32 @@ return [
             ],
         ],
     ],
+    'block' => [
+        'name' => 'Blocks',
+        'action' => ['admin', 'delete', 'edit'],
+        'attr' => [
+            'id' => [
+                'name' => 'ID',
+                'type' => 'int',
+                'auto' => true,
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'maxlength' => 255,
+            ],
+            'title' => [
+                'name' => 'Title',
+                'type' => 'text',
+                'val' => '',
+                'maxlength' => 255,
+            ],
+            'content' => [
+                'name' => 'Content',
+                'type' => 'rte',
+                'val' => '',
+            ],
+        ],
+    ],
 ];
