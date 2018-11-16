@@ -74,7 +74,7 @@ return [
     ],
     'meta' => [
         'call' => 'block\meta',
-        'tpl' => 'meta.phtml',
+        'tpl' => 'head/meta.phtml',
         'vars' => [
             'description' => '',
             'title' => '',

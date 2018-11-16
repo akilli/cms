@@ -10,22 +10,27 @@ return [
         ],
         'meta' => [
             'type' => 'meta',
-            'tpl' => 'meta.phtml',
             'parent' => 'head',
             'sort' => 10,
         ],
         'asset' => [
             'type' => 'tpl',
-            'tpl' => 'asset.phtml',
+            'tpl' => 'head/asset.phtml',
             'parent' => 'head',
             'sort' => 20,
         ],
         'asset-user' => [
             'type' => 'tpl',
-            'tpl' => 'asset-user.phtml',
+            'tpl' => 'head/asset-user.phtml',
             'priv' => '_user_',
             'parent' => 'head',
             'sort' => 30,
+        ],
+        'asset-ext' => [
+            'type' => 'tpl',
+            'tpl' => 'head/asset-ext.phtml',
+            'parent' => 'head',
+            'sort' => 40,
         ],
         'toolbar' => [
             'type' => 'container',
