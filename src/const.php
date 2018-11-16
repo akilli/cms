@@ -59,6 +59,11 @@ const APP = [
         '!~$' => '!~$',
     ],
     'crlf' => "\r\n",
+    'curl' => [
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 5,
+    ],
     'entity' => [
         'id' => null,
         'name' => null,
