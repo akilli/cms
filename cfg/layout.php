@@ -47,7 +47,7 @@ return [
         ],
         'msg' => [
             'type' => 'tpl',
-            'tpl' => 'msg.phtml',
+            'tpl' => 'app/msg.phtml',
         ],
         'content' => [
             'type' => 'container',
@@ -58,8 +58,16 @@ return [
             'type' => 'container',
         ],
         'header' => [
+            'type' => 'container',
+            'vars' => [
+                'tag' => 'header',
+            ],
+        ],
+        'header-logo' => [
             'type' => 'tpl',
-            'tpl' => 'header.phtml',
+            'tpl' => 'header/logo.phtml',
+            'parent' => 'header',
+            'sort' => 10,
         ],
         'before' => [
             'type' => 'container',
@@ -107,8 +115,16 @@ return [
             'type' => 'container',
         ],
         'footer' => [
+            'type' => 'container',
+            'vars' => [
+                'tag' => 'footer',
+            ],
+        ],
+        'footer-default' => [
             'type' => 'tpl',
-            'tpl' => 'footer.phtml',
+            'tpl' => 'footer/nav.phtml',
+            'parent' => 'footer',
+            'sort' => 10,
         ],
         'bottom' => [
             'type' => 'container',
@@ -117,7 +133,7 @@ return [
     '_error_' => [
         'content-main' => [
             'type' => 'tpl',
-            'tpl' => 'error.phtml',
+            'tpl' => 'app/error.phtml',
             'parent' => 'content',
             'sort' => 10,
         ],

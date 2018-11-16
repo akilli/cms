@@ -2,7 +2,7 @@
 return [
     'banner' => [
         'call' => 'block\banner',
-        'tpl' => 'banner.phtml',
+        'tpl' => 'page/banner.phtml',
     ],
     'breadcrumb' => [
         'call' => 'block\breadcrumb',
@@ -16,7 +16,7 @@ return [
     ],
     'create' => [
         'call' => 'block\create',
-        'tpl' => 'form.phtml',
+        'tpl' => 'entity/form.phtml',
         'vars' => [
             'attr' => [],
             'entity' => null,
@@ -24,7 +24,7 @@ return [
     ],
     'edit' => [
         'call' => 'block\edit',
-        'tpl' => 'form.phtml',
+        'tpl' => 'entity/form.phtml',
         'vars' => [
             'attr' => [],
             'entity' => null,
@@ -32,7 +32,7 @@ return [
     ],
     'form' => [
         'call' => 'block\form',
-        'tpl' => 'form.phtml',
+        'tpl' => 'entity/form.phtml',
         'vars' => [
             'attr' => [],
             'data' => [],
@@ -42,7 +42,7 @@ return [
     ],
     'index' => [
         'call' => 'block\index',
-        'tpl' => 'index.phtml',
+        'tpl' => 'entity/index.phtml',
         'vars' => [
             'action' => [],
             'attr' => [],
@@ -62,7 +62,7 @@ return [
     ],
     'login' => [
         'call' => 'block\login',
-        'tpl' => 'form.phtml',
+        'tpl' => 'entity/form.phtml',
     ],
     'menu' => [
         'call' => 'block\menu',
@@ -90,14 +90,14 @@ return [
     ],
     'page' => [
         'call' => 'block\page',
-        'tpl' => 'view.phtml',
+        'tpl' => 'entity/view.phtml',
         'vars' => [
             'attr' => [],
         ],
     ],
     'pager' => [
         'call' => 'block\pager',
-        'tpl' => 'pager.phtml',
+        'tpl' => 'entity/pager.phtml',
         'vars' => [
             'cur' => null,
             'limit' => null,
@@ -107,11 +107,11 @@ return [
     ],
     'password' => [
         'call' => 'block\password',
-        'tpl' => 'form.phtml',
+        'tpl' => 'entity/form.phtml',
     ],
     'search' => [
         'call' => 'block\search',
-        'tpl' => 'search.phtml',
+        'tpl' => 'entity/search.phtml',
         'vars' => [
             'q' => null,
         ],
@@ -130,7 +130,7 @@ return [
     ],
     'view' => [
         'call' => 'block\view',
-        'tpl' => 'view.phtml',
+        'tpl' => 'entity/view.phtml',
         'vars' => [
             'attr' => [],
             'data' => [],
