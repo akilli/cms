@@ -16,7 +16,6 @@ use DomainException;
  */
 function container(array $block): string
 {
-    $attrs = ['id' => $block['id']] + $block['vars']['attr'];
     $html = '';
 
     foreach (arr\order(arr\crit(app\layout(), [['parent', $block['id']]]), ['sort' => 'asc']) as $child) {
@@ -27,7 +26,7 @@ function container(array $block): string
         return '';
     }
 
-    return $block['vars']['tag'] ? app\html($block['vars']['tag'], $attrs, $html) : $html;
+    return $block['vars']['tag'] ? app\html($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
 }
 
 /**
@@ -403,14 +402,22 @@ function nav(array $block): string
     $level = 0;
     $i = 0;
     $html = '';
+    $attrs = ['id' => $block['id']];
 
     if ($block['vars']['toggle']) {
-        $html .= app\html('span', ['data-action' => 'toggle', 'data-target' => $block['vars']['toggle']]);
+        $html .= app\html('span', ['data-action' => 'toggle', 'data-target' => $block['id']]);
+        $attrs['data-toggle'] = '';
+    }
+
+    if ($block['vars']['sticky']) {
+        $attrs['data-sticky'] = '';
     }
 
     if ($block['vars']['title']) {
         $html .= app\html('h2', [], $block['vars']['title']);
     }
+
+    $html .= container(array_replace($block, ['vars' => ['tag' => null]]));
 
     foreach ($block['vars']['data'] as $item) {
         if (empty($item['name'])) {
@@ -456,7 +463,7 @@ function nav(array $block): string
         $level = $item['level'];
     }
 
-    return $html;
+    return $block['vars']['tag'] ? app\html($block['vars']['tag'], $attrs, $html) : $html;
 }
 
 /**
@@ -526,8 +533,6 @@ function toolbar(array $block): string
     }
 
     $block['vars']['data'] = array_diff_key($block['vars']['data'], $empty);
-    $block['vars']['title'] = null;
-    $block['vars']['toggle'] = null;
 
     return nav($block);
 }

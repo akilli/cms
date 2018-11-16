@@ -10,7 +10,6 @@ return [
     'container' => [
         'call' => 'block\container',
         'vars' => [
-            'attr' => [],
             'tag' => null,
         ],
     ],
@@ -69,7 +68,9 @@ return [
         'vars' => [
             'mode' => null,
             'root' => false,
-            'toggle' => null,
+            'sticky' => false,
+            'tag' => 'nav',
+            'toggle' => false,
         ],
     ],
     'meta' => [
@@ -84,8 +85,10 @@ return [
         'call' => 'block\nav',
         'vars' => [
             'data' => [],
+            'sticky' => false,
+            'tag' => 'nav',
             'title' => null,
-            'toggle' => null,
+            'toggle' => false,
         ],
     ],
     'page' => [
@@ -124,6 +127,12 @@ return [
     ],
     'toolbar' => [
         'call' => 'block\toolbar',
+        'vars' => [
+            'sticky' => false,
+            'tag' => 'nav',
+            'title' => null,
+            'toggle' => false,
+        ],
     ],
     'tpl' => [
         'call' => 'block\tpl',

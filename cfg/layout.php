@@ -33,17 +33,8 @@ return [
             'sort' => 40,
         ],
         'toolbar' => [
-            'type' => 'container',
-            'priv' => '_user_',
-            'vars' => [
-                'tag' => 'nav',
-            ],
-        ],
-        'toolbar-nav' => [
             'type' => 'toolbar',
             'priv' => '_user_',
-            'parent' => 'toolbar',
-            'sort' => 10,
         ],
         'top' => [
             'type' => 'container',
@@ -94,20 +85,12 @@ return [
             'sort' => 10,
         ],
         'menu' => [
-            'type' => 'container',
+            'type' => 'menu',
             'parent' => 'before',
             'sort' => 10,
             'vars' => [
-                'attr' => ['data-toggle' => '', 'data-sticky' => ''],
-                'tag' => 'nav',
-            ],
-        ],
-        'menu-nav' => [
-            'type' => 'menu',
-            'parent' => 'menu',
-            'sort' => 10,
-            'vars' => [
-                'toggle' => 'menu',
+                'sticky' => true,
+                'toggle' => true,
             ],
         ],
         'breadcrumb' => [
