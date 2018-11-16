@@ -45,15 +45,6 @@ return [
             'parent' => 'toolbar',
             'sort' => 10,
         ],
-        'msg' => [
-            'type' => 'tpl',
-            'tpl' => 'app/msg.phtml',
-        ],
-        'content' => [
-            'type' => 'container',
-        ],
-    ],
-    '_public_' => [
         'top' => [
             'type' => 'container',
         ],
@@ -63,14 +54,44 @@ return [
                 'tag' => 'header',
             ],
         ],
+        'before' => [
+            'type' => 'container',
+        ],
+        'msg' => [
+            'type' => 'tpl',
+            'tpl' => 'app/msg.phtml',
+        ],
+        'left' => [
+            'type' => 'container',
+        ],
+        'content' => [
+            'type' => 'container',
+        ],
+        'right' => [
+            'type' => 'container',
+            'vars' => [
+                'tag' => 'aside',
+            ],
+        ],
+        'after' => [
+            'type' => 'container',
+        ],
+        'footer' => [
+            'type' => 'container',
+            'vars' => [
+                'tag' => 'footer',
+            ],
+        ],
+        'bottom' => [
+            'type' => 'container',
+        ],
+    ],
+    '_public_' => [
         'header-logo' => [
             'type' => 'tpl',
             'tpl' => 'header/logo.phtml',
             'parent' => 'header',
             'sort' => 10,
-        ],
-        'before' => [
-            'type' => 'container',
         ],
         'menu' => [
             'type' => 'container',
@@ -89,19 +110,10 @@ return [
                 'toggle' => 'menu',
             ],
         ],
-        'left' => [
-            'type' => 'container',
-        ],
         'breadcrumb' => [
             'type' => 'breadcrumb',
             'parent' => 'left',
             'sort' => 10,
-        ],
-        'right' => [
-            'type' => 'container',
-            'vars' => [
-                'tag' => 'aside',
-            ],
         ],
         'page-sidebar' => [
             'type' => 'sidebar',
@@ -111,23 +123,11 @@ return [
                 'inherit' => true,
             ],
         ],
-        'after' => [
-            'type' => 'container',
-        ],
-        'footer' => [
-            'type' => 'container',
-            'vars' => [
-                'tag' => 'footer',
-            ],
-        ],
         'footer-default' => [
             'type' => 'tpl',
             'tpl' => 'footer/nav.phtml',
             'parent' => 'footer',
             'sort' => 10,
-        ],
-        'bottom' => [
-            'type' => 'container',
         ],
     ],
     '_error_' => [
