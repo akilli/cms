@@ -404,6 +404,12 @@ function nav(array $block): string
     $html = '';
     $attrs = ['id' => $block['id']];
 
+    if ($block['vars']['title']) {
+        $html .= app\html('h2', [], $block['vars']['title']);
+    }
+
+    $html .= container(array_replace($block, ['vars' => ['tag' => null]]));
+
     if ($block['vars']['toggle']) {
         $html .= app\html('span', ['data-action' => 'toggle', 'data-target' => $block['id']]);
         $attrs['data-toggle'] = '';
@@ -412,12 +418,6 @@ function nav(array $block): string
     if ($block['vars']['sticky']) {
         $attrs['data-sticky'] = '';
     }
-
-    if ($block['vars']['title']) {
-        $html .= app\html('h2', [], $block['vars']['title']);
-    }
-
-    $html .= container(array_replace($block, ['vars' => ['tag' => null]]));
 
     foreach ($block['vars']['data'] as $item) {
         if (empty($item['name'])) {
