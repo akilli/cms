@@ -48,6 +48,8 @@ return [
         'msg' => [
             'type' => 'tpl',
             'tpl' => 'app/msg.phtml',
+            'parent' => 'top',
+            'sort' => 20,
         ],
         'left' => [
             'type' => 'container',
