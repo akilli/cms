@@ -400,14 +400,14 @@ span[data-action] {
 /**
  * Message
  */
-#msg {
+.msg {
     margin: 0 -0.75rem;
     padding: 0.75rem;
     color: #000;
     background: #c7ffff;
 }
 
-#msg p {
+.msg p {
     margin: 0;
 }
 

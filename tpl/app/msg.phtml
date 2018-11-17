@@ -3,7 +3,7 @@ namespace app;
 /** @var callable $block */
 ?>
 <?php if ($data = msg()):?>
-<section id="<?=$block('id');?>">
+<section class="msg">
     <h2><?=i18n('Message');?></h2>
     <?php foreach ($data as $item):?>
     <p><?=$item;?></p>
