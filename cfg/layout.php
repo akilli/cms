@@ -36,16 +36,13 @@ return [
             'type' => 'toolbar',
             'priv' => '_user_',
         ],
-        'top' => [
-            'type' => 'container',
-        ],
         'header' => [
             'type' => 'container',
             'vars' => [
                 'tag' => 'header',
             ],
         ],
-        'before' => [
+        'top' => [
             'type' => 'container',
         ],
         'msg' => [
@@ -67,7 +64,7 @@ return [
                 'tag' => 'aside',
             ],
         ],
-        'after' => [
+        'bottom' => [
             'type' => 'container',
         ],
         'footer' => [
@@ -75,9 +72,6 @@ return [
             'vars' => [
                 'tag' => 'footer',
             ],
-        ],
-        'bottom' => [
-            'type' => 'container',
         ],
     ],
     '_public_' => [
@@ -89,7 +83,7 @@ return [
         ],
         'menu' => [
             'type' => 'menu',
-            'parent' => 'before',
+            'parent' => 'top',
             'sort' => 10,
             'vars' => [
                 'sticky' => true,
