@@ -122,7 +122,7 @@ return [
     'sidebar' => [
         'call' => 'block\sidebar',
         'vars' => [
-            'inherit' => false,
+            'inherit' => null,
         ],
     ],
     'toolbar' => [

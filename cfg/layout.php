@@ -102,7 +102,7 @@ return [
             'parent' => 'right',
             'sort' => 10,
             'vars' => [
-                'inherit' => true,
+                'inherit' => 0,
             ],
         ],
         'footer-default' => [

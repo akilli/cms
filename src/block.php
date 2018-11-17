@@ -376,8 +376,8 @@ function sidebar(array $block): string
         return '';
     }
 
-    if (!$page['sidebar'] && $block['vars']['inherit']) {
-        $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']]];
+    if (!$page['sidebar'] && is_int($block['vars']['inherit'])) {
+        $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']], ['level', $block['vars']['inherit'], APP['crit']['>=']]];
         $opt = ['select' => ['sidebar'], 'order' => ['level' => 'desc']];
         $page['sidebar'] = entity\one('page', $crit, $opt)['sidebar'] ?? '';
     }
