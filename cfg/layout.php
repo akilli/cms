@@ -57,6 +57,9 @@ return [
         ],
         'content' => [
             'type' => 'container',
+            'vars' => [
+                'tag' => 'article',
+            ],
         ],
         'right' => [
             'type' => 'container',
