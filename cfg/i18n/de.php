@@ -95,7 +95,6 @@ return [
     'Submit' => 'Abschicken',
     'Successfully deleted data' => 'Daten erfolgreich gelöscht',
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
-    'System' => 'System',
     'Teaser' => 'Teaser',
     'Timestamp' => 'Zeitstempel',
     'Title' => 'Überschrift',

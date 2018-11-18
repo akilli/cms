@@ -1,8 +1,14 @@
 <?php
 return [
+    'home' => [
+        'name' => 'Homepage',
+        'url' => '/',
+        'priv' => 'page_content/view',
+        'sort' => 10,
+    ],
     'page' => [
         'name' => 'Pages',
-        'sort' => 10,
+        'sort' => 20,
     ],
     'page_content' => [
         'name' => 'Content Pages',
@@ -20,7 +26,7 @@ return [
     ],
     'block' => [
         'name' => 'Blocks',
-        'sort' => 20,
+        'sort' => 30,
     ],
     'block_content' => [
         'name' => 'Content Blocks',
@@ -31,7 +37,7 @@ return [
     ],
     'file' => [
         'name' => 'Files',
-        'sort' => 30,
+        'sort' => 40,
     ],
     'file_image' => [
         'name' => 'Images',
@@ -61,40 +67,29 @@ return [
         'parent' => 'file',
         'sort' => 40,
     ],
-    'system' => [
-        'name' => 'System',
-        'sort' => 40,
-    ],
-    'account' => [
-        'name' => 'Accounts',
-        'url' => '/account/admin',
-        'priv' => 'account/admin',
-        'parent' => 'system',
-        'sort' => 10,
-    ],
     'role' => [
         'name' => 'Roles',
         'url' => '/role/admin',
         'priv' => 'role/admin',
         'parent' => 'system',
-        'sort' => 20,
-    ],
-    'home' => [
-        'name' => 'Homepage',
-        'url' => '/',
-        'priv' => 'page_content/view',
         'sort' => 50,
+    ],
+    'account' => [
+        'name' => 'Accounts',
+        'url' => '/account/admin',
+        'priv' => 'account/admin',
+        'sort' => 60,
     ],
     'password' => [
         'name' => 'Password',
         'url' => '/account/password',
         'priv' => 'account/password',
-        'sort' => 60,
+        'sort' => 70,
     ],
     'logout' => [
         'name' => 'Logout',
         'url' => '/account/logout',
         'priv' => 'account/logout',
-        'sort' => 70,
+        'sort' => 80,
     ],
 ];
