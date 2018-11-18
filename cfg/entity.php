@@ -93,7 +93,7 @@ return [
             ],
         ],
     ],
-    'audio' => [
+    'file_audio' => [
         'name' => 'Audios',
         'parent' => 'file',
         'action' => ['admin', 'browser', 'delete', 'edit'],
@@ -103,7 +103,7 @@ return [
             ],
         ],
     ],
-    'doc' => [
+    'file_doc' => [
         'name' => 'Documents',
         'parent' => 'file',
         'action' => ['admin', 'browser', 'delete', 'edit'],
@@ -113,7 +113,7 @@ return [
             ],
         ],
     ],
-    'image' => [
+    'file_image' => [
         'name' => 'Images',
         'parent' => 'file',
         'action' => ['admin', 'browser', 'delete', 'edit'],
@@ -123,7 +123,7 @@ return [
             ],
         ],
     ],
-    'video' => [
+    'file_video' => [
         'name' => 'Videos',
         'parent' => 'file',
         'action' => ['admin', 'browser', 'delete', 'edit'],

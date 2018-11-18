@@ -33,31 +33,31 @@ return [
         'name' => 'Files',
         'sort' => 30,
     ],
-    'audio' => [
-        'name' => 'Audios',
-        'url' => '/audio/admin',
-        'priv' => 'audio/admin',
+    'file_image' => [
+        'name' => 'Images',
+        'url' => '/file_image/admin',
+        'priv' => 'file_image/admin',
         'parent' => 'file',
         'sort' => 10,
     ],
-    'doc' => [
+    'file_doc' => [
         'name' => 'Documents',
-        'url' => '/doc/admin',
-        'priv' => 'doc/admin',
+        'url' => '/file_doc/admin',
+        'priv' => 'file_doc/admin',
         'parent' => 'file',
         'sort' => 20,
     ],
-    'image' => [
-        'name' => 'Images',
-        'url' => '/image/admin',
-        'priv' => 'image/admin',
+    'file_video' => [
+        'name' => 'Videos',
+        'url' => '/file_video/admin',
+        'priv' => 'file_video/admin',
         'parent' => 'file',
         'sort' => 30,
     ],
-    'video' => [
-        'name' => 'Videos',
-        'url' => '/video/admin',
-        'priv' => 'video/admin',
+    'file_audio' => [
+        'name' => 'Audios',
+        'url' => '/file_audio/admin',
+        'priv' => 'file_audio/admin',
         'parent' => 'file',
         'sort' => 40,
     ],
