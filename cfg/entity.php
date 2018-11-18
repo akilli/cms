@@ -266,7 +266,7 @@ return [
         'parent' => 'page',
         'action' => ['admin', 'delete', 'edit', 'view'],
     ],
-    'article' => [
+    'page_article' => [
         'name' => 'Articles',
         'parent' => 'page',
         'action' => ['admin', 'delete', 'edit', 'view'],

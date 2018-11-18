@@ -11,10 +11,10 @@ return [
         'parent' => 'page',
         'sort' => 10,
     ],
-    'article' => [
+    'page_article' => [
         'name' => 'Articles',
-        'url' => '/article/admin',
-        'priv' => 'article/admin',
+        'url' => '/page_article/admin',
+        'priv' => 'page_article/admin',
         'parent' => 'page',
         'sort' => 20,
     ],

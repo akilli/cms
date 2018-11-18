@@ -198,27 +198,6 @@ return [
             'sort' => 10,
         ],
     ],
-    'article/admin' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'parent_id', 'status', 'date'],
-            ],
-        ],
-    ],
-    'article/edit' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'date', 'meta_title', 'meta_description'],
-            ],
-        ],
-    ],
-    'article/view' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'image', 'teaser', 'main'],
-            ],
-        ],
-    ],
     'block_content/admin' => [
         'content-main' => [
             'vars' => [
@@ -281,6 +260,27 @@ return [
     'page/view' => [
         'content-main' => [
             'type' => 'page',
+        ],
+    ],
+    'page_article/admin' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'parent_id', 'status', 'date'],
+            ],
+        ],
+    ],
+    'page_article/edit' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'date', 'meta_title', 'meta_description'],
+            ],
+        ],
+    ],
+    'page_article/view' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'image', 'teaser', 'main'],
+            ],
         ],
     ],
     'role/admin' => [
