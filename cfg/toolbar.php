@@ -71,7 +71,6 @@ return [
         'name' => 'Roles',
         'url' => '/role/admin',
         'priv' => 'role/admin',
-        'parent' => 'system',
         'sort' => 50,
     ],
     'account' => [
