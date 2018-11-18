@@ -14,6 +14,7 @@ return [
     'Cannot assign the page itself or a child page as parent' => 'Die Seite selbst oder eine Unterseite kann nicht als Oberseite ausgewählt werden',
     'Cannot change filetype anymore' => 'Der Dateityp kann nicht mehr geändert werden',
     'Content' => 'Inhalt',
+    'Content Blocks' => 'Inhaltsblöcke',
     'Content Pages' => 'Inhaltsseiten',
     'Could not delete data' => 'Konnte Daten nicht löschen',
     'Could not delete file' => 'Konnte Datei nicht löschen',

@@ -446,13 +446,23 @@ CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW WHEN (pg_tr
 CREATE TABLE block (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
-    title varchar(255) NOT NULL DEFAULT '',
-    content text NOT NULL DEFAULT ''
-
+    entity varchar(50) NOT NULL CHECK (entity != '')
 );
 
 CREATE INDEX ON block (name);
-CREATE INDEX ON block (title);
+CREATE INDEX ON block (entity);
+
+--
+-- Block Content
+--
+
+CREATE TABLE block_content (
+    id integer NOT NULL PRIMARY KEY REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
+    title varchar(255) NOT NULL DEFAULT '',
+    content text NOT NULL DEFAULT ''
+);
+
+CREATE INDEX ON block_content (title);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 

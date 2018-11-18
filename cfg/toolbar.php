@@ -20,9 +20,14 @@ return [
     ],
     'block' => [
         'name' => 'Blocks',
-        'url' => '/block/admin',
-        'priv' => 'block/admin',
         'sort' => 20,
+    ],
+    'block_content' => [
+        'name' => 'Content Blocks',
+        'url' => '/block_content/admin',
+        'priv' => 'block_content/admin',
+        'parent' => 'block',
+        'sort' => 10,
     ],
     'file' => [
         'name' => 'Files',

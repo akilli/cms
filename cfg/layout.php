@@ -219,14 +219,14 @@ return [
             ],
         ],
     ],
-    'block/admin' => [
+    'block_content/admin' => [
         'content-main' => [
             'vars' => [
                 'attr' => ['name', 'title'],
             ],
         ],
     ],
-    'block/edit' => [
+    'block_content/edit' => [
         'content-main' => [
             'vars' => [
                 'attr' => ['name', 'title', 'content'],

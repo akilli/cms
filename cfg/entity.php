@@ -324,7 +324,6 @@ return [
     ],
     'block' => [
         'name' => 'Blocks',
-        'action' => ['admin', 'delete', 'edit'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -337,6 +336,20 @@ return [
                 'required' => true,
                 'maxlength' => 255,
             ],
+            'entity' => [
+                'name' => 'Entity',
+                'type' => 'select',
+                'required' => true,
+                'opt' => 'opt\child',
+                'maxlength' => 50,
+            ],
+        ],
+    ],
+    'block_content' => [
+        'name' => 'Content Blocks',
+        'parent' => 'block',
+        'action' => ['admin', 'delete', 'edit'],
+        'attr' => [
             'title' => [
                 'name' => 'Title',
                 'type' => 'text',
