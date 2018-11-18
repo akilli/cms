@@ -141,7 +141,7 @@ function page(int $val, array $attr): string
     if (($attr['opt'] = & app\registry('opt.page')) === null) {
         $attr['opt'] = [];
 
-        foreach (entity\all('content', [], ['select' => ['id', 'name', 'menu_name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
+        foreach (entity\all('page_content', [], ['select' => ['id', 'name', 'menu_name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
             $attr['opt'][$item['id']] = attr\viewer($item, $item['_entity']['attr']['pos']) . ' ' . ($item['menu_name'] ?: $item['name']);
         }
     }

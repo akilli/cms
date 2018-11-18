@@ -360,8 +360,8 @@ function page(array $block): string
  */
 function banner(array $block): string
 {
-    if (($page = app\get('page')) && $page['entity'] !== 'content') {
-        $page = entity\one('page', [['id', $page['path']], ['entity', 'content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
+    if (($page = app\get('page')) && $page['entity'] !== 'page_content') {
+        $page = entity\one('page', [['id', $page['path']], ['entity', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
     }
 
     return $page && ($block['vars']['img'] = attr\viewer($page, $page['_entity']['attr']['image'])) ? tpl($block) : '';
@@ -478,7 +478,7 @@ function menu(array $block): string
         return '';
     }
 
-    $crit = [['status', 'published'], ['entity', 'content']];
+    $crit = [['status', 'published'], ['entity', 'page_content']];
     $crit[] = $sub ? ['id', $page['path'][1]] : ['url', '/'];
     $select = ['id', 'name', 'url', 'disabled', 'menu_name', 'pos', 'level'];
     $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
@@ -487,7 +487,7 @@ function menu(array $block): string
         return '';
     }
 
-    $crit = [['status', 'published'], ['entity', 'content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
+    $crit = [['status', 'published'], ['entity', 'page_content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
 
     if ($sub) {
         $parent = $page['path'];
@@ -547,11 +547,11 @@ function breadcrumb(array $block): string
     }
 
     $html = '';
-    $crit = [['status', 'published'], ['entity', 'content'], ['id', $page['path']]];
+    $crit = [['status', 'published'], ['entity', 'page_content'], ['id', $page['path']]];
     $all = entity\all('page', $crit, ['select' => ['id', 'name', 'url', 'disabled', 'menu_name'], 'order' => ['level' => 'asc']]);
 
     foreach ($all as $item) {
-        if ($item['id'] !== $page['id'] || $page['entity'] === 'content') {
+        if ($item['id'] !== $page['id'] || $page['entity'] === 'page_content') {
             $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
             $html .= ($html ? ' ' : '') . app\html('a', $a, $item['menu_name'] ?: $item['name']);
         }

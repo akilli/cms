@@ -30,13 +30,13 @@ return [
     'app/js' => [
         'active' => false,
     ],
-    'content/view' => [
-        'active' => false,
-    ],
     'page/view' => [
         'active' => false,
     ],
     'page_article/view' => [
+        'active' => false,
+    ],
+    'page_content/view' => [
         'active' => false,
     ],
     'role/admin' => [

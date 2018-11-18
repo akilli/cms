@@ -212,30 +212,6 @@ return [
             ],
         ],
     ],
-    'content/admin' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'pos', 'parent_id', 'menu', 'status', 'date'],
-            ],
-        ],
-    ],
-    'content/edit' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => [
-                    'name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status',
-                    'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description'
-                ],
-            ],
-        ],
-    ],
-    'content/view' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['image', 'name', 'teaser', 'main', 'aside'],
-            ],
-        ],
-    ],
     'file/admin' => [
         'content-main' => [
             'vars' => [
@@ -280,6 +256,30 @@ return [
         'content-main' => [
             'vars' => [
                 'attr' => ['name', 'image', 'teaser', 'main'],
+            ],
+        ],
+    ],
+    'page_content/admin' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'pos', 'parent_id', 'menu', 'status', 'date'],
+            ],
+        ],
+    ],
+    'page_content/edit' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => [
+                    'name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status',
+                    'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description'
+                ],
+            ],
+        ],
+    ],
+    'page_content/view' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['image', 'name', 'teaser', 'main', 'aside'],
             ],
         ],
     ],

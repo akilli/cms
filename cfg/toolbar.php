@@ -4,10 +4,10 @@ return [
         'name' => 'Pages',
         'sort' => 10,
     ],
-    'content' => [
+    'page_content' => [
         'name' => 'Content Pages',
-        'url' => '/content/admin',
-        'priv' => 'content/admin',
+        'url' => '/page_content/admin',
+        'priv' => 'page_content/admin',
         'parent' => 'page',
         'sort' => 10,
     ],
@@ -82,7 +82,7 @@ return [
     'home' => [
         'name' => 'Homepage',
         'url' => '/',
-        'priv' => 'content/view',
+        'priv' => 'page_content/view',
         'sort' => 50,
     ],
     'password' => [

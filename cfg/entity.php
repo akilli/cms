@@ -261,13 +261,13 @@ return [
             ],
         ],
     ],
-    'content' => [
-        'name' => 'Content Pages',
+    'page_article' => [
+        'name' => 'Articles',
         'parent' => 'page',
         'action' => ['admin', 'delete', 'edit', 'view'],
     ],
-    'page_article' => [
-        'name' => 'Articles',
+    'page_content' => [
+        'name' => 'Content Pages',
         'parent' => 'page',
         'action' => ['admin', 'delete', 'edit', 'view'],
     ],
