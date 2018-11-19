@@ -21,15 +21,15 @@ function load(array $entity, array $crit = [], array $opt = []): array
 
     $join = '';
 
-    if ($entity['parent']) {
-        $join = array_diff_key($entity['attr'], app\cfg('entity', $entity['parent'])['attr']) ? $entity['id'] : '';
+    if ($entity['parent_id']) {
+        $join = array_diff_key($entity['attr'], app\cfg('entity', $entity['parent_id'])['attr']) ? $entity['id'] : '';
         $crit[] = ['entity', $entity['id']];
     }
 
     $cols = crit($crit);
     $stmt = db($entity['db'])->prepare(
         sel($opt['select'])
-        . from($entity['parent'] ?: $entity['id'])
+        . from($entity['parent_id'] ?: $entity['id'])
         . ljoin($join)
         . where($cols['crit'])
         . order($opt['order'])
@@ -65,13 +65,13 @@ function save(array $data): array
     $attrs = $entity['attr'];
     $db = db($entity['db']);
 
-    if ($entity['parent']) {
+    if ($entity['parent_id']) {
         if ($old && ($old['entity'] !== $entity['id'] || !empty($data['entity']) && $old['entity'] !== $data['entity'])) {
             throw new DomainException(app\i18n('Invalid entity %s', $old['entity']));
         }
 
         $data['entity'] = $entity['id'];
-        $p = app\cfg('entity', $entity['parent']);
+        $p = app\cfg('entity', $entity['parent_id']);
         $data['_entity'] = $p;
         $data = ($p['type'] . '\save')($data);
         $data['_entity'] = $entity;
@@ -143,12 +143,12 @@ function delete(array $data): void
     $entity = $data['_entity'];
     $old = $data['_old'];
 
-    if ($entity['parent'] && $old['entity'] !== $entity['id']) {
+    if ($entity['parent_id'] && $old['entity'] !== $entity['id']) {
         throw new DomainException(app\i18n('Invalid entity %s', $old['entity']));
     }
 
     $stmt = db($entity['db'])->prepare(
-        del($entity['parent'] ?: $entity['id'])
+        del($entity['parent_id'] ?: $entity['id'])
         . where(['id = :id'])
     );
     $stmt->bindValue(':id', $old['id'], type($old['id']));

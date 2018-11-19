@@ -11,12 +11,12 @@ use arr;
  */
 function child(array $data): array
 {
-    if ($data['_entity']['parent']) {
+    if ($data['_entity']['parent_id']) {
         return [$data['_entity']['id'] => $data['_entity']['name']];
     }
 
     if (($opt = & app\registry('opt.child.' . $data['_entity']['id'])) === null) {
-        $opt = array_column(arr\crit(app\cfg('entity'), [['parent', $data['_entity']['id']]]), 'name', 'id');
+        $opt = array_column(arr\crit(app\cfg('entity'), [['parent_id', $data['_entity']['id']]]), 'name', 'id');
         asort($opt);
     }
 

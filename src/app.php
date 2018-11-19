@@ -43,7 +43,7 @@ function run(): void
 
     // Gather request-data
     $app['entity'] = $app['entity'] ?: cfg('entity', $app['entity_id']);
-    $app['parent'] = $app['entity']['parent'] ?? null;
+    $app['parent_id'] = $app['entity']['parent_id'] ?? null;
     $app['area'] = empty(cfg('priv', $app['entity_id'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
     $blacklist = $app['area'] === '_admin_' && in_array(preg_replace('#^www\.#', '', request\get('host')), cfg('app', 'admin.blacklist'));
     $allowed = !$blacklist && allowed($app['entity_id'] . '/' . $app['action']);
@@ -62,8 +62,8 @@ function run(): void
         invalid();
     } elseif ($real) {
         $real($app['entity']);
-    } elseif ($app['parent'] && is_callable($ns . $app['parent'] . '_' . $app['action'])) {
-        ($ns . $app['parent'] . '_' . $app['action'])($app['entity']);
+    } elseif ($app['parent_id'] && is_callable($ns . $app['parent_id'] . '_' . $app['action'])) {
+        ($ns . $app['parent_id'] . '_' . $app['action'])($app['entity']);
     } elseif (is_callable($ns . $app['action'])) {
         ($ns . $app['action'])($app['entity']);
     }

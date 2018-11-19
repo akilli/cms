@@ -464,6 +464,25 @@ CREATE TABLE block_content (
 
 CREATE INDEX ON block_content (title);
 
+--
+-- Layout
+--
+
+CREATE TABLE layout (
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    block_id integer NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE
+    page_id integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
+    parent_id varchar(255) NOT NULL,
+    sort integer NOT NULL DEFAULT 0
+);
+
+CREATE INDEX ON layout (name);
+CREATE INDEX ON layout (block_id);
+CREATE INDEX ON layout (page_id);
+CREATE INDEX ON layout (parent_id);
+CREATE INDEX ON layout (sort);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 
 COMMIT;

@@ -44,12 +44,12 @@ function cfg_entity(array $data): array
             throw new DomainException(app\i18n('Invalid configuration'));
         } elseif (!$entity['db'] || !($entity['type'] = app\cfg('db', $entity['db'])['type'] ?? null)) {
             throw new DomainException(app\i18n('Invalid configuration'));
-        } elseif (!$entity['parent'] && (empty($entity['attr']['id']) || empty($entity['attr']['name']))) {
+        } elseif (!$entity['parent_id'] && (empty($entity['attr']['id']) || empty($entity['attr']['name']))) {
             throw new DomainException(app\i18n('Invalid configuration'));
-        } elseif ($entity['parent'] && (empty($data[$entity['parent']]) || !empty($data[$entity['parent']]['parent']))) {
+        } elseif ($entity['parent_id'] && (empty($data[$entity['parent_id']]) || !empty($data[$entity['parent_id']]['parent_id']))) {
             throw new DomainException(app\i18n('Invalid configuration'));
-        } elseif ($entity['parent']) {
-            $entity['attr'] = array_replace_recursive($data[$entity['parent']]['attr'], $entity['attr']);
+        } elseif ($entity['parent_id']) {
+            $entity['attr'] = array_replace_recursive($data[$entity['parent_id']]['attr'], $entity['attr']);
         }
 
         foreach ($entity['attr'] as $attrId => $attr) {
@@ -108,7 +108,7 @@ function cfg_priv(array $data): array
     }
 
     foreach (app\cfg('entity') as $entity) {
-        if (in_array('edit', $entity['action']) && in_array('page', [$entity['id'], $entity['parent']])) {
+        if (in_array('edit', $entity['action']) && in_array('page', [$entity['id'], $entity['parent_id']])) {
             $id = $entity['id'] . '-publish';
             $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucwords('Publish'));
             $data[$id] = arr\replace(APP['priv'], $data[$id]);
@@ -169,8 +169,8 @@ function layout(array $data): array
         $action = app\get('action');
         $keys[] = $action;
 
-        if ($parent = app\get('parent')) {
-            $keys[] = $parent . '/' . $action;
+        if ($parentId = app\get('parent_id')) {
+            $keys[] = $parentId . '/' . $action;
         }
 
         $keys[] = $entityId . '/' . $action;

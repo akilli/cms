@@ -221,8 +221,8 @@ function event(string $name, array $data): array
     $entity = $data['_entity'];
     $ev = ['entity.' . $name, 'entity.' . $name . '.type.' . $entity['type'], 'entity.' . $name . '.db.' . $entity['db']];
 
-    if ($entity['parent']) {
-        $ev[] = 'entity.' . $name . '.id.' . $entity['parent'];
+    if ($entity['parent_id']) {
+        $ev[] = 'entity.' . $name . '.id.' . $entity['parent_id'];
     }
 
     $ev[] = 'entity.' . $name . '.id.' . $entity['id'];

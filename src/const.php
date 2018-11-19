@@ -12,7 +12,7 @@ const APP = [
         'id' => null,
         'lang' => null,
         'page' => null,
-        'parent' => null,
+        'parent_id' => null,
     ],
     'attr' => [
         'id' => null,
@@ -69,7 +69,7 @@ const APP = [
         'name' => null,
         'db' => 'app',
         'type' => null,
-        'parent' => null,
+        'parent_id' => null,
         'mail' => false,
         'action' => [],
         'attr' => [],

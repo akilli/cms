@@ -95,7 +95,7 @@ return [
     ],
     'file_audio' => [
         'name' => 'Audios',
-        'parent' => 'file',
+        'parent_id' => 'file',
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'name' => [
@@ -105,7 +105,7 @@ return [
     ],
     'file_doc' => [
         'name' => 'Documents',
-        'parent' => 'file',
+        'parent_id' => 'file',
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'name' => [
@@ -115,7 +115,7 @@ return [
     ],
     'file_image' => [
         'name' => 'Images',
-        'parent' => 'file',
+        'parent_id' => 'file',
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'name' => [
@@ -125,7 +125,7 @@ return [
     ],
     'file_video' => [
         'name' => 'Videos',
-        'parent' => 'file',
+        'parent_id' => 'file',
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'name' => [
@@ -263,12 +263,12 @@ return [
     ],
     'page_article' => [
         'name' => 'Articles',
-        'parent' => 'page',
+        'parent_id' => 'page',
         'action' => ['admin', 'delete', 'edit', 'view'],
     ],
     'page_content' => [
         'name' => 'Content Pages',
-        'parent' => 'page',
+        'parent_id' => 'page',
         'action' => ['admin', 'delete', 'edit', 'view'],
     ],
     'version' => [
@@ -347,7 +347,7 @@ return [
     ],
     'block_content' => [
         'name' => 'Content Blocks',
-        'parent' => 'block',
+        'parent_id' => 'block',
         'action' => ['admin', 'delete', 'edit'],
         'attr' => [
             'title' => [

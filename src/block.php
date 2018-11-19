@@ -140,7 +140,7 @@ function index(array $block): string
         return '';
     }
 
-    if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent']])) {
+    if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent_id']])) {
         if (!$block['vars']['inaccessible']) {
             $crit[] = ['status', 'published'];
             $crit[] = ['disabled', false];
@@ -310,7 +310,7 @@ function edit(array $block): string
     if ($id) {
         $p = [$old];
 
-        if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent']])) {
+        if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent_id']])) {
             $v = entity\one('version', [['page_id', $id]], ['select' => APP['version'], 'order' => ['timestamp' => 'desc']]);
             unset($v['_old'], $v['_entity']);
             $p[] = $v;
