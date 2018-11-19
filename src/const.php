@@ -95,7 +95,7 @@ const APP = [
         'tpl' => null,
         'active' => true,
         'priv' => null,
-        'parent' => null,
+        'parent_id' => null,
         'sort' => 0,
         'vars' => [],
     ],

@@ -18,7 +18,7 @@ function container(array $block): string
 {
     $html = '';
 
-    foreach (arr\order(arr\crit(app\layout(), [['parent', $block['id']]]), ['sort' => 'asc']) as $child) {
+    foreach (arr\order(arr\crit(app\layout(), [['parent_id', $block['id']]]), ['sort' => 'asc']) as $child) {
         $html .= app\block($child['id']);
     }
 

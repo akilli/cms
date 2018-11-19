@@ -10,26 +10,26 @@ return [
         ],
         'meta' => [
             'type' => 'meta',
-            'parent' => 'head',
+            'parent_id' => 'head',
             'sort' => 10,
         ],
         'asset' => [
             'type' => 'tpl',
             'tpl' => 'head/asset.phtml',
-            'parent' => 'head',
+            'parent_id' => 'head',
             'sort' => 20,
         ],
         'asset-user' => [
             'type' => 'tpl',
             'tpl' => 'head/asset-user.phtml',
             'priv' => '_user_',
-            'parent' => 'head',
+            'parent_id' => 'head',
             'sort' => 30,
         ],
         'asset-ext' => [
             'type' => 'tpl',
             'tpl' => 'head/asset-ext.phtml',
-            'parent' => 'head',
+            'parent_id' => 'head',
             'sort' => 40,
         ],
         'toolbar' => [
@@ -48,7 +48,7 @@ return [
         'msg' => [
             'type' => 'tpl',
             'tpl' => 'app/msg.phtml',
-            'parent' => 'top',
+            'parent_id' => 'top',
             'sort' => 20,
         ],
         'left' => [
@@ -80,12 +80,12 @@ return [
         'header-logo' => [
             'type' => 'tpl',
             'tpl' => 'header/logo.phtml',
-            'parent' => 'header',
+            'parent_id' => 'header',
             'sort' => 10,
         ],
         'menu' => [
             'type' => 'menu',
-            'parent' => 'top',
+            'parent_id' => 'top',
             'sort' => 10,
             'vars' => [
                 'sticky' => true,
@@ -94,12 +94,12 @@ return [
         ],
         'breadcrumb' => [
             'type' => 'breadcrumb',
-            'parent' => 'left',
+            'parent_id' => 'left',
             'sort' => 10,
         ],
         'page-sidebar' => [
             'type' => 'sidebar',
-            'parent' => 'right',
+            'parent_id' => 'right',
             'sort' => 10,
             'vars' => [
                 'inherit' => 0,
@@ -108,7 +108,7 @@ return [
         'footer-default' => [
             'type' => 'tpl',
             'tpl' => 'footer/nav.phtml',
-            'parent' => 'footer',
+            'parent_id' => 'footer',
             'sort' => 10,
         ],
     ],
@@ -116,14 +116,14 @@ return [
         'content-main' => [
             'type' => 'tpl',
             'tpl' => 'app/error.phtml',
-            'parent' => 'content',
+            'parent_id' => 'content',
             'sort' => 10,
         ],
     ],
     'admin' => [
         'content-main' => [
             'type' => 'index',
-            'parent' => 'content',
+            'parent_id' => 'content',
             'sort' => 10,
             'vars' => [
                 'action' => ['view', 'edit', 'delete'],
@@ -142,7 +142,7 @@ return [
         ],
         'content-main' => [
             'type' => 'index',
-            'parent' => 'content',
+            'parent_id' => 'content',
             'sort' => 10,
             'vars' => [
                 'action' => ['select'],
@@ -156,14 +156,14 @@ return [
     'edit' => [
         'content-main' => [
             'type' => 'edit',
-            'parent' => 'content',
+            'parent_id' => 'content',
             'sort' => 10,
         ],
     ],
     'view' => [
         'content-main' => [
             'type' => 'view',
-            'parent' => 'content',
+            'parent_id' => 'content',
             'sort' => 10,
         ],
     ],
@@ -187,14 +187,14 @@ return [
         ],
         'content-main' => [
             'type' => 'login',
-            'parent' => 'content',
+            'parent_id' => 'content',
             'sort' => 10,
         ],
     ],
     'account/password' => [
         'content-main' => [
             'type' => 'password',
-            'parent' => 'content',
+            'parent_id' => 'content',
             'sort' => 10,
         ],
     ],
