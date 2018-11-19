@@ -437,9 +437,11 @@ main ::selection {
  * Index
  */
 .index audio,
+.index iframe,
 .index img,
 .index video {
     max-width: 15rem;
+    max-height: 10rem;
 }
 
 .index > header,
@@ -677,17 +679,24 @@ html[data-area=_public_] div[data-type=rte]::after {
     /**
      * Admin Browser
      */
-    html[data-area=_admin_][data-action=browser] #content {
+    html[data-area=_admin_][data-action=browser] #content .index {
         display: flex;
         flex-wrap: wrap;
+        align-items: flex-end;
     }
 
-    html[data-area=_admin_][data-action=browser] #content > * {
+    html[data-area=_admin_][data-action=browser] #content .index > * {
         width: 100%;
     }
 
-    html[data-area=_admin_][data-action=browser] #content > article {
+    html[data-area=_admin_][data-action=browser] #content .index > article {
+        display: block;
         width: 25%;
+    }
+
+    html[data-area=_admin_][data-action=browser] #content .index > article > * {
+        display: block;
+        border: 0;
     }
 }
 
