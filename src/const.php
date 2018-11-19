@@ -122,6 +122,7 @@ const APP = [
     ],
     'redirect' => [301, 302, 307, 308],
     'toolbar' => [
+        'id' => null,
         'name' => null,
         'url' => null,
         'priv' => null,
