@@ -9,6 +9,7 @@
     }
 
     window.app = (function () {
+        const cfgUrl = '/app/cfg';
         const app = {
             cfg: {
                 i18n: {}
@@ -51,7 +52,7 @@
         };
 
         try {
-            const data = JSON.parse(app.get('/app/js'));
+            const data = JSON.parse(app.get(cfgUrl));
 
             Object.getOwnPropertyNames(app.cfg).forEach(function (name) {
                 if (data[name] && typeof app.cfg[name] === typeof data[name]) {

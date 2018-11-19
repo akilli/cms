@@ -27,7 +27,7 @@ return [
     'account/password' => [
         'priv' => '_user_',
     ],
-    'app/js' => [
+    'app/cfg' => [
         'active' => false,
     ],
     'page/view' => [

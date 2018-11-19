@@ -19,11 +19,11 @@ function delete(array $entity): void
 }
 
 /**
- * App JavaScript Action
+ * App Config Action
  */
-function app_js(): void
+function app_cfg(): void
 {
-    header('Content-Type: text/javascript', true);
+    header('Content-Type: application/json', true);
     die(json_encode(['i18n' => app\cfg('i18n')]));
 }
 
