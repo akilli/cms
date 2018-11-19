@@ -527,8 +527,8 @@ function toolbar(array $block): string
             unset($block['vars']['data'][$id]);
         } elseif (!$item['url']) {
             $empty[$id] = true;
-        } elseif ($item['parent']) {
-            unset($empty[$item['parent']]);
+        } elseif ($item['parent_id']) {
+            unset($empty[$item['parent_id']]);
         }
     }
 

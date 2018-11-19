@@ -126,7 +126,7 @@ const APP = [
         'name' => null,
         'url' => null,
         'priv' => null,
-        'parent' => null,
+        'parent_id' => null,
         'sort' => 0,
         'level' => 0,
     ],

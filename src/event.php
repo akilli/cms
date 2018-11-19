@@ -132,7 +132,7 @@ function cfg_priv(array $data): array
 function cfg_toolbar(array $data): array
 {
     foreach ($data as $id => $item) {
-        if (empty($item['name']) || !empty($item['parent']) && empty($data[$item['parent']])) {
+        if (empty($item['name']) || !empty($item['parent_id']) && empty($data[$item['parent_id']])) {
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
@@ -140,9 +140,9 @@ function cfg_toolbar(array $data): array
         $item['name'] = app\i18n($item['name']);
         $item['sort'] = str_pad((string) $item['sort'], 5, '0', STR_PAD_LEFT) . '-' . $id;
 
-        if ($item['parent']) {
-            $item['level'] = $data[$item['parent']]['level'] + 1;
-            $item['sort'] = $data[$item['parent']]['sort'] . '/' . $item['sort'];
+        if ($item['parent_id']) {
+            $item['level'] = $data[$item['parent_id']]['level'] + 1;
+            $item['sort'] = $data[$item['parent_id']]['sort'] . '/' . $item['sort'];
         }
 
         $data[$id] = $item;
