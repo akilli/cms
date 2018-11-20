@@ -178,16 +178,23 @@ function layout(array $data): array
         $keys[] = $url;
 
         if (($page = app\get('page')) && ($dbLayout = entity\all('layout', [['page_id', $page['id']]]))) {
-            $dbBlocks = entity\all('block', [['id', array_keys($dbLayout)]]);
+            $ids = array_keys($dbLayout);
+            $base = entity\item(app\cfg('entity', 'block'));
+            $dbBlocks = [];
+
+            foreach (array_unique(array_column(entity\all('block', [['id', $ids]], ['select' => ['entity']]), 'entity')) as $eId) {
+                foreach (entity\all($eId, [['id', $ids]]) as $item) {
+                    $dbBlocks[$item['id']] = $item;
+                }
+            }
 
             foreach ($dbLayout as $id => $item) {
-                $dbItem = entity\one($dbBlocks[$id]['entity'], [['id', $id]]);
                 $cfg[$url][$item['name']] = [
                     'id' => $item['name'],
-                    'type' => preg_replace('#^block_#', '', $dbBlocks[$id]['entity']),
+                    'type' => preg_replace('#^block_#', '', $dbBlocks[$item['block_id']]['entity']),
                     'parent_id' => $item['parent_id'],
                     'sort' => $item['sort'],
-                    'vars' => array_diff_key($dbItem, $dbBlocks[$id]),
+                    'vars' => array_diff_key($dbBlocks[$item['block_id']], $base),
                 ];
             }
         }
