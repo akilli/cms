@@ -95,7 +95,7 @@ function save(array $data): array
             }
         }
 
-        if (!$old && $p['attr']['id'] === 'serial') {
+        if (!$old && $p['attr']['id']['type'] === 'serial') {
             $attrs['id'] = array_replace($p['attr']['id'], ['type' => 'int', 'auto' => false]);
         }
     }
