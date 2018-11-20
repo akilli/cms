@@ -68,9 +68,9 @@ function rte(string $val): string
 }
 
 /**
- * ID filter
+ * UID filter
  */
-function id(string $val): string
+function uid(string $val): string
 {
     return trim(preg_replace('#[^a-z0-9-_]+#', '-', strtr(mb_strtolower($val), app\cfg('filter', 'id'))), '-');
 }

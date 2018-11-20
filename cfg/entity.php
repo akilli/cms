@@ -32,8 +32,7 @@ return [
             ],
             'name' => [
                 'name' => 'Name',
-                'type' => 'text',
-                'filter' => 'filter\id',
+                'type' => 'uid',
                 'required' => true,
                 'unique' => true,
                 'maxlength' => 50,
@@ -180,8 +179,7 @@ return [
             ],
             'slug' => [
                 'name' => 'Slug',
-                'type' => 'text',
-                'filter' => 'filter\id',
+                'type' => 'uid',
                 'required' => true,
                 'maxlength' => 75,
             ],
@@ -361,8 +359,7 @@ return [
             ],
             'name' => [
                 'name' => 'Name',
-                'type' => 'text',
-                'filter' => 'filter\id',
+                'type' => 'uid',
                 'required' => true,
                 'maxlength' => 100,
             ],

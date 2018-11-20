@@ -180,6 +180,12 @@ return [
         'cfg.viewer' => 'H:i',
         'html' => ['type' => 'time'],
     ],
+    'uid' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\input',
+        'filter' => 'filter\uid',
+        'html' => ['type' => 'text'],
+    ],
     'upload' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\upload',
