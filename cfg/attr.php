@@ -140,6 +140,12 @@ return [
         'filter' => 'filter\opt',
         'viewer' => 'viewer\opt',
     ],
+    'serial' => [
+        'backend' => 'int',
+        'frontend' => 'frontend\number',
+        'auto' => true,
+        'html' => ['type' => 'number'],
+    ],
     'status' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\radio',
