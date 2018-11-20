@@ -6,6 +6,7 @@ namespace entity;
 use arr;
 use attr;
 use app;
+use DomainException;
 use Throwable;
 
 /**
@@ -184,6 +185,8 @@ function delete(string $entityId, array $crit = [], array $opt = []): bool
         app\msg('Successfully deleted data');
 
         return true;
+    } catch (DomainException $e) {
+        app\msg($e->getMessage());
     } catch (Throwable $e) {
         app\msg('Could not delete data');
     }

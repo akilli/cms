@@ -42,4 +42,7 @@ return [
     'entity.postfilter.id.page' => [
         'event\entity_postfilter_page' => 10,
     ],
+    'entity.predelete.id.role' => [
+        'event\entity_predelete_role' => 10,
+    ],
 ];

@@ -344,3 +344,17 @@ function entity_postfilter_page(array $data): array
 
     return $data;
 }
+
+/**
+ * Role entity predelete
+ *
+ * @throws DomainException
+ */
+function entity_predelete_role(array $data): array
+{
+    if (entity\size('account', [['role_id', $data['id']]])) {
+        throw new DomainException(app\i18n('Cannot delete used role'));
+    }
+
+    return $data;
+}
