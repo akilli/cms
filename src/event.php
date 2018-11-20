@@ -177,8 +177,7 @@ function layout(array $data): array
         $keys[] = $entityId . '/' . $action;
         $keys[] = $url;
 
-        if ($page = app\get('page')) {
-            $dbLayout = entity\all('layout', [['page_id', $page['id']]]);
+        if (($page = app\get('page')) && ($dbLayout = entity\all('layout', [['page_id', $page['id']]]))) {
             $dbBlocks = entity\all('block', [['id', array_keys($dbLayout)]]);
 
             foreach ($dbLayout as $id => $item) {
