@@ -7,6 +7,18 @@ use app;
 use arr;
 
 /**
+ * Parent block options
+ */
+function block(): array
+{
+    $cfg = arr\crit(app\cfg('layout', '_all_'), [['parent_id', 'root'], ['type', 'container']]);
+    unset($cfg['head']);
+    $ids = array_keys($cfg);
+
+    return array_combine($ids, $ids);
+}
+
+/**
  * Child entity options
  */
 function child(array $data): array

@@ -213,7 +213,7 @@ return [
                 'maxlength' => 255,
             ],
             'parent_id' => [
-                'name' => 'Parent',
+                'name' => 'Parent Page',
                 'type' => 'page',
                 'nullable' => true,
             ],
@@ -360,6 +360,47 @@ return [
                 'name' => 'Content',
                 'type' => 'rte',
                 'val' => '',
+            ],
+        ],
+    ],
+    'layout' => [
+        'name' => 'Layouts',
+        'action' => ['admin', 'delete', 'edit'],
+        'attr' => [
+            'id' => [
+                'name' => 'ID',
+                'type' => 'int',
+                'auto' => true,
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'text',
+                'filter' => 'filter\id',
+                'required' => true,
+                'maxlength' => 100,
+            ],
+            'block_id' => [
+                'name' => 'Block',
+                'type' => 'entity',
+                'required' => true,
+                'ref' => 'block',
+            ],
+            'page_id' => [
+                'name' => 'Page',
+                'type' => 'page',
+                'required' => true,
+            ],
+            'parent_id' => [
+                'name' => 'Parent Block',
+                'type' => 'select',
+                'required' => true,
+                'opt' => 'opt\block',
+                'maxlength' => 100,
+            ],
+            'sort' => [
+                'name' => 'Sort',
+                'type' => 'int',
+                'val' => 0,
             ],
         ],
     ],

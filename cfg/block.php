@@ -13,6 +13,14 @@ return [
             'tag' => null,
         ],
     ],
+    'content' => [
+        'call' => 'block\content',
+        'tpl' => 'block/content.phtml',
+        'vars' => [
+            'title' => null,
+            'content' => null,
+        ],
+    ],
     'create' => [
         'call' => 'block\create',
         'tpl' => 'entity/form.phtml',

@@ -470,11 +470,12 @@ CREATE INDEX ON block_content (title);
 
 CREATE TABLE layout (
     id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    block_id integer NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE
+    name varchar(100) NOT NULL,
+    block_id integer NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
     page_id integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
-    parent_id varchar(255) NOT NULL,
-    sort integer NOT NULL DEFAULT 0
+    parent_id varchar(100) NOT NULL,
+    sort integer NOT NULL DEFAULT 0,
+    UNIQUE (page_id, name)
 );
 
 CREATE INDEX ON layout (name);

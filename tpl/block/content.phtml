@@ -1,0 +1,10 @@
+<?php
+namespace app;
+/** @var callable $block */
+?>
+<section class="content">
+    <?php if ($block('title')):?>
+    <h2><?=$block('title');?></h2>
+    <?php endif;?>
+    <?=$block('content');?>
+</section>

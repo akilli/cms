@@ -36,6 +36,9 @@ return [
     'entity.postdelete.id.file' => [
         'event\entity_postdelete_file' => 10,
     ],
+    'entity.postfilter.id.layout' => [
+        'event\entity_postfilter_layout' => 10,
+    ],
     'entity.postfilter.id.page' => [
         'event\entity_postfilter_page' => 10,
     ],

@@ -7,6 +7,7 @@ return [
         ],
         'head' => [
             'type' => 'container',
+            'parent_id' => 'root',
         ],
         'meta' => [
             'type' => 'meta',
@@ -35,15 +36,18 @@ return [
         'toolbar' => [
             'type' => 'toolbar',
             'priv' => '_user_',
+            'parent_id' => 'root',
         ],
         'header' => [
             'type' => 'container',
+            'parent_id' => 'root',
             'vars' => [
                 'tag' => 'header',
             ],
         ],
         'top' => [
             'type' => 'container',
+            'parent_id' => 'root',
         ],
         'msg' => [
             'type' => 'tpl',
@@ -53,24 +57,29 @@ return [
         ],
         'left' => [
             'type' => 'container',
+            'parent_id' => 'root',
         ],
         'content' => [
             'type' => 'container',
+            'parent_id' => 'root',
             'vars' => [
                 'tag' => 'article',
             ],
         ],
         'right' => [
             'type' => 'container',
+            'parent_id' => 'root',
             'vars' => [
                 'tag' => 'aside',
             ],
         ],
         'bottom' => [
             'type' => 'container',
+            'parent_id' => 'root',
         ],
         'footer' => [
             'type' => 'container',
+            'parent_id' => 'root',
             'vars' => [
                 'tag' => 'footer',
             ],
@@ -105,7 +114,7 @@ return [
                 'inherit' => 0,
             ],
         ],
-        'footer-default' => [
+        'footer-nav' => [
             'type' => 'tpl',
             'tpl' => 'footer/nav.phtml',
             'parent_id' => 'footer',
@@ -230,6 +239,20 @@ return [
         'content-main' => [
             'vars' => [
                 'attr' => ['name', 'info'],
+            ],
+        ],
+    ],
+    'layout/admin' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
+            ],
+        ],
+    ],
+    'layout/edit' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
             ],
         ],
     ],

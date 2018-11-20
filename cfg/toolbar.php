@@ -28,12 +28,19 @@ return [
         'name' => 'Blocks',
         'sort' => 30,
     ],
+    'layout' => [
+        'name' => 'Layouts',
+        'url' => '/layout/admin',
+        'priv' => 'layout/admin',
+        'parent_id' => 'block',
+        'sort' => 10,
+    ],
     'block_content' => [
         'name' => 'Content Blocks',
         'url' => '/block_content/admin',
         'priv' => 'block_content/admin',
         'parent_id' => 'block',
-        'sort' => 10,
+        'sort' => 20,
     ],
     'file' => [
         'name' => 'Files',

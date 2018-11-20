@@ -12,6 +12,41 @@ use request;
 use DomainException;
 
 /**
+ * Page Banner
+ */
+function banner(array $block): string
+{
+    if (($page = app\get('page')) && $page['entity'] !== 'page_content') {
+        $page = entity\one('page', [['id', $page['path']], ['entity', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
+    }
+
+    return $page && ($block['vars']['img'] = attr\viewer($page, $page['_entity']['attr']['image'])) ? tpl($block) : '';
+}
+
+/**
+ * Breadcrumb Navigation
+ */
+function breadcrumb(array $block): string
+{
+    if (!$page = app\get('page')) {
+        return '';
+    }
+
+    $html = '';
+    $crit = [['status', 'published'], ['entity', 'page_content'], ['id', $page['path']]];
+    $all = entity\all('page', $crit, ['select' => ['id', 'name', 'url', 'disabled', 'menu_name'], 'order' => ['level' => 'asc']]);
+
+    foreach ($all as $item) {
+        if ($item['id'] !== $page['id'] || $page['entity'] === 'page_content') {
+            $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
+            $html .= ($html ? ' ' : '') . app\html('a', $a, $item['menu_name'] ?: $item['name']);
+        }
+    }
+
+    return app\html('nav', ['id' => $block['id']], $html);
+}
+
+/**
  * Container
  */
 function container(array $block): string
@@ -30,97 +65,92 @@ function container(array $block): string
 }
 
 /**
- * Template
+ * Content
  */
-function tpl(array $block): string
+function content(array $block): string
 {
-    if (!$block['tpl']) {
-        return '';
-    }
+    $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : null;
 
-    $block['vars'] = ['id' => $block['id'], 'tpl' => $block['tpl']] + $block['vars'];
-    $block = function ($key) use ($block) {
-        return $block['vars'][$key] ?? null;
-    };
-    ob_start();
-    include app\tpl((string) $block('tpl'));
-
-    return ob_get_clean();
+    return $block['vars']['content'] ? tpl($block) : '';
 }
 
 /**
- * Meta
+ * Create Form
  */
-function meta(array $block): string
+function create(array $block): string
 {
-    if ($page = app\get('page')) {
-        $block['vars']['description'] = $page['meta_description'];
+    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
 
-        if ($page['meta_title']) {
-            $block['vars']['title'] = $page['meta_title'];
-        } else {
-            $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['name', 'menu_name'], 'order' => ['level' => 'asc']]);
+    if (($data = request\get('data')) && entity\save($block['vars']['entity']['id'], $data)) {
+        $data = [];
+    }
 
-            foreach ($all as $item) {
-                $block['vars']['title'] = ($item['menu_name'] ?: $item['name']) . ($block['vars']['title'] ? ' - ' . $block['vars']['title'] : '');
-            }
+    $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), $data);
+    $block['vars']['title'] = null;
+
+    return form($block);
+}
+
+/**
+ * Edit Form
+ */
+function edit(array $block): string
+{
+    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
+    $old = null;
+
+    if (($id = app\get('id')) && !($old = entity\one($block['vars']['entity']['id'], [['id', $id]]))) {
+        app\msg('Nothing to edit');
+        request\redirect(app\url($block['vars']['entity']['id'] . '/admin'));
+        return '';
+    }
+
+    if ($data = request\get('data')) {
+        if ($id) {
+            $data['id'] = $id;
         }
-    } elseif ($entity = app\get('entity')) {
-        $block['vars']['title'] = $entity['name'] . ($block['vars']['title'] ? ' - ' . $block['vars']['title'] : '');
+
+        if (entity\save($block['vars']['entity']['id'], $data)) {
+            request\redirect(app\url($block['vars']['entity']['id'] . '/edit/' . $data['id']));
+            return '';
+        }
     }
 
-    $block['vars']['description'] = $block['vars']['description'] ? app\enc($block['vars']['description']) : '';
-    $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : '';
+    $p = [];
 
-    return tpl($block);
+    if ($id) {
+        $p = [$old];
+
+        if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent_id']])) {
+            $v = entity\one('version', [['page_id', $id]], ['select' => APP['version'], 'order' => ['timestamp' => 'desc']]);
+            unset($v['_old'], $v['_entity']);
+            $p[] = $v;
+        }
+    }
+
+    $p[] = $data;
+    $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), ...$p);
+    $block['vars']['title'] = $block['vars']['entity']['name'];
+
+    return form($block);
 }
 
 /**
- * Search
+ * Form
  */
-function search(array $block): string
+function form(array $block): string
 {
-    $block['vars']['q'] = $block['vars']['q'] ?? request\get('param')['q'] ?? null;
-
-    return tpl($block);
-}
-
-/**
- * Pager
- */
-function pager(array $block): string
-{
-    $block['vars']['size'] = (int) $block['vars']['size'];
-    $cur = $block['vars']['cur'] ?? request\get('param')['cur'] ?? 1;
-    $limit = (int) $block['vars']['limit'];
-    $pages = (int) $block['vars']['pages'];
-
-    if ($limit <= 0 || $block['vars']['size'] <= 0) {
+    if (!$block['vars']['entity']) {
         return '';
     }
 
-    $url = request\get('url');
-    $total = (int) ceil($block['vars']['size'] / $limit) ?: 1;
-    $cur = min(max($cur, 1), $total);
-    $offset = ($cur - 1) * $limit;
-    $block['vars']['max'] = min($offset + $limit, $block['vars']['size']);
-    $block['vars']['min'] = $offset + 1;
-    $block['vars']['links'] = [];
-    $min = max(1, min($cur - intdiv($pages, 2), $total - $pages + 1));
-    $max = min($min + $pages - 1, $total);
+    $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : null;
+    $block['vars']['file'] = false;
 
-    if ($cur >= 2) {
-        $lp = ['cur' => $cur === 2 ? null : $cur - 1];
-        $block['vars']['links'][] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $lp, true)];
-    }
-
-    for ($i = $min; $min < $max && $i <= $max; $i++) {
-        $lp = ['cur' => $i === 1 ? null : $i];
-        $block['vars']['links'][] = ['name' => $i, 'url' => app\url($url, $lp, true), 'active' => $i === $cur];
-    }
-
-    if ($cur < $total) {
-        $block['vars']['links'][] = ['name' => app\i18n('Next'), 'url' => app\url($url, ['cur' => $cur + 1], true)];
+    foreach ($block['vars']['attr'] as $attrId) {
+        if ($block['vars']['file'] = ($block['vars']['entity']['attr'][$attrId]['type'] ?? null) === 'upload') {
+            break;
+        }
     }
 
     return tpl($block);
@@ -202,27 +232,6 @@ function index(array $block): string
 }
 
 /**
- * Form
- */
-function form(array $block): string
-{
-    if (!$block['vars']['entity']) {
-        return '';
-    }
-
-    $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : null;
-    $block['vars']['file'] = false;
-
-    foreach ($block['vars']['attr'] as $attrId) {
-        if ($block['vars']['file'] = ($block['vars']['entity']['attr'][$attrId]['type'] ?? null) === 'upload') {
-            break;
-        }
-    }
-
-    return tpl($block);
-}
-
-/**
  * Login Form
  */
 function login(array $block): string
@@ -238,151 +247,78 @@ function login(array $block): string
 }
 
 /**
- * Password Form
+ * Menu Navigation
  */
-function password(array $block): string
+function menu(array $block): string
 {
-    if ($data = request\get('data')) {
-        if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
-            $data['_error']['password'] = app\i18n('Password and password confirmation must be identical');
-            $data['_error']['confirmation'] = app\i18n('Password and password confirmation must be identical');
-        } else {
-            $data = ['id' => account\get('id'), 'password' => $data['password']];
+    $page = app\get('page');
+    $sub = $block['vars']['mode'] === 'sub';
 
-            if (entity\save('account', $data)) {
-                request\redirect(request\get('url'));
-            }
-        }
+    if ($sub && empty($page['path'][1])) {
+        return '';
     }
 
-    $block['vars']['attr'] = ['password', 'confirmation'];
-    $block['vars']['data'] = $data;
-    $block['vars']['entity'] = app\cfg('entity', 'account');
-    $block['vars']['title'] = app\i18n('Password');
+    $crit = [['status', 'published'], ['entity', 'page_content']];
+    $crit[] = $sub ? ['id', $page['path'][1]] : ['url', '/'];
+    $select = ['id', 'name', 'url', 'disabled', 'menu_name', 'pos', 'level'];
+    $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
 
-    return form($block);
-}
-
-/**
- * Create Form
- */
-function create(array $block): string
-{
-    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
-
-    if (($data = request\get('data')) && entity\save($block['vars']['entity']['id'], $data)) {
-        $data = [];
+    if (!$root = entity\one('page', $crit, ['select' => $select])) {
+        return '';
     }
 
-    $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), $data);
+    $crit = [['status', 'published'], ['entity', 'page_content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
+
+    if ($sub) {
+        $parent = $page['path'];
+        unset($parent[0]);
+        $crit[] = [['id', $page['path']], ['parent_id', $parent]];
+    } else {
+        $crit[] = ['menu', true];
+    }
+
+    $block['vars']['data'] = entity\all('page', $crit, $opt);
     $block['vars']['title'] = null;
 
-    return form($block);
+    if ($block['vars']['root'] && $sub) {
+        $block['vars']['title'] = $root['menu_name'] ?: $root['name'];
+    } elseif ($block['vars']['root']) {
+        $root['level']++;
+        $block['vars']['data'] = [$root['id'] => $root] + $block['vars']['data'];
+    }
+
+    foreach ($block['vars']['data'] as $id => $item) {
+        $block['vars']['data'][$id]['name'] = $item['menu_name'] ?: $item['name'];
+    }
+
+    return nav($block);
 }
 
 /**
- * Edit Form
+ * Meta
  */
-function edit(array $block): string
+function meta(array $block): string
 {
-    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
-    $old = null;
+    if ($page = app\get('page')) {
+        $block['vars']['description'] = $page['meta_description'];
 
-    if (($id = app\get('id')) && !($old = entity\one($block['vars']['entity']['id'], [['id', $id]]))) {
-        app\msg('Nothing to edit');
-        request\redirect(app\url($block['vars']['entity']['id'] . '/admin'));
-        return '';
-    }
+        if ($page['meta_title']) {
+            $block['vars']['title'] = $page['meta_title'];
+        } else {
+            $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['name', 'menu_name'], 'order' => ['level' => 'asc']]);
 
-    if ($data = request\get('data')) {
-        if ($id) {
-            $data['id'] = $id;
+            foreach ($all as $item) {
+                $block['vars']['title'] = ($item['menu_name'] ?: $item['name']) . ($block['vars']['title'] ? ' - ' . $block['vars']['title'] : '');
+            }
         }
-
-        if (entity\save($block['vars']['entity']['id'], $data)) {
-            request\redirect(app\url($block['vars']['entity']['id'] . '/edit/' . $data['id']));
-            return '';
-        }
+    } elseif ($entity = app\get('entity')) {
+        $block['vars']['title'] = $entity['name'] . ($block['vars']['title'] ? ' - ' . $block['vars']['title'] : '');
     }
 
-    $p = [];
+    $block['vars']['description'] = $block['vars']['description'] ? app\enc($block['vars']['description']) : '';
+    $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : '';
 
-    if ($id) {
-        $p = [$old];
-
-        if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent_id']])) {
-            $v = entity\one('version', [['page_id', $id]], ['select' => APP['version'], 'order' => ['timestamp' => 'desc']]);
-            unset($v['_old'], $v['_entity']);
-            $p[] = $v;
-        }
-    }
-
-    $p[] = $data;
-    $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), ...$p);
-    $block['vars']['title'] = $block['vars']['entity']['name'];
-
-    return form($block);
-}
-
-/**
- * View
- */
-function view(array $block): string
-{
-    if ($block['vars']['data']) {
-        $block['vars']['entity'] = $block['vars']['data']['_entity'];
-        $block['vars']['id'] = $block['vars']['data']['id'];
-    } elseif ($block['vars']['entity'] && $block['vars']['id'] || !$block['vars']['entity'] && !$block['vars']['id']) {
-        $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
-        $block['vars']['id'] = $block['vars']['id'] ?? app\get('id');
-        $block['vars']['data'] = entity\one($block['vars']['entity']['id'], [['id', $block['vars']['id']]]);
-    }
-
-    return $block['vars']['data'] ? tpl($block) : '';
-}
-
-/**
- * Page View
- */
-function page(array $block): string
-{
-    if (!$page = app\get('page')) {
-        return '';
-    }
-
-    $block['vars']['data'] = $page;
-
-    return view($block);
-}
-
-/**
- * Page Banner
- */
-function banner(array $block): string
-{
-    if (($page = app\get('page')) && $page['entity'] !== 'page_content') {
-        $page = entity\one('page', [['id', $page['path']], ['entity', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
-    }
-
-    return $page && ($block['vars']['img'] = attr\viewer($page, $page['_entity']['attr']['image'])) ? tpl($block) : '';
-}
-
-/**
- * Page Sidebar
- */
-function sidebar(array $block): string
-{
-    if (!$page = app\get('page')) {
-        return '';
-    }
-
-    if (!$page['sidebar'] && is_int($block['vars']['inherit'])) {
-        $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']], ['level', $block['vars']['inherit'], APP['crit']['>=']]];
-        $opt = ['select' => ['sidebar'], 'order' => ['level' => 'desc']];
-        $page['sidebar'] = entity\one('page', $crit, $opt)['sidebar'] ?? '';
-    }
-
-    return attr\viewer($page, $page['_entity']['attr']['sidebar']);
+    return tpl($block);
 }
 
 /**
@@ -467,51 +403,112 @@ function nav(array $block): string
 }
 
 /**
- * Menu Navigation
+ * Page View
  */
-function menu(array $block): string
+function page(array $block): string
 {
-    $page = app\get('page');
-    $sub = $block['vars']['mode'] === 'sub';
-
-    if ($sub && empty($page['path'][1])) {
+    if (!$page = app\get('page')) {
         return '';
     }
 
-    $crit = [['status', 'published'], ['entity', 'page_content']];
-    $crit[] = $sub ? ['id', $page['path'][1]] : ['url', '/'];
-    $select = ['id', 'name', 'url', 'disabled', 'menu_name', 'pos', 'level'];
-    $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
+    $block['vars']['data'] = $page;
 
-    if (!$root = entity\one('page', $crit, ['select' => $select])) {
+    return view($block);
+}
+
+/**
+ * Pager
+ */
+function pager(array $block): string
+{
+    $block['vars']['size'] = (int) $block['vars']['size'];
+    $cur = $block['vars']['cur'] ?? request\get('param')['cur'] ?? 1;
+    $limit = (int) $block['vars']['limit'];
+    $pages = (int) $block['vars']['pages'];
+
+    if ($limit <= 0 || $block['vars']['size'] <= 0) {
         return '';
     }
 
-    $crit = [['status', 'published'], ['entity', 'page_content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
+    $url = request\get('url');
+    $total = (int) ceil($block['vars']['size'] / $limit) ?: 1;
+    $cur = min(max($cur, 1), $total);
+    $offset = ($cur - 1) * $limit;
+    $block['vars']['max'] = min($offset + $limit, $block['vars']['size']);
+    $block['vars']['min'] = $offset + 1;
+    $block['vars']['links'] = [];
+    $min = max(1, min($cur - intdiv($pages, 2), $total - $pages + 1));
+    $max = min($min + $pages - 1, $total);
 
-    if ($sub) {
-        $parent = $page['path'];
-        unset($parent[0]);
-        $crit[] = [['id', $page['path']], ['parent_id', $parent]];
-    } else {
-        $crit[] = ['menu', true];
+    if ($cur >= 2) {
+        $lp = ['cur' => $cur === 2 ? null : $cur - 1];
+        $block['vars']['links'][] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $lp, true)];
     }
 
-    $block['vars']['data'] = entity\all('page', $crit, $opt);
-    $block['vars']['title'] = null;
-
-    if ($block['vars']['root'] && $sub) {
-        $block['vars']['title'] = $root['menu_name'] ?: $root['name'];
-    } elseif ($block['vars']['root']) {
-        $root['level']++;
-        $block['vars']['data'] = [$root['id'] => $root] + $block['vars']['data'];
+    for ($i = $min; $min < $max && $i <= $max; $i++) {
+        $lp = ['cur' => $i === 1 ? null : $i];
+        $block['vars']['links'][] = ['name' => $i, 'url' => app\url($url, $lp, true), 'active' => $i === $cur];
     }
 
-    foreach ($block['vars']['data'] as $id => $item) {
-        $block['vars']['data'][$id]['name'] = $item['menu_name'] ?: $item['name'];
+    if ($cur < $total) {
+        $block['vars']['links'][] = ['name' => app\i18n('Next'), 'url' => app\url($url, ['cur' => $cur + 1], true)];
     }
 
-    return nav($block);
+    return tpl($block);
+}
+
+/**
+ * Password Form
+ */
+function password(array $block): string
+{
+    if ($data = request\get('data')) {
+        if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
+            $data['_error']['password'] = app\i18n('Password and password confirmation must be identical');
+            $data['_error']['confirmation'] = app\i18n('Password and password confirmation must be identical');
+        } else {
+            $data = ['id' => account\get('id'), 'password' => $data['password']];
+
+            if (entity\save('account', $data)) {
+                request\redirect(request\get('url'));
+            }
+        }
+    }
+
+    $block['vars']['attr'] = ['password', 'confirmation'];
+    $block['vars']['data'] = $data;
+    $block['vars']['entity'] = app\cfg('entity', 'account');
+    $block['vars']['title'] = app\i18n('Password');
+
+    return form($block);
+}
+
+/**
+ * Search
+ */
+function search(array $block): string
+{
+    $block['vars']['q'] = $block['vars']['q'] ?? request\get('param')['q'] ?? null;
+
+    return tpl($block);
+}
+
+/**
+ * Page Sidebar
+ */
+function sidebar(array $block): string
+{
+    if (!$page = app\get('page')) {
+        return '';
+    }
+
+    if (!$page['sidebar'] && is_int($block['vars']['inherit'])) {
+        $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']], ['level', $block['vars']['inherit'], APP['crit']['>=']]];
+        $opt = ['select' => ['sidebar'], 'order' => ['level' => 'desc']];
+        $page['sidebar'] = entity\one('page', $crit, $opt)['sidebar'] ?? '';
+    }
+
+    return attr\viewer($page, $page['_entity']['attr']['sidebar']);
 }
 
 /**
@@ -538,24 +535,37 @@ function toolbar(array $block): string
 }
 
 /**
- * Breadcrumb Navigation
+ * Template
  */
-function breadcrumb(array $block): string
+function tpl(array $block): string
 {
-    if (!$page = app\get('page')) {
+    if (!$block['tpl']) {
         return '';
     }
 
-    $html = '';
-    $crit = [['status', 'published'], ['entity', 'page_content'], ['id', $page['path']]];
-    $all = entity\all('page', $crit, ['select' => ['id', 'name', 'url', 'disabled', 'menu_name'], 'order' => ['level' => 'asc']]);
+    $block['vars'] = ['id' => $block['id'], 'tpl' => $block['tpl']] + $block['vars'];
+    $block = function ($key) use ($block) {
+        return $block['vars'][$key] ?? null;
+    };
+    ob_start();
+    include app\tpl((string) $block('tpl'));
 
-    foreach ($all as $item) {
-        if ($item['id'] !== $page['id'] || $page['entity'] === 'page_content') {
-            $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
-            $html .= ($html ? ' ' : '') . app\html('a', $a, $item['menu_name'] ?: $item['name']);
-        }
+    return ob_get_clean();
+}
+
+/**
+ * View
+ */
+function view(array $block): string
+{
+    if ($block['vars']['data']) {
+        $block['vars']['entity'] = $block['vars']['data']['_entity'];
+        $block['vars']['id'] = $block['vars']['data']['id'];
+    } elseif ($block['vars']['entity'] && $block['vars']['id'] || !$block['vars']['entity'] && !$block['vars']['id']) {
+        $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
+        $block['vars']['id'] = $block['vars']['id'] ?? app\get('id');
+        $block['vars']['data'] = entity\one($block['vars']['entity']['id'], [['id', $block['vars']['id']]]);
     }
 
-    return app\html('nav', ['id' => $block['id']], $html);
+    return $block['vars']['data'] ? tpl($block) : '';
 }

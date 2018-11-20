@@ -160,6 +160,7 @@ function layout(array $data): array
 {
     $cfg = app\cfg('layout');
     $type = app\cfg('block');
+    $url = request\get('url');
     $keys = ['_all_', app\get('area')];
 
     if (app\get('error')) {
@@ -174,7 +175,23 @@ function layout(array $data): array
         }
 
         $keys[] = $entityId . '/' . $action;
-        $keys[] = request\get('url');
+        $keys[] = $url;
+
+        if ($page = app\get('page')) {
+            $dbLayout = entity\all('layout', [['page_id', $page['id']]]);
+            $dbBlocks = entity\all('block', [['id', array_keys($dbLayout)]]);
+
+            foreach ($dbLayout as $id => $item) {
+                $dbItem = entity\one($dbBlocks[$id]['entity'], [['id', $id]]);
+                $cfg[$url][$item['name']] = [
+                    'id' => $item['name'],
+                    'type' => preg_replace('#^block_#', '', $dbBlocks[$id]['entity']),
+                    'parent_id' => $item['parent_id'],
+                    'sort' => $item['sort'],
+                    'vars' => array_diff_key($dbItem, $dbBlocks[$id]),
+                ];
+            }
+        }
     }
 
     foreach ($keys as $key) {
@@ -281,6 +298,25 @@ function entity_postdelete_file(array $data): array
 {
     if (!file\delete(app\file($data['name']))) {
         throw new DomainException(app\i18n('Could not delete file'));
+    }
+
+    return $data;
+}
+
+/**
+ * Layout entity posfilter
+ */
+function entity_postfilter_layout(array $data): array
+{
+    $crit = [['name', $data['name']], ['page_id', $data['page_id']]];
+
+    if (!empty($data['_old']['id'])) {
+        $crit[] = ['id', $data['_old']['id'], APP['crit']['!=']];
+    }
+
+    if (entity\size('layout', $crit)) {
+        $data['_error']['name'] = app\i18n('Value must be unique for each page');
+        $data['_error']['page_id'] = app\i18n('Value must be unique for each page');
     }
 
     return $data;
