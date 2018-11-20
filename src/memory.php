@@ -51,7 +51,7 @@ function save(array $data): array
 {
     $db = & app\registry('memory.' . $data['_entity']['id']);
 
-    if (!$data['_old'] && $data['_entity']['attr']['id']['auto']) {
+    if (!$data['_old'] && $data['_entity']['attr']['id']['type'] === 'serial') {
         $data['id'] = $db ? max(array_keys($db)) + 1 : 1;
     }
 

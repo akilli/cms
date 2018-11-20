@@ -95,8 +95,8 @@ function save(array $data): array
             }
         }
 
-        if (!$old) {
-            $attrs['id'] = array_replace($p['attr']['id'], ['auto' => false]);
+        if (!$old && $p['attr']['id'] === 'serial') {
+            $attrs['id'] = array_replace($p['attr']['id'], ['type' => 'int', 'auto' => false]);
         }
     }
 
@@ -126,7 +126,7 @@ function save(array $data): array
     $stmt->execute();
 
     // Set DB generated id
-    if (!$old && $attrs['id']['auto']) {
+    if (!$old && $attrs['id']['type'] === 'serial') {
         $data['id'] = (int) $db->lastInsertId($entity['id'] . '_id_seq');
     }
 
