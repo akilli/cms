@@ -104,6 +104,14 @@ return [
         'viewer' => 'viewer\page',
         'ref' => 'page',
     ],
+    'parent' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\select',
+        'filter' => 'filter\opt',
+        'viewer' => 'viewer\opt',
+        'opt' => 'opt\parent',
+        'maxlength' => 50,
+    ],
     'password' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\password',
