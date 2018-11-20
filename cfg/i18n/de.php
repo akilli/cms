@@ -49,6 +49,7 @@ return [
     'Invalid path' => 'Ungültiger Pfad',
     'Invalid URL' => 'Ungültige URL',
     'Invalid value' => 'Ungültiger Wert',
+    'Layout' => 'Layout',
     'Level' => 'Ebene',
     'Login' => 'Anmelden',
     'Logout' => 'Abmelden',

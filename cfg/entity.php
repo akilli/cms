@@ -364,7 +364,7 @@ return [
         ],
     ],
     'layout' => [
-        'name' => 'Layouts',
+        'name' => 'Layout',
         'action' => ['admin', 'delete', 'edit'],
         'attr' => [
             'id' => [

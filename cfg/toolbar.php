@@ -24,16 +24,15 @@ return [
         'parent_id' => 'page',
         'sort' => 20,
     ],
-    'block' => [
-        'name' => 'Blocks',
-        'sort' => 30,
-    ],
     'layout' => [
-        'name' => 'Layouts',
+        'name' => 'Layout',
         'url' => '/layout/admin',
         'priv' => 'layout/admin',
-        'parent_id' => 'block',
-        'sort' => 10,
+        'sort' => 30,
+    ],
+    'block' => [
+        'name' => 'Blocks',
+        'sort' => 40,
     ],
     'block_content' => [
         'name' => 'Content Blocks',
@@ -44,7 +43,7 @@ return [
     ],
     'file' => [
         'name' => 'Files',
-        'sort' => 40,
+        'sort' => 50,
     ],
     'file_image' => [
         'name' => 'Images',
@@ -78,24 +77,24 @@ return [
         'name' => 'Roles',
         'url' => '/role/admin',
         'priv' => 'role/admin',
-        'sort' => 50,
+        'sort' => 60,
     ],
     'account' => [
         'name' => 'Accounts',
         'url' => '/account/admin',
         'priv' => 'account/admin',
-        'sort' => 60,
+        'sort' => 70,
     ],
     'password' => [
         'name' => 'Password',
         'url' => '/account/password',
         'priv' => 'account/password',
-        'sort' => 70,
+        'sort' => 80,
     ],
     'logout' => [
         'name' => 'Logout',
         'url' => '/account/logout',
         'priv' => 'account/logout',
-        'sort' => 80,
+        'sort' => 90,
     ],
 ];
