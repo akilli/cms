@@ -173,6 +173,7 @@ figure object,
 figure picture,
 figure video {
     display: block;
+    margin: 0 auto;
 }
 
 img {
