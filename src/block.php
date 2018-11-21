@@ -171,7 +171,7 @@ function index(array $block): string
     }
 
     if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent_id']])) {
-        if (app\get('area') === '_public_') {
+        if (app\get('action') === 'admin') {
             $crit[] = ['status', 'published'];
             $crit[] = ['disabled', false];
         }
