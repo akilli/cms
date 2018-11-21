@@ -136,7 +136,6 @@ return [
             'sort' => 10,
             'vars' => [
                 'action' => ['view', 'edit', 'delete'],
-                'create' => true,
                 'pager' => true,
                 'search' => ['name'],
                 'thead' => true,

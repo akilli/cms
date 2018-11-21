@@ -53,7 +53,6 @@ return [
         'vars' => [
             'action' => [],
             'attr' => [],
-            'create' => false,
             'crit' => [],
             'entity' => null,
             'limit' => 10,
