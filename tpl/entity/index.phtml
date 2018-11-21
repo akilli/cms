@@ -36,13 +36,13 @@ $browser = !$admin && get('action') === 'browser';
             ?>
             <?php if (!$admin && ($val === null || $val === '' || !$html)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
-                <?php if ($block('link') && allowed($block('entity')['id'] . '/view')):?>
         <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
+                <?php if (get('area') === '_public_' && allowed($block('entity')['id'] . '/view')):?>
             <a href="<?=$data['url'] ?? url($block('entity')['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
-        </h3>
                 <?php else:?>
-        <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h3>
+            <?=$html;?>
                 <?php endif;?>
+        </h3>
             <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
         <time data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"<?php if ($val !== $html):?> datetime="<?=$val;?>"<?php endif;?>><?=$html;?></time>
             <?php elseif ($attr['id'] === 'aside'):?>

@@ -55,7 +55,6 @@ return [
             'crit' => [],
             'entity' => null,
             'limit' => 10,
-            'link' => false,
             'order' => [],
             'pager' => false,
             'parent_id' => null,
