@@ -43,16 +43,14 @@ $browser = !$admin && get('action') === 'browser';
             <?=$html;?>
                 <?php endif;?>
         </h3>
+            <?php elseif (in_array($attr['type'], ['audio', 'image', 'video'])):?>
+        <figure data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></figure>
             <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
         <time data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"<?php if ($val !== $html):?> datetime="<?=$val;?>"<?php endif;?>><?=$html;?></time>
             <?php elseif ($attr['id'] === 'aside'):?>
-        <aside data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-            <?=$html;?>
-        </aside>
+        <aside data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></aside>
             <?php else:?>
-        <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-            <?=$html;?>
-        </div>
+        <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></div>
             <?php endif;?>
         <?php endforeach;?>
         <?php if ($admin || $browser):?>

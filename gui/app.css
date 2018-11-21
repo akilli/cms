@@ -552,13 +552,13 @@ html[data-area=_admin_] .index article h3 {
  * Clear
  */
 .block::before,
-html[data-area=_public_] div[data-type=rte]::before {
+html[data-area=_public_] [data-type=rte]::before {
     display: table;
     content: " ";
 }
 
 .block::after,
-html[data-area=_public_] div[data-type=rte]::after {
+html[data-area=_public_] [data-type=rte]::after {
     display: table;
     content: " ";
     clear: both;
