@@ -7,7 +7,7 @@ use attr;
     <?php if ($block('title')):?>
     <h2><?=$block('title');?></h2>
     <?php endif;?>
-    <?php if ($block('create') && allowed($block('entity')['id'] . '/edit')):?>
+    <?php if ($block('admin') && allowed($block('entity')['id'] . '/edit')):?>
     <p><a href="<?=url($block('entity')['id'] . '/edit');?>"><?=i18n('New Entry');?></a></p>
     <?php endif;?>
     <?=$block('search');?>

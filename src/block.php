@@ -165,14 +165,14 @@ function index(array $block): string
     $crit = is_array($block['vars']['crit']) ? $block['vars']['crit'] : [];
     $opt = ['limit' => (int) $block['vars']['limit']];
     $opt['order'] = $block['vars']['order'] && is_array($block['vars']['order']) ? $block['vars']['order'] : ['id' => 'desc'];
-    $admin = app\get('action') === 'admin';
+    $block['vars']['admin'] = app\get('action') === 'admin';
 
     if (!$block['vars']['entity'] || $opt['limit'] <= 0) {
         return '';
     }
 
     if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent_id']])) {
-        if ($admin) {
+        if ($block['vars']['admin']) {
             $crit[] = ['status', 'published'];
             $crit[] = ['disabled', false];
         }
@@ -223,7 +223,6 @@ function index(array $block): string
         $block['vars']['pager'] = null;
     }
 
-    $block['vars']['create'] = $admin;
     $block['vars']['data'] = entity\all($block['vars']['entity']['id'], $crit, $opt);
     $block['vars']['dir'] = $p['dir'];
     $block['vars']['sort'] = $p['sort'];
