@@ -194,7 +194,14 @@ function index(array $block): string
             $crit[] = $c;
         }
 
-        $search = ['id' => $block['id'] . '-search', 'type' => 'search', 'vars' => ['q' => $p['q']]];
+        $search = [
+            'id' => $block['id'] . '-search',
+            'type' => 'search',
+            'parent_id' => $block['id'],
+            'vars' => [
+                'q' => $p['q'],
+            ],
+        ];
         app\layout($search['id'], $search);
         $block['vars']['search'] = app\block($search['id']);
     } else {
@@ -215,7 +222,16 @@ function index(array $block): string
     }
 
     if ($block['vars']['pager']) {
-        $pager = ['id' => $block['id'] . '-pager', 'type' => 'pager', 'vars' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]];
+        $pager = [
+            'id' => $block['id'] . '-pager',
+            'type' => 'pager',
+            'parent_id' => $block['id'],
+            'vars' => [
+                'cur' => $p['cur'],
+                'limit' => $opt['limit'],
+                'size' => $size,
+            ],
+        ];
         app\layout($pager['id'], $pager);
         $block['vars']['pager'] = app\block($pager['id']);
     } else {
