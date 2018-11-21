@@ -56,7 +56,6 @@ return [
             'create' => false,
             'crit' => [],
             'entity' => null,
-            'inaccessible' => false,
             'limit' => 10,
             'link' => false,
             'order' => [],

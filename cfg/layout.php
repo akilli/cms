@@ -137,7 +137,6 @@ return [
             'vars' => [
                 'action' => ['view', 'edit', 'delete'],
                 'create' => true,
-                'inaccessible' => true,
                 'pager' => true,
                 'search' => ['name'],
                 'thead' => true,
