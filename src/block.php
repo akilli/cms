@@ -165,14 +165,13 @@ function index(array $block): string
     $crit = is_array($block['vars']['crit']) ? $block['vars']['crit'] : [];
     $opt = ['limit' => (int) $block['vars']['limit']];
     $opt['order'] = $block['vars']['order'] && is_array($block['vars']['order']) ? $block['vars']['order'] : ['id' => 'desc'];
-    $block['vars']['admin'] = app\get('action') === 'admin';
 
     if (!$block['vars']['entity'] || $opt['limit'] <= 0) {
         return '';
     }
 
     if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent_id']])) {
-        if ($block['vars']['admin']) {
+        if (app\get('action') === 'admin') {
             $crit[] = ['status', 'published'];
             $crit[] = ['disabled', false];
         }

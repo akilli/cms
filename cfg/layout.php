@@ -135,7 +135,6 @@ return [
             'parent_id' => 'content',
             'sort' => 10,
             'vars' => [
-                'action' => ['view', 'edit', 'delete'],
                 'pager' => true,
                 'search' => ['name'],
                 'title' => null,
@@ -151,7 +150,6 @@ return [
             'parent_id' => 'content',
             'sort' => 10,
             'vars' => [
-                'action' => ['select'],
                 'limit' => 20,
                 'pager' => true,
                 'search' => ['name'],

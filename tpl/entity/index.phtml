@@ -2,24 +2,26 @@
 namespace app;
 use attr;
 /** @var callable $block */
+$admin = get('action') === 'admin';
+$browser = !$admin && get('action') === 'browser';
 ?>
 <section class="index">
     <?php if ($block('title')):?>
     <h2><?=$block('title');?></h2>
     <?php endif;?>
-    <?php if ($block('admin') && allowed($block('entity')['id'] . '/edit')):?>
+    <?php if ($admin && allowed($block('entity')['id'] . '/edit')):?>
     <p><a href="<?=url($block('entity')['id'] . '/edit');?>"><?=i18n('New Entry');?></a></p>
     <?php endif;?>
     <?=$block('search');?>
     <?php if (!$block('data')):?>
     <p><?=i18n('No entries found');?></p>
-    <?php elseif ($block('admin')):?>
+    <?php elseif ($admin):?>
     <div class="thead">
         <?php foreach ($block('attr') as $attrId):?>
             <?php if (!($attr = $block('entity')['attr'][$attrId] ?? null)) continue;?>
         <a href="<?=url($block('url'), ['sort' => $attr['id'], 'dir' => $block('sort') === $attr['id'] && $block('dir') === 'asc' ? 'desc' : 'asc'], true);?>"<?php if ($block('sort') === $attr['id']):?> data-sort="<?=$block('dir');?>"<?php endif;?>><?=$attr['name'];?></a>
         <?php endforeach;?>
-        <?php if ($block('action')):?>
+        <?php if ($admin || $browser):?>
         <span><?=i18n('Actions');?></span>
         <?php endif;?>
     </div>
@@ -32,7 +34,7 @@ use attr;
             $val = $data[$attr['id']] ?? null;
             $html = attr\viewer($data, $attr);
             ?>
-            <?php if (!$block('admin') && ($val === null || $val === '' || !$html)) continue;?>
+            <?php if (!$admin && ($val === null || $val === '' || !$html)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
                 <?php if ($block('link') && allowed($block('entity')['id'] . '/view')):?>
         <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
@@ -53,18 +55,18 @@ use attr;
         </div>
             <?php endif;?>
         <?php endforeach;?>
-        <?php if ($block('action')):?>
+        <?php if ($admin || $browser):?>
         <footer>
-            <?php if (in_array('view', $block('action')) && allowed($block('entity')['id'] . '/view')):?>
+            <?php if ($admin && allowed($block('entity')['id'] . '/view')):?>
             <a href="<?=$data['url'] ?? url($block('entity')['id'] . '/view/' . $data['id']);?>" data-action="view"><?=i18n('View');?></a>
             <?php endif;?>
-            <?php if (in_array('edit', $block('action')) && allowed($block('entity')['id'] . '/edit')):?>
+            <?php if ($admin && allowed($block('entity')['id'] . '/edit')):?>
             <a href="<?=url($block('entity')['id'] . '/edit/' . $data['id']);?>" data-action="edit"><?=i18n('Edit');?></a>
             <?php endif;?>
-            <?php if (in_array('delete', $block('action')) && allowed($block('entity')['id'] . '/delete')):?>
+            <?php if ($admin && allowed($block('entity')['id'] . '/delete')):?>
             <a href="<?=url($block('entity')['id'] . '/delete/' . $data['id']);?>" data-action="delete"><?=i18n('Delete');?></a>
             <?php endif;?>
-            <?php if (in_array('select', $block('action'))):?>
+            <?php if ($browser):?>
             <span data-id="<?=$data['id'];?>" data-url="<?=$data['name'];?>" data-action="select"><?=i18n('Select item');?></span>
             <?php endif;?>
         </footer>

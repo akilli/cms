@@ -51,7 +51,6 @@ return [
         'call' => 'block\index',
         'tpl' => 'entity/index.phtml',
         'vars' => [
-            'action' => [],
             'attr' => [],
             'crit' => [],
             'entity' => null,
