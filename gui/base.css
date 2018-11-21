@@ -149,7 +149,7 @@ hr {
 }
 
 /**
- * Embed
+ * Media
  */
 audio,
 canvas,
@@ -157,24 +157,31 @@ embed,
 iframe,
 img,
 object,
+picture,
 video {
+    display: inline-block;
     max-width: 100%;
     vertical-align: middle;
 }
 
-audio,
-canvas,
-video {
-    display: inline-block;
+figure audio,
+figure canvas,
+figure embed,
+figure iframe,
+figure img,
+figure object,
+figure picture,
+figure video {
+    display: block;
 }
 
 img {
+    user-drag: none;
+    user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -webkit-user-drag: none;
     -webkit-user-select: none;
-    user-drag: none;
-    user-select: none;
 }
 
 /**

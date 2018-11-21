@@ -83,20 +83,20 @@ time[data-attr] {
 /**
  * Figure
  */
-figcaption {
-    font-size: 0.875rem;
-}
-
-.media {
+figure {
     text-align: center;
 }
 
-.media.left {
+figure.left {
     text-align: left;
 }
 
-.media.right {
+figure.right {
     text-align: left;
+}
+
+figcaption {
+    font-size: 0.875rem;
 }
 
 /**
