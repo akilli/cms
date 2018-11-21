@@ -138,7 +138,6 @@ return [
                 'action' => ['view', 'edit', 'delete'],
                 'pager' => true,
                 'search' => ['name'],
-                'thead' => true,
                 'title' => null,
             ],
         ],

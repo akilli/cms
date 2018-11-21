@@ -61,7 +61,6 @@ return [
             'pager' => false,
             'parent_id' => null,
             'search' => [],
-            'thead' => false,
             'title' => '',
         ],
     ],
