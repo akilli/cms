@@ -45,7 +45,8 @@ function run(): void
     $app['entity'] = $app['entity'] ?: cfg('entity', $app['entity_id']);
     $app['parent_id'] = $app['entity']['parent_id'] ?? null;
     $app['area'] = empty(cfg('priv', $app['entity_id'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
-    $blacklist = $app['area'] === '_admin_' && in_array(preg_replace('#^www\.#', '', request\get('host')), cfg('app', 'admin.blacklist'));
+    $app['public'] = $app['area'] === '_public_';
+    $blacklist = !$app['public'] && in_array(preg_replace('#^www\.#', '', request\get('host')), cfg('app', 'admin.blacklist'));
     $allowed = !$blacklist && allowed($app['entity_id'] . '/' . $app['action']);
     $ns = 'action\\';
     $real = is_callable($ns . $app['entity_id'] . '_' . $app['action']) ? $ns . $app['entity_id'] . '_' . $app['action'] : null;
@@ -57,7 +58,7 @@ function run(): void
         || !$app['entity']
         || !in_array($app['action'], $app['entity']['action'])
         || !$app['page'] && in_array($app['action'], ['delete', 'view']) && (!$app['id'] || !entity\size($app['entity_id'], [['id', $app['id']]]))
-        || $app['area'] === '_public_' && (!$app['page'] || $app['page']['disabled'] || $app['page']['status'] !== 'published' && !allowed($app['entity_id'] . '/edit'))
+        || $app['public'] && (!$app['page'] || $app['page']['disabled'] || $app['page']['status'] !== 'published' && !allowed($app['entity_id'] . '/edit'))
     ) {
         invalid();
     } elseif ($real) {

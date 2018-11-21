@@ -37,7 +37,7 @@ $browser = !$admin && get('action') === 'browser';
             <?php if (!$admin && ($val === null || $val === '' || !$html)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
         <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-                <?php if (get('area') === '_public_' && allowed($block('entity')['id'] . '/view')):?>
+                <?php if (get('public') && allowed($block('entity')['id'] . '/view')):?>
             <a href="<?=$data['url'] ?? url($block('entity')['id'] . '/view/' . $data['id']);?>"><?=$html;?></a>
                 <?php else:?>
             <?=$html;?>

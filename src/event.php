@@ -252,7 +252,7 @@ function entity_prefilter_file(array $data): array
  */
 function entity_postsave(array $data): array
 {
-    if (!$data['_entity']['mail'] || app\get('area') === '_admin_') {
+    if (!$data['_entity']['mail'] || !app\get('public')) {
         return $data;
     }
 

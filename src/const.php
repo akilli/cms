@@ -13,6 +13,7 @@ const APP = [
         'lang' => null,
         'page' => null,
         'parent_id' => null,
+        'public' => false,
     ],
     'attr' => [
         'id' => null,
