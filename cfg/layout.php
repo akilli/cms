@@ -78,6 +78,9 @@ return [
             ],
         ],
     ],
+    /**
+     * Admin Area
+     */
     '_admin_' => [
         'asset-admin' => [
             'type' => 'tpl',
@@ -86,6 +89,9 @@ return [
             'sort' => 25,
         ],
     ],
+    /**
+     * Public Area
+     */
     '_public_' => [
         'header-logo' => [
             'type' => 'tpl',
@@ -121,6 +127,9 @@ return [
             'sort' => 10,
         ],
     ],
+    /**
+     * Error
+     */
     '_error_' => [
         'content-main' => [
             'type' => 'tpl',
@@ -129,6 +138,32 @@ return [
             'sort' => 10,
         ],
     ],
+    /**
+     * Account Login
+     */
+    'account/login' => [
+        'toolbar' => [
+            'active' => false,
+        ],
+        'content-main' => [
+            'type' => 'login',
+            'parent_id' => 'content',
+            'sort' => 10,
+        ],
+    ],
+    /**
+     * Account Password
+     */
+    'account/password' => [
+        'content-main' => [
+            'type' => 'password',
+            'parent_id' => 'content',
+            'sort' => 10,
+        ],
+    ],
+    /**
+     * Admin Action
+     */
     'admin' => [
         'content-main' => [
             'type' => 'index',
@@ -141,6 +176,58 @@ return [
             ],
         ],
     ],
+    'account/admin' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'role_id'],
+            ],
+        ],
+    ],
+    'block_content/admin' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'title'],
+            ],
+        ],
+    ],
+    'file/admin' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'info'],
+            ],
+        ],
+    ],
+    'layout/admin' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
+            ],
+        ],
+    ],
+    'page_article/admin' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'parent_id', 'status', 'date'],
+            ],
+        ],
+    ],
+    'page_content/admin' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'pos', 'parent_id', 'menu', 'status', 'date'],
+            ],
+        ],
+    ],
+    'role/admin' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name'],
+            ],
+        ],
+    ],
+    /**
+     * Browser Action
+     */
     'browser' => [
         'toolbar' => [
             'active' => false,
@@ -157,6 +244,16 @@ return [
             ],
         ],
     ],
+    'file/browser' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'info'],
+            ],
+        ],
+    ],
+    /**
+     * Edit Action
+     */
     'edit' => [
         'content-main' => [
             'type' => 'edit',
@@ -164,48 +261,10 @@ return [
             'sort' => 10,
         ],
     ],
-    'view' => [
-        'content-main' => [
-            'type' => 'view',
-            'parent_id' => 'content',
-            'sort' => 10,
-        ],
-    ],
-    'account/admin' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'role_id'],
-            ],
-        ],
-    ],
     'account/edit' => [
         'content-main' => [
             'vars' => [
                 'attr' => ['name', 'password', 'role_id'],
-            ],
-        ],
-    ],
-    'account/login' => [
-        'toolbar' => [
-            'active' => false,
-        ],
-        'content-main' => [
-            'type' => 'login',
-            'parent_id' => 'content',
-            'sort' => 10,
-        ],
-    ],
-    'account/password' => [
-        'content-main' => [
-            'type' => 'password',
-            'parent_id' => 'content',
-            'sort' => 10,
-        ],
-    ],
-    'block_content/admin' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'title'],
             ],
         ],
     ],
@@ -216,31 +275,10 @@ return [
             ],
         ],
     ],
-    'file/admin' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'info'],
-            ],
-        ],
-    ],
-    'file/browser' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'info'],
-            ],
-        ],
-    ],
     'file/edit' => [
         'content-main' => [
             'vars' => [
                 'attr' => ['name', 'info'],
-            ],
-        ],
-    ],
-    'layout/admin' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
             ],
         ],
     ],
@@ -251,36 +289,10 @@ return [
             ],
         ],
     ],
-    'page/view' => [
-        'content-main' => [
-            'type' => 'page',
-        ],
-    ],
-    'page_article/admin' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'parent_id', 'status', 'date'],
-            ],
-        ],
-    ],
     'page_article/edit' => [
         'content-main' => [
             'vars' => [
                 'attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'date', 'meta_title', 'meta_description'],
-            ],
-        ],
-    ],
-    'page_article/view' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'image', 'teaser', 'main'],
-            ],
-        ],
-    ],
-    'page_content/admin' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name', 'pos', 'parent_id', 'menu', 'status', 'date'],
             ],
         ],
     ],
@@ -294,24 +306,39 @@ return [
             ],
         ],
     ],
-    'page_content/view' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['image', 'name', 'teaser', 'main', 'aside'],
-            ],
-        ],
-    ],
-    'role/admin' => [
-        'content-main' => [
-            'vars' => [
-                'attr' => ['name'],
-            ],
-        ],
-    ],
     'role/edit' => [
         'content-main' => [
             'vars' => [
                 'attr' => ['name', 'priv'],
+            ],
+        ],
+    ],
+    /**
+     * View Action
+     */
+    'view' => [
+        'content-main' => [
+            'type' => 'view',
+            'parent_id' => 'content',
+            'sort' => 10,
+        ],
+    ],
+    'page/view' => [
+        'content-main' => [
+            'type' => 'page',
+        ],
+    ],
+    'page_article/view' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['name', 'image', 'teaser', 'main'],
+            ],
+        ],
+    ],
+    'page_content/view' => [
+        'content-main' => [
+            'vars' => [
+                'attr' => ['image', 'name', 'teaser', 'main', 'aside'],
             ],
         ],
     ],
