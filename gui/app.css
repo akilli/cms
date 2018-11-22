@@ -750,7 +750,7 @@ html[data-area=_public_] [data-type=rte]::after {
     #toolbar,
     #menu,
     #right,
-    form.search,
+    .block-search,
     nav.pager,
     .slider {
         display: none !important;

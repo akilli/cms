@@ -117,7 +117,7 @@ return [
     ],
     'search' => [
         'call' => 'block\search',
-        'tpl' => 'entity/search.phtml',
+        'tpl' => 'block/search.phtml',
         'vars' => [
             'q' => null,
         ],
