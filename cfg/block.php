@@ -23,7 +23,7 @@ return [
     ],
     'create' => [
         'call' => 'block\create',
-        'tpl' => 'entity/form.phtml',
+        'tpl' => 'block/form.phtml',
         'vars' => [
             'attr' => [],
             'entity' => null,
@@ -31,7 +31,7 @@ return [
     ],
     'edit' => [
         'call' => 'block\edit',
-        'tpl' => 'entity/form.phtml',
+        'tpl' => 'block/form.phtml',
         'vars' => [
             'attr' => [],
             'entity' => null,
@@ -39,7 +39,7 @@ return [
     ],
     'form' => [
         'call' => 'block\form',
-        'tpl' => 'entity/form.phtml',
+        'tpl' => 'block/form.phtml',
         'vars' => [
             'attr' => [],
             'data' => [],
@@ -49,7 +49,7 @@ return [
     ],
     'index' => [
         'call' => 'block\index',
-        'tpl' => 'entity/index.phtml',
+        'tpl' => 'block/index.phtml',
         'vars' => [
             'attr' => [],
             'crit' => [],
@@ -64,7 +64,7 @@ return [
     ],
     'login' => [
         'call' => 'block\login',
-        'tpl' => 'entity/form.phtml',
+        'tpl' => 'block/form.phtml',
     ],
     'menu' => [
         'call' => 'block\menu',
@@ -96,14 +96,14 @@ return [
     ],
     'page' => [
         'call' => 'block\page',
-        'tpl' => 'entity/view.phtml',
+        'tpl' => 'block/view.phtml',
         'vars' => [
             'attr' => [],
         ],
     ],
     'pager' => [
         'call' => 'block\pager',
-        'tpl' => 'entity/pager.phtml',
+        'tpl' => 'block/pager.phtml',
         'vars' => [
             'cur' => null,
             'limit' => null,
@@ -113,7 +113,7 @@ return [
     ],
     'password' => [
         'call' => 'block\password',
-        'tpl' => 'entity/form.phtml',
+        'tpl' => 'block/form.phtml',
     ],
     'search' => [
         'call' => 'block\search',
@@ -142,7 +142,7 @@ return [
     ],
     'view' => [
         'call' => 'block\view',
-        'tpl' => 'entity/view.phtml',
+        'tpl' => 'block/view.phtml',
         'vars' => [
             'attr' => [],
             'data' => [],
