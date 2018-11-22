@@ -1,7 +1,144 @@
 <?php
 declare(strict_types = 1);
 
-namespace app;
+/**
+ * Constants used in application
+ */
+const APP = [
+    'app' => [
+        'action' => null,
+        'area' => null,
+        'entity' => null,
+        'entity_id' => null,
+        'error' => false,
+        'gui' => null,
+        'id' => null,
+        'lang' => null,
+        'page' => null,
+        'parent_id' => null,
+        'public' => false,
+    ],
+    'attr' => [
+        'id' => null,
+        'name' => null,
+        'type' => null,
+        'backend' => null,
+        'frontend' => null,
+        'filter' => null,
+        'viewer' => null,
+        'virtual' => false,
+        'auto' => false,
+        'nullable' => false,
+        'required' => false,
+        'unique' => false,
+        'multiple' => false,
+        'ignorable' => false,
+        'ref' => null,
+        'opt' => null,
+        'val' => null,
+        'min' => 0,
+        'max' => 0,
+        'minlength' => 0,
+        'maxlength' => 0,
+        'pattern' => null,
+        'cfg.backend' => null,
+        'cfg.frontend' => null,
+        'cfg.filter' => null,
+        'cfg.viewer' => null,
+        'html' => [],
+    ],
+    'backend' => ['bool', 'date', 'datetime', 'decimal', 'int', 'json', 'text', 'time', 'varchar'],
+    'crit' => [
+        '=' => '=',
+        '!=' => '!=',
+        '>' => '>',
+        '>=' => '>=',
+        '<' => '>',
+        '<=' => '<=',
+        '~' => '~',
+        '!~' => '!~',
+        '~^' => '~^',
+        '!~^' => '!~^',
+        '~$' => '~$',
+        '!~$' => '!~$',
+    ],
+    'crlf' => "\r\n",
+    'curl' => [
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 5,
+    ],
+    'entity' => [
+        'id' => null,
+        'name' => null,
+        'db' => 'app',
+        'type' => null,
+        'parent_id' => null,
+        'mail' => false,
+        'action' => [],
+        'attr' => [],
+    ],
+    'entity.opt' => [
+        'mode' => 'all',
+        'index' => 'id',
+        'select' => [],
+        'order' => [],
+        'limit' => 0,
+        'offset' => 0,
+    ],
+    'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
+    'join' => [
+        'full' => 'full',
+        'inner' => 'inner',
+        'left' => 'left',
+        'right' => 'right'
+    ],
+    'layout' => [
+        'id' => null,
+        'type' => null,
+        'tpl' => null,
+        'active' => true,
+        'priv' => null,
+        'parent_id' => null,
+        'sort' => 0,
+        'vars' => [],
+    ],
+    'log' => 'php://stdout',
+    'path' => [
+        'cfg' => '/app/cfg',
+        'file' => '/data/file',
+        'gui' => '/app/gui',
+        'tpl' => '/app/tpl',
+        'ext.cfg' => '/data/ext/cfg',
+        'ext.gui' => '/data/ext/gui',
+        'ext.src' => '/data/ext/src',
+        'ext.tpl' => '/data/ext/tpl',
+    ],
+    'pdo' => [
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+    ],
+    'priv' => [
+        'name' => null,
+        'priv' => null,
+        'auto' => false,
+        'active' => true,
+    ],
+    'redirect' => [301, 302, 307, 308],
+    'toolbar' => [
+        'id' => null,
+        'name' => null,
+        'url' => null,
+        'priv' => null,
+        'parent_id' => null,
+        'sort' => 0,
+        'level' => 0,
+    ],
+    'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
+    'url.file' => '/file/',
+    'url.gui' => '/gui/',
+    'version' => ['name', 'teaser', 'main', 'aside', 'sidebar', 'status', 'timestamp']
+];
 
 /**
  * Include base source files
@@ -13,6 +150,6 @@ foreach (glob(__DIR__ . '/src/*.php') as $file) {
 /**
  * Include extension source files
  */
-foreach (glob(path('ext.src', '*.php')) as $file) {
+foreach (glob(app\path('ext.src', '*.php')) as $file) {
     include_once $file;
 }
