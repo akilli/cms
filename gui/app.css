@@ -85,12 +85,6 @@ time[data-attr] {
  */
 figcaption {
     font-size: 0.875rem;
-    text-align: center;
-}
-
-figure.left figcaption,
-figure.right figcaption {
-    text-align: left;
 }
 
 /**
