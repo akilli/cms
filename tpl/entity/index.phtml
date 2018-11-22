@@ -5,7 +5,7 @@ use attr;
 $admin = get('action') === 'admin';
 $browser = !$admin && get('action') === 'browser';
 ?>
-<section class="index">
+<section class="block block-index">
     <?php if ($block('title')):?>
     <h2><?=$block('title');?></h2>
     <?php endif;?>
