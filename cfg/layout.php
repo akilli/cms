@@ -107,19 +107,6 @@ return [
                 'toggle' => true,
             ],
         ],
-        'breadcrumb' => [
-            'type' => 'breadcrumb',
-            'parent_id' => 'left',
-            'sort' => 10,
-        ],
-        'page-sidebar' => [
-            'type' => 'sidebar',
-            'parent_id' => 'right',
-            'sort' => 10,
-            'vars' => [
-                'inherit' => 0,
-            ],
-        ],
         'footer-nav' => [
             'type' => 'tpl',
             'tpl' => 'footer/nav.phtml',
@@ -324,8 +311,21 @@ return [
         ],
     ],
     'page/view' => [
+        'breadcrumb' => [
+            'type' => 'breadcrumb',
+            'parent_id' => 'left',
+            'sort' => 10,
+        ],
         'content-main' => [
             'type' => 'page',
+        ],
+        'page-sidebar' => [
+            'type' => 'sidebar',
+            'parent_id' => 'right',
+            'sort' => 10,
+            'vars' => [
+                'inherit' => 0,
+            ],
         ],
     ],
     'page_article/view' => [
