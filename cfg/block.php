@@ -71,7 +71,6 @@ return [
         'vars' => [
             'mode' => null,
             'root' => false,
-            'sticky' => false,
             'tag' => 'nav',
             'toggle' => false,
         ],
@@ -88,7 +87,6 @@ return [
         'call' => 'block\nav',
         'vars' => [
             'data' => [],
-            'sticky' => false,
             'tag' => 'nav',
             'title' => null,
             'toggle' => false,
@@ -131,7 +129,6 @@ return [
     'toolbar' => [
         'call' => 'block\toolbar',
         'vars' => [
-            'sticky' => false,
             'tag' => 'nav',
             'title' => null,
             'toggle' => false,

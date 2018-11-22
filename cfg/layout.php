@@ -97,7 +97,6 @@ return [
             'parent_id' => 'top',
             'sort' => 10,
             'vars' => [
-                'sticky' => true,
                 'toggle' => true,
             ],
         ],

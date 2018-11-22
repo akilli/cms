@@ -333,8 +333,15 @@ span[data-action] {
     background: #32535c;
 }
 
-#menu[data-toggle=open][data-sticky] {
-    position: relative !important;
+@supports (position: sticky) {
+    #menu {
+        position: sticky;
+        top: 0;
+    }
+
+    #menu[data-toggle=open] {
+        position: relative;
+    }
 }
 
 #menu ul {

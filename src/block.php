@@ -367,10 +367,6 @@ function nav(array $block): string
         $attrs['data-toggle'] = '';
     }
 
-    if ($block['vars']['sticky']) {
-        $attrs['data-sticky'] = '';
-    }
-
     foreach ($block['vars']['data'] as $item) {
         if (empty($item['name'])) {
             throw new DomainException(app\i18n('Invalid data'));
