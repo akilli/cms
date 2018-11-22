@@ -20,18 +20,11 @@ return [
             'parent_id' => 'head',
             'sort' => 20,
         ],
-        'asset-user' => [
-            'type' => 'tpl',
-            'tpl' => 'head/asset-user.phtml',
-            'priv' => '_user_',
-            'parent_id' => 'head',
-            'sort' => 30,
-        ],
         'asset-ext' => [
             'type' => 'tpl',
             'tpl' => 'head/asset-ext.phtml',
             'parent_id' => 'head',
-            'sort' => 40,
+            'sort' => 30,
         ],
         'toolbar' => [
             'type' => 'toolbar',
@@ -83,6 +76,14 @@ return [
             'vars' => [
                 'tag' => 'footer',
             ],
+        ],
+    ],
+    '_admin_' => [
+        'asset-admin' => [
+            'type' => 'tpl',
+            'tpl' => 'head/asset-admin.phtml',
+            'parent_id' => 'head',
+            'sort' => 25,
         ],
     ],
     '_public_' => [

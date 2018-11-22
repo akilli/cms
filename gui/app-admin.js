@@ -1,15 +1,47 @@
 /**
- * File Browser
+ * Admin Listeners
  */
 'use strict';
 
-(function (document, window, app, CKEDITOR) {
-    // Browser window
-    document.addEventListener('DOMContentLoaded', function () {
-        if (!window.opener) {
-            return;
-        }
+(function (window, document, app, CKEDITOR) {
+    /**
+     * Delete Confirmation
+     */
+    function deleteConfirmation() {
+        Array.prototype.forEach.call(document.querySelectorAll('a[data-action=delete]'), function (item) {
+            item.addEventListener('click', function (event) {
+                if (!confirm(app.i18n('Please confirm delete operation'))) {
+                    event.preventDefault();
+                }
+            });
+        });
+    }
 
+    /**
+     * Input password autocomplete fix
+     */
+    function passwordAutocomplete() {
+        Array.prototype.forEach.call(document.querySelectorAll('input[type=password]'), function (item) {
+            item.setAttribute('readonly', 'readonly');
+            item.addEventListener('focus', function () {
+                this.removeAttribute('readonly');
+            });
+        });
+    }
+
+    /**
+     * Rich Text Editor
+     */
+    function rte() {
+        Array.prototype.forEach.call(document.querySelectorAll('textarea[data-type=rte]'), function (item) {
+            CKEDITOR.replace(item, app.rte);
+        });
+    }
+
+    /**
+     * Media Browser
+     */
+    function mediaBrowser() {
         let origin;
 
         try {
@@ -28,10 +60,12 @@
                 }, origin);
             });
         });
-    });
+    }
 
-    // Main window
-    document.addEventListener('DOMContentLoaded', function () {
+    /**
+     * Media Browser Opener
+     */
+    function mediaBrowserOpen () {
         const suffix = '-file';
 
         Array.prototype.forEach.call(document.querySelectorAll('span[data-action=browser]'), function (item) {
@@ -76,5 +110,20 @@
                 input.setAttribute('value', '');
             });
         });
+    }
+
+    /**
+     * Event Listener
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        deleteConfirmation();
+        passwordAutocomplete();
+        rte();
+
+        if (window.opener) {
+            mediaBrowser();
+        } else {
+            mediaBrowserOpen();
+        }
     });
-})(document, window, app, CKEDITOR);
+})(window, document, app, CKEDITOR);

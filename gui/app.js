@@ -1,5 +1,5 @@
 /**
- * Application helper functions
+ * App
  */
 'use strict';
 
@@ -13,6 +13,39 @@
         const app = {
             cfg: {
                 i18n: {}
+            },
+            rte: {
+                contentsCss: '',
+                customConfig: '',
+                disableNativeSpellChecker: true,
+                extraAllowedContent: 'article section(*)',
+                fillEmptyBlocks: false,
+                format_tags: 'p;h2;h3',
+                height: '30rem',
+                language: 'de',
+                mediabrowserUrl: '/file/browser',
+                removeDialogTabs: 'link:advanced;link:target',
+                stylesSet: false,
+                toolbar: [
+                    {
+                        name: 'all',
+                        items: [
+                            'Undo',
+                            'Redo',
+                            'Bold',
+                            'Italic',
+                            'Link',
+                            'Unlink',
+                            'Format',
+                            'BulletedList',
+                            'NumberedList',
+                            'Blockquote',
+                            'Media',
+                            'Table',
+                            'Detail'
+                        ]
+                    }
+                ]
             },
             ajax: function (method, url, body) {
                 if (!method || !url) {

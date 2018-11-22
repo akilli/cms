@@ -1,9 +1,12 @@
 /**
- * Print Version
+ * Print Listeners
  */
 'use strict';
 
-(function (document, window) {
+(function (window, document) {
+    /**
+     * Prepares print version
+     */
     function printBefore() {
         Array.prototype.forEach.call(document.getElementsByTagName('details'), function (item) {
             if (item.hasAttribute('open')) {
@@ -19,6 +22,9 @@
         });
     }
 
+    /**
+     * Restores screen version
+     */
     function printAfter() {
         Array.prototype.forEach.call(document.getElementsByTagName('details'), function (item) {
             if (item.hasAttribute('data-open')) {
@@ -34,17 +40,16 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const mql = window.matchMedia('print');
-        mql.addListener(function (media) {
-            if (media.matches) {
-                printBefore();
-            } else {
-                printAfter();
-            }
-        });
-
-        window.addEventListener('beforeprint', printBefore);
-        window.addEventListener('afterprint', printAfter);
+    /**
+     * Event Listener
+     */
+    window.matchMedia('print').addListener(function (media) {
+        if (media.matches) {
+            printBefore();
+        } else {
+            printAfter();
+        }
     });
-})(document, window);
+    window.addEventListener('beforeprint', printBefore);
+    window.addEventListener('afterprint', printAfter);
+})(window, document);
