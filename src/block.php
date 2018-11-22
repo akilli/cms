@@ -315,24 +315,27 @@ function menu(array $block): string
  */
 function meta(array $block): string
 {
+    $desc = app\cfg('app', 'meta.description');
+    $title = app\cfg('app', 'meta.title');
+
     if ($page = app\get('page')) {
-        $block['vars']['description'] = $page['meta_description'];
+        $desc = $page['meta_description'];
 
         if ($page['meta_title']) {
-            $block['vars']['title'] = $page['meta_title'];
+            $title = $page['meta_title'];
         } else {
             $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['name', 'menu_name'], 'order' => ['level' => 'asc']]);
 
             foreach ($all as $item) {
-                $block['vars']['title'] = ($item['menu_name'] ?: $item['name']) . ($block['vars']['title'] ? ' - ' . $block['vars']['title'] : '');
+                $title = ($item['menu_name'] ?: $item['name']) . ($title ? ' - ' . $title : '');
             }
         }
     } elseif ($entity = app\get('entity')) {
-        $block['vars']['title'] = $entity['name'] . ($block['vars']['title'] ? ' - ' . $block['vars']['title'] : '');
+        $title = $entity['name'] . ($title ? ' - ' . $title : '');
     }
 
-    $block['vars']['description'] = $block['vars']['description'] ? app\enc($block['vars']['description']) : '';
-    $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : '';
+    $block['vars']['description'] = $desc ? app\enc($desc) : '';
+    $block['vars']['title'] = $title ? app\enc($title) : '';
 
     return tpl($block);
 }

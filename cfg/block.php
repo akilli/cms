@@ -78,10 +78,6 @@ return [
     'meta' => [
         'call' => 'block\meta',
         'tpl' => 'head/meta.phtml',
-        'vars' => [
-            'description' => '',
-            'title' => '',
-        ],
     ],
     'nav' => [
         'call' => 'block\nav',
