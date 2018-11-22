@@ -5,6 +5,33 @@
 
 (function (window, document, Flickity) {
     /**
+     * Toggle
+     */
+    function toggle() {
+        Array.prototype.forEach.call(document.querySelectorAll('span[data-action=toggle]'), function (item) {
+            item.addEventListener('click', function () {
+                const dt = this.getAttribute('data-target');
+                const target = dt ? document.getElementById(dt) : null;
+
+                if (this.hasAttribute('data-toggle')) {
+                    this.removeAttribute('data-toggle');
+
+                    if (!!target) {
+                        target.setAttribute('data-toggle', '');
+                    }
+                } else {
+                    this.setAttribute('data-toggle', '');
+
+                    if (!!target) {
+                        target.setAttribute('data-toggle', 'open');
+                        target.scrollIntoView(true);
+                    }
+                }
+            });
+        });
+    }
+
+    /**
      * Fallback for input[type=datetime-local] to input[type=date] + input[type=time]
      */
     function datetime() {
@@ -142,6 +169,7 @@
      * Event Listener
      */
     document.addEventListener('DOMContentLoaded', function () {
+        toggle();
         datetime();
         multiCheckbox();
         links();
