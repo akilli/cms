@@ -3,8 +3,8 @@ namespace app;
 use attr;
 /** @var callable $var */
 ?>
-<?php foreach ($var('attr') as $attrId => $attr):?>
-    <?php $val = $var('data')[$attrId] ?? null;?>
+<?php foreach ($var('attr') as $attr):?>
+    <?php $val = $var('data')[$attr['id']] ?? null;?>
     <?php if ($val === null || $val === '' || !($html = attr\viewer($var('data'), $attr))) continue;?>
     <?php if ($attr['id'] === 'name'):?>
 <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
