@@ -164,3 +164,11 @@ function replace(array $base, array $data, array ...$add): array
 {
     return array_intersect_key(array_replace($base, $data, ...$add), $base);
 }
+
+/**
+ * Extracts given keys
+ */
+function extract(array $data, array $keys): array
+{
+    return array_intersect_key($data, array_flip($keys));
+}

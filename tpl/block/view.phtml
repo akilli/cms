@@ -3,12 +3,9 @@ namespace app;
 use attr;
 /** @var callable $var */
 ?>
-<?php foreach ($var('attr') as $attrId):?>
-    <?php
-    $attr = $var('entity')['attr'][$attrId] ?? null;
-    $val = $var('data')[$attrId] ?? null;
-    ?>
-    <?php if (!$attr || $val === null || $val === '' || !($html = attr\viewer($var('data'), $attr))) continue;?>
+<?php foreach ($var('attr') as $attrId => $attr):?>
+    <?php $val = $var('data')[$attrId] ?? null;?>
+    <?php if ($val === null || $val === '' || !($html = attr\viewer($var('data'), $attr))) continue;?>
     <?php if ($attr['id'] === 'name'):?>
 <h1 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></h1>
     <?php elseif (in_array($attr['type'], ['audio', 'image', 'video'])):?>

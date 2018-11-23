@@ -578,9 +578,13 @@ function view(array $block): string
     $type = app\cfg('block', 'view');
     $block['tpl'] = $block['tpl'] ?: $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['entity'] = app\get('entity');
-    $block['vars']['id'] = app\get('id');
-    $block['vars']['data'] = app\get('page') ?: entity\one($block['vars']['entity']['id'], [['id', $block['vars']['id']]]);
+
+    if (!$block['vars']['attr'] || !($entity = app\get('entity')) || !($id = app\get('id'))) {
+        return '';
+    }
+
+    $block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr']);
+    $block['vars']['data'] = app\get('page') ?: entity\one($entity['id'], [['id', $id]]);
 
     return $block['vars']['data'] ? app\render($block['tpl'], $block['vars']) : '';
 }
