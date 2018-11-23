@@ -42,7 +42,7 @@ return [
         'vars' => [
             'attr' => [],
             'data' => [],
-            'entity' => [],
+            'entity_id' => null,
             'title' => null,
         ],
     ],

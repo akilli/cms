@@ -10,8 +10,7 @@ use session;
     <?php endif;?>
     <form method="post"<?php if ($var('file')):?> enctype="multipart/form-data"<?php endif;?>>
         <fieldset>
-            <?php foreach ($var('attr') as $attrId):?>
-            <?php if (!($attr = $var('entity')['attr'][$attrId] ?? null)) continue;?>
+            <?php foreach ($var('attr') as $attr):?>
             <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
                 <?=attr\frontend($var('data'), $attr);?>
             </div>

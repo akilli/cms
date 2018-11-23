@@ -181,7 +181,7 @@ function layout(array $data): array
 
         if (($page = app\get('page')) && ($dbLayout = entity\all('layout', [['page_id', $page['id']]]))) {
             $ids = array_column($dbLayout, 'block_id');
-            $base = entity\item(app\cfg('entity', 'block'));
+            $base = entity\item('block');
             $dbBlocks = [];
 
             foreach (array_unique(array_column(entity\all('block', [['id', $ids]], ['select' => ['entity']]), 'entity')) as $eId) {

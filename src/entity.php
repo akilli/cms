@@ -196,10 +196,16 @@ function delete(string $entityId, array $crit = [], array $opt = []): bool
 
 /**
  * Retrieve empty entity
+ *
+ * @throws DomainException
  */
-function item(array $entity): array
+function item(string $entityId): array
 {
-    return array_fill_keys(array_keys($entity['attr']), null) + ['_old' => [], '_entity' => $entity];
+    if (!$entity = app\cfg('entity', $entityId)) {
+        throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    }
+
+    return array_fill_keys(array_keys($entity['attr']), null) + ['_old' => [], '_entity' => $entity, '_error' => null];
 }
 
 /**

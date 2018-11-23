@@ -74,7 +74,7 @@ function container(array $block): string
 function content(array $block): string
 {
     $type = app\cfg('block', 'content');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
+    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
 
     if (!$block['vars']['content']) {
@@ -92,18 +92,24 @@ function content(array $block): string
 function create(array $block): string
 {
     $type = app\cfg('block', 'create');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
+    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['entity'] = $block['vars']['entity_id'] ? app\cfg('entity', $block['vars']['entity_id']) : app\get('entity');
+    $block['vars']['entity_id'] = $block['vars']['entity_id'] ?: app\get('entity_id');
+    $entity = app\cfg('entity', $block['vars']['entity_id']);
 
-    if (($data = request\get('data')) && entity\save($block['vars']['entity']['id'], $data)) {
+    if (!$entity || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr']))) {
+        return '';
+    }
+
+    if (($data = request\get('data')) && entity\save($entity['id'], $data)) {
         $data = [];
     }
 
-    $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), $data);
+    $block['vars']['data'] = arr\replace(entity\item($entity['id']), $data);
+    $block['vars']['file'] = !!arr\crit($block['vars']['attr'], [['type', 'upload']]);
     $block['vars']['title'] = null;
 
-    return form($block);
+    return app\render($block['tpl'], $block['vars']);
 }
 
 /**
@@ -112,14 +118,19 @@ function create(array $block): string
 function edit(array $block): string
 {
     $type = app\cfg('block', 'edit');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
+    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['entity'] = app\get('entity');
+    $entity = app\get('entity');
+
+    if (!$entity || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr']))) {
+        return '';
+    }
+
     $old = null;
 
-    if (($id = app\get('id')) && !($old = entity\one($block['vars']['entity']['id'], [['id', $id]]))) {
+    if (($id = app\get('id')) && !($old = entity\one($entity['id'], [['id', $id]]))) {
         app\msg('Nothing to edit');
-        request\redirect(app\url($block['vars']['entity']['id'] . '/admin'));
+        request\redirect(app\url($entity['id'] . '/admin'));
         return '';
     }
 
@@ -128,8 +139,8 @@ function edit(array $block): string
             $data['id'] = $id;
         }
 
-        if (entity\save($block['vars']['entity']['id'], $data)) {
-            request\redirect(app\url($block['vars']['entity']['id'] . '/edit/' . $data['id']));
+        if (entity\save($entity['id'], $data)) {
+            request\redirect(app\url($entity['id'] . '/edit/' . $data['id']));
             return '';
         }
     }
@@ -139,7 +150,7 @@ function edit(array $block): string
     if ($id) {
         $p = [$old];
 
-        if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent_id']])) {
+        if (in_array('page', [$entity['id'], $entity['parent_id']])) {
             $v = entity\one('version', [['page_id', $id]], ['select' => APP['version'], 'order' => ['timestamp' => 'desc']]);
             unset($v['_old'], $v['_entity']);
             $p[] = $v;
@@ -147,10 +158,14 @@ function edit(array $block): string
     }
 
     $p[] = $data;
-    $block['vars']['data'] = arr\replace(['_error' => null] + entity\item($block['vars']['entity']), ...$p);
-    $block['vars']['title'] = $block['vars']['entity']['name'];
 
-    return form($block);
+
+    $block['vars']['data'] = arr\replace(entity\item($entity['id']), ...$p);
+    $block['vars']['entity_id'] = $entity['id'];
+    $block['vars']['file'] = !!arr\crit($block['vars']['attr'], [['type', 'upload']]);
+    $block['vars']['title'] = $entity['name'];
+
+    return app\render($block['tpl'], $block['vars']);
 }
 
 /**
@@ -159,21 +174,15 @@ function edit(array $block): string
 function form(array $block): string
 {
     $type = app\cfg('block', 'form');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
+    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
 
-    if (!$block['vars']['entity']) {
+    if (!$block['vars']['entity_id'] || !($entity = app\cfg('entity', $block['vars']['entity_id'])) || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr']))) {
         return '';
     }
 
     $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : null;
-    $block['vars']['file'] = false;
-
-    foreach ($block['vars']['attr'] as $attrId) {
-        if ($block['vars']['file'] = ($block['vars']['entity']['attr'][$attrId]['type'] ?? null) === 'upload') {
-            break;
-        }
-    }
+    $block['vars']['file'] = !!arr\crit($block['vars']['attr'], [['type', 'upload']]);
 
     return app\render($block['tpl'], $block['vars']);
 }
@@ -184,7 +193,7 @@ function form(array $block): string
 function index(array $block): string
 {
     $type = app\cfg('block', 'index');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
+    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
     $block['vars']['entity_id'] = $block['vars']['entity_id'] ?: app\get('entity_id');
     $entity = app\cfg('entity', $block['vars']['entity_id']);
@@ -258,16 +267,17 @@ function index(array $block): string
  */
 function login(array $block): string
 {
+    $entity = app\cfg('entity', 'account');
+    $a = ['name' => ['unique' => false, 'minlength' => 0, 'maxlength' => 0], 'password' => ['minlength' => 0, 'maxlength' => 0]];
     $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'login')['tpl'];
     $block['vars'] = [];
-    $block['vars']['title'] = app\i18n('Login');
-    $block['vars']['attr'] = ['name', 'password'];
+    $block['vars']['attr'] = array_replace_recursive(arr\extract($entity['attr'], ['name', 'password']), $a);
     $block['vars']['data'] = [];
-    $a = ['name' => ['unique' => false, 'minlength' => 0, 'maxlength' => 0], 'password' => ['minlength' => 0, 'maxlength' => 0]];
-    $block['vars']['entity'] = app\cfg('entity', 'account');
-    $block['vars']['entity']['attr'] = array_replace_recursive($block['vars']['entity']['attr'], $a);
+    $block['vars']['entity_id'] = 'account';
+    $block['vars']['file'] = false;
+    $block['vars']['title'] = app\i18n('Login');
 
-    return form($block);
+    return app\render($block['tpl'], $block['vars']);
 }
 
 /**
@@ -436,7 +446,7 @@ function nav(array $block): string
 function pager(array $block): string
 {
     $type = app\cfg('block', 'pager');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
+    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
     $block['vars']['size'] = (int) $block['vars']['size'];
     $cur = $block['vars']['cur'] ?? request\get('param')['cur'] ?? 1;
@@ -496,14 +506,16 @@ function password(array $block): string
         }
     }
 
+    $entity = app\cfg('entity', 'account');
     $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'password')['tpl'];
     $block['vars'] = [];
-    $block['vars']['attr'] = ['password', 'confirmation'];
+    $block['vars']['attr'] = arr\extract($entity['attr'], ['password', 'confirmation']);
     $block['vars']['data'] = $data;
-    $block['vars']['entity'] = app\cfg('entity', 'account');
+    $block['vars']['entity_id'] = 'account';
+    $block['vars']['file'] = false;
     $block['vars']['title'] = app\i18n('Password');
 
-    return form($block);
+    return app\render($block['tpl'], $block['vars']);
 }
 
 /**
@@ -512,7 +524,7 @@ function password(array $block): string
 function search(array $block): string
 {
     $type = app\cfg('block', 'search');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
+    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
     $block['vars']['q'] = $block['vars']['q'] ?? request\get('param')['q'] ?? null;
 
@@ -577,10 +589,10 @@ function tpl(array $block): string
 function view(array $block): string
 {
     $type = app\cfg('block', 'view');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
+    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
 
-    if (!$block['vars']['attr'] || !($entity = app\get('entity')) || !($id = app\get('id'))) {
+    if (!($entity = app\get('entity')) || !($id = app\get('id'))) {
         return '';
     }
 
