@@ -94,7 +94,7 @@ function create(array $block): string
     $type = app\cfg('block', 'create');
     $block['tpl'] = $block['tpl'] ?: $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
+    $block['vars']['entity'] = $block['vars']['entity_id'] ? app\cfg('entity', $block['vars']['entity_id']) : app\get('entity');
 
     if (($data = request\get('data')) && entity\save($block['vars']['entity']['id'], $data)) {
         $data = [];

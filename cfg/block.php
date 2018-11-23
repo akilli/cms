@@ -26,7 +26,7 @@ return [
         'tpl' => 'block/form.phtml',
         'vars' => [
             'attr' => [],
-            'entity' => null,
+            'entity_id' => null,
         ],
     ],
     'edit' => [
