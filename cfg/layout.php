@@ -115,9 +115,9 @@ return [
         ],
     ],
     /**
-     * Error
+     * Invalid
      */
-    '_error_' => [
+    '_invalid_' => [
         'content-main' => [
             'type' => 'tpl',
             'tpl' => 'app/error.phtml',

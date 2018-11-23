@@ -76,7 +76,7 @@ function invalid(): void
 {
     http_response_code(404);
     $app = & registry('app');
-    $app['error'] = true;
+    $app['invalid'] = true;
     $layout = & registry('layout');
     $layout = null;
 }

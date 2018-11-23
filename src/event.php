@@ -165,8 +165,8 @@ function layout(array $data): array
     $url = request\get('url');
     $keys = ['_all_', app\get('area')];
 
-    if (app\get('error')) {
-        $keys[] = '_error_';
+    if (app\get('invalid')) {
+        $keys[] = '_invalid_';
     } else {
         $entityId = app\get('entity_id');
         $action = app\get('action');
