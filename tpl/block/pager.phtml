@@ -1,13 +1,13 @@
 <?php
 namespace app;
-/** @var callable $block */
+/** @var callable $var */
 ?>
 <nav class="pager">
     <div class="info">
-        <?=i18n('%s to %s of %s', $block('min'), $block('max'), $block('size'));?>
+        <?=i18n('%s to %s of %s', $var('min'), $var('max'), $var('size'));?>
     </div>
     <div class="links">
-        <?php foreach ($block('links') as $link):?>
+        <?php foreach ($var('links') as $link):?>
             <?php if (!empty($link['active'])):?>
         <span><?=$link['name'];?></span>
             <?php else:?>

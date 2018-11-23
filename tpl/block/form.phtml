@@ -2,18 +2,18 @@
 namespace app;
 use attr;
 use session;
-/** @var callable $block */
+/** @var callable $var */
 ?>
 <section class="block block-form">
-    <?php if ($block('title')):?>
-    <h1><?=$block('title');?></h1>
+    <?php if ($var('title')):?>
+    <h1><?=$var('title');?></h1>
     <?php endif;?>
-    <form method="post"<?php if ($block('file')):?> enctype="multipart/form-data"<?php endif;?>>
+    <form method="post"<?php if ($var('file')):?> enctype="multipart/form-data"<?php endif;?>>
         <fieldset>
-            <?php foreach ($block('attr') as $attrId):?>
-            <?php if (!($attr = $block('entity')['attr'][$attrId] ?? null)) continue;?>
+            <?php foreach ($var('attr') as $attrId):?>
+            <?php if (!($attr = $var('entity')['attr'][$attrId] ?? null)) continue;?>
             <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-                <?=attr\frontend($block('data'), $attr);?>
+                <?=attr\frontend($var('data'), $attr);?>
             </div>
             <?php endforeach;?>
         </fieldset>

@@ -138,7 +138,6 @@ return [
         'tpl' => 'block/view.phtml',
         'vars' => [
             'attr' => [],
-            'data' => [],
             'entity' => null,
             'id' => null,
         ],

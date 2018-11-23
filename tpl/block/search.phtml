@@ -1,10 +1,10 @@
 <?php
 namespace app;
 use session;
-/** @var callable $block */
+/** @var callable $var */
 ?>
 <form method="post" class="block block-search">
-    <input type="search" name="param[q]" value="<?=$block('q');?>" placeholder="<?=i18n('Search Term');?>" />
+    <input type="search" name="param[q]" value="<?=$var('q');?>" placeholder="<?=i18n('Search Term');?>" />
     <input type="submit" value="<?=i18n('Search');?>" />
     <input type="hidden" name="token" value="<?=session\token();?>" />
 </form>

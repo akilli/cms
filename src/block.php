@@ -16,11 +16,19 @@ use DomainException;
  */
 function banner(array $block): string
 {
+    if (!$block['tpl']) {
+        return '';
+    }
+
     if (($page = app\get('page')) && $page['entity'] !== 'page_content') {
         $page = entity\one('page', [['id', $page['path']], ['entity', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
     }
 
-    return $page && ($block['vars']['img'] = attr\viewer($page, $page['_entity']['attr']['image'])) ? tpl($block) : '';
+    if ($page && ($block['vars']['img'] = attr\viewer($page, $page['_entity']['attr']['image']))) {
+        return app\render($block['tpl'], $block['vars']);
+    }
+
+    return '';
 }
 
 /**
@@ -69,9 +77,13 @@ function container(array $block): string
  */
 function content(array $block): string
 {
+    if (!$block['tpl'] || !$block['vars']['content']) {
+        return '';
+    }
+
     $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : null;
 
-    return $block['vars']['content'] ? tpl($block) : '';
+    return app\render($block['tpl'], $block['vars']);
 }
 
 /**
@@ -140,7 +152,7 @@ function edit(array $block): string
  */
 function form(array $block): string
 {
-    if (!$block['vars']['entity']) {
+    if (!$block['tpl'] || !$block['vars']['entity']) {
         return '';
     }
 
@@ -153,7 +165,7 @@ function form(array $block): string
         }
     }
 
-    return tpl($block);
+    return app\render($block['tpl'], $block['vars']);
 }
 
 /**
@@ -161,6 +173,10 @@ function form(array $block): string
  */
 function index(array $block): string
 {
+    if (!$block['tpl']) {
+        return '';
+    }
+
     $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
     $crit = is_array($block['vars']['crit']) ? $block['vars']['crit'] : [];
     $opt = ['limit' => (int) $block['vars']['limit']];
@@ -244,7 +260,7 @@ function index(array $block): string
     $block['vars']['title'] = app\enc($block['vars']['title'] ?? $block['vars']['entity']['name']);
     $block['vars']['url'] = request\get('url');
 
-    return tpl($block);
+    return app\render($block['tpl'], $block['vars']);
 }
 
 /**
@@ -315,6 +331,10 @@ function menu(array $block): string
  */
 function meta(array $block): string
 {
+    if (!$block['tpl']) {
+        return '';
+    }
+
     $desc = app\cfg('app', 'meta.description');
     $title = app\cfg('app', 'meta.title');
 
@@ -337,7 +357,7 @@ function meta(array $block): string
     $block['vars']['description'] = $desc ? app\enc($desc) : '';
     $block['vars']['title'] = $title ? app\enc($title) : '';
 
-    return tpl($block);
+    return app\render($block['tpl'], $block['vars']);
 }
 
 /**
@@ -436,6 +456,10 @@ function page(array $block): string
  */
 function pager(array $block): string
 {
+    if (!$block['tpl']) {
+        return '';
+    }
+
     $block['vars']['size'] = (int) $block['vars']['size'];
     $cur = $block['vars']['cur'] ?? request\get('param')['cur'] ?? 1;
     $limit = (int) $block['vars']['limit'];
@@ -469,7 +493,7 @@ function pager(array $block): string
         $block['vars']['links'][] = ['name' => app\i18n('Next'), 'url' => app\url($url, ['cur' => $cur + 1], true)];
     }
 
-    return tpl($block);
+    return app\render($block['tpl'], $block['vars']);
 }
 
 /**
@@ -503,9 +527,13 @@ function password(array $block): string
  */
 function search(array $block): string
 {
+    if (!$block['tpl']) {
+        return '';
+    }
+
     $block['vars']['q'] = $block['vars']['q'] ?? request\get('param')['q'] ?? null;
 
-    return tpl($block);
+    return app\render($block['tpl'], $block['vars']);
 }
 
 /**
@@ -554,18 +582,7 @@ function toolbar(array $block): string
  */
 function tpl(array $block): string
 {
-    if (!$block['tpl']) {
-        return '';
-    }
-
-    $block['vars'] = ['id' => $block['id'], 'tpl' => $block['tpl']] + $block['vars'];
-    $block = function ($key) use ($block) {
-        return $block['vars'][$key] ?? null;
-    };
-    ob_start();
-    include app\tpl((string) $block('tpl'));
-
-    return ob_get_clean();
+    return $block['tpl'] ? app\render($block['tpl']) : '';
 }
 
 /**
@@ -573,14 +590,17 @@ function tpl(array $block): string
  */
 function view(array $block): string
 {
-    if ($block['vars']['data']) {
-        $block['vars']['entity'] = $block['vars']['data']['_entity'];
-        $block['vars']['id'] = $block['vars']['data']['id'];
-    } elseif ($block['vars']['entity'] && $block['vars']['id'] || !$block['vars']['entity'] && !$block['vars']['id']) {
+    if (!$block['tpl']) {
+        return '';
+    }
+
+    $block['vars']['data'] = [];
+
+    if ($block['vars']['entity'] && $block['vars']['id'] || !$block['vars']['entity'] && !$block['vars']['id']) {
         $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
         $block['vars']['id'] = $block['vars']['id'] ?? app\get('id');
         $block['vars']['data'] = entity\one($block['vars']['entity']['id'], [['id', $block['vars']['id']]]);
     }
 
-    return $block['vars']['data'] ? tpl($block) : '';
+    return $block['vars']['data'] ? app\render($block['tpl'], $block['vars']) : '';
 }

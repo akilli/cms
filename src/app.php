@@ -280,11 +280,34 @@ function file(string $url): string
 /**
  * Template path
  */
-function tpl(string $id): string
+function tpl(string $id): ?string
 {
-    $ext = path('ext.tpl', $id);
+    foreach ([path('ext.tpl', $id), path('tpl', $id)] as $tpl) {
+        if (is_file($tpl)) {
+            return $tpl;
+        }
+    }
 
-    return is_file($ext) ? $ext : path('tpl', $id);
+    return null;
+}
+
+/**
+ * Renders template with given variables
+ */
+function render(string $tpl, array $var = []): string
+{
+    if (!$var['tpl'] = tpl($tpl)) {
+        return '';
+    }
+
+    unset($tpl);
+    $var = function ($key) use ($var) {
+        return $var[$key] ?? null;
+    };
+    ob_start();
+    include $var('tpl');
+
+    return ob_get_clean();
 }
 
 /**
