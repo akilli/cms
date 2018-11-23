@@ -48,6 +48,11 @@ const APP = [
         'html' => [],
     ],
     'backend' => ['bool', 'date', 'datetime', 'decimal', 'int', 'json', 'text', 'time', 'varchar'],
+    'block' => [
+        'call' => null,
+        'tpl' => null,
+        'vars' => [],
+    ],
     'crit' => [
         '=' => '=',
         '!=' => '!=',

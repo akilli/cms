@@ -19,8 +19,10 @@ use DomainException;
  */
 function cfg_block(array $data): array
 {
-    foreach ($data as $val) {
-        if (empty($val['call']) || !is_callable($val['call'])) {
+    foreach ($data as $id => $type) {
+        $data[$id] = arr\replace(APP['block'], $type);
+
+        if (!is_callable($type['call'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
         }
     }
