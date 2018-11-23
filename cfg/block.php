@@ -87,13 +87,6 @@ return [
             'toggle' => false,
         ],
     ],
-    'page' => [
-        'call' => 'block\page',
-        'tpl' => 'block/view.phtml',
-        'vars' => [
-            'attr' => [],
-        ],
-    ],
     'pager' => [
         'call' => 'block\pager',
         'tpl' => 'block/pager.phtml',

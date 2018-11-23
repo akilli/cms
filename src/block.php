@@ -430,23 +430,6 @@ function nav(array $block): string
 }
 
 /**
- * Page View
- */
-function page(array $block): string
-{
-    if (!$page = app\get('page')) {
-        return '';
-    }
-
-    $type = app\cfg('block', 'page');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['data'] = $page;
-
-    return view($block);
-}
-
-/**
  * Pager
  */
 function pager(array $block): string
@@ -597,7 +580,7 @@ function view(array $block): string
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
     $block['vars']['entity'] = app\get('entity');
     $block['vars']['id'] = app\get('id');
-    $block['vars']['data'] = entity\one($block['vars']['entity']['id'], [['id', $block['vars']['id']]]);
+    $block['vars']['data'] = app\get('page') ?: entity\one($block['vars']['entity']['id'], [['id', $block['vars']['id']]]);
 
     return $block['vars']['data'] ? app\render($block['tpl'], $block['vars']) : '';
 }

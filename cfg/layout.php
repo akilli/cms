@@ -316,9 +316,6 @@ return [
             'parent_id' => 'left',
             'sort' => 10,
         ],
-        'content-main' => [
-            'type' => 'page',
-        ],
         'page-sidebar' => [
             'type' => 'sidebar',
             'parent_id' => 'right',
