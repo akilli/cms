@@ -4,7 +4,7 @@ namespace app;
 ?>
 <nav class="pager">
     <div class="info">
-        <?=i18n('%s to %s of %s', $var('min'), $var('max'), $var('size'));?>
+        <?=$var('info');?>
     </div>
     <div class="links">
         <?php foreach ($var('links') as $link):?>

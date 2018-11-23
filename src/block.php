@@ -491,11 +491,15 @@ function pager(array $block): string
     $total = (int) ceil($block['vars']['size'] / $limit) ?: 1;
     $cur = min(max($cur, 1), $total);
     $offset = ($cur - 1) * $limit;
-    $block['vars']['max'] = min($offset + $limit, $block['vars']['size']);
-    $block['vars']['min'] = $offset + 1;
-    $block['vars']['links'] = [];
     $min = max(1, min($cur - intdiv($pages, 2), $total - $pages + 1));
     $max = min($min + $pages - 1, $total);
+    $block['vars']['info'] = app\i18n(
+        '%s to %s of %s',
+        (string) ($offset + 1),
+        (string) min($offset + $limit, $block['vars']['size']),
+        (string) $block['vars']['size']
+    );
+    $block['vars']['links'] = [];
 
     if ($cur >= 2) {
         $lp = ['cur' => $cur === 2 ? null : $cur - 1];
