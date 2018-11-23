@@ -353,10 +353,8 @@ function block(string $id): string
     }
 
     $block = event(['block.' . $block['type'], 'layout.' . $id], $block);
-    $type = cfg('block', $block['type']);
-    $block['vars'] = isset($type['vars']) && isset($block['vars']) ? arr\replace($type['vars'], $block['vars']) : [];
 
-    return $type['call']($block);
+    return (cfg('block', $block['type']))['call']($block);
 }
 
 /**

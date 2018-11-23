@@ -20,6 +20,8 @@ function banner(array $block): string
         return '';
     }
 
+    $block['vars'] = [];
+
     if (($page = app\get('page')) && $page['entity'] !== 'page_content') {
         $page = entity\one('page', [['id', $page['path']], ['entity', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
     }
@@ -40,6 +42,7 @@ function breadcrumb(array $block): string
         return '';
     }
 
+    $block['vars'] = [];
     $html = '';
     $crit = [['status', 'published'], ['entity', 'page_content'], ['id', $page['path']]];
     $all = entity\all('page', $crit, ['select' => ['id', 'name', 'url', 'disabled', 'menu_name'], 'order' => ['level' => 'asc']]);
@@ -59,6 +62,7 @@ function breadcrumb(array $block): string
  */
 function container(array $block): string
 {
+    $block['vars'] = arr\replace(app\cfg('block', 'container')['vars'], $block['vars']);
     $html = '';
 
     foreach (arr\order(arr\crit(app\layout(), [['parent_id', $block['id']]]), ['sort' => 'asc']) as $child) {
@@ -77,6 +81,8 @@ function container(array $block): string
  */
 function content(array $block): string
 {
+    $block['vars'] = arr\replace(app\cfg('block', 'content')['vars'], $block['vars']);
+
     if (!$block['tpl'] || !$block['vars']['content']) {
         return '';
     }
@@ -91,6 +97,7 @@ function content(array $block): string
  */
 function create(array $block): string
 {
+    $block['vars'] = arr\replace(app\cfg('block', 'create')['vars'], $block['vars']);
     $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
 
     if (($data = request\get('data')) && entity\save($block['vars']['entity']['id'], $data)) {
@@ -108,6 +115,7 @@ function create(array $block): string
  */
 function edit(array $block): string
 {
+    $block['vars'] = arr\replace(app\cfg('block', 'edit')['vars'], $block['vars']);
     $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
     $old = null;
 
@@ -152,6 +160,8 @@ function edit(array $block): string
  */
 function form(array $block): string
 {
+    $block['vars'] = arr\replace(app\cfg('block', 'form')['vars'], $block['vars']);
+
     if (!$block['tpl'] || !$block['vars']['entity']) {
         return '';
     }
@@ -177,6 +187,7 @@ function index(array $block): string
         return '';
     }
 
+    $block['vars'] = arr\replace(app\cfg('block', 'index')['vars'], $block['vars']);
     $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
     $crit = is_array($block['vars']['crit']) ? $block['vars']['crit'] : [];
     $opt = ['limit' => (int) $block['vars']['limit']];
@@ -268,6 +279,7 @@ function index(array $block): string
  */
 function login(array $block): string
 {
+    $block['vars'] = [];
     $block['vars']['title'] = app\i18n('Login');
     $block['vars']['attr'] = ['name', 'password'];
     $block['vars']['data'] = [];
@@ -283,6 +295,7 @@ function login(array $block): string
  */
 function menu(array $block): string
 {
+    $block['vars'] = arr\replace(app\cfg('block', 'menu')['vars'], $block['vars']);
     $page = app\get('page');
     $sub = $block['vars']['mode'] === 'sub';
 
@@ -335,6 +348,7 @@ function meta(array $block): string
         return '';
     }
 
+    $block['vars'] = [];
     $desc = app\cfg('app', 'meta.description');
     $title = app\cfg('app', 'meta.title');
 
@@ -367,6 +381,8 @@ function meta(array $block): string
  */
 function nav(array $block): string
 {
+    $block['vars'] = arr\replace(app\cfg('block', 'nav')['vars'], $block['vars']);
+
     if (!$block['vars']['data']) {
         return '';
     }
@@ -446,6 +462,7 @@ function page(array $block): string
         return '';
     }
 
+    $block['vars'] = arr\replace(app\cfg('block', 'page')['vars'], $block['vars']);
     $block['vars']['data'] = $page;
 
     return view($block);
@@ -460,6 +477,7 @@ function pager(array $block): string
         return '';
     }
 
+    $block['vars'] = arr\replace(app\cfg('block', 'pager')['vars'], $block['vars']);
     $block['vars']['size'] = (int) $block['vars']['size'];
     $cur = $block['vars']['cur'] ?? request\get('param')['cur'] ?? 1;
     $limit = (int) $block['vars']['limit'];
@@ -514,6 +532,7 @@ function password(array $block): string
         }
     }
 
+    $block['vars'] = [];
     $block['vars']['attr'] = ['password', 'confirmation'];
     $block['vars']['data'] = $data;
     $block['vars']['entity'] = app\cfg('entity', 'account');
@@ -531,6 +550,7 @@ function search(array $block): string
         return '';
     }
 
+    $block['vars'] = arr\replace(app\cfg('block', 'search')['vars'], $block['vars']);
     $block['vars']['q'] = $block['vars']['q'] ?? request\get('param')['q'] ?? null;
 
     return app\render($block['tpl'], $block['vars']);
@@ -544,6 +564,8 @@ function sidebar(array $block): string
     if (!$page = app\get('page')) {
         return '';
     }
+
+    $block['vars'] = arr\replace(app\cfg('block', 'sidebar')['vars'], $block['vars']);
 
     if (!$page['sidebar'] && is_int($block['vars']['inherit'])) {
         $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']], ['level', $block['vars']['inherit'], APP['crit']['>=']]];
@@ -559,6 +581,7 @@ function sidebar(array $block): string
  */
 function toolbar(array $block): string
 {
+    $block['vars'] = arr\replace(app\cfg('block', 'toolbar')['vars'], $block['vars']);
     $block['vars']['data'] = app\cfg('toolbar');
     $empty = [];
 
@@ -594,6 +617,7 @@ function view(array $block): string
         return '';
     }
 
+    $block['vars'] = arr\replace(app\cfg('block', 'view')['vars'], $block['vars']);
     $block['vars']['data'] = [];
 
     if ($block['vars']['entity'] && $block['vars']['id'] || !$block['vars']['entity'] && !$block['vars']['id']) {
