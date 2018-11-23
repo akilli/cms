@@ -52,7 +52,7 @@ return [
         'vars' => [
             'attr' => [],
             'crit' => [],
-            'entity' => null,
+            'entity_id' => null,
             'limit' => 10,
             'order' => [],
             'pager' => false,

@@ -186,7 +186,7 @@ function index(array $block): string
     $type = app\cfg('block', 'index');
     $block['tpl'] = $block['tpl'] ?: $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
+    $block['vars']['entity'] = $block['vars']['entity_id'] ? app\cfg('entity', $block['vars']['entity_id']) : app\get('entity');
     $crit = is_array($block['vars']['crit']) ? $block['vars']['crit'] : [];
     $opt = ['limit' => (int) $block['vars']['limit']];
     $opt['order'] = $block['vars']['order'] && is_array($block['vars']['order']) ? $block['vars']['order'] : ['id' => 'desc'];
