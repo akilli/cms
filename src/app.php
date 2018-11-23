@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace app;
 
 use account;
-use arr;
 use entity;
 use request;
 use session;
@@ -311,11 +310,9 @@ function render(string $tpl, array $var = []): string
 }
 
 /**
- * Gets or adds layout block
- *
- * @throws DomainException
+ * Gets registered layout block(s)
  */
-function layout(string $id = null, array $block = null): ?array
+function layout(string $id = null): ?array
 {
     if (($data = & registry('layout')) === null) {
         $data = [];
@@ -326,21 +323,7 @@ function layout(string $id = null, array $block = null): ?array
         return $data;
     }
 
-    if (empty($data[$id]) && $block === null) {
-        return null;
-    }
-
-    if (empty($data[$id])) {
-        if (empty($block['type']) || !($type = cfg('block', $block['type']))) {
-            throw new DomainException(i18n('Invalid block %s', $id));
-        }
-
-        $data[$id] = arr\replace(APP['layout'], $type, $block, ['id' => $id]);
-    } elseif ($block) {
-        $data[$id] = load_block($data[$id], $block);
-    }
-
-    return $data[$id];
+    return $data[$id] ?? null;
 }
 
 /**
