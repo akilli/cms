@@ -44,7 +44,7 @@ function cfg_entity(array $data): array
 
         if (!$entity['name'] || !($entity['name'] = app\i18n($entity['name']))) {
             throw new DomainException(app\i18n('Invalid configuration'));
-        } elseif (!$entity['db'] || !($entity['type'] = app\cfg('db', $entity['db'])['type'] ?? null)) {
+        } elseif (!$entity['db'] || !$entity['type'] && !($entity['type'] = app\cfg('db', $entity['db'])['type'] ?? null)) {
             throw new DomainException(app\i18n('Invalid configuration'));
         } elseif (!$entity['parent_id'] && (empty($entity['attr']['id']) || empty($entity['attr']['name']))) {
             throw new DomainException(app\i18n('Invalid configuration'));
