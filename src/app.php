@@ -337,7 +337,7 @@ function block(string $id): string
 
     $block = event(['block.' . $block['type'], 'layout.' . $id], $block);
 
-    return (cfg('block', $block['type']))['call']($block);
+    return $block['call']($block);
 }
 
 /**

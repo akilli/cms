@@ -215,6 +215,7 @@ function layout(array $data): array
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
+        unset($block['call']);
         $data[$id] = arr\replace(APP['layout'], $type[$block['type']], $block, ['id' => $id]);
     }
 
