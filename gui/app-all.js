@@ -3,7 +3,7 @@
  */
 'use strict';
 
-(function (window, document, Flickity) {
+(function (document, Flickity) {
     /**
      * Toggle
      */
@@ -173,9 +173,6 @@
         datetime();
         multiCheckbox();
         links();
-    });
-
-    window.addEventListener('load', function () {
         slider();
     });
-})(window, document, Flickity);
+})(document, Flickity);
