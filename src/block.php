@@ -186,23 +186,24 @@ function index(array $block): string
     $type = app\cfg('block', 'index');
     $block['tpl'] = $block['tpl'] ?: $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['entity'] = $block['vars']['entity_id'] ? app\cfg('entity', $block['vars']['entity_id']) : app\get('entity');
-    $crit = is_array($block['vars']['crit']) ? $block['vars']['crit'] : [];
-    $opt = ['limit' => (int) $block['vars']['limit']];
-    $opt['order'] = $block['vars']['order'] && is_array($block['vars']['order']) ? $block['vars']['order'] : ['id' => 'desc'];
+    $block['vars']['entity_id'] = $block['vars']['entity_id'] ?: app\get('entity_id');
+    $entity = app\cfg('entity', $block['vars']['entity_id']);
 
-    if (!$block['vars']['entity'] || $opt['limit'] <= 0) {
+    if (!$entity || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr'])) || $block['vars']['limit'] <= 0) {
         return '';
     }
 
-    if (in_array('page', [$block['vars']['entity']['id'], $block['vars']['entity']['parent_id']])) {
+    $crit = $block['vars']['crit'];
+    $opt = ['limit' => $block['vars']['limit'], 'order' => $block['vars']['order'] ?: ['id' => 'desc']];
+
+    if (in_array('page', [$entity['id'], $entity['parent_id']])) {
         if (app\get('action') !== 'admin') {
             $crit[] = ['status', 'published'];
             $crit[] = ['disabled', false];
         }
 
         if ($block['vars']['parent_id']) {
-            $crit[] = ['parent_id', $block['vars']['parent_id'] === true ? app\get('id') : (int) $block['vars']['parent_id']];
+            $crit[] = ['parent_id', $block['vars']['parent_id'] === true ? app\get('id') : $block['vars']['parent_id']];
         }
     }
 
@@ -224,12 +225,12 @@ function index(array $block): string
         $block['vars']['search'] = null;
     }
 
-    $size = entity\size($block['vars']['entity']['id'], $crit);
+    $size = entity\size($entity['id'], $crit);
     $total = (int) ceil($size / $opt['limit']) ?: 1;
     $p['cur'] = min(max((int) $p['cur'], 1), $total);
     $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
 
-    if ($p['sort'] && in_array($p['sort'], $block['vars']['attr'])) {
+    if ($p['sort'] && !empty($block['vars']['attr'][$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
         $opt['order'] = [$p['sort'] => $p['dir']];
     } else {
@@ -243,10 +244,10 @@ function index(array $block): string
         $block['vars']['pager'] = null;
     }
 
-    $block['vars']['data'] = entity\all($block['vars']['entity']['id'], $crit, $opt);
+    $block['vars']['data'] = entity\all($entity['id'], $crit, $opt);
     $block['vars']['dir'] = $p['dir'];
     $block['vars']['sort'] = $p['sort'];
-    $block['vars']['title'] = app\enc($block['vars']['title'] ?? $block['vars']['entity']['name']);
+    $block['vars']['title'] = app\enc($block['vars']['title'] ?? $entity['name']);
     $block['vars']['url'] = request\get('url');
 
     return app\render($block['tpl'], $block['vars']);
@@ -586,5 +587,5 @@ function view(array $block): string
     $block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr']);
     $block['vars']['data'] = app\get('page') ?: entity\one($entity['id'], [['id', $id]]);
 
-    return $block['vars']['data'] ? app\render($block['tpl'], $block['vars']) : '';
+    return $block['vars']['attr'] && $block['vars']['data'] ? app\render($block['tpl'], $block['vars']) : '';
 }
