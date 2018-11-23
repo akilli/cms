@@ -212,7 +212,7 @@ function layout(array $data): array
 
     foreach ($data as $id => $block) {
         if (empty($block['type']) || empty($type[$block['type']])) {
-            throw new DomainException(app\i18n('Invalid block %s', $id));
+            throw new DomainException(app\i18n('Invalid configuration'));
         }
 
         $data[$id] = arr\replace(APP['layout'], $type[$block['type']], $block, ['id' => $id]);

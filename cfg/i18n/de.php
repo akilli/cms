@@ -38,7 +38,6 @@ return [
     'Image' => 'Bild',
     'Images' => 'Bilder',
     'Info' => 'Info',
-    'Invalid block %s' => 'Ungültiger Block %s',
     'Invalid configuration' => 'Ungültige Konfiguration',
     'Invalid criteria' => 'Ungültige Bedingung',
     'Invalid data' => 'Ungültige Daten',
