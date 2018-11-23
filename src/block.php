@@ -16,9 +16,8 @@ use DomainException;
  */
 function banner(array $block): string
 {
-    $type = app\cfg('block', 'banner');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
+    $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'banner')['tpl'];
+    $block['vars'] = [];
 
     if (($page = app\get('page')) && $page['entity'] !== 'page_content') {
         $page = entity\one('page', [['id', $page['path']], ['entity', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
@@ -115,7 +114,7 @@ function edit(array $block): string
     $type = app\cfg('block', 'edit');
     $block['tpl'] = $block['tpl'] ?: $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
+    $block['vars']['entity'] = app\get('entity');
     $old = null;
 
     if (($id = app\get('id')) && !($old = entity\one($block['vars']['entity']['id'], [['id', $id]]))) {
@@ -258,9 +257,8 @@ function index(array $block): string
  */
 function login(array $block): string
 {
-    $type = app\cfg('block', 'login');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
+    $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'login')['tpl'];
+    $block['vars'] = [];
     $block['vars']['title'] = app\i18n('Login');
     $block['vars']['attr'] = ['name', 'password'];
     $block['vars']['data'] = [];
@@ -325,9 +323,8 @@ function menu(array $block): string
  */
 function meta(array $block): string
 {
-    $type = app\cfg('block', 'meta');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
+    $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'meta')['tpl'];
+    $block['vars'] = [];
     $desc = app\cfg('app', 'meta.description');
     $title = app\cfg('app', 'meta.title');
 
@@ -515,9 +512,8 @@ function password(array $block): string
         }
     }
 
-    $type = app\cfg('block', 'password');
-    $block['tpl'] = $block['tpl'] ?: $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
+    $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'password')['tpl'];
+    $block['vars'] = [];
     $block['vars']['attr'] = ['password', 'confirmation'];
     $block['vars']['data'] = $data;
     $block['vars']['entity'] = app\cfg('entity', 'account');
@@ -564,7 +560,7 @@ function sidebar(array $block): string
  */
 function toolbar(array $block): string
 {
-    $block['vars'] = arr\replace(app\cfg('block', 'toolbar')['vars'], $block['vars']);
+    $block['vars'] = [];
     $block['vars']['data'] = app\cfg('toolbar');
     $empty = [];
 
@@ -599,13 +595,9 @@ function view(array $block): string
     $type = app\cfg('block', 'view');
     $block['tpl'] = $block['tpl'] ?: $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['data'] = [];
-
-    if ($block['vars']['entity'] && $block['vars']['id'] || !$block['vars']['entity'] && !$block['vars']['id']) {
-        $block['vars']['entity'] = $block['vars']['entity'] ? app\cfg('entity', $block['vars']['entity']) : app\get('entity');
-        $block['vars']['id'] = $block['vars']['id'] ?? app\get('id');
-        $block['vars']['data'] = entity\one($block['vars']['entity']['id'], [['id', $block['vars']['id']]]);
-    }
+    $block['vars']['entity'] = app\get('entity');
+    $block['vars']['id'] = app\get('id');
+    $block['vars']['data'] = entity\one($block['vars']['entity']['id'], [['id', $block['vars']['id']]]);
 
     return $block['vars']['data'] ? app\render($block['tpl'], $block['vars']) : '';
 }

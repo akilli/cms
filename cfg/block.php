@@ -34,7 +34,6 @@ return [
         'tpl' => 'block/form.phtml',
         'vars' => [
             'attr' => [],
-            'entity' => null,
         ],
     ],
     'form' => [
@@ -124,11 +123,6 @@ return [
     ],
     'toolbar' => [
         'call' => 'block\toolbar',
-        'vars' => [
-            'tag' => 'nav',
-            'title' => null,
-            'toggle' => false,
-        ],
     ],
     'tpl' => [
         'call' => 'block\tpl',
@@ -138,8 +132,6 @@ return [
         'tpl' => 'block/view.phtml',
         'vars' => [
             'attr' => [],
-            'entity' => null,
-            'id' => null,
         ],
     ],
 ];
