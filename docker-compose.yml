@@ -53,6 +53,7 @@ services:
       - cms-db
       - cms-php
     restart: unless-stopped
+    hostname: www.akilli.de
     labels:
       traefik.enable: "true"
       traefik.port: "80"
