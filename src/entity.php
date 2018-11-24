@@ -117,8 +117,10 @@ function save(string $entityId, array & $data): bool
     foreach ($attrIds as $attrId) {
         try {
             $tmp[$attrId] = attr\filter($tmp, $tmp['_entity']['attr'][$attrId]);
-        } catch (Throwable $e) {
+        } catch (DomainException $e) {
             $tmp['_error'][$attrId] = $e->getMessage();
+        } catch (Throwable $e) {
+            $tmp['_error'][$attrId] = app\i18n('Could not validate value');
         }
     }
 

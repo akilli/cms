@@ -24,6 +24,7 @@ return [
     'Could not save data' => 'Konnte Daten nicht speichern',
     'Could not send message' => 'Konnte Nachricht nicht versenden',
     'Could not upload %s' => 'Konnte %s nicht hochladen',
+    'Could not validate value' => 'Konnte Wert nicht validieren',
     'Date' => 'Datum',
     'Delete' => 'Löschen',
     'Documents' => 'Dokumente',

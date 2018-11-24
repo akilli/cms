@@ -180,7 +180,8 @@ return [
     'file/admin' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'info'],
+                'attr' => ['url', 'name', 'info'],
+                'search' => ['name', 'url'],
             ],
         ],
     ],
@@ -226,7 +227,7 @@ return [
             'vars' => [
                 'limit' => 20,
                 'pager' => true,
-                'search' => ['name'],
+                'search' => ['name', 'url'],
                 'title' => null,
             ],
         ],
@@ -234,7 +235,7 @@ return [
     'file/browser' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'info'],
+                'attr' => ['url', 'name', 'info'],
             ],
         ],
     ],
@@ -265,7 +266,7 @@ return [
     'file/edit' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'info'],
+                'attr' => ['url', 'name', 'info'],
             ],
         ],
     ],

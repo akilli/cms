@@ -243,8 +243,8 @@ function entity_postfilter(array $data): array
  */
 function entity_prefilter_file(array $data): array
 {
-    if (!empty($data['name']) && !empty($data['_old']['name']) && pathinfo($data['name'], PATHINFO_EXTENSION) !== pathinfo($data['_old']['name'], PATHINFO_EXTENSION)) {
-        $data['_error']['name'] = app\i18n('Cannot change filetype anymore');
+    if (!empty($data['url']) && !empty($data['_old']['url']) && pathinfo($data['url'], PATHINFO_EXTENSION) !== pathinfo($data['_old']['url'], PATHINFO_EXTENSION)) {
+        $data['_error']['url'] = app\i18n('Cannot change filetype anymore');
     }
 
     return $data;
@@ -289,9 +289,9 @@ function entity_postsave(array $data): array
  */
 function entity_postsave_file(array $data): array
 {
-    $item = request\get('file')['name'] ?? null;
+    $item = request\get('file')['url'] ?? null;
 
-    if ($item && !file\upload($item['tmp_name'], app\path('file', $data['id'] . '.' . pathinfo($data['name'], PATHINFO_EXTENSION)))) {
+    if ($item && !file\upload($item['tmp_name'], app\path('file', $data['id'] . '.' . pathinfo($data['url'], PATHINFO_EXTENSION)))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
     }
 
@@ -305,7 +305,7 @@ function entity_postsave_file(array $data): array
  */
 function entity_postdelete_file(array $data): array
 {
-    if (!file\delete(app\file($data['name']))) {
+    if (!file\delete(app\path('file', $data['id'] . '.' . pathinfo($data['url'], PATHINFO_EXTENSION)))) {
         throw new DomainException(app\i18n('Could not delete file'));
     }
 

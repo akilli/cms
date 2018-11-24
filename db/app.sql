@@ -18,15 +18,15 @@ CREATE FUNCTION file_save() RETURNS trigger AS $$
     DECLARE
         _ext text;
     BEGIN
-        _ext := (REGEXP_MATCH(NEW.name, '\.(\w+)$'))[1];
+        _ext := (REGEXP_MATCH(NEW.url, '\.(\w+)$'))[1];
 
         IF (_ext IS NULL) THEN
             RAISE EXCEPTION 'Invalid file type';
-        ELSIF (TG_OP = 'UPDATE' AND _ext != (REGEXP_MATCH(OLD.name, '\.(\w+)$'))[1]) THEN
+        ELSIF (TG_OP = 'UPDATE' AND _ext != (REGEXP_MATCH(OLD.url, '\.(\w+)$'))[1]) THEN
             RAISE EXCEPTION 'Cannot change filetype anymore';
         END IF;
 
-        NEW.name := '/file/' || NEW.id || '.' || _ext;
+        NEW.url := '/file/' || NEW.id || '.' || _ext;
 
         RETURN NEW;
     END;
@@ -352,11 +352,13 @@ CREATE INDEX ON account (role_id);
 
 CREATE TABLE file (
     id serial PRIMARY KEY,
-    name varchar(50) NOT NULL UNIQUE,
+    name varchar(100) NOT NULL,
+    url varchar(50) NOT NULL UNIQUE,
     info text NOT NULL,
     entity varchar(50) NOT NULL CHECK (entity != '')
 );
 
+CREATE INDEX ON file (name);
 CREATE INDEX ON file (entity);
 
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();

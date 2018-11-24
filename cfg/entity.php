@@ -70,6 +70,12 @@ return [
             ],
             'name' => [
                 'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'maxlength' => 100,
+            ],
+            'url' => [
+                'name' => 'URL',
                 'type' => 'upload',
                 'required' => true,
                 'unique' => true,
@@ -92,7 +98,7 @@ return [
         'parent_id' => 'file',
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
-            'name' => [
+            'url' => [
                 'cfg.filter' => 'upload.audio',
             ],
         ],
@@ -102,7 +108,7 @@ return [
         'parent_id' => 'file',
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
-            'name' => [
+            'url' => [
                 'cfg.filter' => 'upload.doc',
             ],
         ],
@@ -112,7 +118,7 @@ return [
         'parent_id' => 'file',
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
-            'name' => [
+            'url' => [
                 'cfg.filter' => 'upload.image',
             ],
         ],
@@ -122,7 +128,7 @@ return [
         'parent_id' => 'file',
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
-            'name' => [
+            'url' => [
                 'cfg.filter' => 'upload.video',
             ],
         ],
