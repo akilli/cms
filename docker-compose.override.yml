@@ -12,6 +12,7 @@ services:
         target: /init/postgres
         type: bind
   cms-www:
-    hostname: cms.app.loc
+    extra_hosts:
+      - "cms.app.loc:127.0.0.1"
     labels:
       traefik.frontend.rule: "Host: cms.app.loc"
