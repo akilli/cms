@@ -11,3 +11,6 @@ services:
       - source: ./db
         target: /init/postgres
         type: bind
+  cms-www:
+    labels:
+      traefik.frontend.rule: "Host: cms.app.loc"

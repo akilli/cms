@@ -56,7 +56,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.port: "80"
-      traefik.frontend.rule: "Host: cms.app.loc"
+      traefik.frontend.rule: "Host: akilli.de, www.akilli.de"
       traefik.docker.network: "proxy"
     networks:
       default: {}
