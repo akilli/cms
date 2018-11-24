@@ -170,5 +170,5 @@ function replace(array $base, array $data, array ...$add): array
  */
 function extract(array $data, array $keys): array
 {
-    return $data && $keys ? array_intersect_key($data, array_flip($keys)) : [];
+    return $data && $keys ? replace(array_fill_keys(array_intersect($keys, array_keys($data)), null), $data) : [];
 }
