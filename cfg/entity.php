@@ -79,7 +79,19 @@ return [
                 'type' => 'upload',
                 'required' => true,
                 'unique' => true,
-                'maxlength' => 50,
+                'maxlength' => 255,
+            ],
+            'ext' => [
+                'name' => 'Extension',
+                'type' => 'text',
+                'required' => true,
+                'maxlength' => 10,
+            ],
+            'mime' => [
+                'name' => 'MIME',
+                'type' => 'text',
+                'required' => true,
+                'maxlength' => 255,
             ],
             'info' => [
                 'name' => 'Info',

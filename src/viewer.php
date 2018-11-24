@@ -99,23 +99,20 @@ function page(int $val, array $attr): string
  */
 function file(int $val, array $attr): string
 {
-    if (!$val || !($data = entity\one($attr['ref'], [['id', $val]], ['select' => ['id', 'url', 'info']]))) {
+    if (!$val || !($data = entity\one($attr['ref'], [['id', $val]], ['select' => ['url', 'mime', 'info']]))) {
         return '';
     }
 
-    $mime = mime_content_type(app\path('file', $data['id'] . '.' . pathinfo($data['url'], PATHINFO_EXTENSION)));
-    $type = $mime && preg_match('#^(audio|image|video)/#', $mime, $match) ? $match[1] : null;
+    if (!preg_match('#^(audio|image|video)/#', $data['mime'], $match)) {
+        return app\html('a', ['href' => $data['url']] + $attr['html'], $data['url']);
+    }
 
-    if ($type === 'image') {
+    if ($match[1] === 'image') {
         $attr['html']['alt'] = app\enc($data['info']);
         return app\html('img', ['src' => $data['url']] + $attr['html']);
     }
 
-    if ($type === 'audio' || $type === 'video') {
-        return app\html($type, ['src' => $data['url'], 'controls' => true] + $attr['html']);
-    }
-
-    return app\html('a', ['href' => $data['url']] + $attr['html'], $data['url']);
+    return app\html($match[1], ['src' => $data['url'], 'controls' => true] + $attr['html']);
 }
 
 /**

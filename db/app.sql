@@ -15,18 +15,12 @@ CREATE TYPE status AS ENUM ('draft', 'pending', 'published', 'archived');
 --
 
 CREATE FUNCTION file_save() RETURNS trigger AS $$
-    DECLARE
-        _ext text;
     BEGIN
-        _ext := (REGEXP_MATCH(NEW.url, '\.(\w+)$'))[1];
-
-        IF (_ext IS NULL) THEN
-            RAISE EXCEPTION 'Invalid file type';
-        ELSIF (TG_OP = 'UPDATE' AND _ext != (REGEXP_MATCH(OLD.url, '\.(\w+)$'))[1]) THEN
+        IF (TG_OP = 'UPDATE' AND (NEW.ext != OLD.ext OR NEW.mime != OLD.mime)) THEN
             RAISE EXCEPTION 'Cannot change filetype anymore';
         END IF;
 
-        NEW.url := '/file/' || NEW.id || '.' || _ext;
+        NEW.url := '/file/' || NEW.id || '.' || NEW.ext;
 
         RETURN NEW;
     END;
@@ -353,12 +347,16 @@ CREATE INDEX ON account (role_id);
 CREATE TABLE file (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
-    url varchar(50) NOT NULL UNIQUE,
+    url varchar(255) NOT NULL UNIQUE,
+    ext varchar(10) NOT NULL,
+    mime varchar(255) NOT NULL,
     info text NOT NULL,
     entity varchar(50) NOT NULL CHECK (entity != '')
 );
 
 CREATE INDEX ON file (name);
+CREATE INDEX ON file (ext);
+CREATE INDEX ON file (mime);
 CREATE INDEX ON file (entity);
 
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();

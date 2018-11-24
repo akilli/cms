@@ -145,7 +145,7 @@ function upload(string $val, array $attr): string
     $cfg = $attr['cfg.filter'] ? app\cfg('filter', $attr['cfg.filter']) : null;
     $mime = request\get('file')[$attr['id']]['type'] ?? null;
 
-    if ($val && (!$mime || !in_array($mime, $cfg))) {
+    if ($val && (!$cfg || !$mime || !in_array($mime, $cfg))) {
         throw new DomainException(app\i18n('Invalid file type'));
     }
 
