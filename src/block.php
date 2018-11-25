@@ -189,16 +189,18 @@ function index(array $block): string
 {
     $type = app\cfg('block', 'index');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
-    $block['cfg']['entity_id'] = $block['cfg']['entity_id'] ?: app\get('entity_id');
-    $entity = app\cfg('entity', $block['cfg']['entity_id']);
+    $cfg = arr\replace($type['cfg'], $block['cfg']);
+    $cfg['entity_id'] = $cfg['entity_id'] ?: app\get('entity_id');
+    $entity = app\cfg('entity', $cfg['entity_id']);
 
-    if (!$entity || !($block['cfg']['attr'] = arr\extract($entity['attr'], $block['cfg']['attr_id'])) || $block['cfg']['limit'] <= 0) {
+    if (!$entity || !($attr = arr\extract($entity['attr'], $cfg['attr_id'])) || $cfg['limit'] <= 0) {
         return '';
     }
 
-    $crit = $block['cfg']['crit'];
-    $opt = ['limit' => $block['cfg']['limit'], 'order' => $block['cfg']['order'] ?: ['id' => 'desc']];
+    $crit = $cfg['crit'];
+    $opt = ['limit' => $cfg['limit'], 'order' => $cfg['order'] ?: ['id' => 'desc']];
+    $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], request\get('param'));
+    $search = null;
 
     if (in_array('page', [$entity['id'], $entity['parent_id']])) {
         if (app\get('action') !== 'admin') {
@@ -206,27 +208,23 @@ function index(array $block): string
             $crit[] = ['disabled', false];
         }
 
-        if ($block['cfg']['parent_id']) {
-            $crit[] = ['parent_id', $block['cfg']['parent_id'] === true ? app\get('id') : $block['cfg']['parent_id']];
+        if ($cfg['parent_id']) {
+            $crit[] = ['parent_id', $cfg['parent_id'] === true ? app\get('id') : $cfg['parent_id']];
         }
     }
 
-    $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], request\get('param'));
-
-    if ($block['cfg']['search']) {
+    if ($cfg['search']) {
         if (($p['q'] = trim((string) $p['q'])) && ($q = array_filter(explode(' ', $p['q'])))) {
             $c = [];
 
-            foreach ($block['cfg']['search'] as $attrId) {
+            foreach ($cfg['search'] as $attrId) {
                 $c[] = [$attrId, $q, APP['crit']['~']];
             }
 
             $crit[] = $c;
         }
 
-        $block['cfg']['search'] = search(['cfg' => ['q' => $p['q']]]);
-    } else {
-        $block['cfg']['search'] = null;
+        $search = search(['cfg' => ['q' => $p['q']]]);
     }
 
     $size = entity\size($entity['id'], $crit);
@@ -234,7 +232,7 @@ function index(array $block): string
     $p['cur'] = min(max((int) $p['cur'], 1), $total);
     $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
 
-    if ($p['sort'] && !empty($block['cfg']['attr'][$p['sort']])) {
+    if ($p['sort'] && !empty($attr[$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
         $opt['order'] = [$p['sort'] => $p['dir']];
     } else {
@@ -242,19 +240,19 @@ function index(array $block): string
         $p['dir'] = null;
     }
 
-    if ($block['cfg']['pager']) {
-        $block['cfg']['pager'] = pager(['cfg' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]]);
-    } else {
-        $block['cfg']['pager'] = null;
-    }
+    $var = [
+        'attr' => $attr,
+        'data' => entity\all($entity['id'], $crit, $opt),
+        'dir' => $p['dir'],
+        'entity_id' => $cfg['entity_id'],
+        'pager' => $cfg['pager'] ? pager(['cfg' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]]) : null,
+        'search' => $search,
+        'sort' => $p['sort'],
+        'title' => app\enc($cfg['title'] ?? $entity['name']),
+        'url' => request\get('url'),
+    ];
 
-    $block['cfg']['data'] = entity\all($entity['id'], $crit, $opt);
-    $block['cfg']['dir'] = $p['dir'];
-    $block['cfg']['sort'] = $p['sort'];
-    $block['cfg']['title'] = app\enc($block['cfg']['title'] ?? $entity['name']);
-    $block['cfg']['url'] = request\get('url');
-
-    return app\render($block['tpl'], $block['cfg']);
+    return app\render($block['tpl'], $var);
 }
 
 /**
