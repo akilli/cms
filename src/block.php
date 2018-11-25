@@ -568,14 +568,16 @@ function view(array $block): string
 {
     $type = app\cfg('block', 'view');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
+    $cfg = arr\replace($type['cfg'], $block['cfg']);
 
     if (!($entity = app\get('entity')) || !($id = app\get('id'))) {
         return '';
     }
 
-    $block['cfg']['attr'] = arr\extract($entity['attr'], $block['cfg']['attr_id']);
-    $block['cfg']['data'] = app\get('page') ?: entity\one($entity['id'], [['id', $id]]);
+    $var = [
+        'attr' => arr\extract($entity['attr'], $cfg['attr_id']),
+        'data' => app\get('page') ?: entity\one($entity['id'], [['id', $id]]),
+    ];
 
-    return $block['cfg']['attr'] && $block['cfg']['data'] ? app\render($block['tpl'], $block['cfg']) : '';
+    return $var['attr'] && $var['data'] ? app\render($block['tpl'], $var) : '';
 }
