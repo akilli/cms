@@ -534,13 +534,12 @@ function sidebar(array $block): string
  */
 function toolbar(array $block): string
 {
-    $block['cfg'] = [];
-    $block['cfg']['data'] = app\cfg('toolbar');
+    $data = app\cfg('toolbar');
     $empty = [];
 
-    foreach ($block['cfg']['data'] as $id => $item) {
+    foreach ($data as $id => $item) {
         if ($item['priv'] && !app\allowed($item['priv'])) {
-            unset($block['cfg']['data'][$id]);
+            unset($data[$id]);
         } elseif (!$item['url']) {
             $empty[$id] = true;
         } elseif ($item['parent_id']) {
@@ -548,7 +547,7 @@ function toolbar(array $block): string
         }
     }
 
-    $block['cfg']['data'] = array_diff_key($block['cfg']['data'], $empty);
+    $block['cfg'] = ['data' => array_diff_key($data, $empty)];
 
     return nav($block);
 }
