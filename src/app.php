@@ -169,11 +169,11 @@ function load_layout(array $data, array $ext = []): array
  */
 function load_block(array $data, array $ext = []): array
 {
-    if (!empty($ext['vars'])) {
-        $data['vars'] = empty($data['vars']) ? $ext['vars'] : array_replace($data['vars'], $ext['vars']);
+    if (!empty($ext['cfg'])) {
+        $data['cfg'] = empty($data['cfg']) ? $ext['cfg'] : array_replace($data['cfg'], $ext['cfg']);
     }
 
-    unset($ext['vars']);
+    unset($ext['cfg']);
 
     return array_replace($data, $ext);
 }

@@ -51,7 +51,7 @@ const APP = [
     'block' => [
         'call' => null,
         'tpl' => null,
-        'vars' => [],
+        'cfg' => [],
     ],
     'crit' => [
         '=' => '=',
@@ -107,7 +107,7 @@ const APP = [
         'priv' => null,
         'parent_id' => null,
         'sort' => 0,
-        'vars' => [],
+        'cfg' => [],
     ],
     'log' => 'php://stdout',
     'path' => [

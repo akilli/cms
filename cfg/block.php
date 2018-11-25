@@ -9,14 +9,14 @@ return [
     ],
     'container' => [
         'call' => 'block\container',
-        'vars' => [
+        'cfg' => [
             'tag' => null,
         ],
     ],
     'content' => [
         'call' => 'block\content',
         'tpl' => 'block/content.phtml',
-        'vars' => [
+        'cfg' => [
             'title' => null,
             'content' => null,
         ],
@@ -24,7 +24,7 @@ return [
     'create' => [
         'call' => 'block\create',
         'tpl' => 'block/form.phtml',
-        'vars' => [
+        'cfg' => [
             'attr_id' => [],
             'entity_id' => null,
         ],
@@ -32,14 +32,14 @@ return [
     'edit' => [
         'call' => 'block\edit',
         'tpl' => 'block/form.phtml',
-        'vars' => [
+        'cfg' => [
             'attr_id' => [],
         ],
     ],
     'form' => [
         'call' => 'block\form',
         'tpl' => 'block/form.phtml',
-        'vars' => [
+        'cfg' => [
             'attr_id' => [],
             'data' => [],
             'entity_id' => null,
@@ -49,7 +49,7 @@ return [
     'index' => [
         'call' => 'block\index',
         'tpl' => 'block/index.phtml',
-        'vars' => [
+        'cfg' => [
             'attr_id' => [],
             'crit' => [],
             'entity_id' => null,
@@ -67,7 +67,7 @@ return [
     ],
     'menu' => [
         'call' => 'block\menu',
-        'vars' => [
+        'cfg' => [
             'mode' => null,
             'root' => false,
             'tag' => 'nav',
@@ -80,7 +80,7 @@ return [
     ],
     'nav' => [
         'call' => 'block\nav',
-        'vars' => [
+        'cfg' => [
             'data' => [],
             'tag' => 'nav',
             'title' => null,
@@ -90,7 +90,7 @@ return [
     'pager' => [
         'call' => 'block\pager',
         'tpl' => 'block/pager.phtml',
-        'vars' => [
+        'cfg' => [
             'cur' => null,
             'limit' => null,
             'pages' => 10,
@@ -104,13 +104,13 @@ return [
     'search' => [
         'call' => 'block\search',
         'tpl' => 'block/search.phtml',
-        'vars' => [
+        'cfg' => [
             'q' => null,
         ],
     ],
     'sidebar' => [
         'call' => 'block\sidebar',
-        'vars' => [
+        'cfg' => [
             'inherit' => null,
         ],
     ],
@@ -123,7 +123,7 @@ return [
     'view' => [
         'call' => 'block\view',
         'tpl' => 'block/view.phtml',
-        'vars' => [
+        'cfg' => [
             'attr_id' => [],
         ],
     ],

@@ -17,14 +17,14 @@ use DomainException;
 function banner(array $block): string
 {
     $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'banner')['tpl'];
-    $block['vars'] = [];
+    $var = [];
 
     if (($page = app\get('page')) && $page['entity'] !== 'page_content') {
         $page = entity\one('page', [['id', $page['path']], ['entity', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
     }
 
-    if ($page && ($block['vars']['img'] = attr\viewer($page, $page['_entity']['attr']['image']))) {
-        return app\render($block['tpl'], $block['vars']);
+    if ($page && ($var['img'] = attr\viewer($page, $page['_entity']['attr']['image']))) {
+        return app\render($block['tpl'], $var);
     }
 
     return '';
@@ -58,14 +58,14 @@ function breadcrumb(array $block): string
  */
 function container(array $block): string
 {
-    $block['vars'] = arr\replace(app\cfg('block', 'container')['vars'], $block['vars']);
+    $cfg = arr\replace(app\cfg('block', 'container')['cfg'], $block['cfg']);
     $html = '';
 
     foreach (arr\order(arr\crit(app\layout(), [['parent_id', $block['id']]]), ['sort' => 'asc']) as $child) {
         $html .= app\block($child['id']);
     }
 
-    return $html && $block['vars']['tag'] ? app\html($block['vars']['tag'], ['id' => $block['id']], $html) : $html;
+    return $html && $cfg['tag'] ? app\html($cfg['tag'], ['id' => $block['id']], $html) : $html;
 }
 
 /**
@@ -75,15 +75,15 @@ function content(array $block): string
 {
     $type = app\cfg('block', 'content');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
+    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!$block['vars']['content']) {
+    if (!$block['cfg']['content']) {
         return '';
     }
 
-    $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : null;
+    $block['cfg']['title'] = $block['cfg']['title'] ? app\enc($block['cfg']['title']) : null;
 
-    return app\render($block['tpl'], $block['vars']);
+    return app\render($block['tpl'], $block['cfg']);
 }
 
 /**
@@ -93,11 +93,11 @@ function create(array $block): string
 {
     $type = app\cfg('block', 'create');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['entity_id'] = $block['vars']['entity_id'] ?: app\get('entity_id');
-    $entity = app\cfg('entity', $block['vars']['entity_id']);
+    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
+    $block['cfg']['entity_id'] = $block['cfg']['entity_id'] ?: app\get('entity_id');
+    $entity = app\cfg('entity', $block['cfg']['entity_id']);
 
-    if (!$entity || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr_id']))) {
+    if (!$entity || !($block['cfg']['attr'] = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
 
@@ -105,11 +105,11 @@ function create(array $block): string
         $data = [];
     }
 
-    $block['vars']['data'] = arr\replace(entity\item($entity['id']), $data);
-    $block['vars']['file'] = !!arr\crit($block['vars']['attr'], [['type', 'upload']]);
-    $block['vars']['title'] = null;
+    $block['cfg']['data'] = arr\replace(entity\item($entity['id']), $data);
+    $block['cfg']['file'] = !!arr\crit($block['cfg']['attr'], [['type', 'upload']]);
+    $block['cfg']['title'] = null;
 
-    return app\render($block['tpl'], $block['vars']);
+    return app\render($block['tpl'], $block['cfg']);
 }
 
 /**
@@ -119,10 +119,10 @@ function edit(array $block): string
 {
     $type = app\cfg('block', 'edit');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
+    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
     $entity = app\get('entity');
 
-    if (!$entity || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr_id']))) {
+    if (!$entity || !($block['cfg']['attr'] = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
 
@@ -160,12 +160,12 @@ function edit(array $block): string
     $p[] = $data;
 
 
-    $block['vars']['data'] = arr\replace(entity\item($entity['id']), ...$p);
-    $block['vars']['entity_id'] = $entity['id'];
-    $block['vars']['file'] = !!arr\crit($block['vars']['attr'], [['type', 'upload']]);
-    $block['vars']['title'] = $entity['name'];
+    $block['cfg']['data'] = arr\replace(entity\item($entity['id']), ...$p);
+    $block['cfg']['entity_id'] = $entity['id'];
+    $block['cfg']['file'] = !!arr\crit($block['cfg']['attr'], [['type', 'upload']]);
+    $block['cfg']['title'] = $entity['name'];
 
-    return app\render($block['tpl'], $block['vars']);
+    return app\render($block['tpl'], $block['cfg']);
 }
 
 /**
@@ -175,16 +175,16 @@ function form(array $block): string
 {
     $type = app\cfg('block', 'form');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
+    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!$block['vars']['entity_id'] || !($entity = app\cfg('entity', $block['vars']['entity_id'])) || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr_id']))) {
+    if (!$block['cfg']['entity_id'] || !($entity = app\cfg('entity', $block['cfg']['entity_id'])) || !($block['cfg']['attr'] = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
 
-    $block['vars']['title'] = $block['vars']['title'] ? app\enc($block['vars']['title']) : null;
-    $block['vars']['file'] = !!arr\crit($block['vars']['attr'], [['type', 'upload']]);
+    $block['cfg']['title'] = $block['cfg']['title'] ? app\enc($block['cfg']['title']) : null;
+    $block['cfg']['file'] = !!arr\crit($block['cfg']['attr'], [['type', 'upload']]);
 
-    return app\render($block['tpl'], $block['vars']);
+    return app\render($block['tpl'], $block['cfg']);
 }
 
 /**
@@ -194,16 +194,16 @@ function index(array $block): string
 {
     $type = app\cfg('block', 'index');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['entity_id'] = $block['vars']['entity_id'] ?: app\get('entity_id');
-    $entity = app\cfg('entity', $block['vars']['entity_id']);
+    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
+    $block['cfg']['entity_id'] = $block['cfg']['entity_id'] ?: app\get('entity_id');
+    $entity = app\cfg('entity', $block['cfg']['entity_id']);
 
-    if (!$entity || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr_id'])) || $block['vars']['limit'] <= 0) {
+    if (!$entity || !($block['cfg']['attr'] = arr\extract($entity['attr'], $block['cfg']['attr_id'])) || $block['cfg']['limit'] <= 0) {
         return '';
     }
 
-    $crit = $block['vars']['crit'];
-    $opt = ['limit' => $block['vars']['limit'], 'order' => $block['vars']['order'] ?: ['id' => 'desc']];
+    $crit = $block['cfg']['crit'];
+    $opt = ['limit' => $block['cfg']['limit'], 'order' => $block['cfg']['order'] ?: ['id' => 'desc']];
 
     if (in_array('page', [$entity['id'], $entity['parent_id']])) {
         if (app\get('action') !== 'admin') {
@@ -211,27 +211,27 @@ function index(array $block): string
             $crit[] = ['disabled', false];
         }
 
-        if ($block['vars']['parent_id']) {
-            $crit[] = ['parent_id', $block['vars']['parent_id'] === true ? app\get('id') : $block['vars']['parent_id']];
+        if ($block['cfg']['parent_id']) {
+            $crit[] = ['parent_id', $block['cfg']['parent_id'] === true ? app\get('id') : $block['cfg']['parent_id']];
         }
     }
 
     $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], request\get('param'));
 
-    if ($block['vars']['search']) {
+    if ($block['cfg']['search']) {
         if (($p['q'] = trim((string) $p['q'])) && ($q = array_filter(explode(' ', $p['q'])))) {
             $c = [];
 
-            foreach ($block['vars']['search'] as $attrId) {
+            foreach ($block['cfg']['search'] as $attrId) {
                 $c[] = [$attrId, $q, APP['crit']['~']];
             }
 
             $crit[] = $c;
         }
 
-        $block['vars']['search'] = search(['vars' => ['q' => $p['q']]]);
+        $block['cfg']['search'] = search(['cfg' => ['q' => $p['q']]]);
     } else {
-        $block['vars']['search'] = null;
+        $block['cfg']['search'] = null;
     }
 
     $size = entity\size($entity['id'], $crit);
@@ -239,7 +239,7 @@ function index(array $block): string
     $p['cur'] = min(max((int) $p['cur'], 1), $total);
     $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
 
-    if ($p['sort'] && !empty($block['vars']['attr'][$p['sort']])) {
+    if ($p['sort'] && !empty($block['cfg']['attr'][$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
         $opt['order'] = [$p['sort'] => $p['dir']];
     } else {
@@ -247,19 +247,19 @@ function index(array $block): string
         $p['dir'] = null;
     }
 
-    if ($block['vars']['pager']) {
-        $block['vars']['pager'] = pager(['vars' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]]);
+    if ($block['cfg']['pager']) {
+        $block['cfg']['pager'] = pager(['cfg' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]]);
     } else {
-        $block['vars']['pager'] = null;
+        $block['cfg']['pager'] = null;
     }
 
-    $block['vars']['data'] = entity\all($entity['id'], $crit, $opt);
-    $block['vars']['dir'] = $p['dir'];
-    $block['vars']['sort'] = $p['sort'];
-    $block['vars']['title'] = app\enc($block['vars']['title'] ?? $entity['name']);
-    $block['vars']['url'] = request\get('url');
+    $block['cfg']['data'] = entity\all($entity['id'], $crit, $opt);
+    $block['cfg']['dir'] = $p['dir'];
+    $block['cfg']['sort'] = $p['sort'];
+    $block['cfg']['title'] = app\enc($block['cfg']['title'] ?? $entity['name']);
+    $block['cfg']['url'] = request\get('url');
 
-    return app\render($block['tpl'], $block['vars']);
+    return app\render($block['tpl'], $block['cfg']);
 }
 
 /**
@@ -267,17 +267,9 @@ function index(array $block): string
  */
 function login(array $block): string
 {
-    $entity = app\cfg('entity', 'account');
-    $a = ['name' => ['unique' => false, 'minlength' => 0, 'maxlength' => 0], 'password' => ['minlength' => 0, 'maxlength' => 0]];
-    $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'login')['tpl'];
-    $block['vars'] = [];
-    $block['vars']['attr'] = array_replace_recursive(arr\extract($entity['attr'], ['name', 'password']), $a);
-    $block['vars']['data'] = [];
-    $block['vars']['entity_id'] = 'account';
-    $block['vars']['file'] = false;
-    $block['vars']['title'] = app\i18n('Login');
+    $block['cfg'] = ['attr_id' => ['name', 'password'], 'entity_id' => 'account', 'title' => app\i18n('Login')];
 
-    return app\render($block['tpl'], $block['vars']);
+    return form($block);
 }
 
 /**
@@ -285,9 +277,9 @@ function login(array $block): string
  */
 function menu(array $block): string
 {
-    $block['vars'] = arr\replace(app\cfg('block', 'menu')['vars'], $block['vars']);
+    $block['cfg'] = arr\replace(app\cfg('block', 'menu')['cfg'], $block['cfg']);
     $page = app\get('page');
-    $sub = $block['vars']['mode'] === 'sub';
+    $sub = $block['cfg']['mode'] === 'sub';
 
     if ($sub && empty($page['path'][1])) {
         return '';
@@ -312,18 +304,18 @@ function menu(array $block): string
         $crit[] = ['menu', true];
     }
 
-    $block['vars']['data'] = entity\all('page', $crit, $opt);
-    $block['vars']['title'] = null;
+    $block['cfg']['data'] = entity\all('page', $crit, $opt);
+    $block['cfg']['title'] = null;
 
-    if ($block['vars']['root'] && $sub) {
-        $block['vars']['title'] = $root['menu_name'] ?: $root['name'];
-    } elseif ($block['vars']['root']) {
+    if ($block['cfg']['root'] && $sub) {
+        $block['cfg']['title'] = $root['menu_name'] ?: $root['name'];
+    } elseif ($block['cfg']['root']) {
         $root['level']++;
-        $block['vars']['data'] = [$root['id'] => $root] + $block['vars']['data'];
+        $block['cfg']['data'] = [$root['id'] => $root] + $block['cfg']['data'];
     }
 
-    foreach ($block['vars']['data'] as $id => $item) {
-        $block['vars']['data'][$id]['name'] = $item['menu_name'] ?: $item['name'];
+    foreach ($block['cfg']['data'] as $id => $item) {
+        $block['cfg']['data'][$id]['name'] = $item['menu_name'] ?: $item['name'];
     }
 
     return nav($block);
@@ -335,7 +327,7 @@ function menu(array $block): string
 function meta(array $block): string
 {
     $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'meta')['tpl'];
-    $block['vars'] = [];
+    $block['cfg'] = [];
     $desc = app\cfg('app', 'meta.description');
     $title = app\cfg('app', 'meta.title');
 
@@ -355,10 +347,10 @@ function meta(array $block): string
         $title = $entity['name'] . ($title ? ' - ' . $title : '');
     }
 
-    $block['vars']['description'] = $desc ? app\enc($desc) : '';
-    $block['vars']['title'] = $title ? app\enc($title) : '';
+    $block['cfg']['description'] = $desc ? app\enc($desc) : '';
+    $block['cfg']['title'] = $title ? app\enc($title) : '';
 
-    return app\render($block['tpl'], $block['vars']);
+    return app\render($block['tpl'], $block['cfg']);
 }
 
 /**
@@ -368,32 +360,32 @@ function meta(array $block): string
  */
 function nav(array $block): string
 {
-    $block['vars'] = arr\replace(app\cfg('block', 'nav')['vars'], $block['vars']);
+    $block['cfg'] = arr\replace(app\cfg('block', 'nav')['cfg'], $block['cfg']);
 
-    if (!$block['vars']['data']) {
+    if (!$block['cfg']['data']) {
         return '';
     }
 
     $url = request\get('url');
-    $count = count($block['vars']['data']);
-    $start = current($block['vars']['data'])['level'] ?? 1;
+    $count = count($block['cfg']['data']);
+    $start = current($block['cfg']['data'])['level'] ?? 1;
     $level = 0;
     $i = 0;
     $html = '';
     $attrs = ['id' => $block['id']];
 
-    if ($block['vars']['title']) {
-        $html .= app\html('h2', [], $block['vars']['title']);
+    if ($block['cfg']['title']) {
+        $html .= app\html('h2', [], $block['cfg']['title']);
     }
 
-    $html .= container(array_replace($block, ['vars' => ['tag' => null]]));
+    $html .= container(array_replace($block, ['cfg' => ['tag' => null]]));
 
-    if ($block['vars']['toggle']) {
+    if ($block['cfg']['toggle']) {
         $html .= app\html('span', ['data-action' => 'toggle', 'data-target' => $block['id']]);
         $attrs['data-toggle'] = '';
     }
 
-    foreach ($block['vars']['data'] as $item) {
+    foreach ($block['cfg']['data'] as $item) {
         if (empty($item['name'])) {
             throw new DomainException(app\i18n('Invalid data'));
         }
@@ -411,10 +403,10 @@ function nav(array $block): string
             $class[] = 'path';
         }
 
-        if (($next = next($block['vars']['data'])) && $item['level'] < ($next['level'] ?? $start)) {
+        if (($next = next($block['cfg']['data'])) && $item['level'] < ($next['level'] ?? $start)) {
             $class[] = 'parent';
 
-            if ($block['vars']['toggle']) {
+            if ($block['cfg']['toggle']) {
                 $toggle = app\html('span', ['data-action' => 'toggle']);
             }
         }
@@ -437,7 +429,7 @@ function nav(array $block): string
         $level = $item['level'];
     }
 
-    return $block['vars']['tag'] ? app\html($block['vars']['tag'], $attrs, $html) : $html;
+    return $block['cfg']['tag'] ? app\html($block['cfg']['tag'], $attrs, $html) : $html;
 }
 
 /**
@@ -447,45 +439,45 @@ function pager(array $block): string
 {
     $type = app\cfg('block', 'pager');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['size'] = (int) $block['vars']['size'];
-    $cur = $block['vars']['cur'] ?? request\get('param')['cur'] ?? 1;
-    $limit = (int) $block['vars']['limit'];
-    $pages = (int) $block['vars']['pages'];
+    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
+    $block['cfg']['size'] = (int) $block['cfg']['size'];
+    $cur = $block['cfg']['cur'] ?? request\get('param')['cur'] ?? 1;
+    $limit = (int) $block['cfg']['limit'];
+    $pages = (int) $block['cfg']['pages'];
 
-    if ($limit <= 0 || $block['vars']['size'] <= 0) {
+    if ($limit <= 0 || $block['cfg']['size'] <= 0) {
         return '';
     }
 
     $url = request\get('url');
-    $total = (int) ceil($block['vars']['size'] / $limit) ?: 1;
+    $total = (int) ceil($block['cfg']['size'] / $limit) ?: 1;
     $cur = min(max($cur, 1), $total);
     $offset = ($cur - 1) * $limit;
     $min = max(1, min($cur - intdiv($pages, 2), $total - $pages + 1));
     $max = min($min + $pages - 1, $total);
-    $block['vars']['info'] = app\i18n(
+    $block['cfg']['info'] = app\i18n(
         '%s to %s of %s',
         (string) ($offset + 1),
-        (string) min($offset + $limit, $block['vars']['size']),
-        (string) $block['vars']['size']
+        (string) min($offset + $limit, $block['cfg']['size']),
+        (string) $block['cfg']['size']
     );
-    $block['vars']['links'] = [];
+    $block['cfg']['links'] = [];
 
     if ($cur >= 2) {
         $lp = ['cur' => $cur === 2 ? null : $cur - 1];
-        $block['vars']['links'][] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $lp, true)];
+        $block['cfg']['links'][] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $lp, true)];
     }
 
     for ($i = $min; $min < $max && $i <= $max; $i++) {
         $lp = ['cur' => $i === 1 ? null : $i];
-        $block['vars']['links'][] = ['name' => $i, 'url' => app\url($url, $lp, true), 'active' => $i === $cur];
+        $block['cfg']['links'][] = ['name' => $i, 'url' => app\url($url, $lp, true), 'active' => $i === $cur];
     }
 
     if ($cur < $total) {
-        $block['vars']['links'][] = ['name' => app\i18n('Next'), 'url' => app\url($url, ['cur' => $cur + 1], true)];
+        $block['cfg']['links'][] = ['name' => app\i18n('Next'), 'url' => app\url($url, ['cur' => $cur + 1], true)];
     }
 
-    return app\render($block['tpl'], $block['vars']);
+    return app\render($block['tpl'], $block['cfg']);
 }
 
 /**
@@ -508,14 +500,14 @@ function password(array $block): string
 
     $entity = app\cfg('entity', 'account');
     $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'password')['tpl'];
-    $block['vars'] = [];
-    $block['vars']['attr'] = arr\extract($entity['attr'], ['password', 'confirmation']);
-    $block['vars']['data'] = $data;
-    $block['vars']['entity_id'] = 'account';
-    $block['vars']['file'] = false;
-    $block['vars']['title'] = app\i18n('Password');
+    $block['cfg'] = [];
+    $block['cfg']['attr'] = arr\extract($entity['attr'], ['password', 'confirmation']);
+    $block['cfg']['data'] = $data;
+    $block['cfg']['entity_id'] = 'account';
+    $block['cfg']['file'] = false;
+    $block['cfg']['title'] = app\i18n('Password');
 
-    return app\render($block['tpl'], $block['vars']);
+    return app\render($block['tpl'], $block['cfg']);
 }
 
 /**
@@ -525,10 +517,10 @@ function search(array $block): string
 {
     $type = app\cfg('block', 'search');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
-    $block['vars']['q'] = $block['vars']['q'] ?? request\get('param')['q'] ?? null;
+    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
+    $block['cfg']['q'] = $block['cfg']['q'] ?? request\get('param')['q'] ?? null;
 
-    return app\render($block['tpl'], $block['vars']);
+    return app\render($block['tpl'], $block['cfg']);
 }
 
 /**
@@ -540,10 +532,10 @@ function sidebar(array $block): string
         return '';
     }
 
-    $block['vars'] = arr\replace(app\cfg('block', 'sidebar')['vars'], $block['vars']);
+    $block['cfg'] = arr\replace(app\cfg('block', 'sidebar')['cfg'], $block['cfg']);
 
-    if (!$page['sidebar'] && is_int($block['vars']['inherit'])) {
-        $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']], ['level', $block['vars']['inherit'], APP['crit']['>=']]];
+    if (!$page['sidebar'] && is_int($block['cfg']['inherit'])) {
+        $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']], ['level', $block['cfg']['inherit'], APP['crit']['>=']]];
         $opt = ['select' => ['sidebar'], 'order' => ['level' => 'desc']];
         $page['sidebar'] = entity\one('page', $crit, $opt)['sidebar'] ?? '';
     }
@@ -556,13 +548,13 @@ function sidebar(array $block): string
  */
 function toolbar(array $block): string
 {
-    $block['vars'] = [];
-    $block['vars']['data'] = app\cfg('toolbar');
+    $block['cfg'] = [];
+    $block['cfg']['data'] = app\cfg('toolbar');
     $empty = [];
 
-    foreach ($block['vars']['data'] as $id => $item) {
+    foreach ($block['cfg']['data'] as $id => $item) {
         if ($item['priv'] && !app\allowed($item['priv'])) {
-            unset($block['vars']['data'][$id]);
+            unset($block['cfg']['data'][$id]);
         } elseif (!$item['url']) {
             $empty[$id] = true;
         } elseif ($item['parent_id']) {
@@ -570,7 +562,7 @@ function toolbar(array $block): string
         }
     }
 
-    $block['vars']['data'] = array_diff_key($block['vars']['data'], $empty);
+    $block['cfg']['data'] = array_diff_key($block['cfg']['data'], $empty);
 
     return nav($block);
 }
@@ -590,14 +582,14 @@ function view(array $block): string
 {
     $type = app\cfg('block', 'view');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['vars'] = arr\replace($type['vars'], $block['vars']);
+    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
 
     if (!($entity = app\get('entity')) || !($id = app\get('id'))) {
         return '';
     }
 
-    $block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr_id']);
-    $block['vars']['data'] = app\get('page') ?: entity\one($entity['id'], [['id', $id]]);
+    $block['cfg']['attr'] = arr\extract($entity['attr'], $block['cfg']['attr_id']);
+    $block['cfg']['data'] = app\get('page') ?: entity\one($entity['id'], [['id', $id]]);
 
-    return $block['vars']['attr'] && $block['vars']['data'] ? app\render($block['tpl'], $block['vars']) : '';
+    return $block['cfg']['attr'] && $block['cfg']['data'] ? app\render($block['tpl'], $block['cfg']) : '';
 }

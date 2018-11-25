@@ -196,7 +196,7 @@ function layout(array $data): array
                     'type' => preg_replace('#^block_#', '', $dbBlocks[$item['block_id']]['entity']),
                     'parent_id' => $item['parent_id'],
                     'sort' => $item['sort'],
-                    'vars' => array_diff_key($dbBlocks[$item['block_id']], $base),
+                    'cfg' => array_diff_key($dbBlocks[$item['block_id']], $base),
                 ];
             }
         }
