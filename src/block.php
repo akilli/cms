@@ -95,21 +95,14 @@ function create(array $block): string
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
     $block['cfg']['entity_id'] = $block['cfg']['entity_id'] ?: app\get('entity_id');
-    $entity = app\cfg('entity', $block['cfg']['entity_id']);
 
-    if (!$entity || !($block['cfg']['attr'] = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
-        return '';
-    }
-
-    if (($data = request\get('data')) && entity\save($entity['id'], $data)) {
+    if (($data = request\get('data')) && entity\save($block['cfg']['entity_id'], $data)) {
         $data = [];
     }
 
-    $block['cfg']['data'] = arr\replace(entity\item($entity['id']), $data);
-    $block['cfg']['file'] = !!arr\crit($block['cfg']['attr'], [['type', 'upload']]);
-    $block['cfg']['title'] = null;
+    $block['cfg']['data'] = arr\replace(entity\item($block['cfg']['entity_id']), $data);
 
-    return app\render($block['tpl'], $block['cfg']);
+    return form($block);
 }
 
 /**
@@ -165,7 +158,7 @@ function edit(array $block): string
     $block['cfg']['file'] = !!arr\crit($block['cfg']['attr'], [['type', 'upload']]);
     $block['cfg']['title'] = $entity['name'];
 
-    return app\render($block['tpl'], $block['cfg']);
+    return form($block);
 }
 
 /**
@@ -175,16 +168,20 @@ function form(array $block): string
 {
     $type = app\cfg('block', 'form');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
+    $cfg = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!$block['cfg']['entity_id'] || !($entity = app\cfg('entity', $block['cfg']['entity_id'])) || !($block['cfg']['attr'] = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
+    if (!$cfg['entity_id'] || !($entity = app\cfg('entity', $cfg['entity_id'])) || !($attr = arr\extract($entity['attr'], $cfg['attr_id']))) {
         return '';
     }
 
-    $block['cfg']['title'] = $block['cfg']['title'] ? app\enc($block['cfg']['title']) : null;
-    $block['cfg']['file'] = !!arr\crit($block['cfg']['attr'], [['type', 'upload']]);
+    $var = [
+        'data' => $cfg['data'],
+        'attr' => $attr,
+        'file' => !!arr\crit($attr, [['type', 'upload']]),
+        'title' => $cfg['title'] ? app\enc($cfg['title']) : null,
+    ];
 
-    return app\render($block['tpl'], $block['cfg']);
+    return app\render($block['tpl'], $var);
 }
 
 /**
