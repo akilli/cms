@@ -74,15 +74,15 @@ function content(array $block): string
 {
     $type = app\cfg('block', 'content');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
+    $cfg = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!$block['cfg']['content']) {
+    if (!$cfg['content']) {
         return '';
     }
 
-    $block['cfg']['title'] = $block['cfg']['title'] ? app\enc($block['cfg']['title']) : null;
+    $var = ['content' => $cfg['content'], 'title' => $cfg['title'] ? app\enc($cfg['title']) : null];
 
-    return app\render($block['tpl'], $block['cfg']);
+    return app\render($block['tpl'], $var);
 }
 
 /**
