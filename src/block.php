@@ -221,7 +221,7 @@ function pager(array $block): string
 {
     $type = app\cfg('block', 'pager');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $cfg['cfg'] = arr\replace($type['cfg'], $block['cfg']);
+    $cfg = arr\replace($type['cfg'], $block['cfg']);
     $cfg['cur'] = $cfg['cur'] ?? request\get('param')['cur'] ?? 1;
 
     if ($cfg['limit'] <= 0 || $cfg['size'] <= 0) {
