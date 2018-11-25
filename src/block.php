@@ -17,14 +17,13 @@ use DomainException;
 function banner(array $block): string
 {
     $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'banner')['tpl'];
-    $var = [];
 
     if (($page = app\get('page')) && $page['entity'] !== 'page_content') {
         $page = entity\one('page', [['id', $page['path']], ['entity', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
     }
 
-    if ($page && ($var['img'] = attr\viewer($page, $page['_entity']['attr']['image']))) {
-        return app\render($block['tpl'], $var);
+    if ($page && ($img = attr\viewer($page, $page['_entity']['attr']['image']))) {
+        return app\render($block['tpl'], ['img' => $img]);
     }
 
     return '';
