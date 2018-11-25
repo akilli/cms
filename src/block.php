@@ -511,10 +511,10 @@ function search(array $block): string
 {
     $type = app\cfg('block', 'search');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
-    $block['cfg']['q'] = $block['cfg']['q'] ?? request\get('param')['q'] ?? null;
+    $cfg = arr\replace($type['cfg'], $block['cfg']);
+    $var = ['q' => $cfg['q'] ?? request\get('param')['q'] ?? null];
 
-    return app\render($block['tpl'], $block['cfg']);
+    return app\render($block['tpl'], $var);
 }
 
 /**
