@@ -321,7 +321,6 @@ function menu(array $block): string
 function meta(array $block): string
 {
     $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'meta')['tpl'];
-    $block['cfg'] = [];
     $desc = app\cfg('app', 'meta.description');
     $title = app\cfg('app', 'meta.title');
 
@@ -341,10 +340,9 @@ function meta(array $block): string
         $title = $entity['name'] . ($title ? ' - ' . $title : '');
     }
 
-    $block['cfg']['description'] = $desc ? app\enc($desc) : '';
-    $block['cfg']['title'] = $title ? app\enc($title) : '';
+    $var = ['description' => $desc ? app\enc($desc) : '', 'title' => $title ? app\enc($title) : ''];
 
-    return app\render($block['tpl'], $block['cfg']);
+    return app\render($block['tpl'], $var);
 }
 
 /**
