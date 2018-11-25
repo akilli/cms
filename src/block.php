@@ -114,7 +114,7 @@ function edit(array $block): string
     $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
     $entity = app\get('entity');
 
-    if (!$entity || !($block['cfg']['attr'] = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
+    if (!$entity || !$block['cfg']['attr_id']) {
         return '';
     }
 
@@ -154,7 +154,6 @@ function edit(array $block): string
 
     $block['cfg']['data'] = arr\replace(entity\item($entity['id']), ...$p);
     $block['cfg']['entity_id'] = $entity['id'];
-    $block['cfg']['file'] = !!arr\crit($block['cfg']['attr'], [['type', 'upload']]);
     $block['cfg']['title'] = $entity['name'];
 
     return form($block);
