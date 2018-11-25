@@ -272,24 +272,23 @@ function menu(array $block): string
 {
     $block['cfg'] = arr\replace(app\cfg('block', 'menu')['cfg'], $block['cfg']);
     $page = app\get('page');
-    $sub = $block['cfg']['mode'] === 'sub';
 
-    if ($sub && empty($page['path'][1])) {
+    if ($block['cfg']['submenu'] && empty($page['path'][1])) {
         return '';
     }
 
-    $crit = [['status', 'published'], ['entity', 'page_content']];
-    $crit[] = $sub ? ['id', $page['path'][1]] : ['url', '/'];
+    $rootCrit = [['status', 'published'], ['entity', 'page_content']];
+    $rootCrit[] = $block['cfg']['submenu'] ? ['id', $page['path'][1]] : ['url', '/'];
     $select = ['id', 'name', 'url', 'disabled', 'menu_name', 'pos', 'level'];
     $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
 
-    if (!$root = entity\one('page', $crit, ['select' => $select])) {
+    if (!$root = entity\one('page', $rootCrit, ['select' => $select])) {
         return '';
     }
 
     $crit = [['status', 'published'], ['entity', 'page_content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
 
-    if ($sub) {
+    if ($block['cfg']['submenu']) {
         $parent = $page['path'];
         unset($parent[0]);
         $crit[] = [['id', $page['path']], ['parent_id', $parent]];
@@ -300,7 +299,7 @@ function menu(array $block): string
     $block['cfg']['data'] = entity\all('page', $crit, $opt);
     $block['cfg']['title'] = null;
 
-    if ($block['cfg']['root'] && $sub) {
+    if ($block['cfg']['root'] && $block['cfg']['submenu']) {
         $block['cfg']['title'] = $root['menu_name'] ?: $root['name'];
     } elseif ($block['cfg']['root']) {
         $root['level']++;
@@ -310,6 +309,8 @@ function menu(array $block): string
     foreach ($block['cfg']['data'] as $id => $item) {
         $block['cfg']['data'][$id]['name'] = $item['menu_name'] ?: $item['name'];
     }
+
+    unset($block['cfg']['root'], $block['cfg']['submenu']);
 
     return nav($block);
 }

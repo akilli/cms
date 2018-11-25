@@ -68,8 +68,8 @@ return [
     'menu' => [
         'call' => 'block\menu',
         'cfg' => [
-            'mode' => null,
             'root' => false,
+            'submenu' => false,
             'tag' => 'nav',
             'toggle' => false,
         ],
