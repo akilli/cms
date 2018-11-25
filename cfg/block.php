@@ -25,7 +25,7 @@ return [
         'call' => 'block\create',
         'tpl' => 'block/form.phtml',
         'vars' => [
-            'attr' => [],
+            'attr_id' => [],
             'entity_id' => null,
         ],
     ],
@@ -33,14 +33,14 @@ return [
         'call' => 'block\edit',
         'tpl' => 'block/form.phtml',
         'vars' => [
-            'attr' => [],
+            'attr_id' => [],
         ],
     ],
     'form' => [
         'call' => 'block\form',
         'tpl' => 'block/form.phtml',
         'vars' => [
-            'attr' => [],
+            'attr_id' => [],
             'data' => [],
             'entity_id' => null,
             'title' => null,
@@ -50,7 +50,7 @@ return [
         'call' => 'block\index',
         'tpl' => 'block/index.phtml',
         'vars' => [
-            'attr' => [],
+            'attr_id' => [],
             'crit' => [],
             'entity_id' => null,
             'limit' => 10,
@@ -124,7 +124,7 @@ return [
         'call' => 'block\view',
         'tpl' => 'block/view.phtml',
         'vars' => [
-            'attr' => [],
+            'attr_id' => [],
         ],
     ],
 ];

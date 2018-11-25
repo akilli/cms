@@ -97,7 +97,7 @@ function create(array $block): string
     $block['vars']['entity_id'] = $block['vars']['entity_id'] ?: app\get('entity_id');
     $entity = app\cfg('entity', $block['vars']['entity_id']);
 
-    if (!$entity || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr']))) {
+    if (!$entity || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr_id']))) {
         return '';
     }
 
@@ -122,7 +122,7 @@ function edit(array $block): string
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
     $entity = app\get('entity');
 
-    if (!$entity || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr']))) {
+    if (!$entity || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr_id']))) {
         return '';
     }
 
@@ -177,7 +177,7 @@ function form(array $block): string
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $block['vars'] = arr\replace($type['vars'], $block['vars']);
 
-    if (!$block['vars']['entity_id'] || !($entity = app\cfg('entity', $block['vars']['entity_id'])) || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr']))) {
+    if (!$block['vars']['entity_id'] || !($entity = app\cfg('entity', $block['vars']['entity_id'])) || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr_id']))) {
         return '';
     }
 
@@ -198,7 +198,7 @@ function index(array $block): string
     $block['vars']['entity_id'] = $block['vars']['entity_id'] ?: app\get('entity_id');
     $entity = app\cfg('entity', $block['vars']['entity_id']);
 
-    if (!$entity || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr'])) || $block['vars']['limit'] <= 0) {
+    if (!$entity || !($block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr_id'])) || $block['vars']['limit'] <= 0) {
         return '';
     }
 
@@ -596,7 +596,7 @@ function view(array $block): string
         return '';
     }
 
-    $block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr']);
+    $block['vars']['attr'] = arr\extract($entity['attr'], $block['vars']['attr_id']);
     $block['vars']['data'] = app\get('page') ?: entity\one($entity['id'], [['id', $id]]);
 
     return $block['vars']['attr'] && $block['vars']['data'] ? app\render($block['tpl'], $block['vars']) : '';

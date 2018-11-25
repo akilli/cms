@@ -166,21 +166,21 @@ return [
     'account/admin' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'role_id'],
+                'attr_id' => ['name', 'role_id'],
             ],
         ],
     ],
     'block_content/admin' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'title'],
+                'attr_id' => ['name', 'title'],
             ],
         ],
     ],
     'file/admin' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['url', 'name', 'info'],
+                'attr_id' => ['url', 'name', 'info'],
                 'search' => ['name', 'url'],
             ],
         ],
@@ -188,28 +188,28 @@ return [
     'layout/admin' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
+                'attr_id' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
             ],
         ],
     ],
     'page_article/admin' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'parent_id', 'status', 'date'],
+                'attr_id' => ['name', 'parent_id', 'status', 'date'],
             ],
         ],
     ],
     'page_content/admin' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'pos', 'parent_id', 'menu', 'status', 'date'],
+                'attr_id' => ['name', 'pos', 'parent_id', 'menu', 'status', 'date'],
             ],
         ],
     ],
     'role/admin' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name'],
+                'attr_id' => ['name'],
             ],
         ],
     ],
@@ -235,7 +235,7 @@ return [
     'file/browser' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['url', 'name', 'info'],
+                'attr_id' => ['url', 'name', 'info'],
             ],
         ],
     ],
@@ -252,42 +252,42 @@ return [
     'account/edit' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'password', 'role_id'],
+                'attr_id' => ['name', 'password', 'role_id'],
             ],
         ],
     ],
     'block_content/edit' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'title', 'content'],
+                'attr_id' => ['name', 'title', 'content'],
             ],
         ],
     ],
     'file/edit' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['url', 'name', 'info'],
+                'attr_id' => ['url', 'name', 'info'],
             ],
         ],
     ],
     'layout/edit' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
+                'attr_id' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
             ],
         ],
     ],
     'page_article/edit' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'date', 'meta_title', 'meta_description'],
+                'attr_id' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'date', 'meta_title', 'meta_description'],
             ],
         ],
     ],
     'page_content/edit' => [
         'content-main' => [
             'vars' => [
-                'attr' => [
+                'attr_id' => [
                     'name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status',
                     'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description'
                 ],
@@ -297,7 +297,7 @@ return [
     'role/edit' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'priv'],
+                'attr_id' => ['name', 'priv'],
             ],
         ],
     ],
@@ -329,14 +329,14 @@ return [
     'page_article/view' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['name', 'image', 'teaser', 'main'],
+                'attr_id' => ['name', 'image', 'teaser', 'main'],
             ],
         ],
     ],
     'page_content/view' => [
         'content-main' => [
             'vars' => [
-                'attr' => ['image', 'name', 'teaser', 'main', 'aside'],
+                'attr_id' => ['image', 'name', 'teaser', 'main', 'aside'],
             ],
         ],
     ],
@@ -346,7 +346,7 @@ return [
         ],
         'content-main' => [
             'vars' => [
-                'attr' => ['image', 'teaser', 'main', 'aside'],
+                'attr_id' => ['image', 'teaser', 'main', 'aside'],
             ],
         ],
     ],
