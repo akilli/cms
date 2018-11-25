@@ -498,16 +498,10 @@ function password(array $block): string
         }
     }
 
-    $entity = app\cfg('entity', 'account');
     $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'password')['tpl'];
-    $block['cfg'] = [];
-    $block['cfg']['attr'] = arr\extract($entity['attr'], ['password', 'confirmation']);
-    $block['cfg']['data'] = $data;
-    $block['cfg']['entity_id'] = 'account';
-    $block['cfg']['file'] = false;
-    $block['cfg']['title'] = app\i18n('Password');
+    $block['cfg'] = ['attr_id' => ['password', 'confirmation'], 'data' => $data, 'entity_id' => 'account', 'title' => app\i18n('Password')];
 
-    return app\render($block['tpl'], $block['cfg']);
+    return form($block);
 }
 
 /**
