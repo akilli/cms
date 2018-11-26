@@ -58,25 +58,15 @@ function redirect(string $url = '/', int $code = null): void
 /**
  * Filters request parameters
  */
-function filter(array $data, bool $recursion = false): array
+function filter(array $data): array
 {
     foreach ($data as $key => $val) {
-        if (!$recursion && in_array($key, ['filter', 'sort'])) {
-            $sort = function ($v) {
-                return in_array($v, ['asc', 'desc']);
-            };
+        $val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR | FILTER_FLAG_NO_ENCODE_QUOTES);
 
-            if (!is_array($val) || $key === 'filter' && !($data[$key] = array_filter($val, $sort)) || $key !== 'sort' && !($data[$key] = filter($val, true))) {
-                unset($data[$key]);
-            }
-        } else {
-            $val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR | FILTER_FLAG_NO_ENCODE_QUOTES);
-
-            if (is_numeric($val)) {
-                $data[$key] += 0;
-            } elseif (!is_string($val) || !($data[$key] = trim(preg_replace('#[^\w -_]#u', '', $val)))) {
-                unset($data[$key]);
-            }
+        if (is_numeric($val)) {
+            $data[$key] += 0;
+        } elseif (!is_string($val) || !($data[$key] = trim(preg_replace('#[^\w -_]#u', '', $val)))) {
+            unset($data[$key]);
         }
     }
 
