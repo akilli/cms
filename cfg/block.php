@@ -78,9 +78,6 @@ return [
     'search' => [
         'call' => 'block\search',
         'tpl' => 'block/search.phtml',
-        'cfg' => [
-            'q' => null,
-        ],
     ],
     /**
      * Form

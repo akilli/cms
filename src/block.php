@@ -173,14 +173,14 @@ function index(array $block): string
     }
 
     if ($cfg['search']) {
-        if (($p['q'] = trim((string) $p['q'])) && ($q = array_filter(explode(' ', $p['q'])))) {
+        if ($p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
             $call = function ($attrId) use ($q) {
                 return [$attrId, $q, APP['crit']['~']];
             };
             $crit[] = array_map($call, $cfg['search']);
         }
 
-        $search = search(['cfg' => ['q' => $p['q']]]);
+        $search = search([]);
     }
 
     $size = entity\size($entity['id'], $crit);
@@ -260,10 +260,8 @@ function pager(array $block): string
  */
 function search(array $block): string
 {
-    $type = app\cfg('block', 'search');
-    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $cfg = arr\replace($type['cfg'], $block['cfg']);
-    $var = ['q' => $cfg['q'] ?? request\get('param')['q'] ?? null];
+    $block['tpl'] = $block['tpl'] ?? app\cfg('block', 'search')['tpl'];
+    $var = ['q' => request\get('param')['q'] ?? null];
 
     return app\render($block['tpl'], $var);
 }
