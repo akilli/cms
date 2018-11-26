@@ -73,7 +73,7 @@ h3 {
 pre {
     padding: 1.5rem;
     color: #fff;
-    background: #00000c;
+    background: #000;
 }
 
 time[data-attr] {
@@ -117,7 +117,7 @@ table {
 }
 
 thead {
-    border-bottom: solid 0.0625rem #00000c;
+    border-bottom: solid 0.0625rem #000;
 }
 
 td,
@@ -126,7 +126,7 @@ th {
 }
 
 th {
-    border-bottom: solid 0.0625rem #00000c;
+    border-bottom: solid 0.0625rem #000;
 }
 
 td {
@@ -154,7 +154,7 @@ fieldset select {
 legend {
     width: 100%;
     padding: 0.71875rem 0;
-    border-bottom: solid 0.0625rem #00000c;
+    border-bottom: solid 0.0625rem #000;
 }
 
 label {
@@ -197,8 +197,8 @@ select[multiple] {
 button {
     line-height: 1.5rem;
     padding: 0.75rem;
-    color: #000;
-    background: #60abc6;
+    color: #fff;
+    background: #000;
     border: 0;
 }
 
@@ -226,7 +226,7 @@ button {
     left: -0.0625rem;
     width: 3rem;
     height: 1.5rem;
-    background: #60abc6;
+    background: #000;
     border: 0.0625rem solid #e4e7ea;
     content: '';
 }
@@ -254,14 +254,14 @@ textarea {
 
 :focus:invalid,
 .invalid {
-    border-bottom: solid 0.0625rem #00000c;
+    border-bottom: solid 0.0625rem #900;
 }
 
 .error {
     margin: 0;
     font-size: 0.875rem;
     font-weight: bold;
-    color: #32535c;
+    color: #900;
 }
 
 form [data-type=nope] {
@@ -307,7 +307,7 @@ span[data-action] {
     padding: 0.75rem;
     font-size: 0.875rem;
     color: #fff;
-    background: #00000c;
+    background: #000;
 }
 
 #toolbar a:hover,
@@ -324,7 +324,7 @@ span[data-action] {
     margin: 0 -0.75rem;
     padding: 0.75rem;
     color: #fff;
-    background: #32535c;
+    background: #000;
 }
 
 @supports (position: sticky) {
@@ -398,8 +398,8 @@ span[data-action] {
 .msg {
     margin: 0 -0.75rem;
     padding: 0.75rem;
-    color: #000;
-    background: #c7ffff;
+    color: #fff;
+    background: #000;
 }
 
 .msg p {
@@ -598,11 +598,11 @@ html[data-area=_public_] [data-type=rte]::after {
     }
 
     #toolbar li ul {
-        background: #00000c;
+        background: #000;
     }
 
     #menu li ul {
-        background: #32535c;
+        background: #000;
     }
 
     #toolbar li li ul,
@@ -650,7 +650,7 @@ html[data-area=_public_] [data-type=rte]::after {
     }
 
     html[data-area=_admin_] .block-index .thead > * {
-        border-bottom: solid 0.0625rem #00000c;
+        border-bottom: solid 0.0625rem #000;
     }
 
     html[data-area=_admin_] .block-index article > * {
@@ -742,7 +742,7 @@ html[data-area=_public_] [data-type=rte]::after {
      * Header
      */
     #header {
-        border-bottom: solid 1px #00000c;
+        border-bottom: solid 1px #000;
     }
 
     /**
