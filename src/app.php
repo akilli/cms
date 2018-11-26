@@ -359,7 +359,9 @@ function enc(string $val): string
  */
 function url(string $path = '', array $param = [], bool $preserve = false): string
 {
-    $param = array_filter($preserve ? array_replace(request\get('param'), $param) : $param, 'is_scalar');
+    if ($preserve) {
+        $param += request\get('param');
+    }
 
     return '/' . trim($path, '/') . ($param ? '?' . http_build_query($param, '', '&amp;') : '');
 }
