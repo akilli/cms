@@ -8,6 +8,7 @@ return [
     'Archived' => 'Archiviert',
     'Articles' => 'Artikel',
     'Audios' => 'Audios',
+    'Back' => 'Zurück',
     'Block' => 'Block',
     'Blocks' => 'Blöcke',
     'Browse' => 'Durchsuchen',
