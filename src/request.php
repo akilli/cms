@@ -65,7 +65,7 @@ function filter(array $data): array
 
         if (is_numeric($val)) {
             $data[$key] += 0;
-        } elseif (!is_string($val) || !($data[$key] = preg_replace('#[^\w -_]#u', '', $val))) {
+        } elseif (!is_string($val) || !($data[$key] = trim(preg_replace('#[^\w -_]#u', '', $val)))) {
             unset($data[$key]);
         }
     }
