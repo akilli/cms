@@ -63,12 +63,10 @@ function filter(array $data): array
     foreach ($data as $key => $val) {
         $val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR | FILTER_FLAG_NO_ENCODE_QUOTES);
 
-        if ($val === false) {
-            unset($data[$key]);
-        } elseif (is_numeric($val)) {
+        if (is_numeric($val)) {
             $data[$key] += 0;
-        } else {
-            $data[$key] = preg_replace('#[^\w -_]#u', '', $val);
+        } elseif (!is_string($val) || !($data[$key] = preg_replace('#[^\w -_]#u', '', $val))) {
+            unset($data[$key]);
         }
     }
 
