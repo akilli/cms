@@ -21,13 +21,13 @@ $entityId = $var('entity_id');
         <?php foreach ($var('attr') as $attr):?>
         <a href="<?=url($var('url'), ['sort' => $attr['id'], 'dir' => $var('sort') === $attr['id'] && $var('dir') === 'asc' ? 'desc' : 'asc'], true);?>"<?php if ($var('sort') === $attr['id']):?> data-sort="<?=$var('dir');?>"<?php endif;?>><?=$attr['name'];?></a>
         <?php endforeach;?>
-        <?php if ($admin || $browser):?>
+        <?php if ($admin):?>
         <span><?=i18n('Actions');?></span>
         <?php endif;?>
     </div>
     <?php endif;?>
     <?php foreach ($var('data') as $data):?>
-    <article>
+    <article<?php if ($browser):?> data-id="<?=$data['id'];?>" data-url="<?=$data['url'];?>" title="<?=i18n('Select item');?>"<?php endif;?>>
         <?php foreach ($var('attr') as $attr):?>
             <?php
             $val = $data[$attr['id']] ?? null;
@@ -52,7 +52,7 @@ $entityId = $var('entity_id');
         <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></div>
             <?php endif;?>
         <?php endforeach;?>
-        <?php if ($admin || $browser):?>
+        <?php if ($admin):?>
         <footer>
             <?php if ($admin && allowed($entityId . '/view')):?>
             <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>" data-action="view"><?=i18n('View');?></a>
@@ -62,9 +62,6 @@ $entityId = $var('entity_id');
             <?php endif;?>
             <?php if ($admin && allowed($entityId . '/delete')):?>
             <a href="<?=url($entityId . '/delete/' . $data['id']);?>" data-action="delete"><?=i18n('Delete');?></a>
-            <?php endif;?>
-            <?php if ($browser):?>
-            <span data-id="<?=$data['id'];?>" data-url="<?=$data['url'];?>" data-action="select"><?=i18n('Select item');?></span>
             <?php endif;?>
         </footer>
         <?php endif;?>

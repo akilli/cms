@@ -679,7 +679,6 @@ html[data-area=_public_] [data-type=rte]::after {
     html[data-area=_admin_][data-action=browser] #content .block-index {
         display: flex;
         flex-wrap: wrap;
-        align-items: flex-end;
     }
 
     html[data-area=_admin_][data-action=browser] #content .block-index > * {
@@ -689,11 +688,23 @@ html[data-area=_public_] [data-type=rte]::after {
     html[data-area=_admin_][data-action=browser] #content .block-index > article {
         display: block;
         width: 25%;
+        border: 0.0625rem solid #fff;
+        cursor: pointer;
     }
 
     html[data-area=_admin_][data-action=browser] #content .block-index > article > * {
         display: block;
         border: 0;
+    }
+
+    html[data-area=_admin_][data-action=browser] #content .block-index > article:hover {
+        border-color: #000;
+    }
+
+    html[data-area=_admin_][data-action=browser] #content .block-index audio,
+    html[data-area=_admin_][data-action=browser] #content .block-index iframe,
+    html[data-area=_admin_][data-action=browser] #content .block-index video {
+        pointer-events: none;
     }
 }
 

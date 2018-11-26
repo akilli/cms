@@ -52,7 +52,7 @@
             return;
         }
 
-        Array.prototype.forEach.call(document.querySelectorAll('span[data-action=select]'), function (item) {
+        Array.prototype.forEach.call(document.querySelectorAll('html[data-action=browser] #content .block-index > article'), function (item) {
             item.addEventListener('click', function () {
                 window.opener.postMessage({
                     id: item.getAttribute('data-id'),
