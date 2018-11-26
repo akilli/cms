@@ -64,7 +64,7 @@ $entityId = $var('entity_id');
             <a href="<?=url($entityId . '/delete/' . $data['id']);?>" data-action="delete"><?=i18n('Delete');?></a>
             <?php endif;?>
             <?php if ($browser):?>
-            <span data-id="<?=$data['id'];?>" data-url="<?=$data['name'];?>" data-action="select"><?=i18n('Select item');?></span>
+            <span data-id="<?=$data['id'];?>" data-url="<?=$data['url'];?>" data-action="select"><?=i18n('Select item');?></span>
             <?php endif;?>
         </footer>
         <?php endif;?>
