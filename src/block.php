@@ -370,16 +370,6 @@ function edit(array $block): string
 }
 
 /**
- * Login Form
- */
-function login(array $block): string
-{
-    $block['cfg'] = ['attr_id' => ['name', 'password'], 'entity_id' => 'account', 'title' => app\i18n('Login')];
-
-    return form($block);
-}
-
-/**
  * Password Form
  */
 function password(array $block): string
@@ -401,6 +391,24 @@ function password(array $block): string
     $block['cfg'] = ['attr_id' => ['password', 'confirmation'], 'data' => $data, 'entity_id' => 'account', 'title' => app\i18n('Password')];
 
     return form($block);
+}
+
+/**
+ * Login Form
+ */
+function login(array $block): string
+{
+    $block['tpl'] = $block['tpl'] ?? app\cfg('block', 'login')['tpl'];
+    $entity = app\cfg('entity', 'account');
+    $a = ['name' => ['unique' => false, 'minlength' => 0, 'maxlength' => 0], 'password' => ['minlength' => 0, 'maxlength' => 0]];
+    $var = [
+        'data' => [],
+        'attr' => array_replace_recursive(arr\extract($entity['attr'], ['name', 'password']), $a),
+        'file' => false,
+        'title' => app\i18n('Login'),
+    ];
+
+    return app\render($block['tpl'], $var);
 }
 
 /**

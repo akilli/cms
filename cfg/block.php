@@ -108,12 +108,12 @@ return [
             'attr_id' => [],
         ],
     ],
-    'login' => [
-        'call' => 'block\login',
-        'tpl' => 'block/form.phtml',
-    ],
     'password' => [
         'call' => 'block\password',
+        'tpl' => 'block/form.phtml',
+    ],
+    'login' => [
+        'call' => 'block\login',
         'tpl' => 'block/form.phtml',
     ],
     /**
