@@ -110,7 +110,6 @@ const APP = [
         'cfg' => [],
     ],
     'log' => 'php://stdout',
-    'msg' => '___MSG___',
     'path' => [
         'cfg' => '/app/cfg',
         'file' => '/data/file',
