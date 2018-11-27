@@ -546,13 +546,13 @@ html[data-area=_admin_] .block-index article h3 {
 /**
  * Clear
  */
-.block::before,
+[class^="block-"]::before,
 html[data-area=_public_] [data-type=rte]::before {
     display: table;
     content: " ";
 }
 
-.block::after,
+[class^="block-"]::after,
 html[data-area=_public_] [data-type=rte]::after {
     display: table;
     content: " ";
