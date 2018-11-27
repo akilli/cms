@@ -119,7 +119,7 @@ return [
     '_invalid_' => [
         'content-main' => [
             'type' => 'tpl',
-            'tpl' => 'app/error.phtml',
+            'tpl' => 'page/error.phtml',
             'parent_id' => 'content',
             'sort' => 10,
         ],
