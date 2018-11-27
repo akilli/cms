@@ -108,7 +108,7 @@ function frontend(array $data, array $attr): string
     }
 
     if (!empty($data['_error'][$attr['id']])) {
-        $attr['html']['class'] = empty($attr['html']['class']) ? 'invalid' : $attr['html']['class'] . ' invalid';
+        $attr['html']['class'] = (!empty($attr['html']['class']) ? $attr['html']['class'] . ' ' : '') . 'invalid';
         $error = app\html('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
