@@ -13,10 +13,10 @@ return [
         'call' => 'block\root',
     ],
     /**
-     * Template
+     * Content
      */
-    'tpl' => [
-        'call' => 'block\tpl',
+    'msg' => [
+        'call' => 'block\msg',
     ],
     'content' => [
         'call' => 'block\content',
@@ -24,12 +24,15 @@ return [
             'content' => null,
         ],
     ],
+    /**
+     * Template
+     */
+    'tpl' => [
+        'call' => 'block\tpl',
+    ],
     'meta' => [
         'call' => 'block\meta',
         'tpl' => 'head/meta.phtml',
-    ],
-    'msg' => [
-        'call' => 'block\msg',
     ],
     /**
      * View

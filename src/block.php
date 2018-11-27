@@ -39,16 +39,26 @@ function root(): string
         'data-parent' => app\get('parent_id'),
         'data-url' => request\get('url'),
     ];
+    $head = app\block('head');
+    $body = app\block('body');
+    $msg = '';
 
-    return "<!doctype html>\n" . app\html('html', $attr, app\block('head') . app\block('body'));
+    foreach (app\msg() as $item) {
+        $msg .= app\html('p', [], $item);
+    }
+
+    $msg = $msg ? app\html('section', ['class' => 'msg'], $msg) : '';
+    $body = str_replace(APP['msg'], $msg, $body);
+
+    return "<!doctype html>\n" . app\html('html', $attr, $head . $body);
 }
 
 /**
- * Template
+ * Message
  */
-function tpl(array $block): string
+function msg(): string
 {
-    return $block['tpl'] ? app\render($block['tpl']) : '';
+    return APP['msg'];
 }
 
 /**
@@ -59,6 +69,14 @@ function content(array $block): string
     $cfg = arr\replace(app\cfg('block', 'content')['cfg'], $block['cfg']);
 
     return !$cfg['content'] ? app\html('section', ['class' => 'block block-content'], $cfg['content']) : '';
+}
+
+/**
+ * Template
+ */
+function tpl(array $block): string
+{
+    return $block['tpl'] ? app\render($block['tpl']) : '';
 }
 
 /**
@@ -89,20 +107,6 @@ function meta(array $block): string
     $var = ['description' => $desc ? app\enc($desc) : '', 'title' => $title ? app\enc($title) : ''];
 
     return app\render($block['tpl'], $var);
-}
-
-/**
- * Message
- */
-function msg(): string
-{
-    $html = '';
-
-    foreach (app\msg() as $msg) {
-        $html .= app\html('p', [], $msg);
-    }
-
-    return $html ? app\html('section', ['class' => 'msg'], $html) : '';
 }
 
 /**
