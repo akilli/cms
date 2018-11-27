@@ -156,7 +156,7 @@ function file(int $val, array $attr): string
 {
     $out = app\html('div', ['id' => $attr['html']['id'] . '-file'], $val ? $attr['viewer']($val, $attr) : '');
     $out .= app\html('input', ['type' => 'hidden', 'value' => $val ?: ''] + $attr['html']);
-    $out .= app\html('span', ['data-id' => $attr['html']['id'], 'data-action' => 'browser'], app\i18n('Browse'));
+    $out .= app\html('span', ['data-id' => $attr['html']['id'], 'data-ref' => $attr['ref'], 'data-action' => 'browser'], app\i18n('Browse'));
     $out .= ' ';
     $out .= app\html('span', ['data-id' => $attr['html']['id'], 'data-action' => 'remove'], app\i18n('Remove'));
 

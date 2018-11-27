@@ -68,10 +68,14 @@
     function mediaBrowserOpen () {
         const suffix = '-file';
 
-        Array.prototype.forEach.call(document.querySelectorAll('span[data-action=browser]'), function (item) {
+        Array.prototype.forEach.call(document.querySelectorAll('span[data-action=browser][data-ref]'), function (item) {
             item.addEventListener('click', function () {
-                const attrType = this.parentElement.getAttribute('data-type') || 'file';
-                const entity = attrType === 'file' ? 'file' : 'file_' + attrType;
+                const entity = item.getAttribute('data-ref');
+
+                if (!entity) {
+                    return;
+                }
+
                 const url = '/' + entity + '/browser';
                 const call = function (data) {
                     if (!data.id) {
