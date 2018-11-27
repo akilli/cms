@@ -458,11 +458,8 @@ CREATE INDEX ON block (entity);
 
 CREATE TABLE block_content (
     id integer NOT NULL PRIMARY KEY REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
-    title varchar(255) NOT NULL DEFAULT '',
     content text NOT NULL DEFAULT ''
 );
-
-CREATE INDEX ON block_content (title);
 
 --
 -- Layout

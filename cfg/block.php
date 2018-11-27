@@ -17,9 +17,7 @@ return [
     ],
     'content' => [
         'call' => 'block\content',
-        'tpl' => 'block/content.phtml',
         'cfg' => [
-            'title' => null,
             'content' => null,
         ],
     ],

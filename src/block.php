@@ -39,17 +39,9 @@ function tpl(array $block): string
  */
 function content(array $block): string
 {
-    $type = app\cfg('block', 'content');
-    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $cfg = arr\replace($type['cfg'], $block['cfg']);
+    $cfg = arr\replace(app\cfg('block', 'content')['cfg'], $block['cfg']);
 
-    if (!$cfg['content']) {
-        return '';
-    }
-
-    $var = ['content' => $cfg['content'], 'title' => $cfg['title'] ? app\enc($cfg['title']) : null];
-
-    return app\render($block['tpl'], $var);
+    return !$cfg['content'] ? app\html('section', ['class' => 'block block-content'], $cfg['content']) : '';
 }
 
 /**

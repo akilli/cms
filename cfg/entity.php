@@ -354,12 +354,6 @@ return [
         'parent_id' => 'block',
         'action' => ['admin', 'delete', 'edit'],
         'attr' => [
-            'title' => [
-                'name' => 'Title',
-                'type' => 'text',
-                'val' => '',
-                'maxlength' => 255,
-            ],
             'content' => [
                 'name' => 'Content',
                 'type' => 'rte',

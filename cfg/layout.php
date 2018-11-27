@@ -173,7 +173,7 @@ return [
     'block_content/admin' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'title'],
+                'attr_id' => ['name'],
             ],
         ],
     ],
@@ -259,7 +259,7 @@ return [
     'block_content/edit' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'title', 'content'],
+                'attr_id' => ['name', 'content'],
             ],
         ],
     ],
