@@ -43,8 +43,7 @@ return [
             'parent_id' => 'root',
         ],
         'msg' => [
-            'type' => 'tpl',
-            'tpl' => 'app/msg.phtml',
+            'type' => 'msg',
             'parent_id' => 'top',
             'sort' => 20,
         ],

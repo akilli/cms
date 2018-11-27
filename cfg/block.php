@@ -25,6 +25,9 @@ return [
         'call' => 'block\meta',
         'tpl' => 'head/meta.phtml',
     ],
+    'msg' => [
+        'call' => 'block\msg',
+    ],
     /**
      * View
      */

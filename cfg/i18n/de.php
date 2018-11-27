@@ -59,7 +59,6 @@ return [
     'Main Content' => 'Hauptinhalt',
     'Menu Entry' => 'Menüeintrag',
     'Menu Name' => 'Menüname',
-    'Message' => 'Nachricht',
     'Meta Description' => 'Meta-Description',
     'Meta Title' => 'Meta-Title',
     'MIME' => 'MIME',

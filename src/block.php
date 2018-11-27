@@ -75,6 +75,20 @@ function meta(array $block): string
 }
 
 /**
+ * Message
+ */
+function msg(): string
+{
+    $html = '';
+
+    foreach (app\msg() as $msg) {
+        $html .= app\html('p', [], $msg);
+    }
+
+    return $html ? app\html('section', ['class' => 'msg'], $html) : '';
+}
+
+/**
  * View
  */
 function view(array $block): string
