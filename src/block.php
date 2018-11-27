@@ -27,6 +27,25 @@ function container(array $block): string
 }
 
 /**
+ * Root Container
+ */
+function root(): string
+{
+    $attr = [
+        'lang' => app\get('lang'),
+        'data-action' => app\get('action'),
+        'data-area' => app\get('area'),
+        'data-entity' => app\get('entity_id'),
+        'data-parent' => app\get('parent_id'),
+        'data-url' => request\get('url'),
+    ];
+    $html = app\block('head');
+    $html .= app\block('body');
+
+    return "<!doctype html>\n" . app\html('html', $attr, $html);
+}
+
+/**
  * Template
  */
 function tpl(array $block): string

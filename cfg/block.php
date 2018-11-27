@@ -9,6 +9,9 @@ return [
             'tag' => null,
         ],
     ],
+    'root' => [
+        'call' => 'block\root',
+    ],
     /**
      * Template
      */

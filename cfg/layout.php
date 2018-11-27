@@ -1,14 +1,34 @@
 <?php
 return [
     '_all_' => [
+        /**
+         * Root Container
+         */
         'root' => [
-            'type' => 'tpl',
-            'tpl' => 'root.phtml',
+            'type' => 'root',
         ],
+        /**
+         * Root Blocks
+         */
         'head' => [
             'type' => 'container',
             'parent_id' => 'root',
+            'sort' => 10,
+            'cfg' => [
+                'tag' => 'head',
+            ],
         ],
+        'body' => [
+            'type' => 'container',
+            'parent_id' => 'root',
+            'sort' => 20,
+            'cfg' => [
+                'tag' => 'body',
+            ],
+        ],
+        /**
+         * Head Blocks
+         */
         'meta' => [
             'type' => 'meta',
             'parent_id' => 'head',
@@ -26,54 +46,79 @@ return [
             'parent_id' => 'head',
             'sort' => 30,
         ],
+        /**
+         * Body Blocks
+         */
         'toolbar' => [
             'type' => 'toolbar',
             'priv' => '_user_',
-            'parent_id' => 'root',
+            'parent_id' => 'body',
+            'sort' => 10,
         ],
         'header' => [
             'type' => 'container',
-            'parent_id' => 'root',
+            'parent_id' => 'body',
+            'sort' => 20,
             'cfg' => [
                 'tag' => 'header',
             ],
         ],
         'top' => [
             'type' => 'container',
-            'parent_id' => 'root',
+            'parent_id' => 'body',
+            'sort' => 30,
         ],
+        'main' => [
+            'type' => 'container',
+            'parent_id' => 'body',
+            'sort' => 40,
+            'cfg' => [
+                'tag' => 'main',
+            ],
+        ],
+        'bottom' => [
+            'type' => 'container',
+            'parent_id' => 'body',
+            'sort' => 50,
+        ],
+        'footer' => [
+            'type' => 'container',
+            'parent_id' => 'body',
+            'sort' => 60,
+            'cfg' => [
+                'tag' => 'footer',
+            ],
+        ],
+        /**
+         * Top Blocks
+         */
         'msg' => [
             'type' => 'msg',
             'parent_id' => 'top',
             'sort' => 20,
         ],
+        /**
+         * Main Blocks
+         */
         'left' => [
             'type' => 'container',
-            'parent_id' => 'root',
+            'parent_id' => 'main',
+            'sort' => 10,
         ],
         'content' => [
             'type' => 'container',
-            'parent_id' => 'root',
+            'parent_id' => 'main',
+            'sort' => 20,
             'cfg' => [
                 'tag' => 'article',
             ],
         ],
         'right' => [
             'type' => 'container',
-            'parent_id' => 'root',
+            'parent_id' => 'main',
+            'sort' => 30,
             'cfg' => [
                 'tag' => 'aside',
-            ],
-        ],
-        'bottom' => [
-            'type' => 'container',
-            'parent_id' => 'root',
-        ],
-        'footer' => [
-            'type' => 'container',
-            'parent_id' => 'root',
-            'cfg' => [
-                'tag' => 'footer',
             ],
         ],
     ],
