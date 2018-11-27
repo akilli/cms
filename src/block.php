@@ -48,7 +48,7 @@ function root(): string
     }
 
     $msg = $msg ? app\html('section', ['class' => 'msg'], $msg) : '';
-    $body = str_replace(app\html('app-msg'), $msg, $body);
+    $body = str_replace(app\html('template', ['id' => 'msg']), $msg, $body);
 
     return "<!doctype html>\n" . app\html('html', $attr, $head . $body);
 }
@@ -58,7 +58,7 @@ function root(): string
  */
 function msg(): string
 {
-    return app\html('app-msg');
+    return app\html('template', ['id' => 'msg']);
 }
 
 /**

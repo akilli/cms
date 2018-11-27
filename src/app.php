@@ -343,7 +343,7 @@ function html(string $tag, array $attrs = [], string $val = null): string
         $a .= ' ' . $k . '="' . addcslashes((string) $v, '"') . '"';
     }
 
-    return '<' . $tag . $a . (in_array($tag, APP['html.void']) ? ' />' : '>' . $val . '</' . $tag . '>');
+    return in_array($tag, APP['html.void']) ? '<' . $tag . $a . ' />' : '<' . $tag . $a . '>' . $val . '</' . $tag . '>';
 }
 
 /**
