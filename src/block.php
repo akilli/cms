@@ -39,10 +39,8 @@ function root(): string
         'data-parent' => app\get('parent_id'),
         'data-url' => request\get('url'),
     ];
-    $html = app\block('head');
-    $html .= app\block('body');
 
-    return "<!doctype html>\n" . app\html('html', $attr, $html);
+    return "<!doctype html>\n" . app\html('html', $attr, app\block('head') . app\block('body'));
 }
 
 /**
