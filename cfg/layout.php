@@ -108,7 +108,7 @@ return [
                 'tag' => 'article',
             ],
         ],
-        'right' => [
+        'sidebar' => [
             'type' => 'container',
             'parent_id' => 'main',
             'sort' => 20,
@@ -358,7 +358,7 @@ return [
         ],
         'page-sidebar' => [
             'type' => 'sidebar',
-            'parent_id' => 'right',
+            'parent_id' => 'sidebar',
             'sort' => 10,
             'cfg' => [
                 'inherit' => 0,
