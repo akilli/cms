@@ -220,7 +220,7 @@ return [
         'content-main' => [
             'cfg' => [
                 'attr_id' => ['url', 'name', 'info'],
-                'search' => ['name', 'url'],
+                'search' => ['name', 'url', 'info'],
             ],
         ],
     ],
@@ -266,7 +266,7 @@ return [
             'cfg' => [
                 'limit' => 20,
                 'pager' => true,
-                'search' => ['name', 'url'],
+                'search' => ['name'],
                 'title' => null,
             ],
         ],
@@ -275,6 +275,7 @@ return [
         'content-main' => [
             'cfg' => [
                 'attr_id' => ['url', 'name', 'info'],
+                'search' => ['name', 'url', 'info'],
             ],
         ],
     ],
