@@ -390,7 +390,7 @@ return [
                 'name' => 'Parent Block',
                 'type' => 'select',
                 'required' => true,
-                'opt' => 'opt\block',
+                'opt' => 'block',
                 'maxlength' => 100,
             ],
             'sort' => [
