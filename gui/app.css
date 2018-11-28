@@ -31,7 +31,7 @@ p:not(:last-child),
 fieldset > *,
 main > :not(:last-child),
 #content > :not(:last-child):not(details),
-#right > :not(:last-child):not(details) {
+#sidebar > :not(:last-child):not(details) {
     margin-bottom: 1.5rem;
 }
 
@@ -761,7 +761,7 @@ html[data-area=_public_] [data-type=rte]::after {
      */
     #toolbar,
     #menu,
-    #right,
+    #sidebar,
     .block-search,
     nav.pager,
     .slider {
