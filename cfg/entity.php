@@ -178,11 +178,6 @@ return [
                 'type' => 'rte',
                 'val' => '',
             ],
-            'sidebar' => [
-                'name' => 'Sidebar',
-                'type' => 'rte',
-                'val' => '',
-            ],
             'meta_title' => [
                 'name' => 'Meta Title',
                 'type' => 'text',
@@ -304,11 +299,6 @@ return [
             ],
             'aside' => [
                 'name' => 'Additional Information',
-                'type' => 'rte',
-                'required' => true,
-            ],
-            'sidebar' => [
-                'name' => 'Sidebar',
                 'type' => 'rte',
                 'required' => true,
             ],

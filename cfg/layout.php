@@ -329,7 +329,7 @@ return [
             'cfg' => [
                 'attr_id' => [
                     'name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status',
-                    'image', 'teaser', 'main', 'aside', 'sidebar', 'meta_title', 'meta_description'
+                    'image', 'teaser', 'main', 'aside', 'meta_title', 'meta_description'
                 ],
             ],
         ],
@@ -356,14 +356,6 @@ return [
             'type' => 'breadcrumb',
             'parent_id' => 'main',
             'sort' => 5,
-        ],
-        'page-sidebar' => [
-            'type' => 'sidebar',
-            'parent_id' => 'sidebar',
-            'sort' => 10,
-            'cfg' => [
-                'inherit' => 0,
-            ],
         ],
     ],
     'page_article/view' => [

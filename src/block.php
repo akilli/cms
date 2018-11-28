@@ -150,26 +150,6 @@ function banner(array $block): string
 }
 
 /**
- * Page Sidebar
- */
-function sidebar(array $block): string
-{
-    if (!$page = app\get('page')) {
-        return '';
-    }
-
-    $cfg = arr\replace(app\cfg('block', 'sidebar')['cfg'], $block['cfg']);
-
-    if (!$page['sidebar'] && is_int($cfg['inherit'])) {
-        $crit = [['id', $page['path']], ['sidebar', '', APP['crit']['!=']], ['level', $cfg['inherit'], APP['crit']['>=']]];
-        $opt = ['select' => ['sidebar'], 'order' => ['level' => 'desc']];
-        $page['sidebar'] = entity\one('page', $crit, $opt)['sidebar'] ?? '';
-    }
-
-    return attr\viewer($page, $page['_entity']['attr']['sidebar']);
-}
-
-/**
  * Index
  */
 function index(array $block): string

@@ -48,12 +48,6 @@ return [
         'call' => 'block\banner',
         'tpl' => 'page/banner.phtml',
     ],
-    'sidebar' => [
-        'call' => 'block\sidebar',
-        'cfg' => [
-            'inherit' => null,
-        ],
-    ],
     /**
      * Index
      */

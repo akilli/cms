@@ -231,16 +231,16 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
         END IF;
 
         -- Create new version
-        IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.teaser != OLD.teaser OR NEW.main != OLD.main OR NEW.aside != OLD.aside OR NEW.sidebar != OLD.sidebar OR NEW.status != OLD.status) THEN
+        IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.teaser != OLD.teaser OR NEW.main != OLD.main OR NEW.aside != OLD.aside OR NEW.status != OLD.status) THEN
             IF (TG_OP = 'INSERT') THEN
                 _now := NEW.timestamp;
             END IF;
 
             INSERT INTO
                 version
-                (name, teaser, main, aside, sidebar, status, timestamp, page_id)
+                (name, teaser, main, aside, status, timestamp, page_id)
             VALUES
-                (NEW.name, NEW.teaser, NEW.main, NEW.aside, NEW.sidebar, NEW.status, _now, NEW.id);
+                (NEW.name, NEW.teaser, NEW.main, NEW.aside, NEW.status, _now, NEW.id);
         END IF;
 
         -- Don't overwrite published version with a draft
@@ -285,9 +285,9 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
             -- Create new version
             INSERT INTO
                 version
-                (name, teaser, main, aside, sidebar, status, page_id)
+                (name, teaser, main, aside, status, page_id)
             VALUES
-                (_row.name, _row.teaser, _row.main, _row.aside, _row.sidebar, _row.status, _row.id);
+                (_row.name, _row.teaser, _row.main, _row.aside, _row.status, _row.id);
 
             -- Update page status
             UPDATE
@@ -372,7 +372,6 @@ CREATE TABLE page (
     teaser text NOT NULL DEFAULT '',
     main text NOT NULL DEFAULT '',
     aside text NOT NULL DEFAULT '',
-    sidebar text NOT NULL DEFAULT '',
     meta_title varchar(80) NOT NULL DEFAULT '',
     meta_description varchar(300) NOT NULL DEFAULT '',
     slug varchar(75) NOT NULL,
@@ -426,7 +425,6 @@ CREATE TABLE version (
     teaser text NOT NULL,
     main text NOT NULL,
     aside text NOT NULL,
-    sidebar text NOT NULL,
     status status NOT NULL,
     timestamp timestamp NOT NULL DEFAULT current_timestamp,
     page_id integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED
