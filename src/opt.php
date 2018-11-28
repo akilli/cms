@@ -11,7 +11,7 @@ use arr;
  */
 function block(): array
 {
-    $cfg = arr\crit(app\cfg('layout', '_all_'), [['parent_id', 'body'], ['type', 'container']]);
+    $cfg = arr\crit(app\cfg('layout', '_all_'), [['parent_id', 'root', APP['crit']['!=']], ['type', 'container']]);
     $ids = array_keys($cfg);
 
     return array_combine($ids, $ids);
