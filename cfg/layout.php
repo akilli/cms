@@ -95,7 +95,7 @@ return [
         'msg' => [
             'type' => 'msg',
             'parent_id' => 'top',
-            'sort' => 20,
+            'sort' => 10,
         ],
         /**
          * Main Blocks
@@ -140,8 +140,8 @@ return [
         ],
         'menu' => [
             'type' => 'menu',
-            'parent_id' => 'top',
-            'sort' => 10,
+            'parent_id' => 'body',
+            'sort' => 25,
             'cfg' => [
                 'toggle' => true,
             ],
