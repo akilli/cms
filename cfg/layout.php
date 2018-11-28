@@ -100,15 +100,10 @@ return [
         /**
          * Main Blocks
          */
-        'left' => [
-            'type' => 'container',
-            'parent_id' => 'main',
-            'sort' => 10,
-        ],
         'content' => [
             'type' => 'container',
             'parent_id' => 'main',
-            'sort' => 20,
+            'sort' => 10,
             'cfg' => [
                 'tag' => 'article',
             ],
@@ -116,7 +111,7 @@ return [
         'right' => [
             'type' => 'container',
             'parent_id' => 'main',
-            'sort' => 30,
+            'sort' => 20,
             'cfg' => [
                 'tag' => 'aside',
             ],
@@ -358,8 +353,8 @@ return [
     'page/view' => [
         'breadcrumb' => [
             'type' => 'breadcrumb',
-            'parent_id' => 'left',
-            'sort' => 10,
+            'parent_id' => 'main',
+            'sort' => 5,
         ],
         'page-sidebar' => [
             'type' => 'sidebar',
