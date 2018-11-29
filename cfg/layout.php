@@ -32,10 +32,16 @@ return [
             'sort' => 10,
         ],
         // Body Blocks
+        'toolbar' => [
+            'type' => 'toolbar',
+            'priv' => '_user_',
+            'parent_id' => 'body',
+            'sort' => 10,
+        ],
         'header' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 10,
+            'sort' => 20,
             'cfg' => [
                 'tag' => 'header',
             ],
@@ -43,12 +49,12 @@ return [
         'top' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 20,
+            'sort' => 30,
         ],
         'main' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 30,
+            'sort' => 40,
             'cfg' => [
                 'tag' => 'main',
             ],
@@ -56,12 +62,12 @@ return [
         'bottom' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 40,
+            'sort' => 50,
         ],
         'footer' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 50,
+            'sort' => 60,
             'cfg' => [
                 'tag' => 'footer',
             ],
@@ -110,11 +116,6 @@ return [
             'tpl' => 'head/admin.phtml',
             'parent_id' => 'head',
             'sort' => 20,
-        ],
-        'toolbar' => [
-            'type' => 'toolbar',
-            'parent_id' => 'body',
-            'sort' => 10,
         ],
     ],
     /**
