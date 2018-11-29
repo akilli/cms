@@ -1,8 +1,11 @@
 /**
- * Root
+ * Global
  */
-:root {
-
+body {
+    line-height: 1.5rem;
+    font-family: sans-serif;
+    color: #000;
+    background: #fff;
 }
 
 /**
