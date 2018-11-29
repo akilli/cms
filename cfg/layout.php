@@ -1,15 +1,14 @@
 <?php
 return [
+    /*******************************************************************************************************************
+     * All Areas
+     ******************************************************************************************************************/
     '_all_' => [
-        /**
-         * Root Container
-         */
+        // Root Container
         'root' => [
             'type' => 'root',
         ],
-        /**
-         * Root Blocks
-         */
+        // Root Blocks
         'head' => [
             'type' => 'container',
             'parent_id' => 'root',
@@ -26,9 +25,7 @@ return [
                 'tag' => 'body',
             ],
         ],
-        /**
-         * Head Blocks
-         */
+        // Head Blocks
         'head-meta' => [
             'type' => 'meta',
             'parent_id' => 'head',
@@ -40,9 +37,7 @@ return [
             'parent_id' => 'head',
             'sort' => 20,
         ],
-        /**
-         * Body Blocks
-         */
+        // Body Blocks
         'toolbar' => [
             'type' => 'toolbar',
             'priv' => '_user_',
@@ -83,17 +78,13 @@ return [
                 'tag' => 'footer',
             ],
         ],
-        /**
-         * Top Blocks
-         */
+        // Top Blocks
         'msg' => [
             'type' => 'msg',
             'parent_id' => 'top',
             'sort' => 10,
         ],
-        /**
-         * Main Blocks
-         */
+        // Main Blocks
         'content' => [
             'type' => 'container',
             'parent_id' => 'main',
@@ -112,43 +103,7 @@ return [
         ],
     ],
     /**
-     * Admin Area
-     */
-    '_admin_' => [
-        'head-admin' => [
-            'type' => 'tpl',
-            'tpl' => 'head/admin.phtml',
-            'parent_id' => 'head',
-            'sort' => 30,
-        ],
-    ],
-    /**
-     * Public Area
-     */
-    '_public_' => [
-        'head-public' => [
-            'type' => 'tpl',
-            'tpl' => 'head/public.phtml',
-            'parent_id' => 'head',
-            'sort' => 30,
-        ],
-        'header-logo' => [
-            'type' => 'tpl',
-            'tpl' => 'header/logo.phtml',
-            'parent_id' => 'header',
-            'sort' => 10,
-        ],
-        'menu' => [
-            'type' => 'menu',
-            'parent_id' => 'body',
-            'sort' => 25,
-            'cfg' => [
-                'toggle' => true,
-            ],
-        ],
-    ],
-    /**
-     * Invalid
+     * Invalid Requests
      */
     '_invalid_' => [
         'content-main' => [
@@ -156,6 +111,17 @@ return [
             'tpl' => 'page/error.phtml',
             'parent_id' => 'content',
             'sort' => 10,
+        ],
+    ],
+    /*******************************************************************************************************************
+     * Admin Area
+     ******************************************************************************************************************/
+    '_admin_' => [
+        'head-admin' => [
+            'type' => 'tpl',
+            'tpl' => 'head/admin.phtml',
+            'parent_id' => 'head',
+            'sort' => 30,
         ],
     ],
     /**
@@ -335,6 +301,31 @@ return [
             ],
         ],
     ],
+    /*******************************************************************************************************************
+     * Public Area
+     ******************************************************************************************************************/
+    '_public_' => [
+        'head-public' => [
+            'type' => 'tpl',
+            'tpl' => 'head/public.phtml',
+            'parent_id' => 'head',
+            'sort' => 30,
+        ],
+        'header-logo' => [
+            'type' => 'tpl',
+            'tpl' => 'header/logo.phtml',
+            'parent_id' => 'header',
+            'sort' => 10,
+        ],
+        'menu' => [
+            'type' => 'menu',
+            'parent_id' => 'body',
+            'sort' => 25,
+            'cfg' => [
+                'toggle' => true,
+            ],
+        ],
+    ],
     /**
      * View Action
      */
@@ -366,6 +357,9 @@ return [
             ],
         ],
     ],
+    /**
+     * Page-specific
+     */
     '/' => [
         'breadcrumb' => [
             'active' => false,
