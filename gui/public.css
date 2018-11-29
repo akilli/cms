@@ -560,8 +560,7 @@ main ::selection {
     /**
      * Links
      */
-    #content a::after,
-    #footer a::after {
+    #content a::after {
         content: " (" attr(href) ")";
         font-size: 0.875rem;
         font-style: italic;
@@ -577,11 +576,11 @@ main ::selection {
     /**
      * Hidden
      */
-    #menu,
-    #sidebar,
+    body > :not(#header):not(main),
+    main > :not(#content),
     .block-search,
-    nav.pager,
-    .slider {
+    .pager,
+    .slider{
         display: none !important;
     }
 }
