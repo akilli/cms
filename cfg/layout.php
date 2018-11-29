@@ -31,12 +31,6 @@ return [
             'parent_id' => 'head',
             'sort' => 10,
         ],
-        'head-all' => [
-            'type' => 'tpl',
-            'tpl' => 'head/all.phtml',
-            'parent_id' => 'head',
-            'sort' => 20,
-        ],
         // Body Blocks
         'toolbar' => [
             'type' => 'toolbar',
@@ -121,7 +115,7 @@ return [
             'type' => 'tpl',
             'tpl' => 'head/admin.phtml',
             'parent_id' => 'head',
-            'sort' => 30,
+            'sort' => 20,
         ],
     ],
     /**
@@ -309,7 +303,7 @@ return [
             'type' => 'tpl',
             'tpl' => 'head/public.phtml',
             'parent_id' => 'head',
-            'sort' => 30,
+            'sort' => 20,
         ],
         'header-logo' => [
             'type' => 'tpl',

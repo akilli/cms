@@ -580,7 +580,7 @@ main ::selection {
     main > :not(#content),
     .block-search,
     .pager,
-    .slider{
+    .slider {
         display: none !important;
     }
 }

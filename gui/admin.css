@@ -1,74 +1,137 @@
 /**
+ * Font
+ */
+@font-face {
+    font-family: icon;
+    font-weight: normal;
+    font-style: normal;
+    src: url(font/material.woff2) format('woff2'), url(font/material.woff) format('woff');
+}
+
+/**
  * Global
  */
 body {
     line-height: 1.5rem;
+    padding: 0 0.75rem;
     font-family: sans-serif;
     color: #000;
     background: #fff;
 }
 
-/**
- * Index
- */
-.block-index .thead {
-    margin: 0;
+body > * {
     padding: 0.75rem 0;
-    font-weight: bold;
 }
 
-.block-index .thead > * {
+figure:not(:last-child),
+h1:not(:last-child),
+h2:not(:last-child),
+h3:not(:last-child),
+p:not(:last-child),
+fieldset > *,
+main > :not(:last-child),
+#content > :not(:last-child):not(details),
+#sidebar > :not(:last-child):not(details) {
+    margin-bottom: 1.5rem;
+}
+
+details + :not(details),
+h1:not(:first-child),
+h2:not(:first-child),
+h3:not(:first-child) {
+    margin-top: 1.5rem;
+}
+
+/**
+ * Text
+ */
+h1 {
+    font-size: 1.5rem;
+}
+
+h2 {
+    font-size: 1.25rem;
+}
+
+h3 {
+    font-size: 1.125rem;
+}
+
+pre {
+    padding: 1.5rem;
+    color: #fff;
+    background: #000;
+}
+
+time[data-attr] {
     display: block;
-    color: inherit;
-}
-
-a[data-sort=asc]::after {
-    display: inline-block;
-    text-decoration: none;
-    content: '⇑';
-}
-
-a[data-sort=desc]::after {
-    display: inline-block;
-    text-decoration: none;
-    content: '⇓';
-}
-
-.block-index article {
-    margin: 0;
-    padding: 0.75rem 0;
-}
-
-.block-index article h3 {
-    margin: 0;
-    font-size: inherit;
-}
-
-.block-index audio,
-.block-index iframe,
-.block-index img,
-.block-index video {
-    max-width: 15rem;
-    max-height: 10rem;
 }
 
 /**
- * RTE
+ * Figure
  */
-#content .cke {
-    border: 0.0625rem solid #e4e7ea;
+figure.left {
+    float: left;
+    margin: 0 0.75rem 1.5rem 0;
 }
 
-#content form .cke {
-    height: 32.875rem;
+figure.right {
+    float: right;
+    margin: 0 0 1.5rem 0.75rem;
 }
 
-#content .cke_top {
-    border-bottom: 0.0625rem solid #e4e7ea;
+figcaption {
+    font-size: 0.875rem;
 }
 
-#content .cke_combo::after {
-    border-right: 0;
+/**
+ * List
+ */
+ol,
+ul {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+}
+
+nav ul {
+    margin: 0;
+    padding-left: 0;
+}
+
+li ol,
+li ul,
+li p {
+    margin: 0;
+}
+
+/**
+ * Table
+ */
+table {
+    width: 100%;
+    margin: 1.5rem 0;
+    font-size: 0.875rem;
+}
+
+thead {
+    border-bottom: solid 0.0625rem #000;
+}
+
+td,
+th {
+    padding: 0.71875rem 0.375rem;
+}
+
+th {
+    border-bottom: solid 0.0625rem #000;
+}
+
+td {
+    border-bottom: solid 0.0625rem #e4e7ea;
+}
+
+table p {
+    margin: 0;
 }
 
 /**
@@ -203,6 +266,25 @@ form [data-type=nope] {
 }
 
 /**
+ * RTE
+ */
+#content .cke {
+    border: 0.0625rem solid #e4e7ea;
+}
+
+#content form .cke {
+    height: 32.875rem;
+}
+
+#content .cke_top {
+    border-bottom: 0.0625rem solid #e4e7ea;
+}
+
+#content .cke_combo::after {
+    border-right: 0;
+}
+
+/**
  * Actions
  */
 span[data-action] {
@@ -210,9 +292,179 @@ span[data-action] {
 }
 
 /**
+ * Toolbar
+ */
+#toolbar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    display: none;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    color: #fff;
+    background: #000;
+}
+
+#toolbar a:hover,
+#toolbar a.active {
+    text-decoration: underline;
+}
+
+/**
+ * Main
+ */
+main a,
+main span[data-action] {
+    color: #60abc6;
+}
+
+main a:hover {
+    text-decoration: underline;
+}
+
+main ::-moz-selection {
+    color: #000;
+    background: #93ddf9;
+}
+
+main ::selection {
+    color: #000;
+    background: #93ddf9;
+}
+
+/**
+ * Message
+ */
+.msg {
+    margin: 0 -0.75rem;
+    padding: 0.75rem;
+    color: #fff;
+    background: #000;
+}
+
+.msg p {
+    margin: 0;
+}
+
+/**
+ * Index
+ */
+.block-index .thead {
+    margin: 0;
+    padding: 0.75rem 0;
+    font-weight: bold;
+}
+
+.block-index .thead > * {
+    display: block;
+    color: inherit;
+}
+
+a[data-sort=asc]::after {
+    display: inline-block;
+    text-decoration: none;
+    content: '⇑';
+}
+
+a[data-sort=desc]::after {
+    display: inline-block;
+    text-decoration: none;
+    content: '⇓';
+}
+
+.block-index article {
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 0;
+}
+
+.block-index article h3 {
+    margin: 0;
+    font-size: inherit;
+}
+
+.block-index audio,
+.block-index iframe,
+.block-index img,
+.block-index video {
+    max-width: 15rem;
+    max-height: 10rem;
+}
+
+/**
+ * Pager
+ */
+.pager {
+    padding: 0.75rem 0;
+    font-size: 0.875rem;
+}
+
+.pager div {
+    display: inline;
+}
+
+.pager .info {
+    margin-right: 1.5rem;
+}
+
+/**
+ * Clear
+ */
+[class^="block-"]::before,
+[data-type=rte]::before {
+    display: table;
+    content: " ";
+}
+
+[class^="block-"]::after,
+[data-type=rte]::after {
+    display: table;
+    content: " ";
+    clear: both;
+}
+
+/**
  * Desktop
  */
 @media screen and (min-width: 55rem) {
+    /**
+     * Toolbar
+     */
+    #toolbar {
+        display: block;
+    }
+
+    #toolbar + * {
+        margin-top: 3rem;
+    }
+
+    #toolbar > ul > li {
+        display: inline-block;
+        margin-right: 0.625rem;
+    }
+
+    #toolbar li li {
+        position: relative;
+        display: block;
+        padding: 0.375rem;
+    }
+
+    #toolbar li ul {
+        position: absolute;
+        display: none;
+        background: #000;
+    }
+
+    #toolbar li li ul {
+        top: 0;
+        left: 100%;
+    }
+
+    #toolbar li:hover > ul {
+        display: block;
+    }
+
     /**
      * Index
      */
@@ -293,5 +545,63 @@ span[data-action] {
     [data-action=browser] #content .block-index iframe,
     [data-action=browser] #content .block-index video {
         pointer-events: none;
+    }
+}
+
+/**
+ * Print
+ */
+@media print {
+    body {
+        padding: 0;
+    }
+
+    /**
+     * Details
+     */
+    details {
+        margin-bottom: 1.5rem;
+    }
+
+    summary {
+        display: block;
+        margin-bottom: 1.5rem;
+        font-size: 1.125rem;
+    }
+
+    /**
+     * Pagebreak
+     */
+    h1,
+    h2,
+    h3,
+    summary {
+        page-break-after: avoid;
+    }
+
+    /**
+     * Links
+     */
+    #content a::after {
+        content: " (" attr(href) ")";
+        font-size: 0.875rem;
+        font-style: italic;
+    }
+
+    /**
+     * Header
+     */
+    #header {
+        border-bottom: solid 1px #000;
+    }
+
+    /**
+     * Hidden
+     */
+    body > :not(#header):not(main),
+    main > :not(#content),
+    .block-search,
+    .pager {
+        display: none !important;
     }
 }
