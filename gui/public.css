@@ -43,19 +43,6 @@ h3:not(:first-child) {
 }
 
 /**
- * Alignment
- */
-.left {
-    float: left;
-    margin: 0 0.75rem 1.5rem 0;
-}
-
-.right {
-    float: right;
-    margin: 0 0 1.5rem 0.75rem;
-}
-
-/**
  * Text
  */
 h1 {
@@ -83,6 +70,16 @@ time[data-attr] {
 /**
  * Figure
  */
+figure.left {
+    float: left;
+    margin: 0 0.75rem 1.5rem 0;
+}
+
+figure.right {
+    float: right;
+    margin: 0 0 1.5rem 0.75rem;
+}
+
 figcaption {
     font-size: 0.875rem;
 }
@@ -353,20 +350,6 @@ span[data-action] {
 }
 
 /**
- * Message
- */
-.msg {
-    margin: 0 -0.75rem;
-    padding: 0.75rem;
-    color: #fff;
-    background: #000;
-}
-
-.msg p {
-    margin: 0;
-}
-
-/**
  * Main
  */
 main a,
@@ -386,6 +369,20 @@ main ::-moz-selection {
 main ::selection {
     color: #000;
     background: #93ddf9;
+}
+
+/**
+ * Message
+ */
+.msg {
+    margin: 0 -0.75rem;
+    padding: 0.75rem;
+    color: #fff;
+    background: #000;
+}
+
+.msg p {
+    margin: 0;
 }
 
 /**
