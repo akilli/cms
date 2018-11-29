@@ -8,7 +8,7 @@
      * Link Types
      */
     function links() {
-        Array.prototype.forEach.call(document.querySelectorAll('html[data-area=_public_] a[href]:not([role])'), function (item) {
+        Array.prototype.forEach.call(document.querySelectorAll('a[href]:not([role])'), function (item) {
             const href = item.getAttribute('href');
             const ext = href.match(/^https?:\/\//);
 

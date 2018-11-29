@@ -35,7 +35,6 @@ function root(): string
     $attr = [
         'lang' => app\get('lang'),
         'data-action' => app\get('action'),
-        'data-area' => app\get('area'),
         'data-entity' => app\get('entity_id'),
         'data-parent' => app\get('parent_id'),
         'data-url' => request\get('url'),
