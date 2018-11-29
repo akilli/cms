@@ -29,20 +29,20 @@ return [
         /**
          * Head Blocks
          */
-        'meta' => [
+        'head-meta' => [
             'type' => 'meta',
             'parent_id' => 'head',
             'sort' => 10,
         ],
-        'asset' => [
+        'head-public' => [
             'type' => 'tpl',
-            'tpl' => 'head/asset.phtml',
+            'tpl' => 'head/public.phtml',
             'parent_id' => 'head',
             'sort' => 20,
         ],
-        'asset-ext' => [
+        'head-ext' => [
             'type' => 'tpl',
-            'tpl' => 'head/asset-ext.phtml',
+            'tpl' => 'head/ext.phtml',
             'parent_id' => 'head',
             'sort' => 30,
         ],
@@ -121,9 +121,9 @@ return [
      * Admin Area
      */
     '_admin_' => [
-        'asset-admin' => [
+        'head-admin' => [
             'type' => 'tpl',
-            'tpl' => 'head/asset-admin.phtml',
+            'tpl' => 'head/admin.phtml',
             'parent_id' => 'head',
             'sort' => 25,
         ],
