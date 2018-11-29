@@ -34,17 +34,11 @@ return [
             'parent_id' => 'head',
             'sort' => 10,
         ],
-        'head-public' => [
+        'head-all' => [
             'type' => 'tpl',
-            'tpl' => 'head/public.phtml',
+            'tpl' => 'head/all.phtml',
             'parent_id' => 'head',
             'sort' => 20,
-        ],
-        'head-ext' => [
-            'type' => 'tpl',
-            'tpl' => 'head/ext.phtml',
-            'parent_id' => 'head',
-            'sort' => 30,
         ],
         /**
          * Body Blocks
@@ -125,13 +119,19 @@ return [
             'type' => 'tpl',
             'tpl' => 'head/admin.phtml',
             'parent_id' => 'head',
-            'sort' => 25,
+            'sort' => 30,
         ],
     ],
     /**
      * Public Area
      */
     '_public_' => [
+        'head-public' => [
+            'type' => 'tpl',
+            'tpl' => 'head/public.phtml',
+            'parent_id' => 'head',
+            'sort' => 30,
+        ],
         'header-logo' => [
             'type' => 'tpl',
             'tpl' => 'header/logo.phtml',
@@ -145,12 +145,6 @@ return [
             'cfg' => [
                 'toggle' => true,
             ],
-        ],
-        'footer-nav' => [
-            'type' => 'tpl',
-            'tpl' => 'footer/nav.phtml',
-            'parent_id' => 'footer',
-            'sort' => 10,
         ],
     ],
     /**
