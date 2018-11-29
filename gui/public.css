@@ -276,46 +276,6 @@ span[data-action] {
 }
 
 /**
- * RTE
- */
-#content .cke {
-    border: 0.0625rem solid #e4e7ea;
-}
-
-#content form .cke {
-    height: 32.875rem;
-}
-
-#content .cke_top {
-    border-bottom: 0.0625rem solid #e4e7ea;
-}
-
-#content .cke_combo::after {
-    border-right: 0;
-}
-
-/**
- * Toolbar
- */
-#toolbar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 100;
-    display: none;
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 0.875rem;
-    color: #fff;
-    background: #000;
-}
-
-#toolbar a:hover,
-#toolbar a.active {
-    text-decoration: underline;
-}
-
-/**
  * Menu
  */
 #menu {
@@ -439,21 +399,8 @@ main ::selection {
     max-height: 10rem;
 }
 
-.block-index > header,
 .block-index article {
     margin-bottom: 1.5rem;
-}
-
-a[data-sort=asc]::after {
-    display: inline-block;
-    text-decoration: none;
-    content: '⇑';
-}
-
-a[data-sort=desc]::after {
-    display: inline-block;
-    text-decoration: none;
-    content: '⇓';
 }
 
 /**
@@ -540,54 +487,34 @@ a[data-sort=desc]::after {
  */
 @media screen and (min-width: 55rem) {
     /**
-     * Navigation
+     * Menu
      */
-    #toolbar {
-        display: block;
-    }
-
-    #toolbar + * {
-        margin-top: 3rem;
-    }
-
     #menu ul {
         margin-left: 0;
     }
 
-    #toolbar > ul > li,
     #menu > ul > li {
         display: inline-block;
         margin-right: 0.625rem;
     }
 
-    #toolbar li li,
     #menu li li {
         position: relative;
         display: block;
         padding: 0.375rem;
     }
 
-    #toolbar li ul,
     #menu li ul {
         position: absolute;
         display: none;
-    }
-
-    #toolbar li ul {
         background: #000;
     }
 
-    #menu li ul {
-        background: #000;
-    }
-
-    #toolbar li li ul,
     #menu li li ul {
         top: 0;
         left: 100%;
     }
 
-    #toolbar li:hover > ul,
     #menu li:hover > ul {
         display: block;
     }
@@ -653,7 +580,6 @@ a[data-sort=desc]::after {
     /**
      * Hidden
      */
-    #toolbar,
     #menu,
     #sidebar,
     .block-search,
