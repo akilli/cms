@@ -1,37 +1,11 @@
 /**
- * Public Listeners
+ * Slider
  */
 'use strict';
 
 (function (document, Flickity) {
     /**
-     * Link Types
-     */
-    function links() {
-        Array.prototype.forEach.call(document.querySelectorAll('a[href]:not([role])'), function (item) {
-            const href = item.getAttribute('href');
-            const ext = href.match(/^https?:\/\//);
-
-            if (ext) {
-                item.setAttribute('target', '_blank');
-            }
-
-            if (!!item.querySelector('img')) {
-                item.setAttribute('data-link', 'img');
-            } else if (href.indexOf('/file/') === 0) {
-                item.setAttribute('data-link', 'file');
-            } else if (href.indexOf('/') === 0) {
-                item.setAttribute('data-link', 'intern');
-            } else if (href.indexOf('mailto:') === 0) {
-                item.setAttribute('data-link', 'email');
-            } else if (ext) {
-                item.setAttribute('data-link', 'extern');
-            }
-        });
-    }
-
-    /**
-     * Slider
+     * Initializes sliders
      */
     function slider() {
         Array.prototype.forEach.call(document.getElementsByClassName('slider'), function (slider) {
@@ -78,8 +52,5 @@
     /**
      * Event Listener
      */
-    document.addEventListener('DOMContentLoaded', function () {
-        links();
-        slider();
-    });
+    document.addEventListener('DOMContentLoaded', slider);
 })(document, Flickity);

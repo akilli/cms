@@ -323,6 +323,12 @@ return [
             'parent_id' => 'header',
             'sort' => 10,
         ],
+        'footer-nav' => [
+            'type' => 'tpl',
+            'tpl' => 'footer/nav.phtml',
+            'parent_id' => 'footer',
+            'sort' => 10,
+        ],
     ],
     /**
      * View Action

@@ -559,7 +559,7 @@ function toolbar(array $block): string
         }
     }
 
-    $block['cfg'] = ['data' => array_diff_key($data, $empty)];
+    $block['cfg'] = ['data' => array_diff_key($data, $empty), 'toggle' => true];
 
     return nav($block);
 }
