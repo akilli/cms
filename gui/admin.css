@@ -276,6 +276,10 @@ form [data-type=nope] {
     height: 32.875rem;
 }
 
+#content form [data-type=rtemin] .cke {
+    height: 17.875rem;
+}
+
 #content .cke_top {
     border-bottom: 0.0625rem solid #e4e7ea;
 }
@@ -406,22 +410,6 @@ a[data-sort=desc]::after {
 
 .pager .info {
     margin-right: 1.5rem;
-}
-
-/**
- * Clear
- */
-[class^="block-"]::before,
-[data-type=rte]::before {
-    display: table;
-    content: " ";
-}
-
-[class^="block-"]::after,
-[data-type=rte]::after {
-    display: table;
-    content: " ";
-    clear: both;
 }
 
 /**

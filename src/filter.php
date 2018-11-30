@@ -62,9 +62,11 @@ function datetime(string $val, array $attr): string
 /**
  * Rich text filter
  */
-function rte(string $val): string
+function rte(string $val, array $attr): string
 {
-    return trim(strip_tags($val, app\cfg('filter', 'rte')));
+    $cfg = $attr['cfg.filter'] ? app\cfg('filter', $attr['cfg.filter']) : null;
+
+    return trim(strip_tags($val, $cfg));
 }
 
 /**

@@ -165,7 +165,7 @@ return [
             ],
             'teaser' => [
                 'name' => 'Teaser',
-                'type' => 'rte',
+                'type' => 'rtemin',
                 'val' => '',
             ],
             'main' => [
@@ -289,7 +289,7 @@ return [
             ],
             'teaser' => [
                 'name' => 'Teaser',
-                'type' => 'rte',
+                'type' => 'rtemin',
                 'required' => true,
             ],
             'main' => [

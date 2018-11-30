@@ -34,6 +34,7 @@ return [
         . '<caption><table><tbody><td><tfoot><th><thead><tr>'
         . '<details><summary>'
         . '<br>',
+    'rtemin' => '<a><b><cite><dfn><em><i><kbd><mark><q><strong><br>',
     'upload.audio' => [
         'audio/aac', 'audio/flac', 'audio/mp3', 'audio/mpeg', 'audio/mpeg3', 'audio/ogg', 'audio/wav', 'audio/wave', 'audio/webm',
         'audio/x-aac', 'audio/x-flac', 'audio/x-mp3', 'audio/x-mpeg', 'audio/x-mpeg3', 'audio/x-pn-wav', 'audio/x-wav'

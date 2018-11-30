@@ -133,6 +133,14 @@ return [
         'frontend' => 'frontend\textarea',
         'filter' => 'filter\rte',
         'viewer' => 'viewer\rte',
+        'cfg.filter' => 'rte',
+    ],
+    'rtemin' => [
+        'backend' => 'text',
+        'frontend' => 'frontend\textarea',
+        'filter' => 'filter\rte',
+        'viewer' => 'viewer\rte',
+        'cfg.filter' => 'rtemin',
     ],
     'select' => [
         'backend' => 'varchar',
