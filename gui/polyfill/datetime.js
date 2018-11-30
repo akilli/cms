@@ -4,9 +4,6 @@
 'use strict';
 
 (function (document) {
-    /**
-     * Event Listener
-     */
     document.addEventListener('DOMContentLoaded', function () {
         const inputs = document.querySelectorAll('input[type=datetime-local]');
         const d = document.createElement('input');

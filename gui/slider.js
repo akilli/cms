@@ -4,10 +4,7 @@
 'use strict';
 
 (function (document, Flickity) {
-    /**
-     * Initializes sliders
-     */
-    function slider() {
+    document.addEventListener('DOMContentLoaded', function () {
         Array.prototype.forEach.call(document.getElementsByClassName('slider'), function (slider) {
             const items = slider.querySelector('.items');
 
@@ -47,10 +44,5 @@
                 });
             }
         });
-    }
-
-    /**
-     * Event Listener
-     */
-    document.addEventListener('DOMContentLoaded', slider);
+    });
 })(document, Flickity);

@@ -4,10 +4,7 @@
 'use strict';
 
 (function (document) {
-    /**
-     * Determines different link types
-     */
-    function links() {
+    document.addEventListener('DOMContentLoaded', function () {
         Array.prototype.forEach.call(document.querySelectorAll('a[href]:not([role])'), function (item) {
             const href = item.getAttribute('href');
             const ext = href.match(/^https?:\/\//);
@@ -28,10 +25,5 @@
                 item.setAttribute('data-link', 'extern');
             }
         });
-    }
-
-    /**
-     * Event Listener
-     */
-    document.addEventListener('DOMContentLoaded', links);
+    });
 })(document);
