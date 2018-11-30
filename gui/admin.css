@@ -290,6 +290,15 @@ span[data-action] {
 }
 
 /**
+ * Toolbar
+ */
+#toolbar,
+#toolbar li ul {
+    color: #fff;
+    background: #000;
+}
+
+/**
  * Main
  */
 main a,
