@@ -269,60 +269,10 @@ span[data-action] {
 /**
  * Menu
  */
-#menu {
-    position: relative;
-    z-index: 100;
-    margin: 0 -0.75rem;
-    padding: 0.75rem;
+#menu,
+#menu li ul {
     color: #fff;
     background: #000;
-}
-
-@supports (position: sticky) {
-    #menu {
-        position: sticky;
-        top: 0;
-    }
-
-    #menu[data-toggle=open] {
-        position: relative;
-    }
-}
-
-#menu ul {
-    margin-left: 1.25rem;
-}
-
-#menu[data-toggle] > span[data-action=toggle] {
-    display: block;
-    font-size: 1.5rem;
-}
-
-#menu[data-toggle] > span[data-action=toggle]::after {
-    font-family: icon;
-    content: '\f35c';
-}
-
-#menu[data-toggle] ul span[data-action=toggle] {
-    display: inline-block;
-    margin: 0 0.25rem 0 -1.25rem;
-}
-
-#menu[data-toggle] ul span[data-action=toggle]::after {
-    font-family: icon;
-    content: '\f142';
-}
-
-#menu[data-toggle] ul span[data-action=toggle][data-toggle]::after {
-    content: '\f140';
-}
-
-#menu[data-toggle] ul {
-    display: none;
-}
-
-#menu[data-toggle] span[data-action=toggle][data-toggle] ~ ul {
-    display: block;
 }
 
 /**
@@ -471,53 +421,6 @@ main ::selection {
     display: table;
     content: " ";
     clear: both;
-}
-
-/**
- * Desktop
- */
-@media screen and (min-width: 55rem) {
-    /**
-     * Menu
-     */
-    #menu ul {
-        margin-left: 0;
-    }
-
-    #menu > ul > li {
-        display: inline-block;
-        margin-right: 0.625rem;
-    }
-
-    #menu li li {
-        position: relative;
-        display: block;
-        padding: 0.375rem;
-    }
-
-    #menu li ul {
-        position: absolute;
-        display: none;
-        background: #000;
-    }
-
-    #menu li li ul {
-        top: 0;
-        left: 100%;
-    }
-
-    #menu li:hover > ul {
-        display: block;
-    }
-
-    #menu[data-toggle] > span[data-action=toggle],
-    #menu[data-toggle] ul span[data-action=toggle] {
-        display: none;
-    }
-
-    #menu[data-toggle] > ul {
-        display: block;
-    }
 }
 
 /**
