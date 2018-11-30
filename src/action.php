@@ -36,7 +36,7 @@ function account_login(): void
         if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
             session\regenerate();
             session\set('account', $data['id']);
-            request\redirect();
+            request\redirect(app\url('account/dashboard'));
             return;
         }
 
@@ -50,5 +50,5 @@ function account_login(): void
 function account_logout(): void
 {
     session\regenerate();
-    request\redirect();
+    request\redirect(app\url('account/login'));
 }

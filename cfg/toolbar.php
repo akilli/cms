@@ -1,9 +1,9 @@
 <?php
 return [
-    'home' => [
-        'name' => 'Homepage',
-        'url' => '/',
-        'priv' => 'page_content/view',
+    'dashboard' => [
+        'name' => 'Dashboard',
+        'url' => '/account/dashboard',
+        'priv' => 'account/dashboard',
         'sort' => 10,
     ],
     'page' => [

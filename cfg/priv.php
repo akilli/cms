@@ -12,6 +12,9 @@ return [
     'account/admin' => [
         'priv' => '_all_',
     ],
+    'account/dashboard' => [
+        'priv' => '_user_',
+    ],
     'account/delete' => [
         'priv' => '_all_',
     ],

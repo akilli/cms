@@ -31,23 +31,11 @@ return [
             'parent_id' => 'head',
             'sort' => 10,
         ],
-        'head-all' => [
-            'type' => 'tpl',
-            'tpl' => 'head/all.phtml',
-            'parent_id' => 'head',
-            'sort' => 20,
-        ],
         // Body Blocks
-        'toolbar' => [
-            'type' => 'toolbar',
-            'priv' => '_user_',
-            'parent_id' => 'body',
-            'sort' => 10,
-        ],
         'header' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 20,
+            'sort' => 10,
             'cfg' => [
                 'tag' => 'header',
             ],
@@ -55,12 +43,12 @@ return [
         'top' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 30,
+            'sort' => 20,
         ],
         'main' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 40,
+            'sort' => 30,
             'cfg' => [
                 'tag' => 'main',
             ],
@@ -68,12 +56,12 @@ return [
         'bottom' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 50,
+            'sort' => 40,
         ],
         'footer' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 60,
+            'sort' => 50,
             'cfg' => [
                 'tag' => 'footer',
             ],
@@ -121,9 +109,19 @@ return [
             'type' => 'tpl',
             'tpl' => 'head/admin.phtml',
             'parent_id' => 'head',
-            'sort' => 30,
+            'sort' => 20,
+        ],
+        'toolbar' => [
+            'type' => 'toolbar',
+            'priv' => '_user_',
+            'parent_id' => 'body',
+            'sort' => 5,
         ],
     ],
+    /**
+     * Account Dashboard
+     */
+    'account/dashboard' => [],
     /**
      * Account Login
      */
@@ -309,7 +307,7 @@ return [
             'type' => 'tpl',
             'tpl' => 'head/public.phtml',
             'parent_id' => 'head',
-            'sort' => 30,
+            'sort' => 20,
         ],
         'header-logo' => [
             'type' => 'tpl',
