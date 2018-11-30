@@ -309,12 +309,6 @@ return [
             'parent_id' => 'head',
             'sort' => 20,
         ],
-        'header-logo' => [
-            'type' => 'tpl',
-            'tpl' => 'header/logo.phtml',
-            'parent_id' => 'header',
-            'sort' => 10,
-        ],
         'menu' => [
             'type' => 'menu',
             'parent_id' => 'body',
@@ -322,6 +316,12 @@ return [
             'cfg' => [
                 'toggle' => true,
             ],
+        ],
+        'header-logo' => [
+            'type' => 'tpl',
+            'tpl' => 'header/logo.phtml',
+            'parent_id' => 'header',
+            'sort' => 10,
         ],
     ],
     /**
