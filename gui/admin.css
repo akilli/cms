@@ -98,12 +98,6 @@ nav ul {
     padding-left: 0;
 }
 
-li ol,
-li ul,
-li p {
-    margin: 0;
-}
-
 /**
  * Table
  */
@@ -296,27 +290,6 @@ span[data-action] {
 }
 
 /**
- * Toolbar
- */
-#toolbar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 100;
-    display: none;
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 0.875rem;
-    color: #fff;
-    background: #000;
-}
-
-#toolbar a:hover,
-#toolbar a.active {
-    text-decoration: underline;
-}
-
-/**
  * Main
  */
 main a,
@@ -416,43 +389,6 @@ a[data-sort=desc]::after {
  * Desktop
  */
 @media screen and (min-width: 55rem) {
-    /**
-     * Toolbar
-     */
-    #toolbar {
-        display: block;
-    }
-
-    #toolbar + * {
-        margin-top: 3rem;
-    }
-
-    #toolbar > ul > li {
-        display: inline-block;
-        margin-right: 0.625rem;
-    }
-
-    #toolbar li li {
-        position: relative;
-        display: block;
-        padding: 0.375rem;
-    }
-
-    #toolbar li ul {
-        position: absolute;
-        display: none;
-        background: #000;
-    }
-
-    #toolbar li li ul {
-        top: 0;
-        left: 100%;
-    }
-
-    #toolbar li:hover > ul {
-        display: block;
-    }
-
     /**
      * Index
      */
