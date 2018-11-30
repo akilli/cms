@@ -361,53 +361,6 @@ main ::selection {
 }
 
 /**
- * Slider
- */
-.slider .items figure {
-    margin: 0;
-}
-
-.slider .items img {
-    display: block;
-}
-
-.slider .items figcaption {
-    display: none;
-}
-
-.slider .items.is-fullscreen {
-    z-index: 999;
-}
-
-.slider .items.is-fullscreen figure {
-    display: flex;
-    flex-wrap:wrap;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
-
-.slider .items.is-fullscreen img {
-    max-height: 90%;
-}
-
-.slider .items.is-fullscreen figcaption {
-    display: block;
-    width: 100%;
-    text-align: center;
-    color: #fff;
-}
-
-.slider .flickity-prev-next-button {
-    background: rgba(255, 255, 255, 0.75);
-}
-
-.slider .flickity-prev-next-button:hover {
-    background: #fff;
-}
-
-/**
  * Clear
  */
 [class^="block-"]::before,
@@ -476,8 +429,7 @@ main ::selection {
     body > :not(#header):not(main),
     main > :not(#content),
     .block-search,
-    .pager,
-    .slider {
+    .pager {
         display: none !important;
     }
 }
