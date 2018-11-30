@@ -20,14 +20,14 @@ nav[data-toggle] span[data-action=toggle][data-toggle] ~ ul {
     display: block;
 }
 
+nav[data-toggle] span[data-action=toggle] {
+    font-family: icon;
+    cursor: pointer;
+}
+
 nav[data-toggle] > span[data-action=toggle] {
     display: block;
     font-size: 1.5rem;
-}
-
-nav[data-toggle] > span[data-action=toggle]::after {
-    font-family: icon;
-    content: '\f35c';
 }
 
 nav[data-toggle] ul span[data-action=toggle] {
@@ -35,8 +35,11 @@ nav[data-toggle] ul span[data-action=toggle] {
     margin: 0 0.25rem 0 -1.25rem;
 }
 
+nav[data-toggle] > span[data-action=toggle]::after {
+    content: '\f35c';
+}
+
 nav[data-toggle] ul span[data-action=toggle]::after {
-    font-family: icon;
     content: '\f142';
 }
 
