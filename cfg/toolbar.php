@@ -85,16 +85,22 @@ return [
         'priv' => 'account/admin',
         'sort' => 70,
     ],
+    'home' => [
+        'name' => 'Homepage',
+        'url' => '/',
+        'priv' => 'page_content/view',
+        'sort' => 80,
+    ],
     'password' => [
         'name' => 'Password',
         'url' => '/account/password',
         'priv' => 'account/password',
-        'sort' => 80,
+        'sort' => 90,
     ],
     'logout' => [
         'name' => 'Logout',
         'url' => '/account/logout',
         'priv' => 'account/logout',
-        'sort' => 90,
+        'sort' => 100,
     ],
 ];
