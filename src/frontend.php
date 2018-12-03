@@ -154,11 +154,13 @@ function page(int $val, array $attr): string
  */
 function file(int $val, array $attr): string
 {
+    $browse = app\i18n('Browse');
+    $remove = app\i18n('Remove');
     $out = app\html('div', ['id' => $attr['html']['id'] . '-file'], $val ? $attr['viewer']($val, $attr) : '');
     $out .= app\html('input', ['type' => 'hidden', 'value' => $val ?: ''] + $attr['html']);
-    $out .= app\html('span', ['data-id' => $attr['html']['id'], 'data-ref' => $attr['ref'], 'data-action' => 'browser'], app\i18n('Browse'));
+    $out .= app\html('span', ['data-id' => $attr['html']['id'], 'data-ref' => $attr['ref'], 'data-action' => 'browser', 'title' => $browse], $browse);
     $out .= ' ';
-    $out .= app\html('span', ['data-id' => $attr['html']['id'], 'data-action' => 'remove'], app\i18n('Remove'));
+    $out .= app\html('span', ['data-id' => $attr['html']['id'], 'data-action' => 'remove', 'title' => $remove], $remove);
 
     return  $out;
 }
