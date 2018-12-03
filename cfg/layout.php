@@ -156,7 +156,6 @@ return [
             'cfg' => [
                 'pager' => true,
                 'search' => ['name'],
-                'title' => null,
             ],
         ],
     ],
@@ -225,7 +224,6 @@ return [
                 'limit' => 20,
                 'pager' => true,
                 'search' => ['name'],
-                'title' => null,
             ],
         ],
     ],
