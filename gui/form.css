@@ -9,12 +9,6 @@ fieldset select {
     max-width: 30rem;
 }
 
-legend {
-    width: 100%;
-    padding: 0.71875rem 0;
-    border-bottom: solid 0.0625rem #000;
-}
-
 label {
     display: block;
 }
