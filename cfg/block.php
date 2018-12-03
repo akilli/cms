@@ -18,12 +18,16 @@ return [
     'msg' => [
         'call' => 'block\msg',
     ],
+    'name' => [
+        'call' => 'block\name',
+    ],
     'content' => [
         'call' => 'block\content',
         'cfg' => [
             'content' => null,
         ],
     ],
+
     /**
      * Template
      */
@@ -63,7 +67,7 @@ return [
             'pager' => false,
             'parent_id' => null,
             'search' => [],
-            'title' => '',
+            'title' => null,
         ],
     ],
     'pager' => [

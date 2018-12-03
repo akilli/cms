@@ -62,6 +62,14 @@ function msg(): string
 }
 
 /**
+ * Entity name
+ */
+function name(): string
+{
+    return ($entity = app\get('entity')) ? app\html('h1', [], $entity['name']) : '';
+}
+
+/**
  * Content
  */
 function content(array $block): string
@@ -211,7 +219,7 @@ function index(array $block): string
         'pager' => $cfg['pager'] ? pager(['cfg' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]]) : null,
         'search' => $search,
         'sort' => $p['sort'],
-        'title' => app\enc($cfg['title'] ?? $entity['name']),
+        'title' => $cfg['title'] ? app\enc($cfg['title']) : null,
         'url' => request\get('url'),
     ];
 
