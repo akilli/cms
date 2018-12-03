@@ -24,7 +24,8 @@ nav[data-toggle] span[data-action=toggle][data-toggle] ~ ul {
 }
 
 nav[data-toggle] span[data-action=toggle] {
-    font-family: material;
+    font-family: fontawesome;
+    font-weight: 900;
     cursor: pointer;
 }
 
@@ -35,19 +36,23 @@ nav[data-toggle] > span[data-action=toggle] {
 
 nav[data-toggle] ul span[data-action=toggle] {
     display: inline-block;
-    margin: 0 0.25rem 0 -1.25rem;
+    margin: 0 0.75rem 0 -1.25rem;
+}
+
+nav[data-toggle] ul span[data-action=toggle][data-toggle] {
+    margin-right: 0.5rem;
 }
 
 nav[data-toggle] > span[data-action=toggle]::after {
-    content: '\f35c';
+    content: '\f0c9';
 }
 
 nav[data-toggle] ul span[data-action=toggle]::after {
-    content: '\f142';
+    content: '\f054';
 }
 
 nav[data-toggle] ul span[data-action=toggle][data-toggle]::after {
-    content: '\f140';
+    content: '\f078';
 }
 
 /**

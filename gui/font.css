@@ -1,6 +1,13 @@
 @font-face {
-    font-family: material;
-    font-weight: normal;
+    font-family: fontawesome;
     font-style: normal;
-    src: url(font/material.woff2) format('woff2'), url(font/material.woff) format('woff');
+    font-weight: normal;
+    src: url(font/fa-regular.woff2) format('woff2'), url(font/fa-regular.woff) format('woff');
+}
+
+@font-face {
+    font-family: fontawesome;
+    font-style: normal;
+    font-weight: 900;
+    src: url(font/fa-solid.woff2) format('woff2'), url(font/fa-solid.woff) format('woff');
 }
