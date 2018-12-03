@@ -207,6 +207,7 @@ a[data-sort=desc]::after {
     padding: 0.75rem 0;
 }
 
+.block-index article h2,
 .block-index article h3 {
     margin: 0;
     font-size: inherit;

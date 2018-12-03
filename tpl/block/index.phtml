@@ -4,11 +4,14 @@ use attr;
 /** @var callable $var */
 $admin = get('action') === 'admin';
 $browser = !$admin && get('action') === 'browser';
+$title = $admin || $browser ? get('entity')['name'] : $var('title');
+$h1 = $admin || $browser ? 'h1' : 'h2';
+$h2 = $admin || $browser ? 'h2' : 'h3';
 $entityId = $var('entity_id');
 ?>
 <section class="block-index">
-    <?php if ($var('title')):?>
-    <h2><?=$var('title');?></h2>
+    <?php if ($title):?>
+    <<?=$h1;?>><?=$title;?></<?=$h1;?>>
     <?php endif;?>
     <?php if ($admin && allowed($entityId . '/edit')):?>
     <p><a href="<?=url($entityId . '/edit');?>"><?=i18n('New Entry');?></a></p>
@@ -35,13 +38,13 @@ $entityId = $var('entity_id');
             ?>
             <?php if (!$admin && ($val === null || $val === '' || !$html)) continue;?>
             <?php if ($attr['id'] === 'name'):?>
-        <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
+        <<?=$h2;?> data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
                 <?php if (get('public') && allowed($entityId . '/view')):?>
             <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>"><?=$html;?></a>
                 <?php else:?>
             <?=$html;?>
                 <?php endif;?>
-        </h3>
+        </<?=$h2;?>>
             <?php elseif (in_array($attr['type'], ['audio', 'image', 'video'])):?>
         <figure data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></figure>
             <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
@@ -54,13 +57,13 @@ $entityId = $var('entity_id');
         <?php endforeach;?>
         <?php if ($admin):?>
         <footer>
-            <?php if ($admin && allowed($entityId . '/view')):?>
+            <?php if (allowed($entityId . '/view')):?>
             <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>" data-action="view"><?=i18n('View');?></a>
             <?php endif;?>
-            <?php if ($admin && allowed($entityId . '/edit')):?>
+            <?php if (allowed($entityId . '/edit')):?>
             <a href="<?=url($entityId . '/edit/' . $data['id']);?>" data-action="edit"><?=i18n('Edit');?></a>
             <?php endif;?>
-            <?php if ($admin && allowed($entityId . '/delete')):?>
+            <?php if (allowed($entityId . '/delete')):?>
             <a href="<?=url($entityId . '/delete/' . $data['id']);?>" data-action="delete"><?=i18n('Delete');?></a>
             <?php endif;?>
         </footer>
