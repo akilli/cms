@@ -62,14 +62,6 @@ function msg(): string
 }
 
 /**
- * Entity name
- */
-function name(): string
-{
-    return ($entity = app\get('entity')) ? app\html('h1', [], $entity['name']) : '';
-}
-
-/**
  * Content
  */
 function content(array $block): string

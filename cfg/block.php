@@ -18,9 +18,6 @@ return [
     'msg' => [
         'call' => 'block\msg',
     ],
-    'name' => [
-        'call' => 'block\name',
-    ],
     'content' => [
         'call' => 'block\content',
         'cfg' => [
