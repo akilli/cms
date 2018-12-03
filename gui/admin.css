@@ -130,6 +130,7 @@ span[data-action] {
  */
 #toolbar,
 #toolbar li ul {
+    font-size: 0.875rem;
     color: #fff;
     background: #000;
 }
