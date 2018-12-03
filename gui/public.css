@@ -275,7 +275,7 @@ main ::selection {
     /**
      * Links
      */
-    #content a::after {
+    #content a:not([data-action])::after {
         content: " (" attr(href) ")";
         font-size: 0.875rem;
         font-style: italic;

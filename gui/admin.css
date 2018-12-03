@@ -357,7 +357,7 @@ a[data-sort=desc]::after {
     /**
      * Links
      */
-    #content a::after {
+    #content a:not([data-action])::after {
         content: " (" attr(href) ")";
         font-size: 0.875rem;
         font-style: italic;
@@ -375,6 +375,7 @@ a[data-sort=desc]::after {
      */
     body > :not(#header):not(main),
     main > :not(#content),
+    .block-index .thead > a::after,
     .block-search,
     .pager {
         display: none !important;
