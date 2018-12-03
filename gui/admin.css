@@ -128,10 +128,15 @@ span[data-action] {
 /**
  * Toolbar
  */
-#toolbar,
-#toolbar li ul {
+#toolbar {
+    margin: 0 -0.75rem;
+    padding: 0.75rem;
     font-size: 0.875rem;
     color: #fff;
+    background: #000;
+}
+
+#toolbar li ul {
     background: #000;
 }
 

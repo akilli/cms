@@ -312,7 +312,7 @@ return [
         'menu' => [
             'type' => 'menu',
             'parent_id' => 'body',
-            'sort' => 25,
+            'sort' => 15,
             'cfg' => [
                 'toggle' => true,
             ],

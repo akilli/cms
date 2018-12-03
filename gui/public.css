@@ -128,9 +128,15 @@ span[data-action] {
 /**
  * Menu
  */
-#menu,
-#menu li ul {
+#menu {
+    margin: 0 -0.75rem;
+    padding: 0.75rem;
+    font-size: 0.875rem;
     color: #fff;
+    background: #000;
+}
+
+#menu li ul {
     background: #000;
 }
 
