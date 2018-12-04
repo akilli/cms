@@ -238,6 +238,53 @@ a[data-sort=desc]::after {
 }
 
 /**
+ * Screen
+ */
+@media screen {
+    /**
+     * Actions
+     */
+    a[data-action=delete],
+    a[data-action=edit],
+    a[data-action=view],
+    span[data-action=browser],
+    span[data-action=remove] {
+        font-size: 0;
+    }
+
+    a[data-action=delete]::before,
+    a[data-action=edit]::before,
+    a[data-action=view]::before,
+    span[data-action=browser]::before,
+    span[data-action=remove]::before {
+        display: inline-block;
+        line-height: 1;
+        margin-right: 0.5rem;
+        font-family: fontawesome;
+        font-size: 1rem;
+        font-weight: 900;
+        text-decoration: none;
+    }
+
+    a[data-action=delete]::before,
+    span[data-action=remove]::before {
+        content: '\f1f8';
+    }
+
+    a[data-action=edit]::before {
+        content: '\f044';
+    }
+
+    a[data-action=view]::before {
+        content: '\f06e';
+    }
+
+    span[data-action=browser]::before {
+        content: '\f07c';
+    }
+}
+
+/**
  * Desktop
  */
 @media screen and (min-width: 55rem) {
