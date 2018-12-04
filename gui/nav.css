@@ -24,6 +24,7 @@ nav[data-toggle] span[data-action=toggle][data-toggle] ~ ul {
 }
 
 nav[data-toggle] span[data-action=toggle] {
+    line-height: 1;
     font-family: fontawesome;
     font-weight: 900;
     cursor: pointer;
