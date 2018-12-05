@@ -8,6 +8,16 @@ If you have installed a file browser that uses the API of the [mediabrowser add-
 
 No configuration necessary.
 
+## Usage with the [mediabrowser add-on](https://ckeditor.com/cke4/addon/mediabrowser)
+
+If you use the [mediabrowser add-on](https://ckeditor.com/cke4/addon/mediabrowser), your media browser implementation can currently send following keys with the message:
+
+    {
+        alt: 'Alternative text', // optional
+        src: '/url/to/media', //required
+        type: 'image' // optional, one of audio, iframe, image or video
+    }
+
 ## Example
 
 You can see this plugin in action @ https://akilli.github.io/rte/ck4/
