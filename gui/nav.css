@@ -44,15 +44,15 @@ nav[data-toggle] ul span[data-action=toggle][data-toggle] {
     margin-right: 0.5rem;
 }
 
-nav[data-toggle] > span[data-action=toggle]::after {
+nav[data-toggle] > span[data-action=toggle]::before {
     content: '\f0c9';
 }
 
-nav[data-toggle] ul span[data-action=toggle]::after {
+nav[data-toggle] ul span[data-action=toggle]::before {
     content: '\f054';
 }
 
-nav[data-toggle] ul span[data-action=toggle][data-toggle]::after {
+nav[data-toggle] ul span[data-action=toggle][data-toggle]::before {
     content: '\f078';
 }
 
