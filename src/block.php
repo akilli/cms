@@ -68,7 +68,7 @@ function content(array $block): string
 {
     $cfg = arr\replace(app\cfg('block', 'content')['cfg'], $block['cfg']);
 
-    return $cfg['content'] ? app\html('section', ['class' => 'block-content'], $cfg['content']) : '';
+    return $cfg['content'] ? app\html('section', ['id' => $block['id'], 'class' => 'block-content'], $cfg['content']) : '';
 }
 
 /**

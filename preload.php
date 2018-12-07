@@ -109,6 +109,7 @@ const APP = [
         'sort' => 0,
         'cfg' => [],
     ],
+    'layout.db' => 'layout-',
     'log' => 'php://stdout',
     'path' => [
         'cfg' => '/app/cfg',
