@@ -170,14 +170,9 @@ main a:hover {
     text-decoration: underline;
 }
 
-main ::-moz-selection {
-    color: #000;
-    background: #93ddf9;
-}
-
 main ::selection {
-    color: #000;
-    background: #93ddf9;
+    color: #fff;
+    background: #000;
 }
 
 /**
