@@ -192,7 +192,6 @@ function layout(array $data): array
 
             foreach ($dbLayout as $id => $item) {
                 $cfg[$url]['db-' . $item['name']] = [
-                    'id' => $item['name'],
                     'type' => preg_replace('#^block_#', '', $dbBlocks[$item['block_id']]['entity']),
                     'parent_id' => $item['parent_id'],
                     'sort' => $item['sort'],
