@@ -181,10 +181,12 @@ function index(array $block): string
 
     if ($cfg['search']) {
         if ($p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
-            $call = function ($attrId) use ($q) {
-                return [$attrId, $q, APP['crit']['~']];
-            };
-            $crit[] = array_map($call, $cfg['search']);
+            foreach ($q as $v) {
+                $call = function ($attrId) use ($v) {
+                    return [$attrId, $v, APP['crit']['~']];
+                };
+                $crit[] = array_map($call, $cfg['search']);
+            }
         }
 
         $search = search([]);
