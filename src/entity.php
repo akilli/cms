@@ -11,10 +11,15 @@ use Throwable;
 
 /**
  * Size entity
+ *
+ * @throws DomainException
  */
 function size(string $entityId, array $crit = []): int
 {
-    $entity = app\cfg('entity', $entityId);
+    if (!$entity = app\cfg('entity', $entityId)) {
+        throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    }
+
     $opt = arr\replace(APP['entity.opt'], ['mode' => 'size']);
 
     try {
@@ -29,10 +34,15 @@ function size(string $entityId, array $crit = []): int
 
 /**
  * Load one entity
+ *
+ * @throws DomainException
  */
 function one(string $entityId, array $crit = [], array $opt = []): array
 {
-    $entity = app\cfg('entity', $entityId);
+    if (!$entity = app\cfg('entity', $entityId)) {
+        throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    }
+
     $data = [];
     $opt = arr\replace(APP['entity.opt'], $opt, ['mode' => 'one', 'limit' => 1]);
 
@@ -50,10 +60,15 @@ function one(string $entityId, array $crit = [], array $opt = []): array
 
 /**
  * Load entity collection
+ *
+ * @throws DomainException
  */
 function all(string $entityId, array $crit = [], array $opt = []): array
 {
-    $entity = app\cfg('entity', $entityId);
+    if (!$entity = app\cfg('entity', $entityId)) {
+        throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    }
+
     $opt = arr\replace(APP['entity.opt'], $opt, ['mode' => 'all']);
 
     if ($opt['select']) {
@@ -82,25 +97,29 @@ function all(string $entityId, array $crit = [], array $opt = []): array
 
 /**
  * Save entity
+ *
+ * @throws DomainException
  */
 function save(string $entityId, array & $data): bool
 {
+    if (!$entity = app\cfg('entity', $entityId)) {
+        throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    }
+
     $id = $data['id'] ?? null;
     $tmp = $data;
+    $tmp['_old'] = [];
+    $tmp['_entity'] = $entity;
 
     if ($id && ($old = one($entityId, [['id', $id]]))) {
         $tmp['_old'] = $old;
-        $tmp['_entity'] = $old['_entity'];
         unset($tmp['_old']['_entity'], $tmp['_old']['_old']);
-    } else {
-        $tmp['_old'] = [];
-        $tmp['_entity'] = app\cfg('entity', $entityId);
     }
 
     $attrIds = [];
 
-    foreach (array_intersect_key($tmp, $tmp['_entity']['attr']) as $attrId => $val) {
-        if (($val === null || $val === '') && attr\ignorable($tmp, $tmp['_entity']['attr'][$attrId])) {
+    foreach (array_intersect_key($tmp, $entity['attr']) as $attrId => $val) {
+        if (($val === null || $val === '') && attr\ignorable($tmp, $entity['attr'][$attrId])) {
             unset($data[$attrId], $tmp[$attrId]);
         } else {
             $attrIds[] = $attrId;
@@ -116,7 +135,7 @@ function save(string $entityId, array & $data): bool
 
     foreach ($attrIds as $attrId) {
         try {
-            $tmp[$attrId] = attr\filter($tmp, $tmp['_entity']['attr'][$attrId]);
+            $tmp[$attrId] = attr\filter($tmp, $entity['attr'][$attrId]);
         } catch (DomainException $e) {
             $tmp['_error'][$attrId] = $e->getMessage();
         } catch (Throwable $e) {
@@ -144,13 +163,13 @@ function save(string $entityId, array & $data): bool
     }
 
     try {
-        ($tmp['_entity']['type'] . '\trans')(
+        ($entity['type'] . '\trans')(
             function () use (& $tmp): void {
                 $tmp = event('presave', $tmp);
                 $tmp = ($tmp['_entity']['type'] . '\save')($tmp);
                 $tmp = event('postsave', $tmp);
             },
-            $tmp['_entity']['db']
+            $entity['db']
         );
         app\msg('Successfully saved data');
         $data = $tmp;
@@ -165,16 +184,22 @@ function save(string $entityId, array & $data): bool
 
 /**
  * Delete entity
+ *
+ * @throws DomainException
  */
 function delete(string $entityId, array $crit = [], array $opt = []): bool
 {
-    if (!($all = all($entityId, $crit, $opt)) || !($cur = current($all))) {
+    if (!$entity = app\cfg('entity', $entityId)) {
+        throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    }
+
+    if (!$all = all($entityId, $crit, $opt)) {
         app\msg('Nothing to delete');
         return false;
     }
 
     try {
-        ($cur['_entity']['type'] . '\trans')(
+        ($entity['type'] . '\trans')(
             function () use ($all): void {
                 foreach ($all as $data) {
                     $data = event('predelete', $data);
@@ -182,7 +207,7 @@ function delete(string $entityId, array $crit = [], array $opt = []): bool
                     event('postdelete', $data);
                 }
             },
-            $cur['_entity']['db']
+            $entity['db']
         );
         app\msg('Successfully deleted data');
 
