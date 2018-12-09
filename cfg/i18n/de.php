@@ -34,6 +34,7 @@ return [
     'Draft' => 'Entwurf',
     'Edit' => 'Bearbeiten',
     'Entity' => 'Entität',
+    'Entity %s is readonly' => 'Entität %s ist schreibgeschützt',
     'Error' => 'Fehler',
     'Extension' => 'Endung',
     'File upload failed for %s' => 'Datei %s konnte nicht hochgeladen werden',

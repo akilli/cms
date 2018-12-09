@@ -104,6 +104,8 @@ function save(string $entityId, array & $data): bool
 {
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    } elseif ($entity['readonly']) {
+        throw new DomainException(app\i18n('Entity %s is readonly', $entityId));
     }
 
     $id = $data['id'] ?? null;
@@ -191,6 +193,8 @@ function delete(string $entityId, array $crit = [], array $opt = []): bool
 {
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    } elseif ($entity['readonly']) {
+        throw new DomainException(app\i18n('Entity %s is readonly', $entityId));
     }
 
     if (!$all = all($entityId, $crit, $opt)) {

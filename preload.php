@@ -79,6 +79,7 @@ const APP = [
         'db' => 'app',
         'type' => null,
         'parent_id' => null,
+        'readonly' => false,
         'mail' => false,
         'action' => [],
         'attr' => [],
