@@ -21,7 +21,8 @@ p:not(:last-child),
 fieldset > *,
 main > :not(:last-child),
 #content > :not(:last-child):not(details),
-#sidebar > :not(:last-child):not(details) {
+#sidebar > :not(:last-child):not(details),
+.block-index > * {
     margin-bottom: 1.5rem;
 }
 
@@ -198,7 +199,6 @@ a[data-sort=desc]::after {
 }
 
 .block-index article {
-    margin-bottom: 1.5rem;
     padding: 0.75rem 0;
 }
 

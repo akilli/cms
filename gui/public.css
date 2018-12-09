@@ -21,7 +21,8 @@ p:not(:last-child),
 fieldset > *,
 main > :not(:last-child),
 #content > :not(:last-child):not(details),
-#sidebar > :not(:last-child):not(details) {
+#sidebar > :not(:last-child):not(details),
+.block-index > * {
     margin-bottom: 1.5rem;
 }
 
@@ -198,10 +199,6 @@ main ::selection {
 .block-index video {
     max-width: 15rem;
     max-height: 10rem;
-}
-
-.block-index article {
-    margin-bottom: 1.5rem;
 }
 
 /**
