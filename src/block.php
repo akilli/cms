@@ -468,7 +468,13 @@ function nav(array $block): string
             $class[] = 'parent';
 
             if ($cfg['toggle']) {
-                $toggle = app\html('span', ['data-action' => 'toggle']);
+                $ta = ['data-action' => 'toggle'];
+
+                if (array_intersect(['active', 'path'], $class)) {
+                    $ta['data-toggle'] = '';
+                }
+
+                $toggle = app\html('span', $ta);
             }
         }
 
