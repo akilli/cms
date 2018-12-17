@@ -235,12 +235,12 @@ textarea {
 [type=reset],
 [type=submit],
 button {
-    text-decoration: none !important;
     cursor: pointer;
 }
 
 [role=button] {
     display: inline-block;
+    text-decoration: none;
 }
 
 textarea {
@@ -281,6 +281,6 @@ summary {
  */
 @media print {
     dialog[open] {
-        display: none !important;
+        display: none;
     }
 }
