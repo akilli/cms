@@ -280,9 +280,9 @@ a[data-sort=desc]::after {
 }
 
 /**
- * Desktop
+ * Desktop + Print
  */
-@media screen and (min-width: 55rem) {
+@media screen and (min-width: 55rem), print {
     /**
      * Index
      */
@@ -314,7 +314,12 @@ a[data-sort=desc]::after {
     .block-index article > * {
         border-bottom: solid 0.0625rem #bbb;
     }
+}
 
+/**
+ * Desktop
+ */
+@media screen and (min-width: 55rem) {
     /**
      * Login
      */
@@ -418,7 +423,10 @@ a[data-sort=desc]::after {
      */
     body > :not(#header):not(main),
     main > :not(#content),
-    .block-index .thead > a::after,
+    .block-index > .create,
+    .block-index > .thead > span:last-child,
+    .block-index > .thead > a::after,
+    .block-index > article > footer,
     .block-search,
     .pager {
         display: none;

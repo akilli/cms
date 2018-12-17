@@ -14,7 +14,7 @@ $entityId = $var('entity_id');
     <<?=$h1;?>><?=$title;?></<?=$h1;?>>
     <?php endif;?>
     <?php if ($admin && allowed($entityId . '/edit')):?>
-    <p><a href="<?=url($entityId . '/edit');?>"><?=i18n('New Entry');?></a></p>
+    <p class="create"><a href="<?=url($entityId . '/edit');?>" data-action="create"><?=i18n('New Entry');?></a></p>
     <?php endif;?>
     <?=$var('search');?>
     <?php if (!$var('data')):?>
