@@ -22,6 +22,6 @@ html[data-shim-details] details:not([open]) > summary:first-child::before {
  */
 @media print {
     html[data-shim-details] details > summary:first-child::before {
-        display: none !important;
+        display: none;
     }
 }
