@@ -421,6 +421,6 @@ a[data-sort=desc]::after {
     .block-index .thead > a::after,
     .block-search,
     .pager {
-        display: none !important;
+        display: none;
     }
 }
