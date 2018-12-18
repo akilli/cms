@@ -469,7 +469,12 @@ function nav(array $block): string
         $class = '';
         $toggle = '';
 
-        if (($next = next($cfg['data'])) && ($next = arr\replace($base, $next)) && $item['level'] < $next['level']) {
+        if ($next = next($cfg['data'])) {
+            $next = arr\replace($base, $next);
+            $next['level'] = $next['level'] - $start + 1;
+        }
+
+        if ($next && $item['level'] < $next['level']) {
             if (!$c && $call($next)) {
                 $c = ['path'];
             }
