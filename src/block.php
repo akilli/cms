@@ -458,7 +458,7 @@ function nav(array $block): string
         $c = '';
         $toggle = '';
 
-        if ($item['url'] && $item['url'] === $url) {
+        if ($item['url'] === $url) {
             $class[] = 'active';
         } elseif ($item['url'] && strpos($url, preg_replace('#\.html#', '', $item['url'])) === 0) {
             $class[] = 'path';
