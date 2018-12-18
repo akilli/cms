@@ -321,17 +321,17 @@ a[data-sort=desc]::after {
     [data-action=browser] #content .block-index > article {
         display: block;
         width: 25%;
-        border: 0.0625rem solid #fff;
+        border: 0.0625rem solid;
         cursor: pointer;
+    }
+
+    [data-action=browser] #content .block-index > article:not(:hover) {
+        border-color: transparent;
     }
 
     [data-action=browser] #content .block-index > article > * {
         display: block;
         border: 0;
-    }
-
-    [data-action=browser] #content .block-index > article:hover {
-        border-color: #000;
     }
 
     [data-action=browser] #content .block-index audio,
