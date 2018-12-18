@@ -56,12 +56,12 @@ time[data-attr] {
  */
 figure.left {
     float: left;
-    margin: 0 0.75rem 1.5rem 0;
+    margin-right: 0.75rem;
 }
 
 figure.right {
     float: right;
-    margin: 0 0 1.5rem 0.75rem;
+    margin-left: 0.75rem;
 }
 
 figcaption {
