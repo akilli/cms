@@ -453,7 +453,7 @@ function nav(array $block): string
     $html .= container(array_replace($block, ['cfg' => ['tag' => null]]));
 
     if ($cfg['toggle']) {
-        $html .= app\html('span', ['data-action' => 'toggle', 'data-target' => $block['id']]);
+        $html .= app\html('a', ['data-action' => 'toggle', 'data-target' => $block['id']]);
         $attrs['data-toggle'] = '';
     }
 
@@ -483,7 +483,7 @@ function nav(array $block): string
                     $ta['data-toggle'] = '';
                 }
 
-                $toggle = app\html('span', $ta);
+                $toggle = app\html('a', $ta);
             }
         }
 

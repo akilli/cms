@@ -34,7 +34,7 @@
     function open () {
         const suffix = '-file';
 
-        Array.prototype.forEach.call(document.querySelectorAll('span[data-action=browser][data-ref]'), function (item) {
+        Array.prototype.forEach.call(document.querySelectorAll('a[data-action=browser][data-ref]'), function (item) {
             item.addEventListener('click', function () {
                 const entity = item.getAttribute('data-ref');
 
@@ -67,7 +67,7 @@
                 CKEDITOR.mediabrowser.open(url, call)
             });
         });
-        Array.prototype.forEach.call(document.querySelectorAll('span[data-action=remove]'), function (item) {
+        Array.prototype.forEach.call(document.querySelectorAll('a[data-action=remove]'), function (item) {
             item.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 const input = document.getElementById(id);

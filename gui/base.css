@@ -49,6 +49,17 @@ main {
     cursor: move;
 }
 
+[role=button],
+[type=button],
+[type=reset],
+[type=submit],
+a,
+button,
+label,
+summary {
+    cursor: pointer;
+}
+
 /**
  * List
  */
@@ -139,11 +150,6 @@ a {
     text-decoration: none;
 }
 
-a[href],
-a[onclick] {
-    cursor: pointer;
-}
-
 hr {
     clear: both;
 }
@@ -213,10 +219,6 @@ thead th {
 /**
  * Form
  */
-label {
-    cursor: pointer;
-}
-
 [role=button],
 button,
 input,
@@ -228,14 +230,6 @@ textarea {
     margin: 0;
     padding: 0;
     border: 0;
-}
-
-[role=button],
-[type=button],
-[type=reset],
-[type=submit],
-button {
-    cursor: pointer;
 }
 
 [role=button] {
@@ -270,10 +264,6 @@ dialog {
 
 dialog[open] {
     display: block;
-}
-
-summary {
-    cursor: pointer;
 }
 
 /**

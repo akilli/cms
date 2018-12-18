@@ -5,7 +5,7 @@
 
 (function (document) {
     document.addEventListener('DOMContentLoaded', function () {
-        Array.prototype.forEach.call(document.querySelectorAll('span[data-action=toggle]'), function (item) {
+        Array.prototype.forEach.call(document.querySelectorAll('a[data-action=toggle]'), function (item) {
             item.addEventListener('click', function () {
                 const dt = this.getAttribute('data-target');
                 const target = dt ? document.getElementById(dt) : null;

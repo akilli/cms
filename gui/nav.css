@@ -19,40 +19,39 @@ nav[data-toggle] ul {
     margin: 0 0 0 1.25rem;
 }
 
-nav[data-toggle] span[data-action=toggle][data-toggle] ~ ul {
+nav[data-toggle] a[data-action=toggle][data-toggle] ~ ul {
     display: block;
 }
 
-nav[data-toggle] span[data-action=toggle] {
+nav[data-toggle] a[data-action=toggle] {
     line-height: 1;
     font-family: fontawesome;
     font-weight: 900;
-    cursor: pointer;
 }
 
-nav[data-toggle] > span[data-action=toggle] {
+nav[data-toggle] > a[data-action=toggle] {
     display: block;
     font-size: 1.5rem;
 }
 
-nav[data-toggle] ul span[data-action=toggle] {
+nav[data-toggle] ul a[data-action=toggle] {
     display: inline-block;
     margin: 0 0.75rem 0 -1.25rem;
 }
 
-nav[data-toggle] ul span[data-action=toggle][data-toggle] {
+nav[data-toggle] ul a[data-action=toggle][data-toggle] {
     margin-right: 0.5rem;
 }
 
-nav[data-toggle] > span[data-action=toggle]::before {
+nav[data-toggle] > a[data-action=toggle]::before {
     content: '\f0c9';
 }
 
-nav[data-toggle] ul span[data-action=toggle]::before {
+nav[data-toggle] ul a[data-action=toggle]::before {
     content: '\f054';
 }
 
-nav[data-toggle] ul span[data-action=toggle][data-toggle]::before {
+nav[data-toggle] ul a[data-action=toggle][data-toggle]::before {
     content: '\f078';
 }
 
@@ -61,16 +60,16 @@ nav[data-toggle] ul span[data-action=toggle][data-toggle]::before {
  */
 @media screen and (min-width: 55rem) {
     nav[data-toggle] li ul,
-    nav[data-toggle] span[data-action=toggle][data-toggle] ~ ul,
-    nav[data-toggle] > span[data-action=toggle],
-    nav[data-toggle] ul span[data-action=toggle] {
+    nav[data-toggle] a[data-action=toggle][data-toggle] ~ ul,
+    nav[data-toggle] > a[data-action=toggle],
+    nav[data-toggle] ul a[data-action=toggle] {
         display: none;
     }
 
     nav[data-toggle] > ul,
     nav[data-toggle] li:hover > ul,
-    nav[data-toggle] > span[data-action=toggle][data-toggle] ~ ul,
-    nav[data-toggle] li:hover > span[data-action=toggle][data-toggle] ~ ul {
+    nav[data-toggle] > a[data-action=toggle][data-toggle] ~ ul,
+    nav[data-toggle] li:hover > a[data-action=toggle][data-toggle] ~ ul {
         display: block;
     }
 

@@ -120,13 +120,6 @@ table p {
 }
 
 /**
- * Actions
- */
-span[data-action] {
-    cursor: pointer;
-}
-
-/**
  * Menu
  */
 #menu {
@@ -162,8 +155,7 @@ span[data-action] {
 /**
  * Main
  */
-main a,
-main span[data-action] {
+main a {
     color: #60abc6;
 }
 
