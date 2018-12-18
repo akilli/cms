@@ -20,13 +20,12 @@ h3:not(:last-child),
 p:not(:last-child),
 fieldset > *,
 main > :not(:last-child),
-#content > :not(:last-child):not(details),
-#sidebar > :not(:last-child):not(details),
+#content > :not(:last-child),
+#sidebar > :not(:last-child),
 .block-index > * {
     margin-bottom: 1.5rem;
 }
 
-details + :not(details),
 h1:not(:first-child),
 h2:not(:first-child),
 h3:not(:first-child) {
@@ -350,25 +349,11 @@ a[data-sort=desc]::after {
     }
 
     /**
-     * Details
-     */
-    details {
-        margin-bottom: 1.5rem;
-    }
-
-    summary {
-        display: block;
-        margin-bottom: 1.5rem;
-        font-size: 1.125rem;
-    }
-
-    /**
      * Pagebreak
      */
     h1,
     h2,
-    h3,
-    summary {
+    h3 {
         page-break-after: avoid;
     }
 
