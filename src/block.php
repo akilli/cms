@@ -427,13 +427,24 @@ function nav(array $block): string
         return '';
     }
 
-    $url = request\get('url');
     $count = count($cfg['data']);
     $start = current($cfg['data'])['level'] ?? 1;
+    $base = ['name' => null, 'url' => null, 'disabled' => false, 'level' => $start];
     $level = 0;
     $i = 0;
     $html = '';
     $attrs = ['id' => $block['id']];
+    $call = function (array $it): ?string {
+        if ($it['url'] === request\get('url')) {
+            return 'active';
+        }
+
+        if ($it['url'] && strpos(request\get('url'), preg_replace('#\.html#', '', $it['url'])) === 0) {
+            return 'path';
+        }
+
+        return null;
+    };
 
     if ($cfg['title']) {
         $html .= app\html('h2', [], $cfg['title']);
@@ -451,26 +462,24 @@ function nav(array $block): string
             throw new DomainException(app\i18n('Invalid data'));
         }
 
-        $item = arr\replace(['name' => null, 'url' => null, 'disabled' => false, 'level' => $start], $item);
+        $item = arr\replace($base, $item);
         $item['level'] = $item['level'] - $start + 1;
         $a = $item['url'] && !$item['disabled'] ? ['href' => $item['url']] : [];
-        $class = [];
-        $c = '';
+        $c = (array) $call($item);
+        $class = '';
         $toggle = '';
 
-        if ($item['url'] === $url) {
-            $class[] = 'active';
-        } elseif ($item['url'] && strpos($url, preg_replace('#\.html#', '', $item['url'])) === 0) {
-            $class[] = 'path';
-        }
+        if (($next = next($cfg['data'])) && ($next = arr\replace($base, $next)) && $item['level'] < $next['level']) {
+            if (!$c && $call($next)) {
+                $c = ['path'];
+            }
 
-        if (($next = next($cfg['data'])) && $item['level'] < ($next['level'] ?? $start)) {
-            $class[] = 'parent';
+            $c[] = 'parent';
 
             if ($cfg['toggle']) {
                 $ta = ['data-action' => 'toggle'];
 
-                if (array_intersect(['active', 'path'], $class)) {
+                if (array_intersect(['active', 'path'], $c)) {
                     $ta['data-toggle'] = '';
                 }
 
@@ -478,17 +487,17 @@ function nav(array $block): string
             }
         }
 
-        if ($class) {
-            $a['class'] = implode(' ', $class);
-            $c = ' class="' . $a['class'] . '"';
+        if ($c) {
+            $a['class'] = implode(' ', $c);
+            $class = ' class="' . $a['class'] . '"';
         }
 
         if ($item['level'] > $level) {
-            $html .= '<ul><li' . $c . '>';
+            $html .= '<ul><li' . $class . '>';
         } elseif ($item['level'] < $level) {
-            $html .= '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $c . '>';
+            $html .= '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>';
         } else {
-            $html .= '</li><li' . $c . '>';
+            $html .= '</li><li' . $class . '>';
         }
 
         $html .= $toggle . app\html('a', $a, $item['name']);

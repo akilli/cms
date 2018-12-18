@@ -104,6 +104,10 @@ span[data-action] {
     background: #000;
 }
 
+#toolbar a.active {
+    text-decoration: underline;
+}
+
 /**
  * Main
  */
