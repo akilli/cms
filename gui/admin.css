@@ -382,16 +382,9 @@ a[data-sort=desc]::after {
     }
 
     /**
-     * Header
-     */
-    #header {
-        border-bottom: solid 1px #000;
-    }
-
-    /**
      * Hidden
      */
-    body > :not(#header):not(main),
+    body > :not(main),
     main > :not(#content),
     .block-index > .create,
     .block-index > .thead > span:last-child,
