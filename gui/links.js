@@ -13,9 +13,16 @@
                 item.setAttribute('target', '_blank');
             }
 
-            if (!!item.querySelector('img')) {
-                item.setAttribute('data-link', 'img');
-            } else if (href.indexOf('/file/') === 0) {
+            if (!!item.querySelector('audio, iframe, img, figure, video')) {
+                return;
+            }
+
+            if (!item.innerText.trim()) {
+                item.parentElement.removeChild(item);
+                return;
+            }
+
+            if (href.indexOf('/file/') === 0) {
                 item.setAttribute('data-link', 'file');
             } else if (href.indexOf('/') === 0) {
                 item.setAttribute('data-link', 'intern');
