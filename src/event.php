@@ -5,11 +5,9 @@ namespace event;
 
 use app;
 use arr;
-use attr;
 use entity;
 use file;
 use request;
-use smtp;
 use DomainException;
 
 /**
@@ -259,38 +257,6 @@ function entity_prefilter_file(array $data): array
     if (!empty($data['_old']) && ($data['ext'] !== $data['_old']['ext'] || $data['mime'] !== $data['_old']['mime'])) {
         $data['_error']['url'] = app\i18n('Cannot change filetype anymore');
     }
-
-    return $data;
-}
-
-/**
- * Entity postsave
- */
-function entity_postsave(array $data): array
-{
-    if (!$data['_entity']['mail'] || !app\get('public')) {
-        return $data;
-    }
-
-    $file = request\get('file');
-    $text = '';
-    $attach = [];
-
-    foreach ($data as $attrId => $val) {
-        $attr = $data['_entity']['attr'][$attrId] ?? null;
-
-        if (!$attr || $attrId === 'id' || $attr['type'] === 'nope') {
-            continue;
-        } elseif ($attr['type'] !== 'file') {
-            $text .= $attr['name'] . ':' . APP['crlf'] . attr\viewer($data, $attr) . APP['crlf'] .APP['crlf'];
-        } elseif (!empty($file[$attrId])) {
-            $attach[] = ['name' => $file[$attrId]['name'], 'path' => $file[$attrId]['tmp_name'], 'type' => $file[$attrId]['type']];
-        }
-    }
-
-    $address = app\cfg('app', 'mail.address');
-    $subject = app\cfg('app', 'mail.subject');
-    smtp\mail($address, $address, null, $subject, $text, $attach);
 
     return $data;
 }

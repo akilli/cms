@@ -116,10 +116,6 @@ textarea {
     color: #900;
 }
 
-form [data-type=nope] {
-    display: none;
-}
-
 /**
  * RTE
  */

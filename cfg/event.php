@@ -24,9 +24,6 @@ return [
     'entity.postfilter' => [
         'event\entity_postfilter' => 10,
     ],
-    'entity.postsave' => [
-        'event\entity_postsave' => 10,
-    ],
     'entity.prefilter.id.file' => [
         'event\entity_prefilter_file' => 10,
     ],

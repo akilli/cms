@@ -67,7 +67,6 @@ const APP = [
         '~$' => '~$',
         '!~$' => '!~$',
     ],
-    'crlf' => "\r\n",
     'curl' => [
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_RETURNTRANSFER => true,
@@ -80,7 +79,6 @@ const APP = [
         'type' => null,
         'parent_id' => null,
         'readonly' => false,
-        'mail' => false,
         'action' => [],
         'attr' => [],
     ],

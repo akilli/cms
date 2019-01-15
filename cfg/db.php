@@ -6,7 +6,4 @@ return [
         'user' => 'app',
         'password' => 'app',
     ],
-    'memory' => [
-        'type' => 'memory',
-    ],
 ];

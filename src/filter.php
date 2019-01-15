@@ -90,20 +90,6 @@ function path(string $val): string
 }
 
 /**
- * Spam filter
- *
- * @throws DomainException
- */
-function nope(bool $val): bool
-{
-    if ($val) {
-        throw new DomainException(app\i18n('Invalid value'));
-    }
-
-    return $val;
-}
-
-/**
  * Option filter
  *
  * @return mixed
