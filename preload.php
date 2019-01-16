@@ -135,6 +135,7 @@ const APP = [
         'id' => null,
         'name' => null,
         'url' => null,
+        'active' => true,
         'priv' => null,
         'parent_id' => null,
         'sort' => 0,
