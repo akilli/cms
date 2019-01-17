@@ -33,6 +33,18 @@ return [
     'app/cfg' => [
         'active' => false,
     ],
+    'file_audio/browser' => [
+        'priv' => 'file_audio/edit',
+    ],
+    'file_doc/browser' => [
+        'priv' => 'file_doc/edit',
+    ],
+    'file_image/browser' => [
+        'priv' => 'file_image/edit',
+    ],
+    'file_video/browser' => [
+        'priv' => 'file_video/edit',
+    ],
     'page/view' => [
         'active' => false,
     ],
