@@ -7,11 +7,19 @@ use app;
 use entity;
 
 /**
+ * Email viewer
+ */
+function email(string $val): string
+{
+    return app\html('a', ['href' => 'mailto:' . $val], $val);
+}
+
+/**
  * URL viewer
  */
-function url(string $val, array $attr): string
+function url(string $val): string
 {
-    return app\html('a', ['href' => $val] + $attr['html'], $val);
+    return app\html('a', ['href' => $val], $val);
 }
 
 /**
@@ -33,9 +41,9 @@ function rte(string $val): string
 /**
  * JSON viewer
  */
-function json(array $val, array $attr): string
+function json(array $val): string
 {
-    return app\html('pre', $attr['html'], app\enc(print_r($val, true)));
+    return app\html('pre', [], app\enc(print_r($val, true)));
 }
 
 /**
@@ -104,15 +112,14 @@ function file(int $val, array $attr): string
     }
 
     if (!preg_match('#^(audio|image|video)/#', $data['mime'], $match)) {
-        return app\html('a', ['href' => $data['url']] + $attr['html'], $data['url']);
+        return app\html('a', ['href' => $data['url']], $data['url']);
     }
 
     if ($match[1] === 'image') {
-        $attr['html']['alt'] = app\enc($data['info']);
-        return app\html('img', ['src' => $data['url']] + $attr['html']);
+        return app\html('img', ['src' => $data['url'], 'alt' => app\enc($data['info'])]);
     }
 
-    return app\html($match[1], ['src' => $data['url'], 'controls' => true] + $attr['html']);
+    return app\html($match[1], ['src' => $data['url'], 'controls' => true]);
 }
 
 /**

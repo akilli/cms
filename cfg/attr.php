@@ -56,6 +56,7 @@ return [
         'backend' => 'varchar',
         'frontend' => 'frontend\input',
         'filter' => 'filter\email',
+        'viewer' => 'viewer\email',
         'html' => ['type' => 'email'],
     ],
     'entity' => [
