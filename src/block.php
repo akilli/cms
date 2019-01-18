@@ -519,7 +519,12 @@ function nav(array $block): string
 function menu(array $block): string
 {
     $block['cfg'] = arr\replace(app\cfg('block', 'menu')['cfg'], $block['cfg']);
-    $page = app\get('page');
+
+    if ($block['cfg']['url']) {
+        $page = entity\one('page', [['status', 'published'], ['entity', 'page_content'], ['url', $block['cfg']['url']]]);
+    } else {
+        $page = app\get('page');
+    }
 
     if ($block['cfg']['submenu'] && empty($page['path'][1])) {
         return '';

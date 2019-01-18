@@ -135,6 +135,7 @@ return [
             'submenu' => false,
             'tag' => 'nav',
             'toggle' => false,
+            'url' => null,
         ],
     ],
     'toolbar' => [
