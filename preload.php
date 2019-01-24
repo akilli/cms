@@ -69,6 +69,7 @@ const APP = [
         '~$' => '~$',
         '!~$' => '!~$',
     ],
+    'crlf' => "\r\n",
     'curl' => [
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_RETURNTRANSFER => true,
