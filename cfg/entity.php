@@ -111,7 +111,7 @@ return [
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'url' => [
-                'cfg.filter' => 'upload.audio',
+                'opt' => 'upload.audio',
             ],
         ],
     ],
@@ -121,7 +121,7 @@ return [
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'url' => [
-                'cfg.filter' => 'upload.doc',
+                'opt' => 'upload.doc',
             ],
         ],
     ],
@@ -131,7 +131,7 @@ return [
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'url' => [
-                'cfg.filter' => 'upload.image',
+                'opt' => 'upload.image',
             ],
         ],
     ],
@@ -141,7 +141,7 @@ return [
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'url' => [
-                'cfg.filter' => 'upload.video',
+                'opt' => 'upload.video',
             ],
         ],
     ],

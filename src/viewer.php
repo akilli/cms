@@ -7,7 +7,7 @@ use app;
 use entity;
 
 /**
- * Email viewer
+ * Email
  */
 function email(string $val): string
 {
@@ -15,7 +15,7 @@ function email(string $val): string
 }
 
 /**
- * URL viewer
+ * URL
  */
 function url(string $val): string
 {
@@ -23,15 +23,31 @@ function url(string $val): string
 }
 
 /**
- * Datetime viewer
+ * Datetime
  */
-function datetime(string $val, array $attr): string
+function datetime(string $val): string
 {
-    return date_format(date_create($val), $attr['cfg.viewer']);
+    return date_format(date_create($val), app\cfg('app', 'i18n.datetime'));
 }
 
 /**
- * Rich text viewer
+ * Date
+ */
+function date(string $val): string
+{
+    return date_format(date_create($val), app\cfg('app', 'i18n.date'));
+}
+
+/**
+ * Time
+ */
+function time(string $val): string
+{
+    return date_format(date_create($val), app\cfg('app', 'i18n.time'));
+}
+
+/**
+ * Rich text
  */
 function rte(string $val): string
 {
@@ -39,7 +55,7 @@ function rte(string $val): string
 }
 
 /**
- * JSON viewer
+ * JSON
  */
 function json(array $val): string
 {
@@ -47,7 +63,7 @@ function json(array $val): string
 }
 
 /**
- * Position viewer
+ * Position
  */
 function pos(string $val): string
 {
@@ -61,7 +77,7 @@ function pos(string $val): string
 }
 
 /**
- * Option viewer
+ * Option
  */
 function opt($val, array $attr): string
 {
@@ -81,7 +97,7 @@ function opt($val, array $attr): string
 }
 
 /**
- * Ent viewer
+ * Ent
  */
 function entity(int $val, array $attr): string
 {
@@ -89,7 +105,7 @@ function entity(int $val, array $attr): string
 }
 
 /**
- * Page viewer
+ * Page
  */
 function page(int $val, array $attr): string
 {
@@ -103,7 +119,7 @@ function page(int $val, array $attr): string
 }
 
 /**
- * File viewer
+ * File
  */
 function file(int $val, array $attr): string
 {
@@ -123,7 +139,7 @@ function file(int $val, array $attr): string
 }
 
 /**
- * Upload viewer
+ * Upload
  */
 function upload(string $val, array $attr): string
 {

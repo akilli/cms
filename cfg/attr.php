@@ -22,28 +22,19 @@ return [
     ],
     'date' => [
         'backend' => 'date',
-        'frontend' => 'frontend\datetime',
-        'filter' => 'filter\datetime',
-        'viewer' => 'viewer\datetime',
-        'cfg.backend' => 'Y-m-d',
-        'cfg.frontend' => 'Y-m-d',
-        'cfg.viewer' => 'd.m.y',
-        'html' => ['type' => 'date'],
+        'frontend' => 'frontend\date',
+        'filter' => 'filter\date',
+        'viewer' => 'viewer\date',
     ],
     'datetime' => [
         'backend' => 'datetime',
         'frontend' => 'frontend\datetime',
         'filter' => 'filter\datetime',
         'viewer' => 'viewer\datetime',
-        'cfg.backend' => 'Y-m-d H:i:s',
-        'cfg.frontend' => 'Y-m-d\TH:i',
-        'cfg.viewer' => 'd.m.y',
-        'html' => ['type' => 'datetime-local'],
     ],
     'decimal' => [
         'backend' => 'decimal',
-        'frontend' => 'frontend\number',
-        'html' => ['type' => 'number'],
+        'frontend' => 'frontend\decimal',
     ],
     'doc' => [
         'backend' => 'int',
@@ -54,10 +45,9 @@ return [
     ],
     'email' => [
         'backend' => 'varchar',
-        'frontend' => 'frontend\input',
+        'frontend' => 'frontend\email',
         'filter' => 'filter\email',
         'viewer' => 'viewer\email',
-        'html' => ['type' => 'email'],
     ],
     'entity' => [
         'backend' => 'int',
@@ -81,8 +71,7 @@ return [
     ],
     'int' => [
         'backend' => 'int',
-        'frontend' => 'frontend\number',
-        'html' => ['type' => 'number'],
+        'frontend' => 'frontend\int',
     ],
     'json' => [
         'backend' => 'json',
@@ -117,22 +106,19 @@ return [
     ],
     'range' => [
         'backend' => 'int',
-        'frontend' => 'frontend\number',
-        'html' => ['type' => 'range'],
+        'frontend' => 'frontend\range',
     ],
     'rte' => [
         'backend' => 'text',
         'frontend' => 'frontend\textarea',
         'filter' => 'filter\rte',
         'viewer' => 'viewer\rte',
-        'cfg.filter' => 'rte',
     ],
     'rtemin' => [
         'backend' => 'text',
         'frontend' => 'frontend\textarea',
-        'filter' => 'filter\rte',
+        'filter' => 'filter\rtemin',
         'viewer' => 'viewer\rte',
-        'cfg.filter' => 'rtemin',
     ],
     'select' => [
         'backend' => 'varchar',
@@ -142,9 +128,8 @@ return [
     ],
     'serial' => [
         'backend' => 'int',
-        'frontend' => 'frontend\number',
+        'frontend' => 'frontend\int',
         'auto' => true,
-        'html' => ['type' => 'number'],
     ],
     'status' => [
         'backend' => 'varchar',
@@ -155,15 +140,13 @@ return [
     ],
     'tel' => [
         'backend' => 'varchar',
-        'frontend' => 'frontend\input',
+        'frontend' => 'frontend\tel',
         'filter' => 'filter\text',
-        'html' => ['type' => 'tel'],
     ],
     'text' => [
         'backend' => 'varchar',
-        'frontend' => 'frontend\input',
+        'frontend' => 'frontend\text',
         'filter' => 'filter\text',
-        'html' => ['type' => 'text'],
     ],
     'textarea' => [
         'backend' => 'text',
@@ -172,19 +155,14 @@ return [
     ],
     'time' => [
         'backend' => 'time',
-        'frontend' => 'frontend\datetime',
-        'filter' => 'filter\datetime',
-        'viewer' => 'viewer\datetime',
-        'cfg.backend' => 'H:i:s',
-        'cfg.frontend' => 'H:i',
-        'cfg.viewer' => 'H:i',
-        'html' => ['type' => 'time'],
+        'frontend' => 'frontend\time',
+        'filter' => 'filter\time',
+        'viewer' => 'viewer\time',
     ],
     'uid' => [
         'backend' => 'varchar',
-        'frontend' => 'frontend\input',
+        'frontend' => 'frontend\text',
         'filter' => 'filter\uid',
-        'html' => ['type' => 'text'],
     ],
     'upload' => [
         'backend' => 'varchar',
@@ -195,10 +173,9 @@ return [
     ],
     'url' => [
         'backend' => 'varchar',
-        'frontend' => 'frontend\input',
+        'frontend' => 'frontend\url',
         'filter' => 'filter\url',
         'viewer' => 'viewer\url',
-        'html' => ['type' => 'url'],
     ],
     'video' => [
         'backend' => 'int',

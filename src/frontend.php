@@ -8,11 +8,35 @@ use attr;
 use entity;
 
 /**
- * Input
+ * Text
  */
-function input(string $val, array $attr): string
+function text(string $val, array $attr): string
 {
-    return app\html('input', ['value' => app\enc($val)] + $attr['html']);
+    return app\html('input', ['type' => 'text', 'value' => app\enc($val)] + $attr['html']);
+}
+
+/**
+ * Email
+ */
+function email(string $val, array $attr): string
+{
+    return app\html('input', ['type' => 'email', 'value' => app\enc($val)] + $attr['html']);
+}
+
+/**
+ * URL
+ */
+function url(string $val, array $attr): string
+{
+    return app\html('input', ['type' => 'url', 'value' => app\enc($val)] + $attr['html']);
+}
+
+/**
+ * Telephone
+ */
+function tel(string $val, array $attr): string
+{
+    return app\html('input', ['type' => 'tel', 'value' => app\enc($val)] + $attr['html']);
 }
 
 /**
@@ -24,15 +48,27 @@ function password(string $val, array $attr): string
 }
 
 /**
- * Number
+ * Int
  */
-function number($val, array $attr): string
+function int($val, array $attr): string
 {
-    if (empty($attr['html']['step'])) {
-        $attr['html']['step'] = is_float($val) ? '0.01' : '1';
-    }
+    return app\html('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '1']);
+}
 
-    return app\html('input', ['value' => $val] + $attr['html']);
+/**
+ * Decimal
+ */
+function decimal($val, array $attr): string
+{
+    return app\html('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '0.01']);
+}
+
+/**
+ * Range
+ */
+function range($val, array $attr): string
+{
+    return app\html('input', ['type' => 'range', 'value' => $val] + $attr['html'] + ['step' => '1']);
 }
 
 /**
@@ -40,9 +76,29 @@ function number($val, array $attr): string
  */
 function datetime(string $val, array $attr): string
 {
-    $attr['html']['value'] = $val ? attr\datetime($val, $attr['cfg.backend'], $attr['cfg.frontend']) : '';
+    $val = $val ? attr\datetime($val, APP['attr.datetime.backend'], APP['attr.datetime.frontend']) : '';
 
-    return app\html('input', $attr['html']);
+    return app\html('input', ['type' => 'datetime-local', 'value' => $val] + $attr['html']);
+}
+
+/**
+ * Date
+ */
+function date(string $val, array $attr): string
+{
+    $val = $val ? attr\datetime($val, APP['attr.date.backend'], APP['attr.date.frontend']) : '';
+
+    return app\html('input', ['type' => 'date', 'value' => $val] + $attr['html']);
+}
+
+/**
+ * Time
+ */
+function time(string $val, array $attr): string
+{
+    $val = $val ? attr\datetime($val, APP['attr.time.backend'], APP['attr.time.frontend']) : '';
+
+    return app\html('input', ['type' => 'time', 'value' => $val] + $attr['html']);
 }
 
 /**
@@ -166,12 +222,12 @@ function file(int $val, array $attr): string
 }
 
 /**
- * File Upload
+ * Upload
  */
 function upload(string $val, array $attr): string
 {
     $out = app\html('div', [], $val ? $attr['viewer']($val, $attr) : '');
-    $out .= app\html('input', ['type' => 'file'] + $attr['html']);
+    $out .= app\html('input', ['type' => 'file', 'accept' => implode(', ', $attr['opt'])] + $attr['html']);
 
     return $out;
 }

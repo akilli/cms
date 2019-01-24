@@ -10,7 +10,7 @@ use request;
 use DomainException;
 
 /**
- * Text filter
+ * Text
  */
 function text(string $val): string
 {
@@ -18,7 +18,7 @@ function text(string $val): string
 }
 
 /**
- * Email filter
+ * Email
  *
  * @throws DomainException
  */
@@ -32,7 +32,7 @@ function email(string $val): string
 }
 
 /**
- * URL filter
+ * URL
  *
  * @throws DomainException
  */
@@ -46,13 +46,13 @@ function url(string $val): string
 }
 
 /**
- * Datetime filter
+ * Datetime
  *
  * @throws DomainException
  */
-function datetime(string $val, array $attr): string
+function datetime(string $val): string
 {
-    if (!$val = attr\datetime($val, $attr['cfg.frontend'], $attr['cfg.backend'])) {
+    if (!$val = attr\datetime($val, APP['attr.datetime.frontend'], APP['attr.datetime.backend'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -60,17 +60,51 @@ function datetime(string $val, array $attr): string
 }
 
 /**
- * Rich text filter
+ * Date
+ *
+ * @throws DomainException
  */
-function rte(string $val, array $attr): string
+function date(string $val): string
 {
-    $cfg = $attr['cfg.filter'] ? app\cfg('filter', $attr['cfg.filter']) : null;
+    if (!$val = attr\datetime($val, APP['attr.date.frontend'], APP['attr.date.backend'])) {
+        throw new DomainException(app\i18n('Invalid value'));
+    }
 
-    return trim(strip_tags($val, $cfg));
+    return $val;
 }
 
 /**
- * UID filter
+ * Time
+ *
+ * @throws DomainException
+ */
+function time(string $val): string
+{
+    if (!$val = attr\datetime($val, APP['attr.time.frontend'], APP['attr.time.backend'])) {
+        throw new DomainException(app\i18n('Invalid value'));
+    }
+
+    return $val;
+}
+
+/**
+ * Rich text
+ */
+function rte(string $val): string
+{
+    return trim(strip_tags($val, app\cfg('filter', 'rte')));
+}
+
+/**
+ * Minimal rich text
+ */
+function rtemin(string $val): string
+{
+    return trim(strip_tags($val, app\cfg('filter', 'rtemin')));
+}
+
+/**
+ * UID
  */
 function uid(string $val): string
 {
@@ -78,7 +112,7 @@ function uid(string $val): string
 }
 
 /**
- * Path filter
+ * Path
  */
 function path(string $val): string
 {
@@ -90,7 +124,7 @@ function path(string $val): string
 }
 
 /**
- * Option filter
+ * Option
  *
  * @return mixed
  *
@@ -110,7 +144,7 @@ function opt($val, array $attr)
 }
 
 /**
- * Entity filter
+ * Entity
  *
  * @throws DomainException
  */
@@ -124,16 +158,15 @@ function entity(int $val, array $attr): int
 }
 
 /**
- * Upload filter
+ * Upload
  *
  * @throws DomainException
  */
 function upload(string $val, array $attr): string
 {
-    $cfg = $attr['cfg.filter'] ? app\cfg('filter', $attr['cfg.filter']) : null;
     $mime = request\get('file')[$attr['id']]['type'] ?? null;
 
-    if ($val && (!$cfg || !$mime || !in_array($mime, $cfg))) {
+    if ($val && (!$mime || !in_array($mime, $attr['opt']))) {
         throw new DomainException(app\i18n('Invalid file type'));
     }
 

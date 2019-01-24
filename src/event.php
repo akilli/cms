@@ -57,10 +57,6 @@ function cfg_entity(array $data): array
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
-            if (!empty($attr['html']) && !empty($cfg[$attr['type']]['html'])) {
-                $attr['html'] = array_replace($attr['html'], $cfg[$attr['type']]['html']);
-            }
-
             $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr, ['id' => $attrId, 'name' => app\i18n($attr['name'])]);
 
             if (!in_array($attr['backend'], APP['backend'])) {
