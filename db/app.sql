@@ -351,7 +351,7 @@ CREATE TABLE file (
     ext varchar(10) NOT NULL,
     mime varchar(255) NOT NULL,
     info text NOT NULL,
-    entity_id varchar(50) NOT NULL CHECK (entity_id != '')
+    entity_id varchar(50) NOT NULL
 );
 
 CREATE INDEX ON file (name);
@@ -387,7 +387,7 @@ CREATE TABLE page (
     status status NOT NULL,
     timestamp timestamp NOT NULL DEFAULT current_timestamp,
     date timestamp NOT NULL DEFAULT current_timestamp,
-    entity_id varchar(50) NOT NULL CHECK (entity_id != ''),
+    entity_id varchar(50) NOT NULL,
     UNIQUE (parent_id, slug)
 );
 
@@ -444,7 +444,7 @@ CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW WHEN (pg_tr
 CREATE TABLE block (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
-    entity_id varchar(50) NOT NULL CHECK (entity_id != '')
+    entity_id varchar(50) NOT NULL
 );
 
 CREATE INDEX ON block (name);
