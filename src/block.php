@@ -138,7 +138,7 @@ function banner(array $block): string
     $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'banner')['tpl'];
 
     if (($page = app\get('page')) && $page['entity'] !== 'page_content') {
-        $page = entity\one('page', [['id', $page['path']], ['entity', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
+        $page = entity\one('page', [['id', $page['path']], ['entity_id', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
     }
 
     if ($page && ($img = attr\viewer($page, $page['_entity']['attr']['image']))) {
@@ -521,7 +521,7 @@ function menu(array $block): string
     $block['cfg'] = arr\replace(app\cfg('block', 'menu')['cfg'], $block['cfg']);
 
     if ($block['cfg']['url']) {
-        $page = entity\one('page', [['status', 'published'], ['entity', 'page_content'], ['url', $block['cfg']['url']]]);
+        $page = entity\one('page', [['status', 'published'], ['entity_id', 'page_content'], ['url', $block['cfg']['url']]]);
     } else {
         $page = app\get('page');
     }
@@ -530,7 +530,7 @@ function menu(array $block): string
         return '';
     }
 
-    $rootCrit = [['status', 'published'], ['entity', 'page_content']];
+    $rootCrit = [['status', 'published'], ['entity_id', 'page_content']];
     $rootCrit[] = $block['cfg']['submenu'] ? ['id', $page['path'][1]] : ['url', '/'];
     $select = ['id', 'name', 'url', 'disabled', 'menu_name', 'pos', 'level'];
     $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
@@ -539,7 +539,7 @@ function menu(array $block): string
         return '';
     }
 
-    $crit = [['status', 'published'], ['entity', 'page_content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
+    $crit = [['status', 'published'], ['entity_id', 'page_content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
 
     if ($block['cfg']['submenu']) {
         $parent = $page['path'];
@@ -601,14 +601,12 @@ function breadcrumb(array $block): string
     }
 
     $html = '';
-    $crit = [['status', 'published'], ['entity', 'page_content'], ['id', $page['path']]];
+    $crit = [['status', 'published'], ['entity_id', 'page_content'], ['id', $page['path']]];
     $all = entity\all('page', $crit, ['select' => ['id', 'name', 'url', 'disabled', 'menu_name'], 'order' => ['level' => 'asc']]);
 
     foreach ($all as $item) {
-        if ($item['id'] !== $page['id'] || $page['entity'] === 'page_content') {
-            $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
-            $html .= ($html ? ' ' : '') . app\html('a', $a, $item['menu_name'] ?: $item['name']);
-        }
+        $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
+        $html .= ($html ? ' ' : '') . app\html('a', $a, $item['menu_name'] ?: $item['name']);
     }
 
     return app\html('nav', ['id' => $block['id']], $html);

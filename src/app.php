@@ -30,11 +30,11 @@ function run(): void
     $app['entity_id'] = array_shift($parts);
     $app['action'] = array_shift($parts);
     $app['id'] = array_shift($parts);
-    $page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity']]);
+    $page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]);
 
     // Page
-    if ($page && ($app['page'] = entity\one($page['entity'], [['id', $page['id']]]))) {
-        $app['entity_id'] = $app['page']['entity'];
+    if ($page && ($app['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))) {
+        $app['entity_id'] = $app['page']['entity_id'];
         $app['action'] = 'view';
         $app['id'] = $app['page']['id'];
         $app['entity'] = $app['page']['_entity'];

@@ -23,7 +23,7 @@ function load(array $entity, array $crit = [], array $opt = []): array
 
     if ($entity['parent_id']) {
         $join = array_diff_key($entity['attr'], app\cfg('entity', $entity['parent_id'])['attr']) ? $entity['id'] : '';
-        $crit[] = ['entity', $entity['id']];
+        $crit[] = ['entity_id', $entity['id']];
     }
 
     $cols = crit($crit);
@@ -66,11 +66,11 @@ function save(array $data): array
     $db = db($entity['db']);
 
     if ($entity['parent_id']) {
-        if ($old && ($old['entity'] !== $entity['id'] || !empty($data['entity']) && $old['entity'] !== $data['entity'])) {
-            throw new DomainException(app\i18n('Invalid entity %s', $old['entity']));
+        if ($old && ($old['entity_id'] !== $entity['id'] || !empty($data['entity_id']) && $old['entity_id'] !== $data['entity_id'])) {
+            throw new DomainException(app\i18n('Invalid entity %s', $old['entity_id']));
         }
 
-        $data['entity'] = $entity['id'];
+        $data['entity_id'] = $entity['id'];
         $p = app\cfg('entity', $entity['parent_id']);
         $data['_entity'] = $p;
         $data = ($p['type'] . '\save')($data);
@@ -143,8 +143,8 @@ function delete(array $data): void
     $entity = $data['_entity'];
     $old = $data['_old'];
 
-    if ($entity['parent_id'] && $old['entity'] !== $entity['id']) {
-        throw new DomainException(app\i18n('Invalid entity %s', $old['entity']));
+    if ($entity['parent_id'] && $old['entity_id'] !== $entity['id']) {
+        throw new DomainException(app\i18n('Invalid entity %s', $old['entity_id']));
     }
 
     $stmt = db($entity['db'])->prepare(

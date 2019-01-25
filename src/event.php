@@ -178,7 +178,7 @@ function layout(array $data): array
             $base = entity\item('block');
             $dbBlocks = [];
 
-            foreach (array_unique(array_column(entity\all('block', [['id', $ids]], ['select' => ['entity']]), 'entity')) as $eId) {
+            foreach (array_unique(array_column(entity\all('block', [['id', $ids]], ['select' => ['entity_id']]), 'entity_id')) as $eId) {
                 foreach (entity\all($eId, [['id', $ids]]) as $item) {
                     $dbBlocks[$item['id']] = $item;
                 }
@@ -186,7 +186,7 @@ function layout(array $data): array
 
             foreach ($dbLayout as $id => $item) {
                 $cfg[$url][APP['layout.db'] . $item['name']] = [
-                    'type' => preg_replace('#^block_#', '', $dbBlocks[$item['block_id']]['entity']),
+                    'type' => preg_replace('#^block_#', '', $dbBlocks[$item['block_id']]['entity_id']),
                     'parent_id' => $item['parent_id'],
                     'sort' => $item['sort'],
                     'cfg' => array_diff_key($dbBlocks[$item['block_id']], $base),

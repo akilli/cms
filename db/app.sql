@@ -351,13 +351,13 @@ CREATE TABLE file (
     ext varchar(10) NOT NULL,
     mime varchar(255) NOT NULL,
     info text NOT NULL,
-    entity varchar(50) NOT NULL CHECK (entity != '')
+    entity_id varchar(50) NOT NULL CHECK (entity_id != '')
 );
 
 CREATE INDEX ON file (name);
 CREATE INDEX ON file (ext);
 CREATE INDEX ON file (mime);
-CREATE INDEX ON file (entity);
+CREATE INDEX ON file (entity_id);
 
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();
 
@@ -387,7 +387,7 @@ CREATE TABLE page (
     status status NOT NULL,
     timestamp timestamp NOT NULL DEFAULT current_timestamp,
     date timestamp NOT NULL DEFAULT current_timestamp,
-    entity varchar(50) NOT NULL CHECK (entity != ''),
+    entity_id varchar(50) NOT NULL CHECK (entity_id != ''),
     UNIQUE (parent_id, slug)
 );
 
@@ -408,7 +408,7 @@ CREATE INDEX ON page USING GIN (path);
 CREATE INDEX ON page (status);
 CREATE INDEX ON page (timestamp);
 CREATE INDEX ON page (date);
-CREATE INDEX ON page (entity);
+CREATE INDEX ON page (entity_id);
 
 CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_before();
 CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_after();
@@ -444,11 +444,11 @@ CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW WHEN (pg_tr
 CREATE TABLE block (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
-    entity varchar(50) NOT NULL CHECK (entity != '')
+    entity_id varchar(50) NOT NULL CHECK (entity_id != '')
 );
 
 CREATE INDEX ON block (name);
-CREATE INDEX ON block (entity);
+CREATE INDEX ON block (entity_id);
 
 --
 -- Block Content

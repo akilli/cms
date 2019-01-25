@@ -28,7 +28,7 @@ VALUES
 
 INSERT INTO
     page
-    (id, name, slug, menu, status, entity)
+    (id, name, slug, menu, status, entity_id)
 VALUES
     (1, 'Homepage', 'index', TRUE, 'published', 'page_content');
 

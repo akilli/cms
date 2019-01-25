@@ -98,7 +98,7 @@ return [
                 'type' => 'textarea',
                 'required' => true,
             ],
-            'entity' => [
+            'entity_id' => [
                 'name' => 'Entity',
                 'type' => 'parent',
                 'required' => true,
@@ -257,7 +257,7 @@ return [
                 'name' => 'Date',
                 'type' => 'datetime',
             ],
-            'entity' => [
+            'entity_id' => [
                 'name' => 'Entity',
                 'type' => 'parent',
                 'required' => true,
@@ -332,7 +332,7 @@ return [
                 'required' => true,
                 'maxlength' => 255,
             ],
-            'entity' => [
+            'entity_id' => [
                 'name' => 'Entity',
                 'type' => 'parent',
                 'required' => true,
