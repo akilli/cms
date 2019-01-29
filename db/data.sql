@@ -10,7 +10,7 @@ INSERT INTO
 VALUES
     (1, 'admin', '["_all_"]');
 
-SELECT SETVAL('role_id_seq', 1);
+SELECT SETVAL('role_id_seq', (SELECT MAX(id) FROM role));
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Account
@@ -32,7 +32,7 @@ INSERT INTO
 VALUES
     (1, 'Homepage', 'index', TRUE, 'published', 'page_content');
 
-SELECT SETVAL('page_id_seq', 1);
+SELECT SETVAL('page_id_seq', (SELECT MAX(id) FROM page));
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
