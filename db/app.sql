@@ -311,6 +311,28 @@ CREATE FUNCTION version_protect() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
+CREATE FUNCTION version_reset() RETURNS void AS $$
+    BEGIN
+        TRUNCATE version RESTART IDENTITY;
+
+        INSERT INTO
+            version
+            (name, teaser, main, aside, status, timestamp, page_id)
+        SELECT
+            name,
+            teaser,
+            main,
+            aside,
+            status,
+            timestamp,
+            id AS page_id
+        FROM
+            page
+        ORDER BY
+            id ASC;
+    END;
+$$ LANGUAGE plpgsql;
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table
 -- ---------------------------------------------------------------------------------------------------------------------
