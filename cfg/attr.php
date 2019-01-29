@@ -51,9 +51,10 @@ return [
     ],
     'entity' => [
         'backend' => 'int',
-        'frontend' => 'frontend\entity',
+        'frontend' => 'frontend\select',
         'filter' => 'filter\entity',
         'viewer' => 'viewer\entity',
+        'opt' => 'opt\entity',
     ],
     'file' => [
         'backend' => 'int',
@@ -80,10 +81,11 @@ return [
     ],
     'page' => [
         'backend' => 'int',
-        'frontend' => 'frontend\page',
+        'frontend' => 'frontend\select',
         'filter' => 'filter\entity',
         'viewer' => 'viewer\page',
         'ref' => 'page',
+        'opt' => 'opt\page',
     ],
     'parent' => [
         'backend' => 'varchar',

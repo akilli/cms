@@ -85,11 +85,12 @@ function opt($val, array $attr): string
         $val = $val === null && $val === '' ? [] : [$val];
     }
 
+    $opt = $attr['opt']();
     $out = '';
 
     foreach ($val as $v) {
-        if (isset($attr['opt'][$v])) {
-            $out .= ($out ? ', ' : '') . $attr['opt'][$v];
+        if (isset($opt[$v])) {
+            $out .= ($out ? ', ' : '') . $opt[$v];
         }
     }
 

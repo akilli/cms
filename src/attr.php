@@ -140,17 +140,23 @@ function viewer(array $data, array $attr): string
 /**
  * Option
  */
-function opt(array $data, array $attr): array
+function opt(array $data, array $attr): callable
 {
     if ($attr['opt'] && strpos($attr['opt'], '\\') !== false) {
-        return $attr['opt']($data, $attr);
+        return function () use ($data, $attr): array {
+            return $attr['opt']($data, $attr);
+        };
     }
 
     if ($attr['opt']) {
-        return app\cfg('opt', $attr['opt']);
+        return function () use ($attr): array {
+            return app\cfg('opt', $attr['opt']);
+        };
     }
 
-    return [];
+    return function (): array {
+        return [];
+    };
 }
 
 /**

@@ -132,9 +132,11 @@ function path(string $val): string
  */
 function opt($val, array $attr)
 {
+    $opt = $attr['opt']();
+
     if ($val || is_scalar($val) && !is_string($val)) {
         foreach ((array) $val as $v) {
-            if (!isset($attr['opt'][$v])) {
+            if (!isset($opt[$v])) {
                 throw new DomainException(app\i18n('Invalid value'));
             }
         }
@@ -166,7 +168,7 @@ function upload(string $val, array $attr): string
 {
     $mime = request\get('file')[$attr['id']]['type'] ?? null;
 
-    if ($val && (!$mime || !in_array($mime, $attr['opt']))) {
+    if ($val && (!$mime || !in_array($mime, $attr['opt']()))) {
         throw new DomainException(app\i18n('Invalid file type'));
     }
 

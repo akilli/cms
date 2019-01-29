@@ -5,7 +5,6 @@ namespace frontend;
 
 use app;
 use attr;
-use entity;
 
 /**
  * Text
@@ -134,7 +133,7 @@ function checkbox(array $val, array $attr): string
 {
     $out = app\html('input', ['id' => $attr['html']['id'], 'name' => str_replace('[]', '', $attr['html']['name']), 'type' => 'hidden']);
 
-    foreach ($attr['opt'] as $k => $v) {
+    foreach ($attr['opt']() as $k => $v) {
         $id = $attr['html']['id'] . '-' . $k;
         $a = ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'checkbox', 'value' => $k, 'checked' => in_array($k, $val)] + $attr['html'];
         $out .= app\html('input', $a) . app\html('label', ['for' => $id], $v);
@@ -150,7 +149,7 @@ function radio($val, array $attr): string
 {
     $out = '';
 
-    foreach ($attr['opt'] as $k => $v) {
+    foreach ($attr['opt']() as $k => $v) {
         $id = $attr['html']['id'] . '-' . $k;
         $a = ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'radio', 'value' => $k, 'checked' => $k === $val] + $attr['html'];
         $out .= app\html('input', $a) . app\html('label', ['for' => $id], $v);
@@ -170,39 +169,11 @@ function select($val, array $attr): string
 
     $out = app\html('option', ['value' => ''], app\i18n('Please choose'));
 
-    foreach ($attr['opt'] as $k => $v) {
+    foreach ($attr['opt']() as $k => $v) {
         $out .= app\html('option', ['value' => $k, 'selected' => in_array($k, $val)], $v);
     }
 
     return app\html('select', $attr['html'], $out);
-}
-
-/**
- * Entity
- */
-function entity(int $val, array $attr): string
-{
-    if (($attr['opt'] = & app\registry('opt.entity.' . $attr['ref'])) === null) {
-        $attr['opt'] = array_column(entity\all($attr['ref'], [], ['select' => ['id', 'name'], 'order' => ['name' => 'asc']]), 'name', 'id');
-    }
-
-    return select($val, $attr);
-}
-
-/**
- * Page
- */
-function page(int $val, array $attr): string
-{
-    if (($attr['opt'] = & app\registry('opt.page')) === null) {
-        $attr['opt'] = [];
-
-        foreach (entity\all('page_content', [], ['select' => ['id', 'name', 'menu_name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
-            $attr['opt'][$item['id']] = attr\viewer($item, $item['_entity']['attr']['pos']) . ' ' . ($item['menu_name'] ?: $item['name']);
-        }
-    }
-
-    return select($val, $attr);
 }
 
 /**
@@ -227,7 +198,7 @@ function file(int $val, array $attr): string
 function upload(string $val, array $attr): string
 {
     $out = app\html('div', [], $val ? $attr['viewer']($val, $attr) : '');
-    $out .= app\html('input', ['type' => 'file', 'accept' => implode(', ', $attr['opt'])] + $attr['html']);
+    $out .= app\html('input', ['type' => 'file', 'accept' => implode(', ', $attr['opt']())] + $attr['html']);
 
     return $out;
 }
