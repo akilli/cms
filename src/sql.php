@@ -506,3 +506,19 @@ function limit(int $limit, int $offset = 0): string
 {
     return $limit > 0 ? ' LIMIT ' . $limit . ' OFFSET ' . max(0, $offset) : '';
 }
+
+/**
+ * WITH part
+ */
+function with(string $name, string $sql, bool $recursive = false): string
+{
+    return 'WITH ' . ($recursive ? 'RECURSIVE ' : '') . $name . ' AS (' . $sql . ')';
+}
+
+/**
+ * UNION part
+ */
+function union (): string
+{
+    RETURN ' UNION ';
+}
