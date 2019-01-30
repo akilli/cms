@@ -106,16 +106,9 @@ function save(array $data): array
 
     // Insert or update
     if (!$old) {
-        $stmt = $db->prepare(
-            ins($entity['id'])
-            . vals($cols['val'])
-        );
+        $stmt = $db->prepare(ins($entity['id']) . vals($cols['val']));
     } else {
-        $stmt = $db->prepare(
-            upd($entity['id'])
-            . set($cols['val'])
-            . where(['id = :_id'])
-        );
+        $stmt = $db->prepare(upd($entity['id']) . set($cols['val']) . where(['id = :_id']));
         $stmt->bindValue(':_id', $old['id'], type($old['id']));
     }
 
@@ -147,10 +140,7 @@ function delete(array $data): void
         throw new DomainException(app\i18n('Invalid entity %s', $old['entity_id']));
     }
 
-    $stmt = db($entity['db'])->prepare(
-        del($entity['parent_id'] ?: $entity['id'])
-        . where(['id = :id'])
-    );
+    $stmt = db($entity['db'])->prepare(del($entity['parent_id'] ?: $entity['id']) . where(['id = :id']));
     $stmt->bindValue(':id', $old['id'], type($old['id']));
     $stmt->execute();
 }
@@ -513,6 +503,14 @@ function limit(int $limit, int $offset = 0): string
 function with(string $name, string $sql, bool $recursive = false): string
 {
     return 'WITH ' . ($recursive ? 'RECURSIVE ' : '') . $name . ' AS (' . $sql . ')';
+}
+
+/**
+ * RETURNING part
+ */
+function returning(array $cols): string
+{
+    return $cols ? ' RETURNING ' . implode(', ', $cols) : '';
 }
 
 /**
