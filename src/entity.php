@@ -155,7 +155,7 @@ function save(string $entityId, array & $data): bool
 
     foreach ($attrIds as $key => $attrId) {
         if (array_key_exists($attrId, $tmp['_old']) && $tmp[$attrId] === $tmp['_old'][$attrId]) {
-            unset($attrIds[$key]);
+            unset($data[$attrId], $tmp[$attrId], $attrIds[$key]);
         }
     }
 
