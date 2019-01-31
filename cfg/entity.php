@@ -62,6 +62,7 @@ return [
     ],
     'file' => [
         'name' => 'Files',
+        'readonly' => true,
         'action' => ['browser'],
         'attr' => [
             'id' => [
@@ -147,6 +148,7 @@ return [
     ],
     'page' => [
         'name' => 'Pages',
+        'readonly' => true,
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -321,6 +323,7 @@ return [
     ],
     'block' => [
         'name' => 'Blocks',
+        'readonly' => true,
         'attr' => [
             'id' => [
                 'name' => 'ID',
