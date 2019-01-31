@@ -18,6 +18,8 @@ function size(string $entityId, array $crit = []): int
 {
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    } else if ($entity['parent_id']) {
+        $crit[] = ['entity_id', $entity['id']];
     }
 
     $opt = arr\replace(APP['entity.opt'], ['mode' => 'size']);
@@ -41,6 +43,8 @@ function one(string $entityId, array $crit = [], array $opt = []): array
 {
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    } else if ($entity['parent_id']) {
+        $crit[] = ['entity_id', $entity['id']];
     }
 
     $data = [];
@@ -67,6 +71,8 @@ function all(string $entityId, array $crit = [], array $opt = []): array
 {
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    } else if ($entity['parent_id']) {
+        $crit[] = ['entity_id', $entity['id']];
     }
 
     $opt = arr\replace(APP['entity.opt'], $opt, ['mode' => 'all']);
