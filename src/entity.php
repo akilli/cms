@@ -105,7 +105,7 @@ function save(string $entityId, array & $data): bool
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     } elseif ($entity['readonly']) {
-        throw new DomainException(app\i18n('Entity %s is readonly', $entityId));
+        throw new DomainException(app\i18n('Entity %s is readonly', $entity['id']));
     }
 
     $id = $data['id'] ?? null;
@@ -117,7 +117,7 @@ function save(string $entityId, array & $data): bool
         $tmp['entity_id'] = $entity['id'];
     }
 
-    if ($id && ($old = one($entityId, [['id', $id]]))) {
+    if ($id && ($old = one($entity['id'], [['id', $id]]))) {
         if ($entity['parent_id'] && $old['entity_id'] !== $entity['id']) {
             throw new DomainException(app\i18n('Cannot change entity anymore'));
         }
@@ -202,10 +202,10 @@ function delete(string $entityId, array $crit = [], array $opt = []): bool
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     } elseif ($entity['readonly']) {
-        throw new DomainException(app\i18n('Entity %s is readonly', $entityId));
+        throw new DomainException(app\i18n('Entity %s is readonly', $entity['id']));
     }
 
-    if (!$all = all($entityId, $crit, $opt)) {
+    if (!$all = all($entity['id'], $crit, $opt)) {
         app\msg('Nothing to delete');
         return false;
     }
