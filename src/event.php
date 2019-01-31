@@ -250,7 +250,7 @@ function entity_prefilter_file(array $data): array
     $data['ext'] = pathinfo($data['url'], PATHINFO_EXTENSION);
     $data['mime'] = $item['type'];
 
-    if (!empty($data['_old']) && ($data['ext'] !== $data['_old']['ext'] || $data['mime'] !== $data['_old']['mime'])) {
+    if ($data['_old'] && ($data['ext'] !== $data['_old']['ext'] || $data['mime'] !== $data['_old']['mime'])) {
         $data['_error']['url'] = app\i18n('Cannot change filetype anymore');
     }
 

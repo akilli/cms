@@ -236,7 +236,7 @@ function item(string $entityId): array
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 
-    return array_fill_keys(array_keys($entity['attr']), null) + ['_old' => [], '_entity' => $entity, '_error' => null];
+    return array_fill_keys(array_keys($entity['attr']), null) + ['_old' => [], '_entity' => $entity, '_error' => []];
 }
 
 /**
