@@ -113,15 +113,17 @@ function save(string $entityId, array & $data): bool
     $tmp['_old'] = [];
     $tmp['_entity'] = $entity;
 
+    if ($entity['parent_id']) {
+        $tmp['entity_id'] = $entity['id'];
+    }
+
     if ($id && ($old = one($entityId, [['id', $id]]))) {
-        if ($entity['parent_id'] && ($old['entity_id'] !== $entity['id'] || array_key_exists('entity_id', $tmp) && $tmp['entity_id'] !== $old['entity_id'])) {
+        if ($entity['parent_id'] && $old['entity_id'] !== $entity['id']) {
             throw new DomainException(app\i18n('Cannot change entity anymore'));
         }
 
         $tmp['_old'] = $old;
         unset($tmp['_old']['_entity'], $tmp['_old']['_old']);
-    } elseif ($entity['parent_id']) {
-        $data['entity_id'] = $entity['id'];
     }
 
     $attrIds = [];
