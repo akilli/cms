@@ -66,11 +66,6 @@ function save(array $data): array
     $db = db($entity['db']);
 
     if ($entity['parent_id']) {
-        if ($old && ($old['entity_id'] !== $entity['id'] || !empty($data['entity_id']) && $old['entity_id'] !== $data['entity_id'])) {
-            throw new DomainException(app\i18n('Invalid entity %s', $old['entity_id']));
-        }
-
-        $data['entity_id'] = $entity['id'];
         $p = app\cfg('entity', $entity['parent_id']);
         $data['_entity'] = $p;
         $data = ($p['type'] . '\save')($data);
