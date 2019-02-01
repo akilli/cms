@@ -9,7 +9,7 @@ use attr;
 use entity;
 
 /**
- * Entity options
+ * Entity
  */
 function entity(array $data, array $attr): array
 {
@@ -21,7 +21,7 @@ function entity(array $data, array $attr): array
 }
 
 /**
- * Page entity options
+ * Page entity
  */
 function page(): array
 {
@@ -37,7 +37,7 @@ function page(): array
 }
 
 /**
- * Parent entity options
+ * Parent entity
  */
 function parent(array $data): array
 {
@@ -54,7 +54,7 @@ function parent(array $data): array
 }
 
 /**
- * Privilege options
+ * Privilege
  */
 function priv(): array
 {
@@ -74,7 +74,7 @@ function priv(): array
 }
 
 /**
- * Status options
+ * Status
  */
 function status(array $data, array $attr): array
 {
