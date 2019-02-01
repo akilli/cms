@@ -14,6 +14,17 @@ CREATE TYPE status AS ENUM ('draft', 'pending', 'published', 'archived');
 -- File
 --
 
+CREATE FUNCTION file_delete() RETURNS trigger AS $$
+    BEGIN
+        DELETE FROM
+            file
+        WHERE
+            id = OLD.id;
+
+        RETURN OLD;
+    END;
+$$ LANGUAGE plpgsql;
+
 CREATE FUNCTION file_save() RETURNS trigger AS $$
     BEGIN
         IF (TG_OP = 'UPDATE' AND (NEW.ext != OLD.ext OR NEW.mime != OLD.mime)) THEN
@@ -29,6 +40,17 @@ $$ LANGUAGE plpgsql;
 --
 -- Page
 --
+
+CREATE FUNCTION page_delete() RETURNS trigger AS $$
+    BEGIN
+        DELETE FROM
+            page
+        WHERE
+            id = OLD.id;
+
+        RETURN OLD;
+    END;
+$$ LANGUAGE plpgsql;
 
 CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
     DECLARE
@@ -333,6 +355,73 @@ CREATE FUNCTION version_reset() RETURNS void AS $$
     END;
 $$ LANGUAGE plpgsql;
 
+--
+-- Block
+--
+
+CREATE FUNCTION block_delete() RETURNS trigger AS $$
+    BEGIN
+        DELETE FROM
+            block
+        WHERE
+            id = OLD.id;
+
+        RETURN OLD;
+    END;
+$$ LANGUAGE plpgsql;
+
+--
+-- Block Content
+--
+
+CREATE OR REPLACE FUNCTION block_content_save() RETURNS trigger AS $$
+    DECLARE
+        _id integer;
+    BEGIN
+        -- Base table
+        IF (TG_OP = 'UPDATE') THEN
+            UPDATE
+                block
+            SET
+                name = NEW.name
+            WHERE
+                id = OLD.id
+            RETURNING
+                id
+            INTO
+                _id;
+        ELSE
+            INSERT INTO
+                block
+                (name, entity_id)
+            VALUES
+                (NEW.name, 'block_content')
+            RETURNING
+                id
+            INTO
+                _id;
+        END IF;
+
+        -- Extension table
+        IF (TG_OP = 'UPDATE' AND (SELECT COUNT(id) FROM block_content_ext WHERE id = _id) > 0) THEN
+            UPDATE
+                block_content_ext
+            SET
+                content = NEW.content
+            WHERE
+                id = _id;
+        ELSE
+            INSERT INTO
+                block_content_ext
+                (id, content)
+            VALUES
+                (_id, NEW.content);
+        END IF;
+
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -382,6 +471,58 @@ CREATE INDEX ON file (mime);
 CREATE INDEX ON file (entity_id);
 
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();
+
+--
+-- File Audio
+--
+
+CREATE VIEW file_audio AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id = 'file_audio'
+WITH LOCAL CHECK OPTION;
+
+--
+-- File Doc
+--
+
+CREATE VIEW file_doc AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id = 'file_doc'
+WITH LOCAL CHECK OPTION;
+
+--
+-- File Image
+--
+
+CREATE VIEW file_image AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id = 'file_image'
+WITH LOCAL CHECK OPTION;
+
+--
+-- File Video
+--
+
+CREATE VIEW file_video AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id = 'file_video'
+WITH LOCAL CHECK OPTION;
 
 --
 -- Page
@@ -438,6 +579,32 @@ CREATE TRIGGER page_version_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW 
 CREATE TRIGGER page_version_after AFTER UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_after();
 
 --
+-- Page Article
+--
+
+CREATE VIEW page_article AS
+SELECT
+    *
+FROM
+    page
+WHERE
+    entity_id = 'page_article'
+WITH LOCAL CHECK OPTION;
+
+--
+-- Page Content
+--
+
+CREATE VIEW page_content AS
+SELECT
+    *
+FROM
+    page
+WHERE
+    entity_id = 'page_content'
+WITH LOCAL CHECK OPTION;
+
+--
 -- Version
 --
 
@@ -476,10 +643,25 @@ CREATE INDEX ON block (entity_id);
 -- Block Content
 --
 
-CREATE TABLE block_content (
+CREATE TABLE block_content_ext (
     id integer NOT NULL PRIMARY KEY REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
     content text NOT NULL DEFAULT ''
 );
+
+CREATE VIEW block_content AS
+SELECT
+    b.*,
+    e.content
+FROM
+    block b
+LEFT JOIN
+    block_content_ext e
+        ON e.id = b.id
+WHERE
+    b.entity_id = 'block_content';
+
+CREATE TRIGGER block_save INSTEAD OF INSERT OR UPDATE ON block_content FOR EACH ROW EXECUTE PROCEDURE block_content_save();
+CREATE TRIGGER block_delete INSTEAD OF DELETE ON block_content FOR EACH ROW EXECUTE PROCEDURE block_delete();
 
 --
 -- Layout

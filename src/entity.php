@@ -18,8 +18,6 @@ function size(string $entityId, array $crit = []): int
 {
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
-    } else if ($entity['parent_id']) {
-        $crit[] = ['entity_id', $entity['id']];
     }
 
     $opt = arr\replace(APP['entity.opt'], ['mode' => 'size']);
@@ -43,8 +41,6 @@ function one(string $entityId, array $crit = [], array $opt = []): array
 {
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
-    } else if ($entity['parent_id']) {
-        $crit[] = ['entity_id', $entity['id']];
     }
 
     $data = [];
@@ -71,8 +67,6 @@ function all(string $entityId, array $crit = [], array $opt = []): array
 {
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
-    } else if ($entity['parent_id']) {
-        $crit[] = ['entity_id', $entity['id']];
     }
 
     $opt = arr\replace(APP['entity.opt'], $opt, ['mode' => 'all']);
@@ -119,17 +113,11 @@ function save(string $entityId, array & $data): bool
     $tmp['_old'] = [];
     $tmp['_entity'] = $entity;
 
-    if ($entity['parent_id']) {
-        $tmp['entity_id'] = $entity['id'];
-    }
-
     if ($id && ($old = one($entity['id'], [['id', $id]]))) {
-        if ($entity['parent_id'] && $old['entity_id'] !== $entity['id']) {
-            throw new DomainException(app\i18n('Cannot change entity anymore'));
-        }
-
         $tmp['_old'] = $old;
-        unset($tmp['_old']['_entity'], $tmp['_old']['_old']);
+        unset($tmp['entity_id'], $tmp['_old']['_entity'], $tmp['_old']['_old']);
+    } elseif ($entity['parent_id']) {
+        $tmp['entity_id'] = $entity['id'];
     }
 
     $attrIds = [];

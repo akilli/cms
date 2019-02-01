@@ -19,18 +19,10 @@ function load(array $entity, array $crit = [], array $opt = []): array
         $opt['select'] = array_keys(attr($entity['attr']));
     }
 
-    $join = '';
-
-    if ($entity['parent_id']) {
-        $join = array_diff_key($entity['attr'], app\cfg('entity', $entity['parent_id'])['attr']) ? $entity['id'] : '';
-        $crit[] = ['entity_id', $entity['id']];
-    }
-
     $cols = crit($crit);
     $stmt = db($entity['db'])->prepare(
         sel($opt['select'])
-        . from($entity['parent_id'] ?: $entity['id'])
-        . ljoin($join)
+        . from($entity['id'])
         . where($cols['crit'])
         . order($opt['order'])
         . limit($opt['limit'], $opt['offset'])
@@ -65,36 +57,6 @@ function save(array $data): array
     $attrs = $entity['attr'];
     $db = db($entity['db']);
 
-    if ($entity['parent_id']) {
-        $p = app\cfg('entity', $entity['parent_id']);
-        $data['_entity'] = $p;
-        $data = ($p['type'] . '\save')($data);
-        $data['_entity'] = $entity;
-        $attrs = array_diff_key($attrs, $p['attr']);
-
-        if (!$attrs || !array_intersect_key($data, $attrs)) {
-            return $data;
-        }
-
-        if ($old) {
-            $stmt = $db->prepare(
-                sel(['COUNT(*)'])
-                . from($entity['id'])
-                . where(['id = :id'])
-            );
-            $stmt->bindValue(':id', $old['id'], type($old['id']));
-            $stmt->execute();
-
-            if ((int) $stmt->fetchColumn() <= 0) {
-                $old = [];
-            }
-        }
-
-        if (!$old && $p['attr']['id']['type'] === 'serial') {
-            $attrs['id'] = array_replace($p['attr']['id'], ['type' => 'int', 'auto' => false]);
-        }
-    }
-
     if (!($cols = cols($data, $attrs)) || empty($cols['param'])) {
         return $data;
     }
@@ -115,7 +77,7 @@ function save(array $data): array
 
     // Set DB generated id
     if (!$old && $attrs['id']['type'] === 'serial') {
-        $data['id'] = (int) $db->lastInsertId($entity['id'] . '_id_seq');
+        $data['id'] = (int) $db->lastInsertId(($entity['parent_id'] ?: $entity['id']) . '_id_seq');
     }
 
     return $data;
@@ -130,12 +92,7 @@ function delete(array $data): void
 {
     $entity = $data['_entity'];
     $old = $data['_old'];
-
-    if ($entity['parent_id'] && $old['entity_id'] !== $entity['id']) {
-        throw new DomainException(app\i18n('Invalid entity %s', $old['entity_id']));
-    }
-
-    $stmt = db($entity['db'])->prepare(del($entity['parent_id'] ?: $entity['id']) . where(['id = :id']));
+    $stmt = db($entity['db'])->prepare(del($entity['id']) . where(['id = :id']));
     $stmt->bindValue(':id', $old['id'], type($old['id']));
     $stmt->execute();
 }
