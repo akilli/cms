@@ -374,7 +374,7 @@ $$ LANGUAGE plpgsql;
 -- Block Content
 --
 
-CREATE OR REPLACE FUNCTION block_content_save() RETURNS trigger AS $$
+CREATE FUNCTION block_content_save() RETURNS trigger AS $$
     DECLARE
         _id integer;
     BEGIN
