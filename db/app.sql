@@ -75,7 +75,7 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
         END IF;
 
         SELECT
-            COUNT(id) + 1
+            COUNT(*) + 1
         FROM
             page
         WHERE
@@ -101,7 +101,7 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
                 END IF;
 
                 SELECT
-                    COUNT(id)
+                    COUNT(*)
                 FROM
                     page
                 WHERE
@@ -403,7 +403,7 @@ CREATE OR REPLACE FUNCTION block_content_save() RETURNS trigger AS $$
         END IF;
 
         -- Extension table
-        IF (TG_OP = 'UPDATE' AND (SELECT COUNT(id) FROM block_content_ext WHERE id = _id) > 0) THEN
+        IF (TG_OP = 'UPDATE' AND (SELECT COUNT(*) FROM block_content_ext WHERE id = _id) > 0) THEN
             UPDATE
                 block_content_ext
             SET
