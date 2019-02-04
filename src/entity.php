@@ -178,6 +178,10 @@ function save(string $entityId, array & $data): bool
         app\msg('Successfully saved data');
         $data = $tmp;
 
+        if (empty($data['id']) && !empty($tmp['_old']['id'])) {
+            $data['id'] = $tmp['_old']['id'];
+        }
+
         return true;
     } catch (Throwable $e) {
         app\msg('Could not save data');
