@@ -650,15 +650,14 @@ CREATE TABLE block_content_ext (
 
 CREATE VIEW block_content AS
 SELECT
-    b.*,
-    e.content
+    *
 FROM
-    block b
+    block
 LEFT JOIN
-    block_content_ext e
-        ON e.id = b.id
+    block_content_ext
+        USING (id)
 WHERE
-    b.entity_id = 'block_content';
+    entity_id = 'block_content';
 
 CREATE TRIGGER block_save INSTEAD OF INSERT OR UPDATE ON block_content FOR EACH ROW EXECUTE PROCEDURE block_content_save();
 CREATE TRIGGER block_delete INSTEAD OF DELETE ON block_content FOR EACH ROW EXECUTE PROCEDURE block_delete();
