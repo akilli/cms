@@ -59,7 +59,7 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
 
             IF (jsonb_extract_path_text(_data, _attr) IS NULL) THEN
                 _val := _val || 'NULL';
-                _set := _set || quote_ident(_attr) || ' = ' || 'NULL';
+                _set := _set || quote_ident(_attr) || ' = NULL';
             ELSE
                 _val := _val || quote_literal(jsonb_extract_path_text(_data, _attr));
                 _set := _set || quote_ident(_attr) || ' = ' || quote_literal(jsonb_extract_path_text(_data, _attr));
@@ -101,7 +101,7 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
 
             IF (jsonb_extract_path_text(_data, _attr) IS NULL) THEN
                 _val := _val || 'NULL';
-                _set := _set || quote_ident(_attr) || ' = ' || 'NULL';
+                _set := _set || quote_ident(_attr) || ' = NULL';
             ELSE
                 _val := _val || quote_literal(jsonb_extract_path_text(_data, _attr));
                 _set := _set || quote_ident(_attr) || ' = ' || quote_literal(jsonb_extract_path_text(_data, _attr));
