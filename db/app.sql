@@ -55,15 +55,9 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
                 _set := _set || ', ';
             END IF;
 
-            _col := _col || quote_ident(_attr);
-
-            IF (jsonb_extract_path_text(_data, _attr) IS NULL) THEN
-                _val := _val || 'NULL';
-                _set := _set || quote_ident(_attr) || ' = NULL';
-            ELSE
-                _val := _val || quote_literal(jsonb_extract_path_text(_data, _attr));
-                _set := _set || quote_ident(_attr) || ' = ' || quote_literal(jsonb_extract_path_text(_data, _attr));
-            END IF;
+            _col := _col || format('%I', _attr);
+            _val := _val || format('%L', jsonb_extract_path_text(_data, _attr));
+            _set := _set || format('%I = %L', _attr, jsonb_extract_path_text(_data, _attr));
         END LOOP;
 
         IF (TG_OP = 'UPDATE') THEN
@@ -95,15 +89,9 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
                 _set := _set || ', ';
             END IF;
 
-            _col := _col || quote_ident(_attr);
-
-            IF (jsonb_extract_path_text(_data, _attr) IS NULL) THEN
-                _val := _val || 'NULL';
-                _set := _set || quote_ident(_attr) || ' = NULL';
-            ELSE
-                _val := _val || quote_literal(jsonb_extract_path_text(_data, _attr));
-                _set := _set || quote_ident(_attr) || ' = ' || quote_literal(jsonb_extract_path_text(_data, _attr));
-            END IF;
+            _col := _col || format('%I', _attr);
+            _val := _val || format('%L', jsonb_extract_path_text(_data, _attr));
+            _set := _set || format('%I = %L', _attr, jsonb_extract_path_text(_data, _attr));
         END LOOP;
 
         IF (_col != '' AND _val != '' AND _set != '') THEN
@@ -115,7 +103,7 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
                 _sql := _sql || format(' INSERT INTO %s (id, %s) SELECT id, %s FROM t', _ext, _col, _val);
             END IF;
         ELSIF (_col != '' OR _val != '' OR _set != '') THEN
-            RAISE EXCEPTION 'An error occurred in entity_save()';
+            RAISE EXCEPTION 'An error occurred in entity_save() with values _col(%), _val(%) and _set(%)', _col, _val, _set;
         END IF;
 
         EXECUTE _sql;
