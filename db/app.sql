@@ -11,19 +11,113 @@ CREATE TYPE status AS ENUM ('draft', 'pending', 'published', 'archived');
 -- ---------------------------------------------------------------------------------------------------------------------
 
 --
--- File
+-- Generic trigger for not auto-updatable views
+--
+-- Naming conventions
+-- -------------------------------------------------------------------
+-- base table/entity name | {base}            | p.e. block
+-- view/entity name       | {base}_{name}     | p.e. block_content
+-- extension table name   | {base}_{name}_ext | p.e. block_content_ext
 --
 
-CREATE FUNCTION file_delete() RETURNS trigger AS $$
+CREATE FUNCTION entity_save() RETURNS trigger AS $$
+    DECLARE
+        _attr text;
+        _base text;
+        _col text := '';
+        _data jsonb;
+        _ext text;
+        _set text := '';
+        _sql text := '';
+        _val text := '';
     BEGIN
-        DELETE FROM
-            file
-        WHERE
-            id = OLD.id;
+        _base := substring(TG_TABLE_NAME FROM '^([^_]+)_');
+        _ext := TG_TABLE_NAME || '_ext';
+        NEW.entity_id := TG_TABLE_NAME;
+        _data := to_jsonb(NEW);
 
+        -- Base table
+        FOR _attr IN
+            SELECT
+                column_name
+            FROM
+                information_schema.columns
+            WHERE
+                table_schema = TG_TABLE_SCHEMA
+                AND table_name = _base
+                AND column_name != 'id'
+            ORDER BY
+                ordinal_position ASC
+        LOOP
+            IF (_col != '') THEN
+                _col := _col || ', ';
+                _val := _val || ', ';
+                _set := _set || ', ';
+            END IF;
+
+            _col := _col || quote_ident(_attr);
+            _val := _val || quote_literal(jsonb_extract_path_text(_data, _attr));
+            _set := _set || quote_ident(_attr) || ' = ' || quote_literal(jsonb_extract_path_text(_data, _attr));
+        END LOOP;
+
+        IF (TG_OP = 'UPDATE') THEN
+            _sql := format('UPDATE %I SET id = %L, %s WHERE id = %L RETURNING id', _base, NEW.id, _set, OLD.id);
+        ELSE
+            _sql := format('INSERT INTO %I (%s) VALUES (%s) RETURNING id', _base, _col, _val);
+        END IF;
+
+        _sql := 'WITH t AS (' || _sql || ')';
+
+        -- Extension table
+        _col := '';
+        _val := '';
+        _set := '';
+
+        FOR _attr IN
+            SELECT
+                column_name
+            FROM
+                information_schema.columns
+            WHERE
+                table_schema = TG_TABLE_SCHEMA
+                AND table_name = _ext
+                AND column_name != 'id'
+            ORDER BY
+                ordinal_position ASC
+        LOOP
+            IF (_col != '') THEN
+                _col := _col || ', ';
+                _val := _val || ', ';
+                _set := _set || ', ';
+            END IF;
+
+            _col := _col || quote_ident(_attr);
+            _val := _val || quote_literal(jsonb_extract_path_text(_data, _attr));
+            _set := _set || quote_ident(_attr) || ' = ' || quote_literal(jsonb_extract_path_text(_data, _attr));
+        END LOOP;
+
+        IF (TG_OP = 'UPDATE' AND (SELECT count(*) FROM block_content_ext WHERE id = OLD.id) > 0) THEN
+            _sql := _sql || format(' UPDATE %I e SET %s FROM t WHERE e.id = t.id', _ext, _set);
+        ELSE
+            _sql := _sql || format(' INSERT INTO %s (id, %s) SELECT id, %s FROM t', _ext, _col, _val);
+        END IF;
+
+        EXECUTE _sql;
+
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION entity_delete() RETURNS trigger AS $$
+    BEGIN
+        EXECUTE format('DELETE FROM %I WHERE id = %s', substring(TG_TABLE_NAME FROM '^([^_]+)_'), OLD.id);
         RETURN OLD;
     END;
 $$ LANGUAGE plpgsql;
+
+--
+-- File
+--
 
 CREATE FUNCTION file_save() RETURNS trigger AS $$
     BEGIN
@@ -40,17 +134,6 @@ $$ LANGUAGE plpgsql;
 --
 -- Page
 --
-
-CREATE FUNCTION page_delete() RETURNS trigger AS $$
-    BEGIN
-        DELETE FROM
-            page
-        WHERE
-            id = OLD.id;
-
-        RETURN OLD;
-    END;
-$$ LANGUAGE plpgsql;
 
 CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
     DECLARE
@@ -355,73 +438,6 @@ CREATE FUNCTION version_reset() RETURNS void AS $$
     END;
 $$ LANGUAGE plpgsql;
 
---
--- Block
---
-
-CREATE FUNCTION block_delete() RETURNS trigger AS $$
-    BEGIN
-        DELETE FROM
-            block
-        WHERE
-            id = OLD.id;
-
-        RETURN OLD;
-    END;
-$$ LANGUAGE plpgsql;
-
---
--- Block Content
---
-
-CREATE FUNCTION block_content_save() RETURNS trigger AS $$
-    DECLARE
-        _id integer;
-    BEGIN
-        -- Base table
-        IF (TG_OP = 'UPDATE') THEN
-            UPDATE
-                block
-            SET
-                name = NEW.name
-            WHERE
-                id = OLD.id
-            RETURNING
-                id
-            INTO
-                _id;
-        ELSE
-            INSERT INTO
-                block
-                (name, entity_id)
-            VALUES
-                (NEW.name, 'block_content')
-            RETURNING
-                id
-            INTO
-                _id;
-        END IF;
-
-        -- Extension table
-        IF (TG_OP = 'UPDATE' AND (SELECT count(*) FROM block_content_ext WHERE id = _id) > 0) THEN
-            UPDATE
-                block_content_ext
-            SET
-                content = NEW.content
-            WHERE
-                id = _id;
-        ELSE
-            INSERT INTO
-                block_content_ext
-                (id, content)
-            VALUES
-                (_id, NEW.content);
-        END IF;
-
-        RETURN NEW;
-    END;
-$$ LANGUAGE plpgsql;
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -659,8 +675,8 @@ LEFT JOIN
 WHERE
     entity_id = 'block_content';
 
-CREATE TRIGGER block_save INSTEAD OF INSERT OR UPDATE ON block_content FOR EACH ROW EXECUTE PROCEDURE block_content_save();
-CREATE TRIGGER block_delete INSTEAD OF DELETE ON block_content FOR EACH ROW EXECUTE PROCEDURE block_delete();
+CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_content FOR EACH ROW EXECUTE PROCEDURE entity_save();
+CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_content FOR EACH ROW EXECUTE PROCEDURE entity_delete();
 
 --
 -- Layout
