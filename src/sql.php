@@ -14,7 +14,7 @@ use Throwable;
 function load(array $entity, array $crit = [], array $opt = []): array
 {
     if ($opt['mode'] === 'size') {
-        $opt['select'] = ['COUNT(*)'];
+        $opt['select'] = ['count(*)'];
     } elseif (!$opt['select']) {
         $opt['select'] = array_keys(attr($entity['attr']));
     }

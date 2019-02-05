@@ -75,15 +75,15 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
         END IF;
 
         SELECT
-            COUNT(*) + 1
+            count(*) + 1
         FROM
             page
         WHERE
-            COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0)
+            coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
         INTO
             _cnt;
 
-        IF (TG_OP = 'UPDATE' AND COALESCE(NEW.parent_id, 0) = COALESCE(OLD.parent_id, 0)) THEN
+        IF (TG_OP = 'UPDATE' AND coalesce(NEW.parent_id, 0) = coalesce(OLD.parent_id, 0)) THEN
             _cnt := _cnt - 1;
         END IF;
 
@@ -91,7 +91,7 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
             NEW.sort := _cnt;
         END IF;
 
-        IF (TG_OP = 'INSERT' OR NEW.slug != OLD.slug OR COALESCE(NEW.parent_id, 0) != COALESCE(OLD.parent_id, 0)) THEN
+        IF (TG_OP = 'INSERT' OR NEW.slug != OLD.slug OR coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)) THEN
             _slg := NEW.slug;
             _cur := 0;
 
@@ -101,11 +101,11 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
                 END IF;
 
                 SELECT
-                    COUNT(*)
+                    count(*)
                 FROM
                     page
                 WHERE
-                    COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0)
+                    coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
                     AND slug = _slg
                 INTO
                     _cnt;
@@ -131,7 +131,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
         _ext text := '.html';
     BEGIN
         -- No relevant changes
-        IF (TG_OP = 'UPDATE' AND NEW.slug = OLD.slug AND NEW.menu = OLD.menu AND COALESCE(NEW.parent_id, 0) = COALESCE(OLD.parent_id, 0) AND NEW.sort = OLD.sort) THEN
+        IF (TG_OP = 'UPDATE' AND NEW.slug = OLD.slug AND NEW.menu = OLD.menu AND coalesce(NEW.parent_id, 0) = coalesce(OLD.parent_id, 0) AND NEW.sort = OLD.sort) THEN
             RETURN NULL;
         END IF;
 
@@ -143,7 +143,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 sort = sort - 1
             WHERE
                 id != OLD.id
-                AND COALESCE(parent_id, 0) = COALESCE(OLD.parent_id, 0)
+                AND coalesce(parent_id, 0) = coalesce(OLD.parent_id, 0)
                 AND sort > OLD.sort;
         END IF;
 
@@ -155,7 +155,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 sort = sort + 1
             WHERE
                 id != NEW.id
-                AND COALESCE(parent_id, 0) = COALESCE(NEW.parent_id, 0)
+                AND coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
                 AND sort >= NEW.sort;
         END IF;
 
@@ -168,7 +168,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 menu,
                 '[]'::jsonb || TO_JSONB(id) AS path,
                 0 AS level,
-                LPAD(CAST(sort AS text), _pad, '0') AS pos
+                LPAD(cast(sort AS text), _pad, '0') AS pos
             FROM
                 page
             WHERE
@@ -179,9 +179,9 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 t.urlkey || '/' || p.slug AS urlkey,
                 t.urlkey || '/' || p.slug || _ext AS url,
                 t.menu AND p.menu AS menu,
-                t.path || TO_JSONB(p.id) AS path,
+                t.path || to_jsonb(p.id) AS path,
                 t.level + 1 AS level,
-                t.pos || '.' || LPAD(CAST(p.sort AS text), _pad, '0') AS pos
+                t.pos || '.' || lpad(cast(p.sort AS text), _pad, '0') AS pos
             FROM
                 page p
             INNER JOIN
@@ -232,7 +232,7 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
         END IF;
 
         -- Check parent status
-        IF ((TG_OP = 'INSERT' OR COALESCE(NEW.parent_id, 0) != COALESCE(OLD.parent_id, 0)) AND NEW.parent_id IS NOT NULL) THEN
+        IF ((TG_OP = 'INSERT' OR coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)) AND NEW.parent_id IS NOT NULL) THEN
             SELECT
                 status
             FROM
@@ -403,7 +403,7 @@ CREATE FUNCTION block_content_save() RETURNS trigger AS $$
         END IF;
 
         -- Extension table
-        IF (TG_OP = 'UPDATE' AND (SELECT COUNT(*) FROM block_content_ext WHERE id = _id) > 0) THEN
+        IF (TG_OP = 'UPDATE' AND (SELECT count(*) FROM block_content_ext WHERE id = _id) > 0) THEN
             UPDATE
                 block_content_ext
             SET
