@@ -67,12 +67,10 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
         END LOOP;
 
         IF (TG_OP = 'UPDATE') THEN
-            _sql := format('UPDATE %I SET id = %L, %s WHERE id = %L RETURNING id', _base, NEW.id, _set, OLD.id);
+            _sql := format('UPDATE %I SET id = %L, %s WHERE id = %L', _base, NEW.id, _set, OLD.id);
         ELSE
-            _sql := format('INSERT INTO %I (%s) VALUES (%s) RETURNING id', _base, _col, _val);
+            _sql := format('INSERT INTO %I (%s) VALUES (%s)', _base, _col, _val);
         END IF;
-
-        _sql := 'WITH t AS (' || _sql || ')';
 
         -- Extension table
         _col := '';
@@ -108,10 +106,16 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
             END IF;
         END LOOP;
 
-        IF (TG_OP = 'UPDATE' AND (SELECT count(*) FROM block_content_ext WHERE id = OLD.id) > 0) THEN
-            _sql := _sql || format(' UPDATE %I e SET %s FROM t WHERE e.id = t.id', _ext, _set);
-        ELSE
-            _sql := _sql || format(' INSERT INTO %s (id, %s) SELECT id, %s FROM t', _ext, _col, _val);
+        IF (_col != '' AND _val != '' AND _set != '') THEN
+            _sql := 'WITH t AS (' || _sql || ' RETURNING id)';
+
+            IF (TG_OP = 'UPDATE' AND (SELECT count(*) FROM block_content_ext WHERE id = OLD.id) > 0) THEN
+                _sql := _sql || format(' UPDATE %I e SET %s FROM t WHERE e.id = t.id', _ext, _set);
+            ELSE
+                _sql := _sql || format(' INSERT INTO %s (id, %s) SELECT id, %s FROM t', _ext, _col, _val);
+            END IF;
+        ELSIF (_col != '' OR _val != '' OR _set != '') THEN
+            RAISE EXCEPTION 'An error occurred in entity_save()';
         END IF;
 
         EXECUTE _sql;
