@@ -21,11 +21,11 @@ return [
     'layout' => [
         'event\layout' => 10,
     ],
-    'entity.postfilter' => [
-        'event\entity_postfilter' => 10,
+    'entity.postvalidate' => [
+        'event\entity_postvalidate' => 10,
     ],
-    'entity.prefilter.id.file' => [
-        'event\entity_prefilter_file' => 10,
+    'entity.prevalidate.id.file' => [
+        'event\entity_prevalidate_file' => 10,
     ],
     'entity.postsave.id.file' => [
         'event\entity_postsave_file' => 10,
@@ -33,11 +33,11 @@ return [
     'entity.postdelete.id.file' => [
         'event\entity_postdelete_file' => 10,
     ],
-    'entity.postfilter.id.layout' => [
-        'event\entity_postfilter_layout' => 10,
+    'entity.postvalidate.id.layout' => [
+        'event\entity_postvalidate_layout' => 10,
     ],
-    'entity.postfilter.id.page' => [
-        'event\entity_postfilter_page' => 10,
+    'entity.postvalidate.id.page' => [
+        'event\entity_postvalidate_page' => 10,
     ],
     'entity.predelete.id.role' => [
         'event\entity_predelete_role' => 10,

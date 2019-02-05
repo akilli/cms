@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace filter;
+namespace validator;
 
 use app;
 use attr;
@@ -92,7 +92,7 @@ function time(string $val): string
  */
 function rte(string $val): string
 {
-    return trim(strip_tags($val, app\cfg('filter', 'rte')));
+    return trim(strip_tags($val, app\cfg('validator', 'rte')));
 }
 
 /**
@@ -100,7 +100,7 @@ function rte(string $val): string
  */
 function rtemin(string $val): string
 {
-    return trim(strip_tags($val, app\cfg('filter', 'rtemin')));
+    return trim(strip_tags($val, app\cfg('validator', 'rtemin')));
 }
 
 /**
@@ -108,7 +108,7 @@ function rtemin(string $val): string
  */
 function uid(string $val): string
 {
-    return trim(preg_replace('#[^a-z0-9-_]+#', '-', strtr(mb_strtolower($val), app\cfg('filter', 'id'))), '-');
+    return trim(preg_replace('#[^a-z0-9-_]+#', '-', strtr(mb_strtolower($val), app\cfg('validator', 'id'))), '-');
 }
 
 /**
@@ -120,7 +120,7 @@ function path(string $val): string
         return url($val);
     }
 
-    return '/' . trim(preg_replace('#[^a-z0-9-_/\.]+#', '-', strtr(mb_strtolower($val), app\cfg('filter', 'id'))), '-/');
+    return '/' . trim(preg_replace('#[^a-z0-9-_/\.]+#', '-', strtr(mb_strtolower($val), app\cfg('validator', 'id'))), '-/');
 }
 
 /**

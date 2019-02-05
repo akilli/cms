@@ -216,9 +216,9 @@ function layout(array $data): array
 }
 
 /**
- * Entity postfilter
+ * Entity postvalidate
  */
-function entity_postfilter(array $data): array
+function entity_postvalidate(array $data): array
 {
     $attrs = $data['_entity']['attr'];
 
@@ -232,9 +232,9 @@ function entity_postfilter(array $data): array
 }
 
 /**
- * File entity prefilter
+ * File entity validate
  */
-function entity_prefilter_file(array $data): array
+function entity_prevalidate_file(array $data): array
 {
     if (empty($data['url'])) {
         return $data;
@@ -288,9 +288,9 @@ function entity_postdelete_file(array $data): array
 }
 
 /**
- * Layout entity posfilter
+ * Layout entity posvalidate
  */
-function entity_postfilter_layout(array $data): array
+function entity_postvalidate_layout(array $data): array
 {
     $crit = [['name', $data['name']], ['page_id', $data['page_id']]];
 
@@ -307,9 +307,9 @@ function entity_postfilter_layout(array $data): array
 }
 
 /**
- * Page entity postfilter
+ * Page entity postvalidate
  */
-function entity_postfilter_page(array $data): array
+function entity_postvalidate_page(array $data): array
 {
     if (empty($data['parent_id'])) {
         return $data;

@@ -135,11 +135,11 @@ function save(string $entityId, array & $data): bool
         return false;
     }
 
-    $tmp = event('prefilter', $tmp);
+    $tmp = event('prevalidate', $tmp);
 
     foreach ($attrIds as $attrId) {
         try {
-            $tmp[$attrId] = attr\filter($tmp, $entity['attr'][$attrId]);
+            $tmp[$attrId] = attr\validator($tmp, $entity['attr'][$attrId]);
         } catch (DomainException $e) {
             $tmp['_error'][$attrId] = $e->getMessage();
         } catch (Throwable $e) {
@@ -147,7 +147,7 @@ function save(string $entityId, array & $data): bool
         }
     }
 
-    $tmp = event('postfilter', $tmp);
+    $tmp = event('postvalidate', $tmp);
 
     if (!empty($tmp['_error'])) {
         $data['_error'] = $tmp['_error'];

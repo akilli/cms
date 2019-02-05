@@ -9,13 +9,13 @@ use entity;
 use DomainException;
 
 /**
- * Filter
+ * Validator
  *
  * @return mixed
  *
  * @throws DomainException
  */
-function filter(array $data, array $attr)
+function validator(array $data, array $attr)
 {
     $val = cast($data[$attr['id']] ?? null, $attr);
 
@@ -27,8 +27,8 @@ function filter(array $data, array $attr)
     $pattern = $attr['pattern'] ? '#^' . str_replace('#', '\#', $attr['pattern']) . '$#' : null;
     $attr['opt'] = opt($data, $attr);
 
-    if ($attr['filter']) {
-        $val = $attr['filter']($val, $attr);
+    if ($attr['validator']) {
+        $val = $attr['validator']($val, $attr);
     }
 
     if ($set && $pattern && !preg_match($pattern, $attr['multiple'] ? implode("\n", $val) : (string) $val)) {
