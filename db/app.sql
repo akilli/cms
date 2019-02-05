@@ -25,8 +25,9 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
         _attr text;
         _base text;
         _col text := '';
-        _data jsonb;
         _ext text;
+        _new jsonb;
+        _old jsonb;
         _set text := '';
         _sql text := '';
         _val text := '';
@@ -34,7 +35,11 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
         _base := substring(TG_TABLE_NAME FROM '^([^_]+)_');
         _ext := TG_TABLE_NAME || '_ext';
         NEW.entity_id := TG_TABLE_NAME;
-        _data := to_jsonb(NEW);
+        _new := to_jsonb(NEW);
+
+        IF (TG_OP = 'UPDATE') THEN
+            _old := to_jsonb(OLD);
+        END IF;
 
         -- Base table
         FOR _attr IN
@@ -49,15 +54,17 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
             ORDER BY
                 ordinal_position ASC
         LOOP
-            IF (_col != '') THEN
+            IF (jsonb_extract_path_text(_new, _attr) IS NULL AND (TG_OP = 'INSERT' OR jsonb_extract_path_text(_old, _attr) IS NULL)) THEN
+                CONTINUE;
+            ELSIF (_col != '') THEN
                 _col := _col || ', ';
                 _val := _val || ', ';
                 _set := _set || ', ';
             END IF;
 
             _col := _col || format('%I', _attr);
-            _val := _val || format('%L', jsonb_extract_path_text(_data, _attr));
-            _set := _set || format('%I = %L', _attr, jsonb_extract_path_text(_data, _attr));
+            _val := _val || format('%L', jsonb_extract_path_text(_new, _attr));
+            _set := _set || format('%I = %L', _attr, jsonb_extract_path_text(_new, _attr));
         END LOOP;
 
         IF (TG_OP = 'UPDATE') THEN
@@ -83,15 +90,17 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
             ORDER BY
                 ordinal_position ASC
         LOOP
-            IF (_col != '') THEN
+            IF (jsonb_extract_path_text(_new, _attr) IS NULL AND (TG_OP = 'INSERT' OR jsonb_extract_path_text(_old, _attr) IS NULL)) THEN
+                CONTINUE;
+            ELSIF (_col != '') THEN
                 _col := _col || ', ';
                 _val := _val || ', ';
                 _set := _set || ', ';
             END IF;
 
             _col := _col || format('%I', _attr);
-            _val := _val || format('%L', jsonb_extract_path_text(_data, _attr));
-            _set := _set || format('%I = %L', _attr, jsonb_extract_path_text(_data, _attr));
+            _val := _val || format('%L', jsonb_extract_path_text(_new, _attr));
+            _set := _set || format('%I = %L', _attr, jsonb_extract_path_text(_new, _attr));
         END LOOP;
 
         IF (_col != '' AND _val != '' AND _set != '') THEN
