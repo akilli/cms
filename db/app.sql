@@ -151,8 +151,8 @@ $$ LANGUAGE plpgsql;
 CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
     DECLARE
         _chk boolean;
-        _cnt integer;
-        _cur integer;
+        _cnt int;
+        _cur int;
         _slg text;
     BEGIN
         IF (TG_OP = 'UPDATE' AND NEW.parent_id IS NOT NULL) THEN
@@ -223,7 +223,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
     DECLARE
-        _pad integer := 5;
+        _pad int := 5;
         _ext text := '.html';
     BEGIN
         -- No relevant changes
@@ -475,7 +475,7 @@ CREATE TABLE account (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
-    role_id integer NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE
+    role_id int NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE INDEX ON account (role_id);
@@ -560,7 +560,7 @@ WITH LOCAL CHECK OPTION;
 CREATE TABLE page (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
-    image integer DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
+    image int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
     teaser text NOT NULL DEFAULT '',
     main text NOT NULL DEFAULT '',
     aside text NOT NULL DEFAULT '',
@@ -571,10 +571,10 @@ CREATE TABLE page (
     disabled boolean NOT NULL DEFAULT FALSE,
     menu boolean NOT NULL DEFAULT FALSE,
     menu_name varchar(255) DEFAULT NULL,
-    parent_id integer DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
-    sort integer NOT NULL DEFAULT 0,
+    parent_id int DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
+    sort int NOT NULL DEFAULT 0,
     pos varchar(255) NOT NULL DEFAULT '',
-    level integer NOT NULL DEFAULT 0,
+    level int NOT NULL DEFAULT 0,
     path jsonb NOT NULL DEFAULT '[]',
     status status NOT NULL,
     timestamp timestamp NOT NULL DEFAULT current_timestamp,
@@ -645,7 +645,7 @@ CREATE TABLE version (
     aside text NOT NULL,
     status status NOT NULL,
     timestamp timestamp NOT NULL DEFAULT current_timestamp,
-    page_id integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED
+    page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED
 );
 
 CREATE INDEX ON version (name);
@@ -673,7 +673,7 @@ CREATE INDEX ON block (entity_id);
 --
 
 CREATE TABLE block_content_ext (
-    id integer NOT NULL PRIMARY KEY REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
+    id int NOT NULL PRIMARY KEY REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
     content text NOT NULL DEFAULT ''
 );
 
@@ -698,10 +698,10 @@ CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_content FOR EACH ROW EXE
 CREATE TABLE layout (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
-    block_id integer NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
-    page_id integer NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
+    block_id int NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
+    page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     parent_id varchar(100) NOT NULL,
-    sort integer NOT NULL DEFAULT 0,
+    sort int NOT NULL DEFAULT 0,
     UNIQUE (page_id, name)
 );
 
