@@ -71,12 +71,8 @@ function all(string $entityId, array $crit = [], array $opt = []): array
 
     $opt = arr\replace(APP['entity.opt'], $opt, ['mode' => 'all']);
 
-    if ($opt['select']) {
-        foreach (array_unique(['id', $opt['index']]) as $k) {
-            if (!in_array($k, $opt['select'])) {
-                $opt['select'][] = $k;
-            }
-        }
+    if ($opt['select'] && ($keys = array_diff(array_unique(['id', $opt['index']]), $opt['select']))) {
+        array_unshift($opt['select'], ...$keys);
     }
 
     try {
