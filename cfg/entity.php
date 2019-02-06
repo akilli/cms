@@ -168,28 +168,23 @@ return [
             'teaser' => [
                 'name' => 'Teaser',
                 'type' => 'rtemin',
-                'val' => '',
             ],
             'main' => [
                 'name' => 'Main Content',
                 'type' => 'rte',
-                'val' => '',
             ],
             'aside' => [
                 'name' => 'Additional Information',
                 'type' => 'rte',
-                'val' => '',
             ],
             'meta_title' => [
                 'name' => 'Meta Title',
                 'type' => 'text',
-                'val' => '',
                 'maxlength' => 80,
             ],
             'meta_description' => [
                 'name' => 'Meta Description',
                 'type' => 'text',
-                'val' => '',
                 'maxlength' => 300,
             ],
             'slug' => [
@@ -227,7 +222,6 @@ return [
             'sort' => [
                 'name' => 'Sort',
                 'type' => 'int',
-                'val' => 0,
             ],
             'pos' => [
                 'name' => 'Position',
@@ -350,7 +344,6 @@ return [
             'content' => [
                 'name' => 'Content',
                 'type' => 'rte',
-                'val' => '',
             ],
         ],
     ],
@@ -389,7 +382,6 @@ return [
             'sort' => [
                 'name' => 'Sort',
                 'type' => 'int',
-                'val' => 0,
             ],
         ],
     ],
