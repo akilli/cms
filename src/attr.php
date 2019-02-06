@@ -17,7 +17,7 @@ use DomainException;
  */
 function validator(array $data, array $attr)
 {
-    $val = cast($data[$attr['id']] ?? null, $attr);
+    $val = $data[$attr['id']] ?? null;
 
     if ($attr['nullable'] && $val === null) {
         return $val;
