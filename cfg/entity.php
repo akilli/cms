@@ -17,7 +17,7 @@ return [
             ],
             'priv' => [
                 'name' => 'Privileges',
-                'type' => 'checkbox',
+                'type' => 'text[]',
                 'opt' => 'opt\priv',
             ],
         ],
@@ -237,7 +237,7 @@ return [
             ],
             'path' => [
                 'name' => 'Path',
-                'type' => 'json',
+                'type' => 'int[]',
                 'auto' => true,
             ],
             'status' => [

@@ -13,13 +13,6 @@ return [
         'viewer' => 'viewer\opt',
         'opt' => 'bool',
     ],
-    'checkbox' => [
-        'backend' => 'json',
-        'frontend' => 'frontend\checkbox',
-        'validator' => 'validator\opt',
-        'viewer' => 'viewer\opt',
-        'multiple' => true,
-    ],
     'date' => [
         'backend' => 'date',
         'frontend' => 'frontend\date',
@@ -73,6 +66,13 @@ return [
     'int' => [
         'backend' => 'int',
         'frontend' => 'frontend\int',
+    ],
+    'int[]' => [
+        'backend' => 'int',
+        'frontend' => 'frontend\checkbox',
+        'validator' => 'validator\opt',
+        'viewer' => 'viewer\opt',
+        'multiple' => true,
     ],
     'json' => [
         'backend' => 'json',
@@ -149,6 +149,13 @@ return [
         'backend' => 'varchar',
         'frontend' => 'frontend\text',
         'validator' => 'validator\text',
+    ],
+    'text[]' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\checkbox',
+        'validator' => 'validator\opt',
+        'viewer' => 'viewer\opt',
+        'multiple' => true,
     ],
     'textarea' => [
         'backend' => 'text',

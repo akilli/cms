@@ -157,7 +157,7 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
     BEGIN
         IF (TG_OP = 'UPDATE' AND NEW.parent_id IS NOT NULL) THEN
             SELECT
-                path @> OLD.id::text::jsonb
+                path @> ARRAY[OLD.id]
             FROM
                 page
             WHERE
@@ -262,7 +262,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 CASE WHEN slug = 'index' THEN '' ELSE '/' || slug END AS urlkey,
                 CASE WHEN slug = 'index' THEN '/' ELSE '/' || slug || _ext END AS url,
                 menu,
-                '[]'::jsonb || TO_JSONB(id) AS path,
+                '{}'::int[] || id AS path,
                 0 AS level,
                 LPAD(cast(sort AS text), _pad, '0') AS pos
             FROM
@@ -275,7 +275,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 t.urlkey || '/' || p.slug AS urlkey,
                 t.urlkey || '/' || p.slug || _ext AS url,
                 t.menu AND p.menu AS menu,
-                t.path || to_jsonb(p.id) AS path,
+                t.path || p.id AS path,
                 t.level + 1 AS level,
                 t.pos || '.' || lpad(cast(p.sort AS text), _pad, '0') AS pos
             FROM
@@ -379,14 +379,25 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
         END IF;
 
         -- Recursively update child pages
-        FOR _row IN SELECT * FROM page WHERE id != OLD.id AND path @> OLD.id::text::jsonb AND status != 'archived' ORDER BY pos ASC LOOP
+        FOR _row IN
+            SELECT
+                *
+            FROM
+                page
+            WHERE
+                id != OLD.id
+                AND path @> ARRAY[OLD.id]
+                AND status != 'archived'
+            ORDER BY
+                pos ASC
+        LOOP
             -- Delete page if it was never published
             IF (_row.status IN ('draft', 'pending')) THEN
                 DELETE FROM
                     page
                 WHERE
                     id = _row.id
-                    OR path @> _row.id::text::jsonb;
+                    OR path @> ARRAY[_row.id];
 
                 CONTINUE;
             END IF;
@@ -462,7 +473,7 @@ $$ LANGUAGE plpgsql;
 CREATE TABLE role (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
-    priv jsonb NOT NULL
+    priv text[] NOT NULL DEFAULT '{}'
 );
 
 CREATE INDEX ON role USING GIN (priv);
@@ -575,7 +586,7 @@ CREATE TABLE page (
     sort int NOT NULL DEFAULT 0,
     pos varchar(255) NOT NULL DEFAULT '',
     level int NOT NULL DEFAULT 0,
-    path jsonb NOT NULL DEFAULT '[]',
+    path int[] NOT NULL DEFAULT '{}',
     status status NOT NULL,
     timestamp timestamp NOT NULL DEFAULT current_timestamp,
     date timestamp NOT NULL DEFAULT current_timestamp,

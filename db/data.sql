@@ -8,7 +8,7 @@ INSERT INTO
     role
     (id, name, priv)
 VALUES
-    (1, 'admin', '["_all_"]');
+    (1, 'admin', '{"_all_"}');
 
 SELECT setval('role_id_seq', (SELECT max(id) FROM role));
 

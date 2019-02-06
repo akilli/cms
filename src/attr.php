@@ -175,7 +175,7 @@ function cast($val, array $attr)
     }
 
     if ($attr['multiple']) {
-        return is_array($val) ? arr\map(__FUNCTION__, $val, ['multiple' => false] + $attr) : [];
+        return is_array($val) || $val && ($val = explode(',', trim($val, '{}'))) ? arr\map(__FUNCTION__, $val, ['multiple' => false] + $attr) : [];
     }
 
     if ($attr['backend'] === 'bool') {

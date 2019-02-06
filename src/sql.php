@@ -170,7 +170,13 @@ function cols(array $data, array $attrs): array
 
     foreach (array_intersect_key($data, $attrs) as $attrId => $val) {
         $p = ':' . $attrId;
-        $val = $attrs[$attrId]['backend'] === 'json' && is_array($val) ? json_encode($val) : $val;
+
+        if (is_array($val) && $attrs[$attrId]['backend'] === 'json') {
+            $val = json_encode($val);
+        } elseif (is_array($val) && $attrs[$attrId]['multiple']) {
+            $val = '{' . implode($val, ',') . '}';
+        }
+
         $cols['param'][$attrId] = [$p, $val, type($val)];
         $cols['val'][$attrId] = $p;
     }
