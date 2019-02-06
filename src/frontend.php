@@ -49,7 +49,7 @@ function password(string $val, array $attr): string
 /**
  * Int
  */
-function int($val, array $attr): string
+function int(int $val, array $attr): string
 {
     return app\html('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '1']);
 }
@@ -57,7 +57,7 @@ function int($val, array $attr): string
 /**
  * Decimal
  */
-function decimal($val, array $attr): string
+function decimal(float $val, array $attr): string
 {
     return app\html('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '0.01']);
 }
@@ -65,7 +65,7 @@ function decimal($val, array $attr): string
 /**
  * Range
  */
-function range($val, array $attr): string
+function range(int $val, array $attr): string
 {
     return app\html('input', ['type' => 'range', 'value' => $val] + $attr['html'] + ['step' => '1']);
 }
