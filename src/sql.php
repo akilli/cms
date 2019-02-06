@@ -53,7 +53,6 @@ function load(array $entity, array $crit = [], array $opt = []): array
 function save(array $data): array
 {
     $entity = $data['_entity'];
-    $old = $data['_old'];
     $attrs = $entity['attr'];
     $db = db($entity['db']);
 
@@ -62,11 +61,11 @@ function save(array $data): array
     }
 
     // Insert or update
-    if (!$old) {
-        $stmt = $db->prepare(ins($entity['id']) . vals($cols['val']));
-    } else {
+    if ($data['_old']) {
         $stmt = $db->prepare(upd($entity['id']) . set($cols['val']) . where(['id = :_id']));
-        $stmt->bindValue(':_id', $old['id'], type($old['id']));
+        $stmt->bindValue(':_id', $data['_old']['id'], type($data['_old']['id']));
+    } else {
+        $stmt = $db->prepare(ins($entity['id']) . vals($cols['val']));
     }
 
     foreach ($cols['param'] as $param) {
@@ -76,7 +75,7 @@ function save(array $data): array
     $stmt->execute();
 
     // Set DB generated id
-    if (!$old && $attrs['id']['type'] === 'serial') {
+    if (!$data['_old'] && $attrs['id']['type'] === 'serial') {
         $data['id'] = (int) $db->lastInsertId(($entity['parent_id'] ?: $entity['id']) . '_id_seq');
     }
 
@@ -91,9 +90,8 @@ function save(array $data): array
 function delete(array $data): void
 {
     $entity = $data['_entity'];
-    $old = $data['_old'];
     $stmt = db($entity['db'])->prepare(del($entity['id']) . where(['id = :id']));
-    $stmt->bindValue(':id', $old['id'], type($old['id']));
+    $stmt->bindValue(':id', $data['_old']['id'], type($data['_old']['id']));
     $stmt->execute();
 }
 
