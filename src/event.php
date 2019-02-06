@@ -317,7 +317,7 @@ function entity_postvalidate_page(array $data): array
 
     $parent = entity\one('page', [['id', $data['parent_id']]]);
 
-    if (!empty($data['_old']['id']) && in_array($data['_old']['id'], $parent['path'])) {
+    if ($data['_old'] && in_array($data['_old']['id'], $parent['path'])) {
         $data['_error']['parent_id'] = app\i18n('Cannot assign the page itself or a child page as parent');
     }
 
