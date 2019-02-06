@@ -341,7 +341,7 @@ function edit(array $block): string
 
     if ($data = request\get('data')) {
         if ($id) {
-            $data['id'] = $id;
+            $data = ['id' => $id] + $data;
         }
 
         if (entity\save($entity['id'], $data)) {
