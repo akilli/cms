@@ -472,7 +472,7 @@ function returning(array $cols): string
 /**
  * UNION part
  */
-function union (): string
+function union(): string
 {
     RETURN ' UNION ';
 }
