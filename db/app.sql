@@ -272,7 +272,8 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
         FROM
             t
         WHERE
-            p.id = t.id;
+            p.id = t.id
+            AND (p.url != t.url OR p.menu != t.menu OR p.sort != t.sort OR p.pos != t.pos OR p.level != t.level OR p.path != t.path);
 
         RETURN NULL;
     END;
