@@ -152,7 +152,6 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
     DECLARE
         _chk boolean;
         _cnt int;
-        _cur int;
         _slg text;
     BEGIN
         IF (TG_OP = 'UPDATE' AND NEW.parent_id IS NOT NULL) THEN
@@ -185,32 +184,6 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
 
         IF (NEW.sort IS NULL OR NEW.sort <= 0 OR NEW.sort > _cnt) THEN
             NEW.sort := _cnt;
-        END IF;
-
-        IF (TG_OP = 'INSERT' OR NEW.slug != OLD.slug OR coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)) THEN
-            _slg := NEW.slug;
-            _cur := 0;
-
-            LOOP
-                IF (_cur > 0) THEN
-                    _slg := NEW.slug || '-' || _cur;
-                END IF;
-
-                SELECT
-                    count(*)
-                FROM
-                    page
-                WHERE
-                    coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
-                    AND slug = _slg
-                INTO
-                    _cnt;
-
-                EXIT WHEN _cnt = 0;
-                _cur := _cur + 1;
-            END LOOP;
-
-            NEW.slug := _slg;
         END IF;
 
         IF (NEW.menu_name = NEW.name) THEN

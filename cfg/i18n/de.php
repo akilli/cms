@@ -86,6 +86,7 @@ return [
     'Password Confirmation' => 'Passwortbestätigung',
     'Path' => 'Pfad',
     'Pending' => 'Ausstehend',
+    'Please change slug to generate an unique URL' => 'Bitte Slug ändern, damit eine eindeutige URL erzeugt werden kann',
     'Please choose' => 'Bitte auswählen',
     'Please confirm delete operation' => 'Bitte den Löschvorgang bestätigen',
     'Position' => 'Position',

@@ -307,24 +307,78 @@ function entity_postvalidate_layout(array $data): array
 }
 
 /**
- * Page entity postvalidate
+ * Page entity postvalidate status
  */
-function entity_postvalidate_page(array $data): array
+function entity_postvalidate_page_status(array $data): array
 {
-    if (empty($data['parent_id'])) {
-        return $data;
+    if (!empty($data['parent_id']) && ($parent = entity\one('page', [['id', $data['parent_id']]], ['select' => ['status']]))) {
+        if ($parent['status'] === 'archived' && (!$data['_old'] || $data['parent_id'] !== $data['_old']['parent_id'])) {
+            $data['_error']['parent_id'] = app\i18n('Cannot assign archived page as parent');
+        } elseif (in_array($parent['status'], ['draft', 'pending']) && !empty($data['status']) && $data['status'] !== 'draft') {
+            $data['_error']['status'] = app\i18n('Status must be draft, because parent was not published yet');
+        }
     }
 
-    $parent = entity\one('page', [['id', $data['parent_id']]]);
+    return $data;
+}
 
-    if ($data['_old'] && in_array($data['_old']['id'], $parent['path'])) {
+/**
+ * Page entity postvalidate menu
+ */
+function entity_postvalidate_page_menu(array $data): array
+{
+    if ($data['_old']
+        && !empty($data['parent_id'])
+        && ($parent = entity\one('page', [['id', $data['parent_id']]], ['select' => ['path']]))
+        && in_array($data['_old']['id'], $parent['path'])
+    ) {
         $data['_error']['parent_id'] = app\i18n('Cannot assign the page itself or a child page as parent');
     }
 
-    if ($parent['status'] === 'archived' && (!$data['_old'] || $data['parent_id'] !== $data['_old']['parent_id'])) {
-        $data['_error']['parent_id'] = app\i18n('Cannot assign archived page as parent');
-    } elseif (in_array($parent['status'], ['draft', 'pending']) && !empty($data['status']) && $data['status'] !== 'draft') {
-        $data['_error']['status'] = app\i18n('Status must be draft, because parent was not published yet');
+    return $data;
+}
+
+/**
+ * Page entity postvalidate URL
+ */
+function entity_postvalidate_page_url(array $data): array
+{
+    if ((!array_key_exists('slug', $data) || $data['_old'] && $data['slug'] === $data['_old']['slug'])
+        && (!array_key_exists('parent_id', $data) || $data['_old'] && $data['parent_id'] === $data['_old']['parent_id'])
+    ) {
+        return $data;
+    }
+
+    if (array_key_exists('slug', $data)) {
+        $slug = $data['slug'];
+    } elseif (array_key_exists('slug', $data['_old'])) {
+        $slug = $data['_old']['slug'];
+    } else {
+        $slug = null;
+    }
+
+    if (array_key_exists('parent_id', $data)) {
+        $parentId = $data['parent_id'];
+    } elseif (array_key_exists('parent_id', $data['_old'])) {
+        $parentId = $data['_old']['parent_id'];
+    } else {
+        $parentId = null;
+    }
+
+    $root = entity\one('page', [['url', '/']], ['select' => ['id']]);
+
+    if ($parentId === null || $parentId === $root['id']) {
+        $parentId = [null, $root['id']];
+    }
+
+    $crit = [['slug', $slug], ['parent_id', $parentId]];
+
+    if ($data['_old']) {
+        $crit[] = ['id', $data['_old']['id'], APP['crit']['!=']];
+    }
+
+    if (entity\size('page', $crit)) {
+        $data['_error']['slug'] = app\i18n('Please change slug to generate an unique URL');
     }
 
     return $data;
