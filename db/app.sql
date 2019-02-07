@@ -148,6 +148,13 @@ $$ LANGUAGE plpgsql;
 -- Page
 --
 
+CREATE FUNCTION page_menu_name() RETURNS trigger AS $$
+    BEGIN
+        NEW.menu_name := NULL;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+
 CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
     DECLARE
         _cnt int;
@@ -171,10 +178,6 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
 
         IF (NEW.sort IS NULL OR NEW.sort <= 0 OR NEW.sort > _cnt) THEN
             NEW.sort := _cnt;
-        END IF;
-
-        IF (NEW.menu_name = NEW.name) THEN
-            NEW.menu_name := NULL;
         END IF;
 
         RETURN NEW;
@@ -573,6 +576,7 @@ CREATE INDEX ON page (timestamp);
 CREATE INDEX ON page (date);
 CREATE INDEX ON page (entity_id);
 
+CREATE TRIGGER page_menu_name BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0 AND NEW.menu_name = NEW.name) EXECUTE PROCEDURE page_menu_name();
 CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_before();
 CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_after();
 CREATE TRIGGER page_version_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_before();
