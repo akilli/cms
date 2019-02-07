@@ -171,8 +171,8 @@ function cols(array $data, array $attrs): array
 
         if (is_array($val) && $attrs[$attrId]['backend'] === 'json') {
             $val = json_encode($val);
-        } elseif (is_array($val) && $attrs[$attrId]['multiple']) {
-            $val = '{' . implode($val, ',') . '}';
+        } elseif ($attrs[$attrId]['multiple']) {
+            $val = '{' . (is_array($val) ? implode($val, ',') : $val) . '}';
         }
 
         $cols['param'][$attrId] = [$p, $val, type($val)];
