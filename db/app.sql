@@ -152,7 +152,6 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
     DECLARE
         _chk boolean;
         _cnt int;
-        _slg text;
     BEGIN
         IF (TG_OP = 'UPDATE' AND NEW.parent_id IS NOT NULL) THEN
             SELECT
