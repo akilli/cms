@@ -219,47 +219,63 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
         END IF;
 
         -- Update positions
-        WITH RECURSIVE t AS (
+        WITH RECURSIVE
+        s AS (
             SELECT
-                id,
-                CASE WHEN slug = 'index' THEN '' ELSE '/' || slug END AS urlkey,
-                CASE WHEN slug = 'index' THEN '/' ELSE '/' || slug || _ext END AS url,
-                menu,
-                '{}'::int[] || id AS path,
-                0 AS level,
-                LPAD(cast(sort AS text), _pad, '0') AS pos
+                p.id,
+                (SELECT count(*) FROM page WHERE coalesce(parent_id, 0) = coalesce(p.parent_id, 0) AND (sort < p.sort OR sort = p.sort AND id < p.id)) + 1 AS sort
             FROM
-                page
+                page p
+        ),
+        t AS (
+            SELECT
+                p.id,
+                CASE WHEN p.slug = 'index' THEN '' ELSE '/' || p.slug END AS urlkey,
+                CASE WHEN p.slug = 'index' THEN '/' ELSE '/' || p.slug || _ext END AS url,
+                p.menu,
+                s.sort,
+                LPAD(cast(s.sort AS text), _pad, '0') AS pos,
+                0 AS level,
+                '{}'::int[] || p.id AS path
+            FROM
+                page p
+            INNER JOIN
+                s
+                    ON s.id = p.id
             WHERE
-                parent_id IS NULL
+                p.parent_id IS NULL
             UNION
             SELECT
                 p.id,
                 t.urlkey || '/' || p.slug AS urlkey,
                 t.urlkey || '/' || p.slug || _ext AS url,
                 t.menu AND p.menu AS menu,
-                t.path || p.id AS path,
+                s.sort,
+                t.pos || '.' || lpad(cast(s.sort AS text), _pad, '0') AS pos,
                 t.level + 1 AS level,
-                t.pos || '.' || lpad(cast(p.sort AS text), _pad, '0') AS pos
+                t.path || p.id AS path
             FROM
                 page p
             INNER JOIN
                 t
                     ON t.id = p.parent_id
-            )
-            UPDATE
-                page p
-            SET
-                url = t.url,
-                menu = t.menu,
-                path = t.path,
-                level = t.level,
-                pos = t.pos
-            FROM
-                t
-            WHERE
-                p.id = t.id
-                AND (p.url != t.url OR p.menu != t.menu OR p.path != t.path OR p.level != t.level OR p.pos != t.pos);
+            INNER JOIN
+                s
+                    ON s.id = p.id
+        )
+        UPDATE
+            page p
+        SET
+            url = t.url,
+            menu = t.menu,
+            sort = t.sort,
+            pos = t.pos,
+            level = t.level,
+            path = t.path
+        FROM
+            t
+        WHERE
+            p.id = t.id;
 
         RETURN NULL;
     END;
