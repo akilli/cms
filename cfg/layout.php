@@ -284,8 +284,8 @@ return [
         'content-main' => [
             'cfg' => [
                 'attr_id' => [
-                    'name', 'slug', 'disabled', 'menu', 'menu_name', 'parent_id', 'sort', 'status',
-                    'image', 'teaser', 'main', 'aside', 'meta_title', 'meta_description'
+                    'name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'status',
+                    'title', 'image', 'teaser', 'main', 'aside', 'meta_title', 'meta_description'
                 ],
             ],
         ],

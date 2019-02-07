@@ -28,8 +28,8 @@ function page(): array
     if (($opt = & app\registry('opt.page')) === null) {
         $opt = [];
 
-        foreach (entity\all('page_content', [], ['select' => ['id', 'name', 'menu_name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
-            $opt[$item['id']] = attr\viewer($item, $item['_entity']['attr']['pos']) . ' ' . ($item['menu_name'] ?: $item['name']);
+        foreach (entity\all('page_content', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
+            $opt[$item['id']] = attr\viewer($item, $item['_entity']['attr']['pos']) . ' ' . $item['name'];
         }
     }
 

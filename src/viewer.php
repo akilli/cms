@@ -110,13 +110,7 @@ function entity(int $val, array $attr): string
  */
 function page(int $val, array $attr): string
 {
-    if (!$val) {
-        return '';
-    }
-
-    $page = entity\one($attr['ref'], [['id', $val]], ['select' => ['name', 'menu_name']]);
-
-    return $page['menu_name'] ?: $page['name'];
+    return $val && ($page = entity\one($attr['ref'], [['id', $val]], ['select' => ['name']])) ? $page['name'] : '';
 }
 
 /**

@@ -148,6 +148,16 @@ $$ LANGUAGE plpgsql;
 -- Page
 --
 
+CREATE FUNCTION page_before() RETURNS trigger AS $$
+    BEGIN
+        IF (NEW.title = NEW.name) THEN
+            NEW.title := NULL;
+        END IF;
+
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+
 CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
     DECLARE
         _cnt int;
@@ -171,10 +181,6 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
 
         IF (NEW.sort IS NULL OR NEW.sort <= 0 OR NEW.sort > _cnt) THEN
             NEW.sort := _cnt;
-        END IF;
-
-        IF (NEW.menu_name = NEW.name) THEN
-            NEW.menu_name := NULL;
         END IF;
 
         RETURN NEW;
@@ -548,6 +554,7 @@ WITH LOCAL CHECK OPTION;
 CREATE TABLE page (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
+    title varchar(255) DEFAULT NULL,
     image int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
     teaser text NOT NULL DEFAULT '',
     main text NOT NULL DEFAULT '',
@@ -558,7 +565,6 @@ CREATE TABLE page (
     url varchar(400) UNIQUE DEFAULT NULL,
     disabled boolean NOT NULL DEFAULT FALSE,
     menu boolean NOT NULL DEFAULT FALSE,
-    menu_name varchar(255) DEFAULT NULL,
     parent_id int DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     sort int NOT NULL DEFAULT 0,
     pos varchar(255) NOT NULL DEFAULT '',
@@ -572,6 +578,7 @@ CREATE TABLE page (
 );
 
 CREATE INDEX ON page (name);
+CREATE INDEX ON page (title);
 CREATE INDEX ON page (image);
 CREATE INDEX ON page (meta_title);
 CREATE INDEX ON page (meta_description);
@@ -579,7 +586,6 @@ CREATE INDEX ON page (slug);
 CREATE INDEX ON page (url);
 CREATE INDEX ON page (disabled);
 CREATE INDEX ON page (menu);
-CREATE INDEX ON page (menu_name);
 CREATE INDEX ON page (parent_id);
 CREATE INDEX ON page (sort);
 CREATE INDEX ON page (pos);
@@ -590,6 +596,7 @@ CREATE INDEX ON page (timestamp);
 CREATE INDEX ON page (date);
 CREATE INDEX ON page (entity_id);
 
+CREATE TRIGGER page_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_before();
 CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_before();
 CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_after();
 CREATE TRIGGER page_version_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_before();

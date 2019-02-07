@@ -160,6 +160,12 @@ return [
                 'required' => true,
                 'maxlength' => 255,
             ],
+            'title' => [
+                'name' => 'Title',
+                'type' => 'text',
+                'nullable' => true,
+                'maxlength' => 255,
+            ],
             'image' => [
                 'name' => 'Image',
                 'type' => 'image',
@@ -207,12 +213,6 @@ return [
             'menu' => [
                 'name' => 'Menu Entry',
                 'type' => 'bool',
-            ],
-            'menu_name' => [
-                'name' => 'Menu Name',
-                'type' => 'text',
-                'nullable' => true,
-                'maxlength' => 255,
             ],
             'parent_id' => [
                 'name' => 'Parent Page',

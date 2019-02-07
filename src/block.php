@@ -94,10 +94,10 @@ function meta(array $block): string
         if ($page['meta_title']) {
             $title = $page['meta_title'];
         } else {
-            $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['name', 'menu_name'], 'order' => ['level' => 'asc']]);
+            $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['name'], 'order' => ['level' => 'asc']]);
 
             foreach ($all as $item) {
-                $title = ($item['menu_name'] ?: $item['name']) . ($title ? ' - ' . $title : '');
+                $title = $item['name'] . ($title ? ' - ' . $title : '');
             }
         }
     } elseif ($entity = app\get('entity')) {
@@ -122,10 +122,10 @@ function view(array $block): string
         return '';
     }
 
-    $var = [
-        'attr' => arr\extract($entity['attr'], $cfg['attr_id']),
-        'data' => app\get('page') ?: entity\one($entity['id'], [['id', $id]]),
-    ];
+    $attrs = arr\extract($entity['attr'], $cfg['attr_id']);
+    $data = app\get('page') ?: entity\one($entity['id'], [['id', $id]]);
+    $data['name'] = empty($attrs['title']) && $data['title'] ? $data['title'] : $data['name'];
+    $var = ['attr' => $attrs, 'data' => $data];
 
     return $var['attr'] && $var['data'] ? app\render($block['tpl'], $var) : '';
 }
@@ -532,7 +532,7 @@ function menu(array $block): string
 
     $rootCrit = [['status', 'published'], ['entity_id', 'page_content']];
     $rootCrit[] = $block['cfg']['submenu'] ? ['id', $page['path'][1]] : ['url', '/'];
-    $select = ['id', 'name', 'url', 'disabled', 'menu_name', 'pos', 'level'];
+    $select = ['id', 'name', 'url', 'disabled', 'pos', 'level'];
     $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
 
     if (!$root = entity\one('page', $rootCrit, ['select' => $select])) {
@@ -553,14 +553,14 @@ function menu(array $block): string
     $block['cfg']['title'] = null;
 
     if ($block['cfg']['root'] && $block['cfg']['submenu']) {
-        $block['cfg']['title'] = $root['menu_name'] ?: $root['name'];
+        $block['cfg']['title'] = $root['name'];
     } elseif ($block['cfg']['root']) {
         $root['level']++;
         $block['cfg']['data'] = [$root['id'] => $root] + $block['cfg']['data'];
     }
 
     foreach ($block['cfg']['data'] as $id => $item) {
-        $block['cfg']['data'][$id]['name'] = $item['menu_name'] ?: $item['name'];
+        $block['cfg']['data'][$id]['name'] = $item['name'];
     }
 
     unset($block['cfg']['root'], $block['cfg']['submenu']);
@@ -602,11 +602,11 @@ function breadcrumb(array $block): string
 
     $html = '';
     $crit = [['status', 'published'], ['entity_id', 'page_content'], ['id', $page['path']]];
-    $all = entity\all('page', $crit, ['select' => ['id', 'name', 'url', 'disabled', 'menu_name'], 'order' => ['level' => 'asc']]);
+    $all = entity\all('page', $crit, ['select' => ['id', 'name', 'url', 'disabled'], 'order' => ['level' => 'asc']]);
 
     foreach ($all as $item) {
         $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
-        $html .= ($html ? ' ' : '') . app\html('a', $a, $item['menu_name'] ?: $item['name']);
+        $html .= ($html ? ' ' : '') . app\html('a', $a, $item['name']);
     }
 
     return app\html('nav', ['id' => $block['id']], $html);
