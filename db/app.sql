@@ -186,8 +186,8 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
     DECLARE
-        _pad int := 5;
         _ext text := '.html';
+        _pad int := 5;
     BEGIN
         -- No relevant changes
         IF (TG_OP = 'UPDATE' AND NEW.slug = OLD.slug AND NEW.menu = OLD.menu AND coalesce(NEW.parent_id, 0) = coalesce(OLD.parent_id, 0) AND NEW.sort = OLD.sort) THEN
