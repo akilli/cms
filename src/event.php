@@ -112,7 +112,7 @@ function cfg_priv(array $data): array
 
         foreach ($entity['action'] as $action) {
             $id = $entity['id'] . '/' . $action;
-            $data[$id]['name'] = $entity['name'] . ' ' . app\i18n($action);
+            $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucfirst($action));
             $data[$id] = arr\replace(APP['priv'], $data[$id]);
         }
     }
