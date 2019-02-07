@@ -150,22 +150,10 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
     DECLARE
-        _chk boolean;
         _cnt int;
     BEGIN
-        IF (TG_OP = 'UPDATE' AND NEW.parent_id IS NOT NULL) THEN
-            SELECT
-                path @> ARRAY[OLD.id]
-            FROM
-                page
-            WHERE
-                id = NEW.parent_id
-            INTO
-                _chk;
-
-            IF (_chk) THEN
-                RAISE EXCEPTION 'Recursion error';
-            END IF;
+        IF (TG_OP = 'UPDATE' AND NEW.parent_id IS NOT NULL AND (SELECT path @> ARRAY[OLD.id] FROM page WHERE id = NEW.parent_id)) THEN
+            RAISE EXCEPTION 'Recursion error';
         END IF;
 
         SELECT
