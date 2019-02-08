@@ -167,8 +167,9 @@ function cols(array $data, array $attrs): array
     $cols = ['param' => [], 'val' => []];
 
     foreach (array_intersect_key($data, $attrs) as $attrId => $val) {
+        $val = val($val, $attrs[$attrId]);
         $p = ':' . $attrId;
-        $cols['param'][$attrId] = [$p, val($val, $attrs[$attrId]), type($val)];
+        $cols['param'][$attrId] = [$p, $val, type($val)];
         $cols['val'][$attrId] = $p;
     }
 
@@ -198,6 +199,8 @@ function val($val, array $attr)
 {
     if (is_array($val) && $attr['backend'] === 'json') {
         $val = json_encode($val);
+    } elseif ($val !== null && $attr['backend'] === 'json') {
+        $val = (string) $val;
     } elseif (is_array($val)) {
         $val = '{' . implode($val, ',') . '}';
     } elseif ($val !== null && $attr['multiple']) {
