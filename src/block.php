@@ -20,7 +20,7 @@ function container(array $block): string
     $attrs = $block['parent_id'] === 'root' ? [] : ['id' => $block['id']];
     $html = '';
 
-    foreach (arr\order(arr\crit(app\layout(), [['parent_id', $block['id']]]), ['sort' => 'asc']) as $child) {
+    foreach (arr\order(arr\filter(app\layout(), 'parent_id', $block['id']), ['sort' => 'asc']) as $child) {
         $html .= app\block($child['id']);
     }
 
@@ -291,7 +291,7 @@ function form(array $block): string
     $var = [
         'data' => $cfg['data'],
         'attr' => $attr,
-        'file' => !!arr\crit($attr, [['type', 'upload']]),
+        'file' => !!arr\filter($attr, 'type', 'upload'),
         'title' => $cfg['title'] ? app\enc($cfg['title']) : null,
     ];
 

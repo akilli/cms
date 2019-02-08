@@ -46,7 +46,7 @@ function parent(array $data): array
     }
 
     if (($opt = & app\registry('opt.parent.' . $data['_entity']['id'])) === null) {
-        $opt = array_column(arr\crit(app\cfg('entity'), [['parent_id', $data['_entity']['id']]]), 'name', 'id');
+        $opt = array_column(arr\filter(app\cfg('entity'), 'parent_id', $data['_entity']['id']), 'name', 'id');
         asort($opt);
     }
 

@@ -3,126 +3,12 @@ declare(strict_types = 1);
 
 namespace arr;
 
-use app;
-use DomainException;
-
 /**
- * Filter data by given criteria
- *
- * @throws DomainException
+ * Filters a recordset-like multi-dimensional array by given column
  */
-function crit(array $data, array $crit): array
+function filter(array $data, string $col, $val): array
 {
-    $crit = array_filter($crit);
-
-    foreach ($data as $id => $item) {
-        foreach ($crit as $part) {
-            $match = false;
-            $part = is_array($part[0]) ? $part : [$part];
-
-            foreach ($part as $c) {
-                if (empty($c[0]) || !array_key_exists($c[0], $item)) {
-                    throw new DomainException(app\i18n('Invalid criteria'));
-                }
-
-                $d = $item[$c[0]];
-                $val = $c[1] ?? null;
-                $op = $c[2] ?? APP['op']['='];
-                $isCol = !empty($c[3]);
-
-                if (empty(APP['op'][$op]) || $isCol && !$val || !is_array($d) && is_array($val) && !$val) {
-                    throw new DomainException(app\i18n('Invalid criteria'));
-                }
-
-                switch ($op) {
-                    case APP['op']['=']:
-                        $call = function ($a, $b): bool {
-                            return $a === $b;
-                        };
-                        break;
-                    case APP['op']['!=']:
-                        $call = function ($a, $b): bool {
-                            return $a !== $b;
-                        };
-                        break;
-                    case APP['op']['>']:
-                        $call = function ($a, $b): bool {
-                            return $a > $b;
-                        };
-                        break;
-                    case APP['op']['>=']:
-                        $call = function ($a, $b): bool {
-                            return $a >= $b;
-                        };
-                        break;
-                    case APP['op']['<']:
-                        $call = function ($a, $b): bool {
-                            return $a < $b;
-                        };
-                        break;
-                    case APP['op']['<=']:
-                        $call = function ($a, $b): bool {
-                            return $a <= $b;
-                        };
-                        break;
-                    case APP['op']['~']:
-                        $call = function ($a, $b): bool {
-                            return stripos($a, $b) !== false;
-                        };
-                        break;
-                    case APP['op']['!~']:
-                        $call = function ($a, $b): bool {
-                            return stripos($a, $b) === false;
-                        };
-                        break;
-                    case APP['op']['^']:
-                        $call = function ($a, $b): bool {
-                            return stripos($a, $b) === 0;
-                        };
-                        break;
-                    case APP['op']['!^']:
-                        $call = function ($a, $b): bool {
-                            return stripos($a, $b) !== 0;
-                        };
-                        break;
-                    case APP['op']['$']:
-                        $call = function ($a, $b): bool {
-                            return mb_strtolower(substr($a, -mb_strlen($b))) === mb_strtolower($b);
-                        };
-                        break;
-                    case APP['op']['!$']:
-                        $call = function ($a, $b): bool {
-                            return mb_strtolower(substr($a, -mb_strlen($b))) !== mb_strtolower($b);
-                        };
-                        break;
-                    default:
-                        throw new DomainException(app\i18n('Invalid criteria'));
-                }
-
-                $val = is_array($val) ? $val : [$val];
-
-                foreach ($val as $v) {
-                    if ($isCol && !array_key_exists($v, $item)) {
-                        throw new DomainException(app\i18n('Invalid criteria'));
-                    } elseif ($isCol) {
-                        $v = $item[$v];
-                    }
-
-                    if ($call($d, $v)) {
-                        $match = true;
-                        break 2;
-                    }
-                }
-            }
-
-            if (!$match) {
-                unset($data[$id]);
-                break;
-            }
-        }
-    }
-
-    return $data;
+    return array_intersect_key($data, array_flip(array_keys(array_combine(array_keys($data), array_column($data, $col)), $val, true)));
 }
 
 /**
