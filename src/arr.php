@@ -13,84 +13,86 @@ use DomainException;
  */
 function crit(array $data, array $crit): array
 {
+    $crit = array_filter($crit);
+
     foreach ($data as $id => $item) {
         foreach ($crit as $part) {
+            $match = false;
             $part = is_array($part[0]) ? $part : [$part];
 
             foreach ($part as $c) {
-                if (!array_key_exists($c[0], $item)) {
-                    unset($data[$id]);
-                    break 2;
+                if (empty($c[0])) {
+                    throw new DomainException(app\i18n('Invalid criteria'));
                 }
 
-                $a = $item[$c[0]];
+                $d = $item[$c[0]] ?? null;
                 $val = $c[1] ?? null;
                 $op = $c[2] ?? APP['op']['='];
                 $isCol = !empty($c[3]);
 
-                if (empty(APP['op'][$op]) || is_array($val) && !$val) {
+                if (empty(APP['op'][$op]) || !is_array($d) && is_array($val) && !$val) {
                     throw new DomainException(app\i18n('Invalid criteria'));
                 }
 
                 switch ($op) {
                     case APP['op']['=']:
-                        $call = function ($a, $v): bool {
-                            return $a === $v;
+                        $call = function ($a, $b): bool {
+                            return $a === $b;
                         };
                         break;
                     case APP['op']['!=']:
-                        $call = function ($a, $v): bool {
-                            return $a !== $v;
+                        $call = function ($a, $b): bool {
+                            return $a !== $b;
                         };
                         break;
                     case APP['op']['>']:
-                        $call = function ($a, $v): bool {
-                            return $a > $v;
+                        $call = function ($a, $b): bool {
+                            return $a > $b;
                         };
                         break;
                     case APP['op']['>=']:
-                        $call = function ($a, $v): bool {
-                            return $a >= $v;
+                        $call = function ($a, $b): bool {
+                            return $a >= $b;
                         };
                         break;
                     case APP['op']['<']:
-                        $call = function ($a, $v): bool {
-                            return $a < $v;
+                        $call = function ($a, $b): bool {
+                            return $a < $b;
                         };
                         break;
                     case APP['op']['<=']:
-                        $call = function ($a, $v): bool {
-                            return $a <= $v;
+                        $call = function ($a, $b): bool {
+                            return $a <= $b;
                         };
                         break;
                     case APP['op']['~']:
-                        $call = function ($a, $v): bool {
-                            return stripos($a, $v) !== false;
+                        $call = function ($a, $b): bool {
+                            return stripos($a, $b) !== false;
                         };
                         break;
                     case APP['op']['!~']:
-                        $call = function ($a, $v): bool {
-                            return stripos($a, $v) === false;
+                        $call = function ($a, $b): bool {
+                            return stripos($a, $b) === false;
                         };
                         break;
                     case APP['op']['^']:
-                        $call = function ($a, $v): bool {
-                            return stripos($a, $v) === 0;
+                        $call = function ($a, $b): bool {
+                            return stripos($a, $b) === 0;
                         };
                         break;
                     case APP['op']['!^']:
-                        $call = function ($a, $v): bool {
-                            return stripos($a, $v) !== 0;
+                        $call = function ($a, $b): bool {
+                            return stripos($a, $b) !== 0;
                         };
                         break;
                     case APP['op']['$']:
-                        $call = function ($a, $v): bool {
-                            return mb_strtolower(substr($a, -mb_strlen($v))) === mb_strtolower($v);
+                        $call = function ($a, $b): bool {
+                            return mb_strtolower(substr($a, -mb_strlen($b))) === mb_strtolower($b);
                         };
                         break;
                     case APP['op']['!$']:
-                        $call = function ($a, $v): bool {
-                            return mb_strtolower(substr($a, -mb_strlen($v))) !== mb_strtolower($v);
+                        $call = function ($a, $b): bool {
+                            return mb_strtolower(substr($a, -mb_strlen($b))) !== mb_strtolower($b);
                         };
                         break;
                     default:
@@ -98,23 +100,22 @@ function crit(array $data, array $crit): array
                 }
 
                 $val = is_array($val) ? $val : [$val];
-                $match = false;
 
                 foreach ($val as $v) {
                     if ($isCol) {
                         $v = $item[$v] ?? null;
                     }
 
-                    if ($call($a, $v)) {
+                    if ($call($d, $v)) {
                         $match = true;
                         break;
                     }
                 }
+            }
 
-                if (!$match) {
-                    unset($data[$id]);
-                    break 2;
-                }
+            if (!$match) {
+                unset($data[$id]);
+                break;
             }
         }
     }

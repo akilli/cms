@@ -219,6 +219,7 @@ function crit(array $crit): array
 {
     static $count = 0;
 
+    $crit = array_filter($crit);
     $cols = ['crit' => [], 'param' => []];
 
     foreach ($crit as $part) {
@@ -226,12 +227,16 @@ function crit(array $crit): array
         $o = [];
 
         foreach ($part as $c) {
+            if (empty($c[0])) {
+                throw new DomainException(app\i18n('Invalid criteria'));
+            }
+
             $attrId = $c[0];
             $val = $c[1] ?? null;
             $op = $c[2] ?? APP['op']['='];
             $isCol = !empty($c[3]);
 
-            if (!$attrId || empty(APP['op'][$op]) || is_array($val) && !$val) {
+            if (empty(APP['op'][$op]) || is_array($val) && !$val) {
                 throw new DomainException(app\i18n('Invalid criteria'));
             }
 
