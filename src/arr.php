@@ -108,7 +108,7 @@ function crit(array $data, array $crit): array
 
                     if ($call($d, $v)) {
                         $match = true;
-                        break;
+                        break 2;
                     }
                 }
             }
