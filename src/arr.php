@@ -73,22 +73,22 @@ function crit(array $data, array $crit): array
                             return stripos($a, $v) === false;
                         };
                         break;
-                    case APP['op']['~^']:
+                    case APP['op']['^']:
                         $call = function ($a, $v): bool {
                             return stripos($a, $v) === 0;
                         };
                         break;
-                    case APP['op']['!~^']:
+                    case APP['op']['!^']:
                         $call = function ($a, $v): bool {
                             return stripos($a, $v) !== 0;
                         };
                         break;
-                    case APP['op']['~$']:
+                    case APP['op']['$']:
                         $call = function ($a, $v): bool {
                             return mb_strtolower(substr($a, -mb_strlen($v))) === mb_strtolower($v);
                         };
                         break;
-                    case APP['op']['!~$']:
+                    case APP['op']['!$']:
                         $call = function ($a, $v): bool {
                             return mb_strtolower(substr($a, -mb_strlen($v))) !== mb_strtolower($v);
                         };

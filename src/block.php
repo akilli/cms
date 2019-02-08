@@ -539,7 +539,7 @@ function menu(array $block): string
         return '';
     }
 
-    $crit = [['status', 'published'], ['entity_id', 'page_content'], ['pos', $root['pos'] . '.', APP['op']['~^']]];
+    $crit = [['status', 'published'], ['entity_id', 'page_content'], ['pos', $root['pos'] . '.', APP['op']['^']]];
 
     if ($block['cfg']['submenu']) {
         $parent = $page['path'];
