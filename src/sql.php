@@ -203,7 +203,7 @@ function attr(array $attrs, bool $auto = false): array
  */
 function crit(array $crit): array
 {
-    static $count = [];
+    static $count = 0;
 
     $cols = ['crit' => [], 'param' => []];
 
@@ -223,7 +223,6 @@ function crit(array $crit): array
 
             $param = ':crit_' . $attrId . '_';
             $type = type($val);
-            $count[$attrId] = $count[$attrId] ?? 0;
             $val = is_array($val) ? $val : [$val];
             $r = [];
 
@@ -246,7 +245,7 @@ function crit(array $crit): array
                         } elseif ($isCol) {
                             $r[] = $attrId . ' ' . $op . ' ' . $v;
                         } else {
-                            $p = $param . ++$count[$attrId];
+                            $p = $param . ++$count;
                             $cols['param'][] = [$p, $v, $type];
                             $r[] = $attrId . ' ' . $op . ' ' . $p;
                         }
@@ -266,7 +265,7 @@ function crit(array $crit): array
                         if ($isCol) {
                             $r[] = $attrId . $not . ' ILIKE ' . $v;
                         } else {
-                            $p = $param . ++$count[$attrId];
+                            $p = $param . ++$count;
                             $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
                             $r[] = $attrId . $not . ' ILIKE ' . $p;
                         }
