@@ -168,14 +168,7 @@ function cols(array $data, array $attrs): array
 
     foreach (array_intersect_key($data, $attrs) as $attrId => $val) {
         $p = ':' . $attrId;
-
-        if (is_array($val) && $attrs[$attrId]['backend'] === 'json') {
-            $val = json_encode($val);
-        } elseif ($attrs[$attrId]['multiple']) {
-            $val = '{' . (is_array($val) ? implode($val, ',') : $val) . '}';
-        }
-
-        $cols['param'][$attrId] = [$p, $val, type($val)];
+        $cols['param'][$attrId] = [$p, val($val, $attrs[$attrId]), type($val)];
         $cols['val'][$attrId] = $p;
     }
 
@@ -194,6 +187,24 @@ function attr(array $attrs, bool $auto = false): array
     }
 
     return $attrs;
+}
+
+/**
+ * Prepare value
+ *
+ * @return mixed
+ */
+function val($val, array $attr)
+{
+    if (is_array($val) && $attr['backend'] === 'json') {
+        $val = json_encode($val);
+    } elseif (is_array($val)) {
+        $val = '{' . implode($val, ',') . '}';
+    } elseif ($val !== null && $attr['multiple']) {
+        $val = '{' . $val . '}';
+    }
+
+    return $val;
 }
 
 /**
