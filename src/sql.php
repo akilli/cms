@@ -19,7 +19,7 @@ function load(array $entity, array $crit = [], array $opt = []): array
         $opt['select'] = array_keys(attr($entity['attr']));
     }
 
-    $cols = crit($crit);
+    $cols = crit($crit, $entity['attr']);
     $stmt = db($entity['db'])->prepare(
         sel($opt['select'])
         . from($entity['id'])
@@ -215,7 +215,7 @@ function val($val, array $attr)
  *
  * @throws DomainException
  */
-function crit(array $crit): array
+function crit(array $crit, array $attrs): array
 {
     static $count = 0;
 
@@ -227,20 +227,20 @@ function crit(array $crit): array
         $o = [];
 
         foreach ($part as $c) {
-            if (empty($c[0])) {
+            if (empty($c[0]) || empty($attrs[$c[0]])) {
                 throw new DomainException(app\i18n('Invalid criteria'));
             }
 
-            $attrId = $c[0];
+            $attr = $attrs[$c[0]];
             $val = $c[1] ?? null;
             $op = $c[2] ?? APP['op']['='];
             $isCol = !empty($c[3]);
 
-            if (empty(APP['op'][$op]) || is_array($val) && !$val) {
+            if (empty(APP['op'][$op]) || $isCol && !$val || is_array($val) && !$val) {
                 throw new DomainException(app\i18n('Invalid criteria'));
             }
 
-            $param = ':crit_' . $attrId . '_';
+            $param = ':crit_' . $attr['id'] . '_';
             $type = type($val);
             $val = is_array($val) ? $val : [$val];
             $r = [];
@@ -260,13 +260,13 @@ function crit(array $crit): array
 
                     foreach ($val as $v) {
                         if ($null && $v === null) {
-                            $r[] = $attrId . $null;
+                            $r[] = $attr['id'] . $null;
                         } elseif ($isCol) {
-                            $r[] = $attrId . ' ' . $op . ' ' . $v;
+                            $r[] = $attr['id'] . ' ' . $op . ' ' . $v;
                         } else {
                             $p = $param . ++$count;
                             $cols['param'][] = [$p, $v, $type];
-                            $r[] = $attrId . ' ' . $op . ' ' . $p;
+                            $r[] = $attr['id'] . ' ' . $op . ' ' . $p;
                         }
                     }
                     break;
@@ -282,11 +282,11 @@ function crit(array $crit): array
 
                     foreach ($val as $v) {
                         if ($isCol) {
-                            $r[] = $attrId . $not . ' ILIKE ' . $v;
+                            $r[] = $attr['id'] . $not . ' ILIKE ' . $v;
                         } else {
                             $p = $param . ++$count;
                             $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
-                            $r[] = $attrId . $not . ' ILIKE ' . $p;
+                            $r[] = $attr['id'] . $not . ' ILIKE ' . $p;
                         }
                     }
                     break;
