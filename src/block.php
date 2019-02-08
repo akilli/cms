@@ -94,7 +94,7 @@ function meta(array $block): string
         if ($page['meta_title']) {
             $title = $page['meta_title'];
         } else {
-            $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['crit']['>']]], ['select' => ['name'], 'order' => ['level' => 'asc']]);
+            $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['op']['>']]], ['select' => ['name'], 'order' => ['level' => 'asc']]);
 
             foreach ($all as $item) {
                 $title = $item['name'] . ($title ? ' - ' . $title : '');
@@ -183,7 +183,7 @@ function index(array $block): string
         if ($p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
             foreach ($q as $v) {
                 $call = function ($attrId) use ($v) {
-                    return [$attrId, $v, APP['crit']['~']];
+                    return [$attrId, $v, APP['op']['~']];
                 };
                 $crit[] = array_map($call, $cfg['search']);
             }
@@ -539,7 +539,7 @@ function menu(array $block): string
         return '';
     }
 
-    $crit = [['status', 'published'], ['entity_id', 'page_content'], ['pos', $root['pos'] . '.', APP['crit']['~^']]];
+    $crit = [['status', 'published'], ['entity_id', 'page_content'], ['pos', $root['pos'] . '.', APP['op']['~^']]];
 
     if ($block['cfg']['submenu']) {
         $parent = $page['path'];

@@ -225,10 +225,10 @@ function crit(array $crit): array
         foreach ($part as $c) {
             $attrId = $c[0];
             $val = $c[1] ?? null;
-            $op = $c[2] ?? APP['crit']['='];
+            $op = $c[2] ?? APP['op']['='];
             $isCol = !empty($c[3]);
 
-            if (!$attrId || empty(APP['crit'][$op]) || is_array($val) && !$val) {
+            if (!$attrId || empty(APP['op'][$op]) || is_array($val) && !$val) {
                 throw new DomainException(app\i18n('Invalid criteria'));
             }
 
@@ -238,16 +238,16 @@ function crit(array $crit): array
             $r = [];
 
             switch ($op) {
-                case APP['crit']['=']:
-                case APP['crit']['!=']:
-                case APP['crit']['>']:
-                case APP['crit']['>=']:
-                case APP['crit']['<']:
-                case APP['crit']['<=']:
+                case APP['op']['=']:
+                case APP['op']['!=']:
+                case APP['op']['>']:
+                case APP['op']['>=']:
+                case APP['op']['<']:
+                case APP['op']['<=']:
                     $null = null;
 
-                    if (in_array($op, [APP['crit']['='], APP['crit']['!=']])) {
-                        $null = ' IS' . ($op === APP['crit']['!='] ? ' NOT' : '') . ' NULL';
+                    if (in_array($op, [APP['op']['='], APP['op']['!=']])) {
+                        $null = ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
                     }
 
                     foreach ($val as $v) {
@@ -262,15 +262,15 @@ function crit(array $crit): array
                         }
                     }
                     break;
-                case APP['crit']['~']:
-                case APP['crit']['!~']:
-                case APP['crit']['~^']:
-                case APP['crit']['!~^']:
-                case APP['crit']['~$']:
-                case APP['crit']['!~$']:
-                    $not = in_array($op, [APP['crit']['!~'], APP['crit']['!~^'], APP['crit']['!~$']]) ? ' NOT' : '';
-                    $pre = in_array($op, [APP['crit']['~'], APP['crit']['!~'], APP['crit']['~$'], APP['crit']['!~$']]) ? '%' : '';
-                    $post = in_array($op, [APP['crit']['~'], APP['crit']['!~'], APP['crit']['~^'], APP['crit']['!~^']]) ? '%' : '';
+                case APP['op']['~']:
+                case APP['op']['!~']:
+                case APP['op']['~^']:
+                case APP['op']['!~^']:
+                case APP['op']['~$']:
+                case APP['op']['!~$']:
+                    $not = in_array($op, [APP['op']['!~'], APP['op']['!~^'], APP['op']['!~$']]) ? ' NOT' : '';
+                    $pre = in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['~$'], APP['op']['!~$']]) ? '%' : '';
+                    $post = in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['~^'], APP['op']['!~^']]) ? '%' : '';
 
                     foreach ($val as $v) {
                         if ($isCol) {

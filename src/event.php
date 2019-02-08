@@ -295,7 +295,7 @@ function entity_postvalidate_layout(array $data): array
     $crit = [['name', $data['name']], ['page_id', $data['page_id']]];
 
     if (!empty($data['_old']['id'])) {
-        $crit[] = ['id', $data['_old']['id'], APP['crit']['!=']];
+        $crit[] = ['id', $data['_old']['id'], APP['op']['!=']];
     }
 
     if (entity\size('layout', $crit)) {
@@ -374,7 +374,7 @@ function entity_postvalidate_page_url(array $data): array
     $crit = [['slug', $slug], ['parent_id', $parentId]];
 
     if ($data['_old']) {
-        $crit[] = ['id', $data['_old']['id'], APP['crit']['!=']];
+        $crit[] = ['id', $data['_old']['id'], APP['op']['!=']];
     }
 
     if (entity\size('page', $crit)) {

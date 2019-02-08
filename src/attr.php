@@ -38,7 +38,7 @@ function validator(array $data, array $attr)
     $crit = [[$attr['id'], $val]];
 
     if ($data['_old']) {
-        $crit[] = ['id', $data['_old']['id'], APP['crit']['!=']];
+        $crit[] = ['id', $data['_old']['id'], APP['op']['!=']];
     }
 
     if ($attr['unique'] && entity\size($data['_entity']['id'], $crit)) {

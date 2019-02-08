@@ -25,70 +25,70 @@ function crit(array $data, array $crit): array
 
                 $a = $item[$c[0]];
                 $val = $c[1] ?? null;
-                $op = $c[2] ?? APP['crit']['='];
+                $op = $c[2] ?? APP['op']['='];
                 $isCol = !empty($c[3]);
 
-                if (empty(APP['crit'][$op]) || is_array($val) && !$val) {
+                if (empty(APP['op'][$op]) || is_array($val) && !$val) {
                     throw new DomainException(app\i18n('Invalid criteria'));
                 }
 
                 switch ($op) {
-                    case APP['crit']['=']:
+                    case APP['op']['=']:
                         $call = function ($a, $v): bool {
                             return $a === $v;
                         };
                         break;
-                    case APP['crit']['!=']:
+                    case APP['op']['!=']:
                         $call = function ($a, $v): bool {
                             return $a !== $v;
                         };
                         break;
-                    case APP['crit']['>']:
+                    case APP['op']['>']:
                         $call = function ($a, $v): bool {
                             return $a > $v;
                         };
                         break;
-                    case APP['crit']['>=']:
+                    case APP['op']['>=']:
                         $call = function ($a, $v): bool {
                             return $a >= $v;
                         };
                         break;
-                    case APP['crit']['<']:
+                    case APP['op']['<']:
                         $call = function ($a, $v): bool {
                             return $a < $v;
                         };
                         break;
-                    case APP['crit']['<=']:
+                    case APP['op']['<=']:
                         $call = function ($a, $v): bool {
                             return $a <= $v;
                         };
                         break;
-                    case APP['crit']['~']:
+                    case APP['op']['~']:
                         $call = function ($a, $v): bool {
                             return stripos($a, $v) !== false;
                         };
                         break;
-                    case APP['crit']['!~']:
+                    case APP['op']['!~']:
                         $call = function ($a, $v): bool {
                             return stripos($a, $v) === false;
                         };
                         break;
-                    case APP['crit']['~^']:
+                    case APP['op']['~^']:
                         $call = function ($a, $v): bool {
                             return stripos($a, $v) === 0;
                         };
                         break;
-                    case APP['crit']['!~^']:
+                    case APP['op']['!~^']:
                         $call = function ($a, $v): bool {
                             return stripos($a, $v) !== 0;
                         };
                         break;
-                    case APP['crit']['~$']:
+                    case APP['op']['~$']:
                         $call = function ($a, $v): bool {
                             return mb_strtolower(substr($a, -mb_strlen($v))) === mb_strtolower($v);
                         };
                         break;
-                    case APP['crit']['!~$']:
+                    case APP['op']['!~$']:
                         $call = function ($a, $v): bool {
                             return mb_strtolower(substr($a, -mb_strlen($v))) !== mb_strtolower($v);
                         };
