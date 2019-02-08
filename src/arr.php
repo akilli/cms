@@ -21,11 +21,11 @@ function crit(array $data, array $crit): array
             $part = is_array($part[0]) ? $part : [$part];
 
             foreach ($part as $c) {
-                if (empty($c[0])) {
+                if (empty($c[0]) || !array_key_exists($c[0], $item)) {
                     throw new DomainException(app\i18n('Invalid criteria'));
                 }
 
-                $d = $item[$c[0]] ?? null;
+                $d = $item[$c[0]];
                 $val = $c[1] ?? null;
                 $op = $c[2] ?? APP['op']['='];
                 $isCol = !empty($c[3]);
