@@ -30,7 +30,7 @@ function crit(array $data, array $crit): array
                 $op = $c[2] ?? APP['op']['='];
                 $isCol = !empty($c[3]);
 
-                if (empty(APP['op'][$op]) || !is_array($d) && is_array($val) && !$val) {
+                if (empty(APP['op'][$op]) || $isCol && !$val || !is_array($d) && is_array($val) && !$val) {
                     throw new DomainException(app\i18n('Invalid criteria'));
                 }
 
@@ -102,8 +102,10 @@ function crit(array $data, array $crit): array
                 $val = is_array($val) ? $val : [$val];
 
                 foreach ($val as $v) {
-                    if ($isCol) {
-                        $v = $item[$v] ?? null;
+                    if ($isCol && !array_key_exists($v, $item)) {
+                        throw new DomainException(app\i18n('Invalid criteria'));
+                    } elseif ($isCol) {
+                        $v = $item[$v];
                     }
 
                     if ($call($d, $v)) {
