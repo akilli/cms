@@ -198,11 +198,7 @@ function attr(array $attrs, bool $auto = false): array
  */
 function val($val, array $attr)
 {
-    if (is_array($val) && $attr['backend'] === 'json') {
-        $val = json_encode($val);
-    } elseif ($val !== null && $attr['backend'] === 'json') {
-        $val = (string) $val;
-    } elseif (is_array($val)) {
+    if (is_array($val)) {
         $val = '{' . implode($val, ',') . '}';
     } elseif ($val !== null && $attr['multiple']) {
         $val = '{' . $val . '}';
@@ -252,7 +248,7 @@ function crit(array $crit, array $attrs): array
             }
 
             if (in_array($op, [APP['op']['='], APP['op']['!='], APP['op']['>'], APP['op']['>='], APP['op']['<'], APP['op']['<=']])) {
-                if ($attr['backend'] === 'json' || $attr['multiple']) {
+                if ($attr['multiple']) {
                     $val = [$val];
                 }
 

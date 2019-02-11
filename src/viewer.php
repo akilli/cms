@@ -55,14 +55,6 @@ function rte(string $val): string
 }
 
 /**
- * JSON
- */
-function json(array $val): string
-{
-    return app\html('pre', [], app\enc(print_r($val, true)));
-}
-
-/**
  * Position
  */
 function pos(string $val): string

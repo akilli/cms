@@ -74,11 +74,6 @@ return [
         'viewer' => 'viewer\opt',
         'multiple' => true,
     ],
-    'json' => [
-        'backend' => 'json',
-        'frontend' => 'frontend\json',
-        'viewer' => 'viewer\json',
-    ],
     'page' => [
         'backend' => 'int',
         'frontend' => 'frontend\select',
