@@ -245,14 +245,11 @@ function crit(array $crit, array $attrs): array
 
             if (in_array($op, [APP['op']['='], APP['op']['!=']]) && ($n = array_keys($val, null, true))) {
                 $or[] = $attr['id'] . ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
-                $val = arr\remove($val, $n);
-            }
 
-            if (!$val) {
-                continue;
+                if (!$val = arr\remove($val, $n)) {
+                    continue;
+                }
             }
-
-            $val = array_unique($val);
 
             if (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
                 $ex = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT ILIKE ' : ' ILIKE ';
