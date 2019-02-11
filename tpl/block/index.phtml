@@ -36,7 +36,7 @@ $entityId = $var('entity_id');
             $val = $data[$attr['id']] ?? null;
             $html = attr\viewer($data, $attr);
             ?>
-            <?php if (!$admin && ($val === null || $val === '' || !$html)) continue;?>
+            <?php if (!$admin && !$html) continue;?>
             <?php if ($attr['id'] === 'name'):?>
         <<?=$h2;?> data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
                 <?php if (get('public') && allowed($entityId . '/view')):?>
