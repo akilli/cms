@@ -241,7 +241,6 @@ function crit(array $crit, array $attrs): array
             }
 
             $param = ':crit_' . $attr['id'] . '_';
-            $type = type($val);
             $val = is_array($val) ? $val : [$val];
             $r = [];
 
@@ -273,7 +272,8 @@ function crit(array $crit, array $attrs): array
                         $r[] = $attr['id'] . ' ' . $op . ' ' . $v;
                     } else {
                         $p = $param . ++$count;
-                        $cols['param'][] = [$p, $v, $type];
+                        $v = val($v, $attr);
+                        $cols['param'][] = [$p, $v, type($v)];
                         $r[] = $attr['id'] . ' ' . $op . ' ' . $p;
                     }
                 }
