@@ -251,7 +251,22 @@ function crit(array $crit, array $attrs): array
                 }
             }
 
-            if (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
+            if (in_array($op, [APP['op']['='], APP['op']['!='], APP['op']['>'], APP['op']['>='], APP['op']['<'], APP['op']['<=']])) {
+                if ($attr['backend'] === 'json' || $attr['multiple']) {
+                    $val = [$val];
+                }
+
+                foreach ($val as $v) {
+                    if (!$isCol) {
+                        $p = $param . ++$count;
+                        $v = val($v, $attr);
+                        $cols['param'][] = [$p, $v, type($v)];
+                        $v = $p;
+                    }
+
+                    $or[] = $attr['id'] . ' ' . $op . ' ' . $v;
+                }
+            } elseif (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
                 $ex = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT ILIKE ' : ' ILIKE ';
                 $pre = '';
                 $post = '';
@@ -272,21 +287,6 @@ function crit(array $crit, array $attrs): array
                         $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
                         $or[] = $attr['id'] . $ex . $p;
                     }
-                }
-            } else {
-                if ($attr['backend'] === 'json' || $attr['multiple']) {
-                    $val = [$val];
-                }
-
-                foreach ($val as $v) {
-                    if (!$isCol) {
-                        $p = $param . ++$count;
-                        $v = val($v, $attr);
-                        $cols['param'][] = [$p, $v, type($v)];
-                        $v = $p;
-                    }
-
-                    $or[] = $attr['id'] . ' ' . $op . ' ' . $v;
                 }
             }
         }
