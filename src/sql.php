@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace sql;
 
 use app;
+use arr;
 use PDO;
 use DomainException;
 use Throwable;
@@ -257,20 +258,19 @@ function crit(array $crit, array $attrs): array
                     }
                 }
             } else {
-                $null = null;
-
-                if (in_array($op, [APP['op']['='], APP['op']['!=']])) {
-                    $null = ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
+                if (in_array($op, [APP['op']['='], APP['op']['!=']]) && ($n = array_keys($val, null, true))) {
+                    $o[] = $attr['id'] . ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
+                    $val = arr\remove($val, $n);
                 }
 
-                if ($attr['backend'] === 'json' || $attr['multiple']) {
+                if (!$val) {
+                    continue;
+                } elseif ($attr['backend'] === 'json' || $attr['multiple']) {
                     $val = [$val];
                 }
 
                 foreach ($val as $v) {
-                    if ($null && $v === null) {
-                        $o[] = $attr['id'] . $null;
-                    } elseif ($isCol) {
+                    if ($isCol) {
                         $o[] = $attr['id'] . ' ' . $op . ' ' . $v;
                     } else {
                         $p = $param . ++$count;

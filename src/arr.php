@@ -61,3 +61,11 @@ function extract(array $data, array $keys): array
 {
     return $data && $keys ? replace(array_fill_keys(array_intersect($keys, array_keys($data)), null), $data) : [];
 }
+
+/**
+ * Remove given keys
+ */
+function remove(array $data, array $keys): array
+{
+    return array_diff_key($data, array_flip($keys));
+}
