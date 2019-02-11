@@ -255,7 +255,7 @@ function crit(array $crit, array $attrs): array
             $val = array_unique($val);
 
             if (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
-                $sqlOp = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT ILIKE ' : ' ILIKE ';
+                $ex = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT ILIKE ' : ' ILIKE ';
                 $pre = '';
                 $post = '';
 
@@ -269,11 +269,11 @@ function crit(array $crit, array $attrs): array
 
                 foreach ($val as $v) {
                     if ($isCol) {
-                        $or[] = $attr['id'] . $sqlOp . $pre . $v . $post;
+                        $or[] = $attr['id'] . $ex . $pre . $v . $post;
                     } else {
                         $p = $param . ++$count;
                         $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
-                        $or[] = $attr['id'] . $sqlOp . $p;
+                        $or[] = $attr['id'] . $ex . $p;
                     }
                 }
             } else {
