@@ -164,7 +164,7 @@ function radio($val, array $attr): string
 function select($val, array $attr): string
 {
     if (!is_array($val)) {
-        $val = $val === null && $val === '' ? [] : [$val];
+        $val = $val === null || $val === '' ? [] : [$val];
     }
 
     $out = app\html('option', ['value' => ''], app\i18n('Please choose'));

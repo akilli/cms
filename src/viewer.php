@@ -82,7 +82,7 @@ function pos(string $val): string
 function opt($val, array $attr): string
 {
     if (!is_array($val)) {
-        $val = $val === null && $val === '' ? [] : [$val];
+        $val = $val === null || $val === '' ? [] : [$val];
     }
 
     $opt = $attr['opt']();
