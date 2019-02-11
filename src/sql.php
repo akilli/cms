@@ -219,7 +219,6 @@ function crit(array $crit, array $attrs): array
 {
     static $count = 0;
 
-    $crit = array_filter($crit);
     $cols = ['crit' => [], 'param' => []];
 
     foreach ($crit as $part) {
@@ -242,7 +241,6 @@ function crit(array $crit, array $attrs): array
 
             $param = ':crit_' . $attr['id'] . '_';
             $val = is_array($val) ? $val : [$val];
-            $r = [];
 
             if (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
                 $not = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT' : '';
@@ -251,11 +249,11 @@ function crit(array $crit, array $attrs): array
 
                 foreach ($val as $v) {
                     if ($isCol) {
-                        $r[] = $attr['id'] . $not . ' ILIKE ' . $v;
+                        $o[] = $attr['id'] . $not . ' ILIKE ' . $v;
                     } else {
                         $p = $param . ++$count;
                         $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
-                        $r[] = $attr['id'] . $not . ' ILIKE ' . $p;
+                        $o[] = $attr['id'] . $not . ' ILIKE ' . $p;
                     }
                 }
             } else {
@@ -271,19 +269,17 @@ function crit(array $crit, array $attrs): array
 
                 foreach ($val as $v) {
                     if ($null && $v === null) {
-                        $r[] = $attr['id'] . $null;
+                        $o[] = $attr['id'] . $null;
                     } elseif ($isCol) {
-                        $r[] = $attr['id'] . ' ' . $op . ' ' . $v;
+                        $o[] = $attr['id'] . ' ' . $op . ' ' . $v;
                     } else {
                         $p = $param . ++$count;
                         $v = val($v, $attr);
                         $cols['param'][] = [$p, $v, type($v)];
-                        $r[] = $attr['id'] . ' ' . $op . ' ' . $p;
+                        $o[] = $attr['id'] . ' ' . $op . ' ' . $p;
                     }
                 }
             }
-
-            $o[] = implode(' OR ', $r);
         }
 
         $cols['crit'][] = '(' . implode(' OR ', $o) . ')';
