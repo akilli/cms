@@ -245,53 +245,38 @@ function crit(array $crit, array $attrs): array
             $val = is_array($val) ? $val : [$val];
             $r = [];
 
-            switch ($op) {
-                case APP['op']['=']:
-                case APP['op']['!=']:
-                case APP['op']['>']:
-                case APP['op']['>=']:
-                case APP['op']['<']:
-                case APP['op']['<=']:
-                    $null = null;
+            if (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
+                $not = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT' : '';
+                $pre = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['$'], APP['op']['!$']]) ? '%' : '';
+                $post = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
 
-                    if (in_array($op, [APP['op']['='], APP['op']['!=']])) {
-                        $null = ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
+                foreach ($val as $v) {
+                    if ($isCol) {
+                        $r[] = $attr['id'] . $not . ' ILIKE ' . $v;
+                    } else {
+                        $p = $param . ++$count;
+                        $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
+                        $r[] = $attr['id'] . $not . ' ILIKE ' . $p;
                     }
+                }
+            } else {
+                $null = null;
 
-                    foreach ($val as $v) {
-                        if ($null && $v === null) {
-                            $r[] = $attr['id'] . $null;
-                        } elseif ($isCol) {
-                            $r[] = $attr['id'] . ' ' . $op . ' ' . $v;
-                        } else {
-                            $p = $param . ++$count;
-                            $cols['param'][] = [$p, $v, $type];
-                            $r[] = $attr['id'] . ' ' . $op . ' ' . $p;
-                        }
-                    }
-                    break;
-                case APP['op']['*']:
-                case APP['op']['!*']:
-                case APP['op']['^']:
-                case APP['op']['!^']:
-                case APP['op']['$']:
-                case APP['op']['!$']:
-                    $not = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT' : '';
-                    $pre = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['$'], APP['op']['!$']]) ? '%' : '';
-                    $post = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
+                if (in_array($op, [APP['op']['='], APP['op']['!=']])) {
+                    $null = ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
+                }
 
-                    foreach ($val as $v) {
-                        if ($isCol) {
-                            $r[] = $attr['id'] . $not . ' ILIKE ' . $v;
-                        } else {
-                            $p = $param . ++$count;
-                            $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
-                            $r[] = $attr['id'] . $not . ' ILIKE ' . $p;
-                        }
+                foreach ($val as $v) {
+                    if ($null && $v === null) {
+                        $r[] = $attr['id'] . $null;
+                    } elseif ($isCol) {
+                        $r[] = $attr['id'] . ' ' . $op . ' ' . $v;
+                    } else {
+                        $p = $param . ++$count;
+                        $cols['param'][] = [$p, $v, $type];
+                        $r[] = $attr['id'] . ' ' . $op . ' ' . $p;
                     }
-                    break;
-                default:
-                    throw new DomainException(app\i18n('Invalid criteria'));
+                }
             }
 
             $o[] = implode(' OR ', $r);
