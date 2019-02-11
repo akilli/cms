@@ -224,7 +224,7 @@ function crit(array $crit, array $attrs): array
 
     foreach ($crit as $part) {
         $part = is_array($part[0]) ? $part : [$part];
-        $o = [];
+        $or = [];
 
         foreach ($part as $c) {
             if (empty($c[0]) || empty($attrs[$c[0]]) || !array_key_exists(1, $c)) {
@@ -243,46 +243,58 @@ function crit(array $crit, array $attrs): array
             $param = ':crit_' . $attr['id'] . '_';
             $val = is_array($val) ? $val : [$val];
 
+            if (in_array($op, [APP['op']['='], APP['op']['!=']]) && ($n = array_keys($val, null, true))) {
+                $or[] = $attr['id'] . ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
+                $val = arr\remove($val, $n);
+            }
+
+            if (!$val) {
+                continue;
+            }
+
+            $val = array_unique($val);
+
             if (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
-                $not = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT' : '';
-                $pre = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['$'], APP['op']['!$']]) ? '%' : '';
-                $post = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
+                $sqlOp = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT ILIKE ' : ' ILIKE ';
+                $pre = '';
+                $post = '';
+
+                if (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['$'], APP['op']['!$']])) {
+                    $pre = $isCol ? "'%' || " : '%';
+                }
+
+                if (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^']])) {
+                    $post = $isCol ? " || '%'" : '%';
+                }
 
                 foreach ($val as $v) {
                     if ($isCol) {
-                        $o[] = $attr['id'] . $not . ' ILIKE ' . $v;
+                        $or[] = $attr['id'] . $sqlOp . $pre . $v . $post;
                     } else {
                         $p = $param . ++$count;
                         $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
-                        $o[] = $attr['id'] . $not . ' ILIKE ' . $p;
+                        $or[] = $attr['id'] . $sqlOp . $p;
                     }
                 }
             } else {
-                if (in_array($op, [APP['op']['='], APP['op']['!=']]) && ($n = array_keys($val, null, true))) {
-                    $o[] = $attr['id'] . ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
-                    $val = arr\remove($val, $n);
-                }
-
-                if (!$val) {
-                    continue;
-                } elseif ($attr['backend'] === 'json' || $attr['multiple']) {
+                if ($attr['backend'] === 'json' || $attr['multiple']) {
                     $val = [$val];
                 }
 
                 foreach ($val as $v) {
-                    if ($isCol) {
-                        $o[] = $attr['id'] . ' ' . $op . ' ' . $v;
-                    } else {
+                    if (!$isCol) {
                         $p = $param . ++$count;
                         $v = val($v, $attr);
                         $cols['param'][] = [$p, $v, type($v)];
-                        $o[] = $attr['id'] . ' ' . $op . ' ' . $p;
+                        $v = $p;
                     }
+
+                    $or[] = $attr['id'] . ' ' . $op . ' ' . $v;
                 }
             }
         }
 
-        $cols['crit'][] = '(' . implode(' OR ', $o) . ')';
+        $cols['crit'][] = '(' . implode(' OR ', $or) . ')';
     }
 
     return $cols;
