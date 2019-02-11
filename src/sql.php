@@ -236,7 +236,7 @@ function crit(array $crit, array $attrs): array
             $op = $c[2] ?? APP['op']['='];
             $isCol = !empty($c[3]);
 
-            if (empty(APP['op'][$op]) || $isCol && !$val || is_array($val) && !$val) {
+            if (empty(APP['op'][$op]) || !$val && ($isCol || is_array($val))) {
                 throw new DomainException(app\i18n('Invalid criteria'));
             }
 
