@@ -270,15 +270,15 @@ function crit(array $crit, array $attrs): array
                         }
                     }
                     break;
-                case APP['op']['~']:
-                case APP['op']['!~']:
+                case APP['op']['*']:
+                case APP['op']['!*']:
                 case APP['op']['^']:
                 case APP['op']['!^']:
                 case APP['op']['$']:
                 case APP['op']['!$']:
-                    $not = in_array($op, [APP['op']['!~'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT' : '';
-                    $pre = in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['$'], APP['op']['!$']]) ? '%' : '';
-                    $post = in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
+                    $not = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT' : '';
+                    $pre = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['$'], APP['op']['!$']]) ? '%' : '';
+                    $post = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
 
                     foreach ($val as $v) {
                         if ($isCol) {

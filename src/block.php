@@ -183,7 +183,7 @@ function index(array $block): string
         if ($p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
             foreach ($q as $v) {
                 $call = function ($attrId) use ($v) {
-                    return [$attrId, $v, APP['op']['~']];
+                    return [$attrId, $v, APP['op']['*']];
                 };
                 $crit[] = array_map($call, $cfg['search']);
             }
