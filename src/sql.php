@@ -227,12 +227,12 @@ function crit(array $crit, array $attrs): array
         $o = [];
 
         foreach ($part as $c) {
-            if (empty($c[0]) || empty($attrs[$c[0]])) {
+            if (empty($c[0]) || empty($attrs[$c[0]]) || !array_key_exists(1, $c)) {
                 throw new DomainException(app\i18n('Invalid criteria'));
             }
 
             $attr = $attrs[$c[0]];
-            $val = $c[1] ?? null;
+            $val = $c[1];
             $op = $c[2] ?? APP['op']['='];
             $isCol = !empty($c[3]);
 
@@ -263,6 +263,10 @@ function crit(array $crit, array $attrs): array
 
                 if (in_array($op, [APP['op']['='], APP['op']['!=']])) {
                     $null = ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
+                }
+
+                if ($attr['backend'] === 'json' || $attr['multiple']) {
+                    $val = [$val];
                 }
 
                 foreach ($val as $v) {
