@@ -230,9 +230,8 @@ function crit(array $crit, array $attrs): array
             $attr = $attrs[$c[0]];
             $val = $c[1];
             $op = $c[2] ?? APP['op']['='];
-            $isCol = !empty($c[3]);
 
-            if (empty(APP['op'][$op]) || !$val && ($isCol || is_array($val))) {
+            if (empty(APP['op'][$op]) || is_array($val) && !$val) {
                 throw new DomainException(app\i18n('Invalid criteria'));
             }
 
@@ -253,36 +252,20 @@ function crit(array $crit, array $attrs): array
                 }
 
                 foreach ($val as $v) {
-                    if (!$isCol) {
-                        $p = $param . ++$count;
-                        $v = val($v, $attr);
-                        $cols['param'][] = [$p, $v, type($v)];
-                        $v = $p;
-                    }
-
-                    $or[] = $attr['id'] . ' ' . $op . ' ' . $v;
+                    $p = $param . ++$count;
+                    $v = val($v, $attr);
+                    $cols['param'][] = [$p, $v, type($v)];
+                    $or[] = $attr['id'] . ' ' . $op . ' ' . $p;
                 }
             } elseif (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
                 $ex = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT ILIKE ' : ' ILIKE ';
-                $pre = '';
-                $post = '';
-
-                if (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['$'], APP['op']['!$']])) {
-                    $pre = $isCol ? "'%' || " : '%';
-                }
-
-                if (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^']])) {
-                    $post = $isCol ? " || '%'" : '%';
-                }
+                $pre = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['$'], APP['op']['!$']]) ? '%' : '';
+                $post = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
 
                 foreach ($val as $v) {
-                    if ($isCol) {
-                        $or[] = $attr['id'] . $ex . $pre . $v . $post;
-                    } else {
-                        $p = $param . ++$count;
-                        $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
-                        $or[] = $attr['id'] . $ex . $p;
-                    }
+                    $p = $param . ++$count;
+                    $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
+                    $or[] = $attr['id'] . $ex . $p;
                 }
             }
         }
