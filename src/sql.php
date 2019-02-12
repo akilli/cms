@@ -263,13 +263,19 @@ function crit(array $crit, array $attrs): array
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' ' . $op . ' ' . $p;
+            } elseif ($attr['multiple'] && in_array($op, [APP['op']['*'], APP['op']['!*']])) {
+                $p = $param . ++$count;
+                $val = val($val, $attr);
+                $cols['param'][] = [$p, $val, type($val)];
+                $or[] = $attr['id'] . ' @> ' . $p . ($op === APP['op']['!*'] ? ' IS FALSE' : '');
             } elseif (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
                 $ex = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT ILIKE ' : ' ILIKE ';
                 $pre = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['$'], APP['op']['!$']]) ? '%' : '';
                 $post = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
                 $p = $param . ++$count;
+                $val = val($val, $attr);
                 $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], (string) $val) . $post, PDO::PARAM_STR];
-                $or[] = $attr['id'] . $ex . $p;
+                $or[] = $attr['id'] . '::text' . $ex . $p;
             }
         }
 
