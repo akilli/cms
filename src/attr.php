@@ -170,6 +170,10 @@ function cast($val, array $attr)
         return null;
     }
 
+    if ($attr['backend'] === 'json') {
+        return is_array($val) || $val && ($val = json_decode($val, true)) ? $val : [];
+    }
+
     if ($attr['multiple']) {
         return is_array($val) || $val && ($val = explode(',', trim($val, '{}'))) ? arr\map(__FUNCTION__, $val, ['multiple' => false] + $attr) : [];
     }

@@ -198,9 +198,13 @@ function attr(array $attrs, bool $auto = false): array
  */
 function val($val, array $attr)
 {
-    if (is_array($val)) {
+    if ($attr['backend'] === 'json' && is_array($val)) {
+        $val = json_encode($val);
+    } elseif ($attr['backend'] === 'json' && $val !== null) {
+        $val = (string) $val;
+    } elseif (is_array($val)) {
         $val = '{' . implode(arr\change($val, null, 'NULL'), ',') . '}';
-    } elseif ($val !== null && $attr['multiple']) {
+    } elseif ($attr['multiple'] && $val !== null) {
         $val = '{' . $val . '}';
     }
 
@@ -239,7 +243,7 @@ function crit(array $crit, array $attrs): array
 
             if ($val === null && in_array($op, [APP['op']['='], APP['op']['!=']])) {
                 $or[] = $attr['id'] . ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
-            } elseif (is_array($val) && !$attr['multiple'] && in_array($op, [APP['op']['='], APP['op']['!=']])) {
+            } elseif (in_array($op, [APP['op']['='], APP['op']['!=']]) && is_array($val) && $attr['backend'] !== 'json' && !$attr['multiple']) {
                 $not = $op === APP['op']['!='] ? ' NOT' : '';
                 $null = $attr['id'] . ' IS' . $not . ' NULL';
 
@@ -263,12 +267,12 @@ function crit(array $crit, array $attrs): array
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' ' . $op . ' ' . $p;
-            } elseif ($attr['multiple'] && in_array($op, [APP['op']['~'], APP['op']['!~']])) {
+            } elseif (in_array($op, [APP['op']['~'], APP['op']['!~']]) && ($attr['backend'] === 'json' || $attr['multiple'])) {
                 $p = $param . ++$count;
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' @> ' . $p . ($op === APP['op']['!~'] ? ' IS FALSE' : '');
-            } elseif ($attr['multiple'] && in_array($op, [APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
+            } elseif (in_array($op, [APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']]) && $attr['multiple']) {
                 $n = is_array($val) ? max(0, count($val) - 1) : 0;
                 $p = $param . ++$count;
                 $val = val($val, $attr);

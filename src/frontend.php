@@ -109,6 +109,14 @@ function textarea(string $val, array $attr): string
 }
 
 /**
+ * JSON
+ */
+function json(array $val, array $attr): string
+{
+    return textarea(json_encode($val), $attr);
+}
+
+/**
  * Bool
  */
 function bool(bool $val, array $attr): string
