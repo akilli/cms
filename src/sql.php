@@ -263,11 +263,11 @@ function crit(array $crit, array $attrs): array
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' ' . $op . ' ' . $p;
-            } elseif ($attr['multiple'] && in_array($op, [APP['op']['*'], APP['op']['!*']])) {
+            } elseif ($attr['multiple'] && in_array($op, [APP['op']['~'], APP['op']['!~']])) {
                 $p = $param . ++$count;
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
-                $or[] = $attr['id'] . ' @> ' . $p . ($op === APP['op']['!*'] ? ' IS FALSE' : '');
+                $or[] = $attr['id'] . ' @> ' . $p . ($op === APP['op']['!~'] ? ' IS FALSE' : '');
             } elseif ($attr['multiple'] && in_array($op, [APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
                 $n = is_array($val) ? max(0, count($val) - 1) : 0;
                 $p = $param . ++$count;
@@ -283,10 +283,10 @@ function crit(array $crit, array $attrs): array
                 }
 
                 $or[] = $attr['id'] . $l . (in_array($op, [APP['op']['!^'], APP['op']['!$']]) ? ' != ' : ' = ') . $p;
-            } elseif (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
-                $not = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT' : '';
-                $pre = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['$'], APP['op']['!$']]) ? '%' : '';
-                $post = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
+            } elseif (in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
+                $not = in_array($op, [APP['op']['!~'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT' : '';
+                $pre = in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['$'], APP['op']['!$']]) ? '%' : '';
+                $post = in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
                 $p = $param . ++$count;
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], (string) $val) . $post, PDO::PARAM_STR];
