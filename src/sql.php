@@ -199,7 +199,7 @@ function attr(array $attrs, bool $auto = false): array
 function val($val, array $attr)
 {
     if (is_array($val)) {
-        $val = '{' . implode($val, ',') . '}';
+        $val = '{' . implode(arr\change($val, null, 'NULL'), ',') . '}';
     } elseif ($val !== null && $attr['multiple']) {
         $val = '{' . $val . '}';
     }
@@ -236,37 +236,40 @@ function crit(array $crit, array $attrs): array
             }
 
             $param = ':crit_' . $attr['id'] . '_';
-            $val = is_array($val) ? $val : [$val];
 
-            if (in_array($op, [APP['op']['='], APP['op']['!=']]) && ($n = array_keys($val, null, true))) {
+            if ($val === null && in_array($op, [APP['op']['='], APP['op']['!=']])) {
                 $or[] = $attr['id'] . ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
+            } elseif (is_array($val) && !$attr['multiple'] && in_array($op, [APP['op']['='], APP['op']['!=']])) {
+                $not = $op === APP['op']['!='] ? ' NOT' : '';
+                $null = $attr['id'] . ' IS' . $not . ' NULL';
 
-                if (!$val = arr\remove($val, $n)) {
+                if (($n = array_keys($val, null, true)) && !($val = arr\remove($val, $n))) {
+                    $or[] = $null;
                     continue;
                 }
-            }
 
-            if (in_array($op, [APP['op']['='], APP['op']['!='], APP['op']['>'], APP['op']['>='], APP['op']['<'], APP['op']['<=']])) {
-                if ($attr['multiple']) {
-                    $val = [$val];
-                }
+                $in = [];
 
                 foreach ($val as $v) {
                     $p = $param . ++$count;
                     $v = val($v, $attr);
                     $cols['param'][] = [$p, $v, type($v)];
-                    $or[] = $attr['id'] . ' ' . $op . ' ' . $p;
+                    $in[] = $p;
                 }
+
+                $or[] = ($n ? $null . ($not ? ' AND ' : ' OR ') : '') . $attr['id'] . $not . ' IN (' . implode($in, ', ') . ')';
+            } elseif (in_array($op, [APP['op']['='], APP['op']['!='], APP['op']['>'], APP['op']['>='], APP['op']['<'], APP['op']['<=']])) {
+                $p = $param . ++$count;
+                $val = val($val, $attr);
+                $cols['param'][] = [$p, $val, type($val)];
+                $or[] = $attr['id'] . ' ' . $op . ' ' . $p;
             } elseif (in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
                 $ex = in_array($op, [APP['op']['!*'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT ILIKE ' : ' ILIKE ';
                 $pre = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['$'], APP['op']['!$']]) ? '%' : '';
                 $post = in_array($op, [APP['op']['*'], APP['op']['!*'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
-
-                foreach ($val as $v) {
-                    $p = $param . ++$count;
-                    $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], $v) . $post, PDO::PARAM_STR];
-                    $or[] = $attr['id'] . $ex . $p;
-                }
+                $p = $param . ++$count;
+                $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], (string) $val) . $post, PDO::PARAM_STR];
+                $or[] = $attr['id'] . $ex . $p;
             }
         }
 

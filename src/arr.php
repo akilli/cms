@@ -63,9 +63,21 @@ function extract(array $data, array $keys): array
 }
 
 /**
- * Remove given keys
+ * Removes given keys
  */
 function remove(array $data, array $keys): array
 {
     return array_diff_key($data, array_flip($keys));
+}
+
+/**
+ * Replaces given search value by another
+ */
+function change(array $data, $search, $replace): array
+{
+    foreach (array_keys($data, $search, true) as $key) {
+        $data[$key] = $replace;
+    }
+
+    return $data;
 }
