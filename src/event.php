@@ -105,7 +105,7 @@ function cfg_priv(array $data): array
 
     foreach (app\cfg('entity') as $entity) {
         if (in_array('edit', $entity['action']) && in_array('page', [$entity['id'], $entity['parent_id']])) {
-            $id = $entity['id'] . '/publish';
+            $id = $entity['id'] . '-publish';
             $data[$id]['name'] = $entity['name'] . ' ' . app\i18n('Publish');
             $data[$id] = arr\replace(APP['priv'], $data[$id]);
         }
