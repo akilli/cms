@@ -11,7 +11,7 @@
         let origin;
 
         try {
-            origin = window.opener.origin;
+            origin = window.opener.origin || window.opener.location.origin;
         } catch (e) {
             document.body.innerHTML = app.i18n('Page not found');
             setTimeout(window.close, 3000);
