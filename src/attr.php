@@ -46,11 +46,9 @@ function validator(array $data, array $attr)
     $vs = $attr['multiple'] ? $val : [$val];
 
     foreach ($vs as $v) {
-        if ($attr['min'] > 0 && $v < $attr['min']
-            || $attr['max'] > 0 && $v > $attr['max']
-            || $attr['minlength'] > 0 && mb_strlen($v) < $attr['minlength']
-            || $attr['maxlength'] > 0 && mb_strlen($v) > $attr['maxlength']
-        ) {
+        $length = in_array($attr['backend'], ['json', 'text', 'varchar']) ? mb_strlen($v) : $v;
+
+        if ($attr['min'] > 0 && $length < $attr['min'] || $attr['max'] > 0 && $length > $attr['max']) {
             throw new DomainException(app\i18n('Value out of range'));
         }
     }
@@ -85,16 +83,14 @@ function frontend(array $data, array $attr): string
         $label['data-unique'] = true;
     }
 
-    foreach ([['min', 'max'], ['minlength', 'maxlength']] as $edge) {
-        if ($attr[$edge[0]] <= $attr[$edge[1]]) {
-            if ($attr[$edge[0]] > 0) {
-                $attr['html'][$edge[0]] = $attr[$edge[0]];
-            }
+    $minmax = in_array($attr['backend'], ['json', 'text', 'varchar']) ? ['minlength', 'maxlength'] : ['min', 'max'];
 
-            if ($attr[$edge[1]] > 0) {
-                $attr['html'][$edge[1]] = $attr[$edge[1]];
-            }
-        }
+    if ($attr['min'] > 0) {
+        $attr['html'][$minmax[0]] = $attr['min'];
+    }
+
+    if ($attr['max'] > 0) {
+        $attr['html'][$minmax[1]] = $attr['max'];
     }
 
     if (!empty($data['_error'][$attr['id']])) {

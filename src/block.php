@@ -403,7 +403,7 @@ function login(array $block): string
 {
     $block['tpl'] = $block['tpl'] ?? app\cfg('block', 'login')['tpl'];
     $entity = app\cfg('entity', 'account');
-    $a = ['name' => ['unique' => false, 'minlength' => 0, 'maxlength' => 0], 'password' => ['minlength' => 0, 'maxlength' => 0]];
+    $a = ['name' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0]];
     $var = [
         'data' => [],
         'attr' => array_replace_recursive(arr\extract($entity['attr'], ['name', 'password']), $a),

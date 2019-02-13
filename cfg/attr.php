@@ -93,7 +93,7 @@ return [
         'validator' => 'validator\opt',
         'viewer' => 'viewer\opt',
         'opt' => 'opt\parent',
-        'maxlength' => 50,
+        'max' => 50,
     ],
     'password' => [
         'backend' => 'varchar',
