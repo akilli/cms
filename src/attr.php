@@ -23,16 +23,10 @@ function validator(array $data, array $attr)
         return $val;
     }
 
-    $set = $val !== null && $val !== '';
-    $pattern = $attr['pattern'] ? '#^' . str_replace('#', '\#', $attr['pattern']) . '$#' : null;
     $attr['opt'] = opt($data, $attr);
 
     if ($attr['validator']) {
         $val = $attr['validator']($val, $attr);
-    }
-
-    if ($set && $pattern && !preg_match($pattern, $attr['multiple'] ? implode("\n", $val) : (string) $val)) {
-        throw new DomainException(app\i18n('Value contains invalid characters'));
     }
 
     $crit = [[$attr['id'], $val]];
@@ -45,7 +39,7 @@ function validator(array $data, array $attr)
         throw new DomainException(app\i18n('Value must be unique'));
     }
 
-    if (!$set && $attr['required']) {
+    if ($attr['required'] && ($val === null || $val === '')) {
         throw new DomainException(app\i18n('Value is required'));
     }
 
@@ -80,10 +74,6 @@ function frontend(array $data, array $attr): string
     if ($attr['multiple']) {
         $attr['html']['name'] .= '[]';
         $attr['html']['multiple'] = true;
-    }
-
-    if ($attr['pattern']) {
-        $attr['html']['pattern'] = $attr['pattern'];
     }
 
     if ($attr['required'] && !ignorable($data, $attr)) {
