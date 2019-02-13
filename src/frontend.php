@@ -198,7 +198,7 @@ function file(int $val, array $attr): string
 function upload(string $val, array $attr): string
 {
     $out = app\html('div', [], $val ? $attr['viewer']($val, $attr) : '');
-    $out .= app\html('input', ['type' => 'file', 'accept' => implode(', ', $attr['opt']())] + $attr['html']);
+    $out .= app\html('input', ['type' => 'file', 'accept' => implode(', ', $attr['accept'])] + $attr['html']);
 
     return $out;
 }
