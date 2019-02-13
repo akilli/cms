@@ -69,7 +69,7 @@ function validator(array $data, array $attr)
  */
 function frontend(array $data, array $attr): string
 {
-    $val = cast($data[$attr['id']] ?? $attr['val'], ['nullable' => false] + $attr);
+    $val = cast($data[$attr['id']] ?? null, ['nullable' => false] + $attr);
     $attr['opt'] = opt($data, $attr);
     $attr['html']['id'] =  'data-' . $attr['id'];
     $attr['html']['name'] =  'data[' . $attr['id'] . ']';
