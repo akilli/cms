@@ -175,7 +175,7 @@ function index(array $block): string
         }
 
         if ($cfg['parent_id']) {
-            $crit[] = ['parent_id', $cfg['parent_id'] === true ? app\get('id') : $cfg['parent_id']];
+            $crit[] = ['parent_id', $cfg['parent_id'] === -1 ? app\get('id') : $cfg['parent_id']];
         }
     }
 
