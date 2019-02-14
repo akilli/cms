@@ -243,9 +243,9 @@ function msg(string $msg = null, string ...$args): array
 /**
  * Logger
  */
-function log(Throwable $e): void
+function log($msg): void
 {
-    file_put_contents(APP['log'], '[' . date('r') . '] ' . $e . "\n\n", FILE_APPEND);
+    file_put_contents(APP['log'], '[' . date('r') . '] ' . $msg . "\n\n", FILE_APPEND);
 }
 
 /**
