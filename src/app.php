@@ -321,9 +321,11 @@ function block(string $id): string
         return '';
     }
 
-    $block = event(['block.' . $block['type'], 'layout.' . $id], $block);
+    $block = event(['layout.prerender.type.' . $block['type'], 'layout.prerender.id.' . $id], $block);
+    $data = ['html' => $block['call']($block)];
+    $data = event(['layout.postrender.type.' . $block['type'], 'layout.postrender.id.' . $id], $data);
 
-    return $block['call']($block);
+    return $data['html'];
 }
 
 /**
