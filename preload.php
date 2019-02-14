@@ -48,6 +48,7 @@ const APP = [
     'attr.time.frontend' => 'H:i',
     'backend' => ['bool', 'date', 'datetime', 'decimal', 'int', 'json', 'text', 'time', 'varchar'],
     'block' => [
+        'id' => null,
         'call' => null,
         'tpl' => null,
         'cfg' => [],

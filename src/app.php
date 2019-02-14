@@ -313,19 +313,53 @@ function layout(string $id = null): ?array
 }
 
 /**
- * Render block
+ * Renders block with given ID
  */
 function block(string $id): string
 {
-    if (!($block = layout($id)) || !$block['active'] || $block['priv'] && !allowed($block['priv'])) {
+    return ($block = layout($id)) ? block_render($block) : '';
+}
+
+/**
+ * Renders block
+ */
+function block_render(array $block): string
+{
+    if (!$block['active'] || $block['priv'] && !allowed($block['priv'])) {
         return '';
     }
 
-    $block = event(['layout.prerender.type.' . $block['type'], 'layout.prerender.id.' . $id], $block);
+    $block = event(['layout.prerender.type.' . $block['type'], 'layout.prerender.id.' . $block['id']], $block);
     $data = ['html' => $block['call']($block)];
-    $data = event(['layout.postrender.type.' . $block['type'], 'layout.postrender.id.' . $id], $data);
+    $data = event(['layout.postrender.type.' . $block['type'], 'layout.postrender.id.' . $block['id']], $data);
 
     return $data['html'];
+}
+
+/**
+ * Returns block type from block entity
+ */
+function block_type(string $entityId): string
+{
+    return preg_replace('#^block_#', '', $entityId);
+}
+
+/**
+ * Returns block config from database item
+ *
+ * @throws DomainException
+ */
+function block_db(array $data): array
+{
+    static $base;
+
+    if (empty($data['entity_id']) || ($data['_entity']['parent_id'] ?? null) !== 'block' || !($type = cfg('block', block_type($data['entity_id'])))) {
+        throw new DomainException(i18n('Invalid data'));
+    } elseif ($base === null) {
+        $base = entity\item('block');
+    }
+
+    return ['type' => $type['id'], 'call' => $type['call'], 'cfg' => array_diff_key($data, $base)];
 }
 
 /**

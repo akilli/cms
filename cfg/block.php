@@ -24,6 +24,13 @@ return [
             'content' => null,
         ],
     ],
+    'db' => [
+        'call' => 'block\db',
+        'cfg' => [
+            'entity_id' => null,
+            'id' => null,
+        ],
+    ],
     /**
      * Template
      */

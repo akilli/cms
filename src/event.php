@@ -18,7 +18,7 @@ use DomainException;
 function cfg_block(array $data): array
 {
     foreach ($data as $id => $type) {
-        $data[$id] = arr\replace(APP['block'], $type);
+        $data[$id] = arr\replace(APP['block'], $type, ['id' => $id]);
 
         if (!is_callable($type['call'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
@@ -175,7 +175,6 @@ function layout(array $data): array
 
         if (($page = app\get('page')) && ($dbLayout = entity\all('layout', [['page_id', $page['id']]]))) {
             $ids = array_column($dbLayout, 'block_id');
-            $base = entity\item('block');
             $dbBlocks = [];
 
             foreach (array_unique(array_column(entity\all('block', [['id', $ids]], ['select' => ['entity_id']]), 'entity_id')) as $eId) {
@@ -185,12 +184,8 @@ function layout(array $data): array
             }
 
             foreach ($dbLayout as $id => $item) {
-                $cfg[$url][APP['layout.db'] . $item['name']] = [
-                    'type' => preg_replace('#^block_#', '', $dbBlocks[$item['block_id']]['entity_id']),
-                    'parent_id' => $item['parent_id'],
-                    'sort' => $item['sort'],
-                    'cfg' => array_diff_key($dbBlocks[$item['block_id']], $base),
-                ];
+                $c = ['parent_id' => $item['parent_id'], 'sort' => $item['sort']];
+                $cfg[$url][APP['layout.db'] . $item['name']] = app\block_db($dbBlocks[$item['block_id']]) + $c;
             }
         }
     }
