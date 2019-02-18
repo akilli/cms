@@ -154,7 +154,7 @@ return [
             'parent_id' => 'content',
             'sort' => 10,
             'cfg' => [
-                'pager' => true,
+                'pager' => 'bottom',
                 'search' => ['name'],
             ],
         ],
@@ -222,7 +222,7 @@ return [
             'sort' => 10,
             'cfg' => [
                 'limit' => 20,
-                'pager' => true,
+                'pager' => 'bottom',
                 'search' => ['name'],
             ],
         ],

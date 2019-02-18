@@ -210,6 +210,7 @@ function index(array $block): string
     $total = (int) ceil($size / $opt['limit']) ?: 1;
     $p['cur'] = min(max((int) $p['cur'], 1), $total);
     $opt['offset'] = ($p['cur'] - 1) * $opt['limit'];
+    $pager = $cfg['pager'] ? pager(['cfg' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]]) : null;
 
     if ($p['sort'] && !empty($attr[$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
@@ -224,7 +225,8 @@ function index(array $block): string
         'data' => entity\all($entity['id'], $crit, $opt),
         'dir' => $p['dir'],
         'entity_id' => $cfg['entity_id'],
-        'pager' => $cfg['pager'] ? pager(['cfg' => ['cur' => $p['cur'], 'limit' => $opt['limit'], 'size' => $size]]) : null,
+        'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,
+        'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
         'search' => $search,
         'sort' => $p['sort'],
         'title' => $cfg['title'] ? app\enc($cfg['title']) : null,

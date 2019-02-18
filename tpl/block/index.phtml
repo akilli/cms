@@ -17,6 +17,7 @@ $entityId = $var('entity_id');
     <p class="create"><a href="<?=url($entityId . '/edit');?>" data-action="create"><?=i18n('New Entry');?></a></p>
     <?php endif;?>
     <?=$var('search');?>
+    <?=$var('pager-top');?>
     <?php if (!$var('data')):?>
     <p><?=i18n('No entries found');?></p>
     <?php elseif ($admin):?>
@@ -70,5 +71,5 @@ $entityId = $var('entity_id');
         <?php endif;?>
     </article>
     <?php endforeach;?>
-    <?=$var('pager');?>
+    <?=$var('pager-bottom');?>
 </section>

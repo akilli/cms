@@ -67,7 +67,7 @@ return [
             'entity_id' => null,
             'limit' => 10,
             'order' => [],
-            'pager' => false,
+            'pager' => null,
             'parent_id' => null,
             'search' => [],
             'title' => null,
