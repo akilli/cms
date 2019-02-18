@@ -15,19 +15,21 @@ return [
     ],
     'date' => [
         'backend' => 'date',
-        'frontend' => 'frontend\date',
+        'frontend' => 'frontend\input',
         'validator' => 'validator\date',
         'viewer' => 'viewer\date',
     ],
     'datetime' => [
         'backend' => 'datetime',
-        'frontend' => 'frontend\datetime',
+        'frontend' => 'frontend\input',
         'validator' => 'validator\datetime',
         'viewer' => 'viewer\datetime',
+        'html' => ['type' => 'datetime-local'],
     ],
     'decimal' => [
         'backend' => 'decimal',
-        'frontend' => 'frontend\decimal',
+        'frontend' => 'frontend\input',
+        'html' => ['type' => 'number'],
     ],
     'doc' => [
         'backend' => 'int',
@@ -38,7 +40,7 @@ return [
     ],
     'email' => [
         'backend' => 'varchar',
-        'frontend' => 'frontend\email',
+        'frontend' => 'frontend\input',
         'validator' => 'validator\email',
         'viewer' => 'viewer\email',
     ],
@@ -65,7 +67,8 @@ return [
     ],
     'int' => [
         'backend' => 'int',
-        'frontend' => 'frontend\int',
+        'frontend' => 'frontend\input',
+        'html' => ['type' => 'number'],
     ],
     'int[]' => [
         'backend' => 'int',
@@ -97,8 +100,9 @@ return [
     ],
     'password' => [
         'backend' => 'varchar',
-        'frontend' => 'frontend\password',
+        'frontend' => 'frontend\input',
         'ignorable' => true,
+        'html' => ['autocomplete' => 'off'],
     ],
     'radio' => [
         'backend' => 'varchar',
@@ -108,7 +112,7 @@ return [
     ],
     'range' => [
         'backend' => 'int',
-        'frontend' => 'frontend\range',
+        'frontend' => 'frontend\input',
     ],
     'rte' => [
         'backend' => 'text',
@@ -130,8 +134,9 @@ return [
     ],
     'serial' => [
         'backend' => 'int',
-        'frontend' => 'frontend\int',
+        'frontend' => 'frontend\input',
         'auto' => true,
+        'html' => ['type' => 'number'],
     ],
     'status' => [
         'backend' => 'varchar',
@@ -142,12 +147,12 @@ return [
     ],
     'tel' => [
         'backend' => 'varchar',
-        'frontend' => 'frontend\tel',
+        'frontend' => 'frontend\input',
         'validator' => 'validator\text',
     ],
     'text' => [
         'backend' => 'varchar',
-        'frontend' => 'frontend\text',
+        'frontend' => 'frontend\input',
         'validator' => 'validator\text',
     ],
     'text[]' => [
@@ -164,14 +169,15 @@ return [
     ],
     'time' => [
         'backend' => 'time',
-        'frontend' => 'frontend\time',
+        'frontend' => 'frontend\input',
         'validator' => 'validator\time',
         'viewer' => 'viewer\time',
     ],
     'uid' => [
         'backend' => 'varchar',
-        'frontend' => 'frontend\text',
+        'frontend' => 'frontend\input',
         'validator' => 'validator\uid',
+        'html' => ['type' => 'text'],
     ],
     'upload' => [
         'backend' => 'varchar',
@@ -182,7 +188,7 @@ return [
     ],
     'url' => [
         'backend' => 'varchar',
-        'frontend' => 'frontend\url',
+        'frontend' => 'frontend\input',
         'validator' => 'validator\url',
         'viewer' => 'viewer\url',
     ],

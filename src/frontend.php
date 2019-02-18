@@ -7,97 +7,25 @@ use app;
 use attr;
 
 /**
- * Text
+ * Input
  */
-function text(string $val, array $attr): string
+function input($val, array $attr): string
 {
-    return app\html('input', ['type' => 'text', 'value' => app\enc($val)] + $attr['html']);
-}
+    $attr['html']['type'] = $attr['html']['type'] ?? $attr['type'];
 
-/**
- * Email
- */
-function email(string $val, array $attr): string
-{
-    return app\html('input', ['type' => 'email', 'value' => app\enc($val)] + $attr['html']);
-}
+    if ($attr['html']['type'] === 'password') {
+        $val = false;
+    } elseif ($val && $attr['backend'] === 'datetime') {
+        $val = attr\datetime($val, APP['attr.datetime.backend'], APP['attr.datetime.frontend']);
+    } elseif ($val && $attr['backend'] === 'date') {
+        $val = attr\datetime($val, APP['attr.date.backend'], APP['attr.date.frontend']);
+    } elseif ($val && $attr['backend'] === 'time') {
+        $val = attr\datetime($val, APP['attr.time.backend'], APP['attr.time.frontend']);
+    } elseif ($val && is_string($val)) {
+        $val = app\enc($val);
+    }
 
-/**
- * URL
- */
-function url(string $val, array $attr): string
-{
-    return app\html('input', ['type' => 'url', 'value' => app\enc($val)] + $attr['html']);
-}
-
-/**
- * Telephone
- */
-function tel(string $val, array $attr): string
-{
-    return app\html('input', ['type' => 'tel', 'value' => app\enc($val)] + $attr['html']);
-}
-
-/**
- * Password
- */
-function password(string $val, array $attr): string
-{
-    return app\html('input', ['autocomplete' => 'off', 'type' => 'password', 'value' => false] + $attr['html']);
-}
-
-/**
- * Int
- */
-function int(int $val, array $attr): string
-{
-    return app\html('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '1']);
-}
-
-/**
- * Decimal
- */
-function decimal(float $val, array $attr): string
-{
-    return app\html('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '0.01']);
-}
-
-/**
- * Range
- */
-function range(int $val, array $attr): string
-{
-    return app\html('input', ['type' => 'range', 'value' => $val] + $attr['html'] + ['step' => '1']);
-}
-
-/**
- * Datetime
- */
-function datetime(string $val, array $attr): string
-{
-    $val = $val ? attr\datetime($val, APP['attr.datetime.backend'], APP['attr.datetime.frontend']) : '';
-
-    return app\html('input', ['type' => 'datetime-local', 'value' => $val] + $attr['html']);
-}
-
-/**
- * Date
- */
-function date(string $val, array $attr): string
-{
-    $val = $val ? attr\datetime($val, APP['attr.date.backend'], APP['attr.date.frontend']) : '';
-
-    return app\html('input', ['type' => 'date', 'value' => $val] + $attr['html']);
-}
-
-/**
- * Time
- */
-function time(string $val, array $attr): string
-{
-    $val = $val ? attr\datetime($val, APP['attr.time.backend'], APP['attr.time.frontend']) : '';
-
-    return app\html('input', ['type' => 'time', 'value' => $val] + $attr['html']);
+    return app\html('input', ['value' => $val] + $attr['html']);
 }
 
 /**
