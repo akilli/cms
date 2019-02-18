@@ -61,6 +61,11 @@ function redirect(string $url = '/', int $code = null): void
 function filter(array $data): array
 {
     foreach ($data as $key => $val) {
+        if (is_array($val)) {
+            $data[$key] = filter($val);
+            continue;
+        }
+
         $val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR | FILTER_FLAG_NO_ENCODE_QUOTES);
 
         if (is_numeric($val)) {
