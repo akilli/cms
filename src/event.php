@@ -59,7 +59,7 @@ function cfg_entity(array $data): array
 
             $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr, ['id' => $attrId, 'name' => app\i18n($attr['name'])]);
 
-            if (!in_array($attr['backend'], APP['backend']) || $attr['min'] > 0 && $attr['max'] > 0 && $attr['min'] > $attr['max']) {
+            if (!in_array($attr['backend'], APP['backend']) || !is_callable($attr['frontend']) || $attr['min'] > 0 && $attr['max'] > 0 && $attr['min'] > $attr['max']) {
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
