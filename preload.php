@@ -24,6 +24,7 @@ const APP = [
         'type' => null,
         'backend' => null,
         'frontend' => null,
+        'filter' => null,
         'validator' => null,
         'viewer' => null,
         'virtual' => false,

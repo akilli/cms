@@ -60,9 +60,10 @@ function frontend(array $data, array $attr): string
 {
     $val = cast($data[$attr['id']] ?? null, ['nullable' => false] + $attr);
     $attr['opt'] = opt($data, $attr);
-    $attr['html']['id'] =  'data-' . $attr['id'];
-    $attr['html']['name'] =  'data[' . $attr['id'] . ']';
-    $attr['html']['data-type'] =  $attr['type'];
+    $attr['html']['id'] = 'data-' . $attr['id'];
+    $attr['html']['name'] = 'data[' . $attr['id'] . ']';
+    $attr['html']['data-type'] = $attr['type'];
+    $attr['html'] += minmax($attr);
     $label = ['for' => $attr['html']['id']];
     $error = '';
 
@@ -80,24 +81,32 @@ function frontend(array $data, array $attr): string
         $label['data-unique'] = true;
     }
 
-    $minmax = in_array($attr['backend'], ['json', 'text', 'varchar']) ? ['minlength', 'maxlength'] : ['min', 'max'];
-
-    if ($attr['min'] > 0) {
-        $attr['html'][$minmax[0]] = $attr['min'];
-    }
-
-    if ($attr['max'] > 0) {
-        $attr['html'][$minmax[1]] = $attr['max'];
-    }
-
     if (!empty($data['_error'][$attr['id']])) {
         $attr['html']['class'] = (!empty($attr['html']['class']) ? $attr['html']['class'] . ' ' : '') . 'invalid';
         $error = app\html('div', ['class' => 'error'], $data['_error'][$attr['id']]);
     }
 
-    $out = $attr['frontend']($val, $attr);
+    return app\html('label', $label, $attr['name']) . $attr['frontend']($val, $attr) . $error;
+}
 
-    return app\html('label', $label, $attr['name']) . $out . $error;
+/**
+ * Filter
+ */
+function filter(array $data, array $attr): string
+{
+    $val = cast($data[$attr['id']] ?? null, ['nullable' => false] + $attr);
+    $attr['opt'] = opt($data, $attr);
+    $attr['html']['id'] = 'filter-' . $attr['id'];
+    $attr['html']['name'] = 'filter[' . $attr['id'] . ']';
+    $attr['html']['data-type'] = $attr['type'];
+    $attr['html'] += minmax($attr);
+
+    if ($attr['multiple']) {
+        $attr['html']['name'] .= '[]';
+        $attr['html']['multiple'] = true;
+    }
+
+    return app\html('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);
 }
 
 /**
@@ -182,6 +191,25 @@ function cast($val, array $attr)
 function ignorable(array $data, array $attr): bool
 {
     return $attr['ignorable'] && !empty($data['_old'][$attr['id']]);
+}
+
+/**
+ * Returns min/max or minlength/maxlength for given attribute
+ */
+function minmax(array $attr): array
+{
+    $minmax = in_array($attr['backend'], ['json', 'text', 'varchar']) ? ['minlength', 'maxlength'] : ['min', 'max'];
+    $html = [];
+
+    if ($attr['min'] > 0) {
+        $html[$minmax[0]] = $attr['min'];
+    }
+
+    if ($attr['max'] > 0) {
+        $html['html'][$minmax[1]] = $attr['max'];
+    }
+
+    return $html;
 }
 
 /**
