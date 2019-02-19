@@ -3,6 +3,7 @@ return [
     'audio' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
+        'filter' => 'frontend\int',
         'validator' => 'validator\entity',
         'viewer' => 'viewer\file',
         'ref' => 'file_audio',
@@ -10,6 +11,7 @@ return [
     'bool' => [
         'backend' => 'bool',
         'frontend' => 'frontend\bool',
+        'filter' => 'frontend\select',
         'viewer' => 'viewer\opt',
         'opt' => 'bool',
     ],
@@ -32,6 +34,7 @@ return [
     'doc' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
+        'filter' => 'frontend\int',
         'validator' => 'validator\entity',
         'viewer' => 'viewer\file',
         'ref' => 'file_doc',
@@ -52,6 +55,7 @@ return [
     'file' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
+        'filter' => 'frontend\int',
         'validator' => 'validator\entity',
         'viewer' => 'viewer\file',
         'ref' => 'file',
@@ -59,6 +63,7 @@ return [
     'image' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
+        'filter' => 'frontend\int',
         'validator' => 'validator\entity',
         'viewer' => 'viewer\file',
         'ref' => 'file_image',
@@ -70,6 +75,7 @@ return [
     'int[]' => [
         'backend' => 'int',
         'frontend' => 'frontend\checkbox',
+        'filter' => 'frontend\select',
         'validator' => 'validator\opt',
         'viewer' => 'viewer\opt',
         'multiple' => true,
@@ -77,6 +83,7 @@ return [
     'json' => [
         'backend' => 'json',
         'frontend' => 'frontend\json',
+        'filter' => 'frontend\text',
         'viewer' => 'viewer\json',
     ],
     'page' => [
@@ -103,6 +110,7 @@ return [
     'radio' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\radio',
+        'filter' => 'frontend\select',
         'validator' => 'validator\opt',
         'viewer' => 'viewer\opt',
     ],
@@ -113,12 +121,14 @@ return [
     'rte' => [
         'backend' => 'text',
         'frontend' => 'frontend\textarea',
+        'filter' => 'frontend\text',
         'validator' => 'validator\rte',
         'viewer' => 'viewer\rte',
     ],
     'rtemin' => [
         'backend' => 'text',
         'frontend' => 'frontend\textarea',
+        'filter' => 'frontend\text',
         'validator' => 'validator\rtemin',
         'viewer' => 'viewer\rte',
     ],
@@ -136,6 +146,7 @@ return [
     'status' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\radio',
+        'filter' => 'frontend\select',
         'validator' => 'validator\opt',
         'viewer' => 'viewer\opt',
         'opt' => 'opt\status',
@@ -153,6 +164,7 @@ return [
     'text[]' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\checkbox',
+        'filter' => 'frontend\select',
         'validator' => 'validator\opt',
         'viewer' => 'viewer\opt',
         'multiple' => true,
@@ -160,6 +172,7 @@ return [
     'textarea' => [
         'backend' => 'text',
         'frontend' => 'frontend\textarea',
+        'filter' => 'frontend\text',
         'validator' => 'validator\text',
     ],
     'time' => [
@@ -176,6 +189,7 @@ return [
     'upload' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\upload',
+        'filter' => 'frontend\text',
         'validator' => 'validator\upload',
         'viewer' => 'viewer\upload',
         'ignorable' => true,
@@ -189,6 +203,7 @@ return [
     'video' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
+        'filter' => 'frontend\int',
         'validator' => 'validator\entity',
         'viewer' => 'viewer\file',
         'ref' => 'file_video',
