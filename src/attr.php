@@ -190,12 +190,12 @@ function html(array $attr, string $key = 'data'): array
     }
 
     if ($attr['max'] > 0) {
-        $html['html'][$minmax[1]] = $attr['max'];
+        $html[$minmax[1]] = $attr['max'];
     }
 
     if ($attr['multiple']) {
-        $attr['html']['name'] .= '[]';
-        $attr['html']['multiple'] = true;
+        $html['name'] .= '[]';
+        $html['multiple'] = true;
     }
 
     return $html;
