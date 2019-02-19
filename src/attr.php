@@ -29,21 +29,18 @@ function validator(array $data, array $attr)
         $val = $attr['validator']($val, $attr);
     }
 
-    $crit = [[$attr['id'], $val]];
+    $pattern = $attr['pattern'] ? '#^' . str_replace('#', '\#', $attr['pattern']) . '$#' : null;
+    $vp = is_array($val) ? implode("\n", $val) : (string) $val;
+    $vs = is_array($val) ? $val : [$val];
+    $crit = $data['_old'] ? [[$attr['id'], $val], ['id', $data['_old']['id'], APP['op']['!=']]] : [[$attr['id'], $val]];
 
-    if ($data['_old']) {
-        $crit[] = ['id', $data['_old']['id'], APP['op']['!=']];
-    }
-
-    if ($attr['unique'] && entity\size($data['_entity']['id'], $crit)) {
+    if ($pattern && $val !== null && $val !== '' && !preg_match($pattern, $vp)) {
+        throw new DomainException(app\i18n('Value contains invalid characters'));
+    } elseif ($attr['required'] && ($val === null || $val === '')) {
+        throw new DomainException(app\i18n('Value is required'));
+    } elseif ($attr['unique'] && entity\size($data['_entity']['id'], $crit)) {
         throw new DomainException(app\i18n('Value must be unique'));
     }
-
-    if ($attr['required'] && ($val === null || $val === '')) {
-        throw new DomainException(app\i18n('Value is required'));
-    }
-
-    $vs = $attr['multiple'] ? $val : [$val];
 
     foreach ($vs as $v) {
         $length = in_array($attr['backend'], ['json', 'text', 'varchar']) ? mb_strlen($v) : $v;

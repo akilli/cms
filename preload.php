@@ -38,6 +38,7 @@ const APP = [
         'min' => 0,
         'max' => 0,
         'accept' => [],
+        'pattern' => null,
         'html' => [],
     ],
     'attr.date.backend' => 'Y-m-d',

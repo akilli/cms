@@ -113,6 +113,7 @@ return [
     'Top Area' => 'Oberer Bereich',
     'Unexpected response from server: %s' => 'Unerwartete Antwort vom Server: %s',
     'URL' => 'URL',
+    'Value contains invalid characters' => 'Wert enthält ungültige Zeichen',
     'Value is required' => 'Wert ist erforderlich',
     'Value must be unique' => 'Wert muss eindeutig sein',
     'Value must be unique for each page' => 'Wert muss für jede Seite eindeutig sein',
