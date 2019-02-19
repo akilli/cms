@@ -55,10 +55,9 @@ function cfg_entity(array $data): array
         foreach ($entity['attr'] as $attrId => $attr) {
             if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']]) || $attr['type'] === 'entity' && empty($attr['ref'])) {
                 throw new DomainException(app\i18n('Invalid configuration'));
-            } elseif (!empty($attr['html']) && !empty($cfg[$attr['type']]['html'])) {
-                $attr['html'] = array_replace($attr['html'], $cfg[$attr['type']]['html']);
             }
 
+            unset($attr['html']);
             $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr, ['id' => $attrId, 'name' => app\i18n($attr['name'])]);
 
             if (!in_array($attr['backend'], APP['backend']) || !is_callable($attr['frontend']) || $attr['min'] > 0 && $attr['max'] > 0 && $attr['min'] > $attr['max']) {
