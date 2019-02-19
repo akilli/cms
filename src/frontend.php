@@ -147,6 +147,7 @@ function checkbox(array $val, array $attr): string
  */
 function radio($val, array $attr): string
 {
+    $val = is_bool($val) ? (int) $val : $val;
     $out = '';
 
     foreach ($attr['opt']() as $k => $v) {
@@ -163,8 +164,12 @@ function radio($val, array $attr): string
  */
 function select($val, array $attr): string
 {
-    if (!is_array($val)) {
-        $val = $val === null || $val === '' ? [] : [$val];
+    if ($val === null || $val === '') {
+        $val = [];
+    } elseif (is_bool($val)) {
+        $val = [(int) $val];
+    } elseif (!is_array($val)) {
+        $val = [$val];
     }
 
     $out = app\html('option', ['value' => ''], app\i18n('Please choose'));
