@@ -60,17 +60,9 @@ function frontend(array $data, array $attr): string
 {
     $val = cast($data[$attr['id']] ?? null, ['nullable' => false] + $attr);
     $attr['opt'] = opt($data, $attr);
-    $attr['html']['id'] = 'data-' . $attr['id'];
-    $attr['html']['name'] = 'data[' . $attr['id'] . ']';
-    $attr['html']['data-type'] = $attr['type'];
-    $attr['html'] += minmax($attr);
+    $attr['html'] = html($attr);
     $label = ['for' => $attr['html']['id']];
     $error = '';
-
-    if ($attr['multiple']) {
-        $attr['html']['name'] .= '[]';
-        $attr['html']['multiple'] = true;
-    }
 
     if ($attr['required'] && !ignorable($data, $attr)) {
         $attr['html']['required'] = true;
@@ -96,15 +88,7 @@ function filter(array $data, array $attr): string
 {
     $val = cast($data[$attr['id']] ?? null, ['nullable' => false] + $attr);
     $attr['opt'] = opt($data, $attr);
-    $attr['html']['id'] = 'filter-' . $attr['id'];
-    $attr['html']['name'] = 'filter[' . $attr['id'] . ']';
-    $attr['html']['data-type'] = $attr['type'];
-    $attr['html'] += minmax($attr);
-
-    if ($attr['multiple']) {
-        $attr['html']['name'] .= '[]';
-        $attr['html']['multiple'] = true;
-    }
+    $attr['html'] = html($attr, 'filter');
 
     return app\html('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);
 }
@@ -194,12 +178,12 @@ function ignorable(array $data, array $attr): bool
 }
 
 /**
- * Returns min/max or minlength/maxlength for given attribute
+ * Returns base HTML config for given attribute
  */
-function minmax(array $attr): array
+function html(array $attr, string $key = 'data'): array
 {
     $minmax = in_array($attr['backend'], ['json', 'text', 'varchar']) ? ['minlength', 'maxlength'] : ['min', 'max'];
-    $html = [];
+    $html = ['id' => $key . '-' . $attr['id'], 'name' => $key . '[' . $attr['id'] . ']', 'data-type' => $attr['type']];
 
     if ($attr['min'] > 0) {
         $html[$minmax[0]] = $attr['min'];
@@ -207,6 +191,11 @@ function minmax(array $attr): array
 
     if ($attr['max'] > 0) {
         $html['html'][$minmax[1]] = $attr['max'];
+    }
+
+    if ($attr['multiple']) {
+        $attr['html']['name'] .= '[]';
+        $attr['html']['multiple'] = true;
     }
 
     return $html;
