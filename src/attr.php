@@ -91,6 +91,10 @@ function frontend(array $data, array $attr): string
  */
 function filter(array $data, array $attr): string
 {
+    if ($attr['type'] === 'password') {
+        return '';
+    }
+
     $val = array_key_exists($attr['id'], $data) && $data[$attr['id']] !== null ? cast($data[$attr['id']], $attr) : null;
     $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['filteropt']]));
     $attr['html'] = html($attr, 'filter');
@@ -105,7 +109,7 @@ function viewer(array $data, array $attr): string
 {
     $val = $data[$attr['id']] ?? null;
 
-    if ($val === null || $val === '') {
+    if ($attr['type'] === 'password' || $val === null || $val === '') {
         return '';
     }
 
@@ -179,7 +183,7 @@ function cast($val, array $attr)
  */
 function ignorable(array $data, array $attr): bool
 {
-    return $attr['ignorable'] && !empty($data['_old'][$attr['id']]);
+    return in_array($attr['type'], ['password', 'upload']) && !empty($data['_old'][$attr['id']]);
 }
 
 /**

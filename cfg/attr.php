@@ -106,7 +106,6 @@ return [
     'password' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\password',
-        'ignorable' => true,
     ],
     'radio' => [
         'backend' => 'varchar',
@@ -194,7 +193,6 @@ return [
         'filter' => 'frontend\text',
         'validator' => 'validator\upload',
         'viewer' => 'viewer\upload',
-        'ignorable' => true,
     ],
     'url' => [
         'backend' => 'varchar',

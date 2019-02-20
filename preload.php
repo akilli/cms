@@ -33,7 +33,6 @@ const APP = [
         'required' => false,
         'unique' => false,
         'multiple' => false,
-        'ignorable' => false,
         'ref' => null,
         'opt' => null,
         'filteropt' => null,
