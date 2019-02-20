@@ -163,6 +163,7 @@ return [
         'content-main' => [
             'cfg' => [
                 'attr_id' => ['name', 'role_id'],
+                'filter' => ['role_id'],
             ],
         ],
     ],
@@ -185,6 +186,14 @@ return [
         'content-main' => [
             'cfg' => [
                 'attr_id' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
+                'filter' => ['block_id', 'page_id', 'parent_id'],
+            ],
+        ],
+    ],
+    'page/admin' => [
+        'content-main' => [
+            'cfg' => [
+                'filter' => ['parent_id', 'status'],
             ],
         ],
     ],
