@@ -58,7 +58,7 @@ function validator(array $data, array $attr)
  */
 function frontend(array $data, array $attr): string
 {
-    $val = cast($data[$attr['id']] ?? null, ['nullable' => false] + $attr);
+    $val = array_key_exists($attr['id'], $data) && $data[$attr['id']] !== null ? cast($data[$attr['id']], $attr) : null;
     $attr['opt'] = opt($data, $attr);
     $attr['html'] = html($attr);
     $label = ['for' => $attr['html']['id']];
@@ -86,7 +86,7 @@ function frontend(array $data, array $attr): string
  */
 function filter(array $data, array $attr): string
 {
-    $val = cast($data[$attr['id']] ?? null, ['nullable' => false] + $attr);
+    $val = array_key_exists($attr['id'], $data) && $data[$attr['id']] !== null ? cast($data[$attr['id']], $attr) : null;
     $attr['opt'] = opt($data, $attr['type'] === 'status' ? arr\replace($attr, ['opt' => 'status']) : $attr);
     $attr['html'] = html($attr, 'filter');
 

@@ -9,7 +9,7 @@ use attr;
 /**
  * Text
  */
-function text(string $val, array $attr): string
+function text(?string $val, array $attr): string
 {
     return app\html('input', ['type' => 'text', 'value' => app\enc($val)] + $attr['html']);
 }
@@ -17,7 +17,7 @@ function text(string $val, array $attr): string
 /**
  * Email
  */
-function email(string $val, array $attr): string
+function email(?string $val, array $attr): string
 {
     return app\html('input', ['type' => 'email', 'value' => app\enc($val)] + $attr['html']);
 }
@@ -25,7 +25,7 @@ function email(string $val, array $attr): string
 /**
  * URL
  */
-function url(string $val, array $attr): string
+function url(?string $val, array $attr): string
 {
     return app\html('input', ['type' => 'url', 'value' => app\enc($val)] + $attr['html']);
 }
@@ -33,7 +33,7 @@ function url(string $val, array $attr): string
 /**
  * Telephone
  */
-function tel(string $val, array $attr): string
+function tel(?string $val, array $attr): string
 {
     return app\html('input', ['type' => 'tel', 'value' => app\enc($val)] + $attr['html']);
 }
@@ -41,7 +41,7 @@ function tel(string $val, array $attr): string
 /**
  * Password
  */
-function password(string $val, array $attr): string
+function password(?string $val, array $attr): string
 {
     return app\html('input', ['autocomplete' => 'off', 'type' => 'password', 'value' => false] + $attr['html']);
 }
@@ -49,7 +49,7 @@ function password(string $val, array $attr): string
 /**
  * Int
  */
-function int(int $val, array $attr): string
+function int(?int $val, array $attr): string
 {
     return app\html('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '1']);
 }
@@ -57,7 +57,7 @@ function int(int $val, array $attr): string
 /**
  * Decimal
  */
-function decimal(float $val, array $attr): string
+function decimal(?float $val, array $attr): string
 {
     return app\html('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '0.01']);
 }
@@ -65,7 +65,7 @@ function decimal(float $val, array $attr): string
 /**
  * Range
  */
-function range(int $val, array $attr): string
+function range(?int $val, array $attr): string
 {
     return app\html('input', ['type' => 'range', 'value' => $val] + $attr['html'] + ['step' => '1']);
 }
@@ -73,7 +73,7 @@ function range(int $val, array $attr): string
 /**
  * Datetime
  */
-function datetime(string $val, array $attr): string
+function datetime(?string $val, array $attr): string
 {
     $val = $val ? attr\datetime($val, APP['attr.datetime.backend'], APP['attr.datetime.frontend']) : '';
 
@@ -83,7 +83,7 @@ function datetime(string $val, array $attr): string
 /**
  * Date
  */
-function date(string $val, array $attr): string
+function date(?string $val, array $attr): string
 {
     $val = $val ? attr\datetime($val, APP['attr.date.backend'], APP['attr.date.frontend']) : '';
 
@@ -93,7 +93,7 @@ function date(string $val, array $attr): string
 /**
  * Time
  */
-function time(string $val, array $attr): string
+function time(?string $val, array $attr): string
 {
     $val = $val ? attr\datetime($val, APP['attr.time.backend'], APP['attr.time.frontend']) : '';
 
@@ -103,7 +103,7 @@ function time(string $val, array $attr): string
 /**
  * Textarea
  */
-function textarea(string $val, array $attr): string
+function textarea(?string $val, array $attr): string
 {
     return app\html('textarea', $attr['html'], app\enc($val));
 }
@@ -111,26 +111,27 @@ function textarea(string $val, array $attr): string
 /**
  * JSON
  */
-function json(array $val, array $attr): string
+function json(?array $val, array $attr): string
 {
-    return textarea(json_encode($val), $attr);
+    return textarea(json_encode((array) $val), $attr);
 }
 
 /**
  * Bool
  */
-function bool(bool $val, array $attr): string
+function bool(?bool $val, array $attr): string
 {
     $out = app\html('input', ['id' => $attr['html']['id'], 'name' => $attr['html']['name'], 'type' => 'hidden']);
 
-    return $out . app\html('input', ['type' => 'checkbox', 'value' => 1, 'checked' => $val] + $attr['html']);
+    return $out . app\html('input', ['type' => 'checkbox', 'value' => 1, 'checked' => !!$val] + $attr['html']);
 }
 
 /**
  * Checkbox
  */
-function checkbox(array $val, array $attr): string
+function checkbox(?array $val, array $attr): string
 {
+    $val = (array) $val;
     $out = app\html('input', ['id' => $attr['html']['id'], 'name' => str_replace('[]', '', $attr['html']['name']), 'type' => 'hidden']);
 
     foreach ($attr['opt']() as $k => $v) {
@@ -184,7 +185,7 @@ function select($val, array $attr): string
 /**
  * File
  */
-function file(int $val, array $attr): string
+function file(?int $val, array $attr): string
 {
     $browse = app\i18n('Browse');
     $remove = app\i18n('Remove');
@@ -200,7 +201,7 @@ function file(int $val, array $attr): string
 /**
  * Upload
  */
-function upload(string $val, array $attr): string
+function upload(?string $val, array $attr): string
 {
     $out = app\html('div', [], $val ? $attr['viewer']($val, $attr) : '');
     $out .= app\html('input', ['type' => 'file', 'accept' => implode(', ', $attr['accept'])] + $attr['html']);
