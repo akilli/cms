@@ -179,7 +179,9 @@ function index(array $block): string
 
     $crit = $cfg['crit'];
     $opt = ['limit' => $cfg['limit'], 'order' => $cfg['order'] ?: ['id' => 'desc']];
-    $p = arr\replace(['cur' => null, 'q' => null, 'sort' => null, 'dir' => null], request\get('param'));
+    $filter = $cfg['filter'] ? arr\extract($entity['attr'], $cfg['filter']) : [];
+    $p = arr\replace(['cur' => null, 'filter' => [], 'q' => null, 'sort' => null, 'dir' => null], request\get('param'));
+    $p['filter'] = $p['filter'] && is_array($p['filter']) ? array_intersect_key($p['filter'], $filter) : [];
     $search = null;
 
     if (in_array('page', [$entity['id'], $entity['parent_id']])) {
@@ -191,6 +193,21 @@ function index(array $block): string
         if ($cfg['parent_id']) {
             $crit[] = ['parent_id', $cfg['parent_id'] === -1 ? app\get('id') : $cfg['parent_id']];
         }
+    }
+
+    foreach (array_keys($p['filter']) as $attrId) {
+        $op = APP['op']['='];
+
+        if ($filter[$attrId]['multiple'] || !$filter[$attrId]['opt'] && in_array($filter[$attrId]['backend'], ['json', 'text', 'varchar'])) {
+            $op = APP['op']['~'];
+        } elseif ($p['filter'][$attrId] && in_array($filter[$attrId]['backend'], ['datetime', 'date'])) {
+            $p['filter'][$attrId] = attr\datetime($p['filter'][$attrId], APP['attr.date.frontend'], APP['attr.date.backend']);
+            $op = $filter[$attrId]['backend'] === 'datetime' ? APP['op']['^'] : $op = APP['op']['='];
+        } elseif ($p['filter'][$attrId] && $filter[$attrId]['backend'] === 'time') {
+            $p['filter'][$attrId] = attr\datetime($p['filter'][$attrId], APP['attr.time.frontend'], APP['attr.time.backend']);
+        }
+
+        $crit[] = [$attrId, $p['filter'][$attrId], $op];
     }
 
     if ($cfg['search']) {
@@ -225,6 +242,8 @@ function index(array $block): string
         'data' => entity\all($entity['id'], $crit, $opt),
         'dir' => $p['dir'],
         'entity_id' => $cfg['entity_id'],
+        'filter' => $filter,
+        'filter-data' => arr\replace(entity\item($entity['id']), $p['filter']),
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
         'search' => $search,

@@ -65,6 +65,7 @@ return [
             'attr_id' => [],
             'crit' => [],
             'entity_id' => null,
+            'filter' => [],
             'limit' => 10,
             'order' => [],
             'pager' => null,

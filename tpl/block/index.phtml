@@ -16,6 +16,18 @@ $entityId = $var('entity_id');
     <?php if ($admin && allowed($entityId . '/edit')):?>
     <p class="create"><a href="<?=url($entityId . '/edit');?>" data-action="create"><?=i18n('New Entry');?></a></p>
     <?php endif;?>
+    <?php if ($var('filter')):?>
+    <form method="get" class="filter">
+        <fieldset>
+            <?php foreach ($var('filter') as $attr):?>
+            <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
+                <?=attr\filter($var('filter-data'), $attr);?>
+            </div>
+            <?php endforeach;?>
+        </fieldset>
+        <input type="submit" value="<?=i18n('Submit');?>" />
+    </form>
+    <?php endif;?>
     <?=$var('search');?>
     <?=$var('pager-top');?>
     <?php if (!$var('data')):?>
