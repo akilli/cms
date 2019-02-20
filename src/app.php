@@ -385,9 +385,9 @@ function html(string $tag, array $attrs = [], string $val = null): string
 /**
  * Converts special chars to HTML entities
  */
-function enc(string $val): string
+function enc(?string $val): string
 {
-    return htmlspecialchars($val, ENT_QUOTES, ini_get('default_charset'), false);
+    return $val ? htmlspecialchars($val, ENT_QUOTES, ini_get('default_charset'), false) : '';
 }
 
 /**
