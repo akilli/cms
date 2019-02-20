@@ -92,7 +92,7 @@ function frontend(array $data, array $attr): string
 function filter(array $data, array $attr): string
 {
     $val = array_key_exists($attr['id'], $data) && $data[$attr['id']] !== null ? cast($data[$attr['id']], $attr) : null;
-    $attr['opt'] = opt($data, $attr['type'] === 'status' ? arr\replace($attr, ['opt' => 'status']) : $attr);
+    $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['filteropt']]));
     $attr['html'] = html($attr, 'filter');
 
     return app\html('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);

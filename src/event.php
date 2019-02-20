@@ -68,6 +68,7 @@ function cfg_entity(array $data): array
             }
 
             $attr['filter'] = $attr['filter'] ?: $attr['frontend'];
+            $attr['filteropt'] = $attr['filteropt'] ?: $attr['opt'];
             $entity['attr'][$attrId] = $attr;
         }
 

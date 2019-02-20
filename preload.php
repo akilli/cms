@@ -36,6 +36,7 @@ const APP = [
         'ignorable' => false,
         'ref' => null,
         'opt' => null,
+        'filteropt' => null,
         'min' => 0,
         'max' => 0,
         'accept' => [],
