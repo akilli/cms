@@ -365,7 +365,7 @@ a[data-sort=desc]::after {
     .block-index > .thead > span:last-child,
     .block-index > .thead > a::after,
     .block-index > article > footer,
-    .block-search,
+    .filter,
     .pager {
         display: none;
     }

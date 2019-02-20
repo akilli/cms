@@ -247,7 +247,7 @@ main ::selection {
      */
     body > :not(#header):not(main),
     main > :not(#content),
-    .block-search,
+    .filter,
     .pager {
         display: none;
     }
