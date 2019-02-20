@@ -136,7 +136,7 @@ function checkbox(?array $val, array $attr): string
 
     foreach ($attr['opt']() as $k => $v) {
         $id = $attr['html']['id'] . '-' . $k;
-        $a = ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'checkbox', 'value' => $k, 'checked' => in_array($k, $val)] + $attr['html'];
+        $a = ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'checkbox', 'value' => $k, 'checked' => !!array_keys($val, $k, true)] + $attr['html'];
         $out .= app\html('input', $a) . app\html('label', ['for' => $id], $v);
     }
 
@@ -176,7 +176,7 @@ function select($val, array $attr): string
     $out = app\html('option', ['value' => ''], app\i18n('Please choose'));
 
     foreach ($attr['opt']() as $k => $v) {
-        $out .= app\html('option', ['value' => $k, 'selected' => in_array($k, $val)], $v);
+        $out .= app\html('option', ['value' => $k, 'selected' => !!array_keys($val, $k, true)], $v);
     }
 
     return app\html('select', $attr['html'], $out);
