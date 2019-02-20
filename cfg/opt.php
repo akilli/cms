@@ -8,4 +8,10 @@ return [
         'bottom' => 'Bottom Area',
     ],
     'bool' => ['No', 'Yes'],
+    'status' => [
+        'draft' => 'Draft',
+        'pending' => 'Pending',
+        'published' => 'Published',
+        'archived' => 'Archived',
+    ],
  ];
