@@ -118,7 +118,7 @@ function meta(array $block): string
         $title = $entity['name'] . ($title ? ' - ' . $title : '');
     }
 
-    $var = ['description' => $desc ? app\enc($desc) : '', 'title' => $title ? app\enc($title) : ''];
+    $var = ['description' => app\enc($desc), 'title' => app\enc($title)];
 
     return app\render($block['tpl'], $var);
 }
@@ -248,7 +248,7 @@ function index(array $block): string
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
         'search' => $search,
         'sort' => $p['sort'],
-        'title' => $cfg['title'] ? app\enc($cfg['title']) : null,
+        'title' => app\enc($cfg['title']),
         'url' => request\get('url'),
     ];
 
@@ -327,7 +327,7 @@ function form(array $block): string
         'data' => $cfg['data'],
         'attr' => $attr,
         'file' => !!arr\filter($attr, 'type', 'upload'),
-        'title' => $cfg['title'] ? app\enc($cfg['title']) : null,
+        'title' => app\enc($cfg['title']),
     ];
 
     return app\render($block['tpl'], $var);
