@@ -64,6 +64,11 @@ function frontend(array $data, array $attr): string
     $label = ['for' => $attr['html']['id']];
     $error = '';
 
+    if ($attr['multiple']) {
+        $attr['html']['name'] .= '[]';
+        $attr['html']['multiple'] = true;
+    }
+
     if ($attr['required'] && !ignorable($data, $attr)) {
         $attr['html']['required'] = true;
         $label['data-required'] = true;
@@ -151,7 +156,7 @@ function cast($val, array $attr)
     }
 
     if ($attr['multiple']) {
-        return is_array($val) || $val && ($val = explode(',', trim($val, '{}'))) ? arr\map(__FUNCTION__, $val, ['multiple' => false] + $attr) : [];
+        return is_array($val) || $val && ($val = explode(',', trim((string) $val, '{}'))) ? arr\map(__FUNCTION__, $val, ['multiple' => false] + $attr) : [];
     }
 
     if ($attr['backend'] === 'bool') {
@@ -191,11 +196,6 @@ function html(array $attr, string $key = 'data'): array
 
     if ($attr['max'] > 0) {
         $html[$minmax[1]] = $attr['max'];
-    }
-
-    if ($attr['multiple']) {
-        $html['name'] .= '[]';
-        $html['multiple'] = true;
     }
 
     return $html;
