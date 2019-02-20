@@ -16,7 +16,7 @@ $entityId = $var('entity_id');
     <?php if ($admin && allowed($entityId . '/edit')):?>
     <p class="create"><a href="<?=url($entityId . '/edit');?>" data-action="create"><?=i18n('New Entry');?></a></p>
     <?php endif;?>
-    <?php if ($var('filter')):?>
+    <?php if ($var('filter') || $var('search')):?>
     <form method="get" class="filter">
         <fieldset>
             <?php foreach ($var('filter') as $attr):?>
@@ -24,11 +24,16 @@ $entityId = $var('entity_id');
                 <?=attr\filter($var('filter-data'), $attr);?>
             </div>
             <?php endforeach;?>
+            <?php if ($var('search')):?>
+            <div data-attr="q" data-type="search">
+                <label for="q"><?=i18n('Search');?></label>
+                <input id="q" type="search" name="q" value="<?=$var('q');?>" placeholder="<?=i18n('Search Term');?>" />
+            </div>
+            <?php endif;?>
         </fieldset>
         <input type="submit" value="<?=i18n('Filter');?>" />
     </form>
     <?php endif;?>
-    <?=$var('search');?>
     <?=$var('pager-top');?>
     <?php if (!$var('data')):?>
     <p><?=i18n('No entries found');?></p>

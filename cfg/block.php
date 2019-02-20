@@ -84,10 +84,6 @@ return [
             'size' => null,
         ],
     ],
-    'search' => [
-        'call' => 'block\search',
-        'tpl' => 'block/search.phtml',
-    ],
     /**
      * Form
      */

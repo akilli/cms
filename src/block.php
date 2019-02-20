@@ -182,7 +182,6 @@ function index(array $block): string
     $filter = $cfg['filter'] ? arr\extract($entity['attr'], $cfg['filter']) : [];
     $p = arr\replace(['cur' => null, 'filter' => [], 'q' => null, 'sort' => null, 'dir' => null], request\get('param'));
     $p['filter'] = $p['filter'] && is_array($p['filter']) ? array_intersect_key($p['filter'], $filter) : [];
-    $search = null;
 
     if (in_array('page', [$entity['id'], $entity['parent_id']])) {
         if (app\get('action') !== 'admin') {
@@ -210,17 +209,13 @@ function index(array $block): string
         $crit[] = [$attrId, $p['filter'][$attrId], $op];
     }
 
-    if ($cfg['search']) {
-        if ($p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
-            foreach ($q as $v) {
-                $call = function ($attrId) use ($v) {
-                    return [$attrId, $v, APP['op']['~']];
-                };
-                $crit[] = array_map($call, $cfg['search']);
-            }
+    if ($cfg['search'] && $p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
+        foreach ($q as $v) {
+            $call = function ($attrId) use ($v) {
+                return [$attrId, $v, APP['op']['~']];
+            };
+            $crit[] = array_map($call, $cfg['search']);
         }
-
-        $search = search([]);
     }
 
     $size = entity\size($entity['id'], $crit);
@@ -246,7 +241,8 @@ function index(array $block): string
         'filter-data' => arr\replace(entity\item($entity['id']), $p['filter']),
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
-        'search' => $search,
+        'q' => $p['q'],
+        'search' => $cfg['search'],
         'sort' => $p['sort'],
         'title' => app\enc($cfg['title']),
         'url' => request\get('url'),
@@ -295,17 +291,6 @@ function pager(array $block): string
         'info' => app\i18n('%s to %s of %s', (string) ($offset + 1), (string) min($offset + $cfg['limit'], $cfg['size']), (string) $cfg['size']),
         'links' => $links
     ];
-
-    return app\render($block['tpl'], $var);
-}
-
-/**
- * Search
- */
-function search(array $block): string
-{
-    $block['tpl'] = $block['tpl'] ?? app\cfg('block', 'search')['tpl'];
-    $var = ['q' => request\get('param')['q'] ?? null];
 
     return app\render($block['tpl'], $var);
 }
