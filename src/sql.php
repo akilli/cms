@@ -381,6 +381,76 @@ function where(array $cols): string
 }
 
 /**
+ * JOIN part
+ *
+ * @throws DomainException
+ */
+function join(string $tab, string $as = null, array $cols = [], string $type = null): string
+{
+    if (!$tab) {
+        return '';
+    }
+
+    if ($type && empty(APP['join'][$type])) {
+        throw new DomainException(app\i18n('Invalid JOIN-type'));
+    }
+
+    if ($cols) {
+        $pre = '';
+        $post = ' ON ' . implode(' AND ', $cols);
+    } else {
+        $pre = ' NATURAL';
+        $post = '';
+    }
+
+    if ($type) {
+        $pre .= ' ' . strtoupper(APP['join'][$type]);
+    }
+
+    return $pre . ' JOIN ' . $tab . ($as ? ' AS ' . $as : '') . $post;
+}
+
+/**
+ * INNER JOIN part
+ */
+function ijoin(string $tab, string $as = null, array $cols = []): string
+{
+    return join($tab, $as, $cols, APP['join']['inner']);
+}
+
+/**
+ * LEFT JOIN part
+ */
+function ljoin(string $tab, string $as = null, array $cols = []): string
+{
+    return join($tab, $as, $cols, APP['join']['left']);
+}
+
+/**
+ * RIGHT JOIN part
+ */
+function rjoin(string $tab, string $as = null, array $cols = []): string
+{
+    return join($tab, $as, $cols, APP['join']['right']);
+}
+
+/**
+ * FULL JOIN part
+ */
+function fjoin(string $tab, string $as = null, array $cols = []): string
+{
+    return join($tab, $as, $cols, APP['join']['full']);
+}
+
+/**
+ * GROUP BY part
+ */
+function group(array $cols): string
+{
+    return $cols ? ' GROUP BY ' . implode(', ', $cols) : '';
+}
+
+/**
  * ORDER BY part
  */
 function order(array $order): string
@@ -400,4 +470,28 @@ function order(array $order): string
 function limit(int $limit, int $offset = 0): string
 {
     return $limit > 0 ? ' LIMIT ' . $limit . ' OFFSET ' . max(0, $offset) : '';
+}
+
+/**
+ * WITH part
+ */
+function with(string $name, string $sql, bool $recursive = false): string
+{
+    return 'WITH ' . ($recursive ? 'RECURSIVE ' : '') . $name . ' AS (' . $sql . ')';
+}
+
+/**
+ * RETURNING part
+ */
+function returning(array $cols): string
+{
+    return $cols ? ' RETURNING ' . implode(', ', $cols) : '';
+}
+
+/**
+ * UNION part
+ */
+function union(): string
+{
+    RETURN ' UNION ';
 }
