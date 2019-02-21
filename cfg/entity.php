@@ -206,6 +206,10 @@ return [
                 'type' => 'text',
                 'max' => 300,
             ],
+            'date' => [
+                'name' => 'Date',
+                'type' => 'datetime',
+            ],
             'slug' => [
                 'name' => 'Slug',
                 'type' => 'uid',
@@ -260,10 +264,6 @@ return [
             ],
             'timestamp' => [
                 'name' => 'Timestamp',
-                'type' => 'datetime',
-            ],
-            'date' => [
-                'name' => 'Date',
                 'type' => 'datetime',
             ],
         ],

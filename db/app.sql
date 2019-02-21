@@ -562,6 +562,7 @@ CREATE TABLE page (
     aside text NOT NULL DEFAULT '',
     meta_title varchar(80) NOT NULL DEFAULT '',
     meta_description varchar(300) NOT NULL DEFAULT '',
+    date timestamp NOT NULL DEFAULT current_timestamp,
     slug varchar(75) NOT NULL,
     url varchar(400) UNIQUE DEFAULT NULL,
     disabled boolean NOT NULL DEFAULT FALSE,
@@ -573,7 +574,6 @@ CREATE TABLE page (
     path int[] NOT NULL DEFAULT '{}',
     status status NOT NULL,
     timestamp timestamp NOT NULL DEFAULT current_timestamp,
-    date timestamp NOT NULL DEFAULT current_timestamp,
     UNIQUE (parent_id, slug)
 );
 
@@ -583,6 +583,7 @@ CREATE INDEX ON page (title);
 CREATE INDEX ON page (image);
 CREATE INDEX ON page (meta_title);
 CREATE INDEX ON page (meta_description);
+CREATE INDEX ON page (date);
 CREATE INDEX ON page (slug);
 CREATE INDEX ON page (url);
 CREATE INDEX ON page (disabled);
@@ -594,7 +595,6 @@ CREATE INDEX ON page (level);
 CREATE INDEX ON page USING GIN (path);
 CREATE INDEX ON page (status);
 CREATE INDEX ON page (timestamp);
-CREATE INDEX ON page (date);
 
 CREATE TRIGGER page_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_before();
 CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_before();
