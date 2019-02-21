@@ -333,13 +333,13 @@ function upd(string $tab): string
  */
 function set(array $cols): string
 {
-    $set = '';
+    $sql = '';
 
     foreach ($cols as $col => $val) {
-        $set .= ($set ? ', ' : '') . $col . ' = ' . $val;
+        $sql .= ($sql ? ', ' : '') . $col . ' = ' . $val;
     }
 
-    return ' SET ' . $set;
+    return ' SET ' . $sql;
 }
 
 /**
@@ -355,13 +355,13 @@ function del(string $tab): string
  */
 function sel(array $sel, bool $distinct = false): string
 {
-    $cols = [];
+    $sql = '';
 
     foreach ($sel as $as => $col) {
-        $cols[] = $col . ($as && is_string($as) ? ' AS ' . $as : '');
+        $sql .= ($sql ? ', ' : '') . $col . ($as && is_string($as) ? ' AS ' . $as : '');
     }
 
-    return $cols ? ' SELECT ' . ($distinct ? 'DISTINCT ' : '') . implode(', ', $cols) : '';
+    return $sql ? ' SELECT ' . ($distinct ? 'DISTINCT ' : '') . $sql : '';
 }
 
 /**
@@ -455,13 +455,13 @@ function group(array $cols): string
  */
 function order(array $order): string
 {
-    $cols = [];
+    $sql = '';
 
     foreach ($order as $attrId => $dir) {
-        $cols[] = $attrId . ' ' . ($dir === 'desc' ? 'DESC' : 'ASC');
+        $sql .= ($sql ? ', ' : '') . $attrId . ' ' . ($dir === 'desc' ? 'DESC' : 'ASC');
     }
 
-    return $cols ? ' ORDER BY ' . implode(', ', $cols) : '';
+    return $sql ? ' ORDER BY ' . $sql : '';
 }
 
 /**
