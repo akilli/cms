@@ -475,9 +475,15 @@ function limit(int $limit, int $offset = 0): string
 /**
  * WITH part
  */
-function with(string $name, string $sql, bool $recursive = false): string
+function with(array $with, bool $recursive = false): string
 {
-    return 'WITH ' . ($recursive ? 'RECURSIVE ' : '') . $name . ' AS (' . $sql . ')';
+    $sql = '';
+
+    foreach ($with as $name => $part) {
+        $sql .= ($sql ? ', ' : ' ') . $name . ' AS (' . $part . ')';
+    }
+
+    return 'WITH ' . ($recursive ? 'RECURSIVE ' : '') . $sql;
 }
 
 /**
