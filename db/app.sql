@@ -481,17 +481,17 @@ CREATE INDEX ON account (role_id);
 CREATE TABLE file (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
+    entity_id varchar(50) NOT NULL,
     url varchar(255) NOT NULL UNIQUE,
     ext varchar(10) NOT NULL,
     mime varchar(255) NOT NULL,
-    info text NOT NULL,
-    entity_id varchar(50) NOT NULL
+    info text NOT NULL
 );
 
 CREATE INDEX ON file (name);
+CREATE INDEX ON file (entity_id);
 CREATE INDEX ON file (ext);
 CREATE INDEX ON file (mime);
-CREATE INDEX ON file (entity_id);
 
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();
 
@@ -554,6 +554,7 @@ WITH LOCAL CHECK OPTION;
 CREATE TABLE page (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
+    entity_id varchar(50) NOT NULL,
     title varchar(255) DEFAULT NULL,
     image int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
     teaser text NOT NULL DEFAULT '',
@@ -573,11 +574,11 @@ CREATE TABLE page (
     status status NOT NULL,
     timestamp timestamp NOT NULL DEFAULT current_timestamp,
     date timestamp NOT NULL DEFAULT current_timestamp,
-    entity_id varchar(50) NOT NULL,
     UNIQUE (parent_id, slug)
 );
 
 CREATE INDEX ON page (name);
+CREATE INDEX ON page (entity_id);
 CREATE INDEX ON page (title);
 CREATE INDEX ON page (image);
 CREATE INDEX ON page (meta_title);
@@ -594,7 +595,6 @@ CREATE INDEX ON page USING GIN (path);
 CREATE INDEX ON page (status);
 CREATE INDEX ON page (timestamp);
 CREATE INDEX ON page (date);
-CREATE INDEX ON page (entity_id);
 
 CREATE TRIGGER page_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_before();
 CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_before();

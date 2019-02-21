@@ -75,6 +75,11 @@ return [
                 'required' => true,
                 'max' => 100,
             ],
+            'entity_id' => [
+                'name' => 'Entity',
+                'type' => 'parent',
+                'required' => true,
+            ],
             'url' => [
                 'name' => 'URL',
                 'type' => 'upload',
@@ -97,11 +102,6 @@ return [
             'info' => [
                 'name' => 'Info',
                 'type' => 'textarea',
-                'required' => true,
-            ],
-            'entity_id' => [
-                'name' => 'Entity',
-                'type' => 'parent',
                 'required' => true,
             ],
         ],
@@ -167,6 +167,11 @@ return [
                 'type' => 'text',
                 'required' => true,
                 'max' => 255,
+            ],
+            'entity_id' => [
+                'name' => 'Entity',
+                'type' => 'parent',
+                'required' => true,
             ],
             'title' => [
                 'name' => 'Title',
@@ -260,11 +265,6 @@ return [
             'date' => [
                 'name' => 'Date',
                 'type' => 'datetime',
-            ],
-            'entity_id' => [
-                'name' => 'Entity',
-                'type' => 'parent',
-                'required' => true,
             ],
         ],
     ],
