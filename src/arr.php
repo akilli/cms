@@ -81,3 +81,11 @@ function change(array $data, $search, $replace): array
 
     return $data;
 }
+
+/**
+ * Indicates wheter given array has all provided keys
+ */
+function has(array $data, array $keys, bool $filter = false): bool
+{
+    return !array_diff_key(array_flip($keys), $filter ? array_filter($data) : $data);
+}
