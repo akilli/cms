@@ -10,7 +10,7 @@ use request;
 use session;
 
 /**
- * Delete Action
+ * Delete
  */
 function delete(array $entity): void
 {
@@ -19,7 +19,7 @@ function delete(array $entity): void
 }
 
 /**
- * App Config Action
+ * App Config
  */
 function app_cfg(): void
 {
@@ -28,7 +28,7 @@ function app_cfg(): void
 }
 
 /**
- * Account Login Action
+ * Account Login
  */
 function account_login(): void
 {
@@ -45,7 +45,7 @@ function account_login(): void
 }
 
 /**
- * Account Logout Action
+ * Account Logout
  */
 function account_logout(): void
 {
