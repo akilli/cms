@@ -19,7 +19,6 @@ $entityId = $var('entity_id');
     <?php if ($var('filter') || $var('search')):?>
     <form method="get" class="filter">
         <fieldset>
-            <legend><?=i18n('Filter');?></legend>
             <?php foreach ($var('filter') as $attr):?>
             <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
                 <?=attr\filter($var('filter-data'), $attr);?>
