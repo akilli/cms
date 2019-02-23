@@ -22,7 +22,8 @@ fieldset > *,
 main > :not(:last-child),
 #content > :not(:last-child):not(details),
 #sidebar > :not(:last-child):not(details),
-.block-index > :not(:last-child) {
+.block-index > :not(:last-child),
+.block-index .items > :not(:last-child) {
     margin-bottom: 1.5rem;
 }
 
