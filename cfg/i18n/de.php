@@ -4,6 +4,7 @@ return [
     'Accounts' => 'Benutzer',
     'Actions' => 'Aktionen',
     'Additional Information' => 'Zusätzliche Informationen',
+    'All' => 'Alle',
     'ALL PRIVILEGES' => 'ALLE PRIVILEGIEN',
     'Archived' => 'Archiviert',
     'Articles' => 'Artikel',

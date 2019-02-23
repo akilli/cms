@@ -3,15 +3,22 @@ namespace app;
 /** @var callable $var */
 ?>
 <nav class="pager">
+    <?php if ($var('limits')):?>
+    <div class="limits">
+        <?php foreach ($var('limits') as $item):?>
+        <a href="<?=$item['url'];?>"<?php if (!empty($item['active'])):?> class="active"<?php endif;?>><?=$item['name'];?></a>
+        <?php endforeach;?>
+    </div>
+    <?php endif;?>
     <div class="info">
         <?=$var('info');?>
     </div>
     <div class="links">
-        <?php foreach ($var('links') as $link):?>
-            <?php if (!empty($link['active'])):?>
-        <span><?=$link['name'];?></span>
+        <?php foreach ($var('links') as $item):?>
+            <?php if (!empty($item['active'])):?>
+        <span><?=$item['name'];?></span>
             <?php else:?>
-        <a href="<?=$link['url'];?>"<?php if ($link['action']):?> data-action="<?=$link['action'];?>"<?php endif;?>><?=$link['name'];?></a>
+        <a href="<?=$item['url'];?>"<?php if ($item['action']):?> data-action="<?=$item['action'];?>"<?php endif;?>><?=$item['name'];?></a>
             <?php endif;?>
         <?php endforeach;?>
     </div>

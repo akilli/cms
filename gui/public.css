@@ -171,14 +171,6 @@ main ::selection {
     font-size: 0.875rem;
 }
 
-.pager div {
-    display: inline;
-}
-
-.pager .info {
-    margin-right: 1.5rem;
-}
-
 /**
  * Clear
  */
@@ -193,6 +185,19 @@ main ::selection {
     display: table;
     content: " ";
     clear: both;
+}
+
+/**
+ * Desktop
+ */
+@media screen and (min-width: 55rem) {
+    /**
+     * Pager
+     */
+    .pager {
+        display: flex;
+        justify-content: space-between;
+    }
 }
 
 /**

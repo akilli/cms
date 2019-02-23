@@ -67,6 +67,7 @@ return [
             'entity_id' => null,
             'filter' => [],
             'limit' => 10,
+            'limits' => [],
             'order' => [],
             'pager' => null,
             'parent_id' => null,
@@ -80,6 +81,7 @@ return [
         'cfg' => [
             'cur' => null,
             'limit' => null,
+            'limits' => [],
             'pages' => 10,
             'size' => null,
         ],
