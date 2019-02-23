@@ -40,6 +40,7 @@ return [
     'Extension' => 'Endung',
     'File upload failed for %s' => 'Datei %s konnte nicht hochgeladen werden',
     'Files' => 'Dateien',
+    'Filter' => 'Filter',
     'Filter results' => 'Ergebnisse einschränken',
     'Homepage' => 'Startseite',
     'ID' => 'ID',
