@@ -460,18 +460,18 @@ a[data-sort=desc]::after {
         width: 100%;
     }
 
-    html[data-action=browser] #content .block-index > article {
+    html[data-action=browser] #content .block-index article {
         display: block;
         width: 25%;
         border: 0.0625rem solid;
         cursor: pointer;
     }
 
-    html[data-action=browser] #content .block-index > article:not(:hover) {
+    html[data-action=browser] #content .block-index article:not(:hover) {
         border-color: transparent;
     }
 
-    html[data-action=browser] #content .block-index > article > * {
+    html[data-action=browser] #content .block-index article > * {
         display: block;
         border: 0;
     }
