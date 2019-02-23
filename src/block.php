@@ -218,12 +218,10 @@ function index(array $block): string
         }
     }
 
-    foreach ($cfg['limits'] as $k => $v) {
-        if (!is_int($v) || $v < 0) {
-            unset($cfg['limits'][$k]);
-        }
-    }
-
+    $call = function ($v) {
+        return is_int($v) && $v >= 0;
+    };
+    $cfg['limits'] = $cfg['limits'] && $cfg['pager'] ? array_filter($cfg['limits'], $call) : [];
     $limit = is_int($p['limit']) && $p['limit'] >= 0 && in_array($p['limit'], $cfg['limits']) ? $p['limit'] : $cfg['limit'];
     $size = entity\size($entity['id'], $crit);
     $total = 1;
