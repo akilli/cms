@@ -297,16 +297,16 @@ function pager(array $block): string
 
     if ($cfg['cur'] >= 2) {
         $p = ['cur' => $cfg['cur'] === 2 ? null : $cfg['cur'] - 1];
-        $links[] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $p, true), 'action' => 'prev'];
+        $links[] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $p, true), 'class' => 'prev'];
     }
 
     for ($i = $min; $min < $max && $i <= $max; $i++) {
         $p = ['cur' => $i === 1 ? null : $i];
-        $links[] = ['name' => $i, 'url' => app\url($url, $p, true), 'active' => $i === $cfg['cur'], 'action' => null];
+        $links[] = ['name' => $i, 'url' => app\url($url, $p, true), 'active' => $i === $cfg['cur'], 'class' => null];
     }
 
     if ($cfg['cur'] < $total) {
-        $links[] = ['name' => app\i18n('Next'), 'url' => app\url($url, ['cur' => $cfg['cur'] + 1], true), 'action' => 'next'];
+        $links[] = ['name' => app\i18n('Next'), 'url' => app\url($url, ['cur' => $cfg['cur'] + 1], true), 'class' => 'next'];
     }
 
     $var = [
