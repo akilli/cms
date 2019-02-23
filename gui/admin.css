@@ -17,7 +17,6 @@ figure:not(:last-child),
 h1:not(:last-child),
 h2:not(:last-child),
 h3:not(:last-child),
-summary:not(:last-child),
 p:not(:last-child),
 fieldset > *,
 main > :not(:last-child),
@@ -34,8 +33,7 @@ h1 {
     font-size: 1.5rem;
 }
 
-h2,
-summary {
+h2 {
     font-size: 1.25rem;
 }
 

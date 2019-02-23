@@ -250,7 +250,6 @@ function index(array $block): string
         'entity_id' => $cfg['entity_id'],
         'filter' => $filter,
         'filter-data' => arr\replace(entity\item($entity['id']), $p['filter']),
-        'filter-open' => !!$p['filter'],
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
         'q' => $p['q'],

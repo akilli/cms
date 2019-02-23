@@ -17,29 +17,22 @@ $entityId = $var('entity_id');
     <p class="create"><a href="<?=url($entityId . '/edit');?>" data-action="create"><?=i18n('New Entry');?></a></p>
     <?php endif;?>
     <?php if ($var('filter') || $var('search')):?>
-        <?php if ($admin || $browser):?>
-    <details<?php if ($var('filter-open')):?> open="open"<?php endif;?>>
-        <summary><?=i18n('Filter');?></summary>
-        <?php endif;?>
-        <form method="get" class="filter">
-            <fieldset>
-                <?php foreach ($var('filter') as $attr):?>
-                <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-                    <?=attr\filter($var('filter-data'), $attr);?>
-                </div>
-                <?php endforeach;?>
-                <?php if ($var('search')):?>
-                <div data-attr="q" data-type="search">
-                    <label for="q"><?=i18n('Search');?></label>
-                    <input id="q" type="search" name="q" value="<?=$var('q');?>" placeholder="<?=i18n('Search Term');?>" />
-                </div>
-                <?php endif;?>
-            </fieldset>
-            <input type="submit" value="<?=i18n('Filter results');?>" />
-        </form>
-        <?php if ($admin || $browser):?>
-    </details>
-        <?php endif;?>
+    <form method="get" class="filter">
+        <fieldset>
+            <?php foreach ($var('filter') as $attr):?>
+            <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
+                <?=attr\filter($var('filter-data'), $attr);?>
+            </div>
+            <?php endforeach;?>
+            <?php if ($var('search')):?>
+            <div data-attr="q" data-type="search">
+                <label for="q"><?=i18n('Search');?></label>
+                <input id="q" type="search" name="q" value="<?=$var('q');?>" placeholder="<?=i18n('Search Term');?>" />
+            </div>
+            <?php endif;?>
+        </fieldset>
+        <input type="submit" value="<?=i18n('Submit');?>" />
+    </form>
     <?php endif;?>
     <?=$var('pager-top');?>
     <?php if (!$var('data')):?>
