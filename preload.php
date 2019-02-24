@@ -74,6 +74,7 @@ const APP = [
         'mode' => 'all',
         'index' => 'id',
         'select' => [],
+        'distinct' => null,
         'order' => [],
         'limit' => 0,
         'offset' => 0,

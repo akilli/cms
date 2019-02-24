@@ -22,7 +22,7 @@ function load(array $entity, array $crit = [], array $opt = []): array
 
     $cols = crit($crit, $entity['attr']);
     $stmt = db($entity['db'])->prepare(
-        sel($opt['select'])
+        sel($opt['select'], $opt['distinct'])
         . from($entity['id'])
         . where($cols['crit'])
         . order($opt['order'])
@@ -353,7 +353,7 @@ function del(string $tab): string
 /**
  * SELECT part
  */
-function sel(array $sel, bool $distinct = false): string
+function sel(array $sel, $dis = null): string
 {
     $sql = '';
 
@@ -361,7 +361,11 @@ function sel(array $sel, bool $distinct = false): string
         $sql .= ($sql ? ', ' : '') . $col . ($as && is_string($as) ? ' AS ' . $as : '');
     }
 
-    return $sql ? ' SELECT ' . ($distinct ? 'DISTINCT ' : '') . $sql : '';
+    if ($dis && ($dis === true) || is_array($dis)) {
+        $sql = 'DISTINCT ' . (is_array($dis) ? 'ON (' . implode(', ', $dis) . ') ' : '') . $sql;
+    }
+
+    return $sql ? ' SELECT ' . $sql : '';
 }
 
 /**
