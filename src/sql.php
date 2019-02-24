@@ -353,7 +353,7 @@ function del(string $tab): string
 /**
  * SELECT part
  */
-function sel(array $sel, $dis = null): string
+function sel(array $sel, array $dis = []): string
 {
     $sql = '';
 
@@ -361,11 +361,7 @@ function sel(array $sel, $dis = null): string
         $sql .= ($sql ? ', ' : '') . $col . ($as && is_string($as) ? ' AS ' . $as : '');
     }
 
-    if ($dis && ($dis === true) || is_string($dis) || is_array($dis)) {
-        $sql = 'DISTINCT ' . ($dis === true ? '' : 'ON (' . implode(', ', (array) $dis) . ') ') . $sql;
-    }
-
-    return $sql ? ' SELECT ' . $sql : '';
+    return $sql ? ' SELECT ' . ($dis ? 'DISTINCT ON (' . implode(', ', $dis) . ') ' : '') . $sql : '';
 }
 
 /**

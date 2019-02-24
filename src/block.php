@@ -226,7 +226,7 @@ function index(array $block): string
     $total = 1;
 
     if ($cfg['distinct']) {
-        $opt = ['distinct' => $cfg['distinct'], 'order' => array_fill_keys((array) $cfg['distinct'], 'asc') + $cfg['order']];
+        $opt = ['distinct' => $cfg['distinct'], 'order' => array_fill_keys($cfg['distinct'], 'asc') + $cfg['order']];
     } else {
         $opt = ['order' => $cfg['order']];
     }
