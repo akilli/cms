@@ -72,6 +72,7 @@ const APP = [
     ],
     'entity.opt' => [
         'distinct' => [],
+        'group' => [],
         'index' => 'id',
         'limit' => 0,
         'offset' => 0,
