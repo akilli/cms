@@ -64,7 +64,6 @@ return [
         'cfg' => [
             'attr_id' => [],
             'crit' => [],
-            'distinct' => [],
             'entity_id' => null,
             'filter' => [],
             'limit' => [10, 20, 50, 0],

@@ -234,11 +234,6 @@ function index(array $block): string
         $p['dir'] = null;
     }
 
-    if ($cfg['distinct']) {
-        $opt['distinct'] = $cfg['distinct'];
-        $opt['order'] = array_fill_keys($cfg['distinct'], 'asc') + $opt['order'];
-    }
-
     if ($limit > 0) {
         $opt['limit'] = $limit;
         $total = (int) ceil($size / $limit) ?: 1;

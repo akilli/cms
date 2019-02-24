@@ -71,7 +71,6 @@ const APP = [
         'attr' => [],
     ],
     'entity.opt' => [
-        'distinct' => [],
         'group' => [],
         'index' => 'id',
         'limit' => 0,
