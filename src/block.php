@@ -221,15 +221,15 @@ function index(array $block): string
         }
     }
 
+    $size = entity\size($entity['id'], $crit);
+    $limit = is_int($p['limit']) && $p['limit'] >= 0 && in_array($p['limit'], $cfg['limit']) ? $p['limit'] : $cfg['limit'][0];
+    $total = 1;
+
     if ($cfg['distinct']) {
         $opt = ['distinct' => $cfg['distinct'], 'order' => array_fill_keys((array) $cfg['distinct'], 'asc') + $cfg['order']];
     } else {
         $opt = ['order' => $cfg['order']];
     }
-
-    $size = entity\size($entity['id'], $crit, $opt);
-    $limit = is_int($p['limit']) && $p['limit'] >= 0 && in_array($p['limit'], $cfg['limit']) ? $p['limit'] : $cfg['limit'][0];
-    $total = 1;
 
     if ($limit > 0) {
         $opt['limit'] = $limit;
