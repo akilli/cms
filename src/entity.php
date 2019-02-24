@@ -20,7 +20,7 @@ function size(string $entityId, array $crit = [], array $opt = []): int
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 
-    $opt = ['mode' => 'size', 'group' => $opt['group'] ?? []];
+    $opt = ['mode' => 'size'] + arr\replace(APP['entity.opt'], $opt);
 
     try {
         return ($entity['type'] . '\load')($entity, $crit, $opt)[0];
