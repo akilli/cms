@@ -224,11 +224,19 @@ function index(array $block): string
     $size = entity\size($entity['id'], $crit);
     $limit = is_int($p['limit']) && $p['limit'] >= 0 && in_array($p['limit'], $cfg['limit']) ? $p['limit'] : $cfg['limit'][0];
     $total = 1;
+    $opt = ['order' => $cfg['order']];
+
+    if ($p['sort'] && !empty($attr[$p['sort']])) {
+        $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
+        $opt['order'] = [$p['sort'] => $p['dir']];
+    } else {
+        $p['sort'] = null;
+        $p['dir'] = null;
+    }
 
     if ($cfg['distinct']) {
-        $opt = ['distinct' => $cfg['distinct'], 'order' => array_fill_keys($cfg['distinct'], 'asc') + $cfg['order']];
-    } else {
-        $opt = ['order' => $cfg['order']];
+        $opt['distinct'] = $cfg['distinct'];
+        $opt['order'] = array_fill_keys($cfg['distinct'], 'asc') + $opt['order'];
     }
 
     if ($limit > 0) {
