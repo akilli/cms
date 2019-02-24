@@ -396,8 +396,9 @@ function enc(?string $val): string
 function url(string $path = '', array $param = [], bool $preserve = false): string
 {
     $param = $preserve ? $param + request\get('param') : $param;
+    $query = $param ? http_build_query($param, '', '&amp;') : '';
 
-    return '/' . trim($path, '/') . ($param ? '?' . http_build_query($param, '', '&amp;') : '');
+    return '/' . trim($path, '/') . ($query ? '?' . $query : '');
 }
 
 /**
