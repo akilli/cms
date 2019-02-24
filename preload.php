@@ -71,13 +71,12 @@ const APP = [
         'attr' => [],
     ],
     'entity.opt' => [
-        'mode' => 'all',
-        'index' => 'id',
-        'select' => [],
         'distinct' => null,
-        'order' => [],
+        'index' => 'id',
         'limit' => 0,
         'offset' => 0,
+        'order' => [],
+        'select' => [],
     ],
     'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
     'join' => [

@@ -20,7 +20,7 @@ function size(string $entityId, array $crit = []): int
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 
-    $opt = arr\replace(APP['entity.opt'], ['mode' => 'size']);
+    $opt = ['mode' => 'size'] + APP['entity.opt'];
 
     try {
         return ($entity['type'] . '\load')($entity, $crit, $opt)[0];
@@ -44,7 +44,7 @@ function one(string $entityId, array $crit = [], array $opt = []): array
     }
 
     $data = [];
-    $opt = arr\replace(APP['entity.opt'], $opt, ['mode' => 'one', 'limit' => 1]);
+    $opt = ['mode' => 'one', 'limit' => 1] + arr\replace(APP['entity.opt'], $opt);
 
     try {
         if ($data = ($entity['type'] . '\load')($entity, $crit, $opt)) {
@@ -69,7 +69,7 @@ function all(string $entityId, array $crit = [], array $opt = []): array
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 
-    $opt = arr\replace(APP['entity.opt'], $opt, ['mode' => 'all']);
+    $opt = ['mode' => 'all'] + arr\replace(APP['entity.opt'], $opt);
 
     if ($opt['select'] && ($keys = array_diff(array_unique(['id', $opt['index']]), $opt['select']))) {
         array_unshift($opt['select'], ...$keys);
