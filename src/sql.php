@@ -361,8 +361,8 @@ function sel(array $sel, $dis = null): string
         $sql .= ($sql ? ', ' : '') . $col . ($as && is_string($as) ? ' AS ' . $as : '');
     }
 
-    if ($dis && ($dis === true) || is_array($dis)) {
-        $sql = 'DISTINCT ' . (is_array($dis) ? 'ON (' . implode(', ', $dis) . ') ' : '') . $sql;
+    if ($dis && ($dis === true) || is_string($dis) || is_array($dis)) {
+        $sql = 'DISTINCT ' . ($dis === true ? '' : 'ON (' . implode(', ', (array) $dis) . ') ') . $sql;
     }
 
     return $sql ? ' SELECT ' . $sql : '';
