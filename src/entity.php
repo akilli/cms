@@ -14,13 +14,13 @@ use Throwable;
  *
  * @throws DomainException
  */
-function size(string $entityId, array $crit = [], array $opt = []): int
+function size(string $entityId, array $crit = []): int
 {
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 
-    $opt = ['mode' => 'size'] + arr\replace(APP['entity.opt'], $opt);
+    $opt = ['mode' => 'size'] + APP['entity.opt'];
 
     try {
         return ($entity['type'] . '\load')($entity, $crit, $opt)[0];
