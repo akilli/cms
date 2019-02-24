@@ -182,7 +182,6 @@ function index(array $block): string
     }
 
     $crit = $cfg['crit'];
-    $opt = ['order' => $cfg['order'] ?: ['id' => 'desc']];
     $filter = $cfg['filter'] ? arr\extract($entity['attr'], $cfg['filter']) : [];
     $p = arr\replace(['cur' => null, 'filter' => [], 'q' => null, 'sort' => null, 'dir' => null, 'limit' => null], request\get('param'));
     $p['filter'] = $p['filter'] && is_array($p['filter']) ? array_intersect_key($p['filter'], $filter) : [];
@@ -222,8 +221,14 @@ function index(array $block): string
         }
     }
 
+    if ($cfg['distinct']) {
+        $opt = ['distinct' => $cfg['distinct'], 'order' => array_fill_keys((array) $cfg['distinct'], 'asc') + $cfg['order']];
+    } else {
+        $opt = ['order' => $cfg['order']];
+    }
+
+    $size = entity\size($entity['id'], $crit, $opt);
     $limit = is_int($p['limit']) && $p['limit'] >= 0 && in_array($p['limit'], $cfg['limit']) ? $p['limit'] : $cfg['limit'][0];
-    $size = entity\size($entity['id'], $crit);
     $total = 1;
 
     if ($limit > 0) {
