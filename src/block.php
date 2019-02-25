@@ -183,7 +183,7 @@ function index(array $block): string
 
     $crit = $cfg['crit'];
     $opt = ['order' => $cfg['order']];
-    $p = arr\replace(['cur' => null, 'filter' => [], 'q' => null, 'sort' => null, 'dir' => null, 'limit' => null], request\get('param'));
+    $p = arr\replace(['cur' => null, 'dir' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], request\get('param'));
     $limit = is_int($p['limit']) && $p['limit'] >= 0 && in_array($p['limit'], $cfg['limit']) ? $p['limit'] : $cfg['limit'][0];
 
     if ($limit > 0) {
