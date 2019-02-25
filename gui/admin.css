@@ -517,7 +517,6 @@ a[data-sort=desc]::after {
     .block-index .thead > ::after,
     .block-index .thead > :last-child,
     .block-index article > :last-child,
-    .block-index > article > footer,
     .filter,
     .pager {
         display: none;
