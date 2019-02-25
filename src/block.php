@@ -183,7 +183,7 @@ function index(array $block): string
 
     $crit = $cfg['crit'];
     $opt = ['order' => $cfg['order']];
-    $p = arr\replace(['cur' => null, 'dir' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], request\get('param'));
+    $p = arr\replace(['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], request\get('param'));
     $limit = is_int($p['limit']) && $p['limit'] >= 0 && in_array($p['limit'], $cfg['limit']) ? $p['limit'] : $cfg['limit'][0];
 
     if ($limit > 0) {
@@ -201,12 +201,10 @@ function index(array $block): string
         }
     }
 
-    if ($p['sort'] && !empty($attr[$p['sort']])) {
-        $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
-        $opt['order'] = [$p['sort'] => $p['dir']];
+    if ($p['sort'] && preg_match('#^(-)?([a-z0-9-_]+)$#', $p['sort'], $match) && !empty($attr[$match[2]])) {
+        $opt['order'] = [$match[2] => $match[1] ? 'desc' : 'asc'];
     } else {
         $p['sort'] = null;
-        $p['dir'] = null;
     }
 
     if ($cfg['filter'] || $cfg['search']) {
@@ -258,7 +256,6 @@ function index(array $block): string
     $var = [
         'attr' => $attr,
         'data' => entity\all($entity['id'], $crit, $opt),
-        'dir' => $p['dir'],
         'entity_id' => $cfg['entity_id'],
         'filter' => $filter,
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,

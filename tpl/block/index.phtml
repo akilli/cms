@@ -25,7 +25,11 @@ $entityId = $var('entity_id');
         <?php if ($admin):?>
         <div class="thead">
             <?php foreach ($var('attr') as $attr):?>
-            <a href="<?=url($var('url'), ['sort' => $attr['id'], 'dir' => $var('sort') === $attr['id'] && $var('dir') === 'asc' ? 'desc' : 'asc'], true);?>"<?php if ($var('sort') === $attr['id']):?> data-sort="<?=$var('dir');?>"<?php endif;?>><?=$attr['name'];?></a>
+                <?php
+                $sort = ($attr['id'] === $var('sort') ? '-' : '') . $attr['id'];
+                $dir = $var('sort') && $var('sort')[0] === '-' ? 'desc' : 'asc';
+                ?>
+            <a href="<?=url($var('url'), ['sort' => $sort], true);?>"<?php if ($attr['id'] === ltrim($var('sort'), '-')):?> data-sort="<?=$dir;?>"<?php endif;?>><?=$attr['name'];?></a>
             <?php endforeach;?>
             <?php if ($admin):?>
             <span><?=i18n('Actions');?></span>
