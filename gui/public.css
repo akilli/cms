@@ -311,6 +311,16 @@ main ::selection {
 }
 
 /**
+ * Index
+ */
+.block-index iframe,
+.block-index img,
+.block-index video {
+    max-width: 15rem;
+    max-height: 10rem;
+}
+
+/**
  * Pager
  */
 .pager {
