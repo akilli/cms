@@ -514,8 +514,9 @@ a[data-sort=desc]::after {
     body > :not(main),
     main > :not(#content),
     .block-index > .create,
-    .block-index > .thead > span:last-child,
-    .block-index > .thead > a::after,
+    .block-index .thead > ::after,
+    .block-index .thead > :last-child,
+    .block-index article > :last-child,
     .block-index > article > footer,
     .filter,
     .pager {
