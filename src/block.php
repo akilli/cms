@@ -201,7 +201,7 @@ function index(array $block): string
         }
     }
 
-    if ($p['sort'] && preg_match('#^(-)?([a-z0-9-_]+)$#', $p['sort'], $match) && !empty($attr[$match[2]])) {
+    if ($cfg['sort'] && $p['sort'] && preg_match('#^(-)?([a-z0-9-_]+)$#', $p['sort'], $match) && !empty($attr[$match[2]])) {
         $opt['order'] = [$match[2] => $match[1] ? 'desc' : 'asc'];
     } else {
         $p['sort'] = null;

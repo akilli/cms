@@ -156,6 +156,7 @@ return [
             'cfg' => [
                 'pager' => 'bottom',
                 'search' => ['name'],
+                'sort' => true,
             ],
         ],
     ],

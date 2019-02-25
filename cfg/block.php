@@ -71,6 +71,7 @@ return [
             'pager' => null,
             'parent_id' => null,
             'search' => [],
+            'sort' => false,
             'title' => null,
         ],
     ],
