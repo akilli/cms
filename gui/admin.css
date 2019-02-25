@@ -454,13 +454,9 @@ html[data-action=browser] .block-index video {
     /**
      * Browser
      */
-    html[data-action=browser] #content .block-index {
+    html[data-action=browser] #content .block-index .items {
         display: flex;
         flex-wrap: wrap;
-    }
-
-    html[data-action=browser] #content .block-index > * {
-        width: 100%;
     }
 
     html[data-action=browser] #content .block-index article {
