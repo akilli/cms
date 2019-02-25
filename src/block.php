@@ -182,9 +182,13 @@ function index(array $block): string
     }
 
     $crit = $cfg['crit'];
-    $filter = $cfg['filter'] ? arr\extract($entity['attr'], $cfg['filter']) : [];
+    $opt = ['order' => $cfg['order']];
     $p = arr\replace(['cur' => null, 'filter' => [], 'q' => null, 'sort' => null, 'dir' => null, 'limit' => null], request\get('param'));
-    $p['filter'] = $p['filter'] && is_array($p['filter']) ? array_intersect_key($p['filter'], $filter) : [];
+    $limit = is_int($p['limit']) && $p['limit'] >= 0 && in_array($p['limit'], $cfg['limit']) ? $p['limit'] : $cfg['limit'][0];
+
+    if ($limit > 0) {
+        $opt['limit'] = $limit;
+    }
 
     if (in_array('page', [$entity['id'], $entity['parent_id']])) {
         if (app\get('action') !== 'admin') {
@@ -197,35 +201,6 @@ function index(array $block): string
         }
     }
 
-    foreach (array_keys($p['filter']) as $attrId) {
-        $op = APP['op']['='];
-
-        if ($filter[$attrId]['multiple'] || !$filter[$attrId]['opt'] && in_array($filter[$attrId]['backend'], ['json', 'text', 'varchar'])) {
-            $op = APP['op']['~'];
-        } elseif ($p['filter'][$attrId] && in_array($filter[$attrId]['backend'], ['datetime', 'date'])) {
-            $p['filter'][$attrId] = attr\datetime($p['filter'][$attrId], APP['attr.date.frontend'], APP['attr.date.backend']);
-            $op = $filter[$attrId]['backend'] === 'datetime' ? APP['op']['^'] : $op = APP['op']['='];
-        } elseif ($p['filter'][$attrId] && $filter[$attrId]['backend'] === 'time') {
-            $p['filter'][$attrId] = attr\datetime($p['filter'][$attrId], APP['attr.time.frontend'], APP['attr.time.backend']);
-        }
-
-        $crit[] = [$attrId, $p['filter'][$attrId], $op];
-    }
-
-    if ($cfg['search'] && $p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
-        foreach ($q as $v) {
-            $call = function ($attrId) use ($v): array {
-                return [$attrId, $v, APP['op']['~']];
-            };
-            $crit[] = array_map($call, $cfg['search']);
-        }
-    }
-
-    $size = entity\size($entity['id'], $crit);
-    $limit = is_int($p['limit']) && $p['limit'] >= 0 && in_array($p['limit'], $cfg['limit']) ? $p['limit'] : $cfg['limit'][0];
-    $total = 1;
-    $opt = ['order' => $cfg['order']];
-
     if ($p['sort'] && !empty($attr[$p['sort']])) {
         $p['dir'] = $p['dir'] === 'desc' ? 'desc' : 'asc';
         $opt['order'] = [$p['sort'] => $p['dir']];
@@ -234,20 +209,52 @@ function index(array $block): string
         $p['dir'] = null;
     }
 
-    if ($limit > 0) {
-        $opt['limit'] = $limit;
-        $total = (int) ceil($size / $limit) ?: 1;
-    }
+    if ($cfg['filter'] || $cfg['search']) {
+        $fa = $cfg['filter'] ? arr\extract($entity['attr'], $cfg['filter']) : [];
+        $p['filter'] = $p['filter'] && is_array($p['filter']) ? array_intersect_key($p['filter'], $fa) : [];
 
-    if ($cfg['filter']) {
-        $filter = filter(['cfg' => ['attr' => $filter, 'data' => arr\replace(entity\item($entity['id']), $p['filter']), 'q' => $p['q'], 'search' => !!$cfg['search']]]);
+        foreach (array_keys($p['filter']) as $attrId) {
+            $op = APP['op']['='];
+
+            if ($fa[$attrId]['multiple'] || !$fa[$attrId]['opt'] && in_array($fa[$attrId]['backend'], ['json', 'text', 'varchar'])) {
+                $op = APP['op']['~'];
+            } elseif ($p['filter'][$attrId] && in_array($fa[$attrId]['backend'], ['datetime', 'date'])) {
+                $p['filter'][$attrId] = attr\datetime($p['filter'][$attrId], APP['attr.date.frontend'], APP['attr.date.backend']);
+                $op = $fa[$attrId]['backend'] === 'datetime' ? APP['op']['^'] : $op = APP['op']['='];
+            } elseif ($p['filter'][$attrId] && $fa[$attrId]['backend'] === 'time') {
+                $p['filter'][$attrId] = attr\datetime($p['filter'][$attrId], APP['attr.time.frontend'], APP['attr.time.backend']);
+            }
+
+            $crit[] = [$attrId, $p['filter'][$attrId], $op];
+        }
+
+        if ($cfg['search'] && $p['q'] && ($q = array_filter(explode(' ', (string) $p['q'])))) {
+            foreach ($q as $v) {
+                $call = function ($attrId) use ($v): array {
+                    return [$attrId, $v, APP['op']['~']];
+                };
+                $crit[] = array_map($call, $cfg['search']);
+            }
+        }
+
+        $filter = filter(['cfg' => ['attr' => $fa, 'data' => arr\replace(entity\item($entity['id']), $p['filter']), 'q' => $p['q'], 'search' => !!$cfg['search']]]);
     } else {
+        $p['filter'] = [];
+        $p['q'] = null;
         $filter = '';
     }
 
-    $p['cur'] = min(max((int) $p['cur'], 1), $total);
-    $opt['offset'] = ($p['cur'] - 1) * $limit;
-    $pager = $cfg['pager'] ? pager(['cfg' => ['cur' => $p['cur'], 'limit' => $limit, 'limits' => $cfg['limit'], 'size' => $size]]) : null;
+    if ($cfg['pager']) {
+        $size = entity\size($entity['id'], $crit);
+        $total = $limit > 0 && ($c = (int) ceil($size / $limit)) ? $c : 1;
+        $p['cur'] = min(max((int) $p['cur'], 1), $total);
+        $opt['offset'] = ($p['cur'] - 1) * $limit;
+        $pager = pager(['cfg' => ['cur' => $p['cur'], 'limit' => $limit, 'limits' => $cfg['limit'], 'size' => $size]]);
+    } else {
+        $p['cur'] = null;
+        $pager = null;
+    }
+
     $var = [
         'attr' => $attr,
         'data' => entity\all($entity['id'], $crit, $opt),
