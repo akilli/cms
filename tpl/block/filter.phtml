@@ -1,0 +1,21 @@
+<?php
+namespace app;
+use attr;
+/** @var callable $var */
+?>
+<form method="get" class="filter">
+    <fieldset>
+        <?php foreach ($var('attr') as $attr):?>
+        <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
+            <?=attr\filter($var('data'), $attr);?>
+        </div>
+        <?php endforeach;?>
+        <?php if ($var('search')):?>
+        <div data-attr="q" data-type="search">
+            <label for="q"><?=i18n('Search');?></label>
+            <input id="q" type="search" name="q" value="<?=$var('q');?>" placeholder="<?=i18n('Search Term');?>" />
+        </div>
+        <?php endif;?>
+    </fieldset>
+    <input type="submit" value="<?=i18n('Submit');?>" />
+</form>

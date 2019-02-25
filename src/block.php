@@ -239,6 +239,12 @@ function index(array $block): string
         $total = (int) ceil($size / $limit) ?: 1;
     }
 
+    if ($cfg['filter']) {
+        $filter = filter(['cfg' => ['attr' => $filter, 'data' => arr\replace(entity\item($entity['id']), $p['filter']), 'q' => $p['q'], 'search' => !!$cfg['search']]]);
+    } else {
+        $filter = '';
+    }
+
     $p['cur'] = min(max((int) $p['cur'], 1), $total);
     $opt['offset'] = ($p['cur'] - 1) * $limit;
     $pager = $cfg['pager'] ? pager(['cfg' => ['cur' => $p['cur'], 'limit' => $limit, 'limits' => $cfg['limit'], 'size' => $size]]) : null;
@@ -248,17 +254,30 @@ function index(array $block): string
         'dir' => $p['dir'],
         'entity_id' => $cfg['entity_id'],
         'filter' => $filter,
-        'filter-data' => arr\replace(entity\item($entity['id']), $p['filter']),
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
-        'q' => $p['q'],
-        'search' => $cfg['search'],
         'sort' => $p['sort'],
         'title' => app\enc($cfg['title']),
         'url' => request\get('url'),
     ];
 
     return app\render($block['tpl'], $var);
+}
+
+/**
+ * Filter
+ */
+function filter(array $block): string
+{
+    $type = app\cfg('block', 'filter');
+    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
+    $cfg = arr\replace($type['cfg'], $block['cfg']);
+
+    if (!$cfg['attr'] && !$cfg['search']) {
+        return '';
+    }
+
+    return app\render($block['tpl'], $cfg);
 }
 
 /**

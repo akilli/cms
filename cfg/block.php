@@ -74,6 +74,16 @@ return [
             'title' => null,
         ],
     ],
+    'filter' => [
+        'call' => 'block\filter',
+        'tpl' => 'block/filter.phtml',
+        'cfg' => [
+            'attr' => [],
+            'data' => [],
+            'q' => null,
+            'search' => false,
+        ],
+    ],
     'pager' => [
         'call' => 'block\pager',
         'tpl' => 'block/pager.phtml',
