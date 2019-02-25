@@ -319,6 +319,18 @@ a[data-sort=desc]::after {
     font-size: inherit;
 }
 
+.block-index img,
+.block-index video {
+    max-width: 9rem;
+    max-height: 6rem;
+}
+
+html[data-action=browser] .block-index img,
+html[data-action=browser] .block-index video {
+    max-width: 15rem;
+    max-height: 10rem;
+}
+
 /**
  * Pager
  */
