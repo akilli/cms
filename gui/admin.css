@@ -297,18 +297,6 @@ main ::selection {
     color: inherit;
 }
 
-a[data-sort=asc]::after {
-    display: inline-block;
-    text-decoration: none;
-    content: '⇑';
-}
-
-a[data-sort=desc]::after {
-    display: inline-block;
-    text-decoration: none;
-    content: '⇓';
-}
-
 .block-index article {
     padding: 0.75rem 0;
 }
@@ -514,8 +502,7 @@ a[data-sort=desc]::after {
     body > :not(main),
     main > :not(#content),
     .block-index > .create,
-    .block-index > .thead > span:last-child,
-    .block-index > .thead > a::after,
+    .block-index > .thead > :last-child,
     .block-index > article > footer,
     .filter,
     .pager {

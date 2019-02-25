@@ -258,12 +258,10 @@ function index(array $block): string
     $var = [
         'attr' => $attr,
         'data' => entity\all($entity['id'], $crit, $opt),
-        'dir' => $p['dir'],
         'entity_id' => $cfg['entity_id'],
         'filter' => $filter,
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
-        'sort' => $p['sort'],
         'title' => app\enc($cfg['title']),
         'url' => request\get('url'),
     ];
