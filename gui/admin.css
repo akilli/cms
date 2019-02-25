@@ -319,14 +319,6 @@ a[data-sort=desc]::after {
     font-size: inherit;
 }
 
-.block-index audio,
-.block-index iframe,
-.block-index img,
-.block-index video {
-    max-width: 15rem;
-    max-height: 10rem;
-}
-
 /**
  * Pager
  */
