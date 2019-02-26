@@ -235,7 +235,7 @@ function entity_postvalidate(array $data): array
 }
 
 /**
- * File entity validate
+ * File entity prevalidate
  */
 function entity_prevalidate_file(array $data): array
 {
