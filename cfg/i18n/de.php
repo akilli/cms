@@ -35,6 +35,7 @@ return [
     'Documents' => 'Dokumente',
     'Draft' => 'Entwurf',
     'Edit' => 'Bearbeiten',
+    'Email' => 'E-Mail',
     'Entity' => 'Entität',
     'Entity %s is readonly' => 'Entität %s ist schreibgeschützt',
     'Error' => 'Fehler',

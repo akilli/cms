@@ -144,7 +144,7 @@ return [
             'parent_id' => 'content',
             'sort' => 10,
             'cfg' => [
-                'attr_id' => ['password', 'confirmation'],
+                'attr_id' => ['password', 'confirmation', 'email'],
             ],
         ],
     ],
@@ -261,7 +261,7 @@ return [
     'account/edit' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'username', 'password', 'role_id'],
+                'attr_id' => ['name', 'role_id', 'username', 'password', 'email'],
             ],
         ],
     ],

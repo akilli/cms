@@ -37,6 +37,12 @@ return [
                 'unique' => true,
                 'max' => 50,
             ],
+            'role_id' => [
+                'name' => 'Role',
+                'type' => 'entity',
+                'required' => true,
+                'ref' => 'role',
+            ],
             'username' => [
                 'name' => 'Username',
                 'type' => 'uid',
@@ -59,11 +65,12 @@ return [
                 'min' => 8,
                 'max' => 255,
             ],
-            'role_id' => [
-                'name' => 'Role',
-                'type' => 'entity',
-                'required' => true,
-                'ref' => 'role',
+            'email' => [
+                'name' => 'Email',
+                'type' => 'email',
+                'nullable' => true,
+                'unique' => true,
+                'max' => 50,
             ],
         ],
     ],

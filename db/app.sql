@@ -473,9 +473,10 @@ CREATE INDEX ON role USING GIN (priv);
 CREATE TABLE account (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
+    role_id int NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE,
     username varchar(50) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
-    role_id int NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE
+    email varchar(50) DEFAULT NULL UNIQUE
 );
 
 CREATE INDEX ON account (role_id);
