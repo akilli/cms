@@ -33,7 +33,7 @@ function app_cfg(): void
 function account_login(): void
 {
     if ($data = request\get('data')) {
-        if (!empty($data['name']) && !empty($data['password']) && ($data = account\login($data['name'], $data['password']))) {
+        if (!empty($data['username']) && !empty($data['password']) && ($data = account\login($data['username'], $data['password']))) {
             session\regenerate();
             session\set('account', $data['id']);
             request\redirect(app\url('account/dashboard'));

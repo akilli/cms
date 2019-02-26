@@ -163,7 +163,7 @@ return [
     'account/admin' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'role_id'],
+                'attr_id' => ['name', 'username', 'role_id'],
                 'filter' => ['role_id'],
             ],
         ],
@@ -258,7 +258,7 @@ return [
     'account/edit' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'password', 'role_id'],
+                'attr_id' => ['name', 'username', 'password', 'role_id'],
             ],
         ],
     ],

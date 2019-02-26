@@ -469,10 +469,10 @@ function login(array $block): string
 {
     $block['tpl'] = $block['tpl'] ?? app\cfg('block', 'login')['tpl'];
     $entity = app\cfg('entity', 'account');
-    $a = ['name' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0]];
+    $a = ['username' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0]];
     $var = [
         'data' => [],
-        'attr' => array_replace_recursive(arr\extract($entity['attr'], ['name', 'password']), $a),
+        'attr' => array_replace_recursive(arr\extract($entity['attr'], ['username', 'password']), $a),
         'file' => false,
         'title' => app\i18n('Login'),
     ];

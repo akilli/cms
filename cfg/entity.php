@@ -32,6 +32,13 @@ return [
             ],
             'name' => [
                 'name' => 'Name',
+                'type' => 'text',
+                'required' => true,
+                'unique' => true,
+                'max' => 50,
+            ],
+            'username' => [
+                'name' => 'Username',
                 'type' => 'uid',
                 'required' => true,
                 'unique' => true,

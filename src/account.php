@@ -36,9 +36,9 @@ function get(string $key)
 /**
  * Returns account if given credentials are valid and automatically rehashes password if needed
  */
-function login(string $name, string $password): ?array
+function login(string $username, string $password): ?array
 {
-    $data = entity\one('account', [['name', $name]]);
+    $data = entity\one('account', [['username', $username]]);
 
     if (!$data || !password_verify($password, $data['password'])) {
         return null;
