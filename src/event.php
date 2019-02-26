@@ -334,7 +334,7 @@ function entity_postvalidate_page_menu(array $data): array
         && ($parent = entity\one('page', [['id', $data['parent_id']]], ['select' => ['path']]))
         && in_array($data['_old']['id'], $parent['path'])
     ) {
-        $data['_error']['parent_id'] = app\i18n('Cannot assign the page itself or a child page as parent');
+        $data['_error']['parent_id'] = app\i18n('Cannot assign the page itself or a subpage as parent');
     }
 
     return $data;
