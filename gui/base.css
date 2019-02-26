@@ -227,12 +227,14 @@ textarea {
     vertical-align: middle;
     font-family: inherit;
     font-size: inherit;
+    color: inherit;
     margin: 0;
     padding: 0;
     border: 0;
 }
 
-[role=button] {
+[role=button],
+[role=button]:hover {
     display: inline-block;
     text-decoration: none;
 }
