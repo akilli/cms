@@ -95,6 +95,7 @@ return [
     'Publish' => 'Veröffentlichen',
     'Published' => 'Veröffentlicht',
     'Remove' => 'Entfernen',
+    'Reset' => 'Zurücksetzen',
     'Role' => 'Rolle',
     'Roles' => 'Rollen',
     'Search' => 'Suche',
