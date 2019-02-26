@@ -91,10 +91,10 @@ return [
         'priv' => 'page_content/view',
         'sort' => 80,
     ],
-    'password' => [
-        'name' => 'Password',
-        'url' => '/account/password',
-        'priv' => 'account/password',
+    'profile' => [
+        'name' => 'Profile',
+        'url' => '/account/profile',
+        'priv' => 'account/profile',
         'sort' => 90,
     ],
     'logout' => [

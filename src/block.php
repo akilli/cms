@@ -439,9 +439,9 @@ function edit(array $block): string
 }
 
 /**
- * Password Form
+ * Profile Form
  */
-function password(array $block): string
+function profile(array $block): string
 {
     if ($data = request\get('data')) {
         if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
@@ -456,8 +456,8 @@ function password(array $block): string
         }
     }
 
-    $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'password')['tpl'];
-    $block['cfg'] = ['attr_id' => ['password', 'confirmation'], 'data' => $data, 'entity_id' => 'account', 'title' => app\i18n('Password')];
+    $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'profile')['tpl'];
+    $block['cfg'] = ['attr_id' => ['password', 'confirmation'], 'data' => $data, 'entity_id' => 'account', 'title' => app\i18n('Profile')];
 
     return form($block);
 }

@@ -136,11 +136,11 @@ return [
         ],
     ],
     /**
-     * Account Password
+     * Account Profile
      */
-    'account/password' => [
+    'account/profile' => [
         'content-main' => [
-            'type' => 'password',
+            'type' => 'profile',
             'parent_id' => 'content',
             'sort' => 10,
         ],

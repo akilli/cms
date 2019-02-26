@@ -24,7 +24,7 @@ return [
     ],
     'account' => [
         'name' => 'Accounts',
-        'action' => ['admin', 'dashboard', 'delete', 'edit', 'login', 'logout', 'password'],
+        'action' => ['admin', 'dashboard', 'delete', 'edit', 'login', 'logout', 'profile'],
         'attr' => [
             'id' => [
                 'name' => 'ID',

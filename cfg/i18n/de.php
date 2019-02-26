@@ -93,6 +93,7 @@ return [
     'Position' => 'Position',
     'Previous' => 'Zurück',
     'Privileges' => 'Privilegien',
+    'Profile' => 'Profil',
     'Publish' => 'Veröffentlichen',
     'Published' => 'Veröffentlicht',
     'Remove' => 'Entfernen',

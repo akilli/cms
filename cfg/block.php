@@ -124,8 +124,8 @@ return [
             'attr_id' => [],
         ],
     ],
-    'password' => [
-        'call' => 'block\password',
+    'profile' => [
+        'call' => 'block\profile',
         'tpl' => 'block/form.phtml',
     ],
     'login' => [

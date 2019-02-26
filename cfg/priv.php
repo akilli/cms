@@ -27,7 +27,7 @@ return [
     'account/logout' => [
         'priv' => '_user_',
     ],
-    'account/password' => [
+    'account/profile' => [
         'priv' => '_user_',
     ],
     'app/cfg' => [
