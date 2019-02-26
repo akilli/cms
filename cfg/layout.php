@@ -143,6 +143,9 @@ return [
             'type' => 'profile',
             'parent_id' => 'content',
             'sort' => 10,
+            'cfg' => [
+                'attr_id' => ['password', 'confirmation'],
+            ],
         ],
     ],
     /**

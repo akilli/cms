@@ -127,6 +127,9 @@ return [
     'profile' => [
         'call' => 'block\profile',
         'tpl' => 'block/form.phtml',
+        'cfg' => [
+            'attr_id' => [],
+        ],
     ],
     'login' => [
         'call' => 'block\login',
