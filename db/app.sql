@@ -287,6 +287,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION page_version_before() RETURNS trigger AS $$
     DECLARE
+        _aid int;
         _now timestamp := current_timestamp;
         _sta status;
     BEGIN
@@ -297,7 +298,9 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
 
         -- Archive published version without change
         IF (TG_OP = 'UPDATE' AND NEW.status = 'archived') THEN
+            _aid := NEW.account_id;
             NEW := OLD;
+            NEW.account_id := _aid;
             NEW.status := 'archived';
         END IF;
 
@@ -332,16 +335,16 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
         END IF;
 
         -- Create new version
-        IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.teaser != OLD.teaser OR NEW.main != OLD.main OR NEW.aside != OLD.aside OR NEW.status != OLD.status) THEN
+        IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.entity_id != OLD.entity_id OR NEW.title != OLD.title OR NEW.teaser != OLD.teaser OR NEW.main != OLD.main OR NEW.aside != OLD.aside OR NEW.account_id != OLD.account_id OR NEW.status != OLD.status) THEN
             IF (TG_OP = 'INSERT') THEN
                 _now := NEW.timestamp;
             END IF;
 
             INSERT INTO
                 version
-                (name, teaser, main, aside, status, timestamp, page_id)
+                (name, entity_id, title, teaser, main, aside, account_id, status, timestamp, page_id)
             VALUES
-                (NEW.name, NEW.teaser, NEW.main, NEW.aside, NEW.status, _now, NEW.id);
+                (NEW.name, NEW.entity_id, NEW.title, NEW.teaser, NEW.main, NEW.aside, NEW.account_id, NEW.status, _now, NEW.id);
         END IF;
 
         -- Don't overwrite published version with a draft
@@ -392,19 +395,21 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
                 page_id = _row.id
                 AND status IN ('draft', 'pending');
 
+            _row.account_id := NEW.account_id;
             _row.status := 'archived';
 
             -- Create new version
             INSERT INTO
                 version
-                (name, teaser, main, aside, status, page_id)
+                (name, entity_id, title, teaser, main, aside, account_id, status, page_id)
             VALUES
-                (_row.name, _row.teaser, _row.main, _row.aside, _row.status, _row.id);
+                (_row.name, _row.entity_id, _row.title, _row.teaser, _row.main, _row.aside, _row.account_id, _row.status, _row.id);
 
             -- Update page status
             UPDATE
                 page
             SET
+                account_id = _row.account_id,
                 status = _row.status;
         END LOOP;
 
@@ -572,6 +577,7 @@ CREATE TABLE page (
     pos varchar(255) NOT NULL DEFAULT '',
     level int NOT NULL DEFAULT 0,
     path int[] NOT NULL DEFAULT '{}',
+    account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
     status status NOT NULL,
     timestamp timestamp NOT NULL DEFAULT current_timestamp,
     UNIQUE (parent_id, slug)
@@ -593,6 +599,7 @@ CREATE INDEX ON page (sort);
 CREATE INDEX ON page (pos);
 CREATE INDEX ON page (level);
 CREATE INDEX ON page USING GIN (path);
+CREATE INDEX ON page (account_id);
 CREATE INDEX ON page (status);
 CREATE INDEX ON page (timestamp);
 
@@ -635,18 +642,24 @@ WITH LOCAL CHECK OPTION;
 CREATE TABLE version (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
+    entity_id varchar(50) NOT NULL,
+    page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED,
+    title varchar(255) DEFAULT NULL,
     teaser text NOT NULL,
     main text NOT NULL,
     aside text NOT NULL,
+    account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
     status status NOT NULL,
-    timestamp timestamp NOT NULL DEFAULT current_timestamp,
-    page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED
+    timestamp timestamp NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON version (name);
+CREATE INDEX ON version (entity_id);
+CREATE INDEX ON version (page_id);
+CREATE INDEX ON version (title);
+CREATE INDEX ON version (account_id);
 CREATE INDEX ON version (status);
 CREATE INDEX ON version (timestamp);
-CREATE INDEX ON version (page_id);
 
 CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE version_protect();
 

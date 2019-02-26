@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace event;
 
+use account;
 use app;
 use arr;
 use entity;
@@ -255,6 +256,16 @@ function entity_prevalidate_file(array $data): array
     if ($data['_old'] && ($data['ext'] !== $data['_old']['ext'] || $data['mime'] !== $data['_old']['mime'])) {
         $data['_error']['url'] = app\i18n('Cannot change filetype anymore');
     }
+
+    return $data;
+}
+
+/**
+ * Page entity presave
+ */
+function entity_presave_page(array $data): array
+{
+    $data['account_id'] = account\get('id');
 
     return $data;
 }

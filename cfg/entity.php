@@ -257,6 +257,12 @@ return [
                 'type' => 'int[]',
                 'auto' => true,
             ],
+            'account_id' => [
+                'name' => 'Account',
+                'type' => 'entity',
+                'nullable' => true,
+                'ref' => 'account',
+            ],
             'status' => [
                 'name' => 'Status',
                 'type' => 'status',
@@ -291,6 +297,22 @@ return [
                 'required' => true,
                 'max' => 255,
             ],
+            'entity_id' => [
+                'name' => 'Entity',
+                'type' => 'parent',
+                'required' => true,
+            ],
+            'page_id' => [
+                'name' => 'Page',
+                'type' => 'page',
+                'required' => true,
+            ],
+            'title' => [
+                'name' => 'Title',
+                'type' => 'text',
+                'nullable' => true,
+                'max' => 255,
+            ],
             'teaser' => [
                 'name' => 'Teaser',
                 'type' => 'rtemin',
@@ -306,6 +328,12 @@ return [
                 'type' => 'rte',
                 'required' => true,
             ],
+            'account_id' => [
+                'name' => 'Account',
+                'type' => 'entity',
+                'nullable' => true,
+                'ref' => 'account',
+            ],
             'status' => [
                 'name' => 'Status',
                 'type' => 'status',
@@ -314,11 +342,6 @@ return [
             'timestamp' => [
                 'name' => 'Timestamp',
                 'type' => 'datetime',
-                'required' => true,
-            ],
-            'page_id' => [
-                'name' => 'Page',
-                'type' => 'page',
                 'required' => true,
             ],
         ],

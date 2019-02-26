@@ -1,6 +1,7 @@
 <?php
 return [
     '%s to %s of %s' => '%s bis %s von %s',
+    'Account' => 'Benutzer',
     'Accounts' => 'Benutzer',
     'Actions' => 'Aktionen',
     'Additional Information' => 'Zusätzliche Informationen',

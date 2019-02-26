@@ -27,6 +27,9 @@ return [
     'entity.prevalidate.id.file' => [
         'event\entity_prevalidate_file' => 10,
     ],
+    'entity.presave.id.page' => [
+        'event\entity_presave_page' => 10,
+    ],
     'entity.postsave.id.file' => [
         'event\entity_postsave_file' => 10,
     ],
