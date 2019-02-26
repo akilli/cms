@@ -463,6 +463,8 @@ function profile(array $block): string
                 request\redirect(request\get('url'));
             }
         }
+    } else {
+        $data = account\get();
     }
 
     $block['cfg'] = ['attr_id' => $cfg['attr_id'], 'data' => $data, 'entity_id' => 'account', 'title' => app\i18n('Profile')];

@@ -12,7 +12,7 @@ use session;
  *
  * @return mixed
  */
-function get(string $key)
+function get(string $key = null)
 {
     if (($data = & app\registry('account')) === null) {
         $data = [];
@@ -28,6 +28,10 @@ function get(string $key)
             $data['priv'] = ['_guest_'];
             session\set('account', null);
         }
+    }
+
+    if ($key === null) {
+        return $data;
     }
 
     return $data[$key] ?? null;
