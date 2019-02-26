@@ -1,6 +1,7 @@
 <?php
 namespace app;
 use attr;
+use request;
 /** @var callable $var */
 ?>
 <form method="get" class="filter">
@@ -17,5 +18,6 @@ use attr;
         </div>
         <?php endif;?>
     </fieldset>
+    <a href="<?=request\get('url');?>" role="button"><?=i18n('Reset');?></a>
     <input type="submit" value="<?=i18n('Submit');?>" />
 </form>
