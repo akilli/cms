@@ -198,7 +198,7 @@ return [
     'page/admin' => [
         'content-main' => [
             'cfg' => [
-                'filter' => ['parent_id', 'status'],
+                'filter' => ['parent_id', 'account_id', 'status'],
             ],
         ],
     ],
