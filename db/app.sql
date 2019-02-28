@@ -450,6 +450,51 @@ CREATE FUNCTION version_reset() RETURNS void AS $$
     END;
 $$ LANGUAGE plpgsql;
 
+--
+-- Block Teaser
+--
+
+CREATE FUNCTION block_teaser_ext_after() RETURNS trigger AS $$
+    BEGIN
+        IF (TG_OP = 'UPDATE') THEN
+            DELETE FROM
+                block_teaser_ext_page
+            WHERE
+                block_id = OLD.id;
+        END IF;
+
+        IF (array_length(NEW.page_id, 1) > 0) THEN
+            INSERT INTO
+                block_teaser_ext_page
+                (block_id, page_id)
+            SELECT
+                NEW.id AS block_id,
+                id AS page_id
+            FROM
+                page
+            WHERE
+                id = ANY(NEW.page_id);
+        END IF;
+
+        RETURN NULL;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION block_teaser_ext_page_after() RETURNS trigger AS $$
+    BEGIN
+        UPDATE
+            block_teaser_ext t
+        SET
+            page_id = coalesce(array_agg(p.page_id), '{}'::int[])
+        FROM
+            block_teaser_ext_page p
+        WHERE
+            t.id = p.block_id;
+
+        RETURN NULL;
+    END;
+$$ LANGUAGE plpgsql;
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -700,6 +745,44 @@ WHERE
 
 CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_content FOR EACH ROW EXECUTE PROCEDURE entity_save();
 CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_content FOR EACH ROW EXECUTE PROCEDURE entity_delete();
+
+--
+-- Block Teaser
+--
+
+CREATE TABLE block_teaser_ext (
+    id int NOT NULL PRIMARY KEY REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
+    page_id int[] NOT NULL DEFAULT '{}'
+);
+
+CREATE INDEX ON block_teaser_ext USING GIN (page_id);
+
+CREATE TRIGGER block_teaser_ext_after AFTER INSERT OR UPDATE ON block_teaser_ext FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE block_teaser_ext_after();
+
+CREATE TABLE block_teaser_ext_page (
+    block_id int NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
+    page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (block_id, page_id)
+);
+
+CREATE INDEX ON block_teaser_ext_page (block_id);
+CREATE INDEX ON block_teaser_ext_page (page_id);
+
+CREATE TRIGGER block_teaser_ext_page_after AFTER INSERT OR UPDATE OR DELETE ON block_teaser_ext_page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE block_teaser_ext_page_after();
+
+CREATE VIEW block_teaser AS
+SELECT
+    *
+FROM
+    block
+LEFT JOIN
+    block_teaser_ext
+        USING (id)
+WHERE
+    entity_id = 'block_teaser';
+
+CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_teaser FOR EACH ROW EXECUTE PROCEDURE entity_save();
+CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_teaser FOR EACH ROW EXECUTE PROCEDURE entity_delete();
 
 --
 -- Layout

@@ -179,6 +179,13 @@ return [
             ],
         ],
     ],
+    'block_teaser/admin' => [
+        'content-main' => [
+            'cfg' => [
+                'attr_id' => ['name'],
+            ],
+        ],
+    ],
     'file/admin' => [
         'content-main' => [
             'cfg' => [
@@ -270,6 +277,13 @@ return [
         'content-main' => [
             'cfg' => [
                 'attr_id' => ['name', 'content'],
+            ],
+        ],
+    ],
+    'block_teaser/edit' => [
+        'content-main' => [
+            'cfg' => [
+                'attr_id' => ['name', 'page_id'],
             ],
         ],
     ],
