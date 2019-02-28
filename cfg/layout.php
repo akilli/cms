@@ -297,10 +297,7 @@ return [
     'page_content/edit' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => [
-                    'name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'status',
-                    'title', 'image', 'teaser', 'main', 'aside', 'meta_title', 'meta_description'
-                ],
+                'attr_id' => ['name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'status', 'title', 'image', 'main', 'aside', 'meta_title', 'meta_description'],
             ],
         ],
     ],
@@ -369,7 +366,7 @@ return [
     'page_content/view' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['image', 'name', 'teaser', 'main', 'aside'],
+                'attr_id' => ['image', 'name', 'main', 'aside'],
             ],
         ],
     ],
@@ -382,7 +379,7 @@ return [
         ],
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['image', 'teaser', 'main', 'aside'],
+                'attr_id' => ['image', 'main', 'aside'],
             ],
         ],
     ],
