@@ -328,7 +328,7 @@ a[data-sort=desc]::after {
 html[data-action=browser] .block-index img,
 html[data-action=browser] .block-index video {
     max-width: 15rem;
-    max-height: 10rem;
+    max-height: 10.5rem;
 }
 
 /**

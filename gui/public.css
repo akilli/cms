@@ -317,7 +317,7 @@ main ::selection {
 .block-index img,
 .block-index video {
     max-width: 15rem;
-    max-height: 10rem;
+    max-height: 10.5rem;
 }
 
 /**
