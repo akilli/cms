@@ -143,6 +143,7 @@ function save(string $entityId, array & $data): bool
         } catch (DomainException $e) {
             $tmp['_error'][$attrId] = $e->getMessage();
         } catch (Throwable $e) {
+            app\log($e);
             $tmp['_error'][$attrId] = app\i18n('Could not validate value');
         }
     }
@@ -184,6 +185,7 @@ function save(string $entityId, array & $data): bool
 
         return true;
     } catch (Throwable $e) {
+        app\log($e);
         app\msg('Could not save data');
     }
 
@@ -225,6 +227,7 @@ function delete(string $entityId, array $crit = [], array $opt = []): bool
     } catch (DomainException $e) {
         app\msg($e->getMessage());
     } catch (Throwable $e) {
+        app\log($e);
         app\msg('Could not delete data');
     }
 
