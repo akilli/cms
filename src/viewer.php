@@ -98,7 +98,7 @@ function opt($val, array $attr): string
 }
 
 /**
- * Ent
+ * Entity
  */
 function entity(int $val, array $attr): string
 {
@@ -106,11 +106,11 @@ function entity(int $val, array $attr): string
 }
 
 /**
- * Page
+ * Multi-Entity
  */
-function page(int $val, array $attr): string
+function multientity(array $val, array $attr): string
 {
-    return $val && ($page = entity\one($attr['ref'], [['id', $val]], ['select' => ['name']])) ? $page['name'] : '';
+    return $val ? implode(', ', array_column(entity\all($attr['ref'], [['id', $val]], ['select' => ['name']]), 'name')) : '';
 }
 
 /**
