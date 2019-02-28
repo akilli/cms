@@ -268,7 +268,7 @@ return [
             ],
             'path' => [
                 'name' => 'Path',
-                'type' => 'int[]',
+                'type' => 'multipage',
                 'auto' => true,
             ],
             'account_id' => [
