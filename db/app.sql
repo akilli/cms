@@ -586,7 +586,7 @@ CREATE INDEX ON file (entity_id);
 CREATE INDEX ON file (ext);
 CREATE INDEX ON file (mime);
 
-CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();
+CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW EXECUTE PROCEDURE file_save();
 
 --
 -- File Audio
@@ -691,11 +691,11 @@ CREATE INDEX ON page (account_id);
 CREATE INDEX ON page (status);
 CREATE INDEX ON page (timestamp);
 
-CREATE TRIGGER page_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_before();
-CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_before();
-CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_menu_after();
-CREATE TRIGGER page_version_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_before();
-CREATE TRIGGER page_version_after AFTER UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE page_version_after();
+CREATE TRIGGER page_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_before();
+CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_menu_before();
+CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW EXECUTE PROCEDURE page_menu_after();
+CREATE TRIGGER page_version_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_version_before();
+CREATE TRIGGER page_version_after AFTER UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_version_after();
 
 --
 -- Page Article
@@ -749,7 +749,7 @@ CREATE INDEX ON version (account_id);
 CREATE INDEX ON version (status);
 CREATE INDEX ON version (timestamp);
 
-CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE version_protect();
+CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW EXECUTE PROCEDURE version_protect();
 
 --
 -- Block
@@ -784,8 +784,8 @@ LEFT JOIN
 WHERE
     entity_id = 'block_content';
 
-CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_content FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE entity_save();
-CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_content FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE entity_delete();
+CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_content FOR EACH ROW EXECUTE PROCEDURE entity_save();
+CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_content FOR EACH ROW EXECUTE PROCEDURE entity_delete();
 
 --
 -- Block Teaser
@@ -798,7 +798,7 @@ CREATE TABLE block_teaser_ext (
 
 CREATE INDEX ON block_teaser_ext USING GIN (page_id);
 
-CREATE TRIGGER block_teaser_ext_after AFTER INSERT OR UPDATE ON block_teaser_ext FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE block_teaser_ext_after();
+CREATE TRIGGER block_teaser_ext_after AFTER INSERT OR UPDATE ON block_teaser_ext FOR EACH ROW EXECUTE PROCEDURE block_teaser_ext_after();
 
 CREATE TABLE block_teaser_ext_page (
     block_id int NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
@@ -809,7 +809,7 @@ CREATE TABLE block_teaser_ext_page (
 CREATE INDEX ON block_teaser_ext_page (block_id);
 CREATE INDEX ON block_teaser_ext_page (page_id);
 
-CREATE TRIGGER block_teaser_ext_page_after AFTER INSERT OR UPDATE OR DELETE ON block_teaser_ext_page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE block_teaser_ext_page_after();
+CREATE TRIGGER block_teaser_ext_page_after AFTER INSERT OR UPDATE OR DELETE ON block_teaser_ext_page FOR EACH ROW EXECUTE PROCEDURE block_teaser_ext_page_after();
 
 CREATE VIEW block_teaser AS
 SELECT
@@ -822,8 +822,8 @@ LEFT JOIN
 WHERE
     entity_id = 'block_teaser';
 
-CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_teaser FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE entity_save();
-CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_teaser FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE entity_delete();
+CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_teaser FOR EACH ROW EXECUTE PROCEDURE entity_save();
+CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_teaser FOR EACH ROW EXECUTE PROCEDURE entity_delete();
 
 --
 -- Layout
