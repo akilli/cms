@@ -738,6 +738,31 @@ CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_content FOR EACH
 CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_content FOR EACH ROW EXECUTE PROCEDURE entity_delete();
 
 --
+-- Block Teaser
+--
+
+CREATE TABLE block_teaser_ext (
+    id int NOT NULL PRIMARY KEY REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
+    page_id int[] NOT NULL DEFAULT '{}'
+);
+
+CREATE INDEX ON block_teaser_ext USING GIN (page_id);
+
+CREATE VIEW block_teaser AS
+SELECT
+    *
+FROM
+    block
+LEFT JOIN
+    block_teaser_ext
+        USING (id)
+WHERE
+    entity_id = 'block_teaser';
+
+CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_teaser FOR EACH ROW EXECUTE PROCEDURE entity_save();
+CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_teaser FOR EACH ROW EXECUTE PROCEDURE entity_delete();
+
+--
 -- Layout
 --
 
