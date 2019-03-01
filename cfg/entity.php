@@ -392,17 +392,6 @@ return [
             ],
         ],
     ],
-    'block_teaser' => [
-        'name' => 'Teaser Blocks',
-        'parent_id' => 'block',
-        'action' => ['admin', 'delete', 'edit'],
-        'attr' => [
-            'page_id' => [
-                'name' => 'Pages',
-                'type' => 'multipage',
-            ],
-        ],
-    ],
     'layout' => [
         'name' => 'Layout',
         'action' => ['admin', 'delete', 'edit'],

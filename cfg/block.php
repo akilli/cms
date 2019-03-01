@@ -96,13 +96,6 @@ return [
             'size' => null,
         ],
     ],
-    'teaser' => [
-        'call' => 'block\teaser',
-        'tpl' => 'block/index.phtml',
-        'cfg' => [
-            'page_id' => [],
-        ],
-    ],
     /**
      * Form
      */
