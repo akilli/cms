@@ -290,7 +290,7 @@ return [
     'page_article/edit' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'date', 'meta_title', 'meta_description'],
+                'attr_id' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'aside', 'date', 'meta_title', 'meta_description'],
             ],
         ],
     ],
@@ -359,7 +359,7 @@ return [
     'page_article/view' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'image', 'teaser', 'main'],
+                'attr_id' => ['name', 'image', 'teaser', 'main', 'aside'],
             ],
         ],
     ],
