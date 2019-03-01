@@ -9,7 +9,7 @@ $h1 = $admin || $browser ? 'h1' : 'h2';
 $h2 = $admin || $browser ? 'h2' : 'h3';
 $entityId = $var('entity_id');
 ?>
-<section class="block-index">
+<section class="block-index" data-entity="<?=$entityId;?>">
     <?php if ($title):?>
     <<?=$h1;?>><?=$title;?></<?=$h1;?>>
     <?php endif;?>
