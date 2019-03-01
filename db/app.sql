@@ -586,7 +586,7 @@ CREATE INDEX ON file (entity_id);
 CREATE INDEX ON file (ext);
 CREATE INDEX ON file (mime);
 
-CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE file_save();
+CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW EXECUTE PROCEDURE file_save();
 
 --
 -- File Audio
@@ -749,7 +749,7 @@ CREATE INDEX ON version (account_id);
 CREATE INDEX ON version (status);
 CREATE INDEX ON version (timestamp);
 
-CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE version_protect();
+CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW EXECUTE PROCEDURE version_protect();
 
 --
 -- Block
@@ -798,7 +798,7 @@ CREATE TABLE block_teaser_ext (
 
 CREATE INDEX ON block_teaser_ext USING GIN (page_id);
 
-CREATE TRIGGER block_teaser_ext_after AFTER INSERT OR UPDATE ON block_teaser_ext FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE block_teaser_ext_after();
+CREATE TRIGGER block_teaser_ext_after AFTER INSERT OR UPDATE ON block_teaser_ext FOR EACH ROW EXECUTE PROCEDURE block_teaser_ext_after();
 
 CREATE TABLE block_teaser_ext_page (
     block_id int NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
@@ -809,7 +809,7 @@ CREATE TABLE block_teaser_ext_page (
 CREATE INDEX ON block_teaser_ext_page (block_id);
 CREATE INDEX ON block_teaser_ext_page (page_id);
 
-CREATE TRIGGER block_teaser_ext_page_after AFTER INSERT OR UPDATE OR DELETE ON block_teaser_ext_page FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE block_teaser_ext_page_after();
+CREATE TRIGGER block_teaser_ext_page_after AFTER INSERT OR UPDATE OR DELETE ON block_teaser_ext_page FOR EACH ROW EXECUTE PROCEDURE block_teaser_ext_page_after();
 
 CREATE VIEW block_teaser AS
 SELECT
