@@ -642,8 +642,8 @@ CREATE INDEX ON page (status);
 CREATE INDEX ON page (timestamp);
 
 CREATE TRIGGER page_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_before();
-CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_menu_before();
-CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW EXECUTE PROCEDURE page_menu_after();
+CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE page_menu_before();
+CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE page_menu_after();
 CREATE TRIGGER page_version_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_version_before();
 CREATE TRIGGER page_version_after AFTER UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_version_after();
 
