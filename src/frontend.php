@@ -173,7 +173,7 @@ function select($val, array $attr): string
         $val = [$val];
     }
 
-    $out = app\html('option', ['value' => ''], app\i18n('Please choose'));
+    $out = $attr['multiple'] ? '' : app\html('option', ['value' => ''], app\i18n('Please choose'));
 
     foreach ($attr['opt']() as $k => $v) {
         $out .= app\html('option', ['value' => $k, 'selected' => !!array_keys($val, $k, true)], $v);
