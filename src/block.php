@@ -447,26 +447,25 @@ function profile(array $block): string
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!$cfg['attr_id']) {
+    if (!$cfg['attr_id'] || !($account = account\get())) {
         return '';
     }
 
     if ($data = request\get('data')) {
-        if (empty($data['password']) || empty($data['confirmation']) || $data['password'] !== $data['confirmation']) {
+        if (!empty($data['password']) && (empty($data['confirmation']) || $data['password'] !== $data['confirmation'])) {
             $data['_error']['password'] = app\i18n('Password and password confirmation must be identical');
             $data['_error']['confirmation'] = app\i18n('Password and password confirmation must be identical');
         } else {
             unset($data['confirmation']);
-            $data = ['id' => account\get('id')] + $data;
+            $data = ['id' => $account['id']] + $data;
 
             if (entity\save('account', $data)) {
                 request\redirect(request\get('url'));
             }
         }
-    } else {
-        $data = account\get();
     }
 
+    $data = $data ? arr\replace($account + ['_error' => null], $data) : $account;
     $block['cfg'] = ['attr_id' => $cfg['attr_id'], 'data' => $data, 'entity_id' => 'account', 'title' => app\i18n('Profile')];
 
     return form($block);

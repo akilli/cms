@@ -23,7 +23,6 @@ function get(string $key = null)
             $data['priv'] = $role['priv'];
             $data['priv'][] = '_user_';
             $data['admin'] = in_array('_all_', $data['priv']);
-            unset($data['_old'], $data['_entity']);
         } else {
             $data['priv'] = ['_guest_'];
             session\set('account', null);
