@@ -346,7 +346,7 @@ function pager(array $block): string
  */
 function teaser(array $block): string
 {
-    $type = app\cfg('block', 'pager');
+    $type = app\cfg('block', 'teaser');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
     $block['cfg'] = [
