@@ -485,57 +485,6 @@ CREATE FUNCTION version_reset() RETURNS void AS $$
     END;
 $$ LANGUAGE plpgsql;
 
---
--- Block Teaser
---
-
-CREATE FUNCTION block_teaser_ext_after() RETURNS trigger AS $$
-    BEGIN
-        IF (TG_OP = 'UPDATE') THEN
-            DELETE FROM
-                block_teaser_ext_page
-            WHERE
-                block_id = OLD.id;
-        END IF;
-
-        IF (array_length(NEW.page_id, 1) > 0) THEN
-            INSERT INTO
-                block_teaser_ext_page
-                (block_id, page_id)
-            SELECT
-                NEW.id AS block_id,
-                id AS page_id
-            FROM
-                page
-            WHERE
-                id = ANY(NEW.page_id);
-        END IF;
-
-        RETURN NULL;
-    END;
-$$ LANGUAGE plpgsql;
-
-CREATE FUNCTION block_teaser_ext_page_after() RETURNS trigger AS $$
-    DECLARE
-        _id int;
-    BEGIN
-        IF (TG_OP = 'INSERT') THEN
-            _id := NEW.block_id;
-        ELSE
-            _id := OLD.block_id;
-        END IF;
-
-        UPDATE
-            block_teaser_ext t
-        SET
-            page_id = (SELECT coalesce(array_agg(p.page_id), '{}'::int[]) FROM block_teaser_ext_page p WHERE p.block_id = t.id)
-        WHERE
-            t.id = _id;
-
-        RETURN NULL;
-    END;
-$$ LANGUAGE plpgsql;
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -797,19 +746,6 @@ CREATE TABLE block_teaser_ext (
 );
 
 CREATE INDEX ON block_teaser_ext USING GIN (page_id);
-
-CREATE TRIGGER block_teaser_ext_after AFTER INSERT OR UPDATE ON block_teaser_ext FOR EACH ROW EXECUTE PROCEDURE block_teaser_ext_after();
-
-CREATE TABLE block_teaser_ext_page (
-    block_id int NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
-    page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (block_id, page_id)
-);
-
-CREATE INDEX ON block_teaser_ext_page (block_id);
-CREATE INDEX ON block_teaser_ext_page (page_id);
-
-CREATE TRIGGER block_teaser_ext_page_after AFTER INSERT OR UPDATE OR DELETE ON block_teaser_ext_page FOR EACH ROW EXECUTE PROCEDURE block_teaser_ext_page_after();
 
 CREATE VIEW block_teaser AS
 SELECT
