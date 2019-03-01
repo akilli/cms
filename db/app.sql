@@ -22,12 +22,15 @@ CREATE TYPE status AS ENUM ('draft', 'pending', 'published', 'archived');
 
 CREATE FUNCTION entity_save() RETURNS trigger AS $$
     DECLARE
-        _attr text;
+        _attr RECORD;
         _base text;
+        _cnt int;
         _col text := '';
         _ext text;
         _new jsonb;
+        _newVal text;
         _old jsonb;
+        _oldVal text;
         _set text := '';
         _sql text := '';
         _val text := '';
@@ -44,7 +47,8 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
         -- Base table
         FOR _attr IN
             SELECT
-                column_name
+                column_name AS name,
+                lower(data_type) AS type
             FROM
                 information_schema.columns
             WHERE
@@ -54,7 +58,15 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
             ORDER BY
                 ordinal_position ASC
         LOOP
-            IF (jsonb_extract_path_text(_new, _attr) IS NULL AND (TG_OP = 'INSERT' OR jsonb_extract_path_text(_old, _attr) IS NULL)) THEN
+            _newVal := jsonb_extract_path_text(_new, _attr.name);
+
+            IF (TG_OP = 'UPDATE') THEN
+                _oldVal := jsonb_extract_path_text(_old, _attr.name);
+            ELSE
+                _oldVal := NULL;
+            END IF;
+
+            IF (_newVal IS NULL AND _oldVal IS NULL) THEN
                 CONTINUE;
             ELSIF (_col != '') THEN
                 _col := _col || ', ';
@@ -62,9 +74,13 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
                 _set := _set || ', ';
             END IF;
 
-            _col := _col || format('%I', _attr);
-            _val := _val || format('%L', jsonb_extract_path_text(_new, _attr));
-            _set := _set || format('%I = %L', _attr, jsonb_extract_path_text(_new, _attr));
+            IF (_attr.type = 'array' AND _newVal IS NOT NULL) THEN
+                _newVal := regexp_replace(regexp_replace(_newVal, '^\[', '{'), '\]$', '}');
+            END IF;
+
+            _col := _col || format('%I', _attr.name);
+            _val := _val || format('%L', _newVal);
+            _set := _set || format('%I = %L', _attr.name, _newVal);
         END LOOP;
 
         IF (TG_OP = 'UPDATE') THEN
@@ -80,7 +96,8 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
 
         FOR _attr IN
             SELECT
-                column_name
+                column_name AS name,
+                lower(data_type) AS type
             FROM
                 information_schema.columns
             WHERE
@@ -90,7 +107,15 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
             ORDER BY
                 ordinal_position ASC
         LOOP
-            IF (jsonb_extract_path_text(_new, _attr) IS NULL AND (TG_OP = 'INSERT' OR jsonb_extract_path_text(_old, _attr) IS NULL)) THEN
+            _newVal := jsonb_extract_path_text(_new, _attr.name);
+
+            IF (TG_OP = 'UPDATE') THEN
+                _oldVal := jsonb_extract_path_text(_old, _attr.name);
+            ELSE
+                _oldVal := NULL;
+            END IF;
+
+            IF (_newVal IS NULL AND _oldVal IS NULL) THEN
                 CONTINUE;
             ELSIF (_col != '') THEN
                 _col := _col || ', ';
@@ -98,15 +123,25 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
                 _set := _set || ', ';
             END IF;
 
-            _col := _col || format('%I', _attr);
-            _val := _val || format('%L', jsonb_extract_path_text(_new, _attr));
-            _set := _set || format('%I = %L', _attr, jsonb_extract_path_text(_new, _attr));
+            IF (_attr.type = 'array' AND _newVal IS NOT NULL) THEN
+                _newVal := regexp_replace(regexp_replace(_newVal, '^\[', '{'), '\]$', '}');
+            END IF;
+
+            _col := _col || format('%I', _attr.name);
+            _val := _val || format('%L', _newVal);
+            _set := _set || format('%I = %L', _attr.name, _newVal);
         END LOOP;
 
         IF (_col != '' AND _val != '' AND _set != '') THEN
             _sql := 'WITH t AS (' || _sql || ' RETURNING id)';
 
-            IF (TG_OP = 'UPDATE' AND (SELECT count(*) FROM block_content_ext WHERE id = OLD.id) > 0) THEN
+            IF (TG_OP = 'UPDATE') THEN
+                EXECUTE format('SELECT count(*) FROM %I WHERE id = %L', _ext, OLD.id) INTO _cnt;
+            ELSE
+                _cnt := 0;
+            END IF;
+
+            IF (TG_OP = 'UPDATE' AND _cnt > 0) THEN
                 _sql := _sql || format(' UPDATE %I e SET %s FROM t WHERE e.id = t.id', _ext, _set);
             ELSE
                 _sql := _sql || format(' INSERT INTO %s (id, %s) SELECT id, %s FROM t', _ext, _col, _val);
@@ -481,15 +516,21 @@ CREATE FUNCTION block_teaser_ext_after() RETURNS trigger AS $$
 $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION block_teaser_ext_page_after() RETURNS trigger AS $$
+    DECLARE
+        _id int;
     BEGIN
+        IF (TG_OP = 'INSERT') THEN
+            _id := NEW.block_id;
+        ELSE
+            _id := OLD.block_id;
+        END IF;
+
         UPDATE
             block_teaser_ext t
         SET
-            page_id = coalesce(array_agg(p.page_id), '{}'::int[])
-        FROM
-            block_teaser_ext_page p
+            page_id = (SELECT coalesce(array_agg(p.page_id), '{}'::int[]) FROM block_teaser_ext_page p WHERE p.block_id = t.id)
         WHERE
-            t.id = p.block_id;
+            t.id = _id;
 
         RETURN NULL;
     END;
