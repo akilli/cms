@@ -784,8 +784,8 @@ LEFT JOIN
 WHERE
     entity_id = 'block_content';
 
-CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_content FOR EACH ROW EXECUTE PROCEDURE entity_save();
-CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_content FOR EACH ROW EXECUTE PROCEDURE entity_delete();
+CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_content FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE entity_save();
+CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_content FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE entity_delete();
 
 --
 -- Block Teaser
@@ -822,8 +822,8 @@ LEFT JOIN
 WHERE
     entity_id = 'block_teaser';
 
-CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_teaser FOR EACH ROW EXECUTE PROCEDURE entity_save();
-CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_teaser FOR EACH ROW EXECUTE PROCEDURE entity_delete();
+CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_teaser FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE entity_save();
+CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_teaser FOR EACH ROW WHEN (pg_trigger_depth() = 0) EXECUTE PROCEDURE entity_delete();
 
 --
 -- Layout
