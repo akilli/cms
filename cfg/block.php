@@ -100,6 +100,10 @@ return [
         'call' => 'block\teaser',
         'tpl' => 'block/index.phtml',
         'cfg' => [
+            'attr_id' => ['teaser'],
+            'entity_id' => 'page_content',
+            'limit' => 0,
+            'order' => ['pos' => 'asc'],
             'page_id' => [],
         ],
     ],
