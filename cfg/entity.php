@@ -200,7 +200,7 @@ return [
             ],
             'teaser' => [
                 'name' => 'Teaser',
-                'type' => 'rtemin',
+                'type' => 'rte',
             ],
             'main' => [
                 'name' => 'Main Content',
@@ -329,7 +329,7 @@ return [
             ],
             'teaser' => [
                 'name' => 'Teaser',
-                'type' => 'rtemin',
+                'type' => 'rte',
                 'required' => true,
             ],
             'main' => [
