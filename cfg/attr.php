@@ -142,6 +142,13 @@ return [
         'validator' => 'validator\rte',
         'viewer' => 'viewer\rte',
     ],
+    'rtemin' => [
+        'backend' => 'text',
+        'frontend' => 'frontend\textarea',
+        'filter' => 'frontend\text',
+        'validator' => 'validator\rtemin',
+        'viewer' => 'viewer\rte',
+    ],
     'select' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\select',

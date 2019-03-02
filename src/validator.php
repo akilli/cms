@@ -96,6 +96,14 @@ function rte(string $val): string
 }
 
 /**
+ * Minimal rich text
+ */
+function rtemin(string $val): string
+{
+    return trim(strip_tags($val, app\cfg('validator', 'rtemin')));
+}
+
+/**
  * UID
  */
 function uid(string $val): string
