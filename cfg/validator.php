@@ -27,7 +27,7 @@ return [
         'ŵ' => 'w',
         'ý' => 'y', 'ÿ' => 'y', 'ŷ' => 'y',
     ],
-    'rte' => '<address><article><h2><h3><section>'
+    'rte' => '<article><h2><h3><section>'
         . '<blockquote><div><figcaption><figure><li><ol><p><ul>'
         . '<a><b><cite><dfn><em><i><kbd><mark><q><strong>'
         . '<audio><iframe><img><video>'
