@@ -34,16 +34,16 @@ return [
         'active' => false,
     ],
     'file_audio/browser' => [
-        'priv' => 'file_audio/edit',
+        'priv' => 'file_audio/admin',
     ],
     'file_doc/browser' => [
-        'priv' => 'file_doc/edit',
+        'priv' => 'file_doc/admin',
     ],
     'file_image/browser' => [
-        'priv' => 'file_image/edit',
+        'priv' => 'file_image/admin',
     ],
     'file_video/browser' => [
-        'priv' => 'file_video/edit',
+        'priv' => 'file_video/admin',
     ],
     'page/view' => [
         'active' => false,
