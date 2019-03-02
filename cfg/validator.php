@@ -34,5 +34,4 @@ return [
         . '<caption><table><tbody><td><tfoot><th><thead><tr>'
         . '<details><summary>'
         . '<br>',
-    'rtemin' => '<a><b><cite><dfn><em><i><kbd><mark><q><strong><br>',
 ];
