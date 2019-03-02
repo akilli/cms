@@ -4,6 +4,7 @@ return [
         'top' => 'Top Area',
         'main' => 'Main Area',
         'content' => 'Main Content',
+        'teaser' => 'Teaser Area',
         'sidebar' => 'Sidebar',
         'bottom' => 'Bottom Area',
     ],

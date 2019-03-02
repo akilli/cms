@@ -311,7 +311,7 @@ return [
     'page_content/edit' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'status', 'title', 'image', 'main', 'aside', 'meta_title', 'meta_description'],
+                'attr_id' => ['name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'status', 'title', 'image', 'teaser', 'main', 'aside', 'meta_title', 'meta_description'],
             ],
         ],
     ],
@@ -381,6 +381,14 @@ return [
         'content-main' => [
             'cfg' => [
                 'attr_id' => ['image', 'name', 'main', 'aside'],
+            ],
+        ],
+        'teaser' => [
+            'type' => 'container',
+            'parent_id' => 'content',
+            'sort' => 20,
+            'cfg' => [
+                'tag' => 'section',
             ],
         ],
     ],
