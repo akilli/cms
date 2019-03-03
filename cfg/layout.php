@@ -252,7 +252,36 @@ return [
         'content-main' => [
             'cfg' => [
                 'attr_id' => ['url', 'name', 'info'],
+                'filter' => ['entity_id'],
                 'search' => ['name', 'url', 'info'],
+            ],
+        ],
+    ],
+    'file_audio/browser' => [
+        'content-main' => [
+            'cfg' => [
+                'filter' => [],
+            ],
+        ],
+    ],
+    'file_doc/browser' => [
+        'content-main' => [
+            'cfg' => [
+                'filter' => [],
+            ],
+        ],
+    ],
+    'file_image/browser' => [
+        'content-main' => [
+            'cfg' => [
+                'filter' => [],
+            ],
+        ],
+    ],
+    'file_video/browser' => [
+        'content-main' => [
+            'cfg' => [
+                'filter' => [],
             ],
         ],
     ],
