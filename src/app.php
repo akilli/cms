@@ -335,10 +335,10 @@ function enc(?string $val): string
 /**
  * Generates URL by given path and params, optionally preserves existing params
  */
-function url(string $path = '', array $param = [], bool $preserve = false): string
+function url(string $path = '', array $get = [], bool $preserve = false): string
 {
-    $param = $preserve ? $param + request\get('param') : $param;
-    $query = $param ? http_build_query($param, '', '&amp;') : '';
+    $get = $preserve ? $get + request\get('param') : $get;
+    $query = $get ? http_build_query($get, '', '&amp;') : '';
 
     return '/' . trim($path, '/') . ($query ? '?' . $query : '');
 }
