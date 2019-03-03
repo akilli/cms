@@ -11,7 +11,7 @@ use DomainException;
 /**
  * Gets registered layout block(s)
  */
-function get(string $id = null): ?array
+function data(string $id = null): ?array
 {
     if (($data = & app\registry('layout')) === null) {
         $data = [];
@@ -46,7 +46,7 @@ function render(array $block): string
  */
 function block(string $id): string
 {
-    return ($block = get($id)) ? render($block) : '';
+    return ($block = data($id)) ? render($block) : '';
 }
 
 /**
@@ -56,7 +56,7 @@ function children(string $id): string
 {
     $html = '';
 
-    foreach (arr\order(arr\filter(get(), 'parent_id', $id), ['sort' => 'asc']) as $child) {
+    foreach (arr\order(arr\filter(data(), 'parent_id', $id), ['sort' => 'asc']) as $child) {
         $html .= render($child);
     }
 
