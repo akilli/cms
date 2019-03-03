@@ -86,6 +86,16 @@ function db(array $block): string
 }
 
 /**
+ * HTML
+ */
+function html(array $block): string
+{
+    $cfg = arr\replace(app\cfg('block', 'html')['cfg'], $block['cfg']);
+
+    return $cfg['tag'] && $cfg['val'] ? app\html($cfg['tag'], $cfg['attr'], $cfg['content']) : '';
+}
+
+/**
  * Template
  */
 function tpl(array $block): string
