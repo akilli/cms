@@ -27,7 +27,7 @@ function data(string $key)
         if (!empty($_POST['token'])) {
             if (session\get('token') === $_POST['token']) {
                 unset($_POST['token']);
-                $data['file'] = files($_FILES);
+                $data['file'] = array_filter(array_map('request\files', $_FILES));
                 $data['post'] = $_POST;
                 $data['post'] = array_replace($data['post'], convert($data['file']));
             }
@@ -99,17 +99,10 @@ function convert(array $in): array
 /**
  * Filters file uploads
  */
-function files(array $in): array
+function files(array $in): ?array
 {
-    if (!$in) {
-        return [];
-    }
-
-    $keys = array_keys($in);
-    sort($keys);
-
-    if ($keys !== APP['upload']) {
-        return array_filter(array_map(__FUNCTION__, $in));
+    if (!($keys = array_keys($in)) || !sort($keys) || $keys !== APP['upload']) {
+        return null;
     }
 
     if (!is_array($in['name'])) {
