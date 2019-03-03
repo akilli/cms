@@ -489,8 +489,8 @@ function profile(array $block): string
 
     if ($data = request\get('data')) {
         if (!empty($data['password']) && (empty($data['confirmation']) || $data['password'] !== $data['confirmation'])) {
-            $data['_error']['password'] = app\i18n('Password and password confirmation must be identical');
-            $data['_error']['confirmation'] = app\i18n('Password and password confirmation must be identical');
+            $data['_error']['password'][] = app\i18n('Password and password confirmation must be identical');
+            $data['_error']['confirmation'][] = app\i18n('Password and password confirmation must be identical');
         } else {
             unset($data['confirmation']);
             $data = ['id' => $account['id']] + $data;
@@ -501,7 +501,7 @@ function profile(array $block): string
         }
     }
 
-    $data = $data ? arr\replace($account + ['_error' => null], $data) : $account;
+    $data = $data ? arr\replace($account + ['_error' => []], $data) : $account;
     $block['cfg'] = ['attr_id' => $cfg['attr_id'], 'data' => $data, 'entity_id' => 'account'];
 
     return form($block);

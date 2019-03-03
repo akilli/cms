@@ -80,7 +80,7 @@ function frontend(array $data, array $attr): string
 
     if (!empty($data['_error'][$attr['id']])) {
         $attr['html']['class'] = (!empty($attr['html']['class']) ? $attr['html']['class'] . ' ' : '') . 'invalid';
-        $error = app\html('div', ['class' => 'error'], $data['_error'][$attr['id']]);
+        $error = app\html('div', ['class' => 'error'], implode('<br />', $data['_error'][$attr['id']]));
     }
 
     return app\html('label', $label, $attr['name']) . $attr['frontend']($val, $attr) . $error;

@@ -141,10 +141,10 @@ function save(string $entityId, array & $data): bool
         try {
             $tmp[$attrId] = attr\validator($tmp, $entity['attr'][$attrId]);
         } catch (DomainException $e) {
-            $tmp['_error'][$attrId] = $e->getMessage();
+            $tmp['_error'][$attrId][] = $e->getMessage();
         } catch (Throwable $e) {
             app\log($e);
-            $tmp['_error'][$attrId] = app\i18n('Could not validate value');
+            $tmp['_error'][$attrId][] = app\i18n('Could not validate value');
         }
     }
 

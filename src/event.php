@@ -227,7 +227,7 @@ function entity_postvalidate(array $data): array
 
     foreach (array_intersect_key($data, $data['_entity']['attr']) as $attrId => $val) {
         if ($attrs[$attrId]['type'] === 'password' && $val && !($data[$attrId] = password_hash($val, PASSWORD_DEFAULT))) {
-            $data['_error'][$attrId] = app\i18n('Invalid password');
+            $data['_error'][$attrId][] = app\i18n('Invalid password');
         }
     }
 
@@ -246,7 +246,7 @@ function entity_prevalidate_file(array $data): array
     $item = request\get('file')['url'] ?? null;
 
     if (!$item) {
-        $data['_error']['url'] = app\i18n('No upload file');
+        $data['_error']['url'][] = app\i18n('No upload file');
         return $data;
     }
 
@@ -254,7 +254,7 @@ function entity_prevalidate_file(array $data): array
     $data['mime'] = $item['type'];
 
     if ($data['_old'] && ($data['ext'] !== $data['_old']['ext'] || $data['mime'] !== $data['_old']['mime'])) {
-        $data['_error']['url'] = app\i18n('Cannot change filetype anymore');
+        $data['_error']['url'][] = app\i18n('Cannot change filetype anymore');
     }
 
     return $data;
@@ -312,8 +312,8 @@ function entity_postvalidate_layout(array $data): array
     }
 
     if (entity\size('layout', $crit)) {
-        $data['_error']['name'] = app\i18n('Value must be unique for each page');
-        $data['_error']['page_id'] = app\i18n('Value must be unique for each page');
+        $data['_error']['name'][] = app\i18n('Value must be unique for each page');
+        $data['_error']['page_id'][] = app\i18n('Value must be unique for each page');
     }
 
     return $data;
@@ -326,9 +326,9 @@ function entity_postvalidate_page_status(array $data): array
 {
     if (!empty($data['parent_id']) && ($parent = entity\one('page', [['id', $data['parent_id']]], ['select' => ['status']]))) {
         if ($parent['status'] === 'archived' && (!$data['_old'] || $data['parent_id'] !== $data['_old']['parent_id'])) {
-            $data['_error']['parent_id'] = app\i18n('Cannot assign archived page as parent');
+            $data['_error']['parent_id'][] = app\i18n('Cannot assign archived page as parent');
         } elseif (in_array($parent['status'], ['draft', 'pending']) && !empty($data['status']) && $data['status'] !== 'draft') {
-            $data['_error']['status'] = app\i18n('Status must be draft, because parent was not published yet');
+            $data['_error']['status'][] = app\i18n('Status must be draft, because parent was not published yet');
         }
     }
 
@@ -345,7 +345,7 @@ function entity_postvalidate_page_menu(array $data): array
         && ($parent = entity\one('page', [['id', $data['parent_id']]], ['select' => ['path']]))
         && in_array($data['_old']['id'], $parent['path'])
     ) {
-        $data['_error']['parent_id'] = app\i18n('Cannot assign the page itself or a subpage as parent');
+        $data['_error']['parent_id'][] = app\i18n('Cannot assign the page itself or a subpage as parent');
     }
 
     return $data;
@@ -391,7 +391,7 @@ function entity_postvalidate_page_url(array $data): array
     }
 
     if (entity\size('page', $crit)) {
-        $data['_error']['slug'] = app\i18n('Please change slug to generate an unique URL');
+        $data['_error']['slug'][] = app\i18n('Please change slug to generate an unique URL');
     }
 
     return $data;
