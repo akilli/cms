@@ -89,15 +89,18 @@ return [
                 'tag' => 'aside',
             ],
         ],
+        // Content Blocks
+        'headline' => [
+            'type' => 'headline',
+            'parent_id' => 'content',
+            'sort' => 10,
+        ],
     ],
     /**
      * Invalid Requests
      */
     '_invalid_' => [
         'headline' => [
-            'type' => 'headline',
-            'parent_id' => 'content',
-            'sort' => 10,
             'cfg' => [
                 'content' => 'Error',
             ],
@@ -124,11 +127,6 @@ return [
             'priv' => '_user_',
             'parent_id' => 'body',
             'sort' => 5,
-        ],
-        'headline' => [
-            'type' => 'headline',
-            'parent_id' => 'content',
-            'sort' => 10,
         ],
     ],
     /**
@@ -424,7 +422,7 @@ return [
         'content-main' => [
             'type' => 'view',
             'parent_id' => 'content',
-            'sort' => 10,
+            'sort' => 20,
         ],
     ],
     'page/view' => [
@@ -437,20 +435,20 @@ return [
     'page_article/view' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'image', 'teaser', 'main', 'aside'],
+                'attr_id' => ['image', 'teaser', 'main', 'aside'],
             ],
         ],
     ],
     'page_content/view' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['image', 'name', 'main', 'aside'],
+                'attr_id' => ['image', 'main', 'aside'],
             ],
         ],
         'teaser' => [
             'type' => 'container',
             'parent_id' => 'content',
-            'sort' => 20,
+            'sort' => 30,
             'cfg' => [
                 'tag' => 'section',
             ],
@@ -463,10 +461,8 @@ return [
         'breadcrumb' => [
             'active' => false,
         ],
-        'content-main' => [
-            'cfg' => [
-                'attr_id' => ['image', 'main', 'aside'],
-            ],
+        'headline' => [
+            'active' => false,
         ],
     ],
 ];
