@@ -402,25 +402,6 @@ function form(array $block): string
 }
 
 /**
- * Create Form
- */
-function create(array $block): string
-{
-    $type = app\cfg('block', 'create');
-    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
-    $block['cfg']['entity_id'] = $block['cfg']['entity_id'] ?: app\get('entity_id');
-
-    if (($data = request\get('data')) && entity\save($block['cfg']['entity_id'], $data)) {
-        $data = [];
-    }
-
-    $block['cfg']['data'] = arr\replace(entity\item($block['cfg']['entity_id']), $data);
-
-    return form($block);
-}
-
-/**
  * Edit Form
  */
 function edit(array $block): string

@@ -133,14 +133,6 @@ return [
             'entity_id' => null,
         ],
     ],
-    'create' => [
-        'call' => 'block\create',
-        'tpl' => 'block/form.phtml',
-        'cfg' => [
-            'attr_id' => [],
-            'entity_id' => null,
-        ],
-    ],
     'edit' => [
         'call' => 'block\edit',
         'tpl' => 'block/form.phtml',
