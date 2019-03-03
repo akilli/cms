@@ -419,7 +419,7 @@ function edit(array $block): string
 
     $p[] = $data;
     $data = arr\replace(entity\item($entity['id']), ...$p);
-    $var = ['data' => $data, 'attr' => $attr, 'file' => !!arr\filter($attr, 'type', 'upload')];
+    $var = ['attr' => $attr, 'data' => $data, 'file' => !!arr\filter($attr, 'type', 'upload')];
 
     return app\render($block['tpl'], $var);
 }
@@ -452,7 +452,7 @@ function profile(array $block): string
     }
 
     $data = $data ? arr\replace($account + ['_error' => []], $data) : $account;
-    $var = ['data' => $data, 'attr' => $attr, 'file' => !!arr\filter($attr, 'type', 'upload')];
+    $var = ['attr' => $attr, 'data' => $data, 'file' => !!arr\filter($attr, 'type', 'upload')];
 
     return app\render($block['tpl'], $var);
 }
@@ -465,11 +465,8 @@ function login(array $block): string
     $block['tpl'] = $block['tpl'] ?? app\cfg('block', 'login')['tpl'];
     $entity = app\cfg('entity', 'account');
     $a = ['username' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0]];
-    $var = [
-        'data' => [],
-        'attr' => array_replace_recursive(arr\extract($entity['attr'], ['username', 'password']), $a),
-        'file' => false,
-    ];
+    $attr = array_replace_recursive(arr\extract($entity['attr'], ['username', 'password']), $a);
+    $var = ['attr' => $attr, 'data' => [], 'file' => false];
 
     return app\render($block['tpl'], $var);
 }
