@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace app;
 
 use account;
+use arr;
 use entity;
 use request;
 use session;
@@ -334,6 +335,20 @@ function block_render(array $block): string
     $data = event(['layout.postrender.type.' . $block['type'], 'layout.postrender.id.' . $block['id']], $data);
 
     return $data['html'];
+}
+
+/**
+ * Renders child blocks
+ */
+function block_children(string $id): string
+{
+    $html = '';
+
+    foreach (arr\order(arr\filter(layout(), 'parent_id', $id), ['sort' => 'asc']) as $child) {
+        $html .= block($child['id']);
+    }
+
+    return $html;
 }
 
 /**

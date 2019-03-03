@@ -17,12 +17,8 @@ use DomainException;
 function container(array $block): string
 {
     $cfg = arr\replace(app\cfg('block', 'container')['cfg'], $block['cfg']);
+    $html = app\block_children($block['id']);
     $attrs = $block['parent_id'] === 'root' ? [] : ['id' => $block['id']];
-    $html = '';
-
-    foreach (arr\order(arr\filter(app\layout(), 'parent_id', $block['id']), ['sort' => 'asc']) as $child) {
-        $html .= app\block($child['id']);
-    }
 
     return $html && $cfg['tag'] ? app\html($cfg['tag'], $attrs, $html) : $html;
 }
