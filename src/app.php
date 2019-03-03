@@ -26,7 +26,7 @@ function run(): void
     $app = APP['app'];
     $app['lang'] = locale_get_primary_language('');
     $app['gui'] = max(filemtime(path('gui')), file_exists(path('ext.gui')) ? filemtime(path('ext.gui')) : 0);
-    $url = request\get('url');
+    $url = request\data('url');
     $parts = explode('/', trim($url, '/'));
     $app['entity_id'] = array_shift($parts);
     $app['action'] = array_shift($parts);
@@ -46,7 +46,7 @@ function run(): void
     $app['parent_id'] = $app['entity']['parent_id'] ?? null;
     $app['area'] = empty(cfg('priv', $app['entity_id'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
     $app['public'] = $app['area'] === '_public_';
-    $blacklist = !$app['public'] && in_array(preg_replace('#^www\.#', '', request\get('host')), cfg('app', 'admin.blacklist'));
+    $blacklist = !$app['public'] && in_array(preg_replace('#^www\.#', '', request\data('host')), cfg('app', 'admin.blacklist'));
     $allowed = !$blacklist && allowed($app['entity_id'] . '/' . $app['action']);
     $ns = 'action\\';
     $real = is_callable($ns . $app['entity_id'] . '_' . $app['action']) ? $ns . $app['entity_id'] . '_' . $app['action'] : null;
@@ -337,7 +337,7 @@ function enc(?string $val): string
  */
 function url(string $path = '', array $get = [], bool $preserve = false): string
 {
-    $get = $preserve ? $get + request\get('param') : $get;
+    $get = $preserve ? $get + request\data('param') : $get;
     $query = $get ? http_build_query($get, '', '&amp;') : '';
 
     return '/' . trim($path, '/') . ($query ? '?' . $query : '');

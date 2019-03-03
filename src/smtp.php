@@ -15,7 +15,7 @@ use DomainException;
 function mail(string $from, string $to, string $replyTo = null, string $subj, string $text, array $attach = []): void
 {
     $cfg = app\cfg('smtp');
-    $host = request\get('host');
+    $host = request\data('host');
     $client = stream_socket_client($cfg['dsn'], $errno, $errstr, $cfg['timeout']);
 
     if (!is_resource($client)) {

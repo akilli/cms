@@ -172,7 +172,7 @@ function multientity(array $val, array $attr): array
  */
 function upload(string $val, array $attr): string
 {
-    $mime = request\get('file')[$attr['id']]['type'] ?? null;
+    $mime = request\data('file')[$attr['id']]['type'] ?? null;
 
     if ($val && (!$mime || !in_array($mime, $attr['accept']))) {
         throw new DomainException(app\i18n('Invalid file type'));

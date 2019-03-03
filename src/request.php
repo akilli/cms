@@ -12,7 +12,7 @@ use DomainException;
  *
  * @return mixed
  */
-function get(string $key)
+function data(string $key)
 {
     if (($data = & app\registry('request')) === null) {
         $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];

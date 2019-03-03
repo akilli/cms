@@ -165,7 +165,7 @@ function layout(array $data): array
 {
     $cfg = app\cfg('layout');
     $type = app\cfg('block');
-    $url = request\get('url');
+    $url = request\data('url');
     $keys = ['_all_', app\data('area')];
 
     if (app\data('invalid')) {
@@ -244,7 +244,7 @@ function entity_prevalidate_file(array $data): array
         return $data;
     }
 
-    $item = request\get('file')['url'] ?? null;
+    $item = request\data('file')['url'] ?? null;
 
     if (!$item) {
         $data['_error']['url'][] = app\i18n('No upload file');
@@ -278,7 +278,7 @@ function entity_presave_page(array $data): array
  */
 function entity_postsave_file(array $data): array
 {
-    $item = request\get('file')['url'] ?? null;
+    $item = request\data('file')['url'] ?? null;
 
     if ($item && !file\upload($item['tmp_name'], app\path('file', $data['id'] . '.' . $data['ext']))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));

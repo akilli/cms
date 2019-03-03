@@ -34,7 +34,7 @@ function root(): string
         'data-action' => app\data('action'),
         'data-entity' => app\data('entity_id'),
         'data-parent' => app\data('parent_id'),
-        'data-url' => request\get('url'),
+        'data-url' => request\data('url'),
     ];
     $head = layout\block('head');
     $body = layout\block('body');
@@ -198,7 +198,7 @@ function index(array $block): string
 
     $crit = $cfg['crit'];
     $opt = ['order' => $cfg['order']];
-    $p = arr\replace(['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], request\get('param'));
+    $p = arr\replace(['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], request\data('param'));
     $limit = is_int($p['limit']) && $p['limit'] >= 0 && in_array($p['limit'], $cfg['limit']) ? $p['limit'] : $cfg['limit'][0];
 
     if ($limit > 0) {
@@ -277,7 +277,7 @@ function index(array $block): string
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
         'sort' => $p['sort'],
         'title' => app\enc($cfg['title']),
-        'url' => request\get('url'),
+        'url' => request\data('url'),
     ];
 
     return app\render($block['tpl'], $var);
@@ -312,7 +312,7 @@ function pager(array $block): string
         return '';
     }
 
-    $url = request\get('url');
+    $url = request\data('url');
     $total = $cfg['limit'] && ($c = (int) ceil($cfg['size'] / $cfg['limit'])) ? $c : 1;
     $cfg['cur'] = min(max($cfg['cur'], 1), $total);
     $offset = ($cfg['cur'] - 1) * $cfg['limit'];
@@ -391,7 +391,7 @@ function edit(array $block): string
         return '';
     }
 
-    if ($data = request\get('data')) {
+    if ($data = request\data('data')) {
         if ($id) {
             $data = ['id' => $id] + $data;
         }
@@ -434,7 +434,7 @@ function profile(array $block): string
         return '';
     }
 
-    if ($data = request\get('data')) {
+    if ($data = request\data('data')) {
         if (!empty($data['password']) && (empty($data['confirmation']) || $data['password'] !== $data['confirmation'])) {
             $data['_error']['password'][] = app\i18n('Password and password confirmation must be identical');
             $data['_error']['confirmation'][] = app\i18n('Password and password confirmation must be identical');
@@ -443,7 +443,7 @@ function profile(array $block): string
             $data = ['id' => $account['id']] + $data;
 
             if (entity\save('account', $data)) {
-                request\redirect(request\get('url'));
+                request\redirect(request\data('url'));
             }
         }
     }
@@ -489,11 +489,11 @@ function nav(array $block): string
     $html = '';
     $attrs = ['id' => $block['id']];
     $call = function (array $it): ?string {
-        if ($it['url'] === request\get('url')) {
+        if ($it['url'] === request\data('url')) {
             return 'active';
         }
 
-        if ($it['url'] && strpos(request\get('url'), preg_replace('#\.html#', '', $it['url'])) === 0) {
+        if ($it['url'] && strpos(request\data('url'), preg_replace('#\.html#', '', $it['url'])) === 0) {
             return 'path';
         }
 
