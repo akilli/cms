@@ -96,6 +96,22 @@ function html(array $block): string
 }
 
 /**
+ * Headline
+ */
+function headline(array $block): string
+{
+    $cfg = arr\replace(app\cfg('block', 'headline')['cfg'], $block['cfg']);
+
+    if (app\get('public')) {
+        $content = $cfg['content'] ?? app\get('page')['title'] ?? app\get('page')['name'] ?? '';
+    } else {
+        $content = $cfg['content'] ?? app\get('entity')['name'] ?? '';
+    }
+
+    return $content ? app\html('h1', [], app\enc($content)) : '';
+}
+
+/**
  * Template
  */
 function tpl(array $block): string

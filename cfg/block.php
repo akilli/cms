@@ -39,6 +39,12 @@ return [
             'tag' => null,
         ],
     ],
+    'headline' => [
+        'call' => 'block\headline',
+        'cfg' => [
+            'content' => null,
+        ],
+    ],
     /**
      * Template
      */
