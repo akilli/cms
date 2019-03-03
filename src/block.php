@@ -430,7 +430,7 @@ function profile(array $block): string
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!($account = account\get()) || !($attr = arr\extract($account['_entity']['attr'], $cfg['attr_id']))) {
+    if (!($account = account\data()) || !($attr = arr\extract($account['_entity']['attr'], $cfg['attr_id']))) {
         return '';
     }
 

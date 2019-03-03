@@ -212,7 +212,7 @@ function allowed(string $key): bool
         return false;
     }
 
-    return !$cfg['active'] || account\get('admin') || $cfg['priv'] && allowed($cfg['priv']) || !$cfg['priv'] && in_array($key, account\get('priv'));
+    return !$cfg['active'] || account\data('admin') || $cfg['priv'] && allowed($cfg['priv']) || !$cfg['priv'] && in_array($key, account\data('priv'));
 }
 
 /**

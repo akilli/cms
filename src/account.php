@@ -12,7 +12,7 @@ use session;
  *
  * @return mixed
  */
-function get(string $key = null)
+function data(string $key = null)
 {
     if (($data = & app\registry('account')) === null) {
         $data = [];

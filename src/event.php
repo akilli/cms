@@ -266,7 +266,7 @@ function entity_prevalidate_file(array $data): array
  */
 function entity_presave_page(array $data): array
 {
-    $data['account_id'] = account\get('id');
+    $data['account_id'] = account\data('id');
 
     return $data;
 }
