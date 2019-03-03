@@ -86,7 +86,7 @@ function cfg_entity(array $data): array
  */
 function cfg_i18n(array $data): array
 {
-    return $data + app\load('i18n/' . app\get('lang'));
+    return $data + app\load('i18n/' . app\data('lang'));
 }
 
 /**
@@ -166,23 +166,23 @@ function layout(array $data): array
     $cfg = app\cfg('layout');
     $type = app\cfg('block');
     $url = request\get('url');
-    $keys = ['_all_', app\get('area')];
+    $keys = ['_all_', app\data('area')];
 
-    if (app\get('invalid')) {
+    if (app\data('invalid')) {
         $keys[] = '_invalid_';
     } else {
-        $entityId = app\get('entity_id');
-        $action = app\get('action');
+        $entityId = app\data('entity_id');
+        $action = app\data('action');
         $keys[] = $action;
 
-        if ($parentId = app\get('parent_id')) {
+        if ($parentId = app\data('parent_id')) {
             $keys[] = $parentId . '/' . $action;
         }
 
         $keys[] = $entityId . '/' . $action;
         $keys[] = $url;
 
-        if (($page = app\get('page')) && ($dbLayout = entity\all('layout', [['page_id', $page['id']]]))) {
+        if (($page = app\data('page')) && ($dbLayout = entity\all('layout', [['page_id', $page['id']]]))) {
             $ids = array_column($dbLayout, 'block_id');
             $dbBlocks = [];
 

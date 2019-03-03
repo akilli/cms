@@ -30,10 +30,10 @@ function container(array $block): string
 function root(): string
 {
     $attr = [
-        'lang' => app\get('lang'),
-        'data-action' => app\get('action'),
-        'data-entity' => app\get('entity_id'),
-        'data-parent' => app\get('parent_id'),
+        'lang' => app\data('lang'),
+        'data-action' => app\data('action'),
+        'data-entity' => app\data('entity_id'),
+        'data-parent' => app\data('parent_id'),
         'data-url' => request\get('url'),
     ];
     $head = layout\block('head');
@@ -91,10 +91,10 @@ function headline(array $block): string
 
     if ($cfg['content']) {
         $content = app\i18n($cfg['content']);
-    } elseif (app\get('public')) {
-        $content = app\get('page')['title'] ?? app\get('page')['name'] ?? '';
+    } elseif (app\data('public')) {
+        $content = app\data('page')['title'] ?? app\data('page')['name'] ?? '';
     } else {
-        $content = app\get('entity')['name'] ?? '';
+        $content = app\data('entity')['name'] ?? '';
     }
 
     return $content ? app\html('h1', [], app\enc($content)) : '';
@@ -117,7 +117,7 @@ function meta(array $block): string
     $desc = app\cfg('app', 'meta.description');
     $title = app\cfg('app', 'meta.title');
 
-    if ($page = app\get('page')) {
+    if ($page = app\data('page')) {
         $desc = $page['meta_description'];
 
         if ($page['meta_title']) {
@@ -129,7 +129,7 @@ function meta(array $block): string
                 $title = $item['name'] . ($title ? ' - ' . $title : '');
             }
         }
-    } elseif ($entity = app\get('entity')) {
+    } elseif ($entity = app\data('entity')) {
         $title = $entity['name'] . ($title ? ' - ' . $title : '');
     }
 
@@ -147,12 +147,12 @@ function view(array $block): string
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!($entity = app\get('entity')) || !($id = app\get('id'))) {
+    if (!($entity = app\data('entity')) || !($id = app\data('id'))) {
         return '';
     }
 
     $attrs = arr\extract($entity['attr'], $cfg['attr_id']);
-    $data = app\get('page') ?: entity\one($entity['id'], [['id', $id]]);
+    $data = app\data('page') ?: entity\one($entity['id'], [['id', $id]]);
     $data['name'] = empty($attrs['title']) && $data['title'] ? $data['title'] : $data['name'];
     $var = ['attr' => $attrs, 'data' => $data];
 
@@ -166,7 +166,7 @@ function banner(array $block): string
 {
     $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'banner')['tpl'];
 
-    if (($page = app\get('page')) && $page['entity'] !== 'page_content') {
+    if (($page = app\data('page')) && $page['entity'] !== 'page_content') {
         $page = entity\one('page', [['id', $page['path']], ['entity_id', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
     }
 
@@ -185,7 +185,7 @@ function index(array $block): string
     $type = app\cfg('block', 'index');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
-    $cfg['entity_id'] = $cfg['entity_id'] ?: app\get('entity_id');
+    $cfg['entity_id'] = $cfg['entity_id'] ?: app\data('entity_id');
     $entity = app\cfg('entity', $cfg['entity_id']);
     $call = function ($v): bool {
         return is_int($v) && $v >= 0;
@@ -206,13 +206,13 @@ function index(array $block): string
     }
 
     if (in_array('page', [$entity['id'], $entity['parent_id']])) {
-        if (app\get('action') !== 'admin') {
+        if (app\data('action') !== 'admin') {
             $crit[] = ['status', 'published'];
             $crit[] = ['disabled', false];
         }
 
         if ($cfg['parent_id']) {
-            $crit[] = ['parent_id', $cfg['parent_id'] === -1 ? app\get('id') : $cfg['parent_id']];
+            $crit[] = ['parent_id', $cfg['parent_id'] === -1 ? app\data('id') : $cfg['parent_id']];
         }
     }
 
@@ -379,13 +379,13 @@ function edit(array $block): string
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!($entity = app\get('entity')) || !($attr = arr\extract($entity['attr'], $cfg['attr_id']))) {
+    if (!($entity = app\data('entity')) || !($attr = arr\extract($entity['attr'], $cfg['attr_id']))) {
         return '';
     }
 
     $old = null;
 
-    if (($id = app\get('id')) && !($old = entity\one($entity['id'], [['id', $id]]))) {
+    if (($id = app\data('id')) && !($old = entity\one($entity['id'], [['id', $id]]))) {
         app\msg('Nothing to edit');
         request\redirect(app\url($entity['id'] . '/admin'));
         return '';
@@ -577,7 +577,7 @@ function menu(array $block): string
     if ($block['cfg']['url']) {
         $page = entity\one('page', [['status', 'published'], ['entity_id', 'page_content'], ['url', $block['cfg']['url']]]);
     } else {
-        $page = app\get('page');
+        $page = app\data('page');
     }
 
     if ($block['cfg']['submenu'] && empty($page['path'][1])) {
@@ -650,7 +650,7 @@ function toolbar(array $block): string
  */
 function breadcrumb(array $block): string
 {
-    if (!$page = app\get('page')) {
+    if (!$page = app\data('page')) {
         return '';
     }
 

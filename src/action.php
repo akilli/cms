@@ -14,7 +14,7 @@ use session;
  */
 function delete(array $entity): void
 {
-    entity\delete($entity['id'], [['id', app\get('id')]]);
+    entity\delete($entity['id'], [['id', app\data('id')]]);
     request\redirect(app\url($entity['id'] . '/admin'));
 }
 

@@ -109,7 +109,7 @@ function & registry(string $id): ?array
  *
  * @return mixed
  */
-function get(string $id)
+function data(string $id)
 {
     return registry('app')[$id] ?? null;
 }
@@ -350,7 +350,7 @@ function url(string $path = '', array $get = [], bool $preserve = false): string
  */
 function gui(string $path): string
 {
-    return APP['url.gui'] . get('gui') . '/' . trim($path, '/');
+    return APP['url.gui'] . data('gui') . '/' . trim($path, '/');
 }
 
 /**

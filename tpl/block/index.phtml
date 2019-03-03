@@ -2,8 +2,8 @@
 namespace app;
 use attr;
 /** @var callable $var */
-$admin = get('action') === 'admin';
-$browser = !$admin && get('action') === 'browser';
+$admin = data('action') === 'admin';
+$browser = !$admin && data('action') === 'browser';
 $entityId = $var('entity_id');
 ?>
 <section class="block-index">
@@ -40,7 +40,7 @@ $entityId = $var('entity_id');
                 <?php if (!$admin && !$html) continue;?>
                 <?php if ($attr['id'] === 'name'):?>
             <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-                    <?php if (get('public') && allowed($entityId . '/view')):?>
+                    <?php if (data('public') && allowed($entityId . '/view')):?>
                 <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>"><?=$html;?></a>
                     <?php else:?>
                 <?=$html;?>
