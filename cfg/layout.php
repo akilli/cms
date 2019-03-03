@@ -94,11 +94,19 @@ return [
      * Invalid Requests
      */
     '_invalid_' => [
+        'headline' => [
+            'type' => 'headline',
+            'parent_id' => 'content',
+            'sort' => 10,
+            'cfg' => [
+                'content' => 'Error',
+            ],
+        ],
         'content-main' => [
             'type' => 'tpl',
             'tpl' => 'page/error.phtml',
             'parent_id' => 'content',
-            'sort' => 10,
+            'sort' => 20,
         ],
     ],
     /*******************************************************************************************************************
