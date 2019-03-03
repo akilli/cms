@@ -8,6 +8,7 @@ use app;
 use arr;
 use attr;
 use entity;
+use layout;
 use request;
 use DomainException;
 
@@ -17,7 +18,7 @@ use DomainException;
 function container(array $block): string
 {
     $cfg = arr\replace(app\cfg('block', 'container')['cfg'], $block['cfg']);
-    $html = app\block_children($block['id']);
+    $html = layout\children($block['id']);
     $attrs = $block['parent_id'] === 'root' ? [] : ['id' => $block['id']];
 
     return $html && $cfg['tag'] ? app\html($cfg['tag'], $attrs, $html) : $html;
@@ -35,8 +36,8 @@ function root(): string
         'data-parent' => app\get('parent_id'),
         'data-url' => request\get('url'),
     ];
-    $head = app\block('head');
-    $body = app\block('body');
+    $head = layout\block('head');
+    $body = layout\block('body');
     $msg = '';
 
     foreach (app\msg() as $item) {
@@ -75,7 +76,7 @@ function db(array $block): string
     $cfg = arr\replace(app\cfg('block', 'db')['cfg'], $block['cfg']);
 
     if ($cfg['entity_id'] && $cfg['id'] && ($data = entity\one($cfg['entity_id'], [['id', $cfg['id']]]))) {
-        return app\block_render(arr\replace($block, app\block_db($data)));
+        return layout\render(arr\replace($block, layout\db($data)));
     }
 
     return '';
@@ -503,7 +504,7 @@ function nav(array $block): string
         $html .= app\html('h2', [], $cfg['title']);
     }
 
-    $html .= app\block_children($block['id']);
+    $html .= layout\children($block['id']);
 
     if ($cfg['toggle']) {
         $html .= app\html('a', ['data-action' => 'toggle', 'data-target' => $block['id']]);

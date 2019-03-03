@@ -20,4 +20,4 @@ run();
 /**
  * Render response
  */
-echo block('root');
+echo response();

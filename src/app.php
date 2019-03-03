@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace app;
 
 use account;
-use arr;
 use entity;
+use layout;
 use request;
 use session;
 use DomainException;
@@ -80,6 +80,14 @@ function invalid(): void
     $app['invalid'] = true;
     $layout = & registry('layout');
     $layout = null;
+}
+
+/**
+ * Returns response
+ */
+function response(): string
+{
+    return layout\block('root');
 }
 
 /**
@@ -294,87 +302,6 @@ function render(string $tpl, array $var = []): string
     include $var('tpl');
 
     return ob_get_clean();
-}
-
-/**
- * Gets registered layout block(s)
- */
-function layout(string $id = null): ?array
-{
-    if (($data = & registry('layout')) === null) {
-        $data = [];
-        $data = event(['layout'], $data);
-    }
-
-    if ($id === null) {
-        return $data;
-    }
-
-    return $data[$id] ?? null;
-}
-
-/**
- * Renders block with given ID
- */
-function block(string $id): string
-{
-    return ($block = layout($id)) ? block_render($block) : '';
-}
-
-/**
- * Renders block
- */
-function block_render(array $block): string
-{
-    if (!$block['active'] || $block['priv'] && !allowed($block['priv'])) {
-        return '';
-    }
-
-    $block = event(['layout.prerender.type.' . $block['type'], 'layout.prerender.id.' . $block['id']], $block);
-    $data = ['html' => $block['call']($block)];
-    $data = event(['layout.postrender.type.' . $block['type'], 'layout.postrender.id.' . $block['id']], $data);
-
-    return $data['html'];
-}
-
-/**
- * Renders child blocks
- */
-function block_children(string $id): string
-{
-    $html = '';
-
-    foreach (arr\order(arr\filter(layout(), 'parent_id', $id), ['sort' => 'asc']) as $child) {
-        $html .= block($child['id']);
-    }
-
-    return $html;
-}
-
-/**
- * Returns block type from block entity
- */
-function block_type(string $entityId): string
-{
-    return preg_replace('#^block_#', '', $entityId);
-}
-
-/**
- * Returns block config from database item
- *
- * @throws DomainException
- */
-function block_db(array $data): array
-{
-    static $base;
-
-    if (empty($data['entity_id']) || ($data['_entity']['parent_id'] ?? null) !== 'block' || !($type = cfg('block', block_type($data['entity_id'])))) {
-        throw new DomainException(i18n('Invalid data'));
-    } elseif ($base === null) {
-        $base = entity\item('block');
-    }
-
-    return ['type' => $type['id'], 'call' => $type['call'], 'cfg' => array_diff_key($data, $base)];
 }
 
 /**
