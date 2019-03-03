@@ -102,10 +102,12 @@ function headline(array $block): string
 {
     $cfg = arr\replace(app\cfg('block', 'headline')['cfg'], $block['cfg']);
 
-    if (app\get('public')) {
-        $content = $cfg['content'] ?? app\get('page')['title'] ?? app\get('page')['name'] ?? '';
+    if ($cfg['content']) {
+        $content = app\i18n($cfg['content']);
+    } elseif (app\get('public')) {
+        $content = app\get('page')['title'] ?? app\get('page')['name'] ?? '';
     } else {
-        $content = $cfg['content'] ?? app\get('entity')['name'] ?? '';
+        $content = app\get('entity')['name'] ?? '';
     }
 
     return $content ? app\html('h1', [], app\enc($content)) : '';
@@ -394,12 +396,7 @@ function form(array $block): string
         return '';
     }
 
-    $var = [
-        'data' => $cfg['data'],
-        'attr' => $attr,
-        'file' => !!arr\filter($attr, 'type', 'upload'),
-        'title' => app\enc($cfg['title']),
-    ];
+    $var = ['data' => $cfg['data'], 'attr' => $attr, 'file' => !!arr\filter($attr, 'type', 'upload')];
 
     return app\render($block['tpl'], $var);
 }
@@ -473,7 +470,6 @@ function edit(array $block): string
 
     $block['cfg']['data'] = arr\replace(entity\item($entity['id']), ...$p);
     $block['cfg']['entity_id'] = $entity['id'];
-    $block['cfg']['title'] = $entity['name'];
 
     return form($block);
 }
@@ -506,7 +502,7 @@ function profile(array $block): string
     }
 
     $data = $data ? arr\replace($account + ['_error' => null], $data) : $account;
-    $block['cfg'] = ['attr_id' => $cfg['attr_id'], 'data' => $data, 'entity_id' => 'account', 'title' => app\i18n('Profile')];
+    $block['cfg'] = ['attr_id' => $cfg['attr_id'], 'data' => $data, 'entity_id' => 'account'];
 
     return form($block);
 }
@@ -523,7 +519,6 @@ function login(array $block): string
         'data' => [],
         'attr' => array_replace_recursive(arr\extract($entity['attr'], ['username', 'password']), $a),
         'file' => false,
-        'title' => app\i18n('Login'),
     ];
 
     return app\render($block['tpl'], $var);

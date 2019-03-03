@@ -4,22 +4,17 @@ use attr;
 use session;
 /** @var callable $var */
 ?>
-<section class="block-form">
-    <?php if ($var('title')):?>
-    <h1><?=$var('title');?></h1>
+<form method="post"<?php if ($var('file')):?> enctype="multipart/form-data"<?php endif;?> class="block-form">
+    <fieldset>
+        <?php foreach ($var('attr') as $attr):?>
+        <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
+            <?=attr\frontend($var('data'), $attr);?>
+        </div>
+        <?php endforeach;?>
+    </fieldset>
+    <?php if (get('action') === 'edit'):?>
+    <a href="<?=url(get('entity_id') . '/admin');?>" role="button"><?=i18n('Back');?></a>
     <?php endif;?>
-    <form method="post"<?php if ($var('file')):?> enctype="multipart/form-data"<?php endif;?>>
-        <fieldset>
-            <?php foreach ($var('attr') as $attr):?>
-            <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-                <?=attr\frontend($var('data'), $attr);?>
-            </div>
-            <?php endforeach;?>
-        </fieldset>
-        <?php if (get('action') === 'edit'):?>
-        <a href="<?=url(get('entity_id') . '/admin');?>" role="button"><?=i18n('Back');?></a>
-        <?php endif;?>
-        <input type="submit" value="<?=i18n('Submit');?>" />
-        <input type="hidden" name="token" value="<?=session\token();?>" />
-    </form>
-</section>
+    <input type="submit" value="<?=i18n('Submit');?>" />
+    <input type="hidden" name="token" value="<?=session\token();?>" />
+</form>

@@ -117,11 +117,22 @@ return [
             'parent_id' => 'body',
             'sort' => 5,
         ],
+        'headline' => [
+            'type' => 'headline',
+            'parent_id' => 'content',
+            'sort' => 10,
+        ],
     ],
     /**
      * Account Dashboard
      */
-    'account/dashboard' => [],
+    'account/dashboard' => [
+        'headline' => [
+            'cfg' => [
+                'content' => 'Dashboard',
+            ],
+        ],
+    ],
     /**
      * Account Login
      */
@@ -129,20 +140,30 @@ return [
         'toolbar' => [
             'active' => false,
         ],
+        'headline' => [
+            'cfg' => [
+                'content' => 'Login',
+            ],
+        ],
         'content-main' => [
             'type' => 'login',
             'parent_id' => 'content',
-            'sort' => 10,
+            'sort' => 20,
         ],
     ],
     /**
      * Account Profile
      */
     'account/profile' => [
+        'headline' => [
+            'cfg' => [
+                'content' => 'Profile',
+            ],
+        ],
         'content-main' => [
             'type' => 'profile',
             'parent_id' => 'content',
-            'sort' => 10,
+            'sort' => 20,
             'cfg' => [
                 'attr_id' => ['password', 'confirmation', 'email'],
             ],
@@ -155,7 +176,7 @@ return [
         'content-main' => [
             'type' => 'index',
             'parent_id' => 'content',
-            'sort' => 10,
+            'sort' => 20,
             'cfg' => [
                 'pager' => 'bottom',
                 'search' => ['name'],
@@ -240,7 +261,7 @@ return [
         'content-main' => [
             'type' => 'index',
             'parent_id' => 'content',
-            'sort' => 10,
+            'sort' => 20,
             'cfg' => [
                 'limit' => 20,
                 'pager' => 'bottom',
@@ -292,7 +313,7 @@ return [
         'content-main' => [
             'type' => 'edit',
             'parent_id' => 'content',
-            'sort' => 10,
+            'sort' => 20,
         ],
     ],
     'account/edit' => [
