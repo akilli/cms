@@ -29,7 +29,7 @@ function data(string $key)
                 unset($_POST['token']);
                 $data['file'] = array_filter(array_map('request\files', $_FILES));
                 $data['post'] = $_POST;
-                $data['post'] = array_replace($data['post'], convert($data['file']));
+                $data['post'] = array_replace_recursive($data['post'], convert($data['file']));
             }
 
             session\set('token', null);
