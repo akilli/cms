@@ -374,34 +374,15 @@ function teaser(array $block): string
 }
 
 /**
- * Form
- */
-function form(array $block): string
-{
-    $type = app\cfg('block', 'form');
-    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $cfg = arr\replace($type['cfg'], $block['cfg']);
-
-    if (!$cfg['entity_id'] || !($entity = app\cfg('entity', $cfg['entity_id'])) || !($attr = arr\extract($entity['attr'], $cfg['attr_id']))) {
-        return '';
-    }
-
-    $var = ['data' => $cfg['data'], 'attr' => $attr, 'file' => !!arr\filter($attr, 'type', 'upload')];
-
-    return app\render($block['tpl'], $var);
-}
-
-/**
  * Edit Form
  */
 function edit(array $block): string
 {
     $type = app\cfg('block', 'edit');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
-    $entity = app\get('entity');
+    $cfg = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!$entity || !$block['cfg']['attr_id']) {
+    if (!($entity = app\get('entity')) || !($attr = arr\extract($entity['attr'], $cfg['attr_id']))) {
         return '';
     }
 
@@ -437,12 +418,10 @@ function edit(array $block): string
     }
 
     $p[] = $data;
+    $data = arr\replace(entity\item($entity['id']), ...$p);
+    $var = ['data' => $data, 'attr' => $attr, 'file' => !!arr\filter($attr, 'type', 'upload')];
 
-
-    $block['cfg']['data'] = arr\replace(entity\item($entity['id']), ...$p);
-    $block['cfg']['entity_id'] = $entity['id'];
-
-    return form($block);
+    return app\render($block['tpl'], $var);
 }
 
 /**
@@ -454,7 +433,7 @@ function profile(array $block): string
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!$cfg['attr_id'] || !($account = account\get())) {
+    if (!($account = account\get()) || !($attr = arr\extract($account['_entity']['attr'], $cfg['attr_id']))) {
         return '';
     }
 
@@ -473,9 +452,9 @@ function profile(array $block): string
     }
 
     $data = $data ? arr\replace($account + ['_error' => []], $data) : $account;
-    $block['cfg'] = ['attr_id' => $cfg['attr_id'], 'data' => $data, 'entity_id' => 'account'];
+    $var = ['data' => $data, 'attr' => $attr, 'file' => !!arr\filter($attr, 'type', 'upload')];
 
-    return form($block);
+    return app\render($block['tpl'], $var);
 }
 
 /**

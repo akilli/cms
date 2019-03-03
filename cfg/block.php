@@ -116,15 +116,6 @@ return [
     /**
      * Form
      */
-    'form' => [
-        'call' => 'block\form',
-        'tpl' => 'block/form.phtml',
-        'cfg' => [
-            'attr_id' => [],
-            'data' => [],
-            'entity_id' => null,
-        ],
-    ],
     'edit' => [
         'call' => 'block\edit',
         'tpl' => 'block/form.phtml',
