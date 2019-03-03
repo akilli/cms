@@ -503,7 +503,7 @@ function nav(array $block): string
         $html .= app\html('h2', [], $cfg['title']);
     }
 
-    $html .= container(array_replace($block, ['cfg' => ['tag' => null]]));
+    $html .= app\block_children($block['id']);
 
     if ($cfg['toggle']) {
         $html .= app\html('a', ['data-action' => 'toggle', 'data-target' => $block['id']]);
