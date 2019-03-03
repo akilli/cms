@@ -131,7 +131,6 @@ return [
             'attr_id' => [],
             'data' => [],
             'entity_id' => null,
-            'title' => null,
         ],
     ],
     'create' => [
