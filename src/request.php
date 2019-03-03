@@ -26,9 +26,10 @@ function data(string $key)
 
         if (!empty($_POST['token'])) {
             if (session\get('token') === $_POST['token']) {
-                $data['file'] = !empty($_FILES['data']) && is_array($_FILES['data']) ? file($_FILES['data']) : [];
-                $data['post'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
-                $data['post'] = array_replace_recursive($data['post'], convert($data['file']));
+                unset($_POST['token']);
+                $data['file'] = files($_FILES);
+                $data['post'] = $_POST;
+                $data['post'] = array_replace($data['post'], convert($data['file']));
             }
 
             session\set('token', null);
@@ -97,26 +98,35 @@ function convert(array $in): array
 
 /**
  * Filters file uploads
- *
- * @throws DomainException
  */
-function file(array $in): array
+function files(array $in): array
 {
-    if (!($keys = array_keys($in)) || !sort($keys) || $keys !== APP['upload'] || !is_array($in['name'])) {
-        throw new DomainException(app\i18n('Invalid data'));
+    if (!$in || !($keys = array_keys($in)) || !sort($keys)) {
+        return [];
+    }
+
+    if ($keys !== APP['upload']) {
+        return array_filter(array_map(__FUNCTION__, $in));
+    }
+
+    if (!is_array($in['name'])) {
+        if ($in['error'] === UPLOAD_ERR_OK && is_uploaded_file($in['tmp_name'])) {
+            return $in;
+        }
+
+        app\msg('Could not upload %s', $in['name']);
+        return [];
     }
 
     $out = [];
 
     foreach (array_filter($in['name']) as $k => $n) {
-        $e = $in['error'][$k];
-        $t = $in['tmp_name'][$k];
-        $f = ['error' => $e, 'name' => $n, 'size' => $in['size'][$k], 'tmp_name' => $t, 'type' => $in['type'][$k]];
+        $f = ['error' => $in['error'][$k], 'name' => $n, 'size' => $in['size'][$k], 'tmp_name' => $in['tmp_name'][$k], 'type' => $in['type'][$k]];
 
-        if (is_array($n)) {
-            $f = file($f);
-        } elseif ($e !== UPLOAD_ERR_OK || !is_uploaded_file($t)) {
-            app\msg('Could not upload %s', $n);
+        if (is_array($f['name'])) {
+            $f = files($f);
+        } elseif ($f['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($f['tmp_name'])) {
+            app\msg('Could not upload %s', $f['name']);
             continue;
         }
 

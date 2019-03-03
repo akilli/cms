@@ -189,10 +189,11 @@ function ignorable(array $data, array $attr): bool
 /**
  * Returns base HTML config for given attribute
  */
-function html(array $attr, string $key = 'data'): array
+function html(array $attr, string $key = 'attr'): array
 {
     $minmax = in_array($attr['backend'], ['json', 'text', 'varchar']) ? ['minlength', 'maxlength'] : ['min', 'max'];
-    $html = ['id' => $key . '-' . $attr['id'], 'name' => $key . '[' . $attr['id'] . ']', 'data-type' => $attr['type']];
+    $name = $key === 'attr' ? $attr['id'] : $key . '[' . $attr['id'] . ']';
+    $html = ['id' => $key . '-' . $attr['id'], 'name' => $name, 'data-type' => $attr['type']];
 
     if ($attr['min'] > 0) {
         $html[$minmax[0]] = $attr['min'];
