@@ -101,9 +101,12 @@ function convert(array $in): array
  */
 function files(array $in): array
 {
-    if (!$in || !($keys = array_keys($in)) || !sort($keys)) {
+    if (!$in) {
         return [];
     }
+
+    $keys = array_keys($in);
+    sort($keys);
 
     if ($keys !== APP['upload']) {
         return array_filter(array_map(__FUNCTION__, $in));
