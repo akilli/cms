@@ -31,14 +31,6 @@ return [
             'id' => null,
         ],
     ],
-    'html' => [
-        'call' => 'block\html',
-        'cfg' => [
-            'attr' => [],
-            'content' => null,
-            'tag' => null,
-        ],
-    ],
     'headline' => [
         'call' => 'block\headline',
         'cfg' => [
