@@ -173,10 +173,16 @@ return [
      * Admin Action
      */
     'admin' => [
+        'content-new' => [
+            'type' => 'tpl',
+            'tpl' => 'block/new.phtml',
+            'parent_id' => 'content',
+            'sort' => 20,
+        ],
         'content-main' => [
             'type' => 'index',
             'parent_id' => 'content',
-            'sort' => 20,
+            'sort' => 30,
             'cfg' => [
                 'pager' => 'bottom',
                 'search' => ['name'],

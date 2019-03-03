@@ -309,7 +309,6 @@ a[data-sort=desc]::after {
     padding: 0.75rem 0;
 }
 
-.block-index article h2,
 .block-index article h3 {
     margin: 0;
     font-size: inherit;
@@ -509,10 +508,10 @@ html[data-action=browser] .block-index video {
      */
     body > :not(main),
     main > :not(#content),
-    .block-index > .create,
     .block-index .thead > ::after,
     .block-index .thead > :last-child,
     .block-index article > :last-child,
+    .new,
     .filter,
     .pager {
         display: none;

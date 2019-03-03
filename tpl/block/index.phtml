@@ -4,17 +4,11 @@ use attr;
 /** @var callable $var */
 $admin = get('action') === 'admin';
 $browser = !$admin && get('action') === 'browser';
-$title = $admin || $browser ? get('entity')['name'] : $var('title');
-$h1 = $admin || $browser ? 'h1' : 'h2';
-$h2 = $admin || $browser ? 'h2' : 'h3';
 $entityId = $var('entity_id');
 ?>
 <section class="block-index">
-    <?php if ($title):?>
-    <<?=$h1;?>><?=$title;?></<?=$h1;?>>
-    <?php endif;?>
-    <?php if ($admin && allowed($entityId . '/edit')):?>
-    <p class="create"><a href="<?=url($entityId . '/edit');?>" data-action="create"><?=i18n('New Entry');?></a></p>
+    <?php if ($var('title')):?>
+    <h2><?=$var('title');?></h2>
     <?php endif;?>
     <?=$var('filter');?>
     <?=$var('pager-top');?>
@@ -45,13 +39,13 @@ $entityId = $var('entity_id');
                 ?>
                 <?php if (!$admin && !$html) continue;?>
                 <?php if ($attr['id'] === 'name'):?>
-            <<?=$h2;?> data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
+            <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
                     <?php if (get('public') && allowed($entityId . '/view')):?>
                 <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>"><?=$html;?></a>
                     <?php else:?>
                 <?=$html;?>
                     <?php endif;?>
-            </<?=$h2;?>>
+            </h3>
                 <?php elseif (preg_match('#^<(audio|img|video)#', $html)):?>
             <figure data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></figure>
                 <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
