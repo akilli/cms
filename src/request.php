@@ -22,13 +22,13 @@ function data(string $key)
         $data['full'] = $data['base'] . $data['url'];
         $data['get'] = filter($_GET);
         $data['file'] = [];
-        $data['data'] = [];
+        $data['post'] = [];
 
         if (!empty($_POST['token'])) {
             if (session\get('token') === $_POST['token']) {
                 $data['file'] = !empty($_FILES['data']) && is_array($_FILES['data']) ? file($_FILES['data']) : [];
-                $data['data'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
-                $data['data'] = array_replace_recursive($data['data'], convert($data['file']));
+                $data['post'] = !empty($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
+                $data['post'] = array_replace_recursive($data['post'], convert($data['file']));
             }
 
             session\set('token', null);

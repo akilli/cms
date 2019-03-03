@@ -32,7 +32,7 @@ function app_cfg(): void
  */
 function account_login(): void
 {
-    if ($data = request\data('data')) {
+    if ($data = request\data('post')) {
         if (!empty($data['username']) && !empty($data['password']) && ($data = account\login($data['username'], $data['password']))) {
             session\regenerate();
             session\set('account', $data['id']);

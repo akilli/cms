@@ -391,7 +391,7 @@ function edit(array $block): string
         return '';
     }
 
-    if ($data = request\data('data')) {
+    if ($data = request\data('post')) {
         if ($id) {
             $data = ['id' => $id] + $data;
         }
@@ -434,7 +434,7 @@ function profile(array $block): string
         return '';
     }
 
-    if ($data = request\data('data')) {
+    if ($data = request\data('post')) {
         if (!empty($data['password']) && (empty($data['confirmation']) || $data['password'] !== $data['confirmation'])) {
             $data['_error']['password'][] = app\i18n('Password and password confirmation must be identical');
             $data['_error']['confirmation'][] = app\i18n('Password and password confirmation must be identical');
