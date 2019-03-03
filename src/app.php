@@ -337,7 +337,7 @@ function enc(?string $val): string
  */
 function url(string $path = '', array $get = [], bool $preserve = false): string
 {
-    $get = $preserve ? $get + request\data('param') : $get;
+    $get = $preserve ? $get + request\data('get') : $get;
     $query = $get ? http_build_query($get, '', '&amp;') : '';
 
     return '/' . trim($path, '/') . ($query ? '?' . $query : '');
