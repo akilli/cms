@@ -605,7 +605,7 @@ CREATE TABLE page (
     aside text NOT NULL DEFAULT '',
     meta_title varchar(80) NOT NULL DEFAULT '',
     meta_description varchar(300) NOT NULL DEFAULT '',
-    date timestamp NOT NULL DEFAULT current_timestamp,
+    date timestamp(0) NOT NULL DEFAULT current_timestamp,
     slug varchar(75) NOT NULL,
     url varchar(400) UNIQUE DEFAULT NULL,
     disabled boolean NOT NULL DEFAULT FALSE,
@@ -617,7 +617,7 @@ CREATE TABLE page (
     path int[] NOT NULL DEFAULT '{}',
     account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
     status status NOT NULL,
-    timestamp timestamp NOT NULL DEFAULT current_timestamp,
+    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp,
     UNIQUE (parent_id, slug)
 );
 
@@ -688,7 +688,7 @@ CREATE TABLE version (
     aside text NOT NULL,
     account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
     status status NOT NULL,
-    timestamp timestamp NOT NULL DEFAULT current_timestamp
+    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON version (name);
