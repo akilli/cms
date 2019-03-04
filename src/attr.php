@@ -9,51 +9,6 @@ use entity;
 use DomainException;
 
 /**
- * Validator
- *
- * @return mixed
- *
- * @throws DomainException
- */
-function validator(array $data, array $attr)
-{
-    $val = $data[$attr['id']] ?? null;
-
-    if ($attr['nullable'] && $val === null) {
-        return $val;
-    }
-
-    $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.validator']]));
-
-    if ($attr['validator']) {
-        $val = $attr['validator']($val, $attr);
-    }
-
-    $pattern = $attr['pattern'] ? '#^' . str_replace('#', '\#', $attr['pattern']) . '$#' : null;
-    $vp = is_array($val) ? implode("\n", $val) : (string) $val;
-    $vs = is_array($val) ? $val : [$val];
-    $crit = $data['_old'] ? [[$attr['id'], $val], ['id', $data['_old']['id'], APP['op']['!=']]] : [[$attr['id'], $val]];
-
-    if ($pattern && $val !== null && $val !== '' && !preg_match($pattern, $vp)) {
-        throw new DomainException(app\i18n('Value contains invalid characters'));
-    } elseif ($attr['required'] && ($val === null || $val === '')) {
-        throw new DomainException(app\i18n('Value is required'));
-    } elseif ($attr['unique'] && entity\size($data['_entity']['id'], $crit)) {
-        throw new DomainException(app\i18n('Value must be unique'));
-    }
-
-    foreach ($vs as $v) {
-        $length = in_array($attr['backend'], ['json', 'text', 'varchar']) ? mb_strlen($v) : $v;
-
-        if ($attr['min'] > 0 && $length < $attr['min'] || $attr['max'] > 0 && $length > $attr['max']) {
-            throw new DomainException(app\i18n('Value out of range'));
-        }
-    }
-
-    return $val;
-}
-
-/**
  * Frontend
  */
 function frontend(array $data, array $attr): string
@@ -100,6 +55,51 @@ function filter(array $data, array $attr): string
     $attr['html'] = html($attr, 'filter');
 
     return app\html('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);
+}
+
+/**
+ * Validator
+ *
+ * @return mixed
+ *
+ * @throws DomainException
+ */
+function validator(array $data, array $attr)
+{
+    $val = $data[$attr['id']] ?? null;
+
+    if ($attr['nullable'] && $val === null) {
+        return $val;
+    }
+
+    $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.validator']]));
+
+    if ($attr['validator']) {
+        $val = $attr['validator']($val, $attr);
+    }
+
+    $pattern = $attr['pattern'] ? '#^' . str_replace('#', '\#', $attr['pattern']) . '$#' : null;
+    $vp = is_array($val) ? implode("\n", $val) : (string) $val;
+    $vs = is_array($val) ? $val : [$val];
+    $crit = $data['_old'] ? [[$attr['id'], $val], ['id', $data['_old']['id'], APP['op']['!=']]] : [[$attr['id'], $val]];
+
+    if ($pattern && $val !== null && $val !== '' && !preg_match($pattern, $vp)) {
+        throw new DomainException(app\i18n('Value contains invalid characters'));
+    } elseif ($attr['required'] && ($val === null || $val === '')) {
+        throw new DomainException(app\i18n('Value is required'));
+    } elseif ($attr['unique'] && entity\size($data['_entity']['id'], $crit)) {
+        throw new DomainException(app\i18n('Value must be unique'));
+    }
+
+    foreach ($vs as $v) {
+        $length = in_array($attr['backend'], ['json', 'text', 'varchar']) ? mb_strlen($v) : $v;
+
+        if ($attr['min'] > 0 && $length < $attr['min'] || $attr['max'] > 0 && $length > $attr['max']) {
+            throw new DomainException(app\i18n('Value out of range'));
+        }
+    }
+
+    return $val;
 }
 
 /**
