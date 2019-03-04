@@ -2,9 +2,6 @@
 namespace app;
 use attr;
 /** @var callable $var */
-$admin = $var('mode') === 'admin';
-$browser = $var('mode') === 'browser';
-$entityId = $var('entity_id');
 ?>
 <section class="block-index">
     <?php if ($var('title')):?>
@@ -16,7 +13,7 @@ $entityId = $var('entity_id');
     <p><?=i18n('No entries found');?></p>
     <?php else:?>
     <div class="items">
-        <?php if ($admin):?>
+        <?php if ($var('mode') === 'admin'):?>
         <div class="thead">
             <?php foreach ($var('attr') as $attr):?>
                 <?php
@@ -25,19 +22,20 @@ $entityId = $var('entity_id');
                 ?>
             <a href="<?=url($var('url'), ['sort' => $sort], true);?>"<?php if ($attr['id'] === ltrim($var('sort'), '-')):?> data-sort="<?=$dir;?>"<?php endif;?>><?=$attr['name'];?></a>
             <?php endforeach;?>
-            <?php if ($admin):?>
+            <?php if ($var('mode') === 'admin'):?>
             <span><?=i18n('Actions');?></span>
             <?php endif;?>
         </div>
         <?php endif;?>
         <?php foreach ($var('data') as $data):?>
-        <article<?php if ($browser):?> data-id="<?=$data['id'];?>" data-url="<?=$data['url'];?>" title="<?=i18n('Select item');?>"<?php endif;?>>
+            <?php $entityId = $data['entity_id'] ?? $data['_entity']['id'] ?? $var('entity_id');?>
+        <article<?php if ($var('mode') === 'browser'):?> data-id="<?=$data['id'];?>" data-url="<?=$data['url'];?>" title="<?=i18n('Select item');?>"<?php endif;?>>
             <?php foreach ($var('attr') as $attr):?>
                 <?php
                 $val = $data[$attr['id']] ?? null;
                 $html = attr\viewer($data, $attr);
                 ?>
-                <?php if (!$admin && !$html) continue;?>
+                <?php if ($var('mode') !== 'admin' && !$html) continue;?>
                 <?php if ($attr['id'] === 'name'):?>
             <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
                     <?php if (data('public') && allowed($entityId . '/view')):?>
@@ -56,7 +54,7 @@ $entityId = $var('entity_id');
             <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></div>
                 <?php endif;?>
             <?php endforeach;?>
-            <?php if ($admin):?>
+            <?php if ($var('mode') === 'admin'):?>
             <footer>
                 <?php if (allowed($entityId . '/view')):?>
                 <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>" data-action="view" title="<?=i18n('View');?>"><?=i18n('View');?></a>
