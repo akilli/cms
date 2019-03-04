@@ -366,13 +366,6 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
                 _now := NEW.timestamp;
             END IF;
 
-            -- Delete old drafts
-            DELETE FROM
-                version
-            WHERE
-                page_id = OLD.id
-                AND status IN ('draft', 'pending');
-
             INSERT INTO
                 version
                 (name, entity_id, title, teaser, main, aside, account_id, status, timestamp, page_id)
@@ -421,13 +414,6 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
                 CONTINUE;
             END IF;
 
-            -- Delete old drafts
-            DELETE FROM
-                version
-            WHERE
-                page_id = _row.id
-                AND status IN ('draft', 'pending');
-
             _row.account_id := NEW.account_id;
             _row.status := 'archived';
 
@@ -454,10 +440,20 @@ $$ LANGUAGE plpgsql;
 -- Version
 --
 
-CREATE FUNCTION version_protect() RETURNS trigger AS $$
+CREATE FUNCTION version_before() RETURNS trigger AS $$
     BEGIN
-        RAISE EXCEPTION 'Update not allowed';
-        RETURN NULL;
+        IF (TG_OP = 'UPDATE') THEN
+            RAISE EXCEPTION 'Update not allowed';
+        END IF;
+
+        -- Delete old drafts
+        DELETE FROM
+            version
+        WHERE
+            page_id = NEW.page_id
+            AND status IN ('draft', 'pending');
+
+        RETURN NEW;
     END;
 $$ LANGUAGE plpgsql;
 
@@ -697,7 +693,7 @@ CREATE INDEX ON version (account_id);
 CREATE INDEX ON version (status);
 CREATE INDEX ON version (timestamp);
 
-CREATE TRIGGER version_protect BEFORE UPDATE ON version FOR EACH ROW EXECUTE PROCEDURE version_protect();
+CREATE TRIGGER version_before BEFORE INSERT OR UPDATE ON version FOR EACH ROW EXECUTE PROCEDURE version_before();
 
 --
 -- Block

@@ -270,14 +270,14 @@ function index(array $block): string
 
     if ($entity['id'] === 'version') {
         $ids = array_column(entity\all($entity['id'], $crit, ['select' => ['page_id']] + $opt), 'page_id');
-        $entity = app\cfg('entity', 'page');
-        $crit = [['id', $ids]];
-        $opt = [];
+        $data = $ids ? entity\all('page', [['id', $ids]]) : [];
+    } else {
+        $data = entity\all($entity['id'], $crit, $opt);
     }
 
     $var = [
         'attr' => $attr,
-        'data' => entity\all($entity['id'], $crit, $opt),
+        'data' => $data,
         'filter' => $filter,
         'mode' => in_array($cfg['mode'], ['admin', 'browser']) ? $cfg['mode'] : null,
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,
