@@ -268,10 +268,16 @@ function index(array $block): string
         $pager = null;
     }
 
+    if ($entity['id'] === 'version') {
+        $ids = array_column(entity\all($entity['id'], $crit, ['select' => ['page_id']] + $opt), 'page_id');
+        $entity = app\cfg('entity', 'page');
+        $crit = [['id', $ids]];
+        $opt = [];
+    }
+
     $var = [
         'attr' => $attr,
         'data' => entity\all($entity['id'], $crit, $opt),
-        'entity_id' => $cfg['entity_id'],
         'filter' => $filter,
         'mode' => in_array($cfg['mode'], ['admin', 'browser']) ? $cfg['mode'] : null,
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,

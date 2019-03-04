@@ -138,6 +138,34 @@ return [
                 'content' => 'Dashboard',
             ],
         ],
+        'content-published' => [
+            'type' => 'index',
+            'parent_id' => 'content',
+            'sort' => 20,
+            'cfg' => [
+                'attr_id' => ['name', 'account_id', 'timestamp'],
+                'crit' => [['status', 'published']],
+                'entity_id' => 'page',
+                'limit' => 10,
+                'mode' => 'admin',
+                'order' => ['timestamp' => 'desc', 'id' => 'desc'],
+                'title' => 'Published Pages',
+            ],
+        ],
+        'content-pending' => [
+            'type' => 'index',
+            'parent_id' => 'content',
+            'sort' => 30,
+            'cfg' => [
+                'attr_id' => ['name', 'account_id', 'timestamp'],
+                'crit' => [['status', 'pending']],
+                'entity_id' => 'version',
+                'limit' => 10,
+                'mode' => 'admin',
+                'order' => ['timestamp' => 'asc', 'id' => 'asc'],
+                'title' => 'Pending Versions',
+            ],
+        ],
     ],
     /**
      * Account Login

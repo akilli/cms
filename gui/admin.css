@@ -447,6 +447,23 @@ html[data-action=browser] .block-index video {
     }
 
     /**
+     * Dashboard
+     */
+    html[data-url="/account/dashboard"] #content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    html[data-url="/account/dashboard"] #content h1 {
+        width: 100%;
+    }
+
+    html[data-url="/account/dashboard"] #content .block-index {
+        width: calc(50% - 0.75rem);
+    }
+
+    /**
      * Browser
      */
     html[data-action=browser] #content .block-index .items {
