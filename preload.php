@@ -138,7 +138,6 @@ const APP = [
         'name' => null,
         'action' => null,
         'url' => null,
-        'priv' => null,
         'active' => true,
         'parent_id' => null,
         'sort' => 0,

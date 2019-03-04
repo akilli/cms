@@ -141,14 +141,9 @@ function cfg_toolbar(array $data): array
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
-        $item = arr\replace(APP['toolbar'], $item, ['id' => $id, 'level' => 1]);
-        $item['name'] = app\i18n($item['name']);
+        $item = arr\replace(APP['toolbar'], $item, ['id' => $id, 'name' => app\i18n($item['name']), 'level' => 1]);
+        $item['url'] = $item['action'] ? app\url($item['action']) : $item['url'];
         $item['sort'] = str_pad((string) $item['sort'], 5, '0', STR_PAD_LEFT) . '-' . $id;
-
-        if ($item['action']) {
-            $item['url'] = app\url($item['action']);
-            $item['priv'] = $item['action'];
-        }
 
         if ($item['parent_id']) {
             $item['level'] = $data[$item['parent_id']]['level'] + 1;
