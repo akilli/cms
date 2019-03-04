@@ -160,7 +160,7 @@ return [
         'validator' => 'validator\opt',
         'viewer' => 'viewer\opt',
         'opt' => 'opt\status',
-        'filteropt' => 'status',
+        'opt.filter' => 'status',
     ],
     'tel' => [
         'backend' => 'varchar',

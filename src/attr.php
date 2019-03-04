@@ -23,7 +23,7 @@ function validator(array $data, array $attr)
         return $val;
     }
 
-    $attr['opt'] = opt($data, $attr);
+    $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.validator']]));
 
     if ($attr['validator']) {
         $val = $attr['validator']($val, $attr);
@@ -59,7 +59,7 @@ function validator(array $data, array $attr)
 function frontend(array $data, array $attr): string
 {
     $val = array_key_exists($attr['id'], $data) && $data[$attr['id']] !== null ? cast($data[$attr['id']], $attr) : null;
-    $attr['opt'] = opt($data, $attr);
+    $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.frontend']]));
     $attr['html'] = html($attr);
     $label = ['for' => $attr['html']['id']];
     $error = '';
@@ -96,7 +96,7 @@ function filter(array $data, array $attr): string
     }
 
     $val = array_key_exists($attr['id'], $data) && $data[$attr['id']] !== null ? cast($data[$attr['id']], $attr) : null;
-    $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['filteropt']]));
+    $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.filter']]));
     $attr['html'] = html($attr, 'filter');
 
     return app\html('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);
@@ -113,7 +113,7 @@ function viewer(array $data, array $attr): string
         return '';
     }
 
-    $attr['opt'] = opt($data, $attr);
+    $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.viewer']]));
 
     if ($attr['viewer']) {
         return $attr['viewer']($val, $attr);

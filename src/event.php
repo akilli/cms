@@ -70,7 +70,10 @@ function cfg_entity(array $data): array
             }
 
             $attr['filter'] = $attr['filter'] ?: $attr['frontend'];
-            $attr['filteropt'] = $attr['filteropt'] ?: $attr['opt'];
+            $attr['opt.frontend'] = $attr['opt.frontend'] ?: $attr['opt'];
+            $attr['opt.filter'] = $attr['opt.filter'] ?: $attr['opt'];
+            $attr['opt.validator'] = $attr['opt.validator'] ?: $attr['opt'];
+            $attr['opt.viewer'] = $attr['opt.viewer'] ?: $attr['opt'];
             $entity['attr'][$attrId] = $attr;
         }
 
