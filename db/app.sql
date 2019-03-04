@@ -339,15 +339,6 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
             NEW.status := 'archived';
         END IF;
 
-        -- Delete old drafts when item is published or archived
-        IF (TG_OP = 'UPDATE' AND NEW.status IN ('published', 'archived')) THEN
-            DELETE FROM
-                version
-            WHERE
-                page_id = OLD.id
-                AND status IN ('draft', 'pending');
-        END IF;
-
         -- Check parent status
         IF ((TG_OP = 'INSERT' OR coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)) AND NEW.parent_id IS NOT NULL) THEN
             SELECT
@@ -374,6 +365,13 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
             IF (TG_OP = 'INSERT') THEN
                 _now := NEW.timestamp;
             END IF;
+
+            -- Delete old drafts
+            DELETE FROM
+                version
+            WHERE
+                page_id = OLD.id
+                AND status IN ('draft', 'pending');
 
             INSERT INTO
                 version
@@ -423,7 +421,7 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
                 CONTINUE;
             END IF;
 
-            -- Delete old drafts when item is published
+            -- Delete old drafts
             DELETE FROM
                 version
             WHERE
