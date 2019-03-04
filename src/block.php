@@ -273,6 +273,7 @@ function index(array $block): string
         'data' => entity\all($entity['id'], $crit, $opt),
         'entity_id' => $cfg['entity_id'],
         'filter' => $filter,
+        'mode' => in_array($cfg['mode'], ['admin', 'browser']) ? $cfg['mode'] : null,
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
         'sort' => $get['sort'],

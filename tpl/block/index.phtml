@@ -2,8 +2,8 @@
 namespace app;
 use attr;
 /** @var callable $var */
-$admin = data('action') === 'admin';
-$browser = !$admin && data('action') === 'browser';
+$admin = $var('mode') === 'admin';
+$browser = $var('mode') === 'browser';
 $entityId = $var('entity_id');
 ?>
 <section class="block-index">

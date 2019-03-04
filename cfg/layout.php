@@ -190,6 +190,7 @@ return [
             'parent_id' => 'content',
             'sort' => 30,
             'cfg' => [
+                'mode' => 'admin',
                 'pager' => 'bottom',
                 'search' => ['name'],
                 'sort' => true,
@@ -276,6 +277,7 @@ return [
             'sort' => 20,
             'cfg' => [
                 'limit' => 20,
+                'mode' => 'browser',
                 'pager' => 'bottom',
                 'search' => ['name'],
             ],

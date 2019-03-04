@@ -73,6 +73,7 @@ return [
             'entity_id' => null,
             'filter' => [],
             'limit' => [10, 20, 50, 0],
+            'mode' => null,
             'order' => ['id' => 'desc'],
             'pager' => null,
             'parent_id' => null,
