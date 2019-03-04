@@ -272,25 +272,13 @@ function path(string $dir, string $id = null): string
 }
 
 /**
- * Template path
- */
-function tpl(string $id): ?string
-{
-    foreach ([path('ext.tpl', $id), path('tpl', $id)] as $tpl) {
-        if (is_file($tpl)) {
-            return $tpl;
-        }
-    }
-
-    return null;
-}
-
-/**
  * Renders template with given variables
  */
 function render(string $tpl, array $var = []): string
 {
-    if (!$var['tpl'] = tpl($tpl)) {
+    $var['tpl'] = ($ext = path('ext.tpl', $tpl)) && is_file($ext) ? $ext : path('tpl', $tpl);
+
+    if (!is_file($var['tpl'])) {
         return '';
     }
 
