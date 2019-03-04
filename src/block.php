@@ -276,7 +276,7 @@ function index(array $block): string
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
         'sort' => $get['sort'],
-        'title' => app\enc($cfg['title']),
+        'title' => $cfg['title'] ? app\enc(app\i18n($cfg['title'])) : null,
         'url' => request\data('url'),
     ];
 
@@ -486,7 +486,6 @@ function nav(array $block): string
     $base = ['name' => null, 'url' => null, 'disabled' => false, 'level' => $start];
     $level = 0;
     $i = 0;
-    $html = '';
     $attrs = ['id' => $block['id']];
     $call = function (array $it): ?string {
         if ($it['url'] === request\data('url')) {
@@ -499,12 +498,7 @@ function nav(array $block): string
 
         return null;
     };
-
-    if ($cfg['title']) {
-        $html .= app\html('h2', [], $cfg['title']);
-    }
-
-    $html .= layout\children($block['id']);
+    $html = ($cfg['title'] ? app\html('h2', [], app\i18n($cfg['title'])) : '') . layout\children($block['id']);
 
     if ($cfg['toggle']) {
         $html .= app\html('a', ['data-action' => 'toggle', 'data-target' => $block['id']]);
