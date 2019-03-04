@@ -159,8 +159,9 @@ return [
         'filter' => 'frontend\select',
         'validator' => 'validator\opt',
         'viewer' => 'viewer\opt',
-        'opt' => 'opt\status',
-        'opt.filter' => 'status',
+        'opt' => 'status',
+        'opt.frontend' => 'opt\status',
+        'opt.validator' => 'opt\status',
     ],
     'tel' => [
         'backend' => 'varchar',
