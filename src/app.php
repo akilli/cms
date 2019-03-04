@@ -274,7 +274,7 @@ function path(string $dir, string $id = null): string
 /**
  * Renders template with given variables
  */
-function render(string $tpl, array $var = []): string
+function tpl(string $tpl, array $var = []): string
 {
     $var['tpl'] = ($ext = path('ext.tpl', $tpl)) && is_file($ext) ? $ext : path('tpl', $tpl);
 

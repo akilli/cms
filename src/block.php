@@ -105,7 +105,7 @@ function headline(array $block): string
  */
 function tpl(array $block): string
 {
-    return $block['tpl'] ? app\render($block['tpl']) : '';
+    return $block['tpl'] ? app\tpl($block['tpl']) : '';
 }
 
 /**
@@ -135,7 +135,7 @@ function meta(array $block): string
 
     $var = ['description' => app\enc($desc), 'title' => app\enc($title)];
 
-    return app\render($block['tpl'], $var);
+    return app\tpl($block['tpl'], $var);
 }
 
 /**
@@ -156,7 +156,7 @@ function view(array $block): string
     $data['name'] = empty($attrs['title']) && $data['title'] ? $data['title'] : $data['name'];
     $var = ['attr' => $attrs, 'data' => $data];
 
-    return $var['attr'] && $var['data'] ? app\render($block['tpl'], $var) : '';
+    return $var['attr'] && $var['data'] ? app\tpl($block['tpl'], $var) : '';
 }
 
 /**
@@ -171,7 +171,7 @@ function banner(array $block): string
     }
 
     if ($page && ($img = attr\viewer($page, $page['_entity']['attr']['image']))) {
-        return app\render($block['tpl'], ['img' => $img]);
+        return app\tpl($block['tpl'], ['img' => $img]);
     }
 
     return '';
@@ -280,7 +280,7 @@ function index(array $block): string
         'url' => request\data('url'),
     ];
 
-    return app\render($block['tpl'], $var);
+    return app\tpl($block['tpl'], $var);
 }
 
 /**
@@ -296,7 +296,7 @@ function filter(array $block): string
         return '';
     }
 
-    return app\render($block['tpl'], $cfg);
+    return app\tpl($block['tpl'], $cfg);
 }
 
 /**
@@ -353,7 +353,7 @@ function pager(array $block): string
         'links' => $links
     ];
 
-    return app\render($block['tpl'], $var);
+    return app\tpl($block['tpl'], $var);
 }
 
 /**
@@ -418,7 +418,7 @@ function edit(array $block): string
     $data = arr\replace(entity\item($entity['id']), ...$p);
     $var = ['attr' => $attr, 'data' => $data, 'file' => !!arr\filter($attr, 'type', 'upload')];
 
-    return app\render($block['tpl'], $var);
+    return app\tpl($block['tpl'], $var);
 }
 
 /**
@@ -451,7 +451,7 @@ function profile(array $block): string
     $data = $data ? arr\replace($account + ['_error' => []], $data) : $account;
     $var = ['attr' => $attr, 'data' => $data, 'file' => !!arr\filter($attr, 'type', 'upload')];
 
-    return app\render($block['tpl'], $var);
+    return app\tpl($block['tpl'], $var);
 }
 
 /**
@@ -465,7 +465,7 @@ function login(array $block): string
     $attr = array_replace_recursive(arr\extract($entity['attr'], ['username', 'password']), $a);
     $var = ['attr' => $attr, 'data' => [], 'file' => false];
 
-    return app\render($block['tpl'], $var);
+    return app\tpl($block['tpl'], $var);
 }
 
 /**
