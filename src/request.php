@@ -27,7 +27,7 @@ function data(string $key)
         if (!empty($_POST['token'])) {
             if (session\get('token') === $_POST['token']) {
                 unset($_POST['token']);
-                $data['file'] = array_filter(array_map('request\files', $_FILES));
+                $data['file'] = array_filter(array_map('request\normalize', $_FILES));
                 $data['post'] = $_POST;
                 $data['post'] = array_replace_recursive($data['post'], convert($data['file']));
             }
@@ -97,9 +97,9 @@ function convert(array $in): array
 }
 
 /**
- * Filters file uploads
+ * Normalizes array structure and filters file uploads
  */
-function files(array $in): ?array
+function normalize(array $in): ?array
 {
     if (!($keys = array_keys($in)) || !sort($keys) || $keys !== APP['upload']) {
         return null;
@@ -120,7 +120,7 @@ function files(array $in): ?array
         $f = ['error' => $in['error'][$k], 'name' => $n, 'size' => $in['size'][$k], 'tmp_name' => $in['tmp_name'][$k], 'type' => $in['type'][$k]];
 
         if (is_array($f['name'])) {
-            $f = files($f);
+            $f = normalize($f);
         } elseif ($f['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($f['tmp_name'])) {
             app\msg('Could not upload %s', $f['name']);
             continue;
