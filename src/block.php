@@ -371,8 +371,12 @@ function teaser(array $block): string
     $type = app\cfg('block', 'teaser');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
-    $block['cfg']['crit'] = $block['cfg']['page_id'] ? [['id', $block['cfg']['page_id']]] : [];
     $block['cfg']['parent_id'] = $block['cfg']['page_id'] ? null : -1;
+    $block['cfg']['crit'] = [['teaser', '', APP['op']['!=']]];
+
+    if ($block['cfg']['page_id']) {
+        $block['cfg']['crit'][] = ['id', $block['cfg']['page_id']];
+    }
 
     return index($block);
 }
