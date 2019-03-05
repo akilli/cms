@@ -323,7 +323,6 @@ $$ LANGUAGE plpgsql;
 CREATE FUNCTION page_version_before() RETURNS trigger AS $$
     DECLARE
         _aid int;
-        _now timestamp := current_timestamp;
         _sta status;
     BEGIN
         -- Actually, archived status should not be allowed for new items (INSERTs) after initial setup of DB
@@ -362,15 +361,15 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
 
         -- Create new version
         IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.entity_id != OLD.entity_id OR NEW.title != OLD.title OR NEW.teaser != OLD.teaser OR NEW.main != OLD.main OR NEW.aside != OLD.aside OR NEW.account_id != OLD.account_id OR NEW.status != OLD.status) THEN
-            IF (TG_OP = 'INSERT') THEN
-                _now := NEW.timestamp;
+            IF (TG_OP = 'UPDATE') THEN
+                NEW.timestamp := current_timestamp;
             END IF;
 
             INSERT INTO
                 version
-                (name, entity_id, title, teaser, main, aside, account_id, status, timestamp, page_id)
+                (name, entity_id, page_id, title, teaser, main, aside, account_id, status, timestamp)
             VALUES
-                (NEW.name, NEW.entity_id, NEW.title, NEW.teaser, NEW.main, NEW.aside, NEW.account_id, NEW.status, _now, NEW.id);
+                (NEW.name, NEW.entity_id, NEW.id, NEW.title, NEW.teaser, NEW.main, NEW.aside, NEW.account_id, NEW.status, NEW.timestamp);
         END IF;
 
         -- Don't overwrite published version with a draft
@@ -420,9 +419,9 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
             -- Create new version
             INSERT INTO
                 version
-                (name, entity_id, title, teaser, main, aside, account_id, status, page_id)
+                (name, entity_id, page_id, title, teaser, main, aside, account_id, status)
             VALUES
-                (_row.name, _row.entity_id, _row.title, _row.teaser, _row.main, _row.aside, _row.account_id, _row.status, _row.id);
+                (_row.name, _row.entity_id, _row.id, _row.title, _row.teaser, _row.main, _row.aside, _row.account_id, _row.status);
 
             -- Update page status
             UPDATE
@@ -463,16 +462,16 @@ CREATE FUNCTION version_reset() RETURNS void AS $$
 
         INSERT INTO
             version
-            (name, entity_id, teaser, main, aside, status, timestamp, page_id)
+            (name, entity_id, page_id, teaser, main, aside, status, timestamp)
         SELECT
             name,
             entity_id,
+            id AS page_id,
             teaser,
             main,
             aside,
             status,
-            timestamp,
-            id AS page_id
+            timestamp
         FROM
             page
         ORDER BY
