@@ -199,6 +199,9 @@ function index(array $block): string
     $crit = $cfg['crit'];
     $opt = ['order' => $cfg['order']];
     $get = arr\replace(['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], request\data('get'));
+    $filter = '';
+    $sort = $cfg['sort'] ? null : false;
+    $pager = null;
     $limit = is_int($get['limit']) && $get['limit'] >= 0 && in_array($get['limit'], $cfg['limit']) ? $get['limit'] : $cfg['limit'][0];
 
     if ($limit > 0) {
@@ -218,8 +221,7 @@ function index(array $block): string
 
     if ($cfg['sort'] && $get['sort'] && preg_match('#^(-)?([a-z0-9-_]+)$#', $get['sort'], $match) && !empty($attr[$match[2]])) {
         $opt['order'] = [$match[2] => $match[1] ? 'desc' : 'asc'];
-    } else {
-        $get['sort'] = null;
+        $sort = $get['sort'];
     }
 
     if ($cfg['filter'] || $cfg['search']) {
@@ -251,10 +253,6 @@ function index(array $block): string
         }
 
         $filter = filter(['cfg' => ['attr' => $fa, 'data' => arr\replace(entity\item($entity['id']), $get['filter']), 'q' => $get['q'], 'search' => !!$cfg['search']]]);
-    } else {
-        $get['filter'] = [];
-        $get['q'] = null;
-        $filter = '';
     }
 
     if ($cfg['pager']) {
@@ -263,9 +261,6 @@ function index(array $block): string
         $get['cur'] = min(max((int) $get['cur'], 1), $total);
         $opt['offset'] = ($get['cur'] - 1) * $limit;
         $pager = pager(['cfg' => ['cur' => $get['cur'], 'limit' => $limit, 'limits' => $cfg['limit'], 'size' => $size]]);
-    } else {
-        $get['cur'] = null;
-        $pager = null;
     }
 
     if ($entity['id'] === 'version') {
@@ -282,7 +277,7 @@ function index(array $block): string
         'mode' => in_array($cfg['mode'], ['admin', 'browser']) ? $cfg['mode'] : null,
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
-        'sort' => $get['sort'],
+        'sort' => $sort,
         'title' => $cfg['title'] ? app\enc(app\i18n($cfg['title'])) : null,
         'url' => request\data('url'),
     ];
