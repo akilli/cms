@@ -120,6 +120,12 @@ return [
             ],
         ],
     ],
+    'file_media' => [
+        'name' => 'Media',
+        'readonly' => true,
+        'parent_id' => 'file',
+        'action' => ['browser'],
+    ],
     'file_audio' => [
         'name' => 'Audios',
         'parent_id' => 'file',

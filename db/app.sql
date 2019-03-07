@@ -532,6 +532,19 @@ CREATE INDEX ON file (mime);
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW EXECUTE PROCEDURE file_save();
 
 --
+-- File Media
+--
+
+CREATE VIEW file_media AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id IN ('file_audio', 'file_image', 'file_video')
+WITH LOCAL CHECK OPTION;
+
+--
 -- File Audio
 --
 

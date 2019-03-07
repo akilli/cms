@@ -15,7 +15,7 @@
                 format_tags: 'p;h2;h3',
                 height: '30rem',
                 language: document.documentElement.getAttribute('lang') || 'en',
-                mediabrowserUrl: '/file/browser',
+                mediabrowserUrl: '/file_media/browser',
                 removeDialogTabs: 'link:advanced;link:target',
                 stylesSet: false,
                 toolbar: [

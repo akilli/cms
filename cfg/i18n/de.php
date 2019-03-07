@@ -64,6 +64,7 @@ return [
     'Logout' => 'Abmelden',
     'Main Area' => 'Hauptbereich',
     'Main Content' => 'Hauptinhalt',
+    'Media' => 'Media',
     'Menu Entry' => 'Menüeintrag',
     'Meta Description' => 'Meta-Description',
     'Meta Title' => 'Meta-Title',

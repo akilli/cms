@@ -87,6 +87,14 @@ return [
         'filter' => 'frontend\text',
         'viewer' => 'viewer\json',
     ],
+    'media' => [
+        'backend' => 'int',
+        'frontend' => 'frontend\file',
+        'filter' => 'frontend\int',
+        'validator' => 'validator\entity',
+        'viewer' => 'viewer\file',
+        'ref' => 'file_media',
+    ],
     'multientity' => [
         'backend' => 'int',
         'frontend' => 'frontend\select',
