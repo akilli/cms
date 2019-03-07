@@ -715,11 +715,17 @@ CREATE TABLE block (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
     entity_id varchar(50) NOT NULL,
+    title varchar(255) DEFAULT NULL,
+    link varchar(255) DEFAULT NULL,
+    media int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
     content text NOT NULL DEFAULT ''
 );
 
 CREATE INDEX ON block (name);
 CREATE INDEX ON block (entity_id);
+CREATE INDEX ON block (title);
+CREATE INDEX ON block (link);
+CREATE INDEX ON block (media);
 
 --
 -- Block Content

@@ -390,6 +390,23 @@ return [
                 'type' => 'parent',
                 'required' => true,
             ],
+            'title' => [
+                'name' => 'Title',
+                'type' => 'text',
+                'nullable' => true,
+                'max' => 255,
+            ],
+            'link' => [
+                'name' => 'Link',
+                'type' => 'path',
+                'nullable' => true,
+                'max' => 255,
+            ],
+            'media' => [
+                'name' => 'Media',
+                'type' => 'media',
+                'nullable' => true,
+            ],
             'content' => [
                 'name' => 'Content',
                 'type' => 'rte',

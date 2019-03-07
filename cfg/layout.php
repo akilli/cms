@@ -361,14 +361,14 @@ return [
     'block_content/edit' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'content'],
+                'attr_id' => ['name', 'title', 'link', 'media', 'content'],
             ],
         ],
     ],
     'block_teaser/edit' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'page_id', 'content'],
+                'attr_id' => ['name', 'title', 'link', 'media', 'page_id', 'content'],
             ],
         ],
     ],
