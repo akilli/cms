@@ -234,14 +234,7 @@ return [
             ],
         ],
     ],
-    'block_content/admin' => [
-        'content-main' => [
-            'cfg' => [
-                'attr_id' => ['name'],
-            ],
-        ],
-    ],
-    'block_teaser/admin' => [
+    'block/admin' => [
         'content-main' => [
             'cfg' => [
                 'attr_id' => ['name'],
@@ -375,7 +368,7 @@ return [
     'block_teaser/edit' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'page_id'],
+                'attr_id' => ['name', 'page_id', 'content'],
             ],
         ],
     ],
