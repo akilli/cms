@@ -125,6 +125,11 @@ return [
         'readonly' => true,
         'parent_id' => 'file',
         'action' => ['browser'],
+        'attr' => [
+            'entity_id' => [
+                'opt.filter' => 'media',
+            ],
+        ]
     ],
     'file_audio' => [
         'name' => 'Audios',
