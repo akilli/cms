@@ -9,6 +9,11 @@ return [
         'bottom' => 'Bottom Area',
     ],
     'bool' => ['No', 'Yes'],
+    'media' => [
+        'file_audio' => 'Audios',
+        'file_image' => 'Images',
+        'file_video' => 'Videos',
+    ],
     'status' => [
         'draft' => 'Draft',
         'pending' => 'Pending',
