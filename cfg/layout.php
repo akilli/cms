@@ -90,8 +90,8 @@ return [
             ],
         ],
         // Content Blocks
-        'headline' => [
-            'type' => 'headline',
+        'title' => [
+            'type' => 'title',
             'parent_id' => 'content',
             'sort' => 10,
         ],
@@ -100,9 +100,9 @@ return [
      * Invalid Requests
      */
     '_invalid_' => [
-        'headline' => [
+        'title' => [
             'cfg' => [
-                'content' => 'Error',
+                'text' => 'Error',
             ],
         ],
         'content-main' => [
@@ -133,9 +133,9 @@ return [
      * Account Dashboard
      */
     'account/dashboard' => [
-        'headline' => [
+        'title' => [
             'cfg' => [
-                'content' => 'Dashboard',
+                'text' => 'Dashboard',
             ],
         ],
         'content-published' => [
@@ -174,9 +174,9 @@ return [
         'toolbar' => [
             'active' => false,
         ],
-        'headline' => [
+        'title' => [
             'cfg' => [
-                'content' => 'Login',
+                'text' => 'Login',
             ],
         ],
         'content-main' => [
@@ -189,9 +189,9 @@ return [
      * Account Profile
      */
     'account/profile' => [
-        'headline' => [
+        'title' => [
             'cfg' => [
-                'content' => 'Profile',
+                'text' => 'Profile',
             ],
         ],
         'content-main' => [
@@ -491,7 +491,7 @@ return [
         'breadcrumb' => [
             'active' => false,
         ],
-        'headline' => [
+        'title' => [
             'active' => false,
         ],
     ],

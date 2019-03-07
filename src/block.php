@@ -83,21 +83,21 @@ function db(array $block): string
 }
 
 /**
- * Headline
+ * Title
  */
-function headline(array $block): string
+function title(array $block): string
 {
-    $cfg = arr\replace(app\cfg('block', 'headline')['cfg'], $block['cfg']);
+    $cfg = arr\replace(app\cfg('block', 'title')['cfg'], $block['cfg']);
 
-    if ($cfg['content']) {
-        $content = app\i18n($cfg['content']);
+    if ($cfg['text']) {
+        $text = app\i18n($cfg['text']);
     } elseif (app\data('public')) {
-        $content = app\data('page')['title'] ?? app\data('page')['name'] ?? '';
+        $text = app\data('page')['title'] ?? app\data('page')['name'] ?? '';
     } else {
-        $content = app\data('entity')['name'] ?? '';
+        $text = app\data('entity')['name'] ?? '';
     }
 
-    return $content ? app\html('h1', [], app\enc($content)) : '';
+    return $text ? app\html('h1', [], app\enc($text)) : '';
 }
 
 /**

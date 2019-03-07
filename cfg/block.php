@@ -31,10 +31,10 @@ return [
             'id' => null,
         ],
     ],
-    'headline' => [
-        'call' => 'block\headline',
+    'title' => [
+        'call' => 'block\title',
         'cfg' => [
-            'content' => null,
+            'text' => null,
         ],
     ],
     /**
