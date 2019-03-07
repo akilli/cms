@@ -379,18 +379,16 @@ return [
                 'type' => 'parent',
                 'required' => true,
             ],
+            'content' => [
+                'name' => 'Content',
+                'type' => 'rte',
+            ],
         ],
     ],
     'block_content' => [
         'name' => 'Content Blocks',
         'parent_id' => 'block',
         'action' => ['admin', 'delete', 'edit'],
-        'attr' => [
-            'content' => [
-                'name' => 'Content',
-                'type' => 'rte',
-            ],
-        ],
     ],
     'block_teaser' => [
         'name' => 'Teaser Blocks',

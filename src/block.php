@@ -272,6 +272,7 @@ function index(array $block): string
 
     $var = [
         'attr' => $attr,
+        'content' => $cfg['content'],
         'data' => $data,
         'filter' => $filter,
         'mode' => in_array($cfg['mode'], ['admin', 'browser']) ? $cfg['mode'] : null,

@@ -69,6 +69,7 @@ return [
         'tpl' => 'block/index.phtml',
         'cfg' => [
             'attr_id' => [],
+            'content' => null,
             'crit' => [],
             'entity_id' => null,
             'filter' => [],
@@ -108,6 +109,7 @@ return [
         'tpl' => 'block/index.phtml',
         'cfg' => [
             'attr_id' => ['teaser'],
+            'content' => null,
             'entity_id' => 'page_content',
             'limit' => 0,
             'order' => ['pos' => 'asc'],

@@ -70,15 +70,11 @@ function children(string $id): string
  */
 function db(array $data): array
 {
-    static $base;
-
     if (empty($data['entity_id']) || ($data['_entity']['parent_id'] ?? null) !== 'block' || !($type = app\cfg('block', type($data['entity_id'])))) {
         throw new DomainException(app\i18n('Invalid data'));
-    } elseif ($base === null) {
-        $base = entity\item('block');
     }
 
-    return ['type' => $type['id'], 'call' => $type['call'], 'cfg' => array_diff_key($data, $base)];
+    return ['type' => $type['id'], 'call' => $type['call'], 'cfg' => arr\remove($data, APP['layout.db'])];
 }
 
 /**

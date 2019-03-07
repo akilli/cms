@@ -147,7 +147,7 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
                 _sql := _sql || format(' INSERT INTO %s (id, %s) SELECT id, %s FROM t', _ext, _col, _val);
             END IF;
         ELSIF (_col != '' OR _val != '' OR _set != '') THEN
-            RAISE EXCEPTION 'An error occurred in entity_save() with values _col(%), _val(%) and _set(%)', _col, _val, _set;
+            RAISE EXCEPTION 'An error occurred with values _col(%), _val(%) and _set(%)', _col, _val, _set;
         END IF;
 
         EXECUTE _sql;
@@ -701,7 +701,8 @@ CREATE TRIGGER version_before BEFORE INSERT OR UPDATE ON version FOR EACH ROW EX
 CREATE TABLE block (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
-    entity_id varchar(50) NOT NULL
+    entity_id varchar(50) NOT NULL,
+    content text NOT NULL DEFAULT ''
 );
 
 CREATE INDEX ON block (name);
@@ -711,24 +712,14 @@ CREATE INDEX ON block (entity_id);
 -- Block Content
 --
 
-CREATE TABLE block_content_ext (
-    id int NOT NULL PRIMARY KEY REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
-    content text NOT NULL DEFAULT ''
-);
-
 CREATE VIEW block_content AS
 SELECT
     *
 FROM
     block
-LEFT JOIN
-    block_content_ext
-        USING (id)
 WHERE
-    entity_id = 'block_content';
-
-CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_content FOR EACH ROW EXECUTE PROCEDURE entity_save();
-CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_content FOR EACH ROW EXECUTE PROCEDURE entity_delete();
+    entity_id = 'block_content'
+WITH LOCAL CHECK OPTION;
 
 --
 -- Block Teaser

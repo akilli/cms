@@ -197,7 +197,7 @@ function layout(array $data): array
 
             foreach ($dbLayout as $id => $item) {
                 $c = ['parent_id' => $item['parent_id'], 'sort' => $item['sort']];
-                $cfg[$url][APP['layout.db'] . $item['name']] = layout\db($dbBlocks[$item['block_id']]) + $c;
+                $cfg[$url][APP['layout.id'] . $item['name']] = layout\db($dbBlocks[$item['block_id']]) + $c;
             }
         }
     }
