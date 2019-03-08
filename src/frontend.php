@@ -203,7 +203,15 @@ function browser(?int $val, array $attr): string
  */
 function file(?string $val, array $attr): string
 {
-    $out = app\html('div', [], $val ? $attr['viewer']($val, $attr) : '');
+    $out = app\html('div', ['class' => 'view'], $val ? $attr['viewer']($val, $attr) : '');
+
+    if (!$attr['required']) {
+        $id = $attr['html']['id'] . '-delete';
+        $del = app\html('input', ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'checkbox', 'value' => '']);
+        $del .= app\html('label', ['for' => $id], app\i18n('Delete'));
+        $out .= app\html('div', ['class' => 'delete'], $del);
+    }
+
     $out .= app\html('input', ['type' => 'file', 'accept' => implode(', ', $attr['accept'])] + $attr['html']);
 
     return $out;
