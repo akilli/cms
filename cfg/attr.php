@@ -1,13 +1,5 @@
 <?php
 return [
-    'audio' => [
-        'backend' => 'int',
-        'frontend' => 'frontend\file',
-        'filter' => 'frontend\int',
-        'validator' => 'validator\entity',
-        'viewer' => 'viewer\file',
-        'ref' => 'file_audio',
-    ],
     'bool' => [
         'backend' => 'bool',
         'frontend' => 'frontend\bool',
@@ -53,29 +45,13 @@ return [
         'viewer' => 'viewer\entity',
         'opt' => 'opt\entity',
     ],
-    'file' => [
+    'entity-file' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
         'filter' => 'frontend\int',
         'validator' => 'validator\entity',
         'viewer' => 'viewer\file',
         'ref' => 'file',
-    ],
-    'iframe' => [
-        'backend' => 'int',
-        'frontend' => 'frontend\url',
-        'filter' => 'frontend\int',
-        'validator' => 'validator\entity',
-        'viewer' => 'viewer\file',
-        'ref' => 'file_iframe',
-    ],
-    'image' => [
-        'backend' => 'int',
-        'frontend' => 'frontend\file',
-        'filter' => 'frontend\int',
-        'validator' => 'validator\entity',
-        'viewer' => 'viewer\file',
-        'ref' => 'file_image',
     ],
     'int' => [
         'backend' => 'int',
@@ -94,14 +70,6 @@ return [
         'frontend' => 'frontend\json',
         'filter' => 'frontend\text',
         'viewer' => 'viewer\json',
-    ],
-    'media' => [
-        'backend' => 'int',
-        'frontend' => 'frontend\file',
-        'filter' => 'frontend\int',
-        'validator' => 'validator\entity',
-        'viewer' => 'viewer\file',
-        'ref' => 'file_media',
     ],
     'multientity' => [
         'backend' => 'int',
@@ -232,13 +200,5 @@ return [
         'frontend' => 'frontend\url',
         'validator' => 'validator\url',
         'viewer' => 'viewer\url',
-    ],
-    'video' => [
-        'backend' => 'int',
-        'frontend' => 'frontend\file',
-        'filter' => 'frontend\int',
-        'validator' => 'validator\entity',
-        'viewer' => 'viewer\file',
-        'ref' => 'file_video',
     ],
 ];

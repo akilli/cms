@@ -216,8 +216,9 @@ return [
             ],
             'image' => [
                 'name' => 'Image',
-                'type' => 'image',
+                'type' => 'entity-file',
                 'nullable' => true,
+                'ref' => 'file_image',
             ],
             'teaser' => [
                 'name' => 'Teaser',
@@ -414,8 +415,9 @@ return [
             ],
             'media' => [
                 'name' => 'Media',
-                'type' => 'media',
+                'type' => 'entity-file',
                 'nullable' => true,
+                'ref' => 'file_media',
             ],
             'content' => [
                 'name' => 'Content',
