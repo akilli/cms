@@ -173,7 +173,11 @@ CREATE FUNCTION file_save() RETURNS trigger AS $$
             RAISE EXCEPTION 'Cannot change filetype anymore';
         END IF;
 
-        NEW.url := '/file/' || NEW.id || '.' || NEW.ext;
+        IF (TG_OP = 'INSERT' AND NEW.entity_id = 'file_iframe') THEN
+            NEW.mime := 'text/html';
+        ELSIF (NEW.entity_id != 'file_iframe' AND (NEW.url IS NULL OR TG_OP = 'UPDATE' AND OLD.url = '/file/' || OLD.id || '.' || OLD.ext)) THEN
+            NEW.url := '/file/' || NEW.id || '.' || NEW.ext;
+        END IF;
 
         RETURN NEW;
     END;
