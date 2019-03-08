@@ -42,7 +42,7 @@ return [
         'frontend' => 'frontend\browser',
         'filter' => 'frontend\int',
         'validator' => 'validator\entity',
-        'viewer' => 'viewer\file',
+        'viewer' => 'viewer\entity_file',
         'ref' => 'file',
     ],
     'entity_page' => [

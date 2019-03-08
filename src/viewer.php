@@ -112,9 +112,9 @@ function multientity(array $val, array $attr): string
 }
 
 /**
- * File
+ * File Entity
  */
-function file(int $val, array $attr): string
+function entity_file(int $val, array $attr): string
 {
     if (!$val || !($data = entity\one($attr['ref'], [['id', $val]], ['select' => ['url', 'mime', 'info']]))) {
         return '';
@@ -142,5 +142,5 @@ function upload(string $val, array $attr): string
 {
     $attr['ref'] = 'file';
 
-    return $val ? file((int) pathinfo($val, PATHINFO_FILENAME), $attr) : '';
+    return $val ? entity_file((int) pathinfo($val, PATHINFO_FILENAME), $attr) : '';
 }
