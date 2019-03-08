@@ -101,17 +101,17 @@ return [
                 'unique' => true,
                 'max' => 255,
             ],
-            'ext' => [
-                'name' => 'Extension',
-                'type' => 'text',
-                'required' => true,
-                'max' => 10,
-            ],
             'mime' => [
                 'name' => 'MIME',
                 'type' => 'text',
                 'required' => true,
                 'max' => 255,
+            ],
+            'ext' => [
+                'name' => 'Extension',
+                'type' => 'text',
+                'nullable' => true,
+                'max' => 10,
             ],
             'info' => [
                 'name' => 'Info',
@@ -165,7 +165,7 @@ return [
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'url' => [
-                'type' => 'path',
+                'type' => 'url',
             ],
         ],
     ],

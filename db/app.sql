@@ -523,15 +523,15 @@ CREATE TABLE file (
     name varchar(100) NOT NULL,
     entity_id varchar(50) NOT NULL,
     url varchar(255) NOT NULL UNIQUE,
-    ext varchar(10) NOT NULL,
     mime varchar(255) NOT NULL,
+    ext varchar(10) DEFAULT NULL,
     info text NOT NULL
 );
 
 CREATE INDEX ON file (name);
 CREATE INDEX ON file (entity_id);
-CREATE INDEX ON file (ext);
 CREATE INDEX ON file (mime);
+CREATE INDEX ON file (ext);
 
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW EXECUTE PROCEDURE file_save();
 

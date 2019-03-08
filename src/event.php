@@ -297,9 +297,10 @@ function entity_presave_page(array $data): array
  */
 function entity_postsave_file(array $data): array
 {
-    $item = request\data('file')['url'] ?? null;
-
-    if ($item && !file\upload($item['tmp_name'], app\path('file', $data['id'] . '.' . $data['ext']))) {
+    if ($data['_entity']['attr']['url']['type'] === 'upload'
+        && ($item = request\data('file')['url'] ?? null)
+        && !file\upload($item['tmp_name'], app\path('file', $data['id'] . '.' . $data['ext']))
+    ) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
     }
 
@@ -313,7 +314,9 @@ function entity_postsave_file(array $data): array
  */
 function entity_postdelete_file(array $data): array
 {
-    if (!file\delete(app\path('file', $data['id'] . '.' . $data['ext']))) {
+    if ($data['_entity']['attr']['url']['type'] === 'upload'
+        && !file\delete(app\path('file', $data['_old']['id'] . '.' . $data['_old']['ext']))
+    ) {
         throw new DomainException(app\i18n('Could not delete file'));
     }
 
