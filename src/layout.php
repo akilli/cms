@@ -63,7 +63,7 @@ function children(string $id): string
 }
 
 /**
- * Returns block config from database item
+ * Returns block config for DB block and falls back to content block if no custom type is configured
  *
  * @throws DomainException
  */
