@@ -365,13 +365,6 @@ return [
             ],
         ],
     ],
-    'block_teaser/edit' => [
-        'content-main' => [
-            'cfg' => [
-                'attr_id' => ['name', 'title', 'link', 'media', 'page_id', 'content'],
-            ],
-        ],
-    ],
     'file/edit' => [
         'content-main' => [
             'cfg' => [

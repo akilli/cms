@@ -117,7 +117,6 @@ return [
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
     'Teaser' => 'Teaser',
     'Teaser Area' => 'Teaserbereich',
-    'Teaser Blocks' => 'Teaserblöcke',
     'Timestamp' => 'Zeitstempel',
     'Title' => 'Überschrift',
     'Top Area' => 'Oberer Bereich',

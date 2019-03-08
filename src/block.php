@@ -384,31 +384,6 @@ function content(array $block): string
 }
 
 /**
- * Teaser
- */
-function teaser(array $block): string
-{
-    $type = app\cfg('block', 'teaser');
-    $block['tpl'] = $block['tpl'] ?? $type['tpl'];
-    $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
-
-    if (!$data = $block['cfg']['data']) {
-        return '';
-    }
-
-    unset($block['cfg']['data']);
-    $block['cfg']['crit'] = [['teaser', '', APP['op']['!=']]];
-
-    if ($data['page_id']) {
-        $block['cfg']['crit'][] = ['id', $block['cfg']['page_id']];
-    } else {
-        $block['cfg']['parent_id'] = -1;
-    }
-
-    return index($block);
-}
-
-/**
  * Edit Form
  */
 function edit(array $block): string

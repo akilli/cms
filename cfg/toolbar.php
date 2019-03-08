@@ -36,12 +36,6 @@ return [
         'parent_id' => 'block',
         'sort' => 10,
     ],
-    'block_teaser' => [
-        'name' => 'Teaser Blocks',
-        'action' => 'block_teaser/admin',
-        'parent_id' => 'block',
-        'sort' => 20,
-    ],
     'file' => [
         'name' => 'Files',
         'sort' => 50,
