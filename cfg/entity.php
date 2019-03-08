@@ -269,7 +269,7 @@ return [
             ],
             'parent_id' => [
                 'name' => 'Parent Page',
-                'type' => 'page',
+                'type' => 'entity-page',
                 'nullable' => true,
             ],
             'sort' => [
@@ -340,7 +340,7 @@ return [
             ],
             'page_id' => [
                 'name' => 'Page',
-                'type' => 'page',
+                'type' => 'entity-page',
                 'required' => true,
             ],
             'title' => [
@@ -452,7 +452,7 @@ return [
             ],
             'page_id' => [
                 'name' => 'Page',
-                'type' => 'page',
+                'type' => 'entity-page',
                 'required' => true,
             ],
             'parent_id' => [
