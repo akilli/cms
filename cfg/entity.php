@@ -96,19 +96,37 @@ return [
             ],
             'url' => [
                 'name' => 'URL',
-                'type' => 'upload',
+                'type' => 'file',
                 'required' => true,
                 'unique' => true,
-                'max' => 255,
             ],
             'mime' => [
-                'name' => 'MIME',
+                'name' => 'MIME-Type',
                 'type' => 'text',
                 'required' => true,
                 'max' => 255,
             ],
             'ext' => [
-                'name' => 'Extension',
+                'name' => 'File Extension',
+                'type' => 'text',
+                'nullable' => true,
+                'max' => 10,
+            ],
+            'thumb_url' => [
+                'name' => 'Thumbnail',
+                'type' => 'image',
+                'nullable' => true,
+                'unique' => true,
+                'accept' => ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'],
+            ],
+            'thumb_mime' => [
+                'name' => 'Thumbnail MIME',
+                'type' => 'text',
+                'nullable' => true,
+                'max' => 255,
+            ],
+            'thumb_ext' => [
+                'name' => 'Thumbnail Extension',
                 'type' => 'text',
                 'nullable' => true,
                 'max' => 10,
@@ -165,7 +183,7 @@ return [
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'url' => [
-                'type' => 'url',
+                'type' => 'iframe',
             ],
         ],
     ],

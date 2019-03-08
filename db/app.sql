@@ -20,10 +20,14 @@ CREATE FUNCTION file_save() RETURNS trigger AS $$
             RAISE EXCEPTION 'Cannot change filetype anymore';
         END IF;
 
-        IF (TG_OP = 'INSERT' AND NEW.entity_id = 'file_iframe') THEN
+        IF (NEW.entity_id = 'file_iframe') THEN
             NEW.mime := 'text/html';
-        ELSIF (NEW.entity_id != 'file_iframe' AND (NEW.url IS NULL OR TG_OP = 'UPDATE' AND OLD.url = '/file/' || OLD.id || '.' || OLD.ext)) THEN
+        ELSE
             NEW.url := '/file/' || NEW.id || '.' || NEW.ext;
+        END IF;
+
+        IF (NEW.thumb_url IS NOT NULL AND NEW.thumb_ext IS NOT NULL) THEN
+            NEW.thumb_url := '/file/' || NEW.id || '.thumb.' || NEW.thumb_ext;
         END IF;
 
         RETURN NEW;
@@ -372,6 +376,9 @@ CREATE TABLE file (
     url varchar(255) NOT NULL UNIQUE,
     mime varchar(255) NOT NULL,
     ext varchar(10) DEFAULT NULL,
+    thumb_url varchar(255) DEFAULT NULL UNIQUE,
+    thumb_mime varchar(255) DEFAULT NULL,
+    thumb_ext varchar(10) DEFAULT NULL,
     info text NOT NULL
 );
 
@@ -379,6 +386,8 @@ CREATE INDEX ON file (name);
 CREATE INDEX ON file (entity_id);
 CREATE INDEX ON file (mime);
 CREATE INDEX ON file (ext);
+CREATE INDEX ON file (thumb_mime);
+CREATE INDEX ON file (thumb_ext);
 
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW EXECUTE PROCEDURE file_save();
 

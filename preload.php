@@ -33,6 +33,8 @@ const APP = [
         'required' => false,
         'unique' => false,
         'multiple' => false,
+        'ignorable' => false,
+        'uploadable' => false,
         'ref' => null,
         'opt' => null,
         'opt.frontend' => null,
@@ -81,6 +83,8 @@ const APP = [
         'order' => [],
         'select' => [],
     ],
+    'file' => ['error', 'name', 'size', 'tmp_name', 'type'],
+    'file.thumb' => '.thumb.',
     'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
     'join' => [
         'full' => 'full',
@@ -146,7 +150,6 @@ const APP = [
         'sort' => 0,
         'level' => 0,
     ],
-    'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'url.file' => '/file/',
     'url.gui' => '/gui/',
     'version' => ['name', 'teaser', 'main', 'aside', 'status', 'timestamp']

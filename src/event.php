@@ -259,22 +259,22 @@ function entity_postvalidate(array $data): array
  */
 function entity_prevalidate_file(array $data): array
 {
-    if ($data['_entity']['attr']['url']['type'] !== 'upload' || empty($data['url'])) {
-        return $data;
+    if ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url'])) {
+        if (!$item = request\file('url')) {
+            $data['_error']['url'][] = app\i18n('No upload file');
+        } else {
+            $data['ext'] = pathinfo($data['url'], PATHINFO_EXTENSION);
+            $data['mime'] = $item['type'];
+
+            if ($data['_old'] && ($data['ext'] !== $data['_old']['ext'] || $data['mime'] !== $data['_old']['mime'])) {
+                $data['_error']['url'][] = app\i18n('Cannot change filetype anymore');
+            }
+        }
     }
 
-    $item = request\data('file')['url'] ?? null;
-
-    if (!$item) {
-        $data['_error']['url'][] = app\i18n('No upload file');
-        return $data;
-    }
-
-    $data['ext'] = pathinfo($data['url'], PATHINFO_EXTENSION);
-    $data['mime'] = $item['type'];
-
-    if ($data['_old'] && ($data['ext'] !== $data['_old']['ext'] || $data['mime'] !== $data['_old']['mime'])) {
-        $data['_error']['url'][] = app\i18n('Cannot change filetype anymore');
+    if (!empty($data['thumb_url']) && ($item = request\file('thumb_url'))) {
+        $data['thumb_ext'] = pathinfo($data['thumb_url'], PATHINFO_EXTENSION);
+        $data['thumb_mime'] = $item['type'];
     }
 
     return $data;
@@ -297,10 +297,14 @@ function entity_presave_page(array $data): array
  */
 function entity_postsave_file(array $data): array
 {
-    if ($data['_entity']['attr']['url']['type'] === 'upload'
-        && ($item = request\data('file')['url'] ?? null)
-        && !file\upload($item['tmp_name'], app\path('file', $data['id'] . '.' . $data['ext']))
-    ) {
+    $id = $data['id'] ?? $data['_old']['id'] ?? null;
+    $uploadable = $data['_entity']['attr']['url']['uploadable'];
+
+    if ($uploadable && ($item = request\file('url')) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . '.' . $data['ext'])))) {
+        throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
+    }
+
+    if (($item = request\file('thumb_url')) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . APP['file.thumb'] . $data['thumb_ext'])))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
     }
 
@@ -314,8 +318,9 @@ function entity_postsave_file(array $data): array
  */
 function entity_postdelete_file(array $data): array
 {
-    if ($data['_entity']['attr']['url']['type'] === 'upload'
+    if ($data['_entity']['attr']['url']['uploadable']
         && !file\delete(app\path('file', $data['_old']['id'] . '.' . $data['_old']['ext']))
+        && !file\delete(app\path('file', $data['_old']['id'] . APP['file.thumb'] . $data['_old']['thumb_ext']))
     ) {
         throw new DomainException(app\i18n('Could not delete file'));
     }

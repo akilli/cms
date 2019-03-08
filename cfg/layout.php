@@ -375,7 +375,7 @@ return [
     'file/edit' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['url', 'name', 'info'],
+                'attr_id' => ['name', 'url', 'thumb_url', 'info'],
             ],
         ],
     ],

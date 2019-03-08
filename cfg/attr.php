@@ -1,5 +1,14 @@
 <?php
 return [
+    'audio' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\file',
+        'filter' => 'frontend\text',
+        'validator' => 'validator\file',
+        'viewer' => 'viewer\audio',
+        'ignorable' => true,
+        'uploadable' => true,
+    ],
     'bool' => [
         'backend' => 'bool',
         'frontend' => 'frontend\bool',
@@ -53,6 +62,30 @@ return [
         'ref' => 'page',
         'opt' => 'opt\page',
     ],
+    'file' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\file',
+        'filter' => 'frontend\text',
+        'validator' => 'validator\file',
+        'viewer' => 'viewer\file',
+        'ignorable' => true,
+        'uploadable' => true,
+    ],
+    'iframe' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\url',
+        'validator' => 'validator\url',
+        'viewer' => 'viewer\iframe',
+    ],
+    'image' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\file',
+        'filter' => 'frontend\text',
+        'validator' => 'validator\file',
+        'viewer' => 'viewer\image',
+        'ignorable' => true,
+        'uploadable' => true,
+    ],
     'int' => [
         'backend' => 'int',
         'frontend' => 'frontend\int',
@@ -99,6 +132,7 @@ return [
     'password' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\password',
+        'ignorable' => true,
     ],
     'radio' => [
         'backend' => 'varchar',
@@ -174,13 +208,6 @@ return [
         'frontend' => 'frontend\text',
         'validator' => 'validator\uid',
     ],
-    'upload' => [
-        'backend' => 'varchar',
-        'frontend' => 'frontend\upload',
-        'filter' => 'frontend\text',
-        'validator' => 'validator\upload',
-        'viewer' => 'viewer\upload',
-    ],
     'url' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\url',
@@ -192,5 +219,14 @@ return [
         'frontend' => 'frontend\text',
         'validator' => 'validator\urlpath',
         'viewer' => 'viewer\url',
+    ],
+    'video' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\file',
+        'filter' => 'frontend\text',
+        'validator' => 'validator\file',
+        'viewer' => 'viewer\video',
+        'ignorable' => true,
+        'uploadable' => true,
     ],
 ];

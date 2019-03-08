@@ -116,31 +116,72 @@ function multientity(array $val, array $attr): string
  */
 function entity_file(int $val, array $attr): string
 {
-    if (!$val || !($data = entity\one($attr['ref'], [['id', $val]], ['select' => ['url', 'mime', 'info']]))) {
+    if (!$val || !($data = entity\one($attr['ref'], [['id', $val]], ['select' => ['name', 'url', 'mime', 'info', 'thumb_url']]))) {
         return '';
     }
 
     if ($data['mime'] === 'text/html') {
-        return app\html('iframe', ['src' => $data['url'], 'allowfullscreen' => 'allowfullscreen'], $data['url']);
+        $a = $data['thumb_url'] ? ['data-thumb' => $data['thumb_url']] : [];
+        return app\html('iframe', ['src' => $data['url'], 'allowfullscreen' => 'allowfullscreen'] + $a, $data['url']);
     }
 
     if (!preg_match('#^(audio|image|video)/#', $data['mime'], $match)) {
-        return app\html('a', ['href' => $data['url']], $data['url']);
+        $v = $data['thumb_url'] ? app\html('img', ['src' => $data['thumb_url'], 'alt' => app\enc($data['info'])]) : $data['url'];
+        return app\html('a', ['href' => $data['url']], $v);
     }
 
     if ($match[1] === 'image') {
         return app\html('img', ['src' => $data['url'], 'alt' => app\enc($data['info'])]);
     }
 
-    return app\html($match[1], ['src' => $data['url'], 'controls' => true]);
+    if ($data['thumb_url']) {
+        $a = ['poster' => $data['thumb_url']];
+        $match[1] = 'video';
+    } else {
+        $a = [];
+    }
+
+    return app\html($match[1], ['src' => $data['url'], 'controls' => true] + $a);
 }
 
 /**
- * Upload
+ * File
  */
-function upload(string $val, array $attr): string
+function file(string $val, array $attr): string
 {
     $attr['ref'] = 'file';
 
     return $val ? entity_file((int) pathinfo($val, PATHINFO_FILENAME), $attr) : '';
+}
+
+/**
+ * Audio
+ */
+function audio(string $val): string
+{
+    return app\html('audio', ['src' => $val, 'controls' => true]);
+}
+
+/**
+ * Iframe
+ */
+function iframe(string $val): string
+{
+    return app\html('iframe', ['src' => $val, 'allowfullscreen' => 'allowfullscreen']);
+}
+
+/**
+ * Image
+ */
+function image(string $val): string
+{
+    return app\html('img', ['src' => $val]);
+}
+
+/**
+ * Video
+ */
+function video(string $val): string
+{
+    return app\html('video', ['src' => $val, 'controls' => true]);
 }

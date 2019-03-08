@@ -429,7 +429,7 @@ function edit(array $block): string
 
     $p[] = $data;
     $data = arr\replace(entity\item($entity['id']), ...$p);
-    $var = ['attr' => $attr, 'data' => $data, 'file' => !!arr\filter($attr, 'type', 'upload')];
+    $var = ['attr' => $attr, 'data' => $data, 'file' => !!arr\filter($attr, 'uploadable', true)];
 
     return app\tpl($block['tpl'], $var);
 }
@@ -462,7 +462,7 @@ function profile(array $block): string
     }
 
     $data = $data ? arr\replace($account + ['_error' => []], $data) : $account;
-    $var = ['attr' => $attr, 'data' => $data, 'file' => !!arr\filter($attr, 'type', 'upload')];
+    $var = ['attr' => $attr, 'data' => $data, 'file' => !!arr\filter($attr, 'uploadable', true)];
 
     return app\tpl($block['tpl'], $var);
 }

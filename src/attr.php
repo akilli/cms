@@ -183,7 +183,7 @@ function cast($val, array $attr)
  */
 function ignorable(array $data, array $attr): bool
 {
-    return in_array($attr['type'], ['password', 'upload']) && ($attr['virtual'] || !empty($data['_old'][$attr['id']]));
+    return $attr['ignorable'] && ($attr['virtual'] || !empty($data['_old'][$attr['id']]));
 }
 
 /**
