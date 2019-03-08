@@ -183,9 +183,9 @@ function select($val, array $attr): string
 }
 
 /**
- * File
+ * Browser
  */
-function file(?int $val, array $attr): string
+function browser(?int $val, array $attr): string
 {
     $browse = app\i18n('Browse');
     $remove = app\i18n('Remove');

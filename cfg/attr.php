@@ -39,7 +39,7 @@ return [
     ],
     'entity_file' => [
         'backend' => 'int',
-        'frontend' => 'frontend\file',
+        'frontend' => 'frontend\browser',
         'filter' => 'frontend\int',
         'validator' => 'validator\entity',
         'viewer' => 'viewer\file',
