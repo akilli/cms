@@ -55,6 +55,10 @@
                     const typeEl = type ? CKEDITOR.media.getTypeElement(type) : 'a';
                     const file = document.createElement(typeEl);
 
+                    if (['audio', 'video'].includes(type)) {
+                        file.setAttribute('controls', 'controls');
+                    }
+
                     while (div.firstChild) {
                         div.removeChild(div.firstChild);
                     }
