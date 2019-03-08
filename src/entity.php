@@ -119,8 +119,9 @@ function save(string $entityId, array & $data): bool
     $attrIds = [];
 
     foreach (array_intersect(array_keys($tmp), array_keys($entity['attr'])) as $attrId) {
-        $tmp[$attrId] = attr\cast($tmp[$attrId], $entity['attr'][$attrId]);
-        $ignorable = ($tmp[$attrId] === null || $tmp[$attrId] === '') && attr\ignorable($tmp, $entity['attr'][$attrId]);
+        $attr = $entity['attr'][$attrId];
+        $tmp[$attrId] = attr\cast($tmp[$attrId], $attr);
+        $ignorable = ($tmp[$attrId] === null || $tmp[$attrId] === '') && attr\ignorable($tmp, $attr);
         $unchanged = array_key_exists($attrId, $tmp['_old']) && $tmp[$attrId] === $tmp['_old'][$attrId];
 
         if ($ignorable || $unchanged) {
