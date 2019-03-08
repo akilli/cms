@@ -259,7 +259,7 @@ function entity_postvalidate(array $data): array
  */
 function entity_prevalidate_file(array $data): array
 {
-    if (empty($data['url'])) {
+    if ($data['_entity']['attr']['url']['type'] !== 'upload' || empty($data['url'])) {
         return $data;
     }
 
