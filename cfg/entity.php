@@ -165,7 +165,7 @@ return [
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'url' => [
-                'type' => 'url',
+                'type' => 'path',
             ],
         ],
     ],
