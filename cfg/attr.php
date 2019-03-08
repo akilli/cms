@@ -24,14 +24,6 @@ return [
         'backend' => 'decimal',
         'frontend' => 'frontend\decimal',
     ],
-    'doc' => [
-        'backend' => 'int',
-        'frontend' => 'frontend\file',
-        'filter' => 'frontend\int',
-        'validator' => 'validator\entity',
-        'viewer' => 'viewer\file',
-        'ref' => 'file_doc',
-    ],
     'email' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\email',
