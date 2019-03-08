@@ -409,7 +409,7 @@ return [
             ],
             'link' => [
                 'name' => 'Link',
-                'type' => 'path',
+                'type' => 'urlpath',
                 'nullable' => true,
                 'max' => 255,
             ],

@@ -100,12 +100,6 @@ return [
         'backend' => 'varchar',
         'frontend' => 'frontend\password',
     ],
-    'path' => [
-        'backend' => 'varchar',
-        'frontend' => 'frontend\text',
-        'validator' => 'validator\path',
-        'viewer' => 'viewer\url',
-    ],
     'radio' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\radio',
@@ -191,6 +185,12 @@ return [
         'backend' => 'varchar',
         'frontend' => 'frontend\url',
         'validator' => 'validator\url',
+        'viewer' => 'viewer\url',
+    ],
+    'urlpath' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\text',
+        'validator' => 'validator\urlpath',
         'viewer' => 'viewer\url',
     ],
 ];

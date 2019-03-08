@@ -46,6 +46,26 @@ function url(string $val): string
 }
 
 /**
+ * URL Path
+ */
+function urlpath(string $val): string
+{
+    if (preg_match('#^https?://#', $val)) {
+        return url($val);
+    }
+
+    return '/' . trim(preg_replace('#[^a-z0-9-_/\.]+#', '-', strtr(mb_strtolower($val), app\cfg('validator', 'id'))), '-/');
+}
+
+/**
+ * UID
+ */
+function uid(string $val): string
+{
+    return trim(preg_replace('#[^a-z0-9-_]+#', '-', strtr(mb_strtolower($val), app\cfg('validator', 'id'))), '-');
+}
+
+/**
  * Datetime
  *
  * @throws DomainException
@@ -93,26 +113,6 @@ function time(string $val): string
 function rte(string $val): string
 {
     return trim(strip_tags($val, app\cfg('validator', 'rte')));
-}
-
-/**
- * UID
- */
-function uid(string $val): string
-{
-    return trim(preg_replace('#[^a-z0-9-_]+#', '-', strtr(mb_strtolower($val), app\cfg('validator', 'id'))), '-');
-}
-
-/**
- * Path
- */
-function path(string $val): string
-{
-    if (preg_match('#^https?://#', $val)) {
-        return url($val);
-    }
-
-    return '/' . trim(preg_replace('#[^a-z0-9-_/\.]+#', '-', strtr(mb_strtolower($val), app\cfg('validator', 'id'))), '-/');
 }
 
 /**
@@ -178,5 +178,5 @@ function upload(string $val, array $attr): string
         throw new DomainException(app\i18n('Invalid file type'));
     }
 
-    return path($val);
+    return urlpath($val);
 }
