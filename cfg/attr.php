@@ -51,7 +51,7 @@ return [
         'frontend' => 'frontend\browser',
         'filter' => 'frontend\int',
         'validator' => 'validator\entity',
-        'viewer' => 'viewer\entity_file',
+        'viewer' => 'viewer\file',
         'ref' => 'file',
     ],
     'entity_page' => [
@@ -75,7 +75,7 @@ return [
         'backend' => 'varchar',
         'frontend' => 'frontend\url',
         'validator' => 'validator\url',
-        'viewer' => 'viewer\iframe',
+        'viewer' => 'viewer\file',
     ],
     'image' => [
         'backend' => 'varchar',

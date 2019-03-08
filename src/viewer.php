@@ -112,11 +112,14 @@ function multientity(array $val, array $attr): string
 }
 
 /**
- * File Entity
+ * File
  */
-function entity_file(int $val, array $attr): string
+function file($val, array $attr): string
 {
-    if (!$val || !($data = entity\one($attr['ref'], [['id', $val]], ['select' => ['name', 'url', 'mime', 'info', 'thumb_url']]))) {
+    $crit = is_string($val) ? [['url', $val]] : [['id', $val]];
+    $attr['ref'] = $attr['ref'] ?: 'file';
+
+    if (!$val || !($data = entity\one($attr['ref'], $crit, ['select' => ['url', 'mime', 'info', 'thumb_url']]))) {
         return '';
     }
 
@@ -142,16 +145,6 @@ function entity_file(int $val, array $attr): string
     }
 
     return app\html($match[1], ['src' => $data['url'], 'controls' => true] + $a);
-}
-
-/**
- * File
- */
-function file(string $val, array $attr): string
-{
-    $attr['ref'] = 'file';
-
-    return $val ? entity_file((int) pathinfo($val, PATHINFO_FILENAME), $attr) : '';
 }
 
 /**
