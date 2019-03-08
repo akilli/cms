@@ -40,6 +40,30 @@ function data(string $key)
 }
 
 /**
+ * Get
+ */
+function get(string $key): ?array
+{
+    return data('get')[$key] ?? null;
+}
+
+/**
+ * Post
+ */
+function post(string $key): ?array
+{
+    return data('post')[$key] ?? null;
+}
+
+/**
+ * File
+ */
+function file(string $key): ?array
+{
+    return data('file')[$key] ?? null;
+}
+
+/**
  * Redirect
  */
 function redirect(string $url = '/', int $code = null): void
@@ -90,7 +114,7 @@ function convert(array $in): array
             throw new DomainException(app\i18n('Invalid data'));
         }
 
-        $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === APP['upload'] ? $v['name'] : convert($v);
+        $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === APP['file'] ? $v['name'] : convert($v);
     }
 
     return $out;
@@ -101,7 +125,7 @@ function convert(array $in): array
  */
 function normalize(array $in): ?array
 {
-    if (!($keys = array_keys($in)) || !sort($keys) || $keys !== APP['upload']) {
+    if (!($keys = array_keys($in)) || !sort($keys) || $keys !== APP['file']) {
         return null;
     }
 
@@ -110,7 +134,10 @@ function normalize(array $in): ?array
             return $in;
         }
 
-        app\msg('Could not upload %s', $in['name']);
+        if ($in['error'] !== UPLOAD_ERR_NO_FILE) {
+            app\msg('Could not upload %s', $in['name']);
+        }
+
         return [];
     }
 
@@ -122,7 +149,10 @@ function normalize(array $in): ?array
         if (is_array($f['name'])) {
             $f = normalize($f);
         } elseif ($f['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($f['tmp_name'])) {
-            app\msg('Could not upload %s', $f['name']);
+            if ($f['error'] !== UPLOAD_ERR_NO_FILE) {
+                app\msg('Could not upload %s', $f['name']);
+            }
+
             continue;
         }
 
