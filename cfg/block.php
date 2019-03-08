@@ -18,19 +18,6 @@ return [
     'msg' => [
         'call' => 'block\msg',
     ],
-    'content' => [
-        'call' => 'block\content',
-        'cfg' => [
-            'content' => null,
-        ],
-    ],
-    'db' => [
-        'call' => 'block\db',
-        'cfg' => [
-            'entity_id' => null,
-            'id' => null,
-        ],
-    ],
     'title' => [
         'call' => 'block\title',
         'cfg' => [
@@ -104,16 +91,32 @@ return [
             'size' => null,
         ],
     ],
+    /**
+     * DB
+     */
+    'db' => [
+        'call' => 'block\db',
+        'cfg' => [
+            'entity_id' => null,
+            'id' => null,
+        ],
+    ],
+    'content' => [
+        'call' => 'block\content',
+        'cfg' => [
+            'data' => [],
+        ],
+    ],
     'teaser' => [
         'call' => 'block\teaser',
         'tpl' => 'block/index.phtml',
         'cfg' => [
             'attr_id' => ['teaser'],
             'content' => null,
+            'data' => [],
             'entity_id' => 'page_content',
             'limit' => 0,
             'order' => ['pos' => 'asc'],
-            'page_id' => [],
         ],
     ],
     /**

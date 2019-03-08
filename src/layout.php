@@ -5,7 +5,6 @@ namespace layout;
 
 use app;
 use arr;
-use entity;
 use DomainException;
 
 /**
@@ -74,7 +73,7 @@ function db(array $data): array
         throw new DomainException(app\i18n('Invalid data'));
     }
 
-    return ['type' => $type['id'], 'call' => $type['call'], 'cfg' => arr\remove($data, APP['layout.db'])];
+    return ['type' => $type['id'], 'call' => $type['call'], 'cfg' => ['data' => $data]];
 }
 
 /**

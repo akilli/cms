@@ -99,8 +99,7 @@ const APP = [
         'sort' => 0,
         'cfg' => [],
     ],
-    'layout.id' => 'layout-',
-    'layout.db' => ['id', 'name', 'entity_id'],
+    'layout.db' => 'layout-',
     'log' => 'php://stdout',
     'op' => [
         '=' => '=',

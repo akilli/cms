@@ -59,30 +59,6 @@ function msg(): string
 }
 
 /**
- * Content
- */
-function content(array $block): string
-{
-    $cfg = arr\replace(app\cfg('block', 'content')['cfg'], $block['cfg']);
-
-    return $cfg['content'] ? app\html('section', ['id' => $block['id'], 'class' => 'block-content'], $cfg['content']) : '';
-}
-
-/**
- * Database
- */
-function db(array $block): string
-{
-    $cfg = arr\replace(app\cfg('block', 'db')['cfg'], $block['cfg']);
-
-    if ($cfg['entity_id'] && $cfg['id'] && ($data = entity\one($cfg['entity_id'], [['id', $cfg['id']]]))) {
-        return layout\render(arr\replace($block, layout\db($data)));
-    }
-
-    return '';
-}
-
-/**
  * Title
  */
 function title(array $block): string
@@ -360,6 +336,54 @@ function pager(array $block): string
 }
 
 /**
+ * Database
+ */
+function db(array $block): string
+{
+    $cfg = arr\replace(app\cfg('block', 'db')['cfg'], $block['cfg']);
+
+    if ($cfg['entity_id'] && $cfg['id'] && ($data = entity\one($cfg['entity_id'], [['id', $cfg['id']]]))) {
+        return layout\render(arr\replace($block, layout\db($data)));
+    }
+
+    return '';
+}
+
+/**
+ * Content
+ */
+function content(array $block): string
+{
+    $cfg = arr\replace(app\cfg('block', 'content')['cfg'], $block['cfg']);
+
+    if (!$data = $cfg['data']) {
+        return '';
+    }
+
+    $attrs = $data['_entity']['attr'];
+    $html = '';
+
+    if ($data['title'] && ($val = attr\viewer($data, $attrs['title']))) {
+        $val = $data['link'] ? app\html('a', ['href' => $data['link']], $val) : $val;
+        $html .= app\html('h2', [], $val);
+    }
+
+    if ($data['media'] && ($val = attr\viewer($data, $attrs['media']))) {
+        $class = preg_match('#^<(audio|video)#', $val, $match) ? $match[1] : 'image';
+        $val = $data['link'] && $class === 'image' ? app\html('a', ['href' => $data['link']], $val) : $val;
+        $html .= app\html('figure', ['class' => $class], $val);
+    }
+
+    if ($data['content'] && ($val = attr\viewer($data, $attrs['content']))) {
+        $html .= app\html('figure', ['class' => 'content'], $val);
+    }
+
+    $class = 'block-' . layout\type($cfg['data']['entity_id']);
+
+    return $html ? app\html('section', ['id' => $block['id'], 'class' => $class], $html) : '';
+}
+
+/**
  * Teaser
  */
 function teaser(array $block): string
@@ -367,11 +391,18 @@ function teaser(array $block): string
     $type = app\cfg('block', 'teaser');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $block['cfg'] = arr\replace($type['cfg'], $block['cfg']);
-    $block['cfg']['parent_id'] = $block['cfg']['page_id'] ? null : -1;
+
+    if (!$data = $block['cfg']['data']) {
+        return '';
+    }
+
+    unset($block['cfg']['data']);
     $block['cfg']['crit'] = [['teaser', '', APP['op']['!=']]];
 
-    if ($block['cfg']['page_id']) {
+    if ($data['page_id']) {
         $block['cfg']['crit'][] = ['id', $block['cfg']['page_id']];
+    } else {
+        $block['cfg']['parent_id'] = -1;
     }
 
     return index($block);
