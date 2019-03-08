@@ -378,7 +378,7 @@ function content(array $block): string
         $html .= app\html('div', ['class' => 'content'], $val);
     }
 
-    $class = 'block-' . layout\type($cfg['data']['entity_id']);
+    $class = str_replace('_', '-', $cfg['data']['entity_id']);
 
     return $html ? app\html('section', ['id' => $block['id'], 'class' => $class], $html) : '';
 }

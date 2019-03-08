@@ -69,17 +69,11 @@ function children(string $id): string
  */
 function db(array $data): array
 {
-    if (empty($data['entity_id']) || ($data['_entity']['parent_id'] ?? null) !== 'block' || !($type = app\cfg('block', type($data['entity_id'])))) {
+    if (empty($data['entity_id']) || ($data['_entity']['parent_id'] ?? null) !== 'block') {
         throw new DomainException(app\i18n('Invalid data'));
     }
 
-    return ['type' => $type['id'], 'call' => $type['call'], 'cfg' => ['data' => $data]];
-}
+    $type = app\cfg('block', $data['entity_id']) ?: app\cfg('block', 'content');
 
-/**
- * Returns block type from block entity
- */
-function type(string $entityId): string
-{
-    return preg_replace('#^block_#', '', $entityId);
+    return ['type' => $type['id'], 'call' => $type['call'], 'cfg' => ['data' => $data]];
 }
