@@ -45,7 +45,7 @@ return [
         'viewer' => 'viewer\file',
         'ref' => 'file',
     ],
-    'entity-page' => [
+    'entity_page' => [
         'backend' => 'int',
         'frontend' => 'frontend\select',
         'validator' => 'validator\entity',
