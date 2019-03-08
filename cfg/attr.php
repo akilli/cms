@@ -37,7 +37,7 @@ return [
         'viewer' => 'viewer\entity',
         'opt' => 'opt\entity',
     ],
-    'entity-file' => [
+    'entity_file' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',
         'filter' => 'frontend\int',
