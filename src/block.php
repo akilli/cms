@@ -375,7 +375,7 @@ function content(array $block): string
     }
 
     if ($data['content'] && ($val = attr\viewer($data, $attrs['content']))) {
-        $html .= app\html('figure', ['class' => 'content'], $val);
+        $html .= app\html('div', ['class' => 'content'], $val);
     }
 
     $class = 'block-' . layout\type($cfg['data']['entity_id']);
