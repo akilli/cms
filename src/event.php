@@ -302,10 +302,16 @@ function entity_postsave_file(array $data): array
 
     if ($uploadable && ($item = request\file('url')) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . '.' . $data['ext'])))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
+    } elseif (($item = request\file('thumb_url')) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . APP['file.thumb'] . $data['thumb_ext'])))) {
+        throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
     }
 
-    if (($item = request\file('thumb_url')) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . APP['file.thumb'] . $data['thumb_ext'])))) {
-        throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
+    if (array_key_exists('thumb_url', $data)
+        && !$data['thumb_url']
+        && $data['_old']['thumb_url']
+        && !file\delete(app\path('file', $data['_old']['id'] . APP['file.thumb'] . $data['_old']['thumb_ext']))
+    ) {
+        throw new DomainException(app\i18n('Could not delete file'));
     }
 
     return $data;
