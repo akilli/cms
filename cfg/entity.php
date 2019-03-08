@@ -290,7 +290,7 @@ return [
             ],
             'path' => [
                 'name' => 'Path',
-                'type' => 'multipage',
+                'type' => 'multientity_page',
                 'auto' => true,
             ],
             'account_id' => [

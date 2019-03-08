@@ -79,7 +79,7 @@ return [
         'multiple' => true,
         'opt' => 'opt\entity',
     ],
-    'multipage' => [
+    'multientity_page' => [
         'backend' => 'int',
         'frontend' => 'frontend\select',
         'validator' => 'validator\multientity',
