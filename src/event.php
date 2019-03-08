@@ -39,6 +39,7 @@ function cfg_entity(array $data): array
 {
     $cfg = app\cfg('attr');
 
+    // Entities
     foreach ($data as $entityId => $entity) {
         $entity = arr\replace(APP['entity'], $entity, ['id' => $entityId]);
 
@@ -53,9 +54,24 @@ function cfg_entity(array $data): array
             $entity['attr'] = array_replace_recursive($data[$entity['parent_id']]['attr'], $entity['attr']);
         }
 
+        $data[$entityId] = $entity;
+    }
+
+    // Attributes
+    foreach ($data as $entityId => $entity) {
         foreach ($entity['attr'] as $attrId => $attr) {
-            if (empty($attr['name']) || empty($attr['type']) || empty($cfg[$attr['type']]) || $attr['type'] === 'entity' && empty($attr['ref'])) {
+            if (empty($attr['name'])
+                || empty($attr['type'])
+                || empty($cfg[$attr['type']])
+                || in_array($attr['type'], ['entity', 'multientity']) && empty($attr['ref'])
+                || !empty($attr['ref']) && (empty($data[$attr['ref']]['attr']['id']['type']) || empty($cfg[$data[$attr['ref']]['attr']['id']['type']]))
+            ) {
                 throw new DomainException(app\i18n('Invalid configuration'));
+            }
+
+            // Auto-determine type from reference ID attribute
+            if (in_array($attr['type'], ['entity', 'multientity'])) {
+                $attr['backend'] = $cfg[$data[$attr['ref']]['attr']['id']['type']]['backend'];
             }
 
             $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr, ['id' => $attrId, 'name' => app\i18n($attr['name'])]);
