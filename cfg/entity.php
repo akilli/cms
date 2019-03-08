@@ -159,6 +159,16 @@ return [
             ],
         ],
     ],
+    'file_iframe' => [
+        'name' => 'Iframes',
+        'parent_id' => 'file',
+        'action' => ['admin', 'browser', 'delete', 'edit'],
+        'attr' => [
+            'url' => [
+                'type' => 'url',
+            ],
+        ],
+    ],
     'file_image' => [
         'name' => 'Images',
         'parent_id' => 'file',

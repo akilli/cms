@@ -120,6 +120,10 @@ function file(int $val, array $attr): string
         return '';
     }
 
+    if ($data['mime'] === 'text/html') {
+        return app\html('iframe', ['src' => $data['url'], 'allowfullscreen' => 'allowfullscreen'], $data['url']);
+    }
+
     if (!preg_match('#^(audio|image|video)/#', $data['mime'], $match)) {
         return app\html('a', ['href' => $data['url']], $data['url']);
     }

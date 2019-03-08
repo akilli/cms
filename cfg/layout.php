@@ -327,6 +327,13 @@ return [
             ],
         ],
     ],
+    'file_iframe/browser' => [
+        'content-main' => [
+            'cfg' => [
+                'filter' => [],
+            ],
+        ],
+    ],
     'file_image/browser' => [
         'content-main' => [
             'cfg' => [

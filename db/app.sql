@@ -541,7 +541,7 @@ SELECT
 FROM
     file
 WHERE
-    entity_id IN ('file_audio', 'file_image', 'file_video')
+    entity_id IN ('file_audio', 'file_iframe', 'file_image', 'file_video')
 WITH LOCAL CHECK OPTION;
 
 --
@@ -568,6 +568,19 @@ FROM
     file
 WHERE
     entity_id = 'file_doc'
+WITH LOCAL CHECK OPTION;
+
+--
+-- File Iframe
+--
+
+CREATE VIEW file_iframe AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id = 'file_iframe'
 WITH LOCAL CHECK OPTION;
 
 --

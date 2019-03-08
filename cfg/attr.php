@@ -61,6 +61,14 @@ return [
         'viewer' => 'viewer\file',
         'ref' => 'file',
     ],
+    'iframe' => [
+        'backend' => 'int',
+        'frontend' => 'frontend\url',
+        'filter' => 'frontend\int',
+        'validator' => 'validator\entity',
+        'viewer' => 'viewer\file',
+        'ref' => 'file_iframe',
+    ],
     'image' => [
         'backend' => 'int',
         'frontend' => 'frontend\file',

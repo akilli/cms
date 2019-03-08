@@ -64,6 +64,12 @@ return [
         'parent_id' => 'file',
         'sort' => 40,
     ],
+    'file_iframe' => [
+        'name' => 'Iframes',
+        'action' => 'file_iframe/admin',
+        'parent_id' => 'file',
+        'sort' => 40,
+    ],
     'role' => [
         'name' => 'Roles',
         'action' => 'role/admin',

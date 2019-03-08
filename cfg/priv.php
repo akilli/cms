@@ -39,6 +39,9 @@ return [
     'file_doc/browser' => [
         'priv' => 'file/browser',
     ],
+    'file_iframe/browser' => [
+        'priv' => 'file/browser',
+    ],
     'file_image/browser' => [
         'priv' => 'file/browser',
     ],

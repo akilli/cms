@@ -44,6 +44,7 @@ return [
     'Files' => 'Dateien',
     'Homepage' => 'Startseite',
     'ID' => 'ID',
+    'Iframes' => 'Iframes',
     'Image' => 'Bild',
     'Images' => 'Bilder',
     'Info' => 'Info',
