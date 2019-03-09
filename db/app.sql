@@ -317,14 +317,16 @@ CREATE FUNCTION version_reset() RETURNS void AS $$
 
         INSERT INTO
             version
-            (name, entity_id, page_id, teaser, main, aside, status, timestamp)
+            (name, entity_id, page_id, title, teaser, main, aside, account_id, status, timestamp)
         SELECT
             name,
             entity_id,
             id AS page_id,
+            title,
             teaser,
             main,
             aside,
+            account_id,
             status,
             timestamp
         FROM
