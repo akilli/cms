@@ -213,7 +213,7 @@ function layout(array $data): array
 
             foreach ($dbLayout as $id => $item) {
                 $c = ['parent_id' => $item['parent_id'], 'sort' => $item['sort']];
-                $cfg[$url][APP['layout.db'] . $item['name']] = layout\db($dbBlocks[$item['block_id']]) + $c;
+                $cfg[$url][layout\db_id($item)] = layout\db($dbBlocks[$item['block_id']]) + $c;
             }
         }
     }
@@ -339,15 +339,20 @@ function entity_postdelete_file(array $data): array
  */
 function entity_postvalidate_layout(array $data): array
 {
-    $crit = [['name', $data['name']], ['page_id', $data['page_id']]];
+    if (empty($data['name']) || empty($data['page_id']) || empty($data['parent_id'])) {
+        return $data;
+    }
+
+    $crit = [['name', $data['name']], ['page_id', $data['page_id']], ['parent_id', $data['parent_id']]];
 
     if (!empty($data['_old']['id'])) {
         $crit[] = ['id', $data['_old']['id'], APP['op']['!=']];
     }
 
     if (entity\size('layout', $crit)) {
-        $data['_error']['name'][] = app\i18n('Value must be unique for each page');
-        $data['_error']['page_id'][] = app\i18n('Value must be unique for each page');
+        $data['_error']['name'][] = app\i18n('Name and parent block combination must be unique for each page');
+        $data['_error']['page_id'][] = app\i18n('Name and parent block combination must be unique for each page');
+        $data['_error']['parent_id'][] = app\i18n('Name and parent block combination must be unique for each page');
     }
 
     return $data;

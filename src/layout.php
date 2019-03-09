@@ -77,3 +77,13 @@ function db(array $data): array
 
     return ['type' => $type['id'], 'call' => $type['call'], 'cfg' => ['data' => $data]];
 }
+
+/**
+ * Generates layout ID for DB block
+ *
+ * @throws DomainException
+ */
+function db_id(array $data): string
+{
+    return 'layout-' . $data['parent_id'] .'-' . $data['name'];
+}
