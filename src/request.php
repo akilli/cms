@@ -41,16 +41,20 @@ function data(string $key)
 
 /**
  * Get
+ *
+ * @return mixed
  */
-function get(string $key): ?array
+function get(string $key)
 {
     return data('get')[$key] ?? null;
 }
 
 /**
  * Post
+ *
+ * @return mixed
  */
-function post(string $key): ?array
+function post(string $key)
 {
     return data('post')[$key] ?? null;
 }
