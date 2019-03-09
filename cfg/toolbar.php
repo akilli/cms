@@ -68,7 +68,7 @@ return [
         'name' => 'Iframes',
         'action' => 'file_iframe/admin',
         'parent_id' => 'file',
-        'sort' => 40,
+        'sort' => 50,
     ],
     'role' => [
         'name' => 'Roles',
