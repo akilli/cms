@@ -353,7 +353,7 @@ return [
             ],
             'entity_id' => [
                 'name' => 'Entity',
-                'type' => 'parent',
+                'type' => 'text',
                 'required' => true,
             ],
             'page_id' => [
