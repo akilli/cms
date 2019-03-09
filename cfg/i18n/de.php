@@ -71,7 +71,7 @@ return [
     'Meta Title' => 'Meta-Title',
     'MIME-Type' => 'MIME-Typ',
     'Name' => 'Name',
-    'Name and parent block combination must be unique for each page' => 'Kombination aus Name und übergeordneter Block muss für jede Seite eindeutig sein',
+    'Name must be unique for selected parent block and page' => 'Name muss für gewählten übergeordneten Block und Seite eindeutig sein',
     'New Entry' => 'Neuer Eintrag',
     'Next' => 'Weiter',
     'No' => 'Nein',

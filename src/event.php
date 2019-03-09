@@ -350,9 +350,7 @@ function entity_postvalidate_layout(array $data): array
     }
 
     if (entity\size('layout', $crit)) {
-        $data['_error']['name'][] = app\i18n('Name and parent block combination must be unique for each page');
-        $data['_error']['page_id'][] = app\i18n('Name and parent block combination must be unique for each page');
-        $data['_error']['parent_id'][] = app\i18n('Name and parent block combination must be unique for each page');
+        $data['_error']['name'][] = app\i18n('Name must be unique for selected parent block and page');
     }
 
     return $data;
