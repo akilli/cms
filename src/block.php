@@ -369,7 +369,7 @@ function content(array $block): string
     }
 
     if ($data['media'] && ($val = attr\viewer($data, $attrs['media']))) {
-        $class = preg_match('#^<(audio|video)#', $val, $match) ? $match[1] : 'image';
+        $class = preg_match('#^<(audio|iframe|video)#', $val, $match) ? $match[1] : 'image';
         $val = $data['link'] && $class === 'image' ? app\html('a', ['href' => $data['link']], $val) : $val;
         $html .= app\html('figure', ['class' => $class], $val);
     }
