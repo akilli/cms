@@ -104,6 +104,7 @@ return [
     'content' => [
         'call' => 'block\content',
         'cfg' => [
+            'attr' => [],
             'data' => [],
         ],
     ],
