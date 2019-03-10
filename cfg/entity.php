@@ -462,6 +462,11 @@ return [
                 'required' => true,
                 'max' => 100,
             ],
+            'entity_id' => [
+                'name' => 'Entity',
+                'type' => 'text',
+                'auto' => true,
+            ],
             'block_id' => [
                 'name' => 'Block',
                 'type' => 'entity',

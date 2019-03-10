@@ -509,6 +509,18 @@ CREATE FUNCTION version_reset() RETURNS void AS $$
     END;
 $$ LANGUAGE plpgsql;
 
+--
+-- Layout
+--
+
+CREATE FUNCTION layout_save() RETURNS trigger AS $$
+    BEGIN
+        NEW.entity_id := (SELECT entity_id FROM block WHERE id = NEW.block_id);
+
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -795,6 +807,7 @@ WITH LOCAL CHECK OPTION;
 CREATE TABLE layout (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
+    entity_id varchar(50) NOT NULL,
     block_id int NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
     page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     parent_id varchar(100) NOT NULL,
@@ -803,10 +816,13 @@ CREATE TABLE layout (
 );
 
 CREATE INDEX ON layout (name);
+CREATE INDEX ON layout (entity_id);
 CREATE INDEX ON layout (block_id);
 CREATE INDEX ON layout (page_id);
 CREATE INDEX ON layout (parent_id);
 CREATE INDEX ON layout (sort);
+
+CREATE TRIGGER layout_save BEFORE INSERT OR UPDATE ON layout FOR EACH ROW EXECUTE PROCEDURE layout_save();
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
