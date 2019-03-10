@@ -365,7 +365,7 @@ return [
             ],
         ],
     ],
-    'block_content/edit' => [
+    'block/edit' => [
         'content-main' => [
             'cfg' => [
                 'attr_id' => ['name', 'title', 'link', 'media', 'content'],
