@@ -202,10 +202,9 @@ function layout(array $data): array
         $keys[] = $url;
 
         if (($page = app\data('page')) && ($dbLayout = entity\all('layout', [['page_id', $page['id']]]))) {
-            $ids = array_column($dbLayout, 'block_id');
             $dbBlocks = [];
 
-            foreach (array_unique(array_column(entity\all('block', [['id', $ids]], ['select' => ['entity_id']]), 'entity_id')) as $eId) {
+            foreach (arr\group($dbLayout, 'entity_id', 'block_id') as $eId => $ids) {
                 foreach (entity\all($eId, [['id', $ids]]) as $item) {
                     $dbBlocks[$item['id']] = $item;
                 }
