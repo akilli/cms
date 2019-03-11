@@ -138,7 +138,7 @@ return [
                 'text' => 'Dashboard',
             ],
         ],
-        'content-published' => [
+        'published' => [
             'type' => 'index',
             'parent_id' => 'content',
             'sort' => 20,
@@ -152,7 +152,7 @@ return [
                 'title' => 'Published Pages',
             ],
         ],
-        'content-pending' => [
+        'pending' => [
             'type' => 'index',
             'parent_id' => 'content',
             'sort' => 30,
