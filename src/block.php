@@ -250,7 +250,7 @@ function index(array $block): string
     // Page teaser
     if (in_array('page', [$entity['id'], $entity['parent_id']]) && !empty($attr['content'])) {
         foreach ($data as $id => $item) {
-            $data[$id]['content'] = preg_match('#^(<p[^>]*>.*?</p>)#', trim($item['content']), $m) ? $m[1] : '';
+            $data[$id]['content'] = preg_match('#(<p[^>]*>.*?</p>)#', trim($item['content']), $m) ? $m[1] : '';
         }
     }
 
