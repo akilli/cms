@@ -105,7 +105,7 @@ return [
                 'text' => 'Error',
             ],
         ],
-        'content-main' => [
+        'view' => [
             'type' => 'tpl',
             'tpl' => 'page/error.phtml',
             'parent_id' => 'content',
@@ -179,7 +179,7 @@ return [
                 'text' => 'Login',
             ],
         ],
-        'content-main' => [
+        'login' => [
             'type' => 'login',
             'parent_id' => 'content',
             'sort' => 20,
@@ -194,7 +194,7 @@ return [
                 'text' => 'Profile',
             ],
         ],
-        'content-main' => [
+        'form' => [
             'type' => 'profile',
             'parent_id' => 'content',
             'sort' => 20,
@@ -207,13 +207,13 @@ return [
      * Admin Action
      */
     'admin' => [
-        'content-new' => [
+        'new' => [
             'type' => 'tpl',
             'tpl' => 'block/new.phtml',
             'parent_id' => 'content',
             'sort' => 20,
         ],
-        'content-main' => [
+        'index' => [
             'type' => 'index',
             'parent_id' => 'content',
             'sort' => 30,
@@ -226,7 +226,7 @@ return [
         ],
     ],
     'account/admin' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'attr_id' => ['name', 'username', 'role_id'],
                 'filter' => ['role_id'],
@@ -235,14 +235,14 @@ return [
         ],
     ],
     'block/admin' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'attr_id' => ['name'],
             ],
         ],
     ],
     'file/admin' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'attr_id' => ['url', 'name', 'info'],
                 'search' => ['name', 'url', 'info'],
@@ -250,7 +250,7 @@ return [
         ],
     ],
     'layout/admin' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'attr_id' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
                 'filter' => ['block_id', 'page_id', 'parent_id'],
@@ -258,28 +258,28 @@ return [
         ],
     ],
     'page/admin' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'filter' => ['parent_id', 'account_id', 'status'],
             ],
         ],
     ],
     'page_article/admin' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'attr_id' => ['name', 'parent_id', 'status', 'date'],
             ],
         ],
     ],
     'page_content/admin' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'attr_id' => ['name', 'pos', 'parent_id', 'menu', 'status', 'date'],
             ],
         ],
     ],
     'role/admin' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'attr_id' => ['name'],
             ],
@@ -292,7 +292,7 @@ return [
         'toolbar' => [
             'active' => false,
         ],
-        'content-main' => [
+        'index' => [
             'type' => 'index',
             'parent_id' => 'content',
             'sort' => 20,
@@ -305,7 +305,7 @@ return [
         ],
     ],
     'file/browser' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'attr_id' => ['url', 'name', 'info'],
                 'filter' => ['entity_id'],
@@ -314,35 +314,35 @@ return [
         ],
     ],
     'file_audio/browser' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'filter' => [],
             ],
         ],
     ],
     'file_doc/browser' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'filter' => [],
             ],
         ],
     ],
     'file_iframe/browser' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'filter' => [],
             ],
         ],
     ],
     'file_image/browser' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'filter' => [],
             ],
         ],
     ],
     'file_video/browser' => [
-        'content-main' => [
+        'index' => [
             'cfg' => [
                 'filter' => [],
             ],
@@ -352,56 +352,56 @@ return [
      * Edit Action
      */
     'edit' => [
-        'content-main' => [
+        'form' => [
             'type' => 'edit',
             'parent_id' => 'content',
             'sort' => 20,
         ],
     ],
     'account/edit' => [
-        'content-main' => [
+        'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'role_id', 'username', 'password', 'email'],
             ],
         ],
     ],
     'block/edit' => [
-        'content-main' => [
+        'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'title', 'link', 'media', 'content'],
             ],
         ],
     ],
     'file/edit' => [
-        'content-main' => [
+        'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'url', 'thumb_url', 'info'],
             ],
         ],
     ],
     'layout/edit' => [
-        'content-main' => [
+        'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
             ],
         ],
     ],
     'page_article/edit' => [
-        'content-main' => [
+        'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'slug', 'parent_id', 'status', 'image', 'main', 'aside', 'date', 'meta_title', 'meta_description'],
             ],
         ],
     ],
     'page_content/edit' => [
-        'content-main' => [
+        'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'status', 'title', 'image', 'main', 'aside', 'meta_title', 'meta_description'],
             ],
         ],
     ],
     'role/edit' => [
-        'content-main' => [
+        'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'priv'],
             ],
@@ -442,7 +442,7 @@ return [
      * View Action
      */
     'view' => [
-        'content-main' => [
+        'view' => [
             'type' => 'view',
             'parent_id' => 'content',
             'sort' => 20,
@@ -462,7 +462,7 @@ return [
             'parent_id' => 'main',
             'sort' => 5,
         ],
-        'content-main' => [
+        'view' => [
             'cfg' => [
                 'attr_id' => ['image', 'main', 'aside'],
             ],
