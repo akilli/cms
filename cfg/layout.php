@@ -425,7 +425,7 @@ return [
                 'toggle' => true,
             ],
         ],
-        'header-logo' => [
+        'logo' => [
             'type' => 'tpl',
             'tpl' => 'header/logo.phtml',
             'parent_id' => 'header',
