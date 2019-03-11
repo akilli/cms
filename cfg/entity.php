@@ -238,7 +238,7 @@ return [
                 'nullable' => true,
                 'ref' => 'file_image',
             ],
-            'main' => [
+            'content' => [
                 'name' => 'Main Content',
                 'type' => 'rte',
             ],
@@ -363,7 +363,7 @@ return [
                 'nullable' => true,
                 'max' => 255,
             ],
-            'main' => [
+            'content' => [
                 'name' => 'Main Content',
                 'type' => 'rte',
                 'required' => true,
