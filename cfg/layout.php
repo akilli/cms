@@ -26,7 +26,7 @@ return [
             ],
         ],
         // Head Blocks
-        'head-meta' => [
+        'meta' => [
             'type' => 'meta',
             'parent_id' => 'head',
             'sort' => 10,
