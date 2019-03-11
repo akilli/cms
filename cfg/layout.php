@@ -389,14 +389,14 @@ return [
     'page_article/edit' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'slug', 'parent_id', 'status', 'image', 'teaser', 'main', 'aside', 'date', 'meta_title', 'meta_description'],
+                'attr_id' => ['name', 'slug', 'parent_id', 'status', 'image', 'main', 'aside', 'date', 'meta_title', 'meta_description'],
             ],
         ],
     ],
     'page_content/edit' => [
         'content-main' => [
             'cfg' => [
-                'attr_id' => ['name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'status', 'title', 'image', 'teaser', 'main', 'aside', 'meta_title', 'meta_description'],
+                'attr_id' => ['name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'status', 'title', 'image', 'main', 'aside', 'meta_title', 'meta_description'],
             ],
         ],
     ],
@@ -447,6 +447,14 @@ return [
             'parent_id' => 'content',
             'sort' => 20,
         ],
+        'teaser' => [
+            'type' => 'container',
+            'parent_id' => 'content',
+            'sort' => 30,
+            'cfg' => [
+                'tag' => 'section',
+            ],
+        ],
     ],
     'page/view' => [
         'breadcrumb' => [
@@ -454,26 +462,9 @@ return [
             'parent_id' => 'main',
             'sort' => 5,
         ],
-    ],
-    'page_article/view' => [
-        'content-main' => [
-            'cfg' => [
-                'attr_id' => ['image', 'teaser', 'main', 'aside'],
-            ],
-        ],
-    ],
-    'page_content/view' => [
         'content-main' => [
             'cfg' => [
                 'attr_id' => ['image', 'main', 'aside'],
-            ],
-        ],
-        'teaser' => [
-            'type' => 'container',
-            'parent_id' => 'content',
-            'sort' => 30,
-            'cfg' => [
-                'tag' => 'section',
             ],
         ],
     ],

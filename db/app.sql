@@ -388,16 +388,16 @@ CREATE FUNCTION page_version_before() RETURNS trigger AS $$
         END IF;
 
         -- Create new version
-        IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.entity_id != OLD.entity_id OR NEW.title != OLD.title OR NEW.teaser != OLD.teaser OR NEW.main != OLD.main OR NEW.aside != OLD.aside OR NEW.account_id != OLD.account_id OR NEW.status != OLD.status) THEN
+        IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.entity_id != OLD.entity_id OR NEW.title != OLD.title OR NEW.main != OLD.main OR NEW.aside != OLD.aside OR NEW.account_id != OLD.account_id OR NEW.status != OLD.status) THEN
             IF (TG_OP = 'UPDATE') THEN
                 NEW.timestamp := current_timestamp;
             END IF;
 
             INSERT INTO
                 version
-                (name, entity_id, page_id, title, teaser, main, aside, account_id, status, timestamp)
+                (name, entity_id, page_id, title, main, aside, account_id, status, timestamp)
             VALUES
-                (NEW.name, NEW.entity_id, NEW.id, NEW.title, NEW.teaser, NEW.main, NEW.aside, NEW.account_id, NEW.status, NEW.timestamp);
+                (NEW.name, NEW.entity_id, NEW.id, NEW.title, NEW.main, NEW.aside, NEW.account_id, NEW.status, NEW.timestamp);
         END IF;
 
         -- Don't overwrite published version with a draft
@@ -447,9 +447,9 @@ CREATE FUNCTION page_version_after() RETURNS trigger AS $$
             -- Create new version
             INSERT INTO
                 version
-                (name, entity_id, page_id, title, teaser, main, aside, account_id, status)
+                (name, entity_id, page_id, title, main, aside, account_id, status)
             VALUES
-                (_row.name, _row.entity_id, _row.id, _row.title, _row.teaser, _row.main, _row.aside, _row.account_id, _row.status);
+                (_row.name, _row.entity_id, _row.id, _row.title, _row.main, _row.aside, _row.account_id, _row.status);
 
             -- Update page status
             UPDATE
@@ -490,13 +490,12 @@ CREATE FUNCTION version_reset() RETURNS void AS $$
 
         INSERT INTO
             version
-            (name, entity_id, page_id, title, teaser, main, aside, account_id, status, timestamp)
+            (name, entity_id, page_id, title, main, aside, account_id, status, timestamp)
         SELECT
             name,
             entity_id,
             id AS page_id,
             title,
-            teaser,
             main,
             aside,
             account_id,
@@ -666,7 +665,6 @@ CREATE TABLE page (
     entity_id varchar(50) NOT NULL,
     title varchar(255) DEFAULT NULL,
     image int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
-    teaser text NOT NULL DEFAULT '',
     main text NOT NULL DEFAULT '',
     aside text NOT NULL DEFAULT '',
     meta_title varchar(80) NOT NULL DEFAULT '',
@@ -749,7 +747,6 @@ CREATE TABLE version (
     entity_id varchar(50) NOT NULL,
     page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED,
     title varchar(255) DEFAULT NULL,
-    teaser text NOT NULL,
     main text NOT NULL,
     aside text NOT NULL,
     account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,

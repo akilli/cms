@@ -238,10 +238,6 @@ return [
                 'nullable' => true,
                 'ref' => 'file_image',
             ],
-            'teaser' => [
-                'name' => 'Teaser',
-                'type' => 'rte',
-            ],
             'main' => [
                 'name' => 'Main Content',
                 'type' => 'rte',
@@ -366,11 +362,6 @@ return [
                 'type' => 'text',
                 'nullable' => true,
                 'max' => 255,
-            ],
-            'teaser' => [
-                'name' => 'Teaser',
-                'type' => 'rte',
-                'required' => true,
             ],
             'main' => [
                 'name' => 'Main Content',
