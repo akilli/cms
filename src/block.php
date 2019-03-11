@@ -142,7 +142,7 @@ function banner(array $block): string
 {
     $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'banner')['tpl'];
 
-    if (($page = app\data('page')) && $page['entity'] !== 'page_content') {
+    if (($page = app\data('page')) && $page['entity_id'] !== 'page_content') {
         $page = entity\one('page', [['id', $page['path']], ['entity_id', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
     }
 
@@ -242,8 +242,16 @@ function index(array $block): string
     if ($entity['id'] === 'version') {
         $ids = array_column(entity\all($entity['id'], $crit, ['select' => ['page_id']] + $opt), 'page_id');
         $data = $ids ? entity\all('page', [['id', $ids]]) : [];
+        $entity = app\cfg('entity', 'page');
     } else {
         $data = entity\all($entity['id'], $crit, $opt);
+    }
+
+    // Page teaser
+    if (in_array('page', [$entity['id'], $entity['parent_id']]) && !empty($attr['content'])) {
+        foreach ($data as $id => $item) {
+            $data[$id]['content'] = preg_match('#^(<p[^>]*>.*?</p>)#', trim($item['content']), $m) ? $m[1] : '';
+        }
     }
 
     $var = [
