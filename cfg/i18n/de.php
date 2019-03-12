@@ -117,6 +117,7 @@ return [
     'Submit' => 'Abschicken',
     'Successfully deleted data' => 'Daten erfolgreich gelöscht',
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
+    'Teaser' => 'Teaser',
     'Teaser Area' => 'Teaserbereich',
     'Thumbnail' => 'Vorschaubild',
     'Thumbnail Extension' => 'Dateiendung Vorschaubild',

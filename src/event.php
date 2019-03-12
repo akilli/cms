@@ -434,6 +434,18 @@ function entity_postvalidate_page_url(array $data): array
 }
 
 /**
+ * Page entity load
+ */
+function entity_load_page(array $data): array
+{
+    if (array_key_exists('content', $data)) {
+        $data['teaser'] = preg_match('#^(<p[^>]*>.*?</p>)#', trim($data['content']), $m) ? $m[1] : '';
+    }
+
+    return $data;
+}
+
+/**
  * Role entity predelete
  *
  * @throws DomainException

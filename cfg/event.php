@@ -44,6 +44,9 @@ return [
         'event\entity_postvalidate_page_menu' => 20,
         'event\entity_postvalidate_page_url' => 30,
     ],
+    'entity.load.id.page' => [
+        'event\entity_load_page' => 10,
+    ],
     'entity.predelete.id.role' => [
         'event\entity_predelete_role' => 10,
     ],
