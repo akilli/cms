@@ -47,7 +47,7 @@ use attr;
                 <?=$html;?>
                     <?php endif;?>
             </h3>
-                <?php elseif (preg_match('#<(audio|iframe|img|video)#', $html)):?>
+                <?php elseif (($attr['uploadable'] || in_array($attr['type'], ['entity_file', 'iframe'])) && preg_match('#^<(audio|iframe|img|video)#', $html)):?>
             <figure data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></figure>
                 <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
             <time data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"<?php if ($val !== $html):?> datetime="<?=$val;?>"<?php endif;?>><?=$html;?></time>
