@@ -475,7 +475,7 @@ return [
                 'name' => 'Page',
                 'type' => 'entity',
                 'required' => true,
-                'ref' => 'page',
+                'ref' => 'page_content',
             ],
             'parent_id' => [
                 'name' => 'Parent Block',
