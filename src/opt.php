@@ -14,10 +14,10 @@ use entity;
 function entity(array $data, array $attr): array
 {
     if (($opt = & app\registry('opt.entity.' . $attr['ref'])) === null) {
-        if (in_array($attr['ref'], ['page', 'page_content'])) {
+        if ($attr['ref'] === 'page_content') {
             $opt = [];
 
-            foreach (entity\all('page_content', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
+            foreach (entity\all($attr['ref'], [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
                 $opt[$item['id']] = attr\viewer($item, $item['_entity']['attr']['pos']) . ' ' . $item['name'];
             }
         } else {
