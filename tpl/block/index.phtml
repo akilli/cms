@@ -4,7 +4,9 @@ use attr;
 /** @var callable $var */
 ?>
 <section class="block-index">
-    <?php if ($var('title')):?>
+    <?php if ($var('title') && $var('link')):?>
+    <h2><a href="<?=$var('link');?>"><?=$var('title');?></a></h2>
+    <?php elseif ($var('title')):?>
     <h2><?=$var('title');?></h2>
     <?php endif;?>
     <?php if ($var('content')):?>

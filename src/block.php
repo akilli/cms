@@ -251,6 +251,7 @@ function index(array $block): string
         'content' => $cfg['content'],
         'data' => $data,
         'filter' => $filter,
+        'link' => $cfg['link'],
         'mode' => in_array($cfg['mode'], ['admin', 'browser']) ? $cfg['mode'] : null,
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
