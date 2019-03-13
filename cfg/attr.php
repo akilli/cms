@@ -54,14 +54,6 @@ return [
         'viewer' => 'viewer\file',
         'ref' => 'file',
     ],
-    'entity_page' => [
-        'backend' => 'int',
-        'frontend' => 'frontend\select',
-        'validator' => 'validator\entity',
-        'viewer' => 'viewer\entity',
-        'ref' => 'page',
-        'opt' => 'opt\page',
-    ],
     'file' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\file',

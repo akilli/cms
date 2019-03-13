@@ -288,8 +288,9 @@ return [
             ],
             'parent_id' => [
                 'name' => 'Parent Page',
-                'type' => 'entity_page',
+                'type' => 'entity',
                 'nullable' => true,
+                'ref' => 'page',
             ],
             'sort' => [
                 'name' => 'Sort',
@@ -359,8 +360,9 @@ return [
             ],
             'page_id' => [
                 'name' => 'Page',
-                'type' => 'entity_page',
+                'type' => 'entity',
                 'required' => true,
+                'ref' => 'page',
             ],
             'title' => [
                 'name' => 'Title',
@@ -471,8 +473,9 @@ return [
             ],
             'page_id' => [
                 'name' => 'Page',
-                'type' => 'entity_page',
+                'type' => 'entity',
                 'required' => true,
+                'ref' => 'page',
             ],
             'parent_id' => [
                 'name' => 'Parent Block',

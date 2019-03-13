@@ -14,22 +14,14 @@ use entity;
 function entity(array $data, array $attr): array
 {
     if (($opt = & app\registry('opt.entity.' . $attr['ref'])) === null) {
-        $opt = array_column(entity\all($attr['ref'], [], ['select' => ['id', 'name'], 'order' => ['name' => 'asc']]), 'name', 'id');
-    }
+        if (in_array($attr['ref'], ['page', 'page_content'])) {
+            $opt = [];
 
-    return $opt;
-}
-
-/**
- * Page entity
- */
-function page(): array
-{
-    if (($opt = & app\registry('opt.page')) === null) {
-        $opt = [];
-
-        foreach (entity\all('page_content', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
-            $opt[$item['id']] = attr\viewer($item, $item['_entity']['attr']['pos']) . ' ' . $item['name'];
+            foreach (entity\all('page_content', [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]) as $item) {
+                $opt[$item['id']] = attr\viewer($item, $item['_entity']['attr']['pos']) . ' ' . $item['name'];
+            }
+        } else {
+            $opt = array_column(entity\all($attr['ref'], [], ['select' => ['id', 'name'], 'order' => ['name' => 'asc']]), 'name', 'id');
         }
     }
 
