@@ -290,7 +290,7 @@ return [
                 'name' => 'Parent Page',
                 'type' => 'entity',
                 'nullable' => true,
-                'ref' => 'page',
+                'ref' => 'page_content',
             ],
             'sort' => [
                 'name' => 'Sort',
