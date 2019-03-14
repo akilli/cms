@@ -27,6 +27,11 @@ main > :not(:last-child),
     margin-bottom: 1.5rem;
 }
 
+::selection {
+    color: #fff;
+    background: #000;
+}
+
 /**
  * Text
  */
@@ -78,6 +83,9 @@ ul {
     padding-left: 2rem;
 }
 
+/**
+ * Nav
+ */
 nav ul {
     margin: 0;
     padding-left: 0;
@@ -259,11 +267,6 @@ main a {
 
 main a:not([role=button]):hover {
     text-decoration: underline;
-}
-
-main ::selection {
-    color: #fff;
-    background: #000;
 }
 
 /**
