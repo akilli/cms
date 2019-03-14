@@ -62,14 +62,19 @@ time[data-attr] {
 /**
  * Figure
  */
-figure.left {
-    float: left;
-    margin-right: 0.75rem;
+figure.left,
+figure.right {
+    margin-bottom: 0;
 }
 
-figure.right {
+figure.left img {
+    float: left;
+    margin: 0 0.75rem 1.5rem 0;
+}
+
+figure.right img {
     float: right;
-    margin-left: 0.75rem;
+    margin: 0 0 1.5rem 0.75rem;
 }
 
 figcaption {
