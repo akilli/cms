@@ -42,11 +42,9 @@
     background: #fff;
 }
 
-@supports (object-fit: cover) and (object-position: center) {
-    .slider .items:not(.is-fullscreen) img {
-        object-fit: cover;
-        object-position: center;
-    }
+.slider .items:not(.is-fullscreen) img {
+    object-fit: cover;
+    object-position: center;
 }
 
 /**
