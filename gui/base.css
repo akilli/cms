@@ -157,6 +157,10 @@ hr {
 /**
  * Media
  */
+figure {
+    clear: both;
+}
+
 audio,
 canvas,
 embed,
