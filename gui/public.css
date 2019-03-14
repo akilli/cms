@@ -59,6 +59,12 @@ time[data-attr] {
     display: block;
 }
 
+hr {
+    height:0.0625rem;
+    margin: 1.5rem 0;
+    background: #000;
+}
+
 /**
  * Figure
  */

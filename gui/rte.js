@@ -21,7 +21,7 @@
                 toolbar: [
                     {
                         name: 'all',
-                        items: ['Undo', 'Redo', 'Bold', 'Italic', 'Link', 'Unlink', 'Format', 'BulletedList', 'NumberedList', 'Blockquote', 'Media', 'Table', 'Detail']
+                        items: ['Undo', 'Redo', 'Bold', 'Italic', 'Link', 'Unlink', 'Format', 'BulletedList', 'NumberedList', 'Blockquote', 'Media', 'Table', 'Detail', 'HorizontalRule']
                     }
                 ]
             });
