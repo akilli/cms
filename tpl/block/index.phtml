@@ -33,7 +33,10 @@ use attr;
         </div>
         <?php endif;?>
         <?php foreach ($var('data') as $data):?>
-            <?php $entityId = $data['entity_id'] ?? $data['_entity']['id'];?>
+            <?php
+            $entity = !empty($data['entity_id']) ? cfg('entity', $data['entity_id']) : null;
+            $entityId = $entity && in_array($data['_entity']['id'], [$entity['parent_id'], 'version']) ? $entity['id'] : $data['_entity']['id'];
+            ?>
         <article<?php if ($var('mode') === 'browser'):?> data-id="<?=$data['id'];?>" data-url="<?=$data['url'];?>" title="<?=i18n('Select item');?>"<?php endif;?>>
             <?php foreach ($var('attr') as $attr):?>
                 <?php
