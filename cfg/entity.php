@@ -491,4 +491,9 @@ return [
             ],
         ],
     ],
+    'layout_page' => [
+        'name' => 'Page Layout',
+        'readonly' => true,
+        'parent_id' => 'layout',
+    ],
 ];

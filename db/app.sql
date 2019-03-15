@@ -207,6 +207,14 @@ CREATE FUNCTION file_save() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
+CREATE FUNCTION file_view() RETURNS trigger AS $$
+    BEGIN
+        REFRESH MATERIALIZED VIEW CONCURRENTLY file_media;
+
+        RETURN NULL;
+    END;
+$$ LANGUAGE plpgsql;
+
 --
 -- Page
 --
@@ -520,6 +528,14 @@ CREATE FUNCTION layout_save() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
+CREATE FUNCTION layout_view() RETURNS trigger AS $$
+    BEGIN
+        REFRESH MATERIALIZED VIEW CONCURRENTLY layout_page;
+
+        RETURN NULL;
+    END;
+$$ LANGUAGE plpgsql;
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -576,19 +592,29 @@ CREATE INDEX ON file (thumb_mime);
 CREATE INDEX ON file (thumb_ext);
 
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW EXECUTE PROCEDURE file_save();
+CREATE TRIGGER file_view AFTER INSERT OR UPDATE OR DELETE ON file FOR EACH STATEMENT EXECUTE PROCEDURE file_view();
 
 --
 -- File Media
 --
 
-CREATE VIEW file_media AS
+CREATE MATERIALIZED VIEW file_media AS
 SELECT
     *
 FROM
     file
 WHERE
-    entity_id IN ('file_audio', 'file_iframe', 'file_image', 'file_video')
-WITH LOCAL CHECK OPTION;
+    entity_id IN ('file_audio', 'file_iframe', 'file_image', 'file_video');
+
+CREATE UNIQUE INDEX ON file_media (id);
+CREATE UNIQUE INDEX ON file_media (url);
+CREATE UNIQUE INDEX ON file_media (thumb_url);
+CREATE INDEX ON file_media (name);
+CREATE INDEX ON file_media (entity_id);
+CREATE INDEX ON file_media (mime);
+CREATE INDEX ON file_media (ext);
+CREATE INDEX ON file_media (thumb_mime);
+CREATE INDEX ON file_media (thumb_ext);
 
 --
 -- File Audio
@@ -820,6 +846,52 @@ CREATE INDEX ON layout (parent_id);
 CREATE INDEX ON layout (sort);
 
 CREATE TRIGGER layout_save BEFORE INSERT OR UPDATE ON layout FOR EACH ROW EXECUTE PROCEDURE layout_save();
+CREATE TRIGGER layout_view AFTER INSERT OR UPDATE OR DELETE ON layout FOR EACH STATEMENT EXECUTE PROCEDURE layout_view();
+
+--
+-- Layout Page
+--
+CREATE MATERIALIZED VIEW layout_page AS
+WITH s AS (
+    SELECT
+        p.id,
+        (SELECT l.page_id FROM layout l INNER JOIN page j ON j.id = l.page_id WHERE l.parent_id = 'sidebar' AND l.page_id = ANY(p.path) ORDER BY j.level DESC LIMIT 1) AS page_id
+    FROM
+        page p
+    ORDER BY
+        id ASC
+)
+SELECT
+    l.id,
+    l.name,
+    l.entity_id,
+    l.block_id,
+    p.id AS page_id,
+    l.parent_id,
+    l.sort
+FROM
+    page p
+INNER JOIN
+    s
+        ON
+            s.id = p.id
+INNER JOIN
+    layout l
+        ON
+            l.page_id = p.id
+            OR l.parent_id = 'sidebar' AND l.page_id = s.page_id
+ORDER BY
+    id ASC,
+    parent_id ASC,
+    sort ASC;
+
+CREATE UNIQUE INDEX ON layout_page (page_id, parent_id, name);
+CREATE INDEX ON layout_page (name);
+CREATE INDEX ON layout_page (entity_id);
+CREATE INDEX ON layout_page (block_id);
+CREATE INDEX ON layout_page (page_id);
+CREATE INDEX ON layout_page (parent_id);
+CREATE INDEX ON layout_page (sort);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
