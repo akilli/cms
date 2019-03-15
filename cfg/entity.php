@@ -91,7 +91,7 @@ return [
             ],
             'entity_id' => [
                 'name' => 'Entity',
-                'type' => 'parent',
+                'type' => 'entity_id',
                 'required' => true,
             ],
             'url' => [
@@ -223,7 +223,7 @@ return [
             ],
             'entity_id' => [
                 'name' => 'Entity',
-                'type' => 'parent',
+                'type' => 'entity_id',
                 'required' => true,
             ],
             'title' => [
@@ -415,7 +415,7 @@ return [
             ],
             'entity_id' => [
                 'name' => 'Entity',
-                'type' => 'parent',
+                'type' => 'entity_id',
                 'required' => true,
             ],
             'title' => [

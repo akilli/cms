@@ -54,6 +54,14 @@ return [
         'viewer' => 'viewer\file',
         'ref' => 'file',
     ],
+    'entity_id' => [
+        'backend' => 'varchar',
+        'frontend' => 'frontend\select',
+        'validator' => 'validator\opt',
+        'viewer' => 'viewer\opt',
+        'opt' => 'opt\entity_id',
+        'max' => 50,
+    ],
     'file' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\file',
@@ -103,14 +111,6 @@ return [
         'viewer' => 'viewer\multientity',
         'multiple' => true,
         'opt' => 'opt\entity',
-    ],
-    'parent' => [
-        'backend' => 'varchar',
-        'frontend' => 'frontend\select',
-        'validator' => 'validator\opt',
-        'viewer' => 'viewer\opt',
-        'opt' => 'opt\parent',
-        'max' => 50,
     ],
     'password' => [
         'backend' => 'varchar',

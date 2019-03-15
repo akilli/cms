@@ -29,9 +29,9 @@ function entity(array $data, array $attr): array
 }
 
 /**
- * Parent entity
+ * Entity ID
  */
-function parent(array $data): array
+function entity_id(array $data): array
 {
     if ($data['_entity']['parent_id']) {
         return [$data['_entity']['id'] => $data['_entity']['name']];
