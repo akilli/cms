@@ -83,6 +83,7 @@ return [
     'Page access disabled' => 'Seitenzugriff deaktiviert',
     'Page not found' => 'Seite nicht gefunden',
     'Page' => 'Seite',
+    'Page Layout' => 'Seitenlayout',
     'Pages' => 'Seiten',
     'Parent Block' => 'Übergeordneter Block',
     'Parent Page' => 'Oberseite',
