@@ -27,22 +27,25 @@ function run(): void
     $app['lang'] = locale_get_primary_language('');
     $app['gui'] = max(filemtime(path('gui')), file_exists(path('ext.gui')) ? filemtime(path('ext.gui')) : 0);
     $url = request\data('url');
-    $parts = explode('/', trim($url, '/'));
-    $app['entity_id'] = array_shift($parts);
-    $app['action'] = array_shift($parts);
-    $app['id'] = array_shift($parts);
-    $page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]);
+    $valid = true;
 
-    // Page
-    if ($page && ($app['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))) {
+    if (($page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]))
+        && ($app['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))
+    ) {
         $app['entity_id'] = $app['page']['entity_id'];
         $app['action'] = 'view';
         $app['id'] = $app['page']['id'];
         $app['entity'] = $app['page']['_entity'];
+    } else {
+        $parts = explode('/', trim($url, '/'));
+        $app['entity_id'] = array_shift($parts);
+        $app['action'] = array_shift($parts);
+        $app['id'] = array_shift($parts);
+        $app['entity'] = cfg('entity', $app['entity_id']);
+        $valid = !$parts;
     }
 
     // Gather request-data
-    $app['entity'] = $app['entity'] ?: cfg('entity', $app['entity_id']);
     $app['parent_id'] = $app['entity']['parent_id'] ?? null;
     $app['area'] = empty(cfg('priv', $app['entity_id'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
     $app['public'] = $app['area'] === '_public_';
@@ -52,9 +55,10 @@ function run(): void
     $real = is_callable($ns . $app['entity_id'] . '_' . $app['action']) ? $ns . $app['entity_id'] . '_' . $app['action'] : null;
 
     // Dispatch request
-    if ($allowed && !$app['entity'] && $real) {
+    if ($valid && $allowed && !$app['entity'] && $real) {
         $real();
-    } elseif (!$allowed
+    } elseif (!$valid
+        || !$allowed
         || !$app['entity']
         || !in_array($app['action'], $app['entity']['action'])
         || !$app['page'] && in_array($app['action'], ['delete', 'view']) && (!$app['id'] || !entity\size($app['entity_id'], [['id', $app['id']]]))
