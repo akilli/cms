@@ -404,7 +404,7 @@ main a:hover {
      * Header
      */
     #header {
-        border-bottom: solid 1px #000;
+        border-bottom: solid 0.0625rem #000;
     }
 
     /**
