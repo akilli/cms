@@ -18,6 +18,9 @@ h1:not(:last-child),
 h2:not(:last-child),
 h3:not(:last-child),
 p:not(:last-child),
+ol:not(:last-child),
+ul:not(:last-child),
+table:not(:last-child),
 fieldset > *,
 main > :not(:last-child),
 #content > :not(:last-child):not(details),
@@ -86,7 +89,6 @@ figcaption {
  */
 ol,
 ul {
-    margin: 1.5rem 0;
     padding-left: 2rem;
 }
 
@@ -103,7 +105,6 @@ nav ul {
  */
 table {
     width: 100%;
-    margin: 1.5rem 0;
     font-size: 0.875rem;
 }
 
