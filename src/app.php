@@ -27,20 +27,22 @@ function run(): void
     $app['lang'] = locale_get_primary_language('');
     $app['gui'] = max(filemtime(path('gui')), file_exists(path('ext.gui')) ? filemtime(path('ext.gui')) : 0);
     $url = request\data('url');
+    $pattern = '#^/(?P<entity_id>[a-z_]+)?(?:/(?P<action>[a-z_]+))?(?:/(?P<id>\d+))?(?P<invalid>.*)#';
+    $page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]);
 
-    if (($page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]))
-        && ($app['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))
-    ) {
+    if ($page && ($app['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))) {
         $app['entity_id'] = $app['page']['entity_id'];
         $app['action'] = 'view';
         $app['id'] = $app['page']['id'];
         $app['entity'] = $app['page']['_entity'];
+    } elseif (preg_match($pattern, $url, $match) && $match['entity_id'] && $match['action'] && !$match['invalid']) {
+        $app['entity_id'] = $match['entity_id'];
+        $app['action'] = $match['action'];
+        $app['id'] = $match['id'] ?: null;
+        $app['entity'] = cfg('entity', $match['entity_id']);
     } else {
-        $parts = explode('/', trim($url, '/'));
-        $app['entity_id'] = array_shift($parts);
-        $app['action'] = array_shift($parts);
-        $app['id'] = array_shift($parts);
-        $app['entity'] = cfg('entity', $app['entity_id']);
+        invalid();
+        return;
     }
 
     // Gather request-data
