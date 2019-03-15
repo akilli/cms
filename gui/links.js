@@ -14,6 +14,7 @@
             }
 
             if (!!item.querySelector('audio, iframe, img, figure, video')) {
+                item.setAttribute('data-link', 'media');
                 return;
             }
 
