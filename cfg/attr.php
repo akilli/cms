@@ -104,15 +104,6 @@ return [
         'multiple' => true,
         'opt' => 'opt\entity',
     ],
-    'multientity_page' => [
-        'backend' => 'int',
-        'frontend' => 'frontend\select',
-        'validator' => 'validator\multientity',
-        'viewer' => 'viewer\multientity',
-        'multiple' => true,
-        'ref' => 'page',
-        'opt' => 'opt\page',
-    ],
     'parent' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\select',

@@ -310,8 +310,9 @@ return [
             ],
             'path' => [
                 'name' => 'Path',
-                'type' => 'multientity_page',
+                'type' => 'multientity',
                 'auto' => true,
+                'ref' => 'page',
             ],
             'account_id' => [
                 'name' => 'Account',
