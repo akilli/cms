@@ -168,7 +168,7 @@ function index(array $block): string
     };
     $cfg['limit'] = array_filter(is_array($cfg['limit']) ? $cfg['limit'] : [$cfg['limit']], $call);
 
-    if (!$entity || !($attr = arr\extract($entity['attr'], $cfg['attr_id'])) || !$cfg['limit']) {
+    if (!$entity || !($attrs = arr\extract($entity['attr'], $cfg['attr_id'])) || !$cfg['limit']) {
         return '';
     }
 
@@ -195,7 +195,7 @@ function index(array $block): string
         }
     }
 
-    if ($cfg['sort'] && $get['sort'] && preg_match('#^(-)?([a-z0-9-_]+)$#', $get['sort'], $match) && !empty($attr[$match[2]])) {
+    if ($cfg['sort'] && $get['sort'] && preg_match('#^(-)?([a-z0-9-_]+)$#', $get['sort'], $match) && !empty($attrs[$match[2]])) {
         $opt['order'] = [$match[2] => $match[1] ? 'desc' : 'asc'];
         $sort = $get['sort'];
     }
@@ -247,7 +247,7 @@ function index(array $block): string
     }
 
     $var = [
-        'attr' => $attr,
+        'attr' => $attrs,
         'content' => $cfg['content'],
         'data' => $data,
         'filter' => $filter,
@@ -357,31 +357,30 @@ function content(array $block): string
 {
     $cfg = arr\replace(app\cfg('block', 'content')['cfg'], $block['cfg']);
 
-    if (!$data = $cfg['data']) {
+    if (!($data = $cfg['data']) || !($attrs = arr\extract($data['_entity']['attr'], $cfg['attr_id']))) {
         return '';
     }
 
-    $attrs = $data['_entity']['attr'];
-    $html = '';
+    $out = '';
 
-    if ($data['title'] && ($val = attr\viewer($data, $attrs['title']))) {
-        $val = $data['link'] ? app\html('a', ['href' => $data['link']], $val) : $val;
-        $html .= app\html('h2', [], $val);
-    }
-
-    if ($data['media'] && ($val = attr\viewer($data, $attrs['media']))) {
-        $class = preg_match('#^<(audio|iframe|video)#', $val, $match) ? $match[1] : 'image';
-        $val = $data['link'] && $class === 'image' ? app\html('a', ['href' => $data['link']], $val) : $val;
-        $html .= app\html('figure', ['class' => $class], $val);
-    }
-
-    if ($data['content'] && ($val = attr\viewer($data, $attrs['content']))) {
-        $html .= app\html('div', ['class' => 'content'], $val);
+    foreach ($attrs as $attr) {
+        if (!$html = attr\viewer($data, $attr)) {
+            continue;
+        } elseif ($attr['id'] === 'title') {
+            $html = $data['link'] ? app\html('a', ['href' => $data['link']], $html) : $html;
+            $out .= app\html('h2', [], $html);
+        } elseif ($attr['id'] === 'media') {
+            $class = preg_match('#^<(audio|iframe|video)#', $html, $match) ? $match[1] : 'image';
+            $html = $data['link'] && $class === 'image' ? app\html('a', ['href' => $data['link']], $html) : $html;
+            $out .= app\html('figure', ['class' => $class], $html);
+        } else {
+            $out .= app\html('div', ['class' => $attr['id']], $html);
+        }
     }
 
     $class = str_replace('_', '-', $cfg['data']['entity_id']);
 
-    return $html ? app\html('section', ['id' => $block['id'], 'class' => $class] + $cfg['html'], $html) : '';
+    return $out ? app\html('section', ['id' => $block['id'], 'class' => $class] + $cfg['html'], $out) : '';
 }
 
 /**
@@ -393,7 +392,7 @@ function edit(array $block): string
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!($entity = app\data('entity')) || !($attr = arr\extract($entity['attr'], $cfg['attr_id']))) {
+    if (!($entity = app\data('entity')) || !($attrs = arr\extract($entity['attr'], $cfg['attr_id']))) {
         return '';
     }
 
@@ -430,7 +429,7 @@ function edit(array $block): string
 
     $p[] = $data;
     $data = arr\replace(entity\item($entity['id']), ...$p);
-    $var = ['attr' => $attr, 'data' => $data, 'file' => !!arr\filter($attr, 'uploadable', true)];
+    $var = ['attr' => $attrs, 'data' => $data, 'file' => !!arr\filter($attrs, 'uploadable', true)];
 
     return app\tpl($block['tpl'], $var);
 }
@@ -444,7 +443,7 @@ function profile(array $block): string
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!($account = account\data()) || !($attr = arr\extract($account['_entity']['attr'], $cfg['attr_id']))) {
+    if (!($account = account\data()) || !($attrs = arr\extract($account['_entity']['attr'], $cfg['attr_id']))) {
         return '';
     }
 
@@ -463,7 +462,7 @@ function profile(array $block): string
     }
 
     $data = $data ? arr\replace($account + ['_error' => []], $data) : $account;
-    $var = ['attr' => $attr, 'data' => $data, 'file' => !!arr\filter($attr, 'uploadable', true)];
+    $var = ['attr' => $attrs, 'data' => $data, 'file' => !!arr\filter($attrs, 'uploadable', true)];
 
     return app\tpl($block['tpl'], $var);
 }
@@ -476,8 +475,8 @@ function login(array $block): string
     $block['tpl'] = $block['tpl'] ?? app\cfg('block', 'login')['tpl'];
     $entity = app\cfg('entity', 'account');
     $a = ['username' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0]];
-    $attr = array_replace_recursive(arr\extract($entity['attr'], ['username', 'password']), $a);
-    $var = ['attr' => $attr, 'data' => [], 'file' => false];
+    $attrs = array_replace_recursive(arr\extract($entity['attr'], ['username', 'password']), $a);
+    $var = ['attr' => $attrs, 'data' => [], 'file' => false];
 
     return app\tpl($block['tpl'], $var);
 }

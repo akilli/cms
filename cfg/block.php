@@ -105,6 +105,7 @@ return [
     'content' => [
         'call' => 'block\content',
         'cfg' => [
+            'attr_id' => ['title', 'media', 'content'],
             'data' => [],
             'html' => [],
         ],
