@@ -191,14 +191,27 @@ function load_block(array $data, array $ext = []): array
 }
 
 /**
- * Dispatches multiple events with the the same event data
+ * Dispatches a group of events with given data
+ *
+ * Every listener can stop further propagation of current event or the whole group by setting the $data['_stop'] to
+ * `false` for current event or `true` for the whole group
  */
 function event(array $events, array $data): array
 {
+    unset($data['_stop']);
+
     foreach ($events as $event) {
         if (($cfg = cfg('event', $event)) && asort($cfg, SORT_NUMERIC)) {
             foreach (array_keys($cfg) as $call) {
                 $data = $call($data);
+                $stop = $data['_stop'] ?? null;
+                unset($data['_stop']);
+
+                if ($stop === true) {
+                    break 2;
+                } elseif ($stop === false) {
+                    break;
+                }
             }
         }
     }
