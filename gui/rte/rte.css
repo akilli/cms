@@ -150,7 +150,7 @@ section[class^="block-"] > figure {
     object-position: center;
 }
 
-section[class^="block-"] > .media > figure {
+section[class^="block-"] > .media figure {
     float: none;
 }
 
