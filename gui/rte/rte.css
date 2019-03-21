@@ -129,7 +129,7 @@ details[open] > :not(:last-child) {
  */
 section[class^="block-"] {
     position: relative;
-    min-height: 15rem;
+    min-height: 13.5rem;
     padding: 0.75rem 0.75rem 0.75rem 13.5rem;
     border: 0.0625rem solid #ddd;
     border-radius: 0.5rem;
@@ -154,6 +154,10 @@ section[class^="block-"] > .media figure {
     float: none;
     margin: 0;
     background: #fff;
+}
+
+section[class^="block-"] > .content {
+    min-height: 9.75rem;
 }
 
 section[class^="block-"] .cke_widget_editable {
