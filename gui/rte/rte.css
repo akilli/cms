@@ -138,6 +138,7 @@ details[open] > :not(:last-child),
 
 .grid > .content > * {
     width: calc(50% - 0.75rem);
+    margin-bottom: 1.5rem;
 }
 
 /**
