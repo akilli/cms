@@ -106,25 +106,47 @@ table p {
 }
 
 /**
- * Details + Section
+ * Details
  */
-details,
-[data-widget=section] {
+details {
     padding: 0.75rem;
     background: #eee;
     border: 0.0625rem solid #ddd;
     border-radius: 0.5rem;
 }
 
-details > *,
-[data-widget=section] > * {
+details > * {
     padding: 0.375rem;
     background: #fff;
 }
 
-details[open] > :not(:last-child),
-[data-widget=section] > :not(:last-child) {
+details[open] > :not(:last-child) {
     margin-bottom: 0.75rem;
+}
+
+/**
+ * Section
+ */
+section[class^="block-"] {
+    position: relative;
+    min-height: 15rem;
+    padding: 0.75rem 0.75rem 0.75rem 13.5rem;
+    border: 0.0625rem solid #ddd;
+    border-radius: 0.5rem;
+}
+
+section[class^="block-"] > :not(:last-child) {
+    margin-bottom: 0.75rem;
+}
+
+section[class^="block-"] > figure {
+    position: absolute;
+    left: 0.75rem;
+    top: 0.75rem;
+    width: 12rem;
+    height: 12rem;
+    object-fit: cover;
+    object-position: center;
 }
 
 /**
