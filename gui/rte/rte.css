@@ -152,6 +152,7 @@ section[class^="block-"] > figure {
 
 section[class^="block-"] > .media figure {
     float: none;
+    margin: 0;
 }
 
 section[class^="block-"] .cke_widget_editable {
