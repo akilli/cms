@@ -134,12 +134,12 @@ details[open] > :not(:last-child),
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    background: #ffe4e1;
 }
 
 .grid > .content > * {
     width: calc(50% - 0.75rem);
     margin-bottom: 1.5rem;
+    background: #ffe4e1;
 }
 
 /**
