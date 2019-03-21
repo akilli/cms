@@ -149,7 +149,7 @@ section[class^="block-"] > figure {
 
 section[class^="block-"] > .media img,
 section[class^="block-"] > figure img {
-    max-height: 100%;
+    max-height: 9.5rem;
 }
 
 section[class^="block-"] > .media figure {
