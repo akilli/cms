@@ -135,12 +135,12 @@ section[class^="block-"] {
     border-radius: 0.5rem;
 }
 
-section[class^="block-"] > :not(:last-child) {
+section[class^="block-"] > h2 {
     margin-bottom: 0.75rem;
 }
 
 section[class^="block-"] > .media,
-section[class^="block-"] > figure {
+section[class^="block-"] > h2 + figure {
     position: absolute;
     left: 0.75rem;
     top: 0.75rem;
