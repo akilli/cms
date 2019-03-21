@@ -106,8 +106,12 @@ table p {
 }
 
 /**
- * Details
+ * Widgets
  */
+.cke_widget_editable {
+    outline: none !important;
+}
+
 details,
 [data-widget=section] {
     padding: 0.75rem;
@@ -125,11 +129,4 @@ details > *,
 details[open] > :not(:last-child),
 [data-widget=section] > :not(:last-child) {
     margin-bottom: 0.75rem;
-}
-
-/**
- * Editable
- */
-.cke_widget_editable {
-    outline: none !important;
 }
