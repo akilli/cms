@@ -7,7 +7,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         Array.prototype.forEach.call(document.querySelectorAll('textarea[data-type=rte]'), function (item) {
             CKEDITOR.replace(item, {
-                contentsCss: '',
+                contentsCss: ['/gui/base.css', '/gui/rte.css'],
                 customConfig: '',
                 disableNativeSpellChecker: true,
                 extraAllowedContent: 'article section(*)',
