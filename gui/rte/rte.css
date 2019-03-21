@@ -148,15 +148,21 @@ section[class^="block-"] > figure {
     object-position: center;
 }
 
-section[class^="block-"] > .media img,
-section[class^="block-"] > figure img {
-    max-height: 10.5rem;
-}
-
 section[class^="block-"] > .media figure {
     float: none;
     margin: 0;
     background: #fff;
+}
+
+section[class^="block-"] > .media audio,
+section[class^="block-"] > .media iframe,
+section[class^="block-"] > .media img,
+section[class^="block-"] > .media video,
+section[class^="block-"] > figure audio,
+section[class^="block-"] > figure iframe,
+section[class^="block-"] > figure img,
+section[class^="block-"] > figure video {
+    max-height: 10.5rem;
 }
 
 section[class^="block-"] > .content {
