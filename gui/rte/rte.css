@@ -134,6 +134,7 @@ details[open] > :not(:last-child),
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    background: #ffe4e1;
 }
 
 .grid > .content > * {
