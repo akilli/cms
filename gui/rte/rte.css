@@ -128,6 +128,19 @@ details[open] > :not(:last-child),
 }
 
 /**
+ * Grid
+ */
+.grid > .content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.grid > .content > * {
+    width: calc(50% - 0.75rem);
+}
+
+/**
  * Widget Editable
  */
 .cke_widget_editable {
