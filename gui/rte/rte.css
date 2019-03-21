@@ -139,6 +139,7 @@ section[class^="block-"] > :not(:last-child) {
     margin-bottom: 0.75rem;
 }
 
+section[class^="block-"] > .media,
 section[class^="block-"] > figure {
     position: absolute;
     left: 0.75rem;
