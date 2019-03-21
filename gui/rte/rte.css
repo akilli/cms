@@ -121,7 +121,7 @@ summary,
     background: #fff;
 }
 
-summary {
+details[open] summary {
     margin-bottom: 0.75rem;
 }
 
