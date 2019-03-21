@@ -138,13 +138,18 @@ section[class^="block-"] > h2 {
 }
 
 section[class^="block-"] > .media,
-section[class^="block-"] > h2 + figure {
+section[class^="block-"] > figure {
     width: 12rem;
     height: 12rem;
     float: left;
     margin-right: 0.75rem;
     object-fit: cover;
     object-position: center;
+}
+
+section[class^="block-"] > .media img,
+section[class^="block-"] > figure img {
+    max-height: 100%;
 }
 
 section[class^="block-"] > .media figure {
