@@ -143,7 +143,7 @@ section[class^="block-"] > figure {
     width: 12rem;
     height: 12rem;
     float: left;
-    margin: 0 0 0 -12.75rem;
+    margin: -2.25rem 0 0 -12.75rem;
     object-fit: cover;
     object-position: center;
 }
