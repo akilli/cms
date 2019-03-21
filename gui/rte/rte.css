@@ -150,6 +150,10 @@ section[class^="block-"] > figure {
     object-position: center;
 }
 
+section[class^="block-"] > .media > figure {
+    float: none;
+}
+
 section[class^="block-"] .cke_widget_editable {
     background: #eee;
 }
