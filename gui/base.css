@@ -155,7 +155,7 @@ hr {
 }
 
 /**
- * Media
+ * Figure
  */
 audio,
 canvas,
@@ -170,15 +170,9 @@ video {
     vertical-align: middle;
 }
 
-figure audio,
-figure canvas,
-figure embed,
-figure iframe,
-figure img,
-figure object,
-figure picture,
-figure video {
+figure > :not(figcaption) {
     display: block;
+    margin: 0 auto;
 }
 
 img {
