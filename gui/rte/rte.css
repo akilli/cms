@@ -139,7 +139,7 @@ details[open] > :not(:last-child),
 .grid > .content > * {
     width: calc(50% - 0.75rem);
     margin-bottom: 1.5rem;
-    background: #ffe4e1;
+    border: 0.0625rem dotted #ddd;
 }
 
 /**
