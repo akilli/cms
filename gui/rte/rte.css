@@ -154,6 +154,10 @@ section[class^="block-"] .cke_widget_editable {
     background: #eee;
 }
 
+section[class^="block-"] .cke_widget_editable .cke_widget_editable {
+    background: #fff;
+}
+
 /**
  * Grid
  */
