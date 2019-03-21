@@ -39,6 +39,7 @@
         'link': 1,
         'list': 1,
         'magicline': 1,
+        'maximize': 1,
         'media': 1,
         'mediabrowser': 1,
         'table': 1,
