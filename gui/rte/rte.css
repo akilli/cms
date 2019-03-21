@@ -128,7 +128,7 @@ details[open] > :not(:last-child) {
  * Section
  */
 section[class^="block-"] {
-    padding: 0.75rem;
+    padding: 0.75rem 0.75rem 0.75rem 13.5rem;
     border: 0.0625rem solid #ddd;
     border-radius: 0.5rem;
 }
@@ -139,17 +139,18 @@ section[class^="block-"] > h2 {
 
 section[class^="block-"] > .media,
 section[class^="block-"] > figure {
+    position: relative;
     width: 12rem;
     height: 12rem;
     float: left;
-    margin-right: 0.75rem;
+    margin: 0 0 0 -12.75rem;
     object-fit: cover;
     object-position: center;
 }
 
 section[class^="block-"] > .media img,
 section[class^="block-"] > figure img {
-    max-height: 9.5rem;
+    max-height: 10.5rem;
 }
 
 section[class^="block-"] > .media figure {
@@ -159,7 +160,7 @@ section[class^="block-"] > .media figure {
 }
 
 section[class^="block-"] > .content {
-    min-height: 12rem;
+    min-height: 9.75rem;
 }
 
 section[class^="block-"] .cke_widget_editable {
