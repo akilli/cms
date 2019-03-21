@@ -142,6 +142,7 @@ section[class^="block-"] > h2 + figure {
     width: 12rem;
     height: 12rem;
     float: left;
+    margin-right: 0.75rem;
     object-fit: cover;
     object-position: center;
 }
@@ -153,7 +154,7 @@ section[class^="block-"] > .media figure {
 }
 
 section[class^="block-"] > .content {
-    min-height: 9.75rem;
+    min-height: 12rem;
 }
 
 section[class^="block-"] .cke_widget_editable {
