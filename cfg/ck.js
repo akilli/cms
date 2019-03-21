@@ -33,7 +33,6 @@
         'basicstyles': 1,
         'blockquote': 1,
         'detail': 1,
-        'divarea': 1,
         'enterkey': 1,
         'floatingspace': 1,
         'format': 1,
@@ -44,7 +43,8 @@
         'mediabrowser': 1,
         'table': 1,
         'toolbar': 1,
-        'undo': 1
+        'undo': 1,
+        'wysiwygarea': 1
     },
     languages: {
         'de': 1,
