@@ -174,13 +174,6 @@ section[class^="block-"] .cke_widget_editable {
 }
 
 /**
- * Block
- */
-block {
-    display: block;
-}
-
-/**
  * Grid
  */
 .grid > .content {
