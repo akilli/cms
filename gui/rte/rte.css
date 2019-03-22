@@ -174,6 +174,13 @@ section[class^="block-"] .cke_widget_editable {
 }
 
 /**
+ * Block
+ */
+div[data-block] {
+    min-height: 6rem;
+}
+
+/**
  * Grid
  */
 .grid > .content {
