@@ -56,28 +56,6 @@ blockquote::before {
 }
 
 /**
- * Figure
- */
-figure:not(.left):not(.right) {
-    text-align: center;
-}
-
-figure.left {
-    float: left;
-    margin-right: 0.75rem;
-}
-
-figure.right {
-    float: right;
-    margin-left: 0.75rem;
-}
-
-figcaption {
-    font-size: 0.875rem;
-    background: #eee;
-}
-
-/**
  * Table
  */
 table {
@@ -103,6 +81,34 @@ tfoot tr:first-child th {
 
 table p {
     margin: 0;
+}
+
+/**
+ * Media
+ */
+figure:not(.left):not(.right) {
+    text-align: center;
+}
+
+figure.left {
+    float: left;
+    margin-right: 0.75rem;
+}
+
+figure.right {
+    float: right;
+    margin-left: 0.75rem;
+}
+
+figcaption {
+    font-size: 0.875rem;
+    background: #eee;
+}
+
+audio,
+iframe,
+video {
+    pointer-events: none;
 }
 
 /**
