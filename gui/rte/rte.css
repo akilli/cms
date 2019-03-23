@@ -133,18 +133,18 @@ details[open] > :not(:last-child) {
 /**
  * Section
  */
-section[class^="block-"] {
+section {
     padding: 0.75rem 0.75rem 0.75rem 13.5rem;
     border: 0.0625rem solid #ddd;
     border-radius: 0.5rem;
 }
 
-section[class^="block-"] > h2 {
+section > h2 {
     margin-bottom: 0.75rem;
 }
 
-section[class^="block-"] > .media,
-section[class^="block-"] > figure {
+section > .media,
+section > figure {
     position: relative;
     width: 12rem;
     height: 12rem;
@@ -154,28 +154,28 @@ section[class^="block-"] > figure {
     object-position: center;
 }
 
-section[class^="block-"] > .media figure {
+section > .media figure {
     float: none;
     margin: 0;
     background: #fff;
 }
 
-section[class^="block-"] > .media audio,
-section[class^="block-"] > .media iframe,
-section[class^="block-"] > .media img,
-section[class^="block-"] > .media video,
-section[class^="block-"] > figure audio,
-section[class^="block-"] > figure iframe,
-section[class^="block-"] > figure img,
-section[class^="block-"] > figure video {
+section > .media audio,
+section > .media iframe,
+section > .media img,
+section > .media video,
+section > figure audio,
+section > figure iframe,
+section > figure img,
+section > figure video {
     max-height: 10.5rem;
 }
 
-section[class^="block-"] > .content {
+section > .content {
     min-height: 9.75rem;
 }
 
-section[class^="block-"] .cke_widget_editable {
+section .cke_widget_editable {
     background: #eee;
 }
 
@@ -211,12 +211,12 @@ div[data-block] {
 /**
  * Clear
  */
-[class^="block-"]::before {
+section::before {
     display: table;
     content: " ";
 }
 
-[class^="block-"]::after {
+section::after {
     display: table;
     content: " ";
     clear: both;
