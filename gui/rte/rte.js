@@ -24,6 +24,7 @@
                         items: [
                             'Undo',
                             'Redo',
+                            'Maximize',
                             'Bold',
                             'Italic',
                             'Link',
@@ -34,8 +35,7 @@
                             'Blockquote',
                             'Media',
                             'Table',
-                            'Detail',
-                            'Maximize'
+                            'Detail'
                         ]
                     }
                 ]
