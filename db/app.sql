@@ -7,7 +7,358 @@ START TRANSACTION;
 CREATE TYPE status AS ENUM ('draft', 'pending', 'published', 'archived');
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Function
+-- Table
+-- ---------------------------------------------------------------------------------------------------------------------
+
+--
+-- Role
+--
+
+CREATE TABLE role (
+    id serial PRIMARY KEY,
+    name varchar(50) NOT NULL UNIQUE,
+    priv text[] NOT NULL DEFAULT '{}'
+);
+
+CREATE INDEX ON role USING GIN (priv);
+
+--
+-- Account
+--
+
+CREATE TABLE account (
+    id serial PRIMARY KEY,
+    name varchar(50) NOT NULL UNIQUE,
+    role_id int NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE,
+    username varchar(50) NOT NULL UNIQUE,
+    password varchar(255) NOT NULL,
+    email varchar(50) DEFAULT NULL UNIQUE
+);
+
+CREATE INDEX ON account (role_id);
+
+--
+-- File
+--
+
+CREATE TABLE file (
+    id serial PRIMARY KEY,
+    name varchar(100) NOT NULL,
+    entity_id varchar(50) NOT NULL,
+    url varchar(255) NOT NULL UNIQUE,
+    mime varchar(255) NOT NULL,
+    ext varchar(10) DEFAULT NULL,
+    thumb_url varchar(255) DEFAULT NULL UNIQUE,
+    thumb_mime varchar(255) DEFAULT NULL,
+    thumb_ext varchar(10) DEFAULT NULL,
+    info text NOT NULL
+);
+
+CREATE INDEX ON file (name);
+CREATE INDEX ON file (entity_id);
+CREATE INDEX ON file (mime);
+CREATE INDEX ON file (ext);
+CREATE INDEX ON file (thumb_mime);
+CREATE INDEX ON file (thumb_ext);
+
+--
+-- Page
+--
+
+CREATE TABLE page (
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    entity_id varchar(50) NOT NULL,
+    title varchar(255) DEFAULT NULL,
+    image int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
+    content text NOT NULL DEFAULT '',
+    aside text NOT NULL DEFAULT '',
+    meta_title varchar(80) NOT NULL DEFAULT '',
+    meta_description varchar(300) NOT NULL DEFAULT '',
+    date timestamp(0) NOT NULL DEFAULT current_timestamp,
+    slug varchar(75) NOT NULL,
+    url varchar(400) UNIQUE DEFAULT NULL,
+    disabled boolean NOT NULL DEFAULT FALSE,
+    menu boolean NOT NULL DEFAULT FALSE,
+    parent_id int DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
+    sort int NOT NULL DEFAULT 0,
+    pos varchar(255) NOT NULL DEFAULT '',
+    level int NOT NULL DEFAULT 0,
+    path int[] NOT NULL DEFAULT '{}',
+    account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
+    status status NOT NULL,
+    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp,
+    UNIQUE (parent_id, slug)
+);
+
+CREATE INDEX ON page (name);
+CREATE INDEX ON page (entity_id);
+CREATE INDEX ON page (title);
+CREATE INDEX ON page (image);
+CREATE INDEX ON page (meta_title);
+CREATE INDEX ON page (meta_description);
+CREATE INDEX ON page (date);
+CREATE INDEX ON page (slug);
+CREATE INDEX ON page (url);
+CREATE INDEX ON page (disabled);
+CREATE INDEX ON page (menu);
+CREATE INDEX ON page (parent_id);
+CREATE INDEX ON page (sort);
+CREATE INDEX ON page (pos);
+CREATE INDEX ON page (level);
+CREATE INDEX ON page USING GIN (path);
+CREATE INDEX ON page (account_id);
+CREATE INDEX ON page (status);
+CREATE INDEX ON page (timestamp);
+
+--
+-- Version
+--
+
+CREATE TABLE version (
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    entity_id varchar(50) NOT NULL,
+    page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED,
+    title varchar(255) DEFAULT NULL,
+    content text NOT NULL,
+    aside text NOT NULL,
+    account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
+    status status NOT NULL,
+    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
+);
+
+CREATE INDEX ON version (name);
+CREATE INDEX ON version (entity_id);
+CREATE INDEX ON version (page_id);
+CREATE INDEX ON version (title);
+CREATE INDEX ON version (account_id);
+CREATE INDEX ON version (status);
+CREATE INDEX ON version (timestamp);
+
+--
+-- Block
+--
+
+CREATE TABLE block (
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    entity_id varchar(50) NOT NULL,
+    title varchar(255) DEFAULT NULL,
+    link varchar(255) DEFAULT NULL,
+    media int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
+    content text NOT NULL DEFAULT ''
+);
+
+CREATE INDEX ON block (name);
+CREATE INDEX ON block (entity_id);
+CREATE INDEX ON block (title);
+CREATE INDEX ON block (link);
+CREATE INDEX ON block (media);
+
+--
+-- Layout
+--
+
+CREATE TABLE layout (
+    id serial PRIMARY KEY,
+    name varchar(100) NOT NULL,
+    entity_id varchar(50) NOT NULL,
+    block_id int NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
+    page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
+    parent_id varchar(100) NOT NULL,
+    sort int NOT NULL DEFAULT 0,
+    UNIQUE (page_id, parent_id, name)
+);
+
+CREATE INDEX ON layout (name);
+CREATE INDEX ON layout (entity_id);
+CREATE INDEX ON layout (block_id);
+CREATE INDEX ON layout (page_id);
+CREATE INDEX ON layout (parent_id);
+CREATE INDEX ON layout (sort);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- View
+-- ---------------------------------------------------------------------------------------------------------------------
+
+--
+-- File Audio
+--
+
+CREATE VIEW file_audio AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id = 'file_audio'
+WITH LOCAL CHECK OPTION;
+
+--
+-- File Doc
+--
+
+CREATE VIEW file_doc AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id = 'file_doc'
+WITH LOCAL CHECK OPTION;
+
+--
+-- File Iframe
+--
+
+CREATE VIEW file_iframe AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id = 'file_iframe'
+WITH LOCAL CHECK OPTION;
+
+--
+-- File Image
+--
+
+CREATE VIEW file_image AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id = 'file_image'
+WITH LOCAL CHECK OPTION;
+
+--
+-- File Video
+--
+
+CREATE VIEW file_video AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id = 'file_video'
+WITH LOCAL CHECK OPTION;
+
+--
+-- Page Article
+--
+
+CREATE VIEW page_article AS
+SELECT
+    *
+FROM
+    page
+WHERE
+    entity_id = 'page_article'
+WITH LOCAL CHECK OPTION;
+
+--
+-- Page Content
+--
+
+CREATE VIEW page_content AS
+SELECT
+    *
+FROM
+    page
+WHERE
+    entity_id = 'page_content'
+WITH LOCAL CHECK OPTION;
+
+--
+-- Block Content
+--
+
+CREATE VIEW block_content AS
+SELECT
+    *
+FROM
+    block
+WHERE
+    entity_id = 'block_content'
+WITH LOCAL CHECK OPTION;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Materialized View
+-- ---------------------------------------------------------------------------------------------------------------------
+
+--
+-- File Media
+--
+
+CREATE MATERIALIZED VIEW file_media AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id IN ('file_audio', 'file_iframe', 'file_image', 'file_video');
+
+CREATE UNIQUE INDEX ON file_media (id);
+CREATE UNIQUE INDEX ON file_media (url);
+CREATE UNIQUE INDEX ON file_media (thumb_url);
+CREATE INDEX ON file_media (name);
+CREATE INDEX ON file_media (entity_id);
+CREATE INDEX ON file_media (mime);
+CREATE INDEX ON file_media (ext);
+CREATE INDEX ON file_media (thumb_mime);
+CREATE INDEX ON file_media (thumb_ext);
+
+--
+-- Layout Page
+--
+CREATE MATERIALIZED VIEW layout_page AS
+WITH s AS (
+    SELECT
+        p.id,
+        (SELECT l.page_id FROM layout l INNER JOIN page j ON j.id = l.page_id WHERE l.parent_id = 'sidebar' AND l.page_id = ANY(p.path) ORDER BY j.level DESC LIMIT 1) AS page_id
+    FROM
+        page p
+    ORDER BY
+        id ASC
+)
+SELECT
+    l.id,
+    l.name,
+    l.entity_id,
+    l.block_id,
+    p.id AS page_id,
+    l.parent_id,
+    l.sort
+FROM
+    page p
+INNER JOIN
+    s
+        ON
+            s.id = p.id
+INNER JOIN
+    layout l
+        ON
+            l.page_id = p.id
+            OR l.parent_id = 'sidebar' AND l.page_id = s.page_id
+ORDER BY
+    id ASC,
+    parent_id ASC,
+    sort ASC;
+
+CREATE UNIQUE INDEX ON layout_page (page_id, parent_id, name);
+CREATE INDEX ON layout_page (name);
+CREATE INDEX ON layout_page (entity_id);
+CREATE INDEX ON layout_page (block_id);
+CREATE INDEX ON layout_page (page_id);
+CREATE INDEX ON layout_page (parent_id);
+CREATE INDEX ON layout_page (sort);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Trigger Function
 -- ---------------------------------------------------------------------------------------------------------------------
 
 --
@@ -537,199 +888,19 @@ CREATE FUNCTION layout_view() RETURNS trigger AS $$
 $$ LANGUAGE plpgsql;
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Table
+-- Trigger
 -- ---------------------------------------------------------------------------------------------------------------------
-
---
--- Role
---
-
-CREATE TABLE role (
-    id serial PRIMARY KEY,
-    name varchar(50) NOT NULL UNIQUE,
-    priv text[] NOT NULL DEFAULT '{}'
-);
-
-CREATE INDEX ON role USING GIN (priv);
-
---
--- Account
---
-
-CREATE TABLE account (
-    id serial PRIMARY KEY,
-    name varchar(50) NOT NULL UNIQUE,
-    role_id int NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE,
-    username varchar(50) NOT NULL UNIQUE,
-    password varchar(255) NOT NULL,
-    email varchar(50) DEFAULT NULL UNIQUE
-);
-
-CREATE INDEX ON account (role_id);
 
 --
 -- File
 --
 
-CREATE TABLE file (
-    id serial PRIMARY KEY,
-    name varchar(100) NOT NULL,
-    entity_id varchar(50) NOT NULL,
-    url varchar(255) NOT NULL UNIQUE,
-    mime varchar(255) NOT NULL,
-    ext varchar(10) DEFAULT NULL,
-    thumb_url varchar(255) DEFAULT NULL UNIQUE,
-    thumb_mime varchar(255) DEFAULT NULL,
-    thumb_ext varchar(10) DEFAULT NULL,
-    info text NOT NULL
-);
-
-CREATE INDEX ON file (name);
-CREATE INDEX ON file (entity_id);
-CREATE INDEX ON file (mime);
-CREATE INDEX ON file (ext);
-CREATE INDEX ON file (thumb_mime);
-CREATE INDEX ON file (thumb_ext);
-
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW EXECUTE PROCEDURE file_save();
 CREATE TRIGGER file_view AFTER INSERT OR UPDATE OR DELETE ON file FOR EACH STATEMENT EXECUTE PROCEDURE file_view();
 
 --
--- File Media
---
-
-CREATE MATERIALIZED VIEW file_media AS
-SELECT
-    *
-FROM
-    file
-WHERE
-    entity_id IN ('file_audio', 'file_iframe', 'file_image', 'file_video');
-
-CREATE UNIQUE INDEX ON file_media (id);
-CREATE UNIQUE INDEX ON file_media (url);
-CREATE UNIQUE INDEX ON file_media (thumb_url);
-CREATE INDEX ON file_media (name);
-CREATE INDEX ON file_media (entity_id);
-CREATE INDEX ON file_media (mime);
-CREATE INDEX ON file_media (ext);
-CREATE INDEX ON file_media (thumb_mime);
-CREATE INDEX ON file_media (thumb_ext);
-
---
--- File Audio
---
-
-CREATE VIEW file_audio AS
-SELECT
-    *
-FROM
-    file
-WHERE
-    entity_id = 'file_audio'
-WITH LOCAL CHECK OPTION;
-
---
--- File Doc
---
-
-CREATE VIEW file_doc AS
-SELECT
-    *
-FROM
-    file
-WHERE
-    entity_id = 'file_doc'
-WITH LOCAL CHECK OPTION;
-
---
--- File Iframe
---
-
-CREATE VIEW file_iframe AS
-SELECT
-    *
-FROM
-    file
-WHERE
-    entity_id = 'file_iframe'
-WITH LOCAL CHECK OPTION;
-
---
--- File Image
---
-
-CREATE VIEW file_image AS
-SELECT
-    *
-FROM
-    file
-WHERE
-    entity_id = 'file_image'
-WITH LOCAL CHECK OPTION;
-
---
--- File Video
---
-
-CREATE VIEW file_video AS
-SELECT
-    *
-FROM
-    file
-WHERE
-    entity_id = 'file_video'
-WITH LOCAL CHECK OPTION;
-
---
 -- Page
 --
-
-CREATE TABLE page (
-    id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    entity_id varchar(50) NOT NULL,
-    title varchar(255) DEFAULT NULL,
-    image int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
-    content text NOT NULL DEFAULT '',
-    aside text NOT NULL DEFAULT '',
-    meta_title varchar(80) NOT NULL DEFAULT '',
-    meta_description varchar(300) NOT NULL DEFAULT '',
-    date timestamp(0) NOT NULL DEFAULT current_timestamp,
-    slug varchar(75) NOT NULL,
-    url varchar(400) UNIQUE DEFAULT NULL,
-    disabled boolean NOT NULL DEFAULT FALSE,
-    menu boolean NOT NULL DEFAULT FALSE,
-    parent_id int DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
-    sort int NOT NULL DEFAULT 0,
-    pos varchar(255) NOT NULL DEFAULT '',
-    level int NOT NULL DEFAULT 0,
-    path int[] NOT NULL DEFAULT '{}',
-    account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
-    status status NOT NULL,
-    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp,
-    UNIQUE (parent_id, slug)
-);
-
-CREATE INDEX ON page (name);
-CREATE INDEX ON page (entity_id);
-CREATE INDEX ON page (title);
-CREATE INDEX ON page (image);
-CREATE INDEX ON page (meta_title);
-CREATE INDEX ON page (meta_description);
-CREATE INDEX ON page (date);
-CREATE INDEX ON page (slug);
-CREATE INDEX ON page (url);
-CREATE INDEX ON page (disabled);
-CREATE INDEX ON page (menu);
-CREATE INDEX ON page (parent_id);
-CREATE INDEX ON page (sort);
-CREATE INDEX ON page (pos);
-CREATE INDEX ON page (level);
-CREATE INDEX ON page USING GIN (path);
-CREATE INDEX ON page (account_id);
-CREATE INDEX ON page (status);
-CREATE INDEX ON page (timestamp);
 
 CREATE TRIGGER page_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_before();
 CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE page_menu_before();
@@ -738,160 +909,17 @@ CREATE TRIGGER page_version_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW 
 CREATE TRIGGER page_version_after AFTER UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_version_after();
 
 --
--- Page Article
---
-
-CREATE VIEW page_article AS
-SELECT
-    *
-FROM
-    page
-WHERE
-    entity_id = 'page_article'
-WITH LOCAL CHECK OPTION;
-
---
--- Page Content
---
-
-CREATE VIEW page_content AS
-SELECT
-    *
-FROM
-    page
-WHERE
-    entity_id = 'page_content'
-WITH LOCAL CHECK OPTION;
-
---
 -- Version
 --
 
-CREATE TABLE version (
-    id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    entity_id varchar(50) NOT NULL,
-    page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED,
-    title varchar(255) DEFAULT NULL,
-    content text NOT NULL,
-    aside text NOT NULL,
-    account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
-    status status NOT NULL,
-    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
-);
-
-CREATE INDEX ON version (name);
-CREATE INDEX ON version (entity_id);
-CREATE INDEX ON version (page_id);
-CREATE INDEX ON version (title);
-CREATE INDEX ON version (account_id);
-CREATE INDEX ON version (status);
-CREATE INDEX ON version (timestamp);
-
 CREATE TRIGGER version_before BEFORE INSERT OR UPDATE ON version FOR EACH ROW EXECUTE PROCEDURE version_before();
-
---
--- Block
---
-
-CREATE TABLE block (
-    id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    entity_id varchar(50) NOT NULL,
-    title varchar(255) DEFAULT NULL,
-    link varchar(255) DEFAULT NULL,
-    media int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
-    content text NOT NULL DEFAULT ''
-);
-
-CREATE INDEX ON block (name);
-CREATE INDEX ON block (entity_id);
-CREATE INDEX ON block (title);
-CREATE INDEX ON block (link);
-CREATE INDEX ON block (media);
-
---
--- Block Content
---
-
-CREATE VIEW block_content AS
-SELECT
-    *
-FROM
-    block
-WHERE
-    entity_id = 'block_content'
-WITH LOCAL CHECK OPTION;
 
 --
 -- Layout
 --
 
-CREATE TABLE layout (
-    id serial PRIMARY KEY,
-    name varchar(100) NOT NULL,
-    entity_id varchar(50) NOT NULL,
-    block_id int NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
-    page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
-    parent_id varchar(100) NOT NULL,
-    sort int NOT NULL DEFAULT 0,
-    UNIQUE (page_id, parent_id, name)
-);
-
-CREATE INDEX ON layout (name);
-CREATE INDEX ON layout (entity_id);
-CREATE INDEX ON layout (block_id);
-CREATE INDEX ON layout (page_id);
-CREATE INDEX ON layout (parent_id);
-CREATE INDEX ON layout (sort);
-
 CREATE TRIGGER layout_save BEFORE INSERT OR UPDATE ON layout FOR EACH ROW EXECUTE PROCEDURE layout_save();
 CREATE TRIGGER layout_view AFTER INSERT OR UPDATE OR DELETE ON layout FOR EACH STATEMENT EXECUTE PROCEDURE layout_view();
-
---
--- Layout Page
---
-CREATE MATERIALIZED VIEW layout_page AS
-WITH s AS (
-    SELECT
-        p.id,
-        (SELECT l.page_id FROM layout l INNER JOIN page j ON j.id = l.page_id WHERE l.parent_id = 'sidebar' AND l.page_id = ANY(p.path) ORDER BY j.level DESC LIMIT 1) AS page_id
-    FROM
-        page p
-    ORDER BY
-        id ASC
-)
-SELECT
-    l.id,
-    l.name,
-    l.entity_id,
-    l.block_id,
-    p.id AS page_id,
-    l.parent_id,
-    l.sort
-FROM
-    page p
-INNER JOIN
-    s
-        ON
-            s.id = p.id
-INNER JOIN
-    layout l
-        ON
-            l.page_id = p.id
-            OR l.parent_id = 'sidebar' AND l.page_id = s.page_id
-ORDER BY
-    id ASC,
-    parent_id ASC,
-    sort ASC;
-
-CREATE UNIQUE INDEX ON layout_page (page_id, parent_id, name);
-CREATE INDEX ON layout_page (name);
-CREATE INDEX ON layout_page (entity_id);
-CREATE INDEX ON layout_page (block_id);
-CREATE INDEX ON layout_page (page_id);
-CREATE INDEX ON layout_page (parent_id);
-CREATE INDEX ON layout_page (sort);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
