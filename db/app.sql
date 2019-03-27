@@ -365,8 +365,8 @@ CREATE INDEX ON layout_page (sort);
 -- Generic trigger function for not auto-updatable views
 --
 -- You could use this generic trigger function for entities that extend a base entity and define additional columns in
--- an extension table. The resulting views are usually not auto-updatable. Anyhow you should prefer dedicated triggers
--- over this generic one. It's just too much voodoo going on here.
+-- an extension table. The resulting views are usually not auto-updatable. Anyhow you should prefer dedicated trigger
+-- functions over this generic one. It's just too much voodoo going on here.
 --
 -- Naming conventions
 -- -------------------------------------------------------------------
