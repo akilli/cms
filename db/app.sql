@@ -315,6 +315,7 @@ CREATE INDEX ON file_media (thumb_ext);
 --
 -- Layout Page
 --
+
 CREATE MATERIALIZED VIEW layout_page AS
 WITH s AS (
     SELECT
@@ -356,6 +357,38 @@ CREATE INDEX ON layout_page (block_id);
 CREATE INDEX ON layout_page (page_id);
 CREATE INDEX ON layout_page (parent_id);
 CREATE INDEX ON layout_page (sort);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Function
+-- ---------------------------------------------------------------------------------------------------------------------
+
+--
+-- Version
+--
+
+CREATE FUNCTION version_reset() RETURNS void AS $$
+    BEGIN
+        TRUNCATE version RESTART IDENTITY;
+
+        INSERT INTO
+            version
+            (name, entity_id, page_id, title, content, aside, account_id, status, timestamp)
+        SELECT
+            name,
+            entity_id,
+            id AS page_id,
+            title,
+            content,
+            aside,
+            account_id,
+            status,
+            timestamp
+        FROM
+            page
+        ORDER BY
+            id ASC;
+    END;
+$$ LANGUAGE plpgsql;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Trigger Function
@@ -840,30 +873,6 @@ CREATE FUNCTION version_before() RETURNS trigger AS $$
             AND status IN ('draft', 'pending');
 
         RETURN NEW;
-    END;
-$$ LANGUAGE plpgsql;
-
-CREATE FUNCTION version_reset() RETURNS void AS $$
-    BEGIN
-        TRUNCATE version RESTART IDENTITY;
-
-        INSERT INTO
-            version
-            (name, entity_id, page_id, title, content, aside, account_id, status, timestamp)
-        SELECT
-            name,
-            entity_id,
-            id AS page_id,
-            title,
-            content,
-            aside,
-            account_id,
-            status,
-            timestamp
-        FROM
-            page
-        ORDER BY
-            id ASC;
     END;
 $$ LANGUAGE plpgsql;
 
