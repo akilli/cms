@@ -4,7 +4,7 @@ START TRANSACTION;
 -- Type
 -- ---------------------------------------------------------------------------------------------------------------------
 
-CREATE TYPE status AS ENUM ('draft', 'pending', 'published', 'archived');
+CREATE TYPE status AS enum ('draft', 'pending', 'published', 'archived');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table
