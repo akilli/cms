@@ -27,7 +27,7 @@ function run(): void
     $app['lang'] = locale_get_primary_language('');
     $app['gui'] = max(filemtime(path('gui')), file_exists(path('ext.gui')) ? filemtime(path('ext.gui')) : 0);
     $url = request\data('url');
-    $pattern = '#^/(?P<entity_id>[a-z_]+)?(?:/(?P<action>[a-z_]+))?(?:/(?P<id>\d+))?(?P<invalid>.*)#';
+    $pattern = '#^/(?P<entity_id>[a-z_]+)?(?:/(?P<action>[a-z_]+))?(?:/(?P<id>[^/]+))?(?P<invalid>.*)#u';
     $page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]);
 
     if ($page && ($app['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))) {
