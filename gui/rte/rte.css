@@ -84,20 +84,23 @@ table p {
 }
 
 /**
- * Media
+ * Alignment
  */
-figure:not(.left):not(.right) {
-    text-align: center;
-}
-
-figure.left {
+.left {
     float: left;
     margin-right: 0.75rem;
 }
 
-figure.right {
+.right {
     float: right;
     margin-left: 0.75rem;
+}
+
+/**
+ * Media
+ */
+figure:not(.left):not(.right) {
+    text-align: center;
 }
 
 figcaption {
@@ -182,8 +185,14 @@ section .cke_widget_editable {
 /**
  * Block
  */
-div[data-block] {
-    min-height: 6rem;
+div[data-block]:empty {
+    line-height: 6rem;
+    text-align: center;
+    background: #ffa500;
+}
+
+div[data-block]:empty::after {
+    content: 'Block-ID: ' attr(data-block) ' ';
 }
 
 /**
