@@ -9,19 +9,16 @@ body {
     background: #fff;
 }
 
-body > :not(:last-child) {
+body > :not(:last-child),
+h2:not(:last-child),
+h3:not(:last-child),
+p:not(:last-child) {
     margin-bottom: 1.5rem;
 }
 
 /**
  * Text
  */
-h2,
-h3,
-p {
-    margin-bottom: 1.5rem;
-}
-
 h2 {
     font-size: 1.25rem;
 }
