@@ -16,6 +16,12 @@ body > :not(:last-child) {
 /**
  * Text
  */
+h2,
+h3,
+p {
+    margin-bottom: 1.5rem;
+}
+
 h2 {
     font-size: 1.25rem;
 }
@@ -35,24 +41,6 @@ a {
 ol,
 ul {
     padding-left: 2rem;
-}
-
-/**
- * Quote
- */
-blockquote {
-    padding: 2.25rem 0.75rem 0.75rem;
-    text-align: center;
-    color: #333;
-    background: #f8f8f7;
-    box-shadow: 0.125rem 0.125rem 0.125rem #e0e0e0;
-}
-
-blockquote::before {
-    display: block;
-    content: '🙷';
-    font-family: serif;
-    font-size: 6rem;
 }
 
 /**
@@ -81,6 +69,24 @@ tfoot tr:first-child th {
 
 table p {
     margin: 0;
+}
+
+/**
+ * Quote
+ */
+blockquote {
+    padding: 2.25rem 0.75rem 0.75rem;
+    text-align: center;
+    color: #333;
+    background: #f8f8f7;
+    box-shadow: 0.125rem 0.125rem 0.125rem #e0e0e0;
+}
+
+blockquote::before {
+    display: block;
+    content: '🙷';
+    font-family: serif;
+    font-size: 6rem;
 }
 
 /**
@@ -182,6 +188,17 @@ section .cke_widget_editable {
     background: #eee;
 }
 
+section::before {
+    display: table;
+    content: " ";
+}
+
+section::after {
+    display: table;
+    content: " ";
+    clear: both;
+}
+
 /**
  * Block
  */
@@ -215,18 +232,4 @@ div[data-block]:empty::after {
  */
 .cke_widget_editable {
     outline: none !important;
-}
-
-/**
- * Clear
- */
-section::before {
-    display: table;
-    content: " ";
-}
-
-section::after {
-    display: table;
-    content: " ";
-    clear: both;
 }
