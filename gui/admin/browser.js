@@ -42,8 +42,7 @@
                     return;
                 }
 
-                const url = '/' + entity + '/browser';
-                const call = function (data) {
+                CKEDITOR.api.browser('/' + entity + '/browser', function (data) {
                     if (!data.id) {
                         return;
                     }
@@ -51,8 +50,8 @@
                     const id = item.getAttribute('data-id');
                     const input = document.getElementById(id);
                     const div = document.getElementById(id + suffix);
-                    const type = CKEDITOR.media.getTypeFromUrl(data.src);
-                    const typeEl = type ? CKEDITOR.media.getTypeElement(type) : 'a';
+                    const type = CKEDITOR.api.media.fromUrl(data.src);
+                    const typeEl = type ? CKEDITOR.api.media.element(type) : 'a';
                     const file = document.createElement(typeEl);
 
                     if (['audio', 'video'].includes(type)) {
@@ -66,9 +65,7 @@
                     input.setAttribute('value', data.id);
                     file.setAttribute(typeEl === 'a' ? 'href' : 'src', data.src);
                     div.appendChild(file);
-                };
-
-                CKEDITOR.mediabrowser.open(url, call)
+                });
             });
         });
         Array.prototype.forEach.call(document.querySelectorAll('a[data-action=remove]'), function (item) {

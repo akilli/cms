@@ -1,0 +1,58 @@
+section {
+    line-height: 1.5rem;
+    padding: 0.75rem 0.75rem 0.75rem 13.5rem;
+    border: 0.0625rem solid #ddd;
+    border-radius: 0.5rem;
+}
+
+section::before {
+    display: table;
+    content: " ";
+}
+
+section::after {
+    display: table;
+    content: " ";
+    clear: both;
+}
+
+section > h2 {
+    margin-bottom: 0.75rem;
+}
+
+section > div.media,
+section > figure {
+    position: relative;
+    width: 12rem;
+    height: 12rem;
+    float: left;
+    margin: -2.25rem 0 0 -12.75rem;
+    object-fit: cover;
+    object-position: center;
+}
+
+section > div.media figure {
+    float: none;
+    margin: 0;
+    background: #fff;
+}
+
+section > div.media audio,
+section > div.media iframe,
+section > div.media img,
+section > div.media video,
+section > figure audio,
+section > figure iframe,
+section > figure img,
+section > figure video {
+    max-height: 10.5rem;
+}
+
+section > div.content {
+    min-height: 9.75rem;
+}
+
+section .cke_widget_editable {
+    background: #eee;
+    outline: none !important;
+}

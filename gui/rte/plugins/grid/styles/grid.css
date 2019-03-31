@@ -1,0 +1,19 @@
+div.grid {
+    line-height: 1.5rem;
+}
+
+div.grid > div.content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+div.grid > div.content > * {
+    width: calc(50% - 0.75rem);
+    margin-bottom: 1.5rem;
+    border: 0.0625rem dotted #ddd;
+}
+
+div.grid .cke_widget_editable {
+    outline: none !important;
+}

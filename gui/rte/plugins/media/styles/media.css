@@ -1,0 +1,54 @@
+figure.audio,
+figure.iframe,
+figure.image,
+figure.video {
+    line-height: 1.5rem;
+    text-align: center;
+}
+
+figure.audio.left,
+figure.iframe.left,
+figure.image.left,
+figure.video.left {
+    float: left;
+    margin-right: 0.75rem;
+    text-align: left;
+}
+
+figure.audio.right,
+figure.iframe.right,
+figure.image.right,
+figure.video.right {
+    float: right;
+    margin-left: 0.75rem;
+    text-align: left;
+}
+
+figure.audio audio,
+figure.iframe iframe,
+figure.image img,
+figure.video video {
+    display: block;
+    margin: 0 auto;
+}
+
+figure.audio audio,
+figure.iframe iframe,
+figure.video video {
+    pointer-events: none;
+}
+
+figure.audio figcaption,
+figure.iframe figcaption,
+figure.image figcaption,
+figure.video figcaption {
+    font-size: 0.875rem;
+    background: #eee;
+}
+
+figure.audio .cke_widget_editable,
+figure.iframe .cke_widget_editable,
+figure.image .cke_widget_editable,
+figure.video .cke_widget_editable {
+    outline: none !important;
+}
