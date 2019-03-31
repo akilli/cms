@@ -238,6 +238,16 @@ function layout(array $data): array
 }
 
 /**
+ * Layout postrender root
+ */
+function layout_postrender_root(array $data): array
+{
+    $data['html'] = layout\db_replace($data['html']);
+
+    return $data;
+}
+
+/**
  * Entity postvalidate
  */
 function entity_postvalidate(array $data): array

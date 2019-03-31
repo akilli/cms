@@ -7,8 +7,8 @@
     document.addEventListener('DOMContentLoaded', function () {
         Array.prototype.forEach.call(document.querySelectorAll('textarea[data-type=rte]'), function (item) {
             CKEDITOR.replace(item, {
-                //blockApi: id => isNaN(id) ? null : '../api/' + id,
-                //blockBrowser: '../browser/block.html',
+                blockApi: id => typeof id === 'string' && id ? '/block/api/' + id : null,
+                blockBrowser: '/block/browser',
                 contentsCss: ['/gui/base.css', '/gui/rte/rte.css'],
                 customConfig: '',
                 disableNativeSpellChecker: true,

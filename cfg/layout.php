@@ -304,6 +304,15 @@ return [
             ],
         ],
     ],
+    'block/browser' => [
+        'index' => [
+            'cfg' => [
+                'attr_id' => ['name'],
+                'filter' => ['entity_id'],
+                'search' => ['name', 'title', 'content'],
+            ],
+        ],
+    ],
     'file/browser' => [
         'index' => [
             'cfg' => [

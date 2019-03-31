@@ -33,5 +33,6 @@ return [
         . '<audio><iframe><img><video>'
         . '<caption><table><tbody><td><tfoot><th><thead><tr>'
         . '<details><summary>'
-        . '<br>',
+        . '<br>'
+        . '<block>',
 ];

@@ -21,6 +21,9 @@ return [
     'layout' => [
         'event\layout' => 10,
     ],
+    'layout.postrender.type.root' => [
+        'event\layout_postrender_root' => 10,
+    ],
     'entity.postvalidate' => [
         'event\entity_postvalidate' => 10,
     ],

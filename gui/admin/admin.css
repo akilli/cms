@@ -318,6 +318,12 @@ a[data-sort=desc]::after {
     font-size: inherit;
 }
 
+.block-index audio,
+.block-index iframe,
+.block-index video {
+    pointer-events: none;
+}
+
 .block-index img,
 .block-index video {
     max-width: 9rem;
@@ -489,12 +495,6 @@ html[data-action=browser] .block-index video {
     html[data-action=browser] #content .block-index article > * {
         display: block;
         border: 0;
-    }
-
-    html[data-action=browser] #content .block-index audio,
-    html[data-action=browser] #content .block-index iframe,
-    html[data-action=browser] #content .block-index video {
-        pointer-events: none;
     }
 }
 

@@ -33,6 +33,12 @@ return [
     'app/cfg' => [
         'active' => false,
     ],
+    'block/api' => [
+        'priv' => 'block/admin',
+    ],
+    'block/browser' => [
+        'priv' => 'block/admin',
+    ],
     'file_audio/browser' => [
         'priv' => 'file/browser',
     ],

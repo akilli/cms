@@ -19,11 +19,13 @@
         }
 
         Array.prototype.forEach.call(document.querySelectorAll('html[data-action=browser] #content .block-index article'), function (item) {
+            const msg = {};
+
+            Object.getOwnPropertyNames(item.dataset).forEach(function (name) {
+                msg[name] = item.dataset[name];
+            });
             item.addEventListener('click', function () {
-                window.opener.postMessage({
-                    id: item.getAttribute('data-id'),
-                    src: item.getAttribute('data-url')
-                }, origin);
+                window.opener.postMessage(msg, origin);
             });
         });
     }
@@ -54,16 +56,23 @@
                     const typeEl = type ? CKEDITOR.api.media.element(type) : 'a';
                     const file = document.createElement(typeEl);
 
-                    if (['audio', 'video'].includes(type)) {
-                        file.setAttribute('controls', 'controls');
-                    }
-
                     while (div.firstChild) {
                         div.removeChild(div.firstChild);
                     }
 
                     input.setAttribute('value', data.id);
-                    file.setAttribute(typeEl === 'a' ? 'href' : 'src', data.src);
+
+                    if (['audio', 'video'].includes(type)) {
+                        file.setAttribute('controls', 'controls');
+                    }
+
+                    if (typeEl === 'a') {
+                        file.setAttribute('href', data.src);
+                        file.innerText = data.src;
+                    } else {
+                        file.setAttribute('src', data.src);
+                    }
+
                     div.appendChild(file);
                 });
             });

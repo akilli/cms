@@ -6,6 +6,7 @@ namespace action;
 use account;
 use app;
 use entity;
+use layout;
 use request;
 use session;
 
@@ -51,4 +52,12 @@ function account_logout(): void
 {
     session\regenerate();
     request\redirect(app\url('account/login'));
+}
+
+/**
+ * Account Logout
+ */
+function block_api(): void
+{
+    die(app\data('id') ? layout\db_render(app\data('id')) : '');
 }

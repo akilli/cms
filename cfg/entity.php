@@ -402,6 +402,7 @@ return [
     'block' => [
         'name' => 'Blocks',
         'readonly' => true,
+        'action' => ['api', 'browser'],
         'attr' => [
             'id' => [
                 'name' => 'ID',

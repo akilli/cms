@@ -80,10 +80,31 @@ function db(array $data): array
 
 /**
  * Generates layout ID for DB block
- *
- * @throws DomainException
  */
 function db_id(array $data): string
 {
     return 'layout-' . $data['parent_id'] .'-' . $data['name'];
+}
+
+/**
+ * Replaces all DB placeholder tags, i.e. `<block id="entity_id:id" />`, with actual blocks
+ */
+function db_replace(string $html): string
+{
+    $call = function (array $match): string {
+        return db_render($match[1]);
+    };
+
+    return preg_replace_callback('#<block id="([^"]*)"(?:[^>]*)>#s', $call, $html);
+}
+
+/**
+ * Renders DB placeholder tag with given ID (`entity_id:id`)
+ */
+function db_render(string $id): string
+{
+    $block = arr\replace(APP['layout'], app\cfg('block', 'db'), ['id' => uniqid('block-')]);
+    [$block['cfg']['entity_id'], $block['cfg']['id']] = explode('-', $id);
+
+    return render($block);
 }
