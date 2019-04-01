@@ -5,6 +5,7 @@ namespace layout;
 
 use app;
 use arr;
+use entity;
 use DomainException;
 
 /**
@@ -91,11 +92,24 @@ function db_id(array $data): string
  */
 function db_replace(string $html): string
 {
-    $call = function (array $match): string {
-        return db_render($match[1]);
-    };
+    $pattern = '#<block id="%s"(?:[^>]*)>#s';
 
-    return preg_replace_callback('#<block id="([^"]*)"(?:[^>]*)>#s', $call, $html);
+    if (preg_match_all(sprintf($pattern, '([a-z_]+)-([0-9]+)'), $html, $match)) {
+        $data = [];
+
+        foreach ($match[1] as $key => $entityId) {
+            $data[$entityId][] = $match[2][$key];
+        }
+
+        foreach ($data as $entityId => $ids) {
+            foreach (entity\all($entityId, [['id', $ids]]) as $item) {
+                $block = arr\replace(APP['layout'], db($item), ['id' => uniqid('block-')]);
+                $html = preg_replace(sprintf($pattern, $entityId . '-' . $item['id']), render($block), $html);
+            }
+        }
+    }
+
+    return preg_replace('#<block(?:[^>]*)>#s', '', $html);
 }
 
 /**
