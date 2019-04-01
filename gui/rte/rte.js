@@ -3,7 +3,7 @@
  */
 'use strict';
 
-(function (document, CKEDITOR) {
+(function (document, app, CKEDITOR) {
     document.addEventListener('DOMContentLoaded', function () {
         Array.prototype.forEach.call(document.querySelectorAll('textarea[data-type=rte]'), function (item) {
             CKEDITOR.replace(item, {
@@ -18,7 +18,11 @@
                 language: document.documentElement.getAttribute('lang') || 'en',
                 mediaBrowser: '/file_media/browser',
                 removeDialogTabs: 'link:advanced;link:target',
-                section: {'block-content': 'Inhaltsblock', 'block-info': 'Infoblock'},
+                section: {
+                    'block-content': app.i18n('Content Block'),
+                    'block-info': app.i18n('Info Block'),
+                    'block-teaser': app.i18n('Block Teaser')
+                },
                 stylesSet: false,
                 toolbar: [
                     {
@@ -47,4 +51,4 @@
             });
         });
     });
-})(document, CKEDITOR);
+})(document, app, CKEDITOR);
