@@ -40,9 +40,6 @@ function run(): void
         $app['action'] = $match['action'];
         $app['id'] = $match['id'] ?: null;
         $app['entity'] = cfg('entity', $match['entity_id']);
-    } else {
-        invalid();
-        return;
     }
 
     // Gather request-data
