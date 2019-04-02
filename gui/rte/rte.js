@@ -19,9 +19,7 @@
                 mediaBrowser: '/file_media/browser',
                 removeDialogTabs: 'link:advanced;link:target',
                 section: {
-                    'block-content': app.i18n('Content Block'),
-                    'block-info': app.i18n('Info Block'),
-                    'block-teaser': app.i18n('Block Teaser')
+                    'block-content': app.i18n('Content Block')
                 },
                 stylesSet: false,
                 toolbar: [
