@@ -35,8 +35,10 @@ Your browser implementation can currently send following keys with the message:
 
     {
         src: '...', //required, URL to media
-        type: '...' // optional, media type (audio, iframe, image or video)
+        type: '...', // optional, media type (audio, iframe, image or video)
         alt: '...', // optional, alternative text (currently only used for images)
+        width: '...', // optional
+        height: '...' // optional
     }
 
 ## Note

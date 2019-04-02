@@ -29,7 +29,7 @@ figure.iframe iframe,
 figure.image img,
 figure.video video {
     display: block;
-    margin: 0 auto;
+    margin: 0 auto 0.75rem;
 }
 
 figure.audio audio,
