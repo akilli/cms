@@ -121,7 +121,6 @@ return [
     'Successfully deleted data' => 'Daten erfolgreich gelöscht',
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
     'Teaser' => 'Teaser',
-    'Teaser Area' => 'Teaserbereich',
     'Teaser Block' => 'Teaserblock',
     'Thumbnail' => 'Vorschaubild',
     'Thumbnail Extension' => 'Dateiendung Vorschaubild',

@@ -456,14 +456,6 @@ return [
             'parent_id' => 'content',
             'sort' => 20,
         ],
-        'teaser' => [
-            'type' => 'container',
-            'parent_id' => 'content',
-            'sort' => 30,
-            'cfg' => [
-                'tag' => 'section',
-            ],
-        ],
     ],
     'page/view' => [
         'breadcrumb' => [
