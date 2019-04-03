@@ -9,6 +9,7 @@ body {
     background: #fff;
 }
 
+body > :not(:last-child),
 h2:not(:last-child),
 h3:not(:last-child),
 p:not(:last-child) {
