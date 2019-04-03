@@ -10,7 +10,7 @@ The resulting HTML will be
 
 ## Note
 
-Currently only *figure*, *section* and [*block*](https://ckeditor.com/cke4/addon/block) elements are allowed as child elements. This artificial limitation will be removed in one of the next versions.
+This widget will only allow other widgets as child elements. The filtering now takes place on `downcast`.
 
 ## Demo
 

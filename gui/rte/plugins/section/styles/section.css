@@ -24,9 +24,9 @@ section > div.media,
 section > figure {
     position: relative;
     width: 12rem;
-    height: 12rem;
+    height: 12.75rem;
     float: left;
-    margin: -2.25rem 0 0 -12.75rem;
+    margin: -3rem 0 0 -12.75rem;
     object-fit: cover;
     object-position: center;
 }

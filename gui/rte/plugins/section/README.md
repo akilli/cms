@@ -18,6 +18,10 @@ The optional configuration expects an object with one or several CSS classes as 
         ...
     };
 
+## Technical
+
+This widget will always `upcast` all *section* elements, unless an element was already upcasted by another widget. To give other widgets the chance to do so, the value for `upcastPriority` (defaults to `10`) is set to `20`, so that the other widgets' `upcast` methods are called first.
+
 ## Demo
 
 https://akilli.github.io/rte/ck4
