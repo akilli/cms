@@ -1,20 +1,25 @@
-div.grid {
+figure.gallery {
     line-height: 1.5rem;
     padding: 0.75rem;
 }
 
-div.grid > div.content {
+figure.gallery > div.content {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-div.grid > div.content > * {
+figure.gallery > div.content > * {
     width: calc(50% - 0.75rem);
     margin-bottom: 1.5rem;
     border: 0.0625rem dotted #ddd;
 }
 
-div.grid .cke_widget_editable {
+figure.gallery figcaption {
+    font-size: 0.875rem;
+    background: #eee;
+}
+
+figure.gallery .cke_widget_editable {
     outline: none !important;
 }
