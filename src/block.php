@@ -248,7 +248,6 @@ function index(array $block): string
 
     $var = [
         'attr' => $attrs,
-        'content' => $cfg['content'],
         'data' => $data,
         'filter' => $filter,
         'link' => $cfg['link'],

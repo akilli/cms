@@ -56,7 +56,6 @@ return [
         'tpl' => 'block/index.phtml',
         'cfg' => [
             'attr_id' => [],
-            'content' => null,
             'crit' => [],
             'entity_id' => null,
             'filter' => [],
