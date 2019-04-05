@@ -5,23 +5,23 @@
 
 (function (document, Flickity) {
     document.addEventListener('DOMContentLoaded', function () {
-        Array.prototype.forEach.call(document.getElementsByClassName('slider'), function (slider) {
-            const content = slider.querySelector('.content');
+        Array.prototype.forEach.call(document.getElementsByClassName('slider'), function (gallery) {
+            const content = gallery.querySelector('.content');
 
             if (!content) {
                 return;
             }
 
             const flickity = new Flickity(content, {
-                autoPlay: slider.classList.contains('auto'),
+                autoPlay: gallery.classList.contains('auto'),
                 cellAlign: 'left',
                 contain: true,
                 imagesLoaded: true,
-                fullscreen: slider.classList.contains('fullscreen'),
+                fullscreen: gallery.classList.contains('fullscreen'),
                 percentPosition: false,
-                prevNextButtons: slider.classList.contains('prevnext')
+                prevNextButtons: gallery.classList.contains('prevnext')
             });
-            const nav = slider.querySelector('.nav');
+            const nav = gallery.querySelector('.nav');
 
             if (!!nav) {
                 const button = nav.getElementsByTagName('button');
