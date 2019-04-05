@@ -1,5 +1,5 @@
 /**
- * Slider
+ * Gallery
  */
 'use strict';
 
