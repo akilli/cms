@@ -6,14 +6,13 @@
 (function (document, Flickity) {
     document.addEventListener('DOMContentLoaded', function () {
         Array.prototype.forEach.call(document.getElementsByClassName('slider'), function (slider) {
-            const items = slider.querySelector('.content');
+            const content = slider.querySelector('.content');
 
-            if (!items) {
+            if (!content) {
                 return;
             }
 
-            const nav = slider.querySelector('.nav');
-            const flickity = new Flickity(items, {
+            const flickity = new Flickity(content, {
                 autoPlay: slider.classList.contains('auto'),
                 cellAlign: 'left',
                 contain: true,
@@ -23,6 +22,7 @@
                 percentPosition: false,
                 prevNextButtons: slider.classList.contains('prevnext')
             });
+            const nav = slider.querySelector('.nav');
 
             if (!!nav) {
                 const button = nav.getElementsByTagName('button');
