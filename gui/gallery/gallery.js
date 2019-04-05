@@ -5,7 +5,7 @@
 
 (function (document, Flickity) {
     document.addEventListener('DOMContentLoaded', function () {
-        Array.prototype.forEach.call(document.getElementsByClassName('slider'), function (gallery) {
+        Array.prototype.forEach.call(document.getElementsByClassName('gallery'), function (gallery) {
             const content = gallery.querySelector('.content');
 
             if (!content) {
@@ -18,6 +18,7 @@
                 contain: true,
                 imagesLoaded: true,
                 fullscreen: gallery.classList.contains('fullscreen'),
+                pageDots: false,
                 percentPosition: false,
                 prevNextButtons: gallery.classList.contains('prevnext')
             });
