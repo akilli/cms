@@ -18,7 +18,6 @@
                 contain: true,
                 imagesLoaded: true,
                 fullscreen: slider.classList.contains('fullscreen'),
-                pageDots: slider.classList.contains('dots'),
                 percentPosition: false,
                 prevNextButtons: slider.classList.contains('prevnext')
             });
