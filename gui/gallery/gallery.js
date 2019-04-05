@@ -17,10 +17,10 @@
                 cellAlign: 'left',
                 contain: true,
                 imagesLoaded: true,
-                fullscreen: gallery.classList.contains('fullscreen'),
+                fullscreen: gallery.className === 'gallery' || gallery.classList.contains('fullscreen'),
                 pageDots: false,
                 percentPosition: false,
-                prevNextButtons: gallery.classList.contains('prevnext')
+                prevNextButtons: gallery.className === 'gallery' || gallery.classList.contains('prevnext')
             });
             const nav = gallery.querySelector('.nav');
 
