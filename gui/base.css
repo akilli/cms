@@ -172,7 +172,6 @@ video {
 
 figure > :not(figcaption) {
     display: block;
-    margin: 0 auto;
 }
 
 img {
