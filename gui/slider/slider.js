@@ -6,7 +6,7 @@
 (function (document, Flickity) {
     document.addEventListener('DOMContentLoaded', function () {
         Array.prototype.forEach.call(document.getElementsByClassName('slider'), function (slider) {
-            const items = slider.querySelector('.items');
+            const items = slider.querySelector('.content');
 
             if (!items) {
                 return;
