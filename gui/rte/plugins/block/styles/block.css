@@ -1,9 +1,0 @@
-div[data-block]:empty {
-    line-height: 6rem;
-    text-align: center;
-    background: #ffa500;
-}
-
-div[data-block]:empty::after {
-    content: 'Block-ID: ' attr(data-block) ' ';
-}
