@@ -42,7 +42,8 @@
                             'Detail',
                             'Section',
                             'Block',
-                            'Grid'
+                            'Grid',
+                            'Gallery'
                         ]
                     }
                 ]
