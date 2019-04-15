@@ -1,0 +1,8 @@
+FROM akilli/php:debian
+
+LABEL maintainer="Ayhan Akilli"
+
+#
+# Setup
+#
+COPY . /app/
