@@ -23,6 +23,7 @@ function run(): void
     register_shutdown_function('app\shutdown');
     setlocale(LC_ALL, ini_get('intl.default_locale'));
 
+    // Gather request-data
     $app = & registry('app');
     $app = APP['app'];
     $app['lang'] = locale_get_primary_language('');
@@ -43,7 +44,6 @@ function run(): void
         $app['entity'] = cfg('entity', $match['entity_id']);
     }
 
-    // Gather request-data
     $app['parent_id'] = $app['entity']['parent_id'] ?? null;
     $app['area'] = empty(cfg('priv', $app['entity_id'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
     $app['public'] = $app['area'] === '_public_';
