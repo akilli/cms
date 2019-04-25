@@ -112,7 +112,7 @@ function time(string $val): string
  */
 function rte(string $val): string
 {
-    return trim(strip_tags($val, app\cfg('validator', 'rte')));
+    return trim(preg_replace('#<p>\s*</p>#', '', strip_tags($val, app\cfg('validator', 'rte'))));
 }
 
 /**
