@@ -64,7 +64,7 @@ function load_block(array $data, array $ext = []): array
  *
  * @throws DomainException
  */
-function block(array $data): array
+function listener_block(array $data): array
 {
     foreach ($data as $id => $type) {
         $data[$id] = arr\replace(APP['block'], $type, ['id' => $id]);
@@ -82,7 +82,7 @@ function block(array $data): array
  *
  * @throws DomainException
  */
-function entity(array $data): array
+function listener_entity(array $data): array
 {
     $cfg = app\cfg('attr');
 
@@ -150,7 +150,7 @@ function entity(array $data): array
 /**
  * I18n config listener
  */
-function i18n(array $data): array
+function listener_i18n(array $data): array
 {
     return $data + load('i18n/' . app\data('lang'));
 }
@@ -158,7 +158,7 @@ function i18n(array $data): array
 /**
  * Option config listener
  */
-function opt(array $data): array
+function listener_opt(array $data): array
 {
     foreach ($data as $key => $opt) {
         $data[$key] = array_map('app\i18n', $opt);
@@ -170,7 +170,7 @@ function opt(array $data): array
 /**
  * Privilege config listener
  */
-function priv(array $data): array
+function listener_priv(array $data): array
 {
     foreach ($data as $id => $item) {
         $item = arr\replace(APP['priv'], $item);
@@ -200,7 +200,7 @@ function priv(array $data): array
  *
  * @throws DomainException
  */
-function toolbar(array $data): array
+function listener_toolbar(array $data): array
 {
     foreach ($data as $id => $item) {
         if (empty($item['name']) || !empty($item['parent_id']) && empty($data[$item['parent_id']])) {

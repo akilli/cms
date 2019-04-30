@@ -1,22 +1,22 @@
 <?php
 return [
     'cfg.block' => [
-        'cfg\block' => 10,
+        'cfg\listener_block' => 10,
     ],
     'cfg.entity' => [
-        'cfg\entity' => 10,
+        'cfg\listener_entity' => 10,
     ],
     'cfg.i18n' => [
-        'cfg\i18n' => 10,
+        'cfg\listener_i18n' => 10,
     ],
     'cfg.opt' => [
-        'cfg\opt' => 10,
+        'cfg\listener_opt' => 10,
     ],
     'cfg.priv' => [
-        'cfg\priv' => 10,
+        'cfg\listener_priv' => 10,
     ],
     'cfg.toolbar' => [
-        'cfg\toolbar' => 10,
+        'cfg\listener_toolbar' => 10,
     ],
     'layout' => [
         'event\layout' => 10,
