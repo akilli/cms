@@ -6,6 +6,7 @@ namespace event;
 use account;
 use app;
 use arr;
+use cfg;
 use entity;
 use file;
 use layout;
@@ -105,7 +106,7 @@ function cfg_entity(array $data): array
  */
 function cfg_i18n(array $data): array
 {
-    return $data + app\load('i18n/' . app\data('lang'));
+    return $data + cfg\load('i18n/' . app\data('lang'));
 }
 
 /**
@@ -220,7 +221,7 @@ function layout(array $data): array
     foreach ($keys as $key) {
         if (!empty($cfg[$key])) {
             foreach ($cfg[$key] as $id => $block) {
-                $data[$id] = empty($data[$id]) ? $block : app\load_block($data[$id], $block);
+                $data[$id] = empty($data[$id]) ? $block : cfg\block($data[$id], $block);
             }
         }
     }
