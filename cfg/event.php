@@ -19,10 +19,10 @@ return [
         'cfg\listener_toolbar' => 10,
     ],
     'layout' => [
-        'event\layout' => 10,
+        'layout\listener_data' => 10,
     ],
     'layout.postrender.type.root' => [
-        'event\layout_postrender_root' => 10,
+        'layout\listener_postrender_root' => 10,
     ],
     'entity.postvalidate' => [
         'event\entity_postvalidate' => 10,
