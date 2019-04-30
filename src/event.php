@@ -221,7 +221,7 @@ function layout(array $data): array
     foreach ($keys as $key) {
         if (!empty($cfg[$key])) {
             foreach ($cfg[$key] as $id => $block) {
-                $data[$id] = empty($data[$id]) ? $block : cfg\block($data[$id], $block);
+                $data[$id] = empty($data[$id]) ? $block : cfg\load_block($data[$id], $block);
             }
         }
     }

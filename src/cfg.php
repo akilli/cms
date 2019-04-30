@@ -23,7 +23,7 @@ function load(string $id): array
     }
 
     if ($id === 'layout') {
-        return layout($data, $ext);
+        return load_layout($data, $ext);
     }
 
     return array_replace_recursive($data, $ext);
@@ -32,11 +32,11 @@ function load(string $id): array
 /**
  * Load layout configuration
  */
-function layout(array $data, array $ext = []): array
+function load_layout(array $data, array $ext = []): array
 {
     foreach ($ext as $key => $cfg) {
         foreach ($cfg as $id => $block) {
-            $data[$key][$id] = empty($data[$key][$id]) ? $block : block($data[$key][$id], $block);
+            $data[$key][$id] = empty($data[$key][$id]) ? $block : load_block($data[$key][$id], $block);
         }
     }
 
@@ -46,7 +46,7 @@ function layout(array $data, array $ext = []): array
 /**
  * Load block configuration
  */
-function block(array $data, array $ext = []): array
+function load_block(array $data, array $ext = []): array
 {
     if (!empty($ext['cfg'])) {
         $data['cfg'] = empty($data['cfg']) ? $ext['cfg'] : array_replace($data['cfg'], $ext['cfg']);
