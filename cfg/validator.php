@@ -27,12 +27,5 @@ return [
         'ŵ' => 'w',
         'ý' => 'y', 'ÿ' => 'y', 'ŷ' => 'y',
     ],
-    'rte' => '<article><h2><h3><section>'
-        . '<blockquote><div><figcaption><figure><li><ol><p><ul>'
-        . '<a><b><cite><dfn><em><i><kbd><mark><q><strong>'
-        . '<audio><iframe><img><video>'
-        . '<caption><table><tbody><td><tfoot><th><thead><tr>'
-        . '<details><summary>'
-        . '<br>'
-        . '<block>',
+    'rte' => '<a><article><audio><b><block><blockquote><br><caption><cite><details><dfn><div><em><figcaption><figure><h2><h3><i><iframe><img><kbd><li><mark><ol><p><q><section><strong><summary><table><tbody><td><tfoot><th><thead><tr><ul><video>',
 ];
