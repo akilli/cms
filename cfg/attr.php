@@ -21,6 +21,7 @@ return [
         'frontend' => 'frontend\date',
         'validator' => 'validator\date',
         'viewer' => 'viewer\date',
+        'cfg.viewer' => 'd.m.y',
     ],
     'datetime' => [
         'backend' => 'datetime',
@@ -28,6 +29,7 @@ return [
         'filter' => 'frontend\date',
         'validator' => 'validator\datetime',
         'viewer' => 'viewer\datetime',
+        'cfg.viewer' => 'd.m.y',
     ],
     'decimal' => [
         'backend' => 'decimal',
@@ -185,6 +187,7 @@ return [
         'frontend' => 'frontend\time',
         'validator' => 'validator\time',
         'viewer' => 'viewer\time',
+        'cfg.viewer' => 'H:i',
     ],
     'uid' => [
         'backend' => 'varchar',

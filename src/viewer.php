@@ -5,7 +5,6 @@ namespace viewer;
 
 use app;
 use attr;
-use cfg;
 use entity;
 
 /**
@@ -27,25 +26,25 @@ function url(string $val): string
 /**
  * Datetime
  */
-function datetime(string $val): string
+function datetime(string $val, array $attr): string
 {
-    return attr\datetime($val, APP['attr.datetime.backend'], cfg\data('app', 'i18n.datetime'));
+    return attr\datetime($val, APP['attr.datetime.backend'], $attr['cfg.viewer']);
 }
 
 /**
  * Date
  */
-function date(string $val): string
+function date(string $val, array $attr): string
 {
-    return attr\datetime($val, APP['attr.date.backend'], cfg\data('app', 'i18n.date'));
+    return attr\datetime($val, APP['attr.date.backend'], $attr['cfg.viewer']);
 }
 
 /**
  * Time
  */
-function time(string $val): string
+function time(string $val, array $attr): string
 {
-    return attr\datetime($val, APP['attr.time.backend'], cfg\data('app', 'i18n.time'));
+    return attr\datetime($val, APP['attr.time.backend'], $attr['cfg.viewer']);
 }
 
 /**
