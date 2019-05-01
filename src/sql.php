@@ -205,7 +205,7 @@ function val($val, array $attr)
     } elseif ($attr['backend'] === 'json' && $val !== null) {
         $val = (string) $val;
     } elseif (is_array($val)) {
-        $val = '{' . implode(arr\change($val, null, 'NULL'), ',') . '}';
+        $val = '{' . implode(',', arr\change($val, null, 'NULL')) . '}';
     } elseif ($attr['multiple'] && $val !== null) {
         $val = '{' . $val . '}';
     }
@@ -263,7 +263,7 @@ function crit(array $crit, array $attrs): array
                     $in[] = $p;
                 }
 
-                $or[] = ($n ? $null . ($not ? ' AND ' : ' OR ') : '') . $attr['id'] . $not . ' IN (' . implode($in, ', ') . ')';
+                $or[] = ($n ? $null . ($not ? ' AND ' : ' OR ') : '') . $attr['id'] . $not . ' IN (' . implode(', ', $in) . ')';
             } elseif (in_array($op, [APP['op']['='], APP['op']['!='], APP['op']['>'], APP['op']['>='], APP['op']['<'], APP['op']['<=']])) {
                 $p = $param . ++$count;
                 $val = val($val, $attr);
