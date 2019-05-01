@@ -76,7 +76,7 @@ function db(array $data): array
         throw new DomainException(app\i18n('Invalid data'));
     }
 
-    $type = app\cfg('block', $data['entity_id']) ?: app\cfg('block', 'content');
+    $type = cfg\data('block', $data['entity_id']) ?: cfg\data('block', 'content');
 
     return ['type' => $type['id'], 'call' => $type['call'], 'cfg' => ['data' => $data]];
 }
@@ -119,7 +119,7 @@ function db_replace(string $html): string
  */
 function db_render(string $id): string
 {
-    $block = arr\replace(APP['layout'], app\cfg('block', 'db'), ['id' => uniqid('block-')]);
+    $block = arr\replace(APP['layout'], cfg\data('block', 'db'), ['id' => uniqid('block-')]);
     [$block['cfg']['entity_id'], $block['cfg']['id']] = explode('-', $id);
 
     return render($block);
@@ -132,8 +132,8 @@ function db_render(string $id): string
  */
 function listener_data(array $data): array
 {
-    $cfg = app\cfg('layout');
-    $type = app\cfg('block');
+    $cfg = cfg\data('layout');
+    $type = cfg\data('block');
     $url = request\data('url');
     $keys = ['_all_', app\data('area')];
 

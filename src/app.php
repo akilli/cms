@@ -42,13 +42,13 @@ function run(): void
         $app['entity_id'] = $match['entity_id'];
         $app['action'] = $match['action'];
         $app['id'] = $match['id'] ?: null;
-        $app['entity'] = cfg('entity', $match['entity_id']);
+        $app['entity'] = cfg\data('entity', $match['entity_id']);
     }
 
     $app['parent_id'] = $app['entity']['parent_id'] ?? null;
-    $app['area'] = empty(cfg('priv', $app['entity_id'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
+    $app['area'] = empty(cfg\data('priv', $app['entity_id'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
     $app['public'] = $app['area'] === '_public_';
-    $blacklist = !$app['public'] && in_array(preg_replace('#^www\.#', '', request\data('host')), cfg('app', 'admin.blacklist'));
+    $blacklist = !$app['public'] && in_array(preg_replace('#^www\.#', '', request\data('host')), cfg\data('app', 'admin.blacklist'));
     $allowed = !$blacklist && allowed($app['entity_id'] . '/' . $app['action']);
     $ns = 'action\\';
     $real = is_callable($ns . $app['entity_id'] . '_' . $app['action']) ? $ns . $app['entity_id'] . '_' . $app['action'] : null;
@@ -117,27 +117,6 @@ function data(string $id)
 }
 
 /**
- * Loads and returns configuration data
- *
- * @note Config data must be cacheable, you must not do any dynamic/request-dependant stuff here
- *
- * @return mixed
- */
-function cfg(string $id, string $key = null)
-{
-    if (($data = & registry('cfg.' . $id)) === null) {
-        $data = cfg\load($id);
-        $data = event(['cfg.' . $id], $data);
-    }
-
-    if ($key === null) {
-        return $data;
-    }
-
-    return $data[$key] ?? null;
-}
-
-/**
  * Dispatches a group of events with given data
  *
  * Every listener can stop further propagation of current event or the whole group by setting the $data['_stop'] to
@@ -148,7 +127,7 @@ function event(array $events, array $data): array
     unset($data['_stop']);
 
     foreach ($events as $event) {
-        if (($cfg = cfg('event', $event)) && asort($cfg, SORT_NUMERIC)) {
+        if (($cfg = cfg\data('event', $event)) && asort($cfg, SORT_NUMERIC)) {
             foreach (array_keys($cfg) as $call) {
                 $data = $call($data);
                 $stop = $data['_stop'] ?? null;
@@ -171,7 +150,7 @@ function event(array $events, array $data): array
  */
 function allowed(string $key): bool
 {
-    if (!$cfg = cfg('priv', $key)) {
+    if (!$cfg = cfg\data('priv', $key)) {
         return false;
     }
 
@@ -183,7 +162,7 @@ function allowed(string $key): bool
  */
 function i18n(string $key, string ...$args): string
 {
-    $key = cfg('i18n', $key) ?? $key;
+    $key = cfg\data('i18n', $key) ?? $key;
 
     return $args ? vsprintf($key, $args) : $key;
 }
@@ -318,7 +297,7 @@ function curl(string $url, array $param = []): ?string
     }
 
     $curl = curl_init();
-    curl_setopt_array($curl, [CURLOPT_PROXY => cfg('app', 'proxy'), CURLOPT_URL => $url] + APP['curl']);
+    curl_setopt_array($curl, [CURLOPT_PROXY => cfg\data('app', 'proxy'), CURLOPT_URL => $url] + APP['curl']);
     $result = curl_exec($curl);
     curl_close($curl);
 

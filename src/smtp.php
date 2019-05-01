@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace smtp;
 
 use app;
+use cfg;
 use request;
 use DomainException;
 
@@ -14,7 +15,7 @@ use DomainException;
  */
 function mail(string $from, string $to, string $replyTo = null, string $subj, string $text, array $attach = []): void
 {
-    $cfg = app\cfg('smtp');
+    $cfg = cfg\data('smtp');
     $host = request\data('host');
     $client = stream_socket_client($cfg['dsn'], $errno, $errstr, $cfg['timeout']);
 

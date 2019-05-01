@@ -1,6 +1,7 @@
 <?php
 namespace app;
 use attr;
+use cfg;
 /** @var callable $var */
 ?>
 <section class="block-index">
@@ -31,7 +32,7 @@ use attr;
         <?php endif;?>
         <?php foreach ($var('data') as $data):?>
             <?php
-            $entity = !empty($data['entity_id']) ? cfg('entity', $data['entity_id']) : null;
+            $entity = !empty($data['entity_id']) ? cfg\data('entity', $data['entity_id']) : null;
             $entityId = $entity && in_array($data['_entity']['id'], [$entity['parent_id'], 'version']) ? $entity['id'] : $data['_entity']['id'];
             $id = $var('mode') === 'browser' ? ($entity && $entity['parent_id'] === 'block' ? $data['entity_id'] . '-' : '') . $data['id'] : null;
             $src = $entity && $entity['parent_id'] === 'file' ? $data['url'] : null;

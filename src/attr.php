@@ -5,6 +5,7 @@ namespace attr;
 
 use app;
 use arr;
+use cfg;
 use entity;
 use DomainException;
 
@@ -135,7 +136,7 @@ function opt(array $data, array $attr): callable
 
     if ($attr['opt']) {
         return function () use ($attr): array {
-            return app\cfg('opt', $attr['opt']);
+            return cfg\data('opt', $attr['opt']);
         };
     }
 

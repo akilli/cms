@@ -8,6 +8,27 @@ use arr;
 use DomainException;
 
 /**
+ * Loads and returns configuration data
+ *
+ * @note Config data must be cacheable, you must not do any dynamic/request-dependant stuff here
+ *
+ * @return mixed
+ */
+function data(string $id, string $key = null)
+{
+    if (($data = & app\registry('cfg.' . $id)) === null) {
+        $data = load($id);
+        $data = app\event(['cfg.' . $id], $data);
+    }
+
+    if ($key === null) {
+        return $data;
+    }
+
+    return $data[$key] ?? null;
+}
+
+/**
  * Loads configuration data with or without overwrites
  */
 function load(string $id): array
@@ -84,7 +105,7 @@ function listener_block(array $data): array
  */
 function listener_entity(array $data): array
 {
-    $cfg = app\cfg('attr');
+    $cfg = data('attr');
 
     // Entities
     foreach ($data as $entityId => $entity) {
@@ -92,7 +113,7 @@ function listener_entity(array $data): array
 
         if (!$entity['name']
             || !$entity['db']
-            || !$entity['type'] && !($entity['type'] = app\cfg('db', $entity['db'])['type'] ?? null)
+            || !$entity['type'] && !($entity['type'] = data('db', $entity['db'])['type'] ?? null)
             || $entity['parent_id'] && (empty($data[$entity['parent_id']]) || !empty($data[$entity['parent_id']]['parent_id']))
             || !$entity['parent_id'] && !arr\has($entity['attr'], ['id', 'name'], true)
         ) {
@@ -178,7 +199,7 @@ function listener_priv(array $data): array
         $data[$id] = $item;
     }
 
-    foreach (app\cfg('entity') as $entity) {
+    foreach (data('entity') as $entity) {
         if (in_array('edit', $entity['action']) && in_array('page', [$entity['id'], $entity['parent_id']])) {
             $id = $entity['id'] . '-publish';
             $data[$id]['name'] = $entity['name'] . ' ' . app\i18n('Publish');

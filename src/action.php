@@ -5,6 +5,7 @@ namespace action;
 
 use account;
 use app;
+use cfg;
 use entity;
 use layout;
 use request;
@@ -25,7 +26,7 @@ function delete(array $entity): void
 function app_cfg(): void
 {
     header('Content-Type: application/json', true);
-    die(json_encode(['i18n' => app\cfg('i18n')]));
+    die(json_encode(['i18n' => cfg\data('i18n')]));
 }
 
 /**

@@ -5,6 +5,7 @@ namespace sql;
 
 use app;
 use arr;
+use cfg;
 use PDO;
 use DomainException;
 use Throwable;
@@ -133,7 +134,7 @@ function db(string $id): PDO
     if (!$id) {
         throw new DomainException(app\i18n('Invalid configuration'));
     } elseif (empty($pdo[$id])) {
-        $cfg = app\cfg('db', $id);
+        $cfg = cfg\data('db', $id);
         $pdo[$id] = new PDO($cfg['dsn'], $cfg['user'], $cfg['password'], APP['pdo']);
     }
 
