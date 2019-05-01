@@ -263,6 +263,14 @@ function enc(?string $val): string
 }
 
 /**
+ * Translates configured characters
+ */
+function tr(string $val): string
+{
+    return strtr(mb_strtolower($val), cfg\data('tr'));
+}
+
+/**
  * Generates URL by given path and params, optionally preserves existing params
  */
 function url(string $path = '', array $get = [], bool $preserve = false): string

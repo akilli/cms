@@ -5,7 +5,6 @@ namespace validator;
 
 use app;
 use attr;
-use cfg;
 use entity;
 use request;
 use DomainException;
@@ -55,7 +54,7 @@ function urlpath(string $val): string
         return url($val);
     }
 
-    return '/' . trim(preg_replace('#[^a-z0-9-_/\.]+#', '-', strtr(mb_strtolower($val), cfg\data('validator', 'id'))), '-/');
+    return '/' . trim(preg_replace('#[^a-z0-9-_/\.]+#', '-', app\tr($val)), '-/');
 }
 
 /**
@@ -63,7 +62,7 @@ function urlpath(string $val): string
  */
 function uid(string $val): string
 {
-    return trim(preg_replace('#[^a-z0-9-_]+#', '-', strtr(mb_strtolower($val), cfg\data('validator', 'id'))), '-');
+    return trim(preg_replace('#[^a-z0-9-_]+#', '-', app\tr($val)), '-');
 }
 
 /**
@@ -111,9 +110,9 @@ function time(string $val): string
 /**
  * Rich text
  */
-function rte(string $val): string
+function rte(string $val, array $attr): string
 {
-    return trim(preg_replace('#<p>\s*</p>#', '', strip_tags($val, cfg\data('validator', 'rte'))));
+    return trim(preg_replace('#<p>\s*</p>#', '', strip_tags($val, $attr['cfg.validator'])));
 }
 
 /**
