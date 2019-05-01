@@ -18,6 +18,8 @@ use request;
         </div>
         <?php endif;?>
     </fieldset>
-    <a href="<?=request\data('url');?>" role="button"><?=i18n('Reset');?></a>
-    <input type="submit" value="<?=i18n('Submit');?>" />
+    <div class="action">
+        <a href="<?=request\data('url');?>" role="button"><?=i18n('Reset');?></a>
+        <input type="submit" value="<?=i18n('Submit');?>" />
+    </div>
 </form>
