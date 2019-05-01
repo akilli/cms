@@ -4,7 +4,7 @@ use attr;
 use session;
 /** @var callable $var */
 ?>
-<form method="post"<?php if ($var('file')):?> enctype="multipart/form-data"<?php endif;?> class="block-form">
+<form method="post"<?php if ($var('multipart')):?> enctype="multipart/form-data"<?php endif;?> class="block-form">
     <fieldset>
         <?php foreach ($var('attr') as $attr):?>
         <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">

@@ -429,7 +429,7 @@ function edit(array $block): string
 
     $p[] = $data;
     $data = arr\replace(entity\item($entity['id']), ...$p);
-    $var = ['attr' => $attrs, 'data' => $data, 'file' => !!arr\filter($attrs, 'uploadable', true)];
+    $var = ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)];
 
     return app\tpl($block['tpl'], $var);
 }
@@ -462,7 +462,7 @@ function profile(array $block): string
     }
 
     $data = $data ? arr\replace($account + ['_error' => []], $data) : $account;
-    $var = ['attr' => $attrs, 'data' => $data, 'file' => !!arr\filter($attrs, 'uploadable', true)];
+    $var = ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)];
 
     return app\tpl($block['tpl'], $var);
 }
@@ -476,7 +476,7 @@ function login(array $block): string
     $entity = cfg\data('entity', 'account');
     $a = ['username' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0]];
     $attrs = array_replace_recursive(arr\extract($entity['attr'], ['username', 'password']), $a);
-    $var = ['attr' => $attrs, 'data' => [], 'file' => false];
+    $var = ['attr' => $attrs, 'data' => [], 'multipart' => false];
 
     return app\tpl($block['tpl'], $var);
 }
