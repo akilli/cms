@@ -77,7 +77,7 @@ return [
         'backend' => 'varchar',
         'frontend' => 'frontend\url',
         'validator' => 'validator\url',
-        'viewer' => 'viewer\file',
+        'viewer' => 'viewer\iframe',
     ],
     'image' => [
         'backend' => 'varchar',
