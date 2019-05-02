@@ -271,6 +271,21 @@ function tr(string $val): string
 }
 
 /**
+ * Converts string to HTML entity hex format
+ */
+function hex(string $val): string
+{
+    $out = '';
+    $length = strlen($val);
+
+    for ($i = 0; $i < $length; $i++) {
+        $out .= '&#x' . bin2hex($val[$i]) . ';';
+    }
+
+    return $out;
+}
+
+/**
  * Generates URL by given path and params, optionally preserves existing params
  */
 function url(string $path = '', array $get = [], bool $preserve = false): string
