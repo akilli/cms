@@ -299,7 +299,7 @@ return [
             'pos' => [
                 'name' => 'Position',
                 'type' => 'text',
-                'viewer' => 'pos',
+                'viewer' => 'viewer\pos',
                 'auto' => true,
                 'max' => 255,
             ],
