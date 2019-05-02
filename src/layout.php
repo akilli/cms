@@ -7,7 +7,6 @@ use app;
 use arr;
 use cfg;
 use entity;
-use request;
 use DomainException;
 
 /**
@@ -123,76 +122,4 @@ function db_render(string $id): string
     [$block['cfg']['entity_id'], $block['cfg']['id']] = explode('-', $id);
 
     return render($block);
-}
-
-/**
- * Data listener
- *
- * @throws DomainException
- */
-function listener_data(array $data): array
-{
-    $cfg = cfg\data('layout');
-    $type = cfg\data('block');
-    $url = request\data('url');
-    $keys = ['_all_', app\data('area')];
-
-    if (app\data('invalid')) {
-        $keys[] = '_invalid_';
-    } else {
-        $entityId = app\data('entity_id');
-        $action = app\data('action');
-        $keys[] = $action;
-
-        if ($parentId = app\data('parent_id')) {
-            $keys[] = $parentId . '/' . $action;
-        }
-
-        $keys[] = $entityId . '/' . $action;
-        $keys[] = $url;
-
-        if (($page = app\data('page')) && ($dbLayout = entity\all('layout_page', [['page_id', $page['id']]]))) {
-            $dbBlocks = [];
-
-            foreach (arr\group($dbLayout, 'entity_id', 'block_id') as $eId => $ids) {
-                foreach (entity\all($eId, [['id', $ids]]) as $item) {
-                    $dbBlocks[$item['id']] = $item;
-                }
-            }
-
-            foreach ($dbLayout as $id => $item) {
-                $c = ['parent_id' => $item['parent_id'], 'sort' => $item['sort']];
-                $cfg[$url][db_id($item)] = db($dbBlocks[$item['block_id']]) + $c;
-            }
-        }
-    }
-
-    foreach ($keys as $key) {
-        if (!empty($cfg[$key])) {
-            foreach ($cfg[$key] as $id => $block) {
-                $data[$id] = empty($data[$id]) ? $block : cfg\load_block($data[$id], $block);
-            }
-        }
-    }
-
-    foreach ($data as $id => $block) {
-        if (empty($block['type']) || empty($type[$block['type']])) {
-            throw new DomainException(app\i18n('Invalid configuration'));
-        }
-
-        unset($block['call']);
-        $data[$id] = arr\replace(APP['layout'], $type[$block['type']], $block, ['id' => $id]);
-    }
-
-    return $data;
-}
-
-/**
- * Postrender root listener
- */
-function listener_postrender_root(array $data): array
-{
-    $data['html'] = db_replace($data['html']);
-
-    return $data;
 }
