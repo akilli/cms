@@ -279,7 +279,7 @@ function hex(string $val): string
     $length = strlen($val);
 
     for ($i = 0; $i < $length; $i++) {
-        $out .= '&#x' . bin2hex($val[$i]) . ';';
+        $out .= $val[$i] === ' ' ? ' ' : '&#x' . bin2hex($val[$i]) . ';';
     }
 
     return $out;

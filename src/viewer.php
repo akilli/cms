@@ -12,7 +12,7 @@ use entity;
  */
 function email(string $val): string
 {
-    return app\html('a', ['href' => app\hex('mailto:' . $val)], app\hex($val));
+    return app\html('a', ['href' => 'mailto:' . $val], $val);
 }
 
 /**

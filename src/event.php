@@ -244,6 +244,11 @@ function layout(array $data): array
 function layout_postrender_root(array $data): array
 {
     $data['html'] = layout\db_replace($data['html']);
+    $call = function (array $m): string {
+        $val = trim($m[5]) === $m[3] ? app\hex($m[5]) : $m[5];
+        return $m[1] . app\hex($m[2]) . $m[4] . $val . $m[6];
+    };
+    $data['html'] = preg_replace_callback('#(<a(?:[^>]*)href=")(mailto:([^"]+))("(?:[^>]*)>)([^<]+)(</a>)#', $call, $data['html']);
 
     return $data;
 }
