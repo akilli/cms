@@ -387,61 +387,13 @@ function where(array $cols): string
  *
  * @throws DomainException
  */
-function join(string $tab, string $as = null, array $cols = [], string $type = null): string
+function join(string $type, string $tab, string $as = null, array $cols = []): string
 {
-    if (!$tab) {
-        return '';
+    if (!$type || empty(APP['join'][$type]) || !$tab) {
+        throw new DomainException(app\i18n('Invalid JOIN'));
     }
 
-    if ($type && empty(APP['join'][$type])) {
-        throw new DomainException(app\i18n('Invalid JOIN-type'));
-    }
-
-    if ($cols) {
-        $pre = '';
-        $post = ' ON ' . implode(' AND ', $cols);
-    } else {
-        $pre = ' NATURAL';
-        $post = '';
-    }
-
-    if ($type) {
-        $pre .= ' ' . strtoupper(APP['join'][$type]);
-    }
-
-    return $pre . ' JOIN ' . $tab . ($as ? ' AS ' . $as : '') . $post;
-}
-
-/**
- * INNER JOIN part
- */
-function ijoin(string $tab, string $as = null, array $cols = []): string
-{
-    return join($tab, $as, $cols, APP['join']['inner']);
-}
-
-/**
- * LEFT JOIN part
- */
-function ljoin(string $tab, string $as = null, array $cols = []): string
-{
-    return join($tab, $as, $cols, APP['join']['left']);
-}
-
-/**
- * RIGHT JOIN part
- */
-function rjoin(string $tab, string $as = null, array $cols = []): string
-{
-    return join($tab, $as, $cols, APP['join']['right']);
-}
-
-/**
- * FULL JOIN part
- */
-function fjoin(string $tab, string $as = null, array $cols = []): string
-{
-    return join($tab, $as, $cols, APP['join']['full']);
+    return APP['join'][$type] . ' JOIN ' . $tab . ($as ? ' AS ' . $as : '') . ($cols ? ' ON ' . implode(' AND ', $cols) : '');
 }
 
 /**

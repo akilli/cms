@@ -53,7 +53,7 @@ return [
     'Invalid data' => 'Ungültige Daten',
     'Invalid entity %s' => 'Ungültige Entität %s',
     'Invalid file type' => 'Ungültiger Dateityp',
-    'Invalid JOIN-type' => 'Ungültiger JOIN-Typ',
+    'Invalid JOIN' => 'Ungültiger JOIN',
     'Invalid name and password combination' => 'Ungültige Kombination aus Name und Passwort',
     'Invalid password' => 'Ungültiges Passwort',
     'Invalid path' => 'Ungültiger Pfad',

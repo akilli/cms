@@ -91,10 +91,12 @@ const APP = [
     'file.thumb' => '.thumb.',
     'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
     'join' => [
-        'full' => 'full',
-        'inner' => 'inner',
-        'left' => 'left',
-        'right' => 'right'
+        'cross' => 'CROSS',
+        'full' => 'FULL',
+        'inner' => 'INNER',
+        'left' => 'LEFT',
+        'natural' => 'NATURAL',
+        'right' => 'RIGHT'
     ],
     'layout' => [
         'id' => null,
