@@ -11,6 +11,7 @@ use cfg;
 use entity;
 use layout;
 use request;
+use session;
 use DomainException;
 
 /**
@@ -457,6 +458,7 @@ function profile(array $block): string
 
             if (entity\save('account', $data)) {
                 request\redirect(request\data('url'));
+                return '';
             }
         }
     }
@@ -472,6 +474,17 @@ function profile(array $block): string
  */
 function login(array $block): string
 {
+    if ($data = request\data('post')) {
+        if (!empty($data['username']) && !empty($data['password']) && ($data = account\login($data['username'], $data['password']))) {
+            session\regenerate();
+            session\set('account', $data['id']);
+            request\redirect(app\url('account/dashboard'));
+            return '';
+        }
+
+        app\msg('Invalid name and password combination');
+    }
+
     $block['tpl'] = $block['tpl'] ?? cfg\data('block', 'login')['tpl'];
     $entity = cfg\data('entity', 'account');
     $a = ['username' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0]];

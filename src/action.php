@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace action;
 
-use account;
 use app;
 use cfg;
 use entity;
@@ -27,23 +26,6 @@ function app_cfg(): void
 {
     header('Content-Type: application/json', true);
     die(json_encode(['i18n' => cfg\data('i18n')]));
-}
-
-/**
- * Account Login
- */
-function account_login(): void
-{
-    if ($data = request\data('post')) {
-        if (!empty($data['username']) && !empty($data['password']) && ($data = account\login($data['username'], $data['password']))) {
-            session\regenerate();
-            session\set('account', $data['id']);
-            request\redirect(app\url('account/dashboard'));
-            return;
-        }
-
-        app\msg('Invalid name and password combination');
-    }
 }
 
 /**
