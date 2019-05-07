@@ -55,6 +55,20 @@ function replace(array $base, array $data, array ...$add): array
 }
 
 /**
+ * Replaces elements from passed arrays into the first array with one level of recursion
+ */
+function extend(array $data, array $ext): array
+{
+    foreach ($data as $key => $val) {
+        if (array_key_exists($key, $ext)) {
+            $data[$key] = is_array($val) && is_array($ext[$key]) ? array_replace($val, $ext[$key]) : $ext[$key];
+        }
+    }
+
+    return $data + $ext;
+}
+
+/**
  * Extracts given keys
  */
 function extract(array $data, array $keys): array

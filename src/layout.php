@@ -5,7 +5,6 @@ namespace layout;
 
 use app;
 use arr;
-use cfg;
 use entity;
 use DomainException;
 
@@ -75,7 +74,7 @@ function db(array $data): array
         throw new DomainException(app\i18n('Invalid data'));
     }
 
-    $type = cfg\data('block', $data['entity_id']) ?: cfg\data('block', 'content');
+    $type = app\cfg('block', $data['entity_id']) ?: app\cfg('block', 'content');
 
     return ['type' => $type['id'], 'call' => $type['call'], 'cfg' => ['data' => $data]];
 }
@@ -118,7 +117,7 @@ function db_replace(string $html): string
  */
 function db_render(string $id): string
 {
-    $block = arr\replace(APP['layout'], cfg\data('block', 'db'), ['id' => uniqid('block-')]);
+    $block = arr\replace(APP['layout'], app\cfg('block', 'db'), ['id' => uniqid('block-')]);
     [$block['cfg']['entity_id'], $block['cfg']['id']] = explode('-', $id);
 
     return render($block);

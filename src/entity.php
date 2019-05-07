@@ -6,7 +6,6 @@ namespace entity;
 use arr;
 use attr;
 use app;
-use cfg;
 use DomainException;
 use Throwable;
 
@@ -17,7 +16,7 @@ use Throwable;
  */
 function size(string $entityId, array $crit = []): int
 {
-    if (!$entity = cfg\data('entity', $entityId)) {
+    if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 
@@ -40,7 +39,7 @@ function size(string $entityId, array $crit = []): int
  */
 function one(string $entityId, array $crit = [], array $opt = []): array
 {
-    if (!$entity = cfg\data('entity', $entityId)) {
+    if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 
@@ -66,7 +65,7 @@ function one(string $entityId, array $crit = [], array $opt = []): array
  */
 function all(string $entityId, array $crit = [], array $opt = []): array
 {
-    if (!$entity = cfg\data('entity', $entityId)) {
+    if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 
@@ -99,7 +98,7 @@ function all(string $entityId, array $crit = [], array $opt = []): array
  */
 function save(string $entityId, array & $data): bool
 {
-    if (!$entity = cfg\data('entity', $entityId)) {
+    if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     } elseif ($entity['readonly']) {
         throw new DomainException(app\i18n('Entity %s is readonly', $entity['id']));
@@ -201,7 +200,7 @@ function save(string $entityId, array & $data): bool
  */
 function delete(string $entityId, array $crit = [], array $opt = []): bool
 {
-    if (!$entity = cfg\data('entity', $entityId)) {
+    if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     } elseif ($entity['readonly']) {
         throw new DomainException(app\i18n('Entity %s is readonly', $entity['id']));
@@ -243,7 +242,7 @@ function delete(string $entityId, array $crit = [], array $opt = []): bool
  */
 function item(string $entityId): array
 {
-    if (!$entity = cfg\data('entity', $entityId)) {
+    if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 

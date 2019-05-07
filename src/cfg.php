@@ -4,26 +4,29 @@ declare(strict_types = 1);
 namespace cfg;
 
 use app;
+use arr;
+use file;
+use DomainException;
 
 /**
- * Loads and returns configuration data
- *
- * @note Config data must be cacheable, you must not do any dynamic/request-dependant stuff here
- *
- * @return mixed
+ * Preloads all configuration data
  */
-function data(string $id, string $key = null)
+function preload(): array
 {
-    if (($data = & app\registry('cfg.' . $id)) === null) {
-        $data = load($id);
-        $data = app\event(['cfg.' . $id], $data);
+    $data = [];
+
+    foreach ([app\path('cfg'), app\path('ext.cfg')] as $path) {
+        foreach (array_diff(scandir($path), ['.', '..']) as $name) {
+            $id = basename($name, '.php');
+            $file = $path . '/' . $name;
+
+            if (!is_array($data[$id] ?? null) && (is_dir($file) || is_file($file) && $id !== $name)) {
+                $data[$id] = load($id);
+            }
+        }
     }
 
-    if ($key === null) {
-        return $data;
-    }
-
-    return $data[$key] ?? null;
+    return $data;
 }
 
 /**
@@ -31,23 +34,142 @@ function data(string $id, string $key = null)
  */
 function load(string $id): array
 {
-    $file = app\path('cfg', $id . '.php');
-    $data = is_readable($file) ? include $file : [];
-    $extFile = app\path('ext.cfg', $id . '.php');
+    static $cfg = [];
 
-    if (!is_readable($extFile) || !($ext = include $extFile)) {
-        return $data;
+    if (!isset($cfg[$id])) {
+        $cfg[$id] = [];
+
+        if ($id === 'i18n') {
+            $id = 'i18n/' . app\data('lang');
+        }
+
+        $data = file\load(app\path('cfg', $id . '.php'));
+        $ext = file\load(app\path('ext.cfg', $id . '.php'));
+
+        switch ($id) {
+            case 'attr':
+                $cfg[$id] = $data + $ext;
+                break;
+            case 'block':
+                $cfg[$id] = load_block($data, $ext);
+                break;
+            case 'entity':
+                $cfg[$id] = load_entity($data, $ext);
+                break;
+            case 'layout':
+                $cfg[$id] = load_layout($data, $ext);
+                break;
+            case 'opt':
+                $cfg[$id] = load_opt($data, $ext);
+                break;
+            case 'priv':
+                $cfg[$id] = load_priv($data, $ext);
+                break;
+            case 'toolbar':
+                $cfg[$id] = load_toolbar($data, $ext);
+                break;
+            case 'db':
+            case 'event':
+                $cfg[$id] = arr\extend($data, $ext);
+                break;
+            default:
+                $cfg[$id] = array_replace($data, $ext);
+        }
     }
 
-    if (in_array($id, ['attr', 'block', 'entity'])) {
-        return $data + $ext;
+    return $cfg[$id];
+}
+
+/**
+ * Loads block configuration
+ *
+ * @throws DomainException
+ */
+function load_block(array $data, array $ext = []): array
+{
+    $data += $ext;
+
+    foreach ($data as $id => $type) {
+        $data[$id] = arr\replace(APP['block'], $type, ['id' => $id]);
+
+        if (!is_callable($type['call'])) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        }
     }
 
-    if ($id === 'layout') {
-        return load_layout($data, $ext);
+    return $data;
+}
+
+/**
+ * Loads entity configurations
+ *
+ * @throws DomainException
+ */
+function load_entity(array $data, array $ext = []): array
+{
+    $data += $ext;
+    $cfg = load('attr');
+    $dbCfg = load('db');
+
+    // Entities
+    foreach ($data as $entityId => $entity) {
+        $entity = arr\replace(APP['entity'], $entity, ['id' => $entityId]);
+
+        if (!$entity['name']
+            || !$entity['db']
+            || !$entity['type'] && !($entity['type'] = $dbCfg[$entity['db']]['type'] ?? null)
+            || $entity['parent_id'] && (empty($data[$entity['parent_id']]) || !empty($data[$entity['parent_id']]['parent_id']))
+            || !$entity['parent_id'] && !arr\has($entity['attr'], ['id', 'name'], true)
+        ) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        } elseif ($entity['parent_id']) {
+            $entity['attr'] = array_replace_recursive($data[$entity['parent_id']]['attr'], $entity['attr']);
+        }
+
+        $data[$entityId] = $entity;
     }
 
-    return array_replace_recursive($data, $ext);
+    // Attributes
+    foreach ($data as $entityId => $entity) {
+        foreach ($entity['attr'] as $attrId => $attr) {
+            if (empty($attr['name'])
+                || empty($attr['type'])
+                || empty($cfg[$attr['type']])
+                || in_array($attr['type'], ['entity', 'multientity']) && empty($attr['ref'])
+                || !empty($attr['ref']) && (empty($data[$attr['ref']]['attr']['id']['type']) || empty($cfg[$data[$attr['ref']]['attr']['id']['type']]))
+            ) {
+                throw new DomainException(app\i18n('Invalid configuration'));
+            }
+
+            // Auto-determine type from reference ID attribute
+            if (in_array($attr['type'], ['entity', 'multientity'])) {
+                $attr['backend'] = $cfg[$data[$attr['ref']]['attr']['id']['type']]['backend'];
+            }
+
+            $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr, ['id' => $attrId, 'name' => app\i18n($attr['name'])]);
+
+            if (!in_array($attr['backend'], APP['backend'])
+                || !$attr['frontend']
+                || !is_callable($attr['frontend'])
+                || $attr['filter'] && !is_callable($attr['filter'])
+                || $attr['min'] > 0 && $attr['max'] > 0 && $attr['min'] > $attr['max']
+            ) {
+                throw new DomainException(app\i18n('Invalid configuration'));
+            }
+
+            $attr['filter'] = $attr['filter'] ?: $attr['frontend'];
+            $attr['opt.frontend'] = $attr['opt.frontend'] ?: $attr['opt'];
+            $attr['opt.filter'] = $attr['opt.filter'] ?: $attr['opt'];
+            $attr['opt.validator'] = $attr['opt.validator'] ?: $attr['opt'];
+            $attr['opt.viewer'] = $attr['opt.viewer'] ?: $attr['opt'];
+            $entity['attr'][$attrId] = $attr;
+        }
+
+        $entity['name'] = app\i18n($entity['name']);
+        $data[$entityId] = $entity;
+    }
+
+    return $data;
 }
 
 /**
@@ -57,7 +179,7 @@ function load_layout(array $data, array $ext = []): array
 {
     foreach ($ext as $key => $cfg) {
         foreach ($cfg as $id => $block) {
-            $data[$key][$id] = empty($data[$key][$id]) ? $block : load_block($data[$key][$id], $block);
+            $data[$key][$id] = empty($data[$key][$id]) ? $block : load_layout_block($data[$key][$id], $block);
         }
     }
 
@@ -65,9 +187,9 @@ function load_layout(array $data, array $ext = []): array
 }
 
 /**
- * Load block configuration
+ * Loads layout block configuration
  */
-function load_block(array $data, array $ext = []): array
+function load_layout_block(array $data, array $ext = []): array
 {
     if (!empty($ext['cfg'])) {
         $data['cfg'] = empty($data['cfg']) ? $ext['cfg'] : array_replace($data['cfg'], $ext['cfg']);
@@ -76,4 +198,77 @@ function load_block(array $data, array $ext = []): array
     unset($ext['cfg']);
 
     return array_replace($data, $ext);
+}
+
+/**
+ * Loads option configuration
+ */
+function load_opt(array $data, array $ext = []): array
+{
+    $data = array_replace_recursive($data, $ext);
+
+    foreach ($data as $key => $opt) {
+        $data[$key] = array_map('app\i18n', $opt);
+    }
+
+    return $data;
+}
+
+/**
+ * Loads privilege configuration
+ */
+function load_priv(array $data, array $ext = []): array
+{
+    $data = array_replace_recursive($data, $ext);
+
+    foreach ($data as $id => $item) {
+        $item = arr\replace(APP['priv'], $item);
+        $item['name'] = $item['name'] ? app\i18n($item['name']) : '';
+        $data[$id] = $item;
+    }
+
+    foreach (load('entity') as $entity) {
+        if (in_array('edit', $entity['action']) && in_array('page', [$entity['id'], $entity['parent_id']])) {
+            $id = $entity['id'] . '-publish';
+            $data[$id]['name'] = $entity['name'] . ' ' . app\i18n('Publish');
+            $data[$id] = arr\replace(APP['priv'], $data[$id]);
+        }
+
+        foreach ($entity['action'] as $action) {
+            $id = $entity['id'] . '/' . $action;
+            $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucfirst($action));
+            $data[$id] = arr\replace(APP['priv'], $data[$id]);
+        }
+    }
+
+    return $data;
+}
+
+/**
+ * Loads toolbar configuration
+ *
+ * @throws DomainException
+ */
+function load_toolbar(array $data, array $ext = []): array
+{
+    $data = array_replace_recursive($data, $ext);
+
+    foreach ($data as $id => $item) {
+        if (empty($item['name']) || !empty($item['parent_id']) && empty($data[$item['parent_id']])) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        }
+
+        $item = arr\replace(APP['toolbar'], $item, ['id' => $id, 'name' => app\i18n($item['name']), 'level' => 1]);
+        $item['url'] = $item['action'] ? app\url($item['action']) : $item['url'];
+        $item['sort'] = str_pad((string) $item['sort'], 5, '0', STR_PAD_LEFT) . '-' . $id;
+
+        if ($item['parent_id']) {
+            $item['level'] = $data[$item['parent_id']]['level'] + 1;
+            $item['sort'] = $data[$item['parent_id']]['sort'] . '/' . $item['sort'];
+        }
+
+        $data[$id] = $item;
+    }
+
+    return arr\order($data, ['sort' => 'asc']);
 }

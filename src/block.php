@@ -7,7 +7,6 @@ use account;
 use app;
 use arr;
 use attr;
-use cfg;
 use entity;
 use layout;
 use request;
@@ -19,7 +18,7 @@ use DomainException;
  */
 function container(array $block): string
 {
-    $cfg = arr\replace(cfg\data('block', 'container')['cfg'], $block['cfg']);
+    $cfg = arr\replace(app\cfg('block', 'container')['cfg'], $block['cfg']);
     $html = layout\children($block['id']);
     $attrs = $block['parent_id'] === 'root' ? [] : ['id' => $block['id']];
 
@@ -65,7 +64,7 @@ function msg(): string
  */
 function title(array $block): string
 {
-    $cfg = arr\replace(cfg\data('block', 'title')['cfg'], $block['cfg']);
+    $cfg = arr\replace(app\cfg('block', 'title')['cfg'], $block['cfg']);
 
     if ($cfg['text']) {
         $text = app\i18n($cfg['text']);
@@ -91,9 +90,9 @@ function tpl(array $block): string
  */
 function meta(array $block): string
 {
-    $block['tpl'] = $block['tpl'] ?: cfg\data('block', 'meta')['tpl'];
-    $desc = cfg\data('app', 'meta.description');
-    $title = cfg\data('app', 'meta.title');
+    $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'meta')['tpl'];
+    $desc = app\cfg('app', 'meta.description');
+    $title = app\cfg('app', 'meta.title');
 
     if ($page = app\data('page')) {
         $desc = $page['meta_description'];
@@ -121,7 +120,7 @@ function meta(array $block): string
  */
 function view(array $block): string
 {
-    $type = cfg\data('block', 'view');
+    $type = app\cfg('block', 'view');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
@@ -142,7 +141,7 @@ function view(array $block): string
  */
 function banner(array $block): string
 {
-    $block['tpl'] = $block['tpl'] ?: cfg\data('block', 'banner')['tpl'];
+    $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'banner')['tpl'];
 
     if (($page = app\data('page')) && $page['entity_id'] !== 'page_content') {
         $page = entity\one('page', [['id', $page['path']], ['entity_id', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
@@ -160,11 +159,11 @@ function banner(array $block): string
  */
 function index(array $block): string
 {
-    $type = cfg\data('block', 'index');
+    $type = app\cfg('block', 'index');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
     $cfg['entity_id'] = $cfg['entity_id'] ?: app\data('entity_id');
-    $entity = cfg\data('entity', $cfg['entity_id']);
+    $entity = app\cfg('entity', $cfg['entity_id']);
     $call = function ($v): bool {
         return is_int($v) && $v >= 0;
     };
@@ -269,7 +268,7 @@ function index(array $block): string
  */
 function filter(array $block): string
 {
-    $type = cfg\data('block', 'filter');
+    $type = app\cfg('block', 'filter');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
@@ -285,7 +284,7 @@ function filter(array $block): string
  */
 function pager(array $block): string
 {
-    $type = cfg\data('block', 'pager');
+    $type = app\cfg('block', 'pager');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
@@ -342,7 +341,7 @@ function pager(array $block): string
  */
 function db(array $block): string
 {
-    $cfg = arr\replace(cfg\data('block', 'db')['cfg'], $block['cfg']);
+    $cfg = arr\replace(app\cfg('block', 'db')['cfg'], $block['cfg']);
 
     if ($cfg['entity_id'] && $cfg['id'] && ($data = entity\one($cfg['entity_id'], [['id', $cfg['id']]]))) {
         return layout\render(arr\replace($block, layout\db($data)));
@@ -356,7 +355,7 @@ function db(array $block): string
  */
 function content(array $block): string
 {
-    $cfg = arr\replace(cfg\data('block', 'content')['cfg'], $block['cfg']);
+    $cfg = arr\replace(app\cfg('block', 'content')['cfg'], $block['cfg']);
 
     if (!($data = $cfg['data']) || !($attrs = arr\extract($data['_entity']['attr'], $cfg['attr_id']))) {
         return '';
@@ -389,7 +388,7 @@ function content(array $block): string
  */
 function edit(array $block): string
 {
-    $type = cfg\data('block', 'edit');
+    $type = app\cfg('block', 'edit');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
@@ -440,7 +439,7 @@ function edit(array $block): string
  */
 function profile(array $block): string
 {
-    $type = cfg\data('block', 'profile');
+    $type = app\cfg('block', 'profile');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
@@ -485,8 +484,8 @@ function login(array $block): string
         app\msg('Invalid name and password combination');
     }
 
-    $block['tpl'] = $block['tpl'] ?? cfg\data('block', 'login')['tpl'];
-    $entity = cfg\data('entity', 'account');
+    $block['tpl'] = $block['tpl'] ?? app\cfg('block', 'login')['tpl'];
+    $entity = app\cfg('entity', 'account');
     $a = ['username' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0]];
     $attrs = array_replace_recursive(arr\extract($entity['attr'], ['username', 'password']), $a);
     $var = ['attr' => $attrs, 'data' => [], 'multipart' => false];
@@ -501,7 +500,7 @@ function login(array $block): string
  */
 function nav(array $block): string
 {
-    $cfg = arr\replace(cfg\data('block', 'nav')['cfg'], $block['cfg']);
+    $cfg = arr\replace(app\cfg('block', 'nav')['cfg'], $block['cfg']);
 
     if (!$cfg['data']) {
         return '';
@@ -592,7 +591,7 @@ function nav(array $block): string
  */
 function menu(array $block): string
 {
-    $block['cfg'] = arr\replace(cfg\data('block', 'menu')['cfg'], $block['cfg']);
+    $block['cfg'] = arr\replace(app\cfg('block', 'menu')['cfg'], $block['cfg']);
 
     if ($block['cfg']['url']) {
         $page = entity\one('page', [['status', 'published'], ['entity_id', 'page_content'], ['url', $block['cfg']['url']]]);
@@ -647,7 +646,7 @@ function menu(array $block): string
  */
 function toolbar(array $block): string
 {
-    $data = cfg\data('toolbar');
+    $data = app\cfg('toolbar');
     $empty = [];
 
     foreach ($data as $id => $item) {

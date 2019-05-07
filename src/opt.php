@@ -6,7 +6,6 @@ namespace opt;
 use app;
 use arr;
 use attr;
-use cfg;
 use entity;
 
 /**
@@ -39,7 +38,7 @@ function entity_id(array $data): array
     }
 
     if (($opt = & app\registry('opt.parent.' . $data['_entity']['id'])) === null) {
-        $opt = array_column(arr\filter(cfg\data('entity'), 'parent_id', $data['_entity']['id']), 'name', 'id');
+        $opt = array_column(arr\filter(app\cfg('entity'), 'parent_id', $data['_entity']['id']), 'name', 'id');
         asort($opt);
     }
 
@@ -54,7 +53,7 @@ function priv(): array
     if (($opt = & app\registry('opt.priv')) === null) {
         $opt = [];
 
-        foreach (cfg\data('priv') as $key => $priv) {
+        foreach (app\cfg('priv') as $key => $priv) {
             if ($priv['active'] && !$priv['priv'] && !$priv['auto'] && app\allowed($key)) {
                 $opt[$key] = $priv['name'];
             }

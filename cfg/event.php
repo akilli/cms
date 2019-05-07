@@ -1,23 +1,5 @@
 <?php
 return [
-    'cfg.block' => [
-        'event\cfg_block' => 10,
-    ],
-    'cfg.entity' => [
-        'event\cfg_entity' => 10,
-    ],
-    'cfg.i18n' => [
-        'event\cfg_i18n' => 10,
-    ],
-    'cfg.opt' => [
-        'event\cfg_opt' => 10,
-    ],
-    'cfg.priv' => [
-        'event\cfg_priv' => 10,
-    ],
-    'cfg.toolbar' => [
-        'event\cfg_toolbar' => 10,
-    ],
     'layout' => [
         'event\layout' => 10,
     ],

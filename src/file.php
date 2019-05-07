@@ -6,6 +6,14 @@ namespace file;
 use app;
 
 /**
+ * Loads data from file
+ */
+function load(string $file): array
+{
+    return is_readable($file) && ($data = include $file) && is_array($data) ? $data : [];
+}
+
+/**
  * Uploads a file
  */
 function upload(string $src, string $dest): bool
