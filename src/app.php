@@ -115,11 +115,18 @@ function data(string $id)
  */
 function cfg(string $id, string $key = null)
 {
-    if ($key === null) {
-        return CFG[$id] ?? [];
+    // Workaround for config preloading
+    if (defined('CFG')) {
+        $data = CFG[$id] ?? [];
+    } else {
+        $data = registry('cfg.' . $id);
     }
 
-    return CFG[$id][$key] ?? null;
+    if ($key === null) {
+        return $data ?? [];
+    }
+
+    return $data[$key] ?? null;
 }
 
 /**

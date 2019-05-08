@@ -57,6 +57,7 @@ define('APP', [
         'tpl' => null,
         'cfg' => [],
     ],
+    'cfg' => '/tmp/cfg.php',
     'charset' => ini_get('default_charset'),
     'crlf' => "\r\n",
     'curl' => [
@@ -122,7 +123,7 @@ define('APP', [
         '!$' => '!$',
     ],
     'path' => [
-        'tmp' => sys_get_temp_dir(),
+        'tmp' => '/tmp',
         'cfg' => '/app/cfg',
         'file' => '/data/file',
         'gui' => '/app/gui',
@@ -180,10 +181,8 @@ setlocale(LC_ALL, APP['locale']);
 /**
  * Config
  */
-$file = app\path('tmp', 'cfg.php');
-
-if (!file_exists($file)) {
-    file\save($file, cfg\preload());
+if (!file_exists(APP['cfg'])) {
+    file\save(APP['cfg'], cfg\preload());
 }
 
-define('CFG', file\load($file));
+define('CFG', file\load(APP['cfg']));

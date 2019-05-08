@@ -15,6 +15,8 @@ function preload(): array
 {
     $data = [];
 
+    load('i18n');
+
     foreach ([app\path('cfg'), app\path('ext.cfg')] as $path) {
         foreach (array_diff(scandir($path), ['.', '..']) as $name) {
             $id = basename($name, '.php');
@@ -34,11 +36,7 @@ function preload(): array
  */
 function load(string $id): array
 {
-    static $cfg = [];
-
-    if (!isset($cfg[$id])) {
-        $cfg[$id] = [];
-
+    if (($cfg = & app\registry('cfg.' . $id)) === null) {
         if ($id === 'i18n') {
             $id = 'i18n/' . APP['lang'];
         }
@@ -48,36 +46,36 @@ function load(string $id): array
 
         switch ($id) {
             case 'attr':
-                $cfg[$id] = $data + $ext;
+                $cfg = $data + $ext;
                 break;
             case 'block':
-                $cfg[$id] = load_block($data, $ext);
+                $cfg = load_block($data, $ext);
                 break;
             case 'entity':
-                $cfg[$id] = load_entity($data, $ext);
+                $cfg = load_entity($data, $ext);
                 break;
             case 'layout':
-                $cfg[$id] = load_layout($data, $ext);
+                $cfg = load_layout($data, $ext);
                 break;
             case 'opt':
-                $cfg[$id] = load_opt($data, $ext);
+                $cfg = load_opt($data, $ext);
                 break;
             case 'priv':
-                $cfg[$id] = load_priv($data, $ext);
+                $cfg = load_priv($data, $ext);
                 break;
             case 'toolbar':
-                $cfg[$id] = load_toolbar($data, $ext);
+                $cfg = load_toolbar($data, $ext);
                 break;
             case 'db':
             case 'event':
-                $cfg[$id] = arr\extend($data, $ext);
+                $cfg = arr\extend($data, $ext);
                 break;
             default:
-                $cfg[$id] = array_replace($data, $ext);
+                $cfg = array_replace($data, $ext);
         }
     }
 
-    return $cfg[$id];
+    return $cfg;
 }
 
 /**
