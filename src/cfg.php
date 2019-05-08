@@ -40,7 +40,7 @@ function load(string $id): array
         $cfg[$id] = [];
 
         if ($id === 'i18n') {
-            $id = 'i18n/' . app\data('lang');
+            $id = 'i18n/' . APP['lang'];
         }
 
         $data = file\load(app\path('cfg', $id . '.php'));

@@ -27,7 +27,6 @@ function run(): void
     // Gather request-data
     $app = & registry('app');
     $app = APP['app'];
-    $app['lang'] = locale_get_primary_language('');
     $app['gui'] = max(filemtime(path('gui')), file_exists(path('ext.gui')) ? filemtime(path('ext.gui')) : 0);
     $url = request\data('url');
     $pattern = '#^/(?P<entity_id>[a-z_]+)?(?:/(?P<action>[a-z_]+))?(?:/(?P<id>[^/]+))?(?P<invalid>.*)#u';
@@ -349,10 +348,12 @@ function curl(string $url, array $param = []): ?string
 
 /**
  * Error
+ *
+ * @throws ErrorException
  */
 function error(int $severity, string $msg, string $file, int $line): void
 {
-    log(new ErrorException($msg, 0, $severity, $file, $line));
+    throw new ErrorException($msg, 0, $severity, $file, $line);
 }
 
 /**

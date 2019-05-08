@@ -31,7 +31,7 @@ function container(array $block): string
 function root(): string
 {
     $attr = [
-        'lang' => app\data('lang'),
+        'lang' => APP['lang'],
         'data-action' => app\data('action'),
         'data-entity' => app\data('entity_id'),
         'data-parent' => app\data('parent_id'),

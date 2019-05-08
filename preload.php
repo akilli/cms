@@ -4,7 +4,7 @@ declare(strict_types = 1);
 /**
  * Constants used in application
  */
-const APP = [
+define('APP', [
     'app' => [
         'action' => null,
         'area' => null,
@@ -13,7 +13,6 @@ const APP = [
         'gui' => null,
         'id' => null,
         'invalid' => false,
-        'lang' => null,
         'page' => null,
         'parent_id' => null,
         'public' => false,
@@ -98,6 +97,7 @@ const APP = [
         'natural' => 'NATURAL',
         'right' => 'RIGHT'
     ],
+    'lang' => locale_get_primary_language(''),
     'layout' => [
         'id' => null,
         'type' => null,
@@ -158,18 +158,15 @@ const APP = [
     'url.file' => '/file/',
     'url.gui' => '/gui/',
     'version' => ['name', 'content', 'aside', 'status', 'timestamp']
-];
+]);
 
 /**
- * Include base source files
+ * Include base and extension source files
  */
 foreach (glob(__DIR__ . '/src/*.php') as $file) {
     include_once $file;
 }
 
-/**
- * Include extension source files
- */
 foreach (glob(app\path('ext.src', '*.php')) as $file) {
     include_once $file;
 }
