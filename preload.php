@@ -62,6 +62,7 @@ define('APP', [
         'tpl' => null,
         'cfg' => [],
     ],
+    'charset' => ini_get('default_charset'),
     'crlf' => "\r\n",
     'curl' => [
         CURLOPT_FOLLOWLOCATION => true,
@@ -109,6 +110,7 @@ define('APP', [
         'sort' => 0,
         'cfg' => [],
     ],
+    'locale' => ini_get('intl.default_locale'),
     'log' => 'php://stdout',
     'op' => [
         '=' => '=',
