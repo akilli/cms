@@ -5,13 +5,14 @@ namespace frontend;
 
 use app;
 use attr;
+use str;
 
 /**
  * Text
  */
 function text(?string $val, array $attr): string
 {
-    return app\html('input', ['type' => 'text', 'value' => app\enc($val)] + $attr['html']);
+    return app\html('input', ['type' => 'text', 'value' => str\enc($val)] + $attr['html']);
 }
 
 /**
@@ -19,7 +20,7 @@ function text(?string $val, array $attr): string
  */
 function email(?string $val, array $attr): string
 {
-    return app\html('input', ['type' => 'email', 'value' => app\enc($val)] + $attr['html']);
+    return app\html('input', ['type' => 'email', 'value' => str\enc($val)] + $attr['html']);
 }
 
 /**
@@ -27,7 +28,7 @@ function email(?string $val, array $attr): string
  */
 function url(?string $val, array $attr): string
 {
-    return app\html('input', ['type' => 'url', 'value' => app\enc($val)] + $attr['html']);
+    return app\html('input', ['type' => 'url', 'value' => str\enc($val)] + $attr['html']);
 }
 
 /**
@@ -35,7 +36,7 @@ function url(?string $val, array $attr): string
  */
 function tel(?string $val, array $attr): string
 {
-    return app\html('input', ['type' => 'tel', 'value' => app\enc($val)] + $attr['html']);
+    return app\html('input', ['type' => 'tel', 'value' => str\enc($val)] + $attr['html']);
 }
 
 /**
@@ -105,7 +106,7 @@ function time(?string $val, array $attr): string
  */
 function textarea(?string $val, array $attr): string
 {
-    return app\html('textarea', $attr['html'], app\enc($val));
+    return app\html('textarea', $attr['html'], str\enc($val));
 }
 
 /**

@@ -5,6 +5,7 @@ namespace request;
 
 use app;
 use session;
+use str;
 use DomainException;
 
 /**
@@ -18,7 +19,7 @@ function data(string $key)
         $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
         $secure = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null === 'on');
         $data['base'] = 'http' . ($secure ? 's' : '') . '://' . $data['host'];
-        $data['url'] = app\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
+        $data['url'] = str\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
         $data['full'] = $data['base'] . $data['url'];
         $data['get'] = filter($_GET);
         $data['file'] = [];

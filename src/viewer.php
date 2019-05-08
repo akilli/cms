@@ -6,6 +6,7 @@ namespace viewer;
 use app;
 use attr;
 use entity;
+use str;
 
 /**
  * Email
@@ -60,7 +61,7 @@ function rte(string $val): string
  */
 function json(array $val): string
 {
-    return app\html('pre', [], app\enc(print_r($val, true)));
+    return app\html('pre', [], str\enc(print_r($val, true)));
 }
 
 /**
@@ -135,12 +136,12 @@ function file($val, array $attr): string
     }
 
     if (!preg_match('#^(audio|image|video)/#', $data['mime'], $match)) {
-        $v = $data['thumb_url'] ? app\html('img', ['src' => $data['thumb_url'], 'alt' => app\enc($data['info'])]) : $data['url'];
+        $v = $data['thumb_url'] ? app\html('img', ['src' => $data['thumb_url'], 'alt' => str\enc($data['info'])]) : $data['url'];
         return app\html('a', ['href' => $data['url']], $v);
     }
 
     if ($match[1] === 'image') {
-        return app\html('img', ['src' => $data['url'], 'alt' => app\enc($data['info'])]);
+        return app\html('img', ['src' => $data['url'], 'alt' => str\enc($data['info'])]);
     }
 
     if ($data['thumb_url']) {

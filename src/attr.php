@@ -6,6 +6,7 @@ namespace attr;
 use app;
 use arr;
 use entity;
+use str;
 use DomainException;
 
 /**
@@ -119,7 +120,7 @@ function viewer(array $data, array $attr): string
         return $attr['viewer']($val, $attr);
     }
 
-    return app\enc((string) $val);
+    return str\enc((string) $val);
 }
 
 /**

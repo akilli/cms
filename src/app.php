@@ -274,37 +274,6 @@ function html(string $tag, array $attrs = [], string $val = null): string
 }
 
 /**
- * Converts special chars to HTML entities
- */
-function enc(?string $val): string
-{
-    return $val ? htmlspecialchars($val, ENT_QUOTES, ini_get('default_charset'), false) : '';
-}
-
-/**
- * Translates configured characters
- */
-function tr(string $val): string
-{
-    return strtr(mb_strtolower($val), cfg('tr'));
-}
-
-/**
- * Converts string to HTML entity hex format
- */
-function hex(string $val): string
-{
-    $out = '';
-    $length = strlen($val);
-
-    for ($i = 0; $i < $length; $i++) {
-        $out .= $val[$i] === ' ' ? ' ' : '&#x' . bin2hex($val[$i]) . ';';
-    }
-
-    return $out;
-}
-
-/**
  * Generates URL by given path and params, optionally preserves existing params
  */
 function url(string $path = '', array $get = [], bool $preserve = false): string

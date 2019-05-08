@@ -11,6 +11,7 @@ use entity;
 use file;
 use layout;
 use request;
+use str;
 use DomainException;
 
 /**
@@ -82,7 +83,7 @@ function layout_postrender_root(array $data): array
 {
     $data['html'] = layout\db_replace($data['html']);
     $call = function (array $m): string {
-        return app\hex($m[0]);
+        return str\hex($m[0]);
     };
     $data['html'] = preg_replace_callback('#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im', $call, $data['html']);
 

@@ -7,6 +7,7 @@ use app;
 use attr;
 use entity;
 use request;
+use str;
 use DomainException;
 
 /**
@@ -54,7 +55,7 @@ function urlpath(string $val): string
         return url($val);
     }
 
-    return '/' . trim(preg_replace('#[^a-z0-9-_/\.]+#', '-', app\tr($val)), '-/');
+    return '/' . trim(preg_replace('#[^a-z0-9-_/\.]+#', '-', str\tr($val)), '-/');
 }
 
 /**
@@ -62,7 +63,7 @@ function urlpath(string $val): string
  */
 function uid(string $val): string
 {
-    return trim(preg_replace('#[^a-z0-9-_]+#', '-', app\tr($val)), '-');
+    return trim(preg_replace('#[^a-z0-9-_]+#', '-', str\tr($val)), '-');
 }
 
 /**

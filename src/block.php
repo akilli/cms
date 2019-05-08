@@ -11,6 +11,7 @@ use entity;
 use layout;
 use request;
 use session;
+use str;
 use DomainException;
 
 /**
@@ -74,7 +75,7 @@ function title(array $block): string
         $text = app\data('entity')['name'] ?? '';
     }
 
-    return $text ? app\html('h1', [], app\enc($text)) : '';
+    return $text ? app\html('h1', [], str\enc($text)) : '';
 }
 
 /**
@@ -110,7 +111,7 @@ function meta(array $block): string
         $title = $entity['name'] . ($title ? ' - ' . $title : '');
     }
 
-    $var = ['description' => app\enc($desc), 'title' => app\enc($title)];
+    $var = ['description' => str\enc($desc), 'title' => str\enc($title)];
 
     return app\tpl($block['tpl'], $var);
 }
@@ -256,7 +257,7 @@ function index(array $block): string
         'pager-bottom' => in_array($cfg['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
         'sort' => $sort,
-        'title' => $cfg['title'] ? app\enc(app\i18n($cfg['title'])) : null,
+        'title' => $cfg['title'] ? str\enc(app\i18n($cfg['title'])) : null,
         'url' => request\data('url'),
     ];
 
