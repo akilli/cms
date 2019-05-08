@@ -6,9 +6,3 @@ docker-compose.*
 Dockerfile
 .dockerignore
 Jenkinsfile
-
-#
-# DEV
-#
-/ext
-.idea
