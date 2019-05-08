@@ -6,7 +6,6 @@ namespace event;
 use account;
 use app;
 use arr;
-use cfg;
 use entity;
 use file;
 use layout;
@@ -59,7 +58,7 @@ function layout(array $data): array
     foreach ($keys as $key) {
         if (!empty($cfg[$key])) {
             foreach ($cfg[$key] as $id => $block) {
-                $data[$id] = empty($data[$id]) ? $block : cfg\load_layout_block($data[$id], $block);
+                $data[$id] = empty($data[$id]) ? $block : arr\extend($data[$id], $block);
             }
         }
     }

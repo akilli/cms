@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace app;
 
 use account;
-use cfg;
 use entity;
 use layout;
 use request;
@@ -112,21 +111,15 @@ function data(string $id)
 /**
  * Loads and returns configuration data
  *
- * @note Config data must be cacheable, you must not do any dynamic/request-dependant stuff here
- *
  * @return mixed
  */
 function cfg(string $id, string $key = null)
 {
-    if (($data = & registry('cfg.' . $id)) === null) {
-        $data = cfg\load($id);
-    }
-
     if ($key === null) {
-        return $data;
+        return CFG[$id] ?? [];
     }
 
-    return $data[$key] ?? null;
+    return CFG[$id][$key] ?? null;
 }
 
 /**

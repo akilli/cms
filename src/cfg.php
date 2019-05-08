@@ -179,25 +179,11 @@ function load_layout(array $data, array $ext = []): array
 {
     foreach ($ext as $key => $cfg) {
         foreach ($cfg as $id => $block) {
-            $data[$key][$id] = empty($data[$key][$id]) ? $block : load_layout_block($data[$key][$id], $block);
+            $data[$key][$id] = empty($data[$key][$id]) ? $block : arr\extend($data[$key][$id], $block);
         }
     }
 
     return $data;
-}
-
-/**
- * Loads layout block configuration
- */
-function load_layout_block(array $data, array $ext = []): array
-{
-    if (!empty($ext['cfg'])) {
-        $data['cfg'] = empty($data['cfg']) ? $ext['cfg'] : array_replace($data['cfg'], $ext['cfg']);
-    }
-
-    unset($ext['cfg']);
-
-    return array_replace($data, $ext);
 }
 
 /**

@@ -122,6 +122,7 @@ define('APP', [
         '!$' => '!$',
     ],
     'path' => [
+        'tmp' => sys_get_temp_dir(),
         'cfg' => '/app/cfg',
         'file' => '/data/file',
         'gui' => '/app/gui',
@@ -175,3 +176,14 @@ set_error_handler('app\error');
 set_exception_handler('app\exception');
 register_shutdown_function('app\shutdown');
 setlocale(LC_ALL, APP['locale']);
+
+/**
+ * Config
+ */
+$file = app\path('tmp', 'cfg.php');
+
+if (!file_exists($file)) {
+    file\save($file, cfg\preload());
+}
+
+define('CFG', file\load($file));

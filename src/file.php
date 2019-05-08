@@ -14,6 +14,14 @@ function load(string $file): array
 }
 
 /**
+ * Saves data to file
+ */
+function save(string $file, array $data): bool
+{
+    return dir(dirname($file)) && file_put_contents($file, "<?php\nreturn " . var_export($data, true) . ';') > 0;
+}
+
+/**
  * Uploads a file
  */
 function upload(string $src, string $dest): bool
@@ -60,5 +68,5 @@ function dir(string $path): bool
  */
 function writable(string $path): bool
 {
-    return strpos($path, app\path('file')) === 0;
+    return (bool) preg_match('#^(file://)?(' . app\path('file') . '|' . app\path('tmp') . ')#', $path);
 }
