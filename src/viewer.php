@@ -29,23 +29,7 @@ function url(string $val): string
  */
 function datetime(string $val, array $attr): string
 {
-    return attr\datetime($val, APP['attr.datetime.backend'], $attr['cfg.viewer']);
-}
-
-/**
- * Date
- */
-function date(string $val, array $attr): string
-{
-    return attr\datetime($val, APP['attr.date.backend'], $attr['cfg.viewer']);
-}
-
-/**
- * Time
- */
-function time(string $val, array $attr): string
-{
-    return attr\datetime($val, APP['attr.time.backend'], $attr['cfg.viewer']);
+    return attr\datetime($val, $attr['cfg.backend'], $attr['cfg.viewer']);
 }
 
 /**

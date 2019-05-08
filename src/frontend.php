@@ -76,7 +76,7 @@ function range(?int $val, array $attr): string
  */
 function datetime(?string $val, array $attr): string
 {
-    $val = $val ? attr\datetime($val, APP['attr.datetime.backend'], APP['attr.datetime.frontend']) : '';
+    $val = $val ? attr\datetime($val, $attr['cfg.backend'], $attr['cfg.frontend']) : '';
 
     return app\html('input', ['type' => 'datetime-local', 'value' => $val] + $attr['html']);
 }
@@ -86,7 +86,7 @@ function datetime(?string $val, array $attr): string
  */
 function date(?string $val, array $attr): string
 {
-    $val = $val ? attr\datetime($val, APP['attr.date.backend'], APP['attr.date.frontend']) : '';
+    $val = $val ? attr\datetime($val, $attr['cfg.backend'], $attr['cfg.frontend']) : '';
 
     return app\html('input', ['type' => 'date', 'value' => $val] + $attr['html']);
 }
@@ -96,7 +96,7 @@ function date(?string $val, array $attr): string
  */
 function time(?string $val, array $attr): string
 {
-    $val = $val ? attr\datetime($val, APP['attr.time.backend'], APP['attr.time.frontend']) : '';
+    $val = $val ? attr\datetime($val, $attr['cfg.backend'], $attr['cfg.frontend']) : '';
 
     return app\html('input', ['type' => 'time', 'value' => $val] + $attr['html']);
 }

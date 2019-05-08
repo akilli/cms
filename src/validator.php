@@ -71,37 +71,9 @@ function uid(string $val): string
  *
  * @throws DomainException
  */
-function datetime(string $val): string
+function datetime(string $val, array $attr): string
 {
-    if (!$val = attr\datetime($val, APP['attr.datetime.frontend'], APP['attr.datetime.backend'])) {
-        throw new DomainException(app\i18n('Invalid value'));
-    }
-
-    return $val;
-}
-
-/**
- * Date
- *
- * @throws DomainException
- */
-function date(string $val): string
-{
-    if (!$val = attr\datetime($val, APP['attr.date.frontend'], APP['attr.date.backend'])) {
-        throw new DomainException(app\i18n('Invalid value'));
-    }
-
-    return $val;
-}
-
-/**
- * Time
- *
- * @throws DomainException
- */
-function time(string $val): string
-{
-    if (!$val = attr\datetime($val, APP['attr.time.frontend'], APP['attr.time.backend'])) {
+    if (!$val = attr\datetime($val, $attr['cfg.frontend'], $attr['cfg.backend'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 

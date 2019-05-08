@@ -207,15 +207,16 @@ function index(array $block): string
         $get['filter'] = $get['filter'] && is_array($get['filter']) ? array_intersect_key($get['filter'], $fa) : [];
 
         foreach (array_keys($get['filter']) as $attrId) {
+            $attr = $fa[$attrId];
             $op = APP['op']['='];
 
-            if ($fa[$attrId]['multiple'] || !$fa[$attrId]['opt'] && in_array($fa[$attrId]['backend'], ['json', 'text', 'varchar'])) {
+            if ($attr['multiple'] || !$attr['opt'] && in_array($attr['backend'], ['json', 'text', 'varchar'])) {
                 $op = APP['op']['~'];
-            } elseif ($get['filter'][$attrId] && in_array($fa[$attrId]['backend'], ['datetime', 'date'])) {
-                $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], APP['attr.date.frontend'], APP['attr.date.backend']);
-                $op = $fa[$attrId]['backend'] === 'datetime' ? APP['op']['^'] : $op = APP['op']['='];
-            } elseif ($get['filter'][$attrId] && $fa[$attrId]['backend'] === 'time') {
-                $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], APP['attr.time.frontend'], APP['attr.time.backend']);
+            } elseif ($get['filter'][$attrId] && in_array($attr['backend'], ['datetime', 'date'])) {
+                $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], $attr['cfg.frontend'], $attr['cfg.backend']);
+                $op = $attr['backend'] === 'datetime' ? APP['op']['^'] : $op = APP['op']['='];
+            } elseif ($get['filter'][$attrId] && $attr['backend'] === 'time') {
+                $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], $attr['cfg.frontend'], $attr['cfg.backend']);
             }
 
             $crit[] = [$attrId, $get['filter'][$attrId], $op];

@@ -19,8 +19,10 @@ return [
     'date' => [
         'backend' => 'date',
         'frontend' => 'frontend\date',
-        'validator' => 'validator\date',
-        'viewer' => 'viewer\date',
+        'validator' => 'validator\datetime',
+        'viewer' => 'viewer\datetime',
+        'cfg.backend' => 'Y-m-d',
+        'cfg.frontend' => 'Y-m-d',
         'cfg.viewer' => 'd.m.y',
     ],
     'datetime' => [
@@ -29,6 +31,8 @@ return [
         'filter' => 'frontend\date',
         'validator' => 'validator\datetime',
         'viewer' => 'viewer\datetime',
+        'cfg.backend' => 'Y-m-d H:i:s',
+        'cfg.frontend' => 'Y-m-d\TH:i',
         'cfg.viewer' => 'd.m.y',
     ],
     'decimal' => [
@@ -186,8 +190,10 @@ return [
     'time' => [
         'backend' => 'time',
         'frontend' => 'frontend\time',
-        'validator' => 'validator\time',
-        'viewer' => 'viewer\time',
+        'validator' => 'validator\datetime',
+        'viewer' => 'viewer\datetime',
+        'cfg.backend' => 'H:i:s',
+        'cfg.frontend' => 'H:i',
         'cfg.viewer' => 'H:i',
     ],
     'uid' => [
