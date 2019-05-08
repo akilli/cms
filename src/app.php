@@ -18,12 +18,6 @@ use Throwable;
  */
 function run(): void
 {
-    // Register functions
-    set_error_handler('app\error');
-    set_exception_handler('app\exception');
-    register_shutdown_function('app\shutdown');
-    setlocale(LC_ALL, APP['locale']);
-
     // Gather request-data
     $app = & registry('app');
     $app = APP['app'];

@@ -172,3 +172,11 @@ foreach (glob(__DIR__ . '/src/*.php') as $file) {
 foreach (glob(app\path('ext.src', '*.php')) as $file) {
     include_once $file;
 }
+
+/**
+ * Register functions
+ */
+set_error_handler('app\error');
+set_exception_handler('app\exception');
+register_shutdown_function('app\shutdown');
+setlocale(LC_ALL, APP['locale']);
