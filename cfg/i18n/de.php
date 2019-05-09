@@ -121,7 +121,7 @@ return [
     'Teaser' => 'Teaser',
     'Thumbnail' => 'Vorschaubild',
     'Thumbnail Extension' => 'Dateiendung Vorschaubild',
-    'Thumbnail MIME' => 'MIME-Typ Vorschaubild',
+    'Thumbnail MIME-Type' => 'MIME-Typ Vorschaubild',
     'Timestamp' => 'Zeitstempel',
     'Title' => 'Überschrift',
     'Top Area' => 'Oberer Bereich',

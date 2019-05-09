@@ -120,7 +120,7 @@ return [
                 'accept' => ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'],
             ],
             'thumb_mime' => [
-                'name' => 'Thumbnail MIME',
+                'name' => 'Thumbnail MIME-Type',
                 'type' => 'text',
                 'nullable' => true,
                 'max' => 255,
