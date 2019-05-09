@@ -46,7 +46,7 @@ function run(): void
     $real = is_callable($ns . $app['entity_id'] . '_' . $app['action']) ? $ns . $app['entity_id'] . '_' . $app['action'] : null;
 
     // Dispatch request
-    if ($allowed && !$app['entity'] && $real) {
+    if ($allowed && $real) {
         $real();
     } elseif (!$allowed
         || !$app['entity']
@@ -55,12 +55,10 @@ function run(): void
         || $app['public'] && (!$app['page'] || $app['page']['disabled'] || $app['page']['status'] !== 'published' && !allowed($app['entity_id'] . '/edit'))
     ) {
         invalid();
-    } elseif ($real) {
-        $real($app['entity']);
     } elseif ($app['parent_id'] && is_callable($ns . $app['parent_id'] . '_' . $app['action'])) {
-        ($ns . $app['parent_id'] . '_' . $app['action'])($app['entity']);
+        ($ns . $app['parent_id'] . '_' . $app['action'])();
     } elseif (is_callable($ns . $app['action'])) {
-        ($ns . $app['action'])($app['entity']);
+        ($ns . $app['action'])();
     }
 }
 

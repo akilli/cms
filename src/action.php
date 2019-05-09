@@ -12,10 +12,10 @@ use session;
 /**
  * Delete
  */
-function delete(array $entity): void
+function delete(): void
 {
-    entity\delete($entity['id'], [['id', app\data('id')]]);
-    request\redirect(app\url($entity['id'] . '/admin'));
+    entity\delete(app\data('entity_id'), [['id', app\data('id')]]);
+    request\redirect(app\url(app\data('entity_id') . '/admin'));
 }
 
 /**
