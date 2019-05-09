@@ -119,11 +119,11 @@ function cfg(string $id, string $key = null)
     if (defined('CFG')) {
         $data = CFG[$id] ?? [];
     } else {
-        $data = registry('cfg.' . $id);
+        $data = registry('cfg.' . $id) ?? [];
     }
 
     if ($key === null) {
-        return $data ?? [];
+        return $data;
     }
 
     return $data[$key] ?? null;
