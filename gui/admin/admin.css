@@ -61,11 +61,13 @@ time[data-attr] {
  * Figure
  */
 figure.left {
+    max-width: 50%;
     float: left;
     margin-right: 0.75rem;
 }
 
 figure.right {
+    max-width: 50%;
     float: right;
     margin-left: 0.75rem;
 }
