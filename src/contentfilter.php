@@ -23,7 +23,12 @@ function email(string $val): string
  */
 function image(string $val): string
 {
+    $pattern = '#(<img(?:[^>]*) src="' . APP['url.file'] . '([0-9]+)\.(jpg|png|webp)")((?:[^>]*)>)#';
     $call = function (array $m): string {
+        if (strpos($m[0], 'srcset="') !== false) {
+            return $m[0];
+        }
+
         $w = & app\registry('contentfilter.image');
         $w[$m[2]] = $w[$m[2]] ?? getimagesize(app\path('file', $m[2] . '.' . $m[3]))[0] ?? null;
         $set = '';
@@ -39,8 +44,8 @@ function image(string $val): string
             }
         }
 
-        return $m[0] . ($set ? ' srcset="' . $set . '"' : '');
+        return $m[1] . ($set ? ' srcset="' . $set . '"' : '') . $m[4];
     };
 
-    return preg_replace_callback('#(<img(?:[^>]*) src="' . APP['url.file'] . '([0-9]+)\.(jpg|png|webp)")#', $call, $val);
+    return preg_replace_callback($pattern, $call, $val);
 }
