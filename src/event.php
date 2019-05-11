@@ -6,11 +6,11 @@ namespace event;
 use account;
 use app;
 use arr;
+use contentfilter;
 use entity;
 use file;
 use layout;
 use request;
-use str;
 use DomainException;
 
 /**
@@ -81,30 +81,8 @@ function layout(array $data): array
 function layout_postrender_root(array $data): array
 {
     $data['html'] = layout\db_replace($data['html']);
-    $call = function (array $m): string {
-        return str\hex($m[0]);
-    };
-    $data['html'] = preg_replace_callback('#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im', $call, $data['html']);
-    $call = function (array $m): string {
-        static $w = [];
-
-        $set = '';
-        $w[$m[2]] = $w[$m[2]] ?? getimagesize(app\path('file', $m[2] . '.' . $m[3]))[0] ?? null;
-
-        if ($w[$m[2]]) {
-            foreach (APP['image'] as $s) {
-                if ($s >= $w[$m[2]]) {
-                    $set .= $set ? ', /file/' . $m[2] . '.' . $m[3] . ' ' . $w[$m[2]] . 'w' : '';
-                    break;
-                }
-
-                $set .= ($set ? ', ' : '') . '/file/' . $m[2] . '/' . $s . '.' . $m[3] . ' ' . $s . 'w';
-            }
-        }
-
-        return $m[0] . ($set ? ' srcset="' . $set . '"' : '');
-    };
-    $data['html'] = preg_replace_callback('#(<img(?:[^>]*) src="/file/([0-9]+)\.(jpg|png|webp)")#', $call, $data['html']);
+    $data['html'] = contentfilter\email($data['html']);
+    $data['html'] = contentfilter\image($data['html']);
 
     return $data;
 }
