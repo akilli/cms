@@ -94,7 +94,7 @@ function db_replace(string $html): string
 {
     $pattern = '#<block id="%s"(?:[^>]*)>#s';
 
-    if (preg_match_all(sprintf($pattern, '([a-z_]+)-([0-9]+)'), $html, $match)) {
+    if (preg_match_all(sprintf($pattern, '([a-z_]+)-(\d+)'), $html, $match)) {
         $data = [];
 
         foreach ($match[1] as $key => $entityId) {

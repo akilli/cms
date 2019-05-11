@@ -23,7 +23,7 @@ function email(string $val): string
  */
 function image(string $val): string
 {
-    $pattern = '#(<img(?:[^>]*) src="' . APP['url.file'] . '([0-9]+)\.(jpg|png|webp)")((?:[^>]*)>)#';
+    $pattern = '#(<img(?:[^>]*) src="' . APP['url.file'] . '(\d+)\.(jpg|png|webp)")((?:[^>]*)>)#';
     $call = function (array $m): string {
         if (strpos($m[0], 'srcset="') !== false) {
             return $m[0];
