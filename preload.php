@@ -86,7 +86,7 @@ define('APP', [
     'file' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'file.thumb' => '.thumb.',
     'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
-    'image' => [320, 480, 640, 800, 960, 1120, 1280, 1440],
+    'image' => [360, 640, 800, 960, 1120, 1280, 1440],
     'join' => [
         'cross' => 'CROSS',
         'full' => 'FULL',
