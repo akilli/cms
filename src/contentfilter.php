@@ -31,33 +31,23 @@ function image(string $html, array $cfg = []): string
     $cfg = arr\replace(APP['image'], $cfg);
     $pattern = '#(<img(?:[^>]*) src="' . APP['url.file'] . '(\d+)\.(jpg|png|webp)")((?:[^>]*)>)#';
     $call = function (array $m) use ($cfg): string {
-        if (strpos($m[0], 'srcset="') !== false) {
-            return $m[0];
-        }
-
         $w = & app\registry('contentfilter.image');
-        $w[$m[2]] = $w[$m[2]] ?? getimagesize(app\path('file', $m[2] . '.' . $m[3]))[0] ?? null;
-
-        if (!$w[$m[2]]) {
-            return $m[0];
-        }
-
+        $w[$m[2]] = $w[$m[2]] ?? getimagesize(app\path('file', $m[2] . '.' . $m[3]))[0] ?: null;
+        $sizes = $cfg['sizes'] ? ' sizes="' . $cfg['sizes'] . '"' : '';
         $set = '';
 
-        foreach ($cfg['srcset'] as $s) {
-            if ($s >= $w[$m[2]]) {
-                $set .= $set ? ', ' . APP['url.file'] . $m[2] . '.' . $m[3] . ' ' . $w[$m[2]] . 'w' : '';
-                break;
+        if (strpos($m[0], 'srcset="') === false && $w[$m[2]]) {
+            foreach ($cfg['srcset'] as $s) {
+                if ($s >= $w[$m[2]]) {
+                    $set .= $set ? ', ' . APP['url.file'] . $m[2] . '.' . $m[3] . ' ' . $w[$m[2]] . 'w' : '';
+                    break;
+                }
+
+                $set .= ($set ? ', ' : '') . APP['url.file'] . $m[2] . '/' . $s . '.' . $m[3] . ' ' . $s . 'w';
             }
-
-            $set .= ($set ? ', ' : '') . APP['url.file'] . $m[2] . '/' . $s . '.' . $m[3] . ' ' . $s . 'w';
         }
 
-        if (!$set) {
-            return $m[0];
-        }
-
-        return $m[1] . ' srcset="' . $set . '"' . ($cfg['sizes'] ? ' sizes="' . $cfg['sizes'] . '"' : '') . $m[4];
+        return $set ? $m[1] . ' srcset="' . $set . '"' . $sizes . $m[4] : $m[0];
     };
 
     return preg_replace_callback($pattern, $call, $html);
