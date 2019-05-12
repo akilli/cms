@@ -34,11 +34,19 @@ function render(array $block): string
         return '';
     }
 
-    $block = app\event(['layout.prerender.type.' . $block['type'], 'layout.prerender.id.' . $block['id']], $block);
-    $data = ['html' => $block['call']($block)];
-    $data = app\event(['layout.postrender.type.' . $block['type'], 'layout.postrender.id.' . $block['id']], $data);
+    $block = event('prerender', $block);
+    $block['html'] = $block['call']($block);
+    $block = event('postrender', $block);
 
-    return $data['html'];
+    return $block['html'];
+}
+
+/**
+ * Dispatches multiple layout events
+ */
+function event(string $name, array $data): array
+{
+    return app\event(['layout.' . $name, 'layout.' . $name . '.type.' . $data['type'], 'layout.' . $name . '.id.' . $data['id']], $data);
 }
 
 /**
