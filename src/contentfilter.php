@@ -9,19 +9,19 @@ use str;
 /**
  * Converts email addresses to HTML entity hex format
  */
-function email(string $val): string
+function email(string $html): string
 {
     $call = function (array $m): string {
         return str\hex($m[0]);
     };
 
-    return preg_replace_callback('#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im', $call, $val);
+    return preg_replace_callback('#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im', $call, $html);
 }
 
 /**
  * Makes img-elements somehow responsive
  */
-function image(string $val): string
+function image(string $html): string
 {
     $pattern = '#(<img(?:[^>]*) src="' . APP['url.file'] . '(\d+)\.(jpg|png|webp)")((?:[^>]*)>)#';
     $call = function (array $m): string {
@@ -47,5 +47,5 @@ function image(string $val): string
         return $m[1] . ($set ? ' srcset="' . $set . '"' : '') . $m[4];
     };
 
-    return preg_replace_callback($pattern, $call, $val);
+    return preg_replace_callback($pattern, $call, $html);
 }
