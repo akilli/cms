@@ -76,13 +76,24 @@ function layout(array $data): array
 }
 
 /**
+ * Layout postrender
+ */
+function layout_postrender(array $data): array
+{
+    if (!empty($data['image']['srcset'])) {
+        $data['html'] = contentfilter\image($data['html'], $data['image']);
+    }
+
+    return $data;
+}
+
+/**
  * Layout postrender root
  */
 function layout_postrender_root(array $data): array
 {
     $data['html'] = layout\db_replace($data['html']);
     $data['html'] = contentfilter\email($data['html']);
-    $data['html'] = contentfilter\image($data['html']);
 
     return $data;
 }

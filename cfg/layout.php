@@ -21,6 +21,7 @@ return [
             'type' => 'container',
             'parent_id' => 'root',
             'sort' => 20,
+            'image' => ['srcset' => [360, 640, 800, 960, 1120, 1280, 1440]],
             'cfg' => [
                 'tag' => 'body',
             ],

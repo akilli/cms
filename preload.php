@@ -86,7 +86,10 @@ define('APP', [
     'file' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'file.thumb' => '.thumb.',
     'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
-    'image' => [360, 640, 800, 960, 1120, 1280, 1440],
+    'image' => [
+        'srcset' => [],
+        'sizes' => null
+    ],
     'join' => [
         'cross' => 'CROSS',
         'full' => 'FULL',
@@ -105,6 +108,7 @@ define('APP', [
         'priv' => null,
         'parent_id' => null,
         'sort' => 0,
+        'image' => [],
         'cfg' => [],
     ],
     'locale' => ini_get('intl.default_locale'),
