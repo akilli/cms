@@ -10,7 +10,6 @@ define('APP', [
         'area' => null,
         'entity' => null,
         'entity_id' => null,
-        'gui' => null,
         'id' => null,
         'invalid' => false,
         'page' => null,
@@ -127,11 +126,13 @@ define('APP', [
         '$' => '$',
         '!$' => '!$',
     ],
+    'mtime' => max(filemtime('/app/gui'), file_exists('/data/ext/gui') ? filemtime('/data/ext/gui') : 0),
     'path' => [
         'tmp' => '/tmp',
         'cfg' => '/app/cfg',
         'file' => '/data/file',
         'gui' => '/app/gui',
+        'src' => '/app/src',
         'tpl' => '/app/tpl',
         'ext.cfg' => '/data/ext/cfg',
         'ext.gui' => '/data/ext/gui',
@@ -167,12 +168,10 @@ define('APP', [
 /**
  * Include base and extension source files
  */
-foreach (glob(__DIR__ . '/src/*.php') as $file) {
-    include_once $file;
-}
-
-foreach (glob(app\path('ext.src', '*.php')) as $file) {
-    include_once $file;
+foreach ([APP['path']['src'], APP['path']['ext.src']] as $path) {
+    foreach (glob($path . '/*.php') as $file) {
+        include_once $file;
+    }
 }
 
 /**

@@ -20,7 +20,6 @@ function run(): void
     // Gather request-data
     $app = & registry('app');
     $app = APP['app'];
-    $app['gui'] = max(filemtime(path('gui')), file_exists(path('ext.gui')) ? filemtime(path('ext.gui')) : 0);
     $url = request\data('url');
     $pattern = '#^/(?P<entity_id>[a-z_]+)?(?:/(?P<action>[a-z_]+))?(?:/(?P<id>[^/]+))?(?P<invalid>.*)#u';
     $page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]);
@@ -283,7 +282,7 @@ function url(string $path = '', array $get = [], bool $preserve = false): string
  */
 function gui(string $path): string
 {
-    return APP['url.gui'] . data('gui') . '/' . trim($path, '/');
+    return APP['url.gui'] . APP['mtime'] . '/' . trim($path, '/');
 }
 
 /**
