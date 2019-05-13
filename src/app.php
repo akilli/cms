@@ -309,12 +309,10 @@ function curl(string $url, array $param = []): ?string
 
 /**
  * Error
- *
- * @throws ErrorException
  */
 function error(int $severity, string $msg, string $file, int $line): void
 {
-    throw new ErrorException($msg, 0, $severity, $file, $line);
+    log(new ErrorException($msg, 0, $severity, $file, $line));
 }
 
 /**
