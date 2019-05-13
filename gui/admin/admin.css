@@ -396,7 +396,7 @@ html[data-action=browser] .block-index video {
 /**
  * Desktop + Print
  */
-@media screen and (min-width: 55rem), print {
+@media screen and (min-width: 880px), print {
     /**
      * Index
      */
@@ -433,7 +433,7 @@ html[data-action=browser] .block-index video {
 /**
  * Desktop
  */
-@media screen and (min-width: 55rem) {
+@media screen and (min-width: 880px) {
     /**
      * Pager
      */
