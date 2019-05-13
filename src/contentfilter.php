@@ -24,16 +24,15 @@ function email(string $html): string
  */
 function image(string $html, array $cfg = []): string
 {
-    if (empty($cfg['srcset'])) {
+    if (!($cfg = arr\replace(APP['image'], $cfg)) || empty($cfg['srcset'])) {
         return $html;
     }
 
-    $cfg = arr\replace(APP['image'], $cfg);
     $pattern = '#(<img(?:[^>]*) src="' . APP['url.file'] . '(\d+)\.(jpg|png|webp)")((?:[^>]*)>)#';
     $call = function (array $m) use ($cfg): string {
         $w = & app\registry('contentfilter.image');
         $w[$m[2]] = $w[$m[2]] ?? getimagesize(app\path('file', $m[2] . '.' . $m[3]))[0] ?: null;
-        $sizes = $cfg['sizes'] ? ' sizes="' . $cfg['sizes'] . '"' : '';
+        $sizes = $cfg['sizes'] && $cfg['sizes'] !== '100vw' ? ' sizes="' . $cfg['sizes'] . '"' : '';
         $set = '';
 
         if (strpos($m[0], 'srcset="') === false && $w[$m[2]]) {

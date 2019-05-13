@@ -80,7 +80,7 @@ function layout(array $data): array
  */
 function layout_postrender(array $data): array
 {
-    if (!empty($data['image']['srcset'])) {
+    if ($data['image']) {
         $data['html'] = contentfilter\image($data['html'], $data['image']);
     }
 
