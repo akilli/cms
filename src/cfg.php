@@ -38,7 +38,7 @@ function load(string $id): array
 {
     if (($cfg = & app\registry('cfg.' . $id)) === null) {
         if ($id === 'i18n') {
-            $id = 'i18n/' . APP['lang'];
+            $id = 'i18n/' . DATA['lang'];
         }
 
         $data = file\load(app\path('cfg', $id . '.php'));

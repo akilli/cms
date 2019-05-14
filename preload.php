@@ -2,9 +2,9 @@
 declare(strict_types = 1);
 
 /**
- * Constants used in application
+ * Application constants
  */
-define('APP', [
+const APP = [
     'app' => [
         'action' => null,
         'area' => null,
@@ -57,7 +57,6 @@ define('APP', [
         'cfg' => [],
     ],
     'cfg' => '/tmp/cfg.php',
-    'charset' => ini_get('default_charset'),
     'crlf' => "\r\n",
     'curl' => [
         CURLOPT_FOLLOWLOCATION => true,
@@ -97,7 +96,6 @@ define('APP', [
         'natural' => 'NATURAL',
         'right' => 'RIGHT'
     ],
-    'lang' => locale_get_primary_language(''),
     'layout' => [
         'id' => null,
         'type' => null,
@@ -110,7 +108,6 @@ define('APP', [
         'image' => [],
         'cfg' => [],
     ],
-    'locale' => ini_get('intl.default_locale'),
     'log' => 'php://stdout',
     'op' => [
         '=' => '=',
@@ -126,7 +123,6 @@ define('APP', [
         '$' => '$',
         '!$' => '!$',
     ],
-    'mtime' => max(filemtime('/app/gui'), file_exists('/data/ext/gui') ? filemtime('/data/ext/gui') : 0),
     'path' => [
         'cfg' => '/app/cfg',
         'ext.cfg' => '/data/ext/cfg',
@@ -162,7 +158,17 @@ define('APP', [
     ],
     'url.file' => '/file/',
     'url.gui' => '/gui/',
-    'version' => ['name', 'content', 'aside', 'status', 'timestamp']
+    'version' => ['name', 'content', 'aside', 'status', 'timestamp'],
+];
+
+/**
+ * Runtime constants
+ */
+define('DATA', [
+    'charset' => ini_get('default_charset'),
+    'lang' => locale_get_primary_language(''),
+    'locale' => ini_get('intl.default_locale'),
+    'mtime' => max(filemtime(APP['path']['gui']), is_dir(APP['path']['ext.gui']) ? filemtime(APP['path']['ext.gui']) : 0),
 ]);
 
 /**
@@ -180,10 +186,10 @@ foreach ([APP['path']['src'], APP['path']['ext.src']] as $path) {
 set_error_handler('app\error');
 set_exception_handler('app\exception');
 register_shutdown_function('app\shutdown');
-setlocale(LC_ALL, APP['locale']);
+setlocale(LC_ALL, DATA['locale']);
 
 /**
- * Config
+ * Configuration
  */
 if (!file_exists(APP['cfg'])) {
     file\save(APP['cfg'], cfg\preload());
