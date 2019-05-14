@@ -52,7 +52,7 @@ nav[data-toggle] ul a[data-action=toggle][data-toggle]::before {
 /**
  * Desktop
  */
-@media screen and (min-width: 880px) {
+@media screen and (min-width: 55rem) {
     nav[data-toggle] li ul,
     nav[data-toggle] a[data-action=toggle][data-toggle] ~ ul,
     nav[data-toggle] > a[data-action=toggle],
