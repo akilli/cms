@@ -31,7 +31,7 @@ function image(string $html, array $cfg = []): string
     $pattern = '#(<img(?:[^>]*) src="' . APP['url.file'] . '((\d+)(\.thumb)?\.(jpg|png|webp))")((?:[^>]*)>)#';
     $call = function (array $m) use ($cfg): string {
         $w = & app\registry('contentfilter.image');
-        $w[$m[2]] = $w[$m[2]] ?? getimagesize(app\path('file', $m[2]))[0] ?: null;
+        $w[$m[2]] = $w[$m[2]] ?? getimagesize(app\path('file', $m[2]))[0] ?? null;
         $sizes = $cfg['sizes'] && $cfg['sizes'] !== '100vw' ? ' sizes="' . $cfg['sizes'] . '"' : '';
         $set = '';
 
