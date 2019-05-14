@@ -347,6 +347,14 @@ html[data-action=browser] .block-index video {
 }
 
 /**
+ * Form
+ */
+.block-form [data-attr] .view img {
+    max-width: 15rem;
+    max-height: 10.5rem;
+}
+
+/**
  * Screen
  */
 @media screen {
