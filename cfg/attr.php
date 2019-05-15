@@ -8,6 +8,10 @@ return [
         'viewer' => 'viewer\audio',
         'ignorable' => true,
         'uploadable' => true,
+        'accept' => [
+            'audio/aac', 'audio/flac', 'audio/mp3', 'audio/mpeg', 'audio/mpeg3', 'audio/ogg', 'audio/wav', 'audio/wave', 'audio/webm',
+            'audio/x-aac', 'audio/x-flac', 'audio/x-mp3', 'audio/x-mpeg', 'audio/x-mpeg3', 'audio/x-pn-wav', 'audio/x-wav'
+        ],
     ],
     'bool' => [
         'backend' => 'bool',
@@ -91,6 +95,7 @@ return [
         'viewer' => 'viewer\image',
         'ignorable' => true,
         'uploadable' => true,
+        'accept' => ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'],
     ],
     'int' => [
         'backend' => 'int',
@@ -221,5 +226,6 @@ return [
         'viewer' => 'viewer\video',
         'ignorable' => true,
         'uploadable' => true,
+        'accept' => ['video/mp4', 'video/ogg', 'video/webm'],
     ],
 ];

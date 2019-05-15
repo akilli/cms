@@ -117,7 +117,6 @@ return [
                 'type' => 'image',
                 'nullable' => true,
                 'unique' => true,
-                'accept' => ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'],
             ],
             'thumb_mime' => [
                 'name' => 'Thumbnail MIME-Type',
@@ -155,10 +154,7 @@ return [
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'url' => [
-                'accept' => [
-                    'audio/aac', 'audio/flac', 'audio/mp3', 'audio/mpeg', 'audio/mpeg3', 'audio/ogg', 'audio/wav', 'audio/wave', 'audio/webm',
-                    'audio/x-aac', 'audio/x-flac', 'audio/x-mp3', 'audio/x-mpeg', 'audio/x-mpeg3', 'audio/x-pn-wav', 'audio/x-wav'
-                ],
+                'type' => 'audio',
             ],
         ],
     ],
@@ -193,7 +189,7 @@ return [
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'url' => [
-                'accept' => ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'],
+                'type' => 'image',
             ],
         ],
     ],
@@ -203,7 +199,7 @@ return [
         'action' => ['admin', 'browser', 'delete', 'edit'],
         'attr' => [
             'url' => [
-                'accept' => ['video/mp4', 'video/ogg', 'video/webm'],
+                'type' => 'video',
             ],
         ],
     ],
