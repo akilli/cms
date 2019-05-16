@@ -193,10 +193,6 @@ setlocale(LC_ALL, DATA['locale']);
 
 /**
  * Configuration
- *
- * @todo Use opcache.preload once it is available and remove following `if`-block
- *
- * @see https://wiki.php.net/rfc/preload
  */
 if (!file_exists(APP['cfg'])) {
     file\save(APP['cfg'], cfg\preload());
