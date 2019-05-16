@@ -6,7 +6,7 @@ namespace app;
 /**
  * Preload source files
  *
- * @todo Use opcache.preload once it is available
+ * @todo Use opcache.preload once it is available and remove following `require`-statement
  *
  * @see https://wiki.php.net/rfc/preload
  */
