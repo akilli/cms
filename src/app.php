@@ -18,14 +18,12 @@ use Throwable;
 function run(): void
 {
     $data = data();
-    $blacklist = !$data['public'] && in_array(preg_replace('#^www\.#', '', request\data('host')), cfg('app', 'admin.blacklist'));
-    $allowed = !$blacklist && allowed($data['entity_id'] . '/' . $data['action']);
     $ns = 'action\\';
 
     // Dispatch request
-    if ($allowed && is_callable($ns . $data['entity_id'] . '_' . $data['action'])) {
+    if ($data['allowed'] && is_callable($ns . $data['entity_id'] . '_' . $data['action'])) {
         ($ns . $data['entity_id'] . '_' . $data['action'])();
-    } elseif (!$allowed
+    } elseif (!$data['allowed']
         || !$data['entity']
         || !in_array($data['action'], $data['entity']['action'])
         || !$data['page'] && in_array($data['action'], ['delete', 'view']) && (!$data['id'] || !entity\size($data['entity_id'], [['id', $data['id']]]))
@@ -101,6 +99,8 @@ function data(string $id = null)
         $data['parent_id'] = $data['entity']['parent_id'] ?? null;
         $data['area'] = empty(cfg('priv', $data['entity_id'] . '/' . $data['action'])['active']) ? '_public_' : '_admin_';
         $data['public'] = $data['area'] === '_public_';
+        $blacklist = !$data['public'] && in_array(preg_replace('#^www\.#', '', request\data('host')), cfg('app', 'admin.blacklist'));
+        $data['allowed'] = !$blacklist && allowed($data['entity_id'] . '/' . $data['action']);
     }
 
     if ($id === null) {
