@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace block;
 
-use account;
 use app;
 use arr;
 use attr;
@@ -482,7 +481,7 @@ function profile(array $block): string
 function login(array $block): string
 {
     if ($data = request\data('post')) {
-        if (!empty($data['username']) && !empty($data['password']) && ($data = account\login($data['username'], $data['password']))) {
+        if (!empty($data['username']) && !empty($data['password']) && ($data = app\login($data['username'], $data['password']))) {
             session\regenerate();
             session\set('account', $data['id']);
             request\redirect(app\url('account/dashboard'));
