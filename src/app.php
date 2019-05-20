@@ -17,46 +17,25 @@ use Throwable;
  */
 function run(): void
 {
-    // Gather request-data
-    $app = & registry('app');
-    $app = APP['app'];
-    $url = request\data('url');
-    $pattern = '#^/(?P<entity_id>[a-z_]+)?(?:/(?P<action>[a-z_]+))?(?:/(?P<id>[^/]+))?(?P<invalid>.*)#u';
-    $page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]);
-
-    if ($page && ($app['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))) {
-        $app['entity_id'] = $app['page']['entity_id'];
-        $app['action'] = 'view';
-        $app['id'] = $app['page']['id'];
-        $app['entity'] = $app['page']['_entity'];
-    } elseif (preg_match($pattern, $url, $match) && $match['entity_id'] && $match['action'] && !$match['invalid']) {
-        $app['entity_id'] = $match['entity_id'];
-        $app['action'] = $match['action'];
-        $app['id'] = $match['id'] ?: null;
-        $app['entity'] = cfg('entity', $match['entity_id']);
-    }
-
-    $app['parent_id'] = $app['entity']['parent_id'] ?? null;
-    $app['area'] = empty(cfg('priv', $app['entity_id'] . '/' . $app['action'])['active']) ? '_public_' : '_admin_';
-    $app['public'] = $app['area'] === '_public_';
-    $blacklist = !$app['public'] && in_array(preg_replace('#^www\.#', '', request\data('host')), cfg('app', 'admin.blacklist'));
-    $allowed = !$blacklist && allowed($app['entity_id'] . '/' . $app['action']);
+    $data = data();
+    $blacklist = !$data['public'] && in_array(preg_replace('#^www\.#', '', request\data('host')), cfg('app', 'admin.blacklist'));
+    $allowed = !$blacklist && allowed($data['entity_id'] . '/' . $data['action']);
     $ns = 'action\\';
 
     // Dispatch request
-    if ($allowed && is_callable($ns . $app['entity_id'] . '_' . $app['action'])) {
-        ($ns . $app['entity_id'] . '_' . $app['action'])();
+    if ($allowed && is_callable($ns . $data['entity_id'] . '_' . $data['action'])) {
+        ($ns . $data['entity_id'] . '_' . $data['action'])();
     } elseif (!$allowed
-        || !$app['entity']
-        || !in_array($app['action'], $app['entity']['action'])
-        || !$app['page'] && in_array($app['action'], ['delete', 'view']) && (!$app['id'] || !entity\size($app['entity_id'], [['id', $app['id']]]))
-        || $app['public'] && (!$app['page'] || $app['page']['disabled'] || $app['page']['status'] !== 'published' && !allowed($app['entity_id'] . '/edit'))
+        || !$data['entity']
+        || !in_array($data['action'], $data['entity']['action'])
+        || !$data['page'] && in_array($data['action'], ['delete', 'view']) && (!$data['id'] || !entity\size($data['entity_id'], [['id', $data['id']]]))
+        || $data['public'] && (!$data['page'] || $data['page']['disabled'] || $data['page']['status'] !== 'published' && !allowed($data['entity_id'] . '/edit'))
     ) {
         invalid();
-    } elseif ($app['parent_id'] && is_callable($ns . $app['parent_id'] . '_' . $app['action'])) {
-        ($ns . $app['parent_id'] . '_' . $app['action'])();
-    } elseif (is_callable($ns . $app['action'])) {
-        ($ns . $app['action'])();
+    } elseif ($data['parent_id'] && is_callable($ns . $data['parent_id'] . '_' . $data['action'])) {
+        ($ns . $data['parent_id'] . '_' . $data['action'])();
+    } elseif (is_callable($ns . $data['action'])) {
+        ($ns . $data['action'])();
     }
 }
 
@@ -99,9 +78,36 @@ function & registry(string $id): ?array
  *
  * @return mixed
  */
-function data(string $id)
+function data(string $id = null)
 {
-    return registry('app')[$id] ?? null;
+    if (($data = & registry('app')) === null) {
+        $data = APP['app'];
+        $url = request\data('url');
+        $pattern = '#^/(?P<entity_id>[a-z_]+)?(?:/(?P<action>[a-z_]+))?(?:/(?P<id>[^/]+))?(?P<invalid>.*)#u';
+        $page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]);
+
+        if ($page && ($data['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))) {
+            $data['entity_id'] = $data['page']['entity_id'];
+            $data['action'] = 'view';
+            $data['id'] = $data['page']['id'];
+            $data['entity'] = $data['page']['_entity'];
+        } elseif (preg_match($pattern, $url, $match) && $match['entity_id'] && $match['action'] && !$match['invalid']) {
+            $data['entity_id'] = $match['entity_id'];
+            $data['action'] = $match['action'];
+            $data['id'] = $match['id'] ?: null;
+            $data['entity'] = cfg('entity', $match['entity_id']);
+        }
+
+        $data['parent_id'] = $data['entity']['parent_id'] ?? null;
+        $data['area'] = empty(cfg('priv', $data['entity_id'] . '/' . $data['action'])['active']) ? '_public_' : '_admin_';
+        $data['public'] = $data['area'] === '_public_';
+    }
+
+    if ($id === null) {
+        return $data;
+    }
+
+    return $data[$id] ?? null;
 }
 
 /**
