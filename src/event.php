@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace event;
 
-use account;
 use app;
 use arr;
 use contentfilter;
@@ -11,7 +10,28 @@ use entity;
 use file;
 use layout;
 use request;
+use session;
 use DomainException;
+
+/**
+ * Account data
+ */
+function data_account(array $data): array
+{
+    $id = (int) session\get('account');
+
+    if ($id && ($data = entity\one('account', [['id', $id]]))) {
+        $role = entity\one('role', [['id', $data['role_id']]]);
+        $data['priv'] = $role['priv'];
+        $data['priv'][] = '_user_';
+        $data['admin'] = in_array('_all_', $data['priv']);
+    } else {
+        $data['priv'] = ['_guest_'];
+        session\set('account', null);
+    }
+
+    return $data;
+}
 
 /**
  * Application data
@@ -178,7 +198,7 @@ function entity_prevalidate_file(array $data): array
  */
 function entity_presave_page(array $data): array
 {
-    $data['account_id'] = account\data('id');
+    $data['account_id'] = app\data('account', 'id');
 
     return $data;
 }

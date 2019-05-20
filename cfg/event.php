@@ -1,5 +1,8 @@
 <?php
 return [
+    'data.account' => [
+        'event\data_account' => 10,
+    ],
     'data.app' => [
         'event\data_app' => 10,
     ],

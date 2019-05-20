@@ -3,38 +3,7 @@ declare(strict_types = 1);
 
 namespace account;
 
-use app;
 use entity;
-use session;
-
-/**
- * Initializes account from session and stores account data in registry
- *
- * @return mixed
- */
-function data(string $key = null)
-{
-    if (($data = & app\registry('account')) === null) {
-        $data = [];
-        $id = (int) session\get('account');
-
-        if ($id && ($data = entity\one('account', [['id', $id]]))) {
-            $role = entity\one('role', [['id', $data['role_id']]]);
-            $data['priv'] = $role['priv'];
-            $data['priv'][] = '_user_';
-            $data['admin'] = in_array('_all_', $data['priv']);
-        } else {
-            $data['priv'] = ['_guest_'];
-            session\set('account', null);
-        }
-    }
-
-    if ($key === null) {
-        return $data;
-    }
-
-    return $data[$key] ?? null;
-}
 
 /**
  * Returns account if given credentials are valid and automatically rehashes password if needed

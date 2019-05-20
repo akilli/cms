@@ -451,7 +451,7 @@ function profile(array $block): string
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
 
-    if (!($account = account\data()) || !($attrs = arr\extract($account['_entity']['attr'], $cfg['attr_id']))) {
+    if (!($account = app\data('account')) || !($attrs = arr\extract($account['_entity']['attr'], $cfg['attr_id']))) {
         return '';
     }
 

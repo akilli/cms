@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace app;
 
-use account;
 use entity;
 use layout;
 use request;
@@ -149,7 +148,9 @@ function allowed(string $key): bool
         return false;
     }
 
-    return !$cfg['active'] || account\data('admin') || $cfg['priv'] && allowed($cfg['priv']) || !$cfg['priv'] && in_array($key, account\data('priv'));
+    $data = data('account');
+
+    return !$cfg['active'] || $data['admin'] || $cfg['priv'] && allowed($cfg['priv']) || !$cfg['priv'] && in_array($key, $data['priv']);
 }
 
 /**
