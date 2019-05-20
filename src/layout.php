@@ -9,23 +9,6 @@ use entity;
 use DomainException;
 
 /**
- * Gets registered layout block(s)
- */
-function data(string $id = null): ?array
-{
-    if (($data = & app\registry('layout')) === null) {
-        $data = [];
-        $data = app\event(['layout'], $data);
-    }
-
-    if ($id === null) {
-        return $data;
-    }
-
-    return $data[$id] ?? null;
-}
-
-/**
  * Renders block
  */
 function render(array $block): string
@@ -54,7 +37,7 @@ function event(string $name, array $data): array
  */
 function block(string $id): string
 {
-    return ($block = data($id)) ? render($block) : '';
+    return ($block = app\data('layout', $id)) ? render($block) : '';
 }
 
 /**
@@ -64,7 +47,7 @@ function children(string $id): string
 {
     $html = '';
 
-    foreach (arr\order(arr\filter(data(), 'parent_id', $id), ['sort' => 'asc']) as $child) {
+    foreach (arr\order(arr\filter(app\data('layout'), 'parent_id', $id), ['sort' => 'asc']) as $child) {
         $html .= render($child);
     }
 

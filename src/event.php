@@ -66,11 +66,11 @@ function data_app(array $data): array
 }
 
 /**
- * Layout
+ * Layout data
  *
  * @throws DomainException
  */
-function layout(array $data): array
+function data_layout(array $data): array
 {
     $cfg = app\cfg('layout');
     $type = app\cfg('block');

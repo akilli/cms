@@ -6,8 +6,8 @@ return [
     'data.app' => [
         'event\data_app' => 10,
     ],
-    'layout' => [
-        'event\layout' => 10,
+    'data.layout' => [
+        'event\data_layout' => 10,
     ],
     'layout.postrender' => [
         'event\layout_postrender' => 10,
