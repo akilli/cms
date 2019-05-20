@@ -81,19 +81,20 @@ function data(string $id = null)
     if (($data = & registry('app')) === null) {
         $data = APP['app'];
         $url = request\data('url');
-        $pattern = '#^/(?P<entity_id>[a-z_]+)?(?:/(?P<action>[a-z_]+))?(?:/(?P<id>[^/]+))?(?P<invalid>.*)#u';
-        $page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]);
 
-        if ($page && ($data['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))) {
+        if (preg_match('#^/(?:|[a-z0-9-_/\.]+\.html)$#', request\data('url'), $match)
+            && ($page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]))
+            && ($data['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))
+        ) {
             $data['entity_id'] = $data['page']['entity_id'];
             $data['action'] = 'view';
             $data['id'] = $data['page']['id'];
             $data['entity'] = $data['page']['_entity'];
-        } elseif (preg_match($pattern, $url, $match) && $match['entity_id'] && $match['action'] && !$match['invalid']) {
-            $data['entity_id'] = $match['entity_id'];
-            $data['action'] = $match['action'];
-            $data['id'] = $match['id'] ?: null;
-            $data['entity'] = cfg('entity', $match['entity_id']);
+        } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/]+))$#u', $url, $match)) {
+            $data['entity_id'] = $match[1];
+            $data['action'] = $match[2];
+            $data['id'] = $match[3];
+            $data['entity'] = cfg('entity', $match[1]);
         }
 
         $data['parent_id'] = $data['entity']['parent_id'] ?? null;
