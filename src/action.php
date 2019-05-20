@@ -14,8 +14,9 @@ use session;
  */
 function delete(): void
 {
-    entity\delete(app\data('entity_id'), [['id', app\data('id')]]);
-    request\redirect(app\url(app\data('entity_id') . '/admin'));
+    $app = app\data('app');
+    entity\delete($app['entity_id'], [['id', $app['id']]]);
+    request\redirect(app\url($app['entity_id'] . '/admin'));
 }
 
 /**
@@ -41,5 +42,5 @@ function account_logout(): void
  */
 function block_api(): void
 {
-    die(app\data('id') ? layout\db_render(app\data('id')) : '');
+    die(($id = app\data('app', 'id')) ? layout\db_render($id) : '');
 }

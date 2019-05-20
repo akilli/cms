@@ -13,8 +13,8 @@ use session;
         <?php endforeach;?>
     </fieldset>
     <div class="action">
-        <?php if (data('action') === 'edit'):?>
-        <a href="<?=url(data('entity_id') . '/admin');?>" role="button"><?=i18n('Back');?></a>
+        <?php if (data('app', 'action') === 'edit'):?>
+        <a href="<?=url(data('app', 'entity_id') . '/admin');?>" role="button"><?=i18n('Back');?></a>
         <?php endif;?>
         <input type="submit" value="<?=i18n('Submit');?>" />
         <input type="hidden" name="token" value="<?=session\token();?>" />

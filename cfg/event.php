@@ -1,5 +1,8 @@
 <?php
 return [
+    'data.app' => [
+        'event\data_app' => 10,
+    ],
     'layout' => [
         'event\layout' => 10,
     ],

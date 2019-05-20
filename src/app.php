@@ -17,23 +17,23 @@ use Throwable;
  */
 function run(): void
 {
-    $data = data();
+    $app = data('app');
     $ns = 'action\\';
 
     // Dispatch request
-    if ($data['allowed'] && is_callable($ns . $data['entity_id'] . '_' . $data['action'])) {
-        ($ns . $data['entity_id'] . '_' . $data['action'])();
-    } elseif (!$data['allowed']
-        || !$data['entity']
-        || !in_array($data['action'], $data['entity']['action'])
-        || !$data['page'] && in_array($data['action'], ['delete', 'view']) && (!$data['id'] || !entity\size($data['entity_id'], [['id', $data['id']]]))
-        || $data['public'] && (!$data['page'] || $data['page']['disabled'] || $data['page']['status'] !== 'published' && !allowed($data['entity_id'] . '/edit'))
+    if ($app['allowed'] && is_callable($ns . $app['entity_id'] . '_' . $app['action'])) {
+        ($ns . $app['entity_id'] . '_' . $app['action'])();
+    } elseif (!$app['allowed']
+        || !$app['entity']
+        || !in_array($app['action'], $app['entity']['action'])
+        || !$app['page'] && in_array($app['action'], ['delete', 'view']) && (!$app['id'] || !entity\size($app['entity_id'], [['id', $app['id']]]))
+        || $app['public'] && (!$app['page'] || $app['page']['disabled'] || $app['page']['status'] !== 'published' && !allowed($app['entity_id'] . '/edit'))
     ) {
         invalid();
-    } elseif ($data['parent_id'] && is_callable($ns . $data['parent_id'] . '_' . $data['action'])) {
-        ($ns . $data['parent_id'] . '_' . $data['action'])();
-    } elseif (is_callable($ns . $data['action'])) {
-        ($ns . $data['action'])();
+    } elseif ($app['parent_id'] && is_callable($ns . $app['parent_id'] . '_' . $app['action'])) {
+        ($ns . $app['parent_id'] . '_' . $app['action'])();
+    } elseif (is_callable($ns . $app['action'])) {
+        ($ns . $app['action'])();
     }
 }
 
@@ -43,7 +43,7 @@ function run(): void
 function invalid(): void
 {
     http_response_code(404);
-    $app = & registry('app');
+    $app = & registry('data.app');
     $app['invalid'] = true;
     $layout = & registry('layout');
     $layout = null;
@@ -76,39 +76,18 @@ function & registry(string $id): ?array
  *
  * @return mixed
  */
-function data(string $id = null)
+function data(string $id, string $key = null)
 {
-    if (($data = & registry('app')) === null) {
-        $data = APP['app'];
-        $url = request\data('url');
-
-        if (preg_match('#^/(?:|[a-z0-9-_/\.]+\.html)$#', request\data('url'), $match)
-            && ($page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]))
-            && ($data['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))
-        ) {
-            $data['entity_id'] = $data['page']['entity_id'];
-            $data['action'] = 'view';
-            $data['id'] = $data['page']['id'];
-            $data['entity'] = $data['page']['_entity'];
-        } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/]+))$#u', $url, $match)) {
-            $data['entity_id'] = $match[1];
-            $data['action'] = $match[2];
-            $data['id'] = $match[3];
-            $data['entity'] = cfg('entity', $match[1]);
-        }
-
-        $data['parent_id'] = $data['entity']['parent_id'] ?? null;
-        $data['area'] = empty(cfg('priv', $data['entity_id'] . '/' . $data['action'])['active']) ? '_public_' : '_admin_';
-        $data['public'] = $data['area'] === '_public_';
-        $blacklist = !$data['public'] && in_array(preg_replace('#^www\.#', '', request\data('host')), cfg('app', 'admin.blacklist'));
-        $data['allowed'] = !$blacklist && allowed($data['entity_id'] . '/' . $data['action']);
+    if (($data = & registry('data.' . $id)) === null) {
+        $data = [];
+        $data = event(['data.' . $id], $data);
     }
 
-    if ($id === null) {
+    if ($key === null) {
         return $data;
     }
 
-    return $data[$id] ?? null;
+    return $data[$key] ?? null;
 }
 
 /**

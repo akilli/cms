@@ -14,6 +14,38 @@ use request;
 use DomainException;
 
 /**
+ * Application data
+ */
+function data_app(array $data): array
+{
+    $data = arr\replace(APP['app'], $data);
+    $url = request\data('url');
+
+    if (preg_match('#^/(?:|[a-z0-9-_/\.]+\.html)$#', request\data('url'), $match)
+        && ($page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]))
+        && ($data['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))
+    ) {
+        $data['entity_id'] = $data['page']['entity_id'];
+        $data['action'] = 'view';
+        $data['id'] = $data['page']['id'];
+        $data['entity'] = $data['page']['_entity'];
+    } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/]+))$#u', $url, $match)) {
+        $data['entity_id'] = $match[1];
+        $data['action'] = $match[2];
+        $data['id'] = $match[3];
+        $data['entity'] = app\cfg('entity', $match[1]);
+    }
+
+    $data['parent_id'] = $data['entity']['parent_id'] ?? null;
+    $data['area'] = empty(app\cfg('priv', $data['entity_id'] . '/' . $data['action'])['active']) ? '_public_' : '_admin_';
+    $data['public'] = $data['area'] === '_public_';
+    $blacklist = !$data['public'] && in_array(preg_replace('#^www\.#', '', request\data('host')), app\cfg('app', 'admin.blacklist'));
+    $data['allowed'] = !$blacklist && app\allowed($data['entity_id'] . '/' . $data['action']);
+
+    return $data;
+}
+
+/**
  * Layout
  *
  * @throws DomainException
@@ -22,24 +54,25 @@ function layout(array $data): array
 {
     $cfg = app\cfg('layout');
     $type = app\cfg('block');
+    $app = app\data('app');
     $url = request\data('url');
-    $keys = ['_all_', app\data('area')];
+    $keys = ['_all_', $app['area']];
 
-    if (app\data('invalid')) {
+    if ($app['invalid']) {
         $keys[] = '_invalid_';
     } else {
-        $entityId = app\data('entity_id');
-        $action = app\data('action');
+        $entityId = $app['entity_id'];
+        $action = $app['action'];
         $keys[] = $action;
 
-        if ($parentId = app\data('parent_id')) {
+        if ($parentId = $app['parent_id']) {
             $keys[] = $parentId . '/' . $action;
         }
 
         $keys[] = $entityId . '/' . $action;
         $keys[] = $url;
 
-        if (($page = app\data('page')) && ($dbLayout = entity\all('layout_page', [['page_id', $page['id']]]))) {
+        if (($page = $app['page']) && ($dbLayout = entity\all('layout_page', [['page_id', $page['id']]]))) {
             $dbBlocks = [];
 
             foreach (arr\group($dbLayout, 'entity_id', 'block_id') as $eId => $ids) {
