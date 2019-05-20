@@ -4,7 +4,7 @@ declare(strict_types = 1);
 /**
  * Application constants
  */
-const APP = [
+define('APP', [
     'app' => [
         'action' => null,
         'area' => null,
@@ -57,6 +57,7 @@ const APP = [
         'cfg' => [],
     ],
     'cfg' => '/tmp/cfg.php',
+    'charset' => ini_get('default_charset'),
     'crlf' => "\r\n",
     'curl' => [
         CURLOPT_FOLLOWLOCATION => true,
@@ -99,6 +100,7 @@ const APP = [
         'natural' => 'NATURAL',
         'right' => 'RIGHT'
     ],
+    'lang' => locale_get_primary_language(''),
     'layout' => [
         'id' => null,
         'type' => null,
@@ -111,7 +113,9 @@ const APP = [
         'image' => [],
         'cfg' => [],
     ],
+    'locale' => ini_get('intl.default_locale'),
     'log' => 'php://stdout',
+    'mtime' => max(filemtime('/app'), is_dir('/data/ext') ? filemtime('/data/ext') : 0),
     'op' => [
         '=' => '=',
         '!=' => '!=',
@@ -172,16 +176,6 @@ const APP = [
     'url.file' => '/file/',
     'url.gui' => '/gui/',
     'version' => ['name', 'title', 'content', 'aside', 'account_id', 'status', 'timestamp'],
-];
-
-/**
- * Runtime constants
- */
-define('DATA', [
-    'charset' => ini_get('default_charset'),
-    'lang' => locale_get_primary_language(''),
-    'locale' => ini_get('intl.default_locale'),
-    'mtime' => max(filemtime(APP['path']['gui']), is_dir(APP['path']['ext.gui']) ? filemtime(APP['path']['ext.gui']) : 0),
 ]);
 
 /**
@@ -199,7 +193,7 @@ foreach ([APP['path']['src'], APP['path']['ext.src']] as $path) {
 set_error_handler('app\error');
 set_exception_handler('app\exception');
 register_shutdown_function('app\shutdown');
-setlocale(LC_ALL, DATA['locale']);
+setlocale(LC_ALL, APP['locale']);
 
 /**
  * Configuration

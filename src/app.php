@@ -282,7 +282,7 @@ function url(string $path = '', array $get = [], bool $preserve = false): string
  */
 function gui(string $path): string
 {
-    return APP['url.gui'] . DATA['mtime'] . '/' . trim($path, '/');
+    return APP['url.gui'] . APP['mtime'] . '/' . trim($path, '/');
 }
 
 /**
