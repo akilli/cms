@@ -6,7 +6,6 @@ namespace validator;
 use app;
 use attr;
 use entity;
-use request;
 use str;
 use DomainException;
 
@@ -145,7 +144,7 @@ function multientity(array $val, array $attr): array
  */
 function file(string $val, array $attr): string
 {
-    $mime = request\file($attr['id'])['type'] ?? null;
+    $mime = app\data('request', 'file')[$attr['id']]['type'] ?? null;
 
     if ($val && (!$mime || !in_array($mime, $attr['accept']))) {
         throw new DomainException(app\i18n('Invalid file type'));

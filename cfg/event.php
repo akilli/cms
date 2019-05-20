@@ -9,6 +9,9 @@ return [
     'data.layout' => [
         'event\data_layout' => 10,
     ],
+    'data.request' => [
+        'event\data_request' => 10,
+    ],
     'layout.postrender' => [
         'event\layout_postrender' => 10,
     ],

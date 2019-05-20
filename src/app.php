@@ -5,7 +5,6 @@ namespace app;
 
 use entity;
 use layout;
-use request;
 use session;
 use DomainException;
 use ErrorException;
@@ -275,7 +274,7 @@ function html(string $tag, array $attrs = [], string $val = null): string
  */
 function url(string $path = '', array $get = [], bool $preserve = false): string
 {
-    $get = $preserve ? $get + request\data('get') : $get;
+    $get = $preserve ? $get + data('request', 'get') : $get;
     $query = $get ? http_build_query($get, '', '&amp;') : '';
 
     return '/' . trim($path, '/') . ($query ? '?' . $query : '');

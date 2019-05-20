@@ -36,7 +36,7 @@ function root(): string
         'data-action' => $app['action'],
         'data-entity' => $app['entity_id'],
         'data-parent' => $app['parent_id'],
-        'data-url' => request\data('url'),
+        'data-url' => app\data('request', 'url'),
     ];
     $head = layout\block('head');
     $body = layout\block('body');
@@ -167,6 +167,7 @@ function index(array $block): string
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
     $app = app\data('app');
+    $request = app\data('request');
     $cfg['entity_id'] = $cfg['entity_id'] ?: $app['entity_id'];
     $entity = app\cfg('entity', $cfg['entity_id']);
     $call = function ($v): bool {
@@ -180,7 +181,7 @@ function index(array $block): string
 
     $crit = $cfg['crit'];
     $opt = ['order' => $cfg['order']];
-    $get = arr\replace(['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], request\data('get'));
+    $get = arr\replace(['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], $request['get']);
     $filter = '';
     $sort = $cfg['sort'] ? null : false;
     $pager = null;
@@ -263,7 +264,7 @@ function index(array $block): string
         'pager-top' => in_array($cfg['pager'], ['both', 'top']) ? $pager : null,
         'sort' => $sort,
         'title' => $cfg['title'] ? str\enc(app\i18n($cfg['title'])) : null,
-        'url' => request\data('url'),
+        'url' => $request['url'],
     ];
 
     return app\tpl($block['tpl'], $var);
@@ -298,7 +299,7 @@ function pager(array $block): string
         return '';
     }
 
-    $url = request\data('url');
+    $url = app\data('request', 'url');
     $total = $cfg['limit'] && ($c = (int) ceil($cfg['size'] / $cfg['limit'])) ? $c : 1;
     $cfg['cur'] = min(max($cfg['cur'], 1), $total);
     $offset = ($cfg['cur'] - 1) * $cfg['limit'];
@@ -411,7 +412,7 @@ function edit(array $block): string
         return '';
     }
 
-    if ($data = request\data('post')) {
+    if ($data = app\data('request', 'post')) {
         if ($id) {
             $data = ['id' => $id] + $data;
         }
@@ -449,12 +450,13 @@ function profile(array $block): string
     $type = app\cfg('block', 'profile');
     $block['tpl'] = $block['tpl'] ?? $type['tpl'];
     $cfg = arr\replace($type['cfg'], $block['cfg']);
+    $request = app\data('request');
 
     if (!($account = app\data('account')) || !($attrs = arr\extract($account['_entity']['attr'], $cfg['attr_id']))) {
         return '';
     }
 
-    if ($data = request\data('post')) {
+    if ($data = $request['post']) {
         if (!empty($data['password']) && (empty($data['confirmation']) || $data['password'] !== $data['confirmation'])) {
             $data['_error']['password'][] = app\i18n('Password and password confirmation must be identical');
             $data['_error']['confirmation'][] = app\i18n('Password and password confirmation must be identical');
@@ -463,7 +465,7 @@ function profile(array $block): string
             $data = ['id' => $account['id']] + $data;
 
             if (entity\save('account', $data)) {
-                request\redirect(request\data('url'));
+                request\redirect($request['url']);
                 return '';
             }
         }
@@ -480,7 +482,7 @@ function profile(array $block): string
  */
 function login(array $block): string
 {
-    if ($data = request\data('post')) {
+    if ($data = app\data('request', 'post')) {
         if (!empty($data['username']) && !empty($data['password']) && ($data = app\login($data['username'], $data['password']))) {
             session\regenerate();
             session\set('account', $data['id']);
@@ -520,11 +522,13 @@ function nav(array $block): string
     $i = 0;
     $attrs = ['id' => $block['id']];
     $call = function (array $it): ?string {
-        if ($it['url'] === request\data('url')) {
+        $url = app\data('request', 'url');
+
+        if ($it['url'] === $url) {
             return 'active';
         }
 
-        if ($it['url'] && strpos(request\data('url'), preg_replace('#\.html#', '', $it['url'])) === 0) {
+        if ($it['url'] && strpos($url, preg_replace('#\.html#', '', $it['url'])) === 0) {
             return 'path';
         }
 

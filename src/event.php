@@ -11,6 +11,7 @@ use file;
 use layout;
 use request;
 use session;
+use str;
 use DomainException;
 
 /**
@@ -39,17 +40,17 @@ function data_account(array $data): array
 function data_app(array $data): array
 {
     $data = arr\replace(APP['app'], $data);
-    $url = request\data('url');
+    $request = app\data('request');
 
-    if (preg_match('#^/(?:|[a-z0-9-_/\.]+\.html)$#', request\data('url'), $match)
-        && ($page = entity\one('page', [['url', $url]], ['select' => ['id', 'entity_id']]))
+    if (preg_match('#^/(?:|[a-z0-9-_/\.]+\.html)$#', $request['url'], $match)
+        && ($page = entity\one('page', [['url', $request['url']]], ['select' => ['id', 'entity_id']]))
         && ($data['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))
     ) {
         $data['entity_id'] = $data['page']['entity_id'];
         $data['action'] = 'view';
         $data['id'] = $data['page']['id'];
         $data['entity'] = $data['page']['_entity'];
-    } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/]+))$#u', $url, $match)) {
+    } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/]+))$#u', $request['url'], $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['id'] = $match[3];
@@ -59,7 +60,7 @@ function data_app(array $data): array
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
     $data['area'] = empty(app\cfg('priv', $data['entity_id'] . '/' . $data['action'])['active']) ? '_public_' : '_admin_';
     $data['public'] = $data['area'] === '_public_';
-    $blacklist = !$data['public'] && in_array(preg_replace('#^www\.#', '', request\data('host')), app\cfg('app', 'admin.blacklist'));
+    $blacklist = !$data['public'] && in_array(preg_replace('#^www\.#', '', $request['host']), app\cfg('app', 'admin.blacklist'));
     $data['allowed'] = !$blacklist && app\allowed($data['entity_id'] . '/' . $data['action']);
 
     return $data;
@@ -75,7 +76,7 @@ function data_layout(array $data): array
     $cfg = app\cfg('layout');
     $type = app\cfg('block');
     $app = app\data('app');
-    $url = request\data('url');
+    $url = app\data('request', 'url');
     $keys = ['_all_', $app['area']];
 
     if ($app['invalid']) {
@@ -129,6 +130,33 @@ function data_layout(array $data): array
 }
 
 /**
+ * Request data
+ */
+function data_request(array $data): array
+{
+    $data = arr\replace(APP['request'], $data);
+    $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
+    $data['proto'] = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null === 'on') ? 'https' : 'http';
+    $data['base'] = $data['proto'] . '://' . $data['host'];
+    $data['url'] = str\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
+    $data['full'] = $data['base'] . rtrim($data['url'], '/');
+    $data['get'] = request\filter($_GET);
+
+    if (!empty($_POST['token'])) {
+        if (session\get('token') === $_POST['token']) {
+            unset($_POST['token']);
+            $data['file'] = array_filter(array_map('request\normalize', $_FILES));
+            $data['post'] = $_POST;
+            $data['post'] = array_replace_recursive($data['post'], request\convert($data['file']));
+        }
+
+        session\set('token', null);
+    }
+
+    return $data;
+}
+
+/**
  * Layout postrender
  */
 function layout_postrender(array $data): array
@@ -173,19 +201,19 @@ function entity_postvalidate(array $data): array
 function entity_prevalidate_file(array $data): array
 {
     if ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url'])) {
-        if (!$item = request\file('url')) {
-            $data['_error']['url'][] = app\i18n('No upload file');
-        } else {
+        if ($item = app\data('request', 'file')['url'] ?? null) {
             $data['ext'] = pathinfo($data['url'], PATHINFO_EXTENSION);
             $data['mime'] = $item['type'];
 
             if ($data['_old'] && ($data['ext'] !== $data['_old']['ext'] || $data['mime'] !== $data['_old']['mime'])) {
                 $data['_error']['url'][] = app\i18n('Cannot change filetype anymore');
             }
+        } else {
+            $data['_error']['url'][] = app\i18n('No upload file');
         }
     }
 
-    if (!empty($data['thumb_url']) && ($item = request\file('thumb_url'))) {
+    if (!empty($data['thumb_url']) && ($item = app\data('request', 'file')['thumb_url'] ?? null)) {
         $data['thumb_ext'] = pathinfo($data['thumb_url'], PATHINFO_EXTENSION);
         $data['thumb_mime'] = $item['type'];
     }
@@ -213,9 +241,9 @@ function entity_postsave_file(array $data): array
     $id = $data['id'] ?? $data['_old']['id'] ?? null;
     $uploadable = $data['_entity']['attr']['url']['uploadable'];
 
-    if ($uploadable && ($item = request\file('url')) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . '.' . $data['ext'])))) {
+    if ($uploadable && ($item = app\data('request', 'file')['url'] ?? null) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . '.' . $data['ext'])))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
-    } elseif (($item = request\file('thumb_url')) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . APP['file.thumb'] . $data['thumb_ext'])))) {
+    } elseif (($item = app\data('request', 'file')['thumb_url'] ?? null) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . APP['file.thumb'] . $data['thumb_ext'])))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
     }
 

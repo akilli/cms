@@ -4,68 +4,7 @@ declare(strict_types = 1);
 namespace request;
 
 use app;
-use session;
-use str;
 use DomainException;
-
-/**
- * Request data
- *
- * @return mixed
- */
-function data(string $key)
-{
-    if (($data = & app\registry('request')) === null) {
-        $data = APP['request'];
-        $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
-        $data['proto'] = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null === 'on') ? 'https' : 'http';
-        $data['base'] = $data['proto'] . '://' . $data['host'];
-        $data['url'] = str\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
-        $data['full'] = $data['base'] . rtrim($data['url'], '/');
-        $data['get'] = filter($_GET);
-
-        if (!empty($_POST['token'])) {
-            if (session\get('token') === $_POST['token']) {
-                unset($_POST['token']);
-                $data['file'] = array_filter(array_map('request\normalize', $_FILES));
-                $data['post'] = $_POST;
-                $data['post'] = array_replace_recursive($data['post'], convert($data['file']));
-            }
-
-            session\set('token', null);
-        }
-    }
-
-    return $data[$key] ?? null;
-}
-
-/**
- * Get
- *
- * @return mixed
- */
-function get(string $key)
-{
-    return data('get')[$key] ?? null;
-}
-
-/**
- * Post
- *
- * @return mixed
- */
-function post(string $key)
-{
-    return data('post')[$key] ?? null;
-}
-
-/**
- * File
- */
-function file(string $key): ?array
-{
-    return data('file')[$key] ?? null;
-}
 
 /**
  * Redirect
