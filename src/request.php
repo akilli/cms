@@ -16,14 +16,13 @@ use DomainException;
 function data(string $key)
 {
     if (($data = & app\registry('request')) === null) {
+        $data = APP['request'];
         $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
-        $secure = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null === 'on');
-        $data['base'] = 'http' . ($secure ? 's' : '') . '://' . $data['host'];
+        $data['proto'] = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null === 'on') ? 'https' : 'http';
+        $data['base'] = $data['proto'] . '://' . $data['host'];
         $data['url'] = str\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
-        $data['full'] = $data['base'] . $data['url'];
+        $data['full'] = $data['base'] . rtrim($data['url'], '/');
         $data['get'] = filter($_GET);
-        $data['file'] = [];
-        $data['post'] = [];
 
         if (!empty($_POST['token'])) {
             if (session\get('token') === $_POST['token']) {

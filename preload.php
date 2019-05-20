@@ -149,6 +149,16 @@ const APP = [
         'active' => true,
     ],
     'redirect' => [301, 302, 307, 308],
+    'request' => [
+        'base' => null,
+        'file' => [],
+        'full' => null,
+        'get' => [],
+        'host' => null,
+        'proto' => null,
+        'post' => [],
+        'url' => null,
+    ],
     'toolbar' => [
         'id' => null,
         'name' => null,
