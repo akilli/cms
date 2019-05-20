@@ -161,7 +161,7 @@ const APP = [
     ],
     'url.file' => '/file/',
     'url.gui' => '/gui/',
-    'version' => ['name', 'content', 'aside', 'status', 'timestamp'],
+    'version' => ['name', 'title', 'content', 'aside', 'account_id', 'status', 'timestamp'],
 ];
 
 /**
