@@ -42,11 +42,10 @@ function run(): void
     $blacklist = !$app['public'] && in_array(preg_replace('#^www\.#', '', request\data('host')), cfg('app', 'admin.blacklist'));
     $allowed = !$blacklist && allowed($app['entity_id'] . '/' . $app['action']);
     $ns = 'action\\';
-    $real = is_callable($ns . $app['entity_id'] . '_' . $app['action']) ? $ns . $app['entity_id'] . '_' . $app['action'] : null;
 
     // Dispatch request
-    if ($allowed && $real) {
-        $real();
+    if ($allowed && is_callable($ns . $app['entity_id'] . '_' . $app['action'])) {
+        ($ns . $app['entity_id'] . '_' . $app['action'])();
     } elseif (!$allowed
         || !$app['entity']
         || !in_array($app['action'], $app['entity']['action'])
