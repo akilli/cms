@@ -35,3 +35,11 @@ function tr(string $val): string
 {
     return strtr(mb_strtolower($val), app\cfg('tr'));
 }
+
+/**
+ * Generates a unique string
+ */
+function uniq(string $prefix = ''): string
+{
+    return $prefix . md5(uniqid((string) time(), true));
+}

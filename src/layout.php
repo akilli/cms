@@ -5,6 +5,7 @@ namespace layout;
 
 use app;
 use arr;
+use str;
 use DomainException;
 
 /**
@@ -16,6 +17,7 @@ function render(array $block): string
         return '';
     }
 
+    $block['id'] = $block['id'] ?: str\uniq('block-');
     $block = event('prerender', $block);
     $block['html'] = $block['call']($block);
     $block = event('postrender', $block);
@@ -82,7 +84,7 @@ function db_id(array $data): string
  */
 function db_render(string $id): string
 {
-    $block = arr\replace(APP['layout'], app\cfg('block', 'db'), ['id' => uniqid('block-')]);
+    $block = arr\replace(APP['layout'], app\cfg('block', 'db'));
     [$block['cfg']['entity_id'], $block['cfg']['id']] = explode('-', $id);
 
     return render($block);

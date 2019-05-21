@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace smtp;
 
 use app;
+use str;
 use DomainException;
 
 /**
@@ -53,7 +54,7 @@ function mail(string $from, string $to, string $replyTo = null, string $subj, st
     $mail .= 'Subject: ' . $subj . APP['crlf'];
 
     if ($attach) {
-        $boundary = md5(uniqid((string) time()));
+        $boundary = str\uniq();
         $mail .= 'MIME-Version: 1.0' . APP['crlf'];
         $mail .= 'Content-Type: multipart/mixed; charset="utf-8"; boundary="' . $boundary . '"' . APP['crlf'] . APP['crlf'];
         $mail .= 'This is a multipart message in MIME format.' . APP['crlf'] . APP['crlf'];

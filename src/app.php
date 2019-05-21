@@ -6,6 +6,7 @@ namespace app;
 use entity;
 use layout;
 use session;
+use str;
 use DomainException;
 use ErrorException;
 use Throwable;
@@ -166,7 +167,7 @@ function login(string $username, string $password): ?array
 function token(): string
 {
     if (!$token = session\get('token')) {
-        $token = md5(uniqid((string) mt_rand(), true));
+        $token = str\uniq();
         session\set('token', $token);
     }
 
