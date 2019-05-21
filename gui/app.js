@@ -9,7 +9,7 @@
     }
 
     window.app = (function () {
-        const cfgUrl = '/app/cfg';
+        const cfgUrl = '/api/cfg';
         const app = {
             cfg: {
                 i18n: {}

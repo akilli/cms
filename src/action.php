@@ -20,15 +20,6 @@ function delete(): void
 }
 
 /**
- * App Config
- */
-function app_cfg(): void
-{
-    header('Content-Type: application/json', true);
-    die(json_encode(['i18n' => app\cfg('i18n')]));
-}
-
-/**
  * Account Logout
  */
 function account_logout(): void
@@ -38,7 +29,16 @@ function account_logout(): void
 }
 
 /**
- * Account Logout
+ * API Config
+ */
+function api_cfg(): void
+{
+    header('Content-Type: application/json', true);
+    die(json_encode(['i18n' => app\cfg('i18n')]));
+}
+
+/**
+ * Block API
  */
 function block_api(): void
 {

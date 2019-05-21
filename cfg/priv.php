@@ -30,7 +30,7 @@ return [
     'account/profile' => [
         'priv' => '_user_',
     ],
-    'app/cfg' => [
+    'api/cfg' => [
         'active' => false,
     ],
     'block/api' => [
