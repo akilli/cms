@@ -18,16 +18,12 @@ function run(): void
     $app = data('app');
     $ns = 'action\\';
 
-    // Dispatch request
-    if ($app['allowed'] && is_callable($ns . $app['entity_id'] . '_' . $app['action'])) {
+    if ($app['invalid']) {
+        return;
+    }
+
+    if (is_callable($ns . $app['entity_id'] . '_' . $app['action'])) {
         ($ns . $app['entity_id'] . '_' . $app['action'])();
-    } elseif (!$app['allowed']
-        || !$app['entity']
-        || !in_array($app['action'], $app['entity']['action'])
-        || !$app['page'] && in_array($app['action'], ['delete', 'view']) && (!$app['id'] || !entity\size($app['entity_id'], [['id', $app['id']]]))
-        || $app['public'] && (!$app['page'] || $app['page']['disabled'] || $app['page']['status'] !== 'published' && !allowed($app['entity_id'] . '/edit'))
-    ) {
-        invalid();
     } elseif ($app['parent_id'] && is_callable($ns . $app['parent_id'] . '_' . $app['action'])) {
         ($ns . $app['parent_id'] . '_' . $app['action'])();
     } elseif (is_callable($ns . $app['action'])) {
@@ -36,22 +32,14 @@ function run(): void
 }
 
 /**
- * Handles invalid reuqests
- */
-function invalid(): void
-{
-    http_response_code(404);
-    $app = & registry('data.app');
-    $app['invalid'] = true;
-    $layout = & registry('data.layout');
-    $layout = null;
-}
-
-/**
  * Returns response
  */
 function response(): string
 {
+    if (data('app', 'invalid')) {
+        http_response_code(404);
+    }
+
     return layout\block('root');
 }
 

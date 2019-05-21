@@ -60,8 +60,13 @@ function data_app(array $data): array
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
     $data['area'] = empty(app\cfg('priv', $data['entity_id'] . '/' . $data['action'])['active']) ? '_public_' : '_admin_';
     $data['public'] = $data['area'] === '_public_';
-    $blacklist = !$data['public'] && in_array(preg_replace('#^www\.#', '', $request['host']), app\cfg('app', 'admin.blacklist'));
-    $data['allowed'] = !$blacklist && app\allowed($data['entity_id'] . '/' . $data['action']);
+    $data['invalid'] = !$data['entity_id']
+        || !$data['action']
+        || !app\allowed($data['entity_id'] . '/' . $data['action'])
+        || $data['entity'] && !in_array($data['action'], $data['entity']['action'])
+        || !$data['page'] && in_array($data['action'], ['delete', 'view']) && (!$data['id'] || $data['entity'] && !entity\size($data['entity_id'], [['id', $data['id']]]))
+        || $data['page'] && ($data['page']['disabled'] || $data['page']['status'] !== 'published' && !app\allowed($data['entity_id'] . '/edit'))
+        || !$data['public'] && in_array(preg_replace('#^www\.#', '', $request['host']), app\cfg('app', 'admin.blacklist'));
 
     return $data;
 }

@@ -7,7 +7,6 @@ declare(strict_types = 1);
 define('APP', [
     'app' => [
         'action' => null,
-        'allowed' => false,
         'area' => null,
         'entity' => null,
         'entity_id' => null,
