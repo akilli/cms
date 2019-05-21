@@ -53,7 +53,7 @@ function data_app(array $data): array
     } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/]+))$#u', $request['url'], $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
-        $data['id'] = $match[3];
+        $data['id'] = $match[3] ?? null;
         $data['entity'] = app\cfg('entity', $match[1]);
     }
 
