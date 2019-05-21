@@ -61,16 +61,3 @@ function regenerate(): void
     session_id($id);
     session_start();
 }
-
-/**
- * Token
- */
-function token(): string
-{
-    if (!$token = get('token')) {
-        $token = md5(uniqid((string) mt_rand(), true));
-        set('token', $token);
-    }
-
-    return $token;
-}

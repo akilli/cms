@@ -173,6 +173,19 @@ function login(string $username, string $password): ?array
 }
 
 /**
+ * Token
+ */
+function token(): string
+{
+    if (!$token = session\get('token')) {
+        $token = md5(uniqid((string) mt_rand(), true));
+        session\set('token', $token);
+    }
+
+    return $token;
+}
+
+/**
  * Translate
  */
 function i18n(string $key, string ...$args): string

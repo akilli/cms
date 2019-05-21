@@ -1,7 +1,6 @@
 <?php
 namespace app;
 use attr;
-use session;
 /** @var callable $var */
 ?>
 <form method="post"<?php if ($var('multipart')):?> enctype="multipart/form-data"<?php endif;?> class="block-form">
@@ -17,6 +16,6 @@ use session;
         <a href="<?=url(data('app', 'entity_id') . '/admin');?>" role="button"><?=i18n('Back');?></a>
         <?php endif;?>
         <input type="submit" value="<?=i18n('Submit');?>" />
-        <input type="hidden" name="token" value="<?=session\token();?>" />
+        <input type="hidden" name="token" value="<?=token();?>" />
     </div>
 </form>
