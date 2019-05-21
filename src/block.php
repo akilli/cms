@@ -38,18 +38,8 @@ function root(): string
         'data-parent' => $app['parent_id'],
         'data-url' => app\data('request', 'url'),
     ];
-    $head = layout\block('head');
-    $body = layout\block('body');
-    $msg = '';
 
-    foreach (app\msg() as $item) {
-        $msg .= app\html('p', [], $item);
-    }
-
-    $msg = $msg ? app\html('section', ['class' => 'msg'], $msg) : '';
-    $body = str_replace(app\html('template', ['id' => 'msg']), $msg, $body);
-
-    return "<!doctype html>\n" . app\html('html', $attr, $head . $body);
+    return "<!doctype html>\n" . app\html('html', $attr, layout\block('head') . layout\block('body'));
 }
 
 /**
@@ -57,7 +47,7 @@ function root(): string
  */
 function msg(): string
 {
-    return app\html('template', ['id' => 'msg']);
+    return app\html('msg');
 }
 
 /**

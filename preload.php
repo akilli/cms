@@ -85,7 +85,7 @@ define('APP', [
     ],
     'file' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'file.thumb' => '.thumb.',
-    'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
+    'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr', 'block', 'msg'],
     'image' => [
         'srcset' => [360, 640, 800, 960, 1120, 1280, 1440],
         'sizes' => null,

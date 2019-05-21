@@ -175,6 +175,7 @@ function layout_postrender_root(array $data): array
 {
     $data['html'] = contentfilter\block($data['html']);
     $data['html'] = contentfilter\email($data['html']);
+    $data['html'] = contentfilter\msg($data['html']);
 
     return $data;
 }
