@@ -6,7 +6,33 @@ namespace contentfilter;
 use app;
 use arr;
 use entity;
+use layout;
 use str;
+
+/**
+ * Replaces all DB placeholder tags, i.e. `<block id="entity_id:id" />`, with actual blocks
+ */
+function block(string $html): string
+{
+    $pattern = '#<block id="%s"(?:[^>]*)>#s';
+
+    if (preg_match_all(sprintf($pattern, '([a-z_]+)-(\d+)'), $html, $match)) {
+        $data = [];
+
+        foreach ($match[1] as $key => $entityId) {
+            $data[$entityId][] = $match[2][$key];
+        }
+
+        foreach ($data as $entityId => $ids) {
+            foreach (entity\all($entityId, [['id', $ids]]) as $item) {
+                $block = arr\replace(APP['layout'], layout\db($item), ['id' => uniqid('block-')]);
+                $html = preg_replace(sprintf($pattern, $entityId . '-' . $item['id']), layout\render($block), $html);
+            }
+        }
+    }
+
+    return preg_replace('#<block(?:[^>]*)>#s', '', $html);
+}
 
 /**
  * Converts email addresses to HTML entity hex format

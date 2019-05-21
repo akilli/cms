@@ -173,7 +173,7 @@ function layout_postrender(array $data): array
  */
 function layout_postrender_root(array $data): array
 {
-    $data['html'] = layout\db_replace($data['html']);
+    $data['html'] = contentfilter\block($data['html']);
     $data['html'] = contentfilter\email($data['html']);
 
     return $data;
