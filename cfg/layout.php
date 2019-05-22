@@ -108,7 +108,7 @@ return [
         ],
         'view' => [
             'type' => 'tpl',
-            'tpl' => 'page/error.phtml',
+            'tpl' => 'error.phtml',
             'parent_id' => 'content',
             'sort' => 20,
         ],
@@ -210,7 +210,7 @@ return [
     'admin' => [
         'new' => [
             'type' => 'tpl',
-            'tpl' => 'block/new.phtml',
+            'tpl' => 'new.phtml',
             'parent_id' => 'content',
             'sort' => 20,
         ],
@@ -435,15 +435,15 @@ return [
                 'toggle' => true,
             ],
         ],
-        'logo' => [
+        'header-default' => [
             'type' => 'tpl',
-            'tpl' => 'header/logo.phtml',
+            'tpl' => 'header.phtml',
             'parent_id' => 'header',
             'sort' => 10,
         ],
-        'footer-nav' => [
+        'footer-default' => [
             'type' => 'tpl',
-            'tpl' => 'footer/nav.phtml',
+            'tpl' => 'footer.phtml',
             'parent_id' => 'footer',
             'sort' => 10,
         ],

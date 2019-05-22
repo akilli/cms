@@ -32,28 +32,28 @@ return [
     ],
     'meta' => [
         'call' => 'block\meta',
-        'tpl' => 'head/meta.phtml',
+        'tpl' => 'meta.phtml',
     ],
     /**
      * View
      */
     'view' => [
         'call' => 'block\view',
-        'tpl' => 'block/view.phtml',
+        'tpl' => 'view.phtml',
         'cfg' => [
             'attr_id' => [],
         ],
     ],
     'banner' => [
         'call' => 'block\banner',
-        'tpl' => 'page/banner.phtml',
+        'tpl' => 'banner.phtml',
     ],
     /**
      * Index
      */
     'index' => [
         'call' => 'block\index',
-        'tpl' => 'block/index.phtml',
+        'tpl' => 'index.phtml',
         'cfg' => [
             'attr_id' => [],
             'crit' => [],
@@ -72,7 +72,7 @@ return [
     ],
     'filter' => [
         'call' => 'block\filter',
-        'tpl' => 'block/filter.phtml',
+        'tpl' => 'filter.phtml',
         'cfg' => [
             'attr' => [],
             'data' => [],
@@ -82,7 +82,7 @@ return [
     ],
     'pager' => [
         'call' => 'block\pager',
-        'tpl' => 'block/pager.phtml',
+        'tpl' => 'pager.phtml',
         'cfg' => [
             'cur' => null,
             'limit' => null,
@@ -114,21 +114,21 @@ return [
      */
     'edit' => [
         'call' => 'block\edit',
-        'tpl' => 'block/form.phtml',
+        'tpl' => 'form.phtml',
         'cfg' => [
             'attr_id' => [],
         ],
     ],
     'profile' => [
         'call' => 'block\profile',
-        'tpl' => 'block/form.phtml',
+        'tpl' => 'form.phtml',
         'cfg' => [
             'attr_id' => [],
         ],
     ],
     'login' => [
         'call' => 'block\login',
-        'tpl' => 'block/form.phtml',
+        'tpl' => 'form.phtml',
     ],
     /**
      * Navigation
