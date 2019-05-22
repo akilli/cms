@@ -235,7 +235,7 @@ function load_priv(array $data, array $ext = []): array
  */
 function load_toolbar(array $data, array $ext = []): array
 {
-    $data = array_replace_recursive($data, $ext);
+    $data = arr\extend($data, $ext);
 
     foreach ($data as $id => $item) {
         if (empty($item['name']) || !empty($item['parent_id']) && empty($data[$item['parent_id']])) {
