@@ -198,7 +198,7 @@ setlocale(LC_ALL, APP['locale']);
 /**
  * Configuration
  *
- * @todo Use opcache.preload once it is available and remove following `if`-block
+ * @todo Use opcache.preload with PHP 7.4 and only use `define('CFG', cfg\preload());` instead of the following lines
  *
  * @see https://wiki.php.net/rfc/preload
  */
