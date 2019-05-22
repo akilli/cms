@@ -87,20 +87,20 @@ function meta(array $block): string
     $desc = null;
     $title = app\cfg('app', 'meta.title');
 
-    if ($page = $app['page']) {
-        $desc = $page['meta_description'];
+    if ($app['page']) {
+        $desc = $app['page']['meta_description'];
 
-        if ($page['meta_title']) {
-            $title = $page['meta_title'];
+        if ($app['page']['meta_title']) {
+            $title = $app['page']['meta_title'];
         } else {
-            $all = entity\all('page', [['id', $page['path']], ['level', 0, APP['op']['>']]], ['select' => ['name'], 'order' => ['level' => 'asc']]);
+            $all = entity\all('page', [['id', $app['page']['path']], ['level', 0, APP['op']['>']]], ['select' => ['name'], 'order' => ['level' => 'asc']]);
 
             foreach ($all as $item) {
                 $title = $item['name'] . ($title ? ' - ' . $title : '');
             }
         }
-    } elseif ($entity = $app['entity']) {
-        $title = $entity['name'] . ($title ? ' - ' . $title : '');
+    } elseif ($app['entity']) {
+        $title = $app['entity']['name'] . ($title ? ' - ' . $title : '');
     }
 
     $var = ['description' => str\enc($desc), 'title' => str\enc($title)];
