@@ -189,7 +189,7 @@ function load_layout(array $data, array $ext = []): array
  */
 function load_opt(array $data, array $ext = []): array
 {
-    $data = array_replace_recursive($data, $ext);
+    $data = array_replace($data, $ext);
 
     foreach ($data as $key => $opt) {
         $data[$key] = array_map('app\i18n', $opt);
