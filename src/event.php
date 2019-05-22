@@ -66,7 +66,7 @@ function data_app(array $data): array
         || $data['entity'] && !in_array($data['action'], $data['entity']['action'])
         || !$data['page'] && in_array($data['action'], ['delete', 'view']) && (!$data['id'] || $data['entity'] && !entity\size($data['entity_id'], [['id', $data['id']]]))
         || $data['page'] && ($data['page']['disabled'] || $data['page']['status'] !== 'published' && !app\allowed($data['entity_id'] . '/edit'))
-        || !$data['public'] && in_array(preg_replace('#^www\.#', '', $request['host']), app\cfg('app', 'admin.blacklist'));
+        || !$data['public'] && in_array(preg_replace('#^www\.#', '', $request['host']), app\cfg('app', 'blacklist'));
 
     return $data;
 }

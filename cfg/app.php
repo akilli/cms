@@ -1,6 +1,6 @@
 <?php
 return [
-    'admin.blacklist' => [],
+    'blacklist' => [],
     'proxy' => null,
     'title' => 'akıllı CMS',
 ];
