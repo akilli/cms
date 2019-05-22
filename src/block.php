@@ -85,7 +85,7 @@ function meta(array $block): string
     $block['tpl'] = $block['tpl'] ?: app\cfg('block', 'meta')['tpl'];
     $app = app\data('app');
     $desc = null;
-    $title = app\cfg('app', 'meta.title');
+    $title = app\cfg('app', 'title');
 
     if ($app['page']) {
         $desc = $app['page']['meta_description'];
