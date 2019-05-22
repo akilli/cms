@@ -103,7 +103,7 @@ return [
     '_admin_' => [
         'head-admin' => [
             'type' => 'tpl',
-            'tpl' => 'head/admin.phtml',
+            'tpl' => 'head-admin.phtml',
             'parent_id' => 'head',
             'sort' => 20,
         ],
@@ -407,7 +407,7 @@ return [
     '_public_' => [
         'head-public' => [
             'type' => 'tpl',
-            'tpl' => 'head/public.phtml',
+            'tpl' => 'head-public.phtml',
             'parent_id' => 'head',
             'sort' => 20,
         ],
