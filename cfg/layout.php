@@ -33,23 +33,15 @@ return [
             'sort' => 10,
         ],
         // Body Blocks
-        'header' => [
-            'type' => 'container',
-            'parent_id' => 'body',
-            'sort' => 10,
-            'cfg' => [
-                'tag' => 'header',
-            ],
-        ],
         'top' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 20,
+            'sort' => 10,
         ],
         'main' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 30,
+            'sort' => 20,
             'cfg' => [
                 'tag' => 'main',
             ],
@@ -57,15 +49,7 @@ return [
         'bottom' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 40,
-        ],
-        'footer' => [
-            'type' => 'container',
-            'parent_id' => 'body',
-            'sort' => 50,
-            'cfg' => [
-                'tag' => 'footer',
-            ],
+            'sort' => 30,
         ],
         // Top Blocks
         'msg' => [
@@ -427,25 +411,25 @@ return [
             'parent_id' => 'head',
             'sort' => 20,
         ],
+        'header' => [
+            'type' => 'tpl',
+            'tpl' => 'header.phtml',
+            'parent_id' => 'body',
+            'sort' => 0,
+        ],
         'menu' => [
             'type' => 'menu',
             'parent_id' => 'body',
-            'sort' => 15,
+            'sort' => 5,
             'cfg' => [
                 'toggle' => true,
             ],
         ],
-        'header-default' => [
-            'type' => 'tpl',
-            'tpl' => 'header.phtml',
-            'parent_id' => 'header',
-            'sort' => 10,
-        ],
-        'footer-default' => [
+        'footer' => [
             'type' => 'tpl',
             'tpl' => 'footer.phtml',
-            'parent_id' => 'footer',
-            'sort' => 10,
+            'parent_id' => 'body',
+            'sort' => 40,
         ],
     ],
     /**
