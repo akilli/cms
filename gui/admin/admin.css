@@ -455,15 +455,16 @@ html[data-action=browser] .block-index video {
      */
     html[data-url="/account/login"] main {
         display: flex;
-        flex: 1 0;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        max-width: 30rem;
         height: 100vh;
+        margin: 0 auto;
     }
 
-    html[data-url="/account/login"] #content {
+    html[data-url="/account/login"] main > * {
         width: 100%;
-        max-width: 30rem;
     }
 
     /**
