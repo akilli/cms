@@ -51,12 +51,6 @@ return [
             'parent_id' => 'body',
             'sort' => 30,
         ],
-        // Top Blocks
-        'msg' => [
-            'type' => 'msg',
-            'parent_id' => 'top',
-            'sort' => 10,
-        ],
         // Main Blocks
         'content' => [
             'type' => 'container',
@@ -80,6 +74,11 @@ return [
             'parent_id' => 'content',
             'sort' => 10,
         ],
+        'msg' => [
+            'type' => 'msg',
+            'parent_id' => 'content',
+            'sort' => 20,
+        ],
     ],
     /**
      * Invalid Requests
@@ -94,7 +93,7 @@ return [
             'type' => 'tpl',
             'tpl' => 'error.phtml',
             'parent_id' => 'content',
-            'sort' => 20,
+            'sort' => 30,
         ],
     ],
     /*******************************************************************************************************************
@@ -126,7 +125,7 @@ return [
         'published' => [
             'type' => 'index',
             'parent_id' => 'content',
-            'sort' => 20,
+            'sort' => 30,
             'cfg' => [
                 'attr_id' => ['name', 'account_id', 'timestamp'],
                 'crit' => [['status', 'published']],
@@ -140,7 +139,7 @@ return [
         'pending' => [
             'type' => 'index',
             'parent_id' => 'content',
-            'sort' => 30,
+            'sort' => 40,
             'cfg' => [
                 'attr_id' => ['name', 'account_id', 'timestamp'],
                 'crit' => [['status', 'pending']],
@@ -167,7 +166,7 @@ return [
         'login' => [
             'type' => 'login',
             'parent_id' => 'content',
-            'sort' => 20,
+            'sort' => 30,
         ],
     ],
     /**
@@ -182,7 +181,7 @@ return [
         'form' => [
             'type' => 'profile',
             'parent_id' => 'content',
-            'sort' => 20,
+            'sort' => 30,
             'cfg' => [
                 'attr_id' => ['password', 'confirmation', 'email'],
             ],
@@ -196,12 +195,12 @@ return [
             'type' => 'tpl',
             'tpl' => 'new.phtml',
             'parent_id' => 'content',
-            'sort' => 20,
+            'sort' => 30,
         ],
         'index' => [
             'type' => 'index',
             'parent_id' => 'content',
-            'sort' => 30,
+            'sort' => 40,
             'cfg' => [
                 'mode' => 'admin',
                 'pager' => 'bottom',
@@ -280,7 +279,7 @@ return [
         'index' => [
             'type' => 'index',
             'parent_id' => 'content',
-            'sort' => 20,
+            'sort' => 30,
             'cfg' => [
                 'limit' => 20,
                 'mode' => 'browser',
@@ -349,7 +348,7 @@ return [
         'form' => [
             'type' => 'edit',
             'parent_id' => 'content',
-            'sort' => 20,
+            'sort' => 30,
         ],
     ],
     'account/edit' => [
@@ -439,7 +438,7 @@ return [
         'view' => [
             'type' => 'view',
             'parent_id' => 'content',
-            'sort' => 20,
+            'sort' => 30,
         ],
     ],
     'page/view' => [
