@@ -486,7 +486,7 @@ function login(array $block): string
     $block['tpl'] = $block['tpl'] ?? app\cfg('block', 'login')['tpl'];
     $entity = app\cfg('entity', 'account');
     $a = ['username' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0]];
-    $attrs = array_replace_recursive(arr\extract($entity['attr'], ['username', 'password']), $a);
+    $attrs = arr\extend(arr\extract($entity['attr'], ['username', 'password']), $a);
     $var = ['attr' => $attrs, 'data' => [], 'multipart' => false];
 
     return app\tpl($block['tpl'], $var);
