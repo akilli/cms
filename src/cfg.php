@@ -203,7 +203,7 @@ function load_opt(array $data, array $ext = []): array
  */
 function load_priv(array $data, array $ext = []): array
 {
-    $data = array_replace_recursive($data, $ext);
+    $data = arr\extend($data, $ext);
 
     foreach ($data as $id => $item) {
         $item = arr\replace(APP['priv'], $item);
