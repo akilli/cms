@@ -121,7 +121,7 @@ function load_entity(array $data, array $ext = []): array
         ) {
             throw new DomainException(app\i18n('Invalid configuration'));
         } elseif ($entity['parent_id']) {
-            $entity['attr'] = array_replace_recursive($data[$entity['parent_id']]['attr'], $entity['attr']);
+            $entity['attr'] = arr\extend($data[$entity['parent_id']]['attr'], $entity['attr']);
         }
 
         $data[$entityId] = $entity;
