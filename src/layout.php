@@ -56,6 +56,22 @@ function children(string $id): string
 }
 
 /**
+ * Returns full block configuration
+ *
+ * @throws DomainException
+ */
+function cfg(array $block): array
+{
+    if (empty($block['type']) || !($type = app\cfg('block', $block['type']))) {
+        throw new DomainException(app\i18n('Invalid configuration'));
+    }
+
+    unset($block['call']);
+
+    return arr\replace(APP['layout'], $type, $block);
+}
+
+/**
  * Returns block config for DB block and falls back to content block if no custom type is configured
  *
  * @throws DomainException
@@ -66,9 +82,7 @@ function db(array $data): array
         throw new DomainException(app\i18n('Invalid data'));
     }
 
-    $type = app\cfg('block', $data['entity_id']) ?: app\cfg('block', 'content');
-
-    return ['type' => $type['id'], 'call' => $type['call'], 'cfg' => ['data' => $data]];
+    return cfg(['type' => app\cfg('block', $data['entity_id'])['id'] ?? 'content', 'cfg' => ['data' => $data]]);
 }
 
 /**
@@ -84,7 +98,7 @@ function db_id(array $data): string
  */
 function db_render(string $id): string
 {
-    $block = arr\replace(APP['layout'], app\cfg('block', 'db'));
+    $block = cfg(['type' => 'db']);
     [$block['cfg']['entity_id'], $block['cfg']['id']] = explode('-', $id);
 
     return render($block);

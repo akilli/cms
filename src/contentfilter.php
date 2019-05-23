@@ -25,8 +25,7 @@ function block(string $html): string
 
         foreach ($data as $entityId => $ids) {
             foreach (entity\all($entityId, [['id', $ids]]) as $item) {
-                $block = arr\replace(APP['layout'], layout\db($item));
-                $html = preg_replace(sprintf($pattern, $entityId . '-' . $item['id']), layout\render($block), $html);
+                $html = preg_replace(sprintf($pattern, $entityId . '-' . $item['id']), layout\render(layout\db($item)), $html);
             }
         }
     }

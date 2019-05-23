@@ -73,13 +73,10 @@ function data_app(array $data): array
 
 /**
  * Layout data
- *
- * @throws DomainException
  */
 function data_layout(array $data): array
 {
     $cfg = app\cfg('layout');
-    $type = app\cfg('block');
     $app = app\data('app');
     $url = app\data('request', 'url');
     $keys = ['_all_', $app['area']];
@@ -117,21 +114,13 @@ function data_layout(array $data): array
     foreach ($keys as $key) {
         if (!empty($cfg[$key])) {
             foreach ($cfg[$key] as $id => $block) {
+                $block['id'] = $id;
                 $data[$id] = empty($data[$id]) ? $block : arr\extend($data[$id], $block);
             }
         }
     }
 
-    foreach ($data as $id => $block) {
-        if (empty($block['type']) || empty($type[$block['type']])) {
-            throw new DomainException(app\i18n('Invalid configuration'));
-        }
-
-        unset($block['call']);
-        $data[$id] = arr\replace(APP['layout'], $type[$block['type']], $block, ['id' => $id]);
-    }
-
-    return $data;
+    return array_map('layout\cfg', $data);
 }
 
 /**
