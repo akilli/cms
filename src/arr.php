@@ -12,7 +12,7 @@ function filter(array $data, string $col, $val): array
 }
 
 /**
- * Order data
+ * Orders a recordset-like multi-dimensional array by given column
  */
 function order(array $data, array $order): array
 {
