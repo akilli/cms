@@ -66,7 +66,7 @@ function cfg(array $block): array
         throw new DomainException(app\i18n('Invalid configuration'));
     }
 
-    unset($block['call']);
+    unset($block['call'], $type['id']);
 
     return arr\replace(APP['layout'], $type, $block);
 }
