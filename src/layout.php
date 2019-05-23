@@ -86,14 +86,6 @@ function db(array $data, array $block = []): array
 }
 
 /**
- * Generates layout ID for DB block
- */
-function db_id(array $data): string
-{
-    return 'layout-' . $data['parent_id'] .'-' . $data['name'];
-}
-
-/**
  * Renders DB placeholder tag with given ID (`entity_id:id`)
  */
 function db_render(string $id): string
