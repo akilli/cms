@@ -173,9 +173,9 @@ textarea {
 }
 
 select {
-    appearance: none;
-    -moz-appearance: none;
     -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     background: none;
 }
 
@@ -208,9 +208,9 @@ button {
     height: 1.5rem;
     padding: 0;
     border: 0.0625rem solid #bbb;
-    appearance: none;
-    -moz-appearance: none;
     -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 [type=checkbox][data-type=bool]::after {
