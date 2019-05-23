@@ -76,13 +76,13 @@ function cfg(array $block): array
  *
  * @throws DomainException
  */
-function db(array $data): array
+function db(array $data, array $block = []): array
 {
     if (empty($data['entity_id']) || ($data['_entity']['parent_id'] ?? null) !== 'block') {
         throw new DomainException(app\i18n('Invalid data'));
     }
 
-    return cfg(['type' => app\cfg('block', $data['entity_id'])['id'] ?? 'content', 'cfg' => ['data' => $data]]);
+    return cfg(['type' => app\cfg('block', $data['entity_id'])['id'] ?? 'content', 'cfg' => ['data' => $data]] + $block);
 }
 
 /**

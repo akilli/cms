@@ -341,7 +341,7 @@ function db(array $block): string
     $cfg = arr\replace(app\cfg('block', 'db')['cfg'], $block['cfg']);
 
     if ($cfg['entity_id'] && $cfg['id'] && ($data = entity\one($cfg['entity_id'], [['id', $cfg['id']]]))) {
-        return layout\render(['id' => $block['id']] + layout\db($data));
+        return layout\render(layout\db($data, ['id' => $block['id']]));
     }
 
     return '';
