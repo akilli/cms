@@ -10,7 +10,7 @@ use layout;
 use str;
 
 /**
- * Replaces all DB placeholder tags, i.e. `<block id="entity_id:id" />`, with actual blocks
+ * Replaces all DB placeholder tags, i.e. `<block id="{entity_id}-{id}" />`, with actual blocks
  */
 function block(string $html): string
 {

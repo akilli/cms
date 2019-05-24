@@ -78,7 +78,7 @@ function db(array $data, array $block = []): array
 }
 
 /**
- * Renders DB placeholder tag with given ID (`entity_id:id`)
+ * Renders DB placeholder tag with given ID (format: `{entity_id}-{id}`)
  */
 function db_block(string $id): string
 {
