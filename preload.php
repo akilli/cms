@@ -56,7 +56,6 @@ define('APP', [
         'tpl' => null,
         'cfg' => [],
     ],
-    'cfg' => '/tmp/cfg.php',
     'charset' => ini_get('default_charset'),
     'crlf' => "\r\n",
     'curl' => [
@@ -203,8 +202,8 @@ setlocale(LC_ALL, APP['locale']);
  *
  * @see https://wiki.php.net/rfc/preload
  */
-if (!file_exists(APP['cfg'])) {
-    file\save(APP['cfg'], cfg\preload());
+if (!file_exists('/tmp/cfg.php')) {
+    file\save('/tmp/cfg.php', cfg\preload());
 }
 
-define('CFG', file\load(APP['cfg']));
+define('CFG', file\load('/tmp/cfg.php'));
