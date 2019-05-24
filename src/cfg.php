@@ -235,16 +235,28 @@ function load_priv(array $data, array $ext): array
  */
 function load_toolbar(array $data, array $ext): array
 {
-    $data = arr\extend($data, $ext);
+    $data = arr\order(arr\extend($data, $ext), ['parent_id' => 'asc', 'sort' => 'asc', 'id' => 'asc']);
+    $parentId = null;
+    $sort = 0;
 
     foreach ($data as $id => $item) {
-        if (empty($item['name']) || !empty($item['parent_id']) && empty($data[$item['parent_id']])) {
+        $item = arr\replace(APP['toolbar'], $item, ['id' => $id]);
+
+        if (!$item['name'] || $item['parent_id'] && empty($data[$item['parent_id']])) {
             throw new DomainException(app\i18n('Invalid configuration'));
+        } elseif ($parentId !== $item['parent_id']) {
+            $sort = 0;
         }
 
-        $item = arr\replace(APP['toolbar'], $item, ['id' => $id, 'name' => app\i18n($item['name'])]);
+        $item['name'] = app\i18n($item['name']);
         $item['url'] = $item['action'] ? app\url($item['action']) : $item['url'];
-        $item['pos'] = ($item['parent_id'] ? $data[$item['parent_id']]['pos'] . '.' : '') . str_pad((string) $item['sort'], 5, '0', STR_PAD_LEFT) . '-' . $id;
+        $item['sort'] = ++$sort;
+        $data[$id] = $item;
+        $parentId = $item['parent_id'];
+    }
+
+    foreach ($data as $id => $item) {
+        $item['pos'] = ($item['parent_id'] ? $data[$item['parent_id']]['pos'] . '.' : '') . str_pad((string) $item['sort'], 5, '0', STR_PAD_LEFT);
         $item['level'] = $item['parent_id'] ? $data[$item['parent_id']]['level'] + 1 : 1;
         $data[$id] = $item;
     }
