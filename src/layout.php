@@ -26,14 +26,6 @@ function render(array $block): string
 }
 
 /**
- * Dispatches multiple layout events
- */
-function event(string $name, array $data): array
-{
-    return app\event(['layout.' . $name, 'layout.' . $name . '.type.' . $data['type'], 'layout.' . $name . '.id.' . $data['id']], $data);
-}
-
-/**
  * Renders block with given ID
  */
 function block(string $id): string
@@ -88,10 +80,18 @@ function db(array $data, array $block = []): array
 /**
  * Renders DB placeholder tag with given ID (`entity_id:id`)
  */
-function db_render(string $id): string
+function db_block(string $id): string
 {
     $block = cfg(['type' => 'db']);
     [$block['cfg']['entity_id'], $block['cfg']['id']] = explode('-', $id);
 
     return render($block);
+}
+
+/**
+ * Dispatches multiple layout events
+ */
+function event(string $name, array $data): array
+{
+    return app\event(['layout.' . $name, 'layout.' . $name . '.type.' . $data['type'], 'layout.' . $name . '.id.' . $data['id']], $data);
 }

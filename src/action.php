@@ -42,5 +42,5 @@ function api_cfg(): void
  */
 function block_api(): void
 {
-    die(($id = app\data('app', 'id')) ? layout\db_render($id) : '');
+    die(($id = app\data('app', 'id')) ? layout\db_block($id) : '');
 }
