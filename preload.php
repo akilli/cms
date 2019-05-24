@@ -171,6 +171,7 @@ define('APP', [
         'active' => true,
         'parent_id' => null,
         'sort' => 0,
+        'pos' => null,
         'level' => 0,
     ],
     'url.file' => '/file/',
