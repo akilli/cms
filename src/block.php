@@ -243,7 +243,16 @@ function index(array $block): string
         $total = $limit > 0 && ($c = (int) ceil($size / $limit)) ? $c : 1;
         $get['cur'] = min(max((int) $get['cur'], 1), $total);
         $opt['offset'] = ($get['cur'] - 1) * $limit;
-        $pager = pager(['cfg' => ['cur' => $get['cur'], 'limit' => $limit, 'limits' => $cfg['limit'], 'size' => $size]]);
+        $pager = layout\render(layout\cfg([
+            'type' => 'pager',
+            'parent_id' => $block['id'],
+            'cfg' => [
+                'cur' => $get['cur'],
+                'limit' => $limit,
+                'limits' => $cfg['limit'],
+                'size' => $size,
+            ],
+        ]));
     }
 
     if ($entity['id'] === 'version') {
