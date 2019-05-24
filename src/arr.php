@@ -73,7 +73,15 @@ function extend(array $data, array $ext): array
  */
 function extract(array $data, array $keys): array
 {
-    return $data && $keys ? replace(array_fill_keys(array_intersect($keys, array_keys($data)), null), $data) : [];
+    $result = [];
+
+    foreach ($keys as $key) {
+        if (array_key_exists($key, $data)) {
+            $result[$key] = $data[$key];
+        }
+    }
+
+    return $result;
 }
 
 /**
