@@ -83,7 +83,7 @@ function load(string $id): array
  *
  * @throws DomainException
  */
-function load_block(array $data, array $ext = []): array
+function load_block(array $data, array $ext): array
 {
     $data += $ext;
 
@@ -103,7 +103,7 @@ function load_block(array $data, array $ext = []): array
  *
  * @throws DomainException
  */
-function load_entity(array $data, array $ext = []): array
+function load_entity(array $data, array $ext): array
 {
     $data += $ext;
     $cfg = load('attr');
@@ -173,7 +173,7 @@ function load_entity(array $data, array $ext = []): array
 /**
  * Load layout configuration
  */
-function load_layout(array $data, array $ext = []): array
+function load_layout(array $data, array $ext): array
 {
     foreach ($ext as $key => $cfg) {
         foreach ($cfg as $id => $block) {
@@ -187,7 +187,7 @@ function load_layout(array $data, array $ext = []): array
 /**
  * Loads option configuration
  */
-function load_opt(array $data, array $ext = []): array
+function load_opt(array $data, array $ext): array
 {
     $data = array_replace($data, $ext);
 
@@ -201,7 +201,7 @@ function load_opt(array $data, array $ext = []): array
 /**
  * Loads privilege configuration
  */
-function load_priv(array $data, array $ext = []): array
+function load_priv(array $data, array $ext): array
 {
     $data = arr\extend($data, $ext);
 
@@ -233,7 +233,7 @@ function load_priv(array $data, array $ext = []): array
  *
  * @throws DomainException
  */
-function load_toolbar(array $data, array $ext = []): array
+function load_toolbar(array $data, array $ext): array
 {
     $data = arr\extend($data, $ext);
 
