@@ -8,7 +8,13 @@ namespace arr;
  */
 function filter(array $data, string $col, $val): array
 {
-    return array_intersect_key($data, array_flip(array_keys(array_combine(array_keys($data), array_column($data, $col)), $val, true)));
+    foreach ($data as $id => $item) {
+        if (($item[$col] ?? null) !== $val) {
+            unset($data[$id]);
+        }
+    }
+
+    return $data;
 }
 
 /**
