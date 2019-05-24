@@ -651,10 +651,6 @@ function menu(array $block): string
         $block['cfg']['data'] = [$root['id'] => $root] + $block['cfg']['data'];
     }
 
-    foreach ($block['cfg']['data'] as $id => $item) {
-        $block['cfg']['data'][$id]['name'] = $item['name'];
-    }
-
     unset($block['cfg']['root'], $block['cfg']['submenu']);
 
     return nav($block);
