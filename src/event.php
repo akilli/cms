@@ -39,7 +39,7 @@ function data_account(array $data): array
  */
 function data_app(array $data): array
 {
-    $data = arr\replace(APP['app'], $data);
+    $data = arr\replace(APP['data']['app'], $data);
     $request = app\data('request');
 
     if (preg_match('#^/(?:|[a-z0-9-_/\.]+\.html)$#', $request['url'], $match)
@@ -127,7 +127,7 @@ function data_layout(array $data): array
  */
 function data_request(array $data): array
 {
-    $data = arr\replace(APP['request'], $data);
+    $data = arr\replace(APP['data']['request'], $data);
     $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
     $data['proto'] = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null === 'on') ? 'https' : 'http';
     $data['base'] = $data['proto'] . '://' . $data['host'];
@@ -234,17 +234,18 @@ function entity_postsave_file(array $data): array
 {
     $id = $data['id'] ?? $data['_old']['id'] ?? null;
     $uploadable = $data['_entity']['attr']['url']['uploadable'];
+    $thumb = APP['thumb'] . '.';
 
     if ($uploadable && ($item = app\data('request', 'file')['url'] ?? null) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . '.' . $data['ext'])))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
-    } elseif (($item = app\data('request', 'file')['thumb_url'] ?? null) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . APP['file.thumb'] . $data['thumb_ext'])))) {
+    } elseif (($item = app\data('request', 'file')['thumb_url'] ?? null) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . $thumb . $data['thumb_ext'])))) {
         throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
     }
 
     if (array_key_exists('thumb_url', $data)
         && !$data['thumb_url']
         && $data['_old']['thumb_url']
-        && !file\delete(app\path('file', $data['_old']['id'] . APP['file.thumb'] . $data['_old']['thumb_ext']))
+        && !file\delete(app\path('file', $data['_old']['id'] . $thumb . $data['_old']['thumb_ext']))
     ) {
         throw new DomainException(app\i18n('Could not delete file'));
     }
@@ -261,7 +262,7 @@ function entity_postdelete_file(array $data): array
 {
     if ($data['_entity']['attr']['url']['uploadable']
         && !file\delete(app\path('file', $data['_old']['id'] . '.' . $data['_old']['ext']))
-        && !file\delete(app\path('file', $data['_old']['id'] . APP['file.thumb'] . $data['_old']['thumb_ext']))
+        && !file\delete(app\path('file', $data['_old']['id'] . APP['thumb'] . '.' . $data['_old']['thumb_ext']))
     ) {
         throw new DomainException(app\i18n('Could not delete file'));
     }

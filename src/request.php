@@ -57,7 +57,7 @@ function convert(array $in): array
             throw new DomainException(app\i18n('Invalid data'));
         }
 
-        $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === APP['file'] ? $v['name'] : convert($v);
+        $out[$k] = ($keys = array_keys($v)) && sort($keys) && $keys === APP['upload'] ? $v['name'] : convert($v);
     }
 
     return $out;
@@ -68,7 +68,7 @@ function convert(array $in): array
  */
 function normalize(array $in): ?array
 {
-    if (!($keys = array_keys($in)) || !sort($keys) || $keys !== APP['file']) {
+    if (!($keys = array_keys($in)) || !sort($keys) || $keys !== APP['upload']) {
         return null;
     }
 

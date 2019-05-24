@@ -88,7 +88,7 @@ function load_block(array $data, array $ext): array
     $data += $ext;
 
     foreach ($data as $id => $type) {
-        $data[$id] = arr\replace(APP['block'], $type, ['id' => $id]);
+        $data[$id] = arr\replace(APP['cfg']['block'], $type, ['id' => $id]);
 
         if (!is_callable($type['call'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
@@ -111,7 +111,7 @@ function load_entity(array $data, array $ext): array
 
     // Entities
     foreach ($data as $entityId => $entity) {
-        $entity = arr\replace(APP['entity'], $entity, ['id' => $entityId]);
+        $entity = arr\replace(APP['cfg']['entity'], $entity, ['id' => $entityId]);
 
         if (!$entity['name']
             || !$entity['db']
@@ -144,7 +144,7 @@ function load_entity(array $data, array $ext): array
                 $attr['backend'] = $cfg[$data[$attr['ref']]['attr']['id']['type']]['backend'];
             }
 
-            $attr = arr\replace(APP['attr'], $cfg[$attr['type']], $attr, ['id' => $attrId, 'name' => app\i18n($attr['name'])]);
+            $attr = arr\replace(APP['cfg']['attr'], $cfg[$attr['type']], $attr, ['id' => $attrId, 'name' => app\i18n($attr['name'])]);
 
             if (!in_array($attr['backend'], APP['backend'])
                 || !$attr['frontend']
@@ -206,7 +206,7 @@ function load_priv(array $data, array $ext): array
     $data = arr\extend($data, $ext);
 
     foreach ($data as $id => $item) {
-        $item = arr\replace(APP['priv'], $item);
+        $item = arr\replace(APP['cfg']['priv'], $item);
         $item['name'] = $item['name'] ? app\i18n($item['name']) : '';
         $data[$id] = $item;
     }
@@ -215,13 +215,13 @@ function load_priv(array $data, array $ext): array
         if (in_array('edit', $entity['action']) && in_array('page', [$entity['id'], $entity['parent_id']])) {
             $id = $entity['id'] . '-publish';
             $data[$id]['name'] = $entity['name'] . ' ' . app\i18n('Publish');
-            $data[$id] = arr\replace(APP['priv'], $data[$id]);
+            $data[$id] = arr\replace(APP['cfg']['priv'], $data[$id]);
         }
 
         foreach ($entity['action'] as $action) {
             $id = $entity['id'] . '/' . $action;
             $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucfirst($action));
-            $data[$id] = arr\replace(APP['priv'], $data[$id]);
+            $data[$id] = arr\replace(APP['cfg']['priv'], $data[$id]);
         }
     }
 
@@ -240,7 +240,7 @@ function load_toolbar(array $data, array $ext): array
     $sort = 0;
 
     foreach ($data as $id => $item) {
-        $item = arr\replace(APP['toolbar'], $item, ['id' => $id]);
+        $item = arr\replace(APP['cfg']['toolbar'], $item, ['id' => $id]);
 
         if (!$item['name'] || $item['parent_id'] && empty($data[$item['parent_id']])) {
             throw new DomainException(app\i18n('Invalid configuration'));
