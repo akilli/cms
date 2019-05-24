@@ -395,7 +395,7 @@ function content(array $block): string
 
     $class = str_replace('_', '-', $cfg['data']['entity_id']);
 
-    return $out ? app\html('section', ['id' => $block['id'], 'class' => $class] + $cfg['html'], $out) : '';
+    return $out ? app\html('section', ['id' => $block['id'], 'class' => $class], $out) : '';
 }
 
 /**

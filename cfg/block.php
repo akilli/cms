@@ -106,7 +106,6 @@ return [
         'cfg' => [
             'attr_id' => ['title', 'media', 'content'],
             'data' => [],
-            'html' => [],
         ],
     ],
     /**
