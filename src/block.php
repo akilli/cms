@@ -226,7 +226,16 @@ function index(array $block): string
             }
         }
 
-        $filter = filter(['cfg' => ['attr' => $fa, 'data' => arr\replace(entity\item($entity['id']), $get['filter']), 'q' => $get['q'], 'search' => !!$cfg['search']]]);
+        $filter = layout\render(layout\cfg([
+            'type' => 'filter',
+            'parent_id' => $block['id'],
+            'cfg' => [
+                'attr' => $fa,
+                'data' => arr\replace(entity\item($entity['id']), $get['filter']),
+                'q' => $get['q'],
+                'search' => !!$cfg['search'],
+            ],
+        ]));
     }
 
     if ($cfg['pager']) {
