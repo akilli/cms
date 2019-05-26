@@ -53,7 +53,7 @@ pre {
     background: #000;
 }
 
-time[data-attr] {
+time {
     display: block;
 }
 
