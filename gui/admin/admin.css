@@ -272,6 +272,21 @@ main a:not([role=button]):hover {
 }
 
 /**
+ * Content
+ */
+#content img,
+#content video {
+    max-width: 15rem;
+    max-height: 10.5rem;
+}
+
+html:not([data-action=browser]) #content .block-index img,
+html:not([data-action=browser]) #content .block-index video {
+    max-width: 9rem;
+    max-height: 6rem;
+}
+
+/**
  * Message
  */
 .msg {
@@ -326,32 +341,12 @@ a[data-sort=desc]::after {
     pointer-events: none;
 }
 
-.block-index img,
-.block-index video {
-    max-width: 9rem;
-    max-height: 6rem;
-}
-
-html[data-action=browser] .block-index img,
-html[data-action=browser] .block-index video {
-    max-width: 15rem;
-    max-height: 10.5rem;
-}
-
 /**
  * Pager
  */
 .pager {
     padding: 0.75rem 0;
     font-size: 0.875rem;
-}
-
-/**
- * Form
- */
-.block-form [data-attr] .view img {
-    max-width: 15rem;
-    max-height: 10.5rem;
 }
 
 /**
