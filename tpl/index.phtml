@@ -24,9 +24,7 @@ use attr;
                 ?>
             <a<?php if ($var('sort') !== false):?> href="<?=url($var('url'), ['sort' => $sort], true);?>"<?php if ($attr['id'] === ltrim($var('sort'), '-')):?> data-sort="<?=$dir;?>"<?php endif;?><?php endif;?>><?=$attr['name'];?></a>
             <?php endforeach;?>
-            <?php if ($var('mode') === 'admin'):?>
             <span><?=i18n('Actions');?></span>
-            <?php endif;?>
         </div>
         <?php endif;?>
         <?php foreach ($var('data') as $data):?>
