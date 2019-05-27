@@ -110,20 +110,15 @@ function meta(array $block): string
  */
 function view(array $block): string
 {
-    if (!$block['cfg']['attr_id']) {
+    if (!$block['cfg']['attr_id'] || ($data = $block['cfg']['data']) && empty($data['_entity'])) {
         return '';
     }
 
-    $app = app\data('app');
-    $data = $block['cfg']['data'];
-
-    if (!$data && (($entityId = $block['cfg']['entity_id']) && ($id = $block['cfg']['id']) || ($entityId = $app['entity_id']) && ($id = $app['id']))) {
+    if (!$data && (($entityId = $block['cfg']['entity_id']) && ($id = $block['cfg']['id']) || ($app = app\data('app')) && ($entityId = $app['entity_id']) && ($id = $app['id']))) {
         $data = entity\one($entityId, [['id', $id]]);
     }
 
-    $entity = $data['_entity'] ?? null;
-
-    if (!$entity || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
+    if (!($entity = $data['_entity'] ?? null) || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
 
