@@ -30,15 +30,9 @@ function container(array $block): string
 function root(): string
 {
     $app = app\data('app');
-    $attr = [
-        'lang' => APP['lang'],
-        'data-action' => $app['action'],
-        'data-entity' => $app['entity_id'],
-        'data-parent' => $app['parent_id'],
-        'data-url' => app\data('request', 'url'),
-    ];
+    $a = ['lang' => APP['lang'], 'data-action' => $app['action'], 'data-entity' => $app['entity_id'], 'data-parent' => $app['parent_id'], 'data-url' => app\data('request', 'url')];
 
-    return "<!doctype html>\n" . app\html('html', $attr, layout\block('head') . layout\block('body'));
+    return "<!doctype html>\n" . app\html('html', $a, layout\block('head') . layout\block('body'));
 }
 
 /**
@@ -100,9 +94,7 @@ function meta(array $block): string
         $title = $app['entity']['name'] . ($title ? ' - ' . $title : '');
     }
 
-    $var = ['description' => str\enc($desc), 'title' => str\enc($title)];
-
-    return app\tpl($block['tpl'], $var);
+    return app\tpl($block['tpl'], ['description' => str\enc($desc), 'title' => str\enc($title)]);
 }
 
 /**
@@ -223,12 +215,7 @@ function index(array $block): string
         $filter = layout\render(layout\cfg([
             'type' => 'filter',
             'parent_id' => $block['id'],
-            'cfg' => [
-                'attr' => $fa,
-                'data' => arr\replace(entity\item($entity['id']), $get['filter']),
-                'q' => $get['q'],
-                'search' => !!$block['cfg']['search'],
-            ],
+            'cfg' => ['attr' => $fa, 'data' => arr\replace(entity\item($entity['id']), $get['filter']), 'q' => $get['q'], 'search' => !!$block['cfg']['search']],
         ]));
     }
 
@@ -240,12 +227,7 @@ function index(array $block): string
         $pager = layout\render(layout\cfg([
             'type' => 'pager',
             'parent_id' => $block['id'],
-            'cfg' => [
-                'cur' => $get['cur'],
-                'limit' => $limit,
-                'limits' => $block['cfg']['limit'],
-                'size' => $size,
-            ],
+            'cfg' => ['cur' => $get['cur'], 'limit' => $limit, 'limits' => $block['cfg']['limit'], 'size' => $size],
         ]));
     }
 
@@ -256,7 +238,7 @@ function index(array $block): string
         $data = entity\all($entity['id'], $crit, $opt);
     }
 
-    $var = [
+    return app\tpl($block['tpl'], [
         'attr' => $attrs,
         'data' => $data,
         'filter' => $filter,
@@ -267,9 +249,7 @@ function index(array $block): string
         'sort' => $sort,
         'title' => $block['cfg']['title'] ? str\enc(app\i18n($block['cfg']['title'])) : null,
         'url' => $request['url'],
-    ];
-
-    return app\tpl($block['tpl'], $var);
+    ]);
 }
 
 /**
@@ -293,8 +273,8 @@ function pager(array $block): string
     $total = $block['cfg']['limit'] && ($c = (int) ceil($block['cfg']['size'] / $block['cfg']['limit'])) ? $c : 1;
     $block['cfg']['cur'] = min(max($block['cfg']['cur'], 1), $total);
     $offset = ($block['cfg']['cur'] - 1) * $block['cfg']['limit'];
-    $low = $offset + 1;
     $up = $block['cfg']['limit'] ? min($offset + $block['cfg']['limit'], $block['cfg']['size']) : $block['cfg']['size'];
+    $info = app\i18n('%s to %s of %s', (string) ($offset + 1), (string) $up, (string) $block['cfg']['size']);
     $min = max(1, min($block['cfg']['cur'] - intdiv($block['cfg']['pages'], 2), $total - $block['cfg']['pages'] + 1));
     $max = min($min + $block['cfg']['pages'] - 1, $total);
     $limits = [];
@@ -302,11 +282,7 @@ function pager(array $block): string
 
     foreach ($block['cfg']['limits'] as $k => $l) {
         if (is_int($l) && $l >= 0) {
-            $limits[] = [
-                'name' => $l ?: app\i18n('All'),
-                'url' => app\url($url, ['cur' => null, 'limit' => $k === 0 ? null : $l], true),
-                'active' => $l === $block['cfg']['limit']
-            ];
+            $limits[] = ['name' => $l ?: app\i18n('All'), 'url' => app\url($url, ['cur' => null, 'limit' => $k === 0 ? null : $l], true), 'active' => $l === $block['cfg']['limit']];
         }
     }
 
@@ -324,13 +300,7 @@ function pager(array $block): string
         $links[] = ['name' => app\i18n('Next'), 'url' => app\url($url, ['cur' => $block['cfg']['cur'] + 1], true), 'class' => 'next'];
     }
 
-    $var = [
-        'info' => app\i18n('%s to %s of %s', (string) $low, (string) $up, (string) $block['cfg']['size']),
-        'limits' => count($limits) > 1 ? $limits : [],
-        'links' => $links
-    ];
-
-    return app\tpl($block['tpl'], $var);
+    return app\tpl($block['tpl'], ['info' => $info, 'limits' => count($limits) > 1 ? $limits : [], 'links' => $links]);
 }
 
 /**
@@ -371,9 +341,7 @@ function content(array $block): string
         }
     }
 
-    $class = str_replace('_', '-', $block['cfg']['data']['entity_id']);
-
-    return $out ? app\html('section', ['id' => $block['id'], 'class' => $class], $out) : '';
+    return $out ? app\html('section', ['id' => $block['id'], 'class' => str_replace('_', '-', $block['cfg']['data']['entity_id'])], $out) : '';
 }
 
 /**
@@ -382,12 +350,12 @@ function content(array $block): string
 function edit(array $block): string
 {
     $app = app\data('app');
+    $old = null;
+    $p = [];
 
     if (!($entity = $app['entity']) || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
-
-    $old = null;
 
     if (($id = $app['id']) && !($old = entity\one($entity['id'], [['id', $id]]))) {
         app\msg('Nothing to edit');
@@ -406,8 +374,6 @@ function edit(array $block): string
         }
     }
 
-    $p = [];
-
     if ($id) {
         $p = [$old];
 
@@ -420,9 +386,8 @@ function edit(array $block): string
 
     $p[] = $data;
     $data = arr\replace(entity\item($entity['id']), ...$p);
-    $var = ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)];
 
-    return app\tpl($block['tpl'], $var);
+    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
 }
 
 /**
@@ -452,9 +417,8 @@ function profile(array $block): string
     }
 
     $data = $data ? arr\replace($account + ['_error' => []], $data) : $account;
-    $var = ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)];
 
-    return app\tpl($block['tpl'], $var);
+    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
 }
 
 /**
@@ -476,9 +440,8 @@ function login(array $block): string
     $entity = app\cfg('entity', 'account');
     $a = ['username' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0]];
     $attrs = arr\extend(arr\extract($entity['attr'], ['username', 'password']), $a);
-    $var = ['attr' => $attrs, 'data' => [], 'multipart' => false];
 
-    return app\tpl($block['tpl'], $var);
+    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => [], 'multipart' => false]);
 }
 
 /**
