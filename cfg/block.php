@@ -39,12 +39,12 @@ return [
      */
     'view' => [
         'call' => 'block\view',
-        'tpl' => 'view.phtml',
         'cfg' => [
             'attr_id' => [],
             'data' => [],
             'entity_id' => null,
             'id' => null,
+            'mode' => null,
         ],
     ],
     'banner' => [
