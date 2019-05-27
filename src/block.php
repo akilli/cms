@@ -166,7 +166,7 @@ function index(array $block): string
     $crit = $block['cfg']['crit'];
     $opt = ['order' => $block['cfg']['order']];
     $get = arr\replace(['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], $request['get']);
-    $filter = '';
+    $filter = null;
     $sort = $block['cfg']['sort'] ? null : false;
     $pager = null;
     $limit = is_int($get['limit']) && $get['limit'] >= 0 && in_array($get['limit'], $block['cfg']['limit']) ? $get['limit'] : $block['cfg']['limit'][0];
