@@ -42,6 +42,9 @@ return [
         'tpl' => 'view.phtml',
         'cfg' => [
             'attr_id' => [],
+            'data' => [],
+            'entity_id' => null,
+            'id' => null,
         ],
     ],
     'banner' => [

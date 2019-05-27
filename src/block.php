@@ -110,18 +110,28 @@ function meta(array $block): string
  */
 function view(array $block): string
 {
-    $app = app\data('app');
-
-    if (!($entity = $app['entity']) || !($id = $app['id'])) {
+    if (!$block['cfg']['attr_id']) {
         return '';
     }
 
-    $attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']);
-    $data = $app['page'] ?: entity\one($entity['id'], [['id', $id]]);
-    $data['name'] = empty($attrs['title']) && $data['title'] ? $data['title'] : $data['name'];
-    $var = ['attr' => $attrs, 'data' => $data];
+    $app = app\data('app');
+    $data = $block['cfg']['data'];
 
-    return $var['attr'] && $var['data'] ? app\tpl($block['tpl'], $var) : '';
+    if (!$data && (($entityId = $block['cfg']['entity_id']) && ($id = $block['cfg']['id']) || ($entityId = $app['entity_id']) && ($id = $app['id']))) {
+        $data = entity\one($entityId, [['id', $id]]);
+    }
+
+    $entity = $data['_entity'] ?? null;
+
+    if (!$entity || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
+        return '';
+    }
+
+    if (in_array('page', [$entity['id'], $entity['parent_id']]) && empty($attrs['title']) && $data['title']) {
+        $data['name'] = $data['title'];
+    }
+
+    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => $data]);
 }
 
 /**
