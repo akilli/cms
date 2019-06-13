@@ -17,17 +17,18 @@ use DomainException;
 /**
  * Account data
  */
-function data_account(array $data): array
+function data_account(): array
 {
     $id = (int) session\get('account');
 
     if ($id && ($data = entity\one('account', [['id', $id]]))) {
-        $role = entity\one('role', [['id', $data['role_id']]]);
-        $data['priv'] = $role['priv'];
+        $data['priv'] = entity\one('role', [['id', $data['role_id']]])['priv'];
         $data['priv'][] = '_user_';
         $data['admin'] = in_array('_all_', $data['priv']);
     } else {
+        $data = entity\item('account');
         $data['priv'] = ['_guest_'];
+        $data['admin'] = false;
         session\set('account', null);
     }
 
