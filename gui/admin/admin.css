@@ -290,7 +290,6 @@ html:not([data-action=browser]) #content .block-index video {
  * Message
  */
 .msg {
-    margin: 0 -0.75rem;
     padding: 0.75rem;
     color: #fff;
     background: #000;
