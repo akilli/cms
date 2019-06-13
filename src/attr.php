@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace attr;
 
 use app;
-use arr;
 use entity;
 use str;
 use DomainException;
@@ -20,7 +19,7 @@ function frontend(array $data, array $attr): string
     $label = ['for' => $attr['html']['id']];
     $error = '';
 
-    if ($attr['multiple']) {
+    if (in_array($attr['backend'], ['int[]', 'text[]'])) {
         $attr['html']['name'] .= '[]';
         $attr['html']['multiple'] = true;
     }
@@ -83,6 +82,7 @@ function validator(array $data, array $attr)
     $vp = is_array($val) ? implode("\n", $val) : (string) $val;
     $vs = is_array($val) ? $val : [$val];
     $crit = $data['_old'] ? [[$attr['id'], $val], ['id', $data['_old']['id'], APP['op']['!=']]] : [[$attr['id'], $val]];
+    $strlen = in_array($attr['backend'], ['json', 'text', 'text[]', 'varchar']);
 
     if ($pattern && $val !== null && $val !== '' && !preg_match($pattern, $vp)) {
         throw new DomainException(app\i18n('Value contains invalid characters'));
@@ -93,7 +93,7 @@ function validator(array $data, array $attr)
     }
 
     foreach ($vs as $v) {
-        $length = in_array($attr['backend'], ['json', 'text', 'varchar']) ? mb_strlen($v) : $v;
+        $length = $strlen ? mb_strlen($v) : $v;
 
         if ($attr['min'] > 0 && $length < $attr['min'] || $attr['max'] > 0 && $length > $attr['max']) {
             throw new DomainException(app\i18n('Value out of range'));
@@ -156,14 +156,6 @@ function cast($val, array $attr)
         return null;
     }
 
-    if ($attr['backend'] === 'json') {
-        return is_array($val) || $val && ($val = json_decode($val, true)) ? $val : [];
-    }
-
-    if ($attr['multiple']) {
-        return is_array($val) || ($val = trim((string) $val, '{}')) && ($val = explode(',', $val)) ? arr\map(__FUNCTION__, $val, ['multiple' => false] + $attr) : [];
-    }
-
     if ($attr['backend'] === 'bool') {
         return (bool) $val;
     }
@@ -174,6 +166,18 @@ function cast($val, array $attr)
 
     if ($attr['backend'] === 'decimal') {
         return (float) $val;
+    }
+
+    if ($attr['backend'] === 'int[]') {
+        return array_map('intval', is_array($val) ? $val : explode(',', trim((string) $val, '{}')));
+    }
+
+    if ($attr['backend'] === 'text[]') {
+        return array_map('strval', is_array($val) ? $val : explode(',', trim((string) $val, '{}')));
+    }
+
+    if ($attr['backend'] === 'json') {
+        return is_array($val) || $val && ($val = json_decode($val, true)) ? $val : [];
     }
 
     return (string) $val;
@@ -192,7 +196,7 @@ function ignorable(array $data, array $attr): bool
  */
 function html(array $attr, string $key = 'attr'): array
 {
-    $minmax = in_array($attr['backend'], ['json', 'text', 'varchar']) ? ['minlength', 'maxlength'] : ['min', 'max'];
+    $minmax = in_array($attr['backend'], ['json', 'text', 'text[]', 'varchar']) ? ['minlength', 'maxlength'] : ['min', 'max'];
     $name = $key === 'attr' ? $attr['id'] : $key . '[' . $attr['id'] . ']';
     $html = ['id' => $key . '-' . $attr['id'], 'name' => $name, 'data-type' => $attr['type']];
 

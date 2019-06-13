@@ -41,18 +41,6 @@ function order(array $data, array $order): array
 }
 
 /**
- * Applies callback to all elements of given array with passing additional params
- */
-function map(callable $call, array $data, ...$params): array
-{
-    foreach ($data as $key => $val) {
-        $data[$key] = $call($val, ...$params);
-    }
-
-    return $data;
-}
-
-/**
  * Replaces elements from passed arrays into the base array without adding new keys
  */
 function replace(array $base, array $data, array ...$add): array

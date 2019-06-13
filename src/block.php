@@ -212,7 +212,7 @@ function index(array $block): string
             $attr = $fa[$attrId];
             $op = APP['op']['='];
 
-            if ($attr['multiple'] || !$attr['opt'] && in_array($attr['backend'], ['json', 'text', 'varchar'])) {
+            if (in_array($attr['backend'], ['int[]', 'text[]']) || !$attr['opt'] && in_array($attr['backend'], ['json', 'text', 'varchar'])) {
                 $op = APP['op']['~'];
             } elseif ($get['filter'][$attrId] && in_array($attr['backend'], ['datetime', 'date'])) {
                 $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], $attr['cfg.frontend'], $attr['cfg.backend']);

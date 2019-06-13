@@ -57,11 +57,10 @@ return [
         'opt' => 'opt\entity',
     ],
     'entity[]' => [
-        'backend' => 'int',
+        'backend' => 'int[]',
         'frontend' => 'frontend\select',
         'validator' => 'validator\multientity',
         'viewer' => 'viewer\multientity',
-        'multiple' => true,
         'opt' => 'opt\entity',
     ],
     'entity_file' => [
@@ -110,12 +109,11 @@ return [
         'frontend' => 'frontend\int',
     ],
     'int[]' => [
-        'backend' => 'int',
+        'backend' => 'int[]',
         'frontend' => 'frontend\checkbox',
         'filter' => 'frontend\select',
         'validator' => 'validator\opt',
         'viewer' => 'viewer\opt',
-        'multiple' => true,
     ],
     'json' => [
         'backend' => 'json',
@@ -179,12 +177,11 @@ return [
         'validator' => 'validator\text',
     ],
     'text[]' => [
-        'backend' => 'varchar',
+        'backend' => 'text[]',
         'frontend' => 'frontend\checkbox',
         'filter' => 'frontend\select',
         'validator' => 'validator\opt',
         'viewer' => 'viewer\opt',
-        'multiple' => true,
     ],
     'textarea' => [
         'backend' => 'text',

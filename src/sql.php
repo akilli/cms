@@ -205,7 +205,7 @@ function val($val, array $attr)
         $val = (string) $val;
     } elseif (is_array($val)) {
         $val = '{' . implode(',', arr\change($val, null, 'NULL')) . '}';
-    } elseif ($attr['multiple'] && $val !== null) {
+    } elseif (in_array($attr['backend'], ['int[]', 'text[]']) && $val !== null) {
         $val = '{' . $val . '}';
     }
 
@@ -244,7 +244,7 @@ function crit(array $crit, array $attrs): array
 
             if ($val === null && in_array($op, [APP['op']['='], APP['op']['!=']])) {
                 $or[] = $attr['id'] . ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
-            } elseif (in_array($op, [APP['op']['='], APP['op']['!=']]) && is_array($val) && $attr['backend'] !== 'json' && !$attr['multiple']) {
+            } elseif (in_array($op, [APP['op']['='], APP['op']['!=']]) && is_array($val) && !in_array($attr['backend'], ['int[]', 'json', 'text[]'])) {
                 $not = $op === APP['op']['!='] ? ' NOT' : '';
                 $null = $attr['id'] . ' IS' . $not . ' NULL';
 
@@ -268,12 +268,12 @@ function crit(array $crit, array $attrs): array
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' ' . $op . ' ' . $p;
-            } elseif (in_array($op, [APP['op']['~'], APP['op']['!~']]) && ($attr['backend'] === 'json' || $attr['multiple'])) {
+            } elseif (in_array($op, [APP['op']['~'], APP['op']['!~']]) && in_array($attr['backend'], ['int[]', 'json', 'text[]'])) {
                 $p = $param . ++$count;
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' @> ' . $p . ($op === APP['op']['!~'] ? ' IS FALSE' : '');
-            } elseif (in_array($op, [APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']]) && $attr['multiple']) {
+            } elseif (in_array($op, [APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']]) && in_array($attr['backend'], ['int[]', 'text[]'])) {
                 $n = is_array($val) ? max(0, count($val) - 1) : 0;
                 $p = $param . ++$count;
                 $val = val($val, $attr);
