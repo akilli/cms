@@ -174,7 +174,6 @@ define('APP', [
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ],
-    'redirect' => [301, 302, 307, 308],
     'thumb' => '.thumb',
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'url' => [

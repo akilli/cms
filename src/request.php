@@ -9,14 +9,9 @@ use DomainException;
 /**
  * Redirect
  */
-function redirect(string $url = '/', int $code = null): void
+function redirect(string $url = '/', int $code = 302): void
 {
-    if ($code && in_array($code, APP['redirect'])) {
-        header('Location: ' . $url, true, $code);
-    } else {
-        header('Location: ' . $url);
-    }
-
+    header('Location: ' . $url, true, $code);
     exit;
 }
 
