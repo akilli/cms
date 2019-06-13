@@ -56,6 +56,14 @@ return [
         'viewer' => 'viewer\entity',
         'opt' => 'opt\entity',
     ],
+    'entity[]' => [
+        'backend' => 'int',
+        'frontend' => 'frontend\select',
+        'validator' => 'validator\multientity',
+        'viewer' => 'viewer\multientity',
+        'multiple' => true,
+        'opt' => 'opt\entity',
+    ],
     'entity_file' => [
         'backend' => 'int',
         'frontend' => 'frontend\browser',
@@ -114,14 +122,6 @@ return [
         'frontend' => 'frontend\json',
         'filter' => 'frontend\text',
         'viewer' => 'viewer\json',
-    ],
-    'multientity' => [
-        'backend' => 'int',
-        'frontend' => 'frontend\select',
-        'validator' => 'validator\multientity',
-        'viewer' => 'viewer\multientity',
-        'multiple' => true,
-        'opt' => 'opt\entity',
     ],
     'password' => [
         'backend' => 'varchar',

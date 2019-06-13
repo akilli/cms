@@ -133,14 +133,14 @@ function load_entity(array $data, array $ext): array
             if (empty($attr['name'])
                 || empty($attr['type'])
                 || empty($cfg[$attr['type']])
-                || in_array($attr['type'], ['entity', 'multientity']) && empty($attr['ref'])
+                || in_array($attr['type'], ['entity', 'entity[]']) && empty($attr['ref'])
                 || !empty($attr['ref']) && (empty($data[$attr['ref']]['attr']['id']['type']) || empty($cfg[$data[$attr['ref']]['attr']['id']['type']]))
             ) {
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
             // Auto-determine type from reference ID attribute
-            if (in_array($attr['type'], ['entity', 'multientity'])) {
+            if (in_array($attr['type'], ['entity', 'entity[]'])) {
                 $attr['backend'] = $cfg[$data[$attr['ref']]['attr']['id']['type']]['backend'];
             }
 

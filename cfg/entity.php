@@ -306,7 +306,7 @@ return [
             ],
             'path' => [
                 'name' => 'Path',
-                'type' => 'multientity',
+                'type' => 'entity[]',
                 'auto' => true,
                 'ref' => 'page',
             ],
