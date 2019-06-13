@@ -85,13 +85,7 @@ function opt($val, array $attr): string
  */
 function entity(int $val, array $attr): string
 {
-    if ($attr['ref'] !== 'page_content') {
-        return entity\one($attr['ref'], [['id', $val]], ['select' => ['name']])['name'];
-    }
-
-    $data = entity\one($attr['ref'], [['id', $val]], ['select' => ['name', 'pos']]);
-
-    return attr\viewer($data, $data['_entity']['attr']['pos']) . ' ' . $data['name'];
+    return entity\one($attr['ref'], [['id', $val]], ['select' => ['name']])['name'];
 }
 
 /**
