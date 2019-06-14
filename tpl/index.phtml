@@ -33,20 +33,12 @@ use attr;
             $entityId = $entity && in_array($data['_entity']['id'], [$entity['parent_id'], 'version']) ? $entity['id'] : $data['_entity']['id'];
             $id = $var('mode') === 'browser' ? ($entity && $entity['parent_id'] === 'block' ? $data['entity_id'] . '-' : '') . $data['id'] : null;
             $src = $entity && $entity['parent_id'] === 'file' ? $data['url'] : null;
+            $url = $data['url'] ?? url($entityId . '/view/' . $data['id']);
+            $link = !$var('mode') && allowed($entityId . '/view') ? $url : null;
             ?>
         <article<?php if ($id):?> data-id="<?=$id;?>"<?php if ($src):?> data-src="<?=$src;?>"<?php endif;?> title="<?=i18n('Select item');?>"<?php endif;?>>
             <?php foreach ($var('attr') as $attr):?>
-                <?php if ($attr['id'] === 'name'):?>
-            <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-                    <?php if (!$var('mode') && allowed($entityId . '/view')):?>
-                <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>"><?=attr\viewer($data, $attr);?></a>
-                    <?php else:?>
-                <?=attr\viewer($data, $attr);?>
-                    <?php endif;?>
-            </h3>
-                <?php else:?>
-            <?=attr\wrapper($data, $attr, $var('mode') === 'admin');?>
-                <?php endif;?>
+            <?=attr\wrapper($data, $attr, $attr['id'] === 'name' ? $link : null, true, false, $var('mode') === 'admin');?>
             <?php endforeach;?>
             <?php if ($var('mode') === 'admin'):?>
             <footer>

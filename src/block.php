@@ -333,18 +333,8 @@ function content(array $block): string
     $out = '';
 
     foreach ($attrs as $attr) {
-        if (!$html = attr\viewer($data, $attr)) {
-            continue;
-        } elseif ($attr['id'] === 'title') {
-            $html = $data['link'] ? app\html('a', ['href' => $data['link']], $html) : $html;
-            $out .= app\html('h2', [], $html);
-        } elseif ($attr['id'] === 'media') {
-            $class = preg_match('#^<(audio|iframe|video)#', $html, $match) ? $match[1] : 'image';
-            $html = $data['link'] && $class === 'image' ? app\html('a', ['href' => $data['link']], $html) : $html;
-            $out .= app\html('figure', ['class' => $class], $html);
-        } else {
-            $out .= app\html('div', ['class' => $attr['id']], $html);
-        }
+        $link = in_array($attr['id'], ['media', 'title']) ? $data['link'] : null;
+        $out .= attr\wrapper($data, $attr, $link, false, true);
     }
 
     return $out ? app\html('section', ['id' => $block['id'], 'class' => str_replace('_', '-', $block['cfg']['data']['entity_id'])], $out) : '';
