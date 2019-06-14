@@ -15,8 +15,8 @@ return [
     'layout.postrender' => [
         'event\layout_postrender' => 10,
     ],
-    'layout.postrender.type.root' => [
-        'event\layout_postrender_root' => 10,
+    'layout.postrender.type.html' => [
+        'event\layout_postrender_html' => 10,
     ],
     'entity.postvalidate' => [
         'event\entity_postvalidate' => 10,

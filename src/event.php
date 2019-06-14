@@ -163,9 +163,9 @@ function layout_postrender(array $data): array
 }
 
 /**
- * Layout postrender root
+ * Layout postrender html
  */
-function layout_postrender_root(array $data): array
+function layout_postrender_html(array $data): array
 {
     $data['html'] = contentfilter\block($data['html']);
     $data['html'] = contentfilter\email($data['html']);

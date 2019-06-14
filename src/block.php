@@ -25,9 +25,9 @@ function container(array $block): string
 }
 
 /**
- * Root Container
+ * HTML
  */
-function root(): string
+function html(): string
 {
     $app = app\data('app');
     $a = ['lang' => APP['lang'], 'data-action' => $app['action'], 'data-entity' => $app['entity_id'], 'data-parent' => $app['parent_id'], 'data-url' => app\data('request', 'url')];

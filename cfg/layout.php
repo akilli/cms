@@ -6,7 +6,7 @@ return [
     '_all_' => [
         // Root Container
         'root' => [
-            'type' => 'root',
+            'type' => 'html',
         ],
         // Root Blocks
         'head' => [

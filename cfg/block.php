@@ -9,8 +9,8 @@ return [
             'tag' => null,
         ],
     ],
-    'root' => [
-        'call' => 'block\root',
+    'html' => [
+        'call' => 'block\html',
     ],
     /**
      * Content
