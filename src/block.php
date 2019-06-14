@@ -121,22 +121,7 @@ function view(array $block): string
     $html = '';
 
     foreach ($attrs as $attrId => $attr) {
-        $a = ['data-attr' => $attrId, 'data-type' => $attr['type']];
-
-        if (!$out = attr\viewer($data, $attr)) {
-            continue;
-        } elseif ($attrId === 'name') {
-            $html .= app\html('h2', $a, $out);
-        } elseif ($attrId === 'aside') {
-            $html .= app\html('aside', $a, $out);
-        } elseif (($attr['uploadable'] || in_array($attr['type'], ['entity_file', 'iframe'])) && preg_match('#^<(audio|iframe|img|video)#', $out)) {
-            $html .= app\html('figure', $a, $out);
-        } elseif (in_array($attr['type'], ['date', 'datetime', 'time'])) {
-            $a += ($val = $data[$attrId] ?? null) && $val !== $out ? ['datetime' => $val] : [];
-            $html .= app\html('time', $a, $out);
-        } else {
-            $html .= app\html('div', $a, $out);
-        }
+        $html .= attr\wrapper($data, $attr);
     }
 
     return $html;

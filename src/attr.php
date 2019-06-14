@@ -120,6 +120,37 @@ function viewer(array $data, array $attr): string
 }
 
 /**
+ * Wrapper
+ */
+function wrapper(array $data, array $attr, bool $empty = false): string
+{
+    if (!($out = viewer($data, $attr)) && !$empty) {
+        return '';
+    }
+
+    $a = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
+
+    if ($attr['id'] === 'name') {
+        return app\html('h2', $a, $out);
+    }
+
+    if ($attr['id'] === 'aside') {
+        return app\html('aside', $a, $out);
+    }
+
+    if (($attr['uploadable'] || in_array($attr['type'], ['entity_file', 'iframe'])) && preg_match('#^<(audio|iframe|img|video)#', $out)) {
+        return app\html('figure', $a, $out);
+    }
+
+    if (in_array($attr['type'], ['date', 'datetime', 'time'])) {
+        $a += ($val = $data[$attr['id']] ?? null) && $val !== $out ? ['datetime' => $val] : [];
+        return app\html('time', $a, $out);
+    }
+
+    return app\html('div', $a, $out);
+}
+
+/**
  * Option
  */
 function opt(array $data, array $attr): callable

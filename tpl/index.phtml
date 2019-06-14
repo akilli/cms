@@ -36,27 +36,16 @@ use attr;
             ?>
         <article<?php if ($id):?> data-id="<?=$id;?>"<?php if ($src):?> data-src="<?=$src;?>"<?php endif;?> title="<?=i18n('Select item');?>"<?php endif;?>>
             <?php foreach ($var('attr') as $attr):?>
-                <?php
-                $val = $data[$attr['id']] ?? null;
-                $html = attr\viewer($data, $attr);
-                ?>
-                <?php if ($var('mode') !== 'admin' && !$html) continue;?>
                 <?php if ($attr['id'] === 'name'):?>
             <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
                     <?php if (!$var('mode') && allowed($entityId . '/view')):?>
-                <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>"><?=$html;?></a>
+                <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>"><?=attr\viewer($data, $attr);?></a>
                     <?php else:?>
-                <?=$html;?>
+                <?=attr\viewer($data, $attr);?>
                     <?php endif;?>
             </h3>
-                <?php elseif (($attr['uploadable'] || in_array($attr['type'], ['entity_file', 'iframe'])) && preg_match('#^<(audio|iframe|img|video)#', $html)):?>
-            <figure data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></figure>
-                <?php elseif (in_array($attr['type'], ['date', 'datetime', 'time'])):?>
-            <time data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"<?php if ($val !== $html):?> datetime="<?=$val;?>"<?php endif;?>><?=$html;?></time>
-                <?php elseif ($attr['id'] === 'aside'):?>
-            <aside data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></aside>
                 <?php else:?>
-            <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>"><?=$html;?></div>
+            <?=attr\wrapper($data, $attr, $var('mode') === 'admin');?>
                 <?php endif;?>
             <?php endforeach;?>
             <?php if ($var('mode') === 'admin'):?>
