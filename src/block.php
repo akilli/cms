@@ -19,7 +19,7 @@ use DomainException;
 function container(array $block): string
 {
     $html = layout\children($block['id']);
-    $attrs = $block['parent_id'] === 'root' ? [] : ['id' => $block['id']];
+    $attrs = $block['parent_id'] === 'html' ? [] : ['id' => $block['id']];
 
     return $html && $block['cfg']['tag'] ? app\html($block['cfg']['tag'], $attrs, $html) : $html;
 }

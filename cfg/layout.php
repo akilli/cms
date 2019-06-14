@@ -5,13 +5,13 @@ return [
      ******************************************************************************************************************/
     '_all_' => [
         // Root Container
-        'root' => [
+        'html' => [
             'type' => 'html',
         ],
         // Root Blocks
         'head' => [
             'type' => 'container',
-            'parent_id' => 'root',
+            'parent_id' => 'html',
             'sort' => 10,
             'cfg' => [
                 'tag' => 'head',
@@ -19,7 +19,7 @@ return [
         ],
         'body' => [
             'type' => 'container',
-            'parent_id' => 'root',
+            'parent_id' => 'html',
             'sort' => 20,
             'image' => ['sizes' => '100vw'],
             'cfg' => [

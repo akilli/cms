@@ -41,7 +41,7 @@ function response(): string
         http_response_code(404);
     }
 
-    return layout\block('root');
+    return layout\block('html');
 }
 
 /**
