@@ -124,6 +124,7 @@ return [
         ],
         'published' => [
             'type' => 'index',
+            'tpl' => 'admin.phtml',
             'parent_id' => 'content',
             'sort' => 30,
             'cfg' => [
@@ -131,13 +132,13 @@ return [
                 'crit' => [['status', 'published']],
                 'entity_id' => 'page',
                 'limit' => 10,
-                'mode' => 'admin',
                 'order' => ['timestamp' => 'desc', 'id' => 'desc'],
                 'title' => 'Published Pages',
             ],
         ],
         'pending' => [
             'type' => 'index',
+            'tpl' => 'admin.phtml',
             'parent_id' => 'content',
             'sort' => 40,
             'cfg' => [
@@ -145,7 +146,6 @@ return [
                 'crit' => [['status', 'pending']],
                 'entity_id' => 'version',
                 'limit' => 10,
-                'mode' => 'admin',
                 'order' => ['timestamp' => 'asc', 'id' => 'asc'],
                 'title' => 'Pending Versions',
             ],
@@ -199,10 +199,10 @@ return [
         ],
         'index' => [
             'type' => 'index',
+            'tpl' => 'admin.phtml',
             'parent_id' => 'content',
             'sort' => 40,
             'cfg' => [
-                'mode' => 'admin',
                 'pager' => 'bottom',
                 'search' => ['name'],
                 'sort' => true,
@@ -278,11 +278,11 @@ return [
         ],
         'index' => [
             'type' => 'index',
+            'tpl' => 'browser.phtml',
             'parent_id' => 'content',
             'sort' => 30,
             'cfg' => [
                 'limit' => 20,
-                'mode' => 'browser',
                 'pager' => 'bottom',
                 'search' => ['name'],
             ],

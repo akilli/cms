@@ -249,7 +249,6 @@ function index(array $block): string
         'data' => $data,
         'filter' => $filter,
         'link' => $block['cfg']['link'],
-        'mode' => in_array($block['cfg']['mode'], ['admin', 'browser']) ? $block['cfg']['mode'] : null,
         'pager-bottom' => in_array($block['cfg']['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($block['cfg']['pager'], ['both', 'top']) ? $pager : null,
         'sort' => $sort,

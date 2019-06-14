@@ -4,26 +4,28 @@ use attr;
 /** @var callable $var */
 ?>
 <section class="block-index">
-    <?php if ($var('title') && $var('link')):?>
-    <h2><a href="<?=$var('link');?>"><?=$var('title');?></a></h2>
-    <?php elseif ($var('title')):?>
+    <?php if ($var('title')):?>
     <h2><?=$var('title');?></h2>
     <?php endif;?>
     <?=$var('filter');?>
     <?=$var('pager-top');?>
+    <?php if (!$var('data')):?>
+    <p><?=i18n('No entries found');?></p>
+    <?php else:?>
     <div class="content">
         <?php foreach ($var('data') as $data):?>
             <?php
             $entity = !empty($data['entity_id']) ? cfg('entity', $data['entity_id']) : null;
-            $entityId = $entity && in_array($data['_entity']['id'], [$entity['parent_id'], 'version']) ? $entity['id'] : $data['_entity']['id'];
-            $url = $data['url'] ?? url($entityId . '/view/' . $data['id']);
+            $id = ($entity && $entity['parent_id'] === 'block' ? $data['entity_id'] . '-' : '') . $data['id'];
+            $src = $entity && $entity['parent_id'] === 'file' ? $data['url'] : null;
             ?>
-        <article>
+        <article data-id="<?=$id;?>"<?php if ($src):?> data-src="<?=$src;?>"<?php endif;?> title="<?=i18n('Select item');?>">
             <?php foreach ($var('attr') as $attr):?>
-            <?=attr\wrapper($data, $attr, $attr['id'] === 'name' && allowed($entityId . '/view') ? $url : null, true);?>
+            <?=attr\wrapper($data, $attr, null, true);?>
             <?php endforeach;?>
         </article>
         <?php endforeach;?>
     </div>
+    <?php endif;?>
     <?=$var('pager-bottom');?>
 </section>

@@ -63,7 +63,6 @@ return [
             'filter' => [],
             'limit' => [10, 20, 50, 0],
             'link' => null,
-            'mode' => null,
             'order' => ['id' => 'desc'],
             'pager' => null,
             'parent_id' => null,
