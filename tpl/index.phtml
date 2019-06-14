@@ -43,7 +43,7 @@ use attr;
                 <?php if ($var('mode') !== 'admin' && !$html) continue;?>
                 <?php if ($attr['id'] === 'name'):?>
             <h3 data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-                    <?php if (data('app', 'public') && allowed($entityId . '/view')):?>
+                    <?php if (!$var('mode') && allowed($entityId . '/view')):?>
                 <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>"><?=$html;?></a>
                     <?php else:?>
                 <?=$html;?>
