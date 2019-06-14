@@ -52,7 +52,7 @@ function title(array $block): string
 
     if ($block['cfg']['text']) {
         $text = app\i18n($block['cfg']['text']);
-    } elseif ($app['public']) {
+    } elseif ($app['area'] === '_public_') {
         $text = $app['page']['title'] ?? $app['page']['name'] ?? '';
     } else {
         $text = $app['entity']['name'] ?? '';

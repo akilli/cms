@@ -90,7 +90,6 @@ define('APP', [
             'invalid' => false,
             'page' => null,
             'parent_id' => null,
-            'public' => false,
         ],
         'request' => [
             'base' => null,
