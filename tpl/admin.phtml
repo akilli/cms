@@ -7,7 +7,12 @@ use attr;
     <?php if ($var('title')):?>
     <h2><?=$var('title');?></h2>
     <?php endif;?>
-    <?=$var('filter');?>
+    <?php if ($var('filter')):?>
+    <details>
+        <summary><?=i18n('Filter');?></summary>
+        <?=$var('filter');?>
+    </details>
+    <?php endif;?>
     <?=$var('pager-top');?>
     <?php if (!$var('data')):?>
     <p><?=i18n('No entries found');?></p>
