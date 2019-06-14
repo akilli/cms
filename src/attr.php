@@ -169,11 +169,11 @@ function cast($val, array $attr)
     }
 
     if ($attr['backend'] === 'int[]') {
-        return array_map('intval', is_array($val) ? $val : explode(',', trim((string) $val, '{}')));
+        return is_array($val) || ($val = trim((string) $val, '{}')) && ($val = explode(',', $val)) ? array_map('intval', $val) : [];
     }
 
     if ($attr['backend'] === 'text[]') {
-        return array_map('strval', is_array($val) ? $val : explode(',', trim((string) $val, '{}')));
+        return is_array($val) || ($val = trim((string) $val, '{}')) && ($val = explode(',', $val)) ? array_map('strval', $val) : [];
     }
 
     if ($attr['backend'] === 'json') {
