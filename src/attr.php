@@ -116,11 +116,7 @@ function viewer(array $data, array $attr): string
 
     $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.viewer']]));
 
-    if ($attr['viewer']) {
-        return $attr['viewer']($val, $attr);
-    }
-
-    return str\enc((string) $val);
+    return $attr['viewer'] ? $attr['viewer']($val, $attr) : str\enc((string) $val);
 }
 
 /**
