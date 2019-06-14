@@ -44,7 +44,6 @@ return [
             'data' => [],
             'entity_id' => null,
             'id' => null,
-            'mode' => null,
         ],
     ],
     'banner' => [

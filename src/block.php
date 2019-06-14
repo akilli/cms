@@ -123,7 +123,7 @@ function view(array $block): string
     foreach ($attrs as $attrId => $attr) {
         $a = ['data-attr' => $attrId, 'data-type' => $attr['type']];
 
-        if (!($out = attr\viewer($data, $attr)) && $block['cfg']['mode'] !== 'admin') {
+        if (!$out = attr\viewer($data, $attr)) {
             continue;
         } elseif ($attrId === 'name') {
             $html .= app\html(app\data('layout', $block['parent_id'])['type'] === 'index' ? 'h3' : 'h2', $a, $out);
