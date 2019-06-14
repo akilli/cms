@@ -139,15 +139,6 @@ function load_entity(array $data, array $ext): array
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
-            // Auto-determine type from reference ID attribute
-            if ($attr['type'] === 'entity') {
-                $attr['backend'] = $cfg[$data[$attr['ref']]['attr']['id']['type']]['backend'];
-            } elseif ($attr['type'] === 'entity[]' && $cfg[$data[$attr['ref']]['attr']['id']['type']]['backend'] === 'int') {
-                $attr['backend'] = 'int[]';
-            } elseif ($attr['type'] === 'entity[]' && $cfg[$data[$attr['ref']]['attr']['id']['type']]['backend'] === 'varchar') {
-                $attr['backend'] = 'text[]';
-            }
-
             $attr = arr\replace(APP['cfg']['attr'], $cfg[$attr['type']], $attr, ['id' => $attrId, 'name' => app\i18n($attr['name'])]);
 
             if (!in_array($attr['backend'], APP['backend'])
