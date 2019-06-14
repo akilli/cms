@@ -126,7 +126,7 @@ function view(array $block): string
         if (!$out = attr\viewer($data, $attr)) {
             continue;
         } elseif ($attrId === 'name') {
-            $html .= app\html(app\data('layout', $block['parent_id'])['type'] === 'index' ? 'h3' : 'h2', $a, $out);
+            $html .= app\html('h2', $a, $out);
         } elseif ($attrId === 'aside') {
             $html .= app\html('aside', $a, $out);
         } elseif (($attr['uploadable'] || in_array($attr['type'], ['entity_file', 'iframe'])) && preg_match('#^<(audio|iframe|img|video)#', $out)) {
