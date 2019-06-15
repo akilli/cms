@@ -349,6 +349,23 @@ a[data-sort=desc]::after {
 }
 
 /**
+ * Login
+ */
+html[data-url="/account/login"] main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 30rem;
+    height: 100vh;
+    margin: 0 auto;
+}
+
+html[data-url="/account/login"] main > * {
+    width: 100%;
+}
+
+/**
  * Screen
  */
 @media screen {
@@ -442,23 +459,6 @@ a[data-sort=desc]::after {
     .pager {
         display: flex;
         justify-content: space-between;
-    }
-
-    /**
-     * Login
-     */
-    html[data-url="/account/login"] main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        max-width: 30rem;
-        height: 100vh;
-        margin: 0 auto;
-    }
-
-    html[data-url="/account/login"] main > * {
-        width: 100%;
     }
 
     /**
