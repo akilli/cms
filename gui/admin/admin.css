@@ -447,6 +447,11 @@ html[data-url="/account/login"] main > * {
     .block-index article > * {
         border-bottom: dotted 0.0625rem;
     }
+
+    .block-index article footer a {
+        display: inline-block;
+        height: 1rem;
+    }
 }
 
 /**
