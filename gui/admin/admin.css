@@ -137,10 +137,10 @@ textarea {
 }
 
 select {
+    background: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: none;
 }
 
 select[multiple] {
@@ -377,6 +377,8 @@ html[data-url="/account/login"] main > * {
     a[data-action=view],
     a[data-action=browser],
     a[data-action=remove] {
+        display: inline-block;
+        height: 1rem;
         font-size: 0;
     }
 
@@ -446,11 +448,6 @@ html[data-url="/account/login"] main > * {
 
     .block-index article > * {
         border-bottom: dotted 0.0625rem;
-    }
-
-    .block-index article footer a {
-        display: inline-block;
-        height: 1rem;
     }
 }
 
