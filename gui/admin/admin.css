@@ -341,6 +341,14 @@ a[data-sort=desc]::after {
 }
 
 /**
+ * Filter
+ */
+.filter {
+    margin: 0.75rem 0 0.75rem 1rem;
+    font-size: 0.875rem;
+}
+
+/**
  * Pager
  */
 .pager {
