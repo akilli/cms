@@ -40,7 +40,6 @@ return [
     'Entity %s is readonly' => 'Entität %s ist schreibgeschützt',
     'Error' => 'Fehler',
     'File Extension' => 'Dateiendung',
-    'File upload failed for %s' => 'Datei %s konnte nicht hochgeladen werden',
     'Files' => 'Dateien',
     'Filter' => 'Filter',
     'Homepage' => 'Startseite',

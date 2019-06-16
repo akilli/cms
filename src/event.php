@@ -237,9 +237,9 @@ function entity_postsave_file(array $data): array
     $thumb = APP['thumb'] . '.';
 
     if ($uploadable && ($item = app\data('request', 'file')['url'] ?? null) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . '.' . $data['ext'])))) {
-        throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
+        throw new DomainException(app\i18n('Could not upload %s', $item['name']));
     } elseif (($item = app\data('request', 'file')['thumb_url'] ?? null) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . $thumb . $data['thumb_ext'])))) {
-        throw new DomainException(app\i18n('File upload failed for %s', $item['name']));
+        throw new DomainException(app\i18n('Could not upload %s', $item['name']));
     }
 
     if (array_key_exists('thumb_url', $data)
