@@ -131,6 +131,13 @@ table p {
 }
 
 /**
+ * Header
+ */
+#header .name img {
+    height: 10.5rem;
+}
+
+/**
  * Menu
  */
 #menu {
