@@ -352,7 +352,6 @@ a[data-sort=desc]::after {
  * Pager
  */
 .pager {
-    padding: 0.75rem 0;
     font-size: 0.875rem;
 }
 
