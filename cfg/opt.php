@@ -1,11 +1,11 @@
 <?php
 return [
     'block' => [
-        'top' => 'Top Area',
-        'main' => 'Main Area',
-        'content' => 'Main Content',
-        'sidebar' => 'Sidebar',
-        'bottom' => 'Bottom Area',
+        'top' => 'top',
+        'main' => 'main',
+        'content' => 'content',
+        'sidebar' => 'sidebar',
+        'bottom' => 'bottom',
     ],
     'bool' => ['No', 'Yes'],
     'media' => [
