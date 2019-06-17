@@ -70,16 +70,14 @@ function priv(): array
  */
 function status(array $data, array $attr): array
 {
-    $opt = ['draft' => 'Draft', 'pending' => 'Pending'];
+    $opt = app\cfg('opt', 'status');
+    $old = $data['_old'][$attr['id']] ?? null;
 
-    if (app\allowed($data['_entity']['id'] . '-publish')) {
-        $opt['published'] = 'Published';
-        $old = $data['_old'][$attr['id']] ?? null;
-
-        if (in_array($old, ['published', 'archived'])) {
-            $opt['archived'] = 'Archived';
-        }
+    if (!app\allowed($data['_entity']['id'] . '-publish')) {
+        unset($opt['published'], $opt['archived']);
+    } elseif (!in_array($old, ['published', 'archived'])) {
+        unset($opt['archived']);
     }
 
-    return array_map('app\i18n', $opt);
+    return $opt;
 }
