@@ -17,7 +17,7 @@ function preload(): array
 
     load('i18n');
 
-    foreach ([app\path('cfg'), app\path('ext.cfg')] as $path) {
+    foreach (array_filter([app\path('cfg'), app\path('ext.cfg')], 'is_dir') as $path) {
         foreach (array_diff(scandir($path), ['.', '..']) as $name) {
             $id = basename($name, '.php');
             $file = $path . '/' . $name;
@@ -44,34 +44,28 @@ function load(string $id): array
         $data = file\load(app\path('cfg', $id . '.php'));
         $ext = file\load(app\path('ext.cfg', $id . '.php'));
 
-        switch ($id) {
-            case 'attr':
-                $cfg = $data + $ext;
-                break;
-            case 'block':
-                $cfg = load_block($data, $ext);
-                break;
-            case 'entity':
-                $cfg = load_entity($data, $ext);
-                break;
-            case 'layout':
-                $cfg = load_layout($data, $ext);
-                break;
-            case 'opt':
-                $cfg = load_opt($data, $ext);
-                break;
-            case 'priv':
-                $cfg = load_priv($data, $ext);
-                break;
-            case 'toolbar':
-                $cfg = load_toolbar($data, $ext);
-                break;
-            case 'db':
-            case 'event':
-                $cfg = arr\extend($data, $ext);
-                break;
-            default:
-                $cfg = array_replace($data, $ext);
+        if (!$data) {
+            $cfg = $ext;
+        } elseif ($id === 'attr') {
+            $cfg = $data + $ext;
+        } elseif ($id === 'block') {
+            $cfg = load_block($data, $ext);
+        } elseif ($id === 'entity') {
+            $cfg = load_entity($data, $ext);
+        } elseif ($id === 'layout') {
+            $cfg = load_layout($data, $ext);
+        } elseif ($id === 'opt') {
+            $cfg = load_opt($data, $ext);
+        } elseif ($id === 'priv') {
+            $cfg = load_priv($data, $ext);
+        } elseif ($id === 'toolbar') {
+            $cfg = load_toolbar($data, $ext);
+        } elseif (in_array($id, ['db', 'event'])) {
+            $cfg = arr\extend($data, $ext);
+        } elseif ($id === 'tr') {
+            $cfg = array_replace($data, $ext);
+        } else {
+            $cfg = arr\replace($data, $ext);
         }
     }
 
