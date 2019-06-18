@@ -62,10 +62,8 @@ function load(string $id): array
             $cfg = load_toolbar($data, $ext);
         } elseif (in_array($id, ['db', 'event'])) {
             $cfg = arr\extend($data, $ext);
-        } elseif ($id === 'tr') {
-            $cfg = array_replace($data, $ext);
         } else {
-            $cfg = arr\replace($data, $ext);
+            $cfg = array_replace($data, $ext);
         }
     }
 
