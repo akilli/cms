@@ -374,8 +374,7 @@ function edit(array $block): string
 
         if (in_array('page', [$entity['id'], $entity['parent_id']])) {
             $v = entity\one('version', [['page_id', $id]], ['select' => APP['version'], 'order' => ['timestamp' => 'desc']]);
-            unset($v['_old'], $v['_entity']);
-            $p[] = $v;
+            $p[] = entity\uninit($v);
         }
     }
 
@@ -411,7 +410,7 @@ function profile(array $block): string
         }
     }
 
-    $data = $data ? arr\replace($account + ['_error' => []], $data) : $account;
+    $data = $data ? arr\replace($account, $data) : $account;
 
     return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
 }

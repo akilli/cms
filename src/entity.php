@@ -105,13 +105,11 @@ function save(string $entityId, array & $data): bool
     }
 
     $id = $data['id'] ?? null;
-    $tmp = $data;
-    $tmp['_old'] = [];
-    $tmp['_entity'] = $entity;
+    $tmp = init($entity, $data);
 
     if ($id && ($old = one($entity['id'], [['id', $id]]))) {
-        $tmp['_old'] = $old;
-        unset($tmp['entity_id'], $tmp['_old']['_entity'], $tmp['_old']['_old']);
+        $tmp['_old'] = uninit($old);
+        unset($tmp['entity_id']);
     } elseif ($entity['parent_id']) {
         $tmp['entity_id'] = $entity['id'];
     }
@@ -151,7 +149,7 @@ function save(string $entityId, array & $data): bool
 
     $tmp = event('postvalidate', $tmp);
 
-    if (!empty($tmp['_error'])) {
+    if ($tmp['_error']) {
         $data['_error'] = $tmp['_error'];
         app\msg('Could not save data');
         return false;
@@ -246,7 +244,7 @@ function item(string $entityId): array
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 
-    return array_fill_keys(array_keys($entity['attr']), null) + ['_old' => [], '_entity' => $entity, '_error' => []];
+    return init($entity, array_fill_keys(array_keys($entity['attr']), null));
 }
 
 /**
@@ -258,9 +256,25 @@ function load(array $entity, array $data): array
         $data[$attrId] = attr\cast($val, $entity['attr'][$attrId]);
     }
 
-    $data += ['_old' => $data, '_entity' => $entity];
+    return event('load', init($entity, $data, true));
+}
 
-    return event('load', $data);
+/**
+ * Init entity data
+ */
+function init(array $entity, array $data, bool $isOld = false): array
+{
+    return array_replace($data, ['_old' => $isOld ? $data : [], '_entity' => $entity, '_error' => []]);
+}
+
+/**
+ * Uninit entity data
+ */
+function uninit(array $data): array
+{
+    unset($data['_old'], $data['_entity'], $data['_error']);
+
+    return $data;
 }
 
 /**
