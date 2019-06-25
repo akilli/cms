@@ -329,13 +329,13 @@ function content(array $block): string
         return '';
     }
 
-    $out = '';
+    $html = '';
 
     foreach ($attrs as $attr) {
-        $out .= attr\wrapper($data, $attr, ['class' => true] + (in_array($attr['id'], ['media', 'title']) ? ['link' => $data['link']] : []));
+        $html .= attr\wrapper($data, $attr, ['class' => true] + (in_array($attr['id'], ['media', 'title']) ? ['link' => $data['link']] : []));
     }
 
-    return $out ? app\html('section', ['id' => $block['id'], 'class' => str_replace('_', '-', $block['cfg']['data']['entity_id'])], $out) : '';
+    return $html ? app\html('section', ['id' => $block['id'], 'class' => str_replace('_', '-', $block['cfg']['data']['entity_id'])], $html) : '';
 }
 
 /**

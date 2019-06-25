@@ -122,9 +122,9 @@ function json(?array $val, array $attr): string
  */
 function bool(?bool $val, array $attr): string
 {
-    $out = app\html('input', ['id' => $attr['html']['id'], 'name' => $attr['html']['name'], 'type' => 'hidden']);
+    $html = app\html('input', ['id' => $attr['html']['id'], 'name' => $attr['html']['name'], 'type' => 'hidden']);
 
-    return $out . app\html('input', ['type' => 'checkbox', 'value' => 1, 'checked' => !!$val] + $attr['html']);
+    return $html . app\html('input', ['type' => 'checkbox', 'value' => 1, 'checked' => !!$val] + $attr['html']);
 }
 
 /**
@@ -133,15 +133,15 @@ function bool(?bool $val, array $attr): string
 function checkbox(?array $val, array $attr): string
 {
     $val = (array) $val;
-    $out = app\html('input', ['id' => $attr['html']['id'], 'name' => str_replace('[]', '', $attr['html']['name']), 'type' => 'hidden']);
+    $html = app\html('input', ['id' => $attr['html']['id'], 'name' => str_replace('[]', '', $attr['html']['name']), 'type' => 'hidden']);
 
     foreach ($attr['opt']() as $k => $v) {
         $id = $attr['html']['id'] . '-' . $k;
         $a = ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'checkbox', 'value' => $k, 'checked' => !!array_keys($val, $k, true)] + $attr['html'];
-        $out .= app\html('input', $a) . app\html('label', ['for' => $id], $v);
+        $html .= app\html('input', $a) . app\html('label', ['for' => $id], $v);
     }
 
-    return $out;
+    return $html;
 }
 
 /**
@@ -150,15 +150,15 @@ function checkbox(?array $val, array $attr): string
 function radio($val, array $attr): string
 {
     $val = is_bool($val) ? (int) $val : $val;
-    $out = '';
+    $html = '';
 
     foreach ($attr['opt']() as $k => $v) {
         $id = $attr['html']['id'] . '-' . $k;
         $a = ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'radio', 'value' => $k, 'checked' => $k === $val] + $attr['html'];
-        $out .= app\html('input', $a) . app\html('label', ['for' => $id], $v);
+        $html .= app\html('input', $a) . app\html('label', ['for' => $id], $v);
     }
 
-    return $out;
+    return $html;
 }
 
 /**
@@ -174,13 +174,13 @@ function select($val, array $attr): string
         $val = [$val];
     }
 
-    $out = !empty($attr['html']['multiple']) ? '' : app\html('option', ['value' => ''], app\i18n('Please choose'));
+    $html = !empty($attr['html']['multiple']) ? '' : app\html('option', ['value' => ''], app\i18n('Please choose'));
 
     foreach ($attr['opt']() as $k => $v) {
-        $out .= app\html('option', ['value' => $k, 'selected' => !!array_keys($val, $k, true)], $v);
+        $html .= app\html('option', ['value' => $k, 'selected' => !!array_keys($val, $k, true)], $v);
     }
 
-    return app\html('select', $attr['html'], $out);
+    return app\html('select', $attr['html'], $html);
 }
 
 /**
@@ -190,13 +190,13 @@ function browser(?int $val, array $attr): string
 {
     $browse = app\i18n('Browse');
     $remove = app\i18n('Remove');
-    $out = app\html('div', ['id' => $attr['html']['id'] . '-file'], $val ? $attr['viewer']($val, $attr) : '');
-    $out .= app\html('input', ['type' => 'hidden', 'value' => $val ?: ''] + $attr['html']);
-    $out .= app\html('a', ['data-id' => $attr['html']['id'], 'data-ref' => $attr['ref'], 'data-action' => 'browser', 'title' => $browse], $browse);
-    $out .= ' ';
-    $out .= app\html('a', ['data-id' => $attr['html']['id'], 'data-action' => 'remove', 'title' => $remove], $remove);
+    $html = app\html('div', ['id' => $attr['html']['id'] . '-file'], $val ? $attr['viewer']($val, $attr) : '');
+    $html .= app\html('input', ['type' => 'hidden', 'value' => $val ?: ''] + $attr['html']);
+    $html .= app\html('a', ['data-id' => $attr['html']['id'], 'data-ref' => $attr['ref'], 'data-action' => 'browser', 'title' => $browse], $browse);
+    $html .= ' ';
+    $html .= app\html('a', ['data-id' => $attr['html']['id'], 'data-action' => 'remove', 'title' => $remove], $remove);
 
-    return  $out;
+    return  $html;
 }
 
 /**
@@ -204,16 +204,16 @@ function browser(?int $val, array $attr): string
  */
 function file(?string $val, array $attr): string
 {
-    $out = app\html('div', ['class' => 'view'], $val ? $attr['viewer']($val, $attr) : '');
+    $html = app\html('div', ['class' => 'view'], $val ? $attr['viewer']($val, $attr) : '');
 
     if (!$attr['required']) {
         $id = $attr['html']['id'] . '-delete';
         $del = app\html('input', ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'checkbox', 'value' => '']);
         $del .= app\html('label', ['for' => $id], app\i18n('Delete'));
-        $out .= app\html('div', ['class' => 'delete'], $del);
+        $html .= app\html('div', ['class' => 'delete'], $del);
     }
 
-    $out .= app\html('input', ['type' => 'file', 'accept' => implode(', ', $attr['accept'])] + $attr['html']);
+    $html .= app\html('input', ['type' => 'file', 'accept' => implode(', ', $attr['accept'])] + $attr['html']);
 
-    return $out;
+    return $html;
 }

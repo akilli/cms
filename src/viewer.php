@@ -69,15 +69,15 @@ function opt($val, array $attr): string
 {
     $val = is_array($val) ? $val : [$val];
     $opt = $attr['opt']();
-    $out = '';
+    $html = '';
 
     foreach ($val as $v) {
         if (isset($opt[$v])) {
-            $out .= ($out ? ', ' : '') . $opt[$v];
+            $html .= ($html ? ', ' : '') . $opt[$v];
         }
     }
 
-    return $out;
+    return $html;
 }
 
 /**
