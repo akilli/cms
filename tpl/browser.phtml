@@ -21,7 +21,7 @@ use attr;
             ?>
         <article data-id="<?=$id;?>"<?php if ($src):?> data-src="<?=$src;?>"<?php endif;?> title="<?=i18n('Select item');?>">
             <?php foreach ($var('attr') as $attr):?>
-            <?=attr\wrapper($data, $attr, null, true);?>
+            <?=attr\wrapper($data, $attr, ['h3' => true]);?>
             <?php endforeach;?>
         </article>
         <?php endforeach;?>

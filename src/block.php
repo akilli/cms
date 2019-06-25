@@ -332,8 +332,7 @@ function content(array $block): string
     $out = '';
 
     foreach ($attrs as $attr) {
-        $link = in_array($attr['id'], ['media', 'title']) ? $data['link'] : null;
-        $out .= attr\wrapper($data, $attr, $link, false, true);
+        $out .= attr\wrapper($data, $attr, ['class' => true] + (in_array($attr['id'], ['media', 'title']) ? ['link' => $data['link']] : []));
     }
 
     return $out ? app\html('section', ['id' => $block['id'], 'class' => str_replace('_', '-', $block['cfg']['data']['entity_id'])], $out) : '';

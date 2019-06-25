@@ -35,7 +35,7 @@ use attr;
             ?>
         <article>
             <?php foreach ($var('attr') as $attr):?>
-            <?=attr\wrapper($data, $attr, null, true, false, true);?>
+            <?=attr\wrapper($data, $attr, ['h3' => true, 'empty' => true]);?>
             <?php endforeach;?>
             <footer>
                 <?php if (allowed($entityId . '/view')):?>

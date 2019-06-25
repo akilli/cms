@@ -5,6 +5,12 @@ declare(strict_types = 1);
  * Application constants
  */
 define('APP', [
+    'attr.wrapper' => [
+        'class' => false,
+        'empty' => false,
+        'h3' => false,
+        'link' => null,
+    ],
     'backend' => ['bool', 'date', 'datetime', 'decimal', 'int', 'int[]', 'json', 'text', 'text[]', 'time', 'varchar'],
     'cfg' => [
         'attr' => [

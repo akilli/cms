@@ -20,7 +20,7 @@ use attr;
             ?>
         <article>
             <?php foreach ($var('attr') as $attr):?>
-            <?=attr\wrapper($data, $attr, $attr['id'] === 'name' && allowed($entityId . '/view') ? $url : null, true);?>
+            <?=attr\wrapper($data, $attr, ['h3' => true] + ($attr['id'] === 'name' && allowed($entityId . '/view') ? ['link' => $url] : []));?>
             <?php endforeach;?>
         </article>
         <?php endforeach;?>

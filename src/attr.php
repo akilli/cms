@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace attr;
 
 use app;
+use arr;
 use entity;
 use str;
 use DomainException;
@@ -122,20 +123,22 @@ function viewer(array $data, array $attr): string
 /**
  * Wrapper
  */
-function wrapper(array $data, array $attr, string $link = null, bool $h3 = false, bool $class = false, bool $empty = false): string
+function wrapper(array $data, array $attr, array $cfg = []): string
 {
-    if (!($out = viewer($data, $attr)) && !$empty) {
+    $cfg = arr\replace(APP['attr.wrapper'], $cfg);
+
+    if (!($out = viewer($data, $attr)) && !$cfg['empty']) {
         return '';
     }
 
-    $a = $class ? [] : ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
+    $a = $cfg['class'] ? [] : ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
 
-    if ($link && !preg_match('#<(a|audio|details|iframe|video) #', $out)) {
-        $out = app\html('a', ['href' => $link], $out);
+    if ($cfg['link'] && !preg_match('#<(a|audio|details|iframe|video) #', $out)) {
+        $out = app\html('a', ['href' => $cfg['link']], $out);
     }
 
     if (in_array($attr['id'], ['name', 'title'])) {
-        return app\html($h3 ? 'h3' : 'h2', $a, $out);
+        return app\html($cfg['h3'] ? 'h3' : 'h2', $a, $out);
     }
 
     if ($attr['id'] === 'aside') {
@@ -144,7 +147,7 @@ function wrapper(array $data, array $attr, string $link = null, bool $h3 = false
 
     if (($attr['uploadable'] || in_array($attr['type'], ['entity_file', 'iframe'])) && preg_match('#<(audio|iframe|img|video)#', $out, $match)) {
         $type = $match[1] === 'img' ? 'image' : $match[1];
-        return app\html('figure', $class ? ['class' => $type] : $a, $out);
+        return app\html('figure', $cfg['class'] ? ['class' => $type] : $a, $out);
     }
 
     if (in_array($attr['type'], ['date', 'datetime', 'time'])) {
@@ -152,7 +155,7 @@ function wrapper(array $data, array $attr, string $link = null, bool $h3 = false
         return app\html('time', $a, $out);
     }
 
-    return app\html('div', $class ? ['class' => $attr['id']] : $a, $out);
+    return app\html('div', $cfg['class'] ? ['class' => $attr['id']] : $a, $out);
 }
 
 /**
