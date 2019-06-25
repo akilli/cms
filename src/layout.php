@@ -65,7 +65,7 @@ function cfg(array $block): array
 }
 
 /**
- * Returns block config for DB block and falls back to content block if no custom type is configured
+ * Returns block config for DB block and falls back to dblock if no custom block type is configured
  *
  * @throws DomainException
  */
