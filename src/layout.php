@@ -61,7 +61,7 @@ function cfg(array $block): array
     unset($block['call'], $type['id']);
     $block['cfg'] = $type['cfg'] ? arr\replace($type['cfg'], $block['cfg'] ?? []) : [];
 
-    return arr\replace(APP['layout'], $type, $block);
+    return arr\replace(APP['data']['layout'], $type, $block);
 }
 
 /**
