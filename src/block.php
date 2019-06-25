@@ -321,9 +321,9 @@ function db(array $block): string
 }
 
 /**
- * Content
+ * Database Block
  */
-function content(array $block): string
+function dblock(array $block): string
 {
     if (!($data = $block['cfg']['data']) || !($attrs = arr\extract($data['_entity']['attr'], $block['cfg']['attr_id']))) {
         return '';

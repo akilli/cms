@@ -102,8 +102,8 @@ return [
             'id' => null,
         ],
     ],
-    'content' => [
-        'call' => 'block\content',
+    'dblock' => [
+        'call' => 'block\dblock',
         'cfg' => [
             'attr_id' => ['title', 'media', 'content'],
             'data' => [],

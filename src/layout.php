@@ -75,7 +75,7 @@ function db(array $data, array $block = []): array
         throw new DomainException(app\i18n('Invalid data'));
     }
 
-    return cfg(['type' => app\cfg('block', $data['entity_id'])['id'] ?? 'content', 'cfg' => ['data' => $data]] + $block);
+    return cfg(['type' => app\cfg('block', $data['entity_id'])['id'] ?? 'dblock', 'cfg' => ['data' => $data]] + $block);
 }
 
 /**
