@@ -158,15 +158,15 @@ define('APP', [
     ],
     'path' => [
         'cfg' => '/app/cfg',
+        'gui' => '/app/gui',
+        'src' => '/app/src',
+        'tpl' => '/app/tpl',
         'ext.cfg' => '/data/ext/cfg',
         'ext.gui' => '/data/ext/gui',
         'ext.src' => '/data/ext/src',
         'ext.tpl' => '/data/ext/tpl',
         'file' => '/data/file',
-        'gui' => '/app/gui',
-        'src' => '/app/src',
         'tmp' => '/tmp',
-        'tpl' => '/app/tpl',
     ],
     'pdo' => [
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
