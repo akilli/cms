@@ -16,6 +16,21 @@ details, dialog, menu, summary {
     outline: 0 none;
 }
 
+[role=button],
+button,
+input,
+select,
+textarea {
+    vertical-align: middle;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+    background: none repeat scroll 0 0 transparent;
+    border: 0;
+}
+
 *,
 ::before,
 ::after {
@@ -210,20 +225,6 @@ thead th {
 /**
  * Form
  */
-[role=button],
-button,
-input,
-select,
-textarea {
-    vertical-align: middle;
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-    margin: 0;
-    padding: 0;
-    border: 0;
-}
-
 [role=button],
 [role=button]:hover {
     display: inline-block;
