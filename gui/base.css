@@ -88,42 +88,52 @@ nav ul {
 /**
  * Text
  */
-pre {
-    font-family: monospace;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
-
 code,
 kbd,
+pre,
 samp {
     font-family: monospace;
 }
 
-blockquote {
-    font-style: italic;
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
-q {
-    quotes: '“' '”' '‘' '’';
-    font-style: italic;
-}
-
+blockquote,
 cite,
 dfn,
+em,
+q,
 i,
 var {
     font-style: italic;
 }
 
-em {
-    font-style: italic;
+b,
+em,
+strong {
     font-weight: bold;
 }
 
-b,
-strong {
-    font-weight: bold;
+small,
+sub,
+sup {
+    font-size: smaller;
+}
+
+q {
+    quotes: '“' '”' '‘' '’';
+}
+
+sub {
+    vertical-align: sub;
+    line-height: normal;
+}
+
+sup {
+    vertical-align: super;
+    line-height: normal;
 }
 
 s,
@@ -139,22 +149,6 @@ ins {
 abbr[title],
 dfn[title] {
     border-bottom: thin dotted;
-}
-
-small {
-    font-size: smaller;
-}
-
-sub {
-    vertical-align: sub;
-    line-height: normal;
-    font-size: smaller;
-}
-
-sup {
-    vertical-align: super;
-    line-height: normal;
-    font-size: smaller;
 }
 
 a {
