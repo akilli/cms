@@ -11,7 +11,7 @@ a, abbr, b, cite, code, data, dfn, em, i, kbd, mark, q, s, samp, small, span, st
 del, ins,
 audio, canvas, embed, iframe, img, object, picture, video,
 caption, table, tbody, td, tfoot, th, thead, tr,
-fieldset, form, label, legend, output,
+button, fieldset, form, input, label, legend, output, select, textarea,
 details, dialog, menu, summary {
     vertical-align: baseline;
     margin: 0;
@@ -23,18 +23,10 @@ details, dialog, menu, summary {
 }
 
 [role=button],
-button,
-input,
-select,
-textarea {
+audio, canvas, embed, iframe, img, object, picture, video,
+th, thead td,
+button, input, label, select, textarea {
     vertical-align: middle;
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-    margin: 0;
-    padding: 0;
-    background: none repeat scroll 0 0 transparent;
-    border: 0;
 }
 
 [hidden],
@@ -187,7 +179,6 @@ picture,
 video {
     display: inline-block;
     max-width: 100%;
-    vertical-align: middle;
 }
 
 figure > :not(figcaption) {
@@ -217,7 +208,6 @@ td {
 
 th,
 thead td {
-    vertical-align: middle;
     text-align: left;
     font-weight: bold;
 }
