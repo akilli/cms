@@ -1,3 +1,9 @@
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
 html,
 address, article, aside, body, footer, h1, h2, h3, h4, h5, h6, header, nav, section,
 blockquote, dd, div, dl, dt, figcaption, figure, hr, li, main, ol, p, pre, ul,
@@ -31,12 +37,36 @@ textarea {
     border: 0;
 }
 
-*,
-::before,
-::after {
-    box-sizing: border-box;
+[hidden],
+dialog {
+    display: none;
 }
 
+[role=button],
+[type=button],
+[type=reset],
+[type=submit],
+a,
+button,
+label,
+summary {
+    cursor: pointer;
+}
+
+abbr[title],
+del[title],
+dfn[title],
+ins[title] {
+    cursor: help;
+}
+
+[draggable=true] {
+    cursor: move;
+}
+
+/**
+ * Global
+ */
 :root {
     font-size: 16px;
 }
@@ -54,25 +84,6 @@ body {
 main {
     display: block;
     hyphens: auto;
-}
-
-[hidden] {
-    display: none;
-}
-
-[draggable=true] {
-    cursor: move;
-}
-
-[role=button],
-[type=button],
-[type=reset],
-[type=submit],
-a,
-button,
-label,
-summary {
-    cursor: pointer;
 }
 
 /**
@@ -136,12 +147,6 @@ ins {
 abbr[title],
 dfn[title] {
     border-bottom: thin dotted;
-    cursor: help;
-}
-
-del[title],
-ins[title] {
-    cursor: help;
 }
 
 small {
@@ -252,10 +257,6 @@ option[selected] {
 /**
  * Interactive
  */
-dialog {
-    display: none;
-}
-
 dialog[open] {
     display: block;
 }
