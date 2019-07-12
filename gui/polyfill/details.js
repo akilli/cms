@@ -11,7 +11,7 @@
             return;
         }
 
-        document.documentElement.setAttribute('data-shim-details', 'true');
+        document.documentElement.setAttribute('data-shim-details', '');
 
         [].forEach.call(details, function (item) {
             // Define open property
@@ -44,10 +44,11 @@
             // Wrap text nodes
             let b = 0;
             let child;
+            let span;
 
             while (child = item.childNodes[b++]) {
                 if (child.nodeType === 3 && /[^\t\n\r ]/.test(child.data)) {
-                    let span = document.createElement('span');
+                    span = document.createElement('span');
                     item.insertBefore(span, child);
                     span.textContent = child.data;
                     item.removeChild(child);
