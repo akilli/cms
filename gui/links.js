@@ -5,7 +5,7 @@
 
 (function (document) {
     document.addEventListener('DOMContentLoaded', function () {
-        Array.prototype.forEach.call(document.querySelectorAll('a[href]:not([role])'), function (item) {
+        [].forEach.call(document.querySelectorAll('a[href]:not([role])'), function (item) {
             const href = item.getAttribute('href');
             const ext = href.match(/^https?:\/\//);
 

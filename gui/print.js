@@ -8,7 +8,7 @@
      * Prepares print version
      */
     function printBefore() {
-        Array.prototype.forEach.call(document.getElementsByTagName('details'), function (item) {
+        [].forEach.call(document.getElementsByTagName('details'), function (item) {
             if (item.hasAttribute('open')) {
                 item.setAttribute('data-open', '');
             } else {
@@ -16,7 +16,7 @@
             }
         });
 
-        Array.prototype.forEach.call(document.querySelectorAll('a[href^="/"]'), function (item) {
+        [].forEach.call(document.querySelectorAll('a[href^="/"]'), function (item) {
             item.setAttribute('data-href', item.getAttribute('href'));
             item.setAttribute('href', item.href);
         });
@@ -26,7 +26,7 @@
      * Restores screen version
      */
     function printAfter() {
-        Array.prototype.forEach.call(document.getElementsByTagName('details'), function (item) {
+        [].forEach.call(document.getElementsByTagName('details'), function (item) {
             if (item.hasAttribute('data-open')) {
                 item.removeAttribute('data-open');
             } else {
@@ -34,7 +34,7 @@
             }
         });
 
-        Array.prototype.forEach.call(document.querySelectorAll('a[data-href]'), function (item) {
+        [].forEach.call(document.querySelectorAll('a[data-href]'), function (item) {
             item.setAttribute('href', item.getAttribute('data-href'));
             item.removeAttribute('data-href');
         });

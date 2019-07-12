@@ -18,7 +18,7 @@
             return;
         }
 
-        Array.prototype.forEach.call(document.querySelectorAll('html[data-action=browser] #content .block-index article'), function (item) {
+        [].forEach.call(document.querySelectorAll('html[data-action=browser] #content .block-index article'), function (item) {
             const msg = {};
 
             Object.getOwnPropertyNames(item.dataset).forEach(function (name) {
@@ -36,7 +36,7 @@
     function open () {
         const suffix = '-file';
 
-        Array.prototype.forEach.call(document.querySelectorAll('a[data-action=browser][data-ref]'), function (item) {
+        [].forEach.call(document.querySelectorAll('a[data-action=browser][data-ref]'), function (item) {
             item.addEventListener('click', function () {
                 const entity = item.getAttribute('data-ref');
 
@@ -77,7 +77,7 @@
                 });
             });
         });
-        Array.prototype.forEach.call(document.querySelectorAll('a[data-action=remove]'), function (item) {
+        [].forEach.call(document.querySelectorAll('a[data-action=remove]'), function (item) {
             item.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 const input = document.getElementById(id);

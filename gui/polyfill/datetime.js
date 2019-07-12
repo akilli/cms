@@ -16,7 +16,7 @@
             return;
         }
 
-        Array.prototype.forEach.call(inputs, function (item) {
+        [].forEach.call(inputs, function (item) {
             const date = document.createElement('input');
             const time = document.createElement('input');
             const change = function () {

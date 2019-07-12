@@ -5,7 +5,7 @@
 
 (function (document, app, CKEDITOR) {
     document.addEventListener('DOMContentLoaded', function () {
-        Array.prototype.forEach.call(document.querySelectorAll('textarea[data-type=rte]'), function (item) {
+        [].forEach.call(document.querySelectorAll('textarea[data-type=rte]'), function (item) {
             CKEDITOR.replace(item, {
                 blockApi: id => typeof id === 'string' && id ? '/block/api/' + id : null,
                 blockBrowser: '/block/browser',

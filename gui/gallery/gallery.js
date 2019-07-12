@@ -5,7 +5,7 @@
 
 (function (document, Flickity) {
     document.addEventListener('DOMContentLoaded', function () {
-        Array.prototype.forEach.call(document.getElementsByClassName('gallery'), function (gallery) {
+        [].forEach.call(document.getElementsByClassName('gallery'), function (gallery) {
             const content = gallery.querySelector('.content');
 
             if (!content) {
@@ -27,14 +27,14 @@
             if (!!nav) {
                 const button = nav.getElementsByTagName('button');
 
-                Array.prototype.forEach.call(button, function (b) {
+                [].forEach.call(button, function (b) {
                     b.addEventListener('click', function (ev) {
-                        flickity.select(Array.prototype.indexOf.call(button, ev.target));
+                        flickity.select([].indexOf.call(button, ev.target));
                     });
                 });
 
                 flickity.on('select', function (current) {
-                    Array.prototype.forEach.call(button, function (b, index) {
+                    [].forEach.call(button, function (b, index) {
                         if (index === current) {
                             b.classList.add('is-selected');
                         } else {
