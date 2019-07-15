@@ -33,7 +33,7 @@ function mail(string $from, string $to, string $replyTo = null, string $subj, st
     if ($cfg['auth'] === 'plain') {
         send($client, 'AUTH PLAIN', [334]);
         send($client, base64_encode("\0" . $cfg['user'] . "\0" . $cfg['password']), [235]);
-    } elseif ($cfg['auth'] === 'plain') {
+    } elseif ($cfg['auth'] === 'login') {
         send($client, 'AUTH LOGIN', [334]);
         send($client, base64_encode($cfg['user']), [334]);
         send($client, base64_encode($cfg['password']), [235]);
