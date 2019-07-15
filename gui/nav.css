@@ -1,17 +1,7 @@
 nav[data-toggle] {
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 100;
-}
-
-@supports (position: sticky) {
-    nav[data-toggle] {
-        position: sticky;
-        top: 0;
-    }
-
-    nav[data-toggle=open] {
-        position: relative;
-    }
 }
 
 nav[data-toggle=open] {
