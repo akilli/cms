@@ -184,7 +184,6 @@ define('APP', [
         'file' => '/file/',
         'gui' => '/gui/',
     ],
-    'version' => ['name', 'title', 'content', 'aside', 'account_id', 'status', 'timestamp'],
 ]);
 
 /**

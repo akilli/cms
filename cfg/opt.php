@@ -14,10 +14,4 @@ return [
         'file_image' => 'Images',
         'file_video' => 'Videos',
     ],
-    'status' => [
-        'draft' => 'Draft',
-        'pending' => 'Pending',
-        'published' => 'Published',
-        'archived' => 'Archived',
-    ],
  ];

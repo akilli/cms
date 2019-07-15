@@ -15,7 +15,7 @@ use attr;
         <?php foreach ($var('data') as $data):?>
             <?php
             $entity = !empty($data['entity_id']) ? cfg('entity', $data['entity_id']) : null;
-            $entityId = $entity && in_array($data['_entity']['id'], [$entity['parent_id'], 'version']) ? $entity['id'] : $data['_entity']['id'];
+            $entityId = $entity && $data['_entity']['id'] === $entity['parent_id'] ? $entity['id'] : $data['_entity']['id'];
             $url = $data['url'] ?? url($entityId . '/view/' . $data['id']);
             ?>
         <article>

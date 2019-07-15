@@ -1,12 +1,6 @@
 START TRANSACTION;
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Type
--- ---------------------------------------------------------------------------------------------------------------------
-
-CREATE TYPE status AS enum ('draft', 'pending', 'published', 'archived');
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Table
 -- ---------------------------------------------------------------------------------------------------------------------
 
@@ -86,7 +80,6 @@ CREATE TABLE page (
     level int NOT NULL DEFAULT 0,
     path int[] NOT NULL DEFAULT '{}',
     account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
-    status status NOT NULL,
     timestamp timestamp(0) NOT NULL DEFAULT current_timestamp,
     UNIQUE (parent_id, slug)
 );
@@ -108,33 +101,7 @@ CREATE INDEX ON page (pos);
 CREATE INDEX ON page (level);
 CREATE INDEX ON page USING GIN (path);
 CREATE INDEX ON page (account_id);
-CREATE INDEX ON page (status);
 CREATE INDEX ON page (timestamp);
-
---
--- Version
---
-
-CREATE TABLE version (
-    id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    entity_id varchar(50) NOT NULL,
-    page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED,
-    title varchar(255) DEFAULT NULL,
-    content text NOT NULL,
-    aside text NOT NULL,
-    account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
-    status status NOT NULL,
-    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
-);
-
-CREATE INDEX ON version (name);
-CREATE INDEX ON version (entity_id);
-CREATE INDEX ON version (page_id);
-CREATE INDEX ON version (title);
-CREATE INDEX ON version (account_id);
-CREATE INDEX ON version (status);
-CREATE INDEX ON version (timestamp);
 
 --
 -- Block
@@ -357,38 +324,6 @@ CREATE INDEX ON layout_page (block_id);
 CREATE INDEX ON layout_page (page_id);
 CREATE INDEX ON layout_page (parent_id);
 CREATE INDEX ON layout_page (sort);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Function
--- ---------------------------------------------------------------------------------------------------------------------
-
---
--- Version
---
-
-CREATE FUNCTION version_reset() RETURNS void AS $$
-    BEGIN
-        TRUNCATE version RESTART IDENTITY;
-
-        INSERT INTO
-            version
-            (name, entity_id, page_id, title, content, aside, account_id, status, timestamp)
-        SELECT
-            name,
-            entity_id,
-            id AS page_id,
-            title,
-            content,
-            aside,
-            account_id,
-            status,
-            timestamp
-        FROM
-            page
-        ORDER BY
-            id ASC;
-    END;
-$$ LANGUAGE plpgsql;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Trigger Function
@@ -740,142 +675,6 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION page_version_before() RETURNS trigger AS $$
-    DECLARE
-        _aid int;
-        _sta status;
-    BEGIN
-        -- Actually, archived status should not be allowed for new items (INSERTs) after initial setup of DB
-        IF (TG_OP = 'UPDATE' AND NEW.status = 'archived' AND OLD.status != 'published') THEN
-            RAISE EXCEPTION 'Can not archive unpublished or already archived page';
-        END IF;
-
-        -- Archive published version without change
-        IF (TG_OP = 'UPDATE' AND NEW.status = 'archived') THEN
-            _aid := NEW.account_id;
-            NEW := OLD;
-            NEW.account_id := _aid;
-            NEW.status := 'archived';
-        END IF;
-
-        -- Check parent status
-        IF ((TG_OP = 'INSERT' OR coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)) AND NEW.parent_id IS NOT NULL) THEN
-            SELECT
-                status
-            FROM
-                page
-            WHERE
-                id = NEW.parent_id
-            INTO
-                _sta;
-
-            IF (_sta = 'archived') THEN
-                RAISE EXCEPTION 'Can not set archived page as parent';
-            END IF;
-
-            -- If parent is not published yet, the child pages' status must be draft
-            IF (_sta IN ('draft', 'pending')) THEN
-                NEW.status := 'draft';
-            END IF;
-        END IF;
-
-        -- Create new version
-        IF (TG_OP = 'INSERT' OR NEW.name != OLD.name OR NEW.entity_id != OLD.entity_id OR NEW.title != OLD.title OR NEW.content != OLD.content OR NEW.aside != OLD.aside OR NEW.account_id != OLD.account_id OR NEW.status != OLD.status) THEN
-            IF (TG_OP = 'UPDATE') THEN
-                NEW.timestamp := current_timestamp;
-            END IF;
-
-            INSERT INTO
-                version
-                (name, entity_id, page_id, title, content, aside, account_id, status, timestamp)
-            VALUES
-                (NEW.name, NEW.entity_id, NEW.id, NEW.title, NEW.content, NEW.aside, NEW.account_id, NEW.status, NEW.timestamp);
-        END IF;
-
-        -- Don't overwrite published version with a draft
-        IF (TG_OP = 'UPDATE' AND NEW.status IN ('draft', 'pending') AND OLD.status = 'published') THEN
-            RETURN NULL;
-        END IF;
-
-        RETURN NEW;
-    END;
-$$ LANGUAGE plpgsql;
-
-CREATE FUNCTION page_version_after() RETURNS trigger AS $$
-    DECLARE
-        _row RECORD;
-    BEGIN
-        IF (NEW.status != 'archived') THEN
-            RETURN NULL;
-        END IF;
-
-        -- Recursively update child pages
-        FOR _row IN
-            SELECT
-                *
-            FROM
-                page
-            WHERE
-                id != OLD.id
-                AND path @> ARRAY[OLD.id]
-                AND status != 'archived'
-            ORDER BY
-                pos ASC
-        LOOP
-            -- Delete page if it was never published
-            IF (_row.status IN ('draft', 'pending')) THEN
-                DELETE FROM
-                    page
-                WHERE
-                    id = _row.id
-                    OR path @> ARRAY[_row.id];
-
-                CONTINUE;
-            END IF;
-
-            _row.account_id := NEW.account_id;
-            _row.status := 'archived';
-
-            -- Create new version
-            INSERT INTO
-                version
-                (name, entity_id, page_id, title, content, aside, account_id, status)
-            VALUES
-                (_row.name, _row.entity_id, _row.id, _row.title, _row.content, _row.aside, _row.account_id, _row.status);
-
-            -- Update page status
-            UPDATE
-                page
-            SET
-                account_id = _row.account_id,
-                status = _row.status;
-        END LOOP;
-
-        RETURN NULL;
-    END;
-$$ LANGUAGE plpgsql;
-
---
--- Version
---
-
-CREATE FUNCTION version_before() RETURNS trigger AS $$
-    BEGIN
-        IF (TG_OP = 'UPDATE') THEN
-            RAISE EXCEPTION 'Update not allowed';
-        END IF;
-
-        -- Delete old drafts
-        DELETE FROM
-            version
-        WHERE
-            page_id = NEW.page_id
-            AND status IN ('draft', 'pending');
-
-        RETURN NEW;
-    END;
-$$ LANGUAGE plpgsql;
-
 --
 -- Layout
 --
@@ -914,14 +713,6 @@ CREATE TRIGGER file_view AFTER INSERT OR UPDATE OR DELETE ON file FOR EACH STATE
 CREATE TRIGGER page_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_before();
 CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE page_menu_before();
 CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE page_menu_after();
-CREATE TRIGGER page_version_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_version_before();
-CREATE TRIGGER page_version_after AFTER UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_version_after();
-
---
--- Version
---
-
-CREATE TRIGGER version_before BEFORE INSERT OR UPDATE ON version FOR EACH ROW EXECUTE PROCEDURE version_before();
 
 --
 -- Layout

@@ -208,32 +208,17 @@ return [
                 'text' => 'Dashboard',
             ],
         ],
-        'published' => [
+        'updates' => [
             'type' => 'index',
             'tpl' => 'admin.phtml',
             'parent_id' => 'content',
             'sort' => 30,
             'cfg' => [
                 'attr_id' => ['name', 'account_id', 'timestamp'],
-                'crit' => [['status', 'published']],
                 'entity_id' => 'page',
                 'limit' => 10,
                 'order' => ['timestamp' => 'desc', 'id' => 'desc'],
-                'title' => 'Published Pages',
-            ],
-        ],
-        'pending' => [
-            'type' => 'index',
-            'tpl' => 'admin.phtml',
-            'parent_id' => 'content',
-            'sort' => 40,
-            'cfg' => [
-                'attr_id' => ['name', 'account_id', 'timestamp'],
-                'crit' => [['status', 'pending']],
-                'entity_id' => 'version',
-                'limit' => 10,
-                'order' => ['timestamp' => 'asc', 'id' => 'asc'],
-                'title' => 'Pending Versions',
+                'title' => 'Page Updates',
             ],
         ],
     ],
@@ -401,7 +386,7 @@ return [
     'page/admin' => [
         'index' => [
             'cfg' => [
-                'filter' => ['parent_id', 'account_id', 'status'],
+                'filter' => ['parent_id', 'account_id'],
             ],
         ],
     ],
@@ -423,14 +408,14 @@ return [
     'page_article/admin' => [
         'index' => [
             'cfg' => [
-                'attr_id' => ['name', 'parent_id', 'status', 'date'],
+                'attr_id' => ['name', 'parent_id', 'date'],
             ],
         ],
     ],
     'page_article/edit' => [
         'form' => [
             'cfg' => [
-                'attr_id' => ['name', 'slug', 'parent_id', 'status', 'image', 'content', 'aside', 'date', 'meta_title', 'meta_description'],
+                'attr_id' => ['name', 'slug', 'parent_id', 'image', 'content', 'aside', 'date', 'meta_title', 'meta_description'],
             ],
         ],
     ],
@@ -440,14 +425,14 @@ return [
     'page_content/admin' => [
         'index' => [
             'cfg' => [
-                'attr_id' => ['name', 'pos', 'parent_id', 'menu', 'status', 'date'],
+                'attr_id' => ['name', 'pos', 'parent_id', 'menu', 'date'],
             ],
         ],
     ],
     'page_content/edit' => [
         'form' => [
             'cfg' => [
-                'attr_id' => ['name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'status', 'title', 'image', 'content', 'aside', 'meta_title', 'meta_description'],
+                'attr_id' => ['name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'title', 'image', 'content', 'aside', 'meta_title', 'meta_description'],
             ],
         ],
     ],

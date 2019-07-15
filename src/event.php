@@ -65,7 +65,7 @@ function data_app(array $data): array
         || !app\allowed($data['entity_id'] . '/' . $data['action'])
         || $data['entity'] && !in_array($data['action'], $data['entity']['action'])
         || !$data['page'] && in_array($data['action'], ['delete', 'view']) && (!$data['id'] || $data['entity'] && !entity\size($data['entity_id'], [['id', $data['id']]]))
-        || $data['page'] && ($data['page']['disabled'] || $data['page']['status'] !== 'published' && !app\allowed($data['entity_id'] . '/edit'))
+        || $data['page'] && $data['page']['disabled']
         || $data['area'] === '_admin_' && in_array(preg_replace('#^www\.#', '', $request['host']), app\cfg('app', 'blacklist'));
 
     return $data;
@@ -287,22 +287,6 @@ function entity_postvalidate_layout(array $data): array
 
     if (entity\size('layout', $crit)) {
         $data['_error']['name'][] = app\i18n('Name must be unique for selected parent block and page');
-    }
-
-    return $data;
-}
-
-/**
- * Page entity postvalidate status
- */
-function entity_postvalidate_page_status(array $data): array
-{
-    if (!empty($data['parent_id']) && ($parent = entity\one('page', [['id', $data['parent_id']]], ['select' => ['status']]))) {
-        if ($parent['status'] === 'archived' && (!$data['_old'] || $data['parent_id'] !== $data['_old']['parent_id'])) {
-            $data['_error']['parent_id'][] = app\i18n('Cannot assign archived page as parent');
-        } elseif (in_array($parent['status'], ['draft', 'pending']) && !empty($data['status']) && $data['status'] !== 'draft') {
-            $data['_error']['status'][] = app\i18n('Status must be draft, because parent was not published yet');
-        }
     }
 
     return $data;

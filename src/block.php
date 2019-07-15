@@ -175,7 +175,6 @@ function index(array $block): string
 
     if (in_array('page', [$entity['id'], $entity['parent_id']])) {
         if ($app['action'] !== 'admin') {
-            $crit[] = ['status', 'published'];
             $crit[] = ['disabled', false];
         }
 
@@ -237,16 +236,9 @@ function index(array $block): string
         ]));
     }
 
-    if ($entity['id'] === 'version') {
-        $ids = array_column(entity\all($entity['id'], $crit, ['select' => ['page_id']] + $opt), 'page_id');
-        $data = $ids ? entity\all('page', [['id', $ids]]) : [];
-    } else {
-        $data = entity\all($entity['id'], $crit, $opt);
-    }
-
     return app\tpl($block['tpl'], [
         'attr' => $attrs,
-        'data' => $data,
+        'data' => entity\all($entity['id'], $crit, $opt),
         'filter' => $filter,
         'link' => $block['cfg']['link'],
         'pager-bottom' => in_array($block['cfg']['pager'], ['both', 'bottom']) ? $pager : null,
@@ -370,11 +362,6 @@ function edit(array $block): string
 
     if ($id) {
         $p = [$old];
-
-        if (in_array('page', [$entity['id'], $entity['parent_id']])) {
-            $v = entity\one('version', [['page_id', $id]], ['select' => APP['version'], 'order' => ['timestamp' => 'desc']]);
-            $p[] = entity\uninit($v);
-        }
     }
 
     $p[] = $data;
@@ -536,7 +523,7 @@ function nav(array $block): string
 function menu(array $block): string
 {
     if ($block['cfg']['url']) {
-        $page = entity\one('page', [['status', 'published'], ['entity_id', 'page_content'], ['url', $block['cfg']['url']]]);
+        $page = entity\one('page', [['entity_id', 'page_content'], ['url', $block['cfg']['url']]]);
     } else {
         $page = app\data('app', 'page');
     }
@@ -545,7 +532,7 @@ function menu(array $block): string
         return '';
     }
 
-    $rootCrit = [['status', 'published'], ['entity_id', 'page_content']];
+    $rootCrit = [['entity_id', 'page_content']];
     $rootCrit[] = $block['cfg']['submenu'] ? ['id', $page['path'][1]] : ['url', '/'];
     $select = ['id', 'name', 'url', 'disabled', 'pos', 'level'];
     $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
@@ -554,7 +541,7 @@ function menu(array $block): string
         return '';
     }
 
-    $crit = [['status', 'published'], ['entity_id', 'page_content'], ['pos', $root['pos'] . '.', APP['op']['^']]];
+    $crit = [['entity_id', 'page_content'], ['pos', $root['pos'] . '.', APP['op']['^']]];
 
     if ($block['cfg']['submenu']) {
         $parent = $page['path'];
@@ -614,7 +601,7 @@ function breadcrumb(array $block): string
     }
 
     $html = '';
-    $crit = [['status', 'published'], ['entity_id', 'page_content'], ['id', $page['path']]];
+    $crit = [['entity_id', 'page_content'], ['id', $page['path']]];
     $all = entity\all('page', $crit, ['select' => ['id', 'name', 'url', 'disabled'], 'order' => ['level' => 'asc']]);
 
     foreach ($all as $item) {

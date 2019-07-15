@@ -316,11 +316,6 @@ return [
                 'nullable' => true,
                 'ref' => 'account',
             ],
-            'status' => [
-                'name' => 'Status',
-                'type' => 'status',
-                'required' => true,
-            ],
             'timestamp' => [
                 'name' => 'Timestamp',
                 'type' => 'datetime',
@@ -336,64 +331,6 @@ return [
         'name' => 'Content Pages',
         'parent_id' => 'page',
         'action' => ['admin', 'delete', 'edit', 'view'],
-    ],
-    'version' => [
-        'name' => 'Versions',
-        'attr' => [
-            'id' => [
-                'name' => 'ID',
-                'type' => 'serial',
-            ],
-            'name' => [
-                'name' => 'Name',
-                'type' => 'text',
-                'required' => true,
-                'max' => 255,
-            ],
-            'entity_id' => [
-                'name' => 'Entity',
-                'type' => 'text',
-                'required' => true,
-            ],
-            'page_id' => [
-                'name' => 'Page',
-                'type' => 'entity',
-                'required' => true,
-                'ref' => 'page',
-            ],
-            'title' => [
-                'name' => 'Title',
-                'type' => 'text',
-                'nullable' => true,
-                'max' => 255,
-            ],
-            'content' => [
-                'name' => 'Main Content',
-                'type' => 'rte',
-                'required' => true,
-            ],
-            'aside' => [
-                'name' => 'Additional Information',
-                'type' => 'rte',
-                'required' => true,
-            ],
-            'account_id' => [
-                'name' => 'Account',
-                'type' => 'entity',
-                'nullable' => true,
-                'ref' => 'account',
-            ],
-            'status' => [
-                'name' => 'Status',
-                'type' => 'status',
-                'required' => true,
-            ],
-            'timestamp' => [
-                'name' => 'Timestamp',
-                'type' => 'datetime',
-                'required' => true,
-            ],
-        ],
     ],
     'block' => [
         'name' => 'Blocks',

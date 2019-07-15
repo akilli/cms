@@ -156,16 +156,6 @@ return [
         'frontend' => 'frontend\int',
         'auto' => true,
     ],
-    'status' => [
-        'backend' => 'varchar',
-        'frontend' => 'frontend\radio',
-        'filter' => 'frontend\select',
-        'validator' => 'validator\opt',
-        'viewer' => 'viewer\opt',
-        'opt' => 'status',
-        'opt.frontend' => 'opt\status',
-        'opt.validator' => 'opt\status',
-    ],
     'tel' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\tel',

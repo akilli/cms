@@ -64,19 +64,3 @@ function priv(): array
 
     return $opt;
 }
-
-/**
- * Status
- */
-function status(array $data, array $attr): array
-{
-    $opt = app\cfg('opt', 'status');
-
-    if (!app\allowed($data['_entity']['id'] . '-publish')) {
-        unset($opt['published'], $opt['archived']);
-    } elseif (empty($data['_old'][$attr['id']]) || !in_array($data['_old'][$attr['id']], ['published', 'archived'])) {
-        unset($opt['archived']);
-    }
-
-    return $opt;
-}

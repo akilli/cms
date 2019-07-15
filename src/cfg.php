@@ -199,12 +199,6 @@ function load_priv(array $data, array $ext): array
     }
 
     foreach (load('entity') as $entity) {
-        if (in_array('edit', $entity['action']) && in_array('page', [$entity['id'], $entity['parent_id']])) {
-            $id = $entity['id'] . '-publish';
-            $data[$id]['name'] = $entity['name'] . ' ' . app\i18n('Publish');
-            $data[$id] = arr\replace(APP['cfg']['priv'], $data[$id]);
-        }
-
         foreach ($entity['action'] as $action) {
             $id = $entity['id'] . '/' . $action;
             $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucfirst($action));

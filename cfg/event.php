@@ -37,9 +37,8 @@ return [
         'event\entity_postvalidate_layout' => 10,
     ],
     'entity.postvalidate.id.page' => [
-        'event\entity_postvalidate_page_status' => 10,
-        'event\entity_postvalidate_page_menu' => 20,
-        'event\entity_postvalidate_page_url' => 30,
+        'event\entity_postvalidate_page_menu' => 10,
+        'event\entity_postvalidate_page_url' => 20,
     ],
     'entity.load.id.page' => [
         'event\entity_load_page' => 10,
