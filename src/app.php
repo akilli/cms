@@ -284,12 +284,18 @@ function url(string $path = '', array $get = [], bool $preserve = false): string
 
 /**
  * GUI URL
- *
- * @see location /gui in nginx.conf for fallback paths
  */
 function gui(string $path): string
 {
     return APP['url']['gui'] . APP['mtime'] . '/' . trim($path, '/');
+}
+
+/**
+ * Extension GUI URL
+ */
+function ext(string $path): string
+{
+    return APP['url']['ext'] . APP['mtime'] . '/' . trim($path, '/');
 }
 
 /**

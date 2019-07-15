@@ -181,6 +181,7 @@ define('APP', [
     'thumb' => '.thumb',
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'url' => [
+        'ext' => '/ext/',
         'file' => '/file/',
         'gui' => '/gui/',
     ],
