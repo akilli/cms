@@ -299,27 +299,6 @@ function ext(string $path): string
 }
 
 /**
- * cURL request
- *
- * @throws DomainException
- */
-function curl(string $url, array $param = []): ?string
-{
-    if (!$url) {
-        throw new DomainException(i18n('Invalid URL'));
-    } elseif ($param) {
-        $url .= '?' . http_build_query($param);
-    }
-
-    $curl = curl_init();
-    curl_setopt_array($curl, [CURLOPT_PROXY => cfg('app', 'proxy'), CURLOPT_URL => $url] + APP['curl']);
-    $result = curl_exec($curl);
-    curl_close($curl);
-
-    return $result ?: null;
-}
-
-/**
  * Error
  */
 function error(int $severity, string $msg, string $file, int $line): void

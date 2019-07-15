@@ -81,11 +81,6 @@ define('APP', [
     ],
     'charset' => ini_get('default_charset'),
     'crlf' => "\r\n",
-    'curl' => [
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 5,
-    ],
     'data' => [
         'app' => [
             'action' => null,

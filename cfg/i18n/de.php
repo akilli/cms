@@ -53,7 +53,6 @@ return [
     'Invalid name and password combination' => 'Ungültige Kombination aus Name und Passwort',
     'Invalid password' => 'Ungültiges Passwort',
     'Invalid path' => 'Ungültiger Pfad',
-    'Invalid URL' => 'Ungültige URL',
     'Invalid value' => 'Ungültiger Wert',
     'Layout' => 'Layout',
     'Level' => 'Ebene',
