@@ -3,12 +3,12 @@
  */
 'use strict';
 
-(function (window) {
+(window => {
     if (window.app) {
         return;
     }
 
-    window.app = (function () {
+    window.app = (() => {
         const cfgUrl = '/api/cfg';
         const app = {
             cfg: {
@@ -54,7 +54,7 @@
         try {
             const data = JSON.parse(app.get(cfgUrl));
 
-            Object.getOwnPropertyNames(app.cfg).forEach(function (name) {
+            Object.getOwnPropertyNames(app.cfg).forEach(name => {
                 if (data[name] && typeof app.cfg[name] === typeof data[name]) {
                     app.cfg[name] = data[name];
                 }

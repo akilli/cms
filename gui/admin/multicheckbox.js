@@ -3,15 +3,15 @@
  */
 'use strict';
 
-(function (document) {
-    document.addEventListener('DOMContentLoaded', function () {
+(document => {
+    document.addEventListener('DOMContentLoaded', () => {
         const sel = 'input[type=checkbox][multiple]';
 
-        [].forEach.call(document.querySelectorAll(sel + '[required]'), function (item) {
-            item.addEventListener('change', function () {
-                const req = !!this.form.querySelector(sel + '[name="' + this.name + '"]:checked');
+        document.querySelectorAll(sel + '[required]').forEach(item => {
+            item.addEventListener('change', () => {
+                const req = !!item.form.querySelector(sel + '[name="' + item.name + '"]:checked');
 
-                [].forEach.call(this.form.querySelectorAll(sel + '[name="' + this.name + '"]'), function (sib) {
+                item.form.querySelectorAll(sel + '[name="' + item.name + '"]').forEach(sib => {
                     if (req) {
                         sib.removeAttribute('required');
                     } else {

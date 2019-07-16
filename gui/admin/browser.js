@@ -3,7 +3,7 @@
  */
 'use strict';
 
-(function (window, document, app, CKEDITOR) {
+((window, document, app, CKEDITOR) => {
     /**
      * Browser
      */
@@ -18,15 +18,11 @@
             return;
         }
 
-        [].forEach.call(document.querySelectorAll('html[data-action=browser] #content .block-index article'), function (item) {
+        document.querySelectorAll('html[data-action=browser] #content .block-index article').forEach(item => {
             const msg = {};
 
-            Object.getOwnPropertyNames(item.dataset).forEach(function (name) {
-                msg[name] = item.dataset[name];
-            });
-            item.addEventListener('click', function () {
-                window.opener.postMessage(msg, origin);
-            });
+            Object.getOwnPropertyNames(item.dataset).forEach(name => msg[name] = item.dataset[name]);
+            item.addEventListener('click', () => window.opener.postMessage(msg, origin));
         });
     }
 
@@ -36,15 +32,15 @@
     function open () {
         const suffix = '-file';
 
-        [].forEach.call(document.querySelectorAll('a[data-action=browser][data-ref]'), function (item) {
-            item.addEventListener('click', function () {
+        document.querySelectorAll('a[data-action=browser][data-ref]').forEach(item => {
+            item.addEventListener('click', () => {
                 const entity = item.getAttribute('data-ref');
 
                 if (!entity) {
                     return;
                 }
 
-                CKEDITOR.api.browser('/' + entity + '/browser', function (data) {
+                CKEDITOR.api.browser('/' + entity + '/browser', data => {
                     if (!data.id) {
                         return;
                     }
@@ -77,9 +73,9 @@
                 });
             });
         });
-        [].forEach.call(document.querySelectorAll('a[data-action=remove]'), function (item) {
-            item.addEventListener('click', function () {
-                const id = this.getAttribute('data-id');
+        document.querySelectorAll('a[data-action=remove]').forEach(item => {
+            item.addEventListener('click', () => {
+                const id = item.getAttribute('data-id');
                 const input = document.getElementById(id);
                 const div = document.getElementById(id + suffix);
 

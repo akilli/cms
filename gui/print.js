@@ -3,22 +3,22 @@
  */
 'use strict';
 
-(function (window, document) {
+((window, document) => {
     /**
      * Prepares print version
      */
     function printBefore() {
-        [].forEach.call(document.getElementsByTagName('details'), function (item) {
-            if (item.hasAttribute('open')) {
-                item.setAttribute('data-open', '');
+        document.getElementsByTagName('details').forEach(details => {
+            if (details.hasAttribute('open')) {
+                details.setAttribute('data-open', '');
             } else {
-                item.setAttribute('open', '');
+                details.setAttribute('open', '');
             }
         });
 
-        [].forEach.call(document.querySelectorAll('a[href^="/"]'), function (item) {
-            item.setAttribute('data-href', item.getAttribute('href'));
-            item.setAttribute('href', item.href);
+        document.querySelectorAll('a[href^="/"]').forEach(a => {
+            a.setAttribute('data-href', a.getAttribute('href'));
+            a.setAttribute('href', a.href);
         });
     }
 
@@ -26,30 +26,24 @@
      * Restores screen version
      */
     function printAfter() {
-        [].forEach.call(document.getElementsByTagName('details'), function (item) {
-            if (item.hasAttribute('data-open')) {
-                item.removeAttribute('data-open');
+        document.getElementsByTagName('details').forEach(details => {
+            if (details.hasAttribute('data-open')) {
+                details.removeAttribute('data-open');
             } else {
-                item.removeAttribute('open');
+                details.removeAttribute('open');
             }
         });
 
-        [].forEach.call(document.querySelectorAll('a[data-href]'), function (item) {
-            item.setAttribute('href', item.getAttribute('data-href'));
-            item.removeAttribute('data-href');
+        document.querySelectorAll('a[data-href]').forEach(a => {
+            a.setAttribute('href', a.getAttribute('data-href'));
+            a.removeAttribute('data-href');
         });
     }
 
     /**
      * Event Listener
      */
-    window.matchMedia('print').addListener(function (media) {
-        if (media.matches) {
-            printBefore();
-        } else {
-            printAfter();
-        }
-    });
+    window.matchMedia('print').addListener(media => media.matches ? printBefore() : printAfter());
     window.addEventListener('beforeprint', printBefore);
     window.addEventListener('afterprint', printAfter);
 })(window, document);

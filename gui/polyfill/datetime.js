@@ -3,8 +3,8 @@
  */
 'use strict';
 
-(function (document) {
-    document.addEventListener('DOMContentLoaded', function () {
+(document => {
+    document.addEventListener('DOMContentLoaded', () => {
         const inputs = document.querySelectorAll('input[type=datetime-local]');
         const d = document.createElement('input');
         const t = document.createElement('input');
@@ -16,10 +16,10 @@
             return;
         }
 
-        [].forEach.call(inputs, function (item) {
+        inputs.forEach(item => {
             const date = document.createElement('input');
             const time = document.createElement('input');
-            const change = function () {
+            const change = () => {
                 if (date.value && date.checkValidity()) {
                     if (!time.value || !time.checkValidity()) {
                         time.value = '00:00';
