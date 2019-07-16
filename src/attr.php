@@ -17,8 +17,8 @@ function frontend(array $data, array $attr): string
     $val = array_key_exists($attr['id'], $data) && $data[$attr['id']] !== null ? cast($data[$attr['id']], $attr) : null;
     $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.frontend']]));
     $attr['html'] = html($attr);
+    $div = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
     $label = ['for' => $attr['html']['id']];
-    $error = '';
 
     if (in_array($attr['backend'], ['int[]', 'text[]'])) {
         $attr['html']['name'] .= '[]';
@@ -34,12 +34,14 @@ function frontend(array $data, array $attr): string
         $label['data-unique'] = true;
     }
 
+    $out = app\html('label', $label, $attr['name']) . $attr['frontend']($val, $attr);
+
     if (!empty($data['_error'][$attr['id']])) {
-        $attr['html']['class'] = (!empty($attr['html']['class']) ? $attr['html']['class'] . ' ' : '') . 'invalid';
-        $error = app\html('div', ['class' => 'error'], implode('<br />', $data['_error'][$attr['id']]));
+        $div['class'] = 'invalid';
+        $out .= app\html('div', ['class' => 'error'], implode('<br />', $data['_error'][$attr['id']]));
     }
 
-    return app\html('label', $label, $attr['name']) . $attr['frontend']($val, $attr) . $error;
+    return app\html('div', $div, $out);
 }
 
 /**

@@ -6,9 +6,7 @@ use attr;
 <form method="post"<?php if ($var('multipart')):?> enctype="multipart/form-data"<?php endif;?> class="block-form">
     <fieldset>
         <?php foreach ($var('attr') as $attr):?>
-        <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-            <?=attr\frontend($var('data'), $attr);?>
-        </div>
+        <?=attr\frontend($var('data'), $attr);?>
         <?php endforeach;?>
     </fieldset>
     <div class="action">

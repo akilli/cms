@@ -209,8 +209,7 @@ textarea {
     color: #bbb;
 }
 
-:focus:invalid,
-.invalid {
+.invalid :invalid {
     border-bottom: solid 0.0625rem #900;
 }
 
