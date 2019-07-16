@@ -16,6 +16,10 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        // Allow autocomplete for login
+        document.querySelector('html[data-url="/account/login"] input[type=password]').removeAttribute('autocomplete');
+
+        // Set validity to wrapper div element
         document.querySelectorAll('form').forEach(form => {
             form.querySelectorAll('div[data-attr] input, div[data-attr] select, div[data-attr] textarea').forEach(input => {
                 const call = ev => check(ev.target.closest('div[data-attr]'));
