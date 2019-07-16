@@ -124,10 +124,6 @@ label {
     margin: 0 0.5rem 0 0.25rem;
 }
 
-label[data-required]::after {
-    content: '*';
-}
-
 input,
 select,
 textarea {
@@ -209,7 +205,15 @@ textarea {
     color: #bbb;
 }
 
-.invalid :invalid {
+div[data-required] > label:first-child::after {
+    content: '*';
+}
+
+div[data-invalid] label {
+    color: #900;
+}
+
+div[data-invalid] :invalid {
     border-bottom: solid 0.0625rem #900;
 }
 

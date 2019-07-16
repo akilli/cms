@@ -18,7 +18,6 @@ function frontend(array $data, array $attr): string
     $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.frontend']]));
     $attr['html'] = html($attr);
     $div = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
-    $label = ['for' => $attr['html']['id']];
 
     if (in_array($attr['backend'], ['int[]', 'text[]'])) {
         $attr['html']['name'] .= '[]';
@@ -27,17 +26,17 @@ function frontend(array $data, array $attr): string
 
     if ($attr['required'] && !ignorable($data, $attr)) {
         $attr['html']['required'] = true;
-        $label['data-required'] = true;
+        $div['data-required'] = true;
     }
 
     if ($attr['unique']) {
-        $label['data-unique'] = true;
+        $div['data-unique'] = true;
     }
 
-    $out = app\html('label', $label, $attr['name']) . $attr['frontend']($val, $attr);
+    $out = app\html('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['frontend']($val, $attr);
 
     if (!empty($data['_error'][$attr['id']])) {
-        $div['class'] = 'invalid';
+        $div['data-invalid'] = true;
         $out .= app\html('div', ['class' => 'error'], implode('<br />', $data['_error'][$attr['id']]));
     }
 
