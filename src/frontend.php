@@ -44,7 +44,7 @@ function tel(?string $val, array $attr): string
  */
 function password(?string $val, array $attr): string
 {
-    return app\html('input', ['autocomplete' => 'off', 'type' => 'password', 'value' => false] + $attr['html']);
+    return app\html('input', ['autocomplete' => 'new-password', 'type' => 'password', 'value' => false] + $attr['html']);
 }
 
 /**
