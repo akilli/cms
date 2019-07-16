@@ -3,10 +3,10 @@
  */
 'use strict';
 
-(function (document, app, CKEDITOR) {
-    document.addEventListener('DOMContentLoaded', function () {
-        [].forEach.call(document.querySelectorAll('textarea[data-type=rte]'), function (item) {
-            CKEDITOR.replace(item, {
+((document, app, CKEDITOR) => {
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('textarea[data-type=rte]').forEach(rte => {
+            CKEDITOR.replace(rte, {
                 blockApi: id => typeof id === 'string' && id ? '/block/api/' + id : null,
                 blockBrowser: '/block/browser',
                 contentsCss: ['/gui/base.css', '/gui/rte/rte.css'],
