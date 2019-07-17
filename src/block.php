@@ -418,7 +418,7 @@ function login(array $block): string
     }
 
     $entity = app\cfg('entity', 'account');
-    $a = ['username' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0]];
+    $a = ['username' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0, 'autocomplete' => null]];
     $attrs = arr\extend(arr\extract($entity['attr'], ['username', 'password']), $a);
 
     return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => [], 'multipart' => false]);

@@ -42,8 +42,9 @@ define('APP', [
             'cfg.viewer' => null,
             'min' => 0,
             'max' => 0,
-            'accept' => [],
+            'autocomplete' => null,
             'pattern' => null,
+            'accept' => [],
         ],
         'block' => [
             'id' => null,

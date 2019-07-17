@@ -244,6 +244,10 @@ function html(array $attr, string $key = 'attr'): array
         $html[$minmax[1]] = $attr['max'];
     }
 
+    if ($attr['autocomplete']) {
+        $html['autocomplete'] = $attr['autocomplete'];
+    }
+
     return $html;
 }
 
