@@ -94,9 +94,9 @@ return [
      * Admin Area
      */
     '_admin_' => [
-        'head-admin' => [
+        'asset-admin' => [
             'type' => 'tpl',
-            'tpl' => 'head-admin.phtml',
+            'tpl' => 'asset-admin.phtml',
             'parent_id' => 'head',
             'sort' => 20,
         ],
@@ -111,9 +111,9 @@ return [
      * Public Area
      */
     '_public_' => [
-        'head-public' => [
+        'asset-public' => [
             'type' => 'tpl',
-            'tpl' => 'head-public.phtml',
+            'tpl' => 'asset-public.phtml',
             'parent_id' => 'head',
             'sort' => 20,
         ],
