@@ -128,22 +128,6 @@ function view(array $block): string
 }
 
 /**
- * Page Banner
- */
-function banner(array $block): string
-{
-    if (($page = app\data('app', 'page')) && $page['entity_id'] !== 'page_content') {
-        $page = entity\one('page', [['id', $page['path']], ['entity_id', 'page_content']], ['select' => ['image'], 'order' => ['level' => 'desc']]);
-    }
-
-    if ($page && ($img = attr\viewer($page, $page['_entity']['attr']['image']))) {
-        return app\tpl($block['tpl'], ['img' => $img]);
-    }
-
-    return '';
-}
-
-/**
  * Index
  */
 function index(array $block): string

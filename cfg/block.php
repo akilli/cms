@@ -46,10 +46,6 @@ return [
             'id' => null,
         ],
     ],
-    'banner' => [
-        'call' => 'block\banner',
-        'tpl' => 'banner.phtml',
-    ],
     /**
      * Index
      */
