@@ -283,19 +283,27 @@ function url(string $path = '', array $get = [], bool $preserve = false): string
 }
 
 /**
+ * File URL
+ */
+function file(string $path = ''): string
+{
+    return APP['url']['file'] . '/' . trim($path, '/');
+}
+
+/**
  * GUI URL
  */
-function gui(string $path): string
+function gui(string $path = ''): string
 {
-    return APP['url']['gui'] . APP['mtime'] . '/' . trim($path, '/');
+    return APP['url']['gui'] . '/' . APP['mtime'] . '/' . trim($path, '/');
 }
 
 /**
  * Extension GUI URL
  */
-function ext(string $path): string
+function ext(string $path = ''): string
 {
-    return APP['url']['ext'] . APP['mtime'] . '/' . trim($path, '/');
+    return APP['url']['ext'] . '/' . APP['mtime'] . '/' . trim($path, '/');
 }
 
 /**
