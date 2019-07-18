@@ -40,6 +40,8 @@ dialog {
 [type=submit],
 a,
 button,
+input[type=checkbox],
+input[type=radio],
 label,
 summary {
     cursor: pointer;

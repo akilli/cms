@@ -96,12 +96,12 @@ nav ul {
 /**
  * Form
  */
-fieldset [type=email],
-fieldset [type=password],
-fieldset [type=search],
-fieldset [type=tel],
-fieldset [type=text],
-fieldset [type=url],
+fieldset input[type=email],
+fieldset input[type=password],
+fieldset input[type=search],
+fieldset input[type=tel],
+fieldset input[type=text],
+fieldset input[type=url],
 fieldset select {
     width: 100%;
     max-width: 30rem;
@@ -115,13 +115,6 @@ legend {
 
 label {
     display: block;
-}
-
-[type=checkbox] + label,
-[type=radio] + label {
-    display: inline;
-    vertical-align: middle;
-    margin: 0 0.5rem 0 0.25rem;
 }
 
 input,
@@ -155,45 +148,39 @@ button {
     border: 0;
 }
 
-[type=checkbox],
-[type=radio] {
-    padding: 0.75rem 0;
+input[type=file] {
+    padding: 0;
+    font-size: 0.875rem;
+    background: none;
     border: 0;
 }
 
-[type=checkbox][data-type=bool] {
-    position: relative;
-    display: block;
-    width: 6rem;
+input[type=checkbox],
+input[type=radio] {
+    width: 1.5rem;
     height: 1.5rem;
-    padding: 0;
-    border: 0.0625rem solid #bbb;
+    padding: 0.6875rem 0;
+    border: solid 0.0625rem #bbb;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 }
 
-[type=checkbox][data-type=bool]::after {
-    position: absolute;
-    top: -0.0625rem;
-    left: -0.0625rem;
-    width: 3rem;
-    height: 1.5rem;
+input[type=radio] {
+    border-radius: 1rem;
+}
+
+input[type=checkbox]:checked,
+input[type=radio]:checked {
     background: #000;
-    border: 0.0625rem solid #bbb;
-    content: '';
+    border-color: #000;
 }
 
-[type=checkbox][data-type=bool]:checked::after {
-    left: auto;
-    right: -0.0625rem;
-}
-
-[type=file] {
-    padding: 0;
-    font-size: 0.875rem;
-    background: none;
-    border: 0;
+input[type=checkbox] + label,
+input[type=radio] + label {
+    display: inline;
+    vertical-align: middle;
+    margin: 0 0.5rem 0 0.25rem;
 }
 
 textarea {
@@ -205,7 +192,7 @@ textarea {
     color: #bbb;
 }
 
-form:invalid input[type=submit] {
+form:invalid [type=submit] {
     opacity: 0.6;
 }
 
