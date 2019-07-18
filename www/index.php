@@ -15,9 +15,4 @@ require dirname(__DIR__) . '/preload.php';
 /**
  * Run application
  */
-run();
-
-/**
- * Render response
- */
-echo response();
+echo run();

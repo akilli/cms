@@ -148,30 +148,6 @@ function data_request(array $data): array
 }
 
 /**
- * Layout postrender
- */
-function layout_postrender(array $data): array
-{
-    if ($data['image']) {
-        $data['html'] = contentfilter\image($data['html'], $data['image']);
-    }
-
-    return $data;
-}
-
-/**
- * Layout postrender html
- */
-function layout_postrender_html(array $data): array
-{
-    $data['html'] = contentfilter\block($data['html']);
-    $data['html'] = contentfilter\email($data['html']);
-    $data['html'] = contentfilter\msg($data['html']);
-
-    return $data;
-}
-
-/**
  * Entity postvalidate
  */
 function entity_postvalidate(array $data): array
@@ -374,6 +350,90 @@ function entity_predelete_role(array $data): array
     if (entity\size('account', [['role_id', $data['id']]])) {
         throw new DomainException(app\i18n('Cannot delete used role'));
     }
+
+    return $data;
+}
+
+/**
+ * Response
+ */
+function response(array $data): array
+{
+    if (!$data['body'] && !$data['redirect'] && $data['type'] === 'html') {
+        $data['body'] = layout\block('html');
+    }
+
+    return $data;
+}
+
+/**
+ * Account logout response
+ */
+function response_account_logout(array $data): array
+{
+    session\regenerate();
+    $data['redirect'] = app\url('account/login');
+    $data['_stop'] = true;
+
+    return $data;
+}
+
+/**
+ * API config response
+ */
+function response_api_cfg(array $data): array
+{
+    $data['body'] = json_encode(['i18n' => app\cfg('i18n')]);
+    $data['type'] = 'json';
+    $data['_stop'] = true;
+
+    return $data;
+}
+
+/**
+ * Block API response
+ */
+function response_block_api(array $data): array
+{
+    $data['body'] = ($id = app\data('app', 'id')) ? layout\db_block($id) : '';
+    $data['_stop'] = true;
+
+    return $data;
+}
+
+/**
+ * Delete response
+ */
+function response_delete(array $data): array
+{
+    $app = app\data('app');
+    entity\delete($app['entity_id'], [['id', $app['id']]]);
+    $data['redirect'] = app\url($app['entity_id'] . '/admin');
+    $data['_stop'] = true;
+
+    return $data;
+}
+
+/**
+ * Layout postrender
+ */
+function layout_postrender(array $data): array
+{
+    if ($data['image']) {
+        $data['html'] = contentfilter\image($data['html'], $data['image']);
+    }
+
+    return $data;
+}
+
+/**
+ * Layout postrender html
+ */
+function layout_postrender_html(array $data): array
+{
+    $data['html'] = contentfilter\block($data['html']);
+    $data['html'] = contentfilter\email($data['html']);
+    $data['html'] = contentfilter\msg($data['html']);
 
     return $data;
 }

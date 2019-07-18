@@ -46,4 +46,19 @@ return [
     'entity.predelete.id.role' => [
         'event\entity_predelete_role' => 10,
     ],
+    'response' => [
+        'event\response' => 10,
+    ],
+    'response.account.logout' => [
+        'event\response_account_logout' => 10,
+    ],
+    'response.api.cfg' => [
+        'event\response_api_cfg' => 10,
+    ],
+    'response.block.api' => [
+        'event\response_block_api' => 10,
+    ],
+    'response.delete' => [
+        'event\response_delete' => 10,
+    ],
 ];

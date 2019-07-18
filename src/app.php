@@ -3,8 +3,9 @@ declare(strict_types = 1);
 
 namespace app;
 
+use arr;
 use entity;
-use layout;
+use request;
 use session;
 use str;
 use DomainException;
@@ -14,34 +15,35 @@ use Throwable;
 /**
  * Runs application
  */
-function run(): void
+function run(): string
 {
     $app = data('app');
-    $ns = 'action\\';
+    $ev = ['response'];
 
     if ($app['invalid']) {
-        return;
-    }
-
-    if (is_callable($ns . $app['entity_id'] . '_' . $app['action'])) {
-        ($ns . $app['entity_id'] . '_' . $app['action'])();
-    } elseif ($app['parent_id'] && is_callable($ns . $app['parent_id'] . '_' . $app['action'])) {
-        ($ns . $app['parent_id'] . '_' . $app['action'])();
-    } elseif (is_callable($ns . $app['action'])) {
-        ($ns . $app['action'])();
-    }
-}
-
-/**
- * Returns response
- */
-function response(): string
-{
-    if (data('app', 'invalid')) {
         http_response_code(404);
+    } else {
+        array_unshift($ev, 'response.' . $app['action']);
+
+        if ($app['parent_id']) {
+            array_unshift($ev, 'response.' . $app['parent_id'] . '.' . $app['action']);
+        }
+
+        array_unshift($ev, 'response.' . $app['entity_id'] . '.' . $app['action']);
     }
 
-    return layout\block('html');
+    $data = arr\replace(APP['response'], event($ev, APP['response']));
+
+    if ($data['redirect']) {
+        request\redirect($data['redirect']);
+        return '';
+    }
+
+    if ($data['type'] === 'json') {
+        header('Content-Type: application/json', true);
+    }
+
+    return $data['body'];
 }
 
 /**
