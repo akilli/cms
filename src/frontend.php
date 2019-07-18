@@ -122,7 +122,7 @@ function json(?array $val, array $attr): string
  */
 function bool(?bool $val, array $attr): string
 {
-    $html = app\html('input', ['id' => $attr['html']['id'], 'name' => $attr['html']['name'], 'type' => 'hidden']);
+    $html = app\html('input', ['name' => $attr['html']['name'], 'type' => 'hidden']);
 
     return $html . app\html('input', ['type' => 'checkbox', 'value' => 1, 'checked' => !!$val] + $attr['html']);
 }
