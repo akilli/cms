@@ -268,52 +268,6 @@ CREATE INDEX ON file_media (name);
 CREATE INDEX ON file_media (entity_id);
 CREATE INDEX ON file_media (mime);
 
---
--- Layout Page
---
-
-CREATE MATERIALIZED VIEW layout_page AS
-WITH s AS (
-    SELECT
-        p.id,
-        (SELECT l.page_id FROM layout l INNER JOIN page j ON j.id = l.page_id WHERE l.parent_id = 'sidebar' AND l.page_id = ANY(p.path) ORDER BY j.level DESC LIMIT 1) AS page_id
-    FROM
-        page p
-    ORDER BY
-        id ASC
-)
-SELECT
-    l.id,
-    l.name,
-    l.entity_id,
-    l.block_id,
-    p.id AS page_id,
-    l.parent_id,
-    l.sort
-FROM
-    page p
-INNER JOIN
-    s
-        ON
-            s.id = p.id
-INNER JOIN
-    layout l
-        ON
-            l.page_id = p.id
-            OR l.parent_id = 'sidebar' AND l.page_id = s.page_id
-ORDER BY
-    id ASC,
-    parent_id ASC,
-    sort ASC;
-
-CREATE UNIQUE INDEX ON layout_page (page_id, parent_id, name);
-CREATE INDEX ON layout_page (name);
-CREATE INDEX ON layout_page (entity_id);
-CREATE INDEX ON layout_page (block_id);
-CREATE INDEX ON layout_page (page_id);
-CREATE INDEX ON layout_page (parent_id);
-CREATE INDEX ON layout_page (sort);
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Trigger Function
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -666,14 +620,6 @@ CREATE FUNCTION layout_save() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION layout_view() RETURNS trigger AS $$
-    BEGIN
-        REFRESH MATERIALIZED VIEW CONCURRENTLY layout_page;
-
-        RETURN NULL;
-    END;
-$$ LANGUAGE plpgsql;
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Trigger
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -698,7 +644,6 @@ CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH
 --
 
 CREATE TRIGGER layout_save BEFORE INSERT OR UPDATE ON layout FOR EACH ROW EXECUTE PROCEDURE layout_save();
-CREATE TRIGGER layout_view AFTER INSERT OR UPDATE OR DELETE ON layout FOR EACH STATEMENT EXECUTE PROCEDURE layout_view();
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
