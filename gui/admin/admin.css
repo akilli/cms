@@ -538,11 +538,11 @@ html[data-url="/account/login"] main > * {
      */
     body > :not(main),
     main > :not(#content),
+    .block-index > details,
     .block-index .thead > ::after,
     .block-index .thead > :last-child,
     .block-index article > :last-child,
     .new,
-    .filter,
     .pager {
         display: none;
     }
