@@ -272,10 +272,18 @@ function html(string $tag, array $attrs = [], string $val = null): string
  */
 function url(string $path = '', array $get = [], bool $preserve = false): string
 {
-    $get = $preserve ? $get + data('request', 'get') : $get;
+    return '/' . $path . query($get, $preserve);
+}
+
+/**
+ * Generates query part of an URL with given params, optionally preserves existing params
+ */
+function query(array $get, bool $preserve = false): string
+{
+    $get += $preserve ? data('request', 'get') : [];
     $query = $get ? http_build_query($get, '', '&amp;') : '';
 
-    return '/' . trim($path, '/') . ($query ? '?' . $query : '');
+    return $query ? '?' . $query : '';
 }
 
 /**
@@ -283,7 +291,7 @@ function url(string $path = '', array $get = [], bool $preserve = false): string
  */
 function file(string $path = ''): string
 {
-    return APP['url']['file'] . '/' . trim($path, '/');
+    return APP['url']['file'] . '/' . $path;
 }
 
 /**
@@ -291,7 +299,7 @@ function file(string $path = ''): string
  */
 function gui(string $path = ''): string
 {
-    return APP['url']['gui'] . '/' . APP['mtime'] . '/' . trim($path, '/');
+    return APP['url']['gui'] . '/' . APP['mtime'] . '/' . $path;
 }
 
 /**
@@ -299,7 +307,7 @@ function gui(string $path = ''): string
  */
 function ext(string $path = ''): string
 {
-    return APP['url']['ext'] . '/' . APP['mtime'] . '/' . trim($path, '/');
+    return APP['url']['ext'] . '/' . APP['mtime'] . '/' . $path;
 }
 
 /**

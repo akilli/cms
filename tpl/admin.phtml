@@ -24,7 +24,7 @@ use attr;
                 $sort = ($attr['id'] === $var('sort') ? '-' : '') . $attr['id'];
                 $dir = $var('sort') && $var('sort')[0] === '-' ? 'desc' : 'asc';
                 ?>
-            <a<?php if ($var('sort') !== false):?> href="<?=url($var('url'), ['sort' => $sort], true);?>"<?php if ($attr['id'] === ltrim($var('sort'), '-')):?> data-sort="<?=$dir;?>"<?php endif;?><?php endif;?>><?=$attr['name'];?></a>
+            <a<?php if ($var('sort') !== false):?> href="<?=query(['sort' => $sort], true);?>"<?php if ($attr['id'] === ltrim($var('sort'), '-')):?> data-sort="<?=$dir;?>"<?php endif;?><?php endif;?>><?=$attr['name'];?></a>
             <?php endforeach;?>
             <span><?=i18n('Actions');?></span>
         </div>

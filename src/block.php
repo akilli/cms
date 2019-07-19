@@ -229,7 +229,6 @@ function index(array $block): string
         'pager-top' => in_array($block['cfg']['pager'], ['both', 'top']) ? $pager : null,
         'sort' => $sort,
         'title' => $block['cfg']['title'] ? str\enc(app\i18n($block['cfg']['title'])) : null,
-        'url' => $request['url'],
     ]);
 }
 
@@ -250,7 +249,6 @@ function pager(array $block): string
         return '';
     }
 
-    $url = app\data('request', 'url');
     $total = $block['cfg']['limit'] && ($c = (int) ceil($block['cfg']['size'] / $block['cfg']['limit'])) ? $c : 1;
     $block['cfg']['cur'] = min(max($block['cfg']['cur'], 1), $total);
     $offset = ($block['cfg']['cur'] - 1) * $block['cfg']['limit'];
@@ -263,22 +261,22 @@ function pager(array $block): string
 
     foreach ($block['cfg']['limits'] as $k => $l) {
         if (is_int($l) && $l >= 0) {
-            $limits[] = ['name' => $l ?: app\i18n('All'), 'url' => app\url($url, ['cur' => null, 'limit' => $k === 0 ? null : $l], true), 'active' => $l === $block['cfg']['limit']];
+            $limits[] = ['name' => $l ?: app\i18n('All'), 'url' => app\query(['cur' => null, 'limit' => $k === 0 ? null : $l], true), 'active' => $l === $block['cfg']['limit']];
         }
     }
 
     if ($block['cfg']['cur'] >= 2) {
         $p = ['cur' => $block['cfg']['cur'] === 2 ? null : $block['cfg']['cur'] - 1];
-        $links[] = ['name' => app\i18n('Previous'), 'url' => app\url($url, $p, true), 'class' => 'prev'];
+        $links[] = ['name' => app\i18n('Previous'), 'url' => app\query($p, true), 'class' => 'prev'];
     }
 
     for ($i = $min; $min < $max && $i <= $max; $i++) {
         $p = ['cur' => $i === 1 ? null : $i];
-        $links[] = ['name' => $i, 'url' => app\url($url, $p, true), 'active' => $i === $block['cfg']['cur'], 'class' => null];
+        $links[] = ['name' => $i, 'url' => app\query($p, true), 'active' => $i === $block['cfg']['cur'], 'class' => null];
     }
 
     if ($block['cfg']['cur'] < $total) {
-        $links[] = ['name' => app\i18n('Next'), 'url' => app\url($url, ['cur' => $block['cfg']['cur'] + 1], true), 'class' => 'next'];
+        $links[] = ['name' => app\i18n('Next'), 'url' => app\query(['cur' => $block['cfg']['cur'] + 1], true), 'class' => 'next'];
     }
 
     return app\tpl($block['tpl'], ['info' => $info, 'limits' => count($limits) > 1 ? $limits : [], 'links' => $links]);
