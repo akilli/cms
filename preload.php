@@ -209,8 +209,10 @@ setlocale(LC_ALL, APP['locale']);
  *
  * @see https://wiki.php.net/rfc/preload
  */
-if (!file_exists('/tmp/cfg.php')) {
-    file\save('/tmp/cfg.php', cfg\preload());
+$tmp = APP['path']['tmp'] . '/cfg.php';
+
+if (!is_file($tmp)) {
+    file\save($tmp, cfg\preload());
 }
 
-define('CFG', file\load('/tmp/cfg.php'));
+define('CFG', file\load($tmp));

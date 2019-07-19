@@ -68,5 +68,5 @@ function dir(string $path): bool
  */
 function writable(string $path): bool
 {
-    return (bool) preg_match('#^(file://)?(' . app\path('file') . '|' . app\path('tmp') . ')#', $path);
+    return (bool) preg_match('#^(file://)?(' . APP['path']['file'] . '|' . APP['path']['tmp'] . ')#', $path);
 }

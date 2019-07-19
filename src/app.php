@@ -8,7 +8,6 @@ use entity;
 use request;
 use session;
 use str;
-use DomainException;
 use ErrorException;
 use Throwable;
 
@@ -219,17 +218,11 @@ function log($msg): void
 }
 
 /**
- * Gets absolute path to specified subpath in given directory
- *
- * @throws DomainException
+ * Gets absolute path to specified file name or URL
  */
-function path(string $dir, string $id = null): string
+function filepath(string $id): string
 {
-    if (!$dir || empty(APP['path'][$dir])) {
-        throw new DomainException(i18n('Invalid path'));
-    }
-
-    return APP['path'][$dir] . ($id && ($id = trim($id, '/')) ? '/' . $id : '');
+    return APP['path']['file'] . '/' . basename($id);
 }
 
 /**
@@ -237,7 +230,8 @@ function path(string $dir, string $id = null): string
  */
 function tpl(string $tpl, array $var = []): string
 {
-    $var['tpl'] = ($ext = path('ext.tpl', $tpl)) && is_file($ext) ? $ext : path('tpl', $tpl);
+    $ext = APP['path']['ext.tpl'] . '/' . $tpl;
+    $var['tpl'] = is_file($ext) ? $ext : APP['path']['tpl'] . '/' . $tpl;
 
     if (!is_file($var['tpl'])) {
         return '';

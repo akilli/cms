@@ -195,7 +195,7 @@ function entity_postsave_file(array $data): array
 
     if ($data['_entity']['attr']['url']['uploadable']
         && ($item = app\data('request', 'file')['url'] ?? null)
-        && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . '.' . $data['ext'])))
+        && (!$id || !file\upload($item['tmp_name'], app\filepath($id . '.' . $data['ext'])))
     ) {
         throw new DomainException(app\i18n('Could not upload %s', $item['name']));
     }
@@ -210,7 +210,7 @@ function entity_postsave_file(array $data): array
  */
 function entity_postdelete_file(array $data): array
 {
-    if ($data['_entity']['attr']['url']['uploadable'] && !file\delete(app\path('file', $data['_old']['id'] . '.' . $data['_old']['ext']))) {
+    if ($data['_entity']['attr']['url']['uploadable'] && !file\delete(app\filepath($data['_old']['id'] . '.' . $data['_old']['ext']))) {
         throw new DomainException(app\i18n('Could not delete file'));
     }
 

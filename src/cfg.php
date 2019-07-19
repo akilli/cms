@@ -17,7 +17,7 @@ function preload(): array
 
     load('i18n');
 
-    foreach (array_filter([app\path('cfg'), app\path('ext.cfg')], 'is_dir') as $path) {
+    foreach (array_filter([APP['path']['cfg'], APP['path']['ext.cfg']], 'is_dir') as $path) {
         foreach (array_diff(scandir($path), ['.', '..']) as $name) {
             $id = basename($name, '.php');
             $file = $path . '/' . $name;
@@ -41,8 +41,8 @@ function load(string $id): array
             $id = 'i18n/' . APP['lang'];
         }
 
-        $data = file\load(app\path('cfg', $id . '.php'));
-        $ext = file\load(app\path('ext.cfg', $id . '.php'));
+        $data = file\load(APP['path']['cfg'] . '/' . $id . '.php');
+        $ext = file\load(APP['path']['ext.cfg'] . '/' . $id . '.php');
 
         if (!$data) {
             $cfg = $ext;
