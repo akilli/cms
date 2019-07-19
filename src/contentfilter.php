@@ -51,17 +51,14 @@ function email(string $html): string
 function image(string $html, array $cfg = []): string
 {
     $pattern = '#(?P<figure><figure class="(?P<class>[^"]+)">)\s*(?P<a><a(?:[^>]*)>)?\s*(?P<img>(?P<pre><img(?:[^>]*) src="'
-        . app\file() . '(?P<name>(?P<id>\d+)\.(?P<ext>' . implode('|', APP['image.ext']) . '))")(?P<post>(?:[^>]*)>))#';
+        . app\file() . '(?P<name>(?:[a-z0-9_\-]+)\.(?:' . implode('|', APP['image.ext']) . '))")(?P<post>(?:[^>]*)>))#';
 
     if (!($cfg = arr\replace(APP['image'], $cfg)) || !$cfg['srcset'] || !preg_match_all($pattern, $html, $match)) {
         return $html;
     }
 
-    $data = entity\all('file', [['id', array_unique($match['id'])]], ['select' => ['id']]);
-    $call = function (array $m) use ($cfg, $data): string {
-        $item = $data[$m['id']] ?? null;
-
-        if (strpos($m['img'], 'srcset="') !== false || !$item || !($file = app\filepath($m['name'])) || !is_file($file)) {
+    $call = function (array $m) use ($cfg): string {
+        if (strpos($m['img'], 'srcset="') !== false || !($file = app\filepath($m['name'])) || !is_file($file)) {
             return $m[0];
         }
 

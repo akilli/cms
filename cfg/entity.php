@@ -106,12 +106,6 @@ return [
                 'required' => true,
                 'max' => 255,
             ],
-            'ext' => [
-                'name' => 'File Extension',
-                'type' => 'text',
-                'nullable' => true,
-                'max' => 10,
-            ],
             'info' => [
                 'name' => 'Info',
                 'type' => 'textarea',

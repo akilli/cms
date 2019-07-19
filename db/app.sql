@@ -41,14 +41,12 @@ CREATE TABLE file (
     entity_id varchar(50) NOT NULL,
     url varchar(255) NOT NULL UNIQUE,
     mime varchar(255) NOT NULL,
-    ext varchar(10) DEFAULT NULL,
     info text NOT NULL
 );
 
 CREATE INDEX ON file (name);
 CREATE INDEX ON file (entity_id);
 CREATE INDEX ON file (mime);
-CREATE INDEX ON file (ext);
 
 --
 -- Page
@@ -269,7 +267,6 @@ CREATE UNIQUE INDEX ON file_media (url);
 CREATE INDEX ON file_media (name);
 CREATE INDEX ON file_media (entity_id);
 CREATE INDEX ON file_media (mime);
-CREATE INDEX ON file_media (ext);
 
 --
 -- Layout Page
@@ -500,14 +497,8 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION file_save() RETURNS trigger AS $$
     BEGIN
-        IF (TG_OP = 'UPDATE' AND (NEW.ext != OLD.ext OR NEW.mime != OLD.mime)) THEN
-            RAISE EXCEPTION 'Cannot change filetype anymore';
-        END IF;
-
-        IF (NEW.entity_id = 'file_iframe') THEN
-            NEW.mime := 'text/html';
-        ELSE
-            NEW.url := '/file/' || NEW.id || '.' || NEW.ext;
+        IF (TG_OP = 'UPDATE' AND (NEW.url != OLD.url OR NEW.mime != OLD.mime)) THEN
+            RAISE EXCEPTION 'Updated file must be of the same MIME-type';
         END IF;
 
         RETURN NEW;

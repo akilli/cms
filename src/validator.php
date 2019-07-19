@@ -50,7 +50,7 @@ function url(string $val): string
  */
 function uid(string $val): string
 {
-    return trim(preg_replace('#[^a-z0-9_-]+#', '-', str\tr($val)), '-');
+    return trim(preg_replace('#[^a-z0-9_\-]+#', '-', str\tr($val)), '-');
 }
 
 /**
@@ -62,7 +62,7 @@ function urlpath(string $val): string
         return url($val);
     }
 
-    return '/' . trim(preg_replace('#[^a-z0-9_-\./]+#', '-', str\tr($val)), '-/');
+    return '/' . trim(preg_replace('#[^a-z0-9_\-\./]+#', '-', str\tr($val)), '-/');
 }
 
 /**

@@ -43,7 +43,7 @@ function data_app(array $data): array
     $data = arr\replace(APP['data']['app'], $data);
     $request = app\data('request');
 
-    if (preg_match('#^/(?:|[a-z0-9_-\./]+\.html)$#', $request['url'], $match)
+    if (preg_match('#^/(?:|[a-z0-9_\-\./]+\.html)$#', $request['url'], $match)
         && ($page = entity\one('page', [['url', $request['url']]], ['select' => ['id', 'entity_id']]))
         && ($data['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))
     ) {
@@ -52,7 +52,9 @@ function data_app(array $data): array
         $data['id'] = $data['page']['id'];
         $data['entity'] = $data['page']['_entity'];
     } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/]+))$#u', $request['url'], $match)) {
-        [$data['entity_id'], $data['action'], $data['id']] = array_slice($match, 1, 3);
+        $data['entity_id'] = $match[1];
+        $data['action'] = $match[2];
+        $data['id'] = $match[3] ?? null;
         $data['entity'] = app\cfg('entity', $match[1]);
     }
 
@@ -169,16 +171,18 @@ function entity_postvalidate(array $data): array
 function entity_prevalidate_file(array $data): array
 {
     if ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url'])) {
-        if ($item = app\data('request', 'file')['url'] ?? null) {
-            $data['ext'] = pathinfo($data['url'], PATHINFO_EXTENSION);
-            $data['mime'] = $item['type'];
-
-            if ($data['_old'] && ($data['ext'] !== $data['_old']['ext'] || $data['mime'] !== $data['_old']['mime'])) {
-                $data['_error']['url'][] = app\i18n('Cannot change filetype anymore');
-            }
-        } else {
+        if (!$item = app\data('request', 'file')['url'] ?? null) {
             $data['_error']['url'][] = app\i18n('No upload file');
+        } elseif ($data['_old'] && $item['type'] !== $data['_old']['mime']) {
+            $data['_error']['url'][] = app\i18n('Updated file must be of the same MIME-type');
+        } elseif ($data['_old']) {
+            $data['url'] = $data['_old']['url'];
+        } else {
+            $data['url'] = app\file($item['name']);
+            $data['mime'] = $item['type'];
         }
+    } elseif ($data['_entity']['id'] === 'file_iframe') {
+        $data['mime'] = 'text/html';
     }
 
     return $data;
@@ -195,7 +199,7 @@ function entity_postsave_file(array $data): array
 
     if ($data['_entity']['attr']['url']['uploadable']
         && ($item = app\data('request', 'file')['url'] ?? null)
-        && (!$id || !file\upload($item['tmp_name'], app\filepath($id . '.' . $data['ext'])))
+        && (!$id || !file\upload($item['tmp_name'], app\filepath($data['url'])))
     ) {
         throw new DomainException(app\i18n('Could not upload %s', $item['name']));
     }
@@ -210,7 +214,7 @@ function entity_postsave_file(array $data): array
  */
 function entity_postdelete_file(array $data): array
 {
-    if ($data['_entity']['attr']['url']['uploadable'] && !file\delete(app\filepath($data['_old']['id'] . '.' . $data['_old']['ext']))) {
+    if ($data['_entity']['attr']['url']['uploadable'] && !file\delete(app\filepath($data['_old']['url']))) {
         throw new DomainException(app\i18n('Could not delete file'));
     }
 
