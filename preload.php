@@ -186,10 +186,26 @@ define('APP', [
 ]);
 
 /**
- * Include base and extension source files
+ * Recursively include base and extension source files
  */
-foreach ([APP['path']['src'], APP['path']['ext.src']] as $path) {
-    foreach (glob($path . '/*.php') as $file) {
+$scan = function (string $path) use (& $scan): array {
+    $data = [];
+
+    foreach (array_diff(scandir($path), ['.', '..']) as $name) {
+        $file = $path . '/' . $name;
+
+        if (is_file($file) && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+            $data[] = $file;
+        } elseif (is_dir($file)) {
+            array_push($data, ...$scan($file));
+        }
+    }
+
+    return $data;
+};
+
+foreach (array_filter([APP['path']['src'], APP['path']['ext.src']], 'is_dir') as $path) {
+    foreach ($scan($path) as $file) {
         include_once $file;
     }
 }
