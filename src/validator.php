@@ -54,14 +54,6 @@ function uid(string $val): string
 }
 
 /**
- * Filename
- */
-function filename(string $val): string
-{
-    return trim(preg_replace('#[^a-z0-9_-\.]+#', '-', str\tr($val)), '-');
-}
-
-/**
  * URL Path
  */
 function urlpath(string $val): string

@@ -88,11 +88,6 @@ return [
         'ignorable' => true,
         'uploadable' => true,
     ],
-    'filename' => [
-        'backend' => 'varchar',
-        'frontend' => 'frontend\text',
-        'validator' => 'validator\filename',
-    ],
     'iframe' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\url',
