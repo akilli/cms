@@ -190,16 +190,6 @@ function entity_prevalidate_file(array $data): array
 }
 
 /**
- * Page entity presave
- */
-function entity_presave_page(array $data): array
-{
-    $data['account_id'] = app\data('account', 'id');
-
-    return $data;
-}
-
-/**
  * File entity postsave
  *
  * @throws DomainException
@@ -261,6 +251,18 @@ function entity_postvalidate_layout(array $data): array
 
     if (entity\size('layout', $crit)) {
         $data['_error']['name'][] = app\i18n('Name must be unique for selected parent block and page');
+    }
+
+    return $data;
+}
+
+/**
+ * Page entity load
+ */
+function entity_load_page(array $data): array
+{
+    if (array_key_exists('content', $data)) {
+        $data['teaser'] = preg_match('#^(<p[^>]*>.*?</p>)#', trim($data['content']), $m) ? $m[1] : '';
     }
 
     return $data;
@@ -329,13 +331,11 @@ function entity_postvalidate_page_url(array $data): array
 }
 
 /**
- * Page entity load
+ * Page entity presave
  */
-function entity_load_page(array $data): array
+function entity_presave_page(array $data): array
 {
-    if (array_key_exists('content', $data)) {
-        $data['teaser'] = preg_match('#^(<p[^>]*>.*?</p>)#', trim($data['content']), $m) ? $m[1] : '';
-    }
+    $data['account_id'] = app\data('account', 'id');
 
     return $data;
 }
@@ -362,6 +362,19 @@ function response(array $data): array
     if (!$data['body'] && !$data['redirect'] && $data['type'] === 'html') {
         $data['body'] = layout\block('html');
     }
+
+    return $data;
+}
+
+/**
+ * Delete response
+ */
+function response_delete(array $data): array
+{
+    $app = app\data('app');
+    entity\delete($app['entity_id'], [['id', $app['id']]]);
+    $data['redirect'] = app\url($app['entity_id'] . '/admin');
+    $data['_stop'] = true;
 
     return $data;
 }
@@ -396,19 +409,6 @@ function response_api_cfg(array $data): array
 function response_block_api(array $data): array
 {
     $data['body'] = ($id = app\data('app', 'id')) ? layout\db_block($id) : '';
-    $data['_stop'] = true;
-
-    return $data;
-}
-
-/**
- * Delete response
- */
-function response_delete(array $data): array
-{
-    $app = app\data('app');
-    entity\delete($app['entity_id'], [['id', $app['id']]]);
-    $data['redirect'] = app\url($app['entity_id'] . '/admin');
     $data['_stop'] = true;
 
     return $data;
