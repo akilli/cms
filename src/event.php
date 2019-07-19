@@ -43,7 +43,7 @@ function data_app(array $data): array
     $data = arr\replace(APP['data']['app'], $data);
     $request = app\data('request');
 
-    if (preg_match('#^/(?:|[a-z0-9-_/\.]+\.html)$#', $request['url'], $match)
+    if (preg_match('#^/(?:|[a-z0-9_-\./]+\.html)$#', $request['url'], $match)
         && ($page = entity\one('page', [['url', $request['url']]], ['select' => ['id', 'entity_id']]))
         && ($data['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))
     ) {

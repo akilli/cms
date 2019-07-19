@@ -46,6 +46,22 @@ function url(string $val): string
 }
 
 /**
+ * UID
+ */
+function uid(string $val): string
+{
+    return trim(preg_replace('#[^a-z0-9_-]+#', '-', str\tr($val)), '-');
+}
+
+/**
+ * Filename
+ */
+function filename(string $val): string
+{
+    return trim(preg_replace('#[^a-z0-9_-\.]+#', '-', str\tr($val)), '-');
+}
+
+/**
  * URL Path
  */
 function urlpath(string $val): string
@@ -54,15 +70,7 @@ function urlpath(string $val): string
         return url($val);
     }
 
-    return '/' . trim(preg_replace('#[^a-z0-9-_/\.]+#', '-', str\tr($val)), '-/');
-}
-
-/**
- * UID
- */
-function uid(string $val): string
-{
-    return trim(preg_replace('#[^a-z0-9-_]+#', '-', str\tr($val)), '-');
+    return '/' . trim(preg_replace('#[^a-z0-9_-\./]+#', '-', str\tr($val)), '-/');
 }
 
 /**

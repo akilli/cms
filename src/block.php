@@ -167,7 +167,7 @@ function index(array $block): string
         }
     }
 
-    if ($block['cfg']['sort'] && $get['sort'] && preg_match('#^(-)?([a-z0-9-_]+)$#', $get['sort'], $match) && !empty($attrs[$match[2]])) {
+    if ($block['cfg']['sort'] && $get['sort'] && preg_match('#^(-)?([a-z0-9_-]+)$#', $get['sort'], $match) && !empty($attrs[$match[2]])) {
         $opt['order'] = [$match[2] => $match[1] ? 'desc' : 'asc'];
         $sort = $get['sort'];
     }
