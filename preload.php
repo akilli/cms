@@ -213,9 +213,20 @@ foreach (array_filter([APP['path']['src'], APP['path']['ext.src']], 'is_dir') as
 /**
  * Register functions
  */
-set_error_handler('app\error');
-set_exception_handler('app\exception');
-register_shutdown_function('app\shutdown');
+set_error_handler(function (int $severity, string $msg, string $file, int $line): void
+{
+    app\log(new ErrorException($msg, 0, $severity, $file, $line));
+});
+set_exception_handler(function (Throwable $e): void
+{
+    app\log($e);
+});
+register_shutdown_function(function (): void
+{
+    if ($data = app\registry('msg')) {
+        session\set('msg', $data);
+    }
+});
 setlocale(LC_ALL, APP['locale']);
 
 /**

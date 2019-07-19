@@ -8,8 +8,6 @@ use entity;
 use request;
 use session;
 use str;
-use ErrorException;
-use Throwable;
 
 /**
  * Runs application
@@ -308,30 +306,4 @@ function gui(string $path = ''): string
 function ext(string $path = ''): string
 {
     return APP['url']['ext'] . '/' . APP['mtime'] . '/' . $path;
-}
-
-/**
- * Error
- */
-function error(int $severity, string $msg, string $file, int $line): void
-{
-    log(new ErrorException($msg, 0, $severity, $file, $line));
-}
-
-/**
- * Exception
- */
-function exception(Throwable $e): void
-{
-    log($e);
-}
-
-/**
- * Shutdown
- */
-function shutdown(): void
-{
-    if ($data = registry('msg')) {
-        session\set('msg', $data);
-    }
 }
