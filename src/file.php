@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace file;
 
-use app;
-
 /**
  * Loads data from file
  */
