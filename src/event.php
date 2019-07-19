@@ -181,11 +181,6 @@ function entity_prevalidate_file(array $data): array
         }
     }
 
-    if (!empty($data['thumb_url']) && ($item = app\data('request', 'file')['thumb_url'] ?? null)) {
-        $data['thumb_ext'] = pathinfo($data['thumb_url'], PATHINFO_EXTENSION);
-        $data['thumb_mime'] = $item['type'];
-    }
-
     return $data;
 }
 
@@ -197,21 +192,12 @@ function entity_prevalidate_file(array $data): array
 function entity_postsave_file(array $data): array
 {
     $id = $data['id'] ?? $data['_old']['id'] ?? null;
-    $uploadable = $data['_entity']['attr']['url']['uploadable'];
-    $thumb = APP['thumb'] . '.';
 
-    if ($uploadable && ($item = app\data('request', 'file')['url'] ?? null) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . '.' . $data['ext'])))) {
-        throw new DomainException(app\i18n('Could not upload %s', $item['name']));
-    } elseif (($item = app\data('request', 'file')['thumb_url'] ?? null) && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . $thumb . $data['thumb_ext'])))) {
-        throw new DomainException(app\i18n('Could not upload %s', $item['name']));
-    }
-
-    if (array_key_exists('thumb_url', $data)
-        && !$data['thumb_url']
-        && $data['_old']['thumb_url']
-        && !file\delete(app\path('file', $data['_old']['id'] . $thumb . $data['_old']['thumb_ext']))
+    if ($data['_entity']['attr']['url']['uploadable']
+        && ($item = app\data('request', 'file')['url'] ?? null)
+        && (!$id || !file\upload($item['tmp_name'], app\path('file', $id . '.' . $data['ext'])))
     ) {
-        throw new DomainException(app\i18n('Could not delete file'));
+        throw new DomainException(app\i18n('Could not upload %s', $item['name']));
     }
 
     return $data;
@@ -224,10 +210,7 @@ function entity_postsave_file(array $data): array
  */
 function entity_postdelete_file(array $data): array
 {
-    if ($data['_entity']['attr']['url']['uploadable']
-        && !file\delete(app\path('file', $data['_old']['id'] . '.' . $data['_old']['ext']))
-        && !file\delete(app\path('file', $data['_old']['id'] . APP['thumb'] . '.' . $data['_old']['thumb_ext']))
-    ) {
+    if ($data['_entity']['attr']['url']['uploadable'] && !file\delete(app\path('file', $data['_old']['id'] . '.' . $data['_old']['ext']))) {
         throw new DomainException(app\i18n('Could not delete file'));
     }
 

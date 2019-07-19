@@ -42,9 +42,6 @@ CREATE TABLE file (
     url varchar(255) NOT NULL UNIQUE,
     mime varchar(255) NOT NULL,
     ext varchar(10) DEFAULT NULL,
-    thumb_url varchar(255) DEFAULT NULL UNIQUE,
-    thumb_mime varchar(255) DEFAULT NULL,
-    thumb_ext varchar(10) DEFAULT NULL,
     info text NOT NULL
 );
 
@@ -52,8 +49,6 @@ CREATE INDEX ON file (name);
 CREATE INDEX ON file (entity_id);
 CREATE INDEX ON file (mime);
 CREATE INDEX ON file (ext);
-CREATE INDEX ON file (thumb_mime);
-CREATE INDEX ON file (thumb_ext);
 
 --
 -- Page
@@ -271,13 +266,10 @@ WHERE
 
 CREATE UNIQUE INDEX ON file_media (id);
 CREATE UNIQUE INDEX ON file_media (url);
-CREATE UNIQUE INDEX ON file_media (thumb_url);
 CREATE INDEX ON file_media (name);
 CREATE INDEX ON file_media (entity_id);
 CREATE INDEX ON file_media (mime);
 CREATE INDEX ON file_media (ext);
-CREATE INDEX ON file_media (thumb_mime);
-CREATE INDEX ON file_media (thumb_ext);
 
 --
 -- Layout Page
@@ -516,10 +508,6 @@ CREATE FUNCTION file_save() RETURNS trigger AS $$
             NEW.mime := 'text/html';
         ELSE
             NEW.url := '/file/' || NEW.id || '.' || NEW.ext;
-        END IF;
-
-        IF (NEW.thumb_url IS NOT NULL AND NEW.thumb_ext IS NOT NULL) THEN
-            NEW.thumb_url := '/file/' || NEW.id || '.thumb.' || NEW.thumb_ext;
         END IF;
 
         RETURN NEW;

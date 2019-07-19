@@ -128,10 +128,8 @@ define('APP', [
     'image' => [
         'srcset' => [360, 640, 800, 960, 1120, 1280, 1440],
         'sizes' => null,
-        'thumb' => 879,
     ],
     'image.ext' => ['jpg', 'png', 'webp'],
-    'image.threshold' => 100,
     'join' => [
         'cross' => 'CROSS',
         'full' => 'FULL',
@@ -179,7 +177,6 @@ define('APP', [
         'redirect' => null,
         'type' => 'html',
     ],
-    'thumb' => '.thumb',
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'url' => [
         'ext' => '/ext',

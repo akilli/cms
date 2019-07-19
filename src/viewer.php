@@ -104,32 +104,23 @@ function file($val, array $attr): string
     $attr['ref'] = $attr['ref'] ?: 'file';
     $crit = is_string($val) ? [['url', $val]] : [['id', $val]];
 
-    if (!$data = entity\one($attr['ref'], $crit, ['select' => ['url', 'mime', 'info', 'thumb_url']])) {
+    if (!$data = entity\one($attr['ref'], $crit, ['select' => ['url', 'mime', 'info']])) {
         return '';
     }
 
     if ($data['mime'] === 'text/html') {
-        $a = $data['thumb_url'] ? ['data-thumb' => $data['thumb_url']] : [];
-        return app\html('iframe', ['src' => $data['url'], 'allowfullscreen' => 'allowfullscreen'] + $a, $data['url']);
+        return app\html('iframe', ['src' => $data['url'], 'allowfullscreen' => 'allowfullscreen'], $data['url']);
     }
 
     if (!preg_match('#^(audio|image|video)/#', $data['mime'], $match)) {
-        $v = $data['thumb_url'] ? app\html('img', ['src' => $data['thumb_url'], 'alt' => str\enc($data['info'])]) : $data['url'];
-        return app\html('a', ['href' => $data['url']], $v);
+        return app\html('a', ['href' => $data['url']], $data['url']);
     }
 
     if ($match[1] === 'image') {
         return app\html('img', ['src' => $data['url'], 'alt' => str\enc($data['info'])]);
     }
 
-    if ($data['thumb_url']) {
-        $a = ['poster' => $data['thumb_url']];
-        $match[1] = 'video';
-    } else {
-        $a = [];
-    }
-
-    return app\html($match[1], ['src' => $data['url'], 'controls' => true] + $a);
+    return app\html($match[1], ['src' => $data['url'], 'controls' => true]);
 }
 
 /**

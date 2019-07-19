@@ -112,24 +112,6 @@ return [
                 'nullable' => true,
                 'max' => 10,
             ],
-            'thumb_url' => [
-                'name' => 'Thumbnail',
-                'type' => 'image',
-                'nullable' => true,
-                'unique' => true,
-            ],
-            'thumb_mime' => [
-                'name' => 'Thumbnail MIME-Type',
-                'type' => 'text',
-                'nullable' => true,
-                'max' => 255,
-            ],
-            'thumb_ext' => [
-                'name' => 'Thumbnail Extension',
-                'type' => 'text',
-                'nullable' => true,
-                'max' => 10,
-            ],
             'info' => [
                 'name' => 'Info',
                 'type' => 'textarea',

@@ -308,7 +308,7 @@ return [
     'file/edit' => [
         'form' => [
             'cfg' => [
-                'attr_id' => ['name', 'url', 'thumb_url', 'info'],
+                'attr_id' => ['name', 'url', 'info'],
             ],
         ],
     ],
