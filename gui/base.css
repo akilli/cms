@@ -43,6 +43,7 @@ button,
 input[type=checkbox],
 input[type=radio],
 label,
+select,
 summary {
     cursor: pointer;
 }
