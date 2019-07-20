@@ -123,24 +123,16 @@ strong {
     font-weight: bold;
 }
 
-small,
-sub,
-sup {
-    font-size: smaller;
-}
-
 q {
     quotes: '“' '”' '‘' '’';
 }
 
 sub {
     vertical-align: sub;
-    line-height: normal;
 }
 
 sup {
     vertical-align: super;
-    line-height: normal;
 }
 
 s,
