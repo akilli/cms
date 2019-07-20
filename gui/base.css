@@ -194,20 +194,19 @@ table {
     border-spacing: 0;
 }
 
+th,
 td {
-    vertical-align: top;
     text-align: left;
 }
 
 th,
 thead td {
-    text-align: left;
     font-weight: bold;
+    white-space: nowrap;
 }
 
-thead td,
-thead th {
-    white-space: nowrap;
+td {
+    vertical-align: top;
 }
 
 /**
@@ -219,12 +218,8 @@ thead th {
     text-decoration: none;
 }
 
+select[multiple],
 textarea {
-    resize: both;
-    vertical-align: top;
-}
-
-select[multiple] {
     resize: both;
 }
 
