@@ -29,6 +29,20 @@ button, input, label, select, textarea {
     vertical-align: middle;
 }
 
+[role=button],
+[role=button]:hover,
+audio,
+canvas,
+embed,
+iframe,
+img,
+object,
+picture,
+video {
+    display: inline-block;
+    max-width: 100%;
+}
+
 [hidden],
 dialog {
     display: none;
@@ -162,19 +176,7 @@ hr {
 /**
  * Figure
  */
-audio,
-canvas,
-embed,
-iframe,
-img,
-object,
-picture,
-video {
-    display: inline-block;
-    max-width: 100%;
-}
-
-figure > :not(figcaption) {
+figure > * {
     display: block;
 }
 
@@ -212,12 +214,6 @@ td {
 /**
  * Form
  */
-[role=button],
-[role=button]:hover {
-    display: inline-block;
-    text-decoration: none;
-}
-
 select[multiple],
 textarea {
     resize: both;

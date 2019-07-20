@@ -177,7 +177,7 @@ main a {
     color: #60abc6;
 }
 
-main a:hover {
+main a:not([role=button]):hover {
     text-decoration: underline;
 }
 
