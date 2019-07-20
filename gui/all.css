@@ -115,6 +115,10 @@
         margin-left: 0;
     }
 
+    nav[data-toggle] > ul {
+        margin-top: 0;
+    }
+
     nav[data-toggle] li ul {
         position: absolute;
     }
