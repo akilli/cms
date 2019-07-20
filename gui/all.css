@@ -1,3 +1,23 @@
+/**
+ * Font
+ */
+@font-face {
+    font-family: fontawesome;
+    font-style: normal;
+    font-weight: normal;
+    src: url(font/fa-regular.woff2) format('woff2'), url(font/fa-regular.woff) format('woff');
+}
+
+@font-face {
+    font-family: fontawesome;
+    font-style: normal;
+    font-weight: 900;
+    src: url(font/fa-solid.woff2) format('woff2'), url(font/fa-solid.woff) format('woff');
+}
+
+/**
+ * Navigation
+ */
 nav[data-toggle] {
     position: sticky;
     top: 0;
@@ -53,6 +73,9 @@ nav[data-toggle] ul a[data-action=toggle][data-toggle]::before {
  * Desktop
  */
 @media screen and (min-width: 55rem) {
+    /**
+     * Navigation
+     */
     nav[data-toggle] li ul,
     nav[data-toggle] a[data-action=toggle][data-toggle] ~ ul,
     nav[data-toggle] > a[data-action=toggle],
