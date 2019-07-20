@@ -3,6 +3,6 @@ namespace app;
 ?>
 <?php if (($entityId = data('app', 'entity_id')) && allowed($entityId . '/edit')):?>
 <p class="new">
-    <a href="<?=url($entityId . '/edit');?>" data-action="new"><?=i18n('New Entry');?></a>
+    <a href="<?=url($entityId . '/edit');?>"><?=i18n('New Entry');?></a>
 </p>
 <?php endif;?>

@@ -16,57 +16,72 @@
 }
 
 /**
- * Navigation
+ * Screen
  */
-nav[data-toggle] {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
+@media screen {
+    /**
+     * Actions
+     */
+    a[data-action] {
+        display: inline-block;
+        line-height: 1;
+        font-family: fontawesome;
+        font-size: 0;
+        font-weight: 900;
+        text-decoration: none;
+    }
 
-nav[data-toggle=open] {
-    position: relative;
-}
+    a[data-action]::before {
+        font-size: 1rem;
+    }
 
-nav[data-toggle] ul {
-    display: none;
-    margin: 0 0 0 1.25rem;
-}
+    /**
+     * Navigation
+     */
+    nav[data-toggle] {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
 
-nav[data-toggle] a[data-action=toggle][data-toggle] ~ ul {
-    display: block;
-}
+    nav[data-toggle=open] {
+        position: relative;
+    }
 
-nav[data-toggle] a[data-action=toggle] {
-    line-height: 1;
-    font-family: fontawesome;
-    font-weight: 900;
-}
+    nav[data-toggle] ul {
+        display: none;
+        margin: 0 0 0 1.25rem;
+    }
 
-nav[data-toggle] > a[data-action=toggle] {
-    display: block;
-    font-size: 1.5rem;
-}
+    nav[data-toggle] a[data-action=toggle][data-toggle] ~ ul {
+        display: block;
+    }
 
-nav[data-toggle] ul a[data-action=toggle] {
-    display: inline-block;
-    margin: 0 0.75rem 0 -1.25rem;
-}
+    nav[data-toggle] > a[data-action=toggle] {
+        display: block;
+        font-size: 1.5rem;
+    }
 
-nav[data-toggle] ul a[data-action=toggle][data-toggle] {
-    margin-right: 0.5rem;
-}
+    nav[data-toggle] ul a[data-action=toggle] {
+        display: inline-block;
+        margin: 0 0.75rem 0 -1.25rem;
+    }
 
-nav[data-toggle] > a[data-action=toggle]::before {
-    content: '\f0c9';
-}
+    nav[data-toggle] ul a[data-action=toggle][data-toggle] {
+        margin-right: 0.5rem;
+    }
 
-nav[data-toggle] ul a[data-action=toggle]::before {
-    content: '\f054';
-}
+    nav[data-toggle] > a[data-action=toggle]::before {
+        content: '\f0c9';
+    }
 
-nav[data-toggle] ul a[data-action=toggle][data-toggle]::before {
-    content: '\f078';
+    nav[data-toggle] ul a[data-action=toggle]::before {
+        content: '\f054';
+    }
+
+    nav[data-toggle] ul a[data-action=toggle][data-toggle]::before {
+        content: '\f078';
+    }
 }
 
 /**

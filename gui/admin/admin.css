@@ -373,30 +373,6 @@ html[data-url="/account/login"] main > * {
     /**
      * Actions
      */
-    a[data-action=delete],
-    a[data-action=edit],
-    a[data-action=view],
-    a[data-action=browser],
-    a[data-action=remove] {
-        display: inline-block;
-        height: 1rem;
-        font-size: 0;
-    }
-
-    a[data-action=delete]::before,
-    a[data-action=edit]::before,
-    a[data-action=view]::before,
-    a[data-action=browser]::before,
-    a[data-action=remove]::before {
-        display: inline-block;
-        line-height: 1;
-        margin-right: 0.5rem;
-        font-family: fontawesome;
-        font-size: 1rem;
-        font-weight: 900;
-        text-decoration: none;
-    }
-
     a[data-action=delete]::before,
     a[data-action=remove]::before {
         content: '\f1f8';
