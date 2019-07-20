@@ -50,7 +50,11 @@
 
     nav[data-toggle] ul {
         display: none;
-        margin: 0 0 0 1.25rem;
+        margin-left: 1.25rem;
+    }
+
+    nav[data-toggle] > ul {
+        margin-top: 1.5rem;
     }
 
     nav[data-toggle] a[data-action=toggle][data-toggle] ~ ul {
@@ -129,5 +133,50 @@
         position: relative;
         display: block;
         padding: 0.375rem;
+    }
+}
+
+/**
+ * Print
+ */
+@media print {
+    /**
+     * Global
+     */
+    body {
+        padding: 0;
+    }
+
+    /**
+     * Details
+     */
+    details {
+        margin-bottom: 1.5rem;
+    }
+
+    summary {
+        display: block;
+        margin-bottom: 1.5rem;
+        font-size: 1.125rem;
+    }
+
+    /**
+     * Pagebreak
+     */
+    h1,
+    h2,
+    h3,
+    summary {
+        page-break-after: avoid;
+    }
+
+    /**
+     * Links
+     */
+    #content a:not([role]):not([data-action])::after {
+        content: " (" attr(href) ")";
+        font-size: 0.875rem;
+        font-style: italic;
+        text-transform: none;
     }
 }

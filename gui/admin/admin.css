@@ -486,29 +486,6 @@ html[data-url="/account/login"] main > * {
  * Print
  */
 @media print {
-    body {
-        padding: 0;
-    }
-
-    /**
-     * Pagebreak
-     */
-    h1,
-    h2,
-    h3 {
-        page-break-after: avoid;
-    }
-
-    /**
-     * Links
-     */
-    #content a:not([role]):not([data-action])::after {
-        content: " (" attr(href) ")";
-        font-size: 0.875rem;
-        font-style: italic;
-        text-transform: none;
-    }
-
     /**
      * Hidden
      */
