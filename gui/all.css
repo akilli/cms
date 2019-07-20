@@ -72,10 +72,12 @@
     }
 
     nav[data-toggle] > a[data-action=toggle]::before {
+        font-size: 1.5rem;
         content: '\f0c9';
     }
 
     nav[data-toggle] ul a[data-action=toggle]::before {
+        font-size: 0.75rem;
         content: '\f054';
     }
 
