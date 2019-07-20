@@ -9,7 +9,6 @@ return [
     'ALL PRIVILEGES' => 'ALLE PRIVILEGIEN',
     'Articles' => 'Artikel',
     'Audios' => 'Audios',
-    'Back' => 'Zurück',
     'Block' => 'Block',
     'Blocks' => 'Blöcke',
     'Browse' => 'Durchsuchen',
