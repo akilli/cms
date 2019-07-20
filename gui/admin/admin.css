@@ -271,8 +271,8 @@ main a:not([role=button]):hover {
     max-height: 10.5rem;
 }
 
-html:not([data-action=browser]) #content .block-index img,
-html:not([data-action=browser]) #content .block-index video {
+:root:not([data-action=browser]) #content .block-index img,
+:root:not([data-action=browser]) #content .block-index video {
     max-width: 9rem;
     max-height: 6rem;
 }
@@ -306,13 +306,11 @@ html:not([data-action=browser]) #content .block-index video {
 
 a[data-sort=asc]::after {
     display: inline-block;
-    text-decoration: none;
     content: '⇑';
 }
 
 a[data-sort=desc]::after {
     display: inline-block;
-    text-decoration: none;
     content: '⇓';
 }
 
@@ -349,7 +347,7 @@ a[data-sort=desc]::after {
 /**
  * Login
  */
-html[data-url="/account/login"] main {
+:root[data-url="/account/login"] main {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -359,7 +357,7 @@ html[data-url="/account/login"] main {
     margin: 0 auto;
 }
 
-html[data-url="/account/login"] main > * {
+:root[data-url="/account/login"] main > * {
     width: 100%;
 }
 
@@ -440,40 +438,40 @@ html[data-url="/account/login"] main > * {
     /**
      * Dashboard
      */
-    html[data-url="/account/dashboard"] #content {
+    :root[data-url="/account/dashboard"] #content {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
     }
 
-    html[data-url="/account/dashboard"] #content h1 {
+    :root[data-url="/account/dashboard"] #content h1 {
         width: 100%;
     }
 
-    html[data-url="/account/dashboard"] #content .block-index {
+    :root[data-url="/account/dashboard"] #content .block-index {
         width: calc(50% - 0.75rem);
     }
 
     /**
      * Browser
      */
-    html[data-action=browser] #content .block-index > .content {
+    :root[data-action=browser] #content .block-index > .content {
         display: flex;
         flex-wrap: wrap;
     }
 
-    html[data-action=browser] #content .block-index article {
+    :root[data-action=browser] #content .block-index article {
         display: block;
         width: 25%;
         border: 0.0625rem solid;
         cursor: pointer;
     }
 
-    html[data-action=browser] #content .block-index article:not(:hover) {
+    :root[data-action=browser] #content .block-index article:not(:hover) {
         border-color: transparent;
     }
 
-    html[data-action=browser] #content .block-index article > * {
+    :root[data-action=browser] #content .block-index article > * {
         display: block;
         border: 0;
     }

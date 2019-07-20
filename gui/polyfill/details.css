@@ -1,19 +1,19 @@
-html[data-shim-details] details,
-html[data-shim-details] details > summary:first-child {
+:root[data-shim-details] details,
+:root[data-shim-details] details > summary:first-child {
     display: block;
 }
 
-html[data-shim-details] details:not([open]) > * {
+:root[data-shim-details] details:not([open]) > * {
     display: none;
 }
 
-html[data-shim-details] details > summary:first-child::before {
+:root[data-shim-details] details > summary:first-child::before {
     display: inline-block;
     content: '▼';
     margin-right: 0.5rem;
 }
 
-html[data-shim-details] details:not([open]) > summary:first-child::before {
+:root[data-shim-details] details:not([open]) > summary:first-child::before {
     content: '▶';
 }
 
@@ -21,7 +21,7 @@ html[data-shim-details] details:not([open]) > summary:first-child::before {
  * Print
  */
 @media print {
-    html[data-shim-details] details > summary:first-child::before {
+    :root[data-shim-details] details > summary:first-child::before {
         display: none;
     }
 }

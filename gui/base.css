@@ -1,10 +1,4 @@
-*,
-::before,
-::after {
-    box-sizing: border-box;
-}
-
-html,
+:root,
 address, article, aside, body, footer, h1, h2, h3, h4, h5, h6, header, nav, section,
 blockquote, dd, div, dl, dt, figcaption, figure, hr, li, main, ol, p, pre, ul,
 a, abbr, b, cite, code, data, dfn, em, i, kbd, mark, q, s, samp, small, span, strong, sub, sup, time, u, var,
@@ -22,11 +16,51 @@ details, dialog, menu, summary {
     outline: 0 none;
 }
 
+/**
+ * Box sizing
+ */
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+/**
+ * Box shadow
+ */
+:invalid {
+  box-shadow: none;
+}
+
+/**
+ * Vertical align
+ */
 [role=button],
 audio, canvas, embed, iframe, img, object, picture, video,
 th, thead td,
 button, input, label, select, textarea {
     vertical-align: middle;
+}
+
+sub {
+    vertical-align: sub;
+}
+
+sup {
+    vertical-align: super;
+}
+
+td {
+    vertical-align: top;
+}
+
+/**
+ * Display
+ */
+dialog[open],
+main,
+figure > * {
+    display: block;
 }
 
 [role=button],
@@ -48,6 +82,33 @@ dialog {
     display: none;
 }
 
+/**
+ * Font
+ */
+blockquote,
+cite,
+dfn,
+em,
+optgroup,
+q,
+i,
+var {
+    font-style: italic;
+}
+
+b,
+em,
+optgroup,
+option[selected],
+strong,
+th,
+thead td {
+    font-weight: bold;
+}
+
+/**
+ * Cursor
+ */
 [role=button],
 [type=button],
 [type=reset],
@@ -73,20 +134,13 @@ ins[title] {
     cursor: move;
 }
 
-:invalid {
-  box-shadow: none;
-}
-
 /**
  * Global
  */
 :root {
-    font-size: 16px;
-}
-
-html {
-    overflow-y: scroll;
     width: 100%;
+    overflow-y: scroll;
+    font-size: 16px;
 }
 
 body {
@@ -95,7 +149,6 @@ body {
 }
 
 main {
-    display: block;
     hyphens: auto;
 }
 
@@ -121,32 +174,8 @@ pre {
     word-wrap: break-word;
 }
 
-blockquote,
-cite,
-dfn,
-em,
-q,
-i,
-var {
-    font-style: italic;
-}
-
-b,
-em,
-strong {
-    font-weight: bold;
-}
-
 q {
     quotes: '“' '”' '‘' '’';
-}
-
-sub {
-    vertical-align: sub;
-}
-
-sup {
-    vertical-align: super;
 }
 
 s,
@@ -176,10 +205,6 @@ hr {
 /**
  * Figure
  */
-figure > * {
-    display: block;
-}
-
 img {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -203,12 +228,7 @@ td {
 
 th,
 thead td {
-    font-weight: bold;
     white-space: nowrap;
-}
-
-td {
-    vertical-align: top;
 }
 
 /**
@@ -217,22 +237,6 @@ td {
 select[multiple],
 textarea {
     resize: both;
-}
-
-optgroup {
-    font-weight: bold;
-    font-style: italic;
-}
-
-option[selected] {
-    font-weight: bold;
-}
-
-/**
- * Interactive
- */
-dialog[open] {
-    display: block;
 }
 
 /**

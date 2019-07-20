@@ -28,7 +28,6 @@
         font-family: fontawesome;
         font-size: 0;
         font-weight: 900;
-        text-decoration: none;
     }
 
     a[data-action]::before {
