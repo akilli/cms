@@ -408,14 +408,14 @@ return [
     'page_article/admin' => [
         'index' => [
             'cfg' => [
-                'attr_id' => ['name', 'parent_id', 'date'],
+                'attr_id' => ['name', 'parent_id', 'timestamp'],
             ],
         ],
     ],
     'page_article/edit' => [
         'form' => [
             'cfg' => [
-                'attr_id' => ['name', 'slug', 'parent_id', 'image', 'content', 'aside', 'date', 'meta_title', 'meta_description'],
+                'attr_id' => ['name', 'slug', 'parent_id', 'image', 'content', 'aside', 'meta_title', 'meta_description'],
             ],
         ],
     ],
@@ -425,7 +425,7 @@ return [
     'page_content/admin' => [
         'index' => [
             'cfg' => [
-                'attr_id' => ['name', 'pos', 'parent_id', 'menu', 'date'],
+                'attr_id' => ['name', 'pos', 'parent_id', 'menu', 'timestamp'],
             ],
         ],
     ],

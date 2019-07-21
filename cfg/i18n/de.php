@@ -25,7 +25,6 @@ return [
     'Could not upload %s' => 'Konnte %s nicht hochladen',
     'Could not validate value' => 'Konnte Wert nicht validieren',
     'Dashboard' => 'Übersichtsseite',
-    'Date' => 'Datum',
     'Delete' => 'Löschen',
     'Documents' => 'Dokumente',
     'Edit' => 'Bearbeiten',

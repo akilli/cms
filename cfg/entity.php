@@ -233,10 +233,6 @@ return [
                 'type' => 'text',
                 'max' => 300,
             ],
-            'date' => [
-                'name' => 'Date',
-                'type' => 'datetime',
-            ],
             'slug' => [
                 'name' => 'Slug',
                 'type' => 'uid',
