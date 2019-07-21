@@ -72,7 +72,6 @@ return [
     'Page' => 'Seite',
     'Page access disabled' => 'Seitenzugriff deaktiviert',
     'Page not found' => 'Seite nicht gefunden',
-    'Page Updates' => 'Seitenaktualisierungen',
     'Pages' => 'Seiten',
     'Parent Block' => 'Übergeordneter Block',
     'Parent Page' => 'Oberseite',

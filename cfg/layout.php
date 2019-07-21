@@ -208,19 +208,6 @@ return [
                 'text' => 'Dashboard',
             ],
         ],
-        'updates' => [
-            'type' => 'index',
-            'tpl' => 'admin.phtml',
-            'parent_id' => 'content',
-            'sort' => 30,
-            'cfg' => [
-                'attr_id' => ['name', 'account_id', 'timestamp'],
-                'entity_id' => 'page',
-                'limit' => 10,
-                'order' => ['timestamp' => 'desc', 'id' => 'desc'],
-                'title' => 'Page Updates',
-            ],
-        ],
     ],
     'account/edit' => [
         'form' => [
