@@ -112,15 +112,15 @@ function file($val, array $attr): string
         return app\html('iframe', ['src' => $data['url'], 'allowfullscreen' => 'allowfullscreen'], $data['url']);
     }
 
-    if (!preg_match('#^(audio|image|video)/#', $data['mime'], $match)) {
-        return app\html('a', ['href' => $data['url']], $data['url']);
-    }
-
-    if ($match[1] === 'image') {
+    if (($p = explode('/', $data['mime'])) && $p[0] === 'image') {
         return app\html('img', ['src' => $data['url'], 'alt' => str\enc($data['info'])]);
     }
 
-    return app\html($match[1], ['src' => $data['url'], 'controls' => true]);
+    if (in_array($p[0], ['audio', 'video'])) {
+        return app\html($p[0], ['src' => $data['url'], 'controls' => true]);
+    }
+
+    return app\html('a', ['href' => $data['url']], $data['url']);
 }
 
 /**
