@@ -121,7 +121,7 @@ function view(array $block): string
     $html = '';
 
     foreach ($attrs as $attrId => $attr) {
-        $html .= attr\wrapper($data, $attr);
+        $html .= attr\viewer($data, $attr, ['wrap' => true]);
     }
 
     return $html;
@@ -306,7 +306,7 @@ function dblock(array $block): string
     $html = '';
 
     foreach ($attrs as $attr) {
-        $html .= attr\wrapper($data, $attr, ['class' => true] + (in_array($attr['id'], ['media', 'title']) ? ['link' => $data['link']] : []));
+        $html .= attr\viewer($data, $attr, ['wrap' => true] + (in_array($attr['id'], ['media', 'title']) ? ['link' => $data['link']] : []));
     }
 
     return $html ? app\html('section', ['id' => $block['id'], 'class' => str_replace('_', '-', $block['cfg']['data']['entity_id'])], $html) : '';

@@ -108,34 +108,31 @@ function validator(array $data, array $attr)
 /**
  * Viewer
  */
-function viewer(array $data, array $attr): string
+function viewer(array $data, array $attr, array $cfg = []): string
 {
-    $val = $data[$attr['id']] ?? null;
+    $cfg = arr\replace(APP['viewer'], $cfg);
+    $val = $attr['type'] !== 'password' && isset($data[$attr['id']]) ? $data[$attr['id']] : null;
+    $isEmpty = $val === null || $val === '';
 
-    if ($attr['type'] === 'password' || $val === null || $val === '') {
+    if ($isEmpty && (!$cfg['wrap'] || !$cfg['empty'])) {
         return '';
     }
 
     $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.viewer']]));
+    $html = !$isEmpty && $attr['viewer'] ? $attr['viewer']($val, $attr) : str\enc((string) $val);
 
-    return $attr['viewer'] ? $attr['viewer']($val, $attr) : str\enc((string) $val);
-}
-
-/**
- * Wrapper
- */
-function wrapper(array $data, array $attr, array $cfg = []): string
-{
-    $cfg = arr\replace(APP['attr.wrapper'], $cfg);
-
-    if (!($html = viewer($data, $attr)) && !$cfg['empty']) {
-        return '';
+    if (!$cfg['wrap'] || !$html && !$cfg['empty']) {
+        return $html;
     }
 
-    $a = $cfg['class'] ? [] : ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
+    $a = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
 
     if ($cfg['link'] && !preg_match('#<(a|audio|details|iframe|video) #', $html)) {
         $html = app\html('a', ['href' => $cfg['link']], $html);
+    }
+
+    if ($cfg['label']) {
+        $html = app\html('label', [], $attr['name']) . $html;
     }
 
     if (in_array($attr['id'], ['name', 'title'])) {
@@ -147,16 +144,14 @@ function wrapper(array $data, array $attr, array $cfg = []): string
     }
 
     if (($attr['uploadable'] || in_array($attr['type'], ['entity_file', 'iframe'])) && preg_match('#<(audio|iframe|img|video)#', $html, $match)) {
-        $type = $match[1] === 'img' ? 'image' : $match[1];
-        return app\html('figure', $cfg['class'] ? ['class' => $type] : $a, $html);
+        return app\html('figure', $a + (['class' => $match[1] === 'img' ? 'image' : $match[1]]), $html);
     }
 
     if (in_array($attr['type'], ['date', 'datetime', 'time'])) {
-        $a += ($val = $data[$attr['id']] ?? null) && $val !== $html ? ['datetime' => $val] : [];
-        return app\html('time', $a, $html);
+        return app\html('time', $a + ($val !== $html ? ['datetime' => $val] : []), $html);
     }
 
-    return app\html('div', $cfg['class'] ? ['class' => $attr['id']] : $a, $html);
+    return app\html('div', $a, $html);
 }
 
 /**
