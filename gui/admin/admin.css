@@ -294,28 +294,15 @@ main a:not([role=button]):hover {
  * Index
  */
 .block-index .thead {
-    margin: 0;
-    padding: 0.75rem 0;
-    font-weight: bold;
-}
-
-.block-index .thead > * {
-    display: block;
-    color: inherit;
-}
-
-a[data-sort=asc]::after {
-    display: inline-block;
-    content: '⇑';
-}
-
-a[data-sort=desc]::after {
-    display: inline-block;
-    content: '⇓';
+    display: none;
 }
 
 .block-index article {
     padding: 0.75rem 0;
+}
+
+.block-index article label {
+    font-weight: bold;
 }
 
 .block-index article h3 {
@@ -414,12 +401,33 @@ a[data-sort=desc]::after {
         text-align: left;
     }
 
+    .block-index .thead {
+        margin: 0;
+        padding: 0.75rem 0;
+        font-weight: bold;
+    }
+
     .block-index .thead > * {
+        color: inherit;
         border-bottom: solid 0.0625rem;
+    }
+
+    a[data-sort=asc]::after {
+        display: inline-block;
+        content: '⇑';
+    }
+
+    a[data-sort=desc]::after {
+        display: inline-block;
+        content: '⇓';
     }
 
     .block-index article > * {
         border-bottom: dotted 0.0625rem;
+    }
+
+    .block-index article label {
+        display: none;
     }
 }
 
