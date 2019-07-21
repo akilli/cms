@@ -388,7 +388,13 @@ main a:not([role=button]):hover {
         border-spacing: 0;
     }
 
-    .block-index .thead,
+    .block-index .thead {
+        display: table-row;
+        margin: 0;
+        padding: 0.75rem 0;
+        font-weight: bold;
+    }
+
     .block-index article {
         display: table-row;
     }
@@ -401,15 +407,13 @@ main a:not([role=button]):hover {
         text-align: left;
     }
 
-    .block-index .thead {
-        margin: 0;
-        padding: 0.75rem 0;
-        font-weight: bold;
-    }
-
     .block-index .thead > * {
         color: inherit;
         border-bottom: solid 0.0625rem;
+    }
+
+    .block-index article > * {
+        border-bottom: dotted 0.0625rem;
     }
 
     a[data-sort=asc]::after {
@@ -420,10 +424,6 @@ main a:not([role=button]):hover {
     a[data-sort=desc]::after {
         display: inline-block;
         content: '⇓';
-    }
-
-    .block-index article > * {
-        border-bottom: dotted 0.0625rem;
     }
 
     .block-index article label {
