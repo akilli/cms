@@ -267,28 +267,6 @@ function entity_postdelete_file(array $data): array
 }
 
 /**
- * Layout entity posvalidate
- */
-function entity_postvalidate_layout(array $data): array
-{
-    if (empty($data['name']) || empty($data['page_id']) || empty($data['parent_id'])) {
-        return $data;
-    }
-
-    $crit = [['name', $data['name']], ['page_id', $data['page_id']], ['parent_id', $data['parent_id']]];
-
-    if (!empty($data['_old']['id'])) {
-        $crit[] = ['id', $data['_old']['id'], APP['op']['!=']];
-    }
-
-    if (entity\size('layout', $crit)) {
-        $data['_error']['name'][] = app\i18n('Name must be unique for selected parent block and page');
-    }
-
-    return $data;
-}
-
-/**
  * Page entity load
  */
 function entity_load_page(array $data): array

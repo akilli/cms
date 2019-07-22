@@ -62,7 +62,6 @@ return [
     'MIME-Type' => 'MIME-Typ',
     'MIME-Type must not change' => 'MIME-Typ darf sich nicht ändern',
     'Name' => 'Name',
-    'Name must be unique for selected parent block and page' => 'Name muss für gewählten übergeordneten Block und Seite eindeutig sein',
     'New Entry' => 'Neuer Eintrag',
     'Next' => 'Weiter',
     'No' => 'Nein',
