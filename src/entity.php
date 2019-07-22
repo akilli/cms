@@ -234,19 +234,17 @@ function delete(string $entityId, array $crit = [], array $opt = []): bool
 }
 
 /**
- * Retrieve empty entity, optionally with only the specified attributes
+ * Retrieve empty entity
  *
  * @throws DomainException
  */
-function item(string $entityId, array $attrIds = []): array
+function item(string $entityId): array
 {
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 
-    $keys = $attrIds ? array_intersect(array_keys($entity['attr']), $attrIds) : array_keys($entity['attr']);
-
-    return init($entity, array_fill_keys($keys, null));
+    return init($entity, array_fill_keys(array_keys($entity['attr']), null));
 }
 
 /**
