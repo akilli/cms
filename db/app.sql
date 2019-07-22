@@ -41,6 +41,7 @@ CREATE TABLE file (
     entity_id varchar(50) NOT NULL,
     url varchar(255) NOT NULL UNIQUE,
     mime varchar(255) NOT NULL,
+    thumb varchar(255) DEFAULT NULL UNIQUE,
     info text NOT NULL
 );
 
@@ -262,6 +263,7 @@ WHERE
 
 CREATE UNIQUE INDEX ON file_media (id);
 CREATE UNIQUE INDEX ON file_media (url);
+CREATE UNIQUE INDEX ON file_media (thumb);
 CREATE INDEX ON file_media (name);
 CREATE INDEX ON file_media (entity_id);
 CREATE INDEX ON file_media (mime);

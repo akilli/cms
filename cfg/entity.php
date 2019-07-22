@@ -100,6 +100,12 @@ return [
                 'required' => true,
                 'unique' => true,
             ],
+            'thumb' => [
+                'name' => 'Thumbnail',
+                'type' => 'image',
+                'nullable' => true,
+                'unique' => true,
+            ],
             'mime' => [
                 'name' => 'MIME-Type',
                 'type' => 'text',

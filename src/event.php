@@ -180,9 +180,22 @@ function entity_prevalidate_file(array $data): array
         } else {
             $data['url'] = app\file($item['name']);
             $data['mime'] = $item['type'];
+
+            if (entity\size('file', [[['url', $data['url']], ['thumb', $data['url']]]])) {
+                $data['_error']['url'][] = app\i18n('Please change filename to generate an unique URL');
+            }
         }
     } elseif ($data['_entity']['id'] === 'file_iframe') {
         $data['mime'] = 'text/html';
+    }
+
+    if (!empty($data['thumb']) && ($item = app\data('request', 'file')['thumb'] ?? null)) {
+        $data['thumb'] = app\file($item['name']);
+        $crit = array_merge([[['url', $data['thumb']], ['thumb', $data['thumb']]]], $data['_old'] ? [['id', $data['_old']['id'], APP['op']['!=']]] : []);
+
+        if (entity\size('file', $crit)) {
+            $data['_error']['thumb'][] = app\i18n('Please change filename to generate an unique URL');
+        }
     }
 
     return $data;
@@ -195,13 +208,16 @@ function entity_prevalidate_file(array $data): array
  */
 function entity_postsave_file(array $data): array
 {
-    $id = $data['id'] ?? $data['_old']['id'] ?? null;
+    $upload = function (string $attrId) use ($data): ?string {
+        return ($item = app\data('request', 'file')[$attrId] ?? null) && !file\upload($item['tmp_name'], app\filepath($data[$attrId])) ? $item['name'] : null;
+    };
 
-    if ($data['_entity']['attr']['url']['uploadable']
-        && ($item = app\data('request', 'file')['url'] ?? null)
-        && (!$id || !file\upload($item['tmp_name'], app\filepath($data['url'])))
-    ) {
-        throw new DomainException(app\i18n('Could not upload %s', $item['name']));
+    if ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url']) && ($name = $upload('url')) || !empty($data['thumb']) && ($name = $upload('thumb'))) {
+        throw new DomainException(app\i18n('Could not upload %s', $name));
+    }
+
+    if (array_key_exists('thumb', $data) && !$data['thumb'] && $data['_old']['thumb'] && !file\delete(app\filepath($data['_old']['thumb']))) {
+        throw new DomainException(app\i18n('Could not delete file'));
     }
 
     return $data;
@@ -214,7 +230,9 @@ function entity_postsave_file(array $data): array
  */
 function entity_postdelete_file(array $data): array
 {
-    if ($data['_entity']['attr']['url']['uploadable'] && !file\delete(app\filepath($data['_old']['url']))) {
+    if ($data['_entity']['attr']['url']['uploadable'] && !file\delete(app\filepath($data['_old']['url']))
+        || $data['_old']['thumb'] && !file\delete(app\filepath($data['_old']['thumb']))
+    ) {
         throw new DomainException(app\i18n('Could not delete file'));
     }
 

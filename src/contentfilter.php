@@ -50,15 +50,18 @@ function email(string $html): string
  */
 function image(string $html, array $cfg = []): string
 {
-    $pattern = '#(?P<figure><figure class="(?P<class>[^"]+)">)\s*(?P<a><a(?:[^>]*)>)?\s*(?P<img>(?P<pre><img(?:[^>]*) src="'
-        . app\file() . '(?P<name>(?:[a-z0-9_\-]+)\.(?:' . implode('|', APP['image.ext']) . '))")(?P<post>(?:[^>]*)>))#';
+    $pattern = '#(?P<figure><figure class="(?P<class>[^"]+)">)\s*(?P<a><a(?:[^>]*)>)?\s*(?P<img>(?P<pre><img(?:[^>]*) src="(?P<url>'
+        . app\file() . '(?P<name>(?:[a-z0-9_\-]+)\.(?:' . implode('|', APP['image.ext']) . ')))")(?P<post>(?:[^>]*)>))#';
 
     if (!($cfg = arr\replace(APP['image'], $cfg)) || !$cfg['srcset'] || !preg_match_all($pattern, $html, $match)) {
         return $html;
     }
 
-    $call = function (array $m) use ($cfg): string {
-        if (strpos($m['img'], 'srcset="') !== false || !($file = app\filepath($m['name'])) || !is_file($file)) {
+    $data = entity\all('file', [['url', array_unique($match['url'])]], ['index' => 'url', 'select' => ['id', 'thumb']]);
+    $call = function (array $m) use ($cfg, $data): string {
+        $item = $data[$m['url']] ?? null;
+
+        if (strpos($m['img'], 'srcset="') !== false || !$item || !($file = app\filepath($m['name'])) || !is_file($file)) {
             return $m[0];
         }
 
@@ -84,6 +87,25 @@ function image(string $html, array $cfg = []): string
         if ($set) {
             $set .= ', ' . app\file($m['name']) . ' ' . $w[$file] . 'w';
             $img = $m['pre'] . ' srcset="' . $set . '"' . $sizes . $m['post'];
+        }
+
+        if ($cfg['thumb'] > 0 && !$m['thumb'] && $item['thumb'] && ($tf = app\filepath($item['thumb'])) && is_file($tf)) {
+            $tn = basename($item['thumb']);
+            $w[$tf] = $w[$tf] ?? getimagesize($tf)[0] ?? 0;
+            $max = min($cfg['thumb'], $w[$tf], $w[$file] - APP['image.threshold']);
+            $tset = '';
+
+            foreach ($cfg['srcset'] as $s) {
+                if ($s >= $w[$tf]) {
+                    break;
+                }
+
+                $tset .= ($tset ? ', ' : '') . app\file('resize-' . $s . '/' . $tn) . ' ' . $s . 'w';
+            }
+
+            $tset .= ($tset ? ', ' : '') . app\file($tn) . ' ' . $w[$tf] . 'w';
+            $source = app\html('source', ['media' => '(max-width: ' . $max . 'px)', 'srcset' => $tset]);
+            $img = app\html('picture', [], $source . $img);
         }
 
         return $m['figure'] . $m['a'] . $img;
