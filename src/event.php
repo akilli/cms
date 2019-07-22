@@ -321,41 +321,12 @@ function entity_postvalidate_page_menu(array $data): array
  */
 function entity_postvalidate_page_url(array $data): array
 {
-    if ((!array_key_exists('slug', $data) || $data['_old'] && $data['slug'] === $data['_old']['slug'])
-        && (!array_key_exists('parent_id', $data) || $data['_old'] && $data['parent_id'] === $data['_old']['parent_id'])
-    ) {
-        return $data;
-    }
-
-    if (array_key_exists('slug', $data)) {
-        $slug = $data['slug'];
-    } elseif (array_key_exists('slug', $data['_old'])) {
-        $slug = $data['_old']['slug'];
-    } else {
-        $slug = null;
-    }
-
-    if (array_key_exists('parent_id', $data)) {
-        $parentId = $data['parent_id'];
-    } elseif (array_key_exists('parent_id', $data['_old'])) {
-        $parentId = $data['_old']['parent_id'];
-    } else {
-        $parentId = null;
-    }
-
     $root = entity\one('page', [['url', '/']], ['select' => ['id']]);
+    $slug = $data['slug'] ?? $data['_old']['slug'] ?? null;
+    $pId = array_key_exists('parent_id', $data) ? $data['parent_id'] : ($data['_old']['parent_id'] ?? null);
+    $crit = [['slug', $slug], ['parent_id', [null, $root['id']]], ['id', $data['_old']['id'] ?? null, APP['op']['!=']]];
 
-    if ($parentId === null || $parentId === $root['id']) {
-        $parentId = [null, $root['id']];
-    }
-
-    $crit = [['slug', $slug], ['parent_id', $parentId]];
-
-    if ($data['_old']) {
-        $crit[] = ['id', $data['_old']['id'], APP['op']['!=']];
-    }
-
-    if (entity\size('page', $crit)) {
+    if (($pId === null || $pId === $root['id']) && entity\size('page', $crit)) {
         $data['_error']['slug'][] = app\i18n('Please change slug to generate an unique URL');
     }
 
