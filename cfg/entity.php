@@ -188,6 +188,7 @@ return [
     'page' => [
         'name' => 'Pages',
         'readonly' => true,
+        'unique' => [['parent_id', 'slug']],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -361,6 +362,7 @@ return [
     ],
     'layout' => [
         'name' => 'Layout',
+        'unique' => [['page_id', 'parent_id', 'name']],
         'action' => ['admin', 'delete', 'edit'],
         'attr' => [
             'id' => [

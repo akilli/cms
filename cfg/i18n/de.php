@@ -12,6 +12,7 @@ return [
     'Block' => 'Block',
     'Blocks' => 'Blöcke',
     'Browse' => 'Durchsuchen',
+    'Combination of %s must be unique' => 'Die Kombination aus %s muss eindeutig sein',
     'Cannot assign the page itself or a subpage as parent' => 'Die Seite selbst oder eine Unterseite kann nicht als Oberseite ausgewählt werden',
     'Cannot delete used role' => 'Eine verwendete Rolle kann nicht gelöscht werden',
     'Content' => 'Inhalt',

@@ -53,6 +53,7 @@ define('APP', [
             'type' => null,
             'parent_id' => null,
             'readonly' => false,
+            'unique' => [],
             'action' => [],
             'attr' => [],
         ],

@@ -150,15 +150,38 @@ function data_request(array $data): array
 }
 
 /**
- * Entity postvalidate
+ * Entity postvalidate password
  */
-function entity_postvalidate(array $data): array
+function entity_postvalidate_password(array $data): array
 {
-    $attrs = $data['_entity']['attr'];
-
     foreach (array_intersect_key($data, $data['_entity']['attr']) as $attrId => $val) {
-        if ($attrs[$attrId]['type'] === 'password' && $val && !($data[$attrId] = password_hash($val, PASSWORD_DEFAULT))) {
+        if ($data['_entity']['attr'][$attrId]['type'] === 'password' && $val && !($data[$attrId] = password_hash($val, PASSWORD_DEFAULT))) {
             $data['_error'][$attrId][] = app\i18n('Invalid password');
+        }
+    }
+
+    return $data;
+}
+
+/**
+ * Entity postvalidate unique
+ */
+function entity_postvalidate_unique(array $data): array
+{
+    foreach ($data['_entity']['unique'] as $attrIds) {
+        $item = arr\replace(array_fill_keys($attrIds, null), $data['_old'], $data);
+        $crit = [['id', $data['_old']['id'] ?? null, APP['op']['!=']]];
+        $labels = [];
+
+        foreach ($attrIds as $attrId) {
+            $crit[] = [$attrId, $item[$attrId]];
+            $labels[] = $data['_entity']['attr'][$attrId]['name'];
+        }
+
+        if (entity\size($data['_entity']['id'], $crit)) {
+            foreach ($attrIds as $attrId) {
+                $data['_error'][$attrId][] = app\i18n('Combination of %s must be unique', implode(', ', $labels));
+            }
         }
     }
 

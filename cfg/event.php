@@ -19,7 +19,8 @@ return [
         'event\layout_postrender_html' => 10,
     ],
     'entity.postvalidate' => [
-        'event\entity_postvalidate' => 10,
+        'event\entity_postvalidate_password' => 10,
+        'event\entity_postvalidate_unique' => 20,
     ],
     'entity.prevalidate.id.file' => [
         'event\entity_prevalidate_file' => 10,

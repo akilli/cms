@@ -110,9 +110,11 @@ function load_entity(array $data, array $ext): array
             || !$entity['type'] && !($entity['type'] = $dbCfg[$entity['db']]['type'] ?? null)
             || $entity['parent_id'] && (empty($data[$entity['parent_id']]) || !empty($data[$entity['parent_id']]['parent_id']))
             || !$entity['parent_id'] && !arr\has($entity['attr'], ['id', 'name'], true)
+            || $entity['unique'] !== array_filter($entity['unique'], 'is_array')
         ) {
             throw new DomainException(app\i18n('Invalid configuration'));
         } elseif ($entity['parent_id']) {
+            $entity['unique'] = array_merge($data[$entity['parent_id']]['unique'], $entity['unique']);
             $entity['attr'] = arr\extend($data[$entity['parent_id']]['attr'], $entity['attr']);
         }
 
