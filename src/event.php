@@ -170,11 +170,17 @@ function entity_postvalidate(array $data): array
  */
 function entity_prevalidate_file(array $data): array
 {
-    if ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url'])) {
+    if ($data['_entity']['id'] === 'file_iframe') {
+        $data['mime'] = 'text/html';
+
+        if ($data['_old'] && !empty($data['url']) && $data['url'] !== $data['_old']['url']) {
+            $data['_error']['url'][] = app\i18n('URL must not change');
+        }
+    } elseif ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url'])) {
         if (!$item = app\data('request', 'file')['url'] ?? null) {
             $data['_error']['url'][] = app\i18n('No upload file');
         } elseif ($data['_old'] && $item['type'] !== $data['_old']['mime']) {
-            $data['_error']['url'][] = app\i18n('Updated file must be of the same MIME-type');
+            $data['_error']['url'][] = app\i18n('MIME-Type must not change');
         } elseif ($data['_old']) {
             $data['url'] = $data['_old']['url'];
         } else {
@@ -185,8 +191,6 @@ function entity_prevalidate_file(array $data): array
                 $data['_error']['url'][] = app\i18n('Please change filename to generate an unique URL');
             }
         }
-    } elseif ($data['_entity']['id'] === 'file_iframe') {
-        $data['mime'] = 'text/html';
     }
 
     if (!empty($data['thumb']) && ($item = app\data('request', 'file')['thumb'] ?? null)) {

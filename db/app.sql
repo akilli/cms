@@ -451,8 +451,10 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION file_save() RETURNS trigger AS $$
     BEGIN
-        IF (TG_OP = 'UPDATE' AND (NEW.url != OLD.url OR NEW.mime != OLD.mime)) THEN
-            RAISE EXCEPTION 'Updated file must be of the same MIME-type';
+        IF (TG_OP = 'UPDATE' AND NEW.url != OLD.url) THEN
+            RAISE EXCEPTION 'URL must not change';
+        ELSIF (TG_OP = 'UPDATE' AND NEW.mime != OLD.mime) THEN
+            RAISE EXCEPTION 'MIME-Type must not change';
         END IF;
 
         RETURN NEW;
