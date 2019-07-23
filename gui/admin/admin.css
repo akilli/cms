@@ -189,6 +189,8 @@ textarea {
     height: 15rem;
 }
 
+input[type=checkbox][disabled] + label,
+input[type=radio][disabled] + label,
 form:invalid [type=submit] {
     opacity: 0.6;
 }
