@@ -18,7 +18,7 @@
             return;
         }
 
-        document.querySelectorAll('html[data-action=browser] #content .block-index article').forEach(item => {
+        document.querySelectorAll(':root[data-action=browser] #content .block-index article').forEach(item => {
             const msg = {};
 
             Object.getOwnPropertyNames(item.dataset).forEach(name => msg[name] = item.dataset[name]);
