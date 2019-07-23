@@ -385,7 +385,7 @@ return [
         ],
         'view' => [
             'cfg' => [
-                'attr_id' => ['image', 'content', 'aside'],
+                'attr_id' => ['content', 'aside'],
             ],
         ],
     ],
@@ -402,7 +402,7 @@ return [
     'page_article/edit' => [
         'form' => [
             'cfg' => [
-                'attr_id' => ['name', 'slug', 'parent_id', 'image', 'content', 'aside', 'meta_title', 'meta_description'],
+                'attr_id' => ['name', 'slug', 'parent_id', 'content', 'aside', 'meta_title', 'meta_description'],
             ],
         ],
     ],
@@ -419,7 +419,7 @@ return [
     'page_content/edit' => [
         'form' => [
             'cfg' => [
-                'attr_id' => ['name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'title', 'image', 'content', 'aside', 'meta_title', 'meta_description'],
+                'attr_id' => ['name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'title', 'content', 'aside', 'meta_title', 'meta_description'],
             ],
         ],
     ],

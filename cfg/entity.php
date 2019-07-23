@@ -211,12 +211,6 @@ return [
                 'nullable' => true,
                 'max' => 255,
             ],
-            'image' => [
-                'name' => 'Image',
-                'type' => 'entity_file',
-                'nullable' => true,
-                'ref' => 'file_image',
-            ],
             'content' => [
                 'name' => 'Main Content',
                 'type' => 'rte',

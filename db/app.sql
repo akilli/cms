@@ -58,7 +58,6 @@ CREATE TABLE page (
     name varchar(255) NOT NULL,
     entity_id varchar(50) NOT NULL,
     title varchar(255) DEFAULT NULL,
-    image int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
     content text NOT NULL DEFAULT '',
     aside text NOT NULL DEFAULT '',
     meta_title varchar(80) NOT NULL DEFAULT '',
@@ -80,7 +79,6 @@ CREATE TABLE page (
 CREATE INDEX ON page (name);
 CREATE INDEX ON page (entity_id);
 CREATE INDEX ON page (title);
-CREATE INDEX ON page (image);
 CREATE INDEX ON page (meta_title);
 CREATE INDEX ON page (meta_description);
 CREATE INDEX ON page (slug);
