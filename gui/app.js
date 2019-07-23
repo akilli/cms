@@ -65,11 +65,11 @@
         };
 
         try {
-            const data = JSON.parse(app.get(app.url('api/cfg')));
+            const cfg = JSON.parse(app.get(app.url('api/cfg')));
 
             Object.getOwnPropertyNames(app.cfg).forEach(name => {
-                if (data[name] && typeof app.cfg[name] === typeof data[name]) {
-                    app.cfg[name] = data[name];
+                if (cfg[name] && typeof app.cfg[name] === typeof cfg[name]) {
+                    app.cfg[name] = cfg[name];
                 }
             });
         } catch (e) {
