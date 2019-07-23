@@ -16,6 +16,7 @@ return [
     'Cannot assign the page itself or a subpage as parent' => 'Die Seite selbst oder eine Unterseite kann nicht als Oberseite ausgewählt werden',
     'Cannot delete used role' => 'Eine verwendete Rolle kann nicht gelöscht werden',
     'Content' => 'Inhalt',
+    'Content Block' => 'Inhaltsblock',
     'Content Blocks' => 'Inhaltsblöcke',
     'Content Pages' => 'Inhaltsseiten',
     'Could not delete data' => 'Konnte Daten nicht löschen',
