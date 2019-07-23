@@ -20,7 +20,6 @@
 
         document.querySelectorAll(':root[data-action=browser] #content .block-index article').forEach(item => {
             const msg = {};
-
             Object.getOwnPropertyNames(item.dataset).forEach(name => msg[name] = item.dataset[name]);
             item.addEventListener('click', () => window.opener.postMessage(msg, origin));
         });
@@ -29,7 +28,7 @@
     /**
      * Opener
      */
-    function open () {
+    function open() {
         const suffix = '-file';
 
         document.querySelectorAll('a[data-action=browser][data-ref]').forEach(item => {
@@ -40,7 +39,7 @@
                     return;
                 }
 
-                CKEDITOR.api.browser('/' + entity + '/browser', data => {
+                CKEDITOR.api.browser(app.url(`${entity}/browser`), data => {
                     if (!data.id) {
                         return;
                     }

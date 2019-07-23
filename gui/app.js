@@ -9,10 +9,11 @@
     }
 
     window.app = (() => {
-        const cfgUrl = '/api/cfg';
         const app = {
             cfg: {
-                i18n: {}
+                i18n: {},
+                mtime: 0,
+                url: {},
             },
             ajax: function (method, url, body) {
                 if (!method || !url) {
@@ -48,11 +49,23 @@
                 }
 
                 return key;
-            }
+            },
+            url: function (path) {
+                return `/${path}`;
+            },
+            file: function (path) {
+                return `${this.cfg.url.file}/${path}`;
+            },
+            gui: function (path) {
+                return `${this.cfg.url.gui}/${this.cfg.mtime}/${path}`;
+            },
+            ext: function (path) {
+                return `${this.cfg.url.ext}/${this.cfg.mtime}/${path}`;
+            },
         };
 
         try {
-            const data = JSON.parse(app.get(cfgUrl));
+            const data = JSON.parse(app.get(app.url('api/cfg')));
 
             Object.getOwnPropertyNames(app.cfg).forEach(name => {
                 if (data[name] && typeof app.cfg[name] === typeof data[name]) {

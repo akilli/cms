@@ -365,7 +365,7 @@ function response_account_logout(array $data): array
  */
 function response_api_cfg(array $data): array
 {
-    $data['body'] = json_encode(['i18n' => app\cfg('i18n')]);
+    $data['body'] = json_encode(['i18n' => app\cfg('i18n'), 'mtime' => APP['mtime'], 'url' => APP['url']]);
     $data['type'] = 'json';
     $data['_stop'] = true;
 
