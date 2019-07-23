@@ -12,8 +12,8 @@
         const app = {
             cfg: {
                 i18n: {},
-                mtime: 0,
-                url: {},
+                lang: 'en',
+                rte: {},
             },
             ajax: function (method, url, body) {
                 if (!method || !url) {
@@ -50,22 +50,10 @@
 
                 return key;
             },
-            url: function (path) {
-                return `/${path}`;
-            },
-            file: function (path) {
-                return `${this.cfg.url.file}/${path}`;
-            },
-            gui: function (path) {
-                return `${this.cfg.url.gui}/${this.cfg.mtime}/${path}`;
-            },
-            ext: function (path) {
-                return `${this.cfg.url.ext}/${this.cfg.mtime}/${path}`;
-            },
         };
 
         try {
-            const cfg = JSON.parse(app.get(app.url('api/cfg')));
+            const cfg = JSON.parse(app.get('/api/cfg'));
 
             Object.getOwnPropertyNames(app.cfg).forEach(name => {
                 if (cfg[name] && typeof app.cfg[name] === typeof cfg[name]) {

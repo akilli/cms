@@ -58,6 +58,8 @@ function load(string $id): array
             $cfg = load_opt($data, $ext);
         } elseif ($id === 'priv') {
             $cfg = load_priv($data, $ext);
+        } elseif ($id === 'rte') {
+            $cfg = load_rte($data, $ext);
         } elseif ($id === 'toolbar') {
             $cfg = load_toolbar($data, $ext);
         } elseif (in_array($id, ['db', 'event'])) {
@@ -207,6 +209,17 @@ function load_priv(array $data, array $ext): array
             $data[$id] = arr\replace(APP['cfg']['priv'], $data[$id]);
         }
     }
+
+    return $data;
+}
+
+/**
+ * Loads rich text editor configuration
+ */
+function load_rte(array $data, array $ext): array
+{
+    $data = array_replace($data, $ext);
+    $data['section'] = array_map('app\i18n', $data['section']);
 
     return $data;
 }

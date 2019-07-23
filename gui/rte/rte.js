@@ -7,20 +7,18 @@
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('textarea[data-type=rte]').forEach(rte => {
             CKEDITOR.replace(rte, {
-                blockApi: id => typeof id === 'string' && id ? app.url(`block/api/${id}`) : null,
-                blockBrowser: app.url('block/browser'),
-                contentsCss: [app.gui('base.css'), app.gui('rte/rte.css')],
+                blockApi: id => typeof id === 'string' && id ? `/block/api/${id}` : null,
+                blockBrowser: '/block/browser',
+                contentsCss: app.cfg.rte.css,
                 customConfig: '',
                 disableNativeSpellChecker: true,
                 fillEmptyBlocks: false,
                 format_tags: 'p;h2;h3',
                 height: '30rem',
-                language: document.documentElement.getAttribute('lang') || 'en',
-                mediaBrowser: app.url('file_media/browser'),
+                language: app.cfg.lang,
+                mediaBrowser: '/file_media/browser',
                 removeDialogTabs: 'link:advanced;link:target',
-                section: {
-                    'block-content': app.i18n('Content Block')
-                },
+                section: app.cfg.rte.section,
                 stylesSet: false,
                 toolbar: [
                     {
@@ -43,10 +41,10 @@
                             'Section',
                             'Block',
                             'Grid',
-                            'Gallery'
+                            'Gallery',
                         ]
                     }
-                ]
+                ],
             });
         });
     });

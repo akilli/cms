@@ -39,7 +39,7 @@
                     return;
                 }
 
-                CKEDITOR.api.browser(app.url(`${entity}/browser`), data => {
+                CKEDITOR.api.browser(`/${entity}/browser`, data => {
                     if (!data.id) {
                         return;
                     }
