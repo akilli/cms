@@ -150,7 +150,7 @@ return [
         ],
         'index' => [
             'type' => 'index',
-            'tpl' => 'admin.phtml',
+            'tpl' => 'index-admin.phtml',
             'parent_id' => 'content',
             'sort' => 40,
             'cfg' => [
@@ -166,7 +166,7 @@ return [
         ],
         'index' => [
             'type' => 'index',
-            'tpl' => 'browser.phtml',
+            'tpl' => 'index-browser.phtml',
             'parent_id' => 'content',
             'sort' => 30,
             'cfg' => [
