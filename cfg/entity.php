@@ -57,6 +57,14 @@ return [
                 'min' => 8,
                 'max' => 255,
             ],
+            'confirmation' => [
+                'name' => 'Password Confirmation',
+                'type' => 'password',
+                'virtual' => true,
+                'required' => true,
+                'min' => 8,
+                'max' => 255,
+            ],
             'email' => [
                 'name' => 'Email',
                 'type' => 'email',

@@ -242,7 +242,7 @@ return [
             'parent_id' => 'content',
             'sort' => 30,
             'cfg' => [
-                'attr_id' => ['password', 'email'],
+                'attr_id' => ['password', 'confirmation', 'email'],
             ],
         ],
     ],
