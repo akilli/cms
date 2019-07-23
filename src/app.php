@@ -216,6 +216,49 @@ function log($msg): void
 }
 
 /**
+ * Generates URL by given path and params, optionally preserves existing params
+ */
+function url(string $path = '', array $get = [], bool $preserve = false): string
+{
+    return '/' . $path . query($get, $preserve);
+}
+
+/**
+ * Generates query part of an URL with given params, optionally preserves existing params
+ */
+function query(array $get, bool $preserve = false): string
+{
+    $get += $preserve ? data('request', 'get') : [];
+    $query = $get ? http_build_query($get, '', '&amp;') : '';
+
+    return $query ? '?' . $query : '';
+}
+
+/**
+ * File URL
+ */
+function file(string $path = ''): string
+{
+    return APP['url']['file'] . '/' . $path;
+}
+
+/**
+ * GUI URL
+ */
+function gui(string $path = ''): string
+{
+    return APP['url']['gui'] . '/' . APP['mtime'] . '/' . $path;
+}
+
+/**
+ * Extension GUI URL
+ */
+function ext(string $path = ''): string
+{
+    return APP['url']['ext'] . '/' . APP['mtime'] . '/' . $path;
+}
+
+/**
  * Gets absolute path to specified file name or URL
  */
 function filepath(string $id): string
@@ -263,47 +306,4 @@ function html(string $tag, array $attrs = [], string $val = null): string
     }
 
     return in_array($tag, APP['html.void']) ? '<' . $tag . $a . ' />' : '<' . $tag . $a . '>' . $val . '</' . $tag . '>';
-}
-
-/**
- * Generates URL by given path and params, optionally preserves existing params
- */
-function url(string $path = '', array $get = [], bool $preserve = false): string
-{
-    return '/' . $path . query($get, $preserve);
-}
-
-/**
- * Generates query part of an URL with given params, optionally preserves existing params
- */
-function query(array $get, bool $preserve = false): string
-{
-    $get += $preserve ? data('request', 'get') : [];
-    $query = $get ? http_build_query($get, '', '&amp;') : '';
-
-    return $query ? '?' . $query : '';
-}
-
-/**
- * File URL
- */
-function file(string $path = ''): string
-{
-    return APP['url']['file'] . '/' . $path;
-}
-
-/**
- * GUI URL
- */
-function gui(string $path = ''): string
-{
-    return APP['url']['gui'] . '/' . APP['mtime'] . '/' . $path;
-}
-
-/**
- * Extension GUI URL
- */
-function ext(string $path = ''): string
-{
-    return APP['url']['ext'] . '/' . APP['mtime'] . '/' . $path;
 }
