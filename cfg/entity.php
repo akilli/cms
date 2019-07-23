@@ -217,11 +217,6 @@ return [
                 'nullable' => true,
                 'ref' => 'file_image',
             ],
-            'teaser' => [
-                'name' => 'Teaser',
-                'type' => 'rte',
-                'virtual' => true,
-            ],
             'content' => [
                 'name' => 'Main Content',
                 'type' => 'rte',

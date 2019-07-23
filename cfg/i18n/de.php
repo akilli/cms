@@ -100,7 +100,6 @@ return [
     'Submit' => 'Abschicken',
     'Successfully deleted data' => 'Daten erfolgreich gelöscht',
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
-    'Teaser' => 'Teaser',
     'Thumbnail' => 'Vorschaubild',
     'Timestamp' => 'Zeitstempel',
     'Title' => 'Überschrift',

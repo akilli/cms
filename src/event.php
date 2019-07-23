@@ -267,18 +267,6 @@ function entity_postdelete_file(array $data): array
 }
 
 /**
- * Page entity load
- */
-function entity_load_page(array $data): array
-{
-    if (array_key_exists('content', $data)) {
-        $data['teaser'] = preg_match('#^(<p[^>]*>.*?</p>)#', trim($data['content']), $m) ? $m[1] : '';
-    }
-
-    return $data;
-}
-
-/**
  * Page entity postvalidate menu
  */
 function entity_postvalidate_page_menu(array $data): array

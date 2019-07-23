@@ -25,9 +25,6 @@ return [
     'entity.postdelete.id.file' => [
         'event\entity_postdelete_file' => 10,
     ],
-    'entity.load.id.page' => [
-        'event\entity_load_page' => 10,
-    ],
     'entity.postvalidate.id.page' => [
         'event\entity_postvalidate_page_menu' => 10,
         'event\entity_postvalidate_page_url' => 20,
