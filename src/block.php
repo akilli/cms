@@ -134,8 +134,7 @@ function index(array $block): string
 {
     $app = app\data('app');
     $request = app\data('request');
-    $block['cfg']['entity_id'] = $block['cfg']['entity_id'] ?: $app['entity_id'];
-    $entity = app\cfg('entity', $block['cfg']['entity_id']);
+    $entity = $block['cfg']['entity_id'] ? app\cfg('entity', $block['cfg']['entity_id']) : $app['entity'];
     $call = function ($v): bool {
         return is_int($v) && $v >= 0;
     };
