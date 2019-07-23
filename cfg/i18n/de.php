@@ -77,8 +77,6 @@ return [
     'Parent Block' => 'Übergeordneter Block',
     'Parent Page' => 'Oberseite',
     'Password' => 'Passwort',
-    'Password and password confirmation must be identical' => 'Passwort und Passwortbestätigung müssen identisch sein',
-    'Password Confirmation' => 'Passwortbestätigung',
     'Path' => 'Pfad',
     'Please change filename to generate an unique URL' => 'Bitte Dateinamen ändern, damit eine eindeutige URL erzeugt werden kann',
     'Please change slug to generate an unique URL' => 'Bitte Slug ändern, damit eine eindeutige URL erzeugt werden kann',

@@ -363,19 +363,9 @@ function profile(array $block): string
         return '';
     }
 
-    if ($data = $request['post']) {
-        if (!empty($data['password']) && (empty($data['confirmation']) || $data['password'] !== $data['confirmation'])) {
-            $data['_error']['password'][] = app\i18n('Password and password confirmation must be identical');
-            $data['_error']['confirmation'][] = app\i18n('Password and password confirmation must be identical');
-        } else {
-            unset($data['confirmation']);
-            $data = ['id' => $account['id']] + $data;
-
-            if (entity\save('account', $data)) {
-                request\redirect($request['url']);
-                return '';
-            }
-        }
+    if (($data = $request['post']) && ($data = ['id' => $account['id']] + $data) && entity\save('account', $data)) {
+        request\redirect($request['url']);
+        return '';
     }
 
     $data = $data ? arr\replace($account, $data) : $account;
