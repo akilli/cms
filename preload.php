@@ -172,7 +172,6 @@ define('APP', [
     'response' => [
         'body' => '',
         'redirect' => null,
-        'type' => 'html',
     ],
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'url' => [

@@ -36,10 +36,6 @@ function run(): string
         return '';
     }
 
-    if ($data['type'] === 'json') {
-        header('Content-Type: application/json', true);
-    }
-
     return $data['body'];
 }
 
