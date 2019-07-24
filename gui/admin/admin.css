@@ -260,7 +260,7 @@ main a {
     color: #60abc6;
 }
 
-main a:not([role=button]):hover {
+main a:not([role=button]):not([data-action]):hover {
     text-decoration: underline;
 }
 
