@@ -16,7 +16,7 @@
                 format_tags: 'p;h2;h3',
                 height: '30rem',
                 language: app.cfg.lang,
-                mediaBrowser: '/file_media/browser',
+                mediaBrowser: '/file/browser',
                 removeDialogTabs: 'link:advanced;link:target',
                 section: app.cfg.rte.section,
                 stylesSet: false,

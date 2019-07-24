@@ -103,7 +103,7 @@ CREATE TABLE block (
     entity_id varchar(50) NOT NULL,
     title varchar(255) DEFAULT NULL,
     link varchar(255) DEFAULT NULL,
-    media int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
+    file int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
     content text NOT NULL DEFAULT ''
 );
 
@@ -111,7 +111,7 @@ CREATE INDEX ON block (name);
 CREATE INDEX ON block (entity_id);
 CREATE INDEX ON block (title);
 CREATE INDEX ON block (link);
-CREATE INDEX ON block (media);
+CREATE INDEX ON block (file);
 
 --
 -- Layout
@@ -242,29 +242,6 @@ FROM
 WHERE
     entity_id = 'block_content'
 WITH LOCAL CHECK OPTION;
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Materialized View
--- ---------------------------------------------------------------------------------------------------------------------
-
---
--- File Media
---
-
-CREATE MATERIALIZED VIEW file_media AS
-SELECT
-    *
-FROM
-    file
-WHERE
-    entity_id IN ('file_audio', 'file_iframe', 'file_image', 'file_video');
-
-CREATE UNIQUE INDEX ON file_media (id);
-CREATE UNIQUE INDEX ON file_media (url);
-CREATE UNIQUE INDEX ON file_media (thumb);
-CREATE INDEX ON file_media (name);
-CREATE INDEX ON file_media (entity_id);
-CREATE INDEX ON file_media (mime);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Trigger Function
@@ -459,14 +436,6 @@ CREATE FUNCTION file_save() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION file_view() RETURNS trigger AS $$
-    BEGIN
-        REFRESH MATERIALIZED VIEW CONCURRENTLY file_media;
-
-        RETURN NULL;
-    END;
-$$ LANGUAGE plpgsql;
-
 --
 -- Page
 --
@@ -629,7 +598,6 @@ $$ LANGUAGE plpgsql;
 --
 
 CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW EXECUTE PROCEDURE file_save();
-CREATE TRIGGER file_view AFTER INSERT OR UPDATE OR DELETE ON file FOR EACH STATEMENT EXECUTE PROCEDURE file_view();
 
 --
 -- Page

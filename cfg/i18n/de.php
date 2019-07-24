@@ -56,7 +56,6 @@ return [
     'Login' => 'Anmelden',
     'Logout' => 'Abmelden',
     'Main Content' => 'Hauptinhalt',
-    'Media' => 'Media',
     'Menu Entry' => 'Menüeintrag',
     'Meta Description' => 'Meta-Description',
     'Meta Title' => 'Meta-Title',

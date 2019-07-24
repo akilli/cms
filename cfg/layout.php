@@ -268,7 +268,7 @@ return [
     'block/edit' => [
         'form' => [
             'cfg' => [
-                'attr_id' => ['name', 'title', 'link', 'media', 'content'],
+                'attr_id' => ['name', 'title', 'link', 'file', 'content'],
             ],
         ],
     ],

@@ -101,7 +101,7 @@ return [
     'dblock' => [
         'call' => 'block\dblock',
         'cfg' => [
-            'attr_id' => ['title', 'media', 'content'],
+            'attr_id' => ['title', 'file', 'content'],
             'data' => [],
         ],
     ],

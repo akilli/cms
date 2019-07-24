@@ -8,10 +8,4 @@ return [
         'bottom' => 'bottom',
     ],
     'bool' => ['No', 'Yes'],
-    'media' => [
-        'file_audio' => 'Audios',
-        'file_iframe' => 'Iframes',
-        'file_image' => 'Images',
-        'file_video' => 'Videos',
-    ],
  ];

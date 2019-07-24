@@ -51,9 +51,6 @@ return [
     'file_image/browser' => [
         'priv' => 'file/browser',
     ],
-    'file_media/browser' => [
-        'priv' => 'file/browser',
-    ],
     'file_video/browser' => [
         'priv' => 'file/browser',
     ],

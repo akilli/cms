@@ -119,17 +119,6 @@ return [
             ],
         ],
     ],
-    'file_media' => [
-        'name' => 'Media',
-        'readonly' => true,
-        'parent_id' => 'file',
-        'action' => ['browser'],
-        'attr' => [
-            'entity_id' => [
-                'opt.filter' => 'media',
-            ],
-        ]
-    ],
     'file_audio' => [
         'name' => 'Audios',
         'parent_id' => 'file',
@@ -332,11 +321,10 @@ return [
                 'nullable' => true,
                 'max' => 255,
             ],
-            'media' => [
-                'name' => 'Media',
+            'file' => [
+                'name' => 'File',
                 'type' => 'entity_file',
                 'nullable' => true,
-                'ref' => 'file_media',
             ],
             'content' => [
                 'name' => 'Content',
