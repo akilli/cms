@@ -4,15 +4,8 @@
 @font-face {
     font-family: fontawesome;
     font-style: normal;
-    font-weight: normal;
-    src: url(font/fa-regular.woff2) format('woff2'), url(font/fa-regular.woff) format('woff');
-}
-
-@font-face {
-    font-family: fontawesome;
-    font-style: normal;
     font-weight: 900;
-    src: url(font/fa-solid.woff2) format('woff2'), url(font/fa-solid.woff) format('woff');
+    src: url(font/fa.woff2) format('woff2');
 }
 
 /**
@@ -27,7 +20,6 @@
         line-height: 1;
         font-family: fontawesome;
         font-size: 0;
-        font-weight: 900;
     }
 
     a[data-action]::before {
