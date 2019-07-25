@@ -8,7 +8,7 @@
      * Prepares print version
      */
     function printBefore() {
-        document.getElementsByTagName('details').forEach(details => {
+        [].forEach.call(document.getElementsByTagName('details'), details => {
             if (details.hasAttribute('open')) {
                 details.setAttribute('data-open', '');
             } else {
@@ -26,7 +26,7 @@
      * Restores screen version
      */
     function printAfter() {
-        document.getElementsByTagName('details').forEach(details => {
+        [].forEach.call(document.getElementsByTagName('details'), details => {
             if (details.hasAttribute('data-open')) {
                 details.removeAttribute('data-open');
             } else {

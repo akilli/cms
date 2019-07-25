@@ -13,7 +13,7 @@
 
         document.documentElement.setAttribute('data-shim-details', '');
 
-        all.forEach(details => {
+        [].forEach.call(all, details => {
             // Define open property
             Object.defineProperty(details, 'open', {
                 get: function () {
