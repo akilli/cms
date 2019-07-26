@@ -30,7 +30,7 @@ function block(string $html): string
         }
     }
 
-    return preg_replace('#<block(?:[^>]*)>#s', '', $html);
+    return preg_replace('#<block (?:[^>]*)>#s', '', $html);
 }
 
 /**
