@@ -9,9 +9,9 @@
 
         document.querySelectorAll(`${sel}[required]`).forEach(item => {
             item.addEventListener('change', () => {
-                const req = item.form.querySelector(`${sel}[name="' + item.name + '"]:checked`);
+                const req = item.form.querySelector(`${sel}[name="${item.name}"]:checked`);
 
-                item.form.querySelectorAll(`${sel}[name="' + item.name + '"]`).forEach(sib => {
+                item.form.querySelectorAll(`${sel}[name="${item.name}"]`).forEach(sib => {
                     if (req) {
                         sib.removeAttribute('required');
                     } else {

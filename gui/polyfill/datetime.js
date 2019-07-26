@@ -25,7 +25,7 @@
                         time.value = '00:00';
                     }
 
-                    item.value = date.value + 'T' + time.value;
+                    item.value = `${date.value}T${time.value}`;
                 } else {
                     date.value = '';
                     time.value = '';
