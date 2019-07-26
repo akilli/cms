@@ -33,9 +33,9 @@ function datetime(string $val, array $attr): string
 }
 
 /**
- * Rich text
+ * Editor
  */
-function rte(string $val): string
+function editor(string $val): string
 {
     return $val;
 }

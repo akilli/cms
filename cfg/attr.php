@@ -43,6 +43,14 @@ return [
         'backend' => 'decimal',
         'frontend' => 'frontend\decimal',
     ],
+    'editor' => [
+        'backend' => 'text',
+        'frontend' => 'frontend\textarea',
+        'filter' => 'frontend\text',
+        'validator' => 'validator\editor',
+        'viewer' => 'viewer\editor',
+        'cfg.validator' => '<a><article><audio><b><block><blockquote><br><caption><cite><details><dfn><div><em><figcaption><figure><h2><h3><i><iframe><img><kbd><li><mark><ol><p><q><section><strong><summary><table><tbody><td><tfoot><th><thead><tr><ul><video>',
+    ],
     'email' => [
         'backend' => 'varchar',
         'frontend' => 'frontend\email',
@@ -137,14 +145,6 @@ return [
     'range' => [
         'backend' => 'int',
         'frontend' => 'frontend\range',
-    ],
-    'rte' => [
-        'backend' => 'text',
-        'frontend' => 'frontend\textarea',
-        'filter' => 'frontend\text',
-        'validator' => 'validator\rte',
-        'viewer' => 'viewer\rte',
-        'cfg.validator' => '<a><article><audio><b><block><blockquote><br><caption><cite><details><dfn><div><em><figcaption><figure><h2><h3><i><iframe><img><kbd><li><mark><ol><p><q><section><strong><summary><table><tbody><td><tfoot><th><thead><tr><ul><video>',
     ],
     'select' => [
         'backend' => 'varchar',

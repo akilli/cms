@@ -80,9 +80,9 @@ function datetime(string $val, array $attr): string
 }
 
 /**
- * Rich text
+ * Editor
  */
-function rte(string $val, array $attr): string
+function editor(string $val, array $attr): string
 {
     return trim(preg_replace('#<p>\s*</p>#', '', strip_tags($val, $attr['cfg.validator'])));
 }

@@ -361,17 +361,6 @@ function response_account_logout(array $data): array
 }
 
 /**
- * API config response
- */
-function response_api_cfg(array $data): array
-{
-    $data['body'] = json_encode(['i18n' => app\cfg('i18n'), 'lang' => APP['lang'], 'rte' => app\cfg('rte')]);
-    $data['_stop'] = true;
-
-    return $data;
-}
-
-/**
  * Block API response
  */
 function response_block_api(array $data): array

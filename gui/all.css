@@ -9,6 +9,192 @@
 }
 
 /**
+ * Global
+ */
+body {
+    line-height: 1.5rem;
+    padding: 0 0.75rem;
+    font-family: sans-serif;
+    color: #052a33;
+    background: #fff;
+}
+
+body > * {
+    padding: 0.75rem 0;
+}
+
+details:not(:first-child),
+h1:not(:first-child),
+h2:not(:first-child),
+h3:not(:first-child),
+p:not(:first-child),
+ol:not(:first-child),
+ul:not(:first-child),
+figure:not(:first-child),
+table:not(:first-child),
+main > :not(:first-child),
+article > :not(:first-child),
+aside > :not(:first-child),
+form > :not(:first-child),
+fieldset > :not(:first-child),
+.block-index > :not(:first-child),
+.block-index > .content > :not(:first-child) {
+    margin-top: 1.5rem;
+}
+
+details + details,
+nav ul:not(:first-child),
+table p:not(:first-child),
+.msg p:not(:first-child)  {
+    margin-top: 0;
+}
+
+::selection {
+    color: #fff;
+    background: #052a33;
+}
+
+/**
+ * Text
+ */
+h1 {
+    font-size: 1.5rem;
+}
+
+h2 {
+    font-size: 1.25rem;
+}
+
+h3 {
+    font-size: 1.125rem;
+}
+
+time {
+    display: block;
+}
+
+pre {
+    padding: 0.75rem;
+    color: #fff;
+    background: #052a33;
+}
+
+ol,
+ul {
+    padding-left: 2rem;
+}
+
+nav ul {
+    padding-left: 0;
+}
+
+/**
+ * Figure
+ */
+figure.left {
+    max-width: 50%;
+    float: left;
+    margin-right: 0.75rem;
+}
+
+figure.right {
+    max-width: 50%;
+    float: right;
+    margin-left: 0.75rem;
+}
+
+figcaption {
+    font-size: 0.875rem;
+}
+
+/**
+ * Table
+ */
+table {
+    width: 100%;
+    font-size: 0.875rem;
+}
+
+td,
+th {
+    padding: 0.71875rem 0.375rem;
+    border: 0.0625rem solid #bbb;
+}
+
+thead tr:last-child td,
+thead tr:last-child th {
+    border-bottom-color: #052a33;
+}
+
+tfoot tr:first-child td,
+tfoot tr:first-child th {
+    border-top-color: #052a33;
+}
+
+/**
+ * Main
+ */
+main a {
+    color: #93ddf9;
+}
+
+main a:not([role=button]):not([data-action]):hover {
+    text-decoration: underline;
+}
+
+/**
+ * Index
+ */
+.block-index iframe,
+.block-index img,
+.block-index video {
+    max-width: 15rem;
+    max-height: 10.5rem;
+}
+
+/**
+ * Filter
+ */
+.filter {
+    margin: 0.75rem 0 0.75rem 1rem;
+    font-size: 0.875rem;
+}
+
+/**
+ * Pager
+ */
+.pager {
+    padding: 0.75rem 0;
+    font-size: 0.875rem;
+}
+
+/**
+ * Message
+ */
+.msg {
+    margin: 0 -0.75rem;
+    padding: 0.75rem;
+    color: #fff;
+    background: #93ddf9;
+}
+
+/**
+ * Clear
+ */
+[class^='block-']::before,
+[data-type=editor]::before {
+    display: table;
+    content: ' ';
+}
+
+[class^='block-']::after,
+[data-type=editor]::after {
+    display: table;
+    content: ' ';
+    clear: both;
+}
+
+/**
  * Screen
  */
 @media screen {
@@ -129,6 +315,14 @@
         display: block;
         padding: 0.375rem;
     }
+
+    /**
+     * Pager
+     */
+    .pager {
+        display: flex;
+        justify-content: space-between;
+    }
 }
 
 /**
@@ -145,13 +339,8 @@
     /**
      * Details
      */
-    details {
-        margin-bottom: 1.5rem;
-    }
-
     summary {
         display: block;
-        margin-bottom: 1.5rem;
         font-size: 1.125rem;
     }
 
@@ -169,7 +358,7 @@
      * Links
      */
     #content a:not([role]):not([data-action])::after {
-        content: " (" attr(href) ")";
+        content: ' (' attr(href) ')';
         font-size: 0.875rem;
         font-style: italic;
         text-transform: none;

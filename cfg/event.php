@@ -47,9 +47,6 @@ return [
     'response.account.logout' => [
         'event\response_account_logout' => 10,
     ],
-    'response.api.cfg' => [
-        'event\response_api_cfg' => 10,
-    ],
     'response.block.api' => [
         'event\response_block_api' => 10,
     ],

@@ -35,7 +35,7 @@ details, dialog, menu, summary {
 /**
  * Vertical align
  */
-[role=button],
+a[role=button],
 audio, canvas, embed, iframe, img, object, picture, video,
 th, thead td,
 button, input, label, select, textarea {
@@ -63,8 +63,7 @@ figure > * {
     display: block;
 }
 
-[role=button],
-[role=button]:hover,
+a[role=button],
 audio,
 canvas,
 embed,
@@ -109,12 +108,11 @@ thead td {
 /**
  * Cursor
  */
-[role=button],
-[type=button],
-[type=reset],
-[type=submit],
 a,
 button,
+input[type=button],
+input[type=reset],
+input[type=submit],
 input[type=checkbox],
 input[type=radio],
 label,

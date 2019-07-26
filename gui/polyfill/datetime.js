@@ -1,9 +1,7 @@
 /**
  * Fallback for input[type=datetime-local] to input[type=date] + input[type=time]
  */
-'use strict';
-
-(document => {
+export default function () {
     document.addEventListener('DOMContentLoaded', () => {
         const inputs = document.querySelectorAll('input[type=datetime-local]');
         const d = document.createElement('input');
@@ -48,4 +46,4 @@
             item.parentElement.insertBefore(time, item);
         });
     });
-})(document);
+}

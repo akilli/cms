@@ -1,19 +1,19 @@
-:root[data-shim-details] details,
-:root[data-shim-details] details > summary:first-child {
+:root[data-details] details,
+:root[data-details] details > summary:first-child {
     display: block;
 }
 
-:root[data-shim-details] details:not([open]) > * {
+:root[data-details] details:not([open]) > * {
     display: none;
 }
 
-:root[data-shim-details] details > summary:first-child::before {
+:root[data-details] details > summary:first-child::before {
     display: inline-block;
     content: '▼';
     margin-right: 0.5rem;
 }
 
-:root[data-shim-details] details:not([open]) > summary:first-child::before {
+:root[data-details] details:not([open]) > summary:first-child::before {
     content: '▶';
 }
 
@@ -21,7 +21,7 @@
  * Print
  */
 @media print {
-    :root[data-shim-details] details > summary:first-child::before {
+    :root[data-details] details > summary:first-child::before {
         display: none;
     }
 }

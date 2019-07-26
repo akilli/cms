@@ -30,9 +30,6 @@ return [
     'account/profile' => [
         'priv' => '_user_',
     ],
-    'api/cfg' => [
-        'active' => false,
-    ],
     'block/api' => [
         'priv' => 'block/admin',
     ],

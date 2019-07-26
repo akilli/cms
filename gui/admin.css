@@ -1,0 +1,384 @@
+/**
+ * Variable
+ */
+:root {
+    --editor-border: #bbb;
+}
+
+/**
+ * Form
+ */
+::placeholder {
+    color: #bbb;
+}
+
+input[type=email],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=text],
+input[type=url],
+legend,
+select,
+textarea {
+    padding: 0.71875rem 0;
+    border-bottom: 0.0625rem solid #bbb;
+}
+
+fieldset input[type=email],
+fieldset input[type=password],
+fieldset input[type=search],
+fieldset input[type=tel],
+fieldset input[type=text],
+fieldset input[type=url],
+fieldset select {
+    width: 100%;
+    max-width: 30rem;
+}
+
+a[role=button],
+button,
+input[type=button],
+input[type=reset],
+input[type=submit] {
+    padding: 0.75rem;
+    color: #fff;
+    background: #052a33;
+}
+
+input[type=file] {
+    font-size: 0.875rem;
+}
+
+legend,
+textarea {
+    width: 100%;
+}
+
+select[multiple],
+textarea {
+    height: 15rem;
+}
+
+select {
+    background: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input[type=checkbox],
+input[type=radio] {
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0.5625rem 0;
+    border: 0.0625rem solid #bbb;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input[type=radio] {
+    border-radius: 1rem;
+}
+
+input[type=checkbox]:checked,
+input[type=radio]:checked {
+    background: #052a33;
+    border-color: #052a33;
+}
+
+label {
+    display: block;
+}
+
+input[type=checkbox] + label,
+input[type=radio] + label {
+    display: inline-block;
+    margin: 0 0.5rem 0 0.25rem;
+}
+
+input[type=checkbox][disabled] + label,
+input[type=radio][disabled] + label,
+form:invalid [type=submit] {
+    opacity: 0.6;
+}
+
+div[data-required] > label:first-child::after {
+    content: '*';
+}
+
+div[data-invalid] {
+    color: #900;
+}
+
+div[data-invalid] :invalid {
+    border-bottom: 0.0625rem solid #900;
+}
+
+.error {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: #900;
+}
+
+/**
+ * Editor
+ */
+.editor-content {
+    min-height: 15rem;
+    max-height: 45rem;
+    overflow-y: scroll;
+}
+
+.editor-toolbar {
+    color: #052a33;
+}
+
+.editor-toolbar [data-cmd] {
+    color: inherit;
+    background: none;
+}
+
+.editor-toolbar-widget {
+    top: 3rem;
+}
+
+/**
+ * Toolbar
+ */
+#toolbar {
+    margin: 0 -0.75rem;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    color: #fff;
+    background: #052a33;
+}
+
+#toolbar li ul {
+    background: #052a33;
+}
+
+#toolbar a.active {
+    text-decoration: underline;
+}
+
+/**
+ * Index
+ */
+.block-index .thead {
+    display: none;
+}
+
+.block-index article {
+    padding: 0.75rem 0;
+}
+
+.block-index article label {
+    font-weight: bold;
+}
+
+.block-index article h3 {
+    margin: 0;
+    font-size: inherit;
+}
+
+.block-index audio,
+.block-index iframe,
+.block-index video {
+    pointer-events: none;
+}
+
+:root:not([data-action=browser]) .block-index img,
+:root:not([data-action=browser]) .block-index video {
+    max-width: 9rem;
+    max-height: 6rem;
+}
+
+/**
+ * Login
+ */
+:root[data-url='/account/login'] body {
+    color: #052a33;
+    background: url(cms.svg) no-repeat center;
+    background-size: cover;
+}
+
+:root[data-url='/account/login'] input {
+    padding: 0.75rem;
+    color: #fff;
+    background: #052a33;
+    border: 0;
+}
+
+:root[data-url='/account/login'] .msg,
+:root[data-url='/account/login'] div[data-invalid] :invalid {
+    background: #900;
+}
+
+:root[data-url='/account/login'] .msg {
+    margin: 1.5rem 0 0;
+}
+
+:root[data-url='/account/login'] main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 30rem;
+    height: 100vh;
+    margin: 0 auto;
+}
+
+:root[data-url='/account/login'] main > * {
+    width: 100%;
+}
+
+/**
+ * Screen
+ */
+@media screen {
+    /**
+     * Actions
+     */
+    a[data-action=delete]::before,
+    a[data-action=remove]::before {
+        content: '\f1f8';
+    }
+
+    a[data-action=edit]::before {
+        content: '\f044';
+    }
+
+    a[data-action=view]::before {
+        content: '\f06e';
+    }
+
+    a[data-action=browser]::before {
+        content: '\f07c';
+    }
+}
+
+/**
+ * Desktop + Print
+ */
+@media screen and (min-width: 55rem), print {
+    /**
+     * Index
+     */
+    .block-index > .content {
+        display: table;
+        width: 100%;
+        font-size: 0.875rem;
+        empty-cells: show;
+        border-spacing: 0;
+    }
+
+    .block-index .thead {
+        display: table-row;
+        margin: 0;
+        padding: 0.75rem 0;
+        font-weight: bold;
+    }
+
+    .block-index article {
+        display: table-row;
+    }
+
+    .block-index .thead > *,
+    .block-index article > * {
+        display: table-cell;
+        padding: 0.71875rem 0.375rem;
+        vertical-align: top;
+        text-align: left;
+    }
+
+    .block-index .thead > * {
+        color: inherit;
+        border-bottom: 0.0625rem solid;
+    }
+
+    .block-index article > * {
+        border-bottom: 0.0625rem dotted;
+    }
+
+    a[data-sort=asc]::after {
+        display: inline-block;
+        content: '⇑';
+    }
+
+    a[data-sort=desc]::after {
+        display: inline-block;
+        content: '⇓';
+    }
+
+    .block-index article label {
+        display: none;
+    }
+}
+
+/**
+ * Desktop
+ */
+@media screen and (min-width: 55rem) {
+    /**
+     * Dashboard
+     */
+    :root[data-url='/account/dashboard'] #content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    :root[data-url='/account/dashboard'] #content h1 {
+        width: 100%;
+    }
+
+    :root[data-url='/account/dashboard'] #content .block-index {
+        width: calc(50% - 0.75rem);
+    }
+
+    /**
+     * Browser
+     */
+    :root[data-action=browser] #content .block-index > .content {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    :root[data-action=browser] #content .block-index article {
+        display: block;
+        width: 25%;
+        border: 0.0625rem solid;
+        cursor: pointer;
+    }
+
+    :root[data-action=browser] #content .block-index article:not(:hover) {
+        border-color: transparent;
+    }
+
+    :root[data-action=browser] #content .block-index article > * {
+        display: block;
+        border: 0;
+    }
+}
+
+/**
+ * Print
+ */
+@media print {
+    /**
+     * Hidden
+     */
+    body > :not(main),
+    main > :not(#content),
+    .block-index > details,
+    .block-index .thead > ::after,
+    .block-index .thead > :last-child,
+    .block-index article > :last-child,
+    .new,
+    .pager {
+        display: none;
+    }
+}

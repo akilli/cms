@@ -202,11 +202,11 @@ return [
             ],
             'content' => [
                 'name' => 'Main Content',
-                'type' => 'rte',
+                'type' => 'editor',
             ],
             'aside' => [
                 'name' => 'Additional Information',
-                'type' => 'rte',
+                'type' => 'editor',
             ],
             'meta_title' => [
                 'name' => 'Meta Title',
@@ -328,7 +328,7 @@ return [
             ],
             'content' => [
                 'name' => 'Content',
-                'type' => 'rte',
+                'type' => 'editor',
             ],
         ],
     ],

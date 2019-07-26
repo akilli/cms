@@ -1,9 +1,7 @@
 /**
  * Details polyfill
  */
-'use strict';
-
-(document => {
+export default function () {
     document.addEventListener('DOMContentLoaded', () => {
         const all = document.getElementsByTagName('details');
 
@@ -11,7 +9,7 @@
             return;
         }
 
-        document.documentElement.setAttribute('data-shim-details', '');
+        document.documentElement.setAttribute('data-details', '');
 
         [].forEach.call(all, details => {
             // Define open property
@@ -54,4 +52,4 @@
             }
         });
     });
-})(document);
+}
