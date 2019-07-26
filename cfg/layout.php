@@ -29,6 +29,18 @@ return [
             'parent_id' => 'head',
             'sort' => 10,
         ],
+        'icon' => [
+            'type' => 'tpl',
+            'tpl' => 'icon.phtml',
+            'parent_id' => 'head',
+            'sort' => 20,
+        ],
+        'asset' => [
+            'type' => 'tpl',
+            'tpl' => 'asset.phtml',
+            'parent_id' => 'head',
+            'sort' => 30,
+        ],
         'top' => [
             'type' => 'container',
             'parent_id' => 'body',
@@ -95,10 +107,7 @@ return [
      */
     '_admin_' => [
         'asset' => [
-            'type' => 'tpl',
             'tpl' => 'asset-admin.phtml',
-            'parent_id' => 'head',
-            'sort' => 20,
         ],
         'toolbar' => [
             'type' => 'toolbar',
@@ -111,12 +120,6 @@ return [
      * Public Area
      */
     '_public_' => [
-        'asset' => [
-            'type' => 'tpl',
-            'tpl' => 'asset-public.phtml',
-            'parent_id' => 'head',
-            'sort' => 20,
-        ],
         'header' => [
             'type' => 'tpl',
             'tpl' => 'header.phtml',
