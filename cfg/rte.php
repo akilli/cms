@@ -1,6 +1,6 @@
 <?php
 return [
-    'css' => ['/gui/base.css', '/gui/rte/rte.css'],
+    'css' => ['/gui/base.css', '/gui/admin/rte.css'],
     'blockapi' => '/block/api',
     'blockbrowser' => '/block/browser',
     'mediabrowser' => '/file/browser',

@@ -1,8 +1,9 @@
 #
 # Image
 #
-.git
+build-config.js
 docker-compose.*
 Dockerfile
 .dockerignore
+.git
 Jenkinsfile
