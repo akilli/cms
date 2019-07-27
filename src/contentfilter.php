@@ -73,7 +73,6 @@ function image(string $html, array $cfg = []): string
         }
 
         $img = $m['img'];
-        $sizes = $cfg['sizes'] && $cfg['sizes'] !== '100vw' ? ' sizes="' . $cfg['sizes'] . '"' : '';
         $set = '';
 
         foreach ($cfg['srcset'] as $s) {
@@ -86,7 +85,8 @@ function image(string $html, array $cfg = []): string
 
         if ($set) {
             $set .= ', ' . app\file($m['name']) . ' ' . $w[$file] . 'w';
-            $img = $m['pre'] . ' srcset="' . $set . '"' . $sizes . $m['post'];
+            $sizes = $cfg['sizes'] && $cfg['sizes'] !== '100vw' ? $cfg['sizes'] : '(max-width: ' . $w[$file] . 'px) 100vw, ' . $w[$file] . 'px';
+            $img = $m['pre'] . ' srcset="' . $set . '" sizes="' . $sizes . '"' . $m['post'];
         }
 
         if ($cfg['thumb'] > 0 && !$m['thumb'] && $item['thumb'] && ($tf = app\filepath($item['thumb'])) && is_file($tf)) {
