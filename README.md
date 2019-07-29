@@ -1,6 +1,6 @@
 # `akilli/cms`
 
-![akıllı CMS](https://raw.githubusercontent.com/akilli/cms/master/gui/cms.svg)
+![akıllı CMS](https://raw.githubusercontent.com/akilli/cms/master/gui/cms.svg?sanitize=true)
 
 A quick'n'dirty non-OOP-experiment... or something completely different.
 
