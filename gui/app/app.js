@@ -18,13 +18,16 @@ export default {
          * @readonly
          */
         editor: {
+            audiobrowser: '/file_audio/browser',
             blockapi: '/block/api',
             blockbrowser: '/block/browser',
+            iframebrowser: '/file_iframe/browser',
+            imagebrowser: '/file_image/browser',
             lang: lang,
-            mediabrowser: '/file/browser',
             section: {
                 'block-content': 'Content Block',
             },
+            videobrowser: '/file_video/browser',
         },
 
         /**
