@@ -57,7 +57,7 @@ function image(string $html, array $cfg = []): string
         return $html;
     }
 
-    $data = entity\all('file', [['url', array_unique($match['url'])]], ['index' => 'url', 'select' => ['id', 'thumb']]);
+    $data = entity\all('file', [['url', array_unique($match['url'])]], ['index' => 'url', 'select' => ['id', 'url', 'thumb']]);
     $call = function (array $m) use ($cfg, $data): string {
         $item = $data[$m['url']] ?? null;
 
@@ -89,7 +89,7 @@ function image(string $html, array $cfg = []): string
             $img = $m['pre'] . ' srcset="' . $set . '" sizes="' . $sizes . '"' . $m['post'];
         }
 
-        if ($cfg['thumb'] > 0 && !$m['thumb'] && $item['thumb'] && ($tf = app\filepath($item['thumb'])) && is_file($tf)) {
+        if ($cfg['thumb'] > 0 && $item['thumb'] && ($tf = app\filepath($item['thumb'])) && is_file($tf)) {
             $tn = basename($item['thumb']);
             $w[$tf] = $w[$tf] ?? getimagesize($tf)[0] ?? 0;
             $max = min($cfg['thumb'], $w[$tf], $w[$file] - APP['image.threshold']);
