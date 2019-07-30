@@ -32,7 +32,7 @@ export default function () {
             if (!summary || summary.tagName.toLowerCase() !== 'summary') {
                 summary = document.createElement('summary');
                 summary.innerText = 'Summary';
-                details.insertBefore(summary, details.firstChild);
+                details.insertAdjacentElement('afterbegin', summary);
             }
 
             summary.addEventListener('click', () => details.open = !details.hasAttribute('open'));

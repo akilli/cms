@@ -41,9 +41,9 @@ export default function () {
             time.required = item.required;
             time.value = val[2];
             time.addEventListener('change', change);
-            item.setAttribute('hidden', '');
-            item.parentElement.insertBefore(date, item);
-            item.parentElement.insertBefore(time, item);
+            item.hidden = true;
+            item.insertAdjacentElement('afterend', time);
+            item.insertAdjacentElement('afterend', date);
         });
     });
 }
