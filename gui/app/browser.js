@@ -40,7 +40,7 @@ export default {
                     return;
                 }
 
-                Browser.open(window, `/${entity}/browser`, data => {
+                Browser.open(window, `/${entity}/browser`, async data => {
                     if (!data.id) {
                         return;
                     }
@@ -48,7 +48,7 @@ export default {
                     const id = item.getAttribute('data-id');
                     const input = document.getElementById(id);
                     const div = document.getElementById(id + suffix);
-                    const type = Media.fromUrl(data.src);
+                    const type = await Media.fromUrl(data.src);
                     const typeEl = type ? type.element : 'a';
                     const file = document.createElement(typeEl);
 
@@ -58,7 +58,7 @@ export default {
 
                     input.setAttribute('value', data.id);
 
-                    if (['audio', 'video'].includes(type)) {
+                    if (['audio', 'video'].includes(type.id)) {
                         file.setAttribute('controls', 'controls');
                     }
 
