@@ -141,7 +141,7 @@ div[data-invalid] :invalid {
     background: none;
 }
 
-.editor-toolbar-widget {
+.editor-toolbar-main {
     top: 3rem;
 }
 
