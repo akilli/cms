@@ -48,7 +48,7 @@ export default {
                     const id = item.getAttribute('data-id');
                     const input = document.getElementById(id);
                     const div = document.getElementById(id + suffix);
-                    const type = await Media.fromUrl(data.src);
+                    const type = data.type ? Media.get(data.type) : await Media.fromUrl(data.src);
                     const typeEl = type ? type.element : 'a';
                     const file = document.createElement(typeEl);
 
