@@ -123,8 +123,8 @@ th {
 
 thead tr:last-child td,
 thead tr:last-child th,
-tbody tr:last-child td,
-tbody tr:last-child th {
+tbody:not(:last-child) tr:last-child td,
+tbody:not(:last-child) tr:last-child th {
     border-bottom-color: #052a33;
 }
 
