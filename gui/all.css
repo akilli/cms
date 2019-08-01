@@ -122,13 +122,10 @@ th {
 }
 
 thead tr:last-child td,
-thead tr:last-child th {
+thead tr:last-child th,
+tbody tr:last-child td,
+tbody tr:last-child th {
     border-bottom-color: #052a33;
-}
-
-tfoot tr:first-child td,
-tfoot tr:first-child th {
-    border-top-color: #052a33;
 }
 
 /**
