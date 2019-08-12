@@ -13,6 +13,7 @@
 }
 
 input[type=email],
+input[type=number],
 input[type=password],
 input[type=search],
 input[type=tel],
@@ -26,6 +27,7 @@ textarea {
 }
 
 fieldset input[type=email],
+fieldset input[type=number],
 fieldset input[type=password],
 fieldset input[type=search],
 fieldset input[type=tel],
