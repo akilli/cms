@@ -76,6 +76,7 @@ define('APP', [
         ],
     ],
     'charset' => ini_get('default_charset'),
+    'container' => ['body', 'head', 'main'],
     'crlf' => "\r\n",
     'data' => [
         'app' => [
