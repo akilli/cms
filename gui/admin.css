@@ -128,6 +128,10 @@ div[data-invalid] :invalid {
 /**
  * Editor
  */
+:root[data-editor-fullscreen] {
+    overflow-y: hidden;
+}
+
 .editor-content {
     min-height: 15rem;
     max-height: 45rem;
