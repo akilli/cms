@@ -1,5 +1,7 @@
 /**
  * Track validity of input elements in corresponding wrapper div element
+ *
+ * @type {Function}
  */
 export default function () {
     document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('form').forEach(form => {
@@ -14,6 +16,8 @@ export default function () {
 
 /**
  * Check field
+ *
+ * @param {HTMLDivElement} div
  */
 function check(div) {
     if (div.querySelector(':invalid')) {

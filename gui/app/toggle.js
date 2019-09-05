@@ -1,5 +1,7 @@
 /**
  * Toggle
+ *
+ * @type {Function}
  */
 export default function () {
     document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('a[data-action=toggle]').forEach(a => a.addEventListener('click', () => {

@@ -3,6 +3,8 @@ import Media from '../editor/src/util/Media.js';
 
 /**
  * Browser + Opener
+ *
+ * @type {Object.<String, Function>}
  */
 export default {
     /**

@@ -1,5 +1,7 @@
 /**
  * Print Listeners
+ *
+ * @type {Function}
  */
 export default function () {
     window.matchMedia('print').addListener(media => media.matches ? printBefore() : printAfter());
