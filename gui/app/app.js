@@ -59,7 +59,7 @@ export default {
      * @param {String} key
      * @param {...String} args
      *
-     * @returns {String}
+     * @return {String}
      */
     i18n(key, ...args) {
         key = this.cfg.i18n[key] ? this.cfg.i18n[key] : key;
