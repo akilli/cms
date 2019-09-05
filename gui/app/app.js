@@ -1,3 +1,10 @@
+import de from './i18n/de.js';
+
+/**
+ * Language
+ *
+ * @type {String}
+ */
 const lang = document.documentElement.getAttribute('lang') || 'en';
 
 /**
@@ -49,7 +56,7 @@ export default {
          * @readonly
          */
         i18n: {
-            'Please confirm delete operation': 'Bitte den Löschvorgang bestätigen',
+            de,
         },
     },
 
@@ -62,7 +69,9 @@ export default {
      * @return {String}
      */
     i18n(key, ...args) {
-        key = this.cfg.i18n[key] ? this.cfg.i18n[key] : key;
+        if (this.cfg.i18n[lang] && this.cfg.i18n[lang][key]) {
+            key = this.cfg.i18n[lang][key];
+        }
 
         for (let i = 0; i < args.length; i++) {
             key = key.replace(/%s/, args[i]);
