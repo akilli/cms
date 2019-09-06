@@ -128,7 +128,7 @@ div[data-invalid] :invalid {
 /**
  * Editor
  */
-:root[data-editor-fullscreen] {
+:root[data-fullscreen] {
     overflow-y: hidden;
 }
 
