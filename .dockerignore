@@ -7,3 +7,8 @@ Dockerfile
 .dockerignore
 .git
 Jenkinsfile
+
+#
+# Git
+#
+.idea
