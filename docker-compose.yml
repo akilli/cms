@@ -60,7 +60,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.cms.entrypoints=https"
-      - "traefik.http.routers.cms.rule=host(`akilli.de, www.akilli.de`)"
+      - "traefik.http.routers.cms.rule=host(`akilli.de`) || host(`www.akilli.de`)"
       - "traefik.http.routers.cms.tls=true"
       - "traefik.http.services.cms.loadbalancer.server.port=80"
     networks:
