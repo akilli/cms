@@ -15,4 +15,4 @@ services:
     extra_hosts:
       - "cms.app.loc:127.0.0.1"
     labels:
-      traefik.frontend.rule: "Host: cms.app.loc"
+      - "traefik.http.routers.cms.rule=host(`cms.app.loc`)"
