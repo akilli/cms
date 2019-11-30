@@ -1,5 +1,8 @@
 FROM akilli/php
 
+#
+# Labels
+#
 LABEL maintainer="Ayhan Akilli"
 
 #
