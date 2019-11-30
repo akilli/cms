@@ -20,12 +20,8 @@ services:
         aliases:
           - db
     volumes:
-      - source: db
-        target: /data
-        type: volume
-      - source: file
-        target: /app
-        type: volume
+      - db:/data
+      - file:/app
   cms-php:
     image: akilli/cms
     depends_on:
@@ -37,17 +33,9 @@ services:
         aliases:
           - php
     volumes:
-      - source: app
-        target: /app
-        type: volume
-      - source: file
-        target: /data/file
-        type: volume
-        volume:
-          nocopy: true
-      - source: tmp
-        target: /tmp
-        type: volume
+      - app:/app
+      - file:/data/file:nocopy
+      - tmp:/tmp
   cms-www:
     image: akilli/nginx
     depends_on:
@@ -69,16 +57,6 @@ services:
         aliases:
           - www
     volumes:
-      - source: app
-        target: /app
-        type: volume
-        volume:
-          nocopy: true
-      - source: cache
-        target: /tmp
-        type: volume
-      - source: file
-        target: /data/file
-        type: volume
-        volume:
-          nocopy: true
+      - app:/app:nocopy
+      - cache:/tmp
+      - file:/data/file:nocopy
