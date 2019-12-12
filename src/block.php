@@ -138,9 +138,7 @@ function index(array $block): string
     $app = app\data('app');
     $request = app\data('request');
     $entity = $block['cfg']['entity_id'] ? app\cfg('entity', $block['cfg']['entity_id']) : $app['entity'];
-    $call = function ($v): bool {
-        return is_int($v) && $v >= 0;
-    };
+    $call = fn($v): bool => is_int($v) && $v >= 0;
     $block['cfg']['limit'] = array_filter(is_array($block['cfg']['limit']) ? $block['cfg']['limit'] : [$block['cfg']['limit']], $call);
 
     if (!$entity || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id'])) || !$block['cfg']['limit']) {
@@ -196,9 +194,7 @@ function index(array $block): string
 
         if ($block['cfg']['search'] && $get['q'] && ($q = array_filter(explode(' ', (string) $get['q'])))) {
             foreach ($q as $v) {
-                $call = function ($attrId) use ($v): array {
-                    return [$attrId, $v, APP['op']['~']];
-                };
+                $call = fn($attrId): array => [$attrId, $v, APP['op']['~']];
                 $crit[] = array_map($call, $block['cfg']['search']);
             }
         }

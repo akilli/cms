@@ -235,9 +235,7 @@ function entity_prevalidate_file(array $data): array
  */
 function entity_postsave_file(array $data): array
 {
-    $upload = function (string $attrId) use ($data): ?string {
-        return ($item = app\data('request', 'file')[$attrId] ?? null) && !file\upload($item['tmp_name'], app\filepath($data[$attrId])) ? $item['name'] : null;
-    };
+    $upload = fn(string $attrId): ?string => ($item = app\data('request', 'file')[$attrId] ?? null) && !file\upload($item['tmp_name'], app\filepath($data[$attrId])) ? $item['name'] : null;
 
     if ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url']) && ($name = $upload('url')) || !empty($data['thumb']) && ($name = $upload('thumb'))) {
         throw new DomainException(app\i18n('Could not upload %s', $name));

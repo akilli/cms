@@ -275,9 +275,7 @@ function tpl(string $tpl, array $var = []): string
     }
 
     unset($tpl);
-    $var = function ($key) use ($var) {
-        return $var[$key] ?? null;
-    };
+    $var = fn($key) => $var[$key] ?? null;
     ob_start();
     include $var('tpl');
 

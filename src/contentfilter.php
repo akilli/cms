@@ -38,11 +38,7 @@ function block(string $html): string
  */
 function email(string $html): string
 {
-    $call = function (array $m): string {
-        return str\hex($m[0]);
-    };
-
-    return preg_replace_callback('#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im', $call, $html);
+    return preg_replace_callback('#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im', fn(array $m): string => str\hex($m[0]), $html);
 }
 
 /**
