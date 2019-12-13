@@ -192,26 +192,20 @@ define('APP', [
 /**
  * Recursively include base and extension source files
  */
-$scan = function (string $path) use (& $scan): array {
-    $data = [];
-
+$scan = function (string $path) use (& $scan): void {
     foreach (array_diff(scandir($path), ['.', '..']) as $name) {
         $file = $path . '/' . $name;
 
         if (is_file($file) && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
-            $data[] = $file;
+            include_once $file;
         } elseif (is_dir($file)) {
-            array_push($data, ...$scan($file));
+            $scan($file);
         }
     }
-
-    return $data;
 };
 
 foreach (array_filter([APP['path']['src'], APP['path']['ext.src']], 'is_dir') as $path) {
-    foreach ($scan($path) as $file) {
-        include_once $file;
-    }
+    $scan($path);
 }
 
 /**
@@ -235,15 +229,5 @@ setlocale(LC_ALL, APP['locale']);
 
 /**
  * Configuration
- *
- * @todo Use opcache.preload with PHP 7.4 and only use `define('CFG', cfg\preload());` instead of the following lines
- *
- * @see https://wiki.php.net/rfc/preload
  */
-$tmp = APP['path']['tmp'] . '/cfg.php';
-
-if (!is_file($tmp)) {
-    file\save($tmp, cfg\preload());
-}
-
-define('CFG', file\load($tmp));
+define('CFG', cfg\preload());
