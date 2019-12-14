@@ -9,6 +9,9 @@ services:
   cms-db:
     volumes:
       - ./db:/init/postgres
+  cms-php:
+    volumes:
+      - ./php.dev.ini:/etc/php/conf.d/zzz.ini
   cms-www:
     extra_hosts:
       - "cms.app.loc:127.0.0.1"
