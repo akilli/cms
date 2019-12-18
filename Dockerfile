@@ -3,6 +3,6 @@ FROM akilli/php
 LABEL maintainer="Ayhan Akilli"
 
 COPY . /srv/
-COPY init/ /init/
+COPY docker/00-dirs /init/00-dirs
 
 ONBUILD COPY . /opt/

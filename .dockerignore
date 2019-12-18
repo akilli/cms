@@ -1,7 +1,7 @@
 #
 # Image
 #
-build-config.js
+/docker
 docker-compose.*
 Dockerfile
 .dockerignore
