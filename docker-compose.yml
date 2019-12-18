@@ -18,8 +18,7 @@ services:
         aliases:
           - db
     volumes:
-      - db:/data
-      - file:/app
+      - db:/var/lib/postgresql
   cms-php:
     image: akilli/cms
     depends_on:
@@ -31,8 +30,8 @@ services:
         aliases:
           - php
     volumes:
-      - app:/app
-      - file:/data/file:nocopy
+      - app:/srv
+      - file:/var/local
   cms-www:
     image: akilli/nginx
     depends_on:
@@ -54,5 +53,5 @@ services:
         aliases:
           - www
     volumes:
-      - app:/app:nocopy
-      - file:/data/file:nocopy
+      - app:/srv:nocopy
+      - file:/var/local:nocopy

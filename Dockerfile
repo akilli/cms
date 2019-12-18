@@ -2,6 +2,7 @@ FROM akilli/php
 
 LABEL maintainer="Ayhan Akilli"
 
-COPY . /app/
+COPY . /srv/
+COPY init/ /init/
 
-ONBUILD COPY . /data/ext/
+ONBUILD COPY . /opt/
