@@ -1,7 +1,6 @@
 #
 # Image
 #
-/docker
 docker-compose.*
 Dockerfile
 .dockerignore
