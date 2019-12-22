@@ -17,7 +17,4 @@ export default {
         image: '/file_image/browser',
         video: '/file_video/browser',
     },
-    section: {
-        'block-content': 'Content Block',
-    },
 }
