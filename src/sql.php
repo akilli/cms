@@ -49,8 +49,6 @@ function load(array $entity, array $crit = [], array $opt = []): array
 
 /**
  * Save entity
- *
- * @throws DomainException
  */
 function save(array $data): array
 {
@@ -81,8 +79,6 @@ function save(array $data): array
 
 /**
  * Delete entity
- *
- * @throws DomainException
  */
 function delete(array $data): void
 {
