@@ -6,10 +6,6 @@ import lang from './lang.js';
  * @type {Object}
  */
 export default {
-    block: {
-        api: '/block/api',
-        browser: '/block/browser',
-    },
     lang: lang,
     media: {
         audio: '/file_audio/browser',
