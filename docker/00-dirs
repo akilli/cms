@@ -1,5 +1,0 @@
-#!/bin/sh
-
-set -eux
-
-chown -R www-data:www-data /opt /var/local
