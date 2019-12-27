@@ -6,8 +6,9 @@ networks:
   intern: {}
 volumes:
   app: {}
+  data: {}
   db: {}
-  file: {}
+  opt: {}
 services:
   cms-db:
     image: akilli/postgres
@@ -31,7 +32,8 @@ services:
           - php
     volumes:
       - app:/app
-      - file:/data/file
+      - data:/data
+      - opt:/opt
   cms-www:
     image: akilli/nginx
     depends_on:
@@ -54,4 +56,5 @@ services:
           - www
     volumes:
       - app:/app:nocopy
-      - file:/data/file:nocopy
+      - data:/data:nocopy
+      - opt:/opt:nocopy
