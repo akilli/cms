@@ -43,7 +43,7 @@ export default function () {
             let span;
 
             while (child = details.childNodes[b++]) {
-                if (child.nodeType === 3 && /[^\t\n\r ]/.test(child.data)) {
+                if (child.nodeType === Node.TEXT_NODE && /[^\t\n\r ]/.test(child.data)) {
                     span = document.createElement('span');
                     details.insertBefore(span, child);
                     span.textContent = child.data;
