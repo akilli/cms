@@ -1,6 +1,3 @@
-import Browser from '../editor/src/util/Browser.js';
-import Media from '../editor/src/util/Media.js';
-
 /**
  * Browser + Opener
  *
@@ -42,7 +39,7 @@ export default {
                     return;
                 }
 
-                Browser.open(window, `/${entity}/browser`, async data => {
+                browser(`/${entity}/browser`, async data => {
                     if (!data.id) {
                         return;
                     }
@@ -50,8 +47,14 @@ export default {
                     const id = item.getAttribute('data-id');
                     const input = document.getElementById(id);
                     const div = document.getElementById(id + suffix);
-                    const type = data.type ? Media.get(data.type) : await Media.fromUrl(data.src);
-                    const typeEl = type ? type.element : 'a';
+                    let typeEl = 'a';
+
+                    if (entity === 'image') {
+                        typeEl = 'img';
+                    } else if (['audio', 'iframe', 'video'].includes(entity)) {
+                        typeEl = entity;
+                    }
+
                     const file = document.createElement(typeEl);
 
                     while (div.firstChild) {
@@ -60,7 +63,7 @@ export default {
 
                     input.setAttribute('value', data.id);
 
-                    if (['audio', 'video'].includes(type.id)) {
+                    if (['audio', 'video'].includes(typeEl)) {
                         file.setAttribute('controls', 'controls');
                     }
 
@@ -88,4 +91,32 @@ export default {
             }));
         });
     },
+}
+
+/**
+ * Opens a media browser window and registers a listener for communication between editor and browser windows
+ *
+ * @param {String} url
+ * @param {Function} call
+ */
+function browser(url, call) {
+    if (!url || typeof call !== 'function') {
+        return;
+    }
+
+    const win = window.open(
+        url,
+        'browser',
+        `alwaysRaised=yes,dependent=yes,height=${window.screen.height},location=no,menubar=no,minimizable=no,modal=yes,resizable=yes,scrollbars=yes,toolbar=no,width=${window.screen.width}`
+    );
+    const a = document.createElement('a');
+    a.href = url;
+    const origin = a.origin;
+
+    window.addEventListener('message', ev => {
+        if (ev.origin === origin && ev.source === win) {
+            call(ev.data);
+            win.close();
+        }
+    }, false);
 }

@@ -1,4 +1,4 @@
-import Editor from '../editor/src/Editor.js';
+import Editor from '../editor/editor.js';
 import configEditor from './cfg/editor.js';
 
 /**
