@@ -49,10 +49,10 @@ export default {
                     const div = document.getElementById(id + suffix);
                     let typeEl = 'a';
 
-                    if (entity === 'image') {
+                    if (entity === 'file_image') {
                         typeEl = 'img';
-                    } else if (['audio', 'iframe', 'video'].includes(entity)) {
-                        typeEl = entity;
+                    } else if (['file_audio', 'file_iframe', 'file_video'].includes(entity)) {
+                        typeEl = entity.replace('file_', '');
                     }
 
                     const file = document.createElement(typeEl);
