@@ -49,9 +49,9 @@ export default {
                     const div = document.getElementById(id + suffix);
                     let typeEl = 'a';
 
-                    if (entity === 'file_image') {
+                    if (data.entity === 'file_image') {
                         typeEl = 'img';
-                    } else if (['file_audio', 'file_iframe', 'file_video'].includes(entity)) {
+                    } else if (['file_audio', 'file_iframe', 'file_video'].includes(data.entity)) {
                         typeEl = entity.replace('file_', '');
                     }
 
