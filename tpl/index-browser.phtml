@@ -18,8 +18,9 @@ use attr;
             $entity = !empty($data['entity_id']) ? cfg('entity', $data['entity_id']) : null;
             $id = ($entity && $entity['parent_id'] === 'block' ? $data['entity_id'] . '-' : '') . $data['id'];
             $src = $entity && $entity['parent_id'] === 'file' ? $data['url'] : null;
+            preg_match('#^file_(audio|iframe|image|video)$#', $entity['id'] ?? $data['_entity']['id'], $match);
             ?>
-        <article data-id="<?=$id;?>"<?php if ($src):?> data-src="<?=$src;?>"<?php endif;?><?php if ($entity):?>  data-entity="<?=$entity['id'];?>"<?php endif;?> title="<?=i18n('Select item');?>">
+        <article data-id="<?=$id;?>" title="<?=i18n('Select item');?>"<?php if ($src):?> data-src="<?=$src;?>"<?php endif;?><?php if ($match):?> data-type="<?=$match[1];?>"<?php endif;?>>
             <?php foreach ($var('attr') as $attr):?>
             <?=attr\viewer($data, $attr, ['h3' => true, 'wrap' => true]);?>
             <?php endforeach;?>
