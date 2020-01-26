@@ -62,10 +62,10 @@ function save(array $data): array
 
     // Insert or update
     if ($data['_old']) {
-        $stmt = $db->prepare(upd($entity['id']) . set($cols['val']) . where(['id = :_id']) . returning(['*']));
+        $stmt = $db->prepare(upd($entity['id']) . set($cols['val']) . where(['id = :_id']));
         $stmt->bindValue(':_id', $data['_old']['id'], type($data['_old']['id']));
     } else {
-        $stmt = $db->prepare(ins($entity['id']) . vals($cols['val']) . returning(['*']));
+        $stmt = $db->prepare(ins($entity['id']) . vals($cols['val']));
     }
 
     foreach ($cols['param'] as $param) {
@@ -74,7 +74,12 @@ function save(array $data): array
 
     $stmt->execute();
 
-    return $stmt->fetch();
+    // Set DB generated id
+    if (!$data['_old'] && $attrs['id']['type'] === 'serial') {
+        $data['id'] = (int) $db->lastInsertId(($entity['parent_id'] ?: $entity['id']) . '_id_seq');
+    }
+
+    return $data;
 }
 
 /**
