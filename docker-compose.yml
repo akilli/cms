@@ -1,8 +1,7 @@
 version: "3.7"
 networks:
   default:
-    external:
-      name: proxy
+    name: proxy
   intern: {}
 volumes:
   app: {}
