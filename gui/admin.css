@@ -349,13 +349,14 @@ div[data-invalid] :invalid {
      * Browser
      */
     :root[data-action=browser] #content .block-index > .content {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 1.5rem;
+        align-items: end;
     }
 
     :root[data-action=browser] #content .block-index article {
         display: block;
-        width: 25%;
         border: 0.0625rem solid;
         cursor: pointer;
     }
