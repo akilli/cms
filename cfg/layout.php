@@ -173,6 +173,7 @@ return [
             'parent_id' => 'content',
             'sort' => 30,
             'cfg' => [
+                'attr_id' => ['name'],
                 'limit' => 20,
                 'pager' => 'bottom',
                 'search' => ['name'],
@@ -262,7 +263,6 @@ return [
     'block/browser' => [
         'index' => [
             'cfg' => [
-                'attr_id' => ['name'],
                 'filter' => ['entity_id'],
                 'search' => ['name', 'title', 'content'],
             ],
@@ -281,7 +281,7 @@ return [
     'file/admin' => [
         'index' => [
             'cfg' => [
-                'attr_id' => ['url', 'name', 'info'],
+                'attr_id' => ['url', 'name'],
                 'search' => ['name', 'url', 'info'],
             ],
         ],
@@ -289,7 +289,7 @@ return [
     'file/browser' => [
         'index' => [
             'cfg' => [
-                'attr_id' => ['url', 'name', 'info'],
+                'attr_id' => ['url', 'name'],
                 'filter' => ['entity_id'],
                 'search' => ['name', 'url', 'info'],
             ],
