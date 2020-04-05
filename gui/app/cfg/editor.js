@@ -7,10 +7,16 @@ import lang from './lang.js';
  */
 export default {
     lang: lang,
-    media: {
-        audio: '/file_audio/browser',
-        iframe: '/file_iframe/browser',
-        image: '/file_image/browser',
-        video: '/file_video/browser',
+    audio: {
+        browser: '/file_audio/browser',
+    },
+    iframe: {
+        browser: '/file_iframe/browser',
+    },
+    image: {
+        browser: '/file_image/browser',
+    },
+    video: {
+        browser: '/file_video/browser',
     },
 }
