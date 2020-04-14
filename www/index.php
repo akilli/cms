@@ -6,7 +6,11 @@ declare(strict_types = 1);
  */
 set_error_handler(fn(int $severity, string $msg, string $file, int $line) => app\log(new ErrorException($msg, 0, $severity, $file, $line)));
 set_exception_handler(fn(Throwable $e) => app\log($e));
-register_shutdown_function(fn() => ($data = app\registry('msg')) && session\set('msg', $data));
+register_shutdown_function(function () {
+    if ($data = app\registry('msg')) {
+        session\set('msg', $data);
+    }
+});
 
 /**
  * Application constants
