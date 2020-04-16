@@ -6,9 +6,11 @@ import lang from './lang.js';
  * @type {Object}
  */
 export default {
-    lang: lang,
     audio: {
         browser: '/file_audio/browser',
+    },
+    editor: {
+        lang: lang,
     },
     iframe: {
         browser: '/file_iframe/browser',
