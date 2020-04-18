@@ -9,7 +9,7 @@ export default {
     audio: {
         browser: '/file_audio/browser',
     },
-    editor: {
+    base: {
         lang: lang,
     },
     iframe: {
