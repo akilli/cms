@@ -57,9 +57,8 @@ td {
 /**
  * Display
  */
-dialog[open],
 main,
-figure > * {
+dialog[open] {
     display: block;
 }
 
