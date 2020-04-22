@@ -128,10 +128,6 @@ div[data-invalid] :invalid {
 /**
  * Editor
  */
-:root[data-fullscreen] {
-    overflow-y: hidden;
-}
-
 .editor-content {
     min-height: 15rem;
     max-height: 45rem;
@@ -139,16 +135,8 @@ div[data-invalid] :invalid {
 }
 
 .editor-toolbar {
-    color: #052a33;
-}
-
-.editor-toolbar [data-cmd] {
-    color: inherit;
-    background: none;
-}
-
-.editor-toolbar-main {
     top: 3rem;
+    color: #052a33;
 }
 
 /**
