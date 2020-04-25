@@ -139,6 +139,11 @@ div[data-invalid] :invalid {
     color: #052a33;
 }
 
+.editor-toolbar button {
+    color: inherit;
+    background: none;
+}
+
 /**
  * Toolbar
  */
