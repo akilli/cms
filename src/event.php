@@ -374,21 +374,13 @@ function response_block_api(array $data): array
  */
 function layout_postrender(array $data): array
 {
-    if ($data['image']) {
-        $data['html'] = contentfilter\image($data['html'], $data['image']);
-    }
-
-    return $data;
-}
-
-/**
- * Layout postrender html
- */
-function layout_postrender_html(array $data): array
-{
     $data['html'] = contentfilter\block($data['html']);
     $data['html'] = contentfilter\email($data['html']);
     $data['html'] = contentfilter\msg($data['html']);
+
+    if ($data['image']) {
+        $data['html'] = contentfilter\image($data['html'], $data['image']);
+    }
 
     return $data;
 }

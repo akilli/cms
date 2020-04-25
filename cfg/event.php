@@ -38,9 +38,6 @@ return [
     'layout.postrender' => [
         'event\layout_postrender' => 10,
     ],
-    'layout.postrender.type.html' => [
-        'event\layout_postrender_html' => 10,
-    ],
     'response' => [
         'event\response' => 10,
     ],
