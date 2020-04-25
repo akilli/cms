@@ -12,6 +12,11 @@ export default {
     base: {
         lang: lang,
     },
+    block: {
+        api: '/block/api',
+        browser: '/block/browser',
+        css: '/gui/base.css,/gui/all.css',
+    },
     iframe: {
         browser: '/file_iframe/browser',
     },
