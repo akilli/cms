@@ -13,7 +13,7 @@ export default {
         lang: lang,
     },
     block: {
-        api: '/block/api',
+        api: '/block/api/{id}',
         browser: '/block/browser',
         css: '/gui/base.css,/gui/all.css',
     },
