@@ -307,7 +307,7 @@ function dblock(array $block): string
         $html .= attr\viewer($data, $attr, ['wrap' => true] + (in_array($attr['id'], ['file', 'title']) ? ['link' => $data['link']] : []));
     }
 
-    return $html ? app\html('section', ['id' => $block['id'], 'class' => str_replace('_', '-', $block['cfg']['data']['entity_id'])], $html) : '';
+    return $html ? app\html('section', ['class' => str_replace('_', '-', $block['cfg']['data']['entity_id'])], $html) : '';
 }
 
 /**
