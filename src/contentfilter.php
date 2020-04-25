@@ -10,11 +10,11 @@ use layout;
 use str;
 
 /**
- * Replaces all DB placeholder tags, i.e. `<block id="{entity_id}-{id}" />`, with actual blocks
+ * Replaces all DB placeholder tags, i.e. `<app-block id="{entity_id}-{id}"></app-block>`, with actual blocks
  */
 function block(string $html): string
 {
-    $pattern = '#<block id="%s"(?:[^>]*)>#s';
+    $pattern = '#<app-block id="%s"(?:[^>]*)>\s*</app-block>#s';
 
     if (preg_match_all(sprintf($pattern, '([a-z_]+)-(\d+)'), $html, $match)) {
         $data = [];
@@ -30,7 +30,7 @@ function block(string $html): string
         }
     }
 
-    return preg_replace('#<block (?:[^>]*)>#s', '', $html);
+    return preg_replace('#<app-block (?:[^>]*)>\s*</app-block>#s', '', $html);
 }
 
 /**

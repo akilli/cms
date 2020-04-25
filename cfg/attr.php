@@ -49,7 +49,7 @@ return [
         'filter' => 'frontend\text',
         'validator' => 'validator\editor',
         'viewer' => 'viewer\editor',
-        'cfg.validator' => '<a><article><audio><b><block><blockquote><br><caption><cite><details><dfn><div><em><figcaption><figure><h2><h3><i><iframe><img><kbd><li><mark><ol><p><q><section><strong><summary><table><tbody><td><tfoot><th><thead><tr><ul><video>',
+        'cfg.validator' => '<a><app-block><article><audio><b><blockquote><br><caption><cite><details><dfn><div><em><figcaption><figure><h2><h3><i><iframe><img><kbd><li><mark><ol><p><q><section><strong><summary><table><tbody><td><tfoot><th><thead><tr><ul><video>',
     ],
     'email' => [
         'backend' => 'varchar',
