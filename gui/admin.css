@@ -130,6 +130,9 @@ div[data-invalid] :invalid {
  */
 .editor-content {
     min-height: 15rem;
+}
+
+form .editor-content {
     max-height: 45rem;
     overflow-y: scroll;
 }
