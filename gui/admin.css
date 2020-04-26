@@ -303,23 +303,6 @@ div[data-invalid] :invalid {
  */
 @media screen and (min-width: 55rem) {
     /**
-     * Dashboard
-     */
-    :root[data-url='/account/dashboard'] #content {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-
-    :root[data-url='/account/dashboard'] #content h1 {
-        width: 100%;
-    }
-
-    :root[data-url='/account/dashboard'] #content .block-index {
-        width: calc(50% - 0.75rem);
-    }
-
-    /**
      * Browser
      */
     :root[data-action=browser] #content .block-index > .content {

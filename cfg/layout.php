@@ -206,13 +206,6 @@ return [
             ],
         ],
     ],
-    'account/dashboard' => [
-        'title' => [
-            'cfg' => [
-                'text' => 'Dashboard',
-            ],
-        ],
-    ],
     'account/edit' => [
         'form' => [
             'cfg' => [

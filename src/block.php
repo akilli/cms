@@ -390,7 +390,7 @@ function login(array $block): string
         if (!empty($data['username']) && !empty($data['password']) && ($data = app\login($data['username'], $data['password']))) {
             session\regenerate();
             session\set('account', $data['id']);
-            request\redirect(app\url('account/dashboard'));
+            request\redirect();
             return '';
         }
 

@@ -352,7 +352,7 @@ function response_delete(array $data): array
 function response_account_logout(array $data): array
 {
     session\regenerate();
-    $data['redirect'] = app\url('account/login');
+    $data['redirect'] = app\url();
     $data['_stop'] = true;
 
     return $data;
