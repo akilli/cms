@@ -8,6 +8,8 @@ volumes:
   db: {}
   file: {}
   opt: {}
+  php: {}
+  www: {}
 services:
   cms-db:
     image: akilli/postgres
@@ -34,6 +36,7 @@ services:
       - app:/app
       - file:/data/file:nocopy
       - opt:/opt
+      - php:/tmp
   cms-www:
     image: akilli/nginx
     depends_on:
@@ -58,3 +61,4 @@ services:
       - app:/app:nocopy
       - file:/data/file:nocopy
       - opt:/opt:nocopy
+      - www:/tmp
