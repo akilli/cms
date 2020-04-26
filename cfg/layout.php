@@ -10,7 +10,7 @@ return [
         'head' => [
             'type' => 'container',
             'parent_id' => 'html',
-            'sort' => 10,
+            'sort' => 100,
             'cfg' => [
                 'tag' => 'head',
             ],
@@ -18,7 +18,7 @@ return [
         'body' => [
             'type' => 'container',
             'parent_id' => 'html',
-            'sort' => 20,
+            'sort' => 200,
             'image' => ['sizes' => '100vw'],
             'cfg' => [
                 'tag' => 'body',
@@ -27,29 +27,35 @@ return [
         'meta' => [
             'type' => 'meta',
             'parent_id' => 'head',
-            'sort' => 10,
+            'sort' => 100,
         ],
         'icon' => [
             'type' => 'tpl',
             'tpl' => 'icon.phtml',
             'parent_id' => 'head',
-            'sort' => 20,
+            'sort' => 200,
         ],
         'asset' => [
             'type' => 'tpl',
             'tpl' => 'asset.phtml',
             'parent_id' => 'head',
-            'sort' => 30,
+            'sort' => 300,
+        ],
+        'toolbar' => [
+            'type' => 'toolbar',
+            'priv' => '_user_',
+            'parent_id' => 'body',
+            'sort' => 100,
         ],
         'top' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 10,
+            'sort' => 200,
         ],
         'main' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 20,
+            'sort' => 300,
             'cfg' => [
                 'tag' => 'main',
             ],
@@ -57,12 +63,12 @@ return [
         'bottom' => [
             'type' => 'container',
             'parent_id' => 'body',
-            'sort' => 30,
+            'sort' => 400,
         ],
         'content' => [
             'type' => 'container',
             'parent_id' => 'main',
-            'sort' => 10,
+            'sort' => 100,
             'cfg' => [
                 'tag' => 'article',
             ],
@@ -70,7 +76,7 @@ return [
         'sidebar' => [
             'type' => 'container',
             'parent_id' => 'main',
-            'sort' => 20,
+            'sort' => 200,
             'cfg' => [
                 'tag' => 'aside',
             ],
@@ -78,12 +84,12 @@ return [
         'title' => [
             'type' => 'title',
             'parent_id' => 'content',
-            'sort' => 10,
+            'sort' => 100,
         ],
         'msg' => [
             'type' => 'msg',
             'parent_id' => 'content',
-            'sort' => 20,
+            'sort' => 200,
         ],
     ],
     /**
@@ -99,7 +105,7 @@ return [
             'type' => 'tpl',
             'tpl' => 'error.phtml',
             'parent_id' => 'content',
-            'sort' => 30,
+            'sort' => 300,
         ],
     ],
     /**
@@ -108,12 +114,6 @@ return [
     '_admin_' => [
         'asset' => [
             'tpl' => 'asset-admin.phtml',
-        ],
-        'toolbar' => [
-            'type' => 'toolbar',
-            'priv' => '_user_',
-            'parent_id' => 'body',
-            'sort' => 5,
         ],
     ],
     /**
@@ -124,12 +124,12 @@ return [
             'type' => 'tpl',
             'tpl' => 'header.phtml',
             'parent_id' => 'body',
-            'sort' => 0,
+            'sort' => 140,
         ],
         'menu' => [
             'type' => 'menu',
             'parent_id' => 'body',
-            'sort' => 5,
+            'sort' => 160,
             'cfg' => [
                 'toggle' => true,
             ],
@@ -138,7 +138,7 @@ return [
             'type' => 'tpl',
             'tpl' => 'footer.phtml',
             'parent_id' => 'body',
-            'sort' => 40,
+            'sort' => 500,
         ],
     ],
     /**
@@ -149,13 +149,13 @@ return [
             'type' => 'tpl',
             'tpl' => 'new.phtml',
             'parent_id' => 'content',
-            'sort' => 30,
+            'sort' => 300,
         ],
         'index' => [
             'type' => 'index',
             'tpl' => 'index-admin.phtml',
             'parent_id' => 'content',
-            'sort' => 40,
+            'sort' => 400,
             'cfg' => [
                 'pager' => 'bottom',
                 'search' => ['name'],
@@ -171,7 +171,7 @@ return [
             'type' => 'index',
             'tpl' => 'index-browser.phtml',
             'parent_id' => 'content',
-            'sort' => 30,
+            'sort' => 300,
             'cfg' => [
                 'attr_id' => ['name'],
                 'limit' => 20,
@@ -184,14 +184,14 @@ return [
         'form' => [
             'type' => 'edit',
             'parent_id' => 'content',
-            'sort' => 30,
+            'sort' => 300,
         ],
     ],
     'view' => [
         'view' => [
             'type' => 'view',
             'parent_id' => 'content',
-            'sort' => 30,
+            'sort' => 300,
         ],
     ],
     /**
@@ -232,7 +232,7 @@ return [
         'login' => [
             'type' => 'login',
             'parent_id' => 'content',
-            'sort' => 30,
+            'sort' => 300,
         ],
     ],
     'account/profile' => [
@@ -244,7 +244,7 @@ return [
         'form' => [
             'type' => 'profile',
             'parent_id' => 'content',
-            'sort' => 30,
+            'sort' => 300,
             'cfg' => [
                 'attr_id' => ['password', 'confirmation', 'email'],
             ],
@@ -385,7 +385,7 @@ return [
         'breadcrumb' => [
             'type' => 'breadcrumb',
             'parent_id' => 'main',
-            'sort' => 5,
+            'sort' => 50,
         ],
         'view' => [
             'cfg' => [
