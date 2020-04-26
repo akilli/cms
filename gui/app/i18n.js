@@ -1,5 +1,5 @@
-import de from './cfg/i18n/de.js';
-import lang from './cfg/lang.js';
+import de from './i18n/de.js';
+import lang from './lang.js';
 
 /**
  * Translations
