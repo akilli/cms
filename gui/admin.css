@@ -128,21 +128,21 @@ div[data-invalid] :invalid {
 /**
  * Editor
  */
-.editor-content {
+editor-content {
     min-height: 15rem;
 }
 
-form .editor-content {
+form editor-content {
     max-height: 45rem;
     overflow-y: scroll;
 }
 
-.editor-toolbar {
+editor-toolbar {
     top: 3rem;
     color: #052a33;
 }
 
-.editor-toolbar button {
+editor-toolbar button {
     color: inherit;
     background: none;
 }
