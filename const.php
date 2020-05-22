@@ -120,7 +120,7 @@ define('APP', [
         'order' => [],
         'select' => [],
     ],
-    'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr', 'block', 'msg'],
+    'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr', 'msg'],
     'image' => [
         'srcset' => [360, 640, 800, 960, 1120, 1280, 1440],
         'sizes' => null,
