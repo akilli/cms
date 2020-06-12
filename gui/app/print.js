@@ -13,7 +13,7 @@ export default function () {
  * Prepares print version
  */
 function printBefore() {
-    [].forEach.call(document.getElementsByTagName('details'), details => {
+    Array.from(document.getElementsByTagName('details')).forEach(details => {
         if (details.hasAttribute('open')) {
             details.setAttribute('data-open', '');
         } else {
@@ -31,7 +31,7 @@ function printBefore() {
  * Restores screen version
  */
 function printAfter() {
-    [].forEach.call(document.getElementsByTagName('details'), details => {
+    Array.from(document.getElementsByTagName('details')).forEach(details => {
         if (details.hasAttribute('data-open')) {
             details.removeAttribute('data-open');
         } else {
