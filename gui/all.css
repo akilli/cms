@@ -2,10 +2,11 @@
  * Font
  */
 @font-face {
-    font-family: fontawesome;
+    font-family: cms;
+    font-display: block;
     font-style: normal;
     font-weight: 900;
-    src: url(font/fa.woff2) format('woff2');
+    src: url(font/cms.woff2) format('woff2');
 }
 
 /**
@@ -139,7 +140,7 @@ figure.quote blockquote {
 figure.quote blockquote::before {
     display: block;
     line-height: 3rem;
-    font-family: fontawesome;
+    font-family: cms;
     font-size: 3rem;
     content: '\f10e';
 }
@@ -262,7 +263,7 @@ main a:not([role=button]):not([data-action]):hover {
     a[data-action] {
         display: inline-block;
         line-height: 1;
-        font-family: fontawesome;
+        font-family: cms;
         font-size: 0;
     }
 
