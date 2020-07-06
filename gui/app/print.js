@@ -4,7 +4,6 @@
  * @type {Function}
  */
 export default function () {
-    window.matchMedia('print').addListener(media => media.matches ? printBefore() : printAfter());
     window.addEventListener('beforeprint', printBefore);
     window.addEventListener('afterprint', printAfter);
 }
