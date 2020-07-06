@@ -6,9 +6,11 @@ import i18n from './i18n.js';
  * @type {Function}
  */
 export default function () {
-    document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('a[data-action=delete]').forEach(item => item.addEventListener('click', ev => {
-        if (!confirm(i18n('Please confirm delete operation'))) {
-            ev.preventDefault();
-        }
-    })));
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('a[data-action=delete]').forEach(item => item.addEventListener('click', ev => {
+            if (!confirm(i18n('Please confirm delete operation'))) {
+                ev.preventDefault();
+            }
+        }));
+    });
 }
