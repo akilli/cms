@@ -94,6 +94,26 @@ export default {
 }
 
 /**
+ * Browser window options
+ *
+ * @type {String}
+ */
+const browserOpts = Object.entries({
+    alwaysRaised: 'yes',
+    dependent: 'yes',
+    height: `${window.screen.height}`,
+    location: 'no',
+    menubar: 'no',
+    minimizable: 'no',
+    modal: 'yes',
+    resizable: 'yes',
+    scrollbars: 'yes',
+    toolbar: 'no',
+    width: `${window.screen.width}`,
+}).map(x => `${x[0]}=${x[1]}`).join(',');
+console.log(browserOpts);
+
+/**
  * Opens a media browser window and registers a listener for communication between editor and browser windows
  *
  * @param {String} url
@@ -104,11 +124,7 @@ function browser(url, call) {
         return;
     }
 
-    const win = window.open(
-        url,
-        'browser',
-        `alwaysRaised=yes,dependent=yes,height=${window.screen.height},location=no,menubar=no,minimizable=no,modal=yes,resizable=yes,scrollbars=yes,toolbar=no,width=${window.screen.width}`
-    );
+    const win = window.open(url, 'browser', browserOpts);
     const a = document.createElement('a');
     a.href = url;
     const origin = a.origin;
