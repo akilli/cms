@@ -1,4 +1,4 @@
-FROM akilli/php
+FROM akilli/php:next
 LABEL maintainer="Ayhan Akilli"
 
 COPY . /app/
