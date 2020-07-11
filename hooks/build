@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $DOCKER_TAG == "next" ]; then
+if [ "$DOCKER_TAG" == "next" ]; then
     docker build --build-arg TAG=next -f ${DOCKERFILE_PATH} -t ${IMAGE_NAME} .
 else
     docker build -f ${DOCKERFILE_PATH} -t ${IMAGE_NAME} .
