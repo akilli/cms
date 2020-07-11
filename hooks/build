@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker build -f ${DOCKERFILE_PATH} -t ${DOCKER_REPO} .
+docker build --build-arg TAG=next -f ${DOCKERFILE_PATH} -t ${DOCKER_REPO}:next .

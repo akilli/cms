@@ -1,4 +1,5 @@
-FROM akilli/php
+ARG TAG=latest
+FROM akilli/php:${TAG}
 LABEL maintainer="Ayhan Akilli"
 
 COPY . /app/
