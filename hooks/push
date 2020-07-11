@@ -1,4 +1,0 @@
-#!/bin/bash
-
-docker push ${DOCKER_REPO}
-docker push ${DOCKER_REPO}:next

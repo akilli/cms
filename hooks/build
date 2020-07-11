@@ -1,4 +1,7 @@
 #!/bin/bash
 
-docker build -f ${DOCKERFILE_PATH} -t ${DOCKER_REPO} .
-docker build --build-arg TAG=next -f ${DOCKERFILE_PATH} -t ${DOCKER_REPO}:next .
+if [ $DOCKER_TAG == "next" ]; then
+    docker build --build-arg TAG=next -f ${DOCKERFILE_PATH} -t ${IMAGE_NAME} .
+else
+    docker build -f ${DOCKERFILE_PATH} -t ${IMAGE_NAME} .
+fi
