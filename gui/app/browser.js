@@ -111,7 +111,6 @@ const browserOpts = Object.entries({
     toolbar: 'no',
     width: `${window.screen.width}`,
 }).map(x => `${x[0]}=${x[1]}`).join(',');
-console.log(browserOpts);
 
 /**
  * Opens a media browser window and registers a listener for communication between editor and browser windows
