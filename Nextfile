@@ -1,5 +1,0 @@
-FROM akilli/php:next
-LABEL maintainer="Ayhan Akilli"
-
-COPY . /app/
-ONBUILD COPY . /opt/
