@@ -42,6 +42,14 @@ function email(string $html): string
 }
 
 /**
+ * Converts telephone numbers to HTML entity hex format
+ */
+function tel(string $html): string
+{
+    return preg_replace_callback('#(?:tel:)\+\d+#i', fn(array $m): string => str\hex($m[0]), $html);
+}
+
+/**
  * Makes img-elements somehow responsive
  */
 function image(string $html, array $cfg = []): string

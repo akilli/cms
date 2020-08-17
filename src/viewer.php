@@ -25,6 +25,14 @@ function url(string $val): string
 }
 
 /**
+ * Telephone
+ */
+function tel(string $val): string
+{
+    return app\html('a', ['href' => 'tel:' . $val], $val);
+}
+
+/**
  * Datetime
  */
 function datetime(string $val, array $attr): string

@@ -376,6 +376,7 @@ function layout_postrender(array $data): array
 {
     $data['html'] = contentfilter\block($data['html']);
     $data['html'] = contentfilter\email($data['html']);
+    $data['html'] = contentfilter\tel($data['html']);
     $data['html'] = contentfilter\msg($data['html']);
 
     if ($data['image']) {
