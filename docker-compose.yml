@@ -1,8 +1,4 @@
 version: "3.8"
-networks:
-  default:
-    name: proxy
-  intern: {}
 volumes:
   app: {}
   db: {}
@@ -11,52 +7,28 @@ volumes:
   php: {}
   www: {}
 services:
-  cms-db:
+  db:
     image: akilli/cms-db
     restart: unless-stopped
-    networks:
-      default: {}
-      intern:
-        aliases:
-          - db
     volumes:
       - db:/data
       - file:/app
-  cms-php:
+  php:
     image: akilli/cms
     depends_on:
-      - cms-db
+      - db
     restart: unless-stopped
-    networks:
-      default: {}
-      intern:
-        aliases:
-          - php
     volumes:
       - app:/app
       - file:/data/file:nocopy
       - opt:/opt
       - php:/tmp
-  cms-www:
+  www:
     image: akilli/nginx
     depends_on:
-      - cms-db
-      - cms-php
+      - db
+      - php
     restart: unless-stopped
-    extra_hosts:
-      - "www.akilli.de:127.0.0.1"
-      - "akilli.de:127.0.0.1"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.cms.entrypoints=https"
-      - "traefik.http.routers.cms.rule=host(`akilli.de`) || host(`www.akilli.de`)"
-      - "traefik.http.routers.cms.tls=true"
-      - "traefik.http.services.cms.loadbalancer.server.port=80"
-    networks:
-      default: {}
-      intern:
-        aliases:
-          - www
     volumes:
       - app:/app:nocopy
       - file:/data/file:nocopy

@@ -32,8 +32,14 @@ so that you can easily extend it by creating a custom `Dockerfile` with just the
 FROM akilli/cms-db
 ```
 
-## Setup
+## Usage
 
-Check the docker-compose.yml file as one possible solution. It is using an external network `proxy` and [traefik](https://traefik.io/) as reverse proxy. Both is not needed, so adjust to your needs.
+You can use the example docker-compose.yml and docker-compose.override as a starting point for your production and local configuration.
 
-Run the docker containers and access with configured domain. You can log in via URL path `/account/login` with name `admin` and password `password`. 
+Start the docker containers with
+
+```
+docker-compose up -d
+```
+
+and access the cms with http://localhost. You can log into the admin area via http://localhost/account/login with username `admin` and password `password`. 

@@ -6,14 +6,12 @@ volumes:
       device: ${PWD}
       o: bind,uid=1000,gid=1000
 services:
-  cms-db:
+  db:
     volumes:
       - ./db:/init/postgres
-  cms-php:
+  php:
     volumes:
       - ./php.dev.ini:/etc/php/conf.d/zzz.ini
-  cms-www:
-    extra_hosts:
-      - "cms.app.loc:127.0.0.1"
-    labels:
-      - "traefik.http.routers.cms.rule=host(`cms.app.loc`)"
+  www:
+    ports:
+      - "80:80"
