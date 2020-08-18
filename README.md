@@ -42,4 +42,4 @@ docker-compose up -d
 
 and access the cms with http://localhost. You can log into the admin area via http://localhost/account/login with username `admin` and password `password`.
 
-The provided [docker-compose.yml](docker-compose.yml) is meant for development purposes only as it mounts the [php.dev.ini](php.dev.ini) into the php container which effectively disables the `session.cookie_secure` restriction, opcache and preloading. You surely do not want to do this in production. It also mounts the source code into all three containers and uses the base docker images instead of `akilli/cms` and `akilli/cms-db` for development and testing reasons.
+The provided [docker-compose.yml](docker-compose.yml) is meant for development and testing purposes only.
