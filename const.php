@@ -156,11 +156,9 @@ define('APP', [
     ],
     'path' => [
         'cfg' => '/app/cfg',
-        'gui' => '/app/gui',
         'src' => '/app/src',
         'tpl' => '/app/tpl',
         'ext.cfg' => '/opt/cfg',
-        'ext.gui' => '/opt/gui',
         'ext.src' => '/opt/src',
         'ext.tpl' => '/opt/tpl',
         'file' => '/data/file',
