@@ -11,4 +11,5 @@ php.dev.ini
 #
 # Git
 #
+.env
 .idea
