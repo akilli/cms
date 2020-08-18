@@ -12,7 +12,7 @@ volumes:
   www: {}
 services:
   cms-db:
-    image: akilli/postgres
+    image: akilli/cms-db
     restart: unless-stopped
     networks:
       default: {}
