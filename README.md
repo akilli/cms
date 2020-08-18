@@ -18,6 +18,20 @@ so that you can easily extend it by creating a custom `Dockerfile` with just the
 FROM akilli/cms
 ```
 
+## `akilli/cms-db` Docker image
+
+`akilli/postgres` based PostgreSQL image including the cms database and defining an `ONBUILD` command
+
+```
+ONBUILD COPY . /init/postgres/
+```
+
+so that you can easily extend it by creating a custom `Dockerfile` with just the following line in it
+
+```
+FROM akilli/cms-db
+```
+
 ## Setup
 
 Check the docker-compose.yml file as one possible solution. It is using an external network `proxy` and [traefik](https://traefik.io/) as reverse proxy. Both is not needed, so adjust to your needs.
