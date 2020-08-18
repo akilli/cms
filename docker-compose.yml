@@ -1,6 +1,10 @@
 version: "3.8"
 volumes:
-  app: {}
+  app:
+    driver_opts:
+      type: none
+      device: ${PWD}
+      o: bind,uid=1000,gid=1000
   db: {}
   file: {}
   opt: {}
@@ -8,13 +12,14 @@ volumes:
   www: {}
 services:
   db:
-    image: akilli/cms-db
+    image: akilli/postgres
     restart: unless-stopped
     volumes:
       - db:/data
       - file:/app
+      - ./db:/init/postgres
   php:
-    image: akilli/cms
+    image: akilli/php
     depends_on:
       - db
     restart: unless-stopped
@@ -23,12 +28,15 @@ services:
       - file:/data/file:nocopy
       - opt:/opt
       - php:/tmp
+      - ./php.dev.ini:/etc/php/conf.d/zzz.ini
   www:
     image: akilli/nginx
     depends_on:
       - db
       - php
     restart: unless-stopped
+    ports:
+      - "80:80"
     volumes:
       - app:/app:nocopy
       - file:/data/file:nocopy
