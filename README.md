@@ -18,20 +18,6 @@ so that you can easily extend it by creating a custom `Dockerfile` with just the
 FROM akilli/cms
 ```
 
-## `akilli/cms-db` Docker image
-
-`akilli/postgres` based PostgreSQL image including the cms database and defining an `ONBUILD` command
-
-```
-ONBUILD COPY . /init/postgres/
-```
-
-so that you can easily extend it by creating a custom `Dockerfile` with just the following line in it
-
-```
-FROM akilli/cms-db
-```
-
 ## Usage
 
 Start the docker containers with
@@ -42,4 +28,4 @@ docker-compose up -d
 
 and access the cms with http://localhost. You can log into the admin area via http://localhost/account/login with username `admin` and password `password`.
 
-The provided [docker-compose.yml](docker-compose.yml) is meant for development and testing purposes only as it mounts the [php.dev.ini](php.dev.ini) into the php container which effectively disables the `session.cookie_secure` restriction, opcache and preloading. It also mounts the source code into all three containers and uses the base docker images instead of `akilli/cms` and `akilli/cms-db`.
+The provided [docker-compose.yml](docker-compose.yml) is meant for development and testing purposes only as it mounts the [php.dev.ini](php.dev.ini) into the php container which effectively disables the `session.cookie_secure` restriction, opcache and preloading. It also mounts the source code into all three containers and uses the `akilli/php` image instead of the `akilli/cms` image.
