@@ -6,7 +6,7 @@ A quick'n'dirty non-OOP-experiment... or something completely different.
 
 ## `akilli/cms` Docker image
 
-`akilli/php` based PHP 7.4 image including the cms source files and defining an `ONBUILD` command
+[akilli/php](https://github.com/akilli/php) based PHP 7.4 image including the cms source files and defining an `ONBUILD` command
 
 ```
 ONBUILD COPY . /opt/

@@ -18,7 +18,7 @@ services:
     volumes:
       - file:/data/file:nocopy
       - .:/app
-      - ./php.dev.ini:/etc/php/conf.d/zzz.ini
+      - ./php.dev.ini:/etc/php/7.4/fpm/conf.d/99-zzz.ini
   www:
     image: akilli/nginx
     depends_on:
