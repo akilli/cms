@@ -6,7 +6,6 @@ Dockerfile
 .dockerignore
 .git
 Jenkinsfile
-php.dev.ini
 
 #
 # Git

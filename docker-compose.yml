@@ -16,11 +16,10 @@ services:
       - db
     restart: unless-stopped
     environment:
-      - XDEBUG_ENABLED=1
+      - DEV=1
     volumes:
       - file:/data/file:nocopy
       - .:/app
-      - ./php.dev.ini:/etc/php/7.4/fpm/conf.d/99-zzz.ini
   www:
     image: akilli/nginx
     depends_on:
