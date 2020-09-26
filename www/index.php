@@ -20,6 +20,11 @@ require_once dirname(__DIR__) . '/const.php';
 define('CFG', file\load(APP['path']['tmp'] . '/cfg.php'));
 
 /**
+ * I18n
+ */
+setlocale(LC_ALL, APP['locale']);
+
+/**
  * Run application
  */
 echo app\run();
