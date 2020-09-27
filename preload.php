@@ -25,6 +25,8 @@ foreach (array_filter([APP['path']['src'], APP['path']['ext.src']], 'is_dir') as
     $scan($path);
 }
 
+unset($path, $scan);
+
 /**
  * Pregenerate configuration
  */
