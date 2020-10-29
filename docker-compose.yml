@@ -6,6 +6,8 @@ services:
   db:
     image: akilli/postgres
     restart: unless-stopped
+    ports:
+      - "5432:5432"
     volumes:
       - db:/data
       - file:/app
