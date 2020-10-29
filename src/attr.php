@@ -71,7 +71,7 @@ function validator(array $data, array $attr)
     $val = $data[$attr['id']] ?? null;
 
     if ($attr['nullable'] && $val === null) {
-        return $val;
+        return null;
     }
 
     $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.validator']]));
