@@ -12,7 +12,7 @@ use DomainException;
  *
  * @throws DomainException
  */
-function mail(string $from, string $to, string $replyTo = null, string $subj, string $text, array $attach = []): void
+function mail(string $from, string $to, string $subj, string $text, array $attach = [], string $replyTo = null): void
 {
     $cfg = app\cfg('smtp');
     $host = app\data('request', 'host');
