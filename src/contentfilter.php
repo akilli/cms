@@ -65,7 +65,7 @@ function image(string $html, array $cfg = []): string
     $call = function (array $m) use ($cfg, $data): string {
         $item = $data[$m['url']] ?? null;
 
-        if (strpos($m['img'], 'srcset="') !== false || !$item || !($file = app\filepath($m['name'])) || !is_file($file)) {
+        if (str_contains($m['img'], 'srcset="') || !$item || !($file = app\filepath($m['name'])) || !is_file($file)) {
             return $m[0];
         }
 

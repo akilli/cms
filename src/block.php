@@ -428,7 +428,7 @@ function nav(array $block): string
             return 'active';
         }
 
-        if ($it['url'] && strpos($url, preg_replace('#\.html#', '', $it['url'])) === 0) {
+        if ($it['url'] && str_starts_with($url, preg_replace('#\.html#', '', $it['url']))) {
             return 'path';
         }
 

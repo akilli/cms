@@ -157,7 +157,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
  */
 function opt(array $data, array $attr): callable
 {
-    if ($attr['opt'] && strpos($attr['opt'], '\\') !== false) {
+    if ($attr['opt'] && str_contains($attr['opt'], '\\')) {
         return fn(): array => $attr['opt']($data, $attr);
     }
 
