@@ -5,8 +5,8 @@ namespace sql;
 
 use app;
 use arr;
-use PDO;
 use DomainException;
+use PDO;
 use Throwable;
 
 /**
