@@ -8,7 +8,7 @@ use entity;
 use request;
 use session;
 use str;
-use Throwable;
+use Stringable;
 
 /**
  * Runs application
@@ -203,7 +203,7 @@ function msg(string $msg = null, string ...$args): array
 /**
  * Logger
  */
-function log(string|Throwable $msg): void
+function log(string|Stringable $msg): void
 {
     file_put_contents(APP['log'], '[' . date('r') . '] ' . $msg . "\n\n", FILE_APPEND);
 }
