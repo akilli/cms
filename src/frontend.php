@@ -147,7 +147,7 @@ function checkbox(?array $val, array $attr): string
 /**
  * Radio
  */
-function radio($val, array $attr): string
+function radio(mixed $val, array $attr): string
 {
     $val = is_bool($val) ? (int) $val : $val;
     $html = '';
@@ -164,7 +164,7 @@ function radio($val, array $attr): string
 /**
  * Select
  */
-function select($val, array $attr): string
+function select(mixed $val, array $attr): string
 {
     if ($val === null || $val === '') {
         $val = [];

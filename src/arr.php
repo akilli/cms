@@ -6,7 +6,7 @@ namespace arr;
 /**
  * Filters a recordset-like multi-dimensional array by given column
  */
-function filter(array $data, string $col, $val): array
+function filter(array $data, string $col, mixed $val): array
 {
     foreach ($data as $id => $item) {
         if (($item[$col] ?? null) !== $val) {

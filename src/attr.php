@@ -62,11 +62,9 @@ function filter(array $data, array $attr): string
 /**
  * Validator
  *
- * @return mixed
- *
  * @throws DomainException
  */
-function validator(array $data, array $attr)
+function validator(array $data, array $attr): mixed
 {
     $val = $data[$attr['id']] ?? null;
 
@@ -172,10 +170,8 @@ function opt(array $data, array $attr): callable
 
 /**
  * Cast to appropriate php type
- *
- * @return mixed
  */
-function cast($val, array $attr)
+function cast(mixed $val, array $attr): mixed
 {
     if ($attr['nullable'] && ($val === null || $val === '')) {
         return null;

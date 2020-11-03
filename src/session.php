@@ -5,10 +5,8 @@ namespace session;
 
 /**
  * Session data getter
- *
- * @return mixed
  */
-function get(string $key)
+function get(string $key): mixed
 {
     init();
 
@@ -18,7 +16,7 @@ function get(string $key)
 /**
  * Session data (un)setter
  */
-function set(string $key, $val): void
+function set(string $key, mixed $val): void
 {
     init();
 

@@ -73,7 +73,7 @@ function pos(string $val): string
 /**
  * Option
  */
-function opt($val, array $attr): string
+function opt(mixed $val, array $attr): string
 {
     $val = is_array($val) ? $val : [$val];
     $opt = $attr['opt']();
@@ -107,7 +107,7 @@ function multientity(array $val, array $attr): string
 /**
  * File
  */
-function file($val, array $attr): string
+function file(string|int $val, array $attr): string
 {
     $attr['ref'] = $attr['ref'] ?: 'file';
     $crit = is_string($val) ? [['url', $val]] : [['id', $val]];

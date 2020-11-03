@@ -90,11 +90,9 @@ function editor(string $val, array $attr): string
 /**
  * Option
  *
- * @return mixed
- *
  * @throws DomainException
  */
-function opt($val, array $attr)
+function opt(mixed $val, array $attr): mixed
 {
     $opt = $attr['opt']();
 

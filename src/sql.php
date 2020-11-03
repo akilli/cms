@@ -139,7 +139,7 @@ function db(string $id): PDO
 /**
  * Returns appropriate parameter type
  */
-function type($val): int
+function type(mixed $val): int
 {
     if ($val === null) {
         return PDO::PARAM_NULL;
@@ -190,10 +190,8 @@ function attr(array $attrs, bool $auto = false): array
 
 /**
  * Prepare value
- *
- * @return mixed
  */
-function val($val, array $attr)
+function val(mixed $val, array $attr): mixed
 {
     if ($attr['backend'] === 'json' && is_array($val)) {
         $val = json_encode($val);

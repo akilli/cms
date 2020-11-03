@@ -8,6 +8,7 @@ use entity;
 use request;
 use session;
 use str;
+use Throwable;
 
 /**
  * Runs application
@@ -55,10 +56,8 @@ function & registry(string $id): ?array
 
 /**
  * Returns app data
- *
- * @return mixed
  */
-function data(string $id, string $key = null)
+function data(string $id, string $key = null): mixed
 {
     if (($data = & registry('data.' . $id)) === null) {
         $data = [];
@@ -74,10 +73,8 @@ function data(string $id, string $key = null)
 
 /**
  * Loads and returns configuration data
- *
- * @return mixed
  */
-function cfg(string $id, string $key = null)
+function cfg(string $id, string $key = null): mixed
 {
     // Workaround for config preloading
     if (defined('CFG')) {
@@ -206,7 +203,7 @@ function msg(string $msg = null, string ...$args): array
 /**
  * Logger
  */
-function log($msg): void
+function log(string|Throwable $msg): void
 {
     file_put_contents(APP['log'], '[' . date('r') . '] ' . $msg . "\n\n", FILE_APPEND);
 }
