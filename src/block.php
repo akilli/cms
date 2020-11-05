@@ -182,11 +182,9 @@ function index(array $block): string
 
             if (in_array($attr['backend'], ['int[]', 'text[]']) || !$attr['opt'] && in_array($attr['backend'], ['json', 'text', 'varchar'])) {
                 $op = APP['op']['~'];
-            } elseif ($get['filter'][$attrId] && in_array($attr['backend'], ['datetime', 'date'])) {
+            } elseif ($get['filter'][$attrId] && in_array($attr['backend'], ['datetime', 'date', 'time'])) {
                 $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], $attr['cfg.frontend'], $attr['cfg.backend']);
-                $op = $attr['backend'] === 'datetime' ? APP['op']['^'] : $op = APP['op']['='];
-            } elseif ($get['filter'][$attrId] && $attr['backend'] === 'time') {
-                $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], $attr['cfg.frontend'], $attr['cfg.backend']);
+                $op = $attr['backend'] === 'datetime' ? APP['op']['^'] : $op;
             }
 
             $crit[] = [$attrId, $get['filter'][$attrId], $op];
