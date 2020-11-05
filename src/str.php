@@ -10,7 +10,7 @@ use app;
  */
 function enc(?string $val): string
 {
-    return $val ? htmlspecialchars($val, ENT_QUOTES, APP['charset'], false) : '';
+    return $val ? htmlspecialchars($val, ENT_QUOTES, double_encode: false) : '';
 }
 
 /**
