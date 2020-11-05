@@ -139,10 +139,6 @@ function load_entity(array $data, array $ext): array
             }
 
             $attr['filter'] = $attr['filter'] ?: $attr['frontend'];
-            $attr['opt.frontend'] = $attr['opt.frontend'] ?: $attr['opt'];
-            $attr['opt.filter'] = $attr['opt.filter'] ?: $attr['opt'];
-            $attr['opt.validator'] = $attr['opt.validator'] ?: $attr['opt'];
-            $attr['opt.viewer'] = $attr['opt.viewer'] ?: $attr['opt'];
             $entity['attr'][$attrId] = $attr;
         }
 

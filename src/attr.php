@@ -15,7 +15,7 @@ use DomainException;
 function frontend(array $data, array $attr): string
 {
     $val = array_key_exists($attr['id'], $data) && $data[$attr['id']] !== null ? cast($data[$attr['id']], $attr) : null;
-    $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.frontend']]));
+    $attr['opt'] = opt($data, $attr);
     $attr['html'] = html($attr);
     $div = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
 
@@ -53,7 +53,7 @@ function filter(array $data, array $attr): string
     }
 
     $val = array_key_exists($attr['id'], $data) && $data[$attr['id']] !== null ? cast($data[$attr['id']], $attr) : null;
-    $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.filter']]));
+    $attr['opt'] = opt($data, $attr);
     $attr['html'] = html($attr, 'filter');
 
     return app\html('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);
@@ -72,7 +72,7 @@ function validator(array $data, array $attr): mixed
         return null;
     }
 
-    $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.validator']]));
+    $attr['opt'] = opt($data, $attr);
 
     if ($attr['validator']) {
         $val = $attr['validator']($val, $attr);
@@ -116,7 +116,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
         return '';
     }
 
-    $attr['opt'] = opt($data, array_replace($attr, ['opt' => $attr['opt.viewer']]));
+    $attr['opt'] = opt($data, $attr);
     $html = !$isEmpty && $attr['viewer'] ? $attr['viewer']($val, $attr) : str\enc((string) $val);
 
     if (!$cfg['wrap'] || !$html && !$cfg['empty']) {
