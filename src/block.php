@@ -182,9 +182,13 @@ function index(array $block): string
 
             if (in_array($attr['backend'], ['int[]', 'text[]']) || !$attr['opt'] && in_array($attr['backend'], ['json', 'text', 'varchar'])) {
                 $op = APP['op']['~'];
-            } elseif ($get['filter'][$attrId] && in_array($attr['backend'], ['datetime', 'date', 'time'])) {
-                $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], $attr['cfg.frontend'], $attr['cfg.backend']);
-                $op = $attr['backend'] === 'datetime' ? APP['op']['^'] : $op;
+            } elseif ($get['filter'][$attrId] && $attr['backend'] === 'datetime') {
+                $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], APP['datetime.frontend'], APP['datetime.backend']);
+                $op = APP['op']['^'];
+            } elseif ($get['filter'][$attrId] && $attr['backend'] === 'date') {
+                $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], APP['date.frontend'], APP['date.backend']);
+            } elseif ($get['filter'][$attrId] && $attr['backend'] === 'time') {
+                $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], APP['time.frontend'], APP['time.backend']);
             }
 
             $crit[] = [$attrId, $get['filter'][$attrId], $op];

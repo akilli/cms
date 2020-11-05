@@ -35,9 +35,25 @@ function tel(string $val): string
 /**
  * Datetime
  */
-function datetime(string $val, array $attr): string
+function datetime(string $val): string
 {
-    return attr\datetime($val, $attr['cfg.backend'], $attr['cfg.viewer']);
+    return attr\datetime($val, APP['datetime.backend'], app\cfg('app', 'datetime'));
+}
+
+/**
+ * Date
+ */
+function date(string $val): string
+{
+    return attr\datetime($val, APP['date.backend'], app\cfg('app', 'date'));
+}
+
+/**
+ * Time
+ */
+function time(string $val): string
+{
+    return attr\datetime($val, APP['time.backend'], app\cfg('app', 'time'));
 }
 
 /**

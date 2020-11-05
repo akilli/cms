@@ -70,9 +70,37 @@ function urlpath(string $val): string
  *
  * @throws DomainException
  */
-function datetime(string $val, array $attr): string
+function datetime(string $val): string
 {
-    if (!$val = attr\datetime($val, $attr['cfg.frontend'], $attr['cfg.backend'])) {
+    if (!$val = attr\datetime($val, APP['datetime.frontend'], APP['datetime.backend'])) {
+        throw new DomainException(app\i18n('Invalid value'));
+    }
+
+    return $val;
+}
+
+/**
+ * Date
+ *
+ * @throws DomainException
+ */
+function date(string $val): string
+{
+    if (!$val = attr\datetime($val, APP['date.frontend'], APP['date.backend'])) {
+        throw new DomainException(app\i18n('Invalid value'));
+    }
+
+    return $val;
+}
+
+/**
+ * Time
+ *
+ * @throws DomainException
+ */
+function time(string $val): string
+{
+    if (!$val = attr\datetime($val, APP['time.frontend'], APP['time.backend'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -82,9 +110,9 @@ function datetime(string $val, array $attr): string
 /**
  * Editor
  */
-function editor(string $val, array $attr): string
+function editor(string $val): string
 {
-    return trim(preg_replace('#<p>\s*</p>#', '', strip_tags($val, $attr['cfg.validator'])));
+    return trim(preg_replace('#<p>\s*</p>#', '', strip_tags($val, APP['html.tags'])));
 }
 
 /**
