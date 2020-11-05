@@ -171,7 +171,7 @@ function token(): string
  */
 function i18n(string $key, string ...$args): string
 {
-    $key = cfg('i18n', $key) ?? $key;
+    $key = cfg('i18n', APP['lang'])[$key] ?? $key;
 
     return $args ? vsprintf($key, $args) : $key;
 }

@@ -13,7 +13,7 @@ $scan = function (string $path) use (& $scan): void {
     foreach (array_diff(scandir($path), ['.', '..']) as $name) {
         $file = $path . '/' . $name;
 
-        if (is_file($file) && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+        if (is_file($file) && str_ends_with($file, APP['php.ext'])) {
             require_once $file;
         } elseif (is_dir($file)) {
             $scan($file);

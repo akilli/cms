@@ -6,9 +6,27 @@ namespace file;
 /**
  * Loads data from file
  */
-function load(string $file): array
+function one(string $file): array
 {
-    return is_readable($file) && ($data = include $file) && is_array($data) ? $data : [];
+    if (is_file($file) && str_ends_with($file, APP['php.ext']) && ($data = include $file) && is_array($data)) {
+        return $data;
+    }
+
+    return [];
+}
+
+/**
+ * Loads data from all files in given directory
+ */
+function all(string $path): array
+{
+    $data = [];
+
+    foreach (glob($path . '/*' . APP['php.ext']) as $id) {
+        $data[basename($id, APP['php.ext'])] = one($id);
+    }
+
+    return $data;
 }
 
 /**

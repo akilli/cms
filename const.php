@@ -168,6 +168,7 @@ define('APP', [
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ],
+    'php.ext' => '.php',
     'response' => [
         'body' => '',
         'redirect' => null,
