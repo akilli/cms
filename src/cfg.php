@@ -43,28 +43,17 @@ function load(string $id): array
 
         $data = file\load(APP['path']['cfg'] . '/' . $id . '.php');
         $ext = file\load(APP['path']['ext.cfg'] . '/' . $id . '.php');
-
-        if (!$data) {
-            $cfg = $ext;
-        } elseif ($id === 'attr') {
-            $cfg = $data + $ext;
-        } elseif ($id === 'block') {
-            $cfg = load_block($data, $ext);
-        } elseif ($id === 'entity') {
-            $cfg = load_entity($data, $ext);
-        } elseif ($id === 'layout') {
-            $cfg = load_layout($data, $ext);
-        } elseif ($id === 'opt') {
-            $cfg = load_opt($data, $ext);
-        } elseif ($id === 'priv') {
-            $cfg = load_priv($data, $ext);
-        } elseif ($id === 'toolbar') {
-            $cfg = load_toolbar($data, $ext);
-        } elseif (in_array($id, ['db', 'event'])) {
-            $cfg = arr\extend($data, $ext);
-        } else {
-            $cfg = array_replace($data, $ext);
-        }
+        $cfg = match ($id) {
+            'attr' => $data + $ext,
+            'block' => load_block($data, $ext),
+            'entity' => load_entity($data, $ext),
+            'layout' => load_layout($data, $ext),
+            'opt' => load_opt($data, $ext),
+            'priv' => load_priv($data, $ext),
+            'toolbar' => load_toolbar($data, $ext),
+            'db', 'event' => arr\extend($data, $ext),
+            default => array_replace($data, $ext),
+        };
     }
 
     return $cfg;
