@@ -1,6 +1,7 @@
 <?php
 return [
     'name' => 'Accounts',
-    'action' => 'account/admin',
+    'priv' => 'account:admin',
+    'url' => '/account/admin',
     'sort' => 700,
 ];

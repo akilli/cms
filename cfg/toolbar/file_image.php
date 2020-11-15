@@ -1,7 +1,8 @@
 <?php
 return [
     'name' => 'Images',
-    'action' => 'file_image/admin',
+    'priv' => 'file_image:admin',
+    'url' => '/file_image/admin',
     'parent_id' => 'file',
     'sort' => 100,
 ];

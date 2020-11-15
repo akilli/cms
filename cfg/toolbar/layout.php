@@ -1,6 +1,7 @@
 <?php
 return [
     'name' => 'Layout',
-    'action' => 'layout/admin',
+    'priv' => 'layout:admin',
+    'url' => '/layout/admin',
     'sort' => 300,
 ];

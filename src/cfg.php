@@ -222,7 +222,6 @@ function toolbar(array $data, array $ext): array
         }
 
         $item['name'] = app\i18n($item['name']);
-        $item['url'] = $item['action'] ? app\url($item['action']) : $item['url'];
         $item['sort'] = ++$sort;
         $data[$id] = $item;
         $parentId = $item['parent_id'];

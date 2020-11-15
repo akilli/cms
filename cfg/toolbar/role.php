@@ -1,6 +1,7 @@
 <?php
 return [
     'name' => 'Roles',
-    'action' => 'role/admin',
+    'priv' => 'role:admin',
+    'url' => '/role/admin',
     'sort' => 600,
 ];

@@ -1,7 +1,8 @@
 <?php
 return [
     'name' => 'Articles',
-    'action' => 'page_article/admin',
+    'priv' => 'page_article:admin',
+    'url' => '/page_article/admin',
     'parent_id' => 'page',
     'sort' => 200,
 ];

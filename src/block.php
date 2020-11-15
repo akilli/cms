@@ -558,7 +558,7 @@ function toolbar(array $block): string
     $empty = [];
 
     foreach ($data as $id => $item) {
-        if (!$item['active'] || $item['action'] && !app\allowed($item['action'])) {
+        if (!$item['active'] || $item['priv'] && !app\allowed($item['priv'])) {
             unset($data[$id]);
         } elseif (!$item['url']) {
             $empty[$id] = true;

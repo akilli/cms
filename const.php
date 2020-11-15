@@ -57,7 +57,7 @@ define('APP', [
         'toolbar' => [
             'id' => null,
             'name' => null,
-            'action' => null,
+            'priv' => null,
             'url' => null,
             'active' => true,
             'parent_id' => null,

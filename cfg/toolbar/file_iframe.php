@@ -1,7 +1,8 @@
 <?php
 return [
     'name' => 'Iframes',
-    'action' => 'file_iframe/admin',
+    'priv' => 'file_iframe:admin',
+    'url' => '/file_iframe/admin',
     'parent_id' => 'file',
     'sort' => 500,
 ];
