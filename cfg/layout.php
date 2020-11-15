@@ -1,8 +1,5 @@
 <?php
 return [
-    /**
-     * All
-     */
     '_all_' => [
         'html' => [
             'type' => 'html',
@@ -92,9 +89,6 @@ return [
             'sort' => 200,
         ],
     ],
-    /**
-     * Invalid Requests
-     */
     '_invalid_' => [
         'title' => [
             'cfg' => [
@@ -108,17 +102,11 @@ return [
             'sort' => 300,
         ],
     ],
-    /**
-     * Admin Area
-     */
     '_admin_' => [
         'asset' => [
             'tpl' => 'asset-admin.phtml',
         ],
     ],
-    /**
-     * Public Area
-     */
     '_public_' => [
         'header' => [
             'type' => 'tpl',
@@ -141,9 +129,6 @@ return [
             'sort' => 500,
         ],
     ],
-    /**
-     * Action Defaults
-     */
     'admin' => [
         'new' => [
             'type' => 'tpl',
@@ -194,10 +179,7 @@ return [
             'sort' => 300,
         ],
     ],
-    /**
-     * Account
-     */
-    'account/admin' => [
+    'account:admin' => [
         'index' => [
             'cfg' => [
                 'attr_id' => ['name', 'username', 'role_id'],
@@ -206,14 +188,14 @@ return [
             ],
         ],
     ],
-    'account/edit' => [
+    'account:edit' => [
         'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'role_id', 'username', 'password', 'email'],
             ],
         ],
     ],
-    'account/login' => [
+    'account:login' => [
         'toolbar' => [
             'active' => false,
         ],
@@ -228,7 +210,7 @@ return [
             'sort' => 300,
         ],
     ],
-    'account/profile' => [
+    'account:profile' => [
         'title' => [
             'cfg' => [
                 'text' => 'Profile',
@@ -243,17 +225,14 @@ return [
             ],
         ],
     ],
-    /**
-     * Block
-     */
-    'block/admin' => [
+    'block:admin' => [
         'index' => [
             'cfg' => [
                 'attr_id' => ['name'],
             ],
         ],
     ],
-    'block/browser' => [
+    'block:browser' => [
         'index' => [
             'cfg' => [
                 'attr_id' => ['name', 'title', 'file', 'content'],
@@ -262,17 +241,14 @@ return [
             ],
         ],
     ],
-    'block/edit' => [
+    'block:edit' => [
         'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'title', 'link', 'file', 'content'],
             ],
         ],
     ],
-    /**
-     * File
-     */
-    'file/admin' => [
+    'file:admin' => [
         'index' => [
             'cfg' => [
                 'attr_id' => ['url', 'name'],
@@ -280,7 +256,7 @@ return [
             ],
         ],
     ],
-    'file/browser' => [
+    'file:browser' => [
         'index' => [
             'cfg' => [
                 'attr_id' => ['url', 'name'],
@@ -289,67 +265,49 @@ return [
             ],
         ],
     ],
-    'file/edit' => [
+    'file:edit' => [
         'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'url', 'thumb', 'info'],
             ],
         ],
     ],
-    /**
-     * File Audio
-     */
-    'file_audio/browser' => [
+    'file_audio:browser' => [
         'index' => [
             'cfg' => [
                 'filter' => [],
             ],
         ],
     ],
-    /**
-     * File Doc
-     */
-    'file_doc/browser' => [
+    'file_doc:browser' => [
         'index' => [
             'cfg' => [
                 'filter' => [],
             ],
         ],
     ],
-    /**
-     * File Iframe
-     */
-    'file_iframe/browser' => [
+    'file_iframe:browser' => [
         'index' => [
             'cfg' => [
                 'filter' => [],
             ],
         ],
     ],
-    /**
-     * File Image
-     */
-    'file_image/browser' => [
+    'file_image:browser' => [
         'index' => [
             'cfg' => [
                 'filter' => [],
             ],
         ],
     ],
-    /**
-     * File Video
-     */
-    'file_video/browser' => [
+    'file_video:browser' => [
         'index' => [
             'cfg' => [
                 'filter' => [],
             ],
         ],
     ],
-    /**
-     * Layout
-     */
-    'layout/admin' => [
+    'layout:admin' => [
         'index' => [
             'cfg' => [
                 'attr_id' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
@@ -357,24 +315,21 @@ return [
             ],
         ],
     ],
-    'layout/edit' => [
+    'layout:edit' => [
         'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'block_id', 'page_id', 'parent_id', 'sort'],
             ],
         ],
     ],
-    /**
-     * Page
-     */
-    'page/admin' => [
+    'page:admin' => [
         'index' => [
             'cfg' => [
                 'filter' => ['parent_id', 'account_id'],
             ],
         ],
     ],
-    'page/view' => [
+    'page:view' => [
         'breadcrumb' => [
             'type' => 'breadcrumb',
             'parent_id' => 'main',
@@ -386,66 +341,54 @@ return [
             ],
         ],
     ],
-    /**
-     * Page Article
-     */
-    'page_article/admin' => [
+    'page:view:1' => [
+        'breadcrumb' => [
+            'active' => false,
+        ],
+        'title' => [
+            'active' => false,
+        ],
+    ],
+    'page_article:admin' => [
         'index' => [
             'cfg' => [
                 'attr_id' => ['name', 'parent_id', 'timestamp'],
             ],
         ],
     ],
-    'page_article/edit' => [
+    'page_article:edit' => [
         'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'slug', 'parent_id', 'content', 'aside', 'meta_title', 'meta_description'],
             ],
         ],
     ],
-    /**
-     * Page Content
-     */
-    'page_content/admin' => [
+    'page_content:admin' => [
         'index' => [
             'cfg' => [
                 'attr_id' => ['name', 'pos', 'parent_id', 'menu', 'timestamp'],
             ],
         ],
     ],
-    'page_content/edit' => [
+    'page_content:edit' => [
         'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'slug', 'disabled', 'menu', 'parent_id', 'sort', 'title', 'content', 'aside', 'meta_title', 'meta_description'],
             ],
         ],
     ],
-    /**
-     * Role
-     */
-    'role/admin' => [
+    'role:admin' => [
         'index' => [
             'cfg' => [
                 'attr_id' => ['name'],
             ],
         ],
     ],
-    'role/edit' => [
+    'role:edit' => [
         'form' => [
             'cfg' => [
                 'attr_id' => ['name', 'priv'],
             ],
-        ],
-    ],
-    /**
-     * Page-specific
-     */
-    '/' => [
-        'breadcrumb' => [
-            'active' => false,
-        ],
-        'title' => [
-            'active' => false,
         ],
     ],
 ];

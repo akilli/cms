@@ -78,7 +78,6 @@ function data_layout(array $data): array
 {
     $cfg = app\cfg('layout');
     $app = app\data('app');
-    $url = app\data('request', 'url');
     $keys = ['_all_', $app['area']];
 
     if ($app['invalid']) {
@@ -89,23 +88,30 @@ function data_layout(array $data): array
         $keys[] = $action;
 
         if ($parentId = $app['parent_id']) {
-            $keys[] = $parentId . '/' . $action;
+            $keys[] = $parentId . ':' . $action;
         }
 
-        $keys[] = $entityId . '/' . $action;
-        $keys[] = $url;
+        $keys[] = $entityId . ':' . $action;
 
-        if (($page = $app['page']) && ($dbLayout = entity\all('layout', [['page_id', $page['id']]]))) {
-            $dbBlocks = [];
+        if ($action === 'view' && $app['id']) {
+            $pageKey = 'page:view:' . $app['id'];
+            $keys[] = $pageKey;
 
-            foreach (arr\group($dbLayout, 'entity_id', 'block_id') as $eId => $ids) {
-                foreach (entity\all($eId, [['id', $ids]]) as $item) {
-                    $dbBlocks[$item['id']] = $item;
+            if ($dbLayout = entity\all('layout', [['page_id', $app['id']]])) {
+                $dbBlocks = [];
+
+                foreach (arr\group($dbLayout, 'entity_id', 'block_id') as $eId => $ids) {
+                    foreach (entity\all($eId, [['id', $ids]]) as $item) {
+                        $dbBlocks[$item['id']] = $item;
+                    }
                 }
-            }
 
-            foreach ($dbLayout as $id => $item) {
-                $cfg[$url]['layout-' . $item['parent_id'] .'-' . $item['name']] = layout\db($dbBlocks[$item['block_id']], ['parent_id' => $item['parent_id'], 'sort' => $item['sort']]);
+                foreach ($dbLayout as $id => $item) {
+                    $cfg[$pageKey]['layout-' . $item['parent_id'] .'-' . $item['name']] = layout\db(
+                        $dbBlocks[$item['block_id']],
+                        ['parent_id' => $item['parent_id'], 'sort' => $item['sort']]
+                    );
+                }
             }
         }
     }

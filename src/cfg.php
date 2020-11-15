@@ -50,12 +50,12 @@ function load(string $id): array
 
         $cfg = match ($id) {
             'attr' => $data + $ext,
-            'block' => load_block($data, $ext),
-            'entity' => load_entity($data, $ext),
-            'layout' => load_layout($data, $ext),
-            'opt' => load_opt($data, $ext),
-            'priv' => load_priv($data, $ext),
-            'toolbar' => load_toolbar($data, $ext),
+            'block' => block($data, $ext),
+            'entity' => entity($data, $ext),
+            'layout' => layout($data, $ext),
+            'opt' => opt($data, $ext),
+            'priv' => priv($data, $ext),
+            'toolbar' => toolbar($data, $ext),
             'db', 'event' => arr\extend($data, $ext),
             default => array_replace($data, $ext),
         };
@@ -69,7 +69,7 @@ function load(string $id): array
  *
  * @throws DomainException
  */
-function load_block(array $data, array $ext): array
+function block(array $data, array $ext): array
 {
     $data += $ext;
 
@@ -89,7 +89,7 @@ function load_block(array $data, array $ext): array
  *
  * @throws DomainException
  */
-function load_entity(array $data, array $ext): array
+function entity(array $data, array $ext): array
 {
     $data += $ext;
     $cfg = load('attr');
@@ -152,7 +152,7 @@ function load_entity(array $data, array $ext): array
 /**
  * Load layout configuration
  */
-function load_layout(array $data, array $ext): array
+function layout(array $data, array $ext): array
 {
     foreach ($ext as $key => $cfg) {
         foreach ($cfg as $id => $block) {
@@ -166,7 +166,7 @@ function load_layout(array $data, array $ext): array
 /**
  * Loads option configuration
  */
-function load_opt(array $data, array $ext): array
+function opt(array $data, array $ext): array
 {
     $data = array_replace($data, $ext);
 
@@ -180,7 +180,7 @@ function load_opt(array $data, array $ext): array
 /**
  * Loads privilege configuration
  */
-function load_priv(array $data, array $ext): array
+function priv(array $data, array $ext): array
 {
     $data = arr\extend($data, $ext);
 
@@ -206,7 +206,7 @@ function load_priv(array $data, array $ext): array
  *
  * @throws DomainException
  */
-function load_toolbar(array $data, array $ext): array
+function toolbar(array $data, array $ext): array
 {
     $data = arr\order(arr\extend($data, $ext), ['parent_id' => 'asc', 'sort' => 'asc', 'id' => 'asc']);
     $parentId = null;
