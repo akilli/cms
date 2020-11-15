@@ -94,5 +94,7 @@ function db_block(string $id): string
  */
 function event(string $name, array $data): array
 {
-    return app\event(['layout.' . $name, 'layout.' . $name . '.type.' . $data['type'], 'layout.' . $name . '.id.' . $data['id']], $data);
+    $pre = 'layout:' . $name;
+
+    return app\event([$pre, $pre . ':type:' . $data['type'], $pre . ':id:' . $data['id']], $data);
 }

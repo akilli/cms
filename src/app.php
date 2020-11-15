@@ -61,7 +61,7 @@ function data(string $id, string $key = null): mixed
 {
     if (($data = & registry('data.' . $id)) === null) {
         $data = [];
-        $data = event(['data.' . $id], $data);
+        $data = event(['data:' . $id], $data);
     }
 
     if ($key === null) {
