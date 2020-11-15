@@ -38,13 +38,13 @@ use attr;
             <?=attr\viewer($data, $attr, ['empty' => true, 'h3' => true, 'label' => true, 'wrap' => true]);?>
             <?php endforeach;?>
             <footer>
-                <?php if (allowed($entityId . '/view')):?>
+                <?php if (allowed($entityId . ':view')):?>
                 <a href="<?=$data['url'] ?? url($entityId . '/view/' . $data['id']);?>" data-action="view" title="<?=i18n('View');?>"><?=i18n('View');?></a>
                 <?php endif;?>
-                <?php if (allowed($entityId . '/edit')):?>
+                <?php if (allowed($entityId . ':edit')):?>
                 <a href="<?=url($entityId . '/edit/' . $data['id']);?>" data-action="edit" title="<?=i18n('Edit');?>"><?=i18n('Edit');?></a>
                 <?php endif;?>
-                <?php if (allowed($entityId . '/delete')):?>
+                <?php if (allowed($entityId . ':delete')):?>
                 <a href="<?=url($entityId . '/delete/' . $data['id']);?>" data-action="delete" title="<?=i18n('Delete');?>"><?=i18n('Delete');?></a>
                 <?php endif;?>
             </footer>

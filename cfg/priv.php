@@ -9,61 +9,61 @@ return [
     '_user_' => [
         'auto' => true,
     ],
-    'account/admin' => [
+    'account:admin' => [
         'priv' => '_all_',
     ],
-    'account/delete' => [
+    'account:delete' => [
         'priv' => '_all_',
     ],
-    'account/edit' => [
+    'account:edit' => [
         'priv' => '_all_',
     ],
-    'account/login' => [
+    'account:login' => [
         'priv' => '_guest_',
     ],
-    'account/logout' => [
+    'account:logout' => [
         'priv' => '_user_',
     ],
-    'account/profile' => [
+    'account:profile' => [
         'priv' => '_user_',
     ],
-    'block/api' => [
-        'priv' => 'block/admin',
+    'block:api' => [
+        'priv' => 'block:admin',
     ],
-    'block/browser' => [
-        'priv' => 'block/admin',
+    'block:browser' => [
+        'priv' => 'block:admin',
     ],
-    'file_audio/browser' => [
-        'priv' => 'file/browser',
+    'file_audio:browser' => [
+        'priv' => 'file:browser',
     ],
-    'file_doc/browser' => [
-        'priv' => 'file/browser',
+    'file_doc:browser' => [
+        'priv' => 'file:browser',
     ],
-    'file_iframe/browser' => [
-        'priv' => 'file/browser',
+    'file_iframe:browser' => [
+        'priv' => 'file:browser',
     ],
-    'file_image/browser' => [
-        'priv' => 'file/browser',
+    'file_image:browser' => [
+        'priv' => 'file:browser',
     ],
-    'file_video/browser' => [
-        'priv' => 'file/browser',
+    'file_video:browser' => [
+        'priv' => 'file:browser',
     ],
-    'page/view' => [
+    'page:view' => [
         'active' => false,
     ],
-    'page_article/view' => [
+    'page_article:view' => [
         'active' => false,
     ],
-    'page_content/view' => [
+    'page_content:view' => [
         'active' => false,
     ],
-    'role/admin' => [
+    'role:admin' => [
         'priv' => '_all_',
     ],
-    'role/delete' => [
+    'role:delete' => [
         'priv' => '_all_',
     ],
-    'role/edit' => [
+    'role:edit' => [
         'priv' => '_all_',
     ],
 ];

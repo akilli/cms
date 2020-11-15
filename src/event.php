@@ -59,10 +59,10 @@ function data_app(array $data): array
     }
 
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
-    $data['area'] = empty(app\cfg('priv', $data['entity_id'] . '/' . $data['action'])['active']) ? '_public_' : '_admin_';
+    $data['area'] = empty(app\cfg('priv', $data['entity_id'] . ':' . $data['action'])['active']) ? '_public_' : '_admin_';
     $data['invalid'] = !$data['entity_id']
         || !$data['action']
-        || !app\allowed($data['entity_id'] . '/' . $data['action'])
+        || !app\allowed($data['entity_id'] . ':' . $data['action'])
         || $data['entity'] && !in_array($data['action'], $data['entity']['action'])
         || !$data['page'] && in_array($data['action'], ['delete', 'view']) && (!$data['id'] || $data['entity'] && !entity\size($data['entity_id'], [['id', $data['id']]]))
         || $data['page'] && $data['page']['disabled']
