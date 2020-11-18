@@ -13,12 +13,12 @@ use attr;
         <?php if ($var('search')):?>
         <div data-attr="q" data-type="search">
             <label for="q"><?=i18n('Search');?></label>
-            <input id="q" type="search" name="q" value="<?=$var('q');?>" placeholder="<?=i18n('Search Term');?>" />
+            <input id="q" type="search" name="q" value="<?=$var('q');?>" placeholder="<?=i18n('Search Term');?>"/>
         </div>
         <?php endif;?>
     </fieldset>
     <div class="action">
         <a href="<?=data('request', 'url');?>" role="button"><?=i18n('Reset');?></a>
-        <input type="submit" value="<?=i18n('Submit');?>" />
+        <input type="submit" value="<?=i18n('Submit');?>"/>
     </div>
 </form>
