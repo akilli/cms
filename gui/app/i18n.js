@@ -20,7 +20,7 @@ const cfg = {
  *
  * @return {String}
  */
-export default function(key, ...args) {
+export default function (key, ...args) {
     if (cfg[lang] && cfg[lang][key]) {
         key = cfg[lang][key];
     }

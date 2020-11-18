@@ -46,7 +46,7 @@ fieldset > :not(:first-child),
 details + details,
 nav ul:not(:first-child),
 table p:not(:first-child),
-.msg p:not(:first-child)  {
+.msg p:not(:first-child) {
     margin-top: 0;
 }
 
