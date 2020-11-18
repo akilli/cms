@@ -5,4 +5,4 @@ return [
     'content' => 'content',
     'sidebar' => 'sidebar',
     'bottom' => 'bottom',
- ];
+];
