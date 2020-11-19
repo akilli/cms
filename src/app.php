@@ -76,12 +76,7 @@ function data(string $id, string $key = null): mixed
  */
 function cfg(string $id, string $key = null): mixed
 {
-    // Workaround for config preloading
-    if (defined('CFG')) {
-        $data = CFG[$id] ?? [];
-    } else {
-        $data = registry('cfg.' . $id) ?? [];
-    }
+    $data = registry('cfg')[$id] ?? [];
 
     if ($key === null) {
         return $data;

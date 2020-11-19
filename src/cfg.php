@@ -52,7 +52,9 @@ function preload(): array
  */
 function load(string $id): array
 {
-    if (($cfg = & app\registry('cfg.' . $id)) === null) {
+    $cfg = & app\registry('cfg');
+
+    if (empty($cfg[$id])) {
         $path = APP['path']['cfg'] . '/' . $id;
         $extPath = APP['path']['ext.cfg'] . '/' . $id;
 
@@ -64,7 +66,7 @@ function load(string $id): array
             $ext = file\one($extPath . APP['php.ext']);
         }
 
-        $cfg = match ($id) {
+        $cfg[$id] = match ($id) {
             'attr' => $data + $ext,
             'block' => block($data, $ext),
             'entity' => entity($data, $ext),
@@ -77,7 +79,7 @@ function load(string $id): array
         };
     }
 
-    return $cfg;
+    return $cfg[$id];
 }
 
 /**
