@@ -59,7 +59,7 @@ function &registry(string $id): ?array
  */
 function data(string $id, string $key = null): mixed
 {
-    if (($data = & registry('data.' . $id)) === null) {
+    if (($data = &registry('data.' . $id)) === null) {
         $data = [];
         $data = event(['data:' . $id], $data);
     }
@@ -176,7 +176,7 @@ function i18n(string $key, string ...$args): string
  */
 function msg(string $msg = null, string ...$args): array
 {
-    if (($data = & registry('msg')) === null) {
+    if (($data = &registry('msg')) === null) {
         $data = session\get('msg') ?: [];
         session\set('msg', null);
     }

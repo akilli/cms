@@ -20,7 +20,7 @@ function backup(): void
  */
 function restore(): void
 {
-    $cfg = & app\registry('cfg');
+    $cfg = &app\registry('cfg');
     $cfg = one(APP['path']['tmp'] . '/cfg.php');
 }
 
@@ -72,7 +72,7 @@ function all(string $path): array
  */
 function load(string $id): array
 {
-    $cfg = & app\registry('cfg');
+    $cfg = &app\registry('cfg');
 
     if (empty($cfg[$id])) {
         $path = APP['path']['cfg'] . '/' . $id;
