@@ -17,7 +17,7 @@ register_shutdown_function(function (): void {
  */
 require_once dirname(__DIR__) . '/const.php';
 
-define('CFG', file\one(APP['path']['tmp'] . '/cfg.php'));
+define('CFG', cfg\restore());
 
 /**
  * I18n

@@ -30,4 +30,4 @@ unset($path, $scan);
 /**
  * Pregenerate configuration
  */
-file\save(APP['path']['tmp'] . '/cfg.php', cfg\preload());
+cfg\backup();

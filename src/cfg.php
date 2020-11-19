@@ -9,6 +9,22 @@ use file;
 use DomainException;
 
 /**
+ * Backs up configuration
+ */
+function backup(): void
+{
+    file\save(APP['path']['tmp'] . '/cfg.php', preload());
+}
+
+/**
+ * Restores configuration
+ */
+function restore(): array
+{
+    return file\one(APP['path']['tmp'] . '/cfg.php');
+}
+
+/**
  * Preloads all configuration data
  */
 function preload(): array
