@@ -16,7 +16,7 @@ $scan = function (string $path) use (&$scan, &$scanDir): void {
 $scanDir = function (string $dir) use (&$scan): void {
     $scan($dir);
 };
-array_map($scanDir, array_filter([APP['path']['src'], APP['path']['ext.src']], 'is_dir'));
+array_map($scanDir, [APP['path']['src'], APP['path']['ext.src']]);
 unset($scan, $scanDir);
 
 /**
