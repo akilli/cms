@@ -5,7 +5,6 @@ namespace cfg;
 
 use app;
 use arr;
-use file;
 use DomainException;
 
 /**
@@ -13,7 +12,7 @@ use DomainException;
  */
 function backup(): void
 {
-    file\save(APP['path']['tmp'] . '/cfg.php', preload());
+    file_put_contents(APP['path']['tmp'] . '/cfg.php', "<?php\nreturn " . var_export(preload(), true) . ';');
 }
 
 /**
@@ -22,7 +21,7 @@ function backup(): void
 function restore(): void
 {
     $cfg = & app\registry('cfg');
-    $cfg = file\one(APP['path']['tmp'] . '/cfg.php');
+    $cfg = one(APP['path']['tmp'] . '/cfg.php');
 }
 
 /**
@@ -49,6 +48,28 @@ function preload(): array
 }
 
 /**
+ * Loads data from file
+ */
+function one(string $file): array
+{
+    return ($data = include $file) && is_array($data) ? $data : [];
+}
+
+/**
+ * Loads data from all files in given directory
+ */
+function all(string $path): array
+{
+    $data = [];
+
+    foreach (glob($path . '/*' . APP['php.ext']) as $id) {
+        $data[basename($id, APP['php.ext'])] = one($id);
+    }
+
+    return $data;
+}
+
+/**
  * Loads configuration data with or without overwrites
  */
 function load(string $id): array
@@ -60,11 +81,11 @@ function load(string $id): array
         $extPath = APP['path']['ext.cfg'] . '/' . $id;
 
         if (is_dir($path) || !is_file($path . APP['php.ext']) && is_dir($extPath)) {
-            $data = file\all($path);
-            $ext = file\all($extPath);
+            $data = all($path);
+            $ext = all($extPath);
         } else {
-            $data = file\one($path . APP['php.ext']);
-            $ext = file\one($extPath . APP['php.ext']);
+            $data = one($path . APP['php.ext']);
+            $ext = one($extPath . APP['php.ext']);
         }
 
         $cfg[$id] = match ($id) {
