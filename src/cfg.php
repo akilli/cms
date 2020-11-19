@@ -19,9 +19,10 @@ function backup(): void
 /**
  * Restores configuration
  */
-function restore(): array
+function restore(): void
 {
-    return file\one(APP['path']['tmp'] . '/cfg.php');
+    $cfg = & app\registry('cfg');
+    $cfg = file\one(APP['path']['tmp'] . '/cfg.php');
 }
 
 /**

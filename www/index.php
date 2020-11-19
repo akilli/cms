@@ -17,7 +17,10 @@ register_shutdown_function(function (): void {
  */
 require_once dirname(__DIR__) . '/const.php';
 
-define('CFG', cfg\restore());
+/**
+ * Restore pregenerated configuration
+ */
+cfg\restore();
 
 /**
  * I18n
