@@ -52,7 +52,7 @@ function preload(): array
  */
 function one(string $file): array
 {
-    return ($data = include $file) && is_array($data) ? $data : [];
+    return is_file($file) && ($data = include $file) && is_array($data) ? $data : [];
 }
 
 /**
