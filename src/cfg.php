@@ -62,8 +62,8 @@ function all(string $path): array
 {
     $data = [];
 
-    foreach (glob($path . '/*' . APP['php.ext']) as $id) {
-        $data[basename($id, APP['php.ext'])] = one($id);
+    foreach (glob($path . '/*' . APP['php.ext']) as $file) {
+        $data[basename($file, APP['php.ext'])] = one($file);
     }
 
     return $data;
