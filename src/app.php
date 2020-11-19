@@ -267,7 +267,7 @@ function tpl(string $tpl, array $var = []): string
     }
 
     unset($tpl);
-    $var = fn($key) => $var[$key] ?? null;
+    $var = fn(string $key): mixed => $var[$key] ?? null;
     ob_start();
     include $var('tpl');
 
