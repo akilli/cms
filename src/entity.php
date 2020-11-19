@@ -96,7 +96,7 @@ function all(string $entityId, array $crit = [], array $opt = []): array
  *
  * @throws DomainException
  */
-function save(string $entityId, array & $data): bool
+function save(string $entityId, array &$data): bool
 {
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
@@ -168,7 +168,7 @@ function save(string $entityId, array & $data): bool
 
     try {
         ($entity['type'] . '\trans')(
-            function () use (& $tmp): void {
+            function () use (&$tmp): void {
                 $tmp = event('presave', $tmp);
                 $tmp = ($tmp['_entity']['type'] . '\save')($tmp);
                 $tmp = event('postsave', $tmp);

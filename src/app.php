@@ -43,7 +43,7 @@ function run(): string
 /**
  * Internal registry
  */
-function & registry(string $id): ?array
+function &registry(string $id): ?array
 {
     static $data = [];
 
