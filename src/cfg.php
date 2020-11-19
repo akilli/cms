@@ -29,9 +29,7 @@ function restore(): void
  */
 function preload(): array
 {
-    $data = [];
-
-    load('i18n');
+    $data = ['i18n' => load('i18n')];
 
     foreach (array_filter([APP['path']['cfg'], APP['path']['ext.cfg']], 'is_dir') as $path) {
         foreach (array_diff(scandir($path), ['.', '..']) as $name) {
