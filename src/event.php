@@ -43,15 +43,15 @@ function data_app(array $data): array
     $data = arr\replace(APP['data']['app'], $data);
     $request = app\data('request');
 
-    if (preg_match('#^/(?:|[a-z0-9_\-\./]+\.html)$#', $request['url'], $match)
-        && ($page = entity\one('page', [['url', $request['url']]], ['select' => ['id', 'entity_id']]))
+    if (preg_match('#^/(?:|[a-z0-9_\-\./]+\.html)$#', $request['path'], $match)
+        && ($page = entity\one('page', [['url', $request['path']]], ['select' => ['id', 'entity_id']]))
         && ($data['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))
     ) {
         $data['entity_id'] = $data['page']['entity_id'];
         $data['action'] = 'view';
         $data['id'] = $data['page']['id'];
         $data['entity'] = $data['page']['_entity'];
-    } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/]+))$#u', $request['url'], $match)) {
+    } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/]+))$#u', $request['path'], $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['id'] = $match[3] ?? null;
@@ -138,8 +138,8 @@ function data_request(array $data): array
     $data['method'] = strtolower($_SERVER['REQUEST_METHOD']);
     $data['proto'] = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null === 'on') ? 'https' : 'http';
     $data['base'] = $data['proto'] . '://' . $data['host'];
-    $data['url'] = str\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
-    $data['full'] = $data['base'] . rtrim($data['url'], '/');
+    $data['path'] = str\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
+    $data['url'] = $data['base'] . rtrim($data['path'], '/');
     $data['get'] = request\filter($_GET);
 
     if (!empty($_POST['token'])) {

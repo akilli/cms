@@ -182,29 +182,29 @@ editor-toolbar button {
 /**
  * Login
  */
-:root[data-url='/account/login'] body {
+:root[data-path='/account/login'] body {
     color: #052a33;
     background: url(cms.svg) no-repeat center;
     background-size: cover;
 }
 
-:root[data-url='/account/login'] input {
+:root[data-path='/account/login'] input {
     padding: 0.75rem;
     color: #fff;
     background: #052a33;
     border: 0;
 }
 
-:root[data-url='/account/login'] .msg,
-:root[data-url='/account/login'] div[data-invalid] :invalid {
+:root[data-path='/account/login'] .msg,
+:root[data-path='/account/login'] div[data-invalid] :invalid {
     background: #900;
 }
 
-:root[data-url='/account/login'] .msg {
+:root[data-path='/account/login'] .msg {
     margin: 1.5rem 0 0;
 }
 
-:root[data-url='/account/login'] main {
+:root[data-path='/account/login'] main {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -214,7 +214,7 @@ editor-toolbar button {
     margin: 0 auto;
 }
 
-:root[data-url='/account/login'] main > * {
+:root[data-path='/account/login'] main > * {
     width: 100%;
 }
 

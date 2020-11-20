@@ -94,10 +94,10 @@ define('APP', [
         'request' => [
             'base' => null,
             'file' => [],
-            'full' => null,
             'get' => [],
             'host' => null,
             'method' => null,
+            'path' => null,
             'proto' => null,
             'post' => [],
             'url' => null,
