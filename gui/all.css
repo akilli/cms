@@ -229,6 +229,10 @@ main a:not([role=button]):not([data-action]):hover {
     background: #052a33;
 }
 
+:root[data-browser] #toolbar {
+    display: none;
+}
+
 #toolbar li ul {
     background: #052a33;
 }

@@ -2,7 +2,7 @@
 return [
     'name' => 'Blocks',
     'readonly' => true,
-    'action' => ['api', 'browser'],
+    'action' => ['admin', 'api'],
     'attr' => [
         'id' => [
             'name' => 'ID',

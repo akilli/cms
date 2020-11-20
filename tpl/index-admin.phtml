@@ -31,9 +31,12 @@ use attr;
         <?php foreach ($var('data') as $data):?>
             <?php
             $entity = !empty($data['entity_id']) ? cfg('entity', $data['entity_id']) : null;
-            $entityId = $entity && $data['_entity']['id'] === $entity['parent_id'] ? $entity['id'] : $data['_entity']['id'];
+            $entityId = $entity && $entity['parent_id'] === $data['_entity']['id'] ? $entity['id'] : $data['_entity']['id'];
+            $id = ($entity && $entity['parent_id'] === 'block' ? $entity['id'] . '-' : '') . $data['id'];
+            $src = $entity && $entity['parent_id'] === 'file' ? $data['url'] : null;
+            preg_match('#^file_(audio|iframe|image|video)$#', $entityId, $match);
             ?>
-        <article>
+        <article data-id="<?=$id;?>" title="<?=i18n('Select item');?>"<?php if ($src):?> data-src="<?=$src;?>"<?php endif;?><?php if ($match):?> data-type="<?=$match[1];?>"<?php endif;?>>
             <?php foreach ($var('attr') as $attr):?>
             <?=attr\viewer($data, $attr, ['empty' => true, 'h3' => true, 'label' => true, 'wrap' => true]);?>
             <?php endforeach;?>

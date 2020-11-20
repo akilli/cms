@@ -17,11 +17,14 @@ export default {
             return;
         }
 
-        document.addEventListener('DOMContentLoaded', () => document.querySelectorAll(':root[data-action=browser] #content .block-index article').forEach(item => {
-            const msg = {};
-            Object.getOwnPropertyNames(item.dataset).forEach(name => msg[name] = item.dataset[name]);
-            item.addEventListener('click', () => window.opener.postMessage(msg, origin));
-        }));
+        document.addEventListener('DOMContentLoaded', () => {
+            document.documentElement.setAttribute('data-browser', '');
+            document.querySelectorAll('#content .block-index article').forEach(item => {
+                const msg = {};
+                Object.getOwnPropertyNames(item.dataset).forEach(name => msg[name] = item.dataset[name]);
+                item.addEventListener('click', () => window.opener.postMessage(msg, origin));
+            });
+        });
     },
 
     /**
@@ -39,7 +42,7 @@ export default {
                     return;
                 }
 
-                browser(`/${entity}/browser`, async data => {
+                browser(`/${entity}/admin`, async data => {
                     if (!data.id) {
                         return;
                     }

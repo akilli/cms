@@ -173,8 +173,8 @@ editor-toolbar button {
     pointer-events: none;
 }
 
-:root:not([data-action=browser]) .block-index img,
-:root:not([data-action=browser]) .block-index video {
+:root:not([data-browser]) .block-index img,
+:root:not([data-browser]) .block-index video {
     max-width: 9rem;
     max-height: 6rem;
 }
@@ -308,24 +308,28 @@ editor-toolbar button {
     /**
      * Browser
      */
-    :root[data-action=browser] #content .block-index > .content {
+    :root[data-browser] #content .block-index .thead {
+        display: none;
+    }
+
+    :root[data-browser] #content .block-index > .content {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-gap: 1.5rem;
         align-items: end;
     }
 
-    :root[data-action=browser] #content .block-index article {
+    :root[data-browser] #content .block-index article {
         display: block;
         border: 0.0625rem solid;
         cursor: pointer;
     }
 
-    :root[data-action=browser] #content .block-index article:not(:hover) {
+    :root[data-browser] #content .block-index article:not(:hover) {
         border-color: transparent;
     }
 
-    :root[data-action=browser] #content .block-index article > * {
+    :root[data-browser] #content .block-index article > * {
         display: block;
         border: 0;
     }
