@@ -123,9 +123,10 @@ function allowed(string $key): bool
         return false;
     }
 
-    $data = data('account');
-
-    return !$cfg['active'] || $data['admin'] || $cfg['priv'] && allowed($cfg['priv']) || !$cfg['priv'] && in_array($key, $data['priv']);
+    return !$cfg['active']
+        || ($account = data('account')) && $account['admin']
+        || $cfg['priv'] && allowed($cfg['priv'])
+        || !$cfg['priv'] && in_array($key, $account['priv']);
 }
 
 /**
