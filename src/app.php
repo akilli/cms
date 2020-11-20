@@ -59,7 +59,7 @@ function &registry(string $id): ?array
  */
 function data(string $id, string $key = null): mixed
 {
-    if (($data = &registry('data.' . $id)) === null) {
+    if (($data = &registry('data:' . $id)) === null) {
         $data = [];
         $data = event(['data:' . $id], $data);
     }
