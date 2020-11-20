@@ -21,13 +21,13 @@ function run(): string
     if ($app['invalid']) {
         http_response_code(404);
     } else {
-        array_unshift($ev, 'response.' . $app['action']);
+        array_unshift($ev, 'response:' . $app['action']);
 
         if ($app['parent_id']) {
-            array_unshift($ev, 'response.' . $app['parent_id'] . '.' . $app['action']);
+            array_unshift($ev, 'response:' . $app['parent_id'] . ':' . $app['action']);
         }
 
-        array_unshift($ev, 'response.' . $app['entity_id'] . '.' . $app['action']);
+        array_unshift($ev, 'response:' . $app['entity_id'] . ':' . $app['action']);
     }
 
     $data = arr\replace(APP['response'], event($ev, APP['response']));
