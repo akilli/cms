@@ -73,6 +73,7 @@ input[type=checkbox],
 input[type=radio] {
     width: 1.25rem;
     height: 1.25rem;
+    margin: 0.125rem 0;
     padding: 0.5625rem 0;
     border: 0.0625rem solid #bbb;
     -webkit-appearance: none;
@@ -216,6 +217,22 @@ editor-toolbar button {
 
 :root[data-url='/account/login'] main > * {
     width: 100%;
+}
+
+/**
+ * Role Edit
+ */
+:root[data-url='/role/edit'] [data-attr=priv] {
+    display: grid;
+    grid-template-columns: 1.25rem auto;
+}
+
+:root[data-url='/role/edit'] [data-attr=priv] label[for=attr-priv] {
+    grid-column: span 2;
+}
+
+:root[data-url='/role/edit'] [data-attr=priv] label[for=attr-priv] ~ label {
+    font-size: 0.875rem;
 }
 
 /**
