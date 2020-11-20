@@ -42,7 +42,7 @@ CREATE TABLE file (
     url varchar(255) NOT NULL UNIQUE,
     mime varchar(255) NOT NULL,
     thumb varchar(255) DEFAULT NULL UNIQUE,
-    info text NOT NULL
+    info text DEFAULT NULL
 );
 
 CREATE INDEX ON file (name);

@@ -40,7 +40,7 @@ return [
         'info' => [
             'name' => 'Info',
             'type' => 'textarea',
-            'required' => true,
+            'nullable' => true,
         ],
     ],
 ];
