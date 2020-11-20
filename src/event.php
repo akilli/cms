@@ -135,6 +135,7 @@ function data_request(array $data): array
 {
     $data = arr\replace(APP['data']['request'], $data);
     $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
+    $data['method'] = strtolower($_SERVER['REQUEST_METHOD']);
     $data['proto'] = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null === 'on') ? 'https' : 'http';
     $data['base'] = $data['proto'] . '://' . $data['host'];
     $data['url'] = str\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));

@@ -97,6 +97,7 @@ define('APP', [
             'full' => null,
             'get' => [],
             'host' => null,
+            'method' => null,
             'proto' => null,
             'post' => [],
             'url' => null,
