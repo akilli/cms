@@ -14,7 +14,7 @@ use DomainException;
  */
 function frontend(array $data, array $attr): string
 {
-    $val = array_key_exists($attr['id'], $data) && $data[$attr['id']] !== null ? cast($data[$attr['id']], $attr) : null;
+    $val = val($data, $attr);
     $attr['opt'] = opt($data, $attr);
     $attr['html'] = html($attr);
     $div = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
@@ -52,7 +52,7 @@ function filter(array $data, array $attr): string
         return '';
     }
 
-    $val = array_key_exists($attr['id'], $data) && $data[$attr['id']] !== null ? cast($data[$attr['id']], $attr) : null;
+    $val = val($data, $attr);
     $attr['opt'] = opt($data, $attr);
     $attr['html'] = html($attr, 'filter');
 
@@ -166,6 +166,14 @@ function opt(array $data, array $attr): callable
     }
 
     return fn(): array => [];
+}
+
+/**
+ * Value
+ */
+function val(array $data, array $attr): mixed
+{
+    return array_key_exists($attr['id'], $data) && $data[$attr['id']] !== null ? cast($data[$attr['id']], $attr) : null;
 }
 
 /**
