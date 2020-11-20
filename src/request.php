@@ -82,7 +82,13 @@ function normalize(array $in): ?array
     $out = [];
 
     foreach (array_filter($in['name']) as $k => $n) {
-        $f = ['error' => $in['error'][$k], 'name' => $n, 'size' => $in['size'][$k], 'tmp_name' => $in['tmp_name'][$k], 'type' => $in['type'][$k]];
+        $f = [
+            'error' => $in['error'][$k],
+            'name' => $n,
+            'size' => $in['size'][$k],
+            'tmp_name' => $in['tmp_name'][$k],
+            'type' => $in['type'][$k],
+        ];
 
         if (is_array($f['name'])) {
             $f = normalize($f);
