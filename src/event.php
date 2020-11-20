@@ -59,7 +59,8 @@ function data_app(array $data): array
     }
 
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
-    $data['area'] = empty(app\cfg('priv', $data['entity_id'] . ':' . $data['action'])['active']) ? '_public_' : '_admin_';
+    $public = empty(app\cfg('priv', $data['entity_id'] . ':' . $data['action'])['active']);
+    $data['area'] = $public ? '_public_' : '_admin_';
     $data['invalid'] = !$data['entity_id']
         || !$data['action']
         || !app\allowed($data['entity_id'] . ':' . $data['action'])
@@ -68,7 +69,8 @@ function data_app(array $data): array
             && in_array($data['action'], ['delete', 'view'])
             && (!$data['id'] || $data['entity'] && !entity\size($data['entity_id'], [['id', $data['id']]]))
         || $data['page'] && $data['page']['disabled']
-        || $data['area'] === '_admin_' && in_array(preg_replace('#^www\.#', '', $request['host']), app\cfg('app', 'blacklist'));
+        || $data['area'] === '_admin_'
+            && in_array(preg_replace('#^www\.#', '', $request['host']), app\cfg('app', 'blacklist'));
 
     return $data;
 }
@@ -138,7 +140,8 @@ function data_request(array $data): array
     $data = arr\replace(APP['data']['request'], $data);
     $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
     $data['method'] = strtolower($_SERVER['REQUEST_METHOD']);
-    $data['proto'] = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null === 'on') ? 'https' : 'http';
+    $https = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null) === 'on';
+    $data['proto'] = $https ? 'https' : 'http';
     $data['base'] = $data['proto'] . '://' . $data['host'];
     $data['url'] = str\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
     $data['full'] = $data['base'] . rtrim($data['url'], '/');
@@ -164,7 +167,10 @@ function data_request(array $data): array
 function entity_postvalidate_password(array $data): array
 {
     foreach (array_intersect_key($data, $data['_entity']['attr']) as $attrId => $val) {
-        if ($data['_entity']['attr'][$attrId]['type'] === 'password' && $val && !($data[$attrId] = password_hash($val, PASSWORD_DEFAULT))) {
+        if ($data['_entity']['attr'][$attrId]['type'] === 'password'
+            && $val
+            && !($data[$attrId] = password_hash($val, PASSWORD_DEFAULT))
+        ) {
             $data['_error'][$attrId][] = app\i18n('Invalid password');
         }
     }
@@ -227,7 +233,10 @@ function entity_prevalidate_file(array $data): array
 
     if (!empty($data['thumb']) && ($item = app\data('request', 'file')['thumb'] ?? null)) {
         $data['thumb'] = app\file($item['name']);
-        $crit = array_merge([[['url', $data['thumb']], ['thumb', $data['thumb']]]], $data['_old'] ? [['id', $data['_old']['id'], APP['op']['!=']]] : []);
+        $crit = array_merge(
+            [[['url', $data['thumb']], ['thumb', $data['thumb']]]],
+            $data['_old'] ? [['id', $data['_old']['id'], APP['op']['!=']]] : []
+        );
 
         if (entity\size('file', $crit)) {
             $data['_error']['thumb'][] = app\i18n('Please change filename to generate an unique URL');
@@ -244,13 +253,22 @@ function entity_prevalidate_file(array $data): array
  */
 function entity_postsave_file(array $data): array
 {
-    $upload = fn(string $attrId): ?string => ($item = app\data('request', 'file')[$attrId] ?? null) && !file\upload($item['tmp_name'], app\filepath($data[$attrId])) ? $item['name'] : null;
+    $upload = function (string $attrId) use ($data): ?string {
+        $item = app\data('request', 'file')[$attrId] ?? null;
+        return $item && !file\upload($item['tmp_name'], app\filepath($data[$attrId])) ? $item['name'] : null;
+    };
 
-    if ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url']) && ($name = $upload('url')) || !empty($data['thumb']) && ($name = $upload('thumb'))) {
+    if ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url']) && ($name = $upload('url'))
+        || !empty($data['thumb']) && ($name = $upload('thumb'))
+    ) {
         throw new DomainException(app\i18n('Could not upload %s', $name));
     }
 
-    if (array_key_exists('thumb', $data) && !$data['thumb'] && $data['_old']['thumb'] && !file\delete(app\filepath($data['_old']['thumb']))) {
+    if (array_key_exists('thumb', $data)
+        && !$data['thumb']
+        && $data['_old']['thumb']
+        && !file\delete(app\filepath($data['_old']['thumb']))
+    ) {
         throw new DomainException(app\i18n('Could not delete file'));
     }
 
