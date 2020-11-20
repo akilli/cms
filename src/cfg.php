@@ -140,7 +140,8 @@ function entity(array $data, array $ext): array
         if (!$entity['name']
             || !$entity['db']
             || !$entity['type'] && !($entity['type'] = $dbCfg[$entity['db']]['type'] ?? null)
-            || $entity['parent_id'] && (empty($data[$entity['parent_id']]) || !empty($data[$entity['parent_id']]['parent_id']))
+            || $entity['parent_id']
+                && (empty($data[$entity['parent_id']]) || !empty($data[$entity['parent_id']]['parent_id']))
             || !$entity['parent_id'] && !arr\has($entity['attr'], ['id', 'name'], true)
             || $entity['unique'] !== array_filter($entity['unique'], 'is_array')
         ) {
@@ -160,12 +161,20 @@ function entity(array $data, array $ext): array
                 || empty($attr['type'])
                 || empty($cfg[$attr['type']])
                 || in_array($attr['type'], ['entity', 'entity[]']) && empty($attr['ref'])
-                || !empty($attr['ref']) && (empty($data[$attr['ref']]['attr']['id']['type']) || empty($cfg[$data[$attr['ref']]['attr']['id']['type']]))
+                || !empty($attr['ref'])
+                    && (empty($data[$attr['ref']]['attr']['id']['type'])
+                        || empty($cfg[$data[$attr['ref']]['attr']['id']['type']])
+                    )
             ) {
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
-            $attr = arr\replace(APP['cfg']['attr'], $cfg[$attr['type']], $attr, ['id' => $attrId, 'name' => app\i18n($attr['name'])]);
+            $attr = arr\replace(
+                APP['cfg']['attr'],
+                $cfg[$attr['type']],
+                $attr,
+                ['id' => $attrId, 'name' => app\i18n($attr['name'])]
+            );
 
             if (!in_array($attr['backend'], APP['backend'])
                 || !$attr['frontend']
@@ -266,7 +275,8 @@ function toolbar(array $data, array $ext): array
     }
 
     foreach ($data as $id => $item) {
-        $item['pos'] = ($item['parent_id'] ? $data[$item['parent_id']]['pos'] . '.' : '') . str_pad((string) $item['sort'], 5, '0', STR_PAD_LEFT);
+        $item['pos'] = ($item['parent_id'] ? $data[$item['parent_id']]['pos'] . '.' : '')
+            . str_pad((string) $item['sort'], 5, '0', STR_PAD_LEFT);
         $item['level'] = $item['parent_id'] ? $data[$item['parent_id']]['level'] + 1 : 1;
         $data[$id] = $item;
     }

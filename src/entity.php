@@ -119,7 +119,9 @@ function save(string $entityId, array &$data): bool
     foreach (array_intersect(array_keys($tmp), array_keys($entity['attr'])) as $attrId) {
         $attr = $entity['attr'][$attrId];
         $tmp[$attrId] = attr\cast($tmp[$attrId], $attr);
-        $ignorable = ($tmp[$attrId] === null || $tmp[$attrId] === '') && $attr['required'] && attr\ignorable($tmp, $attr);
+        $ignorable = ($tmp[$attrId] === null || $tmp[$attrId] === '')
+            && $attr['required']
+            && attr\ignorable($tmp, $attr);
         $unchanged = array_key_exists($attrId, $tmp['_old']) && $tmp[$attrId] === $tmp['_old'][$attrId];
 
         if ($ignorable || $unchanged) {
@@ -156,7 +158,10 @@ function save(string $entityId, array &$data): bool
     }
 
     foreach ($attrIds as $key => $attrId) {
-        if (array_key_exists($attrId, $tmp['_old']) && $tmp[$attrId] === $tmp['_old'][$attrId] && !$entity['attr'][$attrId]['uploadable']) {
+        if (array_key_exists($attrId, $tmp['_old'])
+            && $tmp[$attrId] === $tmp['_old'][$attrId]
+            && !$entity['attr'][$attrId]['uploadable']
+        ) {
             unset($data[$attrId], $tmp[$attrId], $attrIds[$key]);
         }
     }

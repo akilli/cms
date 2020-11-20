@@ -25,7 +25,11 @@ function block(string $html): string
 
         foreach ($data as $entityId => $ids) {
             foreach (entity\all($entityId, [['id', $ids]]) as $item) {
-                $html = preg_replace(sprintf($pattern, $entityId . '-' . $item['id']), layout\render(layout\db($item)), $html);
+                $html = preg_replace(
+                    sprintf($pattern, $entityId . '-' . $item['id']),
+                    layout\render(layout\db($item)),
+                    $html
+                );
             }
         }
     }
@@ -38,7 +42,11 @@ function block(string $html): string
  */
 function email(string $html): string
 {
-    return preg_replace_callback('#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im', fn(array $m): string => str\hex($m[0]), $html);
+    return preg_replace_callback(
+        '#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im',
+        fn(array $m): string => str\hex($m[0]),
+        $html
+    );
 }
 
 /**
@@ -61,7 +69,11 @@ function image(string $html, array $cfg = []): string
         return $html;
     }
 
-    $data = entity\all('file', [['url', array_unique($match['url'])]], ['index' => 'url', 'select' => ['id', 'url', 'thumb']]);
+    $data = entity\all(
+        'file',
+        [['url', array_unique($match['url'])]],
+        ['index' => 'url', 'select' => ['id', 'url', 'thumb']]
+    );
     $call = function (array $m) use ($cfg, $data): string {
         $item = $data[$m['url']] ?? null;
 
@@ -89,7 +101,13 @@ function image(string $html, array $cfg = []): string
 
         if ($set) {
             $set .= ', ' . app\file($m['name']) . ' ' . $w[$file] . 'w';
-            $sizes = $cfg['sizes'] && $cfg['sizes'] !== '100vw' ? $cfg['sizes'] : '(max-width: ' . $w[$file] . 'px) 100vw, ' . $w[$file] . 'px';
+
+            if ($cfg['sizes'] && $cfg['sizes'] !== '100vw') {
+                $sizes = $cfg['sizes'];
+            } else {
+                $sizes = '(max-width: ' . $w[$file] . 'px) 100vw, ' . $w[$file] . 'px';
+            }
+
             $img = $m['pre'] . ' srcset="' . $set . '" sizes="' . $sizes . '"' . $m['post'];
         }
 

@@ -133,11 +133,20 @@ function bool(?bool $val, array $attr): string
 function checkbox(?array $val, array $attr): string
 {
     $val = (array) $val;
-    $html = app\html('input', ['id' => $attr['html']['id'], 'name' => str_replace('[]', '', $attr['html']['name']), 'type' => 'hidden']);
+    $html = app\html(
+        'input',
+        ['id' => $attr['html']['id'], 'name' => str_replace('[]', '', $attr['html']['name']), 'type' => 'hidden']
+    );
 
     foreach ($attr['opt']() as $k => $v) {
         $id = $attr['html']['id'] . '-' . $k;
-        $a = ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'checkbox', 'value' => $k, 'checked' => !!array_keys($val, $k, true)] + $attr['html'];
+        $a = [
+            'id' => $id,
+            'name' => $attr['html']['name'],
+            'type' => 'checkbox',
+            'value' => $k,
+            'checked' => !!array_keys($val, $k, true),
+        ] + $attr['html'];
         $html .= app\html('input', $a) . app\html('label', ['for' => $id], $v);
     }
 
@@ -154,7 +163,13 @@ function radio(mixed $val, array $attr): string
 
     foreach ($attr['opt']() as $k => $v) {
         $id = $attr['html']['id'] . '-' . $k;
-        $a = ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'radio', 'value' => $k, 'checked' => $k === $val] + $attr['html'];
+        $a = [
+            'id' => $id,
+            'name' => $attr['html']['name'],
+            'type' => 'radio',
+            'value' => $k,
+            'checked' => $k === $val,
+        ] + $attr['html'];
         $html .= app\html('input', $a) . app\html('label', ['for' => $id], $v);
     }
 
@@ -192,7 +207,11 @@ function browser(?int $val, array $attr): string
     $remove = app\i18n('Remove');
     $html = app\html('div', ['id' => $attr['html']['id'] . '-file'], $val ? $attr['viewer']($val, $attr) : '');
     $html .= app\html('input', ['type' => 'hidden', 'value' => $val ?: ''] + $attr['html']);
-    $html .= app\html('a', ['data-id' => $attr['html']['id'], 'data-ref' => $attr['ref'], 'data-action' => 'browser', 'title' => $browse], $browse);
+    $html .= app\html(
+        'a',
+        ['data-id' => $attr['html']['id'], 'data-ref' => $attr['ref'], 'data-action' => 'browser', 'title' => $browse],
+        $browse
+    );
     $html .= ' ';
     $html .= app\html('a', ['data-id' => $attr['html']['id'], 'data-action' => 'remove', 'title' => $remove], $remove);
 

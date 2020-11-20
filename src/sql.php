@@ -238,7 +238,10 @@ function crit(array $crit, array $attrs): array
 
             if ($val === null && in_array($op, [APP['op']['='], APP['op']['!=']])) {
                 $or[] = $attr['id'] . ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
-            } elseif (in_array($op, [APP['op']['='], APP['op']['!=']]) && is_array($val) && !in_array($attr['backend'], ['int[]', 'json', 'text[]'])) {
+            } elseif (in_array($op, [APP['op']['='], APP['op']['!=']])
+                && is_array($val)
+                && !in_array($attr['backend'], ['int[]', 'json', 'text[]'])
+            ) {
                 $not = $op === APP['op']['!='] ? ' NOT' : '';
                 $null = $attr['id'] . ' IS' . $not . ' NULL';
 
@@ -256,18 +259,23 @@ function crit(array $crit, array $attrs): array
                     $in[] = $p;
                 }
 
-                $or[] = ($n ? $null . ($not ? ' AND ' : ' OR ') : '') . $attr['id'] . $not . ' IN (' . implode(', ', $in) . ')';
+                $or[] = ($n ? $null . ($not ? ' AND ' : ' OR ') : '')
+                    . $attr['id'] . $not . ' IN (' . implode(', ', $in) . ')';
             } elseif (in_array($op, [APP['op']['='], APP['op']['!='], APP['op']['>'], APP['op']['>='], APP['op']['<'], APP['op']['<=']])) {
                 $p = $param . ++$count;
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' ' . $op . ' ' . $p;
-            } elseif (in_array($op, [APP['op']['~'], APP['op']['!~']]) && in_array($attr['backend'], ['int[]', 'json', 'text[]'])) {
+            } elseif (in_array($op, [APP['op']['~'], APP['op']['!~']])
+                && in_array($attr['backend'], ['int[]', 'json', 'text[]'])
+            ) {
                 $p = $param . ++$count;
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' @> ' . $p . ($op === APP['op']['!~'] ? ' IS FALSE' : '');
-            } elseif (in_array($op, [APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']]) && in_array($attr['backend'], ['int[]', 'text[]'])) {
+            } elseif (in_array($op, [APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])
+                && in_array($attr['backend'], ['int[]', 'text[]'])
+            ) {
                 $n = is_array($val) ? max(0, count($val) - 1) : 0;
                 $p = $param . ++$count;
                 $val = val($val, $attr);
@@ -288,7 +296,11 @@ function crit(array $crit, array $attrs): array
                 $post = in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
                 $p = $param . ++$count;
                 $val = val($val, $attr);
-                $cols['param'][] = [$p, $pre . str_replace(['%', '_'], ['\%', '\_'], (string) $val) . $post, PDO::PARAM_STR];
+                $cols['param'][] = [
+                    $p,
+                    $pre . str_replace(['%', '_'], ['\%', '\_'], (string) $val) . $post,
+                    PDO::PARAM_STR
+                ];
                 $or[] = $attr['id'] . '::text' . $not . ' ILIKE ' . $p;
             }
         }
@@ -386,7 +398,9 @@ function join(string $type, string $tab, string $as = null, array $cols = []): s
         throw new DomainException(app\i18n('Invalid JOIN'));
     }
 
-    return APP['join'][$type] . ' JOIN ' . $tab . ($as ? ' AS ' . $as : '') . ($cols ? ' ON ' . implode(' AND ', $cols) : '');
+    return APP['join'][$type] . ' JOIN ' . $tab
+        . ($as ? ' AS ' . $as : '')
+        . ($cols ? ' ON ' . implode(' AND ', $cols) : '');
 }
 
 /**
