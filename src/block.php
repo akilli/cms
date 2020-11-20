@@ -33,7 +33,7 @@ function container(array $block): string
 function html(): string
 {
     $app = app\data('app');
-    $a = ['lang' => APP['lang'], 'data-parent' => $app['parent_id'], 'data-entity' => $app['entity_id'], 'data-action' => $app['action'], 'data-path' => app\data('request', 'path')];
+    $a = ['lang' => APP['lang'], 'data-parent' => $app['parent_id'], 'data-entity' => $app['entity_id'], 'data-action' => $app['action'], 'data-url' => app\data('request', 'url')];
 
     return "<!doctype html>\n" . app\html('html', $a, layout\block('head') . layout\block('body'));
 }
@@ -136,6 +136,7 @@ function view(array $block): string
 function index(array $block): string
 {
     $app = app\data('app');
+    $request = app\data('request');
     $entity = $block['cfg']['entity_id'] ? app\cfg('entity', $block['cfg']['entity_id']) : $app['entity'];
     $call = fn(mixed $v): bool => is_int($v) && $v >= 0;
     $block['cfg']['limit'] = array_filter(is_array($block['cfg']['limit']) ? $block['cfg']['limit'] : [$block['cfg']['limit']], $call);
@@ -146,7 +147,7 @@ function index(array $block): string
 
     $crit = $block['cfg']['crit'];
     $opt = ['order' => $block['cfg']['order']];
-    $get = arr\replace(['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], app\data('request', 'get'));
+    $get = arr\replace(['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], $request['get']);
     $filter = null;
     $sort = $block['cfg']['sort'] ? null : false;
     $pager = null;
@@ -371,7 +372,7 @@ function profile(array $block): string
             $data = ['id' => $account['id']] + $data;
 
             if (entity\save('account', $data)) {
-                request\redirect($request['path']);
+                request\redirect($request['url']);
                 return '';
             }
         }
@@ -423,7 +424,7 @@ function nav(array $block): string
     $i = 0;
     $attrs = ['id' => $block['id']];
     $call = function (array $it): ?string {
-        $url = app\data('request', 'path');
+        $url = app\data('request', 'url');
 
         if ($it['url'] === $url) {
             return 'active';
