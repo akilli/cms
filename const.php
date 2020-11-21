@@ -120,13 +120,6 @@ define('APP', [
     'date.frontend' => 'Y-m-d',
     'datetime.backend' => 'Y-m-d H:i:s',
     'datetime.frontend' => 'Y-m-d\TH:i',
-    'entity.opt' => [
-        'index' => 'id',
-        'limit' => 0,
-        'offset' => 0,
-        'order' => [],
-        'select' => [],
-    ],
     'html.tags' => '<a><abbr><article><audio><b><blockquote><br><cite><code><data><del><details><dfn><div><editor-block><em><figcaption><figure><h1><h2><h3><h4><h5><h6><hr><i><iframe><img><ins><kbd><li><mark><ol><p><pre><q><s><section><samp><small><strong><sub><summary><sup><table><tbody><td><tfoot><th><thead><time><tr><u><ul><var><video>',
     'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr', 'msg'],
     'image' => [

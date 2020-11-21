@@ -26,35 +26,32 @@ function size(array $entity, array $crit = []): int
 /**
  * Load one entity
  */
-function one(array $entity, array $crit = [], array $opt = []): ?array
+function one(array $entity, array $crit = [], array $select = [], array $order = [], int $offset = 0): ?array
 {
-    return load($entity, $crit, $opt)->fetch() ?: null;
+    return load($entity, $crit, $select, $order, 1, $offset)->fetch() ?: null;
 }
 
 /**
  * Load entity collection
  */
-function all(array $entity, array $crit = [], array $opt = []): array
+function all(array $entity, array $crit = [], array $select = [], array $order = [], int $limit = 0, int $offset = 0): array
 {
-    return load($entity, $crit, $opt)->fetchAll();
+    return load($entity, $crit, $select, $order, $limit, $offset)->fetchAll();
 }
 
 /**
  * Load entity
  */
-function load(array $entity, array $crit = [], array $opt = []): PDOStatement
+function load(array $entity, array $crit = [], array $select = [], array $order = [], int $limit = 0, int $offset = 0): PDOStatement
 {
-    if (!$opt['select']) {
-        $opt['select'] = array_keys(attr($entity['attr']));
-    }
-
+    $select = $select ?: array_keys(attr($entity['attr']));
     $cols = crit($crit, $entity['attr']);
     $stmt = db($entity['db'])->prepare(
-        sel($opt['select'])
+        sel($select)
         . from($entity['id'])
         . where($cols['crit'])
-        . order($opt['order'])
-        . limit($opt['limit'], $opt['offset'])
+        . order($order)
+        . limit($limit, $offset)
     );
     array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
     $stmt->execute();

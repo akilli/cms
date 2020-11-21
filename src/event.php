@@ -44,7 +44,7 @@ function data_app(array $data): array
     $request = app\data('request');
 
     if (preg_match('#^/(?:|[a-z0-9_\-\./]+\.html)$#', $request['url'], $match)
-        && ($page = entity\one('page', [['url', $request['url']]], ['select' => ['id', 'entity_id']]))
+        && ($page = entity\one('page', [['url', $request['url']]], select: ['id', 'entity_id']))
         && ($data['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))
     ) {
         $data['entity_id'] = $data['page']['entity_id'];
@@ -298,7 +298,7 @@ function entity_postvalidate_page_menu(array $data): array
 {
     if ($data['_old']
         && !empty($data['parent_id'])
-        && ($parent = entity\one('page', [['id', $data['parent_id']]], ['select' => ['path']]))
+        && ($parent = entity\one('page', [['id', $data['parent_id']]], select: ['path']))
         && in_array($data['_old']['id'], $parent['path'])
     ) {
         $data['_error']['parent_id'][] = app\i18n('Cannot assign the page itself or a subpage as parent');
@@ -312,7 +312,7 @@ function entity_postvalidate_page_menu(array $data): array
  */
 function entity_postvalidate_page_url(array $data): array
 {
-    $root = entity\one('page', [['url', '/']], ['select' => ['id']]);
+    $root = entity\one('page', [['url', '/']], select: ['id']);
     $slug = $data['slug'] ?? $data['_old']['slug'] ?? null;
     $pId = array_key_exists('parent_id', $data) ? $data['parent_id'] : ($data['_old']['parent_id'] ?? null);
     $crit = [['slug', $slug], ['parent_id', [null, $root['id']]], ['id', $data['_old']['id'] ?? null, APP['op']['!=']]];

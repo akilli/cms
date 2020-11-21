@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace entity;
 
-use arr;
 use attr;
 use app;
 use DomainException;
@@ -33,14 +32,13 @@ function size(string $entityId, array $crit = []): int
  *
  * @throws DomainException
  */
-function one(string $entityId, array $crit = [], array $opt = []): ?array
+function one(string $entityId, array $crit = [], array $select = [], array $order = [], int $offset = 0): ?array
 {
     $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     $data = [];
-    $opt = ['limit' => 1] + arr\replace(APP['entity.opt'], $opt);
 
     try {
-        if ($data = ($entity['type'] . '\one')($entity, $crit, $opt)) {
+        if ($data = ($entity['type'] . '\one')($entity, $crit, $select, $order, $offset)) {
             $data = load($entity, $data);
         }
     } catch (Throwable $e) {
@@ -56,23 +54,22 @@ function one(string $entityId, array $crit = [], array $opt = []): ?array
  *
  * @throws DomainException
  */
-function all(string $entityId, array $crit = [], array $opt = []): array
+function all(string $entityId, array $crit = [], array $select = [], array $order = [], int $limit = 0, int $offset = 0, string $index = 'id'): array
 {
     $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
-    $opt = arr\replace(APP['entity.opt'], $opt);
 
-    if ($opt['select'] && ($keys = array_diff(array_unique(['id', $opt['index']]), $opt['select']))) {
-        array_unshift($opt['select'], ...$keys);
+    if ($select && ($keys = array_diff(array_unique(['id', $index]), $select))) {
+        array_unshift($select, ...$keys);
     }
 
     try {
-        $data = ($entity['type'] . '\all')($entity, $crit, $opt);
+        $data = ($entity['type'] . '\all')($entity, $crit, $select, $order, $limit, $offset);
 
         foreach ($data as $key => $item) {
             $data[$key] = load($entity, $item);
         }
 
-        return array_column($data, null, $opt['index']);
+        return array_column($data, null, $index);
     } catch (Throwable $e) {
         app\log($e);
         app\msg('Could not load data');
@@ -191,7 +188,7 @@ function save(string $entityId, array &$data): bool
  *
  * @throws DomainException
  */
-function delete(string $entityId, array $crit = [], array $opt = []): bool
+function delete(string $entityId, array $crit = []): bool
 {
     $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
 
@@ -199,7 +196,7 @@ function delete(string $entityId, array $crit = [], array $opt = []): bool
         throw new DomainException(app\i18n('Entity %s is readonly', $entity['id']));
     }
 
-    if (!$all = all($entity['id'], $crit, $opt)) {
+    if (!$all = all($entity['id'], $crit)) {
         app\msg('Nothing to delete');
         return false;
     }

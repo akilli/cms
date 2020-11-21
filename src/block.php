@@ -163,19 +163,16 @@ function index(array $block): string
     }
 
     $crit = $block['cfg']['crit'];
-    $opt = ['order' => $block['cfg']['order']];
+    $order = $block['cfg']['order'];
     $get = arr\replace(['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], $request['get']);
     $filter = null;
     $sort = $block['cfg']['sort'] ? null : false;
     $pager = null;
     $limit = $block['cfg']['limit'][0];
+    $offset = 0;
 
     if (is_int($get['limit']) && $get['limit'] >= 0 && in_array($get['limit'], $block['cfg']['limit'])) {
         $limit = $get['limit'];
-    }
-
-    if ($limit > 0) {
-        $opt['limit'] = $limit;
     }
 
     if (in_array('page', [$entity['id'], $entity['parent_id']])) {
@@ -193,7 +190,7 @@ function index(array $block): string
         && preg_match('#^(-)?([a-z0-9_\-]+)$#', $get['sort'], $match)
         && !empty($attrs[$match[2]])
     ) {
-        $opt['order'] = [$match[2] => $match[1] ? 'desc' : 'asc'];
+        $order = [$match[2] => $match[1] ? 'desc' : 'asc'];
         $sort = $get['sort'];
     }
 
@@ -256,7 +253,7 @@ function index(array $block): string
         $size = entity\size($entity['id'], $crit);
         $total = $limit > 0 && ($c = (int) ceil($size / $limit)) ? $c : 1;
         $get['cur'] = min(max((int) $get['cur'], 1), $total);
-        $opt['offset'] = ($get['cur'] - 1) * $limit;
+        $offset = ($get['cur'] - 1) * $limit;
         $pager = layout\render(layout\cfg([
             'type' => 'pager',
             'parent_id' => $block['id'],
@@ -271,7 +268,7 @@ function index(array $block): string
 
     return app\tpl($block['tpl'], [
         'attr' => $attrs,
-        'data' => entity\all($entity['id'], $crit, $opt),
+        'data' => entity\all($entity['id'], $crit, order: $order, limit: $limit, offset: $offset),
         'filter' => $filter,
         'link' => $block['cfg']['link'],
         'pager-bottom' => in_array($block['cfg']['pager'], ['both', 'bottom']) ? $pager : null,
@@ -611,9 +608,8 @@ function menu(array $block): string
     $rootCrit = [['entity_id', 'page_content']];
     $rootCrit[] = $block['cfg']['submenu'] ? ['id', $page['path'][1]] : ['url', '/'];
     $select = ['id', 'name', 'url', 'disabled', 'pos', 'level'];
-    $opt = ['select' => $select, 'order' => ['pos' => 'asc']];
 
-    if (!$root = entity\one('page', $rootCrit, ['select' => $select])) {
+    if (!$root = entity\one('page', $rootCrit, select: $select)) {
         return '';
     }
 
@@ -627,7 +623,7 @@ function menu(array $block): string
         $crit[] = ['menu', true];
     }
 
-    $block['cfg']['data'] = entity\all('page', $crit, $opt);
+    $block['cfg']['data'] = entity\all('page', $crit, select: $select, order: ['pos' => 'asc']);
     $block['cfg']['title'] = null;
 
     if ($block['cfg']['root'] && $block['cfg']['submenu']) {
@@ -678,7 +674,7 @@ function breadcrumb(array $block): string
 
     $html = '';
     $crit = [['entity_id', 'page_content'], ['id', $page['path']]];
-    $all = entity\all('page', $crit, ['select' => ['id', 'name', 'url', 'disabled'], 'order' => ['level' => 'asc']]);
+    $all = entity\all('page', $crit, select: ['id', 'name', 'url', 'disabled'], order: ['level' => 'asc']);
 
     foreach ($all as $item) {
         $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];

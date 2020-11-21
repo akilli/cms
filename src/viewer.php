@@ -109,7 +109,7 @@ function opt(mixed $val, array $attr): string
  */
 function entity(int $val, array $attr): string
 {
-    return entity\one($attr['ref'], [['id', $val]], ['select' => ['name']])['name'];
+    return entity\one($attr['ref'], [['id', $val]], select: ['name'])['name'];
 }
 
 /**
@@ -117,7 +117,7 @@ function entity(int $val, array $attr): string
  */
 function multientity(array $val, array $attr): string
 {
-    return implode(', ', array_column(entity\all($attr['ref'], [['id', $val]], ['select' => ['name']]), 'name'));
+    return implode(', ', array_column(entity\all($attr['ref'], [['id', $val]], select: ['name']), 'name'));
 }
 
 /**
@@ -128,7 +128,7 @@ function file(string|int $val, array $attr): string
     $attr['ref'] = $attr['ref'] ?: 'file';
     $crit = is_string($val) ? [['url', $val]] : [['id', $val]];
 
-    if (!$data = entity\one($attr['ref'], $crit, ['select' => ['url', 'mime', 'thumb', 'info']])) {
+    if (!$data = entity\one($attr['ref'], $crit, select: ['url', 'mime', 'thumb', 'info'])) {
         return '';
     }
 

@@ -69,11 +69,7 @@ function image(string $html, array $cfg = []): string
         return $html;
     }
 
-    $data = entity\all(
-        'file',
-        [['url', array_unique($match['url'])]],
-        ['index' => 'url', 'select' => ['id', 'url', 'thumb']]
-    );
+    $data = entity\all('file', [['url', array_unique($match['url'])]], select: ['id', 'url', 'thumb'], index: 'url');
     $call = function (array $m) use ($cfg, $data): string {
         $item = $data[$m['url']] ?? null;
 
