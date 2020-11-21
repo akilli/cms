@@ -64,11 +64,7 @@ function all(string $entityId, array $crit = [], array $select = [], array $orde
 
     try {
         $data = ($entity['type'] . '\all')($entity, $crit, $select, $order, $limit, $offset);
-
-        foreach ($data as $key => $item) {
-            $data[$key] = load($entity, $item);
-        }
-
+        $data = array_map(fn($item) => load($entity, $item), $data);
         return array_column($data, null, $index);
     } catch (Throwable $e) {
         app\log($e);
