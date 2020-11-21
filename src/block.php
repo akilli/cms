@@ -18,10 +18,12 @@ use DomainException;
  */
 function container(array $block): string
 {
-    $html = layout\children($block['id']);
-
-    if ($html && $block['cfg']['tag']) {
-        return app\html($block['cfg']['tag'], in_array($block['cfg']['tag'], APP['container']) ? [] : ['id' => $block['id']], $html);
+    if (($html = layout\children($block['id'])) && $block['cfg']['tag']) {
+        return app\html(
+            $block['cfg']['tag'],
+            in_array($block['cfg']['tag'], APP['container']) ? [] : ['id' => $block['id']],
+            $html
+        );
     }
 
     return $html;
@@ -33,7 +35,13 @@ function container(array $block): string
 function html(): string
 {
     $app = app\data('app');
-    $a = ['lang' => APP['lang'], 'data-parent' => $app['parent_id'], 'data-entity' => $app['entity_id'], 'data-action' => $app['action'], 'data-url' => app\data('request', 'url')];
+    $a = [
+        'lang' => APP['lang'],
+        'data-parent' => $app['parent_id'],
+        'data-entity' => $app['entity_id'],
+        'data-action' => $app['action'],
+        'data-url' => app\data('request', 'url')
+    ];
 
     return "<!doctype html>\n" . app\html('html', $a, layout\block('head') . layout\block('body'));
 }
@@ -87,7 +95,11 @@ function meta(array $block): string
         if ($app['page']['meta_title']) {
             $title = $app['page']['meta_title'];
         } else {
-            $all = entity\all('page', [['id', $app['page']['path']], ['level', 0, APP['op']['>']]], ['select' => ['name'], 'order' => ['level' => 'asc']]);
+            $all = entity\all(
+                'page',
+                [['id', $app['page']['path']], ['level', 0, APP['op']['>']]],
+                ['select' => ['name'], 'order' => ['level' => 'asc']]
+            );
 
             foreach ($all as $item) {
                 $title = $item['name'] . ($title ? ' - ' . $title : '');
@@ -109,8 +121,10 @@ function view(array $block): string
         return '';
     }
 
-    if (!$data && (($entityId = $block['cfg']['entity_id']) && ($id = $block['cfg']['id']) || ($app = app\data('app')) && ($entityId = $app['entity_id']) && ($id = $app['id']))) {
-        $data = entity\one($entityId, [['id', $id]]);
+    if (!$data && $block['cfg']['entity_id'] && $block['cfg']['id']) {
+        $data = entity\one($block['cfg']['entity_id'], [['id', $block['cfg']['id']]]);
+    } elseif (!$data && ($app = app\data('app')) && $app['entity_id'] && $app['id']) {
+        $data = entity\one($app['entity_id'], [['id', $app['id']]]);
     }
 
     if (!($entity = $data['_entity'] ?? null) || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
@@ -139,7 +153,10 @@ function index(array $block): string
     $request = app\data('request');
     $entity = $block['cfg']['entity_id'] ? app\cfg('entity', $block['cfg']['entity_id']) : $app['entity'];
     $call = fn(mixed $v): bool => is_int($v) && $v >= 0;
-    $block['cfg']['limit'] = array_filter(is_array($block['cfg']['limit']) ? $block['cfg']['limit'] : [$block['cfg']['limit']], $call);
+    $block['cfg']['limit'] = array_filter(
+        is_array($block['cfg']['limit']) ? $block['cfg']['limit'] : [$block['cfg']['limit']],
+        $call
+    );
 
     if (!$entity || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id'])) || !$block['cfg']['limit']) {
         return '';
@@ -151,7 +168,11 @@ function index(array $block): string
     $filter = null;
     $sort = $block['cfg']['sort'] ? null : false;
     $pager = null;
-    $limit = is_int($get['limit']) && $get['limit'] >= 0 && in_array($get['limit'], $block['cfg']['limit']) ? $get['limit'] : $block['cfg']['limit'][0];
+    $limit = $block['cfg']['limit'][0];
+
+    if (is_int($get['limit']) && $get['limit'] >= 0 && in_array($get['limit'], $block['cfg']['limit'])) {
+        $limit = $get['limit'];
+    }
 
     if ($limit > 0) {
         $opt['limit'] = $limit;
@@ -167,7 +188,11 @@ function index(array $block): string
         }
     }
 
-    if ($block['cfg']['sort'] && $get['sort'] && preg_match('#^(-)?([a-z0-9_\-]+)$#', $get['sort'], $match) && !empty($attrs[$match[2]])) {
+    if ($block['cfg']['sort']
+        && $get['sort']
+        && preg_match('#^(-)?([a-z0-9_\-]+)$#', $get['sort'], $match)
+        && !empty($attrs[$match[2]])
+    ) {
         $opt['order'] = [$match[2] => $match[1] ? 'desc' : 'asc'];
         $sort = $get['sort'];
     }
@@ -180,15 +205,29 @@ function index(array $block): string
             $attr = $fa[$attrId];
             $op = APP['op']['='];
 
-            if (in_array($attr['backend'], ['int[]', 'text[]']) || !$attr['opt'] && in_array($attr['backend'], ['json', 'text', 'varchar'])) {
+            if (in_array($attr['backend'], ['int[]', 'text[]'])
+                || !$attr['opt'] && in_array($attr['backend'], ['json', 'text', 'varchar'])
+            ) {
                 $op = APP['op']['~'];
             } elseif ($get['filter'][$attrId] && $attr['backend'] === 'datetime') {
-                $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], APP['datetime.frontend'], APP['datetime.backend']);
+                $get['filter'][$attrId] = attr\datetime(
+                    $get['filter'][$attrId],
+                    APP['datetime.frontend'],
+                    APP['datetime.backend']
+                );
                 $op = APP['op']['^'];
             } elseif ($get['filter'][$attrId] && $attr['backend'] === 'date') {
-                $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], APP['date.frontend'], APP['date.backend']);
+                $get['filter'][$attrId] = attr\datetime(
+                    $get['filter'][$attrId],
+                    APP['date.frontend'],
+                    APP['date.backend']
+                );
             } elseif ($get['filter'][$attrId] && $attr['backend'] === 'time') {
-                $get['filter'][$attrId] = attr\datetime($get['filter'][$attrId], APP['time.frontend'], APP['time.backend']);
+                $get['filter'][$attrId] = attr\datetime(
+                    $get['filter'][$attrId],
+                    APP['time.frontend'],
+                    APP['time.backend']
+                );
             }
 
             $crit[] = [$attrId, $get['filter'][$attrId], $op];
@@ -204,7 +243,12 @@ function index(array $block): string
         $filter = layout\render(layout\cfg([
             'type' => 'filter',
             'parent_id' => $block['id'],
-            'cfg' => ['attr' => $fa, 'data' => arr\replace(entity\item($entity['id']), $get['filter']), 'q' => $get['q'], 'search' => !!$block['cfg']['search']],
+            'cfg' => [
+                'attr' => $fa,
+                'data' => arr\replace(entity\item($entity['id']), $get['filter']),
+                'q' => $get['q'],
+                'search' => !!$block['cfg']['search'],
+            ],
         ]));
     }
 
@@ -216,7 +260,12 @@ function index(array $block): string
         $pager = layout\render(layout\cfg([
             'type' => 'pager',
             'parent_id' => $block['id'],
-            'cfg' => ['cur' => $get['cur'], 'limit' => $limit, 'limits' => $block['cfg']['limit'], 'size' => $size],
+            'cfg' => [
+                'cur' => $get['cur'],
+                'limit' => $limit,
+                'limits' => $block['cfg']['limit'],
+                'size' => $size,
+            ],
         ]));
     }
 
@@ -261,22 +310,39 @@ function pager(array $block): string
 
     foreach ($block['cfg']['limits'] as $k => $l) {
         if (is_int($l) && $l >= 0) {
-            $limits[] = ['name' => $l ?: app\i18n('All'), 'url' => app\query(['cur' => null, 'limit' => $k === 0 ? null : $l], true), 'active' => $l === $block['cfg']['limit']];
+            $limits[] = [
+                'name' => $l ?: app\i18n('All'),
+                'url' => app\query(['cur' => null, 'limit' => $k === 0 ? null : $l], true),
+                'active' => $l === $block['cfg']['limit'],
+            ];
         }
     }
 
     if ($block['cfg']['cur'] >= 2) {
         $p = ['cur' => $block['cfg']['cur'] === 2 ? null : $block['cfg']['cur'] - 1];
-        $links[] = ['name' => app\i18n('Previous'), 'url' => app\query($p, true), 'class' => 'prev'];
+        $links[] = [
+            'name' => app\i18n('Previous'),
+            'url' => app\query($p, true),
+            'class' => 'prev',
+        ];
     }
 
     for ($i = $min; $min < $max && $i <= $max; $i++) {
         $p = ['cur' => $i === 1 ? null : $i];
-        $links[] = ['name' => $i, 'url' => app\query($p, true), 'active' => $i === $block['cfg']['cur'], 'class' => null];
+        $links[] = [
+            'name' => $i,
+            'url' => app\query($p, true),
+            'active' => $i === $block['cfg']['cur'],
+            'class' => null,
+        ];
     }
 
     if ($block['cfg']['cur'] < $total) {
-        $links[] = ['name' => app\i18n('Next'), 'url' => app\query(['cur' => $block['cfg']['cur'] + 1], true), 'class' => 'next'];
+        $links[] = [
+            'name' => app\i18n('Next'),
+            'url' => app\query(['cur' => $block['cfg']['cur'] + 1], true),
+            'class' => 'next',
+        ];
     }
 
     return app\tpl($block['tpl'], ['info' => $info, 'limits' => count($limits) > 1 ? $limits : [], 'links' => $links]);
@@ -287,7 +353,10 @@ function pager(array $block): string
  */
 function db(array $block): string
 {
-    if ($block['cfg']['entity_id'] && $block['cfg']['id'] && ($data = entity\one($block['cfg']['entity_id'], [['id', $block['cfg']['id']]]))) {
+    if ($block['cfg']['entity_id']
+        && $block['cfg']['id']
+        && ($data = entity\one($block['cfg']['entity_id'], [['id', $block['cfg']['id']]]))
+    ) {
         return layout\render(layout\db($data, ['id' => $block['id']]));
     }
 
@@ -299,17 +368,27 @@ function db(array $block): string
  */
 function dblock(array $block): string
 {
-    if (!($data = $block['cfg']['data']) || !($attrs = arr\extract($data['_entity']['attr'], $block['cfg']['attr_id']))) {
+    if (!($data = $block['cfg']['data'])
+        || !($attrs = arr\extract($data['_entity']['attr'], $block['cfg']['attr_id']))
+    ) {
         return '';
     }
 
     $html = '';
 
     foreach ($attrs as $attr) {
-        $html .= attr\viewer($data, $attr, ['wrap' => true] + (in_array($attr['id'], ['file', 'title']) ? ['link' => $data['link']] : []));
+        $html .= attr\viewer(
+            $data,
+            $attr,
+            ['wrap' => true] + (in_array($attr['id'], ['file', 'title']) ? ['link' => $data['link']] : [])
+        );
     }
 
-    return $html ? app\html('section', ['class' => str_replace('_', '-', $block['cfg']['data']['entity_id'])], $html) : '';
+    if ($html) {
+        return app\html('section', ['class' => str_replace('_', '-', $block['cfg']['data']['entity_id'])], $html);
+    }
+
+    return '';
 }
 
 /**
@@ -349,7 +428,10 @@ function edit(array $block): string
     $p[] = $data;
     $data = arr\replace(entity\item($entity['id']), ...$p);
 
-    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
+    return app\tpl(
+        $block['tpl'],
+        ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]
+    );
 }
 
 /**
@@ -359,7 +441,9 @@ function profile(array $block): string
 {
     $request = app\data('request');
 
-    if (!($account = app\data('account')) || !($attrs = arr\extract($account['_entity']['attr'], $block['cfg']['attr_id']))) {
+    if (!($account = app\data('account'))
+        || !($attrs = arr\extract($account['_entity']['attr'], $block['cfg']['attr_id']))
+    ) {
         return '';
     }
 
@@ -380,7 +464,10 @@ function profile(array $block): string
 
     $data = $data ? arr\replace($account, $data) : $account;
 
-    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
+    return app\tpl(
+        $block['tpl'],
+        ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]
+    );
 }
 
 /**
@@ -389,7 +476,10 @@ function profile(array $block): string
 function login(array $block): string
 {
     if ($data = app\data('request', 'post')) {
-        if (!empty($data['username']) && !empty($data['password']) && ($data = app\login($data['username'], $data['password']))) {
+        if (!empty($data['username'])
+            && !empty($data['password'])
+            && ($data = app\login($data['username'], $data['password']))
+        ) {
             session\regenerate();
             session\set('account', $data['id']);
             request\redirect();
@@ -400,7 +490,10 @@ function login(array $block): string
     }
 
     $entity = app\cfg('entity', 'account');
-    $a = ['username' => ['unique' => false, 'min' => 0, 'max' => 0], 'password' => ['min' => 0, 'max' => 0, 'autocomplete' => null]];
+    $a = [
+        'username' => ['unique' => false, 'min' => 0, 'max' => 0],
+        'password' => ['min' => 0, 'max' => 0, 'autocomplete' => null],
+    ];
     $attrs = arr\extend(arr\extract($entity['attr'], ['username', 'password']), $a);
 
     return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => [], 'multipart' => false]);
@@ -436,7 +529,8 @@ function nav(array $block): string
 
         return null;
     };
-    $html = ($block['cfg']['title'] ? app\html('h2', [], app\i18n($block['cfg']['title'])) : '') . layout\children($block['id']);
+    $html = ($block['cfg']['title'] ? app\html('h2', [], app\i18n($block['cfg']['title'])) : '')
+        . layout\children($block['id']);
 
     if ($block['cfg']['toggle']) {
         $html .= app\html('a', ['data-action' => 'toggle', 'data-target' => $block['id']]);
