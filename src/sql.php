@@ -15,7 +15,7 @@ use Throwable;
 function size(array $entity, array $crit = []): int
 {
     $cols = crit($crit, $entity['attr']);
-    $stmt = db($entity['db'])->prepare(sel('count(*)') . from($entity['id']) . where($cols['crit']));
+    $stmt = db($entity['db'])->prepare(sel(['count(*)']) . from($entity['id']) . where($cols['crit']));
 
     foreach ($cols['param'] as $param) {
         $stmt->bindValue(...$param);
