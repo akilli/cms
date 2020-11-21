@@ -40,7 +40,6 @@ function load(array $entity, array $crit = [], array $opt = []): array
         sel($opt['select'])
         . from($entity['id'])
         . where($cols['crit'])
-        . group($opt['group'])
         . order($opt['order'])
         . limit($opt['limit'], $opt['offset'])
     );

@@ -121,7 +121,6 @@ define('APP', [
     'datetime.backend' => 'Y-m-d H:i:s',
     'datetime.frontend' => 'Y-m-d\TH:i',
     'entity.opt' => [
-        'group' => [],
         'index' => 'id',
         'limit' => 0,
         'offset' => 0,
