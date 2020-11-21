@@ -16,12 +16,7 @@ function mail(string $from, string $to, string $subj, string $text, array $attac
 {
     $cfg = app\cfg('smtp');
     $host = app\data('request', 'host');
-    $client = stream_socket_client($cfg['dsn'], $errno, $errstr, $cfg['timeout']);
-
-    if (!is_resource($client)) {
-        throw new DomainException(app\i18n('Could not send message'));
-    }
-
+    $client = stream_socket_client($cfg['dsn'], timeout: $cfg['timeout']) ?: throw new DomainException(app\i18n('Could not send message'));
     receive($client);
     send($client, 'HELO ' . $host, [250]);
 

@@ -16,9 +16,7 @@ use Throwable;
  */
 function size(string $entityId, array $crit = []): int
 {
-    if (!$entity = app\cfg('entity', $entityId)) {
-        throw new DomainException(app\i18n('Invalid entity %s', $entityId));
-    }
+    $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
 
     try {
         return ($entity['type'] . '\size')($entity, $crit);
@@ -37,10 +35,7 @@ function size(string $entityId, array $crit = []): int
  */
 function one(string $entityId, array $crit = [], array $opt = []): ?array
 {
-    if (!$entity = app\cfg('entity', $entityId)) {
-        throw new DomainException(app\i18n('Invalid entity %s', $entityId));
-    }
-
+    $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     $data = [];
     $opt = ['limit' => 1] + arr\replace(APP['entity.opt'], $opt);
 
@@ -63,10 +58,7 @@ function one(string $entityId, array $crit = [], array $opt = []): ?array
  */
 function all(string $entityId, array $crit = [], array $opt = []): array
 {
-    if (!$entity = app\cfg('entity', $entityId)) {
-        throw new DomainException(app\i18n('Invalid entity %s', $entityId));
-    }
-
+    $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     $opt = arr\replace(APP['entity.opt'], $opt);
 
     if ($opt['select'] && ($keys = array_diff(array_unique(['id', $opt['index']]), $opt['select']))) {
@@ -96,9 +88,9 @@ function all(string $entityId, array $crit = [], array $opt = []): array
  */
 function save(string $entityId, array &$data): bool
 {
-    if (!$entity = app\cfg('entity', $entityId)) {
-        throw new DomainException(app\i18n('Invalid entity %s', $entityId));
-    } elseif ($entity['readonly']) {
+    $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+
+    if ($entity['readonly']) {
         throw new DomainException(app\i18n('Entity %s is readonly', $entity['id']));
     }
 
@@ -201,9 +193,9 @@ function save(string $entityId, array &$data): bool
  */
 function delete(string $entityId, array $crit = [], array $opt = []): bool
 {
-    if (!$entity = app\cfg('entity', $entityId)) {
-        throw new DomainException(app\i18n('Invalid entity %s', $entityId));
-    } elseif ($entity['readonly']) {
+    $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+
+    if ($entity['readonly']) {
         throw new DomainException(app\i18n('Entity %s is readonly', $entity['id']));
     }
 
@@ -243,9 +235,7 @@ function delete(string $entityId, array $crit = [], array $opt = []): bool
  */
 function item(string $entityId): array
 {
-    if (!$entity = app\cfg('entity', $entityId)) {
-        throw new DomainException(app\i18n('Invalid entity %s', $entityId));
-    }
+    $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
 
     return init($entity, array_fill_keys(array_keys($entity['attr']), null));
 }
