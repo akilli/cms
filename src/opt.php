@@ -13,7 +13,7 @@ use entity;
  */
 function entity(array $data, array $attr): array
 {
-    if (($opt = &app\registry('opt:entity:' . $attr['ref'])) === null) {
+    if (($opt = &app\registry('opt')['entity'][$attr['ref']]) === null) {
         if ($attr['ref'] === 'page_content') {
             $all = entity\all($attr['ref'], [], ['select' => ['id', 'name', 'pos'], 'order' => ['pos' => 'asc']]);
             $opt = [];
@@ -42,7 +42,7 @@ function entity_id(array $data): array
         return [$data['_entity']['id'] => $data['_entity']['name']];
     }
 
-    if (($opt = &app\registry('opt:parent:' . $data['_entity']['id'])) === null) {
+    if (($opt = &app\registry('opt')['parent'][$data['_entity']['id']]) === null) {
         $opt = array_column(arr\filter(app\cfg('entity'), 'parent_id', $data['_entity']['id']), 'name', 'id');
         asort($opt);
     }
@@ -55,7 +55,7 @@ function entity_id(array $data): array
  */
 function priv(): array
 {
-    if (($opt = &app\registry('opt:priv')) === null) {
+    if (($opt = &app\registry('opt')['priv']) === null) {
         $opt = [];
 
         foreach (app\cfg('priv') as $key => $priv) {
