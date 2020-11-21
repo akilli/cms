@@ -83,10 +83,7 @@ function save(array $data): array
         $stmt = $db->prepare(ins($entity['id']) . vals($cols['val']));
     }
 
-    foreach ($cols['param'] as $param) {
-        $stmt->bindValue(...$param);
-    }
-
+    array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
     $stmt->execute();
 
     // Set DB generated id
