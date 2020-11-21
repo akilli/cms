@@ -189,7 +189,7 @@ function cast(mixed $val, array $attr): mixed
         return (bool) $val;
     }
 
-    if ($attr['backend'] === 'int') {
+    if (in_array($attr['backend'], ['int', 'serial'])) {
         return (int) $val;
     }
 
