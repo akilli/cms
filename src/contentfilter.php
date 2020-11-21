@@ -81,7 +81,7 @@ function image(string $html, array $cfg = []): string
             return $m[0];
         }
 
-        $w = &app\registry('contentfilter:image');
+        $w = &app\registry('contentfilter')['image'];
         $w[$file] = $w[$file] ?? getimagesize($file)[0] ?? 0;
 
         if (!$w[$file]) {
