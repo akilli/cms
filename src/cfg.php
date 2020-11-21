@@ -161,10 +161,7 @@ function entity(array $data, array $ext): array
                 || empty($attr['type'])
                 || empty($cfg[$attr['type']])
                 || in_array($attr['type'], ['entity', 'entity[]']) && empty($attr['ref'])
-                || !empty($attr['ref'])
-                    && (empty($data[$attr['ref']]['attr']['id']['type'])
-                        || empty($cfg[$data[$attr['ref']]['attr']['id']['type']])
-                    )
+                || !empty($attr['ref']) && empty($data[$attr['ref']])
             ) {
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
