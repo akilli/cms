@@ -10,13 +10,28 @@ use PDO;
 use Throwable;
 
 /**
+ * Size entity
+ */
+function size(array $entity, array $crit = []): int
+{
+    $cols = crit($crit, $entity['attr']);
+    $stmt = db($entity['db'])->prepare(sel('count(*)') . from($entity['id']) . where($cols['crit']));
+
+    foreach ($cols['param'] as $param) {
+        $stmt->bindValue(...$param);
+    }
+
+    $stmt->execute();
+
+    return (int) $stmt->fetchColumn();
+}
+
+/**
  * Load entity
  */
 function load(array $entity, array $crit = [], array $opt = []): array
 {
-    if ($opt['mode'] === 'size') {
-        $opt['select'] = ['count(*)'];
-    } elseif (!$opt['select']) {
+    if (!$opt['select']) {
         $opt['select'] = array_keys(attr($entity['attr']));
     }
 
@@ -35,10 +50,6 @@ function load(array $entity, array $crit = [], array $opt = []): array
     }
 
     $stmt->execute();
-
-    if ($opt['mode'] === 'size') {
-        return [(int) $stmt->fetchColumn()];
-    }
 
     if ($opt['mode'] === 'one') {
         return $stmt->fetch() ?: [];

@@ -20,10 +20,8 @@ function size(string $entityId, array $crit = []): int
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 
-    $opt = ['mode' => 'size'] + APP['entity.opt'];
-
     try {
-        return ($entity['type'] . '\load')($entity, $crit, $opt)[0];
+        return ($entity['type'] . '\size')($entity, $crit);
     } catch (Throwable $e) {
         app\log($e);
         app\msg('Could not load data');
