@@ -7,6 +7,7 @@ use app;
 use arr;
 use DomainException;
 use PDO;
+use PDOStatement;
 use Throwable;
 
 /**
@@ -16,20 +17,32 @@ function size(array $entity, array $crit = []): int
 {
     $cols = crit($crit, $entity['attr']);
     $stmt = db($entity['db'])->prepare(sel(['count(*)']) . from($entity['id']) . where($cols['crit']));
-
-    foreach ($cols['param'] as $param) {
-        $stmt->bindValue(...$param);
-    }
-
+    array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
     $stmt->execute();
 
     return (int) $stmt->fetchColumn();
 }
 
 /**
+ * Load one entity
+ */
+function one(array $entity, array $crit = [], array $opt = []): ?array
+{
+    return load($entity, $crit, $opt)->fetch() ?: null;
+}
+
+/**
+ * Load entity collection
+ */
+function all(array $entity, array $crit = [], array $opt = []): array
+{
+    return load($entity, $crit, $opt)->fetchAll();
+}
+
+/**
  * Load entity
  */
-function load(array $entity, array $crit = [], array $opt = []): array
+function load(array $entity, array $crit = [], array $opt = []): PDOStatement
 {
     if (!$opt['select']) {
         $opt['select'] = array_keys(attr($entity['attr']));
@@ -43,18 +56,10 @@ function load(array $entity, array $crit = [], array $opt = []): array
         . order($opt['order'])
         . limit($opt['limit'], $opt['offset'])
     );
-
-    foreach ($cols['param'] as $param) {
-        $stmt->bindValue(...$param);
-    }
-
+    array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
     $stmt->execute();
 
-    if ($opt['mode'] === 'one') {
-        return $stmt->fetch() ?: [];
-    }
-
-    return $stmt->fetchAll();
+    return $stmt;
 }
 
 /**

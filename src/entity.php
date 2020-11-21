@@ -42,10 +42,10 @@ function one(string $entityId, array $crit = [], array $opt = []): ?array
     }
 
     $data = [];
-    $opt = ['mode' => 'one', 'limit' => 1] + arr\replace(APP['entity.opt'], $opt);
+    $opt = ['limit' => 1] + arr\replace(APP['entity.opt'], $opt);
 
     try {
-        if ($data = ($entity['type'] . '\load')($entity, $crit, $opt)) {
+        if ($data = ($entity['type'] . '\one')($entity, $crit, $opt)) {
             $data = load($entity, $data);
         }
     } catch (Throwable $e) {
@@ -67,14 +67,14 @@ function all(string $entityId, array $crit = [], array $opt = []): array
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
     }
 
-    $opt = ['mode' => 'all'] + arr\replace(APP['entity.opt'], $opt);
+    $opt = arr\replace(APP['entity.opt'], $opt);
 
     if ($opt['select'] && ($keys = array_diff(array_unique(['id', $opt['index']]), $opt['select']))) {
         array_unshift($opt['select'], ...$keys);
     }
 
     try {
-        $data = ($entity['type'] . '\load')($entity, $crit, $opt);
+        $data = ($entity['type'] . '\all')($entity, $crit, $opt);
 
         foreach ($data as $key => $item) {
             $data[$key] = load($entity, $item);
