@@ -35,7 +35,7 @@ function size(string $entityId, array $crit = []): int
  *
  * @throws DomainException
  */
-function one(string $entityId, array $crit = [], array $opt = []): array
+function one(string $entityId, array $crit = [], array $opt = []): ?array
 {
     if (!$entity = app\cfg('entity', $entityId)) {
         throw new DomainException(app\i18n('Invalid entity %s', $entityId));
