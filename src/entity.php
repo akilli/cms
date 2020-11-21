@@ -54,7 +54,15 @@ function one(string $entityId, array $crit = [], array $select = [], array $orde
  *
  * @throws DomainException
  */
-function all(string $entityId, array $crit = [], array $select = [], array $order = [], int $limit = 0, int $offset = 0, string $index = 'id'): array
+function all(
+    string $entityId,
+    array $crit = [],
+    array $select = [],
+    array $order = [],
+    int $limit = 0,
+    int $offset = 0,
+    string $index = 'id'
+): array
 {
     $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
 
