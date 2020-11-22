@@ -98,7 +98,8 @@ function meta(array $block): string
             $all = entity\all(
                 'page',
                 [['id', $app['page']['path']], ['level', 0, APP['op']['>']]],
-                ['select' => ['name'], 'order' => ['level' => 'asc']]
+                select: ['name'],
+                order: ['level' => 'asc']
             );
 
             foreach ($all as $item) {
