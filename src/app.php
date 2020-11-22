@@ -134,19 +134,19 @@ function allowed(string $key): bool
  */
 function login(string $username, string $password): ?array
 {
-    $data = entity\one('account', [['username', $username]]);
+    $account = entity\one('account', [['username', $username]]);
 
-    if (!$data || !password_verify($password, $data['password'])) {
+    if (!$account || !password_verify($password, $account['password'])) {
         return null;
     }
 
-    if (password_needs_rehash($data['password'], PASSWORD_DEFAULT)) {
-        $acc = ['id' => $data['id'], 'password' => $password];
-        entity\save('account', $acc);
-        $data['password'] = $acc['password'];
+    if (password_needs_rehash($account['password'], PASSWORD_DEFAULT)) {
+        $data = ['id' => $account['id'], 'password' => $password];
+        entity\save('account', $data);
+        $account['password'] = $data['password'];
     }
 
-    return $data;
+    return $account;
 }
 
 /**
