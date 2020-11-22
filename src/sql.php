@@ -148,19 +148,12 @@ function db(string $id): PDO
  */
 function type(mixed $val): int
 {
-    if ($val === null) {
-        return PDO::PARAM_NULL;
-    }
-
-    if (is_bool($val)) {
-        return PDO::PARAM_BOOL;
-    }
-
-    if (is_int($val)) {
-        return PDO::PARAM_INT;
-    }
-
-    return PDO::PARAM_STR;
+    return match (true) {
+        $val === null => PDO::PARAM_NULL,
+        is_bool($val) => PDO::PARAM_BOOL,
+        is_int($val) => PDO::PARAM_INT,
+        default => PDO::PARAM_STR,
+    };
 }
 
 /**
