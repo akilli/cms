@@ -89,12 +89,13 @@ function load(string $id): array
         $cfg[$id] = match ($id) {
             'attr' => $data + $ext,
             'block' => block($data, $ext),
+            'db' => arr\extend($data, $ext),
             'entity' => entity($data, $ext),
+            'event' => event($data, $ext),
             'layout' => layout($data, $ext),
             'opt' => opt($data, $ext),
             'priv' => priv($data, $ext),
             'toolbar' => toolbar($data, $ext),
-            'db', 'event' => arr\extend($data, $ext),
             default => array_replace($data, $ext),
         };
     }
@@ -188,6 +189,26 @@ function entity(array $data, array $ext): array
 
         $entity['name'] = app\i18n($entity['name']);
         $data[$entityId] = $entity;
+    }
+
+    return $data;
+}
+
+/**
+ * Loads event configuration
+ */
+function event(array $data, array $ext): array
+{
+    $data = arr\extend($data, $ext);
+
+    foreach ($data as $id => $event) {
+        asort($data[$id], SORT_NUMERIC);
+
+        foreach (array_keys($event) as $call) {
+            if (!is_callable($call)) {
+                throw new DomainException(app\i18n('Invalid configuration'));
+            }
+        }
     }
 
     return $data;

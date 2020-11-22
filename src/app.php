@@ -96,17 +96,21 @@ function event(array $events, array $data): array
     unset($data['_stop']);
 
     foreach ($events as $event) {
-        if (($cfg = cfg('event', $event)) && asort($cfg, SORT_NUMERIC)) {
-            foreach (array_keys($cfg) as $call) {
-                $data = $call($data);
-                $stop = $data['_stop'] ?? null;
-                unset($data['_stop']);
+        if (!$cfg = cfg('event', $event)) {
+            continue;
+        }
 
-                if ($stop === true) {
-                    break 2;
-                } elseif ($stop === false) {
-                    break;
-                }
+        foreach (array_keys($cfg) as $call) {
+            $data = $call($data);
+            $stop = $data['_stop'] ?? null;
+            unset($data['_stop']);
+
+            if ($stop === true) {
+                break 2;
+            }
+
+            if ($stop === false) {
+                break;
             }
         }
     }
