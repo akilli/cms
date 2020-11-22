@@ -163,15 +163,11 @@ function viewer(array $data, array $attr, array $cfg = []): string
  */
 function opt(array $data, array $attr): callable
 {
-    if ($attr['opt'] && str_contains($attr['opt'], '\\')) {
-        return fn(): array => $attr['opt']($data, $attr);
-    }
-
-    if ($attr['opt']) {
-        return fn(): array => app\cfg('opt', $attr['opt']);
-    }
-
-    return fn(): array => [];
+    return match (true) {
+        $attr['opt'] && str_contains($attr['opt'], '\\') => fn(): array => $attr['opt']($data, $attr),
+        $attr['opt'] => fn(): array => app\cfg('opt', $attr['opt']),
+        default => fn(): array => [],
+    };
 }
 
 /**
