@@ -86,9 +86,13 @@ function validator(array $data, array $attr): mixed
 
     if ($pattern && $val !== null && $val !== '' && !preg_match($pattern, $vp)) {
         throw new DomainException(app\i18n('Value contains invalid characters'));
-    } elseif ($attr['required'] && ($val === null || $val === '')) {
+    }
+
+    if ($attr['required'] && ($val === null || $val === '')) {
         throw new DomainException(app\i18n('Value is required'));
-    } elseif ($attr['unique'] && entity\size($data['_entity']['id'], $crit)) {
+    }
+
+    if ($attr['unique'] && entity\size($data['_entity']['id'], $crit)) {
         throw new DomainException(app\i18n('Value must be unique'));
     }
 
@@ -141,7 +145,9 @@ function viewer(array $data, array $attr, array $cfg = []): string
         return app\html('aside', $a, $html);
     }
 
-    if (($attr['uploadable'] || in_array($attr['type'], ['entity_file', 'iframe'])) && preg_match('#<(audio|iframe|img|video)#', $html, $match)) {
+    if (($attr['uploadable'] || in_array($attr['type'], ['entity_file', 'iframe']))
+        && preg_match('#<(audio|iframe|img|video)#', $html, $match)
+    ) {
         return app\html('figure', $a + (['class' => $match[1] === 'img' ? 'image' : $match[1]]), $html);
     }
 
@@ -181,35 +187,25 @@ function val(array $data, array $attr): mixed
  */
 function cast(mixed $val, array $attr): mixed
 {
-    if ($attr['nullable'] && ($val === null || $val === '')) {
-        return null;
-    }
+    $map = function (callable $call, mixed $val): array {
+        if (is_array($val) || ($val = trim((string) $val, '{}')) && ($val = explode(',', $val))) {
+            return array_map($call, $val);
+        }
+        return [];
+    };
 
-    if ($attr['backend'] === 'bool') {
-        return (bool) $val;
-    }
-
-    if (in_array($attr['backend'], ['int', 'serial'])) {
-        return (int) $val;
-    }
-
-    if ($attr['backend'] === 'decimal') {
-        return (float) $val;
-    }
-
-    if ($attr['backend'] === 'int[]') {
-        return is_array($val) || ($val = trim((string) $val, '{}')) && ($val = explode(',', $val)) ? array_map('intval', $val) : [];
-    }
-
-    if ($attr['backend'] === 'text[]') {
-        return is_array($val) || ($val = trim((string) $val, '{}')) && ($val = explode(',', $val)) ? array_map('strval', $val) : [];
-    }
-
-    if ($attr['backend'] === 'json') {
-        return is_array($val) || $val && ($val = json_decode($val, true)) ? $val : [];
-    }
-
-    return (string) $val;
+    return match (true) {
+        $attr['nullable'] && ($val === null || $val === '') => null,
+        default => match ($attr['backend']) {
+            'bool' => (bool) $val,
+            'int', 'serial' => (int) $val,
+            'decimal' => (float) $val,
+            'int[]' => $map('intval', $val),
+            'text[]' => $map('strval', $val),
+            'json' => is_array($val) || $val && ($val = json_decode($val, true)) ? $val : [],
+            default => (string) $val,
+        },
+    };
 }
 
 /**
