@@ -7,7 +7,7 @@ return [
         'crit' => [],
         'entity_id' => null,
         'filter' => [],
-        'limit' => [10, 20, 50, 0],
+        'limits' => [10, 20, 50, 0],
         'link' => null,
         'order' => ['id' => 'desc'],
         'pager' => null,

@@ -150,13 +150,9 @@ function index(array $block): string
     $app = app\data('app');
     $request = app\data('request');
     $entity = $block['cfg']['entity_id'] ? app\cfg('entity', $block['cfg']['entity_id']) : $app['entity'];
-    $call = fn(mixed $v): bool => is_int($v) && $v >= 0;
-    $block['cfg']['limit'] = array_filter(
-        is_array($block['cfg']['limit']) ? $block['cfg']['limit'] : [$block['cfg']['limit']],
-        $call
-    );
+    $block['cfg']['limits'] = array_filter($block['cfg']['limits'], fn(mixed $v): bool => is_int($v) && $v >= 0);
 
-    if (!$entity || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id'])) || !$block['cfg']['limit']) {
+    if (!$entity || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id'])) || !$block['cfg']['limits']) {
         return '';
     }
 
@@ -166,10 +162,10 @@ function index(array $block): string
     $filter = null;
     $sort = $block['cfg']['sort'] ? null : false;
     $pager = null;
-    $limit = $block['cfg']['limit'][0];
+    $limit = $block['cfg']['limits'][0];
     $offset = 0;
 
-    if (is_int($get['limit']) && $get['limit'] >= 0 && in_array($get['limit'], $block['cfg']['limit'])) {
+    if (is_int($get['limit']) && $get['limit'] >= 0 && in_array($get['limit'], $block['cfg']['limits'])) {
         $limit = $get['limit'];
     }
 
@@ -258,7 +254,7 @@ function index(array $block): string
             'cfg' => [
                 'cur' => $get['cur'],
                 'limit' => $limit,
-                'limits' => $block['cfg']['limit'],
+                'limits' => $block['cfg']['limits'],
                 'size' => $size,
             ],
         ]));
