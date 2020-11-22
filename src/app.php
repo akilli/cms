@@ -189,7 +189,6 @@ function msg(string $msg = null, string ...$args): array
     if ($msg === null) {
         $old = $data;
         $data = [];
-
         return $old;
     }
 
@@ -221,10 +220,11 @@ function url(string $path = '', array $get = [], bool $preserve = false): string
  */
 function query(array $get, bool $preserve = false): string
 {
-    $get += $preserve ? data('request', 'get') : [];
-    $query = $get ? http_build_query($get, '', '&amp;') : '';
+    if ($preserve) {
+        $get += data('request', 'get');
+    }
 
-    return $query ? '?' . $query : '';
+    return $get ? '?' . http_build_query($get) : '';
 }
 
 /**
@@ -289,12 +289,14 @@ function html(string $tag, array $attrs = [], string $val = null): string
     foreach ($attrs as $k => $v) {
         if ($v === false) {
             continue;
-        } elseif ($v === true) {
+        }
+
+        if ($v === true) {
             $v = $k;
         }
 
         $a .= ' ' . $k . '="' . addcslashes((string) $v, '"') . '"';
     }
 
-    return in_array($tag, APP['html.void']) ? '<' . $tag . $a . ' />' : '<' . $tag . $a . '>' . $val . '</' . $tag . '>';
+    return in_array($tag, APP['html.void']) ? '<' . $tag . $a . '/>' : '<' . $tag . $a . '>' . $val . '</' . $tag . '>';
 }
