@@ -116,7 +116,9 @@ function group(array $data, string $group, string $col = null): array
     foreach ($data as $key => $val) {
         if (!($k = $val[$group] ?? null)) {
             continue;
-        } elseif (!$col) {
+        }
+
+        if (!$col) {
             $result[$k][$key] = $val;
         } elseif (array_key_exists($col, $val) && !array_keys($result[$k] ?? [], $val[$col], true)) {
             $result[$k][] = $val[$col];
