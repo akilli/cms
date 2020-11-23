@@ -293,8 +293,8 @@ function toolbar(array $data, array $ext): array
     }
 
     foreach ($data as $id => $item) {
-        $item['pos'] = ($item['parent_id'] ? $data[$item['parent_id']]['pos'] . '.' : '')
-            . str_pad((string) $item['sort'], 5, '0', STR_PAD_LEFT);
+        $item['pos'] = $item['parent_id'] ? $data[$item['parent_id']]['pos'] . '.' : '';
+        $item['pos'] .= str_pad((string) $item['sort'], 5, '0', STR_PAD_LEFT);
         $item['level'] = $item['parent_id'] ? $data[$item['parent_id']]['level'] + 1 : 1;
         $data[$id] = $item;
     }
