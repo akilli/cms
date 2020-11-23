@@ -194,10 +194,10 @@ function attr(array $attrs, bool $auto = false): array
 function val(mixed $val, array $attr): mixed
 {
     return match (true) {
-        $attr['backend'] === 'json' && is_array($val) => json_encode($val),
-        $attr['backend'] === 'json' && $val !== null => (string) $val,
+        $val === null => null,
+        $attr['backend'] === 'json' => is_array($val) ? json_encode($val) : (string) $val,
         is_array($val) => '{' . implode(',', arr\change($val, null, 'NULL')) . '}',
-        in_array($attr['backend'], ['int[]', 'text[]']) && $val !== null => '{' . $val . '}',
+        in_array($attr['backend'], ['int[]', 'text[]']) => '{' . $val . '}',
         default => $val,
     };
 }
