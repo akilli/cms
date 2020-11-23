@@ -128,7 +128,6 @@ define('APP', [
         'thumb' => 879,
     ],
     'image.ext' => ['jpg', 'png', 'webp'],
-    'image.threshold' => 100,
     'join' => [
         'cross' => 'CROSS',
         'full' => 'FULL',

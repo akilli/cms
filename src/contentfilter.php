@@ -70,63 +70,59 @@ function image(string $html, array $cfg = []): string
     }
 
     $data = entity\all('file', [['url', array_unique($match['url'])]], select: ['id', 'url', 'thumb'], index: 'url');
-    $call = function (array $m) use ($cfg, $data): string {
-        $item = $data[$m['url']] ?? null;
+    $cache = function (string $file): int {
+        $width = &app\registry('contentfilter')['image'][$file];
+        $width ??= getimagesize($file)[0] ?? 0;
+        return $width;
+    };
+    $srcset = function (string $name, int $width, bool $force = false) use ($cache, $cfg): string {
+        $set = [];
 
-        if (str_contains($m['img'], 'srcset="') || !$item || !($file = app\filepath($m['name'])) || !is_file($file)) {
-            return $m[0];
-        }
-
-        $w = &app\registry('contentfilter')['image'];
-        $w[$file] = $w[$file] ?? getimagesize($file)[0] ?? 0;
-
-        if (!$w[$file]) {
-            return $m[0];
-        }
-
-        $img = $m['img'];
-        $set = '';
-
-        foreach ($cfg['srcset'] as $s) {
-            if ($s >= $w[$file]) {
+        foreach ($cfg['srcset'] as $breakpoint) {
+            if ($breakpoint >= $width) {
                 break;
             }
 
-            $set .= ($set ? ', ' : '') . app\file('resize-' . $s . '/' . $m['name']) . ' ' . $s . 'w';
+            $set[] = app\file('resize-' . $breakpoint . '/' . $name) . ' ' . $breakpoint . 'w';
         }
 
-        if ($set) {
-            $set .= ', ' . app\file($m['name']) . ' ' . $w[$file] . 'w';
+        if ($set || $force) {
+            $set[] = app\file($name) . ' ' . $width . 'w';
+        }
 
+        return implode(', ', $set);
+    };
+    $call = function (array $match) use ($cache, $cfg, $data, $srcset): string {
+        if (str_contains($match['img'], 'srcset="')
+            || !($item = $data[$match['url']] ?? null)
+            || !($file = app\filepath($match['name']))
+            || !is_file($file)
+            || !($width = $cache($file))
+        ) {
+            return $match[0];
+        }
+
+        $img = $match['img'];
+
+        if ($set = $srcset($match['name'], $width)) {
             if ($cfg['sizes'] && $cfg['sizes'] !== '100vw') {
                 $sizes = $cfg['sizes'];
             } else {
-                $sizes = '(max-width: ' . $w[$file] . 'px) 100vw, ' . $w[$file] . 'px';
+                $sizes = '(max-width: ' . $width . 'px) 100vw, ' . $width . 'px';
             }
 
-            $img = $m['pre'] . ' srcset="' . $set . '" sizes="' . $sizes . '"' . $m['post'];
+            $img = $match['pre'] . ' srcset="' . $set . '" sizes="' . $sizes . '"' . $match['post'];
         }
 
-        if ($cfg['thumb'] > 0 && $item['thumb'] && ($tf = app\filepath($item['thumb'])) && is_file($tf)) {
-            $tn = basename($item['thumb']);
-            $w[$tf] = $w[$tf] ?? getimagesize($tf)[0] ?? 0;
-            $max = min($cfg['thumb'], $w[$tf], $w[$file] - APP['image.threshold']);
-            $tset = '';
-
-            foreach ($cfg['srcset'] as $s) {
-                if ($s >= $w[$tf]) {
-                    break;
-                }
-
-                $tset .= ($tset ? ', ' : '') . app\file('resize-' . $s . '/' . $tn) . ' ' . $s . 'w';
-            }
-
-            $tset .= ($tset ? ', ' : '') . app\file($tn) . ' ' . $w[$tf] . 'w';
-            $source = app\html('source', ['media' => '(max-width: ' . $max . 'px)', 'srcset' => $tset]);
+        if ($cfg['thumb'] > 0 && $item['thumb'] && ($tfile = app\filepath($item['thumb'])) && is_file($tfile)) {
+            $twidth = $cache($tfile);
+            $tset = $srcset(basename($item['thumb']), $twidth, true);
+            $tmax = min($cfg['thumb'], $twidth);
+            $source = app\html('source', ['media' => '(max-width: ' . $tmax . 'px)', 'srcset' => $tset]);
             $img = app\html('picture', [], $source . $img);
         }
 
-        return $m['figure'] . $m['a'] . $img;
+        return $match['figure'] . $match['a'] . $img;
     };
 
     return preg_replace_callback($pattern, $call, $html);
@@ -143,7 +139,9 @@ function msg(string $html): string
         $msg .= app\html('p', [], $item);
     }
 
-    $msg = $msg ? app\html('section', ['class' => 'msg'], $msg) : '';
-
-    return str_replace(app\html('msg'), $msg, $html);
+    return str_replace(
+        app\html('msg'),
+        $msg ? app\html('section', ['class' => 'msg'], $msg) : '',
+        $html
+    );
 }
