@@ -11,8 +11,8 @@ set_exception_handler(function (Throwable $e): void {
     app\log($e);
 });
 register_shutdown_function(function (): void {
-    if ($data = app\registry('msg')) {
-        session\set('msg', $data);
+    if ($msg = app\registry('msg')) {
+        session\set('msg', $msg);
     }
 });
 

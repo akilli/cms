@@ -76,13 +76,13 @@ function data(string $id, string $key = null): mixed
  */
 function cfg(string $id, string $key = null): mixed
 {
-    $data = registry('cfg')[$id] ?? [];
+    $cfg = registry('cfg')[$id] ?? [];
 
     if ($key === null) {
-        return $data;
+        return $cfg;
     }
 
-    return $data[$key] ?? null;
+    return $cfg[$key] ?? null;
 }
 
 /**
