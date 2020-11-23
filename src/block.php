@@ -92,12 +92,8 @@ function meta(array $block): string
         if ($app['page']['meta_title']) {
             $title = $app['page']['meta_title'];
         } else {
-            $all = entity\all(
-                'page',
-                [['id', $app['page']['path']], ['level', 0, APP['op']['>']]],
-                select: ['name'],
-                order: ['level' => 'asc']
-            );
+            $crit = [['id', $app['page']['path']], ['level', 0, APP['op']['>']]];
+            $all = entity\all('page', $crit, select: ['name'], order: ['level' => 'asc']);
 
             foreach ($all as $item) {
                 $title = $item['name'] . ($title ? ' - ' . $title : '');
@@ -347,20 +343,17 @@ function db(array $block): string
  */
 function dblock(array $block): string
 {
-    if (!($data = $block['cfg']['data'])
-        || !($attrs = arr\extract($data['_entity']['attr'], $block['cfg']['attr_id']))
-    ) {
+    $data = $block['cfg']['data'];
+
+    if (!$data || !($attrs = arr\extract($data['_entity']['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
 
     $html = '';
 
     foreach ($attrs as $attr) {
-        $html .= attr\viewer(
-            $data,
-            $attr,
-            ['wrap' => true] + (in_array($attr['id'], ['file', 'title']) ? ['link' => $data['link']] : [])
-        );
+        $cfg = ['wrap' => true] + (in_array($attr['id'], ['file', 'title']) ? ['link' => $data['link']] : []);
+        $html .= attr\viewer($data, $attr, $cfg);
     }
 
     if ($html) {
@@ -418,13 +411,13 @@ function edit(array $block): string
  */
 function profile(array $block): string
 {
-    $request = app\data('request');
+    $account = app\data('account');
 
-    if (!($account = app\data('account'))
-        || !($attrs = arr\extract($account['_entity']['attr'], $block['cfg']['attr_id']))
-    ) {
+    if (!$account || !($attrs = arr\extract($account['_entity']['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
+
+    $request = app\data('request');
 
     if ($data = $request['post']) {
         if (!empty($data['password']) && (empty($data['confirmation']) || $data['password'] !== $data['confirmation'])) {
@@ -457,10 +450,10 @@ function login(array $block): string
     if ($data = app\data('request', 'post')) {
         if (!empty($data['username'])
             && !empty($data['password'])
-            && ($data = app\login($data['username'], $data['password']))
+            && ($account = app\login($data['username'], $data['password']))
         ) {
             session\regenerate();
-            session\set('account', $data['id']);
+            session\set('account', $account['id']);
             request\redirect();
             return '';
         }
@@ -497,19 +490,14 @@ function nav(array $block): string
     $attrs = ['id' => $block['id']];
     $call = function (array $it): ?string {
         $url = app\data('request', 'url');
-
-        if ($it['url'] === $url) {
-            return 'active';
-        }
-
-        if ($it['url'] && str_starts_with($url, preg_replace('#\.html#', '', $it['url']))) {
-            return 'path';
-        }
-
-        return null;
+        return match (true) {
+            $it['url'] === $url => 'active',
+            $it['url'] && str_starts_with($url, preg_replace('#\.html#', '', $it['url'])) => 'path',
+            default => null,
+        };
     };
-    $html = ($block['cfg']['title'] ? app\html('h2', [], app\i18n($block['cfg']['title'])) : '')
-        . layout\children($block['id']);
+    $html = $block['cfg']['title'] ? app\html('h2', [], app\i18n($block['cfg']['title'])) : '';
+    $html .= layout\children($block['id']);
 
     if ($block['cfg']['toggle']) {
         $html .= app\html('a', ['data-action' => 'toggle', 'data-target' => $block['id']]);
@@ -556,14 +544,11 @@ function nav(array $block): string
             $class = ' class="' . $a['class'] . '"';
         }
 
-        if ($item['level'] > $level) {
-            $html .= '<ul><li' . $class . '>';
-        } elseif ($item['level'] < $level) {
-            $html .= '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>';
-        } else {
-            $html .= '</li><li' . $class . '>';
-        }
-
+        $html .= match ($item['level'] <=> $level) {
+            1 => '<ul><li' . $class . '>',
+            -1 => '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>',
+            default => '</li><li' . $class . '>',
+        };
         $html .= $toggle . app\html('a', $a, $item['name']);
         $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
         $level = $item['level'];
