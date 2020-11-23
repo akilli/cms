@@ -194,31 +194,19 @@ function index(array $block): string
 
         foreach (array_keys($get['filter']) as $attrId) {
             $attr = $fa[$attrId];
-            $op = APP['op']['='];
+            $op = match ($attr['backend']) {
+                'json', 'text', 'varchar' => $attr['opt'] ? APP['op']['='] : APP['op']['~'],
+                'int[]', 'text[]' => APP['op']['~'],
+                'datetime' => $get['filter'][$attrId] ? APP['op']['^'] : APP['op']['='],
+                default => APP['op']['='],
+            };
 
-            if (in_array($attr['backend'], ['int[]', 'text[]'])
-                || !$attr['opt'] && in_array($attr['backend'], ['json', 'text', 'varchar'])
-            ) {
-                $op = APP['op']['~'];
-            } elseif ($get['filter'][$attrId] && $attr['backend'] === 'datetime') {
-                $get['filter'][$attrId] = attr\datetime(
-                    $get['filter'][$attrId],
-                    APP['datetime.frontend'],
-                    APP['datetime.backend']
-                );
-                $op = APP['op']['^'];
-            } elseif ($get['filter'][$attrId] && $attr['backend'] === 'date') {
-                $get['filter'][$attrId] = attr\datetime(
-                    $get['filter'][$attrId],
-                    APP['date.frontend'],
-                    APP['date.backend']
-                );
-            } elseif ($get['filter'][$attrId] && $attr['backend'] === 'time') {
-                $get['filter'][$attrId] = attr\datetime(
-                    $get['filter'][$attrId],
-                    APP['time.frontend'],
-                    APP['time.backend']
-                );
+            if ($get['filter'][$attrId] && in_array($attr['backend'], ['datetime', 'date', 'time'])) {
+                $get['filter'][$attrId] = match ($attr['backend']) {
+                    'datetime' => attr\datetime($get['filter'][$attrId], APP['datetime.frontend'], APP['datetime.backend']),
+                    'date' => attr\datetime($get['filter'][$attrId], APP['date.frontend'], APP['date.backend']),
+                    'time' => attr\datetime($get['filter'][$attrId], APP['time.frontend'], APP['time.backend']),
+                };
             }
 
             $crit[] = [$attrId, $get['filter'][$attrId], $op];
