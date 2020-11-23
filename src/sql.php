@@ -40,26 +40,6 @@ function all(array $entity, array $crit = [], array $select = [], array $order =
 }
 
 /**
- * Load entity
- */
-function load(array $entity, array $crit = [], array $select = [], array $order = [], int $limit = 0, int $offset = 0): PDOStatement
-{
-    $select = $select ?: array_keys(attr($entity['attr']));
-    $cols = crit($crit, $entity['attr']);
-    $stmt = db($entity['db'])->prepare(
-        sel($select)
-        . from($entity['id'])
-        . where($cols['crit'])
-        . order($order)
-        . limit($limit, $offset)
-    );
-    array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
-    $stmt->execute();
-
-    return $stmt;
-}
-
-/**
  * Save entity
  */
 function save(array $data): array
@@ -126,6 +106,26 @@ function trans(callable $call, string $id): void
         app\log($e);
         throw $e;
     }
+}
+
+/**
+ * Load entity
+ */
+function load(array $entity, array $crit = [], array $select = [], array $order = [], int $limit = 0, int $offset = 0): PDOStatement
+{
+    $select = $select ?: array_keys(attr($entity['attr']));
+    $cols = crit($crit, $entity['attr']);
+    $stmt = db($entity['db'])->prepare(
+        sel($select)
+        . from($entity['id'])
+        . where($cols['crit'])
+        . order($order)
+        . limit($limit, $offset)
+    );
+    array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
+    $stmt->execute();
+
+    return $stmt;
 }
 
 /**
