@@ -77,13 +77,7 @@ function json(array $val): string
  */
 function pos(string $val): string
 {
-    $parts = explode('.', $val);
-
-    foreach ($parts as $k => $v) {
-        $parts[$k] = ltrim($v, '0');
-    }
-
-    return implode('.', $parts);
+    return preg_replace('#(^|\.)0+#', '$1', $val);
 }
 
 /**
