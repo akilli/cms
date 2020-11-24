@@ -255,8 +255,7 @@ function crit(array $crit, array $attrs): array
                     $in[] = $p;
                 }
 
-                $or[] = ($n ? $null . ($not ? ' AND ' : ' OR ') : '')
-                    . $attr['id'] . $not . ' IN (' . implode(', ', $in) . ')';
+                $or[] = ($n ? $null . ($not ? ' AND ' : ' OR ') : '') . $attr['id'] . $not . ' IN (' . implode(', ', $in) . ')';
             } elseif (in_array($op, [APP['op']['='], APP['op']['!='], APP['op']['>'], APP['op']['>='], APP['op']['<'], APP['op']['<=']])) {
                 $p = $param . ++$count;
                 $val = val($val, $attr);
@@ -390,13 +389,11 @@ function where(array $cols): string
  */
 function join(string $type, string $tab, string $as = null, array $cols = []): string
 {
-    if (!$type || empty(APP['join'][$type]) || !$tab) {
+    if (empty(APP['join'][$type]) || !$tab) {
         throw new DomainException(app\i18n('Invalid JOIN'));
     }
 
-    return APP['join'][$type] . ' JOIN ' . $tab
-        . ($as ? ' AS ' . $as : '')
-        . ($cols ? ' ON ' . implode(' AND ', $cols) : '');
+    return APP['join'][$type] . ' JOIN ' . $tab . ($as ? ' AS ' . $as : '') . ($cols ? ' ON ' . implode(' AND ', $cols) : '');
 }
 
 /**
