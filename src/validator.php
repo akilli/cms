@@ -24,9 +24,7 @@ function text(string $val): string
  */
 function email(string $val): string
 {
-    if ($val && !($val = filter_var($val, FILTER_VALIDATE_EMAIL))) {
-        throw new DomainException(app\i18n('Invalid value'));
-    }
+    $val = filter_var($val, FILTER_VALIDATE_EMAIL) ?: throw new DomainException(app\i18n('Invalid value'));
 
     return $val;
 }
@@ -38,9 +36,7 @@ function email(string $val): string
  */
 function url(string $val): string
 {
-    if ($val && !($val = filter_var($val, FILTER_VALIDATE_URL))) {
-        throw new DomainException(app\i18n('Invalid value'));
-    }
+    $val = filter_var($val, FILTER_VALIDATE_URL) ?: throw new DomainException(app\i18n('Invalid value'));
 
     return $val;
 }
