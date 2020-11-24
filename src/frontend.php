@@ -181,14 +181,12 @@ function radio(mixed $val, array $attr): string
  */
 function select(mixed $val, array $attr): string
 {
-    if ($val === null || $val === '') {
-        $val = [];
-    } elseif (is_bool($val)) {
-        $val = [(int) $val];
-    } elseif (!is_array($val)) {
-        $val = [$val];
-    }
-
+    $val = match (true) {
+        $val === null || $val === '' => [],
+        is_bool($val) => [(int) $val],
+        !is_array($val) => [$val],
+        default => $val,
+    };
     $html = !empty($attr['html']['multiple']) ? '' : app\html('option', ['value' => ''], app\i18n('Please choose'));
 
     foreach ($attr['opt']() as $k => $v) {
