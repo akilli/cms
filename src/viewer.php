@@ -128,7 +128,7 @@ function file(string|int $val, array $attr): string
 
     if ($data['mime'] === 'text/html') {
         $a = $data['thumb'] ? ['data-thumb' => $data['thumb']] : [];
-        return app\html('iframe', ['src' => $data['url'], 'allowfullscreen' => 'allowfullscreen'] + $a, $data['url']);
+        return app\html('iframe', ['src' => $data['url'], 'allowfullscreen' => 'allowfullscreen'] + $a);
     }
 
     if (($p = explode('/', $data['mime'])) && $p[0] === 'image') {
