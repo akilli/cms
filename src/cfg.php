@@ -166,17 +166,14 @@ function entity(array $data, array $ext): array
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
-            $attr = arr\replace(
-                APP['cfg']['attr'],
-                $cfg[$attr['type']],
-                $attr,
-                ['id' => $attrId, 'name' => app\i18n($attr['name'])]
-            );
+            $a = ['id' => $attrId, 'name' => app\i18n($attr['name'])];
+            $attr = arr\replace(APP['cfg']['attr'], $cfg[$attr['type']], $attr, $a);
 
             if (!in_array($attr['backend'], APP['backend'])
                 || !$attr['frontend']
                 || !is_callable($attr['frontend'])
                 || $attr['filter'] && !is_callable($attr['filter'])
+                || $attr['opt'] !== null && !is_callable($attr['opt'])
                 || $attr['min'] > 0 && $attr['max'] > 0 && $attr['min'] > $attr['max']
             ) {
                 throw new DomainException(app\i18n('Invalid configuration'));
