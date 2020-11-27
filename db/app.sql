@@ -205,19 +205,6 @@ WHERE
 WITH LOCAL CHECK OPTION;
 
 --
--- Page Article
---
-
-CREATE VIEW page_article AS
-SELECT
-    *
-FROM
-    page
-WHERE
-    entity_id = 'page_article'
-WITH LOCAL CHECK OPTION;
-
---
 -- Page Content
 --
 

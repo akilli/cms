@@ -7,7 +7,6 @@ return [
     'Additional Information' => 'Zusätzliche Informationen',
     'All' => 'Alle',
     'ALL PRIVILEGES' => 'ALLE PRIVILEGIEN',
-    'Articles' => 'Artikel',
     'Audios' => 'Audios',
     'Back' => 'Zurück',
     'Block' => 'Block',
