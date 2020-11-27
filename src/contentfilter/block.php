@@ -24,7 +24,7 @@ function block(string $html): string
             foreach (entity\all($entityId, [['id', $ids]]) as $item) {
                 $html = preg_replace(
                     sprintf($pattern, $entityId . '-' . $item['id']),
-                    layout\render(layout\db($item)),
+                    layout\render(layout\db_cfg($item)),
                     $html
                 );
             }

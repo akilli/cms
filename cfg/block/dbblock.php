@@ -1,6 +1,6 @@
 <?php
 return [
-    'call' => 'block\dblock',
+    'call' => 'block\dbblock',
     'cfg' => [
         'attr_id' => ['title', 'file', 'content'],
         'data' => [],

@@ -10,7 +10,7 @@ use attr;
 /**
  * Database Block
  */
-function dblock(array $block): string
+function dbblock(array $block): string
 {
     $data = $block['cfg']['data'];
 

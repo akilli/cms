@@ -15,7 +15,7 @@ function db(array $block): string
         && $block['cfg']['id']
         && ($data = entity\one($block['cfg']['entity_id'], [['id', $block['cfg']['id']]]))
     ) {
-        return layout\render(layout\db($data, ['id' => $block['id']]));
+        return layout\render(layout\db_cfg($data, ['id' => $block['id']]));
     }
 
     return '';
