@@ -19,7 +19,7 @@ function frontend(array $data, array $attr): string
     $attr['html'] = html($attr);
     $div = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
 
-    if (in_array($attr['backend'], ['int[]', 'text[]'])) {
+    if (in_array($attr['backend'], ['multiint', 'multitext'])) {
         $attr['html']['name'] .= '[]';
         $attr['html']['multiple'] = true;
     }
@@ -82,7 +82,7 @@ function validator(array $data, array $attr): mixed
     $vp = is_array($val) ? implode("\n", $val) : (string) $val;
     $vs = is_array($val) ? $val : [$val];
     $crit = $data['_old'] ? [[$attr['id'], $val], ['id', $data['_old']['id'], APP['op']['!=']]] : [[$attr['id'], $val]];
-    $strlen = in_array($attr['backend'], ['json', 'text', 'text[]', 'varchar']);
+    $strlen = in_array($attr['backend'], ['json', 'multitext', 'text', 'varchar']);
 
     if ($pattern && $val !== null && $val !== '' && !preg_match($pattern, $vp)) {
         throw new DomainException(app\i18n('Value contains invalid characters'));
@@ -196,8 +196,8 @@ function cast(mixed $val, array $attr): mixed
             'bool' => (bool) $val,
             'int', 'serial' => (int) $val,
             'decimal' => (float) $val,
-            'int[]' => $map('intval', $val),
-            'text[]' => $map('strval', $val),
+            'multiint' => $map('intval', $val),
+            'multitext' => $map('strval', $val),
             'json' => is_array($val) || $val && ($val = json_decode($val, true)) ? $val : [],
             default => (string) $val,
         },
@@ -217,7 +217,7 @@ function ignorable(array $data, array $attr): bool
  */
 function html(array $attr, string $key = 'attr'): array
 {
-    $minmax = in_array($attr['backend'], ['json', 'text', 'text[]', 'varchar']) ? ['minlength', 'maxlength'] : ['min', 'max'];
+    $minmax = in_array($attr['backend'], ['json', 'multitext', 'text', 'varchar']) ? ['minlength', 'maxlength'] : ['min', 'max'];
     $name = $key === 'attr' ? $attr['id'] : $key . '[' . $attr['id'] . ']';
     $html = ['id' => $key . '-' . $attr['id'], 'name' => $name, 'data-type' => $attr['type']];
 

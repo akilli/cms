@@ -1,6 +1,6 @@
 <?php
 return [
-    'backend' => 'int[]',
+    'backend' => 'multiint',
     'frontend' => 'frontend\select',
     'validator' => 'validator\multientity',
     'viewer' => 'viewer\multientity',

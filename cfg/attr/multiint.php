@@ -1,6 +1,6 @@
 <?php
 return [
-    'backend' => 'text[]',
+    'backend' => 'multiint',
     'frontend' => 'frontend\checkbox',
     'filter' => 'frontend\select',
     'validator' => 'validator\opt',

@@ -64,7 +64,7 @@ function index(array $block): string
             $attr = $fa[$attrId];
             $op = match ($attr['backend']) {
                 'json', 'text', 'varchar' => $attr['opt'] ? APP['op']['='] : APP['op']['~'],
-                'int[]', 'text[]' => APP['op']['~'],
+                'multiint', 'multitext' => APP['op']['~'],
                 'datetime' => $get['filter'][$attrId] ? APP['op']['^'] : APP['op']['='],
                 default => APP['op']['='],
             };

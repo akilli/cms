@@ -16,7 +16,7 @@ return [
         ],
         'priv' => [
             'name' => 'Privileges',
-            'type' => 'text[]',
+            'type' => 'multitext',
             'opt' => 'opt\priv',
         ],
     ],

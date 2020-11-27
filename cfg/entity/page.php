@@ -88,7 +88,7 @@ return [
         ],
         'path' => [
             'name' => 'Path',
-            'type' => 'entity[]',
+            'type' => 'multientity',
             'auto' => true,
             'ref' => 'page',
         ],

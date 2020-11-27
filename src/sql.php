@@ -197,7 +197,7 @@ function val(mixed $val, array $attr): mixed
         $val === null => null,
         $attr['backend'] === 'json' => is_array($val) ? json_encode($val) : (string) $val,
         is_array($val) => '{' . implode(',', arr\change($val, null, 'NULL')) . '}',
-        in_array($attr['backend'], ['int[]', 'text[]']) => '{' . $val . '}',
+        in_array($attr['backend'], ['multiint', 'multitext']) => '{' . $val . '}',
         default => $val,
     };
 }
@@ -236,7 +236,7 @@ function crit(array $crit, array $attrs): array
                 $or[] = $attr['id'] . ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
             } elseif (in_array($op, [APP['op']['='], APP['op']['!=']])
                 && is_array($val)
-                && !in_array($attr['backend'], ['int[]', 'json', 'text[]'])
+                && !in_array($attr['backend'], ['json', 'multiint', 'multitext'])
             ) {
                 $not = $op === APP['op']['!='] ? ' NOT' : '';
                 $null = $attr['id'] . ' IS' . $not . ' NULL';
@@ -262,14 +262,14 @@ function crit(array $crit, array $attrs): array
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' ' . $op . ' ' . $p;
             } elseif (in_array($op, [APP['op']['~'], APP['op']['!~']])
-                && in_array($attr['backend'], ['int[]', 'json', 'text[]'])
+                && in_array($attr['backend'], ['json', 'multiint', 'multitext'])
             ) {
                 $p = $param . ++$count;
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' @> ' . $p . ($op === APP['op']['!~'] ? ' IS FALSE' : '');
             } elseif (in_array($op, [APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])
-                && in_array($attr['backend'], ['int[]', 'text[]'])
+                && in_array($attr['backend'], ['multiint', 'multitext'])
             ) {
                 $n = is_array($val) ? max(0, count($val) - 1) : 0;
                 $p = $param . ++$count;

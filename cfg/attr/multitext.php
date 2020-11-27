@@ -1,6 +1,6 @@
 <?php
 return [
-    'backend' => 'int[]',
+    'backend' => 'multitext',
     'frontend' => 'frontend\checkbox',
     'filter' => 'frontend\select',
     'validator' => 'validator\opt',
