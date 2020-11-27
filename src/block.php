@@ -79,25 +79,23 @@ function tpl(array $block): string
 function meta(array $block): string
 {
     $app = app\data('app');
-    $desc = null;
+    $desc = $app['page']['meta_description'] ?? null;
     $title = app\cfg('app', 'title');
+    $menutitle = function () use ($app, $title): string {
+        $crit = [['id', $app['page']['path']], ['level', 0, APP['op']['>']]];
 
-    if ($app['page']) {
-        $desc = $app['page']['meta_description'];
-
-        if ($app['page']['meta_title']) {
-            $title = $app['page']['meta_title'];
-        } else {
-            $crit = [['id', $app['page']['path']], ['level', 0, APP['op']['>']]];
-            $all = entity\all('page', $crit, select: ['name'], order: ['level' => 'asc']);
-
-            foreach ($all as $item) {
-                $title = $item['name'] . ($title ? ' - ' . $title : '');
-            }
+        foreach (entity\all('page', $crit, select: ['name'], order: ['level' => 'asc']) as $item) {
+            $title = $item['name'] . ($title ? ' - ' . $title : '');
         }
-    } elseif ($app['entity']) {
-        $title = $app['entity']['name'] . ($title ? ' - ' . $title : '');
-    }
+
+        return $title;
+    };
+    $title = match (true) {
+        !empty($app['page']['meta_title']) => $app['page']['meta_title'],
+        !!$app['page'] => $menutitle(),
+        !!$app['entity'] => $app['entity']['name'] . ($title ? ' - ' . $title : ''),
+        default => $title,
+    };
 
     return app\tpl($block['tpl'], ['description' => str\enc($desc), 'title' => str\enc($title)]);
 }
