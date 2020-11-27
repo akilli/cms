@@ -4,5 +4,5 @@ return [
     'frontend' => 'frontend\bool',
     'filter' => 'frontend\select',
     'viewer' => 'viewer\opt',
-    'opt' => 'bool',
+    'opt' => 'opt\bool',
 ];

@@ -35,7 +35,7 @@ return [
             'name' => 'Parent Block',
             'type' => 'select',
             'required' => true,
-            'opt' => 'block',
+            'opt' => 'opt\block',
             'max' => 100,
         ],
         'sort' => [

@@ -93,7 +93,6 @@ function load(string $id): array
             'entity' => entity($data, $ext),
             'event' => event($data, $ext),
             'layout' => layout($data, $ext),
-            'opt' => opt($data, $ext),
             'priv' => priv($data, $ext),
             'toolbar' => toolbar($data, $ext),
             default => array_replace($data, $ext),
@@ -223,20 +222,6 @@ function layout(array $data, array $ext): array
         foreach ($cfg as $id => $block) {
             $data[$key][$id] = empty($data[$key][$id]) ? $block : arr\extend($data[$key][$id], $block);
         }
-    }
-
-    return $data;
-}
-
-/**
- * Loads option configuration
- */
-function opt(array $data, array $ext): array
-{
-    $data = array_replace($data, $ext);
-
-    foreach ($data as $key => $opt) {
-        $data[$key] = array_map('app\i18n', $opt);
     }
 
     return $data;
