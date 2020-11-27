@@ -165,7 +165,7 @@ function opt(array $data, array $attr): callable
 {
     return match (true) {
         $attr['opt'] && str_contains($attr['opt'], '\\') => fn(): array => $attr['opt']($data, $attr),
-        $attr['opt'] => fn(): array => app\cfg('opt', $attr['opt']),
+        !!$attr['opt'] => fn(): array => app\cfg('opt', $attr['opt']),
         default => fn(): array => [],
     };
 }
