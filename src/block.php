@@ -453,7 +453,7 @@ function login(array $block): string
             && ($account = app\login($data['username'], $data['password']))
         ) {
             session\regenerate();
-            session\set('account', $account['id']);
+            session\save('account', $account['id']);
             request\redirect();
             return '';
         }

@@ -29,7 +29,7 @@ function data_account(): array
         $data = entity\item('account');
         $data['priv'] = ['_guest_'];
         $data['admin'] = false;
-        session\set('account', null);
+        session\delete('account');
     }
 
     return $data;
@@ -155,7 +155,7 @@ function data_request(array $data): array
             $data['post'] = array_replace_recursive($data['post'], request\convert($data['file']));
         }
 
-        session\set('token', null);
+        session\delete('token');
     }
 
     return $data;

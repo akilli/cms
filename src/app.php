@@ -160,7 +160,7 @@ function token(): string
 {
     if (!$token = session\get('token')) {
         $token = str\uniq();
-        session\set('token', $token);
+        session\save('token', $token);
     }
 
     return $token;
@@ -183,7 +183,7 @@ function msg(string $msg = null, string ...$args): array
 {
     if (($data = &registry('msg')) === null) {
         $data = session\get('msg') ?: [];
-        session\set('msg', null);
+        session\delete('msg');
     }
 
     if ($msg === null) {

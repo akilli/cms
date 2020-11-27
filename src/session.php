@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace session;
 
 /**
- * Session data getter
+ * Returns value for key stored in session
  */
 function get(string $key): mixed
 {
@@ -14,17 +14,21 @@ function get(string $key): mixed
 }
 
 /**
- * Session data (un)setter
+ * Stores value for key in session
  */
-function set(string $key, mixed $val): void
+function save(string $key, mixed $val): void
 {
     init();
+    $_SESSION[$key] = $val;
+}
 
-    if ($val === null) {
-        unset($_SESSION[$key]);
-    } else {
-        $_SESSION[$key] = $val;
-    }
+/**
+ * Deletes key from session
+ */
+function delete(string $key): void
+{
+    init();
+    unset($_SESSION[$key]);
 }
 
 /**

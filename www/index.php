@@ -12,7 +12,7 @@ set_exception_handler(function (Throwable $e): void {
 });
 register_shutdown_function(function (): void {
     if ($msg = app\registry('msg')) {
-        session\set('msg', $msg);
+        session\save('msg', $msg);
     }
 });
 
