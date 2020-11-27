@@ -6,56 +6,6 @@ namespace contentfilter;
 use app;
 use arr;
 use entity;
-use layout;
-use str;
-
-/**
- * Replaces all DB placeholder tags, i.e. `<editor-block id="{entity_id}-{id}"></editor-block>`, with actual blocks
- */
-function block(string $html): string
-{
-    $pattern = '#<editor-block id="%s"(?:[^>]*)>\s*</editor-block>#s';
-
-    if (preg_match_all(sprintf($pattern, '([a-z_]+)-(\d+)'), $html, $match)) {
-        $data = [];
-
-        foreach ($match[1] as $key => $entityId) {
-            $data[$entityId][] = $match[2][$key];
-        }
-
-        foreach ($data as $entityId => $ids) {
-            foreach (entity\all($entityId, [['id', $ids]]) as $item) {
-                $html = preg_replace(
-                    sprintf($pattern, $entityId . '-' . $item['id']),
-                    layout\render(layout\db($item)),
-                    $html
-                );
-            }
-        }
-    }
-
-    return preg_replace('#<editor-block(?:[^>]*)>\s*</editor-block>#s', '', $html);
-}
-
-/**
- * Converts email addresses to HTML entity hex format
- */
-function email(string $html): string
-{
-    return preg_replace_callback(
-        '#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im',
-        fn(array $m): string => str\hex($m[0]),
-        $html
-    );
-}
-
-/**
- * Converts telephone numbers to HTML entity hex format
- */
-function tel(string $html): string
-{
-    return preg_replace_callback('#(?:tel:)\+\d+#i', fn(array $m): string => str\hex($m[0]), $html);
-}
 
 /**
  * Makes img-elements somehow responsive
@@ -126,22 +76,4 @@ function image(string $html, array $cfg = []): string
     };
 
     return preg_replace_callback($pattern, $call, $html);
-}
-
-/**
- * Replaces message placeholder, i.e. `<msg/>`, with actual message block
- */
-function msg(string $html): string
-{
-    $msg = '';
-
-    foreach (app\msg() as $item) {
-        $msg .= app\html('p', [], $item);
-    }
-
-    return str_replace(
-        app\html('msg'),
-        $msg ? app\html('section', ['class' => 'msg'], $msg) : '',
-        $html
-    );
 }
