@@ -1,5 +1,5 @@
 <?php
 return [
     'backend' => 'int',
-    'frontend' => 'frontend\int',
+    'frontend' => 'attr\int\frontend',
 ];

@@ -1,9 +1,9 @@
 <?php
 return [
     'backend' => 'int',
-    'frontend' => 'frontend\browser',
-    'filter' => 'frontend\int',
-    'validator' => 'validator\entity',
-    'viewer' => 'viewer\file',
+    'frontend' => 'attr\browser\frontend',
+    'filter' => 'attr\int\frontend',
+    'validator' => 'attr\entity\validator',
+    'viewer' => 'attr\file\viewer',
     'ref' => 'file',
 ];

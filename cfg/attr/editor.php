@@ -1,8 +1,8 @@
 <?php
 return [
     'backend' => 'text',
-    'frontend' => 'frontend\textarea',
-    'filter' => 'frontend\text',
-    'validator' => 'validator\editor',
-    'viewer' => 'viewer\editor',
+    'frontend' => 'attr\textarea\frontend',
+    'filter' => 'attr\text\frontend',
+    'validator' => 'attr\editor\validator',
+    'viewer' => 'attr\editor\viewer',
 ];

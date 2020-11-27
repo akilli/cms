@@ -76,10 +76,7 @@ return [
         ],
         'pos' => [
             'name' => 'Position',
-            'type' => 'text',
-            'viewer' => 'viewer\pos',
-            'auto' => true,
-            'max' => 255,
+            'type' => 'pos',
         ],
         'level' => [
             'name' => 'Level',

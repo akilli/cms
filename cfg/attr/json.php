@@ -1,7 +1,7 @@
 <?php
 return [
     'backend' => 'json',
-    'frontend' => 'frontend\json',
-    'filter' => 'frontend\text',
-    'viewer' => 'viewer\json',
+    'frontend' => 'attr\json\frontend',
+    'filter' => 'attr\text\frontend',
+    'viewer' => 'attr\json\viewer',
 ];

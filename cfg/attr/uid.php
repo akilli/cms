@@ -1,6 +1,6 @@
 <?php
 return [
     'backend' => 'varchar',
-    'frontend' => 'frontend\text',
-    'validator' => 'validator\uid',
+    'frontend' => 'attr\text\frontend',
+    'validator' => 'attr\uid\validator',
 ];

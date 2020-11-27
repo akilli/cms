@@ -1,8 +1,8 @@
 <?php
 return [
     'backend' => 'multitext',
-    'frontend' => 'frontend\checkbox',
-    'filter' => 'frontend\select',
-    'validator' => 'validator\opt',
-    'viewer' => 'viewer\opt',
+    'frontend' => 'attr\checkbox\frontend',
+    'filter' => 'attr\select\frontend',
+    'validator' => 'attr\opt\validator',
+    'viewer' => 'attr\opt\viewer',
 ];

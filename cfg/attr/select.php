@@ -1,7 +1,7 @@
 <?php
 return [
     'backend' => 'varchar',
-    'frontend' => 'frontend\select',
-    'validator' => 'validator\opt',
-    'viewer' => 'viewer\opt',
+    'frontend' => 'attr\select\frontend',
+    'validator' => 'attr\opt\validator',
+    'viewer' => 'attr\opt\viewer',
 ];

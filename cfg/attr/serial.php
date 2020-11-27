@@ -1,6 +1,6 @@
 <?php
 return [
     'backend' => 'serial',
-    'frontend' => 'frontend\int',
+    'frontend' => 'attr\int\frontend',
     'auto' => true,
 ];

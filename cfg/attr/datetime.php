@@ -1,8 +1,8 @@
 <?php
 return [
     'backend' => 'datetime',
-    'frontend' => 'frontend\datetime',
-    'filter' => 'frontend\date',
-    'validator' => 'validator\datetime',
-    'viewer' => 'viewer\datetime',
+    'frontend' => 'attr\datetime\frontend',
+    'filter' => 'attr\date\frontend',
+    'validator' => 'attr\datetime\validator',
+    'viewer' => 'attr\datetime\viewer',
 ];

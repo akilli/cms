@@ -1,7 +1,7 @@
 <?php
 return [
     'backend' => 'varchar',
-    'frontend' => 'frontend\password',
+    'frontend' => 'attr\password\frontend',
     'ignorable' => true,
     'autocomplete' => 'new-password',
 ];

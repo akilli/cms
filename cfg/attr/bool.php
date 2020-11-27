@@ -1,8 +1,8 @@
 <?php
 return [
     'backend' => 'bool',
-    'frontend' => 'frontend\bool',
-    'filter' => 'frontend\select',
-    'viewer' => 'viewer\opt',
-    'opt' => 'opt\bool',
+    'frontend' => 'attr\bool\frontend',
+    'filter' => 'attr\select\frontend',
+    'viewer' => 'attr\opt\viewer',
+    'opt' => 'attr\bool\opt',
 ];

@@ -1,7 +1,7 @@
 <?php
 return [
     'backend' => 'varchar',
-    'frontend' => 'frontend\email',
-    'validator' => 'validator\email',
-    'viewer' => 'viewer\email',
+    'frontend' => 'attr\email\frontend',
+    'validator' => 'attr\email\validator',
+    'viewer' => 'attr\email\viewer',
 ];

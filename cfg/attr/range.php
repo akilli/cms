@@ -1,5 +1,5 @@
 <?php
 return [
     'backend' => 'int',
-    'frontend' => 'frontend\range',
+    'frontend' => 'attr\range\frontend',
 ];

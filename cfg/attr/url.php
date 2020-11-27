@@ -1,7 +1,7 @@
 <?php
 return [
     'backend' => 'varchar',
-    'frontend' => 'frontend\url',
-    'validator' => 'validator\url',
-    'viewer' => 'viewer\url',
+    'frontend' => 'attr\url\frontend',
+    'validator' => 'attr\url\validator',
+    'viewer' => 'attr\url\viewer',
 ];

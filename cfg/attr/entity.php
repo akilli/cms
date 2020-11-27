@@ -1,8 +1,8 @@
 <?php
 return [
     'backend' => 'int',
-    'frontend' => 'frontend\select',
-    'validator' => 'validator\entity',
-    'viewer' => 'viewer\entity',
-    'opt' => 'opt\entity',
+    'frontend' => 'attr\select\frontend',
+    'validator' => 'attr\entity\validator',
+    'viewer' => 'attr\entity\viewer',
+    'opt' => 'attr\entity\opt',
 ];

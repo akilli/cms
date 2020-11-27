@@ -1,9 +1,9 @@
 <?php
 return [
     'backend' => 'varchar',
-    'frontend' => 'frontend\select',
-    'validator' => 'validator\opt',
-    'viewer' => 'viewer\opt',
-    'opt' => 'opt\entity_id',
+    'frontend' => 'attr\select\frontend',
+    'validator' => 'attr\opt\validator',
+    'viewer' => 'attr\opt\viewer',
+    'opt' => 'attr\entity_id\opt',
     'max' => 50,
 ];

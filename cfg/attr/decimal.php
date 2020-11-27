@@ -1,5 +1,5 @@
 <?php
 return [
     'backend' => 'decimal',
-    'frontend' => 'frontend\decimal',
+    'frontend' => 'attr\decimal\frontend',
 ];

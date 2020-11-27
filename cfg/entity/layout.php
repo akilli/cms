@@ -33,9 +33,8 @@ return [
         ],
         'parent_id' => [
             'name' => 'Parent Block',
-            'type' => 'select',
+            'type' => 'block',
             'required' => true,
-            'opt' => 'opt\block',
             'max' => 100,
         ],
         'sort' => [

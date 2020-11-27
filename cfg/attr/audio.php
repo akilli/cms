@@ -1,10 +1,10 @@
 <?php
 return [
     'backend' => 'varchar',
-    'frontend' => 'frontend\file',
-    'filter' => 'frontend\text',
-    'validator' => 'validator\file',
-    'viewer' => 'viewer\audio',
+    'frontend' => 'attr\file\frontend',
+    'filter' => 'attr\text\frontend',
+    'validator' => 'attr\file\validator',
+    'viewer' => 'attr\audio\viewer',
     'ignorable' => true,
     'uploadable' => true,
     'accept' => [

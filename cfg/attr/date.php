@@ -1,7 +1,7 @@
 <?php
 return [
     'backend' => 'date',
-    'frontend' => 'frontend\date',
-    'validator' => 'validator\date',
-    'viewer' => 'viewer\date',
+    'frontend' => 'attr\date\frontend',
+    'validator' => 'attr\date\validator',
+    'viewer' => 'attr\date\viewer',
 ];

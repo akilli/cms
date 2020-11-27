@@ -1,7 +1,7 @@
 <?php
 return [
     'backend' => 'text',
-    'frontend' => 'frontend\textarea',
-    'filter' => 'frontend\text',
-    'validator' => 'validator\text',
+    'frontend' => 'attr\textarea\frontend',
+    'filter' => 'attr\text\frontend',
+    'validator' => 'attr\text\validator',
 ];
