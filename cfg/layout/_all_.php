@@ -66,6 +66,7 @@ return [
         'parent_id' => 'main',
         'sort' => 100,
         'cfg' => [
+            'id' => true,
             'tag' => 'article',
         ],
     ],
@@ -74,6 +75,7 @@ return [
         'parent_id' => 'main',
         'sort' => 200,
         'cfg' => [
+            'id' => true,
             'tag' => 'aside',
         ],
     ],

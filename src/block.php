@@ -19,11 +19,7 @@ use DomainException;
 function container(array $block): string
 {
     if (($html = layout\children($block['id'])) && $block['cfg']['tag']) {
-        return app\html(
-            $block['cfg']['tag'],
-            in_array($block['cfg']['tag'], APP['container']) ? [] : ['id' => $block['id']],
-            $html
-        );
+        return app\html($block['cfg']['tag'], $block['cfg']['id'] ? ['id' => $block['id']] : [], $html);
     }
 
     return $html;

@@ -79,7 +79,6 @@ define('APP', [
             'level' => 0,
         ],
     ],
-    'container' => ['body', 'head', 'main'],
     'crlf' => "\r\n",
     'data' => [
         'app' => [
