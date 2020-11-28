@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace event\filter;
 
-use contentfilter\block;
-use contentfilter\email;
-use contentfilter\image;
-use contentfilter\msg;
-use contentfilter\tel;
+use filter\block;
+use filter\email;
+use filter\image;
+use filter\msg;
+use filter\tel;
 
 function postrender(array $data): array
 {

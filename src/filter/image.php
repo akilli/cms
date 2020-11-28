@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace contentfilter\image;
+namespace filter\image;
 
 use app;
 use arr;
@@ -21,7 +21,7 @@ function filter(string $html, array $cfg = []): string
 
     $data = entity\all('file', [['url', array_unique($match['url'])]], select: ['id', 'url', 'thumb'], index: 'url');
     $cache = function (string $file): int {
-        $width = &app\registry('contentfilter')['image'][$file];
+        $width = &app\registry('filter')['image'][$file];
         $width ??= getimagesize($file)[0] ?? 0;
         return $width;
     };

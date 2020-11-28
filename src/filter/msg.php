@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace contentfilter\msg;
+namespace filter\msg;
 
 use app;
 

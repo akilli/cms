@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace contentfilter\block;
+namespace filter\block;
 
 use entity;
 use layout;

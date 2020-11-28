@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace contentfilter\tel;
+namespace filter\tel;
 
 use str;
 
