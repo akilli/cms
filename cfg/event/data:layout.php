@@ -1,4 +1,4 @@
 <?php
 return [
-    'event\data\layout' => 100,
+    'event\layout\data' => 100,
 ];

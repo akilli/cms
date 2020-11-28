@@ -1,4 +1,4 @@
 <?php
 return [
-    'event\data\app' => 100,
+    'event\app\data' => 100,
 ];
