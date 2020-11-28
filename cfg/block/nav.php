@@ -1,6 +1,6 @@
 <?php
 return [
-    'call' => 'block\nav',
+    'call' => 'block\nav\render',
     'cfg' => [
         'data' => [],
         'tag' => 'nav',

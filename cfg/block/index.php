@@ -1,6 +1,6 @@
 <?php
 return [
-    'call' => 'block\index',
+    'call' => 'block\index\render',
     'tpl' => 'index.phtml',
     'cfg' => [
         'attr_id' => [],

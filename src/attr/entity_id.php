@@ -6,9 +6,6 @@ namespace attr\entity_id;
 use app;
 use arr;
 
-/**
- * Entity ID
- */
 function opt(array $data): array
 {
     if ($data['_entity']['parent_id']) {

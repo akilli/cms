@@ -1,6 +1,6 @@
 <?php
 return [
-    'call' => 'block\title',
+    'call' => 'block\title\render',
     'cfg' => [
         'text' => null,
     ],

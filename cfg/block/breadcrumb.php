@@ -1,4 +1,4 @@
 <?php
 return [
-    'call' => 'block\breadcrumb',
+    'call' => 'block\breadcrumb\render',
 ];

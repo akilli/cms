@@ -1,5 +1,5 @@
 <?php
 return [
-    'call' => 'block\meta',
+    'call' => 'block\meta\render',
     'tpl' => 'meta.phtml',
 ];

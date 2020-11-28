@@ -1,6 +1,6 @@
 <?php
 return [
-    'call' => 'block\filter',
+    'call' => 'block\filter\render',
     'tpl' => 'filter.phtml',
     'cfg' => [
         'attr' => [],

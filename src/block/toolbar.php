@@ -1,15 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\toolbar;
 
 use app;
 use layout;
 
-/**
- * Toolbar Navigation
- */
-function toolbar(array $block): string
+function render(array $block): string
 {
     $data = app\cfg('toolbar');
     $empty = [];

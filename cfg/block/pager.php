@@ -1,6 +1,6 @@
 <?php
 return [
-    'call' => 'block\pager',
+    'call' => 'block\pager\render',
     'tpl' => 'pager.phtml',
     'cfg' => [
         'cur' => null,

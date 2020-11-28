@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\index;
 
 use app;
 use arr;
@@ -10,10 +10,7 @@ use entity;
 use layout;
 use str;
 
-/**
- * Index
- */
-function index(array $block): string
+function render(array $block): string
 {
     $app = app\data('app');
     $request = app\data('request');

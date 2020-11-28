@@ -1,4 +1,4 @@
 <?php
 return [
-    'call' => 'block\msg',
+    'call' => 'block\msg\render',
 ];

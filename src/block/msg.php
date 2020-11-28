@@ -1,14 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\msg;
 
 use app;
 
-/**
- * Message
- */
-function msg(): string
+function render(): string
 {
     return app\html('msg');
 }

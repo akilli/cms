@@ -1,16 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\menu;
 
 use app;
 use entity;
 use layout;
 
-/**
- * Menu Navigation
- */
-function menu(array $block): string
+function login(array $block): string
 {
     if ($block['cfg']['url']) {
         $page = entity\one('page', [['entity_id', 'page_content'], ['url', $block['cfg']['url']]]);

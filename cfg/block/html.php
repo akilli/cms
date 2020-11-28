@@ -1,4 +1,4 @@
 <?php
 return [
-    'call' => 'block\html',
+    'call' => 'block\html\render',
 ];

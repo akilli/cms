@@ -1,15 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\breadcrumb;
 
 use app;
 use entity;
 
-/**
- * Breadcrumb Navigation
- */
-function breadcrumb(array $block): string
+function render(array $block): string
 {
     if (!$page = app\data('app', 'page')) {
         return '';

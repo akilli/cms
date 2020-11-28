@@ -1,17 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\view;
 
 use app;
 use arr;
 use attr;
 use entity;
 
-/**
- * View
- */
-function view(array $block): string
+function render(array $block): string
 {
     if (!$block['cfg']['attr_id'] || ($data = $block['cfg']['data']) && empty($data['_entity'])) {
         return '';

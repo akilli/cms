@@ -1,6 +1,6 @@
 <?php
 return [
-    'call' => 'block\menu',
+    'call' => 'block\menu\render',
     'cfg' => [
         'root' => false,
         'submenu' => false,

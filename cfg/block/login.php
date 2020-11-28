@@ -1,5 +1,5 @@
 <?php
 return [
-    'call' => 'block\login',
+    'call' => 'block\login\render',
     'tpl' => 'form.phtml',
 ];

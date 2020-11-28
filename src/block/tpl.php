@@ -1,14 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\tpl;
 
 use app;
 
-/**
- * Template
- */
-function tpl(array $block): string
+function render(array $block): string
 {
     return $block['tpl'] ? app\tpl($block['tpl']) : '';
 }

@@ -1,16 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\meta;
 
 use app;
 use entity;
 use str;
 
-/**
- * Meta
- */
-function meta(array $block): string
+function render(array $block): string
 {
     $app = app\data('app');
     $desc = $app['page']['meta_description'] ?? null;

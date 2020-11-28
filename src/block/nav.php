@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\nav;
 
 use app;
 use arr;
@@ -9,11 +9,9 @@ use layout;
 use DomainException;
 
 /**
- * Navigation
- *
  * @throws DomainException
  */
-function nav(array $block): string
+function render(array $block): string
 {
     if (!$block['cfg']['data']) {
         return '';

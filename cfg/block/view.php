@@ -1,6 +1,6 @@
 <?php
 return [
-    'call' => 'block\view',
+    'call' => 'block\view\render',
     'cfg' => [
         'attr_id' => [],
         'data' => [],

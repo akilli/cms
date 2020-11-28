@@ -1,4 +1,4 @@
 <?php
 return [
-    'call' => 'block\tpl',
+    'call' => 'block\tpl\render',
 ];

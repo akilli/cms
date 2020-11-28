@@ -1,6 +1,6 @@
 <?php
 return [
-    'call' => 'block\profile',
+    'call' => 'block\profile\render',
     'tpl' => 'form.phtml',
     'cfg' => [
         'attr_id' => [],

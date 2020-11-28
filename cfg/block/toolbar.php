@@ -1,4 +1,4 @@
 <?php
 return [
-    'call' => 'block\toolbar',
+    'call' => 'block\toolbar\render',
 ];

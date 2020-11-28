@@ -1,14 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\filter;
 
 use app;
 
-/**
- * Filter
- */
-function filter(array $block): string
+function render(array $block): string
 {
     return $block['cfg']['attr'] || $block['cfg']['search'] ? app\tpl($block['tpl'], $block['cfg']) : '';
 }

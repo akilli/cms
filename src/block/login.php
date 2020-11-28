@@ -1,17 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\login;
 
 use app;
 use arr;
 use request;
 use session;
 
-/**
- * Login Form
- */
-function login(array $block): string
+function render(array $block): string
 {
     if ($data = app\data('request', 'post')) {
         if (!empty($data['username'])

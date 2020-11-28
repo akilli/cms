@@ -1,15 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\db;
 
 use entity;
 use layout;
 
-/**
- * Database
- */
-function db(array $block): string
+function render(array $block): string
 {
     if ($block['cfg']['entity_id']
         && $block['cfg']['id']

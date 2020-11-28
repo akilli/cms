@@ -1,17 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\edit;
 
 use app;
 use arr;
 use entity;
 use request;
 
-/**
- * Edit Form
- */
-function edit(array $block): string
+function render(array $block): string
 {
     $app = app\data('app');
     $old = null;

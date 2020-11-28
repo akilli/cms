@@ -1,6 +1,6 @@
 <?php
 return [
-    'call' => 'block\container',
+    'call' => 'block\container\render',
     'cfg' => [
         'id' => false,
         'tag' => null,

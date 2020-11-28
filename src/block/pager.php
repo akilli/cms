@@ -1,14 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\pager;
 
 use app;
 
-/**
- * Pager
- */
-function pager(array $block): string
+function render(array $block): string
 {
     if ($block['cfg']['cur'] < 1 || $block['cfg']['limit'] < 0 || $block['cfg']['size'] <= 0) {
         return '';

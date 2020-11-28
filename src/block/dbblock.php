@@ -1,16 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\dbblock;
 
 use app;
 use arr;
 use attr;
 
-/**
- * Database Block
- */
-function dbblock(array $block): string
+function render(array $block): string
 {
     $data = $block['cfg']['data'];
 

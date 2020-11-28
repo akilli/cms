@@ -1,15 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\title;
 
 use app;
 use str;
 
-/**
- * Title
- */
-function title(array $block): string
+function render(array $block): string
 {
     $app = app\data('app');
     $text = match (true) {

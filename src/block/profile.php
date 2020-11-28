@@ -1,17 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\profile;
 
 use app;
 use arr;
 use entity;
 use request;
 
-/**
- * Profile Form
- */
-function profile(array $block): string
+function render(array $block): string
 {
     $account = app\data('account');
 

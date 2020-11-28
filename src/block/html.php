@@ -1,15 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace block;
+namespace block\html;
 
 use app;
 use layout;
 
-/**
- * HTML
- */
-function html(): string
+function render(): string
 {
     $app = app\data('app');
     $a = [
