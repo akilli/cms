@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace contentfilter;
+namespace contentfilter\msg;
 
 use app;
 
 /**
  * Replaces message placeholder, i.e. `<msg/>`, with actual message block
  */
-function msg(string $html): string
+function filter(string $html): string
 {
     $msg = '';
 

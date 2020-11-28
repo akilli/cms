@@ -3,20 +3,24 @@ declare(strict_types=1);
 
 namespace event;
 
-use contentfilter;
+use contentfilter\block;
+use contentfilter\email;
+use contentfilter\image;
+use contentfilter\msg;
+use contentfilter\tel;
 
 /**
  * Layout postrender
  */
 function layout_postrender(array $data): array
 {
-    $data['html'] = contentfilter\block($data['html']);
-    $data['html'] = contentfilter\email($data['html']);
-    $data['html'] = contentfilter\tel($data['html']);
-    $data['html'] = contentfilter\msg($data['html']);
+    $data['html'] = block\filter($data['html']);
+    $data['html'] = email\filter($data['html']);
+    $data['html'] = tel\filter($data['html']);
+    $data['html'] = msg\filter($data['html']);
 
     if ($data['image']) {
-        $data['html'] = contentfilter\image($data['html'], $data['image']);
+        $data['html'] = image\filter($data['html'], $data['image']);
     }
 
     return $data;

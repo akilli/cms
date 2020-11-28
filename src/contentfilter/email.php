@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace contentfilter;
+namespace contentfilter\email;
 
 use str;
 
 /**
  * Converts email addresses to HTML entity hex format
  */
-function email(string $html): string
+function filter(string $html): string
 {
     return preg_replace_callback(
         '#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im',

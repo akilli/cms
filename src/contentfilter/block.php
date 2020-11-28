@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace contentfilter;
+namespace contentfilter\block;
 
 use entity;
 use layout;
@@ -9,7 +9,7 @@ use layout;
 /**
  * Replaces all DB placeholder tags, i.e. `<editor-block id="{entity_id}-{id}"></editor-block>`, with actual blocks
  */
-function block(string $html): string
+function filter(string $html): string
 {
     $pattern = '#<editor-block id="%s"(?:[^>]*)>\s*</editor-block>#s';
 

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace contentfilter;
+namespace contentfilter\image;
 
 use app;
 use arr;
@@ -10,7 +10,7 @@ use entity;
 /**
  * Makes img-elements somehow responsive
  */
-function image(string $html, array $cfg = []): string
+function filter(string $html, array $cfg = []): string
 {
     $pattern = '#(?P<figure><figure(?:[^>]*)>)\s*(?P<a><a(?:[^>]*)>)?\s*(?P<img>(?P<pre><img(?:[^>]*) src="(?P<url>'
         . app\file() . '(?P<name>(?:[a-z0-9_\-]+)\.(?:' . implode('|', APP['image.ext']) . ')))")(?P<post>(?:[^>]*)>))#';
