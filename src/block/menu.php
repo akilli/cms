@@ -7,7 +7,7 @@ use app;
 use entity;
 use layout;
 
-function login(array $block): string
+function render(array $block): string
 {
     if ($block['cfg']['url']) {
         $page = entity\one('page', [['entity_id', 'page_content'], ['url', $block['cfg']['url']]]);
