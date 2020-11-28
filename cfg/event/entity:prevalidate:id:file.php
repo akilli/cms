@@ -1,4 +1,4 @@
 <?php
 return [
-    'event\entity_prevalidate_file' => 100,
+    'event\file\prevalidate' => 100,
 ];

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace event;
+namespace event\data;
 
 use app;
 use arr;
@@ -11,10 +11,7 @@ use request;
 use session;
 use str;
 
-/**
- * Account data
- */
-function data_account(): array
+function account(): array
 {
     $id = (int) session\get('account');
 
@@ -32,10 +29,7 @@ function data_account(): array
     return $data;
 }
 
-/**
- * Application data
- */
-function data_app(array $data): array
+function app(array $data): array
 {
     $data = arr\replace(APP['data']['app'], $data);
     $request = app\data('request');
@@ -72,10 +66,7 @@ function data_app(array $data): array
     return $data;
 }
 
-/**
- * Layout data
- */
-function data_layout(array $data): array
+function layout(array $data): array
 {
     $cfg = app\cfg('layout');
     $app = app\data('app');
@@ -129,10 +120,7 @@ function data_layout(array $data): array
     return array_map('layout\cfg', $data);
 }
 
-/**
- * Request data
- */
-function data_request(array $data): array
+function request(array $data): array
 {
     $data = arr\replace(APP['data']['request'], $data);
     $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];

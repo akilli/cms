@@ -1,5 +1,5 @@
 <?php
 return [
-    'event\entity_postvalidate_page_menu' => 100,
-    'event\entity_postvalidate_page_url' => 200,
+    'event\page\postvalidate_menu' => 100,
+    'event\page\postvalidate_url' => 200,
 ];

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace event;
+namespace event\layout;
 
 use contentfilter\block;
 use contentfilter\email;
@@ -9,10 +9,7 @@ use contentfilter\image;
 use contentfilter\msg;
 use contentfilter\tel;
 
-/**
- * Layout postrender
- */
-function layout_postrender(array $data): array
+function postrender(array $data): array
 {
     $data['html'] = block\filter($data['html']);
     $data['html'] = email\filter($data['html']);

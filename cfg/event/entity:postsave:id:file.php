@@ -1,4 +1,4 @@
 <?php
 return [
-    'event\entity_postsave_file' => 100,
+    'event\file\postsave' => 100,
 ];

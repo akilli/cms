@@ -1,4 +1,4 @@
 <?php
 return [
-    'event\response' => 100,
+    'event\response\all' => 100,
 ];

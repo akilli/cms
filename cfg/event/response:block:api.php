@@ -1,4 +1,4 @@
 <?php
 return [
-    'event\response_block_api' => 100,
+    'event\response\block_api' => 100,
 ];

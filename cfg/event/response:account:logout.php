@@ -1,4 +1,4 @@
 <?php
 return [
-    'event\response_account_logout' => 100,
+    'event\response\account_logout' => 100,
 ];

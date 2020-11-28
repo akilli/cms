@@ -1,17 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace event;
+namespace event\response;
 
 use app;
 use entity;
 use layout;
 use session;
 
-/**
- * Response
- */
-function response(array $data): array
+function all(array $data): array
 {
     if (!$data['body'] && !$data['redirect']) {
         $data['body'] = layout\block('html');
@@ -20,10 +17,7 @@ function response(array $data): array
     return $data;
 }
 
-/**
- * Delete response
- */
-function response_delete(array $data): array
+function delete(array $data): array
 {
     $app = app\data('app');
     entity\delete($app['entity_id'], [['id', $app['id']]]);
@@ -33,10 +27,7 @@ function response_delete(array $data): array
     return $data;
 }
 
-/**
- * Account logout response
- */
-function response_account_logout(array $data): array
+function account_logout(array $data): array
 {
     session\regenerate();
     $data['redirect'] = app\url();
@@ -45,10 +36,7 @@ function response_account_logout(array $data): array
     return $data;
 }
 
-/**
- * Block API response
- */
-function response_block_api(array $data): array
+function block_api(array $data): array
 {
     $data['body'] = ($id = app\data('app', 'id')) ? layout\db_render($id) : '';
     $data['_stop'] = true;

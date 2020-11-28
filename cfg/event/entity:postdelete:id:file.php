@@ -1,4 +1,4 @@
 <?php
 return [
-    'event\entity_postdelete_file' => 100,
+    'event\file\postdelete' => 100,
 ];

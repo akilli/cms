@@ -1,4 +1,4 @@
 <?php
 return [
-    'event\data_request' => 100,
+    'event\data\request' => 100,
 ];

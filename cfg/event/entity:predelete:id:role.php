@@ -1,4 +1,4 @@
 <?php
 return [
-    'event\entity_predelete_role' => 100,
+    'event\role\predelete' => 100,
 ];
