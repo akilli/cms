@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace attr\pos;
+namespace attr\position;
 
 function viewer(string $val): string
 {

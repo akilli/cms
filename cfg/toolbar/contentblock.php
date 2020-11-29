@@ -1,8 +1,8 @@
 <?php
 return [
     'name' => 'Content Blocks',
-    'priv' => 'block_content:admin',
-    'url' => '/block_content/admin',
+    'priv' => 'contentblock:admin',
+    'url' => '/contentblock/admin',
     'parent_id' => 'block',
     'sort' => 100,
 ];

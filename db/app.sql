@@ -68,7 +68,7 @@ CREATE TABLE page (
     menu boolean NOT NULL DEFAULT FALSE,
     parent_id int DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     sort int NOT NULL DEFAULT 0,
-    pos varchar(255) NOT NULL DEFAULT '',
+    position varchar(255) NOT NULL DEFAULT '',
     level int NOT NULL DEFAULT 0,
     path int[] NOT NULL DEFAULT '{}',
     account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
@@ -87,7 +87,7 @@ CREATE INDEX ON page (disabled);
 CREATE INDEX ON page (menu);
 CREATE INDEX ON page (parent_id);
 CREATE INDEX ON page (sort);
-CREATE INDEX ON page (pos);
+CREATE INDEX ON page (position);
 CREATE INDEX ON page (level);
 CREATE INDEX ON page USING GIN (path);
 CREATE INDEX ON page (account_id);
@@ -205,207 +205,34 @@ WHERE
 WITH LOCAL CHECK OPTION;
 
 --
--- Page Content
+-- Content Page
 --
 
-CREATE VIEW page_content AS
+CREATE VIEW contentpage AS
 SELECT
     *
 FROM
     page
 WHERE
-    entity_id = 'page_content'
+    entity_id = 'contentpage'
 WITH LOCAL CHECK OPTION;
 
 --
--- Block Content
+-- Content Block
 --
 
-CREATE VIEW block_content AS
+CREATE VIEW contentblock AS
 SELECT
     *
 FROM
     block
 WHERE
-    entity_id = 'block_content'
+    entity_id = 'contentblock'
 WITH LOCAL CHECK OPTION;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Trigger Function
 -- ---------------------------------------------------------------------------------------------------------------------
-
---
--- Generic trigger function for not auto-updatable views
---
--- You could use this generic trigger function for entities that extend a base entity and define additional columns in
--- an extension table. The resulting views are usually not auto-updatable. Anyhow you should prefer dedicated trigger
--- functions over this generic one. It's just too much voodoo going on here.
---
--- Naming conventions
--- -------------------------------------------------------------------
--- base table/entity name | {base}            | p.e. block
--- view/entity name       | {base}_{name}     | p.e. block_example
--- extension table name   | {base}_{name}_ext | p.e. block_example_ext
---
--- Usage
--- -----
--- CREATE VIEW block_example AS
--- SELECT
---     *
--- FROM
---     block
--- LEFT JOIN
---     block_example_ext
---         USING (id)
--- WHERE
---     entity_id = 'block_example';
---
--- CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON block_example FOR EACH ROW EXECUTE PROCEDURE entity_save();
--- CREATE TRIGGER entity_delete INSTEAD OF DELETE ON block_example FOR EACH ROW EXECUTE PROCEDURE entity_delete();
---
-
-CREATE FUNCTION entity_save() RETURNS trigger AS $$
-    DECLARE
-        _attr RECORD;
-        _base text;
-        _cnt int;
-        _col text := '';
-        _ext text;
-        _new jsonb;
-        _newVal text;
-        _old jsonb;
-        _oldVal text;
-        _set text := '';
-        _sql text := '';
-        _val text := '';
-    BEGIN
-        _base := substring(TG_TABLE_NAME FROM '^([^_]+)_');
-        _ext := TG_TABLE_NAME || '_ext';
-        NEW.entity_id := TG_TABLE_NAME;
-        _new := to_jsonb(NEW);
-
-        IF (TG_OP = 'UPDATE') THEN
-            _old := to_jsonb(OLD);
-        END IF;
-
-        -- Base table
-        FOR _attr IN
-            SELECT
-                column_name AS name,
-                lower(data_type) AS type
-            FROM
-                information_schema.columns
-            WHERE
-                table_schema = TG_TABLE_SCHEMA
-                AND table_name = _base
-                AND column_name != 'id'
-            ORDER BY
-                ordinal_position ASC
-        LOOP
-            _newVal := jsonb_extract_path_text(_new, _attr.name);
-
-            IF (TG_OP = 'UPDATE') THEN
-                _oldVal := jsonb_extract_path_text(_old, _attr.name);
-            ELSE
-                _oldVal := NULL;
-            END IF;
-
-            IF (_newVal IS NULL AND _oldVal IS NULL) THEN
-                CONTINUE;
-            ELSIF (_col != '') THEN
-                _col := _col || ', ';
-                _val := _val || ', ';
-                _set := _set || ', ';
-            END IF;
-
-            IF (_attr.type = 'array' AND _newVal IS NOT NULL) THEN
-                _newVal := regexp_replace(regexp_replace(_newVal, '^\[', '{'), '\]$', '}');
-            END IF;
-
-            _col := _col || format('%I', _attr.name);
-            _val := _val || format('%L', _newVal);
-            _set := _set || format('%I = %L', _attr.name, _newVal);
-        END LOOP;
-
-        IF (TG_OP = 'UPDATE') THEN
-            _sql := format('UPDATE %I SET id = %L, %s WHERE id = %L', _base, NEW.id, _set, OLD.id);
-        ELSE
-            _sql := format('INSERT INTO %I (%s) VALUES (%s)', _base, _col, _val);
-        END IF;
-
-        -- Extension table
-        _col := '';
-        _val := '';
-        _set := '';
-
-        FOR _attr IN
-            SELECT
-                column_name AS name,
-                lower(data_type) AS type
-            FROM
-                information_schema.columns
-            WHERE
-                table_schema = TG_TABLE_SCHEMA
-                AND table_name = _ext
-                AND column_name != 'id'
-            ORDER BY
-                ordinal_position ASC
-        LOOP
-            _newVal := jsonb_extract_path_text(_new, _attr.name);
-
-            IF (TG_OP = 'UPDATE') THEN
-                _oldVal := jsonb_extract_path_text(_old, _attr.name);
-            ELSE
-                _oldVal := NULL;
-            END IF;
-
-            IF (_newVal IS NULL AND _oldVal IS NULL) THEN
-                CONTINUE;
-            ELSIF (_col != '') THEN
-                _col := _col || ', ';
-                _val := _val || ', ';
-                _set := _set || ', ';
-            END IF;
-
-            IF (_attr.type = 'array' AND _newVal IS NOT NULL) THEN
-                _newVal := regexp_replace(regexp_replace(_newVal, '^\[', '{'), '\]$', '}');
-            END IF;
-
-            _col := _col || format('%I', _attr.name);
-            _val := _val || format('%L', _newVal);
-            _set := _set || format('%I = %L', _attr.name, _newVal);
-        END LOOP;
-
-        IF (_col != '' AND _val != '' AND _set != '') THEN
-            _sql := 'WITH t AS (' || _sql || ' RETURNING id)';
-
-            IF (TG_OP = 'UPDATE') THEN
-                EXECUTE format('SELECT count(*) FROM %I WHERE id = %L', _ext, OLD.id) INTO _cnt;
-            ELSE
-                _cnt := 0;
-            END IF;
-
-            IF (TG_OP = 'UPDATE' AND _cnt > 0) THEN
-                _sql := _sql || format(' UPDATE %I e SET %s FROM t WHERE e.id = t.id', _ext, _set);
-            ELSE
-                _sql := _sql || format(' INSERT INTO %s (id, %s) SELECT id, %s FROM t', _ext, _col, _val);
-            END IF;
-        ELSIF (_col != '' OR _val != '' OR _set != '') THEN
-            RAISE EXCEPTION 'An error occurred with values _col(%), _val(%) and _set(%)', _col, _val, _set;
-        END IF;
-
-        EXECUTE _sql;
-
-        RETURN NEW;
-    END;
-$$ LANGUAGE plpgsql;
-
-CREATE FUNCTION entity_delete() RETURNS trigger AS $$
-    BEGIN
-        EXECUTE format('DELETE FROM %I WHERE id = %s', substring(TG_TABLE_NAME FROM '^([^_]+)_'), OLD.id);
-        RETURN OLD;
-    END;
-$$ LANGUAGE plpgsql;
 
 --
 -- File
@@ -469,7 +296,7 @@ $$ LANGUAGE plpgsql;
 CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
     DECLARE
         _ext text := '.html';
-        _pad int := 5;
+        _pad int := 10;
     BEGIN
         -- No relevant changes
         IF (TG_OP = 'UPDATE' AND NEW.slug = OLD.slug AND NEW.menu = OLD.menu AND coalesce(NEW.parent_id, 0) = coalesce(OLD.parent_id, 0) AND NEW.sort = OLD.sort) THEN
@@ -505,7 +332,15 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
         s AS (
             SELECT
                 p.id,
-                (SELECT count(*) FROM page WHERE coalesce(parent_id, 0) = coalesce(p.parent_id, 0) AND (sort < p.sort OR sort = p.sort AND id < p.id)) + 1 AS sort
+                (
+                    SELECT
+                       count(*)
+                    FROM
+                       page
+                    WHERE
+                       coalesce(parent_id, 0) = coalesce(p.parent_id, 0)
+                       AND (sort < p.sort OR sort = p.sort AND id < p.id)
+                ) + 1 AS sort
             FROM
                 page p
         ),
@@ -516,7 +351,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 CASE WHEN p.slug = 'index' THEN '/' ELSE '/' || p.slug || _ext END AS url,
                 p.menu,
                 s.sort,
-                LPAD(cast(s.sort AS text), _pad, '0') AS pos,
+                LPAD(cast(s.sort AS text), _pad, '0') AS position,
                 0 AS level,
                 '{}'::int[] || p.id AS path
             FROM
@@ -533,7 +368,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 t.urlkey || '/' || p.slug || _ext AS url,
                 t.menu AND p.menu AS menu,
                 s.sort,
-                t.pos || '.' || lpad(cast(s.sort AS text), _pad, '0') AS pos,
+                t.position || '.' || lpad(cast(s.sort AS text), _pad, '0') AS position,
                 t.level + 1 AS level,
                 t.path || p.id AS path
             FROM
@@ -551,14 +386,14 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
             url = t.url,
             menu = t.menu,
             sort = t.sort,
-            pos = t.pos,
+            position = t.position,
             level = t.level,
             path = t.path
         FROM
             t
         WHERE
             p.id = t.id
-            AND (p.url != t.url OR p.menu != t.menu OR p.sort != t.sort OR p.pos != t.pos OR p.level != t.level OR p.path != t.path);
+            AND (p.url != t.url OR p.menu != t.menu OR p.sort != t.sort OR p.position != t.position OR p.level != t.level OR p.path != t.path);
 
         RETURN NULL;
     END;

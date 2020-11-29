@@ -29,7 +29,7 @@ return [
             'name' => 'Page',
             'type' => 'entity',
             'required' => true,
-            'ref' => 'page_content',
+            'ref' => 'page',
         ],
         'parent_id' => [
             'name' => 'Parent Block',

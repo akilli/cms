@@ -13,8 +13,7 @@ function render(array $block): string
     }
 
     $html = '';
-    $crit = [['entity_id', 'page_content'], ['id', $page['path']]];
-    $all = entity\all('page', $crit, select: ['id', 'name', 'url', 'disabled'], order: ['level' => 'asc']);
+    $all = entity\all('page', [['id', $page['path']]], select: ['id', 'name', 'url', 'disabled'], order: ['level' => 'asc']);
 
     foreach ($all as $item) {
         $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];

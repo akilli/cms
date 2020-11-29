@@ -3,7 +3,7 @@ return [
     'backend' => 'varchar',
     'frontend' => 'attr\text\frontend',
     'validator' => 'attr\text\validator',
-    'viewer' => 'attr\pos\viewer',
+    'viewer' => 'attr\position\viewer',
     'auto' => true,
     'max' => 255,
 ];

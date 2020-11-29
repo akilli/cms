@@ -75,7 +75,7 @@ define('APP', [
             'active' => true,
             'parent_id' => null,
             'sort' => 0,
-            'pos' => null,
+            'position' => null,
             'level' => 0,
         ],
     ],

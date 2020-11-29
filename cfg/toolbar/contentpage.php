@@ -1,8 +1,8 @@
 <?php
 return [
     'name' => 'Content Pages',
-    'priv' => 'page_content:admin',
-    'url' => '/page_content/admin',
+    'priv' => 'contentpage:admin',
+    'url' => '/contentpage/admin',
     'parent_id' => 'page',
     'sort' => 100,
 ];

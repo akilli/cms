@@ -72,15 +72,15 @@ return [
             'name' => 'Parent Page',
             'type' => 'entity',
             'nullable' => true,
-            'ref' => 'page_content',
+            'ref' => 'page',
         ],
         'sort' => [
             'name' => 'Sort',
             'type' => 'int',
         ],
-        'pos' => [
+        'position' => [
             'name' => 'Position',
-            'type' => 'pos',
+            'type' => 'position',
         ],
         'level' => [
             'name' => 'Level',

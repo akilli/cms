@@ -10,7 +10,7 @@ use layout;
 function render(array $block): string
 {
     if ($block['cfg']['url']) {
-        $page = entity\one('page', [['entity_id', 'page_content'], ['url', $block['cfg']['url']]]);
+        $page = entity\one('page', [['url', $block['cfg']['url']]]);
     } else {
         $page = app\data('app', 'page');
     }
@@ -19,15 +19,14 @@ function render(array $block): string
         return '';
     }
 
-    $rootCrit = [['entity_id', 'page_content']];
-    $rootCrit[] = $block['cfg']['submenu'] ? ['id', $page['path'][1]] : ['url', '/'];
-    $select = ['id', 'name', 'url', 'disabled', 'pos', 'level'];
+    $rootCrit = $block['cfg']['submenu'] ? [['id', $page['path'][1]]] : [['url', '/']];
+    $select = ['id', 'name', 'url', 'disabled', 'position', 'level'];
 
     if (!$root = entity\one('page', $rootCrit, select: $select)) {
         return '';
     }
 
-    $crit = [['entity_id', 'page_content'], ['pos', $root['pos'] . '.', APP['op']['^']]];
+    $crit = [['position', $root['position'] . '.', APP['op']['^']]];
 
     if ($block['cfg']['submenu']) {
         $parent = $page['path'];
@@ -37,7 +36,7 @@ function render(array $block): string
         $crit[] = ['menu', true];
     }
 
-    $block['cfg']['data'] = entity\all('page', $crit, select: $select, order: ['pos' => 'asc']);
+    $block['cfg']['data'] = entity\all('page', $crit, select: $select, order: ['position' => 'asc']);
     $block['cfg']['title'] = null;
 
     if ($block['cfg']['root'] && $block['cfg']['submenu']) {
