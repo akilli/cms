@@ -34,9 +34,9 @@ use attr;
             $entityId = $entity && $entity['parent_id'] === $data['_entity']['id'] ? $entity['id'] : $data['_entity']['id'];
             $id = ($entity && $entity['parent_id'] === 'block' ? $entity['id'] . '-' : '') . $data['id'];
             $src = $entity && $entity['parent_id'] === 'file' ? $data['url'] : null;
-            preg_match('#^file_(audio|iframe|image|video)$#', $entityId, $match);
+            $type = in_array($entityId, ['audio', 'iframe', 'image', 'video']) ? $entityId : null;
             ?>
-        <article data-id="<?=$id;?>" title="<?=i18n('Select item');?>"<?php if ($src):?> data-src="<?=$src;?>"<?php endif;?><?php if ($match):?> data-type="<?=$match[1];?>"<?php endif;?>>
+        <article data-id="<?=$id;?>" title="<?=i18n('Select item');?>"<?php if ($src):?> data-src="<?=$src;?>"<?php endif;?><?php if ($type):?> data-type="<?=$type;?>"<?php endif;?>>
             <?php foreach ($var('attr') as $attr):?>
             <?=attr\viewer($data, $attr, ['empty' => true, 'h3' => true, 'label' => true, 'wrap' => true]);?>
             <?php endforeach;?>

@@ -140,68 +140,68 @@ CREATE INDEX ON layout (sort);
 -- ---------------------------------------------------------------------------------------------------------------------
 
 --
--- File Audio
+-- Audio
 --
 
-CREATE VIEW file_audio AS
+CREATE VIEW audio AS
 SELECT
     *
 FROM
     file
 WHERE
-    entity_id = 'file_audio'
+    entity_id = 'audio'
 WITH LOCAL CHECK OPTION;
 
 --
--- File Doc
+-- Document
 --
 
-CREATE VIEW file_doc AS
+CREATE VIEW document AS
 SELECT
     *
 FROM
     file
 WHERE
-    entity_id = 'file_doc'
+    entity_id = 'document'
 WITH LOCAL CHECK OPTION;
 
 --
--- File Iframe
+-- Iframe
 --
 
-CREATE VIEW file_iframe AS
+CREATE VIEW iframe AS
 SELECT
     *
 FROM
     file
 WHERE
-    entity_id = 'file_iframe'
+    entity_id = 'iframe'
 WITH LOCAL CHECK OPTION;
 
 --
 -- File Image
 --
 
-CREATE VIEW file_image AS
+CREATE VIEW image AS
 SELECT
     *
 FROM
     file
 WHERE
-    entity_id = 'file_image'
+    entity_id = 'image'
 WITH LOCAL CHECK OPTION;
 
 --
 -- File Video
 --
 
-CREATE VIEW file_video AS
+CREATE VIEW video AS
 SELECT
     *
 FROM
     file
 WHERE
-    entity_id = 'file_video'
+    entity_id = 'video'
 WITH LOCAL CHECK OPTION;
 
 --

@@ -1,8 +1,8 @@
 <?php
 return [
     'name' => 'Documents',
-    'priv' => 'file_doc:admin',
-    'url' => '/file_doc/admin',
+    'priv' => 'document:admin',
+    'url' => '/document/admin',
     'parent_id' => 'file',
     'sort' => 200,
 ];

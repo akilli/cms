@@ -10,7 +10,7 @@ use DomainException;
 
 function prevalidate(array $data): array
 {
-    if ($data['_entity']['id'] === 'file_iframe') {
+    if ($data['_entity']['id'] === 'iframe') {
         $data['mime'] = 'text/html';
 
         if ($data['_old'] && !empty($data['url']) && $data['url'] !== $data['_old']['url']) {

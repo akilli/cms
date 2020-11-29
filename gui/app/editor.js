@@ -8,7 +8,7 @@ import lang from './lang.js';
  */
 const config = {
     audio: {
-        browser: '/file_audio/admin',
+        browser: '/audio/admin',
     },
     base: {
         lang: lang,
@@ -19,13 +19,13 @@ const config = {
         css: '/gui/base.css,/gui/all.css',
     },
     iframe: {
-        browser: '/file_iframe/admin',
+        browser: '/iframe/admin',
     },
     image: {
-        browser: '/file_image/admin',
+        browser: '/image/admin',
     },
     video: {
-        browser: '/file_video/admin',
+        browser: '/video/admin',
     },
 };
 
