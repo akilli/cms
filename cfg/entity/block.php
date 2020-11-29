@@ -31,7 +31,7 @@ return [
             'nullable' => true,
             'max' => 255,
         ],
-        'file' => [
+        'file_id' => [
             'name' => 'File',
             'type' => 'entity_file',
             'nullable' => true,
@@ -39,6 +39,7 @@ return [
         'content' => [
             'name' => 'Content',
             'type' => 'editor',
+            'nullable' => true,
         ],
     ],
 ];

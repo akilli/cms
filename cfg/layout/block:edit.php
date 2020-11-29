@@ -2,7 +2,7 @@
 return [
     'form' => [
         'cfg' => [
-            'attr_id' => ['name', 'title', 'link', 'file', 'content'],
+            'attr_id' => ['name', 'title', 'link', 'file_id', 'content'],
         ],
     ],
 ];

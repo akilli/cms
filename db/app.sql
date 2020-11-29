@@ -58,10 +58,10 @@ CREATE TABLE page (
     name varchar(255) NOT NULL,
     entity_id varchar(50) NOT NULL,
     title varchar(255) DEFAULT NULL,
-    content text NOT NULL DEFAULT '',
-    aside text NOT NULL DEFAULT '',
-    meta_title varchar(80) NOT NULL DEFAULT '',
-    meta_description varchar(300) NOT NULL DEFAULT '',
+    content text DEFAULT NULL,
+    aside text DEFAULT NULL,
+    meta_title varchar(80) DEFAULT NULL,
+    meta_description varchar(300) DEFAULT NULL,
     slug varchar(75) NOT NULL,
     url varchar(400) UNIQUE DEFAULT NULL,
     disabled boolean NOT NULL DEFAULT FALSE,
@@ -103,15 +103,15 @@ CREATE TABLE block (
     entity_id varchar(50) NOT NULL,
     title varchar(255) DEFAULT NULL,
     link varchar(255) DEFAULT NULL,
-    file int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
-    content text NOT NULL DEFAULT ''
+    file_id int DEFAULT NULL REFERENCES file ON DELETE SET NULL ON UPDATE CASCADE,
+    content text DEFAULT NULL
 );
 
 CREATE INDEX ON block (name);
 CREATE INDEX ON block (entity_id);
 CREATE INDEX ON block (title);
 CREATE INDEX ON block (link);
-CREATE INDEX ON block (file);
+CREATE INDEX ON block (file_id);
 
 --
 -- Layout

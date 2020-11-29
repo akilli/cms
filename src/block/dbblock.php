@@ -18,7 +18,7 @@ function render(array $block): string
     $html = '';
 
     foreach ($attrs as $attr) {
-        $cfg = ['wrap' => true] + (in_array($attr['id'], ['file', 'title']) ? ['link' => $data['link']] : []);
+        $cfg = ['wrap' => true] + (in_array($attr['id'], ['file_id', 'title']) ? ['link' => $data['link']] : []);
         $html .= attr\viewer($data, $attr, $cfg);
     }
 

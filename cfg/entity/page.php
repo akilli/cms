@@ -28,19 +28,23 @@ return [
         'content' => [
             'name' => 'Main Content',
             'type' => 'editor',
+            'nullable' => true,
         ],
         'aside' => [
             'name' => 'Additional Information',
             'type' => 'editor',
+            'nullable' => true,
         ],
         'meta_title' => [
             'name' => 'Meta Title',
             'type' => 'text',
+            'nullable' => true,
             'max' => 80,
         ],
         'meta_description' => [
             'name' => 'Meta Description',
             'type' => 'text',
+            'nullable' => true,
             'max' => 300,
         ],
         'slug' => [
