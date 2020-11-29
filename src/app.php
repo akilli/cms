@@ -55,6 +55,20 @@ function &registry(string $id): ?array
 }
 
 /**
+ * Loads and returns configuration data
+ */
+function cfg(string $id, string $key = null): mixed
+{
+    $cfg = registry('cfg')[$id] ?? [];
+
+    if ($key === null) {
+        return $cfg;
+    }
+
+    return $cfg[$key] ?? null;
+}
+
+/**
  * Returns app data
  */
 function data(string $id, string $key = null): mixed
@@ -69,20 +83,6 @@ function data(string $id, string $key = null): mixed
     }
 
     return $data[$key] ?? null;
-}
-
-/**
- * Loads and returns configuration data
- */
-function cfg(string $id, string $key = null): mixed
-{
-    $cfg = registry('cfg')[$id] ?? [];
-
-    if ($key === null) {
-        return $cfg;
-    }
-
-    return $cfg[$key] ?? null;
 }
 
 /**
