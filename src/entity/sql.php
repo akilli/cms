@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace sql;
+namespace entity\sql;
 
 use app;
 use arr;
