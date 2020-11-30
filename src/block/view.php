@@ -30,5 +30,9 @@ function render(array $block): string
         $html .= attr\viewer($data, $attr, ['wrap' => true]);
     }
 
+    if ($block['cfg']['tag']) {
+        return app\html($block['cfg']['tag'], ['data-entity' => $entity['id']], $html);
+    }
+
     return $html;
 }

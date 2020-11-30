@@ -6,5 +6,6 @@ return [
         'data' => [],
         'entity_id' => null,
         'id' => null,
+        'tag' => null,
     ],
 ];
