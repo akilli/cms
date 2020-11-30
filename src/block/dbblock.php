@@ -23,7 +23,7 @@ function render(array $block): string
     }
 
     if ($html) {
-        return app\html('section', ['class' => str_replace('_', '-', $block['cfg']['data']['entity_id'])], $html);
+        return app\html('section', ['data-entity' => $block['cfg']['data']['entity_id']], $html);
     }
 
     return '';
