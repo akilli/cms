@@ -119,7 +119,7 @@ define('APP', [
     'datetime.backend' => 'Y-m-d H:i:s',
     'datetime.frontend' => 'Y-m-d\TH:i',
     'html.tags' => '<a><abbr><article><audio><b><blockquote><br><cite><code><data><del><details><dfn><div><editor-block><em><figcaption><figure><h1><h2><h3><h4><h5><h6><hr><i><iframe><img><ins><kbd><li><mark><ol><p><pre><q><s><section><samp><small><strong><sub><summary><sup><table><tbody><td><tfoot><th><thead><time><tr><u><ul><var><video>',
-    'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr', 'msg'],
+    'html.void' => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
     'image' => [
         'srcset' => [360, 640, 800, 960, 1120, 1280, 1440],
         'sizes' => null,

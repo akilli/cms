@@ -16,9 +16,5 @@ function filter(string $html): string
         $msg .= app\html('p', [], $item);
     }
 
-    return str_replace(
-        app\html('msg'),
-        $msg ? app\html('section', ['class' => 'msg'], $msg) : '',
-        $html
-    );
+    return str_replace(app\html('app-msg'), $msg ? app\html('section', ['class' => 'msg'], $msg) : '', $html);
 }

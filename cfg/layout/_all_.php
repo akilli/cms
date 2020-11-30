@@ -75,8 +75,11 @@ return [
         'sort' => 100,
     ],
     'msg' => [
-        'type' => 'msg',
+        'type' => 'tag',
         'parent_id' => 'content',
         'sort' => 200,
+        'cfg' => [
+            'tag' => 'app-msg',
+        ],
     ],
 ];
