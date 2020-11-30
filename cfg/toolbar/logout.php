@@ -1,7 +1,7 @@
 <?php
 return [
     'name' => 'Logout',
-    'priv' => 'account:logout',
+    'privilege' => 'account:logout',
     'url' => '/account/logout',
     'sort' => 900,
 ];

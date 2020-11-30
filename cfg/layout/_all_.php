@@ -39,7 +39,7 @@ return [
     ],
     'toolbar' => [
         'type' => 'toolbar',
-        'priv' => '_user_',
+        'privilege' => '_user_',
         'parent_id' => 'body',
         'sort' => 100,
     ],

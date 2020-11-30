@@ -5,5 +5,5 @@ return [
     'filter' => 'attr\select\frontend',
     'validator' => 'attr\opt\validator',
     'viewer' => 'attr\opt\viewer',
-    'opt' => 'attr\priv\opt',
+    'opt' => 'attr\privilege\opt',
 ];

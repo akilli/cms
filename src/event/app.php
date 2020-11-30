@@ -28,7 +28,7 @@ function data(array $data): array
     }
 
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
-    $public = empty(app\cfg('priv', $data['entity_id'] . ':' . $data['action'])['active']);
+    $public = empty(app\cfg('privilege', $data['entity_id'] . ':' . $data['action'])['active']);
     $data['area'] = $public ? '_public_' : '_admin_';
     $data['invalid'] = !$data['entity_id']
         || !$data['action']

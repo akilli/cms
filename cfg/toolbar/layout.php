@@ -1,7 +1,7 @@
 <?php
 return [
     'name' => 'Layout',
-    'priv' => 'layout:admin',
+    'privilege' => 'layout:admin',
     'url' => '/layout/admin',
     'sort' => 300,
 ];

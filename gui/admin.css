@@ -222,16 +222,16 @@ editor-toolbar button {
 /**
  * Role Edit
  */
-:root[data-entity=role][data-action=edit] [data-attr=priv] {
+:root[data-entity=role][data-action=edit] [data-attr=privilege] {
     display: grid;
     grid-template-columns: 1.25rem auto;
 }
 
-:root[data-entity=role][data-action=edit] [data-attr=priv] label[for=attr-priv] {
+:root[data-entity=role][data-action=edit] [data-attr=privilege] label[for=attr-privilege] {
     grid-column: span 2;
 }
 
-:root[data-entity=role][data-action=edit] [data-attr=priv] label[for=attr-priv] ~ label {
+:root[data-entity=role][data-action=edit] [data-attr=privilege] label[for=attr-privilege] ~ label {
     font-size: 0.875rem;
 }
 

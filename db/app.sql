@@ -11,10 +11,10 @@ START TRANSACTION;
 CREATE TABLE role (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
-    priv text[] NOT NULL DEFAULT '{}'
+    privilege text[] NOT NULL DEFAULT '{}'
 );
 
-CREATE INDEX ON role USING GIN (priv);
+CREATE INDEX ON role USING GIN (privilege);
 
 --
 -- Account

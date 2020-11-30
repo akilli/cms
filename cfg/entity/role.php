@@ -14,9 +14,9 @@ return [
             'unique' => true,
             'max' => 50,
         ],
-        'priv' => [
+        'privilege' => [
             'name' => 'Privileges',
-            'type' => 'priv',
+            'type' => 'privilege',
         ],
     ],
 ];

@@ -93,7 +93,7 @@ function load(string $id): array
             'entity' => entity($data, $ext),
             'event' => event($data, $ext),
             'layout' => layout($data, $ext),
-            'priv' => priv($data, $ext),
+            'privilege' => privilege($data, $ext),
             'toolbar' => toolbar($data, $ext),
             default => array_replace($data, $ext),
         };
@@ -235,12 +235,12 @@ function layout(array $data, array $ext): array
 /**
  * Loads privilege configuration
  */
-function priv(array $data, array $ext): array
+function privilege(array $data, array $ext): array
 {
     $data = arr\extend($data, $ext);
 
     foreach ($data as $id => $item) {
-        $item = arr\replace(APP['cfg']['priv'], $item);
+        $item = arr\replace(APP['cfg']['privilege'], $item);
         $item['name'] = $item['name'] ? app\i18n($item['name']) : '';
         $data[$id] = $item;
     }
@@ -249,7 +249,7 @@ function priv(array $data, array $ext): array
         foreach ($entity['action'] as $action) {
             $id = $entity['id'] . ':' . $action;
             $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucfirst($action));
-            $data[$id] = arr\replace(APP['cfg']['priv'], $data[$id]);
+            $data[$id] = arr\replace(APP['cfg']['privilege'], $data[$id]);
         }
     }
 

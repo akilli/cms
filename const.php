@@ -61,16 +61,16 @@ define('APP', [
             'action' => [],
             'attr' => [],
         ],
-        'priv' => [
+        'privilege' => [
             'name' => null,
-            'priv' => null,
+            'delegate' => null,
             'auto' => false,
             'active' => true,
         ],
         'toolbar' => [
             'id' => null,
             'name' => null,
-            'priv' => null,
+            'privilege' => null,
             'url' => null,
             'active' => true,
             'parent_id' => null,
@@ -97,7 +97,7 @@ define('APP', [
             'call' => null,
             'tpl' => null,
             'active' => true,
-            'priv' => null,
+            'privilege' => null,
             'parent_id' => null,
             'sort' => 0,
             'image' => [],

@@ -1,7 +1,7 @@
 <?php
 return [
     'name' => 'Videos',
-    'priv' => 'video:admin',
+    'privilege' => 'video:admin',
     'url' => '/video/admin',
     'parent_id' => 'file',
     'sort' => 300,

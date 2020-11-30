@@ -2,7 +2,7 @@
 return [
     'form' => [
         'cfg' => [
-            'attr_id' => ['name', 'priv'],
+            'attr_id' => ['name', 'privilege'],
         ],
     ],
 ];

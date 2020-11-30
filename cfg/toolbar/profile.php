@@ -1,7 +1,7 @@
 <?php
 return [
     'name' => 'Profile',
-    'priv' => 'account:profile',
+    'privilege' => 'account:profile',
     'url' => '/account/profile',
     'sort' => 800,
 ];

@@ -121,16 +121,16 @@ function event(array $events, array $data): array
 /**
  * Check access
  */
-function allowed(string $key): bool
+function allowed(string $id): bool
 {
-    if (!$cfg = cfg('priv', $key)) {
+    if (!$cfg = cfg('privilege', $id)) {
         return false;
     }
 
     return !$cfg['active']
         || ($account = data('account')) && $account['admin']
-        || $cfg['priv'] && allowed($cfg['priv'])
-        || !$cfg['priv'] && in_array($key, $account['priv']);
+        || $cfg['delegate'] && allowed($cfg['delegate'])
+        || !$cfg['delegate'] && in_array($id, $account['privilege']);
 }
 
 /**

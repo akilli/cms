@@ -13,7 +13,7 @@ use DomainException;
  */
 function render(array $block): string
 {
-    if (!$block['active'] || $block['priv'] && !app\allowed($block['priv'])) {
+    if (!$block['active'] || $block['privilege'] && !app\allowed($block['privilege'])) {
         return '';
     }
 

@@ -11,12 +11,12 @@ function data(): array
     $id = (int) session\get('account');
 
     if ($id && ($data = entity\one('account', [['id', $id]]))) {
-        $data['priv'] = entity\one('role', [['id', $data['role_id']]])['priv'];
-        $data['priv'][] = '_user_';
-        $data['admin'] = in_array('_all_', $data['priv']);
+        $data['privilege'] = entity\one('role', [['id', $data['role_id']]])['privilege'];
+        $data['privilege'][] = '_user_';
+        $data['admin'] = in_array('_all_', $data['privilege']);
     } else {
         $data = entity\item('account');
-        $data['priv'] = ['_guest_'];
+        $data['privilege'] = ['_guest_'];
         $data['admin'] = false;
         session\delete('account');
     }

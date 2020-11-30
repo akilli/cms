@@ -12,7 +12,7 @@ function render(array $block): string
     $empty = [];
 
     foreach ($data as $id => $item) {
-        if (!$item['active'] || $item['priv'] && !app\allowed($item['priv'])) {
+        if (!$item['active'] || $item['privilege'] && !app\allowed($item['privilege'])) {
             unset($data[$id]);
         } elseif (!$item['url']) {
             $empty[$id] = true;

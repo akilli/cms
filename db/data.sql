@@ -6,7 +6,7 @@ START TRANSACTION;
 
 INSERT INTO
     role
-    (id, name, priv)
+    (id, name, privilege)
 VALUES
     (1, 'admin', '{"_all_"}');
 
