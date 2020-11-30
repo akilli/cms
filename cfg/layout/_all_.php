@@ -43,23 +43,13 @@ return [
         'parent_id' => 'body',
         'sort' => 100,
     ],
-    'top' => [
-        'type' => 'container',
-        'parent_id' => 'body',
-        'sort' => 200,
-    ],
     'main' => [
         'type' => 'container',
         'parent_id' => 'body',
-        'sort' => 300,
+        'sort' => 200,
         'cfg' => [
             'tag' => 'main',
         ],
-    ],
-    'bottom' => [
-        'type' => 'container',
-        'parent_id' => 'body',
-        'sort' => 400,
     ],
     'content' => [
         'type' => 'container',

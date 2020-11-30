@@ -18,6 +18,6 @@ return [
         'type' => 'tpl',
         'tpl' => 'footer.phtml',
         'parent_id' => 'body',
-        'sort' => 500,
+        'sort' => 300,
     ],
 ];
