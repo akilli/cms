@@ -10,7 +10,7 @@ return [
         'parent_id' => 'content',
         'sort' => 300,
         'cfg' => [
-            'attr_id' => ['password', 'confirmation', 'email'],
+            'attr_id' => ['password', 'email'],
         ],
     ],
 ];

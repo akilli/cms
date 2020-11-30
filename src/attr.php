@@ -205,7 +205,7 @@ function cast(mixed $val, array $attr): mixed
  */
 function ignorable(array $data, array $attr): bool
 {
-    return $attr['ignorable'] && ($attr['virtual'] || !empty($data['_old'][$attr['id']]));
+    return $attr['ignorable'] && !empty($data['_old'][$attr['id']]);
 }
 
 /**
