@@ -36,7 +36,7 @@ function data(array $data): array
                     'sort' => $item['sort'],
                     'cfg' => [
                         'attr' => ['id' => $item['entity_id'] . '-' . $item['block_id']],
-                        'tag' => 'editor-block',
+                        'tag' => 'app-block',
                     ],
                 ];
             }

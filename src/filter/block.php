@@ -7,11 +7,11 @@ use entity;
 use layout;
 
 /**
- * Replaces all DB placeholder tags, i.e. `<editor-block id="{entity_id}-{id}"></editor-block>`, with actual blocks
+ * Replaces all DB placeholder tags, i.e. `<app-block id="{entity_id}-{id}"></app-block>`, with actual blocks
  */
 function filter(string $html): string
 {
-    $pattern = '#<editor-block id="%s"(?:[^>]*)>\s*</editor-block>#s';
+    $pattern = '#<app-block id="%s"(?:[^>]*)>\s*</app-block>#s';
 
     if (preg_match_all(sprintf($pattern, '([a-z_]+)-(\d+)'), $html, $match)) {
         $data = [];
@@ -31,5 +31,5 @@ function filter(string $html): string
         }
     }
 
-    return preg_replace('#<editor-block(?:[^>]*)>\s*</editor-block>#s', '', $html);
+    return preg_replace('#<app-block(?:[^>]*)>\s*</app-block>#s', '', $html);
 }
