@@ -1,4 +1,4 @@
 <?php
 return [
-    'event\filter\postrender' => 100,
+    'event\filter\all' => 100,
 ];
