@@ -6,7 +6,6 @@ namespace event\layout;
 use app;
 use arr;
 use entity;
-use function layout\db_cfg;
 
 function data(array $data): array
 {
@@ -17,8 +16,7 @@ function data(array $data): array
     if ($app['invalid']) {
         $keys[] = '_invalid_';
     } else {
-        $entityId = $app['entity_id'];
-        $action = $app['action'];
+        ['entity_id' => $entityId, 'action' => $action] = $app;
         $keys[] = $action;
 
         if ($parentId = $app['parent_id']) {
@@ -31,21 +29,16 @@ function data(array $data): array
             $pageKey = 'page:view:' . $app['id'];
             $keys[] = $pageKey;
 
-            if ($dbLayout = entity\all('layout', [['page_id', $app['id']]])) {
-                $dbBlocks = [];
-
-                foreach (arr\group($dbLayout, 'entity_id', 'block_id') as $eId => $ids) {
-                    foreach (entity\all($eId, [['id', $ids]]) as $item) {
-                        $dbBlocks[$item['id']] = $item;
-                    }
-                }
-
-                foreach ($dbLayout as $id => $item) {
-                    $cfg[$pageKey]['layout-' . $item['parent_id'] .'-' . $item['name']] = db_cfg(
-                        $dbBlocks[$item['block_id']],
-                        ['parent_id' => $item['parent_id'], 'sort' => $item['sort']]
-                    );
-                }
+            foreach (entity\all('layout', [['page_id', $app['id']]]) as $item) {
+                $cfg[$pageKey]['layout-' . $item['parent_id'] .'-' . $item['name']] = [
+                    'type' => 'tag',
+                    'parent_id' => $item['parent_id'],
+                    'sort' => $item['sort'],
+                    'cfg' => [
+                        'attr' => ['id' => $item['entity_id'] . '-' . $item['block_id']],
+                        'tag' => 'editor-block',
+                    ],
+                ];
             }
         }
     }
