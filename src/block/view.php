@@ -24,10 +24,6 @@ function render(array $block): string
         return '';
     }
 
-    if (in_array('page', [$entity['id'], $entity['parent_id']]) && empty($attrs['title']) && $data['title']) {
-        $data['name'] = $data['title'];
-    }
-
     $html = '';
 
     foreach ($attrs as $attrId => $attr) {
