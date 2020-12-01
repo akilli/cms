@@ -132,6 +132,7 @@ function entity(array $data, array $ext): array
     $data += $ext;
     $cfg = load('attr');
     $dbCfg = load('db');
+    uasort($data, fn(array $a, array $b): int => ($a['parent_id'] ?? null) <=> ($b['parent_id'] ?? null));
 
     foreach ($data as $entityId => $entity) {
         $entity = arr\replace(APP['cfg']['entity'], $entity, ['id' => $entityId]);
@@ -146,24 +147,15 @@ function entity(array $data, array $ext): array
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
-        $data[$entityId] = $entity;
-    }
-
-    uasort($data, fn(array $a, array $b): int => match (true) {
-        $a['parent_id'] === $b['id'] => 1,
-        $a['id'] === $b['parent_id'] => -1,
-        $a['parent_id'] && $b['parent_id'] => $a['parent_id'] <=> $b['parent_id'],
-        !!$a['parent_id'] => 1,
-        !!$b['parent_id'] => -1,
-        default => $a['id'] <=> $b['id'],
-    });
-
-    foreach ($data as $entityId => $entity) {
         if ($entity['parent_id']) {
             $entity['unique'] = array_merge($data[$entity['parent_id']]['unique'], $entity['unique']);
             $entity['attr'] = arr\extend($data[$entity['parent_id']]['attr'], $entity['attr']);
         }
 
+        $data[$entityId] = $entity;
+    }
+
+    foreach ($data as $entityId => $entity) {
         foreach ($entity['attr'] as $attrId => $attr) {
             if (empty($attr['name'])
                 || empty($attr['type'])
