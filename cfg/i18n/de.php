@@ -33,7 +33,6 @@ return [
     'Entity' => 'Entität',
     'Entity %s is readonly' => 'Entität %s ist schreibgeschützt',
     'Error' => 'Fehler',
-    'File' => 'Datei',
     'Files' => 'Dateien',
     'Filter' => 'Filter',
     'Homepage' => 'Startseite',

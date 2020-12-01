@@ -145,9 +145,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
         return app\html('aside', $a, $html);
     }
 
-    if (($attr['uploadable'] || in_array($attr['type'], ['entity_file', 'iframe']))
-        && preg_match('#<(audio|iframe|img|video)#', $html, $match)
-    ) {
+    if (($attr['uploadable'] || $attr['type'] === 'iframe') && preg_match('#<(audio|iframe|img|video)#', $html, $match)) {
         return app\html('figure', $a + (['class' => $match[1] === 'img' ? 'image' : $match[1]]), $html);
     }
 

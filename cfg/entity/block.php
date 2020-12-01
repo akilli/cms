@@ -19,23 +19,6 @@ return [
             'type' => 'entity_id',
             'required' => true,
         ],
-        'title' => [
-            'name' => 'Title',
-            'type' => 'text',
-            'nullable' => true,
-            'max' => 255,
-        ],
-        'link' => [
-            'name' => 'Link',
-            'type' => 'urlpath',
-            'nullable' => true,
-            'max' => 255,
-        ],
-        'file_id' => [
-            'name' => 'File',
-            'type' => 'entity_file',
-            'nullable' => true,
-        ],
         'content' => [
             'name' => 'Content',
             'type' => 'editor',

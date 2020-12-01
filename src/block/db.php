@@ -24,8 +24,7 @@ function render(array $block): string
     $html = '';
 
     foreach ($attrs as $attr) {
-        $cfg = ['wrap' => true] + (in_array($attr['id'], ['file_id', 'title']) ? ['link' => $data['link']] : []);
-        $html .= attr\viewer($data, $attr, $cfg);
+        $html .= attr\viewer($data, $attr, ['wrap' => true]);
     }
 
     return $html ? app\html('section', ['data-entity' => $block['cfg']['data']['entity_id']], $html) : '';
