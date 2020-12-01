@@ -27,5 +27,9 @@ function render(array $block): string
         $html .= attr\viewer($data, $attr, ['wrap' => true]);
     }
 
-    return $html ? app\html('section', ['data-entity' => $block['cfg']['data']['entity_id']], $html) : '';
+    if ($html && $block['cfg']['tag']) {
+        return app\html($block['cfg']['tag'], ['data-entity' => $block['cfg']['data']['entity_id']], $html);
+    }
+
+    return $html;
 }
