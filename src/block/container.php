@@ -8,7 +8,7 @@ use layout;
 
 function render(array $block): string
 {
-    if (($html = layout\children($block['id'])) && $block['cfg']['tag']) {
+    if (($html = layout\render_children($block['id'])) && $block['cfg']['tag']) {
         return app\html($block['cfg']['tag'], $block['cfg']['id'] ? ['id' => $block['id']] : [], $html);
     }
 

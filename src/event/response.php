@@ -11,7 +11,7 @@ use session;
 function all(array $data): array
 {
     if (!$data['body'] && !$data['redirect']) {
-        $data['body'] = layout\block('html');
+        $data['body'] = layout\render_id('html');
     }
 
     return $data;
@@ -38,7 +38,7 @@ function account_logout(array $data): array
 
 function block_api(array $data): array
 {
-    $data['body'] = ($id = app\data('app', 'id')) ? layout\db_render_id($id) : '';
+    $data['body'] = ($id = app\data('app', 'id')) ? layout\render_entity($id) : '';
     $data['_stop'] = true;
 
     return $data;

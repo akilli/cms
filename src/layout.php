@@ -28,7 +28,7 @@ function render(array $block): string
 /**
  * Renders block with given ID
  */
-function block(string $id): string
+function render_id(string $id): string
 {
     return ($block = app\data('layout', $id)) ? render($block) : '';
 }
@@ -36,7 +36,7 @@ function block(string $id): string
 /**
  * Renders child blocks
  */
-function children(string $id): string
+function render_children(string $id): string
 {
     $html = '';
 
@@ -45,6 +45,24 @@ function children(string $id): string
     }
 
     return $html;
+}
+
+/**
+ * Renders block with given data
+ */
+function render_data(array $data): string
+{
+    return render(cfg(['type' => 'block', 'cfg' => ['data' => $data]]));
+}
+
+/**
+ * Renders block entity with given type and ID (format: `{entity_id}-{id}`)
+ */
+function render_entity(string $id): string
+{
+    [$entityId, $blockId] = explode('-', $id);
+
+    return render(cfg(['type' => 'block', 'cfg' => ['entity_id' => $entityId, 'id' => $blockId]]));
 }
 
 /**
@@ -62,26 +80,6 @@ function cfg(array $block): array
     $block['cfg'] = $type['cfg'] ? arr\replace($type['cfg'], $block['cfg'] ?? []) : [];
 
     return arr\replace(APP['data']['layout'], $type, $block);
-}
-
-/**
- * Returns DB blockwith given data
- *
- * @throws DomainException
- */
-function db_render_data(array $data): string
-{
-    return render(cfg(['type' => 'block', 'cfg' => ['data' => $data]]));
-}
-
-/**
- * Renders DB block with given ID (format: `{entity_id}-{id}`)
- */
-function db_render_id(string $id): string
-{
-    [$entityId, $blockId] = explode('-', $id);
-
-    return render(cfg(['type' => 'block', 'cfg' => ['entity_id' => $entityId, 'id' => $blockId]]));
 }
 
 /**

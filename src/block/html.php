@@ -17,5 +17,5 @@ function render(): string
         'data-url' => app\data('request', 'url')
     ];
 
-    return "<!doctype html>\n" . app\html('html', $a, layout\block('head') . layout\block('body'));
+    return "<!doctype html>\n" . app\html('html', $a, layout\render_id('head') . layout\render_id('body'));
 }

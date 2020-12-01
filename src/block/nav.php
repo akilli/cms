@@ -32,7 +32,7 @@ function render(array $block): string
         };
     };
     $html = $block['cfg']['title'] ? app\html('h2', [], app\i18n($block['cfg']['title'])) : '';
-    $html .= layout\children($block['id']);
+    $html .= layout\render_children($block['id']);
 
     if ($block['cfg']['toggle']) {
         $html .= app\html('a', ['data-action' => 'toggle', 'data-target' => $block['id']]);
