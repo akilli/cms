@@ -65,28 +65,23 @@ function cfg(array $block): array
 }
 
 /**
- * Returns block config for DB block and falls back to dbblock if no custom block type is configured
+ * Returns DB blockwith given data
  *
  * @throws DomainException
  */
-function db_cfg(array $data, array $block = []): array
+function db_render_data(array $data): string
 {
-    if (empty($data['entity_id']) || ($data['_entity']['parent_id'] ?? null) !== 'block') {
-        throw new DomainException(app\i18n('Invalid data'));
-    }
-
-    return cfg(['type' => app\cfg('block', $data['entity_id'])['id'] ?? 'dbblock', 'cfg' => ['data' => $data]] + $block);
+    return render(cfg(['type' => 'db', 'cfg' => ['data' => $data]]));
 }
 
 /**
- * Renders DB placeholder tag with given ID (format: `{entity_id}-{id}`)
+ * Renders DB block with given ID (format: `{entity_id}-{id}`)
  */
-function db_render(string $id): string
+function db_render_id(string $id): string
 {
-    $block = cfg(['type' => 'db']);
-    [$block['cfg']['entity_id'], $block['cfg']['id']] = explode('-', $id);
+    [$entityId, $blockId] = explode('-', $id);
 
-    return render($block);
+    return render(cfg(['type' => 'db', 'cfg' => ['entity_id' => $entityId, 'id' => $blockId]]));
 }
 
 /**

@@ -22,11 +22,7 @@ function filter(string $html): string
 
         foreach ($data as $entityId => $ids) {
             foreach (entity\all($entityId, [['id', $ids]]) as $item) {
-                $html = preg_replace(
-                    sprintf($pattern, $entityId . '-' . $item['id']),
-                    layout\render(layout\db_cfg($item)),
-                    $html
-                );
+                $html = preg_replace(sprintf($pattern, $entityId . '-' . $item['id']), layout\db_render_data($item), $html);
             }
         }
     }

@@ -38,7 +38,7 @@ function account_logout(array $data): array
 
 function block_api(array $data): array
 {
-    $data['body'] = ($id = app\data('app', 'id')) ? layout\db_render($id) : '';
+    $data['body'] = ($id = app\data('app', 'id')) ? layout\db_render_id($id) : '';
     $data['_stop'] = true;
 
     return $data;
