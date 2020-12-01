@@ -1,6 +1,6 @@
 <?php
 return [
-    'call' => 'block\db\render',
+    'call' => 'block\block\render',
     'cfg' => [
         'attr_id' => ['content'],
         'data' => [],

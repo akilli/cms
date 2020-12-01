@@ -26,11 +26,11 @@ function render(array $block): string
 
     $html = '';
 
-    foreach ($attrs as $attrId => $attr) {
+    foreach ($attrs as $attr) {
         $html .= attr\viewer($data, $attr, ['wrap' => true]);
     }
 
-    if ($block['cfg']['tag']) {
+    if ($html && $block['cfg']['tag']) {
         return app\html($block['cfg']['tag'], ['data-entity' => $entity['id']], $html);
     }
 

@@ -71,7 +71,7 @@ function cfg(array $block): array
  */
 function db_render_data(array $data): string
 {
-    return render(cfg(['type' => 'db', 'cfg' => ['data' => $data]]));
+    return render(cfg(['type' => 'block', 'cfg' => ['data' => $data]]));
 }
 
 /**
@@ -81,7 +81,7 @@ function db_render_id(string $id): string
 {
     [$entityId, $blockId] = explode('-', $id);
 
-    return render(cfg(['type' => 'db', 'cfg' => ['entity_id' => $entityId, 'id' => $blockId]]));
+    return render(cfg(['type' => 'block', 'cfg' => ['entity_id' => $entityId, 'id' => $blockId]]));
 }
 
 /**
