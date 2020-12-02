@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace entity\sql;
+namespace pdo;
 
 use app;
 use arr;
+use sql;
 use DomainException;
 use PDO;
 use PDOStatement;
@@ -16,7 +17,7 @@ use Throwable;
 function size(array $entity, array $crit = []): int
 {
     $cols = crit($crit, $entity['attr']);
-    $stmt = db($entity['db'])->prepare(sel(['count(*)']) . from($entity['id']) . where($cols['crit']));
+    $stmt = db($entity['db'])->prepare(sql\select(['count(*)']) . sql\from($entity['id']) . sql\where($cols['crit']));
     array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
     $stmt->execute();
 
@@ -54,10 +55,10 @@ function save(array $data): array
 
     // Insert or update
     if ($data['_old']) {
-        $stmt = $db->prepare(upd($entity['id']) . set($cols['val']) . where(['id = :_id']));
+        $stmt = $db->prepare(sql\update($entity['id']) . sql\set($cols['val']) . sql\where(['id = :_id']));
         $stmt->bindValue(':_id', $data['_old']['id'], type($data['_old']['id']));
     } else {
-        $stmt = $db->prepare(ins($entity['id']) . vals($cols['val']));
+        $stmt = $db->prepare(sql\insert($entity['id']) . sql\values($cols['val']));
     }
 
     array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
@@ -77,7 +78,7 @@ function save(array $data): array
 function delete(array $data): void
 {
     $entity = $data['_entity'];
-    $stmt = db($entity['db'])->prepare(del($entity['id']) . where(['id = :id']));
+    $stmt = db($entity['db'])->prepare(sql\delete($entity['id']) . sql\where(['id = :id']));
     $stmt->bindValue(':id', $data['_old']['id'], type($data['_old']['id']));
     $stmt->execute();
 }
@@ -116,11 +117,11 @@ function load(array $entity, array $crit = [], array $select = [], array $order 
     $select = $select ?: array_keys(attr($entity['attr']));
     $cols = crit($crit, $entity['attr']);
     $stmt = db($entity['db'])->prepare(
-        sel($select)
-        . from($entity['id'])
-        . where($cols['crit'])
-        . order($order)
-        . limit($limit, $offset)
+        sql\select($select)
+        . sql\from($entity['id'])
+        . sql\where($cols['crit'])
+        . sql\order($order)
+        . sql\limit($limit, $offset)
     );
     array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
     $stmt->execute();
@@ -304,154 +305,4 @@ function crit(array $crit, array $attrs): array
     }
 
     return $cols;
-}
-
-/**
- * INSERT part
- */
-function ins(string $tab): string
-{
-    return 'INSERT INTO ' . $tab;
-}
-
-/**
- * VALUES part
- */
-function vals(array $cols): string
-{
-    return ' (' . implode(', ', array_keys($cols)) . ') VALUES (' . implode(', ', $cols) . ')';
-}
-
-/**
- * UPDATE part
- */
-function upd(string $tab): string
-{
-    return 'UPDATE ' . $tab;
-}
-
-/**
- * SET part
- */
-function set(array $cols): string
-{
-    $sql = '';
-
-    foreach ($cols as $col => $val) {
-        $sql .= ($sql ? ', ' : '') . $col . ' = ' . $val;
-    }
-
-    return ' SET ' . $sql;
-}
-
-/**
- * DELETE part
- */
-function del(string $tab): string
-{
-    return 'DELETE FROM ' . $tab;
-}
-
-/**
- * SELECT part
- */
-function sel(array $sel): string
-{
-    $sql = '';
-
-    foreach ($sel as $as => $col) {
-        $sql .= ($sql ? ', ' : '') . $col . ($as && is_string($as) ? ' AS ' . $as : '');
-    }
-
-    return $sql ? ' SELECT ' . $sql : '';
-}
-
-/**
- * FROM part
- */
-function from(string $tab, string $as = null): string
-{
-    return ' FROM ' . $tab . ($as ? ' AS ' . $as : '');
-}
-
-/**
- * WHERE part
- */
-function where(array $cols): string
-{
-    return $cols ? ' WHERE ' . implode(' AND ', $cols) : '';
-}
-
-/**
- * JOIN part
- *
- * @throws DomainException
- */
-function join(string $type, string $tab, string $as = null, array $cols = []): string
-{
-    if (empty(APP['join'][$type]) || !$tab) {
-        throw new DomainException(app\i18n('Invalid JOIN'));
-    }
-
-    return APP['join'][$type] . ' JOIN ' . $tab . ($as ? ' AS ' . $as : '') . ($cols ? ' ON ' . implode(' AND ', $cols) : '');
-}
-
-/**
- * GROUP BY part
- */
-function group(array $cols): string
-{
-    return $cols ? ' GROUP BY ' . implode(', ', $cols) : '';
-}
-
-/**
- * ORDER BY part
- */
-function order(array $order): string
-{
-    $sql = '';
-
-    foreach ($order as $attrId => $dir) {
-        $sql .= ($sql ? ', ' : '') . $attrId . ($dir === 'desc' ? ' DESC NULLS LAST' : ' ASC NULLS FIRST');
-    }
-
-    return $sql ? ' ORDER BY ' . $sql : '';
-}
-
-/**
- * LIMIT part
- */
-function limit(int $limit, int $offset = 0): string
-{
-    return $limit > 0 ? ' LIMIT ' . $limit . ' OFFSET ' . max(0, $offset) : '';
-}
-
-/**
- * WITH part
- */
-function with(array $with, bool $recursive = false): string
-{
-    $sql = '';
-
-    foreach ($with as $name => $part) {
-        $sql .= ($sql ? ', ' : ' ') . $name . ' AS (' . $part . ')';
-    }
-
-    return 'WITH ' . ($recursive ? 'RECURSIVE ' : '') . $sql;
-}
-
-/**
- * RETURNING part
- */
-function returning(array $cols): string
-{
-    return $cols ? ' RETURNING ' . implode(', ', $cols) : '';
-}
-
-/**
- * UNION part
- */
-function union(): string
-{
-    RETURN ' UNION ';
 }

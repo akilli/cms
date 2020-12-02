@@ -1,6 +1,6 @@
 <?php
 return [
-    'type' => 'entity\sql',
+    'type' => 'pdo',
     'dsn' => 'pgsql:host=db;dbname=app',
     'user' => 'app',
     'password' => 'app',
