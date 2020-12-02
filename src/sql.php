@@ -9,9 +9,9 @@ use DomainException;
 /**
  * INSERT part
  */
-function insert(string $tab): string
+function insert(string $table): string
 {
-    return 'INSERT INTO ' . $tab;
+    return 'INSERT INTO ' . $table;
 }
 
 /**
@@ -25,9 +25,9 @@ function values(array $cols): string
 /**
  * UPDATE part
  */
-function update(string $tab): string
+function update(string $table): string
 {
-    return 'UPDATE ' . $tab;
+    return 'UPDATE ' . $table;
 }
 
 /**
@@ -47,9 +47,9 @@ function set(array $cols): string
 /**
  * DELETE part
  */
-function delete(string $tab): string
+function delete(string $table): string
 {
-    return 'DELETE FROM ' . $tab;
+    return 'DELETE FROM ' . $table;
 }
 
 /**
@@ -69,9 +69,9 @@ function select(array $sel): string
 /**
  * FROM part
  */
-function from(string $tab, string $as = null): string
+function from(string $table, string $as = null): string
 {
-    return ' FROM ' . $tab . ($as ? ' AS ' . $as : '');
+    return ' FROM ' . $table . ($as ? ' AS ' . $as : '');
 }
 
 /**
@@ -87,13 +87,13 @@ function where(array $cols): string
  *
  * @throws DomainException
  */
-function join(string $type, string $tab, string $as = null, array $cols = []): string
+function join(string $type, string $table, string $as = null, array $cols = []): string
 {
-    if (empty(APP['join'][$type]) || !$tab) {
+    if (empty(APP['join'][$type]) || !$table) {
         throw new DomainException(app\i18n('Invalid JOIN'));
     }
 
-    return APP['join'][$type] . ' JOIN ' . $tab . ($as ? ' AS ' . $as : '') . ($cols ? ' ON ' . implode(' AND ', $cols) : '');
+    return APP['join'][$type] . ' JOIN ' . $table . ($as ? ' AS ' . $as : '') . ($cols ? ' ON ' . implode(' AND ', $cols) : '');
 }
 
 /**
