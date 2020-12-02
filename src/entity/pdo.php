@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace pdo;
+namespace entity\pdo;
 
 use app;
 use arr;
