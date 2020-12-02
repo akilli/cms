@@ -3,8 +3,8 @@ namespace app;
 /** @var callable $var */
 ?>
 <meta charset="utf-8"/>
-<?php if ($var('description')):?>
-<meta name="description" content="<?=$var('description');?>"/>
-<?php endif;?>
+<?php if ($var('description')): ?>
+<meta name="description" content="<?php echo $var('description'); ?>"/>
+<?php endif; ?>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0"/>
-<title><?=$var('title');?></title>
+<title><?php echo $var('title'); ?></title>

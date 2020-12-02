@@ -1,8 +1,8 @@
 <?php
 namespace app;
 ?>
-<?php if (($entityId = data('app', 'entity_id')) && allowed($entityId . ':edit')):?>
+<?php if (($entityId = data('app', 'entity_id')) && allowed($entityId . ':edit')): ?>
 <p class="new">
-    <a href="<?=url($entityId . '/edit');?>"><?=i18n('New Entry');?></a>
+    <a href="<?php echo url($entityId . '/edit'); ?>"><?php echo i18n('New Entry'); ?></a>
 </p>
-<?php endif;?>
+<?php endif; ?>

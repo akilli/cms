@@ -4,17 +4,17 @@ use attr;
 /** @var callable $var */
 $app = data('app');
 ?>
-<form method="post"<?php if ($var('multipart')):?> enctype="multipart/form-data"<?php endif;?> class="block-form">
+<form method="post"<?php if ($var('multipart')): ?> enctype="multipart/form-data"<?php endif; ?> class="block-form">
     <fieldset>
-        <?php foreach ($var('attr') as $attr):?>
-        <?=attr\frontend($var('data'), $attr);?>
-        <?php endforeach;?>
+        <?php foreach ($var('attr') as $attr): ?>
+        <?php echo attr\frontend($var('data'), $attr); ?>
+        <?php endforeach; ?>
     </fieldset>
     <div class="action">
-        <?php if ($app['action'] === 'edit' && allowed($app['entity_id'] . ':admin')):?>
-        <a href="<?=url($app['entity_id'] . '/admin');?>" role="button"><?=i18n('Back');?></a>
-        <?php endif;?>
-        <input type="submit" value="<?=i18n('Submit');?>"/>
-        <input type="hidden" name="token" value="<?=token();?>"/>
+        <?php if ($app['action'] === 'edit' && allowed($app['entity_id'] . ':admin')): ?>
+        <a href="<?php echo url($app['entity_id'] . '/admin'); ?>" role="button"><?php echo i18n('Back'); ?></a>
+        <?php endif; ?>
+        <input type="submit" value="<?php echo i18n('Submit'); ?>"/>
+        <input type="hidden" name="token" value="<?php echo token(); ?>"/>
     </div>
 </form>

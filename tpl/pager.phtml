@@ -3,23 +3,23 @@ namespace app;
 /** @var callable $var */
 ?>
 <nav class="pager">
-    <?php if ($var('limits')):?>
+    <?php if ($var('limits')): ?>
     <div class="limits">
-        <?php foreach ($var('limits') as $item):?>
-        <a href="<?=$item['url'];?>"<?php if (!empty($item['active'])):?> class="active"<?php endif;?>><?=$item['name'];?></a>
-        <?php endforeach;?>
+        <?php foreach ($var('limits') as $item): ?>
+        <a href="<?php echo $item['url']; ?>"<?php if (!empty($item['active'])): ?> class="active"<?php endif; ?>><?php echo $item['name']; ?></a>
+        <?php endforeach; ?>
     </div>
-    <?php endif;?>
+    <?php endif; ?>
     <div class="info">
-        <?=$var('info');?>
+        <?php echo $var('info'); ?>
     </div>
     <div class="links">
-        <?php foreach ($var('links') as $item):?>
-            <?php if (!empty($item['active'])):?>
-        <span><?=$item['name'];?></span>
-            <?php else:?>
-        <a href="<?=$item['url'];?>"<?php if ($item['class']):?> class="<?=$item['class'];?>"<?php endif;?>><?=$item['name'];?></a>
-            <?php endif;?>
-        <?php endforeach;?>
+        <?php foreach ($var('links') as $item): ?>
+            <?php if (!empty($item['active'])): ?>
+        <span><?php echo $item['name']; ?></span>
+            <?php else: ?>
+        <a href="<?php echo $item['url']; ?>"<?php if ($item['class']): ?> class="<?php echo $item['class']; ?>"<?php endif; ?>><?php echo $item['name']; ?></a>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </div>
 </nav>

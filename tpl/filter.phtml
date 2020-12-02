@@ -5,20 +5,20 @@ use attr;
 ?>
 <form class="filter">
     <fieldset>
-        <?php foreach ($var('attr') as $attr):?>
-        <div data-attr="<?=$attr['id'];?>" data-type="<?=$attr['type'];?>">
-            <?=attr\filter($var('data'), $attr);?>
+        <?php foreach ($var('attr') as $attr): ?>
+        <div data-attr="<?php echo $attr['id']; ?>" data-type="<?php echo $attr['type']; ?>">
+            <?php echo attr\filter($var('data'), $attr); ?>
         </div>
-        <?php endforeach;?>
-        <?php if ($var('search')):?>
+        <?php endforeach; ?>
+        <?php if ($var('search')): ?>
         <div data-attr="q" data-type="search">
-            <label for="q"><?=i18n('Search');?></label>
-            <input id="q" type="search" name="q" value="<?=$var('q');?>" placeholder="<?=i18n('Search Term');?>"/>
+            <label for="q"><?php echo i18n('Search'); ?></label>
+            <input id="q" type="search" name="q" value="<?php echo $var('q'); ?>" placeholder="<?php echo i18n('Search Term'); ?>"/>
         </div>
-        <?php endif;?>
+        <?php endif; ?>
     </fieldset>
     <div class="action">
-        <a href="<?=data('request', 'url');?>" role="button"><?=i18n('Reset');?></a>
-        <input type="submit" value="<?=i18n('Submit');?>"/>
+        <a href="<?php echo data('request', 'url'); ?>" role="button"><?php echo i18n('Reset'); ?></a>
+        <input type="submit" value="<?php echo i18n('Submit'); ?>"/>
     </div>
 </form>
