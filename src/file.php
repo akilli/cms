@@ -3,12 +3,25 @@ declare(strict_types=1);
 
 namespace file;
 
+use app;
+use DomainException;
+
+/**
+ * Lists files and directories inside the specified path
+ */
+function scan(string $path): array
+{
+    $files = scandir($path) ?: throw new DomainException(app\i18n('Invalid path'));
+
+    return array_diff($files, ['.', '..']);
+}
+
 /**
  * Uploads a file
  */
 function upload(string $src, string $dest): bool
 {
-    return $src && $dest && dir(dirname($dest)) && move_uploaded_file($src, $dest);
+    return $src && $dest && mkdirp(dirname($dest)) && move_uploaded_file($src, $dest);
 }
 
 /**
@@ -24,8 +37,8 @@ function delete(string $path): bool
         return true;
     }
 
-    foreach (array_diff(scandir($path), ['.', '..']) as $id) {
-        $file = $path . '/' . $id;
+    foreach (scan($path) as $name) {
+        $file = $path . '/' . $name;
 
         if (is_file($file)) {
             unlink($file);
@@ -40,7 +53,7 @@ function delete(string $path): bool
 /**
  * Makes a directory if it doesn't exist
  */
-function dir(string $path): bool
+function mkdirp(string $path): bool
 {
     return writable($path) && (is_dir($path) || mkdir($path, 0755, true));
 }
@@ -50,5 +63,5 @@ function dir(string $path): bool
  */
 function writable(string $path): bool
 {
-    return (bool) preg_match('#^(file://)?(' . APP['path']['file'] . '|' . APP['path']['tmp'] . ')#', $path);
+    return (bool) preg_match('#^(' . APP['path']['file'] . '|' . APP['path']['tmp'] . ')#', $path);
 }

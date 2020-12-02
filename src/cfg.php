@@ -5,6 +5,7 @@ namespace cfg;
 
 use app;
 use arr;
+use file;
 use DomainException;
 
 /**
@@ -32,7 +33,7 @@ function preload(): array
     $data = ['i18n' => load('i18n')];
 
     foreach (array_filter([APP['path']['cfg'], APP['path']['ext.cfg']], 'is_dir') as $path) {
-        foreach (array_diff(scandir($path), ['.', '..']) as $name) {
+        foreach (file\scan($path) as $name) {
             $id = basename($name, APP['php.ext']);
             $file = $path . '/' . $name;
 

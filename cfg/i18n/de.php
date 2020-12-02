@@ -49,6 +49,7 @@ return [
     'Invalid JOIN' => 'Ungültiger JOIN',
     'Invalid name and password combination' => 'Ungültige Kombination aus Name und Passwort',
     'Invalid password' => 'Ungültiges Passwort',
+    'Invalid path' => 'Ungültiger Pfad',
     'Invalid value' => 'Ungültiger Wert',
     'Layout' => 'Layout',
     'Level' => 'Ebene',
