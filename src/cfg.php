@@ -34,7 +34,7 @@ function preload(): array
 
     foreach (array_filter([APP['path']['cfg'], APP['path']['ext.cfg']], 'is_dir') as $path) {
         foreach (file\scan($path) as $name) {
-            $id = basename($name, APP['php.ext']);
+            $id = basename($name, '.php');
             $file = $path . '/' . $name;
 
             if (!is_array($data[$id] ?? null) && (is_dir($file) || is_file($file) && $id !== $name)) {
@@ -61,8 +61,8 @@ function all(string $path): array
 {
     $data = [];
 
-    foreach (glob($path . '/*' . APP['php.ext']) as $file) {
-        $data[basename($file, APP['php.ext'])] = one($file);
+    foreach (glob($path . '/*.php') as $file) {
+        $data[basename($file, '.php')] = one($file);
     }
 
     return $data;
@@ -79,12 +79,12 @@ function load(string $id): array
         $path = APP['path']['cfg'] . '/' . $id;
         $extPath = APP['path']['ext.cfg'] . '/' . $id;
 
-        if (is_dir($path) || !is_file($path . APP['php.ext']) && is_dir($extPath)) {
+        if (is_dir($path) || !is_file($path . '.php') && is_dir($extPath)) {
             $data = all($path);
             $ext = all($extPath);
         } else {
-            $data = one($path . APP['php.ext']);
-            $ext = one($extPath . APP['php.ext']);
+            $data = one($path . '.php');
+            $ext = one($extPath . '.php');
         }
 
         $cfg[$id] = match ($id) {
