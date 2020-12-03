@@ -8,6 +8,8 @@ use DomainException;
 
 /**
  * Lists files and directories inside the specified path
+ *
+ * @throws DomainException
  */
 function scan(string $path): array
 {
