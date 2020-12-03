@@ -37,9 +37,7 @@ function data(array $data): array
         || !$data['page']
             && in_array($data['action'], ['delete', 'view'])
             && (!$data['id'] || $data['entity'] && !entity\size($data['entity_id'], [['id', $data['id']]]))
-        || $data['page'] && $data['page']['disabled']
-        || $data['area'] === '_admin_'
-            && in_array(preg_replace('#^www\.#', '', $request['host']), app\cfg('app', 'blacklist'));
+        || $data['page'] && $data['page']['disabled'];
 
     return $data;
 }
