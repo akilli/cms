@@ -1,0 +1,20 @@
+<?php
+return [
+    'data:account' => ['event\account\data' => 100],
+    'data:app' => ['event\app\data' => 100],
+    'data:layout' => ['event\layout\data' => 100],
+    'data:request' => ['event\request\data' => 100],
+    'entity:postdelete:id:file' => ['event\file\postdelete' => 100],
+    'entity:postsave:id:file' => ['event\file\postsave' => 100],
+    'entity:postvalidate' => ['event\password\postvalidate' => 100, 'event\unique\postvalidate' => 200],
+    'entity:postvalidate:id:page' => ['event\page\postvalidate_menu' => 100, 'event\page\postvalidate_url' => 200],
+    'entity:predelete:id:role' => ['event\role\predelete' => 100],
+    'entity:presave:id:page' => ['event\page\presave' => 100],
+    'entity:prevalidate:id:file' => ['event\file\prevalidate' => 100],
+    'layout:postrender' => ['event\filter\all' => 100],
+    'layout:postrender:id:body' => ['event\filter\body' => 100],
+    'response' => ['event\response\all' => 100],
+    'response:account:logout' => ['event\response\account_logout' => 100],
+    'response:block:api' => ['event\response\block_api' => 100],
+    'response:delete' => ['event\response\delete' => 100],
+];
