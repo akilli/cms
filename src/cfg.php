@@ -281,7 +281,7 @@ function toolbar(array $data, array $ext): array
         }
     }
 
-    $data = arr\order(arr\extend($generated, $data), ['parent_id' => 'asc', 'sort' => 'asc']);
+    $data = arr\order(arr\extend($generated, $data), ['parent_id' => 'asc', 'sort' => 'asc', 'name' => 'asc']);
     $parentId = null;
     $sort = 0;
 
