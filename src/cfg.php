@@ -296,7 +296,8 @@ function toolbar(array $data, array $ext): array
             $sort = 0;
         }
 
-        $data[$id]['sort'] = ++$sort;
+        $item['sort'] = ++$sort;
+        $data[$id] = $item;
         $parentId = $item['parent_id'];
     }
 
