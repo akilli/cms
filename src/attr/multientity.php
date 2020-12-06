@@ -21,5 +21,5 @@ function validator(array $val, array $attr): array
 
 function viewer(array $val, array $attr): string
 {
-    return implode(', ', array_column(entity\all($attr['ref'], [['id', $val]], select: ['name']), 'name'));
+    return implode(', ', array_column(entity\all($attr['ref'], crit: [['id', $val]], select: ['name']), 'name'));
 }

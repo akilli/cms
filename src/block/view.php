@@ -15,9 +15,9 @@ function render(array $block): string
     }
 
     if (!$data && $block['cfg']['entity_id'] && $block['cfg']['id']) {
-        $data = entity\one($block['cfg']['entity_id'], [['id', $block['cfg']['id']]]);
+        $data = entity\one($block['cfg']['entity_id'], crit: [['id', $block['cfg']['id']]]);
     } elseif (!$data && ($app = app\data('app')) && $app['entity_id'] && $app['id']) {
-        $data = entity\one($app['entity_id'], [['id', $app['id']]]);
+        $data = entity\one($app['entity_id'], crit: [['id', $app['id']]]);
     }
 
     if (!($entity = $data['_entity'] ?? null) || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {

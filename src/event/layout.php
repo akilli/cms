@@ -29,7 +29,7 @@ function data(array $data): array
             $pageKey = 'page:view:' . $app['id'];
             $keys[] = $pageKey;
 
-            foreach (entity\all('layout', [['page_id', $app['id']]]) as $item) {
+            foreach (entity\all('layout', crit: [['page_id', $app['id']]]) as $item) {
                 $cfg[$pageKey]['layout-' . $item['parent_id'] .'-' . $item['name']] = [
                     'type' => 'tag',
                     'parent_id' => $item['parent_id'],

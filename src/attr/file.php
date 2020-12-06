@@ -44,7 +44,7 @@ function viewer(string|int $val, array $attr): string
     $attr['ref'] = $attr['ref'] ?: 'file';
     $crit = is_string($val) ? [['url', $val]] : [['id', $val]];
 
-    if (!$data = entity\one($attr['ref'], $crit, select: ['url', 'mime', 'thumb', 'info'])) {
+    if (!$data = entity\one($attr['ref'], crit: $crit, select: ['url', 'mime', 'thumb', 'info'])) {
         return '';
     }
 

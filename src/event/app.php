@@ -13,8 +13,8 @@ function data(array $data): array
     $request = app\data('request');
 
     if (preg_match('#^/(?:|[a-z0-9_\-\./]+\.html)$#', $request['url'], $match)
-        && ($page = entity\one('page', [['url', $request['url']]], select: ['id', 'entity_id']))
-        && ($data['page'] = entity\one($page['entity_id'], [['id', $page['id']]]))
+        && ($page = entity\one('page', crit: [['url', $request['url']]], select: ['id', 'entity_id']))
+        && ($data['page'] = entity\one($page['entity_id'], crit: [['id', $page['id']]]))
     ) {
         $data['entity_id'] = $data['page']['entity_id'];
         $data['action'] = 'view';

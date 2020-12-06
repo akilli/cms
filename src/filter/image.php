@@ -19,7 +19,7 @@ function filter(string $html, array $cfg = []): string
         return $html;
     }
 
-    $data = entity\all('file', [['url', array_unique($match['url'])]], select: ['id', 'url', 'thumb'], index: 'url');
+    $data = entity\all('file', crit: [['url', array_unique($match['url'])]], select: ['id', 'url', 'thumb'], index: 'url');
     $cache = function (string $file): int {
         $width = &app\registry('filter')['image'][$file];
         $width ??= getimagesize($file)[0] ?? 0;

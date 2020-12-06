@@ -98,7 +98,7 @@ function save(string $entityId, array &$data): bool
     $id = $data['id'] ?? null;
     $tmp = init($entity, $data);
 
-    if ($id && ($old = one($entity['id'], [['id', $id]]))) {
+    if ($id && ($old = one($entity['id'], crit: [['id', $id]]))) {
         $tmp['_old'] = uninit($old);
         unset($tmp['entity_id']);
     } elseif ($entity['parent_id']) {
@@ -200,7 +200,7 @@ function delete(string $entityId, array $crit = []): bool
         throw new DomainException(app\i18n('Entity %s is readonly', $entity['id']));
     }
 
-    if (!$all = all($entity['id'], $crit)) {
+    if (!$all = all($entity['id'], crit: $crit)) {
         app\msg('Nothing to delete');
         return false;
     }

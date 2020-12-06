@@ -21,7 +21,7 @@ function filter(string $html): string
         }
 
         foreach ($data as $entityId => $ids) {
-            foreach (entity\all($entityId, [['id', $ids]]) as $item) {
+            foreach (entity\all($entityId, crit: [['id', $ids]]) as $item) {
                 $html = preg_replace(sprintf($pattern, $entityId . '-' . $item['id']), layout\render_data($item), $html);
             }
         }

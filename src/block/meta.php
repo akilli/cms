@@ -15,7 +15,7 @@ function render(array $block): string
     $menutitle = function () use ($app, $title): string {
         $crit = [['id', $app['page']['path']], ['level', 0, APP['op']['>']]];
 
-        foreach (entity\all('page', $crit, select: ['name'], order: ['level' => 'asc']) as $item) {
+        foreach (entity\all('page', crit: $crit, select: ['name'], order: ['level' => 'asc']) as $item) {
             $title = $item['name'] . ($title ? ' - ' . $title : '');
         }
 

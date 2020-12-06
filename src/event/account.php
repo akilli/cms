@@ -10,8 +10,8 @@ function data(): array
 {
     $id = (int) session\get('account');
 
-    if ($id && ($data = entity\one('account', [['id', $id]]))) {
-        $data['privilege'] = entity\one('role', [['id', $data['role_id']]])['privilege'];
+    if ($id && ($data = entity\one('account', crit: [['id', $id]]))) {
+        $data['privilege'] = entity\one('role', crit: [['id', $data['role_id']]])['privilege'];
         $data['privilege'][] = '_user_';
         $data['admin'] = in_array('_all_', $data['privilege']);
     } else {

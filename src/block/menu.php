@@ -10,7 +10,7 @@ use layout;
 function render(array $block): string
 {
     if ($block['cfg']['url']) {
-        $page = entity\one('page', [['url', $block['cfg']['url']]]);
+        $page = entity\one('page', crit: [['url', $block['cfg']['url']]]);
     } else {
         $page = app\data('app', 'page');
     }
@@ -22,7 +22,7 @@ function render(array $block): string
     $rootCrit = $block['cfg']['submenu'] ? [['id', $page['path'][1]]] : [['url', '/']];
     $select = ['id', 'name', 'url', 'disabled', 'position', 'level'];
 
-    if (!$root = entity\one('page', $rootCrit, select: $select)) {
+    if (!$root = entity\one('page', crit: $rootCrit, select: $select)) {
         return '';
     }
 
@@ -36,7 +36,7 @@ function render(array $block): string
         $crit[] = ['menu', true];
     }
 
-    $block['cfg']['data'] = entity\all('page', $crit, select: $select, order: ['position' => 'asc']);
+    $block['cfg']['data'] = entity\all('page', crit: $crit, select: $select, order: ['position' => 'asc']);
     $block['cfg']['title'] = null;
 
     if ($block['cfg']['root'] && $block['cfg']['submenu']) {

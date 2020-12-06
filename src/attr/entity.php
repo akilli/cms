@@ -22,7 +22,7 @@ function validator(int $val, array $attr): int
 
 function viewer(int $val, array $attr): string
 {
-    return entity\one($attr['ref'], [['id', $val]], select: ['name'])['name'];
+    return entity\one($attr['ref'], crit: [['id', $val]], select: ['name'])['name'];
 }
 
 function opt(array $data, array $attr): array

@@ -115,7 +115,7 @@ function render(array $block): string
 
     return app\tpl($block['tpl'], [
         'attr' => $attrs,
-        'data' => entity\all($entity['id'], $crit, order: $order, limit: $limit, offset: $offset),
+        'data' => entity\all($entity['id'], crit: $crit, order: $order, limit: $limit, offset: $offset),
         'filter' => $filter,
         'link' => $block['cfg']['link'],
         'pager-bottom' => in_array($block['cfg']['pager'], ['both', 'bottom']) ? $pager : null,
