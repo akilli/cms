@@ -231,19 +231,24 @@ function layout(array $data, array $ext): array
 function privilege(array $data, array $ext): array
 {
     $data = arr\extend($data, $ext);
-
-    foreach ($data as $id => $item) {
-        $item = arr\replace(APP['cfg']['privilege'], $item);
-        $item['name'] = $item['name'] ? app\i18n($item['name']) : '';
-        $data[$id] = $item;
-    }
+    $generated = [];
 
     foreach (load('entity') as $entity) {
         foreach ($entity['action'] as $action) {
-            $id = $entity['id'] . ':' . $action;
-            $data[$id]['name'] = $entity['name'] . ' ' . app\i18n(ucfirst($action));
-            $data[$id] = arr\replace(APP['cfg']['privilege'], $data[$id]);
+            $generated[$entity['id'] . ':' . $action]['name'] = $entity['name'] . ' ' . app\i18n(ucfirst($action));
         }
+    }
+
+    foreach ($data as $id => $item) {
+        if (!empty($item['name'])) {
+            $data[$id]['name'] = app\i18n($item['name']);
+        }
+    }
+
+    $data = arr\extend($generated, $data);
+
+    foreach ($data as $id => $item) {
+        $data[$id] = arr\replace(APP['cfg']['privilege'], $item);
     }
 
     return $data;
