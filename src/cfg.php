@@ -256,18 +256,17 @@ function privilege(array $data, array $ext): array
  */
 function toolbar(array $data, array $ext): array
 {
+    $data = arr\extend($data, $ext);
     $entities = load('entity');
-    $base = [];
+    $generated = [];
 
     foreach ($entities as $entity) {
         if (in_array('admin', $entity['action'])) {
             if ($entity['parent_id']) {
-                $base[$entity['parent_id']] = [
-                    'name' => $entities[$entity['parent_id']]['name'],
-                ];
+                $generated[$entity['parent_id']] = ['name' => $entities[$entity['parent_id']]['name']];
             }
 
-            $base[$entity['id']] = [
+            $generated[$entity['id']] = [
                 'name' => $entity['name'],
                 'privilege' => $entity['id'] . ':admin',
                 'url' => '/' . $entity['id'] . '/admin',
@@ -276,7 +275,13 @@ function toolbar(array $data, array $ext): array
         }
     }
 
-    $data = arr\order(arr\extend(arr\extend($base, $data), $ext), ['parent_id' => 'asc', 'sort' => 'asc']);
+    foreach ($data as $id => $item) {
+        if (!empty($item['name'])) {
+            $data[$id]['name'] = app\i18n($item['name']);
+        }
+    }
+
+    $data = arr\order(arr\extend($generated, $data), ['parent_id' => 'asc', 'sort' => 'asc']);
     $parentId = null;
     $sort = 0;
 
@@ -285,13 +290,13 @@ function toolbar(array $data, array $ext): array
 
         if (!$item['name'] || $item['parent_id'] && empty($data[$item['parent_id']])) {
             throw new DomainException(app\i18n('Invalid configuration'));
-        } elseif ($parentId !== $item['parent_id']) {
+        }
+
+        if ($parentId !== $item['parent_id']) {
             $sort = 0;
         }
 
-        $item['name'] = app\i18n($item['name']);
-        $item['sort'] = ++$sort;
-        $data[$id] = $item;
+        $data[$id]['sort'] = ++$sort;
         $parentId = $item['parent_id'];
     }
 
