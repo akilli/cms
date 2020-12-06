@@ -1,4 +1,4 @@
 <?php
 return [
-    'delegate' => 'block:admin',
+    'delegate' => 'block:index',
 ];

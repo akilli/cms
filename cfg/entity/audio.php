@@ -2,7 +2,7 @@
 return [
     'name' => 'Audios',
     'parent_id' => 'file',
-    'action' => ['admin', 'delete', 'edit'],
+    'action' => ['delete', 'edit', 'index'],
     'attr' => [
         'url' => [
             'type' => 'audio',

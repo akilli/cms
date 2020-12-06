@@ -2,5 +2,5 @@
 return [
     'name' => 'Content Blocks',
     'parent_id' => 'block',
-    'action' => ['admin', 'delete', 'edit'],
+    'action' => ['delete', 'edit', 'index'],
 ];

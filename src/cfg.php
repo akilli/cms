@@ -266,15 +266,15 @@ function toolbar(array $data, array $ext): array
     $generated = [];
 
     foreach ($entities as $entity) {
-        if (in_array('admin', $entity['action'])) {
+        if (in_array('index', $entity['action'])) {
             if ($entity['parent_id']) {
                 $generated[$entity['parent_id']] = ['name' => $entities[$entity['parent_id']]['name']];
             }
 
             $generated[$entity['id']] = [
                 'name' => $entity['name'],
-                'privilege' => $entity['id'] . ':admin',
-                'url' => '/' . $entity['id'] . '/admin',
+                'privilege' => $entity['id'] . ':index',
+                'url' => '/' . $entity['id'] . '/index',
                 'parent_id' => $entity['parent_id'],
             ];
         }

@@ -2,7 +2,7 @@
 return [
     'name' => 'Layout',
     'unique' => [['page_id', 'parent_id', 'name']],
-    'action' => ['admin', 'delete', 'edit'],
+    'action' => ['delete', 'edit', 'index'],
     'attr' => [
         'id' => [
             'name' => 'ID',

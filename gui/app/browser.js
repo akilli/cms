@@ -42,7 +42,7 @@ export default {
                     return;
                 }
 
-                browser(`/${entity}/admin`, async data => {
+                browser(`/${entity}/index`, async data => {
                     if (!data.id) {
                         return;
                     }

@@ -2,7 +2,7 @@
 return [
     'name' => 'Documents',
     'parent_id' => 'file',
-    'action' => ['admin', 'delete', 'edit'],
+    'action' => ['delete', 'edit', 'index'],
     'attr' => [
         'url' => [
             'accept' => [

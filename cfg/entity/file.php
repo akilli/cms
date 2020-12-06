@@ -2,7 +2,7 @@
 return [
     'name' => 'Files',
     'readonly' => true,
-    'action' => ['admin'],
+    'action' => ['index'],
     'attr' => [
         'id' => [
             'name' => 'ID',

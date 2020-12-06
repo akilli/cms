@@ -1,7 +1,7 @@
 <?php
 return [
     'name' => 'Accounts',
-    'action' => ['admin', 'delete', 'edit', 'login', 'logout', 'profile'],
+    'action' => ['delete', 'edit', 'index', 'login', 'logout', 'profile'],
     'attr' => [
         'id' => [
             'name' => 'ID',

@@ -35,7 +35,7 @@ function render(array $block): string
     }
 
     if (in_array('page', [$entity['id'], $entity['parent_id']])) {
-        if ($app['action'] !== 'admin') {
+        if ($app['action'] !== 'index') {
             $crit[] = ['disabled', false];
         }
 

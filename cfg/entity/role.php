@@ -1,7 +1,7 @@
 <?php
 return [
     'name' => 'Roles',
-    'action' => ['admin', 'delete', 'edit'],
+    'action' => ['delete', 'edit', 'index'],
     'attr' => [
         'id' => [
             'name' => 'ID',
