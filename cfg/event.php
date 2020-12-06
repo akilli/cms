@@ -13,8 +13,9 @@ return [
     'entity:prevalidate:id:file' => ['event\file\prevalidate' => 100],
     'layout:postrender' => ['event\filter\all' => 100],
     'layout:postrender:id:body' => ['event\filter\body' => 100],
-    'response' => ['event\response\all' => 100],
-    'response:account:logout' => ['event\response\account_logout' => 100],
-    'response:block:api' => ['event\response\block_api' => 100],
-    'response:delete' => ['event\response\delete' => 100],
+    'response:html' => ['event\response\html' => 100],
+    'response:html:account:logout' => ['event\response\html_account_logout' => 100],
+    'response:html:block:api' => ['event\response\html_block_api' => 100],
+    'response:html:delete' => ['event\response\html_delete' => 100],
+    'response:json' => ['event\response\json' => 100],
 ];

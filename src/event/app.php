@@ -20,13 +20,18 @@ function data(array $data): array
         $data['action'] = 'view';
         $data['id'] = $data['page']['id'];
         $data['entity'] = $data['page']['_entity'];
-    } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/]+))$#u', $request['url'], $match)) {
+    } elseif (preg_match('#^/([a-z_]+)(?:|/([^/\.]+))\.json$#u', $request['url'], $match)) {
+        $data['entity_id'] = $match[1];
+        $data['action'] = isset($match[2]) ? 'view' : 'index';
+        $data['id'] = $match[2] ?? null;
+        $data['type'] = 'json';
+    } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/\.]+))$#u', $request['url'], $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['id'] = $match[3] ?? null;
-        $data['entity'] = app\cfg('entity', $match[1]);
     }
 
+    $data['entity'] = !$data['entity'] && $data['entity_id'] ? app\cfg('entity', $data['entity_id']) : $data['entity'];
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
     $public = empty(app\cfg('privilege', $data['entity_id'] . ':' . $data['action'])['active']);
     $data['area'] = $public ? '_public_' : '_admin_';

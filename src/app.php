@@ -16,18 +16,19 @@ use Stringable;
 function run(): string
 {
     $app = data('app');
-    $ev = ['response'];
+    $pre = 'response:' . $app['type'];
+    $ev = [$pre];
 
     if ($app['invalid']) {
         http_response_code(404);
     } else {
-        array_unshift($ev, 'response:' . $app['action']);
+        array_unshift($ev, $pre . ':' . $app['action']);
 
         if ($app['parent_id']) {
-            array_unshift($ev, 'response:' . $app['parent_id'] . ':' . $app['action']);
+            array_unshift($ev, $pre . ':' . $app['parent_id'] . ':' . $app['action']);
         }
 
-        array_unshift($ev, 'response:' . $app['entity_id'] . ':' . $app['action']);
+        array_unshift($ev, $pre . ':' . $app['entity_id'] . ':' . $app['action']);
     }
 
     $data = arr\replace(APP['response'], event($ev, APP['response']));
