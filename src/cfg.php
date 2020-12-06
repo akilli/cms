@@ -256,7 +256,27 @@ function privilege(array $data, array $ext): array
  */
 function toolbar(array $data, array $ext): array
 {
-    $data = arr\order(arr\extend($data, $ext), ['parent_id' => 'asc', 'sort' => 'asc', 'id' => 'asc']);
+    $entities = load('entity');
+    $base = [];
+
+    foreach ($entities as $entity) {
+        if (in_array('admin', $entity['action'])) {
+            if ($entity['parent_id']) {
+                $base[$entity['parent_id']] = [
+                    'name' => $entities[$entity['parent_id']]['name'],
+                ];
+            }
+
+            $base[$entity['id']] = [
+                'name' => $entity['name'],
+                'privilege' => $entity['id'] . ':admin',
+                'url' => '/' . $entity['id'] . '/admin',
+                'parent_id' => $entity['parent_id'],
+            ];
+        }
+    }
+
+    $data = arr\order(arr\extend(arr\extend($base, $data), $ext), ['parent_id' => 'asc', 'sort' => 'asc']);
     $parentId = null;
     $sort = 0;
 
