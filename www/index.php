@@ -35,3 +35,5 @@ setlocale(LC_ALL, APP['locale']);
  * Run application
  */
 echo app\run();
+
+echo '<pre>' . print_r(app\cfg('privilege'), true) . '</pre>';
