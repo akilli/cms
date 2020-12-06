@@ -278,13 +278,13 @@ function event(string $name, array $data): array
 {
     $entity = $data['_entity'];
     $pre = 'entity:' . $name;
-    $ev = [$pre, $pre . ':type:' . $entity['type'], $pre . ':db:' . $entity['db']];
+    $events = [$pre, $pre . ':type:' . $entity['type'], $pre . ':db:' . $entity['db']];
 
     if ($entity['parent_id']) {
-        $ev[] = $pre . ':id:' . $entity['parent_id'];
+        $events[] = $pre . ':id:' . $entity['parent_id'];
     }
 
-    $ev[] = $pre . ':id:' . $entity['id'];
+    $events[] = $pre . ':id:' . $entity['id'];
 
-    return app\event($ev, $data);
+    return app\event($events, $data);
 }
