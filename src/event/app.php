@@ -27,8 +27,6 @@ function data(array $data): array
         $data['entity'] = app\cfg('entity', $match[1]);
     }
 
-    echo '<pre>' . print_r($match, true) . '</pre>';
-
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
     $public = empty(app\cfg('privilege', $data['entity_id'] . ':' . $data['action'])['active']);
     $data['area'] = $public ? '_public_' : '_admin_';
