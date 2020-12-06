@@ -12,7 +12,7 @@ function opt(array $data): array
         return [$data['_entity']['id'] => $data['_entity']['name']];
     }
 
-    if (($opt = &app\registry('opt')['parent'][$data['_entity']['id']]) === null) {
+    if (($opt = &app\registry('opt')['entity_id'][$data['_entity']['id']]) === null) {
         $opt = array_column(arr\filter(app\cfg('entity'), 'parent_id', $data['_entity']['id']), 'name', 'id');
         asort($opt);
     }
