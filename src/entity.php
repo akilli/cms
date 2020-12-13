@@ -21,7 +21,7 @@ function size(string $entityId, array $crit = []): int
         return ($entity['type'] . '\size')($entity, $crit);
     } catch (Throwable $e) {
         app\log($e);
-        app\msg('Could not load data');
+        app\msg(app\i18n('Could not load data'));
     }
 
     return 0;
@@ -43,7 +43,7 @@ function one(string $entityId, array $crit = [], array $select = [], array $orde
         }
     } catch (Throwable $e) {
         app\log($e);
-        app\msg('Could not load data');
+        app\msg(app\i18n('Could not load data'));
     }
 
     return $data;
@@ -76,7 +76,7 @@ function all(
         return array_column($data, null, $index);
     } catch (Throwable $e) {
         app\log($e);
-        app\msg('Could not load data');
+        app\msg(app\i18n('Could not load data'));
     }
 
     return [];
@@ -123,7 +123,7 @@ function save(string $entityId, array &$data): bool
     }
 
     if (!$attrIds) {
-        app\msg('No changes');
+        app\msg(app\i18n('No changes'));
         return false;
     }
 
@@ -144,7 +144,7 @@ function save(string $entityId, array &$data): bool
 
     if ($tmp['_error']) {
         $data['_error'] = $tmp['_error'];
-        app\msg('Could not save data');
+        app\msg(app\i18n('Could not save data'));
         return false;
     }
 
@@ -158,7 +158,7 @@ function save(string $entityId, array &$data): bool
     }
 
     if (!$attrIds) {
-        app\msg('No changes');
+        app\msg(app\i18n('No changes'));
         return false;
     }
 
@@ -171,7 +171,7 @@ function save(string $entityId, array &$data): bool
             },
             $entity['db']
         );
-        app\msg('Successfully saved data');
+        app\msg(app\i18n('Successfully saved data'));
         $data = $tmp;
 
         if (empty($data['id']) && !empty($tmp['_old']['id'])) {
@@ -181,7 +181,7 @@ function save(string $entityId, array &$data): bool
         return true;
     } catch (Throwable $e) {
         app\log($e);
-        app\msg('Could not save data');
+        app\msg(app\i18n('Could not save data'));
     }
 
     return false;
@@ -201,7 +201,7 @@ function delete(string $entityId, array $crit = []): bool
     }
 
     if (!$all = all($entity['id'], crit: $crit)) {
-        app\msg('Nothing to delete');
+        app\msg(app\i18n('Nothing to delete'));
         return false;
     }
 
@@ -216,14 +216,14 @@ function delete(string $entityId, array $crit = []): bool
             },
             $entity['db']
         );
-        app\msg('Successfully deleted data');
+        app\msg(app\i18n('Successfully deleted data'));
 
         return true;
     } catch (DomainException $e) {
         app\msg($e->getMessage());
     } catch (Throwable $e) {
         app\log($e);
-        app\msg('Could not delete data');
+        app\msg(app\i18n('Could not delete data'));
     }
 
     return false;

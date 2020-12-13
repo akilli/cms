@@ -19,7 +19,7 @@ function render(array $block): string
     }
 
     if (($id = $app['id']) && !($old = entity\one($entity['id'], crit: [['id', $id]]))) {
-        app\msg('Nothing to edit');
+        app\msg(app\i18n('Nothing to edit'));
         request\redirect(app\action($entity['id'], 'index'));
         return '';
     }

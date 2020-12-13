@@ -73,7 +73,7 @@ function normalize(array $in): ?array
         }
 
         if ($in['error'] !== UPLOAD_ERR_NO_FILE) {
-            app\msg('Could not upload %s', $in['name']);
+            app\msg(app\i18n('Could not upload %s', $in['name']));
         }
 
         return [];
@@ -94,7 +94,7 @@ function normalize(array $in): ?array
             $f = normalize($f);
         } elseif ($f['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($f['tmp_name'])) {
             if ($f['error'] !== UPLOAD_ERR_NO_FILE) {
-                app\msg('Could not upload %s', $f['name']);
+                app\msg(app\i18n('Could not upload %s', $f['name']));
             }
 
             continue;

@@ -184,7 +184,7 @@ function i18n(string $key, string ...$args): string
 /**
  * Message
  */
-function msg(string $msg = null, string ...$args): array
+function msg(string $msg = null): array
 {
     if (($data = &registry('msg')) === null) {
         $data = session\get('msg') ?: [];
@@ -197,7 +197,7 @@ function msg(string $msg = null, string ...$args): array
         return $old;
     }
 
-    if ($msg && ($msg = i18n($msg, ...$args)) && !in_array($msg, $data)) {
+    if ($msg && !in_array($msg, $data)) {
         $data[] = $msg;
     }
 

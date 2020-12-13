@@ -21,7 +21,7 @@ function render(array $block): string
             return '';
         }
 
-        app\msg('Invalid name and password combination');
+        app\msg(app\i18n('Invalid name and password combination'));
     }
 
     $entity = app\cfg('entity', 'account');
