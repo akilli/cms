@@ -42,13 +42,13 @@ use attr;
             <?php endforeach; ?>
             <footer>
                 <?php if (allowed(id($entityId, 'view'))): ?>
-                <a href="<?php echo $data['url'] ?? url($entityId . '/view/' . $data['id']); ?>" data-action="view" title="<?php echo i18n('View'); ?>"><?php echo i18n('View'); ?></a>
+                <a href="<?php echo $data['url'] ?? action($entityId, 'view', (string)$data['id']); ?>" data-action="view" title="<?php echo i18n('View'); ?>"><?php echo i18n('View'); ?></a>
                 <?php endif; ?>
                 <?php if (allowed(id($entityId, 'edit'))): ?>
-                <a href="<?php echo url($entityId . '/edit/' . $data['id']); ?>" data-action="edit" title="<?php echo i18n('Edit'); ?>"><?php echo i18n('Edit'); ?></a>
+                <a href="<?php echo action($entityId, 'edit', (string)$data['id']); ?>" data-action="edit" title="<?php echo i18n('Edit'); ?>"><?php echo i18n('Edit'); ?></a>
                 <?php endif; ?>
                 <?php if (allowed(id($entityId, 'delete'))): ?>
-                <a href="<?php echo url($entityId . '/delete/' . $data['id']); ?>" data-action="delete" title="<?php echo i18n('Delete'); ?>"><?php echo i18n('Delete'); ?></a>
+                <a href="<?php echo action($entityId, 'delete', (string)$data['id']); ?>" data-action="delete" title="<?php echo i18n('Delete'); ?>"><?php echo i18n('Delete'); ?></a>
                 <?php endif; ?>
             </footer>
         </article>

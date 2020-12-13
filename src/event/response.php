@@ -21,7 +21,7 @@ function html_delete(array $data): array
 {
     $app = app\data('app');
     entity\delete($app['entity_id'], [['id', $app['id']]]);
-    $data['redirect'] = app\url($app['entity_id'] . '/index');
+    $data['redirect'] = app\action($app['entity_id'], 'index');
     $data['_stop'] = true;
 
     return $data;

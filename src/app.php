@@ -221,7 +221,7 @@ function id(string ...$args): string
 }
 
 /**
- * Generates URL by given path and params, optionally preserves existing params
+ * Generates an URL with given path and params, optionally preserves existing params
  */
 function url(string $path = '', array $get = [], bool $preserve = false): string
 {
@@ -229,7 +229,7 @@ function url(string $path = '', array $get = [], bool $preserve = false): string
 }
 
 /**
- * Generates query part of an URL with given params, optionally preserves existing params
+ * Generates the query part of an URL with given params, optionally preserves existing params
  */
 function query(array $get, bool $preserve = false): string
 {
@@ -241,7 +241,15 @@ function query(array $get, bool $preserve = false): string
 }
 
 /**
- * File URL
+ * Generates an action URL path from given arguments
+ */
+function action(string ...$args): string
+{
+    return '/' . implode('/', $args);
+}
+
+/**
+ * Generates a file URL with given subpath
  */
 function file(string $path = ''): string
 {
@@ -249,7 +257,7 @@ function file(string $path = ''): string
 }
 
 /**
- * GUI URL
+ * Generates a GUI URL for given subpath
  */
 function gui(string $path = ''): string
 {
@@ -257,7 +265,7 @@ function gui(string $path = ''): string
 }
 
 /**
- * Extension GUI URL
+ * Generates an extension GUI URL for given subpath
  */
 function ext(string $path = ''): string
 {

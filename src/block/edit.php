@@ -20,7 +20,7 @@ function render(array $block): string
 
     if (($id = $app['id']) && !($old = entity\one($entity['id'], crit: [['id', $id]]))) {
         app\msg('Nothing to edit');
-        request\redirect(app\url($entity['id'] . '/index'));
+        request\redirect(app\action($entity['id'], 'index'));
         return '';
     }
 
@@ -30,7 +30,7 @@ function render(array $block): string
         }
 
         if (entity\save($entity['id'], $data)) {
-            request\redirect(app\url($entity['id'] . '/edit/' . $data['id']));
+            request\redirect(app\action($entity['id'], 'edit', (string)$data['id']));
             return '';
         }
     }
