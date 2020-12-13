@@ -87,7 +87,7 @@ function cfg(array $block): array
  */
 function event(string $name, array $data): array
 {
-    $pre = 'layout:' . $name;
+    $pre = app\id('layout', $name);
 
-    return app\event([$pre, $pre . ':type:' . $data['type'], $pre . ':id:' . $data['id']], $data);
+    return app\event([$pre, app\id($pre, 'type', $data['type']), app\id($pre, 'id', $data['id'])], $data);
 }

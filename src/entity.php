@@ -277,14 +277,14 @@ function uninit(array $data): array
 function event(string $name, array $data): array
 {
     $entity = $data['_entity'];
-    $pre = 'entity:' . $name;
-    $events = [$pre, $pre . ':type:' . $entity['type'], $pre . ':db:' . $entity['db']];
+    $pre = app\id('entity', $name);
+    $events = [$pre, app\id($pre, 'type', $entity['type']), app\id($pre, 'db', $entity['db'])];
 
     if ($entity['parent_id']) {
-        $events[] = $pre . ':id:' . $entity['parent_id'];
+        $events[] = app\id($pre, 'id', $entity['parent_id']);
     }
 
-    $events[] = $pre . ':id:' . $entity['id'];
+    $events[] = app\id($pre, 'id', $entity['id']);
 
     return app\event($events, $data);
 }

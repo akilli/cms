@@ -16,19 +16,23 @@ use Stringable;
 function run(): string
 {
     $app = data('app');
-    $pre = 'response:' . $app['type'];
+    $pre = id('response', $app['type']);
     $events = [$pre];
 
     if ($app['invalid']) {
         http_response_code(404);
     } else {
-        array_unshift($events, $pre . ':' . $app['action']);
+        array_unshift($events, id($pre, $app['action']));
 
         if ($app['parent_id']) {
-            array_unshift($events, $pre . ':' . $app['parent_id'] . ':' . $app['action']);
+            array_unshift($events, id($pre, $app['parent_id'], $app['action']));
         }
 
-        array_unshift($events, $pre . ':' . $app['entity_id'] . ':' . $app['action']);
+        array_unshift($events, id($pre, $app['entity_id'], $app['action']));
+
+        if ($app['page'] && $app['action'] === 'view' && $app['id']) {
+            array_unshift($events, id($pre, 'page', 'view', (string)$app['id']));
+        }
     }
 
     $data = arr\replace(APP['response'], event($events, APP['response']));
@@ -76,7 +80,7 @@ function data(string $id, string $key = null): mixed
 {
     if (($data = &registry('data')[$id]) === null) {
         $data = [];
-        $data = event(['data:' . $id], $data);
+        $data = event([id('data', $id)], $data);
     }
 
     if ($key === null) {
@@ -206,6 +210,14 @@ function msg(string $msg = null, string ...$args): array
 function log(string|Stringable $msg): void
 {
     file_put_contents(APP['log'], '[' . date('r') . '] ' . $msg . "\n\n", FILE_APPEND);
+}
+
+/**
+ * Joins given parts to an identifier for privileges, events, etc
+ */
+function id(string ...$args): string
+{
+    return implode(':', $args);
 }
 
 /**

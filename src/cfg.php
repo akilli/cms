@@ -235,7 +235,7 @@ function privilege(array $data, array $ext): array
 
     foreach (load('entity') as $entity) {
         foreach ($entity['action'] as $action) {
-            $generated[$entity['id'] . ':' . $action]['name'] = $entity['name'] . ' ' . app\i18n(ucfirst($action));
+            $generated[app\id($entity['id'], $action)]['name'] = $entity['name'] . ' ' . app\i18n(ucfirst($action));
         }
     }
 
@@ -273,7 +273,7 @@ function toolbar(array $data, array $ext): array
 
             $generated[$entity['id']] = [
                 'name' => $entity['name'],
-                'privilege' => $entity['id'] . ':index',
+                'privilege' => app\id($entity['id'], 'index'),
                 'url' => '/' . $entity['id'] . '/index',
                 'parent_id' => $entity['parent_id'],
             ];

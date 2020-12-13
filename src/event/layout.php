@@ -20,13 +20,13 @@ function data(array $data): array
         $keys[] = $action;
 
         if ($parentId = $app['parent_id']) {
-            $keys[] = $parentId . ':' . $action;
+            $keys[] = app\id($parentId, $action);
         }
 
-        $keys[] = $entityId . ':' . $action;
+        $keys[] = app\id($entityId, $action);
 
-        if ($action === 'view' && $app['id']) {
-            $pageKey = 'page:view:' . $app['id'];
+        if ($app['page'] && $action === 'view' && $app['id']) {
+            $pageKey = app\id('page', 'view', (string)$app['id']);
             $keys[] = $pageKey;
 
             foreach (entity\all('layout', crit: [['page_id', $app['id']]]) as $item) {
