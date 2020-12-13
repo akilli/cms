@@ -26,7 +26,7 @@ function data(array $data): array
         $keys[] = app\id($entityId, $action);
 
         if ($app['page'] && $action === 'view' && $app['id']) {
-            $pageKey = app\id('page', 'view', (string)$app['id']);
+            $pageKey = app\id('page', 'view', $app['id']);
             $keys[] = $pageKey;
 
             foreach (entity\all('layout', crit: [['page_id', $app['id']]]) as $item) {

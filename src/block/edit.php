@@ -30,7 +30,7 @@ function render(array $block): string
         }
 
         if (entity\save($entity['id'], $data)) {
-            request\redirect(app\action($entity['id'], 'edit', (string)$data['id']));
+            request\redirect(app\action($entity['id'], 'edit', $data['id']));
             return '';
         }
     }

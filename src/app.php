@@ -31,7 +31,7 @@ function run(): string
         array_unshift($events, id($pre, $app['entity_id'], $app['action']));
 
         if ($app['page'] && $app['action'] === 'view' && $app['id']) {
-            array_unshift($events, id($pre, 'page', 'view', (string)$app['id']));
+            array_unshift($events, id($pre, 'page', 'view', $app['id']));
         }
     }
 
@@ -215,7 +215,7 @@ function log(string|Stringable $msg): void
 /**
  * Joins given parts to an identifier for privileges, events, etc
  */
-function id(string ...$args): string
+function id(string|int ...$args): string
 {
     return implode(':', $args);
 }
@@ -243,7 +243,7 @@ function query(array $get, bool $preserve = false): string
 /**
  * Generates an action URL path from given arguments
  */
-function action(string ...$args): string
+function action(string|int ...$args): string
 {
     return '/' . implode('/', $args);
 }
