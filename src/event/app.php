@@ -10,10 +10,10 @@ use entity;
 function data(array $data): array
 {
     $data = arr\replace(APP['data']['app'], $data);
-    $request = app\data('request');
+    $url = app\data('request', 'url');
 
-    if (preg_match('#^/(?:|[a-z0-9_\-\./]+\.html)$#', $request['url'], $match)
-        && ($page = entity\one('page', crit: [['url', $request['url']]], select: ['id', 'entity_id']))
+    if (preg_match('#^/(?:|[a-z0-9_\-\./]+\.html)$#', $url, $match)
+        && ($page = entity\one('page', crit: [['url', $url]], select: ['id', 'entity_id']))
         && ($data['page'] = entity\one($page['entity_id'], crit: [['id', $page['id']]]))
     ) {
         $data['type'] = 'html';
@@ -21,12 +21,12 @@ function data(array $data): array
         $data['action'] = 'view';
         $data['id'] = $data['page']['id'];
         $data['entity'] = $data['page']['_entity'];
-    } elseif (preg_match('#^/([a-z_]+)(?:|/([^/\.]+))\.json$#u', $request['url'], $match)) {
+    } elseif (preg_match('#^/([a-z_]+)(?:|/([^/\.]+))\.json$#u', $url, $match)) {
         $data['type'] = 'json';
         $data['entity_id'] = $match[1];
         $data['action'] = isset($match[2]) ? 'view' : 'index';
         $data['id'] = $match[2] ?? null;
-    } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/\.]+))$#u', $request['url'], $match)) {
+    } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/\.]+))$#u', $url, $match)) {
         $data['type'] = 'html';
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
