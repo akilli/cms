@@ -13,10 +13,8 @@ function data(array $data): array
     $app = app\data('app');
 
     if ($app['page']) {
-        $pageEvent = app\id('page', 'view', $app['id']);
-
         foreach (entity\all('layout', crit: [['page_id', $app['id']]]) as $item) {
-            $cfg[$pageEvent]['layout-' . $item['parent_id'] .'-' . $item['name']] = [
+            $cfg[app\id('page', 'view', $app['id'])]['layout-' . $item['parent_id'] .'-' . $item['name']] = [
                 'type' => 'tag',
                 'parent_id' => $item['parent_id'],
                 'sort' => $item['sort'],
