@@ -19,6 +19,10 @@ function run(): string
     $events = arr\prefix(array_reverse($app['event']), 'response:');
     $data = arr\replace(APP['response'], event($events, APP['response']));
 
+    if ($app['invalid']) {
+        http_response_code(404);
+    }
+
     if ($data['redirect']) {
         request\redirect($data['redirect']);
         return '';
