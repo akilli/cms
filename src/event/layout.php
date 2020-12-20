@@ -18,10 +18,7 @@ function data(array $data): array
                 'type' => 'tag',
                 'parent_id' => $item['parent_id'],
                 'sort' => $item['sort'],
-                'cfg' => [
-                    'attr' => ['id' => $item['entity_id'] . '-' . $item['block_id']],
-                    'tag' => 'app-block',
-                ],
+                'cfg' => ['attr' => ['id' => $item['entity_id'] . '-' . $item['block_id']], 'tag' => 'app-block'],
             ];
         }
     }
