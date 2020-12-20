@@ -73,9 +73,7 @@ function all(string $path): array
  */
 function load(string $id): array
 {
-    $cfg = &app\registry('cfg');
-
-    if (empty($cfg[$id])) {
+    if (($cfg = &app\registry('cfg')[$id]) === null) {
         $path = APP['path']['cfg'] . '/' . $id;
         $extPath = APP['path']['ext.cfg'] . '/' . $id;
 
@@ -87,7 +85,7 @@ function load(string $id): array
             $ext = one($extPath . '.php');
         }
 
-        $cfg[$id] = match ($id) {
+        $cfg = match ($id) {
             'attr' => $data + $ext,
             'block' => block($data, $ext),
             'db' => arr\extend($data, $ext),
@@ -100,7 +98,7 @@ function load(string $id): array
         };
     }
 
-    return $cfg[$id];
+    return $cfg;
 }
 
 /**
