@@ -16,16 +16,18 @@ function data(array $data): array
         && ($page = entity\one('page', crit: [['url', $request['url']]], select: ['id', 'entity_id']))
         && ($data['page'] = entity\one($page['entity_id'], crit: [['id', $page['id']]]))
     ) {
+        $data['type'] = 'html';
         $data['entity_id'] = $data['page']['entity_id'];
         $data['action'] = 'view';
         $data['id'] = $data['page']['id'];
         $data['entity'] = $data['page']['_entity'];
     } elseif (preg_match('#^/([a-z_]+)(?:|/([^/\.]+))\.json$#u', $request['url'], $match)) {
+        $data['type'] = 'json';
         $data['entity_id'] = $match[1];
         $data['action'] = isset($match[2]) ? 'view' : 'index';
         $data['id'] = $match[2] ?? null;
-        $data['type'] = 'json';
     } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/\.]+))$#u', $request['url'], $match)) {
+        $data['type'] = 'html';
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['id'] = $match[3] ?? null;
@@ -35,14 +37,29 @@ function data(array $data): array
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
     $public = empty(app\cfg('privilege', app\id($data['entity_id'], $data['action']))['active']);
     $data['area'] = $public ? '_public_' : '_admin_';
-    $data['invalid'] = !$data['entity_id']
-        || !$data['action']
-        || !app\allowed(app\id($data['entity_id'], $data['action']))
-        || $data['entity'] && !in_array($data['action'], $data['entity']['action'])
-        || !$data['page']
-            && in_array($data['action'], ['delete', 'view'])
-            && (!$data['id'] || $data['entity'] && !entity\size($data['entity_id'], [['id', $data['id']]]))
-        || $data['page'] && $data['page']['disabled'];
+    $data['valid'] = $data['entity_id']
+        && $data['action']
+        && app\allowed(app\id($data['entity_id'], $data['action']))
+        && $data['entity']
+        && in_array($data['action'], $data['entity']['action'])
+        && (
+            !in_array($data['action'], ['delete', 'view'])
+            || $data['page'] && !$data['page']['disabled']
+            || $data['id'] && entity\size($data['entity_id'], [['id', $data['id']]])
+        );
+
+    if ($data['valid']) {
+        $data['event'] = [
+            $data['type'],
+            app\id($data['type'], $data['area']),
+            app\id($data['type'], $data['action']),
+            ...($data['parent_id'] ? [app\id($data['type'], $data['parent_id'], $data['action'])] : []),
+            app\id($data['type'], $data['entity_id'], $data['action']),
+            ...($data['page'] ? [app\id($data['type'], 'page', $data['action'], $data['id'])] : []),
+        ];
+    } else {
+        $data['event'] = [$data['type'], app\id($data['type'], '_invalid_')];
+    }
 
     return $data;
 }

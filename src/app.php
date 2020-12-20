@@ -16,25 +16,7 @@ use Stringable;
 function run(): string
 {
     $app = data('app');
-    $pre = id('response', $app['type']);
-    $events = [$pre];
-
-    if ($app['invalid']) {
-        http_response_code(404);
-    } else {
-        array_unshift($events, id($pre, $app['action']));
-
-        if ($app['parent_id']) {
-            array_unshift($events, id($pre, $app['parent_id'], $app['action']));
-        }
-
-        array_unshift($events, id($pre, $app['entity_id'], $app['action']));
-
-        if ($app['page'] && $app['action'] === 'view' && $app['id']) {
-            array_unshift($events, id($pre, 'page', 'view', $app['id']));
-        }
-    }
-
+    $events = arr\prefix(array_reverse($app['event']), 'response:');
     $data = arr\replace(APP['response'], event($events, APP['response']));
 
     if ($data['redirect']) {

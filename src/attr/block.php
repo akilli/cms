@@ -8,7 +8,7 @@ use arr;
 
 function opt(): array
 {
-    $cfg = app\cfg('layout')['_all_'];
+    $cfg = app\cfg('layout')['html'];
     unset($cfg['head']);
     $ids = array_keys(arr\filter($cfg, 'type', 'container'));
 

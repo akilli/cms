@@ -49,7 +49,7 @@ function json(array $data): array
     header('content-type: application/json');
     $app = app\data('app');
 
-    if ($app['invalid']) {
+    if (!$app['valid']) {
         return $data;
     }
 
