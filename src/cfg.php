@@ -74,6 +74,7 @@ function all(string $path): array
 function load(string $id): array
 {
     if (($cfg = &app\registry('cfg')[$id]) === null) {
+        $cfg = [];
         $path = APP['path']['cfg'] . '/' . $id;
         $extPath = APP['path']['ext.cfg'] . '/' . $id;
 
