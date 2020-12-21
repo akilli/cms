@@ -31,66 +31,28 @@ export default {
      * Browser opener
      */
     open() {
-        const suffix = '-file';
+        const suffix = '-output';
 
         document.addEventListener('DOMContentLoaded', () => {
             // Open browser
             document.querySelectorAll('a[data-action=browser][data-ref]').forEach(item => item.addEventListener('click', () => {
                 const entity = item.getAttribute('data-ref');
 
-                if (!entity) {
-                    return;
+                if (entity) {
+                    browser(`/${entity}/index`, async data => {
+                        if (data.id) {
+                            const id = item.getAttribute('data-id');
+                            document.getElementById(id).setAttribute('value', data.id);
+                            document.getElementById(id + suffix).textContent = data.name || data.id;
+                        }
+                    });
                 }
-
-                browser(`/${entity}/index`, async data => {
-                    if (!data.id) {
-                        return;
-                    }
-
-                    const id = item.getAttribute('data-id');
-                    const input = document.getElementById(id);
-                    const div = document.getElementById(id + suffix);
-                    let typeEl = 'a';
-
-                    if (data.type === 'image') {
-                        typeEl = 'img';
-                    } else if (['audio', 'iframe', 'video'].includes(data.type)) {
-                        typeEl = data.type;
-                    }
-
-                    const file = document.createElement(typeEl);
-
-                    while (div.firstChild) {
-                        div.removeChild(div.firstChild);
-                    }
-
-                    input.setAttribute('value', data.id);
-
-                    if (['audio', 'video'].includes(typeEl)) {
-                        file.setAttribute('controls', 'controls');
-                    }
-
-                    if (typeEl === 'a') {
-                        file.setAttribute('href', data.src);
-                        file.innerText = data.src;
-                    } else {
-                        file.setAttribute('src', data.src);
-                    }
-
-                    div.appendChild(file);
-                });
             }));
             // Remove selected item
             document.querySelectorAll('a[data-action=remove]').forEach(item => item.addEventListener('click', () => {
                 const id = item.getAttribute('data-id');
-                const input = document.getElementById(id);
-                const div = document.getElementById(id + suffix);
-
-                while (div.firstChild) {
-                    div.removeChild(div.firstChild);
-                }
-
-                input.setAttribute('value', '');
+                document.getElementById(id).setAttribute('value', '');
+                document.getElementById(id + suffix).textContent = '';
             }));
         });
     },
