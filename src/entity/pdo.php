@@ -8,7 +8,6 @@ use arr;
 use sql;
 use DomainException;
 use PDO;
-use PDOStatement;
 use Throwable;
 
 /**
@@ -29,7 +28,7 @@ function size(array $entity, array $crit = []): int
  */
 function one(array $entity, array $crit = [], array $select = [], array $order = [], int $offset = 0): ?array
 {
-    return load($entity, $crit, $select, $order, 1, $offset)->fetch() ?: null;
+    return all($entity, $crit, $select, $order, 1, $offset)[0] ?? null;
 }
 
 /**
@@ -37,7 +36,19 @@ function one(array $entity, array $crit = [], array $select = [], array $order =
  */
 function all(array $entity, array $crit = [], array $select = [], array $order = [], int $limit = 0, int $offset = 0): array
 {
-    return load($entity, $crit, $select, $order, $limit, $offset)->fetchAll();
+    $select = $select ?: array_keys(attr($entity['attr']));
+    $cols = crit($crit, $entity['attr']);
+    $stmt = db($entity['db'])->prepare(
+        sql\select($select)
+        . sql\from($entity['id'])
+        . sql\where($cols['crit'])
+        . sql\order($order)
+        . sql\limit($limit, $offset)
+    );
+    array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
+    $stmt->execute();
+
+    return $stmt->fetchAll();
 }
 
 /**
@@ -107,26 +118,6 @@ function trans(callable $call, string $id): void
         app\log($e);
         throw $e;
     }
-}
-
-/**
- * Load entity
- */
-function load(array $entity, array $crit = [], array $select = [], array $order = [], int $limit = 0, int $offset = 0): PDOStatement
-{
-    $select = $select ?: array_keys(attr($entity['attr']));
-    $cols = crit($crit, $entity['attr']);
-    $stmt = db($entity['db'])->prepare(
-        sql\select($select)
-        . sql\from($entity['id'])
-        . sql\where($cols['crit'])
-        . sql\order($order)
-        . sql\limit($limit, $offset)
-    );
-    array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
-    $stmt->execute();
-
-    return $stmt;
 }
 
 /**
