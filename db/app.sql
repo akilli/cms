@@ -229,22 +229,6 @@ WITH LOCAL CHECK OPTION;
 -- ---------------------------------------------------------------------------------------------------------------------
 
 --
--- File
---
-
-CREATE FUNCTION file_save() RETURNS trigger AS $$
-    BEGIN
-        IF (TG_OP = 'UPDATE' AND NEW.url != OLD.url) THEN
-            RAISE EXCEPTION 'URL must not change';
-        ELSIF (TG_OP = 'UPDATE' AND NEW.mime != OLD.mime) THEN
-            RAISE EXCEPTION 'MIME-Type must not change';
-        END IF;
-
-        RETURN NEW;
-    END;
-$$ LANGUAGE plpgsql;
-
---
 -- Page
 --
 
@@ -408,12 +392,6 @@ $$ LANGUAGE plpgsql;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Trigger
 -- ---------------------------------------------------------------------------------------------------------------------
-
---
--- File
---
-
-CREATE TRIGGER file_save BEFORE INSERT OR UPDATE ON file FOR EACH ROW EXECUTE PROCEDURE file_save();
 
 --
 -- Page
