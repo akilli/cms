@@ -333,15 +333,11 @@ function toolbar(array $data, array $ext): array
         }
 
         $item['sort'] = ++$sort;
-        $data[$id] = $item;
-        $parentId = $item['parent_id'];
-    }
-
-    foreach ($data as $id => $item) {
         $parentPosition = $item['parent_id'] ? $data[$item['parent_id']]['position'] . '.' : '';
         $item['position'] = sprintf('%s%05d', $parentPosition, $item['sort']);
         $item['level'] = $item['parent_id'] ? $data[$item['parent_id']]['level'] + 1 : 1;
         $data[$id] = $item;
+        $parentId = $item['parent_id'];
     }
 
     return arr\order($data, ['position' => 'asc']);
