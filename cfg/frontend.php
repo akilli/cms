@@ -1,6 +1,7 @@
 <?php
 return [
     'bool' => ['call' => 'attr\bool\frontend'],
+    'browser' => ['call' => 'attr\browser\frontend'],
     'checkbox' => ['call' => 'attr\checkbox\frontend'],
     'date' => ['call' => 'attr\date\frontend'],
     'datetime' => ['call' => 'attr\datetime\frontend'],
