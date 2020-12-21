@@ -163,7 +163,7 @@ function save(string $entityId, array &$data): bool
     }
 
     try {
-        ($entity['type'] . '\trans')(
+        ($entity['type'] . '\transaction')(
             function () use (&$tmp): void {
                 $tmp = event('presave', $tmp);
                 $tmp = ($tmp['_entity']['type'] . '\save')($tmp);
@@ -206,7 +206,7 @@ function delete(string $entityId, array $crit = []): bool
     }
 
     try {
-        ($entity['type'] . '\trans')(
+        ($entity['type'] . '\transaction')(
             function () use ($all): void {
                 foreach ($all as $data) {
                     $data = event('predelete', $data);

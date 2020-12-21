@@ -99,7 +99,7 @@ function delete(array $data): void
  *
  * @throws Throwable
  */
-function trans(callable $call, string $id): void
+function transaction(callable $call, string $id): void
 {
     static $level = [];
 
