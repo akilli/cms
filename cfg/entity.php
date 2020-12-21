@@ -27,7 +27,7 @@ return [
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'max' => 255],
-            'entity_id' => ['name' => 'Entity', 'type' => 'entity_id', 'required' => true],
+            'entity_id' => ['name' => 'Entity', 'type' => 'entitychild', 'required' => true],
             'content' => ['name' => 'Content', 'type' => 'editor', 'nullable' => true],
         ],
     ],
@@ -56,7 +56,7 @@ return [
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'max' => 100],
-            'entity_id' => ['name' => 'Entity', 'type' => 'entity_id', 'required' => true],
+            'entity_id' => ['name' => 'Entity', 'type' => 'entitychild', 'required' => true],
             'url' => ['name' => 'URL', 'type' => 'file', 'required' => true, 'unique' => true],
             'thumb' => ['name' => 'Thumbnail', 'type' => 'image', 'nullable' => true, 'unique' => true],
             'mime' => ['name' => 'MIME-Type', 'type' => 'text', 'required' => true, 'max' => 255],
@@ -100,7 +100,7 @@ return [
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'max' => 255],
-            'entity_id' => ['name' => 'Entity', 'type' => 'entity_id', 'required' => true],
+            'entity_id' => ['name' => 'Entity', 'type' => 'entitychild', 'required' => true],
             'title' => ['name' => 'Title', 'type' => 'text', 'nullable' => true, 'max' => 255],
             'content' => ['name' => 'Main Content', 'type' => 'editor', 'nullable' => true],
             'aside' => ['name' => 'Additional Information', 'type' => 'editor', 'nullable' => true],

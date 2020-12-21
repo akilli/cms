@@ -1,0 +1,21 @@
+<?php
+return [
+    'bool' => ['call' => 'attr\bool\frontend'],
+    'checkbox' => ['call' => 'attr\checkbox\frontend'],
+    'date' => ['call' => 'attr\date\frontend'],
+    'datetime' => ['call' => 'attr\datetime\frontend'],
+    'decimal' => ['call' => 'attr\decimal\frontend'],
+    'email' => ['call' => 'attr\email\frontend'],
+    'file' => ['call' => 'attr\file\frontend'],
+    'int' => ['call' => 'attr\int\frontend'],
+    'json' => ['call' => 'attr\json\frontend'],
+    'password' => ['call' => 'attr\password\frontend'],
+    'radio' => ['call' => 'attr\radio\frontend'],
+    'range' => ['call' => 'attr\range\frontend'],
+    'select' => ['call' => 'attr\select\frontend'],
+    'tel' => ['call' => 'attr\tel\frontend'],
+    'text' => ['call' => 'attr\text\frontend'],
+    'textarea' => ['call' => 'attr\textarea\frontend'],
+    'time' => ['call' => 'attr\time\frontend'],
+    'url' => ['call' => 'attr\url\frontend'],
+];

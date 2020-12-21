@@ -1,0 +1,20 @@
+<?php
+return [
+    'audio' => ['call' => 'attr\audio\viewer'],
+    'date' => ['call' => 'attr\date\viewer'],
+    'datetime' => ['call' => 'attr\datetime\viewer'],
+    'editor' => ['call' => 'attr\editor\viewer'],
+    'email' => ['call' => 'attr\email\viewer'],
+    'entity' => ['call' => 'attr\entity\viewer'],
+    'file' => ['call' => 'attr\file\viewer'],
+    'iframe' => ['call' => 'attr\iframe\viewer'],
+    'image' => ['call' => 'attr\image\viewer'],
+    'json' => ['call' => 'attr\json\viewer'],
+    'multientity' => ['call' => 'attr\multientity\viewer'],
+    'opt' => ['call' => 'attr\opt\viewer'],
+    'position' => ['call' => 'attr\position\viewer'],
+    'tel' => ['call' => 'attr\tel\viewer'],
+    'time' => ['call' => 'attr\time\viewer'],
+    'url' => ['call' => 'attr\url\viewer'],
+    'video' => ['call' => 'attr\video\viewer'],
+];

@@ -5,20 +5,6 @@ declare(strict_types=1);
  * Application constants
  */
 define('APP', [
-    'backend' => [
-        'bool',
-        'date',
-        'datetime',
-        'decimal',
-        'int',
-        'json',
-        'multiint',
-        'multitext',
-        'serial',
-        'text',
-        'time',
-        'varchar',
-    ],
     'cfg' => [
         'attr' => [
             'id' => null,

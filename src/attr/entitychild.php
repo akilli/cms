@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace attr\entity_id;
+namespace attr\entitychild;
 
 use app;
 use arr;
@@ -12,7 +12,7 @@ function opt(array $data): array
         return [$data['_entity']['id'] => $data['_entity']['name']];
     }
 
-    if (($opt = &app\registry('opt')['entity_id'][$data['_entity']['id']]) === null) {
+    if (($opt = &app\registry('opt')['entitychild'][$data['_entity']['id']]) === null) {
         $opt = array_column(arr\filter(app\cfg('entity'), 'parent_id', $data['_entity']['id']), 'name', 'id');
         asort($opt);
     }

@@ -87,11 +87,12 @@ function load(string $id): array
         }
 
         $cfg = match ($id) {
-            'attr' => $data + $ext,
+            'attr', 'backend' => $data + $ext,
             'block' => block($data, $ext),
             'db' => arr\extend($data, $ext),
             'entity' => entity($data, $ext),
             'event' => event($data, $ext),
+            'frontend', 'opt', 'validator', 'viewer' => call($data, $ext),
             'layout' => layout($data, $ext),
             'privilege' => privilege($data, $ext),
             'toolbar' => toolbar($data, $ext),
@@ -100,6 +101,26 @@ function load(string $id): array
     }
 
     return $cfg;
+}
+
+/**
+ * Loads configuration that consists only of a callback function
+ *
+ * @throws DomainException
+ */
+function call(array $data, array $ext): array
+{
+    $data += $ext;
+
+    foreach ($data as $id => $item) {
+        $data[$id] = ['call' => $item['call'] ?? null];
+
+        if (!is_callable($item['call'])) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        }
+    }
+
+    return $data;
 }
 
 /**
@@ -130,8 +151,13 @@ function block(array $data, array $ext): array
 function entity(array $data, array $ext): array
 {
     $data += $ext;
-    $cfg = load('attr');
     $dbCfg = load('db');
+    $attrCfg = load('attr');
+    $backendCfg = load('backend');
+    $frontendCfg = load('frontend');
+    $validatorCfg = load('validator');
+    $viewerCfg = load('viewer');
+    $optCfg = load('opt');
     uasort($data, fn(array $a, array $b): int => ($a['parent_id'] ?? null) <=> ($b['parent_id'] ?? null));
 
     foreach ($data as $entityId => $entity) {
@@ -159,7 +185,7 @@ function entity(array $data, array $ext): array
         foreach ($entity['attr'] as $attrId => $attr) {
             if (empty($attr['name'])
                 || empty($attr['type'])
-                || empty($cfg[$attr['type']])
+                || empty($attrCfg[$attr['type']])
                 || in_array($attr['type'], ['entity', 'multientity']) && empty($attr['ref'])
                 || !empty($attr['ref']) && empty($data[$attr['ref']])
             ) {
@@ -167,19 +193,25 @@ function entity(array $data, array $ext): array
             }
 
             $a = ['id' => $attrId, 'name' => app\i18n($attr['name'])];
-            $attr = arr\replace(APP['cfg']['attr'], $cfg[$attr['type']], $attr, $a);
+            $attr = arr\replace(APP['cfg']['attr'], $attrCfg[$attr['type']], $attr, $a);
 
-            if (!in_array($attr['backend'], APP['backend'])
+            if (!array_key_exists($attr['backend'], $backendCfg)
                 || !$attr['frontend']
-                || !is_callable($attr['frontend'])
-                || $attr['filter'] && !is_callable($attr['filter'])
-                || $attr['opt'] !== null && !is_callable($attr['opt'])
+                || empty($frontendCfg[$attr['frontend']])
+                || $attr['filter'] !== null && empty($frontendCfg[$attr['filter']])
+                || $attr['validator'] !== null && empty($validatorCfg[$attr['validator']])
+                || $attr['viewer'] !== null && empty($viewerCfg[$attr['viewer']])
+                || $attr['opt'] !== null && empty($optCfg[$attr['opt']])
                 || $attr['min'] > 0 && $attr['max'] > 0 && $attr['min'] > $attr['max']
             ) {
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
-            $attr['filter'] = $attr['filter'] ?: $attr['frontend'];
+            $attr['frontend'] = $frontendCfg[$attr['frontend']]['call'];
+            $attr['filter'] = $attr['filter'] ? $frontendCfg[$attr['filter']]['call'] : $attr['frontend'];
+            $attr['validator'] = $attr['validator'] ? $validatorCfg[$attr['validator']]['call'] : null;
+            $attr['viewer'] = $attr['viewer'] ? $viewerCfg[$attr['viewer']]['call'] : null;
+            $attr['opt'] = $attr['opt'] ? $optCfg[$attr['opt']]['call'] : null;
             $entity['attr'][$attrId] = $attr;
         }
 
