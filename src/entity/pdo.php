@@ -195,14 +195,21 @@ function val(mixed $val, array $attr): mixed
 }
 
 /**
+ * Generates unique parameter
+ */
+function param(string $name): string
+{
+    static $count = 0;
+    return $name . ++$count;
+}
+
+/**
  * Generates criteria
  *
  * @throws DomainException
  */
 function crit(array $crit, array $attrs): array
 {
-    static $count = 0;
-
     $cols = ['crit' => [], 'param' => []];
 
     foreach ($crit as $part) {
@@ -241,7 +248,7 @@ function crit(array $crit, array $attrs): array
                 $in = [];
 
                 foreach ($val as $v) {
-                    $p = $param . ++$count;
+                    $p = param($param);
                     $v = val($v, $attr);
                     $cols['param'][] = [$p, $v, type($v)];
                     $in[] = $p;
@@ -249,14 +256,14 @@ function crit(array $crit, array $attrs): array
 
                 $or[] = ($n ? $null . ($not ? ' AND ' : ' OR ') : '') . $attr['id'] . $not . ' IN (' . implode(', ', $in) . ')';
             } elseif (in_array($op, [APP['op']['='], APP['op']['!='], APP['op']['>'], APP['op']['>='], APP['op']['<'], APP['op']['<=']])) {
-                $p = $param . ++$count;
+                $p = param($param);
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' ' . $op . ' ' . $p;
             } elseif (in_array($op, [APP['op']['~'], APP['op']['!~']])
                 && in_array($attr['backend'], ['json', 'multiint', 'multitext'])
             ) {
-                $p = $param . ++$count;
+                $p = param($param);
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' @> ' . $p . ($op === APP['op']['!~'] ? ' IS FALSE' : '');
@@ -264,7 +271,7 @@ function crit(array $crit, array $attrs): array
                 && in_array($attr['backend'], ['multiint', 'multitext'])
             ) {
                 $n = is_array($val) ? max(0, count($val) - 1) : 0;
-                $p = $param . ++$count;
+                $p = param($param);
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
 
@@ -281,7 +288,7 @@ function crit(array $crit, array $attrs): array
                 $not = in_array($op, [APP['op']['!~'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT' : '';
                 $pre = in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['$'], APP['op']['!$']]) ? '%' : '';
                 $post = in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
-                $p = $param . ++$count;
+                $p = param($param);
                 $val = val($val, $attr);
                 $cols['param'][] = [
                     $p,
