@@ -27,8 +27,9 @@ function order(array $data, array $order): array
         function (array $a, array $b) use ($order): int {
             foreach ($order as $key => $dir) {
                 $factor = $dir === 'desc' ? -1 : 1;
+                $result = ($a[$key] ?? null) <=> ($b[$key] ?? null);
 
-                if ($result = ($a[$key] ?? null) <=> ($b[$key] ?? null)) {
+                if ($result) {
                     return $result * $factor;
                 }
             }
