@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace attr\text;
 
-use app;
+use html;
 use str;
 
 function frontend(?string $val, array $attr): string
 {
-    return app\html('input', ['type' => 'text', 'value' => str\enc($val)] + $attr['html']);
+    return html\element('input', ['type' => 'text', 'value' => str\enc($val)] + $attr['html']);
 }
 
 function validator(string $val): string

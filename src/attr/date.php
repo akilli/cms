@@ -5,13 +5,14 @@ namespace attr\date;
 
 use app;
 use attr;
+use html;
 use DomainException;
 
 function frontend(?string $val, array $attr): string
 {
     $val = $val ? attr\datetime($val, APP['date.backend'], APP['date.frontend']) : '';
 
-    return app\html('input', ['type' => 'date', 'value' => $val] + $attr['html']);
+    return html\element('input', ['type' => 'date', 'value' => $val] + $attr['html']);
 }
 
 /**

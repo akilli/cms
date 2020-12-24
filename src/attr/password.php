@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace attr\password;
 
-use app;
+use html;
 
 function frontend(?string $val, array $attr): string
 {
-    return app\html('input', ['type' => 'password', 'value' => false] + $attr['html']);
+    return html\element('input', ['type' => 'password', 'value' => false] + $attr['html']);
 }

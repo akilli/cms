@@ -6,6 +6,7 @@ namespace attr;
 use app;
 use arr;
 use entity;
+use html;
 use str;
 use DomainException;
 
@@ -33,14 +34,14 @@ function frontend(array $data, array $attr): string
         $div['data-unique'] = true;
     }
 
-    $out = app\html('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['frontend']($val, $attr);
+    $out = html\element('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['frontend']($val, $attr);
 
     if (!empty($data['_error'][$attr['id']])) {
         $div['data-invalid'] = true;
-        $out .= app\html('div', ['class' => 'error'], implode('<br />', $data['_error'][$attr['id']]));
+        $out .= html\element('div', ['class' => 'error'], implode('<br />', $data['_error'][$attr['id']]));
     }
 
-    return app\html('div', $div, $out);
+    return html\element('div', $div, $out);
 }
 
 /**
@@ -56,7 +57,7 @@ function filter(array $data, array $attr): string
     $attr['opt'] = opt($data, $attr);
     $attr['html'] = html($attr, 'filter');
 
-    return app\html('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);
+    return html\element('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);
 }
 
 /**
@@ -130,30 +131,30 @@ function viewer(array $data, array $attr, array $cfg = []): string
     $a = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
 
     if ($cfg['link'] && !preg_match('#<(a|audio|details|iframe|video) #', $html)) {
-        $html = app\html('a', ['href' => $cfg['link']], $html);
+        $html = html\element('a', ['href' => $cfg['link']], $html);
     }
 
     if ($cfg['label']) {
-        $html = app\html('label', [], $attr['name']) . $html;
+        $html = html\element('label', [], $attr['name']) . $html;
     }
 
     if (in_array($attr['id'], ['name', 'title'])) {
-        return app\html($cfg['h3'] ? 'h3' : 'h2', $a, $html);
+        return html\element($cfg['h3'] ? 'h3' : 'h2', $a, $html);
     }
 
     if ($attr['id'] === 'aside') {
-        return app\html('aside', $a, $html);
+        return html\element('aside', $a, $html);
     }
 
     if (($attr['uploadable'] || $attr['type'] === 'iframe') && preg_match('#<(audio|iframe|img|video)#', $html, $match)) {
-        return app\html('figure', $a + (['class' => $match[1] === 'img' ? 'image' : $match[1]]), $html);
+        return html\element('figure', $a + (['class' => $match[1] === 'img' ? 'image' : $match[1]]), $html);
     }
 
     if (in_array($attr['type'], ['date', 'datetime', 'time'])) {
-        return app\html('time', $a + ($val !== $html ? ['datetime' => $val] : []), $html);
+        return html\element('time', $a + ($val !== $html ? ['datetime' => $val] : []), $html);
     }
 
-    return app\html('div', $a, $html);
+    return html\element('div', $a, $html);
 }
 
 /**

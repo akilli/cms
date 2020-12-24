@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace attr\json;
 
-use app;
 use attr\textarea;
+use html;
 use str;
 
 function frontend(?array $val, array $attr): string
@@ -14,5 +14,5 @@ function frontend(?array $val, array $attr): string
 
 function viewer(array $val): string
 {
-    return app\html('pre', [], str\enc(print_r($val, true)));
+    return html\element('pre', [], str\enc(print_r($val, true)));
 }

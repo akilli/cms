@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace attr\audio;
 
-use app;
+use html;
 
 function viewer(string $val): string
 {
-    return app\html('audio', ['src' => $val, 'controls' => true]);
+    return html\element('audio', ['src' => $val, 'controls' => true]);
 }

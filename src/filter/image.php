@@ -6,6 +6,7 @@ namespace filter\image;
 use app;
 use arr;
 use entity;
+use html;
 
 /**
  * Makes img-elements somehow responsive
@@ -68,8 +69,8 @@ function filter(string $html, array $cfg = []): string
             $twidth = $cache($tfile);
             $tset = $srcset(basename($item['thumb']), $twidth, true);
             $tmax = min($cfg['thumb'], $twidth);
-            $source = app\html('source', ['media' => '(max-width: ' . $tmax . 'px)', 'srcset' => $tset]);
-            $img = app\html('picture', [], $source . $img);
+            $source = html\element('source', ['media' => '(max-width: ' . $tmax . 'px)', 'srcset' => $tset]);
+            $img = html\element('picture', [], $source . $img);
         }
 
         return $match['figure'] . $match['a'] . $img;

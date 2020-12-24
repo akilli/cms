@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace attr\iframe;
 
-use app;
+use html;
 
 function viewer(string $val): string
 {
-    return app\html('iframe', ['src' => $val, 'allowfullscreen' => 'allowfullscreen']);
+    return html\element('iframe', ['src' => $val, 'allowfullscreen' => 'allowfullscreen']);
 }

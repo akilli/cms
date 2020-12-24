@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace attr\video;
 
-use app;
+use html;
 
 function viewer(string $val): string
 {
-    return app\html('video', ['src' => $val, 'controls' => true]);
+    return html\element('video', ['src' => $val, 'controls' => true]);
 }

@@ -4,12 +4,13 @@ declare(strict_types=1);
 namespace attr\url;
 
 use app;
-use DomainException;
+use html;
 use str;
+use DomainException;
 
 function frontend(?string $val, array $attr): string
 {
-    return app\html('input', ['type' => 'url', 'value' => str\enc($val)] + $attr['html']);
+    return html\element('input', ['type' => 'url', 'value' => str\enc($val)] + $attr['html']);
 }
 
 /**
@@ -22,5 +23,5 @@ function validator(string $val): string
 
 function viewer(string $val): string
 {
-    return app\html('a', ['href' => $val], $val);
+    return html\element('a', ['href' => $val], $val);
 }

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace attr\range;
 
-use app;
+use html;
 
 function frontend(?int $val, array $attr): string
 {
-    return app\html('input', ['type' => 'range', 'value' => $val] + $attr['html'] + ['step' => '1']);
+    return html\element('input', ['type' => 'range', 'value' => $val] + $attr['html'] + ['step' => '1']);
 }

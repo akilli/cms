@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace attr\radio;
 
-use app;
+use html;
 
 function frontend(mixed $val, array $attr): string
 {
@@ -19,7 +19,7 @@ function frontend(mixed $val, array $attr): string
             'value' => $k,
             'checked' => $k === $val,
         ] + $attr['html'];
-        $html .= app\html('input', $a) . app\html('label', ['for' => $id], $v);
+        $html .= html\element('input', $a) . html\element('label', ['for' => $id], $v);
     }
 
     return $html;

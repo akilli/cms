@@ -7,6 +7,7 @@ use app;
 use arr;
 use attr;
 use entity;
+use html;
 
 function render(array $block): string
 {
@@ -31,7 +32,7 @@ function render(array $block): string
     }
 
     if ($html && $block['cfg']['tag']) {
-        return app\html($block['cfg']['tag'], ['data-entity' => $entity['id']], $html);
+        return html\element($block['cfg']['tag'], ['data-entity' => $entity['id']], $html);
     }
 
     return $html;

@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace attr\checkbox;
 
-use app;
+use html;
 
 function frontend(?array $val, array $attr): string
 {
     $val = (array) $val;
-    $html = app\html(
+    $html = html\element(
         'input',
         ['id' => $attr['html']['id'], 'name' => str_replace('[]', '', $attr['html']['name']), 'type' => 'hidden']
     );
@@ -22,7 +22,7 @@ function frontend(?array $val, array $attr): string
             'value' => $k,
             'checked' => !!array_keys($val, $k, true),
         ] + $attr['html'];
-        $html .= app\html('input', $a) . app\html('label', ['for' => $id], $v);
+        $html .= html\element('input', $a) . html\element('label', ['for' => $id], $v);
     }
 
     return $html;

@@ -5,6 +5,7 @@ namespace block\nav;
 
 use app;
 use arr;
+use html;
 use layout;
 use DomainException;
 
@@ -31,11 +32,11 @@ function render(array $block): string
             default => null,
         };
     };
-    $html = $block['cfg']['title'] ? app\html('h2', [], app\i18n($block['cfg']['title'])) : '';
+    $html = $block['cfg']['title'] ? html\element('h2', [], app\i18n($block['cfg']['title'])) : '';
     $html .= layout\render_children($block['id']);
 
     if ($block['cfg']['toggle']) {
-        $html .= app\html('a', ['data-action' => 'toggle', 'data-target' => $block['id']]);
+        $html .= html\element('a', ['data-action' => 'toggle', 'data-target' => $block['id']]);
         $attrs['data-toggle'] = '';
     }
 
@@ -70,7 +71,7 @@ function render(array $block): string
                     $ta['data-toggle'] = '';
                 }
 
-                $toggle = app\html('a', $ta);
+                $toggle = html\element('a', $ta);
             }
         }
 
@@ -84,10 +85,10 @@ function render(array $block): string
             -1 => '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>',
             default => '</li><li' . $class . '>',
         };
-        $html .= $toggle . app\html('a', $a, $item['name']);
+        $html .= $toggle . html\element('a', $a, $item['name']);
         $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
         $level = $item['level'];
     }
 
-    return $block['cfg']['tag'] ? app\html($block['cfg']['tag'], $attrs, $html) : $html;
+    return $block['cfg']['tag'] ? html\element($block['cfg']['tag'], $attrs, $html) : $html;
 }

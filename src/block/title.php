@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace block\title;
 
 use app;
+use html;
 use str;
 
 function render(array $block): string
@@ -15,5 +16,5 @@ function render(array $block): string
         default => $app['entity']['name'] ?? '',
     };
 
-    return $text ? app\html('h1', [], str\enc($text)) : '';
+    return $text ? html\element('h1', [], str\enc($text)) : '';
 }

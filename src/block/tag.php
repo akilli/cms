@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace block\tag;
 
-use app;
+use html;
 
 function render(array $block): string
 {
-    return $block['cfg']['tag'] ? app\html($block['cfg']['tag'], $block['cfg']['attr'], $block['cfg']['val']) : '';
+    return $block['cfg']['tag'] ? html\element($block['cfg']['tag'], $block['cfg']['attr'], $block['cfg']['val']) : '';
 }

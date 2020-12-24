@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace attr\decimal;
 
-use app;
+use html;
 
 function frontend(?float $val, array $attr): string
 {
-    return app\html('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '0.01']);
+    return html\element('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '0.01']);
 }

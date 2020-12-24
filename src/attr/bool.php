@@ -4,12 +4,13 @@ declare(strict_types=1);
 namespace attr\bool;
 
 use app;
+use html;
 
 function frontend(?bool $val, array $attr): string
 {
-    $html = app\html('input', ['name' => $attr['html']['name'], 'type' => 'hidden']);
+    $html = html\element('input', ['name' => $attr['html']['name'], 'type' => 'hidden']);
 
-    return $html . app\html('input', ['type' => 'checkbox', 'value' => 1, 'checked' => !!$val] + $attr['html']);
+    return $html . html\element('input', ['type' => 'checkbox', 'value' => 1, 'checked' => !!$val] + $attr['html']);
 }
 
 function opt(): array

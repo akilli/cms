@@ -6,21 +6,22 @@ namespace attr\file;
 use app;
 use attr\urlpath;
 use entity;
+use html;
 use str;
 use DomainException;
 
 function frontend(?string $val, array $attr): string
 {
-    $html = app\html('div', ['class' => 'view'], $val ? $attr['viewer']($val, $attr) : '');
+    $html = html\element('div', ['class' => 'view'], $val ? $attr['viewer']($val, $attr) : '');
 
     if (!$attr['required']) {
         $id = $attr['html']['id'] . '-delete';
-        $del = app\html('input', ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'checkbox', 'value' => '']);
-        $del .= app\html('label', ['for' => $id], app\i18n('Delete'));
-        $html .= app\html('div', ['class' => 'delete'], $del);
+        $del = html\element('input', ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'checkbox', 'value' => '']);
+        $del .= html\element('label', ['for' => $id], app\i18n('Delete'));
+        $html .= html\element('div', ['class' => 'delete'], $del);
     }
 
-    $html .= app\html('input', ['type' => 'file', 'accept' => implode(', ', $attr['accept'])] + $attr['html']);
+    $html .= html\element('input', ['type' => 'file', 'accept' => implode(', ', $attr['accept'])] + $attr['html']);
 
     return $html;
 }
@@ -50,23 +51,23 @@ function viewer(string|int $val, array $attr): string
 
     if ($data['mime'] === 'text/html') {
         $a = $data['thumb'] ? ['data-thumb' => $data['thumb']] : [];
-        return app\html('iframe', ['src' => $data['url'], 'allowfullscreen' => 'allowfullscreen'] + $a);
+        return html\element('iframe', ['src' => $data['url'], 'allowfullscreen' => 'allowfullscreen'] + $a);
     }
 
     if (($p = explode('/', $data['mime'])) && $p[0] === 'image') {
-        return app\html('img', ['src' => $data['url'], 'alt' => str\enc($data['info'])]);
+        return html\element('img', ['src' => $data['url'], 'alt' => str\enc($data['info'])]);
     }
 
     if ($p[0] === 'audio' && !$data['thumb']) {
-        return app\html('audio', ['src' => $data['url'], 'controls' => true]);
+        return html\element('audio', ['src' => $data['url'], 'controls' => true]);
     }
 
     if (in_array($p[0], ['audio', 'video'])) {
         $a = $data['thumb'] ? ['poster' => $data['thumb']] : [];
-        return app\html('video', ['src' => $data['url'], 'controls' => true] + $a);
+        return html\element('video', ['src' => $data['url'], 'controls' => true] + $a);
     }
 
-    $v = $data['thumb'] ? app\html('img', ['src' => $data['thumb'], 'alt' => str\enc($data['info'])]) : $data['url'];
+    $v = $data['thumb'] ? html\element('img', ['src' => $data['thumb'], 'alt' => str\enc($data['info'])]) : $data['url'];
 
-    return app\html('a', ['href' => $data['url']], $v);
+    return html\element('a', ['href' => $data['url']], $v);
 }

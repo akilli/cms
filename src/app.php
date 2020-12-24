@@ -285,25 +285,3 @@ function tpl(string $tpl, array $var = []): string
 
     return ob_get_clean();
 }
-
-/**
- * Generates an HTML-element
- */
-function html(string $tag, array $attrs = [], string $val = null): string
-{
-    $a = '';
-
-    foreach ($attrs as $k => $v) {
-        if ($v === false) {
-            continue;
-        }
-
-        if ($v === true) {
-            $v = $k;
-        }
-
-        $a .= ' ' . $k . '="' . addcslashes((string) $v, '"') . '"';
-    }
-
-    return in_array($tag, APP['html.void']) ? '<' . $tag . $a . '/>' : '<' . $tag . $a . '>' . $val . '</' . $tag . '>';
-}

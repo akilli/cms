@@ -5,14 +5,15 @@ namespace attr\browser;
 
 use app;
 use attr;
+use html;
 
 function frontend(?int $val, array $attr): string
 {
     $opt = $attr['opt']();
-    $html = app\html('output', ['id' => $attr['html']['id'] . '-output'], $val ? $opt[$val] : null);
-    $html .= app\html('input', ['type' => 'hidden', 'value' => $val ?: ''] + $attr['html']);
+    $html = html\element('output', ['id' => $attr['html']['id'] . '-output'], $val ? $opt[$val] : null);
+    $html .= html\element('input', ['type' => 'hidden', 'value' => $val ?: ''] + $attr['html']);
     $browse = app\i18n('Browse');
-    $html .= app\html(
+    $html .= html\element(
         'a',
         ['data-id' => $attr['html']['id'], 'data-ref' => $attr['ref'], 'data-action' => 'browser', 'title' => $browse],
         $browse
@@ -21,7 +22,7 @@ function frontend(?int $val, array $attr): string
     if (!$attr['required']) {
         $html .= ' ';
         $remove = app\i18n('Remove');
-        $html .= app\html(
+        $html .= html\element(
             'a',
             ['data-id' => $attr['html']['id'], 'data-action' => 'remove', 'title' => $remove],
             $remove

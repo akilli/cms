@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace block\html;
 
 use app;
+use html;
 use layout;
 
 function render(): string
@@ -17,5 +18,5 @@ function render(): string
         'data-url' => app\data('request', 'url')
     ];
 
-    return "<!doctype html>\n" . app\html('html', $a, layout\render_id('head') . layout\render_id('body'));
+    return "<!doctype html>\n" . html\element('html', $a, layout\render_id('head') . layout\render_id('body'));
 }

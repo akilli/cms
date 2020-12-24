@@ -5,6 +5,7 @@ namespace block\breadcrumb;
 
 use app;
 use entity;
+use html;
 
 function render(array $block): string
 {
@@ -17,8 +18,8 @@ function render(array $block): string
 
     foreach ($all as $item) {
         $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
-        $html .= ($html ? ' ' : '') . app\html('a', $a, $item['name']);
+        $html .= ($html ? ' ' : '') . html\element('a', $a, $item['name']);
     }
 
-    return app\html('nav', ['id' => $block['id']], $html);
+    return html\element('nav', ['id' => $block['id']], $html);
 }
