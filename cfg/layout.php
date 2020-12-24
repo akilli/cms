@@ -112,10 +112,6 @@ return [
     'html:page:view' => [
         'view' => ['cfg' => ['attr_id' => ['content', 'aside']]],
     ],
-    'html:page:view:1' => [
-        'breadcrumb' => ['active' => false],
-        'title' => ['active' => false],
-    ],
     'html:role:edit' => [
         'form' => ['cfg' => ['attr_id' => ['name', 'privilege']]],
     ],
