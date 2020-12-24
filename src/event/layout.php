@@ -14,7 +14,7 @@ function data(array $data): array
 
     if ($app['page']) {
         foreach (entity\all('layout', crit: [['page_id', $app['id']]]) as $item) {
-            $cfg[app\id('page', 'view', $app['id'])]['layout-' . $item['parent_id'] .'-' . $item['name']] = [
+            $cfg[app\id('html', 'page', 'view', $app['id'])]['layout-' . $item['parent_id'] .'-' . $item['name']] = [
                 'type' => 'tag',
                 'parent_id' => $item['parent_id'],
                 'sort' => $item['sort'],
