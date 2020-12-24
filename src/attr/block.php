@@ -8,9 +8,12 @@ use arr;
 
 function opt(): array
 {
-    $cfg = app\cfg('layout')['html'];
-    unset($cfg['head']);
-    $ids = array_keys(arr\filter($cfg, 'type', 'container'));
+    if (($opt = &app\registry('opt')['block']) === null) {
+        $cfg = app\cfg('layout')['html'];
+        unset($cfg['head']);
+        $ids = array_keys(arr\filter($cfg, 'type', 'container'));
+        $opt = array_combine($ids, $ids);
+    }
 
-    return array_combine($ids, $ids);
+    return $opt;
 }
