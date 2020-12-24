@@ -19,7 +19,7 @@ function run(): string
     $events = arr\prefix(array_reverse($app['event']), 'response:');
     $data = arr\replace(APP['response'], event($events, APP['response']));
 
-    if ($app['invalid']) {
+    if (!$app['valid']) {
         http_response_code(404);
     }
 
