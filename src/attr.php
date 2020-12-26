@@ -139,7 +139,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
     }
 
     if (in_array($attr['id'], ['name', 'title'])) {
-        return html\element($cfg['h3'] ? 'h3' : 'h2', $a, $html);
+        return html\element($cfg['subheading'] ? 'h3' : 'h2', $a, $html);
     }
 
     if ($attr['id'] === 'aside') {

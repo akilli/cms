@@ -167,9 +167,9 @@ define('APP', [
     ],
     'viewer' => [
         'empty' => false,
-        'h3' => false,
         'label' => false,
         'link' => null,
+        'subheading' => false,
         'wrap' => false,
     ],
 ]);
