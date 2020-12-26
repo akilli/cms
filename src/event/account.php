@@ -12,12 +12,11 @@ function data(): array
 
     if ($id && ($data = entity\one('account', crit: [['id', $id]]))) {
         $data['privilege'] = entity\one('role', crit: [['id', $data['role_id']]])['privilege'];
+        $data['privilege'][] = '_public_';
         $data['privilege'][] = '_user_';
-        $data['admin'] = in_array('_all_', $data['privilege']);
     } else {
         $data = entity\item('account');
-        $data['privilege'] = ['_guest_'];
-        $data['admin'] = false;
+        $data['privilege'] = ['_public_', '_guest_'];
         session\delete('account');
     }
 

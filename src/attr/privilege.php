@@ -11,7 +11,7 @@ function opt(): array
         $opt = [];
 
         foreach (app\cfg('privilege') as $id => $privilege) {
-            if ($privilege['active'] && !$privilege['delegate'] && !$privilege['auto'] && app\allowed($id)) {
+            if (!$privilege['auto'] && !$privilege['use'] && app\allowed($id)) {
                 $opt[$id] = $privilege['name'];
             }
         }

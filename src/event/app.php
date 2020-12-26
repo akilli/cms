@@ -35,8 +35,8 @@ function data(array $data): array
 
     $data['entity'] = !$data['entity'] && $data['entity_id'] ? app\cfg('entity', $data['entity_id']) : $data['entity'];
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
-    $public = empty(app\cfg('privilege', app\id($data['entity_id'], $data['action']))['active']);
-    $data['area'] = $public ? '_public_' : '_admin_';
+    $privilege = app\cfg('privilege', app\id($data['entity_id'], $data['action']));
+    $data['area'] = $privilege && $privilege['use'] === '_public_' ? '_public_' : '_admin_';
     $data['valid'] = $data['entity_id']
         && $data['action']
         && app\allowed(app\id($data['entity_id'], $data['action']))

@@ -114,14 +114,13 @@ function event(array $events, array $data): array
  */
 function allowed(string $id): bool
 {
-    if (!$cfg = cfg('privilege', $id)) {
+    if (!($privilege = cfg('privilege', $id)) || !($account = data('account'))) {
         return false;
     }
 
-    return !$cfg['active']
-        || ($account = data('account')) && $account['admin']
-        || $cfg['delegate'] && allowed($cfg['delegate'])
-        || !$cfg['delegate'] && in_array($id, $account['privilege']);
+    return in_array('_all_', $account['privilege'])
+        || $privilege['use'] && allowed($privilege['use'])
+        || !$privilege['use'] && in_array($id, $account['privilege']);
 }
 
 /**

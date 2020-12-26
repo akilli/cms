@@ -48,9 +48,8 @@ define('APP', [
         ],
         'privilege' => [
             'name' => null,
-            'delegate' => null,
             'auto' => false,
-            'active' => true,
+            'use' => null,
         ],
         'toolbar' => [
             'id' => null,
