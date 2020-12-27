@@ -70,7 +70,6 @@ return [
     'No entries found' => 'Keine Einträge gefunden',
     'No upload file' => 'Keine Upload-Datei',
     'Nothing to delete' => 'Nichts zum Löschen',
-    'Nothing to edit' => 'Nichts zum Bearbeiten',
     'Page' => 'Seite',
     'Page access disabled' => 'Seitenzugriff deaktiviert',
     'Page not found' => 'Seite nicht gefunden',

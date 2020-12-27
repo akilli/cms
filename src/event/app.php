@@ -42,11 +42,9 @@ function data(array $data): array
         && app\allowed(app\id($data['entity_id'], $data['action']))
         && $data['entity']
         && in_array($data['action'], $data['entity']['action'])
-        && (
-            !in_array($data['action'], ['delete', 'view'])
-            || $data['page'] && !$data['page']['disabled']
-            || $data['id'] && entity\size($data['entity_id'], [['id', $data['id']]])
-        );
+        && (!in_array($data['action'], ['delete', 'view']) || $data['id'] && entity\size($data['entity_id'], [['id', $data['id']]]))
+        && ($data['action'] !== 'edit' || !$data['id'] || entity\size($data['entity_id'], [['id', $data['id']]]))
+        && (!$data['page'] || !$data['page']['disabled']);
 
     if ($data['valid']) {
         $data['event'] = [
