@@ -60,9 +60,9 @@ function render_data(array $data): string
  */
 function render_entity(string $id): string
 {
-    [$entityId, $blockId] = explode('-', $id);
+    [$cfg['entity_id'], $cfg['id']] = explode('-', $id);
 
-    return render(cfg(['type' => 'block', 'cfg' => ['entity_id' => $entityId, 'id' => $blockId]]));
+    return render(cfg(['type' => 'block', 'cfg' => $cfg]));
 }
 
 /**
