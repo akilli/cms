@@ -30,8 +30,5 @@ function render(array $block): string
     $args = $app['id'] ? [entity\one($entity['id'], crit: [['id', $app['id']]]), $data] : [$data];
     $data = arr\replace(entity\item($entity['id']), ...$args);
 
-    return app\tpl(
-        $block['tpl'],
-        ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]
-    );
+    return app\tpl($block['cfg']['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
 }

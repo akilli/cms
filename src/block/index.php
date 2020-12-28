@@ -113,7 +113,7 @@ function render(array $block): string
         ]));
     }
 
-    return app\tpl($block['tpl'], [
+    return app\tpl($block['cfg']['tpl'], [
         'attr' => $attrs,
         'data' => entity\all($entity['id'], crit: $crit, order: $order, limit: $limit, offset: $offset),
         'filter' => $filter,

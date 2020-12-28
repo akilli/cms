@@ -28,5 +28,5 @@ function render(array $block): string
         default => $title,
     };
 
-    return app\tpl($block['tpl'], ['description' => str\enc($desc), 'title' => str\enc($title)]);
+    return app\tpl($block['cfg']['tpl'], ['description' => str\enc($desc), 'title' => str\enc($title)]);
 }

@@ -31,5 +31,5 @@ function render(array $block): string
     ];
     $attrs = arr\extend(arr\extract($entity['attr'], ['username', 'password']), $a);
 
-    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => [], 'multipart' => false]);
+    return app\tpl($block['cfg']['tpl'], ['attr' => $attrs, 'data' => [], 'multipart' => false]);
 }

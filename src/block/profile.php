@@ -50,8 +50,5 @@ function render(array $block): string
 
     $data = $data ? arr\replace($account, $data) : $account;
 
-    return app\tpl(
-        $block['tpl'],
-        ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]
-    );
+    return app\tpl($block['cfg']['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
 }

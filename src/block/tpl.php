@@ -7,5 +7,5 @@ use app;
 
 function render(array $block): string
 {
-    return $block['tpl'] ? app\tpl($block['tpl']) : '';
+    return app\tpl($block['cfg']['tpl']);
 }

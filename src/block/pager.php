@@ -58,5 +58,5 @@ function render(array $block): string
         ];
     }
 
-    return app\tpl($block['tpl'], ['info' => $info, 'limits' => count($limits) > 1 ? $limits : [], 'links' => $links]);
+    return app\tpl($block['cfg']['tpl'], ['info' => $info, 'limits' => count($limits) > 1 ? $limits : [], 'links' => $links]);
 }
