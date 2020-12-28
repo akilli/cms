@@ -175,10 +175,23 @@ editor-toolbar button {
     pointer-events: none;
 }
 
-:root:not([data-browser]) .block-index img,
-:root:not([data-browser]) .block-index video {
+.block-index img,
+.block-index video {
     max-width: 9rem;
     max-height: 6rem;
+}
+
+:root[data-browser] .block-index article {
+    cursor: pointer;
+}
+
+:root[data-browser] .block-index article:hover {
+    color: #fff;
+    background: #052a33;
+}
+
+:root[data-browser] .block-index article > :last-child {
+    display: none;
 }
 
 /**
@@ -314,42 +327,9 @@ editor-toolbar button {
         content: '⇓';
     }
 
-    .block-index article label {
+    .block-index article label,
+    :root[data-browser] .block-index .thead > :last-child {
         display: none;
-    }
-}
-
-/**
- * Desktop
- */
-@media screen and (min-width: 55rem) {
-    /**
-     * Browser
-     */
-    :root[data-browser] #content .block-index .thead {
-        display: none;
-    }
-
-    :root[data-browser] #content .block-index > .content {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 1.5rem;
-        align-items: end;
-    }
-
-    :root[data-browser] #content .block-index article {
-        display: block;
-        border: 0.0625rem solid;
-        cursor: pointer;
-    }
-
-    :root[data-browser] #content .block-index article:not(:hover) {
-        border-color: transparent;
-    }
-
-    :root[data-browser] #content .block-index article > * {
-        display: block;
-        border: 0;
     }
 }
 
