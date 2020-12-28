@@ -3,7 +3,13 @@ return [
     'html' => [
         'html' => ['type' => 'html'],
         'head' => ['type' => 'container', 'parent_id' => 'html', 'sort' => 100, 'cfg' => ['tag' => 'head']],
-        'body' => ['type' => 'container', 'parent_id' => 'html', 'sort' => 200, 'image' => ['sizes' => '100vw'], 'cfg' => ['tag' => 'body']],
+        'body' => [
+            'type' => 'container',
+            'parent_id' => 'html',
+            'sort' => 200,
+            'image' => ['sizes' => '100vw'],
+            'cfg' => ['tag' => 'body'],
+        ],
         'meta' => ['type' => 'meta', 'parent_id' => 'head', 'sort' => 100],
         'icon' => ['type' => 'tpl', 'parent_id' => 'head', 'sort' => 200, 'cfg' => ['tpl' => 'icon.phtml']],
         'asset' => ['type' => 'tpl', 'parent_id' => 'head', 'sort' => 300, 'cfg' => ['tpl' => 'asset.phtml']],
