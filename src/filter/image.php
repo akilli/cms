@@ -4,19 +4,22 @@ declare(strict_types=1);
 namespace filter\image;
 
 use app;
+use arr;
 use entity;
 use html;
 
 /**
  * Makes img-elements somehow responsive
  */
-function filter(string $html): string
+function filter(string $html, array $cfg = []): string
 {
-    $cfg = app\cfg('image');
-    $pattern = '#(?P<figure><figure(?:[^>]*)>)\s*(?P<a><a(?:[^>]*)>)?\s*(?P<img>(?P<pre><img(?:[^>]*) src="(?P<url>'
-        . app\file() . '(?P<name>(?:[a-z0-9_\-]+)\.(?:' . implode('|', APP['image']) . ')))")(?P<post>(?:[^>]*)>))#';
+    $pattern = sprintf(
+        '#(?P<img>(?P<pre><img(?:[^>]*) src="(?P<url>%s(?P<name>(?:[a-z0-9_\-]+)\.(?:%s)))")(?P<post>(?:[^>]*)>))#',
+         app\file(),
+        implode('|', APP['image.ext'])
+    );
 
-    if (!$cfg['srcset'] || !preg_match_all($pattern, $html, $match)) {
+    if (!($cfg = arr\replace(APP['image'], $cfg)) || !$cfg['srcset'] || !preg_match_all($pattern, $html, $match)) {
         return $html;
     }
 
@@ -73,7 +76,7 @@ function filter(string $html): string
             $img = html\element('picture', [], $source . $img);
         }
 
-        return $match['figure'] . $match['a'] . $img;
+        return $img;
     };
 
     return preg_replace_callback($pattern, $call, $html);

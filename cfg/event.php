@@ -11,6 +11,7 @@ return [
     'entity:predelete:id:role' => ['event\role\predelete' => 100],
     'entity:presave:id:page' => ['event\page\presave' => 100],
     'entity:prevalidate:id:file' => ['event\file\prevalidate' => 100],
+    'layout:postrender' => ['event\filter\all' => 100],
     'layout:postrender:id:body' => ['event\filter\body' => 100],
     'response:html' => ['event\response\html' => 100],
     'response:html:account:logout' => ['event\response\html_account_logout' => 100],
