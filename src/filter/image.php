@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace filter\image;
 
 use app;
-use arr;
 use entity;
 use html;
 
