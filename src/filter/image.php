@@ -11,12 +11,13 @@ use html;
 /**
  * Makes img-elements somehow responsive
  */
-function filter(string $html, array $cfg = []): string
+function filter(string $html): string
 {
+    $cfg = app\cfg('image');
     $pattern = '#(?P<figure><figure(?:[^>]*)>)\s*(?P<a><a(?:[^>]*)>)?\s*(?P<img>(?P<pre><img(?:[^>]*) src="(?P<url>'
-        . app\file() . '(?P<name>(?:[a-z0-9_\-]+)\.(?:' . implode('|', APP['image.ext']) . ')))")(?P<post>(?:[^>]*)>))#';
+        . app\file() . '(?P<name>(?:[a-z0-9_\-]+)\.(?:' . implode('|', APP['image']) . ')))")(?P<post>(?:[^>]*)>))#';
 
-    if (!($cfg = arr\replace(APP['image'], $cfg)) || !$cfg['srcset'] || !preg_match_all($pattern, $html, $match)) {
+    if (!$cfg['srcset'] || !preg_match_all($pattern, $html, $match)) {
         return $html;
     }
 
