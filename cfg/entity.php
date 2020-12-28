@@ -89,7 +89,7 @@ return [
             'entity_id' => ['name' => 'Entity', 'type' => 'text', 'auto' => true],
             'block_id' => ['name' => 'Block', 'type' => 'entity', 'required' => true, 'ref' => 'block'],
             'page_id' => ['name' => 'Page', 'type' => 'entity', 'required' => true, 'ref' => 'page'],
-            'parent_id' => ['name' => 'Parent Block', 'type' => 'block', 'required' => true, 'max' => 100],
+            'parent_id' => ['name' => 'Parent Block', 'type' => 'select', 'opt' => 'block', 'required' => true, 'max' => 100],
             'sort' => ['name' => 'Sort', 'type' => 'int'],
         ],
     ],
