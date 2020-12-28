@@ -131,9 +131,9 @@ define('APP', [
         '!$' => '!$',
     ],
     'path' => [
-        'cfg' => '/app/cfg',
-        'src' => '/app/src',
-        'tpl' => '/app/tpl',
+        'app.cfg' => '/app/cfg',
+        'app.src' => '/app/src',
+        'app.tpl' => '/app/tpl',
         'ext.cfg' => '/opt/cfg',
         'ext.src' => '/opt/src',
         'ext.tpl' => '/opt/tpl',

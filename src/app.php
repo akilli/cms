@@ -271,7 +271,7 @@ function filepath(string $id): string
 function tpl(string $tpl, array $var = []): string
 {
     $ext = APP['path']['ext.tpl'] . '/' . $tpl;
-    $var['tpl'] = is_file($ext) ? $ext : APP['path']['tpl'] . '/' . $tpl;
+    $var['tpl'] = is_file($ext) ? $ext : APP['path']['app.tpl'] . '/' . $tpl;
 
     if (!is_file($var['tpl'])) {
         return '';
