@@ -163,22 +163,6 @@ return [
         'ignorable' => true,
         'autocomplete' => 'new-password',
     ],
-    'position' => [
-        'backend' => 'varchar',
-        'frontend' => 'text',
-        'validator' => 'text',
-        'viewer' => 'position',
-        'auto' => true,
-        'max' => 255,
-    ],
-    'privilege' => [
-        'backend' => 'multitext',
-        'frontend' => 'checkbox',
-        'filter' => 'select',
-        'validator' => 'opt',
-        'viewer' => 'opt',
-        'opt' => 'privilege',
-    ],
     'radio' => [
         'backend' => 'varchar',
         'frontend' => 'radio',

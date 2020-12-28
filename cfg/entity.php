@@ -112,7 +112,7 @@ return [
             'menu' => ['name' => 'Menu Entry', 'type' => 'bool'],
             'parent_id' => ['name' => 'Parent Page', 'type' => 'entity', 'nullable' => true, 'ref' => 'page'],
             'sort' => ['name' => 'Sort', 'type' => 'int'],
-            'position' => ['name' => 'Position', 'type' => 'position'],
+            'position' => ['name' => 'Position', 'type' => 'text', 'viewer' => 'position', 'auto' => true, 'max' => 255],
             'level' => ['name' => 'Level', 'type' => 'int', 'auto' => true],
             'path' => ['name' => 'Path', 'type' => 'multientity', 'auto' => true, 'ref' => 'page'],
             'account_id' => ['name' => 'Account', 'type' => 'entity', 'nullable' => true, 'ref' => 'account'],
@@ -125,7 +125,7 @@ return [
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'unique' => true, 'max' => 50],
-            'privilege' => ['name' => 'Privileges', 'type' => 'privilege'],
+            'privilege' => ['name' => 'Privileges', 'type' => 'multitext', 'opt' => 'privilege'],
         ],
     ],
     'video' => [
