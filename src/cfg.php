@@ -133,7 +133,7 @@ function block(array $data, array $ext): array
     $data += $ext;
 
     foreach ($data as $id => $type) {
-        $data[$id] = arr\replace(APP['cfg']['block'], $type, ['id' => $id]);
+        $data[$id] = arr\replace(APP['cfg']['block'], $type);
 
         if (!is_callable($type['call'])) {
             throw new DomainException(app\i18n('Invalid configuration'));

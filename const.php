@@ -30,7 +30,6 @@ define('APP', [
             'accept' => [],
         ],
         'block' => [
-            'id' => null,
             'call' => null,
             'cfg' => [],
         ],
