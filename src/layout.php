@@ -73,7 +73,7 @@ function render_entity(string $id): string
 function cfg(array $block): array
 {
     if (empty($block['type']) || !($type = app\cfg('block', $block['type']))) {
-        throw new DomainException(app\i18n('Invalid configuration'));
+        throw new DomainException(app\i18n('Invalid block'));
     }
 
     unset($block['call']);
