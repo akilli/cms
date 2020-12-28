@@ -30,5 +30,5 @@ function data(array $data): array
         }
     }
 
-    return array_map('layout\cfg', $data);
+    return array_map('layout\block', $data);
 }

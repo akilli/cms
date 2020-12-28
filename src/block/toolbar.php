@@ -24,5 +24,5 @@ function render(array $block): string
     $block['type'] = 'nav';
     $block['cfg'] = ['data' => array_diff_key($data, $empty), 'toggle' => true];
 
-    return layout\render(layout\cfg($block));
+    return layout\render(layout\block($block));
 }

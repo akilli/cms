@@ -52,7 +52,7 @@ function render_children(string $id): string
  */
 function render_data(array $data): string
 {
-    return render(cfg(['type' => 'block', 'cfg' => ['data' => $data]]));
+    return render(block(['type' => 'block', 'cfg' => ['data' => $data]]));
 }
 
 /**
@@ -62,15 +62,15 @@ function render_entity(string $id): string
 {
     [$cfg['entity_id'], $cfg['id']] = explode('-', $id);
 
-    return render(cfg(['type' => 'block', 'cfg' => $cfg]));
+    return render(block(['type' => 'block', 'cfg' => $cfg]));
 }
 
 /**
- * Returns full block configuration
+ * Returns full block
  *
  * @throws DomainException
  */
-function cfg(array $block): array
+function block(array $block): array
 {
     if (empty($block['type']) || !($type = app\cfg('block', $block['type']))) {
         throw new DomainException(app\i18n('Invalid block'));

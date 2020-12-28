@@ -49,5 +49,5 @@ function render(array $block): string
     unset($block['cfg']['root'], $block['cfg']['submenu']);
     $block['type'] = 'nav';
 
-    return layout\render(layout\cfg($block));
+    return layout\render(layout\block($block));
 }

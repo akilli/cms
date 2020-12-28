@@ -84,7 +84,7 @@ function render(array $block): string
             }
         }
 
-        $filter = layout\render(layout\cfg([
+        $filter = layout\render(layout\block([
             'type' => 'filter',
             'parent_id' => $block['id'],
             'cfg' => [
@@ -101,7 +101,7 @@ function render(array $block): string
         $total = $limit > 0 && ($c = (int) ceil($size / $limit)) ? $c : 1;
         $get['cur'] = min(max((int) $get['cur'], 1), $total);
         $offset = ($get['cur'] - 1) * $limit;
-        $pager = layout\render(layout\cfg([
+        $pager = layout\render(layout\block([
             'type' => 'pager',
             'parent_id' => $block['id'],
             'cfg' => [

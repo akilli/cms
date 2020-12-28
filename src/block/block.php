@@ -7,5 +7,5 @@ use layout;
 
 function render(array $block): string
 {
-    return layout\render(layout\cfg(['type' => 'view'] + $block));
+    return layout\render(layout\block(['type' => 'view'] + $block));
 }
