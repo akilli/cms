@@ -318,13 +318,11 @@ function nav(array $block): string
     $level = 0;
     $i = 0;
     $attrs = ['id' => $block['id']];
-    $call = function (array $it): ?string {
-        $url = app\data('request', 'url');
-        return match (true) {
-            $it['url'] === $url => 'active',
-            $it['url'] && str_starts_with($url, preg_replace('#\.html#', '', $it['url'])) => 'path',
-            default => null,
-        };
+    $url = app\data('request', 'url');
+    $call = fn(array $it): ?string => match (true) {
+        $it['url'] === $url => 'active',
+        $it['url'] && str_starts_with($url, preg_replace('#\.html#', '', $it['url'])) => 'path',
+        default => null,
     };
     $html = $block['cfg']['title'] ? html\element('h2', [], app\i18n($block['cfg']['title'])) : '';
     $html .= layout\render_children($block['id']);
