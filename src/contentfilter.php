@@ -1,17 +1,51 @@
 <?php
 declare(strict_types=1);
 
-namespace filter\image;
+namespace contentfilter;
 
 use app;
 use arr;
 use entity;
 use html;
+use layout;
+use str;
+
+/**
+ * Replaces all DB placeholder tags, i.e. `<app-block id="{entity_id}-{id}"></app-block>`, with actual blocks
+ */
+function block(string $html): string
+{
+    $pattern = '#<app-block id="%s"(?:[^>]*)>\s*</app-block>#s';
+
+    if (preg_match_all(sprintf($pattern, '([a-z_]+)-(\d+)'), $html, $match)) {
+        $data = [];
+
+        foreach ($match[1] as $key => $entityId) {
+            $data[$entityId][] = $match[2][$key];
+        }
+
+        foreach ($data as $entityId => $ids) {
+            foreach (entity\all($entityId, crit: [['id', $ids]]) as $item) {
+                $html = preg_replace(sprintf($pattern, $entityId . '-' . $item['id']), layout\render_data($item), $html);
+            }
+        }
+    }
+
+    return preg_replace('#<app-block(?:[^>]*)>\s*</app-block>#s', '', $html);
+};
+
+/**
+ * Converts email addresses to HTML entity hex format
+ */
+function email(string $html): string
+{
+    return preg_replace_callback('#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im', fn(array $m): string => str\hex($m[0]), $html);
+}
 
 /**
  * Makes img-elements somehow responsive
  */
-function filter(string $html, array $cfg = []): string
+function image(string $html, array $cfg = []): string
 {
     $pattern = sprintf(
         '#(?P<img>(?P<pre><img(?:[^>]*) src="(?P<url>%s(?P<name>(?:[a-z0-9_\-]+)\.(?:%s)))")(?P<post>(?:[^>]*)>))#',
@@ -80,4 +114,26 @@ function filter(string $html, array $cfg = []): string
     };
 
     return preg_replace_callback($pattern, $call, $html);
+}
+
+/**
+ * Replaces message placeholder, i.e. `<msg/>`, with actual message block
+ */
+function msg(string $html): string
+{
+    $msg = '';
+
+    foreach (app\msg() as $item) {
+        $msg .= html\element('p', [], $item);
+    }
+
+    return str_replace(html\element('app-msg'), $msg ? html\element('section', ['class' => 'msg'], $msg) : '', $html);
+}
+
+/**
+ * Converts telephone numbers to HTML entity hex format
+ */
+function tel(string $html): string
+{
+    return preg_replace_callback('#(?:tel:)\+\d+#i', fn(array $m): string => str\hex($m[0]), $html);
 }

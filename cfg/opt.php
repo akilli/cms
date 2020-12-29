@@ -1,8 +1,8 @@
 <?php
 return [
-    'block' => ['call' => 'attr\block\opt'],
-    'bool' => ['call' => 'attr\bool\opt'],
-    'entity' => ['call' => 'attr\entity\opt'],
-    'entitychild' => ['call' => 'attr\entitychild\opt'],
-    'privilege' => ['call' => 'attr\privilege\opt'],
+    'block' => ['call' => 'opt\block'],
+    'bool' => ['call' => 'opt\bool'],
+    'entity' => ['call' => 'opt\entity'],
+    'entitychild' => ['call' => 'opt\entitychild'],
+    'privilege' => ['call' => 'opt\privilege'],
 ];
