@@ -21,12 +21,18 @@ function block(string $html): string
         $data = [];
 
         foreach ($match[1] as $key => $entityId) {
-            $data[$entityId][] = $match[2][$key];
+            if (!in_array($match[2][$key], $data[$entityId] ?? [])) {
+                $data[$entityId][] = $match[2][$key];
+            }
         }
 
         foreach ($data as $entityId => $ids) {
             foreach (entity\all($entityId, crit: [['id', $ids]]) as $item) {
-                $html = preg_replace(sprintf($pattern, $entityId . '-' . $item['id']), layout\render_data($item), $html);
+                $html = preg_replace(
+                    sprintf($pattern, $entityId . '-' . $item['id']),
+                    layout\render_entity($entityId, $item['id'], $item),
+                    $html
+                );
             }
         }
     }

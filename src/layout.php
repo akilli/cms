@@ -48,21 +48,11 @@ function render_children(string $id): string
 }
 
 /**
- * Renders block with given data
+ * Renders block entity with given ID and optionally sets data to avoid redundant DB calls
  */
-function render_data(array $data): string
+function render_entity(string $entityId, int $id, array $data = []): string
 {
-    return render(block(['type' => 'block', 'cfg' => ['data' => $data]]));
-}
-
-/**
- * Renders block entity with given type and ID (format: `{entity_id}-{id}`)
- */
-function render_entity(string $id): string
-{
-    [$cfg['entity_id'], $cfg['id']] = explode('-', $id);
-
-    return render(block(['type' => 'block', 'cfg' => $cfg]));
+    return render(block(['type' => 'block', 'cfg' => ['data' => $data, 'entity_id' => $entityId, 'id' => $id]]));
 }
 
 /**

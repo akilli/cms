@@ -344,7 +344,8 @@ function response_html_account_logout(array $data): array
 
 function response_html_block_api(array $data): array
 {
-    $data['body'] = ($id = app\data('app', 'id')) ? layout\render_entity($id) : '';
+    $id = app\data('app', 'id');
+    $data['body'] = preg_match('#^([a-z_]+)-(\d+)$#', $id, $match) ? layout\render_entity($match[1], (int) $match[2]) : '';
     $data['_stop'] = true;
 
     return $data;
