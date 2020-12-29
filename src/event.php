@@ -123,8 +123,7 @@ function data_request(array $data): array
         if (session\get('token') === $_POST['token']) {
             unset($_POST['token']);
             $data['file'] = array_filter(array_map('request\normalize', $_FILES));
-            $data['post'] = $_POST;
-            $data['post'] = array_replace_recursive($data['post'], request\convert($data['file']));
+            $data['post'] = array_replace_recursive($_POST, request\convert($data['file']));
         }
 
         session\delete('token');
