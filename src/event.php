@@ -16,15 +16,10 @@ use DomainException;
 
 function data_account(): array
 {
-    $id = (int) session\get('account');
-
-    if ($id && ($data = entity\one('account', crit: [['id', $id]]))) {
-        $data['privilege'] = entity\one('role', crit: [['id', $data['role_id']]])['privilege'];
-        $data['privilege'][] = '_public_';
-        $data['privilege'][] = '_user_';
+    if (($id = (int) session\get('account')) && ($data = entity\one('account', crit: [['id', $id]]))) {
+        $data['privilege'] = ['_public_', '_user_', ...entity\one('role', crit: [['id', $data['role_id']]])['privilege']];
     } else {
-        $data = entity\item('account');
-        $data['privilege'] = ['_public_', '_guest_'];
+        $data = array_replace(entity\item('account'), ['privilege' => ['_public_', '_guest_']]);
         session\delete('account');
     }
 
