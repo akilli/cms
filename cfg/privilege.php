@@ -1,9 +1,9 @@
 <?php
 return [
     '_all_' => ['name' => 'ALL PRIVILEGES'],
-    '_guest_' => ['auto' => true],
-    '_public_' => ['auto' => true],
-    '_user_' => ['auto' => true],
+    '_guest_' => ['name' => 'GUEST', 'auto' => true],
+    '_public_' => ['name' => 'PUBLIC', 'auto' => true],
+    '_user_' => ['name' => 'USER', 'auto' => true],
     'account:delete' => ['use' => '_all_'],
     'account:edit' => ['use' => '_all_'],
     'account:index' => ['use' => '_all_'],
@@ -12,7 +12,6 @@ return [
     'account:profile' => ['use' => '_user_'],
     'block:api' => ['use' => 'block:index'],
     'contentpage:view' => ['use' => '_public_'],
-    'page:view' => ['use' => '_public_'],
     'role:delete' => ['use' => '_all_'],
     'role:edit' => ['use' => '_all_'],
     'role:index' => ['use' => '_all_'],
