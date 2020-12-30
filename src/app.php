@@ -210,13 +210,13 @@ function id(string|int ...$args): string
  */
 function url(string $path = '', array $get = [], bool $preserve = false): string
 {
-    return '/' . $path . query($get, $preserve);
+    return '/' . $path . urlquery($get, $preserve);
 }
 
 /**
  * Generates the query part of an URL with given params, optionally preserves existing params
  */
-function query(array $get, bool $preserve = false): string
+function urlquery(array $get, bool $preserve = false): string
 {
     if ($preserve) {
         $get += data('request', 'get');

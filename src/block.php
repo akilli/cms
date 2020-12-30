@@ -405,7 +405,7 @@ function pager(array $block): string
         if (is_int($l) && $l >= 0) {
             $limits[] = [
                 'name' => $l ?: app\i18n('All'),
-                'url' => app\query(['cur' => null, 'limit' => $k === 0 ? null : $l], true),
+                'url' => app\urlquery(['cur' => null, 'limit' => $k === 0 ? null : $l], true),
                 'active' => $l === $block['cfg']['limit'],
             ];
         }
@@ -415,7 +415,7 @@ function pager(array $block): string
         $p = ['cur' => $block['cfg']['cur'] === 2 ? null : $block['cfg']['cur'] - 1];
         $links[] = [
             'name' => app\i18n('Previous'),
-            'url' => app\query($p, true),
+            'url' => app\urlquery($p, true),
             'class' => 'prev',
         ];
     }
@@ -424,7 +424,7 @@ function pager(array $block): string
         $p = ['cur' => $i === 1 ? null : $i];
         $links[] = [
             'name' => $i,
-            'url' => app\query($p, true),
+            'url' => app\urlquery($p, true),
             'active' => $i === $block['cfg']['cur'],
             'class' => null,
         ];
@@ -433,7 +433,7 @@ function pager(array $block): string
     if ($block['cfg']['cur'] < $total) {
         $links[] = [
             'name' => app\i18n('Next'),
-            'url' => app\query(['cur' => $block['cfg']['cur'] + 1], true),
+            'url' => app\urlquery(['cur' => $block['cfg']['cur'] + 1], true),
             'class' => 'next',
         ];
     }
