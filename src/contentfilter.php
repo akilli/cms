@@ -27,7 +27,7 @@ function asset(string $html): string
         }
         return $mtime;
     };
-    $call = [
+    $pattern = [
         '#="/(gui|ext|file)/((?:(?:resize-|crop-)(?:[^/]+)/)?([^",\s]+))"#s' => function (array $match) use ($cache): string {
             $mtime = $cache($match[1], $match[3]);
             return '="/' . $match[1] . '/' . $mtime . '/' . $match[2] . '"';
@@ -38,7 +38,7 @@ function asset(string $html): string
         },
     ];
 
-    return preg_replace_callback_array($call, $html) ?? $html;
+    return preg_replace_callback_array($pattern, $html) ?? $html;
 }
 
 /**
