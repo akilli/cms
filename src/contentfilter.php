@@ -83,7 +83,7 @@ function image(string $html, array $cfg = []): string
 
     $data = entity\all('file', crit: [['url', array_unique($match['url'])]], select: ['id', 'url', 'thumb'], index: 'url');
     $cache = function (string $file): int {
-        $width = &app\registry('filter')['image'][$file];
+        $width = &app\registry('contentfilter')['image'][$file];
         $width ??= getimagesize($file)[0] ?? 0;
         return $width;
     };
