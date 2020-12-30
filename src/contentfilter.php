@@ -32,8 +32,8 @@ function asset(string $html): string
             $mtime = $cache($match[1], $match[2]);
             return '="/' . $match[1] . '/' . $mtime . '/' . $match[2] . '"';
         },
-        '#/(gui|ext|file)/((resize-|crop-)([^/]+)/([^",\s]+))#' => function (array $match) use ($cache): string {
-            $mtime = $cache($match[1], $match[5]);
+        '#/(gui|ext|file)/((?:resize-|crop-)(?:[^/]+)/([^",\s]+))#' => function (array $match) use ($cache): string {
+            $mtime = $cache($match[1], $match[3]);
             return '/' . $match[1] . '/' . $mtime . '/' . $match[2];
         },
     ];
