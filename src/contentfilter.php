@@ -9,23 +9,38 @@ use entity;
 use html;
 use layout;
 use str;
+use DomainException;
 
 /**
  * Minimal cache busting
+ *
+ * @throws DomainException
  */
 function asset(string $html): string
 {
-    $map = ['gui' => APP['path']['app.gui'], 'ext' => APP['path']['ext.gui'], 'file' => APP['path']['file']];
-    $pattern = [];
-    $replace = [];
+    $cache = function (string $type, string $id): int {
+        $file = match ($type) {
+            'file' => app\filepath($id),
+            'gui' => app\guipath($id),
+            'ext' => app\extpath($id),
+            default => throw new DomainException(app\i18n('Invalid value')),
+        };
+        $mtime = &app\registry('contentfilter')['asset'][$file];
+        $mtime ??= filemtime($file) ?: 0;
+        return $mtime;
+    };
+    $call = [
+        '#="/(gui|ext|file)/([^",\s]+)"#s' => function (array $match) use ($cache): string {
+            $mtime = $cache($match[1], $match[2]);
+            return '="/' . $match[1] . '/' . $mtime . '/' . $match[2] . '"';
+        },
+        '#/(gui|ext|file)/((resize-|crop-)([^/]+)/([^",\s]+))#' => function (array $match) use ($cache): string {
+            $mtime = $cache($match[1], $match[5]);
+            return '/' . $match[1] . '/' . $mtime . '/' . $match[2];
+        },
+    ];
 
-    foreach ($map as $id => $path) {
-        $mtime = filemtime($path);
-        array_push($pattern, '#="/' . $id . '/([^",\s]+)"#s', '#/' . $id . '/(resize-|crop-)#');
-        array_push($replace, '="/' . $id . '/' . $mtime . '/$1"', '/' . $id . '/' . $mtime . '/$1');
-    }
-
-    return preg_replace($pattern, $replace, $html);
+    return preg_replace_callback_array($call, $html) ?? $html;
 }
 
 /**
@@ -73,7 +88,7 @@ function image(string $html, array $cfg = []): string
 {
     $pattern = sprintf(
         '#(?P<img>(?P<pre><img(?:[^>]*) src="(?P<url>%s(?P<name>(?:[a-z0-9_\-]+)\.(?:%s)))")(?P<post>(?:[^>]*)>))#',
-         app\file(),
+         app\fileurl(),
         implode('|', APP['image.ext'])
     );
 
@@ -95,11 +110,11 @@ function image(string $html, array $cfg = []): string
                 break;
             }
 
-            $set[] = app\file('resize-' . $breakpoint . '/' . $name) . ' ' . $breakpoint . 'w';
+            $set[] = app\fileurl('resize-' . $breakpoint . '/' . $name) . ' ' . $breakpoint . 'w';
         }
 
         if ($set || $force) {
-            $set[] = app\file($name) . ' ' . $width . 'w';
+            $set[] = app\fileurl($name) . ' ' . $width . 'w';
         }
 
         return implode(', ', $set);

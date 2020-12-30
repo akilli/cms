@@ -59,7 +59,7 @@ function edit(array $block): string
         }
 
         if (entity\save($entity['id'], $data)) {
-            request\redirect(app\action($entity['id'], 'edit', $data['id']));
+            request\redirect(app\actionurl($entity['id'], 'edit', $data['id']));
             return '';
         }
     }

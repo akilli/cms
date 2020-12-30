@@ -12,7 +12,7 @@ $app = data('app');
     </fieldset>
     <div class="action">
         <?php if ($app['action'] === 'edit' && allowed(id($app['entity_id'], 'index'))): ?>
-        <a href="<?php echo action($app['entity_id'], 'index'); ?>" role="button"><?php echo i18n('Back'); ?></a>
+        <a href="<?php echo actionurl($app['entity_id'], 'index'); ?>" role="button"><?php echo i18n('Back'); ?></a>
         <?php endif; ?>
         <input type="submit" value="<?php echo i18n('Submit'); ?>"/>
         <input type="hidden" name="token" value="<?php echo token(); ?>"/>

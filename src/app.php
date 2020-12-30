@@ -228,33 +228,49 @@ function query(array $get, bool $preserve = false): string
 /**
  * Generates an action URL path from given arguments
  */
-function action(string|int ...$args): string
+function actionurl(string|int ...$args): string
 {
     return '/' . implode('/', $args);
 }
 
 /**
- * Generates a file URL with given subpath
- */
-function file(string $path = ''): string
-{
-    return APP['url']['file'] . '/' . $path;
-}
-
-/**
  * Generates a GUI URL for given subpath
  */
-function gui(string $path = ''): string
+function guiurl(string $path = ''): string
 {
-    return APP['url']['gui'] . '/' . $path;
+    return APP['url']['gui'] . $path;
 }
 
 /**
  * Generates an extension GUI URL for given subpath
  */
-function ext(string $path = ''): string
+function exturl(string $path = ''): string
 {
-    return APP['url']['ext'] . '/' . $path;
+    return APP['url']['ext'] . $path;
+}
+
+/**
+ * Generates a file URL with given subpath
+ */
+function fileurl(string $path = ''): string
+{
+    return APP['url']['file'] . $path;
+}
+
+/**
+ * Gets absolute path to specified extension GUI file or URL
+ */
+function guipath(string $id): string
+{
+    return APP['path']['app.gui'] . preg_replace('#^' . APP['url']['gui'] . '#', '', $id);
+}
+
+/**
+ * Gets absolute path to specified extension GUI file or URL
+ */
+function extpath(string $id): string
+{
+    return APP['path']['ext.gui'] . preg_replace('#^' . APP['url']['ext'] . '#', '', $id);
 }
 
 /**
@@ -262,7 +278,7 @@ function ext(string $path = ''): string
  */
 function filepath(string $id): string
 {
-    return APP['path']['file'] . '/' . basename($id);
+    return APP['path']['file'] . preg_replace('#^' . APP['url']['file'] . '#', '', $id);
 }
 
 /**
@@ -270,8 +286,8 @@ function filepath(string $id): string
  */
 function tpl(string $tpl, array $var = []): string
 {
-    $ext = APP['path']['ext.tpl'] . '/' . $tpl;
-    $var['tpl'] = is_file($ext) ? $ext : APP['path']['app.tpl'] . '/' . $tpl;
+    $ext = APP['path']['ext.tpl'] . $tpl;
+    $var['tpl'] = is_file($ext) ? $ext : APP['path']['app.tpl'] . $tpl;
 
     if (!is_file($var['tpl'])) {
         return '';

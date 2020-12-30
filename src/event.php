@@ -184,7 +184,7 @@ function entity_file_prevalidate(array $data): array
         } elseif ($data['_old']) {
             $data['url'] = $data['_old']['url'];
         } else {
-            $data['url'] = app\file($item['name']);
+            $data['url'] = app\fileurl($item['name']);
             $data['mime'] = $item['type'];
 
             if (entity\size('file', [[['url', $data['url']], ['thumb', $data['url']]]])) {
@@ -194,7 +194,7 @@ function entity_file_prevalidate(array $data): array
     }
 
     if (!empty($data['thumb']) && ($item = app\data('request', 'file')['thumb'] ?? null)) {
-        $data['thumb'] = app\file($item['name']);
+        $data['thumb'] = app\fileurl($item['name']);
         $crit = array_merge(
             [[['url', $data['thumb']], ['thumb', $data['thumb']]]],
             $data['_old'] ? [['id', $data['_old']['id'], APP['op']['!=']]] : []
@@ -336,7 +336,7 @@ function response_html_delete(array $data): array
 {
     $app = app\data('app');
     entity\delete($app['entity_id'], [['id', $app['id']]]);
-    $data['redirect'] = app\action($app['entity_id'], 'index');
+    $data['redirect'] = app\actionurl($app['entity_id'], 'index');
     $data['_stop'] = true;
 
     return $data;
