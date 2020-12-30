@@ -16,14 +16,15 @@ use str;
 function asset(string $html): string
 {
     $cache = function (string $type, string $id): int {
-        $file = match ($type) {
-            'file' => app\filepath($id),
-            'gui' => app\guipath($id),
-            'ext' => app\extpath($id),
-            default => null,
-        };
-        $mtime = &app\registry('contentfilter')['asset'][$file];
-        $mtime ??= filemtime($file) ?: 0;
+        if (($mtime = &app\registry('contentfilter')['asset'][$type . ':' . $id]) === null) {
+            $file = match ($type) {
+                'file' => app\filepath($id),
+                'gui' => app\guipath($id),
+                'ext' => app\extpath($id),
+                default => null,
+            };
+            $mtime = filemtime($file) ?: 0;
+        }
         return $mtime;
     };
     $call = [
