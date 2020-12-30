@@ -28,8 +28,8 @@ function asset(string $html): string
         return $mtime;
     };
     $call = [
-        '#="/(gui|ext|file)/([^",\s]+)"#s' => function (array $match) use ($cache): string {
-            $mtime = $cache($match[1], $match[2]);
+        '#="/(gui|ext|file)/((?:(?:resize-|crop-)(?:[^/]+)/)?([^",\s]+))"#s' => function (array $match) use ($cache): string {
+            $mtime = $cache($match[1], $match[3]);
             return '="/' . $match[1] . '/' . $mtime . '/' . $match[2] . '"';
         },
         '#/(gui|ext|file)/((?:resize-|crop-)(?:[^/]+)/([^",\s]+))#' => function (array $match) use ($cache): string {
