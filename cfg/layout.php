@@ -37,7 +37,9 @@ return [
         'form' => ['cfg' => ['attr_id' => ['name', 'role_id', 'username', 'password', 'email']]],
     ],
     'html:account:index' => [
-        'index' => ['cfg' => ['attr_id' => ['name', 'username', 'role_id'], 'filter' => ['role_id'], 'search' => ['name', 'username']]],
+        'index' => [
+            'cfg' => ['attr_id' => ['name', 'username', 'role_id'], 'filter' => ['role_id'], 'search' => ['name', 'username']],
+        ],
     ],
     'html:account:login' => [
         'toolbar' => ['active' => false],
@@ -53,29 +55,6 @@ return [
     ],
     'html:block:index' => [
         'index' => ['cfg' => ['attr_id' => ['name']]],
-    ],
-    'html:contentpage:edit' => [
-        'form' => [
-            'cfg' => [
-                'attr_id' => [
-                    'name',
-                    'slug',
-                    'disabled',
-                    'menu',
-                    'parent_id',
-                    'sort',
-                    'breadcrumb',
-                    'title',
-                    'content',
-                    'aside',
-                    'meta_title',
-                    'meta_description',
-                ],
-            ],
-        ],
-    ],
-    'html:contentpage:index' => [
-        'index' => ['cfg' => ['attr_id' => ['name', 'position', 'parent_id', 'menu', 'timestamp']]],
     ],
     'html:edit' => [
         'form' => ['type' => 'edit', 'parent_id' => 'content', 'sort' => 300],
@@ -106,8 +85,33 @@ return [
             ],
         ],
     ],
+    'html:page:edit' => [
+        'form' => [
+            'cfg' => [
+                'attr_id' => [
+                    'name',
+                    'slug',
+                    'disabled',
+                    'menu',
+                    'parent_id',
+                    'sort',
+                    'breadcrumb',
+                    'title',
+                    'content',
+                    'aside',
+                    'meta_title',
+                    'meta_description',
+                ],
+            ],
+        ],
+    ],
     'html:page:index' => [
-        'index' => ['cfg' => ['filter' => ['parent_id', 'account_id']]],
+        'index' => [
+            'cfg' => [
+                'attr_id' => ['name', 'position', 'parent_id', 'menu', 'timestamp'],
+                'filter' => ['parent_id', 'account_id'],
+            ],
+        ],
     ],
     'html:page:view' => [
         'view' => ['cfg' => ['attr_id' => ['content', 'aside']]],
