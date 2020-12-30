@@ -298,6 +298,8 @@ function entity_role_predelete(array $data): array
 function layout_postrender(array $data): array
 {
     if ($data['image']) {
+        $data['html'] = contentfilter\block($data['html']);
+        $data['html'] = contentfilter\msg($data['html']);
         $data['html'] = contentfilter\image($data['html'], $data['image']);
     }
 
@@ -307,9 +309,9 @@ function layout_postrender(array $data): array
 function layout_postrender_body(array $data): array
 {
     $data['html'] = contentfilter\block($data['html']);
+    $data['html'] = contentfilter\msg($data['html']);
     $data['html'] = contentfilter\email($data['html']);
     $data['html'] = contentfilter\tel($data['html']);
-    $data['html'] = contentfilter\msg($data['html']);
 
     return $data;
 }
