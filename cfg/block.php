@@ -46,8 +46,5 @@ return [
     'title' => ['call' => 'block\title', 'cfg' => ['text' => null]],
     'toolbar' => ['call' => 'block\toolbar'],
     'tpl' => ['call' => 'block\tpl'],
-    'view' => [
-        'call' => 'block\view',
-        'cfg' => ['attr_id' => [], 'data' => [], 'entity_id' => null, 'id' => null],
-    ],
+    'view' => ['call' => 'block\view', 'cfg' => ['attr_id' => [], 'data' => [], 'entity_id' => null, 'id' => null]],
 ];
