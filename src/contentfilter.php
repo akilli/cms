@@ -15,11 +15,17 @@ use str;
  */
 function asset(string $html): string
 {
-    return preg_replace(
-        ['#="/(gui|ext|file)/([^",\s]+)"#s', '#/(gui|ext|file)/(resize-|crop-)#'],
-        ['="/$1/' . APP['mtime'] . '/$2"', '/$1/' . APP['mtime'] . '/$2'],
-        $html
-    );
+    $map = ['gui' => APP['path']['app.gui'], 'ext' => APP['path']['ext.gui'], 'file' => APP['path']['file']];
+    $pattern = [];
+    $replace = [];
+
+    foreach ($map as $id => $path) {
+        $mtime = filemtime($path);
+        array_push($pattern, '#="/' . $id . '/([^",\s]+)"#s', '#/' . $id . '/(resize-|crop-)#');
+        array_push($replace, '="/' . $id . '/' . $mtime . '/$1"', '/' . $id . '/' . $mtime . '/$1');
+    }
+
+    return preg_replace($pattern, $replace, $html);
 }
 
 /**

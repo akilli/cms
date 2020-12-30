@@ -121,7 +121,6 @@ define('APP', [
     'lang' => locale_get_primary_language(''),
     'locale' => ini_get('intl.default_locale'),
     'log' => 'php://stdout',
-    'mtime' => max(filemtime('/app'), filemtime('/opt')),
     'op' => [
         '=' => '=',
         '!=' => '!=',
