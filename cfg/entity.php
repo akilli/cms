@@ -81,7 +81,6 @@ return [
     ],
     'layout' => [
         'name' => 'Layout',
-        'unique' => [['page_id', 'parent_id', 'name']],
         'action' => ['delete', 'edit', 'index'],
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],

@@ -117,8 +117,7 @@ CREATE TABLE layout (
     block_id int NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
     page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     parent_id varchar(100) NOT NULL,
-    sort int NOT NULL DEFAULT 0,
-    UNIQUE (page_id, parent_id, name)
+    sort int NOT NULL DEFAULT 0
 );
 
 CREATE INDEX ON layout (name);
