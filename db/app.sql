@@ -232,16 +232,6 @@ WITH LOCAL CHECK OPTION;
 -- Page
 --
 
-CREATE FUNCTION page_before() RETURNS trigger AS $$
-    BEGIN
-        IF (NEW.title = NEW.name) THEN
-            NEW.title := NULL;
-        END IF;
-
-        RETURN NEW;
-    END;
-$$ LANGUAGE plpgsql;
-
 CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
     DECLARE
         _cnt int;
@@ -397,7 +387,6 @@ $$ LANGUAGE plpgsql;
 -- Page
 --
 
-CREATE TRIGGER page_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW EXECUTE PROCEDURE page_before();
 CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE page_menu_before();
 CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE page_menu_after();
 

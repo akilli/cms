@@ -496,8 +496,9 @@ function title(array $block): string
     $app = app\data('app');
     $text = match (true) {
         !!$block['cfg']['text'] => app\i18n($block['cfg']['text']),
-        $app['area'] === '_public_' => $app['page']['title'] ?? $app['page']['name'] ?? '',
-        default => $app['entity']['name'] ?? '',
+        $app['area'] === '_admin_' => $app['entity']['name'] ?? '',
+        !!$app['page'] => $app['page']['title'] ?? '',
+        default => '',
     };
 
     return $text ? html\element('h1', [], str\enc($text)) : '';
