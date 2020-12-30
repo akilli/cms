@@ -109,6 +109,7 @@ return [
             'slug' => ['name' => 'Slug', 'type' => 'uid', 'required' => true, 'max' => 75],
             'url' => ['name' => 'URL', 'type' => 'text', 'auto' => true, 'unique' => true, 'max' => 400],
             'disabled' => ['name' => 'Page access disabled', 'type' => 'bool'],
+            'breadcrumb' => ['name' => 'Show breadcrumb navigation', 'type' => 'bool'],
             'menu' => ['name' => 'Menu Entry', 'type' => 'bool'],
             'parent_id' => ['name' => 'Parent Page', 'type' => 'entity', 'nullable' => true, 'ref' => 'page'],
             'sort' => ['name' => 'Sort', 'type' => 'int'],

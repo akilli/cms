@@ -65,6 +65,7 @@ CREATE TABLE page (
     slug varchar(75) NOT NULL,
     url varchar(400) UNIQUE DEFAULT NULL,
     disabled boolean NOT NULL DEFAULT FALSE,
+    breadcrumb boolean NOT NULL DEFAULT FALSE,
     menu boolean NOT NULL DEFAULT FALSE,
     parent_id int DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     sort int NOT NULL DEFAULT 0,
@@ -84,6 +85,7 @@ CREATE INDEX ON page (meta_description);
 CREATE INDEX ON page (slug);
 CREATE INDEX ON page (url);
 CREATE INDEX ON page (disabled);
+CREATE INDEX ON page (breadcrumb);
 CREATE INDEX ON page (menu);
 CREATE INDEX ON page (parent_id);
 CREATE INDEX ON page (sort);

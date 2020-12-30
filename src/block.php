@@ -21,7 +21,7 @@ function block(array $block): string
 
 function breadcrumb(array $block): string
 {
-    if (!$page = app\data('app', 'page')) {
+    if (!($page = app\data('app', 'page')) || !$page['breadcrumb']) {
         return '';
     }
 

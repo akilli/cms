@@ -64,6 +64,7 @@ return [
                     'menu',
                     'parent_id',
                     'sort',
+                    'breadcrumb',
                     'title',
                     'content',
                     'aside',

@@ -97,6 +97,7 @@ return [
     'Search' => 'Suche',
     'Search Term' => 'Suchbegriff',
     'Select item' => 'Eintrag auswählen',
+    'Show breadcrumb navigation' => 'Brotkrümelnavigation anzeigen',
     'Slug' => 'Slug',
     'Sort' => 'Sortierung',
     'Submit' => 'Abschicken',
