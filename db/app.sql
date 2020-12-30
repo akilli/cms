@@ -227,6 +227,186 @@ WITH LOCAL CHECK OPTION;
 -- ---------------------------------------------------------------------------------------------------------------------
 
 --
+-- Generic trigger function for not automatically updatable views
+--
+-- You could use this generic trigger function for entities that extend a base entity and define additional columns in
+-- an extension table as the resulting views are usually not automatically updatable. Anyhow you should prefer dedicated
+-- trigger functions over this generic one. It's just too much voodoo going on here.
+--
+-- Example
+-- -------
+--
+-- !!! Please replace the variables $base, $entity and $entity_ext with the real names !!!
+--
+-- CREATE TABLE $entity_ext (
+--     id int PRIMARY KEY REFERENCES $base ON DELETE CASCADE ON UPDATE CASCADE,
+--     additional_column varchar(255) NOT NULL
+-- );
+--
+-- CREATE VIEW entity AS
+-- SELECT *
+-- FROM $base
+-- LEFT JOIN $entity_ext USING (id)
+-- WHERE entity_id = '$entity';
+--
+-- CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON $entity FOR EACH ROW EXECUTE PROCEDURE entity_save('$base', '$entity_ext');
+-- CREATE TRIGGER entity_delete INSTEAD OF DELETE ON $entity FOR EACH ROW EXECUTE PROCEDURE entity_delete('$base');
+--
+
+CREATE FUNCTION entity_save() RETURNS trigger AS $$
+    DECLARE
+        _attr RECORD;
+        _base text;
+        _cnt int;
+        _col text := '';
+        _ext text;
+        _new jsonb;
+        _newVal text;
+        _old jsonb;
+        _oldVal text;
+        _set text := '';
+        _sql text := '';
+        _val text := '';
+    BEGIN
+        IF (array_length(TG_ARGV, 1) < 2) THEN
+            RAISE EXCEPTION 'You must pass the base table as first and the extension table as second argument with CREATE TRIGGER';
+        END IF;
+
+        _base := TG_ARGV[0];
+        _ext := TG_ARGV[1];
+        NEW.entity_id := TG_TABLE_NAME;
+        _new := to_jsonb(NEW);
+
+        IF (TG_OP = 'UPDATE') THEN
+            _old := to_jsonb(OLD);
+        END IF;
+
+        -- Base table
+        FOR _attr IN
+            SELECT
+                column_name AS name,
+                lower(data_type) AS type
+            FROM
+                information_schema.columns
+            WHERE
+                table_schema = TG_TABLE_SCHEMA
+                AND table_name = _base
+                AND column_name != 'id'
+            ORDER BY
+                ordinal_position ASC
+        LOOP
+            _newVal := jsonb_extract_path_text(_new, _attr.name);
+
+            IF (TG_OP = 'UPDATE') THEN
+                _oldVal := jsonb_extract_path_text(_old, _attr.name);
+            ELSE
+                _oldVal := NULL;
+            END IF;
+
+            IF (_newVal IS NULL AND _oldVal IS NULL) THEN
+                CONTINUE;
+            ELSIF (_col != '') THEN
+                _col := _col || ', ';
+                _val := _val || ', ';
+                _set := _set || ', ';
+            END IF;
+
+            IF (_attr.type = 'array' AND _newVal IS NOT NULL) THEN
+                _newVal := regexp_replace(regexp_replace(_newVal, '^\[', '{'), '\]$', '}');
+            END IF;
+
+            _col := _col || format('%I', _attr.name);
+            _val := _val || format('%L', _newVal);
+            _set := _set || format('%I = %L', _attr.name, _newVal);
+        END LOOP;
+
+        IF (TG_OP = 'UPDATE') THEN
+            _sql := format('UPDATE %I SET id = %L, %s WHERE id = %L', _base, NEW.id, _set, OLD.id);
+        ELSE
+            _sql := format('INSERT INTO %I (%s) VALUES (%s)', _base, _col, _val);
+        END IF;
+
+        -- Extension table
+        _col := '';
+        _val := '';
+        _set := '';
+
+        FOR _attr IN
+            SELECT
+                column_name AS name,
+                lower(data_type) AS type
+            FROM
+                information_schema.columns
+            WHERE
+                table_schema = TG_TABLE_SCHEMA
+                AND table_name = _ext
+                AND column_name != 'id'
+            ORDER BY
+                ordinal_position ASC
+        LOOP
+            _newVal := jsonb_extract_path_text(_new, _attr.name);
+
+            IF (TG_OP = 'UPDATE') THEN
+                _oldVal := jsonb_extract_path_text(_old, _attr.name);
+            ELSE
+                _oldVal := NULL;
+            END IF;
+
+            IF (_newVal IS NULL AND _oldVal IS NULL) THEN
+                CONTINUE;
+            ELSIF (_col != '') THEN
+                _col := _col || ', ';
+                _val := _val || ', ';
+                _set := _set || ', ';
+            END IF;
+
+            IF (_attr.type = 'array' AND _newVal IS NOT NULL) THEN
+                _newVal := regexp_replace(regexp_replace(_newVal, '^\[', '{'), '\]$', '}');
+            END IF;
+
+            _col := _col || format('%I', _attr.name);
+            _val := _val || format('%L', _newVal);
+            _set := _set || format('%I = %L', _attr.name, _newVal);
+        END LOOP;
+
+        IF (_col != '' AND _val != '' AND _set != '') THEN
+            _sql := 'WITH t AS (' || _sql || ' RETURNING id)';
+
+            IF (TG_OP = 'UPDATE') THEN
+                EXECUTE format('SELECT count(*) FROM %I WHERE id = %L', _ext, OLD.id) INTO _cnt;
+            ELSE
+                _cnt := 0;
+            END IF;
+
+            IF (TG_OP = 'UPDATE' AND _cnt > 0) THEN
+                _sql := _sql || format(' UPDATE %I e SET %s FROM t WHERE e.id = t.id', _ext, _set);
+            ELSE
+                _sql := _sql || format(' INSERT INTO %s (id, %s) SELECT id, %s FROM t', _ext, _col, _val);
+            END IF;
+        ELSIF (_col != '' OR _val != '' OR _set != '') THEN
+            RAISE EXCEPTION 'An error occurred with values _col(%), _val(%) and _set(%)', _col, _val, _set;
+        END IF;
+
+        EXECUTE _sql;
+
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION entity_delete() RETURNS trigger AS $$
+    DECLARE
+        _base text;
+    BEGIN
+        IF (array_length(TG_ARGV, 1) < 1) THEN
+            RAISE EXCEPTION 'You must pass the base table as first argument with CREATE TRIGGER';
+        END IF;
+
+        EXECUTE format('DELETE FROM %I WHERE id = %s', _base, OLD.id);
+        RETURN OLD;
+    END;
+$$ LANGUAGE plpgsql;
+
+--
 -- Page
 --
 
