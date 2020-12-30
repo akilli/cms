@@ -9,12 +9,9 @@ use entity;
 use html;
 use layout;
 use str;
-use DomainException;
 
 /**
  * Minimal cache busting
- *
- * @throws DomainException
  */
 function asset(string $html): string
 {
@@ -23,7 +20,7 @@ function asset(string $html): string
             'file' => app\filepath($id),
             'gui' => app\guipath($id),
             'ext' => app\extpath($id),
-            default => throw new DomainException(app\i18n('Invalid value')),
+            default => null,
         };
         $mtime = &app\registry('contentfilter')['asset'][$file];
         $mtime ??= filemtime($file) ?: 0;
