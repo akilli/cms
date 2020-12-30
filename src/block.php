@@ -67,7 +67,7 @@ function edit(array $block): string
     $args = $app['id'] ? [entity\one($entity['id'], crit: [['id', $app['id']]]), $data] : [$data];
     $data = arr\replace(entity\item($entity['id']), ...$args);
 
-    return app\tpl($block['cfg']['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
+    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
 }
 
 function filter(array $block): string
@@ -76,7 +76,7 @@ function filter(array $block): string
         return '';
     }
 
-    return app\tpl($block['cfg']['tpl'], [
+    return app\tpl($block['tpl'], [
         'attr' => $block['cfg']['attr'],
         'data' => $block['cfg']['data'],
         'q' => $block['cfg']['q'],
@@ -196,7 +196,7 @@ function index(array $block): string
         ]));
     }
 
-    return app\tpl($block['cfg']['tpl'], [
+    return app\tpl($block['tpl'], [
         'attr' => $attrs,
         'data' => entity\all($entity['id'], crit: $crit, order: $order, limit: $limit, offset: $offset),
         'filter' => $filter,
@@ -231,7 +231,7 @@ function login(array $block): string
     ];
     $attrs = arr\extend(arr\extract($entity['attr'], ['username', 'password']), $a);
 
-    return app\tpl($block['cfg']['tpl'], ['attr' => $attrs, 'data' => [], 'multipart' => false]);
+    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => [], 'multipart' => false]);
 }
 
 function menu(array $block): string
@@ -300,7 +300,7 @@ function meta(array $block): string
         default => $title,
     };
 
-    return app\tpl($block['cfg']['tpl'], ['description' => str\enc($desc), 'title' => str\enc($title)]);
+    return app\tpl($block['tpl'], ['description' => str\enc($desc), 'title' => str\enc($title)]);
 }
 
 /**
@@ -438,7 +438,7 @@ function pager(array $block): string
         ];
     }
 
-    return app\tpl($block['cfg']['tpl'], ['info' => $info, 'limits' => count($limits) > 1 ? $limits : [], 'links' => $links]);
+    return app\tpl($block['tpl'], ['info' => $info, 'limits' => count($limits) > 1 ? $limits : [], 'links' => $links]);
 }
 
 function profile(array $block): string
@@ -483,7 +483,7 @@ function profile(array $block): string
 
     $data = $data ? arr\replace($account, $data) : $account;
 
-    return app\tpl($block['cfg']['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
+    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
 }
 
 function tag(array $block): string
@@ -526,7 +526,7 @@ function toolbar(array $block): string
 
 function tpl(array $block): string
 {
-    return app\tpl($block['cfg']['tpl']);
+    return app\tpl($block['tpl']);
 }
 
 function view(array $block): string

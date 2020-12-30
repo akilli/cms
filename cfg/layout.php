@@ -11,8 +11,8 @@ return [
             'cfg' => ['tag' => 'body'],
         ],
         'meta' => ['type' => 'meta', 'parent_id' => 'head', 'sort' => 100],
-        'icon' => ['type' => 'tpl', 'parent_id' => 'head', 'sort' => 200, 'cfg' => ['tpl' => 'icon.phtml']],
-        'asset' => ['type' => 'tpl', 'parent_id' => 'head', 'sort' => 300, 'cfg' => ['tpl' => 'asset.phtml']],
+        'icon' => ['type' => 'tpl', 'tpl' => 'icon.phtml', 'parent_id' => 'head', 'sort' => 200],
+        'asset' => ['type' => 'tpl', 'tpl' => 'asset.phtml', 'parent_id' => 'head', 'sort' => 300],
         'toolbar' => ['type' => 'toolbar', 'privilege' => '_user_', 'parent_id' => 'body', 'sort' => 100],
         'main' => ['type' => 'container', 'parent_id' => 'body', 'sort' => 200, 'cfg' => ['tag' => 'main']],
         'content' => ['type' => 'container', 'parent_id' => 'main', 'sort' => 100, 'cfg' => ['id' => true, 'tag' => 'article']],
@@ -21,17 +21,17 @@ return [
         'msg' => ['type' => 'tag', 'parent_id' => 'content', 'sort' => 200, 'cfg' => ['tag' => 'app-msg']],
     ],
     'html:_admin_' => [
-        'asset' => ['cfg' => ['tpl' => 'asset-admin.phtml']],
+        'asset' => ['tpl' => 'asset-admin.phtml'],
     ],
     'html:_invalid_' => [
         'title' => ['cfg' => ['text' => 'Error']],
-        'view' => ['type' => 'tpl', 'parent_id' => 'content', 'sort' => 300, 'cfg' => ['tpl' => 'error.phtml']],
+        'view' => ['type' => 'tpl', 'tpl' => 'error.phtml', 'parent_id' => 'content', 'sort' => 300],
     ],
     'html:_public_' => [
-        'header' => ['type' => 'tpl', 'parent_id' => 'body', 'sort' => 140, 'cfg' => ['tpl' => 'header.phtml']],
+        'header' => ['type' => 'tpl', 'tpl' => 'header.phtml', 'parent_id' => 'body', 'sort' => 140],
         'menu' => ['type' => 'menu', 'parent_id' => 'body', 'sort' => 160, 'cfg' => ['toggle' => true]],
         'breadcrumb' => ['type' => 'breadcrumb', 'parent_id' => 'main', 'sort' => 50],
-        'footer' => ['type' => 'tpl', 'parent_id' => 'body', 'sort' => 300, 'cfg' => ['tpl' => 'footer.phtml']],
+        'footer' => ['type' => 'tpl', 'tpl' => 'footer.phtml', 'parent_id' => 'body', 'sort' => 300],
     ],
     'html:account:edit' => [
         'form' => ['cfg' => ['attr_id' => ['name', 'role_id', 'username', 'password', 'email']]],
@@ -66,12 +66,13 @@ return [
         'index' => ['cfg' => ['attr_id' => ['url', 'name'], 'search' => ['name', 'url', 'info']]],
     ],
     'html:index' => [
-        'new' => ['type' => 'tpl', 'parent_id' => 'content', 'sort' => 300, 'cfg' => ['tpl' => 'new.phtml']],
+        'new' => ['type' => 'tpl', 'tpl' => 'new.phtml', 'parent_id' => 'content', 'sort' => 300],
         'index' => [
             'type' => 'index',
+            'tpl' => 'index-admin.phtml',
             'parent_id' => 'content',
             'sort' => 400,
-            'cfg' => ['pager' => 'bottom', 'search' => ['name'], 'sort' => true, 'tpl' => 'index-admin.phtml'],
+            'cfg' => ['pager' => 'bottom', 'search' => ['name'], 'sort' => true],
         ],
     ],
     'html:layout:edit' => [
