@@ -32,6 +32,7 @@ define('APP', [
         'block' => [
             'call' => null,
             'tpl' => null,
+            'tag' => null,
             'cfg' => [],
         ],
         'entity' => [
@@ -81,6 +82,7 @@ define('APP', [
             'type' => null,
             'call' => null,
             'tpl' => null,
+            'tag' => null,
             'active' => true,
             'privilege' => null,
             'parent_id' => null,

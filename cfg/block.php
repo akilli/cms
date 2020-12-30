@@ -2,10 +2,11 @@
 return [
     'block' => [
         'call' => 'block\block',
-        'cfg' => ['attr_id' => ['content'], 'data' => [], 'entity_id' => null, 'id' => null, 'tag' => 'section'],
+        'tag' => 'section',
+        'cfg' => ['attr_id' => ['content'], 'data' => [], 'entity_id' => null, 'id' => null],
     ],
     'breadcrumb' => ['call' => 'block\breadcrumb'],
-    'container' => ['call' => 'block\container', 'cfg' => ['id' => false, 'tag' => null]],
+    'container' => ['call' => 'block\container', 'cfg' => ['id' => false]],
     'edit' => ['call' => 'block\edit', 'tpl' => 'form.phtml', 'cfg' => ['attr_id' => []]],
     'filter' => [
         'call' => 'block\filter',
@@ -32,27 +33,21 @@ return [
         ],
     ],
     'login' => ['call' => 'block\login', 'tpl' => 'form.phtml'],
-    'menu' => [
-        'call' => 'block\menu',
-        'cfg' => ['root' => false, 'submenu' => false, 'tag' => 'nav', 'toggle' => false, 'url' => null],
-    ],
+    'menu' => ['call' => 'block\menu', 'cfg' => ['root' => false, 'submenu' => false, 'toggle' => false, 'url' => null]],
     'meta' => ['call' => 'block\meta', 'tpl' => 'meta.phtml'],
-    'nav' => [
-        'call' => 'block\nav',
-        'cfg' => ['data' => [], 'tag' => 'nav', 'title' => null, 'toggle' => false],
-    ],
+    'nav' => ['call' => 'block\nav', 'cfg' => ['data' => [], 'title' => null, 'toggle' => false]],
     'pager' => [
         'call' => 'block\pager',
         'tpl' => 'pager.phtml',
         'cfg' => ['cur' => null, 'limit' => null, 'limits' => [], 'pages' => 10, 'size' => null],
     ],
     'profile' => ['call' => 'block\profile', 'tpl' => 'form.phtml', 'cfg' => ['attr_id' => []]],
-    'tag' => ['call' => 'block\tag', 'cfg' => ['attr' => [], 'tag' => null, 'val' => null]],
+    'tag' => ['call' => 'block\tag', 'cfg' => ['attr' => [], 'val' => null]],
     'title' => ['call' => 'block\title', 'cfg' => ['text' => null]],
     'toolbar' => ['call' => 'block\toolbar'],
-    'tpl' => ['call' => 'block\tpl', 'cfg' => ['tpl' => null]],
+    'tpl' => ['call' => 'block\tpl'],
     'view' => [
         'call' => 'block\view',
-        'cfg' => ['attr_id' => [], 'data' => [], 'entity_id' => null, 'id' => null, 'tag' => null],
+        'cfg' => ['attr_id' => [], 'data' => [], 'entity_id' => null, 'id' => null],
     ],
 ];

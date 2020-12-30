@@ -38,8 +38,8 @@ function breadcrumb(array $block): string
 
 function container(array $block): string
 {
-    if (($html = layout\render_children($block['id'])) && $block['cfg']['tag']) {
-        return html\element($block['cfg']['tag'], $block['cfg']['id'] ? ['id' => $block['id']] : [], $html);
+    if (($html = layout\render_children($block['id'])) && $block['tag']) {
+        return html\element($block['tag'], $block['cfg']['id'] ? ['id' => $block['id']] : [], $html);
     }
 
     return $html;
@@ -382,7 +382,7 @@ function nav(array $block): string
         $level = $item['level'];
     }
 
-    return $block['cfg']['tag'] ? html\element($block['cfg']['tag'], $attrs, $html) : $html;
+    return html\element('nav', $attrs, $html);
 }
 
 function pager(array $block): string
@@ -488,7 +488,7 @@ function profile(array $block): string
 
 function tag(array $block): string
 {
-    return $block['cfg']['tag'] ? html\element($block['cfg']['tag'], $block['cfg']['attr'], $block['cfg']['val']) : '';
+    return $block['tag'] ? html\element($block['tag'], $block['cfg']['attr'], $block['cfg']['val']) : '';
 }
 
 function title(array $block): string
@@ -551,9 +551,5 @@ function view(array $block): string
         $html .= attr\viewer($data, $attr, ['wrap' => true]);
     }
 
-    if ($html && $block['cfg']['tag']) {
-        return html\element($block['cfg']['tag'], ['data-entity' => $entity['id']], $html);
-    }
-
-    return $html;
+    return $html && $block['tag'] ? html\element($block['tag'], ['data-entity' => $entity['id']], $html) : $html;
 }
