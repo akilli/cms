@@ -15,7 +15,11 @@ use str;
  */
 function asset(string $html): string
 {
-    return preg_replace('#="/(gui|ext|file)/([^",\s]+)"#s', '="/$1/' . APP['mtime'] . '/$2"', $html);
+    return preg_replace(
+        ['#="/(gui|ext|file)/([^",\s]+)"#s', '#/(gui|ext|file)/(resize-|crop-)#'],
+        ['="/$1/' . APP['mtime'] . '/$2"', '/$1/' . APP['mtime'] . '/$2'],
+        $html
+    );
 }
 
 /**
