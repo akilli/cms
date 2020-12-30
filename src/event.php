@@ -316,6 +316,13 @@ function layout_postrender_body(array $data): array
     return $data;
 }
 
+function layout_postrender_html(array $data): array
+{
+    $data['html'] = contentfilter\asset($data['html']);
+
+    return $data;
+}
+
 function response_html(array $data): array
 {
     if (!$data['body'] && !$data['redirect']) {

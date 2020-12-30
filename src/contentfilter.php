@@ -11,6 +11,14 @@ use layout;
 use str;
 
 /**
+ * Minimal cache busting
+ */
+function asset(string $html): string
+{
+    return preg_replace('#="/(gui|ext|file)/([^",\s]+)"#s', '="/$1/' . APP['mtime'] . '/$2"', $html);
+}
+
+/**
  * Replaces all DB placeholder tags, i.e. `<app-block id="{entity_id}-{id}"></app-block>`, with actual blocks
  */
 function block(string $html): string
@@ -38,7 +46,7 @@ function block(string $html): string
     }
 
     return preg_replace('#<app-block(?:[^>]*)>\s*</app-block>#s', '', $html);
-};
+}
 
 /**
  * Converts email addresses to HTML entity hex format

@@ -246,7 +246,7 @@ function file(string $path = ''): string
  */
 function gui(string $path = ''): string
 {
-    return APP['url']['gui'] . '/' . APP['mtime'] . '/' . $path;
+    return APP['url']['gui'] . '/' . $path;
 }
 
 /**
@@ -254,7 +254,7 @@ function gui(string $path = ''): string
  */
 function ext(string $path = ''): string
 {
-    return APP['url']['ext'] . '/' . APP['mtime'] . '/' . $path;
+    return APP['url']['ext'] . '/' . $path;
 }
 
 /**
