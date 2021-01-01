@@ -89,13 +89,18 @@ function email(?string $val, array $attr): string
 
 function file(?string $val, array $attr): string
 {
-    $html = html\element('div', ['class' => 'view'], $val ? $attr['viewer']($val, $attr) : '');
+    $html = '';
+
+    if ($val) {
+        $a = html\element('a', ['href' => $val], $val);
+        $html = html\element('div', ['class' => 'file-current'], app\i18n('Current file:') . ' ' . $a);
+    }
 
     if (!$attr['required']) {
         $id = $attr['html']['id'] . '-delete';
         $del = html\element('input', ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'checkbox', 'value' => '']);
         $del .= html\element('label', ['for' => $id], app\i18n('Delete'));
-        $html .= html\element('div', ['class' => 'delete'], $del);
+        $html .= html\element('div', ['class' => 'file-delete'], $del);
     }
 
     $html .= html\element('input', ['type' => 'file', 'accept' => implode(', ', $attr['accept'])] + $attr['html']);

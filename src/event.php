@@ -61,8 +61,11 @@ function data_app(array $data): array
         && app\allowed(app\id($data['entity_id'], $data['action']))
         && $data['entity']
         && in_array($data['action'], $data['entity']['action'])
-        && (!in_array($data['action'], ['delete', 'view']) || $data['id'] && entity\size($data['entity_id'], [['id', $data['id']]]))
-        && ($data['action'] !== 'edit' || !$data['id'] || entity\size($data['entity_id'], [['id', $data['id']]]))
+        && (
+            !in_array($data['action'], ['delete', 'view'])
+            || $data['id'] && entity\size($data['entity_id'], crit: [['id', $data['id']]])
+        )
+        && ($data['action'] !== 'edit' || !$data['id'] || entity\size($data['entity_id'], crit: [['id', $data['id']]]))
         && (!$data['page'] || !$data['page']['disabled']);
 
     if ($data['valid']) {
@@ -158,7 +161,7 @@ function entity_postvalidate_unique(array $data): array
             $labels[] = $data['_entity']['attr'][$attrId]['name'];
         }
 
-        if (entity\size($data['_entity']['id'], $crit)) {
+        if (entity\size($data['_entity']['id'], crit: $crit)) {
             foreach ($attrIds as $attrId) {
                 $data['_error'][$attrId][] = app\i18n('Combination of %s must be unique', implode(', ', $labels));
             }
@@ -187,7 +190,7 @@ function entity_file_prevalidate(array $data): array
             $data['url'] = app\fileurl($item['name']);
             $data['mime'] = $item['type'];
 
-            if (entity\size('file', [[['url', $data['url']], ['thumb', $data['url']]]])) {
+            if (entity\size('file', crit: [[['url', $data['url']], ['thumb', $data['url']]]])) {
                 $data['_error']['url'][] = app\i18n('Please change filename to generate an unique URL');
             }
         }
@@ -195,12 +198,8 @@ function entity_file_prevalidate(array $data): array
 
     if (!empty($data['thumb']) && ($item = app\data('request', 'file')['thumb'] ?? null)) {
         $data['thumb'] = app\fileurl($item['name']);
-        $crit = array_merge(
-            [[['url', $data['thumb']], ['thumb', $data['thumb']]]],
-            $data['_old'] ? [['id', $data['_old']['id'], APP['op']['!=']]] : []
-        );
 
-        if (entity\size('file', $crit)) {
+        if (entity\size('file', crit: [[['url', $data['thumb']], ['thumb', $data['thumb']]]])) {
             $data['_error']['thumb'][] = app\i18n('Please change filename to generate an unique URL');
         }
     }
@@ -269,7 +268,7 @@ function entity_page_postvalidate_url(array $data): array
     $pId = array_key_exists('parent_id', $data) ? $data['parent_id'] : ($data['_old']['parent_id'] ?? null);
     $crit = [['slug', $slug], ['parent_id', [null, $root['id']]], ['id', $data['_old']['id'] ?? null, APP['op']['!=']]];
 
-    if (($pId === null || $pId === $root['id']) && entity\size('page', $crit)) {
+    if (($pId === null || $pId === $root['id']) && entity\size('page', crit: $crit)) {
         $data['_error']['slug'][] = app\i18n('Please change slug to generate an unique URL');
     }
 
@@ -288,7 +287,7 @@ function entity_page_presave(array $data): array
  */
 function entity_role_predelete(array $data): array
 {
-    if (entity\size('account', [['role_id', $data['id']]])) {
+    if (entity\size('account', crit: [['role_id', $data['id']]])) {
         throw new DomainException(app\i18n('Cannot delete used role'));
     }
 

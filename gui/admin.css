@@ -127,6 +127,11 @@ div[data-invalid] :invalid {
     color: #900;
 }
 
+.file-current,
+.file-delete {
+    font-size: 0.875rem;
+}
+
 /**
  * Editor
  */

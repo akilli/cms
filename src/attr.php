@@ -93,7 +93,7 @@ function validator(array $data, array $attr): mixed
         throw new DomainException(app\i18n('Value is required'));
     }
 
-    if ($attr['unique'] && entity\size($data['_entity']['id'], $crit)) {
+    if ($attr['unique'] && entity\size($data['_entity']['id'], crit: $crit)) {
         throw new DomainException(app\i18n('Value must be unique'));
     }
 

@@ -43,7 +43,7 @@ function email(string $val): string
  */
 function entity(int $val, array $attr): int
 {
-    if ($val && !entity\size($attr['ref'], [['id', $val]])) {
+    if ($val && !entity\size($attr['ref'], crit: [['id', $val]])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -69,7 +69,7 @@ function file(string $val, array $attr): string
  */
 function multientity(array $val, array $attr): array
 {
-    if ($val && entity\size($attr['ref'], [['id', $val]]) !== count($val)) {
+    if ($val && entity\size($attr['ref'], crit: [['id', $val]]) !== count($val)) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 

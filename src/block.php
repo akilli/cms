@@ -185,7 +185,7 @@ function index(array $block): string
     }
 
     if ($block['cfg']['pager']) {
-        $size = entity\size($entity['id'], $crit);
+        $size = entity\size($entity['id'], crit: $crit);
         $total = $limit > 0 && ($c = (int) ceil($size / $limit)) ? $c : 1;
         $get['cur'] = min(max((int) $get['cur'], 1), $total);
         $offset = ($get['cur'] - 1) * $limit;
