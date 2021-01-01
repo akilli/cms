@@ -14,7 +14,11 @@ use DomainException;
  */
 function date(string $val): string
 {
-    return attr\datetime($val, APP['date.frontend'], APP['date.backend']) ?: throw new DomainException(app\i18n('Invalid value'));
+    if (!$val = attr\datetime($val, APP['date.frontend'], APP['date.backend'])) {
+        throw new DomainException(app\i18n('Invalid value'));
+    }
+
+    return $val;
 }
 
 /**
@@ -22,7 +26,11 @@ function date(string $val): string
  */
 function datetime(string $val): string
 {
-    return attr\datetime($val, APP['datetime.frontend'], APP['datetime.backend']) ?: throw new DomainException(app\i18n('Invalid value'));
+    if (!$val = attr\datetime($val, APP['datetime.frontend'], APP['datetime.backend'])) {
+         throw new DomainException(app\i18n('Invalid value'));
+    }
+
+    return $val;
 }
 
 function editor(string $val): string
@@ -84,7 +92,10 @@ function opt(mixed $val, array $attr): mixed
     $opt = $attr['opt']();
 
     if ($val || is_scalar($val) && !is_string($val)) {
-        array_map(fn(mixed $v): bool => isset($opt[$v]) ?: throw new DomainException(app\i18n('Invalid value')), (array) $val);
+        array_map(
+            fn(mixed $v): bool => isset($opt[$v]) ?: throw new DomainException(app\i18n('Invalid value')),
+            (array) $val
+        );
     }
 
     return $val;
@@ -100,7 +111,11 @@ function text(string $val): string
  */
 function time(string $val): string
 {
-    return attr\datetime($val, APP['time.frontend'], APP['time.backend']) ?: throw new DomainException(app\i18n('Invalid value'));
+    if (!$val = attr\datetime($val, APP['time.frontend'], APP['time.backend'])) {
+        throw new DomainException(app\i18n('Invalid value'));
+    }
+
+    return $val;
 }
 
 function uid(string $val): string
