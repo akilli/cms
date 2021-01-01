@@ -12,5 +12,4 @@ return [
     'time' => ['call' => 'validator\time'],
     'uid' => ['call' => 'validator\uid'],
     'url' => ['call' => 'validator\url'],
-    'urlpath' => ['call' => 'validator\urlpath'],
 ];
