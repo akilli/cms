@@ -13,7 +13,7 @@ use DomainException;
  */
 function backup(): void
 {
-    file_put_contents(APP['path']['tmp'] . 'cfg.php', "<?php\nreturn " . var_export(preload(), true) . ';');
+    file_put_contents(APP['path']['tmp'] . '/cfg.php', "<?php\nreturn " . var_export(preload(), true) . ';');
 }
 
 /**
@@ -22,7 +22,7 @@ function backup(): void
 function restore(): void
 {
     $cfg = &app\registry('cfg');
-    $cfg = one(APP['path']['tmp'] . 'cfg.php');
+    $cfg = one(APP['path']['tmp'] . '/cfg.php');
 }
 
 /**
@@ -35,7 +35,7 @@ function preload(): array
     foreach (array_filter([APP['path']['cfg'], APP['path']['ext.cfg']], 'is_dir') as $path) {
         foreach (file\scan($path) as $name) {
             $id = basename($name, '.php');
-            $file = $path . $name;
+            $file = $path . '/' . $name;
 
             if (!is_array($data[$id] ?? null) && (is_dir($file) || is_file($file) && $id !== $name)) {
                 $data[$id] = load($id);
@@ -75,8 +75,8 @@ function load(string $id): array
 {
     if (($cfg = &app\registry('cfg')[$id]) === null) {
         $cfg = [];
-        $path = APP['path']['cfg'] . $id;
-        $extPath = APP['path']['ext.cfg'] . $id;
+        $path = APP['path']['cfg'] . '/' . $id;
+        $extPath = APP['path']['ext.cfg'] . '/' . $id;
 
         if (is_dir($path) || !is_file($path . '.php') && is_dir($extPath)) {
             $data = all($path);

@@ -238,7 +238,7 @@ function actionurl(string|int ...$args): string
  */
 function guiurl(string $path = ''): string
 {
-    return APP['url']['gui'] . $path;
+    return APP['url']['gui'] . '/' . $path;
 }
 
 /**
@@ -246,7 +246,7 @@ function guiurl(string $path = ''): string
  */
 function exturl(string $path = ''): string
 {
-    return APP['url']['ext'] . $path;
+    return APP['url']['ext'] . '/' . $path;
 }
 
 /**
@@ -254,7 +254,7 @@ function exturl(string $path = ''): string
  */
 function fileurl(string $path = ''): string
 {
-    return APP['url']['file'] . $path;
+    return APP['url']['file'] . '/' . $path;
 }
 
 /**
@@ -262,7 +262,7 @@ function fileurl(string $path = ''): string
  */
 function guipath(string $id): string
 {
-    return APP['path']['gui'] . preg_replace('#^' . APP['url']['gui'] . '#', '', $id);
+    return APP['path']['gui'] . '/' . preg_replace('#^' . APP['url']['gui'] . '/#', '', $id);
 }
 
 /**
@@ -270,7 +270,7 @@ function guipath(string $id): string
  */
 function extpath(string $id): string
 {
-    return APP['path']['ext.gui'] . preg_replace('#^' . APP['url']['ext'] . '#', '', $id);
+    return APP['path']['ext.gui'] . '/' . preg_replace('#^' . APP['url']['ext'] . '/#', '', $id);
 }
 
 /**
@@ -278,7 +278,7 @@ function extpath(string $id): string
  */
 function filepath(string $id): string
 {
-    return APP['path']['file'] . preg_replace('#^' . APP['url']['file'] . '#', '', $id);
+    return APP['path']['file'] . '/' . preg_replace('#^' . APP['url']['file'] . '/#', '', $id);
 }
 
 /**
@@ -286,8 +286,8 @@ function filepath(string $id): string
  */
 function tpl(string $tpl, array $var = []): string
 {
-    $ext = APP['path']['ext.tpl'] . $tpl;
-    $var['tpl'] = is_file($ext) ? $ext : APP['path']['tpl'] . $tpl;
+    $ext = APP['path']['ext.tpl'] . '/' . $tpl;
+    $var['tpl'] = is_file($ext) ? $ext : APP['path']['tpl'] . '/' . $tpl;
 
     if (!is_file($var['tpl'])) {
         return '';
