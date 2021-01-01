@@ -13,7 +13,7 @@ $scan = function (string $path) use (&$scan): void {
     array_map(fn(string $file): int|bool => include_once $file, glob($path . '*.php'));
     array_map($scan, glob($path . '*', GLOB_ONLYDIR));
 };
-array_map($scan, [APP['path']['app.src'], APP['path']['ext.src']]);
+array_map($scan, [APP['path']['src'], APP['path']['ext.src']]);
 unset($scan);
 
 /**

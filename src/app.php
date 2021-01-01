@@ -262,7 +262,7 @@ function fileurl(string $path = ''): string
  */
 function guipath(string $id): string
 {
-    return APP['path']['app.gui'] . preg_replace('#^' . APP['url']['gui'] . '#', '', $id);
+    return APP['path']['gui'] . preg_replace('#^' . APP['url']['gui'] . '#', '', $id);
 }
 
 /**
@@ -287,7 +287,7 @@ function filepath(string $id): string
 function tpl(string $tpl, array $var = []): string
 {
     $ext = APP['path']['ext.tpl'] . $tpl;
-    $var['tpl'] = is_file($ext) ? $ext : APP['path']['app.tpl'] . $tpl;
+    $var['tpl'] = is_file($ext) ? $ext : APP['path']['tpl'] . $tpl;
 
     if (!is_file($var['tpl'])) {
         return '';
