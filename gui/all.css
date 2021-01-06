@@ -237,7 +237,7 @@ main a:not([role=button]):not([data-action]):hover {
     background: #052a33;
 }
 
-#toolbar a.active {
+#toolbar a.current {
     text-decoration: underline;
 }
 

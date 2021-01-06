@@ -320,7 +320,7 @@ function nav(array $block): string
     $attrs = ['id' => $block['id']];
     $url = app\data('request', 'url');
     $call = fn(array $it): ?string => match (true) {
-        $it['url'] === $url => 'active',
+        $it['url'] === $url => 'current',
         $it['url'] && str_starts_with($url, preg_replace('#\.html#', '', $it['url'])) => 'path',
         default => null,
     };
@@ -359,7 +359,7 @@ function nav(array $block): string
             if ($block['cfg']['toggle']) {
                 $ta = ['data-action' => 'toggle'];
 
-                if (array_intersect(['active', 'path'], $c)) {
+                if (array_intersect(['current', 'path'], $c)) {
                     $ta['data-toggle'] = '';
                 }
 
@@ -406,7 +406,7 @@ function pager(array $block): string
             $limits[] = [
                 'name' => $l ?: app\i18n('All'),
                 'url' => app\urlquery(['cur' => null, 'limit' => $k === 0 ? null : $l], true),
-                'active' => $l === $block['cfg']['limit'],
+                'current' => $l === $block['cfg']['limit'],
             ];
         }
     }
@@ -425,7 +425,7 @@ function pager(array $block): string
         $links[] = [
             'name' => $i,
             'url' => app\urlquery($p, true),
-            'active' => $i === $block['cfg']['cur'],
+            'current' => $i === $block['cfg']['cur'],
             'class' => null,
         ];
     }
