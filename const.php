@@ -47,7 +47,6 @@ define('APP', [
             'name' => null,
             'privilege' => null,
             'url' => null,
-            'active' => true,
             'parent_id' => null,
             'sort' => 0,
             'position' => null,
