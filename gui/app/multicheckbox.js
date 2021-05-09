@@ -10,7 +10,7 @@ export default function () {
         item.addEventListener('change', () => {
             const req = item.form.querySelector(`${sel}[name="${item.name}"]:checked`);
             item.form.querySelectorAll(`${sel}[name="${item.name}"]`).forEach(sib => {
-                req ? sib.removeAttribute('required') : sib.setAttribute('required', 'required');
+                req ? sib.removeAttribute('required') : sib.setAttribute('required', '');
             });
         });
     }));
