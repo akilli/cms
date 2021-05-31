@@ -135,21 +135,29 @@ div[data-invalid] :invalid {
 /**
  * Editor
  */
-editor-content {
+akilli-editor {
+    margin-left: 2.625rem;
+}
+
+form akilli-editor {
+    margin-top: 1.5rem;
+}
+
+akilli-editor editor-root {
     min-height: 15rem;
 }
 
-form editor-content {
+form akilli-editor editor-root {
     max-height: 45rem;
     overflow-y: scroll;
 }
 
-editor-toolbar {
+akilli-editor editor-toolbar {
     top: 3rem;
     color: #052a33;
 }
 
-editor-toolbar button {
+akilli-editor button {
     color: inherit;
     background: none;
 }
