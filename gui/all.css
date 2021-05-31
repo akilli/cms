@@ -122,10 +122,10 @@ figcaption {
 }
 
 /**
- * Quote
+ * Blockquote
  */
-figure.blockquote {
-    padding: 0.75rem;
+figure.blockquote,
+blockquote {
     text-align: center;
     color: #fff;
     background: #93ddf9;
@@ -133,11 +133,16 @@ figure.blockquote {
     box-shadow: 0.125rem 0.125rem 0.125rem #e0e0e0;
 }
 
-figure.blockquote blockquote {
-    margin-bottom: 0.75rem;
+blockquote {
+    padding: 0.75rem;
 }
 
-figure.blockquote blockquote::before {
+figure.blockquote blockquote {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+blockquote::before {
     display: block;
     line-height: 3rem;
     font-family: cms;
@@ -145,8 +150,13 @@ figure.blockquote blockquote::before {
     content: '\f10e';
 }
 
+figure.blockquote {
+    color: #fff;
+    background: #93ddf9;
+}
+
 figure.blockquote figcaption {
-    padding-top: 0.6875rem;
+    padding: 0.6875rem 0.75rem 0.75rem;
     border-top: 0.0625rem solid;
 }
 
