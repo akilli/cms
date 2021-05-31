@@ -124,7 +124,7 @@ figcaption {
 /**
  * Quote
  */
-figure.quote {
+figure.blockquote {
     padding: 0.75rem;
     text-align: center;
     color: #fff;
@@ -133,11 +133,11 @@ figure.quote {
     box-shadow: 0.125rem 0.125rem 0.125rem #e0e0e0;
 }
 
-figure.quote blockquote {
+figure.blockquote blockquote {
     margin-bottom: 0.75rem;
 }
 
-figure.quote blockquote::before {
+figure.blockquote blockquote::before {
     display: block;
     line-height: 3rem;
     font-family: cms;
@@ -145,7 +145,7 @@ figure.quote blockquote::before {
     content: '\f10e';
 }
 
-figure.quote figcaption {
+figure.blockquote figcaption {
     padding-top: 0.6875rem;
     border-top: 0.0625rem solid;
 }
