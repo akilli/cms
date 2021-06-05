@@ -11,10 +11,12 @@ START TRANSACTION;
 CREATE TABLE role (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
-    privilege text[] NOT NULL DEFAULT '{}'
+    privilege text[] NOT NULL DEFAULT '{}',
+    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON role USING GIN (privilege);
+CREATE INDEX ON role (timestamp);
 
 --
 -- Account
@@ -26,10 +28,12 @@ CREATE TABLE account (
     role_id int NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE,
     username varchar(50) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
-    email varchar(50) DEFAULT NULL UNIQUE
+    email varchar(50) DEFAULT NULL UNIQUE,
+    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON account (role_id);
+CREATE INDEX ON account (timestamp);
 
 --
 -- File
@@ -42,12 +46,14 @@ CREATE TABLE file (
     url varchar(255) NOT NULL UNIQUE,
     mime varchar(255) NOT NULL,
     thumb varchar(255) DEFAULT NULL UNIQUE,
-    info text DEFAULT NULL
+    info text DEFAULT NULL,
+    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON file (name);
 CREATE INDEX ON file (entity_id);
 CREATE INDEX ON file (mime);
+CREATE INDEX ON file (timestamp);
 
 --
 -- Page
@@ -100,11 +106,13 @@ CREATE TABLE block (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
     entity_id varchar(50) NOT NULL,
-    content text DEFAULT NULL
+    content text DEFAULT NULL,
+    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON block (name);
 CREATE INDEX ON block (entity_id);
+CREATE INDEX ON block (timestamp);
 
 --
 -- Layout
@@ -117,7 +125,8 @@ CREATE TABLE layout (
     block_id int NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
     page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     parent_id varchar(100) NOT NULL,
-    sort int NOT NULL DEFAULT 0
+    sort int NOT NULL DEFAULT 0,
+    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON layout (name);
@@ -126,6 +135,7 @@ CREATE INDEX ON layout (block_id);
 CREATE INDEX ON layout (page_id);
 CREATE INDEX ON layout (parent_id);
 CREATE INDEX ON layout (sort);
+CREATE INDEX ON layout (timestamp);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- View

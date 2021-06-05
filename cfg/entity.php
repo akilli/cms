@@ -10,6 +10,7 @@ return [
             'username' => ['name' => 'Username', 'type' => 'uid', 'required' => true, 'unique' => true, 'max' => 50],
             'password' => ['name' => 'Password', 'type' => 'password', 'required' => true, 'min' => 8, 'max' => 255],
             'email' => ['name' => 'Email', 'type' => 'email', 'nullable' => true, 'unique' => true, 'max' => 50],
+            'timestamp' => ['name' => 'Timestamp', 'type' => 'datetime'],
         ],
     ],
     'audio' => [
@@ -29,6 +30,7 @@ return [
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'max' => 255],
             'entity_id' => ['name' => 'Entity', 'type' => 'entitychild', 'required' => true],
             'content' => ['name' => 'Content', 'type' => 'editor', 'nullable' => true],
+            'timestamp' => ['name' => 'Timestamp', 'type' => 'datetime'],
         ],
     ],
     'contentblock' => [
@@ -61,6 +63,7 @@ return [
             'thumb' => ['name' => 'Thumbnail', 'type' => 'image', 'nullable' => true, 'unique' => true],
             'mime' => ['name' => 'MIME-Type', 'type' => 'text', 'required' => true, 'max' => 255],
             'info' => ['name' => 'Info', 'type' => 'textarea', 'nullable' => true],
+            'timestamp' => ['name' => 'Timestamp', 'type' => 'datetime'],
         ],
     ],
     'iframe' => [
@@ -90,6 +93,7 @@ return [
             'page_id' => ['name' => 'Page', 'type' => 'entity', 'required' => true, 'ref' => 'page'],
             'parent_id' => ['name' => 'Parent Block', 'type' => 'select', 'opt' => 'block', 'required' => true, 'max' => 100],
             'sort' => ['name' => 'Sort', 'type' => 'int'],
+            'timestamp' => ['name' => 'Timestamp', 'type' => 'datetime'],
         ],
     ],
     'page' => [
@@ -126,6 +130,7 @@ return [
             'id' => ['name' => 'ID', 'type' => 'serial'],
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'unique' => true, 'max' => 50],
             'privilege' => ['name' => 'Privileges', 'type' => 'multitext', 'opt' => 'privilege'],
+            'timestamp' => ['name' => 'Timestamp', 'type' => 'datetime'],
         ],
     ],
     'video' => [
