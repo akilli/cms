@@ -93,9 +93,10 @@ function data_layout(array $data): array
         foreach (entity\all('layout', crit: [['page_id', $app['id']]]) as $item) {
             $cfg[app\id('html', 'page', 'view', $app['id'])]['layout-' . $item['id']] = [
                 'type' => 'tag',
+                'tag' => 'app-block',
                 'parent_id' => $item['parent_id'],
                 'sort' => $item['sort'],
-                'cfg' => ['attr' => ['id' => $item['entity_id'] . '-' . $item['block_id']], 'tag' => 'app-block'],
+                'cfg' => ['attr' => ['id' => $item['entity_id'] . '-' . $item['block_id']]],
             ];
         }
     }
