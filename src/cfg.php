@@ -89,7 +89,7 @@ function load(string $id): array
         $cfg = match ($id) {
             'attr', 'backend' => $data + $ext,
             'block' => block($data, $ext),
-            'db' => arr\extend($data, $ext),
+            'db', 'i18n' => arr\extend($data, $ext),
             'entity' => entity($data, $ext),
             'event' => event($data, $ext),
             'frontend', 'opt', 'validator', 'viewer' => call($data, $ext),
