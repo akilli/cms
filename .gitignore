@@ -1,5 +1,3 @@
-/www
-!/www/index.php
 docker-compose.override.yml
 .env
 .idea
