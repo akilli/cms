@@ -12,11 +12,11 @@ CREATE TABLE role (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
     privilege text[] NOT NULL DEFAULT '{}',
-    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
+    created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON role USING GIN (privilege);
-CREATE INDEX ON role (timestamp);
+CREATE INDEX ON role (created);
 
 --
 -- Account
@@ -29,11 +29,11 @@ CREATE TABLE account (
     username varchar(50) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
     email varchar(50) DEFAULT NULL UNIQUE,
-    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
+    created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON account (role_id);
-CREATE INDEX ON account (timestamp);
+CREATE INDEX ON account (created);
 
 --
 -- File
@@ -47,13 +47,13 @@ CREATE TABLE file (
     mime varchar(255) NOT NULL,
     thumb varchar(255) DEFAULT NULL UNIQUE,
     info text DEFAULT NULL,
-    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
+    created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON file (name);
 CREATE INDEX ON file (entity_id);
 CREATE INDEX ON file (mime);
-CREATE INDEX ON file (timestamp);
+CREATE INDEX ON file (created);
 
 --
 -- Page
@@ -79,7 +79,7 @@ CREATE TABLE page (
     level int NOT NULL DEFAULT 0,
     path int[] NOT NULL DEFAULT '{}',
     account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
-    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp,
+    created timestamp(0) NOT NULL DEFAULT current_timestamp,
     UNIQUE (parent_id, slug)
 );
 
@@ -96,7 +96,7 @@ CREATE INDEX ON page (position);
 CREATE INDEX ON page (level);
 CREATE INDEX ON page USING GIN (path);
 CREATE INDEX ON page (account_id);
-CREATE INDEX ON page (timestamp);
+CREATE INDEX ON page (created);
 
 --
 -- Block
@@ -107,12 +107,12 @@ CREATE TABLE block (
     name varchar(255) NOT NULL,
     entity_id varchar(50) NOT NULL,
     content text DEFAULT NULL,
-    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
+    created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON block (name);
 CREATE INDEX ON block (entity_id);
-CREATE INDEX ON block (timestamp);
+CREATE INDEX ON block (created);
 
 --
 -- Layout
@@ -126,7 +126,7 @@ CREATE TABLE layout (
     page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     parent_id varchar(100) NOT NULL,
     sort int NOT NULL DEFAULT 0,
-    timestamp timestamp(0) NOT NULL DEFAULT current_timestamp
+    created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON layout (name);
@@ -135,7 +135,7 @@ CREATE INDEX ON layout (block_id);
 CREATE INDEX ON layout (page_id);
 CREATE INDEX ON layout (parent_id);
 CREATE INDEX ON layout (sort);
-CREATE INDEX ON layout (timestamp);
+CREATE INDEX ON layout (created);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- View

@@ -32,7 +32,7 @@ return [
     ],
     'html:account:index' => [
         'index' => [
-            'cfg' => ['attr_id' => ['name', 'username', 'role_id', 'timestamp'], 'filter' => ['role_id'], 'search' => ['name', 'username']],
+            'cfg' => ['attr_id' => ['name', 'username', 'role_id', 'created'], 'filter' => ['role_id'], 'search' => ['name', 'username']],
         ],
     ],
     'html:account:login' => [
@@ -48,7 +48,7 @@ return [
         'form' => ['cfg' => ['attr_id' => ['name', 'content']]],
     ],
     'html:block:index' => [
-        'index' => ['cfg' => ['attr_id' => ['name', 'timestamp']]],
+        'index' => ['cfg' => ['attr_id' => ['name', 'created']]],
     ],
     'html:edit' => [
         'form' => ['type' => 'edit', 'parent_id' => 'content', 'sort' => 300],
@@ -57,7 +57,7 @@ return [
         'form' => ['cfg' => ['attr_id' => ['name', 'url', 'thumb', 'info']]],
     ],
     'html:file:index' => [
-        'index' => ['cfg' => ['attr_id' => ['url', 'name', 'timestamp'], 'search' => ['name', 'url', 'info']]],
+        'index' => ['cfg' => ['attr_id' => ['url', 'name', 'created'], 'search' => ['name', 'url', 'info']]],
     ],
     'html:index' => [
         'new' => ['type' => 'tpl', 'tpl' => 'new.phtml', 'parent_id' => 'content', 'sort' => 300],
@@ -75,7 +75,7 @@ return [
     'html:layout:index' => [
         'index' => [
             'cfg' => [
-                'attr_id' => ['name', 'block_id', 'page_id', 'parent_id', 'sort', 'timestamp'],
+                'attr_id' => ['name', 'block_id', 'page_id', 'parent_id', 'sort', 'created'],
                 'filter' => ['block_id', 'page_id', 'parent_id'],
             ],
         ],
@@ -103,7 +103,7 @@ return [
     'html:page:index' => [
         'index' => [
             'cfg' => [
-                'attr_id' => ['name', 'position', 'parent_id', 'menu', 'timestamp'],
+                'attr_id' => ['name', 'position', 'parent_id', 'menu', 'created'],
                 'filter' => ['parent_id', 'account_id'],
             ],
         ],
@@ -115,7 +115,7 @@ return [
         'form' => ['cfg' => ['attr_id' => ['name', 'privilege']]],
     ],
     'html:role:index' => [
-        'index' => ['cfg' => ['attr_id' => ['name', 'timestamp']]],
+        'index' => ['cfg' => ['attr_id' => ['name', 'created']]],
     ],
     'html:view' => [
         'view' => ['type' => 'view', 'parent_id' => 'content', 'sort' => 300],
