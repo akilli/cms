@@ -42,7 +42,7 @@ return [
     ],
     'html:account:profile' => [
         'title' => ['cfg' => ['text' => 'Profile']],
-        'form' => ['type' => 'profile', 'parent_id' => 'content', 'sort' => 300, 'cfg' => ['attr_id' => ['password', 'email']]],
+        'form' => ['type' => 'profile', 'parent_id' => 'content', 'sort' => 300, 'cfg' => ['attr_id' => ['username', 'password', 'email']]],
     ],
     'html:block:edit' => [
         'form' => ['cfg' => ['attr_id' => ['name', 'content']]],
