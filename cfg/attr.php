@@ -61,6 +61,14 @@ return [
     'editor' => ['backend' => 'text', 'frontend' => 'textarea', 'filter' => 'text', 'validator' => 'editor', 'viewer' => 'editor'],
     'email' => ['backend' => 'varchar', 'frontend' => 'email', 'validator' => 'email', 'viewer' => 'email'],
     'entity' => ['backend' => 'int', 'frontend' => 'select', 'validator' => 'entity', 'viewer' => 'entity', 'opt' => 'entity'],
+    'entityfile' => [
+        'backend' => 'int',
+        'frontend' => 'browser',
+        'filter' => 'select',
+        'validator' => 'entity',
+        'viewer' => 'file',
+        'opt' => 'entity',
+    ],
     'entitychild' => [
         'backend' => 'varchar',
         'frontend' => 'select',

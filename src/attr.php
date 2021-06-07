@@ -130,7 +130,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
 
     $a = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
 
-    if ($cfg['link'] && !preg_match('#<(a|audio|details|iframe|video) #', $html)) {
+    if ($cfg['link'] && !preg_match('#<(a|audio|details|iframe|video)#', $html)) {
         $html = html\element('a', ['href' => $cfg['link']], $html);
     }
 
@@ -146,7 +146,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
         return html\element('aside', $a, $html);
     }
 
-    if (($attr['uploadable'] || $attr['type'] === 'iframe') && preg_match('#<(audio|iframe|img|video)#', $html, $match)) {
+    if (preg_match('#<(audio|iframe|img|video)#', $html, $match)) {
         return html\element('figure', $a + (['class' => $match[1] === 'img' ? 'image' : $match[1]]), $html);
     }
 
