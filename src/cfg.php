@@ -266,7 +266,10 @@ function privilege(array $data, array $ext): array
 
     foreach (load('entity') as $entity) {
         foreach ($entity['action'] as $action) {
-            $generated[app\id($entity['id'], $action)]['name'] = $entity['name'] . ' ' . app\i18n(ucfirst($action));
+            $generated[app\id($entity['id'], $action)] = [
+                'name' => $entity['name'] . ' ' . app\i18n(ucfirst($action)),
+                'use' => $action === 'view' ? '_public_' : null,
+            ];
         }
     }
 
