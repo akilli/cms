@@ -10,7 +10,7 @@ return [
             'username' => ['name' => 'Username', 'type' => 'uid', 'required' => true, 'unique' => true, 'max' => 50],
             'password' => ['name' => 'Password', 'type' => 'password', 'required' => true, 'min' => 8, 'max' => 255],
             'email' => ['name' => 'Email', 'type' => 'email', 'nullable' => true, 'unique' => true, 'max' => 50],
-            'created' => ['name' => 'Created', 'type' => 'datetime'],
+            'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],
     ],
     'audio' => [
@@ -30,7 +30,7 @@ return [
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'max' => 255],
             'entity_id' => ['name' => 'Entity', 'type' => 'entitychild', 'required' => true],
             'content' => ['name' => 'Content', 'type' => 'editor', 'nullable' => true],
-            'created' => ['name' => 'Created', 'type' => 'datetime'],
+            'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],
     ],
     'contentblock' => [
@@ -63,7 +63,7 @@ return [
             'thumb' => ['name' => 'Thumbnail', 'type' => 'image', 'nullable' => true, 'unique' => true],
             'mime' => ['name' => 'MIME-Type', 'type' => 'text', 'required' => true, 'max' => 255],
             'info' => ['name' => 'Info', 'type' => 'textarea', 'nullable' => true],
-            'created' => ['name' => 'Created', 'type' => 'datetime'],
+            'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],
     ],
     'iframe' => [
@@ -93,7 +93,7 @@ return [
             'page_id' => ['name' => 'Page', 'type' => 'entity', 'required' => true, 'ref' => 'page'],
             'parent_id' => ['name' => 'Parent Block', 'type' => 'select', 'opt' => 'block', 'required' => true, 'max' => 100],
             'sort' => ['name' => 'Sort', 'type' => 'int'],
-            'created' => ['name' => 'Created', 'type' => 'datetime'],
+            'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],
     ],
     'page' => [
@@ -120,7 +120,7 @@ return [
             'level' => ['name' => 'Level', 'type' => 'int', 'auto' => true],
             'path' => ['name' => 'Path', 'type' => 'multientity', 'auto' => true, 'ref' => 'page'],
             'account_id' => ['name' => 'Account', 'type' => 'entity', 'nullable' => true, 'ref' => 'account'],
-            'created' => ['name' => 'Created', 'type' => 'datetime'],
+            'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],
     ],
     'role' => [
@@ -130,7 +130,7 @@ return [
             'id' => ['name' => 'ID', 'type' => 'serial'],
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'unique' => true, 'max' => 50],
             'privilege' => ['name' => 'Privileges', 'type' => 'multitext', 'opt' => 'privilege'],
-            'created' => ['name' => 'Created', 'type' => 'datetime'],
+            'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],
     ],
     'video' => [
