@@ -54,7 +54,6 @@ return [
     'file' => [
         'name' => 'Files',
         'readonly' => true,
-        'action' => ['index'],
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'max' => 100],

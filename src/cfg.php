@@ -253,6 +253,50 @@ function layout(array $data, array $ext): array
         }
     }
 
+    $entities = load('entity');
+    $noViewTypes = ['json', 'multientity', 'multiint', 'multitext', 'password', 'serial'];
+
+    foreach ($entities as $entity) {
+        // Do not generate layout for child entities unless they have custom attributes in order to use inherited config
+        if ($entity['parent_id'] && array_keys($entity['attr']) === array_keys($entities[$entity['parent_id']]['attr'])) {
+            continue;
+        }
+
+        foreach (['edit', 'index', 'view'] as $action) {
+            $id = app\id('html', $entity['id'], $action);
+
+            if (!in_array($action, $entity['action']) || !empty($data[$id])) {
+                continue;
+            }
+
+            $cfg = [];
+
+            foreach ($entity['attr'] as $attrId => $attr) {
+                if ($attr['type'] === 'entitychild') {
+                    continue;
+                } elseif ($action === 'edit' && !$attr['auto']) {
+                    $cfg['attr_id'][] = $attrId;
+                } elseif ($action === 'edit' || in_array($attr['type'], $noViewTypes)) {
+                    continue;
+                } elseif ($action === 'view') {
+                    $cfg['attr_id'][] = $attrId;
+                } elseif ($action === 'index' && !$attr['nullable']) {
+                    $cfg['attr_id'][] = $attrId;
+
+                    if ($attr['opt'] || in_array($attr['backend'], ['bool', 'datetime', 'date', 'time'])) {
+                        $cfg['filter'][] = $attrId;
+                    } elseif($attr['backend'] === 'varchar') {
+                        $cfg['search'][] = $attrId;
+                    }
+                }
+            }
+
+            if ($cfg) {
+                $data[$id][$action]['cfg'] = $cfg;
+            }
+        }
+    }
+
     return $data;
 }
 

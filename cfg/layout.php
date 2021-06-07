@@ -27,14 +27,6 @@ return [
         'breadcrumb' => ['type' => 'breadcrumb', 'parent_id' => 'main', 'sort' => 50],
         'footer' => ['type' => 'tpl', 'tpl' => 'footer.phtml', 'parent_id' => 'body', 'sort' => 300],
     ],
-    'html:account:edit' => [
-        'form' => ['cfg' => ['attr_id' => ['name', 'role_id', 'username', 'password', 'email']]],
-    ],
-    'html:account:index' => [
-        'index' => [
-            'cfg' => ['attr_id' => ['name', 'username', 'role_id', 'created'], 'filter' => ['role_id'], 'search' => ['name', 'username']],
-        ],
-    ],
     'html:account:login' => [
         'toolbar' => ['active' => false],
         'title' => ['cfg' => ['text' => 'Login']],
@@ -42,19 +34,19 @@ return [
     ],
     'html:account:profile' => [
         'title' => ['cfg' => ['text' => 'Profile']],
-        'form' => ['type' => 'profile', 'parent_id' => 'content', 'sort' => 300, 'cfg' => ['attr_id' => ['username', 'password', 'email']]],
+        'profile' => ['type' => 'profile', 'parent_id' => 'content', 'sort' => 300, 'cfg' => ['attr_id' => ['username', 'password', 'email']]],
     ],
     'html:block:edit' => [
-        'form' => ['cfg' => ['attr_id' => ['name', 'content']]],
+        'edit' => ['cfg' => ['attr_id' => ['name', 'content']]],
     ],
     'html:block:index' => [
         'index' => ['cfg' => ['attr_id' => ['name', 'created']]],
     ],
     'html:edit' => [
-        'form' => ['type' => 'edit', 'parent_id' => 'content', 'sort' => 300],
+        'edit' => ['type' => 'edit', 'parent_id' => 'content', 'sort' => 300],
     ],
     'html:file:edit' => [
-        'form' => ['cfg' => ['attr_id' => ['name', 'url', 'thumb', 'info']]],
+        'edit' => ['cfg' => ['attr_id' => ['name', 'url', 'thumb', 'info']]],
     ],
     'html:file:index' => [
         'index' => ['cfg' => ['attr_id' => ['url', 'name', 'created'], 'search' => ['name', 'url', 'info']]],
@@ -69,19 +61,8 @@ return [
             'cfg' => ['pager' => 'bottom', 'search' => ['name'], 'sort' => true],
         ],
     ],
-    'html:layout:edit' => [
-        'form' => ['cfg' => ['attr_id' => ['name', 'block_id', 'page_id', 'parent_id', 'sort']]],
-    ],
-    'html:layout:index' => [
-        'index' => [
-            'cfg' => [
-                'attr_id' => ['name', 'block_id', 'page_id', 'parent_id', 'sort', 'created'],
-                'filter' => ['block_id', 'page_id', 'parent_id'],
-            ],
-        ],
-    ],
     'html:page:edit' => [
-        'form' => [
+        'edit' => [
             'cfg' => [
                 'attr_id' => [
                     'name',
@@ -110,12 +91,6 @@ return [
     ],
     'html:page:view' => [
         'view' => ['cfg' => ['attr_id' => ['content', 'aside']]],
-    ],
-    'html:role:edit' => [
-        'form' => ['cfg' => ['attr_id' => ['name', 'privilege']]],
-    ],
-    'html:role:index' => [
-        'index' => ['cfg' => ['attr_id' => ['name', 'created']]],
     ],
     'html:view' => [
         'view' => ['type' => 'view', 'parent_id' => 'content', 'sort' => 300],
