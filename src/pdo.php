@@ -217,6 +217,14 @@ function param(string $name): string
 function crit(array $crit, array $attrs): array
 {
     $cols = ['crit' => [], 'param' => []];
+    $compEq = [APP['op']['='], APP['op']['!=']];
+    $comp = [...$compEq, APP['op']['>'], APP['op']['>='], APP['op']['<'], APP['op']['<=']];
+    $regexSearch = [APP['op']['~'], APP['op']['!~']];
+    $regexStart = [APP['op']['^'], APP['op']['!^']];
+    $regexEnd = [APP['op']['$'], APP['op']['!$']];
+    $regex = [...$regexSearch, ...$regexStart, ...$regexEnd];
+    $multi = ['multiint', 'multitext'];
+    $multiJson = ['json', ...$multi];
 
     foreach ($crit as $part) {
         $part = is_array($part[0]) ? $part : [$part];
@@ -237,21 +245,17 @@ function crit(array $crit, array $attrs): array
 
             $param = ':crit_' . $attr['id'] . '_';
 
-            if ($val === null && in_array($op, [APP['op']['='], APP['op']['!=']])) {
+            if ($val === null && in_array($op, $compEq)) {
                 $or[] = $attr['id'] . ' IS' . ($op === APP['op']['!='] ? ' NOT' : '') . ' NULL';
-            } elseif (in_array($op, [APP['op']['='], APP['op']['!=']])
-                && is_array($val)
-                && !in_array($attr['backend'], ['json', 'multiint', 'multitext'])
-            ) {
+            } elseif (in_array($op, $compEq) && is_array($val) && !in_array($attr['backend'], $multiJson)) {
                 $not = $op === APP['op']['!='] ? ' NOT' : '';
                 $null = $attr['id'] . ' IS' . $not . ' NULL';
+                $in = [];
 
                 if (($n = array_keys($val, null, true)) && !($val = arr\remove($val, $n))) {
                     $or[] = $null;
                     continue;
                 }
-
-                $in = [];
 
                 foreach ($val as $v) {
                     $p = param($param);
@@ -260,28 +264,25 @@ function crit(array $crit, array $attrs): array
                     $in[] = $p;
                 }
 
-                $or[] = ($n ? $null . ($not ? ' AND ' : ' OR ') : '') . $attr['id'] . $not . ' IN (' . implode(', ', $in) . ')';
-            } elseif (in_array($op, [APP['op']['='], APP['op']['!='], APP['op']['>'], APP['op']['>='], APP['op']['<'], APP['op']['<=']])) {
+                $inStr = implode(', ', $in);
+                $or[] = ($n ? $null . ($not ? ' AND ' : ' OR ') : '') . $attr['id'] . $not . ' IN (' . $inStr . ')';
+            } elseif (in_array($op, $comp)) {
                 $p = param($param);
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' ' . $op . ' ' . $p;
-            } elseif (in_array($op, [APP['op']['~'], APP['op']['!~']])
-                && in_array($attr['backend'], ['json', 'multiint', 'multitext'])
-            ) {
+            } elseif (in_array($op, $regexSearch) && in_array($attr['backend'], $multiJson)) {
                 $p = param($param);
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
                 $or[] = $attr['id'] . ' @> ' . $p . ($op === APP['op']['!~'] ? ' IS FALSE' : '');
-            } elseif (in_array($op, [APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])
-                && in_array($attr['backend'], ['multiint', 'multitext'])
-            ) {
+            } elseif (in_array($op, [...$regexStart, ...$regexEnd]) && in_array($attr['backend'], $multi)) {
                 $n = is_array($val) ? max(0, count($val) - 1) : 0;
                 $p = param($param);
                 $val = val($val, $attr);
                 $cols['param'][] = [$p, $val, type($val)];
 
-                if (in_array($op, [APP['op']['$'], APP['op']['!$']])) {
+                if (in_array($op, $regexEnd)) {
                     $n = $n > 0 ? ' - ' . $n : '';
                     $l = '[array_upper(' . $attr['id'] . ', 1)' . $n . ' : array_upper(' . $attr['id'] . ', 1)]';
                 } else {
@@ -290,17 +291,14 @@ function crit(array $crit, array $attrs): array
                 }
 
                 $or[] = $attr['id'] . $l . (in_array($op, [APP['op']['!^'], APP['op']['!$']]) ? ' != ' : ' = ') . $p;
-            } elseif (in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['^'], APP['op']['!^'], APP['op']['$'], APP['op']['!$']])) {
+            } elseif (in_array($op, $regex)) {
                 $not = in_array($op, [APP['op']['!~'], APP['op']['!^'], APP['op']['!$']]) ? ' NOT' : '';
-                $pre = in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['$'], APP['op']['!$']]) ? '%' : '';
-                $post = in_array($op, [APP['op']['~'], APP['op']['!~'], APP['op']['^'], APP['op']['!^']]) ? '%' : '';
+                $pre = in_array($op, [...$regexSearch, ...$regexEnd]) ? '%' : '';
+                $post = in_array($op, [...$regexSearch, ...$regexStart]) ? '%' : '';
                 $p = param($param);
                 $val = val($val, $attr);
-                $cols['param'][] = [
-                    $p,
-                    $pre . str_replace(['%', '_'], ['\%', '\_'], (string) $val) . $post,
-                    PDO::PARAM_STR
-                ];
+                $v = $pre . str_replace(['%', '_'], ['\%', '\_'], (string) $val) . $post;
+                $cols['param'][] = [$p, $v, PDO::PARAM_STR];
                 $or[] = $attr['id'] . '::text' . $not . ' ILIKE ' . $p;
             }
         }

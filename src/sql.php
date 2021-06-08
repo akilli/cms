@@ -93,7 +93,9 @@ function join(string $type, string $table, string $as = null, array $cols = []):
         throw new DomainException(app\i18n('Invalid JOIN'));
     }
 
-    return APP['join'][$type] . ' JOIN ' . $table . ($as ? ' AS ' . $as : '') . ($cols ? ' ON ' . implode(' AND ', $cols) : '');
+    $on = $cols ? ' ON ' . implode(' AND ', $cols) : '';
+
+    return APP['join'][$type] . ' JOIN ' . $table . ($as ? ' AS ' . $as : '') . $on;
 }
 
 /**

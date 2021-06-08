@@ -16,7 +16,11 @@ function mail(string $from, string $to, string $subj, string $text, array $attac
 {
     $cfg = app\cfg('smtp');
     $host = app\data('request', 'host');
-    $client = stream_socket_client($cfg['dsn'], timeout: $cfg['timeout']) ?: throw new DomainException(app\i18n('Could not send message'));
+
+    if (!$client = stream_socket_client($cfg['dsn'], timeout: $cfg['timeout'])) {
+        throw new DomainException(app\i18n('Could not send message'));
+    }
+
     receive($client);
     send($client, 'HELO ' . $host, [250]);
 
@@ -51,11 +55,14 @@ function mail(string $from, string $to, string $subj, string $text, array $attac
     if ($attach) {
         $boundary = str\uniq();
         $mail .= 'MIME-Version: 1.0' . APP['crlf'];
-        $mail .= 'Content-Type: multipart/mixed; charset="utf-8"; boundary="' . $boundary . '"' . APP['crlf'] . APP['crlf'];
-        $mail .= 'This is a multipart message in MIME format.' . APP['crlf'] . APP['crlf'];
+        $mail .= 'Content-Type: multipart/mixed; charset="utf-8"; boundary="' . $boundary . '"' . APP['crlf'];
+        $mail .= APP['crlf'];
+        $mail .= 'This is a multipart message in MIME format.' . APP['crlf'];
+        $mail .= APP['crlf'];
         $mail .= '--' . $boundary . APP['crlf'];
         $mail .= 'Content-Type: text/plain; charset="utf-8"' . APP['crlf'];
-        $mail .= 'Content-Transfer-Encoding: 8bit' . APP['crlf'] . APP['crlf'];
+        $mail .= 'Content-Transfer-Encoding: 8bit' . APP['crlf'];
+        $mail .= APP['crlf'];
         $mail .= $text . APP['crlf'];
 
         foreach ($attach as $file) {
@@ -66,13 +73,15 @@ function mail(string $from, string $to, string $subj, string $text, array $attac
             $mail .= '--' . $boundary . APP['crlf'];
             $mail .= 'Content-Type: ' . $file['type'] . '; name="' . $file['name'] . '"' . APP['crlf'];
             $mail .= 'Content-Disposition: attachment; filename="' . $file['name'] . '"' . APP['crlf'];
-            $mail .= 'Content-Transfer-Encoding: base64' . APP['crlf'] . APP['crlf'];
+            $mail .= 'Content-Transfer-Encoding: base64' . APP['crlf'];
+            $mail .= APP['crlf'];
             $mail .= chunk_split(base64_encode(file_get_contents($file['path'])));
         }
 
         $mail .= '--' . $boundary . '--' . APP['crlf'];
     } else {
-        $mail .= 'Content-Type: text/plain; charset="utf-8"' . APP['crlf'] . APP['crlf'];
+        $mail .= 'Content-Type: text/plain; charset="utf-8"' . APP['crlf'];
+        $mail .= APP['crlf'];
         $mail .= $text . APP['crlf'];
     }
 
