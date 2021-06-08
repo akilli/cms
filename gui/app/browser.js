@@ -35,19 +35,21 @@ export default {
 
         document.addEventListener('DOMContentLoaded', () => {
             // Open browser
-            document.querySelectorAll('a[data-action=browser][data-ref]').forEach(item => item.addEventListener('click', () => {
-                const entity = item.getAttribute('data-ref');
+            document.querySelectorAll('a[data-action=browser][data-ref]').forEach(
+                item => item.addEventListener('click', () => {
+                    const entity = item.getAttribute('data-ref');
 
-                if (entity) {
-                    browser(`/${entity}/index`, async data => {
-                        if (data.id) {
-                            const id = item.getAttribute('data-id');
-                            document.getElementById(id).setAttribute('value', data.id);
-                            document.getElementById(id + suffix).textContent = data.name || data.id;
-                        }
-                    });
-                }
-            }));
+                    if (entity) {
+                        browser(`/${entity}/index`, async data => {
+                            if (data.id) {
+                                const id = item.getAttribute('data-id');
+                                document.getElementById(id).setAttribute('value', data.id);
+                                document.getElementById(id + suffix).textContent = data.name || data.id;
+                            }
+                        });
+                    }
+                })
+            );
             // Remove selected item
             document.querySelectorAll('a[data-action=remove]').forEach(item => item.addEventListener('click', () => {
                 const id = item.getAttribute('data-id');
