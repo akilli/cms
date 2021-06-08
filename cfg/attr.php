@@ -170,6 +170,14 @@ return [
         'ignorable' => true,
         'autocomplete' => 'new-password',
     ],
+    'position' => [
+        'backend' => 'varchar',
+        'frontend' => 'text',
+        'validator' => 'text',
+        'viewer' => 'position',
+        'auto' => true,
+        'max' => 255,
+    ],
     'radio' => [
         'backend' => 'varchar',
         'frontend' => 'radio',
