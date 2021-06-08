@@ -26,7 +26,12 @@ function breadcrumb(array $block): string
     }
 
     $html = '';
-    $all = entity\all('page', crit: [['id', $page['path']]], select: ['id', 'name', 'url', 'disabled'], order: ['level' => 'asc']);
+    $all = entity\all(
+        'page',
+        crit: [['id', $page['path']]],
+        select: ['id', 'name', 'url', 'disabled'],
+        order: ['level' => 'asc']
+    );
 
     foreach ($all as $item) {
         $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
@@ -67,7 +72,10 @@ function edit(array $block): string
     $args = $app['id'] ? [entity\one($entity['id'], crit: [['id', $app['id']]]), $data] : [$data];
     $data = arr\replace(entity\item($entity['id']), ...$args);
 
-    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
+    return app\tpl(
+        $block['tpl'],
+        ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]
+    );
 }
 
 function filter(array $block): string
@@ -156,7 +164,11 @@ function index(array $block): string
 
             if ($get['filter'][$attrId] && in_array($attr['backend'], ['datetime', 'date', 'time'])) {
                 $get['filter'][$attrId] = match ($attr['backend']) {
-                    'datetime' => attr\datetime($get['filter'][$attrId], APP['datetime.frontend'], APP['datetime.backend']),
+                    'datetime' => attr\datetime(
+                        $get['filter'][$attrId],
+                        APP['datetime.frontend'],
+                        APP['datetime.backend']
+                    ),
                     'date' => attr\datetime($get['filter'][$attrId], APP['date.frontend'], APP['date.backend']),
                     'time' => attr\datetime($get['filter'][$attrId], APP['time.frontend'], APP['time.backend']),
                 };
@@ -483,7 +495,10 @@ function profile(array $block): string
 
     $data = $data ? arr\replace($account, $data) : $account;
 
-    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]);
+    return app\tpl(
+        $block['tpl'],
+        ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]
+    );
 }
 
 function tag(array $block): string

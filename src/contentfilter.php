@@ -28,10 +28,11 @@ function asset(string $html): string
         return $mtime;
     };
     $pattern = [
-        '#="/(gui|ext|file)/((?:(?:resize-|crop-)(?:[^/]+)/)?([^",\s]+))"#s' => function (array $match) use ($cache): string {
-            $mtime = $cache($match[1], $match[3]);
-            return '="/' . $match[1] . '/' . $mtime . '/' . $match[2] . '"';
-        },
+        '#="/(gui|ext|file)/((?:(?:resize-|crop-)(?:[^/]+)/)?([^",\s]+))"#s' =>
+            function (array $match) use ($cache): string {
+                $mtime = $cache($match[1], $match[3]);
+                return '="/' . $match[1] . '/' . $mtime . '/' . $match[2] . '"';
+            },
         '#/(gui|ext|file)/((?:resize-|crop-)(?:[^/]+)/([^",\s]+))#' => function (array $match) use ($cache): string {
             $mtime = $cache($match[1], $match[3]);
             return '/' . $match[1] . '/' . $mtime . '/' . $match[2];
@@ -76,7 +77,11 @@ function block(string $html): string
  */
 function email(string $html): string
 {
-    return preg_replace_callback('#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im', fn(array $m): string => str\hex($m[0]), $html);
+    return preg_replace_callback(
+        '#(?:mailto:)?[\w.-]+@[\w.-]+\.[a-z]{2,6}#im',
+        fn(array $m): string => str\hex($m[0]),
+        $html
+    );
 }
 
 /**
@@ -94,7 +99,12 @@ function image(string $html, array $cfg = []): string
         return $html;
     }
 
-    $data = entity\all('file', crit: [['url', array_unique($match['url'])]], select: ['id', 'url', 'thumb'], index: 'url');
+    $data = entity\all(
+        'file',
+        crit: [['url', array_unique($match['url'])]],
+        select: ['id', 'url', 'thumb'],
+        index: 'url'
+    );
     $cache = function (string $file): int {
         $width = &app\registry('contentfilter')['image'][$file];
         $width ??= getimagesize($file)[0] ?? 0;

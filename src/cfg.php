@@ -162,11 +162,12 @@ function entity(array $data, array $ext): array
 
     foreach ($data as $entityId => $entity) {
         $entity = arr\replace(APP['cfg']['entity'], $entity, ['id' => $entityId]);
+        $parent = $data[$entity['parent_id']] ?? null;
 
         if (!$entity['name']
             || !$entity['db']
             || !$entity['type'] && !($entity['type'] = $dbCfg[$entity['db']]['type'] ?? null)
-            || $entity['parent_id'] && (empty($data[$entity['parent_id']]) || !empty($data[$entity['parent_id']]['parent_id']))
+            || $entity['parent_id'] && (!$parent || $parent['parent_id'])
             || !$entity['parent_id'] && !arr\has($entity['attr'], ['id', 'name'], true)
             || $entity['unique'] !== array_filter($entity['unique'], 'is_array')
         ) {
@@ -174,8 +175,8 @@ function entity(array $data, array $ext): array
         }
 
         if ($entity['parent_id']) {
-            $entity['unique'] = array_merge($data[$entity['parent_id']]['unique'], $entity['unique']);
-            $entity['attr'] = arr\extend($data[$entity['parent_id']]['attr'], $entity['attr']);
+            $entity['unique'] = array_merge($parent['unique'], $entity['unique']);
+            $entity['attr'] = arr\extend($parent['attr'], $entity['attr']);
         }
 
         $data[$entityId] = $entity;
@@ -257,8 +258,10 @@ function layout(array $data, array $ext): array
     $noViewTypes = ['json', 'multientity', 'multiint', 'multitext', 'password', 'serial'];
 
     foreach ($entities as $entity) {
+        $parent = $entities[$entity['parent_id']] ?? null;
+
         // Do not generate layout for child entities unless they have custom attributes in order to use inherited config
-        if ($entity['parent_id'] && array_keys($entity['attr']) === array_keys($entities[$entity['parent_id']]['attr'])) {
+        if ($entity['parent_id'] && array_keys($entity['attr']) === array_keys($parent['attr'])) {
             continue;
         }
 

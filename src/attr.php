@@ -212,7 +212,8 @@ function ignorable(array $data, array $attr): bool
  */
 function html(array $attr, string $key = 'attr'): array
 {
-    $minmax = in_array($attr['backend'], ['json', 'multitext', 'text', 'varchar']) ? ['minlength', 'maxlength'] : ['min', 'max'];
+    $backends = ['json', 'multitext', 'text', 'varchar'];
+    $minmax = in_array($attr['backend'], $backends) ? ['minlength', 'maxlength'] : ['min', 'max'];
     $name = $key === 'attr' ? $attr['id'] : $key . '[' . $attr['id'] . ']';
     $html = ['id' => $key . '-' . $attr['id'], 'name' => $name, 'data-type' => $attr['type']];
 
