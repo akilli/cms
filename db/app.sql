@@ -259,8 +259,13 @@ WITH LOCAL CHECK OPTION;
 -- LEFT JOIN $entity_ext USING (id)
 -- WHERE entity_id = '$entity';
 --
--- CREATE TRIGGER entity_save INSTEAD OF INSERT OR UPDATE ON $entity FOR EACH ROW EXECUTE PROCEDURE entity_save('$base', '$entity_ext');
--- CREATE TRIGGER entity_delete INSTEAD OF DELETE ON $entity FOR EACH ROW EXECUTE PROCEDURE entity_delete('$base');
+-- CREATE TRIGGER entity_save
+-- INSTEAD OF INSERT OR UPDATE ON $entity
+-- FOR EACH ROW EXECUTE PROCEDURE entity_save('$base', '$entity_ext');
+--
+-- CREATE TRIGGER entity_delete
+-- INSTEAD OF DELETE ON $entity
+-- FOR EACH ROW EXECUTE PROCEDURE entity_delete('$base');
 --
 
 CREATE FUNCTION entity_save() RETURNS trigger AS $$
@@ -279,7 +284,7 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
         _val text := '';
     BEGIN
         IF (array_length(TG_ARGV, 1) < 2) THEN
-            RAISE EXCEPTION 'You must pass the base table as first and the extension table as second argument with CREATE TRIGGER';
+            RAISE EXCEPTION 'You must pass base and extension table as the first two arguments with CREATE TRIGGER';
         END IF;
 
         _base := TG_ARGV[0];
@@ -424,7 +429,10 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
     DECLARE
         _cnt int;
     BEGIN
-        IF (TG_OP = 'UPDATE' AND NEW.parent_id IS NOT NULL AND (SELECT path @> ARRAY[OLD.id] FROM page WHERE id = NEW.parent_id)) THEN
+        IF (TG_OP = 'UPDATE'
+            AND NEW.parent_id IS NOT NULL
+            AND (SELECT path @> ARRAY[OLD.id] FROM page WHERE id = NEW.parent_id)
+        ) THEN
             RAISE EXCEPTION 'Recursion error';
         END IF;
 
@@ -455,7 +463,12 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
         _pad int := 10;
     BEGIN
         -- No relevant changes
-        IF (TG_OP = 'UPDATE' AND NEW.slug = OLD.slug AND NEW.menu = OLD.menu AND coalesce(NEW.parent_id, 0) = coalesce(OLD.parent_id, 0) AND NEW.sort = OLD.sort) THEN
+        IF (TG_OP = 'UPDATE'
+            AND NEW.slug = OLD.slug
+            AND NEW.menu = OLD.menu
+            AND coalesce(NEW.parent_id, 0) = coalesce(OLD.parent_id, 0)
+            AND NEW.sort = OLD.sort
+        ) THEN
             RETURN NULL;
         END IF;
 
@@ -549,7 +562,14 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
             t
         WHERE
             p.id = t.id
-            AND (p.url != t.url OR p.menu != t.menu OR p.sort != t.sort OR p.position != t.position OR p.level != t.level OR p.path != t.path);
+            AND (
+                p.url != t.url
+                OR p.menu != t.menu
+                OR p.sort != t.sort
+                OR p.position != t.position
+                OR p.level != t.level
+                OR p.path != t.path
+            );
 
         RETURN NULL;
     END;
@@ -575,14 +595,30 @@ $$ LANGUAGE plpgsql;
 -- Page
 --
 
-CREATE TRIGGER page_menu_before BEFORE INSERT OR UPDATE ON page FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE page_menu_before();
-CREATE TRIGGER page_menu_after AFTER INSERT OR UPDATE OR DELETE ON page FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE page_menu_after();
+CREATE TRIGGER
+    page_menu_before BEFORE
+INSERT OR UPDATE ON
+    page
+FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE
+    page_menu_before();
+
+CREATE TRIGGER
+    page_menu_after
+AFTER INSERT OR UPDATE OR DELETE ON
+    page
+FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE
+    page_menu_after();
 
 --
 -- Layout
 --
 
-CREATE TRIGGER layout_save BEFORE INSERT OR UPDATE ON layout FOR EACH ROW EXECUTE PROCEDURE layout_save();
+CREATE TRIGGER
+    layout_save BEFORE
+INSERT OR UPDATE ON
+    layout
+FOR EACH ROW EXECUTE PROCEDURE
+    layout_save();
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
