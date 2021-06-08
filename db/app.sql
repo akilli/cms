@@ -89,7 +89,6 @@ CREATE INDEX ON page (title);
 CREATE INDEX ON page (meta_title);
 CREATE INDEX ON page (meta_description);
 CREATE INDEX ON page (slug);
-CREATE INDEX ON page (url);
 CREATE INDEX ON page (parent_id);
 CREATE INDEX ON page (sort);
 CREATE INDEX ON page (position);
