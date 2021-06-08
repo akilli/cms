@@ -253,7 +253,7 @@ WITH LOCAL CHECK OPTION;
 --     additional_column varchar(255) NOT NULL
 -- );
 --
--- CREATE VIEW entity AS
+-- CREATE VIEW $entity AS
 -- SELECT *
 -- FROM $base
 -- LEFT JOIN $entity_ext USING (id)
