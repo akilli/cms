@@ -66,7 +66,11 @@ function file(string|int $val, array $attr): string
         return html\element('video', ['src' => $data['url'], 'controls' => true] + $a);
     }
 
-    $v = $data['thumb'] ? html\element('img', ['src' => $data['thumb'], 'alt' => str\enc($data['info'])]) : $data['url'];
+    $v = $data['url'];
+
+    if ($data['thumb']) {
+        $v = html\element('img', ['src' => $data['thumb'], 'alt' => str\enc($data['info'])]);
+    }
 
     return html\element('a', ['href' => $data['url']], $v);
 }

@@ -34,8 +34,14 @@ function one(array $entity, array $crit = [], array $select = [], array $order =
 /**
  * Load entity collection
  */
-function all(array $entity, array $crit = [], array $select = [], array $order = [], int $limit = 0, int $offset = 0): array
-{
+function all(
+    array $entity,
+    array $crit = [],
+    array $select = [],
+    array $order = [],
+    int $limit = 0,
+    int $offset = 0
+): array {
     $select = $select ?: array_keys(attr($entity['attr']));
     $cols = crit($crit, $entity['attr']);
     $stmt = db($entity['db'])->prepare(

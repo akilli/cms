@@ -36,7 +36,11 @@ function entity(array $data, array $attr): array
                 $opt[$item['id']] = attr\viewer($item, $item['_entity']['attr']['position']) . ' ' . $item['name'];
             }
         } else {
-            $opt = array_column(entity\all($attr['ref'], select: ['id', 'name'], order: ['name' => 'asc']), 'name', 'id');
+            $opt = array_column(
+                entity\all($attr['ref'], select: ['id', 'name'], order: ['name' => 'asc']),
+                'name',
+                'id'
+            );
         }
     }
 

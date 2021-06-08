@@ -17,7 +17,11 @@ use DomainException;
 function data_account(): array
 {
     if (($id = (int) session\get('account')) && ($data = entity\one('account', crit: [['id', $id]]))) {
-        $data['privilege'] = ['_public_', '_user_', ...entity\one('role', crit: [['id', $data['role_id']]])['privilege']];
+        $data['privilege'] = [
+            '_public_',
+            '_user_',
+            ...entity\one('role', crit: [['id', $data['role_id']]])['privilege'],
+        ];
     } else {
         $data = array_replace(entity\item('account'), ['privilege' => ['_public_', '_guest_']]);
         session\delete('account');
@@ -354,7 +358,12 @@ function response_html_account_logout(array $data): array
 function response_html_block_api(array $data): array
 {
     $id = app\data('app', 'id');
-    $data['body'] = preg_match('#^([a-z_]+)-(\d+)$#', $id, $match) ? layout\render_entity($match[1], (int) $match[2]) : '';
+    $data['body'] = '';
+
+    if (preg_match('#^([a-z_]+)-(\d+)$#', $id, $match)) {
+        $data['body'] = layout\render_entity($match[1], (int) $match[2]);
+    }
+
     $data['_stop'] = true;
 
     return $data;

@@ -98,7 +98,10 @@ function file(?string $val, array $attr): string
 
     if (!$attr['required']) {
         $id = $attr['html']['id'] . '-delete';
-        $del = html\element('input', ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'checkbox', 'value' => '']);
+        $del = html\element(
+            'input',
+            ['id' => $id, 'name' => $attr['html']['name'], 'type' => 'checkbox', 'value' => '']
+        );
         $del .= html\element('label', ['for' => $id], app\i18n('Delete'));
         $html .= html\element('div', ['class' => 'file-delete'], $del);
     }
