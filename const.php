@@ -16,7 +16,6 @@ define('APP', [
             'validator' => null,
             'viewer' => null,
             'opt' => null,
-            'virtual' => false,
             'auto' => false,
             'nullable' => false,
             'required' => false,

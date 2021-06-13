@@ -178,7 +178,7 @@ function cols(array $data, array $attrs): array
 function attr(array $attrs, bool $auto = false): array
 {
     foreach ($attrs as $attrId => $attr) {
-        if ($attr['virtual'] || $auto && $attr['auto']) {
+        if ($auto && $attr['auto']) {
             unset($attrs[$attrId]);
         }
     }

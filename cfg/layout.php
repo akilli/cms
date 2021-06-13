@@ -34,12 +34,7 @@ return [
     ],
     'html:account:profile' => [
         'title' => ['cfg' => ['text' => 'Profile']],
-        'profile' => [
-            'type' => 'profile',
-            'parent_id' => 'content',
-            'sort' => 300,
-            'cfg' => ['attr_id' => ['username', 'password', 'confirmation', 'email']],
-        ],
+        'profile' => ['type' => 'profile', 'parent_id' => 'content', 'sort' => 300, 'cfg' => ['attr_id' => ['username', 'password', 'email']]],
     ],
     'html:block:edit' => [
         'edit' => ['cfg' => ['attr_id' => ['name', 'content']]],
