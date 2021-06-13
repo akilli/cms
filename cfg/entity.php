@@ -9,6 +9,7 @@ return [
             'role_id' => ['name' => 'Role', 'type' => 'entity', 'required' => true, 'ref' => 'role'],
             'username' => ['name' => 'Username', 'type' => 'uid', 'required' => true, 'unique' => true, 'max' => 50],
             'password' => ['name' => 'Password', 'type' => 'password', 'required' => true, 'min' => 8, 'max' => 255],
+            'confirmation' => ['name' => 'Password Confirmation', 'type' => 'password', 'virtual' => true, 'required' => true],
             'email' => ['name' => 'Email', 'type' => 'email', 'nullable' => true, 'unique' => true, 'max' => 50],
             'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],

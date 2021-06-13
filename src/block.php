@@ -455,31 +455,18 @@ function pager(array $block): string
 
 function profile(array $block): string
 {
-    if (!$account = app\data('account')) {
+    $account = app\data('account');
+
+    if (!$account || !($attrs = arr\extract($account['_entity']['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
 
     $pId = 'password';
-    $cId = 'password-confirmation';
-
-    // Add password-confirmation to form if password is among the configured attributes
-    if (($pKey = array_search($pId, $block['cfg']['attr_id'], true)) !== false) {
-        $account['_old'][$cId] = $account['_old'][$pId];
-        $account['_entity']['attr'][$cId] = array_replace(
-            $account['_entity']['attr'][$pId],
-            ['id' => $cId, 'name' => app\i18n('Password Confirmation')]
-        );
-        array_splice($block['cfg']['attr_id'], ++$pKey, 0, $cId);
-    }
-
-    if (!$attrs = arr\extract($account['_entity']['attr'], $block['cfg']['attr_id'])) {
-        return '';
-    }
-
+    $cId = 'confirmation';
     $request = app\data('request');
 
     if ($data = $request['post']) {
-        if (!empty($data[$pId]) && (empty($data[$cId]) || $data[$pId] !== $data[$cId])) {
+        if (arr\has($attrs, [$pId, $cId]) && !empty($data[$pId]) && $data[$pId] !== ($data[$cId] ?? null)) {
             $data['_error'][$pId][] = app\i18n('Password and password confirmation must be identical');
             $data['_error'][$cId][] = app\i18n('Password and password confirmation must be identical');
         } else {
