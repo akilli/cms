@@ -467,8 +467,9 @@ function profile(array $block): string
 
     if ($data = $request['post']) {
         if (arr\has($attrs, [$pId, $cId]) && !empty($data[$pId]) && $data[$pId] !== ($data[$cId] ?? null)) {
-            $data['_error'][$pId][] = app\i18n('Password and password confirmation must be identical');
-            $data['_error'][$cId][] = app\i18n('Password and password confirmation must be identical');
+            $message = app\i18n('Password and password confirmation must be identical');
+            $data['_error'][$pId][] = $message;
+            $data['_error'][$cId][] = $message;
         } else {
             unset($data[$cId]);
             $data = ['id' => $account['id']] + $data;
