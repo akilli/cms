@@ -29,7 +29,12 @@ define('APP', [
             'pattern' => null,
             'accept' => [],
         ],
-        'block' => ['call' => null, 'tpl' => null, 'tag' => null, 'cfg' => []],
+        'block' => [
+            'call' => null,
+            'tpl' => null,
+            'tag' => null,
+            'cfg' => [],
+        ],
         'entity' => [
             'id' => null,
             'name' => null,
@@ -41,7 +46,11 @@ define('APP', [
             'action' => [],
             'attr' => [],
         ],
-        'privilege' => ['name' => null, 'auto' => false, 'use' => null],
+        'privilege' => [
+            'name' => null,
+            'auto' => false,
+            'use' => null,
+        ],
         'toolbar' => [
             'id' => null,
             'name' => null,
@@ -171,7 +180,11 @@ define('APP', [
         'track',
         'wbr',
     ],
-    'image' => ['srcset' => [360, 640, 800, 960, 1120, 1280, 1440], 'sizes' => null, 'thumb' => 879],
+    'image' => [
+        'srcset' => [360, 640, 800, 960, 1120, 1280, 1440],
+        'sizes' => null,
+        'thumb' => 879,
+    ],
     'image.ext' => ['jpg', 'png', 'webp'],
     'join' => [
         'cross' => 'CROSS',
@@ -211,10 +224,23 @@ define('APP', [
         'tmp' => '/tmp',
     ],
     'pdo' => [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION],
-    'response' => ['body' => '', 'redirect' => null],
+    'response' => [
+        'body' => '',
+        'redirect' => null,
+    ],
     'time.backend' => 'H:i:s',
     'time.frontend' => 'H:i',
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
-    'url' => ['ext' => '/ext', 'file' => '/file', 'gui' => '/gui'],
-    'viewer' => ['empty' => false, 'label' => false, 'link' => null, 'subheading' => false, 'wrap' => false],
+    'url' => [
+        'ext' => '/ext',
+        'file' => '/file',
+        'gui' => '/gui',
+    ],
+    'viewer' => [
+        'empty' => false,
+        'label' => false,
+        'link' => null,
+        'subheading' => false,
+        'wrap' => false,
+    ],
 ]);
