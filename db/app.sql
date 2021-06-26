@@ -15,7 +15,6 @@ CREATE TABLE role (
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
-CREATE INDEX ON role USING GIN (privilege);
 CREATE INDEX ON role (created);
 
 --
@@ -52,7 +51,6 @@ CREATE TABLE file (
 
 CREATE INDEX ON file (name);
 CREATE INDEX ON file (entity_id);
-CREATE INDEX ON file (mime);
 CREATE INDEX ON file (created);
 
 --
@@ -85,15 +83,10 @@ CREATE TABLE page (
 
 CREATE INDEX ON page (name);
 CREATE INDEX ON page (entity_id);
-CREATE INDEX ON page (title);
-CREATE INDEX ON page (meta_title);
-CREATE INDEX ON page (meta_description);
 CREATE INDEX ON page (slug);
 CREATE INDEX ON page (parent_id);
-CREATE INDEX ON page (sort);
 CREATE INDEX ON page (position);
 CREATE INDEX ON page (level);
-CREATE INDEX ON page USING GIN (path);
 CREATE INDEX ON page (account_id);
 CREATE INDEX ON page (created);
 
