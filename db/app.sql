@@ -28,7 +28,7 @@ CREATE TABLE account (
     role_id int NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE,
     username varchar(50) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
-    email varchar(50) DEFAULT NULL UNIQUE,
+    email varchar(50) DEFAULT null UNIQUE,
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
@@ -45,8 +45,8 @@ CREATE TABLE file (
     entity_id varchar(50) NOT NULL,
     url varchar(255) NOT NULL UNIQUE,
     mime varchar(255) NOT NULL,
-    thumb varchar(255) DEFAULT NULL UNIQUE,
-    info text DEFAULT NULL,
+    thumb varchar(255) DEFAULT null UNIQUE,
+    info text DEFAULT null,
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
@@ -63,22 +63,22 @@ CREATE TABLE page (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
     entity_id varchar(50) NOT NULL,
-    title varchar(255) DEFAULT NULL,
-    content text DEFAULT NULL,
-    aside text DEFAULT NULL,
-    meta_title varchar(80) DEFAULT NULL,
-    meta_description varchar(300) DEFAULT NULL,
+    title varchar(255) DEFAULT null,
+    content text DEFAULT null,
+    aside text DEFAULT null,
+    meta_title varchar(80) DEFAULT null,
+    meta_description varchar(300) DEFAULT null,
     slug varchar(75) NOT NULL,
-    url varchar(400) UNIQUE DEFAULT NULL,
-    disabled boolean NOT NULL DEFAULT FALSE,
-    breadcrumb boolean NOT NULL DEFAULT FALSE,
-    menu boolean NOT NULL DEFAULT FALSE,
-    parent_id int DEFAULT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
+    url varchar(400) UNIQUE DEFAULT null,
+    disabled boolean NOT NULL DEFAULT false,
+    breadcrumb boolean NOT NULL DEFAULT false,
+    menu boolean NOT NULL DEFAULT false,
+    parent_id int DEFAULT null REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
     sort int NOT NULL DEFAULT 0,
     position varchar(255) NOT NULL DEFAULT '',
     level int NOT NULL DEFAULT 0,
     path int[] NOT NULL DEFAULT '{}',
-    account_id int DEFAULT NULL REFERENCES account ON DELETE SET NULL ON UPDATE CASCADE,
+    account_id int DEFAULT null REFERENCES account ON DELETE SET null ON UPDATE CASCADE,
     created timestamp(0) NOT NULL DEFAULT current_timestamp,
     UNIQUE (parent_id, slug)
 );
@@ -105,7 +105,7 @@ CREATE TABLE block (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
     entity_id varchar(50) NOT NULL,
-    content text DEFAULT NULL,
+    content text DEFAULT null,
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
@@ -314,7 +314,7 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
             IF (TG_OP = 'UPDATE') THEN
                 _oldVal := jsonb_extract_path_text(_old, _attr.name);
             ELSE
-                _oldVal := NULL;
+                _oldVal := null;
             END IF;
 
             IF (_newVal IS NULL AND _oldVal IS NULL) THEN
@@ -363,7 +363,7 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
             IF (TG_OP = 'UPDATE') THEN
                 _oldVal := jsonb_extract_path_text(_old, _attr.name);
             ELSE
-                _oldVal := NULL;
+                _oldVal := null;
             END IF;
 
             IF (_newVal IS NULL AND _oldVal IS NULL) THEN
@@ -468,7 +468,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
             AND coalesce(NEW.parent_id, 0) = coalesce(OLD.parent_id, 0)
             AND NEW.sort = OLD.sort
         ) THEN
-            RETURN NULL;
+            RETURN null;
         END IF;
 
         -- Remove from old parent
@@ -570,7 +570,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 OR p.path != t.path
             );
 
-        RETURN NULL;
+        RETURN null;
     END;
 $$ LANGUAGE plpgsql;
 
