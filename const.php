@@ -223,7 +223,10 @@ define('APP', [
         'file' => '/data/file',
         'tmp' => '/tmp',
     ],
-    'pdo' => [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION],
+    'pdo' => [
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    ],
     'response' => [
         'body' => '',
         'redirect' => null,
