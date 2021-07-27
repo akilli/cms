@@ -229,7 +229,7 @@ function login(array $block): string
         ) {
             session\regenerate();
             session\save('account', $account['id']);
-            request\redirect();
+            request\redirect(app\actionurl('account', 'dashboard'));
             return '';
         }
 

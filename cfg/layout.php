@@ -27,6 +27,9 @@ return [
         'breadcrumb' => ['type' => 'breadcrumb', 'parent_id' => 'main', 'sort' => 50],
         'footer' => ['type' => 'tpl', 'tpl' => 'footer.phtml', 'parent_id' => 'body', 'sort' => 300],
     ],
+    'html:account:dashboard' => [
+        'title' => ['cfg' => ['text' => 'Dashboard']],
+    ],
     'html:account:login' => [
         'toolbar' => ['active' => false],
         'title' => ['cfg' => ['text' => 'Login']],
