@@ -119,7 +119,7 @@ return [
             'position' => ['name' => 'Position', 'type' => 'position'],
             'level' => ['name' => 'Level', 'type' => 'int', 'auto' => true],
             'path' => ['name' => 'Path', 'type' => 'multientity', 'auto' => true, 'ref' => 'page'],
-            'account_id' => ['name' => 'Account', 'type' => 'entity', 'nullable' => true, 'ref' => 'account'],
+            'account_id' => ['name' => 'Creator', 'type' => 'entity', 'nullable' => true, 'ref' => 'account'],
             'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],
     ],

@@ -1,8 +1,7 @@
 <?php
 return [
     '%s to %s of %s' => '%s bis %s von %s',
-    'Account' => 'Benutzer',
-    'Accounts' => 'Benutzer',
+    'Accounts' => 'Konten',
     'Actions' => 'Aktionen',
     'Active' => 'Aktiv',
     'Additional Information' => 'Zusätzliche Informationen',
@@ -28,6 +27,7 @@ return [
     'Could not upload %s' => 'Konnte %s nicht hochladen',
     'Could not validate value' => 'Konnte Wert nicht validieren',
     'Created' => 'Erstellt',
+    'Creator' => 'Ersteller',
     'Current file:' => 'Aktuelle Datei:',
     'Dashboard' => 'Übersichtsseite',
     'Delete' => 'Löschen',
@@ -68,6 +68,7 @@ return [
     'Meta Title' => 'Meta-Title',
     'MIME-Type' => 'MIME-Typ',
     'MIME-Type must not change' => 'MIME-Typ darf sich nicht ändern',
+    'My Account' => 'Mein Konto',
     'Name' => 'Name',
     'New Entry' => 'Neuer Eintrag',
     'Next' => 'Weiter',
@@ -113,6 +114,7 @@ return [
     'URL' => 'URL',
     'URL must not change' => 'URL darf sich nicht ändern',
     'USER' => 'BENUTZER',
+    'User' => 'Benutzer',
     'Username' => 'Benutzername',
     'Value contains invalid characters' => 'Wert enthält ungültige Zeichen',
     'Value is required' => 'Wert ist erforderlich',
