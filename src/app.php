@@ -128,7 +128,7 @@ function allowed(string $id): bool
  */
 function login(string $username, string $password): ?array
 {
-    $account = entity\one('account', crit: [['username', $username]]);
+    $account = entity\one('account', crit: [['username', $username], ['active', true]]);
 
     if (!$account || !password_verify($password, $account['password'])) {
         return null;

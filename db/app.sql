@@ -28,6 +28,7 @@ CREATE TABLE account (
     username varchar(50) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
     email varchar(50) DEFAULT null UNIQUE,
+    active boolean NOT NULL DEFAULT false,
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 

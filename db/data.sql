@@ -18,9 +18,9 @@ SELECT setval('role_id_seq', (SELECT max(id) FROM role));
 
 INSERT INTO
     account
-    (id, name, role_id, username, password)
+    (id, name, role_id, username, password, active)
 VALUES
-    (1, 'Admin', 1, 'admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy');
+    (1, 'Admin', 1, 'admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', true);
 
 SELECT setval('account_id_seq', (SELECT max(id) FROM account));
 
@@ -32,7 +32,7 @@ INSERT INTO
     contentpage
     (id, name, entity_id, slug, menu)
 VALUES
-    (1, 'Homepage', 'contentpage', 'index', TRUE);
+    (1, 'Homepage', 'contentpage', 'index', true);
 
 SELECT setval('page_id_seq', (SELECT max(id) FROM page));
 

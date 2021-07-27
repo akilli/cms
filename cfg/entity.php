@@ -10,6 +10,7 @@ return [
             'username' => ['name' => 'Username', 'type' => 'uid', 'required' => true, 'unique' => true, 'max' => 50],
             'password' => ['name' => 'Password', 'type' => 'password', 'required' => true, 'min' => 8, 'max' => 255],
             'email' => ['name' => 'Email', 'type' => 'email', 'nullable' => true, 'unique' => true, 'max' => 50],
+            'active' => ['name' => 'Active', 'type' => 'bool'],
             'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],
     ],

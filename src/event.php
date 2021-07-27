@@ -16,18 +16,17 @@ use DomainException;
 
 function data_account(): array
 {
-    if (($id = (int) session\get('account')) && ($data = entity\one('account', crit: [['id', $id]]))) {
-        $data['privilege'] = [
-            '_public_',
-            '_user_',
-            ...entity\one('role', crit: [['id', $data['role_id']]])['privilege'],
-        ];
-    } else {
-        $data = array_replace(entity\item('account'), ['privilege' => ['_public_', '_guest_']]);
-        session\delete('account');
+    $id = (int) session\get('account');
+
+    if ($id && ($data = entity\one('account', crit: [['id', $id], ['active', true]]))) {
+        $privilege = entity\one('role', crit: [['id', $data['role_id']]])['privilege'];
+        $data['privilege'] = ['_public_', '_user_', ...$privilege];
+        return $data;
     }
 
-    return $data;
+    session\delete('account');
+
+    return array_replace(entity\item('account'), ['privilege' => ['_public_', '_guest_']]);
 }
 
 function data_app(array $data): array
