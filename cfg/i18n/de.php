@@ -29,7 +29,7 @@ return [
     'Created' => 'Erstellt',
     'Creator' => 'Ersteller',
     'Current file:' => 'Aktuelle Datei:',
-    'Dashboard' => 'Übersichtsseite',
+    'Dashboard' => 'Übersicht',
     'Delete' => 'Löschen',
     'Documents' => 'Dokumente',
     'Edit' => 'Bearbeiten',
