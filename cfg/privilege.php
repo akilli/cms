@@ -1,9 +1,9 @@
 <?php
 return [
-    '_all_' => ['name' => 'ALL PRIVILEGES'],
-    '_guest_' => ['name' => 'GUEST', 'auto' => true],
-    '_public_' => ['name' => 'PUBLIC', 'auto' => true],
-    '_user_' => ['name' => 'USER', 'auto' => true],
+    '_all_' => ['name' => 'All'],
+    '_guest_' => ['name' => 'Guest', 'auto' => true],
+    '_public_' => ['name' => 'Public', 'auto' => true],
+    '_user_' => ['name' => 'User', 'auto' => true],
     'account:dashboard' => ['use' => '_user_'],
     'account:delete' => ['use' => '_all_'],
     'account:edit' => ['use' => '_all_'],
