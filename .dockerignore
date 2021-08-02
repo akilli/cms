@@ -5,6 +5,7 @@ docker-compose.*
 Dockerfile
 .dockerignore
 .git
+.github
 Jenkinsfile
 
 #
