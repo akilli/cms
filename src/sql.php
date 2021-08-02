@@ -113,8 +113,8 @@ function order(array $order): string
 {
     $sql = '';
 
-    foreach ($order as $attrId => $dir) {
-        $sql .= ($sql ? ', ' : '') . $attrId . ($dir === 'desc' ? ' DESC NULLS LAST' : ' ASC NULLS FIRST');
+    foreach ($order as $col => $dir) {
+        $sql .= ($sql ? ', ' : '') . $col . ($dir === 'desc' ? ' DESC NULLS LAST' : ' ASC NULLS FIRST');
     }
 
     return $sql ? ' ORDER BY ' . $sql : '';
