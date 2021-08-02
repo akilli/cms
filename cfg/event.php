@@ -27,10 +27,14 @@ return [
     ],
     /** @uses event\entity_role_predelete() */
     'entity:predelete:id:role' => ['event\entity_role_predelete' => 100],
+    /** @uses event\entity_iframe_presave() */
+    'entity:presave:id:iframe' => ['event\entity_iframe_presave' => 100],
     /** @uses event\entity_page_presave() */
     'entity:presave:id:page' => ['event\entity_page_presave' => 100],
     /** @uses event\entity_file_prevalidate() */
     'entity:prevalidate:id:file' => ['event\entity_file_prevalidate' => 100],
+    /** @uses event\entity_iframe_prevalidate() */
+    'entity:prevalidate:id:iframe' => ['event\entity_iframe_prevalidate' => 100],
     /** @uses event\layout_postrender() */
     'layout:postrender' => ['event\layout_postrender' => 100],
     /** @uses event\layout_postrender_body() */

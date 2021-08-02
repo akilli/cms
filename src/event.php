@@ -177,13 +177,7 @@ function entity_postvalidate_unique(array $data): array
 
 function entity_file_prevalidate(array $data): array
 {
-    if ($data['_entity']['id'] === 'iframe') {
-        $data['mime'] = 'text/html';
-
-        if ($data['_old'] && !empty($data['url']) && $data['url'] !== $data['_old']['url']) {
-            $data['_error']['url'][] = app\i18n('URL must not change');
-        }
-    } elseif ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url'])) {
+    if ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url'])) {
         if (!$item = app\data('request', 'file')['url'] ?? null) {
             $data['_error']['url'][] = app\i18n('No upload file');
         } elseif ($data['_old'] && $item['type'] !== $data['_old']['mime']) {
@@ -248,6 +242,22 @@ function entity_file_postdelete(array $data): array
     ) {
         throw new DomainException(app\i18n('Could not delete file'));
     }
+
+    return $data;
+}
+
+function entity_iframe_prevalidate(array $data): array
+{
+    if (!empty($data['url']) && $data['_old'] && $data['url'] !== $data['_old']['url']) {
+        $data['_error']['url'][] = app\i18n('URL must not change');
+    }
+
+    return $data;
+}
+
+function entity_iframe_presave(array $data): array
+{
+    $data['mime'] = 'text/html';
 
     return $data;
 }
