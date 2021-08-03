@@ -28,15 +28,18 @@ function asset(string $html): string
         return $mtime;
     };
     $pattern = [
-        '#="/(gui|ext|file)/((?:(?:resize-|crop-)(?:[^/]+)/)?([^",\s]+))"#s' =>
+        '#="/(gui|ext|file)/((?:(?:resize-|crop-)(?:[^/]+)/)?((?:[^",\s]+)\.(?:[a-z0-9]+)))"#s' =>
             function (array $match) use ($cache): string {
                 $mtime = $cache($match[1], $match[3]);
+
                 return '="/' . $match[1] . '/' . $mtime . '/' . $match[2] . '"';
             },
-        '#/(gui|ext|file)/((?:resize-|crop-)(?:[^/]+)/([^",\s]+))#' => function (array $match) use ($cache): string {
-            $mtime = $cache($match[1], $match[3]);
-            return '/' . $match[1] . '/' . $mtime . '/' . $match[2];
-        },
+        '#/(gui|ext|file)/((?:resize-|crop-)(?:[^/]+)/((?:[^",\s]+)\.(?:[a-z0-9]+)))#' =>
+            function (array $match) use ($cache): string {
+                $mtime = $cache($match[1], $match[3]);
+
+                return '/' . $match[1] . '/' . $mtime . '/' . $match[2];
+            },
     ];
 
     return preg_replace_callback_array($pattern, $html) ?? $html;
@@ -90,8 +93,8 @@ function email(string $html): string
 function image(string $html, array $cfg = []): string
 {
     $pattern = sprintf(
-        '#(?P<img>(?P<pre><img(?:[^>]*) src="(?P<url>%s(?P<name>(?:[a-z0-9_\-]+)\.(?:%s)))")(?P<post>(?:[^>]*)>))#',
-         app\fileurl(),
+        '#(?P<img>(?P<pre><img(?:[^>]*) src="(?P<url>%s(?P<name>(?:.+)\.(?:%s)))")(?P<post>(?:[^>]*)>))#',
+        app\fileurl(),
         implode('|', APP['image.ext'])
     );
 
