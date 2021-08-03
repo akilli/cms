@@ -49,10 +49,10 @@ return [
         'edit' => ['type' => 'edit', 'parent_id' => 'content', 'sort' => 300],
     ],
     'html:file:edit' => [
-        'edit' => ['cfg' => ['attr_id' => ['name', 'url', 'thumb', 'info']]],
+        'edit' => ['cfg' => ['attr_id' => ['name', 'thumb', 'info']]],
     ],
     'html:file:index' => [
-        'index' => ['cfg' => ['attr_id' => ['url', 'name', 'created'], 'search' => ['name', 'url', 'info']]],
+        'index' => ['cfg' => ['attr_id' => ['name', 'created'], 'search' => ['name', 'info']]],
     ],
     'html:index' => [
         'new' => ['type' => 'tpl', 'tpl' => 'new.phtml', 'parent_id' => 'content', 'sort' => 300],

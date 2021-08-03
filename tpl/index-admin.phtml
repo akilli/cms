@@ -33,9 +33,9 @@ use attr;
             $entity = !empty($data['entity_id']) ? cfg('entity', $data['entity_id']) : null;
             $entityId = $entity && $entity['parent_id'] === $data['_entity']['id'] ? $entity['id'] : $data['_entity']['id'];
             $id = ($entity && $entity['parent_id'] === 'block' ? $entity['id'] . '-' : '') . $data['id'];
-            $src = $entity && $entity['parent_id'] === 'file' ? $data['url'] : null;
+            $src = $entity && $entity['parent_id'] === 'file' ? $data['name'] : null;
             ?>
-        <article data-id="<?php echo $id; ?>" data-name="<?php echo $data['name']; ?>" title="<?php echo i18n('Select item'); ?>"<?php if ($src): ?> data-src="<?php echo $src; ?>"<?php endif; ?>>
+        <article data-id="<?php echo $id; ?>" title="<?php echo i18n('Select item'); ?>"<?php if ($src): ?> data-src="<?php echo $src; ?>"<?php endif; ?>>
             <?php foreach ($var('attr') as $attr): ?>
             <?php echo attr\viewer($data, $attr, ['empty' => true, 'label' => true, 'subheading' => true, 'wrap' => true]); ?>
             <?php endforeach; ?>

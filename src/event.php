@@ -177,19 +177,19 @@ function entity_postvalidate_unique(array $data): array
 
 function entity_file_prevalidate(array $data): array
 {
-    if ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url'])) {
-        if (!$item = app\data('request', 'file')['url'] ?? null) {
-            $data['_error']['url'][] = app\i18n('No upload file');
+    if ($data['_entity']['attr']['name']['uploadable'] && !empty($data['name'])) {
+        if (!$item = app\data('request', 'file')['name'] ?? null) {
+            $data['_error']['name'][] = app\i18n('No upload file');
         } elseif ($data['_old'] && $item['type'] !== $data['_old']['mime']) {
-            $data['_error']['url'][] = app\i18n('MIME-Type must not change');
+            $data['_error']['name'][] = app\i18n('MIME-Type must not change');
         } elseif ($data['_old']) {
-            $data['url'] = $data['_old']['url'];
+            $data['name'] = $data['_old']['name'];
         } else {
-            $data['url'] = app\fileurl($item['name']);
+            $data['name'] = app\fileurl($item['name']);
             $data['mime'] = $item['type'];
 
-            if (entity\size('file', crit: [[['url', $data['url']], ['thumb', $data['url']]]])) {
-                $data['_error']['url'][] = app\i18n('Please change filename to generate an unique URL');
+            if (entity\size('file', crit: [[['name', $data['name']], ['thumb', $data['name']]]])) {
+                $data['_error']['name'][] = app\i18n('Please change filename to generate an unique URL');
             }
         }
     }
@@ -197,7 +197,7 @@ function entity_file_prevalidate(array $data): array
     if (!empty($data['thumb']) && ($item = app\data('request', 'file')['thumb'] ?? null)) {
         $data['thumb'] = app\fileurl($item['name']);
 
-        if (entity\size('file', crit: [[['url', $data['thumb']], ['thumb', $data['thumb']]]])) {
+        if (entity\size('file', crit: [[['name', $data['thumb']], ['thumb', $data['thumb']]]])) {
             $data['_error']['thumb'][] = app\i18n('Please change filename to generate an unique URL');
         }
     }
@@ -215,7 +215,7 @@ function entity_file_postsave(array $data): array
         return $item && !file\upload($item['tmp_name'], app\filepath($data[$attrId])) ? $item['name'] : null;
     };
 
-    if ($data['_entity']['attr']['url']['uploadable'] && !empty($data['url']) && ($name = $upload('url'))
+    if ($data['_entity']['attr']['name']['uploadable'] && !empty($data['name']) && ($name = $upload('name'))
         || !empty($data['thumb']) && ($name = $upload('thumb'))
     ) {
         throw new DomainException(app\i18n('Could not upload %s', $name));
@@ -237,7 +237,7 @@ function entity_file_postsave(array $data): array
  */
 function entity_file_postdelete(array $data): array
 {
-    if ($data['_entity']['attr']['url']['uploadable'] && !file\delete(app\filepath($data['_old']['url']))
+    if ($data['_entity']['attr']['name']['uploadable'] && !file\delete(app\filepath($data['_old']['name']))
         || $data['_old']['thumb'] && !file\delete(app\filepath($data['_old']['thumb']))
     ) {
         throw new DomainException(app\i18n('Could not delete file'));
@@ -248,8 +248,8 @@ function entity_file_postdelete(array $data): array
 
 function entity_iframe_prevalidate(array $data): array
 {
-    if (!empty($data['url']) && $data['_old'] && $data['url'] !== $data['_old']['url']) {
-        $data['_error']['url'][] = app\i18n('URL must not change');
+    if (!empty($data['name']) && $data['_old'] && $data['name'] !== $data['_old']['name']) {
+        $data['_error']['name'][] = app\i18n('URL must not change');
     }
 
     return $data;

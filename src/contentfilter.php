@@ -104,9 +104,9 @@ function image(string $html, array $cfg = []): string
 
     $data = entity\all(
         'file',
-        crit: [['url', array_unique($match['url'])]],
-        select: ['id', 'url', 'thumb'],
-        index: 'url'
+        crit: [['name', array_unique($match['url'])]],
+        select: ['id', 'name', 'thumb'],
+        index: 'name'
     );
     $cache = function (string $file): int {
         $width = &app\registry('contentfilter')['image'][$file];

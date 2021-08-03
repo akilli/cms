@@ -42,37 +42,37 @@ function entity(int $val, array $attr): string
 function file(string|int $val, array $attr): string
 {
     $attr['ref'] = $attr['ref'] ?: 'file';
-    $crit = is_string($val) ? [['url', $val]] : [['id', $val]];
+    $crit = is_string($val) ? [['name', $val]] : [['id', $val]];
 
-    if (!$data = entity\one($attr['ref'], crit: $crit, select: ['url', 'mime', 'thumb', 'info'])) {
+    if (!$data = entity\one($attr['ref'], crit: $crit, select: ['name', 'mime', 'thumb', 'info'])) {
         return '';
     }
 
     if ($data['mime'] === 'text/html') {
         $a = $data['thumb'] ? ['data-thumb' => $data['thumb']] : [];
-        return html\element('iframe', ['src' => $data['url'], 'allowfullscreen' => 'allowfullscreen'] + $a);
+        return html\element('iframe', ['src' => $data['name'], 'allowfullscreen' => 'allowfullscreen'] + $a);
     }
 
     if (($p = explode('/', $data['mime'])) && $p[0] === 'image') {
-        return html\element('img', ['src' => $data['url'], 'alt' => str\enc($data['info'])]);
+        return html\element('img', ['src' => $data['name'], 'alt' => str\enc($data['info'])]);
     }
 
     if ($p[0] === 'audio' && !$data['thumb']) {
-        return html\element('audio', ['src' => $data['url'], 'controls' => true]);
+        return html\element('audio', ['src' => $data['name'], 'controls' => true]);
     }
 
     if (in_array($p[0], ['audio', 'video'])) {
         $a = $data['thumb'] ? ['poster' => $data['thumb']] : [];
-        return html\element('video', ['src' => $data['url'], 'controls' => true] + $a);
+        return html\element('video', ['src' => $data['name'], 'controls' => true] + $a);
     }
 
-    $v = $data['url'];
+    $v = $data['name'];
 
     if ($data['thumb']) {
         $v = html\element('img', ['src' => $data['thumb'], 'alt' => str\enc($data['info'])]);
     }
 
-    return html\element('a', ['href' => $data['url']], $v);
+    return html\element('a', ['href' => $data['name']], $v);
 }
 
 function iframe(string $val): string

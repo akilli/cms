@@ -19,7 +19,7 @@ return [
         'parent_id' => 'file',
         'action' => ['delete', 'edit', 'index'],
         'attr' => [
-            'url' => ['type' => 'audio'],
+            'name' => ['type' => 'audio'],
         ],
     ],
     'block' => [
@@ -49,7 +49,7 @@ return [
         'parent_id' => 'file',
         'action' => ['delete', 'edit', 'index'],
         'attr' => [
-            'url' => ['type' => 'document'],
+            'name' => ['type' => 'document'],
         ],
     ],
     'file' => [
@@ -57,9 +57,8 @@ return [
         'readonly' => true,
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],
-            'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'max' => 100],
+            'name' => ['name' => 'Name', 'type' => 'file', 'required' => true, 'unique' => true, 'max' => 255],
             'entity_id' => ['name' => 'Entity', 'type' => 'entitychild', 'required' => true],
-            'url' => ['name' => 'URL', 'type' => 'file', 'required' => true, 'unique' => true],
             'thumb' => ['name' => 'Thumbnail', 'type' => 'image', 'nullable' => true, 'unique' => true],
             'mime' => ['name' => 'MIME-Type', 'type' => 'text', 'required' => true, 'max' => 255],
             'info' => ['name' => 'Info', 'type' => 'textarea', 'nullable' => true],
@@ -71,7 +70,7 @@ return [
         'parent_id' => 'file',
         'action' => ['delete', 'edit', 'index'],
         'attr' => [
-            'url' => ['type' => 'iframe'],
+            'name' => ['name' => 'URL', 'type' => 'iframe'],
         ],
     ],
     'image' => [
@@ -79,7 +78,7 @@ return [
         'parent_id' => 'file',
         'action' => ['delete', 'edit', 'index'],
         'attr' => [
-            'url' => ['type' => 'image'],
+            'name' => ['type' => 'image'],
         ],
     ],
     'layout' => [
@@ -138,7 +137,7 @@ return [
         'parent_id' => 'file',
         'action' => ['delete', 'edit', 'index'],
         'attr' => [
-            'url' => ['type' => 'video'],
+            'name' => ['type' => 'video'],
         ],
     ],
 ];

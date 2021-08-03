@@ -41,16 +41,14 @@ CREATE INDEX ON account (created);
 
 CREATE TABLE file (
     id serial PRIMARY KEY,
-    name varchar(100) NOT NULL,
+    name varchar(255) NOT NULL UNIQUE,
     entity_id varchar(50) NOT NULL,
-    url varchar(255) NOT NULL UNIQUE,
     mime varchar(255) NOT NULL,
     thumb varchar(255) DEFAULT null UNIQUE,
     info text DEFAULT null,
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
-CREATE INDEX ON file (name);
 CREATE INDEX ON file (entity_id);
 CREATE INDEX ON file (created);
 
