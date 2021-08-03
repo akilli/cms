@@ -50,9 +50,9 @@ function asset(string $html): string
  */
 function block(string $html): string
 {
-    $pattern = '#<app-block id="%s"(?:[^>]*)>\s*</app-block>#s';
+    $pattern = '#<app-block id="%s-%s"(?:[^>]*)>\s*</app-block>#s';
 
-    if (preg_match_all(sprintf($pattern, '([a-z_]+)-(\d+)'), $html, $match)) {
+    if (preg_match_all(sprintf($pattern, '([a-z_]+)', '(\d+)'), $html, $match)) {
         $data = [];
 
         foreach ($match[1] as $key => $entityId) {
@@ -64,7 +64,7 @@ function block(string $html): string
         foreach ($data as $entityId => $ids) {
             foreach (entity\all($entityId, crit: [['id', $ids]]) as $item) {
                 $html = preg_replace(
-                    sprintf($pattern, $entityId . '-' . $item['id']),
+                    sprintf($pattern, $entityId, $item['id']),
                     layout\render_entity($entityId, $item['id'], $item),
                     $html
                 );
