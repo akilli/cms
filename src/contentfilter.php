@@ -27,22 +27,13 @@ function asset(string $html): string
         }
         return $mtime;
     };
-    $pattern = [
-        '#="/(gui|ext|file)/((?:(?:resize-|crop-)(?:[^/]+)/)?((?:[^",\s]+)\.(?:[a-z0-9]+)))"#s' =>
-            function (array $match) use ($cache): string {
-                $mtime = $cache($match[1], $match[3]);
+    $pattern = '#/(gui|ext|file)/((?:(?:resize-|crop-)(?:[^/]+)/)?((?:[^",\s]+)\.(?:[a-z0-9]+)))#';
+    $call = function (array $match) use ($cache): string {
+        $mtime = $cache($match[1], $match[3]);
+        return '/' . $match[1] . '/' . $mtime . '/' . $match[2];
+    };
 
-                return '="/' . $match[1] . '/' . $mtime . '/' . $match[2] . '"';
-            },
-        '#/(gui|ext|file)/((?:resize-|crop-)(?:[^/]+)/((?:[^",\s]+)\.(?:[a-z0-9]+)))#' =>
-            function (array $match) use ($cache): string {
-                $mtime = $cache($match[1], $match[3]);
-
-                return '/' . $match[1] . '/' . $mtime . '/' . $match[2];
-            },
-    ];
-
-    return preg_replace_callback_array($pattern, $html) ?? $html;
+    return preg_replace_callback($pattern, $call, $html) ?? $html;
 }
 
 /**
