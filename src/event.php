@@ -310,7 +310,7 @@ function entity_role_predelete(array $data): array
 
 function layout_postrender(array $data): array
 {
-    if ($data['image']) {
+    if (app\data('app', 'area') === '_public_' && $data['image']) {
         $data['html'] = contentfilter\block($data['html']);
         $data['html'] = contentfilter\msg($data['html']);
         $data['html'] = contentfilter\image($data['html'], $data['image']);
@@ -323,15 +323,20 @@ function layout_postrender_body(array $data): array
 {
     $data['html'] = contentfilter\block($data['html']);
     $data['html'] = contentfilter\msg($data['html']);
-    $data['html'] = contentfilter\email($data['html']);
-    $data['html'] = contentfilter\tel($data['html']);
+
+    if (app\data('app', 'area') === '_public_') {
+        $data['html'] = contentfilter\email($data['html']);
+        $data['html'] = contentfilter\tel($data['html']);
+    }
 
     return $data;
 }
 
 function layout_postrender_html(array $data): array
 {
-    $data['html'] = contentfilter\asset($data['html']);
+    if (app\data('app', 'area') === '_public_') {
+        $data['html'] = contentfilter\asset($data['html']);
+    }
 
     return $data;
 }
