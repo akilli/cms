@@ -74,7 +74,7 @@ define('APP', [
             'id' => null,
             'page' => null,
             'parent_id' => null,
-            'type' => null,
+            'type' => 'html',
             'valid' => false,
         ],
         'layout' => [

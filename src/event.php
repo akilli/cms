@@ -38,7 +38,6 @@ function data_app(array $data): array
         && ($page = entity\one('page', crit: [['url', $url]], select: ['id', 'entity_id']))
         && ($data['page'] = entity\one($page['entity_id'], crit: [['id', $page['id']]]))
     ) {
-        $data['type'] = 'html';
         $data['entity_id'] = $data['page']['entity_id'];
         $data['action'] = 'view';
         $data['id'] = $data['page']['id'];
@@ -49,19 +48,22 @@ function data_app(array $data): array
         $data['action'] = isset($match[2]) ? 'view' : 'index';
         $data['id'] = $match[2] ?? null;
     } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/\.]+))$#u', $url, $match)) {
-        $data['type'] = 'html';
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['id'] = $match[3] ?? null;
     }
 
-    $data['entity'] = !$data['entity'] && $data['entity_id'] ? app\cfg('entity', $data['entity_id']) : $data['entity'];
+    $data['event'] = [$data['type'], app\id($data['type'], '_invalid_')];
+
+    if (!$data['entity_id'] || !$data['action']) {
+        return $data;
+    }
+
+    $data['entity'] ??= app\cfg('entity', $data['entity_id']);
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
     $privilege = app\cfg('privilege', app\id($data['entity_id'], $data['action']));
     $data['area'] = $privilege && $privilege['use'] === '_public_' ? '_public_' : '_admin_';
-    $data['valid'] = $data['entity_id']
-        && $data['action']
-        && app\allowed(app\id($data['entity_id'], $data['action']))
+    $data['valid'] = app\allowed(app\id($data['entity_id'], $data['action']))
         && $data['entity']
         && in_array($data['action'], $data['entity']['action'])
         && (
@@ -80,8 +82,6 @@ function data_app(array $data): array
             app\id($data['type'], $data['entity_id'], $data['action']),
             ...($data['page'] ? [app\id($data['type'], 'page', $data['action'], $data['id'])] : []),
         ];
-    } else {
-        $data['event'] = [$data['type'], app\id($data['type'], '_invalid_')];
     }
 
     return $data;
