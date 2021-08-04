@@ -34,7 +34,11 @@ function frontend(array $data, array $attr): string
         $div['data-unique'] = true;
     }
 
-    $out = html\element('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['frontend']($val, $attr);
+    if (!$frontend = $attr['frontend']($val, $attr)) {
+        return '';
+    }
+
+    $out = html\element('label', ['for' => $attr['html']['id']], $attr['name']) . $frontend;
 
     if (!empty($data['_error'][$attr['id']])) {
         $div['data-invalid'] = true;
