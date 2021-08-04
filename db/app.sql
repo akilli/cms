@@ -45,11 +45,13 @@ CREATE TABLE account (
     username varchar(50) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
     email varchar(50) DEFAULT null UNIQUE,
+    file_id int DEFAULT null REFERENCES file ON DELETE SET null ON UPDATE CASCADE,
     active boolean NOT NULL DEFAULT false,
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON account (role_id);
+CREATE INDEX ON account (file_id);
 CREATE INDEX ON account (created);
 
 --
@@ -195,6 +197,19 @@ FROM
     file
 WHERE
     entity_id = 'video'
+WITH LOCAL CHECK OPTION;
+
+--
+-- Profile Image
+--
+
+CREATE VIEW profileimage AS
+SELECT
+    *
+FROM
+    file
+WHERE
+    entity_id = 'profileimage'
 WITH LOCAL CHECK OPTION;
 
 --
