@@ -5,6 +5,23 @@ START TRANSACTION;
 -- ---------------------------------------------------------------------------------------------------------------------
 
 --
+-- File
+--
+
+CREATE TABLE file (
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL UNIQUE,
+    entity_id varchar(50) NOT NULL,
+    mime varchar(255) NOT NULL,
+    thumb varchar(255) DEFAULT null UNIQUE,
+    info text DEFAULT null,
+    created timestamp(0) NOT NULL DEFAULT current_timestamp
+);
+
+CREATE INDEX ON file (entity_id);
+CREATE INDEX ON file (created);
+
+--
 -- Role
 --
 
@@ -34,23 +51,6 @@ CREATE TABLE account (
 
 CREATE INDEX ON account (role_id);
 CREATE INDEX ON account (created);
-
---
--- File
---
-
-CREATE TABLE file (
-    id serial PRIMARY KEY,
-    name varchar(255) NOT NULL UNIQUE,
-    entity_id varchar(50) NOT NULL,
-    mime varchar(255) NOT NULL,
-    thumb varchar(255) DEFAULT null UNIQUE,
-    info text DEFAULT null,
-    created timestamp(0) NOT NULL DEFAULT current_timestamp
-);
-
-CREATE INDEX ON file (entity_id);
-CREATE INDEX ON file (created);
 
 --
 -- Page
@@ -172,7 +172,7 @@ WHERE
 WITH LOCAL CHECK OPTION;
 
 --
--- File Image
+-- Image
 --
 
 CREATE VIEW image AS
@@ -185,7 +185,7 @@ WHERE
 WITH LOCAL CHECK OPTION;
 
 --
--- File Video
+-- Video
 --
 
 CREATE VIEW video AS
