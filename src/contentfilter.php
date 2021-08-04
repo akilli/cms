@@ -27,10 +27,10 @@ function asset(string $html): string
         }
         return $mtime;
     };
-    $pattern = '#/(gui|ext|file)/((?:(?:resize-|crop-)(?:[^/]+)/)?((?:[^",\s]+)\.(?:[a-z0-9]+)))#';
+    $pattern = '#(/(?:resize|crop)-(?:[^/]+))?/(gui|ext|file)/((?:[^",\s]+)\.(?:[a-z0-9]+))#';
     $call = function (array $match) use ($cache): string {
-        $mtime = $cache($match[1], $match[3]);
-        return '/' . $match[1] . '/' . $mtime . '/' . $match[2];
+        $mtime = $cache($match[2], $match[3]);
+        return '/' . $mtime . $match[1] . '/' . $match[2] . '/' . $match[3];
     };
 
     return preg_replace_callback($pattern, $call, $html) ?? $html;
@@ -112,7 +112,7 @@ function image(string $html, array $cfg = []): string
                 break;
             }
 
-            $set[] = app\fileurl('resize-' . $breakpoint . '/' . $name) . ' ' . $breakpoint . 'w';
+            $set[] = app\resizeurl(app\fileurl($name), $breakpoint) . ' ' . $breakpoint . 'w';
         }
 
         if ($set || $force) {

@@ -234,6 +234,22 @@ function actionurl(string|int ...$args): string
 }
 
 /**
+ * Generates a URL to resized version of given image
+ */
+function resizeurl(string $url, int $width, int $height = null): string
+{
+    return '/resize-' . $width . ($height ? 'x' . $height : '') . $url;
+}
+
+/**
+ * Generates a URL to cropped version of given image
+ */
+function cropurl(string $url, int $width, int $height = null): string
+{
+    return '/crop-' . $width . ($height ? 'x' . $height : '') . $url;
+}
+
+/**
  * Generates a GUI URL for given subpath
  */
 function guiurl(string $path = ''): string
