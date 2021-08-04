@@ -17,17 +17,32 @@ function bool(?bool $val, array $attr): string
 
 function browser(?int $val, array $attr): string
 {
+    $allowed = app\allowed(app\id($attr['ref'], 'index'));
+    $optionalAndSet = !$attr['required'] && $val;
+
+    if (!$allowed && !$optionalAndSet) {
+        return '';
+    }
+
     $opt = $attr['opt']();
     $html = html\element('output', ['id' => $attr['html']['id'] . '-output'], $val ? $opt[$val] : null);
     $html .= html\element('input', ['type' => 'hidden', 'value' => $val ?: ''] + $attr['html']);
-    $browse = app\i18n('Browse');
-    $html .= html\element(
-        'a',
-        ['data-id' => $attr['html']['id'], 'data-ref' => $attr['ref'], 'data-action' => 'browser', 'title' => $browse],
-        $browse
-    );
 
-    if (!$attr['required']) {
+    if ($allowed) {
+        $browse = app\i18n('Browse');
+        $html .= html\element(
+            'a',
+            [
+                'data-id' => $attr['html']['id'],
+                'data-ref' => $attr['ref'],
+                'data-action' => 'browser',
+                'title' => $browse,
+            ],
+            $browse
+        );
+    }
+
+    if ($optionalAndSet) {
         $html .= ' ';
         $remove = app\i18n('Remove');
         $html .= html\element(
