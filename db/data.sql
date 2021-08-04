@@ -20,7 +20,7 @@ INSERT INTO
     account
     (id, name, role_id, username, password, active)
 VALUES
-    (1, 'Admin', 1, 'admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', true);
+    (1, 'admin', 1, 'admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', true);
 
 SELECT setval('account_id_seq', (SELECT max(id) FROM account));
 
