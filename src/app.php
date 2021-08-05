@@ -266,7 +266,7 @@ function guiurl(string $id): string
 }
 
 /**
- * Generates the URL fto given extension GUI file
+ * Generates the URL to given extension GUI file
  */
 function exturl(string $id): string
 {
@@ -274,13 +274,11 @@ function exturl(string $id): string
 }
 
 /**
- * Gets absolute path to specified asset file or URL
+ * Gets absolute path to given asset file or URL
  */
-function assetpath(string $id, string $entityId = null): string
+function assetpath(string $id): string
 {
-    $path = $entityId ?  $entityId . '/' . $id : preg_replace('#^' . APP['url']['asset'] . '/#', '', $id);
-
-    return APP['path']['asset'] . '/' . $path;
+    return APP['path']['asset'] . '/' . preg_replace('#^' . APP['url']['asset'] . '/#', '', $id);
 }
 
 /**
