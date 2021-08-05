@@ -1,7 +1,7 @@
 version: "3.8"
 volumes:
+  asset: {}
   db: {}
-  file: {}
 services:
   db:
     image: akilli/postgres
@@ -10,7 +10,7 @@ services:
       - "5432:5432"
     volumes:
       - db:/data
-      - file:/app
+      - asset:/app
       - ./db:/init/postgres
   php:
     image: akilli/php
@@ -20,7 +20,7 @@ services:
     environment:
       - DEV=1
     volumes:
-      - file:/data/file:nocopy
+      - asset:/data:nocopy
       - .:/app
   www:
     image: akilli/nginx
@@ -31,5 +31,5 @@ services:
     ports:
       - "80:80"
     volumes:
-      - file:/data/file:nocopy
+      - asset:/data:nocopy
       - .:/app

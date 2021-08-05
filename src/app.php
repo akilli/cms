@@ -226,7 +226,7 @@ function urlquery(array $get, bool $preserve = false): string
 }
 
 /**
- * Generates an action URL path from given arguments
+ * Generates the action URL from given arguments
  */
 function actionurl(string|int ...$args): string
 {
@@ -234,7 +234,7 @@ function actionurl(string|int ...$args): string
 }
 
 /**
- * Generates a URL to resized version of given image
+ * Generates the URL to resized version for given image and dimensions
  */
 function resizeurl(string $url, int $width, int $height = null): string
 {
@@ -242,7 +242,7 @@ function resizeurl(string $url, int $width, int $height = null): string
 }
 
 /**
- * Generates a URL to cropped version of given image
+ * Generates the URL to cropped version for given image and dimensions
  */
 function cropurl(string $url, int $width, int $height = null): string
 {
@@ -250,27 +250,37 @@ function cropurl(string $url, int $width, int $height = null): string
 }
 
 /**
- * Generates a GUI URL for given subpath
+ * Generates an asset URL for given file and entity
  */
-function guiurl(string $path = ''): string
+function asseturl(string $id, string $entityId = null): string
 {
-    return APP['url']['gui'] . '/' . $path;
+    return APP['url']['asset'] . ($entityId ? '/' . $entityId : '') . '/' . $id;
 }
 
 /**
- * Generates an extension GUI URL for given subpath
+ * Generates the URL to given GUI file
  */
-function exturl(string $path = ''): string
+function guiurl(string $id): string
 {
-    return APP['url']['ext'] . '/' . $path;
+    return APP['url']['gui'] . '/' . $id;
 }
 
 /**
- * Generates a file URL with given subpath
+ * Generates the URL fto given extension GUI file
  */
-function fileurl(string $path = ''): string
+function exturl(string $id): string
 {
-    return APP['url']['file'] . '/' . $path;
+    return APP['url']['ext'] . '/' . $id;
+}
+
+/**
+ * Gets absolute path to specified asset file or URL
+ */
+function assetpath(string $id, string $entityId = null): string
+{
+    $path = $entityId ?  $entityId . '/' . $id : preg_replace('#^' . APP['url']['asset'] . '/#', '', $id);
+
+    return APP['path']['asset'] . '/' . $path;
 }
 
 /**
@@ -287,14 +297,6 @@ function guipath(string $id): string
 function extpath(string $id): string
 {
     return APP['path']['ext.gui'] . '/' . preg_replace('#^' . APP['url']['ext'] . '/#', '', $id);
-}
-
-/**
- * Gets absolute path to specified file name or URL
- */
-function filepath(string $id): string
-{
-    return APP['path']['file'] . '/' . preg_replace('#^' . APP['url']['file'] . '/#', '', $id);
 }
 
 /**

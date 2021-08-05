@@ -65,5 +65,5 @@ function mkdirp(string $path): bool
  */
 function writable(string $path): bool
 {
-    return (bool) preg_match('#^(' . APP['path']['file'] . '|' . APP['path']['tmp'] . ')($|/.+)#', $path);
+    return (bool) preg_match('#^(' . APP['path']['asset'] . '|' . APP['path']['tmp'] . ')($|/.+)#', $path);
 }

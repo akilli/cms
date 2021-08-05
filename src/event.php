@@ -185,7 +185,7 @@ function entity_file_prevalidate(array $data): array
         } elseif ($data['_old']) {
             $data['name'] = $data['_old']['name'];
         } else {
-            $data['name'] = app\fileurl($item['name']);
+            $data['name'] = app\asseturl($item['name'], $data['_entity']['id']);
             $data['mime'] = $item['type'];
 
             if (entity\size('file', crit: [[['name', $data['name']], ['thumb', $data['name']]]])) {
@@ -195,7 +195,7 @@ function entity_file_prevalidate(array $data): array
     }
 
     if (!empty($data['thumb']) && ($item = app\data('request', 'file')['thumb'] ?? null)) {
-        $data['thumb'] = app\fileurl($item['name']);
+        $data['thumb'] = app\asseturl($item['name'], $data['_entity']['id']);
 
         if (entity\size('file', crit: [[['name', $data['thumb']], ['thumb', $data['thumb']]]])) {
             $data['_error']['thumb'][] = app\i18n('Please change filename to generate an unique URL');
@@ -212,7 +212,8 @@ function entity_file_postsave(array $data): array
 {
     $upload = function (string $attrId) use ($data): ?string {
         $item = app\data('request', 'file')[$attrId] ?? null;
-        return $item && !file\upload($item['tmp_name'], app\filepath($data[$attrId])) ? $item['name'] : null;
+        $path = app\assetpath($data[$attrId]);
+        return $item && !file\upload($item['tmp_name'], $path) ? $item['name'] : null;
     };
 
     if ($data['_entity']['attr']['name']['uploadable'] && !empty($data['name']) && ($name = $upload('name'))
@@ -224,7 +225,7 @@ function entity_file_postsave(array $data): array
     if (array_key_exists('thumb', $data)
         && !$data['thumb']
         && $data['_old']['thumb']
-        && !file\delete(app\filepath($data['_old']['thumb']))
+        && !file\delete(app\assetpath($data['_old']['thumb']))
     ) {
         throw new DomainException(app\i18n('Could not delete file'));
     }
@@ -237,8 +238,8 @@ function entity_file_postsave(array $data): array
  */
 function entity_file_postdelete(array $data): array
 {
-    if ($data['_entity']['attr']['name']['uploadable'] && !file\delete(app\filepath($data['_old']['name']))
-        || $data['_old']['thumb'] && !file\delete(app\filepath($data['_old']['thumb']))
+    if ($data['_entity']['attr']['name']['uploadable'] && !file\delete(app\assetpath($data['_old']['name']))
+        || $data['_old']['thumb'] && !file\delete(app\assetpath($data['_old']['thumb']))
     ) {
         throw new DomainException(app\i18n('Could not delete file'));
     }

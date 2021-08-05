@@ -216,11 +216,11 @@ define('APP', [
         'app.gui' => '/app/gui',
         'app.src' => '/app/src',
         'app.tpl' => '/app/tpl',
+        'asset' => '/data',
         'ext.cfg' => '/opt/cfg',
         'ext.gui' => '/opt/gui',
         'ext.src' => '/opt/src',
         'ext.tpl' => '/opt/tpl',
-        'file' => '/data/file',
         'tmp' => '/tmp',
     ],
     'pdo' => [
@@ -235,8 +235,8 @@ define('APP', [
     'time.frontend' => 'H:i',
     'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
     'url' => [
+        'asset' => '/asset',
         'ext' => '/ext',
-        'file' => '/file',
         'gui' => '/gui',
     ],
     'viewer' => [

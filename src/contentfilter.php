@@ -18,7 +18,7 @@ function asset(string $html): string
     $cache = function (string $type, string $id): int {
         if (($mtime = &app\registry('contentfilter')['asset'][$type . ':' . $id]) === null) {
             $file = match ($type) {
-                'file' => app\filepath($id),
+                'asset' => app\assetpath($id),
                 'gui' => app\guipath($id),
                 'ext' => app\extpath($id),
                 default => null,
@@ -27,7 +27,7 @@ function asset(string $html): string
         }
         return $mtime;
     };
-    $pattern = '#(/(?:resize|crop)-(?:[^/]+))?/(gui|ext|file)/((?:[^",\s]+)\.(?:[a-z0-9]+))#';
+    $pattern = '#(/(?:resize|crop)-(?:[^/]+))?/(asset|gui|ext)/((?:[^",\s]+)\.(?:[a-z0-9]+))#';
     $call = function (array $match) use ($cache): string {
         $mtime = $cache($match[2], $match[3]);
         return '/' . $mtime . $match[1] . '/' . $match[2] . '/' . $match[3];
@@ -84,8 +84,8 @@ function email(string $html): string
 function image(string $html, array $cfg = []): string
 {
     $pattern = sprintf(
-        '#(?P<img>(?P<pre><img(?:[^>]*) src="(?P<url>%s(?P<name>(?:.+)\.(?:%s)))")(?P<post>(?:[^>]*)>))#',
-        app\fileurl(),
+        '#(?P<img>(?P<pre><img(?:[^>]*) src="(?P<url>%s/(?P<name>(?:.+)\.(?:%s)))")(?P<post>(?:[^>]*)>))#',
+        APP['url']['asset'],
         implode('|', APP['image.ext'])
     );
 
@@ -112,11 +112,11 @@ function image(string $html, array $cfg = []): string
                 break;
             }
 
-            $set[] = app\resizeurl(app\fileurl($name), $breakpoint) . ' ' . $breakpoint . 'w';
+            $set[] = app\resizeurl(app\asseturl($name), $breakpoint) . ' ' . $breakpoint . 'w';
         }
 
         if ($set || $force) {
-            $set[] = app\fileurl($name) . ' ' . $width . 'w';
+            $set[] = app\asseturl($name) . ' ' . $width . 'w';
         }
 
         return implode(', ', $set);
@@ -124,7 +124,7 @@ function image(string $html, array $cfg = []): string
     $call = function (array $match) use ($cache, $cfg, $data, $srcset): string {
         if (str_contains($match['img'], 'srcset="')
             || !($item = $data[$match['url']] ?? null)
-            || !($file = app\filepath($match['name']))
+            || !($file = app\assetpath($match['name']))
             || !is_file($file)
             || !($width = $cache($file))
         ) {
@@ -143,9 +143,10 @@ function image(string $html, array $cfg = []): string
             $img = $match['pre'] . ' srcset="' . $set . '" sizes="' . $sizes . '"' . $match['post'];
         }
 
-        if ($cfg['thumb'] > 0 && $item['thumb'] && ($tfile = app\filepath($item['thumb'])) && is_file($tfile)) {
+        if ($cfg['thumb'] > 0 && $item['thumb'] && ($tfile = app\assetpath($item['thumb'])) && is_file($tfile)) {
             $twidth = $cache($tfile);
-            $tset = $srcset(basename($item['thumb']), $twidth, true);
+            $tname = preg_replace('#^' . APP['url']['asset'] . '/#', '', $item['thumb']);
+            $tset = $srcset($tname, $twidth, true);
             $tmax = min($cfg['thumb'], $twidth);
             $source = html\element('source', ['media' => '(max-width: ' . $tmax . 'px)', 'srcset' => $tset]);
             $img = html\element('picture', [], $source . $img);
