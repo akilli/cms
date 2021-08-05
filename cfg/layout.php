@@ -59,7 +59,7 @@ return [
             'type' => 'profile',
             'parent_id' => 'content',
             'sort' => 300,
-            'cfg' => ['attr_id' => ['file_id', 'username', 'password', 'email']],
+            'cfg' => ['attr_id' => ['image', 'username', 'password', 'email']],
         ],
     ],
     'html:block:edit' => [

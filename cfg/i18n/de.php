@@ -93,8 +93,6 @@ return [
     'Previous' => 'Zurück',
     'Privileges' => 'Privilegien',
     'Profile' => 'Profil',
-    'Profile Image' => 'Profilbild',
-    'Profile Images' => 'Profilbilder',
     'Public' => 'Öffentlich',
     'Remove' => 'Entfernen',
     'Reset' => 'Zurücksetzen',

@@ -212,9 +212,8 @@ function entity_postsave_uploadable(array $data): array
         } elseif (!empty($data[$attrId]) && ($name = $upload($attrId))) {
             throw new DomainException(app\i18n('Could not upload %s', $name));
         } elseif (array_key_exists($attrId, $data)
-            && !$data[$attrId]
             && $data['_old'][$attrId]
-            && !$attr['required']
+            && $data['_old'][$attrId] !== $data[$attrId]
             && !file\delete(app\assetpath($data['_old'][$attrId]))
         ) {
             throw new DomainException(app\i18n('Could not delete %s', $data['_old'][$attrId]));

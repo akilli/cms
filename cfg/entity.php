@@ -10,7 +10,7 @@ return [
             'username' => ['name' => 'Username', 'type' => 'uid', 'required' => true, 'unique' => true, 'max' => 50],
             'password' => ['name' => 'Password', 'type' => 'password', 'required' => true, 'min' => 8, 'max' => 255],
             'email' => ['name' => 'Email', 'type' => 'email', 'nullable' => true, 'unique' => true, 'max' => 50],
-            'file_id' => ['name' => 'Profile Image', 'type' => 'entityfile', 'nullable' => true, 'ref' => 'profileimage'],
+            'image' => ['name' => 'Image', 'type' => 'image', 'nullable' => true, 'unique' => true],
             'active' => ['name' => 'Active', 'type' => 'bool'],
             'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],
@@ -122,14 +122,6 @@ return [
             'path' => ['name' => 'Path', 'type' => 'multientity', 'auto' => true, 'ref' => 'page'],
             'account_id' => ['name' => 'Creator', 'type' => 'entity', 'nullable' => true, 'ref' => 'account'],
             'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
-        ],
-    ],
-    'profileimage' => [
-        'name' => 'Profile Images',
-        'parent_id' => 'file',
-        'action' => ['delete', 'edit', 'index'],
-        'attr' => [
-            'name' => ['type' => 'image'],
         ],
     ],
     'role' => [

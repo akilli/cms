@@ -5,25 +5,6 @@ START TRANSACTION;
 -- ---------------------------------------------------------------------------------------------------------------------
 
 --
--- File
---
-
-CREATE TABLE file (
-    id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    entity_id varchar(50) NOT NULL,
-    mime varchar(255) NOT NULL,
-    thumb varchar(255) DEFAULT null UNIQUE,
-    info text DEFAULT null,
-    created timestamp(0) NOT NULL DEFAULT current_timestamp,
-    UNIQUE (entity_id, name),
-    UNIQUE (entity_id, thumb)
-);
-
-CREATE INDEX ON file (entity_id);
-CREATE INDEX ON file (created);
-
---
 -- Role
 --
 
@@ -47,14 +28,32 @@ CREATE TABLE account (
     username varchar(50) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
     email varchar(50) DEFAULT null UNIQUE,
-    file_id int DEFAULT null REFERENCES file ON DELETE SET null ON UPDATE CASCADE,
+    image varchar(255) DEFAULT null UNIQUE,
     active boolean NOT NULL DEFAULT false,
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON account (role_id);
-CREATE INDEX ON account (file_id);
 CREATE INDEX ON account (created);
+
+--
+-- File
+--
+
+CREATE TABLE file (
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    entity_id varchar(50) NOT NULL,
+    mime varchar(255) NOT NULL,
+    thumb varchar(255) DEFAULT null UNIQUE,
+    info text DEFAULT null,
+    created timestamp(0) NOT NULL DEFAULT current_timestamp,
+    UNIQUE (entity_id, name),
+    UNIQUE (entity_id, thumb)
+);
+
+CREATE INDEX ON file (entity_id);
+CREATE INDEX ON file (created);
 
 --
 -- Page
@@ -199,19 +198,6 @@ FROM
     file
 WHERE
     entity_id = 'video'
-WITH LOCAL CHECK OPTION;
-
---
--- Profile Image
---
-
-CREATE VIEW profileimage AS
-SELECT
-    *
-FROM
-    file
-WHERE
-    entity_id = 'profileimage'
 WITH LOCAL CHECK OPTION;
 
 --
