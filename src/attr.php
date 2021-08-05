@@ -85,9 +85,6 @@ function validator(array $data, array $attr): mixed
 
     $pattern = $attr['pattern'] ? '#^' . str_replace('#', '\#', $attr['pattern']) . '$#' : null;
     $vp = is_array($val) ? implode("\n", $val) : (string) $val;
-    $vs = is_array($val) ? $val : [$val];
-    $crit = $data['_old'] ? [[$attr['id'], $val], ['id', $data['_old']['id'], APP['op']['!=']]] : [[$attr['id'], $val]];
-    $strlen = in_array($attr['backend'], ['json', 'multitext', 'text', 'varchar']);
 
     if ($pattern && $val !== null && $val !== '' && !preg_match($pattern, $vp)) {
         throw new DomainException(app\i18n('Value contains invalid characters'));
@@ -97,9 +94,16 @@ function validator(array $data, array $attr): mixed
         throw new DomainException(app\i18n('Value is required'));
     }
 
-    if ($attr['unique'] && entity\size($data['_entity']['id'], crit: $crit)) {
+    $parent = $data['_entity']['parent_id'] ? app\cfg('entity', $data['_entity']['parent_id']) : null;
+    $entityId = $parent && !empty($parent['attr'][$attr['id']]) ? $parent['id'] : $data['_entity']['id'];
+    $crit = $data['_old'] ? [[$attr['id'], $val], ['id', $data['_old']['id'], APP['op']['!=']]] : [[$attr['id'], $val]];
+
+    if ($attr['unique'] && entity\size($entityId, crit: $crit)) {
         throw new DomainException(app\i18n('Value must be unique'));
     }
+
+    $vs = is_array($val) ? $val : [$val];
+    $strlen = in_array($attr['backend'], ['json', 'multitext', 'text', 'varchar']);
 
     foreach ($vs as $v) {
         $length = $strlen ? mb_strlen($v) : $v;

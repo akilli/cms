@@ -16,11 +16,12 @@ use str;
 
 function data_account(): array
 {
-    $id = (int) session\get('account');
+    $id = (int)session\get('account');
 
     if ($id && ($data = entity\one('account', crit: [['id', $id], ['active', true]]))) {
         $privilege = entity\one('role', crit: [['id', $data['role_id']]])['privilege'];
         $data['privilege'] = ['_public_', '_user_', ...$privilege];
+
         return $data;
     }
 
@@ -155,6 +156,8 @@ function entity_postvalidate_password(array $data): array
 
 function entity_postvalidate_unique(array $data): array
 {
+    $parent = $data['_entity']['parent_id'] ? app\cfg('entity', $data['_entity']['parent_id']) : null;
+
     foreach ($data['_entity']['unique'] as $attrIds) {
         $item = arr\replace(array_fill_keys($attrIds, null), $data['_old'], $data);
 
@@ -162,7 +165,8 @@ function entity_postvalidate_unique(array $data): array
             continue;
         }
 
-        $crit = [['id', $data['_old']['id'] ?? null, APP['op']['!=']]];
+        $entityId = $parent && arr\has($parent['attr'], $attrIds) ? $parent['id'] : $data['_entity']['id'];
+        $crit = $data['_old'] ? [['id', $data['_old']['id'], APP['op']['!=']]] : [];
         $labels = [];
 
         foreach ($attrIds as $attrId) {
@@ -170,7 +174,7 @@ function entity_postvalidate_unique(array $data): array
             $labels[] = $data['_entity']['attr'][$attrId]['name'];
         }
 
-        if (entity\size($data['_entity']['id'], crit: $crit)) {
+        if (entity\size($entityId, crit: $crit)) {
             foreach ($attrIds as $attrId) {
                 $data['_error'][$attrId][] = app\i18n('Combination of %s must be unique', implode(', ', $labels));
             }
@@ -203,6 +207,7 @@ function entity_postsave_uploadable(array $data): array
     $upload = function (string $attrId) use ($data): ?string {
         $item = app\data('request', 'file')[$attrId] ?? null;
         $path = app\assetpath($data[$attrId]);
+
         return $item && !file\upload($item['tmp_name'], $path) ? $item['name'] : null;
     };
 
@@ -272,7 +277,9 @@ function entity_file_prevalidate(array $data): array
         }
     }
 
-    if (!empty($data['thumb']) && entity\size($data['_entity']['id'], crit: [['name', $data['thumb']]])) {
+    if (!empty($data['thumb']) && !empty($data['name']) && $data['thumb'] === $data['name']
+        || !empty($data['thumb']) && entity\size($data['_entity']['id'], crit: [['name', $data['thumb']]])
+    ) {
         $data['_error']['thumb'][] = app\i18n('Please change filename to generate an unique URL');
     }
 
@@ -408,7 +415,7 @@ function response_html_block_api(array $data): array
     $data['body'] = '';
 
     if (preg_match('#^([a-z_]+)-(\d+)$#', $id, $match)) {
-        $data['body'] = layout\render_entity($match[1], (int) $match[2]);
+        $data['body'] = layout\render_entity($match[1], (int)$match[2]);
     }
 
     $data['_stop'] = true;
