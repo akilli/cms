@@ -32,7 +32,7 @@ function preload(): array
 {
     $data = ['i18n' => load('i18n')];
 
-    foreach (array_filter([APP['path']['cfg'], APP['path']['ext.cfg']], 'is_dir') as $path) {
+    foreach (array_filter([APP['path']['app.cfg'], APP['path']['ext.cfg']], 'is_dir') as $path) {
         foreach (file\scan($path) as $name) {
             $id = basename($name, '.php');
             $file = $path . '/' . $name;
@@ -75,14 +75,14 @@ function load(string $id): array
 {
     if (($cfg = &app\registry('cfg')[$id]) === null) {
         $cfg = [];
-        $path = APP['path']['cfg'] . '/' . $id;
+        $appPath = APP['path']['app.cfg'] . '/' . $id;
         $extPath = APP['path']['ext.cfg'] . '/' . $id;
 
-        if (is_dir($path) || !is_file($path . '.php') && is_dir($extPath)) {
-            $data = all($path);
+        if (is_dir($appPath) || !is_file($appPath . '.php') && is_dir($extPath)) {
+            $data = all($appPath);
             $ext = all($extPath);
         } else {
-            $data = one($path . '.php');
+            $data = one($appPath . '.php');
             $ext = one($extPath . '.php');
         }
 
