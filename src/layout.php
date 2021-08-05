@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace layout;
 
+use DomainException;
 use app;
 use arr;
 use str;
-use DomainException;
 
 /**
  * Renders block

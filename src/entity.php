@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace entity;
 
-use attr;
-use app;
 use DomainException;
 use Throwable;
+use attr;
+use app;
 
 /**
  * Size entity

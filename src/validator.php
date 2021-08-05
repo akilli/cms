@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace validator;
 
+use DomainException;
 use app;
 use attr;
 use entity;
 use str;
-use DomainException;
 
 /**
  * @throws DomainException

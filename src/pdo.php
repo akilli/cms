@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace pdo;
 
-use app;
-use arr;
-use sql;
 use DomainException;
 use PDO;
 use Throwable;
+use app;
+use arr;
+use sql;
 
 /**
  * Size entity

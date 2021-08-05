@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace attr;
 
+use DomainException;
 use app;
 use arr;
 use entity;
 use html;
 use str;
-use DomainException;
 
 /**
  * Frontend

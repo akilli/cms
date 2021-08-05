@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace request;
 
-use app;
 use DomainException;
+use app;
 
 /**
  * Redirect

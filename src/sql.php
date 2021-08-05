@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace sql;
 
-use app;
 use DomainException;
+use app;
 
 /**
  * INSERT part

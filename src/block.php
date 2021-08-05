@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace block;
 
+use DomainException;
 use app;
 use arr;
 use attr;
@@ -12,7 +13,6 @@ use layout;
 use request;
 use session;
 use str;
-use DomainException;
 
 function block(array $block): string
 {

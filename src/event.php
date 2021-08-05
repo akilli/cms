@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace event;
 
+use DomainException;
 use app;
 use arr;
 use contentfilter;
@@ -12,7 +13,6 @@ use layout;
 use request;
 use session;
 use str;
-use DomainException;
 
 function data_account(): array
 {

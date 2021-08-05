@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace cfg;
 
+use DomainException;
 use app;
 use arr;
 use file;
-use DomainException;
 
 /**
  * Backs up configuration
