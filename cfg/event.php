@@ -4,8 +4,8 @@ return [
     'data:app' => ['event\data_app' => 100],
     'data:layout' => ['event\data_layout' => 100],
     'data:request' => ['event\data_request' => 100],
-    'entity:postdelete:id:file' => ['event\entity_file_postdelete' => 100],
-    'entity:postsave:id:file' => ['event\entity_file_postsave' => 100],
+    'entity:postdelete' => ['event\entity_postdelete_uploadable' => 100],
+    'entity:postsave' => ['event\entity_postsave_uploadable' => 100],
     'entity:postvalidate' => ['event\entity_postvalidate_password' => 100, 'event\entity_postvalidate_unique' => 200],
     'entity:postvalidate:id:page' => [
         'event\entity_page_postvalidate_menu' => 100,
@@ -14,6 +14,7 @@ return [
     'entity:predelete:id:role' => ['event\entity_role_predelete' => 100],
     'entity:presave:id:iframe' => ['event\entity_iframe_presave' => 100],
     'entity:presave:id:page' => ['event\entity_page_presave' => 100],
+    'entity:prevalidate' => ['event\entity_prevalidate_uploadable' => 100],
     'entity:prevalidate:id:file' => ['event\entity_file_prevalidate' => 100],
     'entity:prevalidate:id:iframe' => ['event\entity_iframe_prevalidate' => 100],
     'layout:postrender' => ['event\layout_postrender' => 100],
