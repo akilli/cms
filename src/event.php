@@ -237,6 +237,25 @@ function entity_postdelete_uploadable(array $data): array
     return $data;
 }
 
+function entity_account_prevalidate(array $data): array
+{
+    if (!empty($data['image'])) {
+        $ext = '.' . pathinfo($data['image'], PATHINFO_EXTENSION);
+        $image = fn(string $name): string => app\asseturl(str\uid($name) . $ext, 'account');
+
+        if (!empty($data['name'])) {
+            $data['image'] = $image($data['name']);
+        } elseif ($data['_old']) {
+            $name = entity\one('account', crit: [['id', $data['_old']['id']]], select: ['name'])['name'];
+            $data['image'] = $image($name);
+        } else {
+            $data['_error']['image'][] = app\i18n('Could not generate profile image URL');
+        }
+    }
+
+    return $data;
+}
+
 function entity_file_prevalidate(array $data): array
 {
     if ($data['_entity']['attr']['name']['uploadable'] && !empty($data['name'])) {

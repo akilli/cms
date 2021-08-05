@@ -15,6 +15,7 @@ return [
     'entity:presave:id:iframe' => ['event\entity_iframe_presave' => 100],
     'entity:presave:id:page' => ['event\entity_page_presave' => 100],
     'entity:prevalidate' => ['event\entity_prevalidate_uploadable' => 100],
+    'entity:prevalidate:id:account' => ['event\entity_account_prevalidate' => 100],
     'entity:prevalidate:id:file' => ['event\entity_file_prevalidate' => 100],
     'entity:prevalidate:id:iframe' => ['event\entity_iframe_prevalidate' => 100],
     'layout:postrender' => ['event\layout_postrender' => 100],

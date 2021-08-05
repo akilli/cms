@@ -36,6 +36,11 @@ function tr(string $val): string
     return strtr(mb_strtolower($val), app\cfg('tr'));
 }
 
+function uid(string $val): string
+{
+    return trim(preg_replace('#[^a-z0-9_\-]+#', '-', tr($val)), '-');
+}
+
 /**
  * Generates a unique string
  */
