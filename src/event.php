@@ -157,6 +157,11 @@ function entity_postvalidate_unique(array $data): array
 {
     foreach ($data['_entity']['unique'] as $attrIds) {
         $item = arr\replace(array_fill_keys($attrIds, null), $data['_old'], $data);
+
+        if (!arr\has($item, $attrIds, true)) {
+            continue;
+        }
+
         $crit = [['id', $data['_old']['id'] ?? null, APP['op']['!=']]];
         $labels = [];
 
