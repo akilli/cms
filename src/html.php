@@ -27,7 +27,7 @@ function attr(array $attrs = []): string
             $v = $k;
         }
 
-        $a .= ' ' . $k . '="' . addcslashes((string) $v, '"') . '"';
+        $a .= ' ' . $k . '="' . addcslashes((string)$v, '"') . '"';
     }
 
     return $a;

@@ -143,7 +143,7 @@ function password(?string $val, array $attr): string
 
 function radio(mixed $val, array $attr): string
 {
-    $val = is_bool($val) ? (int) $val : $val;
+    $val = is_bool($val) ? (int)$val : $val;
     $html = '';
 
     foreach ($attr['opt']() as $k => $v) {
@@ -170,7 +170,7 @@ function select(mixed $val, array $attr): string
 {
     $val = match (true) {
         $val === null || $val === '' => [],
-        is_bool($val) => [(int) $val],
+        is_bool($val) => [(int)$val],
         !is_array($val) => [$val],
         default => $val,
     };

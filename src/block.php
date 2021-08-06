@@ -177,7 +177,7 @@ function index(array $block): string
             $crit[] = [$attrId, $get['filter'][$attrId], $op];
         }
 
-        if ($block['cfg']['search'] && $get['q'] && ($q = array_filter(explode(' ', (string) $get['q'])))) {
+        if ($block['cfg']['search'] && $get['q'] && ($q = array_filter(explode(' ', (string)$get['q'])))) {
             foreach ($q as $v) {
                 $call = fn(string $attrId): array => [$attrId, $v, APP['op']['~']];
                 $crit[] = array_map($call, $block['cfg']['search']);
@@ -198,8 +198,8 @@ function index(array $block): string
 
     if ($block['cfg']['pager']) {
         $size = entity\size($entity['id'], crit: $crit);
-        $total = $limit > 0 && ($c = (int) ceil($size / $limit)) ? $c : 1;
-        $get['cur'] = min(max((int) $get['cur'], 1), $total);
+        $total = $limit > 0 && ($c = (int)ceil($size / $limit)) ? $c : 1;
+        $get['cur'] = min(max((int)$get['cur'], 1), $total);
         $offset = ($get['cur'] - 1) * $limit;
         $pager = layout\render(layout\block([
             'type' => 'pager',
@@ -403,11 +403,11 @@ function pager(array $block): string
         return '';
     }
 
-    $total = $block['cfg']['limit'] && ($c = (int) ceil($block['cfg']['size'] / $block['cfg']['limit'])) ? $c : 1;
+    $total = $block['cfg']['limit'] && ($c = (int)ceil($block['cfg']['size'] / $block['cfg']['limit'])) ? $c : 1;
     $block['cfg']['cur'] = min(max($block['cfg']['cur'], 1), $total);
     $offset = ($block['cfg']['cur'] - 1) * $block['cfg']['limit'];
     $up = $block['cfg']['limit'] ? min($offset + $block['cfg']['limit'], $block['cfg']['size']) : $block['cfg']['size'];
-    $info = app\i18n('%s to %s of %s', (string) ($offset + 1), (string) $up, (string) $block['cfg']['size']);
+    $info = app\i18n('%s to %s of %s', (string)($offset + 1), (string)$up, (string)$block['cfg']['size']);
     $min = max(1, min($block['cfg']['cur'] - intdiv($block['cfg']['pages'], 2), $total - $block['cfg']['pages'] + 1));
     $max = min($min + $block['cfg']['pages'] - 1, $total);
     $limits = [];

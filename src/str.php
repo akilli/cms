@@ -46,5 +46,5 @@ function uid(string $val): string
  */
 function uniq(string $prefix = ''): string
 {
-    return $prefix . md5(uniqid((string) time(), true));
+    return $prefix . md5(uniqid((string)time(), true));
 }

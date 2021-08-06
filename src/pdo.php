@@ -20,7 +20,7 @@ function size(array $entity, array $crit = []): int
     array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
     $stmt->execute();
 
-    return (int) $stmt->fetchColumn();
+    return (int)$stmt->fetchColumn();
 }
 
 /**
@@ -83,7 +83,7 @@ function save(array $data): array
 
     // Set DB generated id
     if (!$data['_old'] && $attrs['id']['backend'] === 'serial') {
-        $data['id'] = (int) $db->lastInsertId(($entity['parent_id'] ?: $entity['id']) . '_id_seq');
+        $data['id'] = (int)$db->lastInsertId(($entity['parent_id'] ?: $entity['id']) . '_id_seq');
     }
 
     return $data;
@@ -193,7 +193,7 @@ function val(mixed $val, array $attr): mixed
 {
     return match (true) {
         $val === null => null,
-        $attr['backend'] === 'json' => is_array($val) ? json_encode($val) : (string) $val,
+        $attr['backend'] === 'json' => is_array($val) ? json_encode($val) : (string)$val,
         is_array($val) => '{' . implode(',', arr\change($val, null, 'NULL')) . '}',
         in_array($attr['backend'], ['multiint', 'multitext']) => '{' . $val . '}',
         default => $val,
@@ -297,7 +297,7 @@ function crit(array $crit, array $attrs): array
                 $post = in_array($op, [...$regexSearch, ...$regexStart]) ? '%' : '';
                 $p = param($param);
                 $val = val($val, $attr);
-                $v = $pre . str_replace(['%', '_'], ['\%', '\_'], (string) $val) . $post;
+                $v = $pre . str_replace(['%', '_'], ['\%', '\_'], (string)$val) . $post;
                 $cols['param'][] = [$p, $v, PDO::PARAM_STR];
                 $or[] = $attr['id'] . '::text' . $not . ' ILIKE ' . $p;
             }

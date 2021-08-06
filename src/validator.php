@@ -103,7 +103,7 @@ function opt(mixed $val, array $attr): mixed
 
 function text(string $val): string
 {
-    return trim((string) filter_var($val, FILTER_SANITIZE_STRING));
+    return trim((string)filter_var($val, FILTER_SANITIZE_STRING));
 }
 
 /**

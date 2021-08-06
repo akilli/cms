@@ -84,7 +84,7 @@ function validator(array $data, array $attr): mixed
     }
 
     $pattern = $attr['pattern'] ? '#^' . str_replace('#', '\#', $attr['pattern']) . '$#' : null;
-    $vp = is_array($val) ? implode("\n", $val) : (string) $val;
+    $vp = is_array($val) ? implode("\n", $val) : (string)$val;
 
     if ($pattern && $val !== null && $val !== '' && !preg_match($pattern, $vp)) {
         throw new DomainException(app\i18n('Value contains invalid characters'));
@@ -130,7 +130,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
     }
 
     $attr['opt'] = opt($data, $attr);
-    $html = !$isEmpty && $attr['viewer'] ? $attr['viewer']($val, $attr) : str\enc((string) $val);
+    $html = !$isEmpty && $attr['viewer'] ? $attr['viewer']($val, $attr) : str\enc((string)$val);
 
     if (!$cfg['wrap'] || !$html && !$cfg['empty']) {
         return $html;
@@ -187,7 +187,7 @@ function val(array $data, array $attr): mixed
 function cast(mixed $val, array $attr): mixed
 {
     $map = function (callable $call, mixed $val): array {
-        if (is_array($val) || ($val = trim((string) $val, '{}')) && ($val = explode(',', $val))) {
+        if (is_array($val) || ($val = trim((string)$val, '{}')) && ($val = explode(',', $val))) {
             return array_map($call, $val);
         }
         return [];
@@ -196,13 +196,13 @@ function cast(mixed $val, array $attr): mixed
     return match (true) {
         $attr['nullable'] && ($val === null || $val === '') => null,
         default => match ($attr['backend']) {
-            'bool' => (bool) $val,
-            'int', 'serial' => (int) $val,
-            'decimal' => (float) $val,
+            'bool' => (bool)$val,
+            'int', 'serial' => (int)$val,
+            'decimal' => (float)$val,
             'multiint' => $map('intval', $val),
             'multitext' => $map('strval', $val),
             'json' => is_array($val) || $val && ($val = json_decode($val, true)) ? $val : [],
-            default => (string) $val,
+            default => (string)$val,
         },
     };
 }
