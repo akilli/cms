@@ -169,7 +169,7 @@ function range(?int $val, array $attr): string
 function select(mixed $val, array $attr): string
 {
     $val = match (true) {
-        $val === null || $val === '' => [],
+        !attr\set($val) => [],
         is_bool($val) => [(int)$val],
         !is_array($val) => [$val],
         default => $val,

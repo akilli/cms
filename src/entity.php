@@ -110,9 +110,7 @@ function save(string $entityId, array &$data): bool
     foreach (array_intersect(array_keys($tmp), array_keys($entity['attr'])) as $attrId) {
         $attr = $entity['attr'][$attrId];
         $tmp[$attrId] = attr\cast($tmp[$attrId], $attr);
-        $ignorable = ($tmp[$attrId] === null || $tmp[$attrId] === '')
-            && $attr['required']
-            && attr\ignorable($tmp, $attr);
+        $ignorable = !attr\set($tmp[$attrId]) && $attr['required'] && attr\ignorable($tmp, $attr);
         $unchanged = array_key_exists($attrId, $tmp['_old']) && $tmp[$attrId] === $tmp['_old'][$attrId];
 
         if ($ignorable || $unchanged) {

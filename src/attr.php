@@ -85,12 +85,13 @@ function validator(array $data, array $attr): mixed
 
     $pattern = $attr['pattern'] ? '#^' . str_replace('#', '\#', $attr['pattern']) . '$#' : null;
     $vp = is_array($val) ? implode("\n", $val) : (string)$val;
+    $set = set($val);
 
-    if ($pattern && $val !== null && $val !== '' && !preg_match($pattern, $vp)) {
+    if ($pattern && $set && !preg_match($pattern, $vp)) {
         throw new DomainException(app\i18n('Value contains invalid characters'));
     }
 
-    if ($attr['required'] && ($val === null || $val === '')) {
+    if ($attr['required'] && !$set) {
         throw new DomainException(app\i18n('Value is required'));
     }
 
@@ -123,14 +124,14 @@ function viewer(array $data, array $attr, array $cfg = []): string
 {
     $cfg = arr\replace(APP['viewer'], $cfg);
     $val = $attr['type'] !== 'password' && isset($data[$attr['id']]) ? $data[$attr['id']] : null;
-    $isEmpty = $val === null || $val === '';
+    $set = set($val);
 
-    if ($isEmpty && (!$cfg['wrap'] || !$cfg['empty'])) {
+    if (!$set && (!$cfg['wrap'] || !$cfg['empty'])) {
         return '';
     }
 
     $attr['opt'] = opt($data, $attr);
-    $html = !$isEmpty && $attr['viewer'] ? $attr['viewer']($val, $attr) : str\enc((string)$val);
+    $html = $set && $attr['viewer'] ? $attr['viewer']($val, $attr) : str\enc((string)$val);
 
     if (!$cfg['wrap'] || !$html && !$cfg['empty']) {
         return $html;
@@ -194,7 +195,7 @@ function cast(mixed $val, array $attr): mixed
     };
 
     return match (true) {
-        $attr['nullable'] && ($val === null || $val === '') => null,
+        $attr['nullable'] && !set($val) => null,
         default => match ($attr['backend']) {
             'bool' => (bool)$val,
             'int', 'serial' => (int)$val,
@@ -205,6 +206,14 @@ function cast(mixed $val, array $attr): mixed
             default => (string)$val,
         },
     };
+}
+
+/**
+ * Indicates if a value is set, i.e. is neither null nor an empty string
+ */
+function set(mixed $val): bool
+{
+    return $val !== null && $val !== '';
 }
 
 /**
