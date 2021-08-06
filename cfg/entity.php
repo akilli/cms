@@ -59,9 +59,9 @@ return [
         'unique' => [['entity_id', 'name'], ['entity_id', 'thumb']],
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],
-            'name' => ['name' => 'Name', 'type' => 'file', 'required' => true, 'max' => 255],
+            'name' => ['name' => 'Name', 'type' => 'file', 'required' => true, 'unique' => true, 'max' => 255],
             'entity_id' => ['name' => 'Entity', 'type' => 'entitychild', 'required' => true],
-            'thumb' => ['name' => 'Thumbnail', 'type' => 'image', 'nullable' => true],
+            'thumb' => ['name' => 'Thumbnail', 'type' => 'image', 'nullable' => true, 'unique' => true],
             'mime' => ['name' => 'MIME-Type', 'type' => 'text', 'required' => true, 'max' => 255],
             'info' => ['name' => 'Info', 'type' => 'textarea', 'nullable' => true],
             'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
