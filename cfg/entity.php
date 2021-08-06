@@ -56,7 +56,6 @@ return [
     'file' => [
         'name' => 'Files',
         'readonly' => true,
-        'unique' => [['entity_id', 'name'], ['entity_id', 'thumb']],
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],
             'name' => ['name' => 'Name', 'type' => 'file', 'required' => true, 'unique' => true, 'max' => 255],
