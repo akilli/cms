@@ -14,12 +14,10 @@ namespace app;
         <?php echo $var('info'); ?>
     </div>
     <div class="links">
-        <?php foreach ($var('links') as $item): ?>
-            <?php if (!empty($item['current'])): ?>
+    <?php foreach ($var('links') as $item): ?><?php if (!empty($item['current'])): ?>
         <span><?php echo $item['name']; ?></span>
-            <?php else: ?>
+    <?php else: ?>
         <a href="<?php echo $item['url']; ?>"<?php if ($item['class']): ?> class="<?php echo $item['class']; ?>"<?php endif; ?>><?php echo $item['name']; ?></a>
-            <?php endif; ?>
-        <?php endforeach; ?>
+    <?php endif; ?><?php endforeach; ?>
     </div>
 </nav>
