@@ -26,7 +26,7 @@ use attr;
                 ?>
             <a<?php if ($var('sort') !== false): ?> href="<?php echo urlquery(['sort' => $sort], true); ?>"<?php if ($attr['id'] === ltrim($var('sort'), '-')): ?> data-sort="<?php echo $dir; ?>"<?php endif; ?><?php endif; ?>><?php echo $attr['name']; ?></a>
             <?php endforeach; ?>
-            <span><?php echo i18n('Actions'); ?></span>
+            <a><?php echo i18n('Actions'); ?></a>
         </div>
         <?php foreach ($var('data') as $data): ?>
             <?php
