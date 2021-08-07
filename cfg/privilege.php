@@ -11,6 +11,7 @@ return [
     'account:login' => ['use' => '_guest_'],
     'account:logout' => ['use' => '_user_'],
     'account:profile' => ['use' => '_user_'],
+    'account:view' => ['use' => '_user_'],
     'block:api' => ['use' => 'block:index'],
     'role:delete' => ['use' => '_all_'],
     'role:edit' => ['use' => '_all_'],
