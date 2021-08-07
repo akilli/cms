@@ -24,14 +24,14 @@ function datetime(string $val): string
     return attr\datetime($val, APP['datetime.backend'], app\cfg('app', 'datetime'));
 }
 
-function editor(string $val): string
-{
-    return $val;
-}
-
 function email(string $val): string
 {
     return html\element('a', ['href' => 'mailto:' . $val], $val);
+}
+
+function enc(mixed $val): string
+{
+    return str\enc((string)$val);
 }
 
 function entity(int $val, array $attr): string
@@ -113,6 +113,11 @@ function opt(mixed $val, array $attr): string
 function position(string $val): string
 {
     return preg_replace('#(^|\.)0+#', '$1', $val);
+}
+
+function raw(mixed $val): string
+{
+    return (string)$val;
 }
 
 function tel(string $val): string

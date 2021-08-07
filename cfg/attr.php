@@ -50,6 +50,7 @@ return [
     'decimal' => [
         'backend' => 'decimal',
         'frontend' => 'decimal',
+        'viewer' => 'raw',
     ],
     'document' => [
         'backend' => 'varchar',
@@ -77,7 +78,7 @@ return [
         'frontend' => 'textarea',
         'filter' => 'text',
         'validator' => 'editor',
-        'viewer' => 'editor',
+        'viewer' => 'raw',
     ],
     'email' => [
         'backend' => 'varchar',
@@ -136,6 +137,7 @@ return [
     'int' => [
         'backend' => 'int',
         'frontend' => 'int',
+        'viewer' => 'raw',
     ],
     'json' => [
         'backend' => 'json',
@@ -188,6 +190,7 @@ return [
     'range' => [
         'backend' => 'int',
         'frontend' => 'range',
+        'viewer' => 'raw',
     ],
     'select' => [
         'backend' => 'varchar',
@@ -198,6 +201,7 @@ return [
     'serial' => [
         'backend' => 'serial',
         'frontend' => 'int',
+        'viewer' => 'raw',
         'auto' => true,
     ],
     'tel' => [
@@ -210,12 +214,14 @@ return [
         'backend' => 'varchar',
         'frontend' => 'text',
         'validator' => 'text',
+        'viewer' => 'enc',
     ],
     'textarea' => [
         'backend' => 'text',
         'frontend' => 'textarea',
         'filter' => 'text',
         'validator' => 'text',
+        'viewer' => 'enc',
     ],
     'time' => [
         'backend' => 'time',
@@ -227,6 +233,7 @@ return [
         'backend' => 'varchar',
         'frontend' => 'text',
         'validator' => 'uid',
+        'viewer' => 'enc',
     ],
     'url' => [
         'backend' => 'varchar',

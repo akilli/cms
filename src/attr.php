@@ -8,7 +8,6 @@ use app;
 use arr;
 use entity;
 use html;
-use str;
 
 /**
  * Frontend
@@ -122,16 +121,14 @@ function validator(array $data, array $attr): mixed
  */
 function viewer(array $data, array $attr, array $cfg = []): string
 {
-    $cfg = arr\replace(APP['viewer'], $cfg);
-    $val = $attr['type'] !== 'password' && isset($data[$attr['id']]) ? $data[$attr['id']] : null;
-    $set = set($val);
-
-    if (!$set && (!$cfg['wrap'] || !$cfg['empty'])) {
+    if (!$attr['viewer']) {
         return '';
     }
 
+    $cfg = arr\replace(APP['viewer'], $cfg);
+    $val = $attr['type'] !== 'password' && isset($data[$attr['id']]) ? $data[$attr['id']] : null;
     $attr['opt'] = opt($data, $attr);
-    $html = $set && $attr['viewer'] ? $attr['viewer']($val, $attr) : str\enc((string)$val);
+    $html = set($val) ? $attr['viewer']($val, $attr) : '';
 
     if (!$cfg['wrap'] || !$html && !$cfg['empty']) {
         return $html;
