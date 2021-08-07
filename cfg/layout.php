@@ -62,9 +62,6 @@ return [
             'cfg' => ['attr_id' => ['image', 'username', 'password', 'email']],
         ],
     ],
-    'html:account:view' => [
-        'view' => ['cfg' => ['attr_id' => ['image', 'name']]],
-    ],
     'html:block:edit' => [
         'edit' => ['cfg' => ['attr_id' => ['name', 'content']]],
     ],

@@ -255,7 +255,6 @@ function layout(array $data, array $ext): array
     }
 
     $entities = load('entity');
-    $noViewTypes = ['json', 'multientity', 'multiint', 'multitext', 'password', 'serial'];
 
     foreach ($entities as $entity) {
         $parent = $entities[$entity['parent_id']] ?? null;
@@ -279,7 +278,7 @@ function layout(array $data, array $ext): array
                     continue;
                 } elseif ($action === 'edit' && !$attr['auto']) {
                     $cfg['attr_id'][] = $attrId;
-                } elseif ($action === 'edit' || in_array($attr['type'], $noViewTypes)) {
+                } elseif ($action === 'edit' || !$attr['autoview']) {
                     continue;
                 } elseif ($action === 'view') {
                     $cfg['attr_id'][] = $attrId;

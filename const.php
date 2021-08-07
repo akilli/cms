@@ -22,6 +22,7 @@ define('APP', [
             'unique' => false,
             'ignorable' => false,
             'uploadable' => false,
+            'autoview' => false,
             'ref' => null,
             'min' => 0,
             'max' => 0,
