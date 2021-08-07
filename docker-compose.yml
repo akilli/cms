@@ -9,8 +9,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - db:/data
       - asset:/app
+      - db:/data
       - ./db:/init/postgres
   php:
     image: akilli/php
