@@ -43,7 +43,7 @@ function block(string $html): string
 {
     $pattern = '#<app-block id="%s-%s"(?:[^>]*)>\s*</app-block>#s';
 
-    if (preg_match_all(sprintf($pattern, '([a-z_]+)', '(\d+)'), $html, $match)) {
+    if (preg_match_all(sprintf($pattern, '([a-z_\.]+)', '(\d+)'), $html, $match)) {
         $data = [];
 
         foreach ($match[1] as $key => $entityId) {

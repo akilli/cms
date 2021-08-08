@@ -43,12 +43,12 @@ function data_app(array $data): array
         $data['action'] = 'view';
         $data['id'] = $data['page']['id'];
         $data['entity'] = $data['page']['_entity'];
-    } elseif (preg_match('#^/([a-z_]+)(?:|/([^/\.]+))\.json$#u', $url, $match)) {
+    } elseif (preg_match('#^/([a-z_\.]+)(?:|/([^/\.]+))\.json$#u', $url, $match)) {
         $data['type'] = 'json';
         $data['entity_id'] = $match[1];
         $data['action'] = isset($match[2]) ? 'view' : 'index';
         $data['id'] = $match[2] ?? null;
-    } elseif (preg_match('#^/([a-z_]+)/([a-z_]+)(?:|/([^/\.]+))$#u', $url, $match)) {
+    } elseif (preg_match('#^/([a-z_\.]+)/([a-z_]+)(?:|/([^/\.]+))$#u', $url, $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['id'] = $match[3] ?? null;
@@ -414,7 +414,7 @@ function response_html_block_api(array $data): array
     $id = app\data('app', 'id');
     $data['body'] = '';
 
-    if (preg_match('#^([a-z_]+)-(\d+)$#', $id, $match)) {
+    if (preg_match('#^([a-z_\.]+)-(\d+)$#', $id, $match)) {
         $data['body'] = layout\render_entity($match[1], (int)$match[2]);
     }
 
