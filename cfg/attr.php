@@ -8,7 +8,6 @@ return [
         'viewer' => 'audio',
         'ignorable' => true,
         'uploadable' => true,
-        'autoview' => true,
         'accept' => [
             'audio/aac',
             'audio/flac',
@@ -61,7 +60,6 @@ return [
         'viewer' => 'file',
         'ignorable' => true,
         'uploadable' => true,
-        'autoview' => true,
         'accept' => [
             'application/msword',
             'application/pdf',
@@ -81,7 +79,6 @@ return [
         'filter' => 'text',
         'validator' => 'editor',
         'viewer' => 'raw',
-        'autoview' => true,
     ],
     'email' => [
         'backend' => 'varchar',
@@ -111,7 +108,6 @@ return [
         'validator' => 'entity',
         'viewer' => 'file',
         'opt' => 'entity',
-        'autoview' => true,
     ],
     'file' => [
         'backend' => 'varchar',
@@ -121,14 +117,12 @@ return [
         'viewer' => 'file',
         'ignorable' => true,
         'uploadable' => true,
-        'autoview' => true,
     ],
     'iframe' => [
         'backend' => 'varchar',
         'frontend' => 'url',
         'validator' => 'url',
         'viewer' => 'iframe',
-        'autoview' => true,
     ],
     'image' => [
         'backend' => 'varchar',
@@ -138,7 +132,6 @@ return [
         'viewer' => 'image',
         'ignorable' => true,
         'uploadable' => true,
-        'autoview' => true,
         'accept' => ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'],
     ],
     'int' => [
@@ -222,7 +215,6 @@ return [
         'frontend' => 'text',
         'validator' => 'text',
         'viewer' => 'enc',
-        'autoview' => true,
     ],
     'textarea' => [
         'backend' => 'text',
@@ -230,7 +222,6 @@ return [
         'filter' => 'text',
         'validator' => 'text',
         'viewer' => 'enc',
-        'autoview' => true,
     ],
     'time' => [
         'backend' => 'time',
@@ -258,7 +249,6 @@ return [
         'viewer' => 'video',
         'ignorable' => true,
         'uploadable' => true,
-        'autoview' => true,
         'accept' => ['video/mp4', 'video/ogg', 'video/webm'],
     ],
 ];

@@ -278,16 +278,14 @@ function layout(array $data, array $ext): array
                     continue;
                 } elseif ($action === 'edit' && !$attr['auto']) {
                     $cfg['attr_id'][] = $attrId;
-                } elseif ($action === 'edit' || !$attr['autoview']) {
-                    continue;
-                } elseif ($action === 'view') {
+                } elseif ($action === 'view' && in_array($attr['type'], APP['attr.view'])) {
                     $cfg['attr_id'][] = $attrId;
-                } elseif ($action === 'index' && !$attr['nullable']) {
+                } elseif ($action === 'index' && !$attr['auto'] && !$attr['nullable']) {
                     $cfg['attr_id'][] = $attrId;
 
-                    if ($attr['opt'] || in_array($attr['backend'], ['bool', 'datetime', 'date', 'time'])) {
+                    if ($attr['opt'] || in_array($attr['backend'], APP['backend.filter'])) {
                         $cfg['filter'][] = $attrId;
-                    } elseif($attr['backend'] === 'varchar') {
+                    } elseif(in_array($attr['backend'], APP['backend.search'])) {
                         $cfg['search'][] = $attrId;
                     }
                 }

@@ -5,6 +5,20 @@ declare(strict_types=1);
  * Application constants
  */
 define('APP', [
+    'attr.view' => [
+        'audio',
+        'document',
+        'editor',
+        'entityfile',
+        'file',
+        'iframe',
+        'image',
+        'text',
+        'textarea',
+        'video',
+    ],
+    'backend.filter' => ['bool', 'datetime', 'date', 'time'],
+    'backend.search' => ['varchar'],
     'cfg' => [
         'attr' => [
             'id' => null,
@@ -22,7 +36,6 @@ define('APP', [
             'unique' => false,
             'ignorable' => false,
             'uploadable' => false,
-            'autoview' => false,
             'ref' => null,
             'min' => 0,
             'max' => 0,
