@@ -11,7 +11,7 @@ return [
     'filter' => [
         'call' => 'block\filter',
         'tpl' => 'filter.phtml',
-        'cfg' => ['attr' => [], 'data' => [], 'q' => null, 'search' => false],
+        'cfg' => ['attr' => [], 'data' => [], 'q' => null, 'searchable' => false],
     ],
     'html' => ['call' => 'block\html'],
     'index' => [
@@ -28,7 +28,7 @@ return [
             'pager' => null,
             'parent_id' => null,
             'search' => [],
-            'sort' => false,
+            'sortable' => false,
             'title' => null,
         ],
     ],

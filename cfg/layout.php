@@ -62,12 +62,6 @@ return [
             'cfg' => ['attr_id' => ['image', 'username', 'password', 'email']],
         ],
     ],
-    'html:block:edit' => [
-        'edit' => ['cfg' => ['attr_id' => ['name', 'content']]],
-    ],
-    'html:block:index' => [
-        'index' => ['cfg' => ['attr_id' => ['name', 'created']]],
-    ],
     'html:edit' => [
         'edit' => ['type' => 'edit', 'parent_id' => 'content', 'sort' => 300],
     ],
@@ -75,7 +69,7 @@ return [
         'edit' => ['cfg' => ['attr_id' => ['name', 'thumb', 'info']]],
     ],
     'html:file:index' => [
-        'index' => ['cfg' => ['attr_id' => ['name', 'created'], 'search' => ['name', 'info']]],
+        'index' => ['cfg' => ['attr_id' => ['name', 'created'], 'filter' => ['created'], 'search' => ['name', 'info']]],
     ],
     'html:index' => [
         'new' => ['type' => 'tpl', 'tpl' => 'new.phtml', 'parent_id' => 'content', 'sort' => 300],
@@ -84,7 +78,7 @@ return [
             'tpl' => 'index-admin.phtml',
             'parent_id' => 'content',
             'sort' => 400,
-            'cfg' => ['pager' => 'bottom', 'search' => ['name'], 'sort' => true],
+            'cfg' => ['pager' => 'bottom', 'sortable' => true],
         ],
     ],
     'html:page:edit' => [
@@ -112,6 +106,7 @@ return [
             'cfg' => [
                 'attr_id' => ['name', 'position', 'parent_id', 'menu', 'created'],
                 'filter' => ['parent_id', 'account_id'],
+                'search' => ['name'],
             ],
         ],
     ],

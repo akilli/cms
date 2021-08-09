@@ -10,7 +10,7 @@ use attr;
             <?php echo attr\filter($var('data'), $attr); ?>
         </div>
         <?php endforeach; ?>
-        <?php if ($var('search')): ?>
+        <?php if ($var('searchable')): ?>
         <div data-attr="q" data-type="search">
             <label for="q"><?php echo i18n('Search'); ?></label>
             <input id="q" type="search" name="q" value="<?php echo $var('q'); ?>" placeholder="<?php echo i18n('Search Term'); ?>"/>

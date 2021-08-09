@@ -5,6 +5,23 @@ declare(strict_types=1);
  * Application constants
  */
 define('APP', [
+    'attr.index' => [
+        'bool',
+        'date',
+        'datetime',
+        'decimal',
+        'email',
+        'entity',
+        'int',
+        'position',
+        'radio',
+        'range',
+        'select',
+        'tel',
+        'text',
+        'time',
+        'url',
+    ],
     'attr.view' => [
         'audio',
         'document',

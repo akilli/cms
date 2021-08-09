@@ -80,7 +80,7 @@ function edit(array $block): string
 
 function filter(array $block): string
 {
-    if (!$block['cfg']['attr'] && !$block['cfg']['search']) {
+    if (!$block['cfg']['attr'] && !$block['cfg']['searchable']) {
         return '';
     }
 
@@ -88,7 +88,7 @@ function filter(array $block): string
         'attr' => $block['cfg']['attr'],
         'data' => $block['cfg']['data'],
         'q' => $block['cfg']['q'],
-        'search' => $block['cfg']['search']
+        'searchable' => $block['cfg']['searchable']
     ]);
 }
 
@@ -121,7 +121,7 @@ function index(array $block): string
     $order = $block['cfg']['order'];
     $get = arr\replace(['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], $request['get']);
     $filter = null;
-    $sort = $block['cfg']['sort'] ? null : false;
+    $sort = null;
     $pager = null;
     $limit = $block['cfg']['limits'][0];
     $offset = 0;
@@ -140,7 +140,7 @@ function index(array $block): string
         }
     }
 
-    if ($block['cfg']['sort']
+    if ($block['cfg']['sortable']
         && $get['sort']
         && preg_match('#^(-)?([a-z0-9_\-]+)$#', $get['sort'], $match)
         && !empty($attrs[$match[2]])
@@ -191,7 +191,7 @@ function index(array $block): string
                 'attr' => $fa,
                 'data' => arr\replace(entity\item($entity['id']), $get['filter']),
                 'q' => $get['q'],
-                'search' => !!$block['cfg']['search'],
+                'searchable' => !!$block['cfg']['search'],
             ],
         ]));
     }
@@ -216,6 +216,7 @@ function index(array $block): string
         'pager-bottom' => in_array($block['cfg']['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($block['cfg']['pager'], ['both', 'top']) ? $pager : null,
         'sort' => $sort,
+        'sortable' => $block['cfg']['sortable'],
         'title' => $block['cfg']['title'] ? str\enc(app\i18n($block['cfg']['title'])) : null,
     ]);
 }

@@ -24,7 +24,7 @@ use attr;
                 $sort = ($attr['id'] === $var('sort') ? '-' : '') . $attr['id'];
                 $dir = $var('sort') && $var('sort')[0] === '-' ? 'desc' : 'asc';
                 ?>
-            <a<?php if ($var('sort') !== false): ?> href="<?php echo urlquery(['sort' => $sort], true); ?>"<?php if ($attr['id'] === ltrim($var('sort'), '-')): ?> data-sort="<?php echo $dir; ?>"<?php endif; ?><?php endif; ?>><?php echo $attr['name']; ?></a>
+            <a<?php if ($var('sortable')): ?> href="<?php echo urlquery(['sort' => $sort], true); ?>"<?php if ($attr['id'] === ltrim($var('sort'), '-')): ?> data-sort="<?php echo $dir; ?>"<?php endif; ?><?php endif; ?>><?php echo $attr['name']; ?></a>
             <?php endforeach; ?>
             <a><?php echo i18n('Actions'); ?></a>
         </div>
@@ -34,8 +34,9 @@ use attr;
             $entityId = $entity && $entity['parent_id'] === $data['_entity']['id'] ? $entity['id'] : $data['_entity']['id'];
             $id = ($entity && $entity['parent_id'] === 'block' ? $entity['id'] . '-' : '') . $data['id'];
             $src = $entity && $entity['parent_id'] === 'file' ? $data['name'] : null;
+            $name = $data['name'] ?? $data['id'];
             ?>
-        <article data-id="<?php echo $id; ?>" data-name="<?php echo $data['name']; ?>" title="<?php echo i18n('Select item'); ?>"<?php if ($src): ?> data-src="<?php echo $src; ?>"<?php endif; ?>>
+        <article data-id="<?php echo $id; ?>" data-name="<?php echo $name; ?>" title="<?php echo i18n('Select item'); ?>"<?php if ($src): ?> data-src="<?php echo $src; ?>"<?php endif; ?>>
             <?php foreach ($var('attr') as $attr): ?>
             <?php echo attr\viewer($data, $attr, ['empty' => true, 'label' => true, 'subheading' => true, 'wrap' => true]); ?>
             <?php endforeach; ?>

@@ -28,17 +28,25 @@ function bool(): array
 function entity(array $data, array $attr): array
 {
     if (($opt = &app\registry('opt')['entity'][$attr['ref']]) === null) {
-        if ($attr['ref'] === 'page' || app\cfg('entity', $attr['ref'])['parent_id'] === 'page') {
-            $all = entity\all($attr['ref'], select: ['id', 'name', 'position'], order: ['position' => 'asc']);
+        $entity = $data['_entity']['id'] === $attr['ref'] ? $data['_entity'] : app\cfg('entity', $attr['ref']);
+
+        if (in_array('page', [$entity['id'], $entity['parent_id']])) {
+            $all = entity\all($entity['id'], select: ['id', 'name', 'position'], order: ['position' => 'asc']);
             $opt = [];
 
             foreach ($all as $item) {
                 $opt[$item['id']] = attr\viewer($item, $item['_entity']['attr']['position']) . ' ' . $item['name'];
             }
+        } elseif (!empty($entity['attr']['name'])) {
+            $opt = array_column(
+                entity\all($entity['id'], select: ['id', 'name'], order: ['name' => 'asc']),
+                'name',
+                'id'
+            );
         } else {
             $opt = array_column(
-                entity\all($attr['ref'], select: ['id', 'name'], order: ['name' => 'asc']),
-                'name',
+                entity\all($entity['id'], select: ['id'], order: ['id' => 'asc']),
+                'id',
                 'id'
             );
         }

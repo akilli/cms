@@ -36,7 +36,9 @@ function enc(mixed $val): string
 
 function entity(int $val, array $attr): string
 {
-    return entity\one($attr['ref'], crit: [['id', $val]], select: ['name'])['name'];
+    $hasName = !empty(app\cfg('entity', $attr['ref'])['attr']['name']);
+
+    return $hasName ? entity\one($attr['ref'], crit: [['id', $val]], select: ['name'])['name'] : (string)$val;
 }
 
 function file(string|int $val, array $attr): string
@@ -92,7 +94,12 @@ function json(array $val): string
 
 function multientity(array $val, array $attr): string
 {
-    return implode(', ', array_column(entity\all($attr['ref'], crit: [['id', $val]], select: ['name']), 'name'));
+    $hasName = !empty(app\cfg('entity', $attr['ref'])['attr']['name']);
+
+    return implode(
+        ', ',
+        $hasName ? array_column(entity\all($attr['ref'], crit: [['id', $val]], select: ['name']), 'name') : $val
+    );
 }
 
 function opt(mixed $val, array $attr): string

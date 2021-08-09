@@ -144,20 +144,20 @@ function viewer(array $data, array $attr, array $cfg = []): string
         $html = html\element('label', [], $attr['name']) . $html;
     }
 
-    if (in_array($attr['id'], ['name', 'title'])) {
-        return html\element($cfg['subheading'] ? 'h3' : 'h2', $a, $html);
-    }
-
-    if ($attr['id'] === 'aside') {
-        return html\element('aside', $a, $html);
-    }
-
     if (preg_match('#<(audio|iframe|img|video)#', $html, $match)) {
         return html\element('figure', $a + (['class' => $match[1] === 'img' ? 'image' : $match[1]]), $html);
     }
 
     if (in_array($attr['type'], ['date', 'datetime', 'time'])) {
         return html\element('time', $a + ($val !== $html ? ['datetime' => $val] : []), $html);
+    }
+
+    if (in_array($attr['id'], ['name', 'title'])) {
+        return html\element($cfg['subheading'] ? 'h3' : 'h2', $a, $html);
+    }
+
+    if ($attr['id'] === 'aside') {
+        return html\element('aside', $a, $html);
     }
 
     return html\element('div', $a, $html);

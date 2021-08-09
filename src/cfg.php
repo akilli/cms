@@ -168,7 +168,7 @@ function entity(array $data, array $ext): array
             || !$entity['db']
             || !$entity['type'] && !($entity['type'] = $dbCfg[$entity['db']]['type'] ?? null)
             || $entity['parent_id'] && (!$parent || $parent['parent_id'])
-            || !$entity['parent_id'] && !arr\has($entity['attr'], ['id', 'name'], true)
+            || !$entity['parent_id'] && empty($entity['attr']['id'])
             || $entity['unique'] !== array_filter($entity['unique'], 'is_array')
         ) {
             throw new DomainException(app\i18n('Invalid configuration'));
@@ -257,21 +257,19 @@ function layout(array $data, array $ext): array
     $entities = load('entity');
 
     foreach ($entities as $entity) {
-        $parent = $entities[$entity['parent_id']] ?? null;
-
-        // Do not generate layout for child entities unless they have custom attributes in order to use inherited config
-        if ($entity['parent_id'] && array_keys($entity['attr']) === array_keys($parent['attr'])) {
-            continue;
-        }
+        // Child entities are skippable unless they have custom attributes in order to use inherited config
+        $parent = $entity['parent_id'] ? $entities[$entity['parent_id']] : null;
+        $skippable = $parent && array_keys($entity['attr']) === array_keys($parent['attr']);
 
         foreach (['edit', 'index', 'view'] as $action) {
+            $cfg = [];
             $id = app\id('html', $entity['id'], $action);
+            $parentId = $skippable ? app\id('html', $parent['id'], $action) : null;
 
-            if (!in_array($action, $entity['action']) || !empty($data[$id])) {
+            // Only generate layout for configured actions which have no layout configured or inherited
+            if (!in_array($action, $entity['action']) || !empty($data[$id]) || $parentId && !empty($data[$parentId])) {
                 continue;
             }
-
-            $cfg = [];
 
             foreach ($entity['attr'] as $attrId => $attr) {
                 if ($attr['type'] === 'entitychild') {
@@ -280,7 +278,7 @@ function layout(array $data, array $ext): array
                     $cfg['attr_id'][] = $attrId;
                 } elseif ($action === 'view' && in_array($attr['type'], APP['attr.view'])) {
                     $cfg['attr_id'][] = $attrId;
-                } elseif ($action === 'index' && !$attr['auto'] && !$attr['nullable']) {
+                } elseif ($action === 'index' && !$attr['nullable'] && in_array($attr['type'], APP['attr.index'])) {
                     $cfg['attr_id'][] = $attrId;
 
                     if ($attr['opt'] || in_array($attr['backend'], APP['backend.filter'])) {
