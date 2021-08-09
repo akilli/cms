@@ -59,9 +59,9 @@ CREATE INDEX ON file (created);
 
 CREATE TABLE page (
     id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
+    name varchar(100) NOT NULL,
     entity_id varchar(50) NOT NULL,
-    title varchar(255) DEFAULT null,
+    title varchar(100) DEFAULT null,
     content text DEFAULT null,
     aside text DEFAULT null,
     meta_title varchar(80) DEFAULT null,
@@ -96,7 +96,7 @@ CREATE INDEX ON page (created);
 
 CREATE TABLE block (
     id serial PRIMARY KEY,
-    name varchar(255) NOT NULL,
+    name varchar(100) NOT NULL,
     entity_id varchar(50) NOT NULL,
     content text DEFAULT null,
     created timestamp(0) NOT NULL DEFAULT current_timestamp

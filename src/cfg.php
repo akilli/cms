@@ -164,7 +164,9 @@ function entity(array $data, array $ext): array
         $entity = arr\replace(APP['cfg']['entity'], $entity, ['id' => $entityId]);
         $parent = $data[$entity['parent_id']] ?? null;
 
-        if (!$entity['name']
+        if (!$entityId
+            || mb_strlen($entityId) > APP['entity_id.max']
+            || !$entity['name']
             || !$entity['db']
             || !$entity['type'] && !($entity['type'] = $dbCfg[$entity['db']]['type'] ?? null)
             || $entity['parent_id'] && (!$parent || $parent['parent_id'])

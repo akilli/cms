@@ -111,6 +111,7 @@ define('APP', [
     'date.frontend' => 'Y-m-d',
     'datetime.backend' => 'Y-m-d H:i:s',
     'datetime.frontend' => 'Y-m-d\TH:i',
+    'entity_id.max' => 50,
     'html.tags' => implode('', [
         '<a>',
         '<abbr>',
