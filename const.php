@@ -22,6 +22,7 @@ define('APP', [
             'unique' => false,
             'ignorable' => false,
             'uploadable' => false,
+            'editable' => false,
             'filterable' => false,
             'searchable' => false,
             'indexable' => false,

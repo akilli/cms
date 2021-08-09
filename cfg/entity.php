@@ -21,6 +21,7 @@ return [
         'action' => ['delete', 'edit', 'index'],
         'attr' => [
             'name' => ['type' => 'audio'],
+            'entity_id' => ['editable' => false, 'indexable' => false],
         ],
     ],
     'block' => [
@@ -39,11 +40,17 @@ return [
         'name' => 'Content Blocks',
         'parent_id' => 'block',
         'action' => ['delete', 'edit', 'index'],
+        'attr' => [
+            'entity_id' => ['editable' => false, 'indexable' => false],
+        ],
     ],
     'contentpage' => [
         'name' => 'Content Pages',
         'parent_id' => 'page',
         'action' => ['delete', 'edit', 'index', 'view'],
+        'attr' => [
+            'entity_id' => ['editable' => false, 'indexable' => false],
+        ],
     ],
     'document' => [
         'name' => 'Documents',
@@ -51,6 +58,7 @@ return [
         'action' => ['delete', 'edit', 'index'],
         'attr' => [
             'name' => ['type' => 'document'],
+            'entity_id' => ['editable' => false, 'indexable' => false],
         ],
     ],
     'file' => [
@@ -58,10 +66,17 @@ return [
         'readonly' => true,
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],
-            'name' => ['name' => 'Name', 'type' => 'file', 'required' => true, 'unique' => true, 'max' => 255],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'file',
+                'required' => true,
+                'unique' => true,
+                'indexable' => true,
+                'max' => 255,
+            ],
             'entity_id' => ['name' => 'Entity', 'type' => 'entitychild', 'required' => true],
             'thumb' => ['name' => 'Thumbnail', 'type' => 'image', 'nullable' => true, 'unique' => true],
-            'mime' => ['name' => 'MIME-Type', 'type' => 'text', 'required' => true, 'max' => 255],
+            'mime' => ['name' => 'MIME-Type', 'type' => 'text', 'required' => true, 'editable' => false, 'max' => 255],
             'info' => ['name' => 'Info', 'type' => 'textarea', 'nullable' => true],
             'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],
@@ -72,6 +87,7 @@ return [
         'action' => ['delete', 'edit', 'index'],
         'attr' => [
             'name' => ['name' => 'URL', 'type' => 'iframe'],
+            'entity_id' => ['editable' => false, 'indexable' => false],
         ],
     ],
     'image' => [
@@ -80,6 +96,7 @@ return [
         'action' => ['delete', 'edit', 'index'],
         'attr' => [
             'name' => ['type' => 'image'],
+            'entity_id' => ['editable' => false, 'indexable' => false],
         ],
     ],
     'layout' => [
@@ -91,7 +108,13 @@ return [
             'entity_id' => ['name' => 'Entity', 'type' => 'text', 'auto' => true],
             'block_id' => ['name' => 'Block', 'type' => 'entity', 'required' => true, 'ref' => 'block'],
             'page_id' => ['name' => 'Page', 'type' => 'entity', 'required' => true, 'ref' => 'page'],
-            'parent_id' => ['name' => 'Parent Block', 'type' => 'select', 'opt' => 'block', 'required' => true, 'max' => 100],
+            'parent_id' => [
+                'name' => 'Parent Block',
+                'type' => 'select',
+                'opt' => 'block',
+                'required' => true,
+                'max' => 100,
+            ],
             'sort' => ['name' => 'Sort', 'type' => 'int'],
             'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],
@@ -139,6 +162,7 @@ return [
         'action' => ['delete', 'edit', 'index'],
         'attr' => [
             'name' => ['type' => 'video'],
+            'entity_id' => ['editable' => false, 'indexable' => false],
         ],
     ],
 ];

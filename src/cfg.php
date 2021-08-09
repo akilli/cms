@@ -272,9 +272,7 @@ function layout(array $data, array $ext): array
             }
 
             foreach ($entity['attr'] as $attrId => $attr) {
-                if ($attr['type'] === 'entitychild') {
-                    continue;
-                } elseif ($action === 'edit' && !$attr['auto']) {
+                if ($action === 'edit' && $attr['editable'] && !$attr['auto']) {
                     $cfg['attr_id'][] = $attrId;
                 } elseif ($action === 'view' && $attr['viewable']) {
                     $cfg['attr_id'][] = $attrId;

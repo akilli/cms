@@ -65,12 +65,6 @@ return [
     'html:edit' => [
         'edit' => ['type' => 'edit', 'parent_id' => 'content', 'sort' => 300],
     ],
-    'html:file:edit' => [
-        'edit' => ['cfg' => ['attr_id' => ['name', 'thumb', 'info']]],
-    ],
-    'html:file:index' => [
-        'index' => ['cfg' => ['attr_id' => ['name', 'created'], 'filter' => ['created'], 'search' => ['name', 'info']]],
-    ],
     'html:index' => [
         'new' => ['type' => 'tpl', 'tpl' => 'new.phtml', 'parent_id' => 'content', 'sort' => 300],
         'index' => [
