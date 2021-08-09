@@ -169,7 +169,7 @@ function entity(array $data, array $ext): array
             || !$entity['type'] && !($entity['type'] = $dbCfg[$entity['db']]['type'] ?? null)
             || $entity['parent_id'] && (!$parent || $parent['parent_id'])
             || !$entity['parent_id'] && empty($entity['attr']['id'])
-            || $entity['unique'] !== array_filter($entity['unique'], 'is_array')
+            || $entity['unique'] !== array_filter($entity['unique'], fn(array $keys) => arr\has($entity['attr'], $keys))
         ) {
             throw new DomainException(app\i18n('Invalid configuration'));
         }
