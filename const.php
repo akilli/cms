@@ -5,37 +5,6 @@ declare(strict_types=1);
  * Application constants
  */
 define('APP', [
-    'attr.index' => [
-        'bool',
-        'date',
-        'datetime',
-        'decimal',
-        'email',
-        'entity',
-        'int',
-        'position',
-        'radio',
-        'range',
-        'select',
-        'tel',
-        'text',
-        'time',
-        'url',
-    ],
-    'attr.view' => [
-        'audio',
-        'document',
-        'editor',
-        'entityfile',
-        'file',
-        'iframe',
-        'image',
-        'text',
-        'textarea',
-        'video',
-    ],
-    'backend.filter' => ['bool', 'datetime', 'date', 'time'],
-    'backend.search' => ['varchar'],
     'cfg' => [
         'attr' => [
             'id' => null,
@@ -53,6 +22,10 @@ define('APP', [
             'unique' => false,
             'ignorable' => false,
             'uploadable' => false,
+            'filterable' => false,
+            'searchable' => false,
+            'indexable' => false,
+            'viewable' => false,
             'ref' => null,
             'min' => 0,
             'max' => 0,
