@@ -588,8 +588,8 @@ $$ LANGUAGE plpgsql;
 --
 
 CREATE TRIGGER
-    page_menu_before BEFORE
-INSERT OR UPDATE ON
+    page_menu_before
+BEFORE INSERT OR UPDATE ON
     page
 FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE
     page_menu_before();
@@ -606,8 +606,8 @@ FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE
 --
 
 CREATE TRIGGER
-    layout_save BEFORE
-INSERT OR UPDATE ON
+    layout_save
+BEFORE INSERT OR UPDATE ON
     layout
 FOR EACH ROW EXECUTE PROCEDURE
     layout_save();
