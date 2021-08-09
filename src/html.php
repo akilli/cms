@@ -6,7 +6,7 @@ namespace html;
 /**
  * Generates an HTML-element
  */
-function element(string $tag, array $attrs = [], string $val = null): string
+function element(string $tag, array $attrs = [], string|int|float $val = null): string
 {
     return '<' . $tag . attr($attrs) . (in_array($tag, APP['html.void']) ? '/>' : '>' . $val . '</' . $tag . '>');
 }
