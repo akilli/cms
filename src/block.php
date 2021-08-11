@@ -53,8 +53,9 @@ function container(array $block): string
 function edit(array $block): string
 {
     $app = app\data('app');
+    $entity = $app['entity'];
 
-    if (!($entity = $app['entity']) || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
+    if (!$entity || !$app['action'] || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
 
@@ -64,7 +65,7 @@ function edit(array $block): string
         }
 
         if (entity\save($entity['id'], $data)) {
-            request\redirect(app\actionurl($entity['id'], 'edit', $data['id']));
+            request\redirect(app\actionurl($entity['id'], $app['action'], $data['id']));
             return '';
         }
     }
