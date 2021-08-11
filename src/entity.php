@@ -193,7 +193,7 @@ function save_all(string $entityId, array &$data): bool
     $success = true;
 
     foreach ($data as &$item) {
-        $success = $success && save($entityId, $item);
+        $success = save($entityId, $item) && $success;
     }
 
     return $success;
