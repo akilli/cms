@@ -198,6 +198,7 @@ function cast(mixed $val, array $attr): mixed
             'bool' => (bool)$val,
             'int', 'serial' => (int)$val,
             'decimal' => (float)$val,
+            'datetime' => preg_replace('#^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})$#', '$1 $2:00', (string)$val),
             'multiint' => $map('intval', $val),
             'multitext' => $map('strval', $val),
             'json' => is_array($val) || $val && ($val = json_decode($val, true)) ? $val : [],
