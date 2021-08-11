@@ -253,13 +253,3 @@ function html(array $attr, string $key = null, string|int $subkey = null): array
 
     return $html;
 }
-
-/**
- * Converts a date, time or datetime from one to another format
- */
-function datetime(?string $val, string $in, string $out): string
-{
-    $val = $val ? date_create_from_format($in, $val) : date_create();
-
-    return $val && ($val = date_format($val, $out)) ? $val : '';
-}

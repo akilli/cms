@@ -5,7 +5,6 @@ namespace validator;
 
 use DomainException;
 use app;
-use attr;
 use entity;
 use str;
 
@@ -14,7 +13,7 @@ use str;
  */
 function date(string $val): string
 {
-    if (!$val = attr\datetime($val, APP['date.frontend'], APP['date.backend'])) {
+    if (!$val = date_format(date_create($val), APP['date.backend'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -26,7 +25,7 @@ function date(string $val): string
  */
 function datetime(string $val): string
 {
-    if (!$val = attr\datetime($val, APP['datetime.frontend'], APP['datetime.backend'])) {
+    if (!$val = date_format(date_create($val), APP['datetime.backend'])) {
          throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -111,7 +110,7 @@ function text(string $val): string
  */
 function time(string $val): string
 {
-    if (!$val = attr\datetime($val, APP['time.frontend'], APP['time.backend'])) {
+    if (!$val = date_format(date_create($val), APP['time.backend'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 

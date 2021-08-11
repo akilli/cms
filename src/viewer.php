@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace viewer;
 
 use app;
-use attr;
 use entity;
 use html;
 use str;
@@ -16,12 +15,12 @@ function audio(string $val): string
 
 function date(string $val): string
 {
-    return attr\datetime($val, APP['date.backend'], app\cfg('app', 'date'));
+    return date_format(date_create($val), app\cfg('app', 'date'));
 }
 
 function datetime(string $val): string
 {
-    return attr\datetime($val, APP['datetime.backend'], app\cfg('app', 'datetime'));
+    return date_format(date_create($val), app\cfg('app', 'datetime'));
 }
 
 function email(string $val): string
@@ -134,7 +133,7 @@ function tel(string $val): string
 
 function time(string $val): string
 {
-    return attr\datetime($val, APP['time.backend'], app\cfg('app', 'time'));
+    return date_format(date_create($val), app\cfg('app', 'time'));
 }
 
 function url(string $val): string
