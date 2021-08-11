@@ -16,13 +16,13 @@ function redirect(string $url = '/'): void
 }
 
 /**
- * Filters request parameters
+ * Filters GET parameters
  */
-function filter(array $data): array
+function getfilter(array $data): array
 {
     foreach ($data as $key => $val) {
         if (is_array($val)) {
-            $data[$key] = filter($val);
+            $data[$key] = getfilter($val);
             continue;
         }
 
@@ -30,12 +30,38 @@ function filter(array $data): array
 
         if (is_numeric($val)) {
             $data[$key] += 0;
-        } elseif (!is_string($val) || !($data[$key] = trim(preg_replace('#[^\w \-:]#u', '', $val)))) {
+        } elseif (!is_string($val) || !($val = trim(preg_replace('#[^\w \-:]#u', '', $val)))) {
             unset($data[$key]);
+        } else {
+            $data[$key] = datetimefilter($val);
         }
     }
 
     return $data;
+}
+
+/**
+ * Filters POST parameters
+ */
+function postfilter(array $data): array
+{
+    foreach ($data as $key => $val) {
+        if (is_array($val)) {
+            $data[$key] = postfilter($val);
+        } elseif (is_string($val) && $val) {
+            $data[$key] = datetimefilter($val);
+        }
+    }
+
+    return $data;
+}
+
+/**
+ * Filters date and time values
+ */
+function datetimefilter(string $val): string
+{
+    return preg_replace(['#^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})$#', '#^(\d{2}:\d{2})$#'], ['$1 $2:00', '$1:00'], $val);
 }
 
 /**

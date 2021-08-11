@@ -125,13 +125,13 @@ function data_request(array $data): array
     $data['base'] = $data['proto'] . '://' . $data['host'];
     $data['url'] = str\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
     $data['full'] = $data['base'] . rtrim($data['url'], '/');
-    $data['get'] = request\filter($_GET);
+    $data['get'] = request\getfilter($_GET);
 
     if (!empty($_POST['token'])) {
         if (session\get('token') === $_POST['token']) {
             unset($_POST['token']);
             $data['file'] = array_filter(array_map('request\normalize', $_FILES));
-            $data['post'] = array_replace_recursive($_POST, request\convert($data['file']));
+            $data['post'] = array_replace_recursive(request\postfilter($_POST), request\convert($data['file']));
         }
 
         session\delete('token');

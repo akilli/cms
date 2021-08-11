@@ -162,19 +162,6 @@ function index(array $block): string
                 'datetime' => $get['filter'][$attrId] ? APP['op']['^'] : APP['op']['='],
                 default => APP['op']['='],
             };
-
-            if ($get['filter'][$attrId] && in_array($attr['backend'], ['datetime', 'date', 'time'])) {
-                $get['filter'][$attrId] = match ($attr['backend']) {
-                    'datetime' => attr\datetime(
-                        $get['filter'][$attrId],
-                        APP['datetime.frontend'],
-                        APP['datetime.backend']
-                    ),
-                    'date' => attr\datetime($get['filter'][$attrId], APP['date.frontend'], APP['date.backend']),
-                    'time' => attr\datetime($get['filter'][$attrId], APP['time.frontend'], APP['time.backend']),
-                };
-            }
-
             $crit[] = [$attrId, $get['filter'][$attrId], $op];
         }
 
