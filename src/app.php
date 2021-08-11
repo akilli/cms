@@ -182,8 +182,8 @@ function msg(string $msg = null): array
         return $old;
     }
 
-    if ($msg && !in_array($msg, $data)) {
-        $data[] = $msg;
+    if ($msg) {
+        $data[$msg] = ($data[$msg] ?? 0) + 1;
     }
 
     return $data;
