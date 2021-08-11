@@ -12,11 +12,12 @@ use html;
 /**
  * Frontend
  */
-function frontend(array $data, array $attr): string
+function frontend(array $data, array $attr, array $cfg = []): string
 {
+    $cfg = arr\replace(APP['attr.frontend'], $cfg);
     $val = val($data, $attr);
     $attr['opt'] = opt($data, $attr);
-    $attr['html'] = html($attr);
+    $attr['html'] = html($attr, $cfg['key'], $cfg['subkey']);
     $div = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
 
     if (in_array($attr['backend'], ['multiint', 'multitext'])) {
@@ -37,14 +38,14 @@ function frontend(array $data, array $attr): string
         return '';
     }
 
-    $out = html\element('label', ['for' => $attr['html']['id']], $attr['name']) . $frontend;
+    $out = ($cfg['label'] ? html\element('label', ['for' => $attr['html']['id']], $attr['name']) : '') . $frontend;
 
     if (!empty($data['_error'][$attr['id']])) {
         $div['data-invalid'] = true;
         $out .= html\element('div', ['class' => 'error'], implode('<br />', $data['_error'][$attr['id']]));
     }
 
-    return html\element('div', $div, $out);
+    return $cfg['wrap'] ? html\element('div', $div, $out) : $out;
 }
 
 /**
@@ -125,7 +126,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
         return '';
     }
 
-    $cfg = arr\replace(APP['viewer'], $cfg);
+    $cfg = arr\replace(APP['attr.viewer'], $cfg);
     $val = $attr['type'] !== 'password' && isset($data[$attr['id']]) ? $data[$attr['id']] : null;
     $attr['opt'] = opt($data, $attr);
     $html = set($val) ? $attr['viewer']($val, $attr) : '';
@@ -224,12 +225,19 @@ function ignorable(array $data, array $attr): bool
 /**
  * Returns base HTML config for given attribute
  */
-function html(array $attr, string $key = 'attr'): array
+function html(array $attr, string $key = null, string|int $subkey = null): array
 {
     $backends = ['json', 'multitext', 'text', 'varchar'];
     $minmax = in_array($attr['backend'], $backends) ? ['minlength', 'maxlength'] : ['min', 'max'];
-    $name = $key === 'attr' ? $attr['id'] : $key . '[' . $attr['id'] . ']';
-    $html = ['id' => $key . '-' . $attr['id'], 'name' => $name, 'data-type' => $attr['type']];
+    $id = ($key ?: 'attr') . '-' . ($subkey ? $subkey . '-' : '') . $attr['id'];
+
+    if (!$key && !$subkey) {
+        $name = $attr['id'];
+    } else {
+        $name = ($key ?: 'attr') . ($subkey ? '[' . $subkey . ']' : '') . '[' . $attr['id'] . ']';
+    }
+
+    $html = ['id' => $id, 'name' => $name, 'data-type' => $attr['type']];
 
     if ($attr['min'] > 0) {
         $html[$minmax[0]] = $attr['min'];

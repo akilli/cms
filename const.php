@@ -5,6 +5,19 @@ declare(strict_types=1);
  * Application constants
  */
 define('APP', [
+    'attr.frontend' => [
+        'key' => null,
+        'label' => false,
+        'subkey' => null,
+        'wrap' => false,
+    ],
+    'attr.viewer' => [
+        'empty' => false,
+        'label' => false,
+        'link' => null,
+        'subheading' => false,
+        'wrap' => false,
+    ],
     'cfg' => [
         'attr' => [
             'id' => null,
@@ -244,12 +257,5 @@ define('APP', [
         'asset' => '/asset',
         'ext' => '/ext',
         'gui' => '/gui',
-    ],
-    'viewer' => [
-        'empty' => false,
-        'label' => false,
-        'link' => null,
-        'subheading' => false,
-        'wrap' => false,
     ],
 ]);

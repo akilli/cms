@@ -186,6 +186,22 @@ function save(string $entityId, array &$data): bool
 }
 
 /**
+ * Save all entities
+ *
+ * @throws DomainException
+ */
+function save_all(string $entityId, array &$data): bool
+{
+    $success = true;
+
+    foreach ($data as $item) {
+        $success = $success && save($entityId, $item);
+    }
+
+    return $success;
+}
+
+/**
  * Delete entity
  *
  * @throws DomainException
