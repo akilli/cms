@@ -131,7 +131,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
     $attr['opt'] = opt($data, $attr);
     $html = set($val) ? $attr['viewer']($val, $attr) : '';
 
-    if (!$cfg['wrap'] || !$html && !$cfg['empty']) {
+    if (!$cfg['wrap'] || $html === '' && !$cfg['empty']) {
         return $html;
     }
 
