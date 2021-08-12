@@ -98,6 +98,7 @@ function html(): string
     $app = app\data('app');
     $a = [
         'lang' => APP['lang'],
+        'data-area' => $app['area'],
         'data-parent' => $app['parent_id'],
         'data-entity' => $app['entity_id'],
         'data-action' => $app['action'],
