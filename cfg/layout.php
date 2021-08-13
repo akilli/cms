@@ -32,9 +32,6 @@ return [
         'title' => ['type' => 'title', 'parent_id' => 'content', 'sort' => 100],
         'msg' => ['type' => 'tag', 'tag' => 'app-msg', 'parent_id' => 'content', 'sort' => 200],
     ],
-    'html:_admin_' => [
-        'asset' => ['tpl' => 'asset-admin.phtml'],
-    ],
     'html:_invalid_' => [
         'title' => ['cfg' => ['text' => 'Error']],
         'view' => ['type' => 'tpl', 'tpl' => 'error.phtml', 'parent_id' => 'content', 'sort' => 300],

@@ -3,5 +3,11 @@ namespace app;
 ?>
 <link rel="stylesheet" href="<?php echo guiurl('base.css'); ?>"/>
 <link rel="stylesheet" href="<?php echo guiurl('all.css'); ?>"/>
-<link rel="stylesheet" href="<?php echo guiurl('public.css'); ?>"/>
 <script src="<?php echo guiurl('all.js'); ?>" type="module"></script>
+<?php if (data('app', 'area') === '_admin_'): ?>
+<link rel="stylesheet" href="<?php echo guiurl('editor/editor.css'); ?>"/>
+<link rel="stylesheet" href="<?php echo guiurl('admin.css'); ?>"/>
+<script src="<?php echo guiurl('admin.js'); ?>" type="module"></script>
+<?php else: ?>
+<link rel="stylesheet" href="<?php echo guiurl('public.css'); ?>"/>
+<?php endif; ?>
