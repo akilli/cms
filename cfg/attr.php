@@ -130,17 +130,6 @@ return [
         'indexable' => true,
         'max' => 50,
     ],
-    'entityfile' => [
-        'backend' => 'int',
-        'frontend' => 'browser',
-        'filter' => 'select',
-        'validator' => 'entity',
-        'viewer' => 'file',
-        'opt' => 'entity',
-        'editable' => true,
-        'filterable' => true,
-        'viewable' => true,
-    ],
     'file' => [
         'backend' => 'varchar',
         'frontend' => 'file',
