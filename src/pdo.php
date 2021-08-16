@@ -127,6 +127,20 @@ function transaction(callable $call, string $id): void
 }
 
 /**
+ * Execute given SQL with params
+ */
+function exec(string $db, string $sql, array $params = []): void
+{
+    $stmt = db($db)->prepare($sql);
+
+    foreach ($params as $key => $val) {
+        $stmt->bindValue($key, $val, type($val));
+    }
+
+    $stmt->execute();
+}
+
+/**
  * Database
  */
 function db(string $id): PDO
