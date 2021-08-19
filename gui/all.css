@@ -10,7 +10,6 @@
     --app-color-primary: #052a33;
     --app-color-shadow-dark: rgba(0, 0, 0, 0.25);
     --app-color-shadow-light: #e0e0e0;
-    --editor-border: var(--app-color-border);
 }
 
 /**

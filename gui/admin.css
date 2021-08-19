@@ -1,4 +1,13 @@
 /**
+ * Variable
+ */
+:root {
+    --editor-border: var(--app-color-border);
+    --editor-toolbar-background: var(--app-color-background);
+    --editor-toolbar-color: var(--app-color-primary);
+}
+
+/**
  * Form
  */
 ::placeholder {
@@ -147,7 +156,6 @@ form akilli-editor editor-root {
 
 akilli-editor editor-toolbar {
     top: 3rem;
-    color: var(--app-color-primary);
 }
 
 akilli-editor button {
