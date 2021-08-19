@@ -2,14 +2,14 @@
  * Variable
  */
 :root {
-    --editor-border: #bbb;
+    --editor-border: var(--app-color-border);
 }
 
 /**
  * Form
  */
 ::placeholder {
-    color: #bbb;
+    color: var(--app-color-border);
 }
 
 input[type=email],
@@ -23,7 +23,7 @@ legend,
 select,
 textarea {
     padding: 0.71875rem 0;
-    border-bottom: 0.0625rem solid #bbb;
+    border-bottom: 0.0625rem solid var(--app-color-border);
 }
 
 fieldset input[type=email],
@@ -44,8 +44,8 @@ input[type=button],
 input[type=reset],
 input[type=submit] {
     padding: 0.75rem;
-    color: #fff;
-    background: #052a33;
+    color: var(--app-color-background);
+    background: var(--app-color-primary);
 }
 
 input[type=file] {
@@ -75,7 +75,7 @@ input[type=radio] {
     height: 1.25rem;
     margin: 0.125rem 0;
     padding: 0.5625rem 0;
-    border: 0.0625rem solid #bbb;
+    border: 0.0625rem solid var(--app-color-border);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -87,8 +87,8 @@ input[type=radio] {
 
 input[type=checkbox]:checked,
 input[type=radio]:checked {
-    background: #052a33;
-    border-color: #052a33;
+    background: var(--app-color-primary);
+    border-color: var(--app-color-primary);
 }
 
 label,
@@ -113,18 +113,18 @@ div[data-required] > label:first-child::after {
 }
 
 div[data-invalid] {
-    color: #900;
+    color: var(--app-color-error);
 }
 
 div[data-invalid] :invalid {
-    border-bottom: 0.0625rem solid #900;
+    border-bottom: 0.0625rem solid var(--app-color-error);
 }
 
 .error {
     margin: 0;
     font-size: 0.875rem;
     font-weight: bold;
-    color: #900;
+    color: var(--app-color-error);
 }
 
 .file-current,
@@ -154,7 +154,7 @@ form akilli-editor editor-root {
 
 akilli-editor editor-toolbar {
     top: 3rem;
-    color: #052a33;
+    color: var(--app-color-primary);
 }
 
 akilli-editor button {
@@ -199,8 +199,8 @@ akilli-editor button {
 }
 
 :root[data-browser] .block-index article:hover {
-    color: #fff;
-    background: #052a33;
+    color: var(--app-color-background);
+    background: var(--app-color-primary);
 }
 
 :root[data-browser] .block-index article > :last-child {
@@ -211,21 +211,21 @@ akilli-editor button {
  * Account Login
  */
 :root[data-entity=account][data-action=login] body {
-    color: #052a33;
+    color: var(--app-color-primary);
     background: url(cms.svg) no-repeat center;
     background-size: cover;
 }
 
 :root[data-entity=account][data-action=login] input {
     padding: 0.75rem;
-    color: #fff;
-    background: #052a33;
+    color: var(--app-color-background);
+    background: var(--app-color-primary);
     border: 0;
 }
 
 :root[data-entity=account][data-action=login] .msg,
 :root[data-entity=account][data-action=login] div[data-invalid] :invalid {
-    background: #900;
+    background: var(--app-color-error);
 }
 
 :root[data-entity=account][data-action=login] .msg {

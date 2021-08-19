@@ -1,4 +1,18 @@
 /**
+ * Variable
+ */
+:root {
+    --app-color-accent: #93ddf9;
+    --app-color-background: #fff;
+    --app-color-border: #bbb;
+    --app-color-error: #900;
+    --app-color-highlight: #ff0;
+    --app-color-primary: #052a33;
+    --app-color-shadow-dark: rgba(0, 0, 0, 0.25);
+    --app-color-shadow-light: #e0e0e0;
+}
+
+/**
  * Font
  */
 @font-face {
@@ -16,8 +30,8 @@ body {
     line-height: 1.5rem;
     padding: 0 0.75rem;
     font-family: sans-serif;
-    color: #052a33;
-    background: #fff;
+    color: var(--app-color-primary);
+    background: var(--app-color-background);
 }
 
 body > * {
@@ -51,8 +65,8 @@ table p:not(:first-child),
 }
 
 ::selection {
-    color: #fff;
-    background: #052a33;
+    color: var(--app-color-background);
+    background: var(--app-color-primary);
 }
 
 /**
@@ -76,8 +90,8 @@ time {
 
 pre {
     padding: 0.75rem;
-    color: #fff;
-    background: #052a33;
+    color: var(--app-color-background);
+    background: var(--app-color-primary);
 }
 
 ol,
@@ -91,15 +105,15 @@ nav ul {
 
 mark {
     padding: 0.125rem 0.25rem;
-    background: #ff0;
+    background: var(--app-color-highlight);
 }
 
 kbd {
     padding: 0.125rem 0.25rem;
-    color: #fff;
-    background: #052a33;
+    color: var(--app-color-background);
+    background: var(--app-color-primary);
     border-radius: 0.125rem;
-    box-shadow: inset 0 -0.0625rem 0 rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0 -0.0625rem 0 var(--app-color-shadow-dark);
 }
 
 /**
@@ -127,10 +141,10 @@ figcaption {
 figure.blockquote,
 blockquote {
     text-align: center;
-    color: #fff;
-    background: #93ddf9;
+    color: var(--app-color-background);
+    background: var(--app-color-accent);
     border-radius: 0.125rem;
-    box-shadow: 0.125rem 0.125rem 0.125rem #e0e0e0;
+    box-shadow: 0.125rem 0.125rem 0.125rem var(--app-color-shadow-light);
 }
 
 blockquote {
@@ -151,8 +165,8 @@ blockquote::before {
 }
 
 figure.blockquote {
-    color: #fff;
-    background: #93ddf9;
+    color: var(--app-color-background);
+    background: var(--app-color-accent);
 }
 
 figure.blockquote figcaption {
@@ -171,21 +185,21 @@ table {
 td,
 th {
     padding: 0.71875rem 0.375rem;
-    border: 0.0625rem solid #bbb;
+    border: 0.0625rem solid var(--app-color-border);
 }
 
 thead tr:last-child td,
 thead tr:last-child th,
 tbody:not(:last-child) tr:last-child td,
 tbody:not(:last-child) tr:last-child th {
-    border-bottom-color: #052a33;
+    border-bottom-color: var(--app-color-primary);
 }
 
 /**
  * Main
  */
 main a {
-    color: #93ddf9;
+    color: var(--app-color-accent);
 }
 
 main a:not([role=button]):not([data-action]):hover {
@@ -224,8 +238,8 @@ main a:not([role=button]):not([data-action]):hover {
 .msg {
     margin: 0 -0.75rem;
     padding: 0.75rem;
-    color: #fff;
-    background: #93ddf9;
+    color: var(--app-color-background);
+    background: var(--app-color-accent);
 }
 
 /**
@@ -235,8 +249,8 @@ main a:not([role=button]):not([data-action]):hover {
     margin: 0 -0.75rem;
     padding: 0.75rem;
     font-size: 0.875rem;
-    color: #fff;
-    background: #052a33;
+    color: var(--app-color-background);
+    background: var(--app-color-primary);
 }
 
 :root[data-browser] #toolbar {
@@ -244,7 +258,7 @@ main a:not([role=button]):not([data-action]):hover {
 }
 
 #toolbar li ul {
-    background: #052a33;
+    background: var(--app-color-primary);
 }
 
 #toolbar a.current {
