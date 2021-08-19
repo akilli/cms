@@ -1,11 +1,4 @@
 /**
- * Variable
- */
-:root {
-    --editor-border: var(--app-color-border);
-}
-
-/**
  * Form
  */
 ::placeholder {
