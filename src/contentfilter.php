@@ -123,7 +123,6 @@ function image(string $html, array $cfg = []): string
     };
     $call = function (array $match) use ($cache, $cfg, $data, $srcset): string {
         if (str_contains($match['img'], 'srcset="')
-            || !($item = $data[$match['url']] ?? null)
             || !($file = app\assetpath($match['name']))
             || !is_file($file)
             || !($width = $cache($file))
@@ -143,9 +142,11 @@ function image(string $html, array $cfg = []): string
             $img = $match['pre'] . ' srcset="' . $set . '" sizes="' . $sizes . '"' . $match['post'];
         }
 
-        if ($cfg['thumb'] > 0 && $item['thumb'] && ($tfile = app\assetpath($item['thumb'])) && is_file($tfile)) {
+        $thumb = $data[$match['url']]['thumb'] ?? null;
+
+        if ($cfg['thumb'] > 0 && $thumb && ($tfile = app\assetpath($thumb)) && is_file($tfile)) {
             $twidth = $cache($tfile);
-            $tname = preg_replace('#^' . APP['url']['asset'] . '/#', '', $item['thumb']);
+            $tname = preg_replace('#^' . APP['url']['asset'] . '/#', '', $thumb);
             $tset = $srcset($tname, $twidth, true);
             $tmax = min($cfg['thumb'], $twidth);
             $source = html\element('source', ['media' => '(max-width: ' . $tmax . 'px)', 'srcset' => $tset]);
