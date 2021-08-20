@@ -145,7 +145,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
         $html = html\element('label', [], $attr['name']) . $html;
     }
 
-    if (preg_match('#<(audio|iframe|img|video)#', $html, $match)) {
+    if (preg_match('#^<(audio|iframe|img|video)#', $html, $match)) {
         return html\element('figure', $a + (['class' => $match[1] === 'img' ? 'image' : $match[1]]), $html);
     }
 
