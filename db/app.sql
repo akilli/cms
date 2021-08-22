@@ -46,7 +46,7 @@ CREATE TABLE file (
     entity_id varchar(50) NOT NULL,
     mime varchar(255) NOT NULL,
     thumb varchar(255) DEFAULT null UNIQUE,
-    info text DEFAULT null,
+    info text NOT NULL DEFAULT '',
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
@@ -61,11 +61,11 @@ CREATE TABLE page (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
     entity_id varchar(50) NOT NULL,
-    title varchar(100) DEFAULT null,
-    content text DEFAULT null,
-    aside text DEFAULT null,
-    meta_title varchar(80) DEFAULT null,
-    meta_description varchar(300) DEFAULT null,
+    title varchar(100) NOT NULL DEFAULT '',
+    content text NOT NULL DEFAULT '',
+    aside text NOT NULL DEFAULT '',
+    meta_title varchar(80) NOT NULL DEFAULT '',
+    meta_description varchar(300) NOT NULL DEFAULT '',
     slug varchar(75) NOT NULL,
     url varchar(400) UNIQUE DEFAULT null,
     disabled boolean NOT NULL DEFAULT false,
@@ -98,7 +98,7 @@ CREATE TABLE block (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
     entity_id varchar(50) NOT NULL,
-    content text DEFAULT null,
+    content text NOT NULL DEFAULT '',
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
