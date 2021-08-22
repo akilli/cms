@@ -21,6 +21,10 @@ register_shutdown_function(function (): void {
  */
 require_once dirname(__DIR__) . '/const.php';
 
+if (file_exists(APP['path']['ext'] . '/const.php')) {
+    require_once APP['path']['ext'] . '/const.php';
+}
+
 /**
  * Restore pregenerated configuration
  */

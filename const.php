@@ -236,6 +236,7 @@ define('APP', [
         'app.src' => '/app/src',
         'app.tpl' => '/app/tpl',
         'asset' => '/data',
+        'ext' => '/opt',
         'ext.cfg' => '/opt/cfg',
         'ext.gui' => '/opt/gui',
         'ext.src' => '/opt/src',

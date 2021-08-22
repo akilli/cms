@@ -6,6 +6,10 @@ declare(strict_types=1);
  */
 require_once __DIR__ . '/const.php';
 
+if (file_exists(APP['path']['ext'] . '/const.php')) {
+    require_once APP['path']['ext'] . '/const.php';
+}
+
 /**
  * Recursively require base and extension source files
  */
