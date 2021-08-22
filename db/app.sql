@@ -380,7 +380,7 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
             _sql := 'WITH t AS (' || _sql || ' RETURNING id)';
 
             IF (TG_OP = 'UPDATE') THEN
-                EXECUTE format('SELECT count(*) FROM %I WHERE id = %L', _ext, OLD.id) INTO _cnt;
+                EXECUTE format('SELECT count(id) FROM %I WHERE id = %L', _ext, OLD.id) INTO _cnt;
             ELSE
                 _cnt := 0;
             END IF;
@@ -429,7 +429,7 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
         END IF;
 
         SELECT
-            count(*) + 1
+            count(id) + 1
         FROM
             page
         WHERE
@@ -495,7 +495,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 p.id,
                 (
                     SELECT
-                       count(*)
+                       count(id)
                     FROM
                        page
                     WHERE

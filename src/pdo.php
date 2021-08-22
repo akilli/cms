@@ -16,7 +16,7 @@ use sql;
 function size(array $entity, array $crit = []): int
 {
     $cols = crit($crit, $entity['attr']);
-    $stmt = db($entity['db'])->prepare(sql\select(['count(*)']) . sql\from($entity['id']) . sql\where($cols['crit']));
+    $stmt = db($entity['db'])->prepare(sql\select(['count(id)']) . sql\from($entity['id']) . sql\where($cols['crit']));
     array_map(fn(array $param): bool => $stmt->bindValue(...$param), $cols['param']);
     $stmt->execute();
 
