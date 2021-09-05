@@ -110,6 +110,7 @@ function normalize(array $in): ?array
     foreach (array_filter($in['name']) as $k => $n) {
         $f = [
             'error' => $in['error'][$k],
+            'full_path' => $in['full_path'][$k],
             'name' => $n,
             'size' => $in['size'][$k],
             'tmp_name' => $in['tmp_name'][$k],

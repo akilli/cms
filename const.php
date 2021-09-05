@@ -253,7 +253,7 @@ define('APP', [
     ],
     'time.backend' => 'H:i:s',
     'time.frontend' => 'H:i',
-    'upload' => ['error', 'name', 'size', 'tmp_name', 'type'],
+    'upload' => ['error', 'full_path', 'name', 'size', 'tmp_name', 'type'],
     'url' => [
         'asset' => '/asset',
         'ext' => '/ext',
