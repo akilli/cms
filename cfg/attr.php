@@ -162,7 +162,7 @@ return [
         'editable' => true,
         'searchable' => true,
         'viewable' => true,
-        'accept' => ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'],
+        'accept' => ['image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'],
     ],
     'int' => [
         'backend' => 'int',
