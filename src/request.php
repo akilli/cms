@@ -9,7 +9,7 @@ use app;
 /**
  * Redirect
  */
-function redirect(string $url = '/'): void
+function redirect(string $url = '/'): never
 {
     header('Location: ' . $url);
     exit;

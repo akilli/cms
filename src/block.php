@@ -66,7 +66,6 @@ function edit(array $block): string
 
         if (entity\save($entity['id'], $data)) {
             request\redirect(app\actionurl($entity['id'], $app['action'], $data['id']));
-            return '';
         }
     }
 
@@ -220,7 +219,6 @@ function login(array $block): string
             session\regenerate();
             session\save('account', $account['id']);
             request\redirect(app\actionurl('account', 'dashboard'));
-            return '';
         }
 
         app\msg(app\i18n('Invalid name and password combination'));
@@ -479,7 +477,6 @@ function profile(array $block): string
 
             if (entity\save('account', $data)) {
                 request\redirect($request['url']);
-                return '';
             }
         }
     }
