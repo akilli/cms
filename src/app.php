@@ -45,7 +45,7 @@ function &registry(string $id): ?array
 }
 
 /**
- * Loads and returns configuration data
+ * Returns preloaded configuration stored under given id, optionally just a part of it
  */
 function cfg(string $id, string $key = null): mixed
 {
@@ -59,7 +59,7 @@ function cfg(string $id, string $key = null): mixed
 }
 
 /**
- * Returns app data
+ * Returns runtime data stored under given id, optionally just a part of it
  */
 function data(string $id, string $key = null): mixed
 {
