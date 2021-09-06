@@ -132,10 +132,10 @@ function block(array $data, array $ext): array
 {
     $data += $ext;
 
-    foreach ($data as $id => $type) {
-        $data[$id] = arr\replace(APP['cfg']['block'], $type);
+    foreach ($data as $id => $item) {
+        $data[$id] = arr\replace(APP['cfg']['block'], $item, ['id' => $id]);
 
-        if (!is_callable($type['call'])) {
+        if (!is_callable($item['call'])) {
             throw new DomainException(app\i18n('Invalid configuration'));
         }
     }
@@ -324,7 +324,7 @@ function privilege(array $data, array $ext): array
     $data = arr\extend($generated, $data);
 
     foreach ($data as $id => $item) {
-        $data[$id] = arr\replace(APP['cfg']['privilege'], $item);
+        $data[$id] = arr\replace(APP['cfg']['privilege'], $item, ['id' => $id]);
     }
 
     return $data;

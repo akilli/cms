@@ -48,6 +48,7 @@ define('APP', [
             'accept' => [],
         ],
         'block' => [
+            'id' => null,
             'call' => null,
             'tpl' => null,
             'tag' => null,
@@ -65,6 +66,7 @@ define('APP', [
             'attr' => [],
         ],
         'privilege' => [
+            'id' => null,
             'name' => null,
             'auto' => false,
             'use' => null,
