@@ -25,7 +25,6 @@ function run(): string
 
     if ($data['redirect']) {
         request\redirect($data['redirect']);
-        return '';
     }
 
     return $data['body'];
