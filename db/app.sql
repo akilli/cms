@@ -8,23 +8,23 @@ START TRANSACTION;
 -- Role
 --
 
-CREATE TABLE role (
+CREATE TABLE public.role (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
     privilege text[] NOT NULL DEFAULT '{}',
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
-CREATE INDEX ON role (created);
+CREATE INDEX ON public.role (created);
 
 --
 -- Account
 --
 
-CREATE TABLE account (
+CREATE TABLE public.account (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
-    role_id int NOT NULL REFERENCES role ON DELETE RESTRICT ON UPDATE CASCADE,
+    role_id int NOT NULL REFERENCES public.role ON DELETE RESTRICT ON UPDATE CASCADE,
     username varchar(50) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
     email varchar(50) DEFAULT null UNIQUE,
@@ -33,14 +33,14 @@ CREATE TABLE account (
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
-CREATE INDEX ON account (role_id);
-CREATE INDEX ON account (created);
+CREATE INDEX ON public.account (role_id);
+CREATE INDEX ON public.account (created);
 
 --
 -- File
 --
 
-CREATE TABLE file (
+CREATE TABLE public.file (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL UNIQUE,
     entity_id varchar(50) NOT NULL,
@@ -50,14 +50,14 @@ CREATE TABLE file (
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
-CREATE INDEX ON file (entity_id);
-CREATE INDEX ON file (created);
+CREATE INDEX ON public.file (entity_id);
+CREATE INDEX ON public.file (created);
 
 --
 -- Page
 --
 
-CREATE TABLE page (
+CREATE TABLE public.page (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
     entity_id varchar(50) NOT NULL,
@@ -71,30 +71,30 @@ CREATE TABLE page (
     disabled boolean NOT NULL DEFAULT false,
     breadcrumb boolean NOT NULL DEFAULT false,
     menu boolean NOT NULL DEFAULT false,
-    parent_id int DEFAULT null REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
+    parent_id int DEFAULT null REFERENCES public.page ON DELETE CASCADE ON UPDATE CASCADE,
     sort int NOT NULL DEFAULT 0,
     position varchar(255) NOT NULL DEFAULT '',
     level int NOT NULL DEFAULT 0,
     path int[] NOT NULL DEFAULT '{}',
-    account_id int DEFAULT null REFERENCES account ON DELETE SET null ON UPDATE CASCADE,
+    account_id int DEFAULT null REFERENCES public.account ON DELETE SET null ON UPDATE CASCADE,
     created timestamp(0) NOT NULL DEFAULT current_timestamp,
     UNIQUE (parent_id, slug)
 );
 
-CREATE INDEX ON page (name);
-CREATE INDEX ON page (entity_id);
-CREATE INDEX ON page (slug);
-CREATE INDEX ON page (parent_id);
-CREATE INDEX ON page (position);
-CREATE INDEX ON page (level);
-CREATE INDEX ON page (account_id);
-CREATE INDEX ON page (created);
+CREATE INDEX ON public.page (name);
+CREATE INDEX ON public.page (entity_id);
+CREATE INDEX ON public.page (slug);
+CREATE INDEX ON public.page (parent_id);
+CREATE INDEX ON public.page (position);
+CREATE INDEX ON public.page (level);
+CREATE INDEX ON public.page (account_id);
+CREATE INDEX ON public.page (created);
 
 --
 -- Block
 --
 
-CREATE TABLE block (
+CREATE TABLE public.block (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
     entity_id varchar(50) NOT NULL,
@@ -102,32 +102,32 @@ CREATE TABLE block (
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
-CREATE INDEX ON block (name);
-CREATE INDEX ON block (entity_id);
-CREATE INDEX ON block (created);
+CREATE INDEX ON public.block (name);
+CREATE INDEX ON public.block (entity_id);
+CREATE INDEX ON public.block (created);
 
 --
 -- Layout
 --
 
-CREATE TABLE layout (
+CREATE TABLE public.layout (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
     entity_id varchar(50) NOT NULL,
-    block_id int NOT NULL REFERENCES block ON DELETE CASCADE ON UPDATE CASCADE,
-    page_id int NOT NULL REFERENCES page ON DELETE CASCADE ON UPDATE CASCADE,
+    block_id int NOT NULL REFERENCES public.block ON DELETE CASCADE ON UPDATE CASCADE,
+    page_id int NOT NULL REFERENCES public.page ON DELETE CASCADE ON UPDATE CASCADE,
     parent_id varchar(100) NOT NULL,
     sort int NOT NULL DEFAULT 0,
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
-CREATE INDEX ON layout (name);
-CREATE INDEX ON layout (entity_id);
-CREATE INDEX ON layout (block_id);
-CREATE INDEX ON layout (page_id);
-CREATE INDEX ON layout (parent_id);
-CREATE INDEX ON layout (sort);
-CREATE INDEX ON layout (created);
+CREATE INDEX ON public.layout (name);
+CREATE INDEX ON public.layout (entity_id);
+CREATE INDEX ON public.layout (block_id);
+CREATE INDEX ON public.layout (page_id);
+CREATE INDEX ON public.layout (parent_id);
+CREATE INDEX ON public.layout (sort);
+CREATE INDEX ON public.layout (created);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- View
@@ -137,11 +137,11 @@ CREATE INDEX ON layout (created);
 -- Audio
 --
 
-CREATE VIEW audio AS
+CREATE VIEW public.audio AS
 SELECT
     *
 FROM
-    file
+    public.file
 WHERE
     entity_id = 'audio'
 WITH LOCAL CHECK OPTION;
@@ -150,11 +150,11 @@ WITH LOCAL CHECK OPTION;
 -- Document
 --
 
-CREATE VIEW document AS
+CREATE VIEW public.document AS
 SELECT
     *
 FROM
-    file
+    public.file
 WHERE
     entity_id = 'document'
 WITH LOCAL CHECK OPTION;
@@ -163,11 +163,11 @@ WITH LOCAL CHECK OPTION;
 -- Iframe
 --
 
-CREATE VIEW iframe AS
+CREATE VIEW public.iframe AS
 SELECT
     *
 FROM
-    file
+    public.file
 WHERE
     entity_id = 'iframe'
 WITH LOCAL CHECK OPTION;
@@ -176,11 +176,11 @@ WITH LOCAL CHECK OPTION;
 -- Image
 --
 
-CREATE VIEW image AS
+CREATE VIEW public.image AS
 SELECT
     *
 FROM
-    file
+    public.file
 WHERE
     entity_id = 'image'
 WITH LOCAL CHECK OPTION;
@@ -189,11 +189,11 @@ WITH LOCAL CHECK OPTION;
 -- Video
 --
 
-CREATE VIEW video AS
+CREATE VIEW public.video AS
 SELECT
     *
 FROM
-    file
+    public.file
 WHERE
     entity_id = 'video'
 WITH LOCAL CHECK OPTION;
@@ -202,11 +202,11 @@ WITH LOCAL CHECK OPTION;
 -- Content Page
 --
 
-CREATE VIEW contentpage AS
+CREATE VIEW public.contentpage AS
 SELECT
     *
 FROM
-    page
+    public.page
 WHERE
     entity_id = 'contentpage'
 WITH LOCAL CHECK OPTION;
@@ -215,11 +215,11 @@ WITH LOCAL CHECK OPTION;
 -- Content Block
 --
 
-CREATE VIEW contentblock AS
+CREATE VIEW public.contentblock AS
 SELECT
     *
 FROM
-    block
+    public.block
 WHERE
     entity_id = 'contentblock'
 WITH LOCAL CHECK OPTION;
@@ -238,35 +238,47 @@ WITH LOCAL CHECK OPTION;
 -- Example
 -- -------
 --
--- !!! Please replace the variables $base, $entity and $entity_ext with the real names !!!
+-- Variables:
 --
--- CREATE TABLE $entity_ext (
---     id int PRIMARY KEY REFERENCES $base ON DELETE CASCADE ON UPDATE CASCADE,
+-- $base_schema = base table schema
+-- $base_name = base table name
+-- $ext_schema = extension table schema
+-- $base_schema = extension table name
+-- $entity_schema = entity table schema
+-- $entity_name = entity table name
+-- $entity = [$entity_schema.]$entity_table ($entity_schema might be omitted for $entity_schema = public)
+--
+-- !!! Please replace the variables in the following example with the real table schemas and names !!!
+--
+-- CREATE TABLE $ext_schema.$ext_name (
+--     id int PRIMARY KEY REFERENCES $base_schema.$base_name ON DELETE CASCADE ON UPDATE CASCADE,
 --     additional_column varchar(255) NOT NULL
 -- );
 --
--- CREATE VIEW $entity AS
+-- CREATE VIEW $entity_schema.$entity_name AS
 -- SELECT *
--- FROM $base
--- LEFT JOIN $entity_ext USING (id)
+-- FROM $base_schema.$base_name
+-- LEFT JOIN $ext_schema.$ext_name USING (id)
 -- WHERE entity_id = '$entity';
 --
 -- CREATE TRIGGER entity_save
--- INSTEAD OF INSERT OR UPDATE ON $entity
--- FOR EACH ROW EXECUTE PROCEDURE entity_save('$base', '$entity_ext');
+-- INSTEAD OF INSERT OR UPDATE ON $entity_schema.$entity_name
+-- FOR EACH ROW EXECUTE PROCEDURE public.entity_save('$base_schema', '$base_name', '$ext_schema', '$ext_name');
 --
 -- CREATE TRIGGER entity_delete
--- INSTEAD OF DELETE ON $entity
--- FOR EACH ROW EXECUTE PROCEDURE entity_delete('$base');
+-- INSTEAD OF DELETE ON $entity_schema.$entity_table
+-- FOR EACH ROW EXECUTE PROCEDURE public.entity_delete('$base_schema', '$base_name');
 --
 
-CREATE FUNCTION entity_save() RETURNS trigger AS $$
+CREATE FUNCTION public.entity_save() RETURNS trigger AS $$
     DECLARE
         _attr RECORD;
-        _base text;
+        _base_name text;
+        _base_schema text;
         _cnt int;
         _col text := '';
-        _ext text;
+        _ext_name text;
+        _ext_schema text;
         _new jsonb;
         _newVal text;
         _old jsonb;
@@ -275,13 +287,21 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
         _sql text := '';
         _val text := '';
     BEGIN
-        IF (array_length(TG_ARGV, 1) < 2) THEN
+        IF (array_length(TG_ARGV, 1) < 4) THEN
             RAISE EXCEPTION 'You must pass base and extension table as the first two arguments with CREATE TRIGGER';
         END IF;
 
-        _base := TG_ARGV[0];
-        _ext := TG_ARGV[1];
-        NEW.entity_id := TG_TABLE_NAME;
+        _base_schema := TG_ARGV[0];
+        _base_name := TG_ARGV[1];
+        _ext_schema := TG_ARGV[2];
+        _ext_name := TG_ARGV[3];
+
+        IF (TG_TABLE_SCHEMA = 'public') THEN
+            NEW.entity_id := TG_TABLE_NAME;
+        ELSE
+            NEW.entity_id := TG_TABLE_SCHEMA || '.' || TG_TABLE_NAME;
+        END IF;
+
         _new := to_jsonb(NEW);
 
         IF (TG_OP = 'UPDATE') THEN
@@ -296,8 +316,8 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
             FROM
                 information_schema.columns
             WHERE
-                table_schema = TG_TABLE_SCHEMA
-                AND table_name = _base
+                table_schema = _base_schema
+                AND table_name = _base_name
                 AND column_name != 'id'
             ORDER BY
                 ordinal_position ASC
@@ -328,9 +348,9 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
         END LOOP;
 
         IF (TG_OP = 'UPDATE') THEN
-            _sql := format('UPDATE %I SET id = %L, %s WHERE id = %L', _base, NEW.id, _set, OLD.id);
+            _sql := format('UPDATE %I.%I SET id = %L, %s WHERE id = %L', _base_schema, _base_name, NEW.id, _set, OLD.id);
         ELSE
-            _sql := format('INSERT INTO %I (%s) VALUES (%s)', _base, _col, _val);
+            _sql := format('INSERT INTO %I.%I (%s) VALUES (%s)', _base_schema, _base_name, _col, _val);
         END IF;
 
         -- Extension table
@@ -345,8 +365,8 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
             FROM
                 information_schema.columns
             WHERE
-                table_schema = TG_TABLE_SCHEMA
-                AND table_name = _ext
+                table_schema = _ext_schema
+                AND table_name = _ext_name
                 AND column_name != 'id'
             ORDER BY
                 ordinal_position ASC
@@ -380,15 +400,15 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
             _sql := 'WITH t AS (' || _sql || ' RETURNING id)';
 
             IF (TG_OP = 'UPDATE') THEN
-                EXECUTE format('SELECT count(id) FROM %I WHERE id = %L', _ext, OLD.id) INTO _cnt;
+                EXECUTE format('SELECT count(id) FROM %I.%I WHERE id = %L', _ext_schema, _ext_name, OLD.id) INTO _cnt;
             ELSE
                 _cnt := 0;
             END IF;
 
             IF (TG_OP = 'UPDATE' AND _cnt > 0) THEN
-                _sql := _sql || format(' UPDATE %I e SET %s FROM t WHERE e.id = t.id', _ext, _set);
+                _sql := _sql || format(' UPDATE %I.%I e SET %s FROM t WHERE e.id = t.id', _ext_schema, _ext_name, _set);
             ELSE
-                _sql := _sql || format(' INSERT INTO %s (id, %s) SELECT id, %s FROM t', _ext, _col, _val);
+                _sql := _sql || format(' INSERT INTO %I.%I (id, %s) SELECT id, %s FROM t', _ext_schema, _ext_name, _col, _val);
             END IF;
         ELSIF (_col != '' OR _val != '' OR _set != '') THEN
             RAISE EXCEPTION 'An error occurred with values _col(%), _val(%) and _set(%)', _col, _val, _set;
@@ -400,15 +420,14 @@ CREATE FUNCTION entity_save() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION entity_delete() RETURNS trigger AS $$
-    DECLARE
-        _base text;
+CREATE FUNCTION public.entity_delete() RETURNS trigger AS $$
     BEGIN
-        IF (array_length(TG_ARGV, 1) < 1) THEN
-            RAISE EXCEPTION 'You must pass the base table as first argument with CREATE TRIGGER';
+        IF (array_length(TG_ARGV, 1) < 2) THEN
+            RAISE EXCEPTION 'You must pass the base table schema and name as the first two arguments with CREATE TRIGGER';
         END IF;
 
-        EXECUTE format('DELETE FROM %I WHERE id = %s', _base, OLD.id);
+        EXECUTE format('DELETE FROM %I.%I WHERE id = %s', TG_ARGV[0], TG_ARGV[1], OLD.id);
+
         RETURN OLD;
     END;
 $$ LANGUAGE plpgsql;
@@ -417,13 +436,13 @@ $$ LANGUAGE plpgsql;
 -- Page
 --
 
-CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
+CREATE FUNCTION public.page_menu_before() RETURNS trigger AS $$
     DECLARE
         _cnt int;
     BEGIN
         IF (TG_OP = 'UPDATE'
             AND NEW.parent_id IS NOT NULL
-            AND (SELECT path @> ARRAY[OLD.id] FROM page WHERE id = NEW.parent_id)
+            AND (SELECT path @> ARRAY[OLD.id] FROM public.page WHERE id = NEW.parent_id)
         ) THEN
             RAISE EXCEPTION 'Recursion error';
         END IF;
@@ -431,7 +450,7 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
         SELECT
             count(id) + 1
         FROM
-            page
+            public.page
         WHERE
             coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
         INTO
@@ -449,7 +468,7 @@ CREATE FUNCTION page_menu_before() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
+CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
     DECLARE
         _ext text := '.html';
         _pad int := 10;
@@ -467,7 +486,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
         -- Remove from old parent
         IF (TG_OP = 'UPDATE' OR TG_OP = 'DELETE') THEN
             UPDATE
-                page
+                public.page
             SET
                 sort = sort - 1
             WHERE
@@ -479,7 +498,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
         -- Add to new parent
         IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
             UPDATE
-                page
+                public.page
             SET
                 sort = sort + 1
             WHERE
@@ -497,13 +516,13 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                     SELECT
                        count(id)
                     FROM
-                       page
+                       public.page
                     WHERE
                        coalesce(parent_id, 0) = coalesce(p.parent_id, 0)
                        AND (sort < p.sort OR sort = p.sort AND id < p.id)
                 ) + 1 AS sort
             FROM
-                page p
+                public.page p
         ),
         t AS (
             SELECT
@@ -516,7 +535,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 0 AS level,
                 '{}'::int[] || p.id AS path
             FROM
-                page p
+                public.page p
             INNER JOIN
                 s
                     ON s.id = p.id
@@ -533,7 +552,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                 t.level + 1 AS level,
                 t.path || p.id AS path
             FROM
-                page p
+                public.page p
             INNER JOIN
                 t
                     ON t.id = p.parent_id
@@ -542,7 +561,7 @@ CREATE FUNCTION page_menu_after() RETURNS trigger AS $$
                     ON s.id = p.id
         )
         UPDATE
-            page p
+            public.page p
         SET
             url = t.url,
             menu = t.menu,
@@ -571,9 +590,9 @@ $$ LANGUAGE plpgsql;
 -- Layout
 --
 
-CREATE FUNCTION layout_save() RETURNS trigger AS $$
+CREATE FUNCTION public.layout_save() RETURNS trigger AS $$
     BEGIN
-        NEW.entity_id := (SELECT entity_id FROM block WHERE id = NEW.block_id);
+        NEW.entity_id := (SELECT entity_id FROM public.block WHERE id = NEW.block_id);
 
         RETURN NEW;
     END;
@@ -590,16 +609,16 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER
     page_menu_before
 BEFORE INSERT OR UPDATE ON
-    page
+    public.page
 FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE
-    page_menu_before();
+    public.page_menu_before();
 
 CREATE TRIGGER
     page_menu_after
 AFTER INSERT OR UPDATE OR DELETE ON
-    page
+    public.page
 FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE
-    page_menu_after();
+    public.page_menu_after();
 
 --
 -- Layout
@@ -608,9 +627,9 @@ FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE
 CREATE TRIGGER
     layout_save
 BEFORE INSERT OR UPDATE ON
-    layout
+    public.layout
 FOR EACH ROW EXECUTE PROCEDURE
-    layout_save();
+    public.layout_save();
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
