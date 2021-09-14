@@ -44,11 +44,7 @@ function entity(array $data, array $attr): array
                 'id'
             );
         } else {
-            $opt = array_column(
-                entity\all($entity['id'], select: ['id'], order: ['id' => 'asc']),
-                'id',
-                'id'
-            );
+            $opt = array_column(entity\all($entity['id'], select: ['id'], order: ['id' => 'asc']), 'id', 'id');
         }
     }
 
