@@ -4,7 +4,6 @@ return [
     '_guest_' => ['name' => 'Guest', 'auto' => true],
     '_public_' => ['name' => 'Public', 'auto' => true],
     '_user_' => ['name' => 'User', 'auto' => true],
-    'account:dashboard' => ['use' => '_user_'],
     'account:delete' => ['use' => '_all_'],
     'account:edit' => ['use' => '_all_'],
     'account:index' => ['use' => '_all_'],

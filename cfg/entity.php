@@ -2,7 +2,7 @@
 return [
     'account' => [
         'name' => 'Accounts',
-        'action' => ['dashboard', 'delete', 'edit', 'index', 'login', 'logout', 'profile', 'view'],
+        'action' => ['delete', 'edit', 'index', 'login', 'logout', 'profile', 'view'],
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'unique' => true, 'max' => 50],

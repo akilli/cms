@@ -9,25 +9,18 @@ return [
     'role' => ['parent_id' => 'user', 'sort' => 100],
     'account' => ['parent_id' => 'user', 'sort' => 200],
     'my' => ['name' => 'My Account', 'sort' => 700],
-    'dashboard' => [
-        'name' => 'Dashboard',
-        'privilege' => 'account:dashboard',
-        'url' => '/account/dashboard',
-        'parent_id' => 'my',
-        'sort' => 100,
-    ],
     'profile' => [
         'name' => 'Profile',
         'privilege' => 'account:profile',
         'url' => '/account/profile',
         'parent_id' => 'my',
-        'sort' => 200,
+        'sort' => 100,
     ],
     'logout' => [
         'name' => 'Logout',
         'privilege' => 'account:logout',
         'url' => '/account/logout',
         'parent_id' => 'my',
-        'sort' => 300,
+        'sort' => 200,
     ],
 ];

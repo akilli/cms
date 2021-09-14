@@ -29,7 +29,6 @@ return [
     'Created' => 'Erstellt',
     'Creator' => 'Ersteller',
     'Current file:' => 'Aktuelle Datei:',
-    'Dashboard' => 'Übersicht',
     'Delete' => 'Löschen',
     'Documents' => 'Dokumente',
     'Edit' => 'Bearbeiten',
