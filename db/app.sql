@@ -471,6 +471,7 @@ $$ LANGUAGE plpgsql;
 CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
     DECLARE
         _ext text := '.html';
+        _index text := 'index';
         _pad int := 10;
     BEGIN
         -- No relevant changes
@@ -527,8 +528,8 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
         t AS (
             SELECT
                 p.id,
-                CASE WHEN p.slug = 'index' THEN '' ELSE '/' || p.slug END AS urlkey,
-                CASE WHEN p.slug = 'index' THEN '/' ELSE '/' || p.slug || _ext END AS url,
+                CASE WHEN p.slug = _index THEN '' ELSE '/' || p.slug END AS urlkey,
+                CASE WHEN p.slug = _index THEN '/' ELSE '/' || p.slug || _ext END AS url,
                 p.menu,
                 s.sort,
                 LPAD(cast(s.sort AS text), _pad, '0') AS position,
@@ -608,16 +609,43 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER
     page_menu_before
-BEFORE INSERT OR UPDATE ON
+BEFORE INSERT ON
     public.page
-FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE
+FOR EACH ROW EXECUTE PROCEDURE
     public.page_menu_before();
 
-CREATE TRIGGER
+CREATE CONSTRAINT TRIGGER
     page_menu_after
-AFTER INSERT OR UPDATE OR DELETE ON
+AFTER DELETE OR INSERT ON
     public.page
-FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE PROCEDURE
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE
+    public.page_menu_after();
+
+CREATE TRIGGER
+    page_menu_before_update
+BEFORE UPDATE OF parent_id, sort ON
+    public.page
+FOR EACH ROW WHEN (
+    coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)
+    OR NEW.sort != OLD.sort
+) EXECUTE PROCEDURE
+    public.page_menu_before();
+
+CREATE CONSTRAINT TRIGGER
+    page_menu_after_update
+AFTER UPDATE OF parent_id, sort, slug, menu ON
+    public.page
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW WHEN (
+    pg_trigger_depth() < 1
+    AND (
+        coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)
+        OR NEW.sort != OLD.sort
+        OR NEW.slug != OLD.slug
+        OR NEW.menu != OLD.menu
+    )
+) EXECUTE PROCEDURE
     public.page_menu_after();
 
 --
