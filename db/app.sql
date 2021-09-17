@@ -535,7 +535,7 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
                 CASE WHEN p.slug = _index THEN '/' ELSE '/' || p.slug || _ext END AS url,
                 p.menu,
                 s.sort,
-                LPAD(cast(s.sort AS text), _pad, '0') AS position,
+                lpad(cast(s.sort AS text), _pad, '0') AS position,
                 0 AS level,
                 '{}'::int[] || p.id AS path
             FROM
