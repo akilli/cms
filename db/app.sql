@@ -440,6 +440,11 @@ CREATE FUNCTION public.page_menu_before() RETURNS trigger AS $$
     DECLARE
         _cnt int;
     BEGIN
+        -- Avoid recursion
+        IF (current_setting('app.page_menu', true) != '1') THEN
+            RETURN NEW;
+        END IF;
+
         IF (TG_OP = 'UPDATE'
             AND NEW.parent_id IS NOT NULL
             AND (SELECT path @> ARRAY[OLD.id] FROM public.page WHERE id = NEW.parent_id)
@@ -474,6 +479,14 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
         _index text := 'index';
         _pad int := 10;
     BEGIN
+        -- Avoid recursion
+        IF (current_setting('app.page_menu', true) != '1') THEN
+            RETURN null;
+        END IF;
+
+        -- Set session variable to handle recursion
+        PERFORM set_config('app.page_menu', '1', true);
+
         -- Remove from old parent
         IF (TG_OP = 'UPDATE' OR TG_OP = 'DELETE') THEN
             UPDATE
@@ -573,6 +586,9 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
                 OR p.path != t.path
             );
 
+        -- Set session variable to handle recursion
+        PERFORM set_config('app.page_menu', '', true);
+
         RETURN null;
     END;
 $$ LANGUAGE plpgsql;
@@ -628,13 +644,10 @@ AFTER UPDATE OF parent_id, sort, slug, menu ON
     public.page
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW WHEN (
-    pg_trigger_depth() < 1
-    AND (
-        coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)
-        OR NEW.sort != OLD.sort
-        OR NEW.slug != OLD.slug
-        OR NEW.menu != OLD.menu
-    )
+    coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)
+    OR NEW.sort != OLD.sort
+    OR NEW.slug != OLD.slug
+    OR NEW.menu != OLD.menu
 ) EXECUTE PROCEDURE
     public.page_menu_after();
 
