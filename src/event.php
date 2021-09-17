@@ -35,19 +35,18 @@ function data_app(array $data): array
     $data = arr\replace(APP['data']['app'], $data);
     $url = app\data('request', 'url');
 
-    if (preg_match('#^/(?:|[a-z0-9_\-\./]+\.html)$#', $url, $match)
-        && ($page = entity\one('page', crit: [['url', $url]], select: ['id', 'entity_id']))
+    if (preg_match('#^/([a-z_\.]+)(?:|/([^/\.]+))\.json$#u', $url, $match)) {
+        $data['type'] = 'json';
+        $data['entity_id'] = $match[1];
+        $data['action'] = isset($match[2]) ? 'view' : 'index';
+        $data['id'] = $match[2] ?? null;
+    } elseif (($page = entity\one('page', crit: [['url', $url]], select: ['id', 'entity_id']))
         && ($data['page'] = entity\one($page['entity_id'], crit: [['id', $page['id']]]))
     ) {
         $data['entity_id'] = $data['page']['entity_id'];
         $data['action'] = 'view';
         $data['id'] = $data['page']['id'];
         $data['entity'] = $data['page']['_entity'];
-    } elseif (preg_match('#^/([a-z_\.]+)(?:|/([^/\.]+))\.json$#u', $url, $match)) {
-        $data['type'] = 'json';
-        $data['entity_id'] = $match[1];
-        $data['action'] = isset($match[2]) ? 'view' : 'index';
-        $data['id'] = $match[2] ?? null;
     } elseif (preg_match('#^/([a-z_\.]+)/([a-z_]+)(?:|/([^/\.]+))$#u', $url, $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
@@ -310,20 +309,6 @@ function entity_page_postvalidate_menu(array $data): array
         && in_array($data['_old']['id'], $parent['path'])
     ) {
         $data['_error']['parent_id'][] = app\i18n('Cannot assign the page itself or a subpage as parent');
-    }
-
-    return $data;
-}
-
-function entity_page_postvalidate_url(array $data): array
-{
-    $root = entity\one('page', crit: [['url', '/']], select: ['id']);
-    $slug = $data['slug'] ?? $data['_old']['slug'] ?? null;
-    $pId = array_key_exists('parent_id', $data) ? $data['parent_id'] : ($data['_old']['parent_id'] ?? null);
-    $crit = [['slug', $slug], ['parent_id', [null, $root['id']]], ['id', $data['_old']['id'] ?? null, APP['op']['!=']]];
-
-    if (($pId === null || $pId === $root['id']) && entity\size('page', crit: $crit)) {
-        $data['_error']['slug'][] = app\i18n('Please change slug to generate an unique URL');
     }
 
     return $data;

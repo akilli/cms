@@ -319,11 +319,7 @@ function nav(array $block): string
     $i = 0;
     $attrs = ['id' => $block['id']];
     $url = app\data('request', 'url');
-    $call = fn(array $it): ?string => match (true) {
-        $it['url'] === $url => 'current',
-        $it['url'] && str_starts_with($url, preg_replace('#\.html#', '', $it['url'])) => 'path',
-        default => null,
-    };
+    $call = fn(array $it): ?string => $it['url'] === $url ? 'current' : null;
     $html = $block['cfg']['title'] ? html\element('h2', [], app\i18n($block['cfg']['title'])) : '';
     $html .= layout\render_children($block['id']);
 

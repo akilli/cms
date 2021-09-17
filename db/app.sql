@@ -61,13 +61,12 @@ CREATE TABLE public.page (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
     entity_id varchar(50) NOT NULL,
+    url varchar(400) NOT NULL UNIQUE,
     title varchar(100) NOT NULL DEFAULT '',
     content text NOT NULL DEFAULT '',
     aside text NOT NULL DEFAULT '',
     meta_title varchar(80) NOT NULL DEFAULT '',
     meta_description varchar(300) NOT NULL DEFAULT '',
-    slug varchar(75) NOT NULL,
-    url varchar(400) UNIQUE DEFAULT null,
     disabled boolean NOT NULL DEFAULT false,
     breadcrumb boolean NOT NULL DEFAULT false,
     menu boolean NOT NULL DEFAULT false,
@@ -77,13 +76,12 @@ CREATE TABLE public.page (
     level int NOT NULL DEFAULT 0,
     path int[] NOT NULL DEFAULT '{}',
     account_id int DEFAULT null REFERENCES public.account ON DELETE SET null ON UPDATE CASCADE,
-    created timestamp(0) NOT NULL DEFAULT current_timestamp,
-    UNIQUE (parent_id, slug)
+    created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON public.page (name);
 CREATE INDEX ON public.page (entity_id);
-CREATE INDEX ON public.page (slug);
+CREATE INDEX ON public.page (url);
 CREATE INDEX ON public.page (parent_id);
 CREATE INDEX ON public.page (position);
 CREATE INDEX ON public.page (level);
@@ -475,8 +473,6 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
     DECLARE
-        _ext text := '.html';
-        _index text := 'index';
         _pad int := 10;
     BEGIN
         -- Avoid recursion
@@ -531,8 +527,6 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
         t AS (
             SELECT
                 p.id,
-                CASE WHEN p.slug = _index THEN '' ELSE '/' || p.slug END AS urlkey,
-                CASE WHEN p.slug = _index THEN '/' ELSE '/' || p.slug || _ext END AS url,
                 p.menu,
                 s.sort,
                 lpad(cast(s.sort AS text), _pad, '0') AS position,
@@ -548,8 +542,6 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
             UNION
             SELECT
                 p.id,
-                t.urlkey || '/' || p.slug AS urlkey,
-                t.urlkey || '/' || p.slug || _ext AS url,
                 t.menu AND p.menu AS menu,
                 s.sort,
                 t.position || '.' || lpad(cast(s.sort AS text), _pad, '0') AS position,
@@ -567,7 +559,6 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
         UPDATE
             public.page p
         SET
-            url = t.url,
             menu = t.menu,
             sort = t.sort,
             position = t.position,
@@ -578,8 +569,7 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
         WHERE
             p.id = t.id
             AND (
-                p.url != t.url
-                OR p.menu != t.menu
+                p.menu != t.menu
                 OR p.sort != t.sort
                 OR p.position != t.position
                 OR p.level != t.level
@@ -640,13 +630,12 @@ FOR EACH ROW WHEN (
 
 CREATE CONSTRAINT TRIGGER
     page_menu_after_update
-AFTER UPDATE OF parent_id, sort, slug, menu ON
+AFTER UPDATE OF parent_id, sort, menu ON
     public.page
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW WHEN (
     coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)
     OR NEW.sort != OLD.sort
-    OR NEW.slug != OLD.slug
     OR NEW.menu != OLD.menu
 ) EXECUTE PROCEDURE
     public.page_menu_after();

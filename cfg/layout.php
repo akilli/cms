@@ -73,7 +73,7 @@ return [
             'cfg' => [
                 'attr_id' => [
                     'name',
-                    'slug',
+                    'url',
                     'disabled',
                     'menu',
                     'parent_id',

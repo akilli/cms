@@ -7,10 +7,7 @@ return [
     'entity:postdelete' => ['event\entity_postdelete_uploadable' => 100],
     'entity:postsave' => ['event\entity_postsave_uploadable' => 100],
     'entity:postvalidate' => ['event\entity_postvalidate_password' => 100, 'event\entity_postvalidate_unique' => 200],
-    'entity:postvalidate:id:page' => [
-        'event\entity_page_postvalidate_menu' => 100,
-        'event\entity_page_postvalidate_url' => 200,
-    ],
+    'entity:postvalidate:id:page' => ['event\entity_page_postvalidate_menu' => 100],
     'entity:predelete:id:role' => ['event\entity_role_predelete' => 100],
     'entity:presave:id:iframe' => ['event\entity_iframe_presave' => 100],
     'entity:presave:id:page' => ['event\entity_page_presave' => 100],

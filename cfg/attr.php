@@ -309,6 +309,15 @@ return [
         'searchable' => true,
         'indexable' => true,
     ],
+    'urlpath' => [
+        'backend' => 'varchar',
+        'frontend' => 'text',
+        'validator' => 'urlpath',
+        'viewer' => 'url',
+        'editable' => true,
+        'searchable' => true,
+        'indexable' => true,
+    ],
     'video' => [
         'backend' => 'varchar',
         'frontend' => 'file',

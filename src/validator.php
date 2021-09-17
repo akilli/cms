@@ -68,7 +68,7 @@ function file(string $val, array $attr): string
         throw new DomainException(app\i18n('Invalid file type'));
     }
 
-    return '/' . trim(preg_replace('#[^a-z0-9_\-\./]+#', '-', str\tr($val)), '-/');
+    return str\url($val);
 }
 
 /**
@@ -128,4 +128,9 @@ function uid(string $val): string
 function url(string $val): string
 {
     return filter_var($val, FILTER_VALIDATE_URL) ?: throw new DomainException(app\i18n('Invalid value'));
+}
+
+function urlpath(string $val): string
+{
+    return str\url($val);
 }

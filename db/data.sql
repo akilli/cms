@@ -30,9 +30,9 @@ SELECT setval('public.account_id_seq', (SELECT max(id) FROM public.account));
 
 INSERT INTO
     public.contentpage
-    (id, name, entity_id, slug, menu)
+    (id, name, entity_id, url, menu)
 VALUES
-    (1, 'Homepage', 'contentpage', 'index', true);
+    (1, 'Homepage', 'contentpage', '/', true);
 
 SELECT setval('public.page_id_seq', (SELECT max(id) FROM public.page));
 
