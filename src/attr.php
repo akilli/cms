@@ -251,5 +251,9 @@ function html(array $attr, string $key = null, string|int $subkey = null): array
         $html['autocomplete'] = $attr['autocomplete'];
     }
 
+    if ($attr['pattern']) {
+        $html['pattern'] = $attr['pattern'];
+    }
+
     return $html;
 }
