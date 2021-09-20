@@ -191,7 +191,7 @@ function entity_prevalidate_uploadable(array $data): array
         } elseif (!$item = app\data('request', 'file')[$attrId] ?? null) {
             $data['_error'][$attrId][] = app\i18n('No upload file');
         } else {
-            $data[$attrId] = app\asseturl($item['name'], $data['_entity']['id']);
+            $data[$attrId] = app\asseturl($data['_entity']['id'] . '/' . $item['name']);
         }
     }
 
@@ -245,12 +245,12 @@ function entity_account_prevalidate(array $data): array
 {
     if (!empty($data['image'])) {
         $ext = '.' . pathinfo($data['image'], PATHINFO_EXTENSION);
-        $image = fn(string $name): string => app\asseturl(str\uid($name) . $ext, 'account');
+        $image = fn(string $name): string => app\asseturl($data['_entity']['id'] . '/' . str\uid($name) . $ext);
 
         if (!empty($data['name'])) {
             $data['image'] = $image($data['name']);
         } elseif ($data['_old']) {
-            $name = entity\one('account', crit: [['id', $data['_old']['id']]], select: ['name'])['name'];
+            $name = entity\one($data['_entity']['id'], crit: [['id', $data['_old']['id']]], select: ['name'])['name'];
             $data['image'] = $image($name);
         } else {
             $data['_error']['image'][] = app\i18n('Could not generate profile image URL');

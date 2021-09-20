@@ -249,11 +249,11 @@ function cropurl(string $url, int $width, int $height = null): string
 }
 
 /**
- * Generates an asset URL for given file and entity
+ * Generates the URL for given asset file
  */
-function asseturl(string $id, string $entityId = null): string
+function asseturl(string $id): string
 {
-    return APP['url']['asset'] . ($entityId ? '/' . $entityId : '') . '/' . $id;
+    return APP['url']['asset'] . '/' . $id;
 }
 
 /**
