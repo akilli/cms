@@ -241,10 +241,10 @@ WITH LOCAL CHECK OPTION;
 -- $base_schema = base table schema
 -- $base_name = base table name
 -- $ext_schema = extension table schema
--- $base_schema = extension table name
+-- $ext_name = extension table name
 -- $entity_schema = entity table schema
 -- $entity_name = entity table name
--- $entity = [$entity_schema.]$entity_table ($entity_schema might be omitted for $entity_schema = public)
+-- $entity = [$entity_schema.]$entity_name ($entity_schema might be omitted for $entity_schema = public)
 --
 -- !!! Please replace the variables in the following example with the real table schemas and names !!!
 --
@@ -257,7 +257,7 @@ WITH LOCAL CHECK OPTION;
 -- SELECT *
 -- FROM $base_schema.$base_name
 -- LEFT JOIN $ext_schema.$ext_name USING (id)
--- WHERE entity_id = '$entity';
+-- WHERE $base_schema.entity_id = '$entity';
 --
 -- CREATE TRIGGER entity_save
 -- INSTEAD OF INSERT OR UPDATE ON $entity_schema.$entity_name
