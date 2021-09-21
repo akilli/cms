@@ -70,8 +70,7 @@ function data_app(array $data): array
             !in_array($data['action'], ['delete', 'view'])
             || $data['id'] && entity\size($data['entity_id'], crit: [['id', $data['id']]])
         )
-        && ($data['action'] !== 'edit' || !$data['id'] || entity\size($data['entity_id'], crit: [['id', $data['id']]]))
-        && (!$data['page'] || !$data['page']['disabled']);
+        && ($data['action'] !== 'edit' || !$data['id'] || entity\size($data['entity_id'], crit: [['id', $data['id']]]));
 
     if ($data['valid']) {
         $data['event'] = [

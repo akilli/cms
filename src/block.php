@@ -21,20 +21,15 @@ function block(array $block): string
 
 function breadcrumb(array $block): string
 {
-    if (!($page = app\data('app', 'page')) || !$page['breadcrumb']) {
+    if (!($page = app\data('app', 'page')) || $page['level'] === 0) {
         return '';
     }
 
     $html = '';
-    $all = entity\all(
-        'page',
-        crit: [['id', $page['path']]],
-        select: ['id', 'name', 'url', 'disabled'],
-        order: ['level' => 'asc']
-    );
+    $all = entity\all('page', crit: [['id', $page['path']]], select: ['id', 'name', 'url'], order: ['level' => 'asc']);
 
     foreach ($all as $item) {
-        $a = $item['disabled'] || $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
+        $a = $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
         $html .= ($html ? ' ' : '') . html\element('a', $a, $item['name']);
     }
 
@@ -131,14 +126,8 @@ function index(array $block): string
         $limit = $get['limit'];
     }
 
-    if (in_array('page', [$entity['id'], $entity['parent_id']])) {
-        if ($app['action'] !== 'index') {
-            $crit[] = ['disabled', false];
-        }
-
-        if ($block['cfg']['parent_id']) {
-            $crit[] = ['parent_id', $block['cfg']['parent_id'] === -1 ? $app['id'] : $block['cfg']['parent_id']];
-        }
+    if (in_array('page', [$entity['id'], $entity['parent_id']]) && $block['cfg']['parent_id']) {
+        $crit[] = ['parent_id', $block['cfg']['parent_id'] === -1 ? $app['id'] : $block['cfg']['parent_id']];
     }
 
     if ($block['cfg']['sortable']
@@ -247,7 +236,7 @@ function menu(array $block): string
     }
 
     $rootCrit = $block['cfg']['submenu'] ? [['id', $page['path'][1]]] : [['url', '/']];
-    $select = ['id', 'name', 'url', 'disabled', 'position', 'level'];
+    $select = ['id', 'name', 'url', 'position', 'level'];
 
     if (!$root = entity\one('page', crit: $rootCrit, select: $select)) {
         return '';
@@ -259,8 +248,6 @@ function menu(array $block): string
         $parent = $page['path'];
         unset($parent[0]);
         $crit[] = [['id', $page['path']], ['parent_id', $parent]];
-    } else {
-        $crit[] = ['menu', true];
     }
 
     $block['cfg']['data'] = entity\all('page', crit: $crit, select: $select, order: ['position' => 'asc']);
@@ -314,7 +301,7 @@ function nav(array $block): string
 
     $count = count($block['cfg']['data']);
     $start = current($block['cfg']['data'])['level'] ?? 1;
-    $base = ['name' => null, 'url' => null, 'disabled' => false, 'level' => $start];
+    $base = ['name' => null, 'url' => null, 'level' => $start];
     $level = 0;
     $i = 0;
     $attrs = ['id' => $block['id']];
@@ -335,7 +322,7 @@ function nav(array $block): string
 
         $item = arr\replace($base, $item);
         $item['level'] = $item['level'] - $start + 1;
-        $a = $item['url'] && !$item['disabled'] ? ['href' => $item['url']] : [];
+        $a = $item['url'] ? ['href' => $item['url']] : [];
         $c = (array) $call($item);
         $class = '';
         $toggle = '';

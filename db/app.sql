@@ -67,9 +67,6 @@ CREATE TABLE public.page (
     aside text NOT NULL DEFAULT '',
     meta_title varchar(80) NOT NULL DEFAULT '',
     meta_description varchar(300) NOT NULL DEFAULT '',
-    disabled boolean NOT NULL DEFAULT false,
-    breadcrumb boolean NOT NULL DEFAULT false,
-    menu boolean NOT NULL DEFAULT false,
     parent_id int DEFAULT null REFERENCES public.page ON DELETE CASCADE ON UPDATE CASCADE,
     sort int NOT NULL DEFAULT 0,
     position varchar(255) NOT NULL DEFAULT '',
@@ -527,7 +524,6 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
         t AS (
             SELECT
                 p.id,
-                p.menu,
                 s.sort,
                 lpad(cast(s.sort AS text), _pad, '0') AS position,
                 0 AS level,
@@ -542,7 +538,6 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
             UNION
             SELECT
                 p.id,
-                t.menu AND p.menu AS menu,
                 s.sort,
                 t.position || '.' || lpad(cast(s.sort AS text), _pad, '0') AS position,
                 t.level + 1 AS level,
@@ -559,7 +554,6 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
         UPDATE
             public.page p
         SET
-            menu = t.menu,
             sort = t.sort,
             position = t.position,
             level = t.level,
@@ -568,13 +562,7 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
             t
         WHERE
             p.id = t.id
-            AND (
-                p.menu != t.menu
-                OR p.sort != t.sort
-                OR p.position != t.position
-                OR p.level != t.level
-                OR p.path != t.path
-            );
+            AND (p.sort != t.sort OR p.position != t.position OR p.level != t.level OR p.path != t.path);
 
         -- Set session variable to handle recursion
         PERFORM set_config('app.page_menu', '', true);
@@ -630,13 +618,12 @@ FOR EACH ROW WHEN (
 
 CREATE CONSTRAINT TRIGGER
     page_menu_after_update
-AFTER UPDATE OF parent_id, sort, menu ON
+AFTER UPDATE OF parent_id, sort ON
     public.page
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW WHEN (
     coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)
     OR NEW.sort != OLD.sort
-    OR NEW.menu != OLD.menu
 ) EXECUTE PROCEDURE
     public.page_menu_after();
 

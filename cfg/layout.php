@@ -68,30 +68,10 @@ return [
             'cfg' => ['pager' => 'bottom', 'sortable' => true],
         ],
     ],
-    'html:page:edit' => [
-        'edit' => [
-            'cfg' => [
-                'attr_id' => [
-                    'name',
-                    'url',
-                    'disabled',
-                    'menu',
-                    'parent_id',
-                    'sort',
-                    'breadcrumb',
-                    'title',
-                    'content',
-                    'aside',
-                    'meta_title',
-                    'meta_description',
-                ],
-            ],
-        ],
-    ],
     'html:page:index' => [
         'index' => [
             'cfg' => [
-                'attr_id' => ['name', 'position', 'parent_id', 'menu', 'created'],
+                'attr_id' => ['name', 'position', 'parent_id', 'created'],
                 'filter' => ['parent_id', 'account_id'],
                 'search' => ['name'],
             ],
