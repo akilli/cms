@@ -38,7 +38,7 @@ return [
     ],
     'html:_public_' => [
         'header' => ['type' => 'tpl', 'tpl' => 'header.phtml', 'parent_id' => 'body', 'sort' => 140],
-        'menu' => ['type' => 'menu', 'parent_id' => 'body', 'sort' => 160, 'cfg' => ['toggle' => true]],
+        'menu' => ['type' => 'menu', 'parent_id' => 'body', 'sort' => 160],
         'breadcrumb' => ['type' => 'breadcrumb', 'parent_id' => 'main', 'sort' => 50],
     ],
     'html:account:login' => [

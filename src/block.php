@@ -225,42 +225,15 @@ function login(array $block): string
 
 function menu(array $block): string
 {
-    if ($block['cfg']['url']) {
-        $page = entity\one('page', crit: [['url', $block['cfg']['url']]]);
-    } else {
-        $page = app\data('app', 'page');
-    }
-
-    if ($block['cfg']['submenu'] && empty($page['path'][1])) {
-        return '';
-    }
-
-    $rootCrit = $block['cfg']['submenu'] ? [['id', $page['path'][1]]] : [['url', '/']];
     $select = ['id', 'name', 'url', 'position', 'level'];
 
-    if (!$root = entity\one('page', crit: $rootCrit, select: $select)) {
+    if (!$root = entity\one('page', crit: [['url', '/']], select: $select)) {
         return '';
     }
 
     $crit = [['position', $root['position'] . '.', APP['op']['^']]];
-
-    if ($block['cfg']['submenu']) {
-        $parent = $page['path'];
-        unset($parent[0]);
-        $crit[] = [['id', $page['path']], ['parent_id', $parent]];
-    }
-
-    $block['cfg']['data'] = entity\all('page', crit: $crit, select: $select, order: ['position' => 'asc']);
-    $block['cfg']['title'] = null;
-
-    if ($block['cfg']['root'] && $block['cfg']['submenu']) {
-        $block['cfg']['title'] = $root['name'];
-    } elseif ($block['cfg']['root']) {
-        $root['level']++;
-        $block['cfg']['data'] = [$root['id'] => $root] + $block['cfg']['data'];
-    }
-
-    unset($block['cfg']['root'], $block['cfg']['submenu']);
+    $order = ['position' => 'asc'];
+    $block['cfg'] = ['data' => entity\all('page', crit: $crit, select: $select, order: $order), 'role' => 'menubar'];
     $block['type'] = 'nav';
 
     return layout\render(layout\block($block));
@@ -304,16 +277,11 @@ function nav(array $block): string
     $base = ['name' => null, 'url' => null, 'level' => $start];
     $level = 0;
     $i = 0;
-    $attrs = ['id' => $block['id']];
+    $attrs = ['id' => $block['id'], 'role' => $block['cfg']['role']];
     $url = app\data('request', 'url');
     $call = fn(array $it): ?string => $it['url'] === $url ? 'current' : null;
     $html = $block['cfg']['title'] ? html\element('h2', [], app\i18n($block['cfg']['title'])) : '';
     $html .= layout\render_children($block['id']);
-
-    if ($block['cfg']['toggle']) {
-        $html .= html\element('a', ['data-action' => 'toggle', 'data-target' => $block['id']]);
-        $attrs['data-toggle'] = '';
-    }
 
     foreach ($block['cfg']['data'] as $item) {
         if (empty($item['name'])) {
@@ -325,7 +293,6 @@ function nav(array $block): string
         $a = $item['url'] ? ['href' => $item['url']] : [];
         $c = (array) $call($item);
         $class = '';
-        $toggle = '';
 
         if ($next = next($block['cfg']['data'])) {
             $next = arr\replace($base, $next);
@@ -338,16 +305,6 @@ function nav(array $block): string
             }
 
             $c[] = 'parent';
-
-            if ($block['cfg']['toggle']) {
-                $ta = ['data-action' => 'toggle'];
-
-                if (array_intersect(['current', 'path'], $c)) {
-                    $ta['data-toggle'] = '';
-                }
-
-                $toggle = html\element('a', $ta);
-            }
         }
 
         if ($c) {
@@ -360,7 +317,7 @@ function nav(array $block): string
             -1 => '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>',
             default => '</li><li' . $class . '>',
         };
-        $html .= $toggle . html\element('a', $a, $item['name']);
+        $html .= html\element('a', $a, $item['name']);
         $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
         $level = $item['level'];
     }
@@ -505,7 +462,7 @@ function toolbar(array $block): string
     }
 
     $block['type'] = 'nav';
-    $block['cfg'] = ['data' => array_diff_key($data, $empty), 'toggle' => true];
+    $block['cfg'] = ['data' => array_diff_key($data, $empty), 'role' => 'menubar'];
 
     return layout\render(layout\block($block));
 }

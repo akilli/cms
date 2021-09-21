@@ -33,9 +33,9 @@ return [
         ],
     ],
     'login' => ['call' => 'block\login', 'tpl' => 'form.phtml'],
-    'menu' => ['call' => 'block\menu', 'cfg' => ['root' => false, 'submenu' => false, 'toggle' => false, 'url' => null]],
+    'menu' => ['call' => 'block\menu'],
     'meta' => ['call' => 'block\meta', 'tpl' => 'meta.phtml'],
-    'nav' => ['call' => 'block\nav', 'cfg' => ['data' => [], 'title' => null, 'toggle' => false]],
+    'nav' => ['call' => 'block\nav', 'cfg' => ['data' => [], 'role' => null, 'title' => null]],
     'pager' => [
         'call' => 'block\pager',
         'tpl' => 'pager.phtml',

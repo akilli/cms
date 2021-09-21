@@ -302,55 +302,38 @@ main a:not([role=button]):not([data-action]):hover {
     /**
      * Navigation
      */
-    nav[data-toggle] {
+    nav[role=menubar] {
         position: sticky;
         top: 0;
         z-index: 100;
     }
 
-    nav[data-toggle=open] {
+    nav[role=menubar][data-open] {
         position: relative;
     }
 
-    nav[data-toggle] ul {
+    nav[role=menubar] ul {
         display: none;
-        margin-left: 1.25rem;
+        margin-left: 1.5rem;
     }
 
-    nav[data-toggle] > ul {
-        margin-top: 1.5rem;
-    }
-
-    nav[data-toggle] a[data-action=toggle][data-toggle] ~ ul {
+    nav[role=menubar][data-open] ul {
         display: block;
     }
 
-    nav[data-toggle] > a[data-action=toggle] {
-        display: block;
-        font-size: 1.5rem;
+    nav[role=menubar] > ul {
+        margin: 1.5rem 0 0;
     }
 
-    nav[data-toggle] ul a[data-action=toggle] {
-        display: inline-block;
-        margin: 0 0.75rem 0 -1.25rem;
-    }
-
-    nav[data-toggle] ul a[data-action=toggle][data-toggle] {
-        margin-right: 0.5rem;
-    }
-
-    nav[data-toggle] > a[data-action=toggle]::before {
+    nav[role=menubar]::before {
+        line-height: 1;
+        font-family: cms;
         font-size: 1.5rem;
         content: '\f0c9';
     }
 
-    nav[data-toggle] ul a[data-action=toggle]::before {
-        font-size: 0.75rem;
-        content: '\f054';
-    }
-
-    nav[data-toggle] ul a[data-action=toggle][data-toggle]::before {
-        content: '\f078';
+    nav[role=menubar][data-open]::before {
+        content: '\f00d';
     }
 }
 
@@ -361,43 +344,39 @@ main a:not([role=button]):not([data-action]):hover {
     /**
      * Navigation
      */
-    nav[data-toggle] li ul,
-    nav[data-toggle] a[data-action=toggle][data-toggle] ~ ul,
-    nav[data-toggle] > a[data-action=toggle],
-    nav[data-toggle] ul a[data-action=toggle] {
+    nav[role=menubar]::before,
+    nav[role=menubar] li ul {
         display: none;
     }
 
-    nav[data-toggle] > ul,
-    nav[data-toggle] li:hover > ul,
-    nav[data-toggle] > a[data-action=toggle][data-toggle] ~ ul,
-    nav[data-toggle] li:hover > a[data-action=toggle][data-toggle] ~ ul {
+    nav[role=menubar] > ul,
+    nav[role=menubar] li:hover > ul {
         display: block;
     }
 
-    nav[data-toggle] ul {
+    nav[role=menubar] ul {
         margin-left: 0;
     }
 
-    nav[data-toggle] > ul {
+    nav[role=menubar] > ul {
         margin-top: 0;
     }
 
-    nav[data-toggle] li ul {
+    nav[role=menubar] li ul {
         position: absolute;
     }
 
-    nav[data-toggle] li li ul {
+    nav[role=menubar] li li ul {
         top: 0;
         left: 100%;
     }
 
-    nav[data-toggle] > ul > li {
+    nav[role=menubar] > ul > li {
         display: inline-block;
         margin-right: 0.625rem;
     }
 
-    nav[data-toggle] li li {
+    nav[role=menubar] li li {
         position: relative;
         display: block;
         padding: 0.375rem;

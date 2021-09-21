@@ -1,5 +1,5 @@
 import print from './app/print.js';
-import toggle from './app/toggle.js';
+import nav from './app/nav.js';
 
 print();
-toggle();
+nav();
