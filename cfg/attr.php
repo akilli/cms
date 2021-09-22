@@ -308,6 +308,7 @@ return [
         'editable' => true,
         'searchable' => true,
         'indexable' => true,
+        'max' => 400,
     ],
     'urlpath' => [
         'backend' => 'varchar',

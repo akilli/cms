@@ -125,7 +125,7 @@ return [
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'max' => 100],
-            'url' => ['name' => 'URL', 'type' => 'urlpath', 'nullable' => true, 'max' => 400],
+            'url' => ['name' => 'URL', 'type' => 'urlpath', 'nullable' => true],
             'parent_id' => ['name' => 'Parent Menu Item', 'type' => 'entity', 'ref' => 'menu', 'nullable' => true],
             'sort' => ['name' => 'Sort', 'type' => 'int'],
             'position' => ['name' => 'Position', 'type' => 'position', 'auto' => true, 'max' => 255],
@@ -141,7 +141,7 @@ return [
             'id' => ['name' => 'ID', 'type' => 'serial'],
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'max' => 100],
             'entity_id' => ['name' => 'Entity', 'type' => 'entitychild', 'required' => true, 'max' => 255],
-            'url' => ['name' => 'URL', 'type' => 'urlpath', 'required' => true, 'unique' => true, 'max' => 400],
+            'url' => ['name' => 'URL', 'type' => 'urlpath', 'required' => true, 'unique' => true],
             'title' => ['name' => 'Title', 'type' => 'text', 'max' => 100],
             'content' => ['name' => 'Main Content', 'type' => 'editor'],
             'aside' => ['name' => 'Additional Information', 'type' => 'editor'],
