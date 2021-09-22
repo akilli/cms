@@ -189,6 +189,8 @@ function entity_prevalidate_uploadable(array $data): array
             continue;
         } elseif (!$item = app\data('request', 'file')[$attrId] ?? null) {
             $data['_error'][$attrId][] = app\i18n('No upload file');
+        } elseif (!in_array($item['type'], $attr['accept'])) {
+            $data['_error'][$attrId][] = app\i18n('Invalid file type');
         } else {
             $data[$attrId] = app\asseturl($data['_entity']['id'] . '/' . $item['name']);
         }

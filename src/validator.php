@@ -60,20 +60,6 @@ function entity(int $val, array $attr): int
 /**
  * @throws DomainException
  */
-function file(string $val, array $attr): string
-{
-    $mime = app\data('request', 'file')[$attr['id']]['type'] ?? null;
-
-    if ($val && (!$mime || !in_array($mime, $attr['accept']))) {
-        throw new DomainException(app\i18n('Invalid file type'));
-    }
-
-    return str\url($val);
-}
-
-/**
- * @throws DomainException
- */
 function multientity(array $val, array $attr): array
 {
     if ($val && entity\size($attr['ref'], crit: [['id', $val]]) !== count($val)) {
@@ -132,5 +118,12 @@ function url(string $val): string
 
 function urlpath(string $val): string
 {
-    return str\url($val);
+    $parts = explode('/', $val);
+    $key = array_key_last($parts);
+    $info = pathinfo($parts[$key]);
+    $parts[$key] = $info['filename'];
+    $parts = array_map('str\uid', $parts);
+    $parts[$key] .= $parts[$key] && $info['extension'] ? '.' . $info['extension'] : '';
+
+    return '/' . implode('/', array_filter($parts));
 }

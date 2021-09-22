@@ -38,12 +38,7 @@ function tr(string $val): string
 
 function uid(string $val): string
 {
-    return trim(preg_replace('#[^a-z0-9_\-]+#', '-', tr($val)), '-');
-}
-
-function url(string $val): string
-{
-    return '/' . trim(preg_replace('#[^a-z0-9\-\./]+#', '-', tr($val)), '-/');
+    return trim(preg_replace('#[^a-z0-9\-]+#', '-', tr($val)), '-');
 }
 
 /**

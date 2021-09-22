@@ -5,7 +5,6 @@ return [
     'editor' => ['call' => 'validator\editor'],
     'email' => ['call' => 'validator\email'],
     'entity' => ['call' => 'validator\entity'],
-    'file' => ['call' => 'validator\file'],
     'multientity' => ['call' => 'validator\multientity'],
     'opt' => ['call' => 'validator\opt'],
     'text' => ['call' => 'validator\text'],
