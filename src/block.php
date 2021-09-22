@@ -22,31 +22,18 @@ function block(array $block): string
 function breadcrumb(array $block): string
 {
     $url = app\data('request', 'url');
-    $crit = [['url', $url]];
 
-    if ($block['cfg']['root_id']) {
-        $root = entity\one('menu', crit: [['id', $block['cfg']['root_id']]], select: ['url', 'position']);
-
-        if (!$root || $root['url'] === $url) {
-            return '';
-        }
-
-        $crit[] = ['position', $root['position'] . '.', APP['op']['^']];
-    }
-
-    $current = entity\one('menu', crit: $crit, select: ['level', 'path']);
-
-    if (!$current || $current['level'] === 0) {
+    if ($url === '/' || !($cur = entity\one('menu', crit: [['url', $url]], select: ['path']))) {
         return '';
     }
 
-    $crit[0] = ['id', $current['path']];
-    $html = '';
-    $all = entity\all('menu', crit: $crit, select: ['id', 'name', 'url'], order: ['level' => 'asc']);
+    $home = entity\one('page', crit: [['url', '/']], select: ['name', 'url']);
+    $html = html\element('a', ['href' => $home['url']], $home['name']);
+    $all = entity\all('menu', crit: [['id', $cur['path']]], select: ['name', 'url'], order: ['level' => 'asc']);
 
     foreach ($all as $item) {
-        $a = $item['id'] === $current['id'] ? [] : ['href' => $item['url']];
-        $html .= ($html ? ' ' : '') . html\element('a', $a, $item['name']);
+        $a = $item['url'] === $url ? [] : ['href' => $item['url']];
+        $html .= ' ' . html\element('a', $a, $item['name']);
     }
 
     return html\element('nav', ['id' => $block['id']], $html);
@@ -237,19 +224,9 @@ function login(array $block): string
 
 function menu(array $block): string
 {
-    $crit = [];
-
-    if ($block['cfg']['root_id']) {
-        if (!$root = entity\one('menu', crit: [['id', $block['cfg']['root_id']]], select: ['position'])) {
-            return '';
-        }
-
-        $crit[] = ['position', $root['position'] . '.', APP['op']['^']];
-    }
-
     $select = ['id', 'name', 'url', 'position', 'level'];
     $order = ['position' => 'asc'];
-    $block['cfg'] = ['data' => entity\all('menu', crit: $crit, select: $select, order: $order), 'role' => 'menubar'];
+    $block['cfg'] = ['data' => entity\all('menu', select: $select, order: $order), 'role' => 'menubar'];
     $block['type'] = 'nav';
 
     return layout\render(layout\block($block));

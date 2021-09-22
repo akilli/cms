@@ -5,7 +5,7 @@ return [
         'tag' => 'section',
         'cfg' => ['attr_id' => ['content'], 'data' => [], 'entity_id' => null, 'id' => null],
     ],
-    'breadcrumb' => ['call' => 'block\breadcrumb', 'cfg' => ['root_id' => null]],
+    'breadcrumb' => ['call' => 'block\breadcrumb'],
     'container' => ['call' => 'block\container', 'cfg' => ['id' => false]],
     'edit' => ['call' => 'block\edit', 'tpl' => 'form.phtml', 'cfg' => ['attr_id' => []]],
     'filter' => [
@@ -32,7 +32,7 @@ return [
         ],
     ],
     'login' => ['call' => 'block\login', 'tpl' => 'form.phtml'],
-    'menu' => ['call' => 'block\menu', 'cfg' => ['root_id' => null]],
+    'menu' => ['call' => 'block\menu'],
     'meta' => ['call' => 'block\meta', 'tpl' => 'meta.phtml'],
     'nav' => ['call' => 'block\nav', 'cfg' => ['data' => [], 'role' => null, 'title' => null]],
     'pager' => [
