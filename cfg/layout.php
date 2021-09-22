@@ -68,13 +68,14 @@ return [
             'cfg' => ['pager' => 'bottom', 'sortable' => true],
         ],
     ],
+    'html:menu:index' => [
+        'index' => [
+            'cfg' => ['attr_id' => ['name', 'url', 'position', 'created'], 'filter' => ['created'], 'search' => ['name']],
+        ],
+    ],
     'html:page:index' => [
         'index' => [
-            'cfg' => [
-                'attr_id' => ['name', 'position', 'parent_id', 'created'],
-                'filter' => ['parent_id', 'account_id'],
-                'search' => ['name'],
-            ],
+            'cfg' => ['attr_id' => ['name', 'url', 'created'], 'filter' => ['created'], 'search' => ['name']],
         ],
     ],
     'html:page:view' => [

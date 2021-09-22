@@ -37,6 +37,29 @@ CREATE INDEX ON public.account (role_id);
 CREATE INDEX ON public.account (created);
 
 --
+-- Menu
+--
+
+CREATE TABLE public.menu (
+    id serial PRIMARY KEY,
+    name varchar(100) NOT NULL,
+    url varchar(400) DEFAULT null,
+    parent_id int DEFAULT null REFERENCES public.menu ON DELETE CASCADE ON UPDATE CASCADE,
+    sort int NOT NULL DEFAULT 0,
+    position varchar(255) NOT NULL DEFAULT '',
+    level int NOT NULL DEFAULT 0,
+    path int[] NOT NULL DEFAULT '{}',
+    created timestamp(0) NOT NULL DEFAULT current_timestamp
+);
+
+CREATE INDEX ON public.menu (name);
+CREATE INDEX ON public.menu (url);
+CREATE INDEX ON public.menu (parent_id);
+CREATE INDEX ON public.menu (position);
+CREATE INDEX ON public.menu (level);
+CREATE INDEX ON public.menu (created);
+
+--
 -- File
 --
 
@@ -67,22 +90,12 @@ CREATE TABLE public.page (
     aside text NOT NULL DEFAULT '',
     meta_title varchar(80) NOT NULL DEFAULT '',
     meta_description varchar(300) NOT NULL DEFAULT '',
-    parent_id int DEFAULT null REFERENCES public.page ON DELETE CASCADE ON UPDATE CASCADE,
-    sort int NOT NULL DEFAULT 0,
-    position varchar(255) NOT NULL DEFAULT '',
-    level int NOT NULL DEFAULT 0,
-    path int[] NOT NULL DEFAULT '{}',
-    account_id int DEFAULT null REFERENCES public.account ON DELETE SET null ON UPDATE CASCADE,
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX ON public.page (name);
 CREATE INDEX ON public.page (entity_id);
 CREATE INDEX ON public.page (url);
-CREATE INDEX ON public.page (parent_id);
-CREATE INDEX ON public.page (position);
-CREATE INDEX ON public.page (level);
-CREATE INDEX ON public.page (account_id);
 CREATE INDEX ON public.page (created);
 
 --
@@ -431,18 +444,18 @@ $$ LANGUAGE plpgsql;
 -- Page
 --
 
-CREATE FUNCTION public.page_menu_before() RETURNS trigger AS $$
+CREATE FUNCTION public.menu_before() RETURNS trigger AS $$
     DECLARE
         _cnt int;
     BEGIN
         -- Avoid recursion
-        IF (current_setting('app.page_menu', true) != '1') THEN
+        IF (current_setting('app.menu', true) != '1') THEN
             RETURN NEW;
         END IF;
 
         IF (TG_OP = 'UPDATE'
             AND NEW.parent_id IS NOT NULL
-            AND (SELECT path @> ARRAY[OLD.id] FROM public.page WHERE id = NEW.parent_id)
+            AND (SELECT path @> ARRAY[OLD.id] FROM public.menu WHERE id = NEW.parent_id)
         ) THEN
             RAISE EXCEPTION 'Recursion error';
         END IF;
@@ -450,7 +463,7 @@ CREATE FUNCTION public.page_menu_before() RETURNS trigger AS $$
         SELECT
             count(id) + 1
         FROM
-            public.page
+            public.menu
         WHERE
             coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
         INTO
@@ -468,22 +481,22 @@ CREATE FUNCTION public.page_menu_before() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
+CREATE FUNCTION public.menu_after() RETURNS trigger AS $$
     DECLARE
         _pad int := 10;
     BEGIN
         -- Avoid recursion
-        IF (current_setting('app.page_menu', true) != '1') THEN
+        IF (current_setting('app.menu', true) != '1') THEN
             RETURN null;
         END IF;
 
         -- Set session variable to handle recursion
-        PERFORM set_config('app.page_menu', '1', true);
+        PERFORM set_config('app.menu', '1', true);
 
         -- Remove from old parent
         IF (TG_OP = 'UPDATE' OR TG_OP = 'DELETE') THEN
             UPDATE
-                public.page
+                public.menu
             SET
                 sort = sort - 1
             WHERE
@@ -495,7 +508,7 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
         -- Add to new parent
         IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
             UPDATE
-                public.page
+                public.menu
             SET
                 sort = sort + 1
             WHERE
@@ -508,51 +521,51 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
         WITH RECURSIVE
         s AS (
             SELECT
-                p.id,
+                m.id,
                 (
                     SELECT
                        count(id)
                     FROM
-                       public.page
+                       public.menu
                     WHERE
-                       coalesce(parent_id, 0) = coalesce(p.parent_id, 0)
-                       AND (sort < p.sort OR sort = p.sort AND id < p.id)
+                       coalesce(parent_id, 0) = coalesce(m.parent_id, 0)
+                       AND (sort < m.sort OR sort = m.sort AND id < m.id)
                 ) + 1 AS sort
             FROM
-                public.page p
+                public.menu m
         ),
         t AS (
             SELECT
-                p.id,
+                m.id,
                 s.sort,
                 lpad(cast(s.sort AS text), _pad, '0') AS position,
                 0 AS level,
-                '{}'::int[] || p.id AS path
+                '{}'::int[] || m.id AS path
             FROM
-                public.page p
+                public.menu m
             INNER JOIN
                 s
-                    ON s.id = p.id
+                    ON s.id = m.id
             WHERE
-                p.parent_id IS NULL
+                m.parent_id IS NULL
             UNION
             SELECT
-                p.id,
+                m.id,
                 s.sort,
                 t.position || '.' || lpad(cast(s.sort AS text), _pad, '0') AS position,
                 t.level + 1 AS level,
-                t.path || p.id AS path
+                t.path || m.id AS path
             FROM
-                public.page p
+                public.menu m
             INNER JOIN
                 t
-                    ON t.id = p.parent_id
+                    ON t.id = m.parent_id
             INNER JOIN
                 s
-                    ON s.id = p.id
+                    ON s.id = m.id
         )
         UPDATE
-            public.page p
+            public.menu m
         SET
             sort = t.sort,
             position = t.position,
@@ -561,11 +574,11 @@ CREATE FUNCTION public.page_menu_after() RETURNS trigger AS $$
         FROM
             t
         WHERE
-            p.id = t.id
-            AND (p.sort != t.sort OR p.position != t.position OR p.level != t.level OR p.path != t.path);
+            m.id = t.id
+            AND (m.sort != t.sort OR m.position != t.position OR m.level != t.level OR m.path != t.path);
 
         -- Set session variable to handle recursion
-        PERFORM set_config('app.page_menu', '', true);
+        PERFORM set_config('app.menu', '', true);
 
         RETURN null;
     END;
@@ -588,44 +601,44 @@ $$ LANGUAGE plpgsql;
 -- ---------------------------------------------------------------------------------------------------------------------
 
 --
--- Page
+-- Menu
 --
 
 CREATE TRIGGER
-    page_menu_before
+    menu_before
 BEFORE INSERT ON
-    public.page
+    public.menu
 FOR EACH ROW EXECUTE PROCEDURE
-    public.page_menu_before();
+    public.menu_before();
 
 CREATE CONSTRAINT TRIGGER
-    page_menu_after
+    menu_after
 AFTER DELETE OR INSERT ON
-    public.page
+    public.menu
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW EXECUTE PROCEDURE
-    public.page_menu_after();
+    public.menu_after();
 
 CREATE TRIGGER
-    page_menu_before_update
+    menu_before_update
 BEFORE UPDATE OF parent_id, sort ON
-    public.page
+    public.menu
 FOR EACH ROW WHEN (
     coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)
     OR NEW.sort != OLD.sort
 ) EXECUTE PROCEDURE
-    public.page_menu_before();
+    public.menu_before();
 
 CREATE CONSTRAINT TRIGGER
-    page_menu_after_update
+    menu_after_update
 AFTER UPDATE OF parent_id, sort ON
-    public.page
+    public.menu
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW WHEN (
     coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)
     OR NEW.sort != OLD.sort
 ) EXECUTE PROCEDURE
-    public.page_menu_after();
+    public.menu_after();
 
 --
 -- Layout

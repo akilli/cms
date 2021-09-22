@@ -30,7 +30,7 @@ function entity(array $data, array $attr): array
     if (($opt = &app\registry('opt')['entity'][$attr['ref']]) === null) {
         $entity = $data['_entity']['id'] === $attr['ref'] ? $data['_entity'] : app\cfg('entity', $attr['ref']);
 
-        if (in_array('page', [$entity['id'], $entity['parent_id']])) {
+        if ($entity['id'] === 'menu') {
             $all = entity\all($entity['id'], select: ['id', 'name', 'position'], order: ['position' => 'asc']);
             $opt = [];
 

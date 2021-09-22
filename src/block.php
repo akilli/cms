@@ -21,15 +21,31 @@ function block(array $block): string
 
 function breadcrumb(array $block): string
 {
-    if (!($page = app\data('app', 'page')) || $page['level'] === 0) {
+    $url = app\data('request', 'url');
+    $crit = [['url', $url]];
+
+    if ($block['cfg']['root_id']) {
+        $root = entity\one('menu', crit: [['id', $block['cfg']['root_id']]], select: ['url', 'position']);
+
+        if (!$root || $root['url'] === $url) {
+            return '';
+        }
+
+        $crit[] = ['position', $root['position'] . '.', APP['op']['^']];
+    }
+
+    $current = entity\one('menu', crit: $crit, select: ['level', 'path']);
+
+    if (!$current || $current['level'] === 0) {
         return '';
     }
 
+    $crit[0] = ['id', $current['path']];
     $html = '';
-    $all = entity\all('page', crit: [['id', $page['path']]], select: ['id', 'name', 'url'], order: ['level' => 'asc']);
+    $all = entity\all('menu', crit: $crit, select: ['id', 'name', 'url'], order: ['level' => 'asc']);
 
     foreach ($all as $item) {
-        $a = $item['id'] === $page['id'] ? [] : ['href' => $item['url']];
+        $a = $item['id'] === $current['id'] ? [] : ['href' => $item['url']];
         $html .= ($html ? ' ' : '') . html\element('a', $a, $item['name']);
     }
 
@@ -124,10 +140,6 @@ function index(array $block): string
 
     if (is_int($get['limit']) && $get['limit'] >= 0 && in_array($get['limit'], $block['cfg']['limits'])) {
         $limit = $get['limit'];
-    }
-
-    if (in_array('page', [$entity['id'], $entity['parent_id']]) && $block['cfg']['parent_id']) {
-        $crit[] = ['parent_id', $block['cfg']['parent_id'] === -1 ? $app['id'] : $block['cfg']['parent_id']];
     }
 
     if ($block['cfg']['sortable']
@@ -225,15 +237,19 @@ function login(array $block): string
 
 function menu(array $block): string
 {
-    $select = ['id', 'name', 'url', 'position', 'level'];
+    $crit = [];
 
-    if (!$root = entity\one('page', crit: [['url', '/']], select: $select)) {
-        return '';
+    if ($block['cfg']['root_id']) {
+        if (!$root = entity\one('menu', crit: [['id', $block['cfg']['root_id']]], select: ['position'])) {
+            return '';
+        }
+
+        $crit[] = ['position', $root['position'] . '.', APP['op']['^']];
     }
 
-    $crit = [['position', $root['position'] . '.', APP['op']['^']]];
+    $select = ['id', 'name', 'url', 'position', 'level'];
     $order = ['position' => 'asc'];
-    $block['cfg'] = ['data' => entity\all('page', crit: $crit, select: $select, order: $order), 'role' => 'menubar'];
+    $block['cfg'] = ['data' => entity\all('menu', crit: $crit, select: $select, order: $order), 'role' => 'menubar'];
     $block['type'] = 'nav';
 
     return layout\render(layout\block($block));
@@ -243,20 +259,10 @@ function meta(array $block): string
 {
     $app = app\data('app');
     $desc = $app['page']['meta_description'] ?? null;
-    $title = app\cfg('app', 'title');
-    $menutitle = function () use ($app, $title): string {
-        $crit = [['id', $app['page']['path']], ['level', 0, APP['op']['>']]];
-
-        foreach (entity\all('page', crit: $crit, select: ['name'], order: ['level' => 'asc']) as $item) {
-            $title = $item['name'] . ($title ? ' - ' . $title : '');
-        }
-
-        return $title;
-    };
+    $title = app\cfg('app', 'title') ?? '';
     $title = match (true) {
         !empty($app['page']['meta_title']) => $app['page']['meta_title'],
-        !!$app['page'] => $menutitle(),
-        !!$app['entity'] => $app['entity']['name'] . ($title ? ' - ' . $title : ''),
+        $app['area'] === '_admin_' => trim(($app['entity']['name'] ?? '') . ' - ' . $title, '- '),
         default => $title,
     };
 

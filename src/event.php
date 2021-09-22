@@ -300,22 +300,15 @@ function entity_iframe_presave(array $data): array
     return $data;
 }
 
-function entity_page_postvalidate_menu(array $data): array
+function entity_menu_postvalidate(array $data): array
 {
     if ($data['_old']
         && !empty($data['parent_id'])
-        && ($parent = entity\one('page', crit: [['id', $data['parent_id']]], select: ['path']))
+        && ($parent = entity\one('menu', crit: [['id', $data['parent_id']]], select: ['path']))
         && in_array($data['_old']['id'], $parent['path'])
     ) {
-        $data['_error']['parent_id'][] = app\i18n('Cannot assign the page itself or a subpage as parent');
+        $data['_error']['parent_id'][] = app\i18n('Invalid parent item');
     }
-
-    return $data;
-}
-
-function entity_page_presave(array $data): array
-{
-    $data['account_id'] = app\data('account', 'id');
 
     return $data;
 }
