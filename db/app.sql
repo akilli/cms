@@ -539,7 +539,7 @@ CREATE FUNCTION public.menu_after() RETURNS trigger AS $$
                 m.id,
                 s.sort,
                 lpad(cast(s.sort AS text), _pad, '0') AS position,
-                0 AS level,
+                1 AS level,
                 '{}'::int[] || m.id AS path
             FROM
                 public.menu m
