@@ -70,7 +70,11 @@ return [
     ],
     'html:menu:index' => [
         'index' => [
-            'cfg' => ['attr_id' => ['name', 'url', 'position', 'created'], 'filter' => ['created'], 'search' => ['name']],
+            'cfg' => [
+                'attr_id' => ['name', 'url', 'position', 'parent_id', 'created'],
+                'filter' => ['parent_id', 'created'],
+                'search' => ['name'],
+            ],
         ],
     ],
     'html:page:index' => [
