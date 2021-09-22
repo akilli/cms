@@ -32,11 +32,15 @@ function breadcrumb(array $block): string
     $all = entity\all('menu', crit: [['id', $cur['path']]], select: ['name', 'url'], order: ['level' => 'asc']);
 
     foreach ($all as $item) {
-        $a = $item['url'] === $url ? [] : ['href' => $item['url']];
+        $a = match (true) {
+            !$item['url'] => [],
+            $item['url'] === $url => ['href' => $item['url'], 'aria-current' => 'page'],
+            default => ['href' => $item['url']],
+        };
         $html .= ' ' . html\element('a', $a, $item['name']);
     }
 
-    return html\element('nav', ['id' => $block['id']], $html);
+    return html\element('nav', ['id' => $block['id'], 'aria-label' => 'breadcrumb'], $html);
 }
 
 function container(array $block): string
