@@ -37,6 +37,20 @@ CREATE INDEX ON public.account (role_id);
 CREATE INDEX ON public.account (created);
 
 --
+-- URL
+--
+
+CREATE TABLE public.url (
+    id serial PRIMARY KEY,
+    path varchar(400) NOT NULL UNIQUE,
+    target varchar(400) NOT NULL,
+    created timestamp(0) NOT NULL DEFAULT current_timestamp
+);
+
+CREATE INDEX ON public.url (target);
+CREATE INDEX ON public.url (created);
+
+--
 -- Menu
 --
 

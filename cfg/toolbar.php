@@ -6,10 +6,11 @@ return [
     'block' => ['sort' => 400],
     'file' => ['sort' => 500],
     'menu' => ['sort' => 600],
-    'user' => ['name' => 'User', 'sort' => 700],
+    'url' => ['sort' => 700],
+    'user' => ['name' => 'User', 'sort' => 800],
     'role' => ['parent_id' => 'user', 'sort' => 100],
     'account' => ['parent_id' => 'user', 'sort' => 200],
-    'my' => ['name' => 'My Account', 'sort' => 800],
+    'my' => ['name' => 'My Account', 'sort' => 900],
     'profile' => [
         'name' => 'Profile',
         'privilege' => 'account:profile',
