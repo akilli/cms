@@ -160,16 +160,6 @@ return [
             'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
         ],
     ],
-    'url' => [
-        'name' => 'URLs',
-        'action' => ['delete', 'edit', 'index'],
-        'attr' => [
-            'id' => ['name' => 'ID', 'type' => 'serial'],
-            'path' => ['name' => 'Path', 'type' => 'urlpath', 'required' => true],
-            'target' => ['name' => 'Target', 'type' => 'urlpath', 'required' => true],
-            'created' => ['name' => 'Created', 'type' => 'datetime', 'auto' => true],
-        ],
-    ],
     'video' => [
         'name' => 'Videos',
         'parent_id' => 'file',
