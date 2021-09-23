@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace file;
 
-use DomainException;
 use app;
+use DomainException;
 
 /**
  * Lists files and directories inside the specified path

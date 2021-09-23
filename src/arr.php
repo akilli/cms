@@ -95,7 +95,6 @@ function prefix(array $data, string $prefix): array
     return array_map(fn(string $val): string => $prefix . $val, $data);
 }
 
-
 /**
  * Replaces given search value by another
  */

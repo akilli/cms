@@ -9,6 +9,7 @@ namespace session;
 function get(string $key): mixed
 {
     init();
+
     return $_SESSION[$key] ?? null;
 }
 

@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace event;
 
-use DomainException;
 use app;
 use arr;
 use contentfilter;
+use DomainException;
 use entity;
 use file;
 use layout;

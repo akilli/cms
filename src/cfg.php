@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace cfg;
 
-use DomainException;
 use app;
 use arr;
+use DomainException;
 use file;
 
 /**
@@ -283,7 +283,7 @@ function layout(array $data, array $ext): array
 
                     if ($attr['filterable']) {
                         $cfg['filter'][] = $attrId;
-                    } elseif($attr['searchable']) {
+                    } elseif ($attr['searchable']) {
                         $cfg['search'][] = $attrId;
                     }
                 }

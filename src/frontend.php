@@ -52,12 +52,12 @@ function browser(?int $val, array $attr): string
         );
     }
 
-    return  $html;
+    return $html;
 }
 
 function checkbox(?array $val, array $attr): string
 {
-    $val = (array) $val;
+    $val = (array)$val;
     $html = html\element(
         'input',
         ['id' => $attr['html']['id'], 'name' => str_replace('[]', '', $attr['html']['name']), 'type' => 'hidden']
@@ -133,7 +133,7 @@ function int(?int $val, array $attr): string
 
 function json(?array $val, array $attr): string
 {
-    return textarea(json_encode((array) $val), $attr);
+    return textarea(json_encode((array)$val), $attr);
 }
 
 function password(?string $val, array $attr): string

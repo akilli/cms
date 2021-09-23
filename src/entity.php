@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace entity;
 
+use app;
+use attr;
 use DomainException;
 use Throwable;
-use attr;
-use app;
 
 /**
  * Size entity
@@ -62,8 +62,7 @@ function all(
     int $limit = 0,
     int $offset = 0,
     string $index = 'id'
-): array
-{
+): array {
     $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
 
     if ($select && ($keys = array_diff(array_unique(['id', $index]), $select))) {
@@ -73,6 +72,7 @@ function all(
     try {
         $data = ($entity['type'] . '\all')($entity, $crit, $select, $order, $limit, $offset);
         $data = array_map(fn($item) => load($entity, $item), $data);
+
         return array_column($data, null, $index);
     } catch (Throwable $e) {
         app\log($e);
@@ -122,6 +122,7 @@ function save(string $entityId, array &$data): bool
 
     if (!$attrIds) {
         app\msg(app\i18n('No changes'));
+
         return false;
     }
 
@@ -143,6 +144,7 @@ function save(string $entityId, array &$data): bool
     if ($tmp['_error']) {
         $data['_error'] = $tmp['_error'];
         app\msg(app\i18n('Could not save data'));
+
         return false;
     }
 
@@ -157,6 +159,7 @@ function save(string $entityId, array &$data): bool
 
     if (!$attrIds) {
         app\msg(app\i18n('No changes'));
+
         return false;
     }
 
@@ -214,6 +217,7 @@ function delete(string $entityId, array $crit = []): bool
 
     if (!$all = all($entity['id'], crit: $crit)) {
         app\msg(app\i18n('Nothing to delete'));
+
         return false;
     }
 

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace layout;
 
-use DomainException;
 use app;
 use arr;
+use DomainException;
 use str;
 
 /**

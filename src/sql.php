@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace sql;
 
-use DomainException;
 use app;
+use DomainException;
 
 /**
  * INSERT part
@@ -155,5 +155,5 @@ function returning(array $cols): string
  */
 function union(): string
 {
-    RETURN ' UNION ';
+    return ' UNION ';
 }

@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace app;
 
-use Stringable;
 use arr;
 use entity;
 use request;
 use session;
 use str;
+use Stringable;
 
 /**
  * Runs application
@@ -178,6 +178,7 @@ function msg(string $msg = null): array
     if ($msg === null) {
         $old = $data;
         $data = [];
+
         return $old;
     }
 

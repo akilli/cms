@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace validator;
 
-use DomainException;
 use app;
+use DomainException;
 use entity;
 use str;
 
@@ -26,7 +26,7 @@ function date(string $val): string
 function datetime(string $val): string
 {
     if (!$val = date_format(date_create($val), APP['datetime.backend'])) {
-         throw new DomainException(app\i18n('Invalid value'));
+        throw new DomainException(app\i18n('Invalid value'));
     }
 
     return $val;
@@ -79,7 +79,7 @@ function opt(mixed $val, array $attr): mixed
     if ($val || is_scalar($val) && !is_string($val)) {
         array_map(
             fn(mixed $v): bool => isset($opt[$v]) ?: throw new DomainException(app\i18n('Invalid value')),
-            (array) $val
+            (array)$val
         );
     }
 

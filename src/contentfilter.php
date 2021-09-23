@@ -25,11 +25,13 @@ function asset(string $html): string
             };
             $mtime = filemtime($file) ?: 0;
         }
+
         return $mtime;
     };
     $pattern = '#(/(?:resize|crop)-(?:[^/]+))?/(asset|gui|ext)/((?:[^",\s]+)\.(?:[a-z0-9]+))#';
     $call = function (array $match) use ($cache): string {
         $mtime = $cache($match[2], $match[3]);
+
         return '/' . $mtime . $match[1] . '/' . $match[2] . '/' . $match[3];
     };
 
@@ -102,6 +104,7 @@ function image(string $html, array $cfg = []): string
     $cache = function (string $file): int {
         $width = &app\registry('contentfilter')['image'][$file];
         $width ??= getimagesize($file)[0] ?? 0;
+
         return $width;
     };
     $srcset = function (string $name, int $width, bool $force = false) use ($cache, $cfg): string {

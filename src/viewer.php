@@ -51,6 +51,7 @@ function file(string|int $val, array $attr): string
 
     if ($data['mime'] === 'text/html') {
         $a = $data['thumb'] ? ['data-thumb' => $data['thumb']] : [];
+
         return html\element('iframe', ['src' => $data['name'], 'allowfullscreen' => 'allowfullscreen'] + $a);
     }
 
@@ -64,6 +65,7 @@ function file(string|int $val, array $attr): string
 
     if (in_array($p[0], ['audio', 'video'])) {
         $a = $data['thumb'] ? ['poster' => $data['thumb']] : [];
+
         return html\element('video', ['src' => $data['name'], 'controls' => true] + $a);
     }
 

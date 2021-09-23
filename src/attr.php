@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace attr;
 
-use DomainException;
 use app;
 use arr;
+use DomainException;
 use entity;
 use html;
 
@@ -189,6 +189,7 @@ function cast(mixed $val, array $attr): mixed
         if (is_array($val) || ($val = trim((string)$val, '{}')) && ($val = explode(',', $val))) {
             return array_map($call, $val);
         }
+
         return [];
     };
 

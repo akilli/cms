@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace pdo;
 
-use DomainException;
-use PDO;
-use Throwable;
 use app;
 use arr;
+use DomainException;
+use PDO;
 use sql;
+use Throwable;
 
 /**
  * Size entity
@@ -220,6 +220,7 @@ function val(mixed $val, array $attr): mixed
 function param(string $name): string
 {
     static $count = 0;
+
     return $name . ++$count;
 }
 
