@@ -35,11 +35,15 @@ function data_app(array $data): array
     $data = arr\replace(APP['data']['app'], $data);
     $url = app\data('request', 'url');
 
-    if (preg_match('#^/([a-z_\.]+)(?:|/([^/\.]+))\.json$#u', $url, $match)) {
+    if (preg_match('#^/:([a-z_\.]+)(?:|/([^/\.]+))\.json$#u', $url, $match)) {
         $data['type'] = 'json';
         $data['entity_id'] = $match[1];
         $data['action'] = isset($match[2]) ? 'view' : 'index';
         $data['id'] = $match[2] ?? null;
+    } elseif (preg_match('#^/:([a-z_\.]+)/([a-z_]+)(?:|/([^/\.]+))$#u', $url, $match)) {
+        $data['entity_id'] = $match[1];
+        $data['action'] = $match[2];
+        $data['id'] = $match[3] ?? null;
     } elseif (($page = entity\one('page', crit: [['url', $url]], select: ['id', 'entity_id']))
         && ($data['page'] = entity\one($page['entity_id'], crit: [['id', $page['id']]]))
     ) {
@@ -47,10 +51,6 @@ function data_app(array $data): array
         $data['action'] = 'view';
         $data['id'] = $data['page']['id'];
         $data['entity'] = $data['page']['_entity'];
-    } elseif (preg_match('#^/([a-z_\.]+)/([a-z_]+)(?:|/([^/\.]+))$#u', $url, $match)) {
-        $data['entity_id'] = $match[1];
-        $data['action'] = $match[2];
-        $data['id'] = $match[3] ?? null;
     }
 
     $data['event'] = [$data['type'], app\id($data['type'], '_invalid_')];

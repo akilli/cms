@@ -27,7 +27,7 @@ Start the docker containers with
 docker-compose up -d
 ```
 
-and access the cms with http://localhost. You can log into the admin area via http://localhost/account/login with 
+and access the cms with http://localhost. You can log into the admin area via http://localhost/:account/login with 
 username `admin` and password `password`.
 
 The provided [docker-compose.yml](docker-compose.yml) is meant for development and testing purposes only as it sets the 

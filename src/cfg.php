@@ -350,7 +350,7 @@ function toolbar(array $data, array $ext): array
             $generated[$entity['id']] = [
                 'name' => $entity['name'],
                 'privilege' => app\id($entity['id'], 'index'),
-                'url' => '/' . $entity['id'] . '/index',
+                'url' => app\actionurl($entity['id'], 'index'),
                 'parent_id' => $entity['parent_id'],
             ];
         }

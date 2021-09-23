@@ -230,7 +230,7 @@ function urlquery(array $get, bool $preserve = false): string
  */
 function actionurl(string|int ...$args): string
 {
-    return '/' . implode('/', $args);
+    return '/:' . implode('/', $args);
 }
 
 /**
