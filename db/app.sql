@@ -24,6 +24,7 @@ CREATE INDEX ON public.role (created);
 CREATE TABLE public.account (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
+    uid varchar(50) NOT NULL UNIQUE,
     role_id int NOT NULL REFERENCES public.role ON DELETE RESTRICT ON UPDATE CASCADE,
     username varchar(50) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,

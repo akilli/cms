@@ -6,6 +6,14 @@ return [
         'attr' => [
             'id' => ['name' => 'ID', 'type' => 'serial'],
             'name' => ['name' => 'Name', 'type' => 'text', 'required' => true, 'unique' => true, 'max' => 50],
+            'uid' => [
+                'name' => 'UID',
+                'type' => 'uid',
+                'required' => true,
+                'unique' => true,
+                'editable' => false,
+                'max' => 50,
+            ],
             'role_id' => ['name' => 'Role', 'type' => 'entity', 'ref' => 'role', 'required' => true],
             'username' => ['name' => 'Username', 'type' => 'uid', 'required' => true, 'unique' => true, 'max' => 50],
             'password' => ['name' => 'Password', 'type' => 'password', 'required' => true, 'min' => 8, 'max' => 255],

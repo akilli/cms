@@ -104,6 +104,7 @@ return [
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
     'Thumbnail' => 'Vorschaubild',
     'Title' => 'Überschrift',
+    'UID' => 'UID',
     'Unexpected response from server: %s' => 'Unerwartete Antwort vom Server: %s',
     'URL' => 'URL',
     'URL must not change' => 'URL darf sich nicht ändern',

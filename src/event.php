@@ -44,6 +44,10 @@ function data_app(array $data): array
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['id'] = $match[3] ?? null;
+    } elseif (preg_match('#^/~([a-z0-9\-]+)$#u', $url, $match)) {
+        $data['entity_id'] = 'account';
+        $data['action'] = 'view';
+        $data['id'] = entity\one('account', crit: [['uid', $match[1]]], select: ['id'])['id'] ?? null;
     } elseif (($page = entity\one('page', crit: [['url', $url]], select: ['id', 'entity_id']))
         && ($data['page'] = entity\one($page['entity_id'], crit: [['id', $page['id']]]))
     ) {
@@ -244,15 +248,16 @@ function entity_postdelete_uploadable(array $data): array
 
 function entity_account_prevalidate(array $data): array
 {
-    if (!empty($data['image'])) {
-        $ext = '.' . pathinfo($data['image'], PATHINFO_EXTENSION);
-        $image = fn(string $name): string => app\asseturl($data['_entity']['id'] . '/' . str\uid($name) . $ext);
+    if (!empty($data['name']) && (!$data['_old'] || $data['name'] !== $data['_old']['name'])) {
+        $data['uid'] = str\uid($data['name']);
+    }
 
-        if (!empty($data['name'])) {
-            $data['image'] = $image($data['name']);
-        } elseif ($data['_old']) {
-            $name = entity\one($data['_entity']['id'], crit: [['id', $data['_old']['id']]], select: ['name'])['name'];
-            $data['image'] = $image($name);
+    if (!empty($data['image'])) {
+        $uid = $data['uid'] ?? $data['_old']['uid'] ?? null;
+
+        if ($uid) {
+            $ext = '.' . pathinfo($data['image'], PATHINFO_EXTENSION);
+            $data['image'] = app\asseturl($data['_entity']['id'] . '/' . $uid . $ext);
         } else {
             $data['_error']['image'][] = app\i18n('Could not generate profile image URL');
         }

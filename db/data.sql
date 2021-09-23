@@ -18,9 +18,9 @@ SELECT setval('public.role_id_seq', (SELECT max(id) FROM public.role));
 
 INSERT INTO
     public.account
-    (id, name, role_id, username, password, active)
+    (id, name, uid, role_id, username, password, active)
 VALUES
-    (1, 'admin', 1, 'admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', true);
+    (1, 'admin', 'admin', 1, 'admin', '$2y$10$FZSRqIGNKq64P3Rz27jlzuKuSZ9Rik9qHnqk5zH2Z7d67.erqaNhy', true);
 
 SELECT setval('public.account_id_seq', (SELECT max(id) FROM public.account));
 
