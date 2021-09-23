@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace block;
 
-use DomainException;
 use app;
 use arr;
 use attr;
+use DomainException;
 use entity;
 use html;
 use layout;
@@ -90,7 +90,7 @@ function filter(array $block): string
         'attr' => $block['cfg']['attr'],
         'data' => $block['cfg']['data'],
         'q' => $block['cfg']['q'],
-        'searchable' => $block['cfg']['searchable']
+        'searchable' => $block['cfg']['searchable'],
     ]);
 }
 
@@ -103,7 +103,7 @@ function html(): string
         'data-parent' => $app['parent_id'],
         'data-entity' => $app['entity_id'],
         'data-action' => $app['action'],
-        'data-url' => app\data('request', 'url')
+        'data-url' => app\data('request', 'url'),
     ];
 
     return "<!doctype html>\n" . html\element('html', $a, layout\render_id('head') . layout\render_id('body'));
@@ -112,7 +112,6 @@ function html(): string
 function index(array $block): string
 {
     $app = app\data('app');
-    $request = app\data('request');
     $entity = $block['cfg']['entity_id'] ? app\cfg('entity', $block['cfg']['entity_id']) : $app['entity'];
     $block['cfg']['limits'] = array_filter($block['cfg']['limits'], fn(mixed $v): bool => is_int($v) && $v >= 0);
 
@@ -122,7 +121,10 @@ function index(array $block): string
 
     $crit = $block['cfg']['crit'];
     $order = $block['cfg']['order'];
-    $get = arr\replace(['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null], $request['get']);
+    $get = arr\replace(
+        ['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null],
+        app\data('request', 'get'),
+    );
     $filter = null;
     $sort = null;
     $pager = null;
@@ -278,7 +280,7 @@ function nav(array $block): string
         $item = arr\replace($base, $item);
         $item['level'] = $item['level'] - $start + 1;
         $a = $item['url'] ? ['href' => $item['url']] : [];
-        $c = (array) $call($item);
+        $c = (array)$call($item);
         $class = '';
 
         if ($next = next($block['cfg']['data'])) {
