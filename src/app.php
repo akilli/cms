@@ -228,9 +228,9 @@ function urlquery(array $get, bool $preserve = false): string
 /**
  * Generates the action URL from given arguments
  */
-function actionurl(string|int ...$args): string
+function actionurl(string $entityId, string $action, int $id = null): string
 {
-    return '/:' . implode('/', $args);
+    return '/:' . $entityId . '/' . $action . ($id ? '/' . $id : '');
 }
 
 /**
