@@ -26,11 +26,11 @@ function getfilter(array $data): array
             continue;
         }
 
-        $val = filter_var($val, FILTER_SANITIZE_STRING, FILTER_REQUIRE_SCALAR | FILTER_FLAG_NO_ENCODE_QUOTES);
+        $val = trim(preg_replace('#[^\w \-:]#u', '', strip_tags($val)));
 
         if (is_numeric($val)) {
             $data[$key] += 0;
-        } elseif (!is_string($val) || !($val = trim(preg_replace('#[^\w \-:]#u', '', $val)))) {
+        } elseif (!$val) {
             unset($data[$key]);
         } else {
             $data[$key] = datetimefilter($val);
