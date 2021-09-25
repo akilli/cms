@@ -35,6 +35,8 @@ use attr;
             $id = ($entity && $entity['parent_id'] === 'block' ? $entity['id'] . '-' : '') . $data['id'];
             $src = $entity && $entity['parent_id'] === 'file' ? $data['name'] : null;
             $name = $data['name'] ?? $data['id'];
+            $accountUrl = $entityId === 'account' ? accounturl($data) : null;
+            $url = $accountUrl ?? $data['url'] ?? actionurl($entityId, 'view', $data['id']);
             ?>
         <article data-id="<?php echo $id; ?>" data-name="<?php echo $name; ?>" title="<?php echo i18n('Select item'); ?>"<?php if ($src): ?> data-src="<?php echo $src; ?>"<?php endif; ?>>
             <?php foreach ($var('attr') as $attr): ?>
@@ -42,7 +44,7 @@ use attr;
             <?php endforeach; ?>
             <footer>
                 <?php if (allowed(id($entityId, 'view'))): ?>
-                <a href="<?php echo $data['url'] ?? actionurl($entityId, 'view', $data['id']); ?>" data-action="view" title="<?php echo i18n('View'); ?>"><?php echo i18n('View'); ?></a>
+                <a href="<?php echo $url; ?>" data-action="view" title="<?php echo i18n('View'); ?>"><?php echo i18n('View'); ?></a>
                 <?php endif; ?>
                 <?php if (allowed(id($entityId, 'edit'))): ?>
                 <a href="<?php echo actionurl($entityId, 'edit', $data['id']); ?>" data-action="edit" title="<?php echo i18n('Edit'); ?>"><?php echo i18n('Edit'); ?></a>
