@@ -53,7 +53,7 @@ function frontend(array $data, array $attr, array $cfg = []): string
  */
 function filter(array $data, array $attr): string
 {
-    if ($attr['type'] === 'password') {
+    if (!$attr['filterable']) {
         return '';
     }
 
