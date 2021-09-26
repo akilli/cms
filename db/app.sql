@@ -239,7 +239,7 @@ WITH LOCAL CHECK OPTION;
 -- ---------------------------------------------------------------------------------------------------------------------
 
 --
--- Page
+-- Menu
 --
 
 CREATE FUNCTION public.menu_before() RETURNS trigger AS $$
@@ -383,6 +383,26 @@ CREATE FUNCTION public.menu_after() RETURNS trigger AS $$
 $$ LANGUAGE plpgsql;
 
 --
+-- Page
+--
+
+CREATE FUNCTION public.page_menu_delete() RETURNS trigger AS $$
+    BEGIN
+        DELETE FROM public.menu WHERE url = OLD.url;
+
+        RETURN OLD;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION public.page_menu_update() RETURNS trigger AS $$
+    BEGIN
+        UPDATE public.menu SET url = NEW.url WHERE url = OLD.url;
+
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+
+--
 -- Layout
 --
 
@@ -437,6 +457,28 @@ FOR EACH ROW WHEN (
     OR NEW.sort != OLD.sort
 ) EXECUTE PROCEDURE
     public.menu_after();
+
+--
+-- Page
+--
+
+CREATE CONSTRAINT TRIGGER
+    page_menu_delete
+AFTER DELETE ON
+    public.page
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE
+    public.page_menu_delete();
+
+CREATE CONSTRAINT TRIGGER
+    page_menu_update
+AFTER UPDATE OF url ON
+    public.page
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW WHEN (
+    NEW.url != OLD.url
+) EXECUTE PROCEDURE
+    public.page_menu_update();
 
 --
 -- Layout
