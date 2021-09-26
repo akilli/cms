@@ -14,6 +14,10 @@ use html;
  */
 function frontend(array $data, array $attr, array $cfg = []): string
 {
+    if (!$attr['editable']) {
+        return '';
+    }
+
     $cfg = arr\replace(APP['attr.frontend'], $cfg);
     $val = val($data, $attr);
     $attr['opt'] = opt($data, $attr);
