@@ -127,7 +127,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
     }
 
     $cfg = arr\replace(APP['attr.viewer'], $cfg);
-    $val = $attr['type'] !== 'password' && isset($data[$attr['id']]) ? $data[$attr['id']] : null;
+    $val = $data[$attr['id']] ?? null;
     $attr['opt'] = opt($data, $attr);
     $html = set($val) ? $attr['viewer']($val, $attr) : '';
 
