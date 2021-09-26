@@ -8,24 +8,24 @@ import lang from './lang.js';
  */
 const config = {
     audio: {
-        browser: '/audio/index',
+        browser: '/:audio/index',
     },
     base: {
         lang: lang,
     },
     block: {
-        api: '/block/api/{id}',
-        browser: '/block/index',
+        api: '/:block/api/{id}',
+        browser: '/:block/index',
         css: '/gui/base.css,/gui/all.css',
     },
     iframe: {
-        browser: '/iframe/index',
+        browser: '/:iframe/index',
     },
     image: {
-        browser: '/image/index',
+        browser: '/:image/index',
     },
     video: {
-        browser: '/video/index',
+        browser: '/:video/index',
     },
 };
 
