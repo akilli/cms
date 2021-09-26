@@ -47,7 +47,7 @@ function data_app(array $data): array
     } elseif (preg_match('#^/~([a-z0-9\-]+)$#u', $url, $match)) {
         $data['entity_id'] = 'account';
         $data['action'] = 'view';
-        $data['id'] = entity\one('account', crit: [['uid', $match[1]]], select: ['id'])['id'] ?? null;
+        $data['id'] = entity\one('account', crit: [['url', $url]], select: ['id'])['id'] ?? null;
     } elseif (($page = entity\one('page', crit: [['url', $url]], select: ['id', 'entity_id']))
         && ($data['page'] = entity\one($page['entity_id'], crit: [['id', $page['id']]]))
     ) {

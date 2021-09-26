@@ -14,6 +14,7 @@ return [
                 'editable' => false,
                 'max' => 50,
             ],
+            'url' => ['name' => 'URL', 'type' => 'urlpath', 'auto' => true, 'max' => 52],
             'role_id' => ['name' => 'Role', 'type' => 'entity', 'ref' => 'role', 'required' => true],
             'username' => ['name' => 'Username', 'type' => 'uid', 'required' => true, 'unique' => true, 'max' => 50],
             'password' => ['name' => 'Password', 'type' => 'password', 'required' => true, 'min' => 8, 'max' => 255],

@@ -234,14 +234,6 @@ function actionurl(string $entityId, string $action, int $id = null): string
 }
 
 /**
- * Generates the view URL for given account
- */
-function accounturl(array $account): ?string
-{
-    return !empty($account['uid']) ? '/~' . $account['uid'] : null;
-}
-
-/**
  * Generates the URL to resized version for given image and dimensions
  */
 function resizeurl(string $url, int $width, int $height = null): string
