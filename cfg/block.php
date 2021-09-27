@@ -3,17 +3,42 @@ return [
     'block' => [
         'call' => 'block\block',
         'tag' => 'section',
-        'cfg' => ['attr_id' => ['content'], 'data' => [], 'entity_id' => null, 'id' => null],
+        'cfg' => [
+            'attr_id' => ['content'],
+            'data' => [],
+            'entity_id' => null,
+            'id' => null,
+        ],
     ],
-    'breadcrumb' => ['call' => 'block\breadcrumb'],
-    'container' => ['call' => 'block\container', 'cfg' => ['id' => false]],
-    'edit' => ['call' => 'block\edit', 'tpl' => 'form.phtml', 'cfg' => ['attr_id' => []]],
+    'breadcrumb' => [
+        'call' => 'block\breadcrumb',
+    ],
+    'container' => [
+        'call' => 'block\container',
+        'cfg' => [
+            'id' => false,
+        ],
+    ],
+    'edit' => [
+        'call' => 'block\edit',
+        'tpl' => 'form.phtml',
+        'cfg' => [
+            'attr_id' => [],
+        ],
+    ],
     'filter' => [
         'call' => 'block\filter',
         'tpl' => 'filter.phtml',
-        'cfg' => ['attr' => [], 'data' => [], 'q' => null, 'searchable' => false],
+        'cfg' => [
+            'attr' => [],
+            'data' => [],
+            'q' => null,
+            'searchable' => false,
+        ],
     ],
-    'html' => ['call' => 'block\html'],
+    'html' => [
+        'call' => 'block\html',
+    ],
     'index' => [
         'call' => 'block\index',
         'tpl' => 'index.phtml',
@@ -31,19 +56,69 @@ return [
             'title' => null,
         ],
     ],
-    'login' => ['call' => 'block\login', 'tpl' => 'form.phtml'],
-    'menu' => ['call' => 'block\menu'],
-    'meta' => ['call' => 'block\meta', 'tpl' => 'meta.phtml'],
-    'nav' => ['call' => 'block\nav', 'cfg' => ['data' => [], 'role' => null, 'title' => null]],
+    'login' => [
+        'call' => 'block\login',
+        'tpl' => 'form.phtml',
+    ],
+    'menu' => [
+        'call' => 'block\menu',
+    ],
+    'meta' => [
+        'call' => 'block\meta',
+        'tpl' => 'meta.phtml',
+    ],
+    'nav' => [
+        'call' => 'block\nav',
+        'cfg' => [
+            'data' => [],
+            'role' => null,
+            'title' => null,
+        ],
+    ],
     'pager' => [
         'call' => 'block\pager',
         'tpl' => 'pager.phtml',
-        'cfg' => ['cur' => null, 'limit' => null, 'limits' => [], 'pages' => 10, 'size' => null],
+        'cfg' => [
+            'cur' => null,
+            'limit' => null,
+            'limits' => [],
+            'pages' => 10,
+            'size' => null,
+        ],
     ],
-    'profile' => ['call' => 'block\profile', 'tpl' => 'form.phtml', 'cfg' => ['attr_id' => []]],
-    'tag' => ['call' => 'block\tag', 'cfg' => ['attr' => [], 'val' => null]],
-    'title' => ['call' => 'block\title', 'cfg' => ['text' => null]],
-    'toolbar' => ['call' => 'block\toolbar'],
-    'tpl' => ['call' => 'block\tpl'],
-    'view' => ['call' => 'block\view', 'cfg' => ['attr_id' => [], 'data' => [], 'entity_id' => null, 'id' => null]],
+    'profile' => [
+        'call' => 'block\profile',
+        'tpl' => 'form.phtml',
+        'cfg' => [
+            'attr_id' => [],
+        ],
+    ],
+    'tag' => [
+        'call' => 'block\tag',
+        'cfg' => [
+            'attr' => [],
+            'val' => null,
+        ],
+    ],
+    'title' => [
+        'call' => 'block\title',
+        'cfg' => [
+            'text' => null,
+        ],
+    ],
+    'toolbar' => [
+        'call' => 'block\toolbar',
+    ],
+    'tpl' => [
+        'call' => 'block\tpl',
+    ],
+    'view' => [
+        'call' => 'block\view',
+        'cfg' => [
+            'attr_id' => [],
+            'data' => [],
+            'entity_id' => null,
+            'id' => null,
+        ],
+    ],
 ];
