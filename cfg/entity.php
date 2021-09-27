@@ -222,6 +222,7 @@ return [
                 'name' => 'Block Entity',
                 'type' => 'text',
                 'auto' => true,
+                'indexable' => false,
                 'max' => 50,
             ],
             'block_id' => [
