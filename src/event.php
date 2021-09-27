@@ -70,11 +70,8 @@ function data_app(array $data): array
     $data['valid'] = app\allowed(app\id($data['entity_id'], $data['action']))
         && $data['entity']
         && in_array($data['action'], $data['entity']['action'])
-        && (
-            !in_array($data['action'], ['delete', 'view'])
-            || $data['id'] && entity\size($data['entity_id'], crit: [['id', $data['id']]])
-        )
-        && ($data['action'] !== 'edit' || !$data['id'] || entity\size($data['entity_id'], crit: [['id', $data['id']]]));
+        && (!$data['id'] || entity\size($data['entity_id'], crit: [['id', $data['id']]]))
+        && (!in_array($data['action'], ['delete', 'view']) || $data['id']);
 
     if ($data['valid']) {
         $data['event'] = [

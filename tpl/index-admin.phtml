@@ -21,10 +21,11 @@ use attr;
         <div class="thead">
             <?php foreach ($var('attr') as $attr): ?>
                 <?php
-                $sort = ($attr['id'] === $var('sort') ? '-' : '') . $attr['id'];
-                $dir = $var('sort') && $var('sort')[0] === '-' ? 'desc' : 'asc';
+                $qsort = ($attr['id'] === $var('sort') ? '-' : '') . $attr['id'];
+                $sorted = $var('sort') && $attr['id'] === ltrim($var('sort'), '-');
+                $sort = $var('sort') && $var('sort')[0] === '-' ? 'desc' : 'asc';
                 ?>
-            <a<?php if ($var('sortable')): ?> href="<?php echo urlquery(['sort' => $sort], true); ?>"<?php if ($attr['id'] === ltrim($var('sort'), '-')): ?> data-sort="<?php echo $dir; ?>"<?php endif; ?><?php endif; ?>><?php echo $attr['name']; ?></a>
+            <a<?php if ($var('sortable')): ?> href="<?php echo urlquery(['sort' => $qsort], true); ?>"<?php if ($sorted): ?> data-sort="<?php echo $sort; ?>"<?php endif; ?><?php endif; ?>><?php echo $attr['name']; ?></a>
             <?php endforeach; ?>
             <a><?php echo i18n('Actions'); ?></a>
         </div>
