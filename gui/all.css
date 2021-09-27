@@ -302,37 +302,38 @@ main a:not([role=button]):not([data-action]):hover {
     /**
      * Navigation
      */
-    nav[role=menubar] {
+    :is(#toolbar, #menu) {
         position: sticky;
         top: 0;
         z-index: 100;
     }
 
-    nav[role=menubar][data-open] {
+    :is(#toolbar, #menu)[data-open] {
         position: relative;
     }
 
-    nav[role=menubar] ul {
+    :is(#toolbar, #menu) ul {
         display: none;
         margin-left: 1.5rem;
     }
 
-    nav[role=menubar][data-open] ul {
+    :is(#toolbar, #menu)[data-open] ul {
         display: block;
     }
 
-    nav[role=menubar] > ul {
+    :is(#toolbar, #menu) > ul {
         margin: 1.5rem 0 0;
     }
 
-    nav[role=menubar]::before {
+    :is(#toolbar, #menu)::before {
         line-height: 1;
         font-family: cms;
         font-size: 1.5rem;
         content: '\f0c9';
+        cursor: pointer;
     }
 
-    nav[role=menubar][data-open]::before {
+    :is(#toolbar, #menu)[data-open]::before {
         content: '\f00d';
     }
 }
@@ -344,39 +345,39 @@ main a:not([role=button]):not([data-action]):hover {
     /**
      * Navigation
      */
-    nav[role=menubar]::before,
-    nav[role=menubar] li ul {
+    :is(#toolbar, #menu)::before,
+    :is(#toolbar, #menu) li ul {
         display: none;
     }
 
-    nav[role=menubar] > ul,
-    nav[role=menubar] li:hover > ul {
+    :is(#toolbar, #menu) > ul,
+    :is(#toolbar, #menu) li:hover > ul {
         display: block;
     }
 
-    nav[role=menubar] ul {
+    :is(#toolbar, #menu) ul {
         margin-left: 0;
     }
 
-    nav[role=menubar] > ul {
+    :is(#toolbar, #menu) > ul {
         margin-top: 0;
     }
 
-    nav[role=menubar] li ul {
+    :is(#toolbar, #menu) li ul {
         position: absolute;
     }
 
-    nav[role=menubar] li li ul {
+    :is(#toolbar, #menu) li li ul {
         top: 0;
         left: 100%;
     }
 
-    nav[role=menubar] > ul > li {
+    :is(#toolbar, #menu) > ul > li {
         display: inline-block;
         margin-right: 0.625rem;
     }
 
-    nav[role=menubar] li li {
+    :is(#toolbar, #menu) li li {
         position: relative;
         display: block;
         padding: 0.375rem;

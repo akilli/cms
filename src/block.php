@@ -232,7 +232,7 @@ function menu(array $block): string
 {
     $select = ['id', 'name', 'url', 'position', 'level'];
     $order = ['position' => 'asc'];
-    $block['cfg'] = ['data' => entity\all('menu', select: $select, order: $order), 'role' => 'menubar'];
+    $block['cfg'] = ['data' => entity\all('menu', select: $select, order: $order)];
     $block['type'] = 'nav';
 
     return layout\render(layout\block($block));
@@ -266,7 +266,6 @@ function nav(array $block): string
     $base = ['name' => null, 'url' => null, 'level' => $start];
     $level = 0;
     $i = 0;
-    $attrs = ['id' => $block['id'], 'role' => $block['cfg']['role']];
     $url = app\data('request', 'url');
     $call = fn(array $it): ?string => $it['url'] === $url ? 'current' : null;
     $html = $block['cfg']['title'] ? html\element('h2', [], app\i18n($block['cfg']['title'])) : '';
@@ -311,7 +310,7 @@ function nav(array $block): string
         $level = $item['level'];
     }
 
-    return html\element('nav', $attrs, $html);
+    return html\element('nav', ['id' => $block['id']], $html);
 }
 
 function pager(array $block): string
@@ -451,7 +450,7 @@ function toolbar(array $block): string
     }
 
     $block['type'] = 'nav';
-    $block['cfg'] = ['data' => array_diff_key($data, $empty), 'role' => 'menubar'];
+    $block['cfg'] = ['data' => array_diff_key($data, $empty)];
 
     return layout\render(layout\block($block));
 }

@@ -71,7 +71,6 @@ return [
         'call' => 'block\nav',
         'cfg' => [
             'data' => [],
-            'role' => null,
             'title' => null,
         ],
     ],
