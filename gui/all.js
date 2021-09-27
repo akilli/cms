@@ -1,5 +1,5 @@
 import print from './app/print.js';
-import nav from './app/nav.js';
+import menubar from './app/menubar.js';
 
 print();
-nav();
+menubar();
