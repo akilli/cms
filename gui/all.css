@@ -38,29 +38,13 @@ body > * {
     padding: 0.75rem 0;
 }
 
-details:not(:first-child),
-h1:not(:first-child),
-h2:not(:first-child),
-h3:not(:first-child),
-p:not(:first-child),
-ol:not(:first-child),
-ul:not(:first-child),
-figure:not(:first-child),
-table:not(:first-child),
-main > :not(:first-child),
-article > :not(:first-child),
-aside > :not(:first-child),
-form > :not(:first-child),
-fieldset > :not(:first-child),
-.block-index > :not(:first-child),
-.block-index > .content > :not(:first-child) {
+:is(details, h1, h2, h3, p, ol, ul, figure, table):not(:first-child),
+:is(main, article, aside, form, fieldset, .block-index, .block-index > .content) > :not(:first-child) {
     margin-top: 1.5rem;
 }
 
-details + details,
-nav ul:not(:first-child),
-table p:not(:first-child),
-.msg p:not(:first-child) {
+:is(nav ul, table p, .msg p):not(:first-child),
+details + details {
     margin-top: 0;
 }
 
@@ -188,10 +172,7 @@ th {
     border: 0.0625rem solid var(--app-color-border);
 }
 
-thead tr:last-child td,
-thead tr:last-child th,
-tbody:not(:last-child) tr:last-child td,
-tbody:not(:last-child) tr:last-child th {
+:is(thead, tbody:not(:last-child)) tr:last-child :is(td, th) {
     border-bottom-color: var(--app-color-primary);
 }
 
@@ -209,9 +190,7 @@ main a:not([role=button]):not([data-action]):hover {
 /**
  * Index
  */
-.block-index iframe,
-.block-index img,
-.block-index video {
+.block-index :is(iframe, img, video) {
     max-width: 15rem;
     max-height: 10.5rem;
 }
@@ -268,14 +247,12 @@ main a:not([role=button]):not([data-action]):hover {
 /**
  * Clear
  */
-[class^='block-']::before,
-[data-type=editor]::before {
+:is([class^='block-'], [data-type=editor])::before {
     display: table;
     content: ' ';
 }
 
-[class^='block-']::after,
-[data-type=editor]::after {
+:is([class^='block-'], [data-type=editor])::after {
     display: table;
     content: ' ';
     clear: both;
