@@ -418,7 +418,7 @@ function response_json(array $data): array
 
     $filter = function (array $item): array {
         foreach ($item['_entity']['attr'] as $attrId => $attr) {
-            if ($attr['type'] === 'password') {
+            if (!$attr['viewer']) {
                 unset($item[$attrId]);
             }
         }
