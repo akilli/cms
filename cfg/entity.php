@@ -82,10 +82,6 @@ return [
             'name' => [
                 'type' => 'audio',
             ],
-            'entity_id' => [
-                'editable' => false,
-                'indexable' => false,
-            ],
         ],
     ],
     'block' => [
@@ -124,23 +120,11 @@ return [
         'name' => 'Content Blocks',
         'parent_id' => 'block',
         'action' => ['delete', 'edit', 'index'],
-        'attr' => [
-            'entity_id' => [
-                'editable' => false,
-                'indexable' => false,
-            ],
-        ],
     ],
     'contentpage' => [
         'name' => 'Content Pages',
         'parent_id' => 'page',
         'action' => ['delete', 'edit', 'index', 'view'],
-        'attr' => [
-            'entity_id' => [
-                'editable' => false,
-                'indexable' => false,
-            ],
-        ],
     ],
     'document' => [
         'name' => 'Documents',
@@ -149,10 +133,6 @@ return [
         'attr' => [
             'name' => [
                 'type' => 'document',
-            ],
-            'entity_id' => [
-                'editable' => false,
-                'indexable' => false,
             ],
         ],
     ],
@@ -212,10 +192,6 @@ return [
                 'name' => 'URL',
                 'type' => 'iframe',
             ],
-            'entity_id' => [
-                'editable' => false,
-                'indexable' => false,
-            ],
         ],
     ],
     'image' => [
@@ -225,10 +201,6 @@ return [
         'attr' => [
             'name' => [
                 'type' => 'image',
-            ],
-            'entity_id' => [
-                'editable' => false,
-                'indexable' => false,
             ],
         ],
     ],
@@ -425,10 +397,6 @@ return [
         'attr' => [
             'name' => [
                 'type' => 'video',
-            ],
-            'entity_id' => [
-                'editable' => false,
-                'indexable' => false,
             ],
         ],
     ],

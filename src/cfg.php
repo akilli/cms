@@ -158,6 +158,7 @@ function entity(array $data, array $ext): array
     $validatorCfg = load('validator');
     $viewerCfg = load('viewer');
     $optCfg = load('opt');
+    $entitychild = ['editable' => false, 'filterable' => false, 'indexable' => false];
     uasort($data, fn(array $a, array $b): int => ($a['parent_id'] ?? null) <=> ($b['parent_id'] ?? null));
 
     foreach ($data as $entityId => $entity) {
@@ -196,7 +197,8 @@ function entity(array $data, array $ext): array
             }
 
             $a = ['id' => $attrId, 'name' => app\i18n($attr['name'])];
-            $attr = arr\replace(APP['cfg']['attr'], $attrCfg[$attr['type']], $attr, $a);
+            $c = $attr['type'] === 'entitychild' && $entity['parent_id'] ? $entitychild : [];
+            $attr = arr\replace(APP['cfg']['attr'], $attrCfg[$attr['type']], $attr, $a, $c);
 
             if (!array_key_exists($attr['backend'], $backendCfg)
                 || !$attr['frontend']
