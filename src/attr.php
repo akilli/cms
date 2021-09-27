@@ -64,8 +64,10 @@ function filter(array $data, array $attr): string
     $val = val($data, $attr);
     $attr['opt'] = opt($data, $attr);
     $attr['html'] = html($attr, 'filter');
+    $out = html\element('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);
+    $div = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
 
-    return html\element('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);
+    return html\element('div', $div, $out);
 }
 
 /**
