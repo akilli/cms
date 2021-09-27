@@ -123,7 +123,7 @@ CREATE INDEX ON public.block (created);
 CREATE TABLE public.layout (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
-    entity_id varchar(50) NOT NULL,
+    block_entity_id varchar(50) NOT NULL,
     block_id int NOT NULL REFERENCES public.block ON DELETE CASCADE ON UPDATE CASCADE,
     page_id int NOT NULL REFERENCES public.page ON DELETE CASCADE ON UPDATE CASCADE,
     parent_id varchar(100) NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE public.layout (
 );
 
 CREATE INDEX ON public.layout (name);
-CREATE INDEX ON public.layout (entity_id);
+CREATE INDEX ON public.layout (block_entity_id);
 CREATE INDEX ON public.layout (block_id);
 CREATE INDEX ON public.layout (page_id);
 CREATE INDEX ON public.layout (parent_id);
@@ -408,7 +408,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION public.layout_save() RETURNS trigger AS $$
     BEGIN
-        NEW.entity_id := (SELECT entity_id FROM public.block WHERE id = NEW.block_id);
+        NEW.block_entity_id := (SELECT entity_id FROM public.block WHERE id = NEW.block_id);
 
         RETURN NEW;
     END;

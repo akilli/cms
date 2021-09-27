@@ -99,7 +99,7 @@ function data_layout(array $data): array
                 'tag' => 'app-block',
                 'parent_id' => $item['parent_id'],
                 'sort' => $item['sort'],
-                'cfg' => ['attr' => ['id' => $item['entity_id'] . '-' . $item['block_id']]],
+                'cfg' => ['attr' => ['id' => $item['block_entity_id'] . '-' . $item['block_id']]],
             ];
         }
     }

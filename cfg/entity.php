@@ -218,8 +218,8 @@ return [
                 'required' => true,
                 'max' => 100,
             ],
-            'entity_id' => [
-                'name' => 'Entity',
+            'block_entity_id' => [
+                'name' => 'Block Entity',
                 'type' => 'text',
                 'auto' => true,
                 'max' => 50,
