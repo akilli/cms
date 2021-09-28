@@ -120,7 +120,14 @@ CREATE FUNCTION public.entity_save() RETURNS trigger AS $$
         END LOOP;
 
         IF (TG_OP = 'UPDATE') THEN
-            _sql := format('UPDATE %I.%I SET id = %L, %s WHERE id = %L', _base_schema, _base_name, NEW.id, _set, OLD.id);
+            _sql := format(
+                'UPDATE %I.%I SET id = %L, %s WHERE id = %L',
+                _base_schema,
+                _base_name,
+                NEW.id,
+                _set,
+                OLD.id
+            );
         ELSE
             _sql := format('INSERT INTO %I.%I (%s) VALUES (%s)', _base_schema, _base_name, _col, _val);
         END IF;
@@ -180,7 +187,13 @@ CREATE FUNCTION public.entity_save() RETURNS trigger AS $$
             IF (TG_OP = 'UPDATE' AND _cnt > 0) THEN
                 _sql := _sql || format(' UPDATE %I.%I e SET %s FROM t WHERE e.id = t.id', _ext_schema, _ext_name, _set);
             ELSE
-                _sql := _sql || format(' INSERT INTO %I.%I (id, %s) SELECT id, %s FROM t', _ext_schema, _ext_name, _col, _val);
+                _sql := _sql || format(
+                    ' INSERT INTO %I.%I (id, %s) SELECT id, %s FROM t',
+                    _ext_schema,
+                    _ext_name,
+                    _col,
+                    _val
+                );
             END IF;
         ELSIF (_col != '' OR _val != '' OR _set != '') THEN
             RAISE EXCEPTION 'An error occurred with values _col(%), _val(%) and _set(%)', _col, _val, _set;
@@ -195,7 +208,7 @@ $$ LANGUAGE plpgsql;
 CREATE FUNCTION public.entity_delete() RETURNS trigger AS $$
     BEGIN
         IF (array_length(TG_ARGV, 1) < 2) THEN
-            RAISE EXCEPTION 'You must pass the base table schema and name as the first two arguments with CREATE TRIGGER';
+            RAISE EXCEPTION 'Please pass the base table schema and name as the first two arguments with CREATE TRIGGER';
         END IF;
 
         EXECUTE format('DELETE FROM %I.%I WHERE id = %s', TG_ARGV[0], TG_ARGV[1], OLD.id);

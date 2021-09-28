@@ -273,7 +273,7 @@ function entity_file_prevalidate(array $data): array
         } elseif ($data['_old']) {
             $data['name'] = $data['_old']['name'];
         } elseif (entity\size($data['_entity']['id'], crit: [['thumb', $data['name']]])) {
-            $data['_error']['name'][] = app\i18n('Please change filename to generate an unique URL');
+            $data['_error']['name'][] = app\i18n('This filename is already in use');
         } else {
             $data['mime'] = $mime;
         }
@@ -282,7 +282,7 @@ function entity_file_prevalidate(array $data): array
     if (!empty($data['thumb']) && !empty($data['name']) && $data['thumb'] === $data['name']
         || !empty($data['thumb']) && entity\size($data['_entity']['id'], crit: [['name', $data['thumb']]])
     ) {
-        $data['_error']['thumb'][] = app\i18n('Please change filename to generate an unique URL');
+        $data['_error']['thumb'][] = app\i18n('This filename is already in use');
     }
 
     return $data;
