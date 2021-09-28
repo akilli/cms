@@ -10,6 +10,7 @@ export default function () {
                 nav.removeAttribute('data-open');
             } else if (ev.target === nav) {
                 nav.setAttribute('data-open', '');
+                nav.scrollIntoView(true);
             }
         })
     }));
