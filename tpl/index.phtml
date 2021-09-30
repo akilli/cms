@@ -45,12 +45,12 @@ use attr;
             <?php if ($var('actions')): ?>
             <footer>
                 <?php foreach ($var('actions') as $action): ?>
+                    <?php if (!allowed(id($entityId, $action))) continue; ?>
                     <?php
                     $label = i18n(ucwords($action));
                     $url = $action === 'view' && !empty($data['url']) ? $data['url'] : actionurl($entityId, $action, $data['id']);
-                    $url = allowed(id($entityId, $action)) ? $url : null;
                     ?>
-                <a<?php if ($url): ?> href="<?php echo $url; ?>"<?php endif; ?> data-action="<?php echo $action; ?>" title="<?php echo $label; ?>"><?php echo $label; ?></a>
+                <a href="<?php echo $url; ?>" data-action="<?php echo $action; ?>" title="<?php echo $label; ?>"><?php echo $label; ?></a>
                 <?php endforeach; ?>
             </footer>
             <?php endif; ?>
