@@ -259,7 +259,7 @@ function nav(array $block): string
     $level = 0;
     $i = 0;
     $url = app\data('request', 'url');
-    $call = fn(array $it): ?string => $it['url'] === $url ? 'current' : null;
+    $call = fn(array $it): bool => $it['url'] === $url;
     $html = $block['cfg']['title'] ? html\element('h2', [], app\i18n($block['cfg']['title'])) : '';
     $html .= layout\render_children($block['id']);
 
@@ -270,8 +270,10 @@ function nav(array $block): string
 
         $item = arr\replace($base, $item);
         $item['level'] = $item['level'] - $start + 1;
+        $current = $call($item);
         $a = $item['url'] ? ['href' => $item['url']] : [];
-        $c = (array)$call($item);
+        $a += $current ? ['aria-current' => 'page'] : [];
+        $c = [];
         $class = '';
 
         if ($next = next($block['cfg']['data'])) {
@@ -280,8 +282,8 @@ function nav(array $block): string
         }
 
         if ($next && $item['level'] < $next['level']) {
-            if (!$c && $call($next)) {
-                $c = ['path'];
+            if ($call($next)) {
+                $c[] = 'path';
             }
 
             $c[] = 'parent';

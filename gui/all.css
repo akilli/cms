@@ -430,6 +430,13 @@ akilli-editor button {
 }
 
 /**
+ * Navigation
+ */
+nav a[aria-current] {
+    text-decoration: underline;
+}
+
+/**
  * Toolbar
  */
 #toolbar {
@@ -446,10 +453,6 @@ akilli-editor button {
 
 #toolbar li ul {
     background: var(--app-color-primary);
-}
-
-#toolbar a.current {
-    text-decoration: underline;
 }
 
 /**

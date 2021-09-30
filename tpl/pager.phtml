@@ -2,13 +2,17 @@
 namespace app;
 /** @var callable $var */
 ?>
-<nav class="pager">
+<nav class="pager" aria-label="pagination">
     <div class="pager-info">
         <?php echo $var('info'); ?>
     </div>
     <div class="pager-links">
     <?php foreach ($var('links') as $item): ?>
-        <a<?php if ($item['url']): ?> href="<?php echo $item['url']; ?>"<?php endif; ?><?php if ($item['class']): ?> class="<?php echo $item['class']; ?>"<?php endif; ?>><?php echo $item['name']; ?></a>
+        <a
+            href="<?php echo $item['url']; ?>"<?php if ($item['class']): ?>
+            class="<?php echo $item['class']; ?>"<?php endif; ?><?php if ($item['current']): ?>
+            aria-current="page"<?php endif; ?>
+        ><?php echo $item['name']; ?></a>
     <?php endforeach; ?>
     </div>
 </nav>
