@@ -113,27 +113,19 @@ function index(array $block): string
 {
     $app = app\data('app');
     $entity = $block['cfg']['entity_id'] ? app\cfg('entity', $block['cfg']['entity_id']) : $app['entity'];
-    $block['cfg']['limits'] = array_filter($block['cfg']['limits'], fn(mixed $v): bool => is_int($v) && $v >= 0);
 
-    if (!$entity || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id'])) || !$block['cfg']['limits']) {
+    if (!$entity || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
 
     $crit = $block['cfg']['crit'];
     $order = $block['cfg']['order'];
-    $get = arr\replace(
-        ['cur' => null, 'filter' => [], 'limit' => null, 'q' => null, 'sort' => null],
-        app\data('request', 'get'),
-    );
+    $limit = $block['cfg']['limit'];
+    $get = arr\replace(['cur' => null, 'filter' => [], 'q' => null, 'sort' => null], app\data('request', 'get'));
     $filter = null;
     $sort = null;
     $pager = null;
-    $limit = $block['cfg']['limits'][0];
     $offset = 0;
-
-    if (is_int($get['limit']) && $get['limit'] >= 0 && in_array($get['limit'], $block['cfg']['limits'])) {
-        $limit = $get['limit'];
-    }
 
     if ($block['cfg']['sortable']
         && $get['sort']
@@ -186,7 +178,7 @@ function index(array $block): string
         $pager = layout\render(layout\block([
             'type' => 'pager',
             'parent_id' => $block['id'],
-            'cfg' => ['cur' => $get['cur'], 'limit' => $limit, 'limits' => $block['cfg']['limits'], 'size' => $size],
+            'cfg' => ['cur' => $get['cur'], 'limit' => $limit, 'size' => $size],
         ]));
     }
 
@@ -326,18 +318,7 @@ function pager(array $block): string
     $info = app\i18n('%s to %s of %s', (string)($offset + 1), (string)$up, (string)$block['cfg']['size']);
     $min = max(1, min($block['cfg']['cur'] - intdiv($block['cfg']['pages'], 2), $total - $block['cfg']['pages'] + 1));
     $max = min($min + $block['cfg']['pages'] - 1, $total);
-    $limits = [];
     $links = [];
-
-    foreach ($block['cfg']['limits'] as $k => $l) {
-        if (is_int($l) && $l >= 0) {
-            $limits[] = [
-                'name' => $l ?: app\i18n('All'),
-                'url' => app\urlquery(['cur' => null, 'limit' => $k === 0 ? null : $l], true),
-                'current' => $l === $block['cfg']['limit'],
-            ];
-        }
-    }
 
     if ($block['cfg']['cur'] >= 2) {
         $p = ['cur' => $block['cfg']['cur'] === 2 ? null : $block['cfg']['cur'] - 1];
@@ -366,7 +347,7 @@ function pager(array $block): string
         ];
     }
 
-    return app\tpl($block['tpl'], ['info' => $info, 'limits' => count($limits) > 1 ? $limits : [], 'links' => $links]);
+    return app\tpl($block['tpl'], ['info' => $info, 'links' => $links]);
 }
 
 function profile(array $block): string

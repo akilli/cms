@@ -49,7 +49,7 @@ return [
             'entity_id' => null,
             'filter' => [],
             'head' => false,
-            'limits' => [10, 20, 50, 0],
+            'limit' => 10,
             'order' => ['id' => 'desc'],
             'pager' => false,
             'search' => [],
@@ -81,7 +81,6 @@ return [
         'cfg' => [
             'cur' => null,
             'limit' => null,
-            'limits' => [],
             'pages' => 10,
             'size' => null,
         ],
