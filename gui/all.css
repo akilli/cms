@@ -20,7 +20,7 @@
  */
 @font-face {
     font-family: cms;
-    font-display: block;
+    font-display: swap;
     font-style: normal;
     font-weight: 900;
     src: url(font/cms.woff2) format('woff2');
