@@ -13,7 +13,13 @@ use attr;
             <?php if ($var('searchable')): ?>
             <div data-attr="q" data-type="search">
                 <label for="q"><?php echo i18n('Search'); ?></label>
-                <input id="q" type="search" name="q" value="<?php echo $var('q'); ?>" placeholder="<?php echo i18n('Search Term'); ?>"/>
+                <input
+                    id="q"
+                    type="search"
+                    name="q"
+                    value="<?php echo $var('q'); ?>"
+                    placeholder="<?php echo i18n('Search Term'); ?>"
+                />
             </div>
             <?php endif; ?>
         </fieldset>
