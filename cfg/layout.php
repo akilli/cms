@@ -158,7 +158,7 @@ return [
             'parent_id' => 'content',
             'sort' => 400,
             'cfg' => [
-                'actions' => ['view', 'edit', 'delete'],
+                'action' => ['view', 'edit', 'delete'],
                 'head' => true,
                 'pager' => true,
                 'sortable' => true,

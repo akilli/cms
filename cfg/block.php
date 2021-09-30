@@ -43,7 +43,7 @@ return [
         'call' => 'block\index',
         'tpl' => 'index.phtml',
         'cfg' => [
-            'actions' => [],
+            'action' => [],
             'attr_id' => [],
             'crit' => [],
             'entity_id' => null,

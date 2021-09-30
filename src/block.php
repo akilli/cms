@@ -191,7 +191,7 @@ function index(array $block): string
     }
 
     return app\tpl($block['tpl'], [
-        'actions' => $block['cfg']['actions'],
+        'action' => $block['cfg']['action'],
         'attr' => $attrs,
         'data' => entity\all($entity['id'], crit: $crit, order: $order, limit: $limit, offset: $offset),
         'filter' => $filter,
