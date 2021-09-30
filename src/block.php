@@ -191,10 +191,11 @@ function index(array $block): string
     }
 
     return app\tpl($block['tpl'], [
+        'actions' => $block['cfg']['actions'],
         'attr' => $attrs,
         'data' => entity\all($entity['id'], crit: $crit, order: $order, limit: $limit, offset: $offset),
         'filter' => $filter,
-        'link' => $block['cfg']['link'],
+        'head' => $block['cfg']['head'],
         'pager-bottom' => in_array($block['cfg']['pager'], ['both', 'bottom']) ? $pager : null,
         'pager-top' => in_array($block['cfg']['pager'], ['both', 'top']) ? $pager : null,
         'sort' => $sort,

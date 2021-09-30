@@ -155,10 +155,11 @@ return [
         ],
         'index' => [
             'type' => 'index',
-            'tpl' => 'index-admin.phtml',
             'parent_id' => 'content',
             'sort' => 400,
             'cfg' => [
+                'actions' => ['view', 'edit', 'delete'],
+                'head' => true,
                 'pager' => 'bottom',
                 'sortable' => true,
             ],

@@ -4,30 +4,60 @@ use attr;
 /** @var callable $var */
 ?>
 <section class="block-index">
-    <?php if ($var('title') && $var('link')): ?>
-    <h2><a href="<?php echo $var('link'); ?>"><?php echo $var('title'); ?></a></h2>
-    <?php elseif ($var('title')): ?>
+    <?php if ($var('title')): ?>
     <h2><?php echo $var('title'); ?></h2>
     <?php endif; ?>
-    <?php echo $var('filter'); ?>
+    <?php if ($var('filter')): ?>
+    <details>
+        <summary><?php echo i18n('Filter'); ?></summary>
+        <?php echo $var('filter'); ?>
+    </details>
+    <?php endif; ?>
     <?php echo $var('pager-top'); ?>
+    <?php if ($var('data')): ?>
     <div class="content">
+        <?php if ($var('head')): ?>
+        <div class="thead">
+            <?php foreach ($var('attr') as $attr): ?>
+                <?php
+                $qsort = ($attr['id'] === $var('sort') ? '-' : '') . $attr['id'];
+                $sorted = $var('sort') && $attr['id'] === ltrim($var('sort'), '-');
+                $sort = $var('sort') && $var('sort')[0] === '-' ? 'desc' : 'asc';
+                ?>
+            <a<?php if ($var('sortable')): ?> href="<?php echo urlquery(['sort' => $qsort], true); ?>"<?php if ($sorted): ?> data-sort="<?php echo $sort; ?>"<?php endif; ?><?php endif; ?>><?php echo $attr['name']; ?></a>
+            <?php endforeach; ?>
+            <?php if ($var('actions')): ?>
+            <a><?php echo i18n('Actions'); ?></a>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
         <?php foreach ($var('data') as $data): ?>
             <?php
             $entity = !empty($data['entity_id']) ? cfg('entity', $data['entity_id']) : null;
-            $entityId = $entity && $data['_entity']['id'] === $entity['parent_id'] ? $entity['id'] : $data['_entity']['id'];
-            $url = $data['url'] ?? actionurl($entityId, 'view', $data['id']);
+            $entityId = $entity && $entity['parent_id'] === $data['_entity']['id'] ? $entity['id'] : $data['_entity']['id'];
+            $id = ($entity && $entity['parent_id'] === 'block' ? $entity['id'] . '-' : '') . $data['id'];
+            $src = $entity && $entity['parent_id'] === 'file' ? $data['name'] : null;
+            $name = $data['name'] ?? $data['id'];
             ?>
-        <article>
+        <article data-id="<?php echo $id; ?>" data-name="<?php echo $name; ?>"<?php if ($src): ?> data-src="<?php echo $src; ?>"<?php endif; ?>>
             <?php foreach ($var('attr') as $attr): ?>
-            <?php echo attr\viewer(
-                $data,
-                $attr,
-                ['subheading' => true, 'wrap' => true] + ($attr['id'] === 'name' && allowed(id($entityId, 'view')) ? ['link' => $url] : [])
-            ); ?>
+            <?php echo attr\viewer($data, $attr, ['empty' => $var('head'), 'label' => true, 'subheading' => true, 'wrap' => true]); ?>
             <?php endforeach; ?>
+            <?php if ($var('actions')): ?>
+            <footer>
+                <?php foreach ($var('actions') as $action): ?>
+                    <?php
+                    $label = i18n(ucwords($action));
+                    $url = $action === 'view' && !empty($data['url']) ? $data['url'] : actionurl($entityId, $action, $data['id']);
+                    $url = allowed(id($entityId, $action)) ? $url : null;
+                    ?>
+                <a<?php if ($url): ?> href="<?php echo $url; ?>"<?php endif; ?> data-action="<?php echo $action; ?>" title="<?php echo $label; ?>"><?php echo $label; ?></a>
+                <?php endforeach; ?>
+            </footer>
+            <?php endif; ?>
         </article>
         <?php endforeach; ?>
     </div>
+    <?php endif; ?>
     <?php echo $var('pager-bottom'); ?>
 </section>
