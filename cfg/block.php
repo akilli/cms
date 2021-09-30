@@ -51,7 +51,7 @@ return [
             'head' => false,
             'limits' => [10, 20, 50, 0],
             'order' => ['id' => 'desc'],
-            'pager' => null,
+            'pager' => false,
             'search' => [],
             'sortable' => false,
             'title' => null,

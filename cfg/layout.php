@@ -160,7 +160,7 @@ return [
             'cfg' => [
                 'actions' => ['view', 'edit', 'delete'],
                 'head' => true,
-                'pager' => 'bottom',
+                'pager' => true,
                 'sortable' => true,
             ],
         ],
