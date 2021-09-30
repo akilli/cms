@@ -159,9 +159,9 @@ return [
             'sort' => 400,
             'cfg' => [
                 'action' => ['view', 'edit', 'delete'],
-                'head' => true,
                 'pager' => true,
                 'sortable' => true,
+                'table' => true,
             ],
         ],
     ],

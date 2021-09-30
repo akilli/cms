@@ -14,8 +14,8 @@ use attr;
     </details>
     <?php endif; ?>
     <?php if ($var('data')): ?>
-    <div class="content">
-        <?php if ($var('head')): ?>
+    <div class="content<?php if ($var('table')): ?> table<?php endif; ?>">
+        <?php if ($var('table')): ?>
         <div class="thead">
             <?php foreach ($var('attr') as $attr): ?>
                 <?php
@@ -40,7 +40,7 @@ use attr;
             ?>
         <article data-id="<?php echo $id; ?>" data-name="<?php echo $name; ?>"<?php if ($src): ?> data-src="<?php echo $src; ?>"<?php endif; ?>>
             <?php foreach ($var('attr') as $attr): ?>
-            <?php echo attr\viewer($data, $attr, ['empty' => $var('head'), 'label' => true, 'subheading' => true, 'wrap' => true]); ?>
+            <?php echo attr\viewer($data, $attr, ['empty' => $var('table'), 'label' => true, 'subheading' => true, 'wrap' => true]); ?>
             <?php endforeach; ?>
             <?php if ($var('action')): ?>
             <footer class="action">

@@ -187,10 +187,10 @@ function index(array $block): string
         'attr' => $attrs,
         'data' => entity\all($entity['id'], crit: $crit, order: $order, limit: $limit, offset: $offset),
         'filter' => $filter,
-        'head' => $block['cfg']['head'],
         'pager' => $pager,
         'sort' => $sort,
         'sortable' => $block['cfg']['sortable'],
+        'table' => $block['cfg']['table'],
         'title' => $block['cfg']['title'] ? str\enc(app\i18n($block['cfg']['title'])) : null,
     ]);
 }

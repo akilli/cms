@@ -10,6 +10,9 @@
     --app-color-primary: #052a33;
     --app-color-shadow-dark: rgba(0, 0, 0, 0.25);
     --app-color-shadow-light: #e0e0e0;
+    --editor-border: var(--app-color-border);
+    --editor-toolbar-background: var(--app-color-background);
+    --editor-toolbar-color: var(--app-color-primary);
 }
 
 /**
@@ -190,9 +193,54 @@ main a:not([role=button]):not([data-action]):hover {
 /**
  * Index
  */
+.block-index article {
+    padding: 0.75rem 0;
+}
+
+.block-index article label {
+    font-weight: bold;
+}
+
+.block-index article h3 {
+    margin: 0;
+    font-size: inherit;
+}
+
+.block-index :is(audio, iframe, video) {
+    pointer-events: none;
+}
+
 .block-index :is(iframe, img, video) {
     max-width: 15rem;
     max-height: 10.5rem;
+}
+
+/**
+ * Index Browser
+ */
+:root[data-browser] .block-index .action {
+    display: none;
+}
+
+:root[data-browser] .block-index article {
+    cursor: pointer;
+}
+
+:root[data-browser] .block-index article:hover {
+    color: var(--app-color-background);
+    background: var(--app-color-primary);
+}
+
+/**
+ * Index Table
+ */
+.table > .thead {
+    display: none;
+}
+
+.table :is(img, video) {
+    max-width: 9rem;
+    max-height: 6rem;
 }
 
 /**
@@ -222,6 +270,166 @@ main a:not([role=button]):not([data-action]):hover {
 }
 
 /**
+ * Form
+ */
+::placeholder {
+    color: var(--app-color-border);
+}
+
+input[type=email],
+input[type=number],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=text],
+input[type=url],
+legend,
+select,
+textarea {
+    padding: 0.71875rem 0;
+    border-bottom: 0.0625rem solid var(--app-color-border);
+}
+
+fieldset input[type=email],
+fieldset input[type=number],
+fieldset input[type=password],
+fieldset input[type=search],
+fieldset input[type=tel],
+fieldset input[type=text],
+fieldset input[type=url],
+fieldset select {
+    width: 100%;
+    max-width: 30rem;
+}
+
+a[role=button],
+button,
+input[type=button],
+input[type=reset],
+input[type=submit] {
+    padding: 0.75rem;
+    color: var(--app-color-background);
+    background: var(--app-color-primary);
+}
+
+input[type=file] {
+    font-size: 0.875rem;
+}
+
+legend,
+textarea {
+    width: 100%;
+}
+
+select[multiple],
+textarea {
+    height: 15rem;
+}
+
+select {
+    background: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input[type=checkbox],
+input[type=radio] {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0.125rem 0;
+    padding: 0.5625rem 0;
+    border: 0.0625rem solid var(--app-color-border);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input[type=radio] {
+    border-radius: 1rem;
+}
+
+input:is([type=checkbox], [type=radio]):checked {
+    background: var(--app-color-primary);
+    border-color: var(--app-color-primary);
+}
+
+label,
+output {
+    display: block;
+}
+
+input:is([type=checkbox], [type=radio]) + label {
+    display: inline-block;
+    margin: 0 0.5rem 0 0.25rem;
+}
+
+input:is([type=checkbox], [type=radio])[disabled] + label,
+form:invalid [type=submit] {
+    opacity: 0.6;
+}
+
+div[data-required] > label:first-child::after {
+    content: '*';
+}
+
+div[data-invalid] {
+    color: var(--app-color-error);
+}
+
+div[data-invalid] :invalid {
+    border-bottom: 0.0625rem solid var(--app-color-error);
+}
+
+.error {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: var(--app-color-error);
+}
+
+.file-current,
+.file-delete {
+    font-size: 0.875rem;
+}
+
+/**
+ * Editor
+ */
+akilli-editor {
+    margin-left: 2.625rem;
+}
+
+form akilli-editor {
+    margin-top: 1.5rem;
+}
+
+akilli-editor editor-root {
+    min-height: 15rem;
+}
+
+form akilli-editor editor-root {
+    max-height: 45rem;
+    overflow-y: scroll;
+}
+
+akilli-editor editor-toolbar {
+    top: 3rem;
+}
+
+akilli-editor button {
+    color: inherit;
+    background: none;
+}
+
+/**
+ * Header
+ */
+#header .name img {
+    height: 6rem;
+}
+
+/**
  * Toolbar
  */
 #toolbar {
@@ -242,6 +450,39 @@ main a:not([role=button]):not([data-action]):hover {
 
 #toolbar a.current {
     text-decoration: underline;
+}
+
+/**
+ * Menu
+ */
+#menu {
+    margin: 0 -0.75rem;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--app-color-background);
+    background: var(--app-color-primary);
+}
+
+#menu li ul {
+    background: var(--app-color-primary);
+}
+
+/**
+ * Breadcrumb
+ */
+#breadcrumb {
+    font-size: 0.875rem;
+}
+
+#breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+#breadcrumb a:not(:last-child)::after {
+    display: inline-block;
+    content: '>';
+    padding: 0 0.5rem;
+    text-decoration: none;
 }
 
 /**
@@ -274,6 +515,22 @@ main a:not([role=button]):not([data-action]):hover {
 
     a[data-action]::before {
         font-size: 1rem;
+    }
+
+    a:is([data-action=delete], [data-action=remove])::before {
+        content: '\f1f8';
+    }
+
+    a[data-action=edit]::before {
+        content: '\f044';
+    }
+
+    a[data-action=view]::before {
+        content: '\f06e';
+    }
+
+    a[data-action=browser]::before {
+        content: '\f07c';
     }
 
     /**
@@ -312,6 +569,60 @@ main a:not([role=button]):not([data-action]):hover {
 
     :is(#toolbar, #menu)[data-open]::before {
         content: '\f00d';
+    }
+}
+
+/**
+ * Desktop + Print
+ */
+@media screen and (min-width: 55rem), print {
+    /**
+     * Index Table
+     */
+    .table {
+        display: table;
+        width: 100%;
+        font-size: 0.875rem;
+        empty-cells: show;
+        border-spacing: 0;
+    }
+
+    .table > * {
+        display: table-row;
+    }
+
+    .table > .thead {
+        display: table-row;
+        margin: 0;
+        padding: 0.75rem 0;
+        font-weight: bold;
+    }
+
+    .table > * > * {
+        display: table-cell;
+        padding: 0.71875rem 0.375rem;
+        vertical-align: top;
+        text-align: left;
+        border-bottom: 0.0625rem dotted;
+    }
+
+    .table > .thead > * {
+        color: inherit;
+        border-bottom: 0.0625rem solid;
+    }
+
+    .table > .thead > a[data-sort=asc]::after {
+        display: inline-block;
+        content: '⇑';
+    }
+
+    .table > .thead > a[data-sort=desc]::after {
+        display: inline-block;
+        content: '⇓';
+    }
+
+    .table label {
+        display: none;
     }
 }
 
@@ -366,6 +677,13 @@ main a:not([role=button]):not([data-action]):hover {
     .pager {
         display: flex;
         justify-content: space-between;
+    }
+
+    /**
+     * Header
+     */
+    #header .name img {
+        height: 10.5rem;
     }
 }
 
@@ -423,6 +741,7 @@ main a:not([role=button]):not([data-action]):hover {
     .block-index > details,
     .block-index :is(.thead, article) > :is(::after, .action),
     .filter,
+    .new,
     .pager {
         display: none;
     }
