@@ -3,20 +3,24 @@ namespace app;
 use attr;
 /** @var callable $var */
 ?>
-<form class="filter">
-    <fieldset>
-        <?php foreach ($var('attr') as $attr): ?>
-        <?php echo attr\filter($var('data'), $attr); ?>
-        <?php endforeach; ?>
-        <?php if ($var('searchable')): ?>
-        <div data-attr="q" data-type="search">
-            <label for="q"><?php echo i18n('Search'); ?></label>
-            <input id="q" type="search" name="q" value="<?php echo $var('q'); ?>" placeholder="<?php echo i18n('Search Term'); ?>"/>
+<details class="filter">
+    <summary><?php echo i18n('Filter'); ?></summary>
+    <form>
+        <fieldset>
+            <?php foreach ($var('attr') as $attr): ?>
+            <?php echo attr\filter($var('data'), $attr); ?>
+            <?php endforeach; ?>
+            <?php if ($var('searchable')): ?>
+            <div data-attr="q" data-type="search">
+                <label for="q"><?php echo i18n('Search'); ?></label>
+                <input id="q" type="search" name="q" value="<?php echo $var('q'); ?>" placeholder="<?php echo i18n('Search Term'); ?>"/>
+            </div>
+            <?php endif; ?>
+        </fieldset>
+        <div class="action">
+            <a href="<?php echo data('request', 'url'); ?>" role="button"><?php echo i18n('Reset'); ?></a>
+            <input type="submit" value="<?php echo i18n('Submit'); ?>"/>
         </div>
-        <?php endif; ?>
-    </fieldset>
-    <div class="action">
-        <a href="<?php echo data('request', 'url'); ?>" role="button"><?php echo i18n('Reset'); ?></a>
-        <input type="submit" value="<?php echo i18n('Submit'); ?>"/>
-    </div>
-</form>
+    </form>
+</details>
+

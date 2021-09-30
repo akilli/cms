@@ -3,10 +3,10 @@ namespace app;
 /** @var callable $var */
 ?>
 <nav class="pager">
-    <div class="info">
+    <div class="pager-info">
         <?php echo $var('info'); ?>
     </div>
-    <div class="links">
+    <div class="pager-links">
     <?php foreach ($var('links') as $item): ?>
         <a<?php if ($item['url']): ?> href="<?php echo $item['url']; ?>"<?php endif; ?><?php if ($item['class']): ?> class="<?php echo $item['class']; ?>"<?php endif; ?>><?php echo $item['name']; ?></a>
     <?php endforeach; ?>

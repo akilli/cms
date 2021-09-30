@@ -7,12 +7,7 @@ use attr;
     <?php if ($var('title')): ?>
     <h2><?php echo $var('title'); ?></h2>
     <?php endif; ?>
-    <?php if ($var('filter')): ?>
-    <details>
-        <summary><?php echo i18n('Filter'); ?></summary>
-        <?php echo $var('filter'); ?>
-    </details>
-    <?php endif; ?>
+    <?php echo $var('filter'); ?>
     <?php if ($var('data')): ?>
     <div class="content<?php if ($var('table')): ?> table<?php endif; ?>">
         <?php if ($var('table')): ?>

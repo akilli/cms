@@ -246,7 +246,7 @@ main a:not([role=button]):not([data-action]):hover {
 /**
  * Filter
  */
-.filter {
+.filter form {
     margin: 0.75rem 0 0.75rem 1rem;
     font-size: 0.875rem;
 }
@@ -738,7 +738,6 @@ akilli-editor button {
      */
     body > :not(#header):not(main),
     main > :not(#content),
-    .block-index > details,
     .block-index :is(.thead, article) > :is(::after, .action),
     .filter,
     .new,
