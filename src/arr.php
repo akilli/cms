@@ -114,3 +114,17 @@ function has(array $data, array $keys, bool $filter = false): bool
 {
     return !array_diff_key(array_flip($keys), $filter ? array_filter($data) : $data);
 }
+
+/**
+ * Converts an associative array to a criteria array
+ */
+function crit(array $data): array
+{
+    $crit = [];
+
+    foreach ($data as $key => $val) {
+        $crit[] = [$key, $val];
+    }
+
+    return $crit;
+}
