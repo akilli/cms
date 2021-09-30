@@ -270,11 +270,13 @@ function nav(array $block): string
 
         $item = arr\replace($base, $item);
         $item['level'] = $item['level'] - $start + 1;
-        $current = $call($item);
-        $a = $item['url'] ? ['href' => $item['url']] : [];
-        $a += $current ? ['aria-current' => 'page'] : [];
         $c = [];
         $class = '';
+        $a = [];
+
+        if ($item['url']) {
+            $a = ['href' => $item['url']] + ($call($item) ? ['aria-current' => 'page'] : []);
+        }
 
         if ($next = next($block['cfg']['data'])) {
             $next = arr\replace($base, $next);
