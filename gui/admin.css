@@ -163,7 +163,8 @@ akilli-editor button {
 /**
  * Index
  */
-.block-index .thead {
+.block-index .thead,
+:root[data-browser] .block-index article > .action {
     display: none;
 }
 
@@ -196,10 +197,6 @@ akilli-editor button {
 :root[data-browser] .block-index article:hover {
     color: var(--app-color-background);
     background: var(--app-color-primary);
-}
-
-:root[data-browser] .block-index article > :last-child {
-    display: none;
 }
 
 /**
@@ -333,7 +330,7 @@ akilli-editor button {
     }
 
     .block-index article label,
-    :root[data-browser] .block-index .thead > :last-child {
+    :root[data-browser] .block-index .thead > .action {
         display: none;
     }
 }
@@ -345,12 +342,7 @@ akilli-editor button {
     /**
      * Hidden
      */
-    body > :not(main),
-    main > :not(#content),
-    .block-index > details,
-    .block-index :is(.thead, article) > :is(::after, :last-child),
-    .new,
-    .pager {
+    .new {
         display: none;
     }
 }

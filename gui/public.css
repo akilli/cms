@@ -49,25 +49,3 @@
         height: 10.5rem;
     }
 }
-
-/**
- * Print
- */
-@media print {
-    /**
-     * Header
-     */
-    #header {
-        border-bottom: 0.0625rem solid;
-    }
-
-    /**
-     * Hidden
-     */
-    body > :not(#header):not(main),
-    main > :not(#content),
-    .filter,
-    .pager {
-        display: none;
-    }
-}

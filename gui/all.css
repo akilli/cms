@@ -401,10 +401,29 @@ main a:not([role=button]):not([data-action]):hover {
     /**
      * Links
      */
-    #content a:not([role]):not([data-action])::after {
+    #content a:not([role]):not([data-action]):not([href^='?'])::after {
         content: ' (' attr(href) ')';
         font-size: 0.875rem;
         font-style: italic;
         text-transform: none;
+    }
+
+    /**
+     * Header
+     */
+    #header {
+        border-bottom: 0.0625rem solid;
+    }
+
+    /**
+     * Hidden
+     */
+    body > :not(#header):not(main),
+    main > :not(#content),
+    .block-index > details,
+    .block-index :is(.thead, article) > :is(::after, .action),
+    .filter,
+    .pager {
+        display: none;
     }
 }

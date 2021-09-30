@@ -26,7 +26,7 @@ use attr;
             <a<?php if ($var('sortable')): ?> href="<?php echo urlquery(['sort' => $qsort], true); ?>"<?php if ($sorted): ?> data-sort="<?php echo $sort; ?>"<?php endif; ?><?php endif; ?>><?php echo $attr['name']; ?></a>
             <?php endforeach; ?>
             <?php if ($var('action')): ?>
-            <a><?php echo i18n('Actions'); ?></a>
+            <a class="action"><?php echo i18n('Actions'); ?></a>
             <?php endif; ?>
         </div>
         <?php endif; ?>
@@ -43,7 +43,7 @@ use attr;
             <?php echo attr\viewer($data, $attr, ['empty' => $var('head'), 'label' => true, 'subheading' => true, 'wrap' => true]); ?>
             <?php endforeach; ?>
             <?php if ($var('action')): ?>
-            <footer>
+            <footer class="action">
                 <?php foreach ($var('action') as $action): ?>
                     <?php if (!allowed(id($entityId, $action))) continue; ?>
                     <?php
