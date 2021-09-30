@@ -2,7 +2,7 @@
 namespace app;
 ?>
 <?php if (($entityId = data('app', 'entity_id')) && allowed(id($entityId, 'edit'))): ?>
-<p class="new">
+<div class="new">
     <a href="<?php echo actionurl($entityId, 'edit'); ?>"><?php echo i18n('New Entry'); ?></a>
-</p>
+</div>
 <?php endif; ?>
