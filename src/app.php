@@ -322,5 +322,5 @@ function tpl(string $tpl, array $var = []): string
  */
 function datetime(?string $val, string $format): ?string
 {
-    return $val ? date_format(date_create($val), $format) : null;
+    return $val ? datefmt_format(datefmt_create(null, 0, 0, null, null, $format), date_create($val)) : null;
 }
