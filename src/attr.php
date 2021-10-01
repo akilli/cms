@@ -137,15 +137,15 @@ function viewer(array $data, array $attr, array $cfg = []): string
     $attr['opt'] = opt($data, $attr);
     $html = set($val) ? $attr['viewer']($val, $attr) : '';
 
+    if ($html && $cfg['link'] && !preg_match('#<(a|audio|details|iframe|video)#', $html)) {
+        $html = html\element('a', ['href' => $cfg['link']], $html);
+    }
+
     if (!$cfg['wrap'] || $html === '' && !$cfg['empty']) {
         return $html;
     }
 
     $a = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
-
-    if ($cfg['link'] && !preg_match('#<(a|audio|details|iframe|video)#', $html)) {
-        $html = html\element('a', ['href' => $cfg['link']], $html);
-    }
 
     if ($cfg['label']) {
         $html = html\element('label', [], $attr['name']) . $html;
