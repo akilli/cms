@@ -48,7 +48,7 @@ return [
             'crit' => [],
             'entity_id' => null,
             'filter' => [],
-            'limit' => 10,
+            'limit' => 20,
             'order' => ['id' => 'desc'],
             'pager' => false,
             'search' => [],
