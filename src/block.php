@@ -323,32 +323,23 @@ function pager(array $block): string
     $min = max(1, min($block['cfg']['cur'] - intdiv($block['cfg']['pages'], 2), $total - $block['cfg']['pages'] + 1));
     $max = min($min + $block['cfg']['pages'] - 1, $total);
     $links = [];
+    $base = ['name' => null, 'url' => null, 'current' => false, 'class' => null];
 
     if ($block['cfg']['cur'] >= 2) {
         $p = ['cur' => $block['cfg']['cur'] === 2 ? null : $block['cfg']['cur'] - 1];
-        $links[] = [
-            'name' => app\i18n('Previous'),
-            'url' => app\urlquery($p, true),
-            'class' => 'prev',
-        ];
+        $url = app\urlquery($p, true);
+        $links[] = arr\replace($base, ['name' => app\i18n('Previous'), 'url' => $url, 'class' => 'prev']);
     }
 
     for ($i = $min; $min < $max && $i <= $max; $i++) {
         $p = ['cur' => $i === 1 ? null : $i];
-        $links[] = [
-            'name' => $i,
-            'url' => app\urlquery($p, true),
-            'current' => $i === $block['cfg']['cur'],
-            'class' => null,
-        ];
+        $url = app\urlquery($p, true);
+        $links[] = arr\replace($base, ['name' => $i, 'url' => $url, 'current' => $i === $block['cfg']['cur']]);
     }
 
     if ($block['cfg']['cur'] < $total) {
-        $links[] = [
-            'name' => app\i18n('Next'),
-            'url' => app\urlquery(['cur' => $block['cfg']['cur'] + 1], true),
-            'class' => 'next',
-        ];
+        $url = app\urlquery(['cur' => $block['cfg']['cur'] + 1], true);
+        $links[] = arr\replace($base, ['name' => app\i18n('Next'), 'url' => $url, 'class' => 'next']);
     }
 
     return app\tpl($block['tpl'], ['info' => $info, 'links' => $links]);
