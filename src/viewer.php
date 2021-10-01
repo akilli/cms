@@ -35,9 +35,28 @@ function enc(mixed $val): string
 
 function entity(int $val, array $attr): string
 {
-    $hasName = !empty(app\cfg('entity', $attr['ref'])['attr']['name']);
+    $entity = app\cfg('entity', $attr['ref']);
+    $isView = app\allowed(app\id($entity['id'], 'view'));
+    $hasName = !empty($entity['attr']['name']);
+    $isChild = ($entity['attr']['entity_id']['type'] ?? null) === 'entitychild';
+    $hasUrl = !empty($entity['attr']['url']);
 
-    return $hasName ? entity\one($attr['ref'], crit: [['id', $val]], select: ['name'])['name'] : (string)$val;
+    if (!$isView && !$hasName && !$isChild) {
+        return (string)$val;
+    }
+
+    $select = [
+        'id',
+        ...($hasName ? ['name'] : []),
+        ...($isChild ? ['entity_id'] : []),
+        ...($hasUrl ? ['url'] : []),
+    ];
+    $item = entity\one($entity['id'], crit: [['id', $val]], select: $select);
+    $isView = $isChild ? app\allowed(app\id($item['entity_id'], 'view')) : $isView;
+    $name = $hasName ? $item['name'] : (string)$val;
+    $url = $hasUrl ? $item['url'] : app\actionurl($isChild ? $item['entity_id'] : $entity['id'], 'view', $val);
+
+    return $isView ? html\element('a', ['href' => $url], $name) : $name;
 }
 
 function file(string|int $val, array $attr): string
