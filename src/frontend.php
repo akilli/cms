@@ -80,14 +80,14 @@ function checkbox(?array $val, array $attr): string
 
 function date(?string $val, array $attr): string
 {
-    $val = $val ? date_format(date_create($val), APP['date.frontend']) : '';
+    $val = app\datetime($val, APP['date.frontend']);
 
     return html\element('input', ['type' => 'date', 'value' => $val] + $attr['html']);
 }
 
 function datetime(?string $val, array $attr): string
 {
-    $val = $val ? date_format(date_create($val), APP['datetime.frontend']) : '';
+    $val = app\datetime($val, APP['datetime.frontend']);
 
     return html\element('input', ['type' => 'datetime-local', 'value' => $val] + $attr['html']);
 }
@@ -200,7 +200,7 @@ function textarea(?string $val, array $attr): string
 
 function time(?string $val, array $attr): string
 {
-    $val = $val ? date_format(date_create($val), APP['time.frontend']) : '';
+    $val = app\datetime($val, APP['time.frontend']);
 
     return html\element('input', ['type' => 'time', 'value' => $val] + $attr['html']);
 }

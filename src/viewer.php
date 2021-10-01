@@ -15,12 +15,12 @@ function audio(string $val): string
 
 function date(string $val): string
 {
-    return date_format(date_create($val), app\cfg('app', 'date'));
+    return (string)app\datetime($val, app\cfg('app', 'date'));
 }
 
 function datetime(string $val): string
 {
-    return date_format(date_create($val), app\cfg('app', 'datetime'));
+    return (string)app\datetime($val, app\cfg('app', 'datetime'));
 }
 
 function email(string $val): string
@@ -135,7 +135,7 @@ function tel(string $val): string
 
 function time(string $val): string
 {
-    return date_format(date_create($val), app\cfg('app', 'time'));
+    return (string)app\datetime($val, app\cfg('app', 'time'));
 }
 
 function url(string $val): string

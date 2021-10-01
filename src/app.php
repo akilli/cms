@@ -316,3 +316,11 @@ function tpl(string $tpl, array $var = []): string
 
     return ob_get_clean();
 }
+
+/**
+ * Formats date and time
+ */
+function datetime(?string $val, string $format): ?string
+{
+    return $val ? date_format(date_create($val), $format) : null;
+}

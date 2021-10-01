@@ -13,7 +13,7 @@ use str;
  */
 function date(string $val): string
 {
-    if (!$val = date_format(date_create($val), APP['date.backend'])) {
+    if (!$val = app\datetime($val, APP['date.backend'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -25,7 +25,7 @@ function date(string $val): string
  */
 function datetime(string $val): string
 {
-    if (!$val = date_format(date_create($val), APP['datetime.backend'])) {
+    if (!$val = app\datetime($val, APP['datetime.backend'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
@@ -96,7 +96,7 @@ function text(string $val): string
  */
 function time(string $val): string
 {
-    if (!$val = date_format(date_create($val), APP['time.backend'])) {
+    if (!$val = app\datetime($val, APP['time.backend'])) {
         throw new DomainException(app\i18n('Invalid value'));
     }
 
