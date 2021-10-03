@@ -65,15 +65,17 @@ function file(string|int $val, array $attr): string
         return html\element('iframe', ['src' => $data['name'], 'allowfullscreen' => 'allowfullscreen'] + $a);
     }
 
-    if (($p = explode('/', $data['mime'])) && $p[0] === 'image') {
+    $type = strstr($data['mime'], '/', true);
+
+    if ($type === 'image') {
         return html\element('img', ['src' => $data['name'], 'alt' => str\enc($data['info'])]);
     }
 
-    if ($p[0] === 'audio' && !$data['thumb']) {
+    if ($type === 'audio' && !$data['thumb']) {
         return html\element('audio', ['src' => $data['name'], 'controls' => true]);
     }
 
-    if (in_array($p[0], ['audio', 'video'])) {
+    if (in_array($type, ['audio', 'video'])) {
         $a = $data['thumb'] ? ['poster' => $data['thumb']] : [];
 
         return html\element('video', ['src' => $data['name'], 'controls' => true] + $a);
