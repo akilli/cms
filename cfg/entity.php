@@ -21,14 +21,14 @@ return [
                 'required' => true,
                 'unique' => true,
                 'editable' => false,
-                'max' => 50,
+                'max' => 100,
             ],
             'url' => [
                 'name' => 'URL',
                 'type' => 'urlpath',
                 'auto' => true,
                 'unique' => true,
-                'max' => 52,
+                'max' => 102,
             ],
             'role_id' => [
                 'name' => 'Role',
