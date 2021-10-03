@@ -35,7 +35,7 @@ return [
         'event\entity_prevalidate_uploadable' => 100,
     ],
     'entity:prevalidate:id:account' => [
-        'event\entity_account_prevalidate' => 100,
+        'event\entity_prevalidate_uid' => 100,
     ],
     'entity:prevalidate:id:file' => [
         'event\entity_file_prevalidate' => 100,

@@ -20,7 +20,7 @@ return [
     'Content Pages' => 'Inhaltsseiten',
     'Could not delete %s' => 'Konnte %s nicht löschen',
     'Could not delete data' => 'Konnte Daten nicht löschen',
-    'Could not generate profile image URL' => 'Konnte Profilbild-URL nicht erzeugen',
+    'Could not generate image URL' => 'Konnte Profilbild-URL nicht erzeugen',
     'Could not load data' => 'Konnte Daten nicht laden',
     'Could not save data' => 'Konnte Daten nicht speichern',
     'Could not send message' => 'Konnte Nachricht nicht versenden',

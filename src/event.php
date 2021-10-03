@@ -139,6 +139,26 @@ function data_request(array $data): array
     return $data;
 }
 
+function entity_prevalidate_uid(array $data): array
+{
+    if (!empty($data['name']) && (!$data['_old'] || $data['name'] !== $data['_old']['name'])) {
+        $data['uid'] = str\uid($data['name']);
+    }
+
+    if (!empty($data['image'])) {
+        $uid = $data['uid'] ?? $data['_old']['uid'] ?? null;
+
+        if ($uid) {
+            $ext = '.' . pathinfo($data['image'], PATHINFO_EXTENSION);
+            $data['image'] = app\asseturl($data['_entity']['id'] . '/' . $uid . $ext);
+        } else {
+            $data['_error']['image'][] = app\i18n('Could not generate image URL');
+        }
+    }
+
+    return $data;
+}
+
 function entity_postvalidate_password(array $data): array
 {
     foreach (array_intersect_key($data, $data['_entity']['attr']) as $attrId => $val) {
@@ -237,26 +257,6 @@ function entity_postdelete_uploadable(array $data): array
     foreach ($data['_entity']['attr'] as $attrId => $attr) {
         if ($attr['uploadable'] && $data['_old'][$attrId] && !file\delete(app\assetpath($data['_old'][$attrId]))) {
             throw new DomainException(app\i18n('Could not delete %s', $data['_old'][$attrId]));
-        }
-    }
-
-    return $data;
-}
-
-function entity_account_prevalidate(array $data): array
-{
-    if (!empty($data['name']) && (!$data['_old'] || $data['name'] !== $data['_old']['name'])) {
-        $data['uid'] = str\uid($data['name']);
-    }
-
-    if (!empty($data['image'])) {
-        $uid = $data['uid'] ?? $data['_old']['uid'] ?? null;
-
-        if ($uid) {
-            $ext = '.' . pathinfo($data['image'], PATHINFO_EXTENSION);
-            $data['image'] = app\asseturl($data['_entity']['id'] . '/' . $uid . $ext);
-        } else {
-            $data['_error']['image'][] = app\i18n('Could not generate profile image URL');
         }
     }
 
