@@ -44,17 +44,10 @@ function data_app(array $data): array
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['id'] = $match[3] ?? null;
-    } elseif (preg_match('#^/~([a-z0-9\-]+)$#u', $url, $match)) {
-        $data['entity_id'] = 'account';
+    } elseif ($item = entity\one('url', crit: [['name', $url]])) {
+        $data['entity_id'] = $item['target_entity_id'];
         $data['action'] = 'view';
-        $data['id'] = entity\one('account', crit: [['url', $url]], select: ['id'])['id'] ?? null;
-    } elseif (($page = entity\one('page', crit: [['url', $url]], select: ['id', 'entity_id']))
-        && ($data['page'] = entity\one($page['entity_id'], crit: [['id', $page['id']]]))
-    ) {
-        $data['entity_id'] = $data['page']['entity_id'];
-        $data['action'] = 'view';
-        $data['id'] = $data['page']['id'];
-        $data['entity'] = $data['page']['_entity'];
+        $data['id'] = $item['target_id'];
     }
 
     $data['event'] = [$data['type'], app\id($data['type'], '_invalid_')];
@@ -65,6 +58,7 @@ function data_app(array $data): array
 
     $data['entity'] ??= app\cfg('entity', $data['entity_id']);
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
+    $data['item'] = $data['id'] ? entity\one($data['entity_id'], crit: [['id', $data['id']]]) : null;
     $privilege = app\cfg('privilege', app\id($data['entity_id'], $data['action']));
     $data['area'] = $privilege && $privilege['use'] === '_public_' ? '_public_' : '_admin_';
     $data['valid'] = app\allowed(app\id($data['entity_id'], $data['action']))
@@ -74,14 +68,21 @@ function data_app(array $data): array
         && (!in_array($data['action'], ['delete', 'view']) || $data['id']);
 
     if ($data['valid']) {
-        $data['event'] = [
-            $data['type'],
-            app\id($data['type'], $data['area']),
-            app\id($data['type'], $data['action']),
-            ...($data['parent_id'] ? [app\id($data['type'], $data['parent_id'], $data['action'])] : []),
-            app\id($data['type'], $data['entity_id'], $data['action']),
-            ...($data['page'] ? [app\id($data['type'], 'page', $data['action'], $data['id'])] : []),
-        ];
+        $data['event'] = [$data['type'], app\id($data['type'], $data['area']), app\id($data['type'], $data['action'])];
+
+        if ($data['parent_id']) {
+            $data['event'][] = app\id($data['type'], $data['parent_id'], $data['action']);
+        }
+
+        $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action']);
+
+        if ($data['parent_id'] && $data['item']) {
+            $data['event'][] = app\id($data['type'], $data['parent_id'], $data['action'], $data['id']);
+        }
+
+        if ($data['item']) {
+            $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action'], $data['id']);
+        }
     }
 
     return $data;
@@ -92,7 +93,7 @@ function data_layout(array $data): array
     $cfg = app\cfg('layout');
     $app = app\data('app');
 
-    if ($app['page']) {
+    if (in_array('page', [$app['parent_id'], $app['entity_id']]) && $app['item']) {
         foreach (entity\all('layout', crit: [['page_id', $app['id']]]) as $item) {
             $cfg[app\id('html', 'page', 'view', $app['id'])]['layout-' . $item['id']] = [
                 'type' => 'tag',

@@ -233,11 +233,12 @@ function menu(array $block): string
 function meta(array $block): string
 {
     $app = app\data('app');
-    $desc = $app['page']['meta_description'] ?? null;
+    $desc = $app['item']['meta_description'] ?? null;
     $title = app\cfg('app', 'title') ?? '';
     $title = match (true) {
-        !empty($app['page']['meta_title']) => $app['page']['meta_title'],
         $app['area'] === '_admin_' => trim(($app['entity']['name'] ?? '') . ' - ' . $title, '- '),
+        !empty($app['item']['meta_title']) => $app['item']['meta_title'],
+        !empty($app['item']['name']) => $app['item']['name'] . ' - ' . $title,
         default => $title,
     };
 
@@ -404,7 +405,7 @@ function title(array $block): string
     $text = match (true) {
         !!$block['cfg']['text'] => app\i18n($block['cfg']['text']),
         $app['area'] === '_admin_' => $app['entity']['name'] ?? '',
-        default => $app['page']['title'] ?? '',
+        default => $app['item']['title'] ?? $app['item']['name'] ?? '',
     };
 
     return $text ? html\element('h1', [], str\enc($text)) : '';

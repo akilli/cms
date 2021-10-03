@@ -92,7 +92,7 @@ define('APP', [
             'entity_id' => null,
             'event' => [],
             'id' => null,
-            'page' => null,
+            'item' => null,
             'parent_id' => null,
             'type' => 'html',
             'valid' => false,
