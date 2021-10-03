@@ -392,6 +392,39 @@ return [
             ],
         ],
     ],
+    'url' => [
+        'name' => 'URL',
+        'unique' => [['target_entity_id', 'target_id']],
+        'attr' => [
+            'id' => [
+                'name' => 'ID',
+                'type' => 'serial',
+            ],
+            'name' => [
+                'name' => 'Name',
+                'type' => 'urlpath',
+                'required' => true,
+                'unique' => true,
+            ],
+            'target_entity_id' => [
+                'name' => 'Target Entity',
+                'type' => 'text',
+                'required' => true,
+                'indexable' => false,
+                'max' => 50,
+            ],
+            'target_id' => [
+                'name' => 'Target',
+                'type' => 'int',
+                'required' => true,
+            ],
+            'created' => [
+                'name' => 'Created',
+                'type' => 'datetime',
+                'auto' => true,
+            ],
+        ],
+    ],
     'video' => [
         'name' => 'Videos',
         'parent_id' => 'file',

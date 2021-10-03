@@ -1,6 +1,39 @@
 START TRANSACTION;
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Function
+-- ---------------------------------------------------------------------------------------------------------------------
+
+CREATE FUNCTION public.app_entity_id(_schema text, _table text) RETURNS text AS $$
+    BEGIN
+        IF (_schema = 'public') THEN
+            RETURN _table;
+        END IF;
+
+        RETURN _schema || '.' || _table;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION public.app_is_entity_id(_schema text, _table text) RETURNS boolean AS $$
+    DECLARE
+        _is boolean;
+    BEGIN
+        SELECT
+            count(column_name) > 0
+        FROM
+            information_schema.columns
+        WHERE
+            table_schema = _schema
+            AND table_name = _table
+            AND column_name = 'entity_id'
+        INTO
+            _is;
+
+        RETURN _is;
+    END;
+$$ LANGUAGE plpgsql;
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table
 -- ---------------------------------------------------------------------------------------------------------------------
 
@@ -45,7 +78,7 @@ CREATE INDEX ON public.account (created);
 CREATE TABLE public.menu (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
-    url varchar(400) DEFAULT null,
+    url varchar(255) DEFAULT null,
     parent_id int DEFAULT null REFERENCES public.menu ON DELETE CASCADE ON UPDATE CASCADE,
     sort int NOT NULL DEFAULT 0,
     position varchar(255) NOT NULL DEFAULT '',
@@ -86,7 +119,7 @@ CREATE TABLE public.page (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
     entity_id varchar(50) NOT NULL,
-    url varchar(400) NOT NULL UNIQUE,
+    url varchar(255) NOT NULL UNIQUE,
     title varchar(100) NOT NULL DEFAULT '',
     content text NOT NULL DEFAULT '',
     aside text NOT NULL DEFAULT '',
@@ -138,6 +171,20 @@ CREATE INDEX ON public.layout (page_id);
 CREATE INDEX ON public.layout (parent_id);
 CREATE INDEX ON public.layout (sort);
 CREATE INDEX ON public.layout (created);
+
+--
+-- URL
+--
+
+CREATE TABLE public.url (
+    id serial PRIMARY KEY,
+    name varchar(255) NOT NULL UNIQUE,
+    target_entity_id varchar(50) NOT NULL,
+    target_id int NOT NULL,
+    created timestamp(0) NOT NULL DEFAULT current_timestamp
+);
+
+CREATE UNIQUE INDEX ON public.url (target_entity_id, target_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- View
@@ -237,6 +284,63 @@ WITH LOCAL CHECK OPTION;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Trigger Function
 -- ---------------------------------------------------------------------------------------------------------------------
+
+--
+-- Generic
+--
+
+CREATE FUNCTION public.entity_url_delete() RETURNS trigger AS $$
+    BEGIN
+        DELETE FROM public.url WHERE name = OLD.url;
+
+        RETURN OLD;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION public.entity_url_save() RETURNS trigger AS $$
+    DECLARE
+        _cnt int := 0;
+        _ent text;
+    BEGIN
+        IF (public.app_is_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME)) THEN
+            _ent := NEW.entity_id;
+        ELSE
+            _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
+        END IF;
+
+        IF (TG_OP = 'UPDATE') THEN
+            SELECT
+                count(id)
+            FROM
+                public.url
+            WHERE
+                name = OLD.url
+                AND target_entity_id = _ent
+                AND target_id = OLD.id
+            INTO
+                _cnt;
+        END IF;
+
+        IF (TG_OP = 'INSERT' OR _cnt = 0) THEN
+            INSERT INTO
+                public.url
+                (name, target_entity_id, target_id)
+            VALUES
+                (NEW.url, _ent, NEW.id);
+        ELSE
+            UPDATE
+                public.url
+            SET
+                name = NEW.url
+            WHERE
+                name = OLD.url
+                AND target_entity_id = _ent
+                AND target_id = OLD.id;
+        END IF;
+
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
 
 --
 -- Menu
@@ -419,6 +523,34 @@ $$ LANGUAGE plpgsql;
 -- ---------------------------------------------------------------------------------------------------------------------
 
 --
+-- Account
+--
+
+CREATE CONSTRAINT TRIGGER
+    account_url_delete
+AFTER DELETE ON
+    public.account
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE
+    public.entity_url_delete();
+
+CREATE CONSTRAINT TRIGGER
+    account_url_insert
+AFTER INSERT ON
+    public.account
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE
+    public.entity_url_save();
+
+CREATE CONSTRAINT TRIGGER
+    account_url_update
+AFTER UPDATE OF url ON
+    public.account
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE
+    public.entity_url_save();
+
+--
 -- Menu
 --
 
@@ -475,10 +607,32 @@ CREATE CONSTRAINT TRIGGER
 AFTER UPDATE OF url ON
     public.page
 DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW WHEN (
-    NEW.url != OLD.url
-) EXECUTE PROCEDURE
+FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE
     public.page_menu_update();
+
+CREATE CONSTRAINT TRIGGER
+    page_url_delete
+AFTER DELETE ON
+    public.page
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE
+    public.entity_url_delete();
+
+CREATE CONSTRAINT TRIGGER
+    page_url_insert
+AFTER INSERT ON
+    public.page
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE
+    public.entity_url_save();
+
+CREATE CONSTRAINT TRIGGER
+    page_url_update
+AFTER UPDATE OF url ON
+    public.page
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE
+    public.entity_url_save();
 
 --
 -- Layout

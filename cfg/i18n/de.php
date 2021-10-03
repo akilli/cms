@@ -100,6 +100,8 @@ return [
     'Submit' => 'Abschicken',
     'Successfully deleted data' => 'Daten erfolgreich gelöscht',
     'Successfully saved data' => 'Daten erfolgreich gespeichert',
+    'Target' => 'Ziel',
+    'Target Entity' => 'Ziel-Entität',
     'This filename is already in use' => 'Dieser Dateiname wird bereits verwendet',
     'Thumbnail' => 'Vorschaubild',
     'Title' => 'Überschrift',

@@ -308,7 +308,7 @@ return [
         'editable' => true,
         'searchable' => true,
         'indexable' => true,
-        'max' => 400,
+        'max' => 255,
     ],
     'urlpath' => [
         'backend' => 'varchar',
@@ -318,6 +318,7 @@ return [
         'editable' => true,
         'searchable' => true,
         'indexable' => true,
+        'max' => 255,
     ],
     'video' => [
         'backend' => 'varchar',

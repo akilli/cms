@@ -67,13 +67,7 @@ CREATE FUNCTION public.entity_save() RETURNS trigger AS $$
         _base_name := TG_ARGV[1];
         _ext_schema := TG_ARGV[2];
         _ext_name := TG_ARGV[3];
-
-        IF (TG_TABLE_SCHEMA = 'public') THEN
-            NEW.entity_id := TG_TABLE_NAME;
-        ELSE
-            NEW.entity_id := TG_TABLE_SCHEMA || '.' || TG_TABLE_NAME;
-        END IF;
-
+        NEW.entity_id := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
         _new := to_jsonb(NEW);
 
         IF (TG_OP = 'UPDATE') THEN
