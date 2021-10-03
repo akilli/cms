@@ -230,7 +230,7 @@ function urlquery(array $get, bool $preserve = false): string
  */
 function actionurl(string $entityId, string $action, int $id = null): string
 {
-    return '/:' . $entityId . '/' . $action . ($id ? '/' . $id : '');
+    return '/' . $entityId . ':' . $action . ($id ? ':' . $id : '');
 }
 
 /**

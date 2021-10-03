@@ -40,7 +40,7 @@ export default {
                     const entity = item.getAttribute('data-ref');
 
                     if (entity) {
-                        browser(`/:${entity}/index`, async data => {
+                        browser(`/${entity}:index`, async data => {
                             if (data.id) {
                                 const id = item.getAttribute('data-id');
                                 document.getElementById(id).setAttribute('value', data.id);

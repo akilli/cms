@@ -35,12 +35,12 @@ function data_app(array $data): array
     $data = arr\replace(APP['data']['app'], $data);
     $url = app\data('request', 'url');
 
-    if (preg_match('#^/:([a-z_\.]+)(?:|/([^/\.]+))\.json$#u', $url, $match)) {
+    if (preg_match('#^/([a-z_\.]+)(?:|\:([^/\:\.]+))\.json$#u', $url, $match)) {
         $data['type'] = 'json';
         $data['entity_id'] = $match[1];
         $data['action'] = isset($match[2]) ? 'view' : 'index';
         $data['id'] = $match[2] ?? null;
-    } elseif (preg_match('#^/:([a-z_\.]+)/([a-z_]+)(?:|/([^/\.]+))$#u', $url, $match)) {
+    } elseif (preg_match('#^/([a-z_\.]+):([a-z_]+)(?:|\:([^/\:\.]+))$#u', $url, $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['id'] = $match[3] ?? null;
