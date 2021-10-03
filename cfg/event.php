@@ -43,6 +43,9 @@ return [
     'entity:prevalidate:id:iframe' => [
         'event\entity_iframe_prevalidate' => 100,
     ],
+    'entity:prevalidate:id:page' => [
+        'event\entity_prevalidate_url' => 100,
+    ],
     'layout:postrender' => [
         'event\layout_postrender' => 100,
     ],

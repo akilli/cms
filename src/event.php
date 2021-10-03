@@ -160,6 +160,27 @@ function entity_prevalidate_uid(array $data): array
     return $data;
 }
 
+function entity_prevalidate_url(array $data): array
+{
+    if (empty($data['url'])) {
+        return $data;
+    }
+
+    $crit = [['name', $data['url']]];
+
+    if ($data['_old']) {
+        $entityId = $data['_old']['entity_id'] ?? $data['_entity']['id'] ;
+        $id = $data['_old']['id'];
+        $crit[] = [['target_entity_id', $entityId, APP['op']['!=']], ['target_id', $id, APP['op']['!=']]];
+    }
+
+    if (entity\size('url', crit: $crit)) {
+        $data['_error']['url'][] = app\i18n('This URL is already in use');
+    }
+
+    return $data;
+}
+
 function entity_postvalidate_password(array $data): array
 {
     foreach (array_intersect_key($data, $data['_entity']['attr']) as $attrId => $val) {

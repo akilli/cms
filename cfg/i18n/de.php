@@ -103,6 +103,7 @@ return [
     'Target' => 'Ziel',
     'Target Entity' => 'Ziel-Entität',
     'This filename is already in use' => 'Dieser Dateiname wird bereits verwendet',
+    'This URL is already in use' => 'Diese URL wird bereits verwendet',
     'Thumbnail' => 'Vorschaubild',
     'Title' => 'Überschrift',
     'UID' => 'UID',
