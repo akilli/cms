@@ -25,7 +25,7 @@ CREATE TABLE public.account (
     id serial PRIMARY KEY,
     name varchar(50) NOT NULL UNIQUE,
     uid varchar(50) NOT NULL UNIQUE,
-    url varchar(52) NOT NULL GENERATED ALWAYS AS ('/~' || uid) STORED,
+    url varchar(52) NOT NULL UNIQUE GENERATED ALWAYS AS ('/~' || uid) STORED,
     role_id int NOT NULL REFERENCES public.role ON DELETE RESTRICT ON UPDATE CASCADE,
     username varchar(50) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,

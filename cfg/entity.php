@@ -27,6 +27,7 @@ return [
                 'name' => 'URL',
                 'type' => 'urlpath',
                 'auto' => true,
+                'unique' => true,
                 'max' => 52,
             ],
             'role_id' => [
