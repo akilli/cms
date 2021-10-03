@@ -130,7 +130,6 @@ CREATE TABLE public.page (
 
 CREATE INDEX ON public.page (name);
 CREATE INDEX ON public.page (entity_id);
-CREATE INDEX ON public.page (url);
 CREATE INDEX ON public.page (created);
 
 --
