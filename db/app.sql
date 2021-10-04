@@ -289,8 +289,20 @@ WITH LOCAL CHECK OPTION;
 --
 
 CREATE FUNCTION public.entity_url_delete() RETURNS trigger AS $$
+    DECLARE
+        _ent text;
     BEGIN
-        DELETE FROM public.url WHERE name = OLD.url;
+        IF (public.app_is_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME)) THEN
+            _ent := NEW.entity_id;
+        ELSE
+            _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
+        END IF;
+
+        DELETE FROM
+            public.url
+        WHERE
+            target_entity_id = _ent
+            AND target_id = OLD.id;
 
         RETURN OLD;
     END;
