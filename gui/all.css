@@ -47,6 +47,7 @@ body > * {
 }
 
 :is(nav ul, table p, .msg p):not(:first-child),
+:is(.table, .table > *, .block-index > .table) > :not(:first-child),
 details + details {
     margin-top: 0;
 }
@@ -241,6 +242,11 @@ main a:not([role=button]):not([data-action]):hover {
 .table :is(img, video) {
     max-width: 9rem;
     max-height: 6rem;
+}
+
+.table [data-label]::before {
+    font-weight: bold;
+    content: attr(data-label) ': ';
 }
 
 /**
@@ -624,7 +630,7 @@ nav a[aria-current] {
         content: '⇓';
     }
 
-    .table label {
+    .table [data-label]::before {
         display: none;
     }
 }

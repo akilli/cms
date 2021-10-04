@@ -42,14 +42,14 @@ function frontend(array $data, array $attr, array $cfg = []): string
         return '';
     }
 
-    $out = ($cfg['label'] ? html\element('label', ['for' => $attr['html']['id']], $attr['name']) : '') . $frontend;
+    $html = ($cfg['label'] ? html\element('label', ['for' => $attr['html']['id']], $attr['name']) : '') . $frontend;
 
     if (!empty($data['_error'][$attr['id']])) {
         $div['data-invalid'] = true;
-        $out .= html\element('div', ['class' => 'error'], implode('<br />', $data['_error'][$attr['id']]));
+        $html .= html\element('div', ['class' => 'error'], implode('<br />', $data['_error'][$attr['id']]));
     }
 
-    return $cfg['wrap'] ? html\element('div', $div, $out) : $out;
+    return $cfg['wrap'] ? html\element('div', $div, $html) : $html;
 }
 
 /**
@@ -64,10 +64,10 @@ function filter(array $data, array $attr): string
     $val = val($data, $attr);
     $attr['opt'] = opt($data, $attr);
     $attr['html'] = html($attr, 'filter');
-    $out = html\element('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);
+    $html = html\element('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);
     $div = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
 
-    return html\element('div', $div, $out);
+    return html\element('div', $div, $html);
 }
 
 /**
@@ -145,11 +145,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
         return $html;
     }
 
-    $a = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
-
-    if ($cfg['label']) {
-        $html = html\element('label', [], $attr['name']) . $html;
-    }
+    $a = ['data-attr' => $attr['id'], 'data-type' => $attr['type'], 'data-label' => $attr['name']];
 
     if (preg_match('#^<(audio|iframe|img|video)#', $html, $match)) {
         return html\element('figure', $a + (['class' => $match[1] === 'img' ? 'image' : $match[1]]), $html);
