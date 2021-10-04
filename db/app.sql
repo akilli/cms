@@ -179,8 +179,7 @@ CREATE TABLE public.url (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL UNIQUE,
     target_entity_id varchar(50) NOT NULL,
-    target_id int NOT NULL,
-    created timestamp(0) NOT NULL DEFAULT current_timestamp
+    target_id int NOT NULL
 );
 
 CREATE UNIQUE INDEX ON public.url (target_entity_id, target_id);
