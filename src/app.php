@@ -5,7 +5,7 @@ namespace app;
 
 use arr;
 use entity;
-use request;
+use response;
 use session;
 use str;
 use Stringable;
@@ -19,15 +19,7 @@ function run(): string
     $events = arr\prefix(array_reverse($app['event']), 'response:');
     $data = arr\replace(APP['response'], event($events, APP['response']));
 
-    if (!$app['valid']) {
-        http_response_code(404);
-    }
-
-    foreach ($data['header'] as $key => $val) {
-        header($key . ': ' . $val);
-    }
-
-    return $data['body'];
+    return response\send($data['body'], $data['header'], $app['valid'] ? null : 404);
 }
 
 /**
