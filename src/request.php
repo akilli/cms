@@ -11,7 +11,7 @@ use DomainException;
  */
 function redirect(string $url = '/'): never
 {
-    header('Location: ' . $url);
+    header('location: ' . $url);
     exit;
 }
 
