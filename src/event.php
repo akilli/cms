@@ -428,7 +428,6 @@ function response_html_block_api(array $data): array
 
 function response_json(array $data): array
 {
-    $data['header']['content-type'] = 'application/json';
     $app = app\data('app');
 
     if (!$app['valid']) {

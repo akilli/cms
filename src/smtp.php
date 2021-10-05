@@ -55,12 +55,12 @@ function mail(string $to, string $subj, string $text, array $attach = [], string
     if ($attach) {
         $boundary = str\uniq();
         $mail .= 'mime-version: 1.0' . APP['crlf'];
-        $mail .= 'content-type: multipart/mixed; charset="utf-8"; boundary="' . $boundary . '"' . APP['crlf'];
+        $mail .= 'content-type: ' . APP['type']['multipart'] . '; boundary="' . $boundary . '"' . APP['crlf'];
         $mail .= APP['crlf'];
         $mail .= 'This is a multipart message in MIME format.' . APP['crlf'];
         $mail .= APP['crlf'];
         $mail .= '--' . $boundary . APP['crlf'];
-        $mail .= 'content-type: text/plain; charset="utf-8"' . APP['crlf'];
+        $mail .= 'content-type: ' . APP['type']['text'] . APP['crlf'];
         $mail .= 'content-transfer-encoding: 8bit' . APP['crlf'];
         $mail .= APP['crlf'];
         $mail .= $text . APP['crlf'];
@@ -80,7 +80,7 @@ function mail(string $to, string $subj, string $text, array $attach = [], string
 
         $mail .= '--' . $boundary . '--' . APP['crlf'];
     } else {
-        $mail .= 'content-type: text/plain; charset="utf-8"' . APP['crlf'];
+        $mail .= 'content-type: ' . APP['type']['text'] . APP['crlf'];
         $mail .= APP['crlf'];
         $mail .= $text . APP['crlf'];
     }
