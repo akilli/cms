@@ -254,8 +254,10 @@ function crit(array $crit, array $attrs): array
             $val = $c[1];
             $op = $c[2] ?? APP['op']['='];
 
-            if (empty(APP['op'][$op]) || is_array($val) && !$val) {
+            if (is_array($val) && !$val) {
                 throw new DomainException(app\i18n('Invalid criteria'));
+            } elseif (empty(APP['op'][$op])) {
+                throw new DomainException(app\i18n('Invalid operator'));
             }
 
             $param = ':crit_' . $attr['id'] . '_';

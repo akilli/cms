@@ -53,6 +53,7 @@ return [
     'Invalid file type' => 'Ungültiger Dateityp',
     'Invalid JOIN' => 'Ungültiger JOIN',
     'Invalid name and password combination' => 'Ungültige Kombination aus Name und Passwort',
+    'Invalid operator' => 'Ungültiger Operator',
     'Invalid parent item' => 'Ungültiger übergeordneter Menüpunkt',
     'Invalid password' => 'Ungültiges Passwort',
     'Invalid path' => 'Ungültiger Pfad',
