@@ -123,7 +123,7 @@ function urlpath(string $val): string
     $info = pathinfo($parts[$key]);
     $parts[$key] = $info['filename'];
     $parts = array_map('str\uid', $parts);
-    $parts[$key] .= $parts[$key] && $info['extension'] ? '.' . $info['extension'] : '';
+    $parts[$key] .= $parts[$key] && !empty($info['extension']) ? '.' . $info['extension'] : '';
 
     return '/' . implode('/', array_filter($parts));
 }
