@@ -292,7 +292,7 @@ CREATE FUNCTION public.entity_url_delete() RETURNS trigger AS $$
         _ent text;
     BEGIN
         IF (public.app_is_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME)) THEN
-            _ent := NEW.entity_id;
+            _ent := OLD.entity_id;
         ELSE
             _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
         END IF;
