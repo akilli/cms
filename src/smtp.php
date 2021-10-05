@@ -12,7 +12,7 @@ use str;
  *
  * @throws DomainException
  */
-function mail(string $from, string $to, string $subj, string $text, array $attach = [], string $replyTo = null): void
+function mail(string $to, string $subj, string $text, array $attach = [], string $replyTo = null): void
 {
     $cfg = app\cfg('smtp');
     $host = app\data('request', 'host');
@@ -38,30 +38,30 @@ function mail(string $from, string $to, string $subj, string $text, array $attac
         send($client, base64_encode($cfg['password']), [235]);
     }
 
-    send($client, 'MAIL FROM:<' . $from . '>', [250]);
+    send($client, 'MAIL FROM:<' . $cfg['from'] . '>', [250]);
     send($client, 'RCPT TO:<' . $to . '>', [250, 251]);
     send($client, 'DATA', [354]);
 
-    $mail = 'From: <' . $from . '>' . APP['crlf'];
-    $mail .= 'To: <' . $to . '>' . APP['crlf'];
+    $mail = 'from: <' . $cfg['from'] . '>' . APP['crlf'];
+    $mail .= 'to: <' . $to . '>' . APP['crlf'];
 
     if ($replyTo) {
-        $mail .= 'Reply-To: <' . $replyTo . '>' . APP['crlf'];
+        $mail .= 'reply-to: <' . $replyTo . '>' . APP['crlf'];
     }
 
-    $mail .= 'Date: ' . date('r') . APP['crlf'];
-    $mail .= 'Subject: ' . $subj . APP['crlf'];
+    $mail .= 'date: ' . date('r') . APP['crlf'];
+    $mail .= 'subject: ' . $subj . APP['crlf'];
 
     if ($attach) {
         $boundary = str\uniq();
-        $mail .= 'MIME-Version: 1.0' . APP['crlf'];
-        $mail .= 'Content-Type: multipart/mixed; charset="utf-8"; boundary="' . $boundary . '"' . APP['crlf'];
+        $mail .= 'mime-version: 1.0' . APP['crlf'];
+        $mail .= 'content-type: multipart/mixed; charset="utf-8"; boundary="' . $boundary . '"' . APP['crlf'];
         $mail .= APP['crlf'];
         $mail .= 'This is a multipart message in MIME format.' . APP['crlf'];
         $mail .= APP['crlf'];
         $mail .= '--' . $boundary . APP['crlf'];
-        $mail .= 'Content-Type: text/plain; charset="utf-8"' . APP['crlf'];
-        $mail .= 'Content-Transfer-Encoding: 8bit' . APP['crlf'];
+        $mail .= 'content-type: text/plain; charset="utf-8"' . APP['crlf'];
+        $mail .= 'content-transfer-encoding: 8bit' . APP['crlf'];
         $mail .= APP['crlf'];
         $mail .= $text . APP['crlf'];
 
@@ -71,16 +71,16 @@ function mail(string $from, string $to, string $subj, string $text, array $attac
             }
 
             $mail .= '--' . $boundary . APP['crlf'];
-            $mail .= 'Content-Type: ' . $file['type'] . '; name="' . $file['name'] . '"' . APP['crlf'];
-            $mail .= 'Content-Disposition: attachment; filename="' . $file['name'] . '"' . APP['crlf'];
-            $mail .= 'Content-Transfer-Encoding: base64' . APP['crlf'];
+            $mail .= 'content-type: ' . $file['type'] . '; name="' . $file['name'] . '"' . APP['crlf'];
+            $mail .= 'content-disposition: attachment; filename="' . $file['name'] . '"' . APP['crlf'];
+            $mail .= 'content-transfer-encoding: base64' . APP['crlf'];
             $mail .= APP['crlf'];
             $mail .= chunk_split(base64_encode(file_get_contents($file['path'])));
         }
 
         $mail .= '--' . $boundary . '--' . APP['crlf'];
     } else {
-        $mail .= 'Content-Type: text/plain; charset="utf-8"' . APP['crlf'];
+        $mail .= 'content-type: text/plain; charset="utf-8"' . APP['crlf'];
         $mail .= APP['crlf'];
         $mail .= $text . APP['crlf'];
     }
@@ -109,7 +109,7 @@ function send($client, string $msg, array $status): void
     fputs($client, $msg . APP['crlf']);
     $data = receive($client);
 
-    if (!$data || !preg_match('#^([1-5][0-9][0-9])(?:.*)$#', $data, $match) || !in_array((int)$match[1], $status)) {
-        throw new DomainException(app\i18n('Unexpected response from server: %s', $data));
+    if (!$data|| !preg_match('#^([1-5][0-9][0-9])(?:.*)$#', $data, $match) || !in_array((int)$match[1], $status)) {
+        throw new DomainException(app\i18n('Unexpected response from server: %s', (string)$data));
     }
 }
