@@ -67,22 +67,24 @@ function data_app(array $data): array
         && (!$data['id'] || entity\size($data['entity_id'], crit: [['id', $data['id']]]))
         && (!in_array($data['action'], ['delete', 'view']) || $data['id']);
 
-    if ($data['valid']) {
-        $data['event'] = [$data['type'], app\id($data['type'], $data['area']), app\id($data['type'], $data['action'])];
+    if (!$data['valid']) {
+        return $data;
+    }
 
-        if ($data['parent_id']) {
-            $data['event'][] = app\id($data['type'], $data['parent_id'], $data['action']);
-        }
+    $data['event'] = [$data['type'], app\id($data['type'], $data['area']), app\id($data['type'], $data['action'])];
 
-        $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action']);
+    if ($data['parent_id']) {
+        $data['event'][] = app\id($data['type'], $data['parent_id'], $data['action']);
+    }
 
-        if ($data['parent_id'] && $data['item']) {
-            $data['event'][] = app\id($data['type'], $data['parent_id'], $data['action'], $data['id']);
-        }
+    $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action']);
 
-        if ($data['item']) {
-            $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action'], $data['id']);
-        }
+    if ($data['parent_id'] && $data['item']) {
+        $data['event'][] = app\id($data['type'], $data['parent_id'], $data['action'], $data['id']);
+    }
+
+    if ($data['item']) {
+        $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action'], $data['id']);
     }
 
     return $data;
