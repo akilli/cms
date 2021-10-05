@@ -23,8 +23,8 @@ function run(): string
         http_response_code(404);
     }
 
-    if ($data['redirect']) {
-        request\redirect($data['redirect']);
+    foreach ($data['header'] as $key => $val) {
+        header($key . ': ' . $val);
     }
 
     return $data['body'];

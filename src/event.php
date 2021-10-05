@@ -386,7 +386,7 @@ function layout_postrender_html(array $data): array
 
 function response_html(array $data): array
 {
-    if (!$data['body'] && !$data['redirect']) {
+    if (!$data['body'] && empty($data['header']['location'])) {
         $data['body'] = layout\render_id('html');
     }
 
@@ -397,7 +397,7 @@ function response_html_delete(array $data): array
 {
     $app = app\data('app');
     entity\delete($app['entity_id'], [['id', $app['id']]]);
-    $data['redirect'] = app\actionurl($app['entity_id'], 'index');
+    $data['header']['location'] = app\actionurl($app['entity_id'], 'index');
     $data['_stop'] = true;
 
     return $data;
@@ -406,7 +406,7 @@ function response_html_delete(array $data): array
 function response_html_account_logout(array $data): array
 {
     session\regenerate();
-    $data['redirect'] = app\url();
+    $data['header']['location'] = app\url();
     $data['_stop'] = true;
 
     return $data;
@@ -428,7 +428,7 @@ function response_html_block_api(array $data): array
 
 function response_json(array $data): array
 {
-    header('content-type: application/json');
+    $data['header']['content-type'] = 'application/json';
     $app = app\data('app');
 
     if (!$app['valid']) {

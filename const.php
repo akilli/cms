@@ -250,7 +250,7 @@ define('APP', [
     ],
     'response' => [
         'body' => '',
-        'redirect' => null,
+        'header' => [],
     ],
     'time.backend' => 'HH:mm:ss',
     'time.frontend' => 'HH:mm',
