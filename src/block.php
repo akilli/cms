@@ -10,7 +10,7 @@ use DomainException;
 use entity;
 use html;
 use layout;
-use request;
+use response;
 use session;
 use str;
 
@@ -67,7 +67,7 @@ function edit(array $block): string
         }
 
         if (entity\save($entity['id'], $data)) {
-            request\redirect(app\actionurl($entity['id'], $app['action'], $data['id']));
+            response\redirect(app\actionurl($entity['id'], $app['action'], $data['id']));
         }
     }
 
@@ -204,7 +204,7 @@ function login(array $block): string
         ) {
             session\regenerate();
             session\save('account', $account['id']);
-            request\redirect();
+            response\redirect();
         }
 
         app\msg(app\i18n('Invalid name and password combination'));
@@ -381,7 +381,7 @@ function profile(array $block): string
             $data = ['id' => $account['id']] + $data;
 
             if (entity\save('account', $data)) {
-                request\redirect($request['url']);
+                response\redirect($request['url']);
             }
         }
     }

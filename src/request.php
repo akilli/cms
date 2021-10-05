@@ -7,15 +7,6 @@ use app;
 use DomainException;
 
 /**
- * Redirect
- */
-function redirect(string $url = '/'): never
-{
-    header('location: ' . $url);
-    exit;
-}
-
-/**
  * Filters GET parameters
  */
 function getfilter(array $data): array
