@@ -166,6 +166,7 @@ function entity(array $data, array $ext): array
         $parent = $data[$entity['parent_id']] ?? null;
 
         if (!$entityId
+            || !preg_match('#^[a-z][a-z_\.]*$#', $entityId)
             || mb_strlen($entityId) > APP['entity_id.max']
             || !$entity['name']
             || !$entity['db']
@@ -173,6 +174,7 @@ function entity(array $data, array $ext): array
             || $entity['parent_id'] && (!$parent || $parent['parent_id'])
             || !$entity['parent_id'] && empty($entity['attr']['id'])
             || $entity['unique'] !== array_filter($entity['unique'], fn(array $keys) => arr\has($entity['attr'], $keys))
+            || preg_grep('#^[a-z]+$#', $entity['action'], PREG_GREP_INVERT)
         ) {
             throw new DomainException(app\i18n('Invalid configuration'));
         }
@@ -187,7 +189,8 @@ function entity(array $data, array $ext): array
 
     foreach ($data as $entityId => $entity) {
         foreach ($entity['attr'] as $attrId => $attr) {
-            if (empty($attr['name'])
+            if (!preg_match('#^[a-z][\w]*$#', $attrId)
+                || empty($attr['name'])
                 || empty($attr['type'])
                 || empty($attrCfg[$attr['type']])
                 || in_array($attr['type'], ['entity', 'multientity']) && empty($attr['ref'])

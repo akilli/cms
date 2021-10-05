@@ -67,7 +67,16 @@ return [
     'response:html:delete' => [
         'event\response_html_delete' => 100,
     ],
-    'response:json' => [
-        'event\response_json' => 100,
+    'response:json:delete' => [
+        'event\response_json_delete' => 100,
+    ],
+    'response:json:edit' => [
+        'event\response_json_edit' => 100,
+    ],
+    'response:json:index' => [
+        'event\response_json_index' => 100,
+    ],
+    'response:json:view' => [
+        'event\response_json_view' => 100,
     ],
 ];

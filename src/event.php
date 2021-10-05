@@ -35,12 +35,12 @@ function data_app(array $data): array
     $data = arr\replace(APP['data']['app'], $data);
     $url = app\data('request', 'url');
 
-    if (preg_match('#^/([a-z_\.]+)(?:|\:([^/\:\.]+))\.json$#u', $url, $match)) {
+    if ($jsonUrl = strstr($url, '.json', true)) {
         $data['type'] = 'json';
-        $data['entity_id'] = $match[1];
-        $data['action'] = isset($match[2]) ? 'view' : 'index';
-        $data['id'] = $match[2] ?? null;
-    } elseif (preg_match('#^/([a-z_\.]+):([a-z_]+)(?:|\:([^/\:\.]+))$#u', $url, $match)) {
+        $url = $jsonUrl;
+    }
+
+    if (preg_match('#^/([a-z][a-z_\.]*):([a-z]+)(?:|\:([^/\:\.]+))$#', $url, $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['id'] = $match[3] ?? null;
@@ -64,8 +64,9 @@ function data_app(array $data): array
     $data['valid'] = app\allowed(app\id($data['entity_id'], $data['action']))
         && $data['entity']
         && in_array($data['action'], $data['entity']['action'])
-        && (!$data['id'] || entity\size($data['entity_id'], crit: [['id', $data['id']]]))
-        && (!in_array($data['action'], ['delete', 'view']) || $data['id']);
+        && (!in_array($data['action'], ['delete', 'view']) || $data['id'])
+        && ($data['action'] !== 'index' || !$data['id'])
+        && (!$data['id'] || entity\size($data['entity_id'], crit: [['id', $data['id']]]));
 
     if (!$data['valid']) {
         return $data;
@@ -419,7 +420,7 @@ function response_html_block_api(array $data): array
     $id = app\data('app', 'id');
     $data['body'] = '';
 
-    if (preg_match('#^([a-z_\.]+)-(\d+)$#', $id, $match)) {
+    if (preg_match('#^([a-z][a-z_\.]*)-(\d+)$#', $id, $match)) {
         $data['body'] = layout\render_entity($match[1], (int)$match[2]);
     }
 
@@ -428,31 +429,58 @@ function response_html_block_api(array $data): array
     return $data;
 }
 
-function response_json(array $data): array
+function response_json_delete(array $data): array
 {
     $app = app\data('app');
+    $success = entity\delete($app['entity_id'], [['id', $app['id']]]);
+    $data['body'] = json_encode(['id' => $app['id'], 'success' => $success, 'msg' => app\msg()]);
+    $data['_stop'] = true;
 
-    if (!$app['valid']) {
-        return $data;
-    }
+    return $data;
+}
 
-    $filter = function (array $item): array {
-        foreach ($item['_entity']['attr'] as $attrId => $attr) {
-            if (!$attr['viewer']) {
-                unset($item[$attrId]);
-            }
-        }
-
-        return entity\uninit($item);
-    };
+function response_json_edit(array $data): array
+{
+    $app = app\data('app');
+    $item = app\data('request', 'post');
 
     if ($app['id']) {
-        $result = $filter(entity\one($app['entity_id'], crit: [['id', $app['id']]]));
-    } else {
-        $result = array_map($filter, entity\all($app['entity_id']));
+        $item = ['id' => $app['id']] + $item;
     }
 
-    $data['body'] = json_encode($result);
+    $success = entity\save($app['entity_id'], $item);
+    $id = $item['id'] ?? null;
+    $error = $item['_error'] ?? null;
+    $data['body'] = json_encode(['id' => $id, 'success' => $success, 'msg' => app\msg(), 'error' => $error]);
+    $data['_stop'] = true;
+
+    return $data;
+}
+
+function response_json_index(array $data): array
+{
+    $app = app\data('app');
+    $attrIds = array_keys(arr\filter($app['entity']['attr'], 'viewer', null));
+    $all = entity\all($app['entity_id']);
+
+    foreach ($all as $id => $item) {
+        $item = entity\uninit($item);
+        $all[$id] = $attrIds ? arr\remove($item, $attrIds) : $item;
+    }
+
+    $data['body'] = json_encode($all);
+    $data['_stop'] = true;
+
+    return $data;
+}
+
+function response_json_view(array $data): array
+{
+    $app = app\data('app');
+    $attrIds = array_keys(arr\filter($app['entity']['attr'], 'viewer', null));
+    $item = entity\uninit($app['item']);
+    $data['body'] = json_encode($attrIds ? arr\remove($item, $attrIds) : $item);
+    $data['_stop'] = true;
 
     return $data;
 }

@@ -129,7 +129,7 @@ function index(array $block): string
 
     if ($block['cfg']['sortable']
         && $get['sort']
-        && preg_match('#^(-)?([a-z0-9_\-]+)$#', $get['sort'], $match)
+        && preg_match('#^(-)?([a-z][\w]*)$#', $get['sort'], $match)
         && !empty($attrs[$match[2]])
     ) {
         $order = [$match[2] => $match[1] ? 'desc' : 'asc'];
