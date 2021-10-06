@@ -295,7 +295,7 @@ function layout(array $data, array $ext): array
             }
 
             if ($cfg) {
-                $data[$id][$action]['cfg'] = $cfg;
+                $data[$id]['main-content']['cfg'] = $cfg;
             }
         }
     }

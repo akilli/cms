@@ -84,7 +84,7 @@ return [
                 'text' => 'Error',
             ],
         ],
-        'view' => [
+        'main-content' => [
             'type' => 'tpl',
             'tpl' => 'error.phtml',
             'parent_id' => 'content',
@@ -118,7 +118,7 @@ return [
                 'text' => 'Login',
             ],
         ],
-        'login' => [
+        'main-content' => [
             'type' => 'login',
             'parent_id' => 'content',
             'sort' => 300,
@@ -130,7 +130,7 @@ return [
                 'text' => 'Profile',
             ],
         ],
-        'profile' => [
+        'main-content' => [
             'type' => 'profile',
             'parent_id' => 'content',
             'sort' => 300,
@@ -140,7 +140,7 @@ return [
         ],
     ],
     'html:edit' => [
-        'edit' => [
+        'main-content' => [
             'type' => 'edit',
             'parent_id' => 'content',
             'sort' => 300,
@@ -153,7 +153,7 @@ return [
             'parent_id' => 'content',
             'sort' => 300,
         ],
-        'index' => [
+        'main-content' => [
             'type' => 'index',
             'parent_id' => 'content',
             'sort' => 400,
@@ -166,7 +166,7 @@ return [
         ],
     ],
     'html:menu:index' => [
-        'index' => [
+        'main-content' => [
             'cfg' => [
                 'attr_id' => ['name', 'url', 'position', 'parent_id', 'created'],
                 'filter' => ['parent_id', 'created'],
@@ -175,7 +175,7 @@ return [
         ],
     ],
     'html:page:index' => [
-        'index' => [
+        'main-content' => [
             'cfg' => [
                 'attr_id' => ['name', 'url', 'created'],
                 'filter' => ['created'],
@@ -184,14 +184,14 @@ return [
         ],
     ],
     'html:page:view' => [
-        'view' => [
+        'main-content' => [
             'cfg' => [
                 'attr_id' => ['content', 'aside'],
             ],
         ],
     ],
     'html:view' => [
-        'view' => [
+        'main-content' => [
             'type' => 'view',
             'parent_id' => 'content',
             'sort' => 300,
