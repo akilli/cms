@@ -158,7 +158,7 @@ function entity(array $data, array $ext): array
     $validatorCfg = load('validator');
     $viewerCfg = load('viewer');
     $optCfg = load('opt');
-    $entitychild = ['editable' => false, 'filterable' => false, 'indexable' => false];
+    $entitychild = ['autoedit' => false, 'autofilter' => false, 'autoindex' => false];
     uasort($data, fn(array $a, array $b): int => ($a['parent_id'] ?? null) <=> ($b['parent_id'] ?? null));
 
     foreach ($data as $entityId => $entity) {
@@ -279,16 +279,16 @@ function layout(array $data, array $ext): array
             }
 
             foreach ($entity['attr'] as $attrId => $attr) {
-                if ($action === 'edit' && $attr['editable'] && !$attr['auto']) {
+                if ($action === 'edit' && $attr['autoedit'] && !$attr['auto']) {
                     $cfg['attr_id'][] = $attrId;
-                } elseif ($action === 'view' && $attr['viewable']) {
+                } elseif ($action === 'view' && $attr['autoview']) {
                     $cfg['attr_id'][] = $attrId;
-                } elseif ($action === 'index' && $attr['indexable'] && !$attr['nullable']) {
+                } elseif ($action === 'index' && $attr['autoindex'] && !$attr['nullable']) {
                     $cfg['attr_id'][] = $attrId;
 
-                    if ($attr['filterable']) {
+                    if ($attr['autofilter']) {
                         $cfg['filter'][] = $attrId;
-                    } elseif ($attr['searchable']) {
+                    } elseif ($attr['autosearch']) {
                         $cfg['search'][] = $attrId;
                     }
                 }

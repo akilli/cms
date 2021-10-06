@@ -20,7 +20,7 @@ return [
                 'type' => 'uid',
                 'required' => true,
                 'unique' => true,
-                'editable' => false,
+                'autoedit' => false,
                 'max' => 100,
             ],
             'url' => [
@@ -150,7 +150,7 @@ return [
                 'type' => 'file',
                 'required' => true,
                 'unique' => true,
-                'indexable' => true,
+                'autoindex' => true,
                 'max' => 255,
             ],
             'entity_id' => [
@@ -163,7 +163,7 @@ return [
                 'name' => 'MIME-Type',
                 'type' => 'text',
                 'required' => true,
-                'editable' => false,
+                'autoedit' => false,
                 'max' => 255,
             ],
             'thumb' => [
@@ -223,7 +223,7 @@ return [
                 'name' => 'Block Entity',
                 'type' => 'text',
                 'auto' => true,
-                'indexable' => false,
+                'autoindex' => false,
                 'max' => 50,
             ],
             'block_id' => [
