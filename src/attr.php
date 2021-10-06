@@ -14,10 +14,6 @@ use html;
  */
 function frontend(array $data, array $attr, array $cfg = []): string
 {
-    if (!$attr['editable']) {
-        return '';
-    }
-
     $cfg = arr\replace(APP['attr.frontend'], $cfg);
     $val = val($data, $attr);
     $attr['opt'] = opt($data, $attr);
@@ -57,10 +53,6 @@ function frontend(array $data, array $attr, array $cfg = []): string
  */
 function filter(array $data, array $attr): string
 {
-    if (!$attr['filterable']) {
-        return '';
-    }
-
     $val = val($data, $attr);
     $attr['opt'] = opt($data, $attr);
     $attr['html'] = html($attr, 'filter');
