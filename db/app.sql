@@ -395,7 +395,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION public.menu_after() RETURNS trigger AS $$
     DECLARE
-        _pad int := 10;
+        _pad int := 5;
     BEGIN
         -- Avoid recursion
         IF (current_setting('app.menu', true) != '1') THEN
