@@ -107,12 +107,11 @@ function json(array $val): string
 
 function multientity(array $val, array $attr): string
 {
-    $hasName = !empty(app\cfg('entity', $attr['ref'])['attr']['name']);
+    if (!empty(app\cfg('entity', $attr['ref'])['attr']['name'])) {
+        $val = array_column(entity\all($attr['ref'], crit: [['id', $val]], select: ['name']), 'name');
+    }
 
-    return implode(
-        ', ',
-        $hasName ? array_column(entity\all($attr['ref'], crit: [['id', $val]], select: ['name']), 'name') : $val
-    );
+    return implode(', ', $val);
 }
 
 function opt(mixed $val, array $attr): string
