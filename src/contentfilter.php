@@ -170,7 +170,7 @@ function msg(string $html): string
     $msg = '';
 
     foreach (app\msg() as $item => $count) {
-        $msg .= html\element('p', [], $count > 1 ? sprintf('%s (%d)', $item, $count) : $item);
+        $msg .= html\element('p', [], $count > 1 ? $item . ' (' . $count . ')' : $item);
     }
 
     return str_replace(html\element('app-msg'), $msg ? html\element('section', ['class' => 'msg'], $msg) : '', $html);

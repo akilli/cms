@@ -384,7 +384,7 @@ function toolbar(array $data, array $ext): array
 
         $item['sort'] = ++$sort;
         $parentPosition = $item['parent_id'] ? $data[$item['parent_id']]['position'] . '.' : '';
-        $item['position'] = sprintf('%s%05d', $parentPosition, $item['sort']);
+        $item['position'] = sprintf('%s%03d', $parentPosition, $item['sort']);
         $item['level'] = $item['parent_id'] ? $data[$item['parent_id']]['level'] + 1 : 1;
         $data[$id] = $item;
         $parentId = $item['parent_id'];
