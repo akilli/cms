@@ -149,7 +149,7 @@ blockquote::before {
     line-height: 3rem;
     font-family: cms;
     font-size: 3rem;
-    content: '\f10e';
+    content: '\e806';
 }
 
 figure.blockquote {
@@ -581,19 +581,19 @@ nav a[aria-current] {
     }
 
     a:is([data-action=delete], [data-action=remove])::before {
-        content: '\f1f8';
+        content: '\e801';
     }
 
     a[data-action=edit]::before {
-        content: '\f044';
+        content: '\e805';
     }
 
     a[data-action=view]::before {
-        content: '\f06e';
+        content: '\e802';
     }
 
     a[data-action=browser]::before {
-        content: '\f07c';
+        content: '\e804';
     }
 
     /**
@@ -626,12 +626,16 @@ nav a[aria-current] {
         line-height: 1;
         font-family: cms;
         font-size: 1.5rem;
-        content: '\f0c9';
+        content: '\e807';
         cursor: pointer;
     }
 
+    #toolbar::before {
+        content: '\e808';
+    }
+
     :is(#toolbar, #menu)[data-open]::before {
-        content: '\f00d';
+        content: '\e800';
     }
 }
 
