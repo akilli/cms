@@ -103,7 +103,7 @@ function data_layout(array $data): array
                 'tag' => 'app-block',
                 'parent_id' => $item['parent_id'],
                 'sort' => $item['sort'],
-                'cfg' => ['attr' => ['id' => $item['block_entity_id'] . '-' . $item['block_id']]],
+                'cfg' => ['attr' => ['id' => $item['block_id']]],
             ];
         }
     }
@@ -417,13 +417,8 @@ function response_html_account_logout(array $data): array
 
 function response_html_block_api(array $data): array
 {
-    $id = app\data('app', 'id');
-    $data['body'] = '';
-
-    if (preg_match('#^([a-z][a-z_\.]*)-(\d+)$#', $id, $match)) {
-        $data['body'] = layout\render_entity($match[1], (int)$match[2]);
-    }
-
+    $app = app\data('app');
+    $data['body'] = layout\render_entity($app['item']['entity_id'], (int)$app['id']);
     $data['_stop'] = true;
 
     return $data;

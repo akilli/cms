@@ -34,12 +34,11 @@ use attr;
             $entityId = $entity && $entity['parent_id'] === $data['_entity']['id']
                 ? $entity['id']
                 : $data['_entity']['id'];
-            $id = ($entity && $entity['parent_id'] === 'block' ? $entity['id'] . '-' : '') . $data['id'];
             $src = $entity && $entity['parent_id'] === 'file' ? $data['name'] : null;
             $name = $data['name'] ?? $data['id'];
             ?>
         <article
-            data-id="<?php echo $id; ?>"
+            data-id="<?php echo $data['id']; ?>"
             data-name="<?php echo $name; ?>"<?php if ($src): ?>
             data-src="<?php echo $src; ?>"<?php endif; ?>
         >
