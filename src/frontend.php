@@ -5,6 +5,7 @@ namespace frontend;
 
 use app;
 use attr;
+use contentfilter;
 use html;
 use str;
 
@@ -95,6 +96,11 @@ function datetime(?string $val, array $attr): string
 function decimal(?float $val, array $attr): string
 {
     return html\element('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '0.01']);
+}
+
+function editor(?string $val, array $attr): string
+{
+    return textarea($val ? contentfilter\file($val) : $val, $attr);
 }
 
 function email(?string $val, array $attr): string

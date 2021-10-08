@@ -92,7 +92,7 @@ return [
     ],
     'editor' => [
         'backend' => 'text',
-        'frontend' => 'textarea',
+        'frontend' => 'editor',
         'filter' => 'text',
         'validator' => 'editor',
         'viewer' => 'raw',

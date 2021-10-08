@@ -18,6 +18,9 @@ return [
     'decimal' => [
         'call' => 'frontend\decimal',
     ],
+    'editor' => [
+        'call' => 'frontend\editor',
+    ],
     'email' => [
         'call' => 'frontend\email',
     ],
