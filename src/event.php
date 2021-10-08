@@ -267,7 +267,7 @@ function entity_postsave_uploadable(array $data): array
         } elseif (!empty($data[$attrId]) && ($name = $upload($attrId))) {
             throw new DomainException(app\i18n('Could not upload %s', $name));
         } elseif (array_key_exists($attrId, $data)
-            && $data['_old'][$attrId]
+            && !empty($data['_old'][$attrId])
             && $data['_old'][$attrId] !== $data[$attrId]
             && !file\delete(app\assetpath($data['_old'][$attrId]))
         ) {
@@ -363,6 +363,7 @@ function layout_postrender(array $data): array
     if (app\data('app', 'area') === '_public_' && $data['image']) {
         $data['html'] = contentfilter\block($data['html']);
         $data['html'] = contentfilter\entity($data['html']);
+        $data['html'] = contentfilter\file($data['html']);
         $data['html'] = contentfilter\msg($data['html']);
         $data['html'] = contentfilter\image($data['html'], $data['image']);
     }
@@ -374,6 +375,7 @@ function layout_postrender_body(array $data): array
 {
     $data['html'] = contentfilter\block($data['html']);
     $data['html'] = contentfilter\entity($data['html']);
+    $data['html'] = contentfilter\file($data['html']);
     $data['html'] = contentfilter\msg($data['html']);
 
     if (app\data('app', 'area') === '_public_') {

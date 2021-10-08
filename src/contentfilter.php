@@ -104,6 +104,46 @@ function entity(string $html): string
     return $html;
 }
 
+function file(string $html): string
+{
+    if (!$data = html\placeholder('app-file', $html)) {
+        return $html;
+    }
+
+    $pattern = '#<app-file id="%s-%s">(?:[^<]*)</app-file>#s';
+
+    foreach ($data as $entityId => $ids) {
+        $entity = app\cfg('entity', $entityId);
+        $select = array_keys(arr\extract($entity['attr'], ['name', 'mime', 'thumb', 'info']));
+
+        foreach (entity\all($entityId, crit: [['id', $ids]], select: $select) as $item) {
+            $type = strstr($item['mime'], '/', true);
+
+            if ($item['mime'] === 'text/html') {
+                $a = ['src' => $item['name'], 'allowfullscreen' => 'allowfullscreen'];
+                $a += $item['thumb'] ? ['data-thumb' => $item['thumb']] : [];
+                $replace = html\element('iframe', $a);
+            } elseif ($type === 'image') {
+                $replace = html\element('img', ['src' => $item['name'], 'alt' => str\enc($item['info'])]);
+            } elseif ($type === 'audio' && !$item['thumb']) {
+                $replace = html\element('audio', ['src' => $item['name'], 'controls' => true]);
+            } elseif (in_array($type, ['audio', 'video'])) {
+                $a = $item['thumb'] ? ['poster' => $item['thumb']] : [];
+                $replace = html\element('video', ['src' => $item['name'], 'controls' => true] + $a);
+            } elseif ($item['thumb']) {
+                $v = html\element('img', ['src' => $item['thumb'], 'alt' => str\enc($item['info'])]);
+                $replace = html\element('a', ['href' => $item['name']], $v);
+            } else {
+                $replace = html\element('a', ['href' => $item['name']], $item['name']);
+            }
+
+            $html = preg_replace(sprintf($pattern, $entityId, $item['id']), $replace, $html);
+        }
+    }
+
+    return $html;
+}
+
 /**
  * Makes img-elements somehow responsive
  */
