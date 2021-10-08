@@ -28,6 +28,9 @@ return [
     'entity:predelete:id:role' => [
         'event\entity_role_predelete' => 100,
     ],
+    'entity:presave:id:file' => [
+        'event\entity_file_presave' => 100,
+    ],
     'entity:presave:id:iframe' => [
         'event\entity_iframe_presave' => 100,
     ],
@@ -36,12 +39,6 @@ return [
     ],
     'entity:prevalidate:id:account' => [
         'event\entity_prevalidate_uid' => 100,
-    ],
-    'entity:prevalidate:id:file' => [
-        'event\entity_file_prevalidate' => 100,
-    ],
-    'entity:prevalidate:id:iframe' => [
-        'event\entity_iframe_prevalidate' => 100,
     ],
     'entity:prevalidate:id:page' => [
         'event\entity_prevalidate_url' => 100,

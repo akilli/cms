@@ -292,27 +292,10 @@ function entity_postdelete_uploadable(array $data): array
     return $data;
 }
 
-function entity_file_prevalidate(array $data): array
+function entity_file_presave(array $data): array
 {
     if ($data['_entity']['attr']['name']['uploadable'] && !empty($data['name'])) {
-        $mime = app\data('request', 'file')['name']['type'];
-
-        if ($data['_old'] && $mime !== $data['_old']['mime']) {
-            $data['_error']['name'][] = app\i18n('MIME-Type must not change');
-        } elseif ($data['_old']) {
-            $data['name'] = $data['_old']['name'];
-        } else {
-            $data['mime'] = $mime;
-        }
-    }
-
-    return $data;
-}
-
-function entity_iframe_prevalidate(array $data): array
-{
-    if (!empty($data['name']) && $data['_old'] && $data['name'] !== $data['_old']['name']) {
-        $data['_error']['name'][] = app\i18n('URL must not change');
+        $data['mime'] = app\data('request', 'file')['name']['type'];
     }
 
     return $data;
