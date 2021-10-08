@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace viewer;
 
 use app;
-use entity;
 use html;
 use str;
 
@@ -35,47 +34,23 @@ function enc(mixed $val): string
 
 function entity(int $val, array $attr): string
 {
-    return html\element('app-entity', ['id' => $attr['ref'] . '-' . $val]);
+    $parentId = app\cfg('entity', $attr['ref'])['parent_id'];
+    $tag = in_array('file', [$attr['ref'], $parentId]) ? 'app-file' : 'app-entity';
+
+    return html\element($tag, ['id' => $attr['ref'] . '-' . $val]);
 }
 
-function file(string|int $val, array $attr): string
+function file(string $val): string
 {
-    $attr['ref'] = $attr['ref'] ?: 'file';
-    $crit = is_string($val) ? [['name', $val]] : [['id', $val]];
+    $type = preg_match('#^https?://#', $val) ? null : strstr(mime_content_type(app\assetpath($val)), '/', true);
+    $attrs['src'] = $val;
 
-    if (!$data = entity\one($attr['ref'], crit: $crit, select: ['name', 'mime', 'thumb', 'info'])) {
-        return '';
-    }
-
-    if ($data['mime'] === 'text/html') {
-        $a = $data['thumb'] ? ['data-thumb' => $data['thumb']] : [];
-
-        return html\element('iframe', ['src' => $data['name'], 'allowfullscreen' => 'allowfullscreen'] + $a);
-    }
-
-    $type = strstr($data['mime'], '/', true);
-
-    if ($type === 'image') {
-        return html\element('img', ['src' => $data['name'], 'alt' => str\enc($data['info'])]);
-    }
-
-    if ($type === 'audio' && !$data['thumb']) {
-        return html\element('audio', ['src' => $data['name'], 'controls' => true]);
-    }
-
-    if (in_array($type, ['audio', 'video'])) {
-        $a = $data['thumb'] ? ['poster' => $data['thumb']] : [];
-
-        return html\element('video', ['src' => $data['name'], 'controls' => true] + $a);
-    }
-
-    $v = $data['name'];
-
-    if ($data['thumb']) {
-        $v = html\element('img', ['src' => $data['thumb'], 'alt' => str\enc($data['info'])]);
-    }
-
-    return html\element('a', ['href' => $data['name']], $v);
+    return match ($type) {
+        'image' => html\element('img', $attrs),
+        'video' => html\element('video', $attrs + ['controls' => true]),
+        'audio' => html\element('audio', $attrs + ['controls' => true]),
+        default => html\element('a', ['href' => $val], $val),
+    };
 }
 
 function iframe(string $val): string
