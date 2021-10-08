@@ -28,17 +28,16 @@ use attr;
             <?php endif; ?>
         </div>
         <?php endif; ?>
-        <?php foreach ($var('data') as $data): ?>
+        <?php foreach ($var('data') as $id => $data): ?>
             <?php
-            $entity = !empty($data['entity_id']) ? cfg('entity', $data['entity_id']) : null;
-            $entityId = $entity && $entity['parent_id'] === $data['_entity']['id']
-                ? $entity['id']
-                : $data['_entity']['id'];
-            $src = $entity && $entity['parent_id'] === 'file' ? $data['name'] : null;
-            $name = $data['name'] ?? $data['id'];
+            $entityId = $data['entity_id'] ?? $data['_entity']['id'];
+            $entity = $entityId === $data['_entity']['id'] ? $data['_entity'] : cfg('entity', $entityId);
+            $dataId = $entityId . '-' . $id;
+            $name = $data['name'] ?? $id;
+            $src = $entity['parent_id'] === 'file' ? $data['name'] : null;
             ?>
         <article
-            data-id="<?php echo $data['id']; ?>"
+            data-id="<?php echo $dataId; ?>"
             data-name="<?php echo $name; ?>"<?php if ($src): ?>
             data-src="<?php echo $src; ?>"<?php endif; ?>
         >
@@ -51,7 +50,7 @@ use attr;
                     <?php if (!allowed(id($entityId, $action))) continue; ?>
                     <?php
                     $label = i18n(ucwords($action));
-                    $url = actionurl($entityId, $action, $data['id']);
+                    $url = actionurl($entityId, $action, $id);
                     $url = $action === 'view' && !empty($data['url']) ? $data['url'] : $url;
                     ?>
                 <a

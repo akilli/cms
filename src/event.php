@@ -40,7 +40,11 @@ function data_app(array $data): array
         $url = $jsonUrl;
     }
 
-    if (preg_match('#^/([a-z][a-z_\.]*):([a-z]+)(?:|\:([^/\:\.]+))$#', $url, $match)) {
+    if (preg_match('#^/block:api:([a-z][a-z_\.]*)-(\d+)$#', $url, $match)) {
+        $data['entity_id'] = 'block';
+        $data['action'] = 'api';
+        $data['id'] = $match[2];
+    } elseif (preg_match('#^/([a-z][a-z_\.]*):([a-z]+)(?:|\:([^/\:\.]+))$#', $url, $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['id'] = $match[3] ?? null;
@@ -103,7 +107,7 @@ function data_layout(array $data): array
                 'tag' => 'app-block',
                 'parent_id' => $item['parent_id'],
                 'sort' => $item['sort'],
-                'cfg' => ['attr' => ['id' => $item['block_id']]],
+                'cfg' => ['attr' => ['id' => $item['block_entity_id'] . '-' . $item['block_id']]],
             ];
         }
     }
@@ -419,8 +423,8 @@ function response_html_account_logout(array $data): array
 
 function response_html_block_api(array $data): array
 {
-    $app = app\data('app');
-    $data['body'] = layout\render_entity($app['item']['entity_id'], (int)$app['id']);
+    $item = app\data('app', 'item');
+    $data['body'] = layout\render_entity($item['entity_id'], $item['id']);
     $data['_stop'] = true;
 
     return $data;

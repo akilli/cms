@@ -39,29 +39,28 @@ function asset(string $html): string
 }
 
 /**
- * Replaces all block placeholder tags, i.e. `<app-block id="{id}"></app-block>`
+ * Replaces all block placeholder tags, i.e. `<app-block id="{entity_id}-{id}"></app-block>`
  */
 function block(string $html): string
 {
-    $pattern = '#<app-block id="%s">(?:[^<]*)</app-block>#s';
+    $pattern = '#<app-block id="%s-%s">(?:[^<]*)</app-block>#s';
 
-    if (!preg_match_all(sprintf($pattern, '(\d+)'), $html, $match)) {
+    if (!preg_match_all(sprintf($pattern, '([a-z][a-z_\.]*)', '(\d+)'), $html, $match)) {
         return $html;
     }
 
-    $all = entity\all('block', crit: [['id', array_unique($match[1])]], select: ['id', 'entity_id']);
     $data = [];
 
-    foreach ($all as $id => $item) {
-        if (!in_array($id, $data[$item['entity_id']] ?? [])) {
-            $data[$item['entity_id']][] = $id;
+    foreach ($match[1] as $key => $entityId) {
+        if (!in_array($match[2][$key], $data[$entityId] ?? [])) {
+            $data[$entityId][] = $match[2][$key];
         }
     }
 
     foreach ($data as $entityId => $ids) {
         foreach (entity\all($entityId, crit: [['id', $ids]]) as $item) {
             $html = preg_replace(
-                sprintf($pattern, $item['id']),
+                sprintf($pattern, $item['entity_id'], $item['id']),
                 layout\render_entity($entityId, $item['id'], $item),
                 $html
             );

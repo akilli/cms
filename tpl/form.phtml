@@ -3,11 +3,12 @@ namespace app;
 use attr;
 /** @var callable $var */
 $app = data('app');
+$data = $var('data');
 ?>
 <form method="post"<?php if ($var('multipart')): ?> enctype="multipart/form-data"<?php endif; ?> class="block-form">
     <fieldset>
         <?php foreach ($var('attr') as $attr): ?>
-        <?php echo attr\frontend($var('data'), $attr, ['label' => true, 'wrap' => true]); ?>
+        <?php echo attr\frontend($data, $attr, ['label' => true, 'wrap' => true]); ?>
         <?php endforeach; ?>
     </fieldset>
     <div class="action">
