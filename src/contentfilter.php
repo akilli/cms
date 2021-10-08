@@ -43,19 +43,11 @@ function asset(string $html): string
  */
 function block(string $html): string
 {
-    $pattern = '#<app-block id="%s-%s">(?:[^<]*)</app-block>#s';
-
-    if (!preg_match_all(sprintf($pattern, '([a-z][a-z_\.]*)', '(\d+)'), $html, $match)) {
+    if (!$data = html\placeholder('app-block', $html)) {
         return $html;
     }
 
-    $data = [];
-
-    foreach ($match[1] as $key => $entityId) {
-        if (!in_array($match[2][$key], $data[$entityId] ?? [])) {
-            $data[$entityId][] = $match[2][$key];
-        }
-    }
+    $pattern = '#<app-block id="%s-%s">(?:[^<]*)</app-block>#s';
 
     foreach ($data as $entityId => $ids) {
         foreach (entity\all($entityId, crit: [['id', $ids]]) as $item) {
@@ -87,19 +79,11 @@ function email(string $html): string
  */
 function entity(string $html): string
 {
-    $pattern = '#<app-entity id="%s-%s">(?:[^<]*)</app-entity>#s';
-
-    if (!preg_match_all(sprintf($pattern, '([a-z][a-z_\.]*)', '(\d+)'), $html, $match)) {
+    if (!$data = html\placeholder('app-entity', $html)) {
         return $html;
     }
 
-    $data = [];
-
-    foreach ($match[1] as $key => $entityId) {
-        if (!in_array($match[2][$key], $data[$entityId] ?? [])) {
-            $data[$entityId][] = $match[2][$key];
-        }
-    }
+    $pattern = '#<app-entity id="%s-%s">(?:[^<]*)</app-entity>#s';
 
     foreach ($data as $entityId => $ids) {
         $entity = app\cfg('entity', $entityId);
