@@ -39,7 +39,7 @@ function asset(string $html): string
 }
 
 /**
- * Replaces all DB placeholder tags, i.e. `<app-block id="{id}"></app-block>`, with actual blocks
+ * Replaces all block placeholder tags, i.e. `<app-block id="{id}"></app-block>`
  */
 function block(string $html): string
 {
