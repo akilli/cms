@@ -18,11 +18,11 @@ function data_account(): array
 {
     $id = (int)session\get('account');
 
-    if ($id && ($data = entity\one('account', crit: [['id', $id], ['active', true]]))) {
-        $privilege = entity\one('role', crit: [['id', $data['role_id']]])['privilege'];
-        $data['privilege'] = ['_public_', '_user_', ...$privilege];
+    if ($id && ($account = entity\one('account', crit: [['id', $id], ['active', true]]))) {
+        $privilege = entity\one('role', crit: [['id', $account['role_id']]])['privilege'];
+        $account['privilege'] = ['_public_', '_user_', ...$privilege];
 
-        return $data;
+        return $account;
     }
 
     session\delete('account');
