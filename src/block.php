@@ -250,12 +250,12 @@ function meta(array $block): string
  */
 function nav(array $block): string
 {
-    if (!$block['cfg']['data']) {
+    if (!$data = $block['cfg']['data']) {
         return '';
     }
 
-    $count = count($block['cfg']['data']);
-    $start = current($block['cfg']['data'])['level'] ?? 1;
+    $count = count($data);
+    $start = current($data)['level'] ?? 1;
     $base = ['name' => null, 'url' => null, 'level' => $start];
     $level = 0;
     $i = 0;
@@ -264,7 +264,7 @@ function nav(array $block): string
     $html = $block['cfg']['title'] ? html\element('h2', [], app\i18n($block['cfg']['title'])) : '';
     $html .= layout\render_children($block['id']);
 
-    foreach ($block['cfg']['data'] as $item) {
+    foreach ($data as $item) {
         if (empty($item['name'])) {
             throw new DomainException(app\i18n('Invalid data'));
         }
@@ -279,7 +279,7 @@ function nav(array $block): string
             $a = ['href' => $item['url']] + ($call($item) ? ['aria-current' => 'page'] : []);
         }
 
-        if ($next = next($block['cfg']['data'])) {
+        if ($next = next($data)) {
             $next = arr\replace($base, $next);
             $next['level'] = $next['level'] - $start + 1;
         }
@@ -439,17 +439,21 @@ function tpl(array $block): string
 
 function view(array $block): string
 {
-    if (!$block['cfg']['attr_id'] || ($data = $block['cfg']['data']) && empty($data['_entity'])) {
+    if (!$block['cfg']['attr_id']) {
         return '';
     }
 
-    if (!$data && $block['cfg']['entity_id'] && $block['cfg']['id']) {
-        $data = entity\one($block['cfg']['entity_id'], crit: [['id', $block['cfg']['id']]]);
-    } elseif (!$data && ($app = app\data('app')) && $app['entity_id'] && $app['id']) {
-        $data = entity\one($app['entity_id'], crit: [['id', $app['id']]]);
-    }
+    $entityId = $block['cfg']['entity_id'];
+    $id = $block['cfg']['id'];
+    $data = match (true) {
+        !!$block['cfg']['data'] => $block['cfg']['data'],
+        $entityId && $id => entity\one($entityId, crit: [['id', $id]]),
+        !$entityId && !$id => app\data('app', 'item'),
+        default => null,
+    };
+    $entity = $data['_entity'] ?? null;
 
-    if (!($entity = $data['_entity'] ?? null) || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
+    if (!$entity || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
 
