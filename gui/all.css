@@ -54,7 +54,7 @@ details + details {
 
 ::selection {
     color: var(--app-color-background);
-    background: var(--app-color-primary);
+    background: var(--app-color-accent);
 }
 
 /**
