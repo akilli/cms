@@ -71,7 +71,7 @@ return [
         'frontend' => 'file',
         'filter' => 'text',
         'validator' => 'urlpath',
-        'viewer' => 'file',
+        'viewer' => 'url',
         'ignorable' => true,
         'uploadable' => true,
         'autoedit' => true,
