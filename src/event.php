@@ -358,6 +358,7 @@ function layout_postrender(array $data): array
 {
     if (app\data('app', 'area') === '_public_' && $data['image']) {
         $data['html'] = contentfilter\block($data['html']);
+        $data['html'] = contentfilter\entity($data['html']);
         $data['html'] = contentfilter\msg($data['html']);
         $data['html'] = contentfilter\image($data['html'], $data['image']);
     }
@@ -368,6 +369,7 @@ function layout_postrender(array $data): array
 function layout_postrender_body(array $data): array
 {
     $data['html'] = contentfilter\block($data['html']);
+    $data['html'] = contentfilter\entity($data['html']);
     $data['html'] = contentfilter\msg($data['html']);
 
     if (app\data('app', 'area') === '_public_') {

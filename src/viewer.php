@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace viewer;
 
 use app;
-use arr;
 use entity;
 use html;
 use str;
@@ -36,18 +35,7 @@ function enc(mixed $val): string
 
 function entity(int $val, array $attr): string
 {
-    $entity = app\cfg('entity', $attr['ref']);
-    $select = array_keys(arr\extract($entity['attr'], ['id', 'name', 'entity_id', 'url']));
-    $data = entity\one($entity['id'], crit: [['id', $val]], select: $select);
-    $name = $data['name'] ?? (string)$val;
-
-    if (!app\allowed(app\id($data['entity_id'] ?? $entity['id'], 'view'))) {
-        return $name;
-    }
-
-    $url = $data['url'] ?? app\actionurl($data['entity_id'] ?? $entity['id'], 'view', $val);
-
-    return html\element('a', ['href' => $url], $name);
+    return html\element('app-entity', ['id' => $attr['ref'] . ':' . $val]);
 }
 
 function file(string|int $val, array $attr): string
@@ -107,11 +95,13 @@ function json(array $val): string
 
 function multientity(array $val, array $attr): string
 {
-    if (!empty(app\cfg('entity', $attr['ref'])['attr']['name'])) {
-        $val = array_column(entity\all($attr['ref'], crit: [['id', $val]], select: ['name']), 'name');
+    $html = '';
+
+    foreach ($val as $v) {
+        $html .= ($html ? ', ' : '') . entity($v, $attr);
     }
 
-    return implode(', ', $val);
+    return $html;
 }
 
 function opt(mixed $val, array $attr): string

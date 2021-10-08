@@ -45,28 +45,30 @@ function block(string $html): string
 {
     $pattern = '#<app-block id="%s">(?:[^<]*)</app-block>#s';
 
-    if (preg_match_all(sprintf($pattern, '(\d+)'), $html, $match)) {
-        $all = entity\all('block', crit: [['id', array_unique($match[1])]], select: ['id', 'entity_id']);
-        $data = [];
+    if (!preg_match_all(sprintf($pattern, '(\d+)'), $html, $match)) {
+        return $html;
+    }
 
-        foreach ($all as $id => $item) {
-            if (!in_array($id, $data[$item['entity_id']] ?? [])) {
-                $data[$item['entity_id']][] = $id;
-            }
-        }
+    $all = entity\all('block', crit: [['id', array_unique($match[1])]], select: ['id', 'entity_id']);
+    $data = [];
 
-        foreach ($data as $entityId => $ids) {
-            foreach (entity\all($entityId, crit: [['id', $ids]]) as $item) {
-                $html = preg_replace(
-                    sprintf($pattern, $item['id']),
-                    layout\render_entity($entityId, $item['id'], $item),
-                    $html
-                );
-            }
+    foreach ($all as $id => $item) {
+        if (!in_array($id, $data[$item['entity_id']] ?? [])) {
+            $data[$item['entity_id']][] = $id;
         }
     }
 
-    return preg_replace('#<app-block(?:[^>]*)>(?:[^<]*)</app-block>#s', '', $html);
+    foreach ($data as $entityId => $ids) {
+        foreach (entity\all($entityId, crit: [['id', $ids]]) as $item) {
+            $html = preg_replace(
+                sprintf($pattern, $item['id']),
+                layout\render_entity($entityId, $item['id'], $item),
+                $html
+            );
+        }
+    }
+
+    return $html;
 }
 
 /**
@@ -79,6 +81,44 @@ function email(string $html): string
         fn(array $m): string => str\hex($m[0]),
         $html
     );
+}
+
+/**
+ * Replaces all entity placeholder tags, i.e. `<app-entity id="{entity_id}:{id}"></app-entity>`
+ */
+function entity(string $html): string
+{
+    $pattern = '#<app-entity id="%s:%s">(?:[^<]*)</app-entity>#s';
+
+    if (!preg_match_all(sprintf($pattern, '([a-z][a-z_\.]*)', '(\d+)'), $html, $match)) {
+        return $html;
+    }
+
+    $data = [];
+
+    foreach ($match[1] as $key => $entityId) {
+        if (!in_array($match[2][$key], $data[$entityId] ?? [])) {
+            $data[$entityId][] = $match[2][$key];
+        }
+    }
+
+    foreach ($data as $entityId => $ids) {
+        $entity = app\cfg('entity', $entityId);
+        $select = array_keys(arr\extract($entity['attr'], ['id', 'name', 'entity_id', 'url']));
+
+        foreach (entity\all($entityId, crit: [['id', $ids]], select: $select) as $id => $item) {
+            $allowed = app\allowed(app\id($item['entity_id'] ?? $entity['id'], 'view'));
+            $name = $item['name'] ?? (string)$id;
+            $url = $item['url'] ?? app\actionurl($item['entity_id'] ?? $entity['id'], 'view', $id);
+            $html = preg_replace(
+                sprintf($pattern, $entityId, $item['id']),
+                $allowed ? html\element('a', ['href' => $url], $name) : $name,
+                $html
+            );
+        }
+    }
+
+    return $html;
 }
 
 /**
