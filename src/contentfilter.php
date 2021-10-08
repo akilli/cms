@@ -84,11 +84,11 @@ function email(string $html): string
 }
 
 /**
- * Replaces all entity placeholder tags, i.e. `<app-entity id="{entity_id}:{id}"></app-entity>`
+ * Replaces all entity placeholder tags, i.e. `<app-entity id="{entity_id}-{id}"></app-entity>`
  */
 function entity(string $html): string
 {
-    $pattern = '#<app-entity id="%s:%s">(?:[^<]*)</app-entity>#s';
+    $pattern = '#<app-entity id="%s-%s">(?:[^<]*)</app-entity>#s';
 
     if (!preg_match_all(sprintf($pattern, '([a-z][a-z_\.]*)', '(\d+)'), $html, $match)) {
         return $html;

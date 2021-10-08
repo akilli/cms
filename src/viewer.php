@@ -35,7 +35,7 @@ function enc(mixed $val): string
 
 function entity(int $val, array $attr): string
 {
-    return html\element('app-entity', ['id' => $attr['ref'] . ':' . $val]);
+    return html\element('app-entity', ['id' => $attr['ref'] . '-' . $val]);
 }
 
 function file(string|int $val, array $attr): string
