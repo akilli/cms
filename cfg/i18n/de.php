@@ -9,7 +9,6 @@ return [
     'Audios' => 'Audios',
     'Back' => 'Zurück',
     'Block' => 'Block',
-    'Block Entity' => 'Block-Entität',
     'Blocks' => 'Blöcke',
     'Browse' => 'Durchsuchen',
     'Combination of %s must be unique' => 'Die Kombination aus %s muss eindeutig sein',

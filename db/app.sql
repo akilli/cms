@@ -155,7 +155,6 @@ CREATE INDEX ON public.block (created);
 CREATE TABLE public.layout (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
-    block_entity_id varchar(50) NOT NULL,
     block_id int NOT NULL REFERENCES public.block ON DELETE CASCADE ON UPDATE CASCADE,
     page_id int NOT NULL REFERENCES public.page ON DELETE CASCADE ON UPDATE CASCADE,
     parent_id varchar(100) NOT NULL,
@@ -164,7 +163,6 @@ CREATE TABLE public.layout (
 );
 
 CREATE INDEX ON public.layout (name);
-CREATE INDEX ON public.layout (block_entity_id);
 CREATE INDEX ON public.layout (block_id);
 CREATE INDEX ON public.layout (page_id);
 CREATE INDEX ON public.layout (parent_id);
@@ -516,18 +514,6 @@ CREATE FUNCTION public.page_menu_update() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
---
--- Layout
---
-
-CREATE FUNCTION public.layout_save() RETURNS trigger AS $$
-    BEGIN
-        NEW.block_entity_id := (SELECT entity_id FROM public.block WHERE id = NEW.block_id);
-
-        RETURN NEW;
-    END;
-$$ LANGUAGE plpgsql;
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Trigger
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -643,17 +629,6 @@ AFTER UPDATE OF url ON
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE
     public.entity_url_save();
-
---
--- Layout
---
-
-CREATE TRIGGER
-    layout_save
-BEFORE INSERT OR UPDATE ON
-    public.layout
-FOR EACH ROW EXECUTE PROCEDURE
-    public.layout_save();
 
 -- ---------------------------------------------------------------------------------------------------------------------
 

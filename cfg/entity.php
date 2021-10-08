@@ -219,13 +219,6 @@ return [
                 'required' => true,
                 'max' => 100,
             ],
-            'block_entity_id' => [
-                'name' => 'Block Entity',
-                'type' => 'text',
-                'auto' => true,
-                'autoindex' => false,
-                'max' => 50,
-            ],
             'block_id' => [
                 'name' => 'Block',
                 'type' => 'entity',
