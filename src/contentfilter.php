@@ -43,7 +43,7 @@ function asset(string $html): string
  */
 function block(string $html): string
 {
-    $pattern = '#<app-block id="%s">\s*</app-block>#s';
+    $pattern = '#<app-block id="%s">(?:[^<]*)</app-block>#s';
 
     if (preg_match_all(sprintf($pattern, '(\d+)'), $html, $match)) {
         $all = entity\all('block', crit: [['id', array_unique($match[1])]], select: ['id', 'entity_id']);
@@ -66,7 +66,7 @@ function block(string $html): string
         }
     }
 
-    return preg_replace('#<app-block(?:[^>]*)>\s*</app-block>#s', '', $html);
+    return preg_replace('#<app-block(?:[^>]*)>(?:[^<]*)</app-block>#s', '', $html);
 }
 
 /**
