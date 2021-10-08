@@ -103,7 +103,6 @@ CREATE TABLE public.file (
     name varchar(255) NOT NULL UNIQUE,
     entity_id varchar(50) NOT NULL,
     mime varchar(255) NOT NULL,
-    thumb varchar(255) DEFAULT null UNIQUE,
     info text NOT NULL DEFAULT '',
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );

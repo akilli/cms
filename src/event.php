@@ -301,17 +301,9 @@ function entity_file_prevalidate(array $data): array
             $data['_error']['name'][] = app\i18n('MIME-Type must not change');
         } elseif ($data['_old']) {
             $data['name'] = $data['_old']['name'];
-        } elseif (entity\size($data['_entity']['id'], crit: [['thumb', $data['name']]])) {
-            $data['_error']['name'][] = app\i18n('This filename is already in use');
         } else {
             $data['mime'] = $mime;
         }
-    }
-
-    if (!empty($data['thumb']) && !empty($data['name']) && $data['thumb'] === $data['name']
-        || !empty($data['thumb']) && entity\size($data['_entity']['id'], crit: [['name', $data['thumb']]])
-    ) {
-        $data['_error']['thumb'][] = app\i18n('This filename is already in use');
     }
 
     return $data;

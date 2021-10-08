@@ -55,7 +55,7 @@ function file(string $val): string
 
 function iframe(string $val): string
 {
-    return html\element('iframe', ['src' => $val, 'allowfullscreen' => 'allowfullscreen']);
+    return html\element('iframe', ['src' => $val, 'allowfullscreen' => true]);
 }
 
 function image(string $val): string

@@ -166,13 +166,6 @@ return [
                 'autoedit' => false,
                 'max' => 255,
             ],
-            'thumb' => [
-                'name' => 'Thumbnail',
-                'type' => 'image',
-                'nullable' => true,
-                'unique' => true,
-                'max' => 255,
-            ],
             'info' => [
                 'name' => 'Info',
                 'type' => 'textarea',

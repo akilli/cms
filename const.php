@@ -203,7 +203,6 @@ define('APP', [
     'image' => [
         'srcset' => [360, 640, 800, 960, 1120, 1280, 1440],
         'sizes' => null,
-        'thumb' => 879,
     ],
     'image.ext' => ['jpg', 'png', 'webp'],
     'join' => [

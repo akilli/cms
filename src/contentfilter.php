@@ -107,34 +107,23 @@ function entity(string $html): string
 function file(string $html): string
 {
     $pattern = '#<app-file id="%s-%s">(?:[^<]*)</app-file>#s';
-    $select = ['name', 'entity_id', 'mime', 'thumb', 'info'];
+    $select = ['name', 'entity_id', 'mime', 'info'];
 
     if (!preg_match_all(sprintf($pattern, '([a-z][a-z_\.]*)', '(\d+)'), $html, $match)) {
         return $html;
     }
 
-    foreach (entity\all('file', crit: [['id', $match[2]]], select: $select) as $item) {
+    foreach (entity\all('file', crit: [['id', $match[2]]], select: $select) as $id => $item) {
         $type = strstr($item['mime'], '/', true);
-
-        if ($item['mime'] === 'text/html') {
-            $a = ['src' => $item['name'], 'allowfullscreen' => 'allowfullscreen'];
-            $a += $item['thumb'] ? ['data-thumb' => $item['thumb']] : [];
-            $replace = html\element('iframe', $a);
-        } elseif ($type === 'image') {
-            $replace = html\element('img', ['src' => $item['name'], 'alt' => str\enc($item['info'])]);
-        } elseif ($type === 'audio' && !$item['thumb']) {
-            $replace = html\element('audio', ['src' => $item['name'], 'controls' => true]);
-        } elseif (in_array($type, ['audio', 'video'])) {
-            $a = $item['thumb'] ? ['poster' => $item['thumb']] : [];
-            $replace = html\element('video', ['src' => $item['name'], 'controls' => true] + $a);
-        } elseif ($item['thumb']) {
-            $v = html\element('img', ['src' => $item['thumb'], 'alt' => str\enc($item['info'])]);
-            $replace = html\element('a', ['href' => $item['name']], $v);
-        } else {
-            $replace = html\element('a', ['href' => $item['name']], $item['name']);
-        }
-
-        $html = preg_replace(sprintf($pattern, '(file|' . $item['entity_id'] . ')', $item['id']), $replace, $html);
+        $attrs = ['src' => $item['name']];
+        $replace = match (true) {
+            $type === 'image' => html\element('img', $attrs + ['alt' => str\enc($item['info'])]),
+            $type === 'video' => html\element('video', $attrs + ['controls' => true]),
+            $type === 'audio' => html\element('audio', $attrs + ['controls' => true]),
+            $item['mime'] === 'text/html' => html\element('iframe', $attrs + ['allowfullscreen' => true]),
+            default => html\element('a', ['href' => $item['name']], $item['name']),
+        };
+        $html = preg_replace(sprintf($pattern, '(file|' . $item['entity_id'] . ')', $id), $replace, $html);
     }
 
     return $html;
@@ -151,16 +140,10 @@ function image(string $html, array $cfg = []): string
         implode('|', APP['image.ext'])
     );
 
-    if (!($cfg = arr\replace(APP['image'], $cfg)) || !$cfg['srcset'] || !preg_match_all($pattern, $html, $match)) {
+    if (!($cfg = arr\replace(APP['image'], $cfg)) || !$cfg['srcset'] || !preg_match_all($pattern, $html)) {
         return $html;
     }
 
-    $data = entity\all(
-        'file',
-        crit: [['name', array_unique($match['url'])]],
-        select: ['id', 'name', 'thumb'],
-        index: 'name'
-    );
     $cache = function (string $file): int {
         $width = &app\registry('contentfilter')['image'][$file];
         $width ??= getimagesize($file)[0] ?? 0;
@@ -184,7 +167,7 @@ function image(string $html, array $cfg = []): string
 
         return implode(', ', $set);
     };
-    $call = function (array $match) use ($cache, $cfg, $data, $srcset): string {
+    $call = function (array $match) use ($cache, $cfg, $srcset): string {
         if (str_contains($match['img'], 'srcset="')
             || !($file = app\assetpath($match['name']))
             || !is_file($file)
@@ -203,17 +186,6 @@ function image(string $html, array $cfg = []): string
             }
 
             $img = $match['pre'] . ' srcset="' . $set . '" sizes="' . $sizes . '"' . $match['post'];
-        }
-
-        $thumb = $data[$match['url']]['thumb'] ?? null;
-
-        if ($cfg['thumb'] > 0 && $thumb && ($tfile = app\assetpath($thumb)) && is_file($tfile)) {
-            $twidth = $cache($tfile);
-            $tname = preg_replace('#^' . APP['url']['asset'] . '/#', '', $thumb);
-            $tset = $srcset($tname, $twidth, true);
-            $tmax = min($cfg['thumb'], $twidth);
-            $source = html\element('source', ['media' => '(max-width: ' . $tmax . 'px)', 'srcset' => $tset]);
-            $img = html\element('picture', [], $source . $img);
         }
 
         return $img;
