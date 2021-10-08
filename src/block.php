@@ -71,7 +71,7 @@ function edit(array $block): string
         }
     }
 
-    $args = $app['id'] ? [entity\one($entity['id'], crit: [['id', $app['id']]]), $data] : [$data];
+    $args = $app['item'] ? [$app['item'], $data] : [$data];
     $data = arr\replace(entity\item($entity['id']), ...$args);
 
     return app\tpl(
