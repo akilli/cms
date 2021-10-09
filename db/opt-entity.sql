@@ -60,7 +60,7 @@ CREATE FUNCTION public.entity_save() RETURNS trigger AS $$
         _val text := '';
     BEGIN
         IF (array_length(TG_ARGV, 1) < 4) THEN
-            RAISE EXCEPTION 'You must pass base and extension table as the first two arguments with CREATE TRIGGER';
+            RAISE EXCEPTION 'You must pass base schema and name plus extension schema and name as first four arguments';
         END IF;
 
         _base_schema := TG_ARGV[0];
