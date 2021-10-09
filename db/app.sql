@@ -351,6 +351,50 @@ CREATE FUNCTION public.entity_url_save() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
+CREATE FUNCTION public.entity_file_delete() RETURNS trigger AS $$
+    DECLARE
+        _col text;
+        _cols text[];
+        _schema text;
+        _set text;
+        _table text;
+        _pat text;
+        _where text;
+    BEGIN
+        IF (array_length(TG_ARGV, 1) < 3) THEN
+            RAISE EXCEPTION 'You must pass table schema, table name and at least one column as arguments';
+        END IF;
+
+        _schema := TG_ARGV[0];
+        _table := TG_ARGV[1];
+        _cols := TG_ARGV[2:];
+        _pat := format('<app-file id="(file|%s)-%s">([^<]*)</app-file>', OLD.entity_id, OLD.id);
+        _set := '';
+        _where := '';
+
+        FOREACH _col IN ARRAY _cols LOOP
+            IF (_set != '') THEN
+                _set := _set || ', ';
+                _where := _where || ' OR ';
+            END IF;
+
+            _set := _set || format(
+                '%1$I = regexp_replace(regexp_replace(%1$I, %2$L, %3$L, %4$L), %5$L, %3$L, %4$L)',
+                _col,
+                _pat,
+                '',
+                'g',
+                '<figure([^>]*)>\s*(<figcaption([^>]*)>([^<]*)</figcaption>)?\s*</figure>'
+            );
+            _where := _where || format('%I ~ %L', _col, _pat);
+        END LOOP;
+
+        EXECUTE format('UPDATE %I.%I SET %s WHERE %s', _schema, _table, _set, _where);
+
+        RETURN OLD;
+    END;
+$$ LANGUAGE plpgsql;
+
 --
 -- Menu
 --
@@ -558,6 +602,26 @@ AFTER UPDATE OF url ON
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE
     public.entity_url_save();
+
+--
+-- File
+--
+
+CREATE CONSTRAINT TRIGGER
+    file_delete_page
+AFTER DELETE ON
+    public.file
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE
+    public.entity_file_delete('public', 'page', 'content', 'aside');
+
+CREATE CONSTRAINT TRIGGER
+    file_delete_block
+AFTER DELETE ON
+    public.file
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE
+    public.entity_file_delete('public', 'block', 'content');
 
 --
 -- Menu
