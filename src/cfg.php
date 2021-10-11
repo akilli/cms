@@ -167,7 +167,7 @@ function entity(array $data, array $ext): array
 
         if (!$entityId
             || !preg_match('#^[a-z][a-z_\.]*$#', $entityId)
-            || mb_strlen($entityId) > APP['entity_id.max']
+            || mb_strlen($entityId) > APP['entity.max']
             || !$entity['name']
             || !$entity['db']
             || !$entity['type'] && !($entity['type'] = $dbCfg[$entity['db']]['type'] ?? null)
