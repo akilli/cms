@@ -460,7 +460,7 @@ function view(array $block): string
     $html = '';
 
     foreach ($attrs as $attr) {
-        $html .= attr\viewer($data, $attr, ['wrap' => true]);
+        $html .= attr\viewer($data, $attr, wrap: true);
     }
 
     return $html && $block['tag'] ? html\element($block['tag'], ['data-entity' => $entity['id']], $html) : $html;

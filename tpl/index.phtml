@@ -42,7 +42,7 @@ use attr;
             data-src="<?php echo $src; ?>"<?php endif; ?>
         >
             <?php foreach ($var('attr') as $attr): ?>
-            <?php echo attr\viewer($data, $attr, ['empty' => $var('table'), 'subheading' => true, 'wrap' => true]); ?>
+            <?php echo attr\viewer($data, $attr, wrap: true, preserve: true, subheading: true); ?>
             <?php endforeach; ?>
             <?php if ($var('action')): ?>
             <footer class="action">

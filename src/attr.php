@@ -118,18 +118,17 @@ function validator(array $data, array $attr): mixed
 /**
  * Viewer
  */
-function viewer(array $data, array $attr, array $cfg = []): string
+function viewer(array $data, array $attr, bool $wrap = false, bool $preserve = false, bool $subheading = false): string
 {
     if (!$attr['viewer']) {
         return '';
     }
 
-    $cfg = arr\replace(APP['attr.viewer'], $cfg);
     $val = $data[$attr['id']] ?? null;
     $attr['opt'] = opt($data, $attr);
     $html = set($val) ? $attr['viewer']($val, $attr) : '';
 
-    if (!$cfg['wrap'] || $html === '' && !$cfg['empty']) {
+    if (!$wrap || $html === '' && !$preserve) {
         return $html;
     }
 
@@ -144,7 +143,7 @@ function viewer(array $data, array $attr, array $cfg = []): string
     }
 
     if (in_array($attr['id'], ['name', 'title'])) {
-        return html\element($cfg['subheading'] ? 'h3' : 'h2', $a, $html);
+        return html\element($subheading ? 'h3' : 'h2', $a, $html);
     }
 
     if ($attr['id'] === 'aside') {
