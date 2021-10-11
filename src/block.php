@@ -103,6 +103,7 @@ function html(): string
         'data-parent' => $app['parent_id'],
         'data-entity' => $app['entity_id'],
         'data-action' => $app['action'],
+        ...($app['id'] ? ['data-id' => $app['id']] : []),
         'data-url' => app\data('request', 'url'),
     ];
 
