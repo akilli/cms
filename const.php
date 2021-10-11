@@ -11,11 +11,6 @@ define('APP', [
         'subkey' => null,
         'wrap' => false,
     ],
-    'attr.viewer' => [
-        'empty' => false,
-        'subheading' => false,
-        'wrap' => false,
-    ],
     'cfg' => [
         'attr' => [
             'id' => null,
