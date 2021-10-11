@@ -195,7 +195,7 @@ function image(string $html, array $cfg = []): string
 }
 
 /**
- * Replaces message placeholder, i.e. `<msg/>`, with actual message block
+ * Replaces message placeholder, i.e. `<app-msg></app-msg>`, with actual message block
  */
 function msg(string $html): string
 {
