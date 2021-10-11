@@ -5,12 +5,6 @@ declare(strict_types=1);
  * Application constants
  */
 define('APP', [
-    'attr.frontend' => [
-        'key' => null,
-        'label' => false,
-        'subkey' => null,
-        'wrap' => false,
-    ],
     'cfg' => [
         'attr' => [
             'id' => null,

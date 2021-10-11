@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace attr;
 
 use app;
-use arr;
 use DomainException;
 use entity;
 use html;
@@ -12,12 +11,11 @@ use html;
 /**
  * Frontend
  */
-function frontend(array $data, array $attr, array $cfg = []): string
+function frontend(array $data, array $attr, bool $wrap = false, bool $label = false, string $subkey = null): string
 {
-    $cfg = arr\replace(APP['attr.frontend'], $cfg);
     $val = val($data, $attr);
     $attr['opt'] = opt($data, $attr);
-    $attr['html'] = html($attr, $cfg['key'], $cfg['subkey']);
+    $attr['html'] = html($attr, subkey: $subkey);
     $div = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
 
     if (in_array($attr['backend'], ['multiint', 'multitext'])) {
@@ -38,14 +36,14 @@ function frontend(array $data, array $attr, array $cfg = []): string
         return '';
     }
 
-    $html = ($cfg['label'] ? html\element('label', ['for' => $attr['html']['id']], $attr['name']) : '') . $frontend;
+    $html = ($label ? html\element('label', ['for' => $attr['html']['id']], $attr['name']) : '') . $frontend;
 
     if (!empty($data['_error'][$attr['id']])) {
         $div['data-invalid'] = true;
         $html .= html\element('div', ['class' => 'error'], implode('<br />', $data['_error'][$attr['id']]));
     }
 
-    return $cfg['wrap'] ? html\element('div', $div, $html) : $html;
+    return $wrap ? html\element('div', $div, $html) : $html;
 }
 
 /**
@@ -55,7 +53,7 @@ function filter(array $data, array $attr): string
 {
     $val = val($data, $attr);
     $attr['opt'] = opt($data, $attr);
-    $attr['html'] = html($attr, 'filter');
+    $attr['html'] = html($attr, key: 'filter');
     $html = html\element('label', ['for' => $attr['html']['id']], $attr['name']) . $attr['filter']($val, $attr);
     $div = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
 
