@@ -13,7 +13,6 @@ define('APP', [
     ],
     'attr.viewer' => [
         'empty' => false,
-        'link' => null,
         'subheading' => false,
         'wrap' => false,
     ],
