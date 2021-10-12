@@ -93,9 +93,7 @@ function event(array $events, array $data): array
 
             if ($stop === true) {
                 break 2;
-            }
-
-            if ($stop === false) {
+            } elseif ($stop === false) {
                 break;
             }
         }
