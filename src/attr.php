@@ -11,7 +11,7 @@ use html;
 /**
  * Frontend
  */
-function frontend(array $data, array $attr, bool $wrap = false, bool $label = false, string $subkey = null): string
+function frontend(array $data, array $attr, bool $wrap = false, bool $label = false, string|int $subkey = null): string
 {
     $val = val($data, $attr);
     $attr['opt'] = opt($data, $attr);
