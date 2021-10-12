@@ -348,7 +348,9 @@ function pager(array $block): string
 
 function profile(array $block): string
 {
-    if (!$account = app\data('account')) {
+    $account = app\data('account');
+
+    if (!$account['id']) {
         return '';
     }
 

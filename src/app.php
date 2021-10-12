@@ -109,13 +109,13 @@ function event(array $events, array $data): array
  */
 function allowed(string $id): bool
 {
-    if (!($privilege = cfg('privilege', $id)) || !($account = data('account'))) {
+    if (!($privilege = cfg('privilege', $id)) || !($ids = data('account', 'privilege'))) {
         return false;
     }
 
-    return in_array('_all_', $account['privilege'])
+    return in_array('_all_', $ids)
         || $privilege['use'] && allowed($privilege['use'])
-        || !$privilege['use'] && in_array($id, $account['privilege']);
+        || !$privilege['use'] && in_array($id, $ids);
 }
 
 /**
