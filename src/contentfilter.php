@@ -151,7 +151,7 @@ function image(string $html, array $cfg = []): string
 
         return $width;
     };
-    $srcset = function (string $name, int $width, bool $force = false) use ($cache, $cfg): string {
+    $srcset = function (string $name, int $width) use ($cache, $cfg): string {
         $set = [];
 
         foreach ($cfg['srcset'] as $breakpoint) {
@@ -162,7 +162,7 @@ function image(string $html, array $cfg = []): string
             $set[] = app\resizeurl(app\asseturl($name), $breakpoint) . ' ' . $breakpoint . 'w';
         }
 
-        if ($set || $force) {
+        if ($set) {
             $set[] = app\asseturl($name) . ' ' . $width . 'w';
         }
 
