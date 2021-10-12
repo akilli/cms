@@ -135,12 +135,13 @@ function file(string $html): string
 function image(string $html, array $cfg = []): string
 {
     $pattern = sprintf(
-        '#(?P<img>(?P<pre><img(?:[^>]*) src="(?P<url>%s/(?P<name>(?:.+)\.(?:%s)))")(?P<post>(?:[^>]*)>))#',
+        '#(<img(?:[^>]*) src="%s/((?:.+)\.(?:%s))")((?:[^>]*)>)#',
         APP['url']['asset'],
         implode('|', APP['image.ext'])
     );
+    $cfg = arr\replace(APP['image'], $cfg);
 
-    if (!($cfg = arr\replace(APP['image'], $cfg)) || !$cfg['srcset'] || !preg_match_all($pattern, $html)) {
+    if (!$cfg['srcset'] || !preg_match_all($pattern, $html)) {
         return $html;
     }
 
@@ -168,27 +169,23 @@ function image(string $html, array $cfg = []): string
         return implode(', ', $set);
     };
     $call = function (array $match) use ($cache, $cfg, $srcset): string {
-        if (str_contains($match['img'], 'srcset="')
-            || !($file = app\assetpath($match['name']))
+        $file = app\assetpath($match[2]);
+
+        if (str_contains($match[0], 'srcset="')
             || !is_file($file)
             || !($width = $cache($file))
+            || !($set = $srcset($match[2], $width))
         ) {
             return $match[0];
         }
 
-        $img = $match['img'];
-
-        if ($set = $srcset($match['name'], $width)) {
-            if ($cfg['sizes'] && $cfg['sizes'] !== '100vw') {
-                $sizes = $cfg['sizes'];
-            } else {
-                $sizes = '(max-width: ' . $width . 'px) 100vw, ' . $width . 'px';
-            }
-
-            $img = $match['pre'] . ' srcset="' . $set . '" sizes="' . $sizes . '"' . $match['post'];
+        if ($cfg['sizes'] && $cfg['sizes'] !== '100vw') {
+            $sizes = $cfg['sizes'];
+        } else {
+            $sizes = '(max-width: ' . $width . 'px) 100vw, ' . $width . 'px';
         }
 
-        return $img;
+        return $match[1] . ' srcset="' . $set . '" sizes="' . $sizes . '"' . $match[3];
     };
 
     return preg_replace_callback($pattern, $call, $html);
