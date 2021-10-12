@@ -333,7 +333,7 @@ function entity_role_predelete(array $data): array
 
 function layout_postrender(array $data): array
 {
-    if (app\data('app', 'action') === 'view' && $data['image']) {
+    if ($data['image']) {
         $data['html'] = contentfilter\block($data['html']);
         $data['html'] = contentfilter\entity($data['html']);
         $data['html'] = contentfilter\file($data['html']);
