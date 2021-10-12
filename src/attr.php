@@ -11,11 +11,11 @@ use html;
 /**
  * Frontend
  */
-function frontend(array $data, array $attr, bool $wrap = false, bool $label = false, string|int $subkey = null): string
+function frontend(array $data, array $attr, bool $wrap = false, bool $label = false, string|int $key = null): string
 {
     $val = val($data, $attr);
     $attr['opt'] = opt($data, $attr);
-    $attr['html'] = html($attr, subkey: $subkey);
+    $attr['html'] = html($attr, key: $key);
     $div = ['data-attr' => $attr['id'], 'data-type' => $attr['type']];
 
     if (in_array($attr['backend'], ['multiint', 'multitext'])) {
@@ -213,18 +213,12 @@ function ignorable(array $data, array $attr): bool
 /**
  * Returns base HTML config for given attribute
  */
-function html(array $attr, string $key = null, string|int $subkey = null): array
+function html(array $attr, string|int $key = null): array
 {
     $backends = ['json', 'multitext', 'text', 'varchar'];
     $minmax = in_array($attr['backend'], $backends) ? ['minlength', 'maxlength'] : ['min', 'max'];
-    $id = ($key ?: 'attr') . '-' . ($subkey ? $subkey . '-' : '') . $attr['id'];
-
-    if (!$key && !$subkey) {
-        $name = $attr['id'];
-    } else {
-        $name = ($key ?: 'attr') . ($subkey ? '[' . $subkey . ']' : '') . '[' . $attr['id'] . ']';
-    }
-
+    $id = ($key ?: 'attr') . '-' . $attr['id'];
+    $name = ($key ?: 'attr') . '[' . $attr['id'] . ']';
     $html = ['id' => $id, 'name' => $name, 'data-type' => $attr['type']];
 
     if ($attr['min'] > 0) {
