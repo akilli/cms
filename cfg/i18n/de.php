@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 return [
     '%s to %s of %s' => '%s bis %s von %s',
     'Accounts' => 'Konten',

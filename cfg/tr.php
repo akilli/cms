@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 return [
     '₀' => '0',
     '₁' => '1',
