@@ -99,7 +99,6 @@ function html(): string
     $app = app\data('app');
     $a = [
         'lang' => APP['lang'],
-        'data-area' => $app['area'],
         'data-parent' => $app['parent_id'],
         'data-entity' => $app['entity_id'],
         'data-action' => $app['action'],
@@ -237,7 +236,7 @@ function meta(array $block): string
     $desc = $app['item']['meta_description'] ?? null;
     $title = app\cfg('app', 'title') ?? '';
     $title = match (true) {
-        $app['area'] === '_admin_' => trim(($app['entity']['name'] ?? '') . ' - ' . $title, '- '),
+        $app['action'] !== 'view' => trim(($app['entity']['name'] ?? '') . ' - ' . $title, '- '),
         !empty($app['item']['meta_title']) => $app['item']['meta_title'],
         !empty($app['item']['name']) => $app['item']['name'] . ' - ' . $title,
         default => $title,
@@ -405,7 +404,7 @@ function title(array $block): string
     $app = app\data('app');
     $text = match (true) {
         !!$block['cfg']['text'] => app\i18n($block['cfg']['text']),
-        $app['area'] === '_admin_' => $app['entity']['name'] ?? '',
+        $app['action'] !== 'view' => $app['entity']['name'] ?? '',
         default => $app['item']['title'] ?? $app['item']['name'] ?? '',
     };
 

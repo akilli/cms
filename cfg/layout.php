@@ -15,9 +15,6 @@ return [
             'tag' => 'body',
             'parent_id' => 'html',
             'sort' => 200,
-            'image' => [
-                'sizes' => '100vw',
-            ],
         ],
         'meta' => [
             'type' => 'meta',
@@ -89,24 +86,6 @@ return [
             'tpl' => 'error.phtml',
             'parent_id' => 'content',
             'sort' => 300,
-        ],
-    ],
-    'html:_public_' => [
-        'header' => [
-            'type' => 'tpl',
-            'tpl' => 'header.phtml',
-            'parent_id' => 'body',
-            'sort' => 140,
-        ],
-        'menu' => [
-            'type' => 'menu',
-            'parent_id' => 'body',
-            'sort' => 160,
-        ],
-        'breadcrumb' => [
-            'type' => 'breadcrumb',
-            'parent_id' => 'main',
-            'sort' => 50,
         ],
     ],
     'html:account:login' => [
@@ -191,6 +170,27 @@ return [
         ],
     ],
     'html:view' => [
+        'body' => [
+            'image' => [
+                'sizes' => '100vw',
+            ],
+        ],
+        'header' => [
+            'type' => 'tpl',
+            'tpl' => 'header.phtml',
+            'parent_id' => 'body',
+            'sort' => 140,
+        ],
+        'menu' => [
+            'type' => 'menu',
+            'parent_id' => 'body',
+            'sort' => 160,
+        ],
+        'breadcrumb' => [
+            'type' => 'breadcrumb',
+            'parent_id' => 'main',
+            'sort' => 50,
+        ],
         'main-content' => [
             'type' => 'view',
             'parent_id' => 'content',

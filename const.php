@@ -74,7 +74,6 @@ define('APP', [
     'data' => [
         'app' => [
             'action' => null,
-            'area' => null,
             'entity' => null,
             'entity_id' => null,
             'event' => [],

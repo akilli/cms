@@ -63,8 +63,6 @@ function data_app(array $data): array
     $data['entity'] ??= app\cfg('entity', $data['entity_id']);
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
     $data['item'] = $data['id'] ? entity\one($data['entity_id'], crit: [['id', $data['id']]]) : null;
-    $privilege = app\cfg('privilege', app\id($data['entity_id'], $data['action']));
-    $data['area'] = $privilege && $privilege['use'] === '_public_' ? '_public_' : '_admin_';
     $data['valid'] = app\allowed(app\id($data['entity_id'], $data['action']))
         && $data['entity']
         && in_array($data['action'], $data['entity']['action'])
@@ -76,7 +74,7 @@ function data_app(array $data): array
         return $data;
     }
 
-    $data['event'] = [$data['type'], app\id($data['type'], $data['area']), app\id($data['type'], $data['action'])];
+    $data['event'] = [$data['type'], app\id($data['type'], $data['action'])];
 
     if ($data['parent_id']) {
         $data['event'][] = app\id($data['type'], $data['parent_id'], $data['action']);
@@ -335,7 +333,7 @@ function entity_role_predelete(array $data): array
 
 function layout_postrender(array $data): array
 {
-    if (app\data('app', 'area') === '_public_' && $data['image']) {
+    if (app\data('app', 'action') === 'view' && $data['image']) {
         $data['html'] = contentfilter\block($data['html']);
         $data['html'] = contentfilter\entity($data['html']);
         $data['html'] = contentfilter\file($data['html']);
@@ -353,7 +351,7 @@ function layout_postrender_body(array $data): array
     $data['html'] = contentfilter\file($data['html']);
     $data['html'] = contentfilter\msg($data['html']);
 
-    if (app\data('app', 'area') === '_public_') {
+    if (app\data('app', 'action') === 'view') {
         $data['html'] = contentfilter\email($data['html']);
         $data['html'] = contentfilter\tel($data['html']);
     }
@@ -363,7 +361,7 @@ function layout_postrender_body(array $data): array
 
 function layout_postrender_html(array $data): array
 {
-    if (app\data('app', 'area') === '_public_') {
+    if (app\data('app', 'action') === 'view') {
         $data['html'] = contentfilter\asset($data['html']);
     }
 
