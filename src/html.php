@@ -33,7 +33,7 @@ function attr(array $attrs = []): string
     return $a;
 }
 
-function placeholder(string $tag, string $html): array
+function placeholder(string $html, string $tag): array
 {
     $data = [];
     $pattern = sprintf('#<%1$s id="([a-z][a-z_\.]*)-(\d+)">(?:[^<]*)</%1$s>#s', $tag);

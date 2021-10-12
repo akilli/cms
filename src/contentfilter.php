@@ -43,7 +43,7 @@ function asset(string $html): string
  */
 function block(string $html): string
 {
-    if (!$data = html\placeholder('app-block', $html)) {
+    if (!$data = html\placeholder($html, 'app-block')) {
         return $html;
     }
 
@@ -79,7 +79,7 @@ function email(string $html): string
  */
 function entity(string $html): string
 {
-    if (!$data = html\placeholder('app-entity', $html)) {
+    if (!$data = html\placeholder($html, 'app-entity')) {
         return $html;
     }
 
