@@ -43,7 +43,7 @@ function entity(int $val, array $attr): string
 function file(string $val): string
 {
     $type = preg_match('#^https?://#', $val) ? null : strstr(mime_content_type(app\assetpath($val)), '/', true);
-    $attrs['src'] = $val;
+    $attrs = ['src' => $val];
 
     return match ($type) {
         'image' => html\element('img', $attrs),
