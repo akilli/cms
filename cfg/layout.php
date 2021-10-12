@@ -179,7 +179,7 @@ return [
             'type' => 'tpl',
             'tpl' => 'header.phtml',
             'parent_id' => 'body',
-            'sort' => 140,
+            'sort' => 130,
         ],
         'menu' => [
             'type' => 'menu',
