@@ -333,35 +333,23 @@ function entity_role_predelete(array $data): array
 
 function layout_postrender(array $data): array
 {
-    if ($data['image']) {
+    if ($data['image'] || $data['id'] === 'body') {
         $data['html'] = contentfilter\block($data['html']);
         $data['html'] = contentfilter\entity($data['html']);
         $data['html'] = contentfilter\file($data['html']);
         $data['html'] = contentfilter\msg($data['html']);
-        $data['html'] = contentfilter\image($data['html'], $data['image']);
     }
 
-    return $data;
-}
-
-function layout_postrender_body(array $data): array
-{
-    $data['html'] = contentfilter\block($data['html']);
-    $data['html'] = contentfilter\entity($data['html']);
-    $data['html'] = contentfilter\file($data['html']);
-    $data['html'] = contentfilter\msg($data['html']);
-
-    if (app\data('app', 'action') === 'view') {
+    if (app\data('app', 'action') === 'view' && $data['id'] === 'body') {
         $data['html'] = contentfilter\email($data['html']);
         $data['html'] = contentfilter\tel($data['html']);
     }
 
-    return $data;
-}
+    if ($data['image']) {
+        $data['html'] = contentfilter\image($data['html'], $data['image']);
+    }
 
-function layout_postrender_html(array $data): array
-{
-    if (app\data('app', 'action') === 'view') {
+    if (app\data('app', 'action') === 'view' && $data['id'] === 'html') {
         $data['html'] = contentfilter\asset($data['html']);
     }
 

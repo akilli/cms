@@ -48,12 +48,6 @@ return [
     'layout:postrender' => [
         'event\layout_postrender' => 100,
     ],
-    'layout:postrender:id:body' => [
-        'event\layout_postrender_body' => 100,
-    ],
-    'layout:postrender:id:html' => [
-        'event\layout_postrender_html' => 100,
-    ],
     'response:html' => [
         'event\response_html' => 100,
     ],
