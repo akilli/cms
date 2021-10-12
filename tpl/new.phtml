@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 namespace app;
+$entityId = data('app', 'entity_id');
 ?>
-<?php if (($entityId = data('app', 'entity_id')) && allowed(id($entityId, 'edit'))): ?>
+<?php if ($entityId && allowed(id($entityId, 'edit'))): ?>
 <div class="new">
     <a href="<?php echo actionurl($entityId, 'edit'); ?>"><?php echo i18n('New Entry'); ?></a>
 </div>
