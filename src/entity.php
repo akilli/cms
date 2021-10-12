@@ -123,7 +123,7 @@ function save(string $entityId, array &$data): bool
     if (!$attrIds) {
         app\msg(app\i18n('No changes'));
 
-        return false;
+        return true;
     }
 
     $tmp = event('prevalidate', $tmp);
@@ -160,7 +160,7 @@ function save(string $entityId, array &$data): bool
     if (!$attrIds) {
         app\msg(app\i18n('No changes'));
 
-        return false;
+        return true;
     }
 
     try {
