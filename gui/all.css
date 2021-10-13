@@ -72,6 +72,11 @@ h3 {
     font-size: 1.125rem;
 }
 
+hr {
+    height: 0.5rem;
+    background: var(--app-color-primary);
+}
+
 time {
     display: block;
 }
