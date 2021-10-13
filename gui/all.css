@@ -149,7 +149,6 @@ blockquote {
     color: var(--app-color-background);
     background: var(--app-color-accent);
     border-radius: 0.125rem;
-    box-shadow: 0.125rem 0.125rem 0.125rem var(--app-color-border);
 }
 
 blockquote {
@@ -158,7 +157,6 @@ blockquote {
 
 figure.blockquote blockquote {
     border-radius: 0;
-    box-shadow: none;
 }
 
 blockquote::before {
