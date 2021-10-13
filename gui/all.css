@@ -4,13 +4,24 @@
 :root {
     --app-color-accent: #93ddf9;
     --app-color-background: #fff;
-    --app-color-border: #bbb;
+    --app-color-border: #ddd;
     --app-color-error: #900;
     --app-color-highlight: #ff0;
     --app-color-primary: #052a33;
-    --app-color-shadow-dark: #00000040;
-    --app-color-shadow-light: #e0e0e0;
+    --editor-block-background: var(--app-color-border);
+    --editor-block-color: var(--app-color-primary);
     --editor-border: var(--app-color-border);
+    --editor-button-background: var(--app-color-primary);
+    --editor-button-color: var(--app-color-background);
+    --editor-cancel-background: var(--app-color-accent);
+    --editor-cancel-color: var(--app-color-border);
+    --editor-dialog-backdrop: #000000cc;
+    --editor-dialog-background: var(--app-color-background);
+    --editor-error: var(--app-color-error);
+    --editor-focus: var(--app-color-accent);
+    --editor-hover: var(--app-color-accent);
+    --editor-slot: #96442e;
+    --editor-sortover: var(--app-color-border);
     --editor-toolbar-background: var(--app-color-background);
     --editor-toolbar-color: var(--app-color-primary);
 }
@@ -99,6 +110,7 @@ nav ul {
 mark {
     padding: 0.125rem 0.25rem;
     background: var(--app-color-highlight);
+    border-radius: 0.125rem;
 }
 
 kbd {
@@ -106,7 +118,6 @@ kbd {
     color: var(--app-color-background);
     background: var(--app-color-primary);
     border-radius: 0.125rem;
-    box-shadow: inset 0 -0.0625rem 0 var(--app-color-shadow-dark);
 }
 
 /**
@@ -137,7 +148,7 @@ blockquote {
     color: var(--app-color-background);
     background: var(--app-color-accent);
     border-radius: 0.125rem;
-    box-shadow: 0.125rem 0.125rem 0.125rem var(--app-color-shadow-light);
+    box-shadow: 0.125rem 0.125rem 0.125rem var(--app-color-border);
 }
 
 blockquote {
