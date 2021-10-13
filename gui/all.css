@@ -5,8 +5,8 @@
     --app-color-accent: #93ddf9;
     --app-color-background: #fff;
     --app-color-border: #ddd;
-    --app-color-error: #900;
-    --app-color-highlight: #ff0;
+    --app-color-error: #b22222;
+    --app-color-highlight: #f2a900;
     --app-color-primary: #052a33;
     --editor-block-background: var(--app-color-border);
     --editor-block-color: var(--app-color-primary);
