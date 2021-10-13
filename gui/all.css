@@ -423,7 +423,7 @@ akilli-editor editor-toolbar {
     top: 3rem;
 }
 
-akilli-editor button {
+akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
     color: inherit;
     background: none;
 }
