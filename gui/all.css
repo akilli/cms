@@ -325,14 +325,19 @@ fieldset select {
     max-width: 30rem;
 }
 
-a[role=button],
 button,
 input[type=button],
-input[type=reset],
 input[type=submit] {
     padding: 0.75rem;
     color: var(--app-color-background);
     background: var(--app-color-primary);
+}
+
+a[role=button],
+input[type=reset] {
+    padding: 0.75rem;
+    color: var(--app-color-background);
+    background: var(--app-color-accent);
 }
 
 input[type=file] {
@@ -389,7 +394,7 @@ input:is([type=checkbox], [type=radio]) + label {
 
 input:is([type=checkbox], [type=radio])[disabled] + label,
 form:invalid [type=submit] {
-    opacity: 0.6;
+    opacity: 0.2;
 }
 
 div[data-required] > label:first-child::after {
