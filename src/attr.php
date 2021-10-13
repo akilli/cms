@@ -218,7 +218,7 @@ function html(array $attr, string|int $key = null): array
     $backends = ['json', 'multitext', 'text', 'varchar'];
     $minmax = in_array($attr['backend'], $backends) ? ['minlength', 'maxlength'] : ['min', 'max'];
     $id = ($key ?: 'attr') . '-' . $attr['id'];
-    $name = ($key ?: 'attr') . '[' . $attr['id'] . ']';
+    $name = $key ? $key . '[' . $attr['id'] . ']' : $attr['id'];
     $html = ['id' => $id, 'name' => $name, 'data-type' => $attr['type']];
 
     if ($attr['min'] > 0) {
