@@ -459,37 +459,22 @@ nav a[aria-current] {
 }
 
 /**
- * Toolbar
+ * Navigation
  */
-#toolbar {
+:is(#toolbar, #menu) {
     margin: 0 -0.75rem;
     padding: 0.75rem;
     font-size: 0.875rem;
     color: var(--app-color-background);
+    background: var(--app-color-primary);
+}
+
+:is(#toolbar, #menu) li ul {
     background: var(--app-color-primary);
 }
 
 :root[data-browser] #toolbar {
     display: none;
-}
-
-#toolbar li ul {
-    background: var(--app-color-primary);
-}
-
-/**
- * Menu
- */
-#menu {
-    margin: 0 -0.75rem;
-    padding: 0.75rem;
-    font-size: 0.875rem;
-    color: var(--app-color-background);
-    background: var(--app-color-primary);
-}
-
-#menu li ul {
-    background: var(--app-color-primary);
 }
 
 /**
