@@ -144,19 +144,15 @@ figcaption {
  * Blockquote
  */
 figure.blockquote,
-blockquote {
+:not(figure.blockquote) > blockquote {
     text-align: center;
     color: var(--app-color-background);
     background: var(--app-color-accent);
-    border-radius: 0.125rem;
+    border-radius: 1.5rem;
 }
 
 blockquote {
     padding: 0.75rem;
-}
-
-figure.blockquote blockquote {
-    border-radius: 0;
 }
 
 blockquote::before {
@@ -165,11 +161,6 @@ blockquote::before {
     font-family: cms;
     font-size: 3rem;
     content: '\e806';
-}
-
-figure.blockquote {
-    color: var(--app-color-background);
-    background: var(--app-color-accent);
 }
 
 figure.blockquote figcaption {
