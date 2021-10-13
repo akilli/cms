@@ -333,6 +333,8 @@ function entity_role_predelete(array $data): array
 
 function layout_postrender(array $data): array
 {
+    $view = app\data('app', 'action') === 'view';
+
     if ($data['image'] || $data['id'] === 'body') {
         $data['html'] = contentfilter\block($data['html']);
         $data['html'] = contentfilter\entity($data['html']);
@@ -340,7 +342,7 @@ function layout_postrender(array $data): array
         $data['html'] = contentfilter\msg($data['html']);
     }
 
-    if (app\data('app', 'action') === 'view' && $data['id'] === 'body') {
+    if ($view && $data['id'] === 'body') {
         $data['html'] = contentfilter\email($data['html']);
         $data['html'] = contentfilter\tel($data['html']);
     }
@@ -349,7 +351,7 @@ function layout_postrender(array $data): array
         $data['html'] = contentfilter\image($data['html'], $data['image']);
     }
 
-    if (app\data('app', 'action') === 'view' && $data['id'] === 'html') {
+    if ($view && $data['id'] === 'html' || !$view && $data['id'] === 'head') {
         $data['html'] = contentfilter\asset($data['html']);
     }
 
