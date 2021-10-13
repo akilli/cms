@@ -130,6 +130,12 @@ figure.left {
     margin-right: 0.75rem;
 }
 
+figure.center {
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 figure.right {
     max-width: 50%;
     float: right;
@@ -145,27 +151,28 @@ figcaption {
  */
 figure.blockquote,
 :not(figure.blockquote) > blockquote {
+    position: relative;
+    padding: 0.6875rem 3.375rem 0.6875rem 0.75rem;
     text-align: center;
-    color: var(--app-color-background);
-    background: var(--app-color-accent);
-    border-radius: 1.5rem;
+    border-top: 0.0625rem solid var(--app-color-accent);
+    border-bottom: 0.0625rem solid var(--app-color-accent);
 }
 
-blockquote {
-    padding: 0.75rem;
-}
-
-blockquote::before {
+figure.blockquote::before,
+:not(figure.blockquote) > blockquote::before {
+    position: absolute;
+    right: 0;
+    top: 0.75rem;
     display: block;
     line-height: 3rem;
     font-family: cms;
     font-size: 3rem;
+    color: var(--app-color-accent);
     content: '\e806';
 }
 
 figure.blockquote figcaption {
-    padding: 0.6875rem 0.75rem 0.75rem;
-    border-top: 0.0625rem solid;
+    margin-top: 1.5rem;
 }
 
 /**
