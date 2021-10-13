@@ -17,6 +17,7 @@
     --editor-cancel-color: var(--app-color-border);
     --editor-dialog-backdrop: #000000cc;
     --editor-dialog-background: var(--app-color-background);
+    --editor-dialog-color: var(--app-color-primary);
     --editor-error: var(--app-color-error);
     --editor-focus: var(--app-color-accent);
     --editor-hover: var(--app-color-accent);
