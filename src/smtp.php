@@ -109,7 +109,7 @@ function send($client, string $msg, array $status): void
     fputs($client, $msg . APP['crlf']);
     $data = receive($client);
 
-    if (!$data|| !preg_match('#^([1-5][0-9][0-9])(?:.*)$#', $data, $match) || !in_array((int)$match[1], $status)) {
+    if (!$data || !preg_match('#^([1-5][0-9][0-9])(?:.*)$#', $data, $match) || !in_array((int)$match[1], $status)) {
         throw new DomainException(app\i18n('Unexpected response from server: %s', (string)$data));
     }
 }

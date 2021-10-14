@@ -320,7 +320,7 @@ function pager(array $block): string
     $block['cfg']['cur'] = min(max($block['cfg']['cur'], 1), $total);
     $offset = ($block['cfg']['cur'] - 1) * $block['cfg']['limit'];
     $up = $block['cfg']['limit'] ? min($offset + $block['cfg']['limit'], $block['cfg']['size']) : $block['cfg']['size'];
-    $info = app\i18n('%s to %s of %s', (string)($offset + 1), (string)$up, (string)$block['cfg']['size']);
+    $info = app\i18n('%s to %s of %s', $offset + 1, $up, $block['cfg']['size']);
     $min = max(1, min($block['cfg']['cur'] - intdiv($block['cfg']['pages'], 2), $total - $block['cfg']['pages'] + 1));
     $max = min($min + $block['cfg']['pages'] - 1, $total);
     $links = [];

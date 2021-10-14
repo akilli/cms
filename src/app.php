@@ -152,7 +152,7 @@ function token(): string
 /**
  * Translate
  */
-function i18n(string $key, string ...$args): string
+function i18n(string $key, string|int|float ...$args): string
 {
     $key = cfg('i18n', APP['lang'])[$key] ?? $key;
 
