@@ -313,7 +313,7 @@ function entity_menu_postvalidate(array $data): array
         && ($parent = entity\one('menu', crit: [['id', $data['parent_id']]], select: ['path']))
         && in_array($data['_old']['id'], $parent['path'])
     ) {
-        $data['_error']['parent_id'][] = app\i18n('Invalid parent item');
+        $data['_error']['parent_id'][] = app\i18n('Invalid parent menu item');
     }
 
     return $data;
