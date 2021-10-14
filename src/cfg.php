@@ -354,7 +354,6 @@ function toolbar(array $data, array $ext): array
 
             $generated[$entity['id']] = [
                 'name' => $entity['name'],
-                'privilege' => app\id($entity['id'], 'index'),
                 'url' => app\actionurl($entity['id'], 'index'),
                 'parent_id' => $entity['parent_id'],
             ];
@@ -378,14 +377,16 @@ function toolbar(array $data, array $ext): array
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
-        if ($parentId !== $item['parent_id']) {
-            $sort = 0;
+        if ($item['url'] && preg_match('#^/([a-z][a-z_\.]*):([a-z]+)(?:|\:([^/\:\.]+))$#', $item['url'], $match)) {
+            $item['privilege'] = app\id($match[1], $match[2]);
         }
 
+        $sort = $parentId === $item['parent_id'] ? $sort : 0;
         $item['sort'] = ++$sort;
         $parentPosition = $item['parent_id'] ? $data[$item['parent_id']]['position'] . '.' : '';
         $item['position'] = sprintf('%s%03d', $parentPosition, $item['sort']);
         $item['level'] = $item['parent_id'] ? $data[$item['parent_id']]['level'] + 1 : 1;
+        $item['path'] = [...($item['parent_id'] ? $data[$item['parent_id']]['path'] : []), $id];
         $data[$id] = $item;
         $parentId = $item['parent_id'];
     }

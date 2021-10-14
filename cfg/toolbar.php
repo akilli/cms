@@ -40,14 +40,12 @@ return [
     ],
     'profile' => [
         'name' => 'Profile',
-        'privilege' => 'account:profile',
         'url' => '/account:profile',
         'parent_id' => 'my',
         'sort' => 100,
     ],
     'logout' => [
         'name' => 'Logout',
-        'privilege' => 'account:logout',
         'url' => '/account:logout',
         'parent_id' => 'my',
         'sort' => 200,

@@ -68,6 +68,7 @@ define('APP', [
             'sort' => 0,
             'position' => null,
             'level' => 0,
+            'path' => [],
         ],
     ],
     'crlf' => "\r\n",
