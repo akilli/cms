@@ -189,10 +189,42 @@ define('APP', [
         'wbr',
     ],
     'image' => [
+        'image/avif' => [
+            'create' => 'imagecreatefromavif',
+            'output' => 'imageavif',
+            'quality' => 75,
+            'ext' => 'avif',
+        ],
+        'image/gif' => [
+            'create' => 'imagecreatefromgif',
+            'output' => 'imagegif',
+            'quality' => null,
+            'ext' => 'gif',
+        ],
+        'image/jpeg' => [
+            'create' => 'imagecreatefromjpeg',
+            'output' => 'imagejpeg',
+            'quality' => 75,
+            'ext' => 'jpg',
+        ],
+        'image/png' => [
+            'create' => 'imagecreatefrompng',
+            'output' => 'imagepng',
+            'quality' => 3,
+            'ext' => 'png',
+        ],
+        'image/webp' => [
+            'create' => 'imagecreatefromwebp',
+            'output' => 'imagewebp',
+            'quality' => 75,
+            'ext' => 'webp',
+        ],
+    ],
+    'image.ext' => ['jpg', 'png', 'webp'],
+    'image.responsive' => [
         'srcset' => [360, 640, 800, 960, 1120, 1280, 1440],
         'sizes' => null,
     ],
-    'image.ext' => ['jpg', 'png', 'webp'],
     'join' => [
         'cross' => 'CROSS',
         'full' => 'FULL',

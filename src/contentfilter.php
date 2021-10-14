@@ -139,7 +139,7 @@ function image(string $html, array $cfg = []): string
         APP['url']['asset'],
         implode('|', APP['image.ext'])
     );
-    $cfg = arr\replace(APP['image'], $cfg);
+    $cfg = arr\replace(APP['image.responsive'], $cfg);
 
     if (!$cfg['srcset'] || !preg_match_all($pattern, $html)) {
         return $html;
