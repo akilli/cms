@@ -6,7 +6,7 @@ namespace image;
 use file;
 
 /**
- * Creates a new image from given source image with provided options
+ * Creates a resized or cropped version from given source image with provided options
  */
 function create(string $src, string $dest, int $width, int $height = null, bool $crop = false): bool
 {
