@@ -43,7 +43,7 @@ function asset(string $html): string
  */
 function block(string $html): string
 {
-    if (!$data = html\placeholder($html, 'app-block')) {
+    if (!$data = app\placeholder($html, 'app-block')) {
         return $html;
     }
 
@@ -79,7 +79,7 @@ function email(string $html): string
  */
 function entity(string $html): string
 {
-    if (!$data = html\placeholder($html, 'app-entity')) {
+    if (!$data = app\placeholder($html, 'app-entity')) {
         return $html;
     }
 
@@ -104,6 +104,9 @@ function entity(string $html): string
     return $html;
 }
 
+/**
+ * Replaces all file entity placeholder tags, i.e. `<app-file id="{entity_id}-{id}"></app-file>`
+ */
 function file(string $html): string
 {
     $pattern = '#<app-file id="%s-%s">(?:[^<]*)</app-file>#s';
