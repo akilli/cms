@@ -140,7 +140,7 @@ function urlpath(string $val): string
     $key = array_key_last($parts);
     $info = pathinfo($parts[$key]);
     $parts[$key] = $info['filename'];
-    $parts = array_map('str\uid', $parts);
+    $parts = array_map(str\uid(...), $parts);
     $parts[$key] .= $parts[$key] && !empty($info['extension']) ? '.' . $info['extension'] : '';
 
     return '/' . implode('/', array_filter($parts));

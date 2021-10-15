@@ -117,7 +117,7 @@ function data_layout(array $data): array
         }
     }
 
-    return array_map('layout\block', $data);
+    return array_map(layout\block(...), $data);
 }
 
 function data_request(array $data): array
@@ -135,7 +135,7 @@ function data_request(array $data): array
     if (!empty($_POST['token'])) {
         if (session\get('token') === $_POST['token']) {
             unset($_POST['token']);
-            $data['file'] = array_filter(array_map('request\normalize', $_FILES));
+            $data['file'] = array_filter(array_map(request\normalize(...), $_FILES));
             $data['post'] = array_replace_recursive(request\postfilter($_POST), request\convert($data['file']));
         }
 
