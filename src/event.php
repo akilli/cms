@@ -129,7 +129,7 @@ function data_request(array $data): array
     $data['proto'] = $https ? 'https' : 'http';
     $data['base'] = $data['proto'] . '://' . $data['host'];
     $data['url'] = str\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
-    $data['full'] = $data['base'] . rtrim($data['url'], '/');
+    $data['id'] = $data['base'] . rtrim($data['url'], '/');
     $data['get'] = request\getfilter($_GET);
 
     if (!empty($_POST['token'])) {

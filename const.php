@@ -98,9 +98,9 @@ define('APP', [
             'cfg' => [],
         ],
         'request' => [
+            'id' => null,
             'base' => null,
             'file' => [],
-            'full' => null,
             'get' => [],
             'host' => null,
             'method' => null,
