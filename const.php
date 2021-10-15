@@ -41,6 +41,13 @@ define('APP', [
             'tag' => null,
             'cfg' => [],
         ],
+        'db' => [
+            'id' => null,
+            'type' => null,
+            'dsn' => null,
+            'user' => null,
+            'password' => null,
+        ],
         'entity' => [
             'id' => null,
             'name' => null,
@@ -118,6 +125,7 @@ define('APP', [
     'date.frontend' => 'yyyy-MM-dd',
     'datetime.backend' => 'yyyy-MM-dd HH:mm:ss',
     'datetime.frontend' => "yyyy-MM-dd'T'HH:mm",
+    'entity.api' => ['size', 'one', 'all', 'save', 'delete', 'transaction'],
     'entity.max' => 50,
     'html.tags' => implode('', [
         '<a>',

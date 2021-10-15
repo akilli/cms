@@ -91,10 +91,11 @@ function load(string $id): array
         $cfg = match ($id) {
             'attr', 'backend' => $data + $ext,
             'block' => block($data, $ext),
-            'db', 'i18n' => arr\extend($data, $ext),
+            'db' => db($data, $ext),
             'entity' => entity($data, $ext),
             'event' => event($data, $ext),
             'frontend', 'opt', 'validator', 'viewer' => call($data, $ext),
+            'i18n' => arr\extend($data, $ext),
             'layout' => layout($data, $ext),
             'privilege' => privilege($data, $ext),
             'toolbar' => toolbar($data, $ext),
@@ -146,6 +147,32 @@ function block(array $data, array $ext): array
 
     foreach ($data as $id => $item) {
         $data[$id] = arr\replace(APP['cfg']['block'], $item, ['id' => $id, 'call' => export($item['call'])]);
+    }
+
+    return $data;
+}
+
+/**
+ * Loads DB configuration
+ *
+ * @throws DomainException
+ */
+function db(array $data, array $ext): array
+{
+    $data = arr\extend($data, $ext);
+
+    foreach ($data as $id => $item) {
+        $item = arr\replace(APP['cfg']['db'], $item, ['id' => $id]);
+
+        if (!$item['type']) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        }
+
+        foreach (APP['entity.api'] as $func) {
+            is_callable($item['type'] . '\\' . $func) || throw new DomainException(app\i18n('Invalid configuration'));
+        }
+
+        $data[$id] = $item;
     }
 
     return $data;
