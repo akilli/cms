@@ -1,41 +1,43 @@
 <?php
 declare(strict_types=1);
 
+namespace validator;
+
 return [
     'date' => [
-        'call' => 'validator\date',
+        'call' => date(...),
     ],
     'datetime' => [
-        'call' => 'validator\datetime',
+        'call' => datetime(...),
     ],
     'editor' => [
-        'call' => 'validator\editor',
+        'call' => editor(...),
     ],
     'email' => [
-        'call' => 'validator\email',
+        'call' => email(...),
     ],
     'entity' => [
-        'call' => 'validator\entity',
+        'call' => entity(...),
     ],
     'multientity' => [
-        'call' => 'validator\multientity',
+        'call' => multientity(...),
     ],
     'opt' => [
-        'call' => 'validator\opt',
+        'call' => opt(...),
     ],
     'text' => [
-        'call' => 'validator\text',
+        'call' => text(...),
     ],
     'time' => [
-        'call' => 'validator\time',
+        'call' => time(...),
     ],
     'uid' => [
-        'call' => 'validator\uid',
+        'call' => uid(...),
     ],
     'url' => [
-        'call' => 'validator\url',
+        'call' => url(...),
     ],
     'urlpath' => [
-        'call' => 'validator\urlpath',
+        'call' => urlpath(...),
     ],
 ];

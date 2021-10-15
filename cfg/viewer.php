@@ -1,59 +1,61 @@
 <?php
 declare(strict_types=1);
 
+namespace viewer;
+
 return [
     'audio' => [
-        'call' => 'viewer\audio',
+        'call' => audio(...),
     ],
     'date' => [
-        'call' => 'viewer\date',
+        'call' => date(...),
     ],
     'datetime' => [
-        'call' => 'viewer\datetime',
+        'call' => datetime(...),
     ],
     'email' => [
-        'call' => 'viewer\email',
+        'call' => email(...),
     ],
     'enc' => [
-        'call' => 'viewer\enc',
+        'call' => enc(...),
     ],
     'entity' => [
-        'call' => 'viewer\entity',
+        'call' => entity(...),
     ],
     'file' => [
-        'call' => 'viewer\file',
+        'call' => file(...),
     ],
     'iframe' => [
-        'call' => 'viewer\iframe',
+        'call' => iframe(...),
     ],
     'image' => [
-        'call' => 'viewer\image',
+        'call' => image(...),
     ],
     'json' => [
-        'call' => 'viewer\json',
+        'call' => json(...),
     ],
     'multientity' => [
-        'call' => 'viewer\multientity',
+        'call' => multientity(...),
     ],
     'opt' => [
-        'call' => 'viewer\opt',
+        'call' => opt(...),
     ],
     'position' => [
-        'call' => 'viewer\position',
+        'call' => position(...),
     ],
     'raw' => [
-        'call' => 'viewer\raw',
+        'call' => raw(...),
     ],
     'tel' => [
-        'call' => 'viewer\tel',
+        'call' => tel(...),
     ],
     'time' => [
-        'call' => 'viewer\time',
+        'call' => time(...),
     ],
     'url' => [
-        'call' => 'viewer\url',
+        'call' => url(...),
     ],
     'video' => [
-        'call' => 'viewer\video',
+        'call' => video(...),
     ],
 ];

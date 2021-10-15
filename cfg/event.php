@@ -1,75 +1,149 @@
 <?php
 declare(strict_types=1);
 
+namespace event;
+
 return [
     'data:account' => [
-        'event\data_account' => 100,
+        'data_account' => [
+            'call' => data_account(...),
+            'sort' => 100,
+        ],
     ],
     'data:app' => [
-        'event\data_app' => 100,
+        'data_app' => [
+            'call' => data_app(...),
+            'sort' => 100,
+        ],
     ],
     'data:layout' => [
-        'event\data_layout' => 100,
+        'data_layout' => [
+            'call' => data_layout(...),
+            'sort' => 100,
+        ],
     ],
     'data:request' => [
-        'event\data_request' => 100,
+        'data_request' => [
+            'call' => data_request(...),
+            'sort' => 100,
+        ],
     ],
     'entity:postdelete' => [
-        'event\entity_postdelete_uploadable' => 100,
+        'entity_postdelete_uploadable' => [
+            'call' => entity_postdelete_uploadable(...),
+            'sort' => 100,
+        ],
     ],
     'entity:postsave' => [
-        'event\entity_postsave_uploadable' => 100,
+        'entity_postsave_uploadable' => [
+            'call' => entity_postsave_uploadable(...),
+            'sort' => 100,
+        ],
     ],
     'entity:postvalidate' => [
-        'event\entity_postvalidate_password' => 100,
-        'event\entity_postvalidate_unique' => 200,
+        'entity_postvalidate_password' => [
+            'call' => entity_postvalidate_password(...),
+            'sort' => 100,
+        ],
+        'entity_postvalidate_unique' => [
+            'call' => entity_postvalidate_unique(...),
+            'sort' => 200,
+        ],
     ],
     'entity:postvalidate:id:menu' => [
-        'event\entity_menu_postvalidate' => 100,
+        'entity_menu_postvalidate' => [
+            'call' => entity_menu_postvalidate(...),
+            'sort' => 100,
+        ],
     ],
     'entity:predelete:id:role' => [
-        'event\entity_role_predelete' => 100,
+        'entity_role_predelete' => [
+            'call' => entity_role_predelete(...),
+            'sort' => 100,
+        ],
     ],
     'entity:presave:id:file' => [
-        'event\entity_file_presave' => 100,
+        'entity_file_presave' => [
+            'call' => entity_file_presave(...),
+            'sort' => 100,
+        ],
     ],
     'entity:presave:id:iframe' => [
-        'event\entity_iframe_presave' => 100,
+        'entity_iframe_presave' => [
+            'call' => entity_iframe_presave(...),
+            'sort' => 100,
+        ],
     ],
     'entity:prevalidate' => [
-        'event\entity_prevalidate_uploadable' => 100,
+        'entity_prevalidate_uploadable' => [
+            'call' => entity_prevalidate_uploadable(...),
+            'sort' => 100,
+        ],
     ],
     'entity:prevalidate:id:account' => [
-        'event\entity_prevalidate_uid' => 100,
+        'entity_prevalidate_uid' => [
+            'call' => entity_prevalidate_uid(...),
+            'sort' => 100,
+        ],
     ],
     'entity:prevalidate:id:page' => [
-        'event\entity_prevalidate_url' => 100,
+        'entity_prevalidate_url' => [
+            'call' => entity_prevalidate_url(...),
+            'sort' => 100,
+        ],
     ],
     'layout:postrender' => [
-        'event\layout_postrender' => 100,
+        'layout_postrender' => [
+            'call' => layout_postrender(...),
+            'sort' => 100,
+        ],
     ],
     'response:html' => [
-        'event\response_html' => 100,
+        'response_html' => [
+            'call' => response_html(...),
+            'sort' => 100,
+        ],
     ],
     'response:html:account:logout' => [
-        'event\response_html_account_logout' => 100,
+        'response_html_account_logout' => [
+            'call' => response_html_account_logout(...),
+            'sort' => 100,
+        ],
     ],
     'response:html:block:api' => [
-        'event\response_html_block_api' => 100,
+        'response_html_block_api' => [
+            'call' => response_html_block_api(...),
+            'sort' => 100,
+        ],
     ],
     'response:html:delete' => [
-        'event\response_html_delete' => 100,
+        'response_html_delete' => [
+            'call' => response_html_delete(...),
+            'sort' => 100,
+        ],
     ],
     'response:json:delete' => [
-        'event\response_json_delete' => 100,
+        'response_json_delete' => [
+            'call' => response_json_delete(...),
+            'sort' => 100,
+        ],
     ],
     'response:json:edit' => [
-        'event\response_json_edit' => 100,
+        'response_json_edit' => [
+            'call' => response_json_edit(...),
+            'sort' => 100,
+        ],
     ],
     'response:json:index' => [
-        'event\response_json_index' => 100,
+        'response_json_index' => [
+            'call' => response_json_index(...),
+            'sort' => 100,
+        ],
     ],
     'response:json:view' => [
-        'event\response_json_view' => 100,
+        'response_json_view' => [
+            'call' => response_json_view(...),
+            'sort' => 100,
+        ],
     ],
 ];

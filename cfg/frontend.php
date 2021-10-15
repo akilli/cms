@@ -1,65 +1,67 @@
 <?php
 declare(strict_types=1);
 
+namespace frontend;
+
 return [
     'bool' => [
-        'call' => 'frontend\bool',
+        'call' => bool(...),
     ],
     'browser' => [
-        'call' => 'frontend\browser',
+        'call' => browser(...),
     ],
     'checkbox' => [
-        'call' => 'frontend\checkbox',
+        'call' => checkbox(...),
     ],
     'date' => [
-        'call' => 'frontend\date',
+        'call' => date(...),
     ],
     'datetime' => [
-        'call' => 'frontend\datetime',
+        'call' => datetime(...),
     ],
     'decimal' => [
-        'call' => 'frontend\decimal',
+        'call' => decimal(...),
     ],
     'editor' => [
-        'call' => 'frontend\editor',
+        'call' => editor(...),
     ],
     'email' => [
-        'call' => 'frontend\email',
+        'call' => email(...),
     ],
     'file' => [
-        'call' => 'frontend\file',
+        'call' => file(...),
     ],
     'int' => [
-        'call' => 'frontend\int',
+        'call' => int(...),
     ],
     'json' => [
-        'call' => 'frontend\json',
+        'call' => json(...),
     ],
     'password' => [
-        'call' => 'frontend\password',
+        'call' => password(...),
     ],
     'radio' => [
-        'call' => 'frontend\radio',
+        'call' => radio(...),
     ],
     'range' => [
-        'call' => 'frontend\range',
+        'call' => range(...),
     ],
     'select' => [
-        'call' => 'frontend\select',
+        'call' => select(...),
     ],
     'tel' => [
-        'call' => 'frontend\tel',
+        'call' => tel(...),
     ],
     'text' => [
-        'call' => 'frontend\text',
+        'call' => text(...),
     ],
     'textarea' => [
-        'call' => 'frontend\textarea',
+        'call' => textarea(...),
     ],
     'time' => [
-        'call' => 'frontend\time',
+        'call' => time(...),
     ],
     'url' => [
-        'call' => 'frontend\url',
+        'call' => url(...),
     ],
 ];

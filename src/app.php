@@ -77,17 +77,17 @@ function data(string $id, string $key = null): mixed
  * Every listener can stop further propagation of current event or the whole group by setting the $data['_stop'] to
  * `false` for current event or `true` for the whole group
  */
-function event(array $events, array $data): array
+function event(array $keys, array $data): array
 {
     unset($data['_stop']);
 
-    foreach ($events as $event) {
-        if (!$cfg = cfg('event', $event)) {
+    foreach ($keys as $key) {
+        if (!$event = cfg('event', $key)) {
             continue;
         }
 
-        foreach (array_keys($cfg) as $call) {
-            $data = $call($data);
+        foreach ($event as $item) {
+            $data = $item['call']($data);
             $stop = $data['_stop'] ?? null;
             unset($data['_stop']);
 

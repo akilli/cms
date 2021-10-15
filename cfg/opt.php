@@ -1,20 +1,22 @@
 <?php
 declare(strict_types=1);
 
+namespace opt;
+
 return [
     'block' => [
-        'call' => 'opt\block',
+        'call' => block(...),
     ],
     'bool' => [
-        'call' => 'opt\bool',
+        'call' => bool(...),
     ],
     'entity' => [
-        'call' => 'opt\entity',
+        'call' => entity(...),
     ],
     'entitychild' => [
-        'call' => 'opt\entitychild',
+        'call' => entitychild(...),
     ],
     'privilege' => [
-        'call' => 'opt\privilege',
+        'call' => privilege(...),
     ],
 ];

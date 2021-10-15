@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
+namespace block;
+
 return [
     'block' => [
-        'call' => 'block\block',
+        'call' => block(...),
         'tag' => 'section',
         'cfg' => [
             'attr_id' => ['content'],
@@ -13,23 +15,23 @@ return [
         ],
     ],
     'breadcrumb' => [
-        'call' => 'block\breadcrumb',
+        'call' => breadcrumb(...),
     ],
     'container' => [
-        'call' => 'block\container',
+        'call' => container(...),
         'cfg' => [
             'id' => false,
         ],
     ],
     'edit' => [
-        'call' => 'block\edit',
+        'call' => edit(...),
         'tpl' => 'form.phtml',
         'cfg' => [
             'attr_id' => [],
         ],
     ],
     'filter' => [
-        'call' => 'block\filter',
+        'call' => filter(...),
         'tpl' => 'filter.phtml',
         'cfg' => [
             'attr' => [],
@@ -39,10 +41,10 @@ return [
         ],
     ],
     'html' => [
-        'call' => 'block\html',
+        'call' => html(...),
     ],
     'index' => [
-        'call' => 'block\index',
+        'call' => index(...),
         'tpl' => 'index.phtml',
         'cfg' => [
             'action' => [],
@@ -60,25 +62,25 @@ return [
         ],
     ],
     'login' => [
-        'call' => 'block\login',
+        'call' => login(...),
         'tpl' => 'form.phtml',
     ],
     'menu' => [
-        'call' => 'block\menu',
+        'call' => menu(...),
     ],
     'meta' => [
-        'call' => 'block\meta',
+        'call' => meta(...),
         'tpl' => 'meta.phtml',
     ],
     'nav' => [
-        'call' => 'block\nav',
+        'call' => nav(...),
         'cfg' => [
             'data' => [],
             'title' => null,
         ],
     ],
     'pager' => [
-        'call' => 'block\pager',
+        'call' => pager(...),
         'tpl' => 'pager.phtml',
         'cfg' => [
             'cur' => null,
@@ -88,33 +90,33 @@ return [
         ],
     ],
     'profile' => [
-        'call' => 'block\profile',
+        'call' => profile(...),
         'tpl' => 'form.phtml',
         'cfg' => [
             'attr_id' => [],
         ],
     ],
     'tag' => [
-        'call' => 'block\tag',
+        'call' => tag(...),
         'cfg' => [
             'attr' => [],
             'val' => null,
         ],
     ],
     'title' => [
-        'call' => 'block\title',
+        'call' => title(...),
         'cfg' => [
             'text' => null,
         ],
     ],
     'toolbar' => [
-        'call' => 'block\toolbar',
+        'call' => toolbar(...),
     ],
     'tpl' => [
-        'call' => 'block\tpl',
+        'call' => tpl(...),
     ],
     'view' => [
-        'call' => 'block\view',
+        'call' => view(...),
         'cfg' => [
             'attr_id' => [],
             'data' => [],

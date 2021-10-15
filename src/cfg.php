@@ -7,6 +7,8 @@ use app;
 use arr;
 use DomainException;
 use file;
+use ReflectionException;
+use ReflectionFunction;
 
 /**
  * Backs up configuration
@@ -104,6 +106,20 @@ function load(string $id): array
 }
 
 /**
+ * Exports first class callable syntax to string, i. e. namespace\function(...) => 'namespace\function'
+ *
+ * @throws DomainException
+ */
+function export(callable $call): string
+{
+    try {
+        return (new ReflectionFunction($call))->getName();
+    } catch (ReflectionException) {
+        throw new DomainException(app\i18n('Invalid configuration'));
+    }
+}
+
+/**
  * Loads configuration that consists only of a callback function
  *
  * @throws DomainException
@@ -113,11 +129,7 @@ function call(array $data, array $ext): array
     $data += $ext;
 
     foreach ($data as $id => $item) {
-        $data[$id] = ['call' => $item['call'] ?? null];
-
-        if (!is_callable($item['call'])) {
-            throw new DomainException(app\i18n('Invalid configuration'));
-        }
+        $data[$id] = ['id' => $id, 'call' => export($item['call'])];
     }
 
     return $data;
@@ -133,11 +145,7 @@ function block(array $data, array $ext): array
     $data += $ext;
 
     foreach ($data as $id => $item) {
-        $data[$id] = arr\replace(APP['cfg']['block'], $item, ['id' => $id]);
-
-        if (!is_callable($item['call'])) {
-            throw new DomainException(app\i18n('Invalid configuration'));
-        }
+        $data[$id] = arr\replace(APP['cfg']['block'], $item, ['id' => $id, 'call' => export($item['call'])]);
     }
 
     return $data;
@@ -237,14 +245,12 @@ function event(array $data, array $ext): array
 {
     $data = arr\extend($data, $ext);
 
-    foreach ($data as $id => $event) {
-        asort($data[$id], SORT_NUMERIC);
-
-        foreach (array_keys($event) as $call) {
-            if (!is_callable($call)) {
-                throw new DomainException(app\i18n('Invalid configuration'));
-            }
+    foreach ($data as $key => $event) {
+        foreach ($event as $id => $item) {
+            $event[$id] = arr\replace(APP['cfg']['event'], $item, ['id' => $id, 'call' => export($item['call'])]);
         }
+
+        $data[$key] = arr\order($event, ['sort' => 'asc']);
     }
 
     return $data;

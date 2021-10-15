@@ -52,6 +52,11 @@ define('APP', [
             'action' => [],
             'attr' => [],
         ],
+        'event' => [
+            'id' => null,
+            'call' => null,
+            'sort' => 0,
+        ],
         'privilege' => [
             'id' => null,
             'name' => null,
