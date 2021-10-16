@@ -62,8 +62,8 @@ function edit(array $block): string
     }
 
     if ($data = app\data('request', 'post')) {
-        if ($app['id']) {
-            $data = ['id' => $app['id']] + $data;
+        if ($app['item_id']) {
+            $data = ['id' => $app['item_id']] + $data;
         }
 
         if (entity\save($entity['id'], $data)) {
@@ -102,7 +102,7 @@ function html(): string
         'data-parent' => $app['parent_id'],
         'data-entity' => $app['entity_id'],
         'data-action' => $app['action'],
-        ...($app['id'] ? ['data-id' => $app['id']] : []),
+        ...($app['item_id'] ? ['data-id' => $app['item_id']] : []),
         'data-url' => app\data('request', 'url'),
     ];
 

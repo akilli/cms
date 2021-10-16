@@ -43,15 +43,15 @@ function data_app(array $data): array
     if (preg_match('#^/block:api:([a-z][a-z_\.]*)-(\d+)$#', $url, $match)) {
         $data['entity_id'] = 'block';
         $data['action'] = 'api';
-        $data['id'] = $match[2];
+        $data['item_id'] = $match[2];
     } elseif (preg_match('#^/([a-z][a-z_\.]*):([a-z]+)(?:|\:([^/\:\.]+))$#', $url, $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
-        $data['id'] = $match[3] ?? null;
+        $data['item_id'] = $match[3] ?? null;
     } elseif ($item = entity\one('url', crit: [['name', $url]])) {
         $data['entity_id'] = $item['target_entity_id'];
         $data['action'] = 'view';
-        $data['id'] = $item['target_id'];
+        $data['item_id'] = $item['target_id'];
     }
 
     $data['event'] = [$data['type'], app\id($data['type'], '_invalid_')];
@@ -60,15 +60,16 @@ function data_app(array $data): array
         return $data;
     }
 
+    $data['id'] = app\id($data['entity_id'], $data['action'], ...($data['item_id'] ? [$data['item_id']] : []));
     $data['entity'] ??= app\cfg('entity', $data['entity_id']);
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
-    $data['item'] = $data['id'] ? entity\one($data['entity_id'], crit: [['id', $data['id']]]) : null;
+    $data['item'] = $data['item_id'] ? entity\one($data['entity_id'], crit: [['id', $data['item_id']]]) : null;
     $data['valid'] = app\allowed(app\id($data['entity_id'], $data['action']))
         && $data['entity']
         && in_array($data['action'], $data['entity']['action'])
-        && (!in_array($data['action'], ['delete', 'view']) || $data['id'])
-        && ($data['action'] !== 'index' || !$data['id'])
-        && (!$data['id'] || entity\size($data['entity_id'], crit: [['id', $data['id']]]));
+        && (!$data['item_id'] || $data['item'])
+        && (!in_array($data['action'], ['delete', 'view']) || $data['item_id'])
+        && ($data['action'] !== 'index' || !$data['item_id']);
 
     if (!$data['valid']) {
         return $data;
@@ -82,12 +83,12 @@ function data_app(array $data): array
 
     $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action']);
 
-    if ($data['parent_id'] && $data['item']) {
-        $data['event'][] = app\id($data['type'], $data['parent_id'], $data['action'], $data['id']);
+    if ($data['parent_id'] && $data['item_id']) {
+        $data['event'][] = app\id($data['type'], $data['parent_id'], $data['action'], $data['item_id']);
     }
 
-    if ($data['item']) {
-        $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action'], $data['id']);
+    if ($data['item_id']) {
+        $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action'], $data['item_id']);
     }
 
     return $data;
@@ -98,9 +99,9 @@ function data_layout(array $data): array
     $cfg = app\cfg('layout');
     $app = app\data('app');
 
-    if (in_array('page', [$app['parent_id'], $app['entity_id']]) && $app['item']) {
-        foreach (entity\all('layout', crit: [['page_id', $app['id']]]) as $item) {
-            $cfg[app\id('html', 'page', 'view', $app['id'])]['layout-' . $item['id']] = [
+    if (in_array('page', [$app['parent_id'], $app['entity_id']]) && $app['item_id']) {
+        foreach (entity\all('layout', crit: [['page_id', $app['item_id']]]) as $item) {
+            $cfg[app\id('html', 'page', 'view', $app['item_id'])]['layout-' . $item['id']] = [
                 'type' => 'tag',
                 'tag' => 'app-block',
                 'parent_id' => $item['parent_id'],
@@ -370,7 +371,7 @@ function response_html(array $data): array
 function response_html_delete(array $data): array
 {
     $app = app\data('app');
-    entity\delete($app['entity_id'], [['id', $app['id']]]);
+    entity\delete($app['entity_id'], [['id', $app['item_id']]]);
     $data['header']['location'] = app\actionurl($app['entity_id'], 'index');
     $data['_stop'] = true;
 
@@ -398,8 +399,8 @@ function response_html_block_api(array $data): array
 function response_json_delete(array $data): array
 {
     $app = app\data('app');
-    $success = entity\delete($app['entity_id'], [['id', $app['id']]]);
-    $data['body'] = json_encode(['id' => $app['id'], 'success' => $success, 'msg' => app\msg()]);
+    $success = entity\delete($app['entity_id'], [['id', $app['item_id']]]);
+    $data['body'] = json_encode(['id' => $app['item_id'], 'success' => $success, 'msg' => app\msg()]);
     $data['_stop'] = true;
 
     return $data;
@@ -410,8 +411,8 @@ function response_json_edit(array $data): array
     $app = app\data('app');
     $item = app\data('request', 'post');
 
-    if ($app['id']) {
-        $item = ['id' => $app['id']] + $item;
+    if ($app['item_id']) {
+        $item = ['id' => $app['item_id']] + $item;
     }
 
     $success = entity\save($app['entity_id'], $item);

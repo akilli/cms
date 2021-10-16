@@ -96,6 +96,7 @@ define('APP', [
             'id' => null,
             'entity_id' => null,
             'action' => null,
+            'item_id' => null,
             'parent_id' => null,
             'valid' => false,
             'type' => 'html',
