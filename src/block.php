@@ -256,7 +256,7 @@ function nav(array $block): string
 
     $count = count($data);
     $start = current($data)['level'] ?? 1;
-    $base = ['name' => null, 'url' => null, 'level' => $start];
+    $base = arr\replace(APP['nav'], ['level' => $start]);
     $level = 0;
     $i = 0;
     $url = app\data('request', 'url');

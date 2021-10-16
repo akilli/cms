@@ -255,6 +255,11 @@ define('APP', [
     'lang' => locale_get_primary_language(''),
     'locale' => ini_get('intl.default_locale'),
     'log' => 'php://stdout',
+    'nav' => [
+        'name' => null,
+        'url' => null,
+        'level' => 0,
+    ],
     'op' => [
         '=' => '=',
         '!=' => '!=',
