@@ -216,6 +216,7 @@ function entity(array $data, array $ext): array
     $optCfg = load('opt');
     $entitychild = ['autoedit' => false, 'autofilter' => false, 'autoindex' => false];
     uasort($data, fn(array $a, array $b): int => ($a['parent_id'] ?? null) <=> ($b['parent_id'] ?? null));
+    $max = $attrCfg['entitychild']['max'] ?? null;
 
     foreach ($data as $entityId => $entity) {
         $entity = arr\replace(APP['cfg']['entity'], $entity, ['id' => $entityId]);
@@ -223,7 +224,7 @@ function entity(array $data, array $ext): array
 
         if (!$entityId
             || !preg_match('#^[a-z][a-z_\.]*$#', $entityId)
-            || mb_strlen($entityId) > APP['entity.max']
+            || $max && mb_strlen($entityId) > $max
             || !$entity['name']
             || !$entity['db']
             || empty($dbCfg[$entity['db']])
