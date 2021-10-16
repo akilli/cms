@@ -177,7 +177,7 @@ function save(string $entityId, array &$data): bool
             $entity['db']
         );
         app\msg(app\i18n('Successfully saved data'));
-        $tmp['id'] = $tmp['id'] ?? $tmp['_old']['id'] ?? null;
+        $tmp['id'] ??= $tmp['_old']['id'] ?? null;
         $data = $tmp;
 
         return true;
