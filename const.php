@@ -5,6 +5,19 @@ declare(strict_types=1);
  * Application constants
  */
 define('APP', [
+    'block' => [
+        'id' => null,
+        'type' => null,
+        'call' => null,
+        'tpl' => null,
+        'tag' => null,
+        'active' => true,
+        'privilege' => null,
+        'parent_id' => null,
+        'sort' => 0,
+        'image' => [],
+        'cfg' => [],
+    ],
     'cfg' => [
         'api' => [
             'size' => null,
@@ -103,19 +116,6 @@ define('APP', [
             'event' => [],
             'entity' => null,
             'item' => null,
-        ],
-        'layout.item' => [
-            'id' => null,
-            'type' => null,
-            'call' => null,
-            'tpl' => null,
-            'tag' => null,
-            'active' => true,
-            'privilege' => null,
-            'parent_id' => null,
-            'sort' => 0,
-            'image' => [],
-            'cfg' => [],
         ],
         'request' => [
             'id' => null,
