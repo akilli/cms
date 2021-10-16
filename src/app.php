@@ -60,8 +60,10 @@ function cfg(string $id, string $key = null): mixed
 function data(string $id, string $key = null): mixed
 {
     if (($data = &registry('data')[$id]) === null) {
-        $data = [];
+        $base = APP['data'][$id] ?? [];
+        $data = $base;
         $data = event([id('data', $id)], $data);
+        $data = $base ? arr\replace(APP['data'][$id], $data) : $data;
     }
 
     if ($key === null) {

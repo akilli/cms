@@ -32,7 +32,6 @@ function data_account(): array
 
 function data_app(array $data): array
 {
-    $data = arr\replace(APP['data']['app'], $data);
     $url = app\data('request', 'url');
 
     if ($jsonUrl = strstr($url, '.json', true)) {
@@ -123,7 +122,6 @@ function data_layout(array $data): array
 
 function data_request(array $data): array
 {
-    $data = arr\replace(APP['data']['request'], $data);
     $data['host'] = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'];
     $data['method'] = strtolower($_SERVER['REQUEST_METHOD']);
     $https = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null) === 'on';
