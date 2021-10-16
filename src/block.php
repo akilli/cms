@@ -324,7 +324,7 @@ function pager(array $block): string
     $min = max(1, min($block['cfg']['cur'] - intdiv($block['cfg']['pages'], 2), $total - $block['cfg']['pages'] + 1));
     $max = min($min + $block['cfg']['pages'] - 1, $total);
     $links = [];
-    $base = ['name' => null, 'url' => null, 'current' => false, 'class' => null];
+    $base = APP['pager'];
 
     if ($block['cfg']['cur'] >= 2) {
         $p = ['cur' => $block['cfg']['cur'] === 2 ? null : $block['cfg']['cur'] - 1];

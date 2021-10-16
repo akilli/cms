@@ -269,6 +269,12 @@ define('APP', [
         '$' => '$',
         '!$' => '!$',
     ],
+    'pager' => [
+        'name' => null,
+        'url' => null,
+        'current' => false,
+        'class' => null,
+    ],
     'path' => [
         'app.cfg' => '/app/cfg',
         'app.gui' => '/app/gui',
