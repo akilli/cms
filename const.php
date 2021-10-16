@@ -104,7 +104,7 @@ define('APP', [
             'entity' => null,
             'item' => null,
         ],
-        'layout' => [
+        'layout.item' => [
             'id' => null,
             'type' => null,
             'call' => null,

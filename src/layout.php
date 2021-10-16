@@ -73,7 +73,7 @@ function block(array $block): array
     unset($block['call']);
     $block['cfg'] = $type['cfg'] ? arr\replace($type['cfg'], $block['cfg'] ?? []) : [];
 
-    return arr\replace(APP['data']['layout'], $type, $block);
+    return arr\replace(APP['data']['layout.item'], $type, $block);
 }
 
 /**
