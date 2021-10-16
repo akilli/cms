@@ -283,8 +283,6 @@ return [
             'position' => [
                 'name' => 'Position',
                 'type' => 'position',
-                'auto' => true,
-                'max' => 255,
             ],
             'level' => [
                 'name' => 'Level',
