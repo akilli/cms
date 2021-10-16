@@ -21,6 +21,13 @@ array_map($scan, [APP['path']['app.src'], APP['path']['ext.src']]);
 unset($scan);
 
 /**
+ * Extension preload
+ */
+if (file_exists(APP['path']['ext'] . '/preload.php')) {
+    require_once APP['path']['ext'] . '/preload.php';
+}
+
+/**
  * Back up pregenerated configuration
  */
 cfg\backup();
