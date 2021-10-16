@@ -6,6 +6,14 @@ declare(strict_types=1);
  */
 define('APP', [
     'cfg' => [
+        'api' => [
+            'size' => null,
+            'one' => null,
+            'all' => null,
+            'save' => null,
+            'delete' => null,
+            'transaction' => null,
+        ],
         'attr' => [
             'id' => null,
             'name' => null,
@@ -43,7 +51,6 @@ define('APP', [
         ],
         'db' => [
             'id' => null,
-            'type' => null,
             'dsn' => null,
             'user' => null,
             'password' => null,
@@ -51,8 +58,8 @@ define('APP', [
         'entity' => [
             'id' => null,
             'name' => null,
+            'api' => 'pdo',
             'db' => 'app',
-            'type' => null,
             'parent_id' => null,
             'readonly' => false,
             'unique' => [],
@@ -125,7 +132,6 @@ define('APP', [
     'date.frontend' => 'yyyy-MM-dd',
     'datetime.backend' => 'yyyy-MM-dd HH:mm:ss',
     'datetime.frontend' => "yyyy-MM-dd'T'HH:mm",
-    'entity.api' => ['size', 'one', 'all', 'save', 'delete', 'transaction'],
     'entity.max' => 50,
     'html.tags' => implode('', [
         '<a>',

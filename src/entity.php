@@ -16,9 +16,10 @@ use Throwable;
 function size(string $entityId, array $crit = []): int
 {
     $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    $api = app\cfg('api', $entity['api']);
 
     try {
-        return ($entity['type'] . '\size')($entity, $crit);
+        return $api['size']($entity, $crit);
     } catch (Throwable $e) {
         app\log($e);
         app\msg(app\i18n('Could not load data'));
@@ -35,10 +36,11 @@ function size(string $entityId, array $crit = []): int
 function one(string $entityId, array $crit = [], array $select = [], array $order = [], int $offset = 0): ?array
 {
     $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    $api = app\cfg('api', $entity['api']);
     $data = [];
 
     try {
-        if ($data = ($entity['type'] . '\one')($entity, $crit, $select, $order, $offset)) {
+        if ($data = $api['one']($entity, $crit, $select, $order, $offset)) {
             $data = load($entity, $data);
         }
     } catch (Throwable $e) {
@@ -64,13 +66,14 @@ function all(
     string $index = 'id'
 ): array {
     $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    $api = app\cfg('api', $entity['api']);
 
     if ($select && ($keys = array_diff(array_unique(['id', $index]), $select))) {
         array_unshift($select, ...$keys);
     }
 
     try {
-        $data = ($entity['type'] . '\all')($entity, $crit, $select, $order, $limit, $offset);
+        $data = $api['all']($entity, $crit, $select, $order, $limit, $offset);
         $data = array_map(fn($item) => load($entity, $item), $data);
 
         return array_column($data, null, $index);
@@ -90,6 +93,7 @@ function all(
 function save(string $entityId, array &$data): bool
 {
     $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    $api = app\cfg('api', $entity['api']);
 
     if ($entity['readonly']) {
         throw new DomainException(app\i18n('Entity %s is readonly', $entity['id']));
@@ -164,10 +168,10 @@ function save(string $entityId, array &$data): bool
     }
 
     try {
-        ($entity['type'] . '\transaction')(
-            function () use (&$tmp): void {
+        $api['transaction'](
+            function () use (&$tmp, $api): void {
                 $tmp = event('presave', $tmp);
-                $tmp = ($tmp['_entity']['type'] . '\save')($tmp);
+                $tmp = $api['save']($tmp);
                 $tmp = event('postsave', $tmp);
             },
             $entity['db']
@@ -207,6 +211,7 @@ function save_all(string $entityId, array &$data): bool
 function delete(string $entityId, array $crit = []): bool
 {
     $entity = app\cfg('entity', $entityId) ?: throw new DomainException(app\i18n('Invalid entity %s', $entityId));
+    $api = app\cfg('api', $entity['api']);
 
     if ($entity['readonly']) {
         throw new DomainException(app\i18n('Entity %s is readonly', $entity['id']));
@@ -219,11 +224,11 @@ function delete(string $entityId, array $crit = []): bool
     }
 
     try {
-        ($entity['type'] . '\transaction')(
-            function () use ($all): void {
+        $api['transaction'](
+            function () use ($all, $api): void {
                 foreach ($all as $data) {
                     $data = event('predelete', $data);
-                    ($data['_entity']['type'] . '\delete')($data);
+                    $api['delete']($data);
                     event('postdelete', $data);
                 }
             },
@@ -291,7 +296,7 @@ function event(string $name, array $data): array
 {
     $entity = $data['_entity'];
     $pre = app\id('entity', $name);
-    $events = [$pre, app\id($pre, 'type', $entity['type']), app\id($pre, 'db', $entity['db'])];
+    $events = [$pre, app\id($pre, 'api', $entity['api']), app\id($pre, 'db', $entity['db'])];
 
     if ($entity['parent_id']) {
         $events[] = app\id($pre, 'id', $entity['parent_id']);

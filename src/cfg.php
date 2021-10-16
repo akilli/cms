@@ -89,6 +89,7 @@ function load(string $id): array
         }
 
         $cfg = match ($id) {
+            'api' => api($data, $ext),
             'attr', 'backend' => $data + $ext,
             'block' => block($data, $ext),
             'db' => db($data, $ext),
@@ -137,6 +138,29 @@ function call(array $data, array $ext): array
 }
 
 /**
+ * Loads entity API configuration
+ *
+ * @throws DomainException
+ */
+function api(array $data, array $ext): array
+{
+    $data += $ext;
+
+    foreach ($data as $id => $item) {
+        $item = arr\replace(APP['cfg']['api'], $item, ['id' => $id]);
+
+        foreach (array_keys(APP['cfg']['api']) as $key) {
+            is_callable($item[$key]) || throw new DomainException(app\i18n('Invalid configuration'));
+            $item[$key] = export($item[$key]);
+        }
+
+        $data[$id] = $item;
+    }
+
+    return $data;
+}
+
+/**
  * Loads block configuration
  *
  * @throws DomainException
@@ -164,12 +188,8 @@ function db(array $data, array $ext): array
     foreach ($data as $id => $item) {
         $item = arr\replace(APP['cfg']['db'], $item, ['id' => $id]);
 
-        if (!$item['type']) {
+        if (!$item['dsn']) {
             throw new DomainException(app\i18n('Invalid configuration'));
-        }
-
-        foreach (APP['entity.api'] as $func) {
-            is_callable($item['type'] . '\\' . $func) || throw new DomainException(app\i18n('Invalid configuration'));
         }
 
         $data[$id] = $item;
@@ -186,6 +206,7 @@ function db(array $data, array $ext): array
 function entity(array $data, array $ext): array
 {
     $data += $ext;
+    $apiCfg = load('api');
     $dbCfg = load('db');
     $attrCfg = load('attr');
     $backendCfg = load('backend');
@@ -205,7 +226,9 @@ function entity(array $data, array $ext): array
             || mb_strlen($entityId) > APP['entity.max']
             || !$entity['name']
             || !$entity['db']
-            || !$entity['type'] && !($entity['type'] = $dbCfg[$entity['db']]['type'] ?? null)
+            || empty($dbCfg[$entity['db']])
+            || !$entity['api']
+            || empty($apiCfg[$entity['api']])
             || $entity['parent_id'] && (!$parent || $parent['parent_id'])
             || !$entity['parent_id'] && empty($entity['attr']['id'])
             || $entity['unique'] !== array_filter($entity['unique'], fn(array $keys) => arr\has($entity['attr'], $keys))
