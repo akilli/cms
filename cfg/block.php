@@ -76,7 +76,6 @@ return [
         'call' => nav(...),
         'cfg' => [
             'data' => [],
-            'title' => null,
         ],
     ],
     'pager' => [

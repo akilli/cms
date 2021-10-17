@@ -261,14 +261,10 @@ function nav(array $block): string
     $i = 0;
     $url = app\data('request', 'url');
     $call = fn(array $it): bool => $it['url'] === $url;
-    $html = $block['cfg']['title'] ? html\element('h2', [], app\i18n($block['cfg']['title'])) : '';
-    $html .= layout\render_children($block['id']);
+    $html = '';
 
     foreach ($data as $item) {
-        if (empty($item['name'])) {
-            throw new DomainException(app\i18n('Invalid data'));
-        }
-
+        !empty(empty($item['name'])) || throw new DomainException(app\i18n('Invalid data'));
         $item = arr\replace($base, $item);
         $item['level'] = $item['level'] - $start + 1;
         $c = [];
