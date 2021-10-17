@@ -399,31 +399,7 @@ function privilege(array $data, array $ext): array
  */
 function toolbar(array $data, array $ext): array
 {
-    $data = arr\extend($data, $ext);
-    $entities = load('entity');
-    $generated = [];
-
-    foreach ($entities as $entity) {
-        if (in_array('index', $entity['action'])) {
-            if ($entity['parent_id']) {
-                $generated[$entity['parent_id']] = ['name' => $entities[$entity['parent_id']]['name']];
-            }
-
-            $generated[$entity['id']] = [
-                'name' => $entity['name'],
-                'url' => app\actionurl($entity['id'], 'index'),
-                'parent_id' => $entity['parent_id'],
-            ];
-        }
-    }
-
-    foreach ($data as $id => $item) {
-        if (!empty($item['name'])) {
-            $data[$id]['name'] = app\i18n($item['name']);
-        }
-    }
-
-    $data = arr\order(arr\extend($generated, $data), ['parent_id' => 'asc', 'sort' => 'asc', 'name' => 'asc']);
+    $data = arr\order(arr\extend($data, $ext), ['parent_id' => 'asc', 'sort' => 'asc', 'name' => 'asc']);
     $parentId = null;
     $sort = 0;
 
@@ -438,14 +414,15 @@ function toolbar(array $data, array $ext): array
             $item['privilege'] = app\id($match[1], $match[2]);
         }
 
+        $item['name'] = app\i18n($item['name']);
         $sort = $parentId === $item['parent_id'] ? $sort : 0;
         $item['sort'] = ++$sort;
         $parentPosition = $item['parent_id'] ? $data[$item['parent_id']]['position'] . '.' : '';
         $item['position'] = sprintf('%s%03d', $parentPosition, $item['sort']);
         $item['level'] = $item['parent_id'] ? $data[$item['parent_id']]['level'] + 1 : 1;
         $item['path'] = [...($item['parent_id'] ? $data[$item['parent_id']]['path'] : []), $id];
-        $data[$id] = $item;
         $parentId = $item['parent_id'];
+        $data[$id] = $item;
     }
 
     return arr\order($data, ['position' => 'asc']);
