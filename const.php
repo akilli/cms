@@ -95,6 +95,7 @@ define('APP', [
             'path' => [],
             'privilege' => null,
             'active' => true,
+            'children' => false,
         ],
         'privilege' => [
             'id' => null,

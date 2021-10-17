@@ -388,10 +388,17 @@ function menu(array $data, array $ext): array
             $item['name'] = app\i18n($item['name']);
             $sort = $parentId === $item['parent_id'] ? $sort : 0;
             $item['sort'] = ++$sort;
-            $parentPosition = $item['parent_id'] ? $menu[$item['parent_id']]['position'] . '.' : '';
-            $item['position'] = sprintf('%s%03d', $parentPosition, $item['sort']);
-            $item['level'] = $item['parent_id'] ? $menu[$item['parent_id']]['level'] + 1 : 1;
-            $item['path'] = [...($item['parent_id'] ? $menu[$item['parent_id']]['path'] : []), $id];
+            $item['position'] = sprintf('%03d', $item['sort']);
+            $item['level'] = 1;
+            $item['path'] = [$id];
+
+            if ($item['parent_id']) {
+                $menu[$item['parent_id']]['children'] = true;
+                $item['position'] = sprintf('%s.%03d', $menu[$item['parent_id']]['position'], $item['sort']);
+                $item['level'] = $menu[$item['parent_id']]['level'] + 1;
+                $item['path'] = [...$menu[$item['parent_id']]['path'], $id];
+            }
+
             $parentId = $item['parent_id'];
             $menu[$id] = $item;
         }

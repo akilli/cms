@@ -224,28 +224,30 @@ function menu(array $block): string
     if ($block['cfg']['id']) {
         $data = app\cfg('menu', $block['cfg']['id']);
     } else {
-        $call = fn(array $item): array => arr\replace(APP['cfg']['menu'], $item);
-        $data = array_map($call, entity\all('menu', order: ['position' => 'asc']));
+        $data = entity\all('menu', order: ['position' => 'asc']);
+
+        foreach ($data as $id => $item) {
+            $data[$id] = arr\replace(APP['cfg']['menu'], $item);
+
+            if ($item['parent_id']) {
+                $data[$item['parent_id']]['children'] = true;
+            }
+        }
+    }
+
+    // Filters empty parent menu items and not allowed menu items
+    foreach ($data as $id => $item) {
+        if (!$item['active']
+            || $item['privilege'] && !app\allowed($item['privilege'])
+            || !$item['url'] && !$item['children']
+        ) {
+            unset($data[$id]);
+        }
     }
 
     if (!$data) {
         return '';
     }
-
-    // Filters empty parent menu items and not allowed menu items
-    $empty = [];
-
-    foreach ($data as $id => $item) {
-        if (!$item['active'] || $item['privilege'] && !app\allowed($item['privilege'])) {
-            unset($data[$id]);
-        } elseif (!$item['url']) {
-            $empty[$id] = true;
-        } elseif ($item['parent_id']) {
-            unset($empty[$item['parent_id']]);
-        }
-    }
-
-    $data = array_diff_key($data, $empty);
 
     // Renders menu
     $lastId = array_key_last($data);
@@ -255,20 +257,23 @@ function menu(array $block): string
 
     foreach ($data as $id => $item) {
         $a = $item['url'] ? ['href' => $item['url']] : [];
+        $c = $item['children'] ? ['parent'] : [];
+        $class = '';
 
         if ($current) {
-            $a += $id === $current['id'] ? ['aria-current' => 'page'] : [];
-
-            if ($id !== $current['id'] && in_array($id, $current['path'])) {
-                $a['class'] = 'path';
+            if ($id === $current['id']) {
+                $a += ['aria-current' => 'page'];
+                $c[] = 'current';
+            } elseif (in_array($id, $current['path'])) {
+                $c[] = 'path';
             }
         }
 
-        if (($next = next($data)) && $id === $next['parent_id']) {
-            $a['class'] = (!empty($a['class']) ? $a['class'] . ' ' : '') . 'parent';
+        if ($c) {
+            $a['class'] = implode(' ', $c);
+            $class = ' class="' . $a['class'] . '"';
         }
 
-        $class = !empty($a['class']) ? ' class="' . $a['class'] . '"' : '';
         $html .= match ($item['level'] <=> $level) {
             1 => '<ul><li' . $class . '>',
             -1 => '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>',
