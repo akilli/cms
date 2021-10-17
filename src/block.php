@@ -23,21 +23,28 @@ function breadcrumb(array $block): string
 {
     $url = app\data('request', 'url');
 
-    if ($url === '/' || !($cur = entity\one('menu', crit: [['url', $url]], select: ['path']))) {
+    if ($url === '/') {
+        return '';
+    }
+
+    $menuId = $block['cfg']['id'];
+    $call = fn(array $item): array => arr\replace(APP['cfg']['menu'], $item);
+    $data = $menuId ? app\cfg('menu', $menuId) : array_map($call, entity\all('menu', order: ['position' => 'asc']));
+
+    if (!($data = menu\filter($data)) || !$cur = current(arr\filter($data, 'url', $url))) {
         return '';
     }
 
     $home = entity\one('page', crit: [['url', '/']], select: ['name', 'url']);
     $html = html\element('a', ['href' => $home['url']], $home['name']);
-    $all = entity\all('menu', crit: [['id', $cur['path']]], select: ['name', 'url'], order: ['level' => 'asc']);
 
-    foreach ($all as $item) {
+    foreach ($cur['path'] as $id) {
         $a = match (true) {
-            !$item['url'] => [],
-            $item['url'] === $url => ['href' => $item['url'], 'aria-current' => 'page'],
-            default => ['href' => $item['url']],
+            !$data[$id]['url'] => [],
+            $data[$id]['url'] === $url => ['href' => $data[$id]['url'], 'aria-current' => 'page'],
+            default => ['href' => $data[$id]['url']],
         };
-        $html .= ' ' . html\element('a', $a, $item['name']);
+        $html .= ' ' . html\element('a', $a, $data[$id]['name']);
     }
 
     return html\element('nav', ['id' => $block['id'], 'aria-label' => 'breadcrumb'], $html);
@@ -222,8 +229,8 @@ function login(array $block): string
 
 function menu(array $block): string
 {
-    $call = fn(array $item): array => arr\replace(APP['cfg']['menu'], $item);
     $menuId = $block['cfg']['id'];
+    $call = fn(array $item): array => arr\replace(APP['cfg']['menu'], $item);
     $data = $menuId ? app\cfg('menu', $menuId) : array_map($call, entity\all('menu', order: ['position' => 'asc']));
 
     if (!$data = menu\filter($data)) {
@@ -231,7 +238,7 @@ function menu(array $block): string
     }
 
     $lastId = array_key_last($data);
-    $current = current(arr\filter($data, 'url', app\data('request', 'url'))) ?? null;
+    $cur = current(arr\filter($data, 'url', app\data('request', 'url'))) ?? null;
     $level = 0;
     $html = '';
 
@@ -240,11 +247,11 @@ function menu(array $block): string
         $c = $item['children'] ? ['parent'] : [];
         $class = '';
 
-        if ($current) {
-            if ($id === $current['id']) {
+        if ($cur) {
+            if ($id === $cur['id']) {
                 $a += ['aria-current' => 'page'];
                 $c[] = 'current';
-            } elseif (in_array($id, $current['path'])) {
+            } elseif (in_array($id, $cur['path'])) {
                 $c[] = 'path';
             }
         }

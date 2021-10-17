@@ -16,6 +16,9 @@ return [
     ],
     'breadcrumb' => [
         'call' => breadcrumb(...),
+        'cfg' => [
+            'id' => null,
+        ],
     ],
     'container' => [
         'call' => container(...),
