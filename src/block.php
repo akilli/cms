@@ -224,26 +224,25 @@ function menu(array $block): string
     if ($block['cfg']['id']) {
         $data = app\cfg('menu', $block['cfg']['id']);
     } else {
-        $data = entity\all('menu', order: ['position' => 'asc']);
-
-        foreach ($data as $id => $item) {
-            $data[$id] = arr\replace(APP['cfg']['menu'], $item);
-
-            if ($item['parent_id']) {
-                $data[$item['parent_id']]['children'] = true;
-            }
-        }
+        $call = fn(array $item): array => arr\replace(APP['cfg']['menu'], $item);
+        $data = array_map($call, entity\all('menu', order: ['position' => 'asc']));
     }
 
     // Filters empty parent menu items and not allowed menu items
+    $empty = [];
+
     foreach ($data as $id => $item) {
-        if (!$item['active']
-            || $item['privilege'] && !app\allowed($item['privilege'])
-            || !$item['url'] && !$item['children']
-        ) {
+        if (!$item['active'] || $item['privilege'] && !app\allowed($item['privilege'])) {
             unset($data[$id]);
+        } elseif (!$item['url']) {
+            $empty[$id] = true;
+        } elseif ($item['parent_id']) {
+            unset($empty[$item['parent_id']]);
+            $data[$item['parent_id']]['children'] = true;
         }
     }
+
+    $data = array_diff_key($data, $empty);
 
     if (!$data) {
         return '';
