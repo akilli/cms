@@ -67,16 +67,13 @@ return [
     ],
     'menu' => [
         'call' => menu(...),
+        'cfg' => [
+            'id' => null,
+        ],
     ],
     'meta' => [
         'call' => meta(...),
         'tpl' => 'meta.phtml',
-    ],
-    'nav' => [
-        'call' => nav(...),
-        'cfg' => [
-            'data' => [],
-        ],
     ],
     'pager' => [
         'call' => pager(...),
@@ -107,9 +104,6 @@ return [
         'cfg' => [
             'text' => null,
         ],
-    ],
-    'toolbar' => [
-        'call' => toolbar(...),
     ],
     'tpl' => [
         'call' => tpl(...),

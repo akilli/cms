@@ -84,13 +84,7 @@ define('APP', [
             'call' => null,
             'sort' => 0,
         ],
-        'privilege' => [
-            'id' => null,
-            'name' => null,
-            'auto' => false,
-            'use' => null,
-        ],
-        'toolbar' => [
+        'menu' => [
             'id' => null,
             'name' => null,
             'url' => null,
@@ -101,6 +95,12 @@ define('APP', [
             'path' => [],
             'privilege' => null,
             'active' => true,
+        ],
+        'privilege' => [
+            'id' => null,
+            'name' => null,
+            'auto' => false,
+            'use' => null,
         ],
     ],
     'crlf' => "\r\n",
@@ -255,11 +255,6 @@ define('APP', [
     'lang' => locale_get_primary_language(''),
     'locale' => ini_get('intl.default_locale'),
     'log' => 'php://stdout',
-    'nav' => [
-        'name' => null,
-        'url' => null,
-        'level' => 0,
-    ],
     'op' => [
         '=' => '=',
         '!=' => '!=',

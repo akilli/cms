@@ -36,10 +36,13 @@ return [
             'sort' => 300,
         ],
         'toolbar' => [
-            'type' => 'toolbar',
+            'type' => 'menu',
             'privilege' => '_user_',
             'parent_id' => 'body',
             'sort' => 100,
+            'cfg' => [
+                'id' => 'toolbar',
+            ],
         ],
         'main' => [
             'type' => 'container',

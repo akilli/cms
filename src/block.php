@@ -6,7 +6,6 @@ namespace block;
 use app;
 use arr;
 use attr;
-use DomainException;
 use entity;
 use html;
 use layout;
@@ -222,12 +221,65 @@ function login(array $block): string
 
 function menu(array $block): string
 {
-    $select = ['id', 'name', 'url', 'position', 'level'];
-    $order = ['position' => 'asc'];
-    $block['cfg'] = ['data' => entity\all('menu', select: $select, order: $order)];
-    $block['type'] = 'nav';
+    if ($block['cfg']['id']) {
+        $data = app\cfg('menu', $block['cfg']['id']);
+    } else {
+        $call = fn(array $item): array => arr\replace(APP['cfg']['menu'], $item);
+        $data = array_map($call, entity\all('menu', order: ['position' => 'asc']));
+    }
 
-    return layout\render(layout\block($block));
+    if (!$data) {
+        return '';
+    }
+
+    // Filters empty parent menu items and not allowed menu items
+    $empty = [];
+
+    foreach ($data as $id => $item) {
+        if (!$item['active'] || $item['privilege'] && !app\allowed($item['privilege'])) {
+            unset($data[$id]);
+        } elseif (!$item['url']) {
+            $empty[$id] = true;
+        } elseif ($item['parent_id']) {
+            unset($empty[$item['parent_id']]);
+        }
+    }
+
+    $data = array_diff_key($data, $empty);
+
+    // Renders menu
+    $lastId = array_key_last($data);
+    $current = current(arr\filter($data, 'url', app\data('request', 'url'))) ?? null;
+    $level = 0;
+    $html = '';
+
+    foreach ($data as $id => $item) {
+        $a = $item['url'] ? ['href' => $item['url']] : [];
+
+        if ($current) {
+            $a += $id === $current['id'] ? ['aria-current' => 'page'] : [];
+
+            if ($id !== $current['id'] && in_array($id, $current['path'])) {
+                $a['class'] = 'path';
+            }
+        }
+
+        if (($next = next($data)) && $id === $next['parent_id']) {
+            $a['class'] = (!empty($a['class']) ? $a['class'] . ' ' : '') . 'parent';
+        }
+
+        $class = !empty($a['class']) ? ' class="' . $a['class'] . '"' : '';
+        $html .= match ($item['level'] <=> $level) {
+            1 => '<ul><li' . $class . '>',
+            -1 => '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>',
+            default => '</li><li' . $class . '>',
+        };
+        $html .= html\element('a', $a, $item['name']);
+        $html .= $id === $lastId ? str_repeat('</li></ul>', $item['level']) : '';
+        $level = $item['level'];
+    }
+
+    return html\element('nav', ['id' => $block['id']], $html);
 }
 
 function meta(array $block): string
@@ -243,67 +295,6 @@ function meta(array $block): string
     };
 
     return app\tpl($block['tpl'], ['description' => str\enc($desc), 'title' => str\enc($title)]);
-}
-
-/**
- * @throws DomainException
- */
-function nav(array $block): string
-{
-    if (!$data = $block['cfg']['data']) {
-        return '';
-    }
-
-    $count = count($data);
-    $start = current($data)['level'] ?? 1;
-    $base = arr\replace(APP['nav'], ['level' => $start]);
-    $level = 0;
-    $i = 0;
-    $url = app\data('request', 'url');
-    $call = fn(array $it): bool => $it['url'] === $url;
-    $html = '';
-
-    foreach ($data as $item) {
-        !empty($item['name']) || throw new DomainException(app\i18n('Invalid data'));
-        $item = arr\replace($base, $item);
-        $item['level'] = $item['level'] - $start + 1;
-        $c = [];
-        $class = '';
-        $a = [];
-
-        if ($item['url']) {
-            $a = ['href' => $item['url']] + ($call($item) ? ['aria-current' => 'page'] : []);
-        }
-
-        if ($next = next($data)) {
-            $next = arr\replace($base, $next);
-            $next['level'] = $next['level'] - $start + 1;
-        }
-
-        if ($next && $item['level'] < $next['level']) {
-            if ($call($next)) {
-                $c[] = 'path';
-            }
-
-            $c[] = 'parent';
-        }
-
-        if ($c) {
-            $a['class'] = implode(' ', $c);
-            $class = ' class="' . $a['class'] . '"';
-        }
-
-        $html .= match ($item['level'] <=> $level) {
-            1 => '<ul><li' . $class . '>',
-            -1 => '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>',
-            default => '</li><li' . $class . '>',
-        };
-        $html .= html\element('a', $a, $item['name']);
-        $html .= ++$i === $count ? str_repeat('</li></ul>', $item['level']) : '';
-        $level = $item['level'];
-    }
-
-    return html\element('nav', ['id' => $block['id']], $html);
 }
 
 function pager(array $block): string
@@ -407,27 +398,6 @@ function title(array $block): string
     };
 
     return $text ? html\element('h1', [], str\enc($text)) : '';
-}
-
-function toolbar(array $block): string
-{
-    $data = app\cfg('toolbar');
-    $empty = [];
-
-    foreach ($data as $id => $item) {
-        if (!$item['active'] || $item['privilege'] && !app\allowed($item['privilege'])) {
-            unset($data[$id]);
-        } elseif (!$item['url']) {
-            $empty[$id] = true;
-        } elseif ($item['parent_id']) {
-            unset($empty[$item['parent_id']]);
-        }
-    }
-
-    $block['type'] = 'nav';
-    $block['cfg'] = ['data' => array_diff_key($data, $empty)];
-
-    return layout\render(layout\block($block));
 }
 
 function tpl(array $block): string

@@ -98,8 +98,8 @@ function load(string $id): array
             'frontend', 'opt', 'validator', 'viewer' => call($data, $ext),
             'i18n' => arr\extend($data, $ext),
             'layout' => layout($data, $ext),
+            'menu' => menu($data, $ext),
             'privilege' => privilege($data, $ext),
-            'toolbar' => toolbar($data, $ext),
             default => array_replace($data, $ext),
         };
     }
@@ -361,6 +361,48 @@ function layout(array $data, array $ext): array
 }
 
 /**
+ * Loads menu configuration
+ *
+ * @throws DomainException
+ */
+function menu(array $data, array $ext): array
+{
+    $data = arr\extend($data, $ext);
+
+    foreach ($data as $menuId => $menu) {
+        $menu = arr\order($menu, ['parent_id' => 'asc', 'sort' => 'asc', 'name' => 'asc']);
+        $parentId = null;
+        $sort = 0;
+
+        foreach ($menu as $id => $item) {
+            $item = arr\replace(APP['cfg']['menu'], $item, ['id' => $id]);
+
+            if (!$item['name'] || $item['parent_id'] && empty($menu[$item['parent_id']])) {
+                throw new DomainException(app\i18n('Invalid configuration'));
+            }
+
+            if ($item['url'] && preg_match('#^/([a-z][a-z_\.]*):([a-z]+)(?:|\:([^/\:\.]+))$#', $item['url'], $match)) {
+                $item['privilege'] = app\id($match[1], $match[2]);
+            }
+
+            $item['name'] = app\i18n($item['name']);
+            $sort = $parentId === $item['parent_id'] ? $sort : 0;
+            $item['sort'] = ++$sort;
+            $parentPosition = $item['parent_id'] ? $menu[$item['parent_id']]['position'] . '.' : '';
+            $item['position'] = sprintf('%s%03d', $parentPosition, $item['sort']);
+            $item['level'] = $item['parent_id'] ? $menu[$item['parent_id']]['level'] + 1 : 1;
+            $item['path'] = [...($item['parent_id'] ? $menu[$item['parent_id']]['path'] : []), $id];
+            $parentId = $item['parent_id'];
+            $menu[$id] = $item;
+        }
+
+        $data[$menuId] = arr\order($menu, ['position' => 'asc']);
+    }
+
+    return $data;
+}
+
+/**
  * Loads privilege configuration
  */
 function privilege(array $data, array $ext): array
@@ -390,40 +432,4 @@ function privilege(array $data, array $ext): array
     }
 
     return $data;
-}
-
-/**
- * Loads toolbar configuration
- *
- * @throws DomainException
- */
-function toolbar(array $data, array $ext): array
-{
-    $data = arr\order(arr\extend($data, $ext), ['parent_id' => 'asc', 'sort' => 'asc', 'name' => 'asc']);
-    $parentId = null;
-    $sort = 0;
-
-    foreach ($data as $id => $item) {
-        $item = arr\replace(APP['cfg']['toolbar'], $item, ['id' => $id]);
-
-        if (!$item['name'] || $item['parent_id'] && empty($data[$item['parent_id']])) {
-            throw new DomainException(app\i18n('Invalid configuration'));
-        }
-
-        if ($item['url'] && preg_match('#^/([a-z][a-z_\.]*):([a-z]+)(?:|\:([^/\:\.]+))$#', $item['url'], $match)) {
-            $item['privilege'] = app\id($match[1], $match[2]);
-        }
-
-        $item['name'] = app\i18n($item['name']);
-        $sort = $parentId === $item['parent_id'] ? $sort : 0;
-        $item['sort'] = ++$sort;
-        $parentPosition = $item['parent_id'] ? $data[$item['parent_id']]['position'] . '.' : '';
-        $item['position'] = sprintf('%s%03d', $parentPosition, $item['sort']);
-        $item['level'] = $item['parent_id'] ? $data[$item['parent_id']]['level'] + 1 : 1;
-        $item['path'] = [...($item['parent_id'] ? $data[$item['parent_id']]['path'] : []), $id];
-        $parentId = $item['parent_id'];
-        $data[$id] = $item;
-    }
-
-    return arr\order($data, ['position' => 'asc']);
 }
