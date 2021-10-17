@@ -264,7 +264,7 @@ function nav(array $block): string
     $html = '';
 
     foreach ($data as $item) {
-        !empty(empty($item['name'])) || throw new DomainException(app\i18n('Invalid data'));
+        !empty($item['name']) || throw new DomainException(app\i18n('Invalid data'));
         $item = arr\replace($base, $item);
         $item['level'] = $item['level'] - $start + 1;
         $c = [];
