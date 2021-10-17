@@ -411,6 +411,8 @@ function menu(array $data, array $ext): array
 
 /**
  * Loads privilege configuration
+ *
+ * @throws DomainException
  */
 function privilege(array $data, array $ext): array
 {
@@ -435,7 +437,13 @@ function privilege(array $data, array $ext): array
     $data = arr\extend($generated, $data);
 
     foreach ($data as $id => $item) {
-        $data[$id] = arr\replace(APP['cfg']['privilege'], $item, ['id' => $id]);
+        $item = arr\replace(APP['cfg']['privilege'], $item, ['id' => $id]);
+
+        if ($item['use'] && empty($data[$item['use']])) {
+            throw new DomainException(app\i18n('Invalid configuration'));
+        }
+
+        $data[$id] = $item;
     }
 
     return $data;
