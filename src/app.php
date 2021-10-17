@@ -109,13 +109,18 @@ function event(array $keys, array $data): array
  */
 function allowed(string $id): bool
 {
-    if (!($privilege = cfg('privilege', $id)) || !($ids = data('account', 'privilege'))) {
-        return false;
-    }
+    $call = function(string $key) use (&$call): ?string {
+        if (!$privilege = cfg('privilege', $key)) {
+            return null;
+        }
 
-    return in_array('_all_', $ids)
-        || $privilege['use'] && allowed($privilege['use'])
-        || !$privilege['use'] && in_array($id, $ids);
+        return $privilege['use'] ? $call($privilege['use']) : $key;
+    };
+
+    return ($id = $call($id))
+        && ($ids = data('account', 'privilege'))
+        && array_intersect(['_all_', $id], $ids)
+        && (!in_array($id, ['_guest_', '_user_']) || in_array($id, $ids));
 }
 
 /**
