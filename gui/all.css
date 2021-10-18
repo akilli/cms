@@ -663,8 +663,6 @@ nav a[aria-current] {
 
     .table > .thead {
         display: table-row;
-        margin: 0;
-        padding: 0.75rem 0;
         font-weight: bold;
     }
 
