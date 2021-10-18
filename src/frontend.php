@@ -144,7 +144,7 @@ function json(?array $val, array $attr): string
 
 function password(?string $val, array $attr): string
 {
-    return html\element('input', ['type' => 'password', 'value' => $attr['viewer'] ? $val : false] + $attr['html']);
+    return html\element('input', ['type' => 'password', 'value' => false] + $attr['html']);
 }
 
 function radio(mixed $val, array $attr): string
