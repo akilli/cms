@@ -216,7 +216,6 @@ main a:not([role=button]):not([data-action]):hover {
 }
 
 .block-index article h3 {
-    margin: 0;
     font-size: inherit;
 }
 
