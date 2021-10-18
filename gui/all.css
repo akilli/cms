@@ -54,12 +54,13 @@ body > * {
 }
 
 :is(details, h1, h2, h3, p, ol, ul, figure, table):not(:first-child),
-:is(main, article, aside, form, fieldset, .block-index, .block-index > .content) > :not(:first-child) {
+:is(main, article, aside, form, fieldset, .block-index, .block-index > .content, .table) > :not(:first-child) {
     margin-top: 1.5rem;
 }
 
 :is(nav ul, table p, .msg p):not(:first-child),
-:is(.table, .table > *, .block-index > .table) > :not(:first-child),
+:is(.table, .block-index > .table) > * > :not(:first-child),
+.table > :not(.thead):first-of-type,
 details + details {
     margin-top: 0;
 }
@@ -207,10 +208,6 @@ main a:not([role=button]):not([data-action]):hover {
 /**
  * Index
  */
-.block-index article {
-    padding: 0.75rem 0;
-}
-
 .block-index article label {
     font-weight: bold;
 }
