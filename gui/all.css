@@ -550,12 +550,12 @@ nav a[aria-current] {
 /**
  * Clear
  */
-:is([class^='block-'], [data-type=editor])::before {
+[data-type=editor]::before {
     display: table;
     content: ' ';
 }
 
-:is([class^='block-'], [data-type=editor])::after {
+[data-type=editor]::after {
     display: table;
     content: ' ';
     clear: both;
