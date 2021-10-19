@@ -140,7 +140,7 @@ function viewer(array $data, array $attr, bool $wrap = false, bool $preserve = f
         return html\element('time', $a + ($val !== $html ? ['datetime' => $val] : []), $html);
     }
 
-    if (in_array($attr['id'], ['name', 'title'])) {
+    if ($attr['id'] === 'name') {
         return html\element($subheading ? 'h3' : 'h2', $a, $html);
     }
 
