@@ -32,7 +32,7 @@ function data_account(): array
 
 function data_app(array $data): array
 {
-    $url = app\data('request', 'url');
+    $url = $data['url'] ?: app\data('request', 'url');
 
     if ($jsonUrl = strstr($url, '.json', true)) {
         $data['type'] = 'json';

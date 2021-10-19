@@ -108,6 +108,7 @@ define('APP', [
     'data' => [
         'app' => [
             'id' => null,
+            'url' => null,
             'entity_id' => null,
             'action' => null,
             'item_id' => null,
