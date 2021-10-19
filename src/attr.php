@@ -130,25 +130,19 @@ function viewer(array $data, array $attr, bool $wrap = false, bool $preserve = f
         return $html;
     }
 
-    $a = ['data-attr' => $attr['id'], 'data-type' => $attr['type'], 'data-label' => $attr['name']];
+    $pattern = '#^<(audio|iframe|img|video)#';
+    $dt = ['date', 'datetime', 'time'];
 
-    if (preg_match('#^<(audio|iframe|img|video)#', $html, $match)) {
-        return html\element('figure', $a + (['class' => $match[1] === 'img' ? 'image' : $match[1]]), $html);
-    }
+    [$tag, $a] = match (true) {
+        !!preg_match($pattern, $html, $match) => ['figure', ['class' => $match[1] === 'img' ? 'image' : $match[1]]],
+        in_array($attr['backend'], $dt) => ['time', $val !== $html ? ['datetime' => $val] : []],
+        $attr['id'] === 'name' => [$subheading ? 'h3' : 'h2', []],
+        $attr['id'] === 'aside' => ['aside', []],
+        default => ['div', []],
+    };
+    $a += ['data-attr' => $attr['id'], 'data-type' => $attr['type'], 'data-label' => $attr['name']];
 
-    if (in_array($attr['type'], ['date', 'datetime', 'time'])) {
-        return html\element('time', $a + ($val !== $html ? ['datetime' => $val] : []), $html);
-    }
-
-    if ($attr['id'] === 'name') {
-        return html\element($subheading ? 'h3' : 'h2', $a, $html);
-    }
-
-    if ($attr['id'] === 'aside') {
-        return html\element('aside', $a, $html);
-    }
-
-    return html\element('div', $a, $html);
+    return html\element($tag, $a, $html);
 }
 
 /**
