@@ -106,11 +106,11 @@ function html(): string
     $app = app\data('app');
     $a = [
         'lang' => APP['lang'],
-        'data-parent' => $app['parent_id'],
+        'data-url' => app\data('request', 'url'),
         'data-entity' => $app['entity_id'],
         'data-action' => $app['action'],
         ...($app['item_id'] ? ['data-id' => $app['item_id']] : []),
-        'data-url' => app\data('request', 'url'),
+        ...($app['parent_id'] ? ['data-parent' => $app['parent_id']] : []),
     ];
 
     return "<!doctype html>\n" . html\element('html', $a, layout\render_id('head') . layout\render_id('body'));
