@@ -3,15 +3,32 @@ declare(strict_types=1);
 
 namespace arr;
 
+use app;
+use DomainException;
+
 /**
  * Filters a recordset-like multi-dimensional array by given column
  */
-function filter(array $data, string $col, mixed $val, bool $not = false): array
+function filter(array $data, string $key, mixed $val, string $op = APP['op']['=']): array
 {
     foreach ($data as $id => $item) {
-        $equal = array_key_exists($col, $item) && $item[$col] === $val;
+        $valid = array_key_exists($key, $item) && match ($op) {
+            APP['op']['='] => $item[$key] === $val,
+            APP['op']['!='] => $item[$key] !== $val,
+            APP['op']['>'] => $item[$key] > $val,
+            APP['op']['>='] => $item[$key] >= $val,
+            APP['op']['<'] => $item[$key] < $val,
+            APP['op']['<='] => $item[$key] <= $val,
+            APP['op']['~'] => str_contains((string)$item[$key], (string)$val),
+            APP['op']['!~'] => !str_contains((string)$item[$key], (string)$val),
+            APP['op']['^'] => str_starts_with((string)$item[$key], (string)$val),
+            APP['op']['!^'] => !str_starts_with((string)$item[$key], (string)$val),
+            APP['op']['$'] => str_ends_with((string)$item[$key], (string)$val),
+            APP['op']['!$'] => !str_ends_with((string)$item[$key], (string)$val),
+            default => throw new DomainException(app\i18n('Invalid operator')),
+        };
 
-        if ($equal && $not || !$equal && !$not) {
+        if (!$valid) {
             unset($data[$id]);
         }
     }
