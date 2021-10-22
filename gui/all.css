@@ -348,8 +348,6 @@ textarea {
 
 select {
     background: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
 }
 
@@ -360,8 +358,6 @@ input[type=radio] {
     margin: 0.125rem 0;
     padding: 0.5625rem 0;
     border: 0.0625rem solid var(--app-color-border);
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
 }
 
