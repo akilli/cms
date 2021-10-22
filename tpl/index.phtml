@@ -3,6 +3,8 @@ declare(strict_types=1);
 namespace app;
 use attr;
 /** @var callable $var */
+$attrs = $var('attr');
+$actions = $var('action');
 ?>
 <section class="block-index">
     <?php if ($var('title')): ?>
@@ -13,7 +15,7 @@ use attr;
     <div class="content<?php if ($var('table')): ?> table<?php endif; ?>">
         <?php if ($var('table')): ?>
         <div class="thead">
-            <?php foreach ($var('attr') as $attr): ?>
+            <?php foreach ($attrs as $attr): ?>
                 <?php
                 $qsort = ($attr['id'] === $var('sort') ? '-' : '') . $attr['id'];
                 $sorted = $var('sort') && $attr['id'] === ltrim($var('sort'), '-');
@@ -22,9 +24,11 @@ use attr;
             <a<?php if ($var('sortable')): ?>
                 href="<?php echo urlquery(['sort' => $qsort], true); ?>"<?php if ($sorted): ?>
                 data-sort="<?php echo $sort; ?>"<?php endif; ?><?php endif; ?>
+                data-attr="<?php echo $attr['id']; ?>"
+                data-type="<?php echo $attr['type']; ?>"
             ><?php echo $attr['name']; ?></a>
             <?php endforeach; ?>
-            <?php if ($var('action')): ?>
+            <?php if ($actions): ?>
             <a class="action"><?php echo i18n('Actions'); ?></a>
             <?php endif; ?>
         </div>
@@ -42,12 +46,12 @@ use attr;
             data-name="<?php echo $name; ?>"<?php if ($src): ?>
             data-src="<?php echo $src; ?>"<?php endif; ?>
         >
-            <?php foreach ($var('attr') as $attr): ?>
+            <?php foreach ($attrs as $attr): ?>
             <?php echo attr\viewer($data, $attr, wrap: true, preserve: true, subheading: true); ?>
             <?php endforeach; ?>
-            <?php if ($var('action')): ?>
+            <?php if ($actions): ?>
             <footer class="action">
-                <?php foreach ($var('action') as $action): ?>
+                <?php foreach ($actions as $action): ?>
                     <?php if (!allowed(id($entityId, $action))) continue; ?>
                     <?php
                     $label = i18n(ucwords($action));
