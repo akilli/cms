@@ -227,22 +227,6 @@ main a:not([role=button]):not([data-action]):hover {
 }
 
 /**
- * Index Browser
- */
-:root[data-browser] .block-index .action {
-    display: none;
-}
-
-:root[data-browser] .block-index article {
-    cursor: pointer;
-}
-
-:root[data-browser] .block-index article:hover {
-    color: var(--app-color-background);
-    background: var(--app-color-primary);
-}
-
-/**
  * Index Table
  */
 .table {
@@ -261,6 +245,22 @@ main a:not([role=button]):not([data-action]):hover {
 .table [data-label]::before {
     font-weight: bold;
     content: attr(data-label) ': ';
+}
+
+/**
+ * Index Browser
+ */
+:root[data-browser] .block-index .action {
+    display: none;
+}
+
+:root[data-browser] .block-index article {
+    cursor: pointer;
+}
+
+:root[data-browser] .block-index article:hover {
+    color: var(--app-color-background);
+    background: var(--app-color-primary);
 }
 
 /**
