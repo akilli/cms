@@ -5,15 +5,15 @@ use attr;
 /** @var callable $var */
 $attrs = $var('attr');
 $actions = $var('action');
-$table = $var('table');
 $sort = $var('sort');
+$table = $var('table');
+$title = $var('title');
 ?>
 <section class="block-index">
-    <?php if ($var('title')): ?>
-    <h2><?php echo $var('title'); ?></h2>
+    <?php if ($title): ?>
+    <h2><?php echo $title; ?></h2>
     <?php endif; ?>
     <?php echo $var('filter'); ?>
-    <?php if ($var('data')): ?>
     <div class="content<?php if ($table): ?> table<?php endif; ?>">
         <?php if ($table): ?>
         <div class="thead">
@@ -71,6 +71,5 @@ $sort = $var('sort');
         </article>
         <?php endforeach; ?>
     </div>
-    <?php endif; ?>
     <?php echo $var('pager'); ?>
 </section>

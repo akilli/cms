@@ -3,13 +3,14 @@ declare(strict_types=1);
 namespace app;
 use attr;
 /** @var callable $var */
+$data = $var('data');
 ?>
 <details class="filter">
     <summary><?php echo i18n('Filter'); ?></summary>
     <form>
         <fieldset>
             <?php foreach ($var('attr') as $attr): ?>
-            <?php echo attr\filter($var('data'), $attr); ?>
+            <?php echo attr\filter($data, $attr); ?>
             <?php endforeach; ?>
             <?php if ($var('searchable')): ?>
             <div data-attr="q" data-type="search">
