@@ -123,6 +123,15 @@ return [
             ],
         ],
     ],
+    'html:contentblock:index' => [
+        'main-content' => [
+            'cfg' => [
+                'attr_id' => ['name', 'created'],
+                'filter' => ['created'],
+                'search' => ['name'],
+            ],
+        ],
+    ],
     'html:edit' => [
         'main-content' => [
             'type' => 'edit',
