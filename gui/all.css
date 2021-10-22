@@ -53,8 +53,18 @@ body > * {
     padding: 0.75rem 0;
 }
 
+::selection {
+    color: var(--app-color-background);
+    background: var(--app-color-accent);
+}
+
+/**
+ * Margin
+ */
 :is(details, h1, h2, h3, p, ol, ul, figure, table):not(:first-child),
-:is(main, article, aside, form, fieldset, .block-index, .block-index > .content, .table) > :not(:first-child) {
+:is(main, article, aside, form, fieldset, figure.blockquote) > :not(:first-child),
+:is(.block-index, .block-index > .content, .table) > :not(:first-child),
+form akilli-editor {
     margin-top: 1.5rem;
 }
 
@@ -63,11 +73,6 @@ body > * {
 .table > :not(.thead):first-of-type,
 details + details {
     margin-top: 0;
-}
-
-::selection {
-    color: var(--app-color-background);
-    background: var(--app-color-accent);
 }
 
 /**
@@ -172,10 +177,6 @@ figure.blockquote::before,
     content: '\e806';
 }
 
-figure.blockquote figcaption {
-    margin-top: 1.5rem;
-}
-
 /**
  * Table
  */
@@ -244,6 +245,10 @@ main a:not([role=button]):not([data-action]):hover {
 /**
  * Index Table
  */
+.table {
+    font-size: 0.875rem;
+}
+
 .table > .thead {
     display: none;
 }
@@ -416,10 +421,6 @@ akilli-editor {
     margin-left: 2.625rem;
 }
 
-form akilli-editor {
-    margin-top: 1.5rem;
-}
-
 akilli-editor editor-root {
     min-height: 15rem;
 }
@@ -570,7 +571,7 @@ nav a[aria-current] {
  */
 @media screen {
     /**
-     * Actions
+     * Action
      */
     a[data-action] {
         display: inline-block;
@@ -649,18 +650,10 @@ nav a[aria-current] {
     /**
      * Index Table
      */
-    .table {
-        font-size: 0.875rem;
-    }
-
     .table > * {
         display: grid;
         grid-auto-flow: column;
         grid-auto-columns: 1fr;
-    }
-
-    .block-index > .table > :not(:first-child) {
-        margin-top: 0;
     }
 
     .table > .thead {
@@ -692,6 +685,10 @@ nav a[aria-current] {
 
     .table [data-label]::before {
         display: none;
+    }
+
+    .block-index > .table > :not(:first-child) {
+        margin-top: 0;
     }
 }
 
