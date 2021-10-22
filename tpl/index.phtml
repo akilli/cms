@@ -5,6 +5,8 @@ use attr;
 /** @var callable $var */
 $attrs = $var('attr');
 $actions = $var('action');
+$table = $var('table');
+$sort = $var('sort');
 ?>
 <section class="block-index">
     <?php if ($var('title')): ?>
@@ -12,18 +14,18 @@ $actions = $var('action');
     <?php endif; ?>
     <?php echo $var('filter'); ?>
     <?php if ($var('data')): ?>
-    <div class="content<?php if ($var('table')): ?> table<?php endif; ?>">
-        <?php if ($var('table')): ?>
+    <div class="content<?php if ($table): ?> table<?php endif; ?>">
+        <?php if ($table): ?>
         <div class="thead">
             <?php foreach ($attrs as $attr): ?>
                 <?php
-                $qsort = ($attr['id'] === $var('sort') ? '-' : '') . $attr['id'];
-                $sorted = $var('sort') && $attr['id'] === ltrim($var('sort'), '-');
-                $sort = $var('sort') && $var('sort')[0] === '-' ? 'desc' : 'asc';
+                $qsort = ($attr['id'] === $sort ? '-' : '') . $attr['id'];
+                $sorted = $sort && $attr['id'] === ltrim($sort, '-');
+                $dir = $sort && $sort[0] === '-' ? 'desc' : 'asc';
                 ?>
             <a<?php if ($var('sortable')): ?>
                 href="<?php echo urlquery(['sort' => $qsort], true); ?>"<?php if ($sorted): ?>
-                data-sort="<?php echo $sort; ?>"<?php endif; ?><?php endif; ?>
+                data-sort="<?php echo $dir; ?>"<?php endif; ?><?php endif; ?>
                 data-attr="<?php echo $attr['id']; ?>"
                 data-type="<?php echo $attr['type']; ?>"
             ><?php echo $attr['name']; ?></a>
