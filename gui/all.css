@@ -642,24 +642,25 @@ nav a[aria-current] {
      * Index Table
      */
     .table {
-        display: table;
-        width: 100%;
         font-size: 0.875rem;
-        empty-cells: show;
-        border-spacing: 0;
     }
 
     .table > * {
-        display: table-row;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+    }
+
+    .block-index > .table > :not(:first-child) {
+        margin-top: 0;
     }
 
     .table > .thead {
-        display: table-row;
+        display: grid;
         font-weight: bold;
     }
 
     .table > * > * {
-        display: table-cell;
         padding: 0.71875rem 0.375rem;
         vertical-align: middle;
         text-align: left;
