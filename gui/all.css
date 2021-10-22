@@ -244,7 +244,12 @@ main a:not([role=button]):not([data-action]):hover {
 
 .table [data-label]::before {
     font-weight: bold;
-    content: attr(data-label) ': ';
+    content: attr(data-label);
+}
+
+.table > :not(.thead) > :not(.action) {
+    display: grid;
+    grid-template-columns: 25fr 75fr;
 }
 
 /**
@@ -666,6 +671,10 @@ nav a[aria-current] {
         vertical-align: middle;
         text-align: left;
         border-bottom: 0.0625rem dotted;
+    }
+
+    .table > :not(.thead) > :not(.action) {
+        display: block;
     }
 
     .table > .thead > * {
