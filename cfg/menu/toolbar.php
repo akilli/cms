@@ -67,7 +67,7 @@ return [
         'sort' => 500,
     ],
     'menu' => [
-        'name' => 'Menus',
+        'name' => 'Menu',
         'url' => '/menu:index',
         'sort' => 600,
     ],

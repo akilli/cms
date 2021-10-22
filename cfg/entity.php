@@ -252,7 +252,7 @@ return [
         ],
     ],
     'menu' => [
-        'name' => 'Menus',
+        'name' => 'Menu',
         'action' => ['delete', 'edit', 'index'],
         'attr' => [
             'id' => [
@@ -271,7 +271,7 @@ return [
                 'nullable' => true,
             ],
             'parent_id' => [
-                'name' => 'Parent Menu Item',
+                'name' => 'Parent Item',
                 'type' => 'entity',
                 'ref' => 'menu',
                 'nullable' => true,
