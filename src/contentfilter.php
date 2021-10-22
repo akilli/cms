@@ -59,7 +59,7 @@ function block(string $html): string
         }
     }
 
-    return $html;
+    return preg_replace('#<app-block(?:[^>]*)>(?:[^<]*)</app-block>#s', '', $html);
 }
 
 /**
@@ -101,7 +101,7 @@ function entity(string $html): string
         }
     }
 
-    return $html;
+    return preg_replace('#<app-entity(?:[^>]*)>(?:[^<]*)</app-entity>#s', '', $html);
 }
 
 /**
@@ -129,7 +129,7 @@ function file(string $html): string
         $html = preg_replace(sprintf($pattern, '(file|' . $item['entity_id'] . ')', $id), $replace, $html);
     }
 
-    return $html;
+    return preg_replace('#<app-file(?:[^>]*)>(?:[^<]*)</app-file>#s', '', $html);
 }
 
 /**
