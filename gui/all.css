@@ -544,6 +544,14 @@ nav a[aria-current] {
 }
 
 /**
+ * Block Edit
+ */
+:root[data-parent=block][data-action=edit] editor-toolbar button[data-command=block] {
+    display: none;
+    pointer-events: none;
+}
+
+/**
  * Clear
  */
 [data-type=editor]::before {
