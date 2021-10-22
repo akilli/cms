@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace opt;
 
 return [
-    'block' => [
-        'call' => block(...),
-    ],
     'bool' => [
         'call' => bool(...),
+    ],
+    'container' => [
+        'call' => container(...),
     ],
     'entity' => [
         'call' => entity(...),

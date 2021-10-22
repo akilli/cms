@@ -8,7 +8,12 @@ use arr;
 use attr;
 use entity;
 
-function block(): array
+function bool(): array
+{
+    return [app\i18n('No'), app\i18n('Yes')];
+}
+
+function container(): array
 {
     if (($opt = &app\registry('opt')['block']) === null) {
         $cfg = app\cfg('layout')['html'];
@@ -18,11 +23,6 @@ function block(): array
     }
 
     return $opt;
-}
-
-function bool(): array
-{
-    return [app\i18n('No'), app\i18n('Yes')];
 }
 
 function entity(array $data, array $attr): array

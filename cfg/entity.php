@@ -234,9 +234,9 @@ return [
                 'required' => true,
             ],
             'parent_id' => [
-                'name' => 'Parent Block',
+                'name' => 'Container',
                 'type' => 'select',
-                'opt' => 'block',
+                'opt' => 'container',
                 'required' => true,
                 'max' => 100,
             ],
