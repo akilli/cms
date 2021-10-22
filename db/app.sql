@@ -351,7 +351,7 @@ CREATE FUNCTION public.entity_url_save() RETURNS trigger AS $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION public.entity_file_delete() RETURNS trigger AS $$
+CREATE FUNCTION public.entity_placeholder_delete() RETURNS trigger AS $$
     DECLARE
         _col text;
         _cols text[];
@@ -359,16 +359,18 @@ CREATE FUNCTION public.entity_file_delete() RETURNS trigger AS $$
         _set text;
         _table text;
         _pat text;
+        _tag text;
         _where text;
     BEGIN
-        IF (array_length(TG_ARGV, 1) < 3) THEN
-            RAISE EXCEPTION 'You must pass table schema, table name and at least one column as arguments';
+        IF (array_length(TG_ARGV, 1) < 4) THEN
+            RAISE EXCEPTION 'You must pass the tag, table schema, table name and at least one column as arguments';
         END IF;
 
-        _schema := TG_ARGV[0];
-        _table := TG_ARGV[1];
-        _cols := TG_ARGV[2:];
-        _pat := format('<app-file id="(file|%s)-%s">([^<]*)</app-file>', OLD.entity_id, OLD.id);
+        _tag := TG_ARGV[0];
+        _schema := TG_ARGV[1];
+        _table := TG_ARGV[2];
+        _cols := TG_ARGV[3:];
+        _pat := format('<%1$s id="%2$s-%3$s">([^<]*)</%1$s>', _tag, OLD.entity_id, OLD.id);
         _set := '';
         _where := '';
 
@@ -608,20 +610,20 @@ FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE
 --
 
 CREATE CONSTRAINT TRIGGER
-    file_delete_page
+    page_delete_placeholder_file
 AFTER DELETE ON
     public.file
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW EXECUTE PROCEDURE
-    public.entity_file_delete('public', 'page', 'content', 'aside');
+    public.entity_placeholder_delete('app-file', 'public', 'page', 'content', 'aside');
 
 CREATE CONSTRAINT TRIGGER
-    file_delete_block
+    block_delete_placeholder_file
 AFTER DELETE ON
     public.file
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW EXECUTE PROCEDURE
-    public.entity_file_delete('public', 'block', 'content');
+    public.entity_placeholder_delete('app-file', 'public', 'block', 'content');
 
 --
 -- Menu
@@ -706,6 +708,18 @@ AFTER UPDATE OF url ON
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE
     public.entity_url_save();
+
+--
+-- Block
+--
+
+CREATE CONSTRAINT TRIGGER
+    page_delete_placeholder_block
+AFTER DELETE ON
+    public.block
+DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE
+    public.entity_placeholder_delete('app-block', 'public', 'page', 'content', 'aside');
 
 --
 -- Layout
