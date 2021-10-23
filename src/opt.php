@@ -15,7 +15,7 @@ function bool(): array
 
 function container(): array
 {
-    if (($opt = &app\registry('opt')['block']) === null) {
+    if (($opt = &app\registry('opt')['container']) === null) {
         $cfg = app\cfg('layout')['html'];
         unset($cfg['head']);
         $ids = array_keys(arr\filter($cfg, 'type', 'container'));
