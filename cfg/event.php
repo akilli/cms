@@ -40,7 +40,7 @@ return [
         ],
         'app:entity_postvalidate_unique' => [
             'call' => entity_postvalidate_unique(...),
-            'sort' => 100,
+            'sort' => 10,
         ],
     ],
     'entity:postvalidate:id:menu' => [
