@@ -659,18 +659,19 @@ nav a[aria-current] {
         display: grid;
         grid-auto-flow: column;
         grid-auto-columns: 1fr;
+        border-bottom: 0.0625rem dotted;
     }
 
     .table > .thead {
         display: grid;
         font-weight: bold;
+        border-bottom: 0.0625rem solid;
     }
 
     .table > * > * {
         padding: 0.71875rem 0.375rem;
         vertical-align: middle;
         text-align: left;
-        border-bottom: 0.0625rem dotted;
     }
 
     .table > :not(.thead) > :not(.action) {
@@ -679,7 +680,6 @@ nav a[aria-current] {
 
     .table > .thead > * {
         color: inherit;
-        border-bottom: 0.0625rem solid;
     }
 
     .table > .thead > a[data-sort=asc]::after {
