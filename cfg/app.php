@@ -6,4 +6,5 @@ return [
     'datetime' => 'dd.MM.yyyy, HH:mm',
     'time' => 'HH:mm',
     'title' => 'akıllı CMS',
+    'weekday' => 'eeeeee',
 ];
