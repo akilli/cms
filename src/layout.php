@@ -49,14 +49,10 @@ function render_children(string $id): string
 
 /**
  * Renders block entity with given ID and optionally sets data to avoid redundant DB calls.
- *
- * @note The block type is equal to the entity type ($entityId) if such a type is defined, otherwise "block".
  */
 function render_entity(string $entityId, int $id, array $data = []): string
 {
-    $type = app\cfg('block', $entityId) ? $entityId : 'block';
-
-    return render(block(['type' => $type, 'cfg' => ['data' => $data, 'entity_id' => $entityId, 'id' => $id]]));
+    return render(block(['type' => 'block', 'cfg' => ['data' => $data, 'entity_id' => $entityId, 'id' => $id]]));
 }
 
 /**
