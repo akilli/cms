@@ -27,9 +27,9 @@ function breadcrumb(array $block): string
         return '';
     }
 
-    $menuId = $block['cfg']['id'];
+    $id = $block['cfg']['id'];
     $call = fn(array $item): array => arr\replace(APP['cfg']['menu'], $item);
-    $data = $menuId ? app\cfg('menu', $menuId) : array_map($call, entity\all('menu', order: ['position' => 'asc']));
+    $data = $id ? app\cfg('menu', $id) : array_map($call, entity\all('menu', order: ['position' => 'asc']));
 
     if (!($data = menu\filter($data)) || !$cur = current(arr\filter($data, 'url', $url))) {
         return '';
@@ -38,13 +38,13 @@ function breadcrumb(array $block): string
     $home = entity\one('page', crit: [['url', '/']], select: ['name', 'url']);
     $html = html\element('a', ['href' => $home['url']], $home['name']);
 
-    foreach ($cur['path'] as $id) {
+    foreach ($cur['path'] as $pid) {
         $a = match (true) {
-            !$data[$id]['url'] => [],
-            $data[$id]['url'] === $url => ['href' => $data[$id]['url'], 'aria-current' => 'page'],
-            default => ['href' => $data[$id]['url']],
+            !$data[$pid]['url'] => [],
+            $data[$pid]['url'] === $url => ['href' => $data[$pid]['url'], 'aria-current' => 'page'],
+            default => ['href' => $data[$pid]['url']],
         };
-        $html .= ' ' . html\element('a', $a, $data[$id]['name']);
+        $html .= ' ' . html\element('a', $a, $data[$pid]['name']);
     }
 
     return html\element('nav', ['id' => $block['id'], 'aria-label' => 'breadcrumb'], $html);
