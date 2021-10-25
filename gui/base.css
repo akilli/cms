@@ -121,10 +121,7 @@ summary {
     cursor: pointer;
 }
 
-abbr[title],
-del[title],
-dfn[title],
-ins[title] {
+:is(abbr, del, dfn, ins)[title] {
     cursor: help;
 }
 
@@ -186,9 +183,8 @@ ins {
     text-decoration: underline;
 }
 
-abbr[title],
-dfn[title] {
-    border-bottom: thin dotted;
+:is(abbr, dfn)[title] {
+    text-decoration: underline dotted;
 }
 
 a {
