@@ -127,7 +127,7 @@ function data_request(array $data): array
     $https = ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https' || ($_SERVER['HTTPS'] ?? null) === 'on';
     $data['proto'] = $https ? 'https' : 'http';
     $data['base'] = $data['proto'] . '://' . $data['host'];
-    $data['url'] = str\enc(strip_tags(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))));
+    $data['url'] = str\enc(strip_tags(urldecode(explode('?', $_SERVER['REQUEST_URI'])[0])));
     $data['id'] = $data['base'] . rtrim($data['url'], '/');
     $data['get'] = request\getfilter($_GET);
 
