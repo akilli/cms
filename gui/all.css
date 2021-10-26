@@ -448,7 +448,7 @@ akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
  * Header
  */
 #header .name {
-    display: block;
+    display: inline-block;
 }
 
 #header .name img {
