@@ -44,11 +44,37 @@ return [
                 'id' => 'toolbar',
             ],
         ],
+        'header' => [
+            'type' => 'tpl',
+            'tpl' => 'header.phtml',
+            'active' => false,
+            'parent_id' => 'body',
+            'sort' => 200,
+        ],
+        'menu' => [
+            'type' => 'menu',
+            'active' => false,
+            'parent_id' => 'body',
+            'sort' => 300,
+        ],
+        'breadcrumb' => [
+            'type' => 'breadcrumb',
+            'active' => false,
+            'parent_id' => 'body',
+            'sort' => 400,
+        ],
         'main' => [
             'type' => 'container',
             'tag' => 'main',
             'parent_id' => 'body',
-            'sort' => 200,
+            'sort' => 500,
+        ],
+        'footer' => [
+            'type' => 'tpl',
+            'tpl' => 'footer.phtml',
+            'active' => false,
+            'parent_id' => 'body',
+            'sort' => 600,
         ],
         'content' => [
             'type' => 'container',
@@ -190,20 +216,16 @@ return [
             ],
         ],
         'header' => [
-            'type' => 'tpl',
-            'tpl' => 'header.phtml',
-            'parent_id' => 'body',
-            'sort' => 130,
+            'active' => true,
         ],
         'menu' => [
-            'type' => 'menu',
-            'parent_id' => 'body',
-            'sort' => 160,
+            'active' => true,
         ],
         'breadcrumb' => [
-            'type' => 'breadcrumb',
-            'parent_id' => 'main',
-            'sort' => 50,
+            'active' => true,
+        ],
+        'footer' => [
+            'active' => true,
         ],
         'main-content' => [
             'type' => 'view',
