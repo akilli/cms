@@ -59,7 +59,21 @@ function container(array $block): string
     return $html;
 }
 
-function edit(array $block): string
+function filter(array $block): string
+{
+    if (!$block['cfg']['attr'] && !$block['cfg']['searchable']) {
+        return '';
+    }
+
+    return app\tpl($block['tpl'], [
+        'attr' => $block['cfg']['attr'],
+        'data' => $block['cfg']['data'],
+        'q' => $block['cfg']['q'],
+        'searchable' => $block['cfg']['searchable'],
+    ]);
+}
+
+function form(array $block): string
 {
     $app = app\data('app');
     $entity = $app['entity'];
@@ -74,7 +88,8 @@ function edit(array $block): string
         }
 
         if (entity\save($entity['id'], $data)) {
-            response\redirect(app\actionurl($entity['id'], $app['action'], $data['id']));
+            $id = $data['id'] ?? $app['item_id'] ?? null;
+            response\redirect(app\actionurl($entity['id'], 'edit', $id));
         }
     }
 
@@ -85,20 +100,6 @@ function edit(array $block): string
         $block['tpl'],
         ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]
     );
-}
-
-function filter(array $block): string
-{
-    if (!$block['cfg']['attr'] && !$block['cfg']['searchable']) {
-        return '';
-    }
-
-    return app\tpl($block['tpl'], [
-        'attr' => $block['cfg']['attr'],
-        'data' => $block['cfg']['data'],
-        'q' => $block['cfg']['q'],
-        'searchable' => $block['cfg']['searchable'],
-    ]);
 }
 
 function html(): string

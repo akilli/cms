@@ -1,0 +1,10 @@
+<?php
+declare(strict_types=1);
+namespace app;
+$entityId = data('app', 'entity_id');
+?>
+<?php if ($entityId && allowed(id($entityId, 'add'))): ?>
+<div class="block-add">
+    <a href="<?php echo actionurl($entityId, 'add'); ?>"><?php echo i18n('Add Item'); ?></a>
+</div>
+<?php endif; ?>

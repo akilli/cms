@@ -42,11 +42,11 @@ function data_app(array $data): array
     if (preg_match('#^/block:api:([a-z][a-z_\.]*)-(\d+)$#', $url, $match)) {
         $data['entity_id'] = 'block';
         $data['action'] = 'api';
-        $data['item_id'] = $match[2];
+        $data['item_id'] = (int)$match[2];
     } elseif (preg_match('#^/([a-z][a-z_\.]*):([a-z]+)(?:|\:([^/\:\.]+))$#', $url, $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
-        $data['item_id'] = $match[3] ?? null;
+        $data['item_id'] = !empty($match[3]) ? (int)$match[3] : null;
     } elseif ($item = entity\one('url', crit: [['name', $url]])) {
         $data['entity_id'] = $item['target_entity_id'];
         $data['action'] = 'view';
@@ -67,8 +67,8 @@ function data_app(array $data): array
         && $data['entity']
         && in_array($data['action'], $data['entity']['action'])
         && (!$data['item_id'] || $data['item'])
-        && (!in_array($data['action'], ['delete', 'view']) || $data['item_id'])
-        && ($data['action'] !== 'index' || !$data['item_id']);
+        && (!in_array($data['action'], ['delete', 'edit', 'view']) || $data['item_id'])
+        && (!in_array($data['action'], ['add', 'index']) || !$data['item_id']);
 
     if (!$data['valid']) {
         return $data;

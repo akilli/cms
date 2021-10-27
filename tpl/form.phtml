@@ -13,7 +13,7 @@ $data = $var('data');
         <?php endforeach; ?>
     </fieldset>
     <div class="action">
-        <?php if ($app['action'] === 'edit' && allowed(id($app['entity_id'], 'index'))): ?>
+        <?php if (in_array($app['action'], ['add', 'edit']) && allowed(id($app['entity_id'], 'index'))): ?>
         <a href="<?php echo actionurl($app['entity_id'], 'index'); ?>" role="button"><?php echo i18n('Back'); ?></a>
         <?php endif; ?>
         <input type="submit" value="<?php echo i18n('Submit'); ?>"/>

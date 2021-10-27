@@ -325,7 +325,7 @@ function layout(array $data, array $ext): array
         $parent = $entity['parent_id'] ? $entities[$entity['parent_id']] : null;
         $skippable = $parent && array_keys($entity['attr']) === array_keys($parent['attr']);
 
-        foreach (['edit', 'index', 'view'] as $action) {
+        foreach (['add', 'edit', 'index', 'view'] as $action) {
             $cfg = [];
             $id = app\id('html', $entity['id'], $action);
             $parentId = $skippable ? app\id('html', $parent['id'], $action) : null;
@@ -336,7 +336,7 @@ function layout(array $data, array $ext): array
             }
 
             foreach ($entity['attr'] as $attrId => $attr) {
-                if ($action === 'edit' && $attr['autoedit'] && !$attr['auto']) {
+                if (in_array($action, ['add', 'edit']) && $attr['autoedit'] && !$attr['auto']) {
                     $cfg['attr_id'][] = $attrId;
                 } elseif ($action === 'view' && $attr['autoview']) {
                     $cfg['attr_id'][] = $attrId;

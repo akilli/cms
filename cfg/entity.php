@@ -4,7 +4,7 @@ declare(strict_types=1);
 return [
     'account' => [
         'name' => 'Accounts',
-        'action' => ['delete', 'edit', 'index', 'login', 'logout', 'profile', 'view'],
+        'action' => ['add', 'delete', 'edit', 'index', 'login', 'logout', 'profile', 'view'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -80,7 +80,7 @@ return [
     'audio' => [
         'name' => 'Audios',
         'parent_id' => 'file',
-        'action' => ['delete', 'edit', 'index'],
+        'action' => ['add', 'delete', 'edit', 'index'],
         'attr' => [
             'name' => [
                 'type' => 'audio',
@@ -122,17 +122,17 @@ return [
     'contentblock' => [
         'name' => 'Content Blocks',
         'parent_id' => 'block',
-        'action' => ['delete', 'edit', 'index'],
+        'action' => ['add', 'delete', 'edit', 'index'],
     ],
     'contentpage' => [
         'name' => 'Content Pages',
         'parent_id' => 'page',
-        'action' => ['delete', 'edit', 'index', 'view'],
+        'action' => ['add', 'delete', 'edit', 'index', 'view'],
     ],
     'document' => [
         'name' => 'Documents',
         'parent_id' => 'file',
-        'action' => ['delete', 'edit', 'index'],
+        'action' => ['add', 'delete', 'edit', 'index'],
         'attr' => [
             'name' => [
                 'type' => 'document',
@@ -182,7 +182,7 @@ return [
     'iframe' => [
         'name' => 'Iframes',
         'parent_id' => 'file',
-        'action' => ['delete', 'edit', 'index'],
+        'action' => ['add', 'delete', 'edit', 'index'],
         'attr' => [
             'name' => [
                 'name' => 'URL',
@@ -193,7 +193,7 @@ return [
     'image' => [
         'name' => 'Images',
         'parent_id' => 'file',
-        'action' => ['delete', 'edit', 'index'],
+        'action' => ['add', 'delete', 'edit', 'index'],
         'attr' => [
             'name' => [
                 'type' => 'image',
@@ -202,7 +202,7 @@ return [
     ],
     'layout' => [
         'name' => 'Layout',
-        'action' => ['delete', 'edit', 'index'],
+        'action' => ['add', 'delete', 'edit', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -253,7 +253,7 @@ return [
     ],
     'menu' => [
         'name' => 'Menu',
-        'action' => ['delete', 'edit', 'index'],
+        'action' => ['add', 'delete', 'edit', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -360,7 +360,7 @@ return [
     ],
     'role' => [
         'name' => 'Roles',
-        'action' => ['delete', 'edit', 'index'],
+        'action' => ['add', 'delete', 'edit', 'index'],
         'attr' => [
             'id' => [
                 'name' => 'ID',
@@ -410,7 +410,7 @@ return [
     'video' => [
         'name' => 'Videos',
         'parent_id' => 'file',
-        'action' => ['delete', 'edit', 'index'],
+        'action' => ['add', 'delete', 'edit', 'index'],
         'attr' => [
             'name' => [
                 'type' => 'video',

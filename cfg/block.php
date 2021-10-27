@@ -26,13 +26,6 @@ return [
             'id' => false,
         ],
     ],
-    'edit' => [
-        'call' => edit(...),
-        'tpl' => 'form.phtml',
-        'cfg' => [
-            'attr_id' => [],
-        ],
-    ],
     'filter' => [
         'call' => filter(...),
         'tpl' => 'filter.phtml',
@@ -41,6 +34,13 @@ return [
             'data' => [],
             'q' => null,
             'searchable' => false,
+        ],
+    ],
+    'form' => [
+        'call' => form(...),
+        'tpl' => 'form.phtml',
+        'cfg' => [
+            'attr_id' => [],
         ],
     ],
     'html' => [

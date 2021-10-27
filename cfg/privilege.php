@@ -17,6 +17,9 @@ return [
         'name' => 'User',
         'auto' => true,
     ],
+    'account:add' => [
+        'use' => '_all_',
+    ],
     'account:delete' => [
         'use' => '_all_',
     ],
@@ -40,6 +43,9 @@ return [
     ],
     'block:api' => [
         'use' => 'block:index',
+    ],
+    'role:add' => [
+        'use' => '_all_',
     ],
     'role:delete' => [
         'use' => '_all_',

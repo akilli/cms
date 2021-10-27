@@ -540,23 +540,21 @@ nav a[aria-current] {
 /**
  * Role Edit
  */
-:root[data-entity=role][data-action=edit] [data-attr=privilege] {
+:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] {
     display: grid;
     grid-template-columns: 1.25rem auto;
-}
-
-:root[data-entity=role][data-action=edit] [data-attr=privilege] label[for=attr-privilege] {
-    grid-column: span 2;
-}
-
-:root[data-entity=role][data-action=edit] [data-attr=privilege] label[for=attr-privilege] ~ label {
     font-size: 0.875rem;
+}
+
+:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
+    grid-column: span 2;
+    font-size: 1rem;
 }
 
 /**
  * Block Edit
  */
-:root[data-parent=block][data-action=edit] editor-toolbar button[data-command=block] {
+:root[data-parent=block]:is([data-action=add], [data-action=edit]) editor-toolbar button[data-command=block] {
     display: none;
     pointer-events: none;
 }
@@ -818,9 +816,9 @@ nav a[aria-current] {
      */
     body > :not(#header):not(main),
     main > :not(#content),
+    .block-add,
     .block-index :is(.thead, article) > :is(::after, .action),
     .filter,
-    .new,
     .pager {
         display: none;
     }

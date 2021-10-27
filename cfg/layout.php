@@ -134,6 +134,13 @@ return [
             'sort' => 300,
         ],
     ],
+    'html:add' => [
+        'main-content' => [
+            'type' => 'form',
+            'parent_id' => 'content',
+            'sort' => 300,
+        ],
+    ],
     'html:account:profile' => [
         'title' => [
             'cfg' => [
@@ -160,15 +167,15 @@ return [
     ],
     'html:edit' => [
         'main-content' => [
-            'type' => 'edit',
+            'type' => 'form',
             'parent_id' => 'content',
             'sort' => 300,
         ],
     ],
     'html:index' => [
-        'new' => [
+        'add' => [
             'type' => 'tpl',
-            'tpl' => 'new.phtml',
+            'tpl' => 'add.phtml',
             'parent_id' => 'content',
             'sort' => 300,
         ],
