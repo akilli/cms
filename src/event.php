@@ -62,13 +62,12 @@ function data_app(array $data): array
     $data['id'] = app\id($data['entity_id'], $data['action'], ...($data['item_id'] ? [$data['item_id']] : []));
     $data['entity'] ??= app\cfg('entity', $data['entity_id']);
     $data['parent_id'] = $data['entity']['parent_id'] ?? null;
-    $data['item'] = $data['item_id'] ? entity\one($data['entity_id'], crit: [['id', $data['item_id']]]) : null;
+    $withId = in_array($data['action'], ['api', 'delete', 'edit', 'view']);
     $data['valid'] = app\allowed(app\id($data['entity_id'], $data['action']))
         && $data['entity']
         && in_array($data['action'], $data['entity']['action'])
-        && (!$data['item_id'] || $data['item'])
-        && (!in_array($data['action'], ['delete', 'edit', 'view']) || $data['item_id'])
-        && (!in_array($data['action'], ['add', 'index']) || !$data['item_id']);
+        && ($withId && $data['item_id'] || !$withId && !$data['item_id'])
+        && (!$data['item_id'] || ($data['item'] = entity\one($data['entity_id'], crit: [['id', $data['item_id']]])));
 
     if (!$data['valid']) {
         return $data;
