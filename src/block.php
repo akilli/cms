@@ -241,7 +241,7 @@ function menu(array $block): string
     $lastId = array_key_last($data);
     $cur = current(arr\filter($data, 'url', app\data('request', 'url'))) ?? null;
     $level = 0;
-    $html = '';
+    $html = layout\render_children($block['id']);
 
     foreach ($data as $id => $item) {
         $a = $item['url'] ? ['href' => $item['url']] : [];
