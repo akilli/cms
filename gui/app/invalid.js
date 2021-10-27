@@ -10,7 +10,7 @@ export default function () {
             input.addEventListener('change', call);
             input.addEventListener('input', call);
         });
-        form.querySelector('input[type=submit').addEventListener('click', () => {
+        form.querySelector('input[type=submit')?.addEventListener('click', () => {
             form.querySelectorAll('div[data-attr]').forEach(check);
         });
     }));
