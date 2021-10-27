@@ -239,33 +239,18 @@ function menu(array $block): string
     }
 
     $lastId = array_key_last($data);
-    $cur = current(arr\filter($data, 'url', app\data('request', 'url'))) ?? null;
+    $url = app\data('request', 'url');
     $level = 0;
     $html = layout\render_children($block['id']);
 
     foreach ($data as $id => $item) {
         $a = $item['url'] ? ['href' => $item['url']] : [];
-        $c = $item['children'] ? ['parent'] : [];
-        $class = '';
-
-        if ($cur) {
-            if ($id === $cur['id']) {
-                $a += ['aria-current' => 'page'];
-                $c[] = 'current';
-            } elseif (in_array($id, $cur['path'])) {
-                $c[] = 'path';
-            }
-        }
-
-        if ($c) {
-            $a['class'] = implode(' ', $c);
-            $class = ' class="' . $a['class'] . '"';
-        }
-
+        $a += $item['url'] === $url ? ['aria-current' => 'page'] : [];
+        $a += $item['children'] ? ['aria-haspopup' => 'true'] : [];
         $html .= match ($item['level'] <=> $level) {
-            1 => '<ul><li' . $class . '>',
-            -1 => '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li' . $class . '>',
-            default => '</li><li' . $class . '>',
+            1 => '<ul><li>',
+            -1 => '</li>' . str_repeat('</ul></li>', $level - $item['level']) . '<li>',
+            default => '</li><li>',
         };
         $html .= html\element('a', $a, $item['name']);
         $html .= $id === $lastId ? str_repeat('</li></ul>', $item['level']) : '';

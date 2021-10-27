@@ -12,6 +12,12 @@ export default function () {
                 menu.setAttribute('data-open', '');
                 menu.scrollIntoView(true);
             }
-        })
+        });
+        menu.querySelectorAll('a[aria-haspopup=true]').forEach(a => {
+            a.addEventListener('click', () => {
+                const val = a.getAttribute('aria-expanded') === 'true' ? 'false' : 'true';
+                a.setAttribute('aria-expanded', val);
+            });
+        });
     }));
 }
