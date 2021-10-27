@@ -47,7 +47,6 @@ return [
         'header' => [
             'type' => 'container',
             'tag' => 'header',
-            'active' => false,
             'parent_id' => 'body',
             'sort' => 200,
             'cfg' => [
@@ -75,7 +74,6 @@ return [
         'footer' => [
             'type' => 'container',
             'tag' => 'footer',
-            'active' => false,
             'parent_id' => 'body',
             'sort' => 600,
             'cfg' => [
@@ -85,6 +83,7 @@ return [
         'logo' => [
             'type' => 'tpl',
             'tpl' => 'logo.phtml',
+            'active' => false,
             'parent_id' => 'header',
             'sort' => 100,
         ],
@@ -234,16 +233,13 @@ return [
                 'sizes' => '100vw',
             ],
         ],
-        'header' => [
-            'active' => true,
-        ],
         'menu' => [
             'active' => true,
         ],
         'breadcrumb' => [
             'active' => true,
         ],
-        'footer' => [
+        'logo' => [
             'active' => true,
         ],
         'main-content' => [
