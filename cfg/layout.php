@@ -45,11 +45,14 @@ return [
             ],
         ],
         'header' => [
-            'type' => 'tpl',
-            'tpl' => 'header.phtml',
+            'type' => 'container',
+            'tag' => 'header',
             'active' => false,
             'parent_id' => 'body',
             'sort' => 200,
+            'cfg' => [
+                'id' => true,
+            ],
         ],
         'menu' => [
             'type' => 'menu',
@@ -70,11 +73,20 @@ return [
             'sort' => 500,
         ],
         'footer' => [
-            'type' => 'tpl',
-            'tpl' => 'footer.phtml',
+            'type' => 'container',
+            'tag' => 'footer',
             'active' => false,
             'parent_id' => 'body',
             'sort' => 600,
+            'cfg' => [
+                'id' => true,
+            ],
+        ],
+        'logo' => [
+            'type' => 'tpl',
+            'tpl' => 'logo.phtml',
+            'parent_id' => 'header',
+            'sort' => 100,
         ],
         'content' => [
             'type' => 'container',
