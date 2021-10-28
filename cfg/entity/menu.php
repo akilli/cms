@@ -32,7 +32,10 @@ return [
         ],
         'position' => [
             'name' => 'Position',
-            'type' => 'position',
+            'type' => 'text',
+            'viewer' => 'position',
+            'auto' => true,
+            'max' => 255,
         ],
         'level' => [
             'name' => 'Level',
