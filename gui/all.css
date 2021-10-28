@@ -662,6 +662,11 @@ nav a[aria-current] {
         margin-left: 0.375rem;
         content: '\e813';
     }
+
+    :is(#toolbar, #menu) a[aria-haspopup=true][aria-expanded=true]::after {
+        margin-left: 0.375rem;
+        content: '\e811';
+    }
 }
 
 /**
