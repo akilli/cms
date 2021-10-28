@@ -403,7 +403,7 @@ function response_json_delete(array $data): array
     return $data;
 }
 
-function response_json_edit(array $data): array
+function response_json_save(array $data): array
 {
     $app = app\data('app');
     $item = app\data('request', 'post');

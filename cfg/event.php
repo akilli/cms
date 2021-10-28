@@ -104,8 +104,8 @@ return [
         ],
     ],
     'response:json:create' => [
-        'app:response_json_edit' => [
-            'call' => response_json_edit(...),
+        'app:response_json_save' => [
+            'call' => response_json_save(...),
         ],
     ],
     'response:json:delete' => [
@@ -114,8 +114,8 @@ return [
         ],
     ],
     'response:json:edit' => [
-        'app:response_json_edit' => [
-            'call' => response_json_edit(...),
+        'app:response_json_save' => [
+            'call' => response_json_save(...),
         ],
     ],
     'response:json:index' => [
