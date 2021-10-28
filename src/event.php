@@ -116,7 +116,7 @@ function data_layout(array $data): array
         }
     }
 
-    return array_map(layout\block(...), $data);
+    return array_map(layout\init(...), $data);
 }
 
 function data_request(array $data): array

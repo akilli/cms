@@ -27,7 +27,7 @@ function add(array $block): string
 
 function block(array $block): string
 {
-    return layout\render(layout\block(['type' => 'view'] + $block));
+    return layout\render_init(['type' => 'view'] + $block);
 }
 
 function breadcrumb(array $block): string
@@ -184,7 +184,7 @@ function index(array $block): string
             }
         }
 
-        $filter = layout\render(layout\block([
+        $filter = layout\render_init([
             'type' => 'filter',
             'parent_id' => $block['id'],
             'cfg' => [
@@ -193,15 +193,15 @@ function index(array $block): string
                 'q' => $get['q'],
                 'searchable' => $block['cfg']['searchable'],
             ],
-        ]));
+        ]);
     }
 
     if ($block['cfg']['add']) {
-        $add = layout\render(layout\block([
+        $add = layout\render_init([
             'type' => 'add',
             'parent_id' => $block['id'],
             'cfg' => ['entity_id' => $entity['id']],
-        ]));
+        ]);
     }
 
     if ($block['cfg']['pager']) {
@@ -209,11 +209,11 @@ function index(array $block): string
         $total = $limit > 0 && ($p = (int)ceil($size / $limit)) ? $p : 1;
         $get['cur'] = min(max((int)$get['cur'], 1), $total);
         $offset = ($get['cur'] - 1) * $limit;
-        $pager = layout\render(layout\block([
+        $pager = layout\render_init([
             'type' => 'pager',
             'parent_id' => $block['id'],
             'cfg' => ['cur' => $get['cur'], 'limit' => $limit, 'size' => $size],
-        ]));
+        ]);
     }
 
     return app\tpl($block['tpl'], [

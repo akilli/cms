@@ -52,15 +52,23 @@ function render_children(string $id): string
  */
 function render_entity(string $entityId, int $id, array $data = []): string
 {
-    return render(block(['type' => 'block', 'cfg' => ['data' => $data, 'entity_id' => $entityId, 'id' => $id]]));
+    return render_init(['type' => 'block', 'cfg' => ['data' => $data, 'entity_id' => $entityId, 'id' => $id]]);
 }
 
 /**
- * Returns full block
+ * Initializes and renders block
+ */
+function render_init(array $block): string
+{
+    return render(init($block));
+}
+
+/**
+ * Initializes block
  *
  * @throws DomainException
  */
-function block(array $block): array
+function init(array $block): array
 {
     if (empty($block['type']) || !($type = app\cfg('block', $block['type']))) {
         throw new DomainException(app\i18n('Invalid block'));
