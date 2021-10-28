@@ -191,7 +191,9 @@ return [
             'cfg' => [
                 'action' => ['view', 'edit', 'delete'],
                 'add' => true,
+                'filterable' => true,
                 'pager' => true,
+                'searchable' => true,
                 'sortable' => true,
                 'table' => true,
             ],

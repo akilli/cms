@@ -318,45 +318,6 @@ function layout(array $data, array $ext): array
         }
     }
 
-    $entities = load('entity');
-
-    foreach ($entities as $entity) {
-        // Child entities are skippable unless they have custom attributes in order to use inherited config
-        $parent = $entity['parent_id'] ? $entities[$entity['parent_id']] : null;
-        $skippable = $parent && array_keys($entity['attr']) === array_keys($parent['attr']);
-
-        foreach (['add', 'edit', 'index', 'view'] as $action) {
-            $cfg = [];
-            $id = app\id('html', $entity['id'], $action);
-            $parentId = $skippable ? app\id('html', $parent['id'], $action) : null;
-
-            // Only generate layout for configured actions which have no layout configured or inherited
-            if (!in_array($action, $entity['action']) || !empty($data[$id]) || $parentId && !empty($data[$parentId])) {
-                continue;
-            }
-
-            foreach ($entity['attr'] as $attrId => $attr) {
-                if (in_array($action, ['add', 'edit']) && $attr['autoedit'] && !$attr['auto']) {
-                    $cfg['attr_id'][] = $attrId;
-                } elseif ($action === 'view' && $attr['autoview']) {
-                    $cfg['attr_id'][] = $attrId;
-                } elseif ($action === 'index' && $attr['autoindex'] && !$attr['nullable']) {
-                    $cfg['attr_id'][] = $attrId;
-
-                    if ($attr['autofilter']) {
-                        $cfg['filter'][] = $attrId;
-                    } elseif ($attr['autosearch']) {
-                        $cfg['search'][] = $attrId;
-                    }
-                }
-            }
-
-            if ($cfg) {
-                $data[$id]['main-content']['cfg'] = $cfg;
-            }
-        }
-    }
-
     return $data;
 }
 

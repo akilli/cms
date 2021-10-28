@@ -88,8 +88,10 @@ function form(array $block): string
 {
     $app = app\data('app');
     $entity = $app['entity'];
+    $crit = [['autoedit', true], ['auto', false]];
+    $call = fn(array $src, array $k): array => $k ? arr\extract($src, $k) : arr\all($src, $crit);
 
-    if (!$entity || !$app['action'] || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
+    if (!$entity || !($attrs = $call($entity['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
 
@@ -132,8 +134,13 @@ function index(array $block): string
 {
     $app = app\data('app');
     $entity = $block['cfg']['entity_id'] ? app\cfg('entity', $block['cfg']['entity_id']) : $app['entity'];
+    $call = fn(bool $flag, array $k, string $f): array => match (true) {
+        !$flag => [],
+        !!$k => arr\extract($entity['attr'], $k),
+        default => arr\all($entity['attr'], [[$f, true], ['nullable', false]]),
+    };
 
-    if (!$entity || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
+    if (!$entity || !($attrs = $call(true, $block['cfg']['attr_id'], 'autoindex'))) {
         return '';
     }
 
@@ -156,14 +163,14 @@ function index(array $block): string
         $sort = $get['sort'];
     }
 
-    if ($block['cfg']['filter'] || $block['cfg']['search']) {
-        $fa = $block['cfg']['filter'] ? arr\extract($entity['attr'], $block['cfg']['filter']) : [];
+    if ($block['cfg']['filterable'] || $block['cfg']['searchable']) {
+        $sa = array_keys($call($block['cfg']['searchable'], $block['cfg']['search'], 'autosearch'));
+        $fa = $call($block['cfg']['filterable'], $block['cfg']['filter'], 'autofilter');
         $get['filter'] = $get['filter'] && is_array($get['filter']) ? array_intersect_key($get['filter'], $fa) : [];
 
         foreach (array_keys($get['filter']) as $attrId) {
-            $attr = $fa[$attrId];
-            $op = match ($attr['backend']) {
-                'json', 'text', 'varchar' => $attr['opt'] ? APP['op']['='] : APP['op']['~'],
+            $op = match ($fa[$attrId]['backend']) {
+                'json', 'text', 'varchar' => $fa[$attrId]['opt'] ? APP['op']['='] : APP['op']['~'],
                 'multiint', 'multitext' => APP['op']['~'],
                 'datetime' => $get['filter'][$attrId] ? APP['op']['^'] : APP['op']['='],
                 default => APP['op']['='],
@@ -171,10 +178,9 @@ function index(array $block): string
             $crit[] = [$attrId, $get['filter'][$attrId], $op];
         }
 
-        if ($block['cfg']['search'] && $get['q'] && ($q = array_filter(explode(' ', (string)$get['q'])))) {
+        if ($sa && $get['q'] && ($q = array_filter(explode(' ', (string)$get['q'])))) {
             foreach ($q as $v) {
-                $call = fn(string $attrId): array => [$attrId, $v, APP['op']['~']];
-                $crit[] = array_map($call, $block['cfg']['search']);
+                $crit[] = array_map(fn(string $attrId): array => [$attrId, $v, APP['op']['~']], $sa);
             }
         }
 
@@ -185,7 +191,7 @@ function index(array $block): string
                 'attr' => $fa,
                 'data' => arr\replace(entity\item($entity['id']), $get['filter']),
                 'q' => $get['q'],
-                'searchable' => !!$block['cfg']['search'],
+                'searchable' => $block['cfg']['searchable'],
             ],
         ]));
     }
@@ -200,7 +206,7 @@ function index(array $block): string
 
     if ($block['cfg']['pager']) {
         $size = entity\size($entity['id'], crit: $crit);
-        $total = $limit > 0 && ($c = (int)ceil($size / $limit)) ? $c : 1;
+        $total = $limit > 0 && ($p = (int)ceil($size / $limit)) ? $p : 1;
         $get['cur'] = min(max((int)$get['cur'], 1), $total);
         $offset = ($get['cur'] - 1) * $limit;
         $pager = layout\render(layout\block([
@@ -406,10 +412,6 @@ function tpl(array $block): string
 
 function view(array $block): string
 {
-    if (!$block['cfg']['attr_id']) {
-        return '';
-    }
-
     $entityId = $block['cfg']['entity_id'];
     $id = $block['cfg']['id'];
     $data = match (true) {
@@ -419,8 +421,10 @@ function view(array $block): string
         default => null,
     };
     $entity = $data['_entity'] ?? null;
+    $crit = [['autoview', true], ['id', 'name', APP['op']['!=']], ['id', 'title', APP['op']['!=']]];
+    $call = fn(array $src, array $k): array => $k ? arr\extract($src, $k) : arr\all($src, $crit);
 
-    if (!$entity || !($attrs = arr\extract($entity['attr'], $block['cfg']['attr_id']))) {
+    if (!$entity || !($attrs = $call($entity['attr'], $block['cfg']['attr_id']))) {
         return '';
     }
 
