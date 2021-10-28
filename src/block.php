@@ -14,6 +14,17 @@ use response;
 use session;
 use str;
 
+function add(array $block): string
+{
+    if (!($entityId = $block['cfg']['entity_id']) || !app\allowed(app\id($entityId, 'add'))) {
+        return '';
+    }
+
+    $a = html\element('a', ['href' => app\actionurl($entityId, 'add')], app\i18n('Add Item'));
+
+    return html\element('div', ['class' => 'block-add'], $a);
+}
+
 function block(array $block): string
 {
     return layout\render(layout\block(['type' => 'view'] + $block));
@@ -130,6 +141,7 @@ function index(array $block): string
     $order = $block['cfg']['order'];
     $limit = $block['cfg']['limit'];
     $get = arr\replace(['cur' => null, 'filter' => [], 'q' => null, 'sort' => null], app\data('request', 'get'));
+    $add = null;
     $filter = null;
     $sort = null;
     $pager = null;
@@ -178,6 +190,10 @@ function index(array $block): string
         ]));
     }
 
+    if ($block['cfg']['add']) {
+        $add = layout\render(layout\block(['type' => 'add', 'cfg' => ['entity_id' => $entity['id']]]));
+    }
+
     if ($block['cfg']['pager']) {
         $size = entity\size($entity['id'], crit: $crit);
         $total = $limit > 0 && ($c = (int)ceil($size / $limit)) ? $c : 1;
@@ -192,6 +208,7 @@ function index(array $block): string
 
     return app\tpl($block['tpl'], [
         'action' => $block['cfg']['action'],
+        'add' => $add,
         'attr' => $attrs,
         'data' => entity\all($entity['id'], crit: $crit, order: $order, limit: $limit, offset: $offset),
         'filter' => $filter,

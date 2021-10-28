@@ -4,6 +4,12 @@ declare(strict_types=1);
 namespace block;
 
 return [
+    'add' => [
+        'call' => add(...),
+        'cfg' => [
+            'entity_id' => null,
+        ],
+    ],
     'block' => [
         'call' => block(...),
         'tag' => 'section',
@@ -51,6 +57,7 @@ return [
         'tpl' => 'index.phtml',
         'cfg' => [
             'action' => [],
+            'add' => false,
             'attr_id' => [],
             'crit' => [],
             'entity_id' => null,

@@ -184,18 +184,13 @@ return [
         ],
     ],
     'html:index' => [
-        'add' => [
-            'type' => 'tpl',
-            'tpl' => 'add.phtml',
-            'parent_id' => 'content',
-            'sort' => 300,
-        ],
         'main-content' => [
             'type' => 'index',
             'parent_id' => 'content',
-            'sort' => 400,
+            'sort' => 300,
             'cfg' => [
                 'action' => ['view', 'edit', 'delete'],
+                'add' => true,
                 'pager' => true,
                 'sortable' => true,
                 'table' => true,
