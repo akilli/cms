@@ -162,7 +162,7 @@ function radio(mixed $val, array $attr): string
     return $html;
 }
 
-function range(?int $val, array $attr): string
+function range(int|float|null $val, array $attr): string
 {
     return html\element('input', ['type' => 'range', 'value' => $val] + $attr['html']);
 }
