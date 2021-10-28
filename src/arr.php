@@ -7,7 +7,19 @@ use app;
 use DomainException;
 
 /**
- * Filters a recordset-like multi-dimensional array by given column
+ * Filters a recordset-like multi-dimensional array by given criteria
+ */
+function all(array $data, array $crit): array
+{
+    foreach ($crit as $args) {
+        $data = filter($data, ...$args);
+    }
+
+    return $data;
+}
+
+/**
+ * Filters a recordset-like multi-dimensional array by given column value
  */
 function filter(array $data, string $key, mixed $val, string $op = APP['op']['=']): array
 {
