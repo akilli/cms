@@ -138,7 +138,7 @@ function file(string $html): string
 function image(string $html, array $cfg = []): string
 {
     $pattern = sprintf(
-        '#(<img(?:[^>]*) src="%s/((?:.+)\.(?:%s))")((?:[^>]*)>)#',
+        '#(<img(?:[^>]*) src="%s/((?:[^"]+)\.(?:%s))")((?:[^>]*)>)#',
         APP['url']['asset'],
         implode('|', APP['image.ext'])
     );
