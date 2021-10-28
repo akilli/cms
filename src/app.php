@@ -82,13 +82,14 @@ function data(string $id, string $key = null): mixed
 function event(array $keys, array $data): array
 {
     unset($data['_stop']);
+    $cfg = cfg('event');
 
     foreach ($keys as $key) {
-        if (!$event = cfg('event', $key)) {
+        if (empty($cfg[$key])) {
             continue;
         }
 
-        foreach ($event as $item) {
+        foreach ($cfg[$key] as $item) {
             $data = $item['call']($data);
             $stop = $data['_stop'] ?? null;
             unset($data['_stop']);
