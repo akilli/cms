@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'backend' => 'int',
-    'frontend' => 'int',
+    'frontend' => 'number',
     'viewer' => 'raw',
     'autoedit' => true,
     'autoindex' => true,

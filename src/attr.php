@@ -223,6 +223,10 @@ function html(array $attr, string|int $key = null): array
         $html[$minmax[1]] = $attr['max'];
     }
 
+    if ($attr['step'] !== 0) {
+        $html['step'] = $attr['step'];
+    }
+
     if ($attr['autocomplete']) {
         $html['autocomplete'] = $attr['autocomplete'];
     }

@@ -19,9 +19,6 @@ return [
     'datetime' => [
         'call' => datetime(...),
     ],
-    'decimal' => [
-        'call' => decimal(...),
-    ],
     'editor' => [
         'call' => editor(...),
     ],
@@ -31,11 +28,11 @@ return [
     'file' => [
         'call' => file(...),
     ],
-    'int' => [
-        'call' => int(...),
-    ],
     'json' => [
         'call' => json(...),
+    ],
+    'number' => [
+        'call' => number(...),
     ],
     'password' => [
         'call' => password(...),

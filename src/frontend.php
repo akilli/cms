@@ -93,11 +93,6 @@ function datetime(?string $val, array $attr): string
     return html\element('input', ['type' => 'datetime-local', 'value' => $val] + $attr['html']);
 }
 
-function decimal(?float $val, array $attr): string
-{
-    return html\element('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '0.01']);
-}
-
 function editor(?string $val, array $attr): string
 {
     return textarea($val ? contentfilter\file($val) : $val, $attr);
@@ -132,14 +127,14 @@ function file(?string $val, array $attr): string
     return $html;
 }
 
-function int(?int $val, array $attr): string
-{
-    return html\element('input', ['type' => 'number', 'value' => $val] + $attr['html'] + ['step' => '1']);
-}
-
 function json(?array $val, array $attr): string
 {
     return textarea(json_encode((array)$val), $attr);
+}
+
+function number(?int $val, array $attr): string
+{
+    return html\element('input', ['type' => 'number', 'value' => $val] + $attr['html']);
 }
 
 function password(?string $val, array $attr): string
@@ -169,7 +164,7 @@ function radio(mixed $val, array $attr): string
 
 function range(?int $val, array $attr): string
 {
-    return html\element('input', ['type' => 'range', 'value' => $val] + $attr['html'] + ['step' => '1']);
+    return html\element('input', ['type' => 'range', 'value' => $val] + $attr['html']);
 }
 
 function select(mixed $val, array $attr): string

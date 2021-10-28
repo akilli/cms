@@ -51,6 +51,7 @@ define('APP', [
             'autoview' => false,
             'min' => 0,
             'max' => 0,
+            'step' => 0,
             'autocomplete' => null,
             'pattern' => null,
             'accept' => [],
