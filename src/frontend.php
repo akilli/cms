@@ -132,7 +132,7 @@ function json(?array $val, array $attr): string
     return textarea(json_encode((array)$val), $attr);
 }
 
-function number(?int $val, array $attr): string
+function number(int|float|null $val, array $attr): string
 {
     return html\element('input', ['type' => 'number', 'value' => $val] + $attr['html']);
 }
