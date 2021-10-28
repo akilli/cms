@@ -191,7 +191,11 @@ function index(array $block): string
     }
 
     if ($block['cfg']['add']) {
-        $add = layout\render(layout\block(['type' => 'add', 'cfg' => ['entity_id' => $entity['id']]]));
+        $add = layout\render(layout\block([
+            'type' => 'add',
+            'parent_id' => $block['id'],
+            'cfg' => ['entity_id' => $entity['id']],
+        ]));
     }
 
     if ($block['cfg']['pager']) {
