@@ -103,6 +103,11 @@ return [
             'call' => response_html_delete(...),
         ],
     ],
+    'response:json:create' => [
+        'app:response_json_edit' => [
+            'call' => response_json_edit(...),
+        ],
+    ],
     'response:json:delete' => [
         'app:response_json_delete' => [
             'call' => response_json_delete(...),
