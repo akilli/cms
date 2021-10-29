@@ -5,32 +5,32 @@ START TRANSACTION;
 -- ---------------------------------------------------------------------------------------------------------------------
 
 CREATE FUNCTION public.app_entity_id(_schema text, _table text) RETURNS text AS $$
-    BEGIN
-        IF (_schema = 'public') THEN
-            RETURN _table;
-        END IF;
+BEGIN
+    IF (_schema = 'public') THEN
+        RETURN _table;
+    END IF;
 
-        RETURN _schema || '.' || _table;
-    END;
+    RETURN _schema || '.' || _table;
+END;
 $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION public.app_is_entity_id(_schema text, _table text) RETURNS boolean AS $$
-    DECLARE
-        _is boolean;
-    BEGIN
-        SELECT
-            count(column_name) > 0
-        FROM
-            information_schema.columns
-        WHERE
-            table_schema = _schema
-            AND table_name = _table
-            AND column_name = 'entity_id'
-        INTO
-            _is;
+DECLARE
+    _is boolean;
+BEGIN
+    SELECT
+        count(column_name) > 0
+    FROM
+        information_schema.columns
+    WHERE
+        table_schema = _schema
+        AND table_name = _table
+        AND column_name = 'entity_id'
+    INTO
+        _is;
 
-        RETURN _is;
-    END;
+    RETURN _is;
+END;
 $$ LANGUAGE plpgsql;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -287,114 +287,114 @@ WITH LOCAL CHECK OPTION;
 --
 
 CREATE FUNCTION public.entity_url_delete() RETURNS trigger AS $$
-    DECLARE
-        _ent text;
-    BEGIN
-        IF (public.app_is_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME)) THEN
-            _ent := OLD.entity_id;
-        ELSE
-            _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
-        END IF;
+DECLARE
+    _ent text;
+BEGIN
+    IF (public.app_is_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME)) THEN
+        _ent := OLD.entity_id;
+    ELSE
+        _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
+    END IF;
 
-        DELETE FROM
-            public.url
-        WHERE
-            target_entity_id = _ent
-            AND target_id = OLD.id;
+    DELETE FROM
+        public.url
+    WHERE
+        target_entity_id = _ent
+        AND target_id = OLD.id;
 
-        RETURN OLD;
-    END;
+    RETURN OLD;
+END;
 $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION public.entity_url_save() RETURNS trigger AS $$
-    DECLARE
-        _cnt int := 0;
-        _ent text;
-    BEGIN
-        IF (public.app_is_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME)) THEN
-            _ent := NEW.entity_id;
-        ELSE
-            _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
-        END IF;
+DECLARE
+    _cnt int := 0;
+    _ent text;
+BEGIN
+    IF (public.app_is_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME)) THEN
+        _ent := NEW.entity_id;
+    ELSE
+        _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
+    END IF;
 
-        IF (TG_OP = 'UPDATE') THEN
-            SELECT
-                count(id)
-            FROM
-                public.url
-            WHERE
-                name = OLD.url
-                AND target_entity_id = _ent
-                AND target_id = OLD.id
-            INTO
-                _cnt;
-        END IF;
+    IF (TG_OP = 'UPDATE') THEN
+        SELECT
+            count(id)
+        FROM
+            public.url
+        WHERE
+            name = OLD.url
+            AND target_entity_id = _ent
+            AND target_id = OLD.id
+        INTO
+            _cnt;
+    END IF;
 
-        IF (TG_OP = 'INSERT' OR _cnt = 0) THEN
-            INSERT INTO
-                public.url
-                (name, target_entity_id, target_id)
-            VALUES
-                (NEW.url, _ent, NEW.id);
-        ELSE
-            UPDATE
-                public.url
-            SET
-                name = NEW.url
-            WHERE
-                name = OLD.url
-                AND target_entity_id = _ent
-                AND target_id = OLD.id;
-        END IF;
+    IF (TG_OP = 'INSERT' OR _cnt = 0) THEN
+        INSERT INTO
+            public.url
+            (name, target_entity_id, target_id)
+        VALUES
+            (NEW.url, _ent, NEW.id);
+    ELSE
+        UPDATE
+            public.url
+        SET
+            name = NEW.url
+        WHERE
+            name = OLD.url
+            AND target_entity_id = _ent
+            AND target_id = OLD.id;
+    END IF;
 
-        RETURN NEW;
-    END;
+    RETURN NEW;
+END;
 $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION public.entity_placeholder_delete() RETURNS trigger AS $$
-    DECLARE
-        _col text;
-        _cols text[];
-        _schema text;
-        _set text;
-        _table text;
-        _pat text;
-        _tag text;
-        _where text;
-    BEGIN
-        IF (array_length(TG_ARGV, 1) < 4) THEN
-            RAISE EXCEPTION 'You must pass the tag, table schema, table name and at least one column as arguments';
+DECLARE
+    _col text;
+    _cols text[];
+    _schema text;
+    _set text;
+    _table text;
+    _pat text;
+    _tag text;
+    _where text;
+BEGIN
+    IF (array_length(TG_ARGV, 1) < 4) THEN
+        RAISE EXCEPTION 'You must pass the tag, table schema, table name and at least one column as arguments';
+    END IF;
+
+    _tag := TG_ARGV[0];
+    _schema := TG_ARGV[1];
+    _table := TG_ARGV[2];
+    _cols := TG_ARGV[3:];
+    _pat := format('<%1$s id="%2$s-%3$s">([^<]*)</%1$s>', _tag, OLD.entity_id, OLD.id);
+    _set := '';
+    _where := '';
+
+    FOREACH _col IN ARRAY _cols LOOP
+        IF (_set != '') THEN
+            _set := _set || ', ';
+            _where := _where || ' OR ';
         END IF;
 
-        _tag := TG_ARGV[0];
-        _schema := TG_ARGV[1];
-        _table := TG_ARGV[2];
-        _cols := TG_ARGV[3:];
-        _pat := format('<%1$s id="%2$s-%3$s">([^<]*)</%1$s>', _tag, OLD.entity_id, OLD.id);
-        _set := '';
-        _where := '';
+        _set := _set || format(
+            '%1$I = regexp_replace(regexp_replace(%1$I, %2$L, %3$L, %4$L), %5$L, %3$L, %4$L)',
+            _col,
+            _pat,
+            '',
+            'g',
+            '<figure([^>]*)>\s*(<figcaption([^>]*)>([^<]*)</figcaption>)?\s*</figure>'
+        );
+        _where := _where || format('%I ~ %L', _col, _pat);
+    END LOOP;
 
-        FOREACH _col IN ARRAY _cols LOOP
-            IF (_set != '') THEN
-                _set := _set || ', ';
-                _where := _where || ' OR ';
-            END IF;
+    EXECUTE format('UPDATE %I.%I SET %s WHERE %s', _schema, _table, _set, _where);
 
-            _set := _set || format(
-                '%1$I = regexp_replace(regexp_replace(%1$I, %2$L, %3$L, %4$L), %5$L, %3$L, %4$L)',
-                _col,
-                _pat,
-                '',
-                'g',
-                '<figure([^>]*)>\s*(<figcaption([^>]*)>([^<]*)</figcaption>)?\s*</figure>'
-            );
-            _where := _where || format('%I ~ %L', _col, _pat);
-        END LOOP;
-
-        EXECUTE format('UPDATE %I.%I SET %s WHERE %s', _schema, _table, _set, _where);
-
-        RETURN OLD;
-    END;
+    RETURN OLD;
+END;
 $$ LANGUAGE plpgsql;
 
 --
@@ -402,143 +402,143 @@ $$ LANGUAGE plpgsql;
 --
 
 CREATE FUNCTION public.menu_before() RETURNS trigger AS $$
-    DECLARE
-        _cnt int;
-    BEGIN
-        -- Avoid recursion
-        IF (current_setting('app.menu', true) != '1') THEN
-            RETURN NEW;
-        END IF;
-
-        IF (TG_OP = 'UPDATE'
-            AND NEW.parent_id IS NOT NULL
-            AND (SELECT path @> ARRAY[OLD.id] FROM public.menu WHERE id = NEW.parent_id)
-        ) THEN
-            RAISE EXCEPTION 'Recursion error';
-        END IF;
-
-        SELECT
-            count(id) + 1
-        FROM
-            public.menu
-        WHERE
-            coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
-        INTO
-            _cnt;
-
-        IF (TG_OP = 'UPDATE' AND coalesce(NEW.parent_id, 0) = coalesce(OLD.parent_id, 0)) THEN
-            _cnt := _cnt - 1;
-        END IF;
-
-        IF (NEW.sort IS NULL OR NEW.sort <= 0 OR NEW.sort > _cnt) THEN
-            NEW.sort := _cnt;
-        END IF;
-
+DECLARE
+    _cnt int;
+BEGIN
+    -- Avoid recursion
+    IF (current_setting('app.menu', true) != '1') THEN
         RETURN NEW;
-    END;
+    END IF;
+
+    IF (TG_OP = 'UPDATE'
+        AND NEW.parent_id IS NOT NULL
+        AND (SELECT path @> ARRAY[OLD.id] FROM public.menu WHERE id = NEW.parent_id)
+    ) THEN
+        RAISE EXCEPTION 'Recursion error';
+    END IF;
+
+    SELECT
+        count(id) + 1
+    FROM
+        public.menu
+    WHERE
+        coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
+    INTO
+        _cnt;
+
+    IF (TG_OP = 'UPDATE' AND coalesce(NEW.parent_id, 0) = coalesce(OLD.parent_id, 0)) THEN
+        _cnt := _cnt - 1;
+    END IF;
+
+    IF (NEW.sort IS NULL OR NEW.sort <= 0 OR NEW.sort > _cnt) THEN
+        NEW.sort := _cnt;
+    END IF;
+
+    RETURN NEW;
+END;
 $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION public.menu_after() RETURNS trigger AS $$
-    DECLARE
-        _pad int := 5;
-    BEGIN
-        -- Avoid recursion
-        IF (current_setting('app.menu', true) != '1') THEN
-            RETURN null;
-        END IF;
-
-        -- Set session variable to handle recursion
-        PERFORM set_config('app.menu', '1', true);
-
-        -- Remove from old parent
-        IF (TG_OP = 'UPDATE' OR TG_OP = 'DELETE') THEN
-            UPDATE
-                public.menu
-            SET
-                sort = sort - 1
-            WHERE
-                id != OLD.id
-                AND coalesce(parent_id, 0) = coalesce(OLD.parent_id, 0)
-                AND sort > OLD.sort;
-        END IF;
-
-        -- Add to new parent
-        IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
-            UPDATE
-                public.menu
-            SET
-                sort = sort + 1
-            WHERE
-                id != NEW.id
-                AND coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
-                AND sort >= NEW.sort;
-        END IF;
-
-        -- Update positions
-        WITH RECURSIVE
-        s AS (
-            SELECT
-                m.id,
-                (
-                    SELECT
-                       count(id)
-                    FROM
-                       public.menu
-                    WHERE
-                       coalesce(parent_id, 0) = coalesce(m.parent_id, 0)
-                       AND (sort < m.sort OR sort = m.sort AND id < m.id)
-                ) + 1 AS sort
-            FROM
-                public.menu m
-        ),
-        t AS (
-            SELECT
-                m.id,
-                s.sort,
-                lpad(cast(s.sort AS text), _pad, '0') AS position,
-                1 AS level,
-                '{}'::int[] || m.id AS path
-            FROM
-                public.menu m
-            INNER JOIN
-                s
-                    ON s.id = m.id
-            WHERE
-                m.parent_id IS NULL
-            UNION
-            SELECT
-                m.id,
-                s.sort,
-                t.position || '.' || lpad(cast(s.sort AS text), _pad, '0') AS position,
-                t.level + 1 AS level,
-                t.path || m.id AS path
-            FROM
-                public.menu m
-            INNER JOIN
-                t
-                    ON t.id = m.parent_id
-            INNER JOIN
-                s
-                    ON s.id = m.id
-        )
-        UPDATE
-            public.menu m
-        SET
-            sort = t.sort,
-            position = t.position,
-            level = t.level,
-            path = t.path
-        FROM
-            t
-        WHERE
-            m.id = t.id
-            AND (m.sort != t.sort OR m.position != t.position OR m.level != t.level OR m.path != t.path);
-
-        -- Set session variable to handle recursion
-        PERFORM set_config('app.menu', '', true);
-
+DECLARE
+    _pad int := 5;
+BEGIN
+    -- Avoid recursion
+    IF (current_setting('app.menu', true) != '1') THEN
         RETURN null;
-    END;
+    END IF;
+
+    -- Set session variable to handle recursion
+    PERFORM set_config('app.menu', '1', true);
+
+    -- Remove from old parent
+    IF (TG_OP = 'UPDATE' OR TG_OP = 'DELETE') THEN
+        UPDATE
+            public.menu
+        SET
+            sort = sort - 1
+        WHERE
+            id != OLD.id
+            AND coalesce(parent_id, 0) = coalesce(OLD.parent_id, 0)
+            AND sort > OLD.sort;
+    END IF;
+
+    -- Add to new parent
+    IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
+        UPDATE
+            public.menu
+        SET
+            sort = sort + 1
+        WHERE
+            id != NEW.id
+            AND coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
+            AND sort >= NEW.sort;
+    END IF;
+
+    -- Update positions
+    WITH RECURSIVE
+    s AS (
+        SELECT
+            m.id,
+            (
+                SELECT
+                   count(id)
+                FROM
+                   public.menu
+                WHERE
+                   coalesce(parent_id, 0) = coalesce(m.parent_id, 0)
+                   AND (sort < m.sort OR sort = m.sort AND id < m.id)
+            ) + 1 AS sort
+        FROM
+            public.menu m
+    ),
+    t AS (
+        SELECT
+            m.id,
+            s.sort,
+            lpad(cast(s.sort AS text), _pad, '0') AS position,
+            1 AS level,
+            '{}'::int[] || m.id AS path
+        FROM
+            public.menu m
+        INNER JOIN
+            s
+                ON s.id = m.id
+        WHERE
+            m.parent_id IS NULL
+        UNION
+        SELECT
+            m.id,
+            s.sort,
+            t.position || '.' || lpad(cast(s.sort AS text), _pad, '0') AS position,
+            t.level + 1 AS level,
+            t.path || m.id AS path
+        FROM
+            public.menu m
+        INNER JOIN
+            t
+                ON t.id = m.parent_id
+        INNER JOIN
+            s
+                ON s.id = m.id
+    )
+    UPDATE
+        public.menu m
+    SET
+        sort = t.sort,
+        position = t.position,
+        level = t.level,
+        path = t.path
+    FROM
+        t
+    WHERE
+        m.id = t.id
+        AND (m.sort != t.sort OR m.position != t.position OR m.level != t.level OR m.path != t.path);
+
+    -- Set session variable to handle recursion
+    PERFORM set_config('app.menu', '', true);
+
+    RETURN null;
+END;
 $$ LANGUAGE plpgsql;
 
 --
@@ -546,19 +546,19 @@ $$ LANGUAGE plpgsql;
 --
 
 CREATE FUNCTION public.page_menu_delete() RETURNS trigger AS $$
-    BEGIN
-        DELETE FROM public.menu WHERE url = OLD.url;
+BEGIN
+    DELETE FROM public.menu WHERE url = OLD.url;
 
-        RETURN OLD;
-    END;
+    RETURN OLD;
+END;
 $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION public.page_menu_update() RETURNS trigger AS $$
-    BEGIN
-        UPDATE public.menu SET url = NEW.url WHERE url = OLD.url;
+BEGIN
+    UPDATE public.menu SET url = NEW.url WHERE url = OLD.url;
 
-        RETURN NEW;
-    END;
+    RETURN NEW;
+END;
 $$ LANGUAGE plpgsql;
 
 --
@@ -566,11 +566,11 @@ $$ LANGUAGE plpgsql;
 --
 
 CREATE FUNCTION public.layout_save() RETURNS trigger AS $$
-    BEGIN
-        NEW.block_entity_id := (SELECT entity_id FROM public.block WHERE id = NEW.block_id);
+BEGIN
+    NEW.block_entity_id := (SELECT entity_id FROM public.block WHERE id = NEW.block_id);
 
-        RETURN NEW;
-    END;
+    RETURN NEW;
+END;
 $$ LANGUAGE plpgsql;
 
 -- ---------------------------------------------------------------------------------------------------------------------
