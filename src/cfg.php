@@ -79,15 +79,8 @@ function load(string $id): array
         $cfg = [];
         $appPath = APP['path']['app.cfg'] . '/' . $id;
         $extPath = APP['path']['ext.cfg'] . '/' . $id;
-
-        if (is_dir($appPath) || !is_file($appPath . '.php') && is_dir($extPath)) {
-            $data = all($appPath);
-            $ext = all($extPath);
-        } else {
-            $data = one($appPath . '.php');
-            $ext = one($extPath . '.php');
-        }
-
+        $data = is_dir($appPath) ? all($appPath) : one($appPath . '.php');
+        $ext = is_dir($extPath) ? all($extPath) : one($extPath . '.php');
         $cfg = match ($id) {
             'api' => api($data, $ext),
             'attr', 'backend' => $data + $ext,
