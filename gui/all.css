@@ -453,12 +453,8 @@ akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
 /**
  * Header
  */
-#header .name {
-    display: inline-block;
-}
-
 #header .name img {
-    height: 6rem;
+    max-height: 6rem;
 }
 
 /**
@@ -778,7 +774,7 @@ nav a[aria-current] {
      * Header
      */
     #header .name img {
-        height: 10.5rem;
+        max-height: 10.5rem;
     }
 }
 
