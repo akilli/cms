@@ -43,7 +43,7 @@
  */
 body {
     line-height: 1.5rem;
-    padding: 0 0.75rem;
+    padding: 0 0.75rem 3rem;
     font-family: sans-serif;
     color: var(--app-color-primary);
     background: var(--app-color-background);
