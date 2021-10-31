@@ -3,18 +3,24 @@
  */
 :root {
     --app-color-accent: #93ddf9;
+    --app-color-accent-dark: #60abc6;
+    --app-color-accent-light: #c7ffff;
+    --app-color-accent-text: #000;
     --app-color-background: #fff;
     --app-color-border: #ddd;
     --app-color-error: #b22222;
     --app-color-highlight: #f2a900;
     --app-color-primary: #052a33;
-    --editor-block-background: var(--app-color-border);
-    --editor-block-color: var(--app-color-primary);
+    --app-color-primary-dark: #00000c;
+    --app-color-primary-light: #32535c;
+    --app-color-primary-text: #fff;
+    --editor-block-background: var(--app-color-primary-dark);
+    --editor-block-color: var(--app-color-primary-text);
     --editor-border: var(--app-color-border);
-    --editor-button-background: var(--app-color-primary);
-    --editor-button-color: var(--app-color-background);
-    --editor-cancel-background: var(--app-color-accent);
-    --editor-cancel-color: var(--app-color-border);
+    --editor-button-background: var(--app-color-accent);
+    --editor-button-color: var(--app-color-accent-text);
+    --editor-cancel-background: var(--app-color-accent-dark);
+    --editor-cancel-color: var(--app-color-accent-text);
     --editor-dialog-backdrop: #000000cc;
     --editor-dialog-background: var(--app-color-background);
     --editor-dialog-color: var(--app-color-primary);
@@ -54,7 +60,7 @@ body > * {
 }
 
 ::selection {
-    color: var(--app-color-background);
+    color: var(--app-color-accent-text);
     background: var(--app-color-accent);
 }
 
@@ -92,7 +98,7 @@ h3 {
 
 hr {
     height: 0.5rem;
-    background: var(--app-color-primary);
+    background: var(--app-color-primary-dark);
 }
 
 time {
@@ -101,8 +107,8 @@ time {
 
 pre {
     padding: 0.75rem;
-    color: var(--app-color-background);
-    background: var(--app-color-primary);
+    color: var(--app-color-primary-text);
+    background: var(--app-color-primary-dark);
 }
 
 ol,
@@ -122,7 +128,7 @@ mark {
 
 kbd {
     padding: 0.125rem 0.25rem;
-    color: var(--app-color-background);
+    color: var(--app-color-primary-text);
     background: var(--app-color-primary);
     border-radius: 0.125rem;
 }
@@ -264,8 +270,8 @@ main a:not([role=button]):not([data-action]):hover {
 }
 
 :root[data-browser] .block-index article:hover {
-    color: var(--app-color-background);
-    background: var(--app-color-primary);
+    color: var(--app-color-primary-text);
+    background: var(--app-color-primary-dark);
 }
 
 /**
@@ -290,7 +296,7 @@ main a:not([role=button]):not([data-action]):hover {
 .msg {
     margin: 0 -0.75rem;
     padding: 0.75rem;
-    color: var(--app-color-background);
+    color: var(--app-color-accent-text);
     background: var(--app-color-accent);
 }
 
@@ -337,15 +343,19 @@ button,
 input[type=button],
 input[type=submit] {
     padding: 0.75rem;
-    color: var(--app-color-background);
-    background: var(--app-color-primary);
+    color: var(--app-color-accent-text);
+    background: var(--app-color-accent);
+}
+
+form:invalid [type=submit] {
+    background: var(--app-color-accent-light);
 }
 
 a[role=button],
 input[type=reset] {
     padding: 0.75rem;
-    color: var(--app-color-background);
-    background: var(--app-color-accent);
+    color: var(--app-color-accent-text);
+    background: var(--app-color-accent-dark);
 }
 
 input[type=file] {
@@ -396,8 +406,7 @@ input:is([type=checkbox], [type=radio]) + label {
     margin: 0 0.5rem 0 0.25rem;
 }
 
-input:is([type=checkbox], [type=radio])[disabled] + label,
-form:invalid [type=submit] {
+input:is([type=checkbox], [type=radio])[disabled] + label {
     opacity: 0.2;
 }
 
@@ -468,12 +477,12 @@ nav a[aria-current] {
     margin: 0 -0.75rem;
     padding: 0.75rem;
     font-size: 0.875rem;
-    color: var(--app-color-background);
-    background: var(--app-color-primary);
+    color: var(--app-color-primary-text);
+    background: var(--app-color-primary-dark);
 }
 
 :is(#toolbar, #menu) li ul {
-    background: var(--app-color-primary);
+    background: var(--app-color-primary-dark);
 }
 
 :root[data-browser] #toolbar {
@@ -502,15 +511,14 @@ nav a[aria-current] {
  * Account Login
  */
 :root[data-entity=account][data-action=login] body {
-    color: var(--app-color-primary);
     background: url(cms.svg) no-repeat center;
     background-size: cover;
 }
 
 :root[data-entity=account][data-action=login] input {
     padding: 0.75rem;
-    color: var(--app-color-background);
-    background: var(--app-color-primary);
+    color: var(--app-color-primary-text);
+    background: var(--app-color-primary-dark);
     border: 0;
 }
 
