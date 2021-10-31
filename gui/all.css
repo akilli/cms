@@ -120,6 +120,11 @@ form:invalid [type=submit],
     background: var(--app-color-error);
 }
 
+mark {
+    color: inherit;
+    background: var(--app-color-highlight);
+}
+
 /**
  * Text
  */
@@ -158,7 +163,6 @@ nav ul {
 
 mark {
     padding: 0.125rem 0.25rem;
-    background: var(--app-color-highlight);
     border-radius: 0.125rem;
 }
 
