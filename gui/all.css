@@ -342,8 +342,9 @@ th {
 }
 
 .table :is(img, video) {
-    max-width: 9rem;
-    max-height: 6rem;
+    width: 6rem;
+    height: 6rem;
+    object-fit: contain;
 }
 
 .table [data-label]::before {
@@ -524,7 +525,7 @@ akilli-editor editor-toolbar {
  * Header
  */
 #header .name img {
-    max-height: 6rem;
+    max-height: 7.5rem;
 }
 
 /**
@@ -832,7 +833,7 @@ nav a[aria-current] {
      * Header
      */
     #header .name img {
-        max-height: 10.5rem;
+        max-height: 15rem;
     }
 }
 
