@@ -150,7 +150,7 @@ figure.blockquote::before,
 }
 
 /**
- * Text
+ * Font Size
  */
 h1 {
     font-size: 1.5rem;
@@ -164,6 +164,37 @@ h3 {
     font-size: 1.125rem;
 }
 
+figcaption,
+table,
+input[type=file],
+.filter form,
+.pager,
+.error,
+.file-current,
+.file-delete,
+#toolbar,
+#menu,
+#breadcrumb,
+:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] {
+    font-size: 0.875rem;
+}
+
+:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
+    font-size: 1rem;
+}
+
+figure.blockquote::before,
+:not(figure.blockquote) > blockquote::before {
+    font-size: 3rem;
+}
+
+.block-index article h3 {
+    font-size: inherit;
+}
+
+/**
+ * Text
+ */
 hr {
     height: 0.5rem;
 }
@@ -185,11 +216,7 @@ nav ul {
     padding-left: 0;
 }
 
-mark {
-    padding: 0.125rem 0.25rem;
-    border-radius: 0.125rem;
-}
-
+mark,
 kbd {
     padding: 0.125rem 0.25rem;
     border-radius: 0.125rem;
@@ -240,10 +267,6 @@ figure.right {
     margin-left: 0.75rem;
 }
 
-figcaption {
-    font-size: 0.875rem;
-}
-
 /**
  * Blockquote
  */
@@ -264,7 +287,6 @@ figure.blockquote::before,
     display: block;
     line-height: 3rem;
     font-family: cms;
-    font-size: 3rem;
     content: '\e806';
 }
 
@@ -273,7 +295,6 @@ figure.blockquote::before,
  */
 table {
     width: 100%;
-    font-size: 0.875rem;
 }
 
 td,
@@ -293,10 +314,6 @@ th {
     font-weight: bold;
 }
 
-.block-index article h3 {
-    font-size: inherit;
-}
-
 .block-index :is(audio, iframe, video) {
     pointer-events: none;
 }
@@ -309,10 +326,6 @@ th {
 /**
  * Index Table
  */
-.table {
-    font-size: 0.875rem;
-}
-
 .table > .thead {
     display: none;
 }
@@ -348,7 +361,6 @@ th {
  */
 .filter form {
     margin: 0.75rem 0 0.75rem 1rem;
-    font-size: 0.875rem;
 }
 
 /**
@@ -356,7 +368,6 @@ th {
  */
 .pager {
     padding: 0.75rem 0;
-    font-size: 0.875rem;
 }
 
 /**
@@ -411,10 +422,6 @@ input[type=submit] {
 a[role=button],
 input[type=reset] {
     padding: 0.75rem;
-}
-
-input[type=file] {
-    font-size: 0.875rem;
 }
 
 legend,
@@ -478,14 +485,8 @@ div[data-invalid] :invalid {
 
 .error {
     margin: 0;
-    font-size: 0.875rem;
     font-weight: bold;
     color: var(--app-color-error);
-}
-
-.file-current,
-.file-delete {
-    font-size: 0.875rem;
 }
 
 /**
@@ -525,7 +526,6 @@ nav a[aria-current] {
 :is(#toolbar, #menu) {
     margin: 0 -0.75rem;
     padding: 0.75rem;
-    font-size: 0.875rem;
 }
 
 :root[data-browser] #toolbar {
@@ -535,10 +535,6 @@ nav a[aria-current] {
 /**
  * Breadcrumb
  */
-#breadcrumb {
-    font-size: 0.875rem;
-}
-
 #breadcrumb a:hover {
     text-decoration: underline;
 }
@@ -587,12 +583,10 @@ nav a[aria-current] {
 :root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] {
     display: grid;
     grid-template-columns: 1.25rem auto;
-    font-size: 0.875rem;
 }
 
 :root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
     grid-column: span 2;
-    font-size: 1rem;
 }
 
 /**
@@ -622,17 +616,27 @@ nav a[aria-current] {
  */
 @media screen {
     /**
+     * Font Size
+     */
+    a[data-action] {
+        font-size: 0;
+    }
+
+    a[data-action]::before {
+        font-size: 1rem;
+    }
+
+    :is(#toolbar, #menu)::before {
+        font-size: 1.5rem;
+    }
+
+    /**
      * Action
      */
     a[data-action] {
         display: inline-block;
         line-height: 1;
         font-family: cms;
-        font-size: 0;
-    }
-
-    a[data-action]::before {
-        font-size: 1rem;
     }
 
     a:is([data-action=delete], [data-action=remove])::before {
@@ -686,12 +690,10 @@ nav a[aria-current] {
     }
 
     #menu::before {
-        font-size: 1.5rem;
         content: '\e807';
     }
 
     #toolbar::before {
-        font-size: 1.5rem;
         content: '\e808';
     }
 
@@ -828,6 +830,17 @@ nav a[aria-current] {
  */
 @media print {
     /**
+     * Font Size
+     */
+    summary {
+        font-size: 1.125rem;
+    }
+
+    #content a:not([role]):not([data-action]):not([href^='?'])::after {
+        font-size: 0.875rem;
+    }
+
+    /**
      * Global
      */
     body {
@@ -839,7 +852,6 @@ nav a[aria-current] {
      */
     summary {
         display: block;
-        font-size: 1.125rem;
     }
 
     /**
@@ -857,7 +869,6 @@ nav a[aria-current] {
      */
     #content a:not([role]):not([data-action]):not([href^='?'])::after {
         content: ' (' attr(href) ')';
-        font-size: 0.875rem;
         font-style: italic;
         text-transform: none;
     }
