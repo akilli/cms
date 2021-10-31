@@ -46,6 +46,13 @@
     src: url(font/cms.woff2) format('woff2');
 }
 
+@font-face {
+    font-family: titan;
+    font-weight: normal;
+    font-style: normal;
+    src: url('font/titan.woff2') format('woff2');
+}
+
 /**
  * Global
  */
@@ -547,6 +554,7 @@ akilli-editor editor-toolbar {
 #header h1 {
     line-height: 1;
     margin-top: 0;
+    font-family: titan;
     text-align: left;
 }
 
