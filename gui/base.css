@@ -38,7 +38,7 @@ details, dialog, menu, summary {
  */
 a[role=button],
 audio, canvas, embed, iframe, img, object, picture, video,
-th, thead td,
+thead :is(td, th),
 button, input, label, select, textarea {
     vertical-align: middle;
 }
@@ -51,7 +51,8 @@ sup {
     vertical-align: super;
 }
 
-td {
+td,
+th {
     vertical-align: top;
 }
 
