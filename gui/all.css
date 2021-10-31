@@ -82,6 +82,23 @@ details + details {
 }
 
 /**
+ * Accent
+ */
+button,
+input[type=button],
+input[type=submit],
+details[open],
+.msg {
+    color: var(--app-color-accent-text);
+    background: var(--app-color-accent);
+}
+
+:is(button, input[type=button], input[type=submit], details[open], .msg) ::selection {
+    color: var(--app-color-primary-text);
+    background: var(--app-color-primary-dark);
+}
+
+/**
  * Text
  */
 h1 {
@@ -131,6 +148,37 @@ kbd {
     color: var(--app-color-primary-text);
     background: var(--app-color-primary);
     border-radius: 0.125rem;
+}
+
+/**
+ * Link
+ */
+main a {
+    color: var(--app-color-accent);
+}
+
+main a:not([role=button]):not([data-action]):hover {
+    text-decoration: underline;
+}
+
+/**
+ * Details
+ */
+details {
+    padding: 0.6875rem 0.3125rem;
+    color: var(--app-color-primary-text);
+    background: var(--app-color-primary-dark);
+    border: 0.0625rem solid var(--app-color-primary-dark);
+}
+
+details[open] summary {
+    padding-bottom: 0.6875rem;
+    border-bottom: 0.0625rem solid var(--app-color-primary-dark);
+}
+
+details a {
+    color: inherit;
+    text-decoration: underline double;
 }
 
 /**
@@ -199,17 +247,6 @@ th {
 
 :is(thead, tbody:not(:last-child)) tr:last-child :is(td, th) {
     border-bottom-color: var(--app-color-primary);
-}
-
-/**
- * Main
- */
-main a {
-    color: var(--app-color-accent);
-}
-
-main a:not([role=button]):not([data-action]):hover {
-    text-decoration: underline;
 }
 
 /**
@@ -296,8 +333,6 @@ main a:not([role=button]):not([data-action]):hover {
 .msg {
     margin: 0 -0.75rem;
     padding: 0.75rem;
-    color: var(--app-color-accent-text);
-    background: var(--app-color-accent);
 }
 
 /**
@@ -343,8 +378,6 @@ button,
 input[type=button],
 input[type=submit] {
     padding: 0.75rem;
-    color: var(--app-color-accent-text);
-    background: var(--app-color-accent);
 }
 
 form:invalid [type=submit] {
