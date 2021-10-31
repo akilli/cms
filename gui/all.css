@@ -7,8 +7,9 @@
     --app-color-accent-light: #c7ffff;
     --app-color-accent-text: #000;
     --app-color-background: #fff;
-    --app-color-border: #ddd;
+    --app-color-border: #00000c;
     --app-color-error: #b22222;
+    --app-color-error-text: #fff;
     --app-color-highlight: #f2a900;
     --app-color-primary: #052a33;
     --app-color-primary-dark: #00000c;
@@ -17,10 +18,10 @@
     --editor-block-background: var(--app-color-primary-dark);
     --editor-block-color: var(--app-color-primary-text);
     --editor-border: var(--app-color-border);
-    --editor-button-background: var(--app-color-accent);
-    --editor-button-color: var(--app-color-accent-text);
-    --editor-cancel-background: var(--app-color-accent-dark);
-    --editor-cancel-color: var(--app-color-accent-text);
+    --editor-button-background: var(--app-color-primary-dark);
+    --editor-button-color: var(--app-color-primary-text);
+    --editor-cancel-background: var(--app-color-primary-light);
+    --editor-cancel-color: var(--app-color-primary-text);
     --editor-dialog-backdrop: #000000cc;
     --editor-dialog-background: var(--app-color-background);
     --editor-dialog-color: var(--app-color-primary);
@@ -51,17 +52,10 @@ body {
     line-height: 1.5rem;
     padding: 0 0.75rem 3rem;
     font-family: sans-serif;
-    color: var(--app-color-primary);
-    background: var(--app-color-background);
 }
 
 body > * {
     padding: 0.75rem 0;
-}
-
-::selection {
-    color: var(--app-color-accent-text);
-    background: var(--app-color-accent);
 }
 
 /**
@@ -82,20 +76,48 @@ details + details {
 }
 
 /**
- * Accent
+ * Color
  */
-button,
-input[type=button],
-input[type=submit],
+body {
+    color: var(--app-color-primary);
+    background: var(--app-color-background);
+}
+
+::selection,
 details[open],
 .msg {
     color: var(--app-color-accent-text);
     background: var(--app-color-accent);
 }
 
-:is(button, input[type=button], input[type=submit], details[open], .msg) ::selection {
+details,
+hr,
+pre,
+kbd,
+button,
+input[type=button],
+input[type=submit],
+input:is([type=checkbox], [type=radio]):checked,
+:is(details[open], .msg) ::selection,
+:is(#toolbar, #menu),
+:is(#toolbar, #menu) li ul,
+:root[data-entity=account][data-action=login] input,
+:root[data-browser] .block-index article:hover {
     color: var(--app-color-primary-text);
     background: var(--app-color-primary-dark);
+}
+
+a[role=button],
+input[type=reset] {
+    padding: 0.75rem;
+    color: var(--app-color-primary-text);
+    background: var(--app-color-primary-light);
+}
+
+form:invalid [type=submit],
+:root[data-entity=account][data-action=login] :is(.msg, div[data-invalid] :invalid) {
+    color: var(--app-color-error-text);
+    background: var(--app-color-error);
 }
 
 /**
@@ -115,7 +137,6 @@ h3 {
 
 hr {
     height: 0.5rem;
-    background: var(--app-color-primary-dark);
 }
 
 time {
@@ -124,8 +145,6 @@ time {
 
 pre {
     padding: 0.75rem;
-    color: var(--app-color-primary-text);
-    background: var(--app-color-primary-dark);
 }
 
 ol,
@@ -145,8 +164,6 @@ mark {
 
 kbd {
     padding: 0.125rem 0.25rem;
-    color: var(--app-color-primary-text);
-    background: var(--app-color-primary);
     border-radius: 0.125rem;
 }
 
@@ -166,8 +183,6 @@ main a:not([role=button]):not([data-action]):hover {
  */
 details {
     padding: 0.6875rem 0.3125rem;
-    color: var(--app-color-primary-text);
-    background: var(--app-color-primary-dark);
     border: 0.0625rem solid var(--app-color-primary-dark);
 }
 
@@ -176,7 +191,7 @@ details[open] summary {
     border-bottom: 0.0625rem solid var(--app-color-primary-dark);
 }
 
-details a {
+details a:not([role=button]) {
     color: inherit;
     text-decoration: underline double;
 }
@@ -306,11 +321,6 @@ th {
     cursor: pointer;
 }
 
-:root[data-browser] .block-index article:hover {
-    color: var(--app-color-primary-text);
-    background: var(--app-color-primary-dark);
-}
-
 /**
  * Filter
  */
@@ -380,15 +390,9 @@ input[type=submit] {
     padding: 0.75rem;
 }
 
-form:invalid [type=submit] {
-    background: var(--app-color-accent-light);
-}
-
 a[role=button],
 input[type=reset] {
     padding: 0.75rem;
-    color: var(--app-color-accent-text);
-    background: var(--app-color-accent-dark);
 }
 
 input[type=file] {
@@ -425,7 +429,6 @@ input[type=radio] {
 }
 
 input:is([type=checkbox], [type=radio]):checked {
-    background: var(--app-color-primary);
     border-color: var(--app-color-primary);
 }
 
@@ -510,12 +513,6 @@ nav a[aria-current] {
     margin: 0 -0.75rem;
     padding: 0.75rem;
     font-size: 0.875rem;
-    color: var(--app-color-primary-text);
-    background: var(--app-color-primary-dark);
-}
-
-:is(#toolbar, #menu) li ul {
-    background: var(--app-color-primary-dark);
 }
 
 :root[data-browser] #toolbar {
@@ -550,13 +547,7 @@ nav a[aria-current] {
 
 :root[data-entity=account][data-action=login] input {
     padding: 0.75rem;
-    color: var(--app-color-primary-text);
-    background: var(--app-color-primary-dark);
     border: 0;
-}
-
-:root[data-entity=account][data-action=login] :is(.msg, div[data-invalid] :invalid) {
-    background: var(--app-color-error);
 }
 
 :root[data-entity=account][data-action=login] .msg {
