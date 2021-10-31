@@ -6,6 +6,8 @@ return [
         'active' => false,
     ],
     'title' => [
+        'parent_id' => 'content',
+        'sort' => 100,
         'cfg' => [
             'text' => 'Login',
         ],

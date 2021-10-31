@@ -216,6 +216,10 @@ input[type=file] {
 /**
  * Text
  */
+h1 {
+    font-family: titan;
+}
+
 hr {
     height: 0.5rem;
 }
@@ -554,7 +558,6 @@ akilli-editor editor-toolbar {
 #header h1 {
     line-height: 1;
     margin-top: 0;
-    font-family: titan;
     text-align: left;
 }
 
@@ -597,7 +600,7 @@ nav a[aria-current] {
  * Account Login
  */
 :root[data-entity=account][data-action=login] body {
-    background: url(cms.svg) no-repeat center;
+    background: url(cms-dark.svg) no-repeat center;
     background-size: cover;
 }
 
