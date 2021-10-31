@@ -11,6 +11,7 @@
     --app-color-error: #b22222;
     --app-color-error-text: #fff;
     --app-color-highlight: #f2a900;
+    --app-color-placeholder: #00000c80;
     --app-color-primary: #052a33;
     --app-color-primary-dark: #00000c;
     --app-color-primary-light: #32535c;
@@ -125,6 +126,29 @@ mark {
     background: var(--app-color-highlight);
 }
 
+akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
+    color: inherit;
+    background: none;
+}
+
+::placeholder,
+akilli-editor :is(editor-root, editor-root [contenteditable=true]):empty:after {
+    color: var(--app-color-placeholder);
+}
+
+main a {
+    color: var(--app-color-accent);
+}
+
+details a:not([role=button]) {
+    color: inherit;
+}
+
+figure.blockquote::before,
+:not(figure.blockquote) > blockquote::before {
+    color: var(--app-color-accent);
+}
+
 /**
  * Text
  */
@@ -174,10 +198,6 @@ kbd {
 /**
  * Link
  */
-main a {
-    color: var(--app-color-accent);
-}
-
 main a:not([role=button]):not([data-action]):hover {
     text-decoration: underline;
 }
@@ -196,7 +216,6 @@ details[open] summary {
 }
 
 details a:not([role=button]) {
-    color: inherit;
     text-decoration: underline double;
 }
 
@@ -246,7 +265,6 @@ figure.blockquote::before,
     line-height: 3rem;
     font-family: cms;
     font-size: 3rem;
-    color: var(--app-color-accent);
     content: '\e806';
 }
 
@@ -352,10 +370,6 @@ th {
 /**
  * Form
  */
-::placeholder {
-    color: var(--app-color-border);
-}
-
 input[type=date],
 input[type=datetime-local],
 input[type=email],
@@ -492,11 +506,6 @@ form akilli-editor editor-root {
 
 akilli-editor editor-toolbar {
     top: 3rem;
-}
-
-akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
-    color: inherit;
-    background: none;
 }
 
 /**
