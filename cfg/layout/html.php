@@ -86,6 +86,11 @@ return [
         'parent_id' => 'header',
         'sort' => 100,
     ],
+    'title' => [
+        'type' => 'title',
+        'parent_id' => 'header',
+        'sort' => 200,
+    ],
     'content' => [
         'type' => 'container',
         'tag' => 'article',
@@ -103,11 +108,6 @@ return [
         'cfg' => [
             'id' => true,
         ],
-    ],
-    'title' => [
-        'type' => 'title',
-        'parent_id' => 'content',
-        'sort' => 100,
     ],
     'msg' => [
         'type' => 'tag',

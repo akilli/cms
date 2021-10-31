@@ -117,7 +117,6 @@ input:is([type=checkbox], [type=radio]):checked,
 
 a[role=button],
 input[type=reset] {
-    padding: 0.75rem;
     color: var(--app-color-primary-text);
     background: var(--app-color-primary-light);
 }
@@ -141,6 +140,10 @@ akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
 ::placeholder,
 akilli-editor :is(editor-root, editor-root [contenteditable=true]):empty:after {
     color: var(--app-color-placeholder);
+}
+
+h1 {
+    color: var(--app-color-primary-dark);
 }
 
 main a {
@@ -524,8 +527,31 @@ akilli-editor editor-toolbar {
 /**
  * Header
  */
-#header .name img {
-    max-height: 7.5rem;
+#header {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    column-gap: 1.5rem;
+    align-items: center;
+    text-align: center;
+}
+
+#header a.name {
+    justify-self: start;
+}
+
+#header a.name img {
+    height: 6rem;
+    object-fit: contain;
+}
+
+#header h1 {
+    line-height: 1;
+    margin-top: 0;
+    text-align: left;
+}
+
+#header a.name + h1 {
+    justify-self: end;
 }
 
 /**
@@ -783,6 +809,18 @@ nav a[aria-current] {
  */
 @media screen and (min-width: 55rem) {
     /**
+     * Header
+     */
+    #header a.name img {
+        height: 10.5rem;
+    }
+
+    #header h1 {
+        line-height: 6rem;
+        font-size: 4.5rem;
+    }
+
+    /**
      * Navigation
      */
     :is(#toolbar, #menu)::before {
@@ -827,13 +865,6 @@ nav a[aria-current] {
     .pager {
         display: flex;
         justify-content: space-between;
-    }
-
-    /**
-     * Header
-     */
-    #header .name img {
-        max-height: 15rem;
     }
 }
 
