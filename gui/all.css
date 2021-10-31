@@ -2,19 +2,19 @@
  * Variable
  */
 :root {
-    --app-color-accent: #93ddf9;
-    --app-color-accent-dark: #60abc6;
-    --app-color-accent-light: #c7ffff;
-    --app-color-accent-text: #000;
-    --app-color-background: #fff;
-    --app-color-border: #00000c;
+    --app-color-accent: #4166f5;
+    --app-color-accent-dark: #003cc1;
+    --app-color-accent-light: #8193ff;
+    --app-color-accent-text: #fff;
+    --app-color-background: #222;
+    --app-color-border: #000;
     --app-color-error: #b22222;
     --app-color-error-text: #fff;
     --app-color-highlight: #f2a900;
     --app-color-placeholder: #00000c80;
-    --app-color-primary: #052a33;
-    --app-color-primary-dark: #00000c;
-    --app-color-primary-light: #32535c;
+    --app-color-primary: #fff;
+    --app-color-primary-dark: #000;
+    --app-color-primary-light: #494949;
     --app-color-primary-text: #fff;
     --editor-block-background: var(--app-color-primary-dark);
     --editor-block-color: var(--app-color-primary-text);
@@ -23,7 +23,7 @@
     --editor-button-color: var(--app-color-primary-text);
     --editor-cancel-background: var(--app-color-primary-light);
     --editor-cancel-color: var(--app-color-primary-text);
-    --editor-dialog-backdrop: #000000cc;
+    --editor-dialog-backdrop: #ffffffcc;
     --editor-dialog-background: var(--app-color-background);
     --editor-dialog-color: var(--app-color-primary);
     --editor-error: var(--app-color-error);
@@ -57,6 +57,12 @@ body {
 
 body > * {
     padding: 0.75rem 0;
+}
+
+::file-selector-button {
+    height: 1.5rem;
+    padding: 0.25rem;
+    border: 0;
 }
 
 /**
@@ -99,6 +105,7 @@ button,
 input[type=button],
 input[type=submit],
 input:is([type=checkbox], [type=radio]):checked,
+::file-selector-button,
 :is(details[open], .msg) ::selection,
 :is(#toolbar, #menu),
 :is(#toolbar, #menu) li ul,
@@ -152,6 +159,11 @@ figure.blockquote::before,
 /**
  * Font Size
  */
+figure.blockquote::before,
+:not(figure.blockquote) > blockquote::before {
+    font-size: 3rem;
+}
+
 h1 {
     font-size: 1.5rem;
 }
@@ -164,9 +176,12 @@ h3 {
     font-size: 1.125rem;
 }
 
+:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
+    font-size: 1rem;
+}
+
 figcaption,
 table,
-input[type=file],
 .filter form,
 .pager,
 .error,
@@ -180,13 +195,8 @@ input[type=file],
     font-size: 0.875rem;
 }
 
-:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
-    font-size: 1rem;
-}
-
-figure.blockquote::before,
-:not(figure.blockquote) > blockquote::before {
-    font-size: 3rem;
+input[type=file] {
+    font-size: 0.75rem;
 }
 
 .block-index article h3 {
