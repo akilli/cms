@@ -2,14 +2,9 @@
 declare(strict_types=1);
 
 return [
-    'home' => [
-        'name' => 'Homepage',
-        'url' => '/',
-        'sort' => 10,
-    ],
     'page' => [
         'name' => 'Pages',
-        'sort' => 20,
+        'sort' => 10,
     ],
     'contentpage' => [
         'name' => 'Content Pages',
@@ -20,11 +15,11 @@ return [
     'layout' => [
         'name' => 'Layout',
         'url' => '/layout:index',
-        'sort' => 30,
+        'sort' => 20,
     ],
     'block' => [
         'name' => 'Blocks',
-        'sort' => 40,
+        'sort' => 30,
     ],
     'contentblock' => [
         'name' => 'Content Blocks',
@@ -34,7 +29,7 @@ return [
     ],
     'file' => [
         'name' => 'Files',
-        'sort' => 50,
+        'sort' => 40,
     ],
     'image' => [
         'name' => 'Images',
@@ -69,11 +64,11 @@ return [
     'menu' => [
         'name' => 'Menu',
         'url' => '/menu:index',
-        'sort' => 60,
+        'sort' => 50,
     ],
     'user' => [
         'name' => 'User',
-        'sort' => 70,
+        'sort' => 60,
     ],
     'role' => [
         'name' => 'Roles',
@@ -89,7 +84,7 @@ return [
     ],
     'my' => [
         'name' => 'My Account',
-        'sort' => 80,
+        'sort' => 70,
     ],
     'profile' => [
         'name' => 'Profile',

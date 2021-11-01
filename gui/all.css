@@ -556,13 +556,9 @@ akilli-editor editor-toolbar {
 }
 
 #header h1 {
+    justify-self: end;
     line-height: 1;
     margin-top: 0;
-    text-align: left;
-}
-
-#header a.name + h1 {
-    justify-self: end;
     text-align: center;
 }
 

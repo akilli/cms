@@ -82,7 +82,6 @@ return [
     'logo' => [
         'type' => 'tpl',
         'tpl' => 'logo.phtml',
-        'active' => false,
         'parent_id' => 'header',
         'sort' => 100,
     ],

@@ -13,9 +13,6 @@ return [
     'breadcrumb' => [
         'active' => true,
     ],
-    'logo' => [
-        'active' => true,
-    ],
     'main-content' => [
         'type' => 'view',
         'parent_id' => 'content',
