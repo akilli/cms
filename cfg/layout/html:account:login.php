@@ -5,6 +5,9 @@ return [
     'toolbar' => [
         'active' => false,
     ],
+    'header' => [
+        'active' => false,
+    ],
     'title' => [
         'parent_id' => 'content',
         'sort' => 100,
