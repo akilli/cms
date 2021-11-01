@@ -75,7 +75,7 @@ body > * {
 /**
  * Margin
  */
-:is(details, h1, h2, h3, hr, p, ol, ul, figure, table):not(:first-child),
+:is(details, h1, h2, h3, hr, p, ol, ul, figure, blockquote, table):not(:first-child),
 :is(main, article, aside, form, fieldset, figure.blockquote) > :not(:first-child),
 :is(.block-index, .block-index > .content, .table) > :not(:first-child),
 form akilli-editor {
@@ -310,7 +310,7 @@ figure.blockquote::before,
 :not(figure.blockquote) > blockquote::before {
     position: absolute;
     right: 0;
-    top: 0.75rem;
+    top: calc(50% - 1.5rem);
     display: block;
     line-height: 3rem;
     font-family: cms;
