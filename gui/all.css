@@ -600,7 +600,9 @@ nav a[aria-current] {
  * Account Login
  */
 :root[data-entity=account][data-action=login] body {
-    background: url(cms-dark.svg) no-repeat center;
+    background-image: url(cms-dark.svg);
+    background-repeat: no-repeat;
+    background-position: center;
     background-size: cover;
 }
 
