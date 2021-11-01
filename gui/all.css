@@ -75,7 +75,7 @@ body > * {
 /**
  * Margin
  */
-:is(details, h1, h2, h3, p, ol, ul, figure, table):not(:first-child),
+:is(details, h1, h2, h3, hr, p, ol, ul, figure, table):not(:first-child),
 :is(main, article, aside, form, fieldset, figure.blockquote) > :not(:first-child),
 :is(.block-index, .block-index > .content, .table) > :not(:first-child),
 form akilli-editor {
