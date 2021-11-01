@@ -482,7 +482,7 @@ input[type=radio] {
 }
 
 input:is([type=checkbox], [type=radio]):checked {
-    border-color: var(--app-color-primary);
+    border-color: var(--app-color-primary-dark);
 }
 
 label,
