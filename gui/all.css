@@ -105,7 +105,6 @@ details[open],
 }
 
 details,
-hr,
 pre,
 kbd,
 button,
@@ -142,6 +141,10 @@ mark {
 akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
     color: inherit;
     background: none;
+}
+
+hr {
+    background: linear-gradient(to left, var(--app-color-primary-dark), var(--app-color-primary-dark)) no-repeat center;
 }
 
 ::placeholder,
@@ -224,6 +227,7 @@ h1 {
 
 hr {
     height: 1.5rem;
+    background-size: auto 0.5rem;
 }
 
 time {
