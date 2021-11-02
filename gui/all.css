@@ -150,7 +150,8 @@ akilli-editor :is(editor-root, editor-root [contenteditable=true]):empty:after {
     color: var(--app-color-primary-light);
 }
 
-h1 {
+h1,
+details a:not([role=button]) {
     color: var(--app-color-primary-dark);
 }
 
@@ -158,10 +159,6 @@ main a,
 nav a[aria-current],
 :is(#toolbar, #menu) a.current-path {
     color: var(--app-color-accent);
-}
-
-details a:not([role=button]) {
-    color: inherit;
 }
 
 figure.blockquote::before,
@@ -269,10 +266,6 @@ details {
 details[open] summary {
     padding-bottom: 0.6875rem;
     border-bottom: 0.0625rem solid var(--app-color-primary-dark);
-}
-
-details a:not([role=button]) {
-    text-decoration: underline double;
 }
 
 /**
