@@ -6,13 +6,12 @@
     --app-color-accent-dark: #003cc1;
     --app-color-accent-light: #8193ff;
     --app-color-accent-text: #fff;
-    --app-color-background: #222;
     --app-color-border: #000;
     --app-color-error: #b22222;
     --app-color-error-text: #fff;
     --app-color-highlight: #f2a900;
     --app-color-placeholder: #00000c80;
-    --app-color-primary: #fff;
+    --app-color-primary: #222;
     --app-color-primary-dark: #000;
     --app-color-primary-light: #494949;
     --app-color-primary-text: #fff;
@@ -24,15 +23,15 @@
     --editor-cancel-background: var(--app-color-primary-light);
     --editor-cancel-color: var(--app-color-primary-text);
     --editor-dialog-backdrop: #ffffffcc;
-    --editor-dialog-background: var(--app-color-background);
-    --editor-dialog-color: var(--app-color-primary);
+    --editor-dialog-background: var(--app-color-primary);
+    --editor-dialog-color: var(--app-color-primary-text);
     --editor-error: var(--app-color-error);
     --editor-focus: var(--app-color-accent);
     --editor-hover: var(--app-color-accent);
     --editor-slot: #96442e;
     --editor-sortover: var(--app-color-border);
-    --editor-toolbar-background: var(--app-color-background);
-    --editor-toolbar-color: var(--app-color-primary);
+    --editor-toolbar-background: var(--app-color-primary);
+    --editor-toolbar-color: var(--app-color-primary-text);
 }
 
 /**
@@ -93,8 +92,8 @@ details + details {
  * Color
  */
 body {
-    color: var(--app-color-primary);
-    background: var(--app-color-background);
+    color: var(--app-color-primary-text);
+    background: var(--app-color-primary);
 }
 
 ::selection,
