@@ -10,7 +10,6 @@
     --app-color-error: #b22222;
     --app-color-error-text: #fff;
     --app-color-highlight: #f2a900;
-    --app-color-placeholder: #00000c80;
     --app-color-primary: #222;
     --app-color-primary-dark: #000;
     --app-color-primary-light: #494949;
@@ -148,7 +147,7 @@ hr {
 
 ::placeholder,
 akilli-editor :is(editor-root, editor-root [contenteditable=true]):empty:after {
-    color: var(--app-color-placeholder);
+    color: var(--app-color-primary-light);
 }
 
 h1 {
