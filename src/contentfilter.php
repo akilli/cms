@@ -139,17 +139,9 @@ function file(string $html): string
  */
 function image(string $html, array $cfg = []): string
 {
-    $pattern = sprintf(
-        '#(<img(?:[^>]*) src="%s/((?:[^"]+)\.(?:%s))")((?:[^>]*)>)#',
-        APP['url']['asset'],
-        implode('|', APP['image.ext'])
-    );
+    $ext = implode('|', APP['image.ext']);
+    $pattern = sprintf('#<img(?:[^>]*) src="%s/((?:[^"]+)\.(?:%s))"(?:[^>]*)>#', APP['url']['asset'], $ext);
     $cfg = arr\replace(APP['image.responsive'], $cfg);
-
-    if (!$cfg['srcset'] || !preg_match_all($pattern, $html)) {
-        return $html;
-    }
-
     $srcset = function (string $name, int $width) use ($cfg): string {
         $set = [];
 
@@ -168,26 +160,28 @@ function image(string $html, array $cfg = []): string
         return implode(', ', $set);
     };
     $call = function (array $match) use ($cfg, $srcset): string {
-        $file = app\assetpath($match[2]);
+        $attrs = parser\attr($match[0]);
+        $file = app\assetpath($attrs['src']);
 
-        if (str_contains($match[0], 'srcset="')
+        if (!empty($attrs['srcset'])
             || !is_file($file)
             || !($width = image\size($file)[0] ?? null)
-            || !($set = $srcset($match[2], $width))
+            || !($set = $srcset($match[1], $width))
         ) {
             return $match[0];
         }
 
-        if ($cfg['sizes'] && $cfg['sizes'] !== '100vw') {
-            $sizes = $cfg['sizes'];
-        } else {
-            $sizes = '(min-width: ' . $width . 'px) ' . $width . 'px, 100vw';
-        }
+        $attrs['width'] ??= $width;
+        $attrs['srcset'] = $set;
+        $attrs['sizes'] = match ($cfg['sizes']) {
+            null, '100vw' => '(min-width: ' . $width . 'px) ' . $width . 'px, 100vw',
+            default => $cfg['sizes'],
+        };
 
-        return $match[1] . ' srcset="' . $set . '" sizes="' . $sizes . '"' . $match[3];
+        return html\element('img', $attrs);
     };
 
-    return preg_replace_callback($pattern, $call, $html);
+    return $cfg['srcset'] ? preg_replace_callback($pattern, $call, $html) : $html;
 }
 
 /**
