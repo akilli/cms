@@ -8,6 +8,7 @@ use arr;
 use entity;
 use html;
 use layout;
+use parser;
 use str;
 
 /**
@@ -43,7 +44,7 @@ function asset(string $html): string
  */
 function block(string $html): string
 {
-    if (!$data = app\placeholder($html, 'app-block')) {
+    if (!$data = parser\tag($html, 'app-block')) {
         return $html;
     }
 
@@ -79,7 +80,7 @@ function email(string $html): string
  */
 function entity(string $html): string
 {
-    if (!$data = app\placeholder($html, 'app-entity')) {
+    if (!$data = parser\tag($html, 'app-entity')) {
         return $html;
     }
 
