@@ -7,6 +7,7 @@ use app;
 use arr;
 use entity;
 use html;
+use image;
 use layout;
 use parser;
 use str;
@@ -17,7 +18,7 @@ use str;
 function asset(string $html): string
 {
     $cache = function (string $type, string $id): int {
-        if (($mtime = &app\registry('contentfilter')['asset'][$type . ':' . $id]) === null) {
+        if (($mtime = &app\registry('contentfilter.asset')[$type . ':' . $id]) === null) {
             $file = match ($type) {
                 'asset' => app\assetpath($id),
                 'gui' => app\guipath($id),
@@ -149,13 +150,7 @@ function image(string $html, array $cfg = []): string
         return $html;
     }
 
-    $cache = function (string $file): int {
-        $width = &app\registry('contentfilter')['image'][$file];
-        $width ??= getimagesize($file)[0] ?? 0;
-
-        return $width;
-    };
-    $srcset = function (string $name, int $width) use ($cache, $cfg): string {
+    $srcset = function (string $name, int $width) use ($cfg): string {
         $set = [];
 
         foreach ($cfg['srcset'] as $breakpoint) {
@@ -172,12 +167,12 @@ function image(string $html, array $cfg = []): string
 
         return implode(', ', $set);
     };
-    $call = function (array $match) use ($cache, $cfg, $srcset): string {
+    $call = function (array $match) use ($cfg, $srcset): string {
         $file = app\assetpath($match[2]);
 
         if (str_contains($match[0], 'srcset="')
             || !is_file($file)
-            || !($width = $cache($file))
+            || !($width = image\size($file)[0] ?? null)
             || !($set = $srcset($match[2], $width))
         ) {
             return $match[0];

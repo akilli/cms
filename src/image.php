@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace image;
 
+use app;
 use file;
 
 /**
@@ -17,7 +18,7 @@ function create(string $src, string $dest, int $width, int $height = null, bool 
         || $height && $height <= 0
         || !($mime = mime_content_type($src))
         || empty(APP['image'][$mime])
-        || !($info = getimagesize($src))
+        || !($info = size($src))
     ) {
         return false;
     }
@@ -54,4 +55,16 @@ function create(string $src, string $dest, int $width, int $height = null, bool 
     imagedestroy($destImg);
 
     return file_exists($dest);
+}
+
+/**
+ * Caches and returns imagesize
+ */
+function size(string $file): array
+{
+     if (($info = &app\registry('image.size')[$file]) === null) {
+         $info = getimagesize($file) ?? [];
+     }
+
+     return $info;
 }

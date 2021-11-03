@@ -15,7 +15,7 @@ function bool(): array
 
 function container(): array
 {
-    if (($opt = &app\registry('opt')['container']) === null) {
+    if (($opt = &app\registry('opt.container')) === null) {
         $cfg = app\cfg('layout')['html'];
         unset($cfg['head']);
         $ids = array_keys(arr\filter($cfg, 'type', 'container'));
@@ -27,7 +27,7 @@ function container(): array
 
 function entity(array $data, array $attr): array
 {
-    if (($opt = &app\registry('opt')['entity'][$attr['ref']]) === null) {
+    if (($opt = &app\registry('opt.entity')[$attr['ref']]) === null) {
         $entity = $data['_entity']['id'] === $attr['ref'] ? $data['_entity'] : app\cfg('entity', $attr['ref']);
 
         if ($entity['id'] === 'menu') {
@@ -57,7 +57,7 @@ function entitychild(array $data): array
         return [$data['_entity']['id'] => $data['_entity']['name']];
     }
 
-    if (($opt = &app\registry('opt')['entitychild'][$data['_entity']['id']]) === null) {
+    if (($opt = &app\registry('opt.entitychild')[$data['_entity']['id']]) === null) {
         $opt = array_column(arr\filter(app\cfg('entity'), 'parent_id', $data['_entity']['id']), 'name', 'id');
         asort($opt);
     }
@@ -67,7 +67,7 @@ function entitychild(array $data): array
 
 function privilege(): array
 {
-    if (($opt = &app\registry('opt')['privilege']) === null) {
+    if (($opt = &app\registry('opt.privilege')) === null) {
         $opt = [];
 
         foreach (app\cfg('privilege') as $id => $privilege) {
