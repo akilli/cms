@@ -181,7 +181,7 @@ function image(string $html, array $cfg = []): string
         if ($cfg['sizes'] && $cfg['sizes'] !== '100vw') {
             $sizes = $cfg['sizes'];
         } else {
-            $sizes = '(max-width: ' . $width . 'px) 100vw, ' . $width . 'px';
+            $sizes = '(min-width: ' . $width . 'px) ' . $width . 'px, 100vw';
         }
 
         return $match[1] . ' srcset="' . $set . '" sizes="' . $sizes . '"' . $match[3];
