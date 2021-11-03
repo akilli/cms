@@ -242,7 +242,7 @@ define('APP', [
             'ext' => 'webp',
         ],
     ],
-    'image.ext' => ['jpg', 'png', 'webp'],
+    'image.ext' => ['gif', 'jpg', 'png', 'webp'],
     'image.responsive' => [
         'srcset' => [360, 640, 800, 960, 1120, 1280, 1440],
         'sizes' => null,
