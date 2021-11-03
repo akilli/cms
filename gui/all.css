@@ -198,8 +198,6 @@ table,
 .file-current,
 .file-delete,
 .table,
-#toolbar,
-#menu,
 #breadcrumb,
 :root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] {
     font-size: 0.875rem;
@@ -761,6 +759,14 @@ akilli-editor editor-toolbar {
  * Desktop + Print
  */
 @media screen and (min-width: 55rem), print {
+    /**
+     * Font Size
+     */
+    #toolbar,
+    #menu {
+        font-size: 0.875rem;
+    }
+
     /**
      * Index Table
      */
