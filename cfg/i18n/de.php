@@ -77,7 +77,7 @@ return [
     'Next' => 'Weiter',
     'No' => 'Nein',
     'No changes' => 'Keine Änderungen',
-    'No upload file' => 'Keine Upload-Datei',
+    'No valid upload file' => 'Keine gültige Upload-Datei',
     'Nothing to delete' => 'Nichts zum Löschen',
     'Page' => 'Seite',
     'Page not found' => 'Seite nicht gefunden',

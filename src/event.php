@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace event;
 
 use app;
+use attr;
 use arr;
 use contentfilter;
 use DomainException;
@@ -231,10 +232,10 @@ function entity_postvalidate_unique(array $data): array
 function entity_prevalidate_uploadable(array $data): array
 {
     foreach ($data['_entity']['attr'] as $attrId => $attr) {
-        if (!$attr['uploadable'] || empty($data[$attrId])) {
+        if (!$attr['uploadable'] || empty($data[$attrId]) && (!$attr['required'] || attr\ignorable($data, $attr))) {
             continue;
         } elseif (!$item = app\data('request', 'file')[$attrId] ?? null) {
-            $data['_error'][$attrId][] = app\i18n('No upload file');
+            $data['_error'][$attrId][] = app\i18n('No valid upload file');
         } elseif (!in_array($item['type'], $attr['accept'])) {
             $data['_error'][$attrId][] = app\i18n('Invalid file type');
         } else {
