@@ -96,6 +96,7 @@ body {
 }
 
 ::selection,
+input:is([type=checkbox], [type=radio]):checked,
 details[open],
 .msg {
     color: var(--app-color-accent-text);
@@ -108,7 +109,6 @@ kbd,
 button,
 input[type=button],
 input[type=submit],
-input:is([type=checkbox], [type=radio]):checked,
 ::file-selector-button,
 :is(details[open], .msg) ::selection,
 :is(#toolbar, #menu),
@@ -472,10 +472,6 @@ input[type=radio] {
 
 input[type=radio] {
     border-radius: 1rem;
-}
-
-input:is([type=checkbox], [type=radio]):checked {
-    border-color: var(--app-color-primary-dark);
 }
 
 label,
