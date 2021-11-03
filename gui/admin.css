@@ -1,0 +1,103 @@
+/**
+ * Variable
+ */
+:root {
+    --editor-block-background: var(--app-color-primary-dark);
+    --editor-block-color: var(--app-color-primary-text);
+    --editor-border: var(--app-color-border);
+    --editor-button-background: var(--app-color-primary-dark);
+    --editor-button-color: var(--app-color-primary-text);
+    --editor-cancel-background: var(--app-color-primary-light);
+    --editor-cancel-color: var(--app-color-primary-text);
+    --editor-dialog-backdrop: #ffffffcc;
+    --editor-dialog-background: var(--app-color-primary);
+    --editor-dialog-color: var(--app-color-primary-text);
+    --editor-error: var(--app-color-error);
+    --editor-focus: var(--app-color-accent);
+    --editor-hover: var(--app-color-accent);
+    --editor-slot: #96442e;
+    --editor-sortover: var(--app-color-border);
+    --editor-toolbar-background: var(--app-color-primary);
+    --editor-toolbar-color: var(--app-color-primary-text);
+}
+
+/**
+ * Margin
+ */
+form akilli-editor {
+    margin-top: 1.5rem;
+}
+
+/**
+ * Color
+ */
+akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
+    color: inherit;
+    background: none;
+}
+
+akilli-editor :is(editor-root, editor-root [contenteditable=true]):empty:after {
+    color: var(--app-color-primary-light);
+}
+
+/**
+ * Font Size
+ */
+:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
+    font-size: 1rem;
+}
+
+:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] {
+    font-size: 0.875rem;
+}
+
+/**
+ * Editor
+ */
+akilli-editor {
+    margin-left: 2.625rem;
+}
+
+akilli-editor editor-root {
+    min-height: 15rem;
+}
+
+form akilli-editor editor-root {
+    max-height: 45rem;
+    overflow-y: scroll;
+}
+
+akilli-editor editor-toolbar {
+    top: 3rem;
+}
+
+/**
+ * Index Browser
+ */
+:root[data-browser] .block-index .action {
+    display: none;
+}
+
+:root[data-browser] .block-index article {
+    cursor: pointer;
+}
+
+/**
+ * Role Edit
+ */
+:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] {
+    display: grid;
+    grid-template-columns: 1.25rem auto;
+}
+
+:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
+    grid-column: span 2;
+}
+
+/**
+ * Block Edit
+ */
+:root[data-parent=block]:is([data-action=add], [data-action=edit]) editor-toolbar button[data-command=block] {
+    display: none;
+    pointer-events: none;
+}

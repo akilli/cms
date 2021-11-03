@@ -34,6 +34,12 @@ return [
         'parent_id' => 'head',
         'sort' => 300,
     ],
+    'asset-admin' => [
+        'type' => 'tpl',
+        'tpl' => 'asset-admin.phtml',
+        'parent_id' => 'head',
+        'sort' => 400,
+    ],
     'toolbar' => [
         'type' => 'menu',
         'privilege' => '_user_',

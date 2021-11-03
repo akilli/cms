@@ -14,23 +14,6 @@
     --app-color-primary-dark: #000;
     --app-color-primary-light: #494949;
     --app-color-primary-text: #fff;
-    --editor-block-background: var(--app-color-primary-dark);
-    --editor-block-color: var(--app-color-primary-text);
-    --editor-border: var(--app-color-border);
-    --editor-button-background: var(--app-color-primary-dark);
-    --editor-button-color: var(--app-color-primary-text);
-    --editor-cancel-background: var(--app-color-primary-light);
-    --editor-cancel-color: var(--app-color-primary-text);
-    --editor-dialog-backdrop: #ffffffcc;
-    --editor-dialog-background: var(--app-color-primary);
-    --editor-dialog-color: var(--app-color-primary-text);
-    --editor-error: var(--app-color-error);
-    --editor-focus: var(--app-color-accent);
-    --editor-hover: var(--app-color-accent);
-    --editor-slot: #96442e;
-    --editor-sortover: var(--app-color-border);
-    --editor-toolbar-background: var(--app-color-primary);
-    --editor-toolbar-color: var(--app-color-primary-text);
 }
 
 /**
@@ -75,8 +58,7 @@ body > * {
  */
 :is(details, h1, h2, h3, hr, p, ol, ul, figure, blockquote, table):not(:first-child),
 :is(main, article, aside, form, fieldset, figure.blockquote) > :not(:first-child),
-:is(.block-index, .block-index > .content, .table) > :not(:first-child),
-form akilli-editor {
+:is(.block-index, .block-index > .content, .table) > :not(:first-child) {
     margin-top: 1.5rem;
 }
 
@@ -136,17 +118,11 @@ mark {
     background: var(--app-color-highlight);
 }
 
-akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
-    color: inherit;
-    background: none;
-}
-
 hr {
     background: linear-gradient(to left, var(--app-color-primary-dark), var(--app-color-primary-dark)) no-repeat center;
 }
 
-::placeholder,
-akilli-editor :is(editor-root, editor-root [contenteditable=true]):empty:after {
+::placeholder {
     color: var(--app-color-primary-light);
 }
 
@@ -186,10 +162,6 @@ h3 {
     font-size: 1.125rem;
 }
 
-:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
-    font-size: 1rem;
-}
-
 figcaption,
 table,
 .filter form,
@@ -198,8 +170,7 @@ table,
 .file-current,
 .file-delete,
 .table,
-#breadcrumb,
-:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] {
+#breadcrumb {
     font-size: 0.875rem;
 }
 
@@ -367,17 +338,6 @@ th {
 }
 
 /**
- * Index Browser
- */
-:root[data-browser] .block-index .action {
-    display: none;
-}
-
-:root[data-browser] .block-index article {
-    cursor: pointer;
-}
-
-/**
  * Filter
  */
 .filter form {
@@ -507,26 +467,6 @@ div[data-invalid] :invalid {
 }
 
 /**
- * Editor
- */
-akilli-editor {
-    margin-left: 2.625rem;
-}
-
-akilli-editor editor-root {
-    min-height: 15rem;
-}
-
-form akilli-editor editor-root {
-    max-height: 45rem;
-    overflow-y: scroll;
-}
-
-akilli-editor editor-toolbar {
-    top: 3rem;
-}
-
-/**
  * Header
  */
 #header {
@@ -614,26 +554,6 @@ akilli-editor editor-toolbar {
 
 :root[data-entity=account][data-action=login] main > * {
     width: 100%;
-}
-
-/**
- * Role Edit
- */
-:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] {
-    display: grid;
-    grid-template-columns: 1.25rem auto;
-}
-
-:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
-    grid-column: span 2;
-}
-
-/**
- * Block Edit
- */
-:root[data-parent=block]:is([data-action=add], [data-action=edit]) editor-toolbar button[data-command=block] {
-    display: none;
-    pointer-events: none;
 }
 
 /**
