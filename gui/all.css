@@ -69,6 +69,10 @@ details + details {
     margin-top: 0;
 }
 
+.error {
+    margin: 0;
+}
+
 /**
  * Color
  */
@@ -142,8 +146,57 @@ figure.blockquote::before,
     color: var(--app-color-accent);
 }
 
+.error,
+div[data-invalid] {
+    color: var(--app-color-error);
+}
+
+figure.blockquote,
+:not(figure.blockquote) > blockquote {
+    border-top: 0.0625rem solid var(--app-color-accent);
+    border-bottom: 0.0625rem solid var(--app-color-accent);
+}
+
+details {
+    border: 0.0625rem solid var(--app-color-primary-dark);
+}
+
+details[open] summary {
+    border-bottom: 0.0625rem solid var(--app-color-primary-dark);
+}
+
+td,
+th {
+    border-bottom: 0.0625rem dotted var(--app-color-border);
+}
+
+input[type=date],
+input[type=datetime-local],
+input[type=email],
+input[type=number],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=text],
+input[type=time],
+input[type=url],
+legend,
+select,
+textarea {
+    border-bottom: 0.0625rem solid var(--app-color-border);
+}
+
+input[type=checkbox],
+input[type=radio] {
+    border: 0.0625rem solid var(--app-color-border);
+}
+
+div[data-invalid] :invalid {
+    border-bottom: 0.0625rem solid var(--app-color-error);
+}
+
 /**
- * Font Size
+ * Typographie
  */
 figure.blockquote::before,
 :not(figure.blockquote) > blockquote::before {
@@ -151,6 +204,7 @@ figure.blockquote::before,
 }
 
 h1 {
+    font-family: titan;
     font-size: 1.5rem;
 }
 
@@ -182,13 +236,20 @@ input[type=file] {
     font-size: inherit;
 }
 
+figure.blockquote::before,
+:not(figure.blockquote) > blockquote::before {
+    font-family: cms;
+}
+
+.error,
+.block-index article label,
+.table [data-label]::before {
+    font-weight: bold;
+}
+
 /**
  * Text
  */
-h1 {
-    font-family: titan;
-}
-
 hr {
     height: 1.5rem;
     background-size: auto 0.5rem;
@@ -229,12 +290,10 @@ main a:not([role=button]):not([data-action]):hover {
  */
 details {
     padding: 0.6875rem 0.3125rem;
-    border: 0.0625rem solid var(--app-color-primary-dark);
 }
 
 details[open] summary {
     padding-bottom: 0.6875rem;
-    border-bottom: 0.0625rem solid var(--app-color-primary-dark);
 }
 
 /**
@@ -266,8 +325,6 @@ figure.blockquote,
     position: relative;
     padding: 0.6875rem 3.375rem 0.6875rem 0.75rem;
     text-align: center;
-    border-top: 0.0625rem solid var(--app-color-accent);
-    border-bottom: 0.0625rem solid var(--app-color-accent);
 }
 
 figure.blockquote::before,
@@ -277,7 +334,6 @@ figure.blockquote::before,
     top: calc(50% - 1.5rem);
     display: block;
     line-height: 3rem;
-    font-family: cms;
     content: '\e806';
 }
 
@@ -291,7 +347,6 @@ table {
 td,
 th {
     padding: 0.71875rem 0.375rem;
-    border-bottom: 0.0625rem dotted var(--app-color-border);
 }
 
 :is(thead, tbody:not(:last-child)) tr:last-child :is(td, th) {
@@ -301,10 +356,6 @@ th {
 /**
  * Index
  */
-.block-index article label {
-    font-weight: bold;
-}
-
 .block-index :is(audio, iframe, video) {
     pointer-events: none;
 }
@@ -328,7 +379,6 @@ th {
 }
 
 .table [data-label]::before {
-    font-weight: bold;
     content: attr(data-label);
 }
 
@@ -376,7 +426,6 @@ legend,
 select,
 textarea {
     padding: 0.71875rem 0;
-    border-bottom: 0.0625rem solid var(--app-color-border);
 }
 
 fieldset input[type=date],
@@ -426,7 +475,6 @@ input[type=radio] {
     height: 1.25rem;
     margin: 0.125rem 0;
     padding: 0.5625rem 0;
-    border: 0.0625rem solid var(--app-color-border);
     appearance: none;
 }
 
@@ -450,20 +498,6 @@ input:is([type=checkbox], [type=radio])[disabled] + label {
 
 div[data-required] > label:first-child::after {
     content: '*';
-}
-
-div[data-invalid] {
-    color: var(--app-color-error);
-}
-
-div[data-invalid] :invalid {
-    border-bottom: 0.0625rem solid var(--app-color-error);
-}
-
-.error {
-    margin: 0;
-    font-weight: bold;
-    color: var(--app-color-error);
 }
 
 /**
@@ -575,7 +609,7 @@ div[data-invalid] :invalid {
  */
 @media screen {
     /**
-     * Font Size
+     * Typography
      */
     a[data-action] {
         font-size: 0;
@@ -589,13 +623,18 @@ div[data-invalid] :invalid {
         font-size: 1.5rem;
     }
 
+    a[data-action],
+    :is(#toolbar, #menu)::before,
+    :is(#toolbar, #menu) a[aria-haspopup=true]::after {
+        font-family: cms;
+    }
+
     /**
      * Action
      */
     a[data-action] {
         display: inline-block;
         line-height: 1;
-        font-family: cms;
     }
 
     a:is([data-action=delete], [data-action=remove])::before {
@@ -644,7 +683,6 @@ div[data-invalid] :invalid {
     :is(#toolbar, #menu)::before,
     :is(#toolbar, #menu) a[aria-haspopup=true]::after {
         line-height: 1;
-        font-family: cms;
         cursor: pointer;
     }
 
@@ -676,11 +714,15 @@ div[data-invalid] :invalid {
  */
 @media screen and (min-width: 55rem), print {
     /**
-     * Font Size
+     * Typography
      */
     #toolbar,
     #menu {
         font-size: 0.875rem;
+    }
+
+    .table > .thead {
+        font-weight: bold;
     }
 
     /**
@@ -697,7 +739,6 @@ div[data-invalid] :invalid {
 
     .table > .thead {
         display: grid;
-        font-weight: bold;
         border-style: solid;
     }
 
@@ -738,6 +779,13 @@ div[data-invalid] :invalid {
  */
 @media screen and (min-width: 55rem) {
     /**
+     * Typography
+     */
+    #header h1 {
+        font-size: 4.5rem;
+    }
+
+    /**
      * Header
      */
     #header a.name img {
@@ -746,7 +794,6 @@ div[data-invalid] :invalid {
 
     #header h1 {
         line-height: 6rem;
-        font-size: 4.5rem;
     }
 
     /**
@@ -802,7 +849,7 @@ div[data-invalid] :invalid {
  */
 @media print {
     /**
-     * Font Size
+     * Typography
      */
     summary {
         font-size: 1.125rem;
@@ -810,6 +857,10 @@ div[data-invalid] :invalid {
 
     #content a:not([role]):not([data-action]):not([href^='?'])::after {
         font-size: 0.875rem;
+    }
+
+    #content a:not([role]):not([data-action]):not([href^='?'])::after {
+        font-style: italic;
     }
 
     /**
@@ -840,9 +891,8 @@ div[data-invalid] :invalid {
      * Links
      */
     #content a:not([role]):not([data-action]):not([href^='?'])::after {
-        content: ' (' attr(href) ')';
-        font-style: italic;
         text-transform: none;
+        content: ' (' attr(href) ')';
     }
 
     /**
