@@ -111,11 +111,7 @@ thead td {
  */
 a,
 button,
-input[type=button],
-input[type=reset],
-input[type=submit],
-input[type=checkbox],
-input[type=radio],
+input:is([type=button], [type=reset], [type=submit], [type=checkbox], [type=radio]),
 label,
 select,
 summary {
