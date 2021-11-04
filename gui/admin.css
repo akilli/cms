@@ -13,9 +13,9 @@
     --editor-dialog-background: var(--app-color-primary);
     --editor-dialog-color: var(--app-color-primary-text);
     --editor-error: var(--app-color-error);
-    --editor-focus: var(--app-color-accent);
-    --editor-hover: var(--app-color-accent);
-    --editor-slot: #96442e;
+    --editor-focus: var(--app-color-accent-light);
+    --editor-hover: var(--app-color-accent-light);
+    --editor-slot: var(--app-color-primary-light);
     --editor-sortover: var(--app-color-border);
     --editor-toolbar-background: var(--app-color-primary);
     --editor-toolbar-color: var(--app-color-primary-text);
