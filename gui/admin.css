@@ -15,6 +15,7 @@
     --editor-error: var(--app-color-error);
     --editor-focus: var(--app-color-accent-light);
     --editor-hover: var(--app-color-accent-light);
+    --editor-placeholder: var(--app-color-primary-light);
     --editor-slot: var(--app-color-primary-light);
     --editor-sortover: var(--app-color-border);
     --editor-toolbar-background: var(--app-color-primary);
@@ -45,10 +46,6 @@ form akilli-editor {
 akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
     color: inherit;
     background: none;
-}
-
-akilli-editor :is(editor-root, editor-root [contenteditable=true]):empty:after {
-    color: var(--app-color-primary-light);
 }
 
 /**
