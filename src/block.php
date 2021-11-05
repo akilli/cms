@@ -247,8 +247,8 @@ function login(array $block): string
 
     $entity = app\cfg('entity', 'account');
     $a = [
-        'username' => ['unique' => false, 'min' => 0, 'max' => 0],
-        'password' => ['min' => 0, 'max' => 0, 'autocomplete' => null],
+        'username' => ['unique' => false, 'min' => null, 'max' => null],
+        'password' => ['min' => null, 'max' => null, 'autocomplete' => null],
     ];
     $attrs = arr\extend(arr\extract($entity['attr'], ['username', 'password']), $a);
 

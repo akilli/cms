@@ -105,7 +105,7 @@ function validator(array $data, array $attr): mixed
     foreach ($vs as $v) {
         $length = $strlen ? mb_strlen($v) : $v;
 
-        if ($attr['min'] > 0 && $length < $attr['min'] || $attr['max'] > 0 && $length > $attr['max']) {
+        if ($attr['min'] !== null && $length < $attr['min'] || $attr['max'] !== null && $length > $attr['max']) {
             throw new DomainException(app\i18n('Value out of range'));
         }
     }
@@ -215,15 +215,15 @@ function html(array $attr, string|int $key = null): array
     $name = $key ? $key . '[' . $attr['id'] . ']' : $attr['id'];
     $html = ['id' => $id, 'name' => $name, 'data-type' => $attr['type']];
 
-    if ($attr['min'] > 0) {
+    if ($attr['min'] !== null) {
         $html[$minmax[0]] = $attr['min'];
     }
 
-    if ($attr['max'] > 0) {
+    if ($attr['max'] !== null) {
         $html[$minmax[1]] = $attr['max'];
     }
 
-    if ($attr['step'] !== 0) {
+    if ($attr['step'] !== null) {
         $html['step'] = $attr['step'];
     }
 

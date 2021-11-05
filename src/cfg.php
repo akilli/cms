@@ -262,7 +262,7 @@ function entity(array $data, array $ext): array
                 || $attr['validator'] !== null && empty($validatorCfg[$attr['validator']])
                 || $attr['viewer'] !== null && empty($viewerCfg[$attr['viewer']])
                 || $attr['opt'] !== null && empty($optCfg[$attr['opt']])
-                || $attr['min'] > 0 && $attr['max'] > 0 && $attr['min'] > $attr['max']
+                || $attr['min'] !== null && $attr['max'] !== null && $attr['min'] > $attr['max']
             ) {
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
