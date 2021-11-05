@@ -29,6 +29,17 @@ form akilli-editor {
 }
 
 /**
+ * Font
+ */
+:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
+    font-size: 1rem;
+}
+
+:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] {
+    font-size: 0.875rem;
+}
+
+/**
  * Color
  */
 akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
@@ -38,17 +49,6 @@ akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
 
 akilli-editor :is(editor-root, editor-root [contenteditable=true]):empty:after {
     color: var(--app-color-primary-light);
-}
-
-/**
- * Font Size
- */
-:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
-    font-size: 1rem;
-}
-
-:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] {
-    font-size: 0.875rem;
 }
 
 /**

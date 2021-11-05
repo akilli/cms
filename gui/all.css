@@ -17,24 +17,6 @@
 }
 
 /**
- * Font
- */
-@font-face {
-    font-family: cms;
-    font-display: swap;
-    font-style: normal;
-    font-weight: 900;
-    src: url(font/cms.woff2) format('woff2');
-}
-
-@font-face {
-    font-family: titan;
-    font-weight: normal;
-    font-style: normal;
-    src: url('font/titan.woff2') format('woff2');
-}
-
-/**
  * Global
  */
 body {
@@ -45,12 +27,6 @@ body {
 
 body > * {
     padding: 0.75rem 0;
-}
-
-::file-selector-button {
-    height: 1.5rem;
-    padding: 0.25rem;
-    border: 0;
 }
 
 /**
@@ -74,6 +50,73 @@ details + details {
 }
 
 /**
+ * Font
+ */
+@font-face {
+    font-family: cms;
+    font-display: swap;
+    font-style: normal;
+    font-weight: 900;
+    src: url(font/cms.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: titan;
+    font-weight: normal;
+    font-style: normal;
+    src: url('font/titan.woff2') format('woff2');
+}
+
+figure.blockquote::before,
+:not(figure.blockquote) > blockquote::before {
+    font-size: 3rem;
+}
+
+h1 {
+    font-family: titan;
+    font-size: 1.5rem;
+}
+
+h2 {
+    font-size: 1.25rem;
+}
+
+h3 {
+    font-size: 1.125rem;
+}
+
+figcaption,
+table,
+.filter form,
+.pager,
+.error,
+.file-current,
+.file-delete,
+.table,
+#breadcrumb {
+    font-size: 0.875rem;
+}
+
+input[type=file] {
+    font-size: 0.75rem;
+}
+
+.block-index article h3 {
+    font-size: inherit;
+}
+
+figure.blockquote::before,
+:not(figure.blockquote) > blockquote::before {
+    font-family: cms;
+}
+
+.error,
+.block-index article label,
+.table [data-label]::before {
+    font-weight: bold;
+}
+
+/**
  * Color
  */
 body {
@@ -93,8 +136,7 @@ details,
 pre,
 kbd,
 button,
-input[type=button],
-input[type=submit],
+input:is([type=button],[type=submit]),
 ::file-selector-button,
 :is(details[open], .msg) ::selection,
 :is(#toolbar, #menu),
@@ -170,24 +212,25 @@ th {
     border-bottom: 0.0625rem dotted var(--app-color-border);
 }
 
-input[type=date],
-input[type=datetime-local],
-input[type=email],
-input[type=number],
-input[type=password],
-input[type=search],
-input[type=tel],
-input[type=text],
-input[type=time],
-input[type=url],
+input:is(
+    [type=date],
+    [type=datetime-local],
+    [type=email],
+    [type=number],
+    [type=password],
+    [type=search],
+    [type=tel],
+    [type=text],
+    [type=time],
+    [type=url]
+),
 legend,
 select,
 textarea {
     border-bottom: 0.0625rem solid var(--app-color-border);
 }
 
-input[type=checkbox],
-input[type=radio] {
+input:is([type=checkbox], [type=radio]) {
     border: 0.0625rem solid var(--app-color-border);
 }
 
@@ -196,67 +239,11 @@ div[data-invalid] :invalid {
 }
 
 /**
- * Typographie
- */
-figure.blockquote::before,
-:not(figure.blockquote) > blockquote::before {
-    font-size: 3rem;
-}
-
-h1 {
-    font-family: titan;
-    font-size: 1.5rem;
-}
-
-h2 {
-    font-size: 1.25rem;
-}
-
-h3 {
-    font-size: 1.125rem;
-}
-
-figcaption,
-table,
-.filter form,
-.pager,
-.error,
-.file-current,
-.file-delete,
-.table,
-#breadcrumb {
-    font-size: 0.875rem;
-}
-
-input[type=file] {
-    font-size: 0.75rem;
-}
-
-.block-index article h3 {
-    font-size: inherit;
-}
-
-figure.blockquote::before,
-:not(figure.blockquote) > blockquote::before {
-    font-family: cms;
-}
-
-.error,
-.block-index article label,
-.table [data-label]::before {
-    font-weight: bold;
-}
-
-/**
  * Text
  */
 hr {
     height: 1.5rem;
     background-size: auto 0.5rem;
-}
-
-time {
-    display: block;
 }
 
 pre {
@@ -278,9 +265,10 @@ kbd {
     border-radius: 0.125rem;
 }
 
-/**
- * Link
- */
+time[data-attr] {
+    display: block;
+}
+
 main a:not([role=button]):not([data-action]):hover {
     text-decoration: underline;
 }
@@ -299,20 +287,21 @@ details[open] summary {
 /**
  * Figure
  */
-figure.left {
+figure:is(.left, .center, .right) {
     max-width: 50%;
+}
+
+figure.left {
     float: left;
     margin-right: 0.75rem;
 }
 
 figure.center {
-    max-width: 50%;
     margin-left: auto;
     margin-right: auto;
 }
 
 figure.right {
-    max-width: 50%;
     float: right;
     margin-left: 0.75rem;
 }
@@ -412,40 +401,49 @@ th {
 /**
  * Form
  */
-input[type=date],
-input[type=datetime-local],
-input[type=email],
-input[type=number],
-input[type=password],
-input[type=search],
-input[type=tel],
-input[type=text],
-input[type=time],
-input[type=url],
+::file-selector-button {
+    height: 1.5rem;
+    padding: 0.25rem;
+    border: 0;
+}
+
+input:is(
+    [type=date],
+    [type=datetime-local],
+    [type=email],
+    [type=number],
+    [type=password],
+    [type=search],
+    [type=tel],
+    [type=text],
+    [type=time],
+    [type=url]
+),
 legend,
 select,
 textarea {
     padding: 0.71875rem 0;
 }
 
-fieldset input[type=date],
-fieldset input[type=datetime-local],
-fieldset input[type=email],
-fieldset input[type=number],
-fieldset input[type=password],
-fieldset input[type=search],
-fieldset input[type=tel],
-fieldset input[type=text],
-fieldset input[type=time],
-fieldset input[type=url],
+fieldset input:is(
+    [type=date],
+    [type=datetime-local],
+    [type=email],
+    [type=number],
+    [type=password],
+    [type=search],
+    [type=tel],
+    [type=text],
+    [type=time],
+    [type=url]
+),
 fieldset select {
     width: 100%;
     max-width: 30rem;
 }
 
 button,
-input[type=button],
-input[type=submit] {
+input:is([type=button], [type=submit]) {
     padding: 0.75rem;
 }
 
@@ -459,6 +457,11 @@ textarea {
     width: 100%;
 }
 
+label,
+output {
+    display: block;
+}
+
 select[multiple],
 textarea {
     height: 15rem;
@@ -469,8 +472,7 @@ select {
     appearance: none;
 }
 
-input[type=checkbox],
-input[type=radio] {
+input:is([type=checkbox], [type=radio]) {
     width: 1.25rem;
     height: 1.25rem;
     margin: 0.125rem 0;
@@ -480,11 +482,6 @@ input[type=radio] {
 
 input[type=radio] {
     border-radius: 1rem;
-}
-
-label,
-output {
-    display: block;
 }
 
 input:is([type=checkbox], [type=radio]) + label {
