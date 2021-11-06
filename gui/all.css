@@ -61,8 +61,9 @@ details + details {
 
 @font-face {
     font-family: titan;
-    font-weight: normal;
+    font-display: swap;
     font-style: normal;
+    font-weight: normal;
     src: url('font/titan.woff2') format('woff2');
 }
 
