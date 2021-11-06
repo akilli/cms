@@ -1,5 +1,5 @@
-cms   ::: copyright (c) Font Awesome
-titan ::: copyright (c) Rodrigo Fuenzalida
+cms   ::: copyright (c) 2021 Font Awesome (www.fontawesome.com)
+titan ::: copyright (c) 2011 Rodrigo Fuenzalida (www.rfuenzalida.com)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
