@@ -159,7 +159,7 @@ form:invalid [type=submit],
 }
 
 mark {
-    color: inherit;
+    color: var(--app-color-accent-text);
     background: var(--app-color-accent-light);
 }
 
