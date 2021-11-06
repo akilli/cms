@@ -9,7 +9,6 @@
     --app-color-border: #000;
     --app-color-error: #b22222;
     --app-color-error-text: #fff;
-    --app-color-highlight: #f2a900;
     --app-color-primary: #222;
     --app-color-primary-dark: #000;
     --app-color-primary-light: #494949;
@@ -161,7 +160,7 @@ form:invalid [type=submit],
 
 mark {
     color: inherit;
-    background: var(--app-color-highlight);
+    background: var(--app-color-accent-light);
 }
 
 hr {
