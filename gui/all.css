@@ -33,13 +33,13 @@ body > * {
  */
 :is(details, h1, h2, h3, hr, p, ol, ul, figure, blockquote, table):not(:first-child),
 :is(main, article, aside, form, fieldset, figure.blockquote) > :not(:first-child),
-:is(.block-index, .block-index > .content, .table) > :not(:first-child) {
+:is(.block-index, .block-index > .content, .grid-table) > :not(:first-child) {
     margin-top: 1.5rem;
 }
 
 :is(nav ul, table p, .msg p):not(:first-child),
-:is(.table, .block-index > .table) > * > :not(:first-child),
-.table > :not(.thead):first-of-type,
+:is(.grid-table, .block-index > .grid-table) > * > :not(:first-child),
+.grid-table > :not(.thead):first-of-type,
 details + details {
     margin-top: 0;
 }
@@ -92,7 +92,7 @@ table,
 .error,
 .file-current,
 .file-delete,
-.table,
+.grid-table,
 #breadcrumb {
     font-size: 0.875rem;
 }
@@ -112,7 +112,7 @@ figure.blockquote::before,
 
 .error,
 .block-index article label,
-.table [data-label]::before {
+.grid-table [data-label]::before {
     font-weight: bold;
 }
 
@@ -357,21 +357,21 @@ th {
 /**
  * Index Table
  */
-.table > .thead {
+.grid-table > .thead {
     display: none;
 }
 
-.table :is(img, video) {
+.grid-table :is(img, video) {
     width: 6rem;
     height: 6rem;
     object-fit: contain;
 }
 
-.table [data-label]::before {
+.grid-table [data-label]::before {
     content: attr(data-label);
 }
 
-.table > :not(.thead) > :not(.action) {
+.grid-table > :not(.thead) > :not(.action) {
     display: grid;
     grid-template-columns: 25fr 75fr;
 }
@@ -716,14 +716,14 @@ div[data-required] > label:first-child::after {
         font-size: 0.875rem;
     }
 
-    .table > .thead {
+    .grid-table > .thead {
         font-weight: bold;
     }
 
     /**
      * Index Table
      */
-    .table > * {
+    .grid-table > * {
         display: grid;
         grid-auto-flow: column;
         grid-auto-columns: 1fr;
@@ -732,39 +732,39 @@ div[data-required] > label:first-child::after {
         border-bottom: 0.0625rem dotted;
     }
 
-    .table > .thead {
+    .grid-table > .thead {
         display: grid;
         border-style: solid;
     }
 
-    .table > * > * {
+    .grid-table > * > * {
         vertical-align: middle;
         text-align: left;
     }
 
-    .table > :not(.thead) > :not(.action) {
+    .grid-table > :not(.thead) > :not(.action) {
         display: block;
     }
 
-    .table > .thead > * {
+    .grid-table > .thead > * {
         color: inherit;
     }
 
-    .table > .thead > a[data-sort=asc]::after {
+    .grid-table > .thead > a[data-sort=asc]::after {
         display: inline-block;
         content: '⇑';
     }
 
-    .table > .thead > a[data-sort=desc]::after {
+    .grid-table > .thead > a[data-sort=desc]::after {
         display: inline-block;
         content: '⇓';
     }
 
-    .table [data-label]::before {
+    .grid-table [data-label]::before {
         display: none;
     }
 
-    .block-index > .table > :not(:first-child) {
+    .block-index > .grid-table > :not(:first-child) {
         margin-top: 0;
     }
 }
