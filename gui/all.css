@@ -29,7 +29,7 @@ body > * {
 }
 
 /**
- * Margin
+ * Margin Top
  */
 :is(details, h1, h2, h3, hr, p, ol, ul, figure, blockquote, table):not(:first-child),
 :is(main, article, aside, form, fieldset, figure.blockquote) > :not(:first-child),
@@ -42,10 +42,6 @@ body > * {
 .grid-table > :not(.thead):first-of-type,
 details + details {
     margin-top: 0;
-}
-
-.error {
-    margin: 0;
 }
 
 /**
@@ -495,6 +491,13 @@ input:is([type=checkbox], [type=radio])[disabled] + label {
 
 div[data-required] > label:first-child::after {
     content: '*';
+}
+
+/**
+ * Error
+ */
+.error {
+    margin: 0;
 }
 
 /**
