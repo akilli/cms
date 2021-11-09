@@ -51,10 +51,6 @@ akilli-editor :is(editor-toolbar, editor-formatbar, editor-focusbar) button {
 /**
  * Editor
  */
-akilli-editor {
-    margin-left: 2.625rem;
-}
-
 akilli-editor editor-root {
     min-height: 15rem;
 }
