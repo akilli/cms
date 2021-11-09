@@ -34,25 +34,7 @@ function datetime(string $val): string
 
 function editor(string $val): string
 {
-    $val = trim(preg_replace('#<p>\s*</p>#', '', strip_tags($val, APP['html.tags'])));
-    $parts = [
-        '<img(?:[^>]*) src="%1$s"(?:[^>]*)>',
-        '<video(?:[^>]*) src="%1$s"(?:[^>]*)>(?:[^<]*)</video>',
-        '<audio(?:[^>]*) src="%1$s"(?:[^>]*)>(?:[^<]*)</audio>',
-        '<iframe(?:[^>]*) src="%1$s"(?:[^>]*)>(?:[^<]*)</iframe>',
-    ];
-    $pattern = '#' . implode('|', $parts) . '#';
-
-    if (preg_match_all(sprintf($pattern, '([^"]+)'), $val, $match)) {
-        $name = array_values(array_filter([...$match[1], ...$match[2], ...$match[3], ...$match[4]]));
-
-        foreach (entity\all('file', crit: [['name', $name]], select: ['id', 'name', 'entity_id']) as $item) {
-            $replace = sprintf('<app-file id="%s-%d"></app-file>', $item['entity_id'], $item['id']);
-            $val = preg_replace(sprintf($pattern, $item['name']), $replace, $val);
-        }
-    }
-
-    return $val;
+    return trim(preg_replace('#<p>\s*</p>#', '', strip_tags($val, APP['html.tags'])));
 }
 
 /**
