@@ -26,31 +26,20 @@ function browser(?int $val, array $attr): string
     }
 
     $opt = $attr['opt']();
-    $html = html\element('output', ['id' => $attr['html']['id'] . '-output'], $val ? $opt[$val] : null);
+    $outputId = $attr['html']['id'] . '-output';
+    $html = html\element('output', ['id' => $outputId], $val ? $opt[$val] : null);
     $html .= html\element('input', ['type' => 'hidden', 'value' => $val ?: ''] + $attr['html']);
+    $a = ['data-id' => $attr['html']['id'], 'data-ref' => $attr['ref'], 'data-output' => $outputId];
 
     if ($allowed) {
         $browse = app\i18n('Browse');
-        $html .= html\element(
-            'a',
-            [
-                'data-id' => $attr['html']['id'],
-                'data-ref' => $attr['ref'],
-                'data-action' => 'browser',
-                'title' => $browse,
-            ],
-            $browse
-        );
+        $html .= html\element('a', [...$a, 'data-action' => 'browser', 'title' => $browse], $browse);
     }
 
     if ($optionalAndSet) {
         $html .= ' ';
         $remove = app\i18n('Remove');
-        $html .= html\element(
-            'a',
-            ['data-id' => $attr['html']['id'], 'data-action' => 'remove', 'title' => $remove],
-            $remove
-        );
+        $html .= html\element('a', [...$a, 'data-action' => 'remove', 'title' => $remove], $remove);
     }
 
     return $html;

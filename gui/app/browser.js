@@ -31,8 +31,6 @@ export default {
      * Browser opener
      */
     open() {
-        const suffix = '-output';
-
         document.addEventListener('DOMContentLoaded', () => {
             // Open browser
             document.querySelectorAll('a[data-action=browser][data-ref]').forEach(
@@ -43,8 +41,9 @@ export default {
                         browser(`/${entity}:index`, async data => {
                             if (data.id) {
                                 const id = item.getAttribute('data-id');
+                                const outputId = item.getAttribute('data-output');
                                 document.getElementById(id).setAttribute('value', data.id);
-                                document.getElementById(id + suffix).textContent = data.name || data.id;
+                                document.getElementById(outputId).textContent = data.name || data.id;
                             }
                         });
                     }
@@ -53,8 +52,9 @@ export default {
             // Remove selected item
             document.querySelectorAll('a[data-action=remove]').forEach(item => item.addEventListener('click', () => {
                 const id = item.getAttribute('data-id');
+                const outputId = item.getAttribute('data-output');
                 document.getElementById(id).setAttribute('value', '');
-                document.getElementById(id + suffix).textContent = '';
+                document.getElementById(outputId).textContent = '';
             }));
         });
     },
