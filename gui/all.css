@@ -593,12 +593,14 @@ div[data-required] > label:first-child::after {
 /**
  * Clear
  */
-[data-type=editor]:is(::before, ::after) {
+[data-type=editor]::before {
     display: table;
     content: ' ';
 }
 
 [data-type=editor]::after {
+    display: table;
+    content: ' ';
     clear: both;
 }
 
