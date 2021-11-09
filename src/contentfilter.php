@@ -120,7 +120,7 @@ function file(string $html): string
 
     foreach (entity\all('file', crit: [['id', $match[2]]], select: $select) as $id => $item) {
         $type = strstr($item['mime'], '/', true);
-        $attrs = ['src' => $item['name']];
+        $attrs = ['id' => $item['entity_id'] . '-' . $item['id'], 'src' => $item['name']];
         $replace = match (true) {
             $type === 'image' => html\element('img', $attrs + ['alt' => str\enc($item['info'])]),
             $type === 'video' => html\element('video', $attrs + ['controls' => true]),
