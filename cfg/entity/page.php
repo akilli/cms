@@ -32,14 +32,6 @@ return [
             'type' => 'text',
             'max' => 100,
         ],
-        'content' => [
-            'name' => 'Main Content',
-            'type' => 'editor',
-        ],
-        'aside' => [
-            'name' => 'Additional Information',
-            'type' => 'editor',
-        ],
         'meta_title' => [
             'name' => 'Meta Title',
             'type' => 'text',
@@ -49,6 +41,10 @@ return [
             'name' => 'Meta Description',
             'type' => 'text',
             'max' => 300,
+        ],
+        'content' => [
+            'name' => 'Main Content',
+            'type' => 'editor',
         ],
         'created' => [
             'name' => 'Created',

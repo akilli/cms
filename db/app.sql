@@ -120,10 +120,9 @@ CREATE TABLE public.page (
     entity_id varchar(50) NOT NULL,
     url varchar(255) NOT NULL UNIQUE,
     title varchar(100) NOT NULL DEFAULT '',
-    content text NOT NULL DEFAULT '',
-    aside text NOT NULL DEFAULT '',
     meta_title varchar(80) NOT NULL DEFAULT '',
     meta_description varchar(300) NOT NULL DEFAULT '',
+    content text NOT NULL DEFAULT '',
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
@@ -615,7 +614,7 @@ AFTER DELETE ON
     public.file
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW EXECUTE PROCEDURE
-    public.entity_placeholder_delete('app-file', 'public', 'page', 'content', 'aside');
+    public.entity_placeholder_delete('app-file', 'public', 'page', 'content');
 
 CREATE CONSTRAINT TRIGGER
     block_delete_placeholder_file
@@ -719,7 +718,7 @@ AFTER DELETE ON
     public.block
 DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW EXECUTE PROCEDURE
-    public.entity_placeholder_delete('app-block', 'public', 'page', 'content', 'aside');
+    public.entity_placeholder_delete('app-block', 'public', 'page', 'content');
 
 --
 -- Layout

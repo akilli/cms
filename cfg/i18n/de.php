@@ -8,7 +8,6 @@ return [
     'Active' => 'Aktiv',
     'Add' => 'Hinzufügen',
     'Add Item' => 'Eintrag hinzufügen',
-    'Additional Information' => 'Zusätzliche Informationen',
     'All' => 'Alle',
     'Audios' => 'Audios',
     'Back' => 'Zurück',

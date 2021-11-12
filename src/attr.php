@@ -137,7 +137,6 @@ function viewer(array $data, array $attr, bool $wrap = false, bool $preserve = f
         !!preg_match($pattern, $html, $match) => ['figure', ['class' => $match[1] === 'img' ? 'image' : $match[1]]],
         in_array($attr['backend'], $dt) => ['time', $val !== $html ? ['datetime' => $val] : []],
         $attr['id'] === 'name' => [$subheading ? 'h3' : 'h2', []],
-        $attr['id'] === 'aside' => ['aside', []],
         default => ['div', []],
     };
     $a += ['data-attr' => $attr['id'], 'data-type' => $attr['type'], 'data-label' => $attr['name']];

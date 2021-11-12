@@ -55,11 +55,6 @@ akilli-editor editor-root {
     min-height: 15rem;
 }
 
-form akilli-editor editor-root {
-    max-height: 45rem;
-    overflow-y: scroll;
-}
-
 akilli-editor editor-toolbar {
     top: 3rem;
 }

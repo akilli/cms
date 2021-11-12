@@ -4,7 +4,7 @@ declare(strict_types=1);
 return [
     'main-content' => [
         'cfg' => [
-            'attr_id' => ['content', 'aside'],
+            'attr_id' => ['content'],
         ],
     ],
 ];
