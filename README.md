@@ -24,13 +24,13 @@ FROM akilli/cms
 Start the docker containers with
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 and access the cms with http://localhost. You can log in via http://localhost/account:login with 
 username `admin` and password `password`.
 
-The provided [docker-compose.yml](docker-compose.yml) is meant for development and testing purposes only as it sets the 
+The provided [compose.yml](compose.yml) is meant for development and testing purposes only as it sets the 
 environment variable `DEV=1` for the php container which effectively disables the `session.cookie_secure` restriction, 
 opcache and preloading. It also mounts the source code into all three containers and uses the `akilli/php` image 
 instead of the `akilli/cms` image.
