@@ -125,7 +125,7 @@ function allowed(string $id): bool
 }
 
 /**
- * Returns account if given credentials are valid and automatically rehashes password if needed
+ * Returns account if given credentials are valid, automatically rehashes password if needed and triggers an event
  */
 function login(string $username, string $password): ?array
 {
@@ -141,7 +141,7 @@ function login(string $username, string $password): ?array
         $account['password'] = $data['password'];
     }
 
-    return $account;
+    return event([id('app', 'login')], $account);
 }
 
 /**
