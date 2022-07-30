@@ -9,7 +9,7 @@
     --editor-button-color: var(--app-color-primary-text);
     --editor-cancel-background: var(--app-color-primary-light);
     --editor-cancel-color: var(--app-color-primary-text);
-    --editor-dialog-backdrop: #ffffffcc;
+    --editor-dialog-backdrop: #000000cc;
     --editor-dialog-background: var(--app-color-primary);
     --editor-dialog-color: var(--app-color-primary-text);
     --editor-error: var(--app-color-error);
