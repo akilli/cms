@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'name' => 'Accounts',
-    'action' => ['add', 'delete', 'edit', 'index', 'login', 'logout', 'profile', 'view'],
+    'action' => ['add', 'dashboard', 'delete', 'edit', 'index', 'login', 'logout', 'profile', 'view'],
     'attr' => [
         'id' => [
             'name' => 'ID',
