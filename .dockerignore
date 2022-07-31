@@ -11,5 +11,6 @@ Jenkinsfile
 #
 # Git
 #
+adminer.php
 .env
 .idea
