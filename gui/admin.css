@@ -13,7 +13,6 @@
     --editor-dialog-color: var(--app-color-primary-text);
     --editor-error: var(--app-color-error);
     --editor-focus: var(--app-color-accent-light);
-    --editor-hover: var(--app-color-accent-light);
     --editor-placeholder: var(--app-color-primary-light);
     --editor-slot: var(--app-color-primary-light);
     --editor-sortover: var(--app-color-primary-dark);
@@ -56,6 +55,10 @@ akilli-editor editor-root {
 
 akilli-editor editor-toolbar {
     top: 3rem;
+}
+
+akilli-editor editor-root :is(colgroup, tr)::before {
+    width: 3rem;
 }
 
 /**
