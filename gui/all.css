@@ -501,6 +501,13 @@ div[data-required] > label:first-child::after {
 }
 
 /**
+ * Editor
+ */
+[data-type=editor]{
+    overflow: auto;
+}
+
+/**
  * Header
  */
 #header {
@@ -588,20 +595,6 @@ div[data-required] > label:first-child::after {
 
 :root[data-entity=account][data-action=login] main > * {
     width: 100%;
-}
-
-/**
- * Clear
- */
-[data-type=editor]::before {
-    display: table;
-    content: ' ';
-}
-
-[data-type=editor]::after {
-    display: table;
-    content: ' ';
-    clear: both;
 }
 
 /**
