@@ -1,7 +1,7 @@
 /**
  * Multi-checkbox required fix
  *
- * @type {Function}
+ * @type {function}
  */
 export default function () {
     const sel = 'input[type=checkbox][multiple]';

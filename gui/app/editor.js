@@ -4,7 +4,7 @@ import lang from './lang.js';
 /**
  * Editor configuration
  *
- * @type {Object.<String, Object.<String, Object>>}
+ * @type {Object.<string, Object.<string, string>>}
  */
 const config = {
     audio: {
@@ -32,7 +32,7 @@ const config = {
 /**
  * Editor
  *
- * @type {Function}
+ * @type {function}
  */
 export default function () {
     document.addEventListener('DOMContentLoaded', () => {

@@ -1,7 +1,7 @@
 /**
  * German translations
  *
- * @type {Object.<String, String>}
+ * @type {Object.<string, string>}
  */
 export default {
     'Please confirm delete operation': 'Bitte den Löschvorgang bestätigen',

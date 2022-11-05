@@ -1,7 +1,7 @@
 /**
  * Track validity of input elements in corresponding wrapper div element
  *
- * @type {Function}
+ * @type {function}
  */
 export default function () {
     document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('form').forEach(form => {

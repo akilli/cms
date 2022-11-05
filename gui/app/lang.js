@@ -1,6 +1,6 @@
 /**
  * Language
  *
- * @type {String}
+ * @type {string}
  */
 export default document.documentElement.getAttribute('lang') || 'en';

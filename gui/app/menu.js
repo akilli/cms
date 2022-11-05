@@ -1,7 +1,7 @@
 /**
  * Navigation
  *
- * @type {Function}
+ * @type {function}
  */
 export default function () {
     document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('#toolbar, #menu').forEach(menu => {

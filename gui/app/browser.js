@@ -1,7 +1,7 @@
 /**
  * Browser + Opener
  *
- * @type {Object.<String, Function>}
+ * @type {Object.<string, function>}
  */
 export default {
     /**
@@ -63,7 +63,7 @@ export default {
 /**
  * Browser window options
  *
- * @type {String}
+ * @type {string}
  */
 const browserOpts = Object.entries({
     alwaysRaised: 'yes',
@@ -82,8 +82,8 @@ const browserOpts = Object.entries({
 /**
  * Opens a media browser window and registers a listener for communication between editor and browser windows
  *
- * @param {String} url
- * @param {Function} call
+ * @param {string} url
+ * @param {function} call
  */
 function browser(url, call) {
     if (!url || typeof call !== 'function') {

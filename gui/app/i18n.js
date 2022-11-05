@@ -13,12 +13,12 @@ const cfg = {
 /**
  * Translates given string
  *
- * @type {Function}
+ * @type {function}
  *
- * @param {String} key
- * @param {...String} args
+ * @param {string} key
+ * @param {...string} args
  *
- * @return {String}
+ * @return {string}
  */
 export default function (key, ...args) {
     key = cfg[lang]?.[key] || key;

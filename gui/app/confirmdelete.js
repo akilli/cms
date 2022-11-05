@@ -3,7 +3,7 @@ import i18n from './i18n.js';
 /**
  * Delete Confirmation
  *
- * @type {Function}
+ * @type {function}
  */
 export default function () {
     document.addEventListener('DOMContentLoaded', () => {

@@ -1,7 +1,7 @@
 /**
  * Print Listeners
  *
- * @type {Function}
+ * @type {function}
  */
 export default function () {
     window.addEventListener('beforeprint', printBefore);
