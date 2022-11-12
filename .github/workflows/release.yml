@@ -1,9 +1,11 @@
 name: release
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
-  workflow_dispatch:
+    paths-ignore:
+      - '.github/**'
 jobs:
   dockerhub:
     uses: akilli/docker/.github/workflows/dockerhub.yml@master
