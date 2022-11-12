@@ -2,11 +2,10 @@
 # Image
 #
 compose.*
-Dockerfile
+dockerfile
 .dockerignore
 .git
 .github
-Jenkinsfile
 
 #
 # Git
