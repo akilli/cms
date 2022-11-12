@@ -7,6 +7,4 @@ on:
 jobs:
   dockerhub:
     uses: akilli/workflow/.github/workflows/dockerhub.yml@master
-    with:
-      tag: latest
     secrets: inherit
