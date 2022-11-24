@@ -6,6 +6,7 @@ on:
       - master
     paths-ignore:
       - '.github/**'
+      - '**/*.md'
 jobs:
   dockerhub:
     uses: akilli/docker/.github/workflows/dockerhub.yml@master
