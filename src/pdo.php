@@ -129,15 +129,28 @@ function transaction(callable $call, string $id): void
 /**
  * Execute given SQL with params
  */
-function exec(string $db, string $sql, array $params = []): void
+function exec(string $id, string $sql, array $params = []): void
 {
-    $stmt = db($db)->prepare($sql);
+    $stmt = db($id)->prepare($sql);
 
     foreach ($params as $key => $val) {
         $stmt->bindValue($key, $val, type($val));
     }
 
     $stmt->execute();
+}
+
+/**
+ * Returns schema version
+ */
+function version(string $id = 'app', string $schema = 'public'): int
+{
+    $db = db($id);
+    $stmt = $db->prepare('SELECT public.app_version_get(:schema)');
+    $stmt->bindValue(':schema', $schema);
+    $stmt->execute();
+
+    return (int)$stmt->fetchColumn();
 }
 
 /**

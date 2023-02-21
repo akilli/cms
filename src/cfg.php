@@ -216,7 +216,7 @@ function entity(array $data, array $ext): array
         $parent = $data[$entity['parent_id']] ?? null;
 
         if (!$entityId
-            || !preg_match('#^[a-z][a-z_\.]*$#', $entityId)
+            || !preg_match('#^[a-z][a-z_\.]+$#', $entityId)
             || $max && mb_strlen($entityId) > $max
             || !$entity['name']
             || !$entity['db']
@@ -335,7 +335,7 @@ function menu(array $data, array $ext): array
                 throw new DomainException(app\i18n('Invalid configuration'));
             }
 
-            if ($item['url'] && preg_match('#^/([a-z][a-z_\.]*):([a-z]+)(?:|\:([^/\:\.]+))$#', $item['url'], $match)) {
+            if ($item['url'] && preg_match('#^/([a-z][a-z_\.]+):([a-z]+)(?:|\:([^/\:\.]+))$#', $item['url'], $match)) {
                 $item['privilege'] = app\id($match[1], $match[2]);
             }
 

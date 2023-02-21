@@ -40,11 +40,11 @@ function data_app(array $data): array
         $url = $jsonUrl;
     }
 
-    if (preg_match('#^/block:api:([a-z][a-z_\.]*)-(\d+)$#', $url, $match)) {
+    if (preg_match('#^/block:api:([a-z][a-z_\.]+)-(\d+)$#', $url, $match)) {
         $data['entity_id'] = 'block';
         $data['action'] = 'api';
         $data['item_id'] = (int)$match[2];
-    } elseif (preg_match('#^/([a-z][a-z_\.]*):([a-z]+)(?:|\:([^/\:\.]+))$#', $url, $match)) {
+    } elseif (preg_match('#^/([a-z][a-z_\.]+):([a-z]+)(?:|\:([^/\:\.]+))$#', $url, $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['item_id'] = !empty($match[3]) ? (int)$match[3] : null;

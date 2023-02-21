@@ -10,7 +10,7 @@ services:
     volumes:
       - asset:/app
       - db:/data
-      - ./db:/init/postgres
+      - ./db/init:/init/postgres
   php:
     image: akilli/php
     depends_on:

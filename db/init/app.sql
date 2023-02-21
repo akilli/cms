@@ -33,6 +33,21 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE FUNCTION public.app_version_get(_schema text) RETURNS text AS $$
+DECLARE
+    _version text;
+BEGIN
+    SELECT obj_description(_schema::regnamespace, 'pg_namespace') INTO _version;
+    RETURN _version;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION public.app_version_set(_schema text, _version text) RETURNS void AS $$
+BEGIN
+    EXECUTE format('COMMENT ON SCHEMA %I IS %L', _schema, _version);
+END;
+$$ LANGUAGE plpgsql;
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -730,6 +745,13 @@ BEFORE INSERT OR UPDATE ON
     public.layout
 FOR EACH ROW EXECUTE PROCEDURE
     public.layout_save();
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Version
+-- ---------------------------------------------------------------------------------------------------------------------
+
+SELECT public.app_version_set('public', 0::text);
+SELECT public.app_version_get('public');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 

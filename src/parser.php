@@ -10,7 +10,7 @@ namespace parser;
 function tag(string $html, string $tag, array $entityIds = null): array
 {
     $data = [];
-    $entityPattern = $entityIds ? implode('|', $entityIds) : '[a-z][a-z_\.]*';
+    $entityPattern = $entityIds ? implode('|', $entityIds) : '[a-z][a-z_\.]+';
     $pattern = sprintf('#<%1$s id="(%2$s)-(\d+)">(?:[^<]*)</%1$s>#s', $tag, $entityPattern);
 
     if (preg_match_all($pattern, $html, $match)) {

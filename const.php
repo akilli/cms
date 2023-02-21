@@ -5,6 +5,7 @@ declare(strict_types=1);
  * Application constants
  */
 define('APP', [
+    'app.schema' => 0,
     'block' => [
         'id' => null,
         'type' => null,
@@ -281,12 +282,14 @@ define('APP', [
     ],
     'path' => [
         'app.cfg' => '/app/cfg',
+        'app.db' => '/app/db',
         'app.gui' => '/app/gui',
         'app.src' => '/app/src',
         'app.tpl' => '/app/tpl',
         'asset' => '/data',
         'ext' => '/opt',
         'ext.cfg' => '/opt/cfg',
+        'ext.db' => '/opt/db',
         'ext.gui' => '/opt/gui',
         'ext.src' => '/opt/src',
         'ext.tpl' => '/opt/tpl',

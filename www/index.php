@@ -17,23 +17,9 @@ register_shutdown_function(function (): void {
 });
 
 /**
- * Application constants
+ * Bootstrap
  */
-require_once dirname(__DIR__) . '/const.php';
-
-if (file_exists(APP['path']['ext'] . '/const.php')) {
-    require_once APP['path']['ext'] . '/const.php';
-}
-
-/**
- * Restore pregenerated configuration
- */
-cfg\restore();
-
-/**
- * I18n
- */
-setlocale(LC_ALL, APP['locale']);
+require_once dirname(__DIR__) . '/bootstrap.php';
 
 /**
  * Run application

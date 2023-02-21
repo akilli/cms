@@ -114,7 +114,7 @@ function file(string $html): string
     $pattern = '#<app-file id="%s-%s">(?:[^<]*)</app-file>#s';
     $select = ['name', 'entity_id', 'mime', 'info'];
 
-    if (!preg_match_all(sprintf($pattern, '([a-z][a-z_\.]*)', '(\d+)'), $html, $match)) {
+    if (!preg_match_all(sprintf($pattern, '([a-z][a-z_\.]+)', '(\d+)'), $html, $match)) {
         return $html;
     }
 
