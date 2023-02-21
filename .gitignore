@@ -1,4 +1,4 @@
-adminer.php
-compose.override.yml
 .env
 .idea
+local
+compose.override.yml
