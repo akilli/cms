@@ -11,12 +11,13 @@ require_once dirname(__DIR__) . '/bootstrap.php';
 /**
  * Run application
  */
-if (empty($argv[1]) || !preg_match('#^([a-z][a-z_\.]+):([a-z]+)$#', $argv[1], $match)) {
+if (empty($argv[1]) || !($cfg = cfg('cli', $argv[1]))) {
     echo i18n('Invalid command');
     exit(1);
 }
 
-$events = [id('cli', $match[1], $match[2])];
-$data = ['command' => $match[0], 'entity' => $match[1], 'action' => $match[2]];
-event($events, $data);
+$pre = id('cli', $argv[1]);
+$data = event([id($pre, 'preexecute')], ['command' => $argv[1]]);
+$data = $cfg['call']($data);
+event([id($pre, 'postexecute')], $data);
 exit(0);

@@ -3,19 +3,7 @@ declare(strict_types=1);
 
 namespace event;
 
-use cli;
-
 return [
-    'cli:app:init' => [
-        'app:app_init' => [
-            'call' => cli\app_init(...),
-        ],
-    ],
-    'cli:app:upgrade' => [
-        'app:app_install' => [
-            'call' => cli\app_upgrade(...),
-        ],
-    ],
     'data:account' => [
         'app:data_account' => [
             'call' => data_account(...),

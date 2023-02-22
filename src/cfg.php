@@ -88,7 +88,7 @@ function load(string $id): array
             'db' => db($data, $ext),
             'entity' => entity($data, $ext),
             'event' => event($data, $ext),
-            'frontend', 'opt', 'validator', 'viewer' => call($data, $ext),
+            'cli', 'frontend', 'opt', 'validator', 'viewer' => call($data, $ext),
             'i18n' => arr\extend($data, $ext),
             'layout' => layout($data, $ext),
             'menu' => menu($data, $ext),
