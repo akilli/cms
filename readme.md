@@ -45,7 +45,7 @@ docker compose exec --user app php php /app/bin/cli.php app:init
 
 # Database schema version
 
-The core cms tables are created in the *public* schema per default. The curreent schema version is stored as a comment
+The core cms tables are created in the *public* schema per default. The current schema version is stored as a comment
 on the *public* schema.
 
 ## Current version
@@ -60,7 +60,7 @@ SELECT public.app_version_get('public');
 ## Upgrade version
 
 After upgrading the cms to a new version please execute the following command with the cms cli tool to also upgrade the
-schema version on the pre-existing database:
+schema version on the pre-existing database if necessary:
 
 ```
 docker compose exec --user app php php /app/bin/cli.php app:upgrade
