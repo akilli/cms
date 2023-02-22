@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - master
+    tags:
+      - "v*.*.*"
     paths-ignore:
-      - '.github/**'
-      - '**/*.md'
+      - ".github/**"
+      - "**/*.md"
 jobs:
   dockerhub:
     uses: akilli/docker/.github/workflows/dockerhub.yml@master
