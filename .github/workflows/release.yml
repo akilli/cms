@@ -2,17 +2,11 @@ name: release
 on:
   workflow_dispatch:
   push:
-    branches:
-      - master
     tags:
       - "v*.*.*"
-    paths-ignore:
-      - ".github/**"
-      - "**/*.md"
 jobs:
-  build:
+  package:
     runs-on: ubuntu-latest
-    if: github.ref_type == 'tag'
     permissions:
       contents: write
     steps:
