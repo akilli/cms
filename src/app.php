@@ -125,8 +125,8 @@ function allowed(string $id): bool
 }
 
 /**
- * Returns account if given credentials are valid, automatically rehashes password if needed, regenerates session and
- * triggers an event
+ * Verifies credentials, automatically rehashes password if needed, regenerates session and triggers pre and post login
+ * events and returns account data
  */
 function login(string $username, string $password): ?array
 {
