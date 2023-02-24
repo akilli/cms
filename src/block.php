@@ -239,7 +239,7 @@ function login(array $block): string
         ) {
             session\regenerate();
             session\save('account', $account['id']);
-            response\redirect(app\actionurl('account', 'dashboard'));
+            response\redirect();
         }
 
         app\msg(app\i18n('Invalid name and password combination'));

@@ -86,22 +86,16 @@ return [
         'name' => 'My Account',
         'sort' => 70,
     ],
-    'dashboard' => [
-        'name' => 'Dashboard',
-        'url' => '/account:dashboard',
-        'parent_id' => 'my',
-        'sort' => 10,
-    ],
     'profile' => [
         'name' => 'Profile',
         'url' => '/account:profile',
         'parent_id' => 'my',
-        'sort' => 20,
+        'sort' => 10,
     ],
     'logout' => [
         'name' => 'Logout',
         'url' => '/account:logout',
         'parent_id' => 'my',
-        'sort' => 30,
+        'sort' => 20,
     ],
 ];

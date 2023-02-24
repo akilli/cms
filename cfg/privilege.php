@@ -20,9 +20,6 @@ return [
     'account:add' => [
         'use' => '_all_',
     ],
-    'account:dashboard' => [
-        'use' => '_user_',
-    ],
     'account:delete' => [
         'use' => '_all_',
     ],

@@ -32,7 +32,6 @@ return [
     'Could not validate value' => 'Konnte Wert nicht validieren',
     'Created' => 'Erstellt',
     'Current file:' => 'Aktuelle Datei:',
-    'Dashboard' => 'Übersicht',
     'Delete' => 'Löschen',
     'Documents' => 'Dokumente',
     'Edit' => 'Bearbeiten',
