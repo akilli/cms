@@ -125,7 +125,8 @@ function allowed(string $id): bool
 }
 
 /**
- * Returns account if given credentials are valid, automatically rehashes password if needed and triggers an event
+ * Returns account if given credentials are valid, automatically rehashes password if needed, regenerates session and
+ * triggers an event
  */
 function login(string $username, string $password): ?array
 {
@@ -140,6 +141,9 @@ function login(string $username, string $password): ?array
         entity\save('account', $data);
         $account['password'] = $data['password'];
     }
+
+    session\regenerate();
+    session\save('account', $account['id']);
 
     return event([id('app', 'login')], $account);
 }

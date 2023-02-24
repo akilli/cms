@@ -11,7 +11,6 @@ use html;
 use layout;
 use menu;
 use response;
-use session;
 use str;
 
 function add(array $block): string
@@ -233,12 +232,7 @@ function index(array $block): string
 function login(array $block): string
 {
     if ($data = app\data('request', 'post')) {
-        if (!empty($data['username'])
-            && !empty($data['password'])
-            && ($account = app\login($data['username'], $data['password']))
-        ) {
-            session\regenerate();
-            session\save('account', $account['id']);
+        if (!empty($data['username']) && !empty($data['password']) && app\login($data['username'], $data['password'])) {
             response\redirect();
         }
 
