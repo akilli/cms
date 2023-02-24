@@ -142,10 +142,14 @@ function login(string $username, string $password): ?array
         $account['password'] = $data['password'];
     }
 
+    if (!$account = event([id('app', 'prelogin')], $account)) {
+        return null;
+    }
+
     session\regenerate();
     session\save('account', $account['id']);
 
-    return event([id('app', 'login')], $account);
+    return event([id('app', 'postlogin')], $account);
 }
 
 /**
