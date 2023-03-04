@@ -1,11 +1,11 @@
 #
 # Image
 #
-compose.*
-dockerfile
 .dockerignore
 .git
 .github
+compose.*
+dockerfile
 
 #
 # Git

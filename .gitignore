@@ -1,5 +1,5 @@
 .env
 .fleet
 .idea
-local
 compose.override.yml
+local
