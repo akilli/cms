@@ -20,4 +20,3 @@ $pre = id('cli', $argv[1]);
 $data = event([id($pre, 'preexecute')], ['command' => $argv[1]]);
 $data = $cfg['call']($data);
 event([id($pre, 'postexecute')], $data);
-exit(0);
