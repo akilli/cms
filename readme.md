@@ -17,6 +17,8 @@ so that you can easily extend it by creating a custom `Dockerfile` with just the
 FROM akilli/cms
 ```
 
+The database password can be adjusted with the environment variable `APP_DB_PASSWORD`.
+
 # Usage
 
 Start the docker containers with
