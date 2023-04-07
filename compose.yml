@@ -5,6 +5,8 @@ services:
   db:
     image: akilli/postgres
     restart: unless-stopped
+    environment:
+      - PGPASS=app
     ports:
       - "5432:5432"
     volumes:
@@ -17,6 +19,7 @@ services:
       - db
     restart: unless-stopped
     environment:
+      - APP_DB_PASSWORD=app
       - DEV=1
     volumes:
       - asset:/data:nocopy
