@@ -10,6 +10,5 @@ dockerfile
 #
 # Git
 #
-.fleet
+/www/local
 .idea
-local

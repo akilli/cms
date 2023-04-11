@@ -1,4 +1,3 @@
-.fleet
+/www/local
 .idea
 compose.override.yml
-local
