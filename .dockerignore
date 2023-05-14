@@ -1,14 +1,4 @@
-#
-# Image
-#
+.*/
 .dockerignore
-.git
-.github
 compose.*
 dockerfile
-
-#
-# Git
-#
-/www/local
-.idea
