@@ -18,16 +18,10 @@ CREATE FUNCTION public.app_is_entity_id(_schema text, _table text) RETURNS boole
 DECLARE
     _is boolean;
 BEGIN
-    SELECT
-        count(column_name) > 0
-    FROM
-        information_schema.columns
-    WHERE
-        table_schema = _schema
-        AND table_name = _table
-        AND column_name = 'entity_id'
-    INTO
-        _is;
+    SELECT count(column_name) > 0
+    FROM information_schema.columns
+    WHERE (table_schema, table_name, column_name) = (_schema, _table, 'entity_id')
+    INTO _is;
 
     RETURN _is;
 END;
@@ -206,12 +200,7 @@ CREATE UNIQUE INDEX ON public.url (target_entity_id, target_id);
 --
 
 CREATE VIEW public.audio AS
-SELECT
-    *
-FROM
-    public.file
-WHERE
-    entity_id = 'audio'
+SELECT * FROM public.file WHERE entity_id = 'audio'
 WITH LOCAL CHECK OPTION;
 
 --
@@ -219,12 +208,7 @@ WITH LOCAL CHECK OPTION;
 --
 
 CREATE VIEW public.document AS
-SELECT
-    *
-FROM
-    public.file
-WHERE
-    entity_id = 'document'
+SELECT * FROM public.file WHERE entity_id = 'document'
 WITH LOCAL CHECK OPTION;
 
 --
@@ -232,12 +216,7 @@ WITH LOCAL CHECK OPTION;
 --
 
 CREATE VIEW public.iframe AS
-SELECT
-    *
-FROM
-    public.file
-WHERE
-    entity_id = 'iframe'
+SELECT * FROM public.file WHERE entity_id = 'iframe'
 WITH LOCAL CHECK OPTION;
 
 --
@@ -245,12 +224,7 @@ WITH LOCAL CHECK OPTION;
 --
 
 CREATE VIEW public.image AS
-SELECT
-    *
-FROM
-    public.file
-WHERE
-    entity_id = 'image'
+SELECT * FROM public.file WHERE entity_id = 'image'
 WITH LOCAL CHECK OPTION;
 
 --
@@ -258,12 +232,7 @@ WITH LOCAL CHECK OPTION;
 --
 
 CREATE VIEW public.video AS
-SELECT
-    *
-FROM
-    public.file
-WHERE
-    entity_id = 'video'
+SELECT * FROM public.file WHERE entity_id = 'video'
 WITH LOCAL CHECK OPTION;
 
 --
@@ -271,12 +240,7 @@ WITH LOCAL CHECK OPTION;
 --
 
 CREATE VIEW public.contentpage AS
-SELECT
-    *
-FROM
-    public.page
-WHERE
-    entity_id = 'contentpage'
+SELECT * FROM public.page WHERE entity_id = 'contentpage'
 WITH LOCAL CHECK OPTION;
 
 --
@@ -284,12 +248,7 @@ WITH LOCAL CHECK OPTION;
 --
 
 CREATE VIEW public.contentblock AS
-SELECT
-    *
-FROM
-    public.block
-WHERE
-    entity_id = 'contentblock'
+SELECT * FROM public.block WHERE entity_id = 'contentblock'
 WITH LOCAL CHECK OPTION;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -310,11 +269,8 @@ BEGIN
         _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
     END IF;
 
-    DELETE FROM
-        public.url
-    WHERE
-        target_entity_id = _ent
-        AND target_id = OLD.id;
+    DELETE FROM public.url
+    WHERE (target_entity_id, target_id) = (_ent, OLD.id);
 
     RETURN OLD;
 END;
@@ -332,33 +288,19 @@ BEGIN
     END IF;
 
     IF (TG_OP = 'UPDATE') THEN
-        SELECT
-            count(id)
-        FROM
-            public.url
-        WHERE
-            name = OLD.url
-            AND target_entity_id = _ent
-            AND target_id = OLD.id
-        INTO
-            _cnt;
+        SELECT count(id)
+        FROM public.url
+        WHERE (target_entity_id, target_id, name) = (_ent, OLD.id, OLD.url)
+        INTO _cnt;
     END IF;
 
     IF (TG_OP = 'INSERT' OR _cnt = 0) THEN
-        INSERT INTO
-            public.url
-            (name, target_entity_id, target_id)
-        VALUES
-            (NEW.url, _ent, NEW.id);
+        INSERT INTO public.url (name, target_entity_id, target_id)
+        VALUES (NEW.url, _ent, NEW.id);
     ELSE
-        UPDATE
-            public.url
-        SET
-            name = NEW.url
-        WHERE
-            name = OLD.url
-            AND target_entity_id = _ent
-            AND target_id = OLD.id;
+        UPDATE public.url
+        SET name = NEW.url
+        WHERE (target_entity_id, target_id, name) = (_ent, OLD.id, OLD.url);
     END IF;
 
     RETURN NEW;
@@ -431,14 +373,10 @@ BEGIN
         RAISE EXCEPTION 'Recursion error';
     END IF;
 
-    SELECT
-        count(id) + 1
-    FROM
-        public.menu
-    WHERE
-        coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
-    INTO
-        _cnt;
+    SELECT count(id) + 1
+    FROM public.menu
+    WHERE coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
+    INTO _cnt;
 
     IF (TG_OP = 'UPDATE' AND coalesce(NEW.parent_id, 0) = coalesce(OLD.parent_id, 0)) THEN
         _cnt := _cnt - 1;
@@ -466,26 +404,16 @@ BEGIN
 
     -- Remove from old parent
     IF (TG_OP = 'UPDATE' OR TG_OP = 'DELETE') THEN
-        UPDATE
-            public.menu
-        SET
-            sort = sort - 1
-        WHERE
-            id != OLD.id
-            AND coalesce(parent_id, 0) = coalesce(OLD.parent_id, 0)
-            AND sort > OLD.sort;
+        UPDATE public.menu
+        SET sort = sort - 1
+        WHERE id != OLD.id AND coalesce(parent_id, 0) = coalesce(OLD.parent_id, 0) AND sort > OLD.sort;
     END IF;
 
     -- Add to new parent
     IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
-        UPDATE
-            public.menu
-        SET
-            sort = sort + 1
-        WHERE
-            id != NEW.id
-            AND coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0)
-            AND sort >= NEW.sort;
+        UPDATE public.menu
+        SET sort = sort + 1
+        WHERE id != NEW.id AND coalesce(parent_id, 0) = coalesce(NEW.parent_id, 0) AND sort >= NEW.sort;
     END IF;
 
     -- Update positions
@@ -494,16 +422,11 @@ BEGIN
         SELECT
             m.id,
             (
-                SELECT
-                   count(id)
-                FROM
-                   public.menu
-                WHERE
-                   coalesce(parent_id, 0) = coalesce(m.parent_id, 0)
-                   AND (sort < m.sort OR sort = m.sort AND id < m.id)
+                SELECT count(id)
+                FROM public.menu
+                WHERE coalesce(parent_id, 0) = coalesce(m.parent_id, 0) AND (sort < m.sort OR sort = m.sort AND id < m.id)
             ) + 1 AS sort
-        FROM
-            public.menu m
+        FROM public.menu m
     ),
     t AS (
         SELECT
@@ -512,13 +435,9 @@ BEGIN
             lpad(cast(s.sort AS text), _pad, '0') AS position,
             1 AS level,
             '{}'::int[] || m.id AS path
-        FROM
-            public.menu m
-        INNER JOIN
-            s
-                ON s.id = m.id
-        WHERE
-            m.parent_id IS NULL
+        FROM public.menu m
+        INNER JOIN s ON s.id = m.id
+        WHERE m.parent_id IS NULL
         UNION
         SELECT
             m.id,
@@ -526,27 +445,14 @@ BEGIN
             t.position || '.' || lpad(cast(s.sort AS text), _pad, '0') AS position,
             t.level + 1 AS level,
             t.path || m.id AS path
-        FROM
-            public.menu m
-        INNER JOIN
-            t
-                ON t.id = m.parent_id
-        INNER JOIN
-            s
-                ON s.id = m.id
+        FROM public.menu m
+        INNER JOIN t ON t.id = m.parent_id
+        INNER JOIN s ON s.id = m.id
     )
-    UPDATE
-        public.menu m
-    SET
-        sort = t.sort,
-        position = t.position,
-        level = t.level,
-        path = t.path
-    FROM
-        t
-    WHERE
-        m.id = t.id
-        AND (m.sort != t.sort OR m.position != t.position OR m.level != t.level OR m.path != t.path);
+    UPDATE public.menu m
+    SET sort = t.sort, position = t.position, level = t.level, path = t.path
+    FROM t
+    WHERE m.id = t.id AND (m.sort != t.sort OR m.position != t.position OR m.level != t.level OR m.path != t.path);
 
     -- Set session variable to handle recursion
     PERFORM set_config('app.menu', '', true);
@@ -562,7 +468,6 @@ $$ LANGUAGE plpgsql;
 CREATE FUNCTION public.page_menu_delete() RETURNS trigger AS $$
 BEGIN
     DELETE FROM public.menu WHERE url = OLD.url;
-
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
@@ -570,7 +475,6 @@ $$ LANGUAGE plpgsql;
 CREATE FUNCTION public.page_menu_update() RETURNS trigger AS $$
 BEGIN
     UPDATE public.menu SET url = NEW.url WHERE url = OLD.url;
-
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -582,7 +486,6 @@ $$ LANGUAGE plpgsql;
 CREATE FUNCTION public.layout_save() RETURNS trigger AS $$
 BEGIN
     NEW.block_entity_id := (SELECT entity_id FROM public.block WHERE id = NEW.block_id);
-
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -595,156 +498,73 @@ $$ LANGUAGE plpgsql;
 -- Account
 --
 
-CREATE CONSTRAINT TRIGGER
-    account_url_delete
-AFTER DELETE ON
-    public.account
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE
-    public.entity_url_delete();
+CREATE CONSTRAINT TRIGGER account_url_delete AFTER DELETE ON public.account DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE public.entity_url_delete();
 
-CREATE CONSTRAINT TRIGGER
-    account_url_insert
-AFTER INSERT ON
-    public.account
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE
-    public.entity_url_save();
+CREATE CONSTRAINT TRIGGER account_url_insert AFTER INSERT ON public.account DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE public.entity_url_save();
 
-CREATE CONSTRAINT TRIGGER
-    account_url_update
-AFTER UPDATE OF url ON
-    public.account
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE
-    public.entity_url_save();
+CREATE CONSTRAINT TRIGGER account_url_update AFTER UPDATE OF url ON public.account DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE public.entity_url_save();
 
 --
 -- File
 --
 
-CREATE CONSTRAINT TRIGGER
-    page_delete_placeholder_file
-AFTER DELETE ON
-    public.file
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE
-    public.entity_placeholder_delete('app-file', 'public', 'page', 'content');
+CREATE CONSTRAINT TRIGGER page_delete_placeholder_file AFTER DELETE ON public.file DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE public.entity_placeholder_delete('app-file', 'public', 'page', 'content');
 
-CREATE CONSTRAINT TRIGGER
-    block_delete_placeholder_file
-AFTER DELETE ON
-    public.file
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE
-    public.entity_placeholder_delete('app-file', 'public', 'block', 'content');
+CREATE CONSTRAINT TRIGGER block_delete_placeholder_file AFTER DELETE ON public.file DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE public.entity_placeholder_delete('app-file', 'public', 'block', 'content');
 
 --
 -- Menu
 --
 
-CREATE TRIGGER
-    menu_before
-BEFORE INSERT ON
-    public.menu
-FOR EACH ROW EXECUTE PROCEDURE
-    public.menu_before();
+CREATE TRIGGER menu_before BEFORE INSERT ON public.menu
+FOR EACH ROW EXECUTE PROCEDURE public.menu_before();
 
-CREATE CONSTRAINT TRIGGER
-    menu_after
-AFTER DELETE OR INSERT ON
-    public.menu
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE
-    public.menu_after();
+CREATE CONSTRAINT TRIGGER menu_after AFTER DELETE OR INSERT ON public.menu DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE public.menu_after();
 
-CREATE TRIGGER
-    menu_before_update
-BEFORE UPDATE OF parent_id, sort ON
-    public.menu
-FOR EACH ROW WHEN (
-    coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)
-    OR NEW.sort != OLD.sort
-) EXECUTE PROCEDURE
-    public.menu_before();
+CREATE TRIGGER menu_before_update BEFORE UPDATE OF parent_id, sort ON public.menu
+FOR EACH ROW WHEN (coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0) OR NEW.sort != OLD.sort) EXECUTE PROCEDURE public.menu_before();
 
-CREATE CONSTRAINT TRIGGER
-    menu_after_update
-AFTER UPDATE OF parent_id, sort ON
-    public.menu
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW WHEN (
-    coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0)
-    OR NEW.sort != OLD.sort
-) EXECUTE PROCEDURE
-    public.menu_after();
+CREATE CONSTRAINT TRIGGER menu_after_update AFTER UPDATE OF parent_id, sort ON public.menu DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW WHEN (coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0) OR NEW.sort != OLD.sort) EXECUTE PROCEDURE public.menu_after();
 
 --
 -- Page
 --
 
-CREATE CONSTRAINT TRIGGER
-    page_menu_delete
-AFTER DELETE ON
-    public.page
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE
-    public.page_menu_delete();
+CREATE CONSTRAINT TRIGGER page_menu_delete AFTER DELETE ON public.page DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE public.page_menu_delete();
 
-CREATE CONSTRAINT TRIGGER
-    page_menu_update
-AFTER UPDATE OF url ON
-    public.page
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE
-    public.page_menu_update();
+CREATE CONSTRAINT TRIGGER page_menu_update AFTER UPDATE OF url ON public.page DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE public.page_menu_update();
 
-CREATE CONSTRAINT TRIGGER
-    page_url_delete
-AFTER DELETE ON
-    public.page
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE
-    public.entity_url_delete();
+CREATE CONSTRAINT TRIGGER page_url_delete AFTER DELETE ON public.page DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE public.entity_url_delete();
 
-CREATE CONSTRAINT TRIGGER
-    page_url_insert
-AFTER INSERT ON
-    public.page
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE
-    public.entity_url_save();
+CREATE CONSTRAINT TRIGGER page_url_insert AFTER INSERT ON public.page DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE public.entity_url_save();
 
-CREATE CONSTRAINT TRIGGER
-    page_url_update
-AFTER UPDATE OF url ON
-    public.page
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE
-    public.entity_url_save();
+CREATE CONSTRAINT TRIGGER page_url_update AFTER UPDATE OF url ON public.page DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE public.entity_url_save();
 
 --
 -- Block
 --
 
-CREATE CONSTRAINT TRIGGER
-    page_delete_placeholder_block
-AFTER DELETE ON
-    public.block
-DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE
-    public.entity_placeholder_delete('app-block', 'public', 'page', 'content');
+CREATE CONSTRAINT TRIGGER page_delete_placeholder_block AFTER DELETE ON public.block DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE public.entity_placeholder_delete('app-block', 'public', 'page', 'content');
 
 --
 -- Layout
 --
 
-CREATE TRIGGER
-    layout_save
-BEFORE INSERT OR UPDATE ON
-    public.layout
-FOR EACH ROW EXECUTE PROCEDURE
-    public.layout_save();
+CREATE TRIGGER layout_save BEFORE INSERT OR UPDATE ON public.layout
+FOR EACH ROW EXECUTE PROCEDURE public.layout_save();
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Version
