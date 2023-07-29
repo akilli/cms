@@ -76,17 +76,10 @@ BEGIN
 
     -- Base table
     FOR _attr IN
-        SELECT
-            column_name AS name,
-            lower(data_type) AS type
-        FROM
-            information_schema.columns
-        WHERE
-            table_schema = _base_schema
-            AND table_name = _base_name
-            AND column_name != 'id'
-        ORDER BY
-            ordinal_position ASC
+        SELECT column_name AS name, lower(data_type) AS type
+        FROM information_schema.columns
+        WHERE table_schema = _base_schema AND table_name = _base_name AND column_name != 'id'
+        ORDER BY ordinal_position ASC
     LOOP
         _newVal := jsonb_extract_path_text(_new, _attr.name);
 
@@ -132,17 +125,10 @@ BEGIN
     _set := '';
 
     FOR _attr IN
-        SELECT
-            column_name AS name,
-            lower(data_type) AS type
-        FROM
-            information_schema.columns
-        WHERE
-            table_schema = _ext_schema
-            AND table_name = _ext_name
-            AND column_name != 'id'
-        ORDER BY
-            ordinal_position ASC
+        SELECT column_name AS name, lower(data_type) AS type
+        FROM information_schema.columns
+        WHERE table_schema = _ext_schema AND table_name = _ext_name AND column_name != 'id'
+        ORDER BY ordinal_position ASC
     LOOP
         _newVal := jsonb_extract_path_text(_new, _attr.name);
 
