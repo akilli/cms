@@ -6,7 +6,7 @@ return [
         'type' => 'html',
     ],
     'head' => [
-        'type' => 'container',
+        'type' => 'head',
         'tag' => 'head',
         'parent_id' => 'html',
         'sort' => 100,
@@ -16,29 +16,6 @@ return [
         'tag' => 'body',
         'parent_id' => 'html',
         'sort' => 200,
-    ],
-    'meta' => [
-        'type' => 'meta',
-        'parent_id' => 'head',
-        'sort' => 100,
-    ],
-    'icon' => [
-        'type' => 'tpl',
-        'tpl' => 'icon.phtml',
-        'parent_id' => 'head',
-        'sort' => 200,
-    ],
-    'asset' => [
-        'type' => 'tpl',
-        'tpl' => 'asset.phtml',
-        'parent_id' => 'head',
-        'sort' => 300,
-    ],
-    'asset-admin' => [
-        'type' => 'tpl',
-        'tpl' => 'asset-admin.phtml',
-        'parent_id' => 'head',
-        'sort' => 400,
     ],
     'toolbar' => [
         'type' => 'menu',

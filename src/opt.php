@@ -17,7 +17,6 @@ function container(): array
 {
     if (($opt = &app\registry('opt.container')) === null) {
         $cfg = app\cfg('layout')['html'];
-        unset($cfg['head']);
         $ids = array_keys(arr\filter($cfg, 'type', 'container'));
         $opt = array_combine($ids, $ids);
     }

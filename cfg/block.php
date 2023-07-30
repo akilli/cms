@@ -49,6 +49,10 @@ return [
             'attr_id' => [],
         ],
     ],
+    'head' => [
+        'call' => head(...),
+        'tpl' => 'head.phtml',
+    ],
     'html' => [
         'call' => html(...),
     ],
@@ -82,10 +86,6 @@ return [
         'cfg' => [
             'id' => null,
         ],
-    ],
-    'meta' => [
-        'call' => meta(...),
-        'tpl' => 'meta.phtml',
     ],
     'pager' => [
         'call' => pager(...),

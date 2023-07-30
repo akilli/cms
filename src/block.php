@@ -114,6 +114,21 @@ function form(array $block): string
     );
 }
 
+function head(array $block): string
+{
+    $app = app\data('app');
+    $desc = $app['item']['meta_description'] ?? null;
+    $title = app\cfg('app', 'title') ?? '';
+    $title = match (true) {
+        $app['action'] !== 'view' => trim(($app['entity']['name'] ?? '') . ' - ' . $title, '- '),
+        !empty($app['item']['meta_title']) => $app['item']['meta_title'],
+        !empty($app['item']['name']) => $app['item']['name'] . ' - ' . $title,
+        default => $title,
+    };
+
+    return app\tpl($block['tpl'], ['description' => str\enc($desc), 'title' => str\enc($title)]);
+}
+
 function html(): string
 {
     $app = app\data('app');
@@ -282,21 +297,6 @@ function menu(array $block): string
     }
 
     return html\element('nav', ['id' => $block['id']], $html);
-}
-
-function meta(array $block): string
-{
-    $app = app\data('app');
-    $desc = $app['item']['meta_description'] ?? null;
-    $title = app\cfg('app', 'title') ?? '';
-    $title = match (true) {
-        $app['action'] !== 'view' => trim(($app['entity']['name'] ?? '') . ' - ' . $title, '- '),
-        !empty($app['item']['meta_title']) => $app['item']['meta_title'],
-        !empty($app['item']['name']) => $app['item']['name'] . ' - ' . $title,
-        default => $title,
-    };
-
-    return app\tpl($block['tpl'], ['description' => str\enc($desc), 'title' => str\enc($title)]);
 }
 
 function pager(array $block): string
