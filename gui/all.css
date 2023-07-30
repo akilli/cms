@@ -527,13 +527,9 @@ div[data-required] > label:first-child::after {
 }
 
 #header h1 {
+    justify-self: end;
     line-height: 1;
     margin-top: 0;
-}
-
-#header a.name ~ h1 {
-    justify-self: end;
-    text-align: center;
 }
 
 /**
