@@ -515,7 +515,6 @@ div[data-required] > label:first-child::after {
     grid-template-columns: 2fr 3fr;
     column-gap: 1.5rem;
     align-items: center;
-    text-align: center;
 }
 
 #header a.name {
@@ -528,9 +527,12 @@ div[data-required] > label:first-child::after {
 }
 
 #header h1 {
-    justify-self: end;
     line-height: 1;
     margin-top: 0;
+}
+
+#header a.name ~ h1 {
+    justify-self: end;
     text-align: center;
 }
 
