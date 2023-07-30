@@ -2,9 +2,9 @@
 declare(strict_types=1);
 
 return [
-    'title' => [
+    'header' => [
         'cfg' => [
-            'text' => 'Error',
+            'title' => 'Error',
         ],
     ],
     'main-content' => [

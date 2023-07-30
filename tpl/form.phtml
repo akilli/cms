@@ -5,8 +5,12 @@ use attr;
 /** @var callable $var */
 $app = data('app');
 $data = $var('data');
+$title = $var('title');
 ?>
 <form method="post"<?php if ($var('multipart')): ?> enctype="multipart/form-data"<?php endif; ?> class="block-form">
+    <?php if ($title): ?>
+    <h2><?php echo $title; ?></h2>
+    <?php endif; ?>
     <fieldset>
         <?php foreach ($var('attr') as $attr): ?>
         <?php echo attr\frontend($data, $attr, wrap: true, label: true); ?>

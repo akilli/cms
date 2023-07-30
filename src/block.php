@@ -108,10 +108,12 @@ function form(array $block): string
     $args = $app['item'] ? [$app['item'], $data] : [$data];
     $data = arr\replace(entity\item($entity['id']), ...$args);
 
-    return app\tpl(
-        $block['tpl'],
-        ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]
-    );
+    return app\tpl($block['tpl'], [
+        'attr' => $attrs,
+        'data' => $data,
+        'multipart' => !!arr\filter($attrs, 'uploadable', true),
+        'title' => $block['cfg']['title'] ? str\enc(app\i18n($block['cfg']['title'])) : null,
+    ]);
 }
 
 function head(array $block): string
@@ -127,6 +129,18 @@ function head(array $block): string
     };
 
     return app\tpl($block['tpl'], ['description' => str\enc($desc), 'title' => str\enc($title)]);
+}
+
+function header(array $block): string
+{
+    $app = app\data('app');
+    $title = match (true) {
+        !!$block['cfg']['title'] => app\i18n($block['cfg']['title']),
+        $app['action'] !== 'view' => $app['entity']['name'] ?? '',
+        default => $app['item']['title'] ?? $app['item']['name'] ?? '',
+    };
+
+    return app\tpl($block['tpl'], ['title' => str\enc($title)]);
 }
 
 function html(): string
@@ -261,7 +275,12 @@ function login(array $block): string
     ];
     $attrs = arr\extend(arr\extract($entity['attr'], ['username', 'password']), $a);
 
-    return app\tpl($block['tpl'], ['attr' => $attrs, 'data' => [], 'multipart' => false]);
+    return app\tpl($block['tpl'], [
+        'attr' => $attrs,
+        'data' => [],
+        'multipart' => false,
+        'title' => $block['cfg']['title'] ? str\enc(app\i18n($block['cfg']['title'])) : null,
+    ]);
 }
 
 function menu(array $block): string
@@ -379,27 +398,17 @@ function profile(array $block): string
 
     $data = $data ? arr\replace($account, $data) : $account;
 
-    return app\tpl(
-        $block['tpl'],
-        ['attr' => $attrs, 'data' => $data, 'multipart' => !!arr\filter($attrs, 'uploadable', true)]
-    );
+    return app\tpl($block['tpl'], [
+        'attr' => $attrs,
+        'data' => $data,
+        'multipart' => !!arr\filter($attrs, 'uploadable', true),
+        'title' => $block['cfg']['title'] ? str\enc(app\i18n($block['cfg']['title'])) : null,
+    ]);
 }
 
 function tag(array $block): string
 {
     return $block['tag'] ? html\element($block['tag'], $block['cfg']['attr'], $block['cfg']['val']) : '';
-}
-
-function title(array $block): string
-{
-    $app = app\data('app');
-    $text = match (true) {
-        !!$block['cfg']['text'] => app\i18n($block['cfg']['text']),
-        $app['action'] !== 'view' => $app['entity']['name'] ?? '',
-        default => $app['item']['title'] ?? $app['item']['name'] ?? '',
-    };
-
-    return $text ? html\element('h1', [], str\enc($text)) : '';
 }
 
 function tpl(array $block): string

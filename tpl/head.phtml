@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace app;
 /** @var callable $var */
 $desc = $var('description');
+$isAdmin = data('app', 'action') !== 'view';
 ?>
 <meta charset="utf-8"/>
 <?php if ($desc): ?>
@@ -20,7 +21,7 @@ $desc = $var('description');
 <link rel="stylesheet" href="<?php echo guiurl('base.css'); ?>"/>
 <link rel="stylesheet" href="<?php echo guiurl('all.css'); ?>"/>
 <script src="<?php echo guiurl('all.js'); ?>" type="module"></script>
-<?php if (data('app', 'action') !== 'view'): ?>
+<?php if ($isAdmin): ?>
 <link rel="stylesheet" href="<?php echo guiurl('editor/editor.css'); ?>"/>
 <link rel="stylesheet" href="<?php echo guiurl('admin.css'); ?>"/>
 <script src="<?php echo guiurl('admin.js'); ?>" type="module"></script>

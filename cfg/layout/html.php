@@ -27,13 +27,9 @@ return [
         ],
     ],
     'header' => [
-        'type' => 'container',
-        'tag' => 'header',
+        'type' => 'header',
         'parent_id' => 'body',
         'sort' => 200,
-        'cfg' => [
-            'id' => true,
-        ],
     ],
     'menu' => [
         'type' => 'menu',
@@ -61,17 +57,6 @@ return [
         'cfg' => [
             'id' => true,
         ],
-    ],
-    'logo' => [
-        'type' => 'tpl',
-        'tpl' => 'logo.phtml',
-        'parent_id' => 'header',
-        'sort' => 100,
-    ],
-    'title' => [
-        'type' => 'title',
-        'parent_id' => 'header',
-        'sort' => 200,
     ],
     'content' => [
         'type' => 'container',

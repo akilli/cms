@@ -47,11 +47,19 @@ return [
         'tpl' => 'form.phtml',
         'cfg' => [
             'attr_id' => [],
+            'title' => null,
         ],
     ],
     'head' => [
         'call' => head(...),
         'tpl' => 'head.phtml',
+    ],
+    'header' => [
+        'call' => header(...),
+        'tpl' => 'header.phtml',
+        'cfg' => [
+            'title' => null,
+        ],
     ],
     'html' => [
         'call' => html(...),
@@ -80,6 +88,9 @@ return [
     'login' => [
         'call' => login(...),
         'tpl' => 'form.phtml',
+        'cfg' => [
+            'title' => null,
+        ],
     ],
     'menu' => [
         'call' => menu(...),
@@ -102,6 +113,7 @@ return [
         'tpl' => 'form.phtml',
         'cfg' => [
             'attr_id' => [],
+            'title' => null,
         ],
     ],
     'tag' => [
@@ -109,12 +121,6 @@ return [
         'cfg' => [
             'attr' => [],
             'val' => null,
-        ],
-    ],
-    'title' => [
-        'call' => title(...),
-        'cfg' => [
-            'text' => null,
         ],
     ],
     'tpl' => [
