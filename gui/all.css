@@ -137,7 +137,7 @@ input:is([type=button],[type=submit]),
 :is(details[open], .msg) ::selection,
 :is(#toolbar, #menu),
 :is(#toolbar, #menu) li ul,
-:root[data-entity=account][data-action=login] input,
+:root[data-id='account:login'] input,
 :root[data-browser] .block-index article:hover {
     color: var(--app-color-primary-text);
     background: var(--app-color-primary-dark);
@@ -150,7 +150,7 @@ input[type=reset] {
 }
 
 form:invalid [type=submit],
-:root[data-entity=account][data-action=login] :is(.msg, div[data-invalid] :invalid) {
+:root[data-id='account:login'] :is(.msg, div[data-invalid] :invalid) {
     color: var(--app-color-error-text);
     background: var(--app-color-error);
 }
@@ -565,23 +565,23 @@ div[data-required] > label:first-child::after {
 /**
  * Account Login
  */
-:root[data-entity=account][data-action=login] body {
+:root[data-id='account:login'] body {
     background-image: url(cms-dark.svg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 }
 
-:root[data-entity=account][data-action=login] input {
+:root[data-id='account:login'] input {
     padding: 0.75rem;
     border: 0;
 }
 
-:root[data-entity=account][data-action=login] .msg {
+:root[data-id='account:login'] .msg {
     margin: 1.5rem 0 0;
 }
 
-:root[data-entity=account][data-action=login] main {
+:root[data-id='account:login'] main {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -591,7 +591,7 @@ div[data-required] > label:first-child::after {
     margin: 0 auto;
 }
 
-:root[data-entity=account][data-action=login] main > * {
+:root[data-id='account:login'] main > * {
     width: 100%;
 }
 

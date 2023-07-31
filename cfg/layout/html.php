@@ -3,19 +3,16 @@ declare(strict_types=1);
 
 return [
     'html' => [
-        'type' => 'html',
+        'type' => 'tpl',
+        'tpl' => 'html.phtml',
     ],
     'head' => [
         'type' => 'head',
-        'tag' => 'head',
         'parent_id' => 'html',
-        'sort' => 100,
     ],
     'body' => [
         'type' => 'container',
-        'tag' => 'body',
         'parent_id' => 'html',
-        'sort' => 200,
     ],
     'toolbar' => [
         'type' => 'menu',

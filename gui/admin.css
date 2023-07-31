@@ -30,11 +30,11 @@ form akilli-editor {
 /**
  * Font
  */
-:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
+:root:is([data-id='role:add'], [data-id^='role:edit:']) [data-attr=privilege] label[for=attr-privilege] {
     font-size: 1rem;
 }
 
-:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] {
+:root:is([data-id='role:add'], [data-id^='role:edit:']) [data-attr=privilege] {
     font-size: 0.875rem;
 }
 
@@ -75,19 +75,11 @@ akilli-editor editor-root :is(colgroup, tr)::before {
 /**
  * Role Edit
  */
-:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] {
+:root:is([data-id='role:add'], [data-id^='role:edit']) [data-attr=privilege] {
     display: grid;
     grid-template-columns: 1.25rem auto;
 }
 
-:root[data-entity=role]:is([data-action=add], [data-action=edit]) [data-attr=privilege] label[for=attr-privilege] {
+:root:is([data-id='role:add'], [data-id^='role:edit']) [data-attr=privilege] label[for=attr-privilege] {
     grid-column: span 2;
-}
-
-/**
- * Block Edit
- */
-:root[data-parent=block]:is([data-action=add], [data-action=edit]) editor-toolbar button[data-command=block] {
-    display: none;
-    pointer-events: none;
 }

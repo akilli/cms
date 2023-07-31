@@ -109,15 +109,17 @@ define('APP', [
     'data' => [
         'app' => [
             'id' => null,
-            'url' => null,
+            'parent_id' => null,
             'entity_id' => null,
+            'parent_entity_id' => null,
             'action' => null,
             'item_id' => null,
-            'parent_id' => null,
+            'url' => null,
             'valid' => false,
             'type' => 'html',
             'event' => [],
             'entity' => null,
+            'parent_entity' => null,
             'item' => null,
         ],
         'request' => [

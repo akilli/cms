@@ -5,27 +5,25 @@ namespace app;
 $desc = $var('description');
 $isAdmin = data('app', 'action') !== 'view';
 ?>
-<head>
-    <meta charset="utf-8"/>
-    <?php if ($desc): ?>
-    <meta name="description" content="<?php echo $desc; ?>"/>
-    <?php endif; ?>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0"/>
-    <title><?php echo $var('title'); ?></title>
-    <meta name="msapplication-config" content="<?php echo guiurl('icon/browserconfig.xml'); ?>"/>
-    <link rel="manifest" href="<?php echo guiurl('icon/manifest.json'); ?>"/>
-    <link rel="shortcut icon" href="<?php echo guiurl('icon/favicon.ico'); ?>"/>
-    <link rel="shortcut icon" href="<?php echo guiurl('icon/favicon.png'); ?>" sizes="32x32"/>
-    <link rel="shortcut icon" href="<?php echo guiurl('cms.svg'); ?>" sizes="any"/>
-    <link rel="mask-icon" href="<?php echo guiurl('cms.svg'); ?>"/>
-    <link rel="apple-touch-icon-precomposed" href="<?php echo guiurl('icon/apple-touch.png'); ?>"/>
-    <link rel="stylesheet" href="<?php echo guiurl('base.css'); ?>"/>
-    <link rel="stylesheet" href="<?php echo guiurl('all.css'); ?>"/>
-    <script src="<?php echo guiurl('all.js'); ?>" type="module"></script>
-    <?php if ($isAdmin): ?>
-    <link rel="stylesheet" href="<?php echo guiurl('editor/editor.css'); ?>"/>
-    <link rel="stylesheet" href="<?php echo guiurl('admin.css'); ?>"/>
-    <script src="<?php echo guiurl('admin.js'); ?>" type="module"></script>
-    <?php endif; ?>
-    <?php echo $var('children'); ?>
-</head>
+<meta charset="utf-8"/>
+<?php if ($desc): ?>
+<meta name="description" content="<?php echo $desc; ?>"/>
+<?php endif; ?>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0"/>
+<title><?php echo $var('title'); ?></title>
+<meta name="msapplication-config" content="<?php echo guiurl('icon/browserconfig.xml'); ?>"/>
+<link rel="manifest" href="<?php echo guiurl('icon/manifest.json'); ?>"/>
+<link rel="shortcut icon" href="<?php echo guiurl('icon/favicon.ico'); ?>"/>
+<link rel="shortcut icon" href="<?php echo guiurl('icon/favicon.png'); ?>" sizes="32x32"/>
+<link rel="shortcut icon" href="<?php echo guiurl('cms.svg'); ?>" sizes="any"/>
+<link rel="mask-icon" href="<?php echo guiurl('cms.svg'); ?>"/>
+<link rel="apple-touch-icon-precomposed" href="<?php echo guiurl('icon/apple-touch.png'); ?>"/>
+<link rel="stylesheet" href="<?php echo guiurl('base.css'); ?>"/>
+<link rel="stylesheet" href="<?php echo guiurl('all.css'); ?>"/>
+<script src="<?php echo guiurl('all.js'); ?>" type="module"></script>
+<?php if ($isAdmin): ?>
+<link rel="stylesheet" href="<?php echo guiurl('editor/editor.css'); ?>"/>
+<link rel="stylesheet" href="<?php echo guiurl('admin.css'); ?>"/>
+<script src="<?php echo guiurl('admin.js'); ?>" type="module"></script>
+<?php endif; ?>
+<?php echo $var('children'); ?>

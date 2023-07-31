@@ -61,9 +61,6 @@ return [
             'title' => null,
         ],
     ],
-    'html' => [
-        'call' => html(...),
-    ],
     'index' => [
         'call' => index(...),
         'tpl' => 'index.phtml',

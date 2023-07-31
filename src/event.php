@@ -62,7 +62,6 @@ function data_app(array $data): array
 
     $data['id'] = app\id($data['entity_id'], $data['action'], ...($data['item_id'] ? [$data['item_id']] : []));
     $data['entity'] ??= app\cfg('entity', $data['entity_id']);
-    $data['parent_id'] = $data['entity']['parent_id'] ?? null;
     $withId = in_array($data['action'], ['api', 'delete', 'edit', 'view']);
     $data['valid'] = app\allowed(app\id($data['entity_id'], $data['action']))
         && $data['entity']
@@ -74,16 +73,26 @@ function data_app(array $data): array
         return $data;
     }
 
+    if ($data['entity']['parent_id']) {
+        $data['parent_entity_id'] = $data['entity']['parent_id'];
+        $data['parent_id'] = app\id(
+            $data['parent_entity_id'],
+            $data['action'],
+            ...($data['item_id'] ? [$data['item_id']] : [])
+        );
+        $data['parent_entity'] = app\cfg('entity', $data['parent_entity_id']);
+    }
+
     $data['event'] = [$data['type'], app\id($data['type'], $data['action'])];
 
-    if ($data['parent_id']) {
-        $data['event'][] = app\id($data['type'], $data['parent_id'], $data['action']);
+    if ($data['parent_entity_id']) {
+        $data['event'][] = app\id($data['type'], $data['parent_entity_id'], $data['action']);
     }
 
     $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action']);
 
-    if ($data['parent_id'] && $data['item_id']) {
-        $data['event'][] = app\id($data['type'], $data['parent_id'], $data['action'], $data['item_id']);
+    if ($data['parent_entity_id'] && $data['item_id']) {
+        $data['event'][] = app\id($data['type'], $data['parent_entity_id'], $data['action'], $data['item_id']);
     }
 
     if ($data['item_id']) {
@@ -98,7 +107,7 @@ function data_layout(array $data): array
     $cfg = app\cfg('layout');
     $app = app\data('app');
 
-    if (in_array('page', [$app['parent_id'], $app['entity_id']]) && $app['item_id']) {
+    if (in_array('page', [$app['parent_entity_id'], $app['entity_id']]) && $app['item_id']) {
         foreach (entity\all('layout', crit: [['page_id', $app['item_id']]]) as $item) {
             $cfg[app\id('html', 'page', 'view', $app['item_id'])]['layout-' . $item['id']] = [
                 'type' => 'tag',

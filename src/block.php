@@ -147,24 +147,6 @@ function header(array $block): string
     return app\tpl($block['tpl'], ['title' => str\enc($title)]);
 }
 
-function html(): string
-{
-    $app = app\data('app');
-    $a = [
-        'lang' => APP['lang'],
-        'data-url' => app\data('request', 'url'),
-        'data-entity' => $app['entity_id'],
-        'data-action' => $app['action'],
-        ...($app['item_id'] ? ['data-id' => $app['item_id']] : []),
-        ...($app['parent_id'] ? ['data-parent' => $app['parent_id']] : []),
-    ];
-    $head = layout\render_id('head');
-    $body = layout\render_id('body');
-    $html = html\element('html', $a, APP['eol']['lf'] . $head . APP['eol']['lf'] . $body . APP['eol']['lf']);
-
-    return '<!doctype html>' . APP['eol']['lf'] . $html;
-}
-
 function index(array $block): string
 {
     $app = app\data('app');
