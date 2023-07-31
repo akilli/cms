@@ -204,7 +204,7 @@ function msg(string $msg = null): array
  */
 function log(string|Stringable $msg): void
 {
-    file_put_contents(APP['log'], '[' . date('r') . '] ' . $msg . "\n\n", FILE_APPEND);
+    file_put_contents(APP['log'], '[' . date('r') . '] ' . $msg . APP['eol']['lf'] . APP['eol']['lf'], FILE_APPEND);
 }
 
 /**

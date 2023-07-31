@@ -15,7 +15,10 @@ use ReflectionFunction;
  */
 function backup(): void
 {
-    file_put_contents(APP['path']['tmp'] . '/cfg.php', "<?php\nreturn " . var_export(preload(), true) . ';');
+    file_put_contents(
+        APP['path']['tmp'] . '/cfg.php',
+        '<?php' . APP['eol']['lf'] . 'return ' . var_export(preload(), true) . ';'
+    );
 }
 
 /**

@@ -42,47 +42,47 @@ function mail(string $to, string $subj, string $text, array $attach = [], string
     send($client, 'RCPT TO:<' . $to . '>', [250, 251]);
     send($client, 'DATA', [354]);
 
-    $mail = 'from: <' . $cfg['from'] . '>' . APP['crlf'];
-    $mail .= 'to: <' . $to . '>' . APP['crlf'];
+    $mail = 'from: <' . $cfg['from'] . '>' . APP['eol']['crlf'];
+    $mail .= 'to: <' . $to . '>' . APP['eol']['crlf'];
 
     if ($replyTo) {
-        $mail .= 'reply-to: <' . $replyTo . '>' . APP['crlf'];
+        $mail .= 'reply-to: <' . $replyTo . '>' . APP['eol']['crlf'];
     }
 
-    $mail .= 'date: ' . date('r') . APP['crlf'];
-    $mail .= 'subject: ' . $subj . APP['crlf'];
+    $mail .= 'date: ' . date('r') . APP['eol']['crlf'];
+    $mail .= 'subject: ' . $subj . APP['eol']['crlf'];
 
     if ($attach) {
         $boundary = str\uniq();
-        $mail .= 'mime-version: 1.0' . APP['crlf'];
-        $mail .= 'content-type: ' . APP['type']['multipart'] . '; boundary="' . $boundary . '"' . APP['crlf'];
-        $mail .= APP['crlf'];
-        $mail .= 'This is a multipart message in MIME format.' . APP['crlf'];
-        $mail .= APP['crlf'];
-        $mail .= '--' . $boundary . APP['crlf'];
-        $mail .= 'content-type: ' . APP['type']['text'] . APP['crlf'];
-        $mail .= 'content-transfer-encoding: 8bit' . APP['crlf'];
-        $mail .= APP['crlf'];
-        $mail .= $text . APP['crlf'];
+        $mail .= 'mime-version: 1.0' . APP['eol']['crlf'];
+        $mail .= 'content-type: ' . APP['type']['multipart'] . '; boundary="' . $boundary . '"' . APP['eol']['crlf'];
+        $mail .= APP['eol']['crlf'];
+        $mail .= 'This is a multipart message in MIME format.' . APP['eol']['crlf'];
+        $mail .= APP['eol']['crlf'];
+        $mail .= '--' . $boundary . APP['eol']['crlf'];
+        $mail .= 'content-type: ' . APP['type']['text'] . APP['eol']['crlf'];
+        $mail .= 'content-transfer-encoding: 8bit' . APP['eol']['crlf'];
+        $mail .= APP['eol']['crlf'];
+        $mail .= $text . APP['eol']['crlf'];
 
         foreach ($attach as $file) {
             if (empty($file['name']) || empty($file['path']) || empty($file['type']) || !is_file($file['path'])) {
                 continue;
             }
 
-            $mail .= '--' . $boundary . APP['crlf'];
-            $mail .= 'content-type: ' . $file['type'] . '; name="' . $file['name'] . '"' . APP['crlf'];
-            $mail .= 'content-disposition: attachment; filename="' . $file['name'] . '"' . APP['crlf'];
-            $mail .= 'content-transfer-encoding: base64' . APP['crlf'];
-            $mail .= APP['crlf'];
+            $mail .= '--' . $boundary . APP['eol']['crlf'];
+            $mail .= 'content-type: ' . $file['type'] . '; name="' . $file['name'] . '"' . APP['eol']['crlf'];
+            $mail .= 'content-disposition: attachment; filename="' . $file['name'] . '"' . APP['eol']['crlf'];
+            $mail .= 'content-transfer-encoding: base64' . APP['eol']['crlf'];
+            $mail .= APP['eol']['crlf'];
             $mail .= chunk_split(base64_encode(file_get_contents($file['path'])));
         }
 
-        $mail .= '--' . $boundary . '--' . APP['crlf'];
+        $mail .= '--' . $boundary . '--' . APP['eol']['crlf'];
     } else {
-        $mail .= 'content-type: ' . APP['type']['text'] . APP['crlf'];
-        $mail .= APP['crlf'];
-        $mail .= $text . APP['crlf'];
+        $mail .= 'content-type: ' . APP['type']['text'] . APP['eol']['crlf'];
+        $mail .= APP['eol']['crlf'];
+        $mail .= $text . APP['eol']['crlf'];
     }
 
     $mail .= '.';
@@ -106,7 +106,7 @@ function receive($client): ?string
  */
 function send($client, string $msg, array $status): void
 {
-    fputs($client, $msg . APP['crlf']);
+    fputs($client, $msg . APP['eol']['crlf']);
     $data = receive($client);
 
     if (!$data || !preg_match('#^([1-5][0-9][0-9])(?:.*)$#', $data, $match) || !in_array((int)$match[1], $status)) {
