@@ -46,15 +46,6 @@ return [
         'parent_id' => 'body',
         'sort' => 500,
     ],
-    'footer' => [
-        'type' => 'container',
-        'tag' => 'footer',
-        'parent_id' => 'body',
-        'sort' => 600,
-        'cfg' => [
-            'id' => true,
-        ],
-    ],
     'content' => [
         'type' => 'container',
         'tag' => 'article',
