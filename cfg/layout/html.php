@@ -55,15 +55,6 @@ return [
             'id' => true,
         ],
     ],
-    'sidebar' => [
-        'type' => 'container',
-        'tag' => 'aside',
-        'parent_id' => 'main',
-        'sort' => 200,
-        'cfg' => [
-            'id' => true,
-        ],
-    ],
     'msg' => [
         'type' => 'tag',
         'tag' => 'app-msg',
