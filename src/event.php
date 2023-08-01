@@ -343,14 +343,14 @@ function layout_postrender(array $data): array
 {
     $view = app\data('app', 'action') === 'view';
 
-    if ($data['image'] || $data['id'] === 'body') {
+    if ($data['image'] || $data['id'] === 'html') {
         $data['html'] = contentfilter\block($data['html']);
         $data['html'] = contentfilter\entity($data['html']);
         $data['html'] = contentfilter\file($data['html']);
         $data['html'] = contentfilter\msg($data['html']);
     }
 
-    if ($view && $data['id'] === 'body') {
+    if ($view && $data['id'] === 'html') {
         $data['html'] = contentfilter\email($data['html']);
         $data['html'] = contentfilter\tel($data['html']);
     }

@@ -11,7 +11,7 @@ return [
     'main-content' => [
         'type' => 'login',
         'parent_id' => 'content',
-        'sort' => 300,
+        'sort' => 100,
         'cfg' => [
             'title' => 'Login',
         ],

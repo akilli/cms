@@ -11,6 +11,6 @@ return [
         'type' => 'tpl',
         'tpl' => 'error.phtml',
         'parent_id' => 'content',
-        'sort' => 300,
+        'sort' => 100,
     ],
 ];

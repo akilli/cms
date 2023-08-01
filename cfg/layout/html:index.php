@@ -5,7 +5,7 @@ return [
     'main-content' => [
         'type' => 'index',
         'parent_id' => 'content',
-        'sort' => 300,
+        'sort' => 100,
         'cfg' => [
             'action' => ['view', 'edit', 'delete'],
             'add' => true,

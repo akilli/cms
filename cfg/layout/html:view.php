@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 return [
-    'body' => [
+    'html' => [
         'image' => [
             'sizes' => '100vw',
         ],
@@ -16,6 +16,6 @@ return [
     'main-content' => [
         'type' => 'view',
         'parent_id' => 'content',
-        'sort' => 300,
+        'sort' => 100,
     ],
 ];

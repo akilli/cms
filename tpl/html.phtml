@@ -11,6 +11,14 @@ $lang = APP['lang'];
         <?php echo layout\render_id('head'); ?>
     </head>
     <body>
-        <?php echo layout\render_id('body'); ?>
+        <?php echo layout\render_id('toolbar'); ?>
+        <?php echo layout\render_id('header'); ?>
+        <?php echo layout\render_id('menu'); ?>
+        <?php echo layout\render_id('breadcrumb'); ?>
+        <app-msg></app-msg>
+        <main>
+            <?php echo layout\render_id('content'); ?>
+            <?php echo layout\render_id('sidebar'); ?>
+        </main>
     </body>
 </html>
