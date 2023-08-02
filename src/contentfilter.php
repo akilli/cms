@@ -7,7 +7,6 @@ use app;
 use arr;
 use entity;
 use html;
-use image;
 use layout;
 use parser;
 use str;
@@ -159,13 +158,20 @@ function image(string $html, array $cfg = []): string
 
         return implode(', ', $set);
     };
-    $call = function (array $match) use ($cfg, $srcset): string {
+    $cache = function (string $file): array {
+        if (($info = &app\registry('contentfilter.image')[$file]) === null) {
+            $info = getimagesize($file) ?? [];
+        }
+
+        return $info;
+    };
+    $call = function (array $match) use ($cfg, $srcset, $cache): string {
         $attrs = parser\attr($match[0]);
         $file = app\assetpath($attrs['src']);
 
         if (!empty($attrs['srcset'])
             || !is_file($file)
-            || !($width = image\size($file)[0] ?? null)
+            || !($width = $cache($file)[0] ?? null)
             || !($set = $srcset($match[1], $width))
         ) {
             return $match[0];
