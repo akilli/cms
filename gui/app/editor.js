@@ -4,7 +4,7 @@ import lang from './lang.js';
 /**
  * Editor configuration
  *
- * @type {Object.<string, Object.<string, string>>}
+ * @type {Object.<string, Object.<string, any>>}
  */
 const config = {
     audio: {
