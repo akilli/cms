@@ -4,22 +4,10 @@ on:
   push:
     branches:
       - master
-    tags:
-      - "v*.*.*"
     paths-ignore:
       - ".github/**"
       - "**/*.md"
 jobs:
-  package:
-    runs-on: ubuntu-latest
-    if: github.ref_type == 'tag'
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ncipollo/release-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
   dockerhub:
     uses: akilli/docker/.github/workflows/dockerhub.yml@master
     secrets: inherit
