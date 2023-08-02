@@ -8,7 +8,6 @@ return [
     ],
     'head' => [
         'type' => 'head',
-        'parent_id' => 'html',
     ],
     'toolbar' => [
         'type' => 'menu',
@@ -30,10 +29,6 @@ return [
     ],
     'content' => [
         'type' => 'container',
-        'tag' => 'article',
-        'cfg' => [
-            'id' => true,
-        ],
     ],
     'sidebar' => [
         'type' => 'container',

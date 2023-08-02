@@ -15,9 +15,13 @@ $lang = APP['lang'];
         <?php echo layout\render_id('header'); ?>
         <?php echo layout\render_id('menu'); ?>
         <?php echo layout\render_id('breadcrumb'); ?>
-        <app-msg></app-msg>
         <main>
-            <?php echo layout\render_id('content'); ?>
+            <?php if ($content = layout\render_id('content')): ?>
+            <article id="content">
+                <app-msg></app-msg>
+                <?php echo $content; ?>
+            </article>
+            <?php endif; ?>
             <?php echo layout\render_id('sidebar'); ?>
         </main>
     </body>
