@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'name' => 'Files',
-    'readonly' => true,
+    'action' => ['add', 'delete', 'edit', 'index'],
     'attr' => [
         'id' => [
             'name' => 'ID',
@@ -16,12 +16,6 @@ return [
             'unique' => true,
             'autoindex' => true,
             'max' => 255,
-        ],
-        'entity_id' => [
-            'name' => 'Entity',
-            'type' => 'entitychild',
-            'required' => true,
-            'max' => 50,
         ],
         'mime' => [
             'name' => 'MIME-Type',

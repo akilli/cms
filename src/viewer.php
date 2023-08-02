@@ -34,28 +34,23 @@ function enc(mixed $val): string
 
 function entity(int $val, array $attr): string
 {
-    $parentId = app\cfg('entity', $attr['ref'])['parent_id'];
-    $tag = in_array('file', [$attr['ref'], $parentId]) ? 'app-file' : 'app-entity';
+    $tag = $attr['ref'] === 'file' ? 'app-file' : 'app-entity';
 
     return html\element($tag, ['id' => $attr['ref'] . '-' . $val]);
 }
 
 function file(string $val): string
 {
-    $type = preg_match('#^https?://#', $val) ? null : strstr(mime_content_type(app\assetpath($val)), '/', true);
-    $attrs = ['src' => $val];
+    $mime = mime_content_type(app\assetpath($val));
+    $type = strstr(mime_content_type(app\assetpath($val)), '/', true);
 
-    return match ($type) {
-        'image' => html\element('img', $attrs),
-        'video' => html\element('video', $attrs + ['controls' => true]),
-        'audio' => html\element('audio', $attrs + ['controls' => true]),
+    return match (true) {
+        $type === 'image' => html\element('img', ['src' => $val]),
+        $type === 'video' => html\element('video', ['src' => $val, 'controls' => true]),
+        $type === 'audio' => html\element('audio', ['src' => $val, 'controls' => true]),
+        $mime === 'text/html' => html\element('iframe', ['src' => $val, 'allowfullscreen' => true]),
         default => html\element('a', ['href' => $val], $val),
     };
-}
-
-function iframe(string $val): string
-{
-    return html\element('iframe', ['src' => $val, 'allowfullscreen' => true]);
 }
 
 function image(string $val): string

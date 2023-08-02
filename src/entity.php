@@ -104,9 +104,6 @@ function save(string $entityId, array &$data): bool
 
     if ($id && ($old = one($entity['id'], crit: [['id', $id]]))) {
         $tmp['_old'] = uninit($old);
-        unset($tmp['entity_id']);
-    } elseif ($entity['parent_id']) {
-        $tmp['entity_id'] = $entity['id'];
     }
 
     $attrIds = [];
@@ -294,15 +291,8 @@ function uninit(array $data): array
  */
 function event(string $name, array $data): array
 {
-    $entity = $data['_entity'];
     $pre = app\id('entity', $name);
-    $events = [$pre, app\id($pre, 'api', $entity['api']), app\id($pre, 'db', $entity['db'])];
-
-    if ($entity['parent_id']) {
-        $events[] = app\id($pre, 'id', $entity['parent_id']);
-    }
-
-    $events[] = app\id($pre, 'id', $entity['id']);
+    $events = [$pre, app\id($pre, $data['_entity']['id'])];
 
     return app\event($events, $data);
 }

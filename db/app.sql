@@ -14,19 +14,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION public.app_is_entity_id(_schema text, _table text) RETURNS boolean AS $$
-DECLARE
-    _is boolean;
-BEGIN
-    SELECT count(column_name) > 0
-    FROM information_schema.columns
-    WHERE (table_schema, table_name, column_name) = (_schema, _table, 'entity_id')
-    INTO _is;
-
-    RETURN _is;
-END;
-$$ LANGUAGE plpgsql;
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -95,13 +82,11 @@ CREATE INDEX ON public.menu (created);
 CREATE TABLE public.file (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL UNIQUE,
-    entity_id varchar(50) NOT NULL,
     mime varchar(255) NOT NULL,
     info text NOT NULL DEFAULT '',
     created timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
-CREATE INDEX ON public.file (entity_id);
 CREATE INDEX ON public.file (created);
 
 --
@@ -111,7 +96,6 @@ CREATE INDEX ON public.file (created);
 CREATE TABLE public.page (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
-    entity_id varchar(50) NOT NULL,
     url varchar(255) NOT NULL UNIQUE,
     title varchar(100) NOT NULL DEFAULT '',
     meta_title varchar(80) NOT NULL DEFAULT '',
@@ -121,7 +105,6 @@ CREATE TABLE public.page (
 );
 
 CREATE INDEX ON public.page (name);
-CREATE INDEX ON public.page (entity_id);
 CREATE INDEX ON public.page (created);
 
 --
@@ -138,58 +121,6 @@ CREATE TABLE public.url (
 CREATE UNIQUE INDEX ON public.url (target_entity_id, target_id);
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- View
--- ---------------------------------------------------------------------------------------------------------------------
-
---
--- Audio
---
-
-CREATE VIEW public.audio AS
-SELECT * FROM public.file WHERE entity_id = 'audio'
-WITH LOCAL CHECK OPTION;
-
---
--- Document
---
-
-CREATE VIEW public.document AS
-SELECT * FROM public.file WHERE entity_id = 'document'
-WITH LOCAL CHECK OPTION;
-
---
--- Iframe
---
-
-CREATE VIEW public.iframe AS
-SELECT * FROM public.file WHERE entity_id = 'iframe'
-WITH LOCAL CHECK OPTION;
-
---
--- Image
---
-
-CREATE VIEW public.image AS
-SELECT * FROM public.file WHERE entity_id = 'image'
-WITH LOCAL CHECK OPTION;
-
---
--- Video
---
-
-CREATE VIEW public.video AS
-SELECT * FROM public.file WHERE entity_id = 'video'
-WITH LOCAL CHECK OPTION;
-
---
--- Content Page
---
-
-CREATE VIEW public.contentpage AS
-SELECT * FROM public.page WHERE entity_id = 'contentpage'
-WITH LOCAL CHECK OPTION;
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Trigger Function
 -- ---------------------------------------------------------------------------------------------------------------------
 
@@ -201,14 +132,8 @@ CREATE FUNCTION public.entity_url_delete() RETURNS trigger AS $$
 DECLARE
     _ent text;
 BEGIN
-    IF (public.app_is_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME)) THEN
-        _ent := OLD.entity_id;
-    ELSE
-        _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
-    END IF;
-
-    DELETE FROM public.url
-    WHERE (target_entity_id, target_id) = (_ent, OLD.id);
+    _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
+    DELETE FROM public.url WHERE (target_entity_id, target_id) = (_ent, OLD.id);
 
     RETURN OLD;
 END;
@@ -219,11 +144,7 @@ DECLARE
     _cnt int := 0;
     _ent text;
 BEGIN
-    IF (public.app_is_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME)) THEN
-        _ent := NEW.entity_id;
-    ELSE
-        _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
-    END IF;
+    _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
 
     IF (TG_OP = 'UPDATE') THEN
         SELECT count(id)
@@ -249,6 +170,7 @@ CREATE FUNCTION public.entity_placeholder_delete() RETURNS trigger AS $$
 DECLARE
     _col text;
     _cols text[];
+    _ent text;
     _schema text;
     _set text;
     _table text;
@@ -264,7 +186,8 @@ BEGIN
     _schema := TG_ARGV[1];
     _table := TG_ARGV[2];
     _cols := TG_ARGV[3:];
-    _pat := format('<%1$s id="%2$s-%3$s">([^<]*)</%1$s>', _tag, OLD.entity_id, OLD.id);
+    _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
+    _pat := format('<%1$s id="%2$s-%3$s">([^<]*)</%1$s>', _tag, _ent, OLD.id);
     _set := '';
     _where := '';
 

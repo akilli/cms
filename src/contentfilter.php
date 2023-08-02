@@ -63,12 +63,12 @@ function entity(string $html): string
 
     foreach ($data as $entityId => $ids) {
         $entity = app\cfg('entity', $entityId);
-        $select = array_keys(arr\extract($entity['attr'], ['id', 'name', 'entity_id', 'url']));
+        $select = array_keys(arr\extract($entity['attr'], ['id', 'name', 'url']));
 
         foreach (entity\all($entityId, crit: [['id', $ids]], select: $select) as $id => $item) {
-            $allowed = app\allowed(app\id($item['entity_id'] ?? $entity['id'], 'view'));
+            $allowed = app\allowed(app\id($entity['id'], 'view'));
             $name = $item['name'] ?? (string)$id;
-            $url = $item['url'] ?? app\actionurl($item['entity_id'] ?? $entity['id'], 'view', $id);
+            $url = $item['url'] ?? app\actionurl($entity['id'], 'view', $id);
             $html = preg_replace(
                 sprintf($pattern, $entityId, $item['id']),
                 $allowed ? html\element('a', ['href' => $url], $name) : $name,
@@ -85,16 +85,16 @@ function entity(string $html): string
  */
 function file(string $html): string
 {
-    $pattern = '#<app-file id="%s-%s">(?:[^<]*)</app-file>#s';
-    $select = ['name', 'entity_id', 'mime', 'info'];
+    $pattern = '#<app-file id="file-%s">(?:[^<]*)</app-file>#s';
+    $select = ['name', 'mime', 'info'];
 
-    if (!preg_match_all(sprintf($pattern, '([a-z][a-z_\.]+)', '(\d+)'), $html, $match)) {
+    if (!preg_match_all(sprintf($pattern, '(\d+)'), $html, $match)) {
         return $html;
     }
 
-    foreach (entity\all('file', crit: [['id', $match[2]]], select: $select) as $id => $item) {
+    foreach (entity\all('file', crit: [['id', $match[1]]], select: $select) as $id => $item) {
         $type = strstr($item['mime'], '/', true);
-        $attrs = ['id' => $item['entity_id'] . '-' . $item['id'], 'src' => $item['name']];
+        $attrs = ['id' => 'file-' . $item['id'], 'src' => $item['name']];
         $replace = match (true) {
             $type === 'image' => html\element('img', $attrs + ['alt' => str\enc($item['info'])]),
             $type === 'video' => html\element('video', $attrs + ['controls' => true]),
@@ -102,7 +102,7 @@ function file(string $html): string
             $item['mime'] === 'text/html' => html\element('iframe', $attrs + ['allowfullscreen' => true]),
             default => html\element('a', ['href' => $item['name']], $item['name']),
         };
-        $html = preg_replace(sprintf($pattern, '(file|' . $item['entity_id'] . ')', $id), $replace, $html);
+        $html = preg_replace(sprintf($pattern, $id), $replace, $html);
     }
 
     return preg_replace('#<app-file(?:[^>]*)>(?:[^<]*)</app-file>#s', '', $html);

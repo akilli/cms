@@ -91,8 +91,7 @@ function validator(array $data, array $attr): mixed
         throw new DomainException(app\i18n('Value is required'));
     }
 
-    $parent = $data['_entity']['parent_id'] ? app\cfg('entity', $data['_entity']['parent_id']) : null;
-    $entityId = $parent && !empty($parent['attr'][$attr['id']]) ? $parent['id'] : $data['_entity']['id'];
+    $entityId = $data['_entity']['id'];
     $crit = $data['_old'] ? [[$attr['id'], $val], ['id', $data['_old']['id'], APP['op']['!=']]] : [[$attr['id'], $val]];
 
     if ($attr['unique'] && entity\size($entityId, crit: $crit)) {

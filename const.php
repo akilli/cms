@@ -74,7 +74,6 @@ define('APP', [
             'name' => null,
             'api' => 'pdo',
             'db' => 'app',
-            'parent_id' => null,
             'readonly' => false,
             'unique' => [],
             'action' => [],
@@ -108,9 +107,7 @@ define('APP', [
     'data' => [
         'app' => [
             'id' => null,
-            'parent_id' => null,
             'entity_id' => null,
-            'parent_entity_id' => null,
             'action' => null,
             'item_id' => null,
             'url' => null,
@@ -118,7 +115,6 @@ define('APP', [
             'type' => 'html',
             'event' => [],
             'entity' => null,
-            'parent_entity' => null,
             'item' => null,
         ],
         'request' => [

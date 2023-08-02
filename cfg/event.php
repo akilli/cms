@@ -43,24 +43,19 @@ return [
             'sort' => 10,
         ],
     ],
-    'entity:postvalidate:id:menu' => [
+    'entity:postvalidate:menu' => [
         'app:entity_menu_postvalidate' => [
             'call' => entity_menu_postvalidate(...),
         ],
     ],
-    'entity:predelete:id:role' => [
+    'entity:predelete:role' => [
         'app:entity_role_predelete' => [
             'call' => entity_role_predelete(...),
         ],
     ],
-    'entity:presave:id:file' => [
+    'entity:presave:file' => [
         'app:entity_file_presave' => [
             'call' => entity_file_presave(...),
-        ],
-    ],
-    'entity:presave:id:iframe' => [
-        'app:entity_iframe_presave' => [
-            'call' => entity_iframe_presave(...),
         ],
     ],
     'entity:prevalidate' => [
@@ -68,12 +63,12 @@ return [
             'call' => entity_prevalidate_uploadable(...),
         ],
     ],
-    'entity:prevalidate:id:account' => [
+    'entity:prevalidate:account' => [
         'app:entity_prevalidate_uid' => [
             'call' => entity_prevalidate_uid(...),
         ],
     ],
-    'entity:prevalidate:id:page' => [
+    'entity:prevalidate:page' => [
         'app:entity_prevalidate_url' => [
             'call' => entity_prevalidate_url(...),
         ],

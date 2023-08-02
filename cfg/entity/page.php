@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'name' => 'Pages',
-    'readonly' => true,
+    'action' => ['add', 'delete', 'edit', 'index', 'view'],
     'attr' => [
         'id' => [
             'name' => 'ID',
@@ -14,12 +14,6 @@ return [
             'type' => 'text',
             'required' => true,
             'max' => 100,
-        ],
-        'entity_id' => [
-            'name' => 'Entity',
-            'type' => 'entitychild',
-            'required' => true,
-            'max' => 255,
         ],
         'url' => [
             'name' => 'URL',

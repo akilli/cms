@@ -38,11 +38,10 @@ $title = $var('title');
         <?php endif; ?>
         <?php foreach ($var('data') as $id => $data): ?>
             <?php
-            $entityId = $data['entity_id'] ?? $data['_entity']['id'];
-            $entity = $entityId === $data['_entity']['id'] ? $data['_entity'] : cfg('entity', $entityId);
+            $entityId = $data['_entity']['id'];
             $dataId = $entityId . '-' . $id;
             $name = $data['name'] ?? $id;
-            $src = $entity['parent_id'] === 'file' ? $data['name'] : null;
+            $src = $entityId === 'file' ? $data['name'] : null;
             ?>
         <article
             data-id="<?php echo $dataId; ?>"

@@ -10,9 +10,6 @@ return [
     'entity' => [
         'call' => entity(...),
     ],
-    'entitychild' => [
-        'call' => entitychild(...),
-    ],
     'privilege' => [
         'call' => privilege(...),
     ],

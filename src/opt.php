@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace opt;
 
 use app;
-use arr;
 use attr;
 use entity;
 
@@ -34,20 +33,6 @@ function entity(array $data, array $attr): array
         } else {
             $opt = array_column(entity\all($entity['id'], select: ['id'], order: ['id' => 'asc']), 'id', 'id');
         }
-    }
-
-    return $opt;
-}
-
-function entitychild(array $data): array
-{
-    if ($data['_entity']['parent_id']) {
-        return [$data['_entity']['id'] => $data['_entity']['name']];
-    }
-
-    if (($opt = &app\registry('opt.entitychild')[$data['_entity']['id']]) === null) {
-        $opt = array_column(arr\filter(app\cfg('entity'), 'parent_id', $data['_entity']['id']), 'name', 'id');
-        asort($opt);
     }
 
     return $opt;

@@ -25,9 +25,6 @@ return [
     'file' => [
         'call' => file(...),
     ],
-    'iframe' => [
-        'call' => iframe(...),
-    ],
     'image' => [
         'call' => image(...),
     ],

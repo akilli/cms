@@ -210,39 +210,24 @@ function entity(array $data, array $ext): array
     $validatorCfg = load('validator');
     $viewerCfg = load('viewer');
     $optCfg = load('opt');
-    $entitychild = ['autoedit' => false, 'autofilter' => false, 'autoindex' => false];
-    uasort($data, fn(array $a, array $b): int => ($a['parent_id'] ?? null) <=> ($b['parent_id'] ?? null));
-    $max = $attrCfg['entitychild']['max'] ?? null;
 
     foreach ($data as $entityId => $entity) {
         $entity = arr\replace(APP['cfg']['entity'], $entity, ['id' => $entityId]);
-        $parent = $data[$entity['parent_id']] ?? null;
 
         if (!$entityId
             || !preg_match('#^[a-z][a-z_\.]+$#', $entityId)
-            || $max && mb_strlen($entityId) > $max
             || !$entity['name']
             || !$entity['db']
             || empty($dbCfg[$entity['db']])
             || !$entity['api']
             || empty($apiCfg[$entity['api']])
-            || $entity['parent_id'] && (!$parent || $parent['parent_id'])
-            || !$entity['parent_id'] && empty($entity['attr']['id'])
+            || empty($entity['attr']['id'])
             || $entity['unique'] !== array_filter($entity['unique'], fn(array $keys) => arr\has($entity['attr'], $keys))
             || preg_grep('#^[a-z]+$#', $entity['action'], PREG_GREP_INVERT)
         ) {
             throw new DomainException(app\i18n('Invalid configuration'));
         }
 
-        if ($entity['parent_id']) {
-            $entity['unique'] = array_merge($parent['unique'], $entity['unique']);
-            $entity['attr'] = arr\extend($parent['attr'], $entity['attr']);
-        }
-
-        $data[$entityId] = $entity;
-    }
-
-    foreach ($data as $entityId => $entity) {
         foreach ($entity['attr'] as $attrId => $attr) {
             if (!preg_match('#^[a-z][\w]*$#', $attrId)
                 || empty($attr['name'])
@@ -255,8 +240,7 @@ function entity(array $data, array $ext): array
             }
 
             $a = ['id' => $attrId, 'name' => app\i18n($attr['name'])];
-            $c = $attr['type'] === 'entitychild' && $entity['parent_id'] ? $entitychild : [];
-            $attr = arr\replace(APP['cfg']['attr'], $attrCfg[$attr['type']], $attr, $a, $c);
+            $attr = arr\replace(APP['cfg']['attr'], $attrCfg[$attr['type']], $attr, $a);
 
             if (!array_key_exists($attr['backend'], $backendCfg)
                 || !$attr['frontend']

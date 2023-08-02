@@ -69,27 +69,11 @@ function data_app(array $data): array
         return $data;
     }
 
-    if ($data['entity']['parent_id']) {
-        $data['parent_entity_id'] = $data['entity']['parent_id'];
-        $data['parent_id'] = app\id(
-            $data['parent_entity_id'],
-            $data['action'],
-            ...($data['item_id'] ? [$data['item_id']] : [])
-        );
-        $data['parent_entity'] = app\cfg('entity', $data['parent_entity_id']);
-    }
-
-    $data['event'] = [$data['type'], app\id($data['type'], $data['action'])];
-
-    if ($data['parent_entity_id']) {
-        $data['event'][] = app\id($data['type'], $data['parent_entity_id'], $data['action']);
-    }
-
-    $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action']);
-
-    if ($data['parent_entity_id'] && $data['item_id']) {
-        $data['event'][] = app\id($data['type'], $data['parent_entity_id'], $data['action'], $data['item_id']);
-    }
+    $data['event'] = [
+        $data['type'],
+        app\id($data['type'], $data['action']),
+        app\id($data['type'], $data['entity_id'], $data['action'])
+    ];
 
     if ($data['item_id']) {
         $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action'], $data['item_id']);
@@ -194,8 +178,6 @@ function entity_postvalidate_password(array $data): array
 
 function entity_postvalidate_unique(array $data): array
 {
-    $parent = $data['_entity']['parent_id'] ? app\cfg('entity', $data['_entity']['parent_id']) : null;
-
     foreach ($data['_entity']['unique'] as $attrIds) {
         $item = arr\replace(array_fill_keys($attrIds, null), $data['_old'], $data);
 
@@ -203,7 +185,7 @@ function entity_postvalidate_unique(array $data): array
             continue;
         }
 
-        $entityId = $parent && arr\has($parent['attr'], $attrIds) ? $parent['id'] : $data['_entity']['id'];
+        $entityId = $data['_entity']['id'];
         $crit = $data['_old'] ? [['id', $data['_old']['id'], APP['op']['!=']]] : [];
         $labels = [];
 
@@ -287,13 +269,6 @@ function entity_file_presave(array $data): array
     if ($data['_entity']['attr']['name']['uploadable'] && !empty($data['name'])) {
         $data['mime'] = app\data('request', 'file')['name']['type'];
     }
-
-    return $data;
-}
-
-function entity_iframe_presave(array $data): array
-{
-    $data['mime'] = 'text/html';
 
     return $data;
 }
