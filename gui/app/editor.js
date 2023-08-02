@@ -12,11 +12,8 @@ const config = {
     },
     base: {
         lang: lang,
-    },
-    block: {
-        api: '/block:api:{id}',
-        browser: '/block:index',
-        css: '/gui/base.css,/gui/all.css',
+        plugins: ['block'],
+        pluginsDisabled: true,
     },
     iframe: {
         browser: '/iframe:index',

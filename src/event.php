@@ -40,11 +40,7 @@ function data_app(array $data): array
         $url = $jsonUrl;
     }
 
-    if (preg_match('#^/block:api:([a-z][a-z_\.]+)-(\d+)$#', $url, $match)) {
-        $data['entity_id'] = 'block';
-        $data['action'] = 'api';
-        $data['item_id'] = (int)$match[2];
-    } elseif (preg_match('#^/([a-z][a-z_\.]+):([a-z]+)(?:|\:([^/\:\.]+))$#', $url, $match)) {
+    if (preg_match('#^/([a-z][a-z_\.]+):([a-z]+)(?:|\:([^/\:\.]+))$#', $url, $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
         $data['item_id'] = !empty($match[3]) ? (int)$match[3] : null;
@@ -62,7 +58,7 @@ function data_app(array $data): array
 
     $data['id'] = app\id($data['entity_id'], $data['action'], ...($data['item_id'] ? [$data['item_id']] : []));
     $data['entity'] ??= app\cfg('entity', $data['entity_id']);
-    $withId = in_array($data['action'], ['api', 'delete', 'edit', 'view']);
+    $withId = in_array($data['action'], ['delete', 'edit', 'view']);
     $data['valid'] = app\allowed(app\id($data['entity_id'], $data['action']))
         && $data['entity']
         && in_array($data['action'], $data['entity']['action'])
@@ -106,18 +102,6 @@ function data_layout(array $data): array
 {
     $cfg = app\cfg('layout');
     $app = app\data('app');
-
-    if (in_array('page', [$app['parent_entity_id'], $app['entity_id']]) && $app['item_id']) {
-        foreach (entity\all('layout', crit: [['page_id', $app['item_id']]]) as $item) {
-            $cfg[app\id('html', 'page', 'view', $app['item_id'])]['layout-' . $item['id']] = [
-                'type' => 'tag',
-                'tag' => 'app-block',
-                'parent_id' => $item['parent_id'],
-                'sort' => $item['sort'],
-                'cfg' => ['attr' => ['id' => $item['block_entity_id'] . '-' . $item['block_id']]],
-            ];
-        }
-    }
 
     foreach ($app['event'] as $event) {
         foreach (($cfg[$event] ?? []) as $id => $block) {
@@ -344,7 +328,6 @@ function layout_postrender(array $data): array
     $view = app\data('app', 'action') === 'view';
 
     if ($data['image'] || $data['id'] === 'html') {
-        $data['html'] = contentfilter\block($data['html']);
         $data['html'] = contentfilter\entity($data['html']);
         $data['html'] = contentfilter\file($data['html']);
         $data['html'] = contentfilter\msg($data['html']);
@@ -389,15 +372,6 @@ function response_html_account_logout(array $data): array
 {
     session\regenerate();
     $data['header']['location'] = app\url();
-    $data['_stop'] = true;
-
-    return $data;
-}
-
-function response_html_block_api(array $data): array
-{
-    $item = app\data('app', 'item');
-    $data['body'] = layout\render_entity($item['entity_id'], $item['id']);
     $data['_stop'] = true;
 
     return $data;

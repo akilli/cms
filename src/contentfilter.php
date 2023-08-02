@@ -7,7 +7,6 @@ use app;
 use arr;
 use entity;
 use html;
-use layout;
 use parser;
 use str;
 
@@ -37,30 +36,6 @@ function asset(string $html): string
     };
 
     return preg_replace_callback($pattern, $call, $html) ?? $html;
-}
-
-/**
- * Replaces all block placeholder tags, i.e. `<app-block id="{entity_id}-{id}"></app-block>`
- */
-function block(string $html): string
-{
-    if (!$data = parser\tag($html, 'app-block')) {
-        return $html;
-    }
-
-    $pattern = '#<app-block id="%s-%s">(?:[^<]*)</app-block>#s';
-
-    foreach ($data as $entityId => $ids) {
-        foreach (entity\all($entityId, crit: [['id', $ids]]) as $item) {
-            $html = preg_replace(
-                sprintf($pattern, $item['entity_id'], $item['id']),
-                layout\render_entity($entityId, $item['id'], $item),
-                $html
-            );
-        }
-    }
-
-    return preg_replace('#<app-block(?:[^>]*)>(?:[^<]*)</app-block>#s', '', $html);
 }
 
 /**

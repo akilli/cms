@@ -24,11 +24,6 @@ function add(array $block): string
     return html\element('div', ['class' => 'block-add'], $a);
 }
 
-function block(array $block): string
-{
-    return layout\render_init(['type' => 'view'] + $block);
-}
-
 function breadcrumb(array $block): string
 {
     $url = app\data('request', 'url');
@@ -393,11 +388,6 @@ function profile(array $block): string
         'multipart' => !!arr\filter($attrs, 'uploadable', true),
         'title' => $block['cfg']['title'] ? str\enc(app\i18n($block['cfg']['title'])) : null,
     ]);
-}
-
-function tag(array $block): string
-{
-    return $block['tag'] ? html\element($block['tag'], $block['cfg']['attr'], $block['cfg']['val']) : '';
 }
 
 function tpl(array $block): string

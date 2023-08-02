@@ -93,11 +93,6 @@ return [
             'call' => response_html_account_logout(...),
         ],
     ],
-    'response:html:block:api' => [
-        'app:response_html_block_api' => [
-            'call' => response_html_block_api(...),
-        ],
-    ],
     'response:html:delete' => [
         'app:response_html_delete' => [
             'call' => response_html_delete(...),

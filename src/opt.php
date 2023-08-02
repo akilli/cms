@@ -13,17 +13,6 @@ function bool(): array
     return [app\i18n('No'), app\i18n('Yes')];
 }
 
-function container(): array
-{
-    if (($opt = &app\registry('opt.container')) === null) {
-        $cfg = app\cfg('layout')['html'];
-        $ids = array_keys(arr\filter($cfg, 'type', 'container'));
-        $opt = array_combine($ids, $ids);
-    }
-
-    return $opt;
-}
-
 function entity(array $data, array $attr): array
 {
     if (($opt = &app\registry('opt.entity')[$attr['ref']]) === null) {

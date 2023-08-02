@@ -48,14 +48,6 @@ function render_children(string $id): string
 }
 
 /**
- * Renders block entity with given ID and optionally sets data to avoid redundant DB calls.
- */
-function render_entity(string $entityId, int $id, array $data = []): string
-{
-    return render_init(['type' => 'block', 'cfg' => ['data' => $data, 'entity_id' => $entityId, 'id' => $id]]);
-}
-
-/**
  * Initializes and renders block
  */
 function render_init(array $block): string

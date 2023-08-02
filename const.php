@@ -193,7 +193,6 @@ define('APP', [
         '<ul>',
         '<var>',
         '<video>',
-        '<app-block>',
         '<app-file>',
     ]),
     'html.void' => [

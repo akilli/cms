@@ -10,16 +10,6 @@ return [
             'entity_id' => null,
         ],
     ],
-    'block' => [
-        'call' => block(...),
-        'tag' => 'section',
-        'cfg' => [
-            'attr_id' => ['content'],
-            'data' => [],
-            'entity_id' => null,
-            'id' => null,
-        ],
-    ],
     'breadcrumb' => [
         'call' => breadcrumb(...),
         'cfg' => [
@@ -111,13 +101,6 @@ return [
         'cfg' => [
             'attr_id' => [],
             'title' => null,
-        ],
-    ],
-    'tag' => [
-        'call' => tag(...),
-        'cfg' => [
-            'attr' => [],
-            'val' => null,
         ],
     ],
     'tpl' => [

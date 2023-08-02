@@ -7,9 +7,6 @@ return [
     'bool' => [
         'call' => bool(...),
     ],
-    'container' => [
-        'call' => container(...),
-    ],
     'entity' => [
         'call' => entity(...),
     ],

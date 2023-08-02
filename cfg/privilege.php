@@ -41,9 +41,6 @@ return [
     'account:view' => [
         'use' => '_user_',
     ],
-    'block:api' => [
-        'use' => 'block:index',
-    ],
     'role:add' => [
         'use' => '_all_',
     ],

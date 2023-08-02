@@ -12,24 +12,9 @@ return [
         'parent_id' => 'page',
         'sort' => 10,
     ],
-    'layout' => [
-        'name' => 'Layout',
-        'url' => '/layout:index',
-        'sort' => 20,
-    ],
-    'block' => [
-        'name' => 'Blocks',
-        'sort' => 30,
-    ],
-    'contentblock' => [
-        'name' => 'Content Blocks',
-        'url' => '/contentblock:index',
-        'parent_id' => 'block',
-        'sort' => 10,
-    ],
     'file' => [
         'name' => 'Files',
-        'sort' => 40,
+        'sort' => 20,
     ],
     'image' => [
         'name' => 'Images',
@@ -64,11 +49,11 @@ return [
     'menu' => [
         'name' => 'Menu',
         'url' => '/menu:index',
-        'sort' => 50,
+        'sort' => 30,
     ],
     'user' => [
         'name' => 'User',
-        'sort' => 60,
+        'sort' => 40,
     ],
     'role' => [
         'name' => 'Roles',
@@ -84,7 +69,7 @@ return [
     ],
     'my' => [
         'name' => 'My Account',
-        'sort' => 70,
+        'sort' => 50,
     ],
     'profile' => [
         'name' => 'Profile',

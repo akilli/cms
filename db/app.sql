@@ -125,45 +125,6 @@ CREATE INDEX ON public.page (entity_id);
 CREATE INDEX ON public.page (created);
 
 --
--- Block
---
-
-CREATE TABLE public.block (
-    id serial PRIMARY KEY,
-    name varchar(100) NOT NULL,
-    entity_id varchar(50) NOT NULL,
-    content text NOT NULL DEFAULT '',
-    created timestamp(0) NOT NULL DEFAULT current_timestamp
-);
-
-CREATE INDEX ON public.block (name);
-CREATE INDEX ON public.block (entity_id);
-CREATE INDEX ON public.block (created);
-
---
--- Layout
---
-
-CREATE TABLE public.layout (
-    id serial PRIMARY KEY,
-    name varchar(100) NOT NULL,
-    block_entity_id varchar(50) NOT NULL,
-    block_id int NOT NULL REFERENCES public.block ON DELETE CASCADE ON UPDATE CASCADE,
-    page_id int NOT NULL REFERENCES public.page ON DELETE CASCADE ON UPDATE CASCADE,
-    parent_id varchar(100) NOT NULL,
-    sort int NOT NULL DEFAULT 0,
-    created timestamp(0) NOT NULL DEFAULT current_timestamp
-);
-
-CREATE INDEX ON public.layout (name);
-CREATE INDEX ON public.layout (block_entity_id);
-CREATE INDEX ON public.layout (block_id);
-CREATE INDEX ON public.layout (page_id);
-CREATE INDEX ON public.layout (parent_id);
-CREATE INDEX ON public.layout (sort);
-CREATE INDEX ON public.layout (created);
-
---
 -- URL
 --
 
@@ -226,14 +187,6 @@ WITH LOCAL CHECK OPTION;
 
 CREATE VIEW public.contentpage AS
 SELECT * FROM public.page WHERE entity_id = 'contentpage'
-WITH LOCAL CHECK OPTION;
-
---
--- Content Block
---
-
-CREATE VIEW public.contentblock AS
-SELECT * FROM public.block WHERE entity_id = 'contentblock'
 WITH LOCAL CHECK OPTION;
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -464,17 +417,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---
--- Layout
---
-
-CREATE FUNCTION public.layout_save() RETURNS trigger AS $$
-BEGIN
-    NEW.block_entity_id := (SELECT entity_id FROM public.block WHERE id = NEW.block_id);
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Trigger
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -498,9 +440,6 @@ FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE public.entity_url_save(
 
 CREATE CONSTRAINT TRIGGER page_delete_placeholder_file AFTER DELETE ON public.file DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW EXECUTE PROCEDURE public.entity_placeholder_delete('app-file', 'public', 'page', 'content');
-
-CREATE CONSTRAINT TRIGGER block_delete_placeholder_file AFTER DELETE ON public.file DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE public.entity_placeholder_delete('app-file', 'public', 'block', 'content');
 
 --
 -- Menu
@@ -536,20 +475,6 @@ FOR EACH ROW EXECUTE PROCEDURE public.entity_url_save();
 
 CREATE CONSTRAINT TRIGGER page_url_update AFTER UPDATE OF url ON public.page DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE public.entity_url_save();
-
---
--- Block
---
-
-CREATE CONSTRAINT TRIGGER page_delete_placeholder_block AFTER DELETE ON public.block DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE public.entity_placeholder_delete('app-block', 'public', 'page', 'content');
-
---
--- Layout
---
-
-CREATE TRIGGER layout_save BEFORE INSERT OR UPDATE ON public.layout
-FOR EACH ROW EXECUTE PROCEDURE public.layout_save();
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
