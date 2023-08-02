@@ -141,19 +141,6 @@ function exec(string $id, string $sql, array $params = []): void
 }
 
 /**
- * Returns schema version
- */
-function version(string $id = 'app', string $schema = 'public'): int
-{
-    $db = db($id);
-    $stmt = $db->prepare('SELECT public.app_version_get(:schema)');
-    $stmt->bindValue(':schema', $schema);
-    $stmt->execute();
-
-    return (int)$stmt->fetchColumn();
-}
-
-/**
  * Database
  */
 function db(string $id): PDO

@@ -34,36 +34,4 @@ The provided [compose.yml](compose.yml) is meant for development and testing pur
 environment variable `DEV=1` for the php container which effectively disables the `session.cookie_secure` restriction,
 opcache and preloading. It also mounts the source code into all three containers and uses the `akilli/php` image
 instead of the `akilli/cms` image. On top of that it also automatically initializes the database by mounting 
-[db/init](db/init) directory to `/init/postgres` in the `akilli/postgres` image.
-
-# Manual database initialisation
-
-It is also possible to initialize the database manually, p. e. by executing the `*.sql` files in [db/init](db/init) with
-`psql` or by executing the following command with the cms cli tool:
-
-```
-docker compose exec --user app php php /app/bin/cli.php app:init
-```
-
-# Database schema version
-
-The core cms tables are created in the *public* schema per default. The current schema version is stored as a comment
-on the *public* schema.
-
-## Current version
-
-To show the current schema version either use the means provided by PostgreSQL directly or the user defined function 
-`public.app_version_get()`:
-
-```
-SELECT public.app_version_get('public');
-```
-
-## Upgrade version
-
-After upgrading the cms to a new version please execute the following command with the cms cli tool to also upgrade the
-schema version on the pre-existing database if necessary:
-
-```
-docker compose exec --user app php php /app/bin/cli.php app:upgrade
-```
+[db](db) directory to `/init/postgres` in the `akilli/postgres` image.

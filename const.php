@@ -5,7 +5,6 @@ declare(strict_types=1);
  * Application constants
  */
 define('APP', [
-    'app.schema' => 0,
     'block' => [
         'id' => null,
         'type' => null,

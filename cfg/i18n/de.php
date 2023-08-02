@@ -49,7 +49,6 @@ return [
     'Info' => 'Info',
     'Index' => 'Index',
     'Invalid block' => 'Ungültiger Block',
-    'Invalid command' => 'Ungültiger Befehl',
     'Invalid configuration' => 'Ungültige Konfiguration',
     'Invalid criteria' => 'Ungültige Bedingung',
     'Invalid data' => 'Ungültige Daten',
