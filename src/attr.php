@@ -80,7 +80,7 @@ function validator(array $data, array $attr): mixed
     }
 
     $pattern = $attr['pattern'] ? '#^' . str_replace('#', '\#', $attr['pattern']) . '$#' : null;
-    $vp = is_array($val) ? implode(APP['eol']['lf'], $val) : (string)$val;
+    $vp = is_array($val) ? implode("\n", $val) : (string)$val;
     $set = set($val);
 
     if ($pattern && $set && !preg_match($pattern, $vp)) {

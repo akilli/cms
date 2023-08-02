@@ -138,7 +138,6 @@ define('APP', [
     'date.frontend' => 'yyyy-MM-dd',
     'datetime.backend' => 'yyyy-MM-dd HH:mm:ss',
     'datetime.frontend' => "yyyy-MM-dd'T'HH:mm",
-    'eol' => ['crlf' => "\r\n", 'lf' => "\n"],
     'html.tags' => implode('', [
         '<a>',
         '<abbr>',
