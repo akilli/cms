@@ -112,7 +112,6 @@ define('APP', [
             'item_id' => null,
             'url' => null,
             'valid' => false,
-            'type' => 'html',
             'event' => [],
             'entity' => null,
             'item' => null,
@@ -268,12 +267,6 @@ define('APP', [
     ],
     'time.backend' => 'HH:mm:ss',
     'time.frontend' => 'HH:mm',
-    'type' => [
-        'html' => 'text/html; charset=utf-8',
-        'json' => 'application/json; charset=utf-8',
-        'multipart' => 'multipart/mixed; charset=utf-8',
-        'text' => 'text/plain; charset=utf-8',
-    ],
     'upload' => ['error', 'full_path', 'name', 'size', 'tmp_name', 'type'],
     'url' => [
         'asset' => '/asset',

@@ -16,12 +16,8 @@ use Stringable;
 function run(): string
 {
     $app = data('app');
-    $events = arr\prefix(array_reverse($app['event']), 'response:');
+    $events = [...arr\prefix(array_reverse($app['event']), 'response:'), 'response'];
     $data = arr\replace(APP['response'], event($events, APP['response']));
-
-    if (!empty(APP['type'][$app['type']])) {
-        $data['header']['content-type'] = APP['type'][$app['type']];
-    }
 
     return response\send($data['body'], $data['header'], $app['valid'] ? null : 404);
 }

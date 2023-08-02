@@ -78,44 +78,19 @@ return [
             'call' => layout_postrender(...),
         ],
     ],
-    'response:html' => [
-        'app:response_html' => [
-            'call' => response_html(...),
+    'response' => [
+        'app:response' => [
+            'call' => response(...),
         ],
     ],
-    'response:html:account:logout' => [
-        'app:response_html_account_logout' => [
-            'call' => response_html_account_logout(...),
+    'response:account:logout' => [
+        'app:response_account_logout' => [
+            'call' => response_account_logout(...),
         ],
     ],
-    'response:html:delete' => [
-        'app:response_html_delete' => [
-            'call' => response_html_delete(...),
-        ],
-    ],
-    'response:json:create' => [
-        'app:response_json_save' => [
-            'call' => response_json_save(...),
-        ],
-    ],
-    'response:json:delete' => [
-        'app:response_json_delete' => [
-            'call' => response_json_delete(...),
-        ],
-    ],
-    'response:json:edit' => [
-        'app:response_json_save' => [
-            'call' => response_json_save(...),
-        ],
-    ],
-    'response:json:index' => [
-        'app:response_json_index' => [
-            'call' => response_json_index(...),
-        ],
-    ],
-    'response:json:view' => [
-        'app:response_json_view' => [
-            'call' => response_json_view(...),
+    'response:delete' => [
+        'app:response_delete' => [
+            'call' => response_delete(...),
         ],
     ],
 ];

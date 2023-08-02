@@ -35,11 +35,6 @@ function data_app(array $data): array
 {
     $url = $data['url'] ?: app\data('request', 'url');
 
-    if ($jsonUrl = strstr($url, '.json', true)) {
-        $data['type'] = 'json';
-        $url = $jsonUrl;
-    }
-
     if (preg_match('#^/([a-z][a-z_\.]+):([a-z]+)(?:|\:([^/\:\.]+))$#', $url, $match)) {
         $data['entity_id'] = $match[1];
         $data['action'] = $match[2];
@@ -50,7 +45,7 @@ function data_app(array $data): array
         $data['item_id'] = $item['target_id'];
     }
 
-    $data['event'] = [$data['type'], app\id($data['type'], '_invalid_')];
+    $data['event'] = ['_invalid_'];
 
     if (!$data['entity_id'] || !$data['action']) {
         return $data;
@@ -69,14 +64,10 @@ function data_app(array $data): array
         return $data;
     }
 
-    $data['event'] = [
-        $data['type'],
-        app\id($data['type'], $data['action']),
-        app\id($data['type'], $data['entity_id'], $data['action'])
-    ];
+    $data['event'] = [$data['action'], app\id($data['entity_id'], $data['action'])];
 
     if ($data['item_id']) {
-        $data['event'][] = app\id($data['type'], $data['entity_id'], $data['action'], $data['item_id']);
+        $data['event'][] = app\id($data['entity_id'], $data['action'], $data['item_id']);
     }
 
     return $data;
@@ -86,8 +77,9 @@ function data_layout(array $data): array
 {
     $cfg = app\cfg('layout');
     $app = app\data('app');
+    $events = ['_all_', ...$app['event']];
 
-    foreach ($app['event'] as $event) {
+    foreach ($events as $event) {
         foreach (($cfg[$event] ?? []) as $id => $block) {
             $block['id'] = $id;
             $data[$id] = empty($data[$id]) ? $block : arr\extend($data[$id], $block);
@@ -324,7 +316,7 @@ function layout_postrender(array $data): array
     return $data;
 }
 
-function response_html(array $data): array
+function response(array $data): array
 {
     if (!$data['body'] && empty($data['header']['location'])) {
         $data['body'] = layout\render_id('html');
@@ -333,7 +325,7 @@ function response_html(array $data): array
     return $data;
 }
 
-function response_html_delete(array $data): array
+function response_delete(array $data): array
 {
     $app = app\data('app');
     entity\delete($app['entity_id'], [['id', $app['item_id']]]);
@@ -343,66 +335,10 @@ function response_html_delete(array $data): array
     return $data;
 }
 
-function response_html_account_logout(array $data): array
+function response_account_logout(array $data): array
 {
     session\regenerate();
     $data['header']['location'] = app\url();
-    $data['_stop'] = true;
-
-    return $data;
-}
-
-function response_json_delete(array $data): array
-{
-    $app = app\data('app');
-    $success = entity\delete($app['entity_id'], [['id', $app['item_id']]]);
-    $data['body'] = json_encode(['id' => $app['item_id'], 'success' => $success, 'msg' => app\msg()]);
-    $data['_stop'] = true;
-
-    return $data;
-}
-
-function response_json_save(array $data): array
-{
-    $app = app\data('app');
-    $item = app\data('request', 'post');
-
-    if ($app['item_id']) {
-        $item = ['id' => $app['item_id']] + $item;
-    }
-
-    $success = entity\save($app['entity_id'], $item);
-    $id = $item['id'] ?? null;
-    $error = $item['_error'] ?? null;
-    $data['body'] = json_encode(['id' => $id, 'success' => $success, 'msg' => app\msg(), 'error' => $error]);
-    $data['_stop'] = true;
-
-    return $data;
-}
-
-function response_json_index(array $data): array
-{
-    $app = app\data('app');
-    $attrIds = array_keys(arr\filter($app['entity']['attr'], 'viewer', null));
-    $all = entity\all($app['entity_id']);
-
-    foreach ($all as $id => $item) {
-        $item = entity\uninit($item);
-        $all[$id] = $attrIds ? arr\remove($item, $attrIds) : $item;
-    }
-
-    $data['body'] = json_encode($all);
-    $data['_stop'] = true;
-
-    return $data;
-}
-
-function response_json_view(array $data): array
-{
-    $app = app\data('app');
-    $attrIds = array_keys(arr\filter($app['entity']['attr'], 'viewer', null));
-    $item = entity\uninit($app['item']);
-    $data['body'] = json_encode($attrIds ? arr\remove($item, $attrIds) : $item);
     $data['_stop'] = true;
 
     return $data;
