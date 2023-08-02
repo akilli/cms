@@ -166,54 +166,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION public.entity_placeholder_delete() RETURNS trigger AS $$
-DECLARE
-    _col text;
-    _cols text[];
-    _ent text;
-    _schema text;
-    _set text;
-    _table text;
-    _pat text;
-    _tag text;
-    _where text;
-BEGIN
-    IF (array_length(TG_ARGV, 1) < 4) THEN
-        RAISE EXCEPTION 'You must pass the tag, table schema, table name and at least one column as arguments';
-    END IF;
-
-    _tag := TG_ARGV[0];
-    _schema := TG_ARGV[1];
-    _table := TG_ARGV[2];
-    _cols := TG_ARGV[3:];
-    _ent := public.app_entity_id(TG_TABLE_SCHEMA, TG_TABLE_NAME);
-    _pat := format('<%1$s id="%2$s-%3$s">([^<]*)</%1$s>', _tag, _ent, OLD.id);
-    _set := '';
-    _where := '';
-
-    FOREACH _col IN ARRAY _cols LOOP
-        IF (_set != '') THEN
-            _set := _set || ', ';
-            _where := _where || ' OR ';
-        END IF;
-
-        _set := _set || format(
-            '%1$I = regexp_replace(regexp_replace(%1$I, %2$L, %3$L, %4$L), %5$L, %3$L, %4$L)',
-            _col,
-            _pat,
-            '',
-            'g',
-            '<figure([^>]*)>\s*(<figcaption([^>]*)>([^<]*)</figcaption>)?\s*</figure>'
-        );
-        _where := _where || format('%I ~ %L', _col, _pat);
-    END LOOP;
-
-    EXECUTE format('UPDATE %I.%I SET %s WHERE %s', _schema, _table, _set, _where);
-
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
 --
 -- Menu
 --
@@ -356,13 +308,6 @@ FOR EACH ROW EXECUTE PROCEDURE public.entity_url_save();
 
 CREATE CONSTRAINT TRIGGER account_url_update AFTER UPDATE OF url ON public.account DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE public.entity_url_save();
-
---
--- File
---
-
-CREATE CONSTRAINT TRIGGER page_delete_placeholder_file AFTER DELETE ON public.file DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE public.entity_placeholder_delete('app-file', 'public', 'page', 'content');
 
 --
 -- Menu

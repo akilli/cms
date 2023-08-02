@@ -34,9 +34,11 @@ function enc(mixed $val): string
 
 function entity(int $val, array $attr): string
 {
-    $tag = $attr['ref'] === 'file' ? 'app-file' : 'app-entity';
+    if ($attr['ref'] === 'file') {
+        return html\element('app-file', ['id' => $val]);
+    }
 
-    return html\element($tag, ['id' => $attr['ref'] . '-' . $val]);
+    return html\element('app-entity', ['id' => $attr['ref'] . '-' . $val]);
 }
 
 function file(string $val): string

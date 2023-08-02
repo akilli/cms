@@ -81,20 +81,20 @@ function entity(string $html): string
 }
 
 /**
- * Replaces all file entity placeholder tags, i.e. `<app-file id="{entity_id}-{id}"></app-file>`
+ * Replaces all file entity placeholder tags, i.e. `<app-file id="{id}"></app-file>`
  */
 function file(string $html): string
 {
-    $pattern = '#<app-file id="file-%s">(?:[^<]*)</app-file>#s';
+    $pattern = '#<app-file(?:[^>]*)>(?:[^<]*)</app-file>#s';
     $select = ['name', 'mime', 'info'];
 
-    if (!preg_match_all(sprintf($pattern, '(\d+)'), $html, $match)) {
+    if (!preg_match_all($pattern, $html, $match)) {
         return $html;
     }
 
     foreach (entity\all('file', crit: [['id', $match[1]]], select: $select) as $id => $item) {
         $type = strstr($item['mime'], '/', true);
-        $attrs = ['id' => 'file-' . $item['id'], 'src' => $item['name']];
+        $attrs = ['src' => $item['name']];
         $replace = match (true) {
             $type === 'image' => html\element('img', $attrs + ['alt' => str\enc($item['info'])]),
             $type === 'video' => html\element('video', $attrs + ['controls' => true]),
@@ -102,10 +102,10 @@ function file(string $html): string
             $item['mime'] === 'text/html' => html\element('iframe', $attrs + ['allowfullscreen' => true]),
             default => html\element('a', ['href' => $item['name']], $item['name']),
         };
-        $html = preg_replace(sprintf($pattern, $id), $replace, $html);
+        $html = preg_replace(sprintf('#<app-file id="%s">(?:[^<]*)</app-file>#s', $id), $replace, $html);
     }
 
-    return preg_replace('#<app-file(?:[^>]*)>(?:[^<]*)</app-file>#s', '', $html);
+    return preg_replace($pattern, '', $html);
 }
 
 /**

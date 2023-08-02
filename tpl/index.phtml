@@ -39,12 +39,11 @@ $title = $var('title');
         <?php foreach ($var('data') as $id => $data): ?>
             <?php
             $entityId = $data['_entity']['id'];
-            $dataId = $entityId . '-' . $id;
             $name = $data['name'] ?? $id;
             $src = $entityId === 'file' ? $data['name'] : null;
             ?>
         <article
-            data-id="<?php echo $dataId; ?>"
+            data-id="<?php echo $id; ?>"
             data-name="<?php echo $name; ?>"<?php if ($src): ?>
             data-src="<?php echo $src; ?>"<?php endif; ?>
         >
