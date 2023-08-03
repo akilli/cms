@@ -390,6 +390,11 @@ function profile(array $block): string
     ]);
 }
 
+function tag(array $block): string
+{
+    return $block['tag'] ? html\element($block['tag'], $block['cfg']['attr'], $block['cfg']['val']) : '';
+}
+
 function tpl(array $block): string
 {
     return app\tpl($block['tpl']);

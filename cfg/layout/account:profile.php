@@ -10,7 +10,7 @@ return [
     'main-content' => [
         'type' => 'profile',
         'parent_id' => 'content',
-        'sort' => 100,
+        'sort' => 20,
         'cfg' => [
             'attr_id' => ['image', 'username', 'password', 'email'],
         ],

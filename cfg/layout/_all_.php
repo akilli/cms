@@ -29,6 +29,10 @@ return [
     ],
     'content' => [
         'type' => 'container',
+        'tag' => 'article',
+        'cfg' => [
+            'id' => true,
+        ],
     ],
     'sidebar' => [
         'type' => 'container',
@@ -36,5 +40,11 @@ return [
         'cfg' => [
             'id' => true,
         ],
+    ],
+    'msg' => [
+        'type' => 'tag',
+        'tag' => 'app-msg',
+        'parent_id' => 'content',
+        'sort' => 10,
     ],
 ];
