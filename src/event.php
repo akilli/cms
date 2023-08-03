@@ -33,6 +33,11 @@ function data_account(): array
 
 function data_app(array $data): array
 {
+    if (getenv('APP_MAINTENANCE') === 'true') {
+        $data['event'] = ['_maintenance_'];
+        return $data;
+    }
+
     $url = $data['url'] ?: app\data('request', 'url');
 
     if (preg_match('#^/([a-z][a-z_\.]+):([a-z]+)(?:|\:([^/\:\.]+))$#', $url, $match)) {
