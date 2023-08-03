@@ -275,19 +275,19 @@ END;
 $$ LANGUAGE plpgsql;
 
 --
--- Page
+-- URL
 --
 
-CREATE FUNCTION public.page_menu_delete() RETURNS trigger AS $$
+CREATE FUNCTION public.url_menu_delete() RETURNS trigger AS $$
 BEGIN
-    DELETE FROM public.menu WHERE url = OLD.url;
+    DELETE FROM public.menu WHERE url = OLD.name;
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION public.page_menu_update() RETURNS trigger AS $$
+CREATE FUNCTION public.url_menu_update() RETURNS trigger AS $$
 BEGIN
-    UPDATE public.menu SET url = NEW.url WHERE url = OLD.url;
+    UPDATE public.menu SET url = NEW.name WHERE url = OLD.name;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -329,12 +329,6 @@ FOR EACH ROW WHEN (coalesce(NEW.parent_id, 0) != coalesce(OLD.parent_id, 0) OR N
 -- Page
 --
 
-CREATE CONSTRAINT TRIGGER page_menu_delete AFTER DELETE ON public.page DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW EXECUTE PROCEDURE public.page_menu_delete();
-
-CREATE CONSTRAINT TRIGGER page_menu_update AFTER UPDATE OF url ON public.page DEFERRABLE INITIALLY DEFERRED
-FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE public.page_menu_update();
-
 CREATE CONSTRAINT TRIGGER page_url_delete AFTER DELETE ON public.page DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW EXECUTE PROCEDURE public.entity_url_delete();
 
@@ -343,6 +337,16 @@ FOR EACH ROW EXECUTE PROCEDURE public.entity_url_save();
 
 CREATE CONSTRAINT TRIGGER page_url_update AFTER UPDATE OF url ON public.page DEFERRABLE INITIALLY DEFERRED
 FOR EACH ROW WHEN (NEW.url != OLD.url) EXECUTE PROCEDURE public.entity_url_save();
+
+--
+-- URL
+--
+
+CREATE CONSTRAINT TRIGGER url_menu_delete AFTER DELETE ON public.url DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW EXECUTE PROCEDURE public.url_menu_delete();
+
+CREATE CONSTRAINT TRIGGER url_menu_update AFTER UPDATE OF name ON public.url DEFERRABLE INITIALLY DEFERRED
+FOR EACH ROW WHEN (NEW.name != OLD.name) EXECUTE PROCEDURE public.url_menu_update();
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
