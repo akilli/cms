@@ -8,21 +8,18 @@ import lang from './lang.js';
  */
 const config = {
     audio: {
-        browser: '/file:index',
+        browser: '/file:audio',
     },
     base: {
         lang: lang,
         plugins: ['block'],
         pluginsDisabled: true,
     },
-    iframe: {
-        browser: '/file:index',
-    },
     image: {
-        browser: '/file:index',
+        browser: '/file:image',
     },
     video: {
-        browser: '/file:index',
+        browser: '/file:video',
     },
 };
 

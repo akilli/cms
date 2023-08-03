@@ -41,6 +41,15 @@ return [
     'account:view' => [
         'use' => '_user_',
     ],
+    'file:audio' => [
+        'use' => 'file:index',
+    ],
+    'file:image' => [
+        'use' => 'file:index',
+    ],
+    'file:video' => [
+        'use' => 'file:index',
+    ],
     'role:add' => [
         'use' => '_all_',
     ],

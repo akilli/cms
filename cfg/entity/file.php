@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'name' => 'Files',
-    'action' => ['add', 'delete', 'edit', 'index'],
+    'action' => ['add', 'audio', 'delete', 'edit', 'image', 'index', 'video'],
     'attr' => [
         'id' => [
             'name' => 'ID',
