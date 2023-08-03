@@ -2,24 +2,29 @@
 declare(strict_types=1);
 
 return [
+    'home' => [
+        'name' => 'Homepage',
+        'url' => '/',
+        'sort' => 10,
+    ],
     'page' => [
         'name' => 'Pages',
         'url' => '/page:index',
-        'sort' => 10,
+        'sort' => 20,
     ],
     'file' => [
         'name' => 'Files',
         'url' => '/file:index',
-        'sort' => 20,
+        'sort' => 30,
     ],
     'menu' => [
         'name' => 'Menu',
         'url' => '/menu:index',
-        'sort' => 30,
+        'sort' => 40,
     ],
     'user' => [
         'name' => 'User',
-        'sort' => 40,
+        'sort' => 50,
     ],
     'role' => [
         'name' => 'Roles',
@@ -35,7 +40,7 @@ return [
     ],
     'my' => [
         'name' => 'My Account',
-        'sort' => 50,
+        'sort' => 60,
     ],
     'profile' => [
         'name' => 'Profile',

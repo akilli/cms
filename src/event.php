@@ -69,11 +69,11 @@ function data_app(array $data): array
         return $data;
     }
 
-    $data['event'] = [$data['action'], app\id($data['entity_id'], $data['action'])];
-
-    if ($data['item_id']) {
-        $data['event'][] = app\id($data['entity_id'], $data['action'], $data['item_id']);
-    }
+    $data['event'] = [
+        $data['action'],
+        app\id($data['entity_id'], $data['action']),
+        ...($data['item_id'] ? [app\id($data['entity_id'], $data['action'], $data['item_id'])] : []),
+    ];
 
     return $data;
 }
