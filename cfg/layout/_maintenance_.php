@@ -11,6 +11,6 @@ return [
         'type' => 'tpl',
         'tpl' => 'maintenance.phtml',
         'parent_id' => 'content',
-        'sort' => 20,
+        'sort' => 10,
     ],
 ];

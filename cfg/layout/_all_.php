@@ -41,10 +41,4 @@ return [
             'id' => true,
         ],
     ],
-    'msg' => [
-        'type' => 'tag',
-        'tag' => 'app-msg',
-        'parent_id' => 'content',
-        'sort' => 10,
-    ],
 ];

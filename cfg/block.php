@@ -103,13 +103,6 @@ return [
             'title' => null,
         ],
     ],
-    'tag' => [
-        'call' => tag(...),
-        'cfg' => [
-            'attr' => [],
-            'val' => null,
-        ],
-    ],
     'tpl' => [
         'call' => tpl(...),
     ],

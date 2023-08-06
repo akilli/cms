@@ -5,6 +5,6 @@ return [
     'main-content' => [
         'type' => 'form',
         'parent_id' => 'content',
-        'sort' => 20,
+        'sort' => 10,
     ],
 ];

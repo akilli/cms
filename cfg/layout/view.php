@@ -16,6 +16,6 @@ return [
     'main-content' => [
         'type' => 'view',
         'parent_id' => 'content',
-        'sort' => 20,
+        'sort' => 10,
     ],
 ];
