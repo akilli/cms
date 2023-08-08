@@ -22,36 +22,24 @@ return [
         'url' => '/menu:index',
         'sort' => 40,
     ],
-    'user' => [
-        'name' => 'User',
-        'sort' => 50,
-    ],
     'role' => [
         'name' => 'Roles',
         'url' => '/role:index',
-        'parent_id' => 'user',
-        'sort' => 10,
+        'sort' => 50,
     ],
     'account' => [
         'name' => 'Accounts',
         'url' => '/account:index',
-        'parent_id' => 'user',
-        'sort' => 20,
-    ],
-    'my' => [
-        'name' => 'My Account',
         'sort' => 60,
     ],
     'profile' => [
         'name' => 'Profile',
         'url' => '/account:profile',
-        'parent_id' => 'my',
-        'sort' => 10,
+        'sort' => 70,
     ],
     'logout' => [
         'name' => 'Logout',
         'url' => '/account:logout',
-        'parent_id' => 'my',
-        'sort' => 20,
+        'sort' => 80,
     ],
 ];
