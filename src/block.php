@@ -123,11 +123,7 @@ function head(array $block): string
         default => $title,
     };
 
-    return app\tpl($block['tpl'], [
-        'children' => layout\render_children($block['id']),
-        'description' => str\enc($desc),
-        'title' => str\enc($title)]
-    );
+    return app\tpl($block['tpl'], ['description' => str\enc($desc), 'title' => str\enc($title)]);
 }
 
 function header(array $block): string
