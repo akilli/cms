@@ -1,4 +1,5 @@
 .*/
 .dockerignore
+adminer.php
 compose.*
 dockerfile
