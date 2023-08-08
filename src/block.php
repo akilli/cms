@@ -161,6 +161,13 @@ function index(array $block): string
     $sort = null;
     $pager = null;
     $offset = 0;
+    $actions = [];
+
+    foreach ($block['cfg']['action'] as $action) {
+        if (app\allowed(app\id($entity['id'], $action))) {
+            $actions[$action] = app\i18n(ucwords($action));
+        }
+    }
 
     if ($block['cfg']['sortable']
         && $get['sort']
@@ -225,10 +232,11 @@ function index(array $block): string
     }
 
     return app\tpl($block['tpl'], [
-        'action' => $block['cfg']['action'],
+        'action' => $actions,
         'add' => $add,
         'attr' => $attrs,
         'data' => entity\all($entity['id'], crit: $crit, order: $order, limit: $limit, offset: $offset),
+        'entity' => $entity,
         'filter' => $filter,
         'pager' => $pager,
         'sort' => $sort,

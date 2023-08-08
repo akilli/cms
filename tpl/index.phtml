@@ -3,11 +3,13 @@ declare(strict_types=1);
 namespace app;
 use attr;
 /** @var callable $var */
+$entity = $var('entity');
 $attrs = $var('attr');
 $actions = $var('action');
 $sort = $var('sort');
 $table = $var('table');
 $title = $var('title');
+$isFile = $entity['id'] === 'file';
 ?>
 <section class="block-index">
     <?php if ($title): ?>
@@ -37,26 +39,19 @@ $title = $var('title');
         </div>
         <?php endif; ?>
         <?php foreach ($var('data') as $id => $data): ?>
-            <?php
-            $entityId = $data['_entity']['id'];
-            $name = $data['name'] ?? $id;
-            $src = $entityId === 'file' ? $data['name'] : null;
-            ?>
         <article
             data-id="<?php echo $id; ?>"
-            data-name="<?php echo $name; ?>"<?php if ($src): ?>
-            data-src="<?php echo $src; ?>"<?php endif; ?>
+            data-name="<?php echo $data['name'] ?? $id; ?>"<?php if ($isFile): ?>
+            data-src="<?php echo $data['name']; ?>"<?php endif; ?>
         >
             <?php foreach ($attrs as $attr): ?>
             <?php echo attr\viewer($data, $attr, wrap: true, preserve: true, subheading: true); ?>
             <?php endforeach; ?>
             <?php if ($actions): ?>
             <footer class="action">
-                <?php foreach ($actions as $action): ?>
-                    <?php if (!allowed(id($entityId, $action))) continue; ?>
+                <?php foreach ($actions as $action => $label): ?>
                     <?php
-                    $label = i18n(ucwords($action));
-                    $url = actionurl($entityId, $action, $id);
+                    $url = actionurl($entity['id'], $action, $id);
                     $url = $action === 'view' && !empty($data['url']) ? $data['url'] : $url;
                     ?>
                 <a
