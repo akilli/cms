@@ -277,7 +277,7 @@ function menu(array $block): string
     $url = app\data('request', 'url');
     $cur = current(arr\filter($data, 'url', $url)) ?? null;
     $level = 0;
-    $html = layout\render_children($block['id']);
+    $html = '';
 
     foreach ($data as $id => $item) {
         $c = $item['url'] === $url;
@@ -294,6 +294,8 @@ function menu(array $block): string
         $html .= $id === $lastId ? str_repeat('</li></ul>', $item['level']) : '';
         $level = $item['level'];
     }
+
+    $html .= layout\render_children($block['id']);
 
     return html\element('nav', ['id' => $block['id']], $html);
 }
