@@ -514,7 +514,7 @@ div[data-required] > label:first-child::after {
     display: grid;
     grid-template-columns: 2fr 3fr;
     column-gap: 1.5rem;
-    align-items: center;
+    place-items: center;
 }
 
 #header a.name {
@@ -584,8 +584,8 @@ div[data-required] > label:first-child::after {
 :root[data-id='account:login'] main {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    place-items: center;
+    place-content: center;
     max-width: 30rem;
     height: 100vh;
     margin: 0 auto;
