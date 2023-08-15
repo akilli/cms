@@ -1,4 +1,3 @@
-import de from './i18n/de.js';
 import lang from './lang.js';
 
 /**
@@ -7,7 +6,9 @@ import lang from './lang.js';
  * @type {Object}
  */
 const cfg = {
-    de,
+    de: {
+        'Please confirm delete operation': 'Bitte den Löschvorgang bestätigen',
+    },
 };
 
 /**
