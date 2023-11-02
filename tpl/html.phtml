@@ -2,11 +2,9 @@
 declare(strict_types=1);
 namespace app;
 use layout;
-$id = data('app', 'id');
-$lang = APP['lang'];
 ?>
 <!doctype html>
-<html lang="<?php echo $lang; ?>" data-id="<?php echo $id; ?>">
+<html lang="<?php echo APP['lang']; ?>" data-id="<?php echo data('app', 'id'); ?>">
     <head>
         <?php echo layout\render_id('head'); ?>
     </head>
