@@ -35,7 +35,7 @@ export default function () {
 
             // Replaces media elements with placeholders
             editor.root.addEventListener('gethtml', ev => {
-                ev.detail.element.querySelectorAll(':is(audio, iframe, img, video)[id]').forEach(media => {
+                ev.detail.element.querySelectorAll(':is(audio, img, video)[id]').forEach(media => {
                     const file = document.createElement('app-file');
                     file.id = media.id;
                     media.parentElement.replaceChild(file, media);

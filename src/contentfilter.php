@@ -86,20 +86,18 @@ function entity(string $html): string
 function file(string $html): string
 {
     $pattern = '#<app-file(?:[^>]*)>(?:[^<]*)</app-file>#s';
-    $select = ['name', 'mime', 'info'];
 
     if (!preg_match_all($pattern, $html, $match)) {
         return $html;
     }
 
-    foreach (entity\all('file', crit: [['id', $match[1]]], select: $select) as $id => $item) {
+    foreach (entity\all('file', crit: [['id', $match[1]]], select: ['name', 'mime', 'info']) as $id => $item) {
         $type = strstr($item['mime'], '/', true);
         $attrs = ['src' => $item['name']];
         $replace = match (true) {
             $type === 'image' => html\element('img', $attrs + ['alt' => str\enc($item['info'])]),
             $type === 'video' => html\element('video', $attrs + ['controls' => true]),
             $type === 'audio' => html\element('audio', $attrs + ['controls' => true]),
-            $item['mime'] === 'text/html' => html\element('iframe', $attrs + ['allowfullscreen' => true]),
             default => html\element('a', ['href' => $item['name']], $item['name']),
         };
         $html = preg_replace(sprintf('#<app-file id="%s">(?:[^<]*)</app-file>#s', $id), $replace, $html);

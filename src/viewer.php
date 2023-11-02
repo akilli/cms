@@ -43,14 +43,12 @@ function entity(int $val, array $attr): string
 
 function file(string $val): string
 {
-    $mime = mime_content_type(app\assetpath($val));
     $type = strstr(mime_content_type(app\assetpath($val)), '/', true);
 
     return match (true) {
         $type === 'image' => html\element('img', ['src' => $val]),
         $type === 'video' => html\element('video', ['src' => $val, 'controls' => true]),
         $type === 'audio' => html\element('audio', ['src' => $val, 'controls' => true]),
-        $mime === 'text/html' => html\element('iframe', ['src' => $val, 'allowfullscreen' => true]),
         default => html\element('a', ['href' => $val], $val),
     };
 }

@@ -41,8 +41,6 @@ return [
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'application/zip',
         'text/csv',
-        // iframe
-        'text/html',
         // image
         'image/avif',
         'image/gif',
