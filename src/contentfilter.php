@@ -85,9 +85,9 @@ function entity(string $html): string
  */
 function file(string $html): string
 {
-    $pattern = '#<app-file(?:[^>]*)>(?:[^<]*)</app-file>#s';
+    $pattern = '#<app-file id="%s">(?:[^<]*)</app-file>#s';
 
-    if (!preg_match_all($pattern, $html, $match)) {
+    if (!preg_match_all(sprintf($pattern, '(\d+)'), $html, $match)) {
         return $html;
     }
 
@@ -103,7 +103,7 @@ function file(string $html): string
         $html = preg_replace(sprintf('#<app-file id="%s">(?:[^<]*)</app-file>#s', $id), $replace, $html);
     }
 
-    return preg_replace($pattern, '', $html);
+    return preg_replace('#<app-file(?:[^>]*)>(?:[^<]*)</app-file>#s', '', $html);
 }
 
 /**
