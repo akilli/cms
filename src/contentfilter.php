@@ -39,18 +39,6 @@ function asset(string $html): string
 }
 
 /**
- * Converts email addresses to HTML entity hex format
- */
-function email(string $html): string
-{
-    return preg_replace_callback(
-        '#(?:mailto:)?[\w\.\-]+@[\w\.\-]+\.[a-z]{2,6}#im',
-        fn(array $m): string => str\hex($m[0]),
-        $html
-    );
-}
-
-/**
  * Replaces all entity placeholder tags, i.e. `<app-entity id="{entity_id}-{id}"></app-entity>`
  */
 function entity(string $html): string
@@ -178,9 +166,13 @@ function msg(string $html): string
 }
 
 /**
- * Converts telephone numbers to HTML entity hex format
+ * Converts email addresses and telephone numbers to HTML entity hex format
  */
-function tel(string $html): string
+function spam(string $html): string
 {
-    return preg_replace_callback('#(?:tel:)\+\d+#i', fn(array $m): string => str\hex($m[0]), $html);
+    return preg_replace_callback(
+        ['#(?:mailto:)?[\w\.\-]+@[\w\.\-]+\.[a-z]{2,6}#im', '#(?:tel:)\+\d+#i'],
+        fn(array $m): string => str\hex($m[0]),
+        $html
+    );
 }

@@ -306,8 +306,7 @@ function layout_postrender(array $data): array
     }
 
     if ($view && $data['id'] === 'html') {
-        $data['html'] = contentfilter\email($data['html']);
-        $data['html'] = contentfilter\tel($data['html']);
+        $data['html'] = contentfilter\spam($data['html']);
     }
 
     if ($data['image']) {
