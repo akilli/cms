@@ -59,7 +59,6 @@ return [
     'Meta Description' => 'Meta-Description',
     'Meta Title' => 'Meta-Title',
     'MIME-Type' => 'MIME-Typ',
-    'My Account' => 'Mein Konto',
     'Name' => 'Name',
     'Next' => 'Weiter',
     'No' => 'Nein',
