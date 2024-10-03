@@ -8,7 +8,7 @@ namespace html;
  */
 function element(string $tag, array $attrs = [], string|int|float $val = null): string
 {
-    return '<' . $tag . attr($attrs) . (in_array($tag, APP['html.void']) ? '/>' : '>' . $val . '</' . $tag . '>');
+    return '<' . $tag . attr($attrs) . '>' . (in_array($tag, APP['html.void']) ? '' : $val . '</' . $tag . '>');
 }
 
 /**

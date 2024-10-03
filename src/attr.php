@@ -40,7 +40,7 @@ function frontend(array $data, array $attr, bool $wrap = false, bool $label = fa
 
     if (!empty($data['_error'][$attr['id']])) {
         $div['data-invalid'] = true;
-        $html .= html\element('div', ['class' => 'error'], implode('<br />', $data['_error'][$attr['id']]));
+        $html .= html\element('div', ['class' => 'error'], implode('<br>', $data['_error'][$attr['id']]));
     }
 
     return $wrap ? html\element('div', $div, $html) : $html;

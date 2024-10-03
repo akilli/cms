@@ -20,7 +20,7 @@ $title = $var('title');
         <?php if (in_array($app['action'], ['add', 'edit']) && allowed(id($app['entity_id'], 'index'))): ?>
         <a href="<?php echo actionurl($app['entity_id'], 'index'); ?>" role="button"><?php echo i18n('Back'); ?></a>
         <?php endif; ?>
-        <input type="submit" value="<?php echo i18n('Submit'); ?>"/>
-        <input type="hidden" name="token" value="<?php echo token(); ?>"/>
+        <input type="submit" value="<?php echo i18n('Submit'); ?>">
+        <input type="hidden" name="token" value="<?php echo token(); ?>">
     </div>
 </form>
