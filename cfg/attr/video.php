@@ -14,7 +14,6 @@ return [
     'autoview' => true,
     'accept' => [
         'video/mp4',
-        'video/ogg',
         'video/webm',
     ],
 ];

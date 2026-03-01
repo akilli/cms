@@ -50,7 +50,6 @@ return [
         'image/webp',
         // video
         'video/mp4',
-        'video/ogg',
         'video/webm',
     ],
 ];
